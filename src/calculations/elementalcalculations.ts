@@ -9,6 +9,8 @@ import { cookingMethodModifiers } from '@/utils/elementalMappings/cookingMethods
 import { SEASONAL_PROPERTIES } from '@/utils/constants/seasons';
 import { LUNAR_PHASES } from '@/utils/constants/lunar';
 
+type CookingMethod = 'boil' | 'fry' | 'bake' | 'steam';
+
 export class ElementalCalculator {
   private static instance: ElementalCalculator;
 

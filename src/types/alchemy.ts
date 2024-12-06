@@ -6,20 +6,13 @@ export type Element = 'Fire' | 'Water' | 'Air' | 'Earth';
 export interface ElementalProperties {
   Fire: number;
   Water: number;
-  Air: number;
   Earth: number;
+  Air: number;
+  [key: string]: number;
 }
 
 // Astrological Types
-export type LunarPhase = 
-  | 'new_moon' 
-  | 'waxing_crescent' 
-  | 'first_quarter' 
-  | 'waxing_gibbous'
-  | 'full_moon' 
-  | 'waning_gibbous' 
-  | 'last_quarter' 
-  | 'waning_crescent';
+export type LunarPhase = 'new_moon' | 'full_moon' | 'waxing' | 'waning';
 
 export type ZodiacSign = 
   | 'aries' | 'taurus' | 'gemini' | 'cancer' 
@@ -27,9 +20,9 @@ export type ZodiacSign =
   | 'sagittarius' | 'capricorn' | 'aquarius' | 'pisces';
 
 export interface AstrologicalState {
-  lunarPhase: LunarPhase;
   sunSign: ZodiacSign;
   moonSign: ZodiacSign;
+  lunarPhase: LunarPhase;
 }
 
 // Cooking and Recipe Types
@@ -201,3 +194,65 @@ export type ElementalModifier = Partial<Record<Element, number>>;
 export type CookingDuration = 'quick' | 'medium' | 'long';
 export type SpiceLevel = 'mild' | 'medium' | 'spicy';
 export type Temperature = 'hot' | 'cold';
+
+// Add the missing CombinationEffect type
+export type EffectType = 'enhance' | 'diminish' | 'transmute';
+
+export interface CombinationEffect {
+  ingredients: string[];
+  effect: EffectType;
+  modifier: number;
+  notes?: string;
+  elements?: Partial<ElementalProperties>;
+}
+
+export type ElementalProperties = {
+  fire: number;
+  water: number;
+  earth: number;
+  air: number;
+};
+
+export type IngredientMapping = {
+  [key: string]: {
+    elementalProperties: ElementalProperties;
+    name: string;
+    // Add any other properties your ingredients need
+  }
+};
+
+export type CookingMethodModifier = {
+  name: string;
+  elementalModifiers: ElementalProperties;
+};
+
+export interface ElementalAffinity {
+  element: keyof ElementalProperties;
+  strength: number;
+}
+
+export interface AstrologicalInfluence {
+  zodiacElement: keyof ElementalProperties;
+  lunarModifier: number;
+  seasonalModifier: number;
+}
+
+export interface AlchemicalRecipe {
+  elementalProperties: ElementalProperties;
+  sunSign?: ZodiacSign;
+  moonPhaseAffinity?: LunarPhase;
+  seasonalAffinity?: string[];
+}
+
+export interface UserAlchemicalPreferences {
+  elementalBalance: ElementalProperties;
+  favoredSigns?: ZodiacSign[];
+  favoredPhases?: LunarPhase[];
+}
+
+export interface AlchemicalCalculationResult {
+  elementalHarmony: number;
+  astrologicalPower: number;
+  seasonalAlignment: number;
+  totalScore: number;
+}

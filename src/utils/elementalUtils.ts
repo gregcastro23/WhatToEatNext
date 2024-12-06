@@ -1,61 +1,27 @@
 // src/utils/elementalUtils.ts
 
-import { 
-  ELEMENTS,
-  VALIDATION_THRESHOLDS,
-  DEFAULT_ELEMENTAL_PROPERTIES,
-  MINIMUM_THRESHOLD,
-  MAXIMUM_THRESHOLD
-} from '@/constants/elementalConstants';
-import type { ElementalProperties, Recipe } from '@/types/alchemy';
+import type { Element, ElementalProperties } from '@/types/alchemy';
 
 export const elementalUtils = {
-  validateProperties(properties: ElementalProperties): boolean {
-    // Check if all elements are present
-    const hasAllElements = ELEMENTS.every(element => 
-      typeof properties[element] === 'number'
-    );
-
-    // Check if values are within valid range
-    const hasValidValues = Object.values(properties)
-      .every(value => 
-        value >= VALIDATION_THRESHOLDS.MINIMUM_ELEMENT && 
-        value <= VALIDATION_THRESHOLDS.MAXIMUM_ELEMENT
-      );
-
-    // Check if total is valid
-    const total = Object.values(properties)
-      .reduce((sum, val) => sum + val, 0);
-
-    const hasValidTotal = total >= VALIDATION_THRESHOLDS.MINIMUM_TOTAL && 
-                         total <= VALIDATION_THRESHOLDS.MAXIMUM_TOTAL;
-
-    return hasAllElements && hasValidValues && hasValidTotal;
+  validateProperties: (props: ElementalProperties): boolean => {
+    // Check if all properties are valid elements
+    const validElements: Element[] = ['Fire', 'Water', 'Air', 'Earth'];
+    return Object.keys(props).every(el => validElements.includes(el as Element));
   },
 
-  normalizeProperties(properties: ElementalProperties): ElementalProperties {
-    const total = Object.values(properties)
-      .reduce((sum, val) => sum + (val || 0), 0);
-    
-    if (total === 0) {
-      return { ...DEFAULT_ELEMENTAL_PROPERTIES };
-    }
+  normalizeProperties: (props: ElementalProperties): ElementalProperties => {
+    const total = Object.values(props).reduce((acc, val) => acc + (val || 0), 0);
+    if (total === 0) return props; // Avoid division by zero
 
-    return ELEMENTS.reduce((acc, element) => ({
-      ...acc,
-      [element]: properties[element] / total
-    }), {} as ElementalProperties);
+    return Object.fromEntries(
+      Object.entries(props).map(([el, val]) => [el, (val || 0) / total])
+    ) as ElementalProperties;
   },
 
-  getRecipeHarmony(recipe: Recipe, targetProperties: ElementalProperties): number {
-    if (!recipe.elementalProperties) return 0;
-    
-    const normalized1 = this.normalizeProperties(recipe.elementalProperties);
-    const normalized2 = this.normalizeProperties(targetProperties);
-
-    return 1 - ELEMENTS.reduce((diff, element) => {
-      return diff + Math.abs(normalized1[element] - normalized2[element]);
-    }, 0) / 2;
+  getDominantElement: (props: ElementalProperties): string => {
+    return Object.entries(props).reduce((maxEl, [el, val]) => {
+      return val > (props[maxEl] || 0) ? el : maxEl;
+    }, 'Fire'); // Default to 'Fire' if no elements are present
   }
 };
 

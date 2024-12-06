@@ -6,11 +6,12 @@ import { getCurrentSeason } from '@/data/seasons';
 import { ZodiacSign, getElementalAffinity } from '@/types/zodiac';
 import { getElementalColor } from '@/utils/elemental';
 import { getCachedCelestialPositions } from '@/services/astrologyApi';
+import type { ScoredRecipe } from '@/types/recipe';
 
 interface RecipeGridProps {
-  recipes: []
-  selectedCuisine?: string;
-  mealType?: string;
+  recipes: ScoredRecipe[];
+  selectedCuisine: string | null;
+  mealType: string;
 }
 
 const formatCelestialDegree = (degree: number, minutes: number): string => {
@@ -58,9 +59,10 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
   const filteredRecipes = recipes
     .filter(recipe => {
       const cuisineMatch = !selectedCuisine || recipe.cuisine === selectedCuisine;
-      const mealTypeMatch = !mealType || recipe.mealType.includes(mealType);
-      const seasonMatch = recipe.season.includes(currentSeason) || 
-                         recipe.season.includes('all');
+      const mealTypeMatch = !mealType || (recipe.mealType && recipe.mealType.includes(mealType));
+      const seasonMatch = recipe.season ? 
+        (recipe.season.includes(currentSeason) || recipe.season.includes('all')) : 
+        true;
       return cuisineMatch && mealTypeMatch && seasonMatch;
     })
     .slice(0, 6); // Keep the limit if you want it

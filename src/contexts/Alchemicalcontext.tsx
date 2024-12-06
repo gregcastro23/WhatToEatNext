@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
 import { AlchemicalEngine } from '@/lib/alchemicalEngine';
@@ -95,9 +95,11 @@ interface AlchemicalContextType {
   updateAstrologicalState: (state: AstrologicalState) => void;
 }
 
+// Create the context with a more specific initial undefined value
 const AlchemicalContext = createContext<AlchemicalContextType | undefined>(undefined);
 
-export const AlchemicalProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+// Export the provider component
+export function AlchemicalProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(alchemicalReducer, initialState);
   const engine = new AlchemicalEngine();
 
@@ -126,7 +128,6 @@ export const AlchemicalProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   };
 
   useEffect(() => {
-    // Update season based on current date
     const getCurrentSeason = () => {
       const month = new Date().getMonth();
       if (month >= 2 && month <= 4) return 'spring';
@@ -136,36 +137,34 @@ export const AlchemicalProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     };
 
     setSeason(getCurrentSeason());
-
-    // TODO: Add initial astrological calculations
-    // This would typically come from an astronomical calculation service
-    // For now, we'll leave it at the default state
   }, []);
 
+  const value = {
+    state,
+    engine,
+    updateElements,
+    setSeason,
+    updateLunarPhase,
+    updateSunSign,
+    updateMoonSign,
+    updateAstrologicalState
+  };
+
   return (
-    <AlchemicalContext.Provider 
-      value={{ 
-        state, 
-        engine, 
-        updateElements, 
-        setSeason,
-        updateLunarPhase,
-        updateSunSign,
-        updateMoonSign,
-        updateAstrologicalState
-      }}
-    >
+    <AlchemicalContext.Provider value={value}>
       {children}
     </AlchemicalContext.Provider>
   );
-};
+}
 
-export const useAlchemical = () => {
+// Export the hook
+export function useAlchemical() {
   const context = useContext(AlchemicalContext);
-  if (context === undefined) {
+  if (!context) {
     throw new Error('useAlchemical must be used within an AlchemicalProvider');
   }
   return context;
-};
+}
 
-export default AlchemicalContext;
+// Export the context for direct usage if needed
+export { AlchemicalContext };

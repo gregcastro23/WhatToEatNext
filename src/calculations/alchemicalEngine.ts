@@ -2,7 +2,10 @@ import type {
   ElementalProperties, 
   LunarPhase, 
   ZodiacSign, 
-  AstrologicalState 
+  AstrologicalState,
+  AlchemicalCalculationResult,
+  ElementalAffinity,
+  AstrologicalInfluence
 } from '@/types/alchemy';
 
 export class AlchemicalEngine {
@@ -46,17 +49,17 @@ export class AlchemicalEngine {
     winter: { Fire: 0.1, Water: 0.4, Air: 0.2, Earth: 0.3 }
   };
 
-  constructor() {}
-
   calculateElementalHarmony(
     recipeElements: ElementalProperties,
     userElements: ElementalProperties,
     astrologicalState: AstrologicalState,
     season: string
-  ): number {
+  ): AlchemicalCalculationResult {
     const astroModifiers = this.getAstrologicalModifiers(astrologicalState);
     const seasonModifiers = this.seasonalModifiers[season];
-    let harmonyScore = 0;
+    let elementalHarmony = 0;
+    let astrologicalPower = 0;
+    let seasonalAlignment = 0;
     let totalFactors = 0;
 
     Object.entries(recipeElements).forEach(([element, value]) => {
@@ -69,12 +72,20 @@ export class AlchemicalEngine {
         const astroHarmony = baseHarmony * astroValue;
         const seasonHarmony = baseHarmony * seasonValue;
 
-        harmonyScore += (astroHarmony + seasonHarmony) / 2;
+        elementalHarmony += baseHarmony;
+        astrologicalPower += astroHarmony;
+        seasonalAlignment += seasonHarmony;
         totalFactors++;
       }
     });
 
-    return totalFactors > 0 ? harmonyScore / totalFactors : 0;
+    const normalizedFactors = totalFactors > 0 ? totalFactors : 1;
+    return {
+      elementalHarmony: elementalHarmony / normalizedFactors,
+      astrologicalPower: astrologicalPower / normalizedFactors,
+      seasonalAlignment: seasonalAlignment / normalizedFactors,
+      totalScore: (elementalHarmony + astrologicalPower + seasonalAlignment) / (3 * normalizedFactors)
+    };
   }
 
   calculateAstrologicalPower(
@@ -126,17 +137,23 @@ export class AlchemicalEngine {
     return baseModifiers;
   }
 
-  getElementalAffinity(element1: keyof ElementalProperties, element2: keyof ElementalProperties): number {
-    if (element1 === element2) return 1;
-    if (this.elementalAffinities[element1]?.includes(element2)) return 0.5;
-    return 0;
+  getElementalAffinity(element1: keyof ElementalProperties, element2: keyof ElementalProperties): ElementalAffinity {
+    return {
+      element: element2,
+      strength: element1 === element2 ? 1 : 
+                this.elementalAffinities[element1]?.includes(element2) ? 0.5 : 0
+    };
   }
 
-  getLunarInfluence(phase: LunarPhase, element: keyof ElementalProperties): number {
-    return this.lunarPhaseModifiers[phase][element];
+  getAstrologicalInfluence(
+    element: keyof ElementalProperties,
+    astrologicalState: AstrologicalState,
+    season: string
+  ): AstrologicalInfluence {
+    return {
+      zodiacElement: this.zodiacElements[astrologicalState.sunSign],
+      lunarModifier: this.lunarPhaseModifiers[astrologicalState.lunarPhase][element],
+      seasonalModifier: this.seasonalModifiers[season][element]
+    };
   }
-
-  getSeasonalInfluence(season: string, element: keyof ElementalProperties): number {
-    return this.seasonalModifiers[season][element];
-  }
-}
+} 
