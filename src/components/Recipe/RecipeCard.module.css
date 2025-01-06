@@ -1,0 +1,282 @@
+.recipeCard {
+    background: var(--bg-primary);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.recipeCard:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.expanded {
+    cursor: default;
+}
+
+.imageContainer {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+.imageContainer img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.header {
+    margin-bottom: 0.5rem;
+}
+
+.title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.cuisine {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-top: 0.25rem;
+}
+
+.basicInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    padding: 1rem 0;
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.timeInfo, .moreInfo {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.timeInfo span, .moreInfo span {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.details {
+    margin-top: 1rem;
+}
+
+.description {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
+}
+
+.nutritionalInfo {
+    background: var(--bg-secondary);
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+}
+
+.servingSize {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+.nutritionGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 1rem;
+    text-align: center;
+}
+
+.nutritionGrid div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.nutritionGrid span {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.nutritionGrid strong {
+    font-size: 1.1rem;
+    color: var(--text-primary);
+}
+
+.sectionTitle {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 1.5rem 0 1rem;
+}
+
+.ingredientsSection ul,
+.instructionsSection ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.ingredient {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    line-height: 1.4;
+}
+
+.amount {
+    font-weight: 500;
+    color: var(--text-primary);
+    white-space: nowrap;
+}
+
+.ingredientName {
+    color: var(--text-primary);
+}
+
+.preparation, .notes {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.instruction {
+    position: relative;
+    padding-left: 2rem;
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+.instruction::before {
+    content: counter(item);
+    counter-increment: item;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1.5rem;
+    height: 1.5rem;
+    background: var(--accent-color);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.tips, .variations, .pairings, .culturalNotes {
+    background: var(--bg-secondary);
+    padding: 1rem;
+    border-radius: 8px;
+    margin-top: 1.5rem;
+}
+
+.tips ul, .variations ul, .pairings ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.tips li, .variations li, .pairings li {
+    position: relative;
+    padding-left: 1.5rem;
+    margin-bottom: 0.75rem;
+    line-height: 1.4;
+}
+
+.tips li::before, .variations li::before, .pairings li::before {
+    content: "•";
+    position: absolute;
+    left: 0.5rem;
+    color: var(--accent-color);
+}
+
+.culturalNotes p {
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .recipeCard {
+        padding: 1rem;
+    }
+
+    .title {
+        font-size: 1.3rem;
+    }
+
+    .timeInfo, .moreInfo {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .nutritionGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Animation */
+.details {
+    counter-reset: item;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.details {
+    animation: fadeIn 0.3s ease-out;
+}
+
+.matchPercentage {
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.875rem;
+}
+
+.highMatch {
+    background-color: #dcfce7;
+    color: #166534;
+}
+
+.mediumMatch {
+    background-color: #fef9c3;
+    color: #854d0e;
+}
+
+.lowMatch {
+    background-color: #fee2e2;
+    color: #991b1b;
+} 
