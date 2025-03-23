@@ -1,0 +1,191 @@
+import { getDefaultPlanetaryPositions } from './astrologyUtils';
+import type { PlanetPosition } from './astrologyUtils';
+
+// Reference data from https://www.jessicaadams.com/astrology/current-planetary-positions/ (March 23, 2025)
+const REFERENCE_POSITIONS = {
+  'sun': { sign: 'aries', degree: 2, minute: 37 },
+  'moon': { sign: 'capricorn', degree: 8, minute: 54 },
+  'mercury': { sign: 'aries', degree: 5, minute: 57, isRetrograde: true },
+  'venus': { sign: 'aries', degree: 2, minute: 40, isRetrograde: true },
+  'mars': { sign: 'cancer', degree: 20, minute: 55 },
+  'jupiter': { sign: 'gemini', degree: 14, minute: 40 },
+  'saturn': { sign: 'pisces', degree: 23, minute: 23 },
+  'uranus': { sign: 'taurus', degree: 24, minute: 22 },
+  'neptune': { sign: 'pisces', degree: 29, minute: 43 },
+  'pluto': { sign: 'aquarius', degree: 3, minute: 23 },
+  'ascendant': { sign: 'libra', degree: 18, minute: 19 }
+};
+
+// Calculate the difference between two positions in minutes
+function calculatePositionDifference(pos1: any, pos2: any): number {
+  if (pos1.sign !== pos2.sign) {
+    // Different signs - more complex calculation needed
+    const signs = ['aries', 'taurus', 'gemini', 'cancer', 'leo', 'virgo', 
+                  'libra', 'scorpio', 'sagittarius', 'capricorn', 'aquarius', 'pisces'];
+    
+    const signIndex1 = signs.indexOf(pos1.sign);
+    const signIndex2 = signs.indexOf(pos2.sign);
+    
+    if (signIndex1 === -1 || signIndex2 === -1) {
+      return -1; // Can't calculate if sign not found
+    }
+    
+    const signDiff = (signIndex1 - signIndex2 + 12) % 12;
+    const degreeDiff = pos1.degree - (signDiff === 0 ? pos2.degree : 0);
+    const minuteDiff = pos1.minute - (signDiff === 0 && degreeDiff === 0 ? pos2.minute : 0);
+    
+    return (signDiff * 30 * 60) + (degreeDiff * 60) + minuteDiff;
+  }
+  
+  // Same sign, calculate degree and minute difference
+  const degreeDiff = pos1.degree - pos2.degree;
+  const minuteDiff = pos1.minute - pos2.minute;
+  
+  return (degreeDiff * 60) + minuteDiff;
+}
+
+// Main validation function
+export function validatePlanetaryPositions(): { accurate: boolean, differences: Record<string, any> } {
+  const calculatedPositions = getDefaultPlanetaryPositions();
+  const differences: Record<string, any> = {};
+  let accurate = true;
+  
+  // Compare each planet
+  Object.entries(REFERENCE_POSITIONS).forEach(([planet, refPosition]) => {
+    const calculated = calculatedPositions[planet];
+    
+    if (!calculated) {
+      differences[planet] = { status: 'missing' };
+      accurate = false;
+      return;
+    }
+    
+    // Convert our formatting to match reference format
+    const formattedCalculated = {
+      sign: calculated.sign.toLowerCase(),
+      degree: Math.floor(calculated.degree),
+      minute: Math.floor((calculated.degree % 1) * 60),
+      isRetrograde: calculated.isRetrograde
+    };
+    
+    // Calculate difference
+    const diff = {
+      signMatch: formattedCalculated.sign === refPosition.sign,
+      degreeDiff: formattedCalculated.degree - refPosition.degree,
+      minuteDiff: formattedCalculated.minute - refPosition.minute,
+      retrogradeMatch: formattedCalculated.isRetrograde === refPosition.isRetrograde
+    };
+    
+    // Determine if accurate (within 5 minutes)
+    const totalDiffMinutes = Math.abs(diff.degreeDiff * 60 + diff.minuteDiff);
+    const isAccurate = diff.signMatch && totalDiffMinutes <= 5 && 
+                       (refPosition.isRetrograde === undefined || diff.retrogradeMatch);
+    
+    differences[planet] = {
+      calculated: formattedCalculated,
+      reference: refPosition,
+      difference: diff,
+      accurate: isAccurate
+    };
+    
+    if (!isAccurate) {
+      accurate = false;
+    }
+  });
+  
+  return { accurate, differences };
+}
+
+// Export a debug component function to display validation results
+export function getValidationSummary(): string {
+  const { accurate, differences } = validatePlanetaryPositions();
+  
+  let summary = `Planetary Positions Validation (Reference: Jessica Adams):\n`;
+  summary += `Overall Accuracy: ${accurate ? 'PASSED ✓' : 'FAILED ✗'}\n\n`;
+  
+  Object.entries(differences).forEach(([planet, data]) => {
+    if (data.status === 'missing') {
+      summary += `${planet}: MISSING\n`;
+      return;
+    }
+    
+    const { calculated, reference, accurate } = data;
+    summary += `${planet.padEnd(10)}: ${accurate ? '✓' : '✗'} `;
+    summary += `Calculated: ${calculated.sign} ${calculated.degree}°${calculated.minute}' `;
+    
+    if (calculated.isRetrograde) {
+      summary += 'R ';
+    }
+    
+    summary += `| Reference: ${reference.sign} ${reference.degree}°${reference.minute}' `;
+    
+    if (reference.isRetrograde) {
+      summary += 'R';
+    }
+    
+    summary += '\n';
+  });
+  
+  return summary;
+}
+
+// Add a function to fetch the latest positions from our API
+export async function fetchLatestPositions(): Promise<Record<string, any>> {
+  try {
+    const response = await fetch('/api/planetary-positions');
+    
+    if (!response.ok) {
+      throw new Error(`API error: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    return data.calculatedPositions || {};
+  } catch (error) {
+    console.error('Error fetching latest positions:', error);
+    return {};
+  }
+}
+
+// Create a function that checks against the API directly
+export async function validateAgainstAPI(): Promise<{ accurate: boolean, differences: Record<string, any> }> {
+  const calculatedPositions = await fetchLatestPositions();
+  const differences: Record<string, any> = {};
+  let accurate = true;
+  
+  // Compare each planet
+  Object.entries(REFERENCE_POSITIONS).forEach(([planet, refPosition]) => {
+    const calculated = calculatedPositions[planet];
+    
+    if (!calculated) {
+      differences[planet] = { status: 'missing' };
+      accurate = false;
+      return;
+    }
+    
+    // Calculate difference
+    const diff = {
+      signMatch: calculated.sign === refPosition.sign,
+      degreeDiff: calculated.degree - refPosition.degree,
+      minuteDiff: calculated.minute - refPosition.minute,
+      retrogradeMatch: calculated.isRetrograde === refPosition.isRetrograde
+    };
+    
+    // Determine if accurate (within 5 minutes)
+    const totalDiffMinutes = Math.abs(diff.degreeDiff * 60 + diff.minuteDiff);
+    const isAccurate = diff.signMatch && totalDiffMinutes <= 5 && 
+                       (refPosition.isRetrograde === undefined || diff.retrogradeMatch);
+    
+    differences[planet] = {
+      calculated,
+      reference: refPosition,
+      difference: diff,
+      accurate: isAccurate
+    };
+    
+    if (!isAccurate) {
+      accurate = false;
+    }
+  });
+  
+  return { accurate, differences };
+} 

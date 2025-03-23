@@ -41,10 +41,10 @@ export const elementalColors: Record<keyof ElementalProperties, ElementalColor> 
 };
 
 export const calculateDominantElement = (
-  elementalBalance: ElementalProperties
+  elementalState: ElementalProperties
 ): keyof ElementalProperties => {
-  return Object.entries(elementalBalance).reduce((a, b) => 
-    elementalBalance[a] > elementalBalance[b[0]] ? a : b[0]
+  return Object.entries(elementalState).reduce((a, b) => 
+    elementalState[a] > elementalState[b[0]] ? a : b[0]
   ) as keyof ElementalProperties;
 };
 
@@ -83,7 +83,7 @@ export const getElementalDescription = (element: keyof ElementalProperties): str
   return descriptions[element] || 'Balanced properties';
 };
 
-export const calculateElementalBalance = (
+export const calculateelementalState = (
   ingredients: Array<{ category: string; amount: number }>
 ): ElementalProperties => {
   const balance: ElementalProperties = {

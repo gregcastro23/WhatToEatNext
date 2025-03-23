@@ -1,4 +1,4 @@
-export interface ElementalBalance {
+export interface elementalState {
   Fire: number;
   Water: number;
   Air: number;
@@ -6,7 +6,7 @@ export interface ElementalBalance {
 }
 
 export interface ElementalProperties {
-  primary: keyof ElementalBalance;
-  secondary: keyof ElementalBalance;
+  primary: keyof elementalState;
+  secondary: keyof elementalState;
   strength: number;
 }

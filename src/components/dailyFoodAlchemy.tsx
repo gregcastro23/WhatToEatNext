@@ -9,7 +9,7 @@ const DailyFoodAlchemy: React.FC = () => {
       {/* Your existing DailyFoodAlchemy UI */}
       <div className="text-sm text-gray-600">
         Current Elemental Balance:
-        {Object.entries(state.elementalBalance).map(([element, value]) => (
+        {Object.entries(state.elementalState).map(([element, value]) => (
           <span key={element} className="ml-2">
             {element}: {(value * 100).toFixed(1)}%
           </span>

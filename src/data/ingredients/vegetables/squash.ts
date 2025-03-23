@@ -3,6 +3,18 @@ import type { IngredientMapping } from '@/types/alchemy';
 export const squash: Record<string, IngredientMapping> = {
   'butternut squash': {
     elementalProperties: { Earth: 0.4, Water: 0.3, Fire: 0.2, Air: 0.1 },
+    astrologicalProfile: {
+      rulingPlanets: ['Venus', 'Saturn'],
+      favorableZodiac: ['Taurus', 'Capricorn'],
+      elementalAffinity: {
+        base: 'Earth',
+        decanModifiers: {
+          first: { element: 'Earth', planet: 'Venus' },
+          second: { element: 'Water', planet: 'Saturn' },
+          third: { element: 'Fire', planet: 'Sun' }
+        }
+      }
+    },
     qualities: ['warming', 'nourishing', 'grounding'],
     season: ['fall', 'winter'],
     category: 'vegetable',
@@ -49,7 +61,7 @@ export const squash: Record<string, IngredientMapping> = {
       washing: true,
       trimming: 'ends removed',
       cutting: 'rounds, lengthwise, or spiralized',
-      notes: 'Don't peel - nutrients in skin'
+      notes: 'Do not peel - nutrients in skin'
     },
     storage: {
       temperature: 'refrigerated',

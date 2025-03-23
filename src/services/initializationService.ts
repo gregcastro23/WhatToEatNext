@@ -57,7 +57,7 @@ class InitializationService {
         filteredRecipes: processedRecipes,
         favorites: userState.recipes.favorites,
         celestialPositions: celestialData,
-        elementalBalance: celestialData,
+        elementalState: celestialData,
         season: this.getCurrentSeason(),
         loading: false,
         error: null,

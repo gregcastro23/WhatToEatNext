@@ -1,6 +1,6 @@
 export interface CuisineProperties {
     name: string;
-    elementalBalance: {
+    elementalState: {
         Fire: number;
         Water: number;
         Air: number;
@@ -13,7 +13,7 @@ export interface CuisineProperties {
 export const CUISINES: Record<string, CuisineProperties> = {
     Japanese: {
         name: "Japanese",
-        elementalBalance: {
+        elementalState: {
             Fire: 0.2,
             Water: 0.4,
             Air: 0.2,
@@ -24,7 +24,7 @@ export const CUISINES: Record<string, CuisineProperties> = {
     },
     Chinese: {
         name: "Chinese",
-        elementalBalance: {
+        elementalState: {
             Fire: 0.3,
             Water: 0.2,
             Air: 0.2,
@@ -35,7 +35,7 @@ export const CUISINES: Record<string, CuisineProperties> = {
     },
     Italian: {
         name: "Italian",
-        elementalBalance: {
+        elementalState: {
             Fire: 0.3,
             Water: 0.3,
             Air: 0.2,
@@ -46,7 +46,7 @@ export const CUISINES: Record<string, CuisineProperties> = {
     },
     Indian: {
         name: "Indian",
-        elementalBalance: {
+        elementalState: {
             Fire: 0.4,
             Water: 0.2,
             Air: 0.2,
@@ -57,7 +57,7 @@ export const CUISINES: Record<string, CuisineProperties> = {
     },
     Thai: {
         name: "Thai",
-        elementalBalance: {
+        elementalState: {
             Fire: 0.3,
             Water: 0.3,
             Air: 0.2,
@@ -68,7 +68,7 @@ export const CUISINES: Record<string, CuisineProperties> = {
     },
     Mexican: {
         name: "Mexican",
-        elementalBalance: {
+        elementalState: {
             Fire: 0.4,
             Water: 0.2,
             Air: 0.2,
@@ -79,7 +79,7 @@ export const CUISINES: Record<string, CuisineProperties> = {
     },
     Mediterranean: {
         name: "Mediterranean",
-        elementalBalance: {
+        elementalState: {
             Fire: 0.2,
             Water: 0.3,
             Air: 0.3,
@@ -90,7 +90,7 @@ export const CUISINES: Record<string, CuisineProperties> = {
     },
     French: {
         name: "French",
-        elementalBalance: {
+        elementalState: {
             Fire: 0.2,
             Water: 0.3,
             Air: 0.3,
@@ -101,7 +101,7 @@ export const CUISINES: Record<string, CuisineProperties> = {
     },
     Korean: {
         name: "Korean",
-        elementalBalance: {
+        elementalState: {
             Fire: 0.3,
             Water: 0.2,
             Air: 0.2,
@@ -112,7 +112,7 @@ export const CUISINES: Record<string, CuisineProperties> = {
     },
     Vietnamese: {
         name: "Vietnamese",
-        elementalBalance: {
+        elementalState: {
             Fire: 0.2,
             Water: 0.3,
             Air: 0.3,

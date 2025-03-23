@@ -61,7 +61,7 @@ export default function FilterSection({
         });
 
         // Apply seasonal influence
-        const elementalBalance = calculateSeasonalElements(
+        const elementalState = calculateSeasonalElements(
           baseElements,
           currentSeason,
           dayOfYear
@@ -70,7 +70,7 @@ export default function FilterSection({
         // Update state with natural influences
         dispatch({
           type: 'SET_ELEMENTAL_PREFERENCE',
-          payload: elementalBalance
+          payload: elementalState
         });
 
       } catch (error) {

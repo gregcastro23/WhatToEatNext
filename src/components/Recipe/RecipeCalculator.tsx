@@ -2,8 +2,10 @@ import React, { useState, useCallback } from 'react';
 import type { 
   ElementalProperties, 
   RecipeCalculatorProps,
-  Element 
+  Element
 } from '@/types/alchemy';
+import { getCurrentSeason, applySeasonalInfluence } from '@/utils/seasonalCalculations';
+import { getCurrentZodiacSign, getZodiacElementalInfluence } from '@/utils/zodiacUtils';
 
 const MAX_TOTAL = 1;
 const MIN_ELEMENT_VALUE = 0;
@@ -90,6 +92,23 @@ export const RecipeCalculator: React.FC<RecipeCalculatorProps> = ({
     }));
   };
 
+  const calculateRecipe = useCallback(() => {
+    const season = getCurrentSeason();
+    const zodiacSign = getCurrentZodiacSign();
+    
+    const seasonalElements = applySeasonalInfluence(elements, season);
+    const astrologicalElements = getZodiacElementalInfluence(zodiacSign);
+    
+    const finalElements = {
+      Fire: seasonalElements.Fire * astrologicalElements.Fire,
+      Water: seasonalElements.Water * astrologicalElements.Water,
+      Earth: seasonalElements.Earth * astrologicalElements.Earth,
+      Air: seasonalElements.Air * astrologicalElements.Air
+    };
+    
+    onCalculate(finalElements);
+  }, [elements, onCalculate]);
+
   const handleCalculate = () => {
     const total = Object.values(elements).reduce((sum, val) => sum + (val || 0), 0);
     
@@ -103,8 +122,7 @@ export const RecipeCalculator: React.FC<RecipeCalculatorProps> = ({
       return;
     }
 
-    const normalized = normalizeElements(elements);
-    onCalculate(normalized);
+    calculateRecipe();
     setValidationError('');
   };
 

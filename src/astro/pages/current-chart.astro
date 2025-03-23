@@ -1,0 +1,433 @@
+---
+// A simplified page showing current planetary positions
+
+import { 
+  getAccuratePlanetaryPositions,
+  validatePositions
+} from '../../../src/utils/accurate-astrology';
+
+// Get current moment data
+const currentDate = new Date();
+const planetPositions = getAccuratePlanetaryPositions(currentDate);
+validatePositions(planetPositions);
+
+// Get zodiac sign for a degree
+const getZodiacSign = (degree) => {
+  const signs = [
+    { name: 'Aries', symbol: '♈', start: 0, element: 'Fire' },
+    { name: 'Taurus', symbol: '♉', start: 30, element: 'Earth' },
+    { name: 'Gemini', symbol: '♊', start: 60, element: 'Air' },
+    { name: 'Cancer', symbol: '♋', start: 90, element: 'Water' },
+    { name: 'Leo', symbol: '♌', start: 120, element: 'Fire' },
+    { name: 'Virgo', symbol: '♍', start: 150, element: 'Earth' },
+    { name: 'Libra', symbol: '♎', start: 180, element: 'Air' },
+    { name: 'Scorpio', symbol: '♏', start: 210, element: 'Water' },
+    { name: 'Sagittarius', symbol: '♐', start: 240, element: 'Fire' },
+    { name: 'Capricorn', symbol: '♑', start: 270, element: 'Earth' },
+    { name: 'Aquarius', symbol: '♒', start: 300, element: 'Air' },
+    { name: 'Pisces', symbol: '♓', start: 330, element: 'Water' }
+  ];
+  
+  const signIndex = Math.floor((degree % 360) / 30);
+  return signs[signIndex];
+};
+
+// Calculate elemental balance
+const calculateElementalBalance = () => {
+  const elements = { Fire: 0, Earth: 0, Air: 0, Water: 0 };
+  let total = 0;
+  
+  Object.entries(planetPositions).forEach(([planet, degree]) => {
+    const sign = getZodiacSign(degree);
+    let weight = 1;
+    if (planet === 'Sun' || planet === 'Moon') weight = 3;
+    if (planet === 'Rising') weight = 2;
+    
+    elements[sign.element] += weight;
+    total += weight;
+  });
+  
+  return {
+    Fire: Math.round((elements.Fire / total) * 100),
+    Earth: Math.round((elements.Earth / total) * 100),
+    Air: Math.round((elements.Air / total) * 100),
+    Water: Math.round((elements.Water / total) * 100),
+  };
+};
+
+const elementalBalance = calculateElementalBalance();
+
+// Calculate alchemical principles
+const calculateAlchemicalPrinciples = () => {
+  return {
+    Spirit: Math.round((elementalBalance.Fire + elementalBalance.Air) / 2),
+    Essence: Math.round((elementalBalance.Fire + elementalBalance.Water) / 2),
+    Matter: Math.round((elementalBalance.Earth + elementalBalance.Water) / 2),
+    Substance: Math.round((elementalBalance.Earth + elementalBalance.Air) / 2)
+  };
+};
+
+const alchemicalPrinciples = calculateAlchemicalPrinciples();
+
+// Planet symbols
+const planetSymbols = {
+  'Sun': '☉',
+  'Moon': '☽',
+  'Mercury': '☿',
+  'Venus': '♀',
+  'Mars': '♂',
+  'Jupiter': '♃',
+  'Saturn': '♄',
+  'Uranus': '♅',
+  'Neptune': '♆',
+  'Pluto': '♇',
+  'Rising': 'ASC'
+};
+
+// Format date for display
+const formattedDate = new Intl.DateTimeFormat('en-US', {
+  weekday: 'long',
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+}).format(new Date());
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Current Astrological Chart</title>
+  </head>
+  <body>
+    <header>
+      <h1>Current Astrological Chart</h1>
+      <p class="date">{formattedDate}</p>
+    </header>
+    
+    <main>
+      <div class="chart-container">
+        <div class="astro-chart">
+          <h2>Planetary Positions</h2>
+          <div class="planets-grid">
+            {Object.entries(planetPositions).map(([planet, degree]) => {
+              const sign = getZodiacSign(degree);
+              const degreeInSign = Math.floor(degree % 30);
+              return (
+                <div class="planet-card" data-element={sign.element.toLowerCase()}>
+                  <div class="planet-header">
+                    <span class="planet-symbol">{planetSymbols[planet]}</span>
+                    <span class="planet-name">{planet}</span>
+                  </div>
+                  <div class="planet-position">
+                    <span class="sign-symbol">{sign.symbol}</span>
+                    <span class="sign-name">{sign.name}</span>
+                    <span class="degree">{degreeInSign}°</span>
+                  </div>
+                  <div class="element">{sign.element}</div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+        
+        <div class="elemental-balance">
+          <h2>Elemental Balance</h2>
+          <div class="elements-grid">
+            <div class="element-bar" data-element="fire">
+              <div class="element-label">Fire</div>
+              <div class="bar-container">
+                <div class="bar" style={`width: ${elementalBalance.Fire}%`}></div>
+              </div>
+              <div class="element-percentage">{elementalBalance.Fire}%</div>
+            </div>
+            <div class="element-bar" data-element="earth">
+              <div class="element-label">Earth</div>
+              <div class="bar-container">
+                <div class="bar" style={`width: ${elementalBalance.Earth}%`}></div>
+              </div>
+              <div class="element-percentage">{elementalBalance.Earth}%</div>
+            </div>
+            <div class="element-bar" data-element="air">
+              <div class="element-label">Air</div>
+              <div class="bar-container">
+                <div class="bar" style={`width: ${elementalBalance.Air}%`}></div>
+              </div>
+              <div class="element-percentage">{elementalBalance.Air}%</div>
+            </div>
+            <div class="element-bar" data-element="water">
+              <div class="element-label">Water</div>
+              <div class="bar-container">
+                <div class="bar" style={`width: ${elementalBalance.Water}%`}></div>
+              </div>
+              <div class="element-percentage">{elementalBalance.Water}%</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="alchemical-principles">
+          <h2>Alchemical Principles</h2>
+          <div class="principles-grid">
+            <div class="principle-card">
+              <div class="principle-name">Spirit</div>
+              <div class="principle-value">{alchemicalPrinciples.Spirit}</div>
+              <div class="principle-description">Creative energy and inspiration</div>
+            </div>
+            <div class="principle-card">
+              <div class="principle-name">Essence</div>
+              <div class="principle-value">{alchemicalPrinciples.Essence}</div>
+              <div class="principle-description">Emotional wellbeing and intuition</div>
+            </div>
+            <div class="principle-card">
+              <div class="principle-name">Matter</div>
+              <div class="principle-value">{alchemicalPrinciples.Matter}</div>
+              <div class="principle-description">Physical nourishment and grounding</div>
+            </div>
+            <div class="principle-card">
+              <div class="principle-name">Substance</div>
+              <div class="principle-value">{alchemicalPrinciples.Substance}</div>
+              <div class="principle-description">Mental clarity and focus</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    
+    <footer>
+      <p>Simple astrological calculations | What To Eat Next</p>
+    </footer>
+    
+    <style>
+      :root {
+        --color-fire: #ff5722;
+        --color-earth: #4caf50;
+        --color-air: #03a9f4;
+        --color-water: #9c27b0;
+        
+        --color-bg: #f8f9fa;
+        --color-card: #fff;
+        --color-text: #333;
+      }
+      
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      
+      body {
+        font-family: system-ui, sans-serif;
+        background-color: var(--color-bg);
+        color: var(--color-text);
+        line-height: 1.6;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      
+      header {
+        background: linear-gradient(135deg, #5762d5, #8f44fd);
+        color: white;
+        padding: 2rem;
+        border-radius: 12px;
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+      
+      h1 {
+        margin-bottom: 0.5rem;
+      }
+      
+      .date {
+        opacity: 0.9;
+      }
+      
+      .chart-container {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      
+      @media (min-width: 768px) {
+        .chart-container {
+          grid-template-columns: 2fr 1fr;
+        }
+        
+        .elemental-balance {
+          grid-column: 1 / 2;
+        }
+        
+        .alchemical-principles {
+          grid-column: 2 / 3;
+          grid-row: 1 / 2;
+        }
+      }
+      
+      .astro-chart, .elemental-balance, .alchemical-principles {
+        background-color: var(--color-card);
+        border-radius: 12px;
+        padding: 1.5rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+      
+      h2 {
+        margin-bottom: 1rem;
+        color: #5762d5;
+        text-align: center;
+      }
+      
+      .planets-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 1rem;
+      }
+      
+      .planet-card {
+        border-radius: 8px;
+        padding: 1rem;
+        border-left: 3px solid #ccc;
+        background-color: #f9f9fb;
+      }
+      
+      .planet-card[data-element="fire"] {
+        border-left-color: var(--color-fire);
+      }
+      
+      .planet-card[data-element="earth"] {
+        border-left-color: var(--color-earth);
+      }
+      
+      .planet-card[data-element="air"] {
+        border-left-color: var(--color-air);
+      }
+      
+      .planet-card[data-element="water"] {
+        border-left-color: var(--color-water);
+      }
+      
+      .planet-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 0.5rem;
+      }
+      
+      .planet-symbol {
+        font-size: 1.2rem;
+        margin-right: 0.5rem;
+      }
+      
+      .planet-name {
+        font-weight: bold;
+      }
+      
+      .planet-position {
+        display: flex;
+        align-items: center;
+        margin-bottom: 0.25rem;
+      }
+      
+      .sign-symbol {
+        margin-right: 0.5rem;
+      }
+      
+      .sign-name {
+        margin-right: 0.5rem;
+      }
+      
+      .element {
+        font-size: 0.9rem;
+        color: #666;
+      }
+      
+      .elements-grid, .principles-grid {
+        display: grid;
+        gap: 1rem;
+      }
+      
+      .elements-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .principles-grid {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      }
+      
+      .element-bar {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      
+      .element-label {
+        width: 50px;
+        font-weight: bold;
+      }
+      
+      .bar-container {
+        flex: 1;
+        height: 10px;
+        background-color: #eee;
+        border-radius: 5px;
+        overflow: hidden;
+      }
+      
+      .bar {
+        height: 100%;
+        border-radius: 5px;
+      }
+      
+      .element-bar[data-element="fire"] .bar {
+        background-color: var(--color-fire);
+      }
+      
+      .element-bar[data-element="earth"] .bar {
+        background-color: var(--color-earth);
+      }
+      
+      .element-bar[data-element="air"] .bar {
+        background-color: var(--color-air);
+      }
+      
+      .element-bar[data-element="water"] .bar {
+        background-color: var(--color-water);
+      }
+      
+      .element-percentage {
+        width: 40px;
+        text-align: right;
+        font-size: 0.9rem;
+      }
+      
+      .principle-card {
+        background-color: #f9f9fb;
+        border-radius: 8px;
+        padding: 1rem;
+        text-align: center;
+      }
+      
+      .principle-name {
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+        color: #5762d5;
+      }
+      
+      .principle-value {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+      }
+      
+      .principle-description {
+        font-size: 0.9rem;
+        color: #666;
+      }
+      
+      footer {
+        text-align: center;
+        margin-top: 2rem;
+        padding: 1rem;
+        color: #666;
+        font-size: 0.9rem;
+      }
+    </style>
+  </body>
+</html> 

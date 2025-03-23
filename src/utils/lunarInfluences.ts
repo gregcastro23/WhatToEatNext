@@ -1,10 +1,10 @@
 import type { LunarPhase, LunarInfluence } from '@/types/lunar';
-import type { ElementalBalance } from '@/types/elemental';
+import type { elementalState } from '@/types/elemental';
 
 export const calculateLunarInfluence = (
   date: Date,
-  baseBalance: ElementalBalance
-): ElementalBalance => {
+  baseBalance: elementalState
+): elementalState => {
   const phase = getLunarPhase(date);
   const influence = lunarInfluences[phase];
   

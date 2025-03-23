@@ -1,10 +1,10 @@
-import type { ElementalBalance, ElementalProperties } from '@/types/elemental';
+import type { elementalState, ElementalProperties } from '@/types/elemental';
 
 export const calculateElementalScore = (
   recipe: Recipe,
-  targetBalance: ElementalBalance,
-  seasonalInfluence: ElementalBalance,
-  lunarInfluence: ElementalBalance
+  targetBalance: elementalState,
+  seasonalInfluence: elementalState,
+  lunarInfluence: elementalState
 ): number => {
   const baseScore = calculateBaseElementalScore(recipe, targetBalance);
   const seasonalScore = applySeasonalModifiers(baseScore, seasonalInfluence);

@@ -3,6 +3,18 @@ import type { IngredientMapping } from '@/types/alchemy';
 export const cruciferous: Record<string, IngredientMapping> = {
   'cauliflower': {
     elementalProperties: { Air: 0.4, Earth: 0.3, Water: 0.2, Fire: 0.1 },
+    astrologicalProfile: {
+      rulingPlanets: ['Mercury', 'Saturn'],
+      favorableZodiac: ['Virgo', 'Capricorn'],
+      elementalAffinity: {
+        base: 'Air',
+        decanModifiers: {
+          first: { element: 'Air', planet: 'Mercury' },
+          second: { element: 'Earth', planet: 'Saturn' },
+          third: { element: 'Water', planet: 'Moon' }
+        }
+      }
+    },
     qualities: ['cooling', 'drying', 'light'],
     season: ['fall', 'winter'],
     category: 'vegetable',
@@ -52,7 +64,7 @@ export const cruciferous: Record<string, IngredientMapping> = {
     preparation: {
       washing: true,
       cutting: 'uniform florets, peel stems',
-      notes: 'Don't discard stems - they're sweet and tender when peeled'
+      notes: 'Do not discard stems - they are sweet and tender when peeled'
     },
     storage: {
       temperature: 'refrigerated',

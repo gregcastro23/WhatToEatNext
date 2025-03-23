@@ -2,11 +2,13 @@ import type { IngredientMapping } from '@/types/alchemy';
 
 export const meats: Record<string, IngredientMapping> = {
   'beef_ribeye': {
-    elementalProperties: { Fire: 0.4, Earth: 0.3, Water: 0.2 },
+    elementalProperties: { Fire: 0.4, Earth: 0.3, Water: 0.2, Air: 0.1 },
     qualities: ['marbled', 'rich', 'tender'],
-    origin: ['Various'],
-    category: 'meat',
+    season: ['all'],
+    category: 'protein',
     subCategory: 'beef',
+    affinities: ['garlic', 'rosemary', 'thyme', 'black pepper'],
+    cookingMethods: ['grill', 'pan_sear', 'sous_vide', 'reverse_sear'],
     grades: {
       'Prime': {
         marbling: 'abundant',
@@ -167,11 +169,13 @@ export const meats: Record<string, IngredientMapping> = {
     }
   },
   'pork_belly': {
-    elementalProperties: { Water: 0.4, Earth: 0.3, Fire: 0.2 },
+    elementalProperties: { Water: 0.4, Earth: 0.3, Fire: 0.2, Air: 0.1 },
     qualities: ['rich', 'fatty', 'versatile'],
-    origin: ['Various'],
-    category: 'meat',
+    season: ['all'],
+    category: 'protein',
     subCategory: 'pork',
+    affinities: ['soy sauce', 'ginger', 'garlic', 'five spice'],
+    cookingMethods: ['braise', 'roast', 'sous_vide', 'smoke'],
     varieties: {
       'Fresh': {
         appearance: 'pink meat, white fat layers',
@@ -182,6 +186,22 @@ export const meats: Record<string, IngredientMapping> = {
         appearance: 'pink throughout',
         texture: 'firm, dense',
         uses: 'bacon, pancetta'
+      }
+    },
+    culinaryTraditions: {
+      'chinese': {
+        name: 'dong po rou',
+        usage: ['braised', 'red cooked'],
+        preparation: 'slow braised with soy and spices',
+        pairings: ['rice', 'bok choy', 'mushrooms'],
+        cultural_notes: 'Classic dish from Hangzhou'
+      },
+      'korean': {
+        name: 'samgyeopsal',
+        usage: ['grilled', 'barbecued'],
+        preparation: 'sliced and grilled at table',
+        pairings: ['kimchi', 'lettuce wraps', 'ssamjang'],
+        cultural_notes: 'Essential Korean BBQ item'
       }
     },
     culinaryApplications: {
@@ -297,11 +317,29 @@ export const meats: Record<string, IngredientMapping> = {
     }
   },
   'lamb_rack': {
-    elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2 },
+    elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 },
     qualities: ['tender', 'rich', 'delicate'],
-    origin: ['New Zealand', 'Australia', 'American'],
-    category: 'meat',
+    season: ['spring', 'winter'],
+    category: 'protein',
     subCategory: 'lamb',
+    affinities: ['rosemary', 'garlic', 'mint', 'olive oil'],
+    cookingMethods: ['roast', 'grill', 'herb_crust'],
+    culinaryTraditions: {
+      'french': {
+        name: 'carré d\'agneau',
+        usage: ['herb crusted', 'roasted'],
+        preparation: 'frenched and herb crusted',
+        pairings: ['mint sauce', 'roasted vegetables', 'wine reduction'],
+        cultural_notes: 'Classic French preparation'
+      },
+      'mediterranean': {
+        name: 'rack of lamb',
+        usage: ['grilled', 'herb crusted'],
+        preparation: 'marinated with herbs and garlic',
+        pairings: ['tzatziki', 'lemon', 'oregano'],
+        cultural_notes: 'Popular in Greek cuisine'
+      }
+    },
     varieties: {
       'Frenched': {
         appearance: 'cleaned rib bones',
@@ -380,5 +418,170 @@ export const meats: Record<string, IngredientMapping> = {
         serving: 'root vegetables, rich sauces'
       }
     }
+  },
+  'duck_breast': {
+    elementalProperties: { Fire: 0.3, Water: 0.3, Earth: 0.2, Air: 0.2 },
+    astrologicalProfile: {
+      rulingPlanets: ['Venus', 'Moon'],
+      favorableZodiac: ['taurus', 'cancer', 'pisces'],
+      elementalAffinity: {
+        base: 'Water',
+        decanModifiers: {
+          first: { element: 'Earth', planet: 'Venus' },
+          second: { element: 'Water', planet: 'Moon' },
+          third: { element: 'Air', planet: 'Mercury' }
+        }
+      }
+    },
+    qualities: ['rich', 'tender', 'versatile'],
+    season: ['fall', 'winter'],
+    category: 'protein',
+    subCategory: 'poultry',
+    affinities: ['orange', 'cherry', 'star anise', 'thyme'],
+    cookingMethods: ['pan_sear', 'sous_vide', 'smoke', 'confit'],
+    varieties: {
+      'Pekin': {
+        appearance: 'smaller, tender',
+        texture: 'delicate fat layer',
+        uses: 'quick cooking, restaurants'
+      },
+      'Muscovy': {
+        appearance: 'larger, leaner',
+        texture: 'firm meat, thick fat',
+        uses: 'traditional French cuisine'
+      }
+    },
+    culinaryTraditions: {
+      'french': {
+        name: 'magret de canard',
+        usage: ['pan seared', 'medium rare'],
+        preparation: 'score fat, render slowly',
+        pairings: ['orange sauce', 'cherry gastrique', 'wild mushrooms'],
+        cultural_notes: 'Classic bistro dish'
+      },
+      'chinese': {
+        name: 'pipa duck',
+        usage: ['roasted', 'glazed'],
+        preparation: 'air dried, honey glazed',
+        pairings: ['scallions', 'hoisin sauce', 'pancakes'],
+        cultural_notes: 'Refined Cantonese preparation'
+      }
+    },
+    preparation: {
+      scoring: 'diamond pattern in fat',
+      resting: '10-15 minutes after cooking',
+      notes: 'Fat must render slowly'
+    },
+    storage: {
+      fresh: {
+        temperature: { fahrenheit: 34, celsius: 1 },
+        duration: '2-3 days',
+        method: 'wrapped, bottom shelf'
+      },
+      frozen: {
+        temperature: { fahrenheit: 0, celsius: -18 },
+        duration: '4-6 months',
+        method: 'vacuum sealed'
+      }
+    }
+  },
+  'veal_osso_buco': {
+    elementalProperties: { Earth: 0.4, Water: 0.3, Fire: 0.2, Air: 0.1 },
+    qualities: ['tender', 'gelatinous', 'rich'],
+    season: ['fall', 'winter'],
+    category: 'protein',
+    subCategory: 'veal',
+    affinities: ['white wine', 'garlic', 'citrus zest', 'tomatoes'],
+    cookingMethods: ['braise', 'slow_cook', 'dutch_oven'],
+    culinaryTraditions: {
+      'italian': {
+        name: 'osso buco alla milanese',
+        usage: ['braised', 'special occasions'],
+        preparation: 'tied with string, braised in wine',
+        pairings: ['risotto milanese', 'gremolata', 'polenta'],
+        cultural_notes: 'Traditional Milanese specialty'
+      },
+      'french': {
+        name: 'jarret de veau',
+        usage: ['braised', 'slow cooked'],
+        preparation: 'wine and herb braised',
+        pairings: ['root vegetables', 'herb bouquet', 'crusty bread'],
+        cultural_notes: 'Classic bistro preparation'
+      }
+    },
+    preparation: {
+      tying: 'secure with kitchen twine',
+      browning: 'sear all sides well',
+      braising: 'partially submerged',
+      notes: 'Keep marrow in bones'
+    },
+    storage: {
+      fresh: {
+        temperature: { fahrenheit: 34, celsius: 1 },
+        duration: '2-3 days',
+        method: 'wrapped, bottom shelf'
+      },
+      frozen: {
+        temperature: { fahrenheit: 0, celsius: -18 },
+        duration: '4-6 months',
+        method: 'vacuum sealed'
+      }
+    }
+  },
+  'venison_loin': {
+    elementalProperties: { Fire: 0.3, Air: 0.3, Earth: 0.2, Water: 0.2 },
+    qualities: ['lean', 'tender', 'gamey'],
+    season: ['fall', 'winter'],
+    category: 'protein',
+    subCategory: 'game',
+    affinities: ['juniper', 'red wine', 'mushrooms', 'blackberries'],
+    cookingMethods: ['pan_sear', 'grill', 'sous_vide'],
+    varieties: {
+      'Farm_Raised': {
+        appearance: 'deep red, consistent',
+        texture: 'tender, mild flavor',
+        uses: 'versatile cooking methods'
+      },
+      'Wild': {
+        appearance: 'darker red, varied',
+        texture: 'firmer, stronger flavor',
+        uses: 'traditional game dishes'
+      }
+    },
+    culinaryTraditions: {
+      'german': {
+        name: 'hirschrücken',
+        usage: ['roasted', 'special occasions'],
+        preparation: 'juniper and wine marinade',
+        pairings: ['spätzle', 'red cabbage', 'mushroom sauce'],
+        cultural_notes: 'Traditional hunting season dish'
+      },
+      'scottish': {
+        name: 'venison loin',
+        usage: ['pan seared', 'roasted'],
+        preparation: 'whisky and herb marinade',
+        pairings: ['neeps and tatties', 'berry sauce'],
+        cultural_notes: 'Highland specialty'
+      }
+    },
+    preparation: {
+      marinating: '4-8 hours recommended',
+      resting: '10-15 minutes after cooking',
+      notes: 'Cook to medium-rare maximum'
+    },
+    storage: {
+      fresh: {
+        temperature: { fahrenheit: 34, celsius: 1 },
+        duration: '2-3 days',
+        method: 'wrapped, bottom shelf'
+      },
+      frozen: {
+        temperature: { fahrenheit: 0, celsius: -18 },
+        duration: '6-8 months',
+        method: 'vacuum sealed'
+      }
+    }
   }
 };
+
+export default meats;

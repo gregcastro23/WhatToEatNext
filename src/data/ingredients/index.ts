@@ -1,24 +1,158 @@
-import { french, italian, middleEastern, thai } from '../cuisines';
 import { wholeGrains } from './grains/wholeGrains';
 import { refinedGrains } from './grains/refinedGrains';
 import { medicinalHerbs } from './herbs/medicinalHerbs';
+import type { Ingredient } from '@/types/ingredient';
+import { seafood } from './proteins/seafood';
+import { poultry } from './proteins/poultry';
+import { plantBased } from './proteins/plantBased';
+import { herbs } from './herbs';
+import { oils } from './oils';
+import { spices } from './spices';
+import { french } from '../cuisines/french';
+import { italian } from '../cuisines/italian';
+import { middleEastern } from '../cuisines/middle-eastern';
+import { thai } from '../cuisines/thai';
 
-export const AlchemyData = {
-  cuisines: {
-    french: french,
-    italian: italian,
-    middleEastern: middleEastern,
-    thai: thai
-  },
-  ingredients: {
-    grains: {
-      whole: wholeGrains,
-      refined: refinedGrains
-    },
-    herbs: {
-      medicinal: medicinalHerbs
-    }
-  }
+export const VALID_CATEGORIES = [
+    'culinary_herb',
+    'spice',
+    'protein',
+    'oil',
+    'grain',
+    'medicinal_herb'
+] as const;
+
+// Default elemental properties
+export const DEFAULT_ELEMENTAL_PROPERTIES = {
+    Fire: 0.25,
+    Water: 0.25,
+    Earth: 0.25,
+    Air: 0.25
 };
 
-export default AlchemyData;
+// Normalize elemental properties to sum to 1
+const normalizeElementalProperties = (properties: Record<string, number>): Record<string, number> => {
+    if (!properties || Object.keys(properties).length === 0) {
+        return { ...DEFAULT_ELEMENTAL_PROPERTIES };
+    }
+
+    const sum = Object.values(properties).reduce((acc, val) => acc + (val || 0), 0);
+    if (sum === 0) {
+        return { ...DEFAULT_ELEMENTAL_PROPERTIES };
+    }
+
+    return {
+        Fire: (properties.Fire || 0) / sum,
+        Water: (properties.Water || 0) / sum,
+        Earth: (properties.Earth || 0) / sum,
+        Air: (properties.Air || 0) / sum
+    };
+};
+
+// Process and validate a single ingredient
+const processIngredient = (ingredient: any, name: string): Ingredient => {
+    if (!ingredient) {
+        throw new Error(`Invalid ingredient data for ${name}`);
+    }
+
+    // Create default lunar phase modifiers if none exist
+    const defaultLunarPhaseModifiers = {
+        newMoon: {
+            elementalBoost: { Earth: 0.05, Water: 0.05 },
+            preparationTips: ['Best for subtle preparation methods']
+        },
+        fullMoon: {
+            elementalBoost: { Water: 0.1, Air: 0.05 },
+            preparationTips: ['Enhanced flavor extraction']
+        }
+    };
+
+    return {
+        name: name,
+        category: ingredient.category || 'culinary_herb',
+        elementalProperties: normalizeElementalProperties(ingredient.elementalProperties),
+        qualities: Array.isArray(ingredient.qualities) ? ingredient.qualities : [],
+        lunarPhaseModifiers: ingredient.lunarPhaseModifiers || defaultLunarPhaseModifiers,
+        ...ingredient
+    };
+};
+
+// Process a collection of ingredients
+const processIngredientCollection = (collection: Record<string, any>): Record<string, Ingredient> => {
+    return Object.entries(collection).reduce((acc, [key, value]) => {
+        try {
+            acc[key] = processIngredient(value, key);
+        } catch (error) {
+            console.warn(`Skipping invalid ingredient ${key}:`, error);
+        }
+        return acc;
+    }, {} as Record<string, Ingredient>);
+};
+
+// Function to ensure all ingredients have required properties
+export function normalizeIngredients(ingredients: Ingredient[]): Ingredient[] {
+    return ingredients.map(ingredient => ({
+        ...ingredient,
+        heat: ingredient.heat ?? calculateHeatFromElements(ingredient.elementalProperties),
+        moisture: ingredient.moisture ?? calculateMoistureFromElements(ingredient.elementalProperties),
+        // Add other default properties as needed
+    }));
+}
+
+// Calculate heat from elemental properties if not defined
+function calculateHeatFromElements(elementalProperties: Record<string, number> = {}): number {
+    const fire = elementalProperties.Fire || 0;
+    const air = elementalProperties.Air || 0;
+    return (fire * 0.7 + air * 0.3);
+}
+
+// Calculate moisture from elemental properties if not defined
+function calculateMoistureFromElements(elementalProperties: Record<string, number> = {}): number {
+    const water = elementalProperties.Water || 0;
+    const earth = elementalProperties.Earth || 0;
+    return (water * 0.7 + earth * 0.3);
+}
+
+// Process and combine all ingredients
+export const allIngredients = {
+    ...processIngredientCollection(seafood),
+    ...processIngredientCollection(poultry),
+    ...processIngredientCollection(plantBased),
+    ...processIngredientCollection(herbs),
+    ...processIngredientCollection(oils),
+    ...processIngredientCollection(spices)
+};
+
+export const AlchemyData = {
+    cuisines: {
+        french,
+        italian,
+        middleEastern,
+        thai
+    },
+    ingredients: {
+        grains: {
+            whole: processIngredientCollection(wholeGrains),
+            refined: processIngredientCollection(refinedGrains)
+        },
+        herbs: {
+            medicinal: processIngredientCollection(medicinalHerbs)
+        }
+    }
+};
+
+// Export individual categories
+export {
+    herbs,
+    spices,
+    oils,
+    seafood,
+    poultry,
+    plantBased,
+    wholeGrains,
+    refinedGrains,
+    medicinalHerbs
+};
+
+export * from './types';
+export default allIngredients;

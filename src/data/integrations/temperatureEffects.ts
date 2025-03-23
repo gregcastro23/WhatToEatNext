@@ -123,4 +123,33 @@ export const getElementalEffect = (temp: number): ElementalProperties => {
   return temperatureEffects[range].elementalEffect;
 };
 
+export function getTemperatureEffect(ingredient: string, temperature?: number) {
+  // Map of ingredient temperature effects
+  const effectMap: Record<string, string> = {
+    'ginger': 'warming',
+    'chili': 'hot',
+    'mint': 'cooling',
+    'cucumber': 'cool',
+    // Add more ingredients as needed
+  };
+  
+  // Simple fallback with some common effects
+  const commonEffects = {
+    'spices': 'warming',
+    'herbs': 'neutral',
+    'fruits': 'cooling',
+    'vegetables': 'neutral'
+  };
+  
+  // Check if we have a specific effect for this ingredient
+  for (const [key, effect] of Object.entries(effectMap)) {
+    if (ingredient.toLowerCase().includes(key)) {
+      return effect;
+    }
+  }
+  
+  // Return a string, not an object
+  return 'neutral';
+}
+
 export default temperatureEffects;

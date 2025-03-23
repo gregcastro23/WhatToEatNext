@@ -73,12 +73,12 @@ const GlobalPopup = () => {
   return null;
 };
 
-// Global popup utility
-export const initializeGlobalPopups = () => {
+// Create a custom hook for global popups instead of a regular function
+export const useGlobalPopups = () => {
   const popup = usePopup();
   
   // Development mode global access
-  if (process.env.NODE_ENV === 'development') {
+  if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
     window.showPopup = popup.showPopup;
   }
   

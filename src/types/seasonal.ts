@@ -5,6 +5,6 @@ export interface SeasonalPhase {
   start: Date;
   peak: Date;
   end: Date;
-  primaryElement: keyof ElementalBalance;
-  secondaryElement: keyof ElementalBalance;
+  primaryElement: keyof elementalState;
+  secondaryElement: keyof elementalState;
 }

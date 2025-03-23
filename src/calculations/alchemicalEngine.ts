@@ -5,11 +5,28 @@ import type {
   AstrologicalState,
   AlchemicalCalculationResult,
   ElementalAffinity,
-  AstrologicalInfluence
+  AstrologicalInfluence,
+  Season,
+  Element,
+  RecipeHarmonyResult
 } from '@/types/alchemy';
+import { seasonalPatterns } from '@/data/integrations/seasonalPatterns';
+import { culinaryTraditions } from '@/data/cuisines/culinaryTraditions';
+import { recipeElementalMappings } from '@/data/recipes/elementalMappings';
+import { recipeCalculations } from '@/utils/recipeCalculations';
+import { PLANETARY_MODIFIERS, RulingPlanet } from '@/constants/planets';
+import { getZodiacElementalInfluence } from '@/utils/zodiacUtils';
+
+// Define the default elemental properties when none are provided
+const DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {
+  Fire: 0.25,
+  Water: 0.25,
+  Earth: 0.25,
+  Air: 0.25
+};
 
 interface Decan {
-    ruler: string;
+    ruler: RulingPlanet;
     element: keyof ElementalProperties;
     degree: number;
 }
@@ -20,6 +37,13 @@ export class AlchemicalEngine {
     Air: ['Water'],
     Water: ['Earth'],
     Earth: ['Fire']
+  };
+
+  private readonly elementalStrengths: Record<string, number> = {
+    Fire: 1,
+    Air: 1,
+    Water: 1,
+    Earth: 1
   };
 
   private readonly zodiacElements: Record<ZodiacSign, keyof ElementalProperties> = {
@@ -118,69 +142,96 @@ export class AlchemicalEngine {
     ]
   };
 
-  private readonly decanModifiers: Record<string, number> = {
-    Mars: 0.4,
-    Sun: 0.35,
-    Jupiter: 0.3,
-    Venus: 0.25,
-    Mercury: 0.2,
-    Saturn: 0.15,
-    Uranus: 0.3,
-    Neptune: 0.25,
-    Pluto: 0.2,
-    Moon: 0.35
-  };
+  private readonly decanModifiers = PLANETARY_MODIFIERS;
 
-  calculateElementalHarmony(
+  calculateAstroCuisineMatch(
     recipeElements?: ElementalProperties,
-    userElements?: ElementalProperties,
     astrologicalState?: AstrologicalState,
-    season?: string
+    season?: string,
+    cuisine?: string
   ): AlchemicalCalculationResult {
-    const defaultElements: ElementalProperties = {
-      Fire: 0.25,
-      Water: 0.25,
-      Air: 0.25,
-      Earth: 0.25
+    const dominantElement = Object.entries(recipeElements || DEFAULT_ELEMENTAL_PROPERTIES)
+      .sort(([,a], [,b]) => b - a)[0][0];
+    
+    // Safely access the seasonalPatterns by ensuring the season is a valid key
+    const defaultSeason: Season = 'winter';
+    const normalizedSeason = season?.toLowerCase();
+    const validSeason = (normalizedSeason === 'spring' || 
+                         normalizedSeason === 'summer' || 
+                         normalizedSeason === 'autumn' || 
+                         normalizedSeason === 'winter' || 
+                         normalizedSeason === 'fall') 
+                         ? (normalizedSeason === 'fall' ? 'autumn' : normalizedSeason) as Season 
+                         : defaultSeason;
+    
+    const seasonalData = seasonalPatterns[validSeason];
+    
+    // Function to check if string is a valid RulingPlanet
+    const isRulingPlanet = (planet: string): planet is RulingPlanet => {
+      return Object.keys(PLANETARY_MODIFIERS).includes(planet);
     };
-
-    const safeRecipeElements = recipeElements || { ...defaultElements };
-    const safeUserElements = userElements || { ...defaultElements };
-    const safeSeason = season || 'spring';
-
-    const astroModifiers = this.getAstrologicalModifiers(astrologicalState);
-    const seasonModifiers = this.seasonalModifiers[safeSeason.toLowerCase()] || { ...defaultElements };
-
-    let elementalHarmony = 0;
-    let astrologicalPower = 0;
-    let seasonalAlignment = 0;
-    let totalFactors = 0;
-
-    Object.entries(safeRecipeElements).forEach(([element, value]) => {
-      if (safeUserElements[element as keyof ElementalProperties] !== undefined) {
-        const userValue = safeUserElements[element as keyof ElementalProperties];
-        const astroValue = astroModifiers[element as keyof ElementalProperties] || 0.25;
-        const seasonValue = seasonModifiers[element as keyof ElementalProperties] || 0.25;
-
-        const baseHarmony = 1 - Math.abs(value - userValue);
-        const astroHarmony = baseHarmony * astroValue;
-        const seasonHarmony = baseHarmony * seasonValue;
-
-        elementalHarmony += baseHarmony;
-        astrologicalPower += astroHarmony;
-        seasonalAlignment += seasonHarmony;
-        totalFactors++;
-      }
-    });
-
-    const normalizedFactors = Math.max(totalFactors, 1);
-
+    
+    // Simple matching score based on astrological state only
+    const astronomicalScore = astrologicalState?.activePlanets
+      ? astrologicalState.activePlanets
+          .filter(p => isRulingPlanet(p) && PLANETARY_MODIFIERS[p] > 0)
+          .length * 10
+      : 0;
+      
+    // Aspect match score
+    const aspectScore = 0;
+    
+    // Cuisine compatibility
+    const cuisineScore = cuisine
+      ? this.getCuisineCompatibility(cuisine, astrologicalState, season)
+      : 0;
+      
+    // Calculate total score without elemental balance
+    const totalScore = astronomicalScore + aspectScore + cuisineScore;
+    
     return {
-      elementalHarmony: elementalHarmony / normalizedFactors,
-      astrologicalPower: astrologicalPower / normalizedFactors,
-      seasonalAlignment: seasonalAlignment / normalizedFactors,
-      totalScore: (elementalHarmony + astrologicalPower + seasonalAlignment) / (3 * normalizedFactors)
+      score: totalScore,
+      elementalMatch: 0, // We don't calculate elemental match here
+      seasonalMatch: 0, // We don't calculate seasonal match here
+      astrologicalMatch: astronomicalScore + aspectScore,
+      dominantElement: dominantElement as keyof ElementalProperties,
+      recommendations: [],
+      warnings: []
     };
+  }
+
+  private getCuisineCompatibility(cuisine: string, astroState?: AstrologicalState, season?: string): number {
+    if (!astroState || !cuisine) return 0;
+    
+    const traditions = culinaryTraditions[cuisine];
+    if (!traditions) return 0;
+    
+    let score = 0;
+    
+    // Match cuisine to zodiac sign
+    if (astroState.zodiacSign && 
+        traditions.astrologicalProfile.favorableZodiac.includes(astroState.zodiacSign.toLowerCase())) {
+      score += 20;
+    }
+    
+    // Match cuisine to planets
+    if (astroState.activePlanets) {
+      const planetMatches = traditions.astrologicalProfile.rulingPlanets
+        .filter((p: RulingPlanet) => astroState.activePlanets.includes(p));
+      score += planetMatches.length * 10;
+    }
+    
+    // Season bonus
+    if (season && traditions.seasonalPreference.includes(season.toLowerCase())) {
+      score += 15;
+    }
+    
+    return score;
+  }
+
+  private calculateDominantHarmony(dominantElement: string, userElements: ElementalProperties): number {
+    // Focus only on the dominant element match
+    return Math.min(userElements[dominantElement] * 2, 1); // Aggressive scaling
   }
 
   calculateAstrologicalPower(
@@ -189,18 +240,22 @@ export class AlchemicalEngine {
   ): number {
     let power = 0;
 
+    // Using properties that exist in AstrologicalState
     const recipeElement = this.zodiacElements[recipeSunSign];
-    const sunElement = this.zodiacElements[astrologicalState.sunSign];
-    const moonElement = this.zodiacElements[astrologicalState.moonSign];
+    const currentZodiacElement = this.zodiacElements[astrologicalState.currentZodiac];
+    const moonSignElement = this.zodiacElements[astrologicalState.zodiacSign];
 
-    if (recipeElement === sunElement) power += 0.4;
+    if (recipeElement === currentZodiacElement) power += 0.4;
 
-    if (this.elementalAffinities[recipeElement]?.includes(String(moonElement))) {
+    if (this.elementalAffinities[recipeElement]?.includes(String(moonSignElement))) {
       power += 0.3;
     }
 
-    const lunarModifier = this.lunarPhaseModifiers[astrologicalState.lunarPhase];
-    power += lunarModifier[recipeElement] || 0;
+    // Use the lunarPhase that exists in AstrologicalState
+    if (astrologicalState.lunarPhase && this.lunarPhaseModifiers[astrologicalState.lunarPhase]) {
+      const lunarModifier = this.lunarPhaseModifiers[astrologicalState.lunarPhase];
+      power += lunarModifier[recipeElement] || 0;
+    }
 
     return Math.min(power, 1);
   }
@@ -215,8 +270,8 @@ export class AlchemicalEngine {
         };
     }
 
-    const sunElement = this.zodiacElements[astrologicalState.sunSign] || 'Fire';
-    const moonElement = this.zodiacElements[astrologicalState.moonSign] || 'Water';
+    const currentZodiacElement = this.zodiacElements[astrologicalState.currentZodiac] || 'Fire';
+    const moonSignElement = this.zodiacElements[astrologicalState.zodiacSign] || 'Water';
     const lunarModifiers = this.lunarPhaseModifiers[astrologicalState.lunarPhase] || {
         Fire: 0.25,
         Water: 0.25,
@@ -231,8 +286,8 @@ export class AlchemicalEngine {
       Earth: 0.25
     };
 
-    baseModifiers[sunElement] += 0.2;
-    baseModifiers[moonElement] += 0.1;
+    baseModifiers[currentZodiacElement] += 0.2;
+    baseModifiers[moonSignElement] += 0.1;
 
     Object.entries(lunarModifiers).forEach(([element, value]) => {
       baseModifiers[element as keyof ElementalProperties] *= value;
@@ -248,9 +303,10 @@ export class AlchemicalEngine {
 
   getElementalAffinity(element1: keyof ElementalProperties, element2: keyof ElementalProperties): ElementalAffinity {
     return {
-      element: element2,
+      element: element2 as Element,
       strength: element1 === element2 ? 1 : 
-                this.elementalAffinities[element1]?.includes(element2) ? 0.5 : 0
+                this.elementalAffinities[element1]?.includes(String(element2)) ? 0.5 : 0,
+      source: 'element-compatibility'
     };
   }
 
@@ -260,9 +316,10 @@ export class AlchemicalEngine {
     season: string
   ): AstrologicalInfluence {
     return {
-      zodiacElement: this.zodiacElements[astrologicalState.sunSign],
-      lunarModifier: this.lunarPhaseModifiers[astrologicalState.lunarPhase][element],
-      seasonalModifier: this.seasonalModifiers[season][element]
+      planet: 'Sun', // Default to Sun as primary influence
+      sign: astrologicalState.currentZodiac,
+      element: element as Element,
+      strength: this.seasonalModifiers[season]?.[element] || 0.5
     };
   }
 
@@ -347,5 +404,51 @@ export class AlchemicalEngine {
     }
 
     return result;
+  }
+
+  calculateRecipeHarmony(
+    recipeName: string,
+    userElements: ElementalProperties,
+    astroState: AstrologicalState
+  ): RecipeHarmonyResult {
+    const recipe = recipeElementalMappings[recipeName];
+    
+    // For now we'll just pass a default season until we fix the calculateAstroCuisineMatch method
+    const currentSeason: Season = 'winter'; // Default to winter
+    
+    const baseHarmony = this.calculateAstroCuisineMatch(
+      recipe.elementalProperties,
+      astroState,
+      currentSeason,
+      recipe.cuisine
+    );
+
+    const cuisineAlignment = recipeCalculations.calculateCuisineAlignment(recipe);
+    
+    // Since AstrologicalState doesn't have an 'aspects' property, we'll use a fallback
+    const aspectBonus = recipe.astrologicalProfile && recipe.astrologicalProfile.optimalAspects ? 
+      recipe.astrologicalProfile.optimalAspects.length * 0.05 : 0; // Use a small constant multiplier
+
+    return {
+      ...baseHarmony,
+      recipeSpecificBoost: cuisineAlignment + aspectBonus,
+      optimalTimingWindows: recipe.astrologicalProfile?.optimalAspects?.map(a => `Optimal with ${a}`) || [],
+      elementalMultipliers: {} // Return an empty object for now
+    };
+  }
+
+  private calculateAstrologicalInfluence(
+    astrologicalState: AstrologicalState
+  ): ElementalProperties {
+    // Updated to use correct properties from AstrologicalState
+    const sunInfluence = getZodiacElementalInfluence(astrologicalState.currentZodiac);
+    const moonInfluence = getZodiacElementalInfluence(astrologicalState.zodiacSign);
+    
+    return {
+      Fire: (sunInfluence.Fire + moonInfluence.Fire) / 2,
+      Water: (sunInfluence.Water + moonInfluence.Water) / 2,
+      Earth: (sunInfluence.Earth + moonInfluence.Earth) / 2,
+      Air: (sunInfluence.Air + moonInfluence.Air) / 2
+    };
   }
 } 

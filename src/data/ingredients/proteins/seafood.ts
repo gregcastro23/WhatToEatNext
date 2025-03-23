@@ -1,12 +1,40 @@
 import type { IngredientMapping } from '@/types/alchemy';
 
 export const seafood: Record<string, IngredientMapping> = {
-  'salmon_atlantic': {
-    elementalProperties: { Water: 0.5, Fire: 0.2, Air: 0.2 },
-    qualities: ['rich', 'fatty', 'versatile'],
+  'atlantic_salmon': {
+    name: 'Atlantic Salmon',
+    category: 'protein',
+    subCategory: 'seafood',
+    elementalProperties: { Water: 0.6, Earth: 0.2, Fire: 0.1, Air: 0.1 },
+    astrologicalProfile: {
+      rulingPlanets: ['Moon', 'Neptune'],
+      favorableZodiac: ['Cancer', 'Pisces'],
+      elementalAffinity: {
+        base: 'Water',
+        decanModifiers: {
+          first: { element: 'Water', planet: 'Moon' },
+          second: { element: 'Earth', planet: 'Neptune' },
+          third: { element: 'Air', planet: 'Mercury' }
+        }
+      },
+      lunarPhaseModifiers: {
+        newMoon: {
+          elementalBoost: { Water: 0.1, Earth: 0.1 },
+          preparationTips: ['Best for raw preparations']
+        },
+        fullMoon: {
+          elementalBoost: { Water: 0.2 },
+          preparationTips: ['Ideal for grilling']
+        }
+      },
+      aspectEnhancers: ['Moon trine Neptune', 'Jupiter in Pisces']
+    },
+    qualities: ['omega-rich', 'flaky', 'buttery'],
     origin: ['Norway', 'Scotland', 'Chile'],
-    category: 'seafood',
-    subCategory: 'fish',
+    sustainability: {
+      rating: 'Best Choice',
+      source: 'MSC'
+    },
     varieties: {
       'Farm Raised': {
         appearance: 'light orange-pink',
@@ -39,6 +67,10 @@ export const seafood: Record<string, IngredientMapping> = {
       }
     },
     culinaryApplications: {
+      'grill': {
+        temperature: { celsius: 190, fahrenheit: 375 },
+        timing: '4-5 minutes per side'
+      },
       'pan_sear': {
         method: 'high heat, skin-on',
         temperature: 'medium-high',
@@ -161,7 +193,34 @@ export const seafood: Record<string, IngredientMapping> = {
     }
   },
   'shrimp_jumbo': {
-    elementalProperties: { Water: 0.5, Fire: 0.2, Earth: 0.1 },
+    elementalProperties: { 
+      Water: 0.5, 
+      Air: 0.3, 
+      Fire: 0.1, 
+      Earth: 0.1 
+    },
+    astrologicalProfile: {
+      rulingPlanets: ['Moon', 'Neptune'],
+      favorableZodiac: ['cancer', 'scorpio', 'pisces'],
+      elementalAffinity: {
+        base: 'Water',
+        decanModifiers: {
+          first: { element: 'Water', planet: 'Moon' },
+          second: { element: 'Earth', planet: 'Saturn' },
+          third: { element: 'Air', planet: 'Mercury' }
+        }
+      },
+      lunarPhaseModifiers: {
+        waxingCrescent: {
+          elementalBoost: { Water: 0.1, Fire: 0.1 },
+          preparationTips: ['Best for grilling']
+        },
+        fullMoon: {
+          elementalBoost: { Water: 0.2 },
+          preparationTips: ['Ideal for steaming']
+        }
+      }
+    },
     qualities: ['sweet', 'firm', 'versatile'],
     origin: ['Gulf Coast', 'South Pacific', 'Indian Ocean'],
     category: 'seafood',
@@ -297,110 +356,199 @@ export const seafood: Record<string, IngredientMapping> = {
     }
   },
   'lobster_maine': {
-    elementalProperties: { Water: 0.6, Earth: 0.1, Fire: 0.1 },
-    qualities: ['sweet', 'luxurious', 'tender'],
-    origin: ['North Atlantic', 'Maine Coast', 'Nova Scotia'],
-    category: 'seafood',
+    name: 'lobster_maine',
+    elementalProperties: { Water: 0.6, Earth: 0.3, Fire: 0.1 },
+    astrologicalProfile: {
+      rulingPlanets: ['Moon', 'Neptune'],
+      favorableZodiac: ['cancer', 'scorpio', 'pisces'],
+      elementalAffinity: {
+        base: 'Water',
+        decanModifiers: {
+          first: { element: 'Water', planet: 'Moon' },
+          second: { element: 'Earth', planet: 'Saturn' },
+          third: { element: 'Air', planet: 'Mercury' }
+        }
+      },
+      lunarPhaseModifiers: {
+        newMoon: {
+          elementalBoost: { Water: 0.1, Earth: 0.1 },
+          preparationTips: ['Best for curing']
+        },
+        fullMoon: {
+          elementalBoost: { Water: 0.2 },
+          preparationTips: ['Ideal for poaching']
+        }
+      }
+    },
+    qualities: ['sweet', 'rich', 'luxurious'],
+    origin: ['North Atlantic', 'Maine Coast'],
+    category: 'protein',
     subCategory: 'shellfish',
     varieties: {
       'Hard Shell': {
-        appearance: 'dark blue-green',
-        meat: 'firm, full',
-        season: 'winter',
-        notes: 'best for shipping'
+        appearance: 'dark blue-black shell',
+        texture: 'firm, dense',
+        flavor: 'sweet, briny',
+        notes: 'best for boiling'
       },
       'Soft Shell': {
-        appearance: 'lighter blue-green',
-        meat: 'tender, less dense',
-        season: 'summer',
-        notes: 'preferred eating'
-      },
-      'Culls': {
-        description: 'missing one claw',
-        price: 'lower',
-        usage: 'meat preparations'
+        appearance: 'softer, lighter shell',
+        texture: 'tender, delicate',
+        flavor: 'sweet, mild',
+        notes: 'ideal for grilling'
       }
     },
     culinaryApplications: {
-      'steamed': {
-        method: 'live steam',
-        timing: {
-          '1-1.5 lbs': '8-10 minutes',
-          '1.5-2 lbs': '10-12 minutes',
-          '2-3 lbs': '12-14 minutes'
-        },
-        technique: {
-          preparation: 'rinse, remove bands',
-          position: 'head down in pot',
-          finish: 'ice bath if serving cold'
+      'boil': {
+        method: 'live lobster in salted water',
+        timing: '8-10 minutes per pound',
+        accompaniments: ['melted butter', 'lemon']
+      },
+      'grill': {
+        method: 'split and grill shell-side down',
+        timing: '5-7 minutes',
+        seasoning: ['butter', 'garlic', 'parsley']
+      }
+    }
+  },
+  'mussels_blue': {
+    name: 'mussels_blue',
+    elementalProperties: { Water: 0.6, Earth: 0.3, Fire: 0.05, Air: 0.05 },
+    astrologicalProfile: {
+      rulingPlanets: ['Moon', 'Neptune'],
+      favorableZodiac: ['cancer', 'scorpio', 'pisces'],
+      elementalAffinity: {
+        base: 'Water',
+        decanModifiers: {
+          first: { element: 'Water', planet: 'Moon' },
+          second: { element: 'Earth', planet: 'Saturn' },
+          third: { element: 'Air', planet: 'Mercury' }
         }
       },
-      'boiled': {
-        method: 'salted water',
-        timing: {
-          '1-1.5 lbs': '7-9 minutes',
-          '1.5-2 lbs': '9-11 minutes',
-          '2-3 lbs': '11-13 minutes'
+      lunarPhaseModifiers: {
+        waxingCrescent: {
+          elementalBoost: { Water: 0.1, Fire: 0.1 },
+          preparationTips: ['Best for grilling']
         },
-        technique: {
-          water: 'heavily salted like sea water',
-          position: 'submerge head first',
-          finish: 'drain and serve'
-        }
-      },
-      'split_and_grilled': {
-        method: 'halve live lobster',
-        preparation: {
-          cutting: 'swift cut through head',
-          cleaning: 'remove tomalley, optional roe',
-          seasoning: 'brush with butter, herbs'
-        },
-        cooking: {
-          temperature: 'medium-high direct heat',
-          timing: '5-6 minutes per side',
-          basting: 'frequent butter brush'
+        fullMoon: {
+          elementalBoost: { Water: 0.2 },
+          preparationTips: ['Ideal for steaming']
         }
       }
     },
-    regionalPreparations: {
-      'new_england': {
-        'classic_boiled': {
-          service: ['drawn butter', 'lemon'],
-          sides: ['corn', 'potatoes', 'steamers'],
-          presentation: 'newspaper covered table'
-        },
-        'lobster_roll': {
-          bread: 'split-top bun, grilled',
-          variations: {
-            'maine': {
-              dressing: 'light mayo',
-              seasoning: 'celery, herbs',
-              temperature: 'chilled'
-            },
-            'connecticut': {
-              dressing: 'warm butter',
-              seasoning: 'light herbs',
-              temperature: 'warm'
-            }
-          }
+    qualities: ['briny', 'sweet', 'tender'],
+    origin: ['North Atlantic', 'Mediterranean'],
+    category: 'protein',
+    subCategory: 'shellfish',
+    varieties: {
+      'Wild': {
+        appearance: 'blue-black shells',
+        texture: 'firm, plump',
+        flavor: 'intense, briny',
+        notes: 'best for steaming'
+      },
+      'Farm Raised': {
+        appearance: 'cleaner shells',
+        texture: 'tender, consistent',
+        flavor: 'milder, sweeter',
+        notes: 'more consistent size'
+      }
+    },
+    culinaryApplications: {
+      'steam': {
+        method: 'steam in white wine broth',
+        timing: '5-7 minutes',
+        accompaniments: ['garlic', 'shallots', 'parsley']
+      },
+      'grill': {
+        method: 'grill in shell until open',
+        timing: '3-4 minutes',
+        seasoning: ['garlic butter', 'lemon zest']
+      }
+    }
+  },
+  'oysters_eastern': {
+    name: 'oysters_eastern',
+    elementalProperties: { Water: 0.55, Earth: 0.35, Fire: 0.05, Air: 0.05 },
+    astrologicalProfile: {
+      rulingPlanets: ['Moon', 'Neptune'],
+      favorableZodiac: ['cancer', 'scorpio', 'pisces'],
+      elementalAffinity: {
+        base: 'Water',
+        decanModifiers: {
+          first: { element: 'Water', planet: 'Moon' },
+          second: { element: 'Earth', planet: 'Saturn' },
+          third: { element: 'Air', planet: 'Mercury' }
         }
       },
-      'french': {
-        'thermidor': {
-          sauce: 'mustard-cream gratinée',
-          preparation: 'meat removed, mixed, restuffed',
-          garnish: 'broiled cheese crust'
+      lunarPhaseModifiers: {
+        waxingCrescent: {
+          elementalBoost: { Water: 0.1, Earth: 0.1 },
+          preparationTips: ['Best for grilling']
         },
-        'américaine': {
-          sauce: 'tomato-cognac',
-          method: 'flambéed',
-          service: 'in shell pieces'
+        fullMoon: {
+          elementalBoost: { Water: 0.2 },
+          preparationTips: ['Ideal for poaching']
         }
+      }
+    },
+    qualities: ['briny', 'creamy', 'mineral'],
+    origin: ['East Coast', 'Chesapeake Bay'],
+    category: 'protein',
+    subCategory: 'shellfish',
+    varieties: {
+      'Blue Point': {
+        appearance: 'teardrop shape',
+        flavor: 'balanced brininess',
+        notes: 'classic East Coast oyster'
+      },
+      'Wellfleet': {
+        appearance: 'deep cup',
+        flavor: 'sweet, clean finish',
+        notes: 'premium Massachusetts variety'
+      }
+    },
+    culinaryApplications: {
+      'raw': {
+        method: 'served on the half shell',
+        accompaniments: ['mignonette', 'lemon', 'horseradish']
+      },
+      'grill': {
+        method: 'grill until shells open',
+        timing: '5-6 minutes',
+        toppings: ['garlic butter', 'parmesan', 'breadcrumbs']
       }
     }
   },
   'halibut_pacific': {
-    elementalProperties: { Water: 0.5, Air: 0.1, Earth: 0.1 },
+    elementalProperties: { 
+      Water: 0.45, 
+      Air: 0.4, 
+      Earth: 0.1, 
+      Fire: 0.05 
+    },
+    astrologicalProfile: {
+      rulingPlanets: ['Moon', 'Neptune'],
+      favorableZodiac: ['cancer', 'scorpio', 'pisces'],
+      elementalAffinity: {
+        base: 'Water',
+        decanModifiers: {
+          first: { element: 'Water', planet: 'Moon' },
+          second: { element: 'Earth', planet: 'Saturn' },
+          third: { element: 'Air', planet: 'Mercury' }
+        }
+      },
+      lunarPhaseModifiers: {
+        newMoon: {
+          elementalBoost: { Water: 0.1, Earth: 0.1 },
+          preparationTips: ['Best for curing']
+        },
+        fullMoon: {
+          elementalBoost: { Water: 0.2 },
+          preparationTips: ['Ideal for poaching']
+        }
+      }
+    },
     qualities: ['lean', 'firm', 'delicate'],
     origin: ['North Pacific', 'Alaska'],
     category: 'seafood',
@@ -559,10 +707,33 @@ export const seafood: Record<string, IngredientMapping> = {
     }
   },
   'sea_bass_chilean': {
-    elementalProperties: { Water: 0.4, Earth: 0.2, Fire: 0.1 },
+    name: 'sea_bass_chilean',
+    elementalProperties: { Water: 0.4, Earth: 0.2, Fire: 0.3, Air: 0.1 },
+    astrologicalProfile: {
+      rulingPlanets: ['Moon', 'Neptune'],
+      favorableZodiac: ['cancer', 'scorpio', 'pisces'],
+      elementalAffinity: {
+        base: 'Water',
+        decanModifiers: {
+          first: { element: 'Water', planet: 'Moon' },
+          second: { element: 'Earth', planet: 'Saturn' },
+          third: { element: 'Air', planet: 'Mercury' }
+        }
+      },
+      lunarPhaseModifiers: {
+        waxingCrescent: {
+          elementalBoost: { Water: 0.1, Earth: 0.1 },
+          preparationTips: ['Best for grilling']
+        },
+        fullMoon: {
+          elementalBoost: { Water: 0.2 },
+          preparationTips: ['Ideal for poaching']
+        }
+      }
+    },
     qualities: ['buttery', 'rich', 'moist'],
     origin: ['South Pacific', 'Antarctic Waters'],
-    category: 'seafood',
+    category: 'protein',
     subCategory: 'white_fish',
     varieties: {
       'Chilean': {
@@ -585,25 +756,6 @@ export const seafood: Record<string, IngredientMapping> = {
             preparation: 'whole fish',
             aromatics: ['ginger', 'scallion', 'cilantro'],
             sauce: 'soy-sesame'
-          },
-          'en_papillote': {
-            preparation: 'fillets',
-            aromatics: ['herbs', 'citrus', 'wine'],
-            timing: '12-15 minutes'
-          }
-        }
-      },
-      'roast': {
-        method: 'dry heat',
-        temperature: {
-          fahrenheit: 400,
-          celsius: 200
-        },
-        techniques: {
-          'crispy_skin': {
-            preparation: 'score skin, dry thoroughly',
-            method: 'start skin side down',
-            finish: 'flip and roast'
           }
         }
       }
@@ -664,7 +816,29 @@ export const seafood: Record<string, IngredientMapping> = {
     }
   },
   'cod_atlantic': {
-    elementalProperties: { Water: 0.6, Earth: 0.1, Air: 0.1 },
+    elementalProperties: { Water: 0.7, Earth: 0.15, Air: 0.15 },
+    astrologicalProfile: {
+      rulingPlanets: ['Moon', 'Neptune'],
+      favorableZodiac: ['cancer', 'scorpio', 'pisces'],
+      elementalAffinity: {
+        base: 'Water',
+        decanModifiers: {
+          first: { element: 'Water', planet: 'Moon' },
+          second: { element: 'Earth', planet: 'Saturn' },
+          third: { element: 'Air', planet: 'Mercury' }
+        }
+      },
+      lunarPhaseModifiers: {
+        newMoon: {
+          elementalBoost: { Water: 0.1, Earth: 0.1 },
+          preparationTips: ['Best for curing']
+        },
+        fullMoon: {
+          elementalBoost: { Water: 0.2 },
+          preparationTips: ['Ideal for poaching']
+        }
+      }
+    },
     qualities: ['mild', 'flaky', 'lean'],
     origin: ['North Atlantic', 'Baltic Sea'],
     category: 'seafood',
@@ -791,7 +965,29 @@ export const seafood: Record<string, IngredientMapping> = {
     }
   },
   'sole_dover': {
-    elementalProperties: { Water: 0.7, Air: 0.2 },
+    elementalProperties: { Water: 0.6, Air: 0.35, Earth: 0.05 },
+    astrologicalProfile: {
+      rulingPlanets: ['Moon', 'Neptune'],
+      favorableZodiac: ['cancer', 'scorpio', 'pisces'],
+      elementalAffinity: {
+        base: 'Water',
+        decanModifiers: {
+          first: { element: 'Water', planet: 'Moon' },
+          second: { element: 'Earth', planet: 'Saturn' },
+          third: { element: 'Air', planet: 'Mercury' }
+        }
+      },
+      lunarPhaseModifiers: {
+        waxingCrescent: {
+          elementalBoost: { Water: 0.1, Earth: 0.1 },
+          preparationTips: ['Best for grilling']
+        },
+        fullMoon: {
+          elementalBoost: { Water: 0.2 },
+          preparationTips: ['Ideal for poaching']
+        }
+      }
+    },
     qualities: ['delicate', 'tender', 'mild'],
     origin: ['North Atlantic', 'Mediterranean'],
     category: 'seafood',
@@ -880,11 +1076,396 @@ export const seafood: Record<string, IngredientMapping> = {
     }
   },
   'flounder_whole': {
-    elementalProperties: { Water: 0.6, Air: 0.2, Earth: 0.1 },
+    elementalProperties: { Water: 0.5, Air: 0.35, Earth: 0.1, Fire: 0.05 },
+    astrologicalProfile: {
+      rulingPlanets: ['Moon', 'Neptune'],
+      favorableZodiac: ['cancer', 'scorpio', 'pisces'],
+      elementalAffinity: {
+        base: 'Water',
+        decanModifiers: {
+          first: { element: 'Water', planet: 'Moon' },
+          second: { element: 'Earth', planet: 'Saturn' },
+          third: { element: 'Air', planet: 'Mercury' }
+        }
+      },
+      lunarPhaseModifiers: {
+        waxingCrescent: {
+          elementalBoost: { Water: 0.1, Earth: 0.1 },
+          preparationTips: ['Best for grilling']
+        },
+        fullMoon: {
+          elementalBoost: { Water: 0.2 },
+          preparationTips: ['Ideal for poaching']
+        }
+      }
+    },
     qualities: ['delicate', 'sweet', 'lean'],
     origin: ['North Atlantic', 'Pacific Coast'],
     category: 'seafood',
     subCategory: 'flatfish',
+    varieties: {
+      'Summer': {
+        appearance: 'brown top, white bottom',
+        season: 'peak in summer',
+        notes: 'preferred eating'
+      },
+      'Winter': {
+        appearance: 'darker coloring',
+        season: 'peak in winter',
+        notes: 'slightly firmer texture'
+      }
+    },
+    culinaryApplications: {
+      'chinese': {
+        'steamed': {
+          method: 'whole fish steamed',
+          sauce: 'ginger-scallion soy',
+          timing: '8-10 minutes total'
+        },
+        'pan_fried': {
+          method: 'light dredge, pan-fried',
+          sauce: 'sweet-sour',
+          garnish: ['scallions', 'cilantro']
+        }
+      },
+      'western': {
+        'broiled': {
+          method: 'brushed with butter',
+          seasoning: ['herbs', 'lemon'],
+          timing: '6-8 minutes total'
+        }
+      }
+    },
+    regionalPreparations: {
+      'asian': {
+        'cantonese': {
+          method: 'steamed whole',
+          aromatics: ['ginger', 'scallion', 'cilantro'],
+          sauce: 'hot oil and soy finish'
+        },
+        'korean': {
+          method: 'pan-fried whole',
+          sauce: 'gochugaru-based',
+          accompaniments: ['banchan', 'rice']
+        }
+      }
+    },
+    saucePairings: {
+      'asian': {
+        'ginger_scallion': {
+          base: 'hot oil infusion',
+          aromatics: ['ginger', 'scallion'],
+          finish: 'light soy sauce'
+        }
+      },
+      'western': {
+        'herb_butter': {
+          base: 'melted butter',
+          herbs: ['parsley', 'dill'],
+          finish: 'lemon juice'
+        }
+      }
+    },
+    seasonalAdjustments: {
+      'summer': {
+        preparations: ['steamed', 'grilled'],
+        sauces: ['light soy', 'herb'],
+        accompaniments: ['summer greens', 'light vegetables']
+      },
+      'winter': {
+        preparations: ['pan-fried', 'baked'],
+        sauces: ['brown butter', 'light cream'],
+        accompaniments: ['braised greens', 'root vegetables']
+      }
+    },
+    safetyThresholds: {
+      cooking: {
+        temperature: { fahrenheit: 145, celsius: 63 },
+        visual: 'opaque, flakes easily',
+        notes: 'careful not to overcook'
+      }
+    }
+  },
+  'sea_bass_mediterranean': {
+    elementalProperties: { 
+      Water: 0.4, 
+      Air: 0.25, 
+      Earth: 0.25, 
+      Fire: 0.1 
+    },
+    astrologicalProfile: {
+      rulingPlanets: ['Moon', 'Neptune'],
+      favorableZodiac: ['cancer', 'scorpio', 'pisces'],
+      elementalAffinity: {
+        base: 'Water',
+        decanModifiers: {
+          first: { element: 'Water', planet: 'Moon' },
+          second: { element: 'Earth', planet: 'Saturn' },
+          third: { element: 'Air', planet: 'Mercury' }
+        }
+      },
+      lunarPhaseModifiers: {
+        waxingCrescent: {
+          elementalBoost: { Water: 0.1, Fire: 0.1 },
+          preparationTips: ['Best for grilling']
+        },
+        fullMoon: {
+          elementalBoost: { Water: 0.2 },
+          preparationTips: ['Ideal for poaching']
+        }
+      }
+    },
+    qualities: ['delicate', 'mild', 'flaky'],
+    origin: ['Mediterranean Sea', 'Atlantic Coast'],
+    category: 'seafood',
+    subCategory: 'fish',
+    varieties: {
+      'Wild': {
+        appearance: 'silvery with dark back',
+        texture: 'firm, fine flake',
+        flavor: 'sweet, mild',
+        uses: 'premium preparations'
+      },
+      'Farmed': {
+        appearance: 'lighter coloring',
+        texture: 'medium-firm',
+        flavor: 'mild',
+        uses: 'all-purpose'
+      }
+    },
+    cuts: {
+      'whole': {
+        description: 'entire fish, scaled and gutted',
+        weight: '2-4 lbs',
+        notes: 'ideal for roasting or grilling'
+      },
+      'fillet': {
+        description: 'boneless sides',
+        weight: '6-8 oz per serving',
+        notes: 'versatile cut'
+      }
+    },
+    culinaryApplications: {
+      'grilled_whole': {
+        method: 'stuffed and grilled',
+        temperature: 'medium-high',
+        timing: {
+          'per_side': '6-8 minutes',
+          'total': '12-15 minutes',
+          'resting': '5 minutes'
+        },
+        techniques: {
+          'stuffing': {
+            ingredients: ['herbs', 'citrus', 'garlic'],
+            method: 'stuff cavity lightly'
+          },
+          'scoring': {
+            method: 'diagonal cuts on sides',
+            depth: '1/4 inch',
+            purpose: 'even cooking'
+          }
+        }
+      },
+      'pan_roasted': {
+        method: 'skin-on fillet',
+        temperature: {
+          fahrenheit: 375,
+          celsius: 190
+        },
+        timing: {
+          'skin_side': '4-5 minutes',
+          'flesh_side': '2-3 minutes',
+          'resting': '3-4 minutes'
+        }
+      }
+    },
+    seasonalAdjustments: {
+      'summer': {
+        methods: ['grill', 'pan-sear'],
+        preparations: {
+          'grilled': {
+            style: 'whole fish',
+            accompaniments: ['herb sauce', 'grilled lemon']
+          }
+        }
+      },
+      'winter': {
+        methods: ['roast', 'braise'],
+        preparations: {
+          'roasted': {
+            style: 'fillets',
+            sauces: ['butter sauce', 'wine reduction']
+          }
+        }
+      }
+    },
+    storage: {
+      fresh: {
+        temperature: { fahrenheit: 32, celsius: 0 },
+        duration: '1-2 days',
+        method: 'on ice, uncovered'
+      },
+      frozen: {
+        temperature: { fahrenheit: 0, celsius: -18 },
+        duration: '4-6 months',
+        method: 'vacuum sealed'
+      }
+    },
+    safetyThresholds: {
+      cooked: {
+        minimum: { fahrenheit: 145, celsius: 63 },
+        visual: 'opaque, flakes easily',
+        resting: '3-5 minutes'
+      }
+    }
+  },
+  'octopus_mediterranean': {
+    elementalProperties: { 
+      Water: 0.35, 
+      Earth: 0.35, 
+      Fire: 0.2, 
+      Air: 0.1 
+    },
+    astrologicalProfile: {
+      rulingPlanets: ['Moon', 'Neptune'],
+      favorableZodiac: ['cancer', 'scorpio', 'pisces'],
+      elementalAffinity: {
+        base: 'Water',
+        decanModifiers: {
+          first: { element: 'Water', planet: 'Moon' },
+          second: { element: 'Earth', planet: 'Saturn' },
+          third: { element: 'Air', planet: 'Mercury' }
+        }
+      },
+      lunarPhaseModifiers: {
+        waxingCrescent: {
+          elementalBoost: { Water: 0.1, Fire: 0.1 },
+          preparationTips: ['Best for grilling']
+        },
+        fullMoon: {
+          elementalBoost: { Water: 0.2 },
+          preparationTips: ['Ideal for poaching']
+        }
+      }
+    },
+    qualities: ['tender', 'meaty', 'versatile'],
+    origin: ['Mediterranean Sea', 'Pacific Ocean'],
+    category: 'seafood',
+    subCategory: 'cephalopod',
+    varieties: {
+      'Common': {
+        appearance: 'reddish-purple',
+        texture: 'firm, tender when cooked',
+        size: '2-4 lbs average',
+        uses: 'grilling, braising'
+      },
+      'Baby': {
+        appearance: 'lighter color',
+        texture: 'very tender',
+        size: '4-8 oz',
+        uses: 'quick cooking methods'
+      }
+    },
+    preparation: {
+      'tenderizing': {
+        methods: ['massage with salt', 'freeze/thaw'],
+        timing: '15-20 minutes massage',
+        notes: 'breaks down muscle fibers'
+      },
+      'cleaning': {
+        steps: [
+          'remove beak',
+          'clean head cavity',
+          'remove eyes'
+        ],
+        notes: 'careful with ink sac'
+      }
+    },
+    culinaryApplications: {
+      'traditional_braise': {
+        method: 'slow cook in aromatic liquid',
+        temperature: {
+          fahrenheit: 200,
+          celsius: 93
+        },
+        timing: {
+          'total': '45-60 minutes',
+          'testing': 'pierce with knife for tenderness'
+        },
+        aromatics: ['wine', 'herbs', 'garlic', 'olive oil']
+      },
+      'grilled': {
+        method: 'pre-tenderize, then grill',
+        temperature: 'medium-high',
+        timing: {
+          'per_side': '3-4 minutes',
+          'total': '8-10 minutes'
+        },
+        finish: 'olive oil, lemon, herbs'
+      }
+    },
+    regionalPreparations: {
+      'greek': {
+        'htapodi_sharas': {
+          method: 'grilled with olive oil',
+          service: 'with ladolemono sauce',
+          accompaniments: ['oregano', 'lemon']
+        }
+      },
+      'spanish': {
+        'pulpo_gallega': {
+          method: 'boiled then grilled',
+          service: 'with paprika and olive oil',
+          accompaniments: ['potatoes', 'sea salt']
+        }
+      }
+    },
+    storage: {
+      fresh: {
+        temperature: { fahrenheit: 34, celsius: 1 },
+        duration: '1-2 days',
+        method: 'on ice, wrapped'
+      },
+      frozen: {
+        temperature: { fahrenheit: 0, celsius: -18 },
+        duration: '6-8 months',
+        method: 'vacuum sealed'
+      }
+    }
+  },
+  'scallops_sea': {
+    elementalProperties: { 
+      Water: 0.6, 
+      Air: 0.25, 
+      Fire: 0.1, 
+      Earth: 0.05 
+    },
+    astrologicalProfile: {
+      rulingPlanets: ['Moon', 'Neptune'],
+      favorableZodiac: ['cancer', 'scorpio', 'pisces'],
+      elementalAffinity: {
+        base: 'Water',
+        decanModifiers: {
+          first: { element: 'Water', planet: 'Moon' },
+          second: { element: 'Earth', planet: 'Saturn' },
+          third: { element: 'Air', planet: 'Mercury' }
+        }
+      },
+      lunarPhaseModifiers: {
+        waxingCrescent: {
+          elementalBoost: { Water: 0.1, Fire: 0.1 },
+          preparationTips: ['Best for grilling']
+        },
+        fullMoon: {
+          elementalBoost: { Water: 0.2 },
+          preparationTips: ['Ideal for steaming']
+        }
+      }
+    },
+    qualities: ['delicate', 'sweet', 'lean'],
+    origin: ['North Atlantic', 'Pacific Coast'],
+    category: 'seafood',
+    subCategory: 'shellfish',
     varieties: {
       'Summer': {
         appearance: 'brown top, white bottom',

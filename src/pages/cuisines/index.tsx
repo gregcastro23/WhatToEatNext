@@ -1,3 +1,4 @@
+import React from 'react';
 import { FoodData } from '@/data';
 import Link from 'next/link';
 
@@ -19,7 +20,7 @@ export default function CuisinesPage() {
             <div className="mt-4">
               <h3 className="font-medium mb-1">Elemental Balance:</h3>
               <div className="flex gap-2">
-                {Object.entries(cuisine.elementalBalance).map(([element, value]) => (
+                {Object.entries(cuisine.elementalState).map(([element, value]) => (
                   <span 
                     key={element}
                     className="px-2 py-1 bg-gray-100 rounded-full text-sm"

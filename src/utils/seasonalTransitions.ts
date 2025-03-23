@@ -1,10 +1,10 @@
 import type { Season, SeasonalPhase } from '@/types/seasonal';
-import type { ElementalBalance } from '@/types/elemental';
+import type { elementalState } from '@/types/elemental';
 
 export const calculateSeasonalTransition = (
   currentDate: Date,
   phases: SeasonalPhase[]
-): ElementalBalance => {
+): elementalState => {
   // Find current and next season
   const currentPhase = phases.find(phase => 
     currentDate >= phase.start && currentDate <= phase.end

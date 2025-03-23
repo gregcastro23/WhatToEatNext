@@ -1,10 +1,11 @@
 'use client';
 
 import React, { useEffect, useRef } from 'react';
-import { useAlchemical } from '@/contexts/AlchemicalContext';
+import { useAstrologicalState } from '@/hooks/useAstrologicalState';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sun, Moon, Star, Wind, Droplets, Flame, Mountain } from 'lucide-react';
+import { Sun, Moon, Star, Wind, Droplets, Flame, Mountain, Info } from 'lucide-react';
 import { logger } from '@/utils/logger';
+import PlanetaryHoursDisplay from '@/components/PlanetaryHours';
 
 const ELEMENT_COLORS = {
   Fire: '#ef4444',
@@ -21,42 +22,48 @@ const ELEMENT_ICONS = {
 };
 
 export default function CelestialDisplay() {
-  const { state } = useAlchemical();
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const state = useAstrologicalState();
+  const planetaryAlignment = state.currentPlanetaryAlignment;
 
-  // Draw celestial chart
   useEffect(() => {
+    if (!canvasRef.current || !planetaryAlignment) return;
+    
     const canvas = canvasRef.current;
-    if (!canvas) return;
-
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    
+    // Set canvas dimensions
+    const containerWidth = canvas.clientWidth;
+    const containerHeight = canvas.clientHeight;
+    canvas.width = containerWidth;
+    canvas.height = containerHeight;
+    
+    // Clear canvas
+    ctx.clearRect(0, 0, containerWidth, containerHeight);
+    
+    // Calculate center and radius
+    const centerX = containerWidth / 2;
+    const centerY = containerHeight / 2;
+    const radius = Math.min(centerX, centerY) - 20;
+    
     try {
-      const ctx = canvas.getContext('2d');
-      if (!ctx) return;
-
-      // Clear canvas
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      // Set dimensions
-      const centerX = canvas.width / 2;
-      const centerY = canvas.height / 2;
-      const radius = Math.min(centerX, centerY) - 20;
-
-      // Draw zodiac wheel
+      // Draw the celestial chart
       drawZodiacWheel(ctx, centerX, centerY, radius);
 
       // Draw celestial bodies
-      if (state.celestialPositions.sun) {
+      if (planetaryAlignment.sun) {
         drawCelestialBody(ctx, centerX, centerY, radius, 
-          state.celestialPositions.sun.degree, '#fbbf24', 'sun');
+          planetaryAlignment.sun.degree, '#fbbf24', 'sun');
       }
-      if (state.celestialPositions.moon) {
+      if (planetaryAlignment.moon) {
         drawCelestialBody(ctx, centerX, centerY, radius, 
-          state.celestialPositions.moon.degree, '#94a3b8', 'moon');
+          planetaryAlignment.moon.degree, '#94a3b8', 'moon');
       }
     } catch (error) {
       logger.error('Error drawing celestial chart:', error);
     }
-  }, [state.celestialPositions]);
+  }, [planetaryAlignment]);
 
   const drawZodiacWheel = (
     ctx: CanvasRenderingContext2D,
@@ -106,74 +113,57 @@ export default function CelestialDisplay() {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-lg p-6">
-      <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
-        <Star className="text-yellow-500" />
-        Celestial Influences
-      </h2>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Celestial Chart */}
-        <div className="relative">
-          <canvas
-            ref={canvasRef}
-            width={300}
-            height={300}
-            className="w-full"
-          />
-          <div className="absolute top-2 left-2 flex gap-2">
-            <div className="flex items-center text-sm text-gray-600">
-              <Sun className="w-4 h-4 text-yellow-500 mr-1" />
-              {state.celestialPositions.sun?.sign}
+    <div className="relative p-4 bg-gray-900 bg-opacity-75 rounded-lg shadow-md overflow-hidden">
+      <h3 className="text-lg font-medium text-white mb-3">Celestial Chart</h3>
+      
+      <div className="aspect-square relative">
+        <canvas 
+          ref={canvasRef} 
+          className="w-full h-full"
+          style={{ background: 'rgba(13, 17, 23, 0.7)' }}
+        ></canvas>
+        <div className="absolute bottom-1 left-1 right-1 bg-gray-900 bg-opacity-80 p-2 rounded flex justify-between">
+          <div className="flex flex-col text-xs space-y-1">
+            <div className="flex items-center text-gray-200">
+              <span className="font-medium mr-1">Current Sign:</span> 
+              <span className="text-yellow-400">{state.currentZodiac}</span>
             </div>
-            <div className="flex items-center text-sm text-gray-600">
-              <Moon className="w-4 h-4 text-gray-400 mr-1" />
-              {state.celestialPositions.moon?.sign}
+            <div className="flex flex-col gap-1">
+              <div className="flex items-center text-sm text-gray-600">
+                <Sun className="w-4 h-4 text-yellow-500 mr-1" />
+                {planetaryAlignment?.sun?.sign}
+              </div>
+              <div className="flex items-center text-sm text-gray-600">
+                <Moon className="w-4 h-4 text-gray-400 mr-1" />
+                {planetaryAlignment?.moon?.sign}
+              </div>
             </div>
           </div>
-        </div>
-
-        {/* Elemental Balance */}
-        <div className="space-y-4">
-          <h3 className="font-medium text-gray-900">Current Elemental Balance</h3>
-          <div className="space-y-3">
-            {Object.entries(state.elementalBalance).map(([element, value]) => {
-              const Icon = ELEMENT_ICONS[element as keyof typeof ELEMENT_ICONS];
-              return (
-                <div key={element} className="relative">
-                  <div className="flex items-center justify-between mb-1">
-                    <div className="flex items-center gap-2">
-                      <Icon 
-                        className="w-4 h-4"
-                        style={{ color: ELEMENT_COLORS[element as keyof typeof ELEMENT_COLORS] }}
-                      />
-                      <span className="text-sm font-medium">{element}</span>
-                    </div>
-                    <span className="text-sm text-gray-500">
-                      {(value * 100).toFixed(0)}%
-                    </span>
-                  </div>
-                  <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
-                    <motion.div
-                      initial={{ width: 0 }}
-                      animate={{ width: `${value * 100}%` }}
-                      transition={{ duration: 0.5 }}
-                      className="h-full rounded-full"
-                      style={{ 
-                        backgroundColor: ELEMENT_COLORS[element as keyof typeof ELEMENT_COLORS]
-                      }}
-                    />
-                  </div>
-                </div>
-              );
-            })}
+          
+          <div className="flex flex-col text-xs text-gray-400">
+            <div className="flex items-center gap-1">
+              <div className={`w-2 h-2 rounded-full ${ELEMENT_COLORS['Fire']}`}></div>
+              <span>Fire</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <div className={`w-2 h-2 rounded-full ${ELEMENT_COLORS['Earth']}`}></div>
+              <span>Earth</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <div className={`w-2 h-2 rounded-full ${ELEMENT_COLORS['Air']}`}></div>
+              <span>Air</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <div className={`w-2 h-2 rounded-full ${ELEMENT_COLORS['Water']}`}></div>
+              <span>Water</span>
+            </div>
           </div>
         </div>
       </div>
-
-      {/* Last Update */}
-      <div className="mt-4 text-sm text-gray-500 flex justify-end">
-        Last updated: {new Date(state.lastUpdate).toLocaleTimeString()}
+      
+      {/* Add planetary hours display in compact mode */}
+      <div className="mt-4">
+        <PlanetaryHoursDisplay compact={true} />
       </div>
     </div>
   );

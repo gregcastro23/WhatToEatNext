@@ -2,11 +2,12 @@ import type { IngredientMapping } from '@/types/alchemy';
 
 export const freshHerbs: Record<string, IngredientMapping> = {
   'basil': {
-    elementalProperties: { Fire: 0.3, Air: 0.3, Water: 0.3, Earth: 0.1 },
+    elementalProperties: { Air: 0.4, Water: 0.3, Fire: 0.2, Earth: 0.1 },
     qualities: ['warming', 'sweet', 'aromatic'],
     season: ['summer'],
     category: 'herb',
     subCategory: 'fresh',
+    potency: 7,
     varieties: ['sweet basil', 'thai basil', 'purple basil', 'lemon basil'],
     affinities: ['tomato', 'mozzarella', 'garlic', 'olive oil', 'lemon'],
     cookingMethods: ['raw', 'infused', 'pesto', 'garnish'],
@@ -72,95 +73,96 @@ export const freshHerbs: Record<string, IngredientMapping> = {
   },
 
   'cilantro': {
-    elementalProperties: { Air: 0.4, Water: 0.3, Fire: 0.2, Earth: 0.1 },
-    qualities: ['cooling', 'pungent', 'bright'],
+    elementalProperties: { Air: 0.5, Water: 0.2, Fire: 0.2, Earth: 0.1 },
+    qualities: ['bright', 'citrusy', 'fresh'],
     season: ['spring', 'fall'],
     category: 'herb',
     subCategory: 'fresh',
-    affinities: ['lime', 'chili', 'garlic', 'avocado', 'fish'],
-    cookingMethods: ['raw', 'garnish', 'sauce', 'salsa'],
-    conversionRatio: 'not recommended dried',
+    varieties: ['slow-bolt', 'santo', 'calypso'],
+    affinities: ['mexican cuisine', 'asian cuisine', 'fish', 'salsa', 'avocado'],
+    cookingMethods: ['raw', 'garnish', 'sauce'],
+    conversionRatio: '3:1',
     nutritionalProfile: {
-      vitamins: ['k', 'a', 'c'],
+      vitamins: ['k', 'c', 'a'],
       minerals: ['potassium', 'manganese'],
       antioxidants: ['quercetin', 'kaempferol'],
       volatileOils: ['linalool', 'decanal']
     },
     preparation: {
-      washing: 'thorough wash and dry',
-      cutting: 'rough chop or whole leaves',
-      stemming: 'stems are flavorful',
-      notes: 'Add at end of cooking'
+      washing: 'thorough rinse',
+      chopping: 'leaves and tender stems',
+      timing: 'add at end of cooking',
+      notes: 'Loses flavor when cooked'
     },
     storage: {
       temperature: 'refrigerated',
-      duration: '1 week',
+      duration: '5-7 days',
       method: 'stems in water, bag over leaves',
-      notes: 'Very perishable'
+      notes: 'Check daily for wilting leaves'
     },
     medicinalProperties: {
-      actions: ['digestive aid', 'chelating'],
+      actions: ['detoxifying', 'digestive aid'],
       preparations: ['fresh', 'juice'],
-      cautions: ['genetic taste variation']
+      cautions: ['may cause allergic reactions']
     }
   },
 
   'mint': {
     elementalProperties: { Air: 0.4, Water: 0.3, Fire: 0.2, Earth: 0.1 },
-    qualities: ['cooling', 'sweet', 'refreshing'],
-    season: ['spring', 'summer'],
+    qualities: ['cooling', 'fresh', 'bright'],
+    season: ['spring', 'summer', 'fall'],
     category: 'herb',
     subCategory: 'fresh',
     varieties: ['peppermint', 'spearmint', 'chocolate mint', 'apple mint'],
-    affinities: ['chocolate', 'lamb', 'peas', 'fruit', 'tea'],
-    cookingMethods: ['raw', 'tea', 'garnish', 'infused'],
-    conversionRatio: '4:1',
+    affinities: ['lamb', 'peas', 'chocolate', 'tea', 'cocktails'],
+    cookingMethods: ['raw', 'infused', 'tea', 'garnish'],
+    conversionRatio: '3:1',
     nutritionalProfile: {
       vitamins: ['a', 'c'],
       minerals: ['calcium', 'magnesium'],
       antioxidants: ['rosmarinic acid', 'flavonoids'],
-      volatileOils: ['menthol', 'carvone']
+      volatileOils: ['menthol', 'menthone']
     },
     preparation: {
       washing: 'gentle rinse',
-      cutting: 'chiffonade or whole leaves',
+      stripping: 'leaves from stems',
       timing: 'add at end of cooking',
-      notes: 'Bruises easily'
+      notes: 'Bruise leaves to release oils'
     },
     storage: {
       temperature: 'refrigerated',
-      duration: '1 week',
+      duration: '7-10 days',
       method: 'stems in water, bag over leaves',
-      notes: 'Can be frozen in ice cubes'
+      notes: 'Prone to wilting'
     },
     medicinalProperties: {
-      actions: ['digestive aid', 'decongestant'],
-      preparations: ['tea', 'essential oil'],
+      actions: ['digestive aid', 'cooling'],
+      preparations: ['tea', 'fresh'],
       cautions: ['may reduce iron absorption']
     }
   },
 
   'chives': {
     elementalProperties: { Air: 0.4, Water: 0.3, Fire: 0.2, Earth: 0.1 },
-    qualities: ['mild', 'fresh', 'delicate'],
-    season: ['spring', 'summer'],
+    qualities: ['mild', 'oniony', 'fresh'],
+    season: ['spring', 'summer', 'fall'],
     category: 'herb',
     subCategory: 'fresh',
-    varieties: ['common chives', 'garlic chives'],
+    varieties: ['common chives', 'garlic chives', 'chinese chives'],
     affinities: ['potato', 'eggs', 'cream', 'fish', 'soups'],
     cookingMethods: ['raw', 'garnish', 'infused'],
     conversionRatio: '3:1',
     nutritionalProfile: {
       vitamins: ['k', 'c', 'a'],
       minerals: ['calcium', 'iron'],
-      antioxidants: ['allicin', 'flavonoids'],
+      antioxidants: ['allicin', 'quercetin'],
       volatileOils: ['allyl sulfides']
     },
     preparation: {
-      washing: 'gentle rinse and dry',
-      cutting: 'small snips with scissors',
+      washing: 'gentle rinse',
+      cutting: 'snip with scissors',
       timing: 'add at end of cooking',
-      notes: 'Heat destroys delicate flavor'
+      notes: 'Cut just before use'
     },
     storage: {
       temperature: 'refrigerated',
@@ -169,9 +171,9 @@ export const freshHerbs: Record<string, IngredientMapping> = {
       notes: 'Can be frozen'
     },
     medicinalProperties: {
-      actions: ['antimicrobial', 'digestive aid'],
-      preparations: ['fresh', 'infused'],
-      cautions: ['mild allium sensitivity']
+      actions: ['digestive aid', 'antibacterial'],
+      preparations: ['fresh', 'infused oil'],
+      cautions: ['may affect blood clotting']
     }
   },
 
@@ -247,30 +249,36 @@ export const freshHerbs: Record<string, IngredientMapping> = {
 
   'marjoram': {
     elementalProperties: { Air: 0.4, Earth: 0.3, Fire: 0.2, Water: 0.1 },
-    qualities: ['warming', 'sweet', 'gentle'],
-    season: ['summer'],
+    qualities: ['sweet', 'delicate', 'floral'],
+    season: ['summer', 'fall'],
     category: 'herb',
     subCategory: 'fresh',
-    affinities: ['vegetables', 'eggs', 'poultry', 'mushrooms', 'legumes'],
-    cookingMethods: ['cooked', 'sauce', 'soup'],
+    varieties: ['sweet marjoram', 'pot marjoram', 'wild marjoram'],
+    affinities: ['vegetables', 'eggs', 'meat', 'soups', 'mediterranean cuisine'],
+    cookingMethods: ['cooked', 'infused', 'marinades'],
     conversionRatio: '3:1',
     nutritionalProfile: {
-      vitamins: ['k', 'b6'],
-      minerals: ['iron', 'calcium'],
-      antioxidants: ['rosmarinic acid'],
+      vitamins: ['k', 'c'],
+      minerals: ['calcium', 'iron'],
+      antioxidants: ['ursolic acid', 'rosmarinic acid'],
       volatileOils: ['sabinene', 'terpinene']
     },
     preparation: {
       washing: 'gentle rinse',
       stripping: 'leaves from stems',
-      timing: 'add towards end of cooking',
-      notes: 'Milder than oregano'
+      timing: 'add late in cooking',
+      notes: 'More delicate than oregano'
     },
     storage: {
       temperature: 'refrigerated',
       duration: '4-5 days',
       method: 'wrapped in damp paper towel',
-      notes: 'Very delicate'
+      notes: 'Best used fresh'
+    },
+    medicinalProperties: {
+      actions: ['digestive aid', 'calming'],
+      preparations: ['tea', 'fresh'],
+      cautions: ['may increase bleeding']
     }
   },
 
@@ -368,5 +376,492 @@ export const freshHerbs: Record<string, IngredientMapping> = {
       preparations: ['tea', 'infused oil'],
       cautions: ['safe in culinary amounts']
     }
+  },
+
+  'dill': {
+    elementalProperties: { Air: 0.5, Water: 0.2, Earth: 0.2, Fire: 0.1 },
+    qualities: ['fresh', 'aromatic', 'delicate'],
+    season: ['spring', 'summer'],
+    category: 'herb',
+    subCategory: 'fresh',
+    varieties: ['bouquet', 'dukat', 'fernleaf'],
+    affinities: ['fish', 'cucumber', 'potato', 'yogurt', 'pickles'],
+    cookingMethods: ['raw', 'pickling', 'sauce', 'garnish'],
+    conversionRatio: '3:1',
+    nutritionalProfile: {
+      vitamins: ['c', 'a'],
+      minerals: ['manganese', 'iron'],
+      antioxidants: ['flavonoids', 'monoterpenes'],
+      volatileOils: ['carvone', 'limonene']
+    },
+    preparation: {
+      washing: 'gentle rinse',
+      cutting: 'snip with scissors',
+      timing: 'add late in cooking',
+      notes: 'Delicate flavor lost with heat'
+    },
+    storage: {
+      temperature: 'refrigerated',
+      duration: '5-7 days',
+      method: 'stems in water, bag over leaves',
+      notes: 'Freezes well'
+    },
+    medicinalProperties: {
+      actions: ['digestive aid', 'antioxidant'],
+      preparations: ['tea', 'fresh'],
+      cautions: ['may increase blood sugar']
+    }
+  },
+
+  'tarragon': {
+    elementalProperties: { Fire: 0.3, Air: 0.3, Earth: 0.2, Water: 0.2 },
+    qualities: ['sweet', 'anise-like', 'warming'],
+    season: ['spring', 'summer'],
+    category: 'herb',
+    subCategory: 'fresh',
+    varieties: ['french', 'russian'],
+    affinities: ['chicken', 'fish', 'eggs', 'mushrooms', 'vinegar'],
+    cookingMethods: ['sauce', 'vinegar', 'butter', 'cooked'],
+    conversionRatio: '3:1',
+    nutritionalProfile: {
+      vitamins: ['a', 'c', 'b6'],
+      minerals: ['calcium', 'iron'],
+      antioxidants: ['quercetin', 'rutin'],
+      volatileOils: ['estragole', 'ocimene']
+    },
+    preparation: {
+      washing: 'gentle rinse',
+      stripping: 'leaves from stems',
+      timing: 'add during cooking',
+      notes: 'Strong flavor - use sparingly'
+    },
+    storage: {
+      temperature: 'refrigerated',
+      duration: '4-5 days',
+      method: 'wrapped in damp paper towel',
+      notes: 'Does not dry well'
+    },
+    medicinalProperties: {
+      actions: ['digestive aid', 'appetite stimulant'],
+      preparations: ['fresh', 'vinegar'],
+      cautions: ['avoid during pregnancy']
+    }
+  },
+
+  'lemongrass': {
+    elementalProperties: { Air: 0.4, Fire: 0.3, Water: 0.2, Earth: 0.1 },
+    qualities: ['citrusy', 'fresh', 'aromatic'],
+    season: ['year-round'],
+    category: 'herb',
+    subCategory: 'fresh',
+    varieties: ['east indian', 'west indian'],
+    affinities: ['asian cuisine', 'curry', 'seafood', 'poultry', 'tea'],
+    cookingMethods: ['infused', 'curry', 'soup', 'tea'],
+    conversionRatio: '3:1',
+    nutritionalProfile: {
+      vitamins: ['a', 'c'],
+      minerals: ['potassium', 'zinc'],
+      antioxidants: ['quercetin', 'luteolin'],
+      volatileOils: ['citral', 'geraniol']
+    },
+    preparation: {
+      trimming: 'remove tough outer layers',
+      cutting: 'slice thinly or bruise',
+      timing: 'add early in cooking',
+      notes: 'Remove before serving'
+    },
+    storage: {
+      temperature: 'refrigerated',
+      duration: '2-3 weeks',
+      method: 'wrapped in damp paper towel',
+      notes: 'Can be frozen whole'
+    },
+    medicinalProperties: {
+      actions: ['digestive aid', 'anti-inflammatory'],
+      preparations: ['tea', 'infused oil'],
+      cautions: ['may cause skin sensitivity']
+    }
+  },
+
+  'thai_basil': {
+    elementalProperties: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
+    qualities: ['spicy', 'anise-like', 'aromatic'],
+    season: ['summer'],
+    category: 'herb',
+    subCategory: 'fresh',
+    varieties: ['thai', 'holy basil', 'lemon basil'],
+    affinities: ['thai cuisine', 'vietnamese cuisine', 'stir-fry', 'curry', 'noodles'],
+    cookingMethods: ['stir-fried', 'curry', 'soup', 'raw'],
+    conversionRatio: '3:1',
+    nutritionalProfile: {
+      vitamins: ['k', 'a', 'c'],
+      minerals: ['calcium', 'magnesium'],
+      antioxidants: ['rosmarinic acid', 'eugenol'],
+      volatileOils: ['methyl chavicol', 'eugenol']
+    },
+    preparation: {
+      washing: 'gentle rinse',
+      picking: 'leaves from stems',
+      timing: 'add at end of cooking',
+      notes: 'More heat stable than sweet basil'
+    },
+    storage: {
+      temperature: 'room temperature',
+      duration: '3-5 days',
+      method: 'stems in water, loose bag over leaves',
+      notes: 'Do not refrigerate'
+    },
+    medicinalProperties: {
+      actions: ['anti-inflammatory', 'digestive aid'],
+      preparations: ['fresh', 'tea'],
+      cautions: ['may affect blood clotting']
+    }
+  },
+
+  'epazote': {
+    elementalProperties: { Earth: 0.4, Fire: 0.3, Air: 0.2, Water: 0.1 },
+    qualities: ['pungent', 'strong', 'earthy'],
+    season: ['summer', 'fall'],
+    category: 'herb',
+    subCategory: 'fresh',
+    affinities: ['mexican cuisine', 'beans', 'corn', 'quesadillas', 'soups'],
+    cookingMethods: ['cooked', 'beans', 'soup'],
+    conversionRatio: '3:1',
+    nutritionalProfile: {
+      vitamins: ['b', 'a'],
+      minerals: ['calcium', 'iron', 'magnesium'],
+      antioxidants: ['monoterpenes', 'flavonoids'],
+      volatileOils: ['ascaridole', 'carvacrol']
+    },
+    preparation: {
+      washing: 'thorough rinse',
+      chopping: 'coarse chop',
+      timing: 'add during cooking',
+      notes: 'Traditional bean herb - aids digestion'
+    },
+    storage: {
+      temperature: 'refrigerated',
+      duration: '5-7 days',
+      method: 'wrapped in damp paper towel',
+      notes: 'Freezes well'
+    },
+    medicinalProperties: {
+      actions: ['anti-parasitic', 'carminative'],
+      preparations: ['fresh', 'tea'],
+      cautions: ['use sparingly - strong oil content']
+    }
+  },
+
+  'shiso': {
+    elementalProperties: { Air: 0.4, Fire: 0.3, Earth: 0.2, Water: 0.1 },
+    qualities: ['complex', 'minty', 'citrusy'],
+    season: ['summer'],
+    category: 'herb',
+    subCategory: 'fresh',
+    varieties: ['green', 'red', 'purple'],
+    affinities: ['japanese cuisine', 'korean cuisine', 'fish', 'rice', 'pickles'],
+    cookingMethods: ['raw', 'pickled', 'tempura', 'garnish'],
+    conversionRatio: '3:1',
+    nutritionalProfile: {
+      vitamins: ['k', 'a'],
+      minerals: ['iron', 'calcium'],
+      antioxidants: ['anthocyanins', 'perillaldehyde'],
+      volatileOils: ['perillyl alcohol', 'limonene']
+    },
+    preparation: {
+      washing: 'gentle rinse',
+      usage: 'whole leaves or chiffonade',
+      timing: 'typically used raw',
+      notes: 'Different varieties have distinct flavors'
+    },
+    storage: {
+      temperature: 'refrigerated',
+      duration: '3-4 days',
+      method: 'wrapped in damp paper towel',
+      notes: 'Very delicate - use quickly'
+    },
+    medicinalProperties: {
+      actions: ['anti-inflammatory', 'antimicrobial'],
+      preparations: ['fresh', 'pickled'],
+      cautions: ['may cause allergic reactions']
+    }
+  },
+
+  'curry_leaves': {
+    elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 },
+    qualities: ['aromatic', 'citrusy', 'nutty'],
+    season: ['year-round'],
+    category: 'herb',
+    subCategory: 'fresh',
+    affinities: ['indian cuisine', 'sri lankan cuisine', 'lentils', 'coconut', 'curry'],
+    cookingMethods: ['tempered', 'curry', 'dal', 'chutney'],
+    conversionRatio: '3:1',
+    nutritionalProfile: {
+      vitamins: ['a', 'b', 'c'],
+      minerals: ['iron', 'calcium'],
+      antioxidants: ['carbazole alkaloids', 'flavonoids'],
+      volatileOils: ['linalool', 'pinene']
+    },
+    preparation: {
+      washing: 'gentle rinse',
+      usage: 'whole leaves',
+      timing: 'add at start of cooking',
+      notes: 'Often fried in oil first'
+    },
+    storage: {
+      temperature: 'refrigerated',
+      duration: '1-2 weeks',
+      method: 'wrapped in paper towel, plastic bag',
+      notes: 'Can be frozen'
+    },
+    medicinalProperties: {
+      actions: ['digestive aid', 'anti-diabetic'],
+      preparations: ['fresh', 'oil'],
+      cautions: ['may interact with medications']
+    }
+  },
+
+  'rau_ram': {
+    elementalProperties: { Air: 0.4, Water: 0.3, Fire: 0.2, Earth: 0.1 },
+    qualities: ['citrusy', 'spicy', 'complex'],
+    season: ['summer', 'fall'],
+    category: 'herb',
+    subCategory: 'fresh',
+    affinities: ['vietnamese cuisine', 'seafood', 'soups', 'spring rolls', 'noodles'],
+    cookingMethods: ['raw', 'garnish', 'soup'],
+    conversionRatio: '3:1',
+    nutritionalProfile: {
+      vitamins: ['c', 'a'],
+      minerals: ['potassium', 'iron'],
+      antioxidants: ['polyphenols'],
+      volatileOils: ['dodecenal', 'decanal']
+    },
+    preparation: {
+      washing: 'gentle rinse',
+      picking: 'leaves from stems',
+      timing: 'add at end of cooking',
+      notes: 'Vietnamese coriander substitute'
+    },
+    storage: {
+      temperature: 'refrigerated',
+      duration: '5-7 days',
+      method: 'stems in water, bag over leaves',
+      notes: 'High humidity needed'
+    },
+    medicinalProperties: {
+      actions: ['anti-inflammatory', 'digestive aid'],
+      preparations: ['fresh', 'tea'],
+      cautions: ['may increase menstrual flow']
+    }
+  },
+
+  'za_atar_herb': {
+    elementalProperties: { Earth: 0.4, Fire: 0.3, Air: 0.2, Water: 0.1 },
+    qualities: ['earthy', 'aromatic', 'robust'],
+    season: ['spring', 'summer'],
+    category: 'herb',
+    subCategory: 'fresh',
+    varieties: ['syrian', 'lebanese'],
+    affinities: ['middle eastern cuisine', 'bread', 'meat', 'yogurt', 'olive oil'],
+    cookingMethods: ['raw', 'dried', 'infused'],
+    conversionRatio: '3:1',
+    nutritionalProfile: {
+      vitamins: ['e', 'k'],
+      minerals: ['iron', 'calcium'],
+      antioxidants: ['thymol', 'carvacrol'],
+      volatileOils: ['thymol', 'p-cymene']
+    },
+    preparation: {
+      washing: 'gentle rinse',
+      drying: 'pat completely dry',
+      timing: 'use fresh or dry',
+      notes: 'Base herb for za\'atar blend'
+    },
+    storage: {
+      temperature: 'refrigerated',
+      duration: '4-5 days',
+      method: 'wrapped in damp paper towel',
+      notes: 'Dries well for later use'
+    },
+    medicinalProperties: {
+      actions: ['antimicrobial', 'respiratory aid'],
+      preparations: ['fresh', 'dried'],
+      cautions: ['may interact with blood thinners']
+    }
+  },
+
+  'perilla': {
+    elementalProperties: { Air: 0.4, Fire: 0.3, Earth: 0.2, Water: 0.1 },
+    qualities: ['minty', 'anise-like', 'complex'],
+    season: ['summer', 'fall'],
+    category: 'herb',
+    subCategory: 'fresh',
+    varieties: ['green', 'purple', 'curly'],
+    affinities: ['korean cuisine', 'japanese cuisine', 'fish', 'soups', 'pickles'],
+    cookingMethods: ['raw', 'pickled', 'wrapped', 'tempura'],
+    conversionRatio: '3:1',
+    nutritionalProfile: {
+      vitamins: ['k', 'c'],
+      minerals: ['calcium', 'iron'],
+      antioxidants: ['anthocyanins', 'flavonoids'],
+      volatileOils: ['perillaldehyde', 'limonene']
+    },
+    preparation: {
+      washing: 'gentle rinse',
+      usage: 'whole leaves or shredded',
+      timing: 'typically used raw',
+      notes: 'Purple variety has stronger flavor'
+    },
+    storage: {
+      temperature: 'refrigerated',
+      duration: '3-5 days',
+      method: 'wrapped in damp paper towel',
+      notes: 'Delicate - use quickly'
+    },
+    medicinalProperties: {
+      actions: ['anti-inflammatory', 'respiratory aid'],
+      preparations: ['fresh', 'pickled'],
+      cautions: ['may cause allergic reactions']
+    }
+  },
+
+  'culantro': {
+    elementalProperties: { Earth: 0.4, Fire: 0.3, Air: 0.2, Water: 0.1 },
+    qualities: ['pungent', 'cilantro-like', 'intense'],
+    season: ['summer'],
+    category: 'herb',
+    subCategory: 'fresh',
+    affinities: ['caribbean cuisine', 'latin american cuisine', 'soups', 'stews', 'marinades'],
+    cookingMethods: ['cooked', 'raw', 'sauce'],
+    conversionRatio: '3:1',
+    nutritionalProfile: {
+      vitamins: ['a', 'b-complex'],
+      minerals: ['iron', 'calcium'],
+      antioxidants: ['carotenoids', 'flavonoids'],
+      volatileOils: ['dodecenal', 'decanal']
+    },
+    preparation: {
+      washing: 'thorough rinse',
+      chopping: 'fine chop',
+      timing: 'add during cooking',
+      notes: 'Stronger than cilantro'
+    },
+    storage: {
+      temperature: 'refrigerated',
+      duration: '1 week',
+      method: 'wrapped in damp paper towel',
+      notes: 'Can be frozen'
+    },
+    medicinalProperties: {
+      actions: ['digestive aid', 'anti-inflammatory'],
+      preparations: ['fresh', 'tea'],
+      cautions: ['may cause skin sensitivity']
+    }
+  },
+
+  'huacatay': {
+    elementalProperties: { Earth: 0.4, Air: 0.3, Fire: 0.2, Water: 0.1 },
+    qualities: ['pungent', 'minty', 'complex'],
+    season: ['summer', 'fall'],
+    category: 'herb',
+    subCategory: 'fresh',
+    affinities: ['peruvian cuisine', 'potatoes', 'sauces', 'stews', 'cheese'],
+    cookingMethods: ['sauce', 'paste', 'cooked'],
+    conversionRatio: '3:1',
+    nutritionalProfile: {
+      vitamins: ['a', 'c'],
+      minerals: ['iron', 'magnesium'],
+      antioxidants: ['flavonoids', 'terpenes'],
+      volatileOils: ['ocimene', 'tagetone']
+    },
+    preparation: {
+      washing: 'gentle rinse',
+      chopping: 'fine chop',
+      timing: 'add during cooking',
+      notes: 'Essential for Peruvian black mint sauce'
+    },
+    storage: {
+      temperature: 'refrigerated',
+      duration: '4-5 days',
+      method: 'wrapped in damp paper towel',
+      notes: 'Freezes well as paste'
+    },
+    medicinalProperties: {
+      actions: ['digestive aid', 'anti-parasitic'],
+      preparations: ['fresh', 'paste'],
+      cautions: ['use sparingly - strong flavor']
+    }
+  },
+
+  'rosemary': {
+    elementalProperties: { Fire: 0.5, Air: 0.2, Earth: 0.2, Water: 0.1 },
+    qualities: ['piney', 'robust', 'aromatic'],
+    season: ['year-round'],
+    category: 'herb',
+    subCategory: 'fresh',
+    varieties: ['upright', 'creeping', 'tuscan blue'],
+    affinities: ['lamb', 'chicken', 'potatoes', 'bread', 'mediterranean cuisine'],
+    cookingMethods: ['roasted', 'grilled', 'infused', 'baked'],
+    conversionRatio: '3:1',
+    nutritionalProfile: {
+      vitamins: ['a', 'c', 'b6'],
+      minerals: ['iron', 'calcium'],
+      antioxidants: ['carnosic acid', 'rosmarinic acid'],
+      volatileOils: ['pinene', 'camphor']
+    },
+    preparation: {
+      washing: 'quick rinse',
+      stripping: 'pull leaves against stem growth',
+      timing: 'add early in cooking',
+      notes: 'Woody stems can be used as skewers'
+    },
+    storage: {
+      temperature: 'refrigerated',
+      duration: '10-14 days',
+      method: 'wrapped in damp paper towel',
+      notes: 'Can be dried or frozen'
+    },
+    medicinalProperties: {
+      actions: ['memory enhancement', 'antimicrobial'],
+      preparations: ['tea', 'infused oil'],
+      cautions: ['may affect blood pressure']
+    }
+  },
+
+  'sage': {
+    elementalProperties: { Earth: 0.4, Fire: 0.3, Air: 0.2, Water: 0.1 },
+    qualities: ['earthy', 'musty', 'warming'],
+    season: ['year-round'],
+    category: 'herb',
+    subCategory: 'fresh',
+    varieties: ['common', 'purple', 'pineapple', 'tricolor'],
+    affinities: ['poultry', 'pork', 'sausage', 'stuffing', 'butter'],
+    cookingMethods: ['fried', 'infused', 'roasted', 'sautéed'],
+    conversionRatio: '3:1',
+    nutritionalProfile: {
+      vitamins: ['k', 'b6'],
+      minerals: ['calcium', 'magnesium'],
+      antioxidants: ['rosmarinic acid', 'carnosol'],
+      volatileOils: ['thujone', 'camphor']
+    },
+    preparation: {
+      washing: 'gentle rinse',
+      drying: 'pat completely dry',
+      timing: 'add during cooking',
+      notes: 'Can be fried for garnish'
+    },
+    storage: {
+      temperature: 'refrigerated',
+      duration: '5-7 days',
+      method: 'wrapped in damp paper towel',
+      notes: 'Leaves bruise easily'
+    },
+    medicinalProperties: {
+      actions: ['antimicrobial', 'memory aid'],
+      preparations: ['tea', 'tincture'],
+      cautions: ['avoid during pregnancy']
+    }
   }
 };
+
+export default freshHerbs;

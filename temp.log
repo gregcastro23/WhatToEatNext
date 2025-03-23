@@ -1,0 +1,15 @@
+
+> tarot-recipe-app@1.0.0 astro:dev
+> astro dev
+
+16:36:22 [types] Generated 4ms
+16:36:22 [content] Syncing content
+16:36:24 [content] Synced content
+16:36:24 [vite] Port 4321 is in use, trying another one...
+
+ astro  v5.5.3 ready in 1858 ms
+
+┃ Local    http://localhost:4322/astro
+┃ Network  use --host to expose
+
+16:36:24 watching for file changes...

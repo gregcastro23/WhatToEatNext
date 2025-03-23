@@ -10,12 +10,12 @@ interface FilterOptions {
   maxPrepTime?: number;
   dietaryRestrictions?: DietaryRestriction[];
   ingredients?: string[];
-  elementalBalance?: ElementalProperties;
+  elementalState?: ElementalProperties;
   searchQuery?: string;
 }
 
 interface SortOptions {
-  by: 'relevance' | 'prepTime' | 'elementalBalance' | 'seasonal';
+  by: 'relevance' | 'prepTime' | 'elementalState' | 'seasonal';
   direction: 'asc' | 'desc';
 }
 
@@ -60,8 +60,8 @@ export class RecipeFilter {
     sortOptions: SortOptions
   ): ScoredRecipe[] {
     try {
-      let filtered = this.applyFilters(recipes, filterOptions);
-      let scored = this.scoreRecipes(filtered, filterOptions);
+      const filtered = this.applyFilters(recipes, filterOptions);
+      const scored = this.enhancedScoreRecipes(filtered, filterOptions);
       return this.sortRecipes(scored, sortOptions);
     } catch (error) {
       logger.error('Error filtering recipes:', error);
@@ -129,16 +129,16 @@ export class RecipeFilter {
     });
   }
 
-  private scoreRecipes(recipes: Recipe[], options: FilterOptions): ScoredRecipe[] {
+  private enhancedScoreRecipes(recipes: Recipe[], options: EnhancedFilterOptions): ScoredRecipe[] {
     return recipes.map(recipe => {
       try {
         let score = 1;
 
         // Elemental balance score
-        if (options.elementalBalance) {
+        if (options.elementalState) {
           score *= this.calculateElementalScore(
             recipe.elementalProperties,
-            options.elementalBalance
+            options.elementalState
           );
         }
 
@@ -150,6 +150,21 @@ export class RecipeFilter {
         // Search relevance score
         if (options.searchQuery) {
           score *= this.calculateSearchRelevance(recipe, options.searchQuery);
+        }
+
+        // Cuisine score
+        if (options.cuisineTypes?.length) {
+          score *= this.calculateCuisineScore(recipe, options.cuisineTypes);
+        }
+
+        // Favorite ingredients boost
+        if (recipe.favoriteScore) {
+          score *= recipe.favoriteScore;
+        }
+
+        // Complexity preference boost
+        if (options.complexity && recipe.complexity === options.complexity) {
+          score *= 1.2;
         }
 
         return {
@@ -175,8 +190,8 @@ export class RecipeFilter {
           case 'prepTime':
             comparison = this.parseTime(a.timeToMake) - this.parseTime(b.timeToMake);
             break;
-          case 'elementalBalance':
-            comparison = this.getElementalBalance(b) - this.getElementalBalance(a);
+          case 'elementalState':
+            comparison = this.getelementalState(b) - this.getelementalState(a);
             break;
           case 'seasonal':
             comparison = this.getSeasonalScore(b) - this.getSeasonalScore(a);
@@ -257,7 +272,7 @@ export class RecipeFilter {
     }
   }
 
-  private getElementalBalance(recipe: ScoredRecipe): number {
+  private getelementalState(recipe: ScoredRecipe): number {
     try {
       if (!recipe.elementalProperties) return 0;
       const values = Object.values(recipe.elementalProperties);
@@ -403,40 +418,6 @@ export class RecipeFilter {
       logger.error('Error calculating cuisine score:', error);
       return 1;
     }
-  }
-
-  // Update scoreRecipes to include new scoring factors
-  private scoreRecipes(recipes: Recipe[], options: EnhancedFilterOptions): ScoredRecipe[] {
-    return recipes.map(recipe => {
-      try {
-        let score = 1;
-
-        // Previous scoring...
-
-        // Cuisine score
-        if (options.cuisineTypes?.length) {
-          score *= this.calculateCuisineScore(recipe, options.cuisineTypes);
-        }
-
-        // Favorite ingredients boost
-        if (recipe.favoriteScore) {
-          score *= recipe.favoriteScore;
-        }
-
-        // Complexity preference boost
-        if (options.complexity && recipe.complexity === options.complexity) {
-          score *= 1.2;
-        }
-
-        return {
-          ...recipe,
-          score
-        };
-      } catch (error) {
-        logger.error('Error scoring recipe:', { recipe, error });
-        return { ...recipe, score: 0 };
-      }
-    });
   }
 }
 

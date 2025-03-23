@@ -1,7 +1,8 @@
+import React from 'react';
 import { FoodData } from '@/data';
 import { useRouter } from 'next/router';
 
-export default function CuisinePage() {
+const CuisinePage: React.FC = () => {
   const router = useRouter();
   const { id } = router.query;
   
@@ -50,4 +51,6 @@ export default function CuisinePage() {
       ))}
     </div>
   );
-} 
+};
+
+export default CuisinePage; 

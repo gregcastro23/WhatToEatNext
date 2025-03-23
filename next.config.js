@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  swcMinify: true,
   images: {
     domains: [], // Add any image domains you need
     remotePatterns: [
@@ -24,16 +23,28 @@ const nextConfig = {
   compress: true,
   generateEtags: true,
   pageExtensions: ['tsx', 'ts', 'jsx', 'js'],
-  webpack: (config, { dev, isServer }) => {
-    // Add any custom webpack configurations here
-    if (!dev && !isServer) {
-      Object.assign(config.resolve.alias, {
-        'react/jsx-runtime.js': 'preact/compat/jsx-runtime',
-        react: 'preact/compat',
-        'react-dom/test-utils': 'preact/test-utils',
-        'react-dom': 'preact/compat',
-      });
+  webpack: (config, { isServer, dev }) => {
+    // Use simpler React resolution without require.resolve
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        module: false,
+      };
     }
+    
+    // Don't filter out the ReactFreshWebpackPlugin in development mode
+    if (!dev && config.plugins) {
+      config.plugins = config.plugins.filter(
+        (plugin) => !(plugin.constructor.name === 'ReactFreshWebpackPlugin')
+      );
+    }
+    
+    config.experiments = {
+      asyncWebAssembly: true,
+      layers: true,
+    };
+    
     return config;
   },
   headers: async () => {
@@ -64,11 +75,18 @@ const nextConfig = {
           {
             key: 'Referrer-Policy',
             value: 'origin-when-cross-origin'
+          },
+          {
+            key: 'Content-Security-Policy',
+            value: "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self'"
           }
         ]
       }
     ];
-  }
+  },
+  experimental: {
+    largePageDataBytes: 128 * 100000, // Increase the chunk size limit
+  },
 };
 
-module.exports = nextConfig;
+export default nextConfig;

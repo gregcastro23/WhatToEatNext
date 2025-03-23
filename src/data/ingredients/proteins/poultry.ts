@@ -275,5 +275,301 @@ export const poultry: Record<string, IngredientMapping> = {
         }
       }
     }
+  },
+  'quail': {
+    elementalProperties: { Air: 0.4, Fire: 0.3, Earth: 0.2, Water: 0.1 },
+    qualities: ['delicate', 'gamey', 'tender'],
+    origin: ['Global'],
+    category: 'protein',
+    subCategory: 'poultry',
+    varieties: {
+      'common': {
+        weight: '4-6 oz',
+        characteristics: 'small, tender game bird',
+        best_for: 'individual servings'
+      },
+      'jumbo': {
+        weight: '7-9 oz',
+        characteristics: 'larger, meatier',
+        best_for: 'stuffing, roasting'
+      }
+    },
+    cuts: {
+      'whole': {
+        characteristics: 'small, tender bird',
+        cooking_methods: ['grill', 'roast', 'pan-sear'],
+        internal_temp: { fahrenheit: 165, celsius: 74 }
+      },
+      'breast': {
+        characteristics: 'lean, quick-cooking',
+        cooking_methods: ['pan-sear', 'grill'],
+        internal_temp: { fahrenheit: 155, celsius: 68 }
+      }
+    },
+    culinaryApplications: {
+      'grilling': {
+        'spatchcock': {
+          preparation: {
+            method: 'butterfly and flatten',
+            marinade: ['olive oil', 'herbs', 'garlic'],
+            timing: '2-4 hours'
+          },
+          cooking: {
+            temperature: 'high heat',
+            timing: '4-5 minutes per side',
+            finish: 'rest 5 minutes'
+          }
+        }
+      },
+      'stuffed': {
+        preparation: {
+          stuffing: ['wild rice', 'herbs', 'dried fruits'],
+          trussing: 'secure with twine'
+        },
+        cooking: {
+          temperature: { fahrenheit: 375, celsius: 190 },
+          timing: '20-25 minutes total'
+        }
+      }
+    },
+    regionalPreparations: {
+      'french': {
+        'cailles_en_sarcophage': {
+          method: 'wrapped in puff pastry',
+          sauce: 'truffle sauce',
+          service: 'individual portions'
+        }
+      },
+      'japanese': {
+        'yakitori': {
+          method: 'skewered and grilled',
+          sauce: 'tare glaze',
+          service: 'with scallions'
+        }
+      }
+    }
+  },
+  'guinea_fowl': {
+    elementalProperties: { Earth: 0.3, Air: 0.3, Fire: 0.2, Water: 0.2 },
+    qualities: ['gamey', 'lean', 'flavorful'],
+    origin: ['Africa', 'Europe'],
+    category: 'protein',
+    subCategory: 'poultry',
+    varieties: {
+      'pearl': {
+        weight: '2-4 lbs',
+        characteristics: 'spotted feathers, lean meat',
+        best_for: 'roasting, braising'
+      }
+    },
+    cuts: {
+      'whole': {
+        characteristics: 'lean, flavorful bird',
+        cooking_methods: ['roast', 'braise', 'grill'],
+        internal_temp: { fahrenheit: 165, celsius: 74 }
+      },
+      'breast': {
+        characteristics: 'lean, quick-cooking',
+        cooking_methods: ['pan-sear', 'grill', 'roast'],
+        internal_temp: { fahrenheit: 160, celsius: 71 }
+      }
+    },
+    culinaryApplications: {
+      'roasting': {
+        'traditional': {
+          preparation: {
+            cavity: ['herbs', 'citrus', 'garlic'],
+            skin: ['butter', 'herbs']
+          },
+          cooking: {
+            temperature: { fahrenheit: 375, celsius: 190 },
+            timing: '15-20 minutes per pound',
+            basting: 'every 30 minutes'
+          }
+        }
+      },
+      'braising': {
+        preparation: {
+          marinade: ['wine', 'herbs', 'aromatics'],
+          searing: 'brown all sides'
+        },
+        cooking: {
+          liquid: 'wine and stock',
+          temperature: { fahrenheit: 325, celsius: 163 },
+          timing: '1.5-2 hours'
+        }
+      }
+    },
+    regionalPreparations: {
+      'french': {
+        'pintade_en_cocotte': {
+          method: 'braised with vegetables',
+          sauce: 'natural jus',
+          service: 'family style'
+        }
+      },
+      'west_african': {
+        'kedjenou': {
+          method: 'slow-cooked with vegetables',
+          spices: ['ginger', 'garlic', 'chili'],
+          service: 'with rice or fufu'
+        }
+      }
+    }
+  },
+  'pheasant': {
+    elementalProperties: { Air: 0.4, Earth: 0.3, Fire: 0.2, Water: 0.1 },
+    qualities: ['gamey', 'lean', 'elegant'],
+    origin: ['Europe', 'Asia'],
+    category: 'protein',
+    subCategory: 'poultry',
+    varieties: {
+      'common': {
+        weight: '2-3 lbs',
+        characteristics: 'lean game bird, rich flavor',
+        best_for: 'roasting, braising'
+      },
+      'ring_necked': {
+        weight: '2.5-3.5 lbs',
+        characteristics: 'most common variety',
+        best_for: 'traditional preparations'
+      }
+    },
+    cuts: {
+      'whole': {
+        characteristics: 'lean, requires careful cooking',
+        cooking_methods: ['roast', 'braise', 'sous-vide'],
+        internal_temp: { fahrenheit: 165, celsius: 74 }
+      },
+      'breast': {
+        characteristics: 'lean, quick-cooking',
+        cooking_methods: ['pan-sear', 'grill'],
+        internal_temp: { fahrenheit: 155, celsius: 68 }
+      },
+      'leg': {
+        characteristics: 'more flavor, tougher',
+        cooking_methods: ['braise', 'confit'],
+        internal_temp: { fahrenheit: 165, celsius: 74 }
+      }
+    },
+    culinaryApplications: {
+      'roasting': {
+        'traditional': {
+          preparation: {
+            barding: 'wrap in bacon or pancetta',
+            cavity: ['herbs', 'citrus', 'aromatics'],
+            brining: 'optional, 4-6 hours'
+          },
+          cooking: {
+            temperature: { fahrenheit: 350, celsius: 175 },
+            timing: '45-60 minutes total',
+            basting: 'frequently to prevent drying'
+          }
+        }
+      },
+      'braising': {
+        preparation: {
+          marinade: ['wine', 'aromatics', 'juniper'],
+          searing: 'brown all sides well'
+        },
+        cooking: {
+          liquid: 'wine and game stock',
+          temperature: { fahrenheit: 325, celsius: 163 },
+          timing: '1.5-2 hours'
+        }
+      }
+    },
+    regionalPreparations: {
+      'british': {
+        'roasted_pheasant': {
+          method: 'traditional roasting',
+          sauce: 'bread sauce',
+          service: 'with game chips and watercress'
+        }
+      },
+      'french': {
+        'faisan_en_cocotte': {
+          method: 'braised with vegetables',
+          sauce: 'wine reduction',
+          service: 'with wild mushrooms'
+        }
+      }
+    }
+  },
+  'partridge': {
+    elementalProperties: { Air: 0.4, Earth: 0.3, Fire: 0.2, Water: 0.1 },
+    qualities: ['delicate', 'gamey', 'small'],
+    origin: ['Europe', 'Middle East'],
+    category: 'protein',
+    subCategory: 'poultry',
+    varieties: {
+      'grey': {
+        weight: '12-15 oz',
+        characteristics: 'traditional game bird',
+        best_for: 'roasting, grilling'
+      },
+      'red_legged': {
+        weight: '14-18 oz',
+        characteristics: 'milder flavor',
+        best_for: 'roasting, braising'
+      }
+    },
+    cuts: {
+      'whole': {
+        characteristics: 'small, tender game bird',
+        cooking_methods: ['roast', 'grill', 'braise'],
+        internal_temp: { fahrenheit: 165, celsius: 74 }
+      },
+      'breast': {
+        characteristics: 'lean, quick-cooking',
+        cooking_methods: ['pan-sear', 'grill'],
+        internal_temp: { fahrenheit: 155, celsius: 68 }
+      }
+    },
+    culinaryApplications: {
+      'roasting': {
+        'traditional': {
+          preparation: {
+            barding: 'wrap in vine leaves or bacon',
+            cavity: ['herbs', 'garlic', 'butter'],
+            trussing: 'tie legs together'
+          },
+          cooking: {
+            temperature: { fahrenheit: 375, celsius: 190 },
+            timing: '25-30 minutes total',
+            resting: '10 minutes covered'
+          }
+        }
+      },
+      'braising': {
+        preparation: {
+          marinade: ['wine', 'herbs', 'shallots'],
+          browning: 'quick sear on all sides'
+        },
+        cooking: {
+          liquid: 'wine and stock',
+          temperature: { fahrenheit: 325, celsius: 163 },
+          timing: '45-60 minutes'
+        }
+      }
+    },
+    regionalPreparations: {
+      'french': {
+        'perdrix_aux_choux': {
+          method: 'braised with cabbage',
+          sauce: 'natural jus',
+          service: 'with braised vegetables'
+        }
+      },
+      'middle_eastern': {
+        'stuffed_partridge': {
+          method: 'stuffed with rice and spices',
+          seasonings: ['allspice', 'cinnamon', 'pine nuts'],
+          service: 'with flatbread and yogurt'
+        }
+      }
+    }
   }
 };
+
+export default poultry;
