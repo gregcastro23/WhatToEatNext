@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Recipe from './Recipe';
 import { cuisines } from '@/data/cuisines';
 import { findBestMatches } from '@/utils/recipeMatching';
 import type { Dish } from '@/data/cuisines';
 import type { ElementalProperties } from '@/types/alchemy';
 import { useAlchemical } from '@/contexts/AlchemicalContext';
-import { SpoonacularService } from '@/services/SpoonacularService';
-import { AlchemicalEngine } from '@/lib/alchemicalEngine';
 
 interface RecipeRecommendationsProps {
   filters: {
@@ -19,26 +17,10 @@ interface RecipeRecommendationsProps {
 const RecipeRecommendations: React.FC<RecipeRecommendationsProps> = ({
   filters,
 }) => {
-  const [recipes, setRecipes] = useState<Recipe[]>([]);
-  const { elementalState } = useAlchemical();
-  const alchemicalEngine = new AlchemicalEngine();
-
-  useEffect(() => {
-    const fetchRecipes = async () => {
-      const spoonacularRecipes = await SpoonacularService.searchRecipes({
-        diet: filters.dietaryPreference,
-        maxReadyTime: parseInt(filters.cookingTime) || undefined,
-      });
-
-      // Skip elemental filtering for now
-      setRecipes(spoonacularRecipes);
-    };
-
-    fetchRecipes();
-  }, [filters]);
-
+  const { engine, state } = useAlchemical();
+  
   // Get all recipes
-  const allRecipes = Object.entries(cuisines).flatMap(([_cuisineKey, cuisine]) =>
+  const allRecipes = Object.entries(cuisines).flatMap(([_, cuisine]) =>
     Object.entries(cuisine.dishes).flatMap(([mealType, mealTypeData]) =>
       Object.entries(mealTypeData).flatMap(([season, recipes]) =>
         recipes.map((recipe: Dish) => ({
@@ -61,12 +43,12 @@ const RecipeRecommendations: React.FC<RecipeRecommendationsProps> = ({
   });
 
   // Get optimal recipes using the engine
-  const recommendations = alchemicalEngine.findOptimalRecipes(filteredRecipes);
+  const recommendations = engine.findOptimalRecipes(filteredRecipes);
 
   const getElementalDisplay = (elements: ElementalProperties) => {
     return Object.entries(elements)
-      .filter(([_key, value]) => value > 0)
-      .sort(([_keyA, a], [_keyB, b]) => b - a)
+      .filter(([_, value]) => value > 0)
+      .sort(([_, a], [_, b]) => b - a)
       .slice(0, 2);
   };
 
@@ -76,7 +58,7 @@ const RecipeRecommendations: React.FC<RecipeRecommendationsProps> = ({
       <div className="bg-white rounded-lg p-4 shadow-sm">
         <h3 className="text-lg font-medium mb-2">Current Elemental Balance</h3>
         <div className="grid grid-cols-2 gap-4 text-sm">
-          {Object.entries(elementalState).map(([element, value]) => (
+          {Object.entries(state.elementalBalance).map(([element, value]) => (
             <div key={element} className="flex items-center">
               <span className="mr-2">
                 {element === 'Fire' && '🔥'}

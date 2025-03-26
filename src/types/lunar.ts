@@ -10,6 +10,6 @@ export type LunarPhase =
 
 export interface LunarInfluence {
   phase: LunarPhase;
-  element: keyof elementalState;
+  element: keyof ElementalBalance;
   strength: number;
 }

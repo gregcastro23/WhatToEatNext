@@ -23,7 +23,7 @@ interface Cuisine {
     dinner: { all: Dish[], summer?: Dish[], winter?: Dish[] },
     dessert?: { all: Dish[], summer?: Dish[], winter?: Dish[] }
   };
-  elementalState: {
+  elementalBalance: {
     Fire: number;
     Water: number;
     Earth: number;
@@ -41,7 +41,7 @@ export default function Recipe({ recipe, isExpanded = false, onToggle }: RecipeP
     if (isExpanded) {
       stateManager.addToHistory('viewed', recipe.id);
     }
-  }, [isExpanded, recipe.id, stateManager]);
+  }, [isExpanded, recipe.id]);
 
   const handleFavoriteClick = async (e: React.MouseEvent) => {
     try {
@@ -73,7 +73,7 @@ export default function Recipe({ recipe, isExpanded = false, onToggle }: RecipeP
     return (amount * ratio).toFixed(1).replace(/\.0$/, '');
   };
 
-  const renderelementalState = () => {
+  const renderElementalBalance = () => {
     const elements = Object.entries(recipe.elementalProperties || {});
     return (
       <div className="flex flex-wrap gap-2 mt-4">
@@ -142,7 +142,7 @@ export default function Recipe({ recipe, isExpanded = false, onToggle }: RecipeP
           )}
         </div>
 
-        {renderelementalState()}
+        {renderElementalBalance()}
       </div>
 
       <AnimatePresence>

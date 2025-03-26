@@ -1,53 +1,40 @@
 {
-  "name": "tarot-recipe-app",
+  "name": "what-to-eat-next",
   "version": "1.0.0",
+  "description": "A personalized food recommendation system based on astrological data and elemental balance",
   "license": "MIT",
   "scripts": {
     "dev": "next dev",
-    "prebuild": "node react-version-fix.cjs",
     "build": "next build",
     "start": "next start",
     "lint": "eslint . --ext .ts,.tsx,.js,.jsx",
     "lint:fix": "eslint . --ext .ts,.tsx,.js,.jsx --fix",
-    "lint:unused": "yarn eslint . --ext .js,.jsx,.ts,.tsx --fix --rule '@typescript-eslint/no-unused-vars: [\"warn\", { \"argsIgnorePattern\": \"^_\", \"varsIgnorePattern\": \"^_\", \"caughtErrorsIgnorePattern\": \"^_\" }]'",
-    "fix:unused": "node fix-unused-vars.js",
+    "lint:unused": "eslint . --ext .js,.jsx,.ts,.tsx --fix --rule '@typescript-eslint/no-unused-vars: [\"warn\", { \"argsIgnorePattern\": \"^_\", \"varsIgnorePattern\": \"^_\", \"caughtErrorsIgnorePattern\": \"^_\" }]'",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage",
-    "download-ephe": "ts-node src/scripts/downloadEphemeris.ts",
-    "astro": "astro",
-    "astro:dev": "astro dev",
-    "astro:build": "astro build",
-    "astro:preview": "astro preview"
+    "test:coverage": "jest --coverage"
   },
   "dependencies": {
-    "@astrojs/node": "^7.0.0",
-    "@astrojs/react": "^3.0.0",
-    "@astrojs/vercel": "^5.0.0",
     "@types/node": "^18.0.0",
     "@types/react": "^18.0.0",
-    "astro": "^3.0.0",
-    "astro-icon": "^0.8.0",
-    "astro-seo": "^0.8.0",
     "astronomia": "^4.1.1",
     "astronomy-engine": "^2.1.19",
     "axios": "^1.8.3",
     "framer-motion": "^12.5.0",
     "lucide-react": "^0.482.0",
-    "module-alias": "^2.2.3",
-    "next": "^15.2.3",
-    "next-transpile-modules": "^9.1.0",
+    "next": "14.1.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "swisseph": "^0.5.17",
     "typescript": "^5.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.22.0",
+    "@humanwhocodes/module-importer": "^1.0.1",
     "@testing-library/jest-dom": "^5.0.0",
     "@testing-library/react": "^13.0.0",
     "@types/axios": "^0.14.4",
     "@types/jest": "^29.0.0",
+    "@types/react-dom": "^18.0.6",
     "@typescript-eslint/eslint-plugin": "^8.26.1",
     "@typescript-eslint/parser": "^8.26.1",
     "autoprefixer": "^10.4.14",
@@ -71,8 +58,8 @@
       "^@/(.*)$": "<rootDir>/src/$1"
     },
     "setupFilesAfterEnv": [
-      "<rootDir>/src/__tests__/setupTests.ts"
+      "<rootDir>/jest.setup.js"
     ]
   },
-  "type": "module"
+  "type": "commonjs"
 }

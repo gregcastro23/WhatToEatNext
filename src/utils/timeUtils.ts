@@ -2,7 +2,6 @@
 
 import { cuisines } from "@/data/cuisines";
 import type { Dish } from "@/types";
-import type { Season } from "@/data/seasons";
 
 export const getMealPeriod = (hour: number): string => {
   if (hour >= 5 && hour < 11) return "breakfast";
@@ -11,11 +10,11 @@ export const getMealPeriod = (hour: number): string => {
   return "breakfast";
 };
 
-export const getSeason = (month: number): Season => {
+export const getSeason = (month: number): string => {
   if ([11, 0, 1].includes(month)) return "winter";
   if ([2, 3, 4].includes(month)) return "spring";
   if ([5, 6, 7].includes(month)) return "summer";
-  return "autumn";
+  return "fall";
 };
 
 // Helper function to get all dishes for a cuisine
@@ -36,7 +35,7 @@ const getAllDishesForCuisine = (cuisineId: string): Dish[] => {
   return allDishes;
 };
 
-export const getRecommendations = (mealTime: string, season: Season, cuisineId: string): Dish[] => {
+export const getRecommendations = (mealTime: string, season: string, cuisineId: string): Dish[] => {
   try {
     console.log(`Getting recommendations for: ${cuisineId}, ${mealTime}, ${season}`);
     

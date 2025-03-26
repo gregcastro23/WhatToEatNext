@@ -5,9 +5,6 @@ import './globals.css'
 import { AlchemicalProvider } from '@/contexts/AlchemicalContext'
 import { ThemeProvider } from '@/contexts/ThemeContext'
 import Clock from '@/components/Clock'
-import '@/utils/retryChunkLoad'
-import { CurrentChartProvider } from '@/context/CurrentChartContext'
-import PlanetaryPositionInitializer from '@/components/PlanetaryPositionInitializer'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -26,23 +23,20 @@ export default function RootLayout({
       <body className={inter.className}>
         <ThemeProvider>
           <AlchemicalProvider>
-            <CurrentChartProvider>
-              <ClientProviders>
-                <PlanetaryPositionInitializer />
-                <Clock />
-                <header className="bg-gray-50 py-6">
-                  <div className="max-w-7xl mx-auto px-4">
-                    <h1 className="text-3xl font-bold text-gray-900">
-                      Alchm Kitchen
-                    </h1>
-                    <p className="mt-2 text-gray-600">
-                      The Menu of the Moment in the Stars and Elements
-                    </p>
-                  </div>
-                </header>
-                <main>{children}</main>
-              </ClientProviders>
-            </CurrentChartProvider>
+            <ClientProviders>
+              <Clock />
+              <header className="bg-gray-50 py-6">
+                <div className="max-w-7xl mx-auto px-4">
+                  <h1 className="text-3xl font-bold text-gray-900">
+                    Alchemical Kitchen
+                  </h1>
+                  <p className="mt-2 text-gray-600">
+                    Discover recipes aligned with nature's current elemental balance
+                  </p>
+                </div>
+              </header>
+              <main>{children}</main>
+            </ClientProviders>
           </AlchemicalProvider>
         </ThemeProvider>
       </body>

@@ -31,7 +31,7 @@ class StateValidator {
       }
 
       // Validate elemental balance
-      if (!this.validateElementalProperties(state.elementalState)) {
+      if (!this.validateElementalProperties(state.elementalBalance)) {
         throw new Error('Invalid elemental balance')
       }
 
@@ -74,7 +74,7 @@ class StateValidator {
       
       const requiredFields = ['id', 'name', 'elementalProperties']
       const hasRequiredFields = requiredFields.every(field => 
-        Object.prototype.hasOwnProperty.call(recipe, field)
+        recipe.hasOwnProperty(field)
       )
       
       if (!hasRequiredFields) return false

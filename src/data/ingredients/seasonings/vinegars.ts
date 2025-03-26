@@ -1,25 +1,8 @@
-import type { IngredientMapping, ElementalProperties, ZodiacSign } from '@/types/alchemy';
-
-// Helper function to standardize ingredient mappings
-function createIngredientMapping(
-  id: string,
-  properties: Partial<IngredientMapping>
-): IngredientMapping {
-  return {
-    name: id, // Add the required name property
-    elementalProperties: properties.elementalProperties || { 
-      Earth: 0.25, 
-      Water: 0.25, 
-      Fire: 0.25, 
-      Air: 0.25 
-    },
-    category: properties.category || '',
-    ...properties
-  };
-}
+import type { IngredientMapping } from '@/types/alchemy';
 
 export const vinegars: Record<string, IngredientMapping> = {
-  'rice_vinegar': createIngredientMapping('rice_vinegar', {
+  'rice_vinegar': {
+    elementalProperties: { Water: 0.4, Air: 0.1 },
     qualities: ['mild', 'sweet', 'clean'],
     origin: ['China', 'Japan', 'Korea'],
     category: 'vinegar',
@@ -80,31 +63,10 @@ export const vinegars: Record<string, IngredientMapping> = {
       container: 'glass bottle',
       notes: 'Keep away from light'
     }
-  }),
+  },
 
-  'balsamic_vinegar': createIngredientMapping('balsamic_vinegar', {
-    astrologicalProfile: {
-      rulingPlanets: ['Venus', 'Saturn'],
-      favorableZodiac: ['cancer', 'taurus'],
-      elementalAffinity: {
-        base: 'Earth',
-        decanModifiers: {
-          first: { element: 'Earth', planet: 'Venus' },
-          second: { element: 'Fire', planet: 'Saturn' },
-          third: { element: 'Air', planet: 'Mercury' }
-        }
-      },
-      lunarPhaseModifiers: {
-        waxingCrescent: {
-          elementalBoost: { Earth: 0.1, Fire: 0.1 },
-          preparationTips: ['Best for reductions']
-        },
-        fullMoon: {
-          elementalBoost: { Fire: 0.2 },
-          preparationTips: ['Ideal for finishing dishes']
-        }
-      }
-    },
+  'balsamic_vinegar': {
+    elementalProperties: { Earth: 0.4, Wood: 0.3, Fire: 0.2, Water: 0.1 },
     qualities: ['sweet', 'complex', 'rich'],
     origin: ['Italy'],
     category: 'vinegar',
@@ -164,15 +126,10 @@ export const vinegars: Record<string, IngredientMapping> = {
       container: 'glass bottle',
       notes: 'May continue to develop in bottle'
     }
-  }),
+  },
 
-  'sherry_vinegar': createIngredientMapping('sherry_vinegar', {
-    elementalProperties: {
-      Water: 0.5,
-      Earth: 0.3,
-      Fire: 0.1,
-      Air: 0.1
-    },
+  'sherry_vinegar': {
+    elementalProperties: { Wood: 0.4, Fire: 0.3, Earth: 0.2, Water: 0.1 },
     qualities: ['nutty', 'complex', 'sharp'],
     origin: ['Spain'],
     category: 'vinegar',
@@ -213,37 +170,10 @@ export const vinegars: Record<string, IngredientMapping> = {
       container: 'glass bottle',
       notes: 'Maintains quality well'
     }
-  }),
+  },
 
-  'apple_cider_vinegar': createIngredientMapping('apple_cider_vinegar', {
-    elementalProperties: {
-      Water: 0.4,
-      Earth: 0.3,
-      Air: 0.2,
-      Fire: 0.1
-    },
-    astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Venus'],
-      favorableZodiac: ['cancer', 'taurus'],
-      elementalAffinity: {
-        base: 'Earth',
-        decanModifiers: {
-          first: { element: 'Earth', planet: 'Moon' },
-          second: { element: 'Water', planet: 'Venus' },
-          third: { element: 'Air', planet: 'Mercury' }
-        }
-      },
-      lunarPhaseModifiers: {
-        newMoon: {
-          elementalBoost: { Earth: 0.1, Water: 0.1 },
-          preparationTips: ['Best for health tonics']
-        },
-        fullMoon: {
-          elementalBoost: { Water: 0.2 },
-          preparationTips: ['Ideal for pickling']
-        }
-      }
-    },
+  'apple_cider_vinegar': {
+    elementalProperties: { Wood: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
     qualities: ['fruity', 'sharp', 'fresh'],
     origin: ['Global'],
     category: 'vinegar',
@@ -290,15 +220,10 @@ export const vinegars: Record<string, IngredientMapping> = {
       container: 'glass bottle',
       notes: 'Raw version may develop mother'
     }
-  }),
+  },
 
-  'red_wine_vinegar': createIngredientMapping('red_wine_vinegar', {
-    elementalProperties: {
-      Water: 0.3,
-      Fire: 0.3,
-      Earth: 0.3,
-      Air: 0.1
-    },
+  'red_wine_vinegar': {
+    elementalProperties: { Fire: 0.4, Earth: 0.3, Wood: 0.2, Water: 0.1 },
     qualities: ['robust', 'fruity', 'tangy'],
     origin: ['France', 'Italy', 'Spain'],
     category: 'vinegar',
@@ -390,9 +315,10 @@ export const vinegars: Record<string, IngredientMapping> = {
       container: 'glass bottle',
       notes: 'Keep away from light'
     }
-  }),
+  },
 
-  'white_wine_vinegar': createIngredientMapping('white_wine_vinegar', {
+  'white_wine_vinegar': {
+    elementalProperties: { Air: 0.4, Water: 0.3, Wood: 0.2, Fire: 0.1 },
     qualities: ['bright', 'clean', 'crisp'],
     origin: ['France', 'Germany', 'Italy'],
     category: 'vinegar',
@@ -449,9 +375,10 @@ export const vinegars: Record<string, IngredientMapping> = {
         }
       }
     }
-  }),
+  },
 
-  'champagne_vinegar': createIngredientMapping('champagne_vinegar', {
+  'champagne_vinegar': {
+    elementalProperties: { Air: 0.5, Water: 0.2, Wood: 0.2, Fire: 0.1 },
     qualities: ['delicate', 'floral', 'elegant'],
     origin: ['France'],
     category: 'vinegar',
@@ -499,15 +426,10 @@ export const vinegars: Record<string, IngredientMapping> = {
         }
       }
     }
-  }),
+  },
 
-  'malt_vinegar': createIngredientMapping('malt_vinegar', {
-    elementalProperties: {
-      Earth: 0.5,
-      Fire: 0.3,
-      Water: 0.2,
-      Air: 0.0
-    },
+  'malt_vinegar': {
+    elementalProperties: { Earth: 0.4, Wood: 0.3, Water: 0.2, Fire: 0.1 },
     qualities: ['robust', 'grainy', 'complex'],
     origin: ['United Kingdom'],
     category: 'vinegar',
@@ -567,5 +489,5 @@ export const vinegars: Record<string, IngredientMapping> = {
       container: 'glass bottle',
       notes: 'May develop sediment'
     }
-  })
+  }
 };

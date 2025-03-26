@@ -2,43 +2,14 @@
 export const MEAL_TIMES = ['breakfast', 'lunch', 'snack', 'dinner'] as const;
 export type MealTime = typeof MEAL_TIMES[number];
 
-// Using zodiac signs instead of traditional seasons
-// Import the ZodiacSign type for use as seasons
-import { ZodiacSign, ZodiacSeason } from '@/types/alchemy';
-
-// Define zodiac signs as seasons
-export const ZODIAC_SEASONS: ZodiacSign[] = [
-  'aries', 'taurus', 'gemini', 'cancer', 
-  'leo', 'virgo', 'libra', 'scorpio', 
-  'sagittarius', 'capricorn', 'aquarius', 'pisces'
-];
-
-// Maintain backward compatibility
-// Replace with zodiac-based seasons
-export type Season = ZodiacSeason;
+export const SEASONS = ['spring', 'summer', 'fall', 'winter', 'all'] as const;
+export type Season = typeof SEASONS[number];
 
 // Recipe and ingredient types
 export interface Ingredient {
   name: string;
   category: string;
   amount: string;
-  elementalProperties: ElementalProperties;
-  astrologicalProfile: {
-    elementalAffinity: {
-      base: string;
-      secondary?: string;
-    };
-    rulingPlanets: string[];
-    zodiacAffinity?: string[];
-  };
-  flavorProfile?: {
-    spicy: number;
-    sweet: number;
-    sour: number;
-    bitter: number;
-    salty: number;
-    umami: number;
-  };
 }
 
 export interface Nutrition {
@@ -111,6 +82,3 @@ export enum CuisineType {
   ITALIAN = 'ITALIAN',
   // ... other cuisines
 }
-
-// Export all types from alchemy
-export * from './alchemy';

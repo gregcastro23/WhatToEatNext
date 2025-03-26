@@ -1,21 +1,8 @@
-import type { IngredientMapping } from '@/types/ingredients';
-import { CUISINE_TYPES } from '@/constants/cuisineTypes';
+import type { IngredientMapping } from '@/types/alchemy';
 
 export const spiceBlends: Record<string, IngredientMapping> = {
   'garam_masala': {
     elementalProperties: { Fire: 0.5, Air: 0.2, Earth: 0.2, Water: 0.1 },
-    astrologicalProfile: {
-      rulingPlanets: ['Sun', 'Jupiter'],
-      favorableZodiac: ['Leo', 'Sagittarius'],
-      elementalAffinity: {
-        base: 'Fire',
-        decanModifiers: {
-          first: { element: 'Fire', planet: 'Sun' },
-          second: { element: 'Air', planet: 'Jupiter' },
-          third: { element: 'Earth', planet: 'Saturn' }
-        }
-      }
-    },
     qualities: ['warming', 'aromatic', 'complex'],
     origin: 'Indian Subcontinent',
     category: 'spice',
@@ -67,18 +54,6 @@ export const spiceBlends: Record<string, IngredientMapping> = {
 
   'ras_el_hanout': {
     elementalProperties: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
-    astrologicalProfile: {
-      rulingPlanets: ['Venus', 'Mars'],
-      favorableZodiac: ['Taurus', 'Scorpio'],
-      elementalAffinity: {
-        base: 'Fire',
-        decanModifiers: {
-          first: { element: 'Fire', planet: 'Venus' },
-          second: { element: 'Earth', planet: 'Mars' },
-          third: { element: 'Air', planet: 'Mercury' }
-        }
-      }
-    },
     qualities: ['warming', 'complex', 'aromatic'],
     origin: 'North Africa',
     category: 'spice',

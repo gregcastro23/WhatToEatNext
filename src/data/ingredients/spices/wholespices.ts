@@ -1,5 +1,4 @@
-import type { IngredientMapping } from '@/types/ingredients';
-import { CUISINE_TYPES } from '@/constants/cuisineTypes';
+import type { IngredientMapping } from '@/types/alchemy';
 
 export const wholeSpices: Record<string, IngredientMapping> = {
   'star_anise': {
@@ -55,18 +54,6 @@ export const wholeSpices: Record<string, IngredientMapping> = {
 
   'cardamom_pods': {
     elementalProperties: { Air: 0.4, Fire: 0.3, Earth: 0.2, Water: 0.1 },
-    astrologicalProfile: {
-      rulingPlanets: ['Mercury', 'Venus'],
-      favorableZodiac: ['Gemini', 'Libra'],
-      elementalAffinity: {
-        base: 'Air',
-        decanModifiers: {
-          first: { element: 'Air', planet: 'Mercury' },
-          second: { element: 'Fire', planet: 'Venus' },
-          third: { element: 'Earth', planet: 'Saturn' }
-        }
-      }
-    },
     qualities: ['aromatic', 'complex', 'intense'],
     origin: ['India', 'Guatemala', 'Sri Lanka'],
     category: 'spice',
@@ -303,18 +290,6 @@ export const wholeSpices: Record<string, IngredientMapping> = {
 
   'cumin_seeds': {
     elementalProperties: { Earth: 0.4, Fire: 0.3, Air: 0.2, Water: 0.1 },
-    astrologicalProfile: {
-      rulingPlanets: ['Mercury', 'Saturn'],
-      favorableZodiac: ['Virgo', 'Capricorn'],
-      elementalAffinity: {
-        base: 'Earth',
-        decanModifiers: {
-          first: { element: 'Earth', planet: 'Mercury' },
-          second: { element: 'Fire', planet: 'Saturn' },
-          third: { element: 'Air', planet: 'Uranus' }
-        }
-      }
-    },
     qualities: ['earthy', 'warm', 'pungent'],
     origin: ['India', 'Iran', 'Turkey'],
     category: 'spice',

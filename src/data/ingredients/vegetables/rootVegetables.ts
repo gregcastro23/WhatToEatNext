@@ -3,18 +3,6 @@ import type { IngredientMapping } from '@/types/alchemy';
 export const rootVegetables: Record<string, IngredientMapping> = {
   'sweet potato': {
     elementalProperties: { Earth: 0.5, Fire: 0.3, Water: 0.1, Air: 0.1 },
-    astrologicalProfile: {
-      rulingPlanets: ['Venus', 'Moon'],
-      favorableZodiac: ['Taurus', 'Cancer', 'Virgo'],
-      elementalAffinity: {
-        base: 'Earth',
-        decanModifiers: {
-          first: { element: 'Earth', planet: 'Venus' },
-          second: { element: 'Water', planet: 'Moon' },
-          third: { element: 'Air', planet: 'Mercury' }
-        }
-      }
-    },
     qualities: ['grounding', 'warming', 'nourishing'],
     season: ['fall', 'winter'],
     category: 'vegetable',

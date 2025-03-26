@@ -52,14 +52,14 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
   };
 
   const calculateMatchPercentage = (recipe: ScoredRecipe): number => {
-    if (!recipe.elementalProperties || !state.elementalState) return 0;
+    if (!recipe.elementalProperties || !state.elementalBalance) return 0;
 
     const elements = ['Fire', 'Water', 'Earth', 'Air'] as const;
     
     // Calculate similarity for each element
     const similarities = elements.map(element => {
       const recipeValue = recipe.elementalProperties[element] || 0;
-      const balanceValue = state.elementalState[element] || 0;
+      const balanceValue = state.elementalBalance[element] || 0;
       
       // Calculate how close the values are (0 = perfect match)
       const difference = Math.abs(recipeValue - balanceValue);
@@ -116,7 +116,7 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
         }
       })
       .slice(0, viewMode === 'compact' ? 9 : 6);
-  }, [recipes, selectedCuisine, mealType, state.elementalState, sortBy]);
+  }, [recipes, selectedCuisine, mealType, state.elementalBalance, sortBy]);
 
   const getViewModeClass = () => {
     switch (viewMode) {

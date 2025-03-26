@@ -4,184 +4,19 @@ import type { Cuisine } from '@/types/recipe';
 export const french: Cuisine = {
   name: 'French',
   description: 'Classical French cuisine emphasizing technique, tradition, and refined flavors. From rustic provincial dishes to haute cuisine, French cooking is the foundation of culinary arts.',
-  motherSauces: {
-    bechamel: {
-      name: "Béchamel",
-      description: "A white sauce made from milk thickened with a white roux",
-      base: "milk",
-      thickener: "white roux (butter and flour)",
-      keyIngredients: ["milk", "butter", "flour", "nutmeg"],
-      culinaryUses: ["lasagna", "croque monsieur", "soufflé", "gratins"],
-      derivatives: ["Mornay", "Soubise", "Nantua", "Cream sauce"],
-      difficultyLevel: "beginner",
-      elementalProperties: {
-        Water: 0.5,
-        Earth: 0.3,
-        Air: 0.1,
-        Fire: 0.1
-      },
-      astrologicalInfluences: ["Moon", "Cancer", "Venus"],
-      seasonality: "all",
-      preparationNotes: "Heat should be gentle to prevent scorching. Whisk constantly when adding milk to prevent lumps.",
-      technicalTips: "For a smoother sauce, heat the milk before adding it to the roux."
-    },
-    veloute: {
-      name: "Velouté",
-      description: "A light stock-based sauce thickened with a blonde roux",
-      base: "light stock (chicken, fish, or veal)",
-      thickener: "blonde roux (butter and flour)",
-      keyIngredients: ["light stock", "butter", "flour"],
-      culinaryUses: ["poultry dishes", "fish dishes", "vegetable preparations"],
-      derivatives: ["Allemande", "Suprême", "Bercy", "Hungarian"],
-      difficultyLevel: "intermediate",
-      elementalProperties: {
-        Water: 0.4,
-        Earth: 0.3,
-        Air: 0.2,
-        Fire: 0.1
-      },
-      astrologicalInfluences: ["Jupiter", "Mercury", "Pisces"],
-      seasonality: "all",
-      preparationNotes: "The stock must be relatively clear and the roux cooked to a blonde stage.",
-      technicalTips: "Choose the stock type based on the protein it will accompany."
-    },
-    espagnole: {
-      name: "Espagnole (Brown Sauce)",
-      description: "A brown stock-based sauce thickened with a brown roux",
-      base: "brown stock (traditionally veal)",
-      thickener: "brown roux (butter and flour)",
-      keyIngredients: ["brown stock", "mirepoix", "tomato paste", "butter", "flour"],
-      culinaryUses: ["red meat dishes", "game", "rich preparations"],
-      derivatives: ["Demi-glace", "Bordelaise", "Charcutière", "Robert", "Chasseur"],
-      difficultyLevel: "advanced",
-      elementalProperties: {
-        Earth: 0.4,
-        Fire: 0.3,
-        Water: 0.2,
-        Air: 0.1
-      },
-      astrologicalInfluences: ["Mars", "Saturn", "Scorpio"],
-      seasonality: "autumn, winter",
-      preparationNotes: "The roux must be browned correctly to develop the deep color and flavor.",
-      technicalTips: "Skim regularly during simmering to achieve clarity."
-    },
-    hollandaise: {
-      name: "Hollandaise",
-      description: "An emulsion of butter and lemon juice using egg yolks as the emulsifier",
-      base: "clarified butter",
-      thickener: "egg yolks",
-      keyIngredients: ["egg yolks", "clarified butter", "lemon juice", "white pepper"],
-      culinaryUses: ["eggs benedict", "asparagus", "fish", "vegetables"],
-      derivatives: ["Béarnaise", "Maltaise", "Mousseline", "Choron"],
-      difficultyLevel: "advanced",
-      elementalProperties: {
-        Water: 0.2,
-        Fire: 0.4,
-        Air: 0.3,
-        Earth: 0.1
-      },
-      astrologicalInfluences: ["Sun", "Mercury", "Leo"],
-      seasonality: "spring, summer",
-      preparationNotes: "Temperature control is critical to prevent curdling or breaking.",
-      technicalTips: "Use a double boiler or bain-marie and add butter gradually."
-    },
-    tomato: {
-      name: "Tomato Sauce",
-      description: "A sauce based on tomatoes, with aromatic vegetables and stock",
-      base: "tomatoes",
-      thickener: "tomato reduction and occasionally roux",
-      keyIngredients: ["tomatoes", "mirepoix", "garlic", "herbs"],
-      culinaryUses: ["pasta", "meat dishes", "fish", "vegetables"],
-      derivatives: ["Provençale", "Spanish", "Creole", "Portuguese"],
-      difficultyLevel: "beginner",
-      elementalProperties: {
-        Fire: 0.5,
-        Earth: 0.3,
-        Water: 0.1,
-        Air: 0.1
-      },
-      astrologicalInfluences: ["Mars", "Leo", "Aries"],
-      seasonality: "summer, autumn",
-      preparationNotes: "Can be smooth or chunky depending on the preparation method.",
-      technicalTips: "For a deeper flavor, roast the tomatoes beforehand."
-    }
-  },
-  sauceRecommender: {
-    forProtein: {
-      chicken: ["veloute", "supreme", "allemande"],
-      fish: ["hollandaise", "bercy", "normandy"],
-      beef: ["espagnole", "bordelaise", "robert"],
-      lamb: ["espagnole", "mint", "rosemary jus"],
-      pork: ["robert", "charcutiere", "diable"],
-      game: ["grand veneur", "poivrade", "chasseur"]
-    },
-    forVegetable: {
-      asparagus: ["hollandaise", "maltaise", "mousseline"],
-      potatoes: ["bechamel", "mornay", "cream sauce"],
-      mushrooms: ["espagnole", "duxelles", "forestiere"],
-      greens: ["vinaigrette", "ravigote", "gribiche"]
-    },
-    forCookingMethod: {
-      roasting: ["jus lie", "demi-glace", "au poivre"],
-      poaching: ["veloute", "vin blanc", "nage"],
-      grilling: ["bearnaise", "bordelaise", "maitre d'hotel butter"],
-      braising: ["espagnole", "romesco", "chasseur"]
-    },
-    byAstrological: {
-      fire: ["espagnole", "bearnaise", "spicy tomato"],
-      earth: ["bechamel", "mornay", "mushroom"],
-      air: ["vinaigrette", "ravigote", "herb-infused"],
-      water: ["veloute", "hollandaise", "beurre blanc"]
-    },
-    byDietary: {
-      vegetarian: ["bechamel", "tomato", "romesco"],
-      vegan: ["tomato", "mushroom", "herb oil"],
-      glutenFree: ["hollandaise", "beurre blanc", "herb oil"],
-      dairyFree: ["tomato", "herb oils", "jus"]
-    }
-  },
   dishes: {
     breakfast: {
       all: [
         {
-          name: "Parisian Breakfast",
-          description: "Traditional Parisian breakfast with croissant, café au lait, and strawberry preserves",
-          cuisine: "french",
-          cookingMethods: ["warming", "brewing"],
-          tools: [
-            "coffee maker",
-            "milk frother",
-            "small plates",
-            "butter knife",
-            "serving tray"
-          ],
-          preparationSteps: [
-            "Warm croissant in oven if desired",
-            "Brew strong coffee",
-            "Heat and froth milk",
-            "Combine coffee and hot milk for café au lait",
-            "Serve croissant with butter and preserves",
-            "Arrange everything on serving tray"
-          ],
-          substitutions: {
-            "croissant": ["sourdough bread", "whole grain bread"],
-            "whole milk": ["almond milk", "oat milk"],
-            "French butter": ["plant-based butter"]
-          },
-          servingSize: 1,
-          allergens: ["dairy", "gluten"],
-          prepTime: "5 minutes",
-          cookTime: "10 minutes",
-          culturalNotes: "The quintessential Parisian breakfast, traditionally enjoyed at a café or home",
-          pairingSuggestions: ["fresh orange juice", "fresh fruit", "yogurt"],
-          dietaryInfo: ["vegetarian"],
-          spiceLevel: "none",
+          name: "Petit Déjeuner Parisien",
+          description: "Traditional Parisian breakfast with croissant, café au lait, and confiture",
+          cuisine: "French",
           ingredients: [
-            { name: "butter croissant", amount: "1", unit: "piece", category: "pastry", swaps: ["sourdough bread"] },
+            { name: "croissant au beurre", amount: "1", unit: "piece", category: "viennoiserie", swaps: ["pain au levain"] },
             { name: "French butter", amount: "30", unit: "g", category: "dairy", swaps: ["plant-based butter"] },
-            { name: "strawberry preserves", amount: "30", unit: "g", category: "preserve" },
-            { name: "coffee", amount: "120", unit: "ml", category: "beverage" },
-            { name: "whole milk", amount: "120", unit: "ml", category: "dairy", swaps: ["almond milk"] }
+            { name: "confiture de fraises", amount: "30", unit: "g", category: "confiture" },
+            { name: "café", amount: "120", unit: "ml", category: "beverage" },
+            { name: "lait entier", amount: "120", unit: "ml", category: "dairy", swaps: ["lait d'amande"] }
           ],
           nutrition: {
             calories: 420,
@@ -195,59 +30,24 @@ export const french: Cuisine = {
           season: ["all"],
           mealType: ["breakfast"],
           elementalProperties: {
-            Earth: 0.4,
-            Water: 0.3,
-            Fire: 0.2,
-            Air: 0.1
-          },
-          astrologicalInfluences: [
-            "Venus - The buttery richness of the croissant",
-            "Mercury - The stimulating effects of coffee"
-          ]
+            Air: 0.4,
+            Fire: 0.3,
+            Earth: 0.2,
+            Water: 0.1
+          }
         },
         {
-          name: "Eggs en Cocotte with Cream and Herbs",
-          description: "Baked eggs in ramekins with cream and fine herbs - a refined French breakfast",
-          cuisine: "french",
-          cookingMethods: ["baking", "water bath"],
-          tools: [
-            "ramekins",
-            "baking dish",
-            "kettle",
-            "measuring spoons",
-            "serving plates"
-          ],
-          preparationSteps: [
-            "Preheat oven to 350°F/180°C",
-            "Butter ramekins generously",
-            "Add cream and herbs to ramekins",
-            "Crack eggs into ramekins",
-            "Place in baking dish with hot water",
-            "Bake for 12-15 minutes",
-            "Season with salt and white pepper",
-            "Serve with toasted bread"
-          ],
-          substitutions: {
-            "crème fraîche": ["soy cream", "almond cream"],
-            "eggs": ["vegan egg substitute"],
-            "butter": ["olive oil"]
-          },
-          servingSize: 2,
-          allergens: ["eggs", "dairy"],
-          prepTime: "5 minutes",
-          cookTime: "15 minutes",
-          culturalNotes: "A refined breakfast dish popular in French bistros and home kitchens",
-          pairingSuggestions: ["rustic bread", "fresh herbs", "fleur de sel"],
-          dietaryInfo: ["vegetarian", "gluten-free optional"],
-          spiceLevel: "none",
+          name: "Oeufs en Cocotte à la Crème",
+          description: "Baked eggs in ramekins with cream and fine herbs",
+          cuisine: "French",
           ingredients: [
-            { name: "fresh eggs", amount: "2", unit: "large", category: "protein", swaps: ["vegan egg substitute"] },
-            { name: "crème fraîche", amount: "60", unit: "ml", category: "dairy", swaps: ["soy cream"] },
-            { name: "fine herbs", amount: "1", unit: "tbsp", category: "herb" },
-            { name: "unsalted butter", amount: "15", unit: "g", category: "dairy", swaps: ["olive oil"] },
-            { name: "sea salt", amount: "1/4", unit: "tsp", category: "seasoning" },
-            { name: "white pepper", amount: "1/8", unit: "tsp", category: "seasoning" },
-            { name: "rustic bread", amount: "2", unit: "slices", category: "bread", swaps: ["gluten-free bread"] }
+            { name: "oeufs frais", amount: "2", unit: "large", category: "protein", swaps: ["oeufs végétaliens"] },
+            { name: "crème fraîche", amount: "60", unit: "ml", category: "dairy", swaps: ["crème de soja"] },
+            { name: "fines herbes", amount: "1", unit: "tbsp", category: "herb" },
+            { name: "beurre doux", amount: "15", unit: "g", category: "dairy", swaps: ["huile d'olive"] },
+            { name: "sel de Guérande", amount: "1/4", unit: "tsp", category: "seasoning" },
+            { name: "poivre blanc", amount: "1/8", unit: "tsp", category: "seasoning" },
+            { name: "pain de campagne", amount: "2", unit: "slices", category: "bread", swaps: ["pain sans gluten"] }
           ],
           nutrition: {
             calories: 380,
@@ -257,62 +57,28 @@ export const french: Cuisine = {
             vitamins: ["A", "D", "B12"],
             minerals: ["Iron", "Calcium"]
           },
-          timeToMake: "20 minutes",
+          timeToMake: "15 minutes",
           season: ["all"],
           mealType: ["breakfast"],
           elementalProperties: {
-            Water: 0.5,
-            Earth: 0.3,
-            Fire: 0.1,
+            Earth: 0.4,
+            Water: 0.3,
+            Fire: 0.2,
             Air: 0.1
-          },
-          astrologicalInfluences: [
-            "Moon - The nurturing quality of eggs and cream",
-            "Neptune - The dreamy texture of baked eggs"
-          ]
+          }
         },
         {
-          name: "Classic French Toast",
-          description: "Traditional French toast with brioche and vanilla bean",
-          cuisine: "french",
-          cookingMethods: ["pan-frying", "soaking"],
-          tools: [
-            "non-stick pan",
-            "shallow dish",
-            "whisk",
-            "spatula",
-            "measuring cups"
-          ],
-          preparationSteps: [
-            "Split vanilla bean and scrape seeds",
-            "Whisk eggs with milk, vanilla, and sugar",
-            "Soak brioche slices in mixture",
-            "Heat butter in pan until foamy",
-            "Cook slices until golden brown",
-            "Dust with powdered sugar",
-            "Serve with maple syrup or honey"
-          ],
-          substitutions: {
-            "brioche": ["gluten-free milk bread", "challah"],
-            "whole milk": ["almond milk", "soy milk"],
-            "clarified butter": ["coconut oil", "ghee"]
-          },
-          servingSize: 3,
-          allergens: ["eggs", "dairy", "gluten"],
-          prepTime: "10 minutes",
-          cookTime: "15 minutes",
-          culturalNotes: "While called 'French toast' in English, in France it's known as 'pain perdu' (lost bread), as it was originally a way to use stale bread",
-          pairingSuggestions: ["fresh berries", "crème fraîche", "maple syrup"],
-          dietaryInfo: ["vegetarian"],
-          spiceLevel: "none",
+          name: "Pain Perdu à l'Ancienne",
+          description: "Classical French toast with brioche and vanilla bean",
+          cuisine: "French",
           ingredients: [
-            { name: "brioche", amount: "6", unit: "slices", category: "bread", swaps: ["gluten-free milk bread"] },
-            { name: "eggs", amount: "3", unit: "large", category: "protein" },
-            { name: "whole milk", amount: "240", unit: "ml", category: "dairy", swaps: ["almond milk"] },
-            { name: "vanilla bean", amount: "1", unit: "piece", category: "spice" },
-            { name: "granulated sugar", amount: "30", unit: "g", category: "sweetener" },
-            { name: "clarified butter", amount: "45", unit: "g", category: "dairy", swaps: ["coconut oil"] },
-            { name: "cinnamon", amount: "1/4", unit: "tsp", category: "spice" }
+            { name: "brioche", amount: "6", unit: "slices", category: "bread", swaps: ["pain au lait sans gluten"] },
+            { name: "oeufs entiers", amount: "3", unit: "large", category: "protein" },
+            { name: "lait entier", amount: "240", unit: "ml", category: "dairy", swaps: ["lait d'amande"] },
+            { name: "gousse de vanille", amount: "1", unit: "piece", category: "spice" },
+            { name: "sucre en poudre", amount: "30", unit: "g", category: "sweetener" },
+            { name: "beurre clarifié", amount: "45", unit: "g", category: "dairy", swaps: ["huile de coco"] },
+            { name: "cannelle", amount: "1/4", unit: "tsp", category: "spice" }
           ],
           nutrition: {
             calories: 460,
@@ -328,192 +94,124 @@ export const french: Cuisine = {
           elementalProperties: {
             Fire: 0.3,
             Earth: 0.3,
-            Water: 0.3,
-            Air: 0.1
-          },
-          astrologicalInfluences: [
-            "Venus - The sweet, indulgent nature",
-            "Jupiter - The expansive, celebratory quality"
-          ]
+            Air: 0.2,
+            Water: 0.2
+          }
         }
-      ]
-    },
+      ],
       lunch: {
         all: [
           {
-          name: "Classic Croque Monsieur",
-          description: "The quintessential French grilled ham and cheese sandwich, elevated with creamy béchamel sauce",
-          cuisine: "french",
-          cookingMethods: ["sautéing", "broiling", "sauce-making"],
-            tools: [
-              "saucepan",
-              "whisk",
-              "baking sheet",
-              "grater",
-              "pastry brush"
-            ],
-            preparationSteps: [
-              "Prepare béchamel sauce",
-              "Toast bread slices lightly",
-              "Layer ham and cheese",
-              "Spread béchamel on top",
-              "Add additional cheese",
-              "Broil until golden and bubbly",
-              "Garnish with fresh herbs"
-            ],
-            substitutions: {
-            "white ham": ["vegetarian ham", "smoked turkey"],
-            "Gruyère cheese": ["Emmental", "Swiss cheese"],
-            "white sandwich bread": ["gluten-free bread"]
-            },
-            servingSize: 2,
-            allergens: ["dairy", "gluten", "eggs"],
-            prepTime: "15 minutes",
-            cookTime: "10 minutes",
-          culturalNotes: "A café classic that emerged in Paris in the early 1900s. Add a fried egg on top and it becomes a 'Croque Madame'",
-            pairingSuggestions: ["green salad", "cornichons", "Dijon mustard"],
-            dietaryInfo: ["contains pork"],
-            spiceLevel: "none",
+            name: "Croque Monsieur",
+            description: "Classic French grilled ham and cheese sandwich with béchamel",
+            cuisine: "French",
             ingredients: [
-            { name: "white sandwich bread", amount: "4", unit: "slices", category: "bread", swaps: ["gluten-free bread"] },
-            { name: "white ham", amount: "200", unit: "g", category: "charcuterie", swaps: ["vegetarian ham"] },
-            { name: "Gruyère cheese", amount: "200", unit: "g", category: "cheese", swaps: ["plant-based cheese"] },
-            { name: "béchamel sauce", amount: "200", unit: "ml", category: "sauce" },
-            { name: "unsalted butter", amount: "30", unit: "g", category: "dairy" },
-            { name: "nutmeg", amount: "1", unit: "pinch", category: "spice" }
+              { name: "pain de mie", amount: "4", unit: "slices", category: "bread", swaps: ["pain sans gluten"] },
+              { name: "jambon blanc", amount: "200", unit: "g", category: "charcuterie", swaps: ["jambon végétal"] },
+              { name: "fromage gruyère", amount: "200", unit: "g", category: "cheese", swaps: ["fromage végétal"] },
+              { name: "sauce béchamel", amount: "200", unit: "ml", category: "sauce", swaps: ["béchamel d'amande"] },
+              { name: "beurre doux", amount: "30", unit: "g", category: "dairy", swaps: ["beurre végétal"] },
+              { name: "muscade râpée", amount: "1", unit: "pinch", category: "spice" }
             ],
             nutrition: {
-              calories: 680,
-              protein: 42,
-              carbs: 45,
-              fat: 38,
-              vitamins: ["B12", "D", "A"],
+              calories: 580,
+              protein: 32,
+              carbs: 38,
+              fat: 34,
+              vitamins: ["A", "D", "B12"],
               minerals: ["Calcium", "Iron"]
             },
             timeToMake: "25 minutes",
             season: ["all"],
-          mealType: ["lunch", "dinner"],
-          elementalProperties: {
-            Fire: 0.3,
-            Earth: 0.4,
-            Water: 0.2,
-            Air: 0.1
+            mealType: ["lunch"],
+            elementalProperties: {
+              Earth: 0.4,
+              Fire: 0.3,
+              Air: 0.2,
+              Water: 0.1
+            }
           },
-          astrologicalInfluences: [
-            "Taurus - The sensuous, indulgent nature",
-            "Venus - The harmonious balance of flavors"
-          ]
-        },
-        {
-          name: "Niçoise Salad",
-            description: "Classic Mediterranean salad from Nice with tuna, olives, and vegetables",
-          cuisine: "french",
-            cookingMethods: ["boiling", "assembling"],
-            tools: [
-              "large bowl",
-              "saucepan",
-              "colander",
-              "sharp knife",
-              "serving platter"
-            ],
-            preparationSteps: [
-              "Boil eggs until hard-cooked",
-              "Cook green beans until tender-crisp",
-              "Quarter tomatoes and arrange on platter",
-              "Add tuna, olives, and anchovies",
-              "Arrange eggs and vegetables",
-              "Drizzle with vinaigrette",
-              "Garnish with fresh herbs"
-            ],
-            substitutions: {
-            "tuna": ["marinated tempeh", "chickpeas"],
-            "anchovies": ["capers", "black olives"],
-            "eggs": ["firm tofu"]
-            },
-            servingSize: 4,
-            allergens: ["eggs", "fish"],
-            prepTime: "20 minutes",
-            cookTime: "15 minutes",
-            culturalNotes: "Originally from Nice, this salad represents the essence of Provençal cuisine",
-            pairingSuggestions: ["crusty baguette", "rosé wine", "aioli"],
-            dietaryInfo: ["gluten-free"],
-            spiceLevel: "none",
+          {
+            name: "Quiche Lorraine Traditionnelle",
+            description: "Traditional quiche with lardons and Gruyère in a butter crust",
+            cuisine: "French",
             ingredients: [
-            { name: "oil-packed tuna", amount: "200", unit: "g", category: "protein", swaps: ["marinated tempeh"] },
-            { name: "green beans", amount: "200", unit: "g", category: "vegetable" },
-            { name: "tomatoes", amount: "4", unit: "medium", category: "vegetable" },
-            { name: "eggs", amount: "4", unit: "large", category: "protein", swaps: ["firm tofu"] },
-            { name: "Niçoise olives", amount: "100", unit: "g", category: "garnish" },
-            { name: "anchovies", amount: "8", unit: "fillets", category: "fish", swaps: ["capers"] },
-              { name: "vinaigrette", amount: "120", unit: "ml", category: "dressing" }
+              { name: "pâte brisée", amount: "1", unit: "piece", category: "pastry", swaps: ["pâte sans gluten"] },
+              { name: "lardons fumés", amount: "200", unit: "g", category: "charcuterie", swaps: ["champignons fumés"] },
+              { name: "oeufs entiers", amount: "4", unit: "large", category: "protein" },
+              { name: "crème fraîche", amount: "250", unit: "ml", category: "dairy", swaps: ["crème de soja"] },
+              { name: "gruyère râpé", amount: "150", unit: "g", category: "cheese", swaps: ["fromage végétal râpé"] },
+              { name: "muscade", amount: "1", unit: "pinch", category: "spice" },
+              { name: "poivre blanc", amount: "1/4", unit: "tsp", category: "seasoning" }
             ],
             nutrition: {
-              calories: 420,
+              calories: 620,
               protein: 28,
-              carbs: 18,
-              fat: 32,
-              vitamins: ["D", "B12", "K"],
-              minerals: ["Iron", "Omega-3"]
+              carbs: 42,
+              fat: 40,
+              vitamins: ["A", "D", "B12"],
+              minerals: ["Calcium", "Iron"]
             },
-            timeToMake: "35 minutes",
-            season: ["spring", "summer"],
+            timeToMake: "75 minutes",
+            season: ["all"],
+            mealType: ["lunch", "dinner"],
+            elementalProperties: {
+              Earth: 0.4,
+              Fire: 0.2,
+              Water: 0.2,
+              Air: 0.2
+            }
+          }
+        ],
+        summer: [
+          {
+            name: "Salade Niçoise Authentique",
+            description: "Traditional Niçoise salad with fresh Mediterranean ingredients",
+            cuisine: "French",
+            ingredients: [
+              { name: "thon frais", amount: "300", unit: "g", category: "protein", swaps: ["pois chiches"] },
+              { name: "haricots verts extra-fins", amount: "200", unit: "g", category: "vegetable" },
+              { name: "pommes de terre nouvelles", amount: "300", unit: "g", category: "vegetable" },
+              { name: "tomates cerises", amount: "200", unit: "g", category: "vegetable" },
+              { name: "oeufs", amount: "4", unit: "large", category: "protein" },
+              { name: "olives de Nice", amount: "100", unit: "g", category: "vegetable" },
+              { name: "anchois", amount: "50", unit: "g", category: "protein", swaps: ["câpres"] },
+              { name: "vinaigrette à l'huile d'olive", amount: "120", unit: "ml", category: "dressing" },
+              { name: "basilic frais", amount: "1", unit: "bunch", category: "herb" }
+            ],
+            nutrition: {
+              calories: 480,
+              protein: 35,
+              carbs: 32,
+              fat: 28,
+              vitamins: ["C", "D", "K"],
+              minerals: ["Iron", "Potassium"]
+            },
+            timeToMake: "45 minutes",
+            season: ["summer"],
             mealType: ["lunch"],
             elementalProperties: {
               Water: 0.3,
               Earth: 0.3,
               Air: 0.2,
               Fire: 0.2
-          },
-          astrologicalInfluences: [
-            "Mercury - The light, fresh quality",
-            "Neptune - The Mediterranean sea influence"
-          ]
-        },
-        {
-          name: "French Onion Soup",
-          description: "Rich onion soup topped with toasted bread and melted Gruyère cheese",
-          cuisine: "french",
-            cookingMethods: ["caramelizing", "simmering", "broiling"],
-            tools: [
-              "large pot",
-              "wooden spoon",
-              "ladle",
-              "oven-safe bowls",
-              "broiler"
-            ],
-            preparationSteps: [
-              "Slice onions thinly",
-            "Caramelize onions slowly in butter (30-40 minutes)",
-            "Add flour and cook briefly",
-            "Add wine and reduce by half",
-            "Add broth and simmer for 30 minutes",
-              "Toast bread slices",
-            "Ladle soup into bowls, top with bread and cheese",
-            "Broil until cheese is golden and bubbly"
-            ],
-            substitutions: {
-            "beef stock": ["vegetable stock"],
-            "Gruyère cheese": ["Emmental", "plant-based cheese"],
-            "butter": ["olive oil"]
-            },
-            servingSize: 6,
-            allergens: ["dairy", "gluten"],
-            prepTime: "20 minutes",
-            cookTime: "70 minutes",
-          culturalNotes: "Originally a peasant dish, this soup became a French classic. Traditional Parisian versions use beef stock and lots of sweet onions",
-            pairingSuggestions: ["red wine", "crusty bread", "green salad"],
-            dietaryInfo: ["vegetarian option"],
-            spiceLevel: "none",
+            }
+          }
+        ],
+        winter: [
+          {
+            name: "Soupe à l'Oignon Gratinée",
+            description: "Classic French onion soup with Gruyère and crusty bread",
+            cuisine: "French",
             ingredients: [
-            { name: "yellow onions", amount: "1", unit: "kg", category: "vegetable" },
-            { name: "beef stock", amount: "1.5", unit: "L", category: "broth", swaps: ["vegetable stock"] },
-            { name: "baguette", amount: "1/2", unit: "piece", category: "bread", swaps: ["gluten-free bread"] },
-            { name: "Gruyère cheese", amount: "200", unit: "g", category: "cheese", swaps: ["plant-based cheese"] },
-            { name: "butter", amount: "50", unit: "g", category: "dairy", swaps: ["olive oil"] },
-            { name: "dry white wine", amount: "200", unit: "ml", category: "wine" },
-            { name: "fresh thyme", amount: "4", unit: "sprigs", category: "herb" },
-            { name: "bay leaf", amount: "1", unit: "piece", category: "herb" },
-            { name: "all-purpose flour", amount: "2", unit: "tbsp", category: "thickener" }
+              { name: "oignons jaunes", amount: "1", unit: "kg", category: "vegetable" },
+              { name: "bouillon de boeuf", amount: "1.5", unit: "L", category: "broth", swaps: ["bouillon de légumes"] },
+              { name: "baguette", amount: "1/2", unit: "piece", category: "bread", swaps: ["pain sans gluten"] },
+              { name: "gruyère AOC", amount: "200", unit: "g", category: "cheese", swaps: ["fromage végétal"] },
+              { name: "beurre", amount: "50", unit: "g", category: "dairy", swaps: ["huile d'olive"] },
+              { name: "vin blanc sec", amount: "200", unit: "ml", category: "wine" },
+              { name: "thym frais", amount: "4", unit: "sprigs", category: "herb" },
+              { name: "feuille de laurier", amount: "1", unit: "piece", category: "herb" }
             ],
             nutrition: {
               calories: 420,
@@ -524,136 +222,64 @@ export const french: Cuisine = {
               minerals: ["Iron", "Calcium"]
             },
             timeToMake: "90 minutes",
-          season: ["autumn", "winter"],
+            season: ["winter"],
             mealType: ["lunch", "dinner"],
             elementalProperties: {
               Fire: 0.4,
               Earth: 0.3,
               Water: 0.2,
               Air: 0.1
+            }
           },
-          astrologicalInfluences: [
-            "Saturn - The slow transformation of ingredients",
-            "Moon - The comforting, nurturing quality"
-          ]
-        }
-      ]
-    },
-    dinner: {
-      all: [
-        {
-          name: "Coq au Vin",
-          description: "Classic French chicken braised in red wine with mushrooms and lardons",
-          cuisine: "french",
-          cookingMethods: ["braising", "sautéing"],
-            tools: [
-            "Dutch oven",
-            "tongs",
-              "wooden spoon",
-            "chef's knife",
-            "kitchen twine"
-            ],
-            preparationSteps: [
-            "Pat chicken pieces dry and season",
-            "Render fat from lardons in Dutch oven",
-            "Brown chicken in batches",
-            "Sauté mushrooms and pearl onions",
-            "Deglaze with cognac (optional flame)",
-            "Add wine, stock, and herbs",
-            "Simmer until chicken is tender",
-            "Thicken sauce with beurre manié",
-            "Adjust seasoning and serve"
-            ],
-            substitutions: {
-            "chicken": ["mushroom medley", "seitan"],
-            "lardons": ["smoked tofu"],
-            "red wine": ["mushroom stock with red wine vinegar"]
-          },
-          servingSize: 6,
-          allergens: ["alcohol"],
-          prepTime: "30 minutes",
-          cookTime: "90 minutes",
-          culturalNotes: "A rustic dish from Burgundy that has been elevated to haute cuisine. Julia Child helped popularize it in America",
-          pairingSuggestions: ["Burgundy wine", "crusty bread", "mashed potatoes"],
-          dietaryInfo: ["contains alcohol", "contains pork"],
-          spiceLevel: "none",
+          {
+            name: "Cassoulet de Toulouse",
+            description: "Traditional cassoulet with duck confit and Tarbais beans",
+            cuisine: "French",
             ingredients: [
-            { name: "chicken", amount: "1", unit: "whole cut into 8 pieces", category: "protein", swaps: ["mushroom medley"] },
-            { name: "lardons", amount: "200", unit: "g", category: "protein", swaps: ["smoked tofu"] },
-            { name: "red wine", amount: "750", unit: "ml", category: "wine", swaps: ["non-alcoholic alternative"] },
-            { name: "cremini mushrooms", amount: "500", unit: "g", category: "vegetable" },
-            { name: "pearl onions", amount: "12", unit: "small", category: "vegetable" },
-            { name: "carrots", amount: "4", unit: "whole", category: "vegetable" },
+              { name: "haricots Tarbais", amount: "500", unit: "g", category: "legume" },
+              { name: "confit de canard", amount: "4", unit: "pieces", category: "protein", swaps: ["champignons confits"] },
+              { name: "saucisse de Toulouse", amount: "400", unit: "g", category: "protein", swaps: ["saucisse végétale"] },
+              { name: "lard fumé", amount: "200", unit: "g", category: "protein", swaps: ["tempeh fumé"] },
+              { name: "oignon", amount: "2", unit: "large", category: "vegetable" },
+              { name: "carotte", amount: "2", unit: "medium", category: "vegetable" },
+              { name: "céleri", amount: "2", unit: "branches", category: "vegetable" },
               { name: "bouquet garni", amount: "1", unit: "piece", category: "herb" },
-            { name: "cognac", amount: "60", unit: "ml", category: "spirit", optional: true }
+              { name: "chapelure", amount: "100", unit: "g", category: "breadcrumbs" }
             ],
             nutrition: {
-            calories: 520,
-            protein: 45,
-            carbs: 12,
-            fat: 32,
-            vitamins: ["B12", "A", "D"],
-            minerals: ["Iron", "Zinc", "Potassium"]
-          },
-          timeToMake: "120 minutes",
-          season: ["autumn", "winter"],
-          mealType: ["dinner"],
+              calories: 850,
+              protein: 48,
+              carbs: 65,
+              fat: 45,
+              vitamins: ["B1", "B12", "K"],
+              minerals: ["Iron", "Potassium"]
+            },
+            timeToMake: "180 minutes",
+            season: ["winter"],
+            mealType: ["lunch", "dinner"],
             elementalProperties: {
               Earth: 0.5,
               Fire: 0.3,
-            Water: 0.15,
-            Air: 0.05
-          },
-          astrologicalInfluences: [
-            "Saturn - The slow transformation through long cooking",
-            "Pluto - The deep flavors revealed through reduction"
-          ]
-        },
+              Water: 0.1,
+              Air: 0.1
+            }
+          }
+        ]
+      },
+      dinner: {
+        all: [
           {
             name: "Sole Meunière",
-          description: "Classic pan-fried sole with brown butter, lemon and parsley",
-          cuisine: "french",
-            cookingMethods: ["pan-frying", "sauce-making"],
-            tools: [
-              "large skillet",
-              "fish spatula",
-              "small saucepan",
-              "sieve",
-              "serving platter"
-            ],
-            preparationSteps: [
-            "Pat sole fillets dry",
-            "Season with salt and pepper",
-            "Dredge sole in flour, shaking off excess",
-            "Heat butter in skillet until foaming",
-            "Cook fish until golden, about 2 minutes per side",
-            "Transfer to warm platter",
-            "Make brown butter sauce in pan",
-            "Add lemon juice and parsley",
-            "Pour sauce over fish",
-            "Serve immediately with lemon wedges"
-            ],
-            substitutions: {
-            "sole": ["flounder", "eggplant for vegetarian version"],
-            "butter": ["plant-based brown butter"],
-            "flour": ["gluten-free flour"]
-            },
-            servingSize: 4,
-            allergens: ["fish", "dairy", "gluten"],
-            prepTime: "10 minutes",
-            cookTime: "15 minutes",
-          culturalNotes: "This dish famously converted Julia Child to French cuisine when she first tasted it in Rouen",
-          pairingSuggestions: ["white Burgundy wine", "steamed vegetables", "boiled potatoes"],
-            dietaryInfo: ["contains fish"],
-            spiceLevel: "none",
+            description: "Classic pan-fried sole with brown butter and lemon",
+            cuisine: "French",
             ingredients: [
-            { name: "sole fillets", amount: "800", unit: "g", category: "protein", swaps: ["flounder"] },
-            { name: "all-purpose flour", amount: "100", unit: "g", category: "flour", swaps: ["gluten-free flour"] },
-            { name: "unsalted butter", amount: "150", unit: "g", category: "dairy", swaps: ["plant-based brown butter"] },
-            { name: "lemon", amount: "2", unit: "whole", category: "fruit" },
-            { name: "flat-leaf parsley", amount: "30", unit: "g", category: "herb" },
-            { name: "sea salt", amount: "to taste", unit: "", category: "seasoning" },
-            { name: "white pepper", amount: "to taste", unit: "", category: "seasoning" }
+              { name: "sole", amount: "800", unit: "g", category: "protein", swaps: ["aubergine meunière"] },
+              { name: "farine", amount: "100", unit: "g", category: "flour", swaps: ["farine sans gluten"] },
+              { name: "beurre", amount: "150", unit: "g", category: "dairy", swaps: ["beurre noisette végétal"] },
+              { name: "citron", amount: "2", unit: "whole", category: "fruit" },
+              { name: "persil plat", amount: "30", unit: "g", category: "herb" },
+              { name: "sel de mer", amount: "to taste", unit: "", category: "seasoning" },
+              { name: "poivre blanc", amount: "to taste", unit: "", category: "seasoning" }
             ],
             nutrition: {
               calories: 480,
@@ -671,133 +297,88 @@ export const french: Cuisine = {
               Fire: 0.3,
               Air: 0.2,
               Earth: 0.1
+            }
           },
-          astrologicalInfluences: [
-            "Jupiter - The elegance and richness",
-            "Mercury - The bright, quick quality"
-          ]
-        },
-        {
-          name: "Beef Bourguignon",
-          description: "Classic Burgundian beef stew braised in red wine with pearl onions and mushrooms",
-          cuisine: "french",
-            cookingMethods: ["braising", "sautéing", "reducing"],
-            tools: [
-              "Dutch oven",
-              "strainer",
-            "kitchen twine",
-              "cheesecloth",
-              "wooden spoon"
-            ],
-            preparationSteps: [
-            "Cut beef into 2-inch cubes and dry thoroughly",
-            "Cook lardons until crisp, set aside",
-            "Brown beef in batches in the rendered fat",
-            "Sauté carrots and onion",
-            "Deglaze with wine, scraping up browned bits",
-            "Add beef stock, bouquet garni, tomato paste",
-            "Simmer covered in 325°F oven for 2-3 hours",
-            "Meanwhile, brown mushrooms and pearl onions separately",
-            "Add to stew for final 30 minutes of cooking",
-            "Thicken sauce if desired with beurre manié"
-            ],
+          {
+            name: "Boeuf Bourguignon",
+            description: "Classic Burgundian beef stew with red wine and pearl onions",
+            cuisine: "French",
             ingredients: [
-            { name: "beef chuck", amount: "1.5", unit: "kg", category: "protein" },
-              { name: "lardons", amount: "200", unit: "g", category: "protein" },
-            { name: "red wine", amount: "750", unit: "ml", category: "wine", notes: "Burgundy preferred" },
-            { name: "cremini mushrooms", amount: "500", unit: "g", category: "vegetable" },
-            { name: "pearl onions", amount: "12", unit: "whole", category: "vegetable" },
-            { name: "carrots", amount: "3", unit: "large", category: "vegetable" },
-            { name: "onion", amount: "1", unit: "large", category: "vegetable" },
-            { name: "garlic", amount: "4", unit: "cloves", category: "vegetable" },
-            { name: "tomato paste", amount: "2", unit: "tbsp", category: "vegetable" },
-            { name: "beef stock", amount: "500", unit: "ml", category: "broth" },
-            { name: "bouquet garni", amount: "1", unit: "piece", category: "herb" },
-            { name: "butter", amount: "30", unit: "g", category: "dairy" },
-            { name: "flour", amount: "3", unit: "tbsp", category: "thickener" }
+              { name: "boeuf pour bourguignon", amount: "1.5", unit: "kg", category: "protein", swaps: ["champignons portobello"] },
+              { name: "lardons", amount: "200", unit: "g", category: "protein", swaps: ["champignons fumés"] },
+              { name: "oignons grelots", amount: "500", unit: "g", category: "vegetable" },
+              { name: "champignons de Paris", amount: "400", unit: "g", category: "vegetable" },
+              { name: "vin rouge de Bourgogne", amount: "750", unit: "ml", category: "wine" },
+              { name: "bouquet garni", amount: "1", unit: "piece", category: "herb" },
+              { name: "carottes", amount: "300", unit: "g", category: "vegetable" },
+              { name: "beurre", amount: "60", unit: "g", category: "dairy", swaps: ["huile d'olive"] }
             ],
-            substitutions: {
-            "beef": ["venison", "mushroom medley for vegetarian version"],
-            "lardons": ["smoked bacon", "smoked tofu"],
-            "red wine": ["non-alcoholic red wine + beef stock"]
-            },
-            servingSize: 6,
-            allergens: ["alcohol"],
-          prepTime: "45 minutes",
-            cookTime: "3 hours",
-            culturalNotes: "The epitome of French country cooking, this dish represents the marriage of wine and food culture in Burgundy",
-            pairingSuggestions: ["Burgundy red wine", "crusty bread", "mashed potatoes"],
-            dietaryInfo: ["contains alcohol", "contains pork"],
-            spiceLevel: "none",
             nutrition: {
-            calories: 620,
-            protein: 52,
-            carbs: 18,
-            fat: 38,
-              vitamins: ["B12", "A", "D"],
-              minerals: ["Iron", "Zinc", "Potassium"]
+              calories: 680,
+              protein: 52,
+              carbs: 18,
+              fat: 42,
+              vitamins: ["B12", "A", "K"],
+              minerals: ["Iron", "Zinc"]
             },
-          timeToMake: "3 hours 45 minutes",
-            season: ["autumn", "winter"],
-          mealType: ["dinner"],
-          elementalProperties: {
-            Earth: 0.6,
-            Fire: 0.2,
-            Water: 0.1,
-            Air: 0.1
-          },
-          astrologicalInfluences: [
-            "Saturn - The slow cooking process and aged flavors",
-            "Pluto - The transformative quality and depth"
-          ]
+            timeToMake: "180 minutes",
+            season: ["winter"],
+            mealType: ["dinner"],
+            elementalProperties: {
+              Earth: 0.4,
+              Fire: 0.3,
+              Water: 0.2,
+              Air: 0.1
+            }
+          }
+        ],
+        summer: [
+          {
+            name: "Ratatouille Niçoise",
+            description: "Traditional Provençal stewed vegetables",
+            cuisine: "French",
+            ingredients: [
+              { name: "aubergines", amount: "500", unit: "g", category: "vegetable" },
+              { name: "courgettes", amount: "500", unit: "g", category: "vegetable" },
+              { name: "poivrons", amount: "500", unit: "g", category: "vegetable" },
+              { name: "oignons", amount: "300", unit: "g", category: "vegetable" },
+              { name: "tomates", amount: "800", unit: "g", category: "vegetable" },
+              { name: "ail", amount: "6", unit: "cloves", category: "vegetable" },
+              { name: "herbes de Provence", amount: "2", unit: "tbsp", category: "herb" },
+              { name: "huile d'olive", amount: "120", unit: "ml", category: "oil" }
+            ],
+            nutrition: {
+              calories: 220,
+              protein: 6,
+              carbs: 42,
+              fat: 8,
+              vitamins: ["C", "A", "K"],
+              minerals: ["Potassium", "Manganese"]
+            },
+            timeToMake: "60 minutes",
+            season: ["summer"],
+            mealType: ["dinner"],
+            elementalProperties: {
+              Earth: 0.4,
+              Water: 0.3,
+              Fire: 0.2,
+              Air: 0.1
+            }
           }
         ]
       },
       dessert: {
         all: [
           {
-          name: "Classic Crème Brûlée",
+            name: "Crème Brûlée Classique",
             description: "Traditional vanilla custard with caramelized sugar crust",
-          cuisine: "french",
-            cookingMethods: ["baking", "caramelizing"],
-            tools: [
-              "ramekins",
-              "baking dish",
-            "kitchen torch",
-              "whisk",
-            "fine strainer"
-            ],
-            preparationSteps: [
-            "Preheat oven to 325°F/165°C",
-              "Heat cream with vanilla bean",
-              "Whisk egg yolks with sugar",
-              "Temper eggs with hot cream",
-            "Strain mixture into ramekins",
-            "Bake in water bath for 30-35 minutes",
-            "Chill thoroughly (at least 4 hours)",
-            "Sprinkle thin layer of sugar on top",
-            "Caramelize with torch or under broiler",
-            "Let caramel harden before serving"
-            ],
-            substitutions: {
-            "heavy cream": ["coconut cream", "almond cream"],
-            "egg yolks": ["plant-based substitute"],
-            "sugar": ["coconut sugar"]
-            },
-            servingSize: 6,
-            allergens: ["dairy", "eggs"],
-            prepTime: "20 minutes",
-            cookTime: "35 minutes",
-          culturalNotes: "A classic French dessert dating back to the 17th century, the name means 'burnt cream'",
-          pairingSuggestions: ["fresh berries", "dessert wine", "coffee"],
-            dietaryInfo: ["vegetarian", "gluten-free"],
-            spiceLevel: "none",
+            cuisine: "French",
             ingredients: [
-            { name: "heavy cream", amount: "500", unit: "ml", category: "dairy", swaps: ["coconut cream"] },
-            { name: "egg yolks", amount: "6", unit: "large", category: "protein" },
-            { name: "granulated sugar", amount: "100", unit: "g", category: "sweetener" },
-            { name: "vanilla bean", amount: "1", unit: "piece", category: "spice" },
-            { name: "sugar for caramelizing", amount: "60", unit: "g", category: "sweetener" }
+              { name: "crème entière", amount: "500", unit: "ml", category: "dairy", swaps: ["crème de coco"] },
+              { name: "jaunes d'oeufs", amount: "6", unit: "large", category: "protein" },
+              { name: "sucre", amount: "100", unit: "g", category: "sweetener" },
+              { name: "gousse de vanille", amount: "1", unit: "piece", category: "spice" },
+              { name: "sucre pour caraméliser", amount: "60", unit: "g", category: "sweetener" }
             ],
             nutrition: {
               calories: 380,
@@ -807,122 +388,55 @@ export const french: Cuisine = {
               vitamins: ["A", "D", "E"],
               minerals: ["Calcium"]
             },
-          timeToMake: "55 minutes plus chilling",
+            timeToMake: "45 minutes",
             season: ["all"],
-          mealType: ["dessert"],
-          elementalProperties: {
-            Fire: 0.3,
-            Water: 0.3,
-            Earth: 0.3,
-            Air: 0.1
-          },
-          astrologicalInfluences: [
-            "Venus - The sensual, creamy nature",
-            "Sun - The fire element in caramelization"
-          ]
+            mealType: ["dessert"],
+            elementalProperties: {
+              Fire: 0.4,
+              Earth: 0.3,
+              Water: 0.2,
+              Air: 0.1
+            }
           },
           {
             name: "Tarte Tatin",
             description: "Upside-down caramelized apple tart",
-          cuisine: "french",
-            cookingMethods: ["caramelizing", "baking", "pastry-making"],
-            tools: [
-            "heavy-bottomed tatin pan or cast iron skillet",
-              "rolling pin",
-            "paring knife",
-              "serving plate",
-              "pastry brush"
-            ],
-            preparationSteps: [
-            "Prepare pastry dough and chill",
-            "Peel, core, and quarter apples",
-              "Make caramel in pan",
-            "Arrange apples in tight pattern",
-            "Cook until apples are partly caramelized",
-            "Cover with pastry dough",
-            "Bake until golden brown",
-            "Cool slightly and invert onto plate"
-            ],
+            cuisine: "French",
             ingredients: [
-            { name: "apples", amount: "8", unit: "large", category: "fruit", swaps: ["pears"] },
-            { name: "unsalted butter", amount: "150", unit: "g", category: "dairy" },
-            { name: "granulated sugar", amount: "150", unit: "g", category: "sweetener" },
-            { name: "shortcrust pastry", amount: "1", unit: "piece", category: "pastry" }
+              { name: "pommes", amount: "8", unit: "large", category: "fruit" },
+              { name: "pâte feuilletée", amount: "1", unit: "piece", category: "pastry", swaps: ["pâte sans gluten"] },
+              { name: "beurre", amount: "150", unit: "g", category: "dairy", swaps: ["beurre végétal"] },
+              { name: "sucre", amount: "150", unit: "g", category: "sweetener" },
+              { name: "vanille", amount: "1", unit: "gousse", category: "spice" }
             ],
-            substitutions: {
-            "apples": ["pears", "quinces"],
-            "butter": ["plant-based butter"],
-            "shortcrust pastry": ["puff pastry"]
-            },
-            servingSize: 8,
-            allergens: ["dairy", "gluten"],
-            prepTime: "45 minutes",
-            cookTime: "45 minutes",
-          culturalNotes: "Created accidentally at Hotel Tatin in Lamotte-Beuvron when Stéphanie Tatin tried to rescue an overcooked apple pie by putting the pastry on top",
-          pairingSuggestions: ["crème fraîche", "vanilla ice cream", "Sauternes wine", "Calvados"],
-            dietaryInfo: ["vegetarian"],
-            spiceLevel: "none",
             nutrition: {
-              calories: 385,
+              calories: 420,
               protein: 4,
-              carbs: 48,
+              carbs: 58,
               fat: 22,
-              vitamins: ["A", "C"],
-              minerals: ["Iron", "Calcium"]
+              vitamins: ["C", "A"],
+              minerals: ["Potassium", "Iron"]
             },
-            season: ["autumn", "winter"],
-          mealType: ["dessert"],
-          elementalProperties: {
-            Earth: 0.4,
-            Fire: 0.3,
-            Water: 0.2,
-            Air: 0.1
+            timeToMake: "90 minutes",
+            season: ["all"],
+            mealType: ["dessert"],
+            elementalProperties: {
+              Earth: 0.4,
+              Fire: 0.3,
+              Air: 0.2,
+              Water: 0.1
+            }
           },
-          astrologicalInfluences: [
-            "Venus - The sweet, indulgent nature",
-            "Jupiter - The transformative quality"
-          ]
-        },
-        {
-          name: "Chocolate Profiteroles",
-          description: "Choux pastry puffs filled with vanilla ice cream and topped with warm chocolate sauce",
-          cuisine: "french",
-            cookingMethods: ["baking", "piping", "sauce-making"],
-            tools: [
-              "saucepan",
-              "piping bags",
-              "baking sheets",
-              "whisk",
-              "double boiler"
-            ],
-            preparationSteps: [
-              "Make choux pastry dough",
-              "Pipe onto baking sheets",
-              "Bake until hollow and crisp",
-            "Prepare chocolate sauce",
-            "Cut pastry puffs in half",
-            "Fill with small scoops of ice cream",
-              "Serve with warm chocolate sauce"
-            ],
-            substitutions: {
-            "vanilla ice cream": ["coconut ice cream", "sorbet"],
-            "dark chocolate": ["vegan chocolate"],
-            "butter": ["plant-based butter"]
-            },
-            servingSize: 6,
-            allergens: ["dairy", "eggs", "gluten"],
-            prepTime: "45 minutes",
-            cookTime: "30 minutes",
-          culturalNotes: "A classic French dessert that showcases three distinct pastry techniques: choux, ice cream making, and sauce preparation",
-          pairingSuggestions: ["espresso", "vanilla ice cream", "fresh berries"],
-            dietaryInfo: ["vegetarian"],
-            spiceLevel: "none",
+          {
+            name: "Profiteroles au Chocolat",
+            description: "Choux pastry puffs filled with vanilla cream and chocolate sauce",
+            cuisine: "French",
             ingredients: [
-            { name: "choux pastry", amount: "1", unit: "batch", category: "pastry" },
-            { name: "vanilla ice cream", amount: "500", unit: "ml", category: "dairy", swaps: ["coconut ice cream"] },
-            { name: "dark chocolate", amount: "200", unit: "g", category: "chocolate" },
-            { name: "heavy cream", amount: "200", unit: "ml", category: "dairy" },
-            { name: "sugar", amount: "50", unit: "g", category: "sweetener" }
+              { name: "pâte à choux", amount: "1", unit: "batch", category: "pastry" },
+              { name: "crème pâtissière", amount: "500", unit: "ml", category: "filling" },
+              { name: "chocolat noir", amount: "200", unit: "g", category: "chocolate" },
+              { name: "crème liquide", amount: "200", unit: "ml", category: "dairy" },
+              { name: "sucre", amount: "50", unit: "g", category: "sweetener" }
             ],
             nutrition: {
               calories: 450,
@@ -932,105 +446,54 @@ export const french: Cuisine = {
               vitamins: ["A", "D"],
               minerals: ["Calcium", "Iron"]
             },
-            timeToMake: "75 minutes",
+            timeToMake: "120 minutes",
             season: ["all"],
-          mealType: ["dessert"],
-          elementalProperties: {
-            Earth: 0.3,
-            Water: 0.3,
-            Fire: 0.3,
-            Air: 0.1
-          },
-          astrologicalInfluences: [
-            "Venus - The indulgent, sweet quality",
-            "Jupiter - The expansive, celebratory nature"
-          ]
-        }
-      ]
-    }
-  },
-  cookingTechniques: [
-    {
-      name: "Sauté",
-      description: "Quick cooking in a small amount of fat over high heat",
-      difficultyLevel: "beginner",
-      elementalProperties: { Fire: 0.7, Air: 0.2, Earth: 0.1, Water: 0 },
-      toolsRequired: ["sauté pan", "wooden spoon", "tongs"],
-      bestFor: ["vegetables", "tender cuts of meat", "fish fillets"]
+            mealType: ["dessert"],
+            elementalProperties: {
+              Air: 0.4,
+              Earth: 0.3,
+              Water: 0.2,
+              Fire: 0.1
+            }
+          }
+        ],
+        summer: [
+          {
+            name: "Tarte aux Fruits Rouges",
+            description: "Fresh berry tart with crème pâtissière",
+            cuisine: "French",
+            ingredients: [
+              { name: "pâte sucrée", amount: "1", unit: "piece", category: "pastry" },
+              { name: "fruits rouges assortis", amount: "500", unit: "g", category: "fruit" },
+              { name: "crème pâtissière", amount: "500", unit: "ml", category: "filling" },
+              { name: "gelée de fruits", amount: "100", unit: "g", category: "glaze" }
+            ],
+            nutrition: {
+              calories: 320,
+              protein: 6,
+              carbs: 52,
+              fat: 12,
+              vitamins: ["C", "A"],
+              minerals: ["Potassium"]
+            },
+            timeToMake: "90 minutes",
+            season: ["summer"],
+            mealType: ["dessert"],
+            elementalProperties: {
+              Water: 0.4,
+              Earth: 0.3,
+              Air: 0.2,
+              Fire: 0.1
+            }
+          }
+        ]
+      }
     },
-    {
-      name: "Braise",
-      description: "Slow cooking in liquid after browning, usually covered",
-      difficulty: "intermediate",
-      elementalProperties: { Water: 0.5, Earth: 0.3, Fire: 0.2, Air: 0 },
-      toolsRequired: ["Dutch oven", "tongs", "wooden spoon"],
-      bestFor: ["tough cuts of meat", "root vegetables", "legumes"]
-    },
-    {
-      name: "Flambé",
-      description: "Igniting food with alcohol for flavor and visual effect",
-      difficultyLevel: "advanced",
-      elementalProperties: { Fire: 0.8, Air: 0.1, Earth: 0.1, Water: 0 },
-      toolsRequired: ["skillet", "long match or lighter", "long-handled utensils"],
-      bestFor: ["desserts", "proteins", "sauces"]
-    },
-    {
-      name: "En Papillote",
-      description: "Cooking in a sealed parchment paper packet",
-      difficultyLevel: "intermediate",
-      elementalProperties: { Water: 0.4, Air: 0.4, Earth: 0.1, Fire: 0.1 },
-      toolsRequired: ["parchment paper", "baking sheet", "scissors"],
-      bestFor: ["fish", "vegetables", "delicate proteins"]
-    },
-    {
-      name: "Sous Vide",
-      description: "Cooking vacuum-sealed food in a temperature-controlled water bath",
-      difficultyLevel: "intermediate",
-      elementalProperties: { Water: 0.7, Air: 0.1, Earth: 0.1, Fire: 0.1 },
-      toolsRequired: ["sous vide immersion circulator", "vacuum sealer", "container"],
-      bestFor: ["proteins", "eggs", "vegetables"]
-    }
-  ],
-  regionalCuisines: {
-    provence: {
-      name: "Provençal Cuisine",
-      description: "Mediterranean-influenced cuisine from Southern France, featuring olive oil, herbs, tomatoes, and seafood",
-      signature: ["bouillabaisse", "ratatouille", "tapenade", "aioli"],
-      elementalProperties: { Fire: 0.3, Earth: 0.3, Water: 0.3, Air: 0.1 },
-      astrologicalInfluences: ["Sun", "Mercury", "Venus"],
-      seasonality: "summer"
-    },
-    normandy: {
-      name: "Norman Cuisine",
-      description: "Butter and cream-based cuisine from Northern France, featuring apples, dairy, and seafood",
-      signature: ["calvados", "camembert", "tarte aux pommes", "tripes à la mode de Caen"],
-      elementalProperties: { Water: 0.4, Earth: 0.4, Fire: 0.1, Air: 0.1 },
-      astrologicalInfluences: ["Moon", "Venus", "Neptune"],
-      seasonality: "autumn"
-    },
-    burgundy: {
-      name: "Burgundian Cuisine",
-      description: "Wine-centric cuisine known for slow-cooked dishes, mustard, and escargot",
-      signature: ["beef bourguignon", "coq au vin", "escargots de Bourgogne", "jambon persillé"],
-      elementalProperties: { Earth: 0.5, Fire: 0.2, Water: 0.2, Air: 0.1 },
-      astrologicalInfluences: ["Saturn", "Mars", "Pluto"],
-      seasonality: "winter"
-    },
-    alsace: {
-      name: "Alsatian Cuisine",
-      description: "German-influenced cuisine featuring charcuterie, sauerkraut, and white wines",
-      signature: ["choucroute garnie", "tarte flambée", "baeckeoffe", "kugelhopf"],
-      elementalProperties: { Earth: 0.4, Fire: 0.3, Air: 0.2, Water: 0.1 },
-      astrologicalInfluences: ["Jupiter", "Saturn", "Uranus"],
-      seasonality: "autumn, winter"
-    }
-  },
-  elementalProperties: {
-      Earth: 0.3,
-      Water: 0.3,
+    elementalBalance: {
       Fire: 0.2,
-      Air: 0.2
+      Water: 0.2,
+      Air: 0.1,
+      Earth: 0.3
+    }
   }
 };
-
-export default french;

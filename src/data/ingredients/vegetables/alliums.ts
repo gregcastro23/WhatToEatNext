@@ -3,18 +3,6 @@ import type { IngredientMapping } from '@/types/alchemy';
 export const alliums: Record<string, IngredientMapping> = {
   'garlic': {
     elementalProperties: { Fire: 0.6, Air: 0.2, Earth: 0.1, Water: 0.1 },
-    astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Pluto'],
-      favorableZodiac: ['Aries', 'Scorpio'],
-      elementalAffinity: {
-        base: 'Fire',
-        decanModifiers: {
-          first: { element: 'Fire', planet: 'Mars' },
-          second: { element: 'Earth', planet: 'Pluto' },
-          third: { element: 'Air', planet: 'Mercury' }
-        }
-      }
-    },
     qualities: ['warming', 'pungent', 'drying'],
     season: ['all'],
     category: 'vegetable',
@@ -32,7 +20,7 @@ export const alliums: Record<string, IngredientMapping> = {
       peeling: true,
       crushing: 'releases more compounds',
       resting: '10 minutes after cutting',
-      notes: 'Do not overcook to preserve benefits'
+      notes: 'Don't overcook to preserve benefits'
     },
     storage: {
       temperature: 'cool, dry place',
@@ -43,18 +31,6 @@ export const alliums: Record<string, IngredientMapping> = {
 
   'onion': {
     elementalProperties: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
-    astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Moon'],
-      favorableZodiac: ['Aries', 'Cancer'],
-      elementalAffinity: {
-        base: 'Fire',
-        decanModifiers: {
-          first: { element: 'Fire', planet: 'Mars' },
-          second: { element: 'Water', planet: 'Moon' },
-          third: { element: 'Earth', planet: 'Saturn' }
-        }
-      }
-    },
     qualities: ['warming', 'stimulating'],
     season: ['all'],
     category: 'vegetable',

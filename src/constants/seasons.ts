@@ -70,6 +70,3 @@ export const SEASONAL_TRANSITIONS = {
     winterToSpring: { month: 2, day: 15 }  // March 15
   }
 };
-
-export const VALID_SEASONS = ['Spring', 'Summer', 'Autumn', 'Winter'] as const;
-export type Season = typeof VALID_SEASONS[number];

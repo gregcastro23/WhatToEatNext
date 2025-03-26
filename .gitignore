@@ -8,6 +8,8 @@
 
 # next.js
 /.next/
+/.next-backup/
+/.next*/
 /out/
 
 # production
@@ -17,6 +19,8 @@
 .DS_Store
 *.pem
 .env*
+errors.log
+tsconfig.tsbuildinfo
 
 # debug
 npm-debug.log*
@@ -26,3 +30,7 @@ yarn-error.log*
 # IDE
 .idea
 .vscode
+.cursor
+
+# local files
+temp.log

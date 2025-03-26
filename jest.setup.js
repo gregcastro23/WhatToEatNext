@@ -2,7 +2,6 @@
 
 import '@testing-library/jest-dom';
 import { TextEncoder, TextDecoder } from 'util';
-import '@testing-library/jest-dom/extend-expect';
 
 global.TextEncoder = TextEncoder;
 global.TextDecoder = TextDecoder;
@@ -33,23 +32,13 @@ global.IntersectionObserver = class IntersectionObserver {
 };
 
 beforeAll(() => {
-  jest.setTimeout(10000);
-  
   // Setup any global test configuration
   console.log('Test setup initialized');
 });
 
 afterAll(() => {
-  jest.clearAllTimers();
-  jest.useRealTimers();
-  
-  // Ensure cleanup after tests
+  // Cleanup after all tests
   console.log('Test cleanup completed');
-});
-
-// Add global error handler for unhandled rejections
-process.on('unhandledRejection', (error) => {
-  console.error('Unhandled rejection in tests:', error);
 });
 
 // Add custom matchers if needed

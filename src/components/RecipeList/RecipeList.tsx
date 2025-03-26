@@ -53,7 +53,7 @@ export default function RecipeList() {
           maxPrepTime: filters.maxTime,
           spiciness: filters.spiciness as any,
           complexity: filters.complexity as any,
-          elementalState: state.elementalState
+          elementalBalance: state.elementalBalance
         },
         { by: 'relevance', direction: 'desc' }
       );
@@ -61,7 +61,7 @@ export default function RecipeList() {
       logger.error('Error filtering recipes:', error);
       return state.recipes;
     }
-  }, [state.recipes, state.elementalState, filters]);
+  }, [state.recipes, state.elementalBalance, filters]);
 
   // Handle recipe expansion
   const handleRecipeToggle = (recipeId: string) => {

@@ -1,67 +1,12 @@
-import type { ElementalProperties, IngredientMapping, ZodiacSign } from '@/types/alchemy';
-
-// Helper function to standardize ingredient mappings
-function createIngredientMapping(
-  id: string,
-  properties: Partial<IngredientMapping>
-): IngredientMapping {
-  return {
-    name: id,
-    elementalProperties: properties.elementalProperties || { 
-      Earth: 0.25, 
-      Water: 0.25, 
-      Fire: 0.25, 
-      Air: 0.25 
-    },
-    category: properties.category || '',
-    ...properties
-  };
-}
+import type { IngredientMapping } from '@/types/alchemy';
 
 export const plantBased: Record<string, IngredientMapping> = {
-  'tempeh': createIngredientMapping('tempeh', {
+  'tempeh': {
     elementalProperties: { Earth: 0.4, Water: 0.3, Fire: 0.2, Air: 0.1 },
-    astrologicalProfile: {
-      rulingPlanets: ['Saturn', 'Mars'],
-      favorableZodiac: ['capricorn', 'aries'],
-      elementalAffinity: {
-        base: 'Earth',
-        decanModifiers: {
-          first: { element: 'Earth', planet: 'Saturn' },
-          second: { element: 'Fire', planet: 'Mars' },
-          third: { element: 'Water', planet: 'Pluto' }
-        }
-      },
-      lunarPhaseModifiers: {
-        waxingGibbous: {
-          elementalBoost: { Earth: 0.1, Fire: 0.1 },
-          preparationTips: ['Best for grilling']
-        },
-        fullMoon: {
-          elementalBoost: { Fire: 0.2 },
-          preparationTips: ['Ideal for frying']
-        }
-      }
-    },
     qualities: ['fermented', 'nutty', 'firm'],
     origin: ['Indonesia', 'Java'],
     category: 'protein',
     subCategory: 'plant_based',
-    nutritionalProfile: {
-      protein: '19g/100g',
-      fats: '11g/100g',
-      carbs: '9g/100g'
-    },
-    culinaryApplications: {
-      'stir-fry': {
-        prepTime: '15 mins',
-        cookingTemp: 'medium-high'
-      },
-      'baking': {
-        prepTime: '25 mins',
-        cookingTemp: '375°F'
-      }
-    },
     varieties: {
       'Traditional': {
         appearance: 'white mycelium, visible soybeans',
@@ -80,6 +25,51 @@ export const plantBased: Record<string, IngredientMapping> = {
         texture: 'slightly looser bind',
         flavor: 'nutty, omega-rich',
         notes: 'higher in omega-3'
+      }
+    },
+    culinaryApplications: {
+      'steam_then_cook': {
+        method: 'pre-steam before final cooking',
+        timing: {
+          'steam': '10-12 minutes',
+          'marinate': '2-24 hours',
+          'final_cook': 'varies by method'
+        },
+        techniques: {
+          'basic_steam': {
+            method: 'steam whole block',
+            purpose: 'reduce bitterness, prepare for marinade',
+            notes: 'can skip for certain preparations'
+          },
+          'marination': {
+            bases: {
+              'soy_based': ['soy sauce', 'rice vinegar', 'ginger'],
+              'spice_based': ['curry paste', 'coconut milk'],
+              'barbecue': ['smoke essence', 'maple', 'spices']
+            },
+            timing: 'longer is better for flavor penetration'
+          }
+        }
+      },
+      'direct_methods': {
+        'grill': {
+          preparation: 'slice 3/4 inch thick',
+          marinade: 'minimum 2 hours',
+          timing: '4-5 minutes per side',
+          technique: 'oil grates well'
+        },
+        'pan_fry': {
+          preparation: 'slice 1/2 inch thick',
+          method: 'medium-high heat',
+          timing: '3-4 minutes per side',
+          finish: 'add sauce last minute'
+        },
+        'bake': {
+          preparation: 'marinate first',
+          temperature: { fahrenheit: 375, celsius: 190 },
+          timing: '20-25 minutes',
+          technique: 'flip halfway'
+        }
       }
     },
     regionalPreparations: {
@@ -162,44 +152,56 @@ export const plantBased: Record<string, IngredientMapping> = {
         accompaniments: ['roasted vegetables', 'hearty grains']
       }
     }
-  }),
+  },
 
   'seitan': {
-    name: 'seitan',
-    elementalProperties: { Fire: 0.4, Earth: 0.4, Air: 0.1, Water: 0.1 },
-    astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Saturn'],
-      favorableZodiac: ['aries', 'capricorn'],
-      elementalAffinity: {
-        base: 'Earth',
-        decanModifiers: {
-          first: { element: 'Earth', planet: 'Mars' },
-          second: { element: 'Fire', planet: 'Saturn' },
-          third: { element: 'Water', planet: 'Pluto' }
-        }
-      },
-      lunarPhaseModifiers: {
-        waxingGibbous: {
-          elementalBoost: { Earth: 0.1, Fire: 0.1 },
-          preparationTips: ['Best for grilling']
-        },
-        fullMoon: {
-          elementalBoost: { Fire: 0.2 },
-          preparationTips: ['Ideal for frying']
-        }
-      }
-    },
-    qualities: ['chewy', 'versatile', 'high-protein'],
+    elementalProperties: { Earth: 0.5, Water: 0.2, Fire: 0.2 },
+    qualities: ['chewy', 'dense', 'savory'],
     origin: ['China', 'Buddhist Cuisine'],
     category: 'protein',
     subCategory: 'plant_based',
-    preparation: {
-      basic: {
-        ingredients: ['vital wheat gluten', 'spices'],
-        steps: ['mix', 'knead', 'simmer']
+    varieties: {
+      'Traditional': {
+        appearance: 'brown, meat-like',
+        texture: 'dense, chewy',
+        preparation: 'from vital wheat gluten'
+      },
+      'Whole_Wheat': {
+        appearance: 'darker, more rustic',
+        texture: 'varying density',
+        preparation: 'washed flour method'
       }
     },
     culinaryApplications: {
+      'basic_preparation': {
+        'vital_wheat_method': {
+          ingredients: {
+            base: 'vital wheat gluten',
+            liquid: ['vegetable broth', 'soy sauce'],
+            seasonings: ['nutritional yeast', 'spices']
+          },
+          method: {
+            mixing: 'knead until elastic',
+            resting: '10-15 minutes',
+            cooking: 'simmer in broth'
+          },
+          broth: {
+            base: 'vegetable stock',
+            aromatics: ['kombu', 'ginger', 'garlic'],
+            timing: '45-60 minutes'
+          }
+        },
+        'wash_method': {
+          steps: [
+            'make dough with flour and water',
+            'rest 1 hour',
+            'wash until starch removed',
+            'season and cook'
+          ],
+          timing: 'process takes several hours',
+          notes: 'traditional but time-consuming'
+        }
+      },
       'cooking_methods': {
         'braise': {
           liquid: 'flavorful broth',
@@ -288,30 +290,8 @@ export const plantBased: Record<string, IngredientMapping> = {
     }
   },
 
-  'tofu_varieties': createIngredientMapping('tofu_varieties', {
-    elementalProperties: { Water: 0.5, Earth: 0.3, Air: 0.1, Fire: 0.1 },
-    astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Venus'],
-      favorableZodiac: ['cancer', 'taurus'],
-      elementalAffinity: {
-        base: 'Earth',
-        decanModifiers: {
-          first: { element: 'Earth', planet: 'Moon' },
-          second: { element: 'Water', planet: 'Venus' },
-          third: { element: 'Air', planet: 'Mercury' }
-        }
-      },
-      lunarPhaseModifiers: {
-        newMoon: {
-          elementalBoost: { Earth: 0.1, Water: 0.1 },
-          preparationTips: ['Best for marinating']
-        },
-        fullMoon: {
-          elementalBoost: { Water: 0.2 },
-          preparationTips: ['Ideal for baking']
-        }
-      }
-    },
+  'tofu_varieties': {
+    elementalProperties: { Water: 0.5, Earth: 0.3, Air: 0.1 },
     qualities: ['versatile', 'neutral', 'protein-rich'],
     origin: ['China', 'East Asia'],
     category: 'protein',
@@ -438,32 +418,10 @@ export const plantBased: Record<string, IngredientMapping> = {
         accompaniments: ['hot pot', 'warming soups']
       }
     }
-  }),
+  },
 
-  'legumes_protein': createIngredientMapping('legumes_protein', {
+  'legumes_protein': {
     elementalProperties: { Earth: 0.4, Water: 0.3, Fire: 0.2, Air: 0.1 },
-    astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Venus'],
-      favorableZodiac: ['cancer', 'taurus'],
-      elementalAffinity: {
-        base: 'Earth',
-        decanModifiers: {
-          first: { element: 'Earth', planet: 'Moon' },
-          second: { element: 'Water', planet: 'Venus' },
-          third: { element: 'Air', planet: 'Mercury' }
-        }
-      },
-      lunarPhaseModifiers: {
-        newMoon: {
-          elementalBoost: { Earth: 0.1, Water: 0.1 },
-          preparationTips: ['Best for marinating']
-        },
-        fullMoon: {
-          elementalBoost: { Water: 0.2 },
-          preparationTips: ['Ideal for baking']
-        }
-      }
-    },
     qualities: ['hearty', 'versatile', 'nutritious'],
     category: 'protein',
     subCategory: 'plant_based',
@@ -673,858 +631,7 @@ export const plantBased: Record<string, IngredientMapping> = {
         }
       }
     }
-  }),
-
-  'textured_vegetable_protein': createIngredientMapping('textured_vegetable_protein', {
-    elementalProperties: { Earth: 0.4, Air: 0.3, Fire: 0.2, Water: 0.1 },
-    astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Venus'],
-      favorableZodiac: ['cancer', 'taurus'],
-      elementalAffinity: {
-        base: 'Earth',
-        decanModifiers: {
-          first: { element: 'Earth', planet: 'Moon' },
-          second: { element: 'Water', planet: 'Venus' },
-          third: { element: 'Air', planet: 'Mercury' }
-        }
-      },
-      lunarPhaseModifiers: {
-        newMoon: {
-          elementalBoost: { Earth: 0.1, Water: 0.1 },
-          preparationTips: ['Best for marinating']
-        },
-        fullMoon: {
-          elementalBoost: { Water: 0.2 },
-          preparationTips: ['Ideal for baking']
-        }
-      }
-    },
-    qualities: ['versatile', 'meat-like', 'protein-rich'],
-    origin: ['United States', 'Industrial Development'],
-    category: 'protein',
-    subCategory: 'plant_based',
-    varieties: {
-      'Granules': {
-        appearance: 'small, crumbly pieces',
-        texture: 'ground meat-like',
-        applications: {
-          'ground_meat_substitute': ['tacos', 'bolognese', 'chili'],
-          'preparation': 'rehydrate before use'
-        }
-      },
-      'Chunks': {
-        appearance: 'larger pieces',
-        texture: 'chewy, meat-like',
-        applications: {
-          'stews': 'holds shape well',
-          'curries': 'absorbs flavors well',
-          'stir_fries': 'maintains texture'
-        }
-      }
-    },
-    culinaryApplications: {
-      'rehydration': {
-        method: 'hot liquid soak',
-        timing: {
-          'granules': '5-10 minutes',
-          'chunks': '15-20 minutes'
-        },
-        liquids: {
-          'basic': 'hot water',
-          'flavored': ['vegetable broth', 'mushroom stock'],
-          'ratio': '1:1 TVP to liquid'
-        }
-      },
-      'cooking_methods': {
-        'pan_fry': {
-          preparation: 'rehydrate first',
-          method: 'medium-high heat',
-          timing: '5-7 minutes',
-          notes: 'brown for better flavor'
-        },
-        'bake': {
-          temperature: { fahrenheit: 350, celsius: 175 },
-          timing: '20-25 minutes',
-          notes: 'good for casseroles'
-        }
-      }
-    },
-    seasonalAdjustments: {
-      'summer': {
-        preparations: ['taco filling', 'burger crumbles'],
-        seasonings: ['fresh herbs', 'grilling spices'],
-        accompaniments: ['fresh salads', 'grilled vegetables']
-      },
-      'winter': {
-        preparations: ['stews', 'casseroles'],
-        seasonings: ['warming spices', 'herbs'],
-        accompaniments: ['root vegetables', 'grains']
-      }
-    }
-  }),
-
-  'jackfruit_young': createIngredientMapping('jackfruit_young', {
-    elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
-    astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Venus'],
-      favorableZodiac: ['cancer', 'taurus'],
-      elementalAffinity: {
-        base: 'Earth',
-        decanModifiers: {
-          first: { element: 'Earth', planet: 'Moon' },
-          second: { element: 'Water', planet: 'Venus' },
-          third: { element: 'Air', planet: 'Mercury' }
-        }
-      },
-      lunarPhaseModifiers: {
-        newMoon: {
-          elementalBoost: { Earth: 0.1, Water: 0.1 },
-          preparationTips: ['Best for marinating']
-        },
-        fullMoon: {
-          elementalBoost: { Water: 0.2 },
-          preparationTips: ['Ideal for baking']
-        }
-      }
-    },
-    qualities: ['fibrous', 'meaty', 'neutral'],
-    origin: ['Southeast Asia'],
-    category: 'protein',
-    subCategory: 'plant_based',
-    varieties: {
-      'Canned': {
-        appearance: 'pale, chunky pieces',
-        texture: 'shreddable, meat-like',
-        applications: {
-          'pulled_meat_substitute': ['sandwiches', 'tacos'],
-          'preparation': 'drain and rinse well'
-        }
-      },
-      'Fresh': {
-        appearance: 'pale yellow, fibrous',
-        texture: 'firm, stringy',
-        applications: {
-          'curry': 'traditional preparation',
-          'braised_dishes': 'holds sauce well'
-        }
-      }
-    },
-    culinaryApplications: {
-      'preparation': {
-        'canned': {
-          steps: [
-            'drain thoroughly',
-            'rinse well',
-            'squeeze out liquid',
-            'shred or chop'
-          ],
-          notes: 'remove tough core pieces'
-        },
-        'fresh': {
-          steps: [
-            'oil hands well',
-            'remove core',
-            'separate pods',
-            'remove seeds'
-          ],
-          notes: 'very sticky when fresh'
-        }
-      },
-      'cooking_methods': {
-        'pulled_style': {
-          preparation: 'shred thoroughly',
-          sauce: 'barbecue or similar',
-          timing: '20-30 minutes simmer',
-          finish: 'reduce sauce until thick'
-        },
-        'curry': {
-          preparation: 'chunk or shred',
-          spices: 'curry blend',
-          timing: '25-35 minutes',
-          notes: 'absorbs flavors well'
-        }
-      }
-    },
-    regionalPreparations: {
-      'southeast_asian': {
-        'traditional': {
-          'curry': {
-            spices: ['turmeric', 'coconut milk', 'chilies'],
-            method: 'simmer until tender',
-            service: 'with rice'
-          }
-        }
-      },
-      'western': {
-        'modern': {
-          'pulled_bbq': {
-            sauce: ['smoky barbecue', 'liquid smoke'],
-            method: 'slow cook',
-            service: 'on buns with slaw'
-          }
-        }
-      }
-    }
-  }),
-
-  'quinoa_protein': createIngredientMapping('quinoa_protein', {
-    elementalProperties: { Earth: 0.3, Air: 0.3, Fire: 0.2, Water: 0.2 },
-    astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Venus'],
-      favorableZodiac: ['cancer', 'taurus'],
-      elementalAffinity: {
-        base: 'Earth',
-        decanModifiers: {
-          first: { element: 'Earth', planet: 'Moon' },
-          second: { element: 'Water', planet: 'Venus' },
-          third: { element: 'Air', planet: 'Mercury' }
-        }
-      },
-      lunarPhaseModifiers: {
-        newMoon: {
-          elementalBoost: { Earth: 0.1, Water: 0.1 },
-          preparationTips: ['Best for marinating']
-        },
-        fullMoon: {
-          elementalBoost: { Water: 0.2 },
-          preparationTips: ['Ideal for baking']
-        }
-      }
-    },
-    qualities: ['complete protein', 'fluffy', 'versatile'],
-    origin: ['Andean Region'],
-    category: 'protein',
-    subCategory: 'plant_based',
-    varieties: {
-      'White': {
-        appearance: 'pale, small seeds',
-        texture: 'light, fluffy',
-        applications: {
-          'protein_bowl': ['buddha bowls', 'salads'],
-          'preparation': 'rinse thoroughly before cooking'
-        }
-      },
-      'Red': {
-        appearance: 'burgundy colored',
-        texture: 'slightly crunchier',
-        applications: {
-          'warm_dishes': 'holds shape well',
-          'cold_salads': 'dramatic color'
-        }
-      },
-      'Black': {
-        appearance: 'deep black',
-        texture: 'earthier, firmer',
-        applications: {
-          'gourmet_dishes': 'striking presentation',
-          'protein_base': 'hearty texture'
-        }
-      }
-    },
-    culinaryApplications: {
-      'preparation': {
-        'basic_cooking': {
-          ratio: '1:2 quinoa to liquid',
-          timing: '15-20 minutes',
-          method: 'simmer then steam',
-          notes: 'let stand 5-10 minutes covered'
-        },
-        'pilaf_style': {
-          method: 'toast first, then cook',
-          aromatics: ['onion', 'garlic', 'herbs'],
-          liquid: 'vegetable broth'
-        }
-      },
-      'modern_applications': {
-        'quinoa_burger': {
-          base: ['cooked quinoa', 'black beans'],
-          binders: ['ground flax', 'breadcrumbs'],
-          seasonings: ['cumin', 'garlic', 'smoked paprika'],
-          method: 'form and pan-fry'
-        },
-        'protein_crust': {
-          method: 'bind with flax egg',
-          applications: ['quiche', 'savory tarts'],
-          notes: 'pre-bake for crispy texture'
-        }
-      }
-    },
-    regionalPreparations: {
-      'andean': {
-        'traditional': {
-          'quinoa_soup': {
-            ingredients: ['vegetables', 'herbs', 'quinoa'],
-            method: 'simmer until tender',
-            service: 'hot with garnishes'
-          }
-        }
-      },
-      'modern_global': {
-        'breakfast_bowl': {
-          base: 'cooked quinoa',
-          toppings: ['nuts', 'fruits', 'plant milk'],
-          variations: ['sweet', 'savory']
-        }
-      }
-    },
-    seasonalAdjustments: {
-      'summer': {
-        preparations: ['cold salads', 'stuffed vegetables'],
-        seasonings: ['fresh herbs', 'citrus'],
-        accompaniments: ['grilled vegetables', 'light dressings']
-      },
-      'winter': {
-        preparations: ['warm bowls', 'soups'],
-        seasonings: ['warming spices', 'roasted garlic'],
-        accompaniments: ['roasted vegetables', 'hearty sauces']
-      }
-    }
-  }),
-
-  'hemp_protein': createIngredientMapping('hemp_protein', {
-    elementalProperties: { Earth: 0.4, Air: 0.3, Water: 0.2, Fire: 0.1 },
-    astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Venus'],
-      favorableZodiac: ['cancer', 'taurus'],
-      elementalAffinity: {
-        base: 'Earth',
-        decanModifiers: {
-          first: { element: 'Earth', planet: 'Moon' },
-          second: { element: 'Water', planet: 'Venus' },
-          third: { element: 'Air', planet: 'Mercury' }
-        }
-      },
-      lunarPhaseModifiers: {
-        newMoon: {
-          elementalBoost: { Earth: 0.1, Water: 0.1 },
-          preparationTips: ['Best for marinating']
-        },
-        fullMoon: {
-          elementalBoost: { Water: 0.2 },
-          preparationTips: ['Ideal for baking']
-        }
-      }
-    },
-    qualities: ['complete protein', 'nutty', 'sustainable'],
-    category: 'protein',
-    subCategory: 'plant_based',
-    varieties: {
-      'Seeds': {
-        appearance: 'small, greenish',
-        texture: 'crunchy, tender',
-        applications: {
-          'topping': ['salads', 'bowls', 'yogurt'],
-          'preparation': 'no preparation needed'
-        }
-      },
-      'Protein_Powder': {
-        appearance: 'fine green powder',
-        texture: 'slightly gritty',
-        applications: {
-          'smoothies': 'blend with liquids',
-          'baking': 'partial flour replacement'
-        }
-      }
-    },
-    culinaryApplications: {
-      'protein_boost': {
-        'smoothies': {
-          base: ['plant milk', 'fruits'],
-          additions: ['hemp protein', 'seeds'],
-          notes: 'blend thoroughly'
-        },
-        'baked_goods': {
-          method: 'replace 25% flour',
-          applications: ['breads', 'muffins'],
-          notes: 'increases moisture needed'
-        }
-      },
-      'raw_applications': {
-        'energy_balls': {
-          ingredients: ['dates', 'nuts', 'hemp'],
-          method: 'process and form',
-          storage: 'refrigerate'
-        },
-        'seed_coating': {
-          applications: ['tofu', 'tempeh'],
-          method: 'press seeds into surface',
-          cooking: 'pan-sear for crunch'
-        }
-      }
-    },
-    seasonalAdjustments: {
-      'summer': {
-        preparations: ['smoothie bowls', 'cold drinks'],
-        combinations: ['fresh fruits', 'herbs'],
-        notes: 'lighter applications'
-      },
-      'winter': {
-        preparations: ['hot cereals', 'baking'],
-        combinations: ['warming spices', 'dried fruits'],
-        notes: 'heartier applications'
-      }
-    }
-  }),
-
-  'pea_protein': createIngredientMapping('pea_protein', {
-    elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },
-    astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Venus'],
-      favorableZodiac: ['cancer', 'taurus'],
-      elementalAffinity: {
-        base: 'Earth',
-        decanModifiers: {
-          first: { element: 'Earth', planet: 'Moon' },
-          second: { element: 'Water', planet: 'Venus' },
-          third: { element: 'Air', planet: 'Mercury' }
-        }
-      },
-      lunarPhaseModifiers: {
-        newMoon: {
-          elementalBoost: { Earth: 0.1, Water: 0.1 },
-          preparationTips: ['Best for marinating']
-        },
-        fullMoon: {
-          elementalBoost: { Water: 0.2 },
-          preparationTips: ['Ideal for baking']
-        }
-      }
-    },
-    qualities: ['versatile', 'neutral', 'complete protein'],
-    origin: ['Global'],
-    category: 'protein',
-    subCategory: 'plant_based',
-    varieties: {
-      'Isolate': {
-        appearance: 'fine beige powder',
-        texture: 'smooth when blended',
-        applications: {
-          'protein_shakes': 'complete amino profile',
-          'meat_alternatives': 'binding and structure'
-        }
-      },
-      'Textured': {
-        appearance: 'granules or chunks',
-        texture: 'meat-like when hydrated',
-        applications: {
-          'meat_substitute': ['ground meat alternatives', 'patties'],
-          'preparation': 'rehydrate before use'
-        }
-      }
-    },
-    culinaryApplications: {
-      'protein_fortification': {
-        'baking': {
-          method: 'blend with dry ingredients',
-          ratio: 'up to 15% of flour weight',
-          notes: 'may need additional liquid'
-        },
-        'smoothies': {
-          method: 'blend with liquid first',
-          ratio: '20-30g per serving',
-          notes: 'combine with fruits for flavor'
-        }
-      },
-      'meat_alternative': {
-        'burger_base': {
-          ingredients: ['pea protein', 'vegetable oils', 'binders'],
-          method: 'mix and form',
-          cooking: 'grill or pan-fry'
-        }
-      }
-    },
-    seasonalAdjustments: {
-      'summer': {
-        preparations: ['protein shakes', 'cold applications'],
-        combinations: ['fresh fruits', 'mint'],
-        notes: 'lighter preparations'
-      },
-      'winter': {
-        preparations: ['baked goods', 'hot drinks'],
-        combinations: ['cocoa', 'warming spices'],
-        notes: 'heartier applications'
-      }
-    }
-  }),
-
-  'lentil_protein': createIngredientMapping('lentil_protein', {
-    elementalProperties: { Earth: 0.5, Fire: 0.2, Water: 0.2, Air: 0.1 },
-    astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Venus'],
-      favorableZodiac: ['cancer', 'taurus'],
-      elementalAffinity: {
-        base: 'Earth',
-        decanModifiers: {
-          first: { element: 'Earth', planet: 'Moon' },
-          second: { element: 'Water', planet: 'Venus' },
-          third: { element: 'Air', planet: 'Mercury' }
-        }
-      },
-      lunarPhaseModifiers: {
-        newMoon: {
-          elementalBoost: { Earth: 0.1, Water: 0.1 },
-          preparationTips: ['Best for marinating']
-        },
-        fullMoon: {
-          elementalBoost: { Water: 0.2 },
-          preparationTips: ['Ideal for baking']
-        }
-      }
-    },
-    qualities: ['hearty', 'versatile', 'protein-rich'],
-    origin: ['Middle East', 'Mediterranean'],
-    category: 'protein',
-    subCategory: 'plant_based',
-    varieties: {
-      'Red_Lentils': {
-        appearance: 'split, orange-red',
-        texture: 'soft when cooked',
-        applications: {
-          'soups': 'quick-cooking, creamy',
-          'dals': 'traditional Indian preparations'
-        }
-      },
-      'Black_Lentils': {
-        appearance: 'small, black',
-        texture: 'firm, holds shape',
-        applications: {
-          'salads': 'maintains texture',
-          'main_dishes': 'meaty texture'
-        }
-      },
-      'French_Green': {
-        appearance: 'small, mottled green',
-        texture: 'firm, peppery',
-        applications: {
-          'salads': 'holds shape well',
-          'side_dishes': 'elegant presentation'
-        }
-      }
-    },
-    culinaryApplications: {
-      'basic_cooking': {
-        method: 'simmer until tender',
-        timing: {
-          'red': '15-20 minutes',
-          'black': '25-30 minutes',
-          'french_green': '20-25 minutes'
-        },
-        liquid_ratio: '1:2.5 lentils to water'
-      },
-      'protein_applications': {
-        'lentil_loaf': {
-          ingredients: ['cooked lentils', 'vegetables', 'binders'],
-          method: 'bake until firm',
-          notes: 'excellent meat alternative'
-        },
-        'lentil_patties': {
-          base: ['cooked lentils', 'grains'],
-          seasonings: ['herbs', 'spices'],
-          method: 'form and pan-fry'
-        }
-      }
-    },
-    regionalPreparations: {
-      'indian': {
-        'dal': {
-          ingredients: ['lentils', 'spices', 'ghee'],
-          method: 'simmer with spices',
-          service: 'with rice or flatbread'
-        }
-      },
-      'mediterranean': {
-        'lentil_soup': {
-          ingredients: ['lentils', 'vegetables', 'herbs'],
-          method: 'simmer until tender',
-          service: 'with olive oil drizzle'
-        }
-      }
-    },
-    seasonalAdjustments: {
-      'summer': {
-        preparations: ['cold salads', 'sprouted'],
-        seasonings: ['fresh herbs', 'lemon'],
-        accompaniments: ['fresh vegetables', 'light grains']
-      },
-      'winter': {
-        preparations: ['soups', 'stews', 'loaves'],
-        seasonings: ['warming spices', 'garlic'],
-        accompaniments: ['root vegetables', 'hearty grains']
-      }
-    }
-  }),
-
-  'chickpea_protein': createIngredientMapping('chickpea_protein', {
-    elementalProperties: { Earth: 0.4, Fire: 0.2, Air: 0.2, Water: 0.2 },
-    astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Venus'],
-      favorableZodiac: ['cancer', 'taurus'],
-      elementalAffinity: {
-        base: 'Earth',
-        decanModifiers: {
-          first: { element: 'Earth', planet: 'Moon' },
-          second: { element: 'Water', planet: 'Venus' },
-          third: { element: 'Air', planet: 'Mercury' }
-        }
-      },
-      lunarPhaseModifiers: {
-        newMoon: {
-          elementalBoost: { Earth: 0.1, Water: 0.1 },
-          preparationTips: ['Best for marinating']
-        },
-        fullMoon: {
-          elementalBoost: { Water: 0.2 },
-          preparationTips: ['Ideal for baking']
-        }
-      }
-    },
-    qualities: ['versatile', 'nutty', 'hearty'],
-    origin: ['Mediterranean', 'Middle East'],
-    category: 'protein',
-    subCategory: 'plant_based',
-    varieties: {
-      'Whole': {
-        appearance: 'round, beige',
-        texture: 'firm, creamy when cooked',
-        applications: {
-          'hummus': 'traditional spread',
-          'falafel': 'deep-fried patties',
-          'curries': 'whole bean dishes'
-        }
-      },
-      'Flour': {
-        appearance: 'fine yellow powder',
-        texture: 'smooth when cooked',
-        applications: {
-          'flatbreads': 'socca/farinata',
-          'batters': 'binding agent',
-          'protein_boost': 'baking enhancement'
-        }
-      }
-    },
-    culinaryTraditions: {
-      'middle_eastern': {
-        name: 'hummus',
-        usage: ['dips', 'spreads', 'sauces'],
-        preparation: 'pureed with tahini and lemon',
-        pairings: ['olive oil', 'paprika', 'pita'],
-        cultural_notes: 'Essential mezze component'
-      },
-      'indian': {
-        name: 'chana',
-        usage: ['curries', 'stews', 'snacks'],
-        preparation: 'whole or ground preparations',
-        pairings: ['spices', 'rice', 'flatbreads'],
-        cultural_notes: 'Important protein source'
-      }
-    },
-    preparation: {
-      soaking: '8-12 hours',
-      cooking: '45-60 minutes',
-      notes: 'Save aquafaba (cooking liquid)'
-    },
-    storage: {
-      dried: {
-        temperature: 'room temperature',
-        duration: '1-2 years',
-        method: 'airtight container'
-      },
-      cooked: {
-        temperature: { fahrenheit: 40, celsius: 4 },
-        duration: '3-5 days',
-        method: 'refrigerated in liquid'
-      }
-    }
-  }),
-
-  'lupin_protein': createIngredientMapping('lupin_protein', {
-    elementalProperties: { Earth: 0.4, Air: 0.3, Fire: 0.2, Water: 0.1 },
-    astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Venus'],
-      favorableZodiac: ['cancer', 'taurus'],
-      elementalAffinity: {
-        base: 'Earth',
-        decanModifiers: {
-          first: { element: 'Earth', planet: 'Moon' },
-          second: { element: 'Water', planet: 'Venus' },
-          third: { element: 'Air', planet: 'Mercury' }
-        }
-      },
-      lunarPhaseModifiers: {
-        newMoon: {
-          elementalBoost: { Earth: 0.1, Water: 0.1 },
-          preparationTips: ['Best for marinating']
-        },
-        fullMoon: {
-          elementalBoost: { Water: 0.2 },
-          preparationTips: ['Ideal for baking']
-        }
-      }
-    },
-    qualities: ['high-protein', 'low-carb', 'alkaline'],
-    origin: ['Mediterranean', 'Australia'],
-    category: 'protein',
-    subCategory: 'plant_based',
-    varieties: {
-      'Flour': {
-        appearance: 'fine yellow powder',
-        texture: 'smooth, protein-rich',
-        applications: {
-          'baking': 'protein enrichment',
-          'pasta': 'protein boost',
-          'protein_bars': 'binding agent'
-        }
-      },
-      'Flakes': {
-        appearance: 'golden flakes',
-        texture: 'crunchy when dry',
-        applications: {
-          'coating': 'breading alternative',
-          'granola': 'protein boost',
-          'yogurt_topping': 'crunchy addition'
-        }
-      }
-    },
-    culinaryApplications: {
-      'baking': {
-        'bread': {
-          ratio: 'up to 20% flour replacement',
-          benefits: 'protein boost, structure',
-          notes: 'may need additional liquid'
-        },
-        'pasta': {
-          method: 'blend with semolina',
-          ratio: '15-30% replacement',
-          notes: 'increases protein content'
-        }
-      },
-      'protein_enrichment': {
-        'smoothies': {
-          amount: '10-20g per serving',
-          method: 'blend with liquid first',
-          notes: 'neutral flavor profile'
-        },
-        'bars': {
-          binding: 'combines well with dates',
-          ratio: '20-30% of dry ingredients',
-          notes: 'good protein-to-fiber ratio'
-        }
-      }
-    },
-    seasonalAdjustments: {
-      'summer': {
-        preparations: ['smoothie bowls', 'cold drinks'],
-        combinations: ['fresh fruits', 'seeds'],
-        notes: 'light applications'
-      },
-      'winter': {
-        preparations: ['baked goods', 'warm cereals'],
-        combinations: ['nuts', 'dried fruits'],
-        notes: 'heartier applications'
-      }
-    }
-  }),
-
-  'fava_protein': createIngredientMapping('fava_protein', {
-    elementalProperties: { Earth: 0.3, Water: 0.3, Air: 0.2, Fire: 0.2 },
-    astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Venus'],
-      favorableZodiac: ['cancer', 'taurus'],
-      elementalAffinity: {
-        base: 'Earth',
-        decanModifiers: {
-          first: { element: 'Earth', planet: 'Moon' },
-          second: { element: 'Water', planet: 'Venus' },
-          third: { element: 'Air', planet: 'Mercury' }
-        }
-      },
-      lunarPhaseModifiers: {
-        newMoon: {
-          elementalBoost: { Earth: 0.1, Water: 0.1 },
-          preparationTips: ['Best for marinating']
-        },
-        fullMoon: {
-          elementalBoost: { Water: 0.2 },
-          preparationTips: ['Ideal for baking']
-        }
-      }
-    },
-    qualities: ['rich', 'creamy', 'versatile'],
-    origin: ['Mediterranean', 'Middle East'],
-    category: 'protein',
-    subCategory: 'plant_based',
-    varieties: {
-      'Whole_Beans': {
-        appearance: 'large, light green',
-        texture: 'creamy when cooked',
-        applications: {
-          'stews': 'traditional dishes',
-          'purees': 'dips and spreads',
-          'salads': 'when young and tender'
-        }
-      },
-      'Split': {
-        appearance: 'yellow split beans',
-        texture: 'smooth when cooked',
-        applications: {
-          'soups': 'quick-cooking',
-          'dips': 'traditional bessara',
-          'patties': 'formed and fried'
-        }
-      }
-    },
-    culinaryTraditions: {
-      'egyptian': {
-        name: 'ful medames',
-        usage: ['breakfast', 'main dish'],
-        preparation: 'slow-cooked with olive oil',
-        pairings: ['cumin', 'lemon', 'parsley'],
-        cultural_notes: 'Traditional breakfast dish'
-      },
-      'moroccan': {
-        name: 'bessara',
-        usage: ['soup', 'dip'],
-        preparation: 'pureed with olive oil and spices',
-        pairings: ['olive oil', 'paprika', 'cumin'],
-        cultural_notes: 'Popular street food'
-      }
-    },
-    preparation: {
-      soaking: '8-12 hours',
-      peeling: 'recommended for whole beans',
-      cooking: '30-45 minutes',
-      notes: 'Remove skins for smoother texture'
-    },
-    storage: {
-      dried: {
-        temperature: 'room temperature',
-        duration: '1 year',
-        method: 'airtight container'
-      },
-      cooked: {
-        temperature: { fahrenheit: 40, celsius: 4 },
-        duration: '3-4 days',
-        method: 'refrigerated in liquid'
-      }
-    }
-  })
-};
-
-// Add validation for elemental sums
-Object.entries(plantBased).forEach(([id, ingredient]) => {
-  if (!ingredient.elementalProperties) return;
-
-  const sum = Object.values(ingredient.elementalProperties).reduce((a, b) => a + b, 0);
-  if (Math.abs(sum - 1) > 0.0001) {
-    console.error(`Elemental sum error in ${ingredient.name || id}: ${sum}`);
-    
-    // Optionally auto-normalize the values
-    const factor = 1 / sum;
-    Object.entries(ingredient.elementalProperties).forEach(([element, value]) => {
-      const elementKey = element as keyof ElementalProperties;
-      ingredient.elementalProperties[elementKey] = value * factor;
-    });
   }
-});
+};
 
 export default plantBased;

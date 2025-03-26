@@ -105,24 +105,6 @@ export const elementalFunctions = {
   }
 };
 
-export const ELEMENT_COMBINATIONS = {
-  harmonious: [
-    ['Fire', 'Air'],
-    ['Water', 'Earth']
-  ],
-  antagonistic: [
-    ['Fire', 'Water'],
-    ['Air', 'Earth']
-  ]
-} as const;
-
-export const ELEMENT_AFFINITIES = {
-  Fire: ['Air'],
-  Water: ['Earth'],
-  Air: ['Fire'],
-  Earth: ['Water']
-} as const;
-
 export default {
   elements,
   elementalInteractions,

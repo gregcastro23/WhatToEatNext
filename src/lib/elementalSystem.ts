@@ -82,9 +82,8 @@ import {
     }
   
     calculateAstrologicalInfluence(state: AstrologicalState): ElementalProperties {
-      const zodiacElement = ZODIAC_ELEMENTS[state.currentZodiac?.toLowerCase()];
-      const moonSign = state.currentPlanetaryAlignment?.moon?.toLowerCase();
-      const moonElement = moonSign ? ZODIAC_ELEMENTS[moonSign] : 'Water';
+      const sunElement = ZODIAC_ELEMENTS[state.sunSign];
+      const moonElement = ZODIAC_ELEMENTS[state.moonSign];
       
       const baseProperties: ElementalProperties = {
         Fire: 0.25,
@@ -93,13 +92,11 @@ import {
         Earth: 0.25
       };
   
-      if (zodiacElement) {
-        baseProperties[zodiacElement] += 0.2;
-      }
+      // Increase influence of sun sign element
+      baseProperties[sunElement] += 0.2;
       
-      if (moonElement) {
-        baseProperties[moonElement] += 0.1;
-      }
+      // Increase influence of moon sign element
+      baseProperties[moonElement] += 0.1;
   
       return this.normalizeProperties(baseProperties);
     }

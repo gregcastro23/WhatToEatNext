@@ -24,52 +24,6 @@ app.get('/api/health', (req, res) => {
   res.status(200).json({ status: 'ok' });
 });
 
-// Add this new endpoint for planetary data
-app.post('/planetary-data', async (request, response) => {
-  console.log('\nindex.js >>> REQUEST -> /planetary-data');
-  console.log('request.body', request.body);
-  
-  try {
-    const { datetime, latitude, longitude } = request.body;
-    
-    // Use your existing AstrologicalService to get planet positions
-    const astroService = new AstrologicalService();
-    const planetaryAlignment = astroService.calculatePlanetaryAlignment(
-      new Date(datetime),
-      latitude,
-      longitude
-    );
-    
-    // Use your AlchemicalEngine to calculate the alchemical properties
-    const alchemicalEngine = new AlchemicalEngine();
-    const isDaytime = isDay(new Date(datetime), latitude, longitude);
-    const alchemicalProperties = alchemicalEngine.calculateProperties(
-      planetaryAlignment,
-      isDaytime
-    );
-    
-    response.json({
-      planetaryAlignment,
-      alchemicalProperties
-    });
-  } catch (error) {
-    console.error('Error calculating planetary data:', error);
-    response.status(500).json({ error: 'Failed to calculate planetary data' });
-  }
-});
-
-// Import the AstrologicalService
-const { AstrologicalService } = require('./src/services/AstrologicalService');
-const { AlchemicalEngine } = require('./src/lib/alchemicalEngine');
-
-// Helper function to determine if it's day or night
-function isDay(datetime, latitude, longitude) {
-  // Implementation would depend on your requirements
-  // Basic example: 6 AM to 6 PM is daytime
-  const hour = datetime.getHours();
-  return hour >= 6 && hour < 18;
-}
-
 // Error handling middleware
 app.use((err, _req, res, _next) => {
   console.error(err.stack);

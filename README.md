@@ -1,3 +1,78 @@
+# WhatToEatNext
+
+A personalized food recommendation system that uses astrological data and elemental balance to suggest recipes and ingredients tailored to your current cosmic alignment.
+
+## Features
+
+- Personalized recipe recommendations based on astrological data
+- Ingredient suggestions based on elemental balance
+- Seasonal food adjustments
+- Cooking method recommendations
+- Cuisine explorer by elemental properties
+
+## Technology Stack
+
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (v14 or higher)
+- Yarn package manager
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/gregcastro23/WhatToEatNext.git
+   cd WhatToEatNext
+   ```
+
+2. Install dependencies:
+   ```bash
+   yarn install
+   ```
+
+3. Start the development server:
+   ```bash
+   yarn dev
+   ```
+
+4. Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+## Building for Production
+
+```bash
+yarn build
+yarn start
+```
+
+## Project Structure
+
+- `/src/app` - Next.js App Router components
+- `/src/components` - Reusable UI components
+- `/src/data` - Food and ingredient databases
+- `/src/calculations` - Core calculation logic
+- `/src/lib` - Core library functions
+- `/src/utils` - Utility functions
+- `/public` - Static assets
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License.
+
 # What To Eat Next - Astrological Component Library
 
 This project enhances the "What To Eat Next" application with improved astrological calculations and beautiful UI components using Astro.

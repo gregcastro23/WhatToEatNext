@@ -61,5 +61,5 @@ export interface Dish {
   ingredients: Ingredient[];
   steps: CookingStep[];
   nutritionalInfo?: NutritionalInfo;
-  elementalState?: ElementalProperties;
+  elementalBalance?: ElementalProperties;
 }

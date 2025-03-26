@@ -15,13 +15,4 @@ export function validateEnv() {
   }
 }
 
-export const env = validateEnv();
-
-export function validateAstrologyConfig() {
-  const required = ['NEXT_PUBLIC_PROKERALA_CLIENT_ID', 'NEXT_PUBLIC_PROKERALA_CLIENT_SECRET'];
-  const missing = required.filter(key => !process.env[key]);
-  
-  if (missing.length > 0) {
-    console.warn('Missing required environment variables:', missing);
-  }
-} 
+export const env = validateEnv(); 

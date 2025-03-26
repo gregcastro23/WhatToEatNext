@@ -4,9 +4,6 @@ import cookingMethods, {
     getAstrologicalEffect, 
     calculateModifiedElementalEffect 
   } from './cookingMethods';
-  import { molecularCookingMethods } from './molecularMethods';
-  // If you have a traditionalMethods file, import from it here
-  // import { traditionalMethods } from './traditionalMethods';
   import type { 
     CookingMethod, 
     ElementalProperties, 
@@ -49,21 +46,9 @@ import cookingMethods, {
       );
   };
   
-  // Aggregated exports of all cooking methods
-  export const allCookingMethods = {
-    ...cookingMethods,
-    ...molecularCookingMethods,
-    // Add traditionalMethods here if you have them
-    // ...traditionalMethods
-  };
-  
-  // Export individual items
   export {
     cookingMethods,
-    molecularCookingMethods,
     getAstrologicalEffect,
-    calculateModifiedElementalEffect
+    calculateModifiedElementalEffect,
+    type CookingMethodData
   };
-  
-  // If you need to export types
-  export type { CookingMethodData } from './cookingMethods';
