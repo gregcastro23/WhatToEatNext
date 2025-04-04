@@ -1,6 +1,9 @@
 // src/data/foodTypes.ts
 
-import { Cuisine, Dish, NutritionalInfo } from './cuisines';
+import { Cuisine } from './cuisines';
+import { ElementalProperties } from '@/types/alchemy';
+import { Recipe as Dish } from '@/types/recipe';
+import { NutritionalInfo } from '@/constants/recipe';
 
 // Properties that describe food characteristics
 export type FoodProperty = 
@@ -18,16 +21,42 @@ export type FoodProperty =
   | 'sour'
   | 'bitter'
   | 'umami'
-  | 'neutral';
+  | 'balanced'
+  | 'creamy'
+  | 'neutral'
+  | 'aromatic'
+  | 'crispy'
+  | 'grilled'
+  | 'layered'
+  | 'comforting'
+  | 'savory'
+  | 'numbing'
+  | 'refreshing'
+  | 'hearty'
+  | 'tangy'
+  | 'rich'
+  | 'complex'
+  | 'mild-spicy'
+  | 'earthy';
 
 // Track daily food intake
 export interface FoodEntry {
-  dishId: string;
-  cuisineId: string;
-  timeEaten: Date;
-  portion: number; // 1 = standard serving
+  id: string;
+  name: string;
+  timeAdded: Date;
+  mealType: 'breakfast' | 'lunch' | 'dinner' | 'snack';
+  nutrition: {
+    calories: number;
+    protein: number;
+    carbs: number;
+    fat: number;
+    fiber?: number;
+    [key: string]: number | undefined;
+  };
+  elementalProperties: ElementalProperties;
+  category: string;
   properties: FoodProperty[];
-  nutrition: NutritionalInfo;
+  portion: number;
 }
 
 // Daily nutrition targets
@@ -97,38 +126,45 @@ export function findComplementaryDishes(
   const recommendations: Dish[] = [];
   
   Object.values(availableDishes).forEach(cuisine => {
-    Object.values(cuisine.dishes).forEach(mealTypes => {
-      Object.values(mealTypes).forEach(seasonalDishes => {
-        seasonalDishes.forEach(dish => {
-          let score = 0;
-          
-          // Score based on needed nutrients
-          Object.entries(nutritionTargets).forEach(([nutrient, target]) => {
-            const current = currentNutrition[nutrient] || 0;
-            if (current < target.min) {
-              score += 1;
+    if (cuisine && cuisine.dishes) {
+      Object.values(cuisine.dishes).forEach(mealTypes => {
+        if (mealTypes) {
+          Object.values(mealTypes).forEach(seasonalDishes => {
+            if (seasonalDishes && Array.isArray(seasonalDishes)) {
+              seasonalDishes.forEach(dish => {
+                let score = 0;
+                
+                // Score based on needed nutrients
+                Object.entries(nutritionTargets).forEach(([nutrient, target]) => {
+                  const current = currentNutrition[nutrient] || 0;
+                  if (current < target.min) {
+                    score += 1;
+                  }
+                });
+                
+                // Score based on desired properties
+                targetProperties.forEach(prop => {
+                  if (dish.properties?.includes(prop)) {
+                    score += 1;
+                  }
+                });
+                
+                if (score > 0) {
+                  recommendations.push(dish);
+                }
+              });
             }
           });
-          
-          // Score based on desired properties
-          targetProperties.forEach(prop => {
-            if (dish.properties?.includes(prop)) {
-              score += 1;
-            }
-          });
-          
-          if (score > 0) {
-            recommendations.push(dish);
-          }
-        });
+        }
       });
-    });
+    }
   });
   
-  return recommendations.sort((a, b) => 
-    (b.nutrition.protein + b.nutrition.fiber) - 
-    (a.nutrition.protein + a.nutrition.fiber)
-  );
+  return recommendations.sort((a, b) => {
+    const bProtein = b.nutrition?.protein || 0;
+    const aProtein = a.nutrition?.protein || 0;
+    return bProtein - aProtein;
+  });
 }
 
 export interface MealRecommendation {

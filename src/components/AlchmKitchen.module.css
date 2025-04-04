@@ -1,0 +1,152 @@
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+    font-family: 'Inter', system-ui, sans-serif;
+    color: #333;
+    position: relative;
+}
+
+.container h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, #6b46c1, #3c366b);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-align: center;
+}
+
+.container h2 {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #6b46c1;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    font-size: 1.25rem;
+    color: #6b46c1;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 0.6; }
+    50% { opacity: 1; }
+    100% { opacity: 0.6; }
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.recipeList {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.recipeCard {
+    background-color: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 10px 15px -5px rgba(107, 70, 193, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.recipeCard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px -5px rgba(107, 70, 193, 0.2);
+}
+
+.recipeCard h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #4a5568;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 0.75rem;
+}
+
+.ingredients {
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.preparation {
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #4a5568;
+}
+
+.astrologicalInfluences {
+    font-size: 0.9rem;
+    color: #6b46c1;
+    padding-top: 0.75rem;
+    border-top: 1px dashed #e2e8f0;
+}
+
+.debugInfo {
+    margin-top: 3rem;
+    padding: 1.5rem;
+    background-color: #f7fafc;
+    border-radius: 10px;
+    font-family: monospace;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    border: 1px solid #e2e8f0;
+}
+
+.debugInfo h3 {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    color: #4a5568;
+    font-weight: 600;
+}
+
+.debugInfo h4 {
+    font-size: 0.9rem;
+    margin: 1rem 0 0.5rem;
+    color: #4a5568;
+    font-weight: 600;
+}
+
+.error {
+    padding: 1.5rem;
+    background-color: #FEE2E2;
+    border: 1px solid #F87171;
+    color: #B91C1C;
+    border-radius: 8px;
+    font-weight: 500;
+    margin-bottom: 2rem;
+}
+
+@media (max-width: 768px) {
+    .container h1 {
+        font-size: 2rem;
+    }
+    
+    .container h2 {
+        font-size: 1.25rem;
+    }
+    
+    .recipeList {
+        grid-template-columns: 1fr;
+    }
+    
+    .debugInfo {
+        font-size: 0.8rem;
+    }
+} 

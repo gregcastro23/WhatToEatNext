@@ -1,19 +1,23 @@
 import type { IngredientMapping } from '@/types/alchemy';
+import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-export const medicinalHerbs: Record<string, IngredientMapping> = {
+const rawMedicinalHerbs: Record<string, Partial<IngredientMapping>> = {
   'echinacea': {
-    elementalProperties: { Air: 0.4, Fire: 0.3, Earth: 0.3 },
+    name: 'Echinacea',
+    elementalProperties: { Air: 0.4, Fire: 0.3, Earth: 0.3 , Water: 0.1},
     qualities: ['immune-boosting', 'antimicrobial', 'warming'],
     category: 'medicinal_herb',
     parts_used: ['root', 'flower', 'leaves'],
     preparations: {
       'tincture': {
+    name: 'Tincture',
         ratio: '1:5 herb to alcohol',
         alcohol_percentage: '45-50%',
         duration: '6-8 weeks',
         dosage: '30-60 drops, 3x daily'
       },
       'tea': {
+    name: 'Tea',
         ratio: '1-2 tsp per cup',
         steep_time: '10-15 minutes',
         dosage: '3 cups daily',
@@ -33,12 +37,14 @@ export const medicinalHerbs: Record<string, IngredientMapping> = {
   },
 
   'elderberry': {
-    elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.3 },
+    name: 'Elderberry',
+    elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.3 , Fire: 0.1},
     qualities: ['antiviral', 'immune-supporting', 'cooling'],
     category: 'medicinal_herb',
     parts_used: ['berries', 'flowers'],
     preparations: {
       'syrup': {
+    name: 'Syrup',
         ingredients: {
           'berries': '1 part',
           'water': '2 parts',
@@ -57,17 +63,20 @@ export const medicinalHerbs: Record<string, IngredientMapping> = {
   },
 
   'chamomile': {
-    elementalProperties: { Air: 0.4, Water: 0.4, Earth: 0.2 },
+    name: 'Chamomile',
+    elementalProperties: { Air: 0.4, Water: 0.4, Earth: 0.2 , Fire: 0.1},
     qualities: ['calming', 'soothing', 'cooling'],
     category: 'medicinal_herb',
     parts_used: ['flowers'],
     preparations: {
       'tea': {
+    name: 'Tea',
         ratio: '1-2 tsp per cup',
         steep_time: '5-10 minutes',
         dosage: '2-3 cups daily'
       },
       'compress': {
+    name: 'Compress',
         method: 'strong tea applied topically',
         uses: ['eye strain', 'skin irritation']
       }
@@ -79,5 +88,8 @@ export const medicinalHerbs: Record<string, IngredientMapping> = {
     }
   }
 };
+
+// Fix the ingredient mappings to ensure they have all required properties
+export const medicinalHerbs: Record<string, IngredientMapping> = fixIngredientMappings(rawMedicinalHerbs);
 
 export default medicinalHerbs;

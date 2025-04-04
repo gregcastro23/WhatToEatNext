@@ -1,0 +1,8 @@
+import FoodBalanceTracker from '@/components/FoodRecommender/components/FoodBalanceTracker';
+
+// Re-export the component with specific props for the header version
+const HeaderFoodBalanceTracker = (props: any) => {
+  return <FoodBalanceTracker showCuisineSelection={true} showElementalFeatures={false} {...props} />;
+};
+
+export default HeaderFoodBalanceTracker; 

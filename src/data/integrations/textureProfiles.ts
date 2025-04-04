@@ -10,7 +10,8 @@ export const textureProfiles: Record<string, {
     elementalProperties: {
       Fire: 0.5,
       Air: 0.3,
-      Earth: 0.2
+      Earth: 0.2,
+      Water: 0
     },
     characteristics: ['crunchy', 'brittle', 'light'],
     methods: ['frying', 'baking', 'dehydrating'],
@@ -20,7 +21,8 @@ export const textureProfiles: Record<string, {
     elementalProperties: {
       Water: 0.5,
       Earth: 0.3,
-      Air: 0.2
+      Air: 0.2,
+      Fire: 0
     },
     characteristics: ['smooth', 'rich', 'coating'],
     methods: ['blending', 'emulsifying', 'churning'],
@@ -37,4 +39,8 @@ export const textureProfiles: Record<string, {
     methods: ['braising', 'steaming', 'poaching'],
     pairings: ['crispy', 'chewy']
   }
+};
+
+export const getTextureProfile = (textureName: string) => {
+  return textureProfiles[textureName] || null;
 };

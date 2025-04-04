@@ -1,0 +1,228 @@
+---
+import { SEO } from 'astro-seo';
+import { 
+  getAccuratePlanetaryPositions,
+  validatePositions,
+  getUpcomingTransits
+} from '../../../src/utils/accurate-astrology';
+
+// Get current moment data
+const currentDate = new Date();
+const planetPositions = getAccuratePlanetaryPositions(currentDate);
+validatePositions(planetPositions);
+
+// Get upcoming transits
+const upcomingTransits = getUpcomingTransits(7);
+
+// Format date for display
+const formattedDate = new Intl.DateTimeFormat('en-US', {
+  weekday: 'long',
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+  hour: 'numeric',
+  minute: 'numeric'
+}).format(currentDate);
+
+// App pages
+const pages = [
+  {
+    title: 'Astrological Chart',
+    description: 'View your current astrological chart with planetary positions and elemental balance',
+    icon: '☉',
+    path: '/astro/current-chart'
+  },
+  {
+    title: 'Dietary Recommendations',
+    description: 'Get personalized food recommendations based on your astrological profile',
+    icon: '🍽️',
+    path: '/astro/diet'
+  }
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <SEO
+      title="Astrological Guidance | What To Eat Next"
+      description="Personalized astrological insights for the present moment"
+    />
+    <title>Astrological Guidance | What To Eat Next</title>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <h1>What To Eat Next</h1>
+        <p class="subtitle">Astrological Guidance for the Present Moment</p>
+        <p class="date">Current Time: {formattedDate}</p>
+      </div>
+    </header>
+    
+    <main class="container">
+      <section class="page-links">
+        <div class="cards-grid">
+          <a href="/astro/current-chart" class="card">
+            <div class="card-icon">☉</div>
+            <h3>View the Chart of the Moment</h3>
+            <p>
+              Explore the current planetary positions and elemental balance
+              for this exact moment in time.
+            </p>
+          </a>
+          
+          <a href="/astro/diet" class="card">
+            <div class="card-icon">🍽️</div>
+            <h3>Get Personalized Food Recommendations</h3>
+            <p>
+              Receive tailored dietary suggestions based on the current
+              astrological influences.
+            </p>
+          </a>
+        </div>
+      </section>
+      
+      <section class="about">
+        <h2>About This Moment</h2>
+        <p>
+          All calculations and recommendations are based on the exact
+          planetary positions and astrological influences at the current time.
+          The data is updated in real-time to provide the most accurate
+          insights for this moment.
+        </p>
+      </section>
+    </main>
+    
+    <footer>
+      <div class="container">
+        <p>
+          Astrological calculations for the present moment | 
+          What To Eat Next
+        </p>
+      </div>
+    </footer>
+    
+    <style>
+      :root {
+        --color-primary: #5762d5;
+        --color-secondary: #8f44fd;
+        --color-bg: #f8f9fa;
+        --color-card: #fff;
+        --color-text: #333;
+      }
+      
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      
+      body {
+        font-family: system-ui, sans-serif;
+        background-color: var(--color-bg);
+        color: var(--color-text);
+        line-height: 1.6;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      
+      header {
+        background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+        color: white;
+        padding: 3rem 2rem;
+        border-radius: 12px;
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+      
+      h1 {
+        font-size: 2.5rem;
+        margin-bottom: 0.5rem;
+      }
+      
+      .subtitle {
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
+        opacity: 0.9;
+      }
+      
+      .date {
+        opacity: 0.8;
+        font-size: 0.9rem;
+      }
+      
+      section {
+        background-color: var(--color-card);
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        margin-bottom: 2rem;
+      }
+      
+      h2 {
+        color: var(--color-primary);
+        margin-bottom: 1rem;
+      }
+      
+      h3 {
+        color: var(--color-primary);
+        margin-bottom: 0.5rem;
+      }
+      
+      p {
+        margin-bottom: 1rem;
+      }
+      
+      .cards-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin-top: 1.5rem;
+      }
+      
+      .card {
+        background: white;
+        border-radius: 12px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        text-decoration: none;
+        color: var(--color-text);
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+      
+      .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      }
+      
+      .card-icon {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        text-align: center;
+      }
+      
+      .card h3 {
+        margin-bottom: 0.75rem;
+      }
+      
+      .card p {
+        flex: 1;
+        opacity: 0.8;
+      }
+      
+      footer {
+        text-align: center;
+        margin-top: 3rem;
+        padding: 1.5rem;
+        color: #666;
+        font-size: 0.9rem;
+        border-top: 1px solid #eee;
+      }
+    </style>
+  </body>
+</html> 

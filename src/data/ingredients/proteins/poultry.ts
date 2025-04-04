@@ -1,19 +1,23 @@
 import type { IngredientMapping } from '@/types/alchemy';
+import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-export const poultry: Record<string, IngredientMapping> = {
+const rawPoultry: Record<string, Partial<IngredientMapping>> = {
   'chicken': {
-    elementalProperties: { Earth: 0.3, Fire: 0.3, Water: 0.2 },
+    name: 'Chicken',
+    elementalProperties: { Earth: 0.3, Fire: 0.3, Water: 0.2, Air: 0.2 },
     qualities: ['versatile', 'lean', 'mild'],
     origin: ['Global'],
     category: 'protein',
     subCategory: 'poultry',
     varieties: {
       'broiler': {
+    name: 'Broiler',
         weight: '2.5-4.5 lbs',
         characteristics: 'tender, mild flavor',
         best_for: 'all-purpose cooking'
       },
       'roaster': {
+    name: 'Roaster',
         weight: '5-7 lbs',
         characteristics: 'more flavor, firmer texture',
         best_for: 'roasting whole'
@@ -21,21 +25,25 @@ export const poultry: Record<string, IngredientMapping> = {
     },
     cuts: {
       'breast': {
+    name: 'Breast',
         characteristics: 'lean, white meat',
         cooking_methods: ['grill', 'pan-sear', 'bake'],
         internal_temp: { fahrenheit: 165, celsius: 74 }
       },
       'thigh': {
+    name: 'Thigh',
         characteristics: 'dark meat, more fat',
         cooking_methods: ['braise', 'grill', 'roast'],
         internal_temp: { fahrenheit: 175, celsius: 79 }
       },
       'wing': {
+    name: 'Wing',
         characteristics: 'mix of white/dark meat',
         cooking_methods: ['fry', 'bake', 'grill'],
         sections: ['drumette', 'flat', 'tip']
       },
       'whole': {
+    name: 'Whole',
         characteristics: 'complete bird',
         cooking_methods: ['roast', 'spatchcock', 'smoke'],
         internal_temp: { fahrenheit: 165, celsius: 74 }
@@ -43,7 +51,9 @@ export const poultry: Record<string, IngredientMapping> = {
     },
     culinaryApplications: {
       'roasting': {
+    name: 'Roasting',
         'traditional': {
+    name: 'Traditional',
           preparation: {
             cavity: ['lemon', 'herbs', 'aromatics'],
             skin: ['butter', 'herbs', 'salt']
@@ -57,6 +67,7 @@ export const poultry: Record<string, IngredientMapping> = {
           }
         },
         'spatchcock': {
+    name: 'Spatchcock',
           preparation: {
             method: 'remove backbone and flatten',
             seasoning: 'under and over skin'
@@ -68,7 +79,9 @@ export const poultry: Record<string, IngredientMapping> = {
         }
       },
       'braising': {
+    name: 'Braising',
         'coq_au_vin': {
+    name: 'Coq Au Vin',
           preparation: {
             marinade: ['wine', 'aromatics', 'herbs'],
             initial_cook: 'brown pieces well'
@@ -80,6 +93,7 @@ export const poultry: Record<string, IngredientMapping> = {
           }
         },
         'cacciatore': {
+    name: 'Cacciatore',
           preparation: {
             seasoning: ['salt', 'pepper', 'herbs'],
             initial_cook: 'brown in oil'
@@ -94,7 +108,9 @@ export const poultry: Record<string, IngredientMapping> = {
     },
     regionalPreparations: {
       'french': {
+    name: 'French',
         'poulet_roti': {
+    name: 'Poulet Roti',
           method: 'high heat roast',
           seasoning: 'herbs, salt, pepper'
         }
@@ -102,33 +118,39 @@ export const poultry: Record<string, IngredientMapping> = {
     }
   },
   'duck': {
-    elementalProperties: { Earth: 0.3, Water: 0.3, Fire: 0.2 },
+    name: 'Duck',
+    elementalProperties: { Earth: 0.4, Fire: 0.3, Water: 0.2, Air: 0.1 },
     qualities: ['rich', 'fatty', 'flavorful'],
     origin: ['Global'],
     category: 'protein',
     subCategory: 'poultry',
     varieties: {
       'pekin': {
+    name: 'Pekin',
         characteristics: 'mild flavor, tender meat',
         best_for: 'roasting whole, breast preparations'
       },
       'muscovy': {
+    name: 'Muscovy',
         characteristics: 'leaner, stronger flavor',
         best_for: 'confit, slow cooking'
       }
     },
     cuts: {
       'breast': {
+    name: 'Breast',
         characteristics: 'lean red meat, thick fat cap',
         cooking_methods: ['pan-sear', 'grill', 'smoke'],
         internal_temp: { fahrenheit: 135, celsius: 57 }
       },
       'leg': {
+    name: 'Leg',
         characteristics: 'dark meat, tough until slow-cooked',
         cooking_methods: ['confit', 'braise', 'roast'],
         internal_temp: { fahrenheit: 165, celsius: 74 }
       },
       'whole': {
+    name: 'Whole',
         characteristics: 'high fat content, crispy skin potential',
         cooking_methods: ['roast', 'smoke', 'braise'],
         internal_temp: { fahrenheit: 165, celsius: 74 }
@@ -136,7 +158,9 @@ export const poultry: Record<string, IngredientMapping> = {
     },
     culinaryApplications: {
       'breast': {
+    name: 'Breast',
         'pan_seared': {
+    name: 'Pan Seared',
           preparation: {
             method: 'score fat, dry thoroughly',
             seasoning: 'salt and pepper'
@@ -149,6 +173,7 @@ export const poultry: Record<string, IngredientMapping> = {
         }
       },
       'confit': {
+    name: 'Confit',
         preparation: {
           cure: ['salt', 'herbs', 'spices'],
           timing: '24 hours'
@@ -162,18 +187,23 @@ export const poultry: Record<string, IngredientMapping> = {
     },
     regionalPreparations: {
       'french': {
+    name: 'French',
         'magret': {
+    name: 'Magret',
           method: 'pan-seared breast',
           sauce: 'wine reduction',
           service: 'sliced, medium-rare'
         },
         'confit': {
+    name: 'Confit',
           method: 'salt-cured and slow-cooked in fat',
           service: 'with potatoes and garlic'
         }
       },
       'chinese': {
+    name: 'Chinese',
         'peking': {
+    name: 'Peking',
           preparation: 'air-dried, glazed',
           cooking: 'roasted until crispy',
           service: 'with pancakes and scallions'
@@ -182,18 +212,21 @@ export const poultry: Record<string, IngredientMapping> = {
     }
   },
   'turkey': {
-    elementalProperties: { Earth: 0.4, Fire: 0.3, Water: 0.2 },
+    name: 'Turkey',
+    elementalProperties: { Earth: 0.3, Water: 0.3, Fire: 0.2, Air: 0.2 },
     qualities: ['lean', 'mild', 'versatile'],
     origin: ['Americas'],
     category: 'protein',
     subCategory: 'poultry',
     varieties: {
       'whole': {
+    name: 'Whole',
         weight: '10-24 lbs',
         characteristics: 'traditional roasting bird',
         best_for: 'holiday meals'
       },
       'breast': {
+    name: 'Breast',
         weight: '4-8 lbs',
         characteristics: 'white meat only',
         best_for: 'smaller gatherings'
@@ -201,16 +234,19 @@ export const poultry: Record<string, IngredientMapping> = {
     },
     cuts: {
       'breast': {
+    name: 'Breast',
         characteristics: 'lean white meat',
         cooking_methods: ['roast', 'smoke', 'grill'],
         internal_temp: { fahrenheit: 165, celsius: 74 }
       },
       'thigh': {
+    name: 'Thigh',
         characteristics: 'dark meat, more flavor',
         cooking_methods: ['braise', 'roast', 'grill'],
         internal_temp: { fahrenheit: 175, celsius: 79 }
       },
       'whole': {
+    name: 'Whole',
         characteristics: 'mix of white and dark meat',
         cooking_methods: ['roast', 'smoke', 'deep-fry'],
         internal_temp: { fahrenheit: 165, celsius: 74 }
@@ -218,7 +254,9 @@ export const poultry: Record<string, IngredientMapping> = {
     },
     culinaryApplications: {
       'roasting': {
+    name: 'Roasting',
         'traditional': {
+    name: 'Traditional',
           preparation: {
             brine: ['salt', 'sugar', 'aromatics'],
             timing: '24 hours'
@@ -232,6 +270,7 @@ export const poultry: Record<string, IngredientMapping> = {
           }
         },
         'spatchcock': {
+    name: 'Spatchcock',
           preparation: {
             method: 'remove backbone and flatten',
             seasoning: 'under and over skin'
@@ -243,7 +282,9 @@ export const poultry: Record<string, IngredientMapping> = {
         }
       },
       'braising': {
+    name: 'Braising',
         'coq_au_vin': {
+    name: 'Coq Au Vin',
           preparation: {
             marinade: ['wine', 'aromatics', 'herbs'],
             initial_cook: 'brown pieces well'
@@ -255,6 +296,7 @@ export const poultry: Record<string, IngredientMapping> = {
           }
         },
         'cacciatore': {
+    name: 'Cacciatore',
           preparation: {
             seasoning: ['salt', 'pepper', 'herbs'],
             initial_cook: 'brown in oil'
@@ -269,11 +311,360 @@ export const poultry: Record<string, IngredientMapping> = {
     },
     regionalPreparations: {
       'french': {
+    name: 'French',
         'poulet_roti': {
+    name: 'Poulet Roti',
           method: 'high heat roast',
           seasoning: 'herbs, salt, pepper'
         }
       }
     }
+  },
+  'quail': {
+    name: 'Quail',
+    elementalProperties: { Air: 0.4, Fire: 0.3, Earth: 0.2, Water: 0.1 },
+    qualities: ['delicate', 'gamey', 'tender'],
+    origin: ['Global'],
+    category: 'protein',
+    subCategory: 'poultry',
+    varieties: {
+      'common': {
+    name: 'Common',
+        weight: '4-6 oz',
+        characteristics: 'small, tender game bird',
+        best_for: 'individual servings'
+      },
+      'jumbo': {
+    name: 'Jumbo',
+        weight: '7-9 oz',
+        characteristics: 'larger, meatier',
+        best_for: 'stuffing, roasting'
+      }
+    },
+    cuts: {
+      'whole': {
+    name: 'Whole',
+        characteristics: 'small, tender bird',
+        cooking_methods: ['grill', 'roast', 'pan-sear'],
+        internal_temp: { fahrenheit: 165, celsius: 74 }
+      },
+      'breast': {
+    name: 'Breast',
+        characteristics: 'lean, quick-cooking',
+        cooking_methods: ['pan-sear', 'grill'],
+        internal_temp: { fahrenheit: 155, celsius: 68 }
+      }
+    },
+    culinaryApplications: {
+      'grilling': {
+    name: 'Grilling',
+        'spatchcock': {
+    name: 'Spatchcock',
+          preparation: {
+            method: 'butterfly and flatten',
+            marinade: ['olive oil', 'herbs', 'garlic'],
+            timing: '2-4 hours'
+          },
+          cooking: {
+            temperature: 'high heat',
+            timing: '4-5 minutes per side',
+            finish: 'rest 5 minutes'
+          }
+        }
+      },
+      'stuffed': {
+    name: 'Stuffed',
+        preparation: {
+          stuffing: ['wild rice', 'herbs', 'dried fruits'],
+          trussing: 'secure with twine'
+        },
+        cooking: {
+          temperature: { fahrenheit: 375, celsius: 190 },
+          timing: '20-25 minutes total'
+        }
+      }
+    },
+    regionalPreparations: {
+      'french': {
+    name: 'French',
+        'cailles_en_sarcophage': {
+    name: 'Cailles En Sarcophage',
+          method: 'wrapped in puff pastry',
+          sauce: 'truffle sauce',
+          service: 'individual portions'
+        }
+      },
+      'japanese': {
+    name: 'Japanese',
+        'yakitori': {
+    name: 'Yakitori',
+          method: 'skewered and grilled',
+          sauce: 'tare glaze',
+          service: 'with scallions'
+        }
+      }
+    }
+  },
+  'guinea_fowl': {
+    name: 'Guinea Fowl',
+    elementalProperties: { Earth: 0.3, Air: 0.3, Fire: 0.2, Water: 0.2 },
+    qualities: ['gamey', 'lean', 'flavorful'],
+    origin: ['Africa', 'Europe'],
+    category: 'protein',
+    subCategory: 'poultry',
+    varieties: {
+      'pearl': {
+    name: 'Pearl',
+        weight: '2-4 lbs',
+        characteristics: 'spotted feathers, lean meat',
+        best_for: 'roasting, braising'
+      }
+    },
+    cuts: {
+      'whole': {
+    name: 'Whole',
+        characteristics: 'lean, flavorful bird',
+        cooking_methods: ['roast', 'braise', 'grill'],
+        internal_temp: { fahrenheit: 165, celsius: 74 }
+      },
+      'breast': {
+    name: 'Breast',
+        characteristics: 'lean, quick-cooking',
+        cooking_methods: ['pan-sear', 'grill', 'roast'],
+        internal_temp: { fahrenheit: 160, celsius: 71 }
+      }
+    },
+    culinaryApplications: {
+      'roasting': {
+    name: 'Roasting',
+        'traditional': {
+    name: 'Traditional',
+          preparation: {
+            cavity: ['herbs', 'citrus', 'garlic'],
+            skin: ['butter', 'herbs']
+          },
+          cooking: {
+            temperature: { fahrenheit: 375, celsius: 190 },
+            timing: '15-20 minutes per pound',
+            basting: 'every 30 minutes'
+          }
+        }
+      },
+      'braising': {
+    name: 'Braising',
+        preparation: {
+          marinade: ['wine', 'herbs', 'aromatics'],
+          searing: 'brown all sides'
+        },
+        cooking: {
+          liquid: 'wine and stock',
+          temperature: { fahrenheit: 325, celsius: 163 },
+          timing: '1.5-2 hours'
+        }
+      }
+    },
+    regionalPreparations: {
+      'french': {
+    name: 'French',
+        'pintade_en_cocotte': {
+    name: 'Pintade En Cocotte',
+          method: 'braised with vegetables',
+          sauce: 'natural jus',
+          service: 'family style'
+        }
+      },
+      'west_african': {
+    name: 'West African',
+        'kedjenou': {
+    name: 'Kedjenou',
+          method: 'slow-cooked with vegetables',
+          spices: ['ginger', 'garlic', 'chili'],
+          service: 'with rice or fufu'
+        }
+      }
+    }
+  },
+  'pheasant': {
+    name: 'Pheasant',
+    elementalProperties: { Air: 0.4, Earth: 0.3, Fire: 0.2, Water: 0.1 },
+    qualities: ['gamey', 'lean', 'elegant'],
+    origin: ['Europe', 'Asia'],
+    category: 'protein',
+    subCategory: 'poultry',
+    varieties: {
+      'common': {
+    name: 'Common',
+        weight: '2-3 lbs',
+        characteristics: 'lean game bird, rich flavor',
+        best_for: 'roasting, braising'
+      },
+      'ring_necked': {
+    name: 'Ring Necked',
+        weight: '2.5-3.5 lbs',
+        characteristics: 'most common variety',
+        best_for: 'traditional preparations'
+      }
+    },
+    cuts: {
+      'whole': {
+    name: 'Whole',
+        characteristics: 'lean, requires careful cooking',
+        cooking_methods: ['roast', 'braise', 'sous-vide'],
+        internal_temp: { fahrenheit: 165, celsius: 74 }
+      },
+      'breast': {
+    name: 'Breast',
+        characteristics: 'lean, quick-cooking',
+        cooking_methods: ['pan-sear', 'grill'],
+        internal_temp: { fahrenheit: 155, celsius: 68 }
+      },
+      'leg': {
+    name: 'Leg',
+        characteristics: 'more flavor, tougher',
+        cooking_methods: ['braise', 'confit'],
+        internal_temp: { fahrenheit: 165, celsius: 74 }
+      }
+    },
+    culinaryApplications: {
+      'roasting': {
+    name: 'Roasting',
+        'traditional': {
+    name: 'Traditional',
+          preparation: {
+            barding: 'wrap in bacon or pancetta',
+            cavity: ['herbs', 'citrus', 'aromatics'],
+            brining: 'optional, 4-6 hours'
+          },
+          cooking: {
+            temperature: { fahrenheit: 350, celsius: 175 },
+            timing: '45-60 minutes total',
+            basting: 'frequently to prevent drying'
+          }
+        }
+      },
+      'braising': {
+    name: 'Braising',
+        preparation: {
+          marinade: ['wine', 'aromatics', 'juniper'],
+          searing: 'brown all sides well'
+        },
+        cooking: {
+          liquid: 'wine and game stock',
+          temperature: { fahrenheit: 325, celsius: 163 },
+          timing: '1.5-2 hours'
+        }
+      }
+    },
+    regionalPreparations: {
+      'british': {
+    name: 'British',
+        'roasted_pheasant': {
+    name: 'Roasted Pheasant',
+          method: 'traditional roasting',
+          sauce: 'bread sauce',
+          service: 'with game chips and watercress'
+        }
+      },
+      'french': {
+    name: 'French',
+        'faisan_en_cocotte': {
+    name: 'Faisan En Cocotte',
+          method: 'braised with vegetables',
+          sauce: 'wine reduction',
+          service: 'with wild mushrooms'
+        }
+      }
+    }
+  },
+  'partridge': {
+    name: 'Partridge',
+    elementalProperties: { Air: 0.4, Earth: 0.3, Fire: 0.2, Water: 0.1 },
+    qualities: ['delicate', 'gamey', 'small'],
+    origin: ['Europe', 'Middle East'],
+    category: 'protein',
+    subCategory: 'poultry',
+    varieties: {
+      'grey': {
+    name: 'Grey',
+        weight: '12-15 oz',
+        characteristics: 'traditional game bird',
+        best_for: 'roasting, grilling'
+      },
+      'red_legged': {
+    name: 'Red Legged',
+        weight: '14-18 oz',
+        characteristics: 'milder flavor',
+        best_for: 'roasting, braising'
+      }
+    },
+    cuts: {
+      'whole': {
+    name: 'Whole',
+        characteristics: 'small, tender game bird',
+        cooking_methods: ['roast', 'grill', 'braise'],
+        internal_temp: { fahrenheit: 165, celsius: 74 }
+      },
+      'breast': {
+    name: 'Breast',
+        characteristics: 'lean, quick-cooking',
+        cooking_methods: ['pan-sear', 'grill'],
+        internal_temp: { fahrenheit: 155, celsius: 68 }
+      }
+    },
+    culinaryApplications: {
+      'roasting': {
+    name: 'Roasting',
+        'traditional': {
+    name: 'Traditional',
+          preparation: {
+            barding: 'wrap in vine leaves or bacon',
+            cavity: ['herbs', 'garlic', 'butter'],
+            trussing: 'tie legs together'
+          },
+          cooking: {
+            temperature: { fahrenheit: 375, celsius: 190 },
+            timing: '25-30 minutes total',
+            resting: '10 minutes covered'
+          }
+        }
+      },
+      'braising': {
+    name: 'Braising',
+        preparation: {
+          marinade: ['wine', 'herbs', 'shallots'],
+          browning: 'quick sear on all sides'
+        },
+        cooking: {
+          liquid: 'wine and stock',
+          temperature: { fahrenheit: 325, celsius: 163 },
+          timing: '45-60 minutes'
+        }
+      }
+    },
+    regionalPreparations: {
+      'french': {
+    name: 'French',
+        'perdrix_aux_choux': {
+    name: 'Perdrix Aux Choux',
+          method: 'braised with cabbage',
+          sauce: 'natural jus',
+          service: 'with braised vegetables'
+        }
+      },
+      'middle_eastern': {
+    name: 'Middle Eastern',
+        'stuffed_partridge': {
+    name: 'Stuffed Partridge',
+          method: 'stuffed with rice and spices',
+          seasonings: ['allspice', 'cinnamon', 'pine nuts'],
+          service: 'with flatbread and yogurt'
+        }
+      }
+    }
   }
 };
+
+// Fix the ingredient mappings to ensure they have all required properties
+export const poultry: Record<string, IngredientMapping> = fixIngredientMappings(rawPoultry);
+
+export default poultry;

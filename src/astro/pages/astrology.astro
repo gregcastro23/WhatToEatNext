@@ -1,0 +1,442 @@
+---
+import { SEO } from 'astro-seo';
+import AstroChart from '../components/AstroChart.astro';
+import PlanetaryDisplay from '../components/PlanetaryDisplay.astro';
+import LunarPhaseDisplay from '../components/LunarPhaseDisplay.astro';
+import {
+  calculateSimplifiedPositions,
+  getZodiacSign,
+  calculateElementalBalance,
+  calculateAlchemicalPrinciples,
+  getNormalizedLunarPhase
+} from '../../../src/utils/simplified-astrology';
+import { 
+  getAccuratePlanetaryPositions,
+  validatePositions
+} from '../../../src/utils/accurate-astrology';
+
+// Get current moment data
+const currentDate = new Date();
+const planetPositions = getAccuratePlanetaryPositions(currentDate);
+validatePositions(planetPositions);
+
+// Get current lunar phase (normalized 0-1)
+const lunarPhase = getNormalizedLunarPhase(currentDate);
+
+// Calculate elemental balance
+const elementalBalance = calculateElementalBalance(planetPositions);
+
+// Calculate alchemical principles
+const alchemicalPrinciples = calculateAlchemicalPrinciples(elementalBalance);
+
+// Format date for display
+const formattedDate = new Intl.DateTimeFormat('en-US', {
+  weekday: 'long',
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+}).format(currentDate);
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <SEO
+      title="Astrological Insights | What To Eat Next"
+      description="Get detailed astrological insights and planetary positions to help determine what to eat next based on celestial influences."
+      openGraph={{
+        basic: {
+          title: "Astrological Insights | What To Eat Next",
+          type: "website",
+          image: "/og-image.jpg",
+        }
+      }}
+    />
+    <title>Astrological Insights | What To Eat Next</title>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <h1>Astrological Insights</h1>
+        <p class="date">{formattedDate}</p>
+      </div>
+    </header>
+    
+    <main class="container">
+      <section class="section">
+        <h2>Current Planetary Chart</h2>
+        <p class="section-description">
+          Visual representation of the planets' positions in the zodiac
+        </p>
+        <div class="chart-container">
+          <AstroChart
+            planetaryPositions={planetPositions}
+            aspectsData={aspects}
+            risingDegree={risingDegree}
+            title="Current Astrological Chart"
+            showAspects={true}
+            elementalBalance={elementalBalance}
+            alchemicalInfo={alchemicalPrinciples}
+          />
+        </div>
+      </section>
+      
+      <section class="section">
+        <h2>Lunar Phase</h2>
+        <p class="section-description">
+          The current phase of the moon and its influences
+        </p>
+        <div class="lunar-container">
+          <LunarPhaseDisplay
+            lunarPhase={lunarPhase}
+            size={200}
+            showLabel={true}
+            showPercentage={true}
+          />
+        </div>
+      </section>
+      
+      <section class="section">
+        <h2>Planetary Positions</h2>
+        <p class="section-description">
+          Detailed information about each planet's position in the zodiac
+        </p>
+        <PlanetaryDisplay
+          planetaryPositions={planetPositions}
+          showRetrograde={true}
+          showDignity={true}
+        />
+      </section>
+      
+      <section class="section">
+        <h2>Dietary Recommendations</h2>
+        <p class="section-description">
+          Food recommendations based on today's astrological influences
+        </p>
+        <div class="recommendations">
+          <div class="recommendation-card">
+            <h3>Elemental Influences</h3>
+            <p>Based on the current planetary positions, these are the dominant elemental energies:</p>
+            <div class="elements-display">
+              <div class="element fire">
+                <span class="element-icon">🔥</span>
+                <span class="element-name">Fire: {elementalBalance.Fire}%</span>
+              </div>
+              <div class="element earth">
+                <span class="element-icon">🌱</span>
+                <span class="element-name">Earth: {elementalBalance.Earth}%</span>
+              </div>
+              <div class="element air">
+                <span class="element-icon">💨</span>
+                <span class="element-name">Air: {elementalBalance.Air}%</span>
+              </div>
+              <div class="element water">
+                <span class="element-icon">💧</span>
+                <span class="element-name">Water: {elementalBalance.Water}%</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="recommendation-card">
+            <h3>Recommended Foods</h3>
+            <p>These foods are particularly well-aligned with today's cosmic energies:</p>
+            <ul class="food-list">
+              <li>
+                <strong>Breakfast:</strong> Oatmeal with cinnamon and honey (earthy and warming)
+              </li>
+              <li>
+                <strong>Lunch:</strong> Fresh salad with roasted beets and goat cheese (balanced earth and air)
+              </li>
+              <li>
+                <strong>Dinner:</strong> Grilled fish with lemon and herbs (water element with fire cooking)
+              </li>
+              <li>
+                <strong>Dessert:</strong> Berry compote with mint (water and air elements)
+              </li>
+            </ul>
+          </div>
+          
+          <div class="recommendation-card">
+            <h3>Alchemical Principles</h3>
+            <p>Today's alchemical balance affects your physical and spiritual needs:</p>
+            <div class="alchemical-display">
+              <div class="alchemical-item">
+                <span class="alchemical-name">Spirit: {alchemicalPrinciples.Spirit}</span>
+                <span class="alchemical-desc">Creative energy and inspiration</span>
+              </div>
+              <div class="alchemical-item">
+                <span class="alchemical-name">Essence: {alchemicalPrinciples.Essence}</span>
+                <span class="alchemical-desc">Emotional wellbeing and intuition</span>
+              </div>
+              <div class="alchemical-item">
+                <span class="alchemical-name">Matter: {alchemicalPrinciples.Matter}</span>
+                <span class="alchemical-desc">Physical nourishment and grounding</span>
+              </div>
+              <div class="alchemical-item">
+                <span class="alchemical-name">Substance: {alchemicalPrinciples.Substance}</span>
+                <span class="alchemical-desc">Mental clarity and focus</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    
+    <footer>
+      <div class="container">
+        <p>
+          Astrological calculations powered by Astronomia.js | 
+          Chart visualizations by Astro.build
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>
+
+<style>
+  :root {
+    --color-primary: #5762d5;
+    --color-secondary: #8f44fd;
+    --color-accent: #ff7a5a;
+    --color-background: #f8f9fa;
+    --color-card: #ffffff;
+    --color-text: #333333;
+    --color-muted: #6c757d;
+    
+    --color-fire: #ff5722;
+    --color-earth: #4caf50;
+    --color-air: #03a9f4;
+    --color-water: #9c27b0;
+    
+    --border-radius: 12px;
+    --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: var(--color-background);
+    color: var(--color-text);
+    line-height: 1.6;
+  }
+  
+  .container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  
+  header {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    color: white;
+    padding: 2rem 0;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+  
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .date {
+    font-size: 1.1rem;
+    opacity: 0.9;
+  }
+  
+  .section {
+    margin-bottom: 3rem;
+    background-color: var(--color-card);
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    box-shadow: var(--box-shadow);
+  }
+  
+  h2 {
+    font-size: 1.75rem;
+    margin-bottom: 0.75rem;
+    color: var(--color-primary);
+  }
+  
+  .section-description {
+    color: var(--color-muted);
+    margin-bottom: 1.5rem;
+  }
+  
+  .chart-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+  }
+  
+  .lunar-container {
+    display: flex;
+    justify-content: center;
+    padding: 1rem;
+  }
+  
+  .recommendations {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+  }
+  
+  .recommendation-card {
+    background-color: var(--color-background);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    border: 1px solid #eee;
+  }
+  
+  .recommendation-card h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+    color: var(--color-secondary);
+  }
+  
+  .elements-display {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  
+  .element {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.75rem;
+    border-radius: var(--border-radius);
+    width: 48%;
+    text-align: center;
+  }
+  
+  .element-icon {
+    font-size: 1.75rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .element-name {
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+  
+  .element.fire {
+    background-color: rgba(255, 87, 34, 0.1);
+    color: var(--color-fire);
+  }
+  
+  .element.earth {
+    background-color: rgba(76, 175, 80, 0.1);
+    color: var(--color-earth);
+  }
+  
+  .element.air {
+    background-color: rgba(3, 169, 244, 0.1);
+    color: var(--color-air);
+  }
+  
+  .element.water {
+    background-color: rgba(156, 39, 176, 0.1);
+    color: var(--color-water);
+  }
+  
+  .alchemical-display {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+  
+  .alchemical-item {
+    background-color: rgba(87, 98, 213, 0.05);
+    border-radius: 8px;
+    padding: 0.75rem;
+    border-left: 3px solid var(--color-primary);
+  }
+  
+  .alchemical-name {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    color: var(--color-primary);
+  }
+  
+  .alchemical-desc {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--color-muted);
+  }
+  
+  .food-list {
+    list-style-type: none;
+    margin-top: 1rem;
+  }
+  
+  .food-list li {
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .food-list li:last-child {
+    border-bottom: none;
+  }
+  
+  footer {
+    margin-top: 2rem;
+    padding: 1.5rem 0;
+    background-color: #313131;
+    color: white;
+    text-align: center;
+    font-size: 0.9rem;
+  }
+  
+  @media (max-width: 768px) {
+    .recommendations {
+      grid-template-columns: 1fr;
+    }
+    
+    .elements-display {
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    
+    .element {
+      width: 48%;
+      margin-bottom: 1rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .element {
+      width: 100%;
+    }
+  }
+  
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --color-background: #1a1a1a;
+      --color-card: #262626;
+      --color-text: #f0f0f0;
+      --color-muted: #a7a7a7;
+    }
+    
+    .recommendation-card {
+      border-color: #333;
+    }
+    
+    .food-list li {
+      border-bottom-color: #333;
+    }
+  }
+</style> 

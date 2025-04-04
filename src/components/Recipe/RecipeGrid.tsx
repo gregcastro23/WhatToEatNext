@@ -1,7 +1,7 @@
 // src/components/recipe/RecipeGrid.tsx
 
 import { useState, useMemo } from 'react';
-import { RecipeCard } from './RecipeCard';
+import RecipeCard from './RecipeCard';
 import { getCurrentSeason } from '@/data/seasons';
 import { 
   SlidersHorizontal, 
@@ -13,10 +13,13 @@ import {
   ChefHat,
   Star,
   Grid,
-  List
+  List,
+  LayoutGrid,
+  LayoutList
 } from 'lucide-react';
-import type { ScoredRecipe } from '@/types/recipe';
-import { useAlchemical } from '@/contexts/AlchemicalContext';
+import type { ScoredRecipe, RecipeIngredient } from '@/types/recipe';
+import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import { recipeElementalService } from '@/services/RecipeElementalService';
 
 interface RecipeGridProps {
   recipes: ScoredRecipe[];
@@ -27,6 +30,7 @@ interface RecipeGridProps {
 type SortOption = 'score' | 'time' | 'traditional' | 'elemental' | 'seasonal' | 'calories';
 type ViewOption = 'grid' | 'list' | 'compact';
 type ElementalFilter = 'all' | 'Fire' | 'Water' | 'Air' | 'Earth';
+type RecipeCardElementalFilter = 'Fire' | 'Water' | 'Earth' | 'Air' | 'none';
 
 export const RecipeGrid: React.FC<RecipeGridProps> = ({ 
   recipes, 
@@ -42,7 +46,9 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
   const currentSeason = getCurrentSeason();
 
   const getElementalScore = (recipe: ScoredRecipe, element: ElementalFilter) => {
-    return recipe.elementalProperties?.[element] || 0;
+    // Ensure recipe has standardized elemental properties
+    const standardizedRecipe = recipeElementalService.standardizeRecipe(recipe);
+    return element === 'all' ? 1 : standardizedRecipe.elementalProperties[element] || 0;
   };
 
   const getSeasonalScore = (recipe: ScoredRecipe) => {
@@ -52,27 +58,35 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
   };
 
   const calculateMatchPercentage = (recipe: ScoredRecipe): number => {
-    if (!recipe.elementalProperties || !state.elementalBalance) return 0;
-
-    const elements = ['Fire', 'Water', 'Earth', 'Air'] as const;
+    if (!state.elementalPreference) return 0;
     
-    // Calculate similarity for each element
-    const similarities = elements.map(element => {
-      const recipeValue = recipe.elementalProperties[element] || 0;
-      const balanceValue = state.elementalBalance[element] || 0;
-      
-      // Calculate how close the values are (0 = perfect match)
-      const difference = Math.abs(recipeValue - balanceValue);
-      return 1 - difference;
-    });
-
-    // Average the similarities and convert to percentage
-    const matchScore = similarities.reduce((sum, sim) => sum + sim, 0) / elements.length;
-    return Math.round(matchScore * 100);
+    // First ensure recipe has standardized elemental properties
+    const standardizedRecipe = recipeElementalService.standardizeRecipe(recipe);
+    
+    // Use the elemental service to calculate similarity
+    const similarity = recipeElementalService.calculateSimilarity(
+      standardizedRecipe.elementalProperties,
+      state.elementalPreference
+    );
+    
+    // Convert to percentage with enhanced scaling for better user experience
+    // Use a sigmoid-like function to boost middle-range scores
+    const enhancedScore = similarity < 0.5 
+      ? similarity * 1.5 
+      : 0.75 + (similarity - 0.5) * 0.5;
+    
+    // Ensure minimum 10% display value to avoid showing very low percentages
+    return Math.max(Math.round(enhancedScore * 100), 10);
   };
 
   const filteredAndSortedRecipes = useMemo(() => {
-    return recipes
+    // First standardize elemental properties for all recipes
+    const standardizedRecipes = recipes.map(recipe => ({
+      ...recipe,
+      ...recipeElementalService.standardizeRecipe(recipe)
+    }));
+
+    return standardizedRecipes
       .map(recipe => ({
         ...recipe,
         matchPercentage: calculateMatchPercentage(recipe)
@@ -104,7 +118,7 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
           case 'time':
             return (parseInt(a.timeToMake) || 0) - (parseInt(b.timeToMake) || 0);
           case 'traditional':
-            return (b.traditional || 0) - (a.traditional || 0);
+            return ((b as any).traditional || 0) - ((a as any).traditional || 0);
           case 'elemental':
             return getElementalScore(b, elementalFilter) - getElementalScore(a, elementalFilter);
           case 'seasonal':
@@ -112,11 +126,11 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
           case 'calories':
             return (a.nutrition?.calories || 0) - (b.nutrition?.calories || 0);
           default:
-            return (b.totalScore || 0) - (a.totalScore || 0);
+            return b.score - a.score;
         }
       })
       .slice(0, viewMode === 'compact' ? 9 : 6);
-  }, [recipes, selectedCuisine, mealType, state.elementalBalance, sortBy]);
+  }, [recipes, selectedCuisine, mealType, state.elementalPreference, sortBy, elementalFilter]);
 
   const getViewModeClass = () => {
     switch (viewMode) {
@@ -196,26 +210,31 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
         </div>
 
         {/* View Toggle */}
-        <div className="flex gap-1 bg-gray-100 p-1 rounded-lg">
-          {(['grid', 'list', 'compact'] as const).map((
-            viewOption, index
-          ) => (
-            <button
-              key={viewOption}
-              onClick={() => setViewMode(viewOption as ViewOption)}
-              className={`w-10 h-10 flex items-center justify-center rounded-lg ${
-                viewMode === viewOption ? 'bg-blue-500 text-white' : 'text-gray-500 hover:bg-gray-200'
-              }`}
-            >
-              {viewOption === 'grid' && <LayoutGrid className="h-4 w-4" />}
-              {viewOption === 'list' && <LayoutList className="h-4 w-4" />}
-              {viewOption === 'compact' && <Grid className="h-4 w-4" />}
-            </button>
-          ))}
+        <div className="flex gap-2">
+          <button
+            onClick={() => setViewMode('grid')}
+            className={`p-2 rounded ${viewMode === 'grid' ? 'bg-blue-100' : 'bg-gray-100'}`}
+            title="Grid view"
+          >
+            <LayoutGrid className="h-4 w-4" />
+          </button>
+          <button
+            onClick={() => setViewMode('list')}
+            className={`p-2 rounded ${viewMode === 'list' ? 'bg-blue-100' : 'bg-gray-100'}`}
+            title="List view"
+          >
+            <LayoutList className="h-4 w-4" />
+          </button>
+          <button
+            onClick={() => setViewMode('compact')}
+            className={`p-2 rounded ${viewMode === 'compact' ? 'bg-blue-100' : 'bg-gray-100'}`}
+            title="Compact view"
+          >
+            <Grid className="h-4 w-4" />
+          </button>
         </div>
       </div>
 
-      {/* Recipe Grid */}
       {filteredAndSortedRecipes.length > 0 ? (
         <div className={`grid ${getViewModeClass()}`}>
           {filteredAndSortedRecipes.map((recipe, index) => (
@@ -224,9 +243,22 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
               className="bg-white rounded-lg shadow-lg overflow-hidden"
             >
               <RecipeCard 
-                recipe={recipe} 
+                recipe={{
+                  ...recipe,
+                  // Ensure season is always a string array
+                  season: typeof recipe.season === 'string' ? [recipe.season] : recipe.season,
+                  // Ensure mealType is always a string array
+                  mealType: typeof recipe.mealType === 'string' ? [recipe.mealType] : recipe.mealType,
+                  ingredients: recipe.ingredients.map(ingredient => ({
+                    ...ingredient,
+                    // Ensure category is a string if it's undefined
+                    category: ingredient.category || '',
+                    // Convert amount to number if it's a string
+                    amount: typeof ingredient.amount === 'string' ? parseFloat(ingredient.amount) : ingredient.amount
+                  }))
+                }}
                 viewMode={viewMode}
-                elementalHighlight={elementalFilter}
+                elementalHighlight={elementalFilter === 'all' ? 'none' : elementalFilter as RecipeCardElementalFilter}
                 matchPercentage={recipe.matchPercentage}
               />
             </div>

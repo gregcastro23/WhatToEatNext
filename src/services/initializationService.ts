@@ -1,10 +1,10 @@
 import { recipeData } from './recipeData'
-import { stateManager } from '@/utils/stateManager'
-import { stateValidator } from '@/utils/stateValidator'
+import { stateManager } from '../utils/stateManager'
+import { stateValidator } from '../utils/stateValidator'
 import { celestialCalculator } from './celestialCalculations'
 import { errorHandler } from './errorHandler'
-import { logger } from '@/utils/logger'
-import type { Recipe, ScoredRecipe } from '@/types/recipe'
+import { logger } from '../utils/logger'
+import type { Recipe, ScoredRecipe } from '../types/recipe'
 
 interface InitializationResult {
   success: boolean
@@ -51,17 +51,39 @@ class InitializationService {
       // Process and validate recipes
       const processedRecipes = this.processRecipes(recipes, celestialData)
 
-      // Validate final state
+      // Get the actual stateManager instance
+      const manager = await stateManager;
+
+      // Convert celestial data to elemental properties format
+      const elementalPreference = this.convertToElementalProperties(celestialData);
+
+      // Validate final state - only using properties that exist in AlchemicalState
       const isValid = stateValidator.validateState({
-        recipes: processedRecipes,
-        filteredRecipes: processedRecipes,
-        favorites: userState.recipes.favorites,
-        celestialPositions: celestialData,
-        elementalBalance: celestialData,
-        season: this.getCurrentSeason(),
-        loading: false,
-        error: null,
-        lastUpdate: Date.now()
+        celestialPositions: this.formatCelestialData(celestialData),
+        elementalPreference,
+        currentSeason: this.getCurrentSeason(),
+        error: false,
+        lastUpdated: new Date(),
+        timeOfDay: this.getTimeOfDay(),
+        astrologicalState: null,
+        currentEnergy: {
+          zodiacEnergy: '',
+          lunarEnergy: '',
+          planetaryEnergy: []
+        },
+        errorMessage: '',
+        errors: [],
+        zodiacEnergy: '',
+        lunarEnergy: '',
+        planetaryEnergy: [],
+        alchemicalValues: {
+          Spirit: 0.25,
+          Essence: 0.25,
+          Matter: 0.25,
+          Substance: 0.25
+        },
+        lunarPhase: 'new moon',
+        currentTime: new Date()
       })
 
       if (!isValid) {
@@ -117,7 +139,9 @@ class InitializationService {
 
   private async initializeUserState() {
     try {
-      return await stateManager.getState()
+      // Get the actual stateManager instance first
+      const manager = await stateManager;
+      return await manager.getState()
     } catch (error) {
       logger.warn('Failed to load user state, using defaults:', error)
       return { recipes: { favorites: [] } }
@@ -157,10 +181,44 @@ class InitializationService {
     return 'winter'
   }
 
+  private formatCelestialData(celestialData: any) {
+    return {
+      sun: {
+        sign: celestialData.sun?.sign || '',
+        degree: celestialData.sun?.degree,
+        exactLongitude: celestialData.sun?.exactLongitude
+      },
+      moon: {
+        sign: celestialData.moon?.sign || '',
+        degree: celestialData.moon?.degree,
+        exactLongitude: celestialData.moon?.exactLongitude
+      }
+    };
+  }
+
+  private getTimeOfDay(): string {
+    const hour = new Date().getHours();
+    if (hour >= 5 && hour < 12) return 'morning';
+    if (hour >= 12 && hour < 17) return 'afternoon';
+    if (hour >= 17 && hour < 21) return 'evening';
+    return 'night';
+  }
+
   reset() {
     this.isInitializing = false
     this.initPromise = null
     this.retryCount = 0
+  }
+
+  // Add new helper method to convert celestial data to ElementalProperties
+  private convertToElementalProperties(celestialData: any): any {
+    // Default balanced elemental properties
+    return {
+      Fire: celestialData.Fire || 0.25,
+      Water: celestialData.Water || 0.25,
+      Earth: celestialData.Earth || 0.25,
+      Air: celestialData.Air || 0.25
+    };
   }
 }
 

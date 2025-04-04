@@ -1,8 +1,9 @@
 import { celestialCalculator } from './celestialCalculations';
-import { logger } from '@/utils/logger';
-import { createError } from '@/utils/errorHandling';
-import type { Recipe, ScoredRecipe } from '@/types/recipe';
-import type { ElementalProperties } from '@/types/alchemy';
+import { logger } from '../utils/logger';
+import { createError } from '../utils/errorHandling';
+import type { Recipe, ScoredRecipe } from '../types/recipe';
+import type { ElementalProperties, Ingredient } from '../types/alchemy';
+import { SpoonacularService } from './SpoonacularService';
 
 interface RecommendationCriteria {
   celestialInfluence?: ElementalProperties;
@@ -10,6 +11,7 @@ interface RecommendationCriteria {
   timeOfDay?: string;
   dietaryRestrictions?: string[];
   previousMeals?: string[];
+  cuisine?: string;
 }
 
 export class RecipeRecommender {
@@ -24,10 +26,10 @@ export class RecipeRecommender {
     return RecipeRecommender.instance;
   }
 
-  recommendRecipes(
+  async recommendRecipes(
     recipes: Recipe[],
     criteria: RecommendationCriteria
-  ): ScoredRecipe[] {
+  ): Promise<ScoredRecipe[]> {
     try {
       if (!Array.isArray(recipes) || recipes.length === 0) {
         throw createError('INVALID_REQUEST', { context: 'Empty recipe list' });
@@ -73,23 +75,25 @@ export class RecipeRecommender {
       // Elemental alignment
       if (criteria.celestialInfluence && recipe.elementalProperties) {
         score += weights.elemental * this.calculateElementalAlignment(
-          recipe.elementalProperties,
+          recipe,
           criteria.celestialInfluence
         );
       }
 
       // Seasonal appropriateness
       if (criteria.season && recipe.season) {
+        const recipeSeasons = Array.isArray(recipe.season) ? recipe.season : [recipe.season];
         score += weights.seasonal * this.calculateSeasonalMatch(
-          recipe.season,
+          recipeSeasons,
           criteria.season
         );
       }
 
       // Time of day appropriateness
       if (criteria.timeOfDay && recipe.mealType) {
+        const recipeMealTypes = Array.isArray(recipe.mealType) ? recipe.mealType : [recipe.mealType];
         score += weights.timeOfDay * this.calculateTimeMatch(
-          recipe.mealType,
+          recipeMealTypes,
           criteria.timeOfDay
         );
       }
@@ -109,7 +113,21 @@ export class RecipeRecommender {
     }
   }
 
-  private calculateElementalAlignment(
+  private calculateElementalAlignment(recipe: Recipe, target: ElementalProperties) {
+    const recipeElements = this.aggregateIngredients(recipe.ingredients);
+    return this.calculateElementMatch(recipeElements, target);
+  }
+
+  private aggregateIngredients(ingredients: { elementalProperties?: ElementalProperties }[]) {
+    return ingredients.reduce((acc, ingredient) => ({
+        Fire: acc.Fire + (ingredient.elementalProperties?.Fire || 0),
+        Water: acc.Water + (ingredient.elementalProperties?.Water || 0),
+        Earth: acc.Earth + (ingredient.elementalProperties?.Earth || 0),
+        Air: acc.Air + (ingredient.elementalProperties?.Air || 0)
+    }), { Fire: 0, Water: 0, Earth: 0, Air: 0 });
+  }
+
+  private calculateElementMatch(
     recipeElements: ElementalProperties,
     targetElements: ElementalProperties
   ): number {
@@ -154,12 +172,18 @@ export class RecipeRecommender {
 
   private getFallbackRecipe(): ScoredRecipe {
     return {
+      id: "fallback-recipe",
       name: "Universal Balance Bowl",
       description: "A harmonious blend for any occasion",
+      cuisine: "Fusion",
       ingredients: [
         { name: "Mixed Greens", amount: 2, unit: "cups" },
         { name: "Quinoa", amount: 1, unit: "cup" },
         { name: "Mixed Seeds", amount: 0.25, unit: "cup" }
+      ],
+      instructions: [
+        "Mix all ingredients in a bowl",
+        "Enjoy mindfully"
       ],
       elementalProperties: {
         Fire: 0.25,
@@ -170,8 +194,22 @@ export class RecipeRecommender {
       season: ["all"],
       mealType: ["lunch", "dinner"],
       timeToMake: "20 minutes",
+      numberOfServings: 1,
       score: 0.75
     };
+  }
+
+  private async getSpoonacularRecommendations(criteria: RecommendationCriteria): Promise<Recipe[]> {
+    try {
+      return await SpoonacularService.searchRecipes({
+        cuisine: criteria.cuisine,
+        diet: criteria.dietaryRestrictions?.join(','),
+        maxReadyTime: 60
+      });
+    } catch (error) {
+      logger.error('Failed to fetch Spoonacular recommendations:', error);
+      return [];
+    }
   }
 }
 

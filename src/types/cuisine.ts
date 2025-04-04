@@ -1,11 +1,12 @@
 import type { Recipe } from './recipe';
 
 export interface SeasonalDishes {
-  all?: Recipe[];
-  summer?: Recipe[];
-  winter?: Recipe[];
-  spring?: Recipe[];
-  fall?: Recipe[];
+  all?: any[];
+  summer?: any[];
+  winter?: any[];
+  spring?: any[];
+  fall?: any[];
+  autumn?: any[];
 }
 
 export interface CuisineDishes {
@@ -13,11 +14,76 @@ export interface CuisineDishes {
   lunch?: SeasonalDishes;
   dinner?: SeasonalDishes;
   dessert?: SeasonalDishes;
+  snacks?: SeasonalDishes;
 }
 
 export interface Cuisine {
+  id: string;
   name: string;
-  description: string;
+  description?: string;
+  alchemicalProperties?: Record<string, number>;
+  astrologicalInfluences?: string[];
   dishes: CuisineDishes;
   elementalProperties: ElementalProperties;
+  motherSauces?: Record<string, Sauce>;
+  traditionalSauces?: Record<string, any>;
+  sauceRecommender?: SauceRecommendations;
+  cookingTechniques?: CookingTechnique[];
+  regionalCuisines?: Record<string, RegionalCuisine> | RegionalCuisine[];
+  regionalVarieties?: number;
+}
+
+export type CuisineType = string;
+
+interface Sauce {
+  name: string;
+  description: string;
+  base: string;
+  thickener: string;
+  keyIngredients: string[];
+  culinaryUses: string[];
+  derivatives: string[];
+  elementalProperties: ElementalProperties;
+  astrologicalInfluences: string[];
+  seasonality: string;
+  preparationNotes: string;
+  technicalTips: string;
+}
+
+interface ElementalProperties {
+  Earth: number;
+  Water: number;
+  Fire: number;
+  Air: number;
+}
+
+interface SauceRecommendations {
+  forProtein: Record<string, string[]>;
+  forVegetable: Record<string, string[]>;
+  forCookingMethod: Record<string, string[]>;
+  byAstrological: Record<string, string[]>;
+  byDietary: Record<string, string[]>;
+  byRegion: Record<string, string[]>;
+}
+
+interface CookingTechnique {
+  name: string;
+  description: string;
+  elementalProperties: ElementalProperties;
+  toolsRequired: string[];
+  bestFor: string[];
+}
+
+interface RegionalCuisine {
+  name: string;
+  description: string;
+  signature?: string[];
+  signatureDishes?: string[];
+  keyIngredients?: string[];
+  cookingTechniques?: string[];
+  elementalProperties: ElementalProperties;
+  astrologicalInfluences?: string[];
+  culturalInfluences?: string[];
+  philosophicalFoundations?: string;
+  seasonality?: string;
 } 

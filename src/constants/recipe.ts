@@ -1,11 +1,14 @@
-import type { ElementalProperties } from './alchemy';
+import type { ElementalProperties } from '@/types/alchemy';
 
 export type MealType = 'breakfast' | 'lunch' | 'dinner' | 'snack' | 'dessert';
 export type CuisineType = 'chinese' | 'japanese' | 'korean' | 'indian' | 'thai' | 'vietnamese' | 'western' | 'mediterranean' | 'middle-eastern';
 export type DietaryType = 'vegetarian' | 'vegan' | 'pescatarian' | 'omnivore' | 'keto' | 'paleo';
 export type CookingTime = 'quick' | 'medium' | 'slow';
-export type Difficulty = 'easy' | 'medium' | 'hard';
 export type Season = 'spring' | 'summer' | 'fall' | 'winter' | 'all';
+
+// Constants for meal types and recipe types
+export const MEAL_TYPES: MealType[] = ['breakfast', 'lunch', 'dinner', 'snack', 'dessert'];
+export const RECIPE_TYPES: DietaryType[] = ['vegetarian', 'vegan', 'pescatarian', 'omnivore', 'keto', 'paleo'];
 
 export interface Ingredient {
   name: string;
@@ -57,9 +60,8 @@ export interface Dish {
   prepTime: number;
   cookTime: number;
   totalTime: number;
-  difficulty: Difficulty;
   ingredients: Ingredient[];
   steps: CookingStep[];
   nutritionalInfo?: NutritionalInfo;
-  elementalBalance?: ElementalProperties;
+  elementalState?: ElementalProperties;
 }
