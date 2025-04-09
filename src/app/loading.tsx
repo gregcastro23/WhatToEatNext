@@ -1,19 +1,11 @@
-import LoadingComponent from '@/components/ui/Loading';
+import Loading from '@/components/ui/Loading';
 
-interface LoadingProps {
-  fullScreen?: boolean;
-  variant?: 'spinner' | 'dots' | 'bar';
-  text?: string;
-}
-
-const PageLoading: React.FC<LoadingProps> = ({ fullScreen = false, variant = 'spinner', text = 'Loading...' }) => {
+export default function LoadingPage() {
   return (
-    <LoadingComponent
-      fullScreen={fullScreen}
-      variant={variant}
-      text={text}
+    <Loading
+      fullScreen
+      variant="spinner"
+      text="Loading application..."
     />
   );
-}
-
-export default PageLoading; 
+} 

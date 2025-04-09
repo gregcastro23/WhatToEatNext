@@ -1,4 +1,4 @@
-import { ElementalAffinity, Season } from '@/types/alchemy';
+export type Season = 'spring' | 'summer' | 'fall' | 'winter';
 
 export function getCurrentSeason(): Season {
   const month = new Date().getMonth();
@@ -10,10 +10,8 @@ export function getCurrentSeason(): Season {
 }
 
 export const seasonalElements: Record<Season, ElementalAffinity> = {
-  spring: { base: 'Air', element: 'Air', strength: 0.7, source: 'seasonal' },
-  summer: { base: 'Fire', element: 'Fire', strength: 0.8, source: 'seasonal' },
-  fall: { base: 'Earth', element: 'Earth', strength: 0.6, source: 'seasonal' },
-  winter: { base: 'Water', element: 'Water', strength: 0.75, source: 'seasonal' },
-  autumn: { base: 'Earth', element: 'Earth', strength: 0.6, source: 'seasonal' },
-  all: { base: 'Air', element: 'Air', strength: 0.5, source: 'all_seasons' }
+  spring: { Fire: 0.3, Earth: 0.2, Air: 0.3, Water: 0.2 },
+  summer: { Fire: 0.4, Earth: 0.2, Air: 0.2, Water: 0.2 },
+  fall: { Fire: 0.2, Earth: 0.4, Air: 0.2, Water: 0.2 },
+  winter: { Fire: 0.2, Earth: 0.3, Air: 0.2, Water: 0.3 }
 };

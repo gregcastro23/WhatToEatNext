@@ -34,6 +34,3 @@ yarn-error.log*
 
 # local files
 temp.log
-
-# Add this to ignore Next.js cache
-.next/

@@ -1,11 +1,8 @@
 import type { IngredientMapping } from '@/types/alchemy';
-import { fixIngredientMappings } from '@/utils/elementalUtils';
-import { CUISINE_TYPES } from '@/constants/cuisineTypes';
 
-const rawWholeSpices: Record<string, Partial<IngredientMapping>> = {
+export const wholeSpices: Record<string, IngredientMapping> = {
   'star_anise': {
-    name: 'Star Anise',
-    elementalProperties: { Fire: 0.4, Air: 0.2, Water: 0.1 , Earth: 0.1},
+    elementalProperties: { Fire: 0.4, Air: 0.2, Water: 0.1 },
     qualities: ['sweet', 'licorice-like', 'warming'],
     origin: ['China', 'Vietnam'],
     category: 'spice',
@@ -30,21 +27,18 @@ const rawWholeSpices: Record<string, Partial<IngredientMapping>> = {
     },
     culinaryApplications: {
       'broths': {
-    name: 'Broths',
         method: 'add whole to simmering liquid',
         timing: 'early in cooking',
         pairings: ['cinnamon', 'ginger', 'onions'],
         ratios: '1-2 pods per 2 cups liquid'
       },
       'braising': {
-    name: 'Braising',
         method: 'add to braising liquid',
         timing: 'beginning of cooking',
         pairings: ['soy sauce', 'rice wine', 'ginger'],
         ratios: '2-3 pods per pound of meat'
       },
       'tea_blends': {
-    name: 'Tea Blends',
         method: 'combine with other spices',
         pairings: ['black tea', 'cinnamon', 'orange'],
         ratios: '1 pod per 2 cups water'
@@ -59,37 +53,21 @@ const rawWholeSpices: Record<string, Partial<IngredientMapping>> = {
   },
 
   'cardamom_pods': {
-    name: 'Cardamom Pods',
     elementalProperties: { Air: 0.4, Fire: 0.3, Earth: 0.2, Water: 0.1 },
-    astrologicalProfile: {
-      rulingPlanets: ['Mercury', 'Venus'],
-      favorableZodiac: ['gemini', 'libra'],
-      elementalAffinity: {
-        base: 'Air',
-        decanModifiers: {
-          first: { element: 'Air', planet: 'Mercury' },
-          second: { element: 'Fire', planet: 'Venus' },
-          third: { element: 'Earth', planet: 'Saturn' }
-        }
-      }
-    },
     qualities: ['aromatic', 'complex', 'intense'],
     origin: ['India', 'Guatemala', 'Sri Lanka'],
     category: 'spice',
     subCategory: 'whole',
     varieties: {
       'Green': {
-    name: 'Green',
         flavor: 'sweet, intense',
         uses: 'sweet and savory dishes'
       },
       'Black': {
-    name: 'Black',
         flavor: 'smoky, robust',
         uses: 'primarily savory dishes'
       },
       'White': {
-    name: 'White',
         flavor: 'milder, bleached green',
         uses: 'light-colored dishes'
       }
@@ -111,21 +89,18 @@ const rawWholeSpices: Record<string, Partial<IngredientMapping>> = {
     },
     culinaryApplications: {
       'rice_dishes': {
-    name: 'Rice Dishes',
         method: 'add whole pods during cooking',
         timing: 'with rice and water',
         pairings: ['basmati rice', 'saffron', 'cinnamon'],
         ratios: '4-5 pods per cup of rice'
       },
       'curries': {
-    name: 'Curries',
         method: 'add whole pods during cooking',
         timing: 'with meat and vegetables',
         pairings: ['chicken', 'lamb', 'onions'],
         ratios: '2-3 pods per pound of meat'
       },
       'tea_blends': {
-    name: 'Tea Blends',
         method: 'combine with other spices',
         pairings: ['black tea', 'cinnamon', 'orange'],
         ratios: '1 pod per 2 cups water'
@@ -140,7 +115,6 @@ const rawWholeSpices: Record<string, Partial<IngredientMapping>> = {
   },
 
   'mustard_seeds': {
-    name: 'Mustard Seeds',
     elementalProperties: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
     qualities: ['pungent', 'hot', 'nutty'],
     origin: ['India', 'Canada', 'Nepal'],
@@ -148,19 +122,16 @@ const rawWholeSpices: Record<string, Partial<IngredientMapping>> = {
     subCategory: 'whole',
     varieties: {
       'Yellow': {
-    name: 'Yellow',
         appearance: 'large, light colored',
         flavor: 'mild, slightly sweet',
         uses: 'pickling, European cuisine'
       },
       'Brown': {
-    name: 'Brown',
         appearance: 'smaller, dark brown',
         flavor: 'more pungent',
         uses: 'Indian cuisine, oil blooming'
       },
       'Black': {
-    name: 'Black',
         appearance: 'tiny, dark black',
         flavor: 'most intense',
         uses: 'Bengali cuisine, tempering'
@@ -168,7 +139,6 @@ const rawWholeSpices: Record<string, Partial<IngredientMapping>> = {
     },
     culinaryApplications: {
       'tempering': {
-    name: 'Tempering',
         method: 'heat oil until seeds pop',
         timing: 'start of cooking',
         pairings: ['curry leaves', 'cumin seeds', 'asafoetida'],
@@ -180,7 +150,6 @@ const rawWholeSpices: Record<string, Partial<IngredientMapping>> = {
         }
       },
       'pickling': {
-    name: 'Pickling',
         method: 'add whole to brine',
         timing: 'during preparation',
         pairings: ['dill', 'garlic', 'peppercorns'],
@@ -192,7 +161,6 @@ const rawWholeSpices: Record<string, Partial<IngredientMapping>> = {
         }
       },
       'marinades': {
-    name: 'Marinades',
         method: 'crush or grind',
         timing: '4-24 hours before cooking',
         pairings: ['garlic', 'herbs', 'vinegar'],
@@ -204,7 +172,6 @@ const rawWholeSpices: Record<string, Partial<IngredientMapping>> = {
         }
       },
       'sauces': {
-    name: 'Sauces',
         method: 'toast and grind or leave whole',
         pairings: ['cream', 'wine', 'vinegar'],
         ratios: '1 tsp per cup of liquid',
@@ -224,7 +191,6 @@ const rawWholeSpices: Record<string, Partial<IngredientMapping>> = {
   },
 
   'fennel_seeds': {
-    name: 'Fennel Seeds',
     elementalProperties: { Air: 0.4, Fire: 0.3, Earth: 0.2, Water: 0.1 },
     qualities: ['sweet', 'anise-like', 'warming'],
     origin: ['India', 'Mediterranean', 'China'],
@@ -232,13 +198,11 @@ const rawWholeSpices: Record<string, Partial<IngredientMapping>> = {
     subCategory: 'whole',
     varieties: {
       'Indian': {
-    name: 'Indian',
         appearance: 'greener, thinner',
         flavor: 'more aromatic',
         uses: 'curries, digestive'
       },
       'Mediterranean': {
-    name: 'Mediterranean',
         appearance: 'plumper, pale green',
         flavor: 'sweeter',
         uses: 'sausages, bread'
@@ -246,7 +210,6 @@ const rawWholeSpices: Record<string, Partial<IngredientMapping>> = {
     },
     culinaryApplications: {
       'bread_baking': {
-    name: 'Bread Baking',
         method: 'add whole to dough',
         timing: 'during mixing',
         pairings: ['rye flour', 'caraway', 'salt'],
@@ -258,7 +221,6 @@ const rawWholeSpices: Record<string, Partial<IngredientMapping>> = {
         }
       },
       'seafood_seasoning': {
-    name: 'Seafood Seasoning',
         method: 'crush or leave whole',
         timing: 'before cooking',
         pairings: ['citrus', 'garlic', 'white wine'],
@@ -270,7 +232,6 @@ const rawWholeSpices: Record<string, Partial<IngredientMapping>> = {
         }
       },
       'sausage_making': {
-    name: 'Sausage Making',
         method: 'lightly crush',
         pairings: ['black pepper', 'garlic', 'salt'],
         ratios: '1 tbsp per pound',
@@ -284,7 +245,6 @@ const rawWholeSpices: Record<string, Partial<IngredientMapping>> = {
   },
 
   'coriander_seeds': {
-    name: 'Coriander Seeds',
     elementalProperties: { Air: 0.4, Earth: 0.3, Fire: 0.2, Water: 0.1 },
     qualities: ['citrusy', 'nutty', 'floral'],
     origin: ['India', 'Morocco', 'Eastern Europe'],
@@ -292,13 +252,11 @@ const rawWholeSpices: Record<string, Partial<IngredientMapping>> = {
     subCategory: 'whole',
     varieties: {
       'Indian': {
-    name: 'Indian',
         appearance: 'larger, more round',
         flavor: 'more aromatic',
         uses: 'curries, spice blends'
       },
       'Mediterranean': {
-    name: 'Mediterranean',
         appearance: 'smaller, more oval',
         flavor: 'more citrusy',
         uses: 'marinades, pickling'
@@ -306,7 +264,6 @@ const rawWholeSpices: Record<string, Partial<IngredientMapping>> = {
     },
     culinaryApplications: {
       'curry_base': {
-    name: 'Curry Base',
         method: 'toast and grind',
         timing: 'beginning of cooking',
         pairings: ['cumin', 'fennel', 'peppercorns'],
@@ -318,7 +275,6 @@ const rawWholeSpices: Record<string, Partial<IngredientMapping>> = {
         }
       },
       'pickling_spice': {
-    name: 'Pickling Spice',
         method: 'use whole',
         timing: 'add to brine',
         pairings: ['dill', 'mustard seed', 'bay leaf'],
@@ -333,33 +289,18 @@ const rawWholeSpices: Record<string, Partial<IngredientMapping>> = {
   },
 
   'cumin_seeds': {
-    name: 'Cumin Seeds',
     elementalProperties: { Earth: 0.4, Fire: 0.3, Air: 0.2, Water: 0.1 },
-    astrologicalProfile: {
-      rulingPlanets: ['Mercury', 'Saturn'],
-      favorableZodiac: ['virgo', 'capricorn'],
-      elementalAffinity: {
-        base: 'Earth',
-        decanModifiers: {
-          first: { element: 'Earth', planet: 'Mercury' },
-          second: { element: 'Fire', planet: 'Saturn' },
-          third: { element: 'Air', planet: 'Uranus' }
-        }
-      }
-    },
     qualities: ['earthy', 'warm', 'pungent'],
     origin: ['India', 'Iran', 'Turkey'],
     category: 'spice',
     subCategory: 'whole',
     varieties: {
       'Indian': {
-    name: 'Indian',
         appearance: 'small, dark',
         flavor: 'intense, earthy',
         uses: 'curries, tempering'
       },
       'Iranian': {
-    name: 'Iranian',
         appearance: 'longer seeds',
         flavor: 'more delicate',
         uses: 'rice dishes, kebabs'
@@ -367,7 +308,6 @@ const rawWholeSpices: Record<string, Partial<IngredientMapping>> = {
     },
     culinaryApplications: {
       'tempering': {
-    name: 'Tempering',
         method: 'bloom in hot oil',
         timing: 'start of cooking',
         pairings: ['mustard seeds', 'curry leaves'],
@@ -379,7 +319,6 @@ const rawWholeSpices: Record<string, Partial<IngredientMapping>> = {
         }
       },
       'meat_rubs': {
-    name: 'Meat Rubs',
         method: 'toast and grind',
         timing: 'before cooking',
         pairings: ['coriander', 'black pepper', 'chili'],
@@ -394,7 +333,6 @@ const rawWholeSpices: Record<string, Partial<IngredientMapping>> = {
   },
 
   'caraway_seeds': {
-    name: 'Caraway Seeds',
     elementalProperties: { Air: 0.4, Earth: 0.3, Fire: 0.2, Water: 0.1 },
     qualities: ['warming', 'sharp', 'slightly sweet'],
     origin: ['Netherlands', 'Eastern Europe', 'Finland'],
@@ -402,13 +340,11 @@ const rawWholeSpices: Record<string, Partial<IngredientMapping>> = {
     subCategory: 'whole',
     varieties: {
       'Dutch': {
-    name: 'Dutch',
         appearance: 'curved, dark',
         flavor: 'traditional strength',
         uses: 'bread, cheese'
       },
       'Finnish': {
-    name: 'Finnish',
         appearance: 'slightly larger',
         flavor: 'more intense',
         uses: 'rye bread, aquavit'
@@ -416,7 +352,6 @@ const rawWholeSpices: Record<string, Partial<IngredientMapping>> = {
     },
     culinaryApplications: {
       'bread_baking': {
-    name: 'Bread Baking',
         method: 'whole seeds in dough',
         timing: 'during mixing',
         pairings: ['rye flour', 'fennel', 'salt'],
@@ -428,7 +363,6 @@ const rawWholeSpices: Record<string, Partial<IngredientMapping>> = {
         }
       },
       'sauerkraut': {
-    name: 'Sauerkraut',
         method: 'add whole to cabbage',
         timing: 'during fermentation setup',
         pairings: ['juniper', 'bay leaf', 'black pepper'],
@@ -442,6 +376,3 @@ const rawWholeSpices: Record<string, Partial<IngredientMapping>> = {
     }
   }
 };
-
-// Fix the ingredient mappings to ensure they have all required properties
-export const wholeSpices: Record<string, IngredientMapping> = fixIngredientMappings(rawWholeSpices);

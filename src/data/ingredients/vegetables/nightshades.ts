@@ -1,22 +1,8 @@
 import type { IngredientMapping } from '@/types/alchemy';
-import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-const rawNightshades: Record<string, Partial<IngredientMapping>> = {
+export const nightshades: Record<string, IngredientMapping> = {
   'tomato': {
-    name: 'Tomato',
     elementalProperties: { Water: 0.4, Fire: 0.3, Air: 0.2, Earth: 0.1 },
-    astrologicalProfile: {
-      rulingPlanets: ['Venus', 'Sun'],
-      favorableZodiac: ['leo', 'taurus'],
-      elementalAffinity: {
-        base: 'Water',
-        decanModifiers: {
-          first: { element: 'Water', planet: 'Venus' },
-          second: { element: 'Fire', planet: 'Sun' },
-          third: { element: 'Air', planet: 'Mercury' }
-        }
-      }
-    },
     qualities: ['cooling', 'moistening', 'nourishing'],
     season: ['summer', 'early fall'],
     category: 'vegetable',
@@ -45,20 +31,7 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
   },
 
   'eggplant': {
-    name: 'Eggplant',
     elementalProperties: { Water: 0.4, Air: 0.3, Earth: 0.2, Fire: 0.1 },
-    astrologicalProfile: {
-      rulingPlanets: ['Venus', 'Moon'],
-      favorableZodiac: ['cancer', 'taurus'],
-      elementalAffinity: {
-        base: 'Water',
-        decanModifiers: {
-          first: { element: 'Water', planet: 'Venus' },
-          second: { element: 'Earth', planet: 'Moon' },
-          third: { element: 'Air', planet: 'Mercury' }
-        }
-      }
-    },
     qualities: ['cooling', 'moistening'],
     season: ['summer', 'fall'],
     category: 'vegetable',
@@ -87,7 +60,6 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
   },
 
   'bell pepper': {
-    name: 'Bell pepper',
     elementalProperties: { Fire: 0.3, Water: 0.3, Air: 0.3, Earth: 0.1 },
     qualities: ['cooling', 'moistening'],
     season: ['summer', 'fall'],
@@ -117,6 +89,3 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
     }
   }
 };
-
-// Fix the ingredient mappings to ensure they have all required properties
-export const nightshades: Record<string, IngredientMapping> = fixIngredientMappings(rawNightshades);

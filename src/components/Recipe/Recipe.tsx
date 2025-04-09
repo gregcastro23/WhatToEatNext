@@ -1,9 +1,10 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import { useAlchemical } from '@/contexts/AlchemicalContext';
 import { stateManager } from '@/utils/stateManager';
 import { logger } from '@/utils/logger';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, Clock, Users, ChefHat, Flame } from 'lucide-react';
 import type { ScoredRecipe } from '@/types/recipe';
 
@@ -11,12 +12,6 @@ interface RecipeProps {
   recipe: ScoredRecipe;
   isExpanded?: boolean;
   onToggle?: () => void;
-}
-
-interface Dish {
-  id: string;
-  name: string;
-  description?: string;
 }
 
 interface Cuisine {
@@ -28,7 +23,7 @@ interface Cuisine {
     dinner: { all: Dish[], summer?: Dish[], winter?: Dish[] },
     dessert?: { all: Dish[], summer?: Dish[], winter?: Dish[] }
   };
-  elementalState: {
+  elementalBalance: {
     Fire: number;
     Water: number;
     Earth: number;
@@ -37,39 +32,14 @@ interface Cuisine {
 }
 
 export default function Recipe({ recipe, isExpanded = false, onToggle }: RecipeProps) {
-  // Either fix the useAlchemical hook or remove it if not needed
-  // const { state, dispatch } = useAlchemical();
-  
-  // Temporary solution: Comment out or remove the hook usage
+  const { state, dispatch } = useAlchemical();
   const [isLoading, setIsLoading] = useState(false);
-  const [servings, setServings] = useState(recipe.numberOfServings || 2);
-  const [isFavorite, setIsFavorite] = useState(false);
+  const [servings, setServings] = useState(recipe.servings || 2);
+  const isFavorite = state.favorites.includes(recipe.id);
 
   useEffect(() => {
-    const checkFavoriteStatus = async () => {
-      try {
-        // Get the actual stateManager instance first
-        const manager = await stateManager;
-        const userState = await manager.getState();
-        const favorites = userState.recipes.favorites || [];
-        setIsFavorite(favorites.includes(recipe.id));
-      } catch (error) {
-        logger.error('Error getting favorites:', error);
-      }
-    };
-    
-    checkFavoriteStatus();
-    
     if (isExpanded) {
-      try {
-        // Get the actual stateManager instance first
-        (async () => {
-          const manager = await stateManager;
-          await manager.addToHistory('viewed', recipe.id);
-        })();
-      } catch (error) {
-        logger.error('Error adding to history:', error);
-      }
+      stateManager.addToHistory('viewed', recipe.id);
     }
   }, [isExpanded, recipe.id]);
 
@@ -78,31 +48,16 @@ export default function Recipe({ recipe, isExpanded = false, onToggle }: RecipeP
       e.stopPropagation();
       setIsLoading(true);
       
-      // Toggle local state immediately for better UX
-      setIsFavorite(!isFavorite);
+      dispatch({ type: 'TOGGLE_FAVORITE', payload: recipe.id });
+      await stateManager.toggleFavorite(recipe.id);
       
-      // Get the actual stateManager instance first
-      const manager = await stateManager;
-      const userState = await manager.getState();
-      const favorites = [...(userState.recipes.favorites || [])];
-      
-      const index = favorites.indexOf(recipe.id);
-      if (index >= 0) {
-        favorites.splice(index, 1);
-      } else {
-        favorites.push(recipe.id);
-      }
-      
-      await manager.setState({
-        recipes: {
-          ...userState.recipes,
-          favorites
-        }
-      });
+      stateManager.addNotification(
+        'success',
+        `${recipe.name} ${isFavorite ? 'removed from' : 'added to'} favorites`
+      );
     } catch (error) {
-      // Revert UI state if operation failed
-      setIsFavorite(isFavorite);
       logger.error('Error toggling favorite:', error);
+      stateManager.addNotification('error', 'Failed to update favorites');
     } finally {
       setIsLoading(false);
     }
@@ -114,11 +69,11 @@ export default function Recipe({ recipe, isExpanded = false, onToggle }: RecipeP
   };
 
   const calculateAdjustedAmount = (amount: number) => {
-    const ratio = servings / (recipe.numberOfServings || 2);
+    const ratio = servings / (recipe.servings || 2);
     return (amount * ratio).toFixed(1).replace(/\.0$/, '');
   };
 
-  const renderelementalState = () => {
+  const renderElementalBalance = () => {
     const elements = Object.entries(recipe.elementalProperties || {});
     return (
       <div className="flex flex-wrap gap-2 mt-4">
@@ -137,7 +92,13 @@ export default function Recipe({ recipe, isExpanded = false, onToggle }: RecipeP
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden transition-opacity duration-300 ease-in-out opacity-100">
+    <motion.div
+      layout
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="bg-white rounded-lg shadow-md overflow-hidden"
+    >
       <div 
         onClick={onToggle}
         className="cursor-pointer p-4 hover:bg-gray-50 transition-colors"
@@ -167,58 +128,73 @@ export default function Recipe({ recipe, isExpanded = false, onToggle }: RecipeP
           </div>
           <div className="flex items-center">
             <Users className="w-4 h-4 mr-1" />
-            {recipe.numberOfServings} servings
+            {recipe.servings} servings
           </div>
-        </div>
-
-        {renderelementalState()}
-      </div>
-
-      <div 
-        className={`border-t overflow-hidden transition-all duration-300 ease-in-out ${
-          isExpanded ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'
-        }`}
-      >
-        <div className="p-4">
-          <div className="flex items-center mb-4">
-            <label htmlFor="servings" className="mr-2 text-sm text-gray-600">
-              Adjust servings:
-            </label>
-            <input
-              type="number"
-              id="servings"
-              min="1"
-              max="12"
-              value={servings}
-              onChange={(e) => adjustServings(parseInt(e.target.value))}
-              className="w-16 px-2 py-1 border rounded"
-            />
+          <div className="flex items-center">
+            <ChefHat className="w-4 h-4 mr-1" />
+            {recipe.difficulty || 'moderate'}
           </div>
-
-          <h4 className="font-medium text-gray-900 mb-2">Ingredients:</h4>
-          <ul className="space-y-2 mb-4">
-            {recipe.ingredients.map((ingredient, index) => (
-              <li key={index} className="text-gray-600">
-                {calculateAdjustedAmount(ingredient.amount)} {ingredient.unit} {ingredient.name}
-              </li>
-            ))}
-          </ul>
-
-          <h4 className="font-medium text-gray-900 mb-2">Instructions:</h4>
-          <ol className="space-y-2 list-decimal list-inside">
-            {recipe.instructions.map((step, index) => (
-              <li key={index} className="text-gray-600">{step}</li>
-            ))}
-          </ol>
-
-          {recipe.notes && (
-            <>
-              <h4 className="font-medium text-gray-900 mt-4 mb-2">Notes:</h4>
-              <p className="text-gray-600">{recipe.notes}</p>
-            </>
+          {recipe.spiciness && (
+            <div className="flex items-center">
+              <Flame className="w-4 h-4 mr-1" />
+              {recipe.spiciness}
+            </div>
           )}
         </div>
+
+        {renderElementalBalance()}
       </div>
-    </div>
+
+      <AnimatePresence>
+        {isExpanded && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            className="border-t"
+          >
+            <div className="p-4">
+              <div className="flex items-center mb-4">
+                <label htmlFor="servings" className="mr-2 text-sm text-gray-600">
+                  Adjust servings:
+                </label>
+                <input
+                  type="number"
+                  id="servings"
+                  min="1"
+                  max="12"
+                  value={servings}
+                  onChange={(e) => adjustServings(parseInt(e.target.value))}
+                  className="w-16 px-2 py-1 border rounded"
+                />
+              </div>
+
+              <h4 className="font-medium text-gray-900 mb-2">Ingredients:</h4>
+              <ul className="space-y-2 mb-4">
+                {recipe.ingredients.map((ingredient, index) => (
+                  <li key={index} className="text-gray-600">
+                    {calculateAdjustedAmount(ingredient.amount)} {ingredient.unit} {ingredient.name}
+                  </li>
+                ))}
+              </ul>
+
+              <h4 className="font-medium text-gray-900 mb-2">Instructions:</h4>
+              <ol className="space-y-2 list-decimal list-inside">
+                {recipe.instructions.map((step, index) => (
+                  <li key={index} className="text-gray-600">{step}</li>
+                ))}
+              </ol>
+
+              {recipe.notes && (
+                <>
+                  <h4 className="font-medium text-gray-900 mt-4 mb-2">Notes:</h4>
+                  <p className="text-gray-600">{recipe.notes}</p>
+                </>
+              )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
   );
 } 

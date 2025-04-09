@@ -1,8 +1,7 @@
 'use client'
 
 import { createContext, useContext, useEffect, useState } from 'react'
-import { ErrorBoundary } from '@/components/errors/ErrorBoundary'
-import { ErrorFallback } from '@/components/errors/ErrorFallback'
+import { ErrorBoundary } from '@/components/ErrorBoundary'
 import { logger } from '@/utils/logger'
 
 interface RecoveryContextType {
@@ -49,7 +48,8 @@ export function RecoveryProvider({ children }: { children: React.ReactNode }) {
   return (
     <RecoveryContext.Provider value={{ resetApp, isRecovering }}>
       <ErrorBoundary
-        FallbackComponent={ErrorFallback}
+        maxRetries={3}
+        retryDelay={1500}
         onError={(error) => {
           logger.error('App error caught:', error)
         }}

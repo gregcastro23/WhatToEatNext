@@ -2,7 +2,6 @@
 
 import { cuisines } from "@/data/cuisines";
 import type { Dish } from "@/types";
-import type { Season } from "@/types/alchemy";
 
 export const getMealPeriod = (hour: number): string => {
   if (hour >= 5 && hour < 11) return "breakfast";
@@ -11,7 +10,7 @@ export const getMealPeriod = (hour: number): string => {
   return "breakfast";
 };
 
-export const getSeason = (month: number): Season => {
+export const getSeason = (month: number): string => {
   if ([11, 0, 1].includes(month)) return "winter";
   if ([2, 3, 4].includes(month)) return "spring";
   if ([5, 6, 7].includes(month)) return "summer";
@@ -21,54 +20,39 @@ export const getSeason = (month: number): Season => {
 // Helper function to get all dishes for a cuisine
 const getAllDishesForCuisine = (cuisineId: string): Dish[] => {
   const cuisine = cuisines[cuisineId];
-  if (!cuisine || !cuisine.dishes) return [];
+  if (!cuisine) return [];
 
   let allDishes: Dish[] = [];
 
-  // Safely iterate through all meal times with type checking
-  Object.keys(cuisine.dishes || {}).forEach(mealTime => {
-    const mealTimeDishes = cuisine.dishes?.[mealTime];
-    if (!mealTimeDishes) return;
-    
-    // If it's an object with season keys
-    if (typeof mealTimeDishes === 'object' && !Array.isArray(mealTimeDishes)) {
-      // Get dishes from all seasons including 'all' season
-      Object.keys(mealTimeDishes).forEach(season => {
-        const seasonDishes = mealTimeDishes[season];
-        if (Array.isArray(seasonDishes)) {
-          allDishes = [...allDishes, ...seasonDishes];
-        }
-      });
-    }
+  // Iterate through all meal times
+  Object.keys(cuisine.dishes).forEach(mealTime => {
+    // Get dishes from all seasons including 'all' season
+    Object.keys(cuisine.dishes[mealTime]).forEach(season => {
+      allDishes = [...allDishes, ...cuisine.dishes[mealTime][season]];
+    });
   });
 
   return allDishes;
 };
 
-export const getRecommendations = (mealTime: string, season: Season, cuisineId: string): Dish[] => {
+export const getRecommendations = (mealTime: string, season: string, cuisineId: string): Dish[] => {
   try {
     console.log(`Getting recommendations for: ${cuisineId}, ${mealTime}, ${season}`);
     
     const cuisine = cuisines[cuisineId];
-    if (!cuisine || !cuisine.dishes) {
-      console.log(`Cuisine ${cuisineId} not found or has no dishes`);
+    if (!cuisine) {
+      console.log(`Cuisine ${cuisineId} not found`);
       return [];
     }
 
-    const mealTimeDishes = cuisine.dishes?.[mealTime];
-    if (!mealTimeDishes) {
+    if (!cuisine.dishes?.[mealTime]) {
       console.log(`No ${mealTime} dishes found for ${cuisineId}`);
       return [];
     }
 
-    // If mealTimeDishes is an array, return it directly
-    if (Array.isArray(mealTimeDishes)) {
-      return mealTimeDishes;
-    }
-
     // Get dishes from both 'all' season and current season
-    const allSeasonDishes = Array.isArray(mealTimeDishes['all']) ? mealTimeDishes['all'] : [];
-    const seasonalDishes = Array.isArray(mealTimeDishes[season]) ? mealTimeDishes[season] : [];
+    const allSeasonDishes = cuisine.dishes[mealTime]['all'] || [];
+    const seasonalDishes = cuisine.dishes[mealTime][season] || [];
     
     const combinedDishes = [...allSeasonDishes, ...seasonalDishes];
     console.log(`Found ${combinedDishes.length} dishes for ${cuisineId}`);

@@ -1,6 +1,3 @@
-export * from './error';
-export * from './globalErrorHandler';
-
 export class AppError extends Error {
   constructor(
     message: string,

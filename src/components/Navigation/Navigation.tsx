@@ -3,8 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useAlchemical } from '@/contexts/AlchemicalContext';
 import { stateManager } from '@/utils/stateManager';
 import { themeManager } from '@/utils/theme';
 import { 
@@ -50,34 +50,18 @@ export default function Navigation() {
       ? window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
       : currentTheme.mode);
 
-    // Initialize state manager and listen for notifications
-    let unsubscribeFunction: (() => void) | undefined;
-    
-    const initStateManager = async () => {
-      try {
-        // stateManager is already a Promise<StateManager>
-        const stateManagerInstance = await stateManager;
-        unsubscribeFunction = stateManagerInstance.subscribe('navigation', (state) => {
-          setNotifications(state.ui.notifications);
-        });
-      } catch (error) {
-        console.error('Failed to initialize state manager:', error);
-      }
-    };
-    
-    initStateManager();
+    // Listen for notifications
+    const unsubscribe = stateManager.subscribe('navigation', (state) => {
+      setNotifications(state.ui.notifications);
+    });
 
-    return () => {
-      if (unsubscribeFunction) {
-        unsubscribeFunction();
-      }
-    };
+    return () => unsubscribe();
   }, []);
 
   const toggleTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
     setTheme(newTheme);
-    themeManager.updateTheme(newTheme);
+    themeManager.updateTheme({ mode: newTheme });
   };
 
   const closeMenu = () => {
@@ -95,12 +79,16 @@ export default function Navigation() {
       </button>
 
       {/* Navigation Bar */}
-      <nav
+      <motion.nav
+        initial={false}
+        animate={{
+          x: isOpen ? 0 : '100%',
+          width: isOpen ? '100%' : '0%'
+        }}
         className={`
           fixed top-0 right-0 h-full bg-white shadow-xl z-40
-          md:relative md:shadow-none md:w-64
-          transition-all duration-300 ease-in-out
-          ${isOpen ? 'translate-x-0 w-full' : 'translate-x-full md:translate-x-0 w-0 md:w-64'}
+          md:relative md:transform-none md:shadow-none md:w-64
+          transition-transform duration-200 ease-in-out
         `}
       >
         <div className="h-full flex flex-col p-4">
@@ -131,6 +119,11 @@ export default function Navigation() {
                 >
                   <Icon className="w-5 h-5" />
                   <span>{label}</span>
+                  {path === '/favorites' && state.favorites.length > 0 && (
+                    <span className="ml-auto bg-blue-100 text-blue-600 px-2 py-1 rounded-full text-xs">
+                      {state.favorites.length}
+                    </span>
+                  )}
                 </Link>
               );
             })}
@@ -167,31 +160,38 @@ export default function Navigation() {
             </Link>
           </div>
         </div>
-      </nav>
+      </motion.nav>
 
       {/* Notifications */}
       <div className="fixed bottom-4 right-4 z-50 space-y-2">
-        {notifications.map((notification) => (
-          <div
-            key={notification.id}
-            className={`
-              p-4 rounded-lg shadow-lg max-w-sm
-              ${notification.type === 'error' ? 'bg-red-500 text-white' :
-                notification.type === 'success' ? 'bg-green-500 text-white' :
-                'bg-blue-500 text-white'}
-              animate-fade-in-up
-            `}
-          >
-            {notification.message}
-          </div>
-        ))}
+        <AnimatePresence>
+          {notifications.map((notification) => (
+            <motion.div
+              key={notification.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className={`
+                p-4 rounded-lg shadow-lg max-w-sm
+                ${notification.type === 'error' ? 'bg-red-500 text-white' :
+                  notification.type === 'success' ? 'bg-green-500 text-white' :
+                  'bg-blue-500 text-white'}
+              `}
+            >
+              {notification.message}
+            </motion.div>
+          ))}
+        </AnimatePresence>
       </div>
 
       {/* Mobile Overlay */}
       {isOpen && (
-        <div
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
           onClick={closeMenu}
-          className="fixed inset-0 bg-black bg-opacity-50 z-30 md:hidden animate-fade-in"
+          className="fixed inset-0 bg-black bg-opacity-50 z-30 md:hidden"
         />
       )}
     </>

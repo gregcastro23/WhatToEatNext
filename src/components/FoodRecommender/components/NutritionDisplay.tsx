@@ -2,7 +2,7 @@
 "use client"
 
 import React from 'react';
-import type { Nutrition } from '@/components/FoodRecommender/types';
+import type { Nutrition } from '../types';
 
 type NutritionDisplayProps = {
   nutrition: Nutrition;

@@ -11,17 +11,12 @@ export const recipeUtils = {
       return Object.entries(properties).reduce((acc, [element, value]) => {
         acc[element] = value * amount;
         return acc;
-      }, { Fire: 0, Water: 0, Earth: 0, Air: 0 } as ElementalProperties);
+      }, {} as ElementalProperties);
     });
 
     // Combine all weighted properties
     return elementalUtils.normalizeProperties(
-      weighted.reduce((acc, curr) => elementalUtils.combineProperties(acc, curr), {
-        Fire: 0,
-        Water: 0,
-        Earth: 0,
-        Air: 0
-      })
+      weighted.reduce((acc, curr) => elementalUtils.combineProperties(acc, curr), {})
     );
   },
 

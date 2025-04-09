@@ -41,29 +41,11 @@ export const elementalColors: Record<keyof ElementalProperties, ElementalColor> 
 };
 
 export const calculateDominantElement = (
-  elementalState: ElementalProperties
+  elementalBalance: ElementalProperties
 ): keyof ElementalProperties => {
-  // Find the element with the highest value using a type-safe approach
-  let dominantElement: keyof ElementalProperties = 'Fire'; // Default
-  let highestValue = elementalState.Fire || 0;
-  
-  // Check each element and update if higher value found
-  if ((elementalState.Water || 0) > highestValue) {
-    dominantElement = 'Water';
-    highestValue = elementalState.Water || 0;
-  }
-  
-  if ((elementalState.Earth || 0) > highestValue) {
-    dominantElement = 'Earth';
-    highestValue = elementalState.Earth || 0;
-  }
-  
-  if ((elementalState.Air || 0) > highestValue) {
-    dominantElement = 'Air';
-    highestValue = elementalState.Air || 0;
-  }
-  
-  return dominantElement;
+  return Object.entries(elementalBalance).reduce((a, b) => 
+    elementalBalance[a] > elementalBalance[b[0]] ? a : b[0]
+  ) as keyof ElementalProperties;
 };
 
 export const getElementalColor = (
@@ -101,7 +83,7 @@ export const getElementalDescription = (element: keyof ElementalProperties): str
   return descriptions[element] || 'Balanced properties';
 };
 
-export const calculateelementalState = (
+export const calculateElementalBalance = (
   ingredients: Array<{ category: string; amount: number }>
 ): ElementalProperties => {
   const balance: ElementalProperties = {

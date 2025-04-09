@@ -16,8 +16,7 @@ export const temperatureEffects: Record<string, TemperatureRange> = {
     elementalEffect: {
       Water: 0.7,
       Air: 0.2,
-      Earth: 0.1,
-      Fire: 0
+      Earth: 0.1
     },
     description: 'Preservation and crystallization of flavors',
     recommendedMethods: ['raw', 'frozen desserts'],
@@ -29,8 +28,7 @@ export const temperatureEffects: Record<string, TemperatureRange> = {
     elementalEffect: {
       Water: 0.5,
       Air: 0.3,
-      Earth: 0.2,
-      Fire: 0
+      Earth: 0.2
     },
     description: 'Refreshing and crisp qualities',
     recommendedMethods: ['raw', 'chilled preparations', 'cold infusion'],
@@ -94,8 +92,7 @@ export const temperatureEffects: Record<string, TemperatureRange> = {
     elementalEffect: {
       Fire: 0.7,
       Air: 0.2,
-      Earth: 0.1,
-      Water: 0
+      Earth: 0.1
     },
     description: 'Intense heat transformation',
     recommendedMethods: ['roasting', 'baking', 'frying'],
@@ -106,9 +103,7 @@ export const temperatureEffects: Record<string, TemperatureRange> = {
     max: 300,
     elementalEffect: {
       Fire: 0.8,
-      Air: 0.2,
-      Water: 0,
-      Earth: 0
+      Air: 0.2
     },
     description: 'Extreme transformation and caramelization',
     recommendedMethods: ['grilling', 'broiling', 'searing'],
@@ -127,34 +122,5 @@ export const getElementalEffect = (temp: number): ElementalProperties => {
   const range = getTemperatureRange(temp);
   return temperatureEffects[range].elementalEffect;
 };
-
-export function getTemperatureEffect(ingredient: string, temperature?: number) {
-  // Map of ingredient temperature effects
-  const effectMap: Record<string, string> = {
-    'ginger': 'warming',
-    'chili': 'hot',
-    'mint': 'cooling',
-    'cucumber': 'cool',
-    // Add more ingredients as needed
-  };
-  
-  // Simple fallback with some common effects
-  const commonEffects = {
-    'spices': 'warming',
-    'herbs': 'neutral',
-    'fruits': 'cooling',
-    'vegetables': 'neutral'
-  };
-  
-  // Check if we have a specific effect for this ingredient
-  for (const [key, effect] of Object.entries(effectMap)) {
-    if (ingredient.toLowerCase().includes(key)) {
-      return effect;
-    }
-  }
-  
-  // Return a string, not an object
-  return 'neutral';
-}
 
 export default temperatureEffects;

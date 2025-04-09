@@ -3,6 +3,19 @@ import { culturalCookingMethods, getCulturalVariations } from '@/utils/culturalM
 import type { ZodiacSign, ElementalProperties } from '@/types';
 import type { CookingMethod as CookingMethodEnum } from '@/types/alchemy';
 import { getCurrentSeason } from '@/data/integrations/seasonal';
+import venusData from '@/data/planets/venus';
+import marsData from '@/data/planets/mars';
+import mercuryData from '@/data/planets/mercury';
+import jupiterData from '@/data/planets/jupiter';
+import saturnData from '@/data/planets/saturn';
+import uranusData from '@/data/planets/uranus';
+import neptuneData from '@/data/planets/neptune';
+import plutoData from '@/data/planets/pluto';
+import { CookingMethod } from '@/data/cookingMethods/types';
+import { cookingMethods } from '@/data/cookingMethods';
+import { calculateLunarSuitability } from '@/utils/lunarUtils';
+import { PlanetaryAspect, LunarPhase, AstrologicalState } from '@/types/alchemy';
+import { elementalFamilies } from '@/data/elementalFamilies';
 
 // Define a proper interface for our cooking method objects
 interface CookingMethodData {
@@ -150,6 +163,170 @@ export function getRecommendedCookingMethods(
       )
     : methodsArray;
   
+  // Check if Venus is one of the active planets
+  const isVenusActive = planets?.includes('Venus') || false;
+  
+  // Check if Venus is retrograde
+  const isVenusRetrograde = planets?.includes('Venus-R') || false;
+  
+  // Check if Mars is one of the active planets
+  const isMarsActive = planets?.includes('Mars') || false;
+  
+  // Check if Mars is retrograde
+  const isMarsRetrograde = planets?.includes('Mars-R') || false;
+  
+  // Check if Mercury is one of the active planets
+  const isMercuryActive = planets?.includes('Mercury') || false;
+  
+  // Check if Mercury is retrograde
+  const isMercuryRetrograde = planets?.includes('Mercury-R') || false;
+  
+  // Check if Jupiter is one of the active planets
+  const isJupiterActive = planets?.includes('Jupiter') || false;
+  
+  // Check if Jupiter is retrograde
+  const isJupiterRetrograde = planets?.includes('Jupiter-R') || false;
+  
+  // Check if Saturn is one of the active planets
+  const isSaturnActive = planets?.includes('Saturn') || false;
+  
+  // Check if Saturn is retrograde
+  const isSaturnRetrograde = planets?.includes('Saturn-R') || false;
+  
+  // Check if Uranus is one of the active planets
+  const isUranusActive = planets?.includes('Uranus') || false;
+  
+  // Check if Uranus is retrograde
+  const isUranusRetrograde = planets?.includes('Uranus-R') || false;
+  
+  // Check if Neptune is one of the active planets
+  const isNeptuneActive = planets?.includes('Neptune') || false;
+  
+  // Check if Neptune is retrograde
+  const isNeptuneRetrograde = planets?.includes('Neptune-R') || false;
+  
+  // Check if Pluto is one of the active planets
+  const isPlutoActive = planets?.includes('Pluto') || false;
+  
+  // Check if Pluto is retrograde
+  const isPlutoRetrograde = planets?.includes('Pluto-R') || false;
+  
+  // Get Venus transit data for current zodiac sign if applicable
+  const venusZodiacTransit = isVenusActive && currentZodiac 
+    ? venusData.PlanetSpecific?.ZodiacTransit?.[currentZodiac]
+    : undefined;
+  
+  // Get Mars transit data for current zodiac sign if applicable
+  const marsZodiacTransit = isMarsActive && currentZodiac 
+    ? marsData.PlanetSpecific?.ZodiacTransit?.[currentZodiac]
+    : undefined;
+  
+  // Get Mercury transit data for current zodiac sign if applicable
+  const mercuryZodiacTransit = isMercuryActive && currentZodiac 
+    ? mercuryData.PlanetSpecific?.ZodiacTransit?.[currentZodiac]
+    : undefined;
+  
+  // Get Jupiter transit data for current zodiac sign if applicable
+  const jupiterZodiacTransit = isJupiterActive && currentZodiac 
+    ? jupiterData.PlanetSpecific?.ZodiacTransit?.[currentZodiac]
+    : undefined;
+  
+  // Get Saturn transit data for current zodiac sign if applicable
+  const saturnZodiacTransit = isSaturnActive && currentZodiac 
+    ? saturnData.PlanetSpecific?.ZodiacTransit?.[currentZodiac]
+    : undefined;
+  
+  // Get Uranus transit data for current zodiac sign if applicable
+  const uranusZodiacTransit = isUranusActive && currentZodiac 
+    ? uranusData.PlanetSpecific?.ZodiacTransit?.[currentZodiac]
+    : undefined;
+  
+  // Get Neptune transit data for current zodiac sign if applicable
+  const neptuneZodiacTransit = isNeptuneActive && currentZodiac 
+    ? neptuneData.PlanetSpecific?.ZodiacTransit?.[currentZodiac]
+    : undefined;
+  
+  // Get Pluto transit data for current zodiac sign if applicable
+  const plutoZodiacTransit = isPlutoActive && currentZodiac 
+    ? plutoData.PlanetSpecific?.ZodiacTransit?.[currentZodiac]
+    : undefined;
+  
+  // Get Venus sign-based temperament for current zodiac
+  let venusTemperament = null;
+  if (currentZodiac && isVenusActive) {
+    const lowerSign = currentZodiac.toLowerCase();
+    const earthSigns = ['taurus', 'virgo', 'capricorn'];
+    const airSigns = ['gemini', 'libra', 'aquarius'];
+    const waterSigns = ['cancer', 'scorpio', 'pisces'];
+    const fireSigns = ['aries', 'leo', 'sagittarius'];
+    
+    if (earthSigns.includes(lowerSign) && venusData.PlanetSpecific?.CulinaryTemperament?.EarthVenus) {
+      venusTemperament = venusData.PlanetSpecific.CulinaryTemperament.EarthVenus;
+    } else if (airSigns.includes(lowerSign) && venusData.PlanetSpecific?.CulinaryTemperament?.AirVenus) {
+      venusTemperament = venusData.PlanetSpecific.CulinaryTemperament.AirVenus;
+    } else if (waterSigns.includes(lowerSign) && venusData.PlanetSpecific?.CulinaryTemperament?.WaterVenus) {
+      venusTemperament = venusData.PlanetSpecific.CulinaryTemperament.WaterVenus;
+    } else if (fireSigns.includes(lowerSign) && venusData.PlanetSpecific?.CulinaryTemperament?.FireVenus) {
+      venusTemperament = venusData.PlanetSpecific.CulinaryTemperament.FireVenus;
+    }
+  }
+  
+  // Get Mars sign-based temperament for current zodiac
+  let marsTemperament = null;
+  if (currentZodiac && isMarsActive) {
+    const lowerSign = currentZodiac.toLowerCase();
+    const fireSigns = ['aries', 'leo', 'sagittarius'];
+    const waterSigns = ['cancer', 'scorpio', 'pisces'];
+    
+    if (fireSigns.includes(lowerSign) && marsData.PlanetSpecific?.CulinaryTemperament?.FireMars) {
+      marsTemperament = marsData.PlanetSpecific.CulinaryTemperament.FireMars;
+    } else if (waterSigns.includes(lowerSign) && marsData.PlanetSpecific?.CulinaryTemperament?.WaterMars) {
+      marsTemperament = marsData.PlanetSpecific.CulinaryTemperament.WaterMars;
+    }
+  }
+  
+  // Get Mercury sign-based temperament for current zodiac
+  let mercuryTemperament = null;
+  if (currentZodiac && isMercuryActive) {
+    const lowerSign = currentZodiac.toLowerCase();
+    const airSigns = ['gemini', 'libra', 'aquarius'];
+    const earthSigns = ['taurus', 'virgo', 'capricorn'];
+    
+    if (airSigns.includes(lowerSign) && mercuryData.PlanetSpecific?.CulinaryTemperament?.AirMercury) {
+      mercuryTemperament = mercuryData.PlanetSpecific.CulinaryTemperament.AirMercury;
+    } else if (earthSigns.includes(lowerSign) && mercuryData.PlanetSpecific?.CulinaryTemperament?.EarthMercury) {
+      mercuryTemperament = mercuryData.PlanetSpecific.CulinaryTemperament.EarthMercury;
+    }
+  }
+  
+  // Get Jupiter sign-based temperament for current zodiac
+  let jupiterTemperament = null;
+  if (currentZodiac && isJupiterActive) {
+    const lowerSign = currentZodiac.toLowerCase();
+    const fireSigns = ['aries', 'leo', 'sagittarius'];
+    const airSigns = ['gemini', 'libra', 'aquarius'];
+    
+    if (fireSigns.includes(lowerSign) && jupiterData.PlanetSpecific?.CulinaryTemperament?.FireJupiter) {
+      jupiterTemperament = jupiterData.PlanetSpecific.CulinaryTemperament.FireJupiter;
+    } else if (airSigns.includes(lowerSign) && jupiterData.PlanetSpecific?.CulinaryTemperament?.AirJupiter) {
+      jupiterTemperament = jupiterData.PlanetSpecific.CulinaryTemperament.AirJupiter;
+    }
+  }
+  
+  // Get Saturn sign-based temperament for current zodiac
+  let saturnTemperament = null;
+  if (currentZodiac && isSaturnActive) {
+    const lowerSign = currentZodiac.toLowerCase();
+    const earthSigns = ['taurus', 'virgo', 'capricorn'];
+    const airSigns = ['gemini', 'libra', 'aquarius'];
+    
+    if (earthSigns.includes(lowerSign) && saturnData.PlanetSpecific?.CulinaryTemperament?.EarthSaturn) {
+      saturnTemperament = saturnData.PlanetSpecific.CulinaryTemperament.EarthSaturn;
+    } else if (airSigns.includes(lowerSign) && saturnData.PlanetSpecific?.CulinaryTemperament?.AirSaturn) {
+      saturnTemperament = saturnData.PlanetSpecific.CulinaryTemperament.AirSaturn;
+    }
+  }
+  
   // Score each method based on multiple criteria
   filteredMethods.forEach(method => {
     // Elemental compatibility (40% of score)
@@ -234,72 +411,870 @@ export function getRecommendedCookingMethods(
       culturalScore = 0.03; // 3% boost if a variation matches the culture
     }
     
-    // Calculate final score (normalize to 0-1 range)
-    const rawScore = (elementalScore * 0.4) + 
-                     (astrologicalScore * 0.2) + 
-                     (seasonalScore * 0.15) + 
-                     toolScore + 
-                     dietaryScore + 
-                     culturalScore;
-                    
-    // Add a small random factor (max 3%) for variety
-    const randomFactor = Math.random() * 0.03;
-    
-    method.score = Math.min(1, Math.max(0, rawScore + randomFactor));
-    
-    // Also score variations if present and prioritize cultural variations if requested
-    if (method.variations && method.variations.length > 0) {
-      method.variations.forEach(variation => {
-        // Give variations a score based on the main method but with slight differences
-        variation.score = method.score;
+    // Venus influence scoring
+    let venusScore = 0;
+    if (isVenusActive) {
+      // Check if method aligns with Venus culinary techniques
+      if (venusData.PlanetSpecific?.CulinaryTechniques) {
+        const methodNameLower = method.name.toLowerCase();
+        const methodDescLower = method.description.toLowerCase();
         
-        // Boost score for variations from the preferred culture
-        if (culturalPreference && variation.culturalOrigin === culturalPreference) {
-          variation.score = Math.min(1, variation.score + 0.15); // Significant boost
+        // Check for aesthetic techniques
+        if ((methodNameLower.includes('plate') || methodNameLower.includes('present') ||
+           methodDescLower.includes('presentation') || methodDescLower.includes('aesthetic')) &&
+           venusData.PlanetSpecific.CulinaryTechniques['Aesthetic Presentation']) {
+          venusScore += venusData.PlanetSpecific.CulinaryTechniques['Aesthetic Presentation'] * 1.5;
+        }
+        
+        // Check for aroma techniques
+        if ((methodNameLower.includes('aroma') || methodNameLower.includes('infuse') ||
+           methodDescLower.includes('fragrant') || methodDescLower.includes('scent')) &&
+           venusData.PlanetSpecific.CulinaryTechniques['Aroma Infusion']) {
+          venusScore += venusData.PlanetSpecific.CulinaryTechniques['Aroma Infusion'] * 1.5;
+        }
+        
+        // Check for flavor balancing techniques
+        if ((methodNameLower.includes('balance') || methodNameLower.includes('harmonize') ||
+           methodDescLower.includes('balanced') || methodDescLower.includes('harmony')) &&
+           venusData.PlanetSpecific.CulinaryTechniques['Flavor Balancing']) {
+          venusScore += venusData.PlanetSpecific.CulinaryTechniques['Flavor Balancing'] * 1.8;
+        }
+        
+        // Check for textural contrast techniques
+        if ((methodNameLower.includes('texture') || methodNameLower.includes('contrast') ||
+           methodDescLower.includes('textural') || methodDescLower.includes('crispy') ||
+           methodDescLower.includes('crunchy')) &&
+           venusData.PlanetSpecific.CulinaryTechniques['Textural Contrast']) {
+          venusScore += venusData.PlanetSpecific.CulinaryTechniques['Textural Contrast'] * 1.6;
+        }
+        
+        // Check for sensory harmony techniques
+        if ((methodNameLower.includes('sensory') || methodNameLower.includes('harmony') ||
+           methodDescLower.includes('sensory') || methodDescLower.includes('experience')) &&
+           venusData.PlanetSpecific.CulinaryTechniques['Sensory Harmony']) {
+          venusScore += venusData.PlanetSpecific.CulinaryTechniques['Sensory Harmony'] * 1.7;
+        }
+      }
+      
+      // Add score for culinary temperament alignment
+      if (venusTemperament && venusTemperament.FoodFocus) {
+        const foodFocus = venusTemperament.FoodFocus.toLowerCase();
+        const methodName = method.name.toLowerCase();
+        const methodDesc = method.description.toLowerCase();
+        
+        // Check keyword matches between Venus temperament food focus and method description
+        const keywords = foodFocus.split(/[\s,;]+/).filter(k => k.length > 3);
+        const matchCount = keywords.filter(keyword => 
+          methodName.includes(keyword) || methodDesc.includes(keyword)
+        ).length;
+        
+        venusScore += matchCount * 0.8;
+        
+        // Check elements alignment with Venus temperament
+        if (venusTemperament.Elements && method.elementalEffect) {
+          for (const element in venusTemperament.Elements) {
+            const elementProperty = element as keyof ElementalProperties;
+            if (method.elementalEffect[elementProperty]) {
+              venusScore += venusTemperament.Elements[element] * method.elementalEffect[elementProperty] * 1.2;
+            }
+          }
+        }
+      }
+      
+      // Add score for current zodiac transit data
+      if (venusZodiacTransit) {
+        // Check food focus alignment
+        if (venusZodiacTransit.FoodFocus) {
+          const transitFocus = venusZodiacTransit.FoodFocus.toLowerCase();
+          const methodDesc = method.description.toLowerCase();
+          const methodName = method.name.toLowerCase();
+          
+          // Check for keyword matches
+          const focusKeywords = transitFocus.split(/[\s,;]+/).filter(k => k.length > 3);
+          const focusMatchCount = focusKeywords.filter(keyword => 
+            methodName.includes(keyword) || methodDesc.includes(keyword)
+          ).length;
+          
+          venusScore += focusMatchCount * 1.0;
+        }
+        
+        // Check elements alignment with transit
+        if (venusZodiacTransit.Elements && method.elementalEffect) {
+          for (const element in venusZodiacTransit.Elements) {
+            const elementProperty = element as keyof ElementalProperties;
+            if (method.elementalEffect[elementProperty]) {
+              venusScore += venusZodiacTransit.Elements[element] * method.elementalEffect[elementProperty] * 0.8;
+            }
+          }
+        }
+      }
+      
+      // Apply Venus retrograde modifications
+      if (isVenusRetrograde && venusData.PlanetSpecific?.Retrograde) {
+        // Check if cooking method aligns with retrograde focus
+        if (venusData.PlanetSpecific.Retrograde.FoodFocus) {
+          const retroFocus = venusData.PlanetSpecific.Retrograde.FoodFocus.toLowerCase();
+          const methodName = method.name.toLowerCase();
+          const methodDesc = method.description.toLowerCase();
+          
+          if (retroFocus.includes('traditional') && 
+              (methodName.includes('traditional') || methodDesc.includes('classic') || 
+               method.culturalOrigin?.includes('traditional'))) {
+            venusScore *= 1.5; // Boost traditional methods during retrograde
+          } else if (retroFocus.includes('slow') && 
+                    (methodName.includes('slow') || methodDesc.includes('simmer') || 
+                     method.duration?.min > 60)) {
+            venusScore *= 1.4; // Boost slow cooking methods
+          } else if (retroFocus.includes('revisit') && method.culturalOrigin?.includes('ancient')) {
+            venusScore *= 1.3; // Boost ancient methods
+          } else {
+            venusScore *= 0.9; // Slightly reduce other Venus influences
+          }
+        }
+        
+        // Apply retrograde elements influence
+        if (venusData.PlanetSpecific.Retrograde.Elements && method.elementalEffect) {
+          for (const element in venusData.PlanetSpecific.Retrograde.Elements) {
+            const elementProperty = element as keyof ElementalProperties;
+            if (method.elementalEffect[elementProperty]) {
+              venusScore *= (1 + (venusData.PlanetSpecific.Retrograde.Elements[element] * 
+                               method.elementalEffect[elementProperty] * 0.15));
+            }
+          }
+        }
+      }
+      
+      // Special method bonuses for Venus-ruled techniques
+      const venusMethodBoosts = {
+        'sous_vide': 1.3,  // Precise temperature control for perfect results
+        'confit': 1.4,     // Slow, luxurious preservation method
+        'glaze': 1.5,      // Beautiful, glossy finish
+        'caramelize': 1.3, // Brings out natural sweetness
+        'infuse': 1.4,     // Subtle flavor development
+        'braise': 1.2,     // Tender, succulent results
+        'flambe': 1.3,     // Dramatic presentation
+        'poach': 1.2,      // Gentle, delicate cooking
+        'candy': 1.5       // Sweet preservation
+      };
+      
+      for (const [methodName, boost] of Object.entries(venusMethodBoosts)) {
+        if (method.name.toLowerCase().includes(methodName) || 
+            method.description.toLowerCase().includes(methodName)) {
+          venusScore *= boost;
+          break; // Apply only one boost
+        }
+      }
+      
+      // Add Venus score to total method score (weighted at 15% of total)
+      method.score += venusScore * 0.15;
+    }
+    
+    // Mars influence scoring
+    if (isMarsActive) {
+      let marsScore = 0;
+      
+      // Check method alignment with Mars culinary influences
+      if (marsData.CulinaryInfluences && method.description) {
+        const description = method.description.toLowerCase();
+        
+        for (const influence of marsData.CulinaryInfluences) {
+          const influenceLower = influence.toLowerCase();
+          const keywords = influenceLower.split(/\s+/)
+            .filter(word => word.length > 4);
+            
+          for (const keyword of keywords) {
+            if (description.includes(keyword)) {
+              marsScore += 0.8;
+              break;
+            }
+          }
+        }
+      }
+      
+      // Check method against Mars's culinary techniques
+      if (marsData.PlanetSpecific?.CulinaryTechniques) {
+        const techniques = marsData.PlanetSpecific.CulinaryTechniques;
+        const methodName = method.name.toLowerCase();
+        
+        // Match with high heat cooking
+        if (methodName.includes('high heat') || methodName.includes('sear') || 
+            methodName.includes('grill') || methodName.includes('broil')) {
+          marsScore += techniques['High Heat Cooking'] * 1.5;
+        }
+        
+        // Match with grilling
+        if (methodName.includes('grill')) {
+          marsScore += techniques['Grilling'] * 1.8;
+        }
+        
+        // Match with smoking
+        if (methodName.includes('smoke')) {
+          marsScore += techniques['Smoking'] * 1.5;
+        }
+        
+        // Match with fermentation
+        if (methodName.includes('ferment') || methodName.includes('pickle')) {
+          marsScore += techniques['Fermentation'] * 1.3;
+        }
+      }
+      
+      // Check zodiac transit alignment
+      if (astroState.zodiacSign && marsData.PlanetSpecific?.ZodiacTransit) {
+        const transit = marsData.PlanetSpecific.ZodiacTransit[astroState.zodiacSign];
+        
+        if (transit && transit.FoodFocus) {
+          const foodFocus = transit.FoodFocus.toLowerCase();
+          const methodDesc = method.description?.toLowerCase() || '';
+          
+          // Check for keyword matches
+          const keywords = foodFocus.split(/,|\s+/)
+            .filter(word => word.length > 3);
+            
+          for (const keyword of keywords) {
+            if (methodDesc.includes(keyword)) {
+              marsScore += 0.7;
+            }
+          }
+        }
+      }
+      
+      // Add mars temperament based on current zodiac sign
+      if (astroState.zodiacSign) {
+        const sign = astroState.zodiacSign.toLowerCase();
+        const fireSigns = ['aries', 'leo', 'sagittarius'];
+        const waterSigns = ['cancer', 'scorpio', 'pisces'];
+        
+        // Get appropriate Mars temperament
+        let temperament = null;
+        if (fireSigns.includes(sign) && marsData.PlanetSpecific?.CulinaryTemperament?.FireMars) {
+          temperament = marsData.PlanetSpecific.CulinaryTemperament.FireMars;
+        } else if (waterSigns.includes(sign) && marsData.PlanetSpecific?.CulinaryTemperament?.WaterMars) {
+          temperament = marsData.PlanetSpecific.CulinaryTemperament.WaterMars;
+        }
+        
+        // Apply temperament recommendations if available
+        if (temperament && temperament.Recommendations) {
+          for (const rec of temperament.Recommendations) {
+            const recLower = rec.toLowerCase();
+            if (method.name.toLowerCase().includes(recLower) || 
+                (method.description?.toLowerCase() || '').includes(recLower)) {
+              marsScore += 1.0;
+            }
+          }
+        }
+      }
+      
+      // Handle Mars retrograde if applicable
+      if (isMarsRetrograde && marsData.PlanetSpecific?.Retrograde) {
+        // During retrograde, Mars favors traditional methods and slow cooking
+        if ((method.description?.toLowerCase() || '').includes('traditional') || 
+            method.name.toLowerCase().includes('slow')) {
+          marsScore += 1.5;
+        }
+      }
+      
+      // Apply Mars score
+      if (marsScore > 0) {
+        method.score += marsScore * 1.5;
+        method.planetaryAffinity = (method.planetaryAffinity || 0) + marsScore;
+      }
+    }
+    
+    // Mercury influence scoring
+    if (isMercuryActive) {
+      let mercuryScore = 0;
+      
+      // Mercury emphasizes precise, adaptable, and quick cooking methods
+      const methodName = method.name.toLowerCase();
+      const methodDesc = method.description.toLowerCase();
+      
+      // Check for Mercury-aligned cooking methods based on name/description
+      const mercuryKeywords = [
+        'quick', 'diverse', 'adaptable', 'precise', 'varied', 'infuse', 
+        'multiple', 'blend', 'mix', 'complexity', 'fusion', 'herb', 
+        'aromatic', 'fragrant', 'versatile', 'communication', 'detailed',
+        'intricate', 'layered', 'balanced'
+      ];
+      
+      // Count Mercury keyword matches in method name and description
+      const nameMatchCount = mercuryKeywords.filter(kw => methodName.includes(kw)).length;
+      const descMatchCount = mercuryKeywords.filter(kw => methodDesc.includes(kw)).length;
+      
+      // Add score based on keyword matches
+      mercuryScore += nameMatchCount * 1.5; // Higher weight for matches in name
+      mercuryScore += descMatchCount * 0.8; // Lower weight for matches in description
+      
+      // Check if method emphasizes Mercury's dual elements (Air and Earth)
+      if (method.elementalEffect) {
+        mercuryScore += (method.elementalEffect.Air || 0) * 1.2;
+        mercuryScore += (method.elementalEffect.Earth || 0) * 1.1;
+      }
+      
+      // Check for Mercury's food associations in method's suitable_for list
+      if (method.suitable_for && mercuryData.FoodAssociations) {
+        for (const item of method.suitable_for) {
+          const matchingFoods = mercuryData.FoodAssociations.filter(food => 
+            item.toLowerCase().includes(food.toLowerCase()) ||
+            food.toLowerCase().includes(item.toLowerCase())
+          ).length;
+          
+          mercuryScore += matchingFoods * 0.8;
+        }
+      }
+      
+      // Check for Mercury's herb associations in method description
+      if (mercuryData.HerbalAssociations?.Herbs) {
+        for (const herb of mercuryData.HerbalAssociations.Herbs) {
+          if (methodDesc.includes(herb.toLowerCase())) {
+            mercuryScore += 0.7;
+          }
+        }
+      }
+      
+      // Apply Mercury transit data if available
+      if (mercuryZodiacTransit) {
+        // Check for transit food focus alignment
+        if (mercuryZodiacTransit.FoodFocus) {
+          const foodFocus = mercuryZodiacTransit.FoodFocus.toLowerCase();
+          const focusKeywords = foodFocus.split(/[,\s]+/).filter(kw => kw.length > 3);
+          
+          // Score for keyword matches with the transit food focus
+          const focusMatches = focusKeywords.filter(kw => methodDesc.includes(kw)).length;
+          mercuryScore += focusMatches * 1.2;
+        }
+        
+        // Check for transit elemental alignment
+        if (mercuryZodiacTransit.Elements && method.elementalEffect) {
+          for (const element in mercuryZodiacTransit.Elements) {
+            const elementKey = element as keyof ElementalProperties;
+            if (method.elementalEffect[elementKey]) {
+              mercuryScore += mercuryZodiacTransit.Elements[element] * method.elementalEffect[elementKey] * 1.2;
+            }
+          }
+        }
+      }
+      
+      // Apply Mercury temperament data if available
+      if (mercuryTemperament) {
+        // Check for temperament food focus alignment
+        if (mercuryTemperament.FoodFocus) {
+          const tempFocus = mercuryTemperament.FoodFocus.toLowerCase();
+          const tempKeywords = tempFocus.split(/[,\s]+/).filter(kw => kw.length > 3);
+          
+          // Score for keyword matches with the temperament food focus
+          const tempMatches = tempKeywords.filter(kw => methodDesc.includes(kw)).length;
+          mercuryScore += tempMatches * 1.3;
+        }
+        
+        // Check for temperament elemental alignment
+        if (mercuryTemperament.Elements && method.elementalEffect) {
+          for (const element in mercuryTemperament.Elements) {
+            const elementKey = element as keyof typeof methodData.elementalEffect;
+            if (method.elementalEffect[elementKey]) {
+              mercuryScore += mercuryTemperament.Elements[element] * method.elementalEffect[elementKey] * 1.3;
+            }
+          }
+        }
+      }
+      
+      // Apply Mercury retrograde adjustments if applicable
+      if (isMercuryRetrograde) {
+        // Mercury retrograde favors traditional, simpler cooking methods
+        const retrogradeKeywords = ['traditional', 'simple', 'basic', 'classic', 'old-fashioned'];
+        const retrogradeMatches = retrogradeKeywords.filter(kw => methodDesc.includes(kw)).length;
+        
+        // During retrograde, boost simpler traditional methods
+        mercuryScore += retrogradeMatches * 1.4;
+        
+        // During retrograde, Mercury places emphasis on review and refinement
+        if (methodDesc.includes('refine') || methodDesc.includes('review') || 
+            methodDesc.includes('revise') || methodDesc.includes('repeat')) {
+          mercuryScore += 1.2;
+        }
+        
+        // During retrograde, Mercury warns against overly complex methods
+        const complexityKeywords = ['complex', 'difficult', 'advanced', 'intricate', 'complicated'];
+        const complexityMatches = complexityKeywords.filter(kw => methodDesc.includes(kw)).length;
+        
+        // Penalize complex methods during retrograde
+        mercuryScore -= complexityMatches * 0.8;
+        
+        // Check for specific Mercury retrograde impact on cooking
+        if (mercuryData.PlanetSpecific?.Mercury?.CommunicationEffects?.Retrograde) {
+          const retroEffect = mercuryData.PlanetSpecific.Mercury.CommunicationEffects.Retrograde.toLowerCase();
+          
+          // Look for methods that align with the retrograde effect description
+          const retroKeywords = retroEffect.split(/[,\.\s]+/).filter(kw => kw.length > 4);
+          const retroMentionCount = retroKeywords.filter(kw => methodDesc.includes(kw)).length;
+          
+          mercuryScore += retroMentionCount * 0.7;
+        }
+      } else {
+        // When Mercury is direct, it favors innovation and experimentation
+        const directKeywords = ['innovative', 'experimental', 'creative', 'modern', 'fusion'];
+        const directMatches = directKeywords.filter(kw => methodDesc.includes(kw)).length;
+        
+        mercuryScore += directMatches * 1.2;
+        
+        // When direct, Mercury enhances communication and clarity in cooking
+        if (mercuryData.PlanetSpecific?.Mercury?.CommunicationEffects?.Direct) {
+          const directEffect = mercuryData.PlanetSpecific.Mercury.CommunicationEffects.Direct.toLowerCase();
+          
+          // Look for methods that align with the direct effect description
+          const directKeywords = directEffect.split(/[,\.\s]+/).filter(kw => kw.length > 4);
+          const directMentionCount = directKeywords.filter(kw => methodDesc.includes(kw)).length;
+          
+          mercuryScore += directMentionCount * 0.7;
+        }
+      }
+      
+      // Add the Mercury score to the method's total score
+      method.score += mercuryScore * 1.8; // Apply Mercury influence with appropriate weight
+    }
+    
+    // Apply Jupiter-specific scoring
+    if (isJupiterActive) {
+      let jupiterScore = 0;
+      
+      // Check if method aligns with Jupiter's culinary techniques
+      if (jupiterData.PlanetSpecific?.CulinaryTechniques) {
+        const jupiterTechniques = jupiterData.PlanetSpecific.CulinaryTechniques;
+        
+        // Check for abundance and generosity in cooking approach
+        if (method.description.toLowerCase().includes('generous') || 
+            method.description.toLowerCase().includes('abundant') ||
+            method.description.toLowerCase().includes('feast')) {
+          jupiterScore += 2.5;
+        }
+        
+        // Check for cultural fusion techniques
+        if (method.description.toLowerCase().includes('fusion') || 
+            method.description.toLowerCase().includes('multicultural') ||
+            method.description.toLowerCase().includes('global')) {
+          jupiterScore += 2.0;
+        }
+        
+        // Check for educational or traditional cooking methods
+        if (method.description.toLowerCase().includes('traditional') || 
+            method.description.toLowerCase().includes('classic') ||
+            method.description.toLowerCase().includes('educational')) {
+          jupiterScore += 4 * jupiterTechniques['Educational Dining'];
+        }
+        
+        // Check for festive preparation
+        if (method.description.toLowerCase().includes('festive') || 
+            method.description.toLowerCase().includes('celebratory') ||
+            method.description.toLowerCase().includes('special occasion')) {
+          jupiterScore += 5 * jupiterTechniques['Festive Preparation'];
+        }
+      }
+      
+      // Boost score for methods that align with Jupiter's elemental preferences
+      // Jupiter bridges Air and Fire
+      if (method.elementalEffect?.Air > 0.5 || method.elementalEffect?.Fire > 0.5) {
+        jupiterScore += 1.5;
+      }
+      
+      // Apply zodiac-specific Jupiter considerations
+      if (zodiacSign && jupiterData.PlanetSpecific?.ZodiacTransit?.[zodiacSign]) {
+        const transitData = jupiterData.PlanetSpecific.ZodiacTransit[zodiacSign];
+        
+        // Check if method aligns with Jupiter's focus for this zodiac sign
+        if (transitData.FoodFocus && 
+            method.description.toLowerCase().includes(transitData.FoodFocus.toLowerCase())) {
+          jupiterScore += 2.0;
+        }
+        
+        // Check elemental alignments specific to this transit
+        if (transitData.Elements && method.elementalEffect) {
+          for (const [element, value] of Object.entries(transitData.Elements)) {
+            const elemKey = element.toLowerCase() as keyof typeof methodData.elementalEffect;
+            if (methodData.elementalEffect && methodData.elementalEffect[elemKey] > 0.5) {
+              jupiterScore += value as number;
+            }
+          }
+        }
+      }
+      
+      // Apply Jupiter temperament-specific modifications
+      if (jupiterTemperament) {
+        if (jupiterTemperament.Recommendations) {
+          // Check for alignment with Jupiter's temperament recommendations
+          jupiterTemperament.Recommendations.forEach(rec => {
+            if (method.description.toLowerCase().includes(rec.toLowerCase())) {
+              jupiterScore += 3;
+            }
+          });
+        }
+        
+        // Apply elemental alignment from Jupiter temperament
+        if (jupiterTemperament.Elements) {
+          Object.entries(jupiterTemperament.Elements).forEach(([element, value]) => {
+            const elementKey = element as keyof typeof methodData.elementalEffect;
+            if (methodData.elementalEffect && methodData.elementalEffect[elementKey] > 0.4) {
+              jupiterScore += 2 * (value as number);
+            }
+          });
+        }
+      }
+      
+      // Apply retrograde modifiers
+      if (isJupiterRetrograde) {
+        if (jupiterData.PlanetSpecific?.Retrograde?.CulinaryEffect) {
+          const effect = jupiterData.PlanetSpecific.Retrograde.CulinaryEffect.toLowerCase();
+          
+          // During retrograde, favor moderation and simplicity
+          if (method.description.toLowerCase().includes('simple') || 
+              method.description.toLowerCase().includes('moderate') ||
+              method.description.toLowerCase().includes('balanced')) {
+            jupiterScore += 4;
+          }
+          
+          // Reduce score for overly extravagant or excessive methods
+          if (method.description.toLowerCase().includes('extravagant') || 
+              method.description.toLowerCase().includes('excessive') ||
+              method.description.toLowerCase().includes('decadent')) {
+            jupiterScore -= 3;
+          }
+        }
+      }
+      
+      // Scale Jupiter's influence
+      jupiterScore *= 1.8;  // Jupiter has a strong influence
+      
+      // Add Jupiter score to the recommendation
+      if (methodData.score) {
+        methodData.score += jupiterScore;
+        methodData.planetaryAffinity = (methodData.planetaryAffinity || 0) + jupiterScore;
+      }
+    }
+    
+    // Apply Saturn-specific scoring
+    if (isSaturnActive) {
+      let saturnScore = 0;
+      
+      // Check if method aligns with Saturn's culinary techniques
+      if (saturnData.PlanetSpecific?.CulinaryTechniques) {
+        // Saturn favors preservation techniques
+        if (method.description.toLowerCase().includes('preserve') ||
+            method.description.toLowerCase().includes('curing') ||
+            method.description.toLowerCase().includes('drying') ||
+            method.description.toLowerCase().includes('ferment') ||
+            method.description.toLowerCase().includes('pickling')) {
+          saturnScore += 3.0;
+        }
+        
+        // Saturn favors traditional and time-tested methods
+        if (method.description.toLowerCase().includes('traditional') ||
+            method.description.toLowerCase().includes('ancient') ||
+            method.description.toLowerCase().includes('classic')) {
+          saturnScore += 2.5;
+        }
+        
+        // Saturn rewards patience and slow cooking
+        if (method.description.toLowerCase().includes('slow') ||
+            method.description.toLowerCase().includes('patient') ||
+            (methodData.duration && methodData.duration.min > 60)) {
+          saturnScore += 2.5;
+        }
+      }
+      
+      // Boost score for methods that align with Saturn's elemental preferences
+      // Saturn bridges Earth and Air
+      if (method.elementalEffect?.Earth > 0.5 || method.elementalEffect?.Air > 0.5) {
+        saturnScore += 1.5;
+      }
+      
+      // Apply zodiac-specific Saturn considerations
+      if (zodiacSign && saturnData.PlanetSpecific?.ZodiacTransit?.[zodiacSign]) {
+        const transitData = saturnData.PlanetSpecific.ZodiacTransit[zodiacSign];
+        
+        // Check if method aligns with Saturn's focus for this zodiac sign
+        if (transitData.FoodFocus && 
+            method.description.toLowerCase().includes(transitData.FoodFocus.toLowerCase())) {
+          saturnScore += 2.0;
+        }
+        
+        // Check elemental alignments specific to this transit
+        if (transitData.Elements && method.elementalEffect) {
+          for (const [element, value] of Object.entries(transitData.Elements)) {
+            const elemKey = element.toLowerCase() as keyof typeof methodData.elementalEffect;
+            if (methodData.elementalEffect && methodData.elementalEffect[elemKey] > 0.5) {
+              saturnScore += value as number;
+            }
+          }
+        }
+      }
+      
+      // Apply Saturn aspectual considerations
+      const saturnAspects = aspects.filter(aspect => aspect.planets.includes('Saturn'));
+      for (const aspect of saturnAspects) {
+        const otherPlanet = aspect.planets.find(p => p !== 'Saturn');
+        if (otherPlanet && saturnData.AspectsEffect?.[otherPlanet as keyof typeof saturnData.AspectsEffect]) {
+          const aspectEffect = saturnData.AspectsEffect[otherPlanet as keyof typeof saturnData.AspectsEffect][aspect.type as keyof typeof saturnData.AspectsEffect[keyof typeof saturnData.AspectsEffect]];
+          saturnScore += aspectEffect * 3;
+        }
+      }
+      
+      // Scale Saturn's influence
+      saturnScore *= 1.7;  // Saturn has a strong but slightly less expansive influence than Jupiter
+      
+      // Add Saturn score to the recommendation
+      if (methodData.score) {
+        methodData.score += saturnScore;
+        methodData.planetaryAffinity = (methodData.planetaryAffinity || 0) + saturnScore;
+      }
+    }
+    
+    // Add Uranus-specific scoring if applicable
+    if (isUranusActive) {
+      // Boost methods that align with Uranus' innovative nature
+      methodsArray.forEach(method => {
+        // Apply Uranus transit data if available
+        if (uranusZodiacTransit) {
+          // Boost methods mentioned in CookingMethods from the transit data
+          if (uranusZodiacTransit.CookingMethods && 
+              uranusZodiacTransit.CookingMethods.includes(method.name.toLowerCase())) {
+            method.score += 0.15;
+          }
+          
+          // Boost methods that align with the dominant elements for this zodiac transit
+          if (uranusZodiacTransit.Elements) {
+            const uranusElementBoost = 
+              (method.elementalEffect.Fire * (uranusZodiacTransit.Elements.Fire || 0)) +
+              (method.elementalEffect.Water * (uranusZodiacTransit.Elements.Water || 0)) +
+              (method.elementalEffect.Earth * (uranusZodiacTransit.Elements.Earth || 0)) +
+              (method.elementalEffect.Air * (uranusZodiacTransit.Elements.Air || 0));
+            
+            method.score += uranusElementBoost * 0.1;
+          }
+        }
+        
+        // Apply general Uranus influence - boost innovative and unusual methods
+        if (method.description?.toLowerCase().includes('innovative') || 
+            method.description?.toLowerCase().includes('modern') ||
+            method.description?.toLowerCase().includes('unique') ||
+            method.description?.toLowerCase().includes('unexpected')) {
+          method.score += 0.1;
+        }
+        
+        // If Uranus is retrograde, favor methods that blend tradition with innovation
+        if (isUranusRetrograde) {
+          if (method.description?.toLowerCase().includes('traditional') && 
+              method.description?.toLowerCase().includes('modern')) {
+            method.score += 0.15;
+          }
         }
       });
-      
-      // Sort variations by score
-      method.variations.sort((a, b) => b.score - a.score);
     }
+    
+    // Add Neptune-specific scoring if applicable
+    if (isNeptuneActive) {
+      // Boost methods that align with Neptune's ethereal nature
+      methodsArray.forEach(method => {
+        // Apply Neptune transit data if available
+        if (neptuneZodiacTransit) {
+          // Boost methods mentioned in CookingMethods from the transit data
+          if (neptuneZodiacTransit.CookingMethods && 
+              neptuneZodiacTransit.CookingMethods.includes(method.name.toLowerCase())) {
+            method.score += 0.15;
+          }
+          
+          // Boost methods that align with the dominant elements for this zodiac transit
+          if (neptuneZodiacTransit.Elements) {
+            const neptuneElementBoost = 
+              (method.elementalEffect.Fire * (neptuneZodiacTransit.Elements.Fire || 0)) +
+              (method.elementalEffect.Water * (neptuneZodiacTransit.Elements.Water || 0)) +
+              (method.elementalEffect.Earth * (neptuneZodiacTransit.Elements.Earth || 0)) +
+              (method.elementalEffect.Air * (neptuneZodiacTransit.Elements.Air || 0));
+            
+            method.score += neptuneElementBoost * 0.1;
+          }
+        }
+        
+        // Apply general Neptune influence - boost subtle and water-based methods
+        if (method.description?.toLowerCase().includes('subtle') || 
+            method.description?.toLowerCase().includes('gentle') ||
+            method.description?.toLowerCase().includes('infuse') ||
+            method.description?.toLowerCase().includes('steam') ||
+            method.description?.toLowerCase().includes('poach')) {
+          method.score += 0.1;
+        }
+        
+        // If Neptune is retrograde, favor methods that bring clarity to subtle flavors
+        if (isNeptuneRetrograde) {
+          if (method.description?.toLowerCase().includes('clarify') || 
+              method.description?.toLowerCase().includes('precise') ||
+              method.description?.toLowerCase().includes('pure')) {
+            method.score += 0.15;
+          }
+        }
+      });
+    }
+    
+    // Add Pluto-specific scoring if applicable
+    if (isPlutoActive) {
+      // Boost methods that align with Pluto's transformative nature
+      methodsArray.forEach(method => {
+        // Apply Pluto transit data if available
+        if (plutoZodiacTransit) {
+          // Boost methods mentioned in CookingMethods from the transit data
+          if (plutoZodiacTransit.CookingMethods && 
+              plutoZodiacTransit.CookingMethods.includes(method.name.toLowerCase())) {
+            method.score += 0.15;
+          }
+          
+          // Boost methods that align with the dominant elements for this zodiac transit
+          if (plutoZodiacTransit.Elements) {
+            const plutoElementBoost = 
+              (method.elementalEffect.Fire * (plutoZodiacTransit.Elements.Fire || 0)) +
+              (method.elementalEffect.Water * (plutoZodiacTransit.Elements.Water || 0)) +
+              (method.elementalEffect.Earth * (plutoZodiacTransit.Elements.Earth || 0)) +
+              (method.elementalEffect.Air * (plutoZodiacTransit.Elements.Air || 0));
+            
+            method.score += plutoElementBoost * 0.1;
+          }
+        }
+        
+        // Apply general Pluto influence - boost transformative and intense methods
+        if (method.description?.toLowerCase().includes('transform') || 
+            method.description?.toLowerCase().includes('ferment') ||
+            method.description?.toLowerCase().includes('age') ||
+            method.description?.toLowerCase().includes('smoke') ||
+            method.description?.toLowerCase().includes('intense')) {
+          method.score += 0.1;
+        }
+        
+        // If Pluto is retrograde, favor methods that connect to ancestral techniques
+        if (isPlutoRetrograde) {
+          if (method.description?.toLowerCase().includes('traditional') || 
+              method.description?.toLowerCase().includes('ancient') ||
+              method.description?.toLowerCase().includes('heritage')) {
+            method.score += 0.15;
+          }
+        }
+      });
+    }
+    
+    // Calculate final score with proper weighting
+    score = (
+      elementalScore * 0.40 +
+      astrologicalScore * 0.25 +
+      seasonalScore * 0.15 +
+      toolScore * 0.10 +
+      dietaryScore * 0.10 +
+      culturalScore +
+      (venusScore * 0.15) // Venus influence as additional component
+    );
+    
+    // Capture scoring details for transparency
+    if (!method.scoreDetails) {
+      method.scoreDetails = {}; 
+    }
+    method.scoreDetails = {
+      elemental: elementalScore * 0.40,
+      astrological: astrologicalScore * 0.25,
+      seasonal: seasonalScore * 0.15,
+      tools: toolScore * 0.10,
+      dietary: dietaryScore * 0.10,
+      cultural: culturalScore,
+      venus: venusScore * 0.15
+    };
+
+    // Add the recommendation with calculated score
+    recommendations.push({
+      method: method.id,
+      score: Math.max(0, score), // Ensure score isn't negative
+      description: method.description,
+      benefits: method.benefits,
+      lunarAffinity: calculateLunarMethodAffinity(method, lunarPhase),
+      elementalAffinity: method.elementalEffect?.[signElement] || 0,
+      planetaryAffinity: method.planetaryAffinity || 0,
+    });
   });
-  
-  // Sort by score and return top methods
-  return filteredMethods
-    .sort((a, b) => b.score - a.score);
+
+  // Sort by score (highest first)
+  return recommendations.sort((a, b) => b.score - a.score);
 }
 
-// Add a method to get cooking methods by cultural origin
-export function getCookingMethodsByCulture(culture: string) {
-  // Get main methods that match the culture
-  const mainMethods = Object.entries(allCookingMethodsCombined)
-    .filter(([_, method]) => 
-      method.culturalOrigin === culture && !method.relatedToMainMethod
-    )
-    .map(([_, method]) => ({
-      ...method
-    }));
-    
-  // Get main methods that have variations matching the culture
-  const methodsWithVariations = Object.entries(allCookingMethodsCombined)
-    .filter(([_, method]) => 
-      !method.culturalOrigin && 
-      method.variations && 
-      method.variations.some(v => v.culturalOrigin === culture)
-    )
-    .map(([_, method]) => ({
-      ...method,
-      // Filter variations to only include those from this culture
-      variations: method.variations.filter(v => v.culturalOrigin === culture)
-    }));
-    
-  return [...mainMethods, ...methodsWithVariations];
+function calculateLunarMethodAffinity(method: CookingMethod, phase: LunarPhase): number {
+  let affinity = 0;
+
+  switch (phase) {
+    case 'New Moon':
+      // New Moon favors gentle, water-based methods
+      if (method.properties?.includes('gentle')) affinity += 0.5;
+      if (method.element === 'water') affinity += 0.5;
+      break;
+    case 'Waxing Crescent':
+      // Waxing Crescent favors methods that build flavor
+      if (method.properties?.includes('builds flavor')) affinity += 0.7;
+      break;
+    case 'First Quarter':
+      // First Quarter favors methods that transform 
+      if (method.properties?.includes('transformative')) affinity += 0.7;
+      break;
+    case 'Waxing Gibbous':
+      // Waxing Gibbous favors methods that intensify
+      if (method.properties?.includes('intensifies flavor')) affinity += 0.8;
+      break;
+    case 'Full Moon':
+      // Full Moon favors methods that fully express flavor
+      if (method.properties?.includes('maximizes flavor')) affinity += 1.0;
+      if (method.element === 'fire') affinity += 0.5;
+      break;
+    case 'Waning Gibbous':
+      // Waning Gibbous favors methods that preserve
+      if (method.properties?.includes('preserves nutrients')) affinity += 0.8;
+      break;
+    case 'Last Quarter':
+      // Last Quarter favors methods that reduce and concentrate
+      if (method.properties?.includes('concentrates')) affinity += 0.7;
+      break;
+    case 'Waning Crescent':
+      // Waning Crescent favors subtle, gentle methods
+      if (method.properties?.includes('subtle')) affinity += 0.7;
+      if (method.element === 'water') affinity += 0.3;
+      break;
+    default:
+      // Default minimal affinity
+      affinity += 0.1;
+  }
+
+  return affinity;
 }
 
-// Get all variations of a specific cooking method from any culture
-export function getMethodVariations(methodId: string) {
-  const method = allCookingMethodsCombined[methodId];
-  if (!method) return [];
-  
-  return method.variations || [];
+function calculateAspectMethodAffinity(aspects: PlanetaryAspect[], method: CookingMethod): number {
+  let affinity = 0;
+
+  for (const aspect of aspects) {
+    // Check if this aspect involves planets that influence this method
+    const planetaryInfluence = aspect.planets.some(planet => 
+      method.planetaryInfluences?.includes(planet)
+    );
+
+    if (planetaryInfluence) {
+      // Base influence
+      let baseInfluence = 0.5;
+
+      // Stronger influence for conjunctions and oppositions
+      if (aspect.type === 'conjunction') baseInfluence = 0.8;
+      if (aspect.type === 'opposition') baseInfluence = 0.7;
+      
+      // Special consideration for Venus aspects
+      if (aspect.planets.includes('Venus')) {
+        // Venus aspects boost methods that enhance aesthetic appeal or harmony
+        if (method.sensoryProfile?.visual && method.sensoryProfile.visual > 0.6) {
+          baseInfluence += 0.3;
+        }
+        if (method.properties?.includes('balances flavors')) {
+          baseInfluence += 0.4;
+        }
+      }
+
+      affinity += baseInfluence;
+    }
+  }
+
+  return affinity;
 } 

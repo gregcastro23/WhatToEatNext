@@ -10,12 +10,12 @@ interface FilterOptions {
   maxPrepTime?: number;
   dietaryRestrictions?: DietaryRestriction[];
   ingredients?: string[];
-  elementalState?: ElementalProperties;
+  elementalBalance?: ElementalProperties;
   searchQuery?: string;
 }
 
 interface SortOptions {
-  by: 'relevance' | 'prepTime' | 'elementalState' | 'seasonal';
+  by: 'relevance' | 'prepTime' | 'elementalBalance' | 'seasonal';
   direction: 'asc' | 'desc';
 }
 
@@ -60,8 +60,8 @@ export class RecipeFilter {
     sortOptions: SortOptions
   ): ScoredRecipe[] {
     try {
-      const filtered = this.applyFilters(recipes, filterOptions);
-      const scored = this.enhancedScoreRecipes(filtered, filterOptions);
+      let filtered = this.applyFilters(recipes, filterOptions);
+      let scored = this.scoreRecipes(filtered, filterOptions);
       return this.sortRecipes(scored, sortOptions);
     } catch (error) {
       logger.error('Error filtering recipes:', error);
@@ -129,16 +129,16 @@ export class RecipeFilter {
     });
   }
 
-  private enhancedScoreRecipes(recipes: Recipe[], options: EnhancedFilterOptions): ScoredRecipe[] {
+  private scoreRecipes(recipes: Recipe[], options: FilterOptions): ScoredRecipe[] {
     return recipes.map(recipe => {
       try {
         let score = 1;
 
         // Elemental balance score
-        if (options.elementalState) {
+        if (options.elementalBalance) {
           score *= this.calculateElementalScore(
             recipe.elementalProperties,
-            options.elementalState
+            options.elementalBalance
           );
         }
 
@@ -150,21 +150,6 @@ export class RecipeFilter {
         // Search relevance score
         if (options.searchQuery) {
           score *= this.calculateSearchRelevance(recipe, options.searchQuery);
-        }
-
-        // Cuisine score
-        if (options.cuisineTypes?.length) {
-          score *= this.calculateCuisineScore(recipe, options.cuisineTypes);
-        }
-
-        // Favorite ingredients boost
-        if (recipe.favoriteScore) {
-          score *= recipe.favoriteScore;
-        }
-
-        // Complexity preference boost
-        if (options.complexity && recipe.complexity === options.complexity) {
-          score *= 1.2;
         }
 
         return {
@@ -190,8 +175,8 @@ export class RecipeFilter {
           case 'prepTime':
             comparison = this.parseTime(a.timeToMake) - this.parseTime(b.timeToMake);
             break;
-          case 'elementalState':
-            comparison = this.getelementalState(b) - this.getelementalState(a);
+          case 'elementalBalance':
+            comparison = this.getElementalBalance(b) - this.getElementalBalance(a);
             break;
           case 'seasonal':
             comparison = this.getSeasonalScore(b) - this.getSeasonalScore(a);
@@ -272,7 +257,7 @@ export class RecipeFilter {
     }
   }
 
-  private getelementalState(recipe: ScoredRecipe): number {
+  private getElementalBalance(recipe: ScoredRecipe): number {
     try {
       if (!recipe.elementalProperties) return 0;
       const values = Object.values(recipe.elementalProperties);
@@ -297,41 +282,15 @@ export class RecipeFilter {
 
   filterByCuisine(recipes: Recipe[], cuisineTypes: CuisineType[]): Recipe[] {
     if (!cuisineTypes?.length) return recipes;
-    
+
     return recipes.filter(recipe => {
       try {
         return cuisineTypes.some(cuisineType => {
           const cuisine = cuisines[cuisineType];
-          if (!cuisine || !cuisine.dishes) return false;
-          
-          // Helper function to check if a dish matches the recipe
-          const checkMatch = (dishName: any): boolean => {
-            if (!dishName) return false;
-            if (typeof dishName === 'string') return dishName === recipe.name;
-            if (typeof dishName === 'object' && dishName !== null && 'name' in dishName) {
-              return dishName.name === recipe.name;
-            }
-            return false;
-          };
-          
-          // Handle different structures of cuisine.dishes
-          if (Array.isArray(cuisine.dishes)) {
-            return cuisine.dishes.some(dish => checkMatch(dish));
-          }
-          
-          // Handle structured dishes by meal time and season
-          return Object.values(cuisine.dishes).some(mealTimeDishes => {
-            if (!mealTimeDishes) return false;
-            
-            if (Array.isArray(mealTimeDishes)) {
-              return mealTimeDishes.some(dish => checkMatch(dish));
-            }
-            
-            // If it's an object with season keys
-            return Object.values(mealTimeDishes).some(seasonDishes => 
-              Array.isArray(seasonDishes) && seasonDishes.some(dish => checkMatch(dish))
-            );
-          });
+          return cuisine?.dishes.some(dish => 
+            dish.name === recipe.name || 
+            dish.variants?.includes(recipe.name)
+          );
         });
       } catch (error) {
         logger.error('Error filtering by cuisine:', error);
@@ -376,8 +335,8 @@ export class RecipeFilter {
         }
 
         // Serving size filter
-        if (options.servingSize && recipe.numberOfServings &&
-            recipe.numberOfServings < options.servingSize) {
+        if (options.servingSize && recipe.servings && 
+            recipe.servings < options.servingSize) {
           return false;
         }
 
@@ -433,36 +392,10 @@ export class RecipeFilter {
     try {
       const matchingCuisines = cuisineTypes.filter(cuisineType => {
         const cuisine = cuisines[cuisineType];
-        if (!cuisine || !cuisine.dishes) return false;
-        
-        // Helper function to check if a dish matches the recipe
-        const checkMatch = (dishName: any): boolean => {
-          if (!dishName) return false;
-          if (typeof dishName === 'string') return dishName === recipe.name;
-          if (typeof dishName === 'object' && dishName !== null && 'name' in dishName) {
-            return dishName.name === recipe.name;
-          }
-          return false;
-        };
-        
-        // Handle different structures of cuisine.dishes
-        if (Array.isArray(cuisine.dishes)) {
-          return cuisine.dishes.some(dish => checkMatch(dish));
-        }
-        
-        // Handle structured dishes by meal time and season
-        return Object.values(cuisine.dishes).some(mealTimeDishes => {
-          if (!mealTimeDishes) return false;
-          
-          if (Array.isArray(mealTimeDishes)) {
-            return mealTimeDishes.some(dish => checkMatch(dish));
-          }
-          
-          // If it's an object with season keys
-          return Object.values(mealTimeDishes).some(seasonDishes => 
-            Array.isArray(seasonDishes) && seasonDishes.some(dish => checkMatch(dish))
-          );
-        });
+        return cuisine?.dishes.some(dish => 
+          dish.name === recipe.name || 
+          dish.variants?.includes(recipe.name)
+        );
       });
 
       return matchingCuisines.length > 0 ? 1.5 : 0.5;
@@ -471,22 +404,40 @@ export class RecipeFilter {
       return 1;
     }
   }
+
+  // Update scoreRecipes to include new scoring factors
+  private scoreRecipes(recipes: Recipe[], options: EnhancedFilterOptions): ScoredRecipe[] {
+    return recipes.map(recipe => {
+      try {
+        let score = 1;
+
+        // Previous scoring...
+
+        // Cuisine score
+        if (options.cuisineTypes?.length) {
+          score *= this.calculateCuisineScore(recipe, options.cuisineTypes);
+        }
+
+        // Favorite ingredients boost
+        if (recipe.favoriteScore) {
+          score *= recipe.favoriteScore;
+        }
+
+        // Complexity preference boost
+        if (options.complexity && recipe.complexity === options.complexity) {
+          score *= 1.2;
+        }
+
+        return {
+          ...recipe,
+          score
+        };
+      } catch (error) {
+        logger.error('Error scoring recipe:', { recipe, error });
+        return { ...recipe, score: 0 };
+      }
+    });
+  }
 }
 
-export const recipeFilter = RecipeFilter.getInstance();
-
-/**
- * Filter recipes by cuisine name
- * @param cuisine The cuisine name to filter by
- * @param recipes The array of recipes to filter
- * @returns Filtered array of recipes matching the cuisine
- */
-export function getRecipesForCuisine(cuisine: string, recipes: Recipe[]): Recipe[] {
-  if (!cuisine || cuisine === 'all') {
-    return recipes;
-  }
-  
-  return recipes.filter(recipe => 
-    recipe.cuisine?.toLowerCase() === cuisine.toLowerCase()
-  );
-} 
+export const recipeFilter = RecipeFilter.getInstance(); 

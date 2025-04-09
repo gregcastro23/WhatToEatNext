@@ -4,15 +4,16 @@
 
 import React, { useEffect, useState } from 'react';
 import { Timer, Flame, Droplet, Wind, Mountain } from 'lucide-react';
-import type { FilterOptions, NutritionPreferences, ElementalProperties, ZodiacSign, LunarPhase } from '@/types/alchemy';
+import type { FilterOptions, NutritionPreferences, ElementalProperties, ZodiacSign } from '@/types/alchemy';
 import { cuisines } from '@/data/cuisines';
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-import { AlchemicalEngineAdvanced as AlchemicalEngine } from '@/calculations/alchemicalEngine';
+import { useAlchemical } from '@/contexts/AlchemicalContext';
+import { AlchemicalEngine } from '@/calculations/alchemicalEngine';
 import { calculateSeasonalElements } from '@/calculations/seasonalCalculations';
 import { getCurrentSeason, getDayOfYear, getMoonPhase, getTimeOfDay } from '@/utils/dateUtils';
-import { normalizeLunarPhase } from '@/utils/lunarPhaseUtils';
 
 type FilterSectionProps = {
+  selectedCuisines: string[];
+  setSelectedCuisines: (cuisines: string[]) => void;
   filters: FilterOptions;
   setFilters: React.Dispatch<React.SetStateAction<FilterOptions>>;
   nutritionPrefs: NutritionPreferences;
@@ -28,6 +29,8 @@ const ElementIcons = {
 };
 
 export default function FilterSection({
+  selectedCuisines,
+  setSelectedCuisines,
   filters,
   setFilters,
   nutritionPrefs,
@@ -45,28 +48,29 @@ export default function FilterSection({
       try {
         const currentSeason = getCurrentSeason();
         const dayOfYear = getDayOfYear(new Date());
-        const rawMoonPhase = getMoonPhase();
+        const moonPhase = getMoonPhase();
         const timeOfDay = getTimeOfDay();
 
         // Calculate base elemental properties
         const baseElements = calculator.calculateNaturalInfluences({
           season: currentSeason,
-          moonPhase: rawMoonPhase,
+          moonPhase: moonPhase,
           timeOfDay: timeOfDay,
           sunSign: currentSunSign,
           degreesInSign: sunDegrees
         });
 
         // Apply seasonal influence
-        const elementalState = calculateSeasonalElements(
+        const elementalBalance = calculateSeasonalElements(
           baseElements,
-          currentSeason
+          currentSeason,
+          dayOfYear
         );
 
         // Update state with natural influences
         dispatch({
           type: 'SET_ELEMENTAL_PREFERENCE',
-          payload: elementalState
+          payload: elementalBalance
         });
 
       } catch (error) {
@@ -78,16 +82,16 @@ export default function FilterSection({
     // Update every hour
     const interval = setInterval(updateNaturalInfluences, 3600000);
     return () => clearInterval(interval);
-  }, [currentSunSign, sunDegrees, calculator, dispatch]);
+  }, []);
 
   useEffect(() => {
     // Get current date
     const now = new Date();
-    const dayOfYear = Math.floor((now.getTime() - new Date(now.getFullYear(), 0, 0).getTime()) / 1000 / 60 / 60 / 24);
+    const dayOfYear = Math.floor((now - new Date(now.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
     
     // Simple calculation for sun sign and degrees
     // Each sign is roughly 30 days
-    const signIndex = Math.floor((dayOfYear + 9) / 30.44) % 12; // +9 to align with aries start
+    const signIndex = Math.floor((dayOfYear + 9) / 30.44) % 12; // +9 to align with Aries start
     const daysIntoSign = (dayOfYear + 9) % 30.44;
     
     // Map index to zodiac sign
@@ -100,6 +104,13 @@ export default function FilterSection({
     setCurrentSunSign(zodiacSigns[signIndex]);
     setSunDegrees(Math.floor(daysIntoSign * (30/30.44))); // Convert to degrees (0-29)
   }, []);
+
+  const handleCuisineSelect = (id: string) => {
+    console.log('Selecting cuisine:', id);
+    setSelectedCuisines(prev =>
+      prev.includes(id) ? prev.filter(c => c !== id) : [...prev, id]
+    );
+  };
 
   const handleElementalChange = (element: keyof ElementalProperties, value: number) => {
     const newBalance = {

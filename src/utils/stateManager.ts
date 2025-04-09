@@ -2,40 +2,9 @@ import { cache } from './cache';
 import { logger } from './logger';
 import { themeManager } from './theme';
 import { celestialCalculator } from '@/services/celestialCalculations';
-import type { Recipe } from '@/types/recipe';
-import type { ElementalProperties } from '@/types/alchemy';
-
-// Add the missing type definitions
-interface ScoredRecipe extends Recipe {
-  score: number;
-  matches: {
-    elemental: number;
-    seasonal: number;
-    astrological: number;
-  };
-}
-
-type DietaryRestriction = 
-  | 'vegetarian'
-  | 'vegan'
-  | 'gluten-free'
-  | 'dairy-free'
-  | 'nut-free'
-  | 'low-carb'
-  | 'keto'
-  | 'paleo';
-
-export type CuisineType = 
-  | 'italian'
-  | 'chinese'
-  | 'mexican'
-  | 'indian'
-  | 'japanese'
-  | 'thai'
-  | 'french'
-  | 'mediterranean'
-  | 'american'
-  | 'middle-eastern';
+import type { Recipe, ScoredRecipe } from '@/types/recipe';
+import type { ElementalProperties, DietaryRestriction } from '@/types/alchemy';
+import type { CuisineType } from '@/types/cuisine';
 
 interface UserPreferences {
   theme: {
@@ -72,7 +41,7 @@ interface AppState {
     error: string | null;
   };
   celestial: {
-    elementalState: ElementalProperties;
+    elementalBalance: ElementalProperties;
     season: string;
     moonPhase: string;
     lastUpdated: number;
@@ -123,10 +92,8 @@ class StateManager {
 
   private loadInitialState(): AppState {
     try {
-      // Fix: Remove type parameter since cache.get doesn't accept it
-      const cached = cache.get(this.STORAGE_KEY);
-      // Add type guard to ensure cached data has the right shape
-      if (cached && this.isValidAppState(cached)) return cached as AppState;
+      const cached = cache.get<AppState>(this.STORAGE_KEY);
+      if (cached) return cached;
 
       const stored = typeof window !== 'undefined' 
         ? localStorage.getItem(this.STORAGE_KEY)
@@ -137,16 +104,6 @@ class StateManager {
       logger.error('Error loading state:', error);
       return this.getDefaultState();
     }
-  }
-
-  // Add helper to validate the state structure
-  private isValidAppState(obj: any): obj is AppState {
-    return obj 
-      && typeof obj === 'object'
-      && obj.recipes 
-      && obj.celestial 
-      && obj.user 
-      && obj.ui;
   }
 
   private getDefaultState(): AppState {
@@ -160,7 +117,7 @@ class StateManager {
         error: null
       },
       celestial: {
-        elementalState: {
+        elementalBalance: {
           Fire: 0.25,
           Earth: 0.25,
           Air: 0.25,
@@ -214,9 +171,8 @@ class StateManager {
 
   private async initializeState() {
     try {
-      // Fix: Extract theme mode as string instead of passing the whole object
       if (this.state?.user?.preferences?.theme) {
-        themeManager.updateTheme(this.state.user.preferences.theme.mode);
+        themeManager.updateTheme(this.state.user.preferences.theme);
       } else {
         themeManager.updateTheme('light');
       }
@@ -240,18 +196,10 @@ class StateManager {
   private async updateCelestialData(): Promise<void> {
     try {
       const influences = celestialCalculator.calculateCurrentInfluences();
-      // Convert influences to proper ElementalProperties
-      const elementalState: ElementalProperties = {
-        Fire: influences.elementalBalance?.Fire || 0,
-        Water: influences.elementalBalance?.Water || 0, 
-        Earth: influences.elementalBalance?.Earth || 0,
-        Air: influences.elementalBalance?.Air || 0
-      };
-      
       this.setState({
         celestial: {
           ...this.state.celestial,
-          elementalState,
+          elementalBalance: influences,
           lastUpdated: Date.now()
         }
       });

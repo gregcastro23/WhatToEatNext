@@ -44,18 +44,6 @@ export const elementalInteractions: Record<Element, Record<Element, number>> = {
     'Air': 0.3,     // weak interaction
     'Water': 1.0    // self
   },
-  'Earth': {
-    'Fire': 0.5,    // moderate interaction
-    'Water': 0.7,   // strengthens
-    'Air': -0.6,    // opposing
-    'Earth': 1.0    // self
-  },
-  'Air': {
-    'Fire': 0.8,    // strengthens
-    'Water': 0.3,   // weak interaction
-    'Earth': -0.6,  // opposing
-    'Air': 1.0      // self
-  }
   // ... similar patterns for other elements
 };
 
@@ -116,24 +104,6 @@ export const elementalFunctions = {
     ) as Element[];
   }
 };
-
-export const ELEMENT_COMBINATIONS = {
-  harmonious: [
-    ['Fire', 'Air'],
-    ['Water', 'Earth']
-  ],
-  antagonistic: [
-    ['Fire', 'Water'],
-    ['Air', 'Earth']
-  ]
-} as const;
-
-export const ELEMENT_AFFINITIES = {
-  Fire: ['Air'],
-  Water: ['Earth'],
-  Air: ['Fire'],
-  Earth: ['Water']
-} as const;
 
 export default {
   elements,

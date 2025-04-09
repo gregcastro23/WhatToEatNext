@@ -20,9 +20,6 @@ export default function Navigation() {
             <Link href="/ingredients" className="text-gray-600 hover:text-gray-900">
               Ingredients
             </Link>
-            <Link href="/alchm-kitchen" className="text-purple-600 hover:text-purple-900 font-medium">
-              Alchm Kitchen
-            </Link>
           </div>
         </div>
       </div>

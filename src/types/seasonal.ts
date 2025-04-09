@@ -1,5 +1,3 @@
-import { ElementalProperties } from './alchemy';
-
 export type Season = 'spring' | 'summer' | 'fall' | 'winter';
 
 export interface SeasonalPhase {
@@ -7,6 +5,6 @@ export interface SeasonalPhase {
   start: Date;
   peak: Date;
   end: Date;
-  primaryElement: keyof ElementalProperties;
-  secondaryElement: keyof ElementalProperties;
+  primaryElement: keyof ElementalBalance;
+  secondaryElement: keyof ElementalBalance;
 }

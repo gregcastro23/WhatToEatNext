@@ -1,9 +1,0 @@
-"scripts": {
-  "dev": "next dev",
-  "build": "next build",
-  "start": "next start",
-  "lint": "next lint",
-  "test": "jest",
-  "clean": "rm -rf .next && rm -rf node_modules && yarn cache clean",
-  "reinstall": "yarn clean && yarn install"
-} 

@@ -1,27 +1,23 @@
-import type { CookingMethodModifier, Element } from '@/types/alchemy';
+import type { CookingMethodModifier } from '@/types/alchemy';
 
 export const cookingMethodModifiers: CookingMethodModifier[] = [
   {
-    element: 'Water',
-    intensity: 0.9,
-    effect: 'enhance',
-    applicableTo: ['vegetables', 'grains', 'legumes'],
-    duration: {
-      min: 5,
-      max: 30
-    },
-    notes: 'Boiling increases water element, good for softening foods'
+    name: "Boiling",
+    elementalModifiers: {
+      water: 1.0,
+      fire: 0.5,
+      earth: 0.0,
+      air: 0.2
+    }
   },
   {
-    element: 'Fire',
-    intensity: 0.8,
-    effect: 'enhance',
-    applicableTo: ['meats', 'vegetables', 'seafood'],
-    duration: {
-      min: 3,
-      max: 15
-    },
-    notes: 'Grilling adds fire element, creating char and smoke flavors'
+    name: "Grilling",
+    elementalModifiers: {
+      fire: 1.0,
+      air: 0.5,
+      earth: 0.2,
+      water: 0.0
+    }
   },
   // Add other cooking methods as needed
 ]; 

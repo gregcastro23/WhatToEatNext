@@ -1,4 +1,3 @@
-import { culinaryTraditions } from '@/data/cuisines/culinaryTraditions';
 import type { 
   ElementalProperties, 
   LunarPhase, 
@@ -6,104 +5,21 @@ import type {
   AstrologicalState,
   AlchemicalCalculationResult,
   ElementalAffinity,
-  _AstrologicalInfluence,
-  Season,
-  Element,
-  RecipeHarmonyResult,
-  LunarPhaseWithSpaces,
-  StandardizedAlchemicalResult
+  AstrologicalInfluence
 } from '@/types/alchemy';
-import { seasonalPatterns } from '@/data/integrations/seasonalPatterns';
-import { recipeElementalMappings } from '@/data/recipes/elementalMappings';
-import { PLANETARY_MODIFIERS, RulingPlanet } from '@/constants/planets';
-import { getZodiacElementalInfluence } from '@/utils/zodiacUtils';
-import { recipeCalculations } from '@/utils/recipeCalculations';
-
-/**
- * A utility function for logging debug information
- * This is a safe replacement for console.log that can be disabled in production
- */
-const debugLog = (message: string, ...args: unknown[]): void => {
-  // Comment out console.log to avoid linting warnings
-  // console.log(message, ...args);
-};
-
-// Define interfaces
-interface NaturalInfluenceParams {
-  season: string;
-  moonPhase: LunarPhaseWithSpaces;
-  timeOfDay: string;
-  sunSign: ZodiacSign;
-  degreesInSign: number;
-}
 
 interface Decan {
-  ruler: RulingPlanet;
-  element: keyof ElementalProperties;
-  degree: number;
+    ruler: string;
+    element: keyof ElementalProperties;
+    degree: number;
 }
 
-interface PlanetaryInfluence {
-  planet: string;
-  sign: ZodiacSign;
-  element: Element;
-  strength: number;
-}
-
-// Interface for birth information passed to alchemize
-interface BirthInfo {
-  hour: number;
-  [key: string]: unknown;
-}
-
-// Interface for horoscope data passed to alchemize
-interface HoroscopeData {
-  tropical: {
-    CelestialBodies: Record<string, unknown>;
-    Ascendant: Record<string, unknown>;
-    Aspects: Record<string, unknown>;
-    [key: string]: unknown;
-  };
-  [key: string]: unknown;
-}
-
-// Interface for celestial body objects
-interface CelestialBody {
-  label?: string;
-  Sign?: {
-    label?: string;
-  };
-  [key: string]: unknown;
-}
-
-// Use StandardizedAlchemicalResult instead of redefining
-export type AlchemicalResult = StandardizedAlchemicalResult;
-
-// Define the default elemental properties when none are provided
-const DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {
-  Fire: 0.25,
-  Water: 0.25,
-  Earth: 0.25,
-  Air: 0.25
-};
-
-/**
- * AlchemicalEngineAdvanced class handles calculations related to
- * astrological and elemental influences.
- */
-export class AlchemicalEngineAdvanced {
+export class AlchemicalEngine {
   private readonly elementalAffinities: Record<string, string[]> = {
     Fire: ['Air'],
     Air: ['Water'],
     Water: ['Earth'],
     Earth: ['Fire']
-  };
-
-  private readonly elementalStrengths: Record<string, number> = {
-    Fire: 1,
-    Air: 1,
-    Water: 1,
-    Earth: 1
   };
 
   private readonly zodiacElements: Record<ZodiacSign, keyof ElementalProperties> = {
@@ -122,21 +38,20 @@ export class AlchemicalEngineAdvanced {
   };
 
   private readonly lunarPhaseModifiers: Record<LunarPhase, ElementalProperties> = {
-    'new moon': { Fire: 0.1, Water: 0.4, Air: 0.3, Earth: 0.2 },
-    'waxing crescent': { Fire: 0.2, Water: 0.3, Air: 0.3, Earth: 0.2 },
-    'first quarter': { Fire: 0.3, Water: 0.2, Air: 0.3, Earth: 0.2 },
-    'waxing gibbous': { Fire: 0.4, Water: 0.2, Air: 0.3, Earth: 0.1 },
-    'full moon': { Fire: 0.4, Water: 0.1, Air: 0.4, Earth: 0.1 },
-    'waning gibbous': { Fire: 0.3, Water: 0.2, Air: 0.3, Earth: 0.2 },
-    'last quarter': { Fire: 0.2, Water: 0.3, Air: 0.2, Earth: 0.3 },
-    'waning crescent': { Fire: 0.1, Water: 0.4, Air: 0.2, Earth: 0.3 }
+    new_moon: { Fire: 0.1, Water: 0.4, Air: 0.3, Earth: 0.2 },
+    waxing_crescent: { Fire: 0.2, Water: 0.3, Air: 0.3, Earth: 0.2 },
+    first_quarter: { Fire: 0.3, Water: 0.2, Air: 0.3, Earth: 0.2 },
+    waxing_gibbous: { Fire: 0.4, Water: 0.1, Air: 0.3, Earth: 0.2 },
+    full_moon: { Fire: 0.4, Water: 0.1, Air: 0.4, Earth: 0.1 },
+    waning_gibbous: { Fire: 0.3, Water: 0.2, Air: 0.3, Earth: 0.2 },
+    last_quarter: { Fire: 0.2, Water: 0.3, Air: 0.2, Earth: 0.3 },
+    waning_crescent: { Fire: 0.1, Water: 0.4, Air: 0.2, Earth: 0.3 }
   };
 
   private readonly seasonalModifiers: Record<string, ElementalProperties> = {
     spring: { Fire: 0.3, Water: 0.3, Air: 0.3, Earth: 0.1 },
     summer: { Fire: 0.4, Water: 0.2, Air: 0.3, Earth: 0.1 },
     autumn: { Fire: 0.2, Water: 0.2, Air: 0.3, Earth: 0.3 },
-    fall: { Fire: 0.2, Water: 0.2, Air: 0.3, Earth: 0.3 }, // Alias for autumn to maintain backward compatibility
     winter: { Fire: 0.1, Water: 0.4, Air: 0.2, Earth: 0.3 }
   };
 
@@ -203,183 +118,171 @@ export class AlchemicalEngineAdvanced {
     ]
   };
 
-  private readonly decanModifiers = PLANETARY_MODIFIERS;
+  private readonly decanModifiers: Record<string, number> = {
+    Mars: 0.4,
+    Sun: 0.35,
+    Jupiter: 0.3,
+    Venus: 0.25,
+    Mercury: 0.2,
+    Saturn: 0.15,
+    Uranus: 0.3,
+    Neptune: 0.25,
+    Pluto: 0.2,
+    Moon: 0.35
+  };
 
-  /**
-   * Calculate the astrological match between a recipe and the current astrological state
-   */
-  calculateAstroCuisineMatch(
+  calculateElementalHarmony(
     recipeElements?: ElementalProperties,
+    userElements?: ElementalProperties,
     astrologicalState?: AstrologicalState,
-    season?: string,
-    cuisine?: string
+    season?: string
   ): AlchemicalCalculationResult {
-    const dominantElement = Object.entries(recipeElements || DEFAULT_ELEMENTAL_PROPERTIES)
-      .sort(([,a], [,b]) => b - a)[0][0];
-    
-    // Safely access the seasonalPatterns by ensuring the season is a valid key
-    const defaultSeason: Season = 'winter';
-    const normalizedSeason = season?.toLowerCase();
-    const validSeason = (normalizedSeason === 'spring' || 
-                         normalizedSeason === 'summer' || 
-                         normalizedSeason === 'autumn' || 
-                         normalizedSeason === 'winter' || 
-                         normalizedSeason === 'fall') 
-                         ? (normalizedSeason === 'fall' ? 'autumn' : normalizedSeason) as Season 
-                         : defaultSeason;
-    
-    const _seasonalData = seasonalPatterns[validSeason];
-    
-    // Function to check if string is a valid RulingPlanet
-    const isRulingPlanet = (planet: string): planet is RulingPlanet => {
-      return Object.keys(PLANETARY_MODIFIERS).includes(planet);
+    const defaultElements: ElementalProperties = {
+      Fire: 0.25,
+      Water: 0.25,
+      Air: 0.25,
+      Earth: 0.25
     };
-    
-    // Simple matching score based on astrological state only
-    const astronomicalScore = astrologicalState?.activePlanets
-      ? astrologicalState.activePlanets
-          .filter(p => isRulingPlanet(p) && PLANETARY_MODIFIERS[p] > 0)
-          .length * 10
-      : 0;
-      
-    // Aspect match score
-    const aspectScore = 0;
-    
-    // Cuisine compatibility
-    const cuisineScore = cuisine
-      ? this.getCuisineCompatibility(cuisine, astrologicalState, season)
-      : 0;
-      
-    // Calculate total score without elemental balance
-    const totalScore = astronomicalScore + aspectScore + cuisineScore;
-    
-    return {
-      score: totalScore,
-      elementalMatch: 0, // We don't calculate elemental match here
-      seasonalMatch: 0, // We don't calculate seasonal match here
-      astronomicalMatch: astronomicalScore,
-      aspectMatch: aspectScore,
-      cuisineMatch: cuisineScore,
-      dominantElement: dominantElement as keyof ElementalProperties,
-      explanation: `Total astrological compatibility score: ${totalScore}`
-    };
-  }
 
-  /**
-   * Calculate compatibility between a cuisine and the current astrological state
-   */
-  private getCuisineCompatibility(cuisine: string, astroState?: AstrologicalState, season?: string): number {
-    // Default score if no data is available
-    if (!cuisine || !culinaryTraditions[cuisine]) return 0;
-    
-    // Get the culinary tradition
-    const tradition = culinaryTraditions[cuisine];
-    
-    // Base score from the tradition's elemental properties
-    let score = 0;
-    
-    // Add points for elemental matches with active planets
-    if (astroState?.activePlanets && tradition.elementalProperties) {
-      // Get the dominant element in the cuisine
-      const dominantElement = Object.entries(tradition.elementalProperties)
-        .sort(([,a], [,b]) => b - a)[0][0] as keyof ElementalProperties;
-      
-      // Get a list of planets that favor this element
-      const favorablePlanets = Object.entries(PLANETARY_MODIFIERS)
-        .filter(([_, modifiers]) => 
-          modifiers[dominantElement] && modifiers[dominantElement] > 0
-        )
-        .map(([planet]) => planet);
-      
-      // Check for matches between favorable planets and active planets
-      const matches = astroState.activePlanets.filter(p => 
-        favorablePlanets.includes(p)
-      ).length;
-      
-      // Add points for matches
-      score += matches * 5;
-    }
-    
-    // Seasonal compatibility
-    if (season) {
-      const normalizedSeason = season.toLowerCase();
-      // If cuisine has a "preferredSeasons" property and it includes the current season
-      if (tradition.preferredSeasons && 
-          tradition.preferredSeasons.some(s => s.toLowerCase() === normalizedSeason)) {
-        score += 15;
+    const safeRecipeElements = recipeElements || { ...defaultElements };
+    const safeUserElements = userElements || { ...defaultElements };
+    const safeSeason = season || 'spring';
+
+    const astroModifiers = this.getAstrologicalModifiers(astrologicalState);
+    const seasonModifiers = this.seasonalModifiers[safeSeason.toLowerCase()] || { ...defaultElements };
+
+    let elementalHarmony = 0;
+    let astrologicalPower = 0;
+    let seasonalAlignment = 0;
+    let totalFactors = 0;
+
+    Object.entries(safeRecipeElements).forEach(([element, value]) => {
+      if (safeUserElements[element as keyof ElementalProperties] !== undefined) {
+        const userValue = safeUserElements[element as keyof ElementalProperties];
+        const astroValue = astroModifiers[element as keyof ElementalProperties] || 0.25;
+        const seasonValue = seasonModifiers[element as keyof ElementalProperties] || 0.25;
+
+        const baseHarmony = 1 - Math.abs(value - userValue);
+        const astroHarmony = baseHarmony * astroValue;
+        const seasonHarmony = baseHarmony * seasonValue;
+
+        elementalHarmony += baseHarmony;
+        astrologicalPower += astroHarmony;
+        seasonalAlignment += seasonHarmony;
+        totalFactors++;
       }
-    }
-    
-    // Normalize score to 0-100 range
-    return Math.min(score, 100);
+    });
+
+    const normalizedFactors = Math.max(totalFactors, 1);
+
+    return {
+      elementalHarmony: elementalHarmony / normalizedFactors,
+      astrologicalPower: astrologicalPower / normalizedFactors,
+      seasonalAlignment: seasonalAlignment / normalizedFactors,
+      totalScore: (elementalHarmony + astrologicalPower + seasonalAlignment) / (3 * normalizedFactors)
+    };
   }
 
-  /**
-   * Calculate astrological power based on recipe sun sign and astrological state
-   */
   calculateAstrologicalPower(
     recipeSunSign: ZodiacSign,
     astrologicalState: AstrologicalState
   ): number {
     let power = 0;
 
-    // Using properties that exist in AstrologicalState
     const recipeElement = this.zodiacElements[recipeSunSign];
-    const currentZodiacElement = this.zodiacElements[astrologicalState.currentZodiac];
-    const moonSignElement = this.zodiacElements[astrologicalState.zodiacSign];
+    const sunElement = this.zodiacElements[astrologicalState.sunSign];
+    const moonElement = this.zodiacElements[astrologicalState.moonSign];
 
-    if (recipeElement === currentZodiacElement) power += 0.4;
+    if (recipeElement === sunElement) power += 0.4;
 
-    if (this.elementalAffinities[recipeElement]?.includes(String(moonSignElement))) {
+    if (this.elementalAffinities[recipeElement]?.includes(String(moonElement))) {
       power += 0.3;
     }
 
-    // Use the lunarPhase that exists in AstrologicalState
-    if (astrologicalState.lunarPhase && this.lunarPhaseModifiers[astrologicalState.lunarPhase]) {
-      const lunarModifier = this.lunarPhaseModifiers[astrologicalState.lunarPhase];
-      power += lunarModifier[recipeElement] || 0;
-    }
+    const lunarModifier = this.lunarPhaseModifiers[astrologicalState.lunarPhase];
+    power += lunarModifier[recipeElement] || 0;
 
     return Math.min(power, 1);
   }
 
-  /**
-   * Get elemental affinity between two elements
-   */
+  private getAstrologicalModifiers(astrologicalState: AstrologicalState): ElementalProperties {
+    if (!astrologicalState) {
+        return {
+            Fire: 0.25,
+            Water: 0.25,
+            Air: 0.25,
+            Earth: 0.25
+        };
+    }
+
+    const sunElement = this.zodiacElements[astrologicalState.sunSign] || 'Fire';
+    const moonElement = this.zodiacElements[astrologicalState.moonSign] || 'Water';
+    const lunarModifiers = this.lunarPhaseModifiers[astrologicalState.lunarPhase] || {
+        Fire: 0.25,
+        Water: 0.25,
+        Air: 0.25,
+        Earth: 0.25
+    };
+
+    const baseModifiers: ElementalProperties = {
+      Fire: 0.25,
+      Water: 0.25,
+      Air: 0.25,
+      Earth: 0.25
+    };
+
+    baseModifiers[sunElement] += 0.2;
+    baseModifiers[moonElement] += 0.1;
+
+    Object.entries(lunarModifiers).forEach(([element, value]) => {
+      baseModifiers[element as keyof ElementalProperties] *= value;
+    });
+
+    const total = Object.values(baseModifiers).reduce((sum, val) => sum + val, 0);
+    Object.keys(baseModifiers).forEach(element => {
+      baseModifiers[element as keyof ElementalProperties] /= total;
+    });
+
+    return baseModifiers;
+  }
+
   getElementalAffinity(element1: keyof ElementalProperties, element2: keyof ElementalProperties): ElementalAffinity {
     return {
-      base: element2 as string,
-      element: element2 as Element,
+      element: element2,
       strength: element1 === element2 ? 1 : 
-                this.elementalAffinities[element1]?.includes(String(element2)) ? 0.5 : 0,
-      source: 'element-compatibility'
+                this.elementalAffinities[element1]?.includes(element2) ? 0.5 : 0
     };
   }
 
-  /**
-   * Get astrological influence for an element based on astrological state and season
-   */
   getAstrologicalInfluence(
     element: keyof ElementalProperties,
     astrologicalState: AstrologicalState,
     season: string
-  ): PlanetaryInfluence {
+  ): AstrologicalInfluence {
     return {
-      planet: 'Sun', // Default to Sun as primary influence
-      sign: astrologicalState.currentZodiac,
-      element: element as Element,
-      strength: this.seasonalModifiers[season]?.[element] || 0.5
+      zodiacElement: this.zodiacElements[astrologicalState.sunSign],
+      lunarModifier: this.lunarPhaseModifiers[astrologicalState.lunarPhase][element],
+      seasonalModifier: this.seasonalModifiers[season][element]
     };
   }
 
-  /**
-   * Calculate natural influences based on season, moon phase, and other parameters
-   */
-  calculateNaturalInfluences(params: NaturalInfluenceParams): ElementalProperties {
-    const result = this.getBaseNaturalInfluences(params.season, params.moonPhase, params.timeOfDay);
+  calculateNaturalInfluences({ 
+    season, 
+    moonPhase, 
+    timeOfDay,
+    sunSign,
+    degreesInSign = 0 
+  }: { 
+    season: string; 
+    moonPhase: LunarPhase; 
+    timeOfDay: string;
+    sunSign?: ZodiacSign;
+    degreesInSign?: number;
+  }): ElementalProperties {
+    const result = this.getBaseNaturalInfluences(season, moonPhase, timeOfDay);
 
-    if (params.sunSign) {
-      const currentDecan = this.getCurrentDecan(params.sunSign, params.degreesInSign);
+    if (sunSign) {
+      const currentDecan = this.getCurrentDecan(sunSign, degreesInSign);
       if (currentDecan) {
         const decanInfluence = this.decanModifiers[currentDecan.ruler];
         result[currentDecan.element] *= (1 + decanInfluence);
@@ -394,9 +297,6 @@ export class AlchemicalEngineAdvanced {
     return result;
   }
 
-  /**
-   * Get the current decan based on zodiac sign and degrees
-   */
   private getCurrentDecan(sign: ZodiacSign, degrees: number): Decan | null {
     const signDecans = this.decans[sign];
     if (!signDecans) return null;
@@ -407,12 +307,9 @@ export class AlchemicalEngineAdvanced {
     }) || null;
   }
 
-  /**
-   * Get base natural influences based on season, moon phase, and time of day
-   */
   private getBaseNaturalInfluences(
     season: string,
-    moonPhase: LunarPhaseWithSpaces,
+    moonPhase: LunarPhase,
     timeOfDay: string
   ): ElementalProperties {
     const seasonBase = this.seasonalModifiers[season.toLowerCase()];
@@ -451,421 +348,4 @@ export class AlchemicalEngineAdvanced {
 
     return result;
   }
-
-  /**
-   * Calculate recipe harmony based on recipe name, user elements, and astrological state
-   */
-  calculateRecipeHarmony(
-    recipeName: string,
-    userElements: ElementalProperties,
-    astroState: AstrologicalState
-  ): RecipeHarmonyResult {
-    const recipe = recipeElementalMappings[recipeName];
-    
-    // For now we'll just pass a default season until we fix the calculateAstroCuisineMatch method
-    const currentSeason: Season = 'winter'; // Default to winter
-    
-    // Extract cuisine name based on the type of recipe.cuisine
-    const cuisineName = typeof recipe.cuisine === 'string' 
-      ? recipe.cuisine 
-      : (typeof recipe.cuisine === 'object' && recipe.cuisine ? Object.keys(culinaryTraditions).find(key => culinaryTraditions[key] === recipe.cuisine) || '' : '');
-    
-    const baseHarmony = this.calculateAstroCuisineMatch(
-      recipe.elementalProperties,
-      astroState,
-      currentSeason,
-      cuisineName
-    );
-
-    const cuisineAlignment = recipeCalculations.calculateCuisineAlignment(recipe);
-    
-    // Since AstrologicalState doesn't have an 'aspects' property, we'll use a fallback
-    const aspectBonus = recipe.astrologicalProfile && recipe.astrologicalProfile.optimalAspects ? 
-      recipe.astrologicalProfile.optimalAspects.length * 0.05 : 0; // Use a small constant multiplier
-
-    return {
-      ...baseHarmony,
-      recipeSpecificBoost: cuisineAlignment + aspectBonus,
-      optimalTimingWindows: recipe.astrologicalProfile?.optimalAspects?.map(a => `Optimal with ${a}`) || [],
-      elementalMultipliers: {} // Return an empty object for now
-    };
-  }
-
-  /**
-   * Calculate astrological influence based on astrological state
-   */
-  private calculateAstrologicalInfluence(
-    astrologicalState: AstrologicalState
-  ): ElementalProperties {
-    // Updated to use correct properties from AstrologicalState
-    const sunInfluence = getZodiacElementalInfluence(astrologicalState.currentZodiac);
-    const moonInfluence = getZodiacElementalInfluence(astrologicalState.zodiacSign);
-    
-    return {
-      Fire: (sunInfluence.Fire + moonInfluence.Fire) / 2,
-      Water: (sunInfluence.Water + moonInfluence.Water) / 2,
-      Earth: (sunInfluence.Earth + moonInfluence.Earth) / 2,
-      Air: (sunInfluence.Air + moonInfluence.Air) / 2
-    };
-  }
-
-  /**
-   * Get astrological modifiers based on astrological state
-   */
-  private getAstrologicalModifiers(astrologicalState: AstrologicalState): ElementalProperties {
-    if (!astrologicalState) {
-        return {
-            Fire: 0.25,
-            Water: 0.25,
-            Air: 0.25,
-            Earth: 0.25
-        };
-    }
-
-    const currentZodiacElement = this.zodiacElements[astrologicalState.currentZodiac] || 'Fire';
-    const moonSignElement = this.zodiacElements[astrologicalState.zodiacSign] || 'Water';
-    const lunarModifiers = this.lunarPhaseModifiers[astrologicalState.lunarPhase] || {
-        Fire: 0.25,
-        Water: 0.25,
-        Air: 0.25,
-        Earth: 0.25
-    };
-
-    const baseModifiers: ElementalProperties = {
-      Fire: 0.25,
-      Water: 0.25,
-      Air: 0.25,
-      Earth: 0.25
-    };
-
-    baseModifiers[currentZodiacElement] += 0.2;
-    baseModifiers[moonSignElement] += 0.1;
-
-    Object.entries(lunarModifiers).forEach(([element, value]) => {
-      baseModifiers[element as keyof ElementalProperties] *= value;
-    });
-
-    const total = Object.values(baseModifiers).reduce((sum, val) => sum + val, 0);
-    Object.keys(baseModifiers).forEach(element => {
-      baseModifiers[element as keyof ElementalProperties] /= total;
-    });
-
-    return baseModifiers;
-  }
-
-  /**
-   * Calculate dominant harmony between dominant element and user elements
-   */
-  private calculateDominantHarmony(dominantElement: string, userElements: ElementalProperties): number {
-    // Focus only on the dominant element match
-    return Math.min(userElements[dominantElement as keyof ElementalProperties] * 2, 1); // Aggressive scaling
-  }
-
-  /**
-   * Create an empty elemental properties object with zeros for each element
-   */
-  createElementObject(): ElementalProperties {
-    return { Fire: 0, Water: 0, Air: 0, Earth: 0 };
-  }
-
-  /**
-   * Combine two elemental property objects
-   * @param elementObject1 First elemental property object
-   * @param elementObject2 Second elemental property object
-   * @returns Combined elemental property object
-   */
-  combineElementObjects(elementObject1: ElementalProperties, elementObject2: ElementalProperties): ElementalProperties {
-    return {
-      Fire: elementObject1.Fire + elementObject2.Fire,
-      Water: elementObject1.Water + elementObject2.Water,
-      Air: elementObject1.Air + elementObject2.Air,
-      Earth: elementObject1.Earth + elementObject2.Earth
-    };
-  }
-
-  /**
-   * Get the relative ranking of elements in an elemental property object
-   * @param elementObject Elemental property object
-   * @returns Object with ranks as keys and element names as values
-   */
-  getElementRanking(elementObject: Record<string, number>): Record<number, string> {
-    const sortedElements = Object.entries(elementObject)
-      .sort(([_, valueA], [__, valueB]) => valueB - valueA);
-    
-    return sortedElements.reduce((acc, [element], index) => {
-      acc[index + 1] = element;
-      return acc;
-    }, {} as Record<number, string>);
-  }
-
-  /**
-   * Get the absolute value of all elements combined
-   * @param elementObject Elemental property object
-   * @returns Sum of all element values
-   */
-  getAbsoluteElementValue(elementObject: Record<string, number>): number {
-    return Object.values(elementObject).reduce((sum, value) => sum + value, 0);
-  }
-
-  /**
-   * Capitalize the first letter of a string
-   * @param str String to capitalize
-   * @returns Capitalized string
-   */
-  capitalize(str: string): string {
-    if (!str || typeof str !== 'string') return '';
-    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-  }
-}
-
-/**
- * Main alchemize function that calculates alchemical properties based on birth info and horoscope data
- * @param birthInfo Birth information
- * @param horoscopeDict Horoscope data
- * @returns Alchemical result
- */
-export function alchemize(birthInfo: BirthInfo, horoscopeDict: HoroscopeData): AlchemicalResult {
-  try {
-    debugLog("Starting alchemize calculation with birthInfo", birthInfo);
-    
-    // Initialize results with default values
-    let elementalBalance = {
-      fire: 0,
-      earth: 0,
-      air: 0,
-      water: 0
-    };
-    
-    let spirit = 0;
-    let essence = 0;
-    let matter = 0;
-    let substance = 0;
-    
-    // Parse the horoscope data
-    const bodies = horoscopeDict?.tropical?.CelestialBodies || {};
-    
-    // Extract Sun sign and degree
-    let sunSign: ZodiacSign = 'aries'; // Default
-    let sunDegree = 0;
-    
-    if (bodies.Sun) {
-      const sun = bodies.Sun as CelestialBody;
-      if (sun.Sign?.label) {
-        sunSign = sun.Sign.label.toLowerCase() as ZodiacSign;
-      }
-      
-      if ('ChartPosition' in sun && typeof sun.ChartPosition === 'object' && 
-          'Ecliptic' in sun.ChartPosition && typeof sun.ChartPosition.Ecliptic === 'object' &&
-          'ArcDegreesInSign' in sun.ChartPosition.Ecliptic && 
-          typeof sun.ChartPosition.Ecliptic.ArcDegreesInSign === 'number') {
-        sunDegree = sun.ChartPosition.Ecliptic.ArcDegreesInSign;
-      }
-    }
-    
-    // Calculate elemental contributions from each planet
-    Object.entries(bodies).forEach(([planetName, planetData]) => {
-      const planet = planetData as CelestialBody;
-      
-      if (!planet.Sign?.label) return;
-      
-      const sign = planet.Sign.label.toLowerCase() as ZodiacSign;
-      const planetElement = getElementFromSign(sign);
-      
-      // Increase elemental balance based on the planet's sign
-      if (planetElement) {
-        elementalBalance[planetElement] += 1;
-      }
-      
-      // Add alchemical property contributions
-      switch (planetName) {
-        case 'Sun':
-          spirit += 1;
-          break;
-        case 'Moon':
-          essence += 1;
-          break;
-        case 'Mercury':
-          substance += 0.5;
-          spirit += 0.5;
-          break;
-        case 'Venus':
-          essence += 1;
-          break;
-        case 'Mars':
-          matter += 0.5;
-          essence += 0.5;
-          break;
-        case 'Jupiter':
-          spirit += 0.5;
-          essence += 0.5;
-          break;
-        case 'Saturn':
-          matter += 1;
-          break;
-        case 'Uranus':
-          substance += 1;
-          break;
-        case 'Neptune':
-          essence += 0.5;
-          substance += 0.5;
-          break;
-        case 'Pluto':
-          matter += 0.5;
-          essence += 0.5;
-          break;
-      }
-    });
-    
-    // Apply seasonal adjustments
-    const season = getSeasonFromSunSign(sunSign);
-    const seasonElement = getSeasonsPrimaryElement(season);
-    
-    // Boost the elemental balance based on the current season
-    if (seasonElement) {
-      elementalBalance[seasonElement.toLowerCase() as keyof typeof elementalBalance] += 1;
-    }
-    
-    // Calculate dominant element
-    let dominantElement = 'balanced';
-    let maxValue = 0;
-    
-    for (const [element, value] of Object.entries(elementalBalance)) {
-      if (value > maxValue) {
-        maxValue = value;
-        dominantElement = element;
-      }
-    }
-    
-    // Generate a recommendation based on the dominant element
-    const recommendation = generateRecommendation(dominantElement);
-    
-    // Convert to upper case for ElementalProperties return
-    const totalEffectValue: ElementalProperties = {
-      Fire: elementalBalance.fire,
-      Earth: elementalBalance.earth,
-      Air: elementalBalance.air,
-      Water: elementalBalance.water
-    };
-    
-    debugLog("Alchemize calculation complete", {
-      elementalBalance,
-      dominantElement,
-      spirit,
-      essence,
-      matter,
-      substance
-    });
-    
-    return {
-      spirit,
-      essence,
-      matter,
-      substance,
-      elementalBalance,
-      dominantElement,
-      recommendation,
-      'Total Effect Value': totalEffectValue
-    };
-  } catch (error) {
-    debugLog("Error in alchemize calculation", error);
-    
-    // Return default values in case of error
-    return {
-      spirit: 1,
-      essence: 1,
-      matter: 1, 
-      substance: 1,
-      elementalBalance: {
-        fire: 1,
-        earth: 1,
-        air: 1,
-        water: 1
-      },
-      dominantElement: 'balanced',
-      recommendation: "A balanced diet incorporating elements from all food groups.",
-      'Total Effect Value': {
-        Fire: 1,
-        Earth: 1,
-        Air: 1,
-        Water: 1
-      }
-    };
-  }
-}
-
-/**
- * Get the season from a zodiac sign
- * @param sunSign Zodiac sign
- * @returns Season
- */
-function getSeasonFromSunSign(sunSign: ZodiacSign): Season {
-  const springSigns = ['aries', 'taurus', 'gemini'];
-  const summerSigns = ['cancer', 'leo', 'virgo'];
-  const autumnSigns = ['libra', 'scorpio', 'sagittarius'];
-  const winterSigns = ['capricorn', 'aquarius', 'pisces'];
-  
-  if (springSigns.includes(sunSign)) return 'spring';
-  if (summerSigns.includes(sunSign)) return 'summer';
-  if (autumnSigns.includes(sunSign)) return 'autumn';
-  return 'winter';
-}
-
-/**
- * Generate food recommendations based on elemental balance
- * @param dominantElement Dominant element
- * @returns Recommendation string
- */
-function generateRecommendation(dominantElement: string): string {
-  switch (dominantElement) {
-    case 'fire':
-      return "Foods that cool and ground: fresh vegetables, fruits, and cooling herbs like mint.";
-    case 'earth':
-      return "Foods that lighten and elevate: grains, legumes, and aromatic herbs.";
-    case 'air':
-      return "Foods that nourish and stabilize: root vegetables, proteins, and warming spices.";
-    case 'water':
-      return "Foods that invigorate and enliven: spicy dishes, stimulating herbs, and bright flavors.";
-    default:
-      return "A balanced diet incorporating elements from all food groups.";
-  }
-}
-
-/**
- * Get the primary element associated with a season
- * @param season Season
- * @returns Element
- */
-function getSeasonsPrimaryElement(season: string): keyof ElementalProperties {
-  switch (season.toLowerCase()) {
-    case 'spring': return 'Air';
-    case 'summer': return 'Fire';
-    case 'autumn': 
-    case 'fall': return 'Earth';
-    case 'winter': return 'Water';
-    default: return 'Water';
-  }
-}
-
-/**
- * Get element from zodiac sign
- * @param sign Zodiac sign
- * @returns Element
- */
-function getElementFromSign(sign: string): string | null {
-  const fireigns = ['aries', 'leo', 'sagittarius'];
-  const earthSigns = ['taurus', 'virgo', 'capricorn'];
-  const airSigns = ['gemini', 'libra', 'aquarius'];
-  const waterSigns = ['cancer', 'scorpio', 'pisces'];
-  
-  sign = sign.toLowerCase();
-  
-  if (fireigns.includes(sign)) return 'fire';
-  if (earthSigns.includes(sign)) return 'earth';
-  if (airSigns.includes(sign)) return 'air';
-  if (waterSigns.includes(sign)) return 'water';
-  
-  return null;
-}
-
-// Default export that includes both the class and the alchemize function
-export default { alchemize }; 
+} 

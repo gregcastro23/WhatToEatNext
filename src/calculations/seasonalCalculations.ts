@@ -1,151 +1,103 @@
-import type { ElementalProperties, Recipe, Season, ZodiacSign } from '@/types/alchemy';
-import { SEASONAL_MODIFIERS, SeasonalModifiers } from '@/constants/seasonalModifiers';
-import { getZodiacSignForDate } from '@/data/zodiacSeasons';
+import type { ElementalProperties } from '@/types/alchemy';
 
-export interface SeasonalEffectiveness {
-    score: number;
-    rating: string;
-    breakdown: {
-        elementalAlignment: number;
-        ingredientSuitability: number;
-        seasonalBonus: number;
-    };
-    elementalBreakdown?: Record<string, number>;
-}
-
-/**
- * Calculates how effective a recipe is for a given season or zodiac sign
- */
-export function calculateSeasonalEffectiveness(recipe: Recipe, season: string): SeasonalEffectiveness {
-    let totalScore = 0;
-    const breakdown = {
-        elementalAlignment: 0,
-        ingredientSuitability: 0,
-        seasonalBonus: 0
-    };
-
-    // Normalize season to lowercase for consistent lookup
-    const seasonLower = season.toLowerCase();
-
-    // 1. Calculate Elemental Alignment (50% of total)
-    const elementalScore = Object.entries(recipe.elementalProperties || {}).reduce((score, [element, value]) => {
-        // Get modifier from SEASONAL_MODIFIERS using lowercase season
-        // Using proper type access with fallback
-        const seasonModifiers = SEASONAL_MODIFIERS[seasonLower] || {};
-        const seasonalModifier = seasonModifiers[element as keyof ElementalProperties] || 0.25;
-        return score + (value * seasonalModifier);
-    }, 0);
-    breakdown.elementalAlignment = elementalScore * 50;
-    totalScore += breakdown.elementalAlignment;
-
-    // 2. Calculate Ingredient Seasonality (30% of total)
-    if (recipe.ingredients?.length) {
-        // Count ingredients that have this season in their seasonality array
-        let seasonalCount = 0;
-        for (const ingredient of recipe.ingredients) {
-            if (Array.isArray(ingredient.seasonality)) {
-                const lowerSeasons = ingredient.seasonality.map((s: string) => 
-                    s.toLowerCase());
-                if (lowerSeasons.includes(seasonLower) || lowerSeasons.includes('all')) {
-                    seasonalCount++;
-                }
-            }
-        }
-        
-        const ingredientScore = (seasonalCount / recipe.ingredients.length) * 30;
-        breakdown.ingredientSuitability = ingredientScore;
-        totalScore += ingredientScore;
+// Adjusted seasonal modifiers for better balance
+const seasonalModifiers: Record<string, ElementalProperties> = {
+    winter: { 
+        Fire: 0.25,   // Internal warmth
+        Water: 0.35,  // Winter moisture
+        Earth: 0.25,  // Grounding
+        Air: 0.15     // Winter air
+    },
+    spring: { 
+        Fire: 0.25, 
+        Water: 0.25, 
+        Air: 0.30,    
+        Earth: 0.20 
+    },
+    summer: { 
+        Fire: 0.35, 
+        Water: 0.20, 
+        Air: 0.25, 
+        Earth: 0.20 
+    },
+    autumn: { 
+        Fire: 0.25, 
+        Water: 0.25, 
+        Air: 0.25, 
+        Earth: 0.25 
     }
+};
 
-    // 3. Calculate Direct Season Match (20% of total)
-    if (recipe.season) {
-        const recipeSeasons = Array.isArray(recipe.season) ? recipe.season : [recipe.season];
-        const recipeSeasonLower = recipeSeasons.map((s: string) => s.toLowerCase());
-            
-        if (recipeSeasonLower.includes(seasonLower)) {
-            breakdown.seasonalBonus = 20;
-            totalScore += 20;
-        }
+// Adjusted time modifiers
+const timeModifiers: Record<string, ElementalProperties> = {
+    morning: {
+        Fire: 0.30,
+        Water: 0.25,
+        Earth: 0.20,
+        Air: 0.25
+    },
+    afternoon: {
+        Fire: 0.35,
+        Water: 0.20,
+        Earth: 0.20,
+        Air: 0.25
+    },
+    evening: {
+        Fire: 0.25,
+        Water: 0.30,
+        Earth: 0.25,
+        Air: 0.20
+    },
+    night: {
+        Fire: 0.20,
+        Water: 0.30,
+        Earth: 0.30,
+        Air: 0.20
     }
+};
 
-    // Normalize score to 0-100 range
-    const normalizedScore = Math.round(Math.max(0, Math.min(100, totalScore)));
-
-    // Determine rating based on score
-    let rating = 'Poor';
-    if (normalizedScore >= 80) rating = 'Excellent';
-    else if (normalizedScore >= 60) rating = 'Good';
-    else if (normalizedScore >= 40) rating = 'Average';
-    else if (normalizedScore >= 20) rating = 'Below Average';
-    
-    return {
-        score: normalizedScore,
-        rating,
-        breakdown
-    };
-}
-
-export function calculateSeasonalElements(
+export const calculateSeasonalElements = (
     baseElements: ElementalProperties,
-    season: string
-): ElementalProperties {
-    const normalizedSeason = season.toLowerCase();
-    const modifier = SEASONAL_MODIFIERS[normalizedSeason] || {};
+    season: string = 'winter',
+    timeOfDay: string = 'night'
+): ElementalProperties => {
+    const safeSeason = season.toLowerCase();
+    const safeTime = timeOfDay.toLowerCase();
+
+    const seasonMod = seasonalModifiers[safeSeason] || seasonalModifiers.winter;
+    const timeMod = timeModifiers[safeTime] || timeModifiers.night;
+
+    // Combine modifiers and ensure minimum values
+    const combined = {
+        Fire: Math.max(0.15, (seasonMod.Fire * 0.6 + timeMod.Fire * 0.4)),
+        Water: Math.max(0.15, (seasonMod.Water * 0.6 + timeMod.Water * 0.4)),
+        Earth: Math.max(0.15, (seasonMod.Earth * 0.6 + timeMod.Earth * 0.4)),
+        Air: Math.max(0.15, (seasonMod.Air * 0.6 + timeMod.Air * 0.4))
+    };
+
+    // Normalize to ensure sum is 1.0
+    return normalizeElements(combined);
+};
+
+// Improved normalization function
+const normalizeElements = (elements: ElementalProperties): ElementalProperties => {
+    const total = Object.values(elements).reduce((sum, val) => sum + val, 0);
     
-    return Object.fromEntries(
-        Object.entries(baseElements).map(([element, value]) => {
-            const adjusted = value + (modifier[element as keyof ElementalProperties] || 0);
-            return [element, Math.max(0, Math.min(1, adjusted))];
-        })
-    ) as ElementalProperties;
-}
+    if (total === 0) return elements;
 
-export function calculateSeasonalScores(
-  recipeElements: ElementalProperties,
-  zodiacSign?: string
-): {
-  seasonalScore: number;
-  astrologicalInfluence: number;
-} {
-  // Get current zodiac sign if none provided
-  const currentZodiac = zodiacSign?.toLowerCase() || getCurrentZodiacSeason().toLowerCase();
-  
-  // Use the zodiac sign directly with our new SEASONAL_MODIFIERS
-  const seasonMultiplier = 1.2; // Fixed multiplier
-  
-  // Calculate seasonal alignment - direct check with current zodiac
-  const isAlignedWithSeason = currentZodiac === zodiacSign?.toLowerCase();
-  
-  const seasonalScore = isAlignedWithSeason ? 80 : 50;
-  const astrologicalInfluence = isAlignedWithSeason ? 1.2 : 1.0;
-  
-  return {
-    seasonalScore,
-    astrologicalInfluence
-  };
-}
+    const normalized = {
+        Fire: Number((elements.Fire / total).toFixed(2)),
+        Water: Number((elements.Water / total).toFixed(2)),
+        Earth: Number((elements.Earth / total).toFixed(2)),
+        Air: Number((elements.Air / total).toFixed(2))
+    };
 
-// Helper function to get current season as a zodiac sign
-function getCurrentZodiacSeason(): ZodiacSign {
-  return getZodiacSignForDate(new Date());
-}
+    // Ensure no zeros and maintain proportions
+    Object.keys(normalized).forEach(key => {
+        if (normalized[key as keyof ElementalProperties] < 0.15) {
+            normalized[key as keyof ElementalProperties] = 0.15;
+        }
+    });
 
-// For backward compatibility
-function getCurrentSeason(): Season {
-  const zodiacSign = getCurrentZodiacSeason();
-  // Map zodiac sign to a season
-  if (['aries', 'taurus', 'gemini'].includes(zodiacSign)) {
-    return 'spring';
-  } else if (['cancer', 'leo', 'virgo'].includes(zodiacSign)) {
-    return 'summer';
-  } else if (['libra', 'scorpio', 'sagittarius'].includes(zodiacSign)) {
-    return 'autumn';
-  } else {
-    return 'winter';
-  }
-}
-
-export default {
-    calculateSeasonalEffectiveness,
-    SEASONAL_MODIFIERS
+    return normalized;
 };

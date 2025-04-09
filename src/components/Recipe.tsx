@@ -19,17 +19,19 @@ const RecipeComponent: FC<RecipeProps> = ({
   return (
     <article className="recipe">
       <header>
-        <h2 className="recipe-title">{recipe.name}</h2>
+        <h2 className="recipe-title">{recipe.title}</h2>
         {recipe.description && (
           <p className="recipe-description">{recipe.description}</p>
         )}
       </header>
 
       <div className="recipe-meta">
-        {recipe.timeToMake && <span>Time: {recipe.timeToMake}</span>}
-        {recipe.numberOfServings && (
-          <span>Servings: {Math.round(recipe.numberOfServings * servingsMultiplier)}</span>
+        {recipe.prepTime && <span>Prep: {recipe.prepTime}</span>}
+        {recipe.cookTime && <span>Cook: {recipe.cookTime}</span>}
+        {recipe.servings && (
+          <span>Servings: {Math.round(recipe.servings * servingsMultiplier)}</span>
         )}
+        {recipe.difficulty && <span>Difficulty: {recipe.difficulty}</span>}
       </div>
 
       <section className="recipe-ingredients">
@@ -37,7 +39,7 @@ const RecipeComponent: FC<RecipeProps> = ({
         <ul>
           {recipe.ingredients.map((ingredient) => (
             <li 
-              key={ingredient.id || ingredient.name}
+              key={ingredient.id}
               onClick={() => onIngredientClick?.(ingredient)}
               className="ingredient-item"
             >
@@ -67,7 +69,7 @@ const RecipeComponent: FC<RecipeProps> = ({
 
       {recipe.tags && recipe.tags.length > 0 && (
         <footer className="recipe-tags">
-          {recipe.tags.map((tag: string) => (
+          {recipe.tags.map((tag) => (
             <span key={tag} className="tag">
               {tag}
             </span>

@@ -1,22 +1,8 @@
 import type { IngredientMapping } from '@/types/alchemy';
-import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-const rawCruciferous: Record<string, Partial<IngredientMapping>> = {
+export const cruciferous: Record<string, IngredientMapping> = {
   'cauliflower': {
-    name: 'Cauliflower',
     elementalProperties: { Air: 0.4, Earth: 0.3, Water: 0.2, Fire: 0.1 },
-    astrologicalProfile: {
-      rulingPlanets: ['Mercury', 'Saturn'],
-      favorableZodiac: ['virgo', 'capricorn'],
-      elementalAffinity: {
-        base: 'Air',
-        decanModifiers: {
-          first: { element: 'Air', planet: 'Mercury' },
-          second: { element: 'Earth', planet: 'Saturn' },
-          third: { element: 'Water', planet: 'Moon' }
-        }
-      }
-    },
     qualities: ['cooling', 'drying', 'light'],
     season: ['fall', 'winter'],
     category: 'vegetable',
@@ -47,7 +33,6 @@ const rawCruciferous: Record<string, Partial<IngredientMapping>> = {
   },
 
   'broccoli': {
-    name: 'Broccoli',
     elementalProperties: { Air: 0.3, Earth: 0.3, Water: 0.2, Fire: 0.2 },
     qualities: ['strengthening', 'cleansing'],
     season: ['fall', 'winter', 'spring'],
@@ -67,7 +52,7 @@ const rawCruciferous: Record<string, Partial<IngredientMapping>> = {
     preparation: {
       washing: true,
       cutting: 'uniform florets, peel stems',
-      notes: 'Do not discard stems - they are sweet and tender when peeled'
+      notes: 'Don't discard stems - they're sweet and tender when peeled'
     },
     storage: {
       temperature: 'refrigerated',
@@ -78,7 +63,6 @@ const rawCruciferous: Record<string, Partial<IngredientMapping>> = {
   },
 
   'brussels sprouts': {
-    name: 'Brussels sprouts',
     elementalProperties: { Earth: 0.4, Air: 0.3, Fire: 0.2, Water: 0.1 },
     qualities: ['warming', 'strengthening'],
     season: ['fall', 'winter'],
@@ -108,6 +92,3 @@ const rawCruciferous: Record<string, Partial<IngredientMapping>> = {
     }
   }
 };
-
-// Fix the ingredient mappings to ensure they have all required properties
-export const cruciferous: Record<string, IngredientMapping> = fixIngredientMappings(rawCruciferous);

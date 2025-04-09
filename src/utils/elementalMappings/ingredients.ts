@@ -1,106 +1,46 @@
-import { 
-  ElementalProperties, 
-  ZodiacSign, 
-  Element,
-  Season,
-  IngredientMapping
-} from '@/types/alchemy';
+import type { IngredientMappings } from '@/types/ingredients';
 
-// Helper function to standardize ingredient mappings
-function createIngredientMapping(
-  id: string,
-  properties: Partial<IngredientMapping>
-): IngredientMapping {
-  return {
-    name: id, // Add the required name property
-    elementalProperties: properties.elementalProperties || { 
-      Earth: 0.25, 
-      Water: 0.25, 
-      Fire: 0.25, 
-      Air: 0.25 
-    },
-    ...properties
-  };
-}
-
-export const ingredientMappings: Record<string, IngredientMapping> = {
+export const ingredientMappings: IngredientMappings = {
   // Aromatics
-  ginger: createIngredientMapping('ginger', {
+  ginger: {
     elementalProperties: {
       Fire: 0.7,
       Earth: 0.2,
       Air: 0.1,
       Water: 0
     },
-    astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Sun'],
-      favorableZodiac: ['aries', 'leo', 'sagittarius'], // Convert to lowercase
-      elementalAffinity: {
-        base: 'Fire',
-        decanModifiers: {
-          first: { element: 'Fire', planet: 'Mars' },
-          second: { element: 'Air', planet: 'Sun' },
-          third: { element: 'Earth', planet: 'Saturn' }
-        }
-      }
-    },
     season: ['all']
-  }),
-  
-  garlic: createIngredientMapping('garlic', {
+  },
+  garlic: {
     elementalProperties: {
       Fire: 0.6,
       Earth: 0.3,
       Air: 0.1,
       Water: 0
     },
-    astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Pluto'],
-      favorableZodiac: ['scorpio', 'capricorn'], // Convert to lowercase
-      elementalAffinity: {
-        base: 'Fire',
-        decanModifiers: {
-          first: { element: 'Fire', planet: 'Mars' },
-          second: { element: 'Earth', planet: 'Pluto' },
-          third: { element: 'Air', planet: 'Uranus' }
-        }
-      }
-    },
     season: ['all']
-  }),
+  },
   
   // Spices
-  cinnamon: createIngredientMapping('cinnamon', {
+  cinnamon: {
     elementalProperties: {
       Fire: 0.8,
       Air: 0.2,
       Earth: 0,
       Water: 0
     },
-    astrologicalProfile: {
-      rulingPlanets: ['Sun', 'Jupiter'],
-      favorableZodiac: ['leo', 'sagittarius'], // Convert to lowercase
-      elementalAffinity: 'Fire'
-    },
     season: ['fall', 'winter']
-  }),
-  
-  cardamom: createIngredientMapping('cardamom', {
+  },
+  cardamom: {
     elementalProperties: {
       Air: 0.6,
       Fire: 0.3,
       Earth: 0.1,
       Water: 0
     },
-    astrologicalProfile: {
-      rulingPlanets: ['Mercury', 'Venus'],
-      favorableZodiac: ['gemini', 'libra'], // Convert to lowercase
-      elementalAffinity: 'Air'
-    },
     season: ['fall', 'winter']
-  }),
-  
-  clove: createIngredientMapping('clove', { // Add name
+  },
+  clove: {
     elementalProperties: {
       Fire: 0.7,
       Air: 0.2,
@@ -108,25 +48,19 @@ export const ingredientMappings: Record<string, IngredientMapping> = {
       Water: 0
     },
     season: ['fall', 'winter']
-  }),
-  
+  },
+
   // Cooling Ingredients
-  mint: createIngredientMapping('mint', {
+  mint: {
     elementalProperties: {
       Water: 0.6,
       Air: 0.4,
       Fire: 0,
       Earth: 0
     },
-    astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Neptune'],
-      favorableZodiac: ['cancer', 'pisces'], // Convert to lowercase
-      elementalAffinity: 'Water'
-    },
     season: ['spring', 'summer']
-  }),
-  
-  cucumber: createIngredientMapping('cucumber', { // Add name
+  },
+  cucumber: {
     elementalProperties: {
       Water: 0.8,
       Air: 0.2,
@@ -134,25 +68,19 @@ export const ingredientMappings: Record<string, IngredientMapping> = {
       Earth: 0
     },
     season: ['summer']
-  }),
-  
+  },
+
   // Earthy Ingredients
-  mushroom: createIngredientMapping('mushroom', {
+  mushroom: {
     elementalProperties: {
       Earth: 0.7,
       Water: 0.3,
       Fire: 0,
       Air: 0
     },
-    astrologicalProfile: {
-      rulingPlanets: ['Saturn', 'Pluto'],
-      favorableZodiac: ['capricorn', 'scorpio'], // Convert to lowercase
-      elementalAffinity: 'Earth'
-    },
     season: ['fall', 'spring']
-  }),
-  
-  seaweed: createIngredientMapping('seaweed', { // Add name
+  },
+  seaweed: {
     elementalProperties: {
       Water: 0.6,
       Earth: 0.4,
@@ -160,10 +88,10 @@ export const ingredientMappings: Record<string, IngredientMapping> = {
       Air: 0
     },
     season: ['all']
-  }),
-  
+  },
+
   // Proteins
-  fish: createIngredientMapping('fish', { // Add name
+  fish: {
     elementalProperties: {
       Water: 0.7,
       Air: 0.2,
@@ -171,40 +99,28 @@ export const ingredientMappings: Record<string, IngredientMapping> = {
       Fire: 0
     },
     season: ['all']
-  }),
-  
-  beef: createIngredientMapping('beef', {
+  },
+  beef: {
     elementalProperties: {
       Earth: 0.5,
       Fire: 0.5,
       Water: 0,
       Air: 0
     },
-    astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Saturn'],
-      favorableZodiac: ['capricorn', 'taurus'], // Convert to lowercase
-      elementalAffinity: 'Earth'
-    },
     season: ['all']
-  }),
-  
-  chicken: createIngredientMapping('chicken', {
+  },
+  chicken: {
     elementalProperties: {
       Air: 0.4,
       Fire: 0.3,
       Earth: 0.3,
       Water: 0
     },
-    astrologicalProfile: {
-      rulingPlanets: ['Mercury', 'Venus'],
-      favorableZodiac: ['virgo', 'taurus'], // Convert to lowercase
-      elementalAffinity: 'Air'
-    },
     season: ['all']
-  }),
-  
+  },
+
   // Dairy
-  dairy: createIngredientMapping('dairy', {
+  dairy: {
     elementalProperties: {
       Water: 0.5,
       Earth: 0.5,
@@ -212,10 +128,10 @@ export const ingredientMappings: Record<string, IngredientMapping> = {
       Air: 0
     },
     season: ['all']
-  }),
+  },
 
   // Vegetables
-  'bitter greens': createIngredientMapping('bitter greens', {
+  'bitter greens': {
     elementalProperties: {
       Earth: 0.4,
       Air: 0.4,
@@ -223,9 +139,8 @@ export const ingredientMappings: Record<string, IngredientMapping> = {
       Fire: 0
     },
     season: ['spring', 'fall']
-  }),
-  
-  turmeric: createIngredientMapping('turmeric', {
+  },
+  turmeric: {
     elementalProperties: {
       Fire: 0.6,
       Earth: 0.4,
@@ -233,9 +148,8 @@ export const ingredientMappings: Record<string, IngredientMapping> = {
       Air: 0
     },
     season: ['all']
-  }),
-  
-  chili: createIngredientMapping('chili', {
+  },
+  chili: {
     elementalProperties: {
       Fire: 0.9,
       Air: 0.1,
@@ -243,9 +157,8 @@ export const ingredientMappings: Record<string, IngredientMapping> = {
       Earth: 0
     },
     season: ['summer', 'fall']
-  }),
-  
-  basil: createIngredientMapping('basil', {
+  },
+  basil: {
     elementalProperties: {
       Air: 0.5,
       Fire: 0.3,
@@ -253,19 +166,17 @@ export const ingredientMappings: Record<string, IngredientMapping> = {
       Water: 0
     },
     season: ['summer']
-  }),
-  
-  sage: createIngredientMapping('sage', {
+  },
+  sage: {
     elementalProperties: {
       Air: 0.4,
       Earth: 0.4,
       Fire: 0.2,
       Water: 0
     },
-    season: ['autumn', 'winter']
-  }),
-  
-  rosemary: createIngredientMapping('rosemary', {
+    season: ['fall', 'winter']
+  },
+  rosemary: {
     elementalProperties: {
       Fire: 0.4,
       Air: 0.3,
@@ -273,9 +184,8 @@ export const ingredientMappings: Record<string, IngredientMapping> = {
       Water: 0
     },
     season: ['all']
-  }),
-  
-  thyme: createIngredientMapping('thyme', {
+  },
+  thyme: {
     elementalProperties: {
       Air: 0.5,
       Earth: 0.3,
@@ -283,105 +193,11 @@ export const ingredientMappings: Record<string, IngredientMapping> = {
       Water: 0
     },
     season: ['all']
-  }),
-
-  // Grains
-  rice: createIngredientMapping('rice', {
-    elementalProperties: {
-      Earth: 0.6,
-      Water: 0.3,
-      Air: 0.1,
-      Fire: 0
-    },
-    astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Saturn'],
-      favorableZodiac: ['cancer', 'virgo'], // Changed to lowercase
-      elementalAffinity: 'Earth'
-    },
-    season: ['all']
-  }),
-
-  // Fruits
-  'apple': createIngredientMapping('apple', {
-    elementalProperties: {
-      Earth: 0.5,
-      Water: 0.3,
-      Air: 0.2,
-      Fire: 0
-    },
-    astrologicalProfile: {
-      rulingPlanets: ['Venus', 'Saturn'],
-      favorableZodiac: ['taurus', 'capricorn'], // Changed to lowercase
-      elementalAffinity: {
-        base: 'Earth',
-        decanModifiers: {
-          first: { element: 'Earth', planet: 'Venus' },
-          second: { element: 'Water', planet: 'Saturn' },
-          third: { element: 'Air', planet: 'Mercury' }
-        }
-      }
-    },
-    season: ['fall']
-  }),
-  
-  'banana': createIngredientMapping('banana', {
-    elementalProperties: {
-      Earth: 0.4,
-      Water: 0.3,
-      Fire: 0.2,
-      Air: 0.1
-    },
-    astrologicalProfile: {
-      rulingPlanets: ['Venus', 'Moon'],
-      favorableZodiac: ['taurus', 'cancer'], // Changed to lowercase
-      elementalAffinity: {
-        base: 'Earth',
-        decanModifiers: {
-          first: { element: 'Earth', planet: 'Venus' },
-          second: { element: 'Water', planet: 'Moon' },
-          third: { element: 'Fire', planet: 'Sun' }
-        }
-      }
-    },
-    season: ['year-round']
-  }),
-
-  // Example ingredient with lunar phase modifiers
-  'brown_rice': createIngredientMapping('brown_rice', {
-    elementalProperties: { 
-      Earth: 0.5, 
-      Water: 0.3, 
-      Air: 0.2,
-      Fire: 0 // Add missing required property
-    },
-    astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Saturn'],
-      favorableZodiac: ['cancer', 'capricorn'], // Convert to lowercase
-      elementalAffinity: {
-        base: 'Earth',
-        decanModifiers: {
-          first: { element: 'Earth', planet: 'Moon' },
-          second: { element: 'Water', planet: 'Saturn' },
-          third: { element: 'Air', planet: 'Mercury' }
-        }
-      },
-      lunarPhaseModifiers: {
-        newMoon: {
-          elementalBoost: { Earth: 0.1, Water: 0.1 },
-          preparationTips: ['Best for soaking and sprouting']
-        },
-        fullMoon: {
-          elementalBoost: { Water: 0.2 },
-          preparationTips: ['Ideal for creamy rice dishes']
-        }
-      }
-    },
-    season: ['all']
-  })
+  }
 } as const;
 
 // Helper function to get ingredients by dominant element
-export const getIngredientsByElement = (element: keyof ElementalProperties) => {
+export const getIngredientsByElement = (element: keyof typeof ingredientMappings[string]['elementalProperties']) => {
   return Object.entries(ingredientMappings)
     .filter(([_, mapping]) => {
       const elements = Object.entries(mapping.elementalProperties);
@@ -396,7 +212,7 @@ export const getIngredientsByElement = (element: keyof ElementalProperties) => {
 // Helper function to get seasonal ingredients
 export const getSeasonalIngredients = (season: string) => {
   return Object.entries(ingredientMappings)
-    .filter(([_, mapping]) => mapping.season.includes(season as Season))
+    .filter(([_, mapping]) => mapping.season.includes(season))
     .map(([name]) => name);
 };
 

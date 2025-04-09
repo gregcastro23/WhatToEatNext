@@ -70,15 +70,3 @@ export const SEASONAL_TRANSITIONS = {
     winterToSpring: { month: 2, day: 15 }  // March 15
   }
 };
-
-export const VALID_SEASONS = ['Spring', 'Summer', 'Autumn', 'Winter'] as const;
-export type Season = typeof VALID_SEASONS[number];
-
-// Date ranges for each season
-export const SEASON_DATE_RANGES = {
-  spring: { startMonth: 2, startDay: 15, endMonth: 5, endDay: 14 },   // Feb 15 - May 14
-  summer: { startMonth: 5, startDay: 15, endMonth: 8, endDay: 14 },   // May 15 - Aug 14
-  autumn: { startMonth: 8, startDay: 15, endMonth: 11, endDay: 14 },  // Aug 15 - Nov 14
-  fall: { startMonth: 8, startDay: 15, endMonth: 11, endDay: 14 },    // Alias for autumn
-  winter: { startMonth: 11, startDay: 15, endMonth: 2, endDay: 14 }   // Nov 15 - Feb 14
-};

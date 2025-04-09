@@ -1,17 +1,17 @@
 // Zodiac Signs
 export type ZodiacSign = 
-  | 'aries' 
-  | 'taurus' 
-  | 'gemini' 
-  | 'cancer' 
-  | 'leo' 
-  | 'virgo' 
-  | 'libra' 
-  | 'scorpio' 
-  | 'sagittarius' 
-  | 'capricorn' 
-  | 'aquarius' 
-  | 'pisces';
+  | 'Aries' 
+  | 'Taurus' 
+  | 'Gemini' 
+  | 'Cancer' 
+  | 'Leo' 
+  | 'Virgo' 
+  | 'Libra' 
+  | 'Scorpio' 
+  | 'Sagittarius' 
+  | 'Capricorn' 
+  | 'Aquarius' 
+  | 'Pisces';
 
 // Elemental Properties
 export type ElementalProperties = {
@@ -23,34 +23,34 @@ export type ElementalProperties = {
 
 // Zodiac Date Ranges
 export const zodiacDateRanges: Record<ZodiacSign, { startMonth: number; startDay: number; endMonth: number; endDay: number }> = {
-  aries: { startMonth: 3, startDay: 21, endMonth: 4, endDay: 19 },
-  taurus: { startMonth: 4, startDay: 20, endMonth: 5, endDay: 20 },
-  gemini: { startMonth: 5, startDay: 21, endMonth: 6, endDay: 20 },
-  cancer: { startMonth: 6, startDay: 21, endMonth: 7, endDay: 22 },
-  leo: { startMonth: 7, startDay: 23, endMonth: 8, endDay: 22 },
-  virgo: { startMonth: 8, startDay: 23, endMonth: 9, endDay: 22 },
-  libra: { startMonth: 9, startDay: 23, endMonth: 10, endDay: 22 },
-  scorpio: { startMonth: 10, startDay: 23, endMonth: 11, endDay: 21 },
-  sagittarius: { startMonth: 11, startDay: 22, endMonth: 12, endDay: 21 },
-  capricorn: { startMonth: 12, startDay: 22, endMonth: 1, endDay: 19 },
-  aquarius: { startMonth: 1, startDay: 20, endMonth: 2, endDay: 18 },
-  pisces: { startMonth: 2, startDay: 19, endMonth: 3, endDay: 20 }
+  Aries: { startMonth: 3, startDay: 21, endMonth: 4, endDay: 19 },
+  Taurus: { startMonth: 4, startDay: 20, endMonth: 5, endDay: 20 },
+  Gemini: { startMonth: 5, startDay: 21, endMonth: 6, endDay: 20 },
+  Cancer: { startMonth: 6, startDay: 21, endMonth: 7, endDay: 22 },
+  Leo: { startMonth: 7, startDay: 23, endMonth: 8, endDay: 22 },
+  Virgo: { startMonth: 8, startDay: 23, endMonth: 9, endDay: 22 },
+  Libra: { startMonth: 9, startDay: 23, endMonth: 10, endDay: 22 },
+  Scorpio: { startMonth: 10, startDay: 23, endMonth: 11, endDay: 21 },
+  Sagittarius: { startMonth: 11, startDay: 22, endMonth: 12, endDay: 21 },
+  Capricorn: { startMonth: 12, startDay: 22, endMonth: 1, endDay: 19 },
+  Aquarius: { startMonth: 1, startDay: 20, endMonth: 2, endDay: 18 },
+  Pisces: { startMonth: 2, startDay: 19, endMonth: 3, endDay: 20 }
 };
 
 // Zodiac Elements
 export const zodiacElements: Record<ZodiacSign, keyof ElementalProperties> = {
-  aries: 'Fire',
-  leo: 'Fire',
-  sagittarius: 'Fire',
-  taurus: 'Earth',
-  virgo: 'Earth',
-  capricorn: 'Earth',
-  gemini: 'Air',
-  libra: 'Air',
-  aquarius: 'Air',
-  cancer: 'Water',
-  scorpio: 'Water',
-  pisces: 'Water'
+  Aries: 'Fire',
+  Leo: 'Fire',
+  Sagittarius: 'Fire',
+  Taurus: 'Earth',
+  Virgo: 'Earth',
+  Capricorn: 'Earth',
+  Gemini: 'Air',
+  Libra: 'Air',
+  Aquarius: 'Air',
+  Cancer: 'Water',
+  Scorpio: 'Water',
+  Pisces: 'Water'
 };
 
 // Helper Functions
@@ -69,8 +69,8 @@ export const getZodiacSign = (date: Date): ZodiacSign => {
     }
   }
 
-  // Default to capricorn if no match (shouldn't happen with proper ranges)
-  return 'capricorn';
+  // Default to Capricorn if no match (shouldn't happen with proper ranges)
+  return 'Capricorn';
 };
 
 export const getElementalAffinity = (sign: ZodiacSign): keyof ElementalProperties => {
@@ -80,23 +80,28 @@ export const getElementalAffinity = (sign: ZodiacSign): keyof ElementalPropertie
 // Elemental Compatibility
 export const elementalCompatibility: Record<keyof ElementalProperties, {
   compatible: Array<keyof ElementalProperties>;
+  neutral: Array<keyof ElementalProperties>;
   incompatible: Array<keyof ElementalProperties>;
 }> = {
   Fire: {
-    compatible: ['Fire'],
-    incompatible: ['Air','Water','Earth']
+    compatible: ['Air'],
+    neutral: ['Fire'],
+    incompatible: ['Water', 'Earth']
   },
   Earth: {
-    compatible: ['Earth'],
-    incompatible: ['Fire','Air','Water']
+    compatible: ['Water'],
+    neutral: ['Earth'],
+    incompatible: ['Fire', 'Air']
   },
   Air: {
-    compatible: ['Air'],
-    incompatible: ['Earth','Water','Fire']
+    compatible: ['Fire'],
+    neutral: ['Air'],
+    incompatible: ['Earth', 'Water']
   },
   Water: {
-    compatible: ['Water'],
-    incompatible: ['Fire','Air','Earth']
+    compatible: ['Earth'],
+    neutral: ['Water'],
+    incompatible: ['Fire', 'Air']
   }
 };
 
@@ -105,66 +110,26 @@ export const elementalCharacteristics: Record<keyof ElementalProperties, {
   qualities: string[];
   keywords: string[];
   foods: string[];
-  cookingTechniques: string[];
-  flavorProfiles: string[];
-  seasonalAssociations: string[];
-  healthBenefits: string[];
-  complementaryIngredients: string[];
-  moodEffects: string[];
-  culinaryHerbs: string[];
-  timeOfDay: string[];
 }> = {
   Fire: {
-    qualities: ['Warm', 'Dry', 'Active', 'Energetic', 'Expansive'],
-    keywords: ['Energy', 'Passion', 'Transformation', 'Vitality', 'Action'],
-    foods: ['Spicy', 'Grilled', 'Roasted', 'Peppers', 'Ginger', 'Garlic'],
-    cookingTechniques: ['Grilling', 'Roasting', 'Broiling', 'Frying', 'Flambé'],
-    flavorProfiles: ['Spicy', 'Pungent', 'Bitter', 'Umami', 'Smoky'],
-    seasonalAssociations: ['Summer', 'Peak Day'],
-    healthBenefits: ['Metabolism boost', 'Circulation improvement', 'Immune strengthening'],
-    complementaryIngredients: ['Chilis', 'Garlic', 'Onions', 'Mustard seeds', 'Black pepper'],
-    moodEffects: ['Energizing', 'Stimulating', 'Uplifting', 'Motivating', 'Passionate'],
-    culinaryHerbs: ['Cayenne', 'Chili', 'Mustard', 'Cumin', 'Peppercorn'],
-    timeOfDay: ['Noon', 'Early afternoon']
+    qualities: ['Warm', 'Dry', 'Active'],
+    keywords: ['Energy', 'Passion', 'Transformation'],
+    foods: ['Spicy', 'Grilled', 'Roasted']
   },
   Earth: {
-    qualities: ['Cool', 'Dry', 'Stable', 'Solid', 'Grounding'],
-    keywords: ['Grounding', 'Practical', 'Material', 'Reliable', 'Structured'],
-    foods: ['Root vegetables', 'Grains', 'Hearty', 'Legumes', 'Nuts', 'Seeds'],
-    cookingTechniques: ['Baking', 'Slow cooking', 'Braising', 'Pressure cooking', 'Fermenting'],
-    flavorProfiles: ['Rich', 'Dense', 'Umami', 'Earthy', 'Complex'],
-    seasonalAssociations: ['Late Summer', 'Autumn', 'Harvest time'],
-    healthBenefits: ['Digestive support', 'Nutritional density', 'Sustained energy'],
-    complementaryIngredients: ['Mushrooms', 'Potatoes', 'Lentils', 'Brown rice', 'Squash'],
-    moodEffects: ['Stabilizing', 'Grounding', 'Comforting', 'Satisfying', 'Nourishing'],
-    culinaryHerbs: ['Thyme', 'Rosemary', 'Sage', 'Bay leaf', 'Black truffle'],
-    timeOfDay: ['Late afternoon', 'Early evening']
+    qualities: ['Cool', 'Dry', 'Stable'],
+    keywords: ['Grounding', 'Practical', 'Material'],
+    foods: ['Root vegetables', 'Grains', 'Hearty']
   },
   Air: {
-    qualities: ['Warm', 'Moist', 'Mobile', 'Light', 'Communicative'],
-    keywords: ['Intellectual', 'Communication', 'Social', 'Movement', 'Connection'],
-    foods: ['Light', 'Raw', 'Fresh', 'Salads', 'Sprouts', 'Herbs'],
-    cookingTechniques: ['Quick steaming', 'Flash cooking', 'Raw preparations', 'Infusing', 'Whipping'],
-    flavorProfiles: ['Light', 'Aromatic', 'Herbaceous', 'Bright', 'Fresh'],
-    seasonalAssociations: ['Spring', 'Dawn'],
-    healthBenefits: ['Mental clarity', 'Respiratory support', 'Digestive lightness'],
-    complementaryIngredients: ['Fresh herbs', 'Citrus', 'Sprouts', 'Greens', 'Aromatics'],
-    moodEffects: ['Uplifting', 'Clarifying', 'Refreshing', 'Invigorating', 'Inspiring'],
-    culinaryHerbs: ['Mint', 'Basil', 'Cilantro', 'Dill', 'Lemongrass'],
-    timeOfDay: ['Morning', 'Sunrise']
+    qualities: ['Warm', 'Moist', 'Mobile'],
+    keywords: ['Intellectual', 'Communication', 'Social'],
+    foods: ['Light', 'Raw', 'Fresh']
   },
   Water: {
-    qualities: ['Cool', 'Moist', 'Flowing', 'Adaptable', 'Receptive'],
-    keywords: ['Emotional', 'Intuitive', 'Nurturing', 'Healing', 'Connecting'],
-    foods: ['Soups', 'Steamed', 'Hydrating', 'Seafood', 'Fruits', 'Broths'],
-    cookingTechniques: ['Poaching', 'Steaming', 'Simmering', 'Blending', 'Marinating'],
-    flavorProfiles: ['Sweet', 'Salty', 'Subtle', 'Soothing', 'Mellow'],
-    seasonalAssociations: ['Winter', 'Night'],
-    healthBenefits: ['Hydration', 'Emotional balance', 'Detoxification', 'Cooling'],
-    complementaryIngredients: ['Berries', 'Melon', 'Cucumber', 'Coconut', 'Seaweed'],
-    moodEffects: ['Calming', 'Soothing', 'Introspective', 'Healing', 'Nurturing'],
-    culinaryHerbs: ['Lavender', 'Chamomile', 'Fennel', 'Dill', 'Cucumber'],
-    timeOfDay: ['Evening', 'Night', 'Twilight']
+    qualities: ['Cool', 'Moist', 'Flowing'],
+    keywords: ['Emotional', 'Intuitive', 'Nurturing'],
+    foods: ['Soups', 'Steamed', 'Hydrating']
   }
 };
 

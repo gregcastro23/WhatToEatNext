@@ -3,18 +3,14 @@
 'use client';
 
 import React from 'react';
-
+import { motion } from 'framer-motion';
 import styles from './RecipeCard.module.css';
-
-// Add missing type definitions
-type ViewOption = 'grid' | 'list' | 'compact';
-type ElementalFilter = 'Fire' | 'Water' | 'Earth' | 'Air' | 'none';
 
 interface Ingredient {
     name: string;
-    amount: number;
+    amount: string;
     unit: string;
-    category?: string;
+    category: string;
 }
 
 interface Nutrition {
@@ -53,8 +49,9 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
     const [isExpanded, setIsExpanded] = React.useState(false);
 
     return (
-        <div 
-            className={`${styles.recipeCard} ${isExpanded ? styles.expanded : ''} transition-all duration-300`}
+        <motion.div 
+            className={`${styles.recipeCard} ${isExpanded ? styles.expanded : ''}`}
+            layout
             onClick={() => setIsExpanded(!isExpanded)}
         >
             <div className={styles.content}>
@@ -86,8 +83,10 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
                 </div>
 
                 {isExpanded && (
-                    <div 
-                        className={`${styles.details} animate-fade-in`}
+                    <motion.div 
+                        className={styles.details}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
                     >
                         <div className={styles.description}>
                             <p>{recipe.description}</p>
@@ -147,24 +146,22 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
                                 {recipe.ingredients.map((ingredient, index) => (
                                     <li key={index} className={styles.ingredient}>
                                         <span className={styles.amount}>
-                                            {ingredient.amount.toString()} {ingredient.unit}
+                                            {ingredient.amount} {ingredient.unit}
                                         </span>
                                         <span className={styles.ingredientName}>
                                             {ingredient.name}
                                         </span>
-                                        {ingredient.category && (
-                                            <span className={styles.category}>
-                                                ({ingredient.category})
-                                            </span>
-                                        )}
+                                        <span className={styles.category}>
+                                            ({ingredient.category})
+                                        </span>
                                     </li>
                                 ))}
                             </ul>
                         </div>
-                    </div>
+                    </motion.div>
                 )}
             </div>
-        </div>
+        </motion.div>
     );
 };
 

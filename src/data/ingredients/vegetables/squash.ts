@@ -1,22 +1,8 @@
 import type { IngredientMapping } from '@/types/alchemy';
-import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-const rawSquash: Record<string, Partial<IngredientMapping>> = {
+export const squash: Record<string, IngredientMapping> = {
   'butternut squash': {
-    name: 'Butternut squash',
     elementalProperties: { Earth: 0.4, Water: 0.3, Fire: 0.2, Air: 0.1 },
-    astrologicalProfile: {
-      rulingPlanets: ['Venus', 'Saturn'],
-      favorableZodiac: ['taurus', 'capricorn'],
-      elementalAffinity: {
-        base: 'Earth',
-        decanModifiers: {
-          first: { element: 'Earth', planet: 'Venus' },
-          second: { element: 'Water', planet: 'Saturn' },
-          third: { element: 'Fire', planet: 'Sun' }
-        }
-      }
-    },
     qualities: ['warming', 'nourishing', 'grounding'],
     season: ['fall', 'winter'],
     category: 'vegetable',
@@ -44,7 +30,6 @@ const rawSquash: Record<string, Partial<IngredientMapping>> = {
   },
 
   'zucchini': {
-    name: 'Zucchini',
     elementalProperties: { Water: 0.5, Air: 0.2, Earth: 0.2, Fire: 0.1 },
     qualities: ['cooling', 'moistening'],
     season: ['summer'],
@@ -64,7 +49,7 @@ const rawSquash: Record<string, Partial<IngredientMapping>> = {
       washing: true,
       trimming: 'ends removed',
       cutting: 'rounds, lengthwise, or spiralized',
-      notes: 'Do not peel - nutrients in skin'
+      notes: 'Don't peel - nutrients in skin'
     },
     storage: {
       temperature: 'refrigerated',
@@ -74,7 +59,6 @@ const rawSquash: Record<string, Partial<IngredientMapping>> = {
   },
 
   'pumpkin': {
-    name: 'Pumpkin',
     elementalProperties: { Earth: 0.5, Water: 0.2, Fire: 0.2, Air: 0.1 },
     qualities: ['warming', 'grounding', 'nourishing'],
     season: ['fall'],
@@ -103,7 +87,6 @@ const rawSquash: Record<string, Partial<IngredientMapping>> = {
   },
 
   'acorn squash': {
-    name: 'Acorn squash',
     elementalProperties: { Earth: 0.4, Water: 0.3, Fire: 0.2, Air: 0.1 },
     qualities: ['warming', 'grounding'],
     season: ['fall', 'winter'],
@@ -131,6 +114,3 @@ const rawSquash: Record<string, Partial<IngredientMapping>> = {
     }
   }
 };
-
-// Fix the ingredient mappings to ensure they have all required properties
-export const squash: Record<string, IngredientMapping> = fixIngredientMappings(rawSquash);

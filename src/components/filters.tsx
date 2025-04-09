@@ -1,14 +1,10 @@
 import React from 'react';
 
-interface FilterState {
-  servingSize: string;
-  dietaryPreference: string;
-  cookingTime: string;
-  [key: string]: string;
-}
+// Add console log to verify component mounting
+console.log('Filters component loaded');
 
 interface FiltersProps {
-  onFilterChange: (updater: (prev: FilterState) => FilterState) => void;
+  onFilterChange: (filter: any) => void;
 }
 
 const Filters: React.FC<FiltersProps> = ({ onFilterChange }) => {
@@ -20,7 +16,7 @@ const Filters: React.FC<FiltersProps> = ({ onFilterChange }) => {
           Serving Size
         </label>
         <select
-          onChange={(e) => onFilterChange((prev: FilterState) => ({
+          onChange={(e) => onFilterChange((prev: any) => ({
             ...prev,
             servingSize: e.target.value
           }))}
@@ -43,7 +39,7 @@ const Filters: React.FC<FiltersProps> = ({ onFilterChange }) => {
           Dietary Preferences
         </label>
         <select
-          onChange={(e) => onFilterChange((prev: FilterState) => ({
+          onChange={(e) => onFilterChange((prev: any) => ({
             ...prev,
             dietaryPreference: e.target.value
           }))}
@@ -66,7 +62,7 @@ const Filters: React.FC<FiltersProps> = ({ onFilterChange }) => {
           Cooking Time
         </label>
         <select
-          onChange={(e) => onFilterChange((prev: FilterState) => ({
+          onChange={(e) => onFilterChange((prev: any) => ({
             ...prev,
             cookingTime: e.target.value
           }))}

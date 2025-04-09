@@ -1,22 +1,8 @@
 import type { IngredientMapping } from '@/types/alchemy';
-import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-const rawAlliums: Record<string, Partial<IngredientMapping>> = {
+export const alliums: Record<string, IngredientMapping> = {
   'garlic': {
-    name: 'Garlic',
     elementalProperties: { Fire: 0.6, Air: 0.2, Earth: 0.1, Water: 0.1 },
-    astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Pluto'],
-      favorableZodiac: ['aries', 'scorpio'],
-      elementalAffinity: {
-        base: 'Fire',
-        decanModifiers: {
-          first: { element: 'Fire', planet: 'Mars' },
-          second: { element: 'Earth', planet: 'Pluto' },
-          third: { element: 'Air', planet: 'Mercury' }
-        }
-      }
-    },
     qualities: ['warming', 'pungent', 'drying'],
     season: ['all'],
     category: 'vegetable',
@@ -34,7 +20,7 @@ const rawAlliums: Record<string, Partial<IngredientMapping>> = {
       peeling: true,
       crushing: 'releases more compounds',
       resting: '10 minutes after cutting',
-      notes: 'Do not overcook to preserve benefits'
+      notes: 'Don't overcook to preserve benefits'
     },
     storage: {
       temperature: 'cool, dry place',
@@ -44,20 +30,7 @@ const rawAlliums: Record<string, Partial<IngredientMapping>> = {
   },
 
   'onion': {
-    name: 'Onion',
     elementalProperties: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
-    astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Moon'],
-      favorableZodiac: ['aries', 'cancer'],
-      elementalAffinity: {
-        base: 'Fire',
-        decanModifiers: {
-          first: { element: 'Fire', planet: 'Mars' },
-          second: { element: 'Water', planet: 'Moon' },
-          third: { element: 'Earth', planet: 'Saturn' }
-        }
-      }
-    },
     qualities: ['warming', 'stimulating'],
     season: ['all'],
     category: 'vegetable',
@@ -85,7 +58,6 @@ const rawAlliums: Record<string, Partial<IngredientMapping>> = {
   },
 
   'leek': {
-    name: 'Leek',
     elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },
     qualities: ['warming', 'nourishing'],
     season: ['fall', 'winter'],
@@ -114,6 +86,3 @@ const rawAlliums: Record<string, Partial<IngredientMapping>> = {
     }
   }
 };
-
-// Fix the ingredient mappings to ensure they have all required properties
-export const alliums: Record<string, IngredientMapping> = fixIngredientMappings(rawAlliums);
