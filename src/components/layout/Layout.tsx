@@ -2,10 +2,10 @@
 
 import React, { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
-import { motion, AnimatePresence } from 'framer-motion';
+
 import Navigation from '@/components/Navigation/Navigation';
 import CelestialDisplay from '@/components/CelestialDisplay/CelestialDisplay';
-import { useAlchemical } from '@/contexts/AlchemicalContext';
+import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { themeManager } from '@/utils/theme';
 import { logger } from '@/utils/logger';
 
@@ -27,8 +27,9 @@ export default function Layout({ children }: LayoutProps) {
         await themeManager.initializeTheme();
         
         // Check if celestial display should be shown
-        const shouldShowCelestial = !pathname.includes('/settings') && 
-                                  !pathname.includes('/profile');
+        const shouldShowCelestial = pathname ? 
+          (!pathname.includes('/settings') && !pathname.includes('/profile')) : 
+          true;
         setShowCelestial(shouldShowCelestial);
 
         setIsLoading(false);
@@ -82,47 +83,31 @@ export default function Layout({ children }: LayoutProps) {
         <main className="flex-1 p-4 md:p-8">
           <div className="max-w-7xl mx-auto space-y-8">
             {/* Celestial Display */}
-            <AnimatePresence>
-              {showCelestial && (
-                <motion.div
-                  initial={{ opacity: 0, y: -20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                >
-                  <CelestialDisplay />
-                </motion.div>
-              )}
-            </AnimatePresence>
+            {showCelestial && (
+              <div className="animate-fade-in-up">
+                <CelestialDisplay />
+              </div>
+            )}
 
             {/* Page Content */}
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={pathname}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 20 }}
-                transition={{ duration: 0.2 }}
-              >
-                {children}
-              </motion.div>
-            </AnimatePresence>
+            <div
+              key={pathname}
+              className="animate-fade-in-up"
+            >
+              {children}
+            </div>
 
             {/* Loading Overlay */}
-            <AnimatePresence>
-              {state.loading && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="fixed inset-0 bg-white bg-opacity-75 flex items-center justify-center z-50"
-                >
-                  <div className="space-y-4 text-center">
-                    <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto" />
-                    <p className="text-gray-600">Processing cosmic energies...</p>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
+            {isLoading && (
+              <div
+                className="fixed inset-0 bg-white bg-opacity-75 flex items-center justify-center z-50 animate-fade-in"
+              >
+                <div className="space-y-4 text-center">
+                  <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto" />
+                  <p className="text-gray-600">Processing cosmic energies...</p>
+                </div>
+              </div>
+            )}
           </div>
         </main>
 
@@ -153,14 +138,11 @@ function ScrollToTopButton() {
   };
 
   return (
-    <AnimatePresence>
+    <>
       {showButton && (
-        <motion.button
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 20 }}
+        <button
           onClick={scrollToTop}
-          className="fixed bottom-4 right-4 p-3 bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          className="fixed bottom-4 right-4 p-3 bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 animate-fade-in-up"
         >
           <svg
             className="w-6 h-6"
@@ -175,8 +157,8 @@ function ScrollToTopButton() {
               d="M5 10l7-7m0 0l7 7m-7-7v18"
             />
           </svg>
-        </motion.button>
+        </button>
       )}
-    </AnimatePresence>
+    </>
   );
 } 

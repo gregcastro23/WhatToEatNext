@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { useAlchemical } from '@/contexts/AlchemicalContext';
+import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { Moon, Sun, Menu, X } from 'lucide-react';
 import { logger } from '@/utils/logger';
 
@@ -10,7 +10,7 @@ interface HeaderProps {
 }
 
 export default function Header({ onServingsChange }: HeaderProps) {
-  const { state } = useAlchemical();
+  const { state, planetaryPositions } = useAlchemical();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [servings, setServings] = useState(2);
   const [mounted, setMounted] = useState(false);
@@ -50,16 +50,16 @@ export default function Header({ onServingsChange }: HeaderProps) {
             
             {/* Celestial Indicators */}
             <div className="hidden md:flex items-center space-x-4 text-sm text-gray-500">
-              {state.celestialPositions.sun && (
+              {planetaryPositions?.sun && (
                 <div className="flex items-center">
                   <Sun className="w-4 h-4 mr-1" />
-                  <span>{state.celestialPositions.sun.sign}</span>
+                  <span>{planetaryPositions.sun.sign}</span>
                 </div>
               )}
-              {state.celestialPositions.moon && (
+              {planetaryPositions?.moon && (
                 <div className="flex items-center">
                   <Moon className="w-4 h-4 mr-1" />
-                  <span>{state.celestialPositions.moon.sign}</span>
+                  <span>{planetaryPositions.moon.sign}</span>
                 </div>
               )}
             </div>
@@ -97,19 +97,19 @@ export default function Header({ onServingsChange }: HeaderProps) {
         {isMenuOpen && (
           <div className="md:hidden py-4 border-t">
             <div className="space-y-4">
-              {state.celestialPositions.sun && (
+              {planetaryPositions?.sun && (
                 <div className="flex items-center">
                   <Sun className="w-4 h-4 mr-2" />
                   <span className="text-sm text-gray-500">
-                    Sun in {state.celestialPositions.sun.sign}
+                    Sun in {planetaryPositions.sun.sign}
                   </span>
                 </div>
               )}
-              {state.celestialPositions.moon && (
+              {planetaryPositions?.moon && (
                 <div className="flex items-center">
                   <Moon className="w-4 h-4 mr-2" />
                   <span className="text-sm text-gray-500">
-                    Moon in {state.celestialPositions.moon.sign}
+                    Moon in {planetaryPositions.moon.sign}
                   </span>
                 </div>
               )}

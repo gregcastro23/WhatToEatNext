@@ -7,8 +7,9 @@ A personalized food recommendation system that uses astrological data and elemen
 - Personalized recipe recommendations based on astrological data
 - Ingredient suggestions based on elemental balance
 - Seasonal food adjustments
-- Cooking method recommendations
+- Cooking method recommendations using alchemical pillars
 - Cuisine explorer by elemental properties
+- Advanced alchemical transformations for optimal food pairing
 
 ## Technology Stack
 
@@ -59,6 +60,7 @@ yarn start
 - `/src/calculations` - Core calculation logic
 - `/src/lib` - Core library functions
 - `/src/utils` - Utility functions
+- `/src/constants` - System constants and mappings
 - `/public` - Static assets
 
 ## Contributing
@@ -194,4 +196,46 @@ This will create a production build that can be deployed to Vercel or other host
 
 - Add more complex astronomical calculations
 - Implement interactive planetary transit predictions
-- Create more visualizations for astrological houses and aspects 
+- Create more visualizations for astrological houses and aspects
+
+# Alchemical Pillars System
+
+The application now features an advanced alchemical pillars system that enhances cooking recommendations by mapping cooking methods to traditional alchemical processes.
+
+## The 14 Alchemical Pillars
+
+Each pillar represents a fundamental alchemical transformation process that affects the four alchemical properties (Spirit, Essence, Matter, and Substance):
+
+1. **Solution**: Dissolving a solid in liquid (increases Essence and Matter, decreases Spirit and Substance)
+2. **Filtration**: Separating solids from liquids (increases Essence, Spirit, and Substance, decreases Matter)
+3. **Evaporation**: Transition from liquid to gas (increases Essence and Spirit, decreases Matter and Substance)
+4. **Distillation**: Purification through evaporation and condensation (increases Essence, Spirit, and Substance, decreases Matter)
+5. **Separation**: Division into constituents (increases Essence, Matter, and Spirit, decreases Substance)
+6. **Rectification**: Refinement and purification (increases all properties)
+7. **Calcination**: Reduction through intense heat (increases Essence and Matter, decreases Spirit and Substance)
+8. **Comixion**: Thorough mixing (increases Matter, Spirit, and Substance, decreases Essence)
+9. **Purification**: Removal of impurities (increases Essence and Spirit, decreases Matter and Substance)
+10. **Inhibition**: Restraint of reactivity (increases Matter and Substance, decreases Essence and Spirit)
+11. **Fermentation**: Transformation through microbial action (increases Essence, Matter, and Spirit, decreases Substance)
+12. **Fixation**: Stabilization of volatiles (increases Matter and Substance, decreases Essence and Spirit)
+13. **Multiplication**: Amplification of virtues (increases Essence, Matter, and Spirit, decreases Substance)
+14. **Projection**: Culminating transformation (increases all properties)
+
+## Cooking Method Mapping
+
+Cooking methods are mapped to these pillars to determine their alchemical effects:
+
+- **Wet Methods**: Boiling (Solution), Steaming (Evaporation), Poaching (Solution), etc.
+- **Dry Methods**: Baking (Calcination), Roasting (Calcination), Grilling (Calcination), etc.
+- **Transformation Methods**: Fermenting (Fermentation), Pickling (Fermentation), Curing (Fixation), etc.
+- **Modern Methods**: Spherification (Rectification), Emulsification (Comixion), etc.
+
+## Implementation
+
+The system calculates compatibility between ingredients and cooking methods by analyzing how the alchemical pillar transformations affect the ingredient's properties.
+
+For example:
+- A "fiery" ingredient with high Spirit might benefit from cooking methods that increase Water and Earth elements
+- Ingredients lacking in Essence might be enhanced by cooking methods associated with the Solution or Fermentation pillars
+
+This system provides more accurate and nuanced cooking recommendations that honor traditional alchemical wisdom. 

@@ -2,7 +2,8 @@ import type {
   ElementalProperties, 
   CombinationEffect, 
   EffectType, 
-  Element 
+  Element,
+  LunarPhase
 } from '@/types/alchemy';
 import { ingredientMappings } from '@/utils/elementalMappings/ingredients';
 import { ELEMENT_COMBINATIONS } from '@/utils/constants/elements';
@@ -30,6 +31,7 @@ interface CalculateEffectsParams {
   cookingMethod?: CookingMethod;
   season?: Season;
   temperature?: Temperature;
+  lunarPhase?: LunarPhase;
 }
 
 // Classic flavor combinations and their effects
@@ -51,16 +53,31 @@ const COMBINATION_RULES: CombinationRule[] = [
   // ... other rules remain the same
 ];
 
+// Create a normalization function at the top of the file
+const normalizeLunarPhase = (phase: LunarPhase): string => {
+  // Convert spaces to underscores for consistent lookup
+  return phase.replace(/\s+/g, '_');
+};
+
 export function calculateCombinationEffects({
   ingredients,
   elementalProperties,
   cookingMethod,
   season,
-  temperature
+  temperature,
+  lunarPhase
 }: CalculateEffectsParams): CombinationEffect[] {
   const effects: CombinationEffect[] = [];
 
   try {
+    // Apply lunar phase influences
+    if (lunarPhase) {
+      const lunarEffect = calculateLunarEffect(ingredients, lunarPhase);
+      if (lunarEffect) {
+        effects.push(lunarEffect);
+      }
+    }
+
     // Check for known combinations
     COMBINATION_RULES.forEach(rule => {
       if (hasIngredientCombination(ingredients, rule.ingredients)) {
@@ -236,4 +253,34 @@ const isHarmoniousWith = (element1: Element, element2: Element): boolean => {
     (element1 === e1 && element2 === e2) ||
     (element1 === e2 && element2 === e1)
   );
+};
+
+const calculateLunarEffect = (
+  ingredients: string[],
+  lunarPhase: LunarPhase
+): CombinationEffect | null => {
+  const lunarModifiers = {
+    new_moon: { modifier: 0.9, effect: 'subtle' as EffectType },
+    full_moon: { modifier: 1.2, effect: 'enhance' as EffectType },
+    first_quarter: { modifier: 1.1, effect: 'balance' as EffectType },
+    last_quarter: { modifier: 1.1, effect: 'balance' as EffectType },
+    waxing_crescent: { modifier: 1.05, effect: 'enhance' as EffectType },
+    waning_crescent: { modifier: 0.95, effect: 'subtle' as EffectType },
+    waxing_gibbous: { modifier: 1.15, effect: 'enhance' as EffectType },
+    waning_gibbous: { modifier: 1.05, effect: 'balance' as EffectType }
+  };
+
+  // Use the normalized lunar phase for lookup
+  const normalizedPhase = normalizeLunarPhase(lunarPhase);
+  const modifier = lunarModifiers[normalizedPhase as keyof typeof lunarModifiers];
+  
+  if (!modifier) return null;
+
+  return {
+    ingredients,
+    effect: modifier.effect,
+    modifier: modifier.modifier,
+    notes: `Lunar phase (${lunarPhase}) influence`,
+    elements: undefined
+  };
 };

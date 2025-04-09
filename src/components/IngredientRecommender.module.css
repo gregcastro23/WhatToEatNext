@@ -1,0 +1,288 @@
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: rgba(10, 10, 30, 0.05);
+  border-radius: 12px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.header h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #6b46c1, #3c366b);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.celestialInfo {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background-color: rgba(30, 30, 60, 0.05);
+  border-radius: 8px;
+}
+
+.infoItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 120px;
+}
+
+.infoLabel {
+  font-size: 0.8rem;
+  color: #666;
+  margin-bottom: 0.25rem;
+}
+
+.infoValue {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #333;
+  text-transform: capitalize;
+}
+
+.refreshButton {
+  padding: 0.5rem 1rem;
+  background: linear-gradient(135deg, #6b46c1, #3c366b);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  margin-top: 1rem;
+}
+
+.refreshButton:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 15px rgba(107, 70, 193, 0.2);
+}
+
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(107, 70, 193, 0.2);
+  border-radius: 50%;
+  border-top-color: #6b46c1;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.ingredientsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.ingredientCard {
+  background-color: white;
+  border-radius: 10px;
+  padding: 1.25rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+  cursor: pointer;
+  position: relative;
+}
+
+.ingredientCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.ingredientCard.selected {
+  border: 2px solid #6b46c1;
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.ingredientName {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: #333;
+  text-transform: capitalize;
+}
+
+.elementTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.elementTag {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: white;
+}
+
+.fire {
+  background-color: #e53e3e;
+}
+
+.water {
+  background-color: #3182ce;
+}
+
+.earth {
+  background-color: #38a169;
+}
+
+.air {
+  background-color: #d69e2e;
+}
+
+.scoreBar {
+  width: 100%;
+  height: 8px;
+  background-color: #edf2f7;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+  margin-top: 0.5rem;
+}
+
+.scoreBarFill {
+  height: 100%;
+  background: linear-gradient(90deg, #6b46c1, #805ad5);
+  border-radius: 4px;
+}
+
+.scoreValue {
+  position: absolute;
+  right: 0;
+  top: -18px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #6b46c1;
+}
+
+.emptyMessage {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 2rem;
+  color: #666;
+  font-style: italic;
+}
+
+.detailSection {
+  padding: 1.5rem;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  margin-top: 2rem;
+}
+
+.detailSection h3 {
+  font-size: 1.4rem;
+  margin-bottom: 1.25rem;
+  color: #4a5568;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 0.75rem;
+  text-transform: capitalize;
+}
+
+.scoreBreakdown {
+  margin-bottom: 2rem;
+}
+
+.scoreBreakdown h4 {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  color: #4a5568;
+}
+
+.scoreGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.factorItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.factorName {
+  font-size: 0.85rem;
+  color: #4a5568;
+}
+
+.factorBar {
+  width: 100%;
+  height: 6px;
+  background-color: #edf2f7;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.factorBarFill {
+  height: 100%;
+  background: linear-gradient(90deg, #6b46c1, #805ad5);
+  border-radius: 3px;
+}
+
+.factorValue {
+  font-size: 0.75rem;
+  color: #6b46c1;
+  font-weight: 600;
+  text-align: right;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+  
+  .celestialInfo {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .infoItem {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+  
+  .ingredientsGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .scoreGrid {
+    grid-template-columns: 1fr;
+  }
+} 

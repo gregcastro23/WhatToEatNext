@@ -2,6 +2,7 @@ import { setupGlobalErrorHandlers } from './globalErrorHandler';
 import { validateEnv } from './env';
 import { logger } from './logger';
 import { Cache } from './cache';
+import { initializeDatabaseIntegrity } from './databaseCleanup';
 
 export function initializeApp() {
   // Validate environment variables
@@ -11,10 +12,13 @@ export function initializeApp() {
   setupGlobalErrorHandlers();
 
   // Initialize cache
-  const cache = new Cache();
+  const cache = new Cache(3600000); // 1 hour cache timeout
+
+  // Clean up and validate database
+  initializeDatabaseIntegrity();
 
   // Log initialization
-  logger.log('info', 'Application initialized');
+  logger.info('Application initialized');
 
   return {
     cache,

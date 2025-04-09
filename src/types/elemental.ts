@@ -1,12 +1,69 @@
-export interface ElementalBalance {
+/**
+ * Centralized Elemental Properties Types
+ * This file contains all elemental-related type definitions
+ */
+
+// The four basic elements
+export type Element = 'Fire' | 'Water' | 'Air' | 'Earth';
+export type LowercaseElement = 'fire' | 'water' | 'air' | 'earth';
+
+// Interface for elemental properties with standard case (uppercase first letter)
+export interface ElementalProperties {
+  Fire: number;
+  Water: number;
+  Earth: number;
+  Air: number;
+  [key: string]: number; // Allow indexing with string
+}
+
+// Interface for elemental properties with lowercase
+export interface LowercaseElementalProperties {
+  fire: number;
+  water: number;
+  earth: number;
+  air: number;
+  [key: string]: number; // Allow indexing with string
+}
+
+// Interface for elemental state (used in some components)
+export interface ElementalState {
   Fire: number;
   Water: number;
   Air: number;
   Earth: number;
 }
 
-export interface ElementalProperties {
-  primary: keyof ElementalBalance;
-  secondary: keyof ElementalBalance;
-  strength: number;
+// Interface for elemental scoring
+export interface ElementalScore {
+  element: Element;
+  score: number;
 }
+
+// Interface for elemental balance
+export interface ElementalBalance {
+  fire: number;
+  water: number;
+  earth: number;
+  air: number;
+}
+
+// Interface for elemental filter
+export interface ElementalFilter {
+  minFire?: number;
+  maxFire?: number;
+  minWater?: number;
+  maxWater?: number;
+  minEarth?: number;
+  maxEarth?: number;
+  minAir?: number;
+  maxAir?: number;
+  dominantElement?: Element;
+}
+
+// Default ElementalProperties
+export const DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {
+  Fire: 0.25,
+  Water: 0.25,
+  Earth: 0.25,
+  Air: 0.25
+};

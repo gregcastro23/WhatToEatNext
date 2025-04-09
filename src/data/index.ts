@@ -6,6 +6,12 @@ import {
   textureProfiles,
   temperatureEffects 
 } from './integrations';
+import sauces, { 
+  allSauces, 
+  sauceRecommendations, 
+  italianSauces, 
+  mexicanSauces 
+} from './sauces';
 
 export const FoodData = {
   cuisines,
@@ -17,6 +23,14 @@ export const FoodData = {
     flavors: flavorProfiles,
     textures: textureProfiles,
     temperature: temperatureEffects
+  },
+  sauces: {
+    all: allSauces,
+    recommendations: sauceRecommendations,
+    byRegion: {
+      italian: italianSauces,
+      mexican: mexicanSauces
+    }
   }
 };
 
@@ -34,7 +48,10 @@ export {
   seasonalPatterns,
   flavorProfiles,
   textureProfiles,
-  temperatureEffects
+  temperatureEffects,
+  sauces,
+  allSauces,
+  sauceRecommendations
 };
 
 export default FoodData;

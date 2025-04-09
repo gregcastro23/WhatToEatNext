@@ -51,7 +51,7 @@ import {
     }
   
     normalizeProperties(properties: Partial<ElementalProperties>): ElementalProperties {
-      const total = Object.values(properties).reduce((sum, val) => sum + (val || 0), 0);
+      const total = Object.values(properties).reduce((sum: number, val) => sum + (val || 0), 0);
       
       if (total === 0) {
         return ELEMENTS.reduce((acc, element) => ({
@@ -62,7 +62,7 @@ import {
   
       return ELEMENTS.reduce((acc, element) => ({
         ...acc,
-        [element]: (properties[element] || 0) / total
+        [element]: (properties[element] || 0) / (total || 1)
       }), {} as ElementalProperties);
     }
   
@@ -82,8 +82,10 @@ import {
     }
   
     calculateAstrologicalInfluence(state: AstrologicalState): ElementalProperties {
-      const sunElement = ZODIAC_ELEMENTS[state.sunSign];
-      const moonElement = ZODIAC_ELEMENTS[state.moonSign];
+      const zodiacElement = ZODIAC_ELEMENTS[state.currentZodiac?.toLowerCase()];
+      const moonSignValue = state.currentPlanetaryAlignment?.moon?.sign || '';
+      const moonSign = typeof moonSignValue === 'string' ? moonSignValue.toLowerCase() : '';
+      const moonElement = moonSign ? ZODIAC_ELEMENTS[moonSign] : 'Water';
       
       const baseProperties: ElementalProperties = {
         Fire: 0.25,
@@ -92,11 +94,13 @@ import {
         Earth: 0.25
       };
   
-      // Increase influence of sun sign element
-      baseProperties[sunElement] += 0.2;
+      if (zodiacElement) {
+        baseProperties[zodiacElement] += 0.2;
+      }
       
-      // Increase influence of moon sign element
-      baseProperties[moonElement] += 0.1;
+      if (moonElement) {
+        baseProperties[moonElement] += 0.1;
+      }
   
       return this.normalizeProperties(baseProperties);
     }
@@ -105,8 +109,10 @@ import {
       const seasonalElements: Record<Season, Element[]> = {
         spring: ['Air', 'Water'],
         summer: ['Fire', 'Air'],
+        fall: ['Earth', 'Air'],
         autumn: ['Earth', 'Air'],
-        winter: ['Water', 'Earth']
+        winter: ['Water', 'Earth'],
+        all: ['Fire', 'Water', 'Earth', 'Air']
       };
   
       const elements = seasonalElements[season];
@@ -121,17 +127,24 @@ import {
       return this.normalizeProperties(properties);
     }
   
-    validateProperties(properties: Partial<ElementalProperties>): boolean {
-      const hasAllProperties = ELEMENTS
-        .every(key => typeof properties[key] === 'number');
-  
-      const hasValidValues = Object.values(properties)
-        .every(value => typeof value === 'number' && value >= 0 && value <= 1);
-  
-      const sum = Object.values(properties).reduce((acc, val) => acc + (val || 0), 0);
+    validateProperties(properties: ElementalProperties): boolean {
+      // Check if all properties are present
+      if (!properties.Fire || !properties.Water || !properties.Earth || !properties.Air) {
+        return false;
+      }
+      
+      // Check that all values are between 0 and 1
+      for (const element of ELEMENTS) {
+        if (properties[element] < 0 || properties[element] > 1) {
+          return false;
+        }
+      }
+      
+      // Check that values sum approximately to 1
+      const sum = Object.values(properties).reduce((acc: number, val) => acc + (val || 0), 0);
       const hasValidSum = Math.abs(sum - 1) < 0.000001;
-  
-      return hasAllProperties && hasValidValues && hasValidSum;
+      
+      return hasValidSum;
     }
   
     calculateHarmony(first: ElementalProperties, second: ElementalProperties): number {

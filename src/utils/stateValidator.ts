@@ -1,27 +1,35 @@
-import type { AlchemicalState } from '@/contexts/AlchemicalContext'
+import type { AlchemicalState } from '@/contexts/alchemicalTypes'
 import { logger } from '@/utils/logger'
 import { errorHandler } from '@/services/errorHandler'
 
+// Define an interface extending AlchemicalState with the additional properties we need to validate
+interface ValidatableState extends Partial<AlchemicalState> {
+  recipes?: any[];
+  filteredRecipes?: any[];
+  favorites?: any[];
+  season?: string;
+}
+
 class StateValidator {
-  validateState(state: Partial<AlchemicalState>): boolean {
+  validateState(state: ValidatableState): boolean {
     try {
       // Check if state exists
       if (!state) {
         throw new Error('State is undefined')
       }
 
-      // Validate recipes array
-      if (!Array.isArray(state.recipes)) {
+      // Validate recipes array if it exists
+      if (state.recipes !== undefined && !Array.isArray(state.recipes)) {
         throw new Error('Recipes must be an array')
       }
 
-      // Validate filtered recipes
-      if (!Array.isArray(state.filteredRecipes)) {
+      // Validate filtered recipes if it exists
+      if (state.filteredRecipes !== undefined && !Array.isArray(state.filteredRecipes)) {
         throw new Error('Filtered recipes must be an array')
       }
 
-      // Validate favorites
-      if (!Array.isArray(state.favorites)) {
+      // Validate favorites if it exists
+      if (state.favorites !== undefined && !Array.isArray(state.favorites)) {
         throw new Error('Favorites must be an array')
       }
 
@@ -31,20 +39,22 @@ class StateValidator {
       }
 
       // Validate elemental balance
-      if (!this.validateElementalProperties(state.elementalBalance)) {
+      if (!this.validateElementalProperties(state.elementalState)) {
         throw new Error('Invalid elemental balance')
       }
 
-      // Validate season
-      if (typeof state.season !== 'string') {
+      // Validate season if it exists
+      if (state.season !== undefined && typeof state.season !== 'string') {
         throw new Error('Season must be a string')
       }
 
-      logger.info('State validation passed', {
-        recipesCount: state.recipes.length,
-        filteredCount: state.filteredRecipes.length,
-        favoritesCount: state.favorites.length
-      })
+      // Only log details if the properties exist
+      const logInfo: Record<string, number> = {};
+      if (state.recipes) logInfo.recipesCount = state.recipes.length;
+      if (state.filteredRecipes) logInfo.filteredCount = state.filteredRecipes.length;
+      if (state.favorites) logInfo.favoritesCount = state.favorites.length;
+      
+      logger.info('State validation passed', logInfo);
 
       return true
     } catch (error) {
@@ -74,7 +84,7 @@ class StateValidator {
       
       const requiredFields = ['id', 'name', 'elementalProperties']
       const hasRequiredFields = requiredFields.every(field => 
-        recipe.hasOwnProperty(field)
+        Object.prototype.hasOwnProperty.call(recipe, field)
       )
       
       if (!hasRequiredFields) return false

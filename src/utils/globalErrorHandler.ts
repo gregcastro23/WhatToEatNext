@@ -3,7 +3,7 @@ import { logger } from './logger';
 export function setupGlobalErrorHandlers() {
   if (typeof window !== 'undefined') {
     window.onerror = (message, source, lineno, colno, error) => {
-      logger.log('error', 'Global error:', {
+      logger.error('Global error:', {
         message,
         source,
         lineno,
@@ -14,19 +14,19 @@ export function setupGlobalErrorHandlers() {
     };
 
     window.onunhandledrejection = (event) => {
-      logger.log('error', 'Unhandled promise rejection:', {
+      logger.error('Unhandled promise rejection:', {
         reason: event.reason,
       });
     };
   }
 
   process.on('uncaughtException', (error) => {
-    logger.log('error', 'Uncaught exception:', { error: error.toString() });
+    logger.error('Uncaught exception:', { error: error.toString() });
     process.exit(1);
   });
 
   process.on('unhandledRejection', (reason, promise) => {
-    logger.log('error', 'Unhandled Rejection at:', {
+    logger.error('Unhandled Rejection at:', {
       promise,
       reason: reason?.toString(),
     });

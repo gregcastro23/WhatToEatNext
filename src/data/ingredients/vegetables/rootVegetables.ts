@@ -1,8 +1,22 @@
 import type { IngredientMapping } from '@/types/alchemy';
+import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-export const rootVegetables: Record<string, IngredientMapping> = {
+const rawRootVegetables: Record<string, Partial<IngredientMapping>> = {
   'sweet potato': {
+    name: 'Sweet potato',
     elementalProperties: { Earth: 0.5, Fire: 0.3, Water: 0.1, Air: 0.1 },
+    astrologicalProfile: {
+      rulingPlanets: ['Venus', 'Moon'],
+      favorableZodiac: ['taurus', 'cancer', 'virgo'],
+      elementalAffinity: {
+        base: 'Earth',
+        decanModifiers: {
+          first: { element: 'Earth', planet: 'Venus' },
+          second: { element: 'Water', planet: 'Moon' },
+          third: { element: 'Air', planet: 'Mercury' }
+        }
+      }
+    },
     qualities: ['grounding', 'warming', 'nourishing'],
     season: ['fall', 'winter'],
     category: 'vegetable',
@@ -31,6 +45,7 @@ export const rootVegetables: Record<string, IngredientMapping> = {
   },
 
   'carrot': {
+    name: 'Carrot',
     elementalProperties: { Earth: 0.4, Fire: 0.3, Air: 0.2, Water: 0.1 },
     qualities: ['grounding', 'warming', 'strengthening'],
     season: ['fall', 'winter', 'spring'],
@@ -62,6 +77,7 @@ export const rootVegetables: Record<string, IngredientMapping> = {
   },
 
   'parsnip': {
+    name: 'Parsnip',
     elementalProperties: { Earth: 0.5, Air: 0.2, Fire: 0.2, Water: 0.1 },
     qualities: ['grounding', 'warming', 'nourishing'],
     season: ['fall', 'winter'],
@@ -92,6 +108,7 @@ export const rootVegetables: Record<string, IngredientMapping> = {
   },
 
   'beet': {
+    name: 'Beet',
     elementalProperties: { Earth: 0.6, Fire: 0.2, Water: 0.1, Air: 0.1 },
     qualities: ['grounding', 'building', 'cleansing'],
     season: ['fall', 'winter'],
@@ -123,6 +140,7 @@ export const rootVegetables: Record<string, IngredientMapping> = {
   },
 
   'turnip': {
+    name: 'Turnip',
     elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },
     qualities: ['cooling', 'cleansing'],
     season: ['fall', 'winter', 'spring'],
@@ -152,3 +170,6 @@ export const rootVegetables: Record<string, IngredientMapping> = {
     }
   }
 };
+
+// Fix the ingredient mappings to ensure they have all required properties
+export const rootVegetables: Record<string, IngredientMapping> = fixIngredientMappings(rawRootVegetables);

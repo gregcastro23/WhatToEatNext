@@ -1,0 +1,354 @@
+import IconProvider from './icons/IconProvider.astro';
+import { getZodiacSign } from '../../utils/safeAstrology';
+import { 
+  getAccuratePlanetaryPositions,
+  validatePositions
+} from '../../utils/accurateAstronomy';
+
+interface Props {
+  planetaryPositions: Record<string, number>;
+  showRetrograde?: boolean;
+  showDignity?: boolean;
+  compact?: boolean;
+}
+
+const { 
+  planetaryPositions, 
+  showRetrograde = true, 
+  showDignity = true,
+  compact = false
+} = Astro.props;
+
+// Define zodiac signs
+const zodiacSigns = [
+  { name: 'aries', symbol: '♈', element: 'Fire' },
+  { name: 'taurus', symbol: '♉', element: 'Earth' },
+  { name: 'gemini', symbol: '♊', element: 'Air' },
+  { name: 'cancer', symbol: '♋', element: 'Water' },
+  { name: 'leo', symbol: '♌', element: 'Fire' },
+  { name: 'virgo', symbol: '♍', element: 'Earth' },
+  { name: 'Libra', symbol: '♎', element: 'Air' },
+  { name: 'Scorpio', symbol: '♏', element: 'Water' },
+  { name: 'sagittarius', symbol: '♐', element: 'Fire' },
+  { name: 'capricorn', symbol: '♑', element: 'Earth' },
+  { name: 'aquarius', symbol: '♒', element: 'Air' },
+  { name: 'pisces', symbol: '♓', element: 'Water' }
+];
+
+// Generate element icons
+const elementIcons = {
+  'Fire': 'fire',
+  'Earth': 'earth',
+  'Air': 'air',
+  'Water': 'water'
+};
+
+// Planet symbols and retrograde status
+const planetSymbols: Record<string, string> = {
+  'Sun': '☉',
+  'Moon': '☽',
+  'Mercury': '☿',
+  'Venus': '♀',
+  'Mars': '♂',
+  'Jupiter': '♃',
+  'Saturn': '♄',
+  'Uranus': '♅',
+  'Neptune': '♆',
+  'Pluto': '♇'
+};
+
+// Function to determine if a planet is retrograde
+// This is a simplified method, you would use your actual retrograde calculation
+const isRetrograde = (planet: string): boolean => {
+  // Here you would use your real retrograde data
+  // For demonstration, we're randomly marking Mercury, Venus, or Mars as retrograde
+  const retrogradeProneAPlanets = ['Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'];
+  return retrogradeProneAPlanets.includes(planet) && Math.random() > 0.7;
+};
+
+// Function to get planet dignity
+// This is a simplified method, you would use your actual dignity calculation
+const getPlanetDignity = (planet: string, sign: string): string => {
+  const dignities: Record<string, Record<string, string>> = {
+    'Sun': { 'leo': 'Domicile', 'aries': 'Exaltation' },
+    'Moon': { 'cancer': 'Domicile', 'taurus': 'Exaltation' },
+    'Mercury': { 'gemini': 'Domicile', 'virgo': 'Domicile' },
+    'Venus': { 'taurus': 'Domicile', 'Libra': 'Domicile', 'pisces': 'Exaltation' },
+    'Mars': { 'aries': 'Domicile', 'Scorpio': 'Domicile', 'capricorn': 'Exaltation' },
+    'Jupiter': { 'sagittarius': 'Domicile', 'pisces': 'Domicile', 'cancer': 'Exaltation' },
+    'Saturn': { 'capricorn': 'Domicile', 'aquarius': 'Domicile', 'Libra': 'Exaltation' },
+    'Uranus': { 'aquarius': 'Domicile' },
+    'Neptune': { 'pisces': 'Domicile' },
+    'Pluto': { 'Scorpio': 'Domicile' }
+  };
+  
+  return dignities[planet]?.[sign] || 'Neutral';
+};
+
+// Get sign for a degree
+const getSignForDegree = (degree: number) => {
+  const normalizedDegree = degree % 360;
+  const signIndex = Math.floor(normalizedDegree / 30);
+  return zodiacSigns[signIndex];
+};
+
+// Get the degree within a sign (0-29)
+const getDegreeInSign = (degree: number) => {
+  return Math.floor(degree % 30);
+};
+
+// Get the minutes within a degree (0-59)
+const getMinutesInDegree = (degree: number) => {
+  const fractionalDegree = degree % 1;
+  return Math.floor(fractionalDegree * 60);
+};
+
+// Function to get element color
+const getElementColor = (element: string) => {
+  switch (element) {
+    case 'Fire': return 'var(--color-fire, #ff5722)';
+    case 'Earth': return 'var(--color-earth, #4caf50)';
+    case 'Air': return 'var(--color-air, #03a9f4)';
+    case 'Water': return 'var(--color-water, #9c27b0)';
+    default: return '#aaaaaa';
+  }
+};
+
+// Replace the existing planetary positions calculation with:
+const currentDate = new Date();
+const planetaryPositions = getAccuratePlanetaryPositions(currentDate);
+validatePositions(planetaryPositions);
+
+// Process planet positions with sign data
+const planets = Object.entries(planetaryPositions).map(([planet, degree]) => {
+  const sign = getSignForDegree(degree);
+  const degreeInSign = getDegreeInSign(degree);
+  const minutesInDegree = getMinutesInDegree(degree);
+  const retrograde = showRetrograde ? isRetrograde(planet) : false;
+  const dignity = showDignity ? getPlanetDignity(planet, sign.name) : 'Neutral';
+  
+  return {
+    planet,
+    symbol: planetSymbols[planet] || planet.charAt(0),
+    sign: sign.name,
+    signSymbol: sign.symbol,
+    element: sign.element,
+    degree: degreeInSign,
+    minutes: minutesInDegree,
+    retrograde,
+    dignity,
+    elementColor: getElementColor(sign.element)
+  };
+});
+
+<div class={`planetary-positions ${compact ? 'compact' : ''}`}>
+  <div class="planets-grid">
+    {planets.map(planet => (
+      <div class="planet-card" style={`--element-color: ${planet.elementColor};`}>
+        <div class="planet-header">
+          <div class="planet-icon">{planet.symbol}</div>
+          <div class="planet-name">{planet.planet}</div>
+          {planet.retrograde && (
+            <div class="retrograde-indicator" title="Retrograde">&#x211E;</div>
+          )}
+        </div>
+        <div class="sign-info">
+          <div class="sign-symbol">{planet.signSymbol}</div>
+          <div class="sign-details">
+            <div class="sign-name">{planet.sign}</div>
+            <div class="element-name">
+              <span class="element-icon" data-element={planet.element.toLowerCase()}>
+                {elementIcons[planet.element] && !compact ? (
+                  <IconProvider name={elementIcons[planet.element]} size={14} />
+                ) : null}
+              </span>
+              {!compact && planet.element}
+            </div>
+          </div>
+        </div>
+        <div class="position-details">
+          <div class="degree-display" title={`${planet.degree}° ${planet.minutes}′`}>
+            {planet.degree}° {planet.minutes}′
+          </div>
+          {showDignity && planet.dignity !== 'Neutral' && (
+            <div class="dignity-badge" data-dignity={planet.dignity.toLowerCase()}>
+              {planet.dignity}
+            </div>
+          )}
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .planetary-positions {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --color-fire: #ff5722;
+    --color-earth: #4caf50;
+    --color-air: #03a9f4;
+    --color-water: #9c27b0;
+    --border-radius: 8px;
+    --card-padding: 12px;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 1000px;
+  }
+  
+  .planets-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+  }
+  
+  .compact .planets-grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 8px;
+  }
+  
+  .planet-card {
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    padding: var(--card-padding);
+    border-left: 3px solid var(--element-color);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  }
+  
+  .planet-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .planet-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 8px;
+  }
+  
+  .planet-icon {
+    font-size: 1.25rem;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--element-color);
+  }
+  
+  .planet-name {
+    font-weight: 600;
+    font-size: 1rem;
+    color: #333;
+  }
+  
+  .retrograde-indicator {
+    margin-left: auto;
+    font-size: 1rem;
+    color: #e74c3c;
+    font-weight: 700;
+  }
+  
+  .sign-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .sign-symbol {
+    font-size: 1.5rem;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f9f9f9;
+    border-radius: 50%;
+  }
+  
+  .sign-details {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .sign-name {
+    font-weight: 500;
+    font-size: 0.9rem;
+  }
+  
+  .element-name {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.8rem;
+    color: #666;
+  }
+  
+  .element-icon {
+    display: inline-flex;
+    color: var(--element-color);
+  }
+  
+  .position-details {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 4px;
+  }
+  
+  .degree-display {
+    font-variant-numeric: tabular-nums;
+    font-size: 0.85rem;
+    color: #555;
+  }
+  
+  .dignity-badge {
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    border-radius: 12px;
+    background-color: #f0f0f0;
+    color: #333;
+    font-weight: 500;
+  }
+  
+  .dignity-badge[data-dignity="domicile"] {
+    background-color: #f1c40f;
+    color: #333;
+  }
+  
+  .dignity-badge[data-dignity="exaltation"] {
+    background-color: #3498db;
+    color: white;
+  }
+  
+  .compact .planet-card {
+    padding: 8px;
+  }
+  
+  .compact .planet-header {
+    padding-bottom: 4px;
+  }
+  
+  .compact .planet-name {
+    font-size: 0.85rem;
+  }
+  
+  .compact .sign-name {
+    font-size: 0.8rem;
+  }
+  
+  .compact .element-name,
+  .compact .degree-display {
+    font-size: 0.75rem;
+  }
+  
+  .compact .dignity-badge {
+    font-size: 0.65rem;
+    padding: 1px 4px;
+  }
+</style> 

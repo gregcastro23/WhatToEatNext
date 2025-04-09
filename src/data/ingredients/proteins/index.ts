@@ -1,5 +1,5 @@
 import type { IngredientMapping } from '@/types/alchemy';
-import { meats } from './meats';
+import { meats } from './meat';
 import { seafood } from './seafood';
 import { poultry } from './poultry';
 import { eggs } from './eggs';
@@ -90,7 +90,7 @@ export const getCompatibleProteins = (proteinName: string): string[] => {
   return Object.entries(proteins)
     .filter(([key, value]) => 
       key !== proteinName && 
-      value.affinities?.some(affinity => 
+      value.affinities?.some((affinity: string) => 
         protein.affinities?.includes(affinity)
       )
     )
@@ -99,7 +99,7 @@ export const getCompatibleProteins = (proteinName: string): string[] => {
 
 export const getProteinSubstitutes = (proteinName: string): Record<string, number> => {
   const protein = proteins[proteinName];
-  if (!protein) return {};
+  if (!protein || !protein.qualities) return {};
   
   const substitutes: Record<string, number> = {};
   
@@ -121,14 +121,135 @@ export const getProteinSubstitutes = (proteinName: string): Record<string, numbe
         protein.nutritionalContent.protein
       );
       
-      const textureScore = value.qualities
-        .filter(q => protein.qualities.includes(q))
-        .length / protein.qualities.length;
+      // Using non-null assertion since we've checked protein.qualities above
+      const proteinQualities = protein.qualities!;
+      
+      const textureScore = value.qualities ?
+        value.qualities
+          .filter(q => proteinQualities.includes(q))
+          .length / proteinQualities.length : 
+        0;
       
       substitutes[key] = (methodScore + (1 - nutritionScore) + textureScore) / 3;
     });
   
   return substitutes;
+};
+
+// Helper functions for calculateCookingTime
+const getBaseTime = (
+  protein: IngredientMapping, 
+  method: CookingMethod, 
+  weight: number, 
+  thickness: number
+): number => {
+  // Simple stub implementation - in a real app, this would have actual logic
+  // based on the protein type, cooking method, weight and thickness
+  const baseTimes = {
+    grill: 5 * thickness * (weight / 100),
+    roast: 10 * thickness * (weight / 100),
+    braise: 15 * thickness * (weight / 100),
+    fry: 3 * thickness * (weight / 100),
+    poach: 8 * thickness * (weight / 100),
+    steam: 7 * thickness * (weight / 100),
+    raw: 0,
+    cure: 720, // 12 hours in minutes
+    smoke: 240  // 4 hours in minutes
+  };
+  
+  return baseTimes[method] || 10 * thickness * (weight / 100);
+};
+
+const getDonenessAdjustment = (
+  protein: IngredientMapping, 
+  doneness: Doneness
+): number => {
+  // Stub implementation
+  const donenessFactors = {
+    rare: 0.7,
+    medium_rare: 0.85,
+    medium: 1.0,
+    medium_well: 1.15,
+    well_done: 1.3
+  };
+  
+  return donenessFactors[doneness] || 1.0;
+};
+
+const getSeasonalAdjustment = (
+  protein: IngredientMapping, 
+  environmentalFactors: {
+    season: 'summer' | 'winter';
+    humidity: number;
+    altitude: number;
+  }
+): number => {
+  // Stub implementation
+  const seasonalFactor = environmentalFactors.season === 'summer' ? 0.9 : 1.1;
+  const humidityFactor = 1 + (environmentalFactors.humidity - 50) / 100;
+  
+  return seasonalFactor * humidityFactor;
+};
+
+const calculateAltitudeAdjustment = (altitude: number): number => {
+  // Stub implementation - cooking takes longer at higher altitudes
+  return 1 + (altitude / 1000) * 0.05;
+};
+
+const calculateAdjustedTemperature = (
+  protein: IngredientMapping, 
+  method: CookingMethod, 
+  environmentalFactors: {
+    season: 'summer' | 'winter';
+    humidity: number;
+    altitude: number;
+  }
+): Temperature => {
+  // Stub implementation
+  const baseTemp = {
+    grill: { fahrenheit: 400, celsius: 204 },
+    roast: { fahrenheit: 350, celsius: 177 },
+    braise: { fahrenheit: 300, celsius: 149 },
+    fry: { fahrenheit: 375, celsius: 190 },
+    poach: { fahrenheit: 180, celsius: 82 },
+    steam: { fahrenheit: 212, celsius: 100 },
+    raw: { fahrenheit: 40, celsius: 4 }, // refrigeration temp
+    cure: { fahrenheit: 40, celsius: 4 },
+    smoke: { fahrenheit: 225, celsius: 107 }
+  };
+  
+  const temp = baseTemp[method] || { fahrenheit: 350, celsius: 177 };
+  
+  // Adjust for altitude
+  const altitudeAdjustment = environmentalFactors.altitude / 1000 * 5;
+  
+  return {
+    fahrenheit: temp.fahrenheit + altitudeAdjustment,
+    celsius: temp.celsius + altitudeAdjustment / 1.8
+  };
+};
+
+const generateCookingNotes = (
+  protein: IngredientMapping, 
+  method: CookingMethod, 
+  environmentalFactors: {
+    season: 'summer' | 'winter';
+    humidity: number;
+    altitude: number;
+  }
+): string[] => {
+  // Stub implementation
+  const notes = [`${protein.name} is best cooked using ${method} method`];
+  
+  if (environmentalFactors.humidity > 70) {
+    notes.push("High humidity may increase cooking time slightly");
+  }
+  
+  if (environmentalFactors.altitude > 3000) {
+    notes.push("High altitude will require longer cooking time and lower temperature");
+  }
+  
+  return notes;
 };
 
 export const calculateCookingTime = (

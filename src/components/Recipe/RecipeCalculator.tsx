@@ -2,19 +2,68 @@ import React, { useState, useCallback } from 'react';
 import type { 
   ElementalProperties, 
   RecipeCalculatorProps,
-  Element 
+  Element
 } from '@/types/alchemy';
+import { getCurrentSeason } from '@/contexts/AlchemicalContext/context';
+import { SEASONAL_MODIFIERS } from '@/utils/seasonalCalculations';
+import { getCurrentZodiacSign, getZodiacElementalInfluence } from '@/utils/zodiacUtils';
 
 const MAX_TOTAL = 1;
 const MIN_ELEMENT_VALUE = 0;
 const MAX_ELEMENT_VALUE = 1;
 
+function applySeasonalInfluence(elements: ElementalProperties, season: string): ElementalProperties {
+  const seasonLower = season.toLowerCase();
+  const validSeason = (seasonLower === 'spring' || 
+                       seasonLower === 'summer' || 
+                       seasonLower === 'autumn' || 
+                       seasonLower === 'winter') ? seasonLower : 'spring';
+                       
+  const modifiers = SEASONAL_MODIFIERS[validSeason];
+  
+  return {
+    Fire: elements.Fire * (1 + (modifiers.Fire || 0)),
+    Water: elements.Water * (1 + (modifiers.Water || 0)),
+    Earth: elements.Earth * (1 + (modifiers.Earth || 0)),
+    Air: elements.Air * (1 + (modifiers.Air || 0))
+  };
+}
+
+const validateInitialBalance = (balance?: ElementalProperties): ElementalProperties | null => {
+  if (!balance) return null;
+
+  const total = Object.values(balance).reduce((sum, val) => sum + (val || 0), 0);
+  if (total > MAX_TOTAL) {
+    console.warn('Initial balance sum exceeds 1, normalizing values');
+    return normalizeElements(balance);
+  }
+
+  for (const [element, value] of Object.entries(balance)) {
+    if (value < MIN_ELEMENT_VALUE || value > MAX_ELEMENT_VALUE) {
+      console.warn(`Invalid value for ${element}, clamping to valid range`);
+      balance[element as Element] = Math.max(MIN_ELEMENT_VALUE, Math.min(value, MAX_ELEMENT_VALUE));
+    }
+  }
+
+  return balance;
+};
+
+const normalizeElements = (elementValues: ElementalProperties): ElementalProperties => {
+  const total = Object.values(elementValues).reduce((sum, val) => sum + (val || 0), 0);
+  if (total === 0) return elementValues;
+
+  return Object.entries(elementValues).reduce((acc, [key, value]) => {
+    acc[key as Element] = (value || 0) / total;
+    return acc;
+  }, {} as ElementalProperties);
+};
+
 export const RecipeCalculator: React.FC<RecipeCalculatorProps> = ({ 
   onCalculate,
-  initialBalance 
+  initialState 
 }) => {
   const [elements, setElements] = useState<ElementalProperties>(
-    validateInitialBalance(initialBalance) || {
+    validateInitialBalance(initialState) || {
       Fire: 0,
       Water: 0,
       Air: 0,
@@ -29,36 +78,6 @@ export const RecipeCalculator: React.FC<RecipeCalculatorProps> = ({
     Water: '💧 Water',
     Air: '💨 Air',
     Earth: '🌍 Earth'
-  };
-
-  // Validation functions
-  const validateInitialBalance = (balance?: ElementalProperties): ElementalProperties | null => {
-    if (!balance) return null;
-
-    const total = Object.values(balance).reduce((sum, val) => sum + (val || 0), 0);
-    if (total > MAX_TOTAL) {
-      console.warn('Initial balance sum exceeds 1, normalizing values');
-      return normalizeElements(balance);
-    }
-
-    for (const [element, value] of Object.entries(balance)) {
-      if (value < MIN_ELEMENT_VALUE || value > MAX_ELEMENT_VALUE) {
-        console.warn(`Invalid value for ${element}, clamping to valid range`);
-        balance[element as Element] = Math.max(MIN_ELEMENT_VALUE, Math.min(value, MAX_ELEMENT_VALUE));
-      }
-    }
-
-    return balance;
-  };
-
-  const normalizeElements = (elementValues: ElementalProperties): ElementalProperties => {
-    const total = Object.values(elementValues).reduce((sum, val) => sum + (val || 0), 0);
-    if (total === 0) return elementValues;
-
-    return Object.entries(elementValues).reduce((acc, [key, value]) => {
-      acc[key as Element] = (value || 0) / total;
-      return acc;
-    }, {} as ElementalProperties);
   };
 
   const validateElementValue = useCallback((element: string, value: number): number => {
@@ -90,6 +109,52 @@ export const RecipeCalculator: React.FC<RecipeCalculatorProps> = ({
     }));
   };
 
+  const calculateRecipe = useCallback(() => {
+    const season = getCurrentSeason();
+    const zodiacSign = getCurrentZodiacSign();
+    
+    const seasonalElements = applySeasonalInfluence(elements, season);
+    const astrologicalElements = getZodiacElementalInfluence(zodiacSign as any);
+    
+    const finalElements = {
+      Fire: seasonalElements.Fire * astrologicalElements.Fire,
+      Water: seasonalElements.Water * astrologicalElements.Water,
+      Earth: seasonalElements.Earth * astrologicalElements.Earth,
+      Air: seasonalElements.Air * astrologicalElements.Air
+    };
+    
+    const result: any = {
+      resultingProperties: finalElements,
+      energyState: {
+        heat: 0.5,
+        entropy: 0.5,
+        pressure: 0.5,
+        reactivity: 0.5
+      },
+      stability: 0.7,
+      potency: 0.8,
+      dominantElement: getDominantElement(finalElements),
+      warnings: [],
+      alchemicalRecommendations: []
+    };
+    
+    onCalculate(result);
+  }, [elements, onCalculate]);
+
+  const getDominantElement = (elements: ElementalProperties): any => {
+    let max = 0;
+    let dominant: any = 'Fire';
+    
+    Object.entries(elements).forEach(([element, value]) => {
+      if (value > max) {
+        max = value;
+        dominant = element;
+      }
+    });
+    
+    return dominant;
+  };
+
   const handleCalculate = () => {
     const total = Object.values(elements).reduce((sum, val) => sum + (val || 0), 0);
     
@@ -103,8 +168,7 @@ export const RecipeCalculator: React.FC<RecipeCalculatorProps> = ({
       return;
     }
 
-    const normalized = normalizeElements(elements);
-    onCalculate(normalized);
+    calculateRecipe();
     setValidationError('');
   };
 

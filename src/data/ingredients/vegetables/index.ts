@@ -5,6 +5,9 @@ import { cruciferous } from './cruciferous';
 import { nightshades } from './nightshades';
 import { alliums } from './alliums';
 import { squash } from './squash';
+import { rootVegetables as roots } from './roots';
+import { otherVegetables } from './otherVegetables';
+import { legumes } from './legumes';
 
 // Combine all vegetable categories
 export const vegetables: Record<string, IngredientMapping> = {
@@ -13,7 +16,10 @@ export const vegetables: Record<string, IngredientMapping> = {
   ...cruciferous,
   ...nightshades,
   ...alliums,
-  ...squash
+  ...squash,
+  ...roots,
+  ...otherVegetables,
+  ...legumes
 };
 
 // Export individual categories
@@ -23,7 +29,10 @@ export {
   cruciferous,
   nightshades,
   alliums,
-  squash
+  squash,
+  roots,
+  otherVegetables,
+  legumes
 };
 
 // Helper functions

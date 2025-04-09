@@ -2,8 +2,8 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { useAlchemical } from '@/contexts/AlchemicalContext';
-import { getCachedCelestialPositions } from '@/services/astrologyApi';
+import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import { getCurrentCelestialPositions } from '@/services/astrologyApi';
 import { 
   Sun, 
   Moon, 
@@ -39,17 +39,25 @@ export default function Header({ setNumberOfPeople }: HeaderProps) {
   useEffect(() => {
     const fetchAstroData = async () => {
       try {
-        const data = await getCachedCelestialPositions();
+        const data = await getCurrentCelestialPositions();
+        
+        // Extract degrees from planetary positions if available
+        const sunDegree = data.planetaryPositions?.sun?.degree || 0;
+        const sunMinutes = 0; // This data might not be available in the new API
+        
+        const moonDegree = data.planetaryPositions?.moon?.degree || 0;
+        const moonMinutes = 0; // This data might not be available in the new API
+        
         setAstroData({
           sun: {
-            sign: data.sunSign.sign,
-            degree: data.sunSign.degree,
-            minutes: data.sunSign.minutes
+            sign: data.sunSign,
+            degree: sunDegree,
+            minutes: sunMinutes
           },
           moon: {
-            sign: data.moonSign.sign,
-            degree: data.moonSign.degree,
-            minutes: data.moonSign.minutes
+            sign: data.moonPhase, // This might be moonSign in your API
+            degree: moonDegree,
+            minutes: moonMinutes
           },
           lastUpdated: new Date(data.timestamp).toLocaleTimeString()
         });
@@ -141,7 +149,7 @@ export default function Header({ setNumberOfPeople }: HeaderProps) {
 
               <div className="flex items-center space-x-2 bg-white/10 rounded-lg px-3 py-2">
                 <CalendarDays className="h-4 w-4" />
-                <span className="text-sm">{state.season}</span>
+                <span className="text-sm">{state.currentSeason}</span>
               </div>
             </div>
           </div>
