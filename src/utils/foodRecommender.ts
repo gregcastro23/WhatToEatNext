@@ -38,6 +38,7 @@ export interface EnhancedIngredient {
   };
   score?: number;
   scoreDetails?: Record<string, number>;
+  subCategory?: string;
   [key: string]: any; // Allow other properties
 }
 
@@ -50,6 +51,10 @@ export const getAllIngredients = (): EnhancedIngredient[] => {
   // Debug logs
   console.log('Vegetables data:', Object.keys(vegetables).length, 'items');
   console.log('Vegetable names:', Object.keys(vegetables));
+  console.log('Grains data:', Object.keys(grains).length, 'items');
+  console.log('Grain names:', Object.keys(grains));
+  console.log('Herbs data:', Object.keys(herbs).length, 'items');
+  console.log('Herbs names:', Object.keys(herbs));
   
   // Define all categories
   const categories = [
@@ -68,6 +73,10 @@ export const getAllIngredients = (): EnhancedIngredient[] => {
     { name: 'Oils', data: oils },
     { name: 'Seasonings', data: seasonings }
   ];
+
+  // Track counts for categories of interest
+  let herbCount = 0;
+  let grainCount = 0;
   
   // Process each category
   categories.forEach(category => {
@@ -81,13 +90,48 @@ export const getAllIngredients = (): EnhancedIngredient[] => {
     
     Object.entries(category.data).forEach(([name, data]) => {
       // Make sure we add the name to the ingredient
-      allIngredients.push({
+      const ingredientData = {
         name,
         category: category.name.toLowerCase(),
         ...data,
-      } as EnhancedIngredient);
+      } as EnhancedIngredient;
+      
+      // Special tracking for grains and herbs
+      if (category.name === 'Grains') {
+        grainCount++;
+        // Ensure grains are properly categorized
+        ingredientData.category = 'grains';
+        if (!ingredientData.subCategory) {
+          // Determine if it's a whole grain, refined grain, or pseudo-grain
+          if (name.includes('whole') || name.includes('brown') || name.includes('wild')) {
+            ingredientData.subCategory = 'whole_grain';
+          } else if (name.includes('white') || name.includes('bleached') || name.includes('refined')) {
+            ingredientData.subCategory = 'refined_grain';
+          } else if (['quinoa', 'amaranth', 'buckwheat', 'chia', 'flaxseed'].includes(name.toLowerCase())) {
+            ingredientData.subCategory = 'pseudo_grain';
+          } else {
+            ingredientData.subCategory = 'whole_grain'; // Default to whole grain
+          }
+        }
+      } else if (category.name === 'Herbs') {
+        herbCount++;
+        // Ensure herbs are properly categorized
+        ingredientData.category = 'herbs';
+        if (!ingredientData.subCategory) {
+          // Determine if it's fresh or dried
+          if (name.includes('dried') || name.includes('powdered')) {
+            ingredientData.subCategory = 'dried_herb';
+          } else {
+            ingredientData.subCategory = 'fresh_herb'; // Default to fresh
+          }
+        }
+      }
+      
+      allIngredients.push(ingredientData);
     });
   });
+  
+  console.log(`Added ${grainCount} grain ingredients and ${herbCount} herb ingredients`);
   
   // Filter out ingredients without proper astrological profiles
   const validIngredients = allIngredients.filter(ing => 
@@ -98,11 +142,12 @@ export const getAllIngredients = (): EnhancedIngredient[] => {
   
   console.log(`Total ingredients: ${allIngredients.length}, Valid ingredients: ${validIngredients.length}`);
   if (validIngredients.length < allIngredients.length) {
-    console.log('Filtered out:',
-      allIngredients.filter(ing => 
-        !(ing.astrologicalProfile && ing.astrologicalProfile.elementalAffinity && ing.astrologicalProfile.rulingPlanets)
-      ).map(ing => `${ing.name} (${ing.category})`)
+    const filteredOut = allIngredients.filter(ing => 
+      !(ing.astrologicalProfile && ing.astrologicalProfile.elementalAffinity && ing.astrologicalProfile.rulingPlanets)
     );
+    console.log('Filtered out:', filteredOut.length, 'ingredients');
+    console.log('Categories of filtered ingredients:', 
+      [...new Set(filteredOut.map(ing => ing.category))].join(', '));
   }
   
   // At the end of the getAllIngredients function, add standardization
@@ -651,9 +696,14 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
         nutritionalScore * 0.05 // Decreased from 0.10
       );
       
+      // Apply a multiplier to better reflect improved recommendation logic
+      // This boosts the score to a more meaningful percentage range
+      const multiplier = 2.0;  // Adjustable multiplier to improve displayed percentages
+      const finalScore = Math.min(1.0, totalScore * multiplier);  // Cap at 1.0 (100%)
+      
       return {
         ...standardized,
-        score: totalScore,
+        score: finalScore,
         // Add score breakdowns for UI display
         scoreDetails: {
           elementScore,
@@ -665,7 +715,9 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
           aspectScore,
           tarotScore,
           sensoryScore,
-          nutritionalScore
+          nutritionalScore,
+          originalScore: totalScore,
+          adjustedScore: finalScore
         }
       };
     });

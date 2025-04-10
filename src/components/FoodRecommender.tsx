@@ -110,6 +110,9 @@ function isChakraEnergies(obj: any): obj is Record<string, number> {
 const FOOD_CATEGORIES = ['Vegetables', 'Fruits', 'Proteins', 'Grains', 'Spices', 'Other'];
 
 export default function FoodRecommender() {
+  // Minimum number of items to display per category
+  const MIN_ITEMS_PER_CATEGORY = 5;
+  
   // Use the hook to get consistent planetary data and ingredient recommendations
   const { planetaryPositions, isLoading: astroLoading } = useAstrologicalState();
   
@@ -124,6 +127,10 @@ export default function FoodRecommender() {
     if (!planetaryPositions?.moon?.phase) return 'new moon';
     return planetaryPositions.moon.phase;
   }, [planetaryPositions]);
+  
+  // Add state for fallback herbs and grains
+  const [fallbackHerbs, setFallbackHerbs] = useState<any[]>([]);
+  const [fallbackGrains, setFallbackGrains] = useState<any[]>([]);
   
   const { 
     recommendations, 
@@ -255,14 +262,27 @@ export default function FoodRecommender() {
       'allspice', 'anise', 'caraway', 'fennel', 'mustard seed', 'ginger powder'
     ];
     
+    // Define herb names to improve herb detection
+    const herbNames = [
+      'basil', 'mint', 'rosemary', 'thyme', 'oregano', 'sage', 'parsley', 'cilantro',
+      'dill', 'chives', 'tarragon', 'marjoram', 'bay leaf', 'lavender', 'lemongrass',
+      'chervil', 'savory', 'lovage', 'epazote', 'borage', 'sorrel', 'verbena', 'curry leaf',
+      'chamomile', 'peppermint', 'hyssop'
+    ];
+    
     // Debug: Count and categorization tracking
     let grainCandidates = 0;
     let actualGrains = 0;
+    let herbCandidates = 0;
+    let actualHerbs = 0;
     
     boostedRecommendations.forEach(ingredient => {
       const name = ingredient.name.toLowerCase();
       const category = ingredient.category?.toLowerCase() || 'other';
       const subCategory = ingredient.subCategory?.toLowerCase() || '';
+      
+      // Debug info for categorization
+      console.log(`Processing ingredient: ${name} | Category: ${category} | SubCategory: ${subCategory}`);
       
       // Check for specific spices first
       if (spiceItems.some(spice => name.includes(spice)) || 
@@ -270,6 +290,21 @@ export default function FoodRecommender() {
           category.includes('spice') ||
           subCategory.includes('spice')) {
         categories['spices'].push(ingredient);
+      }
+      // Check for herbs - improved to catch more herb matches
+      else if (
+          herbNames.some(herb => name.toLowerCase() === herb.toLowerCase() || 
+                         name.toLowerCase().includes(`${herb.toLowerCase()} `) ||
+                         name.toLowerCase().includes(` ${herb.toLowerCase()}`)) ||
+          category.includes('herb') || 
+          subCategory.includes('herb') ||
+          category === 'culinary_herb' ||
+          (category.includes('fresh') && name.match(/\b(leaf|leaves)\b/i))
+      ) {
+        herbCandidates++;
+        categories['herbs'].push(ingredient);
+        actualHerbs++;
+        console.log(`✅ Categorized as herb: ${name}`);
       }
       // Check for proteins
       else if (category.includes('protein') || 
@@ -302,7 +337,12 @@ export default function FoodRecommender() {
           name.includes('farro') ||
           name.includes('millet') ||
           // Check against specific grain names
-          trueGrainNames.some(grain => name.includes(grain)) ||
+          trueGrainNames.some(grain => 
+            name === grain || 
+            name.startsWith(`${grain} `) || 
+            name.includes(` ${grain}`) ||
+            name.includes(`-${grain}`)
+          ) ||
           // Common bread and flour items
           name === 'bread' || 
           name.includes(' bread') || 
@@ -321,6 +361,7 @@ export default function FoodRecommender() {
         )) {
           actualGrains++;
           categories['grains'].push(ingredient);
+          console.log(`✅ Categorized as grain: ${name}`);
         } else {
           if (name.includes('peppercorn')) {
             categories['spices'].push(ingredient);
@@ -334,11 +375,6 @@ export default function FoodRecommender() {
                subCategory.includes('fruit')) {
         categories['fruits'].push(ingredient);
       } 
-      // Check for herbs
-      else if (category.includes('herb') || 
-               subCategory.includes('herb')) {
-        categories['herbs'].push(ingredient);
-      }
       // Other seasonings go to spices
       else if (category.includes('seasoning')) {
         categories['spices'].push(ingredient);
@@ -356,6 +392,10 @@ export default function FoodRecommender() {
         console.log(`Grain candidates: ${grainCandidates}, Actual grains: ${actualGrains}`);
         console.log("Grains names:", categories[key].map(v => v.name).join(", "));
       }
+      if (key === 'herbs') {
+        console.log(`Herb candidates: ${herbCandidates}, Actual herbs: ${actualHerbs}`);
+        console.log("Herbs names:", categories[key].map(v => v.name).join(", "));
+      }
       if (key === 'spices') {
         console.log("Spices names:", categories[key].map(v => v.name).join(", "));
       }
@@ -366,8 +406,118 @@ export default function FoodRecommender() {
       categories[key].sort((a, b) => (b.score || 0) - (a.score || 0));
     });
     
+    // Ensure we have a minimum number of items in important categories
+    const MIN_ITEMS_PER_CATEGORY = 5;
+    
+    // Check and fix herb count
+    if (categories['herbs'].length < MIN_ITEMS_PER_CATEGORY) {
+      console.log(`⚠️ Not enough herbs (${categories['herbs'].length}). Adding fallback herbs.`);
+      
+      // Add any fallback herbs we've loaded, ensuring no duplicates
+      if (fallbackHerbs.length > 0) {
+        console.log(`Adding ${fallbackHerbs.length} fallback herbs from state`);
+        
+        // Get existing names to avoid duplicates
+        const existingNames = new Set(categories['herbs'].map(h => h.name.toLowerCase()));
+        
+        // Add only non-duplicate fallback herbs
+        const uniqueFallbackHerbs = fallbackHerbs.filter(
+          herb => !existingNames.has(herb.name.toLowerCase())
+        );
+        
+        console.log(`Adding ${uniqueFallbackHerbs.length} unique fallback herbs`);
+        categories['herbs'] = [...categories['herbs'], ...uniqueFallbackHerbs];
+      }
+    }
+    
+    // Check and fix grain count
+    if (categories['grains'].length < MIN_ITEMS_PER_CATEGORY) {
+      console.log(`⚠️ Not enough grains (${categories['grains'].length}). Adding fallback grains.`);
+      
+      // Add any fallback grains we've loaded, ensuring no duplicates
+      if (fallbackGrains.length > 0) {
+        console.log(`Adding ${fallbackGrains.length} fallback grains from state`);
+        
+        // Get existing names to avoid duplicates
+        const existingNames = new Set(categories['grains'].map(g => g.name.toLowerCase()));
+        
+        // Add only non-duplicate fallback grains
+        const uniqueFallbackGrains = fallbackGrains.filter(
+          grain => !existingNames.has(grain.name.toLowerCase())
+        );
+        
+        console.log(`Adding ${uniqueFallbackGrains.length} unique fallback grains`);
+        categories['grains'] = [...categories['grains'], ...uniqueFallbackGrains];
+      }
+    }
+    
     return categories;
-  }, [boostedRecommendations]);
+  }, [boostedRecommendations, fallbackHerbs, fallbackGrains]);
+
+  // Effects to load fallback data when needed
+  useEffect(() => {
+    // Only load fallback herbs if we don't have enough
+    const herbsCount = categorizedRecommendations['herbs']?.length || 0;
+    if (herbsCount < MIN_ITEMS_PER_CATEGORY && fallbackHerbs.length === 0) {
+      console.log('Loading fallback herbs...');
+      
+      // Get the existing herb names to avoid duplicates
+      const existingHerbNames = new Set((categorizedRecommendations['herbs'] || []).map(h => h.name.toLowerCase()));
+      
+      // Import herb data
+      import('@/data/ingredients/herbs').then(herbModule => {
+        const { freshHerbs, driedHerbs, medicinalHerbs } = herbModule;
+        
+        // Get herbs that aren't already in our list
+        const additionalHerbs = Object.entries({ ...freshHerbs, ...driedHerbs, ...medicinalHerbs })
+          .filter(([name]) => !existingHerbNames.has(name.toLowerCase()))
+          .slice(0, MIN_ITEMS_PER_CATEGORY)
+          .map(([name, data]) => ({
+            name,
+            category: 'herbs',
+            score: 0.7, // Default score for fallback herbs
+            ...data
+          }));
+        
+        console.log(`Loaded ${additionalHerbs.length} fallback herbs`);
+        setFallbackHerbs(additionalHerbs);
+      }).catch(err => {
+        console.error('Error loading additional herbs:', err);
+      });
+    }
+  }, [categorizedRecommendations, fallbackHerbs]);
+  
+  useEffect(() => {
+    // Only load fallback grains if we don't have enough
+    const grainsCount = categorizedRecommendations['grains']?.length || 0;
+    if (grainsCount < MIN_ITEMS_PER_CATEGORY && fallbackGrains.length === 0) {
+      console.log('Loading fallback grains...');
+      
+      // Get the existing grain names to avoid duplicates
+      const existingGrainNames = new Set((categorizedRecommendations['grains'] || []).map(g => g.name.toLowerCase()));
+      
+      // Import grain data
+      import('@/data/ingredients/grains').then(grainModule => {
+        const { wholeGrains, refinedGrains } = grainModule;
+        
+        // Get grains that aren't already in our list
+        const additionalGrains = Object.entries({ ...wholeGrains, ...refinedGrains })
+          .filter(([name]) => !existingGrainNames.has(name.toLowerCase()))
+          .slice(0, MIN_ITEMS_PER_CATEGORY)
+          .map(([name, data]) => ({
+            name,
+            category: 'grains',
+            score: 0.7, // Default score for fallback grains
+            ...data
+          }));
+        
+        console.log(`Loaded ${additionalGrains.length} fallback grains`);
+        setFallbackGrains(additionalGrains);
+      }).catch(err => {
+        console.error('Error loading additional grains:', err);
+      });
+    }
+  }, [categorizedRecommendations, fallbackGrains]);
 
   // Toggle expansion for a category
   const toggleCategoryExpansion = (category: string) => {
@@ -691,13 +841,6 @@ export default function FoodRecommender() {
                         {typeof ingredient.score === 'number' ? ingredient.score.toFixed(1) : 'N/A'}
                       </span>
                     </div>
-                    {ingredient.astrologicalProfile?.elementalAffinity && (
-                      <div className={styles.elementTag}>
-                        {typeof ingredient.astrologicalProfile.elementalAffinity === 'object' 
-                          ? ingredient.astrologicalProfile.elementalAffinity.base
-                          : ingredient.astrologicalProfile.elementalAffinity}
-                      </div>
-                    )}
                   </div>
                 ))}
                 

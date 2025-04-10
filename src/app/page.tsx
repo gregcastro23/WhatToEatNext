@@ -13,7 +13,7 @@ export default function Home() {
         <header className="mb-8 text-center">
           <h1 className="text-3xl md:text-4xl font-bold mb-2 text-indigo-900">What to Eat Next</h1>
           <p className="text-indigo-600">
-            Food recommendations based on your celestial energies
+            Food recommendations based on the current celestial energies
           </p>
         </header>
         

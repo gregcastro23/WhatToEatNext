@@ -11,7 +11,7 @@ import { russian } from '@/data/cuisines/russian';
 import { greek } from '@/data/cuisines/greek';
 import { french } from '@/data/cuisines/french';
 import { african } from '@/data/cuisines/african';
-import { cookingMethods } from '@/data/cooking/cookingMethods';
+import { cookingMethods } from '@/data/cooking';
 
 // Define a standardized cooking method interface to use across the app
 export interface CulturalCookingMethod {

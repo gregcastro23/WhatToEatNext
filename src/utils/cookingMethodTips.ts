@@ -126,11 +126,34 @@ export function getTechnicalTips(methodName: string): string[] {
       break;
       
     default:
-      tips.push("Research proper temperature and timing for specific ingredients");
-      tips.push("Ensure proper preparation of ingredients before cooking");
-      tips.push("Monitor the cooking process regularly for best results");
-      tips.push("Allow appropriate resting or cooling time after cooking");
-      tips.push("Consider how this method interacts with your specific ingredients");
+      // Import cooking method data instead of using generic tips
+      try {
+        // Try to get cooking method data from the cooking module
+        const { getCookingMethod } = require('@/data/cooking');
+        const methodData = getCookingMethod(methodName);
+        
+        if (methodData && methodData.technicalTips && Array.isArray(methodData.technicalTips)) {
+          // Use the method's actual technical tips if available
+          methodData.technicalTips.forEach(tip => tips.push(tip));
+        } else if (methodData && methodData.tips && Array.isArray(methodData.tips)) {
+          // Try fallback to regular tips if available
+          methodData.tips.forEach(tip => tips.push(tip));
+        } else {
+          // Fallback to a more specific default message if no method-specific tips found
+          tips.push(`Maintain appropriate temperature control for ${methodName}`);
+          tips.push(`Properly prepare ingredients before ${methodName}`);
+          tips.push(`Monitor the ${methodName} process consistently for best results`);
+          tips.push(`Allow for appropriate resting time after ${methodName}`);
+          tips.push(`Adjust timing based on ingredient size and density when ${methodName}`);
+        }
+      } catch (error) {
+        // Fallback if import fails
+        tips.push(`Maintain appropriate temperature control for ${methodName}`);
+        tips.push(`Properly prepare ingredients before ${methodName}`);
+        tips.push(`Monitor the ${methodName} process consistently for best results`);
+        tips.push(`Allow for appropriate resting time after ${methodName}`);
+        tips.push(`Adjust timing based on ingredient size and density when ${methodName}`);
+      }
   }
   
   return tips;
@@ -176,7 +199,19 @@ export function getMethodDetails(methodName: string): string {
       return "Open fire cooking connects with our most primal cooking techniques, utilizing direct flame, radiant heat, and smoke to transform ingredients. This versatile method adapts to various cooking styles from direct searing to low-and-slow roasting. The unpredictable nature of fire requires constant attention and adjustment, rewarding skill with uniquely complex flavors impossible to replicate with modern appliances.";
       
     default:
-      return `${methodName} is a cooking technique that transforms ingredients through specific application of heat, pressure, or chemical processes. It's characterized by its unique approach to food preparation that affects texture, flavor, and nutritional properties.`;
+      try {
+        // Try to get cooking method data from the cooking module
+        const { getCookingMethod } = require('@/data/cooking');
+        const methodData = getCookingMethod(methodName);
+        
+        if (methodData && methodData.description) {
+          return methodData.description;
+        } else {
+          return `${methodName} is a cooking technique that transforms ingredients through specific application of heat, pressure, or chemical processes. It affects texture, flavor, and nutritional properties in unique ways.`;
+        }
+      } catch (error) {
+        return `${methodName} is a cooking technique that transforms ingredients through specific application of heat, pressure, or chemical processes. It affects texture, flavor, and nutritional properties in unique ways.`;
+      }
   }
 }
 
@@ -224,10 +259,35 @@ export function getIdealIngredients(methodName: string): string[] {
       break;
       
     default:
-      ingredients.push("Ingredients suited to this specific cooking method");
-      ingredients.push("Foods that benefit from this method's unique properties");
-      ingredients.push("Items traditionally prepared with this technique");
-      ingredients.push("Refer to specific recipes for best ingredient pairings");
+      try {
+        // Try to get cooking method data from the cooking module
+        const { getCookingMethod } = require('@/data/cooking');
+        const methodData = getCookingMethod(methodName);
+        
+        if (methodData && methodData.suitable_for && Array.isArray(methodData.suitable_for)) {
+          // Use the method's actual suitable ingredients if available
+          methodData.suitable_for.forEach(ingredient => {
+            ingredients.push(ingredient);
+          });
+        } else if (methodData && methodData.idealIngredients && Array.isArray(methodData.idealIngredients)) {
+          // Try fallback to ideal ingredients if available
+          methodData.idealIngredients.forEach(ingredient => {
+            ingredients.push(ingredient);
+          });
+        } else {
+          // Create more specific recommendations based on the method name
+          ingredients.push(`Foods best suited for ${methodName} techniques`);
+          ingredients.push(`Ingredients that develop complex flavors through ${methodName}`);
+          ingredients.push(`Traditional ingredients used with ${methodName} in various cuisines`);
+          ingredients.push(`${methodName} works well with ingredients of medium to high moisture content`);
+        }
+      } catch (error) {
+        // Fallback if import fails
+        ingredients.push(`Foods best suited for ${methodName} techniques`);
+        ingredients.push(`Ingredients that develop complex flavors through ${methodName}`);
+        ingredients.push(`Traditional ingredients used with ${methodName} in various cuisines`);
+        ingredients.push(`${methodName} works well with ingredients of medium to high moisture content`);
+      }
   }
   
   return ingredients;

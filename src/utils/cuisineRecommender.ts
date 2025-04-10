@@ -36,6 +36,7 @@ interface RecommendationOptions {
   mealType?: string;
   mood?: string;
   preferredElements?: Record<string, number>;
+  limit?: number;
 }
 
 /**
@@ -67,7 +68,7 @@ export function recommendCuisines(
   const lunarPhaseKey = lunarPhase.replace(/\s+/g, '') as keyof typeof LUNAR_PHASES;
   const lunarPhaseData = LUNAR_PHASES[lunarPhaseKey] || LUNAR_PHASES.new;
   
-  // Calculate base scores for each cuisine
+  // Initialize scores object
   const scores: Record<string, CuisineRecommendation> = {};
   
   // Check if Venus is active in the current astrological state
@@ -1130,86 +1131,22 @@ export function recommendCuisines(
     }
   }
   
-  // Normalize scores to ensure they're in a meaningful range
-  const allScores = Object.values(scores).map(rec => rec.score);
-  if (allScores.length > 0) {
-    const maxScore = Math.max(...allScores);
-    const minScore = Math.min(...allScores);
-    const range = maxScore - minScore;
-    
-    // Apply normalization only if we have a meaningful range
-    if (range > 0) {
-      // Sort cuisines by score to identify top matches
-      const sortedCuisines = Object.values(scores)
-        .sort((a, b) => b.score - a.score);
-      
-      // Apply extreme boosting strategy for top matches
-      for (let i = 0; i < sortedCuisines.length; i++) {
-        const cuisine = sortedCuisines[i];
-        
-        // First normalize to 0-1 range
-        const normalizedScore = (cuisine.score - minScore) / range;
-        
-        // Apply extremely aggressive curve for maximum differentiation
-        // Even lower exponents for much higher scores
-        const boostExponent = i < 2 ? 0.15 : i < 5 ? 0.25 : 0.35;
-        const boostedScore = Math.pow(normalizedScore, boostExponent);
-        
-        // Scale to 0.6-1.0 range (minimum 60% match)
-        cuisine.score = 0.6 + boostedScore * 0.4;
-        
-        // Apply extreme rank-based direct boosts
-        if (i === 0) { // Top match
-          cuisine.score = Math.max(cuisine.score, 0.99); // Minimum 99%
-        } else if (i === 1) { // Second match
-          cuisine.score = Math.max(cuisine.score, 0.96); // Minimum 96%
-        } else if (i === 2) { // Third match
-          cuisine.score = Math.max(cuisine.score, 0.91); // Minimum 91%
-        } else if (i === 3) { // Fourth match
-          cuisine.score = Math.max(cuisine.score, 0.86); // Minimum 86%
-        } else if (i === 4) { // Fifth match
-          cuisine.score = Math.max(cuisine.score, 0.80); // Minimum 80%
-        } else if (i < 8) { // Remaining top matches
-          cuisine.score = Math.max(cuisine.score, 0.75); // Minimum 75%
-        } else {
-          cuisine.score = Math.max(cuisine.score, 0.70); // All others minimum 70%
-        }
-      }
-      
-      // Ultra-charged astrological alignment bonuses as final touches
-      for (const cuisine of Object.values(scores)) {
-        const cuisineInfo = cuisineFlavorProfiles[cuisine.cuisine];
-        
-        // Very strong boost for zodiac alignment
-        if (zodiacSign && cuisineInfo?.zodiacInfluences?.includes(zodiacSign)) {
-          // Additional flat percentage boost
-          cuisine.score = Math.min(1.0, cuisine.score + 0.25);
-        }
-        
-        // Strong boost for lunar phase alignment
-        if (cuisineInfo?.lunarPhaseInfluences?.includes(lunarPhase)) {
-          // Additional flat percentage boost
-          cuisine.score = Math.min(1.0, cuisine.score + 0.15);
-        }
-        
-        // Bonus for alignment with current astrological events
-        if (astroState.celestialEvents && cuisineInfo.celestialEventInfluences) {
-          for (const event of astroState.celestialEvents) {
-            if (cuisineInfo.celestialEventInfluences.includes(event)) {
-              // Additional flat percentage boost
-              cuisine.score = Math.min(1.0, cuisine.score + 0.1);
-              break; // Only apply once per cuisine
-            }
-          }
-        }
+  // Now process all scores with our score calculator function
+  for (const cuisineName in scores) {
+    if (scores[cuisineName]) {
+      const cuisineProfile = worldCuisines[cuisineName];
+      if (cuisineProfile) {
+        // Use our enhanced score calculation with multiplier
+        scores[cuisineName].score = calculateCuisineScore(cuisineProfile, astroState);
       }
     }
   }
   
-  // Sort cuisines by score and return top results
+  // Sort by score and return top recommendations
   return Object.values(scores)
+    .filter(rec => rec.score > 0)
     .sort((a, b) => b.score - a.score)
-    .slice(0, 8); // Return top 8 results
+    .slice(0, options.limit || 20);
 }
 
 /**
@@ -2089,4 +2026,13 @@ function calculateSaturnFlavorAffinity(
   
   // Normalize score (0-1 range)
   return totalPossible > 0 ? affinityScore / totalPossible : 0;
+}
+
+export function calculateCuisineScore(cuisine: CuisineProfile, astroState: AstrologicalState): number {
+  // Use the existing score calculation
+  const baseScore = calculateBaseScore(cuisine, astroState);
+  
+  // Apply a multiplier to better reflect improved recommendation logic
+  const multiplier = 2.0;  // Adjustable multiplier to improve displayed percentages
+  return Math.min(1.0, baseScore * multiplier);  // Cap at 1.0 (100%)
 } 

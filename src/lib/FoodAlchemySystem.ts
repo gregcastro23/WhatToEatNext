@@ -184,39 +184,282 @@ export class FoodAlchemySystem {
         };
     }
 
-    // Implement the rest of your methods...
-    
     /**
-     * Placeholder implementation - replace with actual logic
+     * Calculates the elemental match between a food and the current system state
      */
     private calculateElementalMatch(food: FoodCorrespondence, state: SystemState): number {
-        // Implementation would go here
-        return 0.5;
+        if (!food || !state || !state.elements) {
+            return 0.5; // Default neutral value
+        }
+        
+        // Calculate how well the food's element matches with the current elemental state
+        // Higher value means better match (balancing or enhancing)
+        
+        const foodElement = food.element;
+        if (!foodElement || !state.elements[foodElement]) {
+            return 0.5; // Default if missing data
+        }
+        
+        // Get the current elemental balance
+        const { Fire, Water, Air, Earth } = state.elements;
+        
+        // Calculate the dominant and weakest elements
+        const elementValues = [
+            { element: 'Fire', value: Fire },
+            { element: 'Water', value: Water },
+            { element: 'Air', value: Air },
+            { element: 'Earth', value: Earth }
+        ];
+        elementValues.sort((a, b) => b.value - a.value);
+        
+        const dominantElement = elementValues[0].element;
+        const weakestElement = elementValues[3].element;
+        
+        // Define elemental relationships (balancing elements)
+        const balances: Record<Element, Element> = {
+            'Fire': 'Water',
+            'Water': 'Fire',
+            'Air': 'Earth',
+            'Earth': 'Air'
+        };
+        
+        // Calculate match score
+        let matchScore = 0.5; // Start with neutral
+        
+        // If the system needs more of this element (it's the weakest), give high score
+        if (foodElement === weakestElement) {
+            matchScore += 0.3;
+        }
+        
+        // If this element can balance the dominant element
+        if (foodElement === balances[dominantElement as Element]) {
+            matchScore += 0.2;
+        }
+        
+        // If this element would further imbalance the system (adding to dominant)
+        if (foodElement === dominantElement && elementValues[0].value > 0.7) {
+            matchScore -= 0.2;
+        }
+        
+        // Normalize score to range 0-1
+        return Math.max(0, Math.min(1, matchScore));
     }
 
     private calculatePlanetaryMatch(food: FoodCorrespondence, planetaryHour: Planet): number {
-        // Implementation would go here
+        if (!food || !planetaryHour) {
+            return 0.5; // Default neutral value
+        }
+        
+        // Calculate match between food's planetary ruler and current planetary hour
+        
+        // Direct match: food's planet matches the current planetary hour
+        if (food.planet === planetaryHour) {
+            return 0.9; // Strong positive match
+        }
+        
+        // Define planetary relationships (complementary and challenging)
+        const complementary: Record<Planet, Planet[]> = {
+            'Sun': ['Jupiter', 'Mars'],
+            'Moon': ['Venus', 'Neptune'],
+            'Mercury': ['Venus', 'Uranus'],
+            'Venus': ['Moon', 'Jupiter'],
+            'Mars': ['Sun', 'Pluto'],
+            'Jupiter': ['Sun', 'Venus'],
+            'Saturn': ['Mercury', 'Uranus'],
+            'Uranus': ['Mercury', 'Saturn'],
+            'Neptune': ['Moon', 'Venus'],
+            'Pluto': ['Mars', 'Saturn']
+        };
+        
+        const challenging: Record<Planet, Planet[]> = {
+            'Sun': ['Saturn', 'Uranus'],
+            'Moon': ['Mars', 'Saturn'],
+            'Mercury': ['Jupiter', 'Neptune'],
+            'Venus': ['Mars', 'Uranus'],
+            'Mars': ['Venus', 'Moon'],
+            'Jupiter': ['Mercury', 'Saturn'],
+            'Saturn': ['Sun', 'Jupiter'],
+            'Uranus': ['Sun', 'Venus'],
+            'Neptune': ['Mercury', 'Mars'],
+            'Pluto': ['Venus', 'Jupiter']
+        };
+        
+        // Check for complementary relationship
+        if (complementary[food.planet]?.includes(planetaryHour)) {
+            return 0.75; // Good positive match
+        }
+        
+        // Check for challenging relationship
+        if (challenging[food.planet]?.includes(planetaryHour)) {
+            return 0.25; // Negative match
+        }
+        
+        // Neutral relationship
         return 0.5;
     }
 
     private calculateEnergeticMatch(food: FoodCorrespondence, state: SystemState): number {
-        // Implementation would go here
-        return 0.5;
+        if (!food || !state || !food.energyValues || !state.metrics) {
+            return 0.5; // Default neutral value
+        }
+        
+        // Calculate match between food's energetic values and current system state
+        
+        const foodEnergy = food.energyValues;
+        const systemEnergy = state.metrics;
+        
+        // Calculate the energetic balance needed
+        // For each metric (heat, entropy, reactivity):
+        // - If system value is high (>0.7), we want a lower food value
+        // - If system value is low (<0.3), we want a higher food value
+        // - If system value is balanced, we want a similar food value
+        
+        let heatMatch = 0.5;
+        let entropyMatch = 0.5;
+        let reactivityMatch = 0.5;
+        
+        // Heat balance
+        if (systemEnergy.heat > 0.7 && foodEnergy.heat < 0.3) {
+            // System is hot, food is cooling - good match
+            heatMatch = 0.8;
+        } else if (systemEnergy.heat < 0.3 && foodEnergy.heat > 0.7) {
+            // System is cool, food is warming - good match
+            heatMatch = 0.8;
+        } else if (Math.abs(systemEnergy.heat - foodEnergy.heat) < 0.2) {
+            // Food maintains current heat - neutral match
+            heatMatch = 0.6;
+        } else if ((systemEnergy.heat > 0.7 && foodEnergy.heat > 0.7) || 
+                   (systemEnergy.heat < 0.3 && foodEnergy.heat < 0.3)) {
+            // Food amplifies imbalance - poor match
+            heatMatch = 0.2;
+        }
+        
+        // Entropy balance - similar logic
+        if (systemEnergy.entropy > 0.7 && foodEnergy.entropy < 0.3) {
+            entropyMatch = 0.8;
+        } else if (systemEnergy.entropy < 0.3 && foodEnergy.entropy > 0.7) {
+            entropyMatch = 0.8;
+        } else if (Math.abs(systemEnergy.entropy - foodEnergy.entropy) < 0.2) {
+            entropyMatch = 0.6;
+        } else if ((systemEnergy.entropy > 0.7 && foodEnergy.entropy > 0.7) || 
+                   (systemEnergy.entropy < 0.3 && foodEnergy.entropy < 0.3)) {
+            entropyMatch = 0.2;
+        }
+        
+        // Reactivity balance - similar logic
+        if (systemEnergy.reactivity > 0.7 && foodEnergy.reactivity < 0.3) {
+            reactivityMatch = 0.8;
+        } else if (systemEnergy.reactivity < 0.3 && foodEnergy.reactivity > 0.7) {
+            reactivityMatch = 0.8;
+        } else if (Math.abs(systemEnergy.reactivity - foodEnergy.reactivity) < 0.2) {
+            reactivityMatch = 0.6;
+        } else if ((systemEnergy.reactivity > 0.7 && foodEnergy.reactivity > 0.7) || 
+                   (systemEnergy.reactivity < 0.3 && foodEnergy.reactivity < 0.3)) {
+            reactivityMatch = 0.2;
+        }
+        
+        // Weighted average of all three matches
+        return (heatMatch * 0.4 + entropyMatch * 0.3 + reactivityMatch * 0.3);
     }
 
     private generateRecommendations(food: FoodCorrespondence, state: SystemState, time: Date): string[] {
-        // Implementation would go here
-        return ["Sample recommendation"];
+        if (!food) {
+            return [];
+        }
+        
+        const recommendations: string[] = [];
+        const hour = time.getHours();
+        const isDaytime = hour >= 6 && hour < 18;
+        
+        // Add food-specific recommendations
+        recommendations.push(`${food.food} aligns with ${food.planet}, enhancing its ${food.element} properties.`);
+        
+        // Add time-based recommendations
+        const timeOfDay = isDaytime ? 'daytime' : 'nighttime';
+        recommendations.push(`Consuming during ${timeOfDay} enhances its ${isDaytime ? 'active' : 'receptive'} qualities.`);
+        
+        // Add recommendations based on elemental balance
+        const { Fire, Water, Air, Earth } = state.elements;
+        
+        if (food.element === 'Fire' && Fire < 0.3) {
+            recommendations.push(`This food will help increase your Fire element, enhancing motivation and energy.`);
+        } else if (food.element === 'Water' && Water < 0.3) {
+            recommendations.push(`This food will help increase your Water element, improving emotional balance and intuition.`);
+        } else if (food.element === 'Air' && Air < 0.3) {
+            recommendations.push(`This food will help increase your Air element, supporting mental clarity and communication.`);
+        } else if (food.element === 'Earth' && Earth < 0.3) {
+            recommendations.push(`This food will help increase your Earth element, promoting stability and grounding.`);
+        }
+        
+        // Add preparation recommendations
+        const preparationMethods = this.getPreparationMethods(food, time);
+        if (preparationMethods.length > 0) {
+            const methodNames = preparationMethods.map(m => m.name).join(', ');
+            recommendations.push(`Best preparation methods: ${methodNames}.`);
+        }
+        
+        return recommendations;
     }
 
     private generateWarnings(food: FoodCorrespondence, state: SystemState): string[] {
-        // Implementation would go here
-        return [];
+        if (!food || !state) {
+            return [];
+        }
+        
+        const warnings: string[] = [];
+        
+        // Check for elemental imbalances
+        const { Fire, Water, Air, Earth } = state.elements;
+        
+        if (food.element === 'Fire' && Fire > 0.7) {
+            warnings.push(`High Fire energy detected. This food may increase irritability or impulsiveness.`);
+        } else if (food.element === 'Water' && Water > 0.7) {
+            warnings.push(`High Water energy detected. This food may increase emotional sensitivity or lethargy.`);
+        } else if (food.element === 'Air' && Air > 0.7) {
+            warnings.push(`High Air energy detected. This food may increase anxiety or scattered thinking.`);
+        } else if (food.element === 'Earth' && Earth > 0.7) {
+            warnings.push(`High Earth energy detected. This food may increase sluggishness or resistance to change.`);
+        }
+        
+        // Check for energetic imbalances
+        if (food.energyValues && state.metrics) {
+            if (state.metrics.heat > 0.8 && food.energyValues.heat > 0.7) {
+                warnings.push(`Your system is already running hot. This warming food may intensify this imbalance.`);
+            }
+            
+            if (state.metrics.entropy > 0.8 && food.energyValues.entropy > 0.7) {
+                warnings.push(`Your system is already highly entropic. This chaotic food may increase disorganization.`);
+            }
+            
+            if (state.metrics.reactivity > 0.8 && food.energyValues.reactivity > 0.7) {
+                warnings.push(`Your system is already highly reactive. This stimulating food may increase sensitivity.`);
+            }
+        }
+        
+        return warnings;
     }
 
     private getPreparationMethods(food: FoodCorrespondence, time: Date): PreparationMethod[] {
-        // Implementation would go here
-        return [];
+        if (!food || !this.preparationMethods || this.preparationMethods.length === 0) {
+            return [];
+        }
+        
+        // Determine current planetary hour (simplified)
+        const hourOfDay = time.getHours() % 12;
+        const planetaryHours: Planet[] = [
+            'Sun', 'Venus', 'Mercury', 'Moon', 'Saturn', 
+            'Jupiter', 'Mars', 'Sun', 'Venus', 'Mercury', 
+            'Moon', 'Saturn'
+        ];
+        const currentPlanetaryHour = planetaryHours[hourOfDay];
+        
+        // Determine if it's daytime or nighttime
+        const isDaytime = time.getHours() >= 6 && time.getHours() < 18;
+        
+        // Filter methods compatible with the food and current time
+        return this.preparationMethods.filter(method => 
+            this.isMethodCompatible(method, food, currentPlanetaryHour, isDaytime)
+        );
     }
 
     private isMethodCompatible(
@@ -225,8 +468,37 @@ export class FoodAlchemySystem {
         planetaryHour: Planet,
         isDaytimeNow: boolean
     ): boolean {
-        // Implementation would go here
-        return true;
+        if (!method || !food) {
+            return false;
+        }
+        
+        // Check elemental compatibility
+        // Methods that share or complement the food's element are preferred
+        const elementalMatch = 
+            method.element === food.element || 
+            (food.element === 'Fire' && method.element === 'Air') ||
+            (food.element === 'Air' && method.element === 'Fire') ||
+            (food.element === 'Water' && method.element === 'Earth') ||
+            (food.element === 'Earth' && method.element === 'Water');
+            
+        // Check planetary compatibility
+        const planetaryMatch = 
+            method.timing.optimal.includes(planetaryHour) ||
+            (method.timing.acceptable.includes(planetaryHour) && !method.timing.avoid.includes(planetaryHour));
+            
+        // Check if method is appropriate for time of day
+        // Some methods are better for day (solar) and others for night (lunar)
+        const timeAppropriate = 
+            (isDaytimeNow && (method.element === 'Fire' || method.element === 'Air')) ||
+            (!isDaytimeNow && (method.element === 'Water' || method.element === 'Earth')) ||
+            method.planetaryRuler === 'Sun' && isDaytimeNow ||
+            method.planetaryRuler === 'Moon' && !isDaytimeNow;
+        
+        // Method is compatible if at least two of the three conditions are true
+        const compatibilityFactors = [elementalMatch, planetaryMatch, timeAppropriate];
+        const trueFactors = compatibilityFactors.filter(Boolean).length;
+        
+        return trueFactors >= 2;
     }
 
     // Add other methods as needed

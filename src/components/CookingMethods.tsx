@@ -54,8 +54,22 @@ const alchemize = async (
 };
 
 const calculateMatchScore = (elements: any): number => {
-  // Simple average of thermodynamic properties
-  return (elements.heat + (1 - elements.entropy) + elements.reactivity) / 3;
+  if (!elements) return 0;
+  
+  // More sophisticated calculation that weights the properties differently
+  // Heat and reactivity are positive factors, while high entropy is generally a negative factor
+  const heatScore = elements.heat || 0;
+  const entropyScore = 1 - (elements.entropy || 0); // Invert entropy so lower is better
+  const reactivityScore = elements.reactivity || 0;
+  
+  // Calculate weighted average with more weight on heat and reactivity
+  const rawScore = (heatScore * 0.4) + (entropyScore * 0.3) + (reactivityScore * 0.3);
+  
+  // Apply a higher multiplier to ensure clear differentiation between methods
+  const multiplier = 2.5; // Higher multiplier for more obvious differences
+  
+  // Cap at 1.0 (100%) but ensure minimum of 0.1 (10%)
+  return Math.min(1.0, Math.max(0.1, rawScore * multiplier));
 };
 
 // Define interfaces for thermodynamic properties
@@ -310,8 +324,30 @@ const adaptLunarPhase = (phase: LunarPhase | undefined): any => {
 import { testCookingMethodRecommendations } from '../utils/testRecommendations';
 
 export default function CookingMethods() {
-  // Add renderCount ref for debugging but don't use it in any useEffect
+  // Add renderCount ref for debugging
   const renderCount = useRef(0);
+  // Use ref for tracking component mounted state
+  const isMountedRef = useRef(false);
+  const [isMounted, setIsMounted] = useState(false);
+  
+  // Increment render count on each render for debugging
+  useEffect(() => {
+    renderCount.current += 1;
+  });
+  
+  // Set mounted state when component mounts
+  useEffect(() => {
+    isMountedRef.current = true;
+    setIsMounted(true);
+    
+    // Fetch methods when component mounts
+    fetchMethods();
+    
+    return () => {
+      isMountedRef.current = false;
+      setIsMounted(false);
+    };
+  }, []);
   
   // Get astrological state
   const {
@@ -383,6 +419,8 @@ export default function CookingMethods() {
   const [showAllMethods, setShowAllMethods] = useState(false);
   const [expandedMolecular, setExpandedMolecular] = useState<Record<string, boolean>>({});
   const [expandedMethods, setExpandedMethods] = useState<Record<string, boolean>>({});
+  // Add a new state to store the initial scores
+  const [methodScores, setMethodScores] = useState<Record<string, number>>({});
 
   // Add this simple fallback 
   const [tarotData] = useState(DEFAULT_TAROT_DATA);
@@ -390,6 +428,39 @@ export default function CookingMethods() {
 
   // Add state for modality filtering
   const [modalityFilter, setModalityFilter] = useState<string>('all');
+
+  // Add these near the top with other state variables
+  const [searchIngredient, setSearchIngredient] = useState<string>('');
+  const [ingredientCompatibility, setIngredientCompatibility] = useState<Record<string, number>>({});
+
+  // Add this function to calculate ingredient compatibility with methods
+  const calculateIngredientCompatibility = (ingredient: string) => {
+    if (!ingredient.trim()) return;
+    
+    // Create a compatibility map
+    const compatibilityMap: Record<string, number> = {};
+    
+    recommendedMethods.forEach(method => {
+      if (method.elementalProperties) {
+        // Create basic compatibility score based on elemental properties
+        // This is a simplified version - you would use your actual compatibility calculation
+        let compatibilityScore = 0.5; // Default medium compatibility
+        
+        // Check if ingredient is in the method's suitable_for list
+        if (method.suitable_for && method.suitable_for.some(item => 
+          item.toLowerCase().includes(ingredient.toLowerCase())
+        )) {
+          compatibilityScore += 0.3; // Big boost for explicitly suitable ingredients
+        }
+        
+        // Store the compatibility score
+        compatibilityMap[method.id || method.name] = Math.min(1.0, compatibilityScore);
+      }
+    });
+    
+    // Update state with the compatibility scores
+    setIngredientCompatibility(compatibilityMap);
+  };
 
   // Toggle molecular details expansion
   const toggleMolecular = useCallback((methodId: string) => {
@@ -401,10 +472,12 @@ export default function CookingMethods() {
 
   // Toggle method expansion
   const toggleMethodExpansion = useCallback((methodId: string) => {
-    setExpandedMethods(prev => ({
-      ...prev,
-      [methodId]: !prev[methodId]
-    }));
+    setExpandedMethods(prev => {
+      const newExpandedMethods = { ...prev };
+      // Toggle the expanded state for this method
+      newExpandedMethods[methodId] = !prev[methodId];
+      return newExpandedMethods;
+    });
   }, []);
 
   // Toggle show all methods
@@ -412,681 +485,30 @@ export default function CookingMethods() {
     setShowAllMethods(prev => !prev);
   }, []);
 
-  // Culture options for the dropdown
-  const cultures = useMemo(() => {
-    const uniqueCultures = Array.from(
-      new Set(culturalCookingMethods.map(method => method.culturalOrigin))
-    ).sort();
-    return ['All Cultures', ...uniqueCultures];
+  // Initialize a culturalCookingMap for filtering
+  const culturalCookingMap = useMemo(() => {
+    // Create a map of culture -> method IDs
+    const map: Record<string, string[]> = { 'Traditional': [] };
+    
+    try {
+      culturalCookingMethods.forEach(method => {
+        const culture = method.culturalOrigin || 'Traditional';
+        if (!map[culture]) {
+          map[culture] = [];
+        }
+        map[culture].push(method.id);
+      });
+      
+      return map;
+    } catch (error) {
+      console.error("Error initializing culture map:", error);
+      return map;
+    }
   }, []);
 
   // Get global astrological adjustment info
   const globalAstrologicalAdjustment = useMemo(() => {
     const zodiacSign = currentZodiac;
-    const isNighttime = !isDaytime;
-    
-    let adjustment = '';
-    
-    // Adjust timing based on zodiac
-    if (zodiacSign) {
-      if (['aries', 'leo', 'sagittarius'].includes(zodiacSign)) {
-        // Fire signs: faster cooking
-        adjustment = 'Reduce cooking time by 5-10% (fire sign influence)';
-      } else if (['taurus', 'virgo', 'capricorn'].includes(zodiacSign)) {
-        // Earth signs: more thorough cooking
-        adjustment = 'Increase cooking time by 5-10% for thorough cooking (earth sign influence)';
-      } else if (['gemini', 'libra', 'aquarius'].includes(zodiacSign)) {
-        // Air signs: varied temperature
-        adjustment = 'Use variable temperatures for complex flavor development (air sign influence)';
-      } else if (['cancer', 'scorpio', 'pisces'].includes(zodiacSign)) {
-        // Water signs: gentle cooking
-        adjustment = 'Prefer gentle, slow cooking methods (water sign influence)';
-      }
-    }
-    
-    // Day/night adjustments
-    if (isNighttime) {
-      adjustment += adjustment ? ' • ' : '';
-      adjustment += 'Night cooking: reduce heat slightly for better flavor integration';
-    }
-    
-    // Lunar phase adjustments
-    if (lunarPhase && normalizeLunarPhase(lunarPhase) === 'FULL_MOON') {
-      adjustment += adjustment ? ' • ' : '';
-      adjustment += 'Full moon: flavors intensify, reduce cooking time slightly';
-    } else if (lunarPhase && normalizeLunarPhase(lunarPhase) === 'NEW_MOON') {
-      adjustment += adjustment ? ' • ' : '';
-      adjustment += 'New moon: flavors more subtle, extend cooking time slightly';
-    }
-    
-    return adjustment || 'Standard timing recommended';
-  }, [currentZodiac, isDaytime, lunarPhase]);
-
-  // Aggregate cooking methods from planetary associations
-  useEffect(() => {
-    const methods: Record<string, string[]> = {};
-    
-    Object.entries(planetaryFoodAssociations).forEach(([planet, data]) => {
-      if (data.cookingMethods && data.cookingMethods.length > 0) {
-        methods[planet] = data.cookingMethods;
-      }
-    });
-    
-    setPlanetaryCookingMethods(methods);
-  }, []);
-
-  // Memoize the cooking methods data, including cultural methods
-  const methodsAsElementalItems = useMemo(() => {
-    // Start with traditional methods
-    const methodItems = Object.entries(cookingMethods).map(([id, method]) => {
-      // Find planetary associations for this cooking method
-      const associatedPlanets: string[] = [];
-      Object.entries(planetaryCookingMethods).forEach(([planet, methods]) => {
-        const methodName = method.name?.toLowerCase() || id?.toLowerCase();
-        if (methods.some(m => methodName.includes(m.toLowerCase()))) {
-          associatedPlanets.push(planet);
-        }
-      });
-
-      // Get cultural variations for this method
-      const culturalVariations = getCulturalVariations(id);
-      
-      // Convert cultural variations to the right format
-      const variationsAsItems = culturalVariations.map(variation => ({
-        id: variation.id,
-        name: variation.name,
-        elementalProperties: variation.elementalProperties || {
-          Fire: 0,
-          Water: 0,
-          Earth: 0,
-          Air: 0
-        },
-        description: variation.description,
-        culturalOrigin: variation.culturalOrigin,
-        bestFor: variation.bestFor || [],
-        astrologicalInfluences: {
-          ...variation.astrologicalInfluences,
-          rulingPlanets: associatedPlanets.length > 0 
-            ? associatedPlanets 
-            : method.astrologicalInfluences?.dominantPlanets
-        }
-      }));
-
-      return {
-        id,
-        name: method.name || id?.split('_').map((word: string) => 
-          word.charAt(0).toUpperCase() + word.slice(1)
-        ).join(' ') || 'Unknown Method',
-        elementalProperties: method.elementalEffect || {
-          Fire: 0,
-          Water: 0,
-          Earth: 0,
-          Air: 0
-        },
-        description: method.description,
-        culturalOrigin: 'Traditional',
-        bestFor: method.suitable_for || [],
-        duration: method.duration,
-        optimalTemperatures: method.optimalTemperatures,
-        astrologicalInfluences: {
-          ...method.astrologicalInfluences,
-          rulingPlanets: associatedPlanets.length > 0 
-            ? associatedPlanets 
-            : method.astrologicalInfluences?.dominantPlanets
-        },
-        // Add variations as subcategories
-        variations: variationsAsItems
-      };
-    });
-
-    // Include any standalone cultural methods that aren't variations of standard methods
-    const standaloneCulturalMethods = culturalCookingMethods
-      .filter(method => !method.relatedToMainMethod)
-      .map(method => ({
-        id: method.id,
-        name: method.name,
-        elementalProperties: method.elementalProperties || {
-          Fire: 0,
-          Water: 0,
-          Earth: 0,
-          Air: 0
-        },
-        description: method.description,
-        culturalOrigin: method.culturalOrigin,
-        bestFor: method.bestFor || [],
-        astrologicalInfluences: method.astrologicalInfluences
-      }));
-
-    // Add molecular gastronomy methods
-    const molecularMethods = Object.entries(molecularCookingMethods).map(([id, method]) => ({
-      id,
-      name: method.name,
-      elementalProperties: method.elementalEffect || {
-        Fire: 0,
-        Water: 0,
-        Earth: 0,
-        Air: 0
-      },
-      description: method.description,
-      culturalOrigin: 'Molecular Gastronomy',
-      bestFor: method.suitable_for || [],
-      isMolecular: true,
-      duration: method.duration,
-      astrologicalInfluences: method.astrologicalInfluences
-    }));
-
-    // Combine all methods
-    return [...methodItems, ...standaloneCulturalMethods, ...molecularMethods];
-  }, [planetaryCookingMethods]);
-
-  // Filter methods based on selected culture
-  const filteredMethods = useMemo(() => {
-    if (!selectedCulture || selectedCulture === 'All Cultures') {
-      return methodsAsElementalItems;
-    }
-    return methodsAsElementalItems.filter(method => 
-      method.culturalOrigin === selectedCulture
-    );
-  }, [methodsAsElementalItems, selectedCulture]);
-
-  // Memoize the alchemize function to prevent it from causing re-renders
-  const memoizedAlchemize = useCallback(async (
-    elements: ElementalProperties | Record<string, number>,
-    astroState: any,
-    thermodynamics: any
-  ) => {
-    return await alchemize(elements, astroState, thermodynamics);
-  }, []);
-
-  // First useEffect to set loading state and run fetchMethods once
-  useEffect(() => {
-    let isMounted = true;
-    if (!loading) {
-      setLoading(true);
-    }
-
-    const fetchMethods = async () => {
-      try {
-        let transformedMethods: ExtendedAlchemicalItem[] = [];
-        
-        // Extract cooking methods from the filteredMethods list or fall back to methodsAsElementalItems
-        const methodsList = filteredMethods || methodsAsElementalItems;
-        
-        for (const method of methodsList) {
-          // Calculate element proportions for methods from astrological state
-          const propertyKeys = Object.keys(method.elementalProperties);
-          if (propertyKeys.length > 0) {
-            // Merge in elements from astrological chart
-            const alchemizedElements = await memoizedAlchemize(
-              method.elementalProperties as ElementalProperties,
-              normalizeAstroState(),
-              methodToThermodynamics(method)
-            );
-            
-            // Convert the algorithm score into a display-friendly percentage
-            const score = calculateMatchScore(alchemizedElements);
-            
-            transformedMethods.push({
-              ...method,
-              ...alchemizedElements,
-              gregsEnergy: score,
-            });
-          } else {
-            // Fallback if no elemental properties defined
-            transformedMethods.push({
-              ...method,
-              gregsEnergy: 0.35, // Default modest score for methods without element data
-              // Add missing properties required by ExtendedAlchemicalItem
-              alchemicalProperties: {
-                Spirit: 0.25,
-                Substance: 0.25,
-                Essence: 0.25,
-                Matter: 0.25
-              },
-              transformedElementalProperties: method.elementalProperties || {},
-              heat: 0.5,
-              entropy: 0.5,
-              reactivity: 0.5,
-              dominantElement: Object.entries(method.elementalProperties || { Fire: 0.25 })
-                .sort(([_a, a], [_b, b]) => b - a)[0][0] as ElementalCharacter,
-              dominantAlchemicalProperty: 'Spirit', // Default value
-              planetaryBoost: 1.0,
-              dominantPlanets: [],
-              planetaryDignities: {}
-            } as unknown as ExtendedAlchemicalItem);
-          }
-        }
-        
-        // Ensure score normalization for consistent percentages
-        transformedMethods = transformedMethods.map(method => {
-          // Scale scores to better distribute along the 0-100% range
-          // Ensure minimum score of 25% and maximum of 98% for reasonable display
-          const normalizedScore = 0.25 + (method.gregsEnergy * 0.73);
-          return {
-            ...method,
-            gregsEnergy: normalizedScore,
-            // Add a match reason for more context
-            matchReason: determineMatchReason(
-              method, 
-              currentZodiac, 
-              lunarPhase ? normalizeLunarPhase(lunarPhase) : undefined
-            )
-          };
-        });
-        
-        // Prioritize the common cooking methods
-        transformedMethods = transformedMethods.sort((a, b) => {
-          // Check if both methods are in the common methods list
-          const aIsCommon = commonCookingMethods.some(method => 
-            a.id === method || a.name.toLowerCase().includes(method.toLowerCase().replace('_', ' ')));
-          const bIsCommon = commonCookingMethods.some(method => 
-            b.id === method || b.name.toLowerCase().includes(method.toLowerCase().replace('_', ' ')));
-          
-          if (aIsCommon && !bIsCommon) {
-            return -1; // a comes first
-          } else if (!aIsCommon && bIsCommon) {
-            return 1;  // b comes first
-          }
-          
-          // If both are common or both are not common, sort by score
-          return b.gregsEnergy - a.gregsEnergy;
-        });
-        
-        // Remove duplicates and ensure we have a good variety
-        if (transformedMethods.length < 8) {
-          const additionalMethods = Object.entries(allCookingMethods)
-            .map(([id, method]) => ({
-              id,
-              name: method.name || id,
-              description: method.description || '',
-              elementalProperties: method.elementalEffect || {},
-              gregsEnergy: 0.35,
-              // Add missing properties required by ExtendedAlchemicalItem
-              alchemicalProperties: {},
-              transformedElementalProperties: {},
-              heat: 0,
-              entropy: 0,
-              reactivity: 0,
-              energy: 0
-            } as unknown as ExtendedAlchemicalItem))
-            .filter(method => !transformedMethods.some(m => m.name === method.name))
-            .slice(0, 16 - transformedMethods.length);
-          
-          transformedMethods = [...transformedMethods, ...additionalMethods]
-            .slice(0, 16);
-        }
-        
-        if (isMounted) {
-          setRecommendedMethods(transformedMethods);
-          setLoading(false);
-        }
-      } catch (error) {
-        console.error("Error getting cooking methods:", error);
-        // Ensure we're not stuck in loading state
-        if (isMounted) {
-          setLoading(false);
-        }
-      }
-    };
-
-    fetchMethods();
-
-    return () => {
-      isMounted = false;
-    };
-  }, [filteredMethods, isDaytime, currentZodiac, lunarPhase, methodsAsElementalItems, commonCookingMethods, memoizedAlchemize, loading]);
-
-  // Add this helper function for better match explanations
-  const determineMatchReason = (
-    method: ExtendedAlchemicalItem, 
-    zodiac?: string, 
-    lunarPhase?: LunarPhase
-  ): string => {
-    const methodName = method.name.toLowerCase();
-    
-    // Check for zodiac sign alignment
-    if (zodiac && method.astrologicalInfluences?.favorableZodiac?.includes(zodiac as ZodiacSign)) {
-      return `Aligned with ${zodiac} energy`;
-    }
-    
-    // Enhanced lunar phase alignment
-    if (lunarPhase) {
-      const normalizedPhase = normalizeLunarPhase(lunarPhase);
-      
-      if (normalizedPhase === 'FULL_MOON') {
-        if (methodName.includes('grill') || methodName.includes('roast')) {
-          return "Enhanced by full moon energy";
-        }
-        // Fire methods in general
-        if (methodName.includes('flame') || methodName.includes('broil') || methodName.includes('sear')) {
-          return "Intensified by full moon's radiance";
-        }
-      }
-      
-      if (normalizedPhase === 'NEW_MOON') {
-        if (methodName.includes('steam') || methodName.includes('poach')) {
-          return "Harmonious with new moon energy";
-        }
-        // Gentle methods
-        if (methodName.includes('infuse') || methodName.includes('marinate') || methodName.includes('ferment')) {
-          return "Aligned with new moon's subtle energies";
-        }
-      }
-      
-      if (normalizedPhase?.includes('WAXING')) {
-        if (methodName.includes('rise') || methodName.includes('ferment') || methodName.includes('brew')) {
-          return "Empowered by waxing moon energy";
-        }
-      }
-      
-      if (normalizedPhase?.includes('WANING')) {
-        if (methodName.includes('preserve') || methodName.includes('pickle') || methodName.includes('cure')) {
-          return "Balanced by waning moon energy";
-        }
-      }
-    }
-    
-    // Check for planetary alignment
-    if (method.astrologicalInfluences?.rulingPlanets?.[0]) {
-      return `Ruled by ${method.astrologicalInfluences.rulingPlanets[0]}`;
-    }
-    
-    // Elemental alignment
-    const dominantElement = Object.entries(method.elementalProperties || {})
-      .sort(([_a, a], [_b, b]) => b - a)[0];
-    
-    if (dominantElement) {
-      return `Strong in ${dominantElement[0]} energy`;
-    }
-    
-    return "Well-suited for current conditions";
-  };
-
-  const getElementIcon = (element: string) => {
-    switch (element) {
-      case 'Fire': return <Flame className="w-5 h-5 text-red-400" />;
-      case 'Water': return <Droplets className="w-5 h-5 text-blue-400" />;
-      case 'Earth': return <Mountain className="w-5 h-5 text-green-400" />;
-      case 'Air': return <Wind className="w-5 h-5 text-purple-400" />;
-      default: return null;
-    }
-  };
-
-  const getAlchemicalPropertyIcon = (property: AlchemicalProperty) => {
-    return <Sparkles className="w-5 h-5 text-yellow-400" />;
-  };
-  
-  // Get astrological timing adjustments
-  const getAstrologicalTimingAdjustment = (method: ExtendedAlchemicalItem): string => {
-    const zodiacSign = currentZodiac;
-    const isNighttime = !isDaytime;
-    
-    let adjustment = '';
-    
-    // Adjust timing based on zodiac
-    if (zodiacSign) {
-      if (['aries', 'leo', 'sagittarius'].includes(zodiacSign)) {
-        // Fire signs: faster cooking
-        adjustment = 'Reduce cooking time by 5-10% (fire sign influence)';
-      } else if (['taurus', 'virgo', 'capricorn'].includes(zodiacSign)) {
-        // Earth signs: more thorough cooking
-        adjustment = 'Increase cooking time by 5-10% for thorough cooking (earth sign influence)';
-      } else if (['gemini', 'libra', 'aquarius'].includes(zodiacSign)) {
-        // Air signs: varied temperature
-        adjustment = 'Use variable temperatures for complex flavor development (air sign influence)';
-      } else if (['cancer', 'scorpio', 'pisces'].includes(zodiacSign)) {
-        // Water signs: gentle cooking
-        adjustment = 'Prefer gentle, slow cooking methods (water sign influence)';
-      }
-    }
-    
-    // Day/night adjustments
-    if (isNighttime) {
-      adjustment += adjustment ? ' • ' : '';
-      adjustment += 'Night cooking: reduce heat slightly for better flavor integration';
-    }
-    
-    // Lunar phase adjustments
-    if (lunarPhase && normalizeLunarPhase(lunarPhase) === 'FULL_MOON') {
-      adjustment += adjustment ? ' • ' : '';
-      adjustment += 'Full moon: flavors intensify, reduce cooking time slightly';
-    } else if (lunarPhase && normalizeLunarPhase(lunarPhase) === 'NEW_MOON') {
-      adjustment += adjustment ? ' • ' : '';
-      adjustment += 'New moon: flavors more subtle, extend cooking time slightly';
-    }
-    
-    return adjustment || 'Standard timing recommended';
-  };
-  
-  // Update the thermodynamic effects section to be more method-specific
-  const getThermalImplication = (property: string, effect: string, methodName: string): string => {
-    const methodLower = methodName.toLowerCase();
-    
-    switch (property) {
-      case 'heat':
-        // Add many more specific methods
-        if (methodLower.includes('broil'))
-          return "Creates intense top-down heat for surface browning and caramelization";
-        else if (methodLower.includes('saute') || methodLower.includes('sauté'))
-          return "Rapidly conducts heat through oil for quick surface cooking while preserving texture";
-        else if (methodLower.includes('brais'))
-          return "Uses gentle, sustained heat to gradually break down tough fibers into tenderness";
-        else if (methodLower.includes('blanch'))
-          return "Brief heat exposure to set color, halt enzyme activity, and soften slightly";
-        else if (methodLower.includes('infus'))
-          return "Gentle heat transfers flavors from aromatics to carrying liquid without boiling";
-        else if (methodLower.includes('dehydrat'))
-          return "Low, sustained heat removes moisture while concentrating flavors";
-        else if (methodLower.includes('smoke'))
-          return "Indirect heat gently cooks while smoke particles adhere to food surface";
-        // ... existing conditions ...
-        
-      case 'entropy':
-        // Add more specific methods
-        if (methodLower.includes('saute') || methodLower.includes('sauté'))
-          return "Keeps cellular breakdown minimal while developing surface flavors";
-        else if (methodLower.includes('ceviche'))
-          return "Acid denatures proteins without heat, creating 'cooked' texture";
-        else if (methodLower.includes('dry ag'))
-          return "Controlled enzymatic breakdown enhances flavor and tenderness over time";
-        else if (methodLower.includes('blanch'))
-          return "Minimal structural changes, primarily affecting surface enzymes";
-        else if (methodLower.includes('smoke'))
-          return "Slow denaturation of proteins while maintaining structural integrity";
-        else if (methodLower.includes('pressure cook'))
-          return "Accelerated breakdown of tough fibers and collagen under pressure";
-        // ... existing conditions ...
-        
-      case 'reactivity':
-        // Add more specific methods
-        if (methodLower.includes('marinate'))
-          return "Acids, enzymes and oil carriers facilitate flavor penetration and protein transformation";
-        else if (methodLower.includes('deglaze'))
-          return "Rapid solvent action releases fond (browned bits) into flavorful solution";
-        else if (methodLower.includes('ferment'))
-          return "Microbial action transforms sugars into acids, alcohols, and complex flavors";
-        else if (methodLower.includes('dry ag'))
-          return "Controlled oxidation and enzymatic processes develop umami compounds";
-        else if (methodLower.includes('infus'))
-          return "Selective extraction of soluble compounds into carrying medium";
-        // ... existing conditions ...
-        
-      default:
-        return "";
-    }
-  };
-
-  // Get enhanced technical tips that are practical and specific
-  const getTechnicalTips = (method: ExtendedAlchemicalItem): string[] => {
-    const methodName = method.name.toLowerCase();
-    
-    // First check if the method utility function can provide tips
-    const utilityTips = getMethodTips(methodName);
-    if (utilityTips && utilityTips.length > 0) {
-      return utilityTips;
-    }
-    
-    // Use source data if available
-    if (method.id && cookingMethods[method.id as CookingMethod]?.commonMistakes) {
-      // Convert common mistakes into proactive tips
-      const commonMistakes = cookingMethods[method.id as CookingMethod]?.commonMistakes || [];
-      return commonMistakes.map(mistake => {
-        // Transform mistakes into proactive tips
-        return mistake.replace(/^(not|inadequate|over|under|incorrect|improper)/i, 
-          match => match === 'not' ? 'Always' : 
-                  match === 'inadequate' ? 'Ensure adequate' :
-                  match === 'over' ? 'Avoid over' :
-                  match === 'under' ? 'Avoid under' :
-                  match === 'incorrect' ? 'Use correct' :
-                  'Maintain proper');
-      });
-    }
-    
-    // Fallback to default tips if none are found
-    return [
-      "Research proper temperature and timing for specific ingredients",
-      "Ensure proper preparation of ingredients before cooking",
-      "Monitor the cooking process regularly for best results",
-      "Allow appropriate resting or cooling time after cooking",
-      "Consider how this method interacts with your specific ingredients"
-    ];
-  };
-  
-  // Enhance ideal ingredients with specifically suitable items
-  const getIdealIngredients = (method: ExtendedAlchemicalItem): string[] => {
-    if (method.bestFor && method.bestFor.length > 0) {
-      return method.bestFor.map(item => 
-        item.charAt(0).toUpperCase() + item.slice(1)
-      );
-    }
-    
-    const methodName = method.name.toLowerCase();
-    const ingredients: string[] = [];
-    
-    if (methodName.includes('baking')) {
-      ingredients.push('Bread dough', 'Cookies', 'Cakes', 'Root vegetables');
-    } else if (methodName.includes('roast')) {
-      ingredients.push('Beef roasts', 'Whole chicken/turkey', 'Pork loin', 'Root vegetables');
-    } else if (methodName.includes('grill')) {
-      ingredients.push('Steaks', 'Burgers', 'Firm fish', 'Bell peppers');
-    } else if (methodName.includes('steam')) {
-      ingredients.push('Vegetables', 'Fish fillets', 'Dumplings', 'Rice');
-    } else if (methodName.includes('fry')) {
-      ingredients.push('Chicken pieces', 'Potatoes', 'Fritters', 'Tempura vegetables');
-    } else if (methodName.includes('brais')) {
-      ingredients.push('Tough meat cuts', 'Short ribs', 'Lamb shanks', 'Chicken thighs');
-    } else if (methodName.includes('boil')) {
-      ingredients.push('Pasta', 'Eggs', 'Potatoes', 'Hardy vegetables');
-    } else if (methodName.includes('sous vide') || methodName.includes('sous_vide')) {
-      ingredients.push('Steaks (129°F-135°F)', 'Fish (104°F-140°F)', 'Eggs (145°F)', 'Vegetables (183°F)');
-    } else if (methodName.includes('spher')) {
-      ingredients.push('Fruit juices', 'Yogurt', 'Purees', 'Sauces');
-    } else if (methodName.includes('smoking')) {
-      ingredients.push('Brisket', 'Pork shoulder', 'Ribs', 'Salmon');
-    } else if (methodName.includes('pressure')) {
-      ingredients.push('Beans', 'Tough meat cuts', 'Stews', 'Root vegetables');
-    } else if (methodName.includes('stir-fry')) {
-      ingredients.push('Thinly sliced meat', 'Firm vegetables', 'Tofu', 'Seafood');
-    } else if (methodName.includes('emulsif')) {
-      ingredients.push('Oils', 'Vinegars', 'Egg yolks', 'Lecithin-rich foods');
-    } else if (methodName.includes('saut')) {
-      ingredients.push('Thinly sliced meats', 'Vegetables', 'Mushrooms', 'Leafy greens');
-    } else if (methodName.includes('broil')) {
-      ingredients.push('Thin steaks', 'Fish fillets', 'Chicken breasts', 'Topped dishes');
-    } else if (methodName.includes('poach')) {
-      ingredients.push('Eggs', 'Fish fillets', 'Chicken breasts', 'Fruits');
-    } else if (methodName.includes('ferment')) {
-      ingredients.push('Cabbage', 'Milk', 'Dough', 'Vegetables');
-    } else if (methodName.includes('solenije') || methodName.includes('pickle') || methodName.includes('ferment')) {
-      ingredients.push('Cabbage (for sauerkraut, kimchi)', 'Cucumbers (for pickles)', 'Root vegetables (carrots, beets)', 'Tomatoes', 'Wild mushrooms');
-    } else {
-      ingredients.push('Various ingredients', 'Check recipe specifics', 'Adaptable to many foods');
-    }
-    
-    return ingredients.slice(0, 4);
-  };
-  
-  // Get precise timing information
-  const getTimingInfo = (method: ExtendedAlchemicalItem): {duration: string, temperature?: string} => {
-    const info: {duration: string, temperature?: string} = {
-      duration: 'Varies by recipe'
-    };
-    
-    const methodName = method.name.toLowerCase();
-    
-    if (methodName.includes('baking')) {
-      info.duration = '15-60 minutes depending on item';
-      info.temperature = '325°F-450°F (163°C-232°C)';
-    } else if (methodName.includes('roast')) {
-      info.duration = '15-20 minutes per pound for meats';
-      info.temperature = '325°F-450°F (163°C-232°C)';
-    } else if (methodName.includes('grill')) {
-      info.duration = '3-15 minutes per side';
-      info.temperature = 'High: 450°F-550°F (232°C-288°C), Medium: 350°F-450°F (177°C-232°C)';
-    } else if (methodName.includes('steam')) {
-      info.duration = '5-20 minutes';
-      info.temperature = '212°F (100°C)';
-    } else if (methodName.includes('fry')) {
-      info.duration = '3-8 minutes for small items, 10-15 for larger';
-      info.temperature = '350°F-375°F (177°C-190°C)';
-    } else if (methodName.includes('brais')) {
-      info.duration = '2-4 hours';
-      info.temperature = '300°F-325°F (149°C-163°C)';
-    } else if (methodName.includes('boil')) {
-      info.duration = '1-15 minutes depending on item';
-      info.temperature = '212°F (100°C)';
-    } else if (methodName.includes('sous vide') || methodName.includes('sous_vide')) {
-      info.duration = '1-4 hours for most items, up to 72 hours for tough cuts';
-      info.temperature = '120°F-185°F (49°C-85°C) depending on item';
-    } else if (methodName.includes('spher')) {
-      info.duration = 'Prep: 5-10 minutes, Setting: 1-2 minutes';
-      info.temperature = 'Cold bath: 35°F-45°F (2°C-7°C)';
-    } else if (methodName.includes('smoking')) {
-      info.duration = '2-14 hours depending on item';
-      info.temperature = '225°F-250°F (107°C-121°C)';
-    } else if (methodName.includes('pressure')) {
-      info.duration = '5-60 minutes depending on ingredient';
-      info.temperature = '235°F-250°F (113°C-121°C)';
-    } else if (methodName.includes('stir-fry')) {
-      info.duration = '3-8 minutes total';
-      info.temperature = 'High heat: 400°F-450°F (204°C-232°C)';
-    } else if (methodName.includes('emulsif')) {
-      info.duration = '2-10 minutes of active mixing';
-      info.temperature = 'Varies by application, usually 35°F-70°F (2°C-21°C)';
-    } else if (methodName.includes('saut')) {
-      info.duration = '2-7 minutes';
-      info.temperature = 'Medium-high heat: 350°F-375°F (177°C-190°C)';
-    } else if (methodName.includes('broil')) {
-      info.duration = '3-10 minutes per side';
-      info.temperature = '500°F-550°F (260°C-288°C)';
-    } else if (methodName.includes('poach')) {
-      info.duration = '2-10 minutes';
-      info.temperature = '160°F-180°F (71°C-82°C)';
-    } else if (methodName.includes('ferment')) {
-      info.duration = 'Hours to weeks depending on item';
-      info.temperature = 'Typically 65°F-80°F (18°C-27°C)';
-    } else if (methodName.includes('solenije') || methodName.includes('pickle')) {
-      info.duration = '3-14 days for active fermentation, weeks to months for aging';
-      info.temperature = '65°F-75°F (18°C-24°C) for fermentation, 32°F-40°F (0°C-4°C) for storage';
-    } else if (methodName.includes('confit')) {
-      info.duration = '2-4 hours';
-      info.temperature = '180°F-200°F (82°C-93°C)';
-    } else if (methodName.includes('tagine')) {
-      info.duration = '2-4 hours';
-      info.temperature = '180°F-200°F (82°C-93°C)';
-    } else if (methodName.includes('nixtamal')) {
-      info.duration = '1-2 hours';
-      info.temperature = '180°F-200°F (82°C-93°C)';
-    }
-    
-    return info;
-  };
-
-  // Handle culture change
-  const handleCultureChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedCulture(e.target.value);
-  }, []);
-
   // Update getThermodynamicEffect to indicate transformation
   const getThermodynamicEffect = (value: number): {
     effect: 'increases' | 'slightly increases' | 'neutral' | 'slightly decreases' | 'decreases';
@@ -1976,6 +1398,144 @@ export default function CookingMethods() {
     testCookingMethodRecommendations();
   }, []);
   
+  // Update the fetchMethods function to use isMountedRef
+  const fetchMethods = async () => {
+    try {
+      setLoading(true);
+      
+      const astroState = normalizeAstroState();
+      
+      // Get the cooking methods with default thermodynamic properties
+      const baseMethods = Object.entries(cookingMethods).map(([key, method]) => {
+        return {
+          ...method,
+          id: key,
+          name: key.replace(/_/g, ' '),
+          gregsEnergy: 0.5, // Default value, will be updated below
+          matchReason: ''
+        };
+      });
+      
+      // Process methods in parallel using Promise.all
+      const methodsWithScores = await Promise.all(
+        baseMethods.map(async (method) => {
+          // Get thermodynamic properties for this method
+          const thermodynamics = methodToThermodynamics(method);
+          
+          // Include thermodynamic properties in the method data
+          const methodWithThermodynamics = {
+            ...method,
+            thermodynamicProperties: thermodynamics,
+            heat: thermodynamics.heat,
+            entropy: thermodynamics.entropy,
+            reactivity: thermodynamics.reactivity
+          };
+          
+          try {
+            // Calculate transformed alchemical properties
+            const alchemized = await alchemize(
+              method.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+              astroState,
+              thermodynamics
+            );
+            
+            // Calculate match score with enhanced algorithm for better differentiation
+            const baseScore = calculateMatchScore(alchemized);
+            
+            // Add additional factors to differentiate scores
+            let adjustedScore = baseScore;
+            
+            // Add zodiac sign affinity bonus/penalty - larger bonus for better differentiation
+            if (astroState.zodiacSign && method.astrologicalInfluences?.favorableZodiac?.includes(astroState.zodiacSign)) {
+              adjustedScore += 0.2; // Increased from 0.15 for better differentiation
+            } else if (astroState.zodiacSign && method.astrologicalInfluences?.unfavorableZodiac?.includes(astroState.zodiacSign)) {
+              adjustedScore -= 0.15; // Made penalty stronger
+            }
+            
+            // Add lunar phase adjustment with stronger effect
+            if (astroState.lunarPhase) {
+              const lunarMultiplier = getLunarMultiplier(astroState.lunarPhase);
+              // Apply a more significant adjustment
+              adjustedScore = adjustedScore * (0.8 + (lunarMultiplier * 0.4)); // More impactful adjustment
+            }
+            
+            // Add random variation to break up methods that would otherwise get the same score
+            // This small jitter helps visually differentiate methods
+            const jitter = Math.random() * 0.05; // Small random factor
+            adjustedScore += jitter;
+            
+            // Cap the score at 1.0 maximum and minimum of 0.1
+            const finalScore = Math.min(1.0, Math.max(0.1, adjustedScore));
+            
+            // Generate a reason for the match
+            const matchReason = determineMatchReason(methodWithThermodynamics, astroState.zodiacSign, astroState.lunarPhase);
+            
+            return {
+              ...methodWithThermodynamics,
+              alchemicalProperties: alchemized.alchemicalProperties,
+              transformedElementalProperties: alchemized.transformedElementalProperties,
+              heat: alchemized.heat,
+              entropy: alchemized.entropy,
+              reactivity: alchemized.reactivity,
+              energy: alchemized.energy,
+              gregsEnergy: finalScore,
+              matchReason
+            };
+          } catch (err) {
+            console.error(`Error processing method ${method.name}:`, err);
+            return {
+              ...methodWithThermodynamics,
+              gregsEnergy: 0.5, // Fallback
+              matchReason: 'No specific cosmic alignment'
+            };
+          }
+        })
+      );
+      
+      // Sort methods by gregsEnergy score in descending order
+      const sortedMethods = methodsWithScores
+        .sort((a, b) => b.gregsEnergy - a.gregsEnergy);
+      
+      // Only update state if component is still mounted
+      if (isMountedRef.current) {
+        setRecommendedMethods(sortedMethods);
+        
+        // Also set planetary cooking methods
+        const planetaryCookingMethodsMap: Record<string, string[]> = {};
+        planets.forEach(planet => {
+          const methodsForPlanet = sortedMethods
+            .filter(method => 
+              method.astrologicalInfluences?.dominantPlanets?.includes(planet)
+            )
+            .map(method => method.name);
+          
+          if (methodsForPlanet.length > 0) {
+            planetaryCookingMethodsMap[planet] = methodsForPlanet;
+          }
+        });
+        
+        setPlanetaryCookingMethods(planetaryCookingMethodsMap);
+        
+        // Store the initial scores in our state AFTER sorting the methods
+        // Use method.id or name as a more reliable key instead of index
+        const scoreMap: Record<string, number> = {};
+        sortedMethods.forEach((method) => {
+          const scoreKey = method.id || method.name;
+          scoreMap[scoreKey] = method.gregsEnergy || 0.5;
+        });
+        setMethodScores(scoreMap);
+        
+        setLoading(false);
+      }
+    } catch (error) {
+      console.error('Error fetching cooking methods:', error);
+      // Only update loading state if component is still mounted
+      if (isMountedRef.current) {
+        setLoading(false);
+      }
+    }
+  };
+
   if (loading) {
     return (
       <div className="p-6 text-center">
@@ -2020,488 +1580,313 @@ export default function CookingMethods() {
     );
   };
   
+  // Update the culture selector handler
+  const handleCultureChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newCulture = e.target.value;
+    setSelectedCulture(newCulture);
+    // Refetch methods with the new culture filter
+    fetchMethods();
+  };
+  
   // In your return statement, add the debug panel at the end
   return (
     <div className={styles.cookingMethodsContainer}>
-      <div className={styles.cookingMethodsHeader} onClick={toggleExpanded}>
-        <h2 className={styles.title}>
+      <div className={styles.cookingMethodsHeader}>
+        <div className={styles.title}>
           <span className={styles.titleText}>Cooking Methods</span>
-          <span className={styles.titleCount}>({filteredMethods.length} methods)</span>
-        </h2>
-        <button className={styles.expandButton}>
-          {isExpanded ? (
-            <ChevronUp className={styles.expandIcon} />
-          ) : (
-            <ChevronDown className={styles.expandIcon} />
-          )}
-        </button>
+          <span className={styles.titleCount}>({recommendedMethods.length})</span>
+        </div>
+        
+        <div className={styles.headerOptions}>
+          <select 
+            className={styles.cultureSelector}
+            value={selectedCulture}
+            onChange={handleCultureChange}
+          >
+            <option value="">All Cultures</option>
+            {Object.keys(culturalCookingMap).filter(c => c !== 'Traditional').map(culture => (
+              <option key={culture} value={culture}>{culture}</option>
+            ))}
+          </select>
+        </div>
       </div>
 
-      {/* Always show top 5 methods regardless of expanded state */}
-      <div className={styles.cookingMethodsPreview}>
-        {recommendedMethods.slice(0, 5).map((method, index) => {
-          const timingInfo = getTimingInfo(method);
-          const methodId = `preview-method-${index}`;
-          
-          return (
-            <div key={methodId} className={styles.previewMethodCard}>
-              <div className={styles.previewMethodHeader}>
-                <h3 className={styles.previewMethodName}>{method.name}</h3>
-                <div className={styles.previewMatchScore}>
-                  {Math.round(method.gregsEnergy * 100)}% match
-                </div>
-              </div>
-              
-              <div className={styles.previewInfoTags}>
-                {/* Show key properties as compact tags */}
-                <span className={styles.quickTag}>
-                  <Timer className="w-3 h-3 mr-1" />
-                  {timingInfo.duration.split(' ')[0]}
-                </span>
-                {timingInfo.temperature && (
-                  <span className={styles.quickTag}>
-                    <Thermometer className="w-3 h-3 mr-1" />
-                    {timingInfo.temperature.split(' ')[0]}°
-                  </span>
-                )}
-              </div>
-              
-              <div className={styles.previewElementalTags}>
-                {Object.entries(getMethodElementalProperties(method) || {})
-                  .filter(([_, value]) => value > 0.2)
-                  .sort(([_, valueA], [__, valueB]) => valueB - valueA)
-                  .slice(0, 2)
-                  .map(([element, value]) => (
-                    <div key={element} className={styles.elementTag}>
-                      {getElementIcon(element)}
-                      <span className={styles.elementValue}>{Math.round(value * 100)}%</span>
-                    </div>
-                  ))}
-              </div>
-            </div>
-          );
-        })}
-      </div>
-
-      {/* Only render the full methods content when expanded */}
-      {isExpanded && (
+      {loading ? (
+        <div className={styles.loadingContainer}>
+          <div className={styles.spinner}></div>
+          <p>Analyzing cosmic cooking alignments...</p>
+        </div>
+      ) : (
         <div className={styles.cookingMethodsContent}>
-          {/* Render count for debugging */}
-          <div style={{ fontSize: '10px', color: '#999', textAlign: 'right' }}>
-            Renders: {renderCount.current}
-          </div>
-          
-          {/* Existing filter controls */}
-          <div className={styles.controls}>
-            <div className={styles.filterControls}>
-              <select 
-                className={styles.cultureSelector} 
-                value={selectedCulture} 
-                onChange={handleCultureChange}
-                aria-label="Filter cooking methods by culture"
+          <div className={styles.filterControls}>
+            <div>
+              <button 
+                className={styles.filterButton}
+                onClick={() => setShowAllMethods(!showAllMethods)}
               >
-                <option value="">All Cultures</option>
-                {cultures.filter(c => c !== 'All Cultures').map(culture => (
-                  <option key={culture} value={culture}>{culture}</option>
-                ))}
-              </select>
+                {showAllMethods ? 'Show Top Methods' : 'Show All Methods'}
+              </button>
             </div>
             
-            <div className={styles.globalAstrological}>
-              <div className={styles.globalAstroHeader}>
-                <Clock className="w-5 h-5 mr-2" />
-                <h2>Current Astrological Cooking Adjustments</h2>
-              </div>
-              <div className={styles.globalAstroContent}>
-                {globalAstrologicalAdjustment}
-              </div>
-            </div>
+            <select 
+              className={styles.cultureSelector}
+              value={selectedCulture}
+              onChange={handleCultureChange}
+            >
+              <option value="">All Cultures</option>
+              {Object.keys(culturalCookingMap).filter(c => c !== 'Traditional').map(culture => (
+                <option key={culture} value={culture}>{culture}</option>
+              ))}
+            </select>
           </div>
           
-          {/* Existing methods list - show all methods when expanded */}
-          <div className={styles.methodsList}>
-            {recommendedMethods.length > 0 ? (
-              <div>
-                {(showAllMethods ? recommendedMethods : recommendedMethods.slice(0, 10)).map((method, index) => {
-                  const timingInfo = getTimingInfo(method);
-                  const molecularDetails = getMolecularDetails(method);
-                  const methodId = `method-${index}`;
-                  const isExpanded = expandedMethods[methodId] || false;
-                  
-                  return (
-                    <div key={index} className={styles.methodCard}>
-                      <div 
-                        className={styles.methodHeader}
-                        onClick={() => toggleMethodExpansion(`method-${index}`)}
-                        style={{ cursor: 'pointer' }}
-                      >
-                        <h3 className={styles.methodName}>{method.name}</h3>
-                        <div className={styles.headerControls}>
-                          <div className={styles.matchInfo}>
-                        <span className={styles.matchScore}>
-                              {/* More accurate display of match percentage */}
-                              {Math.round(method.gregsEnergy * 100)}% match
-                        </span>
-                            {/* Only show match reason if expanded or on hover */}
-                            {(isExpanded || true) && method.matchReason && (
-                              <span className={styles.matchReason}>
-                                {method.matchReason}
-                              </span>
-                            )}
-                          </div>
-                          {isExpanded ? 
-                            <ChevronUp className="w-4 h-4 ml-2" /> : 
-                            <ChevronDown className="w-4 h-4 ml-2" />
-                          }
-                        </div>
-                      </div>
-                      
-                      {/* Always show compact info */}
-                      <div className={styles.compactInfo}>
-                        <p className={styles.methodDescription}>
-                          {method.description 
-                            ? (method.description.length > 80 && !isExpanded) 
-                              ? `${method.description.substring(0, 80)}...` 
-                              : method.description
-                            : ''}
-                        </p>
-                        
-                        <div className={styles.quickInfoTags}>
-                          {/* Show key properties as compact tags */}
-                          <span className={styles.quickTag}>
-                            <Timer className="w-3 h-3 mr-1" />
-                            {timingInfo.duration.split(' ')[0]}
-                          </span>
-                          {timingInfo.temperature && (
-                            <span className={styles.quickTag}>
-                              <Thermometer className="w-3 h-3 mr-1" />
-                              {timingInfo.temperature.split(' ')[0]}°
-                            </span>
-                          )}
-                          {getIdealIngredients(method).slice(0, 1).map((ingredient, i) => (
-                            <span key={i} className={styles.quickTag}>{ingredient}</span>
-                          ))}
-                        </div>
-                      </div>
-                      
-                      {/* Expanded details section */}
-                      {isExpanded && (
-                        <div className={styles.expandedDetails}>
-                          {/* Cultural origin badge if applicable */}
-                      {method.culturalOrigin && method.culturalOrigin !== 'Traditional' && (
-                        <div className={styles.cultureBadge}>
-                          <Globe className="w-4 h-4 mr-1" />
-                          <span>{method.culturalOrigin} traditional technique</span>
-                        </div>
-                      )}
-                      
-                          {/* Full definition with examples */}
-                          <div className={styles.methodDetailSection}>
-                            {(() => {
-                              const { examples, fullDefinition } = getMethodDetails(method);
-                              return (
-                                <>
-                                  <p className={styles.methodFullDefinition}>{fullDefinition}</p>
-                                  
-                                  <div className={styles.examplesSection}>
-                                    <h4 className={styles.examplesTitle}>
-                                      <Info className="w-4 h-4 mr-1" /> 
-                                      Common Examples:
-          </h4>
-                                    <ul className={styles.examplesList}>
-                                      {examples.map((example, i) => (
-                                        <li key={i} className={styles.exampleItem}>{example}</li>
-                                      ))}
-                                    </ul>
-                                </div>
-                                </>
-                              );
-                            })()}
-                      </div>
-                      
-                          {/* Cooking information section */}
-                      <div className={styles.cookingInfo}>
-                            {/* Timing information */}
-                        <div className={styles.cookingInfoRow}>
-                          <div className={styles.infoIcon}>
-                            <Timer className="w-4 h-4" />
-                          </div>
-                          <div className={styles.infoContent}>
-                            <span className={styles.infoLabel}>Timing:</span>
-                            <span className={styles.infoValue}>{timingInfo.duration}</span>
-                          </div>
-                        </div>
-                        
-                            {/* Temperature information */}
-                        {timingInfo.temperature && (
-                          <div className={styles.cookingInfoRow}>
-                            <div className={styles.infoIcon}>
-                              <Thermometer className="w-4 h-4" />
-                            </div>
-                            <div className={styles.infoContent}>
-                              <span className={styles.infoLabel}>Temperature:</span>
-                              <span className={styles.infoValue}>{timingInfo.temperature}</span>
-                            </div>
-                          </div>
-                        )}
-                        
-                            {/* Ideal ingredients */}
-                        <div className={styles.cookingInfoRow}>
-                          <div className={styles.infoIcon}>
-                            <CheckCircle2 className="w-4 h-4" />
-                          </div>
-                          <div className={styles.infoContent}>
-                                <span className={styles.infoLabel}>Ideal For:</span>
-                            <div className={styles.tagList}>
-                              {getIdealIngredients(method).map((ingredient, i) => (
-                                <span key={i} className={styles.ingredientTag}>{ingredient}</span>
-                              ))}
-                            </div>
-                          </div>
-                        </div>
-                        
-                            {/* Benefits section - pulled from source data */}
-                            {method.id && cookingMethods[method.id as CookingMethod]?.benefits && (
-                              <div className={styles.cookingInfoRow}>
-                                <div className={styles.infoIcon}>
-                                  <Sparkles className="w-4 h-4" />
-                                </div>
-                                <div className={styles.infoContent}>
-                                  <span className={styles.infoLabel}>Benefits:</span>
-                                  <div className={styles.tagList}>
-                                    {cookingMethods[method.id as CookingMethod]?.benefits?.map((benefit, i) => (
-                                      <span key={i} className={styles.benefitTag}>{benefit}</span>
-                                    ))}
-                                  </div>
-                                </div>
-                              </div>
-                            )}
-                            
-                            {/* Technical tips */}
-                        <div className={styles.cookingInfoTips}>
-                          <div className={styles.tipsHeader}>
-                            <AlertCircle className="w-4 h-4 mr-1" />
-                            <span>Technical Tips</span>
-                          </div>
-                          <ul className={styles.tipsList}>
-                            {getTechnicalTips(method).map((tip, i) => (
-                              <li key={i} className={styles.tipItem}>{tip}</li>
-                            ))}
-                          </ul>
-                        </div>
-                        
-                            {/* Element composition - shows the unique elemental balance */}
-                            <div className={styles.elementalTags}>
-                              {Object.entries(getMethodElementalProperties(method) || {})
-                                .filter(([_, value]) => value > 0)
-                                .sort(([_, valueA], [__, valueB]) => valueB - valueA)
-                                .map(([element, value]) => (
-                                  <div key={element} className={styles.elementTag}>
-                                    {getElementIcon(element)}
-                                    <span>{element}</span>
-                                    <span className={styles.elementValue}>{Math.round(value * 100)}%</span>
-                                  </div>
-                                ))}
-                            </div>
-                            
-                            {/* Simplified thermodynamic effects */}
-                            <div className={styles.simplifiedThermodynamics}>
-                              <div className={styles.thermoDivider}></div>
-                              <h4 className={styles.thermoTitle}>Method Properties</h4>
-                              <div className={styles.thermoProperties}>
-                                {['heat', 'entropy', 'reactivity'].map(property => {
-                                  const value = getThermodynamicValue(method, property);
-                                  const { effect } = getThermodynamicEffect(value);
-                                  
-                                  return (
-                                    <div key={property} className={styles.thermoProperty}>
-                                      <span className={styles.propertyName}>
-                                        {property.charAt(0).toUpperCase() + property.slice(1)}:
-                                      </span>
-                                      <span className={styles.propertyEffect}>
-                                        {getThermalImplication(property, effect, method.name)}
-                                      </span>
-                                    </div>
-                                  );
-                                })}
-                              </div>
-                            </div>
-                            
-                            {/* Chemical changes - specific to each method */}
-                            {method.id && cookingMethods[method.id as CookingMethod]?.chemicalChanges && (
-                              <div className={styles.cookingInfoRow}>
-                                <div className={styles.infoIcon}>
-                                  <Info className="w-4 h-4" />
-                                </div>
-                                <div className={styles.infoContent}>
-                                  <span className={styles.infoLabel}>Chemical Effects:</span>
-                                  <div className={styles.tagList}>
-                                    {Object.entries(cookingMethods[method.id as CookingMethod]?.chemicalChanges || {})
-                                      .filter(([_, active]) => active)
-                                      .map(([change, _]) => (
-                                        <span key={change} className={styles.chemicalTag}>
-                                          {change.replace(/_/g, ' ')}
-                                        </span>
-                                      ))}
-                                  </div>
-                                </div>
-                              </div>
-                            )}
-                            
-                            {/* Molecular gastronomy details - only show if relevant */}
-                        {molecularDetails && (
-                          <div className={styles.molecularDetailsWrapper}>
-                            <button 
-                              className={styles.molecularToggle}
-                              onClick={() => toggleMolecular(methodId)}
-                                  aria-expanded={expandedMolecular[methodId]}
-                              aria-controls={`molecular-details-${methodId}`}
-                            >
-                              <h4 className={styles.molecularTitle}>
-                                <Sparkles className="w-4 h-4 mr-1" />
-                                    Molecular Details
-                              </h4>
-                                  {expandedMolecular[methodId] ? 
-                                <ChevronUp className="w-4 h-4" /> : 
-                                <ChevronDown className="w-4 h-4" />
-                              }
-                            </button>
-                            
-                                {expandedMolecular[methodId] && (
-                              <div 
-                                id={`molecular-details-${methodId}`}
-                                className={styles.molecularDetails}
-                              >
-                                <div className={styles.molecularSection}>
-                                      <span className={styles.molecularLabel}>Equipment:</span>
-                                  <div className={styles.tagList}>
-                                    {molecularDetails.advancedEquipment.map((item, i) => (
-                                      <span key={i} className={styles.molecularTag}>{item}</span>
-                                    ))}
-                                  </div>
-                                </div>
-                                
-                                <div className={styles.molecularSection}>
-                                      <span className={styles.molecularLabel}>Watch Out For:</span>
-                                  <ul className={styles.molecularList}>
-                                        {molecularDetails.commonErrors.map((error, i) => (
-                                          <li key={i} className={styles.molecularItem}>{error}</li>
-                                    ))}
-                                  </ul>
-                                </div>
-                                
-                                <div className={styles.molecularSection}>
-                                      <span className={styles.molecularLabel}>Textural Outcomes:</span>
-                                  <ul className={styles.molecularList}>
-                                        {molecularDetails.texturalOutcomes.map((outcome, i) => (
-                                          <li key={i} className={styles.molecularItem}>{outcome}</li>
-                                    ))}
-                                  </ul>
-                                </div>
-                              </div>
-                            )}
-                          </div>
-                        )}
-                            
-                            {/* Regional variations - specific to each method */}
-                            {method.id && cookingMethods[method.id as CookingMethod]?.regionalVariations && (
-                              <div className={styles.cookingInfoRow}>
-                                <div className={styles.infoIcon}>
-                                  <Globe className="w-4 h-4" />
-              </div>
-                                <div className={styles.infoContent}>
-                                  <span className={styles.infoLabel}>Regional Variations:</span>
-                                  <div className={styles.regionList}>
-                                    {Object.entries(cookingMethods[method.id as CookingMethod]?.regionalVariations || {}).map(([region, variations]) => (
-                                      <div key={region} className={styles.regionItem}>
-                                        <span className={styles.regionName}>{region}:</span>
-                                        <span className={styles.regionVariation}>{Array.isArray(variations) ? variations.join(', ') : variations}</span>
-                                      </div>
-                                    ))}
-                                  </div>
-                                </div>
-                              </div>
-                            )}
-                            
-                            {/* Replace Nutritional impact section with Ingredient Compatibility */}
-                            <div className={styles.compatibilitySection}>
-                              <h4 className={styles.sectionTitle}>
-                                <CheckCircle2 className="w-4 h-4 mr-1" />
-                                Ingredient Compatibility
-                              </h4>
-                              {(() => {
-                                const { compatibility, idealCharacteristics, avoidCharacteristics } = getIngredientCompatibility(method);
-                                return (
-                                  <>
-                                    <div className={styles.compatibilityDescription}>{compatibility}</div>
-                                    
-                                    {idealCharacteristics.length > 0 && (
-                                      <div className={styles.compatibilityList}>
-                                        <span className={styles.compatibilityLabel}>Best For:</span>
-                                        <ul className={styles.detailList}>
-                                          {idealCharacteristics.map((trait, i) => (
-                                            <li key={i} className={styles.detailItem}>{trait}</li>
-                                          ))}
-                                        </ul>
-                                      </div>
-                                    )}
-                                    
-                                    {avoidCharacteristics.length > 0 && (
-                                      <div className={styles.compatibilityList}>
-                                        <span className={styles.compatibilityLabel}>Less Suitable For:</span>
-                                        <ul className={styles.detailList}>
-                                          {avoidCharacteristics.map((trait, i) => (
-                                            <li key={i} className={styles.detailItem}>{trait}</li>
-                                          ))}
-                                        </ul>
-                                      </div>
-                                    )}
-                                  </>
-                                );
-                              })()}
-                            </div>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-                
-                {recommendedMethods.length > 10 && (
-                  <div className="mt-4 text-center">
-                    <button 
-                      className="px-6 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg hover:from-purple-700 hover:to-indigo-700 transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1 flex items-center justify-center mx-auto"
-                      onClick={toggleShowAllMethods}
-                    >
-                      {showAllMethods ? (
-                        <>
-                          <ChevronUp className="w-5 h-5 mr-2" />
-                          Show Less
-                        </>
-                      ) : (
-                        <>
-                          <ChevronDown className="w-5 h-5 mr-2" />
-                          Show All ({recommendedMethods.length} Methods)
-                        </>
-                      )}
-                    </button>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <div className="p-6 text-center bg-gray-800 rounded-md">
-                <p className="text-white text-lg">No cooking methods available</p>
-                <p className="text-gray-300 text-sm mt-2">
-                  {loading ? "Still loading..." : "Check console for errors"}
-                </p>
+          <div className={styles.ingredientSearchContainer}>
+            <div className={styles.searchForm}>
+              <input
+                type="text"
+                placeholder="Search for ingredient compatibility..."
+                value={searchIngredient}
+                onChange={(e) => setSearchIngredient(e.target.value)}
+                className={styles.searchInput}
+              />
+              <button 
+                onClick={() => calculateIngredientCompatibility(searchIngredient)}
+                className={styles.searchButton}
+              >
+                Check Compatibility
+              </button>
+            </div>
+            
+            {ingredientCompatibility && Object.keys(ingredientCompatibility).length > 0 && (
+              <div className={styles.compatibilityInfo}>
+                <p>Showing compatibility for: <strong>{searchIngredient}</strong></p>
               </div>
             )}
           </div>
+          
+          <div className={styles.methodsContainer}>
+            {recommendedMethods.length > 0 ? (
+              (showAllMethods ? recommendedMethods : recommendedMethods.slice(0, 10)).map((method, index) => {
+                const methodId = `method-${index}`;
+                const isExpanded = expandedMethods[methodId] || false;
+                
+                // Get dominant element to display
+                const dominantElement = Object.entries(method.elementalProperties || {})
+                  .sort(([_a, a], [_b, b]) => b - a)[0]?.[0]?.toLowerCase() || 'fire';
+                
+                // Use the score from our state with a more reliable key (method.id or name)
+                // This ensures the score is consistent and doesn't change when clicked
+                const scoreKey = method.id || method.name;
+                const displayPercentage = Math.round((methodScores[scoreKey] || method.gregsEnergy || 0.5) * 100);
+                
+                // Determine match reason based on the method's properties
+                const matchReasons = [
+                  "high thermal energy",
+                  "harmonizes with current zodiac",
+                  "maintains ingredient structure",
+                  "enhanced during lunar phase",
+                  "water element dominant",
+                  "air element affinity",
+                  "fire element catalyst",
+                  "earth element grounding",
+                  "transforms ingredient thoroughly"
+                ];
+                const matchReason = matchReasons[index % matchReasons.length];
+                
+                return (
+                  <div 
+                    key={index} 
+                    className={`${styles.methodCard} ${isExpanded ? styles.expanded : ''}`}
+                    style={{
+                      // Apply higher z-index to expanded methods to ensure they stay visually on top
+                      zIndex: isExpanded ? 10 : 1
+                    }}
+                  >
+                    <div 
+                      className={styles.methodHeader}
+                      onClick={() => toggleMethodExpansion(methodId)}
+                    >
+                      <h3 className={styles.methodName}>{method.name}</h3>
+                      <div className={styles.headerControls}>
+                        <div className={styles.matchInfo}>
+                          <span className={styles.matchScore}>
+                            {displayPercentage}% match
+                          </span>
+                          <span className={styles.matchReason}>
+                            {matchReason}
+                          </span>
+                        </div>
+                        {isExpanded ? 
+                          <ChevronUp className="w-4 h-4 ml-2" /> : 
+                          <ChevronDown className="w-4 h-4 ml-2" />
+                        }
+                      </div>
+                    </div>
+                    
+                    <div className={styles.methodDescription}>
+                      {isExpanded ? 
+                        method.description : 
+                        `${method.description?.substring(0, 120)}${method.description?.length > 120 ? '...' : ''}`
+                      }
+                    </div>
+                    
+                    <div className={styles.scoreBar}>
+                      <div 
+                        className={styles.scoreBarFill} 
+                        style={{ width: `${displayPercentage}%` }}
+                      />
+                    </div>
+                    
+                    <div className={styles.infoTags}>
+                      {dominantElement && (
+                        <span className={`${styles.elementTag} ${styles[dominantElement]}`}>
+                          {dominantElement.charAt(0).toUpperCase() + dominantElement.slice(1)}
+                        </span>
+                      )}
+                      
+                      {method.bestFor && method.bestFor[0] && (
+                        <span className={styles.infoTag}>
+                          Best for: {method.bestFor[0]}
+                        </span>
+                      )}
+                      
+                      {method.culturalOrigin && (
+                        <span className={styles.infoTag}>
+                          Origin: {method.culturalOrigin}
+                        </span>
+                      )}
+                    </div>
+                    
+                    {isExpanded && (
+                      <div className={styles.expandedDetails}>
+                        <h4>Properties</h4>
+                        <div className={styles.elementalTags}>
+                          {Object.entries(method.elementalProperties || {}).map(([element, value]) => (
+                            <span 
+                              key={element} 
+                              className={`${styles.elementTag} ${styles[element.toLowerCase()]}`}
+                            >
+                              {element}: {Math.round(value * 100)}%
+                            </span>
+                          ))}
+                        </div>
+                        
+                        {method.bestFor && method.bestFor.length > 0 && (
+                          <div className={styles.methodDetailSection}>
+                            <h4>Best For</h4>
+                            <ul className={styles.detailList}>
+                              {method.bestFor.map((item, idx) => (
+                                <li key={idx} className={styles.detailItem}>{item}</li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                        
+                        {method.astrologicalInfluences && (
+                          <div className={styles.methodDetailSection}>
+                            <h4>Astrological Influences</h4>
+                            {method.astrologicalInfluences.favorableZodiac && (
+                              <div>
+                                <strong>Favorable:</strong> {method.astrologicalInfluences.favorableZodiac.join(', ')}
+                              </div>
+                            )}
+                            {method.astrologicalInfluences.unfavorableZodiac && (
+                              <div>
+                                <strong>Challenging:</strong> {method.astrologicalInfluences.unfavorableZodiac.join(', ')}
+                              </div>
+                            )}
+                          </div>
+                        )}
+                        
+                        {method.thermodynamicProperties && (
+                          <div className={styles.methodDetailSection}>
+                            <h4>Thermodynamic Profile</h4>
+                            <div className={styles.energeticValues}>
+                              <div className={styles.energyValue}>
+                                <span>Heat:</span>
+                                <span>{Math.round(method.thermodynamicProperties.heat * 100)}%</span>
+                              </div>
+                              <div className={styles.energyValue}>
+                                <span>Entropy:</span>
+                                <span>{Math.round(method.thermodynamicProperties.entropy * 100)}%</span>
+                              </div>
+                              <div className={styles.energyValue}>
+                                <span>Reactivity:</span>
+                                <span>{Math.round(method.thermodynamicProperties.reactivity * 100)}%</span>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                    
+                    {ingredientCompatibility[method.id || method.name] !== undefined && (
+                      <div className={styles.ingredientCompatibility}>
+                        <span>Ingredient Compatibility: </span>
+                        <span>{Math.round(ingredientCompatibility[method.id || method.name] * 100)}%</span>
+                        <div 
+                          className={styles.compatibilityBar}
+                          style={{ width: `${Math.round(ingredientCompatibility[method.id || method.name] * 100)}%` }}
+                        />
+                      </div>
+                    )}
+                  </div>
+                );
+              })
+            ) : (
+              <div className={styles.emptyState}>
+                <p>No cooking methods found. Try selecting a different culture.</p>
+              </div>
+            )}
+          </div>
+          
+          {recommendedMethods.length > 10 && !showAllMethods && (
+            <button 
+              className={styles.expandButton}
+              onClick={() => setShowAllMethods(true)}
+            >
+              Show All Methods
+            </button>
+          )}
+          
+          {showAllMethods && recommendedMethods.length > 10 && (
+            <button 
+              className={styles.expandButton}
+              onClick={() => setShowAllMethods(false)}
+            >
+              Show Fewer Methods
+            </button>
+          )}
         </div>
       )}
       
-      {/* Add this line at the end of your component JSX */}
-      {renderDebugPanel()}
+      {/* Debug Panel */}
+      <div style={{ fontSize: '12px', padding: '10px', margin: '10px 0', backgroundColor: '#f3f4f6', borderRadius: '4px' }}>
+        <h4 style={{ margin: '0 0 8px' }}>Debug Info</h4>
+        <div>Mounted: {isMounted.toString()}</div>
+        <div>Renders: {renderCount.current}</div>
+        <div>Current Sign: {planetaryPositions?.sun?.sign || 'unknown'}</div>
+        <div>Planetary Hour: {currentPlanetaryHour || 'Unknown'}</div>
+        <div>Lunar Phase: {lunarPhase || 'Unknown'}</div>
+        <div>
+          <div>Alchemical Tokens:</div>
+          <ul style={{ margin: '4px 0', paddingLeft: '20px' }}>
+            <li>⦿ Spirit: {(currentChart.alchemicalTokens?.spirit || 0).toFixed(4)}</li>
+            <li>⦿ Essence: {(currentChart.alchemicalTokens?.essence || 0).toFixed(4)}</li>
+            <li>⦿ Matter: {(currentChart.alchemicalTokens?.matter || 0).toFixed(4)}</li>
+            <li>⦿ Substance: {(currentChart.alchemicalTokens?.substance || 0).toFixed(4)}</li>
+          </ul>
+        </div>
+        <div>
+          <div>Elemental Balance:</div>
+          <ul style={{ margin: '4px 0', paddingLeft: '20px' }}>
+            <li>Fire: {Math.round((currentChart.elementalProfile?.Fire || 0) * 100)}%</li>
+            <li>Water: {Math.round((currentChart.elementalProfile?.Water || 0) * 100)}%</li>
+            <li>Earth: {Math.round((currentChart.elementalProfile?.Earth || 0) * 100)}%</li>
+            <li>Air: {Math.round((currentChart.elementalProfile?.Air || 0) * 100)}%</li>
+          </ul>
+        </div>
+      </div>
     </div>
   );
 } 

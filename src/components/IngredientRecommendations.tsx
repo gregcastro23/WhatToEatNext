@@ -125,26 +125,83 @@ export default function IngredientRecommendations({
   };
   
   const renderIngredientDetails = (ingredient: Ingredient) => {
-    // Calculate properties 
-    const alchemicalProps = calculateAlchemicalProperties(ingredient);
-    const thermodynamicProps = calculateThermodynamicProperties(alchemicalProps, ingredient.elementalProperties);
+    // Get the elemental properties
+    const elementalProps = ingredient.elementalProperties || {
+      Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+    };
     
-    // Determine modality if not already present
-    const modality = ingredient.modality || 
-      determineIngredientModality(ingredient.elementalProperties, ingredient.qualities || []);
+    // Calculate alchemical properties 
+    const alchemicalProps = calculateAlchemicalPropertiesForDisplay(elementalProps);
+    
+    // Calculate thermodynamic properties based on elemental properties
+    const thermodynamicProps = {
+      heat: elementalProps.Fire * 1.2 + elementalProps.Air * 0.4,
+      entropy: elementalProps.Air * 1.1 + elementalProps.Fire * 0.5,
+      reactivity: elementalProps.Water * 0.8 + elementalProps.Fire * 0.7,
+      energy: elementalProps.Fire * 0.9 + elementalProps.Air * 0.8
+    };
+    
+    // Format the match percentage from score
+    const matchPercentage = ingredient.score ? 
+      `${Math.round(ingredient.score * 100)}%` : 
+      'N/A';
     
     return (
-      <div className="ingredient-details">
-        <h3>{ingredient.name}</h3>
-        <p>{ingredient.description}</p>
+      <div className={styles.ingredientDetails} key={ingredient.name}>
+        <div className={styles.header}>
+          <h3 className={styles.ingredientName}>{ingredient.name}</h3>
+          <div className={styles.category}>{ingredient.category}</div>
+          {ingredient.score && (
+            <div className={styles.matchScore}>
+              Match: <span className={styles.scoreValue}>{matchPercentage}</span>
+            </div>
+          )}
+        </div>
         
-        {/* Basic Properties */}
-        <div className={styles.basicProperties}>
-          <div className={styles.modalityTag}>
-            <span className={styles.propertyLabel}>Quality:</span>
-            <span className={`${styles.modalityValue} ${styles[modality.toLowerCase()]}`}>
-              {modality}
-            </span>
+        {/* Elemental Balance */}
+        <div className={styles.elementalBalance}>
+          <h4>Elemental Balance</h4>
+          <div className={styles.elementBars}>
+            <div className={styles.elementBar}>
+              <span className={styles.elementIcon}>{getElementIcon('Fire')}</span>
+              <div className={styles.barContainer}>
+                <div 
+                  className={`${styles.bar} ${styles.fireBar}`}
+                  style={{ width: `${elementalProps.Fire * 100}%` }}
+                ></div>
+              </div>
+              <span className={styles.elementValue}>{Math.round(elementalProps.Fire * 100)}%</span>
+            </div>
+            <div className={styles.elementBar}>
+              <span className={styles.elementIcon}>{getElementIcon('Water')}</span>
+              <div className={styles.barContainer}>
+                <div 
+                  className={`${styles.bar} ${styles.waterBar}`}
+                  style={{ width: `${elementalProps.Water * 100}%` }}
+                ></div>
+              </div>
+              <span className={styles.elementValue}>{Math.round(elementalProps.Water * 100)}%</span>
+            </div>
+            <div className={styles.elementBar}>
+              <span className={styles.elementIcon}>{getElementIcon('Earth')}</span>
+              <div className={styles.barContainer}>
+                <div 
+                  className={`${styles.bar} ${styles.earthBar}`}
+                  style={{ width: `${elementalProps.Earth * 100}%` }}
+                ></div>
+              </div>
+              <span className={styles.elementValue}>{Math.round(elementalProps.Earth * 100)}%</span>
+            </div>
+            <div className={styles.elementBar}>
+              <span className={styles.elementIcon}>{getElementIcon('Air')}</span>
+              <div className={styles.barContainer}>
+                <div 
+                  className={`${styles.bar} ${styles.airBar}`}
+                  style={{ width: `${elementalProps.Air * 100}%` }}
+                ></div>
+              </div>
+              <span className={styles.elementValue}>{Math.round(elementalProps.Air * 100)}%</span>
+            </div>
           </div>
         </div>
         

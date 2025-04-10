@@ -401,9 +401,23 @@ export default function CuisineRecommender() {
       tooltipText = 'Average match for your elemental profile';
     }
     
+    // Determine enhanced styles based on score
+    let enhancedStyle = "";
+    if (score >= 0.96) {
+      enhancedStyle = "font-bold animate-pulse bg-gradient-to-r from-green-600 to-emerald-500 text-white";
+    } else if (score >= 0.90) {
+      enhancedStyle = "font-bold bg-green-600 text-white";
+    } else if (score >= 0.85) {
+      enhancedStyle = "font-semibold bg-green-500 text-white";
+    } else if (score >= 0.75) {
+      enhancedStyle = "bg-green-100 text-green-800";
+    } else {
+      enhancedStyle = getMatchScoreClass(score);
+    }
+    
     return (
       <span 
-        className={`text-xs font-medium px-2 py-1 rounded-full ${getMatchScoreClass(score)} flex items-center transition-all duration-300 hover:scale-105`}
+        className={`text-xs font-medium px-2 py-1 rounded-full ${enhancedStyle} flex items-center transition-all duration-300 hover:scale-105`}
         title={tooltipText}
       >
         <span>{formattedScore}%</span>
@@ -416,20 +430,28 @@ export default function CuisineRecommender() {
   const renderCompatibilityBadge = (score: number) => {
     const formattedScore = Math.round(score * 100);
     
+    // Enhanced gradient styles for compatibility bar
+    const gradientStyle = score >= 0.96 
+      ? 'bg-gradient-to-r from-green-600 via-emerald-500 to-teal-400 animate-gradient' 
+      : score >= 0.90 
+        ? 'bg-gradient-to-r from-green-600 to-green-400' 
+        : score >= 0.85 
+          ? 'bg-green-500' 
+          : score >= 0.80 
+            ? 'bg-green-400' 
+            : score >= 0.75 
+              ? 'bg-yellow-500' 
+              : score >= 0.70 
+                ? 'bg-yellow-400' 
+                : score >= 0.65 
+                  ? 'bg-yellow-300' 
+                  : 'bg-orange-400';
+    
     return (
       <div className="mb-2 flex items-center">
-        <div className="w-full bg-gray-200 rounded-full h-2.5 mr-2 overflow-hidden">
+        <div className="w-full bg-gray-200 rounded-full h-3 mr-2 overflow-hidden">
           <div 
-            className={`${
-              score >= 0.96 ? 'bg-gradient-to-r from-green-600 to-green-400' : 
-              score >= 0.90 ? 'bg-green-600' : 
-              score >= 0.85 ? 'bg-green-500' : 
-              score >= 0.80 ? 'bg-green-400' : 
-              score >= 0.75 ? 'bg-yellow-500' : 
-              score >= 0.70 ? 'bg-yellow-400' : 
-              score >= 0.65 ? 'bg-yellow-300' : 
-              'bg-orange-400'
-            } h-2.5 rounded-full transition-all duration-300`}
+            className={`${gradientStyle} h-3 rounded-full transition-all duration-300`}
             style={{ width: `${formattedScore}%` }}
           ></div>
         </div>

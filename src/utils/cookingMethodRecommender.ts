@@ -11,10 +11,9 @@ import saturnData from '@/data/planets/saturn';
 import uranusData from '@/data/planets/uranus';
 import neptuneData from '@/data/planets/neptune';
 import plutoData from '@/data/planets/pluto';
-import { CookingMethod } from '@/data/cookingMethods/types';
-import { cookingMethods } from '@/data/cookingMethods';
+import { cookingMethods as detailedCookingMethods } from '@/data/cooking';
 import { calculateLunarSuitability } from '@/utils/lunarUtils';
-import { PlanetaryAspect, LunarPhase, AstrologicalState } from '@/types/alchemy';
+import { PlanetaryAspect, LunarPhase, AstrologicalState, BasicThermodynamicProperties, CookingMethodProfile, MethodRecommendationOptions, MethodRecommendation, COOKING_METHOD_THERMODYNAMICS } from '@/types/alchemy';
 import { elementalFamilies } from '@/data/elementalFamilies';
 
 // Define a proper interface for our cooking method objects
@@ -134,6 +133,78 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
     return methods;
   }, {})
 };
+
+// --- Added Thermodynamic Helpers ---
+
+// Function to get thermodynamic properties for a method
+// PRIORITIZES detailedCookingMethods from src/data/cooking/cookingMethods.ts
+// FALLS BACK to COOKING_METHOD_THERMODYNAMICS constant from src/data/cooking/thermodynamics.ts
+// FURTHER FALLS BACK to keyword-based logic
+function getMethodThermodynamics(method: CookingMethodProfile): BasicThermodynamicProperties {
+  const methodNameLower = method.name.toLowerCase() as CookingMethodEnum; // Ensure correct type for lookup
+
+  // 1. Check the detailed data source first
+  const detailedMethodData = detailedCookingMethods[methodNameLower];
+  if (detailedMethodData && detailedMethodData.thermodynamicProperties) {
+    return {
+      heat: detailedMethodData.thermodynamicProperties.heat ?? 0.5,
+      entropy: detailedMethodData.thermodynamicProperties.entropy ?? 0.5,
+      reactivity: detailedMethodData.thermodynamicProperties.reactivity ?? 0.5,
+    };
+  }
+
+  // 2. Check if the method object itself has thermodynamic properties defined (might be passed dynamically)
+  if (method.thermodynamicProperties) {
+    return {
+      heat: method.thermodynamicProperties.heat ?? 0.5,
+      entropy: method.thermodynamicProperties.entropy ?? 0.5,
+      reactivity: method.thermodynamicProperties.reactivity ?? 0.5,
+    };
+  }
+  
+  // 3. Check the explicitly defined mapping constant (COOKING_METHOD_THERMODYNAMICS)
+  const constantThermoData = COOKING_METHOD_THERMODYNAMICS[methodNameLower as keyof typeof COOKING_METHOD_THERMODYNAMICS];
+  if (constantThermoData) {
+    return constantThermoData;
+  }
+  
+  // 4. Fallback logic based on method name characteristics
+  if (methodNameLower.includes('grill') || methodNameLower.includes('roast') || methodNameLower.includes('fry') || methodNameLower.includes('sear') || methodNameLower.includes('broil')) {
+    return { heat: 0.8, entropy: 0.6, reactivity: 0.7 }; // High heat methods
+  } else if (methodNameLower.includes('steam') || methodNameLower.includes('simmer') || methodNameLower.includes('poach') || methodNameLower.includes('boil')) {
+    return { heat: 0.4, entropy: 0.3, reactivity: 0.5 }; // Medium heat, lower entropy methods
+  } else if (methodNameLower.includes('sous vide') || methodNameLower.includes('sous_vide')) {
+      return { heat: 0.3, entropy: 0.35, reactivity: 0.2 }; // Low heat, low reactivity
+  } else if (methodNameLower.includes('raw') || methodNameLower.includes('ceviche') || methodNameLower.includes('ferment') || methodNameLower.includes('pickle') || methodNameLower.includes('cure')) {
+    return { heat: 0.1, entropy: 0.5, reactivity: 0.4 }; // No/low heat methods
+  } else if (methodNameLower.includes('braise') || methodNameLower.includes('stew')) {
+      return { heat: 0.55, entropy: 0.75, reactivity: 0.60 }; // Moderate heat, high entropy
+  } else if (methodNameLower.includes('pressure')) {
+      return { heat: 0.7, entropy: 0.8, reactivity: 0.65 }; // High heat/pressure, rapid breakdown
+  }
+
+  // Default values if no match found in any source
+  return { heat: 0.5, entropy: 0.5, reactivity: 0.5 };
+}
+
+// Calculate base score based on thermodynamic properties
+// Adapted from calculateMatchScore in CookingMethods.tsx
+function calculateThermodynamicBaseScore(thermodynamics: BasicThermodynamicProperties): number {
+  const heatScore = thermodynamics.heat || 0;
+  // Invert entropy score as lower entropy is often preferred for structure retention
+  const entropyScore = 1 - (thermodynamics.entropy || 0);
+  const reactivityScore = thermodynamics.reactivity || 0;
+
+  // Weighted average - giving slightly more importance to heat and reactivity
+  // Weights: Heat (0.4), Entropy (0.3), Reactivity (0.3)
+  const rawScore = (heatScore * 0.4) + (entropyScore * 0.3) + (reactivityScore * 0.3);
+
+  // We return the raw weighted score here. The multiplier will be applied in calculateMethodScore.
+  // Ensure a minimum base score to avoid scores of 0 before multiplier.
+  return Math.max(0.05, rawScore); 
+}
+
+// --- End Added Thermodynamic Helpers ---
 
 // Improved scoring algorithm for cooking method recommendations
 export function getRecommendedCookingMethods(
@@ -1277,4 +1348,133 @@ function calculateAspectMethodAffinity(aspects: PlanetaryAspect[], method: Cooki
   }
 
   return affinity;
+}
+
+export function calculateMethodScore(method: CookingMethodProfile, astroState: AstrologicalState): number {
+  // Get thermodynamic properties for the method
+  const thermodynamics = getMethodThermodynamics(method);
+  
+  // Calculate the base score using thermodynamic properties
+  const baseScore = calculateThermodynamicBaseScore(thermodynamics);
+  
+  // Apply a lower multiplier to create more differentiation between methods
+  const multiplier = 1.8;  // Reduced multiplier for more variance
+  
+  // Apply additional bonuses for specific astrological alignments
+  let bonusScore = 0;
+  
+  // Add zodiac alignment bonus
+  if (method.astrologicalInfluences?.favorableZodiac?.includes(astroState.zodiacSign)) {
+    bonusScore += 0.15;  // Reduced bonus for zodiac alignment
+  }
+  
+  // Add lunar phase bonus
+  if (astroState.lunarPhase && method.astrologicalInfluences?.lunarPhaseEffect?.[astroState.lunarPhase] > 0) {
+    bonusScore += 0.12;  // Reduced bonus for positive lunar phase effect
+  }
+  
+  // Apply special multiplier for methods that are especially suited to the current elemental state
+  const methodElemental = getMethodElementalProfile(method);
+  const astroElemental = getAstrologicalElementalProfile(astroState);
+  
+  if (methodElemental && astroElemental) {
+    const elementalCompatibility = calculateElementalCompatibility(methodElemental, astroElemental);
+    if (elementalCompatibility > 0.7) {
+      bonusScore += 0.13;  // Reduced bonus for strong elemental compatibility
+    }
+  }
+  
+  // Add a small method-specific variance to prevent identical scores
+  // Use the method name length as a seed for the variance
+  const methodNameLength = method.name?.length || 10;
+  const methodSpecificVariance = (methodNameLength % 7) * 0.02;
+  
+  // Ensure the final score is between 0.15 and 0.95 to show differentiation
+  return Math.min(0.95, Math.max(0.15, (baseScore * multiplier) + bonusScore - methodSpecificVariance));
+}
+
+// Helper function to get method elemental profile
+function getMethodElementalProfile(method: CookingMethodProfile): any {
+  return method.elementalProperties || method.elementalEffect;
+}
+
+// Helper function to get astrological elemental profile
+// Now prioritizes a pre-calculated full elemental profile if available in astroState
+function getAstrologicalElementalProfile(astroState: AstrologicalState): ElementalProperties | null {
+  // 1. Check if a comprehensive elemental profile is provided directly in astroState
+  //    (Names might be 'elementalProfile' or 'elementalState' based on usage elsewhere)
+  if (astroState.elementalProfile && Object.keys(astroState.elementalProfile).length > 0) {
+    return astroState.elementalProfile;
+  }
+  if (astroState.elementalState && Object.keys(astroState.elementalState).length > 0) {
+    // Assuming elementalState has the same structure as ElementalProperties
+    return astroState.elementalState as ElementalProperties;
+  }
+
+  // 2. Fallback: Calculate a simplified profile based only on the zodiac (Sun) sign
+  //    This is less accurate but provides a default if the full profile is missing.
+  if (astroState.zodiacSign) {
+    const sign = astroState.zodiacSign.toLowerCase();
+    return {
+      Fire: sign.includes('aries') || sign.includes('leo') || sign.includes('sagittarius') ? 0.8 : 0.2,
+      Water: sign.includes('cancer') || sign.includes('scorpio') || sign.includes('pisces') ? 0.8 : 0.2,
+      Earth: sign.includes('taurus') || sign.includes('virgo') || sign.includes('capricorn') ? 0.8 : 0.2,
+      Air: sign.includes('gemini') || sign.includes('libra') || sign.includes('aquarius') ? 0.8 : 0.2
+    };
+  }
+
+  // 3. Return null if no profile can be determined
+  return null;
+}
+
+// Helper function to calculate elemental compatibility
+function calculateElementalCompatibility(elementalA: ElementalProperties | null, elementalB: ElementalProperties | null): number {
+  // Return low compatibility if either profile is missing
+  if (!elementalA || !elementalB) {
+    return 0.2; // Low base compatibility if profiles are incomplete
+  }
+
+  const elements = ['Fire', 'Water', 'Earth', 'Air'];
+  let compatibilityScore = 0;
+  let totalWeight = 0;
+  
+  for (const element of elements) {
+    const valA = elementalA[element as keyof ElementalProperties];
+    const valB = elementalB[element as keyof ElementalProperties];
+
+    // Ensure both values are numbers before calculating
+    if (typeof valA === 'number' && typeof valB === 'number') {
+      // Calculate similarity (higher values = more similar)
+      const similarity = 1 - Math.abs(valA - valB);
+      compatibilityScore += similarity;
+      totalWeight += 1;
+    }
+  }
+  
+  // Normalize the score based on how many elements were compared
+  return totalWeight > 0 ? compatibilityScore / totalWeight : 0;
+}
+
+export function getCookingMethodRecommendations(
+  astroState: AstrologicalState,
+  options: MethodRecommendationOptions = {}
+): MethodRecommendation[] {
+  // Create recommendations with the enhanced score
+  const recommendations = Object.entries(cookingMethods).map(([name, method]) => {
+    // Use our enhanced calculation with multiplier
+    const score = calculateMethodScore(method, astroState);
+    
+    return {
+      name,
+      score,
+      elementalAlignment: method.elementalProperties,
+      description: method.description
+    };
+  })
+  .filter(rec => rec.score > 0)
+  .sort((a, b) => b.score - a.score);
+  
+  // Return top recommendations (limit if specified)
+  const limit = options.limit || 10;
+  return recommendations.slice(0, limit);
 } 

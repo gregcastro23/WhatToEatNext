@@ -82,7 +82,19 @@ export const LUNAR_PHASE_REVERSE_MAPPING: Record<LunarPhaseWithUnderscores, Luna
   'waning_crescent': 'waning crescent'
 };
 
-export type ZodiacSign = 'aries' | 'taurus' | 'gemini' | 'cancer' | 'leo' | 'virgo' | 'libra' | 'scorpio' | 'sagittarius' | 'capricorn' | 'aquarius' | 'pisces';
+export type ZodiacSign = 
+  | 'aries' 
+  | 'taurus' 
+  | 'gemini' 
+  | 'cancer' 
+  | 'leo' 
+  | 'virgo' 
+  | 'libra' 
+  | 'scorpio' 
+  | 'sagittarius' 
+  | 'capricorn' 
+  | 'aquarius' 
+  | 'pisces';
 
 export type Planet = 'sun' | 'moon' | 'mercury' | 'venus' | 'mars' | 'jupiter' | 'saturn' | 'uranus' | 'neptune' | 'pluto';
 
@@ -1129,3 +1141,10 @@ export type DietaryRestriction =
   | 'paleo' 
   | 'low-carb' 
   | 'low-fat';
+
+export interface AlchemicalProperties {
+  elementalProfile: ElementalProfile;
+  astrologicalInfluences: AstrologicalInfluence[];
+  primaryElement: Element;
+  secondaryElement?: Element;
+}

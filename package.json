@@ -20,7 +20,11 @@
     "test:gas-giants-simple": "node src/scripts/gasGiantsTest.js"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
     "@heroicons/react": "^2.2.0",
+    "@mui/icons-material": "^7.0.2",
+    "@mui/material": "^7.0.2",
     "@swc/helpers": "^0.5.15",
     "@types/lodash": "^4.17.16",
     "@types/node": "^22.13.17",
@@ -43,7 +47,7 @@
     "server-only": "^0.0.1",
     "styled-jsx": "^5.1.6",
     "suncalc": "^1.9.0",
-    "typescript": "^5.8.2",
+    "typescript": "^5.8.3",
     "vsop87": "^1.0.5",
     "zod": "^3.24.2"
   },

@@ -1,5 +1,5 @@
 import type { RecipeElementalMapping } from '@/types/recipes';
-import { cookingMethods } from '@/data/cooking/cookingMethods';
+import { cookingMethods } from '@/data/cooking';
 import { culinaryTraditions } from '@/data/cuisines/culinaryTraditions';
 import { ELEMENTAL_CHARACTERISTICS } from '@/constants/elementalConstants';
 import { ElementalRecommendationService } from '@/services/ElementalRecommendationService';

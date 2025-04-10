@@ -1,9 +1,12 @@
 .cookingMethodsContainer {
-  background-color: white;
-  border-radius: 0.5rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  margin-bottom: 1.5rem;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 1rem;
+  background-color: rgba(10, 10, 30, 0.03);
+  border-radius: 10px;
+  box-shadow: 0 3px 20px rgba(0, 0, 0, 0.08);
+  box-sizing: border-box;
 }
 
 .cookingMethodsHeader {
@@ -31,7 +34,10 @@
 }
 
 .titleText {
-  color: #1f2937;
+  background: linear-gradient(135deg, #6b46c1, #3c366b);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 .titleCount {
@@ -41,20 +47,22 @@
 }
 
 .expandButton {
-  background: transparent;
+  padding: 0.5rem 1.5rem;
+  background: linear-gradient(135deg, #6b46c1, #3c366b);
+  color: white;
   border: none;
-  color: #6b7280;
+  border-radius: 8px;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.25rem;
-  border-radius: 0.25rem;
-  transition: background-color 0.2s ease;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  margin: 1.5rem auto 0;
+  display: block;
+  font-size: 0.9rem;
 }
 
 .expandButton:hover {
-  background-color: #e5e7eb;
+  transform: translateY(-1px);
+  box-shadow: 0 5px 15px rgba(107, 70, 193, 0.2);
 }
 
 .expandIcon {
@@ -68,33 +76,47 @@
 
 .methodsContainer {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 1rem;
-  padding: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  padding: 0;
   width: 100%;
+  grid-auto-flow: dense;
 }
 
 .methodCard {
-  background: rgba(30, 30, 40, 0.7);
-  backdrop-filter: blur(5px);
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 1rem;
+  background-color: white;
+  border-radius: 10px;
+  padding: 1.25rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+  cursor: pointer;
+  position: relative;
+  border: 1px solid rgba(0, 0, 0, 0.04);
   display: flex;
   flex-direction: column;
-  transition: transform 0.2s, box-shadow 0.2s;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .methodCard:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.2);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Styling for expanded method cards */
+.methodCard.expanded {
+  border: 1px solid rgba(107, 70, 193, 0.3);
+  box-shadow: 0 8px 16px rgba(107, 70, 193, 0.15);
+  transform: translateY(-5px);
+}
+
+/* Override the hover effect for expanded cards to prevent jumpiness */
+.methodCard.expanded:hover {
+  transform: translateY(-5px);
 }
 
 .methodHeader {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   margin-bottom: 0.75rem;
 }
 
@@ -102,35 +124,45 @@
   margin: 0;
   font-size: 1.1rem;
   font-weight: 600;
-  color: #ffffff;
+  color: #333;
   text-transform: capitalize;
-  letter-spacing: 0.5px;
-  position: relative;
 }
 
-.methodName::after {
-  content: '';
-  position: absolute;
-  bottom: -4px;
-  left: 0;
-  width: 2rem;
-  height: 2px;
-  background: linear-gradient(to right, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0));
+.headerControls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.matchInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 }
 
 .matchScore {
-  background: rgba(163, 230, 53, 0.2);
-  color: #a3e635;
+  background: linear-gradient(90deg, #6b46c1, #805ad5);
+  color: white;
   padding: 0.25rem 0.5rem;
   border-radius: 4px;
   font-size: 0.8rem;
   font-weight: 600;
+  min-width: 80px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.matchReason {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin-top: 0.25rem;
+  font-style: italic;
 }
 
 .methodDescription {
   font-size: 0.9rem;
   line-height: 1.5;
-  color: rgba(255, 255, 255, 0.8);
+  color: #4b5563;
   margin-bottom: 1rem;
 }
 
@@ -138,27 +170,120 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin-top: auto;
+  margin-top: 1rem;
 }
 
 .elementTag {
-  display: flex;
-  align-items: center;
-  gap: 0.375rem;
-  background: rgba(0, 0, 0, 0.3);
-  padding: 0.375rem 0.625rem;
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
   border-radius: 4px;
-  font-size: 0.8rem;
-}
-
-.elementValue {
-  opacity: 0.8;
   font-size: 0.75rem;
+  font-weight: 500;
+  color: white;
 }
 
-@media (max-width: 640px) {
+.fire {
+  background-color: #e53e3e;
+}
+
+.water {
+  background-color: #3182ce;
+}
+
+.earth {
+  background-color: #38a169;
+}
+
+.air {
+  background-color: #d69e2e;
+}
+
+.scoreBar {
+  width: 100%;
+  height: 8px;
+  background-color: #edf2f7;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+  margin-top: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.scoreBarFill {
+  height: 100%;
+  background: linear-gradient(90deg, #6b46c1, #805ad5);
+  border-radius: 4px;
+  transition: width 0.5s ease-in-out;
+}
+
+.infoTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.infoTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  background-color: #f3f4f6;
+  color: #4b5563;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.expandedDetails {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e5e7eb;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.filterControls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding: 0;
+}
+
+.cultureSelector {
+  background-color: white;
+  border: 1px solid #e5e7eb;
+  color: #4b5563;
+  border-radius: 0.375rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  transition: border-color 0.2s;
+}
+
+.cultureSelector:focus {
+  outline: none;
+  border-color: #6b46c1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
   .methodsContainer {
     grid-template-columns: 1fr;
+  }
+  
+  .methodCard {
+    padding: 1rem;
+  }
+  
+  .filterControls {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
   }
 }
 
@@ -223,28 +348,6 @@
 }
 
 /* Add these to your existing CSS file */
-
-.filterControls {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 1rem;
-  padding: 0 1.5rem;
-}
-
-.cultureSelector {
-  background: rgba(30, 30, 40, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #ffffff;
-  border-radius: 0.375rem;
-  padding: 0.5rem 1rem;
-  font-size: 0.875rem;
-  transition: border-color 0.2s;
-}
-
-.cultureSelector:focus {
-  outline: none;
-  border-color: rgba(255, 255, 255, 0.3);
-}
 
 .cultureBadge {
   display: inline-flex;
@@ -329,30 +432,6 @@
 }
 
 /* Enhanced the existing styles */
-.methodCard {
-  background: rgba(30, 30, 40, 0.7);
-  backdrop-filter: blur(5px);
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  transition: transform 0.2s, box-shadow 0.2s;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.methodCard:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.2);
-}
-
-.methodHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.75rem;
-}
-
 .energeticValues {
   display: flex;
   flex-wrap: wrap;
@@ -464,28 +543,6 @@
   position: absolute;
   left: 0;
   color: rgba(255, 255, 255, 0.4);
-}
-
-.astrologicalAdjustment {
-  margin-top: 0.75rem;
-  padding-top: 0.75rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.adjustmentLabel {
-  display: flex;
-  align-items: center;
-  font-weight: 500;
-  font-size: 0.85rem;
-  margin-bottom: 0.375rem;
-  color: rgba(255, 255, 255, 0.8);
-}
-
-.adjustmentValue {
-  display: block;
-  font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.7);
-  line-height: 1.4;
 }
 
 /* Add these styles for molecular gastronomy details */
@@ -925,11 +982,6 @@
 }
 
 /* Add these new styles for compact/expandable cards */
-.headerControls {
-  display: flex;
-  align-items: center;
-}
-
 .compactInfo {
   margin-top: 0.5rem;
 }
@@ -951,36 +1003,28 @@
   color: rgba(255, 255, 255, 0.8);
 }
 
-.expandedDetails {
-  margin-top: 1rem;
-  padding-top: 1rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  animation: fadeIn 0.3s ease-in-out;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-8px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* Add these CSS classes for the new elements */
-.benefitTag {
+.molecularBadge {
+  display: inline-flex;
+  align-items: center;
   background: rgba(180, 120, 255, 0.2);
   border: 1px solid rgba(180, 120, 255, 0.4);
   border-radius: 0.25rem;
-  padding: 0.125rem 0.375rem;
+  padding: 0.25rem 0.5rem;
   font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 0.75rem;
 }
 
-.chemicalTag {
-  background: rgba(255, 120, 120, 0.2);
-  border: 1px solid rgba(255, 120, 120, 0.4);
+.fermentationBadge {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(125, 211, 252, 0.2);
+  border: 1px solid rgba(125, 211, 252, 0.4);
   border-radius: 0.25rem;
-  padding: 0.125rem 0.375rem;
+  padding: 0.25rem 0.5rem;
   font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.9);
-  text-transform: capitalize;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 0.75rem;
 }
 
 /* Add these styles for the detailed method description */
@@ -1659,6 +1703,71 @@
   border: 1px solid #ff9800;
 }
 
-.ingredient-compatibility.poor {
-  border: 1px solid #f44336;
+.ingredientSearchContainer {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background-color: #f9fafb;
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
+}
+
+.searchForm {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.searchInput {
+  flex: 1;
+  padding: 0.5rem 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+}
+
+.searchButton {
+  padding: 0.5rem 1rem;
+  background: linear-gradient(135deg, #6b46c1, #3c366b);
+  color: white;
+  border: none;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.searchButton:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 5px rgba(107, 70, 193, 0.3);
+}
+
+.compatibilityInfo {
+  margin-top: 0.75rem;
+  font-size: 0.875rem;
+  color: #4b5563;
+}
+
+.ingredientCompatibility {
+  margin-top: 0.75rem;
+  padding: 0.75rem;
+  background-color: #f3f4f6;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+}
+
+.compatibilityBar {
+  height: 6px;
+  background: linear-gradient(90deg, #38a169, #68d391);
+  border-radius: 3px;
+  margin-top: 0.5rem;
+}
+
+/* Media queries for responsive design */
+@media (max-width: 640px) {
+  .searchForm {
+    flex-direction: column;
+  }
+  
+  .searchButton {
+    width: 100%;
+  }
 } 

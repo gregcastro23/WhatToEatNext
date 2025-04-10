@@ -1,141 +1,323 @@
 import React, { useEffect, useState } from 'react';
 import { useAstrologicalState } from '@/hooks/useAstrologicalState';
 import { allCookingMethods } from '@/data/cooking';
-import { planetaryFoodAssociations } from '@/constants/planetaryFoodAssociations';
-import { getCurrentSeason } from '@/utils/dateUtils';
-import { determineIngredientModality } from '@/utils/ingredientUtils';
-import { Modality } from '@/types/ingredients';
+import { calculateMethodScore } from '@/utils/cookingMethodRecommender';
+import { ChevronDown, ChevronUp, Flame, Droplets, Wind, Mountain, Info } from 'lucide-react';
+import styles from './CookingMethods.module.css';
+import { getTechnicalTips, getIdealIngredients } from '@/utils/cookingMethodTips';
 
-// Import the correct utility function for zodiac elements
-import { getElementForZodiac } from '@/utils/zodiacUtils';
-
-// Define zodiac signs with their modalities
-const zodiacSigns: Record<string, { modality: Modality }> = {
-  'aries': { modality: 'Cardinal' },
-  'taurus': { modality: 'Fixed' },
-  'gemini': { modality: 'Mutable' },
-  'cancer': { modality: 'Cardinal' },
-  'leo': { modality: 'Fixed' },
-  'virgo': { modality: 'Mutable' },
-  'libra': { modality: 'Cardinal' },
-  'scorpio': { modality: 'Fixed' },
-  'sagittarius': { modality: 'Mutable' },
-  'capricorn': { modality: 'Cardinal' },
-  'aquarius': { modality: 'Fixed' },
-  'pisces': { modality: 'Mutable' }
-};
-
-// Define a proper method score calculator function using actual data
-const calculateMethodScores = (planetaryAlignment: any): Record<string, number> => {
-  const scores: Record<string, number> = {};
-  
-  Object.entries(allCookingMethods).forEach(([methodName, methodData]) => {
-    let score = 0.5; // Start with neutral score
-    
-    // 1. Calculate elemental score (40% of total)
-    if (methodData.elementalProperties && planetaryAlignment.sun) {
-      const sunSign = planetaryAlignment.sun.sign.toLowerCase();
-      const sunElement = getElementForZodiac(sunSign);
-      
-      if (sunElement && methodData.elementalProperties[sunElement] > 0.5) {
-        score += 0.4; // Full score for elemental alignment
-      }
-    }
-    
-    // 2. Calculate modality score (30% of total)
-    if (methodData.qualities) {
-      const methodModality = determineIngredientModality(methodData.qualities);
-      const currentModality = getCurrentModality(planetaryAlignment);
-      
-      if (methodModality === currentModality) {
-        score += 0.3; // Full score for modality match
-      } else if (isCompatibleModality(methodModality, currentModality)) {
-        score += 0.2; // Partial score for compatible modality
-      }
-    }
-    
-    // 3. Calculate planetary score (20% of total)
-    if (methodData.astrologicalInfluences?.dominantPlanets) {
-      const dominantPlanets = Array.isArray(methodData.astrologicalInfluences.dominantPlanets) 
-        ? methodData.astrologicalInfluences.dominantPlanets 
-        : [methodData.astrologicalInfluences.dominantPlanets];
-        
-      dominantPlanets.forEach(planet => {
-        const planetKey = planet.toLowerCase();
-        if (planetaryAlignment[planetKey] && planetaryAlignment[planetKey].sign) {
-          const planetInfo = planetaryFoodAssociations[planet];
-          if (planetInfo && planetInfo.rulership?.includes(planetaryAlignment[planetKey].sign)) {
-            score += 0.2; // Full score for planetary rulership
-          } else if (planetInfo && planetInfo.exaltation?.includes(planetaryAlignment[planetKey].sign)) {
-            score += 0.15; // Partial score for planetary exaltation
-          }
-        }
-      });
-    }
-    
-    // 4. Calculate seasonal score (10% of total)
-    const currentSeason = getCurrentSeason();
-    if (methodData.seasonalPreference?.includes(currentSeason)) {
-      score += 0.1; // Full score for seasonal match
-    }
-    
-    // Normalize score to be between 0.1 and 1.0
-    scores[methodName] = Math.max(0.1, Math.min(1.0, score));
-  });
-  
-  return scores;
-};
-
-// Helper function to get current modality based on planetary alignment
-function getCurrentModality(planetaryAlignment: any): Modality {
-  const sunSign = planetaryAlignment.sun?.sign?.toLowerCase();
-  if (!sunSign) return 'Mutable';
-  
-  const signInfo = zodiacSigns[sunSign];
-  return signInfo?.modality || 'Mutable';
-}
-
-// Helper function to check modality compatibility
-function isCompatibleModality(modality1: Modality, modality2: Modality): boolean {
-  const compatibleModalities = {
-    Cardinal: ['Mutable'],
-    Fixed: ['Mutable'],
-    Mutable: ['Cardinal', 'Fixed']
+// Define proper types for the methods with scores
+interface CookingMethodWithScore {
+  id: string;
+  name: string;
+  description: string;
+  score: number;
+  elementalEffect?: {
+    Fire: number;
+    Water: number;
+    Earth: number;
+    Air: number;
   };
-  
-  return compatibleModalities[modality1]?.includes(modality2) || false;
+  duration?: {
+    min: number;
+    max: number;
+  };
+  suitable_for?: string[];
+  benefits?: string[];
+  astrologicalInfluences?: {
+    favorableZodiac?: string[];
+    unfavorableZodiac?: string[];
+    dominantPlanets?: string[];
+  };
+  toolsRequired?: string[];
 }
 
 export default function MethodsRecommender() {
   // Use the hook to get consistent planetary data
   const { currentPlanetaryAlignment, loading } = useAstrologicalState();
-  const [methodScores, setMethodScores] = useState<Record<string, number>>({});
+  const [methods, setMethods] = useState<CookingMethodWithScore[]>([]);
+  const [isExpanded, setIsExpanded] = useState(true);
+  const [selectedMethodId, setSelectedMethodId] = useState<string | null>(null);
   
-  // Replace any existing planetary calculations
+  // Calculate method scores using the imported function from cookingMethodRecommender.ts
   useEffect(() => {
     if (!loading && currentPlanetaryAlignment) {
-      // Calculate cooking method recommendations based on celestial positions
-      const scores = calculateMethodScores(currentPlanetaryAlignment);
-      setMethodScores(scores);
+      // Convert currentPlanetaryAlignment to AstrologicalState format
+      const astroState = {
+        zodiacSign: currentPlanetaryAlignment.sun?.sign || 'Aries',
+        lunarPhase: currentPlanetaryAlignment.moon?.phase || 'New Moon',
+        elementalState: {
+          Fire: ['Aries', 'Leo', 'Sagittarius'].includes(currentPlanetaryAlignment.sun?.sign || '') ? 0.8 : 0.2,
+          Water: ['Cancer', 'Scorpio', 'Pisces'].includes(currentPlanetaryAlignment.sun?.sign || '') ? 0.8 : 0.2,
+          Earth: ['Taurus', 'Virgo', 'Capricorn'].includes(currentPlanetaryAlignment.sun?.sign || '') ? 0.8 : 0.2,
+          Air: ['Gemini', 'Libra', 'Aquarius'].includes(currentPlanetaryAlignment.sun?.sign || '') ? 0.8 : 0.2
+        },
+        planets: currentPlanetaryAlignment
+      };
+      
+      // Calculate scores for each cooking method and transform into our format
+      const methodsWithScores: CookingMethodWithScore[] = Object.entries(allCookingMethods)
+        .map(([methodName, methodData]) => {
+          // Calculate base score from the recommender utils
+          const baseScore = calculateMethodScore(methodData, astroState);
+          
+          // Add additional variance factors
+          // 1. Use method name length to create a pseudorandom variance
+          const nameVariance = (methodName.length % 7) * 0.015;
+          // 2. Use first character code as another variance factor
+          const charCodeVariance = (methodName.charCodeAt(0) % 10) * 0.01;
+          // 3. Apply a position-based variance to ensure different ordering
+          const positionVariance = Math.random() * 0.05;
+          
+          // Combine all variance factors
+          const totalVariance = nameVariance + charCodeVariance + positionVariance;
+          
+          // Final adjusted score with variance (capped between 0.35 and 0.95)
+          const adjustedScore = Math.min(0.95, Math.max(0.35, baseScore - totalVariance));
+          
+          return {
+            id: methodName,
+            name: methodName.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase()), // Capitalize words
+            description: methodData.description || 'A cooking method that transforms food with heat, moisture, or chemical processes.',
+            score: adjustedScore,
+            elementalEffect: methodData.elementalEffect || methodData.elementalProperties,
+            duration: methodData.duration,
+            suitable_for: methodData.suitable_for || [],
+            benefits: methodData.benefits || [],
+            astrologicalInfluences: methodData.astrologicalInfluences,
+            toolsRequired: methodData.toolsRequired
+          };
+        })
+        .sort((a, b) => b.score - a.score);
+      
+      setMethods(methodsWithScores);
+      
+      // Select the top method by default
+      if (methodsWithScores.length > 0 && !selectedMethodId) {
+        setSelectedMethodId(methodsWithScores[0].id);
+      }
     }
-  }, [loading, currentPlanetaryAlignment]);
+  }, [loading, currentPlanetaryAlignment, selectedMethodId]);
+  
+  const toggleExpanded = () => {
+    setIsExpanded(prev => !prev);
+  };
+  
+  const handleMethodSelect = (methodId: string) => {
+    setSelectedMethodId(methodId === selectedMethodId ? null : methodId);
+  };
+  
+  // Find the selected method details
+  const selectedMethod = methods.find(m => m.id === selectedMethodId);
+  
+  // Get technical tips and ideal ingredients for selected method
+  const technicalTips = selectedMethod ? getTechnicalTips(selectedMethod.name) : [];
+  const idealIngredients = selectedMethod ? getIdealIngredients(selectedMethod.name) : [];
   
   // Handle loading state
   if (loading) {
-    return <div>Analyzing celestial energies for cooking methods...</div>;
+    return <div className={styles['cooking-methods-container']}>
+      <div className={styles['cooking-methods-header']}>
+        <h3>Recommended Cooking Methods</h3>
+        <div className={styles['top-recommendation']}>
+          Analyzing celestial energies...
+        </div>
+      </div>
+    </div>;
   }
   
-  // Render the recommendations
+  // Get the top method from the list
+  const topMethod = methods.length > 0 ? methods[0] : null;
+  
+  // Determine if the toggle button should be shown (only for >5 methods)
+  const showToggle = methods.length > 5;
+  
   return (
-    <div className="methods-recommender">
-      <h2>Recommended Cooking Methods</h2>
-      <ul>
-        {Object.entries(methodScores).map(([method, score]) => (
-          <li key={method}>
-            {method}: {Math.round(score * 100)}% alignment
-          </li>
-        ))}
-      </ul>
+    <div className={styles['cooking-methods-container']}>
+      <div 
+        className={`${styles['cooking-methods-header']} ${!showToggle ? styles['no-toggle'] : ''}`} 
+        onClick={showToggle ? toggleExpanded : undefined}
+      >
+        <h3>Recommended Cooking Methods</h3>
+        {topMethod && (
+          <div className={styles['top-recommendation']}>
+            Top: <span>{topMethod.name}</span>
+          </div>
+        )}
+        
+        {showToggle && (
+          <button className={styles['toggle-button']}>
+            {isExpanded ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+          </button>
+        )}
+      </div>
+      
+      {isExpanded && (
+        <div className={styles['cooking-methods-content']}>
+          {methods.map((method) => (
+            <div 
+              key={method.id} 
+              className={`${styles['cooking-method-item']} ${selectedMethodId === method.id ? styles.selected : ''}`}
+              onClick={() => handleMethodSelect(method.id)}
+            >
+              <div className={styles['method-header']}>
+                <h4>{method.name}</h4>
+                <div className={styles['method-score']}>
+                  <div 
+                    className={styles['score-bar']}
+                    style={{ width: `${Math.round(method.score * 100)}%` }}
+                  />
+                  <span>{Math.round(method.score * 100)}%</span>
+                </div>
+              </div>
+              
+              <p className={styles['method-description']}>{method.description}</p>
+              
+              {/* Show elemental balance */}
+              {method.elementalEffect && (
+                <div className={styles['elemental-balance']}>
+                  {method.elementalEffect.Fire > 0.2 && (
+                    <div className={`${styles.element} ${styles.fire}`} title={`Fire: ${Math.round(method.elementalEffect.Fire * 100)}%`}>
+                      <Flame size={14} />
+                      <span>{Math.round(method.elementalEffect.Fire * 100)}%</span>
+                    </div>
+                  )}
+                  {method.elementalEffect.Water > 0.2 && (
+                    <div className={`${styles.element} ${styles.water}`} title={`Water: ${Math.round(method.elementalEffect.Water * 100)}%`}>
+                      <Droplets size={14} />
+                      <span>{Math.round(method.elementalEffect.Water * 100)}%</span>
+                    </div>
+                  )}
+                  {method.elementalEffect.Air > 0.2 && (
+                    <div className={`${styles.element} ${styles.air}`} title={`Air: ${Math.round(method.elementalEffect.Air * 100)}%`}>
+                      <Wind size={14} />
+                      <span>{Math.round(method.elementalEffect.Air * 100)}%</span>
+                    </div>
+                  )}
+                  {method.elementalEffect.Earth > 0.2 && (
+                    <div className={`${styles.element} ${styles.earth}`} title={`Earth: ${Math.round(method.elementalEffect.Earth * 100)}%`}>
+                      <Mountain size={14} />
+                      <span>{Math.round(method.elementalEffect.Earth * 100)}%</span>
+                    </div>
+                  )}
+                </div>
+              )}
+              
+              {/* Show duration and suitable ingredients */}
+              <div className={styles['method-details']}>
+                {method.duration && (
+                  <div className={styles.duration}>
+                    <span className={styles['detail-label']}>Duration:</span> 
+                    {method.duration.min}-{method.duration.max} min
+                  </div>
+                )}
+                {method.suitable_for && method.suitable_for.length > 0 && (
+                  <div className={styles['suitable-for']}>
+                    <span className={styles['detail-label']}>Ideal for:</span> 
+                    {method.suitable_for.slice(0, 3).join(', ')}
+                    {method.suitable_for.length > 3 && '...'}
+                  </div>
+                )}
+                
+                {/* Add benefits section */}
+                {method.benefits && method.benefits.length > 0 && (
+                  <div className={styles['benefits']}>
+                    <span className={styles['detail-label']}>Benefits:</span> 
+                    {method.benefits[0]}
+                    {method.benefits.length > 1 && '...'}
+                  </div>
+                )}
+              </div>
+              
+              {/* Show expanded details for selected method */}
+              {selectedMethodId === method.id && (
+                <div className={styles['expanded-details']}>
+                  <div className={styles['cookingInfoTips']}>
+                    <h4 className={styles['tipsHeader']}>Expert Technical Tips</h4>
+                    <ul className={styles['tipsList']}>
+                      {technicalTips.map((tip, index) => (
+                        <li key={index} className={styles['tipItem']}>{tip}</li>
+                      ))}
+                    </ul>
+                  </div>
+                  
+                  {idealIngredients.length > 0 && (
+                    <div className={styles['cookingInfo']}>
+                      <h4 className={styles['cookingInfoTitle']}>Ideal Ingredients</h4>
+                      <ul className={styles['tagList']}>
+                        {idealIngredients.map((ingredient, index) => (
+                          <li key={index} className={styles['ingredientTag']}>{ingredient}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                  
+                  {method.benefits && method.benefits.length > 1 && (
+                    <div className={styles['cookingInfo']}>
+                      <h4 className={styles['cookingInfoTitle']}>All Benefits</h4>
+                      <ul className={styles['tagList']}>
+                        {method.benefits.map((benefit, index) => (
+                          <li key={index} className={styles['ingredientTag']}>{benefit}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                  
+                  {method.astrologicalInfluences && (
+                    <div className={styles['astroInfo']}>
+                      <h4 className={styles['cookingInfoTitle']}>Astrological Influences</h4>
+                      
+                      {method.astrologicalInfluences.favorableZodiac && method.astrologicalInfluences.favorableZodiac.length > 0 && (
+                        <div className={styles['cookingInfoRow']}>
+                          <span className={styles['astroLabel']}>Favorable Signs:</span>
+                          <div className={styles['planetTags']}>
+                            {method.astrologicalInfluences.favorableZodiac.map((sign, index) => (
+                              <span key={index} className={styles['planetTag']}>{sign}</span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                      
+                      {method.astrologicalInfluences.unfavorableZodiac && method.astrologicalInfluences.unfavorableZodiac.length > 0 && (
+                        <div className={styles['cookingInfoRow']}>
+                          <span className={styles['astroLabel']}>Unfavorable Signs:</span>
+                          <div className={styles['planetTags']}>
+                            {method.astrologicalInfluences.unfavorableZodiac.map((sign, index) => (
+                              <span key={index} className={styles['planetTag']}>{sign}</span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                      
+                      {method.astrologicalInfluences.dominantPlanets && method.astrologicalInfluences.dominantPlanets.length > 0 && (
+                        <div className={styles['cookingInfoRow']}>
+                          <span className={styles['astroLabel']}>Dominant Planets:</span>
+                          <div className={styles['planetTags']}>
+                            {method.astrologicalInfluences.dominantPlanets.map((planet, index) => (
+                              <span key={index} className={styles['planetTag']}>{planet}</span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                  
+                  {method.toolsRequired && method.toolsRequired.length > 0 && (
+                    <div className={styles['cookingInfo']}>
+                      <h4 className={styles['cookingInfoTitle']}>Required Tools</h4>
+                      <ul className={styles['tagList']}>
+                        {method.toolsRequired.map((tool, index) => (
+                          <li key={index} className={styles['ingredientTag']}>{tool}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 } 
