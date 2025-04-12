@@ -54,7 +54,7 @@ const RecipeComponent: FC<RecipeProps> = ({
 
       {recipe.instructions && (
         <section className="recipe-instructions">
-          <h3>Instructions</h3>
+          <h3>Procedure</h3>
           <ol>
             {recipe.instructions.map((step, index) => (
               <li key={index} className="instruction-step">

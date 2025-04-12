@@ -12,6 +12,11 @@ import sauces, {
   italianSauces, 
   mexicanSauces 
 } from './sauces';
+import nutritional, {
+  baseNutritionalProfiles,
+  calculateNutritionalBalance,
+  nutritionalToElemental
+} from './nutritional';
 
 export const FoodData = {
   cuisines,
@@ -31,6 +36,11 @@ export const FoodData = {
       italian: italianSauces,
       mexican: mexicanSauces
     }
+  },
+  nutrition: {
+    profiles: baseNutritionalProfiles,
+    calculateBalance: calculateNutritionalBalance,
+    toElemental: nutritionalToElemental
   }
 };
 
@@ -52,7 +62,11 @@ export {
   temperatureEffects,
   sauces,
   allSauces,
-  sauceRecommendations
+  sauceRecommendations,
+  nutritional,
+  baseNutritionalProfiles,
+  calculateNutritionalBalance,
+  nutritionalToElemental
 };
 
 export default FoodData;

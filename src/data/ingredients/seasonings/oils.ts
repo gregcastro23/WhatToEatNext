@@ -12,6 +12,19 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
         seasonality: ['spring', 'summer', 'fall', 'winter'],
         smokePoint: { celsius: 207, fahrenheit: 405 },
         qualities: ['healthy', 'versatile', 'rich'],
+        nutritionalProfile: {
+            calories: 119,
+            fat_g: 13.5,
+            saturated_fat_g: 1.9,
+            monounsaturated_fat_g: 9.9,
+            polyunsaturated_fat_g: 1.4,
+            omega_3_g: 0.1,
+            omega_6_g: 1.3,
+            omega_9_g: 9.9,
+            vitamins: ['e', 'k'],
+            antioxidants: ['oleocanthal', 'oleuropein', 'hydroxytyrosol'],
+            notes: 'Rich in monounsaturated fats and antioxidants'
+        },
         preparation: {
             fresh: {
                 duration: '2 years',
@@ -63,6 +76,18 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
             fahrenheit: 350
         },
         qualities: ['sweet', 'tropical', 'solid'],
+        nutritionalProfile: {
+            calories: 121,
+            fat_g: 13.5,
+            saturated_fat_g: 11.2,
+            monounsaturated_fat_g: 0.8,
+            polyunsaturated_fat_g: 0.2,
+            omega_3_g: 0,
+            omega_6_g: 0.2,
+            omega_9_g: 0.8,
+            vitamins: [],
+            notes: 'High in medium-chain triglycerides (MCTs)'
+        },
         preparation: {
             fresh: {
                 duration: '6 months',
@@ -85,6 +110,20 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
         seasonality: ['fall', 'winter'],
         smokePoint: { celsius: 210, fahrenheit: 410 },
         qualities: ['nutty', 'aromatic', 'warming'],
+        nutritionalProfile: {
+            calories: 120,
+            fat_g: 13.6,
+            saturated_fat_g: 1.9,
+            monounsaturated_fat_g: 5.4,
+            polyunsaturated_fat_g: 5.6,
+            omega_3_g: 0.4,
+            omega_6_g: 5.2,
+            omega_9_g: 5.4,
+            vitamins: ['e', 'k', 'b6'],
+            minerals: ['calcium', 'iron', 'zinc'],
+            antioxidants: ['sesamol', 'sesamin', 'sesamolin'],
+            notes: 'Distinctive nutty flavor, common in Asian cuisine'
+        },
         preparation: {
             fresh: {
                 duration: '1 month',
@@ -129,6 +168,18 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
         seasonality: ['spring', 'summer', 'fall', 'winter'],
         smokePoint: { celsius: 250, fahrenheit: 482 },
         qualities: ['rich', 'nutty', 'clarified'],
+        nutritionalProfile: {
+            calories: 123,
+            fat_g: 13.9,
+            saturated_fat_g: 8.7,
+            monounsaturated_fat_g: 3.7,
+            polyunsaturated_fat_g: 0.5,
+            omega_3_g: 0.1,
+            omega_6_g: 0.4,
+            omega_9_g: 3.7,
+            vitamins: ['a', 'd', 'e', 'k'],
+            notes: 'Clarified butter with high smoke point'
+        },
         preparation: {
             fresh: {
                 duration: '3 months',
@@ -151,6 +202,19 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
         seasonality: ['spring', 'summer', 'fall', 'winter'],
         smokePoint: { celsius: 271, fahrenheit: 520 },
         qualities: ['buttery', 'neutral', 'high-heat'],
+        nutritionalProfile: {
+            calories: 124,
+            fat_g: 14,
+            saturated_fat_g: 1.6,
+            monounsaturated_fat_g: 9.9,
+            polyunsaturated_fat_g: 1.9,
+            omega_3_g: 0.1,
+            omega_6_g: 1.8,
+            omega_9_g: 9.9,
+            vitamins: ['e'],
+            antioxidants: ['lutein'],
+            notes: 'High smoke point and neutral flavor'
+        },
         preparation: {
             fresh: {
                 duration: '6 months',
@@ -180,6 +244,18 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
             fahrenheit: 450
         },
         qualities: ['nutty', 'neutral', 'high-heat'],
+        nutritionalProfile: {
+            calories: 119,
+            fat_g: 13.5,
+            saturated_fat_g: 2.3,
+            monounsaturated_fat_g: 6.2,
+            polyunsaturated_fat_g: 4.3,
+            omega_3_g: 0,
+            omega_6_g: 4.3,
+            omega_9_g: 6.2,
+            vitamins: ['e'],
+            notes: 'High smoke point, good for frying'
+        },
         preparation: {
             fresh: {
                 duration: '6 months',
@@ -238,6 +314,18 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
             fahrenheit: 320
         },
         qualities: ['nutty', 'delicate', 'rich'],
+        nutritionalProfile: {
+            calories: 120,
+            fat_g: 13.6,
+            saturated_fat_g: 1.2,
+            monounsaturated_fat_g: 3.1,
+            polyunsaturated_fat_g: 8.7,
+            omega_3_g: 1.4,
+            omega_6_g: 7.3,
+            omega_9_g: 3.1,
+            vitamins: ['e', 'k'],
+            notes: 'Excellent omega-3 to omega-6 ratio, rich nutty flavor'
+        },
         preparation: {
             fresh: {
                 duration: '2 months',
@@ -383,6 +471,19 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
             fahrenheit: 421
         },
         qualities: ['light', 'clean', 'versatile'],
+        nutritionalProfile: {
+            calories: 120,
+            fat_g: 13.6,
+            saturated_fat_g: 1.3,
+            monounsaturated_fat_g: 2.2,
+            polyunsaturated_fat_g: 9.5,
+            omega_3_g: 0.1,
+            omega_6_g: 9.4,
+            omega_9_g: 2.2,
+            vitamins: ['e'],
+            antioxidants: ['proanthocyanidins'],
+            notes: 'Light flavor and high smoke point'
+        },
         preparation: {
             fresh: {
                 duration: '3 months',
@@ -673,6 +774,19 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
             fahrenheit: 420
         },
         qualities: ['sweet', 'delicate', 'nutty'],
+        nutritionalProfile: {
+            calories: 120,
+            fat_g: 13.6,
+            saturated_fat_g: 1.1,
+            monounsaturated_fat_g: 9.7,
+            polyunsaturated_fat_g: 2.3,
+            omega_3_g: 0,
+            omega_6_g: 2.3,
+            omega_9_g: 9.7,
+            vitamins: ['e'],
+            minerals: ['magnesium', 'phosphorus'],
+            notes: 'Rich in vitamin E and monounsaturated fats'
+        },
         preparation: {
             fresh: {
                 duration: '2 months',
@@ -702,6 +816,18 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
             fahrenheit: 450
         },
         qualities: ['light', 'neutral', 'versatile'],
+        nutritionalProfile: {
+            calories: 124,
+            fat_g: 14,
+            saturated_fat_g: 1.4,
+            monounsaturated_fat_g: 2.7,
+            polyunsaturated_fat_g: 9.2,
+            omega_3_g: 0,
+            omega_6_g: 9.2,
+            omega_9_g: 2.7,
+            vitamins: ['e'],
+            notes: 'High in vitamin E and polyunsaturated fats'
+        },
         preparation: {
             fresh: {
                 duration: '4 months',
@@ -789,6 +915,18 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
             fahrenheit: 225
         },
         qualities: ['nutty', 'earthy', 'delicate'],
+        nutritionalProfile: {
+            calories: 120,
+            fat_g: 13.6,
+            saturated_fat_g: 1.2,
+            monounsaturated_fat_g: 2.5,
+            polyunsaturated_fat_g: 9.2,
+            omega_3_g: 7.3,
+            omega_6_g: 1.9,
+            omega_9_g: 2.5,
+            vitamins: ['e', 'k'],
+            notes: 'Highest plant source of omega-3 fatty acids, never heat this oil'
+        },
         preparation: {
             fresh: {
                 duration: '1 month',
@@ -963,6 +1101,19 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
             fahrenheit: 420
         },
         qualities: ['clean', 'light', 'versatile'],
+        nutritionalProfile: {
+            calories: 120,
+            fat_g: 13.6,
+            saturated_fat_g: 1.3,
+            monounsaturated_fat_g: 2.2,
+            polyunsaturated_fat_g: 9.5,
+            omega_3_g: 0.1,
+            omega_6_g: 9.4,
+            omega_9_g: 2.2,
+            vitamins: ['e'],
+            antioxidants: ['proanthocyanidins'],
+            notes: 'Light flavor and high smoke point'
+        },
         preparation: {
             fresh: {
                 duration: '3 months',
@@ -975,6 +1126,115 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
             duration: '6 months',
             temperature: 'room temperature',
             notes: 'Store in a cool, dark place'
+        }
+    },
+    'canola_oil': {
+        name: 'Canola Oil',
+        category: 'oil',
+        subCategory: 'cooking',
+        elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.2, Air: 0.3 },
+        seasonality: ['spring', 'summer', 'fall', 'winter'],
+        smokePoint: { celsius: 204, fahrenheit: 400 },
+        qualities: ['neutral', 'versatile', 'heart-healthy'],
+        nutritionalProfile: {
+            calories: 124,
+            fat_g: 14,
+            saturated_fat_g: 1.0,
+            monounsaturated_fat_g: 8.8,
+            polyunsaturated_fat_g: 4.2,
+            omega_3_g: 1.2,
+            omega_6_g: 3.0,
+            omega_9_g: 8.8,
+            vitamins: ['e', 'k'],
+            notes: 'Low in saturated fats, good source of omega-3 fatty acids'
+        },
+        preparation: {
+            fresh: {
+                duration: '6 months',
+                storage: 'cool, dark place',
+                tips: ['versatile for cooking and baking', 'neutral flavor']
+            }
+        },
+        storage: {
+            container: 'dark glass bottle',
+            duration: '12 months',
+            temperature: 'room temperature',
+            notes: 'Store away from direct light and heat'
+        },
+        astrologicalProfile: {
+            rulingPlanets: ['Mercury', 'Jupiter'],
+            favorableZodiac: ['gemini', 'sagittarius'],
+            elementalAffinity: {
+                base: 'Air',
+                decanModifiers: {
+                    first: { element: 'Air', planet: 'Mercury' },
+                    second: { element: 'Fire', planet: 'Jupiter' },
+                    third: { element: 'Air', planet: 'Saturn' }
+                }
+            },
+            lunarPhaseModifiers: {
+                waxingCrescent: {
+                    elementalBoost: { Air: 0.1, Fire: 0.1 },
+                    preparationTips: ['Good for light sautéing']
+                },
+                fullMoon: {
+                    elementalBoost: { Air: 0.15 },
+                    preparationTips: ['Best for baking']
+                }
+            }
+        }
+    },
+    'mct_oil': {
+        name: 'MCT Oil',
+        category: 'oil',
+        subCategory: 'specialty',
+        elementalProperties: { Fire: 0.4, Water: 0.2, Earth: 0.2, Air: 0.2 },
+        seasonality: ['spring', 'summer', 'fall', 'winter'],
+        smokePoint: { celsius: 160, fahrenheit: 320 },
+        qualities: ['neutral', 'odorless', 'liquid'],
+        nutritionalProfile: {
+            calories: 130,
+            fat_g: 14,
+            saturated_fat_g: 14,
+            monounsaturated_fat_g: 0,
+            polyunsaturated_fat_g: 0,
+            medium_chain_triglycerides_g: 14,
+            notes: 'Contains only medium-chain triglycerides, rapidly metabolized by the body'
+        },
+        preparation: {
+            fresh: {
+                duration: '12 months',
+                storage: 'cool, dark place',
+                tips: ['add to coffee or smoothies', 'avoid high-heat cooking', 'tasteless when mixed with foods']
+            }
+        },
+        storage: {
+            container: 'dark glass bottle',
+            duration: '24 months',
+            temperature: 'room temperature',
+            notes: 'Does not require refrigeration'
+        },
+        astrologicalProfile: {
+            rulingPlanets: ['Mars', 'Sun'],
+            favorableZodiac: ['aries', 'leo'],
+            elementalAffinity: {
+                base: 'Fire',
+                decanModifiers: {
+                    first: { element: 'Fire', planet: 'Mars' },
+                    second: { element: 'Fire', planet: 'Sun' },
+                    third: { element: 'Air', planet: 'Jupiter' }
+                }
+            },
+            lunarPhaseModifiers: {
+                waxingCrescent: {
+                    elementalBoost: { Fire: 0.2 },
+                    preparationTips: ['Best added to morning beverages']
+                },
+                newMoon: {
+                    elementalBoost: { Fire: 0.15, Air: 0.1 },
+                    preparationTips: ['Ideal for fasting periods']
+                }
+            }
         }
     }
 };

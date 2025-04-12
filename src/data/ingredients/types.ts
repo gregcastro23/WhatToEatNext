@@ -9,7 +9,9 @@ export type IngredientCategory =
     | 'protein' 
     | 'grain' 
     | 'dairy'
-    | 'oil';
+    | 'oil'
+    | 'vinegar'
+    | 'seasoning';
 
 // New interface for sensory profiles
 export interface SensoryProfile {
@@ -141,8 +143,44 @@ export const VALID_CATEGORIES: IngredientCategory[] = [
     'protein',
     'grain',
     'dairy',
-    'oil'
+    'oil',
+    'vinegar',
+    'seasoning'
 ];
+
+// Improved subcategories
+export type VegetableSubcategory = 
+    | 'leafy_green'
+    | 'cruciferous'
+    | 'root'
+    | 'allium'
+    | 'squash'
+    | 'nightshade'
+    | 'starchy';
+
+export type ProteinSubcategory = 
+    | 'poultry'
+    | 'seafood'
+    | 'meat'
+    | 'legume'
+    | 'plant_based';
+
+export type SeasoningSubcategory = 
+    | 'salt'
+    | 'pepper'
+    | 'aromatic'
+    | 'blend';
+
+export type OilSubcategory = 
+    | 'cooking'
+    | 'finishing'
+    | 'infused';
+
+export type VinegarSubcategory = 
+    | 'wine'
+    | 'fruit'
+    | 'grain'
+    | 'specialty';
 
 // Updated AlchemicalProperties interface with more accurate values
 export interface AlchemicalProperties {

@@ -181,6 +181,8 @@ export interface AstrologicalState {
   zodiacSign: ZodiacSign;
   planetaryHours: Planet;
   planetaryHour?: Planet | string;
+  planetaryDay?: Planet | string;
+  planetaryMinute?: Planet | string;
   astrologicalInfluences?: AstrologicalInfluence[];
   aspects: PlanetaryAspect[];
   
@@ -309,6 +311,12 @@ export interface NutritionalProfile {
   vitamins?: Record<string, number>;
   minerals?: Record<string, number>;
   phytonutrients?: Record<string, number>;
+  // Metadata properties from USDA API
+  name?: string;
+  fdcId?: number;
+  servingSize?: string;
+  servingSizeUnit?: string;
+  source?: string;
 }
 
 export interface Ingredient {

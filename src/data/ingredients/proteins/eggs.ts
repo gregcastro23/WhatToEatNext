@@ -1,6 +1,7 @@
 import type { IngredientMapping } from '@/types/alchemy';
+import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-export const eggs: Record<string, IngredientMapping> = {
+const rawEggs: Record<string, Partial<IngredientMapping>> = {
   "chicken_egg": {
     name: "Chicken Egg",
     description: "A common protein source from chickens, versatile in cooking applications.",
@@ -15,11 +16,14 @@ export const eggs: Record<string, IngredientMapping> = {
       Earth: 0.2,
       Air: 0.1
     },
-    nutritionalContent: {
-      protein: 6,
-      fat: 5,
-      carbs: 0.6,
-      calories: 78
+    nutritionalProfile: {
+      calories: 78,
+      protein_g: 6.3,
+      fat_g: 5.3,
+      carbs_g: 0.6,
+      serving_size_oz: 1.8,
+      vitamins: ['Vitamin A', 'Vitamin B12', 'Vitamin D', 'Vitamin E', 'Vitamin B2 (Riboflavin)'],
+      minerals: ['Iron', 'Phosphorus', 'Selenium', 'Zinc']
     },
     culinaryApplications: {
       poach: { notes: ["Perfect for eggs benedict", "Great in ramen or brothy dishes"] },
@@ -45,11 +49,14 @@ export const eggs: Record<string, IngredientMapping> = {
       Earth: 0.1,
       Air: 0.1
     },
-    nutritionalContent: {
-      protein: 9,
-      fat: 9.5,
-      carbs: 1.0,
-      calories: 130
+    nutritionalProfile: {
+      calories: 130,
+      protein_g: 9.0,
+      fat_g: 9.5,
+      carbs_g: 1.0,
+      serving_size_oz: 2.5,
+      vitamins: ['Vitamin A', 'Vitamin B12', 'Vitamin D', 'Vitamin E', 'Vitamin B2 (Riboflavin)'],
+      minerals: ['Iron', 'Phosphorus', 'Selenium', 'Zinc']
     },
     culinaryApplications: {
       poach: { notes: ["Creates a luxurious poached egg experience"] },
@@ -74,11 +81,14 @@ export const eggs: Record<string, IngredientMapping> = {
       Earth: 0.3,
       Air: 0.1
     },
-    nutritionalContent: {
-      protein: 1.2,
-      fat: 1.0,
-      carbs: 0.1,
-      calories: 14
+    nutritionalProfile: {
+      calories: 14,
+      protein_g: 1.2,
+      fat_g: 1.0,
+      carbs_g: 0.1,
+      serving_size_oz: 0.4,
+      vitamins: ['Vitamin A', 'Vitamin B12', 'Vitamin D', 'Vitamin E', 'Vitamin B2 (Riboflavin)'],
+      minerals: ['Iron', 'Phosphorus', 'Selenium', 'Zinc']
     },
     culinaryApplications: {
       poach: { notes: ["Tiny perfect bites for canapés"] },
@@ -90,5 +100,7 @@ export const eggs: Record<string, IngredientMapping> = {
     affinities: ["gourmet_presentations", "appetizers"]
   }
 };
+
+export const eggs = fixIngredientMappings(rawEggs) as Record<string, IngredientMapping>;
 
 export default eggs; 

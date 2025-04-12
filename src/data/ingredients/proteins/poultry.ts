@@ -135,39 +135,27 @@ const rawPoultry: Record<string, Partial<IngredientMapping>> = {
       }
     },
     nutritionalProfile: {
-      calories_per_100g: {
-        'breast, skinless': 165,
-        'thigh, skinless': 209,
-        'with skin': '220-250'
+      serving_size: "3 oz",
+      calories: 165,
+      macros: {
+        protein: 31,
+        carbs: 0,
+        fat: 3.6,
+        fiber: 0
       },
-      protein_per_100g: {
-        'breast': '31g',
-        'thigh': '26g'
+      vitamins: {
+        B6: 0.50,
+        B3: 0.64,
+        B12: 0.32,
+        B5: 0.25
       },
-      fat_per_100g: {
-        'breast, skinless': '3.6g',
-        'thigh, skinless': '10.9g',
-        'with skin': '15-18g'
+      minerals: {
+        selenium: 0.36,
+        phosphorus: 0.22,
+        zinc: 0.12,
+        iron: 0.10
       },
-      micronutrients: {
-        vitamins: {
-          'B6': 'high',
-          'B3 (niacin)': 'high',
-          'B12': 'good',
-          'B5 (pantothenic acid)': 'good'
-        },
-        minerals: {
-          'selenium': 'high',
-          'phosphorus': 'good',
-          'zinc': 'moderate',
-          'iron': 'moderate (dark meat higher than white)'
-        }
-      },
-      special_compounds: {
-        'taurine': 'supports cardiovascular health',
-        'carnosine': 'antioxidant properties',
-        'choline': 'important for brain development and function'
-      }
+      source: "USDA FoodData Central"
     },
     healthConsiderations: {
       'benefits': [
@@ -302,6 +290,7 @@ const rawPoultry: Record<string, Partial<IngredientMapping>> = {
     category: 'protein',
     subCategory: 'poultry',
     nutritionalProfile: {
+      serving_size_oz: 3,
       macronutrients: {
         protein_per_100g: 19,
         fat_per_100g: 28,
@@ -729,6 +718,7 @@ const rawPoultry: Record<string, Partial<IngredientMapping>> = {
     category: 'protein',
     subCategory: 'poultry',
     nutritionalProfile: {
+      serving_size_oz: 3,
       macronutrients: {
         protein_per_100g: 29,
         fat_per_100g: 7,
@@ -1437,5 +1427,8 @@ const rawPoultry: Record<string, Partial<IngredientMapping>> = {
 
 // Fix the ingredient mappings to ensure they have all required properties
 export const poultry: Record<string, IngredientMapping> = fixIngredientMappings(rawPoultry);
+
+// Create a collection of all poultry items
+export const allPoultry = Object.values(poultry);
 
 export default poultry;

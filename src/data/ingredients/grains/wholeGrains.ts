@@ -43,33 +43,32 @@ const rawWholeGrains: Record<string, Partial<IngredientMapping>> = {
     category: 'whole_grain',
     subCategory: 'rice',
     nutritionalProfile: {
-      macronutrients: {
-        protein_per_100g: 7.5,
-        fat_per_100g: 2.7,
-        carbohydrates_per_100g: 76.2,
-        calories_per_100g: 370
+      serving_size: "1/2 cup cooked",
+      calories: 108,
+      macros: {
+        protein: 2.5,
+        carbs: 22.4,
+        fat: 0.9,
+        fiber: 1.8
       },
-      fiber: 'high',
-      vitamins: ['b1', 'b3', 'b6', 'e'],
-      minerals: ['manganese', 'magnesium', 'phosphorus', 'selenium', 'zinc', 'copper', 'iron'],
-      specific_values: {
-        fiber_g_per_100g: 3.5,
-        manganese_mg_per_100g: 3.7,
-        magnesium_mg_per_100g: 143,
-        phosphorus_mg_per_100g: 333,
-        selenium_mcg_per_100g: 23.4,
-        zinc_mg_per_100g: 2.0,
-        iron_mg_per_100g: 1.8
+      vitamins: {
+        B1: 0.11,
+        B3: 0.13,
+        B6: 0.14,
+        E: 0.08,
+        folate: 0.04
       },
-      glycemic_index: {
-        value: 68,
-        load: 'medium',
-        notes: 'Lower than white rice (73)'
+      minerals: {
+        manganese: 0.86,
+        magnesium: 0.36,
+        phosphorus: 0.33,
+        selenium: 0.42,
+        zinc: 0.18,
+        copper: 0.11,
+        iron: 0.10
       },
-      antinutrients: {
-        phytic_acid: 'present, reduced by soaking/sprouting',
-        notes: 'Binds to minerals but also has antioxidant properties'
-      }
+      glycemic_index: 68,
+      source: "USDA FoodData Central"
     },
     healthBenefits: {
       digestiveHealth: {
@@ -708,5 +707,8 @@ const rawWholeGrains: Record<string, Partial<IngredientMapping>> = {
 
 // Fix the ingredient mappings to ensure they have all required properties
 export const wholeGrains: Record<string, IngredientMapping> = fixIngredientMappings(rawWholeGrains);
+
+// Create a collection of all whole grains
+export const allWholeGrains = Object.values(wholeGrains);
 
 export default wholeGrains;

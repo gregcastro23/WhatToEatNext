@@ -472,12 +472,14 @@ export default function CookingMethods() {
 
   // Toggle method expansion
   const toggleMethodExpansion = useCallback((methodId: string) => {
+    // Only toggle the expanded state without recalculating any scores
     setExpandedMethods(prev => {
       const newExpandedMethods = { ...prev };
       // Toggle the expanded state for this method
       newExpandedMethods[methodId] = !prev[methodId];
       return newExpandedMethods;
     });
+    // No other state updates or calculations should happen here
   }, []);
 
   // Toggle show all methods
@@ -1460,8 +1462,8 @@ export default function CookingMethods() {
             }
             
             // Add random variation to break up methods that would otherwise get the same score
-            // This small jitter helps visually differentiate methods
-            const jitter = Math.random() * 0.05; // Small random factor
+            // But only during initial calculation, not on re-renders
+            const jitter = Math.random() * 0.05; // Small random factor - will be saved in methodScores state
             adjustedScore += jitter;
             
             // Cap the score at 1.0 maximum and minimum of 0.1
@@ -1677,7 +1679,7 @@ export default function CookingMethods() {
                 // Use the score from our state with a more reliable key (method.id or name)
                 // This ensures the score is consistent and doesn't change when clicked
                 const scoreKey = method.id || method.name;
-                const displayPercentage = Math.round((methodScores[scoreKey] || method.gregsEnergy || 0.5) * 100);
+                const displayPercentage = Math.round((methodScores[scoreKey] || 0.5) * 100);
                 
                 // Determine match reason based on the method's properties
                 const matchReasons = [
@@ -1889,4 +1891,4 @@ export default function CookingMethods() {
       </div>
     </div>
   );
-} 
+} // End of CookingMethods component

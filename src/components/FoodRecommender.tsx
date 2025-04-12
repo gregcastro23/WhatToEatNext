@@ -17,6 +17,23 @@ import { CHAKRA_BALANCING_FOODS } from '@/constants/chakraMappings';
 import { isChakraKey } from '@/utils/typeGuards';
 import { PlanetaryHourCalculator } from '@/lib/PlanetaryHourCalculator';
 import { Planet as AlchemyPlanet } from '@/types/alchemy';
+import { useAlchemicalState } from '../context/AlchemicalContext';
+import ElementalCalculator from '../utils/ElementalCalculator';
+import IngredientsLibrary from './IngredientsLibrary';
+import DateTimeDisplay from './DateTimeDisplay';
+import { CelestialCharts } from './CelestialCharts';
+import FoodMenu from './FoodMenu/FoodMenu';
+import ProductsSelector from './ProductsSelector';
+import MenuBuilder from './MenuBuilder';
+import { SynastryChart } from './SynastryChart';
+import { IngredientRecommendations } from './FoodRecommender/IngredientRecommendations';
+import ElementalAlignmentChart from './ElementalAlignmentChart';
+import PlanetaryHourWidget from './PlanetaryHourWidget';
+import { calculatePlanetaryHourChakras } from '../utils/planetaryUtils';
+import { herbsCollection, oilsCollection, vinegarsCollection, grainsCollection } from '@/data/ingredients';
+import { ChevronUpIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
+import { ChevronUpIcon as SolidChevronUpIcon, ChevronDownIcon as SolidChevronDownIcon } from '@heroicons/react/solid';
+import { Ingredient } from '../types/ingredients';
 
 // Type guard functions
 function isNumber(value: unknown): value is number {
@@ -107,11 +124,61 @@ function isChakraEnergies(obj: any): obj is Record<string, number> {
 }
 
 // Define food categories
-const FOOD_CATEGORIES = ['Vegetables', 'Fruits', 'Proteins', 'Grains', 'Spices', 'Other'];
+const FOOD_CATEGORIES = ['Vegetables', 'Fruits', 'Proteins', 'Grains', 'Spices', 'Oils', 'Vinegars'];
+
+// Define category display names and display counts
+const CATEGORY_DISPLAY_NAMES: Record<string, string> = {
+  proteins: 'Proteins',
+  vegetables: 'Vegetables',
+  grains: 'Grains & Starches',
+  fruits: 'Fruits',
+  herbs: 'Herbs & Aromatics',
+  spices: 'Spices & Seasonings',
+  oils: 'Oils & Fats',
+  vinegars: 'Vinegars & Acidifiers'
+};
+
+const CATEGORY_DISPLAY_COUNTS: Record<string, number> = {
+  proteins: 10,
+  vegetables: 10,
+  grains: 10,
+  fruits: 10,
+  herbs: 10,
+  spices: 10,
+  oils: 10,
+  vinegars: 10
+};
+
+// Score display component
+const ScoreDisplay = ({ score }: { score?: number }) => {
+  if (!score && score !== 0) return null;
+  
+  // Color based on score
+  let color = 'text-gray-500';
+  if (score >= 90) color = 'text-green-600';
+  else if (score >= 75) color = 'text-green-500';
+  else if (score >= 60) color = 'text-blue-500';
+  else if (score >= 45) color = 'text-yellow-500';
+  else if (score >= 30) color = 'text-orange-500';
+  
+  return (
+    <span className={`text-xs font-medium ${color}`}>
+      {score.toFixed(1)}
+    </span>
+  );
+};
 
 export default function FoodRecommender() {
-  // Minimum number of items to display per category
-  const MIN_ITEMS_PER_CATEGORY = 5;
+  // Use the existing category display counts from above
+  // Remove this duplicate definition
+  // const MIN_ITEMS_PER_CATEGORY = 8;
+  
+  // Remove the duplicate CATEGORY_DISPLAY_COUNTS
+  // const CATEGORY_DISPLAY_COUNTS = {
+  //   'default': 10,
+  //   'oils': 12,
+  //   'vinegars': 12
+  // };
   
   // Use the hook to get consistent planetary data and ingredient recommendations
   const { planetaryPositions, isLoading: astroLoading } = useAstrologicalState();
@@ -128,10 +195,6 @@ export default function FoodRecommender() {
     return planetaryPositions.moon.phase;
   }, [planetaryPositions]);
   
-  // Add state for fallback herbs and grains
-  const [fallbackHerbs, setFallbackHerbs] = useState<any[]>([]);
-  const [fallbackGrains, setFallbackGrains] = useState<any[]>([]);
-  
   const { 
     recommendations, 
     chakraEnergies,
@@ -139,7 +202,7 @@ export default function FoodRecommender() {
     loading: recommendationsLoading, 
     error,
     refreshRecommendations,
-  } = useChakraInfluencedFood({ limit: 200 }); // Increased from 100 to 200 to ensure all categories have enough items
+  } = useChakraInfluencedFood({ limit: 300 }); // Increased from 200 to 300 to ensure all categories have plenty of items
   
   // Planetary hours calculation
   const [currentPlanetaryHour, setCurrentPlanetaryHour] = useState<string | null>(null);
@@ -206,7 +269,7 @@ export default function FoodRecommender() {
     });
   }, [recommendations]);
   
-  // Boost ingredients that align with the current planetary hour
+  // Enhanced nutritional score with improved logic for affinity
   const boostedRecommendations = useMemo(() => {
     if (!currentPlanetaryHour || planetaryHourChakras.length === 0) {
       return uniqueRecommendations;
@@ -217,314 +280,204 @@ export default function FoodRecommender() {
       const chakraKey = normalizeChakraKey(ingredient.chakra);
       const boostFactor = planetaryHourChakras.includes(chakraKey) ? 1.2 : 1.0;
       
+      // Enhance categorization for oils and vinegars
+      let category = ingredient.category?.toLowerCase() || '';
+      
+      // Check if this is an oil or vinegar that's not properly categorized
+      if (!category || category === 'other') {
+        const name = ingredient.name.toLowerCase();
+        if (name.includes('oil')) {
+          category = 'oils';
+        } else if (name.includes('vinegar')) {
+          category = 'vinegars';
+        }
+      }
+      
       return {
         ...ingredient,
+        category,
         score: ingredient.score * boostFactor,
         boostedByPlanetaryHour: boostFactor > 1.0
       };
     }).sort((a, b) => b.score - a.score);
   }, [uniqueRecommendations, currentPlanetaryHour, planetaryHourChakras]);
 
-  // Group recommendations by category
+  // Define herb names to improve herb detection
+  const herbNames = Object.keys(herbsCollection);
+  
+  // Define oil types for better oil detection - use the keys from oilsCollection
+  const oilTypes = Object.keys(oilsCollection).concat([
+    'oil', 'olive oil', 'vegetable oil', 'sunflower oil', 'sesame oil', 'coconut oil',
+    'avocado oil', 'walnut oil', 'peanut oil', 'grapeseed oil', 'canola oil',
+    'flaxseed oil', 'almond oil', 'truffle oil', 'palm oil', 'corn oil',
+    'ghee', 'butter', 'lard', 'tallow', 'duck fat', 'schmaltz', 'bacon fat',
+    'pumpkin seed oil', 'hemp seed oil', 'macadamia oil', 'hazelnut oil',
+    'pistachio oil', 'perilla oil', 'mustard oil', 'rice bran oil',
+    'argan oil', 'tea seed oil', 'apricot kernel oil', 'safflower oil',
+    'mct oil', 'mct'
+  ]);
+  
+  // Define vinegar types for better vinegar detection - use the keys from vinegarsCollection
+  const vinegarTypes = Object.keys(vinegarsCollection).concat([
+    'vinegar', 'balsamic vinegar', 'apple cider vinegar', 'rice vinegar', 'red wine vinegar',
+    'white wine vinegar', 'sherry vinegar', 'champagne vinegar', 'malt vinegar',
+    'distilled vinegar', 'black vinegar', 'coconut vinegar',
+    'cane vinegar', 'beer vinegar', 'fruit vinegar', 'herb vinegar', 'honey vinegar',
+    'kombucha vinegar', 'date vinegar', 'raspberry vinegar', 'fig vinegar', 
+    'tarragon vinegar', 'palm vinegar', 'plum vinegar', 'white balsamic',
+    'pomegranate vinegar', 'umeboshi vinegar', 'ume plum vinegar'
+  ]);
+
+  // Categorize recommendations
   const categorizedRecommendations = useMemo(() => {
-    const categories: Record<string, any[]> = {
-      'proteins': [],
-      'vegetables': [],
-      'grains': [],
-      'fruits': [],
-      'herbs': [],
-      'spices': [], // Separate spices from herbs
-      'other': []
+    const categories: Record<string, Ingredient[]> = {
+      proteins: [],
+      vegetables: [],
+      grains: [],
+      fruits: [],
+      herbs: [],
+      spices: [],
+      oils: [],
+      vinegars: []
     };
     
-    console.log("Total recommendations:", boostedRecommendations.length);
-    
-    // Define actual grain names based on our data files
-    const trueGrainNames = [
-      // Whole grains
-      'rice', 'brown rice', 'white rice', 'wild rice', 'black rice', 'red rice',
-      'wheat', 'wheat berries', 'bulgur', 'cracked wheat', 'wheat bran',
-      'barley', 'pearl barley', 'hulled barley',
-      'oats', 'rolled oats', 'steel-cut oats', 'oat groats',
-      'corn', 'cornmeal', 'polenta', 'grits', 'popcorn',
-      'rye', 'rye berries', 'rye flour',
-      'millet', 'teff', 'sorghum', 'triticale', 'farro', 'kamut', 'spelt',
-      // Refined grains
-      'white flour', 'bread flour', 'all-purpose flour', 'semolina', 'couscous',
-      // Pseudograins
-      'quinoa', 'amaranth', 'buckwheat', 'chia', 'flaxseed'
-    ];
-    
-    // Define specific spice items
-    const spiceItems = [
-      'peppercorn', 'pepper', 'cinnamon', 'nutmeg', 'cardamom', 'clove', 'cumin',
-      'coriander', 'turmeric', 'paprika', 'cayenne', 'saffron', 'vanilla',
-      'allspice', 'anise', 'caraway', 'fennel', 'mustard seed', 'ginger powder'
-    ];
-    
-    // Define herb names to improve herb detection
-    const herbNames = [
-      'basil', 'mint', 'rosemary', 'thyme', 'oregano', 'sage', 'parsley', 'cilantro',
-      'dill', 'chives', 'tarragon', 'marjoram', 'bay leaf', 'lavender', 'lemongrass',
-      'chervil', 'savory', 'lovage', 'epazote', 'borage', 'sorrel', 'verbena', 'curry leaf',
-      'chamomile', 'peppermint', 'hyssop'
-    ];
-    
-    // Debug: Count and categorization tracking
-    let grainCandidates = 0;
-    let actualGrains = 0;
-    let herbCandidates = 0;
-    let actualHerbs = 0;
-    
+    if (!boostedRecommendations) return categories;
+
+    // Add all available oils from the collection with formatted names
+    Object.entries(oilsCollection).forEach(([key, data]) => {
+      // Get the display name either from the data object or format the key
+      const displayName = data.name || key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+      
+      categories.oils.push({
+        name: displayName,
+        category: 'oils',
+        score: 0.75, // Slightly higher base score
+        chakra: 'sacral', // Update default chakra for oils
+        elementalAffinity: { base: 'water' }
+      });
+    });
+
+    // Add all available vinegars from the collection with formatted names
+    Object.entries(vinegarsCollection).forEach(([key, data]) => {
+      // Get the display name either from the data object or format the key
+      const displayName = data.name || key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+      
+      categories.vinegars.push({
+        name: displayName,
+        category: 'vinegars',
+        score: 0.78, // Slightly higher base score
+        chakra: 'throat', // Update default chakra for vinegars
+        elementalAffinity: { base: 'water' }
+      });
+    });
+
+    // Helper function to check if an ingredient is an oil
+    const isOil = (ingredient: Ingredient): boolean => {
+      const category = ingredient.category?.toLowerCase() || '';
+      if (category === 'oil' || category === 'oils') return true;
+      
+      const name = ingredient.name.toLowerCase();
+      return oilTypes.some(oil => name.includes(oil.toLowerCase()));
+    };
+
+    // Helper function to check if an ingredient is a vinegar
+    const isVinegar = (ingredient: Ingredient): boolean => {
+      const category = ingredient.category?.toLowerCase() || '';
+      if (category === 'vinegar' || category === 'vinegars') return true;
+      
+      const name = ingredient.name.toLowerCase();
+      return vinegarTypes.some(vinegar => name.includes(vinegar.toLowerCase()));
+    };
+
+    // Categorize each ingredient from the recommendations and add to our categories
     boostedRecommendations.forEach(ingredient => {
       const name = ingredient.name.toLowerCase();
-      const category = ingredient.category?.toLowerCase() || 'other';
-      const subCategory = ingredient.subCategory?.toLowerCase() || '';
       
-      // Debug info for categorization
-      console.log(`Processing ingredient: ${name} | Category: ${category} | SubCategory: ${subCategory}`);
-      
-      // Check for specific spices first
-      if (spiceItems.some(spice => name.includes(spice)) || 
-          name === 'peppercorn' ||  // Explicit check for peppercorn
-          category.includes('spice') ||
-          subCategory.includes('spice')) {
-        categories['spices'].push(ingredient);
-      }
-      // Check for herbs - improved to catch more herb matches
-      else if (
-          herbNames.some(herb => name.toLowerCase() === herb.toLowerCase() || 
-                         name.toLowerCase().includes(`${herb.toLowerCase()} `) ||
-                         name.toLowerCase().includes(` ${herb.toLowerCase()}`)) ||
-          category.includes('herb') || 
-          subCategory.includes('herb') ||
-          category === 'culinary_herb' ||
-          (category.includes('fresh') && name.match(/\b(leaf|leaves)\b/i))
-      ) {
-        herbCandidates++;
-        categories['herbs'].push(ingredient);
-        actualHerbs++;
-        console.log(`✅ Categorized as herb: ${name}`);
-      }
-      // Check for proteins
-      else if (category.includes('protein') || 
-          category.includes('meat') || 
-          category.includes('poultry') || 
-          category.includes('seafood') || 
-          category === 'meats') {
-        categories['proteins'].push(ingredient);
-      } 
-      // Check for vegetables
-      else if (category.includes('vegetable')) {
-        categories['vegetables'].push(ingredient);
-      } 
-      // Check for grains - using more inclusive categorization
-      else if (
-          // Track grain candidates
-          (grainCandidates++,
-          // Explicit grain categories
-          category === 'whole_grain' ||
-          category === 'refined_grain' ||
-          category.includes('grain') ||
-          subCategory.includes('grain') ||
-          // Grain file names
-          name.includes('rice') || 
-          name.includes('wheat') ||
-          name.includes('barley') ||
-          name.includes('oat') ||
-          name.includes('corn') ||
-          name.includes('quinoa') ||
-          name.includes('farro') ||
-          name.includes('millet') ||
-          // Check against specific grain names
-          trueGrainNames.some(grain => 
-            name === grain || 
-            name.startsWith(`${grain} `) || 
-            name.includes(` ${grain}`) ||
-            name.includes(`-${grain}`)
-          ) ||
-          // Common bread and flour items
-          name === 'bread' || 
-          name.includes(' bread') || 
-          name.includes('pasta') ||
-          name.includes('noodle') ||
-          name.includes('flour')
-        )
-        ) {
-        // Exclude specific non-grain products
-        if (!(
-          name.includes('vinegar') || 
-          name.includes('wine') || 
-          name.includes('sake') ||
-          name.includes('peppercorn') ||
-          spiceItems.some(spice => name === spice) // Check for exact spice matches
-        )) {
-          actualGrains++;
-          categories['grains'].push(ingredient);
-          console.log(`✅ Categorized as grain: ${name}`);
+      // Check for oils first - add to oils if found in recommendations
+      if (isOil(ingredient)) {
+        // Check if we already have this oil in our categories
+        const existingIndex = categories.oils.findIndex(
+          oil => oil.name.toLowerCase() === ingredient.name.toLowerCase()
+        );
+        
+        if (existingIndex >= 0) {
+          // Update the existing oil with this one (keeping the score from recommendations)
+          categories.oils[existingIndex] = ingredient;
         } else {
-          if (name.includes('peppercorn')) {
-            categories['spices'].push(ingredient);
-          } else {
-            categories['other'].push(ingredient);
-          }
+          // Add as a new oil
+          categories.oils.push(ingredient);
         }
-      } 
-      // Check for fruits
-      else if (category.includes('fruit') || 
-               subCategory.includes('fruit')) {
-        categories['fruits'].push(ingredient);
-      } 
-      // Other seasonings go to spices
-      else if (category.includes('seasoning')) {
-        categories['spices'].push(ingredient);
       }
-      // All other items
+      // Then check for vinegars - add to vinegars if found in recommendations
+      else if (isVinegar(ingredient)) {
+        // Check if we already have this vinegar in our categories
+        const existingIndex = categories.vinegars.findIndex(
+          vinegar => vinegar.name.toLowerCase() === ingredient.name.toLowerCase()
+        );
+        
+        if (existingIndex >= 0) {
+          // Update the existing vinegar with this one (keeping the score from recommendations)
+          categories.vinegars[existingIndex] = ingredient;
+        } else {
+          // Add as a new vinegar
+          categories.vinegars.push(ingredient);
+        }
+      }
+      // Then check other categories
+      else if (ingredient.category === 'protein' || name.includes('meat') || name.includes('fish') || name.includes('cheese')) {
+        categories.proteins.push(ingredient);
+      }
+      else if (ingredient.category === 'herb' || name.includes('herb') || herbNames.some(herb => name.includes(herb.toLowerCase()))) {
+        categories.herbs.push(ingredient);
+      }
+      else if (ingredient.category === 'grain' || name.includes('rice') || name.includes('pasta') || Object.keys(grainsCollection).some(grainKey => name.includes(grainKey.toLowerCase()))) {
+        categories.grains.push(ingredient);
+      }
+      else if (ingredient.category === 'spice' || name.includes('spice') || name.includes('powder') || name.includes('salt')) {
+        categories.spices.push(ingredient);
+      }
+      else if (ingredient.category === 'fruit' || ['apple', 'banana', 'orange', 'lemon', 'lime'].some(fruit => name.includes(fruit))) {
+        categories.fruits.push(ingredient);
+      }
       else {
-        categories['other'].push(ingredient);
+        // Default to vegetables for anything unmatched
+        categories.vegetables.push(ingredient);
       }
     });
-    
-    // Log the count of each category
-    Object.keys(categories).forEach(key => {
-      console.log(`Category '${key}' count: ${categories[key].length}`);
-      if (key === 'grains') {
-        console.log(`Grain candidates: ${grainCandidates}, Actual grains: ${actualGrains}`);
-        console.log("Grains names:", categories[key].map(v => v.name).join(", "));
-      }
-      if (key === 'herbs') {
-        console.log(`Herb candidates: ${herbCandidates}, Actual herbs: ${actualHerbs}`);
-        console.log("Herbs names:", categories[key].map(v => v.name).join(", "));
-      }
-      if (key === 'spices') {
-        console.log("Spices names:", categories[key].map(v => v.name).join(", "));
-      }
-    });
-    
-    // Sort each category by score
-    Object.keys(categories).forEach(key => {
-      categories[key].sort((a, b) => (b.score || 0) - (a.score || 0));
-    });
-    
-    // Ensure we have a minimum number of items in important categories
-    const MIN_ITEMS_PER_CATEGORY = 5;
-    
-    // Check and fix herb count
-    if (categories['herbs'].length < MIN_ITEMS_PER_CATEGORY) {
-      console.log(`⚠️ Not enough herbs (${categories['herbs'].length}). Adding fallback herbs.`);
-      
-      // Add any fallback herbs we've loaded, ensuring no duplicates
-      if (fallbackHerbs.length > 0) {
-        console.log(`Adding ${fallbackHerbs.length} fallback herbs from state`);
-        
-        // Get existing names to avoid duplicates
-        const existingNames = new Set(categories['herbs'].map(h => h.name.toLowerCase()));
-        
-        // Add only non-duplicate fallback herbs
-        const uniqueFallbackHerbs = fallbackHerbs.filter(
-          herb => !existingNames.has(herb.name.toLowerCase())
-        );
-        
-        console.log(`Adding ${uniqueFallbackHerbs.length} unique fallback herbs`);
-        categories['herbs'] = [...categories['herbs'], ...uniqueFallbackHerbs];
-      }
-    }
-    
-    // Check and fix grain count
-    if (categories['grains'].length < MIN_ITEMS_PER_CATEGORY) {
-      console.log(`⚠️ Not enough grains (${categories['grains'].length}). Adding fallback grains.`);
-      
-      // Add any fallback grains we've loaded, ensuring no duplicates
-      if (fallbackGrains.length > 0) {
-        console.log(`Adding ${fallbackGrains.length} fallback grains from state`);
-        
-        // Get existing names to avoid duplicates
-        const existingNames = new Set(categories['grains'].map(g => g.name.toLowerCase()));
-        
-        // Add only non-duplicate fallback grains
-        const uniqueFallbackGrains = fallbackGrains.filter(
-          grain => !existingNames.has(grain.name.toLowerCase())
-        );
-        
-        console.log(`Adding ${uniqueFallbackGrains.length} unique fallback grains`);
-        categories['grains'] = [...categories['grains'], ...uniqueFallbackGrains];
-      }
-    }
-    
-    return categories;
-  }, [boostedRecommendations, fallbackHerbs, fallbackGrains]);
 
-  // Effects to load fallback data when needed
-  useEffect(() => {
-    // Only load fallback herbs if we don't have enough
-    const herbsCount = categorizedRecommendations['herbs']?.length || 0;
-    if (herbsCount < MIN_ITEMS_PER_CATEGORY && fallbackHerbs.length === 0) {
-      console.log('Loading fallback herbs...');
-      
-      // Get the existing herb names to avoid duplicates
-      const existingHerbNames = new Set((categorizedRecommendations['herbs'] || []).map(h => h.name.toLowerCase()));
-      
-      // Import herb data
-      import('@/data/ingredients/herbs').then(herbModule => {
-        const { freshHerbs, driedHerbs, medicinalHerbs } = herbModule;
-        
-        // Get herbs that aren't already in our list
-        const additionalHerbs = Object.entries({ ...freshHerbs, ...driedHerbs, ...medicinalHerbs })
-          .filter(([name]) => !existingHerbNames.has(name.toLowerCase()))
-          .slice(0, MIN_ITEMS_PER_CATEGORY)
-          .map(([name, data]) => ({
-            name,
-            category: 'herbs',
-            score: 0.7, // Default score for fallback herbs
-            ...data
-          }));
-        
-        console.log(`Loaded ${additionalHerbs.length} fallback herbs`);
-        setFallbackHerbs(additionalHerbs);
-      }).catch(err => {
-        console.error('Error loading additional herbs:', err);
-      });
-    }
-  }, [categorizedRecommendations, fallbackHerbs]);
-  
-  useEffect(() => {
-    // Only load fallback grains if we don't have enough
-    const grainsCount = categorizedRecommendations['grains']?.length || 0;
-    if (grainsCount < MIN_ITEMS_PER_CATEGORY && fallbackGrains.length === 0) {
-      console.log('Loading fallback grains...');
-      
-      // Get the existing grain names to avoid duplicates
-      const existingGrainNames = new Set((categorizedRecommendations['grains'] || []).map(g => g.name.toLowerCase()));
-      
-      // Import grain data
-      import('@/data/ingredients/grains').then(grainModule => {
-        const { wholeGrains, refinedGrains } = grainModule;
-        
-        // Get grains that aren't already in our list
-        const additionalGrains = Object.entries({ ...wholeGrains, ...refinedGrains })
-          .filter(([name]) => !existingGrainNames.has(name.toLowerCase()))
-          .slice(0, MIN_ITEMS_PER_CATEGORY)
-          .map(([name, data]) => ({
-            name,
-            category: 'grains',
-            score: 0.7, // Default score for fallback grains
-            ...data
-          }));
-        
-        console.log(`Loaded ${additionalGrains.length} fallback grains`);
-        setFallbackGrains(additionalGrains);
-      }).catch(err => {
-        console.error('Error loading additional grains:', err);
-      });
-    }
-  }, [categorizedRecommendations, fallbackGrains]);
+    // Sort each category by score
+    Object.keys(categories).forEach(category => {
+      categories[category] = categories[category].sort((a, b) => (b.score || 0) - (a.score || 0));
+    });
+
+    // Filter out empty categories
+    return Object.fromEntries(
+      Object.entries(categories).filter(([_, items]) => items.length > 0)
+    ) as Record<string, Ingredient[]>;
+  }, [boostedRecommendations]);
 
   // Toggle expansion for a category
-  const toggleCategoryExpansion = (category: string) => {
+  const toggleCategoryExpansion = (category: string, e: React.MouseEvent) => {
+    // Stop event propagation
+    e.stopPropagation();
+    
     setExpanded(prev => ({
       ...prev,
       [category]: !prev[category]
     }));
+  };
+
+  // Handle ingredient selection to display details
+  const handleIngredientSelect = (ingredient: Ingredient, category: string, e: React.MouseEvent) => {
+    // Stop propagation to prevent category toggle
+    e.stopPropagation();
+    
+    // Toggle expanded ingredient
+    if (selectedIngredient?.name === ingredient.name) {
+      setSelectedIngredient(null);
+    } else {
+      setSelectedIngredient(ingredient);
+    }
   };
 
   useEffect(() => {
@@ -572,17 +525,6 @@ export default function FoodRecommender() {
     );
   }
 
-  // Category display names
-  const categoryDisplayNames: Record<string, string> = {
-    'proteins': 'Proteins',
-    'vegetables': 'Vegetables',
-    'grains': 'Grains',
-    'fruits': 'Fruits', 
-    'herbs': 'Herbs',
-    'spices': 'Spices & Seasonings',
-    'other': 'Other Ingredients'
-  };
-
   // Type-safe chakraEnergies
   const safeChakraEnergies: ChakraEnergies = isObject(chakraEnergies) 
     ? {
@@ -605,275 +547,178 @@ export default function FoodRecommender() {
   };
 
   return (
-    <div className={styles.container} style={{ width: '100%', maxWidth: '100%' }}>
-      <div className={styles.header}>
-        <h2>Celestial Ingredient Recommendations</h2>
-
-        {/* Display top controls */}
-        <div className="mt-2 flex justify-end items-center">
-          <button 
-            onClick={refreshRecommendations} 
-            className={styles.refreshButton}
-          >
-            Refresh Recommendations
-          </button>
-        </div>
-      </div>
+    <div className="p-4 max-w-7xl mx-auto">
+      <h2 className="text-2xl font-bold mb-2 text-center">Recommended Ingredients</h2>
+      <p className="text-center text-gray-600 mb-6">Click on any ingredient to view detailed information</p>
       
-      {/* Selected ingredient details */}
-      {selectedIngredient && (
-        <div className={styles.selectedIngredient}>
-          <div className={styles.selectedDetails}>
-            <h3>{selectedIngredient.name}</h3>
-            <div className={styles.detailGrid}>
-              <div>
-                <p className={styles.detailLabel}>Match Score</p>
-                <p className={styles.detailValue}>{selectedIngredient.score?.toFixed(1) || 'N/A'}</p>
-              </div>
-              <div>
-                <p className={styles.detailLabel}>Category</p>
-                <p className={styles.detailValue}>
-                  {selectedIngredient.category}
-                  {selectedIngredient.subCategory ? ` (${selectedIngredient.subCategory})` : ''}
-                </p>
-              </div>
-              {selectedIngredient.astrologicalProfile && (
-                <>
-                  <div>
-                    <p className={styles.detailLabel}>Element</p>
-                    <p className={styles.detailValue}>
-                      {typeof selectedIngredient.astrologicalProfile.elementalAffinity === 'object' 
-                        ? selectedIngredient.astrologicalProfile.elementalAffinity.base
-                        : selectedIngredient.astrologicalProfile.elementalAffinity || 'N/A'}
-                    </p>
-                  </div>
-                  <div>
-                    <p className={styles.detailLabel}>Planets</p>
-                    <p className={styles.detailValue}>
-                      {Array.isArray(selectedIngredient.astrologicalProfile.rulingPlanets) 
-                        ? selectedIngredient.astrologicalProfile.rulingPlanets.join(', ')
-                        : 'N/A'}
-                    </p>
-                  </div>
-                </>
-              )}
-            </div>
-
-            {selectedIngredient.qualities && selectedIngredient.qualities.length > 0 && (
-              <div className={styles.detailSection}>
-                <h4>Qualities</h4>
-                <p>{selectedIngredient.qualities.join(', ')}</p>
-              </div>
-            )}
-
-            {selectedIngredient.origin && selectedIngredient.origin.length > 0 && (
-              <div className={styles.detailSection}>
-                <h4>Origin</h4>
-                <p>{selectedIngredient.origin.join(', ')}</p>
-              </div>
-            )}
-
-            {selectedIngredient.varieties && Object.keys(selectedIngredient.varieties).length > 0 && (
-              <div className={styles.detailSection}>
-                <h4>Varieties</h4>
-                <div className={styles.varietiesList}>
-                  {Object.entries(selectedIngredient.varieties).map(([key, varietyData]) => {
-                    const variety = varietyData as { 
-                      name?: string; 
-                      appearance?: string; 
-                      flavor?: string; 
-                      texture?: string; 
-                      notes?: string; 
-                    };
-                    return (
-                      <div key={key} className={styles.varietyItem}>
-                        <h5>{variety.name || key}</h5>
-                        <ul className={styles.varietyDetails}>
-                          {variety.appearance && <li><strong>Appearance:</strong> {variety.appearance}</li>}
-                          {variety.flavor && <li><strong>Flavor:</strong> {variety.flavor}</li>}
-                          {variety.texture && <li><strong>Texture:</strong> {variety.texture}</li>}
-                          {variety.notes && <li><strong>Notes:</strong> {variety.notes}</li>}
-                        </ul>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-
-            {selectedIngredient.culinaryApplications && Object.keys(selectedIngredient.culinaryApplications).length > 0 && (
-              <div className={styles.detailSection}>
-                <h4>Culinary Applications</h4>
-                <div className={styles.culinaryList}>
-                  {Object.entries(selectedIngredient.culinaryApplications).map(([key, appData]) => {
-                    const application = appData as {
-                      name?: string;
-                      method?: string;
-                      timing?: string | Record<string, string>;
-                      accompaniments?: string[];
-                      toppings?: string[];
-                    };
-                    return (
-                      <div key={key} className={styles.applicationItem}>
-                        <h5>{application.name || key}</h5>
-                        <ul className={styles.applicationDetails}>
-                          {application.method && <li><strong>Method:</strong> {application.method}</li>}
-                          {application.timing && (
-                            <li>
-                              <strong>Timing:</strong> {
-                                typeof application.timing === 'object' 
-                                  ? Object.entries(application.timing).map(([k, v]) => `${k}: ${v}`).join(', ')
-                                  : application.timing
-                              }
-                            </li>
-                          )}
-                          {application.accompaniments && (
-                            <li><strong>Accompaniments:</strong> {application.accompaniments.join(', ')}</li>
-                          )}
-                          {application.toppings && (
-                            <li><strong>Toppings:</strong> {application.toppings.join(', ')}</li>
-                          )}
-                        </ul>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-            
-            {selectedIngredient.nutritionalProfile && (
-              <div className={styles.detailSection}>
-                <h4>Nutritional Information</h4>
-                <div className={styles.nutritionalInfo}>
-                  <div className={styles.macroNutrients}>
-                    <p><strong>Calories:</strong> {selectedIngredient.nutritionalProfile.calories}</p>
-                    <p><strong>Protein:</strong> {selectedIngredient.nutritionalProfile.protein}g</p>
-                    <p><strong>Fat:</strong> {selectedIngredient.nutritionalProfile.fat}g</p>
-                    <p><strong>Carbohydrates:</strong> {selectedIngredient.nutritionalProfile.carbohydrates}g</p>
-                  </div>
-                  {selectedIngredient.nutritionalProfile.minerals && (
-                    <div className={styles.minerals}>
-                      <h5>Minerals & Vitamins</h5>
-                      <ul>
-                        {Object.entries(selectedIngredient.nutritionalProfile.minerals).map(([mineral, value]) => (
-                          <li key={mineral}><strong>{mineral.replace('_', ' ')}:</strong> {String(value)}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
-
-            {selectedIngredient.healthBenefits && selectedIngredient.healthBenefits.length > 0 && (
-              <div className={styles.detailSection}>
-                <h4>Health Benefits</h4>
-                <ul className={styles.benefitsList}>
-                  {selectedIngredient.healthBenefits.map((benefit, index) => (
-                    <li key={index}>{benefit}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            {selectedIngredient.seasonality && (
-              <div className={styles.detailSection}>
-                <h4>Seasonality</h4>
-                <div className={styles.seasonalityInfo}>
-                  <p><strong>Peak Season:</strong> {selectedIngredient.seasonality.peak.join(', ')}</p>
-                  <p>{selectedIngredient.seasonality.notes}</p>
-                </div>
-              </div>
-            )}
-
-            {selectedIngredient.safetyNotes && (
-              <div className={styles.detailSection}>
-                <h4>Safety & Handling</h4>
-                <ul className={styles.safetyList}>
-                  <li><strong>Handling:</strong> {selectedIngredient.safetyNotes.handling}</li>
-                  <li><strong>Storage:</strong> {selectedIngredient.safetyNotes.storage}</li>
-                  <li><strong>Consumption:</strong> {selectedIngredient.safetyNotes.consumption}</li>
-                  <li><strong>Quality Check:</strong> {selectedIngredient.safetyNotes.quality}</li>
-                </ul>
-              </div>
-            )}
-
-            <button 
-              onClick={() => setSelectedIngredient(null)}
-              className={styles.closeButton}
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      )}
-      
-      {/* Display recommendations by category in a grid layout */}
-      <div className={styles.categoriesContainer}>
-        {Object.keys(categorizedRecommendations).map(category => (
-          categorizedRecommendations[category].length > 0 && (
-            <div key={category} className={styles.category}>
-              <h3 
-                className={styles.categoryHeader}
-                onClick={() => toggleCategoryExpansion(category)}
+      {/* Recommendations by category */}
+      <div className="grid grid-cols-1 gap-6">
+        {Object.entries(categorizedRecommendations).map(([category, items]) => {
+          const displayName = CATEGORY_DISPLAY_NAMES[category] || category.charAt(0).toUpperCase() + category.slice(1);
+          const displayCount = CATEGORY_DISPLAY_COUNTS[category] || 5;
+          const isExpanded = expanded[category] || false;
+          const itemsToShow = isExpanded ? items : items.slice(0, displayCount);
+          
+          return (
+            <div key={category} className="bg-white rounded-lg shadow-md p-4">
+              <div 
+                className="flex justify-between items-center cursor-pointer mb-2"
+                onClick={(e) => toggleCategoryExpansion(category, e)}
               >
-                <span>{categoryDisplayNames[category] || category}</span>
-                <span className={styles.itemCount}>{categorizedRecommendations[category].length} items</span>
-              </h3>
-              
-              <div className={`${styles.itemsGrid} ${expanded[category] ? styles.expanded : ''}`}>
-                {(expanded[category] 
-                  ? categorizedRecommendations[category] 
-                  : categorizedRecommendations[category].slice(0, 6)
-                ).map((ingredient, idx) => (
-                  <div 
-                    key={idx} 
-                    className={`${styles.ingredientCard} ${selectedIngredient?.name === ingredient.name ? styles.selected : ''}`}
-                    onClick={() => setSelectedIngredient(ingredient)}
-                  >
-                    <h4 className={styles.ingredientName}>{ingredient.name}</h4>
-                    <div className={styles.scoreBar}>
-                      <div 
-                        className={styles.scoreBarFill} 
-                        style={{ width: `${Math.min(100, (ingredient.score || 0) * 100)}%` }}
-                      ></div>
-                      <span className={styles.scoreValue}>
-                        {typeof ingredient.score === 'number' ? ingredient.score.toFixed(1) : 'N/A'}
-                      </span>
-                    </div>
-                  </div>
-                ))}
-                
-                {!expanded[category] && categorizedRecommendations[category].length > 6 && (
-                  <div 
-                    className={styles.viewMoreCard}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      toggleCategoryExpansion(category);
-                    }}
-                  >
-                    <div className={styles.viewMoreContent}>
-                      <span>+{categorizedRecommendations[category].length - 6} more</span>
-                      <span>Click to view all</span>
-                    </div>
-                  </div>
-                )}
+                <h3 className="text-xl font-semibold text-gray-800">{displayName}</h3>
+                <button className="text-gray-500 hover:text-gray-700">
+                  {isExpanded ? (
+                    <ChevronUpIcon className="h-5 w-5" />
+                  ) : (
+                    <ChevronDownIcon className="h-5 w-5" />
+                  )}
+                </button>
               </div>
               
-              {expanded[category] && categorizedRecommendations[category].length > 6 && (
-                <button 
-                  className={styles.showLessButton}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    toggleCategoryExpansion(category);
-                  }}
-                >
-                  Show less
-                </button>
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+                {itemsToShow.map((item, idx) => {
+                  const isSelected = selectedIngredient?.name === item.name;
+                  
+                  return (
+                    <div 
+                      key={`${item.name}-${idx}`}
+                      className={`bg-gray-50 rounded-md p-3 hover:bg-gray-100 transition cursor-pointer ${isSelected ? 'ring-2 ring-blue-500 shadow-md' : 'shadow-sm'} ${isSelected ? 'md:col-span-2 lg:col-span-2 h-auto' : 'h-24'} flex flex-col justify-between`}
+                      onClick={(e) => handleIngredientSelect(item, category, e)}
+                    >
+                      <div className="font-medium text-gray-800">{item.name}</div>
+                      
+                      {!isSelected && (
+                        <div className="flex justify-between items-center mt-1">
+                          <div className="text-sm text-gray-500">
+                            <ScoreDisplay score={item.score} />
+                          </div>
+                        </div>
+                      )}
+                      
+                      {isSelected && (
+                        <div className="mt-2 animate-fade-in">
+                          <div className="flex justify-between">
+                            <div className="text-sm text-gray-500">
+                              <ScoreDisplay score={item.score} />
+                            </div>
+                            <button 
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setSelectedIngredient(null);
+                              }}
+                              className="text-gray-400 hover:text-gray-600 p-1 rounded-full hover:bg-gray-200"
+                              aria-label="Close details"
+                            >
+                              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                              </svg>
+                            </button>
+                          </div>
+                          
+                          <div className="mt-2 text-sm grid grid-cols-1 gap-1">
+                            <p className="text-gray-600">
+                              <span className="font-medium">Category:</span> {item.category}
+                              {item.subCategory && ` (${item.subCategory})`}
+                            </p>
+                            
+                            <p className="text-gray-600">
+                              <span className="font-medium">Chakra:</span> 
+                              {item.chakra ? `${getChakraName(item.chakra)} ${getChakraSymbol(item.chakra)}` : 
+                               <span className="text-red-500 text-xs italic">No data</span>}
+                            </p>
+                            
+                            <p className="text-gray-600">
+                              <span className="font-medium">Qualities:</span> 
+                              {item.qualities && item.qualities.length > 0 ? item.qualities.join(', ') : 
+                               <span className="text-red-500 text-xs italic">No data</span>}
+                            </p>
+                            
+                            <p className="text-gray-600">
+                              <span className="font-medium">Origin:</span> 
+                              {item.origin && item.origin.length > 0 ? item.origin.join(', ') : 
+                               <span className="text-red-500 text-xs italic">No data</span>}
+                            </p>
+                            
+                            <p className="text-gray-600">
+                              <span className="font-medium">Health:</span> 
+                              {item.healthBenefits && item.healthBenefits.length > 0 ? 
+                                <>{item.healthBenefits[0]}{item.healthBenefits.length > 1 && '...'}</> : 
+                                <span className="text-red-500 text-xs italic">No data</span>}
+                            </p>
+                            
+                            <p className="text-gray-600">
+                              <span className="font-medium">Planets:</span> 
+                              {item.astrologicalProfile && item.astrologicalProfile.rulingPlanets ? 
+                                item.astrologicalProfile.rulingPlanets.join(', ') : 
+                                <span className="text-red-500 text-xs italic">No data</span>}
+                            </p>
+                            
+                            {/* Always show nutritional profile section */}
+                            <div className="mt-2">
+                              <p className="font-medium text-gray-700 text-xs">Nutritional Profile:</p>
+                              {!item.nutritionalProfile && (
+                                <div className="bg-red-50 text-red-600 p-2 rounded text-xs mt-1">
+                                  Nutritional information needed for this ingredient
+                                </div>
+                              )}
+                              {item.nutritionalProfile && (
+                                <div className="grid grid-cols-2 gap-1 mt-1">
+                                  <div className="flex justify-between text-xs bg-blue-50 p-1 rounded">
+                                    <span>Calories:</span>
+                                    <span className="font-medium">
+                                      {item.nutritionalProfile.calories !== undefined ? 
+                                       item.nutritionalProfile.calories : 
+                                       <span className="text-red-500 italic">?</span>}
+                                    </span>
+                                  </div>
+                                  <div className="flex justify-between text-xs bg-green-50 p-1 rounded">
+                                    <span>Protein:</span>
+                                    <span className="font-medium">
+                                      {item.nutritionalProfile.protein !== undefined ? 
+                                       `${item.nutritionalProfile.protein}g` : 
+                                       <span className="text-red-500 italic">?</span>}
+                                    </span>
+                                  </div>
+                                  <div className="flex justify-between text-xs bg-yellow-50 p-1 rounded">
+                                    <span>Fat:</span>
+                                    <span className="font-medium">
+                                      {item.nutritionalProfile.fat !== undefined ? 
+                                       `${item.nutritionalProfile.fat}g` : 
+                                       <span className="text-red-500 italic">?</span>}
+                                    </span>
+                                  </div>
+                                  <div className="flex justify-between text-xs bg-purple-50 p-1 rounded">
+                                    <span>Carbs:</span>
+                                    <span className="font-medium">
+                                      {item.nutritionalProfile.carbohydrates !== undefined ? 
+                                       `${item.nutritionalProfile.carbohydrates}g` : 
+                                       <span className="text-red-500 italic">?</span>}
+                                    </span>
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+              
+              {items.length > displayCount && (
+                <div className="mt-3 text-center">
+                  <button
+                    onClick={(e) => toggleCategoryExpansion(category, e)}
+                    className="text-blue-500 hover:text-blue-700"
+                  >
+                    {isExpanded ? 'Show Less' : `Show ${items.length - displayCount} More`}
+                  </button>
+                </div>
               )}
             </div>
-          )
-        ))}
+          );
+        })}
       </div>
     </div>
   );

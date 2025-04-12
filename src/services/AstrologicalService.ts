@@ -815,6 +815,36 @@ export class AstrologicalService {
     }
   }
 
+  /**
+   * Calculate the planetary day for a given date
+   * @param date The date to calculate for
+   * @returns The planet ruling the day
+   */
+  private static calculatePlanetaryDay(date: Date = new Date()): Planet {
+    try {
+      const calculator = new PlanetaryHourCalculator();
+      return calculator.getPlanetaryDay(date);
+    } catch (error) {
+      logger.error('Error calculating planetary day:', error);
+      return 'sun'; // Default to sun
+    }
+  }
+  
+  /**
+   * Calculate the planetary minute for a given date
+   * @param date The date to calculate for
+   * @returns The planet ruling the minute
+   */
+  private static calculatePlanetaryMinute(date: Date = new Date()): Planet {
+    try {
+      const calculator = new PlanetaryHourCalculator();
+      return calculator.getPlanetaryMinute(date);
+    } catch (error) {
+      logger.error('Error calculating planetary minute:', error);
+      return 'sun'; // Default to sun
+    }
+  }
+
   private static longitudeToZodiacPosition(longitude: number): CelestialPosition {
     try {
       // Normalize longitude to 0-360 range

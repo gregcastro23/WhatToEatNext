@@ -215,4 +215,6 @@ const rawRootVegetables: Record<string, Partial<IngredientMapping>> = {
 };
 
 // Fix the ingredient mappings to ensure they have all required properties
-export const rootVegetables: Record<string, IngredientMapping> = fixIngredientMappings(rawRootVegetables); 
+export const roots: Record<string, IngredientMapping> = fixIngredientMappings(rawRootVegetables);
+// For backwards compatibility
+export const rootVegetables = roots; 

@@ -49,9 +49,29 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
     category: 'protein',
     subCategory: 'plant_based',
     nutritionalProfile: {
-      protein: '19g/100g',
-      fats: '11g/100g',
-      carbs: '9g/100g'
+      serving_size: "3 oz",
+      calories: 160,
+      macros: {
+        protein: 19,
+        carbs: 9,
+        fat: 11,
+        fiber: 6
+      },
+      vitamins: {
+        B2: 0.18,
+        B3: 0.12,
+        B6: 0.15,
+        folate: 0.14
+      },
+      minerals: {
+        manganese: 0.65,
+        copper: 0.40,
+        phosphorus: 0.22,
+        magnesium: 0.20,
+        iron: 0.12
+      },
+      source: "USDA FoodData Central",
+      probiotics: "Contains beneficial bacteria from fermentation"
     },
     culinaryApplications: {
       'stir-fry': {
@@ -1313,126 +1333,6 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
     }
   }),
 
-  'lentil_protein': createIngredientMapping('lentil_protein', {
-    elementalProperties: { Earth: 0.5, Fire: 0.2, Water: 0.2, Air: 0.1 },
-    astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Venus'],
-      favorableZodiac: ['cancer', 'taurus'],
-      elementalAffinity: {
-        base: 'Earth',
-        decanModifiers: {
-          first: { element: 'Earth', planet: 'Moon' },
-          second: { element: 'Water', planet: 'Venus' },
-          third: { element: 'Air', planet: 'Mercury' }
-        }
-      },
-      lunarPhaseModifiers: {
-        newMoon: {
-          elementalBoost: { Earth: 0.1, Water: 0.1 },
-          preparationTips: ['Best for marinating']
-        },
-        fullMoon: {
-          elementalBoost: { Water: 0.2 },
-          preparationTips: ['Ideal for baking']
-        }
-      }
-    },
-    qualities: ['hearty', 'versatile', 'protein-rich'],
-    origin: ['Middle East', 'Mediterranean'],
-    category: 'protein',
-    subCategory: 'plant_based',
-    varieties: {
-      'Red_Lentils': {
-    name: 'Red Lentils',
-        appearance: 'split, orange-red',
-        texture: 'soft when cooked',
-        applications: {
-          'soups': 'quick-cooking, creamy',
-          'dals': 'traditional Indian preparations'
-        }
-      },
-      'Black_Lentils': {
-    name: 'Black Lentils',
-        appearance: 'small, black',
-        texture: 'firm, holds shape',
-        applications: {
-          'salads': 'maintains texture',
-          'main_dishes': 'meaty texture'
-        }
-      },
-      'French_Green': {
-    name: 'French Green',
-        appearance: 'small, mottled green',
-        texture: 'firm, peppery',
-        applications: {
-          'salads': 'holds shape well',
-          'side_dishes': 'elegant presentation'
-        }
-      }
-    },
-    culinaryApplications: {
-      'basic_cooking': {
-    name: 'Basic Cooking',
-        method: 'simmer until tender',
-        timing: {
-          'red': '15-20 minutes',
-          'black': '25-30 minutes',
-          'french_green': '20-25 minutes'
-        },
-        liquid_ratio: '1:2.5 lentils to water'
-      },
-      'protein_applications': {
-    name: 'Protein Applications',
-        'lentil_loaf': {
-    name: 'Lentil Loaf',
-          ingredients: ['cooked lentils', 'vegetables', 'binders'],
-          method: 'bake until firm',
-          notes: 'excellent meat alternative'
-        },
-        'lentil_patties': {
-    name: 'Lentil Patties',
-          base: ['cooked lentils', 'grains'],
-          seasonings: ['herbs', 'spices'],
-          method: 'form and pan-fry'
-        }
-      }
-    },
-    regionalPreparations: {
-      'indian': {
-    name: 'Indian',
-        'dal': {
-    name: 'Dal',
-          ingredients: ['lentils', 'spices', 'ghee'],
-          method: 'simmer with spices',
-          service: 'with rice or flatbread'
-        }
-      },
-      'mediterranean': {
-    name: 'Mediterranean',
-        'lentil_soup': {
-    name: 'Lentil Soup',
-          ingredients: ['lentils', 'vegetables', 'herbs'],
-          method: 'simmer until tender',
-          service: 'with olive oil drizzle'
-        }
-      }
-    },
-    seasonalAdjustments: {
-      'summer': {
-    name: 'Summer',
-        preparations: ['cold salads', 'sprouted'],
-        seasonings: ['fresh herbs', 'lemon'],
-        accompaniments: ['fresh vegetables', 'light grains']
-      },
-      'winter': {
-    name: 'Winter',
-        preparations: ['soups', 'stews', 'loaves'],
-        seasonings: ['warming spices', 'garlic'],
-        accompaniments: ['root vegetables', 'hearty grains']
-      }
-    }
-  }),
-
   'chickpea_protein': createIngredientMapping('chickpea_protein', {
     elementalProperties: { Earth: 0.4, Fire: 0.2, Air: 0.2, Water: 0.2 },
     astrologicalProfile: {
@@ -1722,5 +1622,8 @@ Object.entries(plantBased).forEach(([id, ingredient]) => {
     });
   }
 });
+
+// Create a collection of all plant-based proteins
+export const allPlantBased = Object.values(plantBased);
 
 export default plantBased;

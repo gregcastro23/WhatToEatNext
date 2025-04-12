@@ -657,4 +657,164 @@
 
 .modalitySelect {
   border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* New compact grid layout */
+.compactGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.compactCard {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 10px;
+  transition: all 0.2s ease;
+  border-left: 3px solid transparent;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.compactCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.compactCardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 8px;
+}
+
+.compactIngredientName {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #f0f0f0;
+  margin: 0;
+  line-height: 1.2;
+  max-width: 75%;
+}
+
+.compactScore {
+  background-color: rgba(0, 0, 0, 0.15);
+  color: #f0f0f0;
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 500;
+}
+
+.compactElementBars {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex-grow: 1;
+  margin-bottom: 8px;
+}
+
+.compactElementBars .elementBar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 0;
+}
+
+.compactElementBars .elementIcon {
+  width: 14px;
+  height: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.compactElementBars .barContainer {
+  height: 4px;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 2px;
+  overflow: hidden;
+  flex: 1;
+}
+
+.compactElementBars .bar {
+  height: 100%;
+  border-radius: 2px;
+}
+
+.compactFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.7rem;
+  margin-top: auto;
+}
+
+.compactCategory {
+  color: #a0a0a0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 0.65rem;
+}
+
+/* Element-specific card styles */
+.elementFire {
+  border-left-color: #ff6b6b;
+}
+
+.elementWater {
+  border-left-color: #6bb5ff;
+}
+
+.elementEarth {
+  border-left-color: #6bff8e;
+}
+
+.elementAir {
+  border-left-color: #d9b3ff;
+}
+
+/* Recommendations container */
+.recommendationsContainer {
+  margin-top: 20px;
+}
+
+/* Category section styling */
+.categorySection {
+  margin-bottom: 24px;
+}
+
+.categoryTitle {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #f0f0f0;
+  margin-bottom: 8px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 1400px) {
+  .compactGrid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .compactGrid {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .compactGrid {
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  }
+  
+  .compactIngredientName {
+    font-size: 0.8rem;
+  }
 } 

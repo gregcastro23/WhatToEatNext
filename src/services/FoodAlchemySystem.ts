@@ -87,24 +87,26 @@ export class FoodAlchemySystem {
     private identifyConflicts(food: FoodCorrespondence, chart: BirthChart): string[] {
         const warnings: string[] = [];
         
-        // Check for opposing elements
-        const opposingElements = this.getOpposingElements(food.element);
-        opposingElements.forEach(element => {
-            if (chart.elementalState[element] > 0.6) {
-                warnings.push(`Potential conflict with ${element} dominance`);
+        // Instead of looking for conflicts, provide suggestions for balance
+        const complementaryElements = this.getComplementaryElements(food.element);
+        complementaryElements.forEach(element => {
+            if (chart.elementalState[element] < 0.3) {
+                warnings.push(`Consider adding ${element} foods to create balance`);
             }
         });
         
         return warnings;
     }
 
-    private getOpposingElements(element: ElementalCharacter): ElementalCharacter[] {
-        const elementOppositions: Record<ElementalCharacter, ElementalCharacter[]> = {
+    private getComplementaryElements(element: ElementalCharacter): ElementalCharacter[] {
+        // All elements complement each other, but we provide suggestions
+        // for creating culinary balance
+        const elementComplements: Record<ElementalCharacter, ElementalCharacter[]> = {
             Fire: ['Water', 'Earth'],
-            Water: ['Fire', 'Air'],
-            Air: ['Earth', 'Water'],
-            Earth: ['Air', 'Fire']
+            Water: ['Earth', 'Fire'],
+            Air: ['Fire', 'Water'],
+            Earth: ['Water', 'Air']
         };
-        return elementOppositions[element];
+        return elementComplements[element];
     }
 } 

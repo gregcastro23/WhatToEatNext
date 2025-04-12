@@ -7,8 +7,8 @@ const rawSalts: Record<string, Partial<IngredientMapping>> = {
     elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
     qualities: ['delicate', 'moist', 'mineral'],
     origin: ['France', 'Portugal'],
-    category: 'salt',
-    subCategory: 'finishing',
+    category: 'seasoning',
+    subCategory: 'salt',
     varieties: {
       'Guérande': {
     name: 'Guérande',
@@ -74,8 +74,8 @@ const rawSalts: Record<string, Partial<IngredientMapping>> = {
     elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },
     qualities: ['crisp', 'clean', 'flaky'],
     origin: ['United Kingdom'],
-    category: 'salt',
-    subCategory: 'finishing',
+    category: 'seasoning',
+    subCategory: 'salt',
     varieties: {
       'Traditional': {
     name: 'Traditional',
@@ -147,8 +147,8 @@ const rawSalts: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ['delicate', 'moist', 'mineral'],
     origin: ['Various'],
-    category: 'salt',
-    subCategory: 'finishing',
+    category: 'seasoning',
+    subCategory: 'salt',
     varieties: {
       'Traditional': {
     name: 'Traditional',
@@ -460,6 +460,48 @@ const rawSalts: Record<string, Partial<IngredientMapping>> = {
       },
       'koshering': {
     name: 'Koshering',
+        method: 'coat meat surface',
+        timing: '1 hour before cooking',
+        process: [
+          'apply salt liberally',
+          'rest for 1 hour',
+          'rinse thoroughly',
+          'pat dry'
+        ]
+      }
+    },
+    storage: {
+      temperature: 'room temperature',
+      humidity: 'low',
+      container: 'airtight container',
+      notes: 'Very stable, no special requirements'
+    }
+  },
+
+  'table_salt': {
+    name: 'Table Salt',
+    elementalProperties: { Earth: 0.7, Water: 0.1, Air: 0.1, Fire: 0.1 },
+    qualities: ['basic', 'refined', 'uniform'],
+    origin: ['Global'],
+    category: 'seasoning',
+    subCategory: 'salt',
+    culinaryApplications: {
+      'cooking': {
+        name: 'Cooking',
+        method: 'pinch and sprinkle',
+        timing: 'throughout cooking',
+        applications: {
+          'seasoning': 'meats before cooking',
+          'pasta_water': '1 tbsp per quart',
+          'baking': 'dough and batters'
+        },
+        conversion_ratios: {
+          'table_salt': '1 tsp table = 1.25 tsp Morton = 2 tsp Diamond',
+          'weight_based': '1 gram = 1 gram (any brand)'
+        }
+      },
+      'koshering': {
+        name: 'Koshering',
         method: 'coat meat surface',
         timing: '1 hour before cooking',
         process: [

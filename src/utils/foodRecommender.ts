@@ -5,9 +5,19 @@ import { fruits } from '@/data/ingredients/fruits';
 import { grains } from '@/data/ingredients/grains';
 import { vegetables } from '@/data/ingredients/vegetables';
 import { oils } from '@/data/ingredients/oils';
+import { vinegars } from '@/data/ingredients/vinegars';
 import { seasonings } from '@/data/ingredients/seasonings';
-import { proteins, meats, poultry, seafood, eggs, legumes, dairy, plantBased } from '@/data/ingredients/proteins';
+import { proteins, meats, poultry, seafood, legumes, plantBased } from '@/data/ingredients/proteins';
 import { getCurrentSeason } from '@/data/integrations/seasonal';
+
+// Create eggs and dairy from proteins by filtering category
+const eggs = Object.entries(proteins)
+  .filter(([_, value]) => value.category === 'egg')
+  .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+
+const dairy = Object.entries(proteins)
+  .filter(([_, value]) => value.category === 'dairy')
+  .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
 export interface EnhancedIngredient {
   name: string;
@@ -71,7 +81,8 @@ export const getAllIngredients = (): EnhancedIngredient[] => {
     { name: 'Grains', data: grains },
     { name: 'Vegetables', data: vegetables },
     { name: 'Oils', data: oils },
-    { name: 'Seasonings', data: seasonings }
+    { name: 'Seasonings', data: seasonings },
+    { name: 'Vinegars', data: vinegars }
   ];
 
   // Track counts for categories of interest
@@ -729,7 +740,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
   const categoryGroups: Record<string, EnhancedIngredient[]> = {};
   
   // Define the categories we want to ensure have enough items
-  const targetCategories = ['proteins', 'vegetables', 'grains', 'other'];
+  const targetCategories = ['proteins', 'vegetables', 'grains', 'fruits', 'herbs', 'spices', 'oils', 'vinegars'];
   
   // Initialize category groups
   targetCategories.forEach(category => {
@@ -738,11 +749,19 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
   
   // Group ingredients by category
   allScoredIngredients.forEach(ingredient => {
-    const category = ingredient.category?.toLowerCase() || 'other';
+    const category = ingredient.category?.toLowerCase() || '';
     
     // Map to our target categories if needed
-    let targetCategory = 'other';
-    if (category.includes('protein') || 
+    let targetCategory = '';
+    
+    // Enhanced categorization to properly identify oils and vinegars
+    if (category.includes('oil') || ingredient.name.toLowerCase().includes('oil')) {
+      targetCategory = 'oils';
+    }
+    else if (category.includes('vinegar') || ingredient.name.toLowerCase().includes('vinegar')) {
+      targetCategory = 'vinegars';
+    }
+    else if (category.includes('protein') || 
         category.includes('meat') || 
         category.includes('seafood') || 
         category.includes('poultry') || 
@@ -778,9 +797,29 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
              category.includes('cereal')) {
       targetCategory = 'grains';
     }
+    else if (category.includes('fruit')) {
+      targetCategory = 'fruits';
+    }
+    else if (category.includes('herb') || 
+             category.includes('leafy') ||
+             ingredient.name.toLowerCase().includes('leaf') ||
+             ingredient.name.toLowerCase().includes('herb')) {
+      targetCategory = 'herbs';
+    }
+    else if (category.includes('spice') || 
+             category.includes('seasoning') ||
+             ingredient.name.toLowerCase().includes('pepper') ||
+             ingredient.name.toLowerCase().includes('salt') ||
+             ingredient.name.toLowerCase().includes('powder')) {
+      targetCategory = 'spices';
+    }
+    else {
+      // If we can't categorize, put it in vegetables as default
+      targetCategory = 'vegetables';
+    }
     
-    // Add to category group
-    if (targetCategories.includes(targetCategory)) {
+    // Add to category group - only if we have a valid target category
+    if (targetCategory && targetCategories.includes(targetCategory)) {
       if (!categoryGroups[targetCategory]) {
         categoryGroups[targetCategory] = [];
       }

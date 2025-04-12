@@ -741,6 +741,100 @@ const rawAlliums: Record<string, Partial<IngredientMapping>> = {
       },
       dried: 'not recommended, loses most flavor and texture'
     }
+  },
+
+  "scallion": {
+    name: "scallion",
+    elementalProperties: { 
+      Fire: 0.35, 
+      Earth: 0.15, 
+      Air: 0.3, 
+      Water: 0.2 
+    },
+    astrologicalProfile: {
+      rulingPlanets: ['Mercury', 'Mars'],
+      favorableZodiac: ['gemini', 'aries'],
+      elementalAffinity: {
+        base: 'Air',
+        secondary: 'Fire',
+        decanModifiers: {
+          first: { element: 'Air', planet: 'Mercury' },
+          second: { element: 'Fire', planet: 'Mars' },
+          third: { element: 'Earth', planet: 'Venus' }
+        }
+      }
+    },
+    qualities: ["fresh", "aromatic", "versatile", "bright"],
+    origin: ["Asia", "Global"],
+    category: "vegetable",
+    subCategory: "allium",
+    affinities: ["ginger", "garlic", "sesame", "soy", "citrus", "herbs"],
+    cookingMethods: ["raw", "sauteed", "grilled", "stir-fried"],
+    nutritionalProfile: {
+      fiber: "moderate",
+      vitamins: ["a", "c", "k", "folate"],
+      minerals: ["iron", "potassium", "calcium"],
+      calories: 32,
+      carbs_g: 7,
+      fiber_g: 2.6,
+      protein_g: 1.8
+    },
+    preparation: {
+      washing: "thoroughly between layers to remove sand/grit",
+      trimming: "remove dark green tops (save for stock) and root end",
+      cutting: "slice thinly on bias or chop",
+      whites_greens: "separate white/light green parts from dark green for different applications",
+      special_technique: "curl by soaking thin slices in ice water"
+    },
+    culinaryApplications: {
+      garnish: {
+        method: "finely slice or chop",
+        cutting_techniques: ["thin bias cuts", "fine dice", "chiffonade", "curled scallions"],
+        uses: ["soups", "stir-fries", "noodle dishes", "tacos", "salads"],
+        notes: "add at last minute to preserve color and texture"
+      },
+      stir_fry: {
+        method: "separate white and green parts",
+        timing: "whites: 1-2 minutes, greens: 30 seconds at end",
+        cutting: "bias cut 1-2 inch pieces",
+        pairs_with: ["ginger", "garlic", "soy sauce", "sesame oil"],
+        notes: "quick cooking preserves color and texture"
+      },
+      grilled: {
+        method: "brush with oil, grill whole",
+        timing: "2-3 minutes, turning once",
+        preparation: "trim roots but keep intact",
+        serving: "drizzle with olive oil, salt, lemon",
+        notes: "classic Spanish preparation (calçots)"
+      },
+      asian_applications: {
+        scallion_oil: {
+          method: "steep chopped green parts in warm oil",
+          timing: "30-60 minutes",
+          uses: ["drizzling", "dressings", "finishing"],
+          notes: "strain and refrigerate, use within 1 week"
+        },
+        scallion_pancakes: {
+          method: "incorporate chopped scallions into dough",
+          uses: ["traditional Chinese appetizer"],
+          cooking: "pan-fry until golden and crispy",
+          serving: "with dipping sauce"
+        }
+      }
+    },
+    storage: {
+      temperature: "refrigerated",
+      duration: "1-2 weeks",
+      humidity: "high",
+      method: "store upright in jar with 1 inch of water, loosely covered",
+      alternative: "wrap in damp paper towel in perforated plastic bag",
+      regrowth: "can be regrown from roots in water or soil"
+    },
+    regionalUses: {
+      "East Asian": ["stir-fries", "dumplings", "noodle dishes", "dipping sauces"],
+      "Mexican": ["salsas", "guacamole", "tacos", "grilled as side"],
+      "American": ["loaded potatoes", "dips", "garnish"]
+    }
   }
 };
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useAstrologicalState } from '@/hooks/useAstrologicalState';
 import { allCookingMethods } from '@/data/cooking';
 import { calculateMethodScore } from '@/utils/cookingMethodRecommender';
@@ -38,6 +38,9 @@ export default function MethodsRecommender() {
   const [methods, setMethods] = useState<CookingMethodWithScore[]>([]);
   const [isExpanded, setIsExpanded] = useState(true);
   const [selectedMethodId, setSelectedMethodId] = useState<string | null>(null);
+  
+  // Add a ref to store the initial scores so they don't change
+  const methodScoresRef = useRef<Record<string, number>>({});
   
   // Calculate method scores using the imported function from cookingMethodRecommender.ts
   useEffect(() => {
@@ -90,14 +93,24 @@ export default function MethodsRecommender() {
         })
         .sort((a, b) => b.score - a.score);
       
-      setMethods(methodsWithScores);
+      // Store the scores in the ref to make sure they don't change on re-renders
+      const scoreMap: Record<string, number> = {};
+      methodsWithScores.forEach((method) => {
+        scoreMap[method.id] = method.score;
+      });
+      methodScoresRef.current = scoreMap;
       
-      // Select the top method by default
-      if (methodsWithScores.length > 0 && !selectedMethodId) {
-        setSelectedMethodId(methodsWithScores[0].id);
-      }
+      setMethods(methodsWithScores);
     }
-  }, [loading, currentPlanetaryAlignment, selectedMethodId]);
+  }, [loading, currentPlanetaryAlignment]);
+  
+  // Separate effect for handling default selection
+  useEffect(() => {
+    // Select the top method by default only when methods change and no method is selected
+    if (methods.length > 0 && !selectedMethodId) {
+      setSelectedMethodId(methods[0].id);
+    }
+  }, [methods, selectedMethodId]);
   
   const toggleExpanded = () => {
     setIsExpanded(prev => !prev);
@@ -139,11 +152,6 @@ export default function MethodsRecommender() {
         onClick={showToggle ? toggleExpanded : undefined}
       >
         <h3>Recommended Cooking Methods</h3>
-        {topMethod && (
-          <div className={styles['top-recommendation']}>
-            Top: <span>{topMethod.name}</span>
-          </div>
-        )}
         
         {showToggle && (
           <button className={styles['toggle-button']}>
@@ -165,9 +173,9 @@ export default function MethodsRecommender() {
                 <div className={styles['method-score']}>
                   <div 
                     className={styles['score-bar']}
-                    style={{ width: `${Math.round(method.score * 100)}%` }}
+                    style={{ width: `${Math.round((methodScoresRef.current[method.id] || method.score) * 100)}%` }}
                   />
-                  <span>{Math.round(method.score * 100)}%</span>
+                  <span>{Math.round((methodScoresRef.current[method.id] || method.score) * 100)}%</span>
                 </div>
               </div>
               
@@ -241,16 +249,15 @@ export default function MethodsRecommender() {
                     </ul>
                   </div>
                   
-                  {idealIngredients.length > 0 && (
-                    <div className={styles['cookingInfo']}>
-                      <h4 className={styles['cookingInfoTitle']}>Ideal Ingredients</h4>
-                      <ul className={styles['tagList']}>
-                        {idealIngredients.map((ingredient, index) => (
-                          <li key={index} className={styles['ingredientTag']}>{ingredient}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
+                  {/* Display ideal ingredients */}
+                  <div className={styles['cookingInfoTips']}>
+                    <h4 className={styles['tipsHeader']}>Ideal Ingredients</h4>
+                    <ul className={styles['tipsList']}>
+                      {idealIngredients.map((ingredient, index) => (
+                        <li key={index} className={styles['tipItem']}>{ingredient}</li>
+                      ))}
+                    </ul>
+                  </div>
                   
                   {method.benefits && method.benefits.length > 1 && (
                     <div className={styles['cookingInfo']}>

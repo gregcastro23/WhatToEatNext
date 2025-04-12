@@ -3,6 +3,7 @@ import { freshHerbs } from './freshHerbs';
 import { driedHerbs } from './driedHerbs';
 import { aromaticHerbs } from './aromatic';
 import type { IngredientMapping } from '@/types/alchemy';
+import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 // Define cuisine types as string literals
 const CUISINE_TYPES = {
@@ -80,7 +81,7 @@ function createIngredientMapping(
 }
 
 // Combine all herbs into one record
-export const herbs: Record<string, IngredientMapping> = {
+export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
   ...freshHerbs,
   ...driedHerbs,
   ...aromaticHerbs,
@@ -232,52 +233,99 @@ export const herbs: Record<string, IngredientMapping> = {
         }
       }
     }
+  }),
+  
+  // Additional specialty herbs
+  'curry_leaves': createIngredientMapping('curry_leaves', {
+    elementalProperties: { Earth: 0.2, Water: 0.2, Fire: 0.4, Air: 0.2 },
+    qualities: ['aromatic', 'citrusy', 'nutty'],
+    category: 'culinary_herb',
+    sustainabilityScore: 8,
+    preparation: {
+      fresh: {
+        storage: 'wrapped in paper towel, refrigerated',
+        duration: '1 week',
+        tips: ['freeze for longer storage']
+      },
+      dried: {
+        storage: 'airtight container',
+        duration: '3 months',
+        notes: 'loses significant flavor when dried'
+      }
+    },
+    culinaryUses: ['curries', 'dal', 'chutneys', 'rice dishes', 'tempering'],
+    flavor: 'Complex citrus and nutty flavor with an intense aroma',
+    qualities_detailed: {
+      aroma: 'citrusy, slightly bitter',
+      intensity: 7,
+      complexity: 8,
+      texture: { leafy: 0.7, firm: 0.4 }
+    },
+    regional_importance: {
+      'south_indian': 9,
+      'sri_lankan': 8
+    },
+    pairings: ['mustard seeds', 'coconut', 'lentils', 'asafoetida', 'turmeric']
+  }),
+  
+  'lemongrass': createIngredientMapping('lemongrass', {
+    elementalProperties: { Earth: 0.1, Water: 0.3, Fire: 0.2, Air: 0.4 },
+    qualities: ['lemony', 'citral', 'grassy', 'refreshing'],
+    category: 'culinary_herb',
+    sustainabilityScore: 9,
+    preparation: {
+      fresh: {
+        storage: 'wrapped in damp paper, refrigerated',
+        duration: '2 weeks',
+        tips: ['use outer stems for tea, inner for cooking']
+      },
+      dried: {
+        storage: 'airtight container',
+        duration: '6 months',
+        notes: 'good for teas, less suitable for cooking'
+      }
+    },
+    culinaryUses: ['curries', 'soups', 'marinades', 'teas', 'stir-fries'],
+    flavor: 'Bright citrus flavor with grassy undertones',
+    regional_importance: {
+      'thai': 9,
+      'vietnamese': 9,
+      'malaysian': 8
+    },
+    pairings: ['coconut milk', 'chili', 'lime', 'ginger', 'garlic']
+  }),
+  
+  'shiso': createIngredientMapping('shiso', {
+    elementalProperties: { Earth: 0.1, Water: 0.3, Fire: 0.2, Air: 0.4 },
+    qualities: ['minty', 'basil-like', 'anise', 'citrusy'],
+    category: 'culinary_herb',
+    sustainabilityScore: 8,
+    culinaryUses: ['sushi', 'tempura', 'salads', 'wrapping fish', 'noodle dishes'],
+    flavor: 'Complex with notes of mint, basil, anise, and citrus',
+    regional_importance: {
+      'japanese': 9,
+      'korean': 8,
+      'vietnamese': 7
+    },
+    pairings: ['fish', 'rice', 'cucumber', 'ume plum', 'tofu']
   })
-};
-
-// Improved validation with better error handling and fix
-Object.entries(herbs).forEach(([id, herb]) => {
-  // Skip if not an object or already has a problem
-  if (!herb || typeof herb !== 'object') {
-    console.error(`Invalid herb entry for id: ${id}`);
-    herbs[id] = createIngredientMapping(id, {});
-    return;
-  }
-  
-  // Add missing elemental properties with default values
-  if (!herb.elementalProperties) {
-    console.warn(`Adding default elemental properties for herb: ${herb.name || id}`);
-    herbs[id] = createIngredientMapping(id, herb);
-    return;
-  }
-  
-  // Ensure all elements are present and sum to 1.0
-  const elements = herb.elementalProperties;
-  const air = elements.Air || 0;
-  const water = elements.Water || 0;
-  const fire = elements.Fire || 0;
-  const earth = elements.Earth || 0;
-  const total = air + water + fire + earth;
-  
-  // Normalize if needed
-  if (Math.abs(total - 1) > 0.01) {
-    console.warn(`Normalizing elemental properties for herb: ${herb.name || id}`);
-    const factor = 1 / total;
-    herbs[id].elementalProperties = {
-      Air: air * factor,
-      Water: water * factor,
-      Fire: fire * factor,
-      Earth: earth * factor
-    };
-  }
 });
 
+// To ensure we're exporting all available herbs, explicitly export each collection
 export {
   freshHerbs,
   driedHerbs,
-  medicinalHerbs,
   aromaticHerbs,
-  CUISINE_TYPES
+  medicinalHerbs
 };
 
-export default herbs;
+// Create a comprehensive herb collection that includes all herb variants
+export const allHerbs = fixIngredientMappings({
+  ...freshHerbs,
+  ...driedHerbs,
+  ...aromaticHerbs,
+  ...medicinalHerbs
+});
+
+// Export a list of herb names for easy reference
+export const herbNames = Object.keys(allHerbs);

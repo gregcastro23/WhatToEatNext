@@ -261,7 +261,7 @@ export default function Recipe({ recipe, isExpanded = false, onToggle }: RecipeP
             ))}
           </ul>
 
-          <h4 className="font-medium text-gray-900 mb-2">Instructions:</h4>
+          <h4 className="font-medium text-gray-900 mb-2">Procedure:</h4>
           <ol className="space-y-2 list-decimal list-inside">
             {recipe.instructions.map((step, index) => (
               <li key={index} className="text-gray-600">{step}</li>

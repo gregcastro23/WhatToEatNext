@@ -21,6 +21,7 @@ const RecipeDetailsPage: NextPage = () => {
     season: 'spring',
     timeOfDay: 'lunch',
   });
+  const [selectedIngredient, setSelectedIngredient] = React.useState<any>(null);
 
   React.useEffect(() => {
     // Get current elemental state based on time, date, etc.
@@ -67,10 +68,9 @@ const RecipeDetailsPage: NextPage = () => {
     );
   }
 
-  // Handle ingredient click for future functionality
+  // Handle ingredient click to display ingredient details
   const handleIngredientClick = (ingredient: any) => {
-    console.log('Ingredient clicked:', ingredient);
-    // Could show nutritional info, substitutes, etc.
+    setSelectedIngredient(ingredient === selectedIngredient ? null : ingredient);
   };
 
   // Update servings
@@ -154,36 +154,90 @@ const RecipeDetailsPage: NextPage = () => {
         <div className="grid md:grid-cols-2 gap-8">
           {/* Ingredients Section */}
           <section>
-            <h2 className="text-xl font-semibold mb-4">Ingredients</h2>
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-semibold">Ingredients</h2>
+              <span className="text-xs text-gray-500 italic">Click an ingredient for details</span>
+            </div>
             <ul className="space-y-2">
-              {recipe.ingredients?.map((ingredient, idx) => (
-                <li 
-                  key={idx} 
-                  className="flex justify-between py-2 border-b border-gray-100 hover:bg-gray-50 cursor-pointer"
-                  onClick={() => handleIngredientClick(ingredient)}
-                >
-                  <span>{typeof ingredient === 'string' ? ingredient : ingredient.name}</span>
-                  {typeof ingredient !== 'string' && (
-                    <span className="text-gray-600">
-                      {ingredient.amount * servingsMultiplier} {ingredient.unit}
-                    </span>
-                  )}
-                </li>
-              ))}
+              {recipe.ingredients?.map((ingredient, idx) => {
+                const isSelected = selectedIngredient && 
+                  (typeof ingredient === 'string' 
+                    ? ingredient === selectedIngredient 
+                    : ingredient.name === selectedIngredient.name);
+                
+                return (
+                  <li 
+                    key={idx} 
+                    className={`flex justify-between py-2 border-b border-gray-100 hover:bg-gray-50 cursor-pointer transition duration-150 ${isSelected ? 'bg-blue-50 border-l-4 border-l-blue-500 pl-2' : ''}`}
+                    onClick={() => handleIngredientClick(ingredient)}
+                  >
+                    <span>{typeof ingredient === 'string' ? ingredient : ingredient.name}</span>
+                    {typeof ingredient !== 'string' && (
+                      <span className="text-gray-600">
+                        {ingredient.amount * servingsMultiplier} {ingredient.unit}
+                      </span>
+                    )}
+                  </li>
+                );
+              })}
             </ul>
+
+            {/* Ingredient Details Section */}
+            {selectedIngredient && (
+              <div className="mt-4 p-4 bg-blue-50 rounded-lg animate-fade-in">
+                <div className="flex justify-between items-center mb-2">
+                  <h3 className="font-semibold text-lg">
+                    {typeof selectedIngredient === 'string' ? selectedIngredient : selectedIngredient.name}
+                  </h3>
+                  <span className="text-xs text-blue-600 bg-blue-100 px-2 py-1 rounded">Ingredient Details</span>
+                </div>
+                {typeof selectedIngredient === 'string' ? (
+                  <p className="text-gray-600">Basic ingredient with no additional details available.</p>
+                ) : (
+                  <ul className="space-y-1">
+                    {selectedIngredient.amount && (
+                      <li><span className="font-medium">Amount:</span> {selectedIngredient.amount * servingsMultiplier} {selectedIngredient.unit}</li>
+                    )}
+                    {selectedIngredient.notes && (
+                      <li><span className="font-medium">Notes:</span> {selectedIngredient.notes}</li>
+                    )}
+                    {selectedIngredient.category && (
+                      <li><span className="font-medium">Category:</span> {selectedIngredient.category}</li>
+                    )}
+                    {selectedIngredient.substitutes && (
+                      <li>
+                        <span className="font-medium">Substitutes:</span> {
+                          Array.isArray(selectedIngredient.substitutes) 
+                            ? selectedIngredient.substitutes.join(', ') 
+                            : selectedIngredient.substitutes
+                        }
+                      </li>
+                    )}
+                  </ul>
+                )}
+                <div className="mt-3 flex justify-end">
+                  <button 
+                    onClick={() => setSelectedIngredient(null)}
+                    className="px-3 py-1 text-sm text-blue-600 hover:text-blue-800 bg-white rounded shadow-sm hover:shadow transition"
+                  >
+                    Close Details
+                  </button>
+                </div>
+              </div>
+            )}
           </section>
 
-          {/* Instructions Section */}
-          <section>
-            <h2 className="text-xl font-semibold mb-4">Instructions</h2>
-            <ol className="list-decimal list-inside space-y-3">
+          {/* Procedure Section */}
+          <div className="mb-8">
+            <h2 className="text-xl font-semibold mb-4">Procedure</h2>
+            <ol className="list-decimal pl-5 space-y-2">
               {recipe.instructions?.map((step, idx) => (
                 <li key={idx} className="py-1">
                   <span className="ml-2">{step}</span>
                 </li>
               ))}
             </ol>
-          </section>
+          </div>
         </div>
 
         {/* Nutritional Information */}

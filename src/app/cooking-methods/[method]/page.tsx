@@ -7,9 +7,9 @@ import { CookingMethodInfo } from '@/types/cooking';
 import { Box, Card, CardContent, Container, Grid, Typography, Chip, List, ListItem, ListItemText, Divider, Paper, useTheme } from '@mui/material';
 import { AccessTime, ThermostatAuto, LocalFireDepartment, Science, Warning, Kitchen, Whatshot } from '@mui/icons-material';
 import { ZodiacSign } from '@/components/ZodiacSign';
-import ElementalDisplay from '@/components/ElementalDisplay';
 import MethodImage from '@/components/MethodImage';
 import Link from 'next/link';
+import getMethodData from '@/app/cooking-methods/methods';
 
 export default function CookingMethodPage() {
   const params = useParams();
@@ -99,12 +99,6 @@ export default function CookingMethodPage() {
               <Typography variant="body1">
                 {method.duration}
               </Typography>
-            </Box>
-            
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, my: 2 }}>
-              {method.elementalEffect && (
-                <ElementalDisplay />
-              )}
             </Box>
           </Grid>
           

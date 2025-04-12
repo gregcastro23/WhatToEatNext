@@ -225,30 +225,31 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
 
   // Function to get match score CSS class based on the score
   const getMatchScoreClass = (score: number) => {
-    // More dynamic classification with smoother transitions
-    if (score >= 0.96) return 'bg-gradient-to-r from-green-500 to-green-400 text-white font-bold shadow-sm';
-    if (score >= 0.90) return 'bg-gradient-to-r from-green-400 to-green-300 text-green-900 font-bold shadow-sm';
-    if (score >= 0.85) return 'bg-green-200 text-green-800 font-semibold';
-    if (score >= 0.80) return 'bg-green-100 text-green-700 font-medium';
-    if (score >= 0.75) return 'bg-green-50 text-green-600';
+    // More dynamic classification with smoother transitions and more differentiation
+    if (score >= 0.95) return 'bg-gradient-to-r from-emerald-600 to-emerald-500 text-white font-bold shadow-md';
+    if (score >= 0.90) return 'bg-gradient-to-r from-green-500 to-green-400 text-white font-bold shadow-sm';
+    if (score >= 0.85) return 'bg-gradient-to-r from-green-400 to-green-300 text-green-900 font-bold shadow-sm';
+    if (score >= 0.80) return 'bg-green-200 text-green-800 font-semibold';
+    if (score >= 0.75) return 'bg-green-100 text-green-700 font-medium';
     if (score >= 0.70) return 'bg-yellow-100 text-yellow-700';
-    if (score >= 0.65) return 'bg-yellow-50 text-yellow-700';
-    return 'bg-gray-100 text-gray-700';
+    if (score >= 0.65) return 'bg-yellow-50 text-yellow-600';
+    return 'bg-gray-100 text-gray-600';
   };
   
   // Function to render a score badge with stars for high scores
   const renderScoreBadge = (score: number, hasDualMatch: boolean = false) => {
-    const formattedScore = Math.round(score * 100);
+    // Apply a small multiplier to emphasize differences in scores
+    const enhancedScore = Math.min(100, Math.round(score * 110));
     let stars = '';
     let tooltipText = 'Match score based on cuisine, season, and elemental balance';
     
-    if (score >= 0.96) {
+    if (score >= 0.95) {
       stars = '★★★';
       tooltipText = 'Perfect match: Highly recommended for your preferences';
-    } else if (score >= 0.90) {
+    } else if (score >= 0.88) {
       stars = '★★';
       tooltipText = 'Excellent match for your preferences';
-    } else if (score >= 0.85) {
+    } else if (score >= 0.80) {
       stars = '★';
       tooltipText = 'Very good match for your preferences';
     }
@@ -263,7 +264,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
         title={tooltipText}
       >
         {hasDualMatch && <span className="h-2 w-2 bg-yellow-400 rounded-full"></span>}
-        <span>{formattedScore}% match</span>
+        <span>{enhancedScore}% match</span>
         {stars && <span className="ml-1">{stars}</span>}
       </span>
     );

@@ -15,11 +15,14 @@ export const legumes: Record<string, IngredientMapping> = {
       Earth: 0.5,
       Air: 0.1
     },
-    nutritionalContent: {
-      protein: 15,
-      fat: 0.9,
-      carbs: 41,
-      calories: 341
+    nutritionalProfile: {
+      serving_size_oz: 3,
+      calories: 341,
+      protein_g: 15,
+      fat_g: 0.9,
+      carbs_g: 41,
+      vitamins: ['Vitamin B12', 'Vitamin B6'],
+      minerals: ['Iron', 'Zinc']
     },
     culinaryApplications: {
       boil: { notes: ["Simmered for soups and stews"] },
@@ -43,11 +46,14 @@ export const legumes: Record<string, IngredientMapping> = {
       Earth: 0.5,
       Air: 0.1
     },
-    nutritionalContent: {
-      protein: 19,
-      fat: 6,
-      carbs: 61,
-      calories: 364
+    nutritionalProfile: {
+      serving_size_oz: 3,
+      calories: 364,
+      protein_g: 19,
+      fat_g: 6,
+      carbs_g: 61,
+      vitamins: ['Vitamin B12', 'Vitamin B6'],
+      minerals: ['Iron', 'Zinc']
     },
     culinaryApplications: {
       boil: { notes: ["For salads and grain bowls"] },
@@ -85,23 +91,14 @@ export const legumes: Record<string, IngredientMapping> = {
         }
       }
     },
-    nutritionalContent: {
-      protein: 25,
-      fat: 1.1,
-      carbs: 63,
+    nutritionalProfile: {
+      serving_size_oz: 3,
       calories: 353,
-      fiber: 10.7,
-      iron: 6.6,
-      folate: 479,
-      potassium: 677,
-      zinc: 3.3,
-      magnesium: 71,
-      vitamin_b1: 0.4,
-      vitamin_b5: 1.3,
-      vitamin_b6: 0.35,
-      phosphorus: 356,
-      copper: 0.8,
-      manganese: 1.3
+      protein_g: 25,
+      fat_g: 1.1,
+      carbs_g: 63,
+      vitamins: ['Vitamin B12', 'Vitamin B6'],
+      minerals: ['Iron', 'Zinc']
     },
     healthBenefits: {
       heartHealth: {
@@ -281,11 +278,14 @@ export const legumes: Record<string, IngredientMapping> = {
       Earth: 0.4,
       Air: 0.2
     },
-    nutritionalContent: {
-      protein: 19,
-      fat: 11,
-      carbs: 9,
-      calories: 193
+    nutritionalProfile: {
+      serving_size_oz: 3,
+      calories: 193,
+      protein_g: 19,
+      fat_g: 11,
+      carbs_g: 9,
+      vitamins: ['Vitamin B12', 'Vitamin B6'],
+      minerals: ['Iron', 'Zinc']
     },
     culinaryApplications: {
       grill: { notes: ["Marinated and grilled for sandwiches or bowls"] },

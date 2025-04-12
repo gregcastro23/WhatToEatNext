@@ -24,6 +24,34 @@ const rawMedicinalHerbs: Record<string, Partial<IngredientMapping>> = {
     qualities: ['warming', 'stimulating', 'drying', 'bitter', 'pungent', 'resilient'],
     category: 'medicinal herb',
     origin: ['North America', 'Native American traditional medicine'],
+    nutritionalProfile: {
+      serving_size: "1 tsp dried herb",
+      calories: 3,
+      macros: {
+        protein: 0.2,
+        carbs: 0.8,
+        fat: 0.1,
+        fiber: 0.3
+      },
+      vitamins: {
+        C: 0.02,
+        B1: 0.01,
+        B3: 0.01
+      },
+      minerals: {
+        potassium: 0.01,
+        calcium: 0.01,
+        magnesium: 0.01
+      },
+      phytonutrients: {
+        alkylamides: 0.75,
+        polysaccharides: 0.65,
+        phenolic_compounds: 0.48,
+        caffeic_acid: 0.38,
+        essential_oils: 0.25
+      },
+      source: "Herbal Medicine Database"
+    },
     varieties: {
       'purpurea': {
         name: 'Echinacea purpurea',
@@ -373,5 +401,8 @@ const rawMedicinalHerbs: Record<string, Partial<IngredientMapping>> = {
 
 // Fix the ingredient mappings to ensure they have all required properties
 export const medicinalHerbs: Record<string, IngredientMapping> = fixIngredientMappings(rawMedicinalHerbs);
+
+// Create a collection of all medicinal herbs
+export const allMedicinalHerbs = Object.values(medicinalHerbs);
 
 export default medicinalHerbs;

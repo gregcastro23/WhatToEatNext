@@ -2,6 +2,7 @@
 /node_modules
 /.pnp
 .pnp.js
+yarn.lock
 
 # testing
 /coverage
@@ -14,9 +15,14 @@
 
 # production
 /build
+/dist
 
 # misc
 .DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 *.pem
 .env*
 errors.log
@@ -37,3 +43,10 @@ temp.log
 
 # Add this to ignore Next.js cache
 .next/
+
+# Editor directories and files
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

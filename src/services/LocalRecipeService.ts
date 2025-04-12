@@ -179,7 +179,8 @@ export class LocalRecipeService {
           preparation: ing.preparation || '',
           category: ing.category || '',
           optional: ing.optional || false,
-          notes: ing.notes || ''
+          notes: ing.notes || '',
+          substitutes: ing.swaps || ing.substitutes || []
         };
       });
       
@@ -191,15 +192,82 @@ export class LocalRecipeService {
         Air: 0.25
       };
       
+      // Standardize timing information
+      const prepTime = dish.prepTime || '';
+      const cookTime = dish.cookTime || '';
+      
       // Parse timeToMake from prepTime and cookTime if available
       let timeToMake = dish.timeToMake || '';
-      if (!timeToMake && dish.prepTime && dish.cookTime) {
-        const prepMinutes = parseInt(dish.prepTime.split(' ')[0]) || 0;
-        const cookMinutes = parseInt(dish.cookTime.split(' ')[0]) || 0;
+      if (!timeToMake && prepTime && cookTime) {
+        const prepMinutes = parseInt(prepTime.split(' ')[0]) || 0;
+        const cookMinutes = parseInt(cookTime.split(' ')[0]) || 0;
         timeToMake = `${prepMinutes + cookMinutes} minutes`;
       }
       if (!timeToMake) {
         timeToMake = '30 minutes'; // Default
+      }
+      
+      // Get instructions from preparationSteps or instructions field
+      let instructions = [];
+      if (Array.isArray(dish.preparationSteps) && dish.preparationSteps.length > 0) {
+        instructions = dish.preparationSteps;
+      } else if (Array.isArray(dish.instructions) && dish.instructions.length > 0) {
+        instructions = dish.instructions;
+      } else if (typeof dish.instructions === 'string' && dish.instructions.trim() !== '') {
+        instructions = [dish.instructions];
+      } else if (typeof dish.preparationSteps === 'string' && dish.preparationSteps.trim() !== '') {
+        instructions = [dish.preparationSteps];
+      } else {
+        instructions = [`Prepare the ingredients and cook this ${cuisineName} dish according to traditional methods.`];
+      }
+      
+      // Process cooking methods
+      let cookingMethods = [];
+      if (Array.isArray(dish.cookingMethods) && dish.cookingMethods.length > 0) {
+        cookingMethods = dish.cookingMethods;
+      } else if (typeof dish.cookingMethod === 'string' && dish.cookingMethod.trim() !== '') {
+        cookingMethods = [dish.cookingMethod];
+      } else if (typeof dish.cookingMethods === 'string' && dish.cookingMethods.trim() !== '') {
+        cookingMethods = [dish.cookingMethods];
+      }
+      
+      // Process tools
+      let tools = [];
+      if (Array.isArray(dish.tools) && dish.tools.length > 0) {
+        tools = dish.tools;
+      } else if (typeof dish.tools === 'string' && dish.tools.trim() !== '') {
+        tools = [dish.tools];
+      }
+      
+      // Process nutrition information
+      const nutrition = dish.nutrition || {
+        calories: 0,
+        protein: 0,
+        carbs: 0,
+        fat: 0,
+        vitamins: [],
+        minerals: []
+      };
+      
+      // Process substitutions
+      let substitutions = {};
+      if (dish.substitutions && typeof dish.substitutions === 'object') {
+        substitutions = dish.substitutions;
+      }
+      
+      // Ensure dietary information is consistent
+      const dietaryInfo = Array.isArray(dish.dietaryInfo) ? dish.dietaryInfo : [];
+      const isVegetarian = dietaryInfo.includes('vegetarian') || dish.isVegetarian || false;
+      const isVegan = dietaryInfo.includes('vegan') || dish.isVegan || false;
+      const isGlutenFree = dietaryInfo.includes('gluten-free') || dish.isGlutenFree || false;
+      const isDairyFree = dietaryInfo.includes('dairy-free') || dish.isDairyFree || false;
+      
+      // Process pairing suggestions
+      let pairingSuggestions = [];
+      if (Array.isArray(dish.pairingSuggestions) && dish.pairingSuggestions.length > 0) {
+        pairingSuggestions = dish.pairingSuggestions;
+      } else if (typeof dish.pairingSuggestions === 'string' && dish.pairingSuggestions.trim() !== '') {
+        pairingSuggestions = [dish.pairingSuggestions];
       }
       
       return {
@@ -207,8 +275,11 @@ export class LocalRecipeService {
         name: dish.name || `${cuisineName} dish`,
         description: dish.description || `A delicious ${cuisineName} dish.`,
         cuisine: cuisineName,
+        regionalCuisine: dish.regionalCuisine || '',
         ingredients,
-        instructions: dish.preparationSteps || dish.instructions || [],
+        instructions,
+        prepTime,
+        cookTime,
         timeToMake,
         numberOfServings: dish.servingSize || dish.numberOfServings || 4,
         elementalProperties,
@@ -216,23 +287,23 @@ export class LocalRecipeService {
         mealType: mealTypes,
         
         // Dietary information
-        isVegetarian: dish.dietaryInfo?.includes('vegetarian') || 
-                      dish.dietaryInfo?.includes('vegan') || 
-                      dish.isVegetarian || 
-                      false,
-        isVegan: dish.dietaryInfo?.includes('vegan') || dish.isVegan || false,
-        isGlutenFree: dish.dietaryInfo?.includes('gluten-free') || dish.isGlutenFree || false,
-        isDairyFree: dish.dietaryInfo?.includes('dairy-free') || dish.isDairyFree || false,
+        isVegetarian,
+        isVegan,
+        isGlutenFree,
+        isDairyFree,
+        dietaryInfo,
         
         // Additional useful properties
-        cookingMethods: dish.cookingMethods || [],
-        tools: dish.tools || [],
-        nutrition: dish.nutrition || {
-          calories: 0,
-          protein: 0,
-          carbs: 0,
-          fat: 0
-        },
+        cookingMethods,
+        tools,
+        culturalNotes: dish.culturalNotes || '',
+        pairingSuggestions,
+        spiceLevel: dish.spiceLevel || 'medium',
+        substitutions,
+        nutrition,
+        allergens: dish.allergens || [],
+        tips: dish.tips || [],
+        chefNotes: dish.chefNotes || [],
         
         // Source information
         source: 'Local Cuisine Database',

@@ -35,11 +35,28 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
         }
       }
     },
-    nutritionalContent: {
-      protein: 26,
-      fat: 15,
-      carbs: 0,
-      calories: 250
+    nutritionalProfile: {
+      serving_size: "3 oz",
+      calories: 250,
+      macros: {
+        protein: 26,
+        carbs: 0,
+        fat: 15,
+        fiber: 0
+      },
+      vitamins: {
+        B12: 0.9,
+        B6: 0.3,
+        niacin: 0.25,
+        riboflavin: 0.15
+      },
+      minerals: {
+        iron: 0.15,
+        zinc: 0.40,
+        phosphorus: 0.20,
+        selenium: 0.30
+      },
+      source: "USDA"
     },
     culinaryApplications: {
       grill: { notes: ['Steaks and burgers grill well at high heat'] },
@@ -86,23 +103,30 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
       aspectEnhancers: ['Mars trine Jupiter', 'Sun in Leo']
     },
     nutritionalProfile: {
+      serving_size: "3 oz",
       calories: 291,
-      protein: 24,
-      fat: 22,
-      carbohydrates: 0,
-      minerals: {
-        zinc: '48% DV',
-        selenium: '43% DV',
-        vitamin_b12: '82% DV',
-        vitamin_b6: '36% DV',
-        iron: '14% DV',
-        phosphorus: '22% DV',
-        niacin: '33% DV',
-        riboflavin: '22% DV',
-        potassium: '8% DV'
+      macros: {
+        protein: 24,
+        carbs: 0,
+        fat: 22,
+        fiber: 0
       },
-      creatine: '350mg per 6oz serving',
-      omega6: '0.5g per 6oz serving'
+      vitamins: {
+        B12: 0.82,
+        B6: 0.36,
+        niacin: 0.33,
+        riboflavin: 0.22
+      },
+      minerals: {
+        zinc: 0.48,
+        selenium: 0.43,
+        iron: 0.14,
+        phosphorus: 0.22,
+        potassium: 0.08
+      },
+      cholesterol: 70,
+      saturated_fat: 9,
+      source: "USDA"
     },
     healthBenefits: [
       'Muscle growth and repair (complete protein source)',
@@ -437,22 +461,29 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
       aspectEnhancers: ['Venus trine Jupiter', 'Moon in Cancer']
     },
     nutritionalProfile: {
+      serving_size: "3 oz",
       calories: 518,
-      protein: 9,
-      fat: 53,
-      carbohydrates: 0,
-      minerals: {
-        selenium: '76% DV',
-        phosphorus: '18% DV',
-        zinc: '16% DV',
-        iron: '4% DV',
-        potassium: '5% DV',
-        vitamin_b1: '38% DV',
-        vitamin_b12: '18% DV',
-        niacin: '14% DV'
+      macros: {
+        protein: 9,
+        carbs: 0,
+        fat: 53,
+        fiber: 0
       },
-      cholesterol: '95mg per 100g serving',
-      saturated_fat: '17g per 100g serving'
+      vitamins: {
+        B1: 0.38,
+        B12: 0.18,
+        niacin: 0.14
+      },
+      minerals: {
+        selenium: 0.76,
+        phosphorus: 0.18,
+        zinc: 0.16,
+        iron: 0.04,
+        potassium: 0.05
+      },
+      cholesterol: 95,
+      saturated_fat: 17,
+      source: "USDA FoodData Central"
     },
     healthBenefits: [
       'Protein source for muscle maintenance',
@@ -831,23 +862,31 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
       aspectEnhancers: ['Mars trine Venus', 'Moon in Aries']
     },
     nutritionalProfile: {
+      serving_size: "3 oz",
       calories: 294,
-      protein: 25,
-      fat: 21,
-      carbohydrates: 0,
-      minerals: {
-        zinc: '43% DV',
-        selenium: '36% DV',
-        vitamin_b12: '89% DV',
-        niacin: '28% DV',
-        riboflavin: '27% DV',
-        vitamin_b6: '15% DV',
-        iron: '11% DV',
-        phosphorus: '20% DV',
-        potassium: '9% DV'
+      macros: {
+        protein: 25,
+        carbs: 0,
+        fat: 21,
+        fiber: 0
       },
-      cholesterol: '97mg per 100g serving',
-      conjugated_linoleic_acid: '5.6mg per g of fat'
+      vitamins: {
+        B12: 0.89,
+        niacin: 0.28,
+        riboflavin: 0.27,
+        B6: 0.15
+      },
+      minerals: {
+        zinc: 0.43,
+        selenium: 0.36,
+        iron: 0.11,
+        phosphorus: 0.20,
+        potassium: 0.09
+      },
+      cholesterol: 97,
+      omega3: 0.1,
+      conjugated_linoleic_acid: 5.6,
+      source: "USDA FoodData Central"
     },
     healthBenefits: [
       'Complete protein source (contains all essential amino acids)',
@@ -1188,6 +1227,32 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
         duration: '4-6 months',
         method: 'vacuum sealed'
       }
+    },
+    nutritionalProfile: {
+      serving_size: "3 oz",
+      calories: 250,
+      macros: {
+        protein: 18.5,
+        carbs: 0,
+        fat: 19.8,
+        fiber: 0
+      },
+      vitamins: {
+        B12: 0.24,
+        niacin: 0.38,
+        B6: 0.20,
+        folate: 0.04
+      },
+      minerals: {
+        selenium: 0.42,
+        iron: 0.29,
+        phosphorus: 0.21,
+        zinc: 0.18,
+        potassium: 0.11
+      },
+      cholesterol: 84,
+      saturated_fat: 6.2,
+      source: "USDA FoodData Central"
     }
   },
   'veal_osso_buco': {
@@ -1232,6 +1297,32 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
         duration: '4-6 months',
         method: 'vacuum sealed'
       }
+    },
+    nutritionalProfile: {
+      serving_size: "3 oz",
+      calories: 175,
+      macros: {
+        protein: 26.5,
+        carbs: 0,
+        fat: 7.2,
+        fiber: 0
+      },
+      vitamins: {
+        B12: 0.96,
+        niacin: 0.31,
+        B6: 0.32,
+        riboflavin: 0.28
+      },
+      minerals: {
+        zinc: 0.38,
+        phosphorus: 0.24,
+        iron: 0.16,
+        selenium: 0.22,
+        potassium: 0.11
+      },
+      cholesterol: 93,
+      saturated_fat: 2.7,
+      source: "USDA FoodData Central"
     }
   },
   'venison_loin': {
@@ -1289,6 +1380,32 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
         duration: '6-8 months',
         method: 'vacuum sealed'
       }
+    },
+    nutritionalProfile: {
+      serving_size: "3 oz",
+      calories: 134,
+      macros: {
+        protein: 26.5,
+        carbs: 0,
+        fat: 2.7,
+        fiber: 0
+      },
+      vitamins: {
+        B12: 0.85,
+        niacin: 0.43,
+        B6: 0.37,
+        riboflavin: 0.51
+      },
+      minerals: {
+        iron: 0.34,
+        phosphorus: 0.26,
+        zinc: 0.23,
+        potassium: 0.10,
+        selenium: 0.09
+      },
+      cholesterol: 85,
+      saturated_fat: 1.1,
+      source: "USDA FoodData Central"
     }
   }
 };

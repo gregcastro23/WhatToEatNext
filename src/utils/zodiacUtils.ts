@@ -229,51 +229,14 @@ function getElementalCompatibility(
   element1: keyof ElementalProperties, 
   element2: keyof ElementalProperties
 ): number {
-  // Same element: highest compatibility
-  if (element1 === element2) return 1.0;
-  
-  // Compatible pairs with hierarchical relationships
-  if (
-    (element1 === 'Fire' && element2 === 'Air') ||
-    (element1 === 'Air' && element2 === 'Fire')
-  ) {
-    return 0.7; // Fire and Air have strong compatibility
+  // Same element has highest compatibility
+  if (element1 === element2) {
+    return 0.9; // Same element has high compatibility
   }
   
-  if (
-    (element1 === 'Earth' && element2 === 'Water') ||
-    (element1 === 'Water' && element2 === 'Earth')
-  ) {
-    return 0.7; // Earth and Water have strong compatibility
-  }
-  
-  // Neutral pairs with some affinity
-  if (
-    (element1 === 'Fire' && element2 === 'Earth') ||
-    (element1 === 'Earth' && element2 === 'Fire')
-  ) {
-    return 0.4; // Fire and Earth have moderate compatibility
-  }
-  
-  if (
-    (element1 === 'Air' && element2 === 'Water') ||
-    (element1 === 'Water' && element2 === 'Air')
-  ) {
-    return 0.4; // Air and Water have moderate compatibility
-  }
-  
-  // Opposing elements with low compatibility
-  if (
-    (element1 === 'Fire' && element2 === 'Water') ||
-    (element1 === 'Water' && element2 === 'Fire') ||
-    (element1 === 'Earth' && element2 === 'Air') ||
-    (element1 === 'Air' && element2 === 'Earth')
-  ) {
-    return 0.2; // Opposing elements have low compatibility
-  }
-  
-  // Fallback
-  return 0.3;
+  // All different element combinations have good compatibility
+  // since each element brings its own unique qualities
+  return 0.7; // Different elements have good compatibility - they work together
 }
 
 /**

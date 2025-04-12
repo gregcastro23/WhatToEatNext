@@ -1,36 +1,30 @@
 import type { IngredientMapping, ElementalProperties } from '@/types/alchemy';
 import { spices } from '../spices';
-import { vinegars } from './vinegars';
 import { salts } from './salts';
 import { peppers } from './peppers';
 import { herbs } from '../herbs';
 import { aromatics } from './aromatics';
-import { oils } from './oils';
 
-// Combine all seasoning categories
+// Combine all seasoning categories, but exclude oils and vinegars
 export const seasonings: Record<string, IngredientMapping> = {
   ...spices,
-  ...vinegars,
   ...salts,
   ...peppers,
   ...herbs,
-  ...aromatics,
-  ...oils
+  ...aromatics
 };
 
-// Export individual categories
+// Export individual categories, excluding oils and vinegars
 export {
   spices,
-  vinegars,
   salts,
   peppers,
   herbs,
-  aromatics,
-  oils
+  aromatics
 };
 
 // Types
-export type SeasoningCategory = 'spice' | 'vinegar' | 'salt' | 'pepper' | 'herb' | 'aromatic' | 'oil';
+export type SeasoningCategory = 'spice' | 'salt' | 'pepper' | 'herb' | 'aromatic';
 export type SeasoningIntensity = 'mild' | 'medium' | 'strong' | 'intense';
 export type CulinaryTiming = 'beginning' | 'middle' | 'end' | 'finishing' | 'multiple';
 export type PreservationMethod = 'drying' | 'salting' | 'fermenting' | 'infusing' | 'smoking';
@@ -52,6 +46,22 @@ export type SeasoningAstrologicalProfile = {
     };
   };
 };
+
+// Update salts category to be 'seasoning' with subCategory 'salt'
+const updateSaltCategory = (salts: Record<string, IngredientMapping>): Record<string, IngredientMapping> => {
+  return Object.entries(salts)
+    .reduce((acc, [key, value]) => {
+      acc[key] = {
+        ...value,
+        category: 'seasoning',
+        subCategory: 'salt'
+      };
+      return acc;
+    }, {} as Record<string, IngredientMapping>);
+};
+
+// Export updated salts
+export const categorizedSalts = updateSaltCategory(salts);
 
 // Helper functions
 export const getSeasoningsByCategory = (category: SeasoningCategory): Record<string, IngredientMapping> => {

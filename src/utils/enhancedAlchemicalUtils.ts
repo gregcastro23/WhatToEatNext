@@ -185,13 +185,13 @@ export function generatePersonalizedMealPlan(
 }
 
 /**
- * Determine the balancing element for a given element
+ * Determine the complementary element for a given element
  * 
- * @param element The primary element to balance
- * @returns The complementary element - in this case, the same element
+ * @param element The primary element to consider
+ * @returns The same element, as elements work best with themselves
  */
-function getBalancingElement(element: string): string {
-  // Elements work best with themselves
+function getBalancingElement(element) {
+  // Elements work best with themselves - reinforcing the current energy
   return element;
 }
 

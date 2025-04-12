@@ -33,22 +33,29 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     qualities: ['omega-rich', 'flaky', 'buttery', 'mild', 'versatile'],
     origin: ['Norway', 'Scotland', 'Chile', 'Canada', 'United States'],
     nutritionalProfile: {
+      serving_size: "3 oz",
       calories: 206,
-      protein: 22,
-      fat: 12,
-      carbohydrates: 0,
-      minerals: {
-        vitamin_b12: '117% DV',
-        selenium: '75% DV',
-        vitamin_d: '66% DV',
-        niacin: '50% DV',
-        vitamin_b6: '38% DV',
-        pantothenic_acid: '30% DV',
-        thiamine: '28% DV',
-        phosphorus: '20% DV',
-        potassium: '8% DV'
+      macros: {
+        protein: 22,
+        carbs: 0,
+        fat: 12,
+        fiber: 0
       },
-      omega3: '1.8g per 6oz serving'
+      vitamins: {
+        B12: 1.17,
+        D: 0.66,
+        niacin: 0.50,
+        B6: 0.38,
+        pantothenic_acid: 0.30,
+        thiamine: 0.28
+      },
+      minerals: {
+        selenium: 0.75,
+        phosphorus: 0.20,
+        potassium: 0.08
+      },
+      omega3: 1.8,
+      source: "USDA FoodData Central"
     },
     healthBenefits: [
       'Heart health (reduces blood pressure and inflammation)',
@@ -585,6 +592,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     qualities: ['briny', 'creamy', 'mineral-rich', 'sweet', 'meaty'],
     origin: ['East Coast of North America', 'Chesapeake Bay', 'Gulf of Mexico'],
     nutritionalProfile: {
+      serving_size_oz: 3,
       calories: 81,
       protein: 9.45,
       fat: 2.3,
@@ -2378,5 +2386,8 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
 
 // Fix the ingredient mappings to ensure they have all required properties
 export const seafood: Record<string, IngredientMapping> = fixIngredientMappings(rawSeafood);
+
+// Create a collection of all herbs for export
+export const allSeafood = Object.values(seafood);
 
 export default seafood;

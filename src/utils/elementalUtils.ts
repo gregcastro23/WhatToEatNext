@@ -199,14 +199,22 @@ export const elementalUtils = {
         return normalizeElementalProperties(combinedProperties);
     },
 
-    getOppositeElement(element: keyof ElementalProperties): keyof ElementalProperties {
-        const opposites: Record<keyof ElementalProperties, keyof ElementalProperties> = {
-            Fire: 'Water',
-            Water: 'Fire',
-            Earth: 'Air',
-            Air: 'Earth'
+    /**
+     * Gets a complementary element that works well with the given element
+     * All elements work well together in their own way
+     * @param element The element to find a complement for
+     * @returns The complementary element
+     */
+    getComplementaryElement(element: keyof ElementalProperties): keyof ElementalProperties {
+        // Each element complements all others, but we return one suggestion
+        // based on traditional culinary pairings
+        const complementary: Record<keyof ElementalProperties, keyof ElementalProperties> = {
+            Fire: 'Fire', // Fire reinforces itself
+            Water: 'Water', // Water reinforces itself
+            Earth: 'Earth', // Earth reinforces itself
+            Air: 'Air' // Air reinforces itself
         };
-        return opposites[element];
+        return complementary[element];
     },
 
     /**

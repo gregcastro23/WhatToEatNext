@@ -1,7 +1,7 @@
 import type { IngredientMapping } from '@/types/alchemy';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-const rawOtherVegetables: Record<string, Partial<IngredientMapping>> = {
+const rawOtherVegetables = {
   "asparagus": {
     "name": "asparagus",
     "elementalProperties": {
@@ -221,30 +221,25 @@ const rawOtherVegetables: Record<string, Partial<IngredientMapping>> = {
     "category": "vegetable",
     "subCategory": "other",
     "nutritionalProfile": {
-      "carbs_g": 3.11,
+      "carbs_g": 3.1,
       "calories": 17,
       "fiber_g": 1,
-      "protein_g": 1.21,
+      "protein_g": 1.2,
       "vitamins": [
-        "k",
-        "d",
-        "c",
-        "e",
         "a",
-        "b3",
-        "b6",
-        "b12",
-        "b2",
-        "b5",
-        "b1"
+        "c",
+        "k",
+        "b6"
       ],
       "minerals": [
-        "zinc",
-        "magnesium",
-        "iron",
         "potassium",
-        "calcium"
-      ]
+        "manganese",
+        "magnesium"
+      ],
+      "fat_g": 0.3,
+      "sugar_g": 2.5,
+      "glycemic_index": 15,
+      "notes": "Low calorie and nutrient-dense"
     },
     "season": [
       "spring",

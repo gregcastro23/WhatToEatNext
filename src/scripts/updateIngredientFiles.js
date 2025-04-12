@@ -1,164 +1,169 @@
-// A script to update all ingredient files to use the fixIngredientMappings utility
+/**
+ * Script to update all ingredient category scripts with the improvements from updateHerbs.ts
+ * 
+ * Run with: yarn node src/scripts/updateIngredientFiles.js
+ */
+
 const fs = require('fs');
 const path = require('path');
+const { execSync } = require('child_process');
 
-const INGREDIENTS_BASE_PATH = path.resolve(__dirname, '../data/ingredients');
-const CATEGORIES = [
-  'fruits',
-  'grains',
-  'herbs',
-  'proteins',
-  'seasonings',
-  'spices',
-  'vegetables'
+// Path to the source file with improvements
+const SOURCE_FILE = path.resolve(process.cwd(), 'src/scripts/updateHerbs.ts');
+
+// Files to update
+const TARGET_FILES = [
+  'updateVegetables.ts',
+  'updateFruits.ts',
+  'updateGrains.ts',
+  'updateProteins.ts',
+  'updateSpices.ts',
+  'updateOils.ts',
+  'updateVinegars.ts'
 ];
 
-// Process a single ingredient file
-function processFile(filePath) {
-  console.log(`Processing ${filePath}...`);
+// Read the source file
+const sourceContent = fs.readFileSync(SOURCE_FILE, 'utf8');
+
+// Key improvements to apply to each file:
+// 1. Update node-fetch import/require to nodeFetch for consistency
+// 2. Update fetch calls to nodeFetch
+// 3. Update API request headers for better compatibility
+// 4. Update the findIngredientMatch function to use POST search method
+// 5. Ensure improved API error handling and logging is in place
+
+console.log('Starting to update ingredient category scripts...');
+
+// Process each target file
+TARGET_FILES.forEach(filename => {
+  const filePath = path.resolve(process.cwd(), 'src/scripts', filename);
   
-  // Read the file
-  const content = fs.readFileSync(filePath, 'utf8');
-  
-  // Skip files that are already fixed
-  if (content.includes('fixIngredientMappings') && content.includes('rawAromatic') || 
-      content.includes('rawAlliums') || content.includes('rawPome') || 
-      content.includes('rawMeats') || content.includes('rawRefined') ||
-      content.includes('rawWhole')) {
-    console.log(`  Already fixed, skipping.`);
-    return false;
+  if (!fs.existsSync(filePath)) {
+    console.log(`File not found: ${filePath}`);
+    return;
   }
   
-  // Find the export statement
-  const exportMatch = content.match(/export\s+const\s+(\w+)\s*(?::\s*Record<string,\s*[^>]+>)?\s*=\s*{/);
-  if (!exportMatch) {
-    console.log(`  No export statement found, skipping.`);
-    return false;
+  console.log(`\nProcessing ${filename}...`);
+  
+  // Read the target file
+  let content = fs.readFileSync(filePath, 'utf8');
+  
+  // Extract the category name from the file
+  const categoryMatch = content.match(/const CATEGORY = ['"]([^'"]+)['"]/);
+  const category = categoryMatch ? categoryMatch[1] : filename.replace('update', '').replace('.ts', '').toLowerCase();
+  
+  console.log(`Identified category: ${category}`);
+  
+  // 1. Update the import/require statement
+  content = content.replace(
+    /const fetch = require\('node-fetch'\)/g, 
+    `const nodeFetch = require('node-fetch')`
+  );
+  
+  // 2. Update fetch calls to nodeFetch
+  content = content.replace(
+    /const response = await fetch\(url,/g,
+    `const response = await nodeFetch(url,`
+  );
+  
+  // 3. Update the API request headers
+  content = content.replace(
+    /headers: { ['"]Content-Type['"]: ['"]application\/json['"] }/g,
+    `headers: { 
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }`
+  );
+  
+  // 4. Extract key functions from the source file (updateHerbs.ts)
+  
+  // Extract makeApiRequest function
+  const makeApiRequestRegex = /async function makeApiRequest\(url, cacheKey\) {[\s\S]+?throw new Error\(`Failed API request after \${maxRetries} retries`\);\s+}/;
+  const makeApiRequestFunc = sourceContent.match(makeApiRequestRegex);
+  
+  if (makeApiRequestFunc) {
+    const targetMakeApiRequest = content.match(makeApiRequestRegex);
+    if (targetMakeApiRequest) {
+      content = content.replace(targetMakeApiRequest[0], makeApiRequestFunc[0]);
+      console.log(`Updated makeApiRequest function`);
+    }
   }
   
-  const variableName = exportMatch[1];
-  console.log(`  Found export for ${variableName}`);
+  // Extract findIngredientMatch function
+  const findIngredientMatchRegex = /async function findIngredientMatch\(ingredientName\) {[\s\S]+?return null;\s+}/;
+  const findIngredientMatchFunc = sourceContent.match(findIngredientMatchRegex);
   
-  // Update the imports
-  let updatedContent = content;
+  if (findIngredientMatchFunc) {
+    const targetFindIngredientMatch = content.match(findIngredientMatchRegex);
+    if (targetFindIngredientMatch) {
+      // Update the function but preserve the category-specific caching
+      let newFunc = findIngredientMatchFunc[0];
+      
+      // Update any herbs-specific cache references to use the current category
+      newFunc = newFunc.replace(/progress.processedIngredients\[ingredientKey\]/g, 
+        `progress.processedIngredients[ingredientKey]`);
+      
+      content = content.replace(targetFindIngredientMatch[0], newFunc);
+      console.log(`Updated findIngredientMatch function`);
+    }
+  }
   
-  // Fix alchemy import if needed
-  if (content.includes("from '@/types/ingredients'")) {
-    updatedContent = updatedContent.replace(
-      "from '@/types/ingredients'",
-      "from '@/types/alchemy'"
+  // 5. Update the progress file path to be category-specific
+  content = content.replace(
+    /const PROGRESS_FILE = path\.resolve\(CACHE_DIR, ['"]herbs_progress\.json['"]\)/,
+    `const PROGRESS_FILE = path.resolve(CACHE_DIR, '${category}_progress.json')`
+  );
+  
+  // 6. Update any logging mentions of herbs to the current category
+  content = content.replace(
+    /console\.log\(`Completed enhancing herbs\.\`\)/g,
+    `console.log(\`Completed enhancing ${category}.\`)`
+  );
+  
+  // 7. Update function name in exports
+  content = content.replace(
+    /module\.exports = { updateHerbs }/,
+    `module.exports = { update${category.charAt(0).toUpperCase() + category.slice(1)} }`
+  );
+  
+  // 8. Update main function name
+  const updateFuncRegex = new RegExp(`async function update${category.charAt(0).toUpperCase() + category.slice(1)}\\(\\) {`);
+  if (!content.match(updateFuncRegex)) {
+    content = content.replace(
+      /async function updateHerbs\(\) {/,
+      `async function update${category.charAt(0).toUpperCase() + category.slice(1)}() {`
     );
   }
   
-  // Add fixIngredientMappings import if not present
-  if (!content.includes('fixIngredientMappings')) {
-    if (content.includes('import type')) {
-      updatedContent = updatedContent.replace(
-        /(import type .+?;)/,
-        '$1\nimport { fixIngredientMappings } from \'@/utils/elementalUtils\';'
-      );
-    } else {
-      updatedContent = 'import type { IngredientMapping } from \'@/types/alchemy\';\n' +
-                       'import { fixIngredientMappings } from \'@/utils/elementalUtils\';\n\n' + 
-                       updatedContent;
-    }
-  }
-  
-  // Transform the variable declaration
-  const rawVarName = 'raw' + variableName.charAt(0).toUpperCase() + variableName.slice(1);
-  
-  // Replace the export statement with raw declaration
-  updatedContent = updatedContent.replace(
-    new RegExp(`export\\s+const\\s+${variableName}\\s*(?::\\s*Record<string,\\s*[^>]+>)?\\s*=\\s*{`),
-    `const ${rawVarName}: Record<string, Partial<IngredientMapping>> = {`
+  // 9. Replace script comment at top to match the category
+  content = content.replace(
+    /\/\*\*\n \* Script to update herb ingredients with nutritional information/,
+    `/**\n * Script to update ${category} ingredients with nutritional information`
   );
   
-  // Add name properties to objects
-  let match;
-  const objectRegex = /'([^']+)':\s*{/g;
-  while ((match = objectRegex.exec(updatedContent)) !== null) {
-    const key = match[1];
-    const index = match.index + match[0].length;
-    
-    // Check if name property already exists
-    const nextLines = updatedContent.substring(index, index + 100);
-    if (!nextLines.includes('name:')) {
-      const formattedName = key
-        .split('_')
-        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(' ');
-      
-      updatedContent = 
-        updatedContent.substring(0, index) + 
-        `\n    name: '${formattedName}',` + 
-        updatedContent.substring(index);
-    }
-  }
+  // 10. Update the run command in comment
+  content = content.replace(
+    /Run with: yarn ts-node src\/scripts\/updateHerbs\.ts/,
+    `Run with: yarn ts-node src/scripts/update${category.charAt(0).toUpperCase() + category.slice(1)}.ts`
+  );
   
-  // Add export statement at the end
-  const closingBraceIndex = updatedContent.lastIndexOf('};');
-  if (closingBraceIndex !== -1) {
-    updatedContent = 
-      updatedContent.substring(0, closingBraceIndex + 2) + 
-      `\n\n// Fix the ingredient mappings to ensure they have all required properties\nexport const ${variableName}: Record<string, IngredientMapping> = fixIngredientMappings(${rawVarName});` +
-      updatedContent.substring(closingBraceIndex + 2);
-  }
+  // Save the updated file
+  fs.writeFileSync(filePath, content, 'utf8');
+  console.log(`Updated ${filename}`);
   
-  // Write updated content back to file
-  fs.writeFileSync(filePath, updatedContent, 'utf8');
-  console.log(`  Updated successfully.`);
-  return true;
-}
+  // Format the file with Prettier if available
+  try {
+    execSync(`yarn prettier --write ${filePath}`);
+    console.log(`Formatted ${filename}`);
+  } catch (error) {
+    console.log(`Note: Prettier formatting failed for ${filename}. The file is still updated.`);
+  }
+});
 
-// Process all TypeScript files in a directory
-function processDirectory(dirPath) {
-  const files = fs.readdirSync(dirPath);
-  let processed = 0;
-  
-  for (const file of files) {
-    const fullPath = path.join(dirPath, file);
-    const stats = fs.statSync(fullPath);
-    
-    if (stats.isDirectory()) {
-      processed += processDirectory(fullPath);
-    } else if (file.endsWith('.ts') && !file.endsWith('.d.ts') && file !== 'index.ts') {
-      if (processFile(fullPath)) {
-        processed++;
-      }
-    }
-  }
-  
-  return processed;
-}
-
-// Main function
-async function main() {
-  let totalProcessed = 0;
-  
-  for (const category of CATEGORIES) {
-    const categoryPath = path.join(INGREDIENTS_BASE_PATH, category);
-    
-    if (!fs.existsSync(categoryPath)) {
-      console.warn(`Category directory not found: ${categoryPath}`);
-      continue;
-    }
-    
-    console.log(`\nProcessing category: ${category}`);
-    const processed = processDirectory(categoryPath);
-    totalProcessed += processed;
-    console.log(`Processed ${processed} files in ${category}`);
-  }
-  
-  console.log(`\nTotal files processed: ${totalProcessed}`);
-}
-
-// Run the script
-main()
-  .then(() => {
-    console.log('All ingredient files have been processed.');
-    process.exit(0);
-  })
-  .catch(error => {
-    console.error('Error during processing:', error);
-    process.exit(1);
-  }); 
+console.log('\nAll files have been updated successfully!');
+console.log('Key improvements applied:');
+console.log('1. Updated node-fetch import to nodeFetch for consistency');
+console.log('2. Updated API request logic with better headers and error handling');
+console.log('3. Updated ingredient search function to use POST method');
+console.log('4. Ensured category-specific progress tracking and logging');
+console.log('\nNote: You should still manually verify each file to ensure everything works correctly.'); 

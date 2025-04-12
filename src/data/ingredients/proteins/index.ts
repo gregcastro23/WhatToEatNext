@@ -6,27 +6,28 @@ import { eggs } from './eggs';
 import { legumes } from './legumes';
 import { dairy } from './dairy';
 import { plantBased } from './plantBased';
+import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 // Combine all protein categories
 export const proteins: Record<string, IngredientMapping> = {
-  ...meats,
   ...seafood,
   ...poultry,
-  ...eggs,
+  ...plantBased,
+  ...meats,
   ...legumes,
-  ...dairy,
-  ...plantBased
+  ...eggs,
+  ...dairy
 };
 
 // Export individual categories
 export {
-  meats,
   seafood,
   poultry,
-  eggs,
+  plantBased,
+  meats,
   legumes,
-  dairy,
-  plantBased
+  eggs,
+  dairy
 };
 
 // Types
@@ -61,12 +62,9 @@ export const getProteinsByCategory = (category: ProteinCategory): Record<string,
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 };
 
-export const getProteinsByCookingMethod = (method: CookingMethod): Record<string, IngredientMapping> => {
+export const getProteinsByCookingMethod = (method: string): Record<string, IngredientMapping> => {
   return Object.entries(proteins)
-    .filter(([_, value]) => 
-      value.culinaryApplications && 
-      Object.keys(value.culinaryApplications).includes(method)
-    )
+    .filter(([_, value]) => value.cookingMethods?.includes?.(method))
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 };
 
@@ -363,6 +361,19 @@ export interface SeasonalAdjustment {
     };
   };
 }
+
+// Helper functions
+export const getProteinsBySubCategory = (subCategory: string): Record<string, IngredientMapping> => {
+  return Object.entries(proteins)
+    .filter(([_, value]) => value.subCategory === subCategory)
+    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+};
+
+export const getVeganProteins = (): Record<string, IngredientMapping> => {
+  return Object.entries(proteins)
+    .filter(([_, value]) => value.dietaryInfo?.includes?.('vegan'))
+    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+};
 
 // Export default
 export default proteins;

@@ -27,6 +27,13 @@ const rawVinegars: Record<string, Partial<IngredientMapping>> = {
       Earth: 0.2,
       Fire: 0.1
     },
+    nutritionalProfile: {
+      calories: 5,
+      carbs_g: 1.5,
+      sugar_g: 0.5,
+      acidity: '4-5%',
+      notes: 'Milder and less acidic than other vinegars'
+    },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Mercury'],
       favorableZodiac: ['cancer', 'virgo', 'pisces'],
@@ -213,92 +220,154 @@ const rawVinegars: Record<string, Partial<IngredientMapping>> = {
   }),
 
   'balsamic_vinegar': createIngredientMapping('balsamic_vinegar', {
+    elementalProperties: {
+      Water: 0.3,
+      Earth: 0.4,
+      Fire: 0.2,
+      Air: 0.1
+    },
+    nutritionalProfile: {
+      calories: 14,
+      carbs_g: 2.7,
+      sugar_g: 2.4,
+      acidity: '6%',
+      vitamins: ['k'],
+      minerals: ['calcium', 'iron', 'magnesium', 'phosphorus', 'potassium'],
+      notes: 'Aged in wooden barrels, rich in antioxidants'
+    },
     astrologicalProfile: {
-      rulingPlanets: ['Venus', 'Saturn'],
-      favorableZodiac: ['cancer', 'taurus'],
+      rulingPlanets: ['Saturn', 'Venus'],
+      favorableZodiac: ['capricorn', 'taurus', 'libra'],
       elementalAffinity: {
         base: 'Earth',
+        secondary: 'Water',
         decanModifiers: {
-          first: { element: 'Earth', planet: 'Venus' },
-          second: { element: 'Fire', planet: 'Saturn' },
-          third: { element: 'Air', planet: 'Mercury' }
+          first: { element: 'Earth', planet: 'Saturn' },
+          second: { element: 'Water', planet: 'Venus' },
+          third: { element: 'Fire', planet: 'Jupiter' }
         }
       },
       lunarPhaseModifiers: {
-        waxingCrescent: {
-          elementalBoost: { Earth: 0.1, Fire: 0.1 },
-          preparationTips: ['Best for reductions']
-        },
         fullMoon: {
-          elementalBoost: { Fire: 0.2 },
-          preparationTips: ['Ideal for finishing dishes']
+          elementalBoost: { Earth: 0.15, Water: 0.1 },
+          preparationTips: ['Perfect for reduction sauces', 'Enhanced sweetness']
+        },
+        waxingGibbous: {
+          elementalBoost: { Earth: 0.1, Fire: 0.05 },
+          preparationTips: ['Ideal for glazes', 'Best for marinades']
         }
       }
     },
-    qualities: ['sweet', 'complex', 'rich'],
-    origin: ['Italy'],
+    qualities: ['sweet', 'complex', 'rich', 'syrupy', 'aged'],
+    origin: ['Italy', 'Modena', 'Reggio Emilia'],
     category: 'vinegar',
     subCategory: 'grape',
     varieties: {
-      'Traditional DOP': {
-    name: 'Traditional DOP',
-        appearance: 'thick, dark brown',
-        flavor: 'complex, sweet',
+      'Traditional': {
+        name: 'Traditional Balsamic Vinegar of Modena DOP',
+        appearance: 'glossy dark brown, syrupy consistency',
+        flavor: 'complex sweet-sour balance, notes of fig, molasses, and wood',
+        acidity: '6%',
+        uses: 'finishing oil, desserts, aged cheeses, premium preparations',
         aging: '12-25+ years',
-        uses: 'finishing, special dishes'
-      },
-      'Condimento': {
-    name: 'Condimento',
-        appearance: 'dark brown',
-        flavor: 'balanced sweet-tart',
-        aging: '3-12 years',
-        uses: 'finishing, dressing'
+        processing: 'aged in series of successively smaller wooden barrels',
+        certification: 'DOP (Protected Designation of Origin)'
       },
       'Commercial': {
-    name: 'Commercial',
-        appearance: 'dark brown, thin',
-        flavor: 'sweet-tart',
-        aging: 'varies',
-        uses: 'cooking, dressings'
+        name: 'Balsamic Vinegar of Modena IGP',
+        appearance: 'dark brown, medium viscosity',
+        flavor: 'sweet-tart, woody notes',
+        acidity: '6%',
+        uses: 'dressings, marinades, everyday cooking',
+        aging: '2 months to 3 years',
+        processing: 'mix of wine vinegar and grape must, may contain caramel color',
+        certification: 'IGP (Protected Geographical Indication)'
+      },
+      'Condimento': {
+        name: 'Condimento Grade Balsamic',
+        appearance: 'dark brown, variable viscosity',
+        flavor: 'between traditional and commercial quality',
+        uses: 'cooking, finishing, dressings',
+        aging: 'variable',
+        notes: 'made in traditional method but outside consortium regulations'
+      },
+      'White': {
+        name: 'White Balsamic',
+        appearance: 'golden to light amber, clear',
+        flavor: 'mild, delicate sweetness, subtle acidity',
+        uses: 'light colored dishes, seafood, fruit',
+        processing: 'cooked at lower temperatures, not caramelized',
+        notes: 'milder flavor profile than dark balsamic'
       }
     },
     culinaryApplications: {
       'reduction': {
-    name: 'Reduction',
+        name: 'Reduction',
         method: 'simmer until thickened',
-        timing: '15-20 minutes',
-        ratios: {
-          'basic': 'reduce by half',
-          'glaze': 'reduce by two-thirds'
+        timing: {
+          'light': '5-10 minutes',
+          'syrupy': '15-20 minutes',
+          'glaze': '25-30 minutes'
         },
-        notes: 'Watch carefully to prevent burning'
+        ratios: {
+          'basic': 'reduce by 1/3 for sauce, 1/2 for glaze',
+          'sweetened': '2:1 (vinegar:honey) for dessert applications'
+        },
+        applications: ['drizzle over roasted vegetables', 'finish grilled meats', 'dessert topping'],
+        cautions: 'can burn easily, watch carefully and use low heat'
       },
-      'finishing': {
-    name: 'Finishing',
-        method: 'drizzle over completed dish',
-        pairings: [
-          'strawberries',
-          'parmesan',
-          'grilled vegetables',
-          'risotto'
-        ],
-        notes: 'Use best quality sparingly'
+      'dressings': {
+        name: 'Dressings',
+        method: 'whisk with oil and seasonings',
+        ratios: {
+          'classic': '1:3 (vinegar:oil)',
+          'balanced': '1:2 (vinegar:oil)',
+          'sweet': '1:2:0.5 (vinegar:oil:honey)'
+        },
+        pairings: ['extra virgin olive oil', 'dijon mustard', 'shallots', 'herbs'],
+        emulsifiers: {
+          'traditional': 'mustard or honey',
+          'plant_based': 'mustard or nutritional yeast'
+        },
+        applications: ['bitter greens', 'roasted vegetable salads', 'fruit salads', 'grain bowls']
       },
       'marinades': {
-    name: 'Marinades',
-        method: 'combine with oil and herbs',
-        ratios: {
-          'basic': '1:3 (vinegar:oil)',
-          'rich': '1:2 (vinegar:oil)'
+        name: 'Marinades',
+        method: 'combine with oil and aromatics',
+        timing: {
+          'poultry': '2-4 hours',
+          'beef': '4-6 hours',
+          'vegetables': '30 minutes'
         },
-        pairings: ['olive oil', 'garlic', 'rosemary']
+        ratios: {
+          'basic': '1:2:1 (vinegar:oil:aromatics)',
+          'sweet': '1:2:0.5 (vinegar:oil:honey or maple)'
+        },
+        tenderizing_effect: 'mild, adds flavor more than tenderness',
+        best_proteins: ['chicken', 'beef', 'pork', 'portobello mushrooms'],
+        flavor_boosters: ['garlic', 'rosemary', 'thyme', 'juniper']
+      },
+      'glazes': {
+        name: 'Glazes',
+        method: 'reduce or apply directly',
+        applications: {
+          'brushing': 'brush onto proteins while cooking',
+          'drizzling': 'apply after cooking as finishing touch',
+          'dessert': 'drizzle over fruits, ice cream, panna cotta'
+        },
+        pairings: {
+          'savory': ['strawberries', 'peaches', 'melon'],
+          'sweet': ['vanilla ice cream', 'panna cotta', 'cheesecake'],
+          'cheese': ['aged parmesan', 'pecorino', 'ricotta']
+        },
+        traditional_pairings: ['strawberries', 'parmesan chunks', 'vanilla gelato']
       }
     },
     storage: {
       temperature: 'room temperature',
-      duration: 'indefinite',
-      container: 'glass bottle',
-      notes: 'May continue to develop in bottle'
+      duration: 'indefinite for traditional, 3-5 years for commercial',
+      container: 'glass bottle, original container',
+      notes: 'Does not require refrigeration, may develop sediment with age which is normal'
     }
   }),
 
@@ -357,83 +426,138 @@ const rawVinegars: Record<string, Partial<IngredientMapping>> = {
 
   'apple_cider_vinegar': createIngredientMapping('apple_cider_vinegar', {
     elementalProperties: {
-      Water: 0.4,
+      Water: 0.3,
+      Air: 0.3,
       Earth: 0.3,
-      Air: 0.2,
       Fire: 0.1
     },
+    nutritionalProfile: {
+      calories: 3,
+      carbs_g: 0.9,
+      acidity: '5-6%',
+      vitamins: ['b1', 'b2', 'b6'],
+      minerals: ['potassium', 'calcium'],
+      notes: 'Contains beneficial enzymes and probiotics'
+    },
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Venus'],
-      favorableZodiac: ['cancer', 'taurus'],
+      rulingPlanets: ['Venus', 'Mercury'],
+      favorableZodiac: ['taurus', 'virgo', 'libra'],
       elementalAffinity: {
         base: 'Earth',
+        secondary: 'Air',
         decanModifiers: {
-          first: { element: 'Earth', planet: 'Moon' },
-          second: { element: 'Water', planet: 'Venus' },
-          third: { element: 'Air', planet: 'Mercury' }
+          first: { element: 'Earth', planet: 'Venus' },
+          second: { element: 'Air', planet: 'Mercury' },
+          third: { element: 'Water', planet: 'Moon' }
         }
       },
       lunarPhaseModifiers: {
-        newMoon: {
+        waxingCrescent: {
           elementalBoost: { Earth: 0.1, Water: 0.1 },
-          preparationTips: ['Best for health tonics']
+          preparationTips: ['Good for cleansing tonics', 'Enhances detoxification']
         },
-        fullMoon: {
-          elementalBoost: { Water: 0.2 },
-          preparationTips: ['Ideal for pickling']
+        waxingGibbous: {
+          elementalBoost: { Air: 0.1, Earth: 0.1 },
+          preparationTips: ['Best for fermentation', 'Supports preservation']
         }
       }
     },
-    qualities: ['fruity', 'sharp', 'fresh'],
-    origin: ['Global'],
+    qualities: ['tangy', 'fruity', 'robust', 'complex', 'medicinal'],
+    origin: ['United States', 'Europe'],
     category: 'vinegar',
     subCategory: 'fruit',
     varieties: {
       'Raw Unfiltered': {
-    name: 'Raw Unfiltered',
-        appearance: 'cloudy, with mother',
-        flavor: 'robust, fruity',
-        uses: 'health drinks, dressings'
+        name: 'Raw Unfiltered',
+        appearance: 'cloudy with "mother" sediment',
+        flavor: 'bold, fruity, with yeast notes',
+        acidity: '5-6%',
+        uses: 'health tonics, salad dressings, marinades',
+        processing: 'unfiltered and unpasteurized',
+        properties: 'contains probiotics and enzymes',
+        traditional_pairings: ['honey', 'lemon', 'garlic', 'herbs']
       },
       'Filtered': {
-    name: 'Filtered',
-        appearance: 'clear, amber',
-        flavor: 'clean, sharp',
-        uses: 'cooking, pickling'
+        name: 'Filtered',
+        appearance: 'clear, amber color',
+        flavor: 'fruity, clean, crisp',
+        acidity: '5%',
+        uses: 'cooking, pickling, general culinary use',
+        processing: 'filtered to remove sediment',
+        shelf_life: 'longer than unfiltered varieties'
       }
     },
     culinaryApplications: {
-      'pickling': {
-    name: 'Pickling',
-        method: 'heat with spices',
-        ratios: {
-          'basic_brine': '1:1 (vinegar:water)',
-          'sweet_pickle': '1:1:0.5 (vinegar:water:sugar)'
-        },
-        pairings: ['mustard seed', 'dill', 'garlic']
-      },
-      'beverages': {
-    name: 'Beverages',
-        method: 'dilute with water',
-        ratios: {
-          'drinking': '1-2 tbsp per cup water',
-          'switchel': '2:1:1 (water:vinegar:honey)'
-        }
-      },
-      'marinades': {
-    name: 'Marinades',
-        method: 'combine with oil and seasonings',
+      'dressings': {
+        name: 'Dressings',
+        method: 'whisk with oil and seasonings',
         ratios: {
           'basic': '1:3 (vinegar:oil)',
-          'tenderizing': '1:2:1 (vinegar:oil:juice)'
-        }
+          'tangy': '1:2 (vinegar:oil)',
+          'honey_mustard': '1:1:2 (vinegar:honey:oil)'
+        },
+        pairings: ['olive oil', 'honey', 'dijon mustard', 'garlic', 'herbs'],
+        emulsifiers: {
+          'traditional': 'mustard or egg yolk',
+          'plant_based': 'mustard or ground flaxseed'
+        },
+        applications: ['green salads', 'grain salads', 'slaws', 'bean salads']
+      },
+      'marinades': {
+        name: 'Marinades',
+        method: 'combine with aromatics, oil and seasonings',
+        timing: {
+          'poultry': '2-4 hours',
+          'pork': '4-8 hours',
+          'vegetables': '30 minutes to 1 hour'
+        },
+        ratios: {
+          'basic': '1:1:2 (vinegar:aromatics:oil)',
+          'tenderizing': '2:1:1 (vinegar:seasonings:oil)'
+        },
+        tenderizing_effect: 'moderate, helps break down proteins',
+        best_proteins: ['chicken', 'pork', 'tofu'],
+        flavor_boosters: ['garlic', 'shallots', 'herbs', 'honey', 'soy sauce']
+      },
+      'pickling': {
+        name: 'Pickling',
+        method: 'combine with water, salt, and sugar',
+        timing: {
+          'quick_pickles': '1-2 hours',
+          'refrigerator_pickles': '24-48 hours',
+          'shelf_stable': '2-4 weeks processing'
+        },
+        ratios: {
+          'basic_brine': '1:1:2 (vinegar:sugar:water)',
+          'tart_brine': '2:1:2 (vinegar:sugar:water)'
+        },
+        vegetables: {
+          'quick_pickle_suitable': ['onions', 'cucumber', 'radish', 'carrot'],
+          'long_pickle_suitable': ['cabbage', 'beets', 'cauliflower']
+        },
+        flavor_additions: ['dill', 'garlic', 'mustard seed', 'black pepper', 'bay leaf']
+      },
+      'health_tonics': {
+        name: 'Health Tonics',
+        method: 'dilute with water or juice',
+        ratios: {
+          'daily': '1-2 tbsp in 8oz water',
+          'intensive': '1:8 (vinegar:water)',
+          'fire_cider': 'steep with garlic, onion, ginger, horseradish, and citrus'
+        },
+        timing: {
+          'daily_use': 'morning or before meals',
+          'detox': '2-3 times daily before meals'
+        },
+        pairings: ['honey', 'lemon', 'cinnamon', 'cayenne', 'ginger'],
+        cautions: 'may erode tooth enamel if not diluted; rinse mouth after consuming'
       }
     },
     storage: {
       temperature: 'room temperature',
-      duration: '2 years, indefinite if pasteurized',
-      container: 'glass bottle',
-      notes: 'Raw version may develop mother'
+      duration: '2 years unopened, 1 year opened',
+      container: 'glass bottle, tightly sealed',
+      notes: 'Keep away from direct sunlight; unfiltered varieties will develop sediment which is normal'
     }
   }),
 

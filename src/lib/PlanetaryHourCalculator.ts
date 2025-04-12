@@ -15,6 +15,12 @@ export class PlanetaryHourCalculator {
     
     private static dayNames: string[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     
+    // Planetary rulers for each day of the week (0 = Sunday)
+    private static dayRulers: Planet[] = ['sun', 'moon', 'mars', 'mercury', 'jupiter', 'venus', 'saturn'];
+    
+    // Minute rulers - each planet rules approximately 8.57 minutes in sequence
+    private static minuteRulers: Planet[] = ['sun', 'venus', 'mercury', 'moon', 'saturn', 'jupiter', 'mars'];
+    
     private readonly planetaryRulers = [
         'sun', 'moon', 'mars', 'mercury', 'jupiter', 'venus', 'saturn'
     ];
@@ -35,6 +41,72 @@ export class PlanetaryHourCalculator {
      */
     public setCoordinates(latitude: number, longitude: number): void {
         this.coordinates = { latitude, longitude };
+    }
+    
+    /**
+     * Calculate the current planetary day
+     * @returns The planet ruling the current day
+     */
+    getCurrentPlanetaryDay(): Planet {
+        return this.getPlanetaryDay(new Date());
+    }
+    
+    /**
+     * Calculate the planetary day for a given date
+     * @param date The date to calculate the planetary day for
+     * @returns The planet ruling that day
+     */
+    getPlanetaryDay(date: Date): Planet {
+        // Day of the week (0 = Sunday, 1 = Monday, etc.)
+        const dayOfWeek = date.getDay();
+        
+        // Return the planetary ruler for that day
+        return PlanetaryHourCalculator.dayRulers[dayOfWeek];
+    }
+    
+    /**
+     * Calculate the current planetary minute
+     * @returns The planet ruling the current minute
+     */
+    getCurrentPlanetaryMinute(): Planet {
+        return this.getPlanetaryMinute(new Date());
+    }
+    
+    /**
+     * Calculate the planetary minute for a given date
+     * @param date The date to calculate the planetary minute for
+     * @returns The planet ruling that minute
+     */
+    getPlanetaryMinute(date: Date): Planet {
+        // Day of the week (0 = Sunday, 1 = Monday, etc.)
+        const dayOfWeek = date.getDay();
+        
+        // Current hour and minute
+        const hour = date.getHours();
+        const minute = date.getMinutes();
+        
+        // Total minutes since the day began
+        const totalMinutesSinceDayBegan = hour * 60 + minute;
+        
+        // In traditional planetary hour systems, each planet rules for about 8.57 minutes 
+        // (60 minutes / 7 planets) within each hour, and follows the same sequence as planetary hours
+        // We'll calculate the planet ruling the current minute based on this
+        
+        // First, determine which planetary sequence to use (based on day of week)
+        const planetarySequence = PlanetaryHourCalculator.planetaryHours[PlanetaryHourCalculator.dayNames[dayOfWeek]];
+        
+        // Calculate the hour ruler index (0-6) to determine start of sequence
+        const hourSinceDay = hour % 24;
+        const rulerSequenceStart = hourSinceDay % 7;
+        
+        // Calculate which 8.57-minute segment of the hour we're in (0-6)
+        const minuteWithinHour = minute % 60;
+        const minuteSegment = Math.floor(minuteWithinHour / (60 / 7));
+        
+        // The minute ruler is the hour ruler + minute segment, wrapping around if needed
+        const minuteRulerIndex = (rulerSequenceStart + minuteSegment) % 7;
+        
+        return planetarySequence[minuteRulerIndex];
     }
     
     /**

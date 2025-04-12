@@ -49,26 +49,12 @@ export function calculateElementalCompatibility(
     user.elementalProperties
   );
   
-  // Check for opposing elements - specifically check Fire/Water and Earth/Air oppositions
-  const isOpposing = (
-    (recipeDominant === 'Fire' && userDominant === 'Water') ||
-    (recipeDominant === 'Water' && userDominant === 'Fire') ||
-    (recipeDominant === 'Earth' && userDominant === 'Air') ||
-    (recipeDominant === 'Air' && userDominant === 'Earth')
-  );
-  
   // Calculate overall compatibility (weighted average)
-  // Increase the weight of complementaryScore to make opposing elements have lower compatibility
   let compatibility = (
-    similarity * 0.3 +
-    complementaryScore * 0.5 +
-    balanceScore * 0.2
+    similarity * 0.4 +
+    complementaryScore * 0.3 +
+    balanceScore * 0.3
   );
-  
-  // Further reduce compatibility for opposing elements
-  if (isOpposing) {
-    compatibility *= 0.6; // Reduce by 40% for opposing elements
-  }
   
   return {
     compatibility: Math.min(1, Math.max(0, compatibility)),
@@ -81,8 +67,7 @@ export function calculateElementalCompatibility(
     recommendation: generateRecommendation(
       compatibility,
       recipeDominant,
-      userDominant,
-      isOpposing
+      userDominant
     )
   };
 }
@@ -97,35 +82,19 @@ function getDominantElement(props: ElementalProperties): keyof ElementalProperti
 
 /**
  * Calculate how well two elements complement each other
+ * Each element should be treated individually, without opposition
  */
 function calculateComplementaryScore(
   element1: keyof ElementalProperties,
   element2: keyof ElementalProperties
 ): number {
-  // Complementary pairs
-  const complements: Record<keyof ElementalProperties, keyof ElementalProperties> = {
-    Fire: 'Air',
-    Air: 'Fire',
-    Water: 'Earth',
-    Earth: 'Water'
-  };
-  
-  // Opposing pairs
-  const opposites: Record<keyof ElementalProperties, keyof ElementalProperties> = {
-    Fire: 'Water',
-    Water: 'Fire',
-    Earth: 'Air',
-    Air: 'Earth'
-  };
-  
+  // All elements work together in various ways
   if (element1 === element2) {
-    return 0.5; // Same element - moderate compatibility
-  } else if (complements[element1] === element2) {
-    return 1.0; // Complementary elements - high compatibility
-  } else if (opposites[element1] === element2) {
-    return 0.2; // Opposing elements - low compatibility
+    return 0.9; // Same element - highest compatibility (like reinforces like)
   } else {
-    return 0.7; // Neutral relationship - good compatibility
+    // All combinations of different elements are complementary
+    // Providing different yet harmonious qualities
+    return 0.7; // Different elements - good compatibility
   }
 }
 
@@ -161,10 +130,9 @@ function calculateBalanceScore(
 function generateRecommendation(
   score: number,
   recipeDominant: keyof ElementalProperties,
-  userDominant: keyof ElementalProperties,
-  isOpposing: boolean = false
+  userDominant: keyof ElementalProperties
 ): string {
-  if (isOpposing || score <= 0.4) {
+  if (score <= 0.4) {
     return `This recipe's ${recipeDominant} energy contrasts with your ${userDominant} energy. This contrasts with your natural balance and might feel disharmonious.`;
   } else if (score > 0.8) {
     return `Excellent match! This ${recipeDominant}-dominant recipe complements your ${userDominant} energy perfectly.`;

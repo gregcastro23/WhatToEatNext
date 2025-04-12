@@ -34,7 +34,7 @@ function getRecommendations(
       .sort((a, b) => b[1] - a[1])
       .map(([element]) => element)[0] || 'Fire',
     zodiacSign: options.currentZodiac || currentZodiac || 'aries',
-    activePlanets: ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn']
+    activePlanets: ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'] // Include all planets for more matches
   };
   
   // Use the proper utility function with the actual data
@@ -67,33 +67,16 @@ export default function IngredientRecommendations({
     // Get recommendations with current filters
     setLoading(true);
     
-    // Add this debugging code
-    console.log("Modal filter:", modalityFilter);
-    
     const options = {
       currentSeason: selectedSeason,
       dietaryPreferences: dietaryFilter !== 'all' ? [dietaryFilter] : [],
       modalityPreference: modalityFilter !== 'all' ? modalityFilter as Modality : undefined,
       currentZodiac: zodiacSign,
-      limit: 12
+      limit: 48 // Doubled from 24 to show more recommendations
     };
     
     // Use our adapter function with modality filtering
     const recommendedIngredients = getRecommendations(targetElements, options);
-    
-    // Debug the results
-    console.log("Filtered ingredients:", 
-      Object.entries(recommendedIngredients).reduce((total, [_, ingredients]) => 
-        total + (ingredients?.length || 0), 0)
-    );
-    console.log("Modality distribution:", 
-      Object.entries(recommendedIngredients).flatMap(([_, ingredients]) => ingredients || [])
-        .reduce((counts, ingredient) => {
-          const modality = ingredient.modality || 'Unknown';
-          counts[modality] = (counts[modality] || 0) + 1;
-          return counts;
-        }, {} as Record<string, number>)
-    );
     
     setRecommendations(recommendedIngredients);
     setLoading(false);
@@ -264,9 +247,96 @@ export default function IngredientRecommendations({
   };
   
   const calculateAlchemicalPropertiesForDisplay = (elementalProperties: ElementalProperties) => {
-    // Use the imported calculation function
-    const ingredient = { elementalProperties } as Ingredient;
-    return calculateAlchemicalProperties(ingredient);
+    // Default values with proper elemental calculations
+    return {
+      spirit: elementalProperties.Fire * 0.7 + elementalProperties.Air * 0.3,
+      essence: elementalProperties.Water * 0.6 + elementalProperties.Fire * 0.4,
+      matter: elementalProperties.Earth * 0.8 + elementalProperties.Water * 0.2,
+      substance: elementalProperties.Earth * 0.5 + elementalProperties.Air * 0.5
+    };
+  };
+  
+  // Display a compact ingredient card
+  const renderCompactIngredientCard = (ingredient: IngredientRecommendation) => {
+    // Get the elemental properties
+    const elementalProps = ingredient.elementalProperties || {
+      Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+    };
+    
+    // Format the match percentage from score
+    const matchPercentage = ingredient.score ? 
+      `${Math.round(ingredient.score * 100)}%` : 
+      '';
+    
+    // Get dominant element for styling
+    const dominantElement = Object.entries(elementalProps)
+      .sort((a, b) => b[1] - a[1])[0][0];
+    
+    return (
+      <div 
+        className={`${styles.compactCard} ${styles[`element${dominantElement}`]}`} 
+        key={ingredient.name}
+      >
+        <div className={styles.compactCardHeader}>
+          <h3 className={styles.compactIngredientName}>{ingredient.name}</h3>
+          {matchPercentage && (
+            <span className={styles.compactScore}>{matchPercentage}</span>
+          )}
+        </div>
+        
+        {/* Simplified Element Display */}
+        <div className={styles.compactElementBars}>
+          <div className={styles.elementBar}>
+            <span className={styles.elementIcon}>{getElementIcon('Fire')}</span>
+            <div className={styles.barContainer}>
+              <div 
+                className={`${styles.bar} ${styles.fireBar}`}
+                style={{ width: `${elementalProps.Fire * 100}%` }}
+              ></div>
+            </div>
+          </div>
+          <div className={styles.elementBar}>
+            <span className={styles.elementIcon}>{getElementIcon('Water')}</span>
+            <div className={styles.barContainer}>
+              <div 
+                className={`${styles.bar} ${styles.waterBar}`}
+                style={{ width: `${elementalProps.Water * 100}%` }}
+              ></div>
+            </div>
+          </div>
+          <div className={styles.elementBar}>
+            <span className={styles.elementIcon}>{getElementIcon('Earth')}</span>
+            <div className={styles.barContainer}>
+              <div 
+                className={`${styles.bar} ${styles.earthBar}`}
+                style={{ width: `${elementalProps.Earth * 100}%` }}
+              ></div>
+            </div>
+          </div>
+          <div className={styles.elementBar}>
+            <span className={styles.elementIcon}>{getElementIcon('Air')}</span>
+            <div className={styles.barContainer}>
+              <div 
+                className={`${styles.bar} ${styles.airBar}`}
+                style={{ width: `${elementalProps.Air * 100}%` }}
+              ></div>
+            </div>
+          </div>
+        </div>
+        
+        {/* Show category or modality */}
+        <div className={styles.compactFooter}>
+          {ingredient.category && (
+            <span className={styles.compactCategory}>{ingredient.category}</span>
+          )}
+          {ingredient.modality && (
+            <span className={`${styles.modalityBadge} ${styles[ingredient.modality.toLowerCase()]}`}>
+              {ingredient.modality}
+            </span>
+          )}
+        </div>
+      </div>
+    );
   };
   
   if (loading) {
@@ -275,7 +345,7 @@ export default function IngredientRecommendations({
   
   return (
     <div className={styles.container}>
-      <h2 className={styles.title}>Recommended Ingredients</h2>
+      <h2 className={styles.title}>Celestial Ingredient Recommendations</h2>
       
       <div className={styles.filters}>
         <div className={styles.filterGroup}>
@@ -288,7 +358,7 @@ export default function IngredientRecommendations({
           >
             <option value="spring">Spring</option>
             <option value="summer">Summer</option>
-            <option value="autumn">Autumn</option>
+            <option value="fall">Fall</option>
             <option value="winter">Winter</option>
           </select>
         </div>
@@ -304,6 +374,7 @@ export default function IngredientRecommendations({
             <option value="all">All</option>
             <option value="vegetarian">Vegetarian</option>
             <option value="vegan">Vegan</option>
+            <option value="pescatarian">Pescatarian</option>
             <option value="gluten-free">Gluten-Free</option>
           </select>
         </div>
@@ -335,12 +406,13 @@ export default function IngredientRecommendations({
             onChange={(e) => setCategoryFilter(e.target.value)}
           >
             <option value="all">All Categories</option>
-            <option value="proteins">Proteins</option>
             <option value="vegetables">Vegetables</option>
             <option value="fruits">Fruits</option>
+            <option value="proteins">Proteins</option>
+            <option value="grains">Grains</option>
             <option value="herbs">Herbs</option>
             <option value="spices">Spices</option>
-            <option value="grains">Grains</option>
+            <option value="seasonings">Seasonings</option>
             <option value="oils">Oils</option>
           </select>
         </div>
@@ -363,8 +435,42 @@ export default function IngredientRecommendations({
       </div>
       
       {Object.entries(recommendations).length > 0 ? (
-        <div className={styles.recommendationsGrid}>
-          {renderIngredientDetails(recommendations[Object.keys(recommendations)[0]][0])}
+        <div className={styles.recommendationsContainer}>
+          {/* Render recommendations by category */}
+          {categoryFilter === 'all' ? (
+            // Render all categories
+            Object.entries(recommendations)
+              .filter(([category, items]) => items && items.length > 0)
+              .map(([category, items]) => (
+                <div key={category} className={styles.categorySection} data-category={category}>
+                  <h3 className={styles.categoryTitle}>{category}</h3>
+                  <div className={styles.compactGrid}>
+                    {items?.map(item => renderCompactIngredientCard(item))}
+                  </div>
+                </div>
+              ))
+          ) : (
+            // Render only the selected category
+            recommendations[categoryFilter] && recommendations[categoryFilter]?.length > 0 ? (
+              <div className={styles.categorySection} data-category={categoryFilter}>
+                <h3 className={styles.categoryTitle}>{categoryFilter}</h3>
+                <div className={styles.compactGrid}>
+                  {recommendations[categoryFilter]?.map(item => renderCompactIngredientCard(item))}
+                </div>
+              </div>
+            ) : (
+              <div className={styles.error}>
+                No ingredients found in the {categoryFilter} category.
+              </div>
+            )
+          )}
+          
+          {/* Show message if no recommendations */}
+          {Object.keys(recommendations).length === 0 && (
+            <div className={styles.error}>
+              No ingredients found with the current filters. Try changing your criteria.
+            </div>
+          )}
         </div>
       ) : (
         <div className={styles.noResults}>

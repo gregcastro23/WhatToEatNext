@@ -1,14 +1,16 @@
 import { wholeGrains } from './grains/wholeGrains';
 import { refinedGrains } from './grains/refinedGrains';
+import { allGrains, grainNames } from './grains';
 import { medicinalHerbs } from './herbs/medicinalHerbs';
 import type { Ingredient } from '@/types/alchemy';
 import { seafood } from './proteins/seafood';
 import { poultry } from './proteins/poultry';
 import { plantBased } from './proteins/plantBased';
 import { meats } from './proteins/meat';
-import { herbs } from './herbs';
-import { oils } from './seasonings/oils';
+import { herbs, allHerbs } from './herbs';
+import { oils } from './oils';
 import { spices } from './spices';
+import { vinegars, allVinegars } from './vinegars/vinegars';
 import { french } from '@/data/cuisines/french';
 import { italian } from '@/data/cuisines/italian';
 import { middleEastern } from '@/data/cuisines/middle-eastern';
@@ -18,8 +20,14 @@ import { fruits } from './fruits/index';
 import { vegetables } from './vegetables';
 import { seasonings } from './seasonings';
 import { standardizeIngredient } from '@/utils/dataStandardization';
-import type { Ingredient, IngredientMapping } from '@/types/alchemy';
+import type { IngredientMapping } from '@/types/alchemy';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
+
+// Create comprehensive collections that combine all available sources
+export const herbsCollection = allHerbs;
+export const oilsCollection = oils;
+export const vinegarsCollection = allVinegars;
+export const grainsCollection = allGrains;
 
 export const VALID_CATEGORIES = [
     'culinary_herb',
@@ -144,14 +152,15 @@ function calculateMoistureFromElements(elementalProperties: Record<string, numbe
     return (water * 0.7 + earth * 0.3);
 }
 
-// Process and combine all ingredients
+// Process and combine all ingredients - using our comprehensive collections
 export const allIngredients = {
     ...processIngredientCollection(seafood),
     ...processIngredientCollection(poultry),
     ...processIngredientCollection(plantBased),
-    ...processIngredientCollection(herbs),
-    ...processIngredientCollection(oils),
-    ...processIngredientCollection(spices)
+    ...processIngredientCollection(herbsCollection),  // Use complete herbs collection
+    ...processIngredientCollection(oilsCollection),   // Use complete oils collection
+    ...processIngredientCollection(spices),
+    ...processIngredientCollection(vinegarsCollection) // Use complete vinegars collection
 };
 
 export const AlchemyData = {
@@ -177,6 +186,7 @@ export {
     herbs,
     spices,
     oils,
+    vinegars,
     seafood,
     poultry,
     plantBased,
@@ -196,6 +206,7 @@ export const proteins = fixIngredientMappings({
     ...meats
 }) as Record<string, IngredientMapping>;
 
+// Create a comprehensive ingredients map with all collections
 export const ingredientsMap: Record<string, Ingredient | IngredientMapping> = {
     ...fruits,
     ...vegetables,
@@ -207,7 +218,11 @@ export const ingredientsMap: Record<string, Ingredient | IngredientMapping> = {
     ...herbs,
     ...spices,
     ...oils,
+    ...vinegars,
     ...seasonings,
+    ...herbsCollection,  // Add comprehensive collections
+    ...oilsCollection,
+    ...vinegarsCollection
 };
 
 // Array format (for iteration)

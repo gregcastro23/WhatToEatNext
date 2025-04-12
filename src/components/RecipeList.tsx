@@ -683,10 +683,10 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
                     </div>
                   )}
                   
-                  {/* Instructions */}
+                  {/* Procedure */}
                   {recipe.instructions && recipe.instructions.length > 0 && (
                     <div>
-                      <h4 className="font-medium mb-2">Instructions</h4>
+                      <h4 className="font-medium mb-2">Procedure</h4>
                       <ol className="list-decimal list-inside space-y-2 text-sm">
                         {recipe.instructions.map((step: string, idx: number) => (
                           <li key={idx} className="leading-relaxed">{step}</li>

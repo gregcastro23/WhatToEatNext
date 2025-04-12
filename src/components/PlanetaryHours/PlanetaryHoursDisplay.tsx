@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { PlanetaryHourCalculator } from '@/lib/PlanetaryHourCalculator';
 import { ChakraAlchemyService } from '@/lib/ChakraAlchemyService';
 import { Planet as AlchemyPlanet } from '@/types/alchemy';
-import { Clock, Sun, Moon, Star } from 'lucide-react';
+import { Clock, Sun, Moon, Star, Calendar, Timer, ChevronDown, ChevronUp } from 'lucide-react';
 import { 
   planetElementMap, 
   planetPropertyMap 
@@ -30,18 +30,27 @@ function isValidAlchemyPlanet(value: string): value is AlchemyPlanet {
          'uranus', 'neptune', 'pluto'].includes(value.toLowerCase());
 }
 
+// Function to capitalize a planet name
+function capitalizePlanet(planet: string): CapitalizedPlanet | null {
+  const capitalizedPlanet = planet.charAt(0).toUpperCase() + planet.slice(1).toLowerCase();
+  return isCapitalizedPlanet(capitalizedPlanet) ? capitalizedPlanet : null;
+}
+
 interface PlanetaryHoursDisplayProps {
   compact?: boolean;
 }
 
 const PlanetaryHoursDisplay: React.FC<PlanetaryHoursDisplayProps> = ({ compact = false }) => {
   const [currentHour, setCurrentHour] = useState<CapitalizedPlanet | null>(null);
+  const [currentDay, setCurrentDay] = useState<CapitalizedPlanet | null>(null);
+  const [currentMinute, setCurrentMinute] = useState<CapitalizedPlanet | null>(null);
   const [allHours, setAllHours] = useState<Map<number, CapitalizedPlanet>>(new Map());
   const [currentTime, setCurrentTime] = useState<Date>(new Date());
   const [planetaryCalculator] = useState(() => new PlanetaryHourCalculator());
   const [chakraService] = useState(() => new ChakraAlchemyService());
   const [associatedChakras, setAssociatedChakras] = useState<string[]>([]);
   const [alchemicalProperty, setAlchemicalProperty] = useState<string | null>(null);
+  const [showDetails, setShowDetails] = useState(false);
 
   // Determine if it's daytime based on the current hour (between 6am and 6pm)
   const isDaytime = () => {
@@ -51,23 +60,23 @@ const PlanetaryHoursDisplay: React.FC<PlanetaryHoursDisplayProps> = ({ compact =
 
   useEffect(() => {
     // Initial calculation
-    updatePlanetaryHours();
+    updatePlanetaryInfo();
     
     // Update every minute
     const intervalId = setInterval(() => {
       setCurrentTime(new Date());
-      updatePlanetaryHours();
+      updatePlanetaryInfo();
     }, 60000);
     
     return () => clearInterval(intervalId);
   }, []);
   
-  const updatePlanetaryHours = () => {
+  const updatePlanetaryInfo = () => {
     const now = new Date();
     const isDay = isDaytime();
     
     try {
-      // Create a wrapper around the calculator to handle the type conversion safely
+      // Get current planetary hour
       const hourInfo = planetaryCalculator.getCurrentPlanetaryHour();
       if (hourInfo && typeof hourInfo.planet === 'string') {
         // Safely check if the planet is a valid CapitalizedPlanet
@@ -103,6 +112,14 @@ const PlanetaryHoursDisplay: React.FC<PlanetaryHoursDisplayProps> = ({ compact =
         }
       }
       
+      // Get current planetary day
+      const dayPlanet = planetaryCalculator.getCurrentPlanetaryDay();
+      setCurrentDay(capitalizePlanet(dayPlanet));
+      
+      // Get current planetary minute
+      const minutePlanet = planetaryCalculator.getCurrentPlanetaryMinute();
+      setCurrentMinute(capitalizePlanet(minutePlanet));
+      
       // Get all hours and safely convert them to a new Map with the correct type
       const calculatedHours = planetaryCalculator.getDailyPlanetaryHours(now);
       const typedHours = new Map<number, CapitalizedPlanet>();
@@ -115,7 +132,7 @@ const PlanetaryHoursDisplay: React.FC<PlanetaryHoursDisplayProps> = ({ compact =
       
       setAllHours(typedHours);
     } catch (error) {
-      console.error('Error calculating planetary hours:', error);
+      console.error('Error calculating planetary information:', error);
     }
   };
   
@@ -147,36 +164,116 @@ const PlanetaryHoursDisplay: React.FC<PlanetaryHoursDisplayProps> = ({ compact =
   
   if (compact) {
     return (
-      <div className="flex items-center space-x-2 bg-opacity-30 bg-purple-900 rounded-md px-3 py-1.5">
-        <Clock className="h-4 w-4 text-gray-300" />
-        <div className="flex items-center">
-          <span className="text-sm text-gray-300">Planetary Hour:</span>
-          <span className={`ml-1.5 text-sm font-medium ${currentHour ? getPlanetColor(currentHour) : ''}`}>
-            {getPlanetIcon(currentHour || 'Sun')}
-            <span className="ml-1">{currentHour || 'Unknown'}</span>
-          </span>
+      <div className="bg-opacity-30 bg-purple-900 rounded-md">
+        <div 
+          className="flex items-center justify-between px-3 py-1.5 cursor-pointer" 
+          onClick={() => setShowDetails(!showDetails)}
+        >
+          <div className="flex items-center space-x-2">
+            <Clock className="h-4 w-4 text-gray-300" />
+            <div className="flex items-center">
+              <span className="text-sm text-gray-300">Planetary Hour:</span>
+              <span className={`ml-1.5 text-sm font-medium ${currentHour ? getPlanetColor(currentHour) : ''}`}>
+                {getPlanetIcon(currentHour || 'Sun')}
+                <span className="ml-1">{currentHour || 'Unknown'}</span>
+              </span>
+            </div>
+          </div>
+          {showDetails ? 
+            <ChevronUp className="h-4 w-4 text-gray-300" /> : 
+            <ChevronDown className="h-4 w-4 text-gray-300" />
+          }
         </div>
+        
+        {showDetails && (
+          <div className="px-3 pb-2 space-y-2 border-t border-purple-700/30">
+            {/* Day info */}
+            <div className="flex items-center justify-between pt-2">
+              <div className="flex items-center">
+                <Calendar className="h-4 w-4 text-gray-300 mr-2" />
+                <span className="text-sm text-gray-300">Day:</span>
+              </div>
+              <div className={`flex items-center ${currentDay ? getPlanetColor(currentDay) : ''}`}>
+                {currentDay && getPlanetIcon(currentDay)}
+                <span className="ml-1 text-sm">{currentDay || 'Unknown'}</span>
+              </div>
+            </div>
+            
+            {/* Minute info */}
+            <div className="flex items-center justify-between">
+              <div className="flex items-center">
+                <Timer className="h-4 w-4 text-gray-300 mr-2" />
+                <span className="text-sm text-gray-300">Minute:</span>
+              </div>
+              <div className={`flex items-center ${currentMinute ? getPlanetColor(currentMinute) : ''}`}>
+                {currentMinute && getPlanetIcon(currentMinute)}
+                <span className="ml-1 text-sm">{currentMinute || 'Unknown'}</span>
+              </div>
+            </div>
+            
+            {/* Alchemical property */}
+            {alchemicalProperty && (
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-gray-400">Energy:</span>
+                <span className="text-xs px-2 py-0.5 bg-opacity-30 bg-blue-700 rounded-full text-blue-200">
+                  {alchemicalProperty}
+                </span>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     );
   }
   
   return (
     <div className="bg-opacity-20 bg-purple-900 rounded-lg p-4">
-      <h3 className="text-lg font-semibold mb-3 text-white">Planetary Hours</h3>
+      <h3 className="text-lg font-semibold mb-3 text-white">Planetary Influences</h3>
       
-      <div className="mb-4 p-3 bg-opacity-30 bg-purple-900 rounded-md">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center">
-            <Clock className="h-5 w-5 text-gray-300 mr-2" />
-            <span className="text-gray-300">Current Planetary Hour:</span>
-          </div>
-          <div className={`flex items-center font-medium ${currentHour ? getPlanetColor(currentHour) : ''}`}>
-            {getPlanetIcon(currentHour || 'Sun')}
-            <span className="ml-1">{currentHour || 'Unknown'}</span>
+      <div className="space-y-2">
+        {/* Day Display */}
+        <div className="p-3 bg-opacity-30 bg-purple-900 rounded-md">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center">
+              <Calendar className="h-5 w-5 text-gray-300 mr-2" />
+              <span className="text-gray-300">Planetary Day:</span>
+            </div>
+            <div className={`flex items-center font-medium ${currentDay ? getPlanetColor(currentDay) : ''}`}>
+              {currentDay && getPlanetIcon(currentDay)}
+              <span className="ml-1">{currentDay || 'Unknown'}</span>
+            </div>
           </div>
         </div>
         
-        {/* Add alchemical property if available */}
+        {/* Hour Display */}
+        <div className="p-3 bg-opacity-30 bg-purple-900 rounded-md">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center">
+              <Clock className="h-5 w-5 text-gray-300 mr-2" />
+              <span className="text-gray-300">Planetary Hour:</span>
+            </div>
+            <div className={`flex items-center font-medium ${currentHour ? getPlanetColor(currentHour) : ''}`}>
+              {currentHour && getPlanetIcon(currentHour)}
+              <span className="ml-1">{currentHour || 'Unknown'}</span>
+            </div>
+          </div>
+        </div>
+        
+        {/* Minute Display */}
+        <div className="p-3 bg-opacity-30 bg-purple-900 rounded-md">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center">
+              <Timer className="h-5 w-5 text-gray-300 mr-2" />
+              <span className="text-gray-300">Planetary Minute:</span>
+            </div>
+            <div className={`flex items-center font-medium ${currentMinute ? getPlanetColor(currentMinute) : ''}`}>
+              {currentMinute && getPlanetIcon(currentMinute)}
+              <span className="ml-1">{currentMinute || 'Unknown'}</span>
+            </div>
+          </div>
+        </div>
+        
+        {/* Alchemical property if available */}
         {alchemicalProperty && (
           <div className="mt-2 pt-2 border-t border-gray-700">
             <div className="flex items-center">
@@ -188,7 +285,7 @@ const PlanetaryHoursDisplay: React.FC<PlanetaryHoursDisplayProps> = ({ compact =
           </div>
         )}
         
-        {/* Add chakra associations */}
+        {/* Chakra associations */}
         {associatedChakras.length > 0 && (
           <div className="mt-2 pt-2 border-t border-gray-700">
             <div className="flex items-center">
@@ -205,30 +302,33 @@ const PlanetaryHoursDisplay: React.FC<PlanetaryHoursDisplayProps> = ({ compact =
         )}
       </div>
       
-      <div className="grid grid-cols-2 gap-2">
-        {Array.from({ length: 24 }, (_, i) => i).map((hour) => {
-          const planet = allHours.get(hour);
-          const isCurrentHour = new Date().getHours() === hour;
-          
-          return (
-            <div 
-              key={hour} 
-              className={`flex items-center justify-between p-2 rounded-md ${
-                isCurrentHour ? 'bg-opacity-50 bg-purple-700' : 'bg-opacity-20 bg-gray-800'
-              }`}
-            >
-              <span className="text-sm text-gray-300">
-                {hour.toString().padStart(2, '0')}:00 - {((hour + 1) % 24).toString().padStart(2, '0')}:00
-              </span>
-              {planet && (
-                <div className={`flex items-center ${getPlanetColor(planet)}`}>
-                  {getPlanetIcon(planet)}
-                  <span className="ml-1 text-sm">{planet}</span>
-                </div>
-              )}
-            </div>
-          );
-        })}
+      <div className="mt-4">
+        <h4 className="text-md font-semibold mb-2 text-white">Daily Hours</h4>
+        <div className="grid grid-cols-2 gap-2">
+          {Array.from({ length: 24 }, (_, i) => i).map((hour) => {
+            const planet = allHours.get(hour);
+            const isCurrentHour = new Date().getHours() === hour;
+            
+            return (
+              <div 
+                key={hour} 
+                className={`flex items-center justify-between p-2 rounded-md ${
+                  isCurrentHour ? 'bg-opacity-50 bg-purple-700' : 'bg-opacity-20 bg-gray-800'
+                }`}
+              >
+                <span className="text-sm text-gray-300">
+                  {hour.toString().padStart(2, '0')}:00 - {((hour + 1) % 24).toString().padStart(2, '0')}:00
+                </span>
+                {planet && (
+                  <div className={`flex items-center ${getPlanetColor(planet)}`}>
+                    {getPlanetIcon(planet)}
+                    <span className="ml-1 text-sm">{planet}</span>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

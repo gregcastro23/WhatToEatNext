@@ -66,18 +66,39 @@ const rawLeafyGreens: Record<string, Partial<IngredientMapping>> = {
     }),
     seasonal_peak_months: [10, 11, 12, 1, 2], // Oct-Feb
     nutritionalProfile: {
-      fiber: 'very high',
-      vitamins: ['k', 'c', 'a', 'b6', 'e', 'folate', 'b2'],
-      minerals: ['calcium', 'potassium', 'magnesium', 'manganese', 'copper', 'iron'],
+      serving_size: "1 cup, raw",
       calories: 33,
-      protein_g: 3,
-      fiber_g: 2.5,
-      vitamin_density: 9.2,
-      calcium_mg: 150,
-      vitamin_c_mg: 80,
-      vitamin_k_mcg: 547,
-      glucosinolates: 'very high',
-      antioxidants: ['quercetin', 'kaempferol', 'lutein', 'zeaxanthin']
+      macros: {
+        protein: 3,
+        carbs: 6.7,
+        fat: 0.5,
+        fiber: 2.5
+      },
+      vitamins: {
+        K: 0.68,
+        C: 0.80,
+        A: 0.53,
+        B6: 0.14,
+        E: 0.10,
+        folate: 0.07,
+        B2: 0.09
+      },
+      minerals: {
+        calcium: 0.15,
+        potassium: 0.08,
+        magnesium: 0.09,
+        manganese: 0.32,
+        copper: 0.11,
+        iron: 0.06
+      },
+      phytonutrients: {
+        glucosinolates: 0.85,
+        quercetin: 0.52,
+        kaempferol: 0.47,
+        lutein: 0.40,
+        zeaxanthin: 0.38
+      },
+      source: "USDA FoodData Central"
     },
     healthBenefits: [
       'Anti-inflammatory properties',
@@ -289,3 +310,8 @@ const rawLeafyGreens: Record<string, Partial<IngredientMapping>> = {
 
 // Fix the ingredient mappings to ensure they have all required properties
 export const leafyGreens: Record<string, IngredientMapping> = fixIngredientMappings(rawLeafyGreens);
+
+// Create a collection of all leafy greens
+export const allLeafyGreens = Object.values(leafyGreens);
+
+export default leafyGreens;

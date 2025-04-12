@@ -4,6 +4,13 @@ import { pseudoGrains } from './pseudoGrains/index';
 import type { IngredientMapping } from '@/types/alchemy';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
+// Create a comprehensive collection of all grain types
+export const allGrains: Record<string, IngredientMapping> = fixIngredientMappings({
+  ...wholeGrains,
+  ...refinedGrains,
+  ...pseudoGrains
+});
+
 // Fix the raw grains object with proper ingredient mapping structure
 const rawGrains = {
   'whole': wholeGrains,
@@ -13,6 +20,9 @@ const rawGrains = {
 
 // Apply the fix to ensure all required properties exist
 export const grains: Record<string, IngredientMapping> = fixIngredientMappings(rawGrains);
+
+// Create a list of all grain names for easy reference
+export const grainNames = Object.keys(allGrains);
 
 // Keep the preparation methods as a separate object
 export const grainPreparationMethods = {

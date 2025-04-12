@@ -5,6 +5,15 @@ const rawFreshHerbs: Record<string, Partial<IngredientMapping>> = {
   'basil': {
     name: 'Basil',
     elementalProperties: { Air: 0.4, Water: 0.3, Fire: 0.2, Earth: 0.1 },
+    nutritionalProfile: {
+      calories: 22,
+      protein_g: 3.15,
+      carbs_g: 2.65,
+      fat_g: 0.64,
+      fiber_g: 1.6,
+      vitamins: ['k', 'a', 'c', 'manganese', 'folate', 'calcium', 'omega-3'],
+      minerals: ['calcium', 'magnesium', 'potassium', 'iron']
+    },
     astrologicalProfile: {
       rulingPlanets: ['Mars', 'Venus'],
       favorableZodiac: ['aries', 'libra', 'scorpio'],
@@ -92,16 +101,6 @@ const rawFreshHerbs: Record<string, Partial<IngredientMapping>> = {
     ],
     cookingMethods: ['raw', 'infused', 'pesto', 'garnish', 'stir-fried', 'baked', 'blanched', 'dried'],
     conversionRatio: '3:1', // 3 parts fresh = 1 part dried
-    nutritionalProfile: {
-      vitamins: ['k', 'a', 'c', 'manganese', 'folate', 'calcium', 'omega-3'],
-      minerals: ['calcium', 'magnesium', 'potassium', 'iron'],
-      antioxidants: ['flavonoids', 'anthocyanins', 'polyphenols'],
-      volatileoils: ['eugenol', 'linalool', 'citral', 'limonene', 'estragole'],
-      calories: 22,
-      protein_g: 3.15,
-      fiber_g: 1.6,
-      vitamin_k_percent_dv: 345
-    },
     culinaryApplications: {
       'pesto': {
         name: 'Pesto',
@@ -149,95 +148,22 @@ const rawFreshHerbs: Record<string, Partial<IngredientMapping>> = {
         applications: ['ice cream', 'panna cotta', 'fruit salads', 'sorbets'],
         techniques: 'steep in warm dairy, remove before cooling',
         notes: 'Sweet and lemon basil varieties work best'
-      },
-      'beverages': {
-        name: 'Beverages',
-        method: 'muddled or infused',
-        applications: ['cocktails', 'lemonade', 'iced tea', 'water'],
-        techniques: 'gentle bruising releases oils without bitterness',
-        notes: 'Pairs beautifully with citrus and berries'
       }
-    },
-    preparation: {
-      washing: 'gentle rinse and pat dry',
-      cutting: 'tear or chiffonade',
-      timing: 'add at end of cooking',
-      bruising: 'light bruising releases aromatics',
-      notes: 'Bruises easily, handle gently'
-    },
-    storage: {
-      temperature: 'room temp',
-      duration: '4-7 days',
-      method: 'stems in water like flowers',
-      notes: 'Cover loosely with plastic bag',
-      extended_methods: {
-        freezing: {
-          preparation: 'blanch briefly, shock in ice water, pat dry',
-          storage: 'freeze in single layer, then transfer to airtight container',
-          duration: 'up to 6 months',
-          best_uses: 'cooking applications only'
-        },
-        drying: {
-          method: 'hang bundles upside down in warm, dry area',
-          duration: 'store up to 1 year in airtight container',
-          notes: 'Significant flavor change when dried'
-        },
-        oil_preservation: {
-          method: 'blend with olive oil (2:1 oil to basil)',
-          storage: 'freeze in ice cube trays',
-          notes: 'Better flavor retention than dry'
-        }
-      }
-    },
-    seasonality: {
-      peak_season: [6, 7, 8, 9], // June-September
-      availability: 'year-round in stores, summer at farmers markets',
-      growing_zones: '4-10 outdoors, indoor all year',
-      growing_notes: 'Pinch flowers to extend harvest season'
-    },
-    complementary_herbs: {
-      mediterranean: ['oregano', 'thyme', 'parsley', 'marjoram'],
-      asian: ['mint', 'cilantro', 'lemongrass', 'shiso'],
-      notes: 'Different varieties pair with different herb groups'
-    },
-    medicinalProperties: {
-      actions: [
-        'Anti-inflammatory',
-        'Antioxidant',
-        'Antibacterial',
-        'Digestive aid',
-        'Stress reducer',
-        'Immune support'
-      ],
-      preparations: [
-        'tea (fresh or dried leaves)',
-        'infused oil',
-        'tincture',
-        'compress'
-      ],
-      specific_benefits: {
-        'sweet_basil': 'digestive relief, anti-inflammatory',
-        'holy_basil': 'adaptogenic, stress relief, respiratory support',
-        'thai_basil': 'circulation, digestive stimulant'
-      },
-      cautions: [
-        'may affect blood clotting',
-        'avoid therapeutic doses during pregnancy',
-        'may interact with some medications'
-      ],
-      culinary_dosing: 'safe in normal culinary amounts'
-    },
-    cultural_significance: {
-      italian: 'symbol of love, essential for authentic cuisine',
-      hindu: 'holy basil (tulsi) sacred to Vishnu, used in worship',
-      thai: 'religious and cultural significance, protection from evil',
-      historical: 'used in royal Egyptian embalming, Greek medicine'
     }
   },
 
   'parsley': {
     name: 'Parsley',
     elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },
+    nutritionalProfile: {
+      calories: 0,
+      protein_g: 0,
+      carbs_g: 0,
+      fat_g: 0,
+      fiber_g: 0,
+      vitamins: [],
+      minerals: []
+    },
     qualities: ['cleansing', 'fresh', 'bright'],
     season: ['spring', 'summer', 'fall'],
     category: 'herb',
@@ -274,6 +200,15 @@ const rawFreshHerbs: Record<string, Partial<IngredientMapping>> = {
   'cilantro': {
     name: 'Cilantro',
     elementalProperties: { Air: 0.5, Water: 0.2, Fire: 0.2, Earth: 0.1 },
+    nutritionalProfile: {
+      calories: 0,
+      protein_g: 0,
+      carbs_g: 0,
+      fat_g: 0,
+      fiber_g: 0,
+      vitamins: [],
+      minerals: []
+    },
     qualities: ['bright', 'citrusy', 'fresh'],
     season: ['spring', 'fall'],
     category: 'herb',
@@ -310,6 +245,15 @@ const rawFreshHerbs: Record<string, Partial<IngredientMapping>> = {
   'mint': {
     name: 'Mint',
     elementalProperties: { Air: 0.4, Water: 0.3, Fire: 0.2, Earth: 0.1 },
+    nutritionalProfile: {
+      calories: 0,
+      protein_g: 0,
+      carbs_g: 0,
+      fat_g: 0,
+      fiber_g: 0,
+      vitamins: [],
+      minerals: []
+    },
     qualities: ['cooling', 'fresh', 'bright'],
     season: ['spring', 'summer', 'fall'],
     category: 'herb',
@@ -346,6 +290,15 @@ const rawFreshHerbs: Record<string, Partial<IngredientMapping>> = {
   'chives': {
     name: 'Chives',
     elementalProperties: { Air: 0.4, Water: 0.3, Fire: 0.2, Earth: 0.1 },
+    nutritionalProfile: {
+      calories: 0,
+      protein_g: 0,
+      carbs_g: 0,
+      fat_g: 0,
+      fiber_g: 0,
+      vitamins: [],
+      minerals: []
+    },
     qualities: ['mild', 'oniony', 'fresh'],
     season: ['spring', 'summer', 'fall'],
     category: 'herb',
@@ -382,6 +335,15 @@ const rawFreshHerbs: Record<string, Partial<IngredientMapping>> = {
   'thyme': {
     name: 'Thyme',
     elementalProperties: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
+    nutritionalProfile: {
+      calories: 0,
+      protein_g: 0,
+      carbs_g: 0,
+      fat_g: 0,
+      fiber_g: 0,
+      vitamins: [],
+      minerals: []
+    },
     qualities: ['warming', 'pungent', 'earthy'],
     season: ['year-round'],
     category: 'herb',
@@ -418,6 +380,15 @@ const rawFreshHerbs: Record<string, Partial<IngredientMapping>> = {
   'oregano': {
     name: 'Oregano',
     elementalProperties: { Fire: 0.5, Air: 0.2, Earth: 0.2, Water: 0.1 },
+    nutritionalProfile: {
+      calories: 0,
+      protein_g: 0,
+      carbs_g: 0,
+      fat_g: 0,
+      fiber_g: 0,
+      vitamins: [],
+      minerals: []
+    },
     qualities: ['warming', 'pungent', 'robust'],
     season: ['summer'],
     category: 'herb',
@@ -454,6 +425,15 @@ const rawFreshHerbs: Record<string, Partial<IngredientMapping>> = {
   'marjoram': {
     name: 'Marjoram',
     elementalProperties: { Air: 0.4, Earth: 0.3, Fire: 0.2, Water: 0.1 },
+    nutritionalProfile: {
+      calories: 0,
+      protein_g: 0,
+      carbs_g: 0,
+      fat_g: 0,
+      fiber_g: 0,
+      vitamins: [],
+      minerals: []
+    },
     qualities: ['sweet', 'delicate', 'floral'],
     season: ['summer', 'fall'],
     category: 'herb',
@@ -589,6 +569,15 @@ const rawFreshHerbs: Record<string, Partial<IngredientMapping>> = {
   'dill': {
     name: 'Dill',
     elementalProperties: { Air: 0.5, Water: 0.2, Earth: 0.2, Fire: 0.1 },
+    nutritionalProfile: {
+      calories: 0,
+      protein_g: 0,
+      carbs_g: 0,
+      fat_g: 0,
+      fiber_g: 0,
+      vitamins: [],
+      minerals: []
+    },
     qualities: ['fresh', 'aromatic', 'delicate'],
     season: ['spring', 'summer'],
     category: 'herb',
@@ -625,6 +614,15 @@ const rawFreshHerbs: Record<string, Partial<IngredientMapping>> = {
   'tarragon': {
     name: 'Tarragon',
     elementalProperties: { Fire: 0.3, Air: 0.3, Earth: 0.2, Water: 0.2 },
+    nutritionalProfile: {
+      calories: 0,
+      protein_g: 0,
+      carbs_g: 0,
+      fat_g: 0,
+      fiber_g: 0,
+      vitamins: [],
+      minerals: []
+    },
     qualities: ['sweet', 'anise-like', 'warming'],
     season: ['spring', 'summer'],
     category: 'herb',
@@ -733,6 +731,15 @@ const rawFreshHerbs: Record<string, Partial<IngredientMapping>> = {
   'epazote': {
     name: 'Epazote',
     elementalProperties: { Earth: 0.4, Fire: 0.3, Air: 0.2, Water: 0.1 },
+    nutritionalProfile: {
+      calories: 0,
+      protein_g: 0,
+      carbs_g: 0,
+      fat_g: 0,
+      fiber_g: 0,
+      vitamins: [],
+      minerals: []
+    },
     qualities: ['pungent', 'strong', 'earthy'],
     season: ['summer', 'fall'],
     category: 'herb',
@@ -1016,6 +1023,15 @@ const rawFreshHerbs: Record<string, Partial<IngredientMapping>> = {
   'rosemary': {
     name: 'Rosemary',
     elementalProperties: { Fire: 0.5, Air: 0.2, Earth: 0.2, Water: 0.1 },
+    nutritionalProfile: {
+      calories: 0,
+      protein_g: 0,
+      carbs_g: 0,
+      fat_g: 0,
+      fiber_g: 0,
+      vitamins: [],
+      minerals: []
+    },
     qualities: ['piney', 'robust', 'aromatic'],
     season: ['year-round'],
     category: 'herb',
@@ -1052,6 +1068,15 @@ const rawFreshHerbs: Record<string, Partial<IngredientMapping>> = {
   'sage': {
     name: 'Sage',
     elementalProperties: { Earth: 0.4, Fire: 0.3, Air: 0.2, Water: 0.1 },
+    nutritionalProfile: {
+      calories: 0,
+      protein_g: 0,
+      carbs_g: 0,
+      fat_g: 0,
+      fiber_g: 0,
+      vitamins: [],
+      minerals: []
+    },
     qualities: ['earthy', 'musty', 'warming'],
     season: ['year-round'],
     category: 'herb',
@@ -1083,8 +1108,94 @@ const rawFreshHerbs: Record<string, Partial<IngredientMapping>> = {
       preparations: ['tea', 'tincture'],
       cautions: ['avoid during pregnancy']
     }
-  }
-};
+  },
+
+  'lemon_balm': {
+    name: 'Lemon Balm',
+    elementalProperties: { 
+      Air: 0.4, Fire: 0.3, Earth: 0.2, Water: 0.1
+    },
+    category: 'culinary_herb',
+    qualities: ['nourishing'],
+    nutritionalProfile: {
+      calories: 0,
+      protein_g: 0,
+      carbs_g: 0,
+      fat_g: 0,
+      fiber_g: 0,
+      vitamins: [],
+      minerals: []
+    }
+  },
+  'fennel': {
+    name: 'Fennel',
+    elementalProperties: { 
+      Air: 0.4, Fire: 0.3, Earth: 0.2, Water: 0.1
+    },
+    category: 'culinary_herb',
+    qualities: ['nourishing'],
+    nutritionalProfile: {
+      calories: 0,
+      protein_g: 0,
+      carbs_g: 0,
+      fat_g: 0,
+      fiber_g: 0,
+      vitamins: [],
+      minerals: []
+    }
+  },
+  'chervil': {
+    name: 'Chervil',
+    elementalProperties: { 
+      Air: 0.4, Fire: 0.3, Earth: 0.2, Water: 0.1
+    },
+    category: 'culinary_herb',
+    qualities: ['nourishing'],
+    nutritionalProfile: {
+      calories: 0,
+      protein_g: 0,
+      carbs_g: 0,
+      fat_g: 0,
+      fiber_g: 0,
+      vitamins: [],
+      minerals: []
+    }
+  },
+  'bay_leaf': {
+    name: 'Bay Leaf',
+    elementalProperties: { 
+      Air: 0.4, Fire: 0.3, Earth: 0.2, Water: 0.1
+    },
+    category: 'culinary_herb',
+    qualities: ['nourishing'],
+    nutritionalProfile: {
+      calories: 0,
+      protein_g: 0,
+      carbs_g: 0,
+      fat_g: 0,
+      fiber_g: 0,
+      vitamins: [],
+      minerals: []
+    }
+  },
+  'anise': {
+    name: 'Anise',
+    elementalProperties: { 
+      Air: 0.4, Fire: 0.3, Earth: 0.2, Water: 0.1
+    },
+    category: 'culinary_herb',
+    qualities: ['nourishing'],
+    nutritionalProfile: {
+      calories: 0,
+      protein_g: 0,
+      carbs_g: 0,
+      fat_g: 0,
+      fiber_g: 0,
+      vitamins: [],
+      minerals: []
+    }
+  },
+}
 
 // Fix the ingredient mappings to ensure they have all required properties
 export const freshHerbs: Record<string, IngredientMapping> = fixIngredientMappings(rawFreshHerbs);

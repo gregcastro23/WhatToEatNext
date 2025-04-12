@@ -1,11 +1,12 @@
 import type { IngredientMapping } from '@/types/alchemy';
+import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-export const dairy: Record<string, IngredientMapping> = {
+const rawDairy: Record<string, Partial<IngredientMapping>> = {
   "greek_yogurt": {
     name: "Greek Yogurt",
     description: "Strained yogurt with higher protein content and thick texture.",
     category: "dairy",
-    qualities: ["tangy", "creamy", "thick"],
+    qualities: ["tangy", "creamy", "thick", "protein-rich", "versatile"],
     sustainabilityScore: 6,
     season: ["all"],
     regionalOrigins: ["mediterranean", "middle_east"],
@@ -15,72 +16,14 @@ export const dairy: Record<string, IngredientMapping> = {
       Earth: 0.2,
       Air: 0.1
     },
-    nutritionalContent: {
-      protein: 10,
-      fat: 5,
-      carbs: 3.6,
-      calories: 100
-    },
-    culinaryApplications: {
-      raw: { notes: ["Base for breakfast bowls", "Topping for savory dishes"] },
-      mix: { notes: ["Base for dips and sauces", "Used in marinades"] },
-      bake: { notes: ["Adds moisture to baked goods"] }
-    },
-    pairings: ["honey", "berries", "nuts", "cucumber", "garlic"],
-    substitutions: ["labneh", "skyr", "cottage_cheese"],
-    affinities: ["fruits", "herbs", "spices"]
-  },
-  "cottage_cheese": {
-    name: "Cottage Cheese",
-    description: "Fresh cheese curd product with mild flavor and varying textures.",
-    category: "dairy",
-    qualities: ["mild", "soft", "fresh"],
-    sustainabilityScore: 5,
-    season: ["all"],
-    regionalOrigins: ["europe", "north_america"],
-    elementalProperties: {
-      Fire: 0.1,
-      Water: 0.5,
-      Earth: 0.3,
-      Air: 0.1
-    },
-    nutritionalContent: {
-      protein: 12,
-      fat: 4.3,
-      carbs: 3.4,
-      calories: 98
-    },
-    culinaryApplications: {
-      raw: { notes: ["Eaten plain or with fruits"] },
-      mix: { notes: ["Added to salads", "Used in dips"] },
-      bake: { notes: ["Filling for crepes", "Added to casseroles and lasagna"] }
-    },
-    pairings: ["peaches", "pineapple", "tomatoes", "herbs", "pepper"],
-    substitutions: ["ricotta", "greek_yogurt"],
-    affinities: ["fruits", "vegetables", "herbs"]
-  },
-  "paneer": {
-    name: "Paneer",
-    description: "Fresh, non-melting cheese common in South Asian cuisine, made by curdling milk with lemon juice or vinegar.",
-    category: "dairy",
-    qualities: ["firm", "mild", "versatile", "protein-rich", "cooling"],
-    sustainabilityScore: 6,
-    season: ["all"],
-    regionalOrigins: ["india", "pakistan", "bangladesh", "nepal"],
-    elementalProperties: {
-      Fire: 0.1,
-      Water: 0.4,
-      Earth: 0.4,
-      Air: 0.1
-    },
     astrologicalProfile: {
       rulingPlanets: ["Moon", "Venus"],
       zodiacInfluence: ["Cancer", "Taurus"],
       celestialAspects: {
         moonPhase: {
-          waxing: "increased moisture retention",
-          full: "optimum firmness and texture",
-          waning: "drier, more crumbly texture"
+          waxing: "creamier texture, milder flavor",
+          full: "peak tanginess and thickness",
+          waning: "more digestible, gentler on system"
         }
       }
     },
@@ -90,166 +33,596 @@ export const dairy: Record<string, IngredientMapping> = {
           Water: 0.1,
           Earth: 0.1
         },
-        preparationTips: ["Add extra acid for better curdling", "Press for shorter time for softer texture"]
+        preparationTips: ["Best for starting new fermentation batches", "Ideal for milder yogurt"]
+      },
+      "Full Moon": {
+        elementalBoost: {
+          Water: 0.2
+        },
+        preparationTips: ["Maximum tangy flavor development", "Best probiotic activity"]
+      }
+    },
+    nutritionalProfile: {
+      serving_size_oz: 6,
+      calories: 100,
+      protein_g: 17,
+      fat_g: 0.7,
+      carbs_g: 6.2,
+      vitamins: ['Vitamin B12', 'Riboflavin', 'Vitamin B6'],
+      minerals: ['Calcium', 'Phosphorus', 'Zinc', 'Selenium', 'Potassium']
+    },
+    healthBenefits: {
+      "gut health": "Contains beneficial probiotics that support digestive health",
+      "protein source": "High-quality complete protein for muscle maintenance",
+      "bone strength": "Rich calcium content supports skeletal structure",
+      "satiety": "High protein content increases feeling of fullness",
+      "blood sugar": "Lower glycemic impact than regular yogurt"
+    },
+    varieties: {
+      "non-fat": {
+        texture: "Less creamy, slightly more tangy",
+        moisture: "Lower",
+        protein: "Highest",
+        uses: "Weight management, higher protein needs",
+        notes: "Can be slightly grainy in texture"
+      },
+      "2% fat": {
+        texture: "Balanced creaminess and tang",
+        moisture: "Medium",
+        protein: "High",
+        uses: "All-purpose, good balance of flavor and nutrition",
+        notes: "Most versatile variety"
+      },
+      "full-fat": {
+        texture: "Creamiest, smoothest",
+        moisture: "Medium-high",
+        protein: "Moderate",
+        uses: "Rich applications, cooking stability",
+        notes: "Best for cooking as less likely to separate"
+      },
+      "strained": {
+        texture: "Extra thick, almost cheese-like",
+        moisture: "Low",
+        protein: "Very high",
+        uses: "Labneh-style spreads, ultra-rich applications",
+        notes: "Can be hung in cheesecloth for even thicker result"
+      }
+    },
+    culinaryApplications: {
+      raw: { 
+        notes: ["Base for breakfast bowls", "Topping for savory dishes"],
+        techniques: ["Top with honey and nuts", "Layer with granola and fruit"],
+        dishes: ["Breakfast parfaits", "Fruit bowls", "Topped soups"] 
+      },
+      mix: { 
+        notes: ["Base for dips and sauces", "Used in marinades"],
+        techniques: ["Blend with herbs and garlic", "Whisk until smooth before incorporating"],
+        dishes: ["Tzatziki", "Creamy herb dips", "Protein smoothies", "Marinades for chicken"] 
+      },
+      bake: { 
+        notes: ["Adds moisture to baked goods", "Can replace sour cream or oil"],
+        techniques: ["Bring to room temperature before baking", "Use in place of buttermilk (thicker result)"],
+        dishes: ["Muffins", "Quick breads", "Pancakes", "Cakes"] 
+      },
+      cook: {
+        notes: ["Use higher fat content for cooking stability", "Add at end of cooking or will separate"],
+        techniques: ["Temper with hot ingredients to prevent curdling", "Stabilize with cornstarch for high heat"],
+        dishes: ["Creamy sauces", "Stroganoff", "Indian curry finisher"]
+      }
+    },
+    preparation: {
+      homemade: {
+        ingredients: ["Whole milk", "Live cultures", "Time"],
+        process: "Heat milk, cool slightly, add culture, incubate, strain through cheesecloth",
+        tips: ["Longer straining creates thicker yogurt", "Save whey for other applications"]
+      },
+      storebought: {
+        selection: "Choose without added thickeners for purest flavor",
+        preparation: "Stir before using if separation has occurred"
+      }
+    },
+    storage: {
+      container: "Glass or original container",
+      duration: "1-2 weeks refrigerated",
+      temperature: {
+        fahrenheit: 38,
+        celsius: 3.3
+      },
+      notes: "May continue to increase in tanginess over time"
+    },
+    culturalSignificance: {
+      "mediterranean": {
+        role: "Staple protein source and cooking ingredient",
+        pairings: "Olive oil, cucumber, garlic, herbs",
+        dishes: "Tzatziki, marinades, mezze"
+      },
+      "middle_eastern": {
+        role: "Traditional breakfast component and sauce base",
+        pairings: "Olive oil, za'atar, honey, nuts",
+        dishes: "Labneh, breakfast spreads"
+      },
+      "modern health": {
+        role: "Protein-rich alternative to higher-fat dairy",
+        adaptations: "Protein bowls, smoothies, healthier baking"
+      }
+    },
+    affinities: {
+      sweet: ["honey", "maple syrup", "berries", "stone fruits", "granola", "nuts"],
+      savory: ["cucumber", "mint", "dill", "garlic", "olive oil", "lemon"]
+    },
+    pairings: ["honey", "berries", "nuts", "cucumber", "garlic", "dill", "mint", "olive oil"],
+    substitutions: ["labneh", "skyr", "cottage_cheese", "thick_coconut_yogurt"],
+    idealSeasonings: {
+      sweet: ["vanilla", "cinnamon", "cardamom", "honey", "maple"],
+      savory: ["dill", "mint", "za'atar", "sumac", "black pepper", "lemon zest"]
+    }
+  },
+  "cottage_cheese": {
+    name: "Cottage Cheese",
+    description: "Fresh cheese curd product with mild flavor and varying textures.",
+    category: "dairy",
+    qualities: ["mild", "soft", "fresh", "protein-rich", "versatile"],
+    sustainabilityScore: 5,
+    season: ["all"],
+    regionalOrigins: ["europe", "north_america"],
+    elementalProperties: {
+      Fire: 0.1,
+      Water: 0.5,
+      Earth: 0.3,
+      Air: 0.1
+    },
+    astrologicalProfile: {
+      rulingPlanets: ["Moon", "Venus"],
+      zodiacInfluence: ["Taurus", "Cancer"],
+      celestialAspects: {
+        moonPhase: {
+          waxing: "enhanced moisture and softness",
+          full: "optimal curd formation and flavor",
+          waning: "drier texture, easier digestion"
+        }
+      }
+    },
+    lunarPhaseModifiers: {
+      "New Moon": {
+        elementalBoost: {
+          Water: 0.15,
+          Earth: 0.05
+        },
+        preparationTips: ["Best for starting fresh batches", "More delicate curds form"]
+      },
+      "Full Moon": {
+        elementalBoost: {
+          Water: 0.1,
+          Earth: 0.1
+        },
+        preparationTips: ["Optimal curd formation", "Best flavor development"]
+      }
+    },
+    nutritionalProfile: {
+      serving_size_oz: 4,
+      calories: 110,
+      protein_g: 12,
+      fat_g: 5,
+      carbs_g: 3,
+      vitamins: ['Vitamin B12', 'Riboflavin', 'Vitamin A'],
+      minerals: ['Calcium', 'Phosphorus', 'Selenium', 'Sodium']
+    },
+    healthBenefits: {
+      "muscle support": "Rich source of casein protein for slow-release amino acids",
+      "bone health": "Excellent calcium source for skeletal maintenance",
+      "satiety": "High protein and moderate fat content increases fullness",
+      "metabolism": "Contains conjugated linoleic acid (CLA) in full-fat versions",
+      "recovery": "Popular among athletes for post-workout recovery"
+    },
+    varieties: {
+      "small curd": {
+        texture: "Smaller, more uniform pieces",
+        moisture: "Medium",
+        protein: "Standard",
+        uses: "Baking, dips, smoother applications",
+        notes: "More versatile for recipes requiring uniform texture"
+      },
+      "large curd": {
+        texture: "Larger, more defined pieces",
+        moisture: "Medium",
+        protein: "Standard",
+        uses: "Direct eating, where texture is desirable",
+        notes: "Traditional style, more 'rustic' appearance"
+      },
+      "dry curd": {
+        texture: "Low moisture, distinctly separate curds",
+        moisture: "Low",
+        protein: "High",
+        uses: "Baking, lactose-sensitive diets",
+        notes: "Lowest lactose content, least smooth"
+      },
+      "whipped": {
+        texture: "Smoother, more blended consistency",
+        moisture: "Medium-high",
+        protein: "Standard",
+        uses: "Spreads, dips, smoother applications",
+        notes: "Easier to incorporate into recipes"
+      }
+    },
+    culinaryApplications: {
+      raw: { 
+        notes: ["Eaten plain or with fruits", "Base for protein-rich snacks"],
+        techniques: ["Drizzle with honey or fruit", "Top with cracked black pepper and herbs"],
+        dishes: ["Cottage cheese bowls", "Stuffed avocados", "Protein snack plates"] 
+      },
+      mix: { 
+        notes: ["Added to salads", "Used in dips", "Blended for smoother applications"],
+        techniques: ["Fold gently to maintain texture", "Pulse in food processor for smoother consistency"],
+        dishes: ["Vegetable dips", "Protein-enriched sauces", "Waldorf salad variation"] 
+      },
+      bake: { 
+        notes: ["Filling for crepes", "Added to casseroles and lasagna", "Moisture-adding ingredient"],
+        techniques: ["Drain excess moisture for baking", "Mix with eggs for structure"],
+        dishes: ["Cottage cheese pancakes", "Cheesecake", "Lasagna filling", "Protein bread"] 
+      },
+      blend: {
+        notes: ["Can be blended smooth for variety of uses", "Adds creaminess without heavy fat"],
+        techniques: ["Blend until completely smooth", "Mix with other ingredients for desired consistency"],
+        dishes: ["Protein smoothies", "Creamy dressings", "Healthier 'cream' sauces"]
+      }
+    },
+    preparation: {
+      homemade: {
+        ingredients: ["Whole milk", "Acid (vinegar or lemon juice)", "Salt"],
+        process: "Heat milk, add acid, allow curds to form, drain and rinse",
+        tips: ["Rinse curds thoroughly to control saltiness", "Save whey for baking applications"]
+      },
+      storebought: {
+        selection: "Check date codes, avoid excessive liquid",
+        preparation: "Drain excess liquid if desired"
+      }
+    },
+    storage: {
+      container: "Original container or airtight glass",
+      duration: "5-7 days refrigerated",
+      temperature: {
+        fahrenheit: 38,
+        celsius: 3.3
+      },
+      notes: "Texture and flavor best when fresh, tends to sour rather than spoil"
+    },
+    culturalSignificance: {
+      "european": {
+        role: "Traditional fresh cheese in many cuisines",
+        pairings: "Fresh herbs, black pepper, fruit preserves",
+        dishes: "Blintzes, pierogi filling, breakfast dishes"
+      },
+      "american": {
+        role: "Diet food popularized in mid-20th century",
+        pairings: "Canned fruit, gelatin salads, crackers",
+        dishes: "1950s 'diet plates', retro salads"
+      },
+      "modern health": {
+        role: "Rediscovered as high-protein, whole food",
+        adaptations: "Protein bowls, savory applications, healthy baking ingredient"
+      }
+    },
+    affinities: {
+      sweet: ["peaches", "pineapple", "berries", "honey", "cinnamon", "nutmeg"],
+      savory: ["tomatoes", "cucumbers", "bell peppers", "herbs", "olive oil", "black pepper"]
+    },
+    pairings: ["peaches", "pineapple", "tomatoes", "herbs", "pepper", "everything bagel seasoning"],
+    substitutions: ["ricotta", "greek_yogurt", "quark", "fromage blanc"],
+    idealSeasonings: {
+      sweet: ["cinnamon", "vanilla", "nutmeg", "maple", "honey"],
+      savory: ["chives", "black pepper", "dill", "garlic powder", "everything bagel seasoning"]
+    }
+  },
+  "ricotta": {
+    name: "Ricotta",
+    description: "Soft, mild Italian whey cheese with small, fluffy curds and versatile applications.",
+    category: "dairy",
+    qualities: ["mild", "creamy", "sweet", "delicate", "versatile"],
+    sustainabilityScore: 6,
+    season: ["all"],
+    regionalOrigins: ["italy", "mediterranean"],
+    elementalProperties: {
+      Fire: 0.1,
+      Water: 0.5,
+      Earth: 0.3,
+      Air: 0.1
+    },
+    astrologicalProfile: {
+      rulingPlanets: ["Moon", "Venus"],
+      zodiacInfluence: ["Cancer", "Taurus"],
+      celestialAspects: {
+        moonPhase: {
+          waxing: "increased moisture and softness",
+          full: "optimal texture and sweetness",
+          waning: "slightly drier, more complex flavor"
+        }
+      }
+    },
+    lunarPhaseModifiers: {
+      "New Moon": {
+        elementalBoost: {
+          Water: 0.2
+        },
+        preparationTips: ["Best for beginning cheese making", "Creates most delicate texture"]
+      },
+      "Full Moon": {
+        elementalBoost: {
+          Water: 0.1,
+          Earth: 0.1
+        },
+        preparationTips: ["Best flavor development", "Optimal milk protein composition"]
+      }
+    },
+    nutritionalProfile: {
+      serving_size_oz: 4,
+      calories: 164,
+      protein_g: 11,
+      fat_g: 12,
+      carbs_g: 4,
+      vitamins: ['Vitamin A', 'Vitamin B12', 'Riboflavin'],
+      minerals: ['Calcium', 'Phosphorus', 'Selenium', 'Zinc']
+    },
+    healthBenefits: {
+      "protein source": "Complete protein with all essential amino acids",
+      "bone health": "High calcium content supports skeletal strength",
+      "digestibility": "Easier to digest than aged cheeses",
+      "muscle recovery": "Provides branched-chain amino acids",
+      "satiety": "Balance of protein and fat increases fullness"
+    },
+    varieties: {
+      "whole milk": {
+        texture: "Richest, creamiest",
+        moisture: "High",
+        fat: "High",
+        uses: "Desserts, traditional dishes, eating plain",
+        notes: "Traditional and most flavorful variety"
+      },
+      "part-skim": {
+        texture: "Slightly less creamy, more distinct curds",
+        moisture: "Medium-high",
+        fat: "Medium",
+        uses: "All-purpose, balanced nutrition and flavor",
+        notes: "Most commonly available commercial variety"
+      },
+      "sheep milk": {
+        texture: "Rich, distinctive",
+        moisture: "Medium",
+        fat: "High",
+        uses: "Specialty applications, authentic Italian dishes",
+        notes: "Traditional ricotta type with more complex flavor"
+      },
+      "buffalo milk": {
+        texture: "Very rich, creamy",
+        moisture: "High",
+        fat: "Very high",
+        uses: "Premium applications, special dishes",
+        notes: "Luxury variant, most often in southern Italy"
+      }
+    },
+    culinaryApplications: {
+      raw: { 
+        notes: ["Served with honey or fruit", "Spread on bread or toast"],
+        techniques: ["Drizzle with good olive oil and sea salt", "Top with fresh herbs and pepper"],
+        dishes: ["Crostini", "Bruschetta", "Fresh fruit accompaniment"] 
+      },
+      mix: { 
+        notes: ["Mixed into pasta dishes", "Combined with herbs for fillings"],
+        techniques: ["Room temperature incorporation", "Gently fold to maintain texture"],
+        dishes: ["Pasta alla Norma", "Dips", "Herb spreads"] 
+      },
+      bake: { 
+        notes: ["Classic ingredient in lasagna", "Italian desserts", "Cheesecake"],
+        techniques: ["Drain excess moisture for some applications", "Mix with egg for structure in baking"],
+        dishes: ["Lasagna", "Cannoli filling", "Cassata", "Cheesecake"] 
+      },
+      stuff: {
+        notes: ["Traditional filling for pasta and pastries", "Holds shape when baked"],
+        techniques: ["Mix with eggs for stability", "Combine with other cheeses for depth"],
+        dishes: ["Ravioli", "Manicotti", "Stuffed shells", "Calzone"]
+      }
+    },
+    preparation: {
+      homemade: {
+        ingredients: ["Whole milk", "Heavy cream (optional)", "Acid (vinegar, lemon juice, or buttermilk)"],
+        process: "Heat milk, add acid, let curds form, drain in cheesecloth",
+        tips: ["Higher fat content creates creamier cheese", "Save whey for bread making or soup"]
+      },
+      storebought: {
+        selection: "Choose from refrigerated section, avoid shelf-stable varieties for best flavor",
+        preparation: "Drain excess liquid before using in recipes requiring firmer texture"
+      }
+    },
+    storage: {
+      container: "Original container or airtight glass",
+      duration: "5-7 days refrigerated",
+      temperature: {
+        fahrenheit: 38,
+        celsius: 3.3
+      },
+      notes: "Best used fresh, texture deteriorates over time"
+    },
+    culturalSignificance: {
+      "italian": {
+        role: "Traditional cheese made from recooking whey (ri-cotta = re-cooked)",
+        pairings: "Olive oil, herbs, honey, fruit, bread",
+        dishes: "Lasagna, cannoli, cheesecake, stuffed pasta"
+      },
+      "sicilian": {
+        role: "Key ingredient in traditional desserts",
+        pairings: "Chocolate, pistachios, candied fruit, cinnamon",
+        dishes: "Cassata, cannoli, Sicilian cheesecake"
+      },
+      "modern": {
+        role: "Versatile low-sodium cheese in contemporary cooking",
+        adaptations: "Protein-rich breakfast component, sandwich spread, dip base"
+      }
+    },
+    affinities: {
+      sweet: ["honey", "figs", "berries", "chocolate", "citrus zest", "vanilla"],
+      savory: ["tomatoes", "spinach", "basil", "garlic", "olive oil", "lemon"]
+    },
+    pairings: ["honey", "olive_oil", "herbs", "lemon_zest", "tomato_sauce", "spinach", "pasta"],
+    substitutions: ["cottage_cheese", "cream_cheese", "mascarpone", "quark"],
+    idealSeasonings: {
+      sweet: ["vanilla", "cinnamon", "orange zest", "honey", "pistachios"],
+      savory: ["basil", "black pepper", "lemon zest", "red pepper flakes", "parsley"]
+    }
+  },
+  "cream_cheese": {
+    name: "Cream Cheese",
+    description: "Soft, spreadable fresh cheese with mild flavor and smooth texture.",
+    category: "dairy",
+    qualities: ["creamy", "tangy", "smooth", "spreadable", "rich"],
+    sustainabilityScore: 4,
+    season: ["all"],
+    regionalOrigins: ["united_states", "europe"],
+    elementalProperties: {
+      Fire: 0.1,
+      Water: 0.4,
+      Earth: 0.4,
+      Air: 0.1
+    },
+    astrologicalProfile: {
+      rulingPlanets: ["Venus", "Moon"],
+      zodiacInfluence: ["Taurus", "Cancer", "Libra"],
+      celestialAspects: {
+        moonPhase: {
+          waxing: "creamier texture, milder flavor",
+          full: "perfect balance of richness and tang",
+          waning: "more pronounced tanginess"
+        }
+      }
+    },
+    lunarPhaseModifiers: {
+      "New Moon": {
+        elementalBoost: {
+          Water: 0.1,
+          Earth: 0.1
+        },
+        preparationTips: ["Best for starting fresh batches", "Creates milder flavor profile"]
       },
       "Full Moon": {
         elementalBoost: {
           Earth: 0.2
         },
-        preparationTips: ["Optimal time for making paneer", "Yields best firmness and moisture balance"]
+        preparationTips: ["Optimal richness and texture", "Best structure for baking"]
       }
     },
-    nutritionalContent: {
-      protein: 18,
-      fat: 22,
-      carbs: 3.4,
-      calories: 265,
-      calcium: "350mg",
-      phosphorus: "138mg",
-      selenium: "11μg",
-      vitamin_B12: "1.1μg",
-      vitamin_D: "12IU",
-      probioticContent: "minimal"
+    nutritionalProfile: {
+      serving_size_oz: 2,
+      calories: 200,
+      protein_g: 4,
+      fat_g: 20,
+      carbs_g: 2,
+      vitamins: ['Vitamin A', 'Vitamin B12', 'Riboflavin'],
+      minerals: ['Calcium', 'Phosphorus', 'Selenium']
     },
     healthBenefits: {
-      "complete protein": "Contains all essential amino acids",
-      "bone health": "High calcium content supports bone density",
-      "digestibility": "Easier to digest than aged cheeses",
-      "weight management": "High protein content increases satiety",
-      "diabetes friendly": "Low glycemic index, suitable for blood sugar management"
+      "energy dense": "Provides concentrated calories from fat",
+      "fat-soluble vitamins": "Contains vitamins A and D",
+      "calcium source": "Contributes to daily calcium needs",
+      "satiety": "High fat content increases feeling of fullness"
     },
     varieties: {
-      "regular": {
-        texture: "Firm, slightly crumbly",
-        moisture: "Medium",
-        uses: "All-purpose, good for curries and grilling",
-        notes: "Most commonly available variety"
+      "full-fat": {
+        texture: "Richest, creamiest",
+        moisture: "Medium-high",
+        fat: "High (33%+)",
+        uses: "Cheesecake, frostings, traditional applications",
+        notes: "Best flavor and baking performance"
       },
-      "malai paneer": {
-        texture: "Soft, creamy, smoother",
+      "reduced-fat": {
+        texture: "Slightly less creamy, softer",
         moisture: "High",
-        uses: "Malai kofta, creamy dishes, stuffed breads",
-        notes: "Made with cream-enriched milk for richer flavor"
+        fat: "Medium",
+        uses: "Everyday spreading, lighter applications",
+        notes: "Common supermarket variety"
       },
-      "achari paneer": {
-        texture: "Firm with tangy flavor",
-        moisture: "Medium-low",
-        uses: "Tandoori dishes, skewers, robust curry bases",
-        notes: "Infused with pickling spices during curdling"
+      "whipped": {
+        texture: "Lighter, fluffier",
+        moisture: "Medium",
+        fat: "Medium-high",
+        uses: "Spreading, dipping, when lighter texture desired",
+        notes: "Incorporates air, easier to spread cold"
       },
-      "dhaka paneer": {
-        texture: "Very firm, less crumbly",
-        moisture: "Low",
-        uses: "Stir-fries, holds shape well when cooked",
-        notes: "Bengali style with extended pressing time"
+      "cultured": {
+        texture: "Traditional, more complex",
+        moisture: "Medium",
+        fat: "High",
+        uses: "Gourmet applications, artisanal preparations",
+        notes: "More traditional method with complex flavor"
       }
     },
     culinaryApplications: {
-      fry: { 
-        notes: ["Lightly fried before adding to curries"],
-        techniques: ["Shallow fry until golden", "Cube before frying for even cooking"],
-        dishes: ["Paneer tikka masala", "Kadai paneer"]
+      spread: { 
+        notes: ["Classic bagel topping", "Base for sandwiches and wraps"],
+        techniques: ["Allow to soften before spreading", "Layer thinly for best flavor"],
+        dishes: ["Bagels and lox", "Tea sandwiches", "Canapés"] 
       },
-      grill: { 
-        notes: ["Marinated and grilled as tikka"], 
-        techniques: ["Marinate for at least 30 minutes", "Skewer for easy handling"],
-        dishes: ["Paneer tikka", "Tandoori paneer"]
+      mix: { 
+        notes: ["Base for dips and spreads", "Mix with herbs or honey for flavored spread"],
+        techniques: ["Room temperature for easiest mixing", "Use paddle attachment not whisk"],
+        dishes: ["Veggie dip", "Herb spread", "Flavored compound spreads"] 
       },
-      curry: { 
-        notes: ["Added to spinach for saag paneer", "Used in various curry dishes"],
-        techniques: ["Add late in cooking to prevent toughening", "Simmer gently"],
-        dishes: ["Palak paneer", "Matar paneer", "Shahi paneer"] 
+      bake: { 
+        notes: ["Essential for cheesecake", "Structure-adding ingredient for desserts"],
+        techniques: ["Room temperature for baking", "Beat until smooth but don't overbeat"],
+        dishes: ["Cheesecake", "Danishes", "Puffs", "Sweet rolls"] 
       },
-      stuffing: {
-        notes: ["Used as filling for breads and pastries"],
-        techniques: ["Crumble or grate for even distribution", "Mix with herbs and spices"],
-        dishes: ["Paneer paratha", "Stuffed naan", "Paneer rolls"]
-      },
-      raw: {
-        notes: ["Enjoyed fresh with minimal preparation"],
-        techniques: ["Sprinkle with chaat masala or black salt", "Drizzle with lime juice"],
-        dishes: ["Paneer salad", "Fresh paneer snack"]
+      cook: {
+        notes: ["Creates creamy sauces", "Thickens without flour or cornstarch"],
+        techniques: ["Add at end of cooking", "Low heat to prevent separation"],
+        dishes: ["Creamy pasta sauces", "Mashed potatoes", "Creamed spinach"]
       }
     },
     preparation: {
       homemade: {
-        ingredients: ["Whole milk", "Acid (lemon juice, vinegar, yogurt)"],
-        process: "Heat milk, add acid, strain curds, press to desired firmness",
-        tips: ["Use full-fat milk for best results", "Press longer for firmer texture"]
+        ingredients: ["Whole milk", "Heavy cream", "Acid (lemon juice or vinegar)", "Salt"],
+        process: "Heat dairy, add acid, strain, then blend until smooth",
+        tips: ["Longer straining creates firmer texture", "Adding culture develops more complex flavor"]
       },
       storebought: {
-        selection: "Choose firm, white blocks with no discoloration",
-        preparation: "Soak in warm water before cooking to soften if needed"
+        selection: "Choose block style for baking, whipped for spreading",
+        preparation: "Bring to room temperature before using in recipes"
       }
     },
     storage: {
-      container: "Airtight container with water",
-      duration: "1-2 weeks refrigerated",
+      container: "Original foil wrapper or airtight container",
+      duration: "2 weeks refrigerated unopened, 1 week once opened",
       temperature: {
-        fahrenheit: 35,
-        celsius: 1.7
+        fahrenheit: 38,
+        celsius: 3.3
       },
-      notes: "Change water every 2-3 days for maximum freshness"
+      notes: "Can be frozen for up to 2 months but texture may change"
     },
     culturalSignificance: {
-      "ayurvedic": {
-        dosha: "Balances Vata and Pitta, may increase Kapha",
-        properties: "Cooling, grounding, nourishing",
-        recommendations: "Best consumed fresh with warming spices"
+      "american": {
+        role: "Iconic breakfast spread popularized in New York",
+        pairings: "Bagels, lox, capers, red onion, tomato",
+        dishes: "Cheesecake, cream cheese frosting, dips"
       },
-      "religious": {
-        role: "Important protein source in vegetarian Hindu diets",
-        festivals: "Commonly prepared during Janmashtami and Holi celebrations",
-        traditions: "Offered as prasad (blessed food) in some temples"
+      "european": {
+        role: "Traditional fresh cheese in many regional varieties",
+        pairings: "Herbs, fruits, honey, nuts",
+        dishes: "Pastries, tarts, savory spreads"
       },
-      "regional": {
-        "North Indian": "Used in rich, creamy curries",
-        "Bengali": "Incorporated in sweeter preparations",
-        "Punjabi": "Featured in robust, spice-forward dishes"
+      "modern": {
+        role: "Versatile ingredient in contemporary cooking and baking",
+        adaptations: "Vegan alternatives, flavored varieties, as cooking ingredient"
       }
     },
     affinities: {
-      spices: ["cumin", "coriander", "garam masala", "turmeric", "fenugreek"],
-      herbs: ["cilantro", "mint", "curry leaves"],
-      vegetables: ["spinach", "peas", "bell peppers", "tomatoes", "onions"],
-      aromatics: ["ginger", "garlic", "green chilies"]
+      sweet: ["berries", "honey", "vanilla", "chocolate", "cinnamon", "caramel"],
+      savory: ["chives", "garlic", "dill", "smoked salmon", "cucumber", "olive"]
     },
-    pairings: ["spinach", "tomato", "peas", "Indian_spices", "fenugreek"],
-    substitutions: ["halloumi", "firm_tofu", "queso_blanco", "queso_fresco"],
+    pairings: ["bagel", "berries", "honey", "smoked_salmon", "herbs", "cucumber", "walnuts"],
+    substitutions: ["mascarpone", "ricotta", "neufchatel", "quark", "greek_yogurt"],
     idealSeasonings: {
-      primary: ["chaat masala", "black salt", "garam masala"],
-      secondary: ["red chili powder", "dried fenugreek leaves (kasuri methi)", "black pepper"]
+      sweet: ["vanilla", "cinnamon", "orange zest", "honey", "maple"],
+      savory: ["chives", "dill", "garlic powder", "everything bagel seasoning", "black pepper"]
     }
-  },
-  "halloumi": {
-    name: "Halloumi",
-    description: "Semi-hard, brined cheese with high melting point, popular for grilling.",
-    category: "dairy",
-    qualities: ["salty", "firm", "squeaky"],
-    sustainabilityScore: 5,
-    season: ["all"],
-    regionalOrigins: ["cyprus", "middle_east"],
-    elementalProperties: {
-      Fire: 0.3,
-      Water: 0.3,
-      Earth: 0.3,
-      Air: 0.1
-    },
-    nutritionalContent: {
-      protein: 22,
-      fat: 25,
-      carbs: 2.2,
-      calories: 330
-    },
-    culinaryApplications: {
-      grill: { notes: ["Grilled until golden with characteristic grill marks"] },
-      fry: { notes: ["Pan-fried until crispy outside, soft inside"] },
-      raw: { notes: ["Can be eaten raw, though typically cooked"] }
-    },
-    pairings: ["watermelon", "mint", "lemon", "olive_oil", "za'atar"],
-    substitutions: ["paneer", "bread_cheese", "queso_para_freir"],
-    affinities: ["mediterranean_flavors", "fresh_herbs", "citrus"]
   }
 };
 
-export default dairy; 
+// Fix the ingredient mappings to ensure they have all required properties
+export const dairy: Record<string, IngredientMapping> = fixIngredientMappings(rawDairy); 

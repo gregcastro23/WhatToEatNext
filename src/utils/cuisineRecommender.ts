@@ -471,8 +471,8 @@ export function recommendCuisines(
         // Calculate flavor affinity between Mars and the cuisine
         let flavorMatch = 0;
         for (const flavor in marsFlavorProfile) {
-          if (cuisineData.flavor[flavor]) {
-            flavorMatch += marsFlavorProfile[flavor] * cuisineData.flavor[flavor];
+          if (cuisineFlavorProfile[flavor]) {
+            flavorMatch += marsFlavorProfile[flavor] * cuisineFlavorProfile[flavor];
           }
         }
         marsScore += flavorMatch * 2.0;
@@ -763,16 +763,16 @@ export function recommendCuisines(
         seasonalAffinity = 1.0; // Increased year-round cuisine
       }
       
-      // Check for opposing seasons (summer↔winter, spring↔fall)
-      const opposingSeason = {
-        'summer': 'winter',
-        'winter': 'summer',
-        'spring': 'fall',
-        'fall': 'spring'
+      // Check for complementary seasons - all seasons can work
+      const complementarySeason = {
+        'summer': 'spring',
+        'winter': 'fall',
+        'spring': 'summer',
+        'fall': 'winter'
       }[season];
       
-      if (opposingSeason && cuisineData.seasonalPreference.includes(opposingSeason)) {
-        seasonalAffinity = 0.3; // Less suitable for opposing season
+      if (complementarySeason && cuisineData.seasonalPreference.includes(complementarySeason)) {
+        seasonalAffinity = 0.8; // Good match with complementary season
       }
       
       scores[cuisineName].seasonalAffinity = seasonalAffinity;
@@ -2033,6 +2033,6 @@ export function calculateCuisineScore(cuisine: CuisineProfile, astroState: Astro
   const baseScore = calculateBaseScore(cuisine, astroState);
   
   // Apply a multiplier to better reflect improved recommendation logic
-  const multiplier = 2.0;  // Adjustable multiplier to improve displayed percentages
+  const multiplier = 3.0;  // Increased from 2.0 to create more differentiation in scores
   return Math.min(1.0, baseScore * multiplier);  // Cap at 1.0 (100%)
 } 
