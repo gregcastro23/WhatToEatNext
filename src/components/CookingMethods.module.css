@@ -508,40 +508,46 @@
 }
 
 .cookingInfoTips {
-  margin-top: 1.5rem;
-  padding: 1.5rem;
-  background-color: #f9fafb;
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: #f8fafc;
   border-radius: 8px;
-  border-left: 4px solid #6b46c1;
+  border-left: 3px solid #6b46c1;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .tipsHeader {
-  margin: 0 0 1rem 0;
-  font-size: 1.1rem;
+  margin: 0 0 0.75rem 0;
+  font-size: 0.9rem;
   font-weight: 600;
   color: #4a5568;
   border-bottom: 1px solid #e2e8f0;
   padding-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .tipsList {
   list-style-type: none;
   padding: 0;
   margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 0.75rem;
 }
 
 .tipItem {
   position: relative;
-  padding: 0.5rem 0 0.5rem 1.5rem;
-  font-size: 0.95rem;
-  line-height: 1.6;
-  color: #2d3748;
-  margin-bottom: 0.75rem;
+  padding: 0.5rem 0.75rem 0.5rem 1.25rem;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: #4b5563;
   background-color: white;
   border-radius: 6px;
-  padding: 0.75rem 1rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  border-left: 3px solid #805ad5;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  border-left: 2px solid #805ad5;
+  margin: 0;
 }
 
 .tipItem::before {
@@ -552,11 +558,29 @@
   font-weight: bold;
 }
 
-/* Add these styles for molecular gastronomy details */
+/* Style for the second cookingInfoTips section (Ideal Ingredients) */
+.cookingInfoTips + .cookingInfoTips {
+  margin-top: 1rem;
+  background-color: #f0f7ff;
+  border-left: 3px solid #3182ce;
+}
 
+.cookingInfoTips + .cookingInfoTips .tipsHeader {
+  color: #2c5282;
+}
+
+.cookingInfoTips + .cookingInfoTips .tipItem {
+  border-left: 2px solid #4299e1;
+}
+
+.cookingInfoTips + .cookingInfoTips .tipItem::before {
+  color: #4299e1;
+}
+
+/* Fix molecular details section to remove white text */
 .molecularDetails {
   margin-top: 1rem;
-  background: rgba(20, 20, 30, 0.3);
+  background: #f0f4fa;
   border-radius: 8px;
   padding: 1rem;
   border: 1px dashed rgba(130, 80, 230, 0.3);
@@ -567,9 +591,70 @@
   align-items: center;
   font-size: 0.9rem;
   font-weight: 600;
-  color: rgba(180, 120, 255, 0.9);
+  color: #6b46c1;
   margin-bottom: 0.75rem;
   letter-spacing: 0.03em;
+}
+
+.molecularValue {
+  display: block;
+  font-size: 0.8rem;
+  color: #4a5568;
+  line-height: 1.4;
+  font-style: italic;
+}
+
+.molecularTag {
+  background: rgba(130, 80, 230, 0.1);
+  border: 1px solid rgba(130, 80, 230, 0.3);
+  border-radius: 0.25rem;
+  padding: 0.125rem 0.375rem;
+  font-size: 0.75rem;
+  color: #6b46c1;
+}
+
+.molecularItem {
+  position: relative;
+  padding-left: 0.75rem;
+  margin-bottom: 0.375rem;
+  font-size: 0.75rem;
+  color: #4a5568;
+  line-height: 1.4;
+}
+
+/* Fix thermodynamic container to remove white text */
+.thermodynamicContainer {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  background: #f5f7fa;
+  border-radius: 8px;
+  padding: 1rem;
+  border: 1px solid #e2e8f0;
+}
+
+.thermodynamicTitle {
+  display: flex;
+  align-items: center;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #4a5568;
+  margin-bottom: 0.75rem;
+  letter-spacing: 0.02em;
+}
+
+.thermalProperty {
+  font-weight: 500;
+  font-size: 0.85rem;
+  color: #4a5568;
+}
+
+/* Add these styles for molecular gastronomy details */
+.molecularDetails {
+  margin-top: 1rem;
+  background: rgba(20, 20, 30, 0.3);
+  border-radius: 8px;
+  padding: 1rem;
+  border: 1px dashed rgba(130, 80, 230, 0.3);
 }
 
 .molecularSection {
@@ -584,36 +669,10 @@
   color: rgba(200, 160, 255, 0.8);
 }
 
-.molecularValue {
-  display: block;
-  font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.8);
-  line-height: 1.4;
-  font-style: italic;
-}
-
-.molecularTag {
-  background: rgba(130, 80, 230, 0.2);
-  border: 1px solid rgba(130, 80, 230, 0.4);
-  border-radius: 0.25rem;
-  padding: 0.125rem 0.375rem;
-  font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.9);
-}
-
 .molecularList {
   list-style-type: none;
   padding: 0;
   margin: 0;
-}
-
-.molecularItem {
-  position: relative;
-  padding-left: 0.75rem;
-  margin-bottom: 0.375rem;
-  font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.8);
-  line-height: 1.4;
 }
 
 .molecularItem::before {
@@ -624,24 +683,6 @@
 }
 
 /* Add these styles for enhanced thermodynamic effects display */
-.thermodynamicContainer {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 8px;
-  padding: 1rem;
-}
-
-.thermodynamicTitle {
-  display: flex;
-  align-items: center;
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.9);
-  margin-bottom: 0.75rem;
-  letter-spacing: 0.02em;
-}
-
 .thermalEffect {
   margin-bottom: 0.875rem;
   padding-bottom: 0.875rem;
@@ -659,12 +700,6 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 0.5rem;
-}
-
-.thermalProperty {
-  font-weight: 500;
-  font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.8);
 }
 
 .intensityMeter {

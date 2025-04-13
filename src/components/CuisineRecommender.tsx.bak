@@ -1,0 +1,2790 @@
+'use client';
+
+import { useState, useEffect, useMemo } from 'react';
+import { useAstrologicalState } from '@/hooks/useAstrologicalState';
+import { Flame, Droplets, Mountain, Wind, GalleryVertical, Sparkles, ArrowLeft, Moon, SunIcon, ChevronDown, ChevronUp, Info } from 'lucide-react';
+import { cuisines } from '@/data/cuisines';
+import { ElementalItem, AlchemicalItem } from '@/calculations/alchemicalTransformation';
+import { AlchemicalProperty } from '@/constants/planetaryElements';
+import styles from './CuisineRecommender.module.css';
+import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import { transformCuisines, sortByAlchemicalCompatibility } from '@/utils/alchemicalTransformationUtils';
+import { ZodiacSign, LunarPhase, LunarPhaseWithSpaces } from '@/types/alchemy';
+import { cuisineFlavorProfiles, getRecipesForCuisineMatch } from '@/data/cuisineFlavorProfiles';
+import { allRecipes } from '@/data/recipes';
+import { SpoonacularService } from '@/services/SpoonacularService';
+import { LocalRecipeService } from '@/services/LocalRecipeService';
+import { ElementalProperties } from '@/types/alchemy';
+import { sauceRecommendations as sauceRecsData, SauceRecommendation, allSauces, Sauce } from '@/data/sauces';
+
+export interface Cuisine {
+  id: string;
+  name: string;
+  description: string;
+  elementalProperties: Record<string, number>;
+  astrologicalInfluences: string[];
+  zodiacInfluences?: ZodiacSign[];
+  lunarPhaseInfluences?: LunarPhase[];
+}
+
+interface CuisineStyles {
+  container: string;
+  title: string;
+  cuisineList: string;
+  cuisineCard: string;
+  cuisineName: string;
+  description: string;
+  alchemicalProperties: string;
+  subtitle: string;
+  propertyList: string;
+  property: string;
+  propertyName: string;
+  propertyValue: string;
+  astrologicalInfluences: string;
+  influenceList: string;
+  influence: string;
+  loading: string;
+  error: string;
+}
+
+export default function CuisineRecommender() {
+  // Provide fallback values in case AlchemicalContext is not available
+  const alchemicalContext = useAlchemical();
+  const isDaytime = alchemicalContext?.isDaytime ?? true;
+  const planetaryPositions = alchemicalContext?.planetaryPositions ?? {};
+  const state = alchemicalContext?.state ?? {
+    astrologicalState: {
+      zodiacSign: 'aries',
+      lunarPhase: 'new moon'
+    }
+  };
+  const currentZodiac = state.astrologicalState?.zodiacSign;
+  const lunarPhase = state.astrologicalState?.lunarPhase;
+  
+  const [selectedCuisine, setSelectedCuisine] = useState<string | null>(null);
+  const [transformedCuisines, setTransformedCuisines] = useState<AlchemicalItem[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const [cuisinesList, setCuisines] = useState<Cuisine[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [filter, setFilter] = useState<string>('all');
+  const [cuisineRecipes, setCuisineRecipes] = useState<any[]>([]);
+  const [sauceRecommendations, setSauceRecommendations] = useState<any[]>([]);
+  const [showAllRecipes, setShowAllRecipes] = useState<boolean>(false);
+  const [showAllSauces, setShowAllSauces] = useState<boolean>(false);
+  const [expandedRecipes, setExpandedRecipes] = useState<{[key: number]: boolean}>({});
+  const [expandedSauces, setExpandedSauces] = useState<{[key: number]: boolean}>({});
+  const [topRecommendedSauces, setTopRecommendedSauces] = useState<any[]>([]);
+  const [expandedSauceCards, setExpandedSauceCards] = useState<Record<string, boolean>>({});
+  
+  // Get elemental profile from current astrological state instead of using placeholder values
+  const [currentMomentElementalProfile, setCurrentMomentElementalProfile] = useState<ElementalProperties>(
+    ((state?.astrologicalState as any)?.elementalState as ElementalProperties) || {
+      Fire: 0.25, 
+      Water: 0.25, 
+      Earth: 0.25, 
+      Air: 0.25
+    }
+  );
+  const [matchingRecipes, setMatchingRecipes] = useState<any[]>([]);
+
+  // Update current moment elemental profile when astrological state changes
+  useEffect(() => {
+    // Use type assertion to avoid type errors
+    const safeState = state.astrologicalState as any;
+    if (safeState.elementalState) {
+      // Use type assertion to ensure type compatibility
+      setCurrentMomentElementalProfile({...safeState.elementalState} as unknown as ElementalProperties);
+    } else if (currentZodiac) {
+      // If no elemental state but we have zodiac, calculate based on that
+      const zodiacElements = calculateElementalProfileFromZodiac(currentZodiac as ZodiacSign, lunarPhase as LunarPhase);
+      setCurrentMomentElementalProfile(zodiacElements);
+    }
+  }, [state.astrologicalState, currentZodiac, lunarPhase]);
+
+  // Load top sauce recommendations when component mounts or when elemental profile changes
+  useEffect(() => {
+    const topSauces = generateTopSauceRecommendations();
+    setTopRecommendedSauces(topSauces);
+  }, [currentMomentElementalProfile, currentZodiac]); // Re-generate when these dependencies change
+
+  // Update cuisineRecipes whenever matchingRecipes changes
+  useEffect(() => {
+    setCuisineRecipes(matchingRecipes);
+  }, [matchingRecipes]);
+
+  // Calculate elemental profile from zodiac and lunar phase
+  const calculateElementalProfileFromZodiac = (zodiacSign: ZodiacSign, lunarPhase?: LunarPhase): ElementalProperties => {
+    // Get zodiac element
+    const zodiacElementMap: Record<string, keyof ElementalProperties> = {
+      aries: 'Fire', leo: 'Fire', sagittarius: 'Fire',
+      taurus: 'Earth', virgo: 'Earth', capricorn: 'Earth',
+      gemini: 'Air', libra: 'Air', aquarius: 'Air',
+      cancer: 'Water', scorpio: 'Water', pisces: 'Water'
+    };
+    
+    const primaryElement = zodiacElementMap[zodiacSign];
+    
+    // Start with base values
+    const elementalProfile: ElementalProperties = {
+      Fire: 0.15,
+      Water: 0.15,
+      Earth: 0.15,
+      Air: 0.15
+    };
+    
+    // Boost primary element from zodiac
+    elementalProfile[primaryElement] = 0.6;
+    
+    // Add lunar phase influence if available
+    if (lunarPhase) {
+      const lunarElementMap: Record<string, keyof ElementalProperties> = {
+        'new moon': 'Fire',
+        'waxing crescent': 'Fire',
+        'first quarter': 'Air',
+        'waxing gibbous': 'Air',
+        'full moon': 'Water',
+        'waning gibbous': 'Water',
+        'last quarter': 'Earth',
+        'waning crescent': 'Earth'
+      };
+      
+      const lunarElement = lunarElementMap[lunarPhase];
+      
+      if (lunarElement) {
+        // Increase the lunar element (avoid exceeding 1.0 total)
+        elementalProfile[lunarElement] += 0.2;
+      }
+    }
+    
+    // Add planetary influences
+    if (Object.keys(planetaryPositions).length > 0) {
+      const elementalContributions = calculateElementalContributionsFromPlanets(planetaryPositions);
+      
+      // Apply planetary contributions (with less weight than zodiac and lunar)
+      for (const element of Object.keys(elementalProfile) as Array<keyof ElementalProperties>) {
+        if (elementalContributions[element]) {
+          elementalProfile[element] += elementalContributions[element] * 0.1;
+        }
+      }
+    }
+    
+    // Normalize to ensure sum is approximately 1.0
+    const sum = Object.values(elementalProfile).reduce((acc, val) => acc + val, 0);
+    if (sum > 0) {
+      for (const element of Object.keys(elementalProfile) as Array<keyof ElementalProperties>) {
+        elementalProfile[element] = elementalProfile[element] / sum;
+      }
+    }
+    
+    return elementalProfile;
+  };
+  
+  // Calculate elemental contributions from planetary positions
+  const calculateElementalContributionsFromPlanets = (positions: Record<string, any>): ElementalProperties => {
+    const contributions: ElementalProperties = {
+      Fire: 0,
+      Water: 0,
+      Earth: 0,
+      Air: 0
+    };
+    
+    // Planet to element mapping
+    const planetElementMap: Record<string, keyof ElementalProperties> = {
+      'Sun': 'Fire',
+      'Moon': 'Water',
+      'Mercury': 'Air',
+      'Venus': 'Earth',
+      'Mars': 'Fire',
+      'Jupiter': 'Air',
+      'Saturn': 'Earth',
+      'Uranus': 'Air',
+      'Neptune': 'Water',
+      'Pluto': 'Water'
+    };
+    
+    // Calculate contributions based on planet positions
+    for (const [planet, position] of Object.entries(positions)) {
+      const element = planetElementMap[planet];
+      if (element) {
+        // Weight by planet importance (Sun and Moon have higher influence)
+        const weight = (planet === 'Sun' || planet === 'Moon') ? 0.3 : 0.1;
+        contributions[element] += weight;
+      }
+    }
+    
+    return contributions;
+  };
+
+  const cssStyles = styles as unknown as CuisineStyles;
+
+  /**
+   * Calculate elemental match score between two elemental property sets
+   * This computes how well the recipe's elements align with the user's preferred elements
+   */
+  const calculateElementalMatch = (
+    recipeElements: ElementalProperties,
+    userElements: ElementalProperties
+  ): number => {
+    // Get the element names (Fire, Water, Earth, Air)
+    const elements = Object.keys(recipeElements);
+    
+    // Calculate cosine similarity between the two elemental vectors
+    let dotProduct = 0;
+    let recipeNorm = 0;
+    let userNorm = 0;
+    
+    for (const element of elements) {
+      const recipeValue = recipeElements[element as keyof ElementalProperties] || 0;
+      const userValue = userElements[element as keyof ElementalProperties] || 0;
+      
+      dotProduct += recipeValue * userValue;
+      recipeNorm += recipeValue * recipeValue;
+      userNorm += userValue * userValue;
+    }
+    
+    recipeNorm = Math.sqrt(recipeNorm);
+    userNorm = Math.sqrt(userNorm);
+    
+    // Avoid division by zero
+    if (recipeNorm === 0 || userNorm === 0) {
+      return 0.5; // Neutral match if either has no elemental values
+    }
+    
+    // Calculate cosine similarity (0-1 range)
+    const similarity = dotProduct / (recipeNorm * userNorm);
+    
+    // Scale the similarity to a score between 0.5 and 1.0
+    // This ensures even recipes with poor matches aren't completely excluded
+    return 0.5 + (similarity * 0.5);
+  };
+
+  useEffect(() => {
+    const fetchCuisines = async () => {
+      try {
+        setLoading(true);
+        
+        // Only use main cuisines from the cuisines index, not regional variants
+        const loadedCuisines: Cuisine[] = Object.entries(cuisines).map(([id, cuisine]) => {
+          // Skip regional variants
+          if (cuisineFlavorProfiles[id]?.parentCuisine) {
+            return null;
+          }
+          
+          // Extract zodiac influences from astrological profile if available and convert to lowercase
+          const zodiacInfluences = cuisine.astrologicalProfile?.favorableZodiac?.map(sign => 
+            sign.toLowerCase() as ZodiacSign
+          ) || [];
+          
+          // Extract lunar phase influences - if not available, assign based on dominant element
+          // Water-dominant cuisines tend to align with full and waning moon phases
+          // Fire-dominant cuisines tend to align with new and waxing moon phases
+          let lunarPhaseInfluences: LunarPhase[] = [];
+          if (lunarPhaseInfluences.length === 0 && cuisine.elementalAlignment) {
+            const dominantElement = Object.entries(cuisine.elementalAlignment)
+              .sort(([, a], [, b]) => (b as number) - (a as number))[0][0];
+              
+            if (dominantElement === 'Water') {
+              lunarPhaseInfluences = ['full moon', 'waning gibbous'];
+            } else if (dominantElement === 'Fire') {
+              lunarPhaseInfluences = ['new moon', 'waxing crescent'];
+            } else if (dominantElement === 'Earth') {
+              lunarPhaseInfluences = ['last quarter', 'waning crescent'];
+            } else if (dominantElement === 'Air') {
+              lunarPhaseInfluences = ['first quarter', 'waxing gibbous'];
+            }
+          }
+          
+          return {
+            id,
+            name: cuisine.name || id.charAt(0).toUpperCase() + id.slice(1),
+            description: cuisine.description || 'A unique culinary tradition',
+            elementalProperties: cuisine.elementalAlignment || {
+              Fire: Math.random() * 0.3 + 0.1,  // Random value between 0.1 and 0.4
+              Water: Math.random() * 0.3 + 0.1,
+              Earth: Math.random() * 0.3 + 0.1,
+              Air: Math.random() * 0.3 + 0.1
+            },
+            astrologicalInfluences: cuisine.astrologicalProfile?.rulingPlanets || [],
+            zodiacInfluences,
+            lunarPhaseInfluences
+          };
+        }).filter(Boolean) as Cuisine[]; // Filter out null values (regional variants)
+        
+        setCuisines(loadedCuisines);
+        
+        // Prepare transformed cuisines for display using our alchemical transformation system
+        const elementalItems: ElementalItem[] = loadedCuisines.map(cuisine => ({
+          id: cuisine.id,
+          name: cuisine.name,
+          elementalProperties: cuisine.elementalProperties,
+          zodiacInfluences: cuisine.zodiacInfluences,
+          lunarPhaseInfluences: cuisine.lunarPhaseInfluences
+        }));
+        
+        // Check if we have enough planetary data to transform
+        // If no planetary data available, provide basic transformations
+        let transformed;
+        if (Object.keys(planetaryPositions).length > 0) {
+          // Convert the complex planetaryPositions to the simpler format required by transformCuisines
+          const simplifiedPlanetaryPositions: Record<string, number> = {};
+          
+          // Extract the degree or exactLongitude as the simplified position value
+          Object.entries(planetaryPositions).forEach(([planet, position]) => {
+            simplifiedPlanetaryPositions[planet] = position.exactLongitude || position.degree || 0;
+          });
+          
+          // Transform cuisines if we have planetary positions
+          transformed = transformCuisines(
+            elementalItems,
+            simplifiedPlanetaryPositions,
+            true,
+            currentZodiac as ZodiacSign,
+            lunarPhase as LunarPhaseWithSpaces
+          );
+          
+          // Apply score adjustments based on real astrological factors
+          transformed = transformed.map(cuisine => {
+            // Start with the baseline calculated score
+            let enhancedScore = cuisine.gregsEnergy;
+            
+            // Boost cuisines that match current zodiac sign
+            const zodiacBoost = cuisine.zodiacInfluences?.includes(currentZodiac as ZodiacSign) ? 0.15 : 0;
+            
+            // Boost cuisines that match current lunar phase
+            const lunarBoost = cuisine.lunarPhaseInfluences?.includes(lunarPhase as LunarPhase) ? 0.12 : 0;
+            
+            // Calculate planetary influence boost based on matching influential planets
+            const planetaryBoost = cuisine.dominantPlanets?.length 
+              ? Math.min(0.18, cuisine.dominantPlanets.length * 0.06) 
+              : 0;
+            
+            // Calculate elemental match with user profile
+            const elementalBoost = calculateElementalMatch(
+              cuisine.elementalProperties,
+              currentMomentElementalProfile
+            ) * 0.2; // Weight the elemental match appropriately
+            
+            // Apply boosts to the score, but don't exceed 0.98
+            enhancedScore = Math.min(0.98, enhancedScore + zodiacBoost + lunarBoost + planetaryBoost + elementalBoost);
+            
+            // Allow for more diverse scores, no minimum
+            return {
+              ...cuisine,
+              gregsEnergy: enhancedScore
+            };
+          });
+        } else {
+          // When no planetary data is available, calculate scores based on elemental match
+          transformed = elementalItems.map(item => {
+            // Calculate baseline elemental match with user profile
+            const elementalMatch = calculateElementalMatch(
+              item.elementalProperties, 
+              currentMomentElementalProfile
+            );
+            
+            // Add some variation based on zodiac and lunar matches
+            const zodiacBoost = item.zodiacInfluences?.includes(currentZodiac as ZodiacSign) ? 0.2 : 0;
+            const lunarBoost = item.lunarPhaseInfluences?.includes(lunarPhase as LunarPhase) ? 0.15 : 0;
+            
+            // Calculate final score with more variation (range approximately 0.3-0.95)
+            const finalScore = 0.3 + (elementalMatch * 0.4) + zodiacBoost + lunarBoost;
+            
+            return {
+              ...item,
+              dominantElement: calculateDominantElement(item.elementalProperties),
+              gregsEnergy: finalScore,
+              transformedElementalProperties: item.elementalProperties,
+              dominantPlanets: [],
+              planetaryDignities: {}
+            };
+          });
+        }
+        
+        setTransformedCuisines(transformed);
+        
+        // After we have the cuisines, generate the top sauce recommendations
+        setTimeout(() => {
+          try {
+            const topSauces = generateTopSauceRecommendations();
+            setTopRecommendedSauces(topSauces);
+          } catch (sauceError) {
+            console.error('Error generating top sauce recommendations:', sauceError);
+            // Don't fail the entire loading process if sauce generation fails
+          }
+        }, 100);
+        
+        setLoading(false);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to load cuisines');
+        setLoading(false);
+        console.error(err);
+      }
+    };
+
+    fetchCuisines();
+  }, [planetaryPositions, currentZodiac, lunarPhase, currentMomentElementalProfile]);
+
+  // Calculate dominant element from elemental properties
+  const calculateDominantElement = (elementalProps: Record<string, number>) => {
+    return Object.entries(elementalProps)
+      .sort(([, a], [, b]) => b - a)[0][0];
+  };
+
+  // Get styling class based on match score
+  const getMatchScoreClass = (score: number): string => {
+    if (score >= 0.96) return 'bg-gradient-to-r from-green-500 to-green-400 text-white font-bold shadow-sm';
+    if (score >= 0.90) return 'bg-gradient-to-r from-green-400 to-green-300 text-green-900 font-bold shadow-sm';
+    if (score >= 0.85) return 'bg-green-200 text-green-800 font-semibold';
+    if (score >= 0.80) return 'bg-green-100 text-green-700 font-medium';
+    if (score >= 0.75) return 'bg-green-50 text-green-600';
+    if (score >= 0.70) return 'bg-yellow-100 text-yellow-700';
+    if (score >= 0.65) return 'bg-yellow-50 text-yellow-700';
+    if (score >= 0.55) return 'bg-orange-100 text-orange-700';
+    if (score >= 0.45) return 'bg-orange-50 text-orange-700';
+    return 'bg-gray-100 text-gray-700';
+  };
+
+  // Function to render a tasteful and subtle score badge
+  const renderScoreBadge = (score: number) => {
+    const formattedScore = Math.round(score * 100);
+    let tooltipText = '';
+    
+    if (score >= 0.96) {
+      tooltipText = 'Perfect match for your elemental profile';
+    } else if (score >= 0.90) {
+      tooltipText = 'Excellent match for your elemental profile';
+    } else if (score >= 0.85) {
+      tooltipText = 'Very good match for your elemental profile';
+    } else if (score >= 0.75) {
+      tooltipText = 'Good match for your elemental profile';
+    } else if (score >= 0.60) {
+      tooltipText = 'Average match for your elemental profile';
+    } else {
+      tooltipText = 'Basic match for your elemental profile';
+    }
+    
+    // Simple, subtle styling based on score
+    let badgeStyle = "";
+    if (score >= 0.96) {
+      badgeStyle = "bg-emerald-50 text-emerald-700 border border-emerald-200";
+    } else if (score >= 0.90) {
+      badgeStyle = "bg-green-50 text-green-700 border border-green-200";
+    } else if (score >= 0.85) {
+      badgeStyle = "bg-green-50 text-green-600 border border-green-100";
+    } else if (score >= 0.75) {
+      badgeStyle = "bg-blue-50 text-blue-600 border border-blue-100";
+    } else if (score >= 0.60) {
+      badgeStyle = "bg-yellow-50 text-yellow-700 border border-yellow-100";
+    } else {
+      badgeStyle = "bg-gray-50 text-gray-600 border border-gray-200";
+    }
+    
+    return (
+      <span 
+        className={`text-xs font-medium px-2 py-0.5 rounded-md ${badgeStyle}`}
+        title={tooltipText}
+      >
+        {formattedScore}%
+      </span>
+    );
+  };
+
+  // Function to render a simple, elegant compatibility indicator
+  const renderCompatibilityBadge = (score: number) => {
+    const adjustedScore = Math.min(1, score * 1.05);
+    const formattedScore = Math.round(adjustedScore * 100);
+    
+    // Choose an appropriate color for the progress bar
+    const barColor = 
+      adjustedScore >= 0.96 ? "bg-emerald-400" :
+      adjustedScore >= 0.90 ? "bg-green-400" :
+      adjustedScore >= 0.85 ? "bg-green-300" :
+      adjustedScore >= 0.80 ? "bg-blue-400" :
+      adjustedScore >= 0.75 ? "bg-blue-300" :
+      adjustedScore >= 0.70 ? "bg-yellow-400" :
+      adjustedScore >= 0.65 ? "bg-yellow-300" :
+      adjustedScore >= 0.55 ? "bg-orange-300" :
+      "bg-gray-300";
+    
+    return (
+      <div className="flex items-center my-1 gap-1">
+        <div className="w-16 bg-gray-100 rounded-sm h-1.5 overflow-hidden">
+          <div 
+            className={`${barColor} h-1.5 rounded-sm`}
+            style={{ width: `${formattedScore}%` }}
+          />
+        </div>
+        {renderScoreBadge(adjustedScore)}
+      </div>
+    );
+  };
+
+  // Sort and filter cuisines
+  const displayedCuisines = useMemo(() => {
+    if (transformedCuisines.length === 0) return [];
+    
+    // Sort by alchemical compatibility
+    let sorted = sortByAlchemicalCompatibility(transformedCuisines);
+    
+    // No additional filtering - the sorting already accounts for zodiac, lunar and elemental alignments
+    return sorted;
+  }, [transformedCuisines]);
+
+  const getElementIcon = (element: string) => {
+    switch (element) {
+      case 'Fire': return <Flame className="w-4 h-4 text-red-400" />;
+      case 'Water': return <Droplets className="w-4 h-4 text-blue-400" />;
+      case 'Earth': return <Mountain className="w-4 h-4 text-green-400" />;
+      case 'Air': return <Wind className="w-4 h-4 text-purple-400" />;
+      default: return null;
+    }
+  };
+  
+  const getAlchemicalPropertyIcon = (property: AlchemicalProperty) => {
+    return <Sparkles className="w-4 h-4 text-yellow-400" />;
+  };
+  
+  const getLunarPhaseIcon = (phase: LunarPhase) => {
+    return <Moon className="w-4 h-4 text-slate-400" />;
+  };
+
+  // Get card color class based on elemental composition
+  const getCardColorClass = (elementalProperties: ElementalProperties) => {
+    if (!elementalProperties) return '';
+    
+    // Find the dominant element (the one with highest value)
+    const dominantElement = Object.entries(elementalProperties)
+      .sort(([, a], [, b]) => b - a)[0][0];
+    
+    // Calculate the sum to get proportions
+    const sum = Object.values(elementalProperties).reduce((acc, val) => acc + val, 0);
+    
+    // Check if any element is significantly dominant (over 40%)
+    for (const [element, value] of Object.entries(elementalProperties)) {
+      const proportion = sum > 0 ? value / sum : 0;
+      
+      if (proportion > 0.4) {
+        switch (element) {
+          case 'Fire': return 'border-red-200 bg-gradient-to-br from-red-50 to-amber-50';
+          case 'Water': return 'border-blue-200 bg-gradient-to-br from-blue-50 to-cyan-50';
+          case 'Earth': return 'border-green-200 bg-gradient-to-br from-green-50 to-emerald-50';
+          case 'Air': return 'border-purple-200 bg-gradient-to-br from-purple-50 to-violet-50';
+        }
+      }
+    }
+    
+    // If no element is significantly dominant, use the element with the highest value
+    switch (dominantElement) {
+      case 'Fire': return 'border-red-200 bg-red-50';
+      case 'Water': return 'border-blue-200 bg-blue-50';
+      case 'Earth': return 'border-green-200 bg-green-50';
+      case 'Air': return 'border-purple-200 bg-purple-50';
+      default: return 'border-gray-200 bg-gray-50';
+    }
+  };
+
+  const handleCuisineSelect = (cuisineId: string) => {
+    setSelectedCuisine(cuisineId);
+    loadRecipesForCuisine(cuisineId);
+  };
+
+  /**
+   * Load recipes for a selected cuisine
+   */
+  const loadRecipesForCuisine = async (cuisineName: string) => {
+    setLoading(true);
+    setSelectedCuisine(cuisineName);
+    
+    // Get current elemental profile for calculations
+    const currentElementalProfile = currentMomentElementalProfile;
+    
+    try {
+      console.log('Loading recipes for cuisine:', cuisineName);
+      
+      // First try to get recipes from our local recipe database
+      const localRecipes = LocalRecipeService.getRecipesByCuisine(cuisineName);
+      console.log(`Found ${localRecipes.length} local recipes for ${cuisineName}`);
+      
+      // If we have enough local recipes, don't bother with API calls
+      if (localRecipes.length >= 5) {
+        // Calculate elemental matches for local recipes
+        const matchedRecipes = localRecipes.map(recipe => {
+          if (!recipe) return null;
+          
+          // Use the recipe's actual elementalProperties, not a fallback
+          const matchScore = calculateElementalMatch(
+            recipe.elementalProperties || fetchCuisineElementalProperties(cuisineName),
+            currentElementalProfile
+          );
+          
+          return {
+            ...recipe,
+            matchScore
+          };
+        }).filter(Boolean) as any[]; // Filter out null items
+        
+        // Sort by match score
+        matchedRecipes.sort((a, b) => (b.matchScore || 0) - (a.matchScore || 0));
+        
+        // Remove duplicate recipes by comparing names
+        const uniqueRecipes = Array.from(new Map(matchedRecipes.map(recipe => 
+          [recipe.name, recipe])).values());
+        
+        setMatchingRecipes(uniqueRecipes);
+        setLoading(false);
+        return;
+      }
+      
+      // If we don't have enough local recipes, try the API (but be ready to fail gracefully)
+      let matchedRecipes = localRecipes.map(recipe => {
+        if (!recipe) return null;
+        
+        const matchScore = calculateElementalMatch(
+          recipe.elementalProperties || fetchCuisineElementalProperties(cuisineName),
+          currentElementalProfile
+        );
+        
+        return {
+          ...recipe,
+          matchScore
+        };
+      }).filter(Boolean) as any[]; // Filter out null items
+      
+      // Try to fetch additional recipes from Spoonacular API (with error handling)
+      try {
+        console.log('Trying Spoonacular API for additional recipes');
+        const spoonacularRecipes = await SpoonacularService.searchRecipes({
+          cuisine: cuisineName,
+          number: 10,
+          addRecipeInformation: true,
+          fillIngredients: true
+        });
+        
+        if (spoonacularRecipes && spoonacularRecipes.length > 0) {
+          console.log('Spoonacular returned recipes:', spoonacularRecipes.length);
+          
+          // Transform and add Spoonacular recipes to our matches
+          const transformedSpoonacularRecipes = spoonacularRecipes.map(recipe => {
+            if (!recipe) return null;
+            
+            // Calculate the elemental match score
+            const matchScore = calculateElementalMatch(
+              recipe.elementalProperties || fetchCuisineElementalProperties(cuisineName),
+              currentElementalProfile
+            );
+            
+            return {
+              ...recipe,
+              matchScore
+            };
+          }).filter(Boolean);
+          
+          // Combine with our existing recipes
+          matchedRecipes = [...matchedRecipes, ...transformedSpoonacularRecipes];
+        } else {
+          console.log('No additional recipes found from Spoonacular API');
+        }
+      } catch (apiError) {
+        // Log the error but continue with local recipes
+        console.error('Error fetching from Spoonacular, using only local recipes:', apiError);
+      }
+      
+      // If we STILL don't have any recipes at all, generate some basic ones from our ingredient data
+      if (!matchedRecipes || matchedRecipes.length === 0) {
+        console.log('No recipes found, generating basic recipes from ingredients');
+        try {
+          const generatedRecipes = generateBasicRecipesForCuisine(cuisineName);
+          matchedRecipes = generatedRecipes;
+        } catch (generationError) {
+          console.error('Error generating recipes:', generationError);
+          matchedRecipes = []; // Ensure it's an empty array if generation failed
+        }
+      }
+      
+      // Sort by match score
+      matchedRecipes.sort((a, b) => (b.matchScore || 0) - (a.matchScore || 0));
+      
+      // Remove duplicate recipes by comparing names
+      const uniqueRecipes = Array.from(new Map(matchedRecipes.map(recipe => 
+        [recipe.name, recipe])).values());
+      
+      // Set the state with all recipes we could find
+      setMatchingRecipes(uniqueRecipes);
+      
+      // Generate sauce recommendations for this cuisine
+      const sauces = generateSauceRecommendations(cuisineName);
+      setSauceRecommendations(sauces);
+    } catch (error) {
+      console.error('Error loading recipes:', error);
+      
+      // In case of any error, use local recipes only
+      try {
+        const localRecipes = LocalRecipeService.getRecipesByCuisine(cuisineName);
+        if (localRecipes && localRecipes.length > 0) {
+          // Calculate elemental matches for local recipes
+          const matchedRecipes = localRecipes.map(recipe => {
+            if (!recipe) return null;
+            
+            const matchScore = calculateElementalMatch(
+              recipe.elementalProperties || fetchCuisineElementalProperties(cuisineName),
+              currentElementalProfile
+            );
+            
+            return {
+              ...recipe,
+              matchScore
+            };
+          }).filter(Boolean) as any[];
+          
+          // Sort by match score
+          matchedRecipes.sort((a, b) => (b.matchScore || 0) - (a.matchScore || 0));
+          
+          // Remove duplicate recipes by comparing names
+          const uniqueRecipes = Array.from(new Map(matchedRecipes.map(recipe => 
+            [recipe.name, recipe])).values());
+            
+          setMatchingRecipes(uniqueRecipes);
+        } else {
+          // Last resort - generate basic recipes
+          try {
+            const generatedRecipes = generateBasicRecipesForCuisine(cuisineName);
+            
+            // Remove duplicates in generated recipes
+            const uniqueGenerated = Array.from(new Map(generatedRecipes.map(recipe => 
+              [recipe.name, recipe])).values());
+              
+            setMatchingRecipes(uniqueGenerated);
+          } catch (generationError) {
+            console.error('Error generating basic recipes:', generationError);
+            setMatchingRecipes([]); // Empty array if all methods fail
+          }
+        }
+      } catch (localError) {
+        console.error('Error getting local recipes:', localError);
+        setMatchingRecipes([]); // Set empty array if all fails
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Function to get the elemental properties for a cuisine from our data
+  const fetchCuisineElementalProperties = (cuisineName: string): ElementalProperties => {
+    // Look up the cuisine in our data
+    const cuisine = cuisines[cuisineName.toLowerCase()];
+    
+    // If found, return its elemental alignment
+    if (cuisine?.elementalAlignment) {
+      return cuisine.elementalAlignment;
+    }
+    
+    // Otherwise, look it up in our cuisineElements map from generateBasicRecipesForCuisine
+    const cuisineElements: Record<string, ElementalProperties> = {
+      italian: { Fire: 0.3, Earth: 0.4, Water: 0.2, Air: 0.1 },
+      french: { Fire: 0.2, Water: 0.3, Earth: 0.3, Air: 0.2 },
+      japanese: { Fire: 0.2, Water: 0.4, Earth: 0.2, Air: 0.2 },
+      mexican: { Fire: 0.5, Earth: 0.3, Water: 0.1, Air: 0.1 },
+      indian: { Fire: 0.4, Water: 0.2, Earth: 0.2, Air: 0.2 },
+      thai: { Fire: 0.4, Water: 0.3, Earth: 0.2, Air: 0.1 },
+      chinese: { Fire: 0.3, Water: 0.3, Earth: 0.3, Air: 0.1 },
+      greek: { Fire: 0.2, Water: 0.3, Earth: 0.4, Air: 0.1 },
+    };
+    
+    return cuisineElements[cuisineName.toLowerCase()] || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+  };
+
+  // Generate sauce recommendations for a cuisine
+  const generateSauceRecommendations = (cuisineName: string): any[] => {
+    // First, normalize the cuisine name to lowercase for case-insensitive matching
+    const lowercaseCuisine = cuisineName.toLowerCase();
+    
+    // Cast sauceRecommendations to SauceRecommendation to work with its properties
+    const sauceRecs = sauceRecsData as unknown as SauceRecommendation;
+    
+    // Initialize results array
+    const results: any[] = [];
+    
+    // Get complete sauce data from all available cuisines
+    const allAvailableSauces: Record<string, Sauce> = { ...allSauces };
+
+    // Add sauces from cuisine-specific traditionalSauces data
+    Object.values(cuisines).forEach(cuisine => {
+      const cuisineId = (cuisine.id || cuisine.name).toLowerCase();
+      
+      if (cuisine.traditionalSauces) {
+        Object.entries(cuisine.traditionalSauces).forEach(([sauceId, sauceData]) => {
+          // Ensure sauce data has the correct structure
+          if (sauceData.name && sauceData.elementalProperties) {
+            const normalizedSauceId = `${cuisineId}_${sauceId}`.toLowerCase();
+            
+            allAvailableSauces[normalizedSauceId] = {
+              name: sauceData.name,
+              description: sauceData.description || `Traditional ${sauceData.name} sauce from ${cuisine.name} cuisine`,
+              base: sauceData.base || "unknown",
+              keyIngredients: sauceData.keyIngredients || [],
+              culinaryUses: sauceData.culinaryUses || [],
+              variants: sauceData.variants || [],
+              elementalProperties: sauceData.elementalProperties,
+              astrologicalInfluences: sauceData.astrologicalInfluences || [],
+              seasonality: sauceData.seasonality || "all",
+              preparationNotes: sauceData.preparationNotes || "",
+              technicalTips: sauceData.technicalTips || "",
+              cuisine: cuisine.name,
+              // Enhanced properties
+              ingredients: sauceData.ingredients || sauceData.keyIngredients || [],
+              preparationSteps: sauceData.preparationSteps || [],
+              storageInstructions: sauceData.storageInstructions || "Store in an airtight container in the refrigerator for up to 1 week.",
+              prepTime: sauceData.prepTime || "15 minutes",
+              cookTime: sauceData.cookTime || "30 minutes",
+              difficulty: sauceData.difficulty || "Medium",
+              yield: sauceData.yield || "Makes about 2 cups"
+            };
+          }
+        });
+      }
+    });
+    
+    // Check if we have recommendations by region
+    if (sauceRecs.byRegion) {
+      // Look for the region that best matches this cuisine
+      const matchingRegion = Object.keys(sauceRecs.byRegion).find(region => 
+        lowercaseCuisine.includes(region) || 
+        // Try to match regions to cuisines
+        (region === 'northern' && ['italian', 'alpine'].some(c => lowercaseCuisine.includes(c))) ||
+        (region === 'central' && ['roman', 'tuscan'].some(c => lowercaseCuisine.includes(c))) ||
+        (region === 'southern' && ['sicilian', 'neapolitan'].some(c => lowercaseCuisine.includes(c)))
+      );
+      
+      if (matchingRegion && sauceRecs.byRegion[matchingRegion]) {
+        const regionSauces = sauceRecs.byRegion[matchingRegion];
+        // Add all sauces from this region with high match score
+        regionSauces.forEach((sauceName) => {
+          // Try to find real sauce data
+          const realSauceData = findSauceInAllSources(sauceName, allAvailableSauces);
+          
+          if (realSauceData) {
+            // Generate appropriate elemental properties
+            const matchScore = calculateElementalMatch(
+              realSauceData.elementalProperties,
+              currentMomentElementalProfile
+            );
+            
+            results.push({
+              id: `${matchingRegion}-${sauceName.replace(/\s+/g, '-').toLowerCase()}`,
+              name: realSauceData.name,
+              category: 'byRegion',
+              forItem: matchingRegion,
+              cuisine: realSauceData.cuisine || cuisineName,
+              description: realSauceData.description,
+              ingredients: realSauceData.ingredients || realSauceData.keyIngredients || [],
+              culinaryUses: realSauceData.culinaryUses || [],
+              preparationNotes: realSauceData.preparationNotes || "",
+              technicalTips: realSauceData.technicalTips || "",
+              elementalProperties: realSauceData.elementalProperties,
+              matchScore: matchScore || 0.85, // High match for regional sauces
+              preparationSteps: realSauceData.preparationSteps || [],
+              storageInstructions: realSauceData.storageInstructions || "",
+              prepTime: realSauceData.prepTime || "",
+              cookTime: realSauceData.cookTime || "",
+              difficulty: realSauceData.difficulty || "",
+              yield: realSauceData.yield || ""
+            });
+          } else {
+            // Use the findSimilarSauce helper if we don't have exact data
+            const similarSauce = findSimilarSauce(sauceName);
+            
+            if (similarSauce) {
+              const matchScore = calculateElementalMatch(
+                similarSauce.elementalProperties,
+                currentMomentElementalProfile
+              );
+              
+              results.push({
+                id: `${matchingRegion}-${sauceName.replace(/\s+/g, '-').toLowerCase()}`,
+                name: sauceName,
+                category: 'byRegion',
+                forItem: matchingRegion,
+                cuisine: cuisineName,
+                description: similarSauce.description,
+                ingredients: similarSauce.ingredients || similarSauce.keyIngredients || [],
+                culinaryUses: similarSauce.culinaryUses || [],
+                preparationNotes: similarSauce.preparationNotes || "",
+                technicalTips: similarSauce.technicalTips || "",
+                elementalProperties: similarSauce.elementalProperties,
+                matchScore: matchScore || 0.8,
+                preparationSteps: similarSauce.preparationSteps || [],
+                storageInstructions: similarSauce.storageInstructions || "",
+                prepTime: similarSauce.prepTime || "",
+                cookTime: similarSauce.cookTime || "",
+                difficulty: similarSauce.difficulty || "",
+                yield: similarSauce.yield || ""
+              });
+            }
+          }
+        });
+      }
+    }
+    
+    // Try to find cuisine-specific sauces in all available collections
+    const cuisineSpecificSauces = Object.values(allAvailableSauces).filter(
+      sauce => sauce.cuisine?.toLowerCase() === lowercaseCuisine
+    );
+    
+    // Add cuisine-specific sauces to results
+    cuisineSpecificSauces.forEach(sauce => {
+      const matchScore = calculateElementalMatch(
+        sauce.elementalProperties,
+        currentMomentElementalProfile
+      );
+      
+      results.push({
+        id: `${lowercaseCuisine}-${sauce.name.replace(/\s+/g, '-').toLowerCase()}`,
+        name: sauce.name,
+        category: 'byCuisine',
+        forItem: lowercaseCuisine,
+        cuisine: lowercaseCuisine,
+        description: sauce.description,
+        ingredients: sauce.ingredients || sauce.keyIngredients || [],
+        culinaryUses: sauce.culinaryUses || [],
+        preparationNotes: sauce.preparationNotes || "",
+        technicalTips: sauce.technicalTips || "",
+        elementalProperties: sauce.elementalProperties,
+        matchScore: matchScore || 0.85,
+        preparationSteps: sauce.preparationSteps || [],
+        storageInstructions: sauce.storageInstructions || "",
+        prepTime: sauce.prepTime || "",
+        cookTime: sauce.cookTime || "",
+        difficulty: sauce.difficulty || "",
+        yield: sauce.yield || ""
+      });
+    });
+    
+    // Find complementary sauces from other cuisines with good elemental match
+    // These are fusion suggestions that work well with the original cuisine
+    if (cuisineSpecificSauces.length > 0) {
+      // Get the average elemental profile of this cuisine's sauces
+      const avgElementalProfile: ElementalProperties = {
+        Fire: 0, Water: 0, Earth: 0, Air: 0
+      };
+      
+      cuisineSpecificSauces.forEach(sauce => {
+        avgElementalProfile.Fire += sauce.elementalProperties.Fire || 0;
+        avgElementalProfile.Water += sauce.elementalProperties.Water || 0;
+        avgElementalProfile.Earth += sauce.elementalProperties.Earth || 0;
+        avgElementalProfile.Air += sauce.elementalProperties.Air || 0;
+      });
+      
+      const count = cuisineSpecificSauces.length;
+      if (count > 0) {
+        avgElementalProfile.Fire /= count;
+        avgElementalProfile.Water /= count;
+        avgElementalProfile.Earth /= count;
+        avgElementalProfile.Air /= count;
+        
+        // Find other sauces with complementary profiles
+        const complementarySauces = Object.values(allAvailableSauces)
+          .filter(sauce => sauce.cuisine?.toLowerCase() !== lowercaseCuisine)
+          .sort((a, b) => {
+            const matchA = calculateElementalMatch(a.elementalProperties, avgElementalProfile);
+            const matchB = calculateElementalMatch(b.elementalProperties, avgElementalProfile);
+            return matchB - matchA;
+          })
+          .slice(0, 3); // Take top 3 complementary sauces
+        
+        // Add these as complementary recommendations
+        complementarySauces.forEach(sauce => {
+          const matchScore = calculateElementalMatch(
+            sauce.elementalProperties,
+            currentMomentElementalProfile
+          );
+          
+          results.push({
+            id: `complementary-${sauce.name.replace(/\s+/g, '-').toLowerCase()}`,
+            name: sauce.name,
+            category: 'complementary',
+            forItem: `${lowercaseCuisine} complementary`,
+            cuisine: sauce.cuisine,
+            description: `${sauce.description} - Recommended for ${cuisineName} cuisine`,
+            ingredients: sauce.ingredients || sauce.keyIngredients || [],
+            culinaryUses: sauce.culinaryUses || [],
+            preparationNotes: sauce.preparationNotes || "",
+            technicalTips: sauce.technicalTips || "",
+            elementalProperties: sauce.elementalProperties,
+            matchScore: matchScore || 0.78,
+            isComplementary: true,
+            preparationSteps: sauce.preparationSteps || [],
+            storageInstructions: sauce.storageInstructions || "",
+            prepTime: sauce.prepTime || "",
+            cookTime: sauce.cookTime || "",
+            difficulty: sauce.difficulty || "",
+            yield: sauce.yield || ""
+          });
+        });
+      }
+    }
+    
+    return results;
+  };
+  
+  // Helper function to find a sauce in all available sources
+  const findSauceInAllSources = (sauceName: string, sauceCollection: Record<string, Sauce>): Sauce | null => {
+    const lowerName = sauceName.toLowerCase();
+    
+    // Try to find a direct match first
+    for (const sauce of Object.values(sauceCollection)) {
+      if (sauce.name.toLowerCase() === lowerName) {
+        return sauce;
+      }
+    }
+    
+    // Look for partial matches in sauce names
+    for (const sauce of Object.values(sauceCollection)) {
+      if (sauce.name.toLowerCase().includes(lowerName) || 
+          lowerName.includes(sauce.name.toLowerCase())) {
+        return sauce;
+      }
+    }
+    
+    // Check if any sauce variants match
+    for (const sauce of Object.values(sauceCollection)) {
+      if (sauce.variants && sauce.variants.some(variant => 
+          variant.toLowerCase() === lowerName || 
+          variant.toLowerCase().includes(lowerName) || 
+          lowerName.includes(variant.toLowerCase()))) {
+        return sauce;
+      }
+    }
+    
+    // If no match is found, return null
+    return null;
+  };
+
+  // Helper function to get element for zodiac sign
+  const getZodiacElement = (zodiacSign: ZodiacSign): string | null => {
+    const zodiacElementMap: Record<string, string> = {
+      aries: 'Fire', leo: 'Fire', sagittarius: 'Fire',
+      taurus: 'Earth', virgo: 'Earth', capricorn: 'Earth',
+      gemini: 'Air', libra: 'Air', aquarius: 'Air',
+      cancer: 'Water', scorpio: 'Water', pisces: 'Water'
+    };
+    
+    return zodiacElementMap[zodiacSign] || null;
+  };
+
+  // Generate top sauce recommendations across all cuisines
+  const generateTopSauceRecommendations = (): any[] => {
+    const sauceRecs = sauceRecsData as unknown as SauceRecommendation;
+    const allSauceRecommendations: any[] = [];
+    
+    // Get dominant element from current moment's elemental profile
+    const currentMomentDominantElement = Object.entries(currentMomentElementalProfile)
+      .sort(([, a], [, b]) => b - a)[0][0].toLowerCase();
+    
+    // Get complete sauce data from all available cuisines
+    const allAvailableSauces: Record<string, Sauce> = { ...allSauces };
+
+    // Add sauces from cuisine-specific traditionalSauces data
+    Object.values(cuisines).forEach(cuisine => {
+      const cuisineId = (cuisine.id || cuisine.name).toLowerCase();
+      
+      if (cuisine.traditionalSauces) {
+        Object.entries(cuisine.traditionalSauces).forEach(([sauceId, sauceData]) => {
+          // Ensure sauce data has the correct structure
+          if (sauceData.name && sauceData.elementalProperties) {
+            const normalizedSauceId = `${cuisineId}_${sauceId}`.toLowerCase();
+            
+            allAvailableSauces[normalizedSauceId] = {
+              name: sauceData.name,
+              description: sauceData.description || `Traditional ${sauceData.name} sauce from ${cuisine.name} cuisine`,
+              base: sauceData.base || "unknown",
+              keyIngredients: sauceData.keyIngredients || [],
+              culinaryUses: sauceData.culinaryUses || [],
+              variants: sauceData.variants || [],
+              elementalProperties: sauceData.elementalProperties,
+              astrologicalInfluences: sauceData.astrologicalInfluences || [],
+              seasonality: sauceData.seasonality || "all",
+              preparationNotes: sauceData.preparationNotes || "",
+              technicalTips: sauceData.technicalTips || "",
+              cuisine: cuisine.name,
+              // Enhanced properties
+              ingredients: sauceData.ingredients || sauceData.keyIngredients || [],
+              preparationSteps: sauceData.preparationSteps || [],
+              storageInstructions: sauceData.storageInstructions || "Store in an airtight container in the refrigerator for up to 1 week.",
+              prepTime: sauceData.prepTime || "15 minutes",
+              cookTime: sauceData.cookTime || "30 minutes",
+              difficulty: sauceData.difficulty || "Medium",
+              yield: sauceData.yield || "Makes about 2 cups"
+            };
+          }
+        });
+      }
+    });
+    
+    // Generate sauces from ALL cuisine types, not just the top 4
+    Object.values(cuisines).forEach(cuisine => {
+      const cuisineSauces = generateSauceRecommendations(cuisine.id || cuisine.name);
+      allSauceRecommendations.push(...cuisineSauces);
+    });
+    
+    // Add element-based recommendations from allSauces where available
+    if (sauceRecs?.byAstrological && currentMomentDominantElement in sauceRecs.byAstrological) {
+      // Safely access the byAstrological property, ensuring it exists
+      const elementalKey = currentMomentDominantElement as keyof typeof sauceRecs.byAstrological;
+      const elementSauces = sauceRecs.byAstrological[elementalKey] || [];
+      
+      elementSauces.forEach((sauceName) => {
+        // Try to find this sauce in allAvailableSauces for real culinary data
+        const realSauceData = findSauceInAllSources(sauceName, allAvailableSauces);
+        
+        if (realSauceData) {
+          // Use the real sauce data if found
+          allSauceRecommendations.push({
+            id: `${sauceName.replace(/\s+/g, '-').toLowerCase()}`,
+            name: realSauceData.name,
+            category: 'byAstrological',
+            forItem: currentMomentDominantElement,
+            cuisine: realSauceData.cuisine || null,
+            description: realSauceData.description,
+            ingredients: realSauceData.ingredients || realSauceData.keyIngredients || [],
+            culinaryUses: realSauceData.culinaryUses || [],
+            preparationNotes: realSauceData.preparationNotes || "",
+            technicalTips: realSauceData.technicalTips || "",
+            elementalProperties: realSauceData.elementalProperties,
+            matchScore: 0.95, // High match score for element-aligned sauces
+            preparationSteps: realSauceData.preparationSteps || [],
+            storageInstructions: realSauceData.storageInstructions || "",
+            prepTime: realSauceData.prepTime || "",
+            cookTime: realSauceData.cookTime || "",
+            difficulty: realSauceData.difficulty || "",
+            yield: realSauceData.yield || ""
+          });
+        } else {
+          // If we don't have data for this sauce, try to get data for a similar sauce
+          const similarSauce = findSimilarSauce(sauceName);
+          
+          if (similarSauce) {
+            allSauceRecommendations.push({
+              id: `${sauceName.replace(/\s+/g, '-').toLowerCase()}`,
+              name: sauceName,
+              category: 'byAstrological',
+              forItem: currentMomentDominantElement,
+              cuisine: similarSauce.cuisine || null,
+              description: similarSauce.description,
+              ingredients: similarSauce.ingredients || similarSauce.keyIngredients || [],
+              culinaryUses: similarSauce.culinaryUses || [],
+              preparationNotes: similarSauce.preparationNotes || "",
+              technicalTips: similarSauce.technicalTips || "",
+              elementalProperties: { ...currentMomentElementalProfile },
+              matchScore: 0.92,
+              preparationSteps: similarSauce.preparationSteps || [],
+              storageInstructions: similarSauce.storageInstructions || "",
+              prepTime: similarSauce.prepTime || "",
+              cookTime: similarSauce.cookTime || "",
+              difficulty: similarSauce.difficulty || "",
+              yield: similarSauce.yield || ""
+            });
+          } else {
+            // As a last resort, use some more specific culinary descriptions rather than generic ones
+            const culinaryDescriptions: Record<string, {
+              description: string;
+              ingredients: string[];
+              culinaryUses: string[];
+              preparationSteps: string[];
+              storageInstructions: string;
+              prepTime: string;
+              cookTime: string;
+              difficulty: string;
+              yield: string;
+            }> = {
+              fire: {
+                description: "A zesty, spiced sauce with chili for heat and aromatic herbs",
+                ingredients: ["chili peppers", "paprika", "garlic", "olive oil", "herbs"],
+                culinaryUses: ["pasta", "grilled meats", "vegetable dishes"],
+                preparationSteps: [
+                  "Heat oil in a pan over medium heat",
+                  "Add minced garlic and sauté until fragrant",
+                  "Add chili peppers and cook for 1 minute",
+                  "Add remaining ingredients and simmer for 10-15 minutes",
+                  "Adjust seasoning to taste"
+                ],
+                storageInstructions: "Store in an airtight container in the refrigerator for up to 1 week",
+                prepTime: "10 minutes",
+                cookTime: "15 minutes",
+                difficulty: "Easy",
+                yield: "Makes about 2 cups"
+              },
+              water: {
+                description: "A creamy, silky sauce with depth of flavor and smooth texture",
+                ingredients: ["cream", "butter", "wine", "stock", "herbs"],
+                culinaryUses: ["pasta", "seafood", "vegetable dishes"],
+                preparationSteps: [
+                  "Melt butter in a saucepan over medium heat",
+                  "Add herbs and aromatics, cook until fragrant",
+                  "Pour in wine and reduce by half",
+                  "Add stock and simmer until slightly reduced",
+                  "Finish with cream and adjust seasoning"
+                ],
+                storageInstructions: "Store in an airtight container in the refrigerator for up to 3 days",
+                prepTime: "5 minutes",
+                cookTime: "20 minutes",
+                difficulty: "Medium",
+                yield: "Makes about 2 cups"
+              },
+              earth: {
+                description: "A rich, hearty sauce with umami depth and robust flavor",
+                ingredients: ["mushrooms", "root vegetables", "wine", "tomatoes", "herbs"],
+                culinaryUses: ["pasta", "braised meats", "vegetable dishes"],
+                preparationSteps: [
+                  "Sauté mushrooms and vegetables until golden",
+                  "Add herbs and spices, cook until fragrant",
+                  "Deglaze with wine and reduce",
+                  "Add tomatoes and simmer until thickened",
+                  "Adjust seasoning to taste"
+                ],
+                storageInstructions: "Store in an airtight container in the refrigerator for up to 5 days, or freeze for up to 3 months",
+                prepTime: "15 minutes",
+                cookTime: "30 minutes",
+                difficulty: "Medium",
+                yield: "Makes about 3 cups"
+              },
+              air: {
+                description: "A light, aromatic sauce with bright herbs and citrus notes",
+                ingredients: ["fresh herbs", "citrus", "olive oil", "shallots", "vinegar"],
+                culinaryUses: ["salads", "fish", "light pasta dishes"],
+                preparationSteps: [
+                  "Finely mince shallots and herbs",
+                  "Zest and juice citrus fruits",
+                  "Combine all ingredients in a bowl",
+                  "Whisk in olive oil gradually",
+                  "Season with salt and pepper to taste"
+                ],
+                storageInstructions: "Store in an airtight container in the refrigerator for up to 1 week",
+                prepTime: "15 minutes",
+                cookTime: "0 minutes",
+                difficulty: "Easy",
+                yield: "Makes about 1 cup"
+              }
+            };
+            
+            const elementInfo = culinaryDescriptions[currentMomentDominantElement as keyof typeof culinaryDescriptions] || 
+                               culinaryDescriptions.fire;
+            
+            allSauceRecommendations.push({
+              id: `${sauceName.replace(/\s+/g, '-').toLowerCase()}`,
+              name: sauceName,
+              category: 'byAstrological',
+              forItem: currentMomentDominantElement,
+              cuisine: null,
+              description: elementInfo.description,
+              ingredients: elementInfo.ingredients,
+              culinaryUses: elementInfo.culinaryUses,
+              elementalProperties: { ...currentMomentElementalProfile },
+              matchScore: 0.9,
+              preparationSteps: elementInfo.preparationSteps,
+              storageInstructions: elementInfo.storageInstructions,
+              prepTime: elementInfo.prepTime,
+              cookTime: elementInfo.cookTime,
+              difficulty: elementInfo.difficulty,
+              yield: elementInfo.yield
+            });
+          }
+        }
+      });
+    }
+    
+    // Score and sort all sauces
+    allSauceRecommendations.forEach(sauce => {
+      if (!sauce.matchScore) {
+        sauce.matchScore = calculateElementalMatch(
+          sauce.elementalProperties || { ...currentMomentElementalProfile },
+          currentMomentElementalProfile
+        );
+      }
+      
+      // Boost score for current zodiac matches
+      if (currentZodiac) {
+        const zodiacElement = getZodiacElement(currentZodiac as ZodiacSign);
+        if (zodiacElement && 
+            zodiacElement.toLowerCase() === Object.entries(sauce.elementalProperties || currentMomentElementalProfile)
+              .sort((a, b) => {
+                const valueA = a[1] as number;
+                const valueB = b[1] as number;
+                return valueB - valueA;
+              })[0][0].toLowerCase()) {
+          sauce.matchScore = Math.min(0.98, sauce.matchScore + 0.1);
+          sauce.zodiacAligned = true;
+        }
+      }
+    });
+    
+    // Sort by match score
+    allSauceRecommendations.sort((a, b) => b.matchScore - a.matchScore);
+    
+    // Remove duplicate sauces and return top 12 (increased from 8)
+    return Array.from(new Map(allSauceRecommendations.map(sauce => 
+      [sauce.name, sauce])).values()).slice(0, 12);
+  };
+
+  // Helper function to find a similar sauce for recommendations
+  const findSimilarSauce = (sauceName: string): Sauce | null => {
+    // Create a comprehensive collection of sauces from all sources
+    const allAvailableSauces: Record<string, Sauce> = { ...allSauces };
+    
+    // Add sauces from cuisine-specific traditionalSauces data
+    Object.values(cuisines).forEach(cuisine => {
+      const cuisineId = (cuisine.id || cuisine.name).toLowerCase();
+      
+      if (cuisine.traditionalSauces) {
+        Object.entries(cuisine.traditionalSauces).forEach(([sauceId, sauceData]) => {
+          // Ensure sauce data has the correct structure
+          if (sauceData.name && sauceData.elementalProperties) {
+            const normalizedSauceId = `${cuisineId}_${sauceId}`.toLowerCase();
+            
+            allAvailableSauces[normalizedSauceId] = {
+              name: sauceData.name,
+              description: sauceData.description || `Traditional ${sauceData.name} sauce from ${cuisine.name} cuisine`,
+              base: sauceData.base || "unknown",
+              keyIngredients: sauceData.keyIngredients || [],
+              culinaryUses: sauceData.culinaryUses || [],
+              variants: sauceData.variants || [],
+              elementalProperties: sauceData.elementalProperties,
+              astrologicalInfluences: sauceData.astrologicalInfluences || [],
+              seasonality: sauceData.seasonality || "all",
+              preparationNotes: sauceData.preparationNotes || "",
+              technicalTips: sauceData.technicalTips || "",
+              cuisine: cuisine.name,
+              // Enhanced properties
+              ingredients: sauceData.ingredients || sauceData.keyIngredients || [],
+              preparationSteps: sauceData.preparationSteps || [],
+              storageInstructions: sauceData.storageInstructions || "Store in an airtight container in the refrigerator for up to 1 week.",
+              prepTime: sauceData.prepTime || "15 minutes",
+              cookTime: sauceData.cookTime || "30 minutes",
+              difficulty: sauceData.difficulty || "Medium",
+              yield: sauceData.yield || "Makes about 2 cups"
+            };
+          }
+        });
+      }
+    });
+    
+    return findSauceInAllSources(sauceName, allAvailableSauces) || (() => {
+      // Return the first sauce for the dominant element as a fallback
+      const currentMomentDominantElement = Object.entries(currentMomentElementalProfile)
+        .sort(([, a], [, b]) => b - a)[0][0].toLowerCase();
+        
+      for (const sauce of Object.values(allAvailableSauces)) {
+        const dominantSauceElement = Object.entries(sauce.elementalProperties)
+          .sort(([, a], [, b]) => b - a)[0][0].toLowerCase();
+        
+        if (dominantSauceElement === currentMomentDominantElement) {
+          return sauce;
+        }
+      }
+      
+      // If all else fails, return null
+      return null;
+    })();
+  };
+
+  // Toggle recipe expansion
+  const toggleRecipeExpansion = (index: number) => {
+    setExpandedRecipes(prev => ({
+      ...prev,
+      [index]: !prev[index]
+    }));
+  };
+
+  // Toggle sauce expansion
+  const toggleSauceExpansion = (index: number) => {
+    setExpandedSauces(prev => ({
+      ...prev,
+      [index]: !prev[index]
+    }));
+  };
+
+  // When going back to the list, reset expanded states
+  const handleBackToList = () => {
+    setSelectedCuisine(null);
+    setCuisineRecipes([]);
+    setSauceRecommendations([]);
+    setShowAllRecipes(false);
+    setShowAllSauces(false);
+    setExpandedRecipes({});
+    setExpandedSauces({});
+  };
+
+  // Helper function to get relevant search keywords for a cuisine
+  const getCuisineKeywords = (cuisineName: string): string => {
+    // Map of cuisines to their most distinctive ingredients or dishes
+    const cuisineKeywords: Record<string, string> = {
+      'italian': 'pasta tomato basil',
+      'mexican': 'taco tortilla salsa',
+      'indian': 'curry masala turmeric',
+      'chinese': 'stir-fry soy ginger',
+      'japanese': 'sushi miso rice',
+      'thai': 'curry lemongrass coconut',
+      'french': 'wine butter sauce',
+      'spanish': 'paella saffron',
+      'greek': 'feta olive mediterranean',
+      'lebanese': 'hummus tahini',
+      'turkish': 'kebab mezze',
+      'moroccan': 'tagine couscous',
+      'korean': 'kimchi bulgogi',
+      'vietnamese': 'pho noodle',
+      // Add more cuisines as needed
+    };
+    
+    const lowerCuisine = cuisineName.toLowerCase();
+    return cuisineKeywords[lowerCuisine] || cuisineName;
+  };
+
+  // Generate basic recipe examples for a cuisine
+  const generateBasicRecipesForCuisine = (cuisineName: string): any[] => {
+    // This is a placeholder function that returns mock recipes
+    // In a real app, you might get these from an API or database
+    const lowercaseCuisine = cuisineName.toLowerCase();
+    const recipes = [];
+    
+    // Map of basic recipes for common cuisines
+    const cuisineRecipes: Record<string, any[]> = {
+      'italian': [
+        { name: 'Classic Margherita Pizza', difficulty: 'Medium', prepTime: '30 mins', cookTime: '15 mins', 
+          description: 'Traditional pizza with tomato, mozzarella, and basil.' },
+        { name: 'Spaghetti Carbonara', difficulty: 'Medium', prepTime: '10 mins', cookTime: '15 mins', 
+          description: 'Creamy pasta dish with eggs, cheese, pancetta, and black pepper.' },
+        { name: 'Risotto ai Funghi', difficulty: 'Medium', prepTime: '15 mins', cookTime: '30 mins', 
+          description: 'Creamy rice dish with mushrooms and Parmesan cheese.' }
+      ],
+      'mexican': [
+        { name: 'Beef Tacos', difficulty: 'Easy', prepTime: '20 mins', cookTime: '15 mins', 
+          description: 'Seasoned ground beef in corn tortillas with toppings.' },
+        { name: 'Chicken Enchiladas', difficulty: 'Medium', prepTime: '30 mins', cookTime: '25 mins', 
+          description: 'Rolled tortillas filled with chicken, covered in sauce and cheese.' },
+        { name: 'Guacamole', difficulty: 'Easy', prepTime: '15 mins', cookTime: '0 mins', 
+          description: 'Avocado-based dip with lime, cilantro, and onion.' }
+      ],
+      'indian': [
+        { name: 'Butter Chicken', difficulty: 'Medium', prepTime: '30 mins', cookTime: '40 mins', 
+          description: 'Chicken in a creamy tomato-based sauce with spices.' },
+        { name: 'Vegetable Biryani', difficulty: 'Medium', prepTime: '40 mins', cookTime: '30 mins', 
+          description: 'Fragrant rice dish with vegetables, spices, and herbs.' },
+        { name: 'Chana Masala', difficulty: 'Easy', prepTime: '15 mins', cookTime: '30 mins', 
+          description: 'Spiced chickpea curry with tomatoes and spices.' }
+      ]
+    };
+    
+    // Return recipes for this cuisine, or generate generic ones
+    if (lowercaseCuisine in cuisineRecipes) {
+      return cuisineRecipes[lowercaseCuisine];
+    }
+    
+    // Generate generic recipes for cuisines not in our map
+    return [
+      { name: `${cuisineName} Signature Dish`, difficulty: 'Medium', prepTime: '30 mins', cookTime: '30 mins', 
+        description: `A traditional dish from ${cuisineName} cuisine.` },
+      { name: `${cuisineName} Street Food`, difficulty: 'Easy', prepTime: '20 mins', cookTime: '15 mins', 
+        description: `Popular street food from ${cuisineName} cuisine.` },
+      { name: `${cuisineName} Festive Special`, difficulty: 'Hard', prepTime: '60 mins', cookTime: '45 mins', 
+        description: `A special dish served during festive occasions in ${cuisineName} culture.` }
+    ];
+  };
+
+  // Toggle function for sauce card expansion
+  const toggleSauceCard = (sauceId: string) => {
+    setExpandedSauceCards(prev => ({
+      ...prev,
+      [sauceId]: !prev[sauceId]
+    }));
+  };
+
+  // Helper function to determine ingredient amounts
+  const getIngredientAmountRange = (ingredient: string): string => {
+    const ing = ingredient.toLowerCase();
+    
+    // Return appropriate range based on ingredient type
+    if (ing.includes('oil')) return "2-4 tbsp";
+    if (ing.includes('olive oil')) return "3-5 tbsp";
+    if (ing.includes('butter')) return "2-4 tbsp";
+    if (ing.includes('cream')) return "3/4-1 cup";
+    if (ing.includes('milk')) return "3/4-1 cup";
+    if (ing.includes('wine')) return "1/3-1/2 cup";
+    if (ing.includes('stock') || ing.includes('broth')) return "3/4-1 1/4 cups";
+    if (ing.includes('garlic')) return "2-5 cloves, minced";
+    if (ing.includes('onion')) return "1/2-1, diced";
+    if (ing.includes('shallot')) return "1-3, minced";
+    if (ing.includes('tomato') && !ing.includes('paste')) return "1-2 cups, chopped";
+    if (ing.includes('tomato paste')) return "1-3 tbsp";
+    if (ing.includes('herb') || ing.includes('basil') || ing.includes('parsley') || ing.includes('cilantro')) return "1-3 tbsp, chopped";
+    if (ing.includes('spice') || ing.includes('pepper') || ing.includes('salt')) return "to taste";
+    if (ing.includes('lemon') || ing.includes('lime')) return "1/2-1, juiced";
+    if (ing.includes('vinegar')) return "1-3 tbsp";
+    if (ing.includes('mustard')) return "1/2-2 tbsp";
+    if (ing.includes('honey') || ing.includes('sugar')) return "1/2-2 tsp";
+    if (ing.includes('cheese')) return "1/4-3/4 cup, grated";
+    if (ing.includes('flour')) return "1-3 tbsp";
+    if (ing.includes('nut')) return "2-4 tbsp, chopped";
+    if (ing.includes('anchovy')) return "3-6 fillets";
+    if (ing.includes('chili')) return "1-2, chopped";
+    if (ing.includes('ginger')) return "1-2 tbsp, minced";
+    if (ing.includes('soy sauce')) return "1-3 tbsp";
+    if (ing.includes('sesame oil')) return "1/2-2 tsp";
+    if (ing.includes('mushroom')) return "3/4-1 1/2 cups, sliced";
+    
+    // Sauce-specific ingredients
+    if (ing.includes('yogurt')) return "1/2-1 cup";
+    if (ing.includes('tahini')) return "2-4 tbsp";
+    if (ing.includes('miso')) return "1-3 tbsp";
+    if (ing.includes('fish sauce')) return "1-3 tbsp";
+    if (ing.includes('coconut milk')) return "3/4-1 cup";
+    if (ing.includes('egg')) return "1-2";
+    if (ing.includes('cornstarch')) return "1-2 tbsp";
+    
+    // Default range for other ingredients
+    return "to taste, as needed";
+  };
+
+  if (loading) {
+    return (
+      <div className="bg-white rounded-lg shadow-md p-6 h-full">
+        <h2 className="text-xl font-semibold mb-4">Celestial Cuisine Guide</h2>
+        <div className="animate-pulse flex flex-col space-y-4">
+          <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+          <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+            <div className="h-24 bg-gray-200 rounded"></div>
+            <div className="h-24 bg-gray-200 rounded"></div>
+            <div className="h-24 bg-gray-200 rounded"></div>
+            <div className="h-24 bg-gray-200 rounded"></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="bg-white rounded-lg shadow-md p-6">
+        <h2 className="text-xl font-semibold mb-4">Celestial Cuisine Guide</h2>
+        <div className="bg-red-50 p-4 rounded-md text-red-600">
+          <p>Error loading cuisines: {error}</p>
+          <button 
+            className="mt-2 px-4 py-2 bg-red-600 text-white rounded-md"
+            onClick={() => window.location.reload()}
+          >
+            Retry
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (selectedCuisine) {
+    // Find the transformed cuisine for more detailed information
+    const transformedCuisine = transformedCuisines.find(c => c.id === selectedCuisine);
+    // Also get the original cuisine data
+    const originalCuisine = cuisinesList.find(c => c.id === selectedCuisine);
+    
+    if (!transformedCuisine || !originalCuisine) {
+      return (
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <h2 className="text-xl font-semibold mb-4">Celestial Cuisine Guide</h2>
+          <p>Cuisine not found. Please try again.</p>
+          <button 
+            className="mt-4 flex items-center text-blue-600" 
+            onClick={handleBackToList}
+          >
+            <ArrowLeft className="w-4 h-4 mr-1" /> Back to cuisines
+          </button>
+        </div>
+      );
+    }
+    
+    // Calculate elemental match with user profile for this cuisine
+    const elementalMatch = calculateElementalMatch(
+      transformedCuisine.elementalProperties,
+      currentMomentElementalProfile
+    );
+    
+    return (
+      <div className="bg-white rounded-lg shadow-md p-6">
+        <button 
+          className="mb-4 flex items-center text-blue-600" 
+          onClick={handleBackToList}
+        >
+          <ArrowLeft className="w-4 h-4 mr-1" /> Back to cuisines
+        </button>
+        
+        <h2 className="text-2xl font-semibold mb-2">{transformedCuisine.name}</h2>
+        <p className="text-gray-600 mb-6">{originalCuisine.description}</p>
+        
+        {/* Cuisine Recipe Preview */}
+        <div className="mb-6 p-4 bg-gradient-to-r from-amber-50 to-yellow-50 rounded-lg">
+          <h3 className="text-lg font-medium mb-2 flex items-center">
+            <GalleryVertical className="w-4 h-4 mr-2 text-amber-500" />
+            Recipe Recommendations
+          </h3>
+          <p className="text-sm text-gray-600 mb-3">
+            Explore recipes from {transformedCuisine.name} cuisine that match your preferences
+            and current seasonal conditions.
+          </p>
+          {loading && (
+            <div className="text-center text-gray-500 py-2">
+              <p>Loading recipes...</p>
+            </div>
+          )}
+          {!loading && cuisineRecipes.length === 0 && (
+            <div className="text-center text-gray-500 py-2">
+              <p>No recipes found for this cuisine. Try another selection or check the console for debugging info.</p>
+            </div>
+          )}
+        </div>
+        
+        {/* Recipe Recommendations Section */}
+        {cuisineRecipes.length > 0 && (
+          <div className="mt-8 mb-6">
+            <h3 className="text-lg font-medium mb-3">Recommended Recipes</h3>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {cuisineRecipes.slice(0, showAllRecipes ? cuisineRecipes.length : 4).map((recipe, index) => (
+                <div key={index} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                  <div className="flex justify-between mb-2">
+                    <h4 className="font-medium">{recipe.name}</h4>
+                    {recipe.matchScore && (
+                      renderScoreBadge(recipe.matchScore as number)
+                    )}
+                  </div>
+                  
+                  <p className="text-sm text-gray-600 mb-3 line-clamp-2">{recipe.description}</p>
+                  
+                  <div className="flex flex-wrap gap-2 mb-2 text-xs">
+                    <span className="bg-blue-50 text-blue-600 px-2 py-1 rounded-full">
+                      {Array.isArray(recipe.mealType) ? recipe.mealType.join(', ') : recipe.mealType}
+                    </span>
+                    <span className="bg-amber-50 text-amber-600 px-2 py-1 rounded-full">
+                      {Array.isArray(recipe.season) ? recipe.season.join(', ') : recipe.season}
+                    </span>
+                    {recipe.prepTime && (
+                      <span className="bg-gray-100 text-gray-600 px-2 py-1 rounded-full">
+                        Prep: {recipe.prepTime}
+                      </span>
+                    )}
+                    {recipe.cookTime && (
+                      <span className="bg-gray-100 text-gray-600 px-2 py-1 rounded-full">
+                        Cook: {recipe.cookTime}
+                      </span>
+                    )}
+                    {!recipe.prepTime && !recipe.cookTime && recipe.timeToMake && (
+                      <span className="bg-gray-100 text-gray-600 px-2 py-1 rounded-full">
+                        Time: {recipe.timeToMake}
+                      </span>
+                    )}
+                  </div>
+                  
+                  {/* Show cooking methods if available */}
+                  {recipe.cookingMethods && recipe.cookingMethods.length > 0 && (
+                    <div className="flex flex-wrap gap-1 mb-2">
+                      {Array.isArray(recipe.cookingMethods) ? recipe.cookingMethods.slice(0, 3).map((method, i) => (
+                        <span key={i} className="text-xs bg-purple-50 text-purple-600 px-1.5 py-0.5 rounded">
+                          {typeof method === 'string' ? method : String(method)}
+                        </span>
+                      )) : (
+                        <span className="text-xs bg-purple-50 text-purple-600 px-1.5 py-0.5 rounded">
+                          {recipe.cookingMethods}
+                        </span>
+                      )}
+                      {Array.isArray(recipe.cookingMethods) && recipe.cookingMethods.length > 3 && (
+                        <span className="text-xs text-gray-500">+{recipe.cookingMethods.length - 3}</span>
+                      )}
+                    </div>
+                  )}
+                  
+                  {/* Show a preview of ingredients even if not expanded */}
+                  {recipe.ingredients && recipe.ingredients.length > 0 && (
+                    <div className="mt-3">
+                      <h5 className="text-xs font-medium mb-1">Key Ingredients:</h5>
+                      <div className="flex flex-wrap gap-1">
+                        {recipe.ingredients.slice(0, 3).map((ing: any, i: number) => (
+                          <span key={i} className="text-xs bg-gray-50 px-1.5 py-0.5 rounded">
+                            {typeof ing === 'string' 
+                              ? ing 
+                              : typeof ing === 'object' 
+                                ? (ing.name || Object.keys(ing).join(', '))
+                                : String(ing)}
+                          </span>
+                        ))}
+                        {recipe.ingredients.length > 3 && (
+                          <span className="text-xs text-gray-500">
+                            +{recipe.ingredients.length - 3} more
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                  
+                  {/* Recipe details section that becomes visible on expansion */}
+                  {expandedRecipes[index] && (
+                    <div className="mt-4 pt-3 border-t">
+                      {/* Time & Cooking Information */}
+                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-3">
+                        {recipe.prepTime && (
+                          <div className="bg-gray-50 p-2 rounded">
+                            <h5 className="text-xs font-medium mb-1">Prep Time:</h5>
+                            <p className="text-xs">{recipe.prepTime}</p>
+                          </div>
+                        )}
+                        {recipe.cookTime && (
+                          <div className="bg-gray-50 p-2 rounded">
+                            <h5 className="text-xs font-medium mb-1">Cook Time:</h5>
+                            <p className="text-xs">{recipe.cookTime}</p>
+                          </div>
+                        )}
+                        {recipe.totalTime && (
+                          <div className="bg-gray-50 p-2 rounded">
+                            <h5 className="text-xs font-medium mb-1">Total Time:</h5>
+                            <p className="text-xs">{recipe.totalTime}</p>
+                          </div>
+                        )}
+                        {recipe.timeToMake && !recipe.prepTime && !recipe.cookTime && (
+                          <div className="bg-gray-50 p-2 rounded">
+                            <h5 className="text-xs font-medium mb-1">Time to Make:</h5>
+                            <p className="text-xs">{recipe.timeToMake}</p>
+                          </div>
+                        )}
+                        {recipe.servingSize && (
+                          <div className="bg-gray-50 p-2 rounded">
+                            <h5 className="text-xs font-medium mb-1">Serving Size:</h5>
+                            <p className="text-xs">{recipe.servingSize}</p>
+                          </div>
+                        )}
+                        {recipe.numberOfServings && (
+                          <div className="bg-gray-50 p-2 rounded">
+                            <h5 className="text-xs font-medium mb-1">Servings:</h5>
+                            <p className="text-xs">{recipe.numberOfServings}</p>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Ingredients Section */}
+                      {recipe.ingredients && recipe.ingredients.length > 0 && (
+                        <div className="mt-4">
+                          <h5 className="text-sm font-semibold mb-2">Ingredients:</h5>
+                          <ul className="text-xs text-gray-700 pl-4 list-disc">
+                            {Array.isArray(recipe.ingredients) 
+                              ? recipe.ingredients.map((ing: any, i: number) => (
+                                  <li key={i} className="mb-1">
+                                    {typeof ing === 'string' 
+                                      ? ing 
+                                      : typeof ing === 'object'
+                                        ? (ing.amount && ing.unit 
+                                            ? `${ing.amount} ${ing.unit} ${ing.name}${ing.preparation ? `, ${ing.preparation}` : ''}${ing.notes ? ` (${ing.notes})` : ''}`
+                                            : (ing.name || Object.keys(ing).join(', ')))
+                                        : String(ing)}
+                                  </li>
+                                ))
+                              : <li>{String(recipe.ingredients)}</li>
+                            }
+                          </ul>
+                        </div>
+                      )}
+
+                      {/* Procedure Section */}
+                      {recipe.instructions && (
+                        <div className="mt-4">
+                          <h5 className="text-sm font-semibold mb-2">Procedure:</h5>
+                          <ol className="text-xs text-gray-700 pl-4 list-decimal">
+                            {Array.isArray(recipe.instructions) 
+                              ? recipe.instructions.map((step: any, i: number) => (
+                                  <li key={i} className="mb-2">
+                                    {typeof step === 'string' 
+                                      ? step 
+                                      : typeof step === 'object'
+                                        ? JSON.stringify(step)
+                                        : String(step)}
+                                  </li>
+                                ))
+                              : typeof recipe.instructions === 'object'
+                                ? Object.entries(recipe.instructions).map(([key, value], i) => (
+                                    <li key={i} className="mb-1">{key}: {String(value)}</li>
+                                  ))
+                                : <li>{String(recipe.instructions)}</li>
+                            }
+                          </ol>
+                        </div>
+                      )}
+
+                      {/* Cooking Methods Section */}
+                      {recipe.cookingMethods && recipe.cookingMethods.length > 0 && (
+                        <div className="mt-4">
+                          <h5 className="text-sm font-semibold mb-2">Cooking Methods:</h5>
+                          <div className="flex flex-wrap gap-1">
+                            {Array.isArray(recipe.cookingMethods) ? recipe.cookingMethods.map((method: any, i: number) => (
+                              <span key={i} className="text-xs bg-gray-50 px-1.5 py-0.5 rounded">
+                                {typeof method === 'string' ? method : String(method)}
+                              </span>
+                            )) : (
+                              <span className="text-xs">{String(recipe.cookingMethods)}</span>
+                            )}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Tools Section */}
+                      {recipe.tools && recipe.tools.length > 0 && (
+                        <div className="mt-4">
+                          <h5 className="text-sm font-semibold mb-2">Tools:</h5>
+                          <div className="flex flex-wrap gap-1">
+                            {Array.isArray(recipe.tools) ? recipe.tools.map((tool: any, i: number) => (
+                              <span key={i} className="text-xs bg-gray-50 px-1.5 py-0.5 rounded">
+                                {typeof tool === 'string' ? tool : String(tool)}
+                              </span>
+                            )) : (
+                              <span className="text-xs">{String(recipe.tools)}</span>
+                            )}
+                          </div>
+                        </div>
+                      )}
+                      
+                      {/* Preparation Steps Section */}
+                      {recipe.preparationSteps && recipe.preparationSteps.length > 0 && (
+                        <div className="mt-4">
+                          <h5 className="text-sm font-semibold mb-2">Preparation Steps:</h5>
+                          <ol className="text-xs text-gray-700 pl-4 list-decimal">
+                            {Array.isArray(recipe.preparationSteps) 
+                              ? recipe.preparationSteps.map((step: any, i: number) => (
+                                  <li key={i} className="mb-1">{typeof step === 'string' ? step : String(step)}</li>
+                                ))
+                              : <li>{String(recipe.preparationSteps)}</li>
+                            }
+                          </ol>
+                        </div>
+                      )}
+
+                      {/* Nutrition Section */}
+                      {recipe.nutrition && (
+                        <div className="mt-4">
+                          <h5 className="text-sm font-semibold mb-2">Nutrition:</h5>
+                          <div className="bg-gray-50 p-3 rounded">
+                            {/* Macronutrients */}
+                            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3">
+                              <div className="flex flex-col">
+                                <span className="text-xs font-medium text-gray-700">Calories:</span>
+                                <span className="text-sm">{recipe.nutrition.calories || 0}</span>
+                              </div>
+                              <div className="flex flex-col">
+                                <span className="text-xs font-medium text-gray-700">Protein:</span>
+                                <span className="text-sm">{recipe.nutrition.protein || 0}g</span>
+                              </div>
+                              <div className="flex flex-col">
+                                <span className="text-xs font-medium text-gray-700">Carbs:</span>
+                                <span className="text-sm">{recipe.nutrition.carbs || 0}g</span>
+                              </div>
+                              <div className="flex flex-col">
+                                <span className="text-xs font-medium text-gray-700">Fat:</span>
+                                <span className="text-sm">{recipe.nutrition.fat || 0}g</span>
+                              </div>
+                            </div>
+                            
+                            {/* Additional nutrition info if available */}
+                            {(recipe.nutrition.fiber || recipe.nutrition.sugar) && (
+                              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3">
+                                {recipe.nutrition.fiber !== undefined && (
+                                  <div className="flex flex-col">
+                                    <span className="text-xs font-medium text-gray-700">Fiber:</span>
+                                    <span className="text-sm">{recipe.nutrition.fiber}g</span>
+                                  </div>
+                                )}
+                                {recipe.nutrition.sugar !== undefined && (
+                                  <div className="flex flex-col">
+                                    <span className="text-xs font-medium text-gray-700">Sugar:</span>
+                                    <span className="text-sm">{recipe.nutrition.sugar}g</span>
+                                  </div>
+                                )}
+                              </div>
+                            )}
+                            
+                            {/* Vitamins */}
+                            {recipe.nutrition.vitamins && recipe.nutrition.vitamins.length > 0 && (
+                              <div className="mt-2">
+                                <span className="text-xs font-medium text-gray-700">Vitamins:</span>
+                                <div className="flex flex-wrap gap-1 mt-1">
+                                  {Array.isArray(recipe.nutrition.vitamins) ? recipe.nutrition.vitamins.map((vitamin: string, i: number) => (
+                                    <span key={i} className="text-xs bg-green-50 text-green-700 px-1.5 py-0.5 rounded">
+                                      {vitamin}
+                                    </span>
+                                  )) : (
+                                    <span className="text-xs">None</span>
+                                  )}
+                                </div>
+                              </div>
+                            )}
+                            
+                            {/* Minerals */}
+                            {recipe.nutrition.minerals && recipe.nutrition.minerals.length > 0 && (
+                              <div className="mt-2">
+                                <span className="text-xs font-medium text-gray-700">Minerals:</span>
+                                <div className="flex flex-wrap gap-1 mt-1">
+                                  {Array.isArray(recipe.nutrition.minerals) ? recipe.nutrition.minerals.map((mineral: string, i: number) => (
+                                    <span key={i} className="text-xs bg-blue-50 text-blue-700 px-1.5 py-0.5 rounded">
+                                      {mineral}
+                                    </span>
+                                  )) : (
+                                    <span className="text-xs">None</span>
+                                  )}
+                                </div>
+                              </div>
+                            )}
+                            
+                            {/* Nutrition data source note */}
+                            <div className="mt-2 text-xs text-gray-500 italic">
+                              {recipe.nutrition.source ? 
+                                `Data from: ${recipe.nutrition.source}` : 
+                                'Nutritional information is calculated estimate'}
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Dietary Information */}
+                      <div className="mt-4">
+                        <h5 className="text-sm font-semibold mb-2">Dietary Information:</h5>
+                        <div className="flex flex-wrap gap-1">
+                          {recipe.isVegetarian && (
+                            <span className="text-xs bg-green-50 text-green-700 px-1.5 py-0.5 rounded">Vegetarian</span>
+                          )}
+                          {recipe.isVegan && (
+                            <span className="text-xs bg-green-50 text-green-700 px-1.5 py-0.5 rounded">Vegan</span>
+                          )}
+                          {recipe.isGlutenFree && (
+                            <span className="text-xs bg-green-50 text-green-700 px-1.5 py-0.5 rounded">Gluten-Free</span>
+                          )}
+                          {recipe.isDairyFree && (
+                            <span className="text-xs bg-green-50 text-green-700 px-1.5 py-0.5 rounded">Dairy-Free</span>
+                          )}
+                          {recipe.isNutFree && (
+                            <span className="text-xs bg-green-50 text-green-700 px-1.5 py-0.5 rounded">Nut-Free</span>
+                          )}
+                          {recipe.isLowCarb && (
+                            <span className="text-xs bg-green-50 text-green-700 px-1.5 py-0.5 rounded">Low-Carb</span>
+                          )}
+                          {recipe.isKeto && (
+                            <span className="text-xs bg-green-50 text-green-700 px-1.5 py-0.5 rounded">Keto</span>
+                          )}
+                          {recipe.isPaleo && (
+                            <span className="text-xs bg-green-50 text-green-700 px-1.5 py-0.5 rounded">Paleo</span>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Allergens Section */}
+                      {recipe.allergens && recipe.allergens.length > 0 && (
+                        <div className="mt-4">
+                          <h5 className="text-sm font-semibold mb-2">Allergens:</h5>
+                          <div className="flex flex-wrap gap-1">
+                            {Array.isArray(recipe.allergens) ? recipe.allergens.map((allergen: any, i: number) => (
+                              <span key={i} className="text-xs bg-red-50 text-red-700 px-1.5 py-0.5 rounded">
+                                {typeof allergen === 'string' ? allergen : String(allergen)}
+                              </span>
+                            )) : (
+                              <span className="text-xs bg-red-50 text-red-700 px-1.5 py-0.5 rounded">{String(recipe.allergens)}</span>
+                            )}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Cultural Notes */}
+                      {recipe.culturalNotes && (
+                        <div className="mt-4">
+                          <h5 className="text-sm font-semibold mb-2">Cultural Notes:</h5>
+                          <p className="text-xs text-gray-700 p-2 bg-gray-50 rounded">{recipe.culturalNotes}</p>
+                        </div>
+                      )}
+
+                      {/* Pairing Suggestions */}
+                      {recipe.pairingSuggestions && recipe.pairingSuggestions.length > 0 && (
+                        <div className="mt-4">
+                          <h5 className="text-sm font-semibold mb-2">Pairing Suggestions:</h5>
+                          <div className="flex flex-wrap gap-1">
+                            {Array.isArray(recipe.pairingSuggestions) ? recipe.pairingSuggestions.map((suggestion: any, i: number) => (
+                              <span key={i} className="text-xs bg-amber-50 text-amber-700 px-1.5 py-0.5 rounded">
+                                {typeof suggestion === 'string' ? suggestion : String(suggestion)}
+                              </span>
+                            )) : (
+                              <span className="text-xs">{String(recipe.pairingSuggestions)}</span>
+                            )}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Spice Level */}
+                      {recipe.spiceLevel && (
+                        <div className="mt-4">
+                          <h5 className="text-sm font-semibold mb-2">Spice Level:</h5>
+                          <span className="text-xs bg-orange-50 text-orange-700 px-1.5 py-0.5 rounded">{recipe.spiceLevel}</span>
+                        </div>
+                      )}
+
+                      {/* Chef Notes */}
+                      {recipe.chefNotes && recipe.chefNotes.length > 0 && (
+                        <div className="mt-4">
+                          <h5 className="text-sm font-semibold mb-2">Chef Notes:</h5>
+                          <ul className="text-xs text-gray-700 pl-4 list-disc">
+                            {Array.isArray(recipe.chefNotes) 
+                              ? recipe.chefNotes.map((note: any, i: number) => (
+                                  <li key={i} className="mb-1">{typeof note === 'string' ? note : String(note)}</li>
+                                ))
+                              : <li>{String(recipe.chefNotes)}</li>
+                            }
+                          </ul>
+                        </div>
+                      )}
+
+                      {/* Tips */}
+                      {recipe.tips && recipe.tips.length > 0 && (
+                        <div className="mt-4">
+                          <h5 className="text-sm font-semibold mb-2">Tips:</h5>
+                          <ul className="text-xs text-gray-700 pl-4 list-disc">
+                            {Array.isArray(recipe.tips) 
+                              ? recipe.tips.map((tip: any, i: number) => (
+                                  <li key={i} className="mb-1">{typeof tip === 'string' ? tip : String(tip)}</li>
+                                ))
+                              : <li>{String(recipe.tips)}</li>
+                            }
+                          </ul>
+                        </div>
+                      )}
+
+                      {/* Substitutions */}
+                      {recipe.substitutions && (
+                        <div className="mt-4">
+                          <h5 className="text-sm font-semibold mb-2">Substitutions:</h5>
+                          <div className="text-xs text-gray-700">
+                            {typeof recipe.substitutions === 'string' 
+                              ? recipe.substitutions 
+                              : Array.isArray(recipe.substitutions)
+                                ? recipe.substitutions.map((sub: any, i: number) => (
+                                    <div key={i} className="mb-1">
+                                      {typeof sub === 'string' ? sub : JSON.stringify(sub)}
+                                    </div>
+                                  ))
+                                : typeof recipe.substitutions === 'object'
+                                  ? Object.entries(recipe.substitutions).map(([key, value], i) => (
+                                      <div key={i} className="mb-1"><span className="font-medium">{key}:</span> {String(value)}</div>
+                                    ))
+                                  : String(recipe.substitutions)
+                            }
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                  
+                  {/* Toggle button */}
+                  <button 
+                    className="mt-3 text-blue-600 hover:text-blue-800 flex items-center text-xs font-medium"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleRecipeExpansion(index);
+                    }}
+                  >
+                    {expandedRecipes[index] 
+                      ? <><ChevronUp className="w-3 h-3 mr-1" /> Show Less</> 
+                      : <><ChevronDown className="w-3 h-3 mr-1" /> View Details</>
+                    }
+                  </button>
+                </div>
+              ))}
+            </div>
+            
+            {cuisineRecipes.length > 4 && (
+              <button
+                className="mt-4 text-blue-600 hover:text-blue-800 font-medium text-sm"
+                onClick={() => setShowAllRecipes(!showAllRecipes)}
+              >
+                {showAllRecipes ? 'Show Less' : `View All ${cuisineRecipes.length} Recipes`}
+              </button>
+            )}
+          </div>
+        )}
+        
+        {/* Sauce Recommendations Section with expansion capability */}
+        {sauceRecommendations.length > 0 && (
+          <div className="mt-8 mb-6">
+            <h3 className="text-lg font-medium mb-3">Sauce Recommendations</h3>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {sauceRecommendations.slice(0, showAllSauces ? sauceRecommendations.length : 6).map((sauce, index) => {
+                const sauceId = `sauce-${sauce.id || index}`;
+                const isExpanded = expandedSauceCards[sauceId] || false;
+                
+                // Determine card styling based on sauce type
+                let cardStyle = 'border-gray-200 bg-gradient-to-r from-gray-50 to-white';
+                
+                if (sauce.isComplementary) {
+                  cardStyle = 'border-purple-200 bg-gradient-to-r from-purple-50 to-white';
+                } else if (sauce.matchScore > 0.9) {
+                  cardStyle = 'border-emerald-200 bg-emerald-50';
+                }
+                
+                return (
+                  <div 
+                    key={sauceId}
+                    className={`border rounded-lg p-4 hover:shadow-sm transition-shadow ${cardStyle}`}
+                  >
+                    {/* Collapsed header - always visible */}
+                    <div className="flex justify-between items-start mb-1">
+                      <h4 className="font-medium">{sauce.name}</h4>
+                      {renderScoreBadge(sauce.matchScore)}
+                    </div>
+                    
+                    {/* Collapsed view - minimal information */}
+                    {!isExpanded && (
+                      <>
+                        {/* Short description - limited to 2 lines */}
+                        {sauce.description && (
+                          <p className="text-sm text-gray-600 mb-2 line-clamp-2">{sauce.description}</p>
+                        )}
+                        
+                        {/* Basic cuisine and category info */}
+                        <div className="flex flex-wrap gap-2 items-center text-xs text-gray-500 mb-2">
+                          {sauce.cuisine && (
+                            <span className="font-medium">
+                              <span>Cuisine:</span> {sauce.cuisine}
+                            </span>
+                          )}
+                          
+                          {sauce.isComplementary && (
+                            <span className="bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full">
+                              Complementary
+                            </span>
+                          )}
+                          
+                          {sauce.category === 'byRegion' && (
+                            <span className="bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full">
+                              Regional
+                            </span>
+                          )}
+                        </div>
+                        
+                        {/* Preview of ingredients (up to 3) */}
+                        {sauce.ingredients && sauce.ingredients.length > 0 && (
+                          <div className="flex flex-wrap gap-1 mt-2">
+                            {sauce.ingredients.slice(0, 3).map((ing, idx) => (
+                              <span key={idx} className="text-xs bg-gray-100 px-1.5 py-0.5 rounded">
+                                {typeof ing === 'string' ? ing : String(ing)}
+                              </span>
+                            ))}
+                            {sauce.ingredients.length > 3 && (
+                              <span className="text-xs text-gray-500">+{sauce.ingredients.length - 3}</span>
+                            )}
+                          </div>
+                        )}
+                      </>
+                    )}
+                    
+                    {/* Expanded view - comprehensive information */}
+                    {isExpanded && (
+                      <div className="mt-2">
+                        {/* Full description */}
+                        {sauce.description && (
+                          <p className="text-sm text-gray-700 mb-3">{sauce.description}</p>
+                        )}
+                        
+                        {/* Cuisine and origin information */}
+                        <div className="flex flex-wrap gap-2 items-center text-xs mb-3">
+                          {sauce.cuisine && (
+                            <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded-full">
+                              <span className="font-medium">Cuisine:</span> {sauce.cuisine}
+                            </span>
+                          )}
+                          
+                          {sauce.isComplementary && (
+                            <span className="bg-purple-100 text-purple-700 px-2 py-1 rounded-full">
+                              Complementary Sauce
+                            </span>
+                          )}
+                          
+                          {sauce.category === 'byRegion' && (
+                            <span className="bg-blue-100 text-blue-700 px-2 py-1 rounded-full">
+                              Regional Specialty
+                            </span>
+                          )}
+                        </div>
+                        
+                        {/* Detailed ingredients with amounts */}
+                        {sauce.ingredients && sauce.ingredients.length > 0 && (
+                          <div className="mb-3">
+                            <h5 className="text-sm font-medium text-gray-700 mb-1">Ingredients:</h5>
+                            <ul className="space-y-1">
+                              {sauce.ingredients.map((ing, idx) => (
+                                <li key={idx} className="text-xs text-gray-600 flex items-start">
+                                  <span className="inline-block w-1 h-1 rounded-full bg-gray-400 mt-1.5 mr-2"></span>
+                                  <span>
+                                    {typeof ing === 'string' ? ing : String(ing)}
+                                    {sauce.name.toLowerCase().includes('tomato') ? 
+                                      (idx === 0 ? " - 2 lbs, preferably San Marzano" : 
+                                       idx === 1 ? " - 4 cloves, minced" : 
+                                       idx === 2 ? " - 1/4 cup, extra virgin" :
+                                       idx === 3 ? " - 2 tbsp, fresh, chopped" :
+                                       idx === 4 ? " - 1 tbsp, dried" : "") :
+                                     sauce.name.toLowerCase().includes('bagna cauda') ?
+                                      (idx === 0 ? " - 1/2 cup, extra virgin" :
+                                       idx === 1 ? " - 4 tbsp" :
+                                       idx === 2 ? " - 12 fillets, minced" :
+                                       idx === 3 ? " - 8-10 cloves, minced" : "") :
+                                    " - " + getIngredientAmountRange(typeof ing === 'string' ? ing : String(ing))}
+                                  </span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                        
+                        {/* Preparation steps */}
+                        <div className="mb-3">
+                          <h5 className="text-sm font-medium text-gray-700 mb-1">Preparation:</h5>
+                          <ol className="space-y-1 list-decimal list-inside pl-1">
+                            {sauce.name.toLowerCase().includes('tomato') ? (
+                              <>
+                                <li className="text-xs text-gray-600">
+                                  Heat olive oil in a large pan over medium heat.
+                                </li>
+                                <li className="text-xs text-gray-600">
+                                  Add minced garlic and sauté until fragrant, about 30 seconds.
+                                </li>
+                                <li className="text-xs text-gray-600">
+                                  Add crushed tomatoes, stir to combine.
+                                </li>
+                                <li className="text-xs text-gray-600">
+                                  Add herbs, salt, and pepper. Simmer on low heat for 20-30 minutes, stirring occasionally.
+                                </li>
+                                <li className="text-xs text-gray-600">
+                                  Adjust seasoning to taste. For a smoother sauce, blend or pass through a food mill.
+                                </li>
+                              </>
+                            ) : sauce.name.toLowerCase().includes('bagna cauda') ? (
+                              <>
+                                <li className="text-xs text-gray-600">
+                                  In a small saucepan, combine olive oil and butter over low heat.
+                                </li>
+                                <li className="text-xs text-gray-600">
+                                  Add minced anchovies and stir until they begin to dissolve.
+                                </li>
+                                <li className="text-xs text-gray-600">
+                                  Add garlic and cook very gently for 10-15 minutes, ensuring it doesn't brown.
+                                </li>
+                                <li className="text-xs text-gray-600">
+                                  Keep warm in a fondue pot or heated bowl. Serve with raw vegetables for dipping.
+                                </li>
+                                <li className="text-xs text-gray-600">
+                                  If the sauce separates, whisk vigorously to reincorporate.
+                                </li>
+                              </>
+                            ) : sauce.name.toLowerCase().includes('pesto') ? (
+                              <>
+                                <li className="text-xs text-gray-600">
+                                  Toast pine nuts in a dry pan until golden, then cool completely.
+                                </li>
+                                <li className="text-xs text-gray-600">
+                                  Blend basil, garlic, pine nuts, and Parmesan in a food processor.
+                                </li>
+                                <li className="text-xs text-gray-600">
+                                  With machine running, slowly drizzle in olive oil until desired consistency.
+                                </li>
+                                <li className="text-xs text-gray-600">
+                                  Season with salt and pepper to taste. Use immediately or refrigerate with a thin layer of oil on top.
+                                </li>
+                              </>
+                            ) : sauce.name.toLowerCase().includes('hollandaise') ? (
+                              <>
+                                <li className="text-xs text-gray-600">
+                                  Melt butter slowly in a saucepan until fully clarified, keep warm.
+                                </li>
+                                <li className="text-xs text-gray-600">
+                                  Whisk egg yolks and lemon juice vigorously in a heatproof bowl over a double boiler.
+                                </li>
+                                <li className="text-xs text-gray-600">
+                                  Very slowly drizzle in warm clarified butter while whisking constantly.
+                                </li>
+                                <li className="text-xs text-gray-600">
+                                  Continue whisking until sauce thickens. Season with cayenne and salt.
+                                </li>
+                                <li className="text-xs text-gray-600">
+                                  Keep warm (but not hot) until ready to serve. Do not reheat.
+                                </li>
+                              </>
+                            ) : sauce.name.toLowerCase().includes('curry') ? (
+                              <>
+                                <li className="text-xs text-gray-600">
+                                  Heat oil in a pan and add whole spices until they release aroma.
+                                </li>
+                                <li className="text-xs text-gray-600">
+                                  Add finely diced onions and cook until golden brown.
+                                </li>
+                                <li className="text-xs text-gray-600">
+                                  Add garlic, ginger, and ground spices, cook for 1-2 minutes.
+                                </li>
+                                <li className="text-xs text-gray-600">
+                                  Stir in tomato or coconut base, simmer until oil separates at the edges.
+                                </li>
+                                <li className="text-xs text-gray-600">
+                                  Add remaining ingredients and simmer until desired thickness is reached.
+                                </li>
+                              </>
+                            ) : sauce.name.toLowerCase().includes('vinaigrette') ? (
+                              <>
+                                <li className="text-xs text-gray-600">
+                                  Combine acid (vinegar or citrus juice) with mustard, shallots, and seasonings.
+                                </li>
+                                <li className="text-xs text-gray-600">
+                                  Let sit for 5-10 minutes to soften flavors.
+                                </li>
+                                <li className="text-xs text-gray-600">
+                                  Slowly whisk in oil to create an emulsion, or shake all ingredients in a jar.
+                                </li>
+                                <li className="text-xs text-gray-600">
+                                  Taste and adjust acid-to-oil ratio and seasonings as needed.
+                                </li>
+                              </>
+                            ) : sauce.name.toLowerCase().includes('romesco') ? (
+                              <>
+                                <li className="text-xs text-gray-600">
+                                  Roast peppers and tomatoes until skin is charred, then peel.
+                                </li>
+                                <li className="text-xs text-gray-600">
+                                  Toast nuts and bread until golden brown.
+                                </li>
+                                <li className="text-xs text-gray-600">
+                                  Blend vegetables with nuts, bread, garlic, vinegar and spices.
+                                </li>
+                                <li className="text-xs text-gray-600">
+                                  Slowly stream in olive oil while blending until the desired consistency is reached.
+                                </li>
+                                <li className="text-xs text-gray-600">
+                                  Let rest for 1-2 hours before serving to allow flavors to meld.
+                                </li>
+                              </>
+                            ) : sauce.cuisine?.toLowerCase().includes('mexican') ? (
+                              <>
+                                <li className="text-xs text-gray-600">
+                                  Toast dried chiles briefly in a dry pan, then rehydrate in hot water.
+                                </li>
+                                <li className="text-xs text-gray-600">
+                                  Roast tomatoes, onions, and garlic until slightly charred.
+                                </li>
+                                <li className="text-xs text-gray-600">
+                                  Blend chiles with roasted vegetables and remaining ingredients.
+                                </li>
+                                <li className="text-xs text-gray-600">
+                                  Strain mixture and simmer in a pan with oil until thickened.
+                                </li>
+                                <li className="text-xs text-gray-600">
+                                  Cool slightly before using, or refrigerate for deeper flavor development.
+                                </li>
+                              </>
+                            ) : sauce.cuisine?.toLowerCase().includes('asian') ? (
+                              <>
+                                <li className="text-xs text-gray-600">
+                                  Combine all aromatics (ginger, garlic, lemongrass, etc.) in mortar or processor.
+                                </li>
+                                <li className="text-xs text-gray-600">
+                                  Balance sweet, sour, salty, and umami elements to taste.
+                                </li>
+                                <li className="text-xs text-gray-600">
+                                  For cooked sauces, simmer until fragrant and slightly reduced.
+                                </li>
+                                <li className="text-xs text-gray-600">
+                                  Let sit at room temperature for 30 minutes to develop flavors before serving.
+                                </li>
+                              </>
+                            ) : (
+                              <>
+                                <li className="text-xs text-gray-600">
+                                  Prepare base ingredients by dicing, mincing or pureeing as appropriate.
+                                </li>
+                                <li className="text-xs text-gray-600">
+                                  Combine primary flavoring elements and aromatics, cooking if needed.
+                                </li>
+                                <li className="text-xs text-gray-600">
+                                  Add remaining ingredients gradually, balancing flavors as you build the sauce.
+                                </li>
+                                <li className="text-xs text-gray-600">
+                                  Simmer until proper consistency is reached, adjusting thickness as needed.
+                                </li>
+                                <li className="text-xs text-gray-600">
+                                  Finish with fresh herbs or acid to brighten flavor before serving.
+                                </li>
+                              </>
+                            )}
+                          </ol>
+                        </div>
+                        
+                        {/* Culinary uses if available */}
+                        {sauce.culinaryUses && sauce.culinaryUses.length > 0 && (
+                          <div className="mb-3">
+                            <h5 className="text-sm font-medium text-gray-700 mb-1">Uses:</h5>
+                            <ul className="space-y-1">
+                              {sauce.culinaryUses.map((use, idx) => (
+                                <li key={idx} className="text-xs text-gray-600 flex items-start">
+                                  <span className="inline-block w-1 h-1 rounded-full bg-gray-400 mt-1.5 mr-2"></span>
+                                  <span>{use}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                        
+                        {/* Chef's notes if available */}
+                        {sauce.preparationNotes && (
+                          <div className="mb-3">
+                            <h5 className="text-sm font-medium text-gray-700 mb-1">Chef's Notes:</h5>
+                            <p className="text-xs text-gray-600 italic">{sauce.preparationNotes}</p>
+                          </div>
+                        )}
+                        
+                        {/* Technical tips if available */}
+                        {sauce.technicalTips && (
+                          <div className="mb-3">
+                            <h5 className="text-sm font-medium text-gray-700 mb-1">Technical Tips:</h5>
+                            <p className="text-xs text-gray-600">{sauce.technicalTips}</p>
+                          </div>
+                        )}
+                        
+                        {/* Seasonality if applicable */}
+                        <div className="mb-3">
+                          <h5 className="text-sm font-medium text-gray-700 mb-1">Best Season:</h5>
+                          <p className="text-xs text-gray-600">
+                            {sauce.name.toLowerCase().includes('tomato') ? 
+                              "Summer (when tomatoes are at their peak)" :
+                             sauce.name.toLowerCase().includes('bagna cauda') ?
+                              "Fall and winter (traditional during truffle season in Piedmont)" :
+                              "Year-round"}
+                          </p>
+                        </div>
+                        
+                        {/* Storage instructions */}
+                        <div className="mb-3">
+                          <h5 className="text-sm font-medium text-gray-700 mb-1">Storage:</h5>
+                          <p className="text-xs text-gray-600">
+                            {sauce.name.toLowerCase().includes('tomato') ? 
+                              "Refrigerate for up to 5 days in an airtight container. Can be frozen for up to 3 months." :
+                             sauce.name.toLowerCase().includes('bagna cauda') ?
+                              "Best served fresh. Can be refrigerated for 1-2 days and gently reheated." :
+                              "Store according to sauce base (cream sauces typically 2-3 days, oil-based longer)."}
+                          </p>
+                        </div>
+                      </div>
+                    )}
+                    
+                    {/* Expand/collapse button */}
+                    <button 
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleSauceCard(sauceId);
+                      }}
+                      className="mt-2 text-xs text-blue-600 hover:text-blue-800 flex items-center"
+                    >
+                      {isExpanded ? (
+                        <>
+                          <ChevronUp className="w-3 h-3 mr-1" />
+                          <span>Show less</span>
+                        </>
+                      ) : (
+                        <>
+                          <ChevronDown className="w-3 h-3 mr-1" />
+                          <span>Show detailed recipe</span>
+                        </>
+                      )}
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
+            
+            {sauceRecommendations.length > 6 && (
+              <button
+                className="mt-3 text-blue-600 hover:text-blue-800 font-medium text-sm"
+                onClick={() => setShowAllSauces(!showAllSauces)}
+              >
+                {showAllSauces ? 'Show Less' : `View All ${sauceRecommendations.length} Sauces`}
+              </button>
+            )}
+          </div>
+        )}
+        
+        {/* Zodiac Influences Section */}
+        {originalCuisine.zodiacInfluences && originalCuisine.zodiacInfluences.length > 0 && (
+          <div className="mb-6">
+            <h3 className="text-lg font-medium mb-2">Zodiac Influences</h3>
+            <div className="flex flex-wrap gap-2">
+              {originalCuisine.zodiacInfluences.map(sign => {
+                const isCurrentZodiac = sign === currentZodiac;
+                return (
+                  <div 
+                    key={sign} 
+                    className={`${isCurrentZodiac ? 'bg-indigo-100 text-indigo-700' : 'bg-blue-50 text-blue-600'} 
+                             rounded-full px-3 py-1 text-sm flex items-center`}
+                  >
+                    {isCurrentZodiac && <SunIcon className="w-3 h-3 mr-1" />}
+                    {sign.charAt(0).toUpperCase() + sign.slice(1)}
+                    {isCurrentZodiac && <span className="ml-1 text-xs">(Current)</span>}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+        
+        {/* Lunar Phase Influences Section */}
+        {originalCuisine.lunarPhaseInfluences && originalCuisine.lunarPhaseInfluences.length > 0 && (
+          <div className="mb-6">
+            <h3 className="text-lg font-medium mb-2">Lunar Phase Affinity</h3>
+            <div className="flex flex-wrap gap-2">
+              {originalCuisine.lunarPhaseInfluences.map(phase => {
+                const isCurrentPhase = phase === lunarPhase;
+                const phaseDisplay = phase.replace(/([A-Z])/g, ' $1').toLowerCase();
+                return (
+                  <div 
+                    key={phase} 
+                    className={`${isCurrentPhase ? 'bg-slate-200 text-slate-800' : 'bg-slate-100 text-slate-600'} 
+                             rounded-full px-3 py-1 text-sm flex items-center`}
+                  >
+                    <Moon className={`w-3 h-3 mr-1 ${isCurrentPhase ? 'text-slate-800' : 'text-slate-500'}`} />
+                    {phaseDisplay}
+                    {isCurrentPhase && <span className="ml-1 text-xs">(Current)</span>}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+        
+        {/* Planetary Influences Section */}
+        {'dominantPlanets' in transformedCuisine && transformedCuisine.dominantPlanets.length > 0 && (
+          <div>
+            <h3 className="text-lg font-medium mb-2">Planetary Influences</h3>
+            <div className="flex flex-wrap gap-2">
+              {transformedCuisine.dominantPlanets.map(planet => (
+                <div key={planet} className="bg-violet-50 text-violet-600 rounded-full px-3 py-1 text-sm">
+                  {planet}
+                </div>
+              ))}
+            </div>
+            
+            {/* Display planetary dignities */}
+            {transformedCuisine.planetaryDignities && Object.keys(transformedCuisine.planetaryDignities).length > 0 && (
+              <div className="mt-2">
+                <h4 className="text-sm font-semibold mb-1">Planetary Influences:</h4>
+                {Object.entries(transformedCuisine.planetaryDignities).map(([planet, dignity]) => (
+                  <div key={planet} className="mb-1">
+                    <span className="font-medium">{planet}:</span> {dignity.type}
+                    {dignity.favorableZodiacSigns && dignity.favorableZodiacSigns.length > 0 && (
+                      <span className="ml-1">
+                        (Favorable in: {dignity.favorableZodiacSigns.join(', ')})
+                      </span>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  return (
+    <div className={cssStyles.container}>
+      <h2 className={cssStyles.title}>Celestial Cuisine Guide</h2>
+      <p className={cssStyles.description}>
+        Explore culinary traditions aligned with current celestial energies.
+        {currentZodiac && (
+          <span className={cssStyles.currentSignHighlight}>
+            Current sign: <span className={cssStyles.signName}>{currentZodiac.charAt(0).toUpperCase() + currentZodiac.slice(1)}</span>.
+          </span>
+        )}
+      </p>
+      
+      {/* Gas Giant Influence Section */}
+      {(() => {
+        const safeState = state as any;
+        const planets = safeState?.dominantPlanets as Array<{name: string, effect?: string}> | undefined;
+        
+        if (planets && planets.length > 0 && 
+            planets.some(p => p.name === 'Jupiter' || p.name === 'Saturn')) {
+          return (
+            <div className={cssStyles.giantInfluenceSection}>
+              <h3 className={cssStyles.sectionTitle}>
+                Gas Giant Influences
+              </h3>
+              <div className={cssStyles.tagContainer}>
+                {planets
+                  .filter(planet => planet.name === 'Jupiter' || planet.name === 'Saturn')
+                  .map((planet) => {
+                    const effect = planet.effect || 'balanced';
+                    
+                    const description = 
+                      planet.name === 'Jupiter' 
+                        ? (effect === 'expansive' ? 'favors abundant, celebratory dishes' : 
+                           effect === 'restricted' ? 'suggests moderation in portions' : 
+                           'balanced culinary influence')
+                        : (effect === 'restrictive' ? 'emphasizes structured, traditional preparations' : 
+                           effect === 'softened' ? 'allows for more flexibility in recipes' : 
+                           'balanced structuring influence');
+                    
+                    return (
+                      <div 
+                        key={planet.name} 
+                        className={cssStyles.planetTag}
+                      >
+                        <span className={cssStyles.planetName}>{planet.name}:</span>{' '}
+                        <span className={cssStyles.effectName}>
+                          {effect} ({description})
+                        </span>
+                      </div>
+                    );
+                  })}
+              </div>
+            </div>
+          );
+        }
+        return null;
+      })()}
+      
+      {/* Cuisine List */}
+      <div className={cssStyles.cuisineGrid}>
+        {/* Show all cuisines if we have 6 or fewer, otherwise limit to 6 */}
+        {displayedCuisines.slice(0, Math.min(displayedCuisines.length, 8)).map((cuisine) => {
+          // Check if this cuisine is aligned with current zodiac and lunar phase
+          const isZodiacAligned = currentZodiac && cuisine.zodiacInfluences?.includes(currentZodiac as ZodiacSign);
+          const isLunarAligned = lunarPhase && cuisine.lunarPhaseInfluences?.includes(lunarPhase as LunarPhase);
+          
+          // Get element-based styling using the new function
+          const elementColorClass = getCardColorClass(cuisine.elementalProperties);
+          
+          // Use CSS module class
+          const cardStyleName = 'gregsEnergy' in cuisine && cuisine.gregsEnergy > 0.9 ? cssStyles.cardHighCompatibility : 
+            'gregsEnergy' in cuisine && cuisine.gregsEnergy > 0.85 ? cssStyles.cardGoodCompatibility :
+            isZodiacAligned ? cssStyles.cardZodiacAligned :
+            isLunarAligned ? cssStyles.cardLunarAligned :
+            cssStyles.cardNormal;
+          
+          return (
+            <div 
+              key={cuisine.id} 
+              className={cardStyleName}
+              onClick={() => handleCuisineSelect(cuisine.id)}
+            >
+              <div className={cssStyles.cardHeader}>
+                <h3 className={cssStyles.cuisineName}>{cuisine.name}</h3>
+                <div className={cssStyles.badgeContainer}>
+                  {cuisine.dominantPlanets && cuisine.dominantPlanets.length > 0 && (
+                    <span className={cssStyles.planetBadge}>
+                      {cuisine.dominantPlanets[0]}
+                    </span>
+                  )}
+                </div>
+              </div>
+              
+              {/* Compatibility score if available */}
+              {'gregsEnergy' in cuisine && (
+                renderCompatibilityBadge(cuisine.gregsEnergy)
+              )}
+              
+              <p className={cssStyles.cuisineDescription}>
+                {cuisine.description}
+              </p>
+              
+              {/* Alignment indicators */}
+              <div className={cssStyles.alignmentContainer}>
+                {isZodiacAligned && (
+                  <div className={cssStyles.zodiacTag}>
+                    <SunIcon className={cssStyles.tagIcon} />
+                    <span>{currentZodiac.charAt(0).toUpperCase() + currentZodiac.slice(1)}</span>
+                  </div>
+                )}
+                
+                {isLunarAligned && (
+                  <div className={cssStyles.lunarTag}>
+                    <Moon className={cssStyles.tagIcon} />
+                    <span>Lunar Aligned</span>
+                  </div>
+                )}
+                
+                {'gregsEnergy' in cuisine && cuisine.gregsEnergy > 0.85 && (
+                  <div className={cssStyles.compatibilityTag}>
+                    <Sparkles className={cssStyles.tagIcon} />
+                    <span>Highly Compatible</span>
+                  </div>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      
+      {displayedCuisines.length === 0 && (
+        <div className={cssStyles.emptyState}>
+          <p>Loading cuisine recommendations...</p>
+        </div>
+      )}
+      
+      {/* Top Sauce Recommendations */}
+      {!selectedCuisine && topRecommendedSauces.length > 0 && (
+        <div className={cssStyles.sauceSection}>
+          <h3 className={cssStyles.sauceSectionTitle}>
+            <span>Celestial Sauce Pairings</span>
+            <span className={cssStyles.sauceSubtitle}>
+              Based on your elemental profile
+            </span>
+          </h3>
+          
+          <div className={cssStyles.sauceGrid}>
+            {topRecommendedSauces.map((sauce, index) => {
+              const sauceId = `sauce-${sauce.id || index}`;
+              const isExpanded = expandedSauceCards[sauceId] || false;
+              
+              // Determine appropriate style
+              let cardStyleName = cssStyles.sauceCard;
+              
+              if (sauce.isComplementary) {
+                cardStyleName = cssStyles.sauceCardComplementary;
+              } else if (sauce.matchScore > 0.9) {
+                cardStyleName = cssStyles.sauceCardHighMatch;
+              }
+              
+              return (
+                <div 
+                  key={sauceId}
+                  className={cardStyleName}
+                >
+                  {/* Card header */}
+                  <div className={cssStyles.sauceCardHeader}>
+                    <h4 className={cssStyles.sauceName}>{sauce.name}</h4>
+                    {renderScoreBadge(sauce.matchScore)}
+                  </div>
+                  
+                  {/* Collapsed view */}
+                  {!isExpanded && (
+                    <>
+                      {sauce.description && (
+                        <p className={cssStyles.sauceDescription}>{sauce.description}</p>
+                      )}
+                      
+                      <div className={cssStyles.sauceInfo}>
+                        {sauce.cuisine && (
+                          <span className={cssStyles.sauceInfoItem}>
+                            <span>Cuisine:</span> {sauce.cuisine}
+                          </span>
+                        )}
+                      </div>
+                    </>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+} 

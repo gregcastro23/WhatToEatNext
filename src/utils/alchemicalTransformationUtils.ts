@@ -101,42 +101,67 @@ export const transformCuisines = (
 };
 
 /**
- * Sort items by their alchemical compatibility with a target element and property
+ * Sort items by their alchemical compatibility with target elemental properties
  * 
  * @param items The items to sort
- * @param targetElement Optional dominant element to prioritize
- * @param targetProperty Optional alchemical property to prioritize
- * @returns The sorted items
+ * @param targetElementalProperties The target elemental properties to match against
+ * @returns The sorted items with compatibilityScore added
  */
 export const sortByAlchemicalCompatibility = (
   items: AlchemicalItem[],
-  targetElement?: string,
-  targetProperty?: string
+  targetElementalProperties?: Record<string, number>
 ): AlchemicalItem[] => {
-  return [...items].sort((a, b) => {
-    // If target element is specified, prioritize items with that dominant element
-    if (targetElement) {
-      const aElementMatch = a.dominantElement === targetElement ? 1 : 0;
-      const bElementMatch = b.dominantElement === targetElement ? 1 : 0;
+  // If no target properties, sort by gregsEnergy
+  if (!targetElementalProperties) {
+    return [...items].sort((a, b) => (b.gregsEnergy || 0) - (a.gregsEnergy || 0));
+  }
+  
+  // Calculate compatibility scores for each item based on elemental properties
+  const itemsWithScores = items.map(item => {
+    // Calculate cosine similarity between item's elements and target elements
+    let dotProduct = 0;
+    let itemNorm = 0;
+    let targetNorm = 0;
+    
+    // Get the element names (Fire, Water, Earth, Air)
+    const elements = ['Fire', 'Water', 'Earth', 'Air'];
+    
+    for (const element of elements) {
+      const itemValue = item.elementalProperties[element] || 0;
+      const targetValue = targetElementalProperties[element] || 0;
       
-      if (aElementMatch !== bElementMatch) {
-        return bElementMatch - aElementMatch;
-      }
+      dotProduct += itemValue * targetValue;
+      itemNorm += itemValue * itemValue;
+      targetNorm += targetValue * targetValue;
     }
     
-    // If target property is specified, prioritize items with that property
-    if (targetProperty) {
-      const aPropertyMatch = a.dominantAlchemicalProperty === targetProperty ? 1 : 0;
-      const bPropertyMatch = b.dominantAlchemicalProperty === targetProperty ? 1 : 0;
-      
-      if (aPropertyMatch !== bPropertyMatch) {
-        return bPropertyMatch - aPropertyMatch;
-      }
+    itemNorm = Math.sqrt(itemNorm);
+    targetNorm = Math.sqrt(targetNorm);
+    
+    // Avoid division by zero
+    if (itemNorm === 0 || targetNorm === 0) {
+      return { ...item, compatibilityScore: 0.5 }; // Neutral match if either has no elemental values
     }
     
-    // Fall back to gregsEnergy score for final sorting
-    return (b.gregsEnergy || 0) - (a.gregsEnergy || 0);
+    // Calculate cosine similarity (dot product / (magnitude of A * magnitude of B))
+    const similarity = dotProduct / (itemNorm * targetNorm);
+    
+    // Add a small bonus for items with high gregsEnergy
+    const energyBonus = (item.gregsEnergy || 0.5) * 0.2;
+    
+    // Final compatibility score (0.0 to 1.0)
+    const compatibilityScore = Math.min(1.0, similarity * 0.8 + energyBonus);
+    
+    return {
+      ...item,
+      compatibilityScore
+    };
   });
+  
+  // Sort by compatibility score (highest first)
+  return itemsWithScores.sort((a, b) => 
+    (b.compatibilityScore || 0) - (a.compatibilityScore || 0)
+  );
 };
 
 /**

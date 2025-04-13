@@ -355,8 +355,79 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
                 dishes: ["Walnut bread", "Cookies", "Some cakes"]
             }
         }
+    },
+    'macadamia_oil': {
+        name: 'Macadamia Oil',
+        category: 'oil',
+        subCategory: 'specialty',
+        elementalProperties: { Fire: 0.2, Water: 0.3, Earth: 0.3, Air: 0.2 },
+        seasonality: ['spring', 'summer', 'fall', 'winter'],
+        smokePoint: { celsius: 210, fahrenheit: 410 },
+        qualities: ['buttery', 'mild', 'premium'],
+        nutritionalProfile: {
+            serving_size: "1 tbsp",
+            calories: 120,
+            fat_g: 14,
+            saturated_fat_g: 2.1,
+            monounsaturated_fat_g: 10.9,
+            polyunsaturated_fat_g: 0.4
+        },
+        culinaryApplications: {
+            finishing: { 
+                notes: ["Delicate flavor works well as a finishing oil"],
+                techniques: ["Drizzle over seafood", "Use in light dressings"],
+                dishes: ["Grilled fish", "Light salads", "Smoothies"]
+            }
+        }
+    },
+    'pumpkin_seed_oil': {
+        name: 'Pumpkin Seed Oil',
+        category: 'oil',
+        subCategory: 'specialty',
+        elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.5, Air: 0.1 },
+        seasonality: ['fall', 'winter'],
+        smokePoint: { celsius: 160, fahrenheit: 320 },
+        qualities: ['nutty', 'rich', 'dark-green'],
+        nutritionalProfile: {
+            serving_size: "1 tbsp",
+            calories: 120,
+            fat_g: 13.5,
+            saturated_fat_g: 2.5,
+            monounsaturated_fat_g: 4.3,
+            polyunsaturated_fat_g: 6.0
+        },
+        culinaryApplications: {
+            finishing: { 
+                notes: ["Strong flavor - use sparingly as a finishing oil"],
+                techniques: ["Drizzle over soups", "Add to dips"],
+                dishes: ["Pumpkin soup", "Austrian salads", "Vanilla ice cream"]
+            }
+        }
+    },
+    'walnut_oil': {
+        name: 'Walnut Oil',
+        category: 'oil',
+        subCategory: 'specialty',
+        elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
+        seasonality: ['fall', 'winter'],
+        smokePoint: { celsius: 160, fahrenheit: 320 },
+        qualities: ['nutty', 'rich', 'aromatic'],
+        nutritionalProfile: {
+            serving_size: "1 tbsp",
+            calories: 120,
+            fat_g: 13.6,
+            saturated_fat_g: 1.2,
+            monounsaturated_fat_g: 3.1,
+            polyunsaturated_fat_g: 8.6
+        },
+        culinaryApplications: {
+            dressings: { 
+                notes: ["Excellent in salad dressings", "Pairs well with vinegars"],
+                techniques: ["Combine with champagne vinegar", "Whisk with mustard"],
+                dishes: ["Endive salads", "Roasted beet salad", "Fruit salads"]
+            }
+        }
     }
-    // Additional oils will be added here
 };
 
 // Fix the ingredient mappings to ensure they have all required properties

@@ -104,14 +104,6 @@ export default function MethodsRecommender() {
     }
   }, [loading, currentPlanetaryAlignment]);
   
-  // Separate effect for handling default selection
-  useEffect(() => {
-    // Select the top method by default only when methods change and no method is selected
-    if (methods.length > 0 && !selectedMethodId) {
-      setSelectedMethodId(methods[0].id);
-    }
-  }, [methods, selectedMethodId]);
-  
   const toggleExpanded = () => {
     setIsExpanded(prev => !prev);
   };
@@ -240,85 +232,35 @@ export default function MethodsRecommender() {
               {/* Show expanded details for selected method */}
               {selectedMethodId === method.id && (
                 <div className={styles['expanded-details']}>
-                  <div className={styles['cookingInfoTips']}>
-                    <h4 className={styles['tipsHeader']}>Expert Technical Tips</h4>
-                    <ul className={styles['tipsList']}>
+                  {/* Technical Tips Section - Updated with a more compact design */}
+                  <div className="bg-gray-50 rounded-lg p-3 mb-3 border-l-2 border-purple-500 shadow-sm">
+                    <h4 className="text-sm font-semibold text-gray-700 mb-2 flex items-center">
+                      <Info size={14} className="text-purple-500 mr-1" />
+                      Expert Technical Tips
+                    </h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                       {technicalTips.map((tip, index) => (
-                        <li key={index} className={styles['tipItem']}>{tip}</li>
+                        <div key={index} className="text-xs bg-white p-2 rounded border-l-2 border-purple-400 text-gray-600">
+                          {tip}
+                        </div>
                       ))}
-                    </ul>
+                    </div>
                   </div>
                   
-                  {/* Display ideal ingredients */}
-                  <div className={styles['cookingInfoTips']}>
-                    <h4 className={styles['tipsHeader']}>Ideal Ingredients</h4>
-                    <ul className={styles['tipsList']}>
+                  {/* Ideal Ingredients Section - Updated with a more compact design */}
+                  <div className="bg-blue-50 rounded-lg p-3 border-l-2 border-blue-500 shadow-sm">
+                    <h4 className="text-sm font-semibold text-blue-800 mb-2 flex items-center">
+                      <Info size={14} className="text-blue-500 mr-1" />
+                      Ideal Ingredients
+                    </h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                       {idealIngredients.map((ingredient, index) => (
-                        <li key={index} className={styles['tipItem']}>{ingredient}</li>
+                        <div key={index} className="text-xs bg-white p-2 rounded border-l-2 border-blue-400 text-gray-600">
+                          {ingredient}
+                        </div>
                       ))}
-                    </ul>
+                    </div>
                   </div>
-                  
-                  {method.benefits && method.benefits.length > 1 && (
-                    <div className={styles['cookingInfo']}>
-                      <h4 className={styles['cookingInfoTitle']}>All Benefits</h4>
-                      <ul className={styles['tagList']}>
-                        {method.benefits.map((benefit, index) => (
-                          <li key={index} className={styles['ingredientTag']}>{benefit}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                  
-                  {method.astrologicalInfluences && (
-                    <div className={styles['astroInfo']}>
-                      <h4 className={styles['cookingInfoTitle']}>Astrological Influences</h4>
-                      
-                      {method.astrologicalInfluences.favorableZodiac && method.astrologicalInfluences.favorableZodiac.length > 0 && (
-                        <div className={styles['cookingInfoRow']}>
-                          <span className={styles['astroLabel']}>Favorable Signs:</span>
-                          <div className={styles['planetTags']}>
-                            {method.astrologicalInfluences.favorableZodiac.map((sign, index) => (
-                              <span key={index} className={styles['planetTag']}>{sign}</span>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                      
-                      {method.astrologicalInfluences.unfavorableZodiac && method.astrologicalInfluences.unfavorableZodiac.length > 0 && (
-                        <div className={styles['cookingInfoRow']}>
-                          <span className={styles['astroLabel']}>Unfavorable Signs:</span>
-                          <div className={styles['planetTags']}>
-                            {method.astrologicalInfluences.unfavorableZodiac.map((sign, index) => (
-                              <span key={index} className={styles['planetTag']}>{sign}</span>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                      
-                      {method.astrologicalInfluences.dominantPlanets && method.astrologicalInfluences.dominantPlanets.length > 0 && (
-                        <div className={styles['cookingInfoRow']}>
-                          <span className={styles['astroLabel']}>Dominant Planets:</span>
-                          <div className={styles['planetTags']}>
-                            {method.astrologicalInfluences.dominantPlanets.map((planet, index) => (
-                              <span key={index} className={styles['planetTag']}>{planet}</span>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  )}
-                  
-                  {method.toolsRequired && method.toolsRequired.length > 0 && (
-                    <div className={styles['cookingInfo']}>
-                      <h4 className={styles['cookingInfoTitle']}>Required Tools</h4>
-                      <ul className={styles['tagList']}>
-                        {method.toolsRequired.map((tool, index) => (
-                          <li key={index} className={styles['ingredientTag']}>{tool}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
                 </div>
               )}
             </div>

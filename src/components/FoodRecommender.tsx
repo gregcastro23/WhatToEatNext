@@ -377,6 +377,13 @@ export default function FoodRecommender() {
       if (category === 'oil' || category === 'oils') return true;
       
       const name = ingredient.name.toLowerCase();
+      
+      // Explicitly exclude common vegetables that might be mistaken for oils
+      if (name.includes('butternut squash') || name.includes('pumpkin') || 
+          name.includes('acorn squash') || name.includes('spaghetti squash')) {
+        return false;
+      }
+      
       return oilTypes.some(oil => name.includes(oil.toLowerCase()));
     };
 
@@ -389,58 +396,132 @@ export default function FoodRecommender() {
       return vinegarTypes.some(vinegar => name.includes(vinegar.toLowerCase()));
     };
 
+    // Helper function to get normalized category
+    const getNormalizedCategory = (ingredient: Ingredient): string | null => {
+      if (!ingredient.category) return null;
+      
+      const category = ingredient.category.toLowerCase();
+      
+      // Map categories to our standard ones
+      if (['vegetable', 'vegetables'].includes(category)) return 'vegetables';
+      if (['protein', 'meat', 'seafood', 'fish', 'poultry'].includes(category)) return 'proteins';
+      if (['herb', 'herbs'].includes(category)) return 'herbs';
+      if (['spice', 'spices', 'seasoning', 'seasonings'].includes(category)) return 'spices';
+      if (['grain', 'grains', 'pasta', 'rice', 'cereal'].includes(category)) return 'grains';
+      if (['fruit', 'fruits', 'berry', 'berries'].includes(category)) return 'fruits';
+      if (['oil', 'oils', 'fat', 'fats'].includes(category)) return 'oils';
+      if (['vinegar', 'vinegars', 'acid', 'acids'].includes(category)) return 'vinegars';
+      
+      return null;
+    };
+
     // Categorize each ingredient from the recommendations and add to our categories
     boostedRecommendations.forEach(ingredient => {
       const name = ingredient.name.toLowerCase();
+      const explicitCategory = getNormalizedCategory(ingredient);
       
-      // Check for oils first - add to oils if found in recommendations
-      if (isOil(ingredient)) {
-        // Check if we already have this oil in our categories
+      // If the ingredient has an explicit category, respect it
+      if (explicitCategory && categories[explicitCategory]) {
+        categories[explicitCategory].push(ingredient);
+        return;
+      }
+      
+      // Seafood proteins - check first to prevent miscategorization
+      if (
+        name.includes('cod') || name.includes('sole') || name.includes('scallop') || 
+        name.includes('salmon') || name.includes('squid') || name.includes('shrimp') || 
+        name.includes('flounder') || name.includes('halibut') || name.includes('sea bass') || 
+        name.includes('octopus') || name.includes('fish') || name.includes('trout') || 
+        name.includes('tuna') || name.includes('crab') || name.includes('lobster')
+      ) {
+        categories.proteins.push(ingredient);
+      }
+      // Spices and seasonings
+      else if (
+        name.includes('pepper') || name.includes('saffron') || name.includes('szechuan') || 
+        name.includes('peppercorn') || name.includes('cumin') || name.includes('spice') || 
+        ingredient.category === 'spice'
+      ) {
+        categories.spices.push(ingredient);
+      }
+      // Protein legumes
+      else if (
+        name.includes('lentil') || name.includes('lima bean')
+      ) {
+        categories.proteins.push(ingredient);
+      }
+      // Check for vegetable squashes
+      else if (name.includes('squash') || name.includes('pumpkin')) {
+        categories.vegetables.push(ingredient);
+      }
+      // Root and allium vegetables
+      else if (
+        name.includes('ginger') || name.includes('garlic') || name.includes('onion') || 
+        name.includes('shallot') || name.includes('leek') || name.includes('scallion')
+      ) {
+        categories.vegetables.push(ingredient);
+      }
+      // Leafy and cruciferous vegetables
+      else if (
+        name.includes('cabbage') || name.includes('kale') || name.includes('broccoli') || 
+        name.includes('cauliflower') || name.includes('brussels') || name.includes('bok choy') || 
+        name.includes('collard') || name.includes('spinach') || name.includes('lettuce')
+      ) {
+        categories.vegetables.push(ingredient);
+      }
+      // Other common vegetables
+      else if (
+        name.includes('carrot') || name.includes('artichoke') || name.includes('tomato') || 
+        name.includes('eggplant') || name.includes('peas') || name.includes('bean') || 
+        name.includes('radish') || name.includes('kohlrabi') || name.includes('edamame')
+      ) {
+        categories.vegetables.push(ingredient);
+      }
+      // Oils
+      else if (isOil(ingredient)) {
         const existingIndex = categories.oils.findIndex(
           oil => oil.name.toLowerCase() === ingredient.name.toLowerCase()
         );
         
         if (existingIndex >= 0) {
-          // Update the existing oil with this one (keeping the score from recommendations)
           categories.oils[existingIndex] = ingredient;
         } else {
-          // Add as a new oil
           categories.oils.push(ingredient);
         }
       }
-      // Then check for vinegars - add to vinegars if found in recommendations
+      // Vinegars
       else if (isVinegar(ingredient)) {
-        // Check if we already have this vinegar in our categories
         const existingIndex = categories.vinegars.findIndex(
           vinegar => vinegar.name.toLowerCase() === ingredient.name.toLowerCase()
         );
         
         if (existingIndex >= 0) {
-          // Update the existing vinegar with this one (keeping the score from recommendations)
           categories.vinegars[existingIndex] = ingredient;
         } else {
-          // Add as a new vinegar
           categories.vinegars.push(ingredient);
         }
       }
-      // Then check other categories
-      else if (ingredient.category === 'protein' || name.includes('meat') || name.includes('fish') || name.includes('cheese')) {
+      // Proteins - general check
+      else if (
+        ingredient.category === 'protein' || name.includes('meat') || 
+        name.includes('cheese') || name.includes('eggs') || name.includes('tofu')
+      ) {
         categories.proteins.push(ingredient);
       }
+      // Herbs
       else if (ingredient.category === 'herb' || name.includes('herb') || herbNames.some(herb => name.includes(herb.toLowerCase()))) {
         categories.herbs.push(ingredient);
       }
+      // Grains
       else if (ingredient.category === 'grain' || name.includes('rice') || name.includes('pasta') || Object.keys(grainsCollection).some(grainKey => name.includes(grainKey.toLowerCase()))) {
         categories.grains.push(ingredient);
       }
-      else if (ingredient.category === 'spice' || name.includes('spice') || name.includes('powder') || name.includes('salt')) {
-        categories.spices.push(ingredient);
-      }
-      else if (ingredient.category === 'fruit' || ['apple', 'banana', 'orange', 'lemon', 'lime'].some(fruit => name.includes(fruit))) {
+      // Fruits
+      else if (ingredient.category === 'fruit' || ['apple', 'banana', 'orange', 'lemon', 'lime', 'berry', 'melon', 'grape'].some(fruit => name.includes(fruit))) {
         categories.fruits.push(ingredient);
       }
+      // Default to vegetables for anything unmatched
       else {
-        // Default to vegetables for anything unmatched
         categories.vegetables.push(ingredient);
       }
     });
@@ -575,14 +656,14 @@ export default function FoodRecommender() {
                 </button>
               </div>
               
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {itemsToShow.map((item, idx) => {
                   const isSelected = selectedIngredient?.name === item.name;
                   
                   return (
                     <div 
                       key={`${item.name}-${idx}`}
-                      className={`bg-gray-50 rounded-md p-3 hover:bg-gray-100 transition cursor-pointer ${isSelected ? 'ring-2 ring-blue-500 shadow-md' : 'shadow-sm'} ${isSelected ? 'md:col-span-2 lg:col-span-2 h-auto' : 'h-24'} flex flex-col justify-between`}
+                      className={`bg-gray-50 rounded-md p-4 hover:bg-gray-100 transition cursor-pointer ${isSelected ? 'ring-2 ring-blue-500 shadow-md' : 'shadow-sm'} ${isSelected ? 'md:col-span-3 lg:col-span-3 h-auto' : 'h-28'} flex flex-col justify-between`}
                       onClick={(e) => handleIngredientSelect(item, category, e)}
                     >
                       <div className="font-medium text-gray-800">{item.name}</div>

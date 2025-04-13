@@ -12,7 +12,7 @@
 .recipeCard:hover {
   transform: translateY(-3px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  border-color: rgba(0, 0, 0, 0.1);
+  border-color: rgba(59, 130, 246, 0.4);
 }
 
 .elementalBadge {
@@ -59,11 +59,11 @@
 
 .metricLabel {
   font-weight: 500;
-  color: #aaa;
+  color: #555;
 }
 
 .metricValue {
-  color: #fff;
+  color: #333;
   font-weight: 500;
 }
 
@@ -88,42 +88,45 @@
 .flavorProfile {
   margin: 12px 0;
   padding: 12px 15px;
-  background: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.95);
   border-radius: 8px;
   font-size: 1.05rem;
   font-style: italic;
-  color: #fff;
+  color: #333;
   text-align: center;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-  border-left: 4px solid rgba(255, 255, 255, 0.4);
+  border-left: 4px solid rgba(0, 0, 0, 0.2);
   line-height: 1.4;
 }
 
 /* New styles to add */
 .cuisineCard {
-  background: rgba(255, 255, 255, 0.08);
+  background: white;
   border-radius: 8px;
   padding: 16px;
   margin-bottom: 16px;
   transition: transform 0.2s ease-in-out, box-shadow 0.2s ease;
   cursor: pointer;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
 .cuisineCard:hover {
   transform: translateY(-3px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  border-color: rgba(59, 130, 246, 0.4);
 }
 
 .cuisineCard h3 {
   font-size: 1.25rem;
   font-weight: 700;
   margin-bottom: 8px;
-  color: #fff;
+  color: #333;
 }
 
 .description {
   font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.8);
+  color: #555;
   margin-bottom: 12px;
 }
 
@@ -133,7 +136,7 @@
 
 .sectionTitle {
   font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.6);
+  color: #666;
   margin-top: 14px;
   margin-bottom: 8px;
   text-transform: uppercase;
@@ -150,7 +153,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: rgba(255, 255, 255, 0.08);
+  background: #f5f5f5;
   padding: 4px 8px;
   border-radius: 4px;
 }
@@ -161,7 +164,7 @@
 
 .elementValue {
   font-size: 0.85rem;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.05);
   padding: 2px 6px;
   border-radius: 3px;
 }
@@ -174,11 +177,11 @@
 }
 
 .influenceTag {
-  background: rgba(255, 255, 255, 0.12);
+  background: #e9f5ff;
   padding: 4px 10px;
   border-radius: 4px;
   font-size: 0.85rem;
-  color: #fff;
+  color: #1a73e8;
 }
 
 /* Sauce section styles */
@@ -211,11 +214,25 @@
 }
 
 .expandedSauceContent {
-  display: none;
+  display: block;
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .expandButton {
-  display: none;
+  background: none;
+  border: none;
+  color: #6b7280;
+  cursor: pointer;
+  padding: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.expandButton:hover {
+  color: #1f2937;
 }
 
 .sauceSection {
@@ -266,5 +283,58 @@
 
 /* Add a class for expanded recipe content */
 .expandedRecipeContent {
-  display: none;
+  display: block;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* Recipe details styling */
+.recipeDetails {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.recipeHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.recipeName {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.recipeDescription {
+  font-size: 0.875rem;
+  color: #4b5563;
+  margin-bottom: 0.75rem;
+  line-height: 1.5;
+}
+
+.recipeSubheading {
+  font-weight: 600;
+  margin-bottom: 4px;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.ingredientList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.ingredientItem {
+  background: rgba(0, 0, 0, 0.05);
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  color: #333;
 } 

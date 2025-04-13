@@ -19,7 +19,8 @@ import {
   Star,
   Clock,
   ChefHat,
-  Filter
+  Filter,
+  Utensils
 } from 'lucide-react';
 
 const NAV_ITEMS = [
@@ -27,6 +28,7 @@ const NAV_ITEMS = [
   { path: '/recipes', label: 'Recipes', icon: Book },
   { path: '/favorites', label: 'Favorites', icon: Heart },
   { path: '/celestial', label: 'Celestial Guide', icon: Star },
+  { path: '/sauce-explorer', label: 'Sauce Explorer', icon: Utensils },
   { path: '/history', label: 'History', icon: Clock },
   { path: '/kitchen', label: 'My Kitchen', icon: ChefHat },
   { path: '/preferences', label: 'Preferences', icon: Filter },
