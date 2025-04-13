@@ -49,4 +49,16 @@ temp.log
 *.ntvs*
 *.njsproj
 *.sln
-*.sw?
+*.sw?%
+
+# Ignore duplicate files (with spaces and/or numbers in their names)
+*\ [0-9]*
+*\ [0-9]*.json
+*\ [0-9]*.ts
+*\ [0-9]*.tsx
+*\ [0-9]*.js
+*\ [0-9]*.mjs
+*\ [0-9]*.css
+*\ [0-9]*.md
+*\ [0-9]*.astro
+*.bak
