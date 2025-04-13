@@ -26,7 +26,6 @@
     "update-oils-vinegars": "yarn ts-node src/scripts/updateOilsAndVinegars.ts"
   },
   "dependencies": {
-    "@astronite/solar-systems": "1.0.0",
     "@babylonjs/core": "^6.29.1",
     "@babylonjs/gui": "^6.29.1",
     "@emotion/react": "^11.11.1",
