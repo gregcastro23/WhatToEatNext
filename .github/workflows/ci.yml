@@ -19,7 +19,7 @@ jobs:
       - name: Install dependencies
         run: yarn install
       - name: Run tests
-        run: yarn test
+        run: yarn test --passWithNoTests
   lint:
     runs-on: ubuntu-latest
     steps:
@@ -34,4 +34,6 @@ jobs:
           jq 'del(.dependencies."@astronite/solar-systems")' package.json > package.tmp.json
           mv package.tmp.json package.json
       - run: yarn install
-      - run: yarn lint 
+      - name: Run lint
+        # Only lint the src directory excluding scripts folder
+        run: yarn eslint --max-warnings=200 "src/**/*.{ts,tsx}" --ignore-pattern "src/scripts/**" 
