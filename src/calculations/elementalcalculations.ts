@@ -17,7 +17,7 @@ interface ElementalProperties {
 export class ElementalCalculator {
   private static instance: ElementalCalculator;
   private currentBalance: ElementalProperties = DEFAULT_ELEMENTAL_PROPERTIES;
-  private initialized: boolean = false;
+  private initialized = false;
 
   private constructor() {}
 
@@ -152,8 +152,8 @@ export class ElementalCalculator {
    */
   calculateElementalState(
     baseProperties: ElementalProperties,
-    phase: string = 'default',
-    time: string = 'neutral'
+    phase = 'default',
+    time = 'neutral'
   ): { 
     properties: ElementalProperties; 
     seasonalInfluence: ElementalProperties;
@@ -237,7 +237,7 @@ function getPlanetaryInfluencers(
  */
 export function calculateElementalEnergies(
   planetaryPositions: Record<string, any>, 
-  isDaytime: boolean = true
+  isDaytime = true
 ): ElementalEnergy[] {
   if (!planetaryPositions || Object.keys(planetaryPositions).length === 0) {
     console.warn('No planetary positions provided for elemental calculation');

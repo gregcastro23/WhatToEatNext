@@ -5,7 +5,7 @@
 
 import { execSync } from 'child_process';
 import * as fs from 'fs';
-import * as _path from 'path';
+import * as path from 'path';
 
 // Get the list of unused variables from ESLint
 function getUnusedVariables() {

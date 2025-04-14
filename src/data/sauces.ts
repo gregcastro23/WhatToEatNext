@@ -544,7 +544,7 @@ export function getMarsInfluencedSauces(): Sauce[] {
   return getSaucesByAstrologicalInfluence('Mars');
 }
 
-export default {
+const saucesExport = {
   italianSauces,
   mexicanSauces,
   asianSauces,
@@ -553,4 +553,6 @@ export default {
   getSaucesByAstrologicalInfluence,
   getSaucesByElement,
   getMarsInfluencedSauces
-}; 
+};
+
+export default saucesExport; 

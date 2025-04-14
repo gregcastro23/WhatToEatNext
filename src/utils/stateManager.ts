@@ -292,7 +292,11 @@ class StateManager {
     if (!this.listeners.has(key)) {
       this.listeners.set(key, new Set());
     }
-    this.listeners.get(key)!.add(listener);
+    
+    const listenerSet = this.listeners.get(key);
+    if (listenerSet) {
+      listenerSet.add(listener);
+    }
 
     return () => {
       const listeners = this.listeners.get(key);

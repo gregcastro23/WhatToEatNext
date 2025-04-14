@@ -1424,7 +1424,7 @@ function findRecommendedDishes(
   lunarPhase: LunarPhase,
   zodiacSign?: ZodiacSign,
   ingredients: string[] = [],
-  season: string = 'any'
+  season = 'any'
 ): string[] {
   const recommendations: string[] = [];
   

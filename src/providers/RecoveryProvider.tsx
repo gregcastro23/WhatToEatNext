@@ -14,6 +14,41 @@ const RecoveryContext = createContext<RecoveryContextType | null>(null)
 
 export function RecoveryProvider({ children }: { children: React.ReactNode }) {
   const [isRecovering, setIsRecovering] = useState(false)
+  const [lastError, setLastError] = useState<Error | null>(null)
+
+  // Monitor for unhandled errors globally
+  useEffect(() => {
+    const handleGlobalError = (event: ErrorEvent) => {
+      logger.error('Global error caught:', event.error)
+      setLastError(event.error)
+    }
+
+    const handleUnhandledRejection = (event: PromiseRejectionEvent) => {
+      logger.error('Unhandled promise rejection:', event.reason)
+      if (event.reason instanceof Error) {
+        setLastError(event.reason)
+      }
+    }
+
+    // Set up global error listeners
+    window.addEventListener('error', handleGlobalError)
+    window.addEventListener('unhandledrejection', handleUnhandledRejection)
+
+    // Clean up listeners on unmount
+    return () => {
+      window.removeEventListener('error', handleGlobalError)
+      window.removeEventListener('unhandledrejection', handleUnhandledRejection)
+    }
+  }, [])
+
+  // Log when recovery status changes
+  useEffect(() => {
+    if (isRecovering) {
+      logger.info('App recovery started')
+    } else if (lastError) {
+      logger.info('App recovered from error')
+    }
+  }, [isRecovering, lastError])
 
   const resetApp = async () => {
     setIsRecovering(true)
@@ -52,6 +87,7 @@ export function RecoveryProvider({ children }: { children: React.ReactNode }) {
         FallbackComponent={ErrorFallback}
         onError={(error) => {
           logger.error('App error caught:', error)
+          setLastError(error)
         }}
       >
         {children}

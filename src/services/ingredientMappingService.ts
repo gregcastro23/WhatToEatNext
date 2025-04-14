@@ -39,7 +39,7 @@ class IngredientMappingService {
     } = {}
   ) {
     // Collect recipes based on filters
-    let allRecipes: Recipe[] = [];
+    const allRecipes: Recipe[] = [];
     
     // Filter by cuisine if specified
     const cuisines = options.cuisineType 

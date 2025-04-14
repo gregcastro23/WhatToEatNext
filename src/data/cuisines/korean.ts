@@ -1033,12 +1033,66 @@ export const korean: Cuisine = {
       seasonality: "summer",
       preparationNotes: "Best made fresh rather than stored long-term",
       technicalTips: "Adjust vinegar and sugar ratio to complement the dish being served"
+    },
+    yangnyeom: {
+      name: "Yangnyeom Sauce",
+      description: "Sweet and spicy sauce used for Korean fried chicken and other dishes",
+      base: "gochujang and corn syrup",
+      keyIngredients: ["gochujang", "corn syrup", "ketchup", "garlic", "ginger"],
+      culinaryUses: ["fried chicken coating", "stir-fry sauce", "dipping sauce", "marinade"],
+      variants: ["Extra sweet", "Extra spicy", "Garlic-heavy", "Honey-based"],
+      elementalProperties: {
+        Fire: 0.5,
+        Earth: 0.2,
+        Water: 0.2,
+        Air: 0.1
+      },
+      astrologicalInfluences: ["Mars", "Sun", "Aries"],
+      seasonality: "all",
+      preparationNotes: "Mix thoroughly and cook briefly to develop flavors",
+      technicalTips: "The sauce should coat the back of a spoon but still be pourable"
+    },
+    bulgogi: {
+      name: "Bulgogi Marinade",
+      description: "Sweet and savory marinade for grilled beef and other meats",
+      base: "soy sauce and fruit",
+      keyIngredients: ["soy sauce", "Asian pear", "onion", "garlic", "sesame oil", "sugar"],
+      culinaryUses: ["beef marinade", "pork marinade", "stir-fry base", "vegetable seasoning"],
+      variants: ["Traditional", "Spicy", "Fruit-forward", "Premium (with rice wine)"],
+      elementalProperties: {
+        Water: 0.3,
+        Earth: 0.3,
+        Fire: 0.2,
+        Air: 0.2
+      },
+      astrologicalInfluences: ["Venus", "Taurus", "Libra"],
+      seasonality: "all",
+      preparationNotes: "Asian pear helps tenderize meat while adding subtle sweetness",
+      technicalTips: "Marinate beef for at least 2 hours, preferably overnight for best flavor penetration"
+    },
+    sesameOil: {
+      name: "Chamgireum (Sesame Oil Dressing)",
+      description: "Aromatic oil-based dressing used for many Korean dishes",
+      base: "toasted sesame oil",
+      keyIngredients: ["toasted sesame oil", "salt", "green onions", "toasted sesame seeds"],
+      culinaryUses: ["vegetable seasoning", "meat finishing sauce", "bibimbap component", "dipping sauce"],
+      variants: ["Plain", "With garlic", "With chili", "With perilla oil"],
+      elementalProperties: {
+        Air: 0.4,
+        Earth: 0.4,
+        Fire: 0.1,
+        Water: 0.1
+      },
+      astrologicalInfluences: ["Mercury", "Gemini", "Virgo"],
+      seasonality: "all",
+      preparationNotes: "Use high-quality freshly toasted sesame oil for best flavor",
+      technicalTips: "Add at the end of cooking to preserve volatile aromatics"
     }
   },
   sauceRecommender: {
     forProtein: {
       beef: ["bulgogi sauce", "kalbi marinade", "doenjang", "ssamjang"],
-      pork: ["ssamjang", "gochujang", "dwenjang", "spicy chili sauce"],
+      pork: ["ssamjang", "gochujang", "doenjang", "spicy chili sauce"],
       chicken: ["gochujang-based sauce", "doenjang", "soy garlic sauce", "ganjang"],
       seafood: ["chogochujang", "soy garlic", "sesame oil with salt", "citrus soy"],
       tofu: ["doenjang", "gochujang", "ganjang", "sesame sauce"]
@@ -1058,23 +1112,23 @@ export const korean: Cuisine = {
       raw: ["chogochujang", "sesame oil and salt", "gojuchang vinaigrette"]
     },
     byAstrological: {
-      fire: ["hot gochujang sauce", "spicy tteokbokki sauce", "chili oil"],
-      earth: ["doenjang", "aged ganjang", "fermented bean paste sauces"],
-      air: ["vinegar-based sauces", "citrus soy", "light sesame dressings"],
-      water: ["clear soups", "mild doenjang", "anchovy broth bases"]
+      fire: ["hot gochujang sauce", "spicy tteokbokki sauce", "chili oil", "yangnyeom sauce", "maewoon sauce"],
+      earth: ["doenjang", "aged ganjang", "fermented bean paste sauces", "perilla oil", "wild sesame sauce"],
+      air: ["vinegar-based sauces", "citrus soy", "light sesame dressings", "yuzu dressing", "tangerine soy"],
+      water: ["clear soups", "mild doenjang", "anchovy broth bases", "seaweed-infused dipping sauce", "jeotgal sauce"]
     },
     byRegion: {
-      seoul: ["balanced sweetness", "refined doenjang", "mild heat"],
-      jeonju: ["rich ganjang", "artisanal doenjang", "complex fermented flavors"],
-      busan: ["seafood-focused sauces", "spicier profiles", "anchovy-based"],
-      jeju: ["citrus notes", "fresh seafood pairings", "lighter preparations"]
+      seoul: ["balanced sweetness", "refined doenjang", "mild heat", "bulgogi sauce", "modern fusion sauces"],
+      jeonju: ["rich ganjang", "artisanal doenjang", "complex fermented flavors", "bibimbap sauce", "traditional herb oils"],
+      busan: ["seafood-focused sauces", "spicier profiles", "anchovy-based", "haemul broth", "dried fish sauces"],
+      jeju: ["citrus notes", "fresh seafood pairings", "lighter preparations", "hallabong dressing", "black pork marinades"]
     },
     byDietary: {
-      vegan: ["doenjang", "gochujang", "ganjang", "sesame-based sauces"],
-      vegetarian: ["doenjang", "gochujang", "vegetable-based sauces", "herb-infused oils"],
-      glutenFree: ["rice-based sauces", "pure gochujang", "traditional doenjang"],
-      dairyFree: ["most traditional Korean sauces", "vinegar-based dips", "chili oils"],
-      lowCarb: ["sesame oil dressings", "vinegar soy dips", "garlic chili oil"]
+      vegan: ["doenjang", "gochujang", "ganjang", "sesame-based sauces", "mushroom-based sauces"],
+      vegetarian: ["doenjang", "gochujang", "vegetable-based sauces", "herb-infused oils", "perilla seed sauce"],
+      glutenFree: ["rice-based sauces", "pure gochujang", "traditional doenjang", "sesame oil blends", "citrus dressings"],
+      dairyFree: ["most traditional Korean sauces", "vinegar-based dips", "chili oils", "sesame dressings", "fruit reductions"],
+      lowCarb: ["sesame oil dressings", "vinegar soy dips", "garlic chili oil", "perilla oil", "citrus-infused oils"]
     }
   },
   cookingTechniques: [

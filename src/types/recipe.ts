@@ -56,7 +56,7 @@ export interface Recipe {
   ingredients: RecipeIngredient[];
   instructions: string[];
   timeToMake: string;
-  numberOfServings: number;
+  servingSize: number; // Standardized from numberOfServings
   elementalProperties: ElementalProperties;
   mealType?: string | string[];
   season?: string | string[];
@@ -85,6 +85,13 @@ export interface Recipe {
     vitamins?: string[];
     minerals?: string[];
   };
+  
+  // Additional standardized fields
+  substitutions?: { original: string; alternatives: string[] }[];
+  tools?: string[]; // Required cooking tools/equipment
+  spiceLevel?: number | 'mild' | 'medium' | 'hot' | 'very hot'; // Indicator of spiciness
+  preparationNotes?: string; // Special notes about preparation
+  technicalTips?: string[]; // Technical cooking tips
   
   // Timestamp properties
   createdAt?: string;

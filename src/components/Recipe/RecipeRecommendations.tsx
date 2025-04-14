@@ -14,6 +14,8 @@ import { ElementalItem } from '@/calculations/alchemicalTransformation';
 import { AlchemicalTransformationService, OptimizedRecipeResult } from '@/services/AlchemicalTransformationService';
 import { normalizeLunarPhase } from '@/utils/lunarPhaseUtils';
 import { convertToLunarPhase } from '@/utils/lunarUtils';
+import { getTimeFactors } from '@/types/time';
+import PlanetaryTimeDisplay from '../PlanetaryTimeDisplay';
 
 // Define the Dish interface locally
 interface Dish {
@@ -60,6 +62,9 @@ const RecipeRecommendations: React.FC<RecipeRecommendationsProps> = ({
   const elementalState = state.elementalPreference;
   const [isLoading, setIsLoading] = useState(true);
   const [optimizedRecipes, setOptimizedRecipes] = useState<OptimizedRecipeResult[]>([]);
+  
+  // Get current time factors for displaying planetary day and hour information
+  const timeFactors = useMemo(() => getTimeFactors(), []);
   
   // Convert cuisine data to ElementalItem format for the hook
   const cuisineItems = Object.entries(cuisines as Record<string, CuisineData>).map(([key, cuisine]) => ({
@@ -249,6 +254,9 @@ const RecipeRecommendations: React.FC<RecipeRecommendationsProps> = ({
             </div>
           ))}
         </div>
+        
+        {/* Display current planetary influences */}
+        <PlanetaryTimeDisplay className="mt-4" />
         
         {/* Display dominant influences if available */}
         {energeticProfile && (

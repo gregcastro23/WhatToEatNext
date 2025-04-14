@@ -200,7 +200,7 @@ export const filterByAlchemicalCompatibility = (
  */
 export const getTopCompatibleItems = (
   items: AlchemicalItem[],
-  count: number = 5
+  count = 5
 ): AlchemicalItem[] => {
   // Sort by gregsEnergy for basic compatibility
   return [...items]
@@ -222,7 +222,7 @@ export const getTopCompatibleItems = (
 export const getRecommendedCookingMethodsForIngredient = (
   ingredient: AlchemicalItem,
   cookingMethods: AlchemicalItem[],
-  count: number = 5
+  count = 5
 ): Array<{ method: string, compatibility: number }> => {
   // For each method, calculate how well it transforms the ingredient using enhanced algorithm
   // that takes into account elemental character associations

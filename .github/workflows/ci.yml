@@ -1,25 +1,12 @@
 name: CI
 
-on: [push, pull_request]
+on: 
+  push:
+    branches: ['**']
+  pull_request:
+    branches: ['**']
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-      - name: Remove problematic dependencies
-        run: |
-          # Use jq to modify package.json by removing the problematic dependency
-          jq 'del(.dependencies."@astronite/solar-systems")' package.json > package.tmp.json
-          mv package.tmp.json package.json
-      - name: Install dependencies
-        run: yarn install
-      - name: Run tests
-        run: yarn test --passWithNoTests
   lint:
     runs-on: ubuntu-latest
     steps:
@@ -28,12 +15,52 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: 'yarn'
       - name: Remove problematic dependencies
         run: |
           # Use jq to modify package.json by removing the problematic dependency
           jq 'del(.dependencies."@astronite/solar-systems")' package.json > package.tmp.json
           mv package.tmp.json package.json
-      - run: yarn install
+      - name: Install dependencies
+        run: yarn install
       - name: Run lint
-        # Only lint the src directory excluding scripts folder
-        run: yarn eslint --max-warnings=200 "src/**/*.{ts,tsx}" --ignore-pattern "src/scripts/**" 
+        # Maintain previous warning limit for now
+        run: yarn lint --max-warnings=200
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'yarn'
+      - name: Remove problematic dependencies
+        run: |
+          # Use jq to modify package.json by removing the problematic dependency
+          jq 'del(.dependencies."@astronite/solar-systems")' package.json > package.tmp.json
+          mv package.tmp.json package.json
+      - name: Install dependencies
+        run: yarn install
+      - name: Build check
+        run: yarn build
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'yarn'
+      - name: Remove problematic dependencies
+        run: |
+          # Use jq to modify package.json by removing the problematic dependency
+          jq 'del(.dependencies."@astronite/solar-systems")' package.json > package.tmp.json
+          mv package.tmp.json package.json
+      - name: Install dependencies
+        run: yarn install
+      - name: Run tests
+        run: yarn test --passWithNoTests 

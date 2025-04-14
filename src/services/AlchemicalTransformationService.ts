@@ -65,7 +65,7 @@ export class AlchemicalTransformationService {
     'Neptune': 0,
     'Pluto': 0
   };
-  private isDaytime: boolean = true;
+  private isDaytime = true;
   private currentZodiac: ZodiacSign | null = null;
   private lunarPhase: LunarPhase | null = null;
   private tarotElementBoosts?: Record<ElementalCharacter, number>;
@@ -197,7 +197,7 @@ export class AlchemicalTransformationService {
   /**
    * Get alchemical recommendations based on current planetary positions
    */
-  getRecommendations(count: number = 5): AlchemicalRecommendations {
+  getRecommendations(count = 5): AlchemicalRecommendations {
     const transformedIngredients = this.getTransformedIngredients();
     const transformedMethods = this.getTransformedCookingMethods();
     const transformedCuisines = this.getTransformedCuisines();
@@ -241,7 +241,7 @@ export class AlchemicalTransformationService {
    * Analyzes recipes based on their ingredients, cooking methods, and cuisine
    * to find the ones most compatible with the current astrological conditions
    */
-  getOptimizedRecipes(recipes: Recipe[], count: number = 3): OptimizedRecipeResult[] {
+  getOptimizedRecipes(recipes: Recipe[], count = 3): OptimizedRecipeResult[] {
     // Get alchemical recommendations to determine optimal elements and properties
     const recommendations = this.getRecommendations();
     
@@ -375,7 +375,7 @@ export class AlchemicalTransformationService {
   getTargetedRecommendations(
     targetElement?: ElementalCharacter, 
     targetAlchemicalProperty?: AlchemicalProperty,
-    count: number = 5
+    count = 5
   ): AlchemicalRecommendations {
     const transformedIngredients = this.getTransformedIngredients();
     const transformedMethods = this.getTransformedCookingMethods();

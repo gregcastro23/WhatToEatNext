@@ -4,8 +4,8 @@ import type { Recipe } from '@/types/recipe';
 export function calculateElementalScore(
   recipe: Recipe,
   targetBalance: ElementalState,
-  seasonalInfluence: number = 0,
-  lunarInfluence: number = 0
+  seasonalInfluence = 0,
+  lunarInfluence = 0
 ): number {
   const baseScore = calculateBaseElementalScore(recipe, targetBalance);
   const seasonalScore = applySeasonalModifiers(baseScore, seasonalInfluence);

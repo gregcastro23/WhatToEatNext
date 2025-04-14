@@ -1,5 +1,8 @@
 // src/data/cuisines/indian.ts
-export const indian = {
+import type { Cuisine } from '@/types/cuisine';
+
+export const indian: Cuisine = {
+  id: "indian",
   name: "Indian",
   description: "Traditional Indian cuisine spanning diverse regional specialties, spice blends, and cooking techniques",
   dishes: {
@@ -52,7 +55,13 @@ export const indian = {
             minerals: ["Iron", "Potassium"]
           },
           season: ["all"],
-          mealType: ["breakfast", "lunch"]
+          mealType: ["breakfast", "lunch"],
+          elementalProperties: {
+            Earth: 0.3,
+            Fire: 0.4,
+            Air: 0.2,
+            Water: 0.1
+          }
         },
         {
           name: "Aloo Paratha",
@@ -102,7 +111,13 @@ export const indian = {
             minerals: ["Iron", "Potassium"]
           },
           season: ["all"],
-          mealType: ["breakfast"]
+          mealType: ["breakfast"],
+          elementalProperties: {
+            Earth: 0.5,
+            Fire: 0.3,
+            Water: 0.1,
+            Air: 0.1
+          }
         },
         {
           name: "Idli Sambar",
@@ -154,7 +169,13 @@ export const indian = {
             minerals: ["Iron", "Calcium"]
           },
           season: ["all"],
-          mealType: ["breakfast"]
+          mealType: ["breakfast"],
+          elementalProperties: {
+            Water: 0.4,
+            Earth: 0.3,
+            Fire: 0.2,
+            Air: 0.1
+          }
         }
       ],
       summer: [
@@ -209,7 +230,13 @@ export const indian = {
             minerals: ["Iron", "Magnesium"]
           },
           season: ["all"],
-          mealType: ["breakfast", "snack"]
+          mealType: ["breakfast", "snack"],
+          elementalProperties: {
+            Earth: 0.4,
+            Fire: 0.3,
+            Air: 0.2,
+            Water: 0.1
+          }
         }
       ]
     },
@@ -754,8 +781,8 @@ export const indian = {
           season: ["summer", "autumn"],
           mealType: ["dinner"],
           elementalProperties: {
-            Fire: 0.4,
             Earth: 0.3,
+            Fire: 0.4,
             Air: 0.2,
             Water: 0.1
           }
@@ -1018,7 +1045,7 @@ export const indian = {
         Water: 0.2,
         Air: 0.1
       },
-      astrologicalInfluences: ["Mars", "Sun", "aries"],
+      astrologicalInfluences: ["Mars", "Sun", "Aries"],
       seasonality: "all",
       preparationNotes: "Allow marination for at least 4 hours, preferably overnight for best flavor",
       technicalTips: "For authentic color, use Kashmiri chili powder which adds color without excess heat"
@@ -1036,7 +1063,7 @@ export const indian = {
         Earth: 0.3,
         Air: 0.1
       },
-      astrologicalInfluences: ["Venus", "Moon", "taurus"],
+      astrologicalInfluences: ["Venus", "Moon", "Taurus"],
       seasonality: "all",
       preparationNotes: "Allow the sauce to simmer gently to develop complex flavors",
       technicalTips: "Add kasuri methi (dried fenugreek leaves) at the end for authentic aroma"
@@ -1054,7 +1081,7 @@ export const indian = {
         Air: 0.2,
         Fire: 0.0
       },
-      astrologicalInfluences: ["Moon", "Venus", "cancer"],
+      astrologicalInfluences: ["Moon", "Venus", "Cancer"],
       seasonality: "all",
       preparationNotes: "Use thick, strained yogurt for best texture",
       technicalTips: "Salt and drain cucumber to prevent watery raita"
@@ -1072,7 +1099,7 @@ export const indian = {
         Earth: 0.2,
         Air: 0.1
       },
-      astrologicalInfluences: ["Mercury", "Saturn", "gemini"],
+      astrologicalInfluences: ["Mercury", "Saturn", "Gemini"],
       seasonality: "all",
       preparationNotes: "Balance sweet, sour, and spicy elements carefully",
       technicalTips: "Strain thoroughly for smooth consistency"
@@ -1090,52 +1117,102 @@ export const indian = {
         Fire: 0.2,
         Earth: 0.0
       },
-      astrologicalInfluences: ["Mercury", "Moon", "virgo"],
+      astrologicalInfluences: ["Mercury", "Moon", "Virgo"],
       seasonality: "all",
       preparationNotes: "Use ice water when blending to maintain bright green color",
       technicalTips: "Add a small amount of yogurt for creamier texture and longer shelf life"
+    },
+    coconut_curry: {
+      name: "Coconut Curry Sauce",
+      description: "Creamy, aromatic sauce with coconut milk and south Indian spices",
+      base: "coconut milk",
+      keyIngredients: ["coconut milk", "curry leaves", "mustard seeds", "turmeric", "green chilies"],
+      culinaryUses: ["seafood sauce", "vegetable curry base", "braising liquid", "rice accompaniment"],
+      variants: ["Kerala-style", "Goan curry", "Vegetable stew base", "Seafood moilee"],
+      elementalProperties: {
+        Water: 0.5,
+        Earth: 0.2,
+        Fire: 0.2,
+        Air: 0.1
+      },
+      astrologicalInfluences: ["Moon", "Neptune", "Pisces"],
+      seasonality: "all",
+      preparationNotes: "Temper spices properly to release their flavors into the coconut milk",
+      technicalTips: "Use full-fat coconut milk for richness; light coconut milk may separate"
+    },
+    onion_tomato_masala: {
+      name: "Onion-Tomato Masala",
+      description: "Foundational sauce of caramelized onions and tomatoes for North Indian curries",
+      base: "onion and tomato",
+      keyIngredients: ["onions", "tomatoes", "ginger-garlic paste", "cumin", "coriander powder"],
+      culinaryUses: ["curry base", "gravy foundation", "rice flavoring", "legume enhancement"],
+      variants: ["Bhuna masala", "Restaurant-style base", "Home-style gravy", "Spicy version"],
+      elementalProperties: {
+        Fire: 0.4,
+        Earth: 0.3,
+        Water: 0.2,
+        Air: 0.1
+      },
+      astrologicalInfluences: ["Mars", "Sun", "Leo"],
+      seasonality: "all",
+      preparationNotes: "Properly caramelizing onions (bhunao) is the key to depth of flavor",
+      technicalTips: "Prepare in large batches and freeze in portions for quick weeknight cooking"
     }
   },
   sauceRecommender: {
     forProtein: {
-      chicken: ["tandoori marinade", "tikka masala", "korma", "kadhai masala"],
-      lamb: ["rogan josh", "bhuna masala", "achari masala", "dopiaza"],
-      fish: ["moilee sauce", "amritsari masala", "mustard sauce", "malvani masala"],
-      paneer: ["makhani sauce", "palak sauce", "kadhai masala", "shahi sauce"],
-      legumes: ["chana masala", "dal makhani sauce", "sambar", "rasam"]
+      chicken: ["tandoori marinade", "tikka masala", "korma", "kadhai masala", "coconut curry"],
+      lamb: ["rogan josh", "bhuna masala", "achari masala", "dopiaza", "onion_tomato_masala"],
+      fish: ["moilee sauce", "amritsari masala", "mustard sauce", "malvani masala", "coconut_curry"],
+      paneer: ["makhani sauce", "palak sauce", "kadhai masala", "shahi sauce", "tikka_masala"],
+      legumes: ["chana masala", "dal makhani sauce", "sambar", "rasam", "tadka"],
+      goat: ["kosha mangsho sauce", "kolhapuri rassa", "laal maas gravy", "saag base", "achari masala"],
+      eggs: ["mughlai gravy", "onion_tomato_masala", "curry leaf tempering", "mirchi ka salan", "tomato chutney base"]
     },
     forVegetable: {
-      leafy: ["palak sauce", "methi masala", "coconut sauce", "mustard paste"],
-      root: ["korma", "vindaloo", "do pyaza", "bharta masala"],
-      eggplant: ["bharta masala", "salan", "bagara masala", "achari sauce"],
-      okra: ["bhindi masala", "sambhariya masala", "achari masala", "yogurt sauce"],
-      potato: ["aloo dum masala", "jeera aloo spice mix", "chaat masala", "tikki masala"]
+      leafy: ["palak sauce", "methi masala", "coconut sauce", "mustard paste", "sarson ka saag base"],
+      root: ["korma", "vindaloo", "do pyaza", "bharta masala", "coconut curry"],
+      eggplant: ["bharta masala", "salan", "bagara masala", "achari sauce", "tamarind base"],
+      okra: ["bhindi masala", "sambhariya masala", "achari masala", "yogurt sauce", "onion_tomato_masala"],
+      potato: ["aloo dum masala", "jeera aloo spice mix", "chaat masala", "tikki masala", "mustard paste"],
+      cauliflower: ["aloo gobi masala", "coconut curry", "kasundi paste", "achari masala", "onion_tomato_masala"],
+      gourds: ["dahi wali kaddu", "lauki chana dal", "coconut curry", "sambhar base", "peanut sauce"]
     },
     forCookingMethod: {
-      tandoor: ["tandoori marinade", "hariyali marinade", "malai marinade", "achari marinade"],
-      curry: ["garam masala base", "dhansak sauce", "xacuti masala", "chettinad sauce"],
-      frying: ["pakora batter", "kathi masala", "besan masala", "amritsari masala"],
-      steaming: ["mustard paste", "moilee sauce", "patrani masala", "coconut sauce"],
-      grilling: ["boti kabab marinade", "tikka marinade", "malai kabab paste", "reshmi kabab mixture"]
+      tandoor: ["tandoori marinade", "hariyali marinade", "malai marinade", "achari marinade", "yogurt-based marinades"],
+      curry: ["garam masala base", "dhansak sauce", "xacuti masala", "chettinad sauce", "onion_tomato_masala"],
+      frying: ["pakora batter", "kathi masala", "besan masala", "amritsari masala", "ajwain tempering"],
+      steaming: ["mustard paste", "moilee sauce", "patrani masala", "coconut sauce", "coriander_mint_chutney"],
+      grilling: ["boti kabab marinade", "tikka marinade", "malai kabab paste", "reshmi kabab mixture", "hariyali paste"],
+      "stir-frying": ["kadhai masala", "chilli paneer sauce", "manchurian sauce", "ginger-garlic base", "dry mango spice"]
     },
     byAstrological: {
-      fire: ["laal maas sauce", "vindaloo paste", "phaal curry sauce", "chettinad masala"],
-      earth: ["dal makhani sauce", "korma paste", "malai sauce", "shahi gravy"],
-      air: ["raita", "green chutney", "kadhi sauce", "tamarind chutney"],
-      water: ["coconut curry sauce", "moilee gravy", "dahi wali gravy", "rasam"]
+      fire: ["laal maas sauce", "vindaloo paste", "phaal curry sauce", "chettinad masala", "achari sauce"],
+      earth: ["dal makhani sauce", "korma paste", "malai sauce", "shahi gravy", "tempering oil"],
+      air: ["raita", "green chutney", "kadhi sauce", "tamarind chutney", "coriander_mint_chutney"],
+      water: ["coconut curry sauce", "moilee gravy", "dahi wali gravy", "rasam", "kadhi"]
     },
     byRegion: {
-      north: ["makhani sauce", "korma", "kadhai masala", "yakhni"],
-      south: ["sambar", "rasam", "chettinad masala", "moilee gravy"],
-      east: ["mustard sauce", "doi maach sauce", "posto paste", "panch phoron oil"],
-      west: ["malvani masala", "goda masala", "koli masala", "dhansak sauce"],
-      central: ["bhopali sauce", "safed maas gravy", "rogan josh", "nihari masala"]
+      north: ["makhani sauce", "korma", "kadhai masala", "yakhni", "onion_tomato_masala"],
+      south: ["sambar", "rasam", "chettinad masala", "moilee gravy", "coconut_curry"],
+      east: ["mustard sauce", "doi maach sauce", "posto paste", "panch phoron oil", "kalia gravy"],
+      west: ["malvani masala", "goda masala", "koli masala", "dhansak sauce", "kolhapuri masala"],
+      central: ["bhopali sauce", "safed maas gravy", "rogan josh", "nihari masala", "salan"],
+      northeast: ["bamboo shoot sauce", "fermented soybean paste", "axone base", "bhut jolokia oil", "fish sauce"]
     },
     byDietary: {
-      vegetarian: ["palak sauce", "coconut curry", "kadhi sauce", "sambar"],
-      vegan: ["chana masala", "tadka dal", "bharta masala", "amchur sauce"],
-      glutenFree: ["rasam", "chettinad masala", "moilee gravy", "dhansak sauce"],
-      dairyFree: ["tamarind chutney", "vindaloo paste", "mustard sauce", "phaal curry"]
+      vegetarian: ["palak sauce", "coconut curry", "kadhi sauce", "sambar", "tikka_masala"],
+      vegan: ["chana masala", "tadka dal", "bharta masala", "amchur sauce", "coconut_curry"],
+      glutenFree: ["rasam", "chettinad masala", "moilee gravy", "dhansak sauce", "tamarind_chutney"],
+      dairyFree: ["tamarind chutney", "vindaloo paste", "mustard sauce", "phaal curry", "coconut_curry"],
+      jain: ["jain masala", "no-onion garlic base", "raw banana curry", "suran masala", "arbi gravy"]
+    },
+    byFlavor: {
+      spicy: ["vindaloo paste", "chettinad masala", "phaal curry", "kolhapuri rassa", "andhra masala"],
+      mild: ["korma", "pasanda sauce", "shahi gravy", "malai sauce", "cashew paste"],
+      tangy: ["tamarind_chutney", "amchur sauce", "nimbu-based dressing", "tomato salan", "imli chutney"],
+      sweet: ["kashmiri gravy", "date chutney", "shahi sauce", "malai curry", "coconut chutney"],
+      aromatic: ["biryani masala", "garam masala oil", "pulao spice mix", "kewra water", "rose essence sauce"]
     }
   },
   cookingTechniques: [
@@ -1210,10 +1287,10 @@ export const indian = {
     }
   },
   elementalProperties: {
-    Fire: 0.4,    // Represents spices and heating properties
-    Earth: 0.3,   // Represents grounding ingredients
-    Air: 0.2,     // Represents aromatic spices
-    Water: 0.1    // Represents liquid elements and cooling properties
+    Fire: 0.5,
+    Earth: 0.2,
+    Water: 0.2,
+    Air: 0.1
   }
 };
 

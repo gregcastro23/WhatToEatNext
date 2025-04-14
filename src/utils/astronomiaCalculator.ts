@@ -11,20 +11,20 @@ const ZODIAC_SIGNS = [
   'libra', 'scorpio', 'sagittarius', 'capricorn', 'aquarius', 'pisces'
 ];
 
-// Current exact planetary positions (as of the user's reference data)
+// Current exact planetary positions (as of April 2024)
 const CURRENT_POSITIONS = {
-  'sun': { sign: 'aries', degree: 18.52, exactLongitude: 18.52 },
-  'moon': { sign: 'leo', degree: 24.28, exactLongitude: 144.28 },
-  'mercury': { sign: 'pisces', degree: 26.83, exactLongitude: 356.83 },
-  'venus': { sign: 'pisces', degree: 25.12, exactLongitude: 355.12, isRetrograde: true },
-  'mars': { sign: 'cancer', degree: 26.07, exactLongitude: 116.07 },
-  'jupiter': { sign: 'gemini', degree: 17.12, exactLongitude: 77.12 },
-  'saturn': { sign: 'pisces', degree: 25.32, exactLongitude: 355.32 },
-  'uranus': { sign: 'taurus', degree: 25.08, exactLongitude: 55.08 },
-  'neptune': { sign: 'aries', degree: 0.32, exactLongitude: 0.32 },
-  'pluto': { sign: 'aquarius', degree: 3.65, exactLongitude: 333.65 },
-  'northnode': { sign: 'pisces', degree: 26.35, exactLongitude: 356.35, isRetrograde: true },
-  'ascendant': { sign: 'scorpio', degree: 26.33, exactLongitude: 236.33 }
+  'sun': { sign: 'aries', degree: 24.67, exactLongitude: 24.67 },
+  'moon': { sign: 'scorpio', degree: 9.55, exactLongitude: 219.55 },
+  'mercury': { sign: 'pisces', degree: 28.83, exactLongitude: 358.83 },
+  'venus': { sign: 'pisces', degree: 24.65, exactLongitude: 354.65 },
+  'mars': { sign: 'cancer', degree: 28.45, exactLongitude: 118.45 },
+  'jupiter': { sign: 'gemini', degree: 18.20, exactLongitude: 78.20 },
+  'saturn': { sign: 'pisces', degree: 26.05, exactLongitude: 356.05 },
+  'uranus': { sign: 'taurus', degree: 25.40, exactLongitude: 55.40 },
+  'neptune': { sign: 'aries', degree: 0.53, exactLongitude: 0.53 },
+  'pluto': { sign: 'aquarius', degree: 3.72, exactLongitude: 333.72 },
+  'northnode': { sign: 'pisces', degree: 26.02, exactLongitude: 356.02, isRetrograde: true },
+  'ascendant': { sign: 'pisces', degree: 27.90, exactLongitude: 357.90 }
 };
 
 // Daily movement rates for planets (in degrees)

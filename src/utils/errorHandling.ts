@@ -5,7 +5,7 @@ export class AppError extends Error {
   constructor(
     message: string,
     public code: string,
-    public statusCode: number = 500,
+    public statusCode = 500,
     public context?: Record<string, any>
   ) {
     super(message);

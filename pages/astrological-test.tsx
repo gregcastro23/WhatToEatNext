@@ -1,7 +1,7 @@
-import { useEffect, useState, useRef, useCallback } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { AstrologicalService, PlanetaryAlignment } from '@/services/AstrologicalService';
 
-interface TestResult {
+type TestResult = {
   positions: PlanetaryAlignment;
   retrogradeStatus: Record<string, boolean>;
   sources: Record<string, string>;

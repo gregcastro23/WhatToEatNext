@@ -22,7 +22,23 @@ module.exports = [
       globals: {
         ...globals.browser,
         ...globals.node,
-        ...globals.jest
+        ...globals.jest,
+        // Add additional globals to prevent no-undef errors
+        Set: 'readonly',
+        Map: 'readonly',
+        Promise: 'readonly',
+        console: 'readonly',
+        process: 'readonly',
+        setTimeout: 'readonly',
+        clearTimeout: 'readonly',
+        setInterval: 'readonly',
+        clearInterval: 'readonly',
+        exports: 'writable',
+        module: 'readonly',
+        require: 'readonly',
+        global: 'readonly',
+        window: 'readonly',
+        document: 'readonly'
       }
     },
     plugins: {

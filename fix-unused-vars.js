@@ -5,10 +5,10 @@
  * to variable names that are reported as unused by ESLint.
  */
 
-import { execSync } from 'child_process';
-import * as fs from 'fs';
-import path from 'path';
-import readline from 'readline';
+const fs = require('fs');
+const path = require('path');
+const { execSync } = require('child_process');
+const readline = require('readline');
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -18,73 +18,149 @@ const rl = readline.createInterface({
 // Get the list of unused variables from ESLint
 function getUnusedVariables() {
   try {
-    const output = execSync('npx eslint --ext .js,.jsx,.ts,.tsx src/ --format json').toString();
-    const results = JSON.parse(output);
+    // Use the correct command format for this project
+    const result = execSync('npx next lint --format json').toString();
+    const lintResults = JSON.parse(result);
     
     const unusedVars = [];
     
-    for (const result of results) {
-      const filePath = result.filePath;
+    lintResults.forEach(fileResult => {
+      const filePath = fileResult.filePath;
+      const unusedInFile = fileResult.messages
+        .filter(msg => msg.ruleId === '@typescript-eslint/no-unused-vars')
+        .map(msg => ({
+          file: filePath,
+          line: msg.line,
+          column: msg.column,
+          varName: msg.message.match(/'([^']+)'/)?.[1] || 'unknown',
+          messageType: msg.message.includes('assigned a value but never used') ? 'assigned' : 'defined'
+        }));
       
-      for (const message of result.messages) {
-        if (message.ruleId === '@typescript-eslint/no-unused-vars') {
-          // Extract the variable name from the message
-          const match = message.message.match(/'([^']+)' is defined but never used/);
-          if (match && match[1]) {
-            unusedVars.push({
-              filePath,
-              varName: match[1],
-              line: message.line,
-              column: message.column
-            });
-          }
-        }
+      if (unusedInFile.length > 0) {
+        unusedVars.push(...unusedInFile);
       }
-    }
+    });
     
     return unusedVars;
   } catch (error) {
-    console.error('Error running ESLint:', error);
+    console.error('Error running ESLint:', error.message);
     return [];
   }
 }
 
-// Fix unused variables by adding an underscore prefix
-function fixUnusedVariables(unusedVars) {
-  const processedFiles = new Set();
-  
-  for (const { filePath, varName, line, column } of unusedVars) {
-    if (!fs.existsSync(filePath)) continue;
-    
-    const content = fs.readFileSync(filePath, 'utf8');
-    const lines = content.split('\n');
-    
-    // Simple fix: replace the variable name with _variableName on that line
-    const lineContent = lines[line - 1];
-    const newLineContent = lineContent.substring(0, column - 1) + '_' + lineContent.substring(column - 1);
-    
-    lines[line - 1] = newLineContent;
-    
-    // Write the file back
-    fs.writeFileSync(filePath, lines.join('\n'));
-    processedFiles.add(filePath);
-    
-    console.log(`Fixed unused variable '${varName}' in ${filePath}`);
+// Fix unused variables in a file
+async function fixUnusedVarsInFile(filePath, unusedVars) {
+  if (!fs.existsSync(filePath)) {
+    console.error(`File not found: ${filePath}`);
+    return;
   }
   
-  console.log(`\nProcessed ${processedFiles.size} files`);
+  console.log(`\nProcessing ${path.basename(filePath)}`);
+  
+  let fileContent = fs.readFileSync(filePath, 'utf8');
+  const lines = fileContent.split('\n');
+  
+  // Group the unused vars by line number
+  const varsByLine = {};
+  unusedVars.forEach(v => {
+    if (!varsByLine[v.line]) {
+      varsByLine[v.line] = [];
+    }
+    varsByLine[v.line].push(v);
+  });
+  
+  // Process lines in reverse order (to avoid line number changes)
+  const lineNumbers = Object.keys(varsByLine).map(Number).sort((a, b) => b - a);
+  
+  for (const lineNum of lineNumbers) {
+    const lineVars = varsByLine[lineNum];
+    const line = lines[lineNum - 1]; // Line numbers are 1-based
+    
+    console.log(`\nLine ${lineNum}: ${line.trim()}`);
+    console.log(`Unused variables: ${lineVars.map(v => v.varName).join(', ')}`);
+    
+    if (line.includes('import ')) {
+      // Handle import statements
+      if (lineVars.length === 1 && line.includes(`{ ${lineVars[0].varName} }`)) {
+        // If it's the only import in curly braces, remove the whole import
+        console.log(`Removing unused import: ${line.trim()}`);
+        lines[lineNum - 1] = ''; // Remove the line
+      } else {
+        // Remove the specific variables from an import with multiple items
+        const updatedLine = removeFromImport(line, lineVars.map(v => v.varName));
+        console.log(`Updated import: ${updatedLine.trim()}`);
+        lines[lineNum - 1] = updatedLine;
+      }
+    } else {
+      // For other variable declarations, let's just comment out the line for now
+      console.log(`Commenting out: ${line.trim()}`);
+      lines[lineNum - 1] = `// UNUSED: ${line.trim()}`;
+    }
+  }
+  
+  // Write the updated content back to the file
+  const updatedContent = lines.join('\n');
+  fs.writeFileSync(filePath, updatedContent, 'utf8');
+  console.log(`\nUpdated ${filePath}`);
+}
+
+// Helper to remove variables from an import statement
+function removeFromImport(importLine, varsToRemove) {
+  // For default imports, we don't do anything
+  if (!importLine.includes('{')) {
+    return importLine;
+  }
+  
+  // Extract the parts before and after the curly braces
+  const beforeCurly = importLine.split('{')[0];
+  const afterCurly = importLine.split('}')[1];
+  
+  // Extract the variables inside the curly braces
+  const importVarsMatch = importLine.match(/{([^}]*)}/);
+  if (!importVarsMatch) return importLine;
+  
+  const importVarsString = importVarsMatch[1];
+  const importVars = importVarsString.split(',').map(v => v.trim());
+  
+  // Filter out the variables to remove
+  const updatedImportVars = importVars.filter(v => !varsToRemove.includes(v));
+  
+  // If no imports remain, remove the entire import statement
+  if (updatedImportVars.length === 0) {
+    return '';
+  }
+  
+  // Reconstruct the import statement
+  return `${beforeCurly}{ ${updatedImportVars.join(', ')} }${afterCurly}`;
 }
 
 // Main function
-function main() {
-  console.log('Identifying unused variables...');
+async function main() {
+  console.log('Finding unused variables...');
   const unusedVars = getUnusedVariables();
-  console.log(`Found ${unusedVars.length} unused variables`);
   
-  if (unusedVars.length > 0) {
-    console.log('Fixing unused variables...');
-    fixUnusedVariables(unusedVars);
+  if (unusedVars.length === 0) {
+    console.log('No unused variables found!');
+    return;
   }
+  
+  console.log(`Found ${unusedVars.length} unused variables in ${new Set(unusedVars.map(v => v.file)).size} files.`);
+  
+  // Group by file
+  const fileGroups = {};
+  unusedVars.forEach(v => {
+    if (!fileGroups[v.file]) {
+      fileGroups[v.file] = [];
+    }
+    fileGroups[v.file].push(v);
+  });
+  
+  // Process each file
+  for (const [filePath, vars] of Object.entries(fileGroups)) {
+    await fixUnusedVarsInFile(filePath, vars);
+  }
+  
+  console.log('\nDone! Please review the changes.');
 }
 
 // Main execution

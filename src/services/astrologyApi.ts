@@ -184,19 +184,59 @@ export const getElementalInfluence = async (): Promise<typeof elementalUtils.DEF
     try {
         const astroState = await AstrologicalService.getCurrentState();
         if (astroState) {
-            // Since mapZodiacToElement is private, we'll implement a simplified version here
+            // First check if elementalState is already calculated in the astrological state
+            if (astroState.elementalState) {
+                return astroState.elementalState;
+            }
+            
+            // If we have planetary alignment data, use full calculation
+            if (astroState.currentPlanetaryAlignment && 
+                Object.keys(astroState.currentPlanetaryAlignment).length > 0) {
+                return calculateElementalBalanceFromPositions(astroState.currentPlanetaryAlignment);
+            }
+            
+            // Fall back to basic calculation with zodiac sign and moon
             const sunElement = getElementFromZodiac(astroState.currentZodiac);
             const moonElement = getElementFromZodiac(
                 astroState.currentPlanetaryAlignment?.moon?.sign || 'cancer'
             );
             
-            // Create a weighted influence based on sun and moon positions
-            return {
-                Fire: sunElement === 'Fire' ? 0.6 : (moonElement === 'Fire' ? 0.3 : 0.1),
-                Water: sunElement === 'Water' ? 0.6 : (moonElement === 'Water' ? 0.3 : 0.1),
-                Earth: sunElement === 'Earth' ? 0.6 : (moonElement === 'Earth' ? 0.3 : 0.1),
-                Air: sunElement === 'Air' ? 0.6 : (moonElement === 'Air' ? 0.3 : 0.1)
+            // Get elements from other planets for a more balanced calculation
+            const mercuryElement = getElementFromZodiac(
+                astroState.currentPlanetaryAlignment?.mercury?.sign || 'gemini'
+            );
+            const venusElement = getElementFromZodiac(
+                astroState.currentPlanetaryAlignment?.venus?.sign || 'taurus'
+            );
+            const marsElement = getElementFromZodiac(
+                astroState.currentPlanetaryAlignment?.mars?.sign || 'aries'
+            );
+            
+            // Create a weighted influence based on planetary positions
+            // Sun and Moon have more influence (0.3 each), other planets contribute the rest (0.1 each)
+            const elementalState = {
+                Fire: 0,
+                Water: 0,
+                Earth: 0,
+                Air: 0
             };
+            
+            // Add Sun influence (30%)
+            elementalState[sunElement] += 0.3;
+            
+            // Add Moon influence (30%)
+            elementalState[moonElement] += 0.3;
+            
+            // Add Mercury influence (15%)
+            elementalState[mercuryElement] += 0.15;
+            
+            // Add Venus influence (15%)
+            elementalState[venusElement] += 0.15;
+            
+            // Add Mars influence (10%)
+            elementalState[marsElement] += 0.1;
+            
+            return elementalState;
         }
     } catch (error) {
         console.error('Error getting elemental influence:', error);
@@ -239,4 +279,56 @@ function getZodiacElement(sign: string): string {
     const elements = ['Fire', 'Water', 'Earth', 'Air'];
     const elementIndex = Math.floor(elements.indexOf(sign) / 2);
     return elements[elementIndex];
+}
+
+// New function to calculate elemental balance based on all available planetary positions
+export function calculateElementalBalanceFromPositions(positions: Record<string, any>): typeof elementalUtils.DEFAULT_ELEMENTAL_PROPERTIES {
+    // Start with empty values
+    const elementalBalance = {
+        Fire: 0,
+        Water: 0,
+        Earth: 0,
+        Air: 0
+    };
+    
+    // Define planetary weights - some planets have more influence than others
+    const planetaryWeights = {
+        sun: 0.25,     // Sun and Moon are most important
+        moon: 0.25,
+        mercury: 0.10,  // Inner planets
+        venus: 0.10,
+        mars: 0.10,
+        jupiter: 0.07,  // Outer planets
+        saturn: 0.07,
+        uranus: 0.02,   // Distant planets have less immediate influence
+        neptune: 0.02,
+        pluto: 0.02
+    };
+    
+    // Calculate total influence
+    let totalInfluence = 0;
+    
+    // Calculate elemental influence from each planet's position
+    Object.entries(positions).forEach(([planet, data]) => {
+        if (!data?.sign) return;
+        
+        const planetKey = planet.toLowerCase();
+        const weight = planetaryWeights[planetKey as keyof typeof planetaryWeights] || 0.05;
+        const element = getElementFromZodiac(data.sign);
+        
+        elementalBalance[element as keyof typeof elementalBalance] += weight;
+        totalInfluence += weight;
+    });
+    
+    // Normalize values if we have influence
+    if (totalInfluence > 0) {
+        Object.keys(elementalBalance).forEach(element => {
+            elementalBalance[element as keyof typeof elementalBalance] /= totalInfluence;
+        });
+    } else {
+        // If no influence, use balanced distribution
+        return elementalUtils.DEFAULT_ELEMENTAL_PROPERTIES;
+    }
+    
+    return elementalBalance;
 }

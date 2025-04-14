@@ -1,18 +1,5 @@
 import { FoodDataCentral } from './apiClients';
-
-interface NutritionalProfile {
-  calories: number;
-  macros: {
-    protein: number;
-    carbs: number;
-    fat: number;
-    fiber: number;
-    sugars: number;
-  };
-  vitamins: Record<string, number>;
-  minerals: Record<string, number>;
-  phytonutrients: Record<string, number>;
-}
+import { NutritionalProfile, FoodDataCentralFood } from '../types/nutrition';
 
 export class NutritionService {
   async getNutritionalProfile(fdcId: string): Promise<NutritionalProfile> {
@@ -41,18 +28,18 @@ export class NutritionService {
     };
   }
 
-  private getNutrientValue(data: any, nutrientId: string): number {
-    return data.foodNutrients.find((n: any) => 
+  private getNutrientValue(data: FoodDataCentralFood, nutrientId: string): number {
+    return data.foodNutrients.find(n => 
       n.nutrientNumber === nutrientId
     )?.value || 0;
   }
 
-  private extractPhytonutrients(data: any): Record<string, number> {
+  private extractPhytonutrients(data: FoodDataCentralFood): Record<string, number> {
     return data.foodNutrients
-      .filter((n: any) => n.nutrientName?.includes('Phytonutrient'))
-      .reduce((acc: Record<string, number>, n: any) => ({
+      .filter(n => n.nutrientName?.includes('Phytonutrient'))
+      .reduce((acc: Record<string, number>, n) => ({
         ...acc,
-        [n.nutrientName]: n.value
+        [n.nutrientName || '']: n.value || 0
       }), {});
   }
 } 

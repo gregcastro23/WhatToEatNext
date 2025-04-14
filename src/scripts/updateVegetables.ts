@@ -429,11 +429,11 @@ async function processIngredientFile(filePath) {
       let hasChanges = false;
       for (const [key, ingredientData] of Object.entries(ingredients)) {
         // TypeScript safety: explicitly type the ingredient
-        const ingredient = ingredientData as { 
+        const ingredient: { 
           nutritionalProfile?: Record<string, any>;
           category?: string;
           [key: string]: any;
-        };
+        } = ingredientData;
         
         // Skip if already processed
         if (progress.processedIngredients[key]) {

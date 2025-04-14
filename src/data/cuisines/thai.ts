@@ -1684,7 +1684,7 @@ export const thai: Cuisine = {
         Earth: 0.2,
         Air: 0.1
       },
-      astrologicalInfluences: ["Mars", "Mercury", "sagittarius"],
+      astrologicalInfluences: ["Mars", "Mercury", "Sagittarius"],
       seasonality: "all",
       preparationNotes: "Traditional Thai version is tangier and thinner than the popular American version",
       technicalTips: "Fermentation develops depth of flavor beyond simple chili heat"
@@ -1821,10 +1821,10 @@ export const thai: Cuisine = {
     }
   ],
   elementalProperties: {
-    Fire: 0.3,    // Represents spicy elements and cooking methods
-    Water: 0.3,   // Represents soups and coconut-based dishes
-    Earth: 0.2,   // Represents grains and proteins
-    Air: 0.2      // Represents herbs and aromatics
+    Fire: 0.35,    // Represents spicy elements, chili heat, and grilling techniques
+    Water: 0.25,   // Represents soups, coconut-based dishes, and steaming
+    Earth: 0.25,   // Represents grains, proteins, and root vegetables
+    Air: 0.15      // Represents herbs, aromatics, and light textures
   }
 };
 

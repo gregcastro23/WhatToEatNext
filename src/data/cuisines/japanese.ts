@@ -1,14 +1,62 @@
 // src/data/cuisines/japanese.ts
 import type { Cuisine } from '@/types/cuisine';
+import type { LunarPhase, ZodiacSign } from '@/types/alchemy';
 
 export const japanese: Cuisine = {
   id: 'japanese',
   name: 'Japanese',
   description: 'Traditional Japanese cuisine emphasizing seasonal ingredients, harmony of flavors, and meticulous preparation techniques',
+  motherSauces: {
+    dashi: {
+      name: "Dashi",
+      description: "Fundamental Japanese stock that serves as the base for many soups and sauces",
+      base: "kombu and/or katsuobushi",
+      thickener: "none",
+      keyIngredients: ["kombu (dried kelp)", "katsuobushi (dried bonito flakes)"],
+      culinaryUses: ["miso soup", "noodle broths", "sauce base", "braising liquid"],
+      derivatives: ["Awase dashi", "Kombu dashi", "Shiitake dashi", "Iriko dashi"],
+      elementalProperties: {
+        Water: 0.6,
+        Earth: 0.2,
+        Air: 0.1,
+        Fire: 0.1
+      },
+      astrologicalInfluences: ["Neptune", "Moon", "Pisces"],
+      seasonality: "all",
+      preparationNotes: "Never boil kombu; gently heat to extract umami without bitterness",
+      technicalTips: "Remove kombu before water boils, then add katsuobushi off heat",
+      difficulty: "easy",
+      storageInstructions: "Store refrigerated up to 3 days or freeze up to 1 month",
+      yield: "1 liter"
+    },
+    tare: {
+      name: "Tare",
+      description: "Concentrated seasoning sauce used as a flavoring base for many Japanese dishes",
+      base: "soy sauce",
+      thickener: "reduction",
+      keyIngredients: ["soy sauce", "mirin", "sake", "sugar"],
+      culinaryUses: ["ramen seasoning", "glazes", "marinades", "dipping sauces"],
+      derivatives: ["Shoyu tare", "Shio tare", "Miso tare", "Karaage tare"],
+      elementalProperties: {
+        Earth: 0.4,
+        Water: 0.3,
+        Fire: 0.2,
+        Air: 0.1
+      },
+      astrologicalInfluences: ["Saturn", "Mercury", "Taurus"],
+      seasonality: "all",
+      preparationNotes: "Often simmered with aromatics like ginger, garlic, and scallions",
+      technicalTips: "Balance sweet, salty, and umami carefully; adjust with kombu or bonito",
+      difficulty: "medium",
+      storageInstructions: "Store refrigerated up to 1 month",
+      yield: "500 ml"
+    }
+  },
   dishes: {
     breakfast: {
       all: [
         {
+          id: "traditional-japanese-breakfast",
           name: "Traditional Japanese Breakfast Set",
           description: "Classic breakfast with grilled fish, rice, miso soup, and sides",
           cuisine: "Japanese",
@@ -65,7 +113,22 @@ export const japanese: Cuisine = {
             Earth: 0.3,
             Fire: 0.2,
             Air: 0.1
-          }
+          },
+          instructions: [
+            "Cook rice in rice cooker",
+            "Grill fish until skin is crispy and flesh is cooked through",
+            "Prepare miso soup by dissolving paste in dashi and adding tofu and seaweed",
+            "Steam vegetables until tender",
+            "Arrange all components in traditional serving dishes",
+            "Serve with pickles and garnishes"
+          ],
+          astrologicalAffinities: {
+            planets: ["Neptune", "Moon"],
+            signs: ["Cancer", "Pisces"],
+            lunarPhases: ["Full Moon", "Third Quarter"]
+          },
+          lunarPhaseInfluences: ["Full Moon", "Third Quarter"],
+          zodiacInfluences: ["Cancer", "Pisces"],
         },
         {
           name: "Tamagoyaki",
@@ -1115,8 +1178,8 @@ export const japanese: Cuisine = {
       variants: ["Koikuchi", "Usukuchi", "Tamari", "Saishikomi"],
       elementalProperties: {
         Water: 0.4,
-    Earth: 0.3,
-    Fire: 0.2,
+        Earth: 0.3,
+        Fire: 0.2,
         Air: 0.1
       },
       astrologicalInfluences: ["Saturn", "Pluto", "Scorpio"],
@@ -1144,178 +1207,146 @@ export const japanese: Cuisine = {
     },
     ponzu: {
       name: "Ponzu",
-      description: "Citrus-infused soy sauce with bright acidity",
-      base: "citrus and soy",
-      keyIngredients: ["soy sauce", "yuzu", "sudachi", "rice vinegar", "bonito flakes"],
-      culinaryUses: ["dipping sauce", "dressing", "flavor enhancer", "marinade"],
-      variants: ["Yuzu ponzu", "Sudachi ponzu", "Kabosu ponzu", "Vinegar-heavy ponzu"],
-      elementalProperties: {
-        Water: 0.4,
-        Air: 0.3,
-        Fire: 0.2,
-        Earth: 0.1
-      },
-      astrologicalInfluences: ["Mercury", "Venus", "Gemini"],
-      seasonality: "spring, summer",
-      preparationNotes: "Better after resting at least a day to allow flavors to meld",
-      technicalTips: "Store in refrigerator to maintain citrus brightness"
+      description: "Tangy citrus-based sauce with soy and dashi",
+      base: "citrus juice",
+      keyIngredients: ["yuzu or sudachi juice", "soy sauce", "rice vinegar", "dashi"],
+      culinaryUses: ["dipping sauce", "dressing", "marinade"],
+      difficulty: "easy",
+      elementalProperties: { Water: 0.4, Air: 0.3, Earth: 0.2, Fire: 0.1 },
+      seasonality: "all",
+      preparationNotes: "Best when aged for several days to develop flavor",
+      yield: "500ml"
     },
     mentsuyu: {
       name: "Mentsuyu",
-      description: "Multipurpose noodle sauce concentrate",
-      base: "soy and dashi",
-      keyIngredients: ["soy sauce", "mirin", "sake", "dashi", "sugar"],
-      culinaryUses: ["noodle dipping sauce", "noodle soup base", "broth", "flavor base"],
-      variants: ["Kaeshi", "Tsuyu dilutions", "Homemade vs commercial"],
-      elementalProperties: {
-        Water: 0.5,
-        Earth: 0.2,
-        Fire: 0.2,
-        Air: 0.1
-      },
-      astrologicalInfluences: ["Neptune", "Jupiter", "Pisces"],
+      description: "Multipurpose noodle soup base and seasoning sauce",
+      base: "soy sauce and dashi",
+      keyIngredients: ["soy sauce", "mirin", "sake", "sugar", "dashi"],
+      culinaryUses: ["noodle dipping sauce", "soup base", "seasoning"],
+      difficulty: "easy",
+      elementalProperties: { Water: 0.4, Earth: 0.3, Fire: 0.2, Air: 0.1 },
       seasonality: "all",
-      preparationNotes: "Can be concentrated (for dipping) or diluted (for soups)",
-      technicalTips: "Store in refrigerator for up to a month; freezes well"
+      preparationNotes: "Can be prepared concentrated and diluted as needed",
+      yield: "750ml"
     },
     teriyaki: {
       name: "Teriyaki",
-      description: "Sweet-savory glaze with glossy finish",
-      base: "soy and sugar",
+      description: "Sweet-savory glaze with soy sauce, mirin, and sugar",
+      base: "soy sauce",
       keyIngredients: ["soy sauce", "mirin", "sake", "sugar", "ginger"],
-      culinaryUses: ["glaze", "marinade", "sauce base", "finishing sauce"],
-      variants: ["Fruit-infused", "Ginger-forward", "Garlic teriyaki", "Honey teriyaki"],
-      elementalProperties: {
-        Fire: 0.4,
-        Earth: 0.3,
-        Water: 0.2,
-        Air: 0.1
-      },
-      astrologicalInfluences: ["Mars", "Venus", "Leo"],
+      culinaryUses: ["glazing", "marinade", "finishing sauce"],
+      difficulty: "easy",
+      elementalProperties: { Fire: 0.4, Earth: 0.3, Water: 0.2, Air: 0.1 },
       seasonality: "all",
-      preparationNotes: "The name refers to the cooking method: teri (shine) and yaki (grill)",
-      technicalTips: "Reduce sauce to proper consistency; it will thicken further when cool"
+      preparationNotes: "Traditionally applied in layers while grilling",
+      yield: "500ml"
     }
   },
   sauceRecommender: {
     forProtein: {
-      fish: ["ponzu", "shio-koji", "nikiri", "teriyaki", "miso"],
-      chicken: ["teriyaki", "tare", "yuzu-kosho", "shoga-yaki sauce", "mentsuyu"],
-      beef: ["yakiniku tare", "warishita", "goma-dare", "ponzu", "tonkatsu sauce"],
-      tofu: ["tentsuyu", "ginger soy", "sesame dressing", "miso", "ponzu"],
-      eggs: ["mentsuyu", "soy sauce", "dashi-based sauces", "mirin glaze"]
+      fish: ["ponzu", "mentsuyu", "teriyaki", "ginger sauce"],
+      chicken: ["teriyaki", "katsu sauce", "yuzu kosho", "sesame sauce"],
+      beef: ["yakiniku sauce", "ponzu", "warishita", "ginger sauce"],
+      tofu: ["ponzu", "sesame sauce", "ginger sauce", "miso sauce"],
+      pork: ["tonkatsu sauce", "shogayaki sauce", "miso sauce", "teriyaki"]
     },
     forVegetable: {
-      leafy: ["goma-dare", "wafu dressing", "ponzu", "sesame oil and soy"],
-      root: ["nimono sauce", "miso glaze", "dashi-based", "vinegar soy"],
-      mushroom: ["butter soy", "sake soy", "mirin glaze", "dashi broth"],
-      seaweed: ["ponzu", "light soy", "rice vinegar dressing", "sesame oil"],
-      pickled: ["shiso dressing", "miso sauce", "light vinegar", "yuzu juice"]
+      leafy: ["sesame dressing", "ponzu", "shiro dashi", "miso dressing"],
+      root: ["miso sauce", "mentsuyu", "kinpira sauce", "sesame sauce"],
+      seaweed: ["ponzu", "soy vinegar", "miso sauce", "sesame dressing"],
+      mushroom: ["butter shoyu", "mirin glaze", "dashi-based", "mentsuyu"]
     },
     forCookingMethod: {
-      grilling: ["tare", "teriyaki", "yakitori sauce", "miso glaze", "yuzu-kosho"],
-      simmering: ["nimono sauce", "dashi-shoyu", "mentsuyu", "katsuo-based"],
-      frying: ["tentsuyu", "ponzu", "tonkatsu sauce", "curry sauce"],
-      steaming: ["ponzu", "ginger soy", "yuzu sauce", "light dashi"],
-      raw: ["nikiri", "fresh wasabi", "ponzu", "shoyu", "sanbaizu"]
+      grilling: ["teriyaki", "yakitori tare", "miso glaze", "yuzu kosho"],
+      simmering: ["mentsuyu", "kake sauce", "dashi-based", "warishita"],
+      "deep-frying": ["tentsuyu", "tonkatsu sauce", "ponzu", "curry sauce"],
+      steaming: ["ponzu", "ginger sauce", "yuzu sauce", "dashi vinegar"]
     },
     byAstrological: {
-      fire: ["spicy yuzu-kosho", "karashi mustard sauce", "wasabi soy", "hot dashi"],
-      earth: ["miso based", "shiitake dashi", "earthy tsukudani", "robust neri-miso"],
-      air: ["light ponzu", "yuzu-infused dressings", "citrus shoyu", "sudachi sauce"],
-      water: ["clear dashi", "light mentsuyu", "delicate kombu dashi", "subtle usukuchi"]
+      fire: ["spicy yuzu kosho", "karashi mustard sauce", "wasabi dressing", "chili oil"],
+      water: ["clear dashi-based sauces", "gentle ponzu", "light broths", "nikiri"],
+      earth: ["miso-based sauces", "thick teriyaki", "rich tonkatsu sauce", "sesame"],
+      air: ["citrus dressings", "light vinaigrettes", "delicate herb sauces", "yuzu"]
     },
     byRegion: {
-      kanto: ["dark soy-forward", "strong katsuo dashi", "Tokyo-style tsukudani"],
-      kansai: ["light kombu dashi", "usukuchi shoyu", "sweet Kyoto-style sauces"],
-      kyushu: ["pork-based tare", "spicy karashi", "robust Hakata flavors"],
-      hokkaido: ["butter shoyu", "miso ramen tare", "seafood-infused sauces"],
-      okinawa: ["awamori-infused", "island citrus sauce", "turmeric-based dressings"]
+      kanto: ["thick sweet sauces", "dark soy-based", "rich dashi"],
+      kansai: ["light dashi", "delicate seasonings", "subtle umami"],
+      hokkaido: ["butter-miso", "rich seafood sauces", "hearty broths"],
+      kyushu: ["intense tonkotsu", "spicy yuzu kosho", "bold marinades"]
     },
     byDietary: {
-      vegetarian: ["kombu dashi", "shiitake-based tare", "sesame dressing", "umeboshi sauce"],
-      vegan: ["kombu shoyu", "yuzu dressing", "kinoko sauce", "vegetable-based tare"],
-      glutenFree: ["tamari-based", "rice vinegar dressings", "yuzu-kosho", "kombu dashi"],
-      dairyFree: ["most traditional sauces", "dashi-based sauces", "ponzu", "tsuyu"]
+      vegetarian: ["kombu dashi-based", "shiitake broth", "vegan ponzu", "miso-based"],
+      vegan: ["mushroom dashi", "soy-based sauces", "yuzu dressing", "umeboshi sauce"],
+      glutenFree: ["tamari-based sauces", "rice vinegar dressings", "citrus sauces"],
+      lowSodium: ["yuzu dressing", "vinegar-based", "herb oils", "mirin glazes"]
     }
   },
   cookingTechniques: [
     {
       name: "Nimono",
-      description: "Simmering ingredients in a dashi-based broth until they absorb the flavor",
-      elementalProperties: { Water: 0.6, Earth: 0.2, Fire: 0.1, Air: 0.1 },
-      toolsRequired: ["heavy pot", "otoshibuta (drop lid)", "cooking chopsticks"],
-      bestFor: ["root vegetables", "proteins", "tofu dishes", "slow cooking"]
+      description: "Simmering ingredients in dashi-based broth with soy, mirin, and sake",
+      elementalProperties: { Water: 0.5, Earth: 0.3, Fire: 0.1, Air: 0.1 },
+      toolsRequired: ["heavy-bottomed pot", "otoshibuta (drop lid)", "cooking chopsticks"],
+      bestFor: ["root vegetables", "fish", "tofu", "meat"],
+      difficulty: "medium"
+    },
+    {
+      name: "Tempura",
+      description: "Light batter frying technique that creates crisp, delicate coating",
+      elementalProperties: { Fire: 0.4, Air: 0.3, Water: 0.2, Earth: 0.1 },
+      toolsRequired: ["deep pot", "chopsticks", "wire skimmer", "thermometer"],
+      bestFor: ["seafood", "vegetables", "mushrooms", "herbs"],
+      difficulty: "hard"
     },
     {
       name: "Yakimono",
-      description: "Grilling or broiling methods that create distinctive charred flavors",
-      elementalProperties: { Fire: 0.7, Earth: 0.2, Air: 0.1, Water: 0.0 },
-      toolsRequired: ["konro grill", "binchotan charcoal", "grilling tongs", "wire mesh"],
-      bestFor: ["skewered meats", "whole fish", "vegetables", "mochi"]
-    },
-    {
-      name: "Agemono",
-      description: "Deep-frying techniques including tempura and kara-age",
-      elementalProperties: { Fire: 0.6, Air: 0.2, Earth: 0.1, Water: 0.1 },
-      toolsRequired: ["tempura pot", "cooking chopsticks", "wire skimmer", "thermometer"],
-      bestFor: ["seafood", "vegetables", "chicken", "tofu"]
-    },
-    {
-      name: "Mushimono",
-      description: "Steaming method that preserves natural flavors and nutrients",
-      elementalProperties: { Water: 0.7, Air: 0.2, Earth: 0.1, Fire: 0.0 },
-      toolsRequired: ["steamer", "bamboo mat", "parchment paper", "cooking chopsticks"],
-      bestFor: ["delicate fish", "custards", "vegetables", "dumplings"]
-    },
-    {
-      name: "Tsukemono",
-      description: "Traditional pickling methods for vegetables",
-      elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },
-      toolsRequired: ["pickling container", "weights", "konbu", "salt"],
-      bestFor: ["seasonal vegetables", "daikon", "cucumbers", "cabbage"]
+      description: "Grilling technique emphasizing simplicity and natural flavors",
+      elementalProperties: { Fire: 0.5, Earth: 0.2, Air: 0.2, Water: 0.1 },
+      toolsRequired: ["konro grill", "binchotan charcoal", "metal skewers", "tongs"],
+      bestFor: ["fish", "chicken", "beef", "vegetables"],
+      difficulty: "medium"
     }
   ],
   regionalCuisines: {
     kansai: {
-      name: "Kansai (Kyoto) Cuisine",
-      description: "Refined, delicate flavors emphasizing the natural taste of ingredients with minimal seasoning",
-      signature: ["kaiseki ryori", "yudofu", "obanzai", "kyoto-style sushi"],
-      elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },
-      astrologicalInfluences: ["Moon", "Mercury", "Virgo"],
-      seasonality: "strongly seasonal"
+      name: "Kansai/Kyoto Cuisine",
+      description: "Refined, delicate flavors emphasizing natural taste of ingredients with minimal seasoning",
+      signature: ["kaiseki ryori", "yudofu", "obanzai", "kyogashi"],
+      elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
+      astrologicalInfluences: ["Moon", "Venus", "Cancer"],
+      seasonality: "strong seasonal emphasis",
+      specialIngredients: ["Kyoto vegetables", "fu (wheat gluten)", "refined tofu", "high-grade teas"]
     },
     kanto: {
-      name: "Kanto (Tokyo) Cuisine",
-      description: "Stronger, bolder flavors with an emphasis on seafood and hearty broths",
-      signature: ["edomae sushi", "monjayaki", "fukagawa-meshi", "chanko nabe"],
-      elementalProperties: { Water: 0.5, Fire: 0.3, Earth: 0.1, Air: 0.1 },
-      astrologicalInfluences: ["Mars", "Jupiter", "Aries"],
-      seasonality: "moderately seasonal"
+      name: "Kanto/Tokyo Cuisine",
+      description: "Bolder, more soy-focused flavors with urban innovations",
+      signature: ["edomae sushi", "monjayaki", "chankonabe", "deep-fried foods"],
+      elementalProperties: { Earth: 0.4, Fire: 0.3, Water: 0.2, Air: 0.1 },
+      astrologicalInfluences: ["Jupiter", "Mars", "Capricorn"],
+      seasonality: "moderate seasonal emphasis",
+      specialIngredients: ["dark soy sauce", "abundant seafood", "creative fusion elements"]
     },
     hokkaido: {
       name: "Hokkaido Cuisine",
-      description: "Hearty northern cuisine featuring fresh seafood, dairy, and warming dishes",
-      signature: ["soup curry", "genghis khan", "seafood donburi", "miso ramen"],
-      elementalProperties: { Water: 0.4, Earth: 0.3, Fire: 0.2, Air: 0.1 },
-      astrologicalInfluences: ["Saturn", "Moon", "Capricorn"],
-      seasonality: "distinctly seasonal"
-    },
-    kyushu: {
-      name: "Kyushu Cuisine",
-      description: "Bold southern cuisine known for rich pork dishes, spicy flavors, and unique specialties",
-      signature: ["tonkotsu ramen", "mentaiko", "chicken nanban", "champon"],
-      elementalProperties: { Fire: 0.5, Earth: 0.3, Water: 0.1, Air: 0.1 },
-      astrologicalInfluences: ["Mars", "Pluto", "Scorpio"],
-      seasonality: "moderately seasonal"
+      description: "Hearty, dairy-influenced northern cuisine with abundant seafood",
+      signature: ["soup curry", "jingisukan", "seafood bowls", "miso ramen"],
+      elementalProperties: { Earth: 0.4, Water: 0.3, Fire: 0.2, Air: 0.1 },
+      astrologicalInfluences: ["Saturn", "Mercury", "Taurus"],
+      seasonality: "strong winter emphasis",
+      specialIngredients: ["butter", "corn", "potatoes", "dairy", "sea urchin", "crab"]
     }
   },
   elementalProperties: {
-    Water: 0.4,    // Represents dashi, broths, and ocean influence
-    Earth: 0.3,    // Represents rice, umami, and grounding elements
-    Air: 0.2,      // Represents lightness and delicacy
-    Fire: 0.1      // Represents grilling techniques and wasabi
-  }
+    Water: 0.35, // Represents broths, gentle cooking methods, and seafood focus
+    Earth: 0.30, // Represents grounding rice, roots, and umami elements
+    Air: 0.20,   // Represents lightness, seasonal awareness, and presentation
+    Fire: 0.15   // Represents grilling techniques and wasabi heat
+  },
+  astrologicalInfluences: [
+    "Neptune - Governs the subtle dashi broths and seafood elements", 
+    "Mercury - Influences the precision and attention to detail", 
+    "Moon - Shapes the cyclical nature of seasonal cuisine"
+  ]
 };
 
 export default japanese;

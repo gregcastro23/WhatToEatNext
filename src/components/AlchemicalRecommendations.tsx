@@ -102,44 +102,211 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
   
   // Convert ingredients object to an array of ElementalItem objects
   const ingredientsArray = useMemo(() => {
-    return Object.entries(allIngredients).map(([key, ingredient]) => ({
-      id: key,
-      name: ingredient.name || key,
-      elementalProperties: (ingredient as any).elementalProperties || {
-        Fire: 0.25,
-        Water: 0.25,
-        Earth: 0.25,
-        Air: 0.25
+    return Object.entries(allIngredients).map(([key, ingredient]) => {
+      // Get ingredient elemental properties or calculate them
+      let elementalProps;
+      if ((ingredient as any).elementalProperties) {
+        elementalProps = (ingredient as any).elementalProperties;
+      } else {
+        // Calculate based on ingredient category and attributes
+        const category = (ingredient as any).category || '';
+        const rulingPlanets = (ingredient as any).astrologicalProfile?.rulingPlanets || [];
+        
+        // Start with empty properties
+        elementalProps = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
+        
+        // Adjust by category
+        if (category.toLowerCase().includes('vegetable')) {
+          elementalProps.Earth += 0.5;
+          elementalProps.Water += 0.3;
+        } else if (category.toLowerCase().includes('fruit')) {
+          elementalProps.Water += 0.4;
+          elementalProps.Air += 0.3;
+        } else if (category.toLowerCase().includes('protein') || category.toLowerCase().includes('meat')) {
+          elementalProps.Fire += 0.4;
+          elementalProps.Earth += 0.3;
+        } else if (category.toLowerCase().includes('grain')) {
+          elementalProps.Earth += 0.5;
+          elementalProps.Air += 0.2;
+        } else if (category.toLowerCase().includes('herb') || category.toLowerCase().includes('spice')) {
+          elementalProps.Fire += 0.3;
+          elementalProps.Air += 0.4;
+        }
+        
+        // Adjust by ruling planets
+        rulingPlanets.forEach((planet: string) => {
+          switch (planet.toLowerCase()) {
+            case 'sun':
+              elementalProps.Fire += 0.2;
+              break;
+            case 'moon':
+              elementalProps.Water += 0.2;
+              break;
+            case 'mercury':
+              elementalProps.Air += 0.2;
+              break;
+            case 'venus':
+              elementalProps.Earth += 0.1;
+              elementalProps.Water += 0.1;
+              break;
+            case 'mars':
+              elementalProps.Fire += 0.2;
+              break;
+            case 'jupiter':
+              elementalProps.Air += 0.1;
+              elementalProps.Fire += 0.1;
+              break;
+            case 'saturn':
+              elementalProps.Earth += 0.2;
+              break;
+          }
+        });
+        
+        // Normalize values
+        const total = Object.values(elementalProps).reduce((sum, val) => sum + val, 0);
+        if (total > 0) {
+          for (const element in elementalProps) {
+            elementalProps[element as keyof typeof elementalProps] /= total;
+          }
+        } else {
+          // If nothing was calculated, use balanced elements
+          elementalProps = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+        }
       }
-    })) as ElementalItem[];
+      
+      return {
+        id: key,
+        name: ingredient.name || key,
+        elementalProperties: elementalProps,
+        qualities: (ingredient as any).qualities || [],
+        modality: (ingredient as any).modality
+      } as ElementalItem;
+    });
   }, []);
   
   // Convert cooking methods to ElementalItem array
   const cookingMethodsArray = useMemo(() => {
-    return Object.entries(cookingMethods).map(([key, method]) => ({
-      id: key,
-      name: (method as any).name || key,
-      elementalProperties: (method as any).elementalEffect || {
-        Fire: 0.25,
-        Water: 0.25,
-        Earth: 0.25,
-        Air: 0.25
+    return Object.entries(cookingMethods).map(([key, method]) => {
+      // Get cooking method elemental effect or calculate it
+      let elementalEffect;
+      if ((method as any).elementalEffect) {
+        elementalEffect = (method as any).elementalEffect;
+      } else {
+        // Calculate based on cooking method characteristics
+        elementalEffect = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
+        
+        const methodName = ((method as any).name || key).toLowerCase();
+        
+        // Adjust by cooking method type
+        if (methodName.includes('grill') || methodName.includes('roast') || methodName.includes('bake') ||
+            methodName.includes('broil') || methodName.includes('fry')) {
+          elementalEffect.Fire += 0.6;
+          elementalEffect.Air += 0.2;
+        } else if (methodName.includes('steam') || methodName.includes('boil') || methodName.includes('poach') ||
+                  methodName.includes('simmer')) {
+          elementalEffect.Water += 0.6;
+          elementalEffect.Air += 0.2;
+        } else if (methodName.includes('saute') || methodName.includes('stir-fry')) {
+          elementalEffect.Fire += 0.4;
+          elementalEffect.Air += 0.4;
+        } else if (methodName.includes('braise') || methodName.includes('stew')) {
+          elementalEffect.Water += 0.4;
+          elementalEffect.Earth += 0.4;
+        } else if (methodName.includes('smoke') || methodName.includes('cure')) {
+          elementalEffect.Air += 0.5;
+          elementalEffect.Fire += 0.3;
+        } else if (methodName.includes('ferment') || methodName.includes('pickle')) {
+          elementalEffect.Water += 0.4;
+          elementalEffect.Earth += 0.4;
+        } else {
+          // Generic cooking method - slight emphasis on fire
+          elementalEffect.Fire += 0.3;
+          elementalEffect.Earth += 0.3;
+          elementalEffect.Water += 0.2;
+          elementalEffect.Air += 0.2;
+        }
+        
+        // Normalize values
+        const total = Object.values(elementalEffect).reduce((sum, val) => sum + val, 0);
+        if (total > 0) {
+          for (const element in elementalEffect) {
+            elementalEffect[element as keyof typeof elementalEffect] /= total;
+          }
+        }
       }
-    })) as ElementalItem[];
+      
+      return {
+        id: key,
+        name: (method as any).name || key,
+        elementalProperties: elementalEffect
+      } as ElementalItem;
+    });
   }, []);
   
   // Convert cuisines to ElementalItem array
   const cuisinesArray = useMemo(() => {
-    return Object.entries(cuisines).map(([key, cuisine]) => ({
-      id: key,
-      name: (cuisine as any).name || key,
-      elementalProperties: (cuisine as any).elementalState || {
-        Fire: 0.25,
-        Water: 0.25,
-        Earth: 0.25,
-        Air: 0.25
+    return Object.entries(cuisines).map(([key, cuisine]) => {
+      // Get cuisine elemental state or calculate it
+      let elementalState;
+      if ((cuisine as any).elementalState) {
+        elementalState = (cuisine as any).elementalState;
+      } else {
+        // Calculate based on cuisine characteristics
+        elementalState = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
+        
+        const cuisineName = ((cuisine as any).name || key).toLowerCase();
+        const region = ((cuisine as any).region || '').toLowerCase();
+        
+        // Adjust by cuisine type/region
+        if (cuisineName.includes('indian') || cuisineName.includes('thai') || 
+            cuisineName.includes('mexican') || cuisineName.includes('cajun')) {
+          // Spicy cuisines tend to have more Fire
+          elementalState.Fire += 0.5;
+          elementalState.Air += 0.2;
+        } else if (cuisineName.includes('japanese') || cuisineName.includes('nordic') ||
+                  cuisineName.includes('korean')) {
+          // More balanced cuisines
+          elementalState.Water += 0.4;
+          elementalState.Earth += 0.3;
+          elementalState.Air += 0.2;
+        } else if (cuisineName.includes('french') || cuisineName.includes('italian')) {
+          // Hearty European cuisines
+          elementalState.Earth += 0.4;
+          elementalState.Fire += 0.3;
+          elementalState.Water += 0.2;
+        } else if (cuisineName.includes('mediter')) {
+          // Mediterranean cuisines
+          elementalState.Earth += 0.3;
+          elementalState.Air += 0.3;
+          elementalState.Fire += 0.2;
+        } else if (cuisineName.includes('greek') || cuisineName.includes('spanish')) {
+          // Mediterranean cuisines
+          elementalState.Earth += 0.3;
+          elementalState.Fire += 0.3;
+          elementalState.Air += 0.2;
+        } else {
+          // Default profile with slight Earth emphasis for unknown cuisines
+          elementalState.Earth += 0.3;
+          elementalState.Water += 0.3;
+          elementalState.Fire += 0.2;
+          elementalState.Air += 0.2;
+        }
+        
+        // Normalize values
+        const total = Object.values(elementalState).reduce((sum, val) => sum + val, 0);
+        if (total > 0) {
+          for (const element in elementalState) {
+            elementalState[element as keyof typeof elementalState] /= total;
+          }
+        }
       }
-    })) as ElementalItem[];
+      
+      return {
+        id: key,
+        name: (cuisine as any).name || key,
+        elementalProperties: elementalState
+      } as ElementalItem;
+    });
   }, []);
   
   // Filter ingredients array by modality

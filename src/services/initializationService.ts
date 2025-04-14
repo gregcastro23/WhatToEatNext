@@ -5,13 +5,34 @@ import { celestialCalculator } from './celestialCalculations'
 import { errorHandler } from './errorHandler'
 import { logger } from '../utils/logger'
 import type { Recipe, ScoredRecipe } from '../types/recipe'
+import { ElementalProperties } from '../types/alchemy'
+
+// Interface for celestial data
+export interface CelestialData {
+  sun?: {
+    sign?: string;
+    degree?: number;
+    exactLongitude?: number;
+  };
+  moon?: {
+    sign?: string;
+    degree?: number;
+    exactLongitude?: number;
+  };
+  // Include elemental values
+  Fire?: number;
+  Water?: number;
+  Earth?: number;
+  Air?: number;
+  [key: string]: any; // Allow other properties
+}
 
 interface InitializationResult {
   success: boolean
   data?: {
     recipes: ScoredRecipe[]
     favorites: string[]
-    celestialData: any
+    celestialData: CelestialData
   }
   error?: string
 }
@@ -25,7 +46,7 @@ class InitializationService {
 
   async initialize(): Promise<InitializationResult> {
     if (this.isInitializing) {
-      return this.initPromise!
+      return this.initPromise ?? Promise.reject(new Error('Initialization promise not found'))
     }
 
     this.isInitializing = true
@@ -56,6 +77,12 @@ class InitializationService {
 
       // Convert celestial data to elemental properties format
       const elementalPreference = this.convertToElementalProperties(celestialData);
+      
+      // Update the state with the elemental preference
+      await manager.updateState({
+        elementalPreference,
+        lastUpdated: new Date()
+      });
 
       // Validate final state - only using properties that exist in AlchemicalState
       const isValid = stateValidator.validateState({
@@ -148,7 +175,7 @@ class InitializationService {
     }
   }
 
-  private async initializeCelestialData() {
+  private async initializeCelestialData(): Promise<CelestialData> {
     try {
       return celestialCalculator.calculateCurrentInfluences()
     } catch (error) {
@@ -157,14 +184,14 @@ class InitializationService {
     }
   }
 
-  private processRecipes(recipes: Recipe[], celestialData: any): ScoredRecipe[] {
+  private processRecipes(recipes: Recipe[], celestialData: CelestialData): ScoredRecipe[] {
     return recipes.map(recipe => ({
       ...recipe,
       score: this.calculateRecipeScore(recipe, celestialData)
     }))
   }
 
-  private calculateRecipeScore(recipe: Recipe, celestialData: any): number {
+  private calculateRecipeScore(recipe: Recipe, celestialData: CelestialData): number {
     // Implement your scoring logic here
     const score = Object.entries(recipe.elementalProperties).reduce(
       (acc, [element, value]) => acc + (value * (celestialData[element] || 0)),
@@ -181,7 +208,7 @@ class InitializationService {
     return 'winter'
   }
 
-  private formatCelestialData(celestialData: any) {
+  private formatCelestialData(celestialData: CelestialData) {
     return {
       sun: {
         sign: celestialData.sun?.sign || '',
@@ -211,7 +238,7 @@ class InitializationService {
   }
 
   // Add new helper method to convert celestial data to ElementalProperties
-  private convertToElementalProperties(celestialData: any): any {
+  private convertToElementalProperties(celestialData: CelestialData): ElementalProperties {
     // Default balanced elemental properties
     return {
       Fire: celestialData.Fire || 0.25,

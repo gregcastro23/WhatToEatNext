@@ -446,7 +446,7 @@ function transformUSDADataToNutritionalProfile(food: any): NutritionalProfile {
     // The nutrient ID/name can be in different properties depending on the API response format
     // 1. Standard format (number/id + amount/value)
     const id = nutrient.number || nutrient.nutrientId || (nutrient.nutrient && nutrient.nutrient.id) || nutrient.id || '';
-    let value = nutrient.amount || nutrient.value || 0;
+    const value = nutrient.amount || nutrient.value || 0;
     
     // 2. SR Legacy format might have nutrient.nutrient.number
     const legacyId = nutrient.nutrient?.number || '';
@@ -634,21 +634,24 @@ export function calculateNutritionalBalance(ingredients: any[]): NutritionalProf
     // Add vitamins
     if (profile.vitamins) {
       Object.entries(profile.vitamins).forEach(([key, value]) => {
-        acc.vitamins![key] = (acc.vitamins![key] || 0) + value;
+        if (!acc.vitamins) acc.vitamins = {};
+        acc.vitamins[key] = (acc.vitamins[key] || 0) + value;
       });
     }
     
     // Add minerals
     if (profile.minerals) {
       Object.entries(profile.minerals).forEach(([key, value]) => {
-        acc.minerals![key] = (acc.minerals![key] || 0) + value;
+        if (!acc.minerals) acc.minerals = {};
+        acc.minerals[key] = (acc.minerals[key] || 0) + value;
       });
     }
     
     // Add phytonutrients
     if (profile.phytonutrients) {
       Object.entries(profile.phytonutrients).forEach(([key, value]) => {
-        acc.phytonutrients![key] = (acc.phytonutrients![key] || 0) + value;
+        if (!acc.phytonutrients) acc.phytonutrients = {};
+        acc.phytonutrients[key] = (acc.phytonutrients[key] || 0) + value;
       });
     }
     

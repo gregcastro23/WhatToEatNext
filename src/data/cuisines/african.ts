@@ -1,6 +1,10 @@
 // src/data/cuisines/african.ts
-export const african = {
+import type { Cuisine } from '@/types/cuisine';
+import type { LunarPhase, ZodiacSign } from '@/types/alchemy';
+
+export const african: Cuisine = {
   name: 'African',
+  id: 'african',
   description: 'Rich and diverse cuisine with bold flavors, hearty stews, and complex spice profiles. Spanning from North African tagines to West African peanut stews and East African injera-based dishes.',
   traditionalSauces: {
     berbere: {
@@ -698,5 +702,3 @@ export const african = {
     Air: 0.1
   }
 };
-
-export default african;

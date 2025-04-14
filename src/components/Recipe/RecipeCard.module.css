@@ -279,4 +279,293 @@
 .lowMatch {
     background-color: #fee2e2;
     color: #991b1b;
+}
+
+.planetaryBadges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.planetaryBadge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    background: #f0f0f0;
+}
+
+.favorablePlanet {
+    background: rgba(0, 128, 0, 0.1);
+    color: darkgreen;
+    border: 1px solid rgba(0, 128, 0, 0.2);
+}
+
+.unfavorablePlanet {
+    background: rgba(220, 53, 69, 0.1);
+    color: #dc3545;
+    border: 1px solid rgba(220, 53, 69, 0.2);
+}
+
+.planetarySection {
+    background: var(--bg-secondary, #f9f9f9);
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+}
+
+.planetaryGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.favorable, .unfavorable {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.favorable span:first-child, .unfavorable span:first-child {
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: var(--text-secondary, #666);
+}
+
+.favorable span:last-child {
+    color: darkgreen;
+}
+
+.unfavorable span:last-child {
+    color: #dc3545;
+}
+
+.currentInfluences {
+    border-top: 1px solid var(--border-color, #eee);
+    padding-top: 1rem;
+}
+
+.currentTimeLabel {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--text-secondary, #666);
+}
+
+.timeInfluenceDetails {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+    .planetaryGrid {
+        grid-template-columns: 1fr;
+    }
+    
+    .timeInfluenceDetails {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}
+
+/* New sections */
+.servingInfo, .spiceLevelInfo, .toolsSection, .substitutionsSection, .preparationNotesSection, .technicalTipsSection {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: var(--bg-secondary);
+    border-radius: 8px;
+}
+
+.servingInfo p {
+    font-size: 1.1rem;
+    margin: 0.5rem 0 0;
+}
+
+.spiceIndicator {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.spiceDot {
+    opacity: 0.3;
+    transition: opacity 0.3s ease;
+}
+
+.spiceDot.active {
+    opacity: 1;
+}
+
+.toolsList, .substitutionsList, .tipsList {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0 0;
+}
+
+.toolsList li, .tipsList li {
+    position: relative;
+    padding-left: 1.5rem;
+    margin-bottom: 0.75rem;
+    line-height: 1.4;
+}
+
+.toolsList li::before, .tipsList li::before {
+    content: "•";
+    position: absolute;
+    left: 0.5rem;
+    color: var(--accent-color);
+    font-weight: bold;
+}
+
+.substitution {
+    margin-bottom: 0.75rem;
+    line-height: 1.4;
+}
+
+.originalIngredient {
+    font-weight: 600;
+    margin-right: 0.5rem;
+}
+
+.alternatives {
+    color: var(--text-secondary);
+}
+
+.preparationNotes {
+    margin: 0.5rem 0 0;
+    line-height: 1.6;
+}
+
+.servingInfo {
+    margin-bottom: 1.5rem;
+    background: var(--bg-secondary);
+    padding: 0.75rem;
+    border-radius: 8px;
+}
+
+.spiceLevelInfo {
+    margin-bottom: 1.5rem;
+    padding: 0.75rem;
+    border-radius: 8px;
+    background: var(--bg-secondary);
+}
+
+.spiceIndicator {
+    display: flex;
+    gap: 0.25rem;
+    margin-top: 0.5rem;
+}
+
+.spiceDot {
+    opacity: 0.3;
+    transition: opacity 0.2s ease;
+}
+
+.spiceDot.active {
+    opacity: 1;
+}
+
+.ingredientsSection {
+    margin-bottom: 1.5rem;
+}
+
+.ingredient {
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: flex-start;
+}
+
+.amount {
+    font-weight: 500;
+    margin-right: 0.5rem;
+    min-width: 80px;
+}
+
+.ingredientName {
+    flex: 1;
+}
+
+.category {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-left: 0.5rem;
+}
+
+.substitutionsSection {
+    margin-bottom: 1.5rem;
+    background: var(--bg-secondary);
+    padding: 0.75rem;
+    border-radius: 8px;
+}
+
+.substitutionsList {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0 0;
+}
+
+.substitution {
+    margin-bottom: 0.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.originalIngredient {
+    font-weight: 500;
+    margin-right: 0.5rem;
+}
+
+.alternatives {
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+.toolsSection {
+    margin-bottom: 1.5rem;
+    background: var(--bg-secondary);
+    padding: 0.75rem;
+    border-radius: 8px;
+}
+
+.toolsList {
+    list-style: disc;
+    margin: 0.5rem 0 0;
+    padding-left: 1.25rem;
+}
+
+.preparationNotesSection {
+    margin-bottom: 1.5rem;
+    background: var(--bg-accent);
+    padding: 0.75rem;
+    border-radius: 8px;
+}
+
+.preparationNotes {
+    font-style: italic;
+    line-height: 1.4;
+}
+
+.technicalTipsSection {
+    margin-bottom: 1.5rem;
+    background: var(--bg-secondary);
+    padding: 0.75rem;
+    border-radius: 8px;
+}
+
+.tipsList {
+    list-style: disc;
+    margin: 0.5rem 0 0;
+    padding-left: 1.25rem;
+}
+
+.sectionTitle {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 0.5rem;
 } 

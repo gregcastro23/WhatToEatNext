@@ -82,7 +82,7 @@ function CuisineSelector({
   
   // Sort cuisines when sort preference changes
   const sortedCuisines = useMemo(() => {
-    let sorted = [...cuisineList];
+    const sorted = [...cuisineList];
     
     if (sortBy === 'alchemical' && Object.keys(planetaryPositions).length > 0) {
       // Sort by gregsEnergy or planetary boost if available

@@ -17,7 +17,7 @@ function getRecommendations(
   elementalProps: ElementalProperties | undefined,
   options: RecommendationOptions
 ): GroupedIngredientRecommendations {
-  const { currentZodiac } = useAstrologicalState();
+  const { currentZodiac, planetaryPositions, moonPhase, aspects } = useAstrologicalState();
   
   // Create an object with real astrological state data
   const astroState = {
@@ -29,12 +29,19 @@ function getRecommendations(
     },
     timestamp: new Date(),
     currentStability: 1.0,
-    planetaryAlignment: {},
+    // Use actual planetary alignment data from astrological context
+    planetaryAlignment: planetaryPositions || {},
     dominantElement: Object.entries(elementalProps || {})
       .sort((a, b) => b[1] - a[1])
       .map(([element]) => element)[0] || 'Fire',
     zodiacSign: options.currentZodiac || currentZodiac || 'aries',
-    activePlanets: ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'] // Include all planets for more matches
+    // Use actual active planets from planetary positions
+    activePlanets: planetaryPositions ? Object.keys(planetaryPositions) : 
+      ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'],
+    // Use actual moon phase
+    lunarPhase: moonPhase || 'full moon',
+    // Add aspects for additional context
+    aspects: aspects || []
   };
   
   // Use the proper utility function with the actual data
@@ -125,9 +132,9 @@ export default function IngredientRecommendations({
     };
     
     // Format the match percentage from score
-    const matchPercentage = ingredient.score ? 
-      `${Math.round(ingredient.score * 100)}%` : 
-      'N/A';
+    const matchPercentage = ingredient.score !== undefined && !isNaN(ingredient.score) 
+      ? `${Math.round(ingredient.score * 100)}%`
+      : '50%';
     
     return (
       <div className={styles.ingredientDetails} key={ingredient.name}>
@@ -264,9 +271,9 @@ export default function IngredientRecommendations({
     };
     
     // Format the match percentage from score
-    const matchPercentage = ingredient.score ? 
-      `${Math.round(ingredient.score * 100)}%` : 
-      '';
+    const matchPercentage = ingredient.score !== undefined && !isNaN(ingredient.score)
+      ? `${Math.round(ingredient.score * 100)}%`
+      : '50%';
     
     // Get dominant element for styling
     const dominantElement = Object.entries(elementalProps)

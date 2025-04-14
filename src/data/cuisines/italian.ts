@@ -1,11 +1,16 @@
 // src/data/cuisines/italian.ts
-export const italian = {
+import type { Cuisine } from '@/types/cuisine';
+import type { LunarPhase, ZodiacSign } from '@/types/alchemy';
+
+export const italian: Cuisine = {
+  id: "italian",
   name: "Italian",
   description: "Traditional Italian cuisine emphasizing fresh ingredients, regional specialties, and time-honored techniques",
   dishes: {
     breakfast: {
       all: [
         {
+          id: "cornetto-e-cappuccino",
           name: "Cornetto e Cappuccino",
           description: "Italian-style croissant served with frothy coffee",
           cuisine: "Italian",
@@ -17,6 +22,13 @@ export const italian = {
             "baking sheet"
           ],
           preparationSteps: [
+            "Bake cornetto until golden",
+            "Brew espresso",
+            "Steam and froth milk",
+            "Combine espresso and milk for cappuccino",
+            "Serve cornetto warm"
+          ],
+          instructions: [
             "Bake cornetto until golden",
             "Brew espresso",
             "Steam and froth milk",
@@ -49,7 +61,14 @@ export const italian = {
             minerals: ["Calcium"]
           },
           season: ["all"],
-          mealType: ["breakfast"]
+          mealType: ["breakfast"],
+          astrologicalAffinities: {
+            planets: ["Venus", "Mercury"],
+            signs: ["Taurus", "Libra"],
+            lunarPhases: ["New Moon", "First Quarter"]
+          },
+          lunarPhaseInfluences: ["New Moon", "First Quarter"],
+          zodiacInfluences: ["Taurus", "Libra"]
         },
         {
           name: "Maritozzo con Panna",
@@ -973,6 +992,52 @@ export const italian = {
       ]
     }
   },
+  motherSauces: {
+    marinaraBase: {
+      name: "Marinara Base",
+      description: "Simple tomato sauce that forms the foundation of many Italian dishes",
+      base: "tomato",
+      thickener: "reduction",
+      keyIngredients: ["tomatoes", "garlic", "olive oil", "basil", "oregano"],
+      culinaryUses: ["pasta sauce", "pizza base", "dipping sauce", "casserole base"],
+      derivatives: ["Arrabbiata", "Puttanesca", "Alla Norma"],
+      elementalProperties: {
+        Fire: 0.4,
+        Earth: 0.3,
+        Water: 0.2,
+        Air: 0.1
+      },
+      astrologicalInfluences: ["Mars", "Sun", "Leo"],
+      seasonality: "all",
+      preparationNotes: "Best when made with San Marzano tomatoes for authentic flavor",
+      technicalTips: "Simmer gently to maintain brightness of flavor",
+      difficulty: "easy",
+      storageInstructions: "Store in airtight container for up to 5 days in refrigerator",
+      yield: "2 cups"
+    },
+    besciamella: {
+      name: "Besciamella",
+      description: "Italian white sauce made from roux and milk",
+      base: "milk",
+      thickener: "roux",
+      keyIngredients: ["butter", "flour", "milk", "nutmeg", "bay leaf"],
+      culinaryUses: ["lasagna layer", "cannelloni filling base", "vegetable gratin", "creamed spinach"],
+      derivatives: ["Mornay sauce", "Soubise", "Infused besciamella"],
+      elementalProperties: {
+        Water: 0.4,
+        Earth: 0.4,
+        Air: 0.1,
+        Fire: 0.1
+      },
+      astrologicalInfluences: ["Moon", "Venus", "Cancer"],
+      seasonality: "all",
+      preparationNotes: "For silky texture, add hot milk to roux gradually while whisking constantly",
+      technicalTips: "Infuse milk with bay leaf, onion, and clove before making sauce for depth of flavor",
+      difficulty: "medium",
+      storageInstructions: "Store refrigerated in airtight container for up to 3 days",
+      yield: "2 cups"
+    }
+  },
   traditionalSauces: {
     marinara: {
       name: "Marinara",
@@ -1182,7 +1247,12 @@ export const italian = {
     Water: 0.3,    // Represents sauces and moisture
     Fire: 0.2,     // Represents cooking techniques
     Air: 0.2       // Represents herbs and lightness
-  }
+  },
+  astrologicalInfluences: [
+    "Venus - Roman goddess of love and beauty influences the sensory pleasures of Italian cuisine",
+    "Jupiter - Brings abundance and generosity to communal Italian dining traditions",
+    "Mercury - Governs the communication and conviviality central to Italian food culture"
+  ]
 };
 
 export default italian;

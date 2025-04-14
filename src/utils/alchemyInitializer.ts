@@ -6,7 +6,7 @@ declare global {
 }
 
 import { StandardizedAlchemicalResult } from '@/types/alchemy';
-import alchemicalEngine from '@/calculations/alchemicalEngine';
+import alchemicalEngine from '@/app/alchemicalEngine';
 
 // Use the standardized interface we created
 export type AlchemicalResult = StandardizedAlchemicalResult;
@@ -25,9 +25,6 @@ export function initializeAlchemicalEngine() {
     console.error("Failed to initialize alchemize function:", error);
   }
 }
-
-// Create an alias for backward compatibility
-export const initializeAlchemicalEngine = initializeAlchemicalEngine;
 
 /**
  * A static version of the alchemize function that can be used directly

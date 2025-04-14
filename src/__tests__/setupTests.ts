@@ -9,6 +9,21 @@ jest.mock('@/services/ElementalCalculator', () => ({
       Water: 0.25,
       Earth: 0.25,
       Air: 0.25
+    }),
+    initialize: jest.fn((initialState) => {
+      console.log('Mock initialize called', initialState);
+    }),
+    updateElementalState: jest.fn((newState) => {
+      console.log('Mock updateElementalState called', newState);
+    }),
+    getInstance: jest.fn().mockReturnValue({
+      initialized: true,
+      currentBalance: {
+        Fire: 0.25,
+        Water: 0.25,
+        Earth: 0.25,
+        Air: 0.25
+      }
     })
   }
 }));

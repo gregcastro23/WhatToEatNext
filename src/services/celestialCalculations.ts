@@ -3,6 +3,7 @@ import { celestialNumerology } from '../utils/numerology';
 import { logger } from '../utils/logger';
 import { cache } from '../utils/cache';
 import type { CelestialAlignment, ElementalProperties, CelestialBody, TarotCard, EnergyStateProperties, ChakraEnergies, ZodiacSign, AspectType, PlanetaryAspect } from '../types/alchemy';
+import * as astronomiaCalculator from '../utils/astronomiaCalculator';
 
 // Tarot elemental correspondences
 const TAROT_ELEMENTAL_MAPPING: Record<string, { Element: string; Spirit: number; Essence: number; Matter: number; Substance: number }> = {
@@ -116,7 +117,7 @@ class CelestialCalculator {
   private readonly CACHE_KEY = 'current_celestial_influences';
   private readonly TAROT_CACHE_KEY = 'current_tarot_influences';
   private readonly UPDATE_INTERVAL = 1000 * 60 * 5; // 5 minutes
-  private lastCalculation: number = 0;
+  private lastCalculation = 0;
 
   private constructor() {
     this.initializeCalculations();
@@ -165,9 +166,8 @@ class CelestialCalculator {
       let planetaryPositions: Record<string, any> = {};
       try {
         // Try to use the astronomy calculator to get actual positions
-        const outsideModule = require('../utils/astronomiaCalculator');
-        if (typeof outsideModule.calculatePlanetaryPositions === 'function') {
-          planetaryPositions = outsideModule.calculatePlanetaryPositions(now);
+        if (typeof astronomiaCalculator.calculatePlanetaryPositions === 'function') {
+          planetaryPositions = astronomiaCalculator.calculatePlanetaryPositions(now);
         } else {
           throw new Error('Astronomy calculator function not available');
         }
@@ -239,9 +239,8 @@ class CelestialCalculator {
   private calculateMoonSign(date: Date): string {
     try {
       // Try to use the astronomy calculator
-      const astroModule = require('../utils/astronomiaCalculator');
-      if (typeof astroModule.calculatePlanetaryPositions === 'function') {
-        const positions = astroModule.calculatePlanetaryPositions(date);
+      if (typeof astronomiaCalculator.calculatePlanetaryPositions === 'function') {
+        const positions = astronomiaCalculator.calculatePlanetaryPositions(date);
         if (positions && positions.moon && positions.moon.sign) {
           return positions.moon.sign;
         }
@@ -714,8 +713,10 @@ class CelestialCalculator {
         // Update existing Sun with sign placement effect
         const sunIndex = dominantPlanets.findIndex(p => p.name === 'Sun');
         if (sunIndex >= 0) {
-          // @ts-ignore - Adding effect property
-          dominantPlanets[sunIndex].effect = `in ${sunPos.sign}`;
+          dominantPlanets[sunIndex] = {
+            ...dominantPlanets[sunIndex],
+            effect: `in ${sunPos.sign}`
+          };
         }
       }
     }
@@ -746,12 +747,14 @@ class CelestialCalculator {
       // Update the existing Jupiter with the new influence value
       const jupiterIndex = dominantPlanets.findIndex(p => p.name === 'Jupiter');
       if (jupiterIndex >= 0) {
-        dominantPlanets[jupiterIndex].influence = Math.max(
-          dominantPlanets[jupiterIndex].influence,
-          jupiterInfluence
-        );
-        // @ts-ignore - Adding effect property
-        dominantPlanets[jupiterIndex].effect = jupiterEffect;
+        dominantPlanets[jupiterIndex] = {
+          ...dominantPlanets[jupiterIndex],
+          influence: Math.max(
+            dominantPlanets[jupiterIndex].influence,
+            jupiterInfluence
+          ),
+          effect: jupiterEffect
+        };
       }
     }
     
@@ -765,12 +768,14 @@ class CelestialCalculator {
       // Update the existing Saturn with the new influence value
       const saturnIndex = dominantPlanets.findIndex(p => p.name === 'Saturn');
       if (saturnIndex >= 0) {
-        dominantPlanets[saturnIndex].influence = Math.max(
-          dominantPlanets[saturnIndex].influence,
-          saturnInfluence
-        );
-        // @ts-ignore - Adding effect property
-        dominantPlanets[saturnIndex].effect = saturnEffect;
+        dominantPlanets[saturnIndex] = {
+          ...dominantPlanets[saturnIndex],
+          influence: Math.max(
+            dominantPlanets[saturnIndex].influence,
+            saturnInfluence
+          ),
+          effect: saturnEffect
+        };
       }
     }
     
@@ -814,28 +819,41 @@ class CelestialCalculator {
   }
   
   /**
-   * Calculate lunar phase (simplified)
+   * Calculate lunar phase using more accurate astronomy model
    */
   private calculateLunarPhase(date: Date): string {
-    // Simplified lunar phase calculation
-    const lunarCycle = 29.53; // days
+    // Try to use the astronomy calculator if available
+    try {
+      if (typeof astronomiaCalculator !== 'undefined' && 
+          typeof astronomiaCalculator.calculateLunarPhase === 'function') {
+        const lunarPhase = astronomiaCalculator.calculateLunarPhase(date);
+        if (lunarPhase) return lunarPhase;
+      }
+    } catch (error) {
+      console.warn('Failed to use astronomy calculator for lunar phase:', error);
+    }
+    
+    // More accurate calculation using precise synodic period and reference date
+    const synodicPeriod = 29.530588853; // days - precise synodic period (new moon to new moon)
+    const msPerDay = 1000 * 60 * 60 * 24;
+    
+    // Reference date for a known new moon (January 21, 2023 at 20:53 UTC)
     const knownNewMoon = new Date('2023-01-21T20:53:00Z');
     
     // Calculate days since known new moon
-    const msPerDay = 1000 * 60 * 60 * 24;
     const daysSinceNewMoon = (date.getTime() - knownNewMoon.getTime()) / msPerDay;
     
     // Calculate current phase (0 to 1, where 0 and 1 are new moon, 0.5 is full moon)
-    const normalizedPhase = (daysSinceNewMoon % lunarCycle) / lunarCycle;
+    const normalizedPhase = (daysSinceNewMoon % synodicPeriod) / synodicPeriod;
     
-    // Determine phase name
-    if (normalizedPhase < 0.03 || normalizedPhase > 0.97) return 'new';
-    if (normalizedPhase < 0.25) return 'waxing crescent';
-    if (normalizedPhase < 0.28) return 'first quarter';
-    if (normalizedPhase < 0.47) return 'waxing gibbous';
-    if (normalizedPhase < 0.53) return 'full';
-    if (normalizedPhase < 0.72) return 'waning gibbous';
-    if (normalizedPhase < 0.78) return 'third quarter';
+    // More precise phase boundaries
+    if (normalizedPhase < 0.025 || normalizedPhase > 0.975) return 'new';
+    if (normalizedPhase < 0.235) return 'waxing crescent';
+    if (normalizedPhase < 0.265) return 'first quarter';
+    if (normalizedPhase < 0.485) return 'waxing gibbous';
+    if (normalizedPhase < 0.515) return 'full';
+    if (normalizedPhase < 0.735) return 'waning gibbous';
+    if (normalizedPhase < 0.765) return 'third quarter';
     return 'waning crescent';
   }
   
@@ -1421,7 +1439,7 @@ class CelestialCalculator {
         const value = valueMap[cardName.split('_')[0]] || 0;
         
         // Get elemental association
-        const { element, energyState } = MINOR_ARCANA_ELEMENTAL_AFFINITIES[suit as keyof typeof MINOR_ARCANA_ELEMENTAL_AFFINITIES];
+        const { element, _energyState } = MINOR_ARCANA_ELEMENTAL_AFFINITIES[suit as keyof typeof MINOR_ARCANA_ELEMENTAL_AFFINITIES];
         
         // Determine the zodiac sign based on the date
         const zodiacSign = this.determineZodiacSign(month, day);

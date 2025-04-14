@@ -45,17 +45,21 @@ export function cleanupIngredientsDatabase() {
           
           // Ensure all elemental properties are present and normalized
           elements.forEach(element => {
-            if (typeof ingredientWithAstrology.elementalProperties![element] !== 'number') {
-              ingredientWithAstrology.elementalProperties![element] = 0.25;
+            if (typeof ingredientWithAstrology.elementalProperties?.[element] !== 'number') {
+              if (ingredientWithAstrology.elementalProperties) {
+                ingredientWithAstrology.elementalProperties[element] = 0.25;
+              }
               modified = true;
             }
           });
           
           // Normalize to ensure sum = 1
-          const sum = Object.values(ingredientWithAstrology.elementalProperties).reduce((acc, val) => acc + (val || 0), 0);
+          const sum = Object.values(ingredientWithAstrology.elementalProperties ?? {}).reduce((acc, val) => acc + (val || 0), 0);
           if (Math.abs(sum - 1) > 0.01) {
             elements.forEach(element => {
-              ingredientWithAstrology.elementalProperties![element] = ingredientWithAstrology.elementalProperties![element] / sum;
+              if (ingredientWithAstrology.elementalProperties) {
+                ingredientWithAstrology.elementalProperties[element] = ingredientWithAstrology.elementalProperties[element] / sum;
+              }
             });
             modified = true;
           }

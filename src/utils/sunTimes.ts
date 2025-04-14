@@ -25,8 +25,8 @@ interface SunTimes {
  */
 export function calculateSunTimes(
   date: Date = new Date(),
-  latitude: number = 40.7128, // Default to New York
-  longitude: number = -74.0060
+  latitude = 40.7128, // Default to New York
+  longitude = -74.0060
 ): SunTimes {
   try {
     const times = SunCalc.getTimes(date, latitude, longitude);
@@ -84,8 +84,8 @@ export function formatSunTime(date: Date | null): string {
  * @returns Boolean indicating if it's currently daytime
  */
 export function isDaytime(
-  latitude: number = 40.7128,
-  longitude: number = -74.0060
+  latitude = 40.7128,
+  longitude = -74.0060
 ): boolean {
   const now = new Date();
   const times = calculateSunTimes(now, latitude, longitude);

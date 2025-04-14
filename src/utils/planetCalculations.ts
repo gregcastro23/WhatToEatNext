@@ -1,3 +1,7 @@
+// Add these imports at the top of the file
+import * as accurateAstronomy from '@/utils/accurateAstronomy';
+import * as astrologyUtils from '@/utils/astrologyUtils';
+
 // Sun calculation
 export function calculateSunPosition(date: Date = new Date()) {
   const t = (date.getTime() - new Date('2000-01-01T12:00:00Z').getTime()) / (1000 * 60 * 60 * 24 * 365.25);
@@ -60,8 +64,7 @@ export function calculateBasicPlanetaryPositions(date: Date = new Date()) {
   
   try {
     // First try to import and use the accurate astronomy module
-    const { calculateLunarNodes } = require('@/utils/accurateAstronomy');
-    const nodeData = calculateLunarNodes(date);
+    const nodeData = accurateAstronomy.calculateLunarNodes(date);
     
     // Convert longitude to sign and degree
     const northNodeSign = getSignFromLongitude(nodeData.northNode);
@@ -87,8 +90,7 @@ export function calculateBasicPlanetaryPositions(date: Date = new Date()) {
   } catch (error) {
     // If that fails, fall back to the simplified calculation
     try {
-      const { calculateLunarNodes } = require('@/utils/astrologyUtils');
-      const lunarNodes = calculateLunarNodes(date);
+      const lunarNodes = astrologyUtils.calculateLunarNodes(date);
       northNode = lunarNodes.northNode;
       southNode = lunarNodes.southNode;
     } catch (fallbackError) {

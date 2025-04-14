@@ -5,10 +5,26 @@ import Link from 'next/link';
 import cuisinesMap from '@/data/cuisines';
 import { getCurrentElementalState } from '@/utils/elementalUtils';
 
+// Define interface for sauce properties
+interface Sauce {
+  id: string;
+  name: string;
+  description?: string;
+  base?: string;
+  seasonality?: string;
+  keyIngredients?: string[];
+  culinaryUses?: string[];
+  variants?: string[];
+  elementalProperties?: Record<string, number>;
+  astrologicalInfluences?: string[];
+  preparationNotes?: string;
+  technicalTips?: string;
+}
+
 const SauceDetailsPage: NextPage = () => {
   const router = useRouter();
   const { cuisine, id } = router.query;
-  const [sauce, setSauce] = React.useState<any>(null);
+  const [sauce, setSauce] = React.useState<Sauce | null>(null);
   const [loading, setLoading] = React.useState(true);
   const [elementalState, setElementalState] = React.useState({
     Fire: 0.25,
@@ -79,7 +95,7 @@ const SauceDetailsPage: NextPage = () => {
     return (
       <div className="container mx-auto px-4 py-16">
         <h1 className="text-3xl font-bold mb-8">Sauce not found</h1>
-        <p className="text-lg mb-8">The sauce you're looking for doesn't exist or may have been removed.</p>
+        <p className="text-lg mb-8">The sauce you&apos;re looking for doesn&apos;t exist or may have been removed.</p>
         <Link href={`/cuisines/${cuisine}`} className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
           Back to {cuisine} cuisine
         </Link>

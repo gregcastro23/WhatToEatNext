@@ -101,8 +101,23 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
     if (!Array.isArray(recipes) || recipes.length === 0) {
       // If no recipes provided, try to find some using the cuisine name directly
       try {
-        console.log("No recipes passed as props, trying to find some with getBestRecipeMatches");
-        // Use the new getBestRecipeMatches function with cuisine and season criteria
+        console.log("No recipes passed as props, trying to find some with getRecipesForCuisineMatch");
+        
+        // First try using getRecipesForCuisineMatch which now has direct LocalRecipeService integration
+        const matchedCuisineRecipes = getRecipesForCuisineMatch(
+          cuisine || '', 
+          [], // Pass empty array to trigger LocalRecipeService use
+          8
+        );
+        
+        console.log(`getRecipesForCuisineMatch returned ${matchedCuisineRecipes.length} recipes for ${cuisine}`);
+        
+        if (matchedCuisineRecipes.length > 0) {
+          return matchedCuisineRecipes;
+        }
+        
+        // If no recipes from getRecipesForCuisineMatch, try getBestRecipeMatches
+        console.log("Trying getBestRecipeMatches as fallback");
         matchedRecipes = getBestRecipeMatches({
           cuisine: cuisine || '',
           season: (elementalState?.season as any) || 'all',
@@ -116,21 +131,28 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
       
       // If still no recipes, try LocalRecipeService directly
       if (matchedRecipes.length === 0) {
-        console.log("Trying LocalRecipeService directly");
-        const localRecipes = LocalRecipeService.getRecipesByCuisine(cuisine || '');
-        console.log(`LocalRecipeService returned ${localRecipes.length} recipes`);
+        console.log("Trying LocalRecipeService directly as last resort");
         
-        // If we have local recipes, use them
-        if (localRecipes.length > 0) {
-          return localRecipes.map(recipe => ({
-            ...recipe,
-            matchScore: 0.8 // Default high score for local recipes
-          }));
+        try {
+          const { LocalRecipeService } = require('../../services/LocalRecipeService');
+          const localRecipes = LocalRecipeService.getRecipesByCuisine(cuisine || '');
+          console.log(`LocalRecipeService returned ${localRecipes.length} recipes`);
+          
+          // If we have local recipes, use them
+          if (localRecipes.length > 0) {
+            return localRecipes.map(recipe => ({
+              ...recipe,
+              matchScore: 0.8, // Default high score for local recipes
+              matchPercentage: 80
+            }));
+          }
+        } catch (error) {
+          console.error('Error accessing LocalRecipeService directly:', error);
         }
       } else {
         return matchedRecipes;
       }
-    } else {
+    }
       // If recipes are provided, filter and sort them
       console.log("Filtering passed recipes:", recipes.length);
       return recipes
@@ -186,21 +208,52 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
 
   if (!cuisineRecipes.length) {
     console.log(`No recipes found for cuisine ${cuisine}`);
-    return (
-      <div className="mb-8">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-bold capitalize">
-            {cuisine.replace('_', ' ')} Cuisine
-          </h2>
-          <span className="text-sm text-gray-600">
-            No recipes available
-          </span>
-        </div>
-        <div className="bg-gray-50 rounded-lg p-4 text-center text-gray-500">
-          No recipes available for this cuisine at the moment
-        </div>
-      </div>
-    );
+    
+    // Special case for African and American cuisines
+    const isSpecialCase = cuisine?.toLowerCase() === 'african' || cuisine?.toLowerCase() === 'american';
+    if (isSpecialCase) {
+      console.log(`Special case for ${cuisine}, trying direct import...`);
+      // Last-ditch effort to find recipes for these problematic cuisines
+      try {
+        // Try direct access with different capitalizations
+        const importedCuisine = cuisinesMap[cuisine] || 
+                              cuisinesMap[cuisine?.toLowerCase()] || 
+                              cuisinesMap[cuisine?.charAt(0)?.toUpperCase() + cuisine?.slice(1)?.toLowerCase()];
+                              
+        if (importedCuisine && importedCuisine.dishes) {
+          console.log(`Found cuisine via direct access: ${cuisine}`);
+          const specialRecipes = [];
+          
+          // Try to extract some recipes directly
+          Object.entries(importedCuisine.dishes).forEach(([mealType, seasonalDishes]) => {
+            if (seasonalDishes && seasonalDishes.all && Array.isArray(seasonalDishes.all)) {
+              console.log(`Found ${seasonalDishes.all.length} recipes for ${mealType}`);
+              specialRecipes.push(...seasonalDishes.all.slice(0, 4));
+            }
+          });
+          
+          if (specialRecipes.length > 0) {
+            console.log(`Found ${specialRecipes.length} special case recipes for ${cuisine}`);
+            // Format recipes for display
+            return (
+              <div className="mb-8">
+                <h2 className="text-2xl font-bold capitalize mb-4">{cuisine.replace('_', ' ')} Cuisine</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {specialRecipes.map((recipe, i) => (
+                    <div key={i} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                      <h3 className="text-lg font-medium">{recipe.name}</h3>
+                      <p className="text-gray-600 text-sm mt-1">{recipe.description}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            );
+          }
+        }
+      } catch (error) {
+        console.error(`Error finding special case recipes for ${cuisine}:`, error);
+      }
+    }
   }
 
   const renderSeasonalInfo = (recipe: Recipe) => (
@@ -357,6 +410,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
     );
   };
 
+  // If all attempts failed, show the fallback message
   return (
     <div className="mb-8">
       <div className="flex justify-between items-center mb-4">
@@ -364,105 +418,19 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
           {cuisine.replace('_', ' ')} Cuisine
         </h2>
         <span className="text-sm text-gray-600">
-          {cuisineRecipes.length} recipes available
+          No recipes available
         </span>
       </div>
-      
-      {process.env.NODE_ENV !== 'production' && (
-        <div className="mb-4">
-          <button 
-            onClick={() => {
-              // Debug button to manually fetch recipes
-              const localRecipes = LocalRecipeService.getRecipesByCuisine(cuisine);
-              console.log(`Manually fetched ${localRecipes.length} recipes:`, localRecipes);
-              
-              // Also check direct import
-              try {
-                const importedCuisine = cuisinesMap[cuisine as any];
-                console.log(`Direct cuisinesMap access for ${cuisine}:`, importedCuisine);
-                
-                if (importedCuisine && importedCuisine.dishes) {
-                  console.log(`Dishes for ${cuisine}:`, Object.keys(importedCuisine.dishes));
-                  
-                  // Check breakfast dishes
-                  if (importedCuisine.dishes.breakfast) {
-                    console.log(`Breakfast dishes:`, Object.keys(importedCuisine.dishes.breakfast));
-                    
-                    // Check 'all' season
-                    if (importedCuisine.dishes.breakfast.all) {
-                      console.log(`All season breakfast dishes:`, importedCuisine.dishes.breakfast.all.length);
-                    }
-                  }
-                  
-                  // Check lunch dishes
-                  if (importedCuisine.dishes.lunch) {
-                    console.log(`Lunch dishes:`, Object.keys(importedCuisine.dishes.lunch));
-                    
-                    // Check 'all' season
-                    if (importedCuisine.dishes.lunch.all) {
-                      console.log(`All season lunch dishes:`, importedCuisine.dishes.lunch.all.length);
-                    }
-                  }
-                  
-                  // Check dinner dishes
-                  if (importedCuisine.dishes.dinner) {
-                    console.log(`Dinner dishes:`, Object.keys(importedCuisine.dishes.dinner));
-                    
-                    // Check 'all' season
-                    if (importedCuisine.dishes.dinner.all) {
-                      console.log(`All season dinner dishes:`, importedCuisine.dishes.dinner.all.length);
-                    }
-                  }
-                }
-              } catch (error) {
-                console.error("Error accessing cuisine directly:", error);
-              }
-            }}
-            className="px-4 py-2 bg-red-100 text-red-800 rounded hover:bg-red-200 text-sm font-mono"
-          >
-            Debug: Fetch Recipes
-          </button>
-        </div>
-      )}
-      
-      {/* Cuisine relationship information */}
-      {isRegionalVariant && parentCuisineName && (
-        <div className="mb-4 p-3 bg-blue-50 rounded-lg text-blue-700 text-sm">
-          <span className="font-medium">{cuisine}</span> is a regional variation of <span className="font-medium">{parentCuisineName}</span> cuisine
-        </div>
-      )}
-      
-      {hasRegionalVariants && regionalVariantNames.length > 0 && (
-        <div className="mb-4 p-3 bg-green-50 rounded-lg text-green-700 text-sm">
-          <span className="font-medium">Regional variations shown:</span> {regionalVariantNames.join(', ')}
-        </div>
-      )}
-      
-      {/* Traditional Sauces Section */}
-      {traditionalSauces.length > 0 && (
-        <div className="mb-8">
-          <h3 className="text-xl font-semibold mb-4">Traditional Sauces</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {traditionalSauces.map(renderSauceCard)}
-          </div>
-        </div>
-      )}
-      
-      {/* Recipes Section */}
-      <h3 className="text-xl font-semibold mb-4">Signature Recipes</h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {cuisineRecipes.map(renderRecipeCard)}
-      </div>
-      
-      {/* View more/less recipes button */}
-      {recipes.length > 4 && (
-        <button
-          onClick={() => setViewAllRecipes(!viewAllRecipes)}
-          className="mt-4 mx-auto block px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
+      <div className="bg-gray-50 rounded-lg p-4 text-center text-gray-500">
+        <p>No recipes available for this cuisine at the moment</p>
+        <p className="mt-2 text-sm">Please try another cuisine or check back later</p>
+        <button 
+          className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+          onClick={() => window.location.reload()}
         >
-          {viewAllRecipes ? 'Show Fewer Recipes' : 'View All Recipes'}
+          Refresh Page
         </button>
-      )}
+      </div>
     </div>
   );
 }; 

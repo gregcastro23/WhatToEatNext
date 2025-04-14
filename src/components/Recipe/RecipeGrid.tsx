@@ -64,10 +64,15 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
     const standardizedRecipe = recipeElementalService.standardizeRecipe(recipe);
     
     // Use the elemental service to calculate similarity
-    const similarity = recipeElementalService.calculateSimilarity(
+    let similarity = recipeElementalService.calculateSimilarity(
       standardizedRecipe.elementalProperties,
       state.elementalPreference
     );
+    
+    // Ensure similarity is a valid number
+    if (similarity === undefined || isNaN(similarity)) {
+      similarity = 0.5; // Default to 50% if calculation fails
+    }
     
     // Convert to percentage with enhanced scaling for better user experience
     // Use a sigmoid-like function to boost middle-range scores
@@ -249,6 +254,15 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
                   season: typeof recipe.season === 'string' ? [recipe.season] : recipe.season,
                   // Ensure mealType is always a string array
                   mealType: typeof recipe.mealType === 'string' ? [recipe.mealType] : recipe.mealType,
+                  // Ensure standardized fields are passed to the recipe card
+                  servingSize: recipe.servingSize || recipe.numberOfServings,
+                  substitutions: recipe.substitutions,
+                  tools: recipe.tools,
+                  spiceLevel: recipe.spiceLevel,
+                  nutrition: recipe.nutrition,
+                  preparationNotes: recipe.preparationNotes,
+                  technicalTips: recipe.technicalTips,
+                  // Ensure ingredients have the correct format
                   ingredients: recipe.ingredients.map(ingredient => ({
                     ...ingredient,
                     // Ensure category is a string if it's undefined

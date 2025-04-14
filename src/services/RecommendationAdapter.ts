@@ -1,13 +1,22 @@
 import { ElementalItem, AlchemicalItem } from '../calculations/alchemicalTransformation';
 import { ElementalCharacter } from '../constants/planetaryElements';
 import { 
-  LunarPhase, 
   LunarPhaseWithSpaces,
   PlanetaryAspect,
 } from '../types/alchemy';
 import { transformItemsWithPlanetaryPositions } from '../utils/elementalUtils';
 import { calculatePlanetaryPositions, calculateLunarPhase } from '../utils/astrologyUtils';
 import { convertToLunarPhase } from '../utils/lunarUtils';
+import { logger } from '@/utils/logger';
+
+// Define PlanetData interface to replace all 'any' types
+interface PlanetData {
+  sign?: string;
+  degree?: number;
+  isRetrograde?: boolean;
+  exactLongitude?: number;
+  speed?: number;
+}
 
 // Define TransformedItem type
 interface TransformedItem extends AlchemicalItem {
@@ -28,7 +37,7 @@ export class RecommendationAdapter {
   private ingredients: ElementalItem[];
   private methods: ElementalItem[];
   private cuisines: ElementalItem[];
-  private planetaryPositions: Record<string, any>;
+  private planetaryPositions: Record<string, PlanetData>;
   private isDaytime: boolean;
   private currentZodiac: string | null;
   private lunarPhase: LunarPhaseWithSpaces | null;
@@ -39,8 +48,8 @@ export class RecommendationAdapter {
   private tarotPlanetaryBoosts?: Record<string, number>;
   private aspects: PlanetaryAspect[] = [];
   private retrogradeStatus: Record<string, boolean> = {};
-  private convertedPositions: Record<string, any> = {};
-  private alchemicalResult: any;
+  private convertedPositions: Record<string, PlanetData> = {};
+  private alchemicalResult: Record<string, number>;
   
   constructor(
     ingredients: ElementalItem[],
@@ -54,14 +63,20 @@ export class RecommendationAdapter {
     this.isDaytime = true;
     this.currentZodiac = null;
     this.lunarPhase = null;
+    this.alchemicalResult = {
+      spirit: 0,
+      essence: 0,
+      matter: 0,
+      substance: 0,
+    };
   }
   
   /**
    * Initialize the adapter with planetary positions, daytime status, and other context
    */
   initialize(
-    planetaryPositions: Record<string, any>,
-    isDaytime: boolean = true,
+    planetaryPositions: Record<string, PlanetData>,
+    isDaytime = true,
     currentZodiac: string | null = null,
     lunarPhase: LunarPhaseWithSpaces | null = null,
     tarotElementBoosts?: Record<ElementalCharacter, number>,
@@ -106,6 +121,80 @@ export class RecommendationAdapter {
     
     // Transform ingredients, methods, and cuisines
     this.transformItems();
+  }
+
+  /**
+   * Initialize from current planetary positions
+   * Uses astrologyUtils to calculate positions automatically
+   */
+  async initializeFromCurrentPositions(): Promise<void> {
+    try {
+      // Calculate real-time planetary positions
+      const positions = await calculatePlanetaryPositions();
+      
+      // Calculate current lunar phase
+      const lunarPhase = await calculateLunarPhase(new Date());
+      
+      // Convert to format expected by adapter
+      const lunarPhaseFormatted = convertToLunarPhase(lunarPhase);
+      
+      // Calculate if it's currently daytime
+      const now = new Date();
+      const hours = now.getHours();
+      const isDaytime = hours >= 6 && hours < 18;
+      
+      // Get current sun sign as current zodiac
+      const sunPosition = positions['sun'];
+      const currentZodiac = sunPosition?.sign || null;
+      
+      // Initialize adapter with calculated values
+      this.initialize(
+        positions,
+        isDaytime,
+        currentZodiac,
+        lunarPhaseFormatted
+      );
+      
+      logger.info('Initialized adapter with current planetary positions');
+    } catch (error) {
+      logger.error('Error initializing from current positions:', error);
+    }
+  }
+  
+  /**
+   * Transform items using planetary positions directly
+   * This uses transformItemsWithPlanetaryPositions utility directly
+   */
+  transformItemsWithCurrentPositions(): void {
+    try {
+      // Transform ingredients directly
+      this.transformedIngredients = transformItemsWithPlanetaryPositions(
+        this.ingredients,
+        this.planetaryPositions,
+        this.isDaytime,
+        this.currentZodiac || undefined
+      );
+      
+      // Transform cooking methods
+      this.transformedMethods = transformItemsWithPlanetaryPositions(
+        this.methods,
+        this.planetaryPositions,
+        this.isDaytime,
+        this.currentZodiac || undefined
+      );
+      
+      // Transform cuisines
+      this.transformedCuisines = transformItemsWithPlanetaryPositions(
+        this.cuisines,
+        this.planetaryPositions,
+        this.isDaytime,
+        this.currentZodiac || undefined
+      );
+      
+      logger.info('Items transformed using direct planetary positions');
+    } catch (error) {
+      logger.error('Error transforming items with planetary positions:', error);
+    }
   }
 
   /**
@@ -258,7 +347,7 @@ export class RecommendationAdapter {
         this.currentZodiac
       );
     } catch (error) {
-      console.error('Error transforming items:', error);
+      logger.error('Error transforming items:', error);
       
       // Create empty transformed arrays
       this.transformedIngredients = [];
@@ -270,29 +359,29 @@ export class RecommendationAdapter {
   /**
    * Get planet data from the planetInfo object
    */
-  private getPlanetData(planet: string): any {
+  private getPlanetData(planet: string): Record<string, unknown> {
     const planetKey = planet.charAt(0).toUpperCase() + planet.slice(1).toLowerCase();
-    return planetInfo[planetKey as keyof typeof planetInfo];
+    return planetInfo[planetKey as keyof typeof planetInfo] || {};
   }
   
   /**
    * Get recommended ingredients based on current planetary alignments
    */
-  getRecommendedIngredients(limit: number = 10): AlchemicalItem[] {
+  getRecommendedIngredients(limit = 10): AlchemicalItem[] {
     return this.getSortedItems(this.transformedIngredients, limit);
   }
   
   /**
    * Get recommended cooking methods based on current planetary alignments
    */
-  getRecommendedCookingMethods(limit: number = 5): AlchemicalItem[] {
+  getRecommendedCookingMethods(limit = 5): AlchemicalItem[] {
     return this.getSortedItems(this.transformedMethods, limit);
   }
   
   /**
    * Get recommended cuisines based on current planetary alignments
    */
-  getRecommendedCuisines(limit: number = 5): AlchemicalItem[] {
+  getRecommendedCuisines(limit = 5): AlchemicalItem[] {
     return this.getSortedItems(this.transformedCuisines, limit);
   }
   
@@ -574,26 +663,24 @@ export class RecommendationAdapter {
   getAllTransformedCuisines(): AlchemicalItem[] {
     return this.transformedCuisines;
   }
-}
 
-/**
- * Helper function to get the elemental character associated with a planet
- * @param planet The planet name
- * @returns The associated elemental character or undefined
- */
-function getPlanetaryElement(planet: string): ElementalCharacter | undefined {
-  const planetMap: Record<string, ElementalCharacter> = {
-    'Sun': 'Fire',
-    'Moon': 'Water',
-    'Mercury': 'Air',
-    'Venus': 'Earth',
-    'Mars': 'Fire',
-    'Jupiter': 'Air',
-    'Saturn': 'Earth',
-    'Uranus': 'Air',
-    'Neptune': 'Water',
-    'Pluto': 'Water'
-  };
-  
-  return planetMap[planet];
+  /**
+   * Get a planetary element for a given planet
+   */
+  getPlanetaryElement(planet: string): ElementalCharacter | undefined {
+    const planetMap: Record<string, ElementalCharacter> = {
+      'Sun': 'Fire',
+      'Moon': 'Water',
+      'Mercury': 'Air',
+      'Venus': 'Earth',
+      'Mars': 'Fire',
+      'Jupiter': 'Air',
+      'Saturn': 'Earth',
+      'Uranus': 'Air',
+      'Neptune': 'Water',
+      'Pluto': 'Water'
+    };
+    
+    return planetMap[planet];
+  }
 } 

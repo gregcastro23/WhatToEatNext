@@ -19,7 +19,9 @@ interface RecommendationCriteria {
 export class RecipeRecommender {
   private static instance: RecipeRecommender;
 
-  private constructor() {}
+  private constructor() {
+    // Private constructor to enforce singleton pattern
+  }
 
   static getInstance(): RecipeRecommender {
     if (!RecipeRecommender.instance) {
@@ -186,7 +188,7 @@ export class RecipeRecommender {
     const isAriesSeason = (month === 2 && day >= 21) || (month === 3 && day <= 19); // March 21 - April 19
     
     // Standard element matching
-    let baseAlignment = this.calculateElementMatch(recipeElements, target);
+    const baseAlignment = this.calculateElementMatch(recipeElements, target);
     
     // Boost for Mars-influenced recipes during Aries season
     let finalAlignment = baseAlignment;

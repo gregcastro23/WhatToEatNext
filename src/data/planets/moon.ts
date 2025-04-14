@@ -1,4 +1,5 @@
 import { PlanetData, MoonSpecificData } from './types';
+export type { MoonSpecificData };
 
 const moonData: PlanetData = {
   'Dignity Effect': {

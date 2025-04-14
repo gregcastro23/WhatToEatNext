@@ -69,7 +69,7 @@ export const getProteinsByCookingMethod = (method: string): Record<string, Ingre
 };
 
 export const getProteinsByNutrition = (
-  minProtein: number = 0,
+  minProtein = 0,
   maxFat?: number
 ): Record<string, IngredientMapping> => {
   return Object.entries(proteins)
@@ -119,8 +119,8 @@ export const getProteinSubstitutes = (proteinName: string): Record<string, numbe
         protein.nutritionalContent.protein
       );
       
-      // Using non-null assertion since we've checked protein.qualities above
-      const proteinQualities = protein.qualities!;
+      // Using proper null check instead of non-null assertion
+      const proteinQualities = protein.qualities || [];
       
       const textureScore = value.qualities ?
         value.qualities

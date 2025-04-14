@@ -259,7 +259,9 @@ export function useAstrologicalState(): AstrologyHookData {
     } catch (error) {
       logger.error('Failed to calculate planetary hour', error);
       setCurrentPlanetaryHour(null);
-      return () => {};
+      return () => {
+        // Intentionally empty - no cleanup needed in error case
+      };
     }
   }, []);
   

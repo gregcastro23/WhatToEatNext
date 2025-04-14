@@ -1,9 +1,15 @@
 /**
+ * Centralized Nutrition Type Definitions
+ * This file contains all nutrition-related type definitions
+ */
+
+/**
  * Represents a nutritional profile for food items.
  * This interface defines the structure of nutritional data used throughout the application.
  */
 export interface NutritionalProfile {
   // Macronutrients
+  calories?: number;
   macros?: {
     calories?: number;
     protein?: number;
@@ -13,43 +19,70 @@ export interface NutritionalProfile {
     sugar?: number;
     [key: string]: number | undefined;
   };
+  protein?: number;
+  carbs?: number;
+  fat?: number;
+  fiber?: number;
+  sugar?: number;
   
   // Vitamins
-  vitamins?: {
-    vitaminA?: number;
-    vitaminC?: number;
-    vitaminD?: number;
-    vitaminE?: number;
-    vitaminK?: number;
-    thiamin?: number;
-    riboflavin?: number;
-    niacin?: number;
-    b6?: number;
-    b12?: number;
-    folate?: number;
-    [key: string]: number | undefined;
-  };
+  vitamins?: Record<string, number> | string[];
   
   // Minerals
-  minerals?: {
-    calcium?: number;
-    iron?: number;
-    magnesium?: number;
-    phosphorus?: number;
-    potassium?: number;
-    sodium?: number;
-    zinc?: number;
-    [key: string]: number | undefined;
-  };
+  minerals?: Record<string, number> | string[];
   
   // Phytonutrients and other nutritional components
-  phytonutrients?: {
-    antioxidants?: number;
-    flavonoids?: number;
-    carotenoids?: number;
-    [key: string]: number | undefined;
-  };
+  phytonutrients?: Record<string, number>;
   
   // Allow for additional nutrition categories
-  [key: string]: Record<string, number | undefined> | undefined;
+  [key: string]: any;
+}
+
+/**
+ * Simplified nutrition data structure used by filter services
+ */
+export interface NutritionData {
+  protein_g?: number;
+  fiber_g?: number;
+  vitamins?: string[];
+  minerals?: string[];
+  vitamin_density?: number;
+  calories?: number;
+  carbs?: number;
+  fats?: number;
+  sodium?: number;
+  sugar?: number;
+}
+
+/**
+ * Interface for Food Data Central API food items
+ */
+export interface FoodDataCentralFood {
+  foodNutrients: Array<{
+    nutrientNumber: string;
+    nutrientName?: string;
+    value?: number;
+  }>;
+  [key: string]: string | number | boolean | object | null | undefined;
+}
+
+/**
+ * Nutritional filter parameters for ingredient filtering
+ */
+export interface NutritionalFilter {
+  minProtein?: number;
+  maxProtein?: number;
+  minFiber?: number;
+  maxFiber?: number;
+  minCalories?: number;
+  maxCalories?: number;
+  minCarbs?: number;
+  maxCarbs?: number;
+  minFat?: number;
+  maxFat?: number;
+  vitamins?: string[];
+  minerals?: string[];
+  highProtein?: boolean;
+  lowCarb?: boolean;
+  lowFat?: boolean;
 } 

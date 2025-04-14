@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import Header from '@/components/Header';
-import RecipeComponent from '@/components/Recipe';
-import type { Recipe } from '@/types/recipe';
-import { LocationButton } from '@/components/LocationButton';
+import { Recipe } from '@/types/recipe';
 import { AlchemicalProvider } from '@/contexts/AlchemicalContext/provider';
 import ElementalEnergyDisplay from '@/components/ElementalEnergyDisplay';
-import AlchemicalRecommendations from '@/components/AlchemicalRecommendations';
 import CookingMethods from '@/components/CookingMethods';
 import CuisineRecommender from '@/components/CuisineRecommender';
 import PlanetaryPositionInitializer from '@/components/PlanetaryPositionInitializer';
@@ -22,7 +18,7 @@ const FoodRecommender = dynamic(
 );
 
 // Define a function to create default ingredients since the import is failing
-function createDefaultIngredient(name: string = '') {
+function createDefaultIngredient(name = '') {
   return {
     id: `ingredient-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
     name,
@@ -52,7 +48,7 @@ interface NutritionInfo {
   minerals: string[];
 }
 
-// Define a default recipe that conforms to the Recipe interface
+// Example recipe, intentionally unused but kept as reference
 const defaultRecipe: Recipe = {
   id: 'default',
   name: "Select a Recipe",
@@ -72,10 +68,15 @@ const defaultRecipe: Recipe = {
   }
 };
 
+// Define the available components for navigation
+type ComponentName = 'foodRecommender' | 'elementalEnergy' | 'moonDisplay' | 'sunDisplay' | 'astrologicalClock' | 'cuisineRecommender' | 'cookingMethods';
+
 function App() {
+  // State variables with underscore prefix are intentionally kept for future use
   const [isInitialized, setIsInitialized] = useState(false);
   const [userLocation, setUserLocation] = useState<GeolocationCoordinates | null>(null);
   const [servings, setServings] = useState(4);
+  const [activeComponent, setActiveComponent] = useState<ComponentName>('foodRecommender');
   const [recipe, setRecipe] = useState<Recipe & { nutrition: NutritionInfo }>({
     id: 'custom-recipe-1',
     name: 'Example Recipe',
@@ -119,37 +120,99 @@ function App() {
     setIsInitialized(true);
   }, []);
 
+  // Servings handler - kept for future use
   const handleServingsChange = (newServings: number) => {
     setServings(newServings);
   };
 
+  // Navigation component definitions
+  const navigationItems: { name: string; id: ComponentName }[] = [
+    { name: 'Food Recommender', id: 'foodRecommender' },
+    { name: 'Cuisine', id: 'cuisineRecommender' },
+    { name: 'Cooking Methods', id: 'cookingMethods' },
+    { name: 'Elemental Energy', id: 'elementalEnergy' },
+    { name: 'Moon', id: 'moonDisplay' },
+    { name: 'Sun', id: 'sunDisplay' },
+    { name: 'Astrological Clock', id: 'astrologicalClock' }
+  ];
+
   return (
     <AlchemicalProvider>
-      <div className="w-full px-4 py-8">
-        <h1 className="text-3xl font-bold mb-6 text-center">What To Eat Next</h1>
+      <div className="w-full px-4 py-4">
+        <h1 className="text-3xl font-bold mb-4 text-center">What To Eat Next</h1>
         
         {/* Planetary position initializer helps fetch position data */}
         <PlanetaryPositionInitializer />
         
-        {/* Food Recommender section - full width */}
-        <div className="w-full mb-6">
-          <FoodRecommender />
+        {/* Navigation bar for mobile */}
+        <div className="w-full mb-4 overflow-x-auto">
+          <div className="flex flex-row flex-nowrap space-x-2 pb-2">
+            {navigationItems.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => setActiveComponent(item.id)}
+                className={`px-3 py-2 text-sm rounded-lg whitespace-nowrap ${
+                  activeComponent === item.id
+                    ? 'bg-blue-500 text-white'
+                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                }`}
+              >
+                {item.name}
+              </button>
+            ))}
+          </div>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Left column */}
-          <div className="space-y-6">
-            <ElementalEnergyDisplay />
-            <MoonDisplay />
-            <SunDisplay />
-            <AstrologicalClock />
-          </div>
+        {/* Content area - only show active component */}
+        <div className="w-full">
+          {/* Food Recommender */}
+          {activeComponent === 'foodRecommender' && (
+            <div className="mb-6">
+              <FoodRecommender />
+            </div>
+          )}
           
-          {/* Right column */}
-          <div className="space-y-6">
-            <CuisineRecommender />
-            <CookingMethods />
-          </div>
+          {/* Elemental Energy Display */}
+          {activeComponent === 'elementalEnergy' && (
+            <div className="mb-6">
+              <ElementalEnergyDisplay />
+            </div>
+          )}
+          
+          {/* Moon Display */}
+          {activeComponent === 'moonDisplay' && (
+            <div className="mb-6">
+              <MoonDisplay />
+            </div>
+          )}
+          
+          {/* Sun Display */}
+          {activeComponent === 'sunDisplay' && (
+            <div className="mb-6">
+              <SunDisplay />
+            </div>
+          )}
+          
+          {/* Astrological Clock */}
+          {activeComponent === 'astrologicalClock' && (
+            <div className="mb-6">
+              <AstrologicalClock />
+            </div>
+          )}
+          
+          {/* Cuisine Recommender */}
+          {activeComponent === 'cuisineRecommender' && (
+            <div className="mb-6">
+              <CuisineRecommender />
+            </div>
+          )}
+          
+          {/* Cooking Methods */}
+          {activeComponent === 'cookingMethods' && (
+            <div className="mb-6">
+              <CookingMethods />
+            </div>
+          )}
         </div>
       </div>
     </AlchemicalProvider>

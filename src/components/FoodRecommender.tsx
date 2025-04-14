@@ -4,7 +4,10 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useAstrologicalState } from '@/context/AstrologicalContext';
 import { useChakraInfluencedFood } from '@/hooks/useChakraInfluencedFood';
 import styles from './FoodRecommender.module.css';
-import { ChakraEnergies } from '@/types/alchemy';
+import { 
+  ChakraEnergies, 
+  Planet as AlchemyPlanet
+} from '@/types/alchemy';
 import { 
   CHAKRA_SYMBOLS, 
   CHAKRA_BIJA_MANTRAS,
@@ -16,7 +19,6 @@ import {
 import { CHAKRA_BALANCING_FOODS } from '@/constants/chakraMappings';
 import { isChakraKey } from '@/utils/typeGuards';
 import { PlanetaryHourCalculator } from '@/lib/PlanetaryHourCalculator';
-import { Planet as AlchemyPlanet } from '@/types/alchemy';
 import { useAlchemicalState } from '../context/AlchemicalContext';
 import ElementalCalculator from '../utils/ElementalCalculator';
 import IngredientsLibrary from './IngredientsLibrary';
@@ -34,6 +36,7 @@ import { herbsCollection, oilsCollection, vinegarsCollection, grainsCollection }
 import { ChevronUpIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
 import { ChevronUpIcon as SolidChevronUpIcon, ChevronDownIcon as SolidChevronDownIcon } from '@heroicons/react/solid';
 import { Ingredient } from '../types/ingredients';
+import IngredientDisplay from './FoodRecommender/IngredientDisplay';
 
 // Type guard functions
 function isNumber(value: unknown): value is number {
@@ -149,6 +152,18 @@ const CATEGORY_DISPLAY_COUNTS: Record<string, number> = {
   vinegars: 10
 };
 
+// Define category icons
+const CATEGORY_ICONS: Record<string, string> = {
+  proteins: '🥩',
+  vegetables: '🥦',
+  grains: '🌾',
+  fruits: '🍎',
+  herbs: '🌿',
+  spices: '🧂',
+  oils: '🫒',
+  vinegars: '🧪'
+};
+
 // Score display component
 const ScoreDisplay = ({ score }: { score?: number }) => {
   if (!score && score !== 0) return null;
@@ -204,6 +219,54 @@ export default function FoodRecommender() {
     refreshRecommendations,
   } = useChakraInfluencedFood({ limit: 300 }); // Increased from 200 to 300 to ensure all categories have plenty of items
   
+  // State for selected ingredient
+  const [selectedIngredient, setSelectedIngredient] = useState<Ingredient | null>(null);
+  
+  // State for expanded categories
+  const [expanded, setExpanded] = useState<Record<string, boolean>>({});
+  
+  // State for active category (for navigation highlighting)
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
+
+  // Track which category is currently in view
+  useEffect(() => {
+    const handleScroll = () => {
+      const categories = Object.keys(categorizedRecommendations);
+      if (categories.length === 0) return;
+
+      // Find the category that's most visible in the viewport
+      for (const category of categories) {
+        const element = document.getElementById(category);
+        if (!element) continue;
+
+        const rect = element.getBoundingClientRect();
+        // Consider an element in view if its top is in the top half of the viewport
+        if (rect.top < window.innerHeight / 2 && rect.bottom > 0) {
+          setActiveCategory(category);
+          break;
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    // Initial check
+    handleScroll();
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [categorizedRecommendations]);
+
+  // Function to scroll to category
+  const scrollToCategory = (category: string, e: React.MouseEvent) => {
+    e.preventDefault();
+    const element = document.getElementById(category);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+      setActiveCategory(category);
+    }
+  };
+  
   // Planetary hours calculation
   const [currentPlanetaryHour, setCurrentPlanetaryHour] = useState<string | null>(null);
   const [planetaryHourChakras, setPlanetaryHourChakras] = useState<string[]>([]);
@@ -253,10 +316,6 @@ export default function FoodRecommender() {
   // Get current zodiac from recommendations if available
   const currentZodiac = recommendations[0]?.astrologicalProfile?.favorableZodiac?.[0] || 'aries';
   
-  // Score breakdowns for the selected ingredient
-  const [selectedIngredient, setSelectedIngredient] = useState<any>(null);
-  const [expanded, setExpanded] = useState<Record<string, boolean>>({});
-
   // Remove duplicate recommendations
   const uniqueRecommendations = useMemo(() => {
     const uniqueNames = new Set();
@@ -630,7 +689,27 @@ export default function FoodRecommender() {
   return (
     <div className="p-4 max-w-7xl mx-auto">
       <h2 className="text-2xl font-bold mb-2 text-center">Recommended Ingredients</h2>
-      <p className="text-center text-gray-600 mb-6">Click on any ingredient to view detailed information</p>
+      <p className="text-center text-gray-600 mb-2">Click on any ingredient to view detailed information</p>
+      
+      {/* Category navigation links */}
+      <div className={styles.categoryNav}>
+        {Object.entries(categorizedRecommendations).map(([category]) => {
+          const displayName = CATEGORY_DISPLAY_NAMES[category] || category.charAt(0).toUpperCase() + category.slice(1);
+          const isActive = category === activeCategory;
+          const icon = CATEGORY_ICONS[category] || '🍽️';
+          
+          return (
+            <a 
+              key={`nav-${category}`}
+              href={`#${category}`}
+              onClick={(e) => scrollToCategory(category, e)}
+              className={`${styles.categoryLink} ${isActive ? styles.activeCategoryLink : styles.inactiveCategoryLink}`}
+            >
+              <span className="mr-1">{icon}</span> {displayName}
+            </a>
+          );
+        })}
+      </div>
       
       {/* Recommendations by category */}
       <div className="grid grid-cols-1 gap-6">
@@ -641,7 +720,7 @@ export default function FoodRecommender() {
           const itemsToShow = isExpanded ? items : items.slice(0, displayCount);
           
           return (
-            <div key={category} className="bg-white rounded-lg shadow-md p-4">
+            <div id={category} key={category} className="bg-white rounded-lg shadow-md p-4 scroll-mt-20">
               <div 
                 className="flex justify-between items-center cursor-pointer mb-2"
                 onClick={(e) => toggleCategoryExpansion(category, e)}

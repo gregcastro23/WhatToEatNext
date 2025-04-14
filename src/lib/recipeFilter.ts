@@ -67,21 +67,21 @@ export const recipeFilter = {
     // Apply prep time filter
     if (typeof filters.maxPrepTime === 'number') {
       filteredRecipes = filteredRecipes.filter(recipe =>
-        typeof recipe.prepTime === 'number' && recipe.prepTime <= filters.maxPrepTime!
+        typeof recipe.prepTime === 'number' && recipe.prepTime <= filters.maxPrepTime
       );
     }
 
     // Apply spiciness filter
     if (typeof filters.spiciness === 'number') {
       filteredRecipes = filteredRecipes.filter(recipe =>
-        typeof recipe.spiciness === 'number' && recipe.spiciness <= filters.spiciness!
+        typeof recipe.spiciness === 'number' && recipe.spiciness <= filters.spiciness
       );
     }
 
     // Apply complexity filter
     if (typeof filters.complexity === 'number') {
       filteredRecipes = filteredRecipes.filter(recipe =>
-        typeof recipe.complexity === 'number' && recipe.complexity <= filters.complexity!
+        typeof recipe.complexity === 'number' && recipe.complexity <= filters.complexity
       );
     }
 
@@ -93,7 +93,7 @@ export const recipeFilter = {
           ...recipe,
           matchScore: calculateElementalHarmony(
             recipeElementalProps, 
-            filters.elementalState!
+            filters.elementalState
           ).elementalHarmony
         };
       }).sort((a, b) => (b.matchScore || 0) - (a.matchScore || 0));

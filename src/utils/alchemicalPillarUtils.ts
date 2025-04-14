@@ -209,8 +209,8 @@ export function applyPillarTransformation(
   // Ensure all values remain within reasonable bounds
   ['spirit', 'essence', 'matter', 'substance', 'heat', 'entropy', 'reactivity', 'fire', 'water', 'air', 'earth'].forEach(prop => {
     if (prop in transformedItem) {
-      // @ts-ignore - Dynamic property access
-      transformedItem[prop] = Math.max(0, Math.min(1, transformedItem[prop]));
+      // Use proper type assertion for dynamic property access
+      (transformedItem as Record<string, number>)[prop] = Math.max(0, Math.min(1, (transformedItem as Record<string, number>)[prop]));
     }
   });
   
@@ -228,7 +228,7 @@ export function applyPillarTransformation(
 export function applyPlanetaryInfluence(
   item: AlchemicalItem,
   planet: string,
-  isDaytime: boolean = true
+  isDaytime = true
 ): AlchemicalItem {
   // Clone the item to avoid modifying the original
   const transformedItem = { ...item };
@@ -260,8 +260,8 @@ export function applyPlanetaryInfluence(
   // Ensure all values remain within reasonable bounds
   ['spirit', 'essence', 'matter', 'substance'].forEach(prop => {
     if (prop in transformedItem) {
-      // @ts-ignore - Dynamic property access
-      transformedItem[prop] = Math.max(0, Math.min(1, transformedItem[prop]));
+      // Use proper type assertion for dynamic property access
+      (transformedItem as Record<string, number>)[prop] = Math.max(0, Math.min(1, (transformedItem as Record<string, number>)[prop]));
     }
   });
   
@@ -309,8 +309,8 @@ export function applyTarotInfluence(
   // Ensure all values remain within reasonable bounds
   ['spirit', 'essence', 'matter', 'substance'].forEach(prop => {
     if (prop in transformedItem) {
-      // @ts-ignore - Dynamic property access
-      transformedItem[prop] = Math.max(0, Math.min(1, transformedItem[prop]));
+      // Use proper type assertion for dynamic property access
+      (transformedItem as Record<string, number>)[prop] = Math.max(0, Math.min(1, (transformedItem as Record<string, number>)[prop]));
     }
   });
   
@@ -330,11 +330,11 @@ export function transformIngredient(
   item: AlchemicalItem,
   planet?: string,
   tarotCard?: string,
-  isDaytime: boolean = true
+  isDaytime = true
 ): AlchemicalItem {
   // Clone the item to avoid modifying the original
   let transformedItem = { ...item };
-  let influences: string[] = [];
+  const influences = [];
   
   // Apply planetary influences if provided
   if (planet) {
@@ -487,9 +487,9 @@ export const getHolisticCookingRecommendations = (
   item: AlchemicalItem,
   planet?: string,
   tarotCard?: string,
-  isDaytime: boolean = true,
+  isDaytime = true,
   availableMethods: string[] = [],
-  count: number = 5
+  count = 5
 ): Array<{ method: string, compatibility: number, reason: string }> => {
   console.log('\n--- HOLISTIC COOKING RECOMMENDATIONS ---');
   console.log(`Ingredient: ${item.name}`);
@@ -596,13 +596,13 @@ export const getHolisticCookingRecommendations = (
 };
 
 /**
- * Get all available cooking methods
+ * Get the mapping of cooking methods to pillar IDs
  * @returns Record mapping cooking method names to their pillar IDs
  */
-function getCookingMethods(): Record<string, number> {
+async function getCookingMethods(): Promise<Record<string, number>> {
   // Import from constants to avoid circular reference
-  const { COOKING_METHOD_PILLAR_MAPPING } = require('../constants/alchemicalPillars');
-  return COOKING_METHOD_PILLAR_MAPPING;
+  const alchemicalPillars = await import('../constants/alchemicalPillars');
+  return alchemicalPillars.COOKING_METHOD_PILLAR_MAPPING;
 }
 
 /**
@@ -616,7 +616,7 @@ function getCookingMethods(): Record<string, number> {
 export function getRecommendedCookingMethods(
   item: AlchemicalItem,
   availableMethods: string[] | CookingMethod[],
-  count: number = 5
+  count = 5
 ): Array<{ method: string, compatibility: number }> {
   // Calculate compatibility for each available method
   const compatibilities = availableMethods.map(method => {
@@ -709,7 +709,7 @@ function calculateAlchemicalScore(item: AlchemicalItem): number {
 export function getEnhancedCookingRecommendations(
   item: AlchemicalItem,
   availableMethods: string[] | CookingMethod[],
-  count: number = 5,
+  count = 5,
   options: {
     zodiacSign?: ZodiacSign,
     lunarPhase?: string,
@@ -754,9 +754,9 @@ export function getEnhancedCookingRecommendations(
     let lunarCompatibility = 1.0;
     let timeCompatibility = 1.0;
     let toolCompatibility = 1.0;
-    let sustainabilityScore = methodData.sustainabilityRating || 0.5;
-    let complexityScore = methodData.equipmentComplexity || 0.5;
-    let reasons = [];
+    const sustainabilityScore = methodData.sustainabilityRating || 0.5;
+    const complexityScore = methodData.equipmentComplexity || 0.5;
+    const reasons = [];
     
     // Adjust for zodiac compatibility if provided
     if (options.zodiacSign && methodData.astrologicalInfluences) {
@@ -892,16 +892,22 @@ function getAllCookingMethodData(): Record<string, any> {
     const methods = {};
     
     // Import methods from each category
-    const dryMethods = require('../data/cooking/methods/dry');
-    const wetMethods = require('../data/cooking/methods/wet');
-    const traditionalMethods = require('../data/cooking/methods/traditional');
+    // Using dynamic imports instead of require statements
+    const dryMethods = import('../data/cooking/methods/dry').then(module => module.default);
+    const wetMethods = import('../data/cooking/methods/wet').then(module => module.default);
+    const traditionalMethods = import('../data/cooking/methods/traditional').then(module => module.default);
     
-    // Combine all methods
-    return {
-      ...dryMethods,
-      ...wetMethods,
-      ...traditionalMethods
-    };
+    // Since we're using async imports, return a promise with all methods
+    return Promise.all([dryMethods, wetMethods, traditionalMethods])
+      .then(([dry, wet, traditional]) => ({
+        ...dry,
+        ...wet,
+        ...traditional
+      }))
+      .catch(error => {
+        console.error("Error loading cooking method data:", error);
+        return {};
+      });
   } catch (error) {
     console.error("Error loading cooking method data:", error);
     return {};

@@ -130,243 +130,272 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
   // Enhanced astrological compatibility calculation with day/night effects and planetary hours
   const calculateAstrologicalCompatibility = (recipeList: Recipe[]): Recipe[] => {
     return recipeList.map(recipe => {
-      let score = 50; // Base score
-      
-      // 1. Element compatibility with current zodiac
-      if (currentZodiac && recipe.elementalProperties) {
-        const zodiacElementMap: Record<string, keyof typeof recipe.elementalProperties> = {
-          'aries': 'Fire',
-          'leo': 'Fire',
-          'sagittarius': 'Fire',
-          'taurus': 'Earth',
-          'virgo': 'Earth',
-          'capricorn': 'Earth',
-          'gemini': 'Air',
-          'libra': 'Air',
-          'aquarius': 'Air',
-          'cancer': 'Water',
-          'scorpio': 'Water',
-          'pisces': 'Water'
+      try {
+        let score = 50; // Base score
+        
+        // Make sure elemental properties are valid for calculation
+        const safeElementalProps = {
+          Fire: recipe.elementalProperties?.Fire || 0,
+          Water: recipe.elementalProperties?.Water || 0,
+          Earth: recipe.elementalProperties?.Earth || 0,
+          Air: recipe.elementalProperties?.Air || 0
         };
         
-        const currentElement = zodiacElementMap[currentZodiac.toLowerCase()];
-        if (currentElement && recipe.elementalProperties[currentElement]) {
-          score += recipe.elementalProperties[currentElement] * 20; // Up to 20 points for elemental match
-        }
-      }
-      
-      // 2. Zodiac-based seasonal compatibility (more precise than general seasons)
-      if (recipe.season && currentZodiac) {
-        // Map zodiac signs to traditional seasons for compatibility with recipe data
-        const zodiacToSeason: Record<string, string> = {
-          // Spring signs
-          'aries': 'spring',
-          'taurus': 'spring',
-          'gemini': 'spring',
+        // 1. Element compatibility with current zodiac
+        if (currentZodiac) {
+          const zodiacElementMap: Record<string, keyof typeof safeElementalProps> = {
+            'aries': 'Fire',
+            'leo': 'Fire',
+            'sagittarius': 'Fire',
+            'taurus': 'Earth',
+            'virgo': 'Earth',
+            'capricorn': 'Earth',
+            'gemini': 'Air',
+            'libra': 'Air',
+            'aquarius': 'Air',
+            'cancer': 'Water',
+            'scorpio': 'Water',
+            'pisces': 'Water'
+          };
           
-          // Summer signs
-          'cancer': 'summer',
-          'leo': 'summer',
-          'virgo': 'summer',
-          
-          // Fall/Autumn signs
-          'libra': 'autumn',
-          'scorpio': 'autumn',
-          'sagittarius': 'autumn',
-          
-          // Winter signs
-          'capricorn': 'winter',
-          'aquarius': 'winter',
-          'pisces': 'winter'
-        };
-        
-        const currentSeason = zodiacToSeason[currentZodiac.toLowerCase()];
-        
-        // Check if recipe is appropriate for current astrological season
-        if (recipe.season && Array.isArray(recipe.season) && recipe.season.some(s => 
-          s.toLowerCase() === currentSeason || 
-          s.toLowerCase() === 'all'
-        )) {
-          score += 15; // 15 points for seasonal match
-        } else if (recipe.season && typeof recipe.season === 'string' && 
-          (recipe.season.toLowerCase() === currentSeason || 
-           recipe.season.toLowerCase() === 'all')) {
-          score += 15; // 15 points for seasonal match
-        }
-        
-        // Give additional bonus points for recipes that match the specific zodiac sign
-        if (recipe.astrologicalInfluences?.some(influence => 
-          influence.toLowerCase().includes(currentZodiac.toLowerCase())
-        )) {
-          score += 10; // Extra points for specific zodiac match
-        }
-      }
-      
-      // 3. NEW: Day/Night effects on meal type suitability
-      if (recipe.mealType) {
-        const mealType = typeof recipe.mealType === 'string' ? recipe.mealType.toLowerCase() : '';
-        
-        // Daytime favors breakfast & lunch, nighttime favors dinner
-        if (isDaytime) {
-          // During day, breakfast and lunch get a boost
-          if (mealType.includes('breakfast') || mealType.includes('lunch') || mealType.includes('brunch')) {
-            score += 12; // Strong bonus for day-appropriate meals
-          } else if (mealType.includes('dessert') || mealType.includes('snack')) {
-            score += 6; // Moderate bonus for flexible meals
-          }
-          
-          // Element affinity during day: Fire and Air elements are stronger
-          if (recipe.elementalProperties) {
-            score += (recipe.elementalProperties.Fire * 5) + (recipe.elementalProperties.Air * 5);
-          }
-        } else {
-          // During night, dinner gets a boost
-          if (mealType.includes('dinner') || mealType.includes('supper')) {
-            score += 12; // Strong bonus for night-appropriate meals
-          } else if (mealType.includes('dessert') || mealType.includes('snack')) {
-            score += 6; // Moderate bonus for flexible meals
-          }
-          
-          // Element affinity during night: Water and Earth elements are stronger
-          if (recipe.elementalProperties) {
-            score += (recipe.elementalProperties.Water * 5) + (recipe.elementalProperties.Earth * 5);
+          const currentElement = zodiacElementMap[currentZodiac.toLowerCase()];
+          if (currentElement && safeElementalProps[currentElement] !== undefined) {
+            const elementValue = safeElementalProps[currentElement];
+            // Safely add to score, ensuring we don't add NaN
+            if (!isNaN(elementValue)) {
+              score += elementValue * 20; // Up to 20 points for elemental match
+            }
           }
         }
-      }
-      
-      // 4. Time of day compatibility
-      if (recipe.mealType) {
-        const hour = new Date().getHours();
-        const isBreakfastTime = hour >= 6 && hour < 11;
-        const isLunchTime = hour >= 11 && hour < 15;
-        const isDinnerTime = hour >= 17 && hour < 22;
         
-        const mealType = typeof recipe.mealType === 'string' ? recipe.mealType.toLowerCase() : '';
-        
-        if ((isBreakfastTime && mealType.includes('breakfast')) ||
-            (isLunchTime && mealType.includes('lunch')) ||
-            (isDinnerTime && (mealType.includes('dinner') || mealType.includes('supper')))) {
-          score += 10; // 10 points for time of day match
-        }
-      }
-      
-      // 5. NEW: Planetary hour compatibility
-      if (recipe.astrologicalInfluences) {
-        // Map planetary hour influences to recipe qualities
-        const planetaryInfluenceMap: Record<string, string[]> = {
-          'Sun': ['energizing', 'vitality', 'strength', 'warming', 'sunny', 'bright', 'radiant', 'gold', 'orange'],
-          'Moon': ['comforting', 'nourishing', 'cooling', 'calming', 'silver', 'white', 'creamy', 'milky'],
-          'Mercury': ['light', 'quick', 'diverse', 'mixed', 'fusion', 'colorful', 'varied'],
-          'Venus': ['sweet', 'harmonious', 'balanced', 'pleasant', 'delicate', 'fragrant', 'pink', 'green'],
-          'Mars': ['spicy', 'hot', 'bold', 'intense', 'stimulating', 'red', 'energetic'],
-          'Jupiter': ['abundant', 'generous', 'festive', 'celebratory', 'rich', 'purple', 'blue'],
-          'Saturn': ['traditional', 'preserved', 'aged', 'structured', 'earthy', 'black', 'brown']
-        };
-        
-        const hourKeywords = planetaryInfluenceMap[recipe.astrologicalInfluences[0]] || [];
-        
-        // Check if recipe has any influences matching the current planetary hour
-        const matchingInfluences = recipe.astrologicalInfluences.filter(influence => 
-          hourKeywords.some(keyword => influence.toLowerCase().includes(keyword.toLowerCase()))
-        );
-        
-        if (matchingInfluences.length > 0) {
-          score += matchingInfluences.length * 8; // Strong bonus for planetary hour match
-        }
-      }
-      
-      // 6. Astrological influences
-      if (recipe.astrologicalInfluences && recipe.astrologicalInfluences.length > 0) {
-        // Check if recipe has influences related to active planets
-        const activePlanetsArray = Array.isArray(activePlanets) ? activePlanets as string[] : [];
-        const matchingInfluences = activePlanetsArray.filter(planet => 
-          recipe.astrologicalInfluences?.some(influence => 
-            typeof influence === 'string' &&
-            influence.toLowerCase().includes(planet.toLowerCase())
-          )
-        );
-        
-        if (matchingInfluences && matchingInfluences.length > 0) {
-          score += matchingInfluences.length * 5; // 5 points per matching planet
-        }
-      }
-      
-      // NEW: Enhanced planetary positioning influences
-      if (currentPlanetaryAlignment && recipe.astrologicalInfluences) {
-        // Check all planets, not just Sun position
-        const planetaryPositions = [
-          { planet: 'Sun', sign: (currentPlanetaryAlignment as any)?.sun?.sign, degree: (currentPlanetaryAlignment as any)?.sun?.degree },
-          { planet: 'Moon', sign: (currentPlanetaryAlignment as any)?.moon?.sign, degree: (currentPlanetaryAlignment as any)?.moon?.degree },
-          { planet: 'Mercury', sign: (currentPlanetaryAlignment as any)?.mercury?.sign, degree: (currentPlanetaryAlignment as any)?.mercury?.degree },
-          { planet: 'Venus', sign: (currentPlanetaryAlignment as any)?.venus?.sign, degree: (currentPlanetaryAlignment as any)?.venus?.degree },
-          { planet: 'Mars', sign: (currentPlanetaryAlignment as any)?.mars?.sign, degree: (currentPlanetaryAlignment as any)?.mars?.degree },
-          { planet: 'Jupiter', sign: (currentPlanetaryAlignment as any)?.jupiter?.sign, degree: (currentPlanetaryAlignment as any)?.jupiter?.degree },
-          { planet: 'Saturn', sign: (currentPlanetaryAlignment as any)?.saturn?.sign, degree: (currentPlanetaryAlignment as any)?.saturn?.degree }
-        ].filter(p => p.sign); // Filter out undefined positions
-        
-        // Planet in dominant house gives stronger influence
-        const dominantPlanets = planetaryPositions.filter(p => {
-          // Planets in angular houses (1, 4, 7, 10) have stronger influence
-          // This is a simplified calculation - we could use actual house positions
-          const degree = p.degree || 0;
-          return (degree >= 0 && degree < 10) || 
-                 (degree >= 90 && degree < 100) || 
-                 (degree >= 180 && degree < 190) || 
-                 (degree >= 270 && degree < 280);
-        });
-        
-        // Score recipes that match planetary sign placements
-        planetaryPositions.forEach(planet => {
-          if (!planet.sign) return;
-          
-          // Check if recipe has influences related to this planet's sign
-          const matchesPlanetSign = recipe.astrologicalInfluences?.some(influence => 
-            typeof influence === 'string' && influence.toLowerCase().includes(planet.sign!.toLowerCase())
-          ) || false;
-          
-          if (matchesPlanetSign) {
-            // Base points for matching
-            let points = 3;
+        // 2. Zodiac-based seasonal compatibility (more precise than general seasons)
+        if (recipe.season && currentZodiac) {
+          // Map zodiac signs to traditional seasons for compatibility with recipe data
+          const zodiacToSeason: Record<string, string> = {
+            // Spring signs
+            'aries': 'spring',
+            'taurus': 'spring',
+            'gemini': 'spring',
             
-            // Bonus points for dominant planets
-            if (dominantPlanets.some(p => p.planet === planet.planet)) {
-              points += 2;
+            // Summer signs
+            'cancer': 'summer',
+            'leo': 'summer',
+            'virgo': 'summer',
+            
+            // Fall/Autumn signs
+            'libra': 'autumn',
+            'scorpio': 'autumn',
+            'sagittarius': 'autumn',
+            
+            // Winter signs
+            'capricorn': 'winter',
+            'aquarius': 'winter',
+            'pisces': 'winter'
+          };
+          
+          const currentSeason = zodiacToSeason[currentZodiac.toLowerCase()];
+          
+          // Check if recipe is appropriate for current astrological season
+          if (recipe.season && Array.isArray(recipe.season) && recipe.season.some(s => 
+            s.toLowerCase() === currentSeason || 
+            s.toLowerCase() === 'all'
+          )) {
+            score += 15; // 15 points for seasonal match
+          } else if (recipe.season && typeof recipe.season === 'string' && 
+            (recipe.season.toLowerCase() === currentSeason || 
+             recipe.season.toLowerCase() === 'all')) {
+            score += 15; // 15 points for seasonal match
+          }
+          
+          // Give additional bonus points for recipes that match the specific zodiac sign
+          if (recipe.astrologicalInfluences?.some(influence => 
+            influence.toLowerCase().includes(currentZodiac.toLowerCase())
+          )) {
+            score += 10; // Extra points for specific zodiac match
+          }
+        }
+        
+        // 3. Day/Night effects on meal type suitability
+        if (recipe.mealType) {
+          const mealTypes = Array.isArray(recipe.mealType) 
+            ? recipe.mealType.map(m => m.toLowerCase()) 
+            : [typeof recipe.mealType === 'string' ? recipe.mealType.toLowerCase() : ''];
+          
+          // Daytime favors breakfast & lunch, nighttime favors dinner
+          if (isDaytime) {
+            // During day, breakfast and lunch get a boost
+            if (mealTypes.some(m => m.includes('breakfast') || m.includes('lunch') || m.includes('brunch'))) {
+              score += 12; // Strong bonus for day-appropriate meals
+            } else if (mealTypes.some(m => m.includes('dessert') || m.includes('snack'))) {
+              score += 6; // Moderate bonus for flexible meals
             }
             
-            // Extra bonus for luminaries (Sun and Moon)
-            if (planet.planet === 'Sun' || planet.planet === 'Moon') {
-              points += 2;
+            // Element affinity during day: Fire and Air elements are stronger
+            score += (safeElementalProps.Fire * 5) + (safeElementalProps.Air * 5);
+          } else {
+            // During night, dinner gets a boost
+            if (mealTypes.some(m => m.includes('dinner') || m.includes('supper'))) {
+              score += 12; // Strong bonus for night-appropriate meals
+            } else if (mealTypes.some(m => m.includes('dessert') || m.includes('snack'))) {
+              score += 6; // Moderate bonus for flexible meals
             }
             
-            score += points;
+            // Element affinity during night: Water and Earth elements are stronger
+            score += (safeElementalProps.Water * 5) + (safeElementalProps.Earth * 5);
           }
-        });
+        }
         
-        // Check for special aspect patterns - planets in harmonious aspects
-        const harmonicPairs = checkHarmonicAspects(currentPlanetaryAlignment);
-        if (harmonicPairs.length > 0) {
-          // If recipe matches the energy of harmonic pairs, boost score
-          harmonicPairs.forEach(pair => {
-            const matchesHarmonicPair = recipe.astrologicalInfluences?.some(influence => 
+        // 4. Time of day compatibility
+        if (recipe.mealType) {
+          const hour = new Date().getHours();
+          const isBreakfastTime = hour >= 6 && hour < 11;
+          const isLunchTime = hour >= 11 && hour < 15;
+          const isDinnerTime = hour >= 17 && hour < 22;
+          
+          const mealTypes = Array.isArray(recipe.mealType) 
+            ? recipe.mealType.map(m => m.toLowerCase()) 
+            : [typeof recipe.mealType === 'string' ? recipe.mealType.toLowerCase() : ''];
+          
+          if ((isBreakfastTime && mealTypes.some(m => m.includes('breakfast'))) ||
+              (isLunchTime && mealTypes.some(m => m.includes('lunch'))) ||
+              (isDinnerTime && mealTypes.some(m => m.includes('dinner') || m.includes('supper')))) {
+            score += 10; // 10 points for time of day match
+          }
+        }
+        
+        // 5. Planetary hour compatibility
+        if (recipe.astrologicalInfluences) {
+          // Map planetary hour influences to recipe qualities
+          const planetaryInfluenceMap: Record<string, string[]> = {
+            'Sun': ['energizing', 'vitality', 'strength', 'warming', 'sunny', 'bright', 'radiant', 'gold', 'orange'],
+            'Moon': ['comforting', 'nourishing', 'cooling', 'calming', 'silver', 'white', 'creamy', 'milky'],
+            'Mercury': ['light', 'quick', 'diverse', 'mixed', 'fusion', 'colorful', 'varied'],
+            'Venus': ['sweet', 'harmonious', 'balanced', 'pleasant', 'delicate', 'fragrant', 'pink', 'green'],
+            'Mars': ['spicy', 'hot', 'bold', 'intense', 'stimulating', 'red', 'energetic'],
+            'Jupiter': ['abundant', 'generous', 'festive', 'celebratory', 'rich', 'purple', 'blue'],
+            'Saturn': ['traditional', 'preserved', 'aged', 'structured', 'earthy', 'black', 'brown']
+          };
+          
+          const hourKeywords = planetaryInfluenceMap[recipe.astrologicalInfluences[0]] || [];
+          
+          // Check if recipe has any influences matching the current planetary hour
+          const matchingInfluences = recipe.astrologicalInfluences.filter(influence => 
+            hourKeywords.some(keyword => influence.toLowerCase().includes(keyword.toLowerCase()))
+          );
+          
+          if (matchingInfluences.length > 0) {
+            score += matchingInfluences.length * 8; // Strong bonus for planetary hour match
+          }
+        }
+        
+        // 6. Astrological influences
+        if (recipe.astrologicalInfluences && recipe.astrologicalInfluences.length > 0) {
+          // Check if recipe has influences related to active planets
+          const activePlanetsArray = Array.isArray(activePlanets) ? activePlanets as string[] : [];
+          const matchingInfluences = activePlanetsArray.filter(planet => 
+            recipe.astrologicalInfluences?.some(influence => 
               typeof influence === 'string' &&
-              influence.toLowerCase().includes(pair.planet1.toLowerCase()) && 
-              influence.toLowerCase().includes(pair.planet2.toLowerCase())
+              influence.toLowerCase().includes(planet.toLowerCase())
+            )
+          );
+          
+          if (matchingInfluences && matchingInfluences.length > 0) {
+            score += matchingInfluences.length * 5; // 5 points per matching planet
+          }
+        }
+        
+        // NEW: Enhanced planetary positioning influences
+        if (currentPlanetaryAlignment && recipe.astrologicalInfluences) {
+          // Check all planets, not just Sun position
+          const planetaryPositions = [
+            { planet: 'Sun', sign: (currentPlanetaryAlignment as any)?.sun?.sign, degree: (currentPlanetaryAlignment as any)?.sun?.degree },
+            { planet: 'Moon', sign: (currentPlanetaryAlignment as any)?.moon?.sign, degree: (currentPlanetaryAlignment as any)?.moon?.degree },
+            { planet: 'Mercury', sign: (currentPlanetaryAlignment as any)?.mercury?.sign, degree: (currentPlanetaryAlignment as any)?.mercury?.degree },
+            { planet: 'Venus', sign: (currentPlanetaryAlignment as any)?.venus?.sign, degree: (currentPlanetaryAlignment as any)?.venus?.degree },
+            { planet: 'Mars', sign: (currentPlanetaryAlignment as any)?.mars?.sign, degree: (currentPlanetaryAlignment as any)?.mars?.degree },
+            { planet: 'Jupiter', sign: (currentPlanetaryAlignment as any)?.jupiter?.sign, degree: (currentPlanetaryAlignment as any)?.jupiter?.degree },
+            { planet: 'Saturn', sign: (currentPlanetaryAlignment as any)?.saturn?.sign, degree: (currentPlanetaryAlignment as any)?.saturn?.degree }
+          ].filter(p => p.sign); // Filter out undefined positions
+          
+          // Planet in dominant house gives stronger influence
+          const dominantPlanets = planetaryPositions.filter(p => {
+            // Planets in angular houses (1, 4, 7, 10) have stronger influence
+            // This is a simplified calculation - we could use actual house positions
+            const degree = p.degree || 0;
+            return (degree >= 0 && degree < 10) || 
+                   (degree >= 90 && degree < 100) || 
+                   (degree >= 180 && degree < 190) || 
+                   (degree >= 270 && degree < 280);
+          });
+          
+          // Score recipes that match planetary sign placements
+          planetaryPositions.forEach(planet => {
+            if (!planet.sign) return;
+            
+            // Check if recipe has influences related to this planet's sign
+            const matchesPlanetSign = recipe.astrologicalInfluences?.some(influence => 
+              typeof influence === 'string' && influence.toLowerCase().includes(planet.sign?.toLowerCase() || '')
             ) || false;
             
-            if (matchesHarmonicPair) {
-              score += 5; // Strong boost for matching harmonic energy
+            if (matchesPlanetSign) {
+              // Base points for matching
+              let points = 3;
+              
+              // Bonus points for dominant planets
+              if (dominantPlanets.some(p => p.planet === planet.planet)) {
+                points += 2;
+              }
+              
+              // Extra bonus for luminaries (Sun and Moon)
+              if (planet.planet === 'Sun' || planet.planet === 'Moon') {
+                points += 2;
+              }
+              
+              score += points;
             }
           });
+          
+          // Check for special aspect patterns - planets in harmonious aspects
+          const harmonicPairs = checkHarmonicAspects(currentPlanetaryAlignment);
+          if (harmonicPairs.length > 0) {
+            // If recipe matches the energy of harmonic pairs, boost score
+            harmonicPairs.forEach(pair => {
+              const matchesHarmonicPair = recipe.astrologicalInfluences?.some(influence => 
+                typeof influence === 'string' &&
+                influence.toLowerCase().includes(pair.planet1.toLowerCase()) && 
+                influence.toLowerCase().includes(pair.planet2.toLowerCase())
+              ) || false;
+              
+              if (matchesHarmonicPair) {
+                score += 5; // Strong boost for matching harmonic energy
+              }
+            });
+          }
         }
+        
+        // Ensure the score is always a valid number between 0-100
+        if (isNaN(score) || !isFinite(score)) {
+          score = 50; // Default to neutral if calculation went wrong
+        }
+        
+        // Clamp the score between 0 and 100
+        score = Math.max(0, Math.min(100, score));
+        
+        // Compute compatibility percentage (always a number between 0-100)
+        const compatibilityPercentage = Math.round(score);
+        
+        return {
+          ...recipe,
+          compatibilityScore: compatibilityPercentage
+        };
+      } catch (error) {
+        console.error(`Error calculating compatibility for ${recipe.name}:`, error);
+        // Return recipe with default score if there's an error
+        return {
+          ...recipe,
+          compatibilityScore: 50
+        };
       }
-      
-      // Ensure score is between 0-100
-      score = Math.min(100, Math.max(0, score));
-      
-      return {
-        ...recipe,
-        compatibilityScore: score
-      };
     });
   };
 
@@ -522,7 +551,7 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
                 {renderElementIcon(recipe.elementalProperties)}
                 
                 {/* Compatibility Score Badge */}
-                {recipe.compatibilityScore !== undefined && (
+                {recipe.compatibilityScore !== undefined && !isNaN(recipe.compatibilityScore) && (
                   <span className={`px-2 py-1 text-xs rounded ${
                     recipe.compatibilityScore > 75 
                       ? "bg-green-100 text-green-800" 
@@ -530,7 +559,7 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
                         ? "bg-yellow-100 text-yellow-800" 
                         : "bg-gray-100 text-gray-800"
                   }`}>
-                    {recipe.compatibilityScore}% match
+                    {Math.round(recipe.compatibilityScore)}% match
                   </span>
                 )}
               </div>

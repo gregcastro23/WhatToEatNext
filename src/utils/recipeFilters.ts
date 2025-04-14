@@ -1,10 +1,9 @@
 import { logger } from './logger';
 import type { Recipe, ScoredRecipe } from '@/types/recipe';
-import type { ElementalProperties, DietaryRestriction } from '@/types/alchemy';
+import type { ElementalProperties, DietaryRestriction, IngredientMapping } from '@/types/alchemy';
 import { cuisines } from '@/data/cuisines';
 import type { Cuisine, CuisineType } from '@/types/cuisine';
 import { connectIngredientsToMappings } from './recipeMatching';
-import type { IngredientMapping } from '@/types/alchemy';
 
 interface FilterOptions {
   season?: string;
@@ -47,7 +46,9 @@ interface EnhancedFilterOptions extends FilterOptions {
 export class RecipeFilter {
   private static instance: RecipeFilter;
 
-  private constructor() {}
+  private constructor() {
+    // Intentionally empty - initialization happens in methods
+  }
 
   static getInstance(): RecipeFilter {
     if (!RecipeFilter.instance) {
@@ -364,11 +365,11 @@ export class RecipeFilter {
     return recipes.filter(recipe => {
       try {
         return cuisineTypes.some(cuisineType => {
-          const cuisine = cuisines[cuisineType];
+          const cuisine: Cuisine = cuisines[cuisineType];
           if (!cuisine || !cuisine.dishes) return false;
           
           // Helper function to check if a dish matches the recipe
-          const checkMatch = (dishName: any): boolean => {
+          const checkMatch = (dishName: string | { name: string } | null): boolean => {
             if (!dishName) return false;
             if (typeof dishName === 'string') return dishName === recipe.name;
             if (typeof dishName === 'object' && dishName !== null && 'name' in dishName) {
@@ -499,7 +500,7 @@ export class RecipeFilter {
         if (!cuisine || !cuisine.dishes) return false;
         
         // Helper function to check if a dish matches the recipe
-        const checkMatch = (dishName: any): boolean => {
+        const checkMatch = (dishName: string | { name: string } | null): boolean => {
           if (!dishName) return false;
           if (typeof dishName === 'string') return dishName === recipe.name;
           if (typeof dishName === 'object' && dishName !== null && 'name' in dishName) {
@@ -571,7 +572,7 @@ export function filterRecipesByIngredientMappings(
     emphasized?: string[]; // Ingredients that should be emphasized (boost score)
     dietaryRestrictions?: string[]; // Dietary restrictions to respect
   }
-): { recipe: Recipe; score: number; matchQuality: string; matchedIngredients: any[] }[] {
+): { recipe: Recipe; score: number; matchQuality: string; matchedIngredients: { name: string; matchedTo?: IngredientMapping; confidence: number }[] }[] {
   // Default elemental target if none provided
   const targetElements = elementalTarget || {
     Fire: 0.25,

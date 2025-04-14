@@ -159,18 +159,24 @@ interface NasaHorizonsResponse {
   result?: string;
 }
 
+// Define the SweInterface before the class, not inside it
+interface SweInterface {
+  init: () => Promise<void>;
+  julday: () => number;
+}
+
 // Add the export keyword to the class declaration
 export class AstrologicalService {
   // Add these static properties if they're used in the class
-  private static prokeralaAccessToken: string = '';
-  private static tokenExpiration: number = 0;
-  private static latitude: number = 40.7128; // New York by default
-  private static longitude: number = -74.0060; // New York by default
+  private static prokeralaAccessToken = '';
+  private static tokenExpiration = 0;
+  private static latitude = 40.7128; // New York by default
+  private static longitude = -74.0060; // New York by default
 
-  private static swe = {
+  private static swe: SweInterface = {
     init: () => Promise.resolve(),
     julday: () => 2451545.0 // Mock Julian date
-  } as any;
+  };
 
   private static cache = new Map<string, {
     data: AstrologicalState;
@@ -397,8 +403,8 @@ export class AstrologicalService {
     }
   }
 
-  public static getAstrologicalState(date: Date = new Date(), forceRefresh: boolean = false): Promise<AstrologicalState> {
-    return new Promise(async (resolve, reject) => {
+  public static getAstrologicalState(date: Date = new Date(), forceRefresh = false): Promise<AstrologicalState> {
+    return new Promise((resolve, reject) => {
       try {
         const cacheKey = this.getCacheKey(date);
         
@@ -414,51 +420,91 @@ export class AstrologicalService {
         logger.debug('Calculating new astrological state for', date.toISOString());
         
         // Calculate planetary positions
-        let planetaryAlignment: PlanetaryAlignment;
-        
-        try {
-          planetaryAlignment = await this.getPlanetaryPositions(date);
-          logger.debug('Successfully calculated planetary positions');
-        } catch (error) {
-          logger.error('Error calculating planetary positions, using default:', error);
-          planetaryAlignment = this.calculateDefaultPlanetaryPositions();
-        }
-        
-        // Calculate current zodiac sign (based on sun position)
-        const currentZodiac = planetaryAlignment.sun.sign;
-        
-        // Calculate moon phase
-        let moonPhase: MoonPhase;
-        try {
-          moonPhase = await this.calculateMoonPhase(date);
-          logger.debug('Calculated moon phase:', moonPhase);
-        } catch (error) {
-          logger.error('Error calculating moon phase, using default:', error);
-          moonPhase = 'full'; // Default to full moon if calculation fails
-        }
-        
-        // Get active planets (those in their ruling sign or exaltation)
-        const activePlanets = this.getActivePlanets(planetaryAlignment);
-        
-        // Create the astrological state
-        const state: AstrologicalState = {
-          currentZodiac,
-          moonPhase,
-          currentPlanetaryAlignment: planetaryAlignment,
-          activePlanets,
-          isDaytime: this.isDaytime(date),
-          planetaryHour: this.calculatePlanetaryHour(date),
-          lunarPhase: this.getLunarPhaseFromMoonPhase(moonPhase)
-        };
-        
-        // Cache the result
-        this.cache.set(cacheKey, {
-          data: state,
-          timestamp: Date.now()
-        });
-        
-        resolve(state);
-        
+        this.getPlanetaryPositions(date)
+          .then(planetaryAlignment => {
+            logger.debug('Successfully calculated planetary positions');
+            
+            // Calculate current zodiac sign (based on sun position)
+            const currentZodiac = planetaryAlignment.sun.sign;
+            
+            // Calculate moon phase
+            return this.calculateMoonPhase(date)
+              .then(moonPhase => {
+                logger.debug('Calculated moon phase:', moonPhase);
+                
+                // Get active planets (those in their ruling sign or exaltation)
+                const activePlanets = this.getActivePlanets(planetaryAlignment);
+                
+                // Create the astrological state
+                const state: AstrologicalState = {
+                  currentZodiac,
+                  moonPhase,
+                  currentPlanetaryAlignment: planetaryAlignment,
+                  activePlanets,
+                  isDaytime: this.isDaytime(date),
+                  planetaryHour: this.calculatePlanetaryHour(date),
+                  lunarPhase: this.getLunarPhaseFromMoonPhase(moonPhase)
+                };
+                
+                // Cache the result
+                this.cache.set(cacheKey, {
+                  data: state,
+                  timestamp: Date.now()
+                });
+                
+                resolve(state);
+              })
+              .catch(error => {
+                logger.error('Error calculating moon phase, using default:', error);
+                const moonPhase = 'full' as MoonPhase; // Default to full moon if calculation fails
+                
+                // Get active planets (those in their ruling sign or exaltation)
+                const activePlanets = this.getActivePlanets(planetaryAlignment);
+                
+                // Create the astrological state
+                const state: AstrologicalState = {
+                  currentZodiac,
+                  moonPhase,
+                  currentPlanetaryAlignment: planetaryAlignment,
+                  activePlanets,
+                  isDaytime: this.isDaytime(date),
+                  planetaryHour: this.calculatePlanetaryHour(date),
+                  lunarPhase: this.getLunarPhaseFromMoonPhase(moonPhase)
+                };
+                
+                // Cache the result
+                this.cache.set(cacheKey, {
+                  data: state,
+                  timestamp: Date.now()
+                });
+                
+                resolve(state);
+              });
+          })
+          .catch(error => {
+            logger.error('Error calculating planetary positions, using default:', error);
+            const planetaryAlignment = this.calculateDefaultPlanetaryPositions();
+            const currentZodiac = planetaryAlignment.sun.sign;
+            const moonPhase = 'full' as MoonPhase;
+            const activePlanets = this.getActivePlanets(planetaryAlignment);
+            
+            const state: AstrologicalState = {
+              currentZodiac,
+              moonPhase,
+              currentPlanetaryAlignment: planetaryAlignment,
+              activePlanets,
+              isDaytime: this.isDaytime(date),
+              planetaryHour: this.calculatePlanetaryHour(date),
+              lunarPhase: this.getLunarPhaseFromMoonPhase(moonPhase)
+            };
+            
+            this.cache.set(cacheKey, {
+              data: state,
+              timestamp: Date.now()
+            });
+            
+            resolve(state);
+          });
       } catch (error) {
         logger.error('Error getting astrological state:', error);
         reject(error);

@@ -36,21 +36,81 @@ import { determineIngredientModality } from '@/utils/ingredientUtils';
 
 // Utility functions for alchemical calculations
 // Simple placeholder implementations if actual implementations aren't accessible
+import { staticAlchemize } from '@/utils/alchemyInitializer';
+
+// Implement the alchemize function using staticAlchemize
 const alchemize = async (
   elements: ElementalProperties | Record<string, number>,
   astroState: any,
   thermodynamics: any
 ): Promise<any> => {
-  // Simple implementation that keeps the original elements and adds thermodynamic properties
-  return {
-    ...elements,
-    alchemicalProperties: {},
-    transformedElementalProperties: elements,
-    heat: thermodynamics.heat || 0.5,
-    entropy: thermodynamics.entropy || 0.5,
-    reactivity: thermodynamics.reactivity || 0.5,
-    energy: 0.5
-  };
+  try {
+    // Create a simplified birthInfo object
+    const birthInfo = {
+      hour: new Date().getHours(),
+      minute: new Date().getMinutes(),
+      day: new Date().getDate(),
+      month: new Date().getMonth() + 1,
+      year: new Date().getFullYear()
+    };
+
+    // Create a simplified horoscope object
+    const horoscopeDict = {
+      tropical: {
+        CelestialBodies: {},
+        Ascendant: {},
+        Aspects: {}
+      }
+    };
+
+    // If astroState contains planetary positions, add them to the horoscope
+    if (astroState && astroState.planetaryPositions) {
+      // Convert astroState planetary positions to the format expected by the alchemizer
+      Object.entries(astroState.planetaryPositions).forEach(([planet, position]: [string, any]) => {
+        if (position && position.sign) {
+          horoscopeDict.tropical.CelestialBodies[planet] = {
+            Sign: { label: position.sign },
+            ChartPosition: {
+              Ecliptic: {
+                ArcDegreesInSign: position.degree || 0
+              }
+            }
+          };
+        }
+      });
+    }
+
+    // Use the static alchemize function to get the full result
+    const alchemicalResult = staticAlchemize(birthInfo, horoscopeDict);
+
+    // Combine the result with the input elements and thermodynamics
+    return {
+      ...alchemicalResult,
+      elementalProperties: elements,
+      transformedElementalProperties: {
+        Fire: alchemicalResult.elementalBalance?.fire || 0,
+        Water: alchemicalResult.elementalBalance?.water || 0,
+        Earth: alchemicalResult.elementalBalance?.earth || 0,
+        Air: alchemicalResult.elementalBalance?.air || 0
+      },
+      heat: thermodynamics?.heat || alchemicalResult.heat || 0.5,
+      entropy: thermodynamics?.entropy || alchemicalResult.entropy || 0.5,
+      reactivity: thermodynamics?.reactivity || alchemicalResult.reactivity || 0.5,
+      energy: thermodynamics?.energy || alchemicalResult.energy || 0.5
+    };
+  } catch (error) {
+    console.error('Error in alchemize function:', error);
+    // Fallback to simple implementation if there's an error
+    return {
+      ...elements,
+      alchemicalProperties: {},
+      transformedElementalProperties: elements,
+      heat: thermodynamics?.heat || 0.5,
+      entropy: thermodynamics?.entropy || 0.5,
+      reactivity: thermodynamics?.reactivity || 0.5,
+      energy: 0.5
+    };
+  }
 };
 
 const calculateMatchScore = (elements: any): number => {
@@ -1892,3 +1952,5 @@ export default function CookingMethods() {
     </div>
   );
 } // End of CookingMethods component
+
+export default CookingMethods;

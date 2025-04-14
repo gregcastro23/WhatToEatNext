@@ -210,3 +210,44 @@ export interface AppState {
     favoriteIngredients: string[];
   };
 }
+
+// Re-export all types from their respective files
+// This allows for easier imports like: import { ElementalProperties, SpoonacularRecipe } from '../types';
+
+// Elemental types
+export * from './elemental';
+
+// Nutrition-related types
+export * from './nutrition';
+
+// Spoonacular API types
+export * from './spoonacular';
+
+// Recipe and alchemy types
+export * from './alchemy';
+
+// Other type exports from existing files
+export * from './recipe';
+export * from './zodiac';
+export * from './zodiacAffinity';
+export * from './wiccan';
+export * from './time';
+export * from './seasons';
+export * from './seasonal';
+export * from './celestial';
+export * from './cuisine';
+export * from './chakra';
+export * from './astrology';
+export * from './astrological';
+export * from './lunar';
+export * from './food';
+export * from './ingredient';
+export * from './cookingMethod';
+export * from './recipeIngredient';
+export * from './recipes';
+export * from './ingredient-compatibility';
+export * from './utils';
+export * from './validation';
+export * from './validators';
+export * from './errors';
+export * from './CurrentChart';

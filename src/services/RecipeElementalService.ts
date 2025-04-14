@@ -1,7 +1,7 @@
 import type { ElementalProperties } from '../types/alchemy';
 import type { Recipe } from '../types/recipe';
 import { elementalUtils } from '../utils/elementalUtils';
-import { DEFAULT_ELEMENTAL_PROPERTIES } from '../constants/elementalConstants';
+import { ElementalCalculator } from './ElementalCalculator';
 import { logger } from '../utils/logger';
 
 /**
@@ -10,7 +10,9 @@ import { logger } from '../utils/logger';
 export class RecipeElementalService {
   private static instance: RecipeElementalService;
 
-  private constructor() {}
+  private constructor() {
+    // Private constructor to enforce singleton pattern
+  }
 
   /**
    * Get the singleton instance
@@ -32,10 +34,10 @@ export class RecipeElementalService {
       return elementalUtils.standardizeRecipeElements(recipe);
     } catch (error) {
       logger.error('Error standardizing recipe elements:', error);
-      // Return recipe with default elemental properties if there's an error
+      // Return recipe with current elemental state if there's an error
       return {
         ...recipe,
-        elementalProperties: DEFAULT_ELEMENTAL_PROPERTIES
+        elementalProperties: ElementalCalculator.getCurrentElementalState()
       } as T & { elementalProperties: ElementalProperties };
     }
   }
@@ -87,7 +89,7 @@ export class RecipeElementalService {
     }, 0);
     
     // Convert difference to similarity (1 - avg difference)
-    const avgDifference: number = totalDifference / elements.length;
+    const avgDifference = totalDifference / elements.length;
     
     // Apply non-linear scaling to make smaller differences more significant
     // This will boost low similarity scores to be more representative

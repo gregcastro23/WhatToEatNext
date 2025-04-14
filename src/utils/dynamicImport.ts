@@ -101,10 +101,10 @@ export async function safeImportAndExecuteKnown<R, A extends any[] = any[]>(
       return null;
     }
     
-    const module = await MODULE_MAP[path]();
+    const moduleExports = await MODULE_MAP[path]();
     
     // Type assertion to allow indexing with string
-    const func = (module as any)[functionName];
+    const func = (moduleExports as any)[functionName];
     
     if (typeof func !== 'function') {
       errorLog(`Function ${functionName} not found in module ${path}`);
@@ -131,10 +131,10 @@ export async function safeImportFunctionKnown<T extends (...args: any[]) => any>
       return null;
     }
     
-    const module = await MODULE_MAP[path]();
+    const moduleExports = await MODULE_MAP[path]();
     
     // Type assertion to allow indexing with string
-    const func = (module as any)[functionName];
+    const func = (moduleExports as any)[functionName];
     
     if (typeof func !== 'function') {
       errorLog(`Function ${functionName} not found in module ${path}`);
@@ -176,18 +176,18 @@ export async function safeImportAndExecute<R, A extends any[] = any[]>(
 ): Promise<R | null> {
   try {
     // Use static imports for known modules
-    let module: any;
+    let importedModule: any;
     
     if (path === '@/utils/astrologyUtils') {
-      module = astrologyUtils;
+      importedModule = astrologyUtils;
     } else if (path === '@/utils/accurateAstronomy') {
-      module = accurateAstronomy;
+      importedModule = accurateAstronomy;
     } else if (path === '@/utils/safeAstrology') {
-      module = safeAstrology;
+      importedModule = safeAstrology;
     } else if (path === '@/calculations/alchemicalCalculations') {
-      module = alchemicalCalculations;
+      importedModule = alchemicalCalculations;
     } else if (path === '@/calculations/gregsEnergy') {
-      module = gregsEnergy;
+      importedModule = gregsEnergy;
     } else if (path === 'astronomia') {
       // Handle astronomia submodules - use dynamic import
       if (['solar', 'moon', 'planetposition', 'julian'].includes(functionName)) {
@@ -229,8 +229,8 @@ export async function safeImportAndExecute<R, A extends any[] = any[]>(
         }
       } else {
         // Get the full module
-        module = await getAstronomiaModule();
-        if (!module) {
+        importedModule = await getAstronomiaModule();
+        if (!importedModule) {
           return null;
         }
       }
@@ -239,20 +239,20 @@ export async function safeImportAndExecute<R, A extends any[] = any[]>(
       const mappedPath = Object.keys(MODULE_MAP).find(key => path.startsWith(key));
       if (mappedPath) {
         debugLog(`Using mapped import for ${path} via ${mappedPath}`);
-        const importedModule = await MODULE_MAP[mappedPath as KnownModulePath]();
-        module = importedModule;
+        const mappedModule = await MODULE_MAP[mappedPath as KnownModulePath]();
+        importedModule = mappedModule;
       } else {
         errorLog(`Unmapped module path: ${path}. Add it to MODULE_MAP for safer imports.`);
         return null;
       }
     }
     
-    if (typeof module[functionName] !== 'function') {
+    if (typeof importedModule[functionName] !== 'function') {
       errorLog(`Function ${functionName} not found in module ${path}`);
       return null;
     }
     
-    return module[functionName](...args) as R;
+    return importedModule[functionName](...args) as R;
   } catch (error) {
     errorLog(`Safe import and execute failed for ${functionName} from ${path}:`, error);
     

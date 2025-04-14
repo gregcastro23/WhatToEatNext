@@ -6,16 +6,31 @@ import { getCurrentSeason } from '@/data/integrations/seasonal';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 
 // Default placeholder for planetary positions
-const getDefaultPlanetaryPositions = () => ({
-  sun: { sign: 'aries', degree: 0, exactLongitude: 0 },
-  moon: { sign: 'taurus', degree: 5, exactLongitude: 35 },
-  mercury: { sign: 'pisces', degree: 15, exactLongitude: 345 },
-  venus: { sign: 'aquarius', degree: 10, exactLongitude: 310 },
-  mars: { sign: 'capricorn', degree: 20, exactLongitude: 290 },
-  jupiter: { sign: 'sagittarius', degree: 25, exactLongitude: 265 },
-  saturn: { sign: 'Libra', degree: 15, exactLongitude: 195 },
-  ascendant: { sign: 'Libra', degree: 0, exactLongitude: 180 }
-});
+const getDefaultPlanetaryPositions = () => {
+  try {
+    // Try to get more accurate positions from reliable astronomy utilities
+    const { getReliablePlanetaryPositions } = require('@/utils/reliableAstronomy');
+    const positions = getReliablePlanetaryPositions();
+    
+    if (positions && Object.keys(positions).length > 0) {
+      return positions;
+    }
+  } catch (error) {
+    console.error('Error getting reliable positions, using fallback:', error);
+  }
+  
+  // Fallback to hardcoded values if reliable calculation fails
+  return {
+    sun: { sign: 'aries', degree: 0, exactLongitude: 0 },
+    moon: { sign: 'taurus', degree: 5, exactLongitude: 35 },
+    mercury: { sign: 'pisces', degree: 15, exactLongitude: 345 },
+    venus: { sign: 'aquarius', degree: 10, exactLongitude: 310 },
+    mars: { sign: 'capricorn', degree: 20, exactLongitude: 290 },
+    jupiter: { sign: 'sagittarius', degree: 25, exactLongitude: 265 },
+    saturn: { sign: 'Libra', degree: 15, exactLongitude: 195 },
+    ascendant: { sign: 'Libra', degree: 0, exactLongitude: 180 }
+  };
+};
 
 interface PlanetaryAspect {
   planet1: string;

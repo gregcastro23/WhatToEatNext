@@ -7,6 +7,19 @@ import type { Recipe } from '@/types/recipe';
 import RecipeComponent from '@/components/Recipe';
 import { getCurrentElementalState } from '@/utils/elementalUtils';
 
+// Define proper interfaces for ingredient types
+interface SimpleIngredient {
+  name: string;
+  amount?: number;
+  unit?: string;
+  notes?: string;
+  category?: string;
+  substitutes?: string[] | string;
+}
+
+// Union type for ingredients that can be either a string or an object
+type RecipeIngredient = string | SimpleIngredient;
+
 const RecipeDetailsPage: NextPage = () => {
   const router = useRouter();
   const { id } = router.query;
@@ -21,7 +34,7 @@ const RecipeDetailsPage: NextPage = () => {
     season: 'spring',
     timeOfDay: 'lunch',
   });
-  const [selectedIngredient, setSelectedIngredient] = React.useState<any>(null);
+  const [selectedIngredient, setSelectedIngredient] = React.useState<RecipeIngredient | null>(null);
 
   React.useEffect(() => {
     // Get current elemental state based on time, date, etc.
@@ -60,7 +73,7 @@ const RecipeDetailsPage: NextPage = () => {
     return (
       <div className="container mx-auto px-4 py-16">
         <h1 className="text-3xl font-bold mb-8">Recipe not found</h1>
-        <p className="text-lg mb-8">The recipe you're looking for doesn't exist or may have been removed.</p>
+        <p className="text-lg mb-8">The recipe you&apos;re looking for doesn&apos;t exist or may have been removed.</p>
         <Link href="/recipes" className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
           Browse all recipes
         </Link>
@@ -69,7 +82,7 @@ const RecipeDetailsPage: NextPage = () => {
   }
 
   // Handle ingredient click to display ingredient details
-  const handleIngredientClick = (ingredient: any) => {
+  const handleIngredientClick = (ingredient: RecipeIngredient) => {
     setSelectedIngredient(ingredient === selectedIngredient ? null : ingredient);
   };
 

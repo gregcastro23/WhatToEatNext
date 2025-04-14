@@ -120,7 +120,7 @@ const CuisineDetailsPage: NextPage = () => {
     return (
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold mb-8">Cuisine not found</h1>
-        <p>The cuisine you're looking for doesn't exist.</p>
+        <p>The cuisine you&apos;re looking for doesn&apos;t exist.</p>
       </div>
     );
   }

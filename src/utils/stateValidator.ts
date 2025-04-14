@@ -2,11 +2,28 @@ import type { AlchemicalState } from '@/contexts/alchemicalTypes'
 import { logger } from '@/utils/logger'
 import { errorHandler } from '@/services/errorHandler'
 
+// Define type for recipe objects
+interface Recipe {
+  id: string;
+  name: string;
+  elementalProperties: ElementalProperties;
+  [key: string]: unknown; // Allow additional properties
+}
+
+// Define type for elemental properties
+interface ElementalProperties {
+  Fire: number;
+  Earth: number;
+  Air: number;
+  Water: number;
+  [key: string]: number; // Allow additional elements
+}
+
 // Define an interface extending AlchemicalState with the additional properties we need to validate
 interface ValidatableState extends Partial<AlchemicalState> {
-  recipes?: any[];
-  filteredRecipes?: any[];
-  favorites?: any[];
+  recipes?: Recipe[];
+  filteredRecipes?: Recipe[];
+  favorites?: Recipe[];
   season?: string;
 }
 
@@ -67,7 +84,7 @@ class StateValidator {
     }
   }
 
-  private validateElementalProperties(props?: any): boolean {
+  private validateElementalProperties(props?: ElementalProperties): boolean {
     if (!props || typeof props !== 'object') return false
     
     const requiredElements = ['Fire', 'Earth', 'Air', 'Water']
@@ -78,7 +95,7 @@ class StateValidator {
     )
   }
 
-  validateRecipe(recipe: any): boolean {
+  validateRecipe(recipe: Record<string, unknown>): boolean {
     try {
       if (!recipe || typeof recipe !== 'object') return false
       
@@ -89,7 +106,7 @@ class StateValidator {
       
       if (!hasRequiredFields) return false
       
-      return this.validateElementalProperties(recipe.elementalProperties)
+      return this.validateElementalProperties(recipe.elementalProperties as ElementalProperties)
     } catch (error) {
       errorHandler.handleError(error, {
         context: 'StateValidator',

@@ -40,7 +40,7 @@ export function optimizePerformance(): { success: boolean; optimizations: string
       
       // Debounce expensive event handlers
       const setupDebounce = () => {
-        const debounce = (func: Function, wait: number) => {
+        const debounce = (func: (...args: unknown[]) => void, wait: number) => {
           let timeout: ReturnType<typeof setTimeout>;
           return function executedFunction(...args: any[]) {
             const later = () => {

@@ -4,7 +4,7 @@
   margin: 0;
   padding: 1rem;
   background-color: rgba(10, 10, 30, 0.03);
-  border-radius: 10px;
+  border-radius: 12px;
   box-shadow: 0 3px 20px rgba(0, 0, 0, 0.08);
   box-sizing: border-box;
 }
@@ -15,6 +15,7 @@
   align-items: center;
   padding: 1rem 1.5rem;
   background-color: #f9fafb;
+  border-radius: 8px 8px 0 0;
   border-bottom: 1px solid #e5e7eb;
   cursor: pointer;
   transition: background-color 0.2s ease;
@@ -31,6 +32,11 @@
   gap: 0.5rem;
   font-size: 1.25rem;
   font-weight: 600;
+  color: #4a5568;
+}
+
+.titleIcon {
+  color: #6b46c1;
 }
 
 .titleText {
@@ -44,6 +50,7 @@
   font-size: 0.875rem;
   color: #6b7280;
   font-weight: 500;
+  margin-left: 0.25rem;
 }
 
 .expandButton {
@@ -74,1469 +81,445 @@
   padding: 1.5rem;
 }
 
-.methodsContainer {
+.methods-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 1.5rem;
   padding: 0;
   width: 100%;
   grid-auto-flow: dense;
 }
 
-.methodCard {
+.method-card {
   background-color: white;
   border-radius: 10px;
   padding: 1.25rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
   cursor: pointer;
   position: relative;
-  border: 1px solid rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(10, 10, 30, 0.06);
   display: flex;
   flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  border-left: 3px solid transparent;
 }
 
-.methodCard:hover {
+.method-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
 }
 
-/* Styling for expanded method cards */
-.methodCard.expanded {
-  border: 1px solid rgba(107, 70, 193, 0.3);
+/* Styling for selected method cards */
+.method-card.selected {
+  border-left-color: #6b46c1;
   box-shadow: 0 8px 16px rgba(107, 70, 193, 0.15);
   transform: translateY(-5px);
 }
 
-/* Override the hover effect for expanded cards to prevent jumpiness */
-.methodCard.expanded:hover {
-  transform: translateY(-5px);
-}
-
-.methodHeader {
+.method-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 0.75rem;
+  position: relative;
 }
 
-.methodName {
+.method-name {
   margin: 0;
   font-size: 1.1rem;
   font-weight: 600;
   color: #333;
   text-transform: capitalize;
+  flex: 1;
 }
 
-.headerControls {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.matchInfo {
+/* Updated score styles to match ingredient recommender */
+.method-score {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  margin-top: 0.25rem;
+  margin-bottom: 0.5rem;
+  min-width: 70px;
 }
 
-.matchScore {
-  background: linear-gradient(90deg, #6b46c1, #805ad5);
-  color: white;
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
+.score-value {
   font-size: 0.8rem;
   font-weight: 600;
-  min-width: 80px;
-  text-align: center;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: #6b46c1;
+  margin-bottom: 0.25rem;
 }
 
-.matchReason {
-  font-size: 0.75rem;
-  color: #6b7280;
-  margin-top: 0.25rem;
-  font-style: italic;
+/* Score bar similar to ingredient recommender */
+.score-bar {
+  width: 70px;
+  height: 6px;
+  background-color: #edf2f7;
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
 }
 
-.methodDescription {
+.score-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.5s ease;
+}
+
+/* Score bar colors - these classes are for the parent element that controls fill color */
+.score-excellent .score-bar-fill {
+  background: linear-gradient(90deg, #38a169, #68d391);
+}
+
+.score-good .score-bar-fill {
+  background: linear-gradient(90deg, #3182ce, #63b3ed);
+}
+
+.score-fair .score-bar-fill {
+  background: linear-gradient(90deg, #d69e2e, #ecc94b);
+}
+
+.score-poor .score-bar-fill {
+  background: linear-gradient(90deg, #e53e3e, #fc8181);
+}
+
+.score-bad .score-bar-fill {
+  background: linear-gradient(90deg, #718096, #a0aec0);
+}
+
+.method-description {
   font-size: 0.9rem;
   line-height: 1.5;
   color: #4b5563;
   margin-bottom: 1rem;
+  flex: 1;
 }
 
-.elementalTags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-top: 1rem;
-}
-
-.elementTag {
-  display: inline-block;
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
-  font-size: 0.75rem;
-  font-weight: 500;
-  color: white;
-}
-
-.fire {
-  background-color: #e53e3e;
-}
-
-.water {
-  background-color: #3182ce;
-}
-
-.earth {
-  background-color: #38a169;
-}
-
-.air {
-  background-color: #d69e2e;
-}
-
-.scoreBar {
-  width: 100%;
-  height: 8px;
-  background-color: #edf2f7;
-  border-radius: 4px;
-  overflow: hidden;
-  position: relative;
-  margin-top: 0.5rem;
-  margin-bottom: 0.75rem;
-}
-
-.scoreBarFill {
-  height: 100%;
-  background: linear-gradient(90deg, #6b46c1, #805ad5);
-  border-radius: 4px;
-  transition: width 0.5s ease-in-out;
-}
-
-.infoTags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-top: 0.75rem;
-}
-
-.infoTag {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-  background-color: #f3f4f6;
-  color: #4b5563;
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
-  font-size: 0.75rem;
-  font-weight: 500;
-}
-
-.expandedDetails {
-  margin-top: 1rem;
-  padding-top: 1rem;
-  border-top: 1px solid #e5e7eb;
-  animation: fadeIn 0.3s ease-in-out;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-.filterControls {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1.5rem;
-  padding: 0;
-}
-
-.cultureSelector {
-  background-color: white;
-  border: 1px solid #e5e7eb;
-  color: #4b5563;
-  border-radius: 0.375rem;
-  padding: 0.5rem 1rem;
-  font-size: 0.875rem;
-  transition: border-color 0.2s;
-}
-
-.cultureSelector:focus {
-  outline: none;
-  border-color: #6b46c1;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .methodsContainer {
-    grid-template-columns: 1fr;
-  }
-  
-  .methodCard {
-    padding: 1rem;
-  }
-  
-  .filterControls {
-    flex-direction: column;
-    gap: 1rem;
-    align-items: flex-start;
-  }
-}
-
-.astroInfo {
-  margin-top: 1rem;
-  font-size: 0.85rem;
-}
-
-.astroLabel {
-  font-weight: 500;
-  margin-right: 0.5rem;
-  color: var(--text-secondary);
-}
-
-.planetTags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-top: 0.5rem;
-}
-
-.planetTag {
-  background: rgba(var(--accent-color-rgb), 0.2);
-  border: 1px solid rgba(var(--accent-color-rgb), 0.4);
-  border-radius: 0.25rem;
-  padding: 0.25rem 0.5rem;
-  font-size: 0.75rem;
-  color: var(--text-primary);
-}
-
-/* New styles for cooking info section */
-.cookingInfo {
-  margin-top: 1rem;
-  border-top: 1px solid rgba(var(--border-color-rgb), 0.2);
-  padding-top: 0.75rem;
-}
-
-.cookingDetail {
-  margin-bottom: 0.75rem;
-}
-
-.detailLabel {
-  font-weight: 500;
-  color: var(--text-secondary);
-  display: block;
-  margin-bottom: 0.25rem;
-}
-
-.spiceTags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.spiceTag {
-  background: rgba(255, 180, 0, 0.15);
-  border: 1px solid rgba(255, 180, 0, 0.3);
-  border-radius: 0.25rem;
-  padding: 0.25rem 0.5rem;
-  font-size: 0.75rem;
-  color: var(--text-primary);
-}
-
-/* Add these to your existing CSS file */
-
-.cultureBadge {
-  display: inline-flex;
-  align-items: center;
-  background: rgba(59, 130, 246, 0.2);
-  border: 1px solid rgba(59, 130, 246, 0.4);
-  border-radius: 0.25rem;
-  padding: 0.25rem 0.5rem;
-  font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.8);
-  margin-bottom: 0.75rem;
-}
-
-/* For empty state */
-.emptyState {
-  text-align: center;
-  padding: 2rem;
-  color: rgba(255, 255, 255, 0.6);
-}
-
-/* Add these to your existing CSS file - these are specifically for the cooking time recommendations */
-
-.cookingInfoTitle {
-  display: flex;
-  align-items: center;
-  font-size: 0.95rem;
-  font-weight: 500;
-  color: #ffffff;
-  margin-bottom: 0.75rem;
-}
-
-.timeRecommendation {
-  background: rgba(0, 0, 0, 0.2);
+/* Alchemical properties section */
+.alchemical-properties {
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  background-color: rgba(107, 70, 193, 0.05);
   border-radius: 6px;
-  padding: 0.625rem;
-  margin-bottom: 0.75rem;
+  border-left: 3px solid rgba(107, 70, 193, 0.3);
 }
 
-.ingredientClass {
-  font-weight: 500;
-  font-size: 0.9rem;
-  margin-bottom: 0.25rem;
-  color: #ffffff;
-}
-
-.timeRange {
-  display: inline-block;
-  background: rgba(59, 130, 246, 0.2);
-  border: 1px solid rgba(59, 130, 246, 0.4);
-  border-radius: 0.25rem;
-  padding: 0.125rem 0.375rem;
-  font-size: 0.8rem;
-  margin-bottom: 0.375rem;
-}
-
-.cookingTip {
+.alchemy-header {
   display: flex;
-  align-items: flex-start;
-  font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.7);
-  line-height: 1.3;
-}
-
-.astrologicalAdjustment {
-  margin-top: 0.75rem;
-  padding-top: 0.75rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
   font-size: 0.85rem;
+  font-weight: 600;
+  color: #4a5568;
 }
 
-.adjustmentLabel {
-  display: block;
-  font-weight: 500;
-  margin-bottom: 0.25rem;
-  color: rgba(255, 255, 255, 0.8);
+.alchemy-icon {
+  color: #6b46c1;
 }
 
-.adjustmentValue {
-  display: block;
-  color: rgba(255, 255, 255, 0.7);
-  line-height: 1.4;
+.alchemy-label {
+  font-size: 0.8rem;
+  color: #4b5563;
 }
 
-/* Enhanced the existing styles */
-.energeticValues {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  margin-top: 1rem;
+.alchemy-value {
+  font-weight: 600;
+  color: #6b46c1;
+}
+
+/* Transformation container styles */
+.transformation-container {
   margin-bottom: 1rem;
 }
 
-.energyValue {
+.transformation-header {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #4a5568;
+  margin-bottom: 0.5rem;
+}
+
+.elemental-transformations {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+}
+
+/* Completely redesigned transformation items to match ingredient recommender */
+.transformation-item {
   display: flex;
   align-items: center;
-  gap: 0.375rem;
-  background: rgba(0, 0, 0, 0.3);
-  padding: 0.375rem 0.625rem;
-  border-radius: 4px;
-  font-size: 0.8rem;
+  gap: 0.5rem;
+  padding: 0.375rem 0.5rem;
+  border-radius: 6px;
+  background-color: rgba(10, 10, 30, 0.03);
+  position: relative;
+  margin-bottom: 0.25rem;
+  border-left: 3px solid;
 }
 
-.energyLabel {
-  color: rgba(255, 255, 255, 0.7);
-}
-
-/* Add these new styles for the cooking info section */
-
-.cookingInfoRow {
+.transformation-label {
   display: flex;
-  align-items: flex-start;
-  margin-bottom: 0.75rem;
+  align-items: center;
+  gap: 0.35rem;
+  min-width: 60px;
 }
 
-.infoIcon {
+.element-name {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.element-icon {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 24px;
   height: 24px;
-  margin-right: 0.5rem;
-  color: rgba(255, 255, 255, 0.7);
+  border-radius: 4px;
   flex-shrink: 0;
+  color: white;
 }
 
-.infoContent {
-  flex: 1;
-}
-
-.infoLabel {
-  display: block;
-  font-weight: 500;
-  font-size: 0.85rem;
-  margin-bottom: 0.25rem;
-  color: rgba(255, 255, 255, 0.8);
-}
-
-.infoValue {
-  display: block;
-  font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.7);
-}
-
-.tagList {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.375rem;
-  margin-top: 0.25rem;
-}
-
-.ingredientTag {
-  background: rgba(80, 180, 120, 0.2);
-  border: 1px solid rgba(80, 180, 120, 0.4);
-  border-radius: 0.25rem;
-  padding: 0.125rem 0.375rem;
-  font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.9);
-}
-
-.cookingInfoTips {
-  margin-top: 1rem;
-  padding: 1rem;
-  background-color: #f8fafc;
-  border-radius: 8px;
-  border-left: 3px solid #6b46c1;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-}
-
-.tipsHeader {
-  margin: 0 0 0.75rem 0;
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: #4a5568;
-  border-bottom: 1px solid #e2e8f0;
-  padding-bottom: 0.5rem;
+.direction-indicator {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: 0.25rem;
 }
 
-.tipsList {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 0.75rem;
+.intensity-value {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.175rem 0.35rem;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
 }
 
-.tipItem {
-  position: relative;
-  padding: 0.5rem 0.75rem 0.5rem 1.25rem;
-  font-size: 0.85rem;
-  line-height: 1.5;
-  color: #4b5563;
-  background-color: white;
-  border-radius: 6px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-  border-left: 2px solid #805ad5;
-  margin: 0;
+/* Element-specific colors - enhanced to match ingredient recommender */
+.fire .element-icon {
+  background-color: #e53e3e;
 }
 
-.tipItem::before {
-  content: "•";
-  position: absolute;
-  left: 0.5rem;
-  color: #805ad5;
+.water .element-icon {
+  background-color: #3182ce;
+}
+
+.earth .element-icon {
+  background-color: #38a169;
+}
+
+.air .element-icon {
+  background-color: #d69e2e;
+}
+
+/* Enhanced borders for transformation items */
+.fire.transformation-item {
+  border-left-color: #e53e3e;
+}
+
+.water.transformation-item {
+  border-left-color: #3182ce;
+}
+
+.earth.transformation-item {
+  border-left-color: #38a169;
+}
+
+.air.transformation-item {
+  border-left-color: #d69e2e;
+}
+
+/* Enhanced transformation direction colors */
+.transform-increase .direction-indicator {
+  color: #38a169;
   font-weight: bold;
 }
 
-/* Style for the second cookingInfoTips section (Ideal Ingredients) */
-.cookingInfoTips + .cookingInfoTips {
-  margin-top: 1rem;
-  background-color: #f0f7ff;
-  border-left: 3px solid #3182ce;
+.transform-decrease .direction-indicator {
+  color: #e53e3e;
+  font-weight: bold;
 }
 
-.cookingInfoTips + .cookingInfoTips .tipsHeader {
-  color: #2c5282;
+.transform-neutral .direction-indicator {
+  color: #718096;
 }
 
-.cookingInfoTips + .cookingInfoTips .tipItem {
-  border-left: 2px solid #4299e1;
+.transform-increase .intensity-value {
+  background-color: rgba(56, 161, 105, 0.15);
+  color: #38a169;
 }
 
-.cookingInfoTips + .cookingInfoTips .tipItem::before {
-  color: #4299e1;
+.transform-decrease .intensity-value {
+  background-color: rgba(229, 62, 62, 0.15);
+  color: #e53e3e;
 }
 
-/* Fix molecular details section to remove white text */
-.molecularDetails {
-  margin-top: 1rem;
-  background: #f0f4fa;
-  border-radius: 8px;
-  padding: 1rem;
-  border: 1px dashed rgba(130, 80, 230, 0.3);
+.transform-neutral .intensity-value {
+  background-color: rgba(113, 128, 150, 0.15);
+  color: #718096;
 }
 
-.molecularTitle {
+/* Smaller variation transformations */
+.elemental-transformations-small {
   display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.5rem;
+}
+
+.transformation-item-small {
+  display: inline-flex;
   align-items: center;
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: #6b46c1;
-  margin-bottom: 0.75rem;
-  letter-spacing: 0.03em;
-}
-
-.molecularValue {
-  display: block;
-  font-size: 0.8rem;
-  color: #4a5568;
-  line-height: 1.4;
-  font-style: italic;
-}
-
-.molecularTag {
-  background: rgba(130, 80, 230, 0.1);
-  border: 1px solid rgba(130, 80, 230, 0.3);
-  border-radius: 0.25rem;
-  padding: 0.125rem 0.375rem;
-  font-size: 0.75rem;
-  color: #6b46c1;
-}
-
-.molecularItem {
-  position: relative;
-  padding-left: 0.75rem;
-  margin-bottom: 0.375rem;
-  font-size: 0.75rem;
-  color: #4a5568;
-  line-height: 1.4;
-}
-
-/* Fix thermodynamic container to remove white text */
-.thermodynamicContainer {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  background: #f5f7fa;
-  border-radius: 8px;
-  padding: 1rem;
-  border: 1px solid #e2e8f0;
-}
-
-.thermodynamicTitle {
-  display: flex;
-  align-items: center;
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: #4a5568;
-  margin-bottom: 0.75rem;
-  letter-spacing: 0.02em;
-}
-
-.thermalProperty {
-  font-weight: 500;
-  font-size: 0.85rem;
-  color: #4a5568;
-}
-
-/* Add these styles for molecular gastronomy details */
-.molecularDetails {
-  margin-top: 1rem;
-  background: rgba(20, 20, 30, 0.3);
-  border-radius: 8px;
-  padding: 1rem;
-  border: 1px dashed rgba(130, 80, 230, 0.3);
-}
-
-.molecularSection {
-  margin-bottom: 0.75rem;
-}
-
-.molecularLabel {
-  display: block;
-  font-weight: 500;
-  font-size: 0.8rem;
-  margin-bottom: 0.375rem;
-  color: rgba(200, 160, 255, 0.8);
-}
-
-.molecularList {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-
-.molecularItem::before {
-  content: "•";
-  position: absolute;
-  left: 0;
-  color: rgba(180, 120, 255, 0.6);
-}
-
-/* Add these styles for enhanced thermodynamic effects display */
-.thermalEffect {
-  margin-bottom: 0.875rem;
-  padding-bottom: 0.875rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.thermalEffect:last-child {
-  margin-bottom: 0;
-  padding-bottom: 0;
-  border-bottom: none;
-}
-
-.thermalHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.5rem;
-}
-
-.intensityMeter {
-  display: flex;
   gap: 0.25rem;
-}
-
-.intensityDot {
-  width: 0.5rem;
-  height: 0.5rem;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2);
-}
-
-.intensity1 {
-  background: rgba(120, 120, 220, 0.7);
-}
-
-.intensity2 {
-  background: rgba(100, 180, 220, 0.7);
-}
-
-.intensity3 {
-  background: rgba(80, 200, 100, 0.7);
-}
-
-.intensity4 {
-  background: rgba(240, 180, 80, 0.7);
-}
-
-.intensity5 {
-  background: rgba(240, 100, 80, 0.7);
-}
-
-.thermalDescription {
-  font-size: 0.8rem;
-  line-height: 1.4;
-}
-
-.effectDescription {
-  display: block;
-  margin-bottom: 0.25rem;
-  color: rgba(255, 255, 255, 0.9);
-}
-
-.propertyName {
-  color: rgba(255, 255, 255, 0.7);
-  font-style: italic;
-}
-
-.implication {
-  display: block;
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 0.75rem;
-  font-style: italic;
-}
-
-/* Add these styles for the global astrological adjustment section */
-.globalAstrological {
-  margin: 0 1.5rem 1.5rem;
-  padding: 1rem;
-  background: rgba(20, 20, 30, 0.5);
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.globalAstroHeader {
-  display: flex;
-  align-items: center;
-  margin-bottom: 0.5rem;
-  color: rgba(255, 255, 255, 0.9);
-  font-weight: 500;
-}
-
-.globalAstroHeader h2 {
-  font-size: 1rem;
-  margin: 0;
-}
-
-.globalAstroContent {
-  font-size: 0.9rem;
-  line-height: 1.5;
-  color: rgba(255, 255, 255, 0.8);
-}
-
-/* Add these styles for collapsible molecular details */
-.molecularDetailsWrapper {
-  margin-top: 1rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  padding-top: 0.75rem;
-}
-
-.molecularToggle {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  background: none;
-  border: none;
-  padding: 0.5rem;
-  cursor: pointer;
-  text-align: left;
-  color: rgba(180, 120, 255, 0.9);
-  border-radius: 4px;
-  transition: background-color 0.2s;
-}
-
-.molecularToggle:hover {
-  background: rgba(180, 120, 255, 0.1);
-}
-
-.molecularTitle {
-  display: flex;
-  align-items: center;
-  font-size: 0.9rem;
-  font-weight: 600;
-  margin: 0;
-  letter-spacing: 0.03em;
-}
-
-.molecularDetails {
-  padding: 0.75rem;
-  margin-top: 0.5rem;
-  background: rgba(20, 20, 30, 0.3);
-  border-radius: 8px;
-  animation: fadeIn 0.3s ease-in-out;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-8px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* Enhanced thermodynamic visualization */
-.thermodynamicGraph {
-  margin-top: 1rem;
-  background: rgba(0, 0, 0, 0.3);
-  border-radius: 6px;
-  padding: 0.875rem;
-}
-
-.graphHeader {
-  font-size: 0.85rem;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.9);
-  margin-bottom: 0.5rem;
-  text-align: center;
-}
-
-.quadrantGraph {
-  position: relative;
-  height: 80px;
-  width: 100%;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 4px;
-}
-
-.methodDataPoint {
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
-}
-
-.xAxisLabel, .yAxisLabel {
-  position: absolute;
-  font-size: 0.7rem;
-  color: rgba(255, 255, 255, 0.5);
-}
-
-.xAxisLabel {
-  bottom: 2px;
-  right: 5px;
-}
-
-.yAxisLabel {
-  transform: rotate(-90deg);
-  transform-origin: left top;
-  left: 5px;
-  top: 50%;
-}
-
-/* Improve the intensity dots */
-.intensityMeter {
-  display: flex;
-  gap: 0.25rem;
-  align-items: center;
-}
-
-.intensityDot {
-  width: 0.5rem;
-  height: 0.5rem;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2);
-  transition: transform 0.2s, opacity 0.2s;
-}
-
-.intensityDot:hover {
-  transform: scale(1.2);
-}
-
-/* Add property-specific color classes */
-.heatProperty {
-  color: rgb(239, 68, 68);
-}
-
-.entropyProperty {
-  color: rgb(59, 130, 246);
-}
-
-.reactivityProperty {
-  color: rgb(16, 185, 129);
-}
-
-.energyProperty {
-  color: rgb(245, 158, 11);
-}
-
-/* Make the descriptions more readable */
-.effectDescription {
-  display: block;
-  margin-bottom: 0.25rem;
-  font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.9);
-}
-
-.implication {
-  display: block;
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 0.8rem;
-  font-style: italic;
-  line-height: 1.4;
-}
-
-/* Comparison section styling */
-.comparisonSection {
-  margin-top: 0.75rem;
-}
-
-.comparisonDetails {
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 6px;
-  overflow: hidden;
-}
-
-.comparisonSummary {
-  display: flex;
-  align-items: center;
-  padding: 0.5rem;
-  font-size: 0.85rem;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.8);
-  cursor: pointer;
-}
-
-.comparisonSummary:hover {
-  background: rgba(255, 255, 255, 0.05);
-}
-
-.comparisonSummary::-webkit-details-marker {
-  display: none;
-}
-
-.comparisonContent {
-  padding: 0.75rem;
-  background: rgba(0, 0, 0, 0.1);
-}
-
-.comparisonText {
-  font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.7);
-  line-height: 1.4;
-  margin-bottom: 0.5rem;
-}
-
-.comparisonText:last-child {
-  margin-bottom: 0;
-}
-
-/* Add these simplified styles for thermodynamic effects */
-.simplifiedThermodynamics {
-  margin-top: 1rem;
-  padding-top: 0.75rem;
-}
-
-.thermoDivider {
-  height: 1px;
-  background: rgba(255, 255, 255, 0.1);
-  margin-bottom: 0.75rem;
-}
-
-.thermoTitle {
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.9);
-  margin-bottom: 0.5rem;
-}
-
-.thermoProperties {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.thermoProperty {
-  display: flex;
-  flex-direction: column;
-  font-size: 0.8rem;
-}
-
-.propertyName {
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.8);
-  margin-bottom: 0.125rem;
-}
-
-.propertyEffect {
-  color: rgba(255, 255, 255, 0.7);
-}
-
-/* Add these new styles for compact/expandable cards */
-.compactInfo {
-  margin-top: 0.5rem;
-}
-
-.quickInfoTags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-top: 0.5rem;
-}
-
-.quickTag {
-  display: flex;
-  align-items: center;
-  background: rgba(0, 0, 0, 0.3);
-  padding: 0.25rem 0.375rem;
+  padding: 0.2rem 0.35rem;
   border-radius: 4px;
   font-size: 0.7rem;
-  color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(10, 10, 30, 0.03);
+  border-left: 2px solid;
 }
 
-.molecularBadge {
-  display: inline-flex;
-  align-items: center;
-  background: rgba(180, 120, 255, 0.2);
-  border: 1px solid rgba(180, 120, 255, 0.4);
-  border-radius: 0.25rem;
-  padding: 0.25rem 0.5rem;
-  font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.8);
-  margin-bottom: 0.75rem;
-}
-
-.fermentationBadge {
-  display: inline-flex;
-  align-items: center;
-  background: rgba(125, 211, 252, 0.2);
-  border: 1px solid rgba(125, 211, 252, 0.4);
-  border-radius: 0.25rem;
-  padding: 0.25rem 0.5rem;
-  font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.8);
-  margin-bottom: 0.75rem;
-}
-
-/* Add these styles for the detailed method description */
-.methodDetailSection {
-  margin-top: 1rem;
-  margin-bottom: 1.5rem;
-}
-
-.methodFullDefinition {
-  font-size: 0.9rem;
-  line-height: 1.6;
-  color: rgba(255, 255, 255, 0.85);
-  margin-bottom: 1rem;
-}
-
-.examplesSection {
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 8px;
-  padding: 1rem;
-}
-
-.examplesTitle {
+.element-icon-small {
   display: flex;
   align-items: center;
-  font-size: 0.9rem;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
+  flex-shrink: 0;
+  color: white;
+}
+
+.direction-indicator-small {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 0.1rem;
+  margin-right: 0.1rem;
+}
+
+.intensity-value-small {
+  font-size: 0.65rem;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.9);
-  margin-bottom: 0.75rem;
+  padding: 0.1rem 0.2rem;
+  border-radius: 3px;
 }
 
-.examplesList {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
+/* Element-specific colors for small items */
+.fire .element-icon-small {
+  background-color: #e53e3e;
 }
 
-.exampleItem {
-  position: relative;
-  padding-left: 1rem;
-  margin-bottom: 0.5rem;
-  font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.8);
-  line-height: 1.4;
+.water .element-icon-small {
+  background-color: #3182ce;
 }
 
-.exampleItem:last-child {
-  margin-bottom: 0;
+.earth .element-icon-small {
+  background-color: #38a169;
 }
 
-.exampleItem::before {
-  content: "•";
-  position: absolute;
-  left: 0;
-  color: rgba(200, 160, 255, 0.7);
+.air .element-icon-small {
+  background-color: #d69e2e;
 }
 
-/* For the regional variations section */
-.regionList {
-  margin-top: 0.5rem;
+/* Small item borders */
+.fire.transformation-item-small {
+  border-left-color: #e53e3e;
 }
 
-.regionItem {
-  margin-bottom: 0.5rem;
-  font-size: 0.85rem;
+.water.transformation-item-small {
+  border-left-color: #3182ce;
 }
 
-.regionName {
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.8);
-  text-transform: capitalize;
-  display: inline-block;
-  margin-right: 0.25rem;
+.earth.transformation-item-small {
+  border-left-color: #38a169;
 }
 
-.regionVariation {
-  color: rgba(255, 255, 255, 0.7);
-  font-style: italic;
+.air.transformation-item-small {
+  border-left-color: #d69e2e;
 }
 
-/* Add these styles for the nutritional section */
-.nutritionalSection {
-  margin-top: 1rem;
-  padding: 1rem;
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 8px;
-}
-
-.sectionTitle {
-  display: flex;
-  align-items: center;
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.9);
-  margin-bottom: 0.75rem;
-}
-
-.nutritionalImpact {
-  font-size: 0.85rem;
-  color: rgba(120, 230, 120, 0.9);
-  font-weight: 500;
-  margin-bottom: 0.5rem;
-}
-
-.nutritionalList {
-  margin-bottom: 0.75rem;
-}
-
-.nutritionalLabel {
-  font-size: 0.8rem;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.8);
-  display: block;
-  margin-bottom: 0.25rem;
-}
-
-.impactList {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-
-.impactItem {
-  position: relative;
-  padding-left: 1rem;
-  margin-bottom: 0.375rem;
-  font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.7);
-  line-height: 1.4;
-}
-
-.impactItem:last-child {
-  margin-bottom: 0;
-}
-
-.impactItem::before {
-  content: "•";
-  position: absolute;
-  left: 0;
-  color: rgba(120, 230, 120, 0.6);
-}
-
-/* Add these styles for the ingredient compatibility section */
-.compatibilitySection {
-  margin-top: 1rem;
-  padding: 1rem;
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 8px;
-}
-
-.compatibilityDescription {
-  font-size: 0.85rem;
-  color: rgba(200, 200, 200, 0.9);
-  font-weight: 500;
-  margin-bottom: 0.5rem;
-}
-
-.compatibilityList {
-  margin-bottom: 0.75rem;
-}
-
-.compatibilityLabel {
-  font-size: 0.8rem;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.8);
-  display: block;
-  margin-bottom: 0.25rem;
-}
-
-.detailList {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-
-.detailItem {
-  position: relative;
-  padding-left: 1rem;
-  margin-bottom: 0.375rem;
-  font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.7);
-  line-height: 1.4;
-}
-
-.detailItem:last-child {
-  margin-bottom: 0;
-}
-
-.detailItem::before {
-  content: "•";
-  position: absolute;
-  left: 0;
-  color: rgba(120, 180, 120, 0.6);
-}
-
-/* Match reason style */
-.matchInfo {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-}
-
-.matchReason {
-  font-size: 0.7rem;
-  color: rgba(200, 200, 200, 0.8);
-  margin-top: 0.25rem;
-  font-style: italic;
-}
-
-.molecularBadge {
-  display: inline-flex;
-  align-items: center;
-  background: rgba(180, 120, 255, 0.2);
-  border: 1px solid rgba(180, 120, 255, 0.4);
-  border-radius: 0.25rem;
-  padding: 0.25rem 0.5rem;
-  font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.8);
-  margin-bottom: 0.75rem;
-}
-
-.fermentationBadge {
-  display: inline-flex;
-  align-items: center;
-  background: rgba(125, 211, 252, 0.2);
-  border: 1px solid rgba(125, 211, 252, 0.4);
-  border-radius: 0.25rem;
-  padding: 0.25rem 0.5rem;
-  font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.8);
-  margin-bottom: 0.75rem;
-}
-
-/* Add styles for the always-visible top methods preview */
-.cookingMethodsPreview {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 1rem;
-  padding: 1rem;
-  background-color: #f9fafb;
-  border-bottom: 1px solid #e5e7eb;
-}
-
-.previewMethodCard {
-  background: white;
-  border-radius: 8px;
-  border: 1px solid #e5e7eb;
-  padding: 0.75rem;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.previewMethodCard:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.previewMethodHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.5rem;
-}
-
-.previewMethodName {
-  margin: 0;
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: #1f2937;
-  text-transform: capitalize;
-}
-
-.previewMatchScore {
-  background-color: #f3f4f6;
-  color: #4f46e5;
-  padding: 0.2rem 0.4rem;
-  border-radius: 4px;
-  font-size: 0.7rem;
-  font-weight: 600;
-}
-
-.previewInfoTags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.3rem;
-  margin-bottom: 0.5rem;
-}
-
-.previewElementalTags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.3rem;
-  margin-top: auto;
-}
-
-@media (max-width: 640px) {
-  .cookingMethodsPreview {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 480px) {
-  .cookingMethodsPreview {
-    grid-template-columns: 1fr;
-  }
-}
-
-.cooking-methods-container {
-  border: 1px solid #eaeaea;
-  border-radius: 8px;
-  margin-bottom: 1rem;
-}
-
-.cooking-methods-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem;
-  cursor: pointer;
-  background-color: #f9f9f9;
-}
-
-.cooking-methods-header.no-toggle {
-  cursor: default;
-}
-
-.top-recommendation {
-  font-size: 0.8rem;
-  color: #666;
-  margin-left: auto;
-  margin-right: 1rem;
-}
-
-.top-recommendation span {
-  color: #333;
-  font-weight: 500;
-}
-
-.cooking-methods-content {
-  padding: 1rem;
-}
-
-.toggle-button, .toggle-variations {
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-
-.cooking-method-item {
-  margin-bottom: 1.5rem;
-  padding: 0.75rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid #f0f0f0;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.cooking-method-item:hover {
-  background-color: #f9f9f9;
-}
-
-.cooking-method-item.selected {
-  background-color: #f0f7ff;
-  border-left: 3px solid #3b82f6;
-}
-
-.method-header {
-  display: flex;
-  align-items: center;
-  margin-bottom: 0.5rem;
-}
-
-.method-header h4 {
-  font-size: 1rem;
-  margin: 0;
-  flex-grow: 1;
-}
-
-.method-score {
-  display: flex;
-  align-items: center;
-  margin-left: 1rem;
-  margin-right: 0.5rem;
-}
-
-.score-bar {
-  height: 8px;
-  background-color: #3b82f6;
-  border-radius: 4px;
-  width: 50px;
-  margin-right: 0.25rem;
-}
-
-.method-description {
-  font-size: 0.9rem;
-  margin: 0 0 0.75rem;
-  color: #555;
-}
-
+/* Method details section */
 .method-details {
+  margin-top: auto;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  padding-top: 0.75rem;
+}
+
+.detail-item {
   display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
   font-size: 0.8rem;
-  color: #666;
-  margin-top: 0.5rem;
+}
+
+.detail-icon {
+  color: #6b46c1;
+  flex-shrink: 0;
 }
 
 .detail-label {
-  color: #888;
-  margin-right: 0.25rem;
+  font-weight: 600;
+  color: #4a5568;
+  flex-shrink: 0;
 }
 
-.elemental-balance {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-top: 0.5rem;
-}
-
-.elemental-balance.small {
-  margin-top: 0.25rem;
-  gap: 0.35rem;
-}
-
-.element {
-  display: flex;
-  align-items: center;
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
-  font-size: 0.75rem;
-}
-
-.element span {
-  margin-left: 0.25rem;
-}
-
-.element.fire {
-  background-color: rgba(252, 88, 51, 0.1);
-  color: #e73c0e;
-}
-
-.element.water {
-  background-color: rgba(59, 130, 246, 0.1);
-  color: #2563eb;
-}
-
-.element.air {
-  background-color: rgba(99, 102, 241, 0.1);
-  color: #4f46e5;
-}
-
-.element.earth {
-  background-color: rgba(75, 85, 99, 0.1);
+.detail-value {
   color: #4b5563;
 }
 
+/* Toggle variations button */
+.toggle-variations {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  background-color: rgba(107, 70, 193, 0.1);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  color: #6b46c1;
+  transition: all 0.2s ease;
+}
+
+.toggle-variations:hover {
+  background-color: rgba(107, 70, 193, 0.2);
+}
+
+.variations-count {
+  font-weight: 600;
+}
+
+/* Variations container */
 .variations-container {
   margin-top: 1rem;
-  padding-top: 0.5rem;
-  border-top: 1px dashed #eaeaea;
+  padding: 0.75rem;
+  background-color: rgba(0, 0, 0, 0.02);
+  border-radius: 6px;
 }
 
 .variations-header {
-  font-size: 0.85rem;
-  color: #666;
-  margin: 0 0 0.75rem;
-  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #4a5568;
+}
+
+.variations-icon {
+  color: #6b46c1;
 }
 
 .variations-list {
@@ -1546,288 +529,389 @@
 }
 
 .variation-item {
-  background-color: #f9f9f9;
-  border-radius: 6px;
   padding: 0.75rem;
-  border-left: 2px solid #ddd;
+  background-color: white;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
   transition: all 0.2s ease;
+  border-left: 3px solid transparent;
 }
 
 .variation-item:hover {
-  background-color: #f0f7ff;
-  border-left-color: #3b82f6;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transform: translateX(3px);
 }
 
 .variation-item.selected {
-  background-color: #f0f7ff;
-  border-left-color: #3b82f6;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border-left-color: #6b46c1;
 }
 
 .variation-header {
   display: flex;
-  align-items: center;
-  margin-bottom: 0.4rem;
   flex-wrap: wrap;
-}
-
-.culture-icon {
-  color: #666;
-  margin-right: 0.4rem;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .variation-name {
-  font-weight: 500;
   font-size: 0.9rem;
-  margin-right: 0.5rem;
+  font-weight: 600;
+  color: #4a5568;
 }
 
 .cultural-origin {
   font-size: 0.75rem;
-  color: #666;
-  background-color: rgba(99, 102, 241, 0.1);
-  padding: 0.15rem 0.4rem;
+  background-color: rgba(107, 70, 193, 0.1);
+  color: #6b46c1;
+  padding: 0.125rem 0.375rem;
   border-radius: 4px;
-  margin-right: auto;
 }
 
-.variation-score {
-  display: flex;
-  align-items: center;
-  margin-left: auto;
-}
-
-.variation-score .score-bar {
-  height: 6px;
-  width: 30px;
-}
-
-.variation-score span {
-  font-size: 0.75rem;
-}
-
-.variation-description {
-  font-size: 0.85rem;
-  margin: 0 0 0.4rem;
-  color: #555;
-}
-
-/* New styles for ingredient compatibility integration */
-.ingredient-search-toggle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: transparent;
-  border: 1px solid #ddd;
-  border-radius: 50%;
-  width: 28px;
-  height: 28px;
-  margin-left: auto;
-  margin-right: 8px;
-  cursor: pointer;
-  color: #555;
-  transition: all 0.2s;
-}
-
-.ingredient-search-toggle.active {
-  background: #4a90e2;
-  color: white;
-  border-color: #4a90e2;
-}
-
+/* Ingredient compatibility */
 .ingredient-search-container {
-  padding: 12px;
-  background: #f8f9fa;
-  border-bottom: 1px solid #eee;
-  margin-bottom: 8px;
+  padding: 1rem;
+  background-color: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
 }
 
 .search-form {
   display: flex;
-  gap: 8px;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .ingredient-search-input {
   flex: 1;
-  padding: 8px 12px;
-  border: 1px solid #ddd;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #e2e8f0;
   border-radius: 4px;
-  font-size: 14px;
+  font-size: 0.9rem;
 }
 
 .search-button {
-  padding: 8px 12px;
-  background: #4a90e2;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-}
-
-.search-button:disabled {
-  background: #ccc;
-  cursor: not-allowed;
-}
-
-.error-message {
-  color: #e53935;
-  font-size: 14px;
-  margin-top: 8px;
-}
-
-.compatibility-info {
-  margin-top: 8px;
-  font-size: 14px;
-  color: #666;
-}
-
-.ingredient-compatibility {
-  display: flex;
-  align-items: center;
-  font-size: 12px;
-  padding: 2px 8px;
-  border-radius: 12px;
-  background: #f5f5f5;
-  margin-left: auto;
-  margin-right: 8px;
-  position: relative;
-  overflow: hidden;
-  min-width: 80px;
-}
-
-.ingredient-compatibility.small {
-  min-width: 70px;
-  font-size: 10px;
-  padding: 1px 6px;
-}
-
-.ingredient-compatibility span {
-  position: relative;
-  z-index: 2;
-  color: #333;
-}
-
-.compatibility-bar {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  background: rgba(74, 144, 226, 0.2);
-  z-index: 1;
-}
-
-.ingredient-compatibility.excellent .compatibility-bar {
-  background: rgba(76, 175, 80, 0.2);
-}
-
-.ingredient-compatibility.good .compatibility-bar {
-  background: rgba(255, 193, 7, 0.2);
-}
-
-.ingredient-compatibility.fair .compatibility-bar {
-  background: rgba(255, 152, 0, 0.2);
-}
-
-.ingredient-compatibility.poor .compatibility-bar {
-  background: rgba(244, 67, 54, 0.2);
-}
-
-.ingredient-compatibility.excellent {
-  border: 1px solid #4caf50;
-}
-
-.ingredient-compatibility.good {
-  border: 1px solid #ffc107;
-}
-
-.ingredient-compatibility.fair {
-  border: 1px solid #ff9800;
-}
-
-.ingredientSearchContainer {
-  margin-bottom: 1.5rem;
-  padding: 1rem;
-  background-color: #f9fafb;
-  border-radius: 0.5rem;
-  border: 1px solid #e5e7eb;
-}
-
-.searchForm {
-  display: flex;
-  gap: 0.75rem;
-}
-
-.searchInput {
-  flex: 1;
-  padding: 0.5rem 1rem;
-  border: 1px solid #e5e7eb;
-  border-radius: 0.375rem;
-  font-size: 0.875rem;
-}
-
-.searchButton {
   padding: 0.5rem 1rem;
   background: linear-gradient(135deg, #6b46c1, #3c366b);
   color: white;
   border: none;
-  border-radius: 0.375rem;
-  font-size: 0.875rem;
+  border-radius: 4px;
   cursor: pointer;
-  transition: all 0.2s;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
 }
 
-.searchButton:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 2px 5px rgba(107, 70, 193, 0.3);
+.search-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 3px 10px rgba(107, 70, 193, 0.2);
 }
 
-.compatibilityInfo {
-  margin-top: 0.75rem;
-  font-size: 0.875rem;
-  color: #4b5563;
+.search-button:disabled {
+  background: #cbd5e0;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }
 
-.ingredientCompatibility {
-  margin-top: 0.75rem;
-  padding: 0.75rem;
-  background-color: #f3f4f6;
-  border-radius: 0.375rem;
-  font-size: 0.875rem;
+.compatibility-info {
+  font-size: 0.9rem;
+  color: #4a5568;
 }
 
-.compatibilityBar {
-  height: 6px;
-  background: linear-gradient(90deg, #38a169, #68d391);
-  border-radius: 3px;
+.error-message {
+  color: #e53e3e;
+  font-size: 0.9rem;
   margin-top: 0.5rem;
 }
 
-/* Media queries for responsive design */
-@media (max-width: 640px) {
-  .searchForm {
+.ingredient-compatibility {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-top: 0.5rem;
+  min-width: 70px;
+}
+
+.compatibility-bar {
+  width: 70px;
+  height: 6px;
+  background-color: #edf2f7;
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+}
+
+.compatibility-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.5s ease;
+}
+
+/* Compatibility bar colors - classes for the parent element */
+.ingredient-compatibility.excellent .compatibility-bar-fill {
+  background: linear-gradient(90deg, #38a169, #68d391);
+}
+
+.ingredient-compatibility.good .compatibility-bar-fill {
+  background: linear-gradient(90deg, #3182ce, #63b3ed);
+}
+
+.ingredient-compatibility.fair .compatibility-bar-fill {
+  background: linear-gradient(90deg, #d69e2e, #ecc94b);
+}
+
+.ingredient-compatibility.poor .compatibility-bar-fill {
+  background: linear-gradient(90deg, #e53e3e, #fc8181);
+}
+
+.ingredient-compatibility.bad .compatibility-bar-fill {
+  background: linear-gradient(90deg, #718096, #a0aec0);
+}
+
+.compatibility-value {
+  font-size: 0.75rem;
+  margin-left: 0.25rem;
+  color: #6b46c1;
+}
+
+.ingredient-compatibility span {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #6b46c1;
+  margin-bottom: 0.25rem;
+}
+
+/* Show more/less button */
+.show-more-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.show-more-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1.5rem;
+  background: linear-gradient(135deg, #6b46c1, #3c366b);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  font-size: 0.9rem;
+  box-shadow: 0 2px 5px rgba(107, 70, 193, 0.3);
+}
+
+.show-more-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(107, 70, 193, 0.4);
+}
+
+/* Variation score */
+.variation-score {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-left: auto;
+}
+
+.variation-score span {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #6b46c1;
+  margin-bottom: 0.15rem;
+}
+
+.variation-score .score-bar {
+  width: 50px;
+  height: 4px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .methods-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  }
+  
+  .transformation-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .transformation-label {
+    margin-bottom: 0.25rem;
+  }
+  
+  .intensity-bar-container {
+    width: 100%;
+  }
+  
+  .show-more-button {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .methods-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .cookingMethodsHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .top-recommendation {
+    margin-top: 0.5rem;
+  }
+  
+  .search-form {
     flex-direction: column;
   }
   
-  .searchButton {
+  .method-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .method-score, .ingredient-compatibility {
     width: 100%;
+    margin-top: 0.5rem;
   }
 }
 
-.cookingInfoTips + .cookingInfoTips {
-  margin-top: 1.5rem;
-  background-color: #f0f9ff;
-  border-left: 4px solid #3182ce;
+.ingredient-compatibility.small {
+  width: auto;
+  margin-left: auto;
 }
 
-.cookingInfoTips + .cookingInfoTips .tipsHeader {
-  color: #2c5282;
+.ingredient-compatibility.small .compatibility-bar {
+  width: 50px;
+  height: 4px;
 }
 
-.cookingInfoTips + .cookingInfoTips .tipItem {
-  border-left: 3px solid #4299e1;
+.ingredient-search-toggle {
+  background-color: transparent;
+  border: 1px solid #e2e8f0;
+  color: #4a5568;
+  border-radius: 4px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.cookingInfoTips + .cookingInfoTips .tipItem::before {
-  color: #4299e1;
+.ingredient-search-toggle:hover {
+  background-color: rgba(107, 70, 193, 0.1);
+  color: #6b46c1;
+}
+
+.ingredient-search-toggle.active {
+  background-color: #6b46c1;
+  color: white;
+  border-color: #6b46c1;
+}
+
+/* Compatibility labels */
+.compatibility-excellent {
+  color: #38a169;
+}
+
+.compatibility-good {
+  color: #3182ce;
+}
+
+.compatibility-fair {
+  color: #d69e2e;
+}
+
+.compatibility-poor {
+  color: #e53e3e;
+}
+
+.compatibility-bad {
+  color: #718096;
+}
+
+/* Expanded details styling */
+.expanded-details {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #4a5568;
+}
+
+.section-icon {
+  color: #6b46c1;
+}
+
+/* Technical tips styling */
+.technical-tips {
+  margin-bottom: 1.25rem;
+  padding: 0.75rem;
+  background-color: rgba(107, 70, 193, 0.04);
+  border-radius: 6px;
+}
+
+.tips-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 0.5rem;
+}
+
+.tip-item {
+  background-color: rgba(255, 255, 255, 0.7);
+  border-left: 2px solid #6b46c1;
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  color: #4b5563;
+}
+
+/* Ideal ingredients styling */
+.ideal-ingredients {
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  background-color: rgba(107, 70, 193, 0.04);
+  border-radius: 6px;
+}
+
+.ingredients-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 0.5rem;
+}
+
+.ingredient-item {
+  background-color: white;
+  border: 1px solid rgba(107, 70, 193, 0.1);
+  border-radius: 4px;
+  padding: 0.375rem 0.5rem;
+  font-size: 0.75rem;
+  color: #4b5563;
+  display: flex;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+.ingredient-item:hover {
+  border-color: rgba(107, 70, 193, 0.3);
+  background-color: rgba(107, 70, 193, 0.02);
 } 

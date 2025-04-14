@@ -113,11 +113,15 @@ export class ChakraService {
     }
     
     /**
-     * Suggests dietary adjustments based on chakra imbalances
+     * Suggests dietary adjustments based on chakra imbalances and astrological state
      * @param chakraEnergyStates Array of chakra energy states
+     * @param state Current astrological state (optional)
      * @returns Dietary suggestions
      */
-    public suggestDietaryAdjustments(chakraEnergyStates: ChakraEnergyState[]): string[] {
+    public suggestDietaryAdjustments(
+        chakraEnergyStates: ChakraEnergyState[], 
+        state?: { moonPhase?: string; sunSign?: string }
+    ): string[] {
         const suggestions: string[] = [];
         
         // Check for root chakra imbalance
@@ -144,6 +148,23 @@ export class ChakraService {
         const heartState = chakraEnergyStates.find(state => state.chakra === 'Heart');
         if (heartState && heartState.balanceState === 'underactive') {
             suggestions.push('Incorporate more leafy greens and heart-opening foods like rose tea');
+        }
+        
+        // Add suggestions based on astrological state if provided
+        if (state) {
+            // Add moon phase based suggestions
+            if (state.moonPhase === 'full moon') {
+                suggestions.push('During full moon, focus on purifying foods like lemons and ginger');
+            } else if (state.moonPhase === 'new moon') {
+                suggestions.push('During new moon, grounding foods like root vegetables are beneficial');
+            }
+            
+            // Add sun sign based suggestions
+            if (state.sunSign === 'aries' || state.sunSign === 'leo' || state.sunSign === 'sagittarius') {
+                suggestions.push('Fire signs benefit from cooling foods to balance intensity');
+            } else if (state.sunSign === 'cancer' || state.sunSign === 'scorpio' || state.sunSign === 'pisces') {
+                suggestions.push('Water signs benefit from warming spices to energize and ground');
+            }
         }
         
         // General recommendation based on overall chakra balance

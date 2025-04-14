@@ -1,5 +1,6 @@
 // src/data/cuisines/french.ts
 import type { Cuisine } from '@/types/cuisine';
+import type { LunarPhase, ZodiacSign } from '@/types/alchemy';
 
 export const french: Cuisine = {
   id: 'french',
@@ -215,6 +216,13 @@ export const french: Cuisine = {
             "Venus - The buttery richness of the croissant",
             "Mercury - The stimulating effects of coffee"
           ],
+          astrologicalAffinities: {
+            planets: ["Moon", "Venus"],
+            signs: ["Taurus", "Cancer"],
+            lunarPhases: ["First Quarter", "Full Moon"]
+          },
+          lunarPhaseInfluences: ["First Quarter", "Full Moon"],
+          zodiacInfluences: ["Taurus", "Cancer"],
           numberOfServings: 1
         },
         {
@@ -293,6 +301,13 @@ export const french: Cuisine = {
             "Moon - The nurturing quality of eggs and cream",
             "Neptune - The dreamy texture of baked eggs"
           ],
+          astrologicalAffinities: {
+            planets: ["Moon", "Neptune"],
+            signs: ["Cancer", "Pisces"],
+            lunarPhases: ["First Quarter", "Full Moon"]
+          },
+          lunarPhaseInfluences: ["First Quarter", "Full Moon"],
+          zodiacInfluences: ["Cancer", "Pisces"],
           numberOfServings: 2
         },
         {
@@ -369,74 +384,81 @@ export const french: Cuisine = {
             "Venus - The sweet, indulgent nature",
             "Jupiter - The expansive, celebratory quality"
           ],
+          astrologicalAffinities: {
+            planets: ["Venus", "Jupiter"],
+            signs: ["Taurus", "Leo"],
+            lunarPhases: ["First Quarter", "Full Moon"]
+          },
+          lunarPhaseInfluences: ["First Quarter", "Full Moon"],
+          zodiacInfluences: ["Taurus", "Leo"],
           numberOfServings: 3
         }
       ]
     },
-      lunch: {
-        all: [
-          {
+    lunch: {
+      all: [
+        {
           id: "croque-monsieur",
           name: "Classic Croque Monsieur",
           description: "The quintessential French grilled ham and cheese sandwich, elevated with creamy béchamel sauce",
           cuisine: "french",
           cookingMethods: ["sautéing", "broiling", "sauce-making"],
-            tools: [
-              "saucepan",
-              "whisk",
-              "baking sheet",
-              "grater",
-              "pastry brush"
-            ],
-            preparationSteps: [
-              "Prepare béchamel sauce",
-              "Toast bread slices lightly",
-              "Layer ham and cheese",
-              "Spread béchamel on top",
-              "Add additional cheese",
-              "Broil until golden and bubbly",
-              "Garnish with fresh herbs"
-            ],
-            instructions: [
-              "Prepare béchamel sauce",
-              "Toast bread slices lightly",
-              "Layer ham and cheese",
-              "Spread béchamel on top",
-              "Add additional cheese",
-              "Broil until golden and bubbly",
-              "Garnish with fresh herbs"
-            ],
-            substitutions: {
+          tools: [
+            "saucepan",
+            "whisk",
+            "baking sheet",
+            "grater",
+            "pastry brush"
+          ],
+          preparationSteps: [
+            "Prepare béchamel sauce",
+            "Toast bread slices lightly",
+            "Layer ham and cheese",
+            "Spread béchamel on top",
+            "Add additional cheese",
+            "Broil until golden and bubbly",
+            "Garnish with fresh herbs"
+          ],
+          instructions: [
+            "Prepare béchamel sauce",
+            "Toast bread slices lightly",
+            "Layer ham and cheese",
+            "Spread béchamel on top",
+            "Add additional cheese",
+            "Broil until golden and bubbly",
+            "Garnish with fresh herbs"
+          ],
+          substitutions: {
             "white ham": ["vegetarian ham", "smoked turkey"],
             "Gruyère cheese": ["Emmental", "Swiss cheese"],
             "white sandwich bread": ["gluten-free bread"]
-            },
-            servingSize: 2,
-            allergens: ["dairy", "gluten", "eggs"],
-            prepTime: "15 minutes",
-            cookTime: "10 minutes",
+          },
+          servingSize: 2,
+          allergens: ["dairy", "gluten", "eggs"],
+          prepTime: "15 minutes",
+          cookTime: "10 minutes",
           culturalNotes: "A café classic that emerged in Paris in the early 1900s. Add a fried egg on top and it becomes a 'Croque Madame'",
-            pairingSuggestions: ["green salad", "cornichons", "Dijon mustard"],
-            dietaryInfo: ["contains pork"],
-            spiceLevel: "none",
-            ingredients: [
+          pairingSuggestions: ["green salad", "cornichons", "Dijon mustard"],
+          dietaryInfo: ["contains pork"],
+          spiceLevel: "none",
+          ingredients: [
             { name: "white sandwich bread", amount: 4, unit: "slices", category: "bread" },
             { name: "white ham", amount: 200, unit: "g", category: "charcuterie" },
             { name: "Gruyère cheese", amount: 200, unit: "g", category: "cheese" },
             { name: "béchamel sauce", amount: 200, unit: "ml", category: "sauce" },
             { name: "unsalted butter", amount: 30, unit: "g", category: "dairy" },
             { name: "nutmeg", amount: 1, unit: "pinch", category: "spice" }
-            ],
-            nutrition: {
-              calories: 680,
-              protein: 42,
-              carbs: 45,
-              fat: 38,
-              vitamins: ["B12", "D", "A"],
-              minerals: ["Calcium", "Iron"]
-            },
-            timeToMake: "25 minutes",
-            season: ["all"],
+          ],
+          nutrition: {
+            calories: 680,
+            protein: 42,
+            carbs: 45,
+            fat: 38,
+            vitamins: ["B12", "D", "A"],
+            minerals: ["Calcium", "Iron"]
+          },
+          timeToMake: "25 minutes",
+          season: ["all"],
           mealType: ["lunch", "dinner"],
           elementalProperties: {
             Fire: 0.3,
@@ -448,82 +470,96 @@ export const french: Cuisine = {
             "Taurus - The sensuous, indulgent nature",
             "Venus - The harmonious balance of flavors"
           ],
+          astrologicalAffinities: {
+            planets: ["Taurus", "Venus"],
+            signs: ["Taurus", "Virgo"],
+            lunarPhases: ["First Quarter", "Full Moon"]
+          },
+          lunarPhaseInfluences: ["First Quarter", "Full Moon"],
+          zodiacInfluences: ["Taurus", "Virgo"],
           numberOfServings: 2
         },
         {
           id: "nicoise-salad",
           name: "Niçoise Salad",
-            description: "Classic Mediterranean salad from Nice with tuna, olives, and vegetables",
+          description: "Classic Mediterranean salad from Nice with tuna, olives, and vegetables",
           cuisine: "french",
-            cookingMethods: ["boiling", "assembling"],
-            tools: [
-              "large bowl",
-              "saucepan",
-              "colander",
-              "sharp knife",
-              "serving platter"
-            ],
-            preparationSteps: [
-              "Boil eggs until hard-cooked",
-              "Cook green beans until tender-crisp",
-              "Quarter tomatoes and arrange on platter",
-              "Add tuna, olives, and anchovies",
-              "Arrange eggs and vegetables",
-              "Drizzle with vinaigrette",
-              "Garnish with fresh herbs"
-            ],
-            instructions: [
-              "Boil eggs until hard-cooked",
-              "Cook green beans until tender-crisp",
-              "Quarter tomatoes and arrange on platter",
-              "Add tuna, olives, and anchovies",
-              "Arrange eggs and vegetables",
-              "Drizzle with vinaigrette",
-              "Garnish with fresh herbs"
-            ],
-            substitutions: {
+          cookingMethods: ["boiling", "assembling"],
+          tools: [
+            "large bowl",
+            "saucepan",
+            "colander",
+            "sharp knife",
+            "serving platter"
+          ],
+          preparationSteps: [
+            "Boil eggs until hard-cooked",
+            "Cook green beans until tender-crisp",
+            "Quarter tomatoes and arrange on platter",
+            "Add tuna, olives, and anchovies",
+            "Arrange eggs and vegetables",
+            "Drizzle with vinaigrette",
+            "Garnish with fresh herbs"
+          ],
+          instructions: [
+            "Boil eggs until hard-cooked",
+            "Cook green beans until tender-crisp",
+            "Quarter tomatoes and arrange on platter",
+            "Add tuna, olives, and anchovies",
+            "Arrange eggs and vegetables",
+            "Drizzle with vinaigrette",
+            "Garnish with fresh herbs"
+          ],
+          substitutions: {
             "tuna": ["marinated tempeh", "chickpeas"],
             "anchovies": ["capers", "black olives"],
             "eggs": ["firm tofu"]
-            },
-            servingSize: 4,
-            allergens: ["eggs", "fish"],
-            prepTime: "20 minutes",
-            cookTime: "15 minutes",
-            culturalNotes: "Originally from Nice, this salad represents the essence of Provençal cuisine",
-            pairingSuggestions: ["crusty baguette", "rosé wine", "aioli"],
-            dietaryInfo: ["gluten-free"],
-            spiceLevel: "none",
-            ingredients: [
+          },
+          servingSize: 4,
+          allergens: ["eggs", "fish"],
+          prepTime: "20 minutes",
+          cookTime: "15 minutes",
+          culturalNotes: "Originally from Nice, this salad represents the essence of Provençal cuisine",
+          pairingSuggestions: ["crusty baguette", "rosé wine", "aioli"],
+          dietaryInfo: ["gluten-free"],
+          spiceLevel: "none",
+          ingredients: [
             { name: "oil-packed tuna", amount: 200, unit: "g", category: "protein" },
             { name: "green beans", amount: 200, unit: "g", category: "vegetable" },
             { name: "tomatoes", amount: 4, unit: "medium", category: "vegetable" },
             { name: "eggs", amount: 4, unit: "large", category: "protein" },
             { name: "Niçoise olives", amount: 100, unit: "g", category: "garnish" },
             { name: "anchovies", amount: 8, unit: "fillets", category: "fish" },
-              { name: "vinaigrette", amount: 120, unit: "ml", category: "dressing" }
-            ],
-            nutrition: {
-              calories: 420,
-              protein: 28,
-              carbs: 18,
-              fat: 32,
-              vitamins: ["D", "B12", "K"],
-              minerals: ["Iron", "Omega-3"]
-            },
-            timeToMake: "35 minutes",
-            season: ["spring", "summer"],
-            mealType: ["lunch"],
-            elementalProperties: {
-              Water: 0.3,
-              Earth: 0.3,
-              Air: 0.2,
-              Fire: 0.2
+            { name: "vinaigrette", amount: 120, unit: "ml", category: "dressing" }
+          ],
+          nutrition: {
+            calories: 420,
+            protein: 28,
+            carbs: 18,
+            fat: 32,
+            vitamins: ["D", "B12", "K"],
+            minerals: ["Iron", "Omega-3"]
+          },
+          timeToMake: "35 minutes",
+          season: ["spring", "summer"],
+          mealType: ["lunch"],
+          elementalProperties: {
+            Water: 0.3,
+            Earth: 0.3,
+            Air: 0.2,
+            Fire: 0.2
           },
           astrologicalInfluences: [
             "Mercury - The light, fresh quality",
             "Neptune - The Mediterranean sea influence"
           ],
+          astrologicalAffinities: {
+            planets: ["Mercury", "Neptune"],
+            signs: ["Gemini", "Pisces"],
+            lunarPhases: ["First Quarter", "Full Moon"]
+          },
+          lunarPhaseInfluences: ["First Quarter", "Full Moon"],
+          zodiacInfluences: ["Gemini", "Pisces"],
           numberOfServings: 4
         },
         {
@@ -531,48 +567,48 @@ export const french: Cuisine = {
           name: "French Onion Soup",
           description: "Rich onion soup topped with toasted bread and melted Gruyère cheese",
           cuisine: "french",
-            cookingMethods: ["caramelizing", "simmering", "broiling"],
-            tools: [
-              "large pot",
-              "wooden spoon",
-              "ladle",
-              "oven-safe bowls",
-              "broiler"
-            ],
-            preparationSteps: [
-              "Slice onions thinly",
+          cookingMethods: ["caramelizing", "simmering", "broiling"],
+          tools: [
+            "large pot",
+            "wooden spoon",
+            "ladle",
+            "oven-safe bowls",
+            "broiler"
+          ],
+          preparationSteps: [
+            "Slice onions thinly",
             "Caramelize onions slowly in butter (30-40 minutes)",
             "Add flour and cook briefly",
             "Add wine and reduce by half",
             "Add broth and simmer for 30 minutes",
-              "Toast bread slices",
+            "Toast bread slices",
             "Ladle soup into bowls, top with bread and cheese",
             "Broil until cheese is golden and bubbly"
-            ],
-            instructions: [
-              "Slice onions thinly",
-              "Caramelize onions slowly in butter (30-40 minutes)",
-              "Add flour and cook briefly",
-              "Add wine and reduce by half",
-              "Add broth and simmer for 30 minutes",
-              "Toast bread slices",
-              "Ladle soup into bowls, top with bread and cheese",
-              "Broil until cheese is golden and bubbly"
-            ],
-            substitutions: {
+          ],
+          instructions: [
+            "Slice onions thinly",
+            "Caramelize onions slowly in butter (30-40 minutes)",
+            "Add flour and cook briefly",
+            "Add wine and reduce by half",
+            "Add broth and simmer for 30 minutes",
+            "Toast bread slices",
+            "Ladle soup into bowls, top with bread and cheese",
+            "Broil until cheese is golden and bubbly"
+          ],
+          substitutions: {
             "beef stock": ["vegetable stock"],
             "Gruyère cheese": ["Emmental", "plant-based cheese"],
             "butter": ["olive oil"]
-            },
-            servingSize: 6,
-            allergens: ["dairy", "gluten"],
-            prepTime: "20 minutes",
-            cookTime: "70 minutes",
+          },
+          servingSize: 6,
+          allergens: ["dairy", "gluten"],
+          prepTime: "20 minutes",
+          cookTime: "70 minutes",
           culturalNotes: "Originally a peasant dish, this soup became a French classic. Traditional Parisian versions use beef stock and lots of sweet onions",
-            pairingSuggestions: ["red wine", "crusty bread", "green salad"],
-            dietaryInfo: ["vegetarian option"],
-            spiceLevel: "none",
-            ingredients: [
+          pairingSuggestions: ["red wine", "crusty bread", "green salad"],
+          dietaryInfo: ["vegetarian option"],
+          spiceLevel: "none",
+          ingredients: [
             { name: "yellow onions", amount: 1, unit: "kg", category: "vegetable" },
             { name: "beef stock", amount: 1.5, unit: "L", category: "broth" },
             { name: "baguette", amount: 0.5, unit: "piece", category: "bread" },
@@ -582,28 +618,35 @@ export const french: Cuisine = {
             { name: "fresh thyme", amount: 4, unit: "sprigs", category: "herb" },
             { name: "bay leaf", amount: 1, unit: "piece", category: "herb" },
             { name: "all-purpose flour", amount: 2, unit: "tbsp", category: "thickener" }
-            ],
-            nutrition: {
-              calories: 420,
-              protein: 18,
-              carbs: 45,
-              fat: 22,
-              vitamins: ["C", "B1"],
-              minerals: ["Iron", "Calcium"]
-            },
-            timeToMake: "90 minutes",
+          ],
+          nutrition: {
+            calories: 420,
+            protein: 18,
+            carbs: 45,
+            fat: 22,
+            vitamins: ["C", "B1"],
+            minerals: ["Iron", "Calcium"]
+          },
+          timeToMake: "90 minutes",
           season: ["autumn", "winter"],
-            mealType: ["lunch", "dinner"],
-            elementalProperties: {
-              Fire: 0.4,
-              Earth: 0.3,
-              Water: 0.2,
-              Air: 0.1
+          mealType: ["lunch", "dinner"],
+          elementalProperties: {
+            Fire: 0.4,
+            Earth: 0.3,
+            Water: 0.2,
+            Air: 0.1
           },
           astrologicalInfluences: [
             "Saturn - The slow transformation of ingredients",
             "Moon - The comforting, nurturing quality"
           ],
+          astrologicalAffinities: {
+            planets: ["Saturn", "Moon"],
+            signs: ["Capricorn", "Cancer"],
+            lunarPhases: ["First Quarter", "Full Moon"]
+          },
+          lunarPhaseInfluences: ["First Quarter", "Full Moon"],
+          zodiacInfluences: ["Capricorn", "Cancer"],
           numberOfServings: 6
         }
       ]
@@ -616,14 +659,14 @@ export const french: Cuisine = {
           description: "Classic French chicken braised in red wine with mushrooms and lardons",
           cuisine: "french",
           cookingMethods: ["braising", "sautéing"],
-            tools: [
+          tools: [
             "Dutch oven",
             "tongs",
-              "wooden spoon",
+            "wooden spoon",
             "chef's knife",
             "kitchen twine"
-            ],
-            preparationSteps: [
+          ],
+          preparationSteps: [
             "Pat chicken pieces dry and season",
             "Render fat from lardons in Dutch oven",
             "Brown chicken in batches",
@@ -633,19 +676,19 @@ export const french: Cuisine = {
             "Simmer until chicken is tender",
             "Thicken sauce with beurre manié",
             "Adjust seasoning and serve"
-            ],
-            instructions: [
-              "Pat chicken pieces dry and season",
-              "Render fat from lardons in Dutch oven",
-              "Brown chicken in batches",
-              "Sauté mushrooms and pearl onions",
-              "Deglaze with cognac (optional flame)",
-              "Add wine, stock, and herbs",
-              "Simmer until chicken is tender",
-              "Thicken sauce with beurre manié",
-              "Adjust seasoning and serve"
-            ],
-            substitutions: {
+          ],
+          instructions: [
+            "Pat chicken pieces dry and season",
+            "Render fat from lardons in Dutch oven",
+            "Brown chicken in batches",
+            "Sauté mushrooms and pearl onions",
+            "Deglaze with cognac (optional flame)",
+            "Add wine, stock, and herbs",
+            "Simmer until chicken is tender",
+            "Thicken sauce with beurre manié",
+            "Adjust seasoning and serve"
+          ],
+          substitutions: {
             "chicken": ["mushroom medley", "seitan"],
             "lardons": ["smoked tofu"],
             "red wine": ["mushroom stock with red wine vinegar"]
@@ -658,17 +701,17 @@ export const french: Cuisine = {
           pairingSuggestions: ["Burgundy wine", "crusty bread", "mashed potatoes"],
           dietaryInfo: ["contains alcohol", "contains pork"],
           spiceLevel: "none",
-            ingredients: [
+          ingredients: [
             { name: "chicken", amount: 1, unit: "whole cut into 8 pieces", category: "protein" },
             { name: "lardons", amount: 200, unit: "g", category: "protein" },
             { name: "red wine", amount: 750, unit: "ml", category: "wine" },
             { name: "cremini mushrooms", amount: 500, unit: "g", category: "vegetable" },
             { name: "pearl onions", amount: 12, unit: "small", category: "vegetable" },
             { name: "carrots", amount: 4, unit: "whole", category: "vegetable" },
-              { name: "bouquet garni", amount: 1, unit: "piece", category: "herb" },
+            { name: "bouquet garni", amount: 1, unit: "piece", category: "herb" },
             { name: "cognac", amount: 60, unit: "ml", category: "spirit", optional: true }
-            ],
-            nutrition: {
+          ],
+          nutrition: {
             calories: 520,
             protein: 45,
             carbs: 12,
@@ -679,9 +722,9 @@ export const french: Cuisine = {
           timeToMake: "120 minutes",
           season: ["autumn", "winter"],
           mealType: ["dinner"],
-            elementalProperties: {
-              Earth: 0.5,
-              Fire: 0.3,
+          elementalProperties: {
+            Earth: 0.5,
+            Fire: 0.3,
             Water: 0.15,
             Air: 0.05
           },
@@ -689,22 +732,29 @@ export const french: Cuisine = {
             "Saturn - The slow transformation through long cooking",
             "Pluto - The deep flavors revealed through reduction"
           ],
+          astrologicalAffinities: {
+            planets: ["Saturn", "Pluto"],
+            signs: ["Capricorn", "Scorpio"],
+            lunarPhases: ["First Quarter", "Full Moon"]
+          },
+          lunarPhaseInfluences: ["First Quarter", "Full Moon"],
+          zodiacInfluences: ["Capricorn", "Scorpio"],
           numberOfServings: 6
         },
-          {
-            id: "sole-meuniere",
-            name: "Sole Meunière",
+        {
+          id: "sole-meuniere",
+          name: "Sole Meunière",
           description: "Classic pan-fried sole with brown butter, lemon and parsley",
           cuisine: "french",
-            cookingMethods: ["pan-frying", "sauce-making"],
-            tools: [
-              "large skillet",
-              "fish spatula",
-              "small saucepan",
-              "sieve",
-              "serving platter"
-            ],
-            preparationSteps: [
+          cookingMethods: ["pan-frying", "sauce-making"],
+          tools: [
+            "large skillet",
+            "fish spatula",
+            "small saucepan",
+            "sieve",
+            "serving platter"
+          ],
+          preparationSteps: [
             "Pat sole fillets dry",
             "Season with salt and pepper",
             "Dredge sole in flour, shaking off excess",
@@ -715,33 +765,33 @@ export const french: Cuisine = {
             "Add lemon juice and parsley",
             "Pour sauce over fish",
             "Serve immediately with lemon wedges"
-            ],
-            instructions: [
-              "Pat sole fillets dry",
-              "Season with salt and pepper",
-              "Dredge sole in flour, shaking off excess",
-              "Heat butter in skillet until foaming",
-              "Cook fish until golden, about 2 minutes per side",
-              "Transfer to warm platter",
-              "Make brown butter sauce in pan",
-              "Add lemon juice and parsley",
-              "Pour sauce over fish",
-              "Serve immediately with lemon wedges"
-            ],
-            substitutions: {
+          ],
+          instructions: [
+            "Pat sole fillets dry",
+            "Season with salt and pepper",
+            "Dredge sole in flour, shaking off excess",
+            "Heat butter in skillet until foaming",
+            "Cook fish until golden, about 2 minutes per side",
+            "Transfer to warm platter",
+            "Make brown butter sauce in pan",
+            "Add lemon juice and parsley",
+            "Pour sauce over fish",
+            "Serve immediately with lemon wedges"
+          ],
+          substitutions: {
             "sole": ["flounder", "eggplant for vegetarian version"],
             "butter": ["plant-based brown butter"],
             "flour": ["gluten-free flour"]
-            },
-            servingSize: 4,
-            allergens: ["fish", "dairy", "gluten"],
-            prepTime: "10 minutes",
-            cookTime: "15 minutes",
+          },
+          servingSize: 4,
+          allergens: ["fish", "dairy", "gluten"],
+          prepTime: "10 minutes",
+          cookTime: "15 minutes",
           culturalNotes: "This dish famously converted Julia Child to French cuisine when she first tasted it in Rouen",
           pairingSuggestions: ["white Burgundy wine", "steamed vegetables", "boiled potatoes"],
-            dietaryInfo: ["contains fish"],
-            spiceLevel: "none",
-            ingredients: [
+          dietaryInfo: ["contains fish"],
+          spiceLevel: "none",
+          ingredients: [
             { name: "sole fillets", amount: 800, unit: "g", category: "protein" },
             { name: "all-purpose flour", amount: 100, unit: "g", category: "flour" },
             { name: "unsalted butter", amount: 150, unit: "g", category: "dairy" },
@@ -749,28 +799,35 @@ export const french: Cuisine = {
             { name: "flat-leaf parsley", amount: 30, unit: "g", category: "herb" },
             { name: "sea salt", amount: 0, unit: "to taste", category: "seasoning" },
             { name: "white pepper", amount: 0, unit: "to taste", category: "seasoning" }
-            ],
-            nutrition: {
-              calories: 480,
-              protein: 45,
-              carbs: 12,
-              fat: 32,
-              vitamins: ["D", "B12", "A"],
-              minerals: ["Selenium", "Iodine"]
-            },
-            timeToMake: "25 minutes",
-            season: ["all"],
-            mealType: ["dinner"],
-            elementalProperties: {
-              Water: 0.4,
-              Fire: 0.3,
-              Air: 0.2,
-              Earth: 0.1
+          ],
+          nutrition: {
+            calories: 480,
+            protein: 45,
+            carbs: 12,
+            fat: 32,
+            vitamins: ["D", "B12", "A"],
+            minerals: ["Selenium", "Iodine"]
+          },
+          timeToMake: "25 minutes",
+          season: ["all"],
+          mealType: ["dinner"],
+          elementalProperties: {
+            Water: 0.4,
+            Fire: 0.3,
+            Air: 0.2,
+            Earth: 0.1
           },
           astrologicalInfluences: [
             "Jupiter - The elegance and richness",
             "Mercury - The bright, quick quality"
           ],
+          astrologicalAffinities: {
+            planets: ["Jupiter", "Mercury"],
+            signs: ["Leo", "Gemini"],
+            lunarPhases: ["First Quarter", "Full Moon"]
+          },
+          lunarPhaseInfluences: ["First Quarter", "Full Moon"],
+          zodiacInfluences: ["Leo", "Gemini"],
           numberOfServings: 4
         },
         {
@@ -856,7 +913,15 @@ export const french: Cuisine = {
           astrologicalInfluences: [
             "Saturn - The slow cooking process and aged flavors",
             "Pluto - The transformative quality and depth"
-          ]
+          ],
+          astrologicalAffinities: {
+            planets: ["Saturn", "Pluto"],
+            signs: ["Capricorn", "Scorpio"],
+            lunarPhases: ["First Quarter", "Full Moon"]
+          },
+          lunarPhaseInfluences: ["First Quarter", "Full Moon"],
+          zodiacInfluences: ["Capricorn", "Scorpio"],
+          numberOfServings: 6
         }
       ]
     },
@@ -928,6 +993,13 @@ export const french: Cuisine = {
             "Venus - The sensual, creamy nature",
             "Sun - The fire element in caramelization"
           ],
+          astrologicalAffinities: {
+            planets: ["Venus", "Sun"],
+            signs: ["Taurus", "Leo"],
+            lunarPhases: ["First Quarter", "Full Moon"]
+          },
+          lunarPhaseInfluences: ["First Quarter", "Full Moon"],
+          zodiacInfluences: ["Taurus", "Leo"],
           instructions: [
             "Preheat oven to 325°F/165°C",
             "Heat cream with vanilla bean",
@@ -947,52 +1019,52 @@ export const french: Cuisine = {
           name: "Tarte Tatin",
           description: "Upside-down caramelized apple tart",
           cuisine: "french",
-            cookingMethods: ["caramelizing", "baking", "pastry-making"],
-            tools: [
+          cookingMethods: ["caramelizing", "baking", "pastry-making"],
+          tools: [
             "heavy-bottomed tatin pan or cast iron skillet",
-              "rolling pin",
+            "rolling pin",
             "paring knife",
-              "serving plate",
-              "pastry brush"
-            ],
-            preparationSteps: [
+            "serving plate",
+            "pastry brush"
+          ],
+          preparationSteps: [
             "Prepare pastry dough and chill",
             "Peel, core, and quarter apples",
-              "Make caramel in pan",
+            "Make caramel in pan",
             "Arrange apples in tight pattern",
             "Cook until apples are partly caramelized",
             "Cover with pastry dough",
             "Bake until golden brown",
             "Cool slightly and invert onto plate"
-            ],
-            ingredients: [
+          ],
+          ingredients: [
             { name: "apples", amount: 8, unit: "large", category: "fruit" },
             { name: "unsalted butter", amount: 150, unit: "g", category: "dairy" },
             { name: "granulated sugar", amount: 150, unit: "g", category: "sweetener" },
             { name: "shortcrust pastry", amount: 1, unit: "piece", category: "pastry" }
-            ],
-            substitutions: {
+          ],
+          substitutions: {
             "apples": ["pears", "quinces"],
             "butter": ["plant-based butter"],
             "shortcrust pastry": ["puff pastry"]
-            },
-            servingSize: 8,
-            allergens: ["dairy", "gluten"],
-            prepTime: "45 minutes",
-            cookTime: "45 minutes",
+          },
+          servingSize: 8,
+          allergens: ["dairy", "gluten"],
+          prepTime: "45 minutes",
+          cookTime: "45 minutes",
           culturalNotes: "Created accidentally at Hotel Tatin in Lamotte-Beuvron when Stéphanie Tatin tried to rescue an overcooked apple pie by putting the pastry on top",
           pairingSuggestions: ["crème fraîche", "vanilla ice cream", "Sauternes wine", "Calvados"],
-            dietaryInfo: ["vegetarian"],
-            spiceLevel: "none",
-            nutrition: {
-              calories: 385,
-              protein: 4,
-              carbs: 48,
-              fat: 22,
-              vitamins: ["A", "C"],
-              minerals: ["Iron", "Calcium"]
-            },
-            season: ["autumn", "winter"],
+          dietaryInfo: ["vegetarian"],
+          spiceLevel: "none",
+          nutrition: {
+            calories: 385,
+            protein: 4,
+            carbs: 48,
+            fat: 22,
+            vitamins: ["A", "C"],
+            minerals: ["Iron", "Calcium"]
+          },
+          season: ["autumn", "winter"],
           mealType: ["dessert"],
           elementalProperties: {
             Earth: 0.4,
@@ -1004,6 +1076,13 @@ export const french: Cuisine = {
             "Venus - The sweet, indulgent nature",
             "Jupiter - The transformative quality"
           ],
+          astrologicalAffinities: {
+            planets: ["Venus", "Jupiter"],
+            signs: ["Taurus", "Virgo"],
+            lunarPhases: ["First Quarter", "Full Moon"]
+          },
+          lunarPhaseInfluences: ["First Quarter", "Full Moon"],
+          zodiacInfluences: ["Taurus", "Virgo"],
           instructions: [
             "Prepare pastry dough and chill",
             "Peel, core, and quarter apples",
@@ -1022,53 +1101,53 @@ export const french: Cuisine = {
           name: "Chocolate Profiteroles",
           description: "Choux pastry puffs filled with vanilla ice cream and topped with warm chocolate sauce",
           cuisine: "french",
-            cookingMethods: ["baking", "piping", "sauce-making"],
-            tools: [
-              "saucepan",
-              "piping bags",
-              "baking sheets",
-              "whisk",
-              "double boiler"
-            ],
-            preparationSteps: [
-              "Make choux pastry dough",
-              "Pipe onto baking sheets",
-              "Bake until hollow and crisp",
+          cookingMethods: ["baking", "piping", "sauce-making"],
+          tools: [
+            "saucepan",
+            "piping bags",
+            "baking sheets",
+            "whisk",
+            "double boiler"
+          ],
+          preparationSteps: [
+            "Make choux pastry dough",
+            "Pipe onto baking sheets",
+            "Bake until hollow and crisp",
             "Prepare chocolate sauce",
             "Cut pastry puffs in half",
             "Fill with small scoops of ice cream",
-              "Serve with warm chocolate sauce"
-            ],
-            substitutions: {
+            "Serve with warm chocolate sauce"
+          ],
+          substitutions: {
             "vanilla ice cream": ["coconut ice cream", "sorbet"],
             "dark chocolate": ["vegan chocolate"],
             "butter": ["plant-based butter"]
-            },
-            servingSize: 6,
-            allergens: ["dairy", "eggs", "gluten"],
-            prepTime: "45 minutes",
-            cookTime: "30 minutes",
+          },
+          servingSize: 6,
+          allergens: ["dairy", "eggs", "gluten"],
+          prepTime: "45 minutes",
+          cookTime: "30 minutes",
           culturalNotes: "A classic French dessert that showcases three distinct pastry techniques: choux, ice cream making, and sauce preparation",
           pairingSuggestions: ["espresso", "vanilla ice cream", "fresh berries"],
-            dietaryInfo: ["vegetarian"],
-            spiceLevel: "none",
-            ingredients: [
+          dietaryInfo: ["vegetarian"],
+          spiceLevel: "none",
+          ingredients: [
             { name: "choux pastry", amount: 1, unit: "batch", category: "pastry" },
             { name: "vanilla ice cream", amount: 500, unit: "ml", category: "dairy" },
             { name: "dark chocolate", amount: 200, unit: "g", category: "chocolate" },
             { name: "heavy cream", amount: 200, unit: "ml", category: "dairy" },
             { name: "sugar", amount: 50, unit: "g", category: "sweetener" }
-            ],
-            nutrition: {
-              calories: 450,
-              protein: 8,
-              carbs: 48,
-              fat: 26,
-              vitamins: ["A", "D"],
-              minerals: ["Calcium", "Iron"]
-            },
-            timeToMake: "75 minutes",
-            season: ["all"],
+          ],
+          nutrition: {
+            calories: 450,
+            protein: 8,
+            carbs: 48,
+            fat: 26,
+            vitamins: ["A", "D"],
+            minerals: ["Calcium", "Iron"]
+          },
+          timeToMake: "75 minutes",
+          season: ["all"],
           mealType: ["dessert"],
           elementalProperties: {
             Earth: 0.3,
@@ -1080,6 +1159,13 @@ export const french: Cuisine = {
             "Venus - The indulgent, sweet quality",
             "Jupiter - The expansive, celebratory nature"
           ],
+          astrologicalAffinities: {
+            planets: ["Venus", "Jupiter"],
+            signs: ["Taurus", "Leo"],
+            lunarPhases: ["First Quarter", "Full Moon"]
+          },
+          lunarPhaseInfluences: ["First Quarter", "Full Moon"],
+          zodiacInfluences: ["Taurus", "Leo"],
           instructions: [
             "Make choux pastry dough",
             "Pipe onto baking sheets",
@@ -1166,11 +1252,16 @@ export const french: Cuisine = {
     }
   },
   elementalProperties: {
-      Earth: 0.3,
-      Water: 0.3,
-      Fire: 0.2,
-      Air: 0.2
-  }
+    Earth: 0.3,
+    Water: 0.3,
+    Fire: 0.2,
+    Air: 0.2
+  },
+  astrologicalInfluences: [
+    "Venus - Governs the sensual, pleasure-seeking aspects of French cuisine",
+    "Jupiter - Influences the celebratory and abundant nature of French dining",
+    "Mercury - Shapes the precise techniques and articulate presentation"
+  ]
 };
 
 export default french;

@@ -12,8 +12,8 @@ interface SolarPosition {
  */
 export function getSunPosition(
   date: Date = new Date(),
-  latitude: number = 40.7128,
-  longitude: number = -74.0060
+  latitude = 40.7128,
+  longitude = -74.0060
 ): SolarPosition {
   try {
     const sunPosition = SunCalc.getPosition(date, latitude, longitude);

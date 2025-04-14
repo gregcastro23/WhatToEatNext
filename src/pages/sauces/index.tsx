@@ -27,6 +27,7 @@ const SaucesPage: NextPage = () => {
     season: 'spring',
     timeOfDay: 'lunch',
   });
+  const [elementalFilter, setElementalFilter] = React.useState<string | null>(null);
 
   React.useEffect(() => {
     // Get current elemental state based on time, date, etc.
@@ -93,9 +94,28 @@ const SaucesPage: NextPage = () => {
         return false;
       }
       
+      // Filter by elemental property
+      if (elementalFilter && sauce.elementalProperties) {
+        const elementValue = sauce.elementalProperties[elementalFilter] || 0;
+        // Only show sauces with significant presence of this element (>30%)
+        if (elementValue < 0.3) {
+          return false;
+        }
+      }
+      
       return true;
     });
-  }, [allSauces, searchTerm, selectedCuisine, selectedBase]);
+  }, [allSauces, searchTerm, selectedCuisine, selectedBase, elementalFilter]);
+
+  // Get the dominant element from current elemental state
+  const dominantElement = React.useMemo(() => {
+    const elements = ['Fire', 'Water', 'Earth', 'Air'];
+    return elements.reduce((prev, curr) => 
+      (elementalState[curr as keyof typeof elementalState] > elementalState[prev as keyof typeof elementalState]) 
+        ? curr 
+        : prev
+    );
+  }, [elementalState]);
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -152,12 +172,64 @@ const SaucesPage: NextPage = () => {
             </select>
           </div>
           
-          <div className="w-full md:w-auto flex items-end">
+          <div className="w-full md:w-1/4">
+            <label htmlFor="element" className="block text-sm font-medium text-gray-700 mb-1">
+              Filter by Element
+            </label>
+            <select
+              id="element"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              value={elementalFilter || ''}
+              onChange={(e) => setElementalFilter(e.target.value || null)}
+            >
+              <option value="">All Elements</option>
+              <option value="Fire">Fire</option>
+              <option value="Water">Water</option>
+              <option value="Earth">Earth</option>
+              <option value="Air">Air</option>
+            </select>
+          </div>
+          
+          <div className="w-full flex flex-wrap items-center gap-2 mt-2">
+            <div className="text-sm text-gray-600">Current Elemental State:</div>
+            {Object.entries(elementalState).filter(([key]) => ['Fire', 'Water', 'Earth', 'Air'].includes(key)).map(([element, value]) => (
+              <div 
+                key={element}
+                className="flex items-center gap-1 px-2 py-1 rounded text-xs"
+                style={{
+                  backgroundColor: element === 'Fire' ? 'rgba(239, 68, 68, 0.1)' : 
+                                element === 'Water' ? 'rgba(59, 130, 246, 0.1)' :
+                                element === 'Earth' ? 'rgba(75, 85, 99, 0.1)' :
+                                'rgba(167, 139, 250, 0.1)',
+                  color: element === 'Fire' ? 'rgb(185, 28, 28)' : 
+                         element === 'Water' ? 'rgb(29, 78, 216)' :
+                         element === 'Earth' ? 'rgb(55, 65, 81)' :
+                         'rgb(109, 40, 217)'
+                }}
+              >
+                <span>{element}</span>
+                <span>{Math.round(Number(value) * 100)}%</span>
+                {element === dominantElement && (
+                  <span className="ml-1">★</span>
+                )}
+              </div>
+            ))}
+            
+            <button 
+              className="ml-auto px-2 py-1 text-xs border border-blue-400 text-blue-600 rounded hover:bg-blue-50"
+              onClick={() => setElementalFilter(dominantElement)}
+            >
+              Match {dominantElement}
+            </button>
+          </div>
+          
+          <div className="w-full md:w-auto flex items-end ml-auto">
             <button 
               onClick={() => {
                 setSearchTerm('');
                 setSelectedCuisine('');
                 setSelectedBase('');
+                setElementalFilter(null);
               }}
               className="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-md text-gray-700"
             >

@@ -1,4 +1,3 @@
-import type { ElementalProperties as AlchemyElementalProperties } from '../types/alchemy'
 import type { Recipe } from '../types/recipe'
 import { logger } from '../utils/logger'
 import { errorHandler } from './errorHandler'
@@ -12,6 +11,17 @@ import { cache } from '../utils/cache'
 import { validateElementalProperties } from '../types/recipe'
 import { RecipeIngredient } from '../types/recipeIngredient'
 import { recipeElementalService } from './RecipeElementalService'
+
+// Define interface for nutrition data
+export interface NutritionData {
+  calories?: number;
+  protein?: number;
+  carbs?: number;
+  fat?: number;
+  vitamins?: string[];
+  minerals?: string[];
+  [key: string]: any; // Allow other properties
+}
 
 // Sample cuisines for initial data
 const CUISINES = [
@@ -88,7 +98,7 @@ function ensureRecipeProperties(recipe: Partial<Recipe>): Recipe {
 }
 
 // Helper validation functions
-function validateAndNormalizeIngredients(ingredients: any[]): RecipeIngredient[] {
+function validateAndNormalizeIngredients(ingredients: Array<Partial<RecipeIngredient>>): RecipeIngredient[] {
   if (!Array.isArray(ingredients)) {
     throw new Error('Ingredients must be an array');
   }
@@ -110,7 +120,7 @@ function validateAndNormalizeIngredients(ingredients: any[]): RecipeIngredient[]
   }));
 }
 
-function validateAndNormalizeInstructions(instructions: any[]): string[] {
+function validateAndNormalizeInstructions(instructions: string[] | unknown[]): string[] {
   if (!Array.isArray(instructions)) {
     return ['Prepare ingredients', 'Cook until done'];
   }
@@ -124,7 +134,7 @@ function validateAndNormalizeInstructions(instructions: any[]): string[] {
   );
 }
 
-function validateAndNormalizeTime(time: any): string {
+function validateAndNormalizeTime(time: string | number | unknown): string {
   if (!time) return '30 minutes';
   
   if (typeof time === 'number') {
@@ -147,7 +157,7 @@ function validateAndNormalizeTime(time: any): string {
   return '30 minutes';
 }
 
-function validateServings(servings: any): number {
+function validateServings(servings: number | string | unknown): number {
   if (typeof servings === 'number') {
     return Math.max(1, Math.min(12, Math.round(servings)));
   }
@@ -162,7 +172,7 @@ function validateServings(servings: any): number {
   return 2;
 }
 
-function validateMealType(mealType: any): string[] {
+function validateMealType(mealType: string | string[] | unknown): string[] {
   const validMealTypes = ['breakfast', 'lunch', 'dinner', 'snack', 'dessert', 'drink', 'appetizer', 'side'];
   
   if (typeof mealType === 'string') {
@@ -184,7 +194,7 @@ function validateMealType(mealType: any): string[] {
   return ['dinner'];
 }
 
-function validateSeason(season: any): string[] {
+function validateSeason(season: string | string[] | unknown): string[] {
   const validSeasons = ['spring', 'summer', 'fall', 'winter', 'all'];
   
   if (typeof season === 'string') {
@@ -206,7 +216,7 @@ function validateSeason(season: any): string[] {
   return ['all'];
 }
 
-function validateAstrologicalInfluences(influences: any): string[] {
+function validateAstrologicalInfluences(influences: string | string[] | unknown): string[] {
   if (typeof influences === 'string') {
     return [influences];
   }
@@ -222,12 +232,12 @@ function validateAstrologicalInfluences(influences: any): string[] {
   return ['all'];
 }
 
-function validateAndNormalizeNutrition(nutrition: any): Record<string, any> {
+function validateAndNormalizeNutrition(nutrition: NutritionData): NutritionData {
   if (!nutrition || typeof nutrition !== 'object') {
     return {};
   }
 
-  const safeNutrition: Record<string, any> = {};
+  const safeNutrition: NutritionData = {};
 
   // Validate numeric fields
   ['calories', 'protein', 'carbs', 'fat'].forEach(field => {
@@ -248,7 +258,7 @@ function validateAndNormalizeNutrition(nutrition: any): Record<string, any> {
       .filter((m: unknown) => typeof m === 'string')
       .slice(0, 10);  // Limit to 10 items
   }
-  
+
   return safeNutrition;
 }
 
@@ -477,7 +487,7 @@ class RecipeData {
     }
   }
 
-  async getRecommendedRecipes(count: number = 3): Promise<Recipe[]> {
+  async getRecommendedRecipes(count = 3): Promise<Recipe[]> {
     try {
       if (this.initPromise) {
         await this.initPromise;

@@ -9,12 +9,11 @@ import { AlchemicalProperty } from '@/constants/planetaryElements';
 import styles from './CuisineRecommender.module.css';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { transformCuisines, sortByAlchemicalCompatibility } from '@/utils/alchemicalTransformationUtils';
-import { ZodiacSign, LunarPhase, LunarPhaseWithSpaces } from '@/types/alchemy';
+import { ZodiacSign, LunarPhase, LunarPhaseWithSpaces, ElementalProperties } from '@/types/alchemy';
 import { cuisineFlavorProfiles, getRecipesForCuisineMatch } from '@/data/cuisineFlavorProfiles';
 import { allRecipes } from '@/data/recipes';
 import { SpoonacularService } from '@/services/SpoonacularService';
 import { LocalRecipeService } from '@/services/LocalRecipeService';
-import { ElementalProperties } from '@/types/alchemy';
 import { sauceRecommendations as sauceRecsData, SauceRecommendation, allSauces, Sauce } from '@/data/sauces';
 import type { Recipe } from '@/types/recipe';
 
@@ -49,6 +48,13 @@ interface CuisineStyles {
   error: string;
 }
 
+// Add this helper function near the top of the file, outside any components
+const getSafeScore = (score: any): number => {
+  // Convert to number if needed, default to 0.5 if NaN or undefined
+  const numScore = typeof score === 'number' ? score : parseFloat(score);
+  return !isNaN(numScore) ? numScore : 0.5;
+};
+
 export default function CuisineRecommender() {
   // Provide fallback values in case AlchemicalContext is not available
   const alchemicalContext = useAlchemical();
@@ -81,7 +87,9 @@ export default function CuisineRecommender() {
   
   // Get elemental profile from current astrological state instead of using placeholder values
   const [currentMomentElementalProfile, setCurrentMomentElementalProfile] = useState<ElementalProperties>(
-    ((state?.astrologicalState as any)?.elementalState as ElementalProperties) || {
+    alchemicalContext?.state?.astrologicalState?.elementalState || 
+    alchemicalContext?.state?.elementalState || 
+    {
       Fire: 0.25, 
       Water: 0.25, 
       Earth: 0.25, 
@@ -93,8 +101,8 @@ export default function CuisineRecommender() {
   // Update current moment elemental profile when astrological state changes
   useEffect(() => {
     // Use type assertion to avoid type errors
-    const safeState = state.astrologicalState as any;
-    if (safeState.elementalState) {
+    const safeState = state?.astrologicalState || {};
+    if (safeState?.elementalState) {
       // Use type assertion to ensure type compatibility
       setCurrentMomentElementalProfile({...safeState.elementalState} as unknown as ElementalProperties);
     } else if (currentZodiac) {
@@ -107,6 +115,7 @@ export default function CuisineRecommender() {
   // Load top sauce recommendations when component mounts or when elemental profile changes
   useEffect(() => {
     const topSauces = generateTopSauceRecommendations();
+    console.log(`Setting ${topSauces.length} top recommended sauces`);
     setTopRecommendedSauces(topSauces);
   }, [currentMomentElementalProfile, currentZodiac]); // Re-generate when these dependencies change
 
@@ -305,6 +314,7 @@ export default function CuisineRecommender() {
   const generateTopSauceRecommendations = () => {
     // Convert sauces record to array for mapping
     const saucesArray = allSauces ? Object.values(allSauces) : [];
+    console.log(`Total available sauces: ${saucesArray.length}`);
     
     // Convert sauces to the format required by the match calculation
     const saucesWithMatches = saucesArray.map((sauce, index) => {
@@ -316,7 +326,7 @@ export default function CuisineRecommender() {
       return {
         ...sauce,
         id: sauce.name?.replace(/\s+/g, '-').toLowerCase() || `sauce-${index}`, // Ensure each sauce has an id
-        matchPercentage: Math.round(matchScore * 100)
+        matchPercentage: Math.round(getSafeScore(matchScore) * 100)
       };
     });
     
@@ -325,8 +335,10 @@ export default function CuisineRecommender() {
       (a, b) => b.matchPercentage - a.matchPercentage
     );
     
-    // Return top 4 sauces
-    return sortedSauces.slice(0, 4);
+    const result = sortedSauces.slice(0, 8);
+    console.log(`Returning ${result.length} top recommended sauces`);
+    // Return top 8 sauces (doubled from 4)
+    return result;
   };
 
   useEffect(() => {
@@ -454,7 +466,32 @@ export default function CuisineRecommender() {
     // Convert sauces record to array for mapping
     const saucesArray = Object.values(allSauces);
     
-    // Score sauces based on compatibility with the cuisine's elemental profile
+    // First, look for sauces from the traditional sauces of this cuisine
+    const traditionalSauces: any[] = [];
+    // Get all cuisines data
+    const allCuisinesData = cuisines || {};
+    
+    // Check if this cuisine has traditional sauces defined
+    if (allCuisinesData[cuisine.id]?.traditionalSauces) {
+      const cuisineData = allCuisinesData[cuisine.id];
+      
+      // Add all traditional sauces from this cuisine with their match scores
+      Object.entries(cuisineData.traditionalSauces).forEach(([id, sauceData]: [string, any]) => {
+        const matchScore = calculateElementalMatch(
+          sauceData.elementalProperties as ElementalProperties,
+          cuisine.elementalProperties as ElementalProperties
+        );
+        
+        traditionalSauces.push({
+          ...sauceData,
+          id: `${cuisine.id}-${id}`,
+          matchPercentage: Math.round(getSafeScore(matchScore) * 100),
+          isTraditional: true
+        });
+      });
+    }
+    
+    // Score all sauces based on compatibility with the cuisine's elemental profile
     const saucesWithMatches = saucesArray.map((sauce) => {
       const matchScore = calculateElementalMatch(
         sauce.elementalProperties as ElementalProperties,
@@ -463,7 +500,7 @@ export default function CuisineRecommender() {
       
       return {
         ...sauce,
-        matchPercentage: Math.round(matchScore * 100)
+        matchPercentage: Math.round(getSafeScore(matchScore) * 100)
       };
     });
     
@@ -472,8 +509,54 @@ export default function CuisineRecommender() {
       (a, b) => b.matchPercentage - a.matchPercentage
     );
     
-    // Return top 3 sauces
-    return sortedSauces.slice(0, 3);
+    // Combine traditional sauces with top matching sauces from other cuisines
+    let combinedSauces = [...traditionalSauces];
+    
+    // Define incompatible sauce-cuisine pairs
+    const incompatiblePairs: Record<string, string[]> = {
+      'thai': ['marinara', 'bolognese', 'bechamel', 'alfredo', 'ragu', 'gravy'],
+      'italian': ['fish sauce', 'soy sauce', 'curry paste', 'gochujang', 'teriyaki'],
+      'indian': ['aioli', 'bechamel', 'hollandaise', 'carbonara'],
+      'japanese': ['chimichurri', 'guacamole', 'marinara', 'bechamel'],
+      'mexican': ['soy sauce', 'fish sauce', 'oyster sauce', 'teriyaki'],
+      'french': ['soy sauce', 'gochujang', 'sweet chili', 'curry paste'],
+      'korean': ['marinara', 'bechamel', 'pesto', 'carbonara'],
+      'chinese': ['guacamole', 'chimichurri', 'aioli', 'hollandaise'],
+      'middle_eastern': ['soy sauce', 'teriyaki', 'alfredo', 'carbonara'],
+      'greek': ['soy sauce', 'teriyaki', 'gochujang', 'curry paste']
+    };
+    
+    // Add high-scoring sauces from general collection that aren't already in the traditional sauces
+    for (const sauce of sortedSauces) {
+      // Check if this sauce is already in our combined list
+      if (!combinedSauces.some(s => s.name === sauce.name)) {
+        // Skip incompatible cuisine-sauce combinations
+        if (cuisine.id && incompatiblePairs[cuisine.id.toLowerCase()]) {
+          const incompatibleSauces = incompatiblePairs[cuisine.id.toLowerCase()];
+          const sauceNameLower = sauce.name?.toLowerCase() || '';
+          
+          // Skip if sauce name contains any incompatible term
+          if (incompatibleSauces.some(term => sauceNameLower.includes(term.toLowerCase()))) {
+            continue;
+          }
+        }
+        
+        // Require a higher match percentage for cross-cultural sauces (80% minimum)
+        if (sauce.matchPercentage >= 80) {
+          combinedSauces.push(sauce);
+        }
+      }
+      
+      // Stop when we have enough sauces
+      if (combinedSauces.length >= 6) { // Doubled from 3
+        break;
+      }
+    }
+    
+    // Sort the combined list by match percentage
+    return combinedSauces.sort(
+      (a, b) => b.matchPercentage - a.matchPercentage
+    );
   };
 
   if (loading) {
@@ -549,56 +632,142 @@ export default function CuisineRecommender() {
           {cuisineRecipes.length > 0 ? (
             <div className="mt-2">
               <h4 className="text-xs uppercase font-medium text-gray-500 mb-2">Recipes</h4>
-              <div className="space-y-3">
+              <div className="grid grid-cols-2 gap-2">
                 {cuisineRecipes.slice(0, showAllRecipes ? undefined : 5).map((recipe, index) => (
-                  <div key={index} className="border rounded p-3 bg-gray-50">
-                    <div className="flex justify-between items-center mb-2">
-                      <h5 className="font-medium">{recipe.name || recipe.title}</h5>
-                      {recipe.matchScore && (
-                        <span className={`text-xs px-1.5 py-0.5 rounded ${getMatchScoreClass(recipe.matchScore)}`}>
-                          {Math.round(recipe.matchScore * 100)}% match
-                        </span>
-                      )}
+                  <div 
+                    key={index} 
+                    className="border rounded p-2 bg-white cursor-pointer hover:shadow-md transition-all duration-200"
+                    onClick={(event) => toggleRecipeExpansion(index, event as React.MouseEvent)}
+                  >
+                    <div className="flex justify-between items-center mb-1">
+                      <h5 className="font-medium text-sm">{recipe.name}</h5>
+                      {renderScoreBadge(recipe.matchPercentage / 100, recipe.hasDualMatch)}
                     </div>
+                    <p className="text-xs text-gray-600 truncate" title={recipe.description}>
+                      {recipe.description}
+                    </p>
                     
-                    {recipe.description && (
-                      <p className="text-sm text-gray-600 mb-2">{recipe.description}</p>
-                    )}
-                    
-                    {recipe.ingredients && recipe.ingredients.length > 0 && (
-                      <div className="mb-3">
-                        <h6 className="font-medium text-xs mb-1">Ingredients:</h6>
-                        <ul className="text-xs grid grid-cols-2 gap-x-4 gap-y-1 pl-4 list-disc">
-                          {recipe.ingredients.map((ingredient: any, i: number) => (
-                            <li key={i}>
-                              {typeof ingredient === 'string' 
-                                ? ingredient 
-                                : `${ingredient.amount || ''} ${ingredient.unit || ''} ${ingredient.name || ''}`}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-                    
-                    {recipe.instructions && recipe.instructions.length > 0 && (
-                      <div>
-                        <h6 className="font-medium text-xs mb-1">Instructions:</h6>
-                        <ol className="text-xs space-y-1 pl-4 list-decimal">
-                          {recipe.instructions.slice(0, expandedRecipes[index] ? undefined : 2).map((instruction: string, i: number) => (
-                            <li key={i}>{instruction}</li>
-                          ))}
-                        </ol>
+                    {/* Expanded recipe details */}
+                    {expandedRecipes[index] && (
+                      <div className="mt-2 pt-2 border-t border-gray-200 text-xs">
+                        <div className="flex space-x-1 mb-1">
+                          {recipe.elementalProperties?.Fire >= 0.3 && <Flame size={12} className="text-red-500" />}
+                          {recipe.elementalProperties?.Water >= 0.3 && <Droplets size={12} className="text-blue-500" />}
+                          {recipe.elementalProperties?.Earth >= 0.3 && <Mountain size={12} className="text-green-500" />}
+                          {recipe.elementalProperties?.Air >= 0.3 && <Wind size={12} className="text-yellow-500" />}
+                        </div>
                         
-                        {recipe.instructions.length > 2 && (
-                          <button 
-                            className="text-xs text-blue-500 mt-1 hover:underline"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              toggleRecipeExpansion(index, e);
-                            }}
-                          >
-                            {expandedRecipes[index] ? "Show less" : "Show more steps"}
-                          </button>
+                        {recipe.ingredients && (
+                          <div className="mt-1">
+                            <h6 className="font-medium mb-1">Ingredients:</h6>
+                            <ul className="pl-4 list-disc">
+                              {recipe.ingredients.map((ingredient, i) => (
+                                <li key={i}>
+                                  {typeof ingredient === 'string' 
+                                    ? ingredient 
+                                    : `${ingredient.amount} ${ingredient.unit} ${ingredient.name}${ingredient.preparation ? `, ${ingredient.preparation}` : ''}`}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                        
+                        {/* Added Procedure section - check for multiple possible property names */}
+                        {(recipe.instructions || recipe.preparationSteps || recipe.procedure) && (
+                          <div className="mt-2">
+                            <h6 className="font-medium mb-1">Procedure:</h6>
+                            <ol className="pl-4 list-decimal">
+                              {(recipe.instructions || recipe.preparationSteps || recipe.procedure || []).map((step, i) => {
+                                // If we have many steps, only show first 3 when not fully expanded
+                                const stepsToShow = (recipe.instructions || recipe.preparationSteps || recipe.procedure || []).length > 6 ? 3 : 6;
+                                if (!expandedRecipes[`${index}-steps`] && i >= stepsToShow) return null;
+                                return (
+                                  <li key={i}>{step}</li>
+                                );
+                              })}
+                            </ol>
+                            
+                            {/* Show expand button if there are more than 6 steps */}
+                            {(recipe.instructions || recipe.preparationSteps || recipe.procedure || []).length > 6 && (
+                              <button
+                                className="text-xs text-blue-500 mt-1 hover:underline"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setExpandedRecipes(prev => ({
+                                    ...prev,
+                                    [`${index}-steps`]: !prev[`${index}-steps`]
+                                  }));
+                                }}
+                              >
+                                {expandedRecipes[`${index}-steps`] ? "Show fewer steps" : "Show all steps"}
+                              </button>
+                            )}
+                          </div>
+                        )}
+                        
+                        {/* Additional recipe information */}
+                        {recipe.cookTime && (
+                          <div className="mt-1">
+                            <span className="text-gray-500">Cooking time: </span>
+                            <span>{recipe.cookTime}</span>
+                          </div>
+                        )}
+                        
+                        {recipe.prepTime && (
+                          <div className="mt-1">
+                            <span className="text-gray-500">Prep time: </span>
+                            <span>{recipe.prepTime}</span>
+                          </div>
+                        )}
+                        
+                        {recipe.servingSize && (
+                          <div className="mt-1">
+                            <span className="text-gray-500">Servings: </span>
+                            <span>{recipe.servingSize}</span>
+                          </div>
+                        )}
+                        
+                        {recipe.dietaryInfo && recipe.dietaryInfo.length > 0 && (
+                          <div className="mt-1">
+                            <span className="text-gray-500">Dietary: </span>
+                            <span>{Array.isArray(recipe.dietaryInfo) ? recipe.dietaryInfo.join(', ') : recipe.dietaryInfo}</span>
+                          </div>
+                        )}
+                        
+                        {recipe.culturalNotes && (
+                          <div className="mt-1">
+                            <h6 className="font-medium mb-1">Cultural Notes:</h6>
+                            <p>{recipe.culturalNotes}</p>
+                          </div>
+                        )}
+                        
+                        {recipe.pairingSuggestions && (
+                          <div className="mt-1">
+                            <h6 className="font-medium mb-1">Pairs Well With:</h6>
+                            <p>{Array.isArray(recipe.pairingSuggestions) ? recipe.pairingSuggestions.join(', ') : recipe.pairingSuggestions}</p>
+                          </div>
+                        )}
+                        
+                        {recipe.flavorProfile && (
+                          <div className="mt-1">
+                            <h6 className="font-medium mb-1">Flavor Profile:</h6>
+                            <div className="flex flex-wrap gap-1">
+                              {Object.entries(recipe.flavorProfile).map(([flavor, value]) => 
+                                value > 0.3 ? (
+                                  <span key={flavor} className="px-1 bg-gray-100 rounded text-gray-700">
+                                    {flavor}: {Math.round(value * 100)}%
+                                  </span>
+                                ) : null
+                              )}
+                            </div>
+                          </div>
+                        )}
+                        
+                        {recipe.astrologicalInfluences && recipe.astrologicalInfluences.length > 0 && (
+                          <div className="mt-1">
+                            <h6 className="font-medium mb-1">Astrological Influences:</h6>
+                            <p>{Array.isArray(recipe.astrologicalInfluences) ? recipe.astrologicalInfluences.join(', ') : recipe.astrologicalInfluences}</p>
+                          </div>
                         )}
                       </div>
                     )}
@@ -623,20 +792,20 @@ export default function CuisineRecommender() {
           {sauceRecommendations.length > 0 && (
             <div className="mt-4 pt-2 border-t border-gray-100">
               <h4 className="text-xs uppercase font-medium text-gray-500 mb-2">Recommended Sauces</h4>
-              <div className="grid grid-cols-3 gap-2">
-                {sauceRecommendations.slice(0, showAllSauces ? undefined : 3).map((sauce, index) => (
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+                {sauceRecommendations.slice(0, showAllSauces ? undefined : 6).map((sauce, index) => (
                   <div 
                     key={index} 
-                    className="border rounded p-2 bg-gray-50 cursor-pointer hover:shadow-md transition-all duration-200"
+                    className="border rounded p-4 bg-gray-50 cursor-pointer hover:shadow-md transition-all duration-200 min-h-[180px] flex flex-col"
                     onClick={() => toggleSauceCard(sauce.id || `sauce-${index}`)}
                   >
-                    <div className="flex justify-between items-center mb-1">
-                      <h5 className="font-medium text-sm">{sauce.name}</h5>
+                    <div className="flex justify-between items-start mb-2">
+                      <h5 className="font-medium text-sm leading-tight mr-1 max-w-[75%]">{sauce.name}</h5>
                       <span className={`text-xs px-1.5 py-0.5 rounded ${getMatchScoreClass(sauce.matchPercentage/100)}`}>
                         {sauce.matchPercentage}%
                       </span>
                     </div>
-                    <p className="text-xs text-gray-600 truncate" title={sauce.description}>
+                    <p className="text-xs leading-relaxed text-gray-600 line-clamp-4 grow" title={sauce.description}>
                       {sauce.description}
                     </p>
                     
@@ -661,25 +830,90 @@ export default function CuisineRecommender() {
                           </div>
                         )}
                         
-                        {sauce.procedure && (
-                          <div className="mt-1">
+                        {/* Consistently display preparation steps using various possible field names */}
+                        {(sauce.preparationSteps || sauce.procedure || sauce.instructions) && (
+                          <div className="mt-2">
                             <h6 className="font-medium mb-1">Preparation:</h6>
-                            {Array.isArray(sauce.procedure) ? (
+                            {Array.isArray(sauce.preparationSteps || sauce.procedure || sauce.instructions) ? (
                               <ol className="pl-4 list-decimal">
-                                {sauce.procedure.map((step: string, i: number) => (
+                                {(sauce.preparationSteps || sauce.procedure || sauce.instructions).map((step: string, i: number) => (
                                   <li key={i}>{step}</li>
                                 ))}
                               </ol>
                             ) : (
-                              <p>{sauce.procedure}</p>
+                              <p>{sauce.preparationSteps || sauce.procedure || sauce.instructions}</p>
                             )}
                           </div>
                         )}
                         
-                        {sauce.usage && (
+                        {/* Add additional sauce information */}
+                        {sauce.prepTime && (
                           <div className="mt-1">
-                            <h6 className="font-medium mb-1">Usage:</h6>
-                            <p>{sauce.usage}</p>
+                            <span className="text-gray-500">Prep time: </span>
+                            <span>{sauce.prepTime}</span>
+                          </div>
+                        )}
+                        
+                        {sauce.cookTime && (
+                          <div className="mt-1">
+                            <span className="text-gray-500">Cook time: </span>
+                            <span>{sauce.cookTime}</span>
+                          </div>
+                        )}
+                        
+                        {sauce.yield && (
+                          <div className="mt-1">
+                            <span className="text-gray-500">Yield: </span>
+                            <span>{sauce.yield}</span>
+                          </div>
+                        )}
+                        
+                        {sauce.difficulty && (
+                          <div className="mt-1">
+                            <span className="text-gray-500">Difficulty: </span>
+                            <span>{sauce.difficulty}</span>
+                          </div>
+                        )}
+                        
+                        {sauce.storageInstructions && (
+                          <div className="mt-1">
+                            <h6 className="font-medium mb-1">Storage:</h6>
+                            <p>{sauce.storageInstructions}</p>
+                          </div>
+                        )}
+                        
+                        {sauce.technicalTips && (
+                          <div className="mt-1">
+                            <h6 className="font-medium mb-1">Technical Tips:</h6>
+                            <p>{sauce.technicalTips}</p>
+                          </div>
+                        )}
+                        
+                        {sauce.culinaryUses && sauce.culinaryUses.length > 0 && (
+                          <div className="mt-1">
+                            <h6 className="font-medium mb-1">Culinary Uses:</h6>
+                            <ul className="pl-4 list-disc">
+                              {Array.isArray(sauce.culinaryUses) ? 
+                                sauce.culinaryUses.map((use: string, i: number) => (
+                                  <li key={i}>{use}</li>
+                                )) : 
+                                <li>{sauce.culinaryUses}</li>
+                              }
+                            </ul>
+                          </div>
+                        )}
+                        
+                        {sauce.variants && sauce.variants.length > 0 && (
+                          <div className="mt-1">
+                            <h6 className="font-medium mb-1">Variants:</h6>
+                            <ul className="pl-4 list-disc">
+                              {Array.isArray(sauce.variants) ? 
+                                sauce.variants.map((variant: string, i: number) => (
+                                  <li key={i}>{variant}</li>
+                                )) : 
+                                <li>{sauce.variants}</li>
+                              }
+                            </ul>
                           </div>
                         )}
                         
@@ -698,10 +932,10 @@ export default function CuisineRecommender() {
                           </div>
                         )}
                         
-                        {sauce.origin && (
+                        {sauce.usage && (
                           <div className="mt-1">
-                            <h6 className="font-medium mb-1">Origin:</h6>
-                            <p>{sauce.origin}</p>
+                            <h6 className="font-medium mb-1">Usage:</h6>
+                            <p>{sauce.usage}</p>
                           </div>
                         )}
                       </div>
@@ -710,7 +944,7 @@ export default function CuisineRecommender() {
                 ))}
               </div>
               
-              {sauceRecommendations.length > 3 && (
+              {sauceRecommendations.length > 6 && (
                 <button 
                   className="text-xs text-blue-500 mt-2 hover:underline"
                   onClick={() => setShowAllSauces(!showAllSauces)}
@@ -730,20 +964,20 @@ export default function CuisineRecommender() {
             Celestially Aligned Sauces
             <span className="ml-1 text-gray-400 normal-case font-normal">(based on current astrological state)</span>
           </h4>
-          <div className="grid grid-cols-2 gap-2">
-            {topRecommendedSauces.map((sauce, index) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2">
+            {topRecommendedSauces.slice(0, 8).map((sauce, index) => (
               <div 
                 key={index} 
-                className="border rounded p-2 bg-gray-50 cursor-pointer hover:shadow-md transition-all duration-200"
+                className="border rounded p-4 bg-gray-50 cursor-pointer hover:shadow-md transition-all duration-200 flex flex-col min-h-[180px]"
                 onClick={() => toggleSauceCard(sauce.id || `top-sauce-${index}`)}
               >
-                <div className="flex justify-between items-center mb-1">
-                  <h5 className="font-medium text-sm">{sauce.name}</h5>
-                  <span className={`text-xs px-1.5 py-0.5 rounded ${getMatchScoreClass(sauce.matchPercentage/100)}`}>
+                <div className="flex justify-between items-start mb-2">
+                  <h5 className="font-medium text-sm leading-tight mr-1 max-w-[75%]">{sauce.name}</h5>
+                  <span className={`text-xs px-1.5 py-0.5 rounded whitespace-nowrap ${getMatchScoreClass(sauce.matchPercentage/100)}`}>
                     {sauce.matchPercentage}%
                   </span>
                 </div>
-                <p className="text-xs text-gray-600 truncate" title={sauce.description}>
+                <p className="text-xs leading-relaxed text-gray-600 line-clamp-4 grow" title={sauce.description}>
                   {sauce.description}
                 </p>
                 
@@ -768,25 +1002,90 @@ export default function CuisineRecommender() {
                       </div>
                     )}
                     
-                    {sauce.procedure && (
-                      <div className="mt-1">
+                    {/* Consistently display preparation steps using various possible field names */}
+                    {(sauce.preparationSteps || sauce.procedure || sauce.instructions) && (
+                      <div className="mt-2">
                         <h6 className="font-medium mb-1">Preparation:</h6>
-                        {Array.isArray(sauce.procedure) ? (
+                        {Array.isArray(sauce.preparationSteps || sauce.procedure || sauce.instructions) ? (
                           <ol className="pl-4 list-decimal">
-                            {sauce.procedure.map((step: string, i: number) => (
+                            {(sauce.preparationSteps || sauce.procedure || sauce.instructions).map((step: string, i: number) => (
                               <li key={i}>{step}</li>
                             ))}
                           </ol>
                         ) : (
-                          <p>{sauce.procedure}</p>
+                          <p>{sauce.preparationSteps || sauce.procedure || sauce.instructions}</p>
                         )}
                       </div>
                     )}
                     
-                    {sauce.usage && (
+                    {/* Add additional sauce information */}
+                    {sauce.prepTime && (
                       <div className="mt-1">
-                        <h6 className="font-medium mb-1">Usage:</h6>
-                        <p>{sauce.usage}</p>
+                        <span className="text-gray-500">Prep time: </span>
+                        <span>{sauce.prepTime}</span>
+                      </div>
+                    )}
+                    
+                    {sauce.cookTime && (
+                      <div className="mt-1">
+                        <span className="text-gray-500">Cook time: </span>
+                        <span>{sauce.cookTime}</span>
+                      </div>
+                    )}
+                    
+                    {sauce.yield && (
+                      <div className="mt-1">
+                        <span className="text-gray-500">Yield: </span>
+                        <span>{sauce.yield}</span>
+                      </div>
+                    )}
+                    
+                    {sauce.difficulty && (
+                      <div className="mt-1">
+                        <span className="text-gray-500">Difficulty: </span>
+                        <span>{sauce.difficulty}</span>
+                      </div>
+                    )}
+                    
+                    {sauce.storageInstructions && (
+                      <div className="mt-1">
+                        <h6 className="font-medium mb-1">Storage:</h6>
+                        <p>{sauce.storageInstructions}</p>
+                      </div>
+                    )}
+                    
+                    {sauce.technicalTips && (
+                      <div className="mt-1">
+                        <h6 className="font-medium mb-1">Technical Tips:</h6>
+                        <p>{sauce.technicalTips}</p>
+                      </div>
+                    )}
+                    
+                    {sauce.culinaryUses && sauce.culinaryUses.length > 0 && (
+                      <div className="mt-1">
+                        <h6 className="font-medium mb-1">Culinary Uses:</h6>
+                        <ul className="pl-4 list-disc">
+                          {Array.isArray(sauce.culinaryUses) ? 
+                            sauce.culinaryUses.map((use: string, i: number) => (
+                              <li key={i}>{use}</li>
+                            )) : 
+                            <li>{sauce.culinaryUses}</li>
+                          }
+                        </ul>
+                      </div>
+                    )}
+                    
+                    {sauce.variants && sauce.variants.length > 0 && (
+                      <div className="mt-1">
+                        <h6 className="font-medium mb-1">Variants:</h6>
+                        <ul className="pl-4 list-disc">
+                          {Array.isArray(sauce.variants) ? 
+                            sauce.variants.map((variant: string, i: number) => (
+                              <li key={i}>{variant}</li>
+                            )) : 
+                            <li>{sauce.variants}</li>
+                          }
+                        </ul>
                       </div>
                     )}
                     
@@ -805,10 +1104,10 @@ export default function CuisineRecommender() {
                       </div>
                     )}
                     
-                    {sauce.origin && (
+                    {sauce.usage && (
                       <div className="mt-1">
-                        <h6 className="font-medium mb-1">Origin:</h6>
-                        <p>{sauce.origin}</p>
+                        <h6 className="font-medium mb-1">Usage:</h6>
+                        <p>{sauce.usage}</p>
                       </div>
                     )}
                   </div>

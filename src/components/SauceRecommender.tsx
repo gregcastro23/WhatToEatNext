@@ -27,7 +27,7 @@ export default function SauceRecommender({
   showByRegion = true,
   showByAstrological = true,
   showByDietary = false,
-  maxResults = 8,
+  maxResults = 16,
   sauces,
   cuisines,
   className,
@@ -285,8 +285,14 @@ export default function SauceRecommender({
               currentElementalProfile
             );
             
-            // Only add if it's a good match
-            if (matchScore > 0.8) {
+            // More restrictive filtering for cross-cuisine sauce recommendations
+            // Increased threshold and added exclusion rules based on culinary appropriateness
+            if (matchScore > 0.85) { // Increased from 0.65 for higher quality matches
+              // Skip inappropriate combinations
+              if (shouldExcludeSauceCombination(sauceData.name, cuisine)) {
+                return;
+              }
+              
               results.push({
                 id: `${cuisineId}-${id}`,
                 name: sauceData.name,
@@ -316,6 +322,37 @@ export default function SauceRecommender({
     return uniqueResults
       .sort((a, b) => b.matchScore - a.matchScore)
       .slice(0, maxResults);
+  };
+
+  // Helper function to determine if a sauce-cuisine combination should be excluded
+  const shouldExcludeSauceCombination = (sauceName: string, targetCuisine?: string): boolean => {
+    if (!targetCuisine) return false;
+    
+    // Define incompatible sauce-cuisine pairs
+    const incompatiblePairs: Record<string, string[]> = {
+      'thai': ['marinara', 'bolognese', 'bechamel', 'alfredo', 'ragu', 'gravy'],
+      'italian': ['fish sauce', 'soy sauce', 'curry paste', 'gochujang', 'teriyaki'],
+      'indian': ['aioli', 'bechamel', 'hollandaise', 'carbonara'],
+      'japanese': ['chimichurri', 'guacamole', 'marinara', 'bechamel'],
+      'mexican': ['soy sauce', 'fish sauce', 'oyster sauce', 'teriyaki'],
+      'french': ['soy sauce', 'gochujang', 'sweet chili', 'curry paste'],
+      'korean': ['marinara', 'bechamel', 'pesto', 'carbonara'],
+      'chinese': ['guacamole', 'chimichurri', 'aioli', 'hollandaise']
+    };
+    
+    // Normalize cuisine and sauce names for comparison
+    const normalizedCuisine = targetCuisine.toLowerCase();
+    const normalizedSauceName = sauceName.toLowerCase();
+    
+    // Check if this cuisine has incompatible sauces defined
+    if (incompatiblePairs[normalizedCuisine]) {
+      // Check if the sauce name contains any of the incompatible terms
+      return incompatiblePairs[normalizedCuisine].some(
+        incompatibleSauce => normalizedSauceName.includes(incompatibleSauce)
+      );
+    }
+    
+    return false;
   };
 
   // Helper function to render the sauce element icons
@@ -585,6 +622,100 @@ export default function SauceRecommender({
                     {sauce.seasonality && (
                       <div className="text-xs text-gray-600">
                         <span className="font-medium">Season:</span> {sauce.seasonality}
+                      </div>
+                    )}
+                    
+                    {/* Consistently display preparation steps using various possible field names */}
+                    {(sauce.preparationSteps || sauce.procedure || sauce.instructions) && (
+                      <div className="mt-2">
+                        <h6 className="font-medium mb-1">Preparation:</h6>
+                        {Array.isArray(sauce.preparationSteps || sauce.procedure || sauce.instructions) ? (
+                          <ol className="pl-4 list-decimal">
+                            {(sauce.preparationSteps || sauce.procedure || sauce.instructions).map((step: string, i: number) => (
+                              <li key={i}>{step}</li>
+                            ))}
+                          </ol>
+                        ) : (
+                          <p>{sauce.preparationSteps || sauce.procedure || sauce.instructions}</p>
+                        )}
+                      </div>
+                    )}
+                    
+                    {/* Add additional sauce information */}
+                    {sauce.prepTime && (
+                      <div className="mt-1">
+                        <span className="text-gray-500">Prep time: </span>
+                        <span>{sauce.prepTime}</span>
+                      </div>
+                    )}
+                    
+                    {sauce.cookTime && (
+                      <div className="mt-1">
+                        <span className="text-gray-500">Cook time: </span>
+                        <span>{sauce.cookTime}</span>
+                      </div>
+                    )}
+                    
+                    {sauce.yield && (
+                      <div className="mt-1">
+                        <span className="text-gray-500">Yield: </span>
+                        <span>{sauce.yield}</span>
+                      </div>
+                    )}
+                    
+                    {sauce.difficulty && (
+                      <div className="mt-1">
+                        <span className="text-gray-500">Difficulty: </span>
+                        <span>{sauce.difficulty}</span>
+                      </div>
+                    )}
+                    
+                    {sauce.storageInstructions && (
+                      <div className="mt-1">
+                        <h6 className="font-medium mb-1">Storage:</h6>
+                        <p>{sauce.storageInstructions}</p>
+                      </div>
+                    )}
+                    
+                    {sauce.technicalTips && (
+                      <div className="mt-1">
+                        <h6 className="font-medium mb-1">Technical Tips:</h6>
+                        <p>{sauce.technicalTips}</p>
+                      </div>
+                    )}
+                    
+                    {sauce.culinaryUses && sauce.culinaryUses.length > 0 && (
+                      <div className="mt-1">
+                        <h6 className="font-medium mb-1">Culinary Uses:</h6>
+                        <ul className="pl-4 list-disc">
+                          {Array.isArray(sauce.culinaryUses) ? 
+                            sauce.culinaryUses.map((use: string, i: number) => (
+                              <li key={i}>{use}</li>
+                            )) : 
+                            <li>{sauce.culinaryUses}</li>
+                          }
+                        </ul>
+                      </div>
+                    )}
+                    
+                    {sauce.variants && sauce.variants.length > 0 && (
+                      <div className="mt-1">
+                        <h6 className="font-medium mb-1">Variants:</h6>
+                        <ul className="pl-4 list-disc">
+                          {Array.isArray(sauce.variants) ? 
+                            sauce.variants.map((variant: string, i: number) => (
+                              <li key={i}>{variant}</li>
+                            )) : 
+                            <li>{sauce.variants}</li>
+                          }
+                        </ul>
+                      </div>
+                    )}
+                    
+                    {sauce.usage && (
+                      <div className="mt-1">
+                        <h6 className="font-medium mb-1">Usage:</h6>
+                        <p>{sauce.usage}</p>
                       </div>
                     )}
                   </div>

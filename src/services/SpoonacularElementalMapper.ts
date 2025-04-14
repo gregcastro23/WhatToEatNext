@@ -1,11 +1,12 @@
-const logger = console;
+import { ElementalProperties } from '../types/elemental';
+import { 
+  SpoonacularNutrient, 
+  SpoonacularNutrition, 
+  SpoonacularRecipe, 
+  SpoonacularIngredient 
+} from '../types/spoonacular';
 
-export interface ElementalProperties {
-  Fire: number;
-  Water: number;
-  Earth: number;
-  Air: number;
-}
+const logger = console;
 
 export class SpoonacularElementalMapper {
   static nutrientElementMap: Record<string, string> = {
@@ -23,7 +24,7 @@ export class SpoonacularElementalMapper {
     return this.nutrientElementMap[ingredient.toLowerCase()] || 'Earth';
   }
   
-  static mapRecipeToElemental(recipe: any): ElementalProperties {
+  static mapRecipeToElemental(recipe: SpoonacularRecipe): ElementalProperties {
     // Default balanced elements
     const elements: ElementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     
@@ -42,7 +43,7 @@ export class SpoonacularElementalMapper {
       let fireCount = 0, waterCount = 0, earthCount = 0, airCount = 0;
       
       // Process each nutrient
-      nutrients.forEach((nutrient: any) => {
+      nutrients.forEach((nutrient: SpoonacularNutrient) => {
         // Handle different nutrient formats 
         const name = nutrient.name ? nutrient.name.toLowerCase() : '';
         const amount = typeof nutrient.amount === 'number' ? nutrient.amount : 0;
@@ -80,7 +81,7 @@ export class SpoonacularElementalMapper {
   }
 
   // Map a Spoonacular ingredient to our internal ingredient format
-  static mapSpoonacularIngredient(spoonacularIngredient: any) {
+  static mapSpoonacularIngredient(spoonacularIngredient: SpoonacularIngredient) {
     try {
       if (!spoonacularIngredient) {
         return { name: 'Unknown Ingredient' };
@@ -130,7 +131,7 @@ export class SpoonacularElementalMapper {
     }
   }
 
-  static mapNutritionalToElemental(nutrition: any): ElementalProperties {
+  static mapNutritionalToElemental(nutrition: SpoonacularNutrition): ElementalProperties {
     // Default elements
     const elements: ElementalProperties = this.getDefaultElements();
     
@@ -144,7 +145,7 @@ export class SpoonacularElementalMapper {
       let fireCount = 0, waterCount = 0, earthCount = 0, airCount = 0;
       
       // Map nutrients to elements
-      nutrition.nutrients.forEach((nutrient: any) => {
+      nutrition.nutrients.forEach((nutrient: SpoonacularNutrient) => {
         const name = nutrient.name ? nutrient.name.toLowerCase() : '';
         const amount = typeof nutrient.amount === 'number' ? nutrient.amount : 0;
         

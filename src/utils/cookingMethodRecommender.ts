@@ -875,7 +875,7 @@ export function getRecommendedCookingMethods(
           const retroEffect = mercuryData.PlanetSpecific.Mercury.CommunicationEffects.Retrograde.toLowerCase();
           
           // Look for methods that align with the retrograde effect description
-          const retroKeywords = retroEffect.split(/[,\.\s]+/).filter(kw => kw.length > 4);
+          const retroKeywords = retroEffect.split(/[,.\s]+/).filter(kw => kw.length > 4);
           const retroMentionCount = retroKeywords.filter(kw => methodDesc.includes(kw)).length;
           
           mercuryScore += retroMentionCount * 0.7;
@@ -892,7 +892,7 @@ export function getRecommendedCookingMethods(
           const directEffect = mercuryData.PlanetSpecific.Mercury.CommunicationEffects.Direct.toLowerCase();
           
           // Look for methods that align with the direct effect description
-          const directKeywords = directEffect.split(/[,\.\s]+/).filter(kw => kw.length > 4);
+          const directKeywords = directEffect.split(/[,.\s]+/).filter(kw => kw.length > 4);
           const directMentionCount = directKeywords.filter(kw => methodDesc.includes(kw)).length;
           
           mercuryScore += directMentionCount * 0.7;

@@ -50,7 +50,7 @@ export function calculateElementalCompatibility(
   );
   
   // Calculate overall compatibility (weighted average)
-  let compatibility = (
+  const compatibility = (
     similarity * 0.4 +
     complementaryScore * 0.3 +
     balanceScore * 0.3

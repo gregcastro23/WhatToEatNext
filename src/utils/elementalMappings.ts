@@ -135,8 +135,10 @@ export const ELEMENT_AFFINITIES = {
   Earth: ['Water']
 } as const;
 
-export default {
+const elementalMappings = {
   elements,
   elementalInteractions,
   elementalFunctions
 };
+
+export default elementalMappings;

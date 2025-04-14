@@ -5,40 +5,16 @@ import { proteins } from '../data/ingredients/proteins';
 import { grains } from '../data/ingredients/grains';
 import { oils } from '../data/ingredients/oils';
 import { fruits } from '../data/ingredients/fruits';
-import { SpoonacularService } from './SpoonacularService';
 import type { IngredientMapping } from '../types/alchemy';
-
-// Define nutritional filter criteria types
-export interface NutritionalFilter {
-  minProtein?: number;
-  maxProtein?: number;
-  minFiber?: number;
-  maxFiber?: number;
-  minCalories?: number;
-  maxCalories?: number;
-  minCarbs?: number;
-  maxCarbs?: number;
-  minFat?: number;
-  maxFat?: number;
-  vitamins?: string[];
-  minerals?: string[];
-  highProtein?: boolean;
-  lowCarb?: boolean;
-  lowFat?: boolean;
-}
-
-// Interface for elemental properties filter
-export interface ElementalFilter {
-  minFire?: number;
-  maxFire?: number;
-  minWater?: number;
-  maxWater?: number;
-  minEarth?: number;
-  maxEarth?: number;
-  minAir?: number;
-  maxAir?: number;
-  dominantElement?: 'Fire' | 'Water' | 'Earth' | 'Air';
-}
+import { ElementalFilter } from '../types/elemental';
+import { 
+  NutritionalFilter, 
+  NutritionData 
+} from '../types/nutrition';
+import { 
+  SpoonacularRecipe, 
+  SpoonacularNutritionData 
+} from '../types/spoonacular';
 
 // Interface to provide special dietary filtering
 export interface DietaryFilter {
@@ -94,7 +70,7 @@ export const INGREDIENT_GROUPS = {
 export class IngredientFilterService {
   private static instance: IngredientFilterService;
   private allIngredients: Record<string, Record<string, IngredientMapping>>;
-  private spoonacularCache: Map<string, any> = new Map();
+  private spoonacularCache: Map<string, SpoonacularNutritionData> = new Map();
 
   private constructor() {
     // Initialize with all available ingredient data
@@ -426,7 +402,7 @@ export class IngredientFilterService {
 
   // Get recommended ingredients with balanced nutrition from each group
   public getBalancedRecommendations(
-    count: number = 3,
+    count = 3,
     filter: IngredientFilter = {}
   ): Record<string, IngredientMapping[]> {
     // Apply basic filtering first
@@ -455,7 +431,7 @@ export class IngredientFilterService {
   }
   
   // Calculate a nutrient density score
-  private calculateNutritionalScore(nutrition: any): number {
+  private calculateNutritionalScore(nutrition: NutritionData): number {
     if (!nutrition) return 0;
     
     let score = 0;
@@ -494,11 +470,11 @@ export class IngredientFilterService {
   }
 
   // Get enhanced nutrition data for an ingredient from Spoonacular
-  public async getEnhancedNutritionData(ingredientName: string): Promise<any> {
+  public async getEnhancedNutritionData(ingredientName: string): Promise<SpoonacularNutritionData | null> {
     try {
       // Check cache first
       if (this.spoonacularCache.has(ingredientName)) {
-        return this.spoonacularCache.get(ingredientName);
+        return this.spoonacularCache.get(ingredientName) || null;
       }
 
       // Format query for API
@@ -513,7 +489,7 @@ export class IngredientFilterService {
         
         // Get detailed nutrition information
         const nutritionResponse = await fetch(`https://api.spoonacular.com/food/ingredients/${ingredientId}/information?amount=100&unit=grams&apiKey=c91fb9d66d284351929fff78e51cedf0`);
-        const nutritionData = await nutritionResponse.json();
+        const nutritionData = await nutritionResponse.json() as SpoonacularNutritionData;
         
         // Cache the result
         this.spoonacularCache.set(ingredientName, nutritionData);
@@ -552,21 +528,21 @@ export class IngredientFilterService {
       }
       
       // Get nutrition info for each recipe
-      const recipePromises = data.map(async (recipe: any) => {
+      const recipePromises = data.map(async (recipe: SpoonacularRecipe) => {
         try {
           const nutritionResponse = await fetch(`https://api.spoonacular.com/recipes/${recipe.id}/nutritionWidget.json?apiKey=c91fb9d66d284351929fff78e51cedf0`);
           const nutritionData = await nutritionResponse.json();
           
           return {
-            id: recipe.id,
-            title: recipe.title,
-            image: recipe.image,
+            id: recipe.id?.toString() || '',
+            title: recipe.title || '',
+            image: recipe.image || '',
             readyInMinutes: recipe.readyInMinutes || 30, // Default value
-            healthScore: recipe.healthScore || 50, // Default value
+            healthScore: 50, // Default value
             nutrition: {
               nutrients: nutritionData.nutrients || []
             },
-            usedIngredients: recipe.usedIngredients.map((ing: any) => ing.name)
+            usedIngredients: recipe.extendedIngredients?.map(ing => ing.name || '') || []
           };
         } catch (err) {
           console.error(`Error fetching nutrition for recipe ${recipe.id}:`, err);

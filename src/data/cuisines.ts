@@ -1,6 +1,7 @@
 // src/data/cuisines.ts
 import { cuisinesMap as importedCuisinesMap, CUISINES } from './cuisines/index';
 import { african } from './cuisines/african';
+import { american } from './cuisines/american';
 import { chinese } from './cuisines/chinese';
 import { french } from './cuisines/french';
 import { greek } from './cuisines/greek';
@@ -12,12 +13,13 @@ import { mexican } from './cuisines/mexican';
 import { middleEastern } from './cuisines/middle-eastern';
 import { thai } from './cuisines/thai';
 import { vietnamese } from './cuisines/vietnamese';
+import { russian } from './cuisines/russian';
 
 // Import types
 import type { Recipe, ElementalProperties, CuisineType } from '@/types/alchemy';
 
 // Example recipe type for reference
-const _exampleRecipe: Recipe = {
+const exampleRecipe: Recipe = {
   id: "example-recipe-001",
   name: "Example Recipe",
   description: "Template for recipe structure",
@@ -72,6 +74,7 @@ function adaptCuisine(cuisine: any): CuisineType {
 
 // Combine all cuisines
 export const cuisines: Record<string, CuisineType> = {
+  american: adaptCuisine(american),
   chinese: adaptCuisine(chinese),
   french: adaptCuisine(french),
   greek: adaptCuisine(greek),
@@ -83,7 +86,8 @@ export const cuisines: Record<string, CuisineType> = {
   middleEastern: adaptCuisine(middleEastern),
   thai: adaptCuisine(thai),
   vietnamese: adaptCuisine(vietnamese),
-  african: adaptCuisine(african)
+  african: adaptCuisine(african),
+  russian: adaptCuisine(russian)
 };
 
 // Type exports

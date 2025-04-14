@@ -230,7 +230,7 @@ export class AlchemicalEngineAdvanced {
                          ? (normalizedSeason === 'fall' ? 'autumn' : normalizedSeason) as Season 
                          : defaultSeason;
     
-    const _seasonalData = seasonalPatterns[validSeason];
+    const seasonalData = seasonalPatterns[validSeason];
     
     // Function to check if string is a valid RulingPlanet
     const isRulingPlanet = (planet: string): planet is RulingPlanet => {
@@ -631,7 +631,7 @@ export function alchemize(birthInfo: BirthInfo, horoscopeDict: HoroscopeData): A
     debugLog("Starting alchemize calculation with birthInfo", birthInfo);
     
     // Initialize results with default values
-    let elementalBalance = {
+    const elementalBalance = {
       fire: 0,
       earth: 0,
       air: 0,
@@ -875,9 +875,72 @@ function getElementFromSign(sign: string): string | null {
  */
 async function calculateCurrentPlanetaryPositions(): Promise<Record<string, any>> {
   try {
-    // Use the accurate astronomy utility to get planetary positions
+    // First try to use the accurate astronomy utility
     const positions = await getAccuratePlanetaryPositions();
-    return positions;
+    
+    if (Object.keys(positions).length > 0) {
+      return positions;
+    }
+    
+    // If the above fails or returns empty, try to use the astronomia library
+    // Import the astronomia calculator dynamically to avoid issues at build time
+    try {
+      const { calculatePlanetaryPositions } = await import('@/utils/astronomiaCalculator');
+      const astronomiaPositions = calculatePlanetaryPositions(new Date());
+      
+      if (Object.keys(astronomiaPositions).length > 0) {
+        return astronomiaPositions;
+      }
+    } catch (error) {
+      console.error('Error using astronomia calculator:', error);
+    }
+    
+    // If both methods fail, use the fallback positions
+    // Import the fallback calculator dynamically
+    try {
+      const { _calculateFallbackPositions } = await import('@/utils/astrologyUtils');
+      const fallbackPositions = _calculateFallbackPositions(new Date());
+      
+      // Convert the fallback positions (which are just degrees) to proper format
+      const formattedPositions: Record<string, any> = {};
+      Object.entries(fallbackPositions).forEach(([planet, longitude]) => {
+        // Convert longitude to sign and degree
+        const signIndex = Math.floor(longitude / 30);
+        const degree = longitude % 30;
+        
+        const signs = ['aries', 'taurus', 'gemini', 'cancer', 'leo', 'virgo', 
+                      'libra', 'scorpio', 'sagittarius', 'capricorn', 'aquarius', 'pisces'];
+        
+        formattedPositions[planet] = {
+          Sign: { label: signs[signIndex] },
+          Degree: degree,
+          ChartPosition: {
+            Ecliptic: {
+              ArcDegreesInSign: degree
+            }
+          },
+          exactLongitude: longitude
+        };
+      });
+      
+      return formattedPositions;
+    } catch (error) {
+      console.error('Error using fallback position calculator:', error);
+    }
+    
+    // Last resort - return hardcoded minimal positions
+    return {
+      Sun: { 
+        Sign: { label: 'Aries' }, 
+        Degree: 15,
+        ChartPosition: { Ecliptic: { ArcDegreesInSign: 15 } }
+      },
+      Moon: { 
+        Sign: { label: 'Cancer' }, 
+        Degree: 10,
+        ChartPosition: { Ecliptic: { ArcDegreesInSign: 10 } }
+      }
+    };
   } catch (error) {
     console.error('Error calculating planetary positions:', error);
     // Return empty object as fallback
@@ -906,13 +969,36 @@ function calculateZodiacEnergies(positions: Record<string, any>): Record<string,
     pisces: 0
   };
 
+  // Planetary weights - define the influence strength of each planet
+  const planetaryWeights: Record<string, number> = {
+    Sun: 0.25,
+    Moon: 0.20,
+    Mercury: 0.10,
+    Venus: 0.10,
+    Mars: 0.10,
+    Jupiter: 0.10,
+    Saturn: 0.10,
+    Uranus: 0.05,
+    Neptune: 0.05,
+    Pluto: 0.05
+  };
+
   // For each planet in the positions
   Object.entries(positions).forEach(([planet, data]) => {
+    // Check for data in expected format from accurate astronomy
     if (data && data.Sign && data.Sign.label) {
       const sign = data.Sign.label.toLowerCase();
       if (zodiacEnergies[sign] !== undefined) {
         // Add energy based on the planet's influence
-        const planetModifier = PLANETARY_MODIFIERS[planet] || 0.5;
+        const planetModifier = planetaryWeights[planet] || 0.05;
+        zodiacEnergies[sign] += planetModifier;
+      }
+    } 
+    // Check for data in the format returned by astronomiaCalculator
+    else if (data && data.sign) {
+      const sign = data.sign.toLowerCase();
+      if (zodiacEnergies[sign] !== undefined) {
+        const planetModifier = planetaryWeights[planet] || 0.05;
         zodiacEnergies[sign] += planetModifier;
       }
     }
@@ -930,11 +1016,12 @@ function calculateZodiacEnergies(positions: Record<string, any>): Record<string,
 }
 
 /**
- * Calculate chakra energies based on zodiac energies
- * @param zodiacEnergies Record of zodiac sign energies
- * @returns Record of chakra energies
+ * Calculate chakra energies based on zodiac sign energies
+ * @param zodiacEnergies Record of zodiac energies
+ * @returns Chakra energies
  */
 function calculateChakraEnergies(zodiacEnergies: Record<string, number>): ChakraEnergies {
+  // Initialize with default values
   const chakraEnergies: ChakraEnergies = {
     root: 0,
     sacral: 0,
@@ -944,42 +1031,60 @@ function calculateChakraEnergies(zodiacEnergies: Record<string, number>): Chakra
     brow: 0,
     crown: 0
   };
-
-  // Map zodiac signs to chakras with standardized names
-  const zodiacToChakra: Record<string, string[]> = {
-    aries: ['root', 'solarPlexus'],
-    taurus: ['root', 'sacral'],
-    gemini: ['throat', 'brow'],
-    cancer: ['heart', 'sacral'],
-    leo: ['solarPlexus', 'heart'],
-    virgo: ['solarPlexus', 'brow'],
-    libra: ['heart', 'throat'],
-    scorpio: ['sacral', 'root'],
-    sagittarius: ['solarPlexus', 'brow'],
-    capricorn: ['root', 'crown'],
-    aquarius: ['throat', 'brow'],
-    pisces: ['brow', 'crown']
+  
+  // Define mapping from zodiac signs to chakras
+  const zodiacToChakraMap: Record<string, keyof ChakraEnergies[]> = {
+    // Root chakra is associated with earth signs
+    'taurus': ['root'],
+    'virgo': ['root'],
+    'capricorn': ['root'],
+    
+    // Sacral chakra is associated with water signs
+    'cancer': ['sacral'],
+    'scorpio': ['sacral'],
+    'pisces': ['sacral'],
+    
+    // Solar plexus is associated with fire signs
+    'aries': ['solarPlexus'],
+    'leo': ['solarPlexus'],
+    'sagittarius': ['solarPlexus'],
+    
+    // Heart chakra is associated with air and water
+    'libra': ['heart'],
+    'aquarius': ['heart'],
+    'pisces': ['heart', 'sacral'], // Pisces influences multiple chakras
+    
+    // Throat chakra is associated with communication
+    'gemini': ['throat'],
+    'virgo': ['throat', 'root'], // Virgo influences multiple chakras
+    
+    // Brow/third eye is associated with intuition
+    'scorpio': ['brow', 'sacral'], // Scorpio influences multiple chakras
+    'pisces': ['brow', 'sacral', 'heart'], // Pisces influences multiple chakras
+    
+    // Crown chakra is associated with spiritual connection
+    'sagittarius': ['crown', 'solarPlexus'], // Sagittarius influences multiple chakras
+    'aquarius': ['crown', 'heart'] // Aquarius influences multiple chakras
   };
-
-  // Calculate chakra energies based on zodiac influences
+  
+  // Calculate chakra energies based on zodiac energies
   Object.entries(zodiacEnergies).forEach(([sign, energy]) => {
-    const chakras = zodiacToChakra[sign.toLowerCase()] || [];
-    chakras.forEach(chakra => {
-      if (chakra in chakraEnergies) {
-        chakraEnergies[chakra as keyof ChakraEnergies] += energy;
-      }
-    });
+    const chakras = zodiacToChakraMap[sign];
+    if (chakras) {
+      chakras.forEach(chakra => {
+        chakraEnergies[chakra] += energy / chakras.length;
+      });
+    }
   });
-
-  // Normalize the energies to a 0-10 scale
-  const maxEnergy = Math.max(...Object.values(chakraEnergies));
-  if (maxEnergy > 0) {
+  
+  // Normalize chakra energies to sum to 1
+  const totalEnergy = Object.values(chakraEnergies).reduce((sum, energy) => sum + energy, 0);
+  if (totalEnergy > 0) {
     Object.keys(chakraEnergies).forEach(chakra => {
-      chakraEnergies[chakra as keyof ChakraEnergies] = 
-        (chakraEnergies[chakra as keyof ChakraEnergies] / maxEnergy) * 10;
+      chakraEnergies[chakra as keyof ChakraEnergies] = chakraEnergies[chakra as keyof ChakraEnergies] / totalEnergy;
     });
   }
-
+  
   return chakraEnergies;
 }
 

@@ -190,6 +190,14 @@ export const AlchemicalProvider: React.FC<{children: React.ReactNode}> = ({ chil
         payload: elementalBalance
       });
       
+      // Sync with ElementalCalculator
+      try {
+        const { ElementalCalculator } = await import('@/services/ElementalCalculator');
+        ElementalCalculator.updateElementalState(elementalBalance);
+      } catch (error) {
+        logger.error('Error syncing ElementalCalculator state:', error);
+      }
+      
       // Then update the astrological state with the same values
       const astrologicalState: AstrologicalState = {
         sunSign,

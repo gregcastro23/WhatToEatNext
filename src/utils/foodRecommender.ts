@@ -174,7 +174,8 @@ function standardizeIngredient(ingredient: EnhancedIngredient): EnhancedIngredie
   
   // Ensure elementalProperties exists
   if (!standardized.elementalProperties) {
-    standardized.elementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+    // Calculate elemental properties based on ingredient characteristics instead of using a fixed value
+    standardized.elementalProperties = calculateElementalProperties(standardized);
   }
   
   // Special case for vegetables - ensure they have more Earth element
@@ -237,6 +238,143 @@ function standardizeIngredient(ingredient: EnhancedIngredient): EnhancedIngredie
   }
   
   return standardized;
+}
+
+/**
+ * Calculate elemental properties based on ingredient characteristics
+ */
+function calculateElementalProperties(ingredient: EnhancedIngredient): ElementalProperties {
+  // Start with balanced values
+  const elementalProps: ElementalProperties = { 
+    Fire: 0, 
+    Water: 0, 
+    Earth: 0, 
+    Air: 0 
+  };
+  
+  // Adjust based on category
+  if (ingredient.category) {
+    const category = ingredient.category.toLowerCase();
+    
+    if (category.includes('vegetable')) {
+      elementalProps.Earth += 0.4;
+      elementalProps.Water += 0.3;
+    } else if (category.includes('fruit')) {
+      elementalProps.Water += 0.4;
+      elementalProps.Air += 0.2;
+    } else if (category.includes('grain')) {
+      elementalProps.Earth += 0.5;
+      elementalProps.Air += 0.2;
+    } else if (category.includes('meat') || category.includes('poultry')) {
+      elementalProps.Fire += 0.4;
+      elementalProps.Earth += 0.2;
+    } else if (category.includes('seafood')) {
+      elementalProps.Water += 0.5;
+      elementalProps.Air += 0.1;
+    } else if (category.includes('spice')) {
+      elementalProps.Fire += 0.5;
+      elementalProps.Air += 0.2;
+    } else if (category.includes('herb')) {
+      elementalProps.Air += 0.4;
+      elementalProps.Earth += 0.2;
+    } else if (category.includes('oil')) {
+      elementalProps.Fire += 0.3;
+      elementalProps.Water += 0.2;
+    } else if (category.includes('dairy')) {
+      elementalProps.Water += 0.4;
+      elementalProps.Earth += 0.2;
+    } else if (category.includes('legume')) {
+      elementalProps.Earth += 0.5;
+      elementalProps.Water += 0.2;
+    }
+  }
+  
+  // Adjust based on flavor profile if available
+  if (ingredient.flavorProfile) {
+    if (ingredient.flavorProfile.spicy) {
+      elementalProps.Fire += ingredient.flavorProfile.spicy * 0.5;
+    }
+    if (ingredient.flavorProfile.sweet) {
+      elementalProps.Water += ingredient.flavorProfile.sweet * 0.3;
+      elementalProps.Earth += ingredient.flavorProfile.sweet * 0.2;
+    }
+    if (ingredient.flavorProfile.salty) {
+      elementalProps.Water += ingredient.flavorProfile.salty * 0.3;
+      elementalProps.Fire += ingredient.flavorProfile.salty * 0.2;
+    }
+    if (ingredient.flavorProfile.bitter) {
+      elementalProps.Air += ingredient.flavorProfile.bitter * 0.3;
+      elementalProps.Fire += ingredient.flavorProfile.bitter * 0.1;
+    }
+    if (ingredient.flavorProfile.sour) {
+      elementalProps.Air += ingredient.flavorProfile.sour * 0.2;
+      elementalProps.Water += ingredient.flavorProfile.sour * 0.2;
+    }
+    if (ingredient.flavorProfile.umami) {
+      elementalProps.Earth += ingredient.flavorProfile.umami * 0.4;
+    }
+  }
+  
+  // Adjust based on astrological profile
+  if (ingredient.astrologicalProfile?.elementalAffinity) {
+    const affinity = typeof ingredient.astrologicalProfile.elementalAffinity === 'string' 
+      ? ingredient.astrologicalProfile.elementalAffinity 
+      : ingredient.astrologicalProfile.elementalAffinity.base;
+    
+    if (affinity === 'Fire') elementalProps.Fire += 0.3;
+    if (affinity === 'Water') elementalProps.Water += 0.3;
+    if (affinity === 'Earth') elementalProps.Earth += 0.3;
+    if (affinity === 'Air') elementalProps.Air += 0.3;
+  }
+  
+  // Adjust based on ruling planets
+  if (ingredient.astrologicalProfile?.rulingPlanets) {
+    for (const planet of ingredient.astrologicalProfile.rulingPlanets) {
+      switch(planet) {
+        case 'Sun':
+          elementalProps.Fire += 0.2;
+          break;
+        case 'Moon':
+          elementalProps.Water += 0.2;
+          break;
+        case 'Mercury':
+          elementalProps.Air += 0.15;
+          elementalProps.Earth += 0.05;
+          break;
+        case 'Venus':
+          elementalProps.Water += 0.1;
+          elementalProps.Earth += 0.1;
+          break;
+        case 'Mars':
+          elementalProps.Fire += 0.2;
+          break;
+        case 'Jupiter':
+          elementalProps.Air += 0.1;
+          elementalProps.Fire += 0.1;
+          break;
+        case 'Saturn':
+          elementalProps.Earth += 0.2;
+          break;
+      }
+    }
+  }
+  
+  // Normalize the values to ensure they sum to 1.0
+  const sum = elementalProps.Fire + elementalProps.Water + elementalProps.Earth + elementalProps.Air;
+  if (sum > 0) {
+    elementalProps.Fire /= sum;
+    elementalProps.Water /= sum;
+    elementalProps.Earth /= sum;
+    elementalProps.Air /= sum;
+  } else {
+    // If no element was calculated, use a balanced distribution
+    elementalProps.Fire = 0.25;
+    elementalProps.Water = 0.25;
+    elementalProps.Earth = 0.25;
+    elementalProps.Air = 0.25;
+  }
+  
+  return elementalProps;
 }
 
 /**
@@ -926,7 +1064,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
  */
 export const getTopIngredientMatches = (
   astroState: AstrologicalState,
-  limit: number = 5
+  limit = 5
 ): EnhancedIngredient[] => {
   // Simply use our main recommendation function but with the requested limit
   return getRecommendedIngredients(astroState).slice(0, limit);

@@ -1,6 +1,9 @@
 import { ZodiacAffinity, createZodiacAffinity, ZODIAC_MODALITIES, Modality } from '@/types/zodiacAffinity';
 import { ZodiacSign } from '@/types/zodiac';
 
+export type { ZodiacAffinity };
+export { createZodiacAffinity };
+
 /**
  * Mapping of zodiac signs to culinary preferences and affinities
  */

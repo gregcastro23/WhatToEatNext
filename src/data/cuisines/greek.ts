@@ -1,5 +1,8 @@
 // src/data/cuisines/greek.ts
-export const greek = {
+import type { Cuisine } from '@/types/cuisine';
+
+export const greek: Cuisine = {
+  id: "greek",
   name: "Greek",
   description: "Traditional Greek cuisine emphasizing fresh ingredients, olive oil, herbs, and regional specialties from mainland to islands",
   dishes: {
@@ -55,7 +58,13 @@ export const greek = {
             minerals: ["Calcium", "Iron"]
           },
           season: ["all"],
-          mealType: ["breakfast"]
+          mealType: ["breakfast"],
+          elementalProperties: {
+            Earth: 0.5,
+            Water: 0.2,
+            Air: 0.2,
+            Fire: 0.1
+          }
         },
         {
           name: "Greek Yogurt with Honey",
@@ -104,7 +113,13 @@ export const greek = {
             minerals: ["Calcium", "Potassium"]
           },
           season: ["all"],
-          mealType: ["breakfast", "dessert"]
+          mealType: ["breakfast", "dessert"],
+          elementalProperties: {
+            Water: 0.4,
+            Earth: 0.3,
+            Air: 0.2,
+            Fire: 0.1
+          }
         },
         {
           name: "Strapatsada",
@@ -157,7 +172,13 @@ export const greek = {
             minerals: ["Calcium", "Iron"]
           },
           season: ["summer", "autumn"],
-          mealType: ["breakfast", "lunch"]
+          mealType: ["breakfast", "lunch"],
+          elementalProperties: {
+            Fire: 0.3,
+            Earth: 0.3,
+            Air: 0.2,
+            Water: 0.2
+          }
         }
       ],
       summer: [
@@ -206,6 +227,12 @@ export const greek = {
           pairingSuggestions: ["Greek coffee", "olives"],
           dietaryInfo: ["vegan"],
           spiceLevel: "none",
+          elementalProperties: {
+            Earth: 0.4,
+            Fire: 0.3,
+            Air: 0.2,
+            Water: 0.1
+          }
         }
       ]
     },
@@ -1145,47 +1172,90 @@ export const greek = {
       seasonality: "all",
       preparationNotes: "The ratio is typically 3 parts oil to 1 part lemon juice",
       technicalTips: "Whisk vigorously or blend for proper emulsification"
+    },
+    skordalia: {
+      name: "Skordalia",
+      description: "Pungent garlic sauce made with potato, bread, or nuts",
+      base: "garlic and starch",
+      keyIngredients: ["garlic", "potato or bread", "olive oil", "vinegar", "almonds (optional)"],
+      culinaryUses: ["fish accompaniment", "vegetable dip", "spread", "meze"],
+      variants: ["Potato skordalia", "Bread skordalia", "Almond skordalia"],
+      elementalProperties: {
+        Earth: 0.4,
+        Fire: 0.3,
+        Air: 0.2,
+        Water: 0.1
+      },
+      astrologicalInfluences: ["Mars", "Saturn", "Aries"],
+      seasonality: "all",
+      preparationNotes: "Achieving the right balance of garlic is crucial - adjust to taste",
+      technicalTips: "Slowly incorporate oil while blending for proper emulsification"
+    },
+    htipiti: {
+      name: "Htipiti",
+      description: "Spicy roasted red pepper and feta dip",
+      base: "roasted peppers and cheese",
+      keyIngredients: ["roasted red peppers", "feta cheese", "olive oil", "garlic", "chili"],
+      culinaryUses: ["bread spread", "vegetable dip", "sandwich filling", "meze"],
+      variants: ["Spicy htipiti", "Smoky htipiti", "Creamy htipiti"],
+      elementalProperties: {
+        Fire: 0.5,
+        Earth: 0.3,
+        Water: 0.1,
+        Air: 0.1
+      },
+      astrologicalInfluences: ["Mars", "Sun", "Leo"],
+      seasonality: "summer, autumn",
+      preparationNotes: "The smokiness of the peppers is essential for authentic flavor",
+      technicalTips: "Roast peppers directly over flame for best smoky taste"
     }
   },
   sauceRecommender: {
     forProtein: {
       chicken: ["ladolemono", "avgolemono", "tomato-based sauce"],
       lamb: ["tzatziki", "ladolemono", "minty yogurt sauce"],
-      fish: ["skordalia", "ladolemono", "avgolemon"],
+      fish: ["skordalia", "ladolemono", "avgolemono", "lemon sauce"],
       beef: ["tomato-based sauce", "yogurt-based sauce", "red wine reduction"],
-      vegetable: ["skordalia", "tzatziki", "tahini sauce"]
+      vegetable: ["skordalia", "tzatziki", "tahini sauce"],
+      seafood: ["ladolemono", "skordalia", "garlic oil", "lemon sauce"],
+      pork: ["ladolemono", "htipiti", "mustard sauce"]
     },
     forVegetable: {
       leafy: ["ladolemono", "tahini sauce", "yogurt-based sauce"],
       root: ["skordalia", "olive oil and lemon", "tomato-based sauce"],
-      eggplant: ["tzatziki", "tomato sauce", "tahini sauce"],
-      legumes: ["olive oil and lemon", "tomato sauce", "herb oil"],
-      squash: ["yogurt sauce", "tahini", "olive oil and herbs"]
+      eggplant: ["tzatziki", "tomato sauce", "tahini sauce", "garlic sauce"],
+      legumes: ["olive oil and lemon", "tomato sauce", "herb oil", "vinegar sauce"],
+      squash: ["yogurt sauce", "tahini", "olive oil and herbs"],
+      zucchini: ["tzatziki", "mint sauce", "ladolemono"]
     },
     forCookingMethod: {
-      grilling: ["tzatziki", "ladolemono", "herb oil"],
-      roasting: ["skordalia", "yogurt sauce", "olive oil and lemon"],
-      braising: ["avgolemono", "tomato sauce", "olive oil finish"],
-      frying: ["tzatziki", "skordalia", "lemon wedges"],
-      stewing: ["avgolemono", "olive oil finish", "herb oil"]
+      grilling: ["tzatziki", "ladolemono", "herb oil", "htipiti"],
+      roasting: ["skordalia", "yogurt sauce", "olive oil and lemon", "avgolemono"],
+      braising: ["avgolemono", "tomato sauce", "olive oil finish", "red wine sauce"],
+      frying: ["tzatziki", "skordalia", "lemon wedges", "garlic sauce"],
+      stewing: ["avgolemono", "olive oil finish", "herb oil", "red wine reduction"],
+      baking: ["ladolemono", "yogurt sauce", "lemon sauce"]
     },
     byAstrological: {
-      fire: ["spicy yogurt sauce", "red pepper-based sauce", "garlic oil"],
-      earth: ["skordalia", "mushroom-based sauce", "tahini sauce"],
-      air: ["ladolemono", "herb-infused oil", "light yogurt sauce"],
-      water: ["avgolemono", "tzatziki", "cucumber-based sauce"]
+      fire: ["spicy yogurt sauce", "red pepper-based sauce", "garlic oil", "htipiti"],
+      earth: ["skordalia", "mushroom-based sauce", "tahini sauce", "olive tapenade"],
+      air: ["ladolemono", "herb-infused oil", "light yogurt sauce", "lemon vinaigrette"],
+      water: ["avgolemono", "tzatziki", "cucumber-based sauce", "fish sauce"]
     },
     byRegion: {
-      mainland: ["skordalia", "tomato-based sauces", "avgolemon"],
-      islands: ["ladolemono", "herb oils", "fish-based sauces"],
-      northern: ["butter-based sauces", "yogurt sauces", "paprika oil"],
-      crete: ["herb-infused olive oil", "wine reductions", "dakos-style sauce"]
+      mainland: ["skordalia", "tomato-based sauces", "avgolemono", "htipiti"],
+      islands: ["ladolemono", "herb oils", "fish-based sauces", "lemon sauces"],
+      northern: ["butter-based sauces", "yogurt sauces", "paprika oil", "garlic sauce"],
+      crete: ["herb-infused olive oil", "wine reductions", "dakos-style sauce", "ancient grain sauces"],
+      peloponnese: ["oil and lemon sauces", "oregano-infused oils", "wine reductions"],
+      cyclades: ["caper sauces", "olive pastes", "fresh herb oils", "seafood reductions"]
     },
     byDietary: {
-      vegetarian: ["tahini sauce", "skordalia", "olive oil and lemon"],
-      vegan: ["ladolemono", "tahini sauce", "herb oil"],
-      glutenFree: ["tzatziki", "ladolemono", "herb oil"],
-      dairyFree: ["ladolemono", "tomato-based sauce", "herb oil"]
+      vegetarian: ["tahini sauce", "skordalia", "olive oil and lemon", "htipiti"],
+      vegan: ["ladolemono", "tahini sauce", "herb oil", "olive tapenade"],
+      glutenFree: ["tzatziki", "ladolemono", "herb oil", "yogurt-based sauces"],
+      dairyFree: ["ladolemono", "tomato-based sauce", "herb oil", "garlic sauce"],
+      lowCarb: ["tzatziki", "olive oil dips", "lemon sauce", "herb sauce"]
     }
   },
   cookingTechniques: [
@@ -1260,10 +1330,10 @@ export const greek = {
     }
   },
   elementalProperties: {
-    Earth: 0.3,    // Represents grains and legumes
-    Fire: 0.3,     // Represents grilling and spices
-    Water: 0.3,    // Represents seafood and sauces
-    Air: 0.1       // Represents light herbs and olive oil
+    Earth: 0.4,
+    Water: 0.3,
+    Fire: 0.2,
+    Air: 0.1
   }
 };
 

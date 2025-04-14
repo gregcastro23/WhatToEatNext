@@ -17,5 +17,17 @@ export const mockElementalCalculator = {
     Water: season === 'Winter' ? 0.4 : 0.2,
     Earth: 0.25,
     Air: 0.25
-  }))
+  })),
+  initialize: jest.fn((_initialState) => {
+    // Mock implementation - intentionally empty for testing
+  }),
+  updateElementalState: jest.fn((_newState) => {
+    // Mock implementation - intentionally empty for testing
+  }),
+  getInstance: jest.fn().mockReturnValue({
+    initialized: true,
+    currentBalance: {
+      Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+    }
+  })
 };

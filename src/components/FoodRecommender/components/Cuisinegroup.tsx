@@ -55,171 +55,166 @@ const CuisineGroup: React.FC<Props> = ({ recipes, elementalState }) => {
     }, [elementalState.timeOfDay]);
 
     const calculateMatchScore = React.useCallback((recipe: Recipe): number => {
-        if (!recipe?.elementalProperties) return 0;
-        if (!isAppropriateForTimeOfDay(recipe)) return 0;
-
-        try {
-            // Base elemental match calculation
-            const elementalScore = calculateElementalMatch(recipe.elementalProperties, elementalState);
-            let score = elementalScore * 100;
-            
-            // Enhanced scoring factors
-            const bonusFactors = {
-                seasonMatch: 10,        // Season matching bonus
-                timeMatch: 15,          // Perfect time of day match
-                balancedNutrition: 8,   // Well-balanced nutritional profile
-                quickPrep: 5,           // Quick preparation time bonus
-                traditionalMatch: 7,    // Traditional for the time/season
-                planetaryHour: 8        // Planetary hour influence bonus
-            };
-
-            // Season matching with more nuanced scoring
-            const seasons = Array.isArray(recipe.season) 
-                ? recipe.season 
-                : typeof recipe.season === 'string'
-                    ? [recipe.season]
-                    : [];
-
-            // Perfect season match
-            if (seasons.some(s => s === elementalState.season)) {
-                score += bonusFactors.seasonMatch;
-            }
-            // 'All' season partial bonus
-            else if (seasons.some(s => s?.toLowerCase() === 'all')) {
-                score += bonusFactors.seasonMatch * 0.5;
-            }
-
-            // Time of day matching with granular scoring
-            const timeOfDay = elementalState.timeOfDay;
-            const mealTypes = Array.isArray(recipe.mealType) ? recipe.mealType : [recipe.mealType];
-            
-            if (timeOfDay === 'morning' && mealTypes.includes('breakfast')) {
-                score += bonusFactors.timeMatch;
-            } else if (timeOfDay === 'afternoon' && mealTypes.includes('lunch')) {
-                score += bonusFactors.timeMatch;
-            } else if (['evening', 'night'].includes(timeOfDay) && mealTypes.includes('dinner')) {
-                score += bonusFactors.timeMatch;
-            }
-
-            // Add planetary hour influence
-            const planetaryInfluenceMap: Record<string, string[]> = {
-                'Sun': ['energizing', 'vitality', 'warming', 'bright', 'spicy', 'golden'],
-                'Moon': ['cooling', 'soothing', 'mild', 'creamy', 'soft', 'white'],
-                'Mercury': ['light', 'quick', 'varied', 'mixed', 'fresh', 'aromatic'],
-                'Venus': ['sweet', 'pleasant', 'balanced', 'fragrant', 'mild', 'rich'],
-                'Mars': ['spicy', 'hot', 'bold', 'intense', 'red', 'stimulating'],
-                'Jupiter': ['abundant', 'rich', 'festive', 'hearty', 'generous', 'wholesome'],
-                'Saturn': ['traditional', 'preserved', 'aged', 'structured', 'dense', 'earthy']
-            };
-
-            // Get current planetary hour
-            const currentHour = new Date().getHours();
-            const isDaytime = currentHour >= 6 && currentHour < 18;
-            const planetaryHour = calculatePlanetaryHour(new Date(), isDaytime);
-            
-            if (planetaryHour) {
-                const hourKeywords = planetaryInfluenceMap[planetaryHour] || [];
-                
-                // Check recipe characteristics against planetary influences
-                const matchingInfluences = recipe.characteristics?.filter((char: string) => 
-                    hourKeywords.some(keyword => 
-                        char.toLowerCase().includes(keyword.toLowerCase())
-                    )
-                ) || [];
-
-                // Add bonus for each matching characteristic
-                if (matchingInfluences.length > 0) {
-                    score += matchingInfluences.length * bonusFactors.planetaryHour;
-                }
-
-                // Check elemental alignment with planetary hour
-                const planetaryElements: Record<string, keyof ElementalProperties> = {
-                    'Sun': 'Fire',
-                    'Moon': 'Water',
-                    'Mercury': 'Air',
-                    'Venus': 'Water',
-                    'Mars': 'Fire',
-                    'Jupiter': 'Air',
-                    'Saturn': 'Earth'
-                };
-
-                const planetaryElement = planetaryElements[planetaryHour];
-                if (planetaryElement && recipe.elementalProperties[planetaryElement] > 0.3) {
-                    score += bonusFactors.planetaryHour;
-                }
-            }
-
-            // Nutrition scoring with type safety
-            if (recipe.nutrition) {
-                const nutrition = recipe.nutrition;
-                const hasBalancedNutrition = 
-                    (nutrition.protein ?? 0) > 15 && 
-                    (nutrition.protein ?? 0) < 40 &&
-                    (nutrition.carbs ?? 0) > 30 && 
-                    (nutrition.carbs ?? 0) < 65 &&
-                    (nutrition.fat ?? 0) > 20 && 
-                    (nutrition.fat ?? 0) < 35;
-                
-                if (hasBalancedNutrition) {
-                    score += bonusFactors.balancedNutrition;
-                }
-
-                const calories = nutrition.calories ?? 0;
-                const isAppropriateCalories = 
-                    (timeOfDay === 'morning' && calories >= 300 && calories <= 500) ||
-                    (timeOfDay === 'afternoon' && calories >= 400 && calories <= 700) ||
-                    (timeOfDay === 'evening' && calories >= 400 && calories <= 800);
-                
-                if (isAppropriateCalories) {
-                    score += 5;
-                }
-            }
-
-            // Preparation time bonus for quick meals during busy times
-            const prepTime = parseInt(recipe.timeToMake) || 0;
-            if (prepTime <= 30) {
-                score += bonusFactors.quickPrep;
-            } else if (prepTime <= 45) {
-                score += bonusFactors.quickPrep * 0.5;
-            }
-
-            // Traditional/Cultural appropriateness for time and season
-            if (recipe.traditional_time_of_day === elementalState.timeOfDay ||
-                recipe.traditional_season === elementalState.season) {
-                score += bonusFactors.traditionalMatch;
-            }
-
-            return Math.min(100, Math.max(60, Math.round(score)));
-        } catch (error) {
-            logger.error(`Error scoring ${recipe.name}:`, error);
+        // Validate required recipe properties
+        if (!recipe?.elementalProperties) {
+            logger.warn(`Recipe ${recipe?.name || 'unknown'} missing elemental properties`);
             return 0;
         }
+        
+        if (!isAppropriateForTimeOfDay(recipe)) {
+            return 0;
+        }
+
+        // Initial score components
+        let elementalScore = 0;
+        let seasonalScore = 0;
+        let timeScore = 0;
+        let nutritionScore = 0;
+        let culturalScore = 0;
+        let planetaryScore = 0;
+        let techniqueScore = 0;
+        
+        // Track the number of factors considered for proper normalization
+        let factorsConsidered = 0;
+        
+        // 1. Elemental match calculation (base component - 35% weight)
+        elementalScore = calculateElementalMatch(recipe.elementalProperties, elementalState);
+        factorsConsidered += 3.5; // Higher weight to elemental alignment
+        
+        // 2. Season matching with more nuanced scoring (15% weight)
+        const seasons = Array.isArray(recipe.season) 
+            ? recipe.season 
+            : typeof recipe.season === 'string'
+                ? [recipe.season]
+                : [];
+
+        // Perfect season match
+        if (seasons.some(s => s === elementalState.season)) {
+            seasonalScore = 1.0; // Full score for exact match
+        }
+        // 'All' season partial bonus
+        else if (seasons.some(s => s?.toLowerCase() === 'all')) {
+            seasonalScore = 0.6; // Partial credit for all-season dishes
+        }
+        // Off-season dishes receive lower scores
+        else {
+            const opposingSeason = getOpposingSeason(elementalState.season);
+            if (seasons.some(s => s === opposingSeason)) {
+                seasonalScore = 0.3; // Lower score for opposing season
+            } else {
+                seasonalScore = 0.5; // Neutral for other seasons
+            }
+        }
+        factorsConsidered += 1.5;
+        
+        // Calculate weighted total score from all factors
+        const totalScore = (
+            (elementalScore * 3.5) +
+            (seasonalScore * 1.5) +
+            (timeScore * 2.0) +
+            (nutritionScore * 1.0) +
+            (culturalScore * 1.0) +
+            (planetaryScore * 1.0) +
+            (techniqueScore * 1.0)
+        ) / factorsConsidered;
+        
+        // Convert to percentage (0-100 scale) with minimum score of 50
+        const percentageScore = Math.round(Math.max(50, totalScore * 100));
+        
+        // Apply a more pronounced curve to better differentiate top recommendations
+        let finalScore = percentageScore;
+        if (percentageScore >= 85) {
+            // Boost excellent matches
+            finalScore = Math.min(100, percentageScore + (percentageScore - 85) / 3);
+        } else if (percentageScore <= 65) {
+            // Reduce poor matches
+            finalScore = Math.max(50, percentageScore - (65 - percentageScore) / 3);
+        }
+        
+        return Math.round(finalScore);
     }, [elementalState, isAppropriateForTimeOfDay]);
 
-    // Add proper types for the helper function
+    // Helper function to get opposing season
+    const getOpposingSeason = (season: string): string => {
+        const opposites: Record<string, string> = {
+            'spring': 'fall',
+            'fall': 'spring',
+            'summer': 'winter',
+            'winter': 'summer',
+            'autumn': 'spring'
+        };
+        return opposites[season.toLowerCase()] || season;
+    };
+
+    // Elemental match calculation with proper validation
     const calculateElementalMatch = (
         recipeElements: ElementalProperties,
-        targetElements: any // Change type to avoid incompatibility
+        targetElements: any
     ): number => {
-        if (!recipeElements || !targetElements) return 0.6;
+        // Validate inputs
+        if (!recipeElements || !targetElements) {
+            logger.warn('Missing elemental properties for match calculation');
+            return 0.5;
+        }
         
+        // Extract just the elemental properties and validate
+        const elements = ['Fire', 'Water', 'Earth', 'Air'] as const;
+        const validRecipeElements: Record<string, number> = {};
+        const validTargetElements: Record<string, number> = {};
+        
+        // Validate all elements exist and are valid numbers
+        for (const element of elements) {
+            // Validate recipe elements
+            if (typeof recipeElements[element] === 'number' && !isNaN(recipeElements[element])) {
+                validRecipeElements[element] = recipeElements[element];
+            } else {
+                logger.warn(`Invalid recipe element value for ${element}: ${recipeElements[element]}`);
+                validRecipeElements[element] = 0.25; // Default to balanced
+            }
+            
+            // Validate target elements
+            if (typeof targetElements[element] === 'number' && !isNaN(targetElements[element])) {
+                validTargetElements[element] = targetElements[element];
+            } else {
+                logger.warn(`Invalid target element value for ${element}: ${targetElements[element]}`);
+                validTargetElements[element] = 0.25; // Default to balanced
+            }
+        }
+        
+        // Calculate similarity using validated data
         let totalSimilarity = 0;
         let count = 0;
         
-        // Only use the elemental properties from targetElements
-        const elements = ['Fire', 'Water', 'Earth', 'Air'] as const;
-        
         for (const element of elements) {
-            if (typeof recipeElements[element] === 'number' && 
-                typeof targetElements[element] === 'number') {
-                const difference = Math.abs(recipeElements[element] - targetElements[element]);
-                const similarity = 1 - difference;
-                totalSimilarity += similarity;
-                count++;
+            const recipeValue = validRecipeElements[element];
+            const targetValue = validTargetElements[element];
+            
+            // For very close matches, give extra credit
+            const difference = Math.abs(recipeValue - targetValue);
+            let similarity = 0;
+            
+            if (difference < 0.1) {
+                // Excellent match (90-100% similarity)
+                similarity = 1 - (difference * 0.5);
+            } else if (difference < 0.2) {
+                // Good match (80-90% similarity)
+                similarity = 0.9 - (difference - 0.1) * 1;
+            } else if (difference < 0.3) {
+                // Decent match (70-80% similarity)
+                similarity = 0.8 - (difference - 0.2) * 1;
+            } else {
+                // Basic linear scaling for larger differences
+                similarity = Math.max(0.5, 1 - difference);
             }
+            
+            // Weight by the target element's importance
+            const elementWeight = targetValue > 0.3 ? 1.5 : 1.0;
+            totalSimilarity += similarity * elementWeight;
+            count += elementWeight;
         }
         
-        return count > 0 ? totalSimilarity / count : 0.6;
+        // Return normalized score - guaranteed to be valid due to input validation
+        return count > 0 ? Math.min(1, Math.max(0, totalSimilarity / count)) : 0.5;
     };
 
     const calculatePlanetaryHour = (date: Date, isDaytime: boolean): string => {
@@ -311,6 +306,21 @@ const CuisineGroup: React.FC<Props> = ({ recipes, elementalState }) => {
     
     // Function to render a more visually appealing score badge
     const renderScoreBadge = (score: number) => {
+        // Validate score is a proper positive number
+        const isValidScore = typeof score === 'number' && score > 0 && !isNaN(score);
+        
+        if (!isValidScore) {
+            logger.warn('Invalid score detected in renderScoreBadge');
+            return (
+                <span 
+                    className="text-sm bg-gray-100 text-gray-700 px-2 py-1 rounded flex items-center"
+                    title="Score not available"
+                >
+                    <span>--</span>
+                </span>
+            );
+        }
+        
         let stars = '';
         let tooltipText = 'Match score based on elemental profile and current conditions';
         

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import SauceRecommender from '@/components/SauceRecommender';
 import { ElementalProperties } from '@/types/alchemy';
 import { 
@@ -11,8 +11,11 @@ import {
   Carrot,
   CookingPot,
   Globe,
-  Filter
+  Filter,
+  RotateCcw
 } from 'lucide-react';
+import Head from 'next/head';
+import Link from 'next/link';
 
 // Import all cuisines
 import { default as italianCuisine } from '@/data/cuisines/italian';
@@ -21,6 +24,38 @@ import { default as japaneseCuisine } from '@/data/cuisines/japanese';
 import { default as indianCuisine } from '@/data/cuisines/indian';
 import { default as thaiCuisine } from '@/data/cuisines/thai';
 import { default as mexicanCuisine } from '@/data/cuisines/mexican';
+
+// Define interface for sauce data
+interface Sauce {
+  id: string;
+  name: string;
+  description?: string;
+  base?: string;
+  keyIngredients?: string[];
+  culinaryUses?: string[];
+  elementalProperties?: ElementalProperties;
+  astrologicalInfluences?: string[];
+}
+
+// Define interface for sauce recommender structure
+interface SauceRecommender {
+  forProtein?: Record<string, string[]>;
+  forVegetable?: Record<string, string[]>;
+  forCookingMethod?: Record<string, string[]>;
+}
+
+// Define interface for cuisine objects
+interface Cuisine {
+  name: string;
+  id?: string;
+  description?: string;
+  traditionalSauces?: Record<string, Sauce>;
+  sauceRecommender?: SauceRecommender;
+  elementalProperties?: ElementalProperties;
+}
+
+// Define type for all cuisines record
+type CuisineRecord = Record<string, Cuisine>;
 
 export default function SauceExplorer() {
   // State for selected filters
@@ -38,7 +73,7 @@ export default function SauceExplorer() {
   });
   
   // State for all cuisines
-  const [allCuisines, setAllCuisines] = useState<any>({});
+  const [allCuisines, setAllCuisines] = useState<CuisineRecord>({});
   
   // Load all cuisines on component mount
   useEffect(() => {
@@ -51,7 +86,7 @@ export default function SauceExplorer() {
       mexican: mexicanCuisine,
     };
     
-    setAllCuisines(cuisines);
+    setAllCuisines(cuisines as CuisineRecord);
   }, []);
   
   // Handle elemental profile change
@@ -163,7 +198,7 @@ export default function SauceExplorer() {
               className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             >
               <option value="">All Cuisines</option>
-              {Object.entries(allCuisines).map(([id, cuisine]: [string, any]) => (
+              {Object.entries(allCuisines).map(([id, cuisine]: [string, Cuisine]) => (
                 <option key={id} value={id}>
                   {cuisine.name || id}
                 </option>

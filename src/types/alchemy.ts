@@ -2,7 +2,7 @@
 
 // ========== CORE ELEMENTAL TYPES ==========
 
-export type Element = 'Fire' | 'Water' | 'Earth' | 'Air';
+export type Element = 'Fire' | 'Water' | 'Earth' | 'Air' | 'Aether';
 
 export interface ElementalProperties {
   Fire: number;
@@ -83,20 +83,19 @@ export const LUNAR_PHASE_REVERSE_MAPPING: Record<LunarPhaseWithUnderscores, Luna
 };
 
 export type ZodiacSign = 
-  | 'aries' 
-  | 'taurus' 
-  | 'gemini' 
-  | 'cancer' 
-  | 'leo' 
-  | 'virgo' 
-  | 'libra' 
-  | 'scorpio' 
-  | 'sagittarius' 
-  | 'capricorn' 
-  | 'aquarius' 
-  | 'pisces';
+  'Aries' | 'Taurus' | 'Gemini' | 'Cancer' | 
+  'Leo' | 'Virgo' | 'Libra' | 'Scorpio' | 
+  'Sagittarius' | 'Capricorn' | 'Aquarius' | 'Pisces';
 
-export type Planet = 'sun' | 'moon' | 'mercury' | 'venus' | 'mars' | 'jupiter' | 'saturn' | 'uranus' | 'neptune' | 'pluto';
+export type PlanetName = 
+  'Sun' | 'Moon' | 'Mercury' | 'Venus' | 'Mars' | 
+  'Jupiter' | 'Saturn' | 'Uranus' | 'Neptune' | 'Pluto';
+
+export interface Planet {
+  name: PlanetName;
+  influence: number; // 0-1 scale indicating strength of influence
+  position?: string; // Optional zodiac position
+}
 
 export interface PlanetaryPosition {
   sign: ZodiacSign;
@@ -122,14 +121,14 @@ export interface PlanetaryAlignment {
 }
 
 export interface PlanetaryHarmony {
-  [key: string]: Record<Planet, number>;
-  sun: Record<Planet, number>;
-  moon: Record<Planet, number>;
-  mercury: Record<Planet, number>;
-  venus: Record<Planet, number>;
-  mars: Record<Planet, number>;
-  jupiter: Record<Planet, number>;
-  saturn: Record<Planet, number>;
+  [key: string]: Record<PlanetName, number>;
+  sun: Record<PlanetName, number>;
+  moon: Record<PlanetName, number>;
+  mercury: Record<PlanetName, number>;
+  venus: Record<PlanetName, number>;
+  mars: Record<PlanetName, number>;
+  jupiter: Record<PlanetName, number>;
+  saturn: Record<PlanetName, number>;
 }
 
 // Define AspectType
@@ -172,34 +171,14 @@ export interface CelestialPosition {
 }
 
 export interface AstrologicalState {
-  currentZodiac: ZodiacSign;
-  moonPhase: LunarPhase;
-  currentPlanetaryAlignment: Record<string, CelestialPosition>;
-  activePlanets: string[];
-  planetaryPositions: Record<string, any>;
-  lunarPhase: LunarPhase;
-  zodiacSign: ZodiacSign;
-  planetaryHours: Planet;
-  planetaryHour?: Planet | string;
-  planetaryDay?: Planet | string;
-  planetaryMinute?: Planet | string;
-  astrologicalInfluences?: AstrologicalInfluence[];
-  aspects: PlanetaryAspect[];
-  
-  // Add these properties to support both usages
-  date?: string;
-  sunSign?: ZodiacSign;
+  sunSign: ZodiacSign;
   moonSign?: ZodiacSign;
-  dominantPlanets?: string[];
-  planetaryAspects?: string[];
-  planetaryAlignment?: Record<string, { sign: string; degree: number }>;
-
-  // Additional properties used throughout the codebase
-  tarotElementBoosts: Record<string, number>;
-  tarotPlanetaryBoosts: Record<string, number>;
-  sunDegree?: number;
-  moonSignElement?: Element;
-  dominantElement?: Element;
+  lunarPhase: LunarPhase;
+  activePlanets: PlanetName[];
+  dominantElement: Element;
+  dominantPlanets: Planet[];
+  loading?: boolean;
+  error?: string;
 }
 
 // ========== THERMODYNAMIC TYPES ==========
@@ -295,7 +274,7 @@ export interface CookingTime {
   resting: number; // minutes
   total: number; // minutes
   planetaryWindows?: {
-    optimal: Planet[];
+    optimal: PlanetName[];
     timing: string;
   };
 }
@@ -327,7 +306,7 @@ export interface Ingredient {
   category?: string;
   elementalProperties?: ElementalProperties;
   energyValues?: ThermodynamicProperties;
-  planetaryRuler?: Planet;
+  planetaryRuler?: PlanetName;
   swaps?: string[];
   seasonality?: Season[];
   nutritionalProfile?: NutritionalProfile;
@@ -365,7 +344,7 @@ export interface Recipe {
   nutrition?: NutritionalInfo;
   mealType?: string[];
   astrologicalAffinities?: {
-    planets: Planet[];
+    planets: PlanetName[];
     signs: ZodiacSign[];
     lunarPhases: LunarPhase[];
   };
@@ -385,12 +364,12 @@ export interface NutritionalInfo {
 export interface PreparationMethod {
   name: string;
   element: Element;
-  planetaryRuler: Planet;
+  planetaryRuler: PlanetName;
   energyEffects: ThermodynamicProperties;
   timing: {
-    optimal: Planet[];
-    acceptable: Planet[];
-    avoid: Planet[];
+    optimal: PlanetName[];
+    acceptable: PlanetName[];
+    avoid: PlanetName[];
   };
   cookingMethod: CookingMethod;
   techniqueTips: string[];
@@ -424,7 +403,7 @@ export interface FoodCorrespondence {
   foodGroup: string;
   foodType: string;
   element: Element;
-  planet: Planet;
+  planet: PlanetName;
   alchemy: {
     day: number[];
     night: number[];
@@ -493,7 +472,7 @@ export interface CookingFormula {
   method: CookingMethod;
   elementalRatios: ElementalProperties;
   timeCoefficient: number;
-  planetaryBoosts: Partial<Record<Planet, number>>;
+  planetaryBoosts: Partial<Record<PlanetName, number>>;
   result: {
     elementalProperties: ElementalProperties;
     energyState: ThermodynamicProperties;
@@ -509,7 +488,7 @@ export interface AlchemicalState {
   astrologicalState: AstrologicalState;
   currentTime: Date;
   elementalPreference: ElementalProperties;
-  planetaryHour: Planet;
+  planetaryHour: PlanetName;
   celestialPositions: {
     sun?: {
       sign: string;
@@ -526,7 +505,7 @@ export type AlchemicalAction =
   | { type: 'UPDATE_LUNAR_PHASE'; payload: LunarPhase }
   | { type: 'UPDATE_SUN_SIGN'; payload: ZodiacSign }
   | { type: 'UPDATE_MOON_SIGN'; payload: ZodiacSign }
-  | { type: 'UPDATE_PLANETARY_HOUR'; payload: Planet }
+  | { type: 'UPDATE_PLANETARY_HOUR'; payload: PlanetName }
   | { type: 'UPDATE_ASTROLOGICAL_STATE'; payload: AstrologicalState };
 
 // ========== ADDITIONAL PROPERTIES ==========
@@ -547,7 +526,7 @@ export interface CookingMethodProperties {
     min: number;
     max: number;
   };
-  planetaryRulers: Planet[];
+  planetaryRulers: PlanetName[];
 }
 
 export interface CookingMethodData {
@@ -580,7 +559,7 @@ export interface FlavorProfile {
   description: string;
   thermodynamicProperties: ThermodynamicProperties;
   astrologicalSignature?: {
-    planets: Planet[];
+    planets: PlanetName[];
     signs: ZodiacSign[];
   };
 }
@@ -631,7 +610,7 @@ export interface IngredientMapping {
 }
 
 export interface PlanetaryFoodAssociation {
-  planet: Planet;
+  planet: PlanetName;
   foods: string[];
   qualities: string[];
   cookingMethods: CookingMethod[];
@@ -681,7 +660,7 @@ export interface RecipeCardProps {
   onToggle?: () => void;
   currentSign?: ZodiacSign;
   currentSeason?: Season;
-  planetaryHour?: Planet;
+  planetaryHour?: PlanetName;
 }
 
 export interface RecipeCalculatorProps {
@@ -696,7 +675,7 @@ export interface RecipeRecommendationsProps {
     dietaryPreference: string;
     cookingTime: string;
     elementalFocus?: Element;
-    planetaryInfluence?: Planet;
+    planetaryInfluence?: PlanetName;
   };
   astrologicalState: AstrologicalState;
 }
@@ -704,8 +683,8 @@ export interface RecipeRecommendationsProps {
 export interface CookingTimerProps {
   method: CookingMethod;
   duration: number;
-  planetaryHour: Planet;
-  optimalPlanets: Planet[];
+  planetaryHour: PlanetName;
+  optimalPlanets: PlanetName[];
   onCompletion: () => void;
 }
 
@@ -749,7 +728,7 @@ export const PLANETARY_HARMONY_MATRIX: PlanetaryHarmony = {
 };
 
 // Elemental associations for planets
-export const PLANET_ELEMENT_MAPPING: Record<Planet, Element> = {
+export const PLANET_ELEMENT_MAPPING: Record<PlanetName, Element> = {
   sun: 'Fire',
   moon: 'Water',
   mercury: 'Air',

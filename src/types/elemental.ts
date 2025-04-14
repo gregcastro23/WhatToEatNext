@@ -60,6 +60,18 @@ export interface ElementalFilter {
   dominantElement?: Element;
 }
 
+/**
+ * Interface for elemental transformation (used for ingredients)
+ */
+export interface ElementalTransformation {
+  whenCooked?: Partial<ElementalProperties>;
+  whenFermented?: Partial<ElementalProperties>;
+  whenDried?: Partial<ElementalProperties>;
+  whenRoasted?: Partial<ElementalProperties>;
+  whenPickled?: Partial<ElementalProperties>;
+  whenRaw?: Partial<ElementalProperties>;
+}
+
 // Default ElementalProperties
 export const DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {
   Fire: 0.25,

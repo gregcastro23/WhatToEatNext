@@ -2,13 +2,18 @@ import { ElementalProperties, Recipe, Season, TimeOfDay , CombinationResult, Ele
 import { normalizeProperties } from '../utils/elementalUtils';
 import { DEFAULT_ELEMENTAL_PROPERTIES } from '../constants/elementalConstants';
 import type { PlanetaryAlignment } from '../types/alchemy';
+import { createLogger } from '@/utils/logger';
+
+const logger = createLogger('ElementalCalculator');
 
 export class ElementalCalculator {
     private static instance: ElementalCalculator;
     private currentBalance: ElementalProperties = DEFAULT_ELEMENTAL_PROPERTIES;
-    private initialized: boolean = false;
+    private initialized = false;
 
-    private constructor() {}
+    private constructor() {
+        // Private constructor to enforce singleton pattern
+    }
 
     static getInstance(): ElementalCalculator {
         if (!ElementalCalculator.instance) {
@@ -17,16 +22,28 @@ export class ElementalCalculator {
         return ElementalCalculator.instance;
     }
 
-    static initialize(): void {
+    static initialize(initialState?: ElementalProperties): void {
         const instance = ElementalCalculator.getInstance();
-        instance.currentBalance = { ...DEFAULT_ELEMENTAL_PROPERTIES };
+        instance.currentBalance = initialState || { ...DEFAULT_ELEMENTAL_PROPERTIES };
         instance.initialized = true;
+        logger.debug('ElementalCalculator initialized with', instance.currentBalance);
+    }
+
+    static updateElementalState(newState: ElementalProperties): void {
+        const instance = ElementalCalculator.getInstance();
+        instance.currentBalance = { ...newState };
+        logger.debug('ElementalCalculator state updated', instance.currentBalance);
     }
 
     static getCurrentElementalState(): ElementalProperties {
         const instance = ElementalCalculator.getInstance();
         if (!instance.initialized) {
+            // Only use direct initialization without the dynamic import of useAlchemical
+            // which causes "Invalid hook call" errors in tests
             ElementalCalculator.initialize();
+            
+            // In a browser, the AlchemicalContext provider will call updateElementalState
+            // so we don't need to worry about initializing with the correct state here
         }
         return instance.currentBalance;
     }
@@ -38,7 +55,7 @@ export class ElementalCalculator {
 
         const currentBalance = ElementalCalculator.getCurrentElementalState();
         
-        // Simplified calculation without calling missing functions
+        // Use the more robust weighted calculation instead of simplified approach
         let matchScore = 0;
         let totalWeight = 0;
         
@@ -47,18 +64,24 @@ export class ElementalCalculator {
             // Use optional chaining with nullish coalescing to handle undefined values
             const itemValue = (item.elementalProperties && item.elementalProperties[elementKey]) || 0;
             
-            // Calculate similarity between current state and item properties
-            const similarity = 1 - Math.abs(value - itemValue);
-            matchScore += similarity;
-            totalWeight++;
+            // Calculate weighted difference (more important elements get higher weight)
+            const weight = value * 2; // Emphasize elements that are strong in current state
+            matchScore += (1 - Math.abs(value - itemValue)) * weight;
+            totalWeight += weight;
         });
         
         // Normalize to 0-100 range
-        return Math.round((matchScore / totalWeight) * 100);
+        return Math.round(totalWeight > 0 ? (matchScore / totalWeight) * 100 : 50);
     }
 
     static getSeasonalModifiers(season: Season): ElementalProperties {
-        const baseModifiers = { ...DEFAULT_ELEMENTAL_PROPERTIES };
+        // Start with a balanced base
+        const baseModifiers: ElementalProperties = {
+            Fire: 0.25,
+            Water: 0.25,
+            Earth: 0.25,
+            Air: 0.25
+        };
         
         // Normalize season to lowercase for consistency with type definition
         const seasonLower = season.toLowerCase() as Season;
@@ -218,13 +241,44 @@ export class ElementalCalculator {
         
         const potency = this.calculatePotency(elementalProperties, astroState);
         
+        // Calculate energy metrics using proper formulas
+        // Get elemental values with safety checks
+        const fire = Math.max(elementalProperties.Fire, 0.1);
+        const water = Math.max(elementalProperties.Water, 0.1);
+        const air = Math.max(elementalProperties.Air, 0.1);
+        const earth = Math.max(elementalProperties.Earth, 0.1);
+        
+        // For alchemical principles, use defaults if not available
+        const spirit = 0.25;  // Default values since we don't have actual spirit/essence/matter/substance
+        const essence = 0.25;
+        const matter = 0.25;
+        const substance = 0.25;
+        
+        // Heat formula: (spirit^2 + fire^2) / (substance + essence + matter + water + air + earth)^2
+        const denominatorHeat = Math.max(substance + essence + matter + water + air + earth, 0.1);
+        const heat = Math.min(Math.max((Math.pow(spirit, 2) + Math.pow(fire, 2)) / Math.pow(denominatorHeat, 2), 0.1), 1.0);
+        
+        // Entropy formula
+        const denominatorEntropy = Math.max(essence + matter + earth + water, 0.1);
+        const entropy = Math.min(Math.max((Math.pow(spirit, 2) + Math.pow(substance, 2) + 
+                               Math.pow(fire, 2) + Math.pow(air, 2)) / Math.pow(denominatorEntropy, 2), 0.1), 1.0);
+        
+        // Reactivity formula
+        const denominatorReactivity = Math.max(matter + earth, 0.1);
+        const reactivity = Math.min(Math.max((Math.pow(spirit, 2) + Math.pow(substance, 2) + Math.pow(essence, 2) + 
+                                 Math.pow(fire, 2) + Math.pow(air, 2) + Math.pow(water, 2)) / Math.pow(denominatorReactivity, 2), 0.1), 1.0);
+        
+        // Calculate energy using heat - (reactivity * entropy)
+        const rawEnergy = heat - (reactivity * entropy);
+        const energy = Math.min(Math.max((rawEnergy + 1) / 2, 0.1), 1.0); // Convert from range (-1,1) to (0,1)
+        
         return {
             resultingProperties: elementalProperties,
             energyState: {
-                heat: 0.5,
-                entropy: 0.5,
-                reactivity: 0.5,
-                energy: 0.5
+                heat,
+                entropy,
+                reactivity,
+                energy
             },
             potency,
             dominantElement,
@@ -234,56 +288,67 @@ export class ElementalCalculator {
     }
 
     private calculatePotency(properties: ElementalProperties, astroState?: AstrologicalState): number {
-        // Base potency from dominant element strength
+        // Basic potency calculation based on dominant element strength
         const dominantElement = this.getDominantElement(properties);
         const dominantValue = properties[dominantElement];
         
-        // More dominant = more potent
-        let potency = dominantValue;
+        // Base potency is weighted toward dominant element concentration
+        let potency = dominantValue * 0.8;
         
-        // Astrological boosts if available
-        if (astroState && astroState.sunSign) {
-            const zodiacElement = this.getZodiacElement(astroState.sunSign);
-            if (zodiacElement === dominantElement) {
-                potency *= 1.2; // 20% boost for aligned zodiac
+        // Add additional potency based on astrological factors when available
+        if (astroState) {
+            // Add lunar cycle influence (full moon = highest potency)
+            if (astroState.lunarPhase === 'full moon') {
+                potency += 0.1;
+            }
+            
+            // Add zodiac sign influence if it matches element
+            if (astroState.zodiacSign) {
+                const zodiacElement = this.getZodiacElement(astroState.zodiacSign);
+                if (zodiacElement === dominantElement) {
+                    potency += 0.1;
+                }
             }
         }
         
-        return Math.max(0, Math.min(1, potency));
+        // Normalize to 0-1 range
+        return Math.min(1, potency);
     }
 
     private getDominantElement(properties: ElementalProperties): Element {
-        let dominant: Element = 'Fire';
-        let maxValue = properties.Fire;
+        let highest = -1;
+        let dominantElement: Element = 'Fire';
         
-        if (properties.Water > maxValue) {
-            dominant = 'Water';
-            maxValue = properties.Water;
+        for (const element in properties) {
+            if (Object.prototype.hasOwnProperty.call(properties, element)) {
+                const value = properties[element as keyof ElementalProperties];
+                if (value > highest) {
+                    highest = value;
+                    dominantElement = element as Element;
+                }
+            }
         }
         
-        if (properties.Earth > maxValue) {
-            dominant = 'Earth';
-            maxValue = properties.Earth;
-        }
-        
-        if (properties.Air > maxValue) {
-            dominant = 'Air';
-            maxValue = properties.Air;
-        }
-        
-        return dominant;
+        return dominantElement;
     }
 
     private getZodiacElement(sign: ZodiacSign): Element {
-        const fireSign = ['aries', 'leo', 'sagittarius'];
-        const earthSign = ['taurus', 'virgo', 'capricorn'];
-        const airSign = ['gemini', 'libra', 'aquarius'];
-        const waterSign = ['cancer', 'scorpio', 'pisces'];
+        const elementMapping: Record<ZodiacSign, Element> = {
+            aries: 'Fire',
+            leo: 'Fire',
+            sagittarius: 'Fire',
+            taurus: 'Earth',
+            virgo: 'Earth',
+            capricorn: 'Earth',
+            gemini: 'Air',
+            libra: 'Air',
+            aquarius: 'Air',
+            cancer: 'Water',
+            scorpio: 'Water',
+            pisces: 'Water'
+        };
         
-        if (fireSign.includes(sign)) return 'Fire';
-        if (earthSign.includes(sign)) return 'Earth';
-        if (airSign.includes(sign)) return 'Air';
-        return 'Water';
+        return elementMapping[sign];
     }
 
     /**
@@ -291,8 +356,8 @@ export class ElementalCalculator {
      * @param planetaryAlignment The current planetary alignment
      * @returns Elemental properties distribution
      */
-    calculateElementalState(planetaryAlignment: any): ElementalProperties {
-        // Initialize an elemental state with equal distribution
+    calculateElementalState(planetaryAlignment: PlanetaryAlignment): ElementalProperties {
+        // Initialize with balanced elements
         const elementalState: ElementalProperties = {
             Fire: 0.25,
             Water: 0.25,

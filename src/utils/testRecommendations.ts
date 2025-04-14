@@ -39,19 +39,19 @@ export function testCookingMethodRecommendations() {
   ];
 
   // Run the test
-  console.log('TESTING COOKING METHOD RECOMMENDATIONS');
-  console.log('=====================================');
-  console.log('Ingredient:', mockIngredient.name);
-  console.log('Element:', mockIngredient.element);
-  console.log('Elemental Character:', mockIngredient.elementalCharacter);
+  console.warn('TESTING COOKING METHOD RECOMMENDATIONS');
+  console.warn('=====================================');
+  console.warn('Ingredient:', mockIngredient.name);
+  console.warn('Element:', mockIngredient.element);
+  console.warn('Elemental Character:', mockIngredient.elementalCharacter);
 
   // Test holistic recommendations directly
   try {
-    console.log('\nTESTING HOLISTIC RECOMMENDATIONS DIRECTLY:');
+    console.warn('\nTESTING HOLISTIC RECOMMENDATIONS DIRECTLY:');
     const methods = mockCookingMethods.map(m => m.name);
     const holisticRecs = getHolisticCookingRecommendations(mockIngredient, undefined, undefined, true, methods, 5);
     holisticRecs.forEach((rec, index) => {
-      console.log(`${index + 1}. ${rec.method} - Compatibility: ${Math.round(rec.compatibility)}% - ${rec.reason}`);
+      console.warn(`${index + 1}. ${rec.method} - Compatibility: ${Math.round(rec.compatibility)}% - ${rec.reason}`);
     });
   } catch (error) {
     console.error('ERROR GETTING HOLISTIC RECOMMENDATIONS:', error);
@@ -62,10 +62,10 @@ export function testCookingMethodRecommendations() {
 
   // Test the ingredient-specific function
   try {
-    console.log('\nTESTING INGREDIENT-SPECIFIC RECOMMENDATIONS:');
+    console.warn('\nTESTING INGREDIENT-SPECIFIC RECOMMENDATIONS:');
     const recommendations = getRecommendedCookingMethodsForIngredient(mockIngredient, mockCookingMethods, 5);
     recommendations.forEach((rec, index) => {
-      console.log(`${index + 1}. ${rec.method} - Compatibility: ${Math.round(rec.compatibility)}%`);
+      console.warn(`${index + 1}. ${rec.method} - Compatibility: ${Math.round(rec.compatibility)}%`);
     });
   } catch (error) {
     console.error('ERROR GETTING RECOMMENDATIONS:', error);

@@ -14,12 +14,14 @@ import { russian } from './russian';
 import { thai } from './thai';
 import { vietnamese } from './vietnamese';
 import { african } from './african';
+import { american } from './american';
 
 // Create a base cuisine structure
 const baseCuisine: Cuisine = {
     id: 'base',
     name: '',
     description: '',
+    motherSauces: {},
     dishes: {
         breakfast: { 
             spring: [],
@@ -62,7 +64,8 @@ const baseCuisine: Cuisine = {
         Water: 0.75,
         Earth: 0.65,
         Air: 0
-    }
+    },
+    astrologicalInfluences: []
 };
 
 // Process the recipes to combine seasonal and "all" categories
@@ -93,6 +96,7 @@ const processCuisineRecipes = (cuisine: Partial<Cuisine>): Cuisine => {
     id,
     name,
     description: cuisine.description || '',
+    motherSauces: cuisine.motherSauces || {},
     dishes: {
       breakfast: combineRecipes(cuisine.dishes?.breakfast),
       lunch: combineRecipes(cuisine.dishes?.lunch),
@@ -113,13 +117,15 @@ const processCuisineRecipes = (cuisine: Partial<Cuisine>): Cuisine => {
     elementalProperties: cuisine.elementalProperties || 
                        (cuisine as any).elementalState || // For backward compatibility
                        { ...baseCuisine.elementalProperties },
-    regionalVarieties: cuisine.regionalCuisines ? Object.keys(cuisine.regionalCuisines).length : 0
+    regionalVarieties: cuisine.regionalCuisines ? Object.keys(cuisine.regionalCuisines).length : 0,
+    astrologicalInfluences: Array.isArray(cuisine.astrologicalInfluences) ? cuisine.astrologicalInfluences : []
   } as Cuisine; // Use type assertion to ensure the return type is Cuisine
 };
 
 // Create and export the cuisines map with validated structures
 export const cuisinesMap = {
     African: processCuisineRecipes(african as any),
+    American: processCuisineRecipes(american as any),
     Chinese: processCuisineRecipes(chinese as any),
     French: processCuisineRecipes(french as any),
     Greek: processCuisineRecipes(greek as any),
@@ -131,7 +137,10 @@ export const cuisinesMap = {
     'Middle Eastern': processCuisineRecipes(middleEastern as any),
     Russian: processCuisineRecipes(russian as any),
     Thai: processCuisineRecipes(thai as any),
-    Vietnamese: processCuisineRecipes(vietnamese as any)
+    Vietnamese: processCuisineRecipes(vietnamese as any),
+    // Add lowercase variants for problematic cuisines
+    african: processCuisineRecipes(african as any),
+    american: processCuisineRecipes(american as any)
 } as const;
 
 export type CuisineName = keyof typeof cuisinesMap;
@@ -139,6 +148,15 @@ export default cuisinesMap;
 
 // Element properties for the refined culinary search
 export const CUISINES = {
+  american: {
+    name: 'American',
+    elementalProperties: {
+      Fire: 0.3,
+      Water: 0.2,
+      Earth: 0.3,
+      Air: 0.2
+    }
+  },
   chinese: {
     name: 'Chinese',
     elementalProperties: {

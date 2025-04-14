@@ -5,6 +5,8 @@ import { ELEMENTAL_CHARACTERISTICS } from '@/constants/elementalConstants';
 import { ElementalRecommendationService } from '@/services/ElementalRecommendationService';
 import { AstrologicalInfluence } from '@/types/alchemy';
 
+export { ELEMENTAL_CHARACTERISTICS };
+
 // Default astrologicalInfluence for when none is specified
 const defaultAstrologicalInfluence: AstrologicalInfluence = {
   name: "Universal",

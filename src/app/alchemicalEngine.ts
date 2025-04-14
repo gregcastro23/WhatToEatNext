@@ -25,7 +25,6 @@ const alchemicalEngine = {
   alchemize,
   
   // Re-export functions from the calculations/alchemicalEngine module
-  // These functions are assumed to exist based on imports seen in other files
   calculateCurrentPlanetaryPositions: async (): Promise<Record<string, any>> => {
     // Import and call the function from the source module
     const { calculateCurrentPlanetaryPositions } = await import('@/calculations/alchemicalEngine');

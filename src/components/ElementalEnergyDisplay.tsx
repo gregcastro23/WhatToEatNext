@@ -1,14 +1,13 @@
 'use client';
 
-import React, { useState, useEffect, useMemo, useCallback, FC, ReactNode } from 'react';
+import React, { useState, useEffect, useMemo, useCallback, FC, ReactNode, useRef } from 'react';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { RulingPlanet, RULING_PLANETS } from '@/constants/planets';
 import { ElementalCharacter } from '@/constants/planetaryElements';
 import { useAstrologicalState } from '@/hooks/useAstrologicalState';
 import styles from './ElementalEnergyDisplay.module.css';
-import { Flame, Droplets, Mountain, Wind, Shield, CornerUpRight, Shuffle } from 'lucide-react';
+import { Flame, Droplets, Mountain, Wind, Shield, CornerUpRight, Shuffle, Sparkles, Anchor } from 'lucide-react';
 import { ElementalCalculator } from '@/services/ElementalCalculator';
-import { Sparkles, Anchor } from 'lucide-react';
 import { safeImportAndExecute } from '@/utils/dynamicImport';
 import { getCachedCalculation } from '@/utils/calculationCache';
 import { 
@@ -109,6 +108,9 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
   const { currentPlanetaryAlignment, currentZodiac } = useAstrologicalState();
   const [renderCount, setRenderCount] = useState<number>(0);
   
+  // Create the ref at the component level instead of inside useEffect
+  const lastPositionKeyRef = useRef('');
+  
   // Log render count - run only once
   useEffect(() => {
     // Only increment once when component mounts
@@ -118,16 +120,50 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
     }
   }, []); // Empty dependency array means this runs only once
   
-  const [alchemicalResults, setAlchemicalResults] = useState<AlchemicalResults>({
-    elementalCounts: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
-    alchemicalCounts: { Spirit: 0.25, Essence: 0.25, Matter: 0.25, Substance: 0.25 },
-    heat: 0.5,
-    entropy: 0.5,
-    reactivity: 0.5,
-    gregsEnergy: 0.5,
-    planetaryDignities: {},
-    modalityDistribution: { Cardinal: 0.33, Fixed: 0.33, Mutable: 0.34 },
-    dominantModality: 'Mutable',
+  const [alchemicalResults, setAlchemicalResults] = useState<AlchemicalResults>(() => {
+    // Start with defaults
+    const initialState: AlchemicalResults = {
+      elementalCounts: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+      alchemicalCounts: { Spirit: 0.25, Essence: 0.25, Matter: 0.25, Substance: 0.25 },
+      heat: 0.5,
+      entropy: 0.5,
+      reactivity: 0.5,
+      gregsEnergy: 0.5,
+      planetaryDignities: {},
+      modalityDistribution: { Cardinal: 0.33, Fixed: 0.33, Mutable: 0.34 },
+      dominantModality: 'Mutable',
+    };
+
+    // If we have planetary data on initial render, calculate actual values
+    if (planetaryPositions && Object.keys(planetaryPositions).length > 0) {
+      try {
+        // Get the distribution of alchemical energies
+        const alchemicalDistribution = calculateAlchemicalDistribution(planetaryPositions, isDaytime);
+        
+        // Convert to elemental properties
+        const elementalProps = convertToElementalProperties(alchemicalDistribution);
+        
+        // Calculate thermodynamic properties
+        const thermodynamicProps = calculateThermodynamicProperties(alchemicalDistribution);
+
+        // Update initial state with calculated values
+        initialState.elementalCounts = elementalProps;
+        initialState.alchemicalCounts = {
+          Spirit: alchemicalDistribution.Spirit,
+          Essence: alchemicalDistribution.Essence,
+          Matter: alchemicalDistribution.Matter,
+          Substance: alchemicalDistribution.Substance
+        };
+        initialState.heat = thermodynamicProps.heat;
+        initialState.entropy = thermodynamicProps.entropy;
+        initialState.reactivity = thermodynamicProps.reactivity;
+        initialState.gregsEnergy = (thermodynamicProps.heat + thermodynamicProps.entropy + thermodynamicProps.reactivity) / 3;
+      } catch (error) {
+        logger.error('Error calculating initial alchemical values:', error);
+      }
+    }
+
+    return initialState;
   });
   
   // Memoize planetary position input with proper serialization to prevent infinite loops
@@ -316,12 +352,12 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
           .join('|');
         
         // Skip calculation if we've already calculated for this exact alignment
-        const lastPositionKey = React.useRef('');
-        if (positionKey === lastPositionKey.current) {
+        // Use the ref that's defined at the component level
+        if (positionKey === lastPositionKeyRef.current) {
           logger.debug("Skipping calculation - alignment unchanged");
           return;
         }
-        lastPositionKey.current = positionKey;
+        lastPositionKeyRef.current = positionKey;
         
         // Use our new alchemical energy mapping functions
         // Calculate alchemical distribution from planetary positions

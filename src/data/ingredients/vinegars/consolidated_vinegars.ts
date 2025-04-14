@@ -212,7 +212,7 @@ const rawVinegars: Record<string, Partial<IngredientMapping>> = {
         uses: 'finishing, salads, cheese pairings',
         aging: '3-7 years',
         grapes: 'Trebbiano and others',
-        notes: 'Made in traditional method but doesn't meet all DOP requirements'
+        notes: 'Made in traditional method but doesn\'t meet all DOP requirements'
       },
       'IGP': {
         name: 'Balsamic Vinegar of Modena IGP',
