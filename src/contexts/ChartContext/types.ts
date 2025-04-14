@@ -9,7 +9,7 @@ interface PlanetaryAspect {
 }
 
 export interface ChartData {
-  planetaryPositions: Record<string, any>;
+  planetaryPositions: Record<string, unknown>;
   ascendant?: string;
   midheaven?: string;
   planets: Record<string, {
@@ -25,7 +25,7 @@ export interface ChartData {
 }
 
 export interface CurrentChart {
-  planetaryPositions: Record<string, any>;
+  planetaryPositions: Record<string, unknown>;
   aspects: PlanetaryAspect[];
   currentSeason: string;
   lastUpdated: Date;
@@ -40,7 +40,7 @@ export interface ChartContextType {
   error: string | null;
   refreshChart: () => Promise<void>;
   createChartSvg: () => {
-    planetPositions: Record<string, any>;
+    planetPositions: Record<string, unknown>;
     ascendantSign: string;
     svgContent: string;
   };

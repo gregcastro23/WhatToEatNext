@@ -14,7 +14,7 @@ interface PropInfo {
 /**
  * Helper function to get detailed prop information
  */
-function getPropInfo(key: string, value: any): PropInfo {
+function getPropInfo(key: string, value: unknown): PropInfo {
   const type = Array.isArray(value) ? 'array' : typeof value;
   
   const info: PropInfo = { key, type };

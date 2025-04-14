@@ -33,30 +33,29 @@ export const elements: Record<Element, ElementalProperties> = {
 
 export const elementalInteractions: Record<Element, Record<Element, number>> = {
   'Fire': {
-    'Water': -0.8,  // opposing
-    'Earth': 0.6,   // moderate interaction
-    'Air': 0.8,     // strengthens
-    'Fire': 1.0     // self
+    'Water': 0.7,  // good compatibility
+    'Earth': 0.7,  // good compatibility
+    'Air': 0.8,    // strengthens
+    'Fire': 1.0    // self - highest compatibility
   },
   'Water': {
-    'Fire': -0.8,   // opposing
-    'Earth': 0.6,   // shapes
-    'Air': 0.3,     // weak interaction
-    'Water': 1.0    // self
+    'Fire': 0.7,   // good compatibility
+    'Earth': 0.8,  // strengthens
+    'Air': 0.7,    // good compatibility
+    'Water': 1.0   // self - highest compatibility
   },
   'Earth': {
-    'Fire': 0.5,    // moderate interaction
-    'Water': 0.7,   // strengthens
-    'Air': -0.6,    // opposing
-    'Earth': 1.0    // self
+    'Fire': 0.7,   // good compatibility
+    'Water': 0.8,  // strengthens
+    'Air': 0.7,    // good compatibility
+    'Earth': 1.0   // self - highest compatibility
   },
   'Air': {
-    'Fire': 0.8,    // strengthens
-    'Water': 0.3,   // weak interaction
-    'Earth': -0.6,  // opposing
-    'Air': 1.0      // self
+    'Fire': 0.8,   // strengthens
+    'Water': 0.7,  // good compatibility
+    'Earth': 0.7,  // good compatibility
+    'Air': 1.0     // self - highest compatibility
   }
-  // ... similar patterns for other elements
 };
 
 export const elementalFunctions = {
@@ -106,9 +105,9 @@ export const elementalFunctions = {
   },
 
   /**
-   * Suggest balancing elements
+   * Suggest complementary elements
    */
-  suggestBalancingElements: (props: ElementalProperties): Element[] => {
+  suggestComplementaryElements: (props: ElementalProperties): Element[] => {
     const dominant = elementalFunctions.getDominantElement(props);
     return Object.keys(elementalInteractions).filter(element => 
       elementalInteractions[element as Element][dominant] > 0.5 &&
@@ -119,20 +118,20 @@ export const elementalFunctions = {
 
 export const ELEMENT_COMBINATIONS = {
   harmonious: [
+    ['Fire', 'Fire'],
+    ['Water', 'Water'],
+    ['Air', 'Air'],
+    ['Earth', 'Earth'],
     ['Fire', 'Air'],
     ['Water', 'Earth']
-  ],
-  antagonistic: [
-    ['Fire', 'Water'],
-    ['Air', 'Earth']
   ]
 } as const;
 
 export const ELEMENT_AFFINITIES = {
-  Fire: ['Air'],
-  Water: ['Earth'],
-  Air: ['Fire'],
-  Earth: ['Water']
+  Fire: ['Fire', 'Air'],
+  Water: ['Water', 'Earth'],
+  Air: ['Air', 'Fire'],
+  Earth: ['Earth', 'Water']
 } as const;
 
 const elementalMappings = {

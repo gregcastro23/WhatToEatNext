@@ -43,7 +43,7 @@ const ZODIAC_SYMBOLS: Record<string, string> = {
 };
 
 // Use the imported PlanetaryPosition type directly
-function isValidPosition(pos: any): boolean {
+function isValidPosition(pos: unknown): boolean {
   return pos && 
          typeof pos.sign === 'string' &&
          typeof pos.degree === 'number' &&

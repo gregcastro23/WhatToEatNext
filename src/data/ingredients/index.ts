@@ -66,7 +66,7 @@ const normalizeElementalProperties = (properties: Record<string, number>): Recor
 };
 
 // Process and validate a single ingredient
-const processIngredient = (ingredient: any, name: string): Ingredient => {
+const processIngredient = (ingredient: unknown, name: string): Ingredient => {
     if (!ingredient) {
         throw new Error(`Invalid ingredient data for ${name}`);
     }
@@ -94,7 +94,7 @@ const processIngredient = (ingredient: any, name: string): Ingredient => {
 };
 
 // Process a collection of ingredients with the new properties
-const processIngredientCollection = (collection: Record<string, any>): Record<string, Ingredient> => {
+const processIngredientCollection = (collection: Record<string, unknown>): Record<string, Ingredient> => {
     return Object.entries(collection).reduce((acc, [key, value]) => {
         try {
             const processedIngredient = processIngredient(value, key);

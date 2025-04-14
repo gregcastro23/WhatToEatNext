@@ -41,7 +41,7 @@ interface PlanetaryAspect {
 }
 
 export interface ChartData {
-  planetaryPositions: Record<string, any>;
+  planetaryPositions: Record<string, unknown>;
   ascendant?: string;
   midheaven?: string;
   planets: Record<string, {
@@ -57,7 +57,7 @@ export interface ChartData {
 }
 
 interface CurrentChart {
-  planetaryPositions: Record<string, any>;
+  planetaryPositions: Record<string, unknown>;
   aspects: PlanetaryAspect[];
   currentSeason: string;
   lastUpdated: Date;
@@ -72,7 +72,7 @@ interface CurrentChartContextType {
   error: string | null;
   refreshChart: () => Promise<void>;
   createChartSvg: () => {
-    planetPositions: Record<string, any>;
+    planetPositions: Record<string, unknown>;
     ascendantSign: string;
     svgContent: string;
   };
@@ -93,7 +93,7 @@ export const CurrentChartProvider: React.FC<{children: React.ReactNode}> = ({ ch
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const calculateStelliums = (positions: Record<string, any>): Record<string, string[]> => {
+  const calculateStelliums = (positions: Record<string, unknown>): Record<string, string[]> => {
     const signGroups: Record<string, string[]> = {};
     Object.entries(positions).forEach(([planet, data]) => {
       if (planet === 'ascendant' || !data || !data.sign) return;
@@ -115,7 +115,7 @@ export const CurrentChartProvider: React.FC<{children: React.ReactNode}> = ({ ch
     return stelliums;
   };
 
-  const calculateHouseEffects = (positions: Record<string, any>): Record<string, number> => {
+  const calculateHouseEffects = (positions: Record<string, unknown>): Record<string, number> => {
     const houseEffects: Record<string, number> = {
       Fire: 0,
       Water: 0,
@@ -220,7 +220,7 @@ export const CurrentChartProvider: React.FC<{children: React.ReactNode}> = ({ ch
 
   const createChartSvg = () => {
     // Convert chart data to the format expected by components
-    const formattedPlanets: Record<string, any> = {};
+    const formattedPlanets: Record<string, unknown> = {};
     Object.entries(chart.planetaryPositions).forEach(([key, data]) => {
       if (key === 'ascendant') return;
       
@@ -280,7 +280,7 @@ export const useCurrentChart = () => {
           exactLongitude: data.exactLongitude || 0,
         };
         return acc;
-      }, {} as Record<string, any>),
+      }, {} as Record<string, unknown>),
       ascendant: context.chart.planetaryPositions.ascendant?.sign
     },
     createChartSvg: context.createChartSvg,

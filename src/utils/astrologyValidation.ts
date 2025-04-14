@@ -53,7 +53,7 @@ function calculatePositionDifference(pos1: PlanetaryPosition, pos2: PlanetaryPos
 }
 
 // Main validation function
-export function validatePlanetaryPositions(positions?: Record<string, any>): { accurate: boolean, differences: Record<string, any> } | boolean {
+export function validatePlanetaryPositions(positions?: Record<string, unknown>): { accurate: boolean, differences: Record<string, unknown> } | boolean {
   // If positions are provided, perform basic validation on the object structure
   if (positions) {
     return validatePlanetaryPositionsStructure(positions);
@@ -61,7 +61,7 @@ export function validatePlanetaryPositions(positions?: Record<string, any>): { a
   
   // Otherwise, perform detailed validation against reference data
   try {
-    const diff: Record<string, any> = {};
+    const diff: Record<string, unknown> = {};
     let totalAccuracy = true;
     
     // Check each planet in the reference data
@@ -166,7 +166,7 @@ export function getValidationSummary(): string {
 }
 
 // Add a function to fetch the latest positions from our API
-export async function fetchLatestPositions(): Promise<Record<string, any>> {
+export async function fetchLatestPositions(): Promise<Record<string, unknown>> {
   try {
     const response = await fetch('/api/planetary-positions');
     
@@ -183,9 +183,9 @@ export async function fetchLatestPositions(): Promise<Record<string, any>> {
 }
 
 // Create a function that checks against the API directly
-export async function validateAgainstAPI(): Promise<{ accurate: boolean, differences: Record<string, any> }> {
+export async function validateAgainstAPI(): Promise<{ accurate: boolean, differences: Record<string, unknown> }> {
   const calculatedPositions = await fetchLatestPositions();
-  const differences: Record<string, any> = {};
+  const differences: Record<string, unknown> = {};
   let accurate = true;
   
   // If we couldn't fetch positions, return early
@@ -235,7 +235,7 @@ export async function validateAgainstAPI(): Promise<{ accurate: boolean, differe
 }
 
 // Renamed function to avoid duplication
-export function validatePlanetaryPositionsStructure(positions: Record<string, any>): boolean {
+export function validatePlanetaryPositionsStructure(positions: Record<string, unknown>): boolean {
   const requiredPlanets = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 
                           'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'];
   

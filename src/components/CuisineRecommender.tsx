@@ -49,7 +49,7 @@ interface CuisineStyles {
 }
 
 // Add this helper function near the top of the file, outside any components
-const getSafeScore = (score: any): number => {
+const getSafeScore = (score: unknown): number => {
   // Convert to number if needed, default to 0.5 if NaN or undefined
   const numScore = typeof score === 'number' ? score : parseFloat(score);
   return !isNaN(numScore) ? numScore : 0.5;
@@ -192,7 +192,7 @@ export default function CuisineRecommender() {
   };
   
   // Calculate elemental contributions from planetary positions
-  const calculateElementalContributionsFromPlanets = (positions: Record<string, any>): ElementalProperties => {
+  const calculateElementalContributionsFromPlanets = (positions: Record<string, unknown>): ElementalProperties => {
     const contributions: ElementalProperties = {
       Fire: 0,
       Water: 0,
@@ -342,62 +342,64 @@ export default function CuisineRecommender() {
   };
 
   useEffect(() => {
-    async function loadCuisines() {
-      try {
-        setLoading(true);
-        // Load all cuisines from a local data file
-        const allCuisines = cuisines;
-        
-        // Convert cuisines object to array with proper ElementalItem structure
-        const cuisinesArray = Object.entries(allCuisines).map(([id, cuisine]) => ({
-          id,
-          name: cuisine.name || id,
-          elementalProperties: cuisine.elementalProperties || {
-            Fire: 0.25,
-            Water: 0.25,
-            Earth: 0.25,
-            Air: 0.25
-          },
-          description: cuisine.description || '',
-          astrologicalInfluences: cuisine.astrologicalInfluences || []
-        }));
-        
-        setCuisines(cuisinesArray);
-        
-        // Transform cuisines into their alchemical representation for compatibility calculation
-        const transformed = transformCuisines(
-          cuisinesArray,
-          planetaryPositions as Record<string, any>,
-          isDaytime,
-          currentZodiac as ZodiacSign || 'aries',
-          lunarPhase as LunarPhase || 'new moon'
-        );
-        
-        // Sort by alchemical compatibility with current moment
-        const sorted = sortByAlchemicalCompatibility(
-          transformed,
-          currentMomentElementalProfile
-        );
-        
-        setTransformedCuisines(sorted);
-        
-        // Don't automatically select a cuisine
-        // instead, just load the top recommended sauces
-        if (sorted.length > 0) {
-          const topSauces = generateTopSauceRecommendations();
-          setTopRecommendedSauces(topSauces);
-        }
-        
-        setLoading(false);
-      } catch (err) {
-        setError('Failed to load cuisine data');
-        setLoading(false);
-        console.error('Error loading cuisines:', err);
-      }
-    }
-    
+    // Define the async function outside the useEffect body
     loadCuisines();
   }, [currentMomentElementalProfile, currentZodiac, lunarPhase]);
+
+  // Move the async function outside the useEffect
+  async function loadCuisines() {
+    try {
+      setLoading(true);
+      // Load all cuisines from a local data file
+      const allCuisines = cuisines;
+      
+      // Convert cuisines object to array with proper ElementalItem structure
+      const cuisinesArray = Object.entries(allCuisines).map(([id, cuisine]) => ({
+        id,
+        name: cuisine.name || id,
+        elementalProperties: cuisine.elementalProperties || {
+          Fire: 0.25,
+          Water: 0.25,
+          Earth: 0.25,
+          Air: 0.25
+        },
+        description: cuisine.description || '',
+        astrologicalInfluences: cuisine.astrologicalInfluences || []
+      }));
+      
+      setCuisines(cuisinesArray);
+      
+      // Transform cuisines into their alchemical representation for compatibility calculation
+      const transformed = transformCuisines(
+        cuisinesArray,
+        planetaryPositions as Record<string, unknown>,
+        isDaytime,
+        currentZodiac as ZodiacSign || 'aries',
+        lunarPhase as LunarPhase || 'new moon'
+      );
+      
+      // Sort by alchemical compatibility with current moment
+      const sorted = sortByAlchemicalCompatibility(
+        transformed,
+        currentMomentElementalProfile
+      );
+      
+      setTransformedCuisines(sorted);
+      
+      // Don't automatically select a cuisine
+      // instead, just load the top recommended sauces
+      if (sorted.length > 0) {
+        const topSauces = generateTopSauceRecommendations();
+        setTopRecommendedSauces(topSauces);
+      }
+      
+      setLoading(false);
+    } catch (err) {
+      setError('Failed to load cuisine data');
+      setLoading(false);
+      console.error('Error loading cuisines:', err);
+    }
+  }
 
   const handleCuisineSelect = (cuisineId: string) => {
     if (selectedCuisine === cuisineId) {
@@ -460,14 +462,14 @@ export default function CuisineRecommender() {
   };
 
   // Function to generate sauce recommendations for a specific cuisine
-  const generateSauceRecommendationsForCuisine = (cuisine: Cuisine): any[] => {
+  const generateSauceRecommendationsForCuisine = (cuisine: Cuisine): unknown[] => {
     if (!allSauces) return [];
     
     // Convert sauces record to array for mapping
     const saucesArray = Object.values(allSauces);
     
     // First, look for sauces from the traditional sauces of this cuisine
-    const traditionalSauces: any[] = [];
+    const traditionalSauces: unknown[] = [];
     // Get all cuisines data
     const allCuisinesData = cuisines || {};
     

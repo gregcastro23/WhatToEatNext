@@ -140,7 +140,7 @@ class StateManager {
   }
 
   // Add helper to validate the state structure
-  private isValidAppState(obj: any): obj is AppState {
+  private isValidAppState(obj: unknown): obj is AppState {
     return obj 
       && typeof obj === 'object'
       && obj.recipes 

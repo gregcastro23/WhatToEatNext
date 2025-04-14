@@ -173,7 +173,7 @@ const CuisineGroup: React.FC<Props> = ({ recipes, elementalState }) => {
     // Add this helper function
     const calculateElementalMatch = (
         recipeElements: Record<string, number>,
-        targetElements: any // Change type to match your needs
+        targetElements: unknown // Change type to match your needs
     ): number => {
         if (!recipeElements || !targetElements) return 0.6;
         

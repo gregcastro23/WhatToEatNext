@@ -76,7 +76,7 @@ interface USDAFood {
   fdcId: number;
   description: string;
   dataType: string;
-  foodNutrients: any[];
+  foodNutrients: unknown[];
 }
 
 interface NutritionalProfile {
@@ -107,7 +107,7 @@ function transformUSDADataToNutritionalProfile(food: USDAFood): NutritionalProfi
   const nutrients: Record<string, number> = {};
   
   // Process all nutrient formats
-  food.foodNutrients.forEach((nutrient: any) => {
+  food.foodNutrients.forEach((nutrient: unknown) => {
     // Extract ID and value (handling different API response formats)
     const id = nutrient.nutrientId || nutrient.nutrient?.id || nutrient.number || '';
     const value = nutrient.amount || nutrient.value || 0;
@@ -173,7 +173,7 @@ function transformUSDADataToNutritionalProfile(food: USDAFood): NutritionalProfi
   
   // Handle SR Legacy format with name-based lookup if needed
   if (food.dataType === 'SR Legacy') {
-    food.foodNutrients.forEach((nutrient: any) => {
+    food.foodNutrients.forEach((nutrient: unknown) => {
       const name = (nutrient.nutrient?.name || nutrient.name || nutrient.nutrientName || '').toLowerCase();
       const value = nutrient.amount || nutrient.value || 0;
       
@@ -243,10 +243,10 @@ async function findBestFoodMatch(query: string): Promise<USDAFood | null> {
     let bestMatch = null;
     
     // First try SR Legacy
-    bestMatch = searchData.foods.find((f: any) => f.dataType === 'SR Legacy');
+    bestMatch = searchData.foods.find((f: unknown) => f.dataType === 'SR Legacy');
     // If not found, try Foundation
     if (!bestMatch) {
-      bestMatch = searchData.foods.find((f: any) => f.dataType === 'Foundation');
+      bestMatch = searchData.foods.find((f: unknown) => f.dataType === 'Foundation');
     }
     // If still not found, use the first result
     if (!bestMatch) {
@@ -311,8 +311,8 @@ async function findBestFoodMatch(query: string): Promise<USDAFood | null> {
 }
 
 // Count vitamins in a nutrients array
-function countVitamins(nutrients: any[]): number {
-  return nutrients.filter((n: any) => {
+function countVitamins(nutrients: unknown[]): number {
+  return nutrients.filter((n: unknown) => {
     const name = (n.nutrient?.name || n.nutrientName || n.name || '').toLowerCase();
     return name.includes('vitamin');
   }).length;

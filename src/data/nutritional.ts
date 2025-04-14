@@ -425,7 +425,7 @@ export async function fetchNutritionalData(foodName: string): Promise<Nutritiona
  * Transform USDA API data to our NutritionalProfile format
  * Handles multiple USDA API response formats (SR Legacy, Foundation, Survey FNDDS)
  */
-function transformUSDADataToNutritionalProfile(food: any): NutritionalProfile {
+function transformUSDADataToNutritionalProfile(food: unknown): NutritionalProfile {
   if (!food || !food.foodNutrients) {
     return {
       calories: 0,
@@ -442,7 +442,7 @@ function transformUSDADataToNutritionalProfile(food: any): NutritionalProfile {
   const nutrients: Record<string, number> = {};
   
   // USDA API can return nutrients in different formats, so we need to handle multiple formats
-  food.foodNutrients.forEach((nutrient: any) => {
+  food.foodNutrients.forEach((nutrient: unknown) => {
     // The nutrient ID/name can be in different properties depending on the API response format
     // 1. Standard format (number/id + amount/value)
     const id = nutrient.number || nutrient.nutrientId || (nutrient.nutrient && nutrient.nutrient.id) || nutrient.id || '';
@@ -528,7 +528,7 @@ function transformUSDADataToNutritionalProfile(food: any): NutritionalProfile {
   // If it's SR Legacy format, it might use a different structure
   if (food.dataType === 'SR Legacy') {
     // Name-based lookup for vitamins and minerals
-    food.foodNutrients.forEach((nutrient: any) => {
+    food.foodNutrients.forEach((nutrient: unknown) => {
       const name = (nutrient.nutrient?.name || nutrient.name || nutrient.nutrientName || '').toLowerCase();
       const value = nutrient.amount || nutrient.value || 0;
       
@@ -599,7 +599,7 @@ function transformUSDADataToNutritionalProfile(food: any): NutritionalProfile {
 /**
  * Calculate nutritional balance for a recipe based on ingredients
  */
-export function calculateNutritionalBalance(ingredients: any[]): NutritionalProfile {
+export function calculateNutritionalBalance(ingredients: unknown[]): NutritionalProfile {
   const defaultProfile: NutritionalProfile = {
     calories: 0,
     macros: {

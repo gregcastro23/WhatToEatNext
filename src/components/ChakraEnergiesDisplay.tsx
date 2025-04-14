@@ -159,7 +159,7 @@ const ChakraEnergiesDisplay: React.FC<ChakraEnergiesDisplayProps> = ({ compact =
   };
 
   // Ensure all chakras have some energy value
-  const ensureChakraEnergies = (energies: any): any => {
+  const ensureChakraEnergies = (energies: unknown): unknown => {
     if (!energies) return null;
     
     // Create a new object with guaranteed values for all chakras

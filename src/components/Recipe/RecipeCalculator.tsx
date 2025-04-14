@@ -123,7 +123,7 @@ export const RecipeCalculator: React.FC<RecipeCalculatorProps> = ({
       Air: seasonalElements.Air * astrologicalElements.Air
     };
     
-    const result: any = {
+    const result: unknown = {
       resultingProperties: finalElements,
       energyState: {
         heat: 0.5,
@@ -141,9 +141,9 @@ export const RecipeCalculator: React.FC<RecipeCalculatorProps> = ({
     onCalculate(result);
   }, [elements, onCalculate]);
 
-  const getDominantElement = (elements: ElementalProperties): any => {
+  const getDominantElement = (elements: ElementalProperties): unknown => {
     let max = 0;
-    let dominant: any = 'Fire';
+    let dominant: unknown = 'Fire';
     
     Object.entries(elements).forEach(([element, value]) => {
       if (value > max) {

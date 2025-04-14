@@ -1,5 +1,4 @@
-import type { LunarPhaseWithSpaces } from '@/types/alchemy';
-import type { Season } from '@/types/alchemy';
+import type { LunarPhaseWithSpaces, Season } from '@/types/alchemy';
 import { cuisines } from "@/data/cuisines";
 import type { Dish } from "@/types";
 

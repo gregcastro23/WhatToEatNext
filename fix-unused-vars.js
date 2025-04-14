@@ -18,31 +18,34 @@ const rl = readline.createInterface({
 // Get the list of unused variables from ESLint
 function getUnusedVariables() {
   try {
-    // Use the correct command format for this project
-    const result = execSync('npx next lint --format json').toString();
-    const lintResults = JSON.parse(result);
+    // Use grep to extract unused variable errors from the ESLint output
+    const result = execSync('yarn eslint . --ext .js,.jsx,.ts,.tsx --quiet | grep "no-unused-vars\\|@typescript-eslint/no-unused-vars"').toString();
     
     const unusedVars = [];
     
-    lintResults.forEach(fileResult => {
-      const filePath = fileResult.filePath;
-      const unusedInFile = fileResult.messages
-        .filter(msg => msg.ruleId === '@typescript-eslint/no-unused-vars')
-        .map(msg => ({
-          file: filePath,
-          line: msg.line,
-          column: msg.column,
-          varName: msg.message.match(/'([^']+)'/)?.[1] || 'unknown',
-          messageType: msg.message.includes('assigned a value but never used') ? 'assigned' : 'defined'
-        }));
-      
-      if (unusedInFile.length > 0) {
-        unusedVars.push(...unusedInFile);
+    // Parse the ESLint output line by line
+    const lines = result.split('\n').filter(Boolean);
+    for (const line of lines) {
+      // Example line: src/file.ts:10:7 error 'varName' is defined but never used @typescript-eslint/no-unused-vars
+      const match = line.match(/([^:]+):(\d+):(\d+).*['"]([^'"]+)['"]/);
+      if (match) {
+        const [_, file, lineNum, colNum, varName] = match;
+        unusedVars.push({
+          file: path.resolve(file),
+          line: parseInt(lineNum, 10),
+          column: parseInt(colNum, 10),
+          varName,
+          messageType: line.includes('assigned a value but never used') ? 'assigned' : 'defined'
+        });
       }
-    });
+    }
     
     return unusedVars;
   } catch (error) {
+    // If the grep command fails because there are no unused vars, that's OK
+    if (error.status === 1 && error.stderr.toString().trim() === '') {
+      return [];
+    }
     console.error('Error running ESLint:', error.message);
     return [];
   }
@@ -82,19 +85,53 @@ async function fixUnusedVarsInFile(filePath, unusedVars) {
     if (line.includes('import ')) {
       // Handle import statements
       if (lineVars.length === 1 && line.includes(`{ ${lineVars[0].varName} }`)) {
-        // If it's the only import in curly braces, remove the whole import
-        console.log(`Removing unused import: ${line.trim()}`);
-        lines[lineNum - 1] = ''; // Remove the line
+        // Add an underscore prefix to the import
+        const updatedLine = line.replace(
+          `{ ${lineVars[0].varName} }`, 
+          `{ ${lineVars[0].varName} as _${lineVars[0].varName} }`
+        );
+        console.log(`Prefixed unused import: ${updatedLine.trim()}`);
+        lines[lineNum - 1] = updatedLine;
       } else {
-        // Remove the specific variables from an import with multiple items
-        const updatedLine = removeFromImport(line, lineVars.map(v => v.varName));
+        // Prefix specific variables in an import with multiple items
+        let updatedLine = line;
+        lineVars.forEach(v => {
+          // Add "as _varName" to the import
+          const regex = new RegExp(`\\b${v.varName}\\b(?!\\s+as)`, 'g');
+          updatedLine = updatedLine.replace(regex, `${v.varName} as _${v.varName}`);
+        });
         console.log(`Updated import: ${updatedLine.trim()}`);
         lines[lineNum - 1] = updatedLine;
       }
+    } else if (line.includes('const ') || line.includes('let ') || line.includes('var ')) {
+      // Handle variable declarations
+      // Add underscore prefix to unused variables
+      let updatedLine = line;
+      lineVars.forEach(v => {
+        const regex = new RegExp(`\\b(const|let|var)\\s+${v.varName}\\b`, 'g');
+        updatedLine = updatedLine.replace(regex, `$1 _${v.varName}`);
+      });
+      console.log(`Prefixed variable: ${updatedLine.trim()}`);
+      lines[lineNum - 1] = updatedLine;
+    } else if (line.includes('function ') || line.match(/\([^)]*\)\s*{/)) {
+      // Handle function parameters
+      let updatedLine = line;
+      lineVars.forEach(v => {
+        // Match the variable in the parameter list
+        const paramRegex = new RegExp(`\\b${v.varName}\\b(?=\\s*[,:)])`, 'g');
+        updatedLine = updatedLine.replace(paramRegex, `_${v.varName}`);
+      });
+      console.log(`Prefixed parameter: ${updatedLine.trim()}`);
+      lines[lineNum - 1] = updatedLine;
     } else {
-      // For other variable declarations, let's just comment out the line for now
-      console.log(`Commenting out: ${line.trim()}`);
-      lines[lineNum - 1] = `// UNUSED: ${line.trim()}`;
+      // For other cases, try to prefix the variable
+      let updatedLine = line;
+      lineVars.forEach(v => {
+        const regex = new RegExp(`\\b${v.varName}\\b`, 'g');
+        updatedLine = updatedLine.replace(regex, `_${v.varName}`);
+      });
+      console.log(`Prefixed variable: ${updatedLine.trim()}`);
+      lines[lineNum - 1] = updatedLine;
     }
   }
   
@@ -102,36 +139,6 @@ async function fixUnusedVarsInFile(filePath, unusedVars) {
   const updatedContent = lines.join('\n');
   fs.writeFileSync(filePath, updatedContent, 'utf8');
   console.log(`\nUpdated ${filePath}`);
-}
-
-// Helper to remove variables from an import statement
-function removeFromImport(importLine, varsToRemove) {
-  // For default imports, we don't do anything
-  if (!importLine.includes('{')) {
-    return importLine;
-  }
-  
-  // Extract the parts before and after the curly braces
-  const beforeCurly = importLine.split('{')[0];
-  const afterCurly = importLine.split('}')[1];
-  
-  // Extract the variables inside the curly braces
-  const importVarsMatch = importLine.match(/{([^}]*)}/);
-  if (!importVarsMatch) return importLine;
-  
-  const importVarsString = importVarsMatch[1];
-  const importVars = importVarsString.split(',').map(v => v.trim());
-  
-  // Filter out the variables to remove
-  const updatedImportVars = importVars.filter(v => !varsToRemove.includes(v));
-  
-  // If no imports remain, remove the entire import statement
-  if (updatedImportVars.length === 0) {
-    return '';
-  }
-  
-  // Reconstruct the import statement
-  return `${beforeCurly}{ ${updatedImportVars.join(', ')} }${afterCurly}`;
 }
 
 // Main function
@@ -178,15 +185,12 @@ const directories = [
   'src/utils'
 ];
 
-console.log('Processing directories in batches...');
+console.log('Ready to process unused variables in codebase...');
 
 // Ask user confirmation
 rl.question('Do you want to prefix all unused variables with an underscore? (y/n) ', (answer) => {
   if (answer.toLowerCase() === 'y') {
-    directories.forEach(dir => {
-      main();
-    });
-    console.log('Done! You may need to run eslint again to check if all issues are fixed.');
+    main().catch(err => console.error('Error:', err));
   } else {
     console.log('Operation cancelled.');
   }

@@ -16,15 +16,15 @@ export interface AlchemicalValues {
 
 export interface TarotFoodDisplayProps {
   onTarotLoaded?: (data: { 
-    minorCard: any; 
-    majorCard: any; 
-    planetaryCards?: Record<string, any>;
+    minorCard: unknown; 
+    majorCard: unknown; 
+    planetaryCards?: Record<string, unknown>;
     alchemicalValues?: AlchemicalValues;
   }) => void;
 }
 
 export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProps) {
-  const [tarotCards, setTarotCards] = useState<{ minorCard: any, majorCard: any, planetaryCards?: Record<string, any> } | null>(null);
+  const [tarotCards, setTarotCards] = useState<{ minorCard: unknown, majorCard: unknown, planetaryCards?: Record<string, unknown> } | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [currentPeriod, setCurrentPeriod] = useState<string>('');
   const onTarotLoadedRef = useRef(onTarotLoaded);
@@ -33,7 +33,7 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
   const { currentPlanetaryAlignment, loading: astroLoading } = useAstrologicalState();
 
   // Type guard to check if currentPlanetaryAlignment has sun property with the right shape
-  const hasSunPosition = (alignment: Record<string, any>): alignment is { sun: PlanetaryPosition } => {
+  const hasSunPosition = (alignment: Record<string, unknown>): alignment is { sun: PlanetaryPosition } => {
     return alignment && 
            typeof alignment === 'object' && 
            'sun' in alignment && 
@@ -118,7 +118,7 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
   }, [loadTarotCards]);
 
   // Function to compute alchemical values from tarot card
-  const getAlchemicalValues = (card: any) => {
+  const getAlchemicalValues = (card: unknown) => {
     if (!card) return { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 };
     
     const suit = card.name?.split(' of ')[1];

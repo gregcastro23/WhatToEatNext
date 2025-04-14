@@ -149,7 +149,7 @@ const CuisineGroup: React.FC<Props> = ({ recipes, elementalState }) => {
     // Elemental match calculation with proper validation
     const calculateElementalMatch = (
         recipeElements: ElementalProperties,
-        targetElements: any
+        targetElements: unknown
     ): number => {
         // Validate inputs
         if (!recipeElements || !targetElements) {

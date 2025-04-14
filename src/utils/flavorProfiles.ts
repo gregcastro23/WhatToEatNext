@@ -6,7 +6,7 @@ import type { ElementalProperties } from '../types/alchemy';
 /**
  * Get detailed flavor profile for a cuisine
  */
-export function getDetailedFlavorProfile(cuisine: any): string {
+export function getDetailedFlavorProfile(cuisine: unknown): string {
   const cuisineId = (cuisine.id || cuisine.name || '').toLowerCase();
   
   // Get flavor profile from static mapping

@@ -452,7 +452,7 @@ export class AlchemicalEngineBase {
    * @param recipes Array of recipes to consider
    * @returns Array of recipes with scores and elemental properties
    */
-  findOptimalRecipes(recipes: any[]): { recipe: any; score: number; elements: ElementalProperties }[] {
+  findOptimalRecipes(recipes: unknown[]): { recipe: unknown; score: number; elements: ElementalProperties }[] {
     if (!recipes || recipes.length === 0) {
       return [];
     }
@@ -474,7 +474,7 @@ export class AlchemicalEngineBase {
    * Calculates current planetary positions using accurate astronomy calculations
    * @returns A record of planetary positions
    */
-  async calculateCurrentPlanetaryPositions(): Promise<Record<string, any>> {
+  async calculateCurrentPlanetaryPositions(): Promise<Record<string, unknown>> {
     try {
       // Use the accurate astronomy utility to get planetary positions
       const positions = await getAccuratePlanetaryPositions();

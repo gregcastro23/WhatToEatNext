@@ -265,7 +265,7 @@ function parseElementalProperties(propsText: string): ElementalProperties {
 /**
  * Format lunar phase modifiers as a string to insert into the ingredient definition
  */
-function formatLunarPhaseModifiers(modifiers: Record<string, any>): string {
+function formatLunarPhaseModifiers(modifiers: Record<string, unknown>): string {
   let result = '\n    lunarPhaseModifiers: {\n';
   
   for (const [phase, modifier] of Object.entries(modifiers)) {
@@ -346,7 +346,7 @@ function generateLunarPhaseModifiersWithAspects(
   ingredientName: string,
   category: string,
   rulingPlanets: string[] = []
-): Record<string, any> {
+): Record<string, unknown> {
   // First get the basic lunar phase modifiers
   const basicModifiers = generateDefaultLunarPhaseModifiers(
     elementalProps,

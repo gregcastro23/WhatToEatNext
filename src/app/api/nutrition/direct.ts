@@ -55,7 +55,7 @@ export async function GET(request: Request) {
     }
     
     // Step 2: Fetch detailed nutritional data using all available endpoints
-    const results: Record<string, any> = {};
+    const results: Record<string, unknown> = {};
     
     // Endpoint 1: Regular food endpoint
     try {
@@ -149,7 +149,7 @@ export async function GET(request: Request) {
 }
 
 // Count the number of vitamin entries in a foodNutrients array
-function countVitamins(nutrients: any[]): number {
+function countVitamins(nutrients: unknown[]): number {
   return nutrients.filter(n => {
     const name = (n.nutrient?.name || n.nutrientName || n.name || '').toLowerCase();
     return name.includes('vitamin');
@@ -157,7 +157,7 @@ function countVitamins(nutrients: any[]): number {
 }
 
 // Determine which endpoint returned the most vitamin data
-function getBestEndpoint(results: Record<string, any>): string {
+function getBestEndpoint(results: Record<string, unknown>): string {
   let bestEndpoint = '';
   let maxVitamins = 0;
   
@@ -172,14 +172,14 @@ function getBestEndpoint(results: Record<string, any>): string {
 }
 
 // Get total number of unique vitamins found across all endpoints
-function getTotalVitaminsFound(results: Record<string, any>): number {
+function getTotalVitaminsFound(results: Record<string, unknown>): number {
   const vitamins = new Set<string>();
   
   for (const data of Object.values(results)) {
     if (data.data) {
       const nutrients = Array.isArray(data.data) ? data.data[0]?.foodNutrients : data.data.foodNutrients;
       if (nutrients) {
-        nutrients.forEach((n: any) => {
+        nutrients.forEach((n: unknown) => {
           const name = (n.nutrient?.name || n.nutrientName || n.name || '').toLowerCase();
           if (name.includes('vitamin')) {
             vitamins.add(name);

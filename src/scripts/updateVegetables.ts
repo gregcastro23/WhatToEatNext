@@ -430,9 +430,9 @@ async function processIngredientFile(filePath) {
       for (const [key, ingredientData] of Object.entries(ingredients)) {
         // TypeScript safety: explicitly type the ingredient
         const ingredient: { 
-          nutritionalProfile?: Record<string, any>;
+          nutritionalProfile?: Record<string, unknown>;
           category?: string;
-          [key: string]: any;
+          [key: string]: unknown;
         } = ingredientData;
         
         // Skip if already processed

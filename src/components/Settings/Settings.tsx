@@ -136,7 +136,7 @@ export default function Settings() {
     }
   };
 
-  const handleSettingChange = (section: keyof AppSettings, key: string, value: any) => {
+  const handleSettingChange = (section: keyof AppSettings, key: string, value: unknown) => {
     setSettings(prev => {
       const newSettings = { ...prev };
       
@@ -342,7 +342,7 @@ function AppearanceSettings({
   onChange 
 }: { 
   settings: AppSettings['appearance']; 
-  onChange: (key: string, value: any) => void 
+  onChange: (key: string, value: unknown) => void 
 }) {
   return (
     <div className="space-y-6">

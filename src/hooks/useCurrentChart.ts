@@ -34,7 +34,7 @@ export function useCurrentChart() {
     if (Object.keys(planetaryPositions).length > 0) {
       try {
         // Convert planetary positions to chart format
-        const planets: Record<string, any> = {};
+        const planets: Record<string, unknown> = {};
         
         Object.entries(planetaryPositions).forEach(([key, data]) => {
           // Skip non-planetary keys like ascendant
@@ -300,7 +300,7 @@ export function useCurrentChart() {
     planetaryPositions: Object.entries(chartData.planets).reduce((acc, [key, value]) => {
       acc[key.toLowerCase()] = value;
       return acc;
-    }, {} as Record<string, any>),
+    }, {} as Record<string, unknown>),
     aspects: [],
     currentSeason: '',
     lastUpdated: new Date(),

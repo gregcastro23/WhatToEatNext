@@ -149,8 +149,8 @@ function calculateReferenceLongitude(planet: string): number {
 /**
  * Get planetary positions for a given date using fallback approach
  */
-export function getFallbackPlanetaryPositions(date: Date): Record<string, any> {
-  const positions: Record<string, any> = {};
+export function getFallbackPlanetaryPositions(date: Date): Record<string, unknown> {
+  const positions: Record<string, unknown> = {};
   
   // Calculate days difference from reference date
   const daysDiff = (date.getTime() - REFERENCE_DATE.getTime()) / (24 * 60 * 60 * 1000);

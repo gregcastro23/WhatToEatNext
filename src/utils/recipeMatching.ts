@@ -29,7 +29,7 @@ import type {
     servings?: number;
     excludeIngredients?: string[];
     cookingMethods?: string[];
-    nutritionalGoals?: Record<string, any>;
+    nutritionalGoals?: Record<string, unknown>;
     astrologicalSign?: string;
     mealType?: string;
     preferHigherContrast?: boolean;
@@ -51,6 +51,9 @@ import type {
   
   const matchCache = new Map<string, CacheEntry<MatchResult[]>>();
   const CACHE_TTL = 5 * 60 * 1000; // 5 minutes in milliseconds
+  
+  // Define Modality type
+  type Modality = 'cardinal' | 'fixed' | 'mutable';
   
   /**
    * Find the best recipe matches based on the given parameters
@@ -274,11 +277,21 @@ import type {
     
     // Cache the result
     matchCache.set(cacheKey, {
-      data: result,
+      data: result.map(recipe => ({
+        recipe,
+        score: recipe.matchScore,
+        elements: recipe.elementalProperties || DEFAULT_ELEMENTAL_PROPERTIES,
+        dominantElements: calculateDominantElements(recipe.elementalProperties || DEFAULT_ELEMENTAL_PROPERTIES)
+      })),
       timestamp: Date.now()
     });
     
-    return result;
+    return result.map(recipe => ({
+      recipe,
+      score: recipe.matchScore,
+      elements: recipe.elementalProperties || DEFAULT_ELEMENTAL_PROPERTIES,
+      dominantElements: calculateDominantElements(recipe.elementalProperties || DEFAULT_ELEMENTAL_PROPERTIES)
+    }));
   }
   
   const calculateBaseElements = (recipe: Recipe): ElementalProperties => {
@@ -317,7 +330,7 @@ import type {
     return elementalUtils.normalizeProperties(elements);
   };
   
-  const calculateEnergyMatch = (recipeEnergy: any, currentEnergy: any) => {
+  const calculateEnergyMatch = (recipeEnergy: unknown, currentEnergy: unknown) => {
     let score = 0;
     
     // Check if we're in Aries season
@@ -398,14 +411,15 @@ import type {
     const elementalScore = calculateElementalAlignment(recipe, currentEnergy);
     score += elementalScore * 0.7;  // Doubled from 0.35
     
-    // 2. Calculate modality score (25% of total) - now with double impact
-    const modalityScore = calculateModalityScore(
-      recipe.qualities || [],
-      currentEnergy.preferredModality
-    );
-    score += modalityScore * 0.5;  // Doubled from 0.25
+    // 2. Calculate modality score - use qualities array even if preferredModality doesn't exist
+    const qualities = recipe.qualities || [];
+    // Check if preferredModality exists in currentEnergy, if not skip this boost
+    if (currentEnergy.preferredModality) {
+      const modalityScore = calculateModalityScore(qualities, currentEnergy.preferredModality);
+      score += modalityScore * 0.5;  // Doubled from 0.25
+    }
     
-    // 3. Calculate astrological score (20% of total) - now with double impact
+    // 3. Calculate astrological score - check if astrologicalEnergy exists
     if (recipe.astrologicalEnergy) {
       const astrologicalScore = calculateEnergyMatch(
         recipe.astrologicalEnergy,
@@ -414,13 +428,13 @@ import type {
       score += astrologicalScore * 0.4;  // Doubled from 0.2
     }
     
-    // 4. Calculate seasonal score (10% of total) - now with double impact
+    // 4. Calculate seasonal score - check if season exists
     if (recipe.season && currentEnergy.season) {
       const seasonalScore = recipe.season.includes(currentEnergy.season) ? 1.0 : 0.0;
       score += seasonalScore * 0.2;  // Doubled from 0.1
     }
     
-    // 5. Calculate nutritional alignment (10% of total) - now with double impact
+    // 5. Calculate nutritional alignment
     const nutritionalScore = calculateNutritionalAlignment(recipe, currentEnergy);
     score += nutritionalScore * 0.2;  // Doubled from 0.1
     
@@ -469,32 +483,42 @@ import type {
   
   // New function to calculate nutritional alignment
   function calculateNutritionalAlignment(recipe: Recipe, currentEnergy: AstrologicalState): number {
-    // Default score if no nutritional data available
+    // If there are no nutritional needs or recipe ingredients, return a neutral score
     if (!recipe.ingredients || !currentEnergy.nutritionalNeeds) {
       return 0.5;
     }
     
-    let alignmentScore = 0;
+    let score = 0.5; // Start with neutral score
+    let factorsCount = 0;
     
-    // Check if the recipe aligns with current energy's nutritional needs
-    if (currentEnergy.nutritionalNeeds.highProtein && hasHighProtein(recipe)) {
-      alignmentScore += 0.25;
+    // Adjust based on predefined nutritional needs
+    if (currentEnergy.nutritionalNeeds && currentEnergy.nutritionalNeeds.highProtein && hasHighProtein(recipe)) {
+      score += 0.2;
+      factorsCount++;
     }
     
-    if (currentEnergy.nutritionalNeeds.lowCarb && hasLowCarb(recipe)) {
-      alignmentScore += 0.25;
+    if (currentEnergy.nutritionalNeeds && currentEnergy.nutritionalNeeds.lowCarb && hasLowCarb(recipe)) {
+      score += 0.2;
+      factorsCount++;
     }
     
-    if (currentEnergy.nutritionalNeeds.highFiber && hasHighFiber(recipe)) {
-      alignmentScore += 0.25;
+    if (currentEnergy.nutritionalNeeds && currentEnergy.nutritionalNeeds.highFiber && hasHighFiber(recipe)) {
+      score += 0.2;
+      factorsCount++;
     }
     
-    if (currentEnergy.nutritionalNeeds.lowFat && hasLowFat(recipe)) {
-      alignmentScore += 0.25;
+    if (currentEnergy.nutritionalNeeds && currentEnergy.nutritionalNeeds.lowFat && hasLowFat(recipe)) {
+      score += 0.2;
+      factorsCount++;
     }
     
-    // Default to neutral if no specific needs
-    return alignmentScore > 0 ? alignmentScore : 0.5;
+    // If no specific factors were found, return the base score
+    if (factorsCount === 0) {
+      return score;
+    }
+    
+    // Calculate weighted average based on number of factors
+    return Math.min(1.0, score + (0.1 * factorsCount));
   }
   
   // Helper functions for nutritional evaluation
@@ -529,29 +553,82 @@ import type {
   // Helper function to calculate modality score
   function calculateModalityScore(
     qualities: string[],
-    preferredModality?: Modality
+    preferredModality?: 'cardinal' | 'fixed' | 'mutable'
   ): number {
-    // Get the recipe's modality based on qualities
-    const recipeModality = determineIngredientModality(qualities);
-    
-    // If no preferred modality, return neutral score
-    if (!preferredModality) return 0.5;
-    
-    // Return 1.0 for exact match, 0.7 for compatible match, 0.3 for mismatch
-    if (recipeModality === preferredModality) return 1.0;
-    
-    // Consider modality compatibility
-    const compatibleModalities = {
-      Cardinal: ['Mutable'],
-      Fixed: ['Mutable'],
-      Mutable: ['Cardinal', 'Fixed']
-    };
-    
-    if (compatibleModalities[preferredModality]?.includes(recipeModality)) {
-      return 0.7;
+    if (!preferredModality || !qualities || qualities.length === 0) {
+      return 0.5; // Neutral score if no modality preference or recipe qualities
     }
     
-    return 0.3;
+    // Determine the recipe's modality based on its qualities
+    const recipeModality = determineIngredientModality(qualities);
+    
+    if (!recipeModality) {
+      return 0.5; // Neutral score if can't determine recipe modality
+    }
+    
+    if (recipeModality === preferredModality) {
+      return 1.0; // Full match
+    } else {
+      // Partial match - some modalities are more compatible than others
+      // Cardinal and fixed = 0.6, Cardinal and mutable = 0.7, Fixed and mutable = 0.5
+      if ((recipeModality === 'cardinal' && preferredModality === 'fixed') ||
+          (recipeModality === 'fixed' && preferredModality === 'cardinal')) {
+        return 0.6;
+      } else if ((recipeModality === 'cardinal' && preferredModality === 'mutable') ||
+                 (recipeModality === 'mutable' && preferredModality === 'cardinal')) {
+        return 0.7;
+      } else if ((recipeModality === 'fixed' && preferredModality === 'mutable') ||
+                 (recipeModality === 'mutable' && preferredModality === 'fixed')) {
+        return 0.5;
+      }
+    }
+    
+    return 0.5; // Default fallback
+  }
+  
+  // External function to determine modality - might be in another file, placeholder here
+  function determineIngredientModality(qualities: string[]): 'cardinal' | 'fixed' | 'mutable' | null {
+    // Count occurrences of each modality in qualities
+    const counts = { cardinal: 0, fixed: 0, mutable: 0 };
+    
+    // Keywords associated with each modality
+    const modalityKeywords = {
+      cardinal: ['initiative', 'leadership', 'action', 'dynamic', 'pioneering', 'assertive', 'cardinal'],
+      fixed: ['stability', 'persistence', 'endurance', 'steady', 'reliable', 'stubborn', 'fixed'],
+      mutable: ['flexible', 'adaptable', 'versatile', 'changeable', 'communicative', 'mutable']
+    };
+    
+    // Check each quality for modality keywords
+    qualities.forEach(quality => {
+      const lowerQuality = quality.toLowerCase();
+      
+      // Check for cardinal keywords
+      if (modalityKeywords.cardinal.some(keyword => lowerQuality.includes(keyword))) {
+        counts.cardinal++;
+      }
+      
+      // Check for fixed keywords
+      if (modalityKeywords.fixed.some(keyword => lowerQuality.includes(keyword))) {
+        counts.fixed++;
+      }
+      
+      // Check for mutable keywords
+      if (modalityKeywords.mutable.some(keyword => lowerQuality.includes(keyword))) {
+        counts.mutable++;
+      }
+    });
+    
+    // Find the dominant modality
+    const entries = Object.entries(counts) as [
+      'cardinal' | 'fixed' | 'mutable', 
+      number
+    ][];
+    
+    // Sort by count in descending order
+    const sorted = entries.sort((a, b) => b[1] - a[1]);
+    
+    // Return the dominant modality if it has any count, otherwise null
+    return sorted[0][1] > 0 ? sorted[0][0] : null;
   }
   
   // Create an astrologyUtils object with the necessary functions
@@ -931,7 +1008,7 @@ import type {
   /**
    * Calculate how well a recipe aligns with the user's astrological sign
    */
-  function calculateAstrologicalMatch(recipeInfluence: any, userSign: string): number {
+  function calculateAstrologicalMatch(recipeInfluence: unknown, userSign: string): number {
     if (!recipeInfluence || !userSign) return 0.5; // Default to neutral if no data
     
     // Define astrological compatibility between signs and elements

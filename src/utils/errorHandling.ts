@@ -6,7 +6,7 @@ export class AppError extends Error {
     message: string,
     public code: string,
     public statusCode = 500,
-    public context?: Record<string, any>
+    public context?: Record<string, unknown>
   ) {
     super(message);
     this.name = 'AppError';
@@ -78,7 +78,7 @@ export const errorCodes = {
 
 export function createError(
   code: keyof typeof errorMessages,
-  context?: Record<string, any>
+  context?: Record<string, unknown>
 ): AppError {
   return new AppError(
     errorMessages[code],

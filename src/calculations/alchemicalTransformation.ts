@@ -30,7 +30,7 @@ export interface ElementalItem {
   id: string;
   name: string;
   elementalProperties: Record<ElementalCharacter, number>;
-  [key: string]: any; // Allow other properties
+  [key: string]: unknown; // Allow other properties
 }
 
 /**

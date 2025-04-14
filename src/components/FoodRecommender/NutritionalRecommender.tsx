@@ -22,7 +22,7 @@ const NutritionalRecommender: React.FC<NutritionalRecommenderProps> = ({
   const [filter, setFilter] = useState<IngredientFilter>(initialFilter);
   const [activeTab, setActiveTab] = useState<string>('all');
   const [selectedIngredients, setSelectedIngredients] = useState<string[]>([]);
-  const [enhancedNutritionData, setEnhancedNutritionData] = useState<Record<string, any>>({});
+  const [enhancedNutritionData, setEnhancedNutritionData] = useState<Record<string, unknown>>({});
   const [recipeRecommendations, setRecipeRecommendations] = useState<RecipeRecommendation[]>([]);
   const [isLoadingRecipes, setIsLoadingRecipes] = useState<boolean>(false);
   const [expandedIngredient, setExpandedIngredient] = useState<string | null>(null);
@@ -519,7 +519,7 @@ interface IngredientCardProps {
   ingredient: IngredientMapping;
   isSelected: boolean;
   onToggleSelection: (name: string) => void;
-  enhancedData?: any;
+  enhancedData?: unknown;
   isSpoonacularLoading: boolean;
   onLoadSpoonacularData: () => void;
   isExpanded: boolean;
@@ -663,7 +663,7 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
               {/* Display enhanced nutrition data */}
               {enhancedData.nutrition && enhancedData.nutrition.nutrients && (
                 <div className="grid grid-cols-2 gap-x-2 gap-y-1 text-xs">
-                  {enhancedData.nutrition.nutrients.slice(0, 8).map((nutrient: any) => (
+                  {enhancedData.nutrition.nutrients.slice(0, 8).map((nutrient: unknown) => (
                     <div key={nutrient.name} className="flex justify-between">
                       <span>{nutrient.name}:</span>
                       <span className="font-medium">{nutrient.amount} {nutrient.unit}</span>

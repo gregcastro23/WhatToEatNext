@@ -98,7 +98,7 @@ export interface Recipe {
   updatedAt?: string;
   
   // Allow additional properties
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 // Scored recipe extends the base Recipe interface with a score property
@@ -224,7 +224,7 @@ export interface RecipeExtended {
     seasonalScore: number;
   };
   
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export interface ScoredRecipeExtended extends RecipeExtended {
@@ -277,7 +277,7 @@ export interface RecipeDetail {
   // Recipe Structure
   componentParts?: {       // For complex recipes with multiple elements
     name: string;          // e.g., "sauce", "filling", "dough"
-    ingredients: any[];    // Ingredients specific to this component
+    ingredients: unknown[];    // Ingredients specific to this component
     instructions: string[]; // Instructions specific to this component
   }[];
   

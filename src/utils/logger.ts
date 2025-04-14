@@ -36,15 +36,15 @@ class Logger {
     this.componentLoggers.add(component);
     
     return {
-      debug: (message: string, ...args: any[]): void => 
+      debug: (message: string, ...args: unknown[]): void => 
         this.debug(message, ...args, { component }),
-      log: (message: string, ...args: any[]): void => 
+      log: (message: string, ...args: unknown[]): void => 
         this.info(message, ...args, { component }),
-      info: (message: string, ...args: any[]): void => 
+      info: (message: string, ...args: unknown[]): void => 
         this.info(message, ...args, { component }),
-      warn: (message: string, ...args: any[]): void => 
+      warn: (message: string, ...args: unknown[]): void => 
         this.warn(message, ...args, { component }),
-      error: (message: string, ...args: any[]): void => 
+      error: (message: string, ...args: unknown[]): void => 
         this.error(message, ...args, { component }),
     };
   }
@@ -52,7 +52,7 @@ class Logger {
   /**
    * Log debug information (only in development)
    */
-  debug(message: string, ...args: any[]): void {
+  debug(message: string, ...args: unknown[]): void {
     if (this.shouldLog('debug')) {
       const options = this.extractOptions(args);
       const component = options.component ? `[${options.component}]` : '';
@@ -63,7 +63,7 @@ class Logger {
   /**
    * Log general information
    */
-  info(message: string, ...args: any[]): void {
+  info(message: string, ...args: unknown[]): void {
     if (this.shouldLog('info')) {
       const options = this.extractOptions(args);
       const component = options.component ? `[${options.component}]` : '';
@@ -74,7 +74,7 @@ class Logger {
   /**
    * Log warnings
    */
-  warn(message: string, ...args: any[]): void {
+  warn(message: string, ...args: unknown[]): void {
     if (this.shouldLog('warn')) {
       const options = this.extractOptions(args);
       const component = options.component ? `[${options.component}]` : '';
@@ -85,7 +85,7 @@ class Logger {
   /**
    * Log errors
    */
-  error(message: string, ...args: any[]): void {
+  error(message: string, ...args: unknown[]): void {
     if (this.shouldLog('error')) {
       const options = this.extractOptions(args);
       const component = options.component ? `[${options.component}]` : '';
@@ -99,7 +99,7 @@ class Logger {
   /**
    * Extract options from args, if last arg is an object with component property
    */
-  private extractOptions(args: any[]) {
+  private extractOptions(args: unknown[]) {
     const last = args[args.length - 1];
     if (last && typeof last === 'object' && !Array.isArray(last) && 'component' in last) {
       return {
@@ -169,7 +169,7 @@ export const logger = new Logger();
 export const createLogger = (component: string) => logger.createLogger(component);
 
 // Utility functions for direct use (for backwards compatibility)
-export const debugLog = (message: string, ...args: any[]): void => logger.debug(message, ...args);
-export const infoLog = (message: string, ...args: any[]): void => logger.info(message, ...args);
-export const warnLog = (message: string, ...args: any[]): void => logger.warn(message, ...args);
-export const errorLog = (message: string, ...args: any[]): void => logger.error(message, ...args); 
+export const debugLog = (message: string, ...args: unknown[]): void => logger.debug(message, ...args);
+export const infoLog = (message: string, ...args: unknown[]): void => logger.info(message, ...args);
+export const warnLog = (message: string, ...args: unknown[]): void => logger.warn(message, ...args);
+export const errorLog = (message: string, ...args: unknown[]): void => logger.error(message, ...args); 

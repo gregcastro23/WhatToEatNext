@@ -10,7 +10,7 @@ export type AlchemicalAction =
   | { type: 'SET_ZODIAC_ENERGY'; payload: string }
   | { type: 'SET_LUNAR_ENERGY'; payload: string }
   | { type: 'SET_PLANETARY_ENERGY'; payload: string[] }
-  | { type: 'SET_ASTROLOGICAL_STATE'; payload: any }
+  | { type: 'SET_ASTROLOGICAL_STATE'; payload: unknown }
   | { type: 'SET_ERROR'; payload: { message: string } }
   | { type: 'CLEAR_ERROR'; }
   | { type: 'ADD_ERROR'; payload: string }

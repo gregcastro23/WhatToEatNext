@@ -1388,7 +1388,7 @@ export async function getCurrentAstrologicalState(date: Date = new Date()): Prom
     const planetaryMinute = hourCalculator.getPlanetaryMinute(date) as Planet;
     
     // Convert planetary positions to the format needed for alignment
-    const currentPlanetaryAlignment: Record<string, any> = {};
+    const currentPlanetaryAlignment: Record<string, unknown> = {};
     
     Object.entries(planetaryPositions).forEach(([planet, position]) => {
       currentPlanetaryAlignment[planet.toLowerCase()] = {
@@ -1879,7 +1879,7 @@ export const elementToZodiac: Record<string, string[]> = {
  * @param astroChartData Raw data from AstroCharts.com
  * @returns Formatted planetary positions in our internal format
  */
-export const parseAstroChartData = (astroChartData: any): Record<string, number> => {
+export const parseAstroChartData = (astroChartData: unknown): Record<string, number> => {
   try {
     const result: Record<string, number> = {};
     
@@ -1930,7 +1930,7 @@ export const parseAstroChartData = (astroChartData: any): Record<string, number>
  * @param astroChartData Raw data from AstroCharts.com
  * @returns Formatted aspects array in our internal format
  */
-export const parseAstroChartAspects = (astroChartData: any): Array<{
+export const parseAstroChartAspects = (astroChartData: unknown): Array<{
   type: string;
   planet1: string;
   planet2: string;
@@ -1963,7 +1963,7 @@ export const parseAstroChartAspects = (astroChartData: any): Array<{
       };
       
       // Process each aspect
-      astroChartData.aspects.forEach((aspect: any) => {
+      astroChartData.aspects.forEach((aspect: unknown) => {
         if (aspect.aspectType && aspect.planet1 && aspect.planet2) {
           aspects.push({
             type: aspectTypeMapping[aspect.aspectType] || aspect.aspectType,

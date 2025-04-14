@@ -873,7 +873,7 @@ function getElementFromSign(sign: string): string | null {
  * Calculates current planetary positions using accurate astronomy calculations
  * @returns A record of planetary positions
  */
-async function calculateCurrentPlanetaryPositions(): Promise<Record<string, any>> {
+async function calculateCurrentPlanetaryPositions(): Promise<Record<string, unknown>> {
   try {
     // First try to use the accurate astronomy utility
     const positions = await getAccuratePlanetaryPositions();
@@ -902,7 +902,7 @@ async function calculateCurrentPlanetaryPositions(): Promise<Record<string, any>
       const fallbackPositions = _calculateFallbackPositions(new Date());
       
       // Convert the fallback positions (which are just degrees) to proper format
-      const formattedPositions: Record<string, any> = {};
+      const formattedPositions: Record<string, unknown> = {};
       Object.entries(fallbackPositions).forEach(([planet, longitude]) => {
         // Convert longitude to sign and degree
         const signIndex = Math.floor(longitude / 30);
@@ -953,7 +953,7 @@ async function calculateCurrentPlanetaryPositions(): Promise<Record<string, any>
  * @param positions Record of planetary positions
  * @returns Record of zodiac sign energies
  */
-function calculateZodiacEnergies(positions: Record<string, any>): Record<string, number> {
+function calculateZodiacEnergies(positions: Record<string, unknown>): Record<string, number> {
   const zodiacEnergies: Record<string, number> = {
     aries: 0,
     taurus: 0,

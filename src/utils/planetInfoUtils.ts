@@ -45,7 +45,7 @@ export interface PlanetInfo {
  */
 export function getPlanetInfo(
   planetName: string,
-  planetaryPositions: Record<string, any>
+  planetaryPositions: Record<string, unknown>
 ): PlanetInfo | null {
   try {
     // Handle case sensitivity

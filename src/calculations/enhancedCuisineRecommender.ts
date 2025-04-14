@@ -15,7 +15,7 @@ interface EnhancedRecipeMatch {
   timeOfDayScore: number;
   tags: string[];
   description: string;
-  ingredients: any[];
+  ingredients: unknown[];
   season: string[];
   mealType: string[];
 }
@@ -209,8 +209,8 @@ export class EnhancedCuisineRecommender {
   /**
    * Extract all recipes from a cuisine, combining seasonal and non-seasonal recipes
    */
-  private getAllRecipesFromCuisine(cuisine: Cuisine, currentSeason: Season): any[] {
-    const allRecipes: any[] = [];
+  private getAllRecipesFromCuisine(cuisine: Cuisine, currentSeason: Season): unknown[] {
+    const allRecipes: unknown[] = [];
     
     const mealTypes = ['breakfast', 'lunch', 'dinner', 'dessert'];
     
@@ -232,7 +232,7 @@ export class EnhancedCuisineRecommender {
   /**
    * Calculate seasonal match score (0-1)
    */
-  private calculateSeasonalScore(recipe: any, timeFactors: TimeFactors): number {
+  private calculateSeasonalScore(recipe: unknown, timeFactors: TimeFactors): number {
     // If recipe has no seasonal information, give it a neutral score
     if (!recipe.season || recipe.season.length === 0) {
       return 0.5;
@@ -255,7 +255,7 @@ export class EnhancedCuisineRecommender {
   /**
    * Calculate match based on planetary day (0-1)
    */
-  private calculatePlanetaryDayScore(recipe: any, timeFactors: TimeFactors, astroState: AstrologicalState): number {
+  private calculatePlanetaryDayScore(recipe: unknown, timeFactors: TimeFactors, astroState: AstrologicalState): number {
     const { planetaryDay } = timeFactors;
     
     // Check if recipe has astrological affinities
@@ -295,7 +295,7 @@ export class EnhancedCuisineRecommender {
   /**
    * Calculate match based on planetary hour (0-1)
    */
-  private calculatePlanetaryHourScore(recipe: any, timeFactors: TimeFactors, astroState: AstrologicalState): number {
+  private calculatePlanetaryHourScore(recipe: unknown, timeFactors: TimeFactors, astroState: AstrologicalState): number {
     const { planetaryHour } = timeFactors;
     
     // Check if recipe has astrological affinities
@@ -321,7 +321,7 @@ export class EnhancedCuisineRecommender {
   /**
    * Calculate elemental match score (0-1)
    */
-  private calculateElementalScore(recipe: any, astroState: AstrologicalState): number {
+  private calculateElementalScore(recipe: unknown, astroState: AstrologicalState): number {
     // If recipe has no elemental properties, give it a neutral score
     if (!recipe.elementalProperties) {
       return 0.5;
@@ -340,7 +340,7 @@ export class EnhancedCuisineRecommender {
   /**
    * Calculate astrological match score based on signs and lunar phases (0-1)
    */
-  private calculateAstrologicalScore(recipe: any, astroState: AstrologicalState): number {
+  private calculateAstrologicalScore(recipe: unknown, astroState: AstrologicalState): number {
     let score = 0.5; // Start with neutral score
     
     // Check zodiac influences
@@ -371,7 +371,7 @@ export class EnhancedCuisineRecommender {
   /**
    * Calculate match based on time of day (0-1)
    */
-  private calculateTimeOfDayScore(recipe: any, timeFactors: TimeFactors): number {
+  private calculateTimeOfDayScore(recipe: unknown, timeFactors: TimeFactors): number {
     const { timeOfDay } = timeFactors;
     
     // Map meal types to appropriate times of day
@@ -466,7 +466,7 @@ export class EnhancedCuisineRecommender {
   /**
    * Check if a recipe conflicts with a dietary restriction
    */
-  private conflictsWithRestriction(recipe: any, restriction: string): boolean {
+  private conflictsWithRestriction(recipe: unknown, restriction: string): boolean {
     // Check allergens if restriction is an allergy
     if (recipe.allergens && recipe.allergens.length > 0) {
       // Common restriction mappings

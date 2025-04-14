@@ -688,11 +688,11 @@ export const thai: Cuisine = {
             Air: 0.1
           },
           astrologicalProfile: {
-            favorableZodiac: ["Cancer", "Pisces"],
-            rulingPlanets: ["Moon", "Venus"],
-            elementalAffinity: "Water"
+            favorableZodiac: ["cancer", "pisces"],
+            rulingPlanets: ["moon", "venus"],
+            elementalAffinity: "water"
           },
-          astrologicalInfluences: ["Neptune", "Mars", "Pisces"]
+          astrologicalInfluences: ["neptune", "mars", "pisces"]
         },
         {
           name: "Kuay Teow Reua",

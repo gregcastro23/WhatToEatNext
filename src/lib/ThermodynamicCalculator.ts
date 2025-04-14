@@ -1,7 +1,7 @@
 export class ThermodynamicCalculator {
     // Implementation for calculating thermodynamic properties of ingredients
     
-    calculateHeatValue(ingredients: any[]): number {
+    calculateHeatValue(ingredients: unknown[]): number {
         if (!ingredients || ingredients.length === 0) {
             return 0.5; // Default neutral value
         }
@@ -41,7 +41,7 @@ export class ThermodynamicCalculator {
         return Math.min(1, Math.max(0, totalHeat / totalWeight));
     }
     
-    calculateEntropyValue(ingredients: any[]): number {
+    calculateEntropyValue(ingredients: unknown[]): number {
         if (!ingredients || ingredients.length === 0) {
             return 0.5; // Default neutral value
         }
@@ -90,7 +90,7 @@ export class ThermodynamicCalculator {
         return Math.min(1, Math.max(0, totalEntropy / totalWeight));
     }
     
-    calculateReactivityValue(ingredients: any[]): number {
+    calculateReactivityValue(ingredients: unknown[]): number {
         if (!ingredients || ingredients.length === 0) {
             return 0.5; // Default neutral value
         }

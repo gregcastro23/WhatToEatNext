@@ -33,11 +33,11 @@ interface AstrologyUtilsModule {
 }
 
 interface AccurateAstronomyModule {
-  getAccuratePlanetaryPositions: (date?: Date) => Record<string, any>;
+  getAccuratePlanetaryPositions: (date?: Date) => Record<string, unknown>;
 }
 
 interface SafeAstrologyModule {
-  getReliablePlanetaryPositions: () => Record<string, any>;
+  getReliablePlanetaryPositions: () => Record<string, unknown>;
   calculateLunarPhase: () => Promise<number>;
   getLunarPhaseName: (phase: number) => string;
   getMoonIllumination: () => Promise<number>;
@@ -50,7 +50,7 @@ interface MoonTimesModule {
 }
 
 interface CuisineCalculationsModule {
-  getCuisineRecommendations: (zodiacSign?: string, lunarPhase?: string, planetaryAlignment?: any) => any[];
+  getCuisineRecommendations: (zodiacSign?: string, lunarPhase?: string, planetaryAlignment?: unknown) => any[];
 }
 
 interface SunTimesModule {
@@ -121,7 +121,7 @@ export async function safeImportAndExecuteKnown<R, A extends any[] = any[]>(
 /**
  * Safely import a function using a known module path
  */
-export async function safeImportFunctionKnown<T extends (...args: any[]) => any>(
+export async function safeImportFunctionKnown<T extends (...args: unknown[]) => any>(
   path: KnownModulePath,
   functionName: string
 ): Promise<T | null> {
@@ -176,7 +176,7 @@ export async function safeImportAndExecute<R, A extends any[] = any[]>(
 ): Promise<R | null> {
   try {
     // Use static imports for known modules
-    let importedModule: any;
+    let importedModule: unknown;
     
     if (path === '@/utils/astrologyUtils') {
       importedModule = astrologyUtils;
@@ -289,7 +289,7 @@ export async function safeImportAndExecute<R, A extends any[] = any[]>(
 /**
  * Safely import a function using any string path
  */
-export async function safeImportFunction<T extends (...args: any[]) => any>(
+export async function safeImportFunction<T extends (...args: unknown[]) => any>(
   path: string,
   functionName: string
 ): Promise<T | null> {
@@ -348,7 +348,7 @@ export async function dynamicImport<T, F = null>(
   }
 }
 
-export async function dynamicImportFunction<T extends (...args: any[]) => any, F extends (...args: any[]) => any = T>(
+export async function dynamicImportFunction<T extends (...args: unknown[]) => any, F extends (...args: unknown[]) => any = T>(
   path: string,
   functionName: string,
   fallbackFn: F | null = null

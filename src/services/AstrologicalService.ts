@@ -214,7 +214,7 @@ export class AstrologicalService {
     }
   }
   
-  private static processFreeAstrologyApiResponse(data: any): PlanetaryAlignment {
+  private static processFreeAstrologyApiResponse(data: unknown): PlanetaryAlignment {
     const result: Partial<PlanetaryAlignment> = {};
     const signs: ZodiacSign[] = [
       'aries', 'taurus', 'gemini', 'cancer', 

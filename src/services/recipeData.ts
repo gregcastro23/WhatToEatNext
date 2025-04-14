@@ -20,7 +20,7 @@ export interface NutritionData {
   fat?: number;
   vitamins?: string[];
   minerals?: string[];
-  [key: string]: any; // Allow other properties
+  [key: string]: unknown; // Allow other properties
 }
 
 // Sample cuisines for initial data
@@ -292,7 +292,7 @@ class RecipeData {
             ...mapping
           }));
       
-      this.recipes = mappingsEntries.map((mapping: any) => {
+      this.recipes = mappingsEntries.map((mapping: unknown) => {
         let elementalProps = mapping.elementalProperties || mapping.elementalProfile;
         
         // If no elemental properties, derive them from cuisine or other attributes
@@ -311,7 +311,7 @@ class RecipeData {
           description: mapping.description || mapping.cuisine?.description || '',
           elementalProperties: elementalProps,
           ingredients: Array.isArray(mapping.ingredients) 
-            ? mapping.ingredients.map((ing: any) => ({
+            ? mapping.ingredients.map((ing: unknown) => ({
                 name: ing.name || 'Unknown Ingredient',
                 amount: typeof ing.amount === 'number' ? ing.amount : 1,
                 unit: ing.unit || 'piece',

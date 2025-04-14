@@ -1,6 +1,6 @@
 import { AstrologicalState } from '@/types';
-import { ElementalProperties } from '@/types/alchemy';
-import type { Modality } from '@/data/ingredients/types';
+import { ElementalProperties , ChakraEnergies } from '@/types/alchemy';
+import type { Modality, Ingredient } from '@/data/ingredients/types';
 
 // Import actual ingredient data
 import { vegetables } from '@/data/ingredients/vegetables';
@@ -20,27 +20,12 @@ import jupiterData from '@/data/planets/jupiter';
 import saturnData from '@/data/planets/saturn';
 
 import { CHAKRA_NUTRITIONAL_CORRELATIONS, CHAKRA_HERBS } from '@/constants/chakraSymbols';
-import { ChakraEnergies } from '@/types/alchemy';
 import { LUNAR_PHASES } from '@/constants/lunar';
 import { ingredientCategories } from '@/data/ingredientCategories';
-import type { Ingredient } from '@/data/ingredients/types';
 import { calculateLunarPhase, calculatePlanetaryPositions } from '@/utils/astrologyUtils';
 
 // Import the getAllIngredients function if it exists, otherwise we'll create our own
 import { getAllIngredients as getIngredientsUtil } from '@/utils/foodRecommender';
-
-// Ingredient interface
-interface Ingredient {
-  name: string;
-  type: string;
-  elementalProperties: ElementalProperties;
-  astrologicalProfile: {
-    rulingPlanets: string[];
-    signAffinities?: string[];
-  };
-  seasonality?: Record<string, number>;
-  culinaryUses?: string[];
-}
 
 // Export the necessary types needed by IngredientRecommendations.ts
 export interface IngredientRecommendation extends Ingredient {

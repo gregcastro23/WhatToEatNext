@@ -104,14 +104,14 @@ export function calculateAstrologicalAffinity(
  * @returns Compatibility score between 0-1
  */
 function compareDecanRulers(
-  decanA: Record<string, any>,
-  decanB: Record<string, any>
+  decanA: Record<string, unknown>,
+  decanB: Record<string, unknown>
 ): number {
   let compatibilityScore = 0;
   let comparisons = 0;
   
   // Extract all planetary rulers from both signs' decans
-  const extractRulers = (decans: Record<string, any>): string[] => {
+  const extractRulers = (decans: Record<string, unknown>): string[] => {
     const rulers: string[] = [];
     Object.values(decans).forEach(decan => {
       if (Array.isArray(decan)) {
@@ -174,8 +174,8 @@ function compareDecanRulers(
  * @returns Compatibility score between 0-1
  */
 function calculateDegreeOverlap(
-  degreesA: Record<string, any>,
-  degreesB: Record<string, any>
+  degreesA: Record<string, unknown>,
+  degreesB: Record<string, unknown>
 ): number {
   // If no degree data available, return neutral score
   if (

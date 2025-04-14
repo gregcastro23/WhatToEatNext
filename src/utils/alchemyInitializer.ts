@@ -1,7 +1,7 @@
 // Define the global window interface to include our alchemize function
 declare global {
   interface Window {
-    alchemize?: any;
+    alchemize?: unknown;
   }
 }
 
@@ -30,7 +30,7 @@ export function initializeAlchemicalEngine() {
  * A static version of the alchemize function that can be used directly
  * This wraps the core engine's implementation
  */
-export const staticAlchemize = (birthInfo: any, horoscopeDict: any): AlchemicalResult => {
+export const staticAlchemize = (birthInfo: unknown, horoscopeDict: unknown): AlchemicalResult => {
   return alchemicalEngine.alchemize(birthInfo, horoscopeDict);
 };
 

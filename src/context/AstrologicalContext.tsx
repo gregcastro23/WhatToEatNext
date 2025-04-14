@@ -7,7 +7,7 @@ import { isChakraEnergies } from '@/utils/typeGuards';
 
 interface AstrologicalState {
   chakraEnergies: ChakraEnergies | null;
-  planetaryPositions: Record<string, any> | null;
+  planetaryPositions: Record<string, unknown> | null;
   zodiacEnergies: Record<string, number> | null;
   isLoading: boolean;
   error: string | null;
@@ -18,7 +18,7 @@ const AstrologicalContext = createContext<AstrologicalState | undefined>(undefin
 
 export function AstrologicalProvider({ children }: { children: ReactNode }) {
   const [chakraEnergies, setChakraEnergies] = useState<ChakraEnergies | null>(null);
-  const [planetaryPositions, setPlanetaryPositions] = useState<Record<string, any> | null>(null);
+  const [planetaryPositions, setPlanetaryPositions] = useState<Record<string, unknown> | null>(null);
   const [zodiacEnergies, setZodiacEnergies] = useState<Record<string, number> | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

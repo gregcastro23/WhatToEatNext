@@ -190,8 +190,8 @@ export interface PlanetaryCookingGuide {
  * Calculate planetary boost for an ingredient based on current astrological state
  */
 export const calculatePlanetaryBoost = (
-  item: any, // ElementalItem type
-  planetPositions: Record<string, any>,
+  item: unknown, // ElementalItem type
+  planetPositions: Record<string, unknown>,
   currentZodiac?: string | null,
   lunarPhase?: LunarPhase | null
 ) => {
@@ -271,7 +271,7 @@ export const getDignityMultiplier = (dignity: PlanetaryDignity): number => {
 /**
  * Get zodiac boost based on elemental properties
  */
-export const getZodiacBoost = (zodiacSign: string, item: any): number => {
+export const getZodiacBoost = (zodiacSign: string, item: unknown): number => {
   // Get zodiac sign element
   const zodiacElements: Record<string, ElementalCharacter> = {
     aries: 'Fire', leo: 'Fire', sagittarius: 'Fire',
@@ -325,7 +325,7 @@ export const getZodiacBoost = (zodiacSign: string, item: any): number => {
 };
 
 // Helper function to calculate seasonal alignment
-const calculateSeasonalAlignment = (zodiacSign: string, item: any): number => {
+const calculateSeasonalAlignment = (zodiacSign: string, item: unknown): number => {
   // Map zodiac signs to seasons
   const seasonMap: Record<string, string> = {
     'aries': 'spring', 'taurus': 'spring', 'gemini': 'spring',
@@ -391,7 +391,7 @@ export const getLunarPhaseBoost = (lunarPhase: LunarPhase): number => {
  */
 export const getFlavorBoost = (
   planet: Planet,
-  ingredient: any
+  ingredient: unknown
 ): number => {
   const elementBoost = planetaryFoodAssociations[planet].elementalBoost || {};
   return Object.entries(elementBoost).reduce((acc, [element, boost]) => {
@@ -404,7 +404,7 @@ export const getFlavorBoost = (
  */
 export const getNutritionalSynergy = (
   planet: Planet,
-  ingredient: any
+  ingredient: unknown
 ): string[] => {
   // Implementation depends on your nutritional data
   return [];

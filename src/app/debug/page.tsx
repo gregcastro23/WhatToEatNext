@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { testCookingMethodRecommendations } from '../../utils/testRecommendations';
 
 interface TestResult {
-  ingredient: any;
+  ingredient: unknown;
   holisticRecommendations: Array<{ method: string, compatibility: number, reason: string }>;
   standardRecommendations: Array<{ method: string, compatibility: number }>;
 }

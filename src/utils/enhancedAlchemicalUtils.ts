@@ -11,6 +11,8 @@ import { getZodiacElementalInfluence } from './zodiacUtils';
  * Utility function to get enhanced food recommendations based on
  * alchemical calculation results.
  * 
+ * NOTE: Recipe generation functionality is temporarily disabled as we're using existing recipes.
+ * 
  * @param alchemicalResult The result from alchemize function
  * @param userPreferences Optional array of user dietary preferences/restrictions
  * @param season Optional current season
@@ -21,7 +23,20 @@ export function getEnhancedFoodRecommendation(
   userPreferences?: string[],
   season?: string
 ) {
-  return generateEnhancedRecommendation(alchemicalResult, userPreferences, season);
+  // Recipe generation functionality is deactivated
+  // Return a placeholder with the dominant element information
+  return {
+    cookingMethod: "See existing recipes",
+    mainIngredient: "See existing recipes",
+    secondaryIngredient: "See existing recipes",
+    reasoning: {
+      elementalInfluence: `Using existing recipes with ${alchemicalResult.dominant?.element || 'balanced'} qualities.`,
+      planetary: "Recipe generation is deactivated."
+    }
+  };
+  
+  // Original implementation commented out
+  // return generateEnhancedRecommendation(alchemicalResult, userPreferences, season);
 }
 
 /**
@@ -87,6 +102,8 @@ export function getUserFoodCompatibility(
  * Generate a complete personalized meal plan based on the user's
  * astrological profile and current celestial conditions.
  * 
+ * NOTE: Recipe generation functionality is temporarily disabled as we're using existing recipes.
+ * 
  * @param alchemicalResult The result from alchemize function
  * @param userSign User's zodiac sign
  * @param season Current season
@@ -99,6 +116,14 @@ export function generatePersonalizedMealPlan(
   season: string,
   userPreferences?: string[]
 ) {
+  // Recipe generation functionality is deactivated
+  // Return a simple placeholder instead
+  return {
+    message: "Recipe generation is deactivated. Using existing recipes instead.",
+    dominant: alchemicalResult.dominant
+  };
+  
+  /* Original implementation commented out
   // Get basic recommendation
   const baseRecommendation = generateEnhancedRecommendation(
     alchemicalResult,
@@ -153,7 +178,7 @@ export function generatePersonalizedMealPlan(
   };
   
   mealPlan.dessert.suggestion = desserts[balancingElement as keyof typeof desserts][0];
-  mealPlan.dessert.explanation = `Balances your ${dominantElement} energy with ${balancingElement} influences`;
+  mealPlan.dessert.explanation = `Reinforces your ${dominantElement} energy with complementary ${balancingElement} influences`;
   
   // Generate beverage recommendations
   const beverages = {
@@ -182,6 +207,7 @@ export function generatePersonalizedMealPlan(
   );
   
   return mealPlan;
+  */
 }
 
 /**
@@ -209,6 +235,8 @@ export function validateEnhancedAlgorithms() {
  * Integration entry point for the enhanced alchemical calculations
  * This is the main function that should be called from the application
  * 
+ * NOTE: Recipe generation functionality is temporarily disabled as we're using existing recipes.
+ * 
  * @param alchemicalResult Result from the original alchemize function
  * @param userSign Optional user's zodiac sign for personalization
  * @param season Optional current season
@@ -228,6 +256,14 @@ export function enhanceAlchemicalCalculations(
     season
   );
   
+  // Return basic recommendation for all cases while recipe generation is disabled
+  return {
+    type: 'basicRecommendation',
+    result: basicRecommendation,
+    note: "Recipe generation is temporarily disabled. Using existing recipes instead."
+  };
+  
+  /* Original implementation commented out
   // If we have more user data, generate a complete meal plan
   if (userSign) {
     return {
@@ -247,4 +283,5 @@ export function enhanceAlchemicalCalculations(
     type: 'basicRecommendation',
     result: basicRecommendation
   };
+  */
 } 

@@ -9,7 +9,7 @@ import { ApiError, ValidationError, NotFoundError } from '@/types/errors';
  * @param error The error to handle
  * @returns NextResponse with appropriate status and error details
  */
-export function handleApiError(error: any): NextResponse {
+export function handleApiError(error: unknown): NextResponse {
   // Default to 500 Internal Server Error
   let statusCode = 500;
   let message = 'Internal server error';
@@ -49,7 +49,7 @@ export function handleApiError(error: any): NextResponse {
  * @param details Validation details
  * @returns NextResponse with 400 status
  */
-export function validationError(message: string, details?: any): NextResponse {
+export function validationError(message: string, details?: unknown): NextResponse {
   return handleApiError(new ValidationError(message, details));
 }
 

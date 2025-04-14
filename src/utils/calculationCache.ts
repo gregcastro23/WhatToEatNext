@@ -28,7 +28,7 @@ const DEFAULT_CACHE_TTL = 60 * 1000;
  */
 export function getCachedCalculation<T>(
   cacheKey: string,
-  inputObj: Record<string, any>,
+  inputObj: Record<string, unknown>,
   calculationFn: () => T | Promise<T>,
   ttl: number = DEFAULT_CACHE_TTL
 ): T | Promise<T> {

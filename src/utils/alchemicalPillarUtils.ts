@@ -885,7 +885,7 @@ export function getEnhancedCookingRecommendations(
  * Get all cooking method data from the appropriate directories
  * @returns Record mapping cooking method names to their data
  */
-function getAllCookingMethodData(): Record<string, any> {
+function getAllCookingMethodData(): Record<string, unknown> {
   // This is a placeholder - in a real implementation, this would
   // dynamically load all cooking method data from the files
   try {

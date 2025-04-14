@@ -23,11 +23,11 @@ export interface AstrologicalState {
   planetaryHour: string;
   zodiacSign: string;
   activePlanets: string[];
-  activeAspects: any[];
+  activeAspects: unknown[];
   dominantElement: string;
   alchemicalValues?: AlchemicalValues;
   calculationError: boolean;
-  aspects?: any[];
+  aspects?: unknown[];
   tarotElementBoosts?: Record<string, number>;
   tarotPlanetaryBoosts?: Record<string, number>;
   currentPlanetaryAlignment?: PlanetaryAlignment;

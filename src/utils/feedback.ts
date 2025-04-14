@@ -8,7 +8,7 @@ export interface FeedbackData {
   description: string;
   userEmail?: string;
   priority?: 'low' | 'medium' | 'high';
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
 }
 
 /**

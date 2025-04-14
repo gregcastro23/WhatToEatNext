@@ -10,7 +10,7 @@ export const herbMedicinalUses = Object.entries(herbs).reduce((acc, [herbName, h
     };
   }
   return acc;
-}, {} as Record<string, any>);
+}, {} as Record<string, unknown>);
 
 // Add the missing export
 export function getMedicinalProperties(ingredient: string) {

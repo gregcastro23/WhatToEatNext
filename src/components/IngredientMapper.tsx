@@ -119,8 +119,8 @@ export default function IngredientMapper() {
                     <div className="text-sm font-medium">Mapped Ingredients:</div>
                     <div className="grid grid-cols-2 gap-2 mt-1">
                       {result.matchedIngredients
-                        .filter((ing: any) => ing.matchedTo)
-                        .map((ing: any, i: number) => (
+                        .filter((ing: unknown) => ing.matchedTo)
+                        .map((ing: unknown, i: number) => (
                           <div key={i} className="text-xs p-1 bg-green-100 rounded">
                             {ing.name} ({(ing.confidence * 100).toFixed(0)}%)
                           </div>

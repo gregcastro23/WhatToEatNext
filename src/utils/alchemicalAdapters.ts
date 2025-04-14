@@ -1,7 +1,7 @@
 import { ElementalAffinity, Element } from '@/types/alchemy';
 
 // Convert alchemicalEngine format to standardized format
-export function toStandardElementalAffinity(engineAffinity: any): ElementalAffinity {
+export function toStandardElementalAffinity(engineAffinity: unknown): ElementalAffinity {
   if (!engineAffinity) return { base: 'Fire' }; // Default value
 
   return {
@@ -14,7 +14,7 @@ export function toStandardElementalAffinity(engineAffinity: any): ElementalAffin
 }
 
 // Convert standardized format to alchemicalEngine format
-export function toEngineElementalAffinity(standardAffinity: ElementalAffinity): any {
+export function toEngineElementalAffinity(standardAffinity: ElementalAffinity): unknown {
   return {
     element: standardAffinity.base,
     strength: standardAffinity.strength || 1,

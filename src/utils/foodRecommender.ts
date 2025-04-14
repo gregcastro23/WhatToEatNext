@@ -26,7 +26,7 @@ export interface EnhancedIngredient {
   astrologicalProfile: {
     elementalAffinity: {
       base: string;
-      decanModifiers?: Record<string, any>;
+      decanModifiers?: Record<string, unknown>;
     };
     rulingPlanets: string[];
     favorableZodiac?: ZodiacSign[];
@@ -49,7 +49,7 @@ export interface EnhancedIngredient {
   score?: number;
   scoreDetails?: Record<string, number>;
   subCategory?: string;
-  [key: string]: any; // Allow other properties
+  [key: string]: unknown; // Allow other properties
 }
 
 /**

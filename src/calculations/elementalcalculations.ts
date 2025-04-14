@@ -48,7 +48,7 @@ export class ElementalCalculator {
    * @param season The current season
    * @returns A score from 0-100 representing the effectiveness
    */
-  static calculateSeasonalEffectiveness(recipe: any, season: string): number {
+  static calculateSeasonalEffectiveness(recipe: unknown, season: string): number {
     if (!recipe?.elementalProperties) return 0;
     
     const seasonalModifiers = this.getSeasonalModifiers(season as Season);
@@ -204,7 +204,7 @@ export class ElementalCalculator {
  * @returns Array of planetary influencers
  */
 function getPlanetaryInfluencers(
-  planetaryPositions: Record<string, any>,
+  planetaryPositions: Record<string, unknown>,
   elementType: ElementType
 ): string[] {
   // Define which planets influence which elements
@@ -236,7 +236,7 @@ function getPlanetaryInfluencers(
  * @returns Array of elemental energies
  */
 export function calculateElementalEnergies(
-  planetaryPositions: Record<string, any>, 
+  planetaryPositions: Record<string, unknown>, 
   isDaytime = true
 ): ElementalEnergy[] {
   if (!planetaryPositions || Object.keys(planetaryPositions).length === 0) {

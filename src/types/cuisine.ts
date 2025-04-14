@@ -1,12 +1,12 @@
 import type { Recipe } from './recipe';
 
 export interface SeasonalDishes {
-  all?: any[];
-  summer?: any[];
-  winter?: any[];
-  spring?: any[];
-  fall?: any[];
-  autumn?: any[];
+  all?: unknown[];
+  summer?: unknown[];
+  winter?: unknown[];
+  spring?: unknown[];
+  fall?: unknown[];
+  autumn?: unknown[];
 }
 
 export interface CuisineDishes {
@@ -26,7 +26,7 @@ export interface Cuisine {
   dishes: CuisineDishes;
   elementalProperties: ElementalProperties;
   motherSauces?: Record<string, Sauce>;
-  traditionalSauces?: Record<string, any>;
+  traditionalSauces?: Record<string, unknown>;
   sauceRecommender?: SauceRecommendations;
   cookingTechniques?: CookingTechnique[];
   regionalCuisines?: Record<string, RegionalCuisine> | RegionalCuisine[];

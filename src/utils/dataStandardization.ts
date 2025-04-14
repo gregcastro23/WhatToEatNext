@@ -1,7 +1,7 @@
 import type { ElementalAffinity } from '@/types/alchemy';
 
 // Utility to ensure elementalAffinity is always in object format
-export function standardizeElementalAffinity(value: string | { base: string; decanModifiers?: Record<string, any> }): ElementalAffinity {
+export function standardizeElementalAffinity(value: string | { base: string; decanModifiers?: Record<string, unknown> }): ElementalAffinity {
   if (typeof value === 'string') {
     return { base: value };
   }
@@ -9,7 +9,7 @@ export function standardizeElementalAffinity(value: string | { base: string; dec
 }
 
 // Helper function to update entire ingredient objects
-export function standardizeIngredient(ingredient: any): any {
+export function standardizeIngredient(ingredient: unknown): unknown {
   if (!ingredient || !ingredient.astrologicalProfile) {
     return ingredient;
   }

@@ -78,8 +78,8 @@ const formatMoonTime = (time: Date | undefined): string => {
 const MoonDisplay: React.FC = () => {
   // Improve typing of useAlchemical hook
   interface AlchemicalHookResult {
-    planetaryPositions: Record<string, any>;
-    state: any;
+    planetaryPositions: Record<string, unknown>;
+    state: unknown;
   }
   
   const { planetaryPositions, state } = useAlchemical() as AlchemicalHookResult;

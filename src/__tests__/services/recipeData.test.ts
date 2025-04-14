@@ -166,7 +166,7 @@ describe('RecipeData Service', () => {
     // Directly mock the filterRecipes method for this specific test case
     const originalFilterRecipes = recipeData.filterRecipes;
     recipeData.filterRecipes = jest.fn().mockImplementation(
-      async (filters: any) => {
+      async (filters: unknown) => {
         // Return fallback recipe when searching for Mexican & Vegan
         if (filters.cuisine === 'Mexican' && filters.isVegan === true) {
           return [fallbackRecipe];

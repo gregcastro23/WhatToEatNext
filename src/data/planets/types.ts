@@ -95,7 +95,7 @@ export interface PlanetData {
     'Square': number;
     'Sextile': number;
   }>;
-  'PlanetSpecific'?: Record<string, any>;
+  'PlanetSpecific'?: Record<string, unknown>;
 }
 
 // Type for Moon-specific data

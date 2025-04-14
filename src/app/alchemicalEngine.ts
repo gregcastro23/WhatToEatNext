@@ -25,13 +25,13 @@ const alchemicalEngine = {
   alchemize,
   
   // Re-export functions from the calculations/alchemicalEngine module
-  calculateCurrentPlanetaryPositions: async (): Promise<Record<string, any>> => {
+  calculateCurrentPlanetaryPositions: async (): Promise<Record<string, unknown>> => {
     // Import and call the function from the source module
     const { calculateCurrentPlanetaryPositions } = await import('@/calculations/alchemicalEngine');
     return calculateCurrentPlanetaryPositions();
   },
   
-  calculateZodiacEnergies: (positions: Record<string, any>): Record<string, number> => {
+  calculateZodiacEnergies: (positions: Record<string, unknown>): Record<string, number> => {
     // Import and call the function from the source module
     const { calculateZodiacEnergies } = require('@/calculations/alchemicalEngine');
     return calculateZodiacEnergies(positions);

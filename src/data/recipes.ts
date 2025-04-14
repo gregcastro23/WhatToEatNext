@@ -123,7 +123,7 @@ const transformCuisineData = async (): Promise<RecipeData[]> => {
             console.log(`${cuisineName} - ${mealType} data:`, Object.keys(mealData));
             
             // Process season data (spring, summer, autumn, winter, all)
-            Object.entries(mealData as Record<string, any>).forEach(([season, dishes]) => {
+            Object.entries(mealData as Record<string, unknown>).forEach(([season, dishes]) => {
               if (!dishes) {
                 console.log(`No dishes for ${cuisineName} - ${mealType} - ${season}`);
                 return;
@@ -134,7 +134,7 @@ const transformCuisineData = async (): Promise<RecipeData[]> => {
                 console.log(`Found ${dishes.length} dishes for ${cuisineName} - ${mealType} - ${season}`);
                 
                 // Process individual dishes
-                dishes.forEach((dish: any) => {
+                dishes.forEach((dish: unknown) => {
                   if (!dish || !dish.name) {
                     console.log('Skipping invalid dish:', dish);
                     return;
@@ -719,7 +719,7 @@ export const getBestRecipeMatches = async (
 // Helper function to apply additional filters and calculate scores
 async function applyAdditionalFilters(
   candidateRecipes: RecipeData[], 
-  criteria: any,
+  criteria: unknown,
   limit: number
 ): Promise<RecipeData[]> {
   // Preload modules we'll need
@@ -924,7 +924,7 @@ async function applyAdditionalFilters(
 export { calculateCuisineFlavorMatch } from '@/data/cuisineFlavorProfiles';
 
 // Re-export these functions with proper implementations
-export const getRecommendedCuisines = (profile: any) => {
+export const getRecommendedCuisines = (profile: unknown) => {
   // Implementation based on cuisine flavor profiles
   if (!profile || typeof profile !== 'object') return [];
   

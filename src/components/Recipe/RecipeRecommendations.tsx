@@ -30,7 +30,7 @@ interface Dish {
   instructions?: string[];
   elementalProperties?: ElementalProperties;
   numberOfServings?: number;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 // Define interface for cuisine data structure
@@ -43,7 +43,7 @@ interface CuisineData {
     };
   };
   elementalProperties: ElementalProperties;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 interface RecipeRecommendationsProps {
@@ -151,26 +151,28 @@ const RecipeRecommendations: React.FC<RecipeRecommendationsProps> = ({
   ]);
 
   useEffect(() => {
-    const fetchRecipes = async () => {
-      setIsLoading(true);
-      
-      try {
-        const spoonacularRecipes = await SpoonacularService.searchRecipes({
-          diet: filters.dietaryPreference,
-          maxReadyTime: parseInt(filters.cookingTime) || undefined,
-        });
-
-        // Process and set recipes
-        setRecipes(spoonacularRecipes);
-      } catch (error) {
-        console.error('Error fetching recipes:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
+    // Call the function but don't define it inside the hook
     fetchRecipes();
   }, [filters]);
+
+  // Define the async function outside the useEffect
+  const fetchRecipes = async () => {
+    setIsLoading(true);
+    
+    try {
+      const spoonacularRecipes = await SpoonacularService.searchRecipes({
+        diet: filters.dietaryPreference,
+        maxReadyTime: parseInt(filters.cookingTime) || undefined,
+      });
+
+      // Process and set recipes
+      setRecipes(spoonacularRecipes);
+    } catch (error) {
+      console.error('Error fetching recipes:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   // Get all recipes with proper type casting
   const allRecipes = Object.entries(cuisines as Record<string, CuisineData>).flatMap(([_cuisineKey, cuisine]) =>

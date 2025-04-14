@@ -98,7 +98,7 @@ export const celestialNumerology = {
    * Calculate auspicious days for cooking certain recipes
    * Returns array of days of the week (0-6, where 0 is Sunday)
    */
-  getAuspiciousDays(recipeProfile: {elementalProperties?: any, astrologicalInfluences?: string[]}): number[] {
+  getAuspiciousDays(recipeProfile: {elementalProperties?: unknown, astrologicalInfluences?: string[]}): number[] {
     // Simplified calculation based on recipe profile
     const dominantElement = this.getDominantElement(recipeProfile.elementalProperties);
     
@@ -120,7 +120,7 @@ export const celestialNumerology = {
   /**
    * Get the dominant element from elemental properties
    */
-  getDominantElement(elementalProperties: any): string {
+  getDominantElement(elementalProperties: unknown): string {
     if (!elementalProperties) return 'Fire';
     
     // Find the element with the highest value

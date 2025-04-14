@@ -61,7 +61,7 @@ export interface RecipeIngredient {
   };
   
   // Additional properties
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 /**
@@ -77,7 +77,7 @@ export interface SimpleIngredient {
 /**
  * Validates an ingredient object against the RecipeIngredient interface
  */
-export function validateIngredient(ingredient: any): boolean {
+export function validateIngredient(ingredient: unknown): boolean {
   if (!ingredient || typeof ingredient !== 'object') {
     return false;
   }

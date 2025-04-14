@@ -10,7 +10,7 @@ interface CacheEntry<T> {
  * Simple in-memory cache implementation
  */
 export class Cache<T = any> {
-  private cache: Map<string, { data: any; expiry: number | null }>;
+  private cache: Map<string, { data: unknown; expiry: number | null }>;
 
   constructor(private ttl: number) {
     this.cache = new Map();
@@ -22,7 +22,7 @@ export class Cache<T = any> {
    * @param value The value to store
    * @param ttl Time to live in milliseconds (optional)
    */
-  set(key: string, value: any, ttl?: number): void {
+  set(key: string, value: unknown, ttl?: number): void {
     const expiry = ttl ? Date.now() + ttl : null;
     this.cache.set(key, { data: value, expiry });
   }
@@ -80,7 +80,7 @@ export const recipeCache = new Cache<any>(DEFAULT_CACHE_TIMEOUT);
 // Create a simplified interface to the cache
 export const cache = {
   get: (key: string) => recipeCache.get(key),
-  set: (key: string, value: any, ttl?: number) => recipeCache.set(key, value, ttl),
+  set: (key: string, value: unknown, ttl?: number) => recipeCache.set(key, value, ttl),
   delete: (key: string) => recipeCache.delete(key),
   clear: () => recipeCache.clear()
 }; 

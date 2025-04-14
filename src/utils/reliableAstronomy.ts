@@ -9,7 +9,7 @@ import { CelestialPosition } from '@/types/celestial';
 
 // Cache system to avoid frequent API calls
 interface PositionsCache {
-  positions: Record<string, any>;
+  positions: Record<string, unknown>;
   timestamp: number;
   date: string;
 }
@@ -20,7 +20,7 @@ const CACHE_DURATION = 6 * 60 * 60 * 1000; // 6 hours
 /**
  * Fetch accurate planetary positions from JPL Horizons API
  */
-export async function getReliablePlanetaryPositions(date: Date = new Date()): Promise<Record<string, any>> {
+export async function getReliablePlanetaryPositions(date: Date = new Date()): Promise<Record<string, unknown>> {
   try {
     // Format date for cache key 
     const dateString = date.toISOString().split('T')[0];
@@ -109,13 +109,13 @@ export async function getReliablePlanetaryPositions(date: Date = new Date()): Pr
 /**
  * Fetch data from NASA JPL Horizons API
  */
-async function fetchHorizonsData(date: Date): Promise<Record<string, any>> {
+async function fetchHorizonsData(date: Date): Promise<Record<string, unknown>> {
   // Format the date for Horizons API (YYYY-MMM-DD)
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   const horizonsDate = `${date.getFullYear()}-${months[date.getMonth()]}-${date.getDate().toString().padStart(2, '0')}`;
 
   // Initialize positions object
-  const positions: Record<string, any> = {};
+  const positions: Record<string, unknown> = {};
   
   // List of major planets with their Horizons object IDs
   const planets = [
@@ -186,7 +186,7 @@ async function fetchHorizonsData(date: Date): Promise<Record<string, any>> {
 /**
  * Extract planetary position from Horizons API response
  */
-function processHorizonsResponse(result: string, planetName: string): any {
+function processHorizonsResponse(result: string, planetName: string): unknown {
   try {
     // Extract the ecliptic longitude from the result
     // Horizons returns a text output that we need to parse
@@ -252,7 +252,7 @@ function getLongitudeToZodiacSign(longitude: number): { sign: string, degree: nu
 /**
  * Calculate lunar nodes position
  */
-function calculateLunarNode(date: Date, nodeType: 'northNode' | 'southNode'): any {
+function calculateLunarNode(date: Date, nodeType: 'northNode' | 'southNode'): unknown {
   try {
     // Calculate lunar nodes using simplified Meeus formula
     const jd = dateToJulian(date);
@@ -300,14 +300,14 @@ function dateToJulian(date: Date): number {
  * Return reliable planetary positions for March 2025
  * These values are accurate as of March 28, 2025
  */
-function getMarch2025Positions(date: Date | any = new Date()): Record<string, any> {
+function getMarch2025Positions(date: Date | any = new Date()): Record<string, unknown> {
   // Ensure date is a valid Date object
   const validDate = date instanceof Date && !isNaN(date.getTime()) 
     ? date 
     : new Date();
   
   // Current accurate positions as of March 28, 2025
-  const positions: Record<string, any> = {
+  const positions: Record<string, unknown> = {
     sun: { sign: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false },
     moon: { sign: 'aries', degree: 1.57, exactLongitude: 1.57, isRetrograde: false },
     mercury: { sign: 'aries', degree: 0.85, exactLongitude: 0.85, isRetrograde: true },
@@ -330,7 +330,7 @@ function getMarch2025Positions(date: Date | any = new Date()): Record<string, an
  * Fetch data from a public astronomy API
  * This API doesn't require authentication
  */
-async function fetchPublicApiData(date: Date): Promise<Record<string, any>> {
+async function fetchPublicApiData(date: Date): Promise<Record<string, unknown>> {
   try {
     // Format date YYYY-MM-DD
     const formattedDate = date.toISOString().split('T')[0];
@@ -362,7 +362,7 @@ async function fetchPublicApiData(date: Date): Promise<Record<string, any>> {
       const data = await response.json();
       
       // Process the response
-      const positions: Record<string, any> = {};
+      const positions: Record<string, unknown> = {};
       
       // Map of planet names to standardize
       const planetNameMap: Record<string, string> = {
@@ -382,7 +382,7 @@ async function fetchPublicApiData(date: Date): Promise<Record<string, any>> {
       
       // Process each planet
       if (data && Array.isArray(data)) {
-        data.forEach((planet: any) => {
+        data.forEach((planet: unknown) => {
           if (planet.name && planet.longitude !== undefined && planetNameMap[planet.name.toLowerCase()]) {
             const standardName = planetNameMap[planet.name.toLowerCase()];
             const exactLongitude = parseFloat(planet.longitude);
@@ -438,7 +438,7 @@ async function fetchPublicApiData(date: Date): Promise<Record<string, any>> {
 /**
  * Alternative source: Time and Date Astronomy API
  */
-async function fetchTimeAndDateData(date: Date): Promise<Record<string, any>> {
+async function fetchTimeAndDateData(date: Date): Promise<Record<string, unknown>> {
   try {
     // Ensure we have the API credentials
     const apiKey = process.env.TIMEANDDATE_API_KEY;
@@ -483,10 +483,10 @@ async function fetchTimeAndDateData(date: Date): Promise<Record<string, any>> {
       const data = await response.json();
       
       // Process the response
-      const positions: Record<string, any> = {};
+      const positions: Record<string, unknown> = {};
       
       if (data && data.objects && Array.isArray(data.objects)) {
-        data.objects.forEach((obj: any) => {
+        data.objects.forEach((obj: unknown) => {
           if (obj.name && obj.position && typeof obj.position.eclipticLongitude === 'number') {
             const planetName = obj.name.charAt(0).toUpperCase() + obj.name.slice(1);
             const { sign, degree } = getLongitudeToZodiacSign(obj.position.eclipticLongitude);

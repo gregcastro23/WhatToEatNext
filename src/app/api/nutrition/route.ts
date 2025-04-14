@@ -162,7 +162,7 @@ export async function GET(request: Request) {
 }
 
 // Helper function to count vitamins in a foodNutrients array
-function countVitamins(nutrients: any[]): number {
+function countVitamins(nutrients: unknown[]): number {
   return nutrients.filter(n => {
     const name = (n.nutrient?.name || n.nutrientName || n.name || '').toLowerCase();
     return name.includes('vitamin');

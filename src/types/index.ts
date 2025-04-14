@@ -171,70 +171,16 @@ export type DietaryRestriction =
 // Export ZodiacAffinity types
 export * from './zodiacAffinity';
 
-// Re-export all ingredient types
-export * from './ingredients';
-
-// Re-export alchemy types
-export * from './alchemy';
-
-// Re-export recipe types
-export * from './recipe';
-
-// Re-export other types as needed
-export * from './astrology';
-
-// Import all the ingredient interfaces from the ingredients file
-import { 
-  Ingredient,
-  BaseIngredient,
-  IngredientCategory,
-  SensoryProfile,
-  CookingMethod,
-  AlchemicalProperties,
-  ThermodynamicProperties,
-  ElementalTransformation,
-  LunarPhaseModifier,
-  IngredientMapping,
-  RecipeIngredient,
-  SimpleIngredient,
-  Modality
-} from './ingredients';
-
-// Define core app state types
-export interface AppState {
-  currentIngredients: Ingredient[];
-  savedRecipes: any[];
-  userPreferences: {
-    theme: 'light' | 'dark';
-    dietaryRestrictions: string[];
-    favoriteIngredients: string[];
-  };
-}
-
-// Re-export all types from their respective files
-// This allows for easier imports like: import { ElementalProperties, SpoonacularRecipe } from '../types';
-
-// Elemental types
+// Re-export all relevant types from their modules
+// Remove duplicate exports to avoid conflicts
 export * from './elemental';
-
-// Nutrition-related types
 export * from './nutrition';
-
-// Spoonacular API types
 export * from './spoonacular';
-
-// Recipe and alchemy types
-export * from './alchemy';
-
-// Other type exports from existing files
 export * from './recipe';
 export * from './zodiac';
-export * from './zodiacAffinity';
-export * from './wiccan';
 export * from './time';
 export * from './seasons';
 export * from './seasonal';
-export * from './celestial';
 export * from './cuisine';
 export * from './chakra';
 export * from './astrology';
@@ -248,6 +194,31 @@ export * from './recipes';
 export * from './ingredient-compatibility';
 export * from './utils';
 export * from './validation';
-export * from './validators';
-export * from './errors';
-export * from './CurrentChart';
+
+// Remove these duplicate imports - they're already being exported above
+// import { 
+//   Ingredient,
+//   BaseIngredient,
+//   IngredientCategory,
+//   SensoryProfile,
+//   CookingMethod,
+//   AlchemicalProperties,
+//   ThermodynamicProperties,
+//   ElementalTransformation,
+//   LunarPhaseModifier,
+//   IngredientMapping,
+//   RecipeIngredient,
+//   SimpleIngredient,
+//   Modality
+// } from './ingredients';
+
+// Define core app state types
+export interface AppState {
+  currentIngredients: Ingredient[];
+  savedRecipes: unknown[];
+  userPreferences: {
+    theme: 'light' | 'dark';
+    dietaryRestrictions: string[];
+    favoriteIngredients: string[];
+  };
+}

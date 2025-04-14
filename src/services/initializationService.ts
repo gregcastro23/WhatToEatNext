@@ -24,7 +24,7 @@ export interface CelestialData {
   Water?: number;
   Earth?: number;
   Air?: number;
-  [key: string]: any; // Allow other properties
+  [key: string]: unknown; // Allow other properties
 }
 
 interface InitializationResult {

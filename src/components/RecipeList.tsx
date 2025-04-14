@@ -54,7 +54,7 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
             
             // Handle both array and object formats
             if (Array.isArray(seasonRecipes)) {
-            seasonRecipes.forEach((recipe: any) => {
+            seasonRecipes.forEach((recipe: unknown) => {
                 if (!recipe) return; // Skip if recipe is undefined
                 
                 // Create a unique ID with an index to ensure uniqueness
@@ -400,7 +400,7 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
   };
 
   // Helper function to identify harmonious planetary aspects
-  const checkHarmonicAspects = (alignment: any): Array<{planet1: string, planet2: string, aspect: string}> => {
+  const checkHarmonicAspects = (alignment: unknown): Array<{planet1: string, planet2: string, aspect: string}> => {
     const aspects: Array<{planet1: string, planet2: string, aspect: string}> = [];
     
     // Use zodiac data from the imported zodiacSeasons

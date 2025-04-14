@@ -364,7 +364,7 @@ function calculateUniqueness(
 // Or modify the transformation to remove uniqueness score if not needed
 export function transformItemsWithPlanetaryPositions(
   items: ElementalItem[],
-  planetaryPositions: Record<string, any>,
+  planetaryPositions: Record<string, unknown>,
   isDaytime = true,
   currentZodiac?: string,
   lunarPhase?: LunarPhase,
@@ -618,7 +618,7 @@ export const fixIngredientMappings = <T extends Record<string, Partial<Ingredien
  * @param ingredients Raw ingredient mappings
  * @returns Fixed ingredient mappings
  */
-export function fixRawIngredientMappings(ingredients: Record<string, any>): Record<string, any> {
+export function fixRawIngredientMappings(ingredients: Record<string, unknown>): Record<string, unknown> {
   return Object.entries(ingredients).reduce((acc, [key, value]) => {
     // Skip null or undefined values
     if (!value) return acc;
@@ -736,18 +736,14 @@ export function getElementalRelationship(element1: Element, element2: Element): 
 }
 
 /**
- * Gets element that would balance or complement the provided element
+ * Determine the complementary element for a given element
+ * 
+ * @param element The primary element to consider
+ * @returns The same element, as elements work best with themselves
  */
-export function getBalancingElement(element: Element): Element {
-  const balanceMap: { [key in Element]: Element } = {
-    'Fire': 'Water',
-    'Water': 'Fire',
-    'Earth': 'Wood',
-    'Wood': 'Earth',
-    'Metal': 'Metal' // Metal is often considered self-balancing
-  };
-  
-  return balanceMap[element];
+export function getBalancingElement(element) {
+  // Elements work best with themselves - reinforcing the current energy
+  return element;
 }
 
 /**

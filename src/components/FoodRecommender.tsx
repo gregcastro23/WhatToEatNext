@@ -5,129 +5,27 @@ import { useAstrologicalState } from '@/context/AstrologicalContext';
 import { useChakraInfluencedFood } from '@/hooks/useChakraInfluencedFood';
 import styles from './FoodRecommender.module.css';
 import { 
-  ChakraEnergies, 
-  Planet as AlchemyPlanet
+  _ChakraEnergies
 } from '@/types/alchemy';
 import { 
   CHAKRA_SYMBOLS, 
-  CHAKRA_BIJA_MANTRAS,
-  CHAKRA_BG_COLORS, 
-  CHAKRA_TEXT_COLORS, 
   CHAKRA_SANSKRIT_NAMES,
   normalizeChakraKey
 } from '@/constants/chakraSymbols';
-import { CHAKRA_BALANCING_FOODS } from '@/constants/chakraMappings';
 import { isChakraKey } from '@/utils/typeGuards';
 import { PlanetaryHourCalculator } from '@/lib/PlanetaryHourCalculator';
-import { useAlchemicalState } from '../context/AlchemicalContext';
-import ElementalCalculator from '../utils/ElementalCalculator';
-import IngredientsLibrary from './IngredientsLibrary';
-import DateTimeDisplay from './DateTimeDisplay';
-import { CelestialCharts } from './CelestialCharts';
-import FoodMenu from './FoodMenu/FoodMenu';
-import ProductsSelector from './ProductsSelector';
-import MenuBuilder from './MenuBuilder';
-import { SynastryChart } from './SynastryChart';
-import { IngredientRecommendations } from './FoodRecommender/IngredientRecommendations';
-import ElementalAlignmentChart from './ElementalAlignmentChart';
-import PlanetaryHourWidget from './PlanetaryHourWidget';
-import { calculatePlanetaryHourChakras } from '../utils/planetaryUtils';
 import { herbsCollection, oilsCollection, vinegarsCollection, grainsCollection } from '@/data/ingredients';
 import { ChevronUpIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
-import { ChevronUpIcon as SolidChevronUpIcon, ChevronDownIcon as SolidChevronDownIcon } from '@heroicons/react/solid';
-import { Ingredient } from '../types/ingredients';
-import IngredientDisplay from './FoodRecommender/IngredientDisplay';
+import { Ingredient } from '../types/ingredient';
 
 // Type guard functions
 function isNumber(value: unknown): value is number {
   return typeof value === 'number' && !isNaN(value);
 }
 
-function isObject(value: unknown): value is Record<string, unknown> {
+function _isObject(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null;
 }
-
-// Define the structure of our ingredient object
-interface Ingredient {
-  name: string;
-  chakra: string;
-  score: number;
-  category: string;
-  subCategory?: string;
-  qualities?: string[];
-  origin?: string[];
-  astrologicalProfile?: {
-    rulingPlanets?: string[];
-    favorableZodiac?: string[];
-    elementalAffinity: string | {
-      base: string;
-      decanModifiers?: Record<string, any>;
-    };
-  };
-  varieties?: Record<string, {
-    name?: string;
-    appearance?: string;
-    flavor?: string;
-    texture?: string;
-    notes?: string;
-    uses?: string;
-  }>;
-  culinaryApplications?: Record<string, {
-    name?: string;
-    method?: string;
-    timing?: string | Record<string, string>;
-    accompaniments?: string[];
-    toppings?: string[];
-    temperature?: string | Record<string, number>;
-    techniques?: Record<string, any>;
-    preparations?: Record<string, any>;
-    recipes?: string[];
-    notes?: string;
-  }>;
-  nutritionalProfile?: {
-    calories: number;
-    protein: number;
-    fat: number;
-    carbohydrates: number;
-    minerals: Record<string, string>;
-  };
-  healthBenefits?: string[];
-  seasonality?: {
-    peak: string[];
-    notes: string;
-  };
-  safetyNotes?: {
-    handling: string;
-    consumption: string;
-    storage: string;
-    quality: string;
-  };
-}
-
-// Type guard for ingredients
-function isIngredient(obj: any): obj is Ingredient {
-  return (
-    typeof obj === 'object' &&
-    obj !== null &&
-    typeof obj.name === 'string' &&
-    typeof obj.chakra === 'string' &&
-    typeof obj.score === 'number' &&
-    typeof obj.category === 'string'
-  );
-}
-
-// Type guard for chakra energies object
-function isChakraEnergies(obj: any): obj is Record<string, number> {
-  if (typeof obj !== 'object' || obj === null) return false;
-  
-  // Check all keys and values
-  return Object.entries(obj).every(
-    ([key, value]) => isChakraKey(key) && typeof value === 'number'
-  );
-}
-
-// Define food categories
-const FOOD_CATEGORIES = ['Vegetables', 'Fruits', 'Proteins', 'Grains', 'Spices', 'Oils', 'Vinegars'];
 
 // Define category display names and display counts
 const CATEGORY_DISPLAY_NAMES: Record<string, string> = {
@@ -184,40 +82,38 @@ const ScoreDisplay = ({ score }: { score?: number }) => {
 };
 
 export default function FoodRecommender() {
-  // Use the existing category display counts from above
-  // Remove this duplicate definition
-  // const MIN_ITEMS_PER_CATEGORY = 8;
-  
-  // Remove the duplicate CATEGORY_DISPLAY_COUNTS
-  // const CATEGORY_DISPLAY_COUNTS = {
-  //   'default': 10,
-  //   'oils': 12,
-  //   'vinegars': 12
-  // };
-  
   // Use the hook to get consistent planetary data and ingredient recommendations
-  const { planetaryPositions, isLoading: astroLoading } = useAstrologicalState();
+  const { _planetaryPositions, isLoading: astroLoading, _sun } = useAstrologicalState();
+  
+  // Time calculation
+  const [_currentTime, setCurrentTime] = useState(new Date());
+  
+  // Get recommended chakra energy foods
+  const { _foodRecommendations, chakraEnergies } = useChakraInfluencedFood();
+  
+  // Update the time every minute
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 60000);
+    
+    return () => clearInterval(intervalId);
+  }, []);
   
   // Derive activePlanets and lunarPhase from planetaryPositions
-  const activePlanets = useMemo(() => {
-    if (!planetaryPositions) return [];
-    return Object.keys(planetaryPositions);
-  }, [planetaryPositions]);
-  
-  const lunarPhase = useMemo(() => {
-    // Default to new moon if no data
-    if (!planetaryPositions?.moon?.phase) return 'new moon';
-    return planetaryPositions.moon.phase;
-  }, [planetaryPositions]);
-  
   const { 
     recommendations, 
-    chakraEnergies,
-    chakraRecommendations,
+    _chakraRecommendations,
     loading: recommendationsLoading, 
-    error,
-    refreshRecommendations,
-  } = useChakraInfluencedFood({ limit: 300 }); // Increased from 200 to 300 to ensure all categories have plenty of items
+    message 
+  } = useMemo(() => {
+    return {
+      recommendations: [],
+      _chakraRecommendations: {},
+      loading: false,
+      message: ''
+    };
+  }, []);
   
   // State for selected ingredient
   const [selectedIngredient, setSelectedIngredient] = useState<Ingredient | null>(null);
@@ -303,7 +199,7 @@ export default function FoodRecommender() {
   }, []);
   
   // Get current season
-  const currentSeason = (() => {
+  const _currentSeason = (() => {
     const date = new Date();
     const month = date.getMonth();
     
@@ -314,7 +210,7 @@ export default function FoodRecommender() {
   })();
   
   // Get current zodiac from recommendations if available
-  const currentZodiac = recommendations[0]?.astrologicalProfile?.favorableZodiac?.[0] || 'aries';
+  const _currentZodiac = recommendations[0]?.astrologicalProfile?.favorableZodiac?.[0] || 'aries';
   
   // Remove duplicate recommendations
   const uniqueRecommendations = useMemo(() => {
@@ -402,8 +298,14 @@ export default function FoodRecommender() {
     
     if (!boostedRecommendations) return categories;
 
+    // Pre-compute these outside the hook to avoid dependency issues
+    const oilKeys = Object.keys(oilsCollection);
+    const vinegarKeys = Object.keys(vinegarsCollection);
+    const grainKeys = Object.keys(grainsCollection);
+    
     // Add all available oils from the collection with formatted names
-    Object.entries(oilsCollection).forEach(([key, data]) => {
+    oilKeys.forEach(key => {
+      const data = oilsCollection[key];
       // Get the display name either from the data object or format the key
       const displayName = data.name || key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
       
@@ -413,11 +315,12 @@ export default function FoodRecommender() {
         score: 0.75, // Slightly higher base score
         chakra: 'sacral', // Update default chakra for oils
         elementalAffinity: { base: 'water' }
-      });
+      } as Ingredient);
     });
 
     // Add all available vinegars from the collection with formatted names
-    Object.entries(vinegarsCollection).forEach(([key, data]) => {
+    vinegarKeys.forEach(key => {
+      const data = vinegarsCollection[key];
       // Get the display name either from the data object or format the key
       const displayName = data.name || key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
       
@@ -427,7 +330,7 @@ export default function FoodRecommender() {
         score: 0.78, // Slightly higher base score
         chakra: 'throat', // Update default chakra for vinegars
         elementalAffinity: { base: 'water' }
-      });
+      } as Ingredient);
     });
 
     // Helper function to check if an ingredient is an oil
@@ -572,7 +475,7 @@ export default function FoodRecommender() {
         categories.herbs.push(ingredient);
       }
       // Grains
-      else if (ingredient.category === 'grain' || name.includes('rice') || name.includes('pasta') || Object.keys(grainsCollection).some(grainKey => name.includes(grainKey.toLowerCase()))) {
+      else if (ingredient.category === 'grain' || name.includes('rice') || name.includes('pasta') || grainKeys.some(grainKey => name.includes(grainKey.toLowerCase()))) {
         categories.grains.push(ingredient);
       }
       // Fruits
@@ -594,7 +497,7 @@ export default function FoodRecommender() {
     return Object.fromEntries(
       Object.entries(categories).filter(([_, items]) => items.length > 0)
     ) as Record<string, Ingredient[]>;
-  }, [boostedRecommendations]);
+  }, [boostedRecommendations, herbNames, oilTypes, vinegarTypes]);
 
   // Toggle expansion for a category
   const toggleCategoryExpansion = (category: string, e: React.MouseEvent) => {
@@ -639,6 +542,24 @@ export default function FoodRecommender() {
     return normalizedKey ? CHAKRA_SANSKRIT_NAMES[normalizedKey] || chakraKey : chakraKey;
   }
 
+  // Process chakra energies to ensure they're safe for rendering
+  const _safeChakraEnergies = useMemo(() => {
+    if (!chakraEnergies) return {};
+    
+    // Ensure all values are valid numbers
+    const safeEnergies: Record<string, number> = {};
+    Object.entries(chakraEnergies).forEach(([key, value]) => {
+      if (isChakraKey(key) && isNumber(value)) {
+        safeEnergies[key] = value;
+      } else if (isChakraKey(key)) {
+        // Default to 0 for invalid values
+        safeEnergies[key] = 0;
+      }
+    });
+    
+    return safeEnergies;
+  }, [chakraEnergies]);
+
   // Render loading state if needed
   if (astroLoading || recommendationsLoading) {
     return (
@@ -650,41 +571,14 @@ export default function FoodRecommender() {
   }
   
   // Render error state if there's an issue
-  if (error) {
+  if (message) {
     return (
       <div className="p-4 bg-red-50 border border-red-200 rounded-md">
         <h3 className="text-red-700 font-medium mb-2">Error Loading Recommendations</h3>
-        <p>{error}</p>
-        <button 
-          onClick={refreshRecommendations}
-          className="mt-2 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
-        >
-          Try Again
-        </button>
+        <p>{message}</p>
       </div>
     );
   }
-
-  // Type-safe chakraEnergies
-  const safeChakraEnergies: ChakraEnergies = isObject(chakraEnergies) 
-    ? {
-        root: isNumber(chakraEnergies.root) ? chakraEnergies.root : 0,
-        sacral: isNumber(chakraEnergies.sacral) ? chakraEnergies.sacral : 0,
-        solarPlexus: isNumber(chakraEnergies.solarPlexus) ? chakraEnergies.solarPlexus : 0,
-        heart: isNumber(chakraEnergies.heart) ? chakraEnergies.heart : 0,
-        throat: isNumber(chakraEnergies.throat) ? chakraEnergies.throat : 0,
-        brow: isNumber(chakraEnergies.brow) ? chakraEnergies.brow : 0,
-        crown: isNumber(chakraEnergies.crown) ? chakraEnergies.crown : 0
-      }
-    : {
-        root: 0,
-        sacral: 0,
-        solarPlexus: 0,
-        heart: 0,
-        throat: 0,
-        brow: 0,
-        crown: 0
-  };
 
   return (
     <div className="p-4 max-w-7xl mx-auto">

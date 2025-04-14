@@ -28,7 +28,7 @@ export default function CookingMethodsDemoPage() {
     setMethods(demoMethods.slice(0, 12));
   }, []);
 
-  const formatMethodsForComponent = (methodsObj: Record<string, any>, prefix: string) => {
+  const formatMethodsForComponent = (methodsObj: Record<string, unknown>, prefix: string) => {
     return Object.entries(methodsObj).map(([key, method]) => {
       // Format method name
       const name = key.split('_')
@@ -72,7 +72,7 @@ export default function CookingMethodsDemoPage() {
     });
   };
 
-  const handleSelectMethod = (method: any) => {
+  const handleSelectMethod = (method: unknown) => {
     setSelectedMethod(method);
     console.log('Selected method:', method);
   };

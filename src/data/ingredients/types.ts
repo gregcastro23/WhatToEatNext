@@ -205,7 +205,7 @@ export type Modality = 'Cardinal' | 'Fixed' | 'Mutable';
 export interface IngredientProfile {
   name: string;
   description: string;
-  flavorProfile?: any;
+  flavorProfile?: unknown;
   alchemicalProperties: AlchemicalProperties;
   thermodynamicProperties: ThermodynamicProperties;
   modality: Modality;
@@ -226,19 +226,19 @@ export interface IngredientMapping {
         third?: { element: string; planet: string };
       };
     };
-    lunarPhaseModifiers?: Record<string, any>;
+    lunarPhaseModifiers?: Record<string, unknown>;
     aspectEnhancers?: string[];
   };
   qualities?: string[];
   origin?: string[];
   category?: string;
   subCategory?: string;
-  varieties?: Record<string, any>;
-  culinaryApplications?: Record<string, any>;
-  seasonalAdjustments?: Record<string, any>;
-  regionalPreparations?: Record<string, any>;
-  preparation?: Record<string, any>;
-  storage?: Record<string, any>;
+  varieties?: Record<string, unknown>;
+  culinaryApplications?: Record<string, unknown>;
+  seasonalAdjustments?: Record<string, unknown>;
+  regionalPreparations?: Record<string, unknown>;
+  preparation?: Record<string, unknown>;
+  storage?: Record<string, unknown>;
   // Allow additional properties
-  [key: string]: any;
+  [key: string]: unknown;
 } 

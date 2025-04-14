@@ -1,6 +1,9 @@
-import { AstrologicalState, Element, PlanetName, ZodiacSign } from '../types/alchemy';
-import { MealType, Season, TimeFactors, WeekDay, getTimeFactors } from '../types/time';
+import { AstrologicalState, Element, PlanetName, ZodiacSign, Planet } from '../types/alchemy';
+import { Season, TimeFactors, WeekDay, getTimeFactors } from '../types/time';
 import { Recipe } from '../types/recipe';
+
+// Define MealType since it's not exported from time.ts
+type MealType = 'Breakfast' | 'Lunch' | 'Dinner' | 'Snack' | 'Anytime';
 
 // Elemental affinities - which elements go well together
 const ELEMENTAL_AFFINITIES: Record<Element, Element[]> = {
@@ -152,9 +155,11 @@ export function calculateRecommendationScore(
   score += calculateWeekdayScore(recipe, timeFactors.planetaryDay.day);
   factors += 1;
   
-  // Meal type score
-  score += calculateMealTypeScore(recipe, timeFactors.mealType) * 2;
-  factors += 2;
+  // Meal type score - Check if mealType exists in timeFactors
+  if (timeFactors.mealType) {
+    score += calculateMealTypeScore(recipe, timeFactors.mealType) * 2;
+    factors += 2;
+  }
   
   // Zodiac score
   if (astrologicalState.sunSign) {
@@ -209,9 +214,11 @@ export function explainRecommendation(
   }
   
   // Check meal type appropriateness
-  const mealScore = calculateMealTypeScore(recipe, timeFactors.mealType);
-  if (mealScore > 0.6) {
-    reasons.push(`This is an ideal choice for ${timeFactors.mealType.toLowerCase()} during the ${timeFactors.timeOfDay.toLowerCase()}.`);
+  if (timeFactors.mealType) {
+    const mealScore = calculateMealTypeScore(recipe, timeFactors.mealType);
+    if (mealScore > 0.6) {
+      reasons.push(`This is an ideal choice for ${timeFactors.mealType.toLowerCase()} during the ${timeFactors.timeOfDay.toLowerCase()}.`);
+    }
   }
   
   // Check seasonal harmony
@@ -230,10 +237,10 @@ export function explainRecommendation(
   
   // If we have dominant planets
   if (astrologicalState.dominantPlanets && astrologicalState.dominantPlanets.length > 0) {
-    for (const planet of astrologicalState.dominantPlanets) {
-      const planetScore = calculatePlanetaryScore(recipe, planet);
+    for (const dominantPlanet of astrologicalState.dominantPlanets) {
+      const planetScore = calculatePlanetaryScore(recipe, dominantPlanet.name);
       if (planetScore > 0.6) {
-        reasons.push(`The influence of ${planet} in your chart is complemented by this recipe.`);
+        reasons.push(`The influence of ${dominantPlanet.name} in your chart is complemented by this recipe.`);
         break; // Just mention one planet to avoid repetition
       }
     }

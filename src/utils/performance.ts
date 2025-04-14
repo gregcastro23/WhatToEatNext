@@ -42,7 +42,7 @@ export function optimizePerformance(): { success: boolean; optimizations: string
       const setupDebounce = () => {
         const debounce = (func: (...args: unknown[]) => void, wait: number) => {
           let timeout: ReturnType<typeof setTimeout>;
-          return function executedFunction(...args: any[]) {
+          return function executedFunction(...args: unknown[]) {
             const later = () => {
               clearTimeout(timeout);
               func(...args);

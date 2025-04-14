@@ -30,7 +30,7 @@ interface TarotCard {
   element?: string;
   description?: string;
   keywords?: string[];
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 // Adapter function to convert between different lunar phase formats

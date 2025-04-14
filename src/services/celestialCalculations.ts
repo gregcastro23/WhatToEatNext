@@ -104,6 +104,19 @@ interface CelestialPosition {
   degree: number;
 }
 
+// Define the PlanetaryPosition interface to replace any types
+interface PlanetaryPosition {
+  sign: string;
+  degree: number;
+  retrograde?: boolean;
+  house?: number;
+  minute?: number;
+  speed?: number;
+}
+
+// Define a record type for planetary positions
+type PlanetaryPositionRecord = Record<string, PlanetaryPosition>;
+
 interface CelestialData {
   sun: CelestialPosition;
   moon: CelestialPosition;
@@ -163,11 +176,11 @@ class CelestialCalculator {
       const zodiacSign = this.determineZodiacSign(month, day);
       
       // Get current planetary positions
-      let planetaryPositions: Record<string, any> = {};
+      let planetaryPositions: PlanetaryPositionRecord = {};
       try {
         // Try to use the astronomy calculator to get actual positions
         if (typeof astronomiaCalculator.calculatePlanetaryPositions === 'function') {
-          planetaryPositions = astronomiaCalculator.calculatePlanetaryPositions(now);
+          planetaryPositions = astronomiaCalculator.calculatePlanetaryPositions(now) as PlanetaryPositionRecord;
         } else {
           throw new Error('Astronomy calculator function not available');
         }
@@ -476,7 +489,7 @@ class CelestialCalculator {
    * Jupiter expands while Saturn restricts - they have opposing but complementary effects
    */
   private calculateGasGiantInfluences(
-    planetaryPositions: Record<string, any> = {},
+    planetaryPositions: PlanetaryPositionRecord = {},
     aspectInfluences: Array<{type: AspectType, planets: string[], influence: number}> = []
   ): {
     jupiterInfluence: number,
@@ -669,7 +682,7 @@ class CelestialCalculator {
   private determineDominantPlanets(
     dayOfWeek: number, 
     hour: number, 
-    planetaryPositions: Record<string, any> = {}
+    planetaryPositions: PlanetaryPositionRecord = {}
   ): CelestialBody[] {
     // Simplified planetary rulers based on day of week
     const dayRulers = [
@@ -1385,14 +1398,18 @@ class CelestialCalculator {
   }
 
   // Add type guard to validate CelestialData
-  private isCelestialData(data: any): data is CelestialData {
-    return data && 
-      typeof data === 'object' &&
-      data.sun && 
-      data.moon && 
-      data.elementalState &&
-      data.season &&
-      data.moonPhase;
+  private isCelestialData(data: unknown): data is CelestialData {
+    // Type guard to check if data is CelestialData
+    if (!data || typeof data !== 'object') return false;
+    
+    const celestialData = data as Partial<CelestialData>;
+    return (
+      celestialData.sun !== undefined &&
+      celestialData.moon !== undefined &&
+      celestialData.elementalState !== undefined &&
+      celestialData.season !== undefined &&
+      celestialData.moonPhase !== undefined
+    );
   }
 
   // Public API for testing

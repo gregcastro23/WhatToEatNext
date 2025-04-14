@@ -1,15 +1,43 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import dynamic from 'next/dynamic';
 import FoodRecommender from '@/components/FoodRecommender';
-import CuisineRecommender from '@/components/CuisineRecommender';
-import IngredientDisplay from '@/components/FoodRecommender/IngredientDisplay';
 import IngredientRecommender from '@/components/IngredientRecommender';
-import HomeMethodsComponent from '@/components/HomeMethodsComponent';
 import { AstrologicalProvider } from '@/context/AstrologicalContext';
 import Link from 'next/link';
 import { Button } from '@mui/material';
-import PlanetaryTimeDisplay from '@/components/PlanetaryTimeDisplay';
+
+// Use dynamic import with SSR disabled for components that use client-side only features
+const DynamicCuisineRecommender = dynamic(
+  () => import('@/components/CuisineRecommender'),
+  { ssr: false }
+);
+
+const DynamicHomeMethodsComponent = dynamic(
+  () => import('@/components/HomeMethodsComponent'),
+  { ssr: false }
+);
+
+const DynamicPlanetaryTimeDisplay = dynamic(
+  () => import('@/components/PlanetaryTimeDisplay'),
+  { ssr: false }
+);
+
+// A wrapper component that only renders children when client-side
+function ClientOnly({ children }: { children: React.ReactNode }) {
+  const [hasMounted, setHasMounted] = useState(false);
+  
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
+  
+  if (!hasMounted) {
+    return null;
+  }
+  
+  return <>{children}</>;
+}
 
 export default function Home() {
   return (
@@ -22,9 +50,11 @@ export default function Home() {
           </p>
           
           {/* Display planetary day and hour information */}
-          <div className="inline-block bg-white px-4 py-2 rounded-lg shadow-sm">
-            <PlanetaryTimeDisplay compact={true} />
-          </div>
+          <ClientOnly>
+            <div className="inline-block bg-white px-4 py-2 rounded-lg shadow-sm">
+              <DynamicPlanetaryTimeDisplay compact={true} />
+            </div>
+          </ClientOnly>
         </header>
         
         {/* Navigation Jump Links */}
@@ -42,15 +72,21 @@ export default function Home() {
         
         <div className="flex flex-col gap-6 max-w-6xl mx-auto">
           <div id="cuisine" className="bg-white rounded-lg shadow-md p-5 w-full">
-            <CuisineRecommender />
+            <ClientOnly>
+              <DynamicCuisineRecommender />
+            </ClientOnly>
           </div>
           
           <div id="ingredients" className="bg-white rounded-lg shadow-md p-5 w-full">
-            <IngredientRecommender />
+            <ClientOnly>
+              <IngredientRecommender />
+            </ClientOnly>
           </div>
           
           <div id="methods" className="bg-white rounded-lg shadow-md p-5 w-full">
-            <HomeMethodsComponent />
+            <ClientOnly>
+              <DynamicHomeMethodsComponent />
+            </ClientOnly>
           </div>
         </div>
         

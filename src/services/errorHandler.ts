@@ -2,7 +2,7 @@ import { logger } from '../utils/logger'
 
 interface ErrorDetails {
   code?: string
-  context?: Record<string, any>
+  context?: Record<string, unknown>
   timestamp: number
   recovered?: boolean
 }
@@ -12,7 +12,7 @@ class ErrorHandler {
   private readonly MAX_ERRORS_PER_TYPE = 10
   private readonly ERROR_RETENTION_MS = 1000 * 60 * 5 // 5 minutes
 
-  handleError(error: unknown, context?: Record<string, any>): void {
+  handleError(error: unknown, context?: Record<string, unknown>): void {
     const errorMessage = this.getErrorMessage(error)
     const errorCode = this.getErrorCode(error)
     

@@ -16,6 +16,7 @@ jobs:
         with:
           node-version: 20
           cache: 'yarn'
+          cache-dependency-path: './yarn.lock'
       - name: Remove problematic dependencies
         run: |
           # Use jq to modify package.json by removing the problematic dependency
@@ -36,6 +37,7 @@ jobs:
         with:
           node-version: 20
           cache: 'yarn'
+          cache-dependency-path: './yarn.lock'
       - name: Remove problematic dependencies
         run: |
           # Use jq to modify package.json by removing the problematic dependency
@@ -55,6 +57,7 @@ jobs:
         with:
           node-version: 20
           cache: 'yarn'
+          cache-dependency-path: './yarn.lock'
       - name: Remove problematic dependencies
         run: |
           # Use jq to modify package.json by removing the problematic dependency

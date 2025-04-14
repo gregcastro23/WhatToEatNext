@@ -17,7 +17,7 @@ import { CookingMethodsSection } from '@/components/CookingMethodsSection';
 type MethodCategory = {
   name: string;
   description: string;
-  methods: Record<string, any>;
+  methods: Record<string, unknown>;
   icon?: string;
 };
 
@@ -107,7 +107,7 @@ export default function CookingMethodsPage() {
     setTabValue(newValue);
   };
 
-  const handleSelectMethod = (method: any) => {
+  const handleSelectMethod = (method: unknown) => {
     setSelectedMethodId(method.id);
     // If it's a main method (not a variation), navigate to it
     if (!method.id.includes('_var_')) {

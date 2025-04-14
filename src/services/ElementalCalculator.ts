@@ -449,7 +449,7 @@ export class ElementalCalculator {
         return Math.abs(sum - 1) < 0.01;
     }
 
-    public static calculateIngredientMatch(ingredient: any): number {
+    public static calculateIngredientMatch(ingredient: unknown): number {
         // If the ingredient has elementalProperties, use those
         if (ingredient.elementalProperties) {
             const currentState = this.getCurrentElementalState();

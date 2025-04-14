@@ -2,12 +2,12 @@ import { PlanetData } from './types';
 
 const marsData: PlanetData = {
   'Dignity Effect': {
-    'Aries': 1,
-    'Scorpio': 1, 
-    'Capricorn': 2,
-    'Taurus': -1,
-    'Libra': -1,
-    'Cancer': -2
+    'aries': 1,
+    'scorpio': 1, 
+    'capricorn': 2,
+    'taurus': -1,
+    'libra': -1,
+    'cancer': -2
   },
   'Elements': ['Fire', 'Water'],
   'Alchemy': {
@@ -43,17 +43,17 @@ const marsData: PlanetData = {
     'AlchemicalName': 'Ares',
     'MaleficType': 'Lesser malefic',
     'DualDomicile': {
-      'Spring': 'Aries (yang)',
-      'Autumn': 'Scorpio (yin)'
+      'Spring': 'aries (yang)',
+      'Autumn': 'scorpio (yin)'
     },
     'HouseJoy': 6,
     'CyclePeriod': {
       'Return': '2 years',
       'Retrograde': '2-2.5 months every 2 years'
     },
-    'Exaltation': 'Capricorn',
-    'Fall': 'Cancer',
-    'Detriment': ['Libra', 'Taurus'],
+    'Exaltation': 'capricorn',
+    'Fall': 'cancer',
+    'Detriment': ['libra', 'taurus'],
     'Keywords': ['Action', 'Aggression', 'Drive', 'Desire', 'Courage', 'Combat', 'Energy', 'Passion'],
     'Colors': ['Red', 'Crimson', 'Scarlet', 'Rust', 'Blood Red', 'Orange-Red'],
     'Day': 'Tuesday',

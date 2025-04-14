@@ -192,7 +192,7 @@ export function determineIngredientModality(
 /**
  * Type guard to check if an object is a RecipeIngredient
  */
-export function isRecipeIngredient(ingredient: any): ingredient is RecipeIngredient {
+export function isRecipeIngredient(ingredient: unknown): ingredient is RecipeIngredient {
   return (
     ingredient &&
     typeof ingredient.name === 'string' &&
@@ -204,7 +204,7 @@ export function isRecipeIngredient(ingredient: any): ingredient is RecipeIngredi
 /**
  * Type guard to check if an object is a full Ingredient
  */
-export function isFullIngredient(ingredient: any): ingredient is Ingredient {
+export function isFullIngredient(ingredient: unknown): ingredient is Ingredient {
   return (
     ingredient &&
     typeof ingredient.name === 'string' &&

@@ -83,9 +83,9 @@ export const LUNAR_PHASE_REVERSE_MAPPING: Record<LunarPhaseWithUnderscores, Luna
 };
 
 export type ZodiacSign = 
-  'Aries' | 'Taurus' | 'Gemini' | 'Cancer' | 
-  'Leo' | 'Virgo' | 'Libra' | 'Scorpio' | 
-  'Sagittarius' | 'Capricorn' | 'Aquarius' | 'Pisces';
+  'aries' | 'taurus' | 'gemini' | 'cancer' | 
+  'leo' | 'virgo' | 'libra' | 'scorpio' | 
+  'sagittarius' | 'capricorn' | 'aquarius' | 'pisces';
 
 export type PlanetName = 
   'Sun' | 'Moon' | 'Mercury' | 'Venus' | 'Mars' | 
@@ -154,7 +154,7 @@ export interface PlanetaryAspect {
   strength: number;
   planets?: string[];
   influence?: number;
-  additionalInfo?: Record<string, any>;
+  additionalInfo?: Record<string, unknown>;
 }
 
 // Define Dignity type
@@ -582,21 +582,21 @@ export interface IngredientMapping {
         third?: { element: string; planet: string };
       };
     };
-    lunarPhaseModifiers?: Record<string, any>;
+    lunarPhaseModifiers?: Record<string, unknown>;
     aspectEnhancers?: string[];
   };
   qualities?: string[];
   origin?: string[];
   category?: string;
   subCategory?: string;
-  varieties?: Record<string, any>;
-  culinaryApplications?: Record<string, any>;
-  seasonalAdjustments?: Record<string, any>;
+  varieties?: Record<string, unknown>;
+  culinaryApplications?: Record<string, unknown>;
+  seasonalAdjustments?: Record<string, unknown>;
   
   // Add missing properties
-  regionalPreparations?: Record<string, any>;
-  preparation?: Record<string, any>;
-  storage?: Record<string, any>;
+  regionalPreparations?: Record<string, unknown>;
+  preparation?: Record<string, unknown>;
+  storage?: Record<string, unknown>;
   
   // Food alchemy specific properties
   alchemicalProperties?: {
@@ -606,7 +606,7 @@ export interface IngredientMapping {
   };
   
   // Allow additional properties
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export interface PlanetaryFoodAssociation {
@@ -838,7 +838,7 @@ export interface AstrologicalInfluence {
 export interface ElementalAffinity {
   // Core properties from standardized version
   base: string;
-  decanModifiers?: Record<string, any>;
+  decanModifiers?: Record<string, unknown>;
   
   // Properties needed by alchemicalEngine
   element?: Element | string;
@@ -1031,13 +1031,13 @@ export interface StandardizedAlchemicalResult {
     [key: string]: number;
   };
   'Total Chart Absolute Effect'?: number;
-  'All Conjunctions'?: any[];
-  'All Trines'?: any[];
-  'All Squares'?: any[];
-  'All Oppositions'?: any[];
-  'Stelliums'?: any[];
-  'Signs'?: Record<string, any>;
-  'Planets'?: Record<string, any>;
+  'All Conjunctions'?: unknown[];
+  'All Trines'?: unknown[];
+  'All Squares'?: unknown[];
+  'All Oppositions'?: unknown[];
+  'Stelliums'?: unknown[];
+  'Signs'?: Record<string, unknown>;
+  'Planets'?: Record<string, unknown>;
   'Sun Sign'?: string;
   'Major Arcana'?: Record<string, string>;
   'Minor Arcana'?: Record<string, string>;
@@ -1049,7 +1049,7 @@ export interface StandardizedAlchemicalResult {
   'Total Elemental Effect'?: ElementalProperties;
   
   // Allow other properties
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export interface Decan {
@@ -1064,39 +1064,39 @@ export interface CuisineType {
   id?: string;  // Make id optional for chinese.ts style
   dishes?: {
     breakfast?: {
-      all?: any[];
-      summer?: any[];
-      winter?: any[];
-      spring?: any[];
-      autumn?: any[];
-      fall?: any[];  // Support both autumn and fall
+      all?: unknown[];
+      summer?: unknown[];
+      winter?: unknown[];
+      spring?: unknown[];
+      autumn?: unknown[];
+      fall?: unknown[];  // Support both autumn and fall
     };
     lunch?: {
-      all?: any[];
-      summer?: any[];
-      winter?: any[];
-      spring?: any[];
-      autumn?: any[];
-      fall?: any[];
+      all?: unknown[];
+      summer?: unknown[];
+      winter?: unknown[];
+      spring?: unknown[];
+      autumn?: unknown[];
+      fall?: unknown[];
     };
     dinner?: {
-      all?: any[];
-      summer?: any[];
-      winter?: any[];
-      spring?: any[];
-      autumn?: any[];
-      fall?: any[];
+      all?: unknown[];
+      summer?: unknown[];
+      winter?: unknown[];
+      spring?: unknown[];
+      autumn?: unknown[];
+      fall?: unknown[];
     };
     dessert?: {
-      all?: any[];
-      summer?: any[];
-      winter?: any[];
-      spring?: any[];
-      autumn?: any[];
-      fall?: any[];
+      all?: unknown[];
+      summer?: unknown[];
+      winter?: unknown[];
+      spring?: unknown[];
+      autumn?: unknown[];
+      fall?: unknown[];
     } | any[];
-    desserts?: any[];
-    snacks?: any[];
+    desserts?: unknown[];
+    snacks?: unknown[];
   };
   elementalState?: ElementalProperties;
   elementalProperties?: ElementalProperties;  // Support elementalProperties name
@@ -1107,12 +1107,12 @@ export interface CuisineType {
   flavorProfiles?: string[];
   astrologicalInfluence?: AstrologicalInfluence[];
   astrologicalInfluences?: string[];  // Support string array version
-  traditionalSauces?: Record<string, any>;
-  motherSauces?: Record<string, any>;
-  sauceRecommender?: Record<string, any>;
-  cookingTechniques?: any[];
-  regionalCuisines?: Record<string, any>;
-  [key: string]: any;
+  traditionalSauces?: Record<string, unknown>;
+  motherSauces?: Record<string, unknown>;
+  sauceRecommender?: Record<string, unknown>;
+  cookingTechniques?: unknown[];
+  regionalCuisines?: Record<string, unknown>;
+  [key: string]: unknown;
 }
 
 // ========== RECIPE FILTERING TYPES ==========

@@ -73,7 +73,7 @@ const processCuisineRecipes = (cuisine: Partial<Cuisine>): Cuisine => {
   if (!cuisine) return { ...baseCuisine };
   
   // Helper to combine "all" recipes with seasonal ones
-  const combineRecipes = (mealType: any) => {
+  const combineRecipes = (mealType: unknown) => {
     if (!mealType) return { spring: [], summer: [], autumn: [], winter: [] };
     
     // Extract the "all" recipes that should be added to each season

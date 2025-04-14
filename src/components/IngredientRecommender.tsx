@@ -205,7 +205,7 @@ export default function IngredientRecommender() {
   };
   
   // Helper function to check if an ingredient is a vinegar
-  const isVinegar = (ingredient: any): boolean => {
+  const isVinegar = (ingredient: unknown): boolean => {
     const category = ingredient.category?.toLowerCase() || '';
     if (category === 'vinegar' || category === 'vinegars') return true;
     
@@ -214,7 +214,7 @@ export default function IngredientRecommender() {
   };
   
   // Helper function to get normalized category
-  const getNormalizedCategory = (ingredient: any): string => {
+  const getNormalizedCategory = (ingredient: unknown): string => {
     if (!ingredient.category) return 'other';
     
     const category = ingredient.category.toLowerCase();

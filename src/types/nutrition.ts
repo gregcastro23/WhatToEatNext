@@ -35,7 +35,7 @@ export interface NutritionalProfile {
   phytonutrients?: Record<string, number>;
   
   // Allow for additional nutrition categories
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 /**

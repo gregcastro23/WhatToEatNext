@@ -92,7 +92,7 @@ export default function HomeMethodsComponent() {
     }
   }, [loading, currentPlanetaryAlignment]);
 
-  const handleSelectMethod = (method: any) => {
+  const handleSelectMethod = (method: unknown) => {
     // Toggle selection - if already selected, unselect it
     setSelectedMethod(prevSelected => 
       prevSelected && prevSelected.id === method.id ? null : method

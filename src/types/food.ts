@@ -8,5 +8,5 @@ export interface FoodAssociation {
     dayOfWeek?: number;
     hourOfDay?: number[];
   };
-  [key: string]: any; // Allow additional properties
+  [key: string]: unknown; // Allow additional properties
 } 

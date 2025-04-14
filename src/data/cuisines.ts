@@ -43,7 +43,7 @@ const exampleRecipe: Recipe = {
 };
 
 // Helper function to adapt ElementalProperties from cuisine.ts to alchemy.ts format
-function adaptElementalProperties(props: any): ElementalProperties {
+function adaptElementalProperties(props: unknown): ElementalProperties {
   // If it already has the index signature, return as is
   if (props && typeof props === 'object' && props.hasOwnProperty('Fire')) {
     return props as ElementalProperties;
@@ -59,7 +59,7 @@ function adaptElementalProperties(props: any): ElementalProperties {
 }
 
 // Helper function to adapt cuisines to the CuisineType format
-function adaptCuisine(cuisine: any): CuisineType {
+function adaptCuisine(cuisine: unknown): CuisineType {
   return {
     ...cuisine,
     // Convert elementalProperties if present

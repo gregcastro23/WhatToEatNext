@@ -48,7 +48,7 @@ const PROBLEMATIC_PATTERNS = [
   },
   // "Balancing" elements patterns
   {
-    pattern: /getBalancingElement|balancingElement/,
+    pattern: /function getBalancingElement[^{]*{(?![\s\S]*?\/\/\s*Elements work best with themselves[\s\S]*?return element)/,
     description: 'Function that gets "balancing" elements',
     fixType: 'balancing'
   },

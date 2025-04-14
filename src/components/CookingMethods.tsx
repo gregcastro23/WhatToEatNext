@@ -16,6 +16,7 @@ import type { ElementalProperties, ZodiacSign, CookingMethod, BasicThermodynamic
 import { COOKING_METHOD_THERMODYNAMICS } from '@/types/alchemy';
 import { getCachedCalculation } from '@/utils/calculationCache';
 import { useCurrentChart } from '@/hooks/useCurrentChart';
+import { testCookingMethodRecommendations } from '../utils/testRecommendations';
 
 // Import cooking methods from both traditional and cultural sources
 import { cookingMethods } from '@/data/cooking/cookingMethods';
@@ -41,8 +42,8 @@ import { staticAlchemize } from '@/utils/alchemyInitializer';
 // Implement the alchemize function using staticAlchemize
 const alchemize = async (
   elements: ElementalProperties | Record<string, number>,
-  astroState: any,
-  thermodynamics: any
+  astroState: unknown,
+  thermodynamics: unknown
 ): Promise<any> => {
   try {
     // Create a simplified birthInfo object
@@ -113,7 +114,7 @@ const alchemize = async (
   }
 };
 
-const calculateMatchScore = (elements: any): number => {
+const calculateMatchScore = (elements: unknown): number => {
   if (!elements) return 0;
   
   // More sophisticated calculation that weights the properties differently
@@ -373,15 +374,12 @@ const normalizeLunarPhase = (phase: string | null | undefined): LunarPhase | und
 };
 
 // Helper for adapting between LunarPhase types
-const adaptLunarPhase = (phase: LunarPhase | undefined): any => {
+const adaptLunarPhase = (phase: LunarPhase | undefined): unknown => {
   if (!phase) return undefined;
   // Convert from our uppercase format to the format expected by the API
   // This part needs to be adjusted based on what the external functions expect
   return LUNAR_PHASE_DISPLAY[phase]?.toLowerCase();
 };
-
-// Import the test function at the top of the file
-import { testCookingMethodRecommendations } from '../utils/testRecommendations';
 
 export default function CookingMethods() {
   // Add renderCount ref for debugging
@@ -440,7 +438,7 @@ export default function CookingMethods() {
     };
   };
   
-  const methodToThermodynamics = (method: any): BasicThermodynamicProperties => {
+  const methodToThermodynamics = (method: unknown): BasicThermodynamicProperties => {
     const methodName = method.name.toLowerCase();
     
     // Check if the method has direct thermodynamic properties
@@ -571,6 +569,9 @@ export default function CookingMethods() {
   // Get global astrological adjustment info
   const globalAstrologicalAdjustment = useMemo(() => {
     const zodiacSign = currentZodiac;
+    return { zodiacSign };
+  }, [currentZodiac]);
+
   // Update getThermodynamicEffect to indicate transformation
   const getThermodynamicEffect = (value: number): {
     effect: 'increases' | 'slightly increases' | 'neutral' | 'slightly decreases' | 'decreases';
@@ -1952,5 +1953,3 @@ export default function CookingMethods() {
     </div>
   );
 } // End of CookingMethods component
-
-export default CookingMethods;

@@ -14,7 +14,7 @@ interface SauceRecommenderProps {
   showByDietary?: boolean;
   maxResults?: number;
   sauces?: Record<string, Sauce>;
-  cuisines?: any;
+  cuisines?: unknown;
   className?: string;
 }
 
@@ -139,7 +139,7 @@ export default function SauceRecommender({
   // Generate sauce recommendations based on criteria
   const generateSauceRecommendations = async (): Promise<any[]> => {
     // Initialize results array
-    const results: any[] = [];
+    const results: unknown[] = [];
     
     // Get all available sauces from props or try to import if not provided
     const allAvailableSauces: Record<string, Sauce> = sauces || {};

@@ -1153,8 +1153,8 @@ export function recommendCuisines(
  * Calculate how well a cuisine aligns with the current lunar phase
  */
 function calculateLunarAffinity(
-  cuisineData: any,
-  lunarPhaseData: any
+  cuisineData: unknown,
+  lunarPhaseData: unknown
 ): number {
   // Base affinity score
   let affinity = 0.5;
@@ -1254,7 +1254,7 @@ function calculateElementalAffinity(
  * Calculate how well a cuisine matches the flavor profile of the given ingredients
  */
 function calculateFlavorAffinity(
-  cuisineData: any,
+  cuisineData: unknown,
   ingredientNames: string[]
 ): number {
   // If no flavor profile data available, return neutral score
@@ -1406,7 +1406,7 @@ function getIngredientCategories(ingredientNames: string[]): Record<string, numb
 /**
  * Check if a cuisine meets all dietary requirements
  */
-function meetsAllDietaryRequirements(cuisineData: any, requirements: string[]): boolean {
+function meetsAllDietaryRequirements(cuisineData: unknown, requirements: string[]): boolean {
   if (!cuisineData.dietarySuitability) {
     return false;
   }
@@ -1420,7 +1420,7 @@ function meetsAllDietaryRequirements(cuisineData: any, requirements: string[]): 
  * Find recommended dishes from a cuisine based on various factors
  */
 function findRecommendedDishes(
-  cuisineData: any,
+  cuisineData: unknown,
   lunarPhase: LunarPhase,
   zodiacSign?: ZodiacSign,
   ingredients: string[] = [],

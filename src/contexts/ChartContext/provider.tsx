@@ -32,7 +32,7 @@ export const ChartProvider: React.FC<{children: React.ReactNode}> = ({ children 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const calculateStelliums = (positions: Record<string, any>): Record<string, string[]> => {
+  const calculateStelliums = (positions: Record<string, unknown>): Record<string, string[]> => {
     const signGroups: Record<string, string[]> = {};
     Object.entries(positions).forEach(([planet, data]) => {
       if (planet === 'ascendant' || !data || !data.sign) return;
@@ -54,7 +54,7 @@ export const ChartProvider: React.FC<{children: React.ReactNode}> = ({ children 
     return stelliums;
   };
 
-  const calculateHouseEffects = (positions: Record<string, any>): Record<string, number> => {
+  const calculateHouseEffects = (positions: Record<string, unknown>): Record<string, number> => {
     const houseEffects: Record<string, number> = {
       Fire: 0,
       Water: 0,
@@ -141,7 +141,7 @@ export const ChartProvider: React.FC<{children: React.ReactNode}> = ({ children 
 
   const createChartSvg = () => {
     // Convert chart data to the format expected by components
-    const formattedPlanets: Record<string, any> = {};
+    const formattedPlanets: Record<string, unknown> = {};
     Object.entries(chart.planetaryPositions).forEach(([key, data]) => {
       if (key === 'ascendant') return;
       

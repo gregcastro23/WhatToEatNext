@@ -1,5 +1,5 @@
-import { allCookingMethods } from '@/data/cooking';
-import { culturalCookingMethods, getCulturalVariations } from '@/utils/culturalMethodsAggregator';
+import { allCookingMethods, cookingMethods as detailedCookingMethods } from '@/data/cooking';
+import { culturalCookingMethods, _getCulturalVariations } from '@/utils/culturalMethodsAggregator';
 import type { ZodiacSign, ElementalProperties } from '@/types';
 import type { CookingMethod as CookingMethodEnum } from '@/types/alchemy';
 import { getCurrentSeason } from '@/data/integrations/seasonal';
@@ -11,10 +11,8 @@ import saturnData from '@/data/planets/saturn';
 import uranusData from '@/data/planets/uranus';
 import neptuneData from '@/data/planets/neptune';
 import plutoData from '@/data/planets/pluto';
-import { cookingMethods as detailedCookingMethods } from '@/data/cooking';
-import { calculateLunarSuitability } from '@/utils/lunarUtils';
+import { _calculateLunarSuitability } from '@/utils/lunarUtils';
 import { PlanetaryAspect, LunarPhase, AstrologicalState, BasicThermodynamicProperties, CookingMethodProfile, MethodRecommendationOptions, MethodRecommendation, COOKING_METHOD_THERMODYNAMICS } from '@/types/alchemy';
-import { elementalFamilies } from '@/data/elementalFamilies';
 
 // Define a proper interface for our cooking method objects
 interface CookingMethodData {
@@ -218,7 +216,7 @@ export function getRecommendedCookingMethods(
 ) {
   // Convert cooking methods to array for easier processing
   const methodsArray = Object.entries(allCookingMethodsCombined)
-    .map(([id, method]) => ({
+    .map(([_id, method]) => ({
       ...method,
       score: 0
     }))
@@ -262,7 +260,7 @@ export function getRecommendedCookingMethods(
   const isSaturnActive = planets?.includes('Saturn') || false;
   
   // Check if Saturn is retrograde
-  const isSaturnRetrograde = planets?.includes('Saturn-R') || false;
+  const _isSaturnRetrograde = planets?.includes('Saturn-R') || false;
   
   // Check if Uranus is one of the active planets
   const isUranusActive = planets?.includes('Uranus') || false;
@@ -288,7 +286,7 @@ export function getRecommendedCookingMethods(
     : undefined;
   
   // Get Mars transit data for current zodiac sign if applicable
-  const marsZodiacTransit = isMarsActive && currentZodiac 
+  const _marsZodiacTransit = isMarsActive && currentZodiac 
     ? marsData.PlanetSpecific?.ZodiacTransit?.[currentZodiac]
     : undefined;
   
@@ -298,12 +296,12 @@ export function getRecommendedCookingMethods(
     : undefined;
   
   // Get Jupiter transit data for current zodiac sign if applicable
-  const jupiterZodiacTransit = isJupiterActive && currentZodiac 
+  const _jupiterZodiacTransit = isJupiterActive && currentZodiac 
     ? jupiterData.PlanetSpecific?.ZodiacTransit?.[currentZodiac]
     : undefined;
   
   // Get Saturn transit data for current zodiac sign if applicable
-  const saturnZodiacTransit = isSaturnActive && currentZodiac 
+  const _saturnZodiacTransit = isSaturnActive && currentZodiac 
     ? saturnData.PlanetSpecific?.ZodiacTransit?.[currentZodiac]
     : undefined;
   
@@ -343,16 +341,16 @@ export function getRecommendedCookingMethods(
   }
   
   // Get Mars sign-based temperament for current zodiac
-  let marsTemperament = null;
+  let _marsTemperament = null;
   if (currentZodiac && isMarsActive) {
     const lowerSign = currentZodiac.toLowerCase();
     const fireSigns = ['aries', 'leo', 'sagittarius'];
     const waterSigns = ['cancer', 'scorpio', 'pisces'];
     
     if (fireSigns.includes(lowerSign) && marsData.PlanetSpecific?.CulinaryTemperament?.FireMars) {
-      marsTemperament = marsData.PlanetSpecific.CulinaryTemperament.FireMars;
+      _marsTemperament = marsData.PlanetSpecific.CulinaryTemperament.FireMars;
     } else if (waterSigns.includes(lowerSign) && marsData.PlanetSpecific?.CulinaryTemperament?.WaterMars) {
-      marsTemperament = marsData.PlanetSpecific.CulinaryTemperament.WaterMars;
+      _marsTemperament = marsData.PlanetSpecific.CulinaryTemperament.WaterMars;
     }
   }
   
@@ -385,16 +383,16 @@ export function getRecommendedCookingMethods(
   }
   
   // Get Saturn sign-based temperament for current zodiac
-  let saturnTemperament = null;
+  let _saturnTemperament = null;
   if (currentZodiac && isSaturnActive) {
     const lowerSign = currentZodiac.toLowerCase();
     const earthSigns = ['taurus', 'virgo', 'capricorn'];
     const airSigns = ['gemini', 'libra', 'aquarius'];
     
     if (earthSigns.includes(lowerSign) && saturnData.PlanetSpecific?.CulinaryTemperament?.EarthSaturn) {
-      saturnTemperament = saturnData.PlanetSpecific.CulinaryTemperament.EarthSaturn;
+      _saturnTemperament = saturnData.PlanetSpecific.CulinaryTemperament.EarthSaturn;
     } else if (airSigns.includes(lowerSign) && saturnData.PlanetSpecific?.CulinaryTemperament?.AirSaturn) {
-      saturnTemperament = saturnData.PlanetSpecific.CulinaryTemperament.AirSaturn;
+      _saturnTemperament = saturnData.PlanetSpecific.CulinaryTemperament.AirSaturn;
     }
   }
   
@@ -992,7 +990,7 @@ export function getRecommendedCookingMethods(
       // Apply retrograde modifiers
       if (isJupiterRetrograde) {
         if (jupiterData.PlanetSpecific?.Retrograde?.CulinaryEffect) {
-          const effect = jupiterData.PlanetSpecific.Retrograde.CulinaryEffect.toLowerCase();
+          const _effect = jupiterData.PlanetSpecific.Retrograde.CulinaryEffect.toLowerCase();
           
           // During retrograde, favor moderation and simplicity
           if (method.description.toLowerCase().includes('simple') || 
@@ -1315,7 +1313,7 @@ function calculateLunarMethodAffinity(method: CookingMethod, phase: LunarPhase):
   return affinity;
 }
 
-function calculateAspectMethodAffinity(aspects: PlanetaryAspect[], method: CookingMethod): number {
+function _calculateAspectMethodAffinity(aspects: PlanetaryAspect[], method: CookingMethod): number {
   let affinity = 0;
 
   for (const aspect of aspects) {
@@ -1394,8 +1392,13 @@ export function calculateMethodScore(method: CookingMethodProfile, astroState: A
 }
 
 // Helper function to get method elemental profile
-function getMethodElementalProfile(method: CookingMethodProfile): any {
-  return method.elementalProperties || method.elementalEffect;
+function getMethodElementalProfile(method: CookingMethodProfile): ElementalProperties {
+  return method.elementalProperties || method.elementalEffect || { 
+    Fire: 0, 
+    Water: 0, 
+    Earth: 0, 
+    Air: 0 
+  };
 }
 
 // Helper function to get astrological elemental profile

@@ -101,7 +101,7 @@ function CuisineSelector({
   }, [cuisineList, sortBy, planetaryPositions]);
   
   // Function to determine cuisine modality
-  const getCuisineModality = (cuisine: any): Modality => {
+  const getCuisineModality = (cuisine: unknown): Modality => {
     // If cuisine already has modality defined, use it
     if (cuisine.modality) return cuisine.modality;
     

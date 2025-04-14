@@ -104,7 +104,7 @@ const FoodRecommender: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
     const [debugInfo, setDebugInfo] = useState<string | null>(null);
     const [currentSeason, setCurrentSeason] = useState<string>('');
-    const [tarotCards, setTarotCards] = useState<{minorCard: any, majorCard: any} | null>(null);
+    const [tarotCards, setTarotCards] = useState<{minorCard: unknown, majorCard: unknown} | null>(null);
 
     useEffect(() => {
         const controller = new AbortController();
@@ -138,7 +138,7 @@ const FoodRecommender: React.FC = () => {
                 // Check if allIngredients is already flat (structure from index.ts)
                 if (Object.values(allIngredients).some(item => item && typeof item === 'object' && 'name' in item)) {
                     // Structure is flat
-                    ingredientsAsElementalItems = Object.values(allIngredients).map((ingredient: any) => ({
+                    ingredientsAsElementalItems = Object.values(allIngredients).map((ingredient: unknown) => ({
                         id: ingredient.id || ingredient.name.replace(/\s+/g, '_').toLowerCase(),
                         name: ingredient.name,
                         elementalProperties: {
@@ -162,7 +162,7 @@ const FoodRecommender: React.FC = () => {
                         // Handle both array and object structures
                         const ingredientItems = Array.isArray(items) ? items : Object.values(items);
                         
-                        return ingredientItems.map((ingredient: any) => ({
+                        return ingredientItems.map((ingredient: unknown) => ({
                             id: ingredient.id || ingredient.name.replace(/\s+/g, '_').toLowerCase(),
                             name: ingredient.name,
                             elementalProperties: {
@@ -269,7 +269,7 @@ const FoodRecommender: React.FC = () => {
                 const transformedIngs = adapter.getRecommendedIngredients(12);
                 setTransformedIngredients(transformedIngs);
                 
-            } catch (err: any) {
+            } catch (err: unknown) {
                 setError(`Error getting recommendations: ${err.message}`);
                 console.error('FoodRecommender error:', err);
                 setTransformedIngredients([]);
@@ -292,7 +292,7 @@ const FoodRecommender: React.FC = () => {
     }, [chart]);
 
     // Helper function to get element value from ingredient
-    const getElementValue = (ingredient: any, element: string): number => {
+    const getElementValue = (ingredient: unknown, element: string): number => {
         // First check explicit elementalProperties with fallbacks
         const elementKey = element.charAt(0).toUpperCase() + element.slice(1);
         const explicitValue = Number(ingredient?.elementalProperties?.[elementKey]) || 0;
@@ -322,7 +322,7 @@ const FoodRecommender: React.FC = () => {
         }
     };
 
-    const getTemperatureIcon = (effect: any) => {
+    const getTemperatureIcon = (effect: unknown) => {
         // First check if effect is a string
         if (typeof effect !== 'string') {
             // Return a default icon or null if effect isn't a string
@@ -371,12 +371,12 @@ const FoodRecommender: React.FC = () => {
     };
     
     // Handle tarot card data when loaded
-    const handleTarotLoaded = (cards: {minorCard: any, majorCard: any}) => {
+    const handleTarotLoaded = (cards: {minorCard: unknown, majorCard: unknown}) => {
         setTarotCards(cards);
     };
 
     // Replace the safelyFormatNumber function with a more robust version
-    const safelyFormatNumber = (value: any, decimals: number = 2): string => {
+    const safelyFormatNumber = (value: unknown, decimals: number = 2): string => {
         if (value === undefined || value === null) return 'N/A';
         const num = Number(value);
         if (isNaN(num) || !isFinite(num)) return 'Invalid';
@@ -387,7 +387,7 @@ const FoodRecommender: React.FC = () => {
     };
 
     // Inside the component function, add this function before the return statement:
-    const calculateIngredientProperties = (ingredient: any) => {
+    const calculateIngredientProperties = (ingredient: unknown) => {
         try {
             if (!ingredient || !ingredient.elementalProperties) {
                 return {

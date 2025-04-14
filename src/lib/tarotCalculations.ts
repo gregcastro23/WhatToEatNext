@@ -74,7 +74,7 @@ export function getTarotCardForDate(date: Date) {
   return TAROT_CARDS[cardKey] || TAROT_CARDS['10_of_cups'];
 }
 
-export function getRecipesForTarotCard(card: any): string[] {
+export function getRecipesForTarotCard(card: unknown): string[] {
   if (!card) return [];
   return card.associatedRecipes || [];
 }
@@ -261,7 +261,7 @@ interface TarotCardBase {
   energyState?: string;
   quantum?: number;
   description?: string;
-  [key: string]: any; // Allow other properties
+  [key: string]: unknown; // Allow other properties
 }
 
 // Update the TarotCard interface to extend TarotCardBase
@@ -349,7 +349,7 @@ export const getTarotCardsForDate = (date: Date, sunPosition?: { sign: string, d
   return { minorCard, majorCard };
 };
 
-export function getQuantumValueForCard(card: any): number {
+export function getQuantumValueForCard(card: unknown): number {
   if (typeof card.quantum === 'number') {
     return card.quantum;
   }
@@ -365,7 +365,7 @@ export function getQuantumValueForCard(card: any): number {
   }
 }
 
-export function getElementalQuantum(card: any) {
+export function getElementalQuantum(card: unknown) {
   if (!card) return { Fire: 0, Water: 0, Earth: 0, Air: 0 };
   const element = card.element || 'Fire';
   const quantum = card.quantum || 1;

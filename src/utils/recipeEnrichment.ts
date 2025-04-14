@@ -4,7 +4,7 @@ import { zodiacSignToPlanet, elementToZodiac } from '@/utils/astrologyUtils';
 /**
  * Enriches recipe data with enhanced astrological properties
  */
-export function enrichRecipeData(recipe: any): Recipe {
+export function enrichRecipeData(recipe: unknown): Recipe {
   // Create a deep copy to avoid mutating the original
   const enrichedRecipe = JSON.parse(JSON.stringify(recipe));
   

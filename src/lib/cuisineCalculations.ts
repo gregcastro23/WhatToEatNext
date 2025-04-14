@@ -36,7 +36,7 @@ export async function getCuisineRecommendations(): Promise<Cuisine[]> {
 }
 
 // Helper function to derive meaningful astrological influences from regional cuisines
-function deriveAstrologicalInfluences(tradition: any): string[] {
+function deriveAstrologicalInfluences(tradition: unknown): string[] {
     // If the tradition explicitly has astrological influences, use those
     if (tradition.astrologicalProfile?.influences && 
         tradition.astrologicalProfile.influences.length > 0 && 
@@ -54,7 +54,7 @@ function deriveAstrologicalInfluences(tradition: any): string[] {
     const influences = new Set<string>();
     
     if (tradition.regionalCuisines) {
-        Object.values(tradition.regionalCuisines).forEach((region: any) => {
+        Object.values(tradition.regionalCuisines).forEach((region: unknown) => {
             if (region.astrologicalInfluences) {
                 region.astrologicalInfluences.forEach((influence: string) => {
                     influences.add(influence);

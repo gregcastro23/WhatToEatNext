@@ -17,11 +17,11 @@ declare global {
       toContainHTML(htmlText: string): R;
       toHaveAccessibleDescription(description?: string | RegExp): R;
       toHaveAccessibleName(name?: string | RegExp): R;
-      toHaveAttribute(attr: string, value?: any): R;
+      toHaveAttribute(attr: string, value?: unknown): R;
       toHaveClass(...classNames: string[]): R;
       toHaveFocus(): R;
-      toHaveFormValues(expectedValues: Record<string, any>): R;
-      toHaveStyle(css: Record<string, any>): R;
+      toHaveFormValues(expectedValues: Record<string, unknown>): R;
+      toHaveStyle(css: Record<string, unknown>): R;
       toHaveTextContent(text: string | RegExp, options?: { normalizeWhitespace: boolean }): R;
       toHaveValue(value?: string | string[] | number): R;
       toBeChecked(): R;

@@ -6,12 +6,7 @@
  * complex API calls and calculations that might fail.
  */
 
-import { 
-  CelestialPosition, 
-  ZodiacSign, 
-  PlanetaryAspect, 
-  AspectType 
-} from '@/types/celestial';
+import { AstrologicalState, ZodiacSign, PlanetaryAspect, CelestialPosition, AspectType } from '@/types/alchemy';
 import { createLogger } from '@/utils/logger';
 
 // Create a component-specific logger
@@ -23,17 +18,12 @@ interface StateCache<T> {
   timestamp: number;
 }
 
-// Type for the astrological state
-interface AstrologicalState {
-  sunSign: ZodiacSign;
-  moonSign: ZodiacSign;
-  positions: Record<string, CelestialPosition>;
-  lunarPhase: string;
-  aspects: PlanetaryAspect[];
-  dominantElement: string;
-  isDaytime: boolean;
-  activePlanets: string[];
-}
+// Ensure ZodiacSign type is properly capitalized
+const ZODIAC_SIGNS: ZodiacSign[] = [
+  'aries', 'taurus', 'gemini', 'cancer',
+  'leo', 'virgo', 'libra', 'scorpio',
+  'sagittarius', 'capricorn', 'aquarius', 'pisces'
+];
 
 let astrologyCache: StateCache<AstrologicalState> | null = null;
 const CACHE_DURATION = 15 * 60 * 1000; // 15 minutes
@@ -140,12 +130,12 @@ export function calculateSunSign(date: Date = new Date()): ZodiacSign {
  * @returns Absolute position in degrees (0-359)
  */
 export function getZodiacPositionInDegrees(sign: ZodiacSign, degree: number): number {
-  const signs: ZodiacSign[] = [
-    'aries', 'taurus', 'gemini', 'cancer', 'leo', 'virgo', 
-    'libra', 'scorpio', 'sagittarius', 'capricorn', 'aquarius', 'pisces'
-  ];
-  const signIndex = signs.indexOf(sign);
-  return signIndex * 30 + degree;
+  const signIndex = ZODIAC_SIGNS.indexOf(sign);
+  if (signIndex === -1) {
+    logger.warn(`Unknown sign: ${sign}, falling back to Aries`);
+    return degree; // Aries starts at 0 degrees
+  }
+  return (signIndex * 30) + degree;
 }
 
 /**
@@ -154,14 +144,10 @@ export function getZodiacPositionInDegrees(sign: ZodiacSign, degree: number): nu
  * @returns Array of planetary aspects
  */
 export function calculatePlanetaryAspects(positions: Record<string, CelestialPosition>): PlanetaryAspect[] {
-  if (!positions) return [];
-  
   const aspects: PlanetaryAspect[] = [];
   const planets = Object.keys(positions);
   
-  logger.debug(`Calculating aspects between ${planets.length} planets`);
-  
-  // Check aspects between each pair of planets
+  // Calculate aspects between all planet pairs
   for (let i = 0; i < planets.length; i++) {
     for (let j = i + 1; j < planets.length; j++) {
       const planet1 = planets[i];
@@ -169,9 +155,13 @@ export function calculatePlanetaryAspects(positions: Record<string, CelestialPos
       
       if (!positions[planet1] || !positions[planet2]) continue;
       
+      // Convert lowercase sign strings to proper ZodiacSign type values
+      const pos1Sign = positions[planet1].sign;
+      const pos2Sign = positions[planet2].sign;
+      
       // Calculate the angular difference between planets
-      const pos1 = getZodiacPositionInDegrees(positions[planet1].sign, positions[planet1].degree);
-      const pos2 = getZodiacPositionInDegrees(positions[planet2].sign, positions[planet2].degree);
+      const pos1 = getZodiacPositionInDegrees(pos1Sign, positions[planet1].degree);
+      const pos2 = getZodiacPositionInDegrees(pos2Sign, positions[planet2].degree);
       
       let diff = Math.abs(pos1 - pos2);
       if (diff > 180) diff = 360 - diff;
@@ -179,12 +169,14 @@ export function calculatePlanetaryAspects(positions: Record<string, CelestialPos
       // Check for aspects with orbs
       const aspect = identifyAspect(diff);
       if (aspect) {
+        // Create aspect with proper typing - 'planets' array instead of 'type'
         aspects.push({
           planet1,
           planet2,
-          type: aspect.type,
           orb: aspect.orb,
-          strength: calculateAspectStrength(aspect.type, aspect.orb)
+          influence: calculateAspectStrength(aspect.type, aspect.orb),
+          planets: [planet1, planet2],
+          additionalInfo: { aspectType: aspect.type }
         });
       }
     }
@@ -282,23 +274,32 @@ export function getCurrentAstrologicalState(): AstrologicalState {
   const isDaytime = hours >= 6 && hours < 18;
   
   // Calculate active planets (sun, moon + any in major aspect)
-  const activePlanets = ["sun", "moon"];
+  const activePlanets = ["Sun", "Moon"];
   aspects.forEach(aspect => {
-    if (aspect.strength > 5) {
-      if (!activePlanets.includes(aspect.planet1)) activePlanets.push(aspect.planet1);
-      if (!activePlanets.includes(aspect.planet2)) activePlanets.push(aspect.planet2);
+    // Check influence rather than strength
+    if (aspect.influence && aspect.influence > 5) {
+      const planet1 = aspect.planet1.charAt(0).toUpperCase() + aspect.planet1.slice(1);
+      const planet2 = aspect.planet2.charAt(0).toUpperCase() + aspect.planet2.slice(1);
+      
+      if (!activePlanets.includes(planet1)) activePlanets.push(planet1);
+      if (!activePlanets.includes(planet2)) activePlanets.push(planet2);
     }
   });
   
+  // Convert string element to proper casing for Element type
+  const dominantElementCapitalized = dominantElement.charAt(0).toUpperCase() + dominantElement.slice(1) as 'Fire' | 'Water' | 'Earth' | 'Air';
+  
   const state: AstrologicalState = {
-    sunSign: positions.sun.sign,
-    moonSign: positions.moon.sign,
-    positions: positions,
+    sunSign: toZodiacSign(positions.sun.sign),
+    moonSign: toZodiacSign(positions.moon.sign),
     lunarPhase: phaseName,
-    aspects,
-    dominantElement,
-    isDaytime,
-    activePlanets
+    activePlanets,
+    dominantElement: dominantElementCapitalized,
+    dominantPlanets: activePlanets.map(name => ({ 
+      name: name as any, 
+      influence: 1,
+      position: positions[name.toLowerCase()]?.sign
+    }))
   };
   
   // Update cache
@@ -394,4 +395,18 @@ function getDaysSinceDate(date: Date): number {
   const now = new Date();
   const timeDiff = now.getTime() - date.getTime();
   return timeDiff / (1000 * 60 * 60 * 24);
+}
+
+// Helper function to convert any string to a valid ZodiacSign
+function toZodiacSign(sign: string): ZodiacSign {
+  // Convert first letter to uppercase and rest to lowercase
+  const formattedSign = sign.charAt(0).toUpperCase() + sign.slice(1).toLowerCase();
+  
+  // Check if it's a valid ZodiacSign
+  if (ZODIAC_SIGNS.includes(formattedSign as ZodiacSign)) {
+    return formattedSign as ZodiacSign;
+  }
+  
+  // Default to Aries if invalid
+  return 'aries';
 } 

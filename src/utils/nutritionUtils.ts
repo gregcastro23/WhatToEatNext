@@ -1,7 +1,7 @@
 import { NutritionalProfile, ElementalProperties } from '../types/alchemy';
 
 // Base nutritional values for common ingredient categories (per 100g)
-const nutritionReferenceValues: Record<string, any> = {
+const nutritionReferenceValues: Record<string, unknown> = {
   // Proteins
   'chicken': { calories: 165, protein: 31, carbs: 0, fat: 3.6, fiber: 0, sugar: 0 },
   'beef': { calories: 250, protein: 26, carbs: 0, fat: 17, fiber: 0, sugar: 0 },
@@ -108,7 +108,7 @@ export const calculateNutritionalImpact = (
  * @param ingredients Array of ingredient objects or strings
  * @returns Nutrition object with estimated values
  */
-export const calculateEstimatedNutrition = (ingredients: any[]): any => {
+export const calculateEstimatedNutrition = (ingredients: unknown[]): unknown => {
   // Initialize nutrition totals
   const totals = {
     calories: 0,

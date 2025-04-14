@@ -599,7 +599,7 @@ export function getCuisineProfile(cuisineName: string): CuisineFlavorProfile | u
 /**
  * Get recipes that match a particular cuisine based on flavor profiles
  */
-export function getRecipesForCuisineMatch(cuisineName: string, recipes: any[], limit = 8): any[] {
+export function getRecipesForCuisineMatch(cuisineName: string, recipes: unknown[], limit = 8): unknown[] {
   if (!cuisineName) return [];
   
   console.log(`getRecipesForCuisineMatch called for ${cuisineName} with ${recipes?.length || 0} recipes`);
@@ -646,7 +646,7 @@ export function getRecipesForCuisineMatch(cuisineName: string, recipes: any[], l
           if (cuisine.dishes[mealType]?.all && Array.isArray(cuisine.dishes[mealType].all)) {
             console.log(`Found ${cuisine.dishes[mealType].all.length} ${mealType} recipes for ${cuisineName}`);
             
-            const mealRecipes = cuisine.dishes[mealType].all.map((recipe: any) => ({
+            const mealRecipes = cuisine.dishes[mealType].all.map((recipe: unknown) => ({
               ...recipe,
               cuisine: cuisineName,
               matchScore: 0.9,
@@ -663,7 +663,7 @@ export function getRecipesForCuisineMatch(cuisineName: string, recipes: any[], l
             if (cuisine.dishes[mealType]?.[season] && Array.isArray(cuisine.dishes[mealType][season])) {
               console.log(`Found ${cuisine.dishes[mealType][season].length} ${season} ${mealType} recipes for ${cuisineName}`);
               
-              const seasonalRecipes = cuisine.dishes[mealType][season].map((recipe: any) => ({
+              const seasonalRecipes = cuisine.dishes[mealType][season].map((recipe: unknown) => ({
                 ...recipe,
                 cuisine: cuisineName,
                 matchScore: 0.85,
@@ -759,7 +759,7 @@ export function getRecipesForCuisineMatch(cuisineName: string, recipes: any[], l
     
     // Ingredient similarity (weight: 0.3)
     if (cuisineProfile.signatureIngredients && recipe.ingredients) {
-      const recipeIngredientNames = recipe.ingredients.map((ing: any) => 
+      const recipeIngredientNames = recipe.ingredients.map((ing: unknown) => 
         typeof ing === 'string' ? ing.toLowerCase() : ing.name.toLowerCase()
       );
       
@@ -894,7 +894,7 @@ export function getRecipesForCuisineMatch(cuisineName: string, recipes: any[], l
               Array.isArray(cuisine.dishes[mealType].all) && cuisine.dishes[mealType].all.length > 0) {
             console.log(`Found ${cuisine.dishes[mealType].all.length} ${mealType} recipes in ${cuisineName}`);
             
-            return cuisine.dishes[mealType].all.map((recipe: any) => ({
+            return cuisine.dishes[mealType].all.map((recipe: unknown) => ({
               ...recipe,
               cuisine: cuisineName,
               matchScore: 0.85,
@@ -910,7 +910,7 @@ export function getRecipesForCuisineMatch(cuisineName: string, recipes: any[], l
           if (cuisine.dishes[key].all && Array.isArray(cuisine.dishes[key].all) && cuisine.dishes[key].all.length > 0) {
             console.log(`Found ${cuisine.dishes[key].all.length} recipes in ${cuisineName}.dishes.${key}.all`);
             
-            return cuisine.dishes[key].all.map((recipe: any) => ({
+            return cuisine.dishes[key].all.map((recipe: unknown) => ({
               ...recipe,
               cuisine: cuisineName,
               matchScore: 0.85,
@@ -922,7 +922,7 @@ export function getRecipesForCuisineMatch(cuisineName: string, recipes: any[], l
           if (Array.isArray(cuisine.dishes[key]) && cuisine.dishes[key].length > 0) {
             console.log(`Found ${cuisine.dishes[key].length} recipes in ${cuisineName}.dishes.${key}`);
             
-            return cuisine.dishes[key].map((recipe: any) => ({
+            return cuisine.dishes[key].map((recipe: unknown) => ({
               ...recipe,
               cuisine: cuisineName,
               matchScore: 0.85,
@@ -964,7 +964,7 @@ export function getRecipesForCuisineMatch(cuisineName: string, recipes: any[], l
 }
 
 // Helper function to calculate flavor profile match
-function calculateFlavorProfileMatch(recipeProfile: any, cuisineProfile: any): number {
+function calculateFlavorProfileMatch(recipeProfile: unknown, cuisineProfile: unknown): number {
   let similarity = 0;
   let count = 0;
   

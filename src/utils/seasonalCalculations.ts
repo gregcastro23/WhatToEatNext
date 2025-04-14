@@ -24,7 +24,8 @@ const SEASONAL_ELEMENTS: Record<Season, Record<Element, number>> = {
     all: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
 };
 
-const ZODIAC_SEASONS: Record<Season, ZodiacSign[]> = {
+// Map seasons to zodiac signs
+const seasonToZodiac: Record<Season, ZodiacSign[]> = {
     spring: ['aries', 'taurus', 'gemini'],
     summer: ['cancer', 'leo', 'virgo'],
     autumn: ['libra', 'scorpio', 'sagittarius'],
@@ -34,10 +35,18 @@ const ZODIAC_SEASONS: Record<Season, ZodiacSign[]> = {
 };
 
 const ZODIAC_ELEMENTS: Record<ZodiacSign, Element> = {
-    aries: 'Fire', leo: 'Fire', sagittarius: 'Fire',
-    taurus: 'Earth', virgo: 'Earth', capricorn: 'Earth',
-    gemini: 'Air', libra: 'Air', aquarius: 'Air',
-    cancer: 'Water', scorpio: 'Water', pisces: 'Water'
+    aries: 'Fire',
+    leo: 'Fire',
+    sagittarius: 'Fire',
+    taurus: 'Earth',
+    virgo: 'Earth',
+    capricorn: 'Earth',
+    gemini: 'Air',
+    libra: 'Air',
+    aquarius: 'Air',
+    cancer: 'Water',
+    scorpio: 'Water',
+    pisces: 'Water'
 };
 
 // Map lunar phases to elemental influences
@@ -396,7 +405,7 @@ function calculateSeasonalScores(
     // Astrological influence (20% of total)
     if (currentZodiac) {
         SEASONS.forEach(season => {
-            const seasonZodiacs = ZODIAC_SEASONS[season];
+            const seasonZodiacs = seasonToZodiac[season];
             const zodiacElement = ZODIAC_ELEMENTS[currentZodiac];
             let astroScore = 0;
 

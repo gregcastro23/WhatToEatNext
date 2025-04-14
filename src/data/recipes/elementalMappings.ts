@@ -15,7 +15,7 @@ const defaultAstrologicalInfluence: AstrologicalInfluence = {
 };
 
 // Helper function to safely access astrologicalInfluences
-const safeGetAstrologicalInfluences = (method: any): AstrologicalInfluence[] => {
+const safeGetAstrologicalInfluences = (method: unknown): AstrologicalInfluence[] => {
   if (!method) return [defaultAstrologicalInfluence];
   if (!method.astrologicalInfluences) return [defaultAstrologicalInfluence];
   if (Array.isArray(method.astrologicalInfluences)) {

@@ -3,7 +3,7 @@
 export interface ApiError extends Error {
   statusCode: number;
   message: string;
-  details?: any;
+  details?: unknown;
 }
 
 export class NotFoundError extends Error implements ApiError {
@@ -16,9 +16,9 @@ export class NotFoundError extends Error implements ApiError {
 
 export class ValidationError extends Error implements ApiError {
   statusCode = 400;
-  details?: any;
+  details?: unknown;
   
-  constructor(message = 'Invalid request data', details?: any) {
+  constructor(message = 'Invalid request data', details?: unknown) {
     super(message);
     this.name = 'ValidationError';
     this.details = details;

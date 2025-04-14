@@ -45,7 +45,7 @@ export const getCelestialPositionsForDate = async (date: Date): Promise<Celestia
         const lunarPhase = await calculateLunarPhase(date);
         
         // Map positions to planetary alignment structure
-        const planetaryPositions: Record<string, any> = {};
+        const planetaryPositions: Record<string, unknown> = {};
         Object.entries(positions).forEach(([planet, position]) => {
             // Handle numeric positions
             const degreeValue = typeof position === 'number' 
@@ -282,7 +282,7 @@ function getZodiacElement(sign: string): string {
 }
 
 // New function to calculate elemental balance based on all available planetary positions
-export function calculateElementalBalanceFromPositions(positions: Record<string, any>): typeof elementalUtils.DEFAULT_ELEMENTAL_PROPERTIES {
+export function calculateElementalBalanceFromPositions(positions: Record<string, unknown>): typeof elementalUtils.DEFAULT_ELEMENTAL_PROPERTIES {
     // Start with empty values
     const elementalBalance = {
         Fire: 0,

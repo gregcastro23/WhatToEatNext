@@ -24,18 +24,18 @@ export type Planet =
  * Represents the zodiac signs in astrology
  */
 export type ZodiacSign = 
-  | 'Aries'
-  | 'Taurus'
-  | 'Gemini'
-  | 'Cancer'
-  | 'Leo'
-  | 'Virgo'
-  | 'Libra'
-  | 'Scorpio'
-  | 'Sagittarius'
-  | 'Capricorn'
-  | 'Aquarius'
-  | 'Pisces';
+  | 'aries'
+  | 'taurus'
+  | 'gemini'
+  | 'cancer'
+  | 'leo'
+  | 'virgo'
+  | 'libra'
+  | 'scorpio'
+  | 'sagittarius'
+  | 'capricorn'
+  | 'aquarius'
+  | 'pisces';
 
 /**
  * Represents the phases of the moon

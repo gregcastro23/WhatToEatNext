@@ -139,15 +139,21 @@ export const calculateelementalState = (
 export const getElementalCompatibility = (
   element1: keyof ElementalProperties,
   element2: keyof ElementalProperties
-): 'compatible' | 'neutral' | 'incompatible' => {
-  const compatibilityMap = {
-    Fire: { compatible: ['Air'], neutral: ['Fire'], incompatible: ['Water', 'Earth'] },
-    Earth: { compatible: ['Water'], neutral: ['Earth'], incompatible: ['Fire', 'Air'] },
-    Air: { compatible: ['Fire'], neutral: ['Air'], incompatible: ['Earth', 'Water'] },
-    Water: { compatible: ['Earth'], neutral: ['Water'], incompatible: ['Fire', 'Air'] }
+): 'highly-compatible' | 'compatible' | 'neutral' => {
+  if (element1 === element2) {
+    return 'highly-compatible'; // Same element has highest compatibility
+  }
+  
+  const complementaryPairs = {
+    Fire: ['Air'],
+    Earth: ['Water'],
+    Air: ['Fire'],
+    Water: ['Earth']
   };
-
-  if (compatibilityMap[element1].compatible.includes(element2)) return 'compatible';
-  if (compatibilityMap[element1].neutral.includes(element2)) return 'neutral';
-  return 'incompatible';
+  
+  if (complementaryPairs[element1].includes(element2)) {
+    return 'compatible'; // Traditional complementary elements
+  }
+  
+  return 'neutral'; // All elements can work together
 };
