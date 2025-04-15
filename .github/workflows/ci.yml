@@ -21,11 +21,28 @@ jobs:
         with:
           fetch-depth: 1
           persist-credentials: false
-      - name: List workspace contents
+      - name: Debug workspace
         run: |
-          ls -la ${{ github.workspace }}
-          find ${{ github.workspace }} -name "yarn.lock" -type f
           echo "Current directory: $(pwd)"
+          echo "Workspace directory: $GITHUB_WORKSPACE"
+          ls -la $GITHUB_WORKSPACE
+          echo "Looking for lock files..."
+          find $GITHUB_WORKSPACE -name "package-lock.json" -o -name "yarn.lock" -o -name "npm-shrinkwrap.json"
+      - name: Check for yarn.lock
+        id: check_files
+        run: |
+          if [ ! -f "yarn.lock" ]; then
+            echo "yarn_lock_missing=true" >> $GITHUB_OUTPUT
+            echo "yarn.lock file is missing!"
+          else
+            echo "yarn_lock_missing=false" >> $GITHUB_OUTPUT
+            echo "yarn.lock exists!"
+          fi
+      - name: Create yarn.lock if missing
+        if: steps.check_files.outputs.yarn_lock_missing == 'true'
+        run: |
+          echo "Creating empty yarn.lock file as a fallback"
+          touch yarn.lock
       - name: Setup safe directory
         run: git config --global --add safe.directory $GITHUB_WORKSPACE
       - name: Install system dependencies
@@ -36,13 +53,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          # Disable cache if it's causing issues
-          cache: 'npm'
+          # Disable caching entirely
       - name: Verify Node Installation
         run: |
           node --version
           npm --version
-          yarn --version || echo "Yarn not installed yet"
+          which npm
       - name: Install Yarn
         run: npm install -g yarn
       - name: Create env file
@@ -70,11 +86,28 @@ jobs:
         with:
           fetch-depth: 1
           persist-credentials: false
-      - name: List workspace contents
+      - name: Debug workspace
         run: |
-          ls -la ${{ github.workspace }}
-          find ${{ github.workspace }} -name "yarn.lock" -type f
           echo "Current directory: $(pwd)"
+          echo "Workspace directory: $GITHUB_WORKSPACE"
+          ls -la $GITHUB_WORKSPACE
+          echo "Looking for lock files..."
+          find $GITHUB_WORKSPACE -name "package-lock.json" -o -name "yarn.lock" -o -name "npm-shrinkwrap.json"
+      - name: Check for yarn.lock
+        id: check_files
+        run: |
+          if [ ! -f "yarn.lock" ]; then
+            echo "yarn_lock_missing=true" >> $GITHUB_OUTPUT
+            echo "yarn.lock file is missing!"
+          else
+            echo "yarn_lock_missing=false" >> $GITHUB_OUTPUT
+            echo "yarn.lock exists!"
+          fi
+      - name: Create yarn.lock if missing
+        if: steps.check_files.outputs.yarn_lock_missing == 'true'
+        run: |
+          echo "Creating empty yarn.lock file as a fallback"
+          touch yarn.lock
       - name: Setup safe directory
         run: git config --global --add safe.directory $GITHUB_WORKSPACE
       - name: Install system dependencies
@@ -85,13 +118,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          # Disable cache if it's causing issues
-          cache: 'npm'
+          # Disable caching entirely
       - name: Verify Node Installation
         run: |
           node --version
           npm --version
-          yarn --version || echo "Yarn not installed yet"
+          which npm
       - name: Install Yarn
         run: npm install -g yarn
       - name: Create env file
@@ -118,11 +150,28 @@ jobs:
         with:
           fetch-depth: 1
           persist-credentials: false
-      - name: List workspace contents
+      - name: Debug workspace
         run: |
-          ls -la ${{ github.workspace }}
-          find ${{ github.workspace }} -name "yarn.lock" -type f
           echo "Current directory: $(pwd)"
+          echo "Workspace directory: $GITHUB_WORKSPACE"
+          ls -la $GITHUB_WORKSPACE
+          echo "Looking for lock files..."
+          find $GITHUB_WORKSPACE -name "package-lock.json" -o -name "yarn.lock" -o -name "npm-shrinkwrap.json"
+      - name: Check for yarn.lock
+        id: check_files
+        run: |
+          if [ ! -f "yarn.lock" ]; then
+            echo "yarn_lock_missing=true" >> $GITHUB_OUTPUT
+            echo "yarn.lock file is missing!"
+          else
+            echo "yarn_lock_missing=false" >> $GITHUB_OUTPUT
+            echo "yarn.lock exists!"
+          fi
+      - name: Create yarn.lock if missing
+        if: steps.check_files.outputs.yarn_lock_missing == 'true'
+        run: |
+          echo "Creating empty yarn.lock file as a fallback"
+          touch yarn.lock
       - name: Setup safe directory
         run: git config --global --add safe.directory $GITHUB_WORKSPACE
       - name: Install system dependencies
@@ -133,13 +182,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          # Disable cache if it's causing issues
-          cache: 'npm'
+          # Disable caching entirely
       - name: Verify Node Installation
         run: |
           node --version
           npm --version
-          yarn --version || echo "Yarn not installed yet"
+          which npm
       - name: Install Yarn
         run: npm install -g yarn
       - name: Create env file
