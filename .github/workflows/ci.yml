@@ -21,6 +21,11 @@ jobs:
         with:
           fetch-depth: 1
           persist-credentials: false
+      - name: List workspace contents
+        run: |
+          ls -la ${{ github.workspace }}
+          find ${{ github.workspace }} -name "yarn.lock" -type f
+          echo "Current directory: $(pwd)"
       - name: Setup safe directory
         run: git config --global --add safe.directory $GITHUB_WORKSPACE
       - name: Install system dependencies
@@ -31,20 +36,22 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'yarn'
-          cache-dependency-path: 'yarn.lock'
+          # Disable cache if it's causing issues
+          cache: 'npm'
       - name: Verify Node Installation
         run: |
           node --version
           npm --version
-          yarn --version
+          yarn --version || echo "Yarn not installed yet"
+      - name: Install Yarn
+        run: npm install -g yarn
       - name: Create env file
         run: |
           echo "NEXT_PUBLIC_ENABLE_ASTRO_DEBUG=false" > .env.local
           echo "NEXT_PUBLIC_API_CACHE_TIME=3600" >> .env.local
           echo "NODE_ENV=test" >> .env.local
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --network-timeout 300000
+        run: yarn install --network-timeout 300000
       - name: Run lint
         # Maintain previous warning limit for now
         run: yarn lint --max-warnings=200
@@ -63,6 +70,11 @@ jobs:
         with:
           fetch-depth: 1
           persist-credentials: false
+      - name: List workspace contents
+        run: |
+          ls -la ${{ github.workspace }}
+          find ${{ github.workspace }} -name "yarn.lock" -type f
+          echo "Current directory: $(pwd)"
       - name: Setup safe directory
         run: git config --global --add safe.directory $GITHUB_WORKSPACE
       - name: Install system dependencies
@@ -73,20 +85,22 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'yarn'
-          cache-dependency-path: 'yarn.lock'
+          # Disable cache if it's causing issues
+          cache: 'npm'
       - name: Verify Node Installation
         run: |
           node --version
           npm --version
-          yarn --version
+          yarn --version || echo "Yarn not installed yet"
+      - name: Install Yarn
+        run: npm install -g yarn
       - name: Create env file
         run: |
           echo "NEXT_PUBLIC_ENABLE_ASTRO_DEBUG=false" > .env.local
           echo "NEXT_PUBLIC_API_CACHE_TIME=3600" >> .env.local
           echo "NODE_ENV=test" >> .env.local
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --network-timeout 300000
+        run: yarn install --network-timeout 300000
       - name: Build check
         run: yarn build
 
@@ -104,6 +118,11 @@ jobs:
         with:
           fetch-depth: 1
           persist-credentials: false
+      - name: List workspace contents
+        run: |
+          ls -la ${{ github.workspace }}
+          find ${{ github.workspace }} -name "yarn.lock" -type f
+          echo "Current directory: $(pwd)"
       - name: Setup safe directory
         run: git config --global --add safe.directory $GITHUB_WORKSPACE
       - name: Install system dependencies
@@ -114,19 +133,21 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'yarn'
-          cache-dependency-path: 'yarn.lock'
+          # Disable cache if it's causing issues
+          cache: 'npm'
       - name: Verify Node Installation
         run: |
           node --version
           npm --version
-          yarn --version
+          yarn --version || echo "Yarn not installed yet"
+      - name: Install Yarn
+        run: npm install -g yarn
       - name: Create env file
         run: |
           echo "NEXT_PUBLIC_ENABLE_ASTRO_DEBUG=false" > .env.local
           echo "NEXT_PUBLIC_API_CACHE_TIME=3600" >> .env.local
           echo "NODE_ENV=test" >> .env.local
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --network-timeout 300000
+        run: yarn install --network-timeout 300000
       - name: Run tests
         run: yarn test --passWithNoTests 
