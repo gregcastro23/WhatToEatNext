@@ -9,6 +9,10 @@ on:
 jobs:
   lint:
     runs-on: ubuntu-latest
+    env:
+      NODE_ENV: test
+      NEXT_PUBLIC_ENABLE_ASTRO_DEBUG: false
+      NEXT_PUBLIC_API_CACHE_TIME: 3600
     steps:
       - uses: actions/checkout@v4
       - name: Setup Node.js
@@ -17,11 +21,10 @@ jobs:
           node-version: 20
           cache: 'yarn'
           cache-dependency-path: './yarn.lock'
-      - name: Remove problematic dependencies
+      - name: Create env file
         run: |
-          # Use jq to modify package.json by removing the problematic dependency
-          jq 'del(.dependencies."@astronite/solar-systems")' package.json > package.tmp.json
-          mv package.tmp.json package.json
+          echo "NEXT_PUBLIC_ENABLE_ASTRO_DEBUG=false" > .env.local
+          echo "NEXT_PUBLIC_API_CACHE_TIME=3600" >> .env.local
       - name: Install dependencies
         run: yarn install
       - name: Run lint
@@ -30,6 +33,10 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
+    env:
+      NODE_ENV: test
+      NEXT_PUBLIC_ENABLE_ASTRO_DEBUG: false
+      NEXT_PUBLIC_API_CACHE_TIME: 3600
     steps:
       - uses: actions/checkout@v4
       - name: Setup Node.js
@@ -38,11 +45,10 @@ jobs:
           node-version: 20
           cache: 'yarn'
           cache-dependency-path: './yarn.lock'
-      - name: Remove problematic dependencies
+      - name: Create env file
         run: |
-          # Use jq to modify package.json by removing the problematic dependency
-          jq 'del(.dependencies."@astronite/solar-systems")' package.json > package.tmp.json
-          mv package.tmp.json package.json
+          echo "NEXT_PUBLIC_ENABLE_ASTRO_DEBUG=false" > .env.local
+          echo "NEXT_PUBLIC_API_CACHE_TIME=3600" >> .env.local
       - name: Install dependencies
         run: yarn install
       - name: Build check
@@ -50,6 +56,10 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
+    env:
+      NODE_ENV: test
+      NEXT_PUBLIC_ENABLE_ASTRO_DEBUG: false
+      NEXT_PUBLIC_API_CACHE_TIME: 3600
     steps:
       - uses: actions/checkout@v4
       - name: Setup Node.js
@@ -58,11 +68,10 @@ jobs:
           node-version: 20
           cache: 'yarn'
           cache-dependency-path: './yarn.lock'
-      - name: Remove problematic dependencies
+      - name: Create env file
         run: |
-          # Use jq to modify package.json by removing the problematic dependency
-          jq 'del(.dependencies."@astronite/solar-systems")' package.json > package.tmp.json
-          mv package.tmp.json package.json
+          echo "NEXT_PUBLIC_ENABLE_ASTRO_DEBUG=false" > .env.local
+          echo "NEXT_PUBLIC_API_CACHE_TIME=3600" >> .env.local
       - name: Install dependencies
         run: yarn install
       - name: Run tests
