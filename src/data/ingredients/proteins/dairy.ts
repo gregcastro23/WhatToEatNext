@@ -1,5 +1,5 @@
-import type { IngredientMapping } from '@/types/alchemy';
-import { fixIngredientMappings } from '@/utils/elementalUtils';
+import type { IngredientMapping } from '../../../types/alchemy';
+import { fixIngredientMappings } from '../../../utils/elementalUtils';
 
 const rawDairy: Record<string, Partial<IngredientMapping>> = {
   "greek_yogurt": {
@@ -17,7 +17,7 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       Air: 0.1
     },
     astrologicalProfile: {
-      rulingPlanets: ["Moon", "Venus"],
+      rulingPlanets: ["Moon", "venus"],
       zodiacInfluence: ["Cancer", "Taurus"],
       celestialAspects: {
         moonPhase: {
@@ -172,7 +172,7 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       Air: 0.1
     },
     astrologicalProfile: {
-      rulingPlanets: ["Moon", "Venus"],
+      rulingPlanets: ["Moon", "venus"],
       zodiacInfluence: ["Taurus", "Cancer"],
       celestialAspects: {
         moonPhase: {
@@ -328,7 +328,7 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       Air: 0.1
     },
     astrologicalProfile: {
-      rulingPlanets: ["Moon", "Venus"],
+      rulingPlanets: ["Moon", "venus"],
       zodiacInfluence: ["Cancer", "Taurus"],
       celestialAspects: {
         moonPhase: {
@@ -483,7 +483,7 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       Air: 0.1
     },
     astrologicalProfile: {
-      rulingPlanets: ["Venus", "Moon"],
+      rulingPlanets: ["venus", "Moon"],
       zodiacInfluence: ["Taurus", "Cancer", "Libra"],
       celestialAspects: {
         moonPhase: {

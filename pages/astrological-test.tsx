@@ -170,24 +170,30 @@ export default function AstrologicalTest() {
                   </tr>
                 </thead>
                 <tbody>
-                  {Object.entries(results.positions).map(([planet, position]) => (
-                    <tr key={planet} className="hover:bg-gray-50">
-                      <td className="py-2 px-4 border capitalize">{planet}</td>
-                      <td className="py-2 px-4 border capitalize">{position.sign}</td>
-                      <td className="py-2 px-4 border">
-                        {position.degree}° {position.minutes}' 
-                        <span className="text-gray-500 ml-1">
-                          ({position.exactLongitude.toFixed(2)}°)
-                        </span>
-                      </td>
-                      <td className={`py-2 px-4 border ${position.isRetrograde ? 'text-red-500 font-medium' : ''}`}>
-                        {position.isRetrograde ? 'Yes' : 'No'}
-                      </td>
-                      <td className="py-2 px-4 border">
-                        {results.sources[planet] || 'Unknown'}
-                      </td>
-                    </tr>
-                  ))}
+                  {Object.entries(results.positions).map(([planet, position]) => {
+                    // Type guard to check if position is a CelestialPosition object
+                    if (typeof position === 'object' && position !== null && 'sign' in position) {
+                      return (
+                        <tr key={planet} className="hover:bg-gray-50">
+                          <td className="py-2 px-4 border capitalize">{planet}</td>
+                          <td className="py-2 px-4 border capitalize">{position.sign}</td>
+                          <td className="py-2 px-4 border">
+                            {position.degree}° {position.minutes || 0}' 
+                            <span className="text-gray-500 ml-1">
+                              ({position.exactLongitude ? position.exactLongitude.toFixed(2) : '0.00'}°)
+                            </span>
+                          </td>
+                          <td className={`py-2 px-4 border ${position.isRetrograde ? 'text-red-500 font-medium' : ''}`}>
+                            {position.isRetrograde ? 'Yes' : 'No'}
+                          </td>
+                          <td className="py-2 px-4 border">
+                            {results.sources[planet] || 'Unknown'}
+                          </td>
+                        </tr>
+                      );
+                    }
+                    return null; // Skip rendering if position is not a valid CelestialPosition
+                  })}
                 </tbody>
               </table>
             </div>

@@ -1,4 +1,5 @@
 import IconProvider from './icons/IconProvider.astro';
+import * as safeAstrology from '../../utils/safeAstrology';
 
 // Import types
 interface Props {
@@ -6,20 +7,50 @@ interface Props {
   size?: number;
   showLabel?: boolean;
   showPercentage?: boolean;
+  override?: {
+    phaseName?: string;
+    illumination?: number;
+  };
 }
 
 // Define the props with default values
 const { 
-  lunarPhase = 0.5, 
+  lunarPhase, 
   size = 200,
   showLabel = true,
-  showPercentage = true
+  showPercentage = true,
+  override
 } = Astro.props;
 
-// Calculate the phase percentage (0-100)
-const phasePercentage = Math.round(lunarPhase * 100);
+// Get the current lunar data
+let phaseData;
+let phaseName;
+let phasePercentage;
 
-// Determine the phase name
+if (override) {
+  // Use override values if provided
+  phaseName = override.phaseName || 'Unknown';
+  phasePercentage = override.illumination ? Math.round(override.illumination * 100) : 0;
+} else if (typeof lunarPhase === 'number') {
+  // If lunarPhase is provided as a prop, use it
+  phasePercentage = Math.round(lunarPhase * 100);
+  phaseName = getPhaseName(lunarPhase);
+} else {
+  // Otherwise fetch current lunar data
+  try {
+    const moonData = safeAstrology.getMoonIllumination(true);
+    phasePercentage = Math.round(moonData.illumination * 100);
+    phaseName = moonData.phase ? formatPhaseName(moonData.phase) : getPhaseName(moonData.illumination);
+  } catch (error) {
+    // Fallback if there's an error
+    const fallbackPhase = 0.5;
+    phasePercentage = Math.round(fallbackPhase * 100);
+    phaseName = getPhaseName(fallbackPhase);
+    console.error('Error fetching lunar data:', error);
+  }
+}
+
+// Helper function to get phase name from illumination value
 function getPhaseName(phase: number): string {
   if (phase < 0.025 || phase >= 0.975) return 'New Moon';
   if (phase < 0.225) return 'Waxing Crescent';
@@ -29,9 +60,15 @@ function getPhaseName(phase: number): string {
   if (phase < 0.725) return 'Waning Gibbous';
   if (phase < 0.775) return 'Last Quarter';
   return 'Waning Crescent';
-};
+}
 
-const phaseName = getPhaseName(lunarPhase);
+// Format the phase name to title case
+function formatPhaseName(phase: string): string {
+  return phase
+    .split(' ')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(' ');
+}
 
 // Determine dietary suggestions based on lunar phase
 function getDietarySuggestion(phase: number): string {
@@ -39,9 +76,9 @@ function getDietarySuggestion(phase: number): string {
   if (phase < 0.5) return 'Increase nutrient-dense foods. Your body absorbs nutrients more efficiently now.';
   if (phase < 0.75) return 'Hearty, protein-rich meals are recommended. Your digestive system is at peak efficiency.';
   return 'Cleansing foods and liquids are beneficial. Good time for gentle detoxification.';
-};
+}
 
-const dietarySuggestion = getDietarySuggestion(lunarPhase);
+const dietarySuggestion = getDietarySuggestion(phasePercentage / 100);
 
 // Get moon phase color
 function getPhaseColor(phase: number): string {
@@ -50,9 +87,9 @@ function getPhaseColor(phase: number): string {
   if (phase < 0.25 || phase >= 0.75) return '#616e8e';
   if (phase < 0.45 || phase >= 0.55) return '#a4b0d3';
   return '#f7f7f7';
-};
+}
 
-const phaseColor = getPhaseColor(lunarPhase);
+const phaseColor = getPhaseColor(phasePercentage / 100);
 
 // Get the moon image based on phase
 function getMoonImage(phase: number): string {
@@ -66,7 +103,7 @@ function getMoonImage(phase: number): string {
   return '/icons/moon/waning-crescent.svg';
 }
 
-const moonImage = getMoonImage(lunarPhase);
+const moonImage = getMoonImage(phasePercentage / 100);
 
 <div class="lunar-phase-display">
   <div class="moon-icon" style={`--size: ${size}px; --phase-color: ${phaseColor};`}>

@@ -1,6 +1,6 @@
 // src/components/FoodRecommender/components/FoodBalanceTracker.tsx
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { 
   Search, 
   Plus,
@@ -16,7 +16,7 @@ import {
   Heart,
   Calendar
 } from 'lucide-react';
-import { ingredients } from '@/data/ingredients';
+import { ingredients } from '../../../data/ingredients';
 import { 
   FoodEntry as BaseFoodEntry, 
   nutritionTargets,
@@ -24,10 +24,10 @@ import {
   analyzePropertyBalance,
   findComplementaryDishes,
   FoodProperty
-} from '@/data/foodTypes';
-import type { ElementalProperties } from '@/types/alchemy';
-import { cuisines } from '@/data/cuisines';
-import { culturalRules, getCulturalRecommendations } from '@/data/culturalrules';
+} from '../../../data/foodTypes';
+import type { ElementalProperties, IngredientMapping, ThermodynamicProperties, ZodiacSign } from '../../../types/alchemy';
+import { cuisines } from '../../../data/cuisines';
+import { culturalRules, getCulturalRecommendations } from '../../../data/culturalrules';
 
 // Modified FoodEntry interface to fix type compatibility issues
 interface FoodEntry extends BaseFoodEntry {
@@ -63,6 +63,15 @@ interface Ingredient {
   category?: string;
   season?: string[];
   properties?: string[];
+  qualities?: string[];
+  thermodynamicProperties?: ThermodynamicProperties;
+  astrologicalProfile?: {
+    rulingPlanets?: string[];
+    favorableZodiac?: ZodiacSign[];
+  };
+  regionalPreparations?: Record<string, unknown>;
+  preparation?: Record<string, unknown>;
+  storage?: Record<string, unknown>;
 }
 
 // Define interface for dish items from cuisine data
@@ -187,23 +196,52 @@ const FoodBalanceTracker: React.FC<FoodBalanceTrackerProps> = ({
         )
         .slice(0, 8) // Limit to 8 results for better performance
         .map(ingredient => {
-          // Convert IngredientMapping to Ingredient if needed
-          if (!('id' in ingredient)) {
-            return {
-              id: `ingredient-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-              name: ingredient.name,
-              nutrition: {
-                calories: 0,
-                protein: 0,
-                carbs: 0,
-                fat: 0
-              },
-              elementalProperties: ingredient.elementalProperties,
-              category: ingredient.category || 'general',
-              properties: ingredient.qualities || []
-            } as Ingredient;
-          }
-          return ingredient as Ingredient;
+          // Always convert to a fully typed Ingredient object
+          const qualities = 'qualities' in ingredient && ingredient.qualities ? [...ingredient.qualities] : [];
+          const thermoProps = 'thermodynamicProperties' in ingredient ? ingredient.thermodynamicProperties : undefined;
+          const astroProfile = 'astrologicalProfile' in ingredient ? ingredient.astrologicalProfile : undefined;
+          const regionalPreps = 'regionalPreparations' in ingredient ? ingredient.regionalPreparations : undefined;
+          const prep = 'preparation' in ingredient ? ingredient.preparation : undefined;
+          const storage = 'storage' in ingredient ? ingredient.storage : undefined;
+          
+          // Create a new Ingredient object with all required properties
+          return {
+            id: 'id' in ingredient && typeof ingredient.id === 'string' 
+              ? ingredient.id 
+              : `ingredient-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+            name: ingredient.name,
+            nutrition: 'nutrition' in ingredient && 
+                       typeof ingredient.nutrition === 'object' && 
+                       ingredient.nutrition !== null &&
+                       'calories' in ingredient.nutrition &&
+                       'protein' in ingredient.nutrition &&
+                       'carbs' in ingredient.nutrition &&
+                       'fat' in ingredient.nutrition ? 
+                       {
+                         calories: Number(ingredient.nutrition.calories) || 0,
+                         protein: Number(ingredient.nutrition.protein) || 0,
+                         carbs: Number(ingredient.nutrition.carbs) || 0,
+                         fat: Number(ingredient.nutrition.fat) || 0,
+                         ...('fiber' in ingredient.nutrition && typeof ingredient.nutrition.fiber === 'number' 
+                            ? { fiber: ingredient.nutrition.fiber } 
+                            : {})
+                       } : 
+                       {
+                         calories: 0,
+                         protein: 0,
+                         carbs: 0,
+                         fat: 0
+                       },
+            elementalProperties: ingredient.elementalProperties,
+            category: ingredient.category || 'general',
+            properties: qualities,
+            qualities: qualities,
+            thermodynamicProperties: thermoProps,
+            astrologicalProfile: astroProfile,
+            regionalPreparations: regionalPreps,
+            preparation: prep,
+            storage: storage
+          } as Ingredient;
         });
         
       setSearchResults(results);
@@ -704,25 +742,42 @@ const FoodBalanceTracker: React.FC<FoodBalanceTrackerProps> = ({
                               onClick={() => {
                                 const ingredient = ingredients.find(i => i.name === ing);
                                 if (ingredient) {
-                                  // Convert IngredientMapping to Ingredient if needed
-                                  if (!('id' in ingredient)) {
-                                    const convertedIngredient: Ingredient = {
-                                      id: `ingredient-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-                                      name: ingredient.name,
-                                      nutrition: {
-                                        calories: 0,
-                                        protein: 0,
-                                        carbs: 0,
-                                        fat: 0
-                                      },
-                                      elementalProperties: ingredient.elementalProperties,
-                                      category: ingredient.category || 'general',
-                                      properties: ingredient.qualities || []
-                                    };
-                                    handleIngredientSelect(convertedIngredient);
-                                  } else {
-                                    handleIngredientSelect(ingredient as Ingredient);
-                                  }
+                                  // Always convert to a valid Ingredient type
+                                  const validIngredient: Ingredient = {
+                                    id: 'id' in ingredient && typeof ingredient.id === 'string' 
+                                      ? ingredient.id 
+                                      : `ingredient-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+                                    name: ingredient.name,
+                                    nutrition: 'nutrition' in ingredient && 
+                                              typeof ingredient.nutrition === 'object' && 
+                                              ingredient.nutrition !== null &&
+                                              'calories' in ingredient.nutrition &&
+                                              'protein' in ingredient.nutrition &&
+                                              'carbs' in ingredient.nutrition &&
+                                              'fat' in ingredient.nutrition ? 
+                                              {
+                                                calories: Number(ingredient.nutrition.calories) || 0,
+                                                protein: Number(ingredient.nutrition.protein) || 0,
+                                                carbs: Number(ingredient.nutrition.carbs) || 0,
+                                                fat: Number(ingredient.nutrition.fat) || 0,
+                                                ...('fiber' in ingredient.nutrition && typeof ingredient.nutrition.fiber === 'number' 
+                                                   ? { fiber: ingredient.nutrition.fiber } 
+                                                   : {})
+                                              } : 
+                                              {
+                                                calories: 0,
+                                                protein: 0,
+                                                carbs: 0,
+                                                fat: 0
+                                              },
+                                    elementalProperties: ingredient.elementalProperties,
+                                    category: ingredient.category || 'general',
+                                    qualities: 'qualities' in ingredient && ingredient.qualities ? [...ingredient.qualities] : [],
+                                    properties: 'qualities' in ingredient && ingredient.qualities ? [...ingredient.qualities] : [],
+                                    thermodynamicProperties: 'thermodynamicProperties' in ingredient ? ingredient.thermodynamicProperties : undefined,
+                                    astrologicalProfile: 'astrologicalProfile' in ingredient ? ingredient.astrologicalProfile : undefined
+                                  };
+                                  handleIngredientSelect(validIngredient);
                                 }
                               }}
                               className="px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200 rounded-md flex items-center gap-1"

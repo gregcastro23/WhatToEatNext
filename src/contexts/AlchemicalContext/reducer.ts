@@ -1,36 +1,21 @@
 'use client';
 
-import { AlchemicalState } from './types';
-
-// Define action types
-export type AlchemicalAction = 
-  | { type: 'SET_SEASONAL_STATE'; payload: { season: string } }
-  | { type: 'SET_ELEMENTAL_PREFERENCE'; payload: { element: string; value: number } }
-  | { type: 'SET_ELEMENTAL_STATE'; payload: { Fire: number; Water: number; Earth: number; Air: number } }
-  | { type: 'SET_ZODIAC_ENERGY'; payload: string }
-  | { type: 'SET_LUNAR_ENERGY'; payload: string }
-  | { type: 'SET_PLANETARY_ENERGY'; payload: string[] }
-  | { type: 'SET_ASTROLOGICAL_STATE'; payload: unknown }
-  | { type: 'SET_ERROR'; payload: { message: string } }
-  | { type: 'CLEAR_ERROR'; }
-  | { type: 'ADD_ERROR'; payload: string }
-  | { type: 'UPDATE_STATE'; payload: Partial<AlchemicalState> }
-  | { type: 'SET_ALCHEMICAL_VALUES'; payload: { Spirit: number; Essence: number; Matter: number; Substance: number } }
-  | { type: 'SET_LUNAR_PHASE'; payload: string };
+import { AlchemicalState, AstrologicalState } from '../../types/alchemical';
+import { AlchemicalAction, AlchemicalDispatchType } from '../../types/alchemical';
 
 /**
  * Reducer for the AlchemicalContext
  */
 export const alchemicalReducer = (state: AlchemicalState, action: AlchemicalAction): AlchemicalState => {
   switch (action.type) {
-    case 'SET_SEASONAL_STATE':
+    case AlchemicalDispatchType.SET_SEASONAL_STATE:
       return {
         ...state,
         currentSeason: action.payload.season,
         lastUpdated: new Date()
       };
       
-    case 'SET_ELEMENTAL_PREFERENCE':
+    case AlchemicalDispatchType.SET_ELEMENTAL_PREFERENCE:
       return {
         ...state,
         elementalPreference: {
@@ -40,14 +25,22 @@ export const alchemicalReducer = (state: AlchemicalState, action: AlchemicalActi
         lastUpdated: new Date()
       };
       
-    case 'SET_ELEMENTAL_STATE':
+    case AlchemicalDispatchType.SET_ELEMENTAL_STATE:
+      const elementalState = {
+        Fire: state.elementalState.Fire,
+        Water: state.elementalState.Water,
+        Earth: state.elementalState.Earth,
+        Air: state.elementalState.Air,
+        ...action.payload,
+      };
+      
       return {
         ...state,
-        elementalState: action.payload,
+        elementalState,
         lastUpdated: new Date()
       };
       
-    case 'SET_ZODIAC_ENERGY':
+    case AlchemicalDispatchType.SET_ZODIAC_ENERGY:
       return {
         ...state,
         zodiacEnergy: action.payload,
@@ -58,7 +51,7 @@ export const alchemicalReducer = (state: AlchemicalState, action: AlchemicalActi
         lastUpdated: new Date()
       };
       
-    case 'SET_LUNAR_ENERGY':
+    case AlchemicalDispatchType.SET_LUNAR_ENERGY:
       return {
         ...state,
         lunarEnergy: action.payload,
@@ -69,25 +62,36 @@ export const alchemicalReducer = (state: AlchemicalState, action: AlchemicalActi
         lastUpdated: new Date()
       };
       
-    case 'SET_PLANETARY_ENERGY':
+    case AlchemicalDispatchType.SET_PLANETARY_ENERGY:
+      const planetaryEnergy = Array.isArray(action.payload) 
+        ? action.payload 
+        : [action.payload];
+      
       return {
         ...state,
-        planetaryEnergy: action.payload,
+        planetaryEnergy,
         currentEnergy: {
           ...state.currentEnergy,
-          planetaryEnergy: action.payload
+          planetaryEnergy
         },
         lastUpdated: new Date()
       };
       
-    case 'SET_ASTROLOGICAL_STATE':
+    case AlchemicalDispatchType.SET_ASTROLOGICAL_STATE:
       return {
         ...state,
-        astrologicalState: action.payload,
+        astrologicalState: {
+          currentZodiac: 'aries',
+          sunSign: 'aries',
+          lunarPhase: 'new moon',
+          moonPhase: 'new moon',
+          activePlanets: [],
+          ...action.payload
+        },
         lastUpdated: new Date()
       };
       
-    case 'SET_ERROR':
+    case AlchemicalDispatchType.SET_ERROR:
       return {
         ...state,
         error: true,
@@ -96,7 +100,7 @@ export const alchemicalReducer = (state: AlchemicalState, action: AlchemicalActi
         lastUpdated: new Date()
       };
       
-    case 'CLEAR_ERROR':
+    case AlchemicalDispatchType.CLEAR_ERROR:
       return {
         ...state,
         error: false,
@@ -104,28 +108,36 @@ export const alchemicalReducer = (state: AlchemicalState, action: AlchemicalActi
         lastUpdated: new Date()
       };
       
-    case 'ADD_ERROR':
+    case AlchemicalDispatchType.ADD_ERROR:
       return {
         ...state,
         errors: [...state.errors, action.payload],
         lastUpdated: new Date()
       };
       
-    case 'UPDATE_STATE':
+    case AlchemicalDispatchType.UPDATE_STATE:
       return {
         ...state,
         ...action.payload,
         lastUpdated: new Date()
       };
       
-    case 'SET_ALCHEMICAL_VALUES':
+    case AlchemicalDispatchType.SET_ALCHEMICAL_VALUES:
+      const alchemicalValues = {
+        Spirit: state.alchemicalValues.Spirit,
+        Essence: state.alchemicalValues.Essence,
+        Matter: state.alchemicalValues.Matter,
+        Substance: state.alchemicalValues.Substance,
+        ...action.payload,
+      };
+      
       return {
         ...state,
-        alchemicalValues: action.payload,
+        alchemicalValues,
         lastUpdated: new Date()
       };
       
-    case 'SET_LUNAR_PHASE':
+    case AlchemicalDispatchType.SET_LUNAR_PHASE:
       return {
         ...state,
         lunarPhase: action.payload,

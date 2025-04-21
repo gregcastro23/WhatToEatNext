@@ -1,5 +1,5 @@
-import type { IngredientMapping } from '@/types/alchemy';
-import { fixIngredientMappings } from '@/utils/elementalUtils';
+import type { IngredientMapping } from '../../../types/alchemy';
+import { fixIngredientMappings } from '../../../utils/elementalUtils';
 
 const rawOtherVegetables = {
   "asparagus": {

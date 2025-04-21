@@ -1,4 +1,4 @@
-import { ZodiacSign, Element } from '@/types/alchemy';
+import { ZodiacSign, Element } from '../types/alchemy';
 
 // Define the interface for zodiac season data
 interface ZodiacSeasonData {
@@ -48,7 +48,7 @@ export const zodiacSeasons: Record<ZodiacSign, ZodiacSeasonData> = {
     startDay: 20,
     endMonth: 5,
     endDay: 20,
-    ruling_planet: 'Venus',
+    ruling_planet: 'venus',
     polarity: 'negative',
     modality: 'fixed',
     culinaryProperties: {
@@ -66,7 +66,7 @@ export const zodiacSeasons: Record<ZodiacSign, ZodiacSeasonData> = {
     startDay: 21,
     endMonth: 6,
     endDay: 20,
-    ruling_planet: 'Mercury',
+    ruling_planet: 'mercury',
     polarity: 'positive',
     modality: 'mutable',
     culinaryProperties: {
@@ -102,7 +102,7 @@ export const zodiacSeasons: Record<ZodiacSign, ZodiacSeasonData> = {
     startDay: 23,
     endMonth: 8,
     endDay: 22,
-    ruling_planet: 'Sun',
+    ruling_planet: 'sun',
     polarity: 'positive',
     modality: 'fixed',
     culinaryProperties: {
@@ -120,7 +120,7 @@ export const zodiacSeasons: Record<ZodiacSign, ZodiacSeasonData> = {
     startDay: 23,
     endMonth: 9,
     endDay: 22,
-    ruling_planet: 'Mercury',
+    ruling_planet: 'mercury',
     polarity: 'negative',
     modality: 'mutable',
     culinaryProperties: {
@@ -138,7 +138,7 @@ export const zodiacSeasons: Record<ZodiacSign, ZodiacSeasonData> = {
     startDay: 23,
     endMonth: 10,
     endDay: 22,
-    ruling_planet: 'Venus',
+    ruling_planet: 'venus',
     polarity: 'positive',
     modality: 'cardinal',
     culinaryProperties: {

@@ -3,6 +3,8 @@ import type { Recipe } from '../types/recipe';
 import { elementalUtils } from '../utils/elementalUtils';
 import { ElementalCalculator } from './ElementalCalculator';
 import { logger } from '../utils/logger';
+// Import cosine similarity from ml-distance
+import { similarity } from 'ml-distance';
 
 /**
  * Service responsible for handling elemental properties of recipes
@@ -81,22 +83,15 @@ export class RecipeElementalService {
   public calculateSimilarity(a: ElementalProperties, b: ElementalProperties): number {
     const elements = ['Fire', 'Water', 'Earth', 'Air'];
     
-    // Calculate average difference across all elements
-    const totalDifference = elements.reduce((sum: number, element) => {
-      const aValue = a[element] || 0;
-      const bValue = b[element] || 0;
-      return sum + Math.abs(aValue - bValue);
-    }, 0);
+    // Convert elemental properties to vectors for ml-distance
+    const aVector = elements.map(element => a[element as keyof ElementalProperties] || 0);
+    const bVector = elements.map(element => b[element as keyof ElementalProperties] || 0);
     
-    // Convert difference to similarity (1 - avg difference)
-    const avgDifference = totalDifference / elements.length;
-    
-    // Apply non-linear scaling to make smaller differences more significant
-    // This will boost low similarity scores to be more representative
-    const similarity = Math.pow(1 - avgDifference, 0.5);
+    // Use cosine similarity from ml-distance
+    const cosineSimilarity = similarity.cosine(aVector, bVector);
     
     // Ensure the similarity is at least 0.05 (5%) to avoid showing extremely low percentages
-    return Math.max(similarity, 0.05);
+    return Math.max(cosineSimilarity, 0.05);
   }
 
   /**

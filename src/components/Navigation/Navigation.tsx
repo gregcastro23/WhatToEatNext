@@ -4,27 +4,29 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-import { stateManager } from '@/utils/stateManager';
-import { themeManager } from '@/utils/theme';
+import { useAlchemical } from '../../contexts/AlchemicalContext/hooks';
+import { stateManager } from '../../utils/stateManager';
+import { themeManager } from '../../utils/theme';
 import { 
   Home, 
   Book, 
   Heart, 
   Settings, 
   Moon, 
-  Sun, 
+  sun, 
   Menu, 
   X, 
   Star,
   Clock,
   ChefHat,
   Filter,
-  Utensils
+  Utensils,
+  User
 } from 'lucide-react';
 
 const NAV_ITEMS = [
   { path: '/', label: 'Home', icon: Home },
+  { path: '/profile', label: 'My Profile', icon: User },
   { path: '/recipes', label: 'Recipes', icon: Book },
   { path: '/favorites', label: 'Favorites', icon: Heart },
   { path: '/celestial', label: 'Celestial Guide', icon: Star },
@@ -152,7 +154,7 @@ export default function Navigation() {
                 </>
               ) : (
                 <>
-                  <Sun className="w-5 h-5" />
+                  <sun className="w-5 h-5" />
                   <span>Light Mode</span>
                 </>
               )}

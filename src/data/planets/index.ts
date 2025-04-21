@@ -13,16 +13,16 @@ import plutoData from './pluto';
 import ascendantData from './ascendant';
 
 export const planetInfo: Record<string, PlanetData> = {
-  'Sun': sunData,
-  'Moon': moonData,
-  'Mercury': mercuryData,
-  'Venus': venusData,
-  'Mars': marsData,
-  'Jupiter': jupiterData,
-  'Saturn': saturnData,
-  'Uranus': uranusData,
-  'Neptune': neptuneData,
-  'Pluto': plutoData,
+  'sun': sunData,
+  'moon': moonData,
+  'mercury': mercuryData,
+  'venus': venusData,
+  'mars': marsData,
+  'jupiter': jupiterData,
+  'saturn': saturnData,
+  'uranus': uranusData,
+  'neptune': neptuneData,
+  'pluto': plutoData,
   'Ascendant': ascendantData
 };
 

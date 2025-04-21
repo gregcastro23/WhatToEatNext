@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import type { Modality } from '@/data/ingredients/types';
-import { determineIngredientModality } from '@/utils/ingredientUtils';
-import { SignEnergyState } from '@/constants/signEnergyStates';
-import { Chakra } from '@/constants/chakraMappings';
-import type { Recipe } from '@/types/recipe'; // Import the Recipe type
+import type { Modality } from '../data/ingredients/types';
+import { determineIngredientModality } from '../utils/ingredientUtils';
+import { SignEnergyState } from '../constants/signEnergyStates';
+import { Chakra } from '../constants/chakraMappings';
+import type { Recipe } from '../types/recipe'; // Import the Recipe type
 
 // Define a type for chakra access points to the energy states
 interface ChakraEnergyAccess {
@@ -78,7 +78,7 @@ export default function RecipeBuilder() {
     
     // Calculate average energy values across all signs
     const avgSpirit = energyStates.reduce((sum, state) => 
-      sum + (state.planetaryModifiers.Sun || 0) * chakraInfluenceMap['Crown'].spirit, 0) / energyStates.length;
+      sum + (state.planetaryModifiers.sun || 0) * chakraInfluenceMap['Crown'].spirit, 0) / energyStates.length;
     
     const avgEssence = energyStates.reduce((sum, state) => 
       sum + (state.planetaryModifiers.Moon || 0) * chakraInfluenceMap['Heart'].essence, 0) / energyStates.length;
@@ -87,7 +87,7 @@ export default function RecipeBuilder() {
       sum + (state.planetaryModifiers.Saturn || 0) * chakraInfluenceMap['Root'].matter, 0) / energyStates.length;
     
     const avgSubstance = energyStates.reduce((sum, state) => 
-      sum + (state.planetaryModifiers.Mercury || 0) * chakraInfluenceMap['Throat'].substance, 0) / energyStates.length;
+      sum + (state.planetaryModifiers.mercury || 0) * chakraInfluenceMap['Throat'].substance, 0) / energyStates.length;
     
     // Generate food recommendations based on energy state influence through chakras
     const chakraAccessPoints = chakras.map(chakra => {
@@ -254,11 +254,11 @@ export default function RecipeBuilder() {
       {/* Only show if we have chakra access points and a recipe */}
       {chakraAccess?.length > 0 && recipe?.chakraBalance && (
         <div className="chakra-balance">
-          <h3>Energy Access through Chakras</h3>
+          <h3>Chakra Balance Recommendations</h3>
           <div className="focus-chakras">
             <h4>Focus on these chakras for energy balance:</h4>
             <ul>
-              {recipe.chakraBalance.focusChakras.map((chakra: Chakra) => (
+              {((recipe.chakraBalance as any)?.focusChakras || []).map((chakra: Chakra) => (
                 <li key={chakra}>{chakra}</li>
               ))}
             </ul>
@@ -266,7 +266,7 @@ export default function RecipeBuilder() {
           <div className="suggested-additions">
             <h4>Suggested additions for energy balance:</h4>
             <ul>
-              {recipe.chakraBalance.suggestedAdditions.map((food: string, index: number) => (
+              {((recipe.chakraBalance as any)?.suggestedAdditions || []).map((food: string, index: number) => (
                 <li key={index}>{food}</li>
               ))}
             </ul>

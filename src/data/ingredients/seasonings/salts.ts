@@ -1,5 +1,5 @@
-import type { IngredientMapping } from '@/types/alchemy';
-import { fixIngredientMappings } from '@/utils/elementalUtils';
+import type { IngredientMapping } from '../../../types/alchemy';
+import { fixIngredientMappings } from '../../../utils/elementalUtils';
 
 const rawSalts: Record<string, Partial<IngredientMapping>> = {
   'fleur_de_sel': {
@@ -131,7 +131,7 @@ const rawSalts: Record<string, Partial<IngredientMapping>> = {
         decanModifiers: {
           first: { element: 'Water', planet: 'Moon' },
           second: { element: 'Earth', planet: 'Neptune' },
-          third: { element: 'Air', planet: 'Mercury' }
+          third: { element: 'Air', planet: 'mercury' }
         }
       },
       lunarPhaseModifiers: {

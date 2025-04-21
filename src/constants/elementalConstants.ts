@@ -1,6 +1,7 @@
 // src/constants/elementalConstants.ts
 
-import type { Element, ZodiacSign, Decan, ElementalProperties } from '../types/alchemy';
+import type { Element, ZodiacSign, Decan } from '../types/alchemy';
+import { ElementalProperties, DEFAULT_ELEMENTAL_PROPERTIES as DEFAULT_PROPS } from '../types/shared';
 
 // Define StringIndexed type inline since we're not importing it
 type StringIndexed<T = any> = {
@@ -15,12 +16,7 @@ export const ELEMENTS = ['Fire', 'Water', 'Earth', 'Air'] as const;
 /**
  * Default balanced elemental properties (25% each)
  */
-export const DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {
-  Fire: 0.25,
-  Water: 0.25,
-  Earth: 0.25,
-  Air: 0.25
-};
+export const DEFAULT_ELEMENTAL_PROPERTIES = DEFAULT_PROPS;
 
 /**
  * Validation thresholds for elemental properties
@@ -59,64 +55,64 @@ export const IDEAL_PROPORTION = 0.25;
 
 export const DECANS: Record<ZodiacSign, Decan[]> = {
   aries: [
-    { ruler: 'Mars', element: 'Fire', degree: 0 },
-    { ruler: 'Sun', element: 'Fire', degree: 10 },
-    { ruler: 'Jupiter', element: 'Fire', degree: 20 }
+    { ruler: 'mars', element: 'Fire', degree: 0 },
+    { ruler: 'sun', element: 'Fire', degree: 10 },
+    { ruler: 'jupiter', element: 'Fire', degree: 20 }
   ],
   taurus: [
-    { ruler: 'Venus', element: 'Earth', degree: 0 },
-    { ruler: 'Mercury', element: 'Earth', degree: 10 },
-    { ruler: 'Saturn', element: 'Earth', degree: 20 }
+    { ruler: 'venus', element: 'Earth', degree: 0 },
+    { ruler: 'mercury', element: 'Earth', degree: 10 },
+    { ruler: 'saturn', element: 'Earth', degree: 20 }
   ],
   gemini: [
-    { ruler: 'Mercury', element: 'Air', degree: 0 },
-    { ruler: 'Venus', element: 'Air', degree: 10 },
-    { ruler: 'Uranus', element: 'Air', degree: 20 }
+    { ruler: 'mercury', element: 'Air', degree: 0 },
+    { ruler: 'venus', element: 'Air', degree: 10 },
+    { ruler: 'uranus', element: 'Air', degree: 20 }
   ],
   cancer: [
-    { ruler: 'Moon', element: 'Water', degree: 0 },
-    { ruler: 'Pluto', element: 'Water', degree: 10 },
-    { ruler: 'Neptune', element: 'Water', degree: 20 }
+    { ruler: 'moon', element: 'Water', degree: 0 },
+    { ruler: 'pluto', element: 'Water', degree: 10 },
+    { ruler: 'neptune', element: 'Water', degree: 20 }
   ],
   leo: [
-    { ruler: 'Sun', element: 'Fire', degree: 0 },
-    { ruler: 'Jupiter', element: 'Fire', degree: 10 },
-    { ruler: 'Mars', element: 'Fire', degree: 20 }
+    { ruler: 'sun', element: 'Fire', degree: 0 },
+    { ruler: 'jupiter', element: 'Fire', degree: 10 },
+    { ruler: 'mars', element: 'Fire', degree: 20 }
   ],
   virgo: [
-    { ruler: 'Mercury', element: 'Earth', degree: 0 },
-    { ruler: 'Saturn', element: 'Earth', degree: 10 },
-    { ruler: 'Venus', element: 'Earth', degree: 20 }
+    { ruler: 'mercury', element: 'Earth', degree: 0 },
+    { ruler: 'saturn', element: 'Earth', degree: 10 },
+    { ruler: 'venus', element: 'Earth', degree: 20 }
   ],
   libra: [
-    { ruler: 'Venus', element: 'Air', degree: 0 },
-    { ruler: 'Uranus', element: 'Air', degree: 10 },
-    { ruler: 'Mercury', element: 'Air', degree: 20 }
+    { ruler: 'venus', element: 'Air', degree: 0 },
+    { ruler: 'uranus', element: 'Air', degree: 10 },
+    { ruler: 'mercury', element: 'Air', degree: 20 }
   ],
   scorpio: [
-    { ruler: 'Pluto', element: 'Water', degree: 0 },
-    { ruler: 'Neptune', element: 'Water', degree: 10 },
-    { ruler: 'Moon', element: 'Water', degree: 20 }
+    { ruler: 'pluto', element: 'Water', degree: 0 },
+    { ruler: 'neptune', element: 'Water', degree: 10 },
+    { ruler: 'moon', element: 'Water', degree: 20 }
   ],
   sagittarius: [
-    { ruler: 'Jupiter', element: 'Fire', degree: 0 },
-    { ruler: 'Mars', element: 'Fire', degree: 10 },
-    { ruler: 'Sun', element: 'Fire', degree: 20 }
+    { ruler: 'jupiter', element: 'Fire', degree: 0 },
+    { ruler: 'mars', element: 'Fire', degree: 10 },
+    { ruler: 'sun', element: 'Fire', degree: 20 }
   ],
   capricorn: [
-    { ruler: 'Saturn', element: 'Earth', degree: 0 },
-    { ruler: 'Venus', element: 'Earth', degree: 10 },
-    { ruler: 'Mercury', element: 'Earth', degree: 20 }
+    { ruler: 'saturn', element: 'Earth', degree: 0 },
+    { ruler: 'venus', element: 'Earth', degree: 10 },
+    { ruler: 'mercury', element: 'Earth', degree: 20 }
   ],
   aquarius: [
-    { ruler: 'Uranus', element: 'Air', degree: 0 },
-    { ruler: 'Mercury', element: 'Air', degree: 10 },
-    { ruler: 'Venus', element: 'Air', degree: 20 }
+    { ruler: 'uranus', element: 'Air', degree: 0 },
+    { ruler: 'mercury', element: 'Air', degree: 10 },
+    { ruler: 'venus', element: 'Air', degree: 20 }
   ],
   pisces: [
-    { ruler: 'Neptune', element: 'Water', degree: 0 },
-    { ruler: 'Moon', element: 'Water', degree: 10 },
-    { ruler: 'Pluto', element: 'Water', degree: 20 }
+    { ruler: 'neptune', element: 'Water', degree: 0 },
+    { ruler: 'moon', element: 'Water', degree: 10 },
+    { ruler: 'pluto', element: 'Water', degree: 20 }
   ]
 };
 
@@ -190,7 +186,7 @@ export const ELEMENTAL_CHARACTERISTICS = {
     complementaryIngredients: ['Fresh herbs', 'Citrus', 'Sprouts', 'Greens', 'Aromatics'],
     moodEffects: ['Uplifting', 'Clarifying', 'Refreshing', 'Invigorating', 'Inspiring'],
     culinaryHerbs: ['Mint', 'Basil', 'Cilantro', 'Dill', 'Lemongrass'],
-    timeOfDay: ['Morning', 'Sunrise'],
+    timeOfDay: ['Morning', 'sunrise'],
     tastes: ['sour', 'tangy', 'astringent'],
     cuisine: ['vietnamese', 'greek', 'levantine', 'persian'],
     effects: ['lightening', 'clarifying', 'refreshing']

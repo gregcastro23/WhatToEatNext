@@ -1,4 +1,4 @@
-import type { CookingMethodData } from '@/types/cookingMethod';
+import type { CookingMethodData } from '../../../../types/cookingMethod';
 
 /**
  * Smoking: A preservation and flavoring technique that exposes food to smoke

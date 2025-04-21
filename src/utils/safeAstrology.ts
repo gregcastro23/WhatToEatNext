@@ -6,8 +6,8 @@
  * complex API calls and calculations that might fail.
  */
 
-import { AstrologicalState, ZodiacSign, PlanetaryAspect, CelestialPosition, AspectType } from '@/types/alchemy';
-import { createLogger } from '@/utils/logger';
+import { AstrologicalState, ZodiacSign, PlanetaryAspect, CelestialPosition, AspectType } from '../types/alchemy';
+import { createLogger } from './logger';
 
 // Create a component-specific logger
 const logger = createLogger('SafeAstrology');
@@ -29,25 +29,34 @@ let astrologyCache: StateCache<AstrologicalState> | null = null;
 const CACHE_DURATION = 15 * 60 * 1000; // 15 minutes
 
 /**
+ * Format a date for astrological calculations
+ * @param date Date to format
+ * @returns Formatted date string
+ */
+export function formatDateForCalculation(date: Date): string {
+  return date.toISOString().split('T')[0]; // YYYY-MM-DD format
+}
+
+/**
  * Get the current reliable planetary positions
  * Uses hardcoded accurate values for March 2025
  * @returns Record of planetary positions with sign, degree, and other data
  */
 export function getReliablePlanetaryPositions(): Record<string, CelestialPosition> {
   const positions: Record<string, CelestialPosition> = {
-    sun: { sign: 'aries', degree: 8.63, exactLongitude: 8.63, isRetrograde: false },
-    moon: { sign: 'aries', degree: 3.48, exactLongitude: 3.48, isRetrograde: false },
-    mercury: { sign: 'aries', degree: 0.75, exactLongitude: 0.75, isRetrograde: true },
-    venus: { sign: 'pisces', degree: 29.0, exactLongitude: 359.0, isRetrograde: true },
-    mars: { sign: 'cancer', degree: 22.67, exactLongitude: 112.67, isRetrograde: false },
-    jupiter: { sign: 'gemini', degree: 15.53, exactLongitude: 75.53, isRetrograde: false },
-    saturn: { sign: 'pisces', degree: 24.13, exactLongitude: 354.13, isRetrograde: false },
-    uranus: { sign: 'taurus', degree: 24.62, exactLongitude: 54.62, isRetrograde: false },
-    neptune: { sign: 'pisces', degree: 29.93, exactLongitude: 359.93, isRetrograde: false },
-    pluto: { sign: 'aquarius', degree: 3.5, exactLongitude: 333.5, isRetrograde: false },
-    northNode: { sign: 'pisces', degree: 26.88, exactLongitude: 356.88, isRetrograde: true },
-    southNode: { sign: 'virgo', degree: 26.88, exactLongitude: 176.88, isRetrograde: true },
-    ascendant: { sign: 'scorpio', degree: 13.88, exactLongitude: 223.88, isRetrograde: false }
+    sun: { sign: 'aries', degree: 26.28, retrograde: false },
+    moon: { sign: 'scorpio', degree: 29.03, retrograde: false },
+    mercury: { sign: 'pisces', degree: 29.83, retrograde: false },
+    venus: { sign: 'pisces', degree: 24.78, retrograde: false },
+    mars: { sign: 'cancer', degree: 29.12, retrograde: false },
+    jupiter: { sign: 'gemini', degree: 18.50, retrograde: false },
+    saturn: { sign: 'pisces', degree: 26.23, retrograde: false },
+    uranus: { sign: 'taurus', degree: 25.48, retrograde: false },
+    neptune: { sign: 'aries', degree: 0.60, retrograde: false },
+    pluto: { sign: 'aquarius', degree: 3.73, retrograde: false },
+    northNode: { sign: 'pisces', degree: 25.93, retrograde: true },
+    southNode: { sign: 'virgo', degree: 25.93, retrograde: true },
+    ascendant: { sign: 'scorpio', degree: 10.12, retrograde: false }
   };
   
   return positions;
@@ -67,35 +76,69 @@ export function calculateLunarPhase(): number {
 
 /**
  * Get the name of the lunar phase
- * @param phase Lunar age in days (0-29.5)
+ * @param phase Lunar age in days (0-29.5) or illumination percentage (0-1)
  * @returns Name of lunar phase
  */
 export function getLunarPhaseName(phase: number): string {
-  if (phase < 1) return 'new moon';
-  if (phase < 7.4) return 'waxing crescent';
-  if (phase < 8.4) return 'first quarter';
-  if (phase < 14.8) return 'waxing gibbous';
-  if (phase < 15.8) return 'full moon';
-  if (phase < 22.1) return 'waning gibbous';
-  if (phase < 23.1) return 'last quarter';
-  return 'waning crescent';
+  // First determine if we're dealing with lunar age (0-29.5) or illumination (0-1)
+  const isIllumination = phase <= 1;
+  
+  if (isIllumination) {
+    // If it's illumination percentage, determine phase based on illumination
+    // For waxing phases (new moon to full moon):
+    if (phase < 0.02) return 'new moon';
+    if (phase < 0.25) return 'waxing crescent';
+    if (phase >= 0.25 && phase < 0.35) return 'first quarter';
+    if (phase >= 0.35 && phase < 0.96) return 'waxing gibbous';
+    if (phase >= 0.96) return 'full moon';
+    
+    // Note: This point should never be reached since all cases above cover 0-1 range
+    // But including as a fallback
+    return 'full moon';
+  } else {
+    // For phases represented as lunar age (0-29.5 days)
+    // Standard lunar cycle phases
+    if (phase < 1) return 'new moon';
+    if (phase < 7.4) return 'waxing crescent';
+    if (phase < 8.4) return 'first quarter';
+    if (phase < 14.8) return 'waxing gibbous';
+    if (phase < 15.8) return 'full moon';
+    if (phase < 22.1) return 'waning gibbous';
+    if (phase < 23.1) return 'last quarter';
+    return 'waning crescent';
+  }
 }
 
 /**
- * Get the moon illumination percentage
- * @returns Illumination as a decimal (0-1)
+ * Get the moon illumination percentage and phase name
+ * @param includePhase Whether to include the phase name in the result
+ * @returns Object with illumination as a decimal (0-1) and optionally phase name
  */
-export function getMoonIllumination(): number {
-  const phase = calculateLunarPhase();
+export function getMoonIllumination(includePhase: boolean = false): { illumination: number; phase?: string } {
+  const lunarAge = calculateLunarPhase();
   
   // Calculate illumination based on lunar age
-  if (phase <= 14.8) {
+  let illumination: number;
+  if (lunarAge <= 14.8) {
     // Waxing from new to full (0% to 100%)
-    return phase / 14.8;
+    illumination = lunarAge / 14.8;
   } else {
     // Waning from full to new (100% to 0%)
-    return (29.5 - phase) / 14.8;
+    illumination = (29.5 - lunarAge) / 14.8;
   }
+  
+  // Constrain to 0-1 range
+  illumination = Math.max(0, Math.min(1, illumination));
+  
+  // Return object with illumination and optionally phase name
+  if (includePhase) {
+    return {
+      illumination,
+      phase: getLunarPhaseName(lunarAge)
+    };
+  }
+  
+  return { illumination };
 }
 
 /**
@@ -103,7 +146,7 @@ export function getMoonIllumination(): number {
  * @param date Date to calculate sun sign for (defaults to current date)
  * @returns Zodiac sign as a string
  */
-export function calculateSunSign(date: Date = new Date()): ZodiacSign {
+export function calculatesunSign(date: Date = new Date()): ZodiacSign {
   // For simplicity, hardcode the sun sign based on the month
   const month = date.getMonth();
   const day = date.getDate();
@@ -169,12 +212,17 @@ export function calculatePlanetaryAspects(positions: Record<string, CelestialPos
       // Check for aspects with orbs
       const aspect = identifyAspect(diff);
       if (aspect) {
-        // Create aspect with proper typing - 'planets' array instead of 'type'
+        const aspectStrength = calculateAspectStrength(aspect.type, aspect.orb);
+        
+        // Create a properly typed PlanetaryAspect object
         aspects.push({
           planet1,
           planet2,
+          type: aspect.type,
+          strength: aspectStrength,
           orb: aspect.orb,
-          influence: calculateAspectStrength(aspect.type, aspect.orb),
+          // Optional properties
+          influence: aspectStrength,
           planets: [planet1, planet2],
           additionalInfo: { aspectType: aspect.type }
         });
@@ -274,7 +322,7 @@ export function getCurrentAstrologicalState(): AstrologicalState {
   const isDaytime = hours >= 6 && hours < 18;
   
   // Calculate active planets (sun, moon + any in major aspect)
-  const activePlanets = ["Sun", "Moon"];
+  const activePlanets = ["sun", "Moon"];
   aspects.forEach(aspect => {
     // Check influence rather than strength
     if (aspect.influence && aspect.influence > 5) {

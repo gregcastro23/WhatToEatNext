@@ -1,6 +1,6 @@
 // src/data/cuisines/african.ts
-import type { Cuisine } from '@/types/cuisine';
-import type { LunarPhase, ZodiacSign } from '@/types/alchemy';
+import type { Cuisine } from '../../types/cuisine';
+import type { LunarPhase, ZodiacSign } from '../../types/alchemy';
 
 export const african: Cuisine = {
   name: 'African',
@@ -20,7 +20,7 @@ export const african: Cuisine = {
         Air: 0.1,
         Water: 0.0
       },
-      astrologicalInfluences: ["Mars", "Sun", "Aries"],
+      astrologicalInfluences: ["Mars", "sun", "Aries"],
       seasonality: "all",
       preparationNotes: "Traditionally dry-roasted and ground by hand, though now commercial versions are widely available.",
       technicalTips: "Toast the spices before grinding for maximum flavor development."
@@ -38,7 +38,7 @@ export const african: Cuisine = {
         Water: 0.1,
         Air: 0.0
       },
-      astrologicalInfluences: ["Mars", "Mercury", "Aries"],
+      astrologicalInfluences: ["Mars", "mercury", "Aries"],
       seasonality: "all",
       preparationNotes: "Can be preserved in olive oil for months when refrigerated.",
       technicalTips: "For milder harissa, remove seeds from peppers before processing."
@@ -56,7 +56,7 @@ export const african: Cuisine = {
         Fire: 0.2,
         Water: 0.0
       },
-      astrologicalInfluences: ["Mercury", "Saturn", "Virgo"],
+      astrologicalInfluences: ["mercury", "Saturn", "Virgo"],
       seasonality: "all",
       preparationNotes: "Each family has their own recipe - proportions vary significantly.",
       technicalTips: "Allow to cool completely before storing to maintain crunch."
@@ -74,7 +74,7 @@ export const african: Cuisine = {
         Air: 0.2,
         Fire: 0.1
       },
-      astrologicalInfluences: ["Venus", "Neptune", "Pisces"],
+      astrologicalInfluences: ["venus", "Neptune", "Pisces"],
       seasonality: "spring, summer",
       preparationNotes: "Traditionally prepared by hand-grinding all ingredients in a mortar and pestle to release maximum flavor. Best made fresh, but can be stored for up to a week refrigerated.",
       technicalTips: "Balance acidity with enough olive oil for a smooth emulsion. For best results, allow flavors to marry for at least 30 minutes before using."
@@ -177,7 +177,7 @@ export const african: Cuisine = {
             Water: 0.1
           },
           astrologicalInfluences: [
-            "Venus - The sweetness and cardamom fragrance",
+            "venus - The sweetness and cardamom fragrance",
             "Jupiter - The rising, expansive quality of the dough"
           ]
         },
@@ -220,7 +220,7 @@ export const african: Cuisine = {
           },
           astrologicalInfluences: [
             "Mars - The bold, spicy tomato base",
-            "Sun - The bright egg yolks and life-giving energy"
+            "sun - The bright egg yolks and life-giving energy"
           ]
         },
         {
@@ -260,7 +260,7 @@ export const african: Cuisine = {
           },
           astrologicalInfluences: [
             "Saturn - The grounding, sustaining energy of beans",
-            "Mercury - The bright lemon and herb notes"
+            "mercury - The bright lemon and herb notes"
           ]
         }
       ],
@@ -309,7 +309,7 @@ export const african: Cuisine = {
             Air: 0.1
           },
           astrologicalInfluences: [
-            "Sun - The vibrant red color and celebratory nature",
+            "sun - The vibrant red color and celebratory nature",
             "Mars - The spicy, bold character"
           ]
         },
@@ -392,8 +392,8 @@ export const african: Cuisine = {
             Air: 0.1
           },
           astrologicalInfluences: [
-            "Mercury - The bright citrus notes",
-            "Venus - The sweet caramelized onions"
+            "mercury - The bright citrus notes",
+            "venus - The sweet caramelized onions"
           ]
         }
       ],
@@ -573,8 +573,8 @@ export const african: Cuisine = {
             Air: 0.1
           },
           astrologicalInfluences: [
-            "Venus - The sweet, indulgent nature",
-            "Sun - The warm, comforting quality"
+            "venus - The sweet, indulgent nature",
+            "sun - The warm, comforting quality"
           ]
         },
         {
@@ -613,8 +613,8 @@ export const african: Cuisine = {
             Water: 0.1
           },
           astrologicalInfluences: [
-            "Venus - The sweet indulgence",
-            "Mercury - The crisp texture and intricate shapes"
+            "venus - The sweet indulgence",
+            "mercury - The crisp texture and intricate shapes"
           ]
         }
       ],
@@ -667,7 +667,7 @@ export const african: Cuisine = {
       description: "Mediterranean and Arabic influenced cuisine featuring tagines, couscous, and aromatic spices",
       signature: ["tagine", "couscous", "harissa", "shakshuka"],
       elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 },
-      astrologicalInfluences: ["Mars", "Venus", "Mercury"],
+      astrologicalInfluences: ["Mars", "venus", "mercury"],
       seasonality: "all"
     },
     westAfrican: {
@@ -683,7 +683,7 @@ export const african: Cuisine = {
       description: "Diverse cuisine influenced by Arabic, Indian and indigenous traditions",
       signature: ["injera with wat", "ugali", "pilau", "berbere spice"],
       elementalProperties: { Earth: 0.4, Fire: 0.3, Water: 0.2, Air: 0.1 },
-      astrologicalInfluences: ["Sun", "Mars", "Saturn"],
+      astrologicalInfluences: ["sun", "Mars", "Saturn"],
       seasonality: "all"
     },
     southernAfrican: {
@@ -691,7 +691,7 @@ export const african: Cuisine = {
       description: "Hearty cuisine combining indigenous, Dutch, Malaysian and British influences",
       signature: ["bobotie", "biltong", "pap", "chakalaka"],
       elementalProperties: { Earth: 0.5, Fire: 0.2, Water: 0.2, Air: 0.1 },
-      astrologicalInfluences: ["Saturn", "Venus", "Jupiter"],
+      astrologicalInfluences: ["Saturn", "venus", "Jupiter"],
       seasonality: "all"
     }
   },

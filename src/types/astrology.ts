@@ -9,16 +9,16 @@ import { ElementalCharacter } from '../constants/planetaryElements';
  * Represents planets in astrology 
  */
 export type Planet = 
-  | 'Sun'
-  | 'Moon'
-  | 'Mercury'
-  | 'Venus'
-  | 'Mars'
-  | 'Jupiter'
-  | 'Saturn'
-  | 'Uranus'
-  | 'Neptune'
-  | 'Pluto';
+  | 'sun'
+  | 'moon'
+  | 'mercury'
+  | 'venus'
+  | 'mars'
+  | 'jupiter'
+  | 'saturn'
+  | 'uranus'
+  | 'neptune'
+  | 'pluto';
 
 /**
  * Represents the zodiac signs in astrology
@@ -97,6 +97,7 @@ export interface BirthChart {
     elementalState: Record<ElementalCharacter, number>;
     planetaryPositions: Record<Planet, number>;
     ascendant: string;
+    ascendantDegree?: number;
     lunarPhase: LunarPhase;
     aspects: AstrologicalAspect[];
 }
@@ -109,8 +110,8 @@ export interface AstrologicalAspect {
 }
 
 /* Example code - commented out to avoid type errors
-import { FoodAlchemySystem } from '@/services/FoodAlchemySystem';
-import { thermodynamicCalculator } from '@/calculations/gregsEnergy';
+import { FoodAlchemySystem } from '../services/FoodAlchemySystem';
+import { thermodynamicCalculator } from '../calculations/gregsEnergy';
 
 // Example usage
 const foodSystem = new FoodAlchemySystem();

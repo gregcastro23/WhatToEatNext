@@ -19,7 +19,7 @@ const venusData: PlanetData = {
   'Diurnal Element': 'Water',
   'Nocturnal Element': 'Earth',
   'AstronomicalData': {
-    'DistanceFromSun': '67.24 million miles (108.2 million kilometers)',
+    'DistanceFromsun': '67.24 million miles (108.2 million kilometers)',
     'DistanceFromEarth': {
       'Minimum': '24 million miles (38 million kilometers)',
       'Maximum': '162 million miles (261 million kilometers)'
@@ -31,13 +31,13 @@ const venusData: PlanetData = {
     'OrbitPeriod': '225 Earth days',
     'Axial Tilt': '3 degrees',
     'PhaseCycle': '584 days',
-    'SunlightTravelTime': '6 minutes',
-    'ZodiacalRestriction': 'Never more than 2 signs away from the Sun or Mercury',
+    'sunlightTravelTime': '6 minutes',
+    'ZodiacalRestriction': 'Never more than 2 signs away from the sun or mercury',
     'PhysicalCharacteristics': {
       'Surface': 'Volcanoes, mountains, pancake domes, tick domes, tesserae',
       'MagneticField': 'Induced magnetic field (no internal field)',
       'Composition': 'Iron core, rocky mantle, thin crust',
-      'NotableFeatures': 'Hottest planet, retrograde rotation, brightest object in sky after Sun and Moon'
+      'NotableFeatures': 'Hottest planet, retrograde rotation, brightest object in sky after sun and Moon'
     }
   },
   'AstrologicalProperties': {
@@ -74,7 +74,7 @@ const venusData: PlanetData = {
     'ElementalBridges': ['Connects Air to Ground', 'Connects Ground to Water'],
     'SharedElements': {
       'Water': ['Moon'],
-      'Earth': ['Mercury']
+      'Earth': ['mercury']
     },
     'AssociatedQualities': [
       'Moist',
@@ -213,7 +213,7 @@ const venusData: PlanetData = {
     'Connects cultural food traditions'
   ],
   'AspectsEffect': {
-    'Sun': {
+    'sun': {
       'Conjunction': 0.6,
       'Opposition': 0.3,
       'Trine': 0.5,
@@ -427,11 +427,11 @@ const venusData: PlanetData = {
     },
     'LunarConnection': 'Dominant water-based interaction among all planets',
     'CulinaryTemperament': {
-      'EarthVenus': {
+      'Earthvenus': {
         'FoodFocus': 'Rich, indulgent flavors with stable earthy foundations',
         'Recommendations': ['Slow-cooked dishes', 'Root vegetables', 'Hearty stews with refined presentation', 'Earthy flavors with sweet notes']
       },
-      'AirVenus': {
+      'Airvenus': {
         'FoodFocus': 'Balanced, harmonious dishes with thoughtful presentation',
         'Recommendations': ['Elegant small plates', 'Visually arranged foods', 'Balanced flavor profiles', 'Light yet satisfying meals']
       }

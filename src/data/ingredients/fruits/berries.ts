@@ -1,19 +1,19 @@
-import type { IngredientMapping } from '@/types/alchemy';
-import { fixIngredientMappings } from '@/utils/elementalUtils';
+import type { IngredientMapping } from '../../../types/alchemy';
+import { fixIngredientMappings } from '../../../utils/elementalUtils';
 
 const rawBerries: Record<string, Partial<IngredientMapping>> = {
   'blueberry': {
     name: 'Blueberry',
     elementalProperties: { Water: 0.4, Air: 0.3, Earth: 0.2, Fire: 0.1 },
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Venus'],
+      rulingPlanets: ['Moon', 'venus'],
       favorableZodiac: ['cancer', 'taurus'],
       elementalAffinity: {
         base: 'Water',
         decanModifiers: {
           first: { element: 'Water', planet: 'Moon' },
-          second: { element: 'Earth', planet: 'Venus' },
-          third: { element: 'Air', planet: 'Mercury' }
+          second: { element: 'Earth', planet: 'venus' },
+          third: { element: 'Air', planet: 'mercury' }
         }
       },
       lunarPhaseModifiers: {
@@ -196,12 +196,12 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
     name: 'Strawberry',
     elementalProperties: { Water: 0.5, Air: 0.2, Fire: 0.2, Earth: 0.1 },
     astrologicalProfile: {
-      rulingPlanets: ['Venus', 'Mars'],
+      rulingPlanets: ['venus', 'Mars'],
       favorableZodiac: ['taurus', 'aries'],
       elementalAffinity: {
         base: 'Water',
         decanModifiers: {
-          first: { element: 'Water', planet: 'Venus' },
+          first: { element: 'Water', planet: 'venus' },
           second: { element: 'Fire', planet: 'Mars' },
           third: { element: 'Earth', planet: 'Saturn' }
         }

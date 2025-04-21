@@ -1,14 +1,15 @@
-import type { Recipe } from '@/types/recipe';
-import type { AstrologicalState, Element } from '@/types/alchemy';
-import { getTimeFactors } from '@/types/time';
-import type { TimeFactors } from '@/types/time';
+import { Recipe } from '@/types/alchemy';
+import { PlanetName as AlchemyPlanetName, ZodiacSign as AlchemyZodiacSign, AstrologicalState, LunarPhase as AlchemyLunarPhase } from '@/types/alchemy';
+import { PlanetName, ZodiacSign, LunarPhase } from '@/types/constants';
+import { getAlchemicalScore } from '@/utils/fixedRecipeMatching';
+import { TimeFactors } from '@/types/time';
 import { 
   getPlanetaryElementalInfluence, 
   getZodiacElementalInfluence, 
   calculateElementalCompatibility,
   calculateDominantElement,
   calculateElementalProfile
-} from '@/utils/astrologyUtils';
+} from './astrologyUtils';
 
 // Interface for storing recommendation scores with explanation
 export interface RecommendationScore {
@@ -21,6 +22,22 @@ export interface RecommendationScore {
 export interface RecommendationExplanation {
   recipe: Recipe;
   explanation: string;
+}
+
+// Helper function to convert between enum types
+function convertPlanetName(planet: AlchemyPlanetName): PlanetName {
+  // This assumes the string values are the same
+  return planet as unknown as PlanetName;
+}
+
+function convertZodiacSign(sign: AlchemyZodiacSign): ZodiacSign {
+  // This assumes the string values are the same
+  return sign as unknown as ZodiacSign;
+}
+
+function convertLunarPhase(phase: AlchemyLunarPhase): LunarPhase {
+  // This assumes the string values are the same
+  return phase as unknown as LunarPhase;
 }
 
 /**
@@ -111,7 +128,7 @@ function scoreRecipe(
   if (recipe.planetaryInfluences && recipe.planetaryInfluences.favorable) {
     const favorablePlanets = recipe.planetaryInfluences.favorable;
     
-    if (favorablePlanets.includes(planetaryDay.planet)) {
+    if (favorablePlanets.includes(convertPlanetName(planetaryDay.planet))) {
       score += 10;
       reasons.push(`Enhanced by today's planetary ruler (${planetaryDay.planet})`);
     }
@@ -122,7 +139,7 @@ function scoreRecipe(
   if (recipe.planetaryInfluences && recipe.planetaryInfluences.favorable) {
     const favorablePlanets = recipe.planetaryInfluences.favorable;
     
-    if (favorablePlanets.includes(planetaryHour.planet)) {
+    if (favorablePlanets.includes(convertPlanetName(planetaryHour.planet))) {
       score += 8;
       reasons.push(`Boosted by current planetary hour (${planetaryHour.planet})`);
     }
@@ -132,19 +149,19 @@ function scoreRecipe(
   if (recipe.planetaryInfluences && recipe.planetaryInfluences.unfavorable) {
     const unfavorablePlanets = recipe.planetaryInfluences.unfavorable;
     
-    if (unfavorablePlanets.includes(planetaryDay.planet)) {
+    if (unfavorablePlanets.includes(convertPlanetName(planetaryDay.planet))) {
       score -= 10;
       reasons.push(`Challenged by today's planetary ruler (${planetaryDay.planet})`);
     }
     
-    if (unfavorablePlanets.includes(planetaryHour.planet)) {
+    if (unfavorablePlanets.includes(convertPlanetName(planetaryHour.planet))) {
       score -= 8;
       reasons.push(`Hindered by current planetary hour (${planetaryHour.planet})`);
     }
   }
 
   // Zodiac sign alignment
-  if (recipe.zodiacInfluences && recipe.zodiacInfluences.includes(astrologicalState.sunSign)) {
+  if (recipe.zodiacInfluences && recipe.zodiacInfluences.includes(convertZodiacSign(astrologicalState.sunSign))) {
     score += 12;
     reasons.push(`Aligned with your sun sign (${astrologicalState.sunSign})`);
     
@@ -156,7 +173,7 @@ function scoreRecipe(
     }
   }
   
-  if (astrologicalState.moonSign && recipe.zodiacInfluences && recipe.zodiacInfluences.includes(astrologicalState.moonSign)) {
+  if (astrologicalState.moonSign && recipe.zodiacInfluences && recipe.zodiacInfluences.includes(convertZodiacSign(astrologicalState.moonSign))) {
     score += 10;
     reasons.push(`Harmonious with your moon sign (${astrologicalState.moonSign})`);
     
@@ -169,7 +186,7 @@ function scoreRecipe(
   }
 
   // Lunar phase alignment
-  if (recipe.lunarPhaseInfluences && recipe.lunarPhaseInfluences.includes(astrologicalState.lunarPhase)) {
+  if (recipe.lunarPhaseInfluences && recipe.lunarPhaseInfluences.includes(convertLunarPhase(astrologicalState.lunarPhase))) {
     score += 10;
     reasons.push(`In sync with the current lunar phase (${astrologicalState.lunarPhase})`);
   }

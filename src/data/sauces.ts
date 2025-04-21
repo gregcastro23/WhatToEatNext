@@ -1,4 +1,4 @@
-import type { ElementalProperties } from '@/types/alchemy';
+import type { ElementalProperties } from '../types/alchemy';
 
 export interface Sauce {
   name: string;
@@ -19,7 +19,6 @@ export interface Sauce {
   storageInstructions?: string;
   prepTime?: string;
   cookTime?: string;
-  difficulty?: string;
   yield?: string;
 }
 
@@ -47,7 +46,7 @@ export const italianSauces: Record<string, Sauce> = {
       Water: 0.2,
       Air: 0.1
     },
-    astrologicalInfluences: ["Mars", "Sun", "leo"],
+    astrologicalInfluences: ["Mars", "sun", "leo"],
     seasonality: "all",
     preparationNotes: "Best when made with San Marzano tomatoes for authentic flavor",
     technicalTips: "Simmer gently to maintain brightness of flavor",
@@ -77,7 +76,6 @@ export const italianSauces: Record<string, Sauce> = {
     storageInstructions: "Refrigerate for up to 5 days in an airtight container. Can be frozen for up to 3 months.",
     prepTime: "10 minutes",
     cookTime: "30 minutes",
-    difficulty: "Easy",
     yield: "Makes about 3 cups"
   },
   pesto: {
@@ -93,7 +91,7 @@ export const italianSauces: Record<string, Sauce> = {
       Fire: 0.2,
       Water: 0.1
     },
-    astrologicalInfluences: ["Mercury", "Venus", "gemini"],
+    astrologicalInfluences: ["mercury", "venus", "gemini"],
     seasonality: "summer",
     preparationNotes: "Traditionally made in a marble mortar with wooden pestle",
     technicalTips: "Blanch basil briefly to preserve color if making ahead",
@@ -117,7 +115,6 @@ export const italianSauces: Record<string, Sauce> = {
     storageInstructions: "Refrigerate for up to 3 days with a thin layer of olive oil on top to prevent browning. Can be frozen in ice cube trays for up to 3 months.",
     prepTime: "15 minutes",
     cookTime: "0 minutes",
-    difficulty: "Easy",
     yield: "Makes about 1 cup"
   },
   carbonara: {
@@ -162,7 +159,6 @@ export const italianSauces: Record<string, Sauce> = {
     storageInstructions: "Carbonara is best eaten immediately after preparation. Not recommended for storage as the sauce will solidify when cold and may separate when reheated.",
     prepTime: "15 minutes",
     cookTime: "15 minutes",
-    difficulty: "Medium",
     yield: "Serves 4"
   },
   ragu: {
@@ -217,7 +213,6 @@ export const italianSauces: Record<string, Sauce> = {
     storageInstructions: "Refrigerate for up to 5 days. Freezes extremely well for up to 3 months. The flavor often improves after a day in the refrigerator.",
     prepTime: "30 minutes",
     cookTime: "3-4 hours",
-    difficulty: "Medium",
     yield: "Makes about 6 cups (enough for 8-10 servings)"
   },
   bechamel: {
@@ -233,7 +228,7 @@ export const italianSauces: Record<string, Sauce> = {
       Air: 0.1,
       Fire: 0.1
     },
-    astrologicalInfluences: ["Moon", "Venus", "cancer"],
+    astrologicalInfluences: ["Moon", "venus", "cancer"],
     seasonality: "all",
     preparationNotes: "For silky texture, add hot milk to roux gradually while whisking constantly",
     technicalTips: "Infuse milk with bay leaf, onion, and clove before making sauce for depth of flavor",
@@ -262,7 +257,6 @@ export const italianSauces: Record<string, Sauce> = {
     storageInstructions: "Press plastic wrap directly onto the surface to prevent a skin from forming. Refrigerate for up to 3 days. Reheat gently, whisking to restore smooth consistency.",
     prepTime: "5 minutes",
     cookTime: "25 minutes",
-    difficulty: "Medium",
     yield: "Makes about 4 cups"
   },
   arrabbiata: {
@@ -277,7 +271,7 @@ export const italianSauces: Record<string, Sauce> = {
       Water: 0.1,
       Air: 0.0
     },
-    astrologicalInfluences: ["Mars", "Sun", "Aries"],
+    astrologicalInfluences: ["Mars", "sun", "Aries"],
     seasonality: "all",
     preparationNotes: "The name means 'angry' in Italian, referring to the spiciness",
     technicalTips: "Add chili at the beginning with garlic for more heat throughout",
@@ -306,7 +300,6 @@ export const italianSauces: Record<string, Sauce> = {
     storageInstructions: "Refrigerate for up to 5 days in an airtight container. Can be frozen for up to 3 months.",
     prepTime: "10 minutes",
     cookTime: "25 minutes",
-    difficulty: "Easy",
     yield: "Makes about 3 cups"
   }
 };
@@ -367,7 +360,6 @@ export const mexicanSauces: Record<string, Sauce> = {
     storageInstructions: "Refrigerate for up to 5 days or freeze for up to 3 months. The flavor actually improves after a day in the refrigerator as the complex flavors meld together.",
     prepTime: "45 minutes",
     cookTime: "1 hour",
-    difficulty: "Complex",
     yield: "Makes about 4 cups"
   },
   salsa: {
@@ -383,7 +375,7 @@ export const mexicanSauces: Record<string, Sauce> = {
       Earth: 0.1,
       Air: 0.1
     },
-    astrologicalInfluences: ["Mars", "Sun", "Aries"],
+    astrologicalInfluences: ["Mars", "sun", "Aries"],
     seasonality: "all",
     cuisine: "Mexican",
     ingredients: [
@@ -418,7 +410,6 @@ export const mexicanSauces: Record<string, Sauce> = {
     storageInstructions: "Refrigerate in an airtight container for up to 1 week. Fresh salsa is best consumed within 3-4 days for optimal flavor. Not recommended for freezing as texture will change.",
     prepTime: "15 minutes",
     cookTime: "0 minutes (fresh) or 20 minutes (roasted)",
-    difficulty: "Easy",
     yield: "Makes about 3 cups"
   }
 };
@@ -438,7 +429,7 @@ export const asianSauces: Record<string, Sauce> = {
       Air: 0.2,
       Earth: 0.1
     },
-    astrologicalInfluences: ["Mars", "Mercury", "Leo"],
+    astrologicalInfluences: ["Mars", "mercury", "Leo"],
     seasonality: "all",
     cuisine: "Thai",
     ingredients: [
@@ -466,7 +457,6 @@ export const asianSauces: Record<string, Sauce> = {
     storageInstructions: "Store in an airtight container in the refrigerator for up to 2 weeks or freeze in ice cube trays for up to 3 months. Freeze small portions for easy use. Add a thin layer of oil on top of refrigerated paste to preserve freshness.",
     prepTime: "30 minutes",
     cookTime: "0 minutes",
-    difficulty: "Medium",
     yield: "Makes about 1 cup of curry paste (enough for 3-4 curries)"
   }
 };

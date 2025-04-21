@@ -1,16 +1,17 @@
 // Add these imports at the top of the file
-import * as accurateAstronomy from '@/utils/accurateAstronomy';
-import * as astrologyUtils from '@/utils/astrologyUtils';
+import * as accurateAstronomy from './accurateAstronomy';
+import * as astrologyUtils from './astrologyUtils';
+import { isObject, hasProperty } from '../types/common';
 
-// Sun calculation
-export function calculateSunPosition(date: Date = new Date()) {
+// sun calculation
+export function calculatesunPosition(date: Date = new Date()) {
   const t = (date.getTime() - new Date('2000-01-01T12:00:00Z').getTime()) / (1000 * 60 * 60 * 24 * 365.25);
   const longitude = 280.46061837 + 360.98564736629 * t;
   return {
     sign: getSignFromLongitude(longitude),
     degree: longitude % 30,
     minutes: (longitude % 1) * 60,
-    isRetrograde: false // Sun never retrograde
+    isRetrograde: false // sun never retrograde
   };
 }
 
@@ -26,15 +27,15 @@ export function calculateMoonPosition(date: Date = new Date()) {
   };
 }
 
-// Mercury calculation
-export function calculateMercuryPosition(date: Date = new Date()) {
+// mercury calculation
+export function calculatemercuryPosition(date: Date = new Date()) {
   const t = (date.getTime() - new Date('2000-01-01T12:00:00Z').getTime()) / (1000 * 60 * 60 * 24 * 87.969);
   const longitude = 252.25084 + 538101.03 * t;
   return {
     sign: getSignFromLongitude(longitude),
     degree: longitude % 30,
     minutes: (longitude % 1) * 60,
-    isRetrograde: Math.random() < 0.2 // Mercury is retrograde ~20% of the time
+    isRetrograde: Math.random() < 0.2 // mercury is retrograde ~20% of the time
   };
 }
 
@@ -54,9 +55,9 @@ function getSignFromLongitude(longitude: number): string {
 // Add to your existing function or file
 export function calculateBasicPlanetaryPositions(date: Date = new Date()) {
   // Calculate positions for the basic planets
-  const sun = calculateSunPosition(date);
+  const sun = calculatesunPosition(date);
   const moon = calculateMoonPosition(date);
-  const mercury = calculateMercuryPosition(date);
+  const mercury = calculatemercuryPosition(date);
   // Add calculations for other planets...
   
   // Try to get lunar nodes from the most accurate source
@@ -64,13 +65,20 @@ export function calculateBasicPlanetaryPositions(date: Date = new Date()) {
   
   try {
     // First try to import and use the accurate astronomy module
-    const nodeData = accurateAstronomy.calculateLunarNodes(date);
+    // Check if the module or a compatible function exists
+    const hasLunarNodeFunction = typeof accurateAstronomy === 'object' && 
+      accurateAstronomy !== null && 
+      typeof (accurateAstronomy as any).getLunarNodePositions === 'function';
+    
+    const nodeData = hasLunarNodeFunction 
+      ? (accurateAstronomy as any).getLunarNodePositions(date) 
+      : { northNode: 0, isRetrograde: true };
     
     // Convert longitude to sign and degree
     const northNodeSign = getSignFromLongitude(nodeData.northNode);
     const northNodeDegree = nodeData.northNode % 30;
     
-    const southNodeLongitude = (nodeData.northNode + 180) % 360;
+    const southNodeLongitude = (typeof nodeData.northNode === 'number' ? nodeData.northNode + 180 : 180) % 360;
     const southNodeSign = getSignFromLongitude(southNodeLongitude);
     const southNodeDegree = southNodeLongitude % 30;
     
@@ -92,7 +100,30 @@ export function calculateBasicPlanetaryPositions(date: Date = new Date()) {
     try {
       const lunarNodes = astrologyUtils.calculateLunarNodes(date);
       northNode = lunarNodes.northNode;
-      southNode = lunarNodes.southNode;
+      
+      // Create south node if north node exists but south node doesn't
+      if (isObject(lunarNodes) && hasProperty(lunarNodes, 'northNode')) {
+        // If southNode is already provided, use it
+        if (hasProperty(lunarNodes, 'southNode')) {
+          southNode = lunarNodes.southNode;
+        } else {
+          // Otherwise calculate south node from north node
+          const northNodeLongitude = isObject(lunarNodes.northNode) && 
+            hasProperty(lunarNodes.northNode, 'exactLongitude') ? 
+            lunarNodes.northNode.exactLongitude : 0;
+          
+          const southNodeLongitude = (typeof northNodeLongitude === 'number' ? northNodeLongitude + 180 : 180) % 360;
+          const southNodeSign = getSignFromLongitude(southNodeLongitude);
+          const southNodeDegree = southNodeLongitude % 30;
+          
+          southNode = {
+            sign: southNodeSign,
+            degree: southNodeDegree,
+            exactLongitude: southNodeLongitude,
+            isRetrograde: true
+          };
+        }
+      }
     } catch (fallbackError) {
       // Ultimate fallback with hardcoded values (current positions as of 2024)
       northNode = {

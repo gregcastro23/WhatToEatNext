@@ -1,7 +1,7 @@
 import { ChakraAlchemyService } from './ChakraAlchemyService';
-import { Recipe } from '@/types/recipe';
-import { ChakraEnergies, ElementalProperties, Planet, ZodiacSign } from '@/types/alchemy';
-import { KeyCardChakraMapping } from '@/types/chakra';
+import { Recipe } from '../types/recipe';
+import { ChakraEnergies, ElementalProperties, Planet, ZodiacSign } from '../types/alchemy';
+import { KeyCardChakraMapping } from '../types/chakra';
 import { PlanetaryHourCalculator } from './PlanetaryHourCalculator';
 
 /**

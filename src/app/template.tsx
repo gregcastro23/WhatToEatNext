@@ -1,9 +1,9 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { logger } from '@/utils/logger'
-import { errorHandler } from '@/services/errorHandler'
-import Loading from '@/components/ui/Loading'
+import { logger } from '../utils/logger'
+import { errorHandler } from '../services/errorHandler'
+import Loading from '../components/ui/Loading'
 
 interface TemplateProps {
   children: React.ReactNode

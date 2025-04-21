@@ -2,33 +2,55 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import styles from './FoodRecommender.module.css';
-import { useTarotAstrologyData } from '@/hooks/useTarotAstrologyData';
-import { Clock, Flame, Droplets, Mountain, Wind, Leaf, ThermometerSun, ThermometerSnowflake, Pill, Sparkles, Star, RefreshCw } from 'lucide-react';
-import { getCurrentSeason } from '@/data/integrations/seasonal';
-import { RecommendationAdapter } from '@/services/RecommendationAdapter';
-import { ElementalItem, AlchemicalItem } from '@/calculations/alchemicalTransformation';
-import { AlchemicalProperty, ElementalCharacter } from '@/constants/planetaryElements';
-import { PlanetaryDignity } from '@/constants/planetaryFoodAssociations';
-import { LunarPhase, LunarPhaseWithSpaces, PlanetaryAspect } from '@/types/alchemy';
-import TarotFoodDisplay from '@/components/TarotFoodDisplay';
-import { calculateAspects, calculatePlanetaryPositions } from '@/utils/astrologyUtils';
-import { useCurrentChart } from '@/hooks/useCurrentChart';
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import { useTarotAstrologyData } from '../../../hooks/useTarotAstrologyData';
+import { Clock, Flame, Droplets, Mountain, Wind, Leaf, Thermometersun, ThermometerSnowflake, Pill, Sparkles, Star, RefreshCw } from 'lucide-react';
+import { getCurrentSeason } from '../../../data/integrations/seasonal';
+import { RecommendationAdapter } from '../../../services/RecommendationAdapter';
+import { ElementalItem, AlchemicalItem } from '../../../calculations/alchemicalTransformation';
+import { AlchemicalProperty, ElementalCharacter } from '../../../constants/planetaryElements';
+import { PlanetaryDignity } from '../../../constants/planetaryFoodAssociations';
+import { LunarPhase, LunarPhaseWithSpaces, PlanetaryAspect } from '../../../types/alchemy';
+import TarotFoodDisplay from '../../TarotFoodDisplay';
+import { calculateAspects, calculatePlanetaryPositions } from '../../../utils/astrologyUtils';
+import { useCurrentChart } from '../../../hooks/useCurrentChart';
+import { useAlchemical } from '../../../contexts/AlchemicalContext/hooks';
 
-import { logger } from '@/utils/logger';
+import { logger } from '../../../utils/logger';
 
 // Import ingredient data
-import allIngredients from '@/data/ingredients';
-import { TAROT_CARDS } from '@/constants/tarotCards';
+import allIngredients from '../../../data/ingredients';
+import { TAROT_CARDS } from '../../../constants/tarotCards';
 
 // Import the standardized lunar phase constants and helper function
 import { 
   LUNAR_PHASE_MAP,
   formatLunarPhaseForDisplay
-} from '@/utils/lunarPhaseUtils';
+} from '../../../utils/lunarPhaseUtils';
 
 // Import the ingredient utility functions
-import { calculateAlchemicalProperties, calculateThermodynamicProperties } from '@/utils/ingredientUtils';
+import { calculateAlchemicalProperties, calculateThermodynamicProperties } from '../../../utils/ingredientUtils';
+
+// Import the createAbortable utility
+import { createAbortable } from '../../../utils/abortController';
+
+// Define types for the transformed ingredients at the top of the file
+interface ExtendedElementalItem extends ElementalItem {
+  category?: string;
+  subCategory?: string;
+  isInSeason?: Record<string, boolean>;
+  isCurrentlyInSeason?: boolean;
+  temperatureEffect?: string;
+  medicinalProperties?: string[];
+  qualities?: string[];
+  astrologicalProfile?: {
+    rulingPlanets?: string[];
+    elementalAffinity?: {
+      base?: string;
+      secondary?: string;
+    };
+  };
+  tarotMajorAffinity?: string;
+}
 
 // Convert lunar phase strings to the proper LunarPhaseWithSpaces type format (lowercase with spaces)
 const getLunarPhaseType = (phase: string | null | undefined): LunarPhaseWithSpaces | undefined => {
@@ -82,6 +104,46 @@ const getLunarPhaseType = (phase: string | null | undefined): LunarPhaseWithSpac
   return undefined;
 };
 
+// Type guards for unknown types
+function hasProperty<K extends string>(obj: unknown, key: K): obj is { [P in K]: unknown } {
+    return typeof obj === 'object' && obj !== null && key in obj;
+}
+
+function getPropertySafely<T>(obj: unknown, key: string, defaultValue: T): T {
+    if (hasProperty(obj, key)) {
+        return obj[key] as T;
+    }
+    return defaultValue;
+}
+
+// Add these improved type guards
+function isIngredient(obj: unknown): obj is {
+  name: string;
+  elementalProperties: Record<string, number>;
+  astrologicalProfile?: {
+    rulingPlanets?: string[];
+  };
+  nutritionalInfo?: {
+    calories?: number;
+    protein?: number;
+    carbs?: number;
+    fat?: number;
+  };
+  sensoryProfile?: {
+    taste?: Record<string, number>;
+  };
+  medicinalProperties?: string[];
+  modality?: string;
+  category?: string;
+} {
+  return (
+    typeof obj === 'object' && 
+    obj !== null && 
+    'name' in obj && 
+    'elementalProperties' in obj
+  );
+}
+
 const FoodRecommender: React.FC = () => {
     const { 
         currentPlanetaryAlignment, 
@@ -99,7 +161,7 @@ const FoodRecommender: React.FC = () => {
     
     const { chart, isLoading: chartLoading, error: chartError } = useCurrentChart();
     
-    const [transformedIngredients, setTransformedIngredients] = useState<AlchemicalItem[]>([]);
+    const [transformedIngredients, setTransformedIngredients] = useState<ExtendedElementalItem[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [debugInfo, setDebugInfo] = useState<string | null>(null);
@@ -107,7 +169,7 @@ const FoodRecommender: React.FC = () => {
     const [tarotCards, setTarotCards] = useState<{minorCard: unknown, majorCard: unknown} | null>(null);
 
     useEffect(() => {
-        const controller = new AbortController();
+        const { signal, cleanup } = createAbortable();
         
         const fetchData = async () => {
             setLoading(true);
@@ -133,28 +195,84 @@ const FoodRecommender: React.FC = () => {
                     'categories or items');
                 
                 // Handle different possible structures of allIngredients
-                let ingredientsAsElementalItems: ElementalItem[] = [];
+                let ingredientsAsElementalItems: ExtendedElementalItem[] = [];
                 
                 // Check if allIngredients is already flat (structure from index.ts)
                 if (Object.values(allIngredients).some(item => item && typeof item === 'object' && 'name' in item)) {
                     // Structure is flat
-                    ingredientsAsElementalItems = Object.values(allIngredients).map((ingredient: unknown) => ({
-                        id: ingredient.id || ingredient.name.replace(/\s+/g, '_').toLowerCase(),
-                        name: ingredient.name,
-                        elementalProperties: {
-                            Fire: getElementValue(ingredient, 'fire'),
-                            Water: getElementValue(ingredient, 'water'),
-                            Earth: getElementValue(ingredient, 'earth'),
-                            Air: getElementValue(ingredient, 'air')
-                        },
-                        category: ingredient.category,
-                        subCategory: ingredient.subCategory,
-                        isInSeason: ingredient.isInSeason,
-                        temperatureEffect: ingredient.temperatureEffect,
-                        medicinalProperties: ingredient.medicinalProperties,
-                        qualities: ingredient.qualities,
-                        astrologicalProfile: ingredient.astrologicalProfile
-                    }));
+                    ingredientsAsElementalItems = Object.values(allIngredients).map((ingredient: unknown) => {
+                        const result: ExtendedElementalItem = {
+                            id: getPropertySafely(ingredient, 'id', '') || 
+                                (hasProperty(ingredient, 'name') ? String(ingredient.name).replace(/\s+/g, '_').toLowerCase() : ''),
+                            name: getPropertySafely(ingredient, 'name', ''),
+                            elementalProperties: {
+                                Fire: getElementValue(ingredient, 'fire'),
+                                Water: getElementValue(ingredient, 'water'),
+                                Earth: getElementValue(ingredient, 'earth'),
+                                Air: getElementValue(ingredient, 'air')
+                            }
+                        };
+                        
+                        // Optional properties
+                        if (hasProperty(ingredient, 'category')) {
+                            result.category = String(ingredient.category);
+                        }
+                        
+                        if (hasProperty(ingredient, 'subCategory')) {
+                            result.subCategory = String(ingredient.subCategory);
+                        }
+                        
+                        if (hasProperty(ingredient, 'isInSeason') && 
+                            typeof ingredient.isInSeason === 'object' && 
+                            ingredient.isInSeason !== null) {
+                            result.isInSeason = ingredient.isInSeason as Record<string, boolean>;
+                        }
+                        
+                        if (hasProperty(ingredient, 'temperatureEffect')) {
+                            result.temperatureEffect = String(ingredient.temperatureEffect);
+                        }
+                        
+                        if (hasProperty(ingredient, 'medicinalProperties') && 
+                            Array.isArray(ingredient.medicinalProperties)) {
+                            result.medicinalProperties = ingredient.medicinalProperties as string[];
+                        }
+                        
+                        if (hasProperty(ingredient, 'qualities') && 
+                            Array.isArray(ingredient.qualities)) {
+                            result.qualities = ingredient.qualities as string[];
+                        }
+                        
+                        if (hasProperty(ingredient, 'astrologicalProfile') && 
+                            typeof ingredient.astrologicalProfile === 'object' && 
+                            ingredient.astrologicalProfile !== null) {
+                            result.astrologicalProfile = {} as any;
+                            
+                            const profile = ingredient.astrologicalProfile;
+                            
+                            if (hasProperty(profile, 'rulingPlanets') && 
+                                Array.isArray(profile.rulingPlanets)) {
+                                result.astrologicalProfile.rulingPlanets = profile.rulingPlanets as string[];
+                            }
+                            
+                            if (hasProperty(profile, 'elementalAffinity') && 
+                                typeof profile.elementalAffinity === 'object' && 
+                                profile.elementalAffinity !== null) {
+                                result.astrologicalProfile.elementalAffinity = {};
+                                
+                                if (hasProperty(profile.elementalAffinity, 'base')) {
+                                    result.astrologicalProfile.elementalAffinity.base = 
+                                        String(profile.elementalAffinity.base);
+                                }
+                                
+                                if (hasProperty(profile.elementalAffinity, 'secondary')) {
+                                    result.astrologicalProfile.elementalAffinity.secondary = 
+                                        String(profile.elementalAffinity.secondary);
+                                }
+                            }
+                        }
+                        
+                        return result;
+                    });
                 } else {
                     // Structure is categorized (structure from ingredients.ts)
                     // Flatten the structure
@@ -162,23 +280,76 @@ const FoodRecommender: React.FC = () => {
                         // Handle both array and object structures
                         const ingredientItems = Array.isArray(items) ? items : Object.values(items);
                         
-                        return ingredientItems.map((ingredient: unknown) => ({
-                            id: ingredient.id || ingredient.name.replace(/\s+/g, '_').toLowerCase(),
-                            name: ingredient.name,
-                            elementalProperties: {
-                                Fire: getElementValue(ingredient, 'fire'),
-                                Water: getElementValue(ingredient, 'water'),
-                                Earth: getElementValue(ingredient, 'earth'),
-                                Air: getElementValue(ingredient, 'air')
-                            },
-                            category: ingredient.category || category,
-                            subCategory: ingredient.subCategory || '',
-                            isInSeason: ingredient.isInSeason,
-                            temperatureEffect: ingredient.temperatureEffect,
-                            medicinalProperties: ingredient.medicinalProperties,
-                            qualities: ingredient.qualities,
-                            astrologicalProfile: ingredient.astrologicalProfile
-                        }));
+                        return ingredientItems.map((ingredient: unknown) => {
+                            const result: ExtendedElementalItem = {
+                                id: getPropertySafely(ingredient, 'id', '') || 
+                                    (hasProperty(ingredient, 'name') ? String(ingredient.name).replace(/\s+/g, '_').toLowerCase() : ''),
+                                name: getPropertySafely(ingredient, 'name', ''),
+                                elementalProperties: {
+                                    Fire: getElementValue(ingredient, 'fire'),
+                                    Water: getElementValue(ingredient, 'water'),
+                                    Earth: getElementValue(ingredient, 'earth'),
+                                    Air: getElementValue(ingredient, 'air')
+                                },
+                                category: getPropertySafely(ingredient, 'category', category)
+                            };
+                            
+                            // Optional properties
+                            if (hasProperty(ingredient, 'subCategory')) {
+                                result.subCategory = String(ingredient.subCategory);
+                            }
+                            
+                            if (hasProperty(ingredient, 'isInSeason') && 
+                                typeof ingredient.isInSeason === 'object' && 
+                                ingredient.isInSeason !== null) {
+                                result.isInSeason = ingredient.isInSeason as Record<string, boolean>;
+                            }
+                            
+                            if (hasProperty(ingredient, 'temperatureEffect')) {
+                                result.temperatureEffect = String(ingredient.temperatureEffect);
+                            }
+                            
+                            if (hasProperty(ingredient, 'medicinalProperties') && 
+                                Array.isArray(ingredient.medicinalProperties)) {
+                                result.medicinalProperties = ingredient.medicinalProperties as string[];
+                            }
+                            
+                            if (hasProperty(ingredient, 'qualities') && 
+                                Array.isArray(ingredient.qualities)) {
+                                result.qualities = ingredient.qualities as string[];
+                            }
+                            
+                            if (hasProperty(ingredient, 'astrologicalProfile') && 
+                                typeof ingredient.astrologicalProfile === 'object' && 
+                                ingredient.astrologicalProfile !== null) {
+                                result.astrologicalProfile = {} as any;
+                                
+                                const profile = ingredient.astrologicalProfile;
+                                
+                                if (hasProperty(profile, 'rulingPlanets') && 
+                                    Array.isArray(profile.rulingPlanets)) {
+                                    result.astrologicalProfile.rulingPlanets = profile.rulingPlanets as string[];
+                                }
+                                
+                                if (hasProperty(profile, 'elementalAffinity') && 
+                                    typeof profile.elementalAffinity === 'object' && 
+                                    profile.elementalAffinity !== null) {
+                                    result.astrologicalProfile.elementalAffinity = {};
+                                    
+                                    if (hasProperty(profile.elementalAffinity, 'base')) {
+                                        result.astrologicalProfile.elementalAffinity.base = 
+                                            String(profile.elementalAffinity.base);
+                                    }
+                                    
+                                    if (hasProperty(profile.elementalAffinity, 'secondary')) {
+                                        result.astrologicalProfile.elementalAffinity.secondary = 
+                                            String(profile.elementalAffinity.secondary);
+                                    }
+                                }
+                            }
+                            
+                            return result;
+                        });
                     });
                 }
                 
@@ -221,7 +392,7 @@ const FoodRecommender: React.FC = () => {
                             const dominantElement = getDominantElement(ingredient.elementalProperties);
                             if (dominantElement.toLowerCase() === tarotElement.toLowerCase()) {
                                 // Enhance ingredient's primary element by quantum value
-                                const quantumValue = minorCard.quantum || 1;
+                                const quantumValue = typeof minorCard.quantum === 'number' ? minorCard.quantum : 1;
                                 ingredient.elementalProperties[dominantElement] *= (1 + (quantumValue * 0.1));
                                 
                                 // Normalize
@@ -241,7 +412,9 @@ const FoodRecommender: React.FC = () => {
                 if (majorCard && majorCard.planet) {
                     const tarotPlanet = majorCard.planet;
                     ingredientsAsElementalItems.forEach(ingredient => {
-                        if (ingredient.astrologicalProfile?.rulingPlanets?.includes(tarotPlanet)) {
+                        // Use optional chaining and ensure rulingPlanets is an array before using includes
+                        const rulingPlanets = ingredient.astrologicalProfile?.rulingPlanets;
+                        if (Array.isArray(rulingPlanets) && rulingPlanets.includes(tarotPlanet)) {
                             // Add a new property to indicate tarot major arcana affinity
                             ingredient.tarotMajorAffinity = majorCard.name;
                         }
@@ -255,11 +428,11 @@ const FoodRecommender: React.FC = () => {
                     []
                 );
                 
-                await adapter.updatePlanetaryData(
+                adapter.initialize(
                     planetaryPositions,
                     isDaytime,
                     currentZodiac || '',
-                    currentLunarPhase ? getLunarPhaseType(currentLunarPhase) : undefined,
+                    currentLunarPhase ? getLunarPhaseType(currentLunarPhase) : null,
                     tarotElementBoosts,
                     tarotPlanetaryBoosts,
                     aspects as PlanetaryAspect[]
@@ -267,17 +440,22 @@ const FoodRecommender: React.FC = () => {
                 
                 // Get the transformed ingredients
                 const transformedIngs = adapter.getRecommendedIngredients(12);
-                setTransformedIngredients(transformedIngs);
+                setTransformedIngredients(transformedIngs as ExtendedElementalItem[]);
                 
             } catch (err: unknown) {
-                setError(`Error getting recommendations: ${err.message}`);
-                console.error('FoodRecommender error:', err);
+                const errorMessage = err instanceof Error ? err.message : 'Unknown error';
+                const errorStack = err instanceof Error ? err.stack : '';
+                setError(`Error getting recommendations: ${errorMessage}`);
+                logger.error('Error in food recommendations', {
+                    errorMessage: errorMessage,
+                    stack: errorStack
+                });
                 setTransformedIngredients([]);
                 setDebugInfo(JSON.stringify({
                     allIngredientsType: typeof allIngredients,
                     allIngredientsKeys: allIngredients ? Object.keys(allIngredients) : [],
-                    errorMessage: err.message,
-                    stack: err.stack
+                    errorMessage: errorMessage,
+                    stack: errorStack
                 }, null, 2));
             } finally {
                 setLoading(false);
@@ -288,14 +466,23 @@ const FoodRecommender: React.FC = () => {
             fetchData();
         }
         
-        return () => controller.abort();
+        return cleanup;
     }, [chart]);
 
     // Helper function to get element value from ingredient
     const getElementValue = (ingredient: unknown, element: string): number => {
         // First check explicit elementalProperties with fallbacks
         const elementKey = element.charAt(0).toUpperCase() + element.slice(1);
-        const explicitValue = Number(ingredient?.elementalProperties?.[elementKey]) || 0;
+        
+        let explicitValue = 0;
+        
+        // Safely access elementalProperties
+        if (hasProperty(ingredient, 'elementalProperties') && 
+            typeof ingredient.elementalProperties === 'object' && 
+            ingredient.elementalProperties !== null &&
+            hasProperty(ingredient.elementalProperties, elementKey)) {
+            explicitValue = Number(ingredient.elementalProperties[elementKey]) || 0;
+        }
         
         // If we have an explicit value, use it directly
         if (explicitValue > 0) {
@@ -303,9 +490,30 @@ const FoodRecommender: React.FC = () => {
         }
 
         // Fallback to astrological profile with validation
-        const profile = ingredient?.astrologicalProfile || {};
-        const baseElement = profile.elementalAffinity?.base?.toLowerCase();
-        const secondaryElement = profile.elementalAffinity?.secondary?.toLowerCase();
+        let baseElement = '';
+        let secondaryElement = '';
+        
+        // Safely access astrologicalProfile and elementalAffinity
+        if (hasProperty(ingredient, 'astrologicalProfile') && 
+            typeof ingredient.astrologicalProfile === 'object' && 
+            ingredient.astrologicalProfile !== null) {
+                
+            const profile = ingredient.astrologicalProfile;
+            
+            if (hasProperty(profile, 'elementalAffinity')) {
+                if (typeof profile.elementalAffinity === 'object' && profile.elementalAffinity !== null) {
+                    baseElement = hasProperty(profile.elementalAffinity, 'base') 
+                        ? String(profile.elementalAffinity.base).toLowerCase() 
+                        : '';
+                        
+                    secondaryElement = hasProperty(profile.elementalAffinity, 'secondary') 
+                        ? String(profile.elementalAffinity.secondary).toLowerCase() 
+                        : '';
+                } else if (typeof profile.elementalAffinity === 'string') {
+                    baseElement = profile.elementalAffinity.toLowerCase();
+                }
+            }
+        }
         
         return element.toLowerCase() === baseElement ? 0.6 :
                element.toLowerCase() === secondaryElement ? 0.3 :
@@ -326,18 +534,18 @@ const FoodRecommender: React.FC = () => {
         // First check if effect is a string
         if (typeof effect !== 'string') {
             // Return a default icon or null if effect isn't a string
-            return <ThermometerSun className="w-4 h-4 text-gray-400" />;
+            return <Thermometersun className="w-4 h-4 text-gray-400" />;
         }
         
         if (effect.includes('warm') || effect.includes('hot')) {
-            return <ThermometerSun className="w-4 h-4 text-orange-300" />;
+            return <Thermometersun className="w-4 h-4 text-orange-300" />;
         }
         if (effect.includes('cool') || effect.includes('cold')) {
             return <ThermometerSnowflake className="w-4 h-4 text-blue-300" />;
         }
         
         // Default icon if no matches
-        return <ThermometerSun className="w-4 h-4 text-gray-400" />;
+        return <Thermometersun className="w-4 h-4 text-gray-400" />;
     };
 
     const getAlchemicalPropertyIcon = (property: AlchemicalProperty) => {
@@ -388,26 +596,36 @@ const FoodRecommender: React.FC = () => {
 
     // Inside the component function, add this function before the return statement:
     const calculateIngredientProperties = (ingredient: unknown) => {
-        try {
-            if (!ingredient || !ingredient.elementalProperties) {
-                return {
-                    alchemical: { spirit: 0, essence: 0, matter: 0, substance: 0 },
-                    thermodynamic: { heat: 0, entropy: 0, reactivity: 0, energy: 0 }
-                };
-            }
-            
-            // Create a compatible ingredient object for the utility functions
-            const ingredientObj = {
-                elementalProperties: ingredient.elementalProperties
+        if (!isIngredient(ingredient) || !ingredient.elementalProperties) {
+            return {
+                alchemical: { spirit: 0, essence: 0, matter: 0, substance: 0 },
+                thermodynamic: { heat: 0, entropy: 0, reactivity: 0, energy: 0 }
             };
-            
+        }
+        
+        // Create a compatible ingredient object for the utility functions
+        const ingredientObj = {
+            id: getPropertySafely(ingredient, 'id', ingredient.name.replace(/\s+/g, '_').toLowerCase()),
+            name: ingredient.name,
+            elementalProperties: ingredient.elementalProperties
+        };
+        
+        try {
             // Calculate alchemical properties
             const alchemicalProps = calculateAlchemicalProperties(ingredientObj as any);
+            
+            // Create a properly typed ElementalProperties object
+            const elementalProps = {
+                Fire: ingredient.elementalProperties.Fire || 0,
+                Water: ingredient.elementalProperties.Water || 0,
+                Earth: ingredient.elementalProperties.Earth || 0,
+                Air: ingredient.elementalProperties.Air || 0
+            };
             
             // Calculate thermodynamic properties
             const thermodynamicProps = calculateThermodynamicProperties(
                 alchemicalProps, 
-                ingredient.elementalProperties
+                elementalProps
             );
             
             return {
@@ -415,7 +633,7 @@ const FoodRecommender: React.FC = () => {
                 thermodynamic: thermodynamicProps
             };
         } catch (error) {
-            console.error('Error calculating ingredient properties:', error);
+            logger.error('Error calculating ingredient properties:', error);
             return {
                 alchemical: { spirit: 0, essence: 0, matter: 0, substance: 0 },
                 thermodynamic: { heat: 0, entropy: 0, reactivity: 0, energy: 0 }
@@ -490,7 +708,7 @@ const FoodRecommender: React.FC = () => {
                             {currentPlanetaryAlignment?.sun && (
                                 <div className="bg-yellow-900 bg-opacity-30 px-3 py-1 rounded-full text-xs flex items-center">
                                     <span className="text-yellow-400 mr-1">☉</span> 
-                                    <span className="text-yellow-100">Sun in {currentPlanetaryAlignment.sun.sign}</span>
+                                    <span className="text-yellow-100">sun in {currentPlanetaryAlignment.sun.sign}</span>
                                 </div>
                             )}
                             
@@ -547,7 +765,7 @@ const FoodRecommender: React.FC = () => {
                                 <div key={index} className="bg-opacity-20 bg-purple-900 rounded-lg p-4 hover:bg-opacity-30 transition-all">
                                     <h4 className="font-medium text-white capitalize">{ingredient.name.replace('_', ' ')}</h4>
                                     
-                                    {ingredient.category && (
+                                    {isIngredient(ingredient) && ingredient.category && (
                                         <div className="text-xs text-gray-400 mb-2">{ingredient.category}</div>
                                     )}
                                         
@@ -598,32 +816,36 @@ const FoodRecommender: React.FC = () => {
                                         </div>
                                     
                                     {/* Add nutritional information section if available */}
-                                    {ingredient.nutritionalInfo && (
+                                    {isIngredient(ingredient) && ingredient.nutritionalInfo && (
                                         <div className="mt-2 mb-3">
                                             <h5 className="text-xs text-gray-500 mb-1">Nutritional Information</h5>
                                             <div className="grid grid-cols-2 gap-2">
-                                                {ingredient.nutritionalInfo.calories && (
+                                                {isIngredient(ingredient) && 
+                                                hasProperty(ingredient.nutritionalInfo, 'calories') && (
                                                     <div className="text-xs">
                                                         <span className="text-gray-400">Calories:</span> 
-                                                        <span className="text-white ml-1">{ingredient.nutritionalInfo.calories}</span>
+                                                        <span className="text-white ml-1">{getPropertySafely(ingredient.nutritionalInfo, 'calories', 0)}</span>
                                                     </div>
                                                 )}
-                                                {ingredient.nutritionalInfo.protein && (
+                                                {isIngredient(ingredient) && 
+                                                hasProperty(ingredient.nutritionalInfo, 'protein') && (
                                                     <div className="text-xs">
                                                         <span className="text-gray-400">Protein:</span> 
-                                                        <span className="text-white ml-1">{ingredient.nutritionalInfo.protein}g</span>
+                                                        <span className="text-white ml-1">{getPropertySafely(ingredient.nutritionalInfo, 'protein', 0)}g</span>
                                                     </div>
                                                 )}
-                                                {ingredient.nutritionalInfo.carbs && (
+                                                {isIngredient(ingredient) && 
+                                                hasProperty(ingredient.nutritionalInfo, 'carbs') && (
                                                     <div className="text-xs">
                                                         <span className="text-gray-400">Carbs:</span> 
-                                                        <span className="text-white ml-1">{ingredient.nutritionalInfo.carbs}g</span>
+                                                        <span className="text-white ml-1">{getPropertySafely(ingredient.nutritionalInfo, 'carbs', 0)}g</span>
                                                     </div>
                                                 )}
-                                                {ingredient.nutritionalInfo.fat && (
+                                                {isIngredient(ingredient) && 
+                                                hasProperty(ingredient.nutritionalInfo, 'fat') && (
                                                     <div className="text-xs">
                                                         <span className="text-gray-400">Fat:</span> 
-                                                        <span className="text-white ml-1">{ingredient.nutritionalInfo.fat}g</span>
+                                                        <span className="text-white ml-1">{getPropertySafely(ingredient.nutritionalInfo, 'fat', 0)}g</span>
                                                     </div>
                                                 )}
                                             </div>
@@ -631,11 +853,15 @@ const FoodRecommender: React.FC = () => {
                                     )}
 
                                     {/* If no Spoonacular data, show sensory profile or additional information if available */}
-                                    {!ingredient.nutritionalInfo && ingredient.sensoryProfile && (
+                                    {isIngredient(ingredient) && ingredient.sensoryProfile && (
                                         <div className="mt-2 mb-3">
                                             <h5 className="text-xs text-gray-500 mb-1">Flavor Profile</h5>
                                             <div className="flex flex-wrap gap-1">
-                                                {Object.entries(ingredient.sensoryProfile.taste || {})
+                                                {isIngredient(ingredient) && 
+                                                 hasProperty(ingredient.sensoryProfile, 'taste') &&
+                                                 typeof ingredient.sensoryProfile.taste === 'object' &&
+                                                 ingredient.sensoryProfile.taste !== null &&
+                                                 Object.entries(ingredient.sensoryProfile.taste)
                                                     .filter(([_, value]) => (value as number) > 0.5)
                                                     .slice(0, 3)
                                                     .map(([taste, value]) => (
@@ -649,7 +875,7 @@ const FoodRecommender: React.FC = () => {
                                     )}
                                     
                                     {/* If additional medicinal properties are available */}
-                                    {ingredient.medicinalProperties && (
+                                    {isIngredient(ingredient) && ingredient.medicinalProperties && (
                                         <div className="mt-2 mb-3">
                                             <h5 className="text-xs text-gray-500 mb-1">Properties</h5>
                                             <div className="flex flex-wrap gap-1">
@@ -721,50 +947,56 @@ const FoodRecommender: React.FC = () => {
                                     
                                     {/* Energy Values with visualization */}
                                     <div className="grid grid-cols-3 gap-2 mt-3">
-                                        <div className="text-xs">
-                                            <span className="block text-gray-500 mb-1">Heat</span>
-                                            <div className="flex items-center">
-                                                <div className="w-full bg-gray-800 rounded-full h-1.5 mr-2">
-                                                    <div 
-                                                        className="bg-red-500 h-1.5 rounded-full" 
-                                                        style={{ width: `${Math.min(100, Math.max(0, Math.round((ingredient.heat || 0) * 100)))}%` }}
-                                                    ></div>
+                                        {isIngredient(ingredient) && (
+                                            <div className="text-xs">
+                                                <span className="block text-gray-500 mb-1">Heat</span>
+                                                <div className="flex items-center">
+                                                    <div className="w-full bg-gray-800 rounded-full h-1.5 mr-2">
+                                                        <div 
+                                                            className="bg-red-500 h-1.5 rounded-full" 
+                                                            style={{ width: `${Math.min(100, Math.max(0, Math.round((getPropertySafely(ingredient, 'heat', 0)) * 100)))}%` }}
+                                                        ></div>
+                                                    </div>
+                                                    <span className="text-gray-400">{safelyFormatNumber(getPropertySafely(ingredient, 'heat', 0))}</span>
                                                 </div>
-                                                <span className="text-gray-400">{safelyFormatNumber(ingredient.heat)}</span>
                                             </div>
-                                        </div>
-                                        <div className="text-xs">
-                                            <span className="block text-gray-500 mb-1">Entropy</span>
-                                            <div className="flex items-center">
-                                                <div className="w-full bg-gray-800 rounded-full h-1.5 mr-2">
-                                                    <div 
-                                                        className="bg-blue-500 h-1.5 rounded-full" 
-                                                        style={{ width: `${Math.min(100, Math.max(0, Math.round((ingredient.entropy || 0) * 100)))}%` }}
-                                                    ></div>
+                                        )}
+                                        {isIngredient(ingredient) && (
+                                            <div className="text-xs">
+                                                <span className="block text-gray-500 mb-1">Entropy</span>
+                                                <div className="flex items-center">
+                                                    <div className="w-full bg-gray-800 rounded-full h-1.5 mr-2">
+                                                        <div 
+                                                            className="bg-blue-500 h-1.5 rounded-full" 
+                                                            style={{ width: `${Math.min(100, Math.max(0, Math.round((getPropertySafely(ingredient, 'entropy', 0)) * 100)))}%` }}
+                                                        ></div>
+                                                    </div>
+                                                    <span className="text-gray-400">{safelyFormatNumber(getPropertySafely(ingredient, 'entropy', 0))}</span>
                                                 </div>
-                                                <span className="text-gray-400">{safelyFormatNumber(ingredient.entropy)}</span>
                                             </div>
-                                        </div>
-                                        <div className="text-xs">
-                                            <span className="block text-gray-500 mb-1">Energy</span>
-                                            <div className="flex items-center">
-                                                <div className="w-full bg-gray-800 rounded-full h-1.5 mr-2">
-                                                    <div 
-                                                        className="bg-purple-500 h-1.5 rounded-full" 
-                                                        style={{ width: `${Math.min(100, Math.max(0, Math.round((ingredient.gregsEnergy || 0) * 100)))}%` }}
-                                                    ></div>
+                                        )}
+                                        {isIngredient(ingredient) && (
+                                            <div className="text-xs">
+                                                <span className="block text-gray-500 mb-1">Energy</span>
+                                                <div className="flex items-center">
+                                                    <div className="w-full bg-gray-800 rounded-full h-1.5 mr-2">
+                                                        <div 
+                                                            className="bg-purple-500 h-1.5 rounded-full" 
+                                                            style={{ width: `${Math.min(100, Math.max(0, Math.round((getPropertySafely(ingredient, 'gregsEnergy', 0)) * 100)))}%` }}
+                                                        ></div>
+                                                    </div>
+                                                    <span className="text-gray-400">{safelyFormatNumber(getPropertySafely(ingredient, 'gregsEnergy', 0))}</span>
                                                 </div>
-                                                <span className="text-gray-400">{safelyFormatNumber(ingredient.gregsEnergy)}</span>
                                             </div>
-                                        </div>
+                                        )}
                                     </div>
                                     
                                     {/* Add modality information if available */}
-                                    {ingredient.modality && (
+                                    {isIngredient(ingredient) && hasProperty(ingredient, 'modality') && (
                                         <div className="mt-3 mb-2">
                                             <span className="text-xs text-gray-500 mb-1 block">Quality:</span>
                                             <div className="bg-indigo-900 bg-opacity-30 inline-block px-2 py-0.5 rounded-full text-xs">
-                                                {ingredient.modality}
+                                                {getPropertySafely(ingredient, 'modality', '')}
                                             </div>
                                         </div>
                                     )}

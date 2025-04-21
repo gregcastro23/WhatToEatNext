@@ -1,9 +1,11 @@
 import '@testing-library/jest-dom';
 import { ElementalCalculator } from '@/services/ElementalCalculator';
 
-// Setup test environment
-process.env.NODE_ENV = 'test';
-process.env.NEXT_PUBLIC_ENABLE_ASTRO_DEBUG = 'false';
+// Set NODE_ENV to 'test' - use Object.defineProperty to avoid readonly error
+Object.defineProperty(process.env, 'NODE_ENV', {
+  value: 'test',
+  configurable: true
+});
 
 // Suppress console output during tests to reduce noise in CI
 if (process.env.CI) {
@@ -17,17 +19,18 @@ if (process.env.CI) {
   };
 }
 
-// Mock fetch for all tests
-global.fetch = jest.fn(() => 
-  Promise.resolve({
-    json: () => Promise.resolve({}),
-    text: () => Promise.resolve(''),
-    ok: true,
-    status: 200,
-    statusText: 'OK',
-    headers: new Headers(),
-  } as Response)
-);
+// Mock the fetch API
+global.fetch = jest.fn();
+
+// Mock localStorage
+const localStorageMock = {
+  getItem: jest.fn(),
+  setItem: jest.fn(),
+  removeItem: jest.fn(),
+  clear: jest.fn(),
+};
+
+Object.defineProperty(window, 'localStorage', { value: localStorageMock });
 
 // Mock global services
 jest.mock('@/services/ElementalCalculator', () => ({

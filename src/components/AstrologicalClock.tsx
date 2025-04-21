@@ -1,20 +1,20 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-import { useCurrentChart } from '@/hooks/useCurrentChart';
-import { Clock, Sun, Moon, Star, Loader2, Info } from 'lucide-react';
-import type { ZodiacSign, PlanetaryAlignment } from '@/types/alchemy';
-import { calculatePlanetaryPositions, longitudeToZodiacPosition, getPlanetaryDignity } from '@/utils/astrologyUtils';
+import { useAlchemical } from '../contexts/AlchemicalContext/hooks';
+import { useCurrentChart } from '../hooks/useCurrentChart';
+import { Clock, sun, Moon, Star, Loader2, Info } from 'lucide-react';
+import type { ZodiacSign, PlanetaryAlignment } from '../types/alchemy';
+import { calculatePlanetaryPositions, longitudeToZodiacPosition, getPlanetaryDignity } from '../utils/astrologyUtils';
 import PlanetaryPositionValidation from './PlanetaryPositionValidation';
 import { PlanetInfoModal } from './PlanetInfoModal';
 
 // Define planet and zodiac symbols for the legend
 const PLANET_SYMBOLS: Record<string, string> = {
-  'Sun': '☉',
+  'sun': '☉',
   'Moon': '☽',
-  'Mercury': '☿',
-  'Venus': '♀',
+  'mercury': '☿',
+  'venus': '♀',
   'Mars': '♂',
   'Jupiter': '♃',
   'Saturn': '♄',
@@ -44,10 +44,13 @@ const ZODIAC_SYMBOLS: Record<string, string> = {
 
 // Use the imported PlanetaryPosition type directly
 function isValidPosition(pos: unknown): boolean {
-  return pos && 
-         typeof pos.sign === 'string' &&
-         typeof pos.degree === 'number' &&
-         pos.degree >= 0 && pos.degree < 30;
+  if (!pos || typeof pos !== 'object') return false;
+  
+  const position = pos as Record<string, unknown>;
+  
+  return typeof position.sign === 'string' &&
+         typeof position.degree === 'number' &&
+         position.degree >= 0 && (position.degree as number) < 30;
 }
 
 // Rename this interface to avoid the conflict
@@ -180,7 +183,7 @@ const AstrologicalClock: React.FC = () => {
                   // Only calculate dignity for actual planets, not nodes
                   const dignity = isNode 
                     ? { type: 'N/A', strength: 0 } 
-                    : getPlanetaryDignity(planet, data.sign);
+                    : getPlanetaryDignity(planet, data.sign as ZodiacSign);
                     
                   const dignityClass = isNode
                     ? nodeClass 

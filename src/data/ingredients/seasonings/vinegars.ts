@@ -1,5 +1,5 @@
-import type { IngredientMapping, ElementalProperties, ZodiacSign } from '@/types/alchemy';
-import { fixIngredientMappings } from '@/utils/elementalUtils';
+import type { IngredientMapping, ElementalProperties, ZodiacSign } from '../../../types/alchemy';
+import { fixIngredientMappings } from '../../../utils/elementalUtils';
 
 // Helper function to standardize ingredient mappings
 function createIngredientMapping(
@@ -35,14 +35,14 @@ const rawVinegars: Record<string, Partial<IngredientMapping>> = {
       notes: 'Milder and less acidic than other vinegars'
     },
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Mercury'],
+      rulingPlanets: ['Moon', 'mercury'],
       favorableZodiac: ['cancer', 'virgo', 'pisces'],
       elementalAffinity: {
         base: 'Water',
         secondary: 'Air',
         decanModifiers: {
           first: { element: 'Water', planet: 'Moon' },
-          second: { element: 'Air', planet: 'Mercury' },
+          second: { element: 'Air', planet: 'mercury' },
           third: { element: 'Earth', planet: 'Saturn' }
         }
       },
@@ -236,14 +236,14 @@ const rawVinegars: Record<string, Partial<IngredientMapping>> = {
       notes: 'Aged in wooden barrels, rich in antioxidants'
     },
     astrologicalProfile: {
-      rulingPlanets: ['Saturn', 'Venus'],
+      rulingPlanets: ['Saturn', 'venus'],
       favorableZodiac: ['capricorn', 'taurus', 'libra'],
       elementalAffinity: {
         base: 'Earth',
         secondary: 'Water',
         decanModifiers: {
           first: { element: 'Earth', planet: 'Saturn' },
-          second: { element: 'Water', planet: 'Venus' },
+          second: { element: 'Water', planet: 'venus' },
           third: { element: 'Fire', planet: 'Jupiter' }
         }
       },
@@ -440,14 +440,14 @@ const rawVinegars: Record<string, Partial<IngredientMapping>> = {
       notes: 'Contains beneficial enzymes and probiotics'
     },
     astrologicalProfile: {
-      rulingPlanets: ['Venus', 'Mercury'],
+      rulingPlanets: ['venus', 'mercury'],
       favorableZodiac: ['taurus', 'virgo', 'libra'],
       elementalAffinity: {
         base: 'Earth',
         secondary: 'Air',
         decanModifiers: {
-          first: { element: 'Earth', planet: 'Venus' },
-          second: { element: 'Air', planet: 'Mercury' },
+          first: { element: 'Earth', planet: 'venus' },
+          second: { element: 'Air', planet: 'mercury' },
           third: { element: 'Water', planet: 'Moon' }
         }
       },

@@ -60,7 +60,7 @@ export const CHAKRA_PROPERTIES: Record<Chakra, ChakraProperties> = {
         sanskritName: 'Anahata',
         color: 'Green',
         element: 'Air',
-        planet: 'Venus',
+        planet: 'venus',
         governs: ['Love', 'Compassion', 'Harmony', 'Connection'],
         balanceIndicators: ['Empathy', 'Compassion', 'Self-love'],
         imbalanceIndicators: ['Isolation', 'Bitterness', 'Fear of intimacy']
@@ -70,7 +70,7 @@ export const CHAKRA_PROPERTIES: Record<Chakra, ChakraProperties> = {
         sanskritName: 'Vishuddha',
         color: 'Blue',
         element: 'Ether',
-        planet: 'Mercury',
+        planet: 'mercury',
         governs: ['Communication', 'Expression', 'Truth', 'Authenticity'],
         balanceIndicators: ['Clear communication', 'Authentic expression', 'Active listening'],
         imbalanceIndicators: ['Inability to express', 'Dishonesty', 'Fear of speaking up']
@@ -90,22 +90,35 @@ export const CHAKRA_PROPERTIES: Record<Chakra, ChakraProperties> = {
         sanskritName: 'Sahasrara',
         color: 'Violet',
         element: 'Thought',
-        planet: 'Sun',
+        planet: 'sun',
         governs: ['Consciousness', 'Spirituality', 'Connection to higher self'],
         balanceIndicators: ['Spiritual connection', 'Awareness', 'Presence'],
         imbalanceIndicators: ['Disconnection', 'Apathy', 'Materialism']
     }
 };
 
+// Function to fix the case in an array of zodiac signs
+function fixZodiacCase(signs: string[]): string[] {
+    const lowerCaseSigns = ['aries', 'taurus', 'gemini', 'cancer', 'leo', 'virgo', 'libra', 'scorpio', 'sagittarius', 'capricorn', 'aquarius', 'pisces'];
+    
+    return signs.map(sign => {
+        const lowerSign = sign.toLowerCase();
+        if (lowerCaseSigns.includes(lowerSign)) {
+            return lowerSign;
+        }
+        return sign;
+    });
+}
+
 // Chakra to Zodiac Sign mappings
 export const CHAKRA_ZODIAC_MAPPINGS: Record<Chakra, ZodiacSign[]> = {
     'Root': ['capricorn', 'taurus'],
-    'Sacral': ['cancer', 'Scorpio', 'pisces'],
-    'Solar Plexus': ['aries', 'leo', 'sagittarius'],
-    'Heart': ['Libra', 'taurus'],
+    'Sacral': ['cancer', 'scorpio', 'pisces'],
+    'Solar Plexus': ['leo', 'virgo', 'sagittarius'],
+    'Heart': ['libra', 'taurus'],
     'Throat': ['gemini', 'virgo'],
-    'Third Eye': ['pisces', 'sagittarius'],
-    'Crown': ['aquarius', 'pisces']
+    'Third Eye': ['sagittarius', 'aquarius', 'pisces'],
+    'Crown': ['capricorn', 'aquarius']
 };
 
 // Zodiac Sign to Chakra mappings (reverse of above)

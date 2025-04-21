@@ -2,25 +2,32 @@
 
 import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
-import FoodRecommender from '@/components/FoodRecommender';
-import IngredientRecommender from '@/components/IngredientRecommender';
-import { AstrologicalProvider } from '@/context/AstrologicalContext';
+import FoodRecommender from '../components/FoodRecommender';
+import IngredientRecommender from '../components/IngredientRecommender';
+import { AstrologicalProvider } from '../context/AstrologicalContext';
 import Link from 'next/link';
 import { Button } from '@mui/material';
+import PlanetaryPositionInitializer from '../components/PlanetaryPositionInitializer';
+import { initializeAlchemicalEngine } from '../utils/alchemyInitializer';
 
 // Use dynamic import with SSR disabled for components that use client-side only features
-const DynamicCuisineRecommender = dynamic(
-  () => import('@/components/CuisineRecommender'),
+const DynamicSearchComponent = dynamic(
+  () => import('../components/SearchComponent'),
   { ssr: false }
 );
 
-const DynamicHomeMethodsComponent = dynamic(
-  () => import('@/components/HomeMethodsComponent'),
+const DynamicCuisineRecommender = dynamic(
+  () => import('../components/CuisineRecommender'),
+  { ssr: false }
+);
+
+const DynamicCookingMethods = dynamic(
+  () => import('../components/CookingMethods'),
   { ssr: false }
 );
 
 const DynamicPlanetaryTimeDisplay = dynamic(
-  () => import('@/components/PlanetaryTimeDisplay'),
+  () => import('../components/PlanetaryTimeDisplay'),
   { ssr: false }
 );
 
@@ -40,9 +47,25 @@ function ClientOnly({ children }: { children: React.ReactNode }) {
 }
 
 export default function Home() {
+  // Initialize alchemical engine and track render count
+  const [renderCount, setRenderCount] = useState(0);
+  
+  useEffect(() => {
+    // Initialize the alchemical engine
+    initializeAlchemicalEngine();
+    setRenderCount(prev => prev + 1);
+  }, []);
+
   return (
     <main className="min-h-screen bg-gradient-to-b from-indigo-50 via-blue-50 to-gray-100 text-gray-800">
       <div className="container mx-auto px-4 py-8">
+        <div style={{ fontSize: '10px', color: '#999', textAlign: 'right', width: '100%', marginBottom: '8px' }}>
+          Page renders: {renderCount}
+        </div>
+      
+        {/* Initialize planetary positions needed by all components */}
+        <PlanetaryPositionInitializer />
+        
         <header className="mb-8 text-center">
           <h1 className="text-3xl md:text-4xl font-bold mb-2 text-indigo-900">What to Eat Next</h1>
           <p className="text-indigo-600 mb-4">
@@ -56,6 +79,13 @@ export default function Home() {
             </div>
           </ClientOnly>
         </header>
+        
+        {/* Search Component */}
+        <section className="mb-8">
+          <ClientOnly>
+            <DynamicSearchComponent />
+          </ClientOnly>
+        </section>
         
         {/* Navigation Jump Links */}
         <nav className="flex flex-wrap justify-center gap-4 mb-8 bg-white rounded-lg shadow-md p-4 sticky top-2 z-10">
@@ -85,7 +115,7 @@ export default function Home() {
           
           <div id="methods" className="bg-white rounded-lg shadow-md p-5 w-full">
             <ClientOnly>
-              <DynamicHomeMethodsComponent />
+              <DynamicCookingMethods />
             </ClientOnly>
           </div>
         </div>

@@ -1,8 +1,8 @@
-import SunCalc from 'suncalc';
+import sunCalc from 'suncalc';
 
 interface SolarPosition {
-  azimuth: number;      // Sun azimuth in radians (direction along the horizon)
-  altitude: number;     // Sun altitude above the horizon in radians
+  azimuth: number;      // sun azimuth in radians (direction along the horizon)
+  altitude: number;     // sun altitude above the horizon in radians
   declination: number;  // Declination in radians
   rightAscension: number; // Right ascension in radians
 }
@@ -10,16 +10,16 @@ interface SolarPosition {
 /**
  * Get the sun's position for a given time and location
  */
-export function getSunPosition(
+export function getsunPosition(
   date: Date = new Date(),
   latitude = 40.7128,
   longitude = -74.0060
 ): SolarPosition {
   try {
-    const sunPosition = SunCalc.getPosition(date, latitude, longitude);
+    const sunPosition = sunCalc.getPosition(date, latitude, longitude);
     
     // Convert to our format and add some additional calculations
-    // SunCalc gives azimuth (direction) and altitude (height)
+    // sunCalc gives azimuth (direction) and altitude (height)
     const azimuth = sunPosition.azimuth;
     const altitude = sunPosition.altitude;
     

@@ -60,9 +60,9 @@ export default function DebugPage() {
             <h3 className="text-lg font-bold mb-2">Test Results</h3>
             
             <div className="mb-4">
-              <h4 className="font-bold">Ingredient: {testResults.ingredient.name}</h4>
-              <p>Element: {testResults.ingredient.element}</p>
-              <p>Elemental Character: {testResults.ingredient.elementalCharacter}</p>
+              <h4 className="font-bold">Ingredient: {(testResults.ingredient as any).name}</h4>
+              <p>Element: {(testResults.ingredient as any).element}</p>
+              <p>Elemental Character: {(testResults.ingredient as any).elementalCharacter}</p>
             </div>
             
             <div className="mb-4">

@@ -1,5 +1,5 @@
-import type { IngredientMapping } from '@/types/alchemy';
-import { fixIngredientMappings } from '@/utils/elementalUtils';
+import type { IngredientMapping } from '../../../types/alchemy';
+import { fixIngredientMappings } from '../../../utils/elementalUtils';
 
 // Helper function for generating consistent numeric values
 const generateVegetableAttributes = (vegData: {
@@ -29,12 +29,12 @@ const rawLeafyGreens: Record<string, Partial<IngredientMapping>> = {
     name: 'Kale',
     elementalProperties: { Air: 0.38, Earth: 0.34, Water: 0.22, Fire: 0.06 },
     astrologicalProfile: {
-      rulingPlanets: ['Mercury', 'Saturn'],
+      rulingPlanets: ['mercury', 'Saturn'],
       favorableZodiac: ['virgo', 'capricorn'],
       elementalAffinity: {
         base: 'Air',
         decanModifiers: {
-          first: { element: 'Air', planet: 'Mercury' },
+          first: { element: 'Air', planet: 'mercury' },
           second: { element: 'Earth', planet: 'Saturn' },
           third: { element: 'Water', planet: 'Moon' }
         }
@@ -49,7 +49,7 @@ const rawLeafyGreens: Record<string, Partial<IngredientMapping>> = {
           preparationTips: ['Fermentation', 'Longer cooking processes']
         }
       },
-      aspectEnhancers: ['Mercury trine Saturn', 'Moon in Virgo']
+      aspectEnhancers: ['mercury trine Saturn', 'Moon in Virgo']
     },
     qualities: ['cleansing', 'strengthening', 'cooling', 'grounding', 'resilient'],
     origin: ['Mediterranean', 'Northern Europe'],

@@ -3,12 +3,12 @@
 'use client';
 
 import React from 'react';
-import { getTimeFactors } from '@/types/time';
+import { getTimeFactors } from '../../types/time';
 import styles from './RecipeCard.module.css';
+import { ViewOption } from '../../types/shared';
 
-// Add missing type definitions
-type ViewOption = 'grid' | 'list' | 'compact';
-type ElementalFilter = 'Fire' | 'Water' | 'Earth' | 'Air' | 'none';
+// Define custom ElementalFilter for the RecipeCard component
+type RecipeCardElementalFilter = 'Fire' | 'Water' | 'Earth' | 'Air' | 'none';
 
 interface Ingredient {
     name: string;
@@ -64,7 +64,7 @@ interface Recipe {
 interface RecipeCardProps {
     recipe: Recipe;
     viewMode: ViewOption;
-    elementalHighlight: ElementalFilter;
+    elementalHighlight: RecipeCardElementalFilter;
     matchPercentage: number;
 }
 
@@ -82,13 +82,13 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
         if (!recipe.planetaryInfluences || !recipe.planetaryInfluences.favorable || !recipe.planetaryInfluences.unfavorable) return null;
 
         const isFavorable = recipe.planetaryInfluences.favorable.includes(timeFactors.planetaryDay.planet);
-        const isUnfavorable = recipe.planetaryInfluences.unfavorable.includes(timeFactors.planetaryDay.planet);
+        const isunfavorable = recipe.planetaryInfluences.unfavorable.includes(timeFactors.planetaryDay.planet);
         
         return { 
             planet: timeFactors.planetaryDay.planet,
             day: timeFactors.planetaryDay.day,
             isFavorable, 
-            isUnfavorable 
+            isunfavorable 
         };
     }, [recipe.planetaryInfluences, timeFactors.planetaryDay]);
 
@@ -97,13 +97,13 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
         if (!recipe.planetaryInfluences || !recipe.planetaryInfluences.favorable || !recipe.planetaryInfluences.unfavorable) return null;
 
         const isFavorable = recipe.planetaryInfluences.favorable.includes(timeFactors.planetaryHour.planet);
-        const isUnfavorable = recipe.planetaryInfluences.unfavorable.includes(timeFactors.planetaryHour.planet);
+        const isunfavorable = recipe.planetaryInfluences.unfavorable.includes(timeFactors.planetaryHour.planet);
         
         return { 
             planet: timeFactors.planetaryHour.planet,
             hourOfDay: timeFactors.planetaryHour.hourOfDay,
             isFavorable, 
-            isUnfavorable 
+            isunfavorable 
         };
     }, [recipe.planetaryInfluences, timeFactors.planetaryHour]);
 
@@ -146,23 +146,23 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
                         {planetaryDayInfluence && (
                             <span className={`${styles.planetaryBadge} ${
                                 planetaryDayInfluence.isFavorable ? styles.favorablePlanet :
-                                planetaryDayInfluence.isUnfavorable ? styles.unfavorablePlanet :
+                                planetaryDayInfluence.isunfavorable ? styles.unfavorablePlanet :
                                 ''
                             }`}>
                                 {planetaryDayInfluence.planet} Day
                                 {planetaryDayInfluence.isFavorable && ' ✓'}
-                                {planetaryDayInfluence.isUnfavorable && ' ✗'}
+                                {planetaryDayInfluence.isunfavorable && ' ✗'}
                             </span>
                         )}
                         {planetaryHourInfluence && (
                             <span className={`${styles.planetaryBadge} ${
                                 planetaryHourInfluence.isFavorable ? styles.favorablePlanet :
-                                planetaryHourInfluence.isUnfavorable ? styles.unfavorablePlanet :
+                                planetaryHourInfluence.isunfavorable ? styles.unfavorablePlanet :
                                 ''
                             }`}>
                                 {planetaryHourInfluence.planet} Hour
                                 {planetaryHourInfluence.isFavorable && ' ✓'}
-                                {planetaryHourInfluence.isUnfavorable && ' ✗'}
+                                {planetaryHourInfluence.isunfavorable && ' ✗'}
                             </span>
                         )}
                     </div>
@@ -191,7 +191,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
                                 {typeof recipe.spiceLevel === 'number' ? (
                                     <div className={styles.spiceIndicator}>
                                         {[...Array(5)].map((_, i) => (
-                                            <span key={i} className={`${styles.spiceDot} ${i < recipe.spiceLevel ? styles.active : ''}`}>
+                                            <span key={i} className={`${styles.spiceDot} ${i < (recipe.spiceLevel as number) ? styles.active : ''}`}>
                                                 🌶️
                                             </span>
                                         ))}

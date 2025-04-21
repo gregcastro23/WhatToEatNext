@@ -1,5 +1,5 @@
 // src/data/cuisines/korean.ts
-import type { Cuisine } from '@/types/cuisine';
+import type { Cuisine } from '../../types/cuisine';
 
 export const korean: Cuisine = {
   id: "korean",
@@ -446,7 +446,7 @@ export const korean: Cuisine = {
           mealType: ["dinner", "social dining"]
         },
         {
-          name: "Sundubu Jjigae",
+          name: "sundubu Jjigae",
           description: "Spicy soft tofu stew",
           cuisine: "Korean",
           cookingMethods: ["simmering", "stewing"],
@@ -1029,7 +1029,7 @@ export const korean: Cuisine = {
         Water: 0.2,
         Earth: 0.1
       },
-      astrologicalInfluences: ["Mercury", "Gemini", "Sagittarius"],
+      astrologicalInfluences: ["mercury", "Gemini", "Sagittarius"],
       seasonality: "summer",
       preparationNotes: "Best made fresh rather than stored long-term",
       technicalTips: "Adjust vinegar and sugar ratio to complement the dish being served"
@@ -1047,7 +1047,7 @@ export const korean: Cuisine = {
         Water: 0.2,
         Air: 0.1
       },
-      astrologicalInfluences: ["Mars", "Sun", "Aries"],
+      astrologicalInfluences: ["Mars", "sun", "Aries"],
       seasonality: "all",
       preparationNotes: "Mix thoroughly and cook briefly to develop flavors",
       technicalTips: "The sauce should coat the back of a spoon but still be pourable"
@@ -1065,7 +1065,7 @@ export const korean: Cuisine = {
         Fire: 0.2,
         Air: 0.2
       },
-      astrologicalInfluences: ["Venus", "Taurus", "Libra"],
+      astrologicalInfluences: ["venus", "Taurus", "Libra"],
       seasonality: "all",
       preparationNotes: "Asian pear helps tenderize meat while adding subtle sweetness",
       technicalTips: "Marinate beef for at least 2 hours, preferably overnight for best flavor penetration"
@@ -1083,7 +1083,7 @@ export const korean: Cuisine = {
         Fire: 0.1,
         Water: 0.1
       },
-      astrologicalInfluences: ["Mercury", "Gemini", "Virgo"],
+      astrologicalInfluences: ["mercury", "Gemini", "Virgo"],
       seasonality: "all",
       preparationNotes: "Use high-quality freshly toasted sesame oil for best flavor",
       technicalTips: "Add at the end of cooking to preserve volatile aromatics"
@@ -1174,7 +1174,7 @@ export const korean: Cuisine = {
       description: "Refined, royal-influenced cuisine with balanced flavors",
       signature: ["royal court dishes", "japchae", "bulgogi", "refined banchan"],
       elementalProperties: { Earth: 0.4, Water: 0.3, Fire: 0.2, Air: 0.1 },
-      astrologicalInfluences: ["Jupiter", "Mercury", "Libra"],
+      astrologicalInfluences: ["Jupiter", "mercury", "Libra"],
       seasonality: "moderately seasonal"
     },
     jeonju: {
@@ -1182,7 +1182,7 @@ export const korean: Cuisine = {
       description: "Known as Korea's food capital, with emphasis on quality ingredients and tradition",
       signature: ["bibimbap", "kongnamul gukbap", "makgeolli", "traditional banchan"],
       elementalProperties: { Earth: 0.5, Water: 0.2, Fire: 0.2, Air: 0.1 },
-      astrologicalInfluences: ["Moon", "Venus", "Taurus"],
+      astrologicalInfluences: ["Moon", "venus", "Taurus"],
       seasonality: "highly seasonal"
     },
     gyeongsang: {

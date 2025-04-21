@@ -1,8 +1,8 @@
 // src/components/recipe/RecipeGrid.tsx
 
-import { useState, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import RecipeCard from './RecipeCard';
-import { getCurrentSeason } from '@/data/seasons';
+import { getCurrentSeason } from '../../data/seasons';
 import { 
   SlidersHorizontal, 
   Flame, 
@@ -17,9 +17,11 @@ import {
   LayoutGrid,
   LayoutList
 } from 'lucide-react';
-import type { ScoredRecipe, RecipeIngredient } from '@/types/recipe';
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-import { recipeElementalService } from '@/services/RecipeElementalService';
+import type { ScoredRecipe, Recipe } from '../../types/recipe';
+import { useAlchemical } from '../../contexts/AlchemicalContext/hooks';
+import { recipeElementalService } from '../../services/RecipeElementalService';
+import { ViewOption, ElementalFilter } from '../../types/shared';
+import { Season } from '../../types/alchemy';
 
 interface RecipeGridProps {
   recipes: ScoredRecipe[];
@@ -28,9 +30,32 @@ interface RecipeGridProps {
 }
 
 type SortOption = 'score' | 'time' | 'traditional' | 'elemental' | 'seasonal' | 'calories';
-type ViewOption = 'grid' | 'list' | 'compact';
-type ElementalFilter = 'all' | 'Fire' | 'Water' | 'Air' | 'Earth';
+// Using imported shared types instead
+// type ViewOption = 'grid' | 'list' | 'compact';
+// type ElementalFilter = 'all' | 'Fire' | 'Water' | 'Air' | 'Earth';
 type RecipeCardElementalFilter = 'Fire' | 'Water' | 'Earth' | 'Air' | 'none';
+
+// Map function to convert ElementalFilter to RecipeCardElementalFilter
+const mapToRecipeCardFilter = (filter: ElementalFilter): RecipeCardElementalFilter => {
+  return filter === 'all' ? 'none' : filter;
+};
+
+// Convert RecipeIngredient to the Ingredient format expected by RecipeCard component
+export function convertToCardIngredient(ingredient: any): any {
+  return {
+    name: ingredient.name,
+    // Ensure amount is a number as required by RecipeCard's Ingredient interface
+    amount: typeof ingredient.amount === 'string' 
+      ? parseFloat(ingredient.amount) || 0
+      : typeof ingredient.amount === 'number' 
+        ? ingredient.amount 
+        : 0,
+    unit: ingredient.unit || '',
+    category: ingredient.category,
+    preparation: ingredient.preparation,
+    optional: ingredient.isOptional || ingredient.optional || false
+  };
+}
 
 export const RecipeGrid: React.FC<RecipeGridProps> = ({ 
   recipes, 
@@ -52,8 +77,12 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
   };
 
   const getSeasonalScore = (recipe: ScoredRecipe) => {
-    if (recipe.season?.includes(currentSeason)) return 2;
-    if (recipe.season?.includes('all')) return 1;
+    if (!recipe.season) return 0;
+    
+    const seasons = Array.isArray(recipe.season) ? recipe.season : [recipe.season];
+    
+    if (seasons.some(s => s === currentSeason)) return 2;
+    if (seasons.some(s => s === 'all')) return 1;
     return 0;
   };
 
@@ -66,7 +95,7 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
     // Use the elemental service to calculate similarity
     let similarity = recipeElementalService.calculateSimilarity(
       standardizedRecipe.elementalProperties,
-      state.elementalPreference
+      state.elementalPreference as any
     );
     
     // Ensure similarity is a valid number
@@ -107,8 +136,9 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
           (recipe.mealType && recipe.mealType.includes(mealType));
         
         const seasonMatch = !recipe.season || 
-          recipe.season.includes(currentSeason) || 
-          recipe.season.includes('all');
+          (Array.isArray(recipe.season) 
+            ? (recipe.season.some(s => s === currentSeason) || recipe.season.some(s => s === 'all'))
+            : (recipe.season === currentSeason || recipe.season === 'all'));
 
         const elementalMatch = elementalFilter === 'all' || 
           (recipe.elementalProperties && 
@@ -242,40 +272,33 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
 
       {filteredAndSortedRecipes.length > 0 ? (
         <div className={`grid ${getViewModeClass()}`}>
-          {filteredAndSortedRecipes.map((recipe, index) => (
-            <div
-              key={`${recipe.name}-${index}`}
-              className="bg-white rounded-lg shadow-lg overflow-hidden"
-            >
-              <RecipeCard 
-                recipe={{
-                  ...recipe,
-                  // Ensure season is always a string array
-                  season: typeof recipe.season === 'string' ? [recipe.season] : recipe.season,
-                  // Ensure mealType is always a string array
-                  mealType: typeof recipe.mealType === 'string' ? [recipe.mealType] : recipe.mealType,
-                  // Ensure standardized fields are passed to the recipe card
-                  servingSize: recipe.servingSize || recipe.numberOfServings,
-                  substitutions: recipe.substitutions,
-                  tools: recipe.tools,
-                  spiceLevel: recipe.spiceLevel,
-                  nutrition: recipe.nutrition,
-                  preparationNotes: recipe.preparationNotes,
-                  technicalTips: recipe.technicalTips,
-                  // Ensure ingredients have the correct format
-                  ingredients: recipe.ingredients.map(ingredient => ({
-                    ...ingredient,
-                    // Ensure category is a string if it's undefined
-                    category: ingredient.category || '',
-                    // Convert amount to number if it's a string
-                    amount: typeof ingredient.amount === 'string' ? parseFloat(ingredient.amount) : ingredient.amount
-                  }))
-                }}
-                viewMode={viewMode}
-                elementalHighlight={elementalFilter === 'all' ? 'none' : elementalFilter as RecipeCardElementalFilter}
-                matchPercentage={recipe.matchPercentage}
-              />
-            </div>
+          {filteredAndSortedRecipes.map((recipe) => (
+            <RecipeCard
+              key={recipe.id}
+              matchPercentage={recipe.matchPercentage}
+              recipe={{
+                name: recipe.name,
+                description: recipe.description || '',
+                cuisine: recipe.cuisine || '',
+                timeToMake: recipe.timeToMake,
+                season: Array.isArray(recipe.season) ? recipe.season : recipe.season ? [recipe.season] : [],
+                mealType: Array.isArray(recipe.mealType) ? recipe.mealType : recipe.mealType ? [recipe.mealType] : [],
+                elementalProperties: recipe.elementalProperties,
+                zodiacInfluences: recipe.zodiacInfluences,
+                lunarPhaseInfluences: recipe.lunarPhaseInfluences,
+                planetaryInfluences: recipe.planetaryInfluences,
+                servingSize: recipe.servingSize || 2,
+                substitutions: recipe.substitutions,
+                tools: recipe.tools,
+                spiceLevel: recipe.spiceLevel,
+                preparationNotes: recipe.preparationNotes,
+                technicalTips: recipe.technicalTips,
+                ingredients: recipe.ingredients.map(convertToCardIngredient),
+                instructions: recipe.instructions || []
+              }}
+              viewMode={viewMode}
+              elementalHighlight={mapToRecipeCardFilter(elementalFilter)}
+            />
           ))}
         </div>
       ) : (

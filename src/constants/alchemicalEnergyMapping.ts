@@ -1,10 +1,10 @@
-import type { ElementalProperties } from '@/types/alchemy';
-import { createLogger } from '@/utils/logger';
+import type { ElementalProperties } from '../types/alchemy';
+import { createLogger } from '../utils/logger';
 import { 
   CelestialPosition, 
   AlchemicalProperties, 
   ThermodynamicProperties 
-} from '@/types/celestial';
+} from '../types/celestial';
 
 export interface AlchemicalEnergyState {
   name: 'Spirit' | 'Substance' | 'Essence' | 'Matter';
@@ -31,7 +31,7 @@ export const ALCHEMICAL_ENERGY_STATES: AlchemicalEnergyState[] = [
     description: 'Energy that exists beyond Matter; Mind',
     chakra: 'Crown Chakra',
     planets: {
-      daytime: ['Sun', 'Jupiter', 'Saturn', 'Mercury'],
+      daytime: ['sun', 'Jupiter', 'Saturn', 'mercury'],
       nighttime: []
     },
     elements: ['Fire', 'Air'],
@@ -48,7 +48,7 @@ export const ALCHEMICAL_ENERGY_STATES: AlchemicalEnergyState[] = [
     chakra: 'Throat Chakra',
     planets: {
       daytime: [],
-      nighttime: ['Mercury', 'Neptune']
+      nighttime: ['mercury', 'Neptune']
     },
     elements: ['Air', 'Earth'],
     properties: {
@@ -63,7 +63,7 @@ export const ALCHEMICAL_ENERGY_STATES: AlchemicalEnergyState[] = [
     description: 'That which an object cannot exist without',
     chakra: 'Brow, Solar Plexus, Sacral Chakras',
     planets: {
-      daytime: ['Venus', 'Mars'],
+      daytime: ['venus', 'Mars'],
       nighttime: ['Jupiter', 'Neptune']
     },
     elements: ['Fire', 'Water'],
@@ -80,7 +80,7 @@ export const ALCHEMICAL_ENERGY_STATES: AlchemicalEnergyState[] = [
     chakra: 'Root Chakra',
     planets: {
       daytime: [],
-      nighttime: ['Venus', 'Saturn', 'Mars', 'Uranus']
+      nighttime: ['venus', 'Saturn', 'Mars', 'Uranus']
     },
     elements: ['Water', 'Earth'],
     properties: {
@@ -101,7 +101,7 @@ const logger = createLogger('alchemicalEnergyMapping');
 
 // Define day/night element maps for all planets
 export const planetElementMap = (isDaytime: boolean): Record<string, string> => ({
-  'sun': 'Fire', // Sun is always Fire
+  'sun': 'Fire', // sun is always Fire
   'moon': 'Water', // Moon is always Water
   'mercury': isDaytime ? 'Air' : 'Earth',
   'venus': isDaytime ? 'Water' : 'Earth',

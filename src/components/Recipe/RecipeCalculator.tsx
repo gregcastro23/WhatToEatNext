@@ -1,12 +1,8 @@
 import React, { useState, useCallback } from 'react';
-import type { 
-  ElementalProperties, 
-  RecipeCalculatorProps,
-  Element
-} from '@/types/alchemy';
-import { getCurrentSeason } from '@/contexts/AlchemicalContext/context';
-import { SEASONAL_MODIFIERS } from '@/utils/seasonalCalculations';
-import { getCurrentZodiacSign, getZodiacElementalInfluence } from '@/utils/zodiacUtils';
+import { ElementalProperties, RecipeCalculatorProps, CombinationResult, Element } from '../../types/alchemy';
+import { getCurrentSeason } from '../../utils/seasonUtils';
+import { SEASONAL_MODIFIERS } from '../../utils/seasonalCalculations';
+import { getCurrentZodiacSign, getZodiacElementalInfluence } from '../../utils/zodiacUtils';
 
 const MAX_TOTAL = 1;
 const MIN_ELEMENT_VALUE = 0;
@@ -123,17 +119,21 @@ export const RecipeCalculator: React.FC<RecipeCalculatorProps> = ({
       Air: seasonalElements.Air * astrologicalElements.Air
     };
     
-    const result: unknown = {
-      resultingProperties: finalElements,
+    const normalizedElements = normalizeElements(finalElements);
+    
+    const dominantElement = getDominantElement(normalizedElements) as Element;
+    
+    // Create valid CombinationResult object
+    const result: CombinationResult = {
+      resultingProperties: normalizedElements,
       energyState: {
-        heat: 0.5,
-        entropy: 0.5,
-        pressure: 0.5,
-        reactivity: 0.5
+        heat: normalizedElements.Fire * 0.8 + normalizedElements.Air * 0.2,
+        entropy: normalizedElements.Air * 0.7 + normalizedElements.Fire * 0.3,
+        reactivity: normalizedElements.Fire * 0.6 + normalizedElements.Water * 0.4,
+        energy: normalizedElements.Fire * 0.5 + normalizedElements.Air * 0.3 + normalizedElements.Earth * 0.2
       },
-      stability: 0.7,
-      potency: 0.8,
-      dominantElement: getDominantElement(finalElements),
+      potency: Math.max(...Object.values(normalizedElements)),
+      dominantElement,
       warnings: [],
       alchemicalRecommendations: []
     };
@@ -141,14 +141,14 @@ export const RecipeCalculator: React.FC<RecipeCalculatorProps> = ({
     onCalculate(result);
   }, [elements, onCalculate]);
 
-  const getDominantElement = (elements: ElementalProperties): unknown => {
+  const getDominantElement = (elements: ElementalProperties): Element => {
     let max = 0;
-    let dominant: unknown = 'Fire';
+    let dominant: Element = 'Fire';
     
     Object.entries(elements).forEach(([element, value]) => {
       if (value > max) {
         max = value;
-        dominant = element;
+        dominant = element as Element;
       }
     });
     

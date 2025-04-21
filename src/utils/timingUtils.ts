@@ -1,6 +1,6 @@
-import type { ElementalProperties } from '@/types/alchemy';
+import type { ElementalProperties } from '../types/alchemy';
 import { elementalUtils } from './elementalUtils';
-import { culinaryTraditions } from '@/data/cuisines/culinaryTraditions';
+import { culinaryTraditions } from '../data/cuisines/culinaryTraditions';
 
 // Define TimingResult interface
 interface TimingResult {
@@ -51,7 +51,7 @@ export const timingUtils = {
   ): TimingResult {
     const baseProperties = ingredients.reduce(
       (acc, curr) => elementalUtils.combineProperties(acc, curr),
-      elementalUtils.DEFAULT_ELEMENTAL_PROPERTIES
+      elementalUtils.getDefaultElementalProperties()
     );
 
     // Implement getDominantElement directly

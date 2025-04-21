@@ -3,12 +3,12 @@
 'use client'
 
 import React, { useState, useMemo } from 'react';
-import type { Recipe } from '@/types/recipe';
-import { ElementalCalculator } from '@/services/ElementalCalculator';
-import { CUISINE_TYPES } from '@/constants/cuisineTypes';
+import type { Recipe } from '../../../types/recipe';
+import { ElementalCalculator } from '../../../services/ElementalCalculator';
+import { CUISINE_TYPES } from '../../../constants/cuisineTypes';
 import styles from './CuisineGroup.module.css';
-import { logger } from '@/utils/logger';
-import type { ElementalProperties } from '@/types/alchemy';
+import { logger } from '../../../utils/logger';
+import type { ElementalProperties } from '../../../types/alchemy';
 
 interface Props {
     recipes: Recipe[];
@@ -219,14 +219,14 @@ const CuisineGroup: React.FC<Props> = ({ recipes, elementalState }) => {
 
     const calculatePlanetaryHour = (date: Date, isDaytime: boolean): string => {
         // Simple implementation based on traditional planetary hours
-        const daysOfWeek = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
+        const daysOfWeek = ['sun', 'Moon', 'Mars', 'mercury', 'Jupiter', 'venus', 'Saturn'];
         const dayRulers = {
-            0: 'Sun',     // Sunday
+            0: 'sun',     // sunday
             1: 'Moon',    // Monday
             2: 'Mars',    // Tuesday
-            3: 'Mercury', // Wednesday
+            3: 'mercury', // Wednesday
             4: 'Jupiter', // Thursday
-            5: 'Venus',   // Friday
+            5: 'venus',   // Friday
             6: 'Saturn'   // Saturday
         };
         
@@ -234,8 +234,8 @@ const CuisineGroup: React.FC<Props> = ({ recipes, elementalState }) => {
         const hour = date.getHours();
         
         // Map hour of day to planetary hour
-        const daySequence = ['Sun', 'Venus', 'Mercury', 'Moon', 'Saturn', 'Jupiter', 'Mars'];
-        const nightSequence = ['Jupiter', 'Mars', 'Sun', 'Venus', 'Mercury', 'Moon', 'Saturn'];
+        const daySequence = ['sun', 'venus', 'mercury', 'Moon', 'Saturn', 'Jupiter', 'Mars'];
+        const nightSequence = ['Jupiter', 'Mars', 'sun', 'venus', 'mercury', 'Moon', 'Saturn'];
         
         // Calculate hour index (0-11)
         const hourIndex = isDaytime 

@@ -1,12 +1,12 @@
-import type { IngredientMapping } from '@/types/alchemy';
-import { fixIngredientMappings } from '@/utils/elementalUtils';
+import type { IngredientMapping } from '../../../../types/alchemy';
+import { fixIngredientMappings } from '../../../../utils/elementalUtils';
 
 const rawQuinoa: Record<string, Partial<IngredientMapping>> = {
   'quinoa': {
     name: 'Quinoa',
     elementalProperties: { Earth: 0.3, Water: 0.2, Air: 0.3, Fire: 0.2 },
     astrologicalProfile: {
-      rulingPlanets: ['Mercury'],
+      rulingPlanets: ['mercury'],
       elementalAffinity: {
         base: 'earth',
         secondary: 'air'

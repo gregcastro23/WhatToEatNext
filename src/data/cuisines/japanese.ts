@@ -1,6 +1,6 @@
 // src/data/cuisines/japanese.ts
-import type { Cuisine } from '@/types/cuisine';
-import type { LunarPhase, ZodiacSign } from '@/types/alchemy';
+import type { Cuisine } from '../../types/cuisine';
+import type { LunarPhase, ZodiacSign } from '../../types/alchemy';
 
 export const japanese: Cuisine = {
   id: 'japanese',
@@ -25,7 +25,6 @@ export const japanese: Cuisine = {
       seasonality: "all",
       preparationNotes: "Never boil kombu; gently heat to extract umami without bitterness",
       technicalTips: "Remove kombu before water boils, then add katsuobushi off heat",
-      difficulty: "easy",
       storageInstructions: "Store refrigerated up to 3 days or freeze up to 1 month",
       yield: "1 liter"
     },
@@ -43,11 +42,10 @@ export const japanese: Cuisine = {
         Fire: 0.2,
         Air: 0.1
       },
-      astrologicalInfluences: ["Saturn", "Mercury", "Taurus"],
+      astrologicalInfluences: ["Saturn", "mercury", "Taurus"],
       seasonality: "all",
       preparationNotes: "Often simmered with aromatics like ginger, garlic, and scallions",
       technicalTips: "Balance sweet, salty, and umami carefully; adjust with kombu or bonito",
-      difficulty: "medium",
       storageInstructions: "Store refrigerated up to 1 month",
       yield: "500 ml"
     }
@@ -1171,51 +1169,36 @@ export const japanese: Cuisine = {
   traditionalSauces: {
     shoyu: {
       name: "Shoyu (Soy Sauce)",
-      description: "Fermented soybean sauce that forms the foundation of Japanese cuisine",
-      base: "soybean",
-      keyIngredients: ["soybeans", "wheat", "salt", "koji mold"],
-      culinaryUses: ["dipping sauce", "seasoning", "marinade", "flavor base"],
-      variants: ["Koikuchi", "Usukuchi", "Tamari", "Saishikomi"],
-      elementalProperties: {
-        Water: 0.4,
-        Earth: 0.3,
-        Fire: 0.2,
-        Air: 0.1
-      },
-      astrologicalInfluences: ["Saturn", "Pluto", "Scorpio"],
-      seasonality: "all",
-      preparationNotes: "Traditional brewing takes months of fermentation",
-      technicalTips: "Different shoyu types are suited for different applications; usukuchi is lighter and saltier"
-    },
-    miso: {
-      name: "Miso",
-      description: "Fermented soybean paste with complex umami flavor",
-      base: "soybean",
-      keyIngredients: ["soybeans", "koji", "salt", "rice or barley"],
-      culinaryUses: ["soup base", "marinade", "sauce base", "pickling agent"],
-      variants: ["Shiro (white)", "Aka (red)", "Awase (mixed)", "Hatcho (soybean-only)"],
-      elementalProperties: {
-        Earth: 0.5,
-        Water: 0.2,
-        Fire: 0.2,
-        Air: 0.1
-      },
-      astrologicalInfluences: ["Jupiter", "Moon", "Taurus"],
-      seasonality: "all",
-      preparationNotes: "Fermentation period determines color and flavor intensity",
-      technicalTips: "Never boil miso to preserve live cultures and flavor complexity"
+      description: "The most common Japanese sauce made from fermented soybeans, wheat, salt and koji mold.",
+      base: "Fermented soybeans",
+      keyIngredients: ["Soybeans", "Wheat", "Salt", "Koji mold"],
+      culinaryUses: ["Dipping", "Marinade", "Seasoning"],
+      preparationNotes: "Traditionally fermented for several months",
+      technicalTips: "Can be diluted with dashi for a more nuanced flavor",
+      storageInstructions: "Store in a cool, dark place",
+      yield: "N/A - commercially produced"
     },
     ponzu: {
       name: "Ponzu",
-      description: "Tangy citrus-based sauce with soy and dashi",
-      base: "citrus juice",
-      keyIngredients: ["yuzu or sudachi juice", "soy sauce", "rice vinegar", "dashi"],
-      culinaryUses: ["dipping sauce", "dressing", "marinade"],
-      difficulty: "easy",
-      elementalProperties: { Water: 0.4, Air: 0.3, Earth: 0.2, Fire: 0.1 },
-      seasonality: "all",
-      preparationNotes: "Best when aged for several days to develop flavor",
-      yield: "500ml"
+      description: "Citrus-based sauce with a tart-tangy flavor and thin watery consistency.",
+      base: "Citrus juice and soy sauce",
+      keyIngredients: ["Yuzu or sudachi juice", "Soy sauce", "Vinegar", "Bonito flakes"],
+      culinaryUses: ["Dipping sauce", "Dressing", "Marinade"],
+      preparationNotes: "Best when aged for at least a day to allow flavors to meld",
+      technicalTips: "Can be customized with different citrus fruits",
+      storageInstructions: "Refrigerate for up to 2 weeks",
+      yield: "1 cup per batch"
+    },
+    miso: {
+      name: "Miso",
+      description: "Fermented soybean paste that forms the base of many Japanese dishes.",
+      base: "Fermented soybeans",
+      keyIngredients: ["Soybeans", "Koji", "Salt", "Sometimes rice or barley"],
+      culinaryUses: ["Soup base", "Marinade", "Seasoning", "Sauce base"],
+      preparationNotes: "Fermentation time affects color and flavor intensity",
+      technicalTips: "Add at end of cooking to preserve probiotics",
+      storageInstructions: "Store in refrigerator with surface covered",
+      yield: "N/A - typically purchased"
     },
     mentsuyu: {
       name: "Mentsuyu",
@@ -1223,7 +1206,6 @@ export const japanese: Cuisine = {
       base: "soy sauce and dashi",
       keyIngredients: ["soy sauce", "mirin", "sake", "sugar", "dashi"],
       culinaryUses: ["noodle dipping sauce", "soup base", "seasoning"],
-      difficulty: "easy",
       elementalProperties: { Water: 0.4, Earth: 0.3, Fire: 0.2, Air: 0.1 },
       seasonality: "all",
       preparationNotes: "Can be prepared concentrated and diluted as needed",
@@ -1235,7 +1217,6 @@ export const japanese: Cuisine = {
       base: "soy sauce",
       keyIngredients: ["soy sauce", "mirin", "sake", "sugar", "ginger"],
       culinaryUses: ["glazing", "marinade", "finishing sauce"],
-      difficulty: "easy",
       elementalProperties: { Fire: 0.4, Earth: 0.3, Water: 0.2, Air: 0.1 },
       seasonality: "all",
       preparationNotes: "Traditionally applied in layers while grilling",
@@ -1287,24 +1268,21 @@ export const japanese: Cuisine = {
       description: "Simmering ingredients in dashi-based broth with soy, mirin, and sake",
       elementalProperties: { Water: 0.5, Earth: 0.3, Fire: 0.1, Air: 0.1 },
       toolsRequired: ["heavy-bottomed pot", "otoshibuta (drop lid)", "cooking chopsticks"],
-      bestFor: ["root vegetables", "fish", "tofu", "meat"],
-      difficulty: "medium"
+      bestFor: ["root vegetables", "fish", "tofu", "meat"]
     },
     {
       name: "Tempura",
       description: "Light batter frying technique that creates crisp, delicate coating",
       elementalProperties: { Fire: 0.4, Air: 0.3, Water: 0.2, Earth: 0.1 },
       toolsRequired: ["deep pot", "chopsticks", "wire skimmer", "thermometer"],
-      bestFor: ["seafood", "vegetables", "mushrooms", "herbs"],
-      difficulty: "hard"
+      bestFor: ["seafood", "vegetables", "mushrooms", "herbs"]
     },
     {
       name: "Yakimono",
       description: "Grilling technique emphasizing simplicity and natural flavors",
       elementalProperties: { Fire: 0.5, Earth: 0.2, Air: 0.2, Water: 0.1 },
       toolsRequired: ["konro grill", "binchotan charcoal", "metal skewers", "tongs"],
-      bestFor: ["fish", "chicken", "beef", "vegetables"],
-      difficulty: "medium"
+      bestFor: ["fish", "chicken", "beef", "vegetables"]
     }
   ],
   regionalCuisines: {
@@ -1313,7 +1291,7 @@ export const japanese: Cuisine = {
       description: "Refined, delicate flavors emphasizing natural taste of ingredients with minimal seasoning",
       signature: ["kaiseki ryori", "yudofu", "obanzai", "kyogashi"],
       elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
-      astrologicalInfluences: ["Moon", "Venus", "Cancer"],
+      astrologicalInfluences: ["Moon", "venus", "Cancer"],
       seasonality: "strong seasonal emphasis",
       specialIngredients: ["Kyoto vegetables", "fu (wheat gluten)", "refined tofu", "high-grade teas"]
     },
@@ -1331,7 +1309,7 @@ export const japanese: Cuisine = {
       description: "Hearty, dairy-influenced northern cuisine with abundant seafood",
       signature: ["soup curry", "jingisukan", "seafood bowls", "miso ramen"],
       elementalProperties: { Earth: 0.4, Water: 0.3, Fire: 0.2, Air: 0.1 },
-      astrologicalInfluences: ["Saturn", "Mercury", "Taurus"],
+      astrologicalInfluences: ["Saturn", "mercury", "Taurus"],
       seasonality: "strong winter emphasis",
       specialIngredients: ["butter", "corn", "potatoes", "dairy", "sea urchin", "crab"]
     }
@@ -1344,7 +1322,7 @@ export const japanese: Cuisine = {
   },
   astrologicalInfluences: [
     "Neptune - Governs the subtle dashi broths and seafood elements", 
-    "Mercury - Influences the precision and attention to detail", 
+    "mercury - Influences the precision and attention to detail", 
     "Moon - Shapes the cyclical nature of seasonal cuisine"
   ]
 };

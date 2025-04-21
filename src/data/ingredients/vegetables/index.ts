@@ -1,4 +1,4 @@
-import type { IngredientMapping } from '@/types/alchemy';
+import type { IngredientMapping } from '../../../types/alchemy';
 import { leafyGreens } from './leafyGreens';
 import { roots } from './roots';
 import { cruciferous } from './cruciferous';

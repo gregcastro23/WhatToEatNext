@@ -1,51 +1,79 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { ElementalCalculator } from '@/services/ElementalCalculator';
-import { getIngredientRecommendations, IngredientRecommendation, RecommendationOptions, GroupedIngredientRecommendations } from '@/utils/ingredientRecommender';
+import { ElementalCalculator } from '../services/ElementalCalculator';
+import { getIngredientRecommendations, IngredientRecommendation, RecommendationOptions, GroupedIngredientRecommendations } from '../utils/ingredientRecommender';
 import styles from './IngredientRecommendations.module.css';
-import type { ElementalProperties, ZodiacSign, Season, ElementalState } from '@/types/alchemy';
-import { useAstrologicalState } from '@/hooks/useAstrologicalState';
+import type { ElementalProperties, Season, ElementalState } from '../types/alchemy';
+import { useAstrologicalState } from '../hooks/useAstrologicalState';
 import { Flame, Droplets, Mountain, Wind } from 'lucide-react';
-import { toZodiacSign } from '@/utils/zodiacUtils';
-import type { Ingredient } from '@/types/alchemy';
-import { calculateAlchemicalProperties, calculateThermodynamicProperties, determineIngredientModality } from '@/utils/ingredientUtils';
-import type { Modality } from '@/data/ingredients/types';
+import { toZodiacSign } from '../utils/zodiacUtils';
+import type { Ingredient } from '../types/alchemy';
+import { calculateAlchemicalProperties, calculateThermodynamicProperties, determineIngredientModality } from '../utils/ingredientUtils';
+import type { Modality } from '../data/ingredients/types';
+import { AstrologicalState } from '../types/state';
+import { ZodiacSign } from '../types/commonTypes';
 
 // Helper function to adapt the elemental properties for the recommender system
 function getRecommendations(
   elementalProps: ElementalProperties | undefined,
   options: RecommendationOptions
 ): GroupedIngredientRecommendations {
-  const { currentZodiac, planetaryPositions, moonPhase, aspects } = useAstrologicalState();
+  const { currentZodiac, currentPlanetaryAlignment, lunarPhase, activePlanets, domElements } = useAstrologicalState();
   
-  // Create an object with real astrological state data
-  const astroState = {
-    elementalProperties: elementalProps || {
-      Fire: 0.25,
-      Water: 0.25,
-      Earth: 0.25,
-      Air: 0.25
-    },
+  // Create a correctly shaped input object for getIngredientRecommendations
+  const inputProps = {
+    // Elemental properties - copy directly
+    Fire: elementalProps?.Fire || 0.25,
+    Water: elementalProps?.Water || 0.25,
+    Earth: elementalProps?.Earth || 0.25,
+    Air: elementalProps?.Air || 0.25,
+    // Extra properties required by getIngredientRecommendations
     timestamp: new Date(),
     currentStability: 1.0,
-    // Use actual planetary alignment data from astrological context
-    planetaryAlignment: planetaryPositions || {},
-    dominantElement: Object.entries(elementalProps || {})
-      .sort((a, b) => b[1] - a[1])
-      .map(([element]) => element)[0] || 'Fire',
-    zodiacSign: options.currentZodiac || currentZodiac || 'aries',
-    // Use actual active planets from planetary positions
-    activePlanets: planetaryPositions ? Object.keys(planetaryPositions) : 
-      ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'],
-    // Use actual moon phase
-    lunarPhase: moonPhase || 'full moon',
-    // Add aspects for additional context
-    aspects: aspects || []
+    planetaryAlignment: Object.entries(currentPlanetaryAlignment || {}).reduce((acc, [key, value]) => {
+      if (typeof value === 'object' && value !== null && 'sign' in value) {
+        acc[key] = {
+          sign: value.sign as string,
+          degree: (value.degree as number) || 0
+        };
+      }
+      return acc;
+    }, {} as Record<string, { sign: string, degree: number }>)
   };
   
-  // Use the proper utility function with the actual data
-  return getIngredientRecommendations(astroState, options);
+  // Enhance options with current zodiac
+  const enhancedOptions: RecommendationOptions = {
+    ...options,
+    currentZodiac: options.currentZodiac || currentZodiac || 'aries'
+  };
+  
+  // Use the proper utility function with the correctly shaped data
+  return getIngredientRecommendations(inputProps, enhancedOptions);
+}
+
+// Fix ingredient types by extending the base Ingredient type
+interface IngredientWithScore extends Ingredient {
+  score?: number;
+  sensoryProfile?: {
+    taste: Record<string, number>;
+    aroma: Record<string, number>;
+    texture: Record<string, number>;
+  };
+  qualities?: string[];
+  astrologicalProfile?: {
+    elementalAffinity?: {
+      base?: string;
+      secondary?: string;
+    };
+    rulingPlanets?: string[];
+  };
+  elementalProperties?: ElementalProperties;
+}
+
+// Update to match the interface from ingredientRecommender.ts
+interface IngredientRecommendationWithScore extends Omit<IngredientRecommendation, 'score'> {
+  score: number; // Make score required to match the original interface
 }
 
 interface IngredientRecommendationsProps {
@@ -114,7 +142,7 @@ export default function IngredientRecommendations({
     );
   };
   
-  const renderIngredientDetails = (ingredient: Ingredient) => {
+  const renderIngredientDetails = (ingredient: IngredientWithScore) => {
     // Get the elemental properties
     const elementalProps = ingredient.elementalProperties || {
       Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
@@ -131,7 +159,7 @@ export default function IngredientRecommendations({
       energy: elementalProps.Fire * 0.9 + elementalProps.Air * 0.8
     };
     
-    // Format the match percentage from score
+    // Format the match percentage from score - with proper type check
     const matchPercentage = ingredient.score !== undefined && !isNaN(ingredient.score) 
       ? `${Math.round(ingredient.score * 100)}%`
       : '50%';
@@ -264,14 +292,14 @@ export default function IngredientRecommendations({
   };
   
   // Display a compact ingredient card
-  const renderCompactIngredientCard = (ingredient: IngredientRecommendation) => {
+  const renderCompactIngredientCard = (ingredient: IngredientRecommendationWithScore) => {
     // Get the elemental properties
     const elementalProps = ingredient.elementalProperties || {
       Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
     };
     
-    // Format the match percentage from score
-    const matchPercentage = ingredient.score !== undefined && !isNaN(ingredient.score)
+    // Format the match percentage from score - with proper type check
+    const matchPercentage = ingredient.score !== undefined && !isNaN(ingredient.score) 
       ? `${Math.round(ingredient.score * 100)}%`
       : '50%';
     

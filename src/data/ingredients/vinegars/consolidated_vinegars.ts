@@ -1,6 +1,6 @@
-import type { IngredientMapping, ElementalProperties, ZodiacSign } from '@/types/alchemy';
-import type { Season } from '@/types/seasons';
-import { fixIngredientMappings } from '@/utils/elementalUtils';
+import type { IngredientMapping, ElementalProperties, ZodiacSign } from '../../../types/alchemy';
+import type { Season } from '../../../types/seasons';
+import { fixIngredientMappings } from '../../../utils/elementalUtils';
 
 const rawVinegars: Record<string, Partial<IngredientMapping>> = {
   'rice_vinegar': {
@@ -23,14 +23,14 @@ const rawVinegars: Record<string, Partial<IngredientMapping>> = {
       notes: 'Milder and less acidic than other vinegars'
     },
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Mercury'],
+      rulingPlanets: ['Moon', 'mercury'],
       favorableZodiac: ['cancer', 'virgo', 'pisces'],
       elementalAffinity: {
         base: 'Water',
         secondary: 'Air',
         decanModifiers: {
           first: { element: 'Water', planet: 'Moon' },
-          second: { element: 'Air', planet: 'Mercury' },
+          second: { element: 'Air', planet: 'mercury' },
           third: { element: 'Earth', planet: 'Saturn' }
         }
       },
@@ -180,13 +180,13 @@ const rawVinegars: Record<string, Partial<IngredientMapping>> = {
       notes: 'Aged in wooden barrels, rich in antioxidants'
     },
     astrologicalProfile: {
-      rulingPlanets: ['Venus', 'Saturn', 'Jupiter'],
+      rulingPlanets: ['venus', 'Saturn', 'Jupiter'],
       favorableZodiac: ['taurus', 'libra', 'capricorn'],
       elementalAffinity: {
         base: 'Earth',
         secondary: 'Water',
         decanModifiers: {
-          first: { element: 'Earth', planet: 'Venus' },
+          first: { element: 'Earth', planet: 'venus' },
           second: { element: 'Earth', planet: 'Saturn' },
           third: { element: 'Fire', planet: 'Jupiter' }
         }
@@ -322,15 +322,15 @@ const rawVinegars: Record<string, Partial<IngredientMapping>> = {
       notes: 'Contains beneficial enzymes and trace minerals'
     },
     astrologicalProfile: {
-      rulingPlanets: ['Venus', 'Mercury'],
+      rulingPlanets: ['venus', 'mercury'],
       favorableZodiac: ['taurus', 'virgo', 'libra'],
       elementalAffinity: {
         base: 'Water',
         secondary: 'Earth',
         decanModifiers: {
-          first: { element: 'Water', planet: 'Venus' },
-          second: { element: 'Earth', planet: 'Mercury' },
-          third: { element: 'Air', planet: 'Venus' }
+          first: { element: 'Water', planet: 'venus' },
+          second: { element: 'Earth', planet: 'mercury' },
+          third: { element: 'Air', planet: 'venus' }
         }
       }
     },
@@ -472,7 +472,7 @@ const rawVinegars: Record<string, Partial<IngredientMapping>> = {
       notes: 'Contains antioxidants from red wine'
     },
     astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Venus'],
+      rulingPlanets: ['Mars', 'venus'],
       favorableZodiac: ['aries', 'taurus', 'scorpio'],
       elementalAffinity: {
         base: 'Fire',

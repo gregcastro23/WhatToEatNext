@@ -1,11 +1,11 @@
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
-import { Moon, ArrowDown, Sunrise, Sunset, Navigation } from 'lucide-react';
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-import { getSignFromLongitude } from '@/utils/astrologyUtils';
-import { AstrologicalService } from '@/services/AstrologicalService';
-import { safeImportAndExecute, safeImportFunction } from '@/utils/dynamicImport';
+import { Moon, ArrowDown, sunrise, sunset, Navigation } from 'lucide-react';
+import { useAlchemical } from '../contexts/AlchemicalContext/hooks';
+import { getSignFromLongitude } from '../utils/astrologyUtils';
+import { AstrologicalService } from '../services/AstrologicalService';
+import { safeImportAndExecute, safeImportFunction } from '../utils/dynamicImport';
 
 /**
  * A utility function for logging debug information
@@ -116,10 +116,10 @@ const MoonDisplay: React.FC = () => {
     
     // Ensure all required properties are present
     return {
-      sign: node?.sign || 'virgo',
-      degree: node?.degree ?? 15,
-      exactLongitude: node?.exactLongitude ?? 165,
-      isRetrograde: node?.isRetrograde ?? true
+      sign: (node as { sign?: string })?.sign || 'virgo',
+      degree: (node as { degree?: number })?.degree ?? 15,
+      exactLongitude: (node as { exactLongitude?: number })?.exactLongitude ?? 165,
+      isRetrograde: (node as { isRetrograde?: boolean })?.isRetrograde ?? true
     };
   }, [planetaryPositions]);
   
@@ -134,10 +134,10 @@ const MoonDisplay: React.FC = () => {
     
     // Ensure all required properties are present
     return {
-      sign: node?.sign || 'pisces',
-      degree: node?.degree ?? 15,
-      exactLongitude: node?.exactLongitude ?? 345,
-      isRetrograde: node?.isRetrograde ?? true
+      sign: (node as { sign?: string })?.sign || 'pisces',
+      degree: (node as { degree?: number })?.degree ?? 15,
+      exactLongitude: (node as { exactLongitude?: number })?.exactLongitude ?? 345,
+      isRetrograde: (node as { isRetrograde?: boolean })?.isRetrograde ?? true
     };
   }, [planetaryPositions]);
 
@@ -215,9 +215,9 @@ const MoonDisplay: React.FC = () => {
       try {
         // Get all the lunar phase functions at once to avoid multiple imports
         const [calculatePhase, getPhaseName, getIllumination] = await Promise.all([
-          safeImportFunction<(date?: Date) => Promise<number>>('@/utils/astrologyUtils', 'calculateLunarPhase'),
-          safeImportFunction<(phase: number) => string>('@/utils/astrologyUtils', 'getLunarPhaseName'),
-          safeImportFunction<(date?: Date) => Promise<number>>('@/utils/astrologyUtils', 'getMoonIllumination')
+          safeImportFunction<(date?: Date) => Promise<number>>('../utils/astrologyUtils', 'calculateLunarPhase'),
+          safeImportFunction<(phase: number) => string>('../utils/astrologyUtils', 'getLunarPhaseName'),
+          safeImportFunction<(date?: Date) => Promise<number>>('../utils/astrologyUtils', 'getMoonIllumination')
         ]);
         
         if (calculatePhase && getPhaseName && getIllumination) {
@@ -307,7 +307,7 @@ const MoonDisplay: React.FC = () => {
     });
     
     // If the moon position is available and has proper sign information
-    if (planetaryPositions.moon && planetaryPositions.moon.sign) {
+    if (planetaryPositions.moon && (planetaryPositions.moon as { sign?: string }).sign) {
       // No need for additional calculations - the context already has the sign and degree
       debugLog('Moon position available from planetary alignment:', planetaryPositions.moon);
     }
@@ -325,8 +325,8 @@ const MoonDisplay: React.FC = () => {
     // Check for north node data only once when positions are available
     const northNodeMissing = !planetaryPositions.northNode && !planetaryPositions.northnode;
     const northNodeIncomplete = 
-      (planetaryPositions.northNode && !planetaryPositions.northNode.sign) || 
-      (planetaryPositions.northnode && !planetaryPositions.northnode.sign);
+      (planetaryPositions.northNode && !(planetaryPositions.northNode as { sign?: string }).sign) || 
+      (planetaryPositions.northnode && !(planetaryPositions.northnode as { sign?: string }).sign);
     
     if (northNodeMissing || northNodeIncomplete) {
       // Log only once
@@ -359,10 +359,10 @@ const MoonDisplay: React.FC = () => {
         <div>
           <p className="font-medium capitalize">{moonPhase.phase.replace(/_/g, ' ')}</p>
           <p className="text-sm text-gray-300">
-            {moon && moon.sign 
-              ? `Moon in ${capitalizeFirstLetter(moon.sign)} ${formatDegree(moon.degree)}` 
+            {moon && (moon as { sign?: string }).sign 
+              ? `Moon in ${capitalizeFirstLetter((moon as { sign?: string }).sign)} ${formatDegree((moon as { degree?: number }).degree)}` 
               : 'Loading...'}
-            {moon && moon.isRetrograde ? ' ℞' : ''}
+            {moon && (moon as { isRetrograde?: boolean }).isRetrograde ? ' ℞' : ''}
           </p>
           <p className="text-xs text-gray-400">{moonPhase.illumination}% illuminated</p>
         </div>
@@ -387,7 +387,7 @@ const MoonDisplay: React.FC = () => {
           {/* Moon Rise and Set Times */}
           <div className="mt-4 grid grid-cols-2 gap-3">
             <div className="bg-gray-800 rounded p-3 flex items-center">
-              <Sunrise className="w-5 h-5 mr-2 text-yellow-300" />
+              <sunrise className="w-5 h-5 mr-2 text-yellow-300" />
               <div>
                 <div className="text-xs text-gray-400">Moonrise</div>
                 <div className="font-medium">
@@ -399,7 +399,7 @@ const MoonDisplay: React.FC = () => {
             </div>
             
             <div className="bg-gray-800 rounded p-3 flex items-center">
-              <Sunset className="w-5 h-5 mr-2 text-orange-300" />
+              <sunset className="w-5 h-5 mr-2 text-orange-300" />
               <div>
                 <div className="text-xs text-gray-400">Moonset</div>
                 <div className="font-medium">

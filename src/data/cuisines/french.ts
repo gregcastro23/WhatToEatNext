@@ -1,6 +1,6 @@
 // src/data/cuisines/french.ts
-import type { Cuisine } from '@/types/cuisine';
-import type { LunarPhase, ZodiacSign } from '@/types/alchemy';
+import type { Cuisine } from '../../types/cuisine';
+import type { LunarPhase, ZodiacSign } from '../../types/alchemy';
 
 export const french: Cuisine = {
   id: 'french',
@@ -21,7 +21,7 @@ export const french: Cuisine = {
         Air: 0.1,
         Fire: 0.1
       },
-      astrologicalInfluences: ["Moon", "Cancer", "Venus"],
+      astrologicalInfluences: ["Moon", "Cancer", "venus"],
       seasonality: "all",
       preparationNotes: "Heat should be gentle to prevent scorching. Whisk constantly when adding milk to prevent lumps.",
       technicalTips: "For a smoother sauce, heat the milk before adding it to the roux."
@@ -40,7 +40,7 @@ export const french: Cuisine = {
         Air: 0.2,
         Fire: 0.1
       },
-      astrologicalInfluences: ["Jupiter", "Mercury", "Pisces"],
+      astrologicalInfluences: ["Jupiter", "mercury", "Pisces"],
       seasonality: "all",
       preparationNotes: "The stock must be relatively clear and the roux cooked to a blonde stage.",
       technicalTips: "Choose the stock type based on the protein it will accompany."
@@ -78,7 +78,7 @@ export const french: Cuisine = {
         Air: 0.3,
         Earth: 0.1
       },
-      astrologicalInfluences: ["Sun", "Mercury", "Leo"],
+      astrologicalInfluences: ["sun", "mercury", "Leo"],
       seasonality: "spring, summer",
       preparationNotes: "Temperature control is critical to prevent curdling or breaking.",
       technicalTips: "Use a double boiler or bain-marie and add butter gradually."
@@ -213,11 +213,11 @@ export const french: Cuisine = {
             Air: 0.1
           },
           astrologicalInfluences: [
-            "Venus - The buttery richness of the croissant",
-            "Mercury - The stimulating effects of coffee"
+            "venus - The buttery richness of the croissant",
+            "mercury - The stimulating effects of coffee"
           ],
           astrologicalAffinities: {
-            planets: ["Moon", "Venus"],
+            planets: ["Moon", "venus"],
             signs: ["Taurus", "Cancer"],
             lunarPhases: ["First Quarter", "Full Moon"]
           },
@@ -381,11 +381,11 @@ export const french: Cuisine = {
             Air: 0.1
           },
           astrologicalInfluences: [
-            "Venus - The sweet, indulgent nature",
+            "venus - The sweet, indulgent nature",
             "Jupiter - The expansive, celebratory quality"
           ],
           astrologicalAffinities: {
-            planets: ["Venus", "Jupiter"],
+            planets: ["venus", "Jupiter"],
             signs: ["Taurus", "Leo"],
             lunarPhases: ["First Quarter", "Full Moon"]
           },
@@ -468,10 +468,10 @@ export const french: Cuisine = {
           },
           astrologicalInfluences: [
             "Taurus - The sensuous, indulgent nature",
-            "Venus - The harmonious balance of flavors"
+            "venus - The harmonious balance of flavors"
           ],
           astrologicalAffinities: {
-            planets: ["Taurus", "Venus"],
+            planets: ["Taurus", "venus"],
             signs: ["Taurus", "Virgo"],
             lunarPhases: ["First Quarter", "Full Moon"]
           },
@@ -550,11 +550,11 @@ export const french: Cuisine = {
             Fire: 0.2
           },
           astrologicalInfluences: [
-            "Mercury - The light, fresh quality",
+            "mercury - The light, fresh quality",
             "Neptune - The Mediterranean sea influence"
           ],
           astrologicalAffinities: {
-            planets: ["Mercury", "Neptune"],
+            planets: ["mercury", "Neptune"],
             signs: ["Gemini", "Pisces"],
             lunarPhases: ["First Quarter", "Full Moon"]
           },
@@ -819,10 +819,10 @@ export const french: Cuisine = {
           },
           astrologicalInfluences: [
             "Jupiter - The elegance and richness",
-            "Mercury - The bright, quick quality"
+            "mercury - The bright, quick quality"
           ],
           astrologicalAffinities: {
-            planets: ["Jupiter", "Mercury"],
+            planets: ["Jupiter", "mercury"],
             signs: ["Leo", "Gemini"],
             lunarPhases: ["First Quarter", "Full Moon"]
           },
@@ -990,11 +990,11 @@ export const french: Cuisine = {
             Air: 0.1
           },
           astrologicalInfluences: [
-            "Venus - The sensual, creamy nature",
-            "Sun - The fire element in caramelization"
+            "venus - The sensual, creamy nature",
+            "sun - The fire element in caramelization"
           ],
           astrologicalAffinities: {
-            planets: ["Venus", "Sun"],
+            planets: ["venus", "sun"],
             signs: ["Taurus", "Leo"],
             lunarPhases: ["First Quarter", "Full Moon"]
           },
@@ -1073,11 +1073,11 @@ export const french: Cuisine = {
             Air: 0.1
           },
           astrologicalInfluences: [
-            "Venus - The sweet, indulgent nature",
+            "venus - The sweet, indulgent nature",
             "Jupiter - The transformative quality"
           ],
           astrologicalAffinities: {
-            planets: ["Venus", "Jupiter"],
+            planets: ["venus", "Jupiter"],
             signs: ["Taurus", "Virgo"],
             lunarPhases: ["First Quarter", "Full Moon"]
           },
@@ -1156,11 +1156,11 @@ export const french: Cuisine = {
             Air: 0.1
           },
           astrologicalInfluences: [
-            "Venus - The indulgent, sweet quality",
+            "venus - The indulgent, sweet quality",
             "Jupiter - The expansive, celebratory nature"
           ],
           astrologicalAffinities: {
-            planets: ["Venus", "Jupiter"],
+            planets: ["venus", "Jupiter"],
             signs: ["Taurus", "Leo"],
             lunarPhases: ["First Quarter", "Full Moon"]
           },
@@ -1223,7 +1223,7 @@ export const french: Cuisine = {
       description: "Mediterranean-influenced cuisine from Southern France, featuring olive oil, herbs, tomatoes, and seafood",
       signature: ["bouillabaisse", "ratatouille", "tapenade", "aioli"],
       elementalProperties: { Fire: 0.3, Earth: 0.3, Water: 0.3, Air: 0.1 },
-      astrologicalInfluences: ["Sun", "Mercury", "Venus"],
+      astrologicalInfluences: ["sun", "mercury", "venus"],
       seasonality: "summer"
     },
     normandy: {
@@ -1231,7 +1231,7 @@ export const french: Cuisine = {
       description: "Butter and cream-based cuisine from Northern France, featuring apples, dairy, and seafood",
       signature: ["calvados", "camembert", "tarte aux pommes", "tripes à la mode de Caen"],
       elementalProperties: { Water: 0.4, Earth: 0.4, Fire: 0.1, Air: 0.1 },
-      astrologicalInfluences: ["Moon", "Venus", "Neptune"],
+      astrologicalInfluences: ["Moon", "venus", "Neptune"],
       seasonality: "autumn"
     },
     burgundy: {
@@ -1258,9 +1258,9 @@ export const french: Cuisine = {
     Air: 0.2
   },
   astrologicalInfluences: [
-    "Venus - Governs the sensual, pleasure-seeking aspects of French cuisine",
+    "venus - Governs the sensual, pleasure-seeking aspects of French cuisine",
     "Jupiter - Influences the celebratory and abundant nature of French dining",
-    "Mercury - Shapes the precise techniques and articulate presentation"
+    "mercury - Shapes the precise techniques and articulate presentation"
   ]
 };
 

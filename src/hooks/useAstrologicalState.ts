@@ -1,25 +1,25 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
-import { AstrologicalService } from '@/services/AstrologicalService';
-import { LunarPhase } from '@/constants/planetaryFoodAssociations';
+import { AstrologicalService } from '../services/AstrologicalService';
+import { LunarPhase } from '../constants/planetaryFoodAssociations';
 import { 
   calculatePlanetaryPositions, 
-  calculateSunSign, 
+  calculatesunSign, 
   calculateLunarPhase, 
   calculateMoonSign, 
   longitudeToZodiacPosition, 
   getLunarPhaseName,
   calculateAspects
-} from '@/utils/astrologyUtils';
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-import { PlanetaryHourCalculator } from '@/lib/PlanetaryHourCalculator';
-import { createLogger } from '@/utils/logger';
+} from '../utils/astrologyUtils';
+import { useAlchemical } from '../contexts/AlchemicalContext/hooks';
+import { PlanetaryHourCalculator } from '../lib/PlanetaryHourCalculator';
+import { createLogger } from '../utils/logger';
 import {
   CelestialPosition,
   PlanetaryAlignment,
   ZodiacSign,
   Planet,
   AstrologicalState
-} from '@/types/celestial';
+} from '../types/celestial';
 
 // Create a component-specific logger
 const logger = createLogger('AstroState');

@@ -1,4 +1,4 @@
-import type { ElementalProperties } from '@/types/alchemy';
+import type { ElementalProperties } from '../types/alchemy';
 
 export type MealType = 'breakfast' | 'lunch' | 'dinner' | 'snack' | 'dessert';
 export type CuisineType = 'chinese' | 'japanese' | 'korean' | 'indian' | 'thai' | 'vietnamese' | 'western' | 'mediterranean' | 'middle-eastern';

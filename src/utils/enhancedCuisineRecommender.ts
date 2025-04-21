@@ -1,9 +1,9 @@
-import type { Cuisine, Dish, ElementalProperties } from '@/types/cuisine';
-import type { AstrologicalState } from '@/types/alchemy';
-import { cuisinesMap } from '@/data/cuisines';
+import type { Cuisine, Dish, ElementalProperties } from '../types/cuisine';
+import type { AstrologicalState } from '../types/alchemy';
+import { cuisinesMap } from '../data/cuisines';
 
-export type PlanetaryDay = 'Sunday' | 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday';
-export type PlanetaryHour = 'Sun' | 'Moon' | 'Mars' | 'Mercury' | 'Jupiter' | 'Venus' | 'Saturn';
+export type PlanetaryDay = 'sunday' | 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday';
+export type PlanetaryHour = 'sun' | 'Moon' | 'Mars' | 'mercury' | 'Jupiter' | 'venus' | 'Saturn';
 export type TimeOfDay = 'Morning' | 'Afternoon' | 'Evening' | 'Night';
 export type Season = 'Spring' | 'Summer' | 'Fall' | 'Winter';
 export type MealType = 'Breakfast' | 'Lunch' | 'Dinner' | 'Snack' | 'Dessert' | null;
@@ -140,14 +140,14 @@ export class EnhancedCuisineRecommender {
     // Get day of week (planetary day)
     const dayOfWeek = now.getDay();
     const planetaryDays: PlanetaryDay[] = [
-      'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
+      'sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
     ];
     const planetaryDay = planetaryDays[dayOfWeek];
     
     // Calculate planetary hour (based on traditional astrology)
     // This is a simplified implementation
     const hour = now.getHours();
-    const planetaryRulers: PlanetaryHour[] = ['Sun', 'Venus', 'Mercury', 'Moon', 'Saturn', 'Jupiter', 'Mars'];
+    const planetaryRulers: PlanetaryHour[] = ['sun', 'venus', 'mercury', 'Moon', 'Saturn', 'Jupiter', 'Mars'];
     const dayRulerIndex = dayOfWeek % planetaryRulers.length;
     const hourRulerIndex = (dayRulerIndex + hour) % planetaryRulers.length;
     const planetaryHour = planetaryRulers[hourRulerIndex];
@@ -234,12 +234,12 @@ export class EnhancedCuisineRecommender {
   private calculatePlanetaryDayScore(dish: Dish, planetaryDay: PlanetaryDay): number {
     // Map each planetary day to its ruling planet
     const dayToPlanetMap: Record<PlanetaryDay, string> = {
-      'Sunday': 'Sun',
+      'sunday': 'sun',
       'Monday': 'Moon',
       'Tuesday': 'Mars',
-      'Wednesday': 'Mercury',
+      'Wednesday': 'mercury',
       'Thursday': 'Jupiter',
-      'Friday': 'Venus',
+      'Friday': 'venus',
       'Saturday': 'Saturn'
     };
     
@@ -343,7 +343,6 @@ export class EnhancedCuisineRecommender {
       'Earth': 'earth',
       'Air': 'air',
       'Water': 'water',
-      'Aether': 'aether'
     };
     
     const elementKey = elementMap[dominantElement];

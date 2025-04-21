@@ -9,8 +9,10 @@
  * Types related to celestial objects and their properties
  */
 
-// Planet types
-export type Planet = 'sun' | 'moon' | 'mercury' | 'venus' | 'mars' | 'jupiter' | 'saturn' | 'uranus' | 'neptune' | 'pluto' | 'northnode' | 'southnode' | 'chiron' | 'ascendant';
+// Planet types - all lowercase as per project requirements
+export type Planet = 
+  | 'sun' | 'moon' | 'mercury' | 'venus' | 'mars' | 'jupiter' | 'saturn' | 'uranus' | 'neptune' | 'pluto' 
+  | 'northnode' | 'southnode' | 'chiron' | 'ascendant';
 
 // Zodiac sign types
 export type ZodiacSign = 'aries' | 'taurus' | 'gemini' | 'cancer' | 'leo' | 'virgo' | 'libra' | 'scorpio' | 'sagittarius' | 'capricorn' | 'aquarius' | 'pisces';
@@ -44,6 +46,7 @@ export interface PlanetaryAspect {
   planet1: string;
   planet2: string;
   aspectType: AspectType;
+  type?: AspectType;
   orb: number;
   influence: number;
 }
@@ -115,12 +118,14 @@ export interface AstrologicalState {
   moonPhase: LunarPhase;
   currentPlanetaryAlignment: PlanetaryAlignment;
   activePlanets: string[];
+  sunSign: ZodiacSign;
   lunarPhase?: LunarPhase;
   isDaytime?: boolean;
   planetaryHour?: Planet;
   dominantElement?: Element;
   dominantModality?: Modality;
   aspects?: PlanetaryAspect[];
+  retrograde?: string[];
   
   // Optional tracking fields
   loading?: boolean;

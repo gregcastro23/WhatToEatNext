@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { getTimeFactors, TimeFactors } from '@/types/time';
+import { getTimeFactors, TimeFactors } from '../types/time';
 
 interface PlanetaryTimeDisplayProps {
   compact?: boolean;
@@ -15,10 +15,10 @@ const PlanetaryTimeDisplay: React.FC<PlanetaryTimeDisplayProps> = ({
   // Get the emoji for each planet
   const getPlanetEmoji = (planetName: string): string => {
     const emojiMap: Record<string, string> = {
-      'Sun': '☀️',
+      'sun': '☀️',
       'Moon': '🌙',
-      'Mercury': '☿️',
-      'Venus': '♀️',
+      'mercury': '☿️',
+      'venus': '♀️',
       'Mars': '♂️',
       'Jupiter': '♃',
       'Saturn': '♄',

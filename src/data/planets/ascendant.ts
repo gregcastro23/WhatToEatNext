@@ -40,7 +40,7 @@ const ascendantData: PlanetData = {
     'Connects food choices to personal identity'
   ],
   'AspectsEffect': {
-    'Sun': {
+    'sun': {
       'Conjunction': 0.7,
       'Opposition': 0.1,
       'Trine': 0.5,
@@ -54,7 +54,7 @@ const ascendantData: PlanetData = {
       'Square': 0.1,
       'Sextile': 0.4
     },
-    'Venus': {
+    'venus': {
       'Conjunction': 0.6,
       'Opposition': 0.1,
       'Trine': 0.5,

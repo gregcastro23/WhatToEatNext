@@ -1,17 +1,17 @@
-import type { IngredientMapping } from '@/types/alchemy';
-import { fixIngredientMappings } from '@/utils/elementalUtils';
+import type { IngredientMapping } from '../../../types/alchemy';
+import { fixIngredientMappings } from '../../../utils/elementalUtils';
 
 const rawCruciferous: Record<string, Partial<IngredientMapping>> = {
   'cauliflower': {
     name: 'Cauliflower',
     elementalProperties: { Air: 0.4, Earth: 0.3, Water: 0.2, Fire: 0.1 },
     astrologicalProfile: {
-      rulingPlanets: ['Mercury', 'Saturn'],
+      rulingPlanets: ['mercury', 'Saturn'],
       favorableZodiac: ['virgo', 'capricorn'],
       elementalAffinity: {
         base: 'Air',
         decanModifiers: {
-          first: { element: 'Air', planet: 'Mercury' },
+          first: { element: 'Air', planet: 'mercury' },
           second: { element: 'Earth', planet: 'Saturn' },
           third: { element: 'Water', planet: 'Moon' }
         },
@@ -114,14 +114,14 @@ const rawCruciferous: Record<string, Partial<IngredientMapping>> = {
     name: 'Broccoli',
     elementalProperties: { Air: 0.3, Earth: 0.3, Water: 0.2, Fire: 0.2 },
     astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Mercury'],
+      rulingPlanets: ['Mars', 'mercury'],
       favorableZodiac: ['aries', 'virgo'],
       elementalAffinity: {
         base: 'Earth',
         secondary: 'Air',
         decanModifiers: {
           first: { element: 'Earth', planet: 'Saturn' },
-          second: { element: 'Air', planet: 'Mercury' },
+          second: { element: 'Air', planet: 'mercury' },
           third: { element: 'Fire', planet: 'Mars' }
         },
         lunarPhaseModifiers: {
@@ -338,15 +338,15 @@ const rawCruciferous: Record<string, Partial<IngredientMapping>> = {
     name: 'Bok Choy',
     elementalProperties: { Water: 0.4, Air: 0.3, Earth: 0.2, Fire: 0.1 },
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Mercury'],
+      rulingPlanets: ['Moon', 'mercury'],
       favorableZodiac: ['cancer', 'virgo'],
       elementalAffinity: {
         base: 'Water',
         secondary: 'Air',
         decanModifiers: {
           first: { element: 'Water', planet: 'Moon' },
-          second: { element: 'Air', planet: 'Mercury' },
-          third: { element: 'Earth', planet: 'Venus' }
+          second: { element: 'Air', planet: 'mercury' },
+          third: { element: 'Earth', planet: 'venus' }
         },
         lunarPhaseModifiers: {
           newMoon: {
@@ -451,14 +451,14 @@ const rawCruciferous: Record<string, Partial<IngredientMapping>> = {
     name: 'Kohlrabi',
     elementalProperties: { Earth: 0.4, Air: 0.3, Water: 0.2, Fire: 0.1 },
     astrologicalProfile: {
-      rulingPlanets: ['Saturn', 'Mercury'],
+      rulingPlanets: ['Saturn', 'mercury'],
       favorableZodiac: ['capricorn', 'virgo'],
       elementalAffinity: {
         base: 'Earth',
         secondary: 'Air',
         decanModifiers: {
           first: { element: 'Earth', planet: 'Saturn' },
-          second: { element: 'Air', planet: 'Mercury' },
+          second: { element: 'Air', planet: 'mercury' },
           third: { element: 'Water', planet: 'Moon' }
         },
         lunarPhaseModifiers: {

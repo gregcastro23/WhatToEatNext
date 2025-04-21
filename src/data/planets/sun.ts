@@ -1,5 +1,5 @@
-import { PlanetData, SunSpecificData } from './types';
-export type { SunSpecificData };
+import { PlanetData, sunSpecificData } from './types';
+export type { sunSpecificData };
 
 const sunData: PlanetData = {
   'Dignity Effect': {
@@ -128,7 +128,7 @@ const sunData: PlanetData = {
         }
       },
       'ZodiacTransit': {
-        // Effect of Sun in each zodiac sign on culinary influences
+        // Effect of sun in each zodiac sign on culinary influences
         'aries': {
           'FoodFocus': 'Quick-cooking methods, spicy foods, red meats',
           'Elements': {

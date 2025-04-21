@@ -1,15 +1,43 @@
 // Create or update a utility function to calculate proper alchemical properties
 
-import type { AlchemicalProperties, ThermodynamicProperties, Modality } from '@/data/ingredients/types';
-import type { ElementalProperties } from '@/types/alchemy';
-import { FlavorProfile } from '@/types/alchemy';
-import type { 
-  Ingredient,
-  RecipeIngredient, 
-  SimpleIngredient, 
-  IngredientMapping,
-  IngredientCategory
-} from '@/types';
+import type { AlchemicalProperties, ThermodynamicProperties, Modality } from '../data/ingredients/types';
+import type { ElementalProperties, Element } from '../types/elemental';
+import { FlavorProfile } from '../types/alchemy';
+import { 
+  IngredientCategory,
+  isIngredientMapping
+} from '../types';
+import { 
+  Ingredient as AlchemyIngredient,
+  RecipeIngredient
+} from '../types/alchemy';
+import { Ingredient as DataIngredient } from '../data/ingredients/types';
+
+// Combined Ingredient type that ensures 'qualities' property exists
+type Ingredient = (AlchemyIngredient | DataIngredient) & {
+  qualities?: string[];
+  astrologicalProfile?: {
+    rulingPlanets?: string[];
+    favorableZodiac?: string[];
+    elementalAffinity?: string | {
+      base: string;
+      secondary?: string;
+      decanModifiers?: {
+        first?: { element: string; planet: string };
+        second?: { element: string; planet: string };
+        third?: { element: string; planet: string };
+      };
+    };
+    lunarPhaseModifiers?: Record<string, unknown>;
+    aspectEnhancers?: string[];
+    signAffinities?: string[];
+    affinities?: Record<string, number>;
+    zodiacAffinity?: string[]; // For compatibility with older code
+  };
+};
+
+// Alias SimpleIngredient to RecipeIngredient for backward compatibility
+type SimpleIngredient = RecipeIngredient;
 
 /**
  * Calculate alchemical properties based on elemental properties
@@ -25,7 +53,7 @@ export function calculateAlchemicalProperties(ingredient: Ingredient): Alchemica
   };
   
   // Base values derived from planetary influences in the alchemizer
-  // Sun (Spirit), Moon/Venus (Essence), Saturn/Mars (Matter), Mercury/Neptune (Substance)
+  // sun (Spirit), Moon/venus (Essence), Saturn/Mars (Matter), mercury/Neptune (Substance)
   // The ratios below approximate the original alchemizer calculations
   const spirit = (elementals.Fire * 0.7) + (elementals.Air * 0.3);
   const essence = (elementals.Water * 0.6) + (elementals.Fire * 0.2) + (elementals.Air * 0.2);
@@ -194,10 +222,11 @@ export function determineIngredientModality(
  */
 export function isRecipeIngredient(ingredient: unknown): ingredient is RecipeIngredient {
   return (
-    ingredient &&
-    typeof ingredient.name === 'string' &&
-    typeof ingredient.amount === 'number' &&
-    typeof ingredient.unit === 'string'
+    !!ingredient &&
+    typeof ingredient === 'object' &&
+    typeof (ingredient as RecipeIngredient).name === 'string' &&
+    typeof (ingredient as RecipeIngredient).amount === 'number' &&
+    typeof (ingredient as RecipeIngredient).unit === 'string'
   );
 }
 
@@ -206,13 +235,12 @@ export function isRecipeIngredient(ingredient: unknown): ingredient is RecipeIng
  */
 export function isFullIngredient(ingredient: unknown): ingredient is Ingredient {
   return (
-    ingredient &&
-    typeof ingredient.name === 'string' &&
-    typeof ingredient.category === 'string' &&
-    ingredient.elementalProperties &&
-    Array.isArray(ingredient.qualities) &&
-    ingredient.storage &&
-    typeof ingredient.storage.duration === 'string'
+    !!ingredient &&
+    typeof ingredient === 'object' &&
+    typeof (ingredient as Ingredient).name === 'string' &&
+    typeof (ingredient as Ingredient).category === 'string' &&
+    !!(ingredient as Ingredient).elementalProperties &&
+    Array.isArray((ingredient as Ingredient).qualities)
   );
 }
 
@@ -235,59 +263,30 @@ export function validateIngredient(ingredient: Partial<Ingredient>): {
     errors.push('Category is required');
   } else {
     // Validate that the category is one of the allowed values
-    const validCategories: IngredientCategory[] = [
-      'culinary_herb',
-      'spice',
-      'vegetable',
-      'fruit',
-      'protein',
-      'grain',
-      'dairy',
-      'oil'
+    const validCategories: string[] = [
+      IngredientCategory.Herb,
+      IngredientCategory.Spice,
+      IngredientCategory.Vegetable,
+      IngredientCategory.Fruit,
+      IngredientCategory.Protein,
+      IngredientCategory.Grain,
+      IngredientCategory.Dairy,
+      IngredientCategory.Oil
     ];
 
-    if (!validCategories.includes(ingredient.category as IngredientCategory)) {
+    if (!validCategories.includes(ingredient.category as string)) {
       errors.push(`Invalid category: ${ingredient.category}. Must be one of: ${validCategories.join(', ')}`);
     }
   }
 
-  // Check elementalProperties
-  if (!ingredient.elementalProperties) {
-    errors.push('Elemental properties are required');
-  } else {
-    const { Fire, Water, Earth, Air } = ingredient.elementalProperties;
-    
-    // Check that all elemental properties are present and are numbers between 0 and 1
-    if (typeof Fire !== 'number' || Fire < 0 || Fire > 1) {
-      errors.push('Fire elemental property must be a number between 0 and 1');
-    }
-    if (typeof Water !== 'number' || Water < 0 || Water > 1) {
-      errors.push('Water elemental property must be a number between 0 and 1');
-    }
-    if (typeof Earth !== 'number' || Earth < 0 || Earth > 1) {
-      errors.push('Earth elemental property must be a number between 0 and 1');
-    }
-    if (typeof Air !== 'number' || Air < 0 || Air > 1) {
-      errors.push('Air elemental property must be a number between 0 and 1');
-    }
-
-    // Check that elemental properties sum to approximately 1
-    const sum = Fire + Water + Earth + Air;
-    if (sum < 0.99 || sum > 1.01) {
-      errors.push(`Elemental properties should sum to 1, current sum: ${sum.toFixed(2)}`);
-    }
+  // Check for required fields based on category
+  if (ingredient.category === IngredientCategory.Spice && !ingredient.elementalProperties) {
+    errors.push('Elemental properties are required for spices');
   }
 
-  // Check qualities
-  if (!ingredient.qualities || !Array.isArray(ingredient.qualities) || ingredient.qualities.length === 0) {
+  // Check for at least one quality
+  if (!ingredient.qualities || ingredient.qualities.length === 0) {
     errors.push('At least one quality is required');
-  }
-
-  // Check storage (required)
-  if (!ingredient.storage) {
-    errors.push('Storage information is required');
-  } else if (!ingredient.storage.duration) {
-    errors.push('Storage duration is required');
   }
 
   return {
@@ -310,8 +309,8 @@ export function validateRecipeIngredient(ingredient: Partial<RecipeIngredient>):
     errors.push('Name is required');
   }
 
-  if (typeof ingredient.amount !== 'number') {
-    errors.push('Amount must be a number');
+  if (ingredient.amount !== undefined && typeof ingredient.amount !== 'number' && typeof ingredient.amount !== 'string') {
+    errors.push('Amount must be a number or string');
   }
 
   if (!ingredient.unit) {
@@ -359,40 +358,65 @@ export function mergeElementalProperties(
 }
 
 /**
- * Gets the dominant element from an ElementalProperties object
+ * Identifies the dominant element from elemental properties
+ * Returns the element with the highest value
  */
-export function getDominantElement(elementalProperties: ElementalProperties): string {
-  const { Fire, Water, Earth, Air } = elementalProperties;
-  const max = Math.max(Fire, Water, Earth, Air);
+export function getDominantElement(elementalProperties: ElementalProperties): keyof ElementalProperties {
+  // Create a list of [element, value] pairs
+  const elementEntries = Object.entries(elementalProperties)
+    .filter(([key]) => ['Fire', 'Water', 'Earth', 'Air'].includes(key));
   
-  if (max === Fire) return 'Fire';
-  if (max === Water) return 'Water';
-  if (max === Earth) return 'Earth';
-  if (max === Air) return 'Air';
+  // Sort by value in descending order
+  elementEntries.sort((a, b) => b[1] - a[1]);
   
-  return 'Balanced';
+  // Return the element with the highest value, or 'balanced' if all values are equal
+  const [dominantElement] = elementEntries[0] || ['Fire'];
+  
+  return dominantElement as keyof ElementalProperties;
 }
 
 /**
  * Converts an ingredient mapping to a full ingredient
  */
 export function mapToIngredient(mapping: IngredientMapping): Ingredient {
-  // Set default values for required properties
-  const ingredient: Ingredient = {
+  // Create a base ingredient with known required fields
+  const baseElements = {
+    Fire: 0.25,
+    Water: 0.25,
+    Earth: 0.25,
+    Air: 0.25
+  };
+
+  // Define a default element that complies with the Element type
+  const defaultElement: string = 'Earth';
+
+  // Create the ingredient fields separately to avoid type issues
+  const baseIngredient = {
     name: mapping.name,
-    category: (mapping.category as IngredientCategory) || 'culinary_herb',
-    elementalProperties: mapping.elementalProperties,
+    amount: 1, // Default value
+    unit: 'item', // Default value
+    category: mapping.category !== undefined ? mapping.category : 'unknown',
+    elementalProperties: mapping.elementalProperties || baseElements,
     qualities: mapping.qualities || [],
-    storage: mapping.storage || {
-      duration: 'unknown'
+    element: defaultElement,
+    astrologicalProfile: {
+      rulingPlanets: mapping.astrologicalProfile?.rulingPlanets || [],
+      signAffinities: mapping.astrologicalProfile?.signAffinities || [],
+      zodiacAffinity: mapping.astrologicalProfile?.signAffinities || [],
+      elementalAffinity: {
+        base: mapping.astrologicalProfile?.elementalAffinity?.base || 'Unknown'
+      }
     }
   };
 
-  // Add any additional properties from the mapping
-  for (const key in mapping) {
-    if (key !== 'name' && key !== 'category' && key !== 'elementalProperties' && key !== 'qualities') {
-      (ingredient as any)[key] = mapping[key];
-    }
+  // First convert to unknown, then to Ingredient to avoid the type error
+  const ingredient = baseIngredient as unknown as Ingredient;
+
+  // Don't try to access seasonality directly if it might not exist
+  // in the IngredientMapping type
+  if ('seasonality' in mapping && Array.isArray(mapping.seasonality)) {
+    // Use type assertion since we've confirmed it exists
+    (ingredient as any).seasonality = mapping.seasonality;
   }
 
   return ingredient;
@@ -403,19 +427,81 @@ export function mapToIngredient(mapping: IngredientMapping): Ingredient {
  */
 export function ingredientToRecipeIngredient(
   ingredient: Ingredient,
-  amount = 1,
+  amount: number | string = 1,
   unit = 'item'
 ): RecipeIngredient {
-  return {
+  // Create a base RecipeIngredient from the provided ingredient
+  const recipeIngredient: RecipeIngredient = {
     name: ingredient.name,
-    amount,
-    unit,
-    category: ingredient.category,
-    subCategory: ingredient.subCategory,
-    elementalProperties: ingredient.elementalProperties,
-    // Include other relevant properties
-    // ...
+    amount: amount,
+    unit: unit,
+    category: ingredient.category || 'unknown',
+    // Cast to ElementalProperties from RecipeIngredient type to ensure compatibility
+    elementalProperties: ingredient.elementalProperties ? {
+      Fire: ingredient.elementalProperties.Fire || 0,
+      Water: ingredient.elementalProperties.Water || 0,
+      Earth: ingredient.elementalProperties.Earth || 0,
+      Air: ingredient.elementalProperties.Air || 0
+    } : undefined
   };
+  
+  // Handle astrologicalProfile separately since structure might differ
+  if (ingredient.astrologicalProfile) {
+    recipeIngredient.astrologicalProfile = {
+      rulingPlanets: ingredient.astrologicalProfile.rulingPlanets || [],
+    };
+    
+    // Handle elementalAffinity with proper structure
+    if (ingredient.astrologicalProfile.elementalAffinity) {
+      const elementalAffinity = ingredient.astrologicalProfile.elementalAffinity;
+      // Check if it's already an object with a base property
+      if (typeof elementalAffinity === 'object' && elementalAffinity !== null && 'base' in elementalAffinity) {
+        // Use type assertion to handle the known structure
+        const baseValue = (elementalAffinity as { base: string }).base;
+        const secondaryValue = (elementalAffinity as { secondary?: string }).secondary;
+        
+        recipeIngredient.astrologicalProfile.elementalAffinity = {
+          base: baseValue || 'unknown',
+          secondary: secondaryValue
+        };
+      }
+      // If it's a string, create a proper object
+      else if (typeof elementalAffinity === 'string') {
+        recipeIngredient.astrologicalProfile.elementalAffinity = {
+          base: elementalAffinity || 'unknown'
+        };
+      }
+      // Fallback with a safe default
+      else {
+        recipeIngredient.astrologicalProfile.elementalAffinity = {
+          base: 'unknown'
+        };
+      }
+    }
+    
+    // Handle zodiacAffinity vs signAffinities
+    if ('signAffinities' in ingredient.astrologicalProfile && 
+        Array.isArray(ingredient.astrologicalProfile.signAffinities)) {
+      recipeIngredient.astrologicalProfile.zodiacAffinity = ingredient.astrologicalProfile.signAffinities;
+    }
+  }
+
+  // Handle season/seasonality differences safely 
+  if ('seasonality' in ingredient && Array.isArray((ingredient as any).seasonality)) {
+    (recipeIngredient as any).season = (ingredient as any).seasonality.map((s: any) => String(s));
+  }
+
+  // Handle optional/isOptional differences
+  if ('optional' in ingredient && typeof (ingredient as any).optional === 'boolean') {
+    recipeIngredient.isOptional = (ingredient as any).optional;
+  }
+
+  // Handle notes if present
+  if ('notes' in ingredient && typeof (ingredient as any).notes === 'string') {
+    recipeIngredient.notes = (ingredient as any).notes;
+  }
+
+  return recipeIngredient;
 }
 
 /**

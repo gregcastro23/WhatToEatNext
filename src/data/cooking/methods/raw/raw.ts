@@ -1,9 +1,9 @@
 import type { 
   ZodiacSign, 
   ThermodynamicProperties
-} from '@/types/alchemy';
+} from '../../../../types/alchemy';
 
-import type { CookingMethodData } from '@/types/cookingMethod';
+import type { CookingMethodData } from '../../../../types/cookingMethod';
 
 /**
  * Raw cooking method
@@ -65,7 +65,7 @@ export const raw: CookingMethodData = {
   astrologicalInfluences: {
     favorableZodiac: ['gemini', 'libra', 'aquarius', 'virgo'] as ZodiacSign[],
     unfavorableZodiac: ['aries', 'leo', 'sagittarius'] as ZodiacSign[],
-    dominantPlanets: ['Mercury', 'Venus', 'Moon'],
+    dominantPlanets: ['mercury', 'venus', 'Moon'],
     lunarPhaseEffect: {
       'new_moon': 1.3, // Enhanced purification energy
       'full_moon': 0.9, // Slightly reduced energy

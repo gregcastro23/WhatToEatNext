@@ -1,10 +1,10 @@
 'use client';
 
 import React, { useEffect, useState, useMemo, useCallback } from 'react';
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-import { ElementType, ElementalEnergy } from '@/types/elements';
-import { calculateElementalEnergies } from '@/calculations/elementalcalculations 3';
-import { getCachedCalculation } from '@/utils/calculationCache';
+import { useAlchemical } from '../../contexts/AlchemicalContext/hooks';
+import { ElementType, ElementalEnergy } from '../../types/elements';
+import { calculateElementalEnergies } from '../../calculations/elementalcalculations';
+import { getCachedCalculation } from '../../utils/calculationCache';
 import { isEqual } from 'lodash';
 import { OptimizedComponentWrapper } from '../OptimizedComponentWrapper';
 
@@ -47,7 +47,7 @@ const ElementalEnergyDisplay: React.FC<ElementalEnergyDisplayProps> = ({ showDeb
       const result = getCachedCalculation(
         'elementalEnergies',
         { positions: planetaryPositions, isDaytime },
-        () => calculateElementalEnergies(planetaryPositions, isDaytime)
+        () => calculateElementalEnergies(planetaryPositions as any, isDaytime)
       );
 
       if (!result || !Array.isArray(result)) {

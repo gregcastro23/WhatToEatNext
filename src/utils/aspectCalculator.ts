@@ -1,4 +1,4 @@
-import { AspectType } from '@/types/alchemy';
+import { AspectType } from '../types/alchemy';
 
 /**
  * Utility for calculating comprehensive aspects between planets
@@ -92,10 +92,10 @@ export function calculateComprehensiveAspects(
       let diff = Math.abs(long1 - long2);
       if (diff > 180) diff = 360 - diff;
       
-      // Adjust orbs based on planetary importance (Sun/Moon have larger orbs)
+      // Adjust orbs based on planetary importance (sun/Moon have larger orbs)
       let orbMultiplier = 1.0;
       if (planet1 === 'sun' || planet1 === 'moon' || planet2 === 'sun' || planet2 === 'moon') {
-        orbMultiplier = 1.2; // 20% larger orbs for aspects involving Sun or Moon
+        orbMultiplier = 1.2; // 20% larger orbs for aspects involving sun or Moon
       }
       
       // Check each aspect type

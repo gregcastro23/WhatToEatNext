@@ -12,7 +12,7 @@ export type {
   TemperatureRange
 } from './types';
 
-import { calculateSeasonalScores } from '@/calculations/seasonalCalculations';
+import { calculateSeasonalScores } from '../../calculations/seasonalCalculations';
 import { getMedicinalProperties } from './medicinalCrossReference';
 import { getTextureProfile } from './textureProfiles';
 import { getTemperatureEffect } from './temperatureEffects';

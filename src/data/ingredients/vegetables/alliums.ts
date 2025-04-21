@@ -1,5 +1,5 @@
-import type { IngredientMapping } from '@/types/alchemy';
-import { fixIngredientMappings } from '@/utils/elementalUtils';
+import type { IngredientMapping } from '../../../types/alchemy';
+import { fixIngredientMappings } from '../../../utils/elementalUtils';
 
 const rawAlliums: Record<string, Partial<IngredientMapping>> = {
   'garlic': {
@@ -13,7 +13,7 @@ const rawAlliums: Record<string, Partial<IngredientMapping>> = {
         decanModifiers: {
           first: { element: 'Fire', planet: 'Mars' },
           second: { element: 'Earth', planet: 'Pluto' },
-          third: { element: 'Air', planet: 'Mercury' }
+          third: { element: 'Air', planet: 'mercury' }
         },
         lunarPhaseModifiers: {
           newMoon: {
@@ -269,7 +269,7 @@ const rawAlliums: Record<string, Partial<IngredientMapping>> = {
         decanModifiers: {
           first: { element: 'Earth', planet: 'Saturn' },
           second: { element: 'Water', planet: 'Moon' },
-          third: { element: 'Air', planet: 'Mercury' }
+          third: { element: 'Air', planet: 'mercury' }
         },
         lunarPhaseModifiers: {
           firstQuarter: {
@@ -382,15 +382,15 @@ const rawAlliums: Record<string, Partial<IngredientMapping>> = {
     name: 'Shallot',
     elementalProperties: { Fire: 0.3, Earth: 0.3, Air: 0.3, Water: 0.1 },
     astrologicalProfile: {
-      rulingPlanets: ['Mercury', 'Venus'],
+      rulingPlanets: ['mercury', 'venus'],
       favorableZodiac: ['virgo', 'libra'],
       elementalAffinity: {
         base: 'Air',
         secondary: 'Fire',
         decanModifiers: {
-          first: { element: 'Air', planet: 'Mercury' },
+          first: { element: 'Air', planet: 'mercury' },
           second: { element: 'Fire', planet: 'Mars' },
-          third: { element: 'Earth', planet: 'Venus' }
+          third: { element: 'Earth', planet: 'venus' }
         },
         lunarPhaseModifiers: {
           waxingCrescent: {
@@ -501,13 +501,13 @@ const rawAlliums: Record<string, Partial<IngredientMapping>> = {
     name: 'Spring Onion',
     elementalProperties: { Air: 0.4, Water: 0.3, Fire: 0.2, Earth: 0.1 },
     astrologicalProfile: {
-      rulingPlanets: ['Mercury', 'Mars'],
+      rulingPlanets: ['mercury', 'Mars'],
       favorableZodiac: ['virgo', 'aries'],
       elementalAffinity: {
         base: 'Air',
         secondary: 'Water',
         decanModifiers: {
-          first: { element: 'Air', planet: 'Mercury' },
+          first: { element: 'Air', planet: 'mercury' },
           second: { element: 'Fire', planet: 'Mars' },
           third: { element: 'Water', planet: 'Moon' }
         },
@@ -621,13 +621,13 @@ const rawAlliums: Record<string, Partial<IngredientMapping>> = {
     name: 'Chives',
     elementalProperties: { Air: 0.5, Fire: 0.2, Water: 0.2, Earth: 0.1 },
     astrologicalProfile: {
-      rulingPlanets: ['Mercury', 'Uranus'],
+      rulingPlanets: ['mercury', 'Uranus'],
       favorableZodiac: ['gemini', 'aquarius'],
       elementalAffinity: {
         base: 'Air',
         secondary: 'Fire',
         decanModifiers: {
-          first: { element: 'Air', planet: 'Mercury' },
+          first: { element: 'Air', planet: 'mercury' },
           second: { element: 'Fire', planet: 'Mars' },
           third: { element: 'Air', planet: 'Uranus' }
         },
@@ -752,15 +752,15 @@ const rawAlliums: Record<string, Partial<IngredientMapping>> = {
       Water: 0.2 
     },
     astrologicalProfile: {
-      rulingPlanets: ['Mercury', 'Mars'],
+      rulingPlanets: ['mercury', 'Mars'],
       favorableZodiac: ['gemini', 'aries'],
       elementalAffinity: {
         base: 'Air',
         secondary: 'Fire',
         decanModifiers: {
-          first: { element: 'Air', planet: 'Mercury' },
+          first: { element: 'Air', planet: 'mercury' },
           second: { element: 'Fire', planet: 'Mars' },
-          third: { element: 'Earth', planet: 'Venus' }
+          third: { element: 'Earth', planet: 'venus' }
         }
       }
     },

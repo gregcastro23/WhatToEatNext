@@ -45,10 +45,10 @@ const elementIcons = {
 
 // Planet symbols and retrograde status
 const planetSymbols: Record<string, string> = {
-  'Sun': '☉',
+  'sun': '☉',
   'Moon': '☽',
-  'Mercury': '☿',
-  'Venus': '♀',
+  'mercury': '☿',
+  'venus': '♀',
   'Mars': '♂',
   'Jupiter': '♃',
   'Saturn': '♄',
@@ -61,8 +61,8 @@ const planetSymbols: Record<string, string> = {
 // This is a simplified method, you would use your actual retrograde calculation
 const isRetrograde = (planet: string): boolean => {
   // Here you would use your real retrograde data
-  // For demonstration, we're randomly marking Mercury, Venus, or Mars as retrograde
-  const retrogradeProneAPlanets = ['Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'];
+  // For demonstration, we're randomly marking mercury, venus, or Mars as retrograde
+  const retrogradeProneAPlanets = ['mercury', 'venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'];
   return retrogradeProneAPlanets.includes(planet) && Math.random() > 0.7;
 };
 
@@ -70,10 +70,10 @@ const isRetrograde = (planet: string): boolean => {
 // This is a simplified method, you would use your actual dignity calculation
 const getPlanetDignity = (planet: string, sign: string): string => {
   const dignities: Record<string, Record<string, string>> = {
-    'Sun': { 'leo': 'Domicile', 'aries': 'Exaltation' },
+    'sun': { 'leo': 'Domicile', 'aries': 'Exaltation' },
     'Moon': { 'cancer': 'Domicile', 'taurus': 'Exaltation' },
-    'Mercury': { 'gemini': 'Domicile', 'virgo': 'Domicile' },
-    'Venus': { 'taurus': 'Domicile', 'Libra': 'Domicile', 'pisces': 'Exaltation' },
+    'mercury': { 'gemini': 'Domicile', 'virgo': 'Domicile' },
+    'venus': { 'taurus': 'Domicile', 'Libra': 'Domicile', 'pisces': 'Exaltation' },
     'Mars': { 'aries': 'Domicile', 'Scorpio': 'Domicile', 'capricorn': 'Exaltation' },
     'Jupiter': { 'sagittarius': 'Domicile', 'pisces': 'Domicile', 'cancer': 'Exaltation' },
     'Saturn': { 'capricorn': 'Domicile', 'aquarius': 'Domicile', 'Libra': 'Exaltation' },

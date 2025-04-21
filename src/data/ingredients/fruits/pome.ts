@@ -1,5 +1,5 @@
-import type { IngredientMapping } from '@/types/alchemy';
-import { fixIngredientMappings } from '@/utils/elementalUtils';
+import type { IngredientMapping } from '../../../types/alchemy';
+import { fixIngredientMappings } from '../../../utils/elementalUtils';
 
 const rawPome: Record<string, Partial<IngredientMapping>> = {
   'apple': {
@@ -11,14 +11,14 @@ const rawPome: Record<string, Partial<IngredientMapping>> = {
       Fire: 0
     },
     astrologicalProfile: {
-      rulingPlanets: ['Venus', 'Saturn'],
+      rulingPlanets: ['venus', 'Saturn'],
       favorableZodiac: ['taurus', 'capricorn', 'libra'],
       elementalAffinity: {
         base: 'Earth',
         decanModifiers: {
-          first: { element: 'Earth', planet: 'Venus' },
+          first: { element: 'Earth', planet: 'venus' },
           second: { element: 'Water', planet: 'Saturn' },
-          third: { element: 'Air', planet: 'Mercury' }
+          third: { element: 'Air', planet: 'mercury' }
         }
       }
     },
@@ -156,14 +156,14 @@ const rawPome: Record<string, Partial<IngredientMapping>> = {
       Fire: 0
     },
     astrologicalProfile: {
-      rulingPlanets: ['Venus', 'Moon'],
+      rulingPlanets: ['venus', 'Moon'],
       favorableZodiac: ['taurus', 'cancer', 'libra'],
       elementalAffinity: {
         base: 'Earth',
         decanModifiers: {
-          first: { element: 'Earth', planet: 'Venus' },
+          first: { element: 'Earth', planet: 'venus' },
           second: { element: 'Water', planet: 'Moon' },
-          third: { element: 'Air', planet: 'Mercury' }
+          third: { element: 'Air', planet: 'mercury' }
         }
       }
     },
@@ -293,14 +293,14 @@ const rawPome: Record<string, Partial<IngredientMapping>> = {
       Fire: 0
     },
     astrologicalProfile: {
-      rulingPlanets: ['Venus', 'Saturn'],
+      rulingPlanets: ['venus', 'Saturn'],
       favorableZodiac: ['taurus', 'capricorn', 'libra'],
       elementalAffinity: {
         base: 'Earth',
         decanModifiers: {
-          first: { element: 'Earth', planet: 'Venus' },
+          first: { element: 'Earth', planet: 'venus' },
           second: { element: 'Earth', planet: 'Saturn' },
-          third: { element: 'Air', planet: 'Mercury' }
+          third: { element: 'Air', planet: 'mercury' }
         }
       }
     },
@@ -369,7 +369,6 @@ const rawPome: Record<string, Partial<IngredientMapping>> = {
       }
     },
     preparation: {
-      difficulty: 'Challenging to prepare - very hard flesh',
       peeling: 'Requires sharp peeler or knife, or can be cooked first then peeled',
       coring: 'Hard, gritty core must be removed before cooking',
       browning: 'Browns quickly when cut, place in acidulated water'
@@ -400,7 +399,7 @@ const rawPome: Record<string, Partial<IngredientMapping>> = {
       'French': 'Cotignac (quince jelly), pâte de coing (quince paste)'
     },
     culturalSignificance: {
-      'Classical': 'Associated with Aphrodite/Venus, symbol of love and fertility',
+      'Classical': 'Associated with Aphrodite/venus, symbol of love and fertility',
       'Medieval': 'Used as room freshener and medicinal tonic',
       'Spanish': 'Essential component of classic cheese service',
       'Middle Eastern': 'Traditional accompaniment to meat dishes'
@@ -415,7 +414,7 @@ const rawPome: Record<string, Partial<IngredientMapping>> = {
       Fire: 0
     },
     astrologicalProfile: {
-      rulingPlanets: ['Venus', 'Mercury'],
+      rulingPlanets: ['venus', 'mercury'],
       favorableZodiac: ['taurus', 'gemini', 'libra'],
       elementalAffinity: {
         base: 'Water',
@@ -529,7 +528,7 @@ const rawPome: Record<string, Partial<IngredientMapping>> = {
       Fire: 0
     },
     astrologicalProfile: {
-      rulingPlanets: ['Saturn', 'Venus'],
+      rulingPlanets: ['Saturn', 'venus'],
       favorableZodiac: ['capricorn', 'taurus'],
       elementalAffinity: {
         base: 'Earth',
@@ -641,7 +640,7 @@ const rawPome: Record<string, Partial<IngredientMapping>> = {
       Air: 0.1
     },
     astrologicalProfile: {
-      rulingPlanets: ['Sun', 'Venus'],
+      rulingPlanets: ['sun', 'venus'],
       favorableZodiac: ['leo', 'taurus'],
       elementalAffinity: {
         base: 'Water',

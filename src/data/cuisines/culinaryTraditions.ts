@@ -21,7 +21,7 @@ export const culinaryTraditions: Record<string, CuisineProfile> = {
       rulingPlanets: ['venus', 'moon'],
       favorableZodiac: ['taurus', 'libra', 'cancer'],
       techniques: ['sous_vide', 'confit', 'flambeing'],
-      aspectEnhancers: ['Venus trine Jupiter', 'Moon sextile Neptune'],
+      aspectEnhancers: ['venus trine Jupiter', 'Moon sextile Neptune'],
       seasonalPreference: ['all']
     },
     seasonalPreferences: ['all'],
@@ -38,7 +38,7 @@ export const culinaryTraditions: Record<string, CuisineProfile> = {
       rulingPlanets: ['moon', 'mercury'],
       favorableZodiac: ['pisces', 'virgo', 'scorpio'],
       techniques: ['nimono', 'tsukudani', 'shioyaki'],
-      aspectEnhancers: ['Mercury conjunct Moon', 'Neptune trine Pluto']
+      aspectEnhancers: ['mercury conjunct Moon', 'Neptune trine Pluto']
     },
     signatureModifications: {
       fire_dominant: 'Enhance with binchotan searing',
@@ -53,7 +53,7 @@ export const culinaryTraditions: Record<string, CuisineProfile> = {
       rulingPlanets: ['sun', 'mars'],
       favorableZodiac: ['leo', 'aries', 'sagittarius'],
       techniques: ['nixtamalization', 'adobo', 'barbacoa'],
-      aspectEnhancers: ['Sun square Mars', 'Jupiter in Sagittarius']
+      aspectEnhancers: ['sun square Mars', 'Jupiter in Sagittarius']
     },
     signatureModifications: {
       fire_dominant: 'Amplify with chile de árbol infusion',
@@ -68,7 +68,7 @@ export const culinaryTraditions: Record<string, CuisineProfile> = {
       rulingPlanets: ['jupiter', 'venus'],
       favorableZodiac: ['taurus', 'leo', 'libra'],
       techniques: ['al dente pasta cooking', 'slow simmering', 'grilling'],
-      aspectEnhancers: ['Venus trine Jupiter', 'Sun sextile Mercury']
+      aspectEnhancers: ['venus trine Jupiter', 'sun sextile mercury']
     },
     signatureModifications: {
       fire_dominant: 'Enhance with chili oil drizzle',
@@ -83,7 +83,7 @@ export const culinaryTraditions: Record<string, CuisineProfile> = {
       rulingPlanets: ['sun', 'mercury', 'neptune'],
       favorableZodiac: ['leo', 'gemini', 'pisces'],
       techniques: ['grilling', 'braising', 'marinating'],
-      aspectEnhancers: ['Mercury trine Neptune', 'Venus conjunct Sun']
+      aspectEnhancers: ['mercury trine Neptune', 'venus conjunct sun']
     },
     signatureModifications: {
       fire_dominant: 'Accent with charred vegetables',
@@ -98,7 +98,7 @@ export const culinaryTraditions: Record<string, CuisineProfile> = {
       rulingPlanets: ['mars', 'pluto', 'jupiter'],
       favorableZodiac: ['aries', 'scorpio', 'sagittarius'],
       techniques: ['fermentation', 'grilling', 'stewing'],
-      aspectEnhancers: ['Mars trine Jupiter', 'Pluto sextile Sun']
+      aspectEnhancers: ['Mars trine Jupiter', 'Pluto sextile sun']
     },
     signatureModifications: {
       fire_dominant: 'Intensify with gochujang glaze',
@@ -113,7 +113,7 @@ export const culinaryTraditions: Record<string, CuisineProfile> = {
       rulingPlanets: ['mars', 'uranus', 'pluto'],
       favorableZodiac: ['aries', 'aquarius', 'scorpio'],
       techniques: ['dry-frying', 'double-frying', 'stir-frying'],
-      aspectEnhancers: ['Mars conjunct Uranus', 'Pluto trine Sun']
+      aspectEnhancers: ['Mars conjunct Uranus', 'Pluto trine sun']
     },
     signatureModifications: {
       fire_dominant: 'Amplify with Sichuan peppercorn oil',
@@ -128,7 +128,7 @@ export const culinaryTraditions: Record<string, CuisineProfile> = {
       rulingPlanets: ['jupiter', 'mercury', 'saturn'],
       favorableZodiac: ['sagittarius', 'gemini', 'capricorn'],
       techniques: ['stir-frying', 'steaming', 'braising'],
-      aspectEnhancers: ['Mercury trine Jupiter', 'Saturn sextile Venus']
+      aspectEnhancers: ['mercury trine Jupiter', 'Saturn sextile venus']
     },
     signatureModifications: {
       fire_dominant: 'Intensify with wok hei',
@@ -143,7 +143,7 @@ export const culinaryTraditions: Record<string, CuisineProfile> = {
       rulingPlanets: ['venus', 'mars', 'mercury'],
       favorableZodiac: ['libra', 'aries', 'gemini'],
       techniques: ['pounding', 'stir-frying', 'steaming'],
-      aspectEnhancers: ['Venus square Mars', 'Mercury trine Moon']
+      aspectEnhancers: ['venus square Mars', 'mercury trine Moon']
     },
     signatureModifications: {
       fire_dominant: "Intensify with bird's eye chili",
@@ -173,7 +173,7 @@ export const culinaryTraditions: Record<string, CuisineProfile> = {
       rulingPlanets: ['mercury', 'venus', 'neptune'],
       favorableZodiac: ['gemini', 'libra', 'pisces'],
       techniques: ['quick cooking', 'fresh preparation', 'simmering'],
-      aspectEnhancers: ['Mercury sextile Venus', 'Neptune trine Moon']
+      aspectEnhancers: ['mercury sextile venus', 'Neptune trine Moon']
     },
     signatureModifications: {
       fire_dominant: 'Accentuate with fresh chili',
@@ -188,7 +188,7 @@ export const culinaryTraditions: Record<string, CuisineProfile> = {
       rulingPlanets: ['mars', 'sun', 'saturn'],
       favorableZodiac: ['aries', 'leo', 'capricorn'],
       techniques: ['slow cooking', 'grilling', 'stewing'],
-      aspectEnhancers: ['Mars trine Sun', 'Saturn sextile Jupiter']
+      aspectEnhancers: ['Mars trine sun', 'Saturn sextile Jupiter']
     },
     signatureModifications: {
       fire_dominant: 'Intensify with berbere spice blend',

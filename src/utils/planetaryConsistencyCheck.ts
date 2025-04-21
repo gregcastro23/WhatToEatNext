@@ -9,7 +9,7 @@ export function validatePlanetaryModifiers(): string[] {
   
   // Required planets
   const requiredPlanets = [
-    'Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 
+    'sun', 'Moon', 'mercury', 'venus', 'Mars', 
     'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'
   ];
   

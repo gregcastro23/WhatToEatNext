@@ -1,4 +1,4 @@
-import type { CookingMethodData } from '@/types/cookingMethod';
+import type { CookingMethodData } from '../../../../types/cookingMethod';
 
 /**
  * Distilling: A process that separates and concentrates flavors, aromas, and other
@@ -11,7 +11,7 @@ export const distilling: CookingMethodData = {
   science: 'Distillation works by exploiting different boiling points of compounds. When a mixture is heated, compounds with lower boiling points vaporize first. These vapors are then cooled and condensed back into liquid form, resulting in a concentrated extract.',
   alchemical_properties: {
     element: 'Fire',
-    planetary_influence: 'Mercury',
+    planetary_influence: 'mercury',
     effect_on_ingredients: 'Separates Spirit from Matter, concentrates Essence, transforms Substance'
   },
   suitable_for: [

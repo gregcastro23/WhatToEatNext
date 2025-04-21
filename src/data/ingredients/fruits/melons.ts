@@ -1,5 +1,5 @@
-import type { IngredientMapping } from '@/types/alchemy';
-import { fixIngredientMappings } from '@/utils/elementalUtils';
+import type { IngredientMapping } from '../../../types/alchemy';
+import { fixIngredientMappings } from '../../../utils/elementalUtils';
 
 const rawMelons: Record<string, Partial<IngredientMapping>> = {
   'watermelon': {
@@ -111,14 +111,14 @@ const rawMelons: Record<string, Partial<IngredientMapping>> = {
       Air: 0.1
     },
     astrologicalProfile: {
-      rulingPlanets: ['Venus', 'Moon'],
+      rulingPlanets: ['venus', 'Moon'],
       favorableZodiac: ['taurus', 'cancer'],
       elementalAffinity: {
         base: 'Water',
         decanModifiers: {
-          first: { element: 'Water', planet: 'Venus' },
+          first: { element: 'Water', planet: 'venus' },
           second: { element: 'Earth', planet: 'Moon' },
-          third: { element: 'Air', planet: 'Mercury' }
+          third: { element: 'Air', planet: 'mercury' }
         }
       }
     },
@@ -207,13 +207,13 @@ const rawMelons: Record<string, Partial<IngredientMapping>> = {
       Fire: 0
     },
     astrologicalProfile: {
-      rulingPlanets: ['Venus', 'Moon'],
+      rulingPlanets: ['venus', 'Moon'],
       favorableZodiac: ['taurus', 'cancer'],
       elementalAffinity: {
         base: 'Water',
         decanModifiers: {
-          first: { element: 'Water', planet: 'Venus' },
-          second: { element: 'Air', planet: 'Mercury' },
+          first: { element: 'Water', planet: 'venus' },
+          second: { element: 'Air', planet: 'mercury' },
           third: { element: 'Earth', planet: 'Moon' }
         }
       }
@@ -303,7 +303,7 @@ const rawMelons: Record<string, Partial<IngredientMapping>> = {
       Fire: 0
     },
     astrologicalProfile: {
-      rulingPlanets: ['Saturn', 'Venus'],
+      rulingPlanets: ['Saturn', 'venus'],
       favorableZodiac: ['capricorn', 'taurus'],
       elementalAffinity: {
         base: 'Earth',
@@ -378,7 +378,7 @@ const rawMelons: Record<string, Partial<IngredientMapping>> = {
       Air: 0.1
     },
     astrologicalProfile: {
-      rulingPlanets: ['Venus', 'Jupiter'],
+      rulingPlanets: ['venus', 'Jupiter'],
       favorableZodiac: ['taurus', 'pisces'],
       elementalAffinity: {
         base: 'Water',
@@ -447,7 +447,7 @@ const rawMelons: Record<string, Partial<IngredientMapping>> = {
       Air: 0.1
     },
     astrologicalProfile: {
-      rulingPlanets: ['Venus', 'Jupiter'],
+      rulingPlanets: ['venus', 'Jupiter'],
       favorableZodiac: ['taurus', 'libra'],
       elementalAffinity: {
         base: 'Water',
@@ -597,7 +597,7 @@ const rawMelons: Record<string, Partial<IngredientMapping>> = {
       Fire: 0.1
     },
     astrologicalProfile: {
-      rulingPlanets: ['Venus', 'Mercury'],
+      rulingPlanets: ['venus', 'mercury'],
       favorableZodiac: ['taurus', 'gemini'],
       elementalAffinity: {
         base: 'Water',

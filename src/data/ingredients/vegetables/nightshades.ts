@@ -1,19 +1,19 @@
-import type { IngredientMapping } from '@/types/alchemy';
-import { fixIngredientMappings } from '@/utils/elementalUtils';
+import type { IngredientMapping } from '../../../types/alchemy';
+import { fixIngredientMappings } from '../../../utils/elementalUtils';
 
 const rawNightshades: Record<string, Partial<IngredientMapping>> = {
   'tomato': {
     name: 'Tomato',
     elementalProperties: { Water: 0.4, Fire: 0.3, Air: 0.2, Earth: 0.1 },
     astrologicalProfile: {
-      rulingPlanets: ['Venus', 'Sun'],
+      rulingPlanets: ['venus', 'sun'],
       favorableZodiac: ['leo', 'taurus'],
       elementalAffinity: {
         base: 'Water',
         decanModifiers: {
-          first: { element: 'Water', planet: 'Venus' },
-          second: { element: 'Fire', planet: 'Sun' },
-          third: { element: 'Air', planet: 'Mercury' }
+          first: { element: 'Water', planet: 'venus' },
+          second: { element: 'Fire', planet: 'sun' },
+          third: { element: 'Air', planet: 'mercury' }
         }
       }
     },
@@ -48,14 +48,14 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
     name: 'Eggplant',
     elementalProperties: { Water: 0.4, Air: 0.3, Earth: 0.2, Fire: 0.1 },
     astrologicalProfile: {
-      rulingPlanets: ['Venus', 'Moon'],
+      rulingPlanets: ['venus', 'Moon'],
       favorableZodiac: ['cancer', 'taurus'],
       elementalAffinity: {
         base: 'Water',
         decanModifiers: {
-          first: { element: 'Water', planet: 'Venus' },
+          first: { element: 'Water', planet: 'venus' },
           second: { element: 'Earth', planet: 'Moon' },
-          third: { element: 'Air', planet: 'Mercury' }
+          third: { element: 'Air', planet: 'mercury' }
         }
       }
     },

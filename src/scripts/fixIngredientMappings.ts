@@ -59,10 +59,10 @@ function fixIngredientFile(filePath) {
     if (lastImport) {
       content = content.replace(
         lastImport,
-        `${lastImport}\nimport { fixIngredientMappings } from '@/utils/elementalUtils';`
+        `${lastImport}\nimport { fixIngredientMappings } from '../utils/elementalUtils';`
       );
     } else {
-      content = `import { fixIngredientMappings } from '@/utils/elementalUtils';\n${content}`;
+      content = `import { fixIngredientMappings } from '../utils/elementalUtils';\n${content}`;
     }
   }
   

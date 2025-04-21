@@ -62,7 +62,7 @@ export class FoodAlchemySystem {
     }
 
     private calculateTimeOptimization(food: FoodCorrespondence, planetaryHour: string): number {
-        const isDaytime = planetaryHour === 'Sun';
+        const isDaytime = planetaryHour === 'sun';
         return food.timeOfDay === 'Both' ? 1 : 
             (food.timeOfDay === 'Day' && isDaytime) || 
             (food.timeOfDay === 'Night' && !isDaytime) ? 1 : 0;

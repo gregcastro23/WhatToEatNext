@@ -1,4 +1,4 @@
-import type { IngredientMapping } from '@/types/alchemy';
+import type { IngredientMapping } from '../../../types/alchemy';
 import { meats } from './meat';
 import { seafood } from './seafood';
 import { poultry } from './poultry';
@@ -6,7 +6,7 @@ import { eggs } from './eggs';
 import { legumes } from './legumes';
 import { dairy } from './dairy';
 import { plantBased } from './plantBased';
-import { fixIngredientMappings } from '@/utils/elementalUtils';
+import { fixIngredientMappings } from '../../../utils/elementalUtils';
 
 // Combine all protein categories
 export const proteins: Record<string, IngredientMapping> = {

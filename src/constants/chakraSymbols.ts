@@ -8,7 +8,7 @@ export const CHAKRA_SYMBOLS: Record<string, string> = {
   heart: '✦',       // Star
   throat: '◯',      // Circle
   brow: '◎',        // Circle with dot
-  crown: '☼',       // Sun
+  crown: '☼',       // sun
 };
 
 // Sanskrit bija (seed) mantras for each chakra

@@ -51,14 +51,14 @@ const moonData: PlanetData = {
     'Strengthens emotional connections to food'
   ],
   'AspectsEffect': {
-    'Sun': {
+    'sun': {
       'Conjunction': 0.5,
       'Opposition': -0.3,
       'Trine': 0.4,
       'Square': -0.2,
       'Sextile': 0.3
     },
-    'Venus': {
+    'venus': {
       'Conjunction': 0.7,
       'Opposition': 0.1,
       'Trine': 0.5,

@@ -4,7 +4,38 @@ import {
   generateEnhancedRecommendation,
   validateAlgorithms
 } from './enhancedAlchemicalMatching';
-import { ZodiacSign } from '@/types/alchemy';
+import { ZodiacSign, StandardizedAlchemicalResult as AlchemyStandardizedAlchemicalResult } from '@/types/alchemy';
+import type { StandardizedAlchemicalResult } from '../types/alchemicalResults';
+
+// Adapter to convert partial mock data to complete StandardizedAlchemicalResult that is compatible
+// with both alchemicalResults.ts and alchemy.ts versions
+function createStandardizedAlchemicalResult(mockData: any): AlchemyStandardizedAlchemicalResult {
+  return {
+    elements: mockData.elements || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+    modalities: mockData.modalities || { Cardinal: 0.33, Fixed: 0.33, Mutable: 0.34 },
+    qualities: mockData.qualities || { Hot: 0.25, Dry: 0.25, Cold: 0.25, Wet: 0.25 },
+    dominant: mockData.dominant || {
+      element: 'Fire',
+      modality: 'Cardinal',
+      quality: 'Hot'
+    },
+    // Create compatible elementalBalance that is not a number
+    elementalBalance: {
+      fire: 0.25,
+      earth: 0.25,
+      air: 0.25,
+      water: 0.25
+    },
+    spirit: 0.5,
+    essence: 0.5,
+    matter: 0.5,
+    substance: 0.5,
+    harmonyScore: 0.6,
+    reciprocality: 0.5,
+    // Add cuisine to match expected properties
+    dominantElement: mockData.dominant?.element || 'Fire'
+  } as AlchemyStandardizedAlchemicalResult;
+}
 
 describe('Enhanced Alchemical Matching Algorithms', () => {
   describe('calculateAstrologicalAffinity', () => {
@@ -135,11 +166,48 @@ describe('Enhanced Alchemical Matching Algorithms', () => {
   });
   
   describe('generateEnhancedRecommendation', () => {
-    it('should generate recommendations based on dominant element and modality', () => {
-      const mockResultCardinalFire = {
+    it('should generate cuisine recommendations based on elemental dominance', () => {
+      const mockResult = {
         elements: { Fire: 0.6, Water: 0.2, Earth: 0.1, Air: 0.1 },
         modalities: { Cardinal: 0.5, Fixed: 0.3, Mutable: 0.2 },
         qualities: { Hot: 0.7, Dry: 0.5, Cold: 0.2, Wet: 0.1 },
+        dominant: {
+          element: 'Fire',
+          modality: 'Cardinal',
+          quality: 'Hot'
+        }
+      };
+      
+      const recommendation = generateEnhancedRecommendation(createStandardizedAlchemicalResult(mockResult));
+      
+      // Fire dominant should suggest spicy cuisine
+      expect(recommendation.cuisine).toBeTruthy();
+      expect(recommendation.reasoning.elementalInfluence).toContain('Fire');
+      
+      // Mock a water-dominant result
+      const waterResult = {
+        elements: { Fire: 0.1, Water: 0.6, Earth: 0.2, Air: 0.1 },
+        modalities: { Cardinal: 0.3, Fixed: 0.5, Mutable: 0.2 },
+        qualities: { Hot: 0.2, Dry: 0.1, Cold: 0.5, Wet: 0.6 },
+        dominant: {
+          element: 'Water',
+          modality: 'Fixed',
+          quality: 'Wet'
+        }
+      };
+      
+      const waterRecommendation = generateEnhancedRecommendation(createStandardizedAlchemicalResult(waterResult));
+      
+      // Water dominant should suggest different cuisine than fire
+      expect(waterRecommendation.cuisine).not.toEqual(recommendation.cuisine);
+      expect(waterRecommendation.reasoning.elementalInfluence).toContain('Water');
+    });
+    
+    it('should consider modality in cooking method recommendations', () => {
+      const mockResultCardinalFire = {
+        elements: { Fire: 0.6, Water: 0.1, Earth: 0.1, Air: 0.2 },
+        modalities: { Cardinal: 0.7, Fixed: 0.2, Mutable: 0.1 },
+        qualities: { Hot: 0.7, Dry: 0.6, Cold: 0.1, Wet: 0.1 },
         dominant: {
           element: 'Fire',
           modality: 'Cardinal',
@@ -158,8 +226,8 @@ describe('Enhanced Alchemical Matching Algorithms', () => {
         }
       };
       
-      const recCardinalFire = generateEnhancedRecommendation(mockResultCardinalFire);
-      const recMutableAir = generateEnhancedRecommendation(mockResultMutableAir);
+      const recCardinalFire = generateEnhancedRecommendation(createStandardizedAlchemicalResult(mockResultCardinalFire));
+      const recMutableAir = generateEnhancedRecommendation(createStandardizedAlchemicalResult(mockResultMutableAir));
       
       // Cardinal Fire should recommend techniques like grilling
       expect(recCardinalFire.cookingMethod).toMatch(/grilling|roasting|flame cooking/);
@@ -186,7 +254,10 @@ describe('Enhanced Alchemical Matching Algorithms', () => {
       
       // User doesn't eat chicken
       const userPreferences = ['chicken'];
-      const recommendation = generateEnhancedRecommendation(mockResult, userPreferences);
+      const recommendation = generateEnhancedRecommendation(
+        createStandardizedAlchemicalResult(mockResult), 
+        userPreferences
+      );
       
       // Should not recommend chicken
       expect(recommendation.mainIngredient).not.toContain('chicken');
@@ -205,7 +276,11 @@ describe('Enhanced Alchemical Matching Algorithms', () => {
       };
       
       // Test winter recommendations
-      const winterRecommendation = generateEnhancedRecommendation(mockResult, [], 'winter');
+      const winterRecommendation = generateEnhancedRecommendation(
+        createStandardizedAlchemicalResult(mockResult), 
+        [], 
+        'winter'
+      );
       
       // Should mention seasonal effects in reasoning
       expect(winterRecommendation.reasoning.seasonal).toContain('Winter');

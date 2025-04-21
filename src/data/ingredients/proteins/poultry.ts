@@ -1,12 +1,12 @@
-import type { IngredientMapping } from '@/types/alchemy';
-import { fixIngredientMappings } from '@/utils/elementalUtils';
+import type { IngredientMapping } from '../../../types/alchemy';
+import { fixIngredientMappings } from '../../../utils/elementalUtils';
 
 const rawPoultry: Record<string, Partial<IngredientMapping>> = {
   'chicken': {
     name: 'Chicken',
     elementalProperties: { Fire: 0.2, Water: 0.3, Air: 0.3, Earth: 0.2 },
     astrologicalProfile: {
-      planetaryRuler: 'Mercury',
+      planetaryRuler: 'mercury',
       zodiacRuler: 'Virgo',
       element: 'Air',
       energyType: 'Balanced',
@@ -262,7 +262,7 @@ const rawPoultry: Record<string, Partial<IngredientMapping>> = {
     name: 'Duck',
     elementalProperties: { Earth: 0.1, Water: 0.5, Fire: 0.3, Air: 0.1 },
     astrologicalProfile: {
-      rulingPlanets: ['Neptune', 'Venus'],
+      rulingPlanets: ['Neptune', 'venus'],
       favorableZodiac: ['pisces', 'taurus', 'cancer'],
       elementalAffinity: {
         base: 'Water',
@@ -283,7 +283,7 @@ const rawPoultry: Record<string, Partial<IngredientMapping>> = {
           preparationTips: ['Roasting', 'Smoking', 'Curing']
         }
       },
-      aspectEnhancers: ['Neptune trine Venus', 'Mars sextile Jupiter']
+      aspectEnhancers: ['Neptune trine venus', 'Mars sextile Jupiter']
     },
     qualities: ['rich', 'flavorful', 'fatty', 'succulent', 'warming', 'grounding'],
     origin: ['Asia', 'Europe', 'Americas'],
@@ -690,7 +690,7 @@ const rawPoultry: Record<string, Partial<IngredientMapping>> = {
     name: 'Turkey',
     elementalProperties: { Earth: 0.3, Water: 0.3, Fire: 0.2, Air: 0.2 },
     astrologicalProfile: {
-      rulingPlanets: ['Jupiter', 'Mercury'],
+      rulingPlanets: ['Jupiter', 'mercury'],
       favorableZodiac: ['sagittarius', 'gemini', 'capricorn'],
       elementalAffinity: {
         base: 'Earth',
@@ -711,7 +711,7 @@ const rawPoultry: Record<string, Partial<IngredientMapping>> = {
           preparationTips: ['Smoking', 'Spicy rubs', 'Celebratory roasts']
         }
       },
-      aspectEnhancers: ['Jupiter trine Saturn', 'Mercury in Capricorn']
+      aspectEnhancers: ['Jupiter trine Saturn', 'mercury in Capricorn']
     },
     qualities: ['lean', 'mild', 'versatile', 'hearty', 'grounding'],
     origin: ['Americas', 'Native to North America'],

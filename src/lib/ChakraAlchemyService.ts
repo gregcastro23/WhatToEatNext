@@ -8,8 +8,8 @@ import {
   MajorArcanaChakra,
   SuitChakraMapping,
   KeyCardChakraMapping
-} from '@/types/chakra';
-import { Planet, ZodiacSign, Element, TarotSuit, ChakraPosition, ChakraEnergies, EnergyStateProperties } from '@/types/alchemy';
+} from '../types/chakra';
+import { Planet, ZodiacSign, Element, TarotSuit, ChakraPosition, ChakraEnergies, EnergyStateProperties } from '../types/alchemy';
 
 /**
  * ChakraAlchemyService provides utilities for working with chakra-tarot associations
@@ -152,7 +152,7 @@ export class ChakraAlchemyService {
     };
     
     // Calculate base values using the sun and moon signs
-    this.addZodiacInfluence(energies, sunSign, 1.5); // Sun has stronger influence
+    this.addZodiacInfluence(energies, sunSign, 1.5); // sun has stronger influence
     this.addZodiacInfluence(energies, moonSign, 1.2);
     
     // Add influence from dominant planets

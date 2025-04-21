@@ -1,19 +1,19 @@
-import type { IngredientMapping } from '@/types/alchemy';
-import { fixIngredientMappings } from '@/utils/elementalUtils';
+import type { IngredientMapping } from '../../../types/alchemy';
+import { fixIngredientMappings } from '../../../utils/elementalUtils';
 
 const rawRootVegetables: Record<string, Partial<IngredientMapping>> = {
   'heirloom_carrot': {
     name: 'Heirloom Carrot',
     elementalProperties: { Earth: 0.5, Fire: 0.3, Water: 0.1, Air: 0.1 },
     astrologicalProfile: {
-      rulingPlanets: ['Venus', 'Saturn'],
+      rulingPlanets: ['venus', 'Saturn'],
       favorableZodiac: ['taurus', 'virgo', 'capricorn'],
       elementalAffinity: {
         base: 'Earth',
         decanModifiers: {
-          first: { element: 'Earth', planet: 'Venus' },
-          second: { element: 'Fire', planet: 'Sun' },
-          third: { element: 'Air', planet: 'Mercury' }
+          first: { element: 'Earth', planet: 'venus' },
+          second: { element: 'Fire', planet: 'sun' },
+          third: { element: 'Air', planet: 'mercury' }
         }
       }
     },
@@ -86,14 +86,14 @@ const rawRootVegetables: Record<string, Partial<IngredientMapping>> = {
     name: 'Carrot',
     elementalProperties: { Earth: 0.5, Fire: 0.3, Water: 0.1, Air: 0.1 },
     astrologicalProfile: {
-      rulingPlanets: ['Venus', 'Moon'],
+      rulingPlanets: ['venus', 'Moon'],
       favorableZodiac: ['taurus', 'cancer'],
       elementalAffinity: {
         base: 'Earth',
         decanModifiers: {
-          first: { element: 'Earth', planet: 'Venus' },
+          first: { element: 'Earth', planet: 'venus' },
           second: { element: 'Water', planet: 'Moon' },
-          third: { element: 'Air', planet: 'Mercury' }
+          third: { element: 'Air', planet: 'mercury' }
         }
       },
       lunarPhaseModifiers: {
@@ -136,14 +136,14 @@ const rawRootVegetables: Record<string, Partial<IngredientMapping>> = {
     name: 'Ginger',
     elementalProperties: { Fire: 0.6, Earth: 0.2, Air: 0.1, Water: 0.1 },
     astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Sun'],
+      rulingPlanets: ['Mars', 'sun'],
       favorableZodiac: ['aries', 'leo'],
       elementalAffinity: {
         base: 'Fire',
         decanModifiers: {
           first: { element: 'Fire', planet: 'Mars' },
-          second: { element: 'Fire', planet: 'Sun' },
-          third: { element: 'Earth', planet: 'Venus' }
+          second: { element: 'Fire', planet: 'sun' },
+          third: { element: 'Earth', planet: 'venus' }
         }
       }
     },
@@ -176,12 +176,12 @@ const rawRootVegetables: Record<string, Partial<IngredientMapping>> = {
     name: 'Jerusalem Artichoke',
     elementalProperties: { Earth: 0.55, Water: 0.25, Air: 0.1, Fire: 0.1 },
     astrologicalProfile: {
-      rulingPlanets: ['Venus', 'Moon'],
+      rulingPlanets: ['venus', 'Moon'],
       favorableZodiac: ['taurus', 'virgo'],
       elementalAffinity: {
         base: 'Earth',
         decanModifiers: {
-          first: { element: 'Earth', planet: 'Venus' },
+          first: { element: 'Earth', planet: 'venus' },
           second: { element: 'Water', planet: 'Moon' },
           third: { element: 'Air', planet: 'Saturn' }
         }

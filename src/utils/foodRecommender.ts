@@ -1,14 +1,14 @@
-import type { ElementalProperties, ZodiacSign, LunarPhase, Season, Element, AstrologicalState } from '@/types';
-import { spices } from '@/data/ingredients/spices';
-import { herbs } from '@/data/ingredients/herbs';
-import { fruits } from '@/data/ingredients/fruits';
-import { grains } from '@/data/ingredients/grains';
-import { vegetables } from '@/data/ingredients/vegetables';
-import { oils } from '@/data/ingredients/oils';
-import { vinegars } from '@/data/ingredients/vinegars';
-import { seasonings } from '@/data/ingredients/seasonings';
-import { proteins, meats, poultry, seafood, legumes, plantBased } from '@/data/ingredients/proteins';
-import { getCurrentSeason } from '@/data/integrations/seasonal';
+import type { ElementalProperties, ZodiacSign, LunarPhase, Season, Element, AstrologicalState } from '../types';
+import { spices } from '../data/ingredients/spices';
+import { herbs } from '../data/ingredients/herbs';
+import { fruits } from '../data/ingredients/fruits';
+import { grains } from '../data/ingredients/grains';
+import { vegetables } from '../data/ingredients/vegetables';
+import { oils } from '../data/ingredients/oils';
+import { vinegars } from '../data/ingredients/vinegars';
+import { seasonings } from '../data/ingredients/seasonings';
+import { proteins, meats, poultry, seafood, legumes, plantBased } from '../data/ingredients/proteins';
+import { getCurrentSeason } from '../data/integrations/seasonal';
 
 // Create eggs and dairy from proteins by filtering category
 const eggs = Object.entries(proteins)
@@ -202,7 +202,7 @@ function standardizeIngredient(ingredient: EnhancedIngredient): EnhancedIngredie
         base: standardized.category?.toLowerCase().includes('vegetable') ? 'Earth' : 'Earth'
       },
       rulingPlanets: standardized.category?.toLowerCase().includes('vegetable') ? 
-                     ['Moon', 'Venus'] : ['Mercury']
+                     ['Moon', 'venus'] : ['mercury']
     };
   }
   
@@ -231,9 +231,9 @@ function standardizeIngredient(ingredient: EnhancedIngredient): EnhancedIngredie
   // If rulingPlanets is empty, add default planets
   if (standardized.astrologicalProfile.rulingPlanets.length === 0) {
     if (standardized.category?.toLowerCase().includes('vegetable')) {
-      standardized.astrologicalProfile.rulingPlanets = ['Moon', 'Venus'];
+      standardized.astrologicalProfile.rulingPlanets = ['Moon', 'venus'];
     } else {
-      standardized.astrologicalProfile.rulingPlanets = ['Mercury'];
+      standardized.astrologicalProfile.rulingPlanets = ['mercury'];
     }
   }
   
@@ -331,17 +331,17 @@ function calculateElementalProperties(ingredient: EnhancedIngredient): Elemental
   if (ingredient.astrologicalProfile?.rulingPlanets) {
     for (const planet of ingredient.astrologicalProfile.rulingPlanets) {
       switch(planet) {
-        case 'Sun':
+        case 'sun':
           elementalProps.Fire += 0.2;
           break;
         case 'Moon':
           elementalProps.Water += 0.2;
           break;
-        case 'Mercury':
+        case 'mercury':
           elementalProps.Air += 0.15;
           elementalProps.Earth += 0.05;
           break;
-        case 'Venus':
+        case 'venus':
           elementalProps.Water += 0.1;
           elementalProps.Earth += 0.1;
           break;

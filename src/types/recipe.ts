@@ -8,46 +8,62 @@ import {
   validateIngredient as validateAlchemyIngredient, 
   validateElementalProperties as validateAlchemyElementalProps 
 } from './validators';
-import { VALID_SEASONS } from '@/constants/seasonalConstants';
+import { VALID_SEASONS } from '../constants/seasonalConstants';
 import type { Recipe as IndexRecipe, Ingredient as IndexIngredient } from './index';
-import { 
-  Season, 
-  ZodiacSign,
-  LunarPhase,
-  ThermodynamicProperties,
-  CookingMethod
-} from './alchemy';
 import type { RecipeIngredient as ImportedRecipeIngredient } from './recipeIngredient';
 
-// Primary elemental properties interface - used throughout the application
+// Import standardized enums
+import {
+  Element,
+  ZodiacSign,
+  PlanetName,
+  Season,
+  LunarPhase,
+  CookingMethod
+} from './constants';
+
+import { ElementalProperties } from './elemental';
+import { MoonPhase } from './shared';
+import { Ingredient as BaseIngredient } from './alchemy';
+
+// Primary elemental properties interface - standardized
 export interface ElementalProperties {
-  Fire: number;
-  Water: number;
-  Earth: number;
-  Air: number;
+  [Element.Fire]: number;
+  [Element.Water]: number;
+  [Element.Earth]: number;
+  [Element.Air]: number;
   [key: string]: number; // Allow indexing with string
 }
 
-// Basic recipe ingredient interface
+// Basic recipe ingredient interface - updated with enums
 export interface RecipeIngredient {
   id?: string;
   name: string;
-  amount: number; // Keep as number for calculations
-  unit: string;
-  category?: string;
-  optional?: boolean;
-  preparation?: string;
-  notes?: string;
+  amount?: number | string;
+  unit?: string;
   elementalProperties?: ElementalProperties;
-  seasonality?: string[];
-  
-  // Astrological associations
-  zodiacInfluences?: ZodiacSign[];
-  planetaryInfluences?: string[]; // Planet names
-  lunarPhaseInfluences?: LunarPhase[];
+  category?: string;
+  substitutes?: string[];
+  notes?: string;
+  isOptional?: boolean;
+  seasonality?: string[] | Record<string, boolean>;
+  allergens?: string[];
+  zodiacAffinity?: ZodiacSign[];
+  moonPhaseAffinity?: MoonPhase[];
+  alchemicalProperties?: Record<string, number>;
+  // Legacy compatibility fields
+  element?: string;
+  astrologicalProfile?: {
+    elementalAffinity?: {
+      base?: string;
+      secondary?: string;
+    };
+    rulingPlanets?: string[];
+    zodiacAffinity?: string[];
+  };
 }
 
-// Core Recipe interface - this is the primary interface used across components
+// Core Recipe interface - updated with enums
 export interface Recipe {
   id: string;
   name: string;
@@ -59,7 +75,8 @@ export interface Recipe {
   servingSize: number; // Standardized from numberOfServings
   elementalProperties: ElementalProperties;
   mealType?: string | string[];
-  season?: string | string[];
+  season?: Season | Season[];
+  cookingMethod?: CookingMethod; // Standardized
   
   // UI-specific properties
   isVegetarian?: boolean;
@@ -67,13 +84,13 @@ export interface Recipe {
   isGlutenFree?: boolean;
   isDairyFree?: boolean;
   
-  // Enhanced astrological properties
+  // Enhanced astrological properties with standardized enums
   astrologicalInfluences?: string[];
   zodiacInfluences?: ZodiacSign[];
   lunarPhaseInfluences?: LunarPhase[];
   planetaryInfluences?: {
-    favorable: string[];   // Planet names that enhance this recipe
-    unfavorable: string[]; // Planet names that diminish this recipe
+    favorable: PlanetName[];   // Planet names that enhance this recipe
+    unfavorable: PlanetName[]; // Planet names that diminish this recipe
   };
   
   // Support for nutrition data
@@ -114,11 +131,11 @@ export interface ScoredRecipe extends Recipe {
   };
 }
 
-// Validation utilities
+// Updated validation utilities
 export const validateElementalProperties = (properties?: ElementalProperties): boolean => {
   if (!properties) return false;
   
-  const requiredElements = ['Fire', 'Water', 'Earth', 'Air'] as const;
+  const requiredElements = [Element.Fire, Element.Water, Element.Earth, Element.Air] as const;
   if (!requiredElements.every(element => typeof properties[element] === 'number')) {
     return false;
   }
@@ -133,12 +150,15 @@ export const validateRecipe = (recipe: Partial<Recipe>): boolean => {
   return true;
 }
 
-export const validateSeason = (season: string): boolean => {
-  const validSeasons = ['spring', 'summer', 'autumn', 'winter'];
-  return validSeasons.includes(season.toLowerCase());
+export const validateSeason = (season: string | Season): boolean => {
+  if (Object.values(Season).includes(season as Season)) {
+    return true;
+  }
+  const validSeasons = Object.values(Season);
+  return validSeasons.includes(season.toLowerCase() as Season);
 };
 
-export const validateSeasonality = (seasonality: string[]): boolean => {
+export const validateSeasonality = (seasonality: (string | Season)[]): boolean => {
   if (!Array.isArray(seasonality)) return false;
   return seasonality.every(season => validateSeason(season));
 };
@@ -152,7 +172,7 @@ export const validateIngredient = (ingredient: Partial<RecipeIngredient>): boole
   if (!ingredient.unit || typeof ingredient.unit !== 'string') return false;
   
   // Validate elemental properties
-  if (!validateElementalProperties(ingredient.elementalProperties)) return false;
+  if (ingredient.elementalProperties && !validateElementalProperties(ingredient.elementalProperties)) return false;
   
   // Validate seasonality if present
   if (ingredient.seasonality && !validateSeasonality(ingredient.seasonality)) return false;
@@ -175,13 +195,13 @@ export interface RecipeIngredientExt {
   optional?: boolean;
   preparation?: string;
   
-  // Add astrological associations
+  // Add astrological associations with standardized enums
   zodiacInfluences?: ZodiacSign[];
-  planetaryInfluences?: string[]; // Planet names
+  planetaryInfluences?: PlanetName[]; // Planet names
   lunarPhaseInfluences?: LunarPhase[];
 }
 
-// Extended recipe with optional description
+// Extended recipe with optional description - updated with enums
 export interface RecipeExtended {
   id: string;
   name: string;
@@ -191,7 +211,7 @@ export interface RecipeExtended {
   timeToMake: string;
   numberOfServings: number;
   elementalProperties: ElementalProperties;
-  season?: string[];
+  season?: Season[];
   mealType?: string[];
   cuisine?: string;
   isVegetarian?: boolean;
@@ -201,6 +221,7 @@ export interface RecipeExtended {
   score?: number;
   createdAt?: string;
   updatedAt?: string;
+  cookingMethod?: CookingMethod; // Standardized
   
   // Inherited properties from RecipeIngredientExt (excluding 'amount' and 'unit')
   category?: string;
@@ -209,11 +230,11 @@ export interface RecipeExtended {
   zodiacInfluences?: ZodiacSign[];
   lunarPhaseInfluences?: LunarPhase[];
   
-  // Enhanced astrological properties
+  // Enhanced astrological properties with standardized enums
   astrologicalInfluences?: string[];
   planetaryInfluences?: {
-    favorable: string[];   // Planet names that enhance this recipe
-    unfavorable: string[]; // Planet names that diminish this recipe
+    favorable: PlanetName[];   // Planet names that enhance this recipe
+    unfavorable: PlanetName[]; // Planet names that diminish this recipe
   };
   
   alchemicalScores?: {
@@ -233,7 +254,7 @@ export interface ScoredRecipeExtended extends RecipeExtended {
 
 export type TimeOfDay = 'morning' | 'noon' | 'evening' | 'night';
 
-// Enhanced Recipe interface with culinary details
+// Enhanced Recipe interface with culinary details - updated with enums
 export interface RecipeDetail {
   // Basic Information
   id: string;
@@ -254,8 +275,8 @@ export interface RecipeDetail {
   mealType: string[];      // e.g., ["breakfast", "lunch", "dinner"]
   dishType: string[];      // e.g., ["soup", "stew", "salad", "sandwich"]
   
-  // Technique Details
-  cookingMethod: string[]; // Primary cooking methods used
+  // Technique Details - updated with enums
+  cookingMethod: CookingMethod[]; // Primary cooking methods used
   cookingTechniques: string[]; // Specific techniques employed
   equipmentNeeded: string[]; // Required kitchen equipment
   skillsRequired: string[]; // e.g., "knife skills", "sauce making"
@@ -362,25 +383,25 @@ export interface RecipeDetail {
     allergens: string[];
   };
   
-  // Seasonal & Astrological Information
-  season: string[];        // Seasons when optimal
+  // Seasonal & Astrological Information - updated with enums
+  season: Season[];        // Seasons when optimal
   seasonalIngredients: string[]; // Ingredients that are seasonal
   
   // Enhanced astrological properties
   elementalProperties: {
-    Fire: number;
-    Water: number;
-    Earth: number;
-    Air: number;
+    [Element.Fire]: number;
+    [Element.Water]: number;
+    [Element.Earth]: number;
+    [Element.Air]: number;
   };
   
   astrologicalInfluences: string[];
   zodiacInfluences: ZodiacSign[];
   lunarPhaseInfluences: LunarPhase[];
   planetaryInfluences: {
-    favorable: string[];   // Planet names that enhance this recipe
-    unfavorable: string[]; // Planet names that diminish this recipe
-    neutral: string[];     // Planet names with minimal effect
+    favorable: PlanetName[];   // Planet names that enhance this recipe
+    unfavorable: PlanetName[]; // Planet names that diminish this recipe
+    neutral: PlanetName[];     // Planet names with minimal effect
   };
   
   // Chef's Notes
@@ -407,10 +428,203 @@ export interface RecipeDetail {
   updatedAt?: string;
 }
 
+// Interface for recipe props
 export interface RecipeProps {
   recipe: Recipe;
   // Add these props to the interface if they're needed
   score?: number;
   elements?: ElementalProperties;
-  dominantElements?: [string, number][];
+  dominantElements?: [Element, number][];
+}
+
+// The Ingredient interface used in legacy code
+export interface Ingredient {
+  name: string;
+  amount: string;
+  unit: string;
+  note: string;
+}
+
+export interface Substitution {
+  ingredient: string;
+  substitute: string;
+  note: string;
+}
+
+export interface TimeToMake {
+  prep: number;
+  cook: number;
+  total: number;
+}
+
+export interface Nutrition {
+  calories: number;
+  protein: number;
+  carbs: number;
+  fat: number;
+  fiber: number;
+}
+
+// Legacy Recipe interface - kept for backward compatibility
+export interface LegacyRecipe {
+  id: string;
+  name: string;
+  description: string;
+  ingredients: Ingredient[];
+  instructions: string[];
+  timeToMake: TimeToMake;
+  servings: number;
+  fire: number;
+  water: number;
+  earth: number;
+  air: number;
+  spirit: number;
+  nutrition: Nutrition;
+  substitutions: Substitution[];
+  isVegan: boolean;
+  isVegetarian: boolean;
+  isGlutenFree: boolean;
+  isDairyFree: boolean;
+  isNutFree: boolean;
+  cuisine: string;
+  season: string;
+  tags: string[];
+  imageUrl: string;
+  source: string;
+}
+
+export interface RawDish {
+  id?: string;
+  name?: string;
+  description?: string;
+  ingredients?: (string | { [key: string]: any })[];
+  instructions?: string[];
+  timeToMake?: { prep?: number; cook?: number; total?: number };
+  servings?: number;
+  fire?: number;
+  water?: number;
+  earth?: number;
+  air?: number;
+  spirit?: number;
+  nutrition?: { [key: string]: number };
+  substitutions?: any[];
+  isVegan?: boolean;
+  isVegetarian?: boolean;
+  isGlutenFree?: boolean;
+  isDairyFree?: boolean;
+  isNutFree?: boolean;
+  cuisine?: string;
+  season?: string;
+  tags?: string[];
+  imageUrl?: string;
+  source?: string;
+  [key: string]: any; // Allow for additional properties
+}
+
+export interface ErrorResult {
+  error: true;
+  message: string;
+}
+
+export type RecipeResult = Recipe | ErrorResult;
+
+export function isErrorResult(result: RecipeResult): result is ErrorResult {
+  return (result as ErrorResult).error === true;
+}
+
+export function isRecipe(result: RecipeResult): result is Recipe {
+  return !isErrorResult(result);
+}
+
+/**
+ * Type guard to check if an object is a RecipeIngredient
+ */
+export function isRecipeIngredient(obj: unknown): obj is RecipeIngredient {
+  if (!obj || typeof obj !== 'object') return false;
+  
+  // A RecipeIngredient must at least have a name
+  return 'name' in obj && typeof (obj as RecipeIngredient).name === 'string';
+}
+
+/**
+ * Converter to transform a BaseIngredient to a RecipeIngredient
+ */
+export function baseIngredientToRecipeIngredient(
+  baseIngredient: BaseIngredient, 
+  amount?: number | string,
+  unit?: string
+): RecipeIngredient {
+  return {
+    name: baseIngredient.name,
+    amount: amount,
+    unit: unit,
+    elementalProperties: baseIngredient.elementalProperties,
+    category: baseIngredient.category,
+    substitutes: baseIngredient.substitutes,
+    notes: baseIngredient.notes,
+    isOptional: baseIngredient.isOptional,
+    seasonality: baseIngredient.seasonality,
+    allergens: baseIngredient.allergens,
+    zodiacAffinity: baseIngredient.zodiacAffinity as ZodiacSign[],
+    moonPhaseAffinity: baseIngredient.moonPhaseAffinity as MoonPhase[],
+    alchemicalProperties: baseIngredient.alchemicalProperties
+  };
+}
+
+// Add standardized Recipe interface
+/**
+ * Standardized Recipe interface to be used throughout the codebase.
+ */
+export interface StandardizedRecipe {
+  id?: string;
+  name: string;
+  ingredients: RecipeIngredient[];
+  instructions: string[];
+  prepTime?: number; // in minutes
+  cookTime?: number; // in minutes
+  totalTime?: number; // in minutes
+  servings?: number;
+  cuisine?: string | string[];
+  tags?: string[];
+  elementalProperties?: ElementalProperties;
+  seasonality?: string[];
+  difficulty?: 'easy' | 'medium' | 'hard';
+  authorId?: string;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  imageUrl?: string;
+  description?: string;
+  nutritionalInfo?: {
+    calories?: number;
+    protein?: number;
+    carbs?: number;
+    fat?: number;
+    [key: string]: number | undefined;
+  };
+  alchemicalProperties?: {
+    spirit?: number;
+    essence?: number;
+    matter?: number;
+    substance?: number;
+    [key: string]: number | undefined;
+  };
+  zodiacAffinity?: Record<ZodiacSign, number>;
+  moonPhaseAffinity?: Record<MoonPhase, number>;
+}
+
+/**
+ * Type guard to check if an object is a StandardizedRecipe
+ */
+export function isStandardizedRecipe(obj: unknown): obj is StandardizedRecipe {
+  if (!obj || typeof obj !== 'object') return false;
+  
+  const recipe = obj as StandardizedRecipe;
+  
+  // Basic required properties
+  if (!('name' in obj && typeof recipe.name === 'string')) return false;
+  if (!('ingredients' in obj && Array.isArray(recipe.ingredients))) return false;
+  if (!('instructions' in obj && Array.isArray(recipe.instructions))) return false;
+  
+  // Validate ingredients are RecipeIngredients
+  return recipe.ingredients.every(ingredient => isRecipeIngredient(ingredient));
 } 

@@ -1,9 +1,9 @@
-import type { RecipeElementalMapping } from '@/types/recipes';
-import { cookingMethods } from '@/data/cooking';
-import { culinaryTraditions } from '@/data/cuisines/culinaryTraditions';
-import { ELEMENTAL_CHARACTERISTICS } from '@/constants/elementalConstants';
-import { ElementalRecommendationService } from '@/services/ElementalRecommendationService';
-import { AstrologicalInfluence } from '@/types/alchemy';
+import type { RecipeElementalMapping } from '../../types/recipes';
+import { cookingMethods } from '../cooking';
+import { culinaryTraditions } from '../cuisines/culinaryTraditions';
+import { ELEMENTAL_CHARACTERISTICS } from '../../constants/elementalConstants';
+import { ElementalRecommendationService } from '../../services/ElementalRecommendationService';
+import { AstrologicalInfluence } from '../../types/alchemy';
 
 export { ELEMENTAL_CHARACTERISTICS };
 
@@ -32,9 +32,9 @@ export const recipeElementalMappings: Record<string, RecipeElementalMapping> = {
   'coq_au_vin': {
     elementalProperties: { Earth: 0.5, Fire: 0.3, Water: 0.15, Air: 0.05 },
     astrologicalProfile: {
-      rulingPlanets: ['Venus', 'Mars'],
+      rulingPlanets: ['venus', 'Mars'],
       favorableZodiac: ['taurus', 'capricorn'],
-      optimalAspects: ['Venus trine Mars'],
+      optimalAspects: ['venus trine Mars'],
       techniqueEnhancers: safeGetAstrologicalInfluences(cookingMethods?.braising)
     },
     cuisine: culinaryTraditions.french,
@@ -57,9 +57,9 @@ export const recipeElementalMappings: Record<string, RecipeElementalMapping> = {
   'kaiseki_ryori': {
     elementalProperties: { Water: 0.6, Earth: 0.3, Air: 0.05, Fire: 0.05 },
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Mercury'],
+      rulingPlanets: ['Moon', 'mercury'],
       favorableZodiac: ['pisces', 'virgo'],
-      optimalAspects: ['Moon conjunct Mercury'],
+      optimalAspects: ['Moon conjunct mercury'],
       techniqueEnhancers: safeGetAstrologicalInfluences(cookingMethods?.steaming)
     },
     cuisine: culinaryTraditions.japanese,
@@ -82,9 +82,9 @@ export const recipeElementalMappings: Record<string, RecipeElementalMapping> = {
   'mole_poblano': {
     elementalProperties: { Fire: 0.5, Earth: 0.4, Air: 0.05, Water: 0.05 },
     astrologicalProfile: {
-      rulingPlanets: ['Sun', 'Jupiter'],
+      rulingPlanets: ['sun', 'Jupiter'],
       favorableZodiac: ['leo', 'sagittarius'],
-      optimalAspects: ['Sun trine Jupiter'],
+      optimalAspects: ['sun trine Jupiter'],
       techniqueEnhancers: safeGetAstrologicalInfluences(cookingMethods?.simmering)
     },
     cuisine: culinaryTraditions.mexican,

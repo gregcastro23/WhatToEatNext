@@ -1,5 +1,5 @@
-import type { IngredientMapping } from '@/types/alchemy';
-import { fixIngredientMappings } from '@/utils/elementalUtils';
+import type { IngredientMapping } from '../../../types/alchemy';
+import { fixIngredientMappings } from '../../../utils/elementalUtils';
 
 const rawSeafood: Record<string, Partial<IngredientMapping>> = {
   'atlantic_salmon': {
@@ -15,7 +15,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         decanModifiers: {
           first: { element: 'Water', planet: 'Moon' },
           second: { element: 'Earth', planet: 'Neptune' },
-          third: { element: 'Air', planet: 'Mercury' }
+          third: { element: 'Air', planet: 'mercury' }
         }
       },
       lunarPhaseModifiers: {
@@ -278,7 +278,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         decanModifiers: {
           first: { element: 'Water', planet: 'Moon' },
           second: { element: 'Earth', planet: 'Saturn' },
-          third: { element: 'Air', planet: 'Mercury' }
+          third: { element: 'Air', planet: 'mercury' }
         }
       },
       lunarPhaseModifiers: {
@@ -455,7 +455,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         decanModifiers: {
           first: { element: 'Water', planet: 'Moon' },
           second: { element: 'Earth', planet: 'Saturn' },
-          third: { element: 'Air', planet: 'Mercury' }
+          third: { element: 'Air', planet: 'mercury' }
         }
       },
       lunarPhaseModifiers: {
@@ -515,7 +515,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         decanModifiers: {
           first: { element: 'Water', planet: 'Moon' },
           second: { element: 'Earth', planet: 'Saturn' },
-          third: { element: 'Air', planet: 'Mercury' }
+          third: { element: 'Air', planet: 'mercury' }
         }
       },
       lunarPhaseModifiers: {
@@ -711,7 +711,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         decanModifiers: {
           first: { element: 'Water', planet: 'Moon' },
           second: { element: 'Earth', planet: 'Saturn' },
-          third: { element: 'Air', planet: 'Mercury' }
+          third: { element: 'Air', planet: 'mercury' }
         }
       },
       lunarPhaseModifiers: {
@@ -913,7 +913,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         decanModifiers: {
           first: { element: 'Water', planet: 'Moon' },
           second: { element: 'Earth', planet: 'Saturn' },
-          third: { element: 'Air', planet: 'Mercury' }
+          third: { element: 'Air', planet: 'mercury' }
         }
       },
       lunarPhaseModifiers: {
@@ -1051,7 +1051,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         decanModifiers: {
           first: { element: 'Water', planet: 'Moon' },
           second: { element: 'Earth', planet: 'Saturn' },
-          third: { element: 'Air', planet: 'Mercury' }
+          third: { element: 'Air', planet: 'mercury' }
         }
       },
       lunarPhaseModifiers: {
@@ -1226,7 +1226,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         decanModifiers: {
           first: { element: 'Water', planet: 'Moon' },
           second: { element: 'Earth', planet: 'Saturn' },
-          third: { element: 'Air', planet: 'Mercury' }
+          third: { element: 'Air', planet: 'mercury' }
         }
       },
       lunarPhaseModifiers: {
@@ -1354,7 +1354,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         decanModifiers: {
           first: { element: 'Water', planet: 'Moon' },
           second: { element: 'Earth', planet: 'Saturn' },
-          third: { element: 'Air', planet: 'Mercury' }
+          third: { element: 'Air', planet: 'mercury' }
         }
       },
       lunarPhaseModifiers: {
@@ -1487,7 +1487,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         decanModifiers: {
           first: { element: 'Water', planet: 'Moon' },
           second: { element: 'Earth', planet: 'Saturn' },
-          third: { element: 'Air', planet: 'Mercury' }
+          third: { element: 'Air', planet: 'mercury' }
         }
       },
       lunarPhaseModifiers: {
@@ -1633,7 +1633,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         decanModifiers: {
           first: { element: 'Water', planet: 'Moon' },
           second: { element: 'Earth', planet: 'Saturn' },
-          third: { element: 'Air', planet: 'Mercury' }
+          third: { element: 'Air', planet: 'mercury' }
         }
       },
       lunarPhaseModifiers: {
@@ -1758,7 +1758,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         decanModifiers: {
           first: { element: 'Water', planet: 'Moon' },
           second: { element: 'Earth', planet: 'Saturn' },
-          third: { element: 'Air', planet: 'Mercury' }
+          third: { element: 'Air', planet: 'mercury' }
         }
       },
       lunarPhaseModifiers: {
@@ -1886,7 +1886,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         decanModifiers: {
           first: { element: 'Water', planet: 'Moon' },
           second: { element: 'Earth', planet: 'Neptune' },
-          third: { element: 'Air', planet: 'Mercury' }
+          third: { element: 'Air', planet: 'mercury' }
         }
       },
       lunarPhaseModifiers: {
@@ -2096,7 +2096,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         decanModifiers: {
           first: { element: 'Water', planet: 'Moon' },
           second: { element: 'Earth', planet: 'Saturn' },
-          third: { element: 'Air', planet: 'Mercury' }
+          third: { element: 'Air', planet: 'mercury' }
         }
       },
       lunarPhaseModifiers: {
@@ -2216,7 +2216,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         decanModifiers: {
           first: { element: 'Water', planet: 'Moon' },
           second: { element: 'Earth', planet: 'Saturn' },
-          third: { element: 'Air', planet: 'Mercury' }
+          third: { element: 'Air', planet: 'mercury' }
         }
       },
       lunarPhaseModifiers: {

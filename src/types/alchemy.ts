@@ -1,25 +1,13 @@
 // src/types/alchemy.ts
+import {
+  ElementalProperties,
+  LowercaseElementalProperties,
+  Element
+} from './elemental';
 
 // ========== CORE ELEMENTAL TYPES ==========
 
-export type Element = 'Fire' | 'Water' | 'Earth' | 'Air' | 'Aether';
-
-export interface ElementalProperties {
-  Fire: number;
-  Water: number;
-  Earth: number;
-  Air: number;
-  [key: string]: number; // Allow indexing with string
-}
-
-// Also export the lowercase version used in astrologyUtils.ts
-export interface LowercaseElementalProperties {
-  fire: number;
-  water: number;
-  earth: number;
-  air: number;
-  [key: string]: number; // Allow indexing with string
-}
+export type { Element, ElementalProperties, LowercaseElementalProperties };
 
 export type ElementalRatio = Record<Element, number>;
 export type ElementalModifier = Partial<Record<Element, number>>;
@@ -58,6 +46,10 @@ export type LunarPhaseWithUnderscores = 'new_moon' | 'waxing_crescent' | 'first_
 // Default LunarPhase type - use the format with spaces as the primary representation
 export type LunarPhase = LunarPhaseWithSpaces;
 
+// Define zodiac modality types
+export type ModalityType = 'Cardinal' | 'Fixed' | 'Mutable';
+export type Modality = ModalityType; // Alias for backward compatibility
+
 // Mapping between the two formats
 export const LUNAR_PHASE_MAPPING: Record<LunarPhaseWithSpaces, LunarPhaseWithUnderscores> = {
   'new moon': 'new_moon',
@@ -88,8 +80,8 @@ export type ZodiacSign =
   'sagittarius' | 'capricorn' | 'aquarius' | 'pisces';
 
 export type PlanetName = 
-  'Sun' | 'Moon' | 'Mercury' | 'Venus' | 'Mars' | 
-  'Jupiter' | 'Saturn' | 'Uranus' | 'Neptune' | 'Pluto';
+  'sun' | 'moon' | 'mercury' | 'venus' | 'mars' | 
+  'jupiter' | 'saturn' | 'uranus' | 'neptune' | 'pluto';
 
 export interface Planet {
   name: PlanetName;
@@ -171,14 +163,17 @@ export interface CelestialPosition {
 }
 
 export interface AstrologicalState {
-  sunSign: ZodiacSign;
+  sunSign?: ZodiacSign;
   moonSign?: ZodiacSign;
-  lunarPhase: LunarPhase;
-  activePlanets: PlanetName[];
-  dominantElement: Element;
-  dominantPlanets: Planet[];
+  lunarPhase?: LunarPhase;
+  activePlanets?: PlanetName[];
+  dominantElement?: Element;
+  dominantPlanets?: Planet[];
   loading?: boolean;
   error?: string;
+  elementalState?: ElementalProperties;
+  elementalProfile?: ElementalProperties;
+  zodiacSign?: ZodiacSign; // Alternate name for sunSign used in some components
 }
 
 // ========== THERMODYNAMIC TYPES ==========
@@ -311,6 +306,24 @@ export interface Ingredient {
   seasonality?: Season[];
   nutritionalProfile?: NutritionalProfile;
   nutritionalScore?: number;
+  qualities?: string[];
+  astrologicalProfile?: {
+    rulingPlanets?: string[];
+    favorableZodiac?: ZodiacSign[];
+    elementalAffinity?: string | {
+      base: string;
+      secondary?: string;
+      decanModifiers?: {
+        first?: { element: string; planet: string };
+        second?: { element: string; planet: string };
+        third?: { element: string; planet: string };
+      };
+    };
+    lunarPhaseModifiers?: Record<string, unknown>;
+    aspectEnhancers?: string[];
+    signAffinities?: string[];
+    affinities?: Record<string, number>;
+  };
 }
 
 export interface EnhancedIngredient extends Ingredient {
@@ -503,7 +516,7 @@ export type AlchemicalAction =
   | { type: 'UPDATE_ENERGY_STATE'; payload: ThermodynamicProperties }
   | { type: 'SET_SEASON'; payload: Season }
   | { type: 'UPDATE_LUNAR_PHASE'; payload: LunarPhase }
-  | { type: 'UPDATE_SUN_SIGN'; payload: ZodiacSign }
+  | { type: 'UPDATE_sun_SIGN'; payload: ZodiacSign }
   | { type: 'UPDATE_MOON_SIGN'; payload: ZodiacSign }
   | { type: 'UPDATE_PLANETARY_HOUR'; payload: PlanetName }
   | { type: 'UPDATE_ASTROLOGICAL_STATE'; payload: AstrologicalState };
@@ -570,6 +583,7 @@ export interface IngredientMapping {
   name: string;
   elementalProperties: ElementalProperties;
   thermodynamicProperties?: ThermodynamicProperties;
+  category: string;
   astrologicalProfile?: {
     rulingPlanets?: string[];
     favorableZodiac?: ZodiacSign[];
@@ -587,7 +601,6 @@ export interface IngredientMapping {
   };
   qualities?: string[];
   origin?: string[];
-  category?: string;
   subCategory?: string;
   varieties?: Record<string, unknown>;
   culinaryApplications?: Record<string, unknown>;
@@ -951,7 +964,6 @@ export interface FilterOptions {
   elementalFocus: Element | null;
   mealType: string;
   seasonality: Season | null;
-  difficulty: string;
 }
 
 export interface NutritionPreferences {
@@ -1038,7 +1050,7 @@ export interface StandardizedAlchemicalResult {
   'Stelliums'?: unknown[];
   'Signs'?: Record<string, unknown>;
   'Planets'?: Record<string, unknown>;
-  'Sun Sign'?: string;
+  'sun Sign'?: string;
   'Major Arcana'?: Record<string, string>;
   'Minor Arcana'?: Record<string, string>;
   'Chart Ruler'?: string;
@@ -1134,4 +1146,65 @@ export interface AlchemicalProperties {
   astrologicalInfluences: AstrologicalInfluence[];
   primaryElement: Element;
   secondaryElement?: Element;
+}
+
+// ========== BIRTH & HOROSCOPE DATA TYPES ==========
+
+export interface BirthInfo {
+  birthDate: Date;
+  birthTime?: string;
+  birthLocation?: {
+    latitude: number;
+    longitude: number;
+    city?: string;
+    country?: string;
+  };
+  timezone?: string;
+  gender?: 'male' | 'female' | 'non-binary';
+}
+
+export interface HoroscopeData {
+  sunSign: ZodiacSign;
+  moonSign?: ZodiacSign;
+  ascendant?: ZodiacSign;
+  planetaryPositions?: Record<string, CelestialPosition>;
+  aspects?: PlanetaryAspect[];
+  houses?: Record<number, ZodiacSign>;
+  dominantPlanets?: Planet[];
+  dominantElement?: Element;
+  lunarPhase?: LunarPhase;
+  interpretation?: string;
+}
+
+// Recipe Ingredient - simplified version of Ingredient
+export interface RecipeIngredient {
+  name: string;
+  amount: number | string; // Allow both number and string to accommodate "1/2 cup" style inputs
+  unit: string;
+  element?: Element;
+  category?: string; // Added category
+  substitutions?: string[];
+  notes?: string;
+  preparation?: string;
+  isOptional?: boolean; // Renamed from optionalBool to isOptional
+  elementalProperties?: ElementalProperties;
+  energyValues?: ThermodynamicProperties;
+  astrologicalProfile?: {
+    rulingPlanets?: string[];
+    favorableZodiac?: ZodiacSign[];
+    elementalAffinity?: string | {
+      base: string;
+      secondary?: string;
+      decanModifiers?: {
+        first?: { element: string; planet: string };
+        second?: { element: string; planet: string };
+        third?: { element: string; planet: string };
+      };
+    };
+    lunarPhaseModifiers?: Record<string, unknown>;
+    aspectEnhancers?: string[];
+    signAffinities?: string[];
+    affinities?: Record<string, number>;
+    zodiacAffinity?: string[]; // Add this property for compatibility with older code
+  };
 }

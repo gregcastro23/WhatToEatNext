@@ -1,6 +1,6 @@
 import { ChakraEnergyState } from '../services/ChakraService';
 import { Chakra, CHAKRA_BALANCING_FOODS } from '../constants/chakraMappings';
-import { ZodiacSign } from '../constants/signEnergyStates';
+import { ZodiacSign } from '../types/commonTypes';
 
 // Mapping food groups to chakras
 const FOOD_GROUP_CHAKRA_MAP: Record<string, Chakra[]> = {
@@ -28,7 +28,7 @@ const FOOD_ITEMS_BY_GROUP: Record<string, string[]> = {
     'Proteins': ['Beans', 'Lentils', 'Nuts', 'Eggs', 'Fish', 'Tofu', 'Tempeh', 'Chicken', 'Beef'],
     'Orange Foods': ['Oranges', 'Mandarins', 'Papaya', 'Mangoes', 'Pumpkin', 'Butternut Squash', 'Sweet Potatoes'],
     'Watery Foods': ['Cucumber', 'Watermelon', 'Cantaloupe', 'Honeydew', 'Zucchini', 'Celery'],
-    'Seeds': ['Pumpkin Seeds', 'Sunflower Seeds', 'Sesame Seeds', 'Flax Seeds', 'Chia Seeds'],
+    'Seeds': ['Pumpkin Seeds', 'sunflower Seeds', 'Sesame Seeds', 'Flax Seeds', 'Chia Seeds'],
     'Yellow Foods': ['Corn', 'Bananas', 'Pineapple', 'Yellow Bell Peppers', 'Summer Squash', 'Lemons'],
     'Grains': ['Brown Rice', 'Quinoa', 'Barley', 'Oats', 'Millet', 'Amaranth', 'Whole Wheat'],
     'Green Foods': ['Avocados', 'Green Apples', 'Kiwi', 'Limes', 'Green Grapes', 'Broccoli', 'Asparagus'],
@@ -245,23 +245,26 @@ function generateBalancingMeals(
  * @returns Array of recommended foods
  */
 export function getZodiacSignFoodRecommendations(zodiacSign: ZodiacSign): string[] {
-    // Mapping of zodiac signs to primarily associated chakras
-    const ZODIAC_PRIMARY_CHAKRA: Record<ZodiacSign, Chakra> = {
+    // Normalize the zodiac sign to lowercase for consistency
+    const normalizedSign = zodiacSign.toLowerCase() as ZodiacSign;
+    
+    // Map zodiac signs to primary chakras
+    const ZODIAC_PRIMARY_CHAKRA: Record<ZodiacSign, string> = {
         aries: 'Solar Plexus',
         taurus: 'Root',
         gemini: 'Throat',
         cancer: 'Sacral',
         leo: 'Solar Plexus',
         virgo: 'Throat',
-        Libra: 'Heart',
-        Scorpio: 'Sacral',
+        libra: 'Heart',
+        scorpio: 'Sacral',
         sagittarius: 'Solar Plexus',
         capricorn: 'Root',
         aquarius: 'Crown',
         pisces: 'Third Eye'
     };
     
-    const primaryChakra = ZODIAC_PRIMARY_CHAKRA[zodiacSign];
+    const primaryChakra = ZODIAC_PRIMARY_CHAKRA[normalizedSign];
     
     // Get chakra-specific recommendations
     const recommendations = CHAKRA_BALANCING_FOODS[primaryChakra] || [];
@@ -287,15 +290,23 @@ export function getZodiacSignFoodRecommendations(zodiacSign: ZodiacSign): string
             Water: ['Cucumber', 'Melons', 'Fish', 'Seaweed', 'Coconut']
         };
         
-        // Map signs to elements
+        // Map signs to elements - use lowercase for all keys
         const signElements: Record<ZodiacSign, string> = {
-            aries: 'Fire', leo: 'Fire', sagittarius: 'Fire',
-            taurus: 'Earth', virgo: 'Earth', capricorn: 'Earth',
-            gemini: 'Air', Libra: 'Air', aquarius: 'Air',
-            cancer: 'Water', Scorpio: 'Water', pisces: 'Water'
+            aries: 'Fire', 
+            leo: 'Fire', 
+            sagittarius: 'Fire',
+            taurus: 'Earth', 
+            virgo: 'Earth', 
+            capricorn: 'Earth',
+            gemini: 'Air', 
+            libra: 'Air',
+            aquarius: 'Air',
+            cancer: 'Water', 
+            scorpio: 'Water',
+            pisces: 'Water'
         };
         
-        result = elementalFoods[signElements[zodiacSign]] || ['Balanced Whole Foods'];
+        result = elementalFoods[signElements[normalizedSign]] || ['Balanced Whole Foods'];
     }
     
     return result;

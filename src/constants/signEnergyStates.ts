@@ -54,12 +54,12 @@ export const ENERGY_STATES: Record<ZodiacSign, { baseEnergy: number, currentEner
 // Planetary rulerships and their energy multipliers
 const PLANETARY_RULERSHIPS: Record<ZodiacSign, string[]> = {
     aries: ['Mars'],
-    taurus: ['Venus'],
-    gemini: ['Mercury'],
+    taurus: ['venus'],
+    gemini: ['mercury'],
     cancer: ['Moon'],
-    leo: ['Sun'],
-    virgo: ['Mercury'],
-    libra: ['Venus'],
+    leo: ['sun'],
+    virgo: ['mercury'],
+    libra: ['venus'],
     scorpio: ['Mars', 'Pluto'],
     sagittarius: ['Jupiter'],
     capricorn: ['Saturn'],
@@ -69,10 +69,10 @@ const PLANETARY_RULERSHIPS: Record<ZodiacSign, string[]> = {
 
 // Planetary energy multipliers
 const PLANETARY_ENERGY_MULTIPLIERS: Record<string, number> = {
-    Sun: 1.2,
+    sun: 1.2,
     Moon: 1.1,
-    Mercury: 0.9,
-    Venus: 1.0,
+    mercury: 0.9,
+    venus: 1.0,
     Mars: 1.3,
     Jupiter: 1.1,
     Saturn: 0.8,

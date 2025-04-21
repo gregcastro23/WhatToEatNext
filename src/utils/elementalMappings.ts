@@ -1,4 +1,7 @@
-export type Element = 'Fire' | 'Water' | 'Air' | 'Earth';
+import { Element } from '../types/shared';
+
+// Using imported Element type
+// export type Element = 'Fire' | 'Water' | 'Air' | 'Earth';
 
 export interface ElementalProperties {
   [key: string]: number;  // Element: strength (0-1)

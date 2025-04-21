@@ -1,19 +1,19 @@
-import type { IngredientMapping } from '@/types/alchemy';
-import { fixIngredientMappings } from '@/utils/elementalUtils';
+import type { IngredientMapping } from '../../../types/alchemy';
+import { fixIngredientMappings } from '../../../utils/elementalUtils';
 
 const rawRootVegetables: Record<string, Partial<IngredientMapping>> = {
   'sweet potato': {
     name: 'Sweet potato',
     elementalProperties: { Earth: 0.5, Fire: 0.3, Water: 0.1, Air: 0.1 },
     astrologicalProfile: {
-      rulingPlanets: ['Venus', 'Moon'],
+      rulingPlanets: ['venus', 'Moon'],
       favorableZodiac: ['taurus', 'cancer', 'virgo'],
       elementalAffinity: {
         base: 'Earth',
         decanModifiers: {
-          first: { element: 'Earth', planet: 'Venus' },
+          first: { element: 'Earth', planet: 'venus' },
           second: { element: 'Water', planet: 'Moon' },
-          third: { element: 'Air', planet: 'Mercury' }
+          third: { element: 'Air', planet: 'mercury' }
         }
       }
     },

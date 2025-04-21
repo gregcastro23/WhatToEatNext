@@ -54,9 +54,9 @@ export class AlchemicalTransformationService {
   private cookingMethods: ElementalItem[] = [];
   private cuisines: ElementalItem[] = [];
   private planetPositions: Record<RulingPlanet, number> = {
-    'Sun': 0,
-    'Venus': 0,
-    'Mercury': 0,
+    'sun': 0,
+    'venus': 0,
+    'mercury': 0,
     'Moon': 0,
     'Saturn': 0,
     'Jupiter': 0,

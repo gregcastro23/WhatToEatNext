@@ -1,9 +1,11 @@
 import type { 
   ZodiacSign, 
-  ThermodynamicProperties
-} from '@/types/alchemy';
+  ThermodynamicProperties,
+  PlanetName,
+  LunarPhaseWithUnderscores
+} from '../../../../types/alchemy';
 
-import type { CookingMethodData } from '@/types/cookingMethod';
+import type { CookingMethodData } from '../../../../types/cookingMethod';
 
 /**
  * Baking cooking method
@@ -28,13 +30,13 @@ export const baking: CookingMethodData = {
   astrologicalInfluences: {
     favorableZodiac: ['leo', 'aries', 'sagittarius'] as ZodiacSign[],
     unfavorableZodiac: ['cancer', 'pisces', 'scorpio'] as ZodiacSign[],
-    dominantPlanets: ['Sun', 'Mars'],
+    dominantPlanets: ['sun', 'mars'] as PlanetName[],
     lunarPhaseEffect: {
       'full_moon': 1.2, // Enhanced rising 
       'new_moon': 0.8,  // Reduced rising
       'waxing_gibbous': 1.1, // Moderate enhancement
       'waning_gibbous': 0.9  // Slight reduction
-    }
+    } as Record<LunarPhaseWithUnderscores, number>
   },
   toolsRequired: [
     'Oven',

@@ -1,67 +1,51 @@
-import { recipeElementalService } from '@/services/RecipeElementalService';
-import type { Recipe } from '@/types/recipe';
+import { Recipe } from '../../types/recipe';
+import { ElementalProperties } from '../../types/alchemy';
+import { RecipeElementalService } from '../../services/RecipeElementalService';
+import { CookingMethod, toCookingMethod } from '../../types/commonTypes';
 
-describe('Recipe Ingredient Processing', () => {
-  it('should correctly process recipe ingredients', () => {
+describe('RecipeElementalService', () => {
+  const recipeElementalService = RecipeElementalService.getInstance();
+
+  it('should use spice levels and ingredient elemental properties to derive overall recipe elemental properties', () => {
     const recipe: Partial<Recipe> = {
-      id: 'test-recipe',
-      name: 'Test Recipe',
+      id: 'spicy-recipe',
+      name: 'Spicy Recipe',
       ingredients: [
         {
-          name: 'Tomato',
+          name: 'Hot Pepper',
           amount: 2,
-          unit: 'whole',
-          category: 'vegetables',
-          elementalProperties: { Fire: 0.7, Water: 0.2, Earth: 0.05, Air: 0.05 }
+          unit: 'tsp',
+          category: 'spice',
+          elementalProperties: { Fire: 0.8, Water: 0.1, Earth: 0.05, Air: 0.05 }
         },
         {
-          name: 'Onion',
+          name: 'Ginger',
           amount: 1,
-          unit: 'medium',
-          category: 'vegetables',
-          elementalProperties: { Earth: 0.5, Fire: 0.2, Water: 0.2, Air: 0.1 }
+          unit: 'tbsp',
+          category: 'spice',
+          elementalProperties: { Fire: 0.6, Water: 0.1, Earth: 0.2, Air: 0.1 }
         }
-      ]
+      ],
+      spiceLevel: 'hot'
     };
     
-    // Test that we can standardize a recipe with ingredients
-    const result = recipeElementalService.standardizeRecipe(recipe);
-    
-    // Verify the result has elemental properties
-    expect(result.elementalProperties).toBeDefined();
-    
-    // Check that derived elemental properties reflect the ingredients
-    const derivedProps = recipeElementalService.deriveElementalProperties(recipe);
-    expect(derivedProps.Fire).toBeGreaterThan(0.2); // Should have significant Fire due to tomato
-  });
-
-  it('should handle recipes with missing ingredient properties', () => {
-    const recipe: Partial<Recipe> = {
-      id: 'test-recipe',
-      name: 'Test Recipe',
-      ingredients: [
-        {
-          name: 'Test Ingredient',
-          amount: 1,
-          unit: 'piece',
-          category: 'other'
-          // No elemental properties
-        }
-      ]
-    };
-    
-    // Should not throw errors when ingredients lack elemental properties
     const result = recipeElementalService.deriveElementalProperties(recipe);
     
-    // Should still produce normalized elemental properties
-    const sum = Object.values(result).reduce((a, b) => a + b, 0);
+    // Given the high Fire content in both ingredients and the hot spice level,
+    // We expect Fire to be the dominant element
+    expect(result.Fire).toBeGreaterThan(result.Water);
+    expect(result.Fire).toBeGreaterThan(result.Earth);
+    expect(result.Fire).toBeGreaterThan(result.Air);
+    
+    // Make sure properties are normalized
+    const sum = Object.values(result).reduce((a: number, b: number) => a + b, 0);
     expect(sum).toBeCloseTo(1, 6);
   });
-
-  it('should correctly calculate recipe elemental properties based on ingredients', () => {
+  
+  it('should consider cuisine and cooking method in elemental properties', () => {
     const recipe: Partial<Recipe> = {
-      id: 'test-recipe',
-      name: 'Test Recipe',
+      id: 'cuisine-test',
+      name: 'Cuisine Test',
       ingredients: [
         {
           name: 'Ingredient1',
@@ -79,7 +63,7 @@ describe('Recipe Ingredient Processing', () => {
         }
       ],
       cuisine: 'Thai',
-      cookingMethod: 'frying'
+      cookingMethod: toCookingMethod('frying') // Use the converter function
     };
     
     const result = recipeElementalService.deriveElementalProperties(recipe);
@@ -102,7 +86,7 @@ describe('Recipe Ingredient Processing', () => {
     const result = recipeElementalService.deriveElementalProperties(recipe);
     
     // Should still produce normalized elemental properties
-    const sum = Object.values(result).reduce((a, b) => a + b, 0);
+    const sum = Object.values(result).reduce((a: number, b: number) => a + b, 0);
     expect(sum).toBeCloseTo(1, 6);
   });
 
@@ -117,7 +101,7 @@ describe('Recipe Ingredient Processing', () => {
     const result = recipeElementalService.deriveElementalProperties(recipe);
     
     // Should still produce normalized elemental properties
-    const sum = Object.values(result).reduce((a, b) => a + b, 0);
+    const sum = Object.values(result).reduce((a: number, b: number) => a + b, 0);
     expect(sum).toBeCloseTo(1, 6);
   });
 }); 

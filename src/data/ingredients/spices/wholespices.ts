@@ -1,6 +1,6 @@
-import type { IngredientMapping } from '@/types/alchemy';
-import { fixIngredientMappings } from '@/utils/elementalUtils';
-import { CUISINE_TYPES } from '@/constants/cuisineTypes';
+import type { IngredientMapping } from '../../../types/alchemy';
+import { fixIngredientMappings } from '../../../utils/elementalUtils';
+import { CUISINE_TYPES } from '../../../constants/cuisineTypes';
 
 const rawWholeSpices: Record<string, Partial<IngredientMapping>> = {
   'star_anise': {
@@ -62,13 +62,13 @@ const rawWholeSpices: Record<string, Partial<IngredientMapping>> = {
     name: 'Cardamom Pods',
     elementalProperties: { Air: 0.4, Fire: 0.3, Earth: 0.2, Water: 0.1 },
     astrologicalProfile: {
-      rulingPlanets: ['Mercury', 'Venus'],
+      rulingPlanets: ['mercury', 'venus'],
       favorableZodiac: ['gemini', 'libra'],
       elementalAffinity: {
         base: 'Air',
         decanModifiers: {
-          first: { element: 'Air', planet: 'Mercury' },
-          second: { element: 'Fire', planet: 'Venus' },
+          first: { element: 'Air', planet: 'mercury' },
+          second: { element: 'Fire', planet: 'venus' },
           third: { element: 'Earth', planet: 'Saturn' }
         }
       }
@@ -336,12 +336,12 @@ const rawWholeSpices: Record<string, Partial<IngredientMapping>> = {
     name: 'Cumin Seeds',
     elementalProperties: { Earth: 0.4, Fire: 0.3, Air: 0.2, Water: 0.1 },
     astrologicalProfile: {
-      rulingPlanets: ['Mercury', 'Saturn'],
+      rulingPlanets: ['mercury', 'Saturn'],
       favorableZodiac: ['virgo', 'capricorn'],
       elementalAffinity: {
         base: 'Earth',
         decanModifiers: {
-          first: { element: 'Earth', planet: 'Mercury' },
+          first: { element: 'Earth', planet: 'mercury' },
           second: { element: 'Fire', planet: 'Saturn' },
           third: { element: 'Air', planet: 'Uranus' }
         }

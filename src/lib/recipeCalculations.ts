@@ -1,5 +1,5 @@
-import { recipes } from '@/data/recipes';
-import { SUIT_TO_ELEMENT } from '@/utils/tarotMappings';
+import { recipes } from '../data/recipes';
+import { SUIT_TO_ELEMENT } from '../utils/tarotMappings';
 
 // Local interface for a tarot card used in recipes
 interface RecipeTarotCard {
@@ -49,14 +49,14 @@ export async function getRecipesForTarotCard(cards: TarotCardResult): Promise<Re
       name: "Elemental Alignment Soup",
       ingredients: ["Water", "Fire herbs", "Earth vegetables", "Air-infused oils"],
       preparation: "Combine all elements with intention and simmer under the moon's glow.",
-      astrologicalInfluences: ["Moon", "Venus", "Jupiter"]
+      astrologicalInfluences: ["Moon", "venus", "Jupiter"]
     },
     {
       id: "recipe-2",
       name: "Tarot-Inspired Salad",
       ingredients: ["Fresh greens", "Root vegetables", "Citrus dressing", "Edible flowers"],
       preparation: "Arrange in the pattern of the card's symbolism.",
-      astrologicalInfluences: ["Sun", "Mercury"]
+      astrologicalInfluences: ["sun", "mercury"]
     },
     {
       id: "recipe-3",

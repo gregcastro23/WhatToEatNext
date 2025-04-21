@@ -18,7 +18,7 @@ const getZodiacSign = (degree) => {
     { name: 'taurus', symbol: '♉', start: 30, element: 'Earth', foods: ['Root vegetables', 'Dairy products', 'Bread', 'Pasta', 'Rice'] },
     { name: 'gemini', symbol: '♊', start: 60, element: 'Air', foods: ['Leafy greens', 'Nuts', 'Seeds', 'Beans', 'Light grains'] },
     { name: 'cancer', symbol: '♋', start: 90, element: 'Water', foods: ['Seafood', 'Soups', 'Melons', 'Cucumber', 'Squash'] },
-    { name: 'leo', symbol: '♌', start: 120, element: 'Fire', foods: ['Sunflower seeds', 'Citrus fruits', 'Corn', 'Olive oil', 'Honey'] },
+    { name: 'leo', symbol: '♌', start: 120, element: 'Fire', foods: ['sunflower seeds', 'Citrus fruits', 'Corn', 'Olive oil', 'Honey'] },
     { name: 'virgo', symbol: '♍', start: 150, element: 'Earth', foods: ['Whole grains', 'Yogurt', 'Nuts', 'Seeds', 'Vegetables'] },
     { name: 'Libra', symbol: '♎', start: 180, element: 'Air', foods: ['Apples', 'Berries', 'Chocolate', 'Wine', 'Balanced meals'] },
     { name: 'Scorpio', symbol: '♏', start: 210, element: 'Water', foods: ['Dark chocolate', 'Red wine', 'Beets', 'Tomatoes', 'Fermented foods'] },
@@ -56,7 +56,7 @@ const calculateElementalBalance = () => {
   Object.entries(planetPositions).forEach(([planet, degree]) => {
     const sign = getZodiacSign(degree);
     let weight = 1;
-    if (planet === 'Sun' || planet === 'Moon') weight = 3;
+    if (planet === 'sun' || planet === 'Moon') weight = 3;
     
     elements[sign.element] += weight;
     total += weight;
@@ -102,10 +102,10 @@ const getDietaryRecommendations = () => {
     items: elementFoods[lowestElement]
   });
   
-  // Sun sign recommendation
-  const sunSign = getZodiacSign(planetPositions['Sun']);
+  // sun sign recommendation
+  const sunSign = getZodiacSign(planetPositions['sun']);
   recommendations.push({
-    title: `${sunSign.name} Sun Sign Foods`,
+    title: `${sunSign.name} sun Sign Foods`,
     description: `As a ${sunSign.name} sun sign, these foods resonate with your core energy:`,
     items: sunSign.foods
   });
@@ -140,10 +140,10 @@ const formattedDate = new Intl.DateTimeFormat('en-US', {
 
 // Planet symbols
 const planetSymbols = {
-  'Sun': '☉',
+  'sun': '☉',
   'Moon': '☽',
-  'Mercury': '☿',
-  'Venus': '♀',
+  'mercury': '☿',
+  'venus': '♀',
   'Mars': '♂',
   'Jupiter': '♃',
   'Saturn': '♄'

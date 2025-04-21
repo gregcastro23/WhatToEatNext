@@ -1,6 +1,6 @@
-import SunCalc from 'suncalc';
+import sunCalc from 'suncalc';
 import { calculateMoonTimes } from './moonTimes';
-import { calculateSunTimes } from './sunTimes';
+import { calculatesunTimes } from './sunTimes';
 
 interface AstroEvent {
   type: string;
@@ -28,7 +28,7 @@ export function getUpcomingAstroEvents(
     const date = new Date(now.getTime() + i * 24 * 60 * 60 * 1000);
     
     // Get moon illumination for the date
-    const moonIllum = SunCalc.getMoonIllumination(date);
+    const moonIllum = sunCalc.getMoonIllumination(date);
     
     // Check for full moon
     if (moonIllum.phase > 0.48 && moonIllum.phase < 0.52) {
@@ -59,7 +59,7 @@ export function getUpcomingAstroEvents(
     }
     
     // Check for sun events (solstices, equinoxes)
-    // These require more complex calculations beyond SunCalc's capabilities
+    // These require more complex calculations beyond sunCalc's capabilities
     // but we can approximate near known dates
     
     // Spring equinox (around March 20)

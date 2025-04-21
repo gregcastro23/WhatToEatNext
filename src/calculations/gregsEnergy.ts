@@ -1,6 +1,6 @@
 import { ElementalCharacter, AlchemicalProperty } from '../constants/planetaryElements';
 import { calculatePlanetaryPositions } from '../utils/astrologyUtils';
-import { calculateSignEnergyStates } from '@/constants/signEnergyStates';
+import { calculateSignEnergyStates } from '../constants/signEnergyStates';
 
 /**
  * A utility function for logging debug information
@@ -56,25 +56,25 @@ export interface ElementalState {
  * Mapping of planetary hours for each day of the week
  */
 const planetaryHours: Record<string, string[]> = {
-    Sunday: ['Sun', 'Venus', 'Mercury', 'Moon', 'Saturn', 'Jupiter', 'Mars'],
-    Monday: ['Moon', 'Saturn', 'Jupiter', 'Mars', 'Sun', 'Venus', 'Mercury'],
-    Tuesday: ['Mars', 'Sun', 'Venus', 'Mercury', 'Moon', 'Saturn', 'Jupiter'],
-    Wednesday: ['Mercury', 'Moon', 'Saturn', 'Jupiter', 'Mars', 'Sun', 'Venus'],
-    Thursday: ['Jupiter', 'Mars', 'Sun', 'Venus', 'Mercury', 'Moon', 'Saturn'],
-    Friday: ['Venus', 'Mercury', 'Moon', 'Saturn', 'Jupiter', 'Mars', 'Sun'],
-    Saturday: ['Saturn', 'Jupiter', 'Mars', 'Sun', 'Venus', 'Mercury', 'Moon']
+    sunday: ['sun', 'venus', 'mercury', 'Moon', 'Saturn', 'Jupiter', 'Mars'],
+    Monday: ['Moon', 'Saturn', 'Jupiter', 'Mars', 'sun', 'venus', 'mercury'],
+    Tuesday: ['Mars', 'sun', 'venus', 'mercury', 'Moon', 'Saturn', 'Jupiter'],
+    Wednesday: ['mercury', 'Moon', 'Saturn', 'Jupiter', 'Mars', 'sun', 'venus'],
+    Thursday: ['Jupiter', 'Mars', 'sun', 'venus', 'mercury', 'Moon', 'Saturn'],
+    Friday: ['venus', 'mercury', 'Moon', 'Saturn', 'Jupiter', 'Mars', 'sun'],
+    Saturday: ['Saturn', 'Jupiter', 'Mars', 'sun', 'venus', 'mercury', 'Moon']
 };
 
 /**
  * Modifiers applied to elemental and alchemical properties based on planetary influence
  */
 const planetaryModifiers: Record<string, Record<string, number>> = {
-    Sun: { Fire: 0.3, Water: -0.1, Air: 0.1, Earth: -0.1, Spirit: 0.2, Essence: 0, Matter: -0.1, Substance: 0 },
+    sun: { Fire: 0.3, Water: -0.1, Air: 0.1, Earth: -0.1, Spirit: 0.2, Essence: 0, Matter: -0.1, Substance: 0 },
     Moon: { Fire: -0.1, Water: 0.3, Air: 0, Earth: 0.1, Spirit: 0, Essence: 0.2, Matter: 0.1, Substance: 0 },
     Mars: { Fire: 0.4, Water: -0.2, Air: -0.1, Earth: 0, Spirit: 0.3, Essence: -0.1, Matter: 0.2, Substance: -0.1 },
-    Mercury: { Fire: 0.1, Water: 0.1, Air: 0.3, Earth: -0.1, Spirit: 0.1, Essence: 0.2, Matter: 0, Substance: 0.1 },
+    mercury: { Fire: 0.1, Water: 0.1, Air: 0.3, Earth: -0.1, Spirit: 0.1, Essence: 0.2, Matter: 0, Substance: 0.1 },
     Jupiter: { Fire: 0.2, Water: 0.2, Air: 0.1, Earth: 0.3, Spirit: 0.2, Essence: 0.1, Matter: 0.1, Substance: 0.2 },
-    Venus: { Fire: -0.1, Water: 0.2, Air: 0.2, Earth: 0.1, Spirit: 0.1, Essence: 0.3, Matter: -0.1, Substance: 0.1 },
+    venus: { Fire: -0.1, Water: 0.2, Air: 0.2, Earth: 0.1, Spirit: 0.1, Essence: 0.3, Matter: -0.1, Substance: 0.1 },
     Saturn: { Fire: -0.2, Water: -0.1, Air: -0.2, Earth: 0.4, Spirit: -0.1, Essence: -0.1, Matter: 0.3, Substance: 0.2 }
 };
 
@@ -83,7 +83,7 @@ const planetaryModifiers: Record<string, Record<string, number>> = {
  */
 class ThermodynamicCalculator {
     private readonly MINIMUM_VALUE = 0.1;
-    private currentPlanetaryInfluence: keyof typeof planetaryModifiers = 'Sun';
+    private currentPlanetaryInfluence: keyof typeof planetaryModifiers = 'sun';
 
     /**
      * Sets the planetary influence to use when calculating modifiers

@@ -3,11 +3,11 @@
 'use client'
 
 import React, { useState, useMemo } from 'react';
-import type { Recipe } from '@/types/recipe';
-import { ElementalCalculator } from '@/services/ElementalCalculator';
-import { CUISINE_TYPES } from '@/constants/cuisineTypes';
+import type { Recipe } from '../../../../types/recipe';
+import { ElementalCalculator } from '../../../../services/ElementalCalculator';
+import { CUISINE_TYPES } from '../../../../constants/cuisineTypes';
 import styles from './CuisineGroup.module.css';
-import { logger } from '@/utils/logger';
+import { logger } from '../../../../utils/logger';
 
 interface Props {
     recipes: Recipe[];

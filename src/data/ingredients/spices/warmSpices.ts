@@ -1,12 +1,12 @@
-import type { IngredientMapping } from '@/types/alchemy';
-import { fixIngredientMappings } from '@/utils/elementalUtils';
+import type { IngredientMapping } from '../../../types/alchemy';
+import { fixIngredientMappings } from '../../../utils/elementalUtils';
 
 const rawWarmSpices: Record<string, Partial<IngredientMapping>> = {
   'cinnamon': {
     name: 'Cinnamon',
     elementalProperties: { Fire: 0.7, Earth: 0.2, Air: 0.1 },
     astrologicalProfile: {
-      planetaryRuler: 'Sun',
+      planetaryRuler: 'sun',
       zodiacRuler: 'Leo',
       element: 'Fire',
       energyType: 'Restorative',

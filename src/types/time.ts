@@ -1,6 +1,6 @@
 import { PlanetName, ZodiacSign } from './alchemy';
 
-export type WeekDay = 'Sunday' | 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday';
+export type WeekDay = 'sunday' | 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday';
 export type Season = 'Spring' | 'Summer' | 'Fall' | 'Winter';
 export type TimeOfDay = 'Morning' | 'Afternoon' | 'Evening' | 'Night';
 
@@ -24,18 +24,18 @@ export interface TimeFactors {
 }
 
 const DAY_RULERS: Record<WeekDay, PlanetName> = {
-  'Sunday': 'Sun',
-  'Monday': 'Moon',
-  'Tuesday': 'Mars',
-  'Wednesday': 'Mercury',
-  'Thursday': 'Jupiter',
-  'Friday': 'Venus',
-  'Saturday': 'Saturn'
+  'sunday': 'sun',
+  'Monday': 'moon',
+  'Tuesday': 'mars',
+  'Wednesday': 'mercury',
+  'Thursday': 'jupiter',
+  'Friday': 'venus',
+  'Saturday': 'saturn'
 };
 
 // Chaldean order of planets used for planetary hours
 const PLANETARY_HOUR_SEQUENCE: PlanetName[] = [
-  'Saturn', 'Jupiter', 'Mars', 'Sun', 'Venus', 'Mercury', 'Moon'
+  'saturn', 'jupiter', 'mars', 'sun', 'venus', 'mercury', 'moon'
 ];
 
 export function getTimeFactors(): TimeFactors {
@@ -69,7 +69,7 @@ export function getTimeFactors(): TimeFactors {
   }
   
   // Determine day of week
-  const weekDays: WeekDay[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  const weekDays: WeekDay[] = ['sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   const weekDay = weekDays[dayOfWeek];
   
   // Determine planetary day

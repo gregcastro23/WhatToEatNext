@@ -1,5 +1,5 @@
-import type { IngredientMapping } from '@/types/alchemy';
-import { fixIngredientMappings } from '@/utils/elementalUtils';
+import type { IngredientMapping } from '../../../types/alchemy';
+import { fixIngredientMappings } from '../../../utils/elementalUtils';
 
 const rawMeats: Record<string, Partial<IngredientMapping>> = {
   'beef': {
@@ -79,15 +79,15 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
     cookingMethods: ['grill', 'pan_sear', 'sous_vide', 'reverse_sear', 'broil'],
     origin: ['Global', 'United States', 'Australia', 'Japan', 'Argentina'],
     astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Sun'],
+      rulingPlanets: ['Mars', 'sun'],
       favorableZodiac: ['aries', 'leo', 'taurus'],
       elementalAffinity: {
         base: 'Fire',
         secondary: 'Earth',
         decanModifiers: {
           first: { element: 'Fire', planet: 'Mars' },
-          second: { element: 'Earth', planet: 'Venus' },
-          third: { element: 'Air', planet: 'Mercury' }
+          second: { element: 'Earth', planet: 'venus' },
+          third: { element: 'Air', planet: 'mercury' }
         }
       },
       lunarPhaseModifiers: {
@@ -100,7 +100,7 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
           preparationTips: ['Ideal for grilling', 'Bold seasonings enhance flavor']
         }
       },
-      aspectEnhancers: ['Mars trine Jupiter', 'Sun in Leo']
+      aspectEnhancers: ['Mars trine Jupiter', 'sun in Leo']
     },
     nutritionalProfile: {
       serving_size: "3 oz",
@@ -437,14 +437,14 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
     affinities: ['star anise', 'soy sauce', 'maple', 'apple', 'ginger', 'fennel'],
     cookingMethods: ['braise', 'roast', 'sous_vide', 'confit', 'smoke', 'grill'],
     astrologicalProfile: {
-      rulingPlanets: ['Venus', 'Jupiter'],
+      rulingPlanets: ['venus', 'Jupiter'],
       favorableZodiac: ['taurus', 'libra', 'cancer'],
       elementalAffinity: {
         base: 'Water',
         secondary: 'Earth',
         decanModifiers: {
-          first: { element: 'Water', planet: 'Venus' },
-          second: { element: 'Earth', planet: 'Mercury' },
+          first: { element: 'Water', planet: 'venus' },
+          second: { element: 'Earth', planet: 'mercury' },
           third: { element: 'Fire', planet: 'Jupiter' }
         }
       },
@@ -458,7 +458,7 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
           preparationTips: ['Enhanced flavor from braising and slow cooking']
         }
       },
-      aspectEnhancers: ['Venus trine Jupiter', 'Moon in Cancer']
+      aspectEnhancers: ['venus trine Jupiter', 'Moon in Cancer']
     },
     nutritionalProfile: {
       serving_size: "3 oz",
@@ -838,15 +838,15 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
     affinities: ['rosemary', 'garlic', 'mint', 'olive oil', 'thyme', 'dijon mustard', 'red wine'],
     cookingMethods: ['roast', 'grill', 'herb_crust', 'sous_vide', 'reverse_sear'],
     astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Venus'],
+      rulingPlanets: ['Mars', 'venus'],
       favorableZodiac: ['aries', 'taurus', 'libra'],
       elementalAffinity: {
         base: 'Fire',
         secondary: 'Earth',
         decanModifiers: {
           first: { element: 'Fire', planet: 'Mars' },
-          second: { element: 'Earth', planet: 'Venus' },
-          third: { element: 'Air', planet: 'Mercury' }
+          second: { element: 'Earth', planet: 'venus' },
+          third: { element: 'Air', planet: 'mercury' }
         }
       },
       lunarPhaseModifiers: {
@@ -859,7 +859,7 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
           preparationTips: ['Robust flavors', 'Expressive cooking methods']
         }
       },
-      aspectEnhancers: ['Mars trine Venus', 'Moon in Aries']
+      aspectEnhancers: ['Mars trine venus', 'Moon in Aries']
     },
     nutritionalProfile: {
       serving_size: "3 oz",
@@ -1152,7 +1152,7 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
       'british': {
         name: 'British',
         'sunday_roast': {
-          name: 'Sunday Roast',
+          name: 'sunday Roast',
           method: 'simply roasted with minimal seasoning',
           accompaniments: 'mint sauce, roast potatoes, yorkshire pudding',
           notes: 'Traditional preparation highlighting meat quality'
@@ -1164,14 +1164,14 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
     name: 'Duck Breast',
     elementalProperties: { Fire: 0.3, Water: 0.3, Earth: 0.2, Air: 0.2 },
     astrologicalProfile: {
-      rulingPlanets: ['Venus', 'Moon'],
+      rulingPlanets: ['venus', 'Moon'],
       favorableZodiac: ['taurus', 'cancer', 'pisces'],
       elementalAffinity: {
         base: 'Water',
         decanModifiers: {
-          first: { element: 'Earth', planet: 'Venus' },
+          first: { element: 'Earth', planet: 'venus' },
           second: { element: 'Water', planet: 'Moon' },
-          third: { element: 'Air', planet: 'Mercury' }
+          third: { element: 'Air', planet: 'mercury' }
         }
       }
     },

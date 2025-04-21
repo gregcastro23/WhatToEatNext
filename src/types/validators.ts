@@ -1,7 +1,7 @@
 import type { ElementalProperties, Recipe, Ingredient, Season } from './alchemy';
-import { VALID_SEASONS } from '@/constants/seasonalConstants';
-import { ELEMENTS } from '@/constants/elementalConstants';
-import { VALID_UNITS } from '@/constants/unitConstants';
+import { VALID_SEASONS } from '../constants/seasonalConstants';
+import { ELEMENTS } from '../constants/elementalConstants';
+import { VALID_UNITS } from '../constants/unitConstants';
 
 const VALID_MEAL_TIMES = ['breakfast', 'lunch', 'dinner'];
 

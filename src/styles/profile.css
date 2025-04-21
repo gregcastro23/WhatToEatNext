@@ -1,0 +1,300 @@
+/* Profile Page Styles */
+.profile-page-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.profile-header {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.profile-header h1 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.profile-header p {
+  font-size: 1rem;
+  color: #666;
+}
+
+/* User Profile Form Styles */
+.user-profile-form {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-bottom: 30px;
+}
+
+.profile-creation h2,
+.profile-details h3 {
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: #555;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.form-group .hint {
+  font-size: 0.8rem;
+  color: #888;
+  margin-top: 5px;
+}
+
+.location-inputs,
+.coordinates-inputs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.location-inputs input,
+.coordinates-inputs input {
+  flex: 1;
+}
+
+.nutrition-section {
+  margin-top: 15px;
+  padding: 15px;
+  background-color: #f8f8f8;
+  border-radius: 4px;
+}
+
+.nutrition-inputs {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+.input-group {
+  margin-bottom: 10px;
+}
+
+.dietary-restrictions {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.restriction-option {
+  display: flex;
+  align-items: center;
+}
+
+.restriction-option input {
+  width: auto;
+  margin-right: 8px;
+}
+
+button {
+  background-color: #4a6fa5;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.2s;
+}
+
+button:hover {
+  background-color: #3a5a8c;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.error-message {
+  color: #e53e3e;
+  margin-top: 10px;
+}
+
+/* Chart Toggle Button */
+.chart-toggle-button {
+  margin: 20px 0;
+  display: block;
+  width: 100%;
+  max-width: 300px;
+}
+
+/* Profile Details Styles */
+.profile-info {
+  margin-bottom: 30px;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #eee;
+  padding: 8px 0;
+}
+
+.info-label {
+  color: #666;
+  font-weight: 500;
+}
+
+.info-value {
+  color: #333;
+  font-weight: 600;
+}
+
+/* Chart Comparison Styles */
+.chart-comparison-container {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.charts-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 30px;
+  margin: 20px 0;
+}
+
+@media (min-width: 768px) {
+  .charts-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.birth-chart,
+.current-chart {
+  padding: 15px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.birth-chart h3,
+.current-chart h3 {
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.chart-synthesis {
+  margin-top: 30px;
+  padding: 20px;
+  background-color: #f0f4f8;
+  border-radius: 8px;
+}
+
+.chart-synthesis h3 {
+  color: #333;
+  margin-bottom: 15px;
+}
+
+/* User Profile Chart Styles */
+.user-chart-container {
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.elemental-balance,
+.alchemical-properties,
+.energetic-properties {
+  margin-top: 30px;
+  text-align: left;
+}
+
+.element-bars,
+.properties-grid {
+  margin-top: 15px;
+}
+
+.element-bar {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.element-label {
+  width: 60px;
+  font-weight: 500;
+}
+
+.bar-container {
+  flex: 1;
+  height: 20px;
+  background-color: #eee;
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 0 10px;
+}
+
+.bar {
+  height: 100%;
+  border-radius: 10px;
+}
+
+.element-value {
+  width: 40px;
+  text-align: right;
+}
+
+.dominant-element {
+  margin-top: 10px;
+  font-size: 0.9rem;
+}
+
+.properties-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 15px;
+}
+
+.property {
+  background-color: #f8f8f8;
+  padding: 10px;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.property-label {
+  font-weight: 500;
+  margin-bottom: 5px;
+  color: #555;
+}
+
+.property-value {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #333;
+} 

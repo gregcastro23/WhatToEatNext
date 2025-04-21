@@ -92,6 +92,108 @@
     border-top: 1px dashed #e2e8f0;
 }
 
+.compatibilityScore {
+    display: inline-block;
+    padding: 0.35rem 0.7rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    background-color: #ebf4ff;
+    color: #3182ce;
+    border-radius: 20px;
+    margin-bottom: 1rem;
+}
+
+.elementalProperties {
+    margin-top: 1rem;
+    padding-top: 0.75rem;
+    border-top: 1px dashed #e2e8f0;
+    font-size: 0.85rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+}
+
+.elementalProperties > strong {
+    grid-column: 1 / -1;
+    margin-bottom: 0.25rem;
+    color: #4a5568;
+}
+
+.elementalProperties > div {
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+}
+
+.elementalProperties > div:nth-child(2) {
+    background-color: #fed7d7;
+    color: #c53030;
+}
+
+.elementalProperties > div:nth-child(3) {
+    background-color: #bee3f8;
+    color: #2b6cb0;
+}
+
+.elementalProperties > div:nth-child(4) {
+    background-color: #c6f6d5;
+    color: #2f855a;
+}
+
+.elementalProperties > div:nth-child(5) {
+    background-color: #e9d8fd;
+    color: #6b46c1;
+}
+
+.similarRecipes {
+    margin-top: 2.5rem;
+    margin-bottom: 2.5rem;
+}
+
+.similarRecipes h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1.25rem;
+    color: #4a5568;
+    text-align: center;
+}
+
+.recipeGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.25rem;
+}
+
+.similarRecipeCard {
+    background-color: #f7fafc;
+    border-radius: 10px;
+    padding: 1.25rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: transform 0.15s ease;
+    border: 1px solid #e2e8f0;
+}
+
+.similarRecipeCard:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.similarRecipeCard h4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    color: #4a5568;
+}
+
+.similarityScore {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+    background-color: #ebf8ff;
+    color: #2b6cb0;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
 .debugInfo {
     margin-top: 3rem;
     padding: 1.5rem;
@@ -127,6 +229,16 @@
     margin-bottom: 2rem;
 }
 
+.noRecipes {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 2rem;
+    background-color: #f9fafb;
+    border-radius: 8px;
+    color: #6b7280;
+    font-style: italic;
+}
+
 @media (max-width: 768px) {
     .container h1 {
         font-size: 2rem;
@@ -137,6 +249,10 @@
     }
     
     .recipeList {
+        grid-template-columns: 1fr;
+    }
+    
+    .recipeGrid {
         grid-template-columns: 1fr;
     }
     

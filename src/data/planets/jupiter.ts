@@ -19,7 +19,7 @@ const jupiterData: PlanetData = {
   'Diurnal Element': 'Air',
   'Nocturnal Element': 'Fire',
   'AstronomicalData': {
-    'DistanceFromSun': '484 million miles (778 million kilometers)',
+    'DistanceFromsun': '484 million miles (778 million kilometers)',
     'DistanceFromEarth': {
       'Minimum': '365 million miles (588 million kilometers)',
       'Maximum': '601 million miles (968 million kilometers)'
@@ -31,7 +31,7 @@ const jupiterData: PlanetData = {
     'OrbitPeriod': '11.86 Earth years',
     'Axial Tilt': '3.13 degrees',
     'PhaseCycle': '399 days (synodic period)',
-    'SunlightTravelTime': '43 minutes',
+    'sunlightTravelTime': '43 minutes',
     'PhysicalCharacteristics': {
       'Surface': 'Gas giant with no solid surface, characterized by colorful bands and the Great Red Spot',
       'MagneticField': 'Strongest magnetic field of any planet in the solar system',
@@ -67,8 +67,8 @@ const jupiterData: PlanetData = {
     'NightEmission': 'Essence - "that which an object cannot exist without"',
     'ElementalBridges': ['Connects Air and Fire', 'Bridges intellect and passion'],
     'SharedElements': {
-      'Air': ['Mercury', 'Saturn'],
-      'Fire': ['Mars', 'Sun']
+      'Air': ['mercury', 'Saturn'],
+      'Fire': ['Mars', 'sun']
     },
     'AssociatedQualities': [
       'Expansive',
@@ -182,7 +182,7 @@ const jupiterData: PlanetData = {
     'Inspires culinary wisdom and tradition'
   ],
   'AspectsEffect': {
-    'Sun': {
+    'sun': {
       'Conjunction': 0.8,
       'Opposition': 0.4,
       'Trine': 0.6,
@@ -196,7 +196,7 @@ const jupiterData: PlanetData = {
       'Square': 0.2,
       'Sextile': 0.4
     },
-    'Mercury': {
+    'mercury': {
       'Conjunction': 0.5,
       'Opposition': 0.1,
       'Trine': 0.4,
@@ -210,7 +210,7 @@ const jupiterData: PlanetData = {
       'Square': -0.1,
       'Sextile': 0.2
     },
-    'Venus': {
+    'venus': {
       'Conjunction': 0.8,
       'Opposition': 0.3,
       'Trine': 0.6,

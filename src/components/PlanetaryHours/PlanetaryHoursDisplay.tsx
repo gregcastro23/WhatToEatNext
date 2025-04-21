@@ -1,39 +1,38 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { PlanetaryHourCalculator } from '@/lib/PlanetaryHourCalculator';
-import { ChakraAlchemyService } from '@/lib/ChakraAlchemyService';
-import { Planet as AlchemyPlanet } from '@/types/alchemy';
-import { Clock, Sun, Moon, Star, Calendar, Timer, ChevronDown, ChevronUp } from 'lucide-react';
+import { PlanetaryHourCalculator } from '../../lib/PlanetaryHourCalculator';
+import { ChakraAlchemyService } from '../../lib/ChakraAlchemyService';
+import { Clock, sun, Moon, Star, Calendar, Timer, ChevronDown, ChevronUp } from 'lucide-react';
 import { 
   planetElementMap, 
   planetPropertyMap 
-} from '@/constants/alchemicalEnergyMapping';
+} from '../../constants/alchemicalEnergyMapping';
 import { 
   ENERGY_STATE_CHAKRA_MAPPING, 
   normalizeChakraKey, 
   getChakraDisplayName 
-} from '@/constants/chakraSymbols';
+} from '../../constants/chakraSymbols';
+import { PlanetName, Planet } from '../../types/alchemy';
 
-// Define a type for capitalized planet names as used in PlanetaryHourCalculator
-type CapitalizedPlanet = 'Sun' | 'Moon' | 'Mercury' | 'Venus' | 'Mars' | 'Jupiter' | 'Saturn';
-
-// Type guard for checking if a string is a valid CapitalizedPlanet
-function isCapitalizedPlanet(value: unknown): value is CapitalizedPlanet {
-  return typeof value === 'string' && 
-    ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn'].includes(value);
+// Type guard for checking if a string is a valid planet name
+function isValidPlanetName(value: unknown): value is PlanetName {
+  if (typeof value !== 'string') return false;
+  return ['sun', 'moon', 'mercury', 'venus', 'mars', 'jupiter', 'saturn', 'uranus', 'neptune', 'pluto'].includes(value.toLowerCase());
 }
 
-// Type guard for checking if a string can be converted to AlchemyPlanet
-function isValidAlchemyPlanet(value: string): value is AlchemyPlanet {
-  return ['sun', 'moon', 'mercury', 'venus', 'mars', 'jupiter', 'saturn', 
-         'uranus', 'neptune', 'pluto'].includes(value.toLowerCase());
+// Helper function to normalize planet name to lowercase
+function normalizePlanetName(planet: string): PlanetName | null {
+  const normalized = planet.toLowerCase();
+  return isValidPlanetName(normalized) ? normalized : null;
 }
 
-// Function to capitalize a planet name
-function capitalizePlanet(planet: string): CapitalizedPlanet | null {
-  const capitalizedPlanet = planet.charAt(0).toUpperCase() + planet.slice(1).toLowerCase();
-  return isCapitalizedPlanet(capitalizedPlanet) ? capitalizedPlanet : null;
+// Helper function to convert a planet name to a Planet object
+function createPlanetObject(planetName: PlanetName): Planet {
+  return {
+    name: planetName,
+    influence: 1.0 // Default influence value
+  };
 }
 
 interface PlanetaryHoursDisplayProps {
@@ -41,10 +40,10 @@ interface PlanetaryHoursDisplayProps {
 }
 
 const PlanetaryHoursDisplay: React.FC<PlanetaryHoursDisplayProps> = ({ compact = false }) => {
-  const [currentHour, setCurrentHour] = useState<CapitalizedPlanet | null>(null);
-  const [currentDay, setCurrentDay] = useState<CapitalizedPlanet | null>(null);
-  const [currentMinute, setCurrentMinute] = useState<CapitalizedPlanet | null>(null);
-  const [allHours, setAllHours] = useState<Map<number, CapitalizedPlanet>>(new Map());
+  const [currentHour, setCurrentHour] = useState<PlanetName | null>(null);
+  const [currentDay, setCurrentDay] = useState<PlanetName | null>(null);
+  const [currentMinute, setCurrentMinute] = useState<PlanetName | null>(null);
+  const [allHours, setAllHours] = useState<Map<number, PlanetName>>(new Map());
   const [currentTime, setCurrentTime] = useState<Date>(new Date());
   const [planetaryCalculator] = useState(() => new PlanetaryHourCalculator());
   const [chakraService] = useState(() => new ChakraAlchemyService());
@@ -79,54 +78,63 @@ const PlanetaryHoursDisplay: React.FC<PlanetaryHoursDisplayProps> = ({ compact =
       // Get current planetary hour
       const hourInfo = planetaryCalculator.getCurrentPlanetaryHour();
       if (hourInfo && typeof hourInfo.planet === 'string') {
-        // Safely check if the planet is a valid CapitalizedPlanet
-        if (isCapitalizedPlanet(hourInfo.planet)) {
-          setCurrentHour(hourInfo.planet);
+        const planetName = normalizePlanetName(hourInfo.planet);
+        if (planetName) {
+          setCurrentHour(planetName);
           
-          // Safely convert to AlchemyPlanet (lowercase)
-          const planetLowerCase = hourInfo.planet.toLowerCase();
-          if (isValidAlchemyPlanet(planetLowerCase)) {
-            // Get associated chakras from the planet's alchemical property
-            const property = planetPropertyMap(isDay)[planetLowerCase as keyof ReturnType<typeof planetPropertyMap>];
-            setAlchemicalProperty(property);
+          // Get associated chakras from the planet's alchemical property
+          const property = planetPropertyMap(isDay)[planetName];
+          setAlchemicalProperty(property);
+          
+          // Get associated chakras from the energy state mapping
+          if (property && ENERGY_STATE_CHAKRA_MAPPING[property]) {
+            const associatedChakraKeys = ENERGY_STATE_CHAKRA_MAPPING[property];
             
-            // Get associated chakras from the energy state mapping
-            if (property && ENERGY_STATE_CHAKRA_MAPPING[property]) {
-              const associatedChakraKeys = ENERGY_STATE_CHAKRA_MAPPING[property];
-              
-              // Get the display names for these chakras
-              const chakraNames = associatedChakraKeys.map(key => 
-                getChakraDisplayName(key)
-              );
-              
-              setAssociatedChakras(chakraNames);
-            } else {
-              // Fallback to the service method if no mapping is found
-              const chakras = chakraService.getChakrasByPlanet(planetLowerCase as AlchemyPlanet);
-              setAssociatedChakras(chakras.map(c => {
-                const chakraInfo = chakraService.getChakraInfo(c);
-                return chakraInfo.name;
-              }));
-            }
+            // Get the display names for these chakras
+            const chakraNames = associatedChakraKeys.map(key => 
+              getChakraDisplayName(key)
+            );
+            
+            setAssociatedChakras(chakraNames);
+          } else {
+            // Fallback to the service method if no mapping is found
+            const chakras = chakraService.getChakrasByPlanet(createPlanetObject(planetName));
+            setAssociatedChakras(chakras.map(c => {
+              const chakraInfo = chakraService.getChakraInfo(c);
+              return chakraInfo.name;
+            }));
           }
         }
       }
       
       // Get current planetary day
       const dayPlanet = planetaryCalculator.getCurrentPlanetaryDay();
-      setCurrentDay(capitalizePlanet(dayPlanet));
+      if (typeof dayPlanet === 'string') {
+        const planetName = normalizePlanetName(dayPlanet);
+        if (planetName) {
+          setCurrentDay(planetName);
+        }
+      }
       
       // Get current planetary minute
       const minutePlanet = planetaryCalculator.getCurrentPlanetaryMinute();
-      setCurrentMinute(capitalizePlanet(minutePlanet));
+      if (typeof minutePlanet === 'string') {
+        const planetName = normalizePlanetName(minutePlanet);
+        if (planetName) {
+          setCurrentMinute(planetName);
+        }
+      }
       
       // Get all hours and safely convert them to a new Map with the correct type
       const calculatedHours = planetaryCalculator.getDailyPlanetaryHours(now);
-      const typedHours = new Map<number, CapitalizedPlanet>();
+      const typedHours = new Map<number, PlanetName>();
       
       calculatedHours.forEach((planet, hour) => {
-        if (isCapitalizedPlanet(planet)) {
-          typedHours.set(hour, planet);
+        if (typeof planet === 'string') {
+          const planetName = normalizePlanetName(planet);
+          if (planetName) {
+            typedHours.set(hour, planetName);
+          }
         }
       });
       
@@ -136,28 +144,31 @@ const PlanetaryHoursDisplay: React.FC<PlanetaryHoursDisplayProps> = ({ compact =
     }
   };
   
-  const getPlanetIcon = (planet: CapitalizedPlanet) => {
+  const getPlanetIcon = (planet: PlanetName) => {
     switch (planet) {
-      case 'Sun': return <Sun className="h-4 w-4 text-yellow-400" />;
-      case 'Moon': return <Moon className="h-4 w-4 text-blue-300" />;
-      case 'Mercury': return <Star className="h-4 w-4 text-purple-400" />;
-      case 'Venus': return <Star className="h-4 w-4 text-pink-400" />;
-      case 'Mars': return <Star className="h-4 w-4 text-red-500" />;
-      case 'Jupiter': return <Star className="h-4 w-4 text-blue-500" />;
-      case 'Saturn': return <Star className="h-4 w-4 text-gray-500" />;
+      case 'sun': return <sun className="h-4 w-4 text-yellow-400" />;
+      case 'moon': return <Moon className="h-4 w-4 text-blue-300" />;
+      case 'mercury': return <Star className="h-4 w-4 text-purple-400" />;
+      case 'venus': return <Star className="h-4 w-4 text-pink-400" />;
+      case 'mars': return <Star className="h-4 w-4 text-red-500" />;
+      case 'jupiter': return <Star className="h-4 w-4 text-blue-500" />;
+      case 'saturn': return <Star className="h-4 w-4 text-gray-500" />;
       default: return <Star className="h-4 w-4" />;
     }
   };
   
-  const getPlanetColor = (planet: CapitalizedPlanet): string => {
-    const colors: Record<CapitalizedPlanet, string> = {
-      'Sun': 'text-yellow-400',
-      'Moon': 'text-blue-300',
-      'Mercury': 'text-purple-400',
-      'Venus': 'text-pink-400',
-      'Mars': 'text-red-500',
-      'Jupiter': 'text-blue-500',
-      'Saturn': 'text-gray-500'
+  const getPlanetColor = (planet: PlanetName): string => {
+    const colors: Record<PlanetName, string> = {
+      'sun': 'text-yellow-400',
+      'moon': 'text-blue-300',
+      'mercury': 'text-purple-400',
+      'venus': 'text-pink-400',
+      'mars': 'text-red-500',
+      'jupiter': 'text-blue-500',
+      'saturn': 'text-gray-500',
+      'uranus': 'text-teal-400',
+      'neptune': 'text-indigo-400',
+      'pluto': 'text-gray-600'
     };
     return colors[planet] || 'text-white';
   };
@@ -174,7 +185,7 @@ const PlanetaryHoursDisplay: React.FC<PlanetaryHoursDisplayProps> = ({ compact =
             <div className="flex items-center">
               <span className="text-sm text-gray-300">Planetary Hour:</span>
               <span className={`ml-1.5 text-sm font-medium ${currentHour ? getPlanetColor(currentHour) : ''}`}>
-                {getPlanetIcon(currentHour || 'Sun')}
+                {currentHour ? getPlanetIcon(currentHour) : <Star className="h-4 w-4" />}
                 <span className="ml-1">{currentHour || 'Unknown'}</span>
               </span>
             </div>

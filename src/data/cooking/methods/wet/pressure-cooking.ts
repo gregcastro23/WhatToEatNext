@@ -1,5 +1,5 @@
-import type { CookingMethodData } from '@/types/cookingMethod';
-import type { ThermodynamicProperties } from '@/types/alchemy';
+import type { CookingMethodData } from '../../../../types/cookingMethod';
+import type { ThermodynamicProperties } from '../../../../types/alchemy';
 
 /**
  * Pressure Cooking: A cooking method that uses steam under pressure to cook food

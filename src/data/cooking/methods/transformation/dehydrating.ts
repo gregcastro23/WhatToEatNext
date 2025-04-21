@@ -1,4 +1,4 @@
-import type { CookingMethodData } from '@/types/cookingMethod';
+import type { CookingMethodData } from '../../../../types/cookingMethod';
 
 /**
  * Dehydrating: A preservation method that removes moisture from food,
@@ -7,11 +7,11 @@ import type { CookingMethodData } from '@/types/cookingMethod';
 export const dehydrating: CookingMethodData = {
   name: 'Dehydrating',
   description: 'A preservation method that removes moisture from food through controlled evaporation, concentrating flavors and nutrients while extending shelf life.',
-  history: 'Dehydration is one of humanity\'s oldest food preservation techniques, dating back to prehistoric times. Sun-drying fruits, vegetables, and meats was practiced across ancient civilizations including Egypt, China, and the Middle East.',
+  history: 'Dehydration is one of humanity\'s oldest food preservation techniques, dating back to prehistoric times. sun-drying fruits, vegetables, and meats was practiced across ancient civilizations including Egypt, China, and the Middle East.',
   science: 'Dehydration works by removing water that microorganisms need to survive. By reducing the water activity to below 0.6, bacterial growth is inhibited. The process also concentrates flavors and nutrients while reducing weight and volume.',
   alchemical_properties: {
     element: 'Air',
-    planetary_influence: 'Mercury',
+    planetary_influence: 'mercury',
     effect_on_ingredients: 'Increases Spirit, concentrates Essence, transforms Water into Air'
   },
   suitable_for: [
@@ -24,7 +24,7 @@ export const dehydrating: CookingMethodData = {
     'Seeds'
   ],
   variations: [
-    'Sun drying (traditional method using solar heat)',
+    'sun drying (traditional method using solar heat)',
     'Air drying (hanging in a cool, dry place)',
     'Oven drying (using low heat in a conventional oven)',
     'Food dehydrator (using specialized equipment)',
@@ -50,7 +50,7 @@ export const dehydrating: CookingMethodData = {
   famous_dishes: [
     'Beef jerky',
     'Dried apricots',
-    'Sun-dried tomatoes',
+    'sun-dried tomatoes',
     'Fruit leather',
     'Dried mushrooms',
     'Herb blends',

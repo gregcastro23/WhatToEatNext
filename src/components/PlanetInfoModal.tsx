@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-import { getPlanetInfo, getDignityDescription, getAspectDescription, PlanetInfo } from '@/utils/planetInfoUtils';
+import { useAlchemical } from '../contexts/AlchemicalContext/hooks';
+import { getPlanetInfo, getDignityDescription, getAspectDescription, PlanetInfo } from '../utils/planetInfoUtils';
 
 interface PlanetInfoModalProps {
   planetName: string;
@@ -283,7 +283,7 @@ function getTarotSymbol(cardName: string): string {
     'The Tower': 'XVI',
     'The Star': 'XVII',
     'The Moon': 'XVIII',
-    'The Sun': 'XIX',
+    'The sun': 'XIX',
     'Judgement': 'XX',
     'The World': 'XXI'
   };

@@ -2,15 +2,18 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-import { getCurrentCelestialPositions } from '@/services/astrologyApi';
+import { useAlchemical } from '../../contexts/AlchemicalContext/hooks';
+import { getCurrentCelestialPositions } from '../../services/astrologyApi';
+import { useUser } from '../../contexts/UserContext';
+import Link from 'next/link';
 import { 
-  Sun, 
+  sun, 
   Moon, 
   Users, 
   ChefHat, 
   Clock,
-  CalendarDays
+  CalendarDays,
+  UserCircle
 } from 'lucide-react';
 
 interface HeaderProps {
@@ -19,6 +22,7 @@ interface HeaderProps {
 
 export default function Header({ setNumberOfPeople }: HeaderProps) {
   const { state } = useAlchemical();
+  const { currentUser } = useUser();
   const [peopleCount, setPeopleCount] = useState<number>(1);
   const [astroData, setAstroData] = useState<{
     sun: { sign: string; degree: number; minutes: number };
@@ -107,8 +111,8 @@ export default function Header({ setNumberOfPeople }: HeaderProps) {
                 <div className="grid grid-cols-2 gap-6">
                   <div className="text-center">
                     <div className="flex items-center justify-center space-x-2 mb-1">
-                      <Sun className="h-5 w-5 text-yellow-300" />
-                      <span className="font-medium">Sun</span>
+                      <sun className="h-5 w-5 text-yellow-300" />
+                      <span className="font-medium">sun</span>
                     </div>
                     <div className="text-lg font-semibold">{astroData.sun.sign}</div>
                     <div className="text-sm opacity-90">
@@ -151,6 +155,17 @@ export default function Header({ setNumberOfPeople }: HeaderProps) {
                 <CalendarDays className="h-4 w-4" />
                 <span className="text-sm">{state.currentSeason}</span>
               </div>
+              
+              <Link href="/profile">
+                <div className="flex items-center space-x-2 bg-white/10 rounded-lg px-3 py-2 hover:bg-white/20 transition-colors cursor-pointer">
+                  <UserCircle className="h-5 w-5" />
+                  {currentUser ? (
+                    <span className="text-sm">{currentUser.name}</span>
+                  ) : (
+                    <span className="text-sm">Profile</span>
+                  )}
+                </div>
+              </Link>
             </div>
           </div>
         </div>

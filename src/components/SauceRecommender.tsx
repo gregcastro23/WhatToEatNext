@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Sauce } from '@/data/sauces';
-import { ElementalProperties } from '@/types/alchemy';
+import { Sauce } from '../data/sauces';
+import { ElementalProperties } from '../types/alchemy';
 import { ChevronDown, ChevronUp, Info, Check, Droplet, Flame, Wind, Mountain } from 'lucide-react';
+// Import similarity from ml-distance for better elemental compatibility calculation
+import { similarity } from 'ml-distance';
 
 interface SauceRecommenderProps {
   currentElementalProfile?: ElementalProperties;
@@ -63,31 +65,35 @@ export default function SauceRecommender({
     }));
   };
 
-  // Calculate elemental match between sauce and current profile
+  // Calculate elemental match between sauce and current profile using ml-distance
   const calculateElementalMatch = (
     sauceElements: ElementalProperties,
     userElements: ElementalProperties
   ): number => {
-    // Ensure properties exist
-    const elements = ['Fire', 'Water', 'Earth', 'Air'];
-    
-    // Calculate Euclidean distance (lower is better)
-    let sumSquaredDiff = 0;
-    elements.forEach(element => {
-      const elementKey = element as keyof ElementalProperties;
-      const diff = (sauceElements[elementKey] || 0) - (userElements[elementKey] || 0);
-      sumSquaredDiff += diff * diff;
-    });
-    
-    // Convert to similarity score (higher is better)
-    // Distance of 0 = perfect match (1.0)
-    // Maximum possible distance = 2 (sqrt(4)) when opposite elements
-    const distance = Math.sqrt(sumSquaredDiff);
-    const maxDistance = Math.sqrt(4); // Maximum possible distance (theoretical)
-    const similarity = 1 - (distance / maxDistance);
-    
-    // Ensure score is in [0,1]
-    return Math.max(0, Math.min(1, similarity));
+    try {
+      // Convert elemental properties to vectors for similarity calculation
+      const sauceVector = [
+        sauceElements.Fire || 0,
+        sauceElements.Water || 0,
+        sauceElements.Earth || 0,
+        sauceElements.Air || 0
+      ];
+      
+      const userVector = [
+        userElements.Fire || 0,
+        userElements.Water || 0,
+        userElements.Earth || 0,
+        userElements.Air || 0
+      ];
+      
+      // Calculate cosine similarity using ml-distance
+      // This provides a more accurate measure of elemental similarity
+      return similarity.cosine(sauceVector, userVector);
+    } catch (err) {
+      console.error('Error calculating elemental match:', err);
+      // Default similarity if calculation fails
+      return 0.5;
+    }
   };
 
   // Helper function to determine ingredient amounts
@@ -286,8 +292,8 @@ export default function SauceRecommender({
             );
             
             // More restrictive filtering for cross-cuisine sauce recommendations
-            // Increased threshold and added exclusion rules based on culinary appropriateness
-            if (matchScore > 0.85) { // Increased from 0.65 for higher quality matches
+            // Updated threshold to align with new ml-distance cosine similarity
+            if (matchScore > 0.75) { // Threshold adjusted for cosine similarity
               // Skip inappropriate combinations
               if (shouldExcludeSauceCombination(sauceData.name, cuisine)) {
                 return;
@@ -316,11 +322,11 @@ export default function SauceRecommender({
     
     // Remove duplicates and sort by match score
     const uniqueResults = results.filter((sauce, index, self) =>
-      index === self.findIndex((s) => s.name === sauce.name)
+      index === self.findIndex((s) => (s as any).name === (sauce as any).name)
     );
     
     return uniqueResults
-      .sort((a, b) => b.matchScore - a.matchScore)
+      .sort((a, b) => (b as any).matchScore - (a as any).matchScore)
       .slice(0, maxResults);
   };
 
@@ -337,7 +343,9 @@ export default function SauceRecommender({
       'mexican': ['soy sauce', 'fish sauce', 'oyster sauce', 'teriyaki'],
       'french': ['soy sauce', 'gochujang', 'sweet chili', 'curry paste'],
       'korean': ['marinara', 'bechamel', 'pesto', 'carbonara'],
-      'chinese': ['guacamole', 'chimichurri', 'aioli', 'hollandaise']
+      'chinese': ['guacamole', 'chimichurri', 'aioli', 'hollandaise'],
+      'middle_eastern': ['soy sauce', 'teriyaki', 'alfredo', 'carbonara'],
+      'greek': ['soy sauce', 'teriyaki', 'gochujang', 'curry paste']
     };
     
     // Normalize cuisine and sauce names for comparison
@@ -358,7 +366,7 @@ export default function SauceRecommender({
   // Helper function to render the sauce element icons
   const renderElementIcons = (elementalProps: ElementalProperties) => {
     const dominant = Object.entries(elementalProps)
-      .sort(([, a], [, b]) => b - a)[0][0];
+      .sort(([, a], [, b]) => (b as number) - (a as number))[0][0];
     
     return (
       <div className="flex gap-1">
@@ -489,7 +497,7 @@ export default function SauceRecommender({
             // Determine styling based on dominant element
             const elementalProps = sauce.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
             const dominant = Object.entries(elementalProps)
-              .sort(([, a], [, b]) => b - a)[0][0];
+              .sort(([, a], [, b]) => (b as number) - (a as number))[0][0];
             const elementClass = dominant.toLowerCase();
             
             return (
@@ -660,13 +668,6 @@ export default function SauceRecommender({
                       <div className="mt-1">
                         <span className="text-gray-500">Yield: </span>
                         <span>{sauce.yield}</span>
-                      </div>
-                    )}
-                    
-                    {sauce.difficulty && (
-                      <div className="mt-1">
-                        <span className="text-gray-500">Difficulty: </span>
-                        <span>{sauce.difficulty}</span>
                       </div>
                     )}
                     

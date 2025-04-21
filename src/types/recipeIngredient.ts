@@ -1,4 +1,4 @@
-import type { ElementalProperties } from '@/types/alchemy';
+import type { ElementalProperties } from './alchemy';
 
 /**
  * Comprehensive recipe ingredient type that covers all use cases

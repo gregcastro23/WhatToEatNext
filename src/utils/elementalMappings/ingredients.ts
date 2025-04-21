@@ -4,7 +4,7 @@ import {
   Element,
   Season,
   IngredientMapping
-} from '@/types/alchemy';
+} from '../../types/alchemy';
 
 // Helper function to standardize ingredient mappings
 function createIngredientMapping(
@@ -33,13 +33,13 @@ export const ingredientMappings: Record<string, IngredientMapping> = {
       Water: 0
     },
     astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Sun'],
+      rulingPlanets: ['Mars', 'sun'],
       favorableZodiac: ['aries', 'leo', 'sagittarius'], // Convert to lowercase
       elementalAffinity: {
         base: 'Fire',
         decanModifiers: {
           first: { element: 'Fire', planet: 'Mars' },
-          second: { element: 'Air', planet: 'Sun' },
+          second: { element: 'Air', planet: 'sun' },
           third: { element: 'Earth', planet: 'Saturn' }
         }
       }
@@ -78,7 +78,7 @@ export const ingredientMappings: Record<string, IngredientMapping> = {
       Water: 0
     },
     astrologicalProfile: {
-      rulingPlanets: ['Sun', 'Jupiter'],
+      rulingPlanets: ['sun', 'Jupiter'],
       favorableZodiac: ['leo', 'sagittarius'], // Convert to lowercase
       elementalAffinity: 'Fire'
     },
@@ -93,7 +93,7 @@ export const ingredientMappings: Record<string, IngredientMapping> = {
       Water: 0
     },
     astrologicalProfile: {
-      rulingPlanets: ['Mercury', 'Venus'],
+      rulingPlanets: ['mercury', 'venus'],
       favorableZodiac: ['gemini', 'libra'], // Convert to lowercase
       elementalAffinity: 'Air'
     },
@@ -196,7 +196,7 @@ export const ingredientMappings: Record<string, IngredientMapping> = {
       Water: 0
     },
     astrologicalProfile: {
-      rulingPlanets: ['Mercury', 'Venus'],
+      rulingPlanets: ['mercury', 'venus'],
       favorableZodiac: ['virgo', 'taurus'], // Convert to lowercase
       elementalAffinity: 'Air'
     },
@@ -310,14 +310,14 @@ export const ingredientMappings: Record<string, IngredientMapping> = {
       Fire: 0
     },
     astrologicalProfile: {
-      rulingPlanets: ['Venus', 'Saturn'],
+      rulingPlanets: ['venus', 'Saturn'],
       favorableZodiac: ['taurus', 'capricorn'], // Changed to lowercase
       elementalAffinity: {
         base: 'Earth',
         decanModifiers: {
-          first: { element: 'Earth', planet: 'Venus' },
+          first: { element: 'Earth', planet: 'venus' },
           second: { element: 'Water', planet: 'Saturn' },
-          third: { element: 'Air', planet: 'Mercury' }
+          third: { element: 'Air', planet: 'mercury' }
         }
       }
     },
@@ -332,14 +332,14 @@ export const ingredientMappings: Record<string, IngredientMapping> = {
       Air: 0.1
     },
     astrologicalProfile: {
-      rulingPlanets: ['Venus', 'Moon'],
+      rulingPlanets: ['venus', 'Moon'],
       favorableZodiac: ['taurus', 'cancer'], // Changed to lowercase
       elementalAffinity: {
         base: 'Earth',
         decanModifiers: {
-          first: { element: 'Earth', planet: 'Venus' },
+          first: { element: 'Earth', planet: 'venus' },
           second: { element: 'Water', planet: 'Moon' },
-          third: { element: 'Fire', planet: 'Sun' }
+          third: { element: 'Fire', planet: 'sun' }
         }
       }
     },
@@ -362,7 +362,7 @@ export const ingredientMappings: Record<string, IngredientMapping> = {
         decanModifiers: {
           first: { element: 'Earth', planet: 'Moon' },
           second: { element: 'Water', planet: 'Saturn' },
-          third: { element: 'Air', planet: 'Mercury' }
+          third: { element: 'Air', planet: 'mercury' }
         }
       },
       lunarPhaseModifiers: {

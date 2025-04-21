@@ -6,18 +6,18 @@ import { LunarPhaseWithSpaces } from '../types/alchemy';
  * Enhanced planet type incorporating multiple astrological traditions
  */
 export type Planet = 
-  | 'Sun'
-  | 'Moon'
-  | 'Mercury'
-  | 'Venus'
-  | 'Mars'
-  | 'Jupiter'
-  | 'Saturn'
-  | 'Rahu'
-  | 'Ketu'
-  | 'Uranus'
-  | 'Neptune'
-  | 'Pluto';
+  | 'sun'
+  | 'moon'
+  | 'mercury'
+  | 'venus'
+  | 'mars'
+  | 'jupiter'
+  | 'saturn'
+  | 'rahu'
+  | 'ketu'
+  | 'uranus'
+  | 'neptune'
+  | 'pluto';
 
 /**
  * Planetary dignity types for calculation
@@ -65,8 +65,8 @@ export interface FoodAssociation {
 }
 
 export const planetaryFoodAssociations: Record<Planet, FoodAssociation> = {
-  Sun: {
-    name: 'Sun',
+  sun: {
+    name: 'sun',
     elements: ['Fire'],
     qualities: ['Hot', 'Dry'],
     foodCategories: ['Fruits', 'Spices', 'Grains'],
@@ -74,7 +74,7 @@ export const planetaryFoodAssociations: Record<Planet, FoodAssociation> = {
     cuisines: ['Mediterranean', 'Indian', 'Middle Eastern'],
     elementalBoost: { 'Fire': 0.3, 'Air': 0.1 }
   },
-  Moon: {
+  moon: {
     name: 'Moon',
     elements: ['Water'],
     qualities: ['Cold', 'Moist'],
@@ -83,7 +83,7 @@ export const planetaryFoodAssociations: Record<Planet, FoodAssociation> = {
     cuisines: ['Japanese', 'Nordic', 'Coastal'],
     elementalBoost: { 'Water': 0.3, 'Earth': 0.1 }
   },
-  Mercury: {
+  mercury: {
     name: 'Mercury',
     elements: ['Air', 'Earth'],
     qualities: ['Mixed', 'Adaptable'],
@@ -92,7 +92,7 @@ export const planetaryFoodAssociations: Record<Planet, FoodAssociation> = {
     cuisines: ['Fusion', 'Contemporary', 'Diverse'],
     elementalBoost: { 'Air': 0.2, 'Earth': 0.2 }
   },
-  Venus: {
+  venus: {
     name: 'Venus',
     elements: ['Earth', 'Water'],
     qualities: ['Cool', 'Moist'],
@@ -101,7 +101,7 @@ export const planetaryFoodAssociations: Record<Planet, FoodAssociation> = {
     cuisines: ['French', 'Italian', 'Dessert-focused'],
     elementalBoost: { 'Earth': 0.2, 'Water': 0.2 }
   },
-  Mars: {
+  mars: {
     name: 'Mars',
     elements: ['Fire'],
     qualities: ['Hot', 'Dry'],
@@ -110,7 +110,7 @@ export const planetaryFoodAssociations: Record<Planet, FoodAssociation> = {
     cuisines: ['Spicy', 'BBQ', 'Grilled'],
     elementalBoost: { 'Fire': 0.4 }
   },
-  Jupiter: {
+  jupiter: {
     name: 'Jupiter',
     elements: ['Fire', 'Air'],
     qualities: ['Warm', 'Moist'],
@@ -119,7 +119,7 @@ export const planetaryFoodAssociations: Record<Planet, FoodAssociation> = {
     cuisines: ['Abundant', 'Festive', 'Celebratory'],
     elementalBoost: { 'Fire': 0.2, 'Air': 0.2 }
   },
-  Saturn: {
+  saturn: {
     name: 'Saturn',
     elements: ['Earth'],
     qualities: ['Cold', 'Dry'],
@@ -128,7 +128,7 @@ export const planetaryFoodAssociations: Record<Planet, FoodAssociation> = {
     cuisines: ['Rustic', 'Traditional', 'Preserved'],
     elementalBoost: { 'Earth': 0.4 }
   },
-  Uranus: {
+  uranus: {
     name: 'Uranus',
     elements: ['Air'],
     qualities: ['Cold', 'Dry'],
@@ -137,7 +137,7 @@ export const planetaryFoodAssociations: Record<Planet, FoodAssociation> = {
     cuisines: ['Experimental', 'Avant-garde', 'Futuristic'],
     elementalBoost: { 'Air': 0.4 }
   },
-  Neptune: {
+  neptune: {
     name: 'Neptune',
     elements: ['Water'],
     qualities: ['Cold', 'Moist'],
@@ -146,7 +146,7 @@ export const planetaryFoodAssociations: Record<Planet, FoodAssociation> = {
     cuisines: ['Ethereal', 'Subtle', 'Inspired'],
     elementalBoost: { 'Water': 0.4 }
   },
-  Pluto: {
+  pluto: {
     name: 'Pluto',
     elements: ['Water', 'Fire'],
     qualities: ['Transformative'],
@@ -155,7 +155,7 @@ export const planetaryFoodAssociations: Record<Planet, FoodAssociation> = {
     cuisines: ['Intense', 'Complex', 'Deep'],
     elementalBoost: { 'Water': 0.2, 'Fire': 0.2 }
   },
-  Rahu: {
+  rahu: {
     name: 'Rahu',
     elements: ['Air', 'Fire'],
     qualities: ['Expansive', 'Chaotic'],
@@ -164,7 +164,7 @@ export const planetaryFoodAssociations: Record<Planet, FoodAssociation> = {
     cuisines: ['Fusion', 'Unexpected combinations', 'Foreign cuisines'],
     elementalBoost: { 'Air': 0.2, 'Fire': 0.2 }
   },
-  Ketu: {
+  ketu: {
     name: 'Ketu',
     elements: ['Fire', 'Water'],
     qualities: ['Spiritual', 'Subtle'],
@@ -241,7 +241,7 @@ export const calculatePlanetaryBoost = (
 // Helper functions for calculations
 const getTriplicityRulers = (zodiacSign?: string | null): Planet[] => {
   // Implementation depends on your zodiac mappings
-  return ['Sun', 'Mars', 'Jupiter'] as Planet[];
+  return ['sun', 'mars', 'jupiter'] as Planet[];
 };
 
 const getSeasonalMultiplier = (): number => {

@@ -1,19 +1,19 @@
 import React, { useState, useMemo } from 'react';
-import { RulingPlanet } from '@/constants/planets';
-import { ElementalCharacter, AlchemicalProperty } from '@/constants/planetaryElements';
-import { useAlchemicalRecommendations } from '@/hooks/useAlchemicalRecommendations';
-import { ElementalItem } from '@/calculations/alchemicalTransformation';
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-import { LunarPhase, LunarPhaseWithSpaces, ZodiacSign, PlanetaryAspect } from '@/types/alchemy';
+import { RulingPlanet } from '../constants/planets';
+import { ElementalCharacter, AlchemicalProperty } from '../constants/planetaryElements';
+import { useAlchemicalRecommendations } from '../hooks/useAlchemicalRecommendations';
+import { ElementalItem } from '../calculations/alchemicalTransformation';
+import { useAlchemical } from '../contexts/AlchemicalContext/hooks';
+import { LunarPhase, LunarPhaseWithSpaces, ZodiacSign, PlanetaryAspect } from '../types/alchemy';
 
 // Import the correct data sources
-import allIngredients from '@/data/ingredients';
-import { cookingMethods } from '@/data/cooking/cookingMethods';
-import { cuisines } from '@/data/cuisines';
+import allIngredients from '../data/ingredients';
+import { cookingMethods } from '../data/cooking/cookingMethods';
+import { cuisines } from '../data/cuisines';
 
 // Add import for modality type and utils
-import type { Modality } from '@/data/ingredients/types';
-import { determineIngredientModality } from '@/utils/ingredientUtils';
+import type { Modality } from '../data/ingredients/types';
+import { determineIngredientModality } from '../utils/ingredientUtils';
 
 interface AlchemicalRecommendationsProps {
   // If these aren't passed, the component will use current astronomical conditions
@@ -47,10 +47,10 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
     // Convert from PlanetaryPositionsType to Record<RulingPlanet, number>
     if (alchemicalContext.planetaryPositions) {
       const positions: Record<RulingPlanet, number> = {
-        Sun: 0,
+        sun: 0,
         Moon: 0,
-        Mercury: 0,
-        Venus: 0,
+        mercury: 0,
+        venus: 0,
         Mars: 0,
         Jupiter: 0,
         Saturn: 0,
@@ -71,10 +71,10 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
     
     // Default fallback
     return {
-      Sun: 0,
+      sun: 0,
       Moon: 0,
-      Mercury: 0,
-      Venus: 0,
+      mercury: 0,
+      venus: 0,
       Mars: 0,
       Jupiter: 0,
       Saturn: 0,
@@ -86,7 +86,8 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
   
   const resolvedIsDaytime = isDaytime !== undefined ? isDaytime : alchemicalContext.isDaytime;
   const resolvedCurrentZodiac = currentZodiac || 
-    (alchemicalContext.state?.astrologicalState?.zodiacSign as ZodiacSign) || null;
+    (alchemicalContext.state?.astrologicalState?.currentZodiac as ZodiacSign) || 
+    (alchemicalContext.state?.astrologicalState?.sunSign as ZodiacSign) || null;
   
   // Fix the lunar phase type resolution
   const resolvedLunarPhase: LunarPhaseWithSpaces = lunarPhase || 
@@ -163,7 +164,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         });
         
         // Normalize values
-        const total = Object.values(elementalProps).reduce((sum, val) => sum + val, 0);
+        const total = Object.values(elementalProps).reduce<number>((sum, val) => sum + (typeof val === 'number' ? val : 0), 0);
         if (total > 0) {
           for (const element in elementalProps) {
             elementalProps[element as keyof typeof elementalProps] /= total;
@@ -227,7 +228,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         }
         
         // Normalize values
-        const total = Object.values(elementalEffect).reduce((sum, val) => sum + val, 0);
+        const total = Object.values(elementalEffect).reduce<number>((sum, val) => sum + (typeof val === 'number' ? val : 0), 0);
         if (total > 0) {
           for (const element in elementalEffect) {
             elementalEffect[element as keyof typeof elementalEffect] /= total;
@@ -293,7 +294,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         }
         
         // Normalize values
-        const total = Object.values(elementalState).reduce((sum, val) => sum + val, 0);
+        const total = Object.values(elementalState).reduce<number>((sum, val) => sum + (typeof val === 'number' ? val : 0), 0);
         if (total > 0) {
           for (const element in elementalState) {
             elementalState[element as keyof typeof elementalState] /= total;
@@ -315,9 +316,9 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
     
     return ingredientsArray.filter(ingredient => {
       const elementalProps = ingredient.elementalProperties;
-      const qualities = ingredient.qualities || [];
+      const qualities = Array.isArray(ingredient.qualities) ? ingredient.qualities as string[] : [];
       const modality = ingredient.modality || 
-        determineIngredientModality(elementalProps, qualities);
+        determineIngredientModality(qualities, elementalProps);
       return modality === modalityFilter;
     });
   }, [ingredientsArray, modalityFilter]);
@@ -508,8 +509,8 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
                     </div>
                   </div>
                   <div className="item-modality">
-                    <span className={`modality-badge ${ingredient.modality?.toLowerCase() || ''}`}>
-                      {ingredient.modality}
+                    <span className={`modality-badge ${typeof ingredient.modality === 'string' ? ingredient.modality.toLowerCase() : ''}`}>
+                      {typeof ingredient.modality === 'string' ? ingredient.modality : ''}
                     </span>
                   </div>
                 </li>
@@ -539,8 +540,8 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
                     </div>
                   </div>
                   <div className="item-modality">
-                    <span className={`modality-badge ${method.modality?.toLowerCase() || ''}`}>
-                      {method.modality}
+                    <span className={`modality-badge ${typeof method.modality === 'string' ? method.modality.toLowerCase() : ''}`}>
+                      {typeof method.modality === 'string' ? method.modality : ''}
                     </span>
                   </div>
                 </li>
@@ -570,8 +571,8 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
                     </div>
                   </div>
                   <div className="item-modality">
-                    <span className={`modality-badge ${cuisine.modality?.toLowerCase() || ''}`}>
-                      {cuisine.modality}
+                    <span className={`modality-badge ${typeof cuisine.modality === 'string' ? cuisine.modality.toLowerCase() : ''}`}>
+                      {typeof cuisine.modality === 'string' ? cuisine.modality : ''}
                     </span>
                   </div>
                 </li>

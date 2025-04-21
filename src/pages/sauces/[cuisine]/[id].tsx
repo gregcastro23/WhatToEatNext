@@ -2,8 +2,8 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import { NextPage } from 'next';
 import Link from 'next/link';
-import cuisinesMap from '@/data/cuisines';
-import { getCurrentElementalState } from '@/utils/elementalUtils';
+import cuisinesMap from '../../../data/cuisines';
+import { getCurrentElementalState } from '../../../utils/elementalUtils';
 
 // Define interface for sauce properties
 interface Sauce {

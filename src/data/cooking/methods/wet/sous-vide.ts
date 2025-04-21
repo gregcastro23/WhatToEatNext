@@ -1,9 +1,9 @@
 import type { 
   ZodiacSign, 
   ThermodynamicProperties
-} from '@/types/alchemy';
+} from '../../../../types/alchemy';
 
-import type { CookingMethodData } from '@/types/cookingMethod';
+import type { CookingMethodData } from '../../../../types/cookingMethod';
 
 /**
  * Sous-vide cooking method
@@ -55,7 +55,7 @@ export const sousVide: CookingMethodData = {
   astrologicalInfluences: {
     favorableZodiac: ['aquarius', 'virgo', 'capricorn'] as ZodiacSign[], // Earth signs and technological Aquarius
     unfavorableZodiac: ['aries', 'leo', 'sagittarius'] as ZodiacSign[], // Fire signs oppose the water-based method
-    dominantPlanets: ['Mercury', 'Saturn', 'Uranus'], // Precision (Mercury), stability (Saturn), innovation (Uranus)
+    dominantPlanets: ['mercury', 'Saturn', 'Uranus'], // Precision (mercury), stability (Saturn), innovation (Uranus)
     lunarPhaseEffect: {
       'full_moon': 0.8,  // Less effective - water energies are more chaotic
       'new_moon': 1.3,   // Enhanced precision - stability in vacuum environment
@@ -212,7 +212,7 @@ export const sousVide: CookingMethodData = {
    * which is about stabilizing volatile substances. 
    * 
    * Alchemical Effects: Increases Matter and Substance, decreases Spirit and Essence
-   * Planetary associations: Saturn (structure, time) and Venus (harmony, balance)
+   * Planetary associations: Saturn (structure, time) and venus (harmony, balance)
    * Tarot associations: 4 of Pentacles (conservation), King of Pentacles (material mastery)
    * Elemental associations: Primary - Earth, Secondary - Air
    */

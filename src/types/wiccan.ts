@@ -6,10 +6,10 @@
  * Represents the ruling planets in Wiccan traditions
  */
 export type RulingPlanet = 
-  | 'Sun' 
+  | 'sun' 
   | 'Moon' 
-  | 'Mercury' 
-  | 'Venus' 
+  | 'mercury' 
+  | 'venus' 
   | 'Mars' 
   | 'Jupiter' 
   | 'Saturn' 

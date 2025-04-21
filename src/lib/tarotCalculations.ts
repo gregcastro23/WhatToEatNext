@@ -4,14 +4,14 @@ import {
   MAJOR_ARCANA, 
   PLANET_TO_MAJOR_ARCANA,
   DECAN_RULERS 
-} from '@/constants/tarotCards';
-import { ZodiacSign, Decan, Element } from '@/types/alchemy';
-import { DECANS } from '@/constants/elementalConstants';
+} from '../constants/tarotCards';
+import { ZodiacSign, Decan, Element } from '../types/alchemy';
+import { DECANS } from '../constants/elementalConstants';
 import { 
   tarotCardQuantumValues, 
   getTarotCardElement, 
   getTarotCardPlanet 
-} from '@/constants/planetaryElements';
+} from '../constants/planetaryElements';
 
 // Type definitions for the imported constants to improve type safety
 type DecanKey = keyof typeof DECAN_TO_TAROT;
@@ -113,7 +113,7 @@ const majorArcana = [
   'The Fool', 'The Magician', 'The High Priestess', 'The Empress', 'The Emperor',
   'The Hierophant', 'The Lovers', 'The Chariot', 'Strength', 'The Hermit',
   'Wheel of Fortune', 'Justice', 'The Hanged Man', 'Death', 'Temperance',
-  'The Devil', 'The Tower', 'The Star', 'The Moon', 'The Sun',
+  'The Devil', 'The Tower', 'The Star', 'The Moon', 'The sun',
   'Judgement', 'The World'
 ];
 
@@ -204,35 +204,35 @@ const majorArcanaKeywords: Record<string, string[]> = {
   'The Tower': ['sudden change', 'revelation', 'upheaval', 'awakening'],
   'The Star': ['hope', 'faith', 'purpose', 'renewal'],
   'The Moon': ['illusion', 'fear', 'anxiety', 'subconscious'],
-  'The Sun': ['positivity', 'fun', 'warmth', 'success'],
+  'The sun': ['positivity', 'fun', 'warmth', 'success'],
   'Judgement': ['reflection', 'reckoning', 'awakening', 'rebirth'],
   'The World': ['completion', 'accomplishment', 'travel', 'harmony']
 };
 
 // Map major arcana to planets
 const majorArcanaPlanets: Record<string, string> = {
-  'The Magician': 'Mercury',
-  'The High Priestess': 'Moon',
-  'The Empress': 'Venus',
-  'The Emperor': 'Mars',
-  'The Hierophant': 'Jupiter',
-  'The Lovers': 'Venus',
-  'The Chariot': 'Moon',
-  'Strength': 'Sun',
-  'The Hermit': 'Saturn',
-  'Wheel of Fortune': 'Jupiter',
-  'Justice': 'Venus',
-  'The Hanged Man': 'Neptune',
-  'Death': 'Pluto',
-  'Temperance': 'Jupiter',
-  'The Devil': 'Saturn',
-  'The Tower': 'Mars',
-  'The Star': 'Uranus',
-  'The Moon': 'Moon',
-  'The Sun': 'Sun',
-  'Judgement': 'Pluto',
-  'The World': 'Saturn',
-  'The Fool': 'Uranus'
+  'The Magician': 'mercury',
+  'The High Priestess': 'moon',
+  'The Empress': 'venus',
+  'The Emperor': 'mars',
+  'The Hierophant': 'jupiter',
+  'The Lovers': 'venus',
+  'The Chariot': 'moon',
+  'Strength': 'sun',
+  'The Hermit': 'saturn',
+  'Wheel of Fortune': 'jupiter',
+  'Justice': 'venus',
+  'The Hanged Man': 'neptune',
+  'Death': 'pluto',
+  'Temperance': 'jupiter',
+  'The Devil': 'saturn',
+  'The Tower': 'mars',
+  'The Star': 'uranus',
+  'The Moon': 'moon',
+  'The sun': 'sun',
+  'Judgement': 'pluto',
+  'The World': 'saturn',
+  'The Fool': 'uranus'
 };
 
 // Map minor arcana to elements
@@ -294,7 +294,7 @@ export const getTarotCardsForDate = (date: Date, sunPosition?: { sign: string, d
   }
   
   // Log the decan, sun position, and selected card for debugging
-  console.log(`Tarot Card Debug - Decan: ${decan}, Sun Position:`, sunPosition, `Selected Card: ${minorArcanaKey || '10_of_cups'}`);
+  console.log(`Tarot Card Debug - Decan: ${decan}, sun Position:`, sunPosition, `Selected Card: ${minorArcanaKey || '10_of_cups'}`);
   
   // Get the minor arcana card details
   const cardKey = minorArcanaKey || '10_of_cups' as TarotCardKey; // Default if not found
@@ -341,7 +341,7 @@ export const getTarotCardsForDate = (date: Date, sunPosition?: { sign: string, d
   // Create the major card object
   const majorCard: MajorArcanaCard = {
     name: majorArcanaName,
-    planet: decanRuler || 'Sun', // Default to Sun if no planet found
+    planet: decanRuler || 'sun', // Default to sun if no planet found
     keywords: majorArcanaKeywords[majorArcanaName] || [],
     element: MAJOR_ARCANA[majorArcanaName as MajorArcanaKey]?.element || '' // Extract element from MAJOR_ARCANA
   };
@@ -434,10 +434,10 @@ export const getTarotFoodRecommendations = (date: Date): {
   if (planetaryInfluence === 'Mars') cookingApproach = 'bold and spicy';
   if (planetaryInfluence === 'Saturn') cookingApproach = 'simple and traditional';
   if (planetaryInfluence === 'Jupiter') cookingApproach = 'abundant and flavorful';
-  if (planetaryInfluence === 'Venus') cookingApproach = 'elegant and sweet';
-  if (planetaryInfluence === 'Mercury') cookingApproach = 'varied and adaptable';
+  if (planetaryInfluence === 'venus') cookingApproach = 'elegant and sweet';
+  if (planetaryInfluence === 'mercury') cookingApproach = 'varied and adaptable';
   if (planetaryInfluence === 'Moon') cookingApproach = 'comforting and nurturing';
-  if (planetaryInfluence === 'Sun') cookingApproach = 'vibrant and confident';
+  if (planetaryInfluence === 'sun') cookingApproach = 'vibrant and confident';
   
   // Get food element that complements the tarot element
   const foodElement = complementaryElement(element);

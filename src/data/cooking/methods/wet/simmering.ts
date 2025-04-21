@@ -1,9 +1,9 @@
 import type { 
   ZodiacSign, 
   ThermodynamicProperties
-} from '@/types/alchemy';
+} from '../../../../types/alchemy';
 
-import type { CookingMethodData } from '@/types/cookingMethod';
+import type { CookingMethodData } from '../../../../types/cookingMethod';
 
 /**
  * Simmering cooking method
@@ -60,8 +60,8 @@ export const simmering: CookingMethodData = {
   astrologicalInfluences: {
     favorableZodiac: ['cancer', 'pisces', 'scorpio', 'taurus'] as ZodiacSign[],
     unfavorableZodiac: ['leo', 'aries'] as ZodiacSign[],
-    dominantPlanets: ['Moon', 'Neptune', 'Venus'],
-    rulingPlanets: ['Moon', 'Venus'],
+    dominantPlanets: ['Moon', 'Neptune', 'venus'],
+    rulingPlanets: ['Moon', 'venus'],
     lunarPhaseEffect: {
       'full_moon': 1.4, // Strongly enhanced water energy
       'new_moon': 0.7,  // Significantly diminished water energy

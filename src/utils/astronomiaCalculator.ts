@@ -13,18 +13,18 @@ const ZODIAC_SIGNS = [
 
 // Current exact planetary positions (as of April 2024)
 const CURRENT_POSITIONS = {
-  'sun': { sign: 'aries', degree: 24.67, exactLongitude: 24.67 },
-  'moon': { sign: 'scorpio', degree: 9.55, exactLongitude: 219.55 },
-  'mercury': { sign: 'pisces', degree: 28.83, exactLongitude: 358.83 },
-  'venus': { sign: 'pisces', degree: 24.65, exactLongitude: 354.65 },
-  'mars': { sign: 'cancer', degree: 28.45, exactLongitude: 118.45 },
-  'jupiter': { sign: 'gemini', degree: 18.20, exactLongitude: 78.20 },
-  'saturn': { sign: 'pisces', degree: 26.05, exactLongitude: 356.05 },
-  'uranus': { sign: 'taurus', degree: 25.40, exactLongitude: 55.40 },
-  'neptune': { sign: 'aries', degree: 0.53, exactLongitude: 0.53 },
-  'pluto': { sign: 'aquarius', degree: 3.72, exactLongitude: 333.72 },
-  'northnode': { sign: 'pisces', degree: 26.02, exactLongitude: 356.02, isRetrograde: true },
-  'ascendant': { sign: 'pisces', degree: 27.90, exactLongitude: 357.90 }
+  'sun': { sign: 'aries', degree: 26.28, exactLongitude: 26.28 },
+  'moon': { sign: 'scorpio', degree: 29.03, exactLongitude: 239.03 },
+  'mercury': { sign: 'pisces', degree: 29.83, exactLongitude: 359.83 },
+  'venus': { sign: 'pisces', degree: 24.78, exactLongitude: 354.78 },
+  'mars': { sign: 'cancer', degree: 29.12, exactLongitude: 119.12 },
+  'jupiter': { sign: 'gemini', degree: 18.50, exactLongitude: 78.50 },
+  'saturn': { sign: 'pisces', degree: 26.23, exactLongitude: 356.23 },
+  'uranus': { sign: 'taurus', degree: 25.48, exactLongitude: 55.48 },
+  'neptune': { sign: 'aries', degree: 0.60, exactLongitude: 0.60 },
+  'pluto': { sign: 'aquarius', degree: 3.73, exactLongitude: 333.73 },
+  'northnode': { sign: 'pisces', degree: 25.93, exactLongitude: 355.93, isRetrograde: true },
+  'ascendant': { sign: 'scorpio', degree: 10.12, exactLongitude: 220.12 }
 };
 
 // Daily movement rates for planets (in degrees)

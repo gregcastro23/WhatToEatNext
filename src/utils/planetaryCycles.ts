@@ -10,12 +10,12 @@ export const planetaryCycles = {
             amplitude: 0.5     // Primary influence strength
         },
         secondary: { 
-            period: 0.24,      // Mercury cycle
+            period: 0.24,      // mercury cycle
             phase: Math.PI/4,  // 45 degree offset
             amplitude: 0.3     // Secondary influence strength
         },
         tertiary: { 
-            period: 0.62,      // Venus cycle
+            period: 0.62,      // venus cycle
             phase: 0,          // No phase offset
             amplitude: 0.2     // Tertiary influence strength
         }
@@ -28,7 +28,7 @@ export const planetaryCycles = {
             amplitude: 0.4     // Primary influence strength
         },
         secondary: { 
-            period: 0.62,      // Venus cycle
+            period: 0.62,      // venus cycle
             phase: Math.PI/8,  // 22.5 degree offset
             amplitude: 0.3     // Secondary influence strength
         },
@@ -46,12 +46,12 @@ export const planetaryCycles = {
             amplitude: 0.4     // Primary influence strength
         },
         secondary: { 
-            period: 0.24,      // Mercury cycle
+            period: 0.24,      // mercury cycle
             phase: Math.PI/6,  // 30 degree offset
             amplitude: 0.3     // Secondary influence strength
         },
         tertiary: { 
-            period: 0.62,      // Venus cycle
+            period: 0.62,      // venus cycle
             phase: 0,          // No phase offset
             amplitude: 0.3     // Tertiary influence strength
         }
@@ -59,7 +59,7 @@ export const planetaryCycles = {
 
     Substance: {
         primary: { 
-            period: 0.62,      // Venus cycle
+            period: 0.62,      // venus cycle
             phase: Math.PI/6,  // 30 degree offset
             amplitude: 0.5     // Primary influence strength
         },
@@ -69,7 +69,7 @@ export const planetaryCycles = {
             amplitude: 0.3     // Secondary influence strength
         },
         tertiary: { 
-            period: 0.24,      // Mercury cycle
+            period: 0.24,      // mercury cycle
             phase: 0,          // No phase offset
             amplitude: 0.2     // Tertiary influence strength
         }
@@ -82,7 +82,7 @@ export const planetaryCycles = {
  * Values represent percentage modifications to base values
  */
 export const planetaryModifiers: Record<string, Record<string, number>> = {
-    Sun: {
+    sun: {
         Fire: 0.3,    Water: -0.1,  Air: 0.1,    Earth: -0.1,
         Spirit: 0.2,   Essence: 0,   Matter: -0.1, Substance: 0
     },
@@ -90,11 +90,11 @@ export const planetaryModifiers: Record<string, Record<string, number>> = {
         Fire: -0.1,   Water: 0.3,   Air: 0,      Earth: 0.1,
         Spirit: 0,     Essence: 0.2, Matter: 0.1, Substance: 0
     },
-    Mercury: {
+    mercury: {
         Fire: 0,      Water: 0,     Air: 0.3,    Earth: 0,
         Spirit: 0.1,   Essence: 0,   Matter: 0,   Substance: 0.2
     },
-    Venus: {
+    venus: {
         Fire: -0.1,   Water: 0.2,   Air: 0,      Earth: 0.2,
         Spirit: 0,     Essence: 0.2, Matter: 0,   Substance: 0.1
     },

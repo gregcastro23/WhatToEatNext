@@ -3,12 +3,12 @@
  * Shows how to use the mapping between ingredient data and recipe ingredients
  */
 
-import { connectIngredientsToMappings } from './recipeMatching';
+import { connectIngredientsToMappings } from './fixedRecipeMatching';
 import { filterRecipesByIngredientMappings } from './recipeFilters';
-import { cuisinesMap } from '@/data/cuisines';
-import { ingredientsMap } from '@/data/ingredients';
-import type { Recipe } from '@/types/recipe';
-import type { ElementalProperties } from '@/types/alchemy';
+import { cuisinesMap } from '../data/cuisines';
+import { ingredientsMap } from '../data/ingredients';
+import type { Recipe } from '../types/recipe';
+import type { ElementalProperties } from '../types/alchemy';
 
 /**
  * Example function showing how to use the ingredient mapping feature

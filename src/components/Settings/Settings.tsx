@@ -2,14 +2,14 @@
 
 import React, { useState, useEffect } from 'react';
 
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-import { stateManager } from '@/utils/stateManager';
-import { themeManager } from '@/utils/theme';
-import { logger } from '@/utils/logger';
+import { useAlchemical } from '../../contexts/AlchemicalContext/hooks';
+import { stateManager } from '../../utils/stateManager';
+import { themeManager } from '../../utils/theme';
+import { logger } from '../../utils/logger';
 import { 
   Settings as SettingsIcon,
   Moon,
-  Sun,
+  sun,
   Monitor,
   Palette,
   Eye,
@@ -353,7 +353,7 @@ function AppearanceSettings({
           <label className="block text-sm font-medium mb-2">Theme</label>
           <div className="grid grid-cols-3 gap-4">
             {[
-              { value: 'light', label: 'Light', icon: Sun },
+              { value: 'light', label: 'Light', icon: sun },
               { value: 'dark', label: 'Dark', icon: Moon },
               { value: 'system', label: 'System', icon: Monitor },
             ].map(({ value, label, icon: Icon }) => (

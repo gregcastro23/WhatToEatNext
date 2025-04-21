@@ -1,4 +1,4 @@
-import type { ElementalProperties } from '@/types/alchemy';
+import type { ElementalProperties } from '../types/alchemy';
 
 export interface PlanetaryFlavorProfile {
   name: string;
@@ -20,7 +20,7 @@ export interface PlanetaryFlavorProfile {
 
 export const planetaryFlavorProfiles: Record<string, PlanetaryFlavorProfile> = {
   // Luminaries
-  Sun: {
+  sun: {
     name: "Solar",
     description: "Bold, vibrant flavors that energize and invigorate. Solar cuisine is centered around bright, distinct tastes and golden colors.",
     flavorProfiles: {
@@ -67,7 +67,7 @@ export const planetaryFlavorProfiles: Record<string, PlanetaryFlavorProfile> = {
   },
   
   // Inner Planets
-  Mercury: {
+  mercury: {
     name: "Mercurial",
     description: "Diverse, complex flavor combinations that stimulate the intellect. Mercurial cuisine features contrasting tastes and textures.",
     flavorProfiles: {
@@ -90,9 +90,9 @@ export const planetaryFlavorProfiles: Record<string, PlanetaryFlavorProfile> = {
     culinaryAffinity: ["spanish", "fusion", "lebanese"]
   },
   
-  Venus: {
-    name: "Venusian",
-    description: "Harmonious, indulgent flavors that delight the senses. Venusian cuisine is luxurious, balanced, and aesthetically pleasing.",
+  venus: {
+    name: "venusian",
+    description: "Harmonious, indulgent flavors that delight the senses. venusian cuisine is luxurious, balanced, and aesthetically pleasing.",
     flavorProfiles: {
       spicy: 0.2,
       sweet: 0.8,

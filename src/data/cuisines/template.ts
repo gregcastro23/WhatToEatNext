@@ -1,6 +1,6 @@
 // Template for all cuisine files
-import type { Cuisine } from '@/types/cuisine';
-import type { LunarPhase, ZodiacSign } from '@/types/alchemy';
+import type { Cuisine } from '../../types/cuisine';
+import type { LunarPhase, ZodiacSign } from '../../types/alchemy';
 
 export const cuisine: Cuisine = {
   id: "cuisine_id",
@@ -26,7 +26,6 @@ export const cuisine: Cuisine = {
       seasonality: "best seasons or year-round",
       preparationNotes: "Special preparation considerations or techniques",
       technicalTips: "Tips for achieving best results",
-      difficulty: "easy/medium/hard",
       storageInstructions: "How to store the sauce properly",
       yield: "Amount the recipe produces"
     }
@@ -77,7 +76,6 @@ export const cuisine: Cuisine = {
           allergens: ["allergen1", "allergen2", "allergen3"],
           prepTime: "15 minutes",
           cookTime: "25 minutes",
-          difficulty: "easy/medium/hard",
           culturalNotes: "Cultural significance and history of this dish in the cuisine",
           pairingSuggestions: ["pairing1", "pairing2", "pairing3", "pairing4"],
           dietaryInfo: ["vegetarian", "vegan", "gluten-free", "dairy-free", "nut-free", "low-carb"],
@@ -159,7 +157,6 @@ export const cuisine: Cuisine = {
       description: "Description of the traditional sauce",
       base: "base ingredient",
       keyIngredients: ["ingredient1", "ingredient2"],
-      difficulty: "easy/medium/hard",
       culinaryUses: ["use1", "use2"],
       elementalProperties: { Fire: 0.3, Water: 0.3, Earth: 0.2, Air: 0.2 },
       seasonality: "best season",
@@ -210,16 +207,14 @@ export const cuisine: Cuisine = {
       description: "Description of cooking technique",
       elementalProperties: { Fire: 0.4, Earth: 0.3, Water: 0.2, Air: 0.1 },
       toolsRequired: ["tool1", "tool2", "tool3", "tool4"],
-      bestFor: ["food1", "food2", "food3", "food4"],
-      difficulty: "easy/medium/hard"
+      bestFor: ["food1", "food2", "food3", "food4"]
     },
     {
       name: "Technique Name 2",
       description: "Description of cooking technique",
       elementalProperties: { Fire: 0.2, Earth: 0.4, Water: 0.3, Air: 0.1 },
       toolsRequired: ["tool1", "tool2", "tool3", "tool4"],
-      bestFor: ["food1", "food2", "food3", "food4"],
-      difficulty: "easy/medium/hard"
+      bestFor: ["food1", "food2", "food3", "food4"]
     }
   ],
   regionalCuisines: {

@@ -3,8 +3,8 @@
 import React, { useState } from 'react';
 import { PopupContext } from './context';
 import { Popup, PopupOptions, ElementalInfluence, PopupProviderProps } from './types';
-import { ZODIAC_ELEMENTS, ELEMENT_AFFINITIES } from '@/constants/elementalConstants';
-import type { Element } from '@/types/alchemy';
+import { ZODIAC_ELEMENTS, ELEMENT_AFFINITIES } from '../../constants/elementalConstants';
+import type { Element } from '../../types/alchemy';
 import '@/styles/popup.css';
 
 export const PopupProvider = ({ children }: PopupProviderProps): React.ReactElement => {

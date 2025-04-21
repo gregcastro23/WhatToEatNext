@@ -3,9 +3,9 @@ import type {
   ElementalProperties, 
   ZodiacSign, 
   ThermodynamicProperties
-} from '@/types/alchemy';
+} from '../../../types/alchemy';
 
-import type { CookingMethodData } from '@/types/cookingMethod';
+import type { CookingMethodData } from '../../../types/cookingMethod';
 
 /**
  * Template for creating a cooking method file

@@ -1,17 +1,17 @@
-import { thai } from '@/data/cuisines/thai';
-import { vietnamese } from '@/data/cuisines/vietnamese';
-import { italian } from '@/data/cuisines/italian';
-import { chinese } from '@/data/cuisines/chinese';
-import { indian } from '@/data/cuisines/indian';
-import { japanese } from '@/data/cuisines/japanese';
-import { korean } from '@/data/cuisines/korean';
-import { mexican } from '@/data/cuisines/mexican';
-import { middleEastern } from '@/data/cuisines/middle-eastern';
-import { russian } from '@/data/cuisines/russian';
-import { greek } from '@/data/cuisines/greek';
-import { french } from '@/data/cuisines/french';
-import { african } from '@/data/cuisines/african';
-import { cookingMethods } from '@/data/cooking';
+import { thai } from '../data/cuisines/thai';
+import { vietnamese } from '../data/cuisines/vietnamese';
+import { italian } from '../data/cuisines/italian';
+import { chinese } from '../data/cuisines/chinese';
+import { indian } from '../data/cuisines/indian';
+import { japanese } from '../data/cuisines/japanese';
+import { korean } from '../data/cuisines/korean';
+import { mexican } from '../data/cuisines/mexican';
+import { middleEastern } from '../data/cuisines/middle-eastern';
+import { russian } from '../data/cuisines/russian';
+import { greek } from '../data/cuisines/greek';
+import { french } from '../data/cuisines/french';
+import { african } from '../data/cuisines/african';
+import { cookingMethods } from '../data/cooking';
 
 // Define a standardized cooking method interface to use across the app
 export interface CulturalCookingMethod {

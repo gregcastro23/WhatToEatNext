@@ -1,7 +1,7 @@
 import type { Ingredient } from '../types';
-import { fixIngredientMappings } from '@/utils/elementalUtils';
-import type { Season } from '@/types/seasons';
-import type { IngredientMapping } from '@/types/alchemy';
+import { fixIngredientMappings } from '../../../utils/elementalUtils';
+import type { Season } from '../../../types/seasons';
+import type { IngredientMapping } from '../../../types/alchemy';
 
 const rawOils: Record<string, Partial<IngredientMapping>> = {
     'olive_oil': {
@@ -39,14 +39,14 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
             notes: 'keep away from heat sources'
         },
         astrologicalProfile: {
-            rulingPlanets: ['Venus', 'Sun'],
+            rulingPlanets: ['venus', 'sun'],
             favorableZodiac: ['taurus', 'leo'],
             elementalAffinity: {
                 base: 'Fire',
                 decanModifiers: {
-                    first: { element: 'Fire', planet: 'Sun' },
-                    second: { element: 'Earth', planet: 'Venus' },
-                    third: { element: 'Air', planet: 'Mercury' }
+                    first: { element: 'Fire', planet: 'sun' },
+                    second: { element: 'Earth', planet: 'venus' },
+                    third: { element: 'Air', planet: 'mercury' }
                 }
             },
             lunarPhaseModifiers: {
@@ -138,14 +138,14 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
             notes: 'Refrigerate after opening'
         },
         astrologicalProfile: {
-            rulingPlanets: ['Mercury', 'Moon'],
+            rulingPlanets: ['mercury', 'Moon'],
             favorableZodiac: ['gemini', 'cancer'],
             elementalAffinity: {
                 base: 'Fire',
                 decanModifiers: {
-                    first: { element: 'Fire', planet: 'Mercury' },
+                    first: { element: 'Fire', planet: 'mercury' },
                     second: { element: 'Earth', planet: 'Moon' },
-                    third: { element: 'Air', planet: 'Venus' }
+                    third: { element: 'Air', planet: 'venus' }
                 }
             },
             lunarPhaseModifiers: {
@@ -1162,12 +1162,12 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
             notes: 'Store away from direct light and heat'
         },
         astrologicalProfile: {
-            rulingPlanets: ['Mercury', 'Jupiter'],
+            rulingPlanets: ['mercury', 'Jupiter'],
             favorableZodiac: ['gemini', 'sagittarius'],
             elementalAffinity: {
                 base: 'Air',
                 decanModifiers: {
-                    first: { element: 'Air', planet: 'Mercury' },
+                    first: { element: 'Air', planet: 'mercury' },
                     second: { element: 'Fire', planet: 'Jupiter' },
                     third: { element: 'Air', planet: 'Saturn' }
                 }
@@ -1215,13 +1215,13 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
             notes: 'Does not require refrigeration'
         },
         astrologicalProfile: {
-            rulingPlanets: ['Mars', 'Sun'],
+            rulingPlanets: ['Mars', 'sun'],
             favorableZodiac: ['aries', 'leo'],
             elementalAffinity: {
                 base: 'Fire',
                 decanModifiers: {
                     first: { element: 'Fire', planet: 'Mars' },
-                    second: { element: 'Fire', planet: 'Sun' },
+                    second: { element: 'Fire', planet: 'sun' },
                     third: { element: 'Air', planet: 'Jupiter' }
                 }
             },

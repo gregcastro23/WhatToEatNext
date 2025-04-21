@@ -1,25 +1,16 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { ChakraEnergies } from '@/types/alchemy';
-import alchemicalEngine from '@/calculations/alchemicalEngine';
-import { isChakraEnergies } from '@/utils/typeGuards';
+import { AstrologicalContextState } from '../types/state';
+import alchemicalEngine from '../calculations/alchemicalEngine';
+import { isChakraEnergies } from '../utils/typeGuards';
 
-interface AstrologicalState {
-  chakraEnergies: ChakraEnergies | null;
-  planetaryPositions: Record<string, unknown> | null;
-  zodiacEnergies: Record<string, number> | null;
-  isLoading: boolean;
-  error: string | null;
-  refreshData: () => Promise<void>;
-}
-
-const AstrologicalContext = createContext<AstrologicalState | undefined>(undefined);
+const AstrologicalContext = createContext<AstrologicalContextState | undefined>(undefined);
 
 export function AstrologicalProvider({ children }: { children: ReactNode }) {
-  const [chakraEnergies, setChakraEnergies] = useState<ChakraEnergies | null>(null);
-  const [planetaryPositions, setPlanetaryPositions] = useState<Record<string, unknown> | null>(null);
-  const [zodiacEnergies, setZodiacEnergies] = useState<Record<string, number> | null>(null);
+  const [chakraEnergies, setChakraEnergies] = useState<AstrologicalContextState['chakraEnergies']>(null);
+  const [planetaryPositions, setPlanetaryPositions] = useState<AstrologicalContextState['planetaryPositions']>(null);
+  const [zodiacEnergies, setZodiacEnergies] = useState<AstrologicalContextState['zodiacEnergies']>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   
@@ -65,7 +56,7 @@ export function AstrologicalProvider({ children }: { children: ReactNode }) {
     await loadAstrologicalData();
   };
   
-  const value = {
+  const value: AstrologicalContextState = {
     chakraEnergies,
     planetaryPositions,
     zodiacEnergies,

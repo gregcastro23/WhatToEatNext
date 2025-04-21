@@ -9,6 +9,33 @@ import {
   getRecommendedCookingMethods
 } from '../utils/alchemicalPillarUtils';
 import { CookingMethod } from '../types/alchemy';
+import { AlchemicalItem } from '../calculations/alchemicalTransformation';
+
+/**
+ * Create a test item that conforms to the AlchemicalItem interface
+ */
+function createTestAlchemicalItem(partialItem: any): AlchemicalItem {
+  return {
+    id: partialItem.id || 'test-item',
+    name: partialItem.name || 'Test Item',
+    elementalProperties: partialItem.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+    spirit: partialItem.spirit || 0.5,
+    essence: partialItem.essence || 0.5,
+    matter: partialItem.matter || 0.5,
+    substance: partialItem.substance || 0.5,
+    heat: partialItem.heat || 0.5,
+    entropy: partialItem.entropy || 0.5,
+    reactivity: partialItem.reactivity || 0.5,
+    alchemicalProperties: partialItem.alchemicalProperties || { Spirit: 0.5, Essence: 0.5, Matter: 0.5, Substance: 0.5 },
+    transformedElementalProperties: partialItem.transformedElementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+    gregsEnergy: partialItem.gregsEnergy || 0.5,
+    dominantElement: partialItem.dominantElement || 'Fire',
+    dominantAlchemicalProperty: partialItem.dominantAlchemicalProperty || 'Spirit',
+    planetaryBoost: partialItem.planetaryBoost || 0,
+    dominantPlanets: partialItem.dominantPlanets || [],
+    planetaryDignities: partialItem.planetaryDignities || {}
+  };
+}
 
 describe('Alchemical Pillars', () => {
   test('All 14 pillars are defined', () => {
@@ -76,7 +103,7 @@ describe('Alchemical Pillars', () => {
       reactivity: 0.5
     };
     
-    const transformed = applyPillarTransformation(testItem, 'baking');
+    const transformed = applyPillarTransformation(createTestAlchemicalItem(testItem), 'baking');
     
     // Baking is Calcination which increases Essence and Matter, decreases Spirit and Substance
     expect(transformed.spirit).toBeLessThan(testItem.spirit);
@@ -105,7 +132,7 @@ describe('Alchemical Pillars', () => {
     };
     
     const availableMethods: CookingMethod[] = ['baking', 'boiling', 'steaming', 'grilling', 'raw'];
-    const recommendations = getRecommendedCookingMethods(testItem, availableMethods, 3);
+    const recommendations = getRecommendedCookingMethods(createTestAlchemicalItem(testItem), availableMethods, 3);
     
     expect(recommendations.length).toBe(3);
     expect(recommendations[0].compatibility).toBeGreaterThanOrEqual(recommendations[1].compatibility);

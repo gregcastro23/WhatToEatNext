@@ -1,18 +1,18 @@
-import type { IngredientMapping } from '@/types/alchemy';
-import { fixIngredientMappings } from '@/utils/elementalUtils';
-import { CUISINE_TYPES } from '@/constants/cuisineTypes';
+import type { IngredientMapping } from '../../../types/alchemy';
+import { fixIngredientMappings } from '../../../utils/elementalUtils';
+import { CUISINE_TYPES } from '../../../constants/cuisineTypes';
 
 const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
   'ground_cinnamon': {
     name: 'Ground Cinnamon',
     elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 },
     astrologicalProfile: {
-      rulingPlanets: ['Sun', 'Jupiter'],
+      rulingPlanets: ['sun', 'Jupiter'],
       favorableZodiac: ['leo', 'sagittarius'],
       elementalAffinity: {
         base: 'Fire',
         decanModifiers: {
-          first: { element: 'Fire', planet: 'Sun' },
+          first: { element: 'Fire', planet: 'sun' },
           second: { element: 'Air', planet: 'Jupiter' },
           third: { element: 'Earth', planet: 'Saturn' }
         }
@@ -163,14 +163,14 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     name: 'Ground Turmeric',
     elementalProperties: { Fire: 0.3, Earth: 0.3, Air: 0.2, Water: 0.2 },
     astrologicalProfile: {
-      rulingPlanets: ['Sun', 'Mars'],
+      rulingPlanets: ['sun', 'Mars'],
       favorableZodiac: ['leo', 'aries'],
       elementalAffinity: {
         base: 'Fire',
         decanModifiers: {
-          first: { element: 'Fire', planet: 'Sun' },
+          first: { element: 'Fire', planet: 'sun' },
           second: { element: 'Earth', planet: 'Mars' },
-          third: { element: 'Air', planet: 'Mercury' }
+          third: { element: 'Air', planet: 'mercury' }
         }
       },
       lunarPhaseModifiers: {
@@ -187,7 +187,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
           preparationTips: ['Good for preservation methods', 'Pickling and fermenting']
         }
       },
-      aspectEnhancers: ['Sun trine Mars', 'Jupiter in Leo']
+      aspectEnhancers: ['sun trine Mars', 'Jupiter in Leo']
     },
     qualities: ['bitter', 'earthy', 'pungent', 'warming', 'vibrant'],
     origin: ['India', 'Southeast Asia', 'Indonesia', 'China'],

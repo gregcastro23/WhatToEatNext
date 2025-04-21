@@ -1,18 +1,18 @@
-import type { IngredientMapping } from '@/types/alchemy';
-import { fixIngredientMappings } from '@/utils/elementalUtils';
+import type { IngredientMapping } from '../../../types/alchemy';
+import { fixIngredientMappings } from '../../../utils/elementalUtils';
 
 const rawLegumes: Record<string, Partial<IngredientMapping>> = {
   'green beans': {
     name: 'Green beans',
     elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },
     astrologicalProfile: {
-      rulingPlanets: ['Venus', 'Mercury'],
+      rulingPlanets: ['venus', 'mercury'],
       favorableZodiac: ['taurus', 'virgo'],
       elementalAffinity: {
         base: 'Earth',
         decanModifiers: {
-          first: { element: 'Earth', planet: 'Venus' },
-          second: { element: 'Water', planet: 'Mercury' },
+          first: { element: 'Earth', planet: 'venus' },
+          second: { element: 'Water', planet: 'mercury' },
           third: { element: 'Air', planet: 'Saturn' }
         },
         lunarPhaseModifiers: {
@@ -89,14 +89,14 @@ const rawLegumes: Record<string, Partial<IngredientMapping>> = {
     name: 'Snap peas',
     elementalProperties: { Water: 0.4, Air: 0.3, Earth: 0.2, Fire: 0.1 },
     astrologicalProfile: {
-      rulingPlanets: ['Venus', 'Moon'],
+      rulingPlanets: ['venus', 'Moon'],
       favorableZodiac: ['taurus', 'cancer'],
       elementalAffinity: {
         base: 'Water',
         decanModifiers: {
-          first: { element: 'Water', planet: 'Venus' },
+          first: { element: 'Water', planet: 'venus' },
           second: { element: 'Air', planet: 'Moon' },
-          third: { element: 'Earth', planet: 'Mercury' }
+          third: { element: 'Earth', planet: 'mercury' }
         }
       }
     },
@@ -133,15 +133,15 @@ const rawLegumes: Record<string, Partial<IngredientMapping>> = {
     name: 'Snow peas',
     elementalProperties: { Water: 0.35, Air: 0.35, Earth: 0.2, Fire: 0.1 },
     astrologicalProfile: {
-      rulingPlanets: ['Mercury', 'Moon'],
+      rulingPlanets: ['mercury', 'Moon'],
       favorableZodiac: ['gemini', 'cancer'],
       elementalAffinity: {
         base: 'Air',
         secondary: 'Water',
         decanModifiers: {
-          first: { element: 'Air', planet: 'Mercury' },
+          first: { element: 'Air', planet: 'mercury' },
           second: { element: 'Water', planet: 'Moon' },
-          third: { element: 'Earth', planet: 'Venus' }
+          third: { element: 'Earth', planet: 'venus' }
         }
       }
     },
@@ -178,13 +178,13 @@ const rawLegumes: Record<string, Partial<IngredientMapping>> = {
     name: 'Edamame',
     elementalProperties: { Earth: 0.5, Water: 0.3, Air: 0.1, Fire: 0.1 },
     astrologicalProfile: {
-      rulingPlanets: ['Jupiter', 'Venus'],
+      rulingPlanets: ['Jupiter', 'venus'],
       favorableZodiac: ['taurus', 'virgo'],
       elementalAffinity: {
         base: 'Earth',
         decanModifiers: {
           first: { element: 'Earth', planet: 'Jupiter' },
-          second: { element: 'Water', planet: 'Venus' },
+          second: { element: 'Water', planet: 'venus' },
           third: { element: 'Fire', planet: 'Mars' }
         }
       }

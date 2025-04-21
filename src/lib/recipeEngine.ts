@@ -1,5 +1,5 @@
-import { ElementalCalculator } from '@/services/ElementalCalculator';
-import type { Recipe, ElementalProperties } from '@/types/alchemy';
+import { ElementalCalculator } from '../services/ElementalCalculator';
+import type { Recipe, ElementalProperties } from '../types/alchemy';
 
 export class RecipeEngine {
     private calculator: ElementalCalculator;

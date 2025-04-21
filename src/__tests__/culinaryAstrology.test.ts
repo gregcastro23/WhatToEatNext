@@ -1,5 +1,7 @@
 import { CulinaryAstrologer } from '@/calculations/culinaryAstrology';
-import { AstrologicalState } from '@/types/alchemy';
+import { AstrologicalState as AlchemyAstroState } from '@/types/alchemy';
+import { AstrologicalState as CelestialAstroState } from '@/types/celestial';
+import { ensureCompatibleAstroState } from '@/types/astroAdapter';
 
 // Mock the getRecipeRecommendations method
 jest.mock('@/calculations/culinaryAstrology', () => {
@@ -56,7 +58,8 @@ describe('CulinaryAstrologer', () => {
   });
 
   it('should return recipe recommendations based on astrological state', () => {
-    const astroState: AstrologicalState = {
+    // Create a celestial-style AstrologicalState
+    const celestialAstroState: CelestialAstroState = {
       currentZodiac: 'leo',
       moonPhase: 'full moon',
       currentPlanetaryAlignment: {
@@ -64,21 +67,14 @@ describe('CulinaryAstrologer', () => {
         moon: { sign: 'cancer', degree: 5 }
       },
       activePlanets: ['sun', 'moon'],
-      planetaryPositions: {
-        sun: { sign: 'leo', degree: 15 },
-        moon: { sign: 'cancer', degree: 5 }
-      },
-      lunarPhase: 'full moon',
-      zodiacSign: 'leo',
-      planetaryHours: 'sun',
-      planetaryAlignment: {
-        sun: { sign: 'leo', degree: 15 },
-        moon: { sign: 'cancer', degree: 5 }
-      },
       aspects: [],
-      tarotElementBoosts: { Fire: 0.2, Water: 0.1, Air: 0, Earth: 0 },
-      tarotPlanetaryBoosts: { Sun: 0.2, Moon: 0.1 }
+      loading: false,
+      isReady: true,
+      renderCount: 0
     };
+
+    // Convert to the format expected by the CulinaryAstrologer
+    const astroState = ensureCompatibleAstroState(celestialAstroState, 'alchemy') as AlchemyAstroState;
 
     const recommendations = astrologer.getRecipeRecommendations(astroState);
     

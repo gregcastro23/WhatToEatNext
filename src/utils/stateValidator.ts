@@ -1,6 +1,6 @@
-import type { AlchemicalState } from '@/contexts/alchemicalTypes'
-import { logger } from '@/utils/logger'
-import { errorHandler } from '@/services/errorHandler'
+import type { AlchemicalState } from '../types/alchemical'
+import { logger } from './logger'
+import { errorHandler } from '../services/errorHandler'
 
 // Define type for recipe objects
 interface Recipe {

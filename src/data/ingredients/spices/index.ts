@@ -1,8 +1,8 @@
-import type { IngredientMapping } from '@/types/alchemy';
+import type { IngredientMapping } from '../../../types/alchemy';
 import { wholeSpices } from './wholespices';
 import { groundSpices } from './groundspices';
 import { spiceBlends } from './spiceBlends';
-import { CUISINE_TYPES } from '@/constants/cuisineTypes';
+import { CUISINE_TYPES } from '../../../constants/cuisineTypes';
 import type { Ingredient } from '../types';
 
 // Normalize elemental properties to sum to 1
@@ -69,12 +69,12 @@ export const spices: Record<string, IngredientMapping> = {
     name: 'cumin',
     elementalProperties: { Earth: 0.48, Fire: 0.27, Air: 0.17, Water: 0.08 },
     astrologicalProfile: {
-      rulingPlanets: ['Mercury', 'Saturn'],
+      rulingPlanets: ['mercury', 'Saturn'],
       favorableZodiac: ['virgo', 'capricorn'],
       elementalAffinity: {
         base: 'Earth',
         decanModifiers: {
-          first: { element: 'Earth', planet: 'Mercury' },
+          first: { element: 'Earth', planet: 'mercury' },
           second: { element: 'Fire', planet: 'Saturn' },
           third: { element: 'Air', planet: 'Uranus' }
         }
@@ -101,14 +101,14 @@ export const spices: Record<string, IngredientMapping> = {
   'cinnamon': {
     elementalProperties: { Fire: 0.57, Air: 0.23, Earth: 0.12, Water: 0.08 },
     astrologicalProfile: {
-      rulingPlanets: ['Sun', 'Moon'],
+      rulingPlanets: ['sun', 'Moon'],
       favorableZodiac: ['leo', 'cancer'],
       elementalAffinity: {
         base: 'Fire',
         decanModifiers: {
-          first: { element: 'Fire', planet: 'Sun' },
+          first: { element: 'Fire', planet: 'sun' },
           second: { element: 'Air', planet: 'Moon' },
-          third: { element: 'Earth', planet: 'Venus' }
+          third: { element: 'Earth', planet: 'venus' }
         }
       },
       lunarPhaseModifiers: {

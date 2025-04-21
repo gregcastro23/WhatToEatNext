@@ -1,300 +1,231 @@
 'use client';
 
-import { useAstrologicalState } from '@/context/AstrologicalContext';
-import { useEffect, useState } from 'react';
-import { ElementalCalculator } from '@/services/ElementalCalculator';
-import { ElementalProperties } from '@/types/alchemy';
-import { getChakraBasedRecommendations, GroupedIngredientRecommendations, getIngredientRecommendations } from '@/utils/ingredientRecommender';
+import React, { useState, useEffect } from 'react';
+import { useAstrologicalState } from '../../hooks/useAstrologicalState';
+import { getChakraBasedRecommendations, GroupedIngredientRecommendations, getIngredientRecommendations } from '../../utils/ingredientRecommender';
 import { Flame, Droplets, Mountain, Wind, Tag, Clock } from 'lucide-react';
+import { safeArray, safeGet, safeRound, safeString, safeNumber, safeElementalProperties } from '../../utils/typeSafeOperations';
+import { CelestialPosition, ElementalProperties } from '@/types/celestial';
 
 export default function IngredientDisplay() {
-  // Use the context to get astrological data including chakra energies
-  const { chakraEnergies, planetaryPositions, isLoading, error, currentZodiac } = useAstrologicalState();
-  const [recommendations, setRecommendations] = useState<GroupedIngredientRecommendations>({});
-  const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState('all');
+  const [groupedIngredients, setGroupedIngredients] = useState<GroupedIngredientRecommendations>({});
+  const [loading, setLoading] = useState(true);
+  const astroData = useAstrologicalState();
   
-  // Use chakra energies and planetary positions to generate ingredient recommendations
   useEffect(() => {
-    if (!isLoading && !error) {
-      // Create a combined approach using both chakra and standard recommendations
-      const chakraRecommendations = chakraEnergies ? getChakraBasedRecommendations(chakraEnergies, 16) : {};
+    if (astroData.isReady && !astroData.loading) {
+      setLoading(true);
       
-      // Get elemental properties from planetary positions
-      let elementalProps: ElementalProperties | undefined;
-      if (planetaryPositions) {
-        const calculator = new ElementalCalculator();
-        elementalProps = calculator.calculateElementalState(planetaryPositions);
-      }
+      // Create the planetary alignment object safely with proper type checking
+      const planetaryAlignment: Record<string, { sign: string; degree: number }> = {};
       
-      // Create an object with astrological state data
-      const astroState = {
-        elementalProperties: elementalProps || {
-          Fire: 0.25,
-          Water: 0.25,
-          Earth: 0.25,
-          Air: 0.25
-        },
-        timestamp: new Date(),
-        currentStability: 1.0,
-        planetaryAlignment: planetaryPositions || {},
-        dominantElement: elementalProps ? 
-          Object.entries(elementalProps).sort((a, b) => b[1] - a[1])[0][0] : 'Fire',
-        zodiacSign: currentZodiac || 'aries',
-        activePlanets: ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto']
-      };
-      
-      // Get standard recommendations with all planets
-      const standardRecommendations = getIngredientRecommendations(astroState, { limit: 40 });
-      
-      // Merge the recommendations, prioritizing chakra-based ones
-      const mergedRecommendations: GroupedIngredientRecommendations = {};
-      
-      // Process all categories
-      const allCategories = new Set([
-        ...Object.keys(chakraRecommendations),
-        ...Object.keys(standardRecommendations)
-      ]);
-      
-      allCategories.forEach(category => {
-        const chakraItems = chakraRecommendations[category] || [];
-        const standardItems = standardRecommendations[category] || [];
+      // Safely extract planetary positions
+      Object.entries(astroData.currentPlanetaryAlignment).forEach(([planet, data]) => {
+        // Skip non-object entries or special properties like "description"
+        if (typeof data !== 'object' || data === null || Array.isArray(data)) {
+          return;
+        }
         
-        // Create a unique set of items using name as the key
-        const uniqueItems = new Map();
-        
-        // Add chakra items first (higher priority)
-        chakraItems.forEach(item => {
-          uniqueItems.set(item.name, item);
-        });
-        
-        // Add standard items that aren't already included
-        standardItems.forEach(item => {
-          if (!uniqueItems.has(item.name)) {
-            uniqueItems.set(item.name, item);
-          }
-        });
-        
-        // Convert back to array and limit to prevent overwhelming the user
-        mergedRecommendations[category] = Array.from(uniqueItems.values()).slice(0, 32);
+        // TypeScript narrowing - check for CelestialPosition properties
+        if ('sign' in data && typeof data.sign === 'string') {
+          planetaryAlignment[planet] = {
+            sign: data.sign,
+            degree: typeof data.degree === 'number' ? data.degree : 0
+          };
+        }
       });
       
-      setRecommendations(mergedRecommendations);
+      // Create the data structure expected by getIngredientRecommendations
+      const ingredientRecommenderProps = {
+        // Use the elemental properties from the domElements
+        Fire: astroData.domElements.Fire || 0.25,
+        Water: astroData.domElements.Water || 0.25,
+        Earth: astroData.domElements.Earth || 0.25,
+        Air: astroData.domElements.Air || 0.25,
+        // Current timestamp
+        timestamp: new Date(),
+        // Set a default stability 
+        currentStability: 0.5,
+        // Use the safely constructed planetary alignment
+        planetaryAlignment
+      };
+      
+      // Get recommendations
+      const recommendations = getIngredientRecommendations(
+        ingredientRecommenderProps,
+        { count: 20 }
+      );
+      
+      setGroupedIngredients(recommendations);
+      setLoading(false);
     }
-  }, [isLoading, chakraEnergies, planetaryPositions, error, currentZodiac]);
-  
-  // Helper function to get element icon with inline styles
-  const getElementIcon = (element: string) => {
-    const iconStyle = { 
-      marginRight: '2px',
-      color: element === 'Fire' ? '#ff6b6b' : 
-            element === 'Water' ? '#6bb5ff' :
-            element === 'Earth' ? '#6bff8e' :
-            '#d9b3ff' // Air
-    };
-    
-    switch (element) {
-      case 'Fire': return <Flame style={iconStyle} size={16} />;
-      case 'Water': return <Droplets style={iconStyle} size={16} />;
-      case 'Earth': return <Mountain style={iconStyle} size={16} />;
-      case 'Air': return <Wind style={iconStyle} size={16} />;
-      default: return null;
+  }, [astroData.isReady, astroData.loading, astroData.currentPlanetaryAlignment, astroData.domElements]);
+
+  const handleTabChange = (tab: string) => {
+    setActiveTab(tab);
+  };
+
+  const renderElementIcon = (element: string) => {
+    switch (element.toLowerCase()) {
+      case 'fire':
+        return <Flame className="w-4 h-4 text-red-500" />;
+      case 'water':
+        return <Droplets className="w-4 h-4 text-blue-500" />;
+      case 'earth':
+        return <Mountain className="w-4 h-4 text-green-500" />;
+      case 'air':
+        return <Wind className="w-4 h-4 text-purple-500" />;
+      default:
+        return null;
     }
   };
-  
-  // Render loading state if needed
-  if (isLoading) {
+
+  const renderElementBar = (elementalProps: ElementalProperties | Record<string, number> | undefined) => {
+    const props = safeElementalProperties(elementalProps);
+    
     return (
-      <div className="flex items-center justify-center p-8 h-64">
-        <div className="text-center">
-          <div className="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-indigo-500 mb-4"></div>
-          <p className="text-indigo-800 dark:text-indigo-300">Loading celestial influences...</p>
-        </div>
-      </div>
-    );
-  }
-  
-  if (error) {
-    return (
-      <div className="p-6 bg-red-50 dark:bg-red-900/20 rounded-lg border border-red-200 dark:border-red-800 text-red-600 dark:text-red-300">
-        <p className="font-medium">Error: {error}</p>
-      </div>
-    );
-  }
-  
-  // Display the recommendations
-  return (
-    <div className="mt-6 w-full max-w-none">
-      <div className="bg-gradient-to-r from-indigo-800/10 via-purple-800/10 to-indigo-800/10 p-4 rounded-xl backdrop-blur-sm border border-indigo-100 dark:border-indigo-950 mb-6">
-        <h2 className="text-2xl font-bold text-indigo-900 dark:text-indigo-300">Celestial Ingredient Recommendations</h2>
-        <p className="text-indigo-700 dark:text-indigo-400 text-sm">
-          Ingredients aligned with your current celestial influences for optimal alchemical harmony.
-        </p>
-        
-        {/* Category navigation links */}
-        <div className="flex flex-wrap justify-center gap-2 mt-4 bg-white/70 dark:bg-gray-800/70 p-2 rounded-lg shadow-sm">
-          {Object.entries(recommendations).map(([category]) => {
-            const displayName = category.charAt(0).toUpperCase() + category.slice(1);
-            const isActive = category === activeCategory;
-            
-            return (
-              <a 
-                key={`nav-${category}`}
-                href={`#${category}`}
-                onClick={(e) => {
-                  e.preventDefault();
-                  const element = document.getElementById(category);
-                  if (element) {
-                    element.scrollIntoView({ behavior: 'smooth' });
-                    setActiveCategory(category);
-                  }
-                }}
-                className={`px-3 py-1.5 rounded-full text-xs font-medium flex items-center shadow-sm transition-colors duration-200 ${
-                  isActive 
-                    ? 'bg-indigo-500 text-white' 
-                    : 'bg-white/90 dark:bg-gray-700/90 text-gray-700 dark:text-gray-300 hover:bg-indigo-100 dark:hover:bg-indigo-900/40 hover:text-indigo-600 dark:hover:text-indigo-300'
-                }`}
-              >
-                {displayName}
-              </a>
-            );
-          })}
-        </div>
-      </div>
-      
-      {Object.keys(recommendations).length > 0 ? (
-        <div className="space-y-6">
-          {Object.entries(recommendations).map(([category, items]) => (
-            <div id={category} key={category} className="bg-white/90 dark:bg-gray-800/90 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 scroll-mt-16">
-              <h3 className="text-lg font-semibold capitalize mb-3 text-gray-800 dark:text-gray-200 flex items-center">
-                {category}
-              </h3>
-              
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-3">
-                {items?.map((item) => {
-                  // Get element color class
-                  const elementalProps = item.elementalProperties || {
-                    Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-                  };
-                  
-                  // Find dominant element
-                  const dominantElement = Object.entries(elementalProps)
-                    .sort((a, b) => b[1] - a[1])[0][0];
-                  
-                  const elementColor = {
-                    'Fire': 'border-red-400 bg-red-50/70 dark:bg-red-900/30',
-                    'Water': 'border-blue-400 bg-blue-50/70 dark:bg-blue-900/30',
-                    'Earth': 'border-green-400 bg-green-50/70 dark:bg-green-900/30',
-                    'Air': 'border-purple-400 bg-purple-50/70 dark:bg-purple-900/30'
-                  }[dominantElement] || 'border-gray-400 bg-gray-50/70 dark:bg-gray-900/30';
-                  
-                  // Find sensory properties if available
-                  const seasonality = item.seasonality || ['Spring', 'Summer', 'Fall', 'Winter'][Math.floor(Math.random() * 4)];
-                  const qualities = item.qualities || [];
-                  
-                  // Ensure matchScore is a valid number
-                  const safeMatchScore = typeof item.matchScore === 'number' && !isNaN(item.matchScore) 
-                    ? item.matchScore 
-                    : 0.5;
-                  
-                  const matchPercentage = Math.round(safeMatchScore * 100);
-                  
-                  let matchScoreClass = "bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300";
-                  
-                  if (matchPercentage >= 90) {
-                    matchScoreClass = "bg-indigo-100 text-indigo-800 dark:bg-indigo-900/40 dark:text-indigo-300 font-semibold";
-                  } else if (matchPercentage >= 80) {
-                    matchScoreClass = "bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300";
-                  } else if (matchPercentage >= 70) {
-                    matchScoreClass = "bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300";
-                  } else if (matchPercentage >= 60) {
-                    matchScoreClass = "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/40 dark:text-yellow-300";
-                  } else if (matchPercentage >= 50) {
-                    matchScoreClass = "bg-orange-100 text-orange-800 dark:bg-orange-900/40 dark:text-orange-300";
-                  }
-                  
-                  return (
-                    <div 
-                      key={item.name} 
-                      className={`p-3 rounded-lg border-l-4 ${elementColor} hover:shadow-md transition-all flex flex-col h-full`}
-                    >
-                      <div className="flex justify-between items-start">
-                        <h4 className="font-medium text-sm text-gray-800 dark:text-gray-200">{item.name}</h4>
-                        <span className={`ml-1 text-xs px-1.5 py-0.5 rounded-sm ${matchScoreClass}`}>
-                          {matchPercentage}%
-                        </span>
-                      </div>
-                      
-                      {/* Quick info row */}
-                      <div className="flex items-center text-xs text-gray-600 dark:text-gray-400 mt-1 gap-2">
-                        {item.category && (
-                          <span className="flex items-center">
-                            <Tag size={10} className="mr-0.5" />
-                            {item.category.split(' ')[0]}
-                          </span>
-                        )}
-                        
-                        {seasonality && (
-                          <span className="flex items-center">
-                            <Clock size={10} className="mr-0.5" />
-                            {seasonality}
-                          </span>
-                        )}
-                      </div>
-                      
-                      {/* Elemental properties */}
-                      <div className="mt-2 pt-1 space-y-1">
-                        {Object.entries(elementalProps).map(([element, value]) => (
-                          <div key={element} className="flex items-center text-xs">
-                            {getElementIcon(element)}
-                            <div className="flex-grow ml-1 bg-gray-200 dark:bg-gray-700 h-1.5 rounded-full overflow-hidden">
-                              <div 
-                                className="h-full rounded-full"
-                                style={{ 
-                                  width: `${value * 100}%`,
-                                  backgroundColor: 
-                                    element === 'Fire' ? '#ff6b6b' : 
-                                    element === 'Water' ? '#6bb5ff' :
-                                    element === 'Earth' ? '#6bff8e' :
-                                    '#d9b3ff' // Air
-                                }}
-                              ></div>
-                            </div>
-                            <span className="ml-1 w-7 text-right text-gray-600 dark:text-gray-400">{Math.round(value * 100)}%</span>
-                          </div>
-                        ))}
-                      </div>
-                      
-                      {/* Qualities tags if space allows */}
-                      {qualities.length > 0 && (
-                        <div className="flex flex-wrap gap-1 mt-2">
-                          {qualities.slice(0, 2).map(quality => (
-                            <span key={quality} className="text-xs bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-1 py-0.5 rounded text-[10px]">
-                              {quality}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
+      <div className="mt-2 flex flex-col gap-1">
+        {Object.entries(props)
+          .sort(([_, a], [__, b]) => safeNumber(b) - safeNumber(a))
+          .map(([element, value]) => (
+            <div key={element} className="flex items-center text-xs">
+              <span className="w-14 flex items-center">
+                {renderElementIcon(element)}
+                <span className="ml-1">{element}</span>
+              </span>
+              <div className="flex-grow h-2 bg-gray-200 rounded-full overflow-hidden">
+                <div
+                  className={`h-full rounded-full ${
+                    element.toLowerCase() === 'fire'
+                      ? 'bg-red-400'
+                      : element.toLowerCase() === 'water'
+                      ? 'bg-blue-400'
+                      : element.toLowerCase() === 'earth'
+                      ? 'bg-green-400'
+                      : 'bg-purple-400'
+                  }`}
+                  style={{ width: `${safeRound(value * 100)}%` }}
+                ></div>
               </div>
+              <span className="ml-1 w-7 text-right text-gray-600">{safeRound(value * 100)}%</span>
             </div>
           ))}
+      </div>
+    );
+  };
+
+  const renderIngredientCard = (item: any) => {
+    // Get the dominant element based on elemental properties using safe accessor
+    const elementalProps = safeElementalProperties(safeGet(item, 'elementalProperties', {}));
+    
+    // Get dominant element
+    const dominantElement = Object.entries(elementalProps)
+      .sort(([_, a], [__, b]) => safeNumber(b) - safeNumber(a))[0][0];
+    
+    // Find sensory properties if available
+    const seasonality = safeGet(item, 'seasonality', 
+      ['Spring', 'Summer', 'Fall', 'Winter'][Math.floor(Math.random() * 4)]);
+    
+    // Get qualities as an array of strings
+    const qualities = safeArray(safeGet(item, 'qualities', []));
+    
+    // Ensure matchScore is a valid number
+    const matchScore = safeNumber(safeGet(item, 'matchScore', safeGet(item, 'score', 0)));
+    
+    return (
+      <div
+        key={safeString(safeGet(item, 'name', 'ingredient'))}
+        className="p-4 border rounded-lg shadow-sm hover:shadow-md transition-shadow bg-white"
+      >
+        <div className="flex justify-between items-start">
+          <h3 className="text-lg font-semibold">{safeString(safeGet(item, 'name', 'Ingredient'))}</h3>
+          <div className="px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs font-medium">
+            {matchScore.toFixed(0)}% Match
+          </div>
         </div>
+        
+        <div className="mt-2 flex flex-wrap gap-1">
+          {qualities.slice(0, 3).map((quality, index) => (
+            <span key={`${index}-${safeString(quality)}`} className="px-2 py-1 bg-gray-100 text-gray-700 rounded-full text-xs">
+              {safeString(quality)}
+            </span>
+          ))}
+          <span className="px-2 py-1 bg-amber-100 text-amber-700 rounded-full text-xs flex items-center">
+            <Clock className="w-3 h-3 mr-1" />
+            {safeString(seasonality)}
+          </span>
+        </div>
+        
+        {renderElementBar(elementalProps)}
+        
+        <div className="mt-3 text-sm text-gray-600">
+          <p>{safeString(safeGet(item, 'reason', ''))}</p>
+        </div>
+      </div>
+    );
+  };
+
+  const renderCategoryGroup = (category: string, items: any) => {
+    return (
+      <div key={category} className="mb-8">
+        <h2 className="text-xl font-semibold mb-4 capitalize">{category}</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {safeArray(items).map((item, index) => (
+            <React.Fragment key={`${index}-${safeString(safeGet(item, 'name', 'ingredient'))}`}>
+              {renderIngredientCard(item)}
+            </React.Fragment>
+          ))}
+        </div>
+      </div>
+    );
+  };
+
+  return (
+    <div className="p-4">
+      <h1 className="text-2xl font-bold mb-6">Astrologically Aligned Food Recommendations</h1>
+      
+      <div className="mb-6 flex overflow-x-auto gap-2">
+        <button
+          className={`px-4 py-2 rounded-full ${
+            activeTab === 'all' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'
+          }`}
+          onClick={() => handleTabChange('all')}
+        >
+          All
+        </button>
+        {Object.keys(groupedIngredients).map((category, index) => (
+          <button
+            key={`${index}-${category}`}
+            className={`px-4 py-2 rounded-full ${
+              activeTab === category ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'
+            }`}
+            onClick={() => handleTabChange(category)}
+          >
+            {category}
+          </button>
+        ))}
+      </div>
+      
+      {loading || astroData.loading ? (
+        <div className="text-center py-8">Loading recommendations...</div>
       ) : (
-        <div className="bg-gray-100 dark:bg-gray-800 p-8 rounded-lg text-center">
-          <p className="text-gray-600 dark:text-gray-400">No recommendations available. Try refreshing your astrological data.</p>
+        <div>
+          {activeTab === 'all' ? (
+            Object.entries(groupedIngredients)
+              .filter(([_, items]) => safeArray(items).length > 0)
+              .map(([category, items], index) => (
+                <React.Fragment key={`category-${index}-${category}`}>
+                  {renderCategoryGroup(category, items)}
+                </React.Fragment>
+              ))
+          ) : (
+            <div>
+              {renderCategoryGroup(activeTab, safeGet(groupedIngredients, activeTab, []))}
+            </div>
+          )}
         </div>
       )}
-      
-      <div className="mt-6 text-center">
-        <button 
-          className="px-5 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-medium rounded-lg shadow-sm hover:shadow-md transform hover:-translate-y-0.5 transition-all"
-          onClick={() => window.location.reload()}
-        >
-          Refresh Celestial Recommendations
-        </button>
-      </div>
     </div>
   );
 } 

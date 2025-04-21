@@ -17,6 +17,23 @@ import nutritional, {
   calculateNutritionalBalance,
   nutritionalToElemental
 } from './nutritional';
+import {
+  isValidZodiacSign,
+  isValidElement,
+  isValidModality,
+  isValidSeason,
+  normalizeZodiacSign,
+  normalizeElement,
+  normalizeModality,
+  safeGetZodiacSign,
+  safeGetElement,
+  safeGetModality,
+  validateZodiacData,
+  standardizePropertyNames,
+  safeGet,
+  createStandardZodiacData,
+  type ValidationResult
+} from './validation';
 
 export const FoodData = {
   cuisines,
@@ -41,6 +58,22 @@ export const FoodData = {
     profiles: baseNutritionalProfiles,
     calculateBalance: calculateNutritionalBalance,
     toElemental: nutritionalToElemental
+  },
+  validation: {
+    isValidZodiacSign,
+    isValidElement,
+    isValidModality,
+    isValidSeason,
+    normalizeZodiacSign,
+    normalizeElement,
+    normalizeModality,
+    safeGetZodiacSign,
+    safeGetElement,
+    safeGetModality,
+    validateZodiacData,
+    standardizePropertyNames,
+    safeGet,
+    createStandardZodiacData
   }
 };
 
@@ -51,6 +84,10 @@ export type {
   CookingMethod,
   ElementalProperties
 } from '@/types/alchemy';
+
+export type {
+  ValidationResult
+};
 
 export {
   cuisines,
@@ -66,7 +103,22 @@ export {
   nutritional,
   baseNutritionalProfiles,
   calculateNutritionalBalance,
-  nutritionalToElemental
+  nutritionalToElemental,
+  // Validation utilities
+  isValidZodiacSign,
+  isValidElement,
+  isValidModality,
+  isValidSeason,
+  normalizeZodiacSign,
+  normalizeElement,
+  normalizeModality,
+  safeGetZodiacSign,
+  safeGetElement,
+  safeGetModality,
+  validateZodiacData,
+  standardizePropertyNames,
+  safeGet,
+  createStandardZodiacData
 };
 
 export default FoodData;

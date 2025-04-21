@@ -1,5 +1,5 @@
 // src/data/cuisines/middle-eastern.ts
-import { Cuisine } from '@/types/cuisine';
+import { Cuisine } from '../../types/cuisine';
 
 export const middleEastern: Cuisine = {
   id: "middle-eastern",
@@ -1026,7 +1026,7 @@ export const middleEastern: Cuisine = {
         Air: 0.2,
         Fire: 0.1
       },
-      astrologicalInfluences: ["Venus", "Moon", "taurus"],
+      astrologicalInfluences: ["venus", "Moon", "taurus"],
       seasonality: "all",
       preparationNotes: "Traditionally ground with stone mills to preserve flavor and nutrients",
       technicalTips: "Stir well before using as natural separation occurs. Add water slowly when thinning"
@@ -1044,7 +1044,7 @@ export const middleEastern: Cuisine = {
         Air: 0.2, 
         Fire: 0.1
       },
-      astrologicalInfluences: ["Jupiter", "Mercury", "virgo"],
+      astrologicalInfluences: ["Jupiter", "mercury", "virgo"],
       seasonality: "all",
       preparationNotes: "Each region claims to make the most authentic version. Texture can range from rustic to silky smooth",
       technicalTips: "Cook chickpeas with baking soda to help break down skins for smoother texture"
@@ -1062,7 +1062,7 @@ export const middleEastern: Cuisine = {
         Fire: 0.2,
         Water: 0.1
       },
-      astrologicalInfluences: ["Mercury", "Venus", "gemini"],
+      astrologicalInfluences: ["mercury", "venus", "gemini"],
       seasonality: "all, with fresh variations in spring",
       preparationNotes: "Family recipes are closely guarded secrets, with regional variations in proportions",
       technicalTips: "Mix with high-quality olive oil just before serving to preserve aromatics"
@@ -1080,7 +1080,7 @@ export const middleEastern: Cuisine = {
         Air: 0.1,
         Water: 0.1
       },
-      astrologicalInfluences: ["Mars", "Sun", "aries"],
+      astrologicalInfluences: ["Mars", "sun", "aries"],
       seasonality: "all",
       preparationNotes: "Traditional preservation technique for chiles in North African cuisine",
       technicalTips: "A little goes a long way. Store with a layer of olive oil on top to preserve freshness"
@@ -1098,7 +1098,7 @@ export const middleEastern: Cuisine = {
         Water: 0.2,
         Earth: 0.1
       },
-      astrologicalInfluences: ["Mercury", "Mars", "gemini"],
+      astrologicalInfluences: ["mercury", "Mars", "gemini"],
       seasonality: "all",
       preparationNotes: "Traditionally made by hand pounding in a mortar and pestle until emulsified",
       technicalTips: "Slow oil incorporation is essential for proper emulsification and fluffy texture"
@@ -1189,7 +1189,7 @@ export const middleEastern: Cuisine = {
       description: "Cuisine of the Eastern Mediterranean coast, featuring olive oil, herbs, and za'atar",
       signature: ["mezze", "kibbeh", "tabbouleh", "manakish", "knafeh"],
       elementalProperties: { Earth: 0.4, Water: 0.2, Air: 0.2, Fire: 0.2 },
-      astrologicalInfluences: ["Venus", "Mercury", "gemini"],
+      astrologicalInfluences: ["venus", "mercury", "gemini"],
       seasonality: "heavily influenced by seasonal produce"
     },
     persian: {
@@ -1197,7 +1197,7 @@ export const middleEastern: Cuisine = {
       description: "Ancient Iranian culinary tradition with complex rice dishes and delicate use of herbs and fruits",
       signature: ["tahdig", "fesenjan", "jeweled rice", "koresh", "barbari bread"],
       elementalProperties: { Earth: 0.3, Air: 0.3, Fire: 0.2, Water: 0.2 },
-      astrologicalInfluences: ["Venus", "Sun", "Libra"],
+      astrologicalInfluences: ["venus", "sun", "Libra"],
       seasonality: "aligned with ancient festivals and seasonal transitions"
     },
     northAfrican: {
@@ -1205,7 +1205,7 @@ export const middleEastern: Cuisine = {
       description: "Bold, spicy flavors with influences from Berber, Arab, Mediterranean, and Sub-Saharan traditions",
       signature: ["couscous", "tagine", "harissa", "merguez", "pastilla"],
       elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 },
-      astrologicalInfluences: ["Mars", "Sun", "aries"],
+      astrologicalInfluences: ["Mars", "sun", "aries"],
       seasonality: "desert-influenced seasonal patterns"
     },
     arabian: {
@@ -1221,7 +1221,7 @@ export const middleEastern: Cuisine = {
       description: "Ottoman culinary legacy with layered flavors, yogurt, and regional variations",
       signature: ["lahmacun", "pide", "gözleme", "imam bayildi", "künefe"],
       elementalProperties: { Water: 0.3, Earth: 0.3, Fire: 0.2, Air: 0.2 },
-      astrologicalInfluences: ["Jupiter", "Venus", "taurus"],
+      astrologicalInfluences: ["Jupiter", "venus", "taurus"],
       seasonality: "four distinct seasons with special holiday dishes"
     }
   },

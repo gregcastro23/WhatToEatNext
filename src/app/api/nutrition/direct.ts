@@ -134,7 +134,7 @@ export async function GET(request: Request) {
       foodId: targetFoodId,
       endpointResults: results,
       summary: {
-        bestEndpoint: getBestEndpoint(results),
+        bestEndpoint: determineBestEndpoint(results),
         totalVitaminsFound: getTotalVitaminsFound(results)
       }
     });
@@ -148,46 +148,59 @@ export async function GET(request: Request) {
   }
 }
 
-// Count the number of vitamin entries in a foodNutrients array
+/**
+ * Count the number of vitamins in the nutrients array
+ */
 function countVitamins(nutrients: unknown[]): number {
   return nutrients.filter(n => {
-    const name = (n.nutrient?.name || n.nutrientName || n.name || '').toLowerCase();
+    const nutrientObj = n as { nutrient?: { name?: string }, nutrientName?: string, name?: string };
+    const name = (nutrientObj.nutrient?.name || nutrientObj.nutrientName || nutrientObj.name || '').toLowerCase();
     return name.includes('vitamin');
   }).length;
 }
 
-// Determine which endpoint returned the most vitamin data
-function getBestEndpoint(results: Record<string, unknown>): string {
-  let bestEndpoint = '';
+/**
+ * Determine the best API endpoint based on data quality
+ */
+function determineBestEndpoint(results: Record<string, unknown>): string {
+  let bestEndpoint = Object.keys(results)[0] || 'usda'; // Default to first or usda
   let maxVitamins = 0;
   
   for (const [endpoint, data] of Object.entries(results)) {
-    if (data.vitaminCount && data.vitaminCount > maxVitamins) {
-      maxVitamins = data.vitaminCount;
+    const typedData = data as { vitaminCount?: number };
+    if (typedData.vitaminCount && typedData.vitaminCount > maxVitamins) {
+      maxVitamins = typedData.vitaminCount;
       bestEndpoint = endpoint;
     }
   }
   
-  return bestEndpoint || 'None';
+  return bestEndpoint;
 }
 
-// Get total number of unique vitamins found across all endpoints
+/**
+ * Count total vitamins found across all endpoints
+ */
 function getTotalVitaminsFound(results: Record<string, unknown>): number {
-  const vitamins = new Set<string>();
+  let totalVitamins = 0;
   
   for (const data of Object.values(results)) {
-    if (data.data) {
-      const nutrients = Array.isArray(data.data) ? data.data[0]?.foodNutrients : data.data.foodNutrients;
+    const typedData = data as { data?: unknown };
+    if (typedData.data) {
+      const nutrients = Array.isArray(typedData.data) 
+        ? (typedData.data[0] as { foodNutrients?: unknown[] })?.foodNutrients 
+        : (typedData.data as { foodNutrients?: unknown[] })?.foodNutrients;
+        
       if (nutrients) {
         nutrients.forEach((n: unknown) => {
-          const name = (n.nutrient?.name || n.nutrientName || n.name || '').toLowerCase();
+          const nutrientObj = n as { nutrient?: { name?: string }, name?: string };
+          const name = (nutrientObj.nutrient?.name || nutrientObj.name || '').toLowerCase();
           if (name.includes('vitamin')) {
-            vitamins.add(name);
+            totalVitamins++;
           }
         });
       }
     }
   }
   
-  return vitamins.size;
+  return totalVitamins;
 } 

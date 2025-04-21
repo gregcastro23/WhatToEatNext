@@ -26,7 +26,7 @@ interface AstrologyUtilsModule {
   calculateLunarPhase: (date?: Date) => Promise<number>;
   getLunarPhaseName: (phase: number) => string;
   getMoonIllumination: (date?: Date) => Promise<number>;
-  calculateSunSign: (date?: Date) => string;
+  calculatesunSign: (date?: Date) => string;
   calculateLunarNodes: (date?: Date) => { northNode: number; isRetrograde: boolean; };
   getNodeInfo: (nodeLongitude: number) => { sign: string; degree: number; isRetrograde: boolean; };
   getCurrentAstrologicalState: (date?: Date) => any;
@@ -41,7 +41,7 @@ interface SafeAstrologyModule {
   calculateLunarPhase: () => Promise<number>;
   getLunarPhaseName: (phase: number) => string;
   getMoonIllumination: () => Promise<number>;
-  calculateSunSign: (date?: Date) => string;
+  calculatesunSign: (date?: Date) => string;
   getCurrentAstrologicalState: () => any;
 }
 
@@ -53,8 +53,8 @@ interface CuisineCalculationsModule {
   getCuisineRecommendations: (zodiacSign?: string, lunarPhase?: string, planetaryAlignment?: unknown) => any[];
 }
 
-interface SunTimesModule {
-  calculateSunTimes: (date: Date, latitude: number, longitude: number) => { 
+interface sunTimesModule {
+  calculatesunTimes: (date: Date, latitude: number, longitude: number) => { 
     sunrise: Date; 
     sunset: Date; 
     solarNoon: Date; 
@@ -63,7 +63,7 @@ interface SunTimesModule {
 }
 
 interface SolarPositionsModule {
-  getSunPosition: (date: Date, latitude: number, longitude: number) => {
+  getsunPosition: (date: Date, latitude: number, longitude: number) => {
     azimuth: number;
     altitude: number;
   };
@@ -71,15 +71,15 @@ interface SolarPositionsModule {
 
 // Module map for type-safe imports
 const MODULE_MAP = {
-  '@/utils/astrologyUtils': () => import('@/utils/astrologyUtils') as unknown as Promise<AstrologyUtilsModule>,
-  '@/utils/accurateAstronomy': () => import('@/utils/accurateAstronomy') as unknown as Promise<AccurateAstronomyModule>,
-  '@/utils/safeAstrology': () => import('@/utils/safeAstrology') as unknown as Promise<SafeAstrologyModule>,
-  '@/utils/moonTimes': () => import('@/utils/moonTimes') as unknown as Promise<MoonTimesModule>,
-  '@/lib/cuisineCalculations': () => import('@/lib/cuisineCalculations') as unknown as Promise<CuisineCalculationsModule>,
-  '@/utils/sunTimes': () => import('@/utils/sunTimes') as unknown as Promise<SunTimesModule>,
-  '@/utils/solarPositions': () => import('@/utils/solarPositions') as unknown as Promise<SolarPositionsModule>,
-  '@/calculations/alchemicalCalculations': () => import('@/calculations/alchemicalCalculations'),
-  '@/calculations/gregsEnergy': () => import('@/calculations/gregsEnergy'),
+  './astrologyUtils': () => import('./astrologyUtils') as unknown as Promise<AstrologyUtilsModule>,
+  './accurateAstronomy': () => import('./accurateAstronomy') as unknown as Promise<AccurateAstronomyModule>,
+  './safeAstrology': () => import('./safeAstrology') as unknown as Promise<SafeAstrologyModule>,
+  './moonTimes': () => import('./moonTimes') as unknown as Promise<MoonTimesModule>,
+  '../lib/cuisineCalculations': () => import('../lib/cuisineCalculations') as unknown as Promise<CuisineCalculationsModule>,
+  './sunTimes': () => import('./sunTimes') as unknown as Promise<sunTimesModule>,
+  './solarPositions': () => import('./solarPositions') as unknown as Promise<SolarPositionsModule>,
+  '../calculations/alchemicalCalculations': () => import('../calculations/alchemicalCalculations'),
+  '../calculations/gregsEnergy': () => import('../calculations/gregsEnergy'),
   // Don't use path-based imports for astronomia due to linter errors
   'astronomia': () => import('astronomia'),
 };
@@ -152,11 +152,11 @@ export async function safeImportFunctionKnown<T extends (...args: unknown[]) => 
 // import * as astronomia from 'astronomia';
 
 // Add back specific module imports for known paths instead of using dynamic imports
-import * as astrologyUtils from '@/utils/astrologyUtils';
-import * as accurateAstronomy from '@/utils/accurateAstronomy';
-import * as safeAstrology from '@/utils/safeAstrology';
-import * as alchemicalCalculations from '@/calculations/alchemicalCalculations';
-import * as gregsEnergy from '@/calculations/gregsEnergy';
+import * as astrologyUtils from './astrologyUtils';
+import * as accurateAstronomy from './accurateAstronomy';
+import * as safeAstrology from './safeAstrology';
+import * as alchemicalCalculations from '../calculations/alchemicalCalculations';
+import * as gregsEnergy from '../calculations/gregsEnergy';
 
 // Get astronomia module dynamically to prevent build issues
 const getAstronomiaModule = async () => {
@@ -178,15 +178,15 @@ export async function safeImportAndExecute<R, A extends any[] = any[]>(
     // Use static imports for known modules
     let importedModule: unknown;
     
-    if (path === '@/utils/astrologyUtils') {
+    if (path === './astrologyUtils') {
       importedModule = astrologyUtils;
-    } else if (path === '@/utils/accurateAstronomy') {
+    } else if (path === './accurateAstronomy') {
       importedModule = accurateAstronomy;
-    } else if (path === '@/utils/safeAstrology') {
+    } else if (path === './safeAstrology') {
       importedModule = safeAstrology;
-    } else if (path === '@/calculations/alchemicalCalculations') {
+    } else if (path === '../calculations/alchemicalCalculations') {
       importedModule = alchemicalCalculations;
-    } else if (path === '@/calculations/gregsEnergy') {
+    } else if (path === '../calculations/gregsEnergy') {
       importedModule = gregsEnergy;
     } else if (path === 'astronomia') {
       // Handle astronomia submodules - use dynamic import
@@ -257,7 +257,7 @@ export async function safeImportAndExecute<R, A extends any[] = any[]>(
     errorLog(`Safe import and execute failed for ${functionName} from ${path}:`, error);
     
     // Return default values for known functions
-    if (path === '@/calculations/alchemicalCalculations' && functionName === 'calculateAlchemicalProperties') {
+    if (path === '../calculations/alchemicalCalculations' && functionName === 'calculateAlchemicalProperties') {
       const calculatedResults = {} as R;
       
       // Add fallbacks for missing calculations

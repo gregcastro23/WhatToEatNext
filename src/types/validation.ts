@@ -1,5 +1,5 @@
-import type { Recipe, Ingredient } from '@/types/alchemy';
-import { VALID_SEASONS } from '@/constants/seasonalConstants';
+import type { Recipe, Ingredient } from './alchemy';
+import { VALID_SEASONS } from '../constants/seasonalConstants';
 
 export function validateRecipe(recipe: Recipe): boolean {
     // Validate basic recipe properties

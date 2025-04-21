@@ -34,7 +34,7 @@ export const chinese = {
         Water: 0.2,
         Air: 0.1
       },
-      astrologicalInfluences: ["Venus", "Jupiter", "taurus"],
+      astrologicalInfluences: ["venus", "Jupiter", "taurus"],
       seasonality: "all",
       preparationNotes: "Balance of sweet and savory can vary by region and brand",
       technicalTips: "Thin with water or rice wine for a lighter glaze"
@@ -388,8 +388,8 @@ export const chinese = {
             Air: 0.2
           },
           astrologicalInfluences: [
-            "Venus - The delicate, artful presentation",
-            "Mercury - The variety and choice within one meal"
+            "venus - The delicate, artful presentation",
+            "mercury - The variety and choice within one meal"
           ]
         }
       ],
@@ -439,7 +439,7 @@ export const chinese = {
             Water: 0.1
           },
           astrologicalInfluences: [
-            "Sun - The golden, glistening skin",
+            "sun - The golden, glistening skin",
             "Jupiter - The ceremonial, celebratory nature"
           ]
         },
@@ -574,7 +574,7 @@ export const chinese = {
             Air: 0.1
           },
           astrologicalInfluences: [
-            "Venus - The rich, indulgent quality",
+            "venus - The rich, indulgent quality",
             "taurus - The sensual, grounded experience"
           ]
         },
@@ -617,7 +617,7 @@ export const chinese = {
           },
           astrologicalInfluences: [
             "Jupiter - The abundance and prosperity symbolism",
-            "Venus - The sweet, luxurious nature"
+            "venus - The sweet, luxurious nature"
           ]
         },
         {
@@ -659,7 +659,7 @@ export const chinese = {
           },
           astrologicalInfluences: [
             "Moon - The cooling, refreshing quality",
-            "Venus - The sweet, tropical indulgence"
+            "venus - The sweet, tropical indulgence"
           ]
         }
       ],
@@ -712,7 +712,7 @@ export const chinese = {
       description: "Light, fresh flavors that highlight natural tastes of ingredients, with an emphasis on steaming and stir-frying",
       signature: ["dim sum", "steamed fish", "char siu", "wonton noodles"],
       elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
-      astrologicalInfluences: ["Venus", "Moon", "Libra"],
+      astrologicalInfluences: ["venus", "Moon", "Libra"],
       seasonality: "all"
     },
     sichuan: {
@@ -736,7 +736,7 @@ export const chinese = {
       description: "Refined, artistically presented cuisine emphasizing seasonal ingredients and precise cutting techniques",
       signature: ["Nanjing salted duck", "sweet and sour mandarin fish", "beggar's chicken"],
       elementalProperties: { Water: 0.4, Air: 0.3, Earth: 0.2, Fire: 0.1 },
-      astrologicalInfluences: ["Mercury", "Venus", "Gemini"],
+      astrologicalInfluences: ["mercury", "venus", "Gemini"],
       seasonality: "all"
     }
   },

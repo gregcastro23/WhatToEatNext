@@ -1,8 +1,8 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { generateDefaultLunarPhaseModifiers } from '../utils/lunarPhaseUtils';
-import { ElementalProperties } from '@/types/alchemy';
-import { IngredientMapping } from '@/data/ingredients/types';
+import { ElementalProperties } from '../types/alchemy';
+import { IngredientMapping } from '../data/ingredients/types';
 
 // Configuration
 const INGREDIENTS_BASE_PATH = path.resolve(__dirname, '../data/ingredients');

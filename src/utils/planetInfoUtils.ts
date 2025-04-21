@@ -1,6 +1,8 @@
-import { getPlanetaryDignityInfo, calculateAspects } from '@/utils/astrologyUtils';
-import { PLANET_TO_MAJOR_ARCANA, MAJOR_ARCANA } from '@/constants/tarotCards';
-import { planetaryModifiers } from '@/utils/planetaryCycles';
+import { getPlanetaryDignityInfo, calculateAspects } from './astrologyUtils';
+import { PLANET_TO_MAJOR_ARCANA, MAJOR_ARCANA } from '../constants/tarotCards';
+import { planetaryModifiers } from './planetaryCycles';
+import { isObject, hasProperty, safeString, safeNumber } from '../types/common';
+import { ZodiacSign } from '../types/celestial';
 
 /**
  * Interface for planetary information
@@ -66,7 +68,11 @@ export function getPlanetInfo(
         normalizedPlanetName !== 'NorthNode' && 
         normalizedPlanetName !== 'SouthNode') {
       try {
-        dignity = getPlanetaryDignityInfo(normalizedPlanetName, planetPosition.sign);
+        const sign = isObject(planetPosition) && hasProperty(planetPosition, 'sign') 
+          ? safeString(planetPosition.sign).toLowerCase() as ZodiacSign 
+          : 'aries' as ZodiacSign;
+        
+        dignity = getPlanetaryDignityInfo(normalizedPlanetName, sign);
       } catch (error) {
         console.error(`Error getting dignity for ${normalizedPlanetName}:`, error);
         dignity = { type: 'Neutral', strength: 0 };
@@ -96,7 +102,11 @@ export function getPlanetInfo(
         'pisces': 'The Moon'
       };
       
-      const cardName = signToCard[planetPosition.sign] || 'The Fool';
+      const sign = isObject(planetPosition) && hasProperty(planetPosition, 'sign')
+        ? safeString(planetPosition.sign).toLowerCase()
+        : '';
+      
+      const cardName = signToCard[sign] || 'The Fool';
       tarotCard = {
         name: cardName,
         element: MAJOR_ARCANA[cardName]?.element || 'Unknown'
@@ -112,7 +122,9 @@ export function getPlanetInfo(
     // Calculate aspects - handle special cases for lunar nodes
     let planetAspects = [];
     try {
-      const { aspects } = calculateAspects(planetaryPositions, 0);
+      // Convert planetary positions to expected type with type assertion
+      const typedPlanetaryPositions = planetaryPositions as Record<string, { sign: string; degree: number; }>;
+      const { aspects } = calculateAspects(typedPlanetaryPositions, 0);
       
       // Filter aspects for this planet
       planetAspects = aspects.filter(aspect => 
@@ -142,7 +154,11 @@ export function getPlanetInfo(
         'cancer': 'water', 'scorpio': 'water', 'pisces': 'water'
       };
       
-      const element = signToElement[planetPosition.sign] || 'air';
+      const signFromPosition = isObject(planetPosition) && hasProperty(planetPosition, 'sign')
+        ? safeString(planetPosition.sign).toLowerCase()
+        : '';
+      
+      const element = signToElement[signFromPosition] || 'air';
       // North Node emphasizes its element, South Node has less influence
       const strength = normalizedPlanetName === 'SouthNode' ? 0.2 : 0.3;
       elementalInfluence[element] = strength;
@@ -174,7 +190,11 @@ export function getPlanetInfo(
         'cancer': 'water', 'scorpio': 'water', 'pisces': 'water'
       };
       
-      const element = signToElement[planetPosition.sign] || 'air';
+      const signFromPosition = isObject(planetPosition) && hasProperty(planetPosition, 'sign')
+        ? safeString(planetPosition.sign).toLowerCase()
+        : '';
+      
+      const element = signToElement[signFromPosition] || 'air';
       
       // Map elements to tokens with different emphasis for North vs South Node
       if (normalizedPlanetName === 'NorthNode') {
@@ -238,9 +258,15 @@ export function getPlanetInfo(
     // Return organized planet information
     return {
       name: normalizedPlanetName,
-      sign: planetPosition.sign || 'Unknown',
-      degree: typeof planetPosition.degree === 'number' ? planetPosition.degree : 0,
-      isRetrograde: !!planetPosition.isRetrograde,
+      sign: isObject(planetPosition) && hasProperty(planetPosition, 'sign') 
+        ? safeString(planetPosition.sign) 
+        : 'Unknown',
+      degree: isObject(planetPosition) && hasProperty(planetPosition, 'degree') 
+        ? safeNumber(planetPosition.degree) 
+        : 0,
+      isRetrograde: isObject(planetPosition) && hasProperty(planetPosition, 'isRetrograde') 
+        ? Boolean(planetPosition.isRetrograde) 
+        : false,
       dignity,
       tarotCard,
       aspects: planetAspects,

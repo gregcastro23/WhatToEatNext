@@ -2,8 +2,8 @@ export function calculateMatchScore(
     elementalProperties: Record<string, number>,
     elementalState?: Record<string, number>,
     options?: { 
-        mealType?: string; 
-        season?: string; 
+        mealType?: string | string[]; 
+        season?: string | string[]; 
         cuisine?: string;
         preferHigherContrast?: boolean;
     }
@@ -79,8 +79,10 @@ export function calculateMatchScore(
         let elementWeight = 1;
         
         if (options?.season) {
+            // Convert array to string if needed
+            const seasonValue = Array.isArray(options.season) ? options.season[0] : options.season;
             // Adjust weight based on season
-            const season = options.season.toLowerCase();
+            const season = seasonValue.toLowerCase();
             if (season === 'winter' && element === 'Fire') elementWeight = 1.5;
             if (season === 'spring' && element === 'Air') elementWeight = 1.5;
             if (season === 'summer' && element === 'Fire') elementWeight = 1.5;
@@ -95,7 +97,9 @@ export function calculateMatchScore(
         
         // Apply meal type weight adjustments
         if (options?.mealType) {
-            const mealType = options.mealType.toLowerCase();
+            // Convert array to string if needed
+            const mealTypeValue = Array.isArray(options.mealType) ? options.mealType[0] : options.mealType;
+            const mealType = mealTypeValue.toLowerCase();
             // Breakfast emphasizes Fire and Air (energy for the day)
             if (mealType === 'breakfast') {
                 if (element === 'Fire' || element === 'Air') elementWeight *= 1.3;

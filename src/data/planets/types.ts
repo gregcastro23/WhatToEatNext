@@ -10,7 +10,7 @@ export interface PlanetData {
   'Diurnal Element': string;
   'Nocturnal Element': string;
   'AstronomicalData'?: {
-    'DistanceFromSun'?: string;
+    'DistanceFromsun'?: string;
     'DistanceFromEarth'?: {
       'Minimum'?: string;
       'Maximum'?: string;
@@ -22,7 +22,7 @@ export interface PlanetData {
     'OrbitPeriod'?: string;
     'Axial Tilt'?: string;
     'PhaseCycle'?: string;
-    'SunlightTravelTime'?: string;
+    'sunlightTravelTime'?: string;
     'ZodiacalRestriction'?: string;
     'PhysicalCharacteristics'?: {
       'Surface'?: string;
@@ -119,8 +119,8 @@ export interface MoonSpecificData {
   };
 }
 
-// Type for Sun-specific data
-export interface SunSpecificData {
+// Type for sun-specific data
+export interface sunSpecificData {
   'SolarCycles': {
     'Solstice': {
       'Summer': {
@@ -151,8 +151,8 @@ export interface SunSpecificData {
   };
 }
 
-// Type for Mercury-specific data
-export interface MercurySpecificData {
+// Type for mercury-specific data
+export interface mercurySpecificData {
   'RetrogradeIntensity': number;
   'CommunicationEffects': {
     'Direct': string;
@@ -161,6 +161,149 @@ export interface MercurySpecificData {
   'FlavorModulation': {
     'Direct': Record<string, number>;
     'Retrograde': Record<string, number>;
+  };
+  'CulinaryTemperament'?: {
+    'Airmercury'?: {
+      'FoodFocus': string;
+      'Elements'?: Record<string, number>;
+      'Recommendations'?: string[];
+    };
+    'Earthmercury'?: {
+      'FoodFocus': string;
+      'Elements'?: Record<string, number>;
+      'Recommendations'?: string[];
+    };
+  };
+  'ZodiacTransit'?: Record<string, {
+    'FoodFocus'?: string;
+    'Elements'?: Record<string, number>;
+    'Ingredients'?: string[];
+  }>;
+}
+
+// Type for venus-specific data
+export interface venusSpecificData {
+  'ZodiacTransit'?: Record<string, {
+    'FoodFocus'?: string;
+    'Elements'?: Record<string, number>;
+    'Ingredients'?: string[];
+  }>;
+  'CulinaryTemperament'?: {
+    'Earthvenus'?: {
+      'FoodFocus': string;
+      'Elements'?: Record<string, number>;
+      'Recommendations'?: string[];
+    };
+    'Airvenus'?: {
+      'FoodFocus': string;
+      'Elements'?: Record<string, number>;
+      'Recommendations'?: string[];
+    };
+    'Watervenus'?: {
+      'FoodFocus': string;
+      'Elements'?: Record<string, number>;
+      'Recommendations'?: string[];
+    };
+    'Firevenus'?: {
+      'FoodFocus': string;
+      'Elements'?: Record<string, number>;
+      'Recommendations'?: string[];
+    };
+  };
+  'CulinaryTechniques'?: Record<string, number>;
+  'MealTypes'?: Record<string, {
+    'Influence': number;
+    'Recommendations'?: string[];
+    'Flavors'?: Record<string, number>;
+  }>;
+  'Retrograde'?: {
+    'CulinaryEffect'?: string;
+    'ElementalShift'?: Record<string, number>;
+    'FoodFocus'?: string;
+    'Elements'?: Record<string, number>;
+  };
+  'LunarConnection'?: Record<string, {
+    'CulinaryFocus'?: string;
+    'Influence'?: number;
+  }>;
+}
+
+// Type for Mars-specific data
+export interface MarsSpecificData {
+  'ZodiacTransit'?: Record<string, {
+    'FoodFocus'?: string;
+    'Elements'?: Record<string, number>;
+    'Ingredients'?: string[];
+  }>;
+  'CulinaryTemperament'?: {
+    'FireMars'?: {
+      'FoodFocus': string;
+      'Elements'?: Record<string, number>;
+      'Recommendations'?: string[];
+    };
+    'WaterMars'?: {
+      'FoodFocus': string;
+      'Elements'?: Record<string, number>;
+      'Recommendations'?: string[];
+    };
+  };
+  'CulinaryTechniques'?: Record<string, number>;
+  'Retrograde'?: {
+    'CulinaryEffect': string;
+    'Elements'?: Record<string, number>;
+    'FoodFocus'?: string;
+  };
+}
+
+// Type for Jupiter-specific data
+export interface JupiterSpecificData {
+  'ZodiacTransit'?: Record<string, {
+    'FoodFocus'?: string;
+    'Elements'?: Record<string, number>;
+    'Ingredients'?: string[];
+  }>;
+  'CulinaryTemperament'?: {
+    'FireJupiter'?: {
+      'FoodFocus': string;
+      'Elements'?: Record<string, number>;
+      'Recommendations'?: string[];
+    };
+    'AirJupiter'?: {
+      'FoodFocus': string;
+      'Elements'?: Record<string, number>;
+      'Recommendations'?: string[];
+    };
+  };
+  'Retrograde'?: {
+    'CulinaryEffect': string;
+    'Elements'?: Record<string, number>;
+    'FoodFocus'?: string;
+  };
+}
+
+// Type for Saturn-specific data
+export interface SaturnSpecificData {
+  'ZodiacTransit'?: Record<string, {
+    'FoodFocus'?: string;
+    'Elements'?: Record<string, number>;
+    'Ingredients'?: string[];
+  }>;
+  'CulinaryTemperament'?: {
+    'EarthSaturn'?: {
+      'FoodFocus': string;
+      'Elements'?: Record<string, number>;
+      'Recommendations'?: string[];
+    };
+    'AirSaturn'?: {
+      'FoodFocus': string;
+      'Elements'?: Record<string, number>;
+      'Recommendations'?: string[];
+    };
+  };
+  'Retrograde'?: {
+    'CulinaryEffect': string;
+    'Elements'?: Record<string, number>;
+    'FoodFocus'?: string;
   };
 }
 

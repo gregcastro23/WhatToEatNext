@@ -20,7 +20,7 @@ import { calculateTokenizedValues } from '@/utils/planetaryCycles';
 import { logPlanetaryConsistencyCheck } from '@/utils/planetaryConsistencyCheck';
 import { safeImportFunction, safeImportAndExecute } from '@/utils/dynamicImport';
 import { 
-  calculateSunSign,
+  calculatesunSign,
   getSignFromLongitude
 } from '@/utils/astrologyUtils';
 import { getCachedCalculation } from '@/utils/calculationCache';
@@ -81,7 +81,7 @@ const calculateActivePlanets = (positions: PlanetaryPositionsType): string[] => 
   // Enhanced algorithm to determine active planets based on:
   // 1. Essential dignities (rulership, exaltation, triplicity)
   // 2. Angular house placement (1, 4, 7, 10)
-  // 3. Aspects to luminaries (Sun and Moon)
+  // 3. Aspects to luminaries (sun and Moon)
   // 4. Current phase of planetary cycle
   
   const activePlanets: string[] = [];
@@ -123,7 +123,7 @@ const calculateActivePlanets = (positions: PlanetaryPositionsType): string[] => 
       }
     });
     
-    // Always include luminaries (Sun and Moon) as they're constantly active
+    // Always include luminaries (sun and Moon) as they're constantly active
     if (!activePlanets.includes('sun')) activePlanets.push('sun');
     if (!activePlanets.includes('moon')) activePlanets.push('moon');
   } catch (error) {
@@ -337,7 +337,7 @@ export const AlchemicalProvider: React.FC<{children: React.ReactNode}> = ({ chil
         const horoscopeData = {
           tropical: {
             Ascendant: { 
-              Sign: { label: planetaryPositions.ascendant?.sign || calculateSunSign(currentDate) }
+              Sign: { label: planetaryPositions.ascendant?.sign || calculatesunSign(currentDate) }
             },
             CelestialBodies: { 
               all: Object.entries(planetaryPositions).map(([planet, data]: any) => {

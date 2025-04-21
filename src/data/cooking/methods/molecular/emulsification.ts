@@ -1,4 +1,4 @@
-import type { CookingMethodData } from '@/types/cookingMethod';
+import type { CookingMethodData } from '../../../../types/cookingMethod';
 
 /**
  * Emulsification: A molecular gastronomy technique for creating stable mixtures
@@ -11,7 +11,7 @@ export const emulsification: CookingMethodData = {
   science: 'Emulsification works by creating tiny droplets of one liquid suspended in another with the help of emulsifying agents that have both hydrophilic and hydrophobic parts. These agents form a protective layer around the droplets, preventing them from coalescing.',
   alchemical_properties: {
     element: 'Water',
-    planetary_influence: 'Venus',
+    planetary_influence: 'venus',
     effect_on_ingredients: 'Unifies opposites, transforms Matter, enhances Essence'
   },
   suitable_for: [

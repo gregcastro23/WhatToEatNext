@@ -1,5 +1,20 @@
 import { getRecommendedIngredients } from '@/utils/ingredientRecommender';
-import { AstrologicalState } from '@/types/alchemy';
+import { AstrologicalState as CelestialAstroState } from '@/types/celestial';
+
+// Mock the actual ingredient properties
+interface MockIngredient {
+  name: string;
+  type: string;
+  elementalProperties: {
+    Fire: number;
+    Air: number;
+    Earth: number;
+    Water: number;
+  };
+  astrologicalProfile: {
+    rulingPlanets: string[];
+  };
+}
 
 // Mock implementation of getRecommendedIngredients
 jest.mock('@/utils/ingredientRecommender', () => {
@@ -21,40 +36,34 @@ jest.mock('@/utils/ingredientRecommender', () => {
           rulingPlanets: ['Mercury']
         }
       }
-    ]
+    ] as MockIngredient[]
   };
 });
 
 describe('getRecommendedIngredients', () => {
   it('should return ingredients matching the current elemental state', () => {
-    const astroState: AstrologicalState = {
+    // Create a properly shaped CelestialAstroState object
+    const celestialAstroState: CelestialAstroState = {
       currentZodiac: 'leo',
       moonPhase: 'full moon',
+      sunSign: 'leo',
       currentPlanetaryAlignment: {
         sun: { sign: 'leo', degree: 15 },
         moon: { sign: 'cancer', degree: 5 }
       },
       activePlanets: ['sun', 'moon'],
-      planetaryPositions: {
-        sun: { sign: 'leo', degree: 15 },
-        moon: { sign: 'cancer', degree: 5 }
-      },
       lunarPhase: 'full moon',
-      zodiacSign: 'leo',
-      planetaryHours: 'sun',
-      planetaryAlignment: {
-        sun: { sign: 'leo', degree: 15 },
-        moon: { sign: 'cancer', degree: 5 }
-      },
       aspects: [],
-      tarotElementBoosts: { Fire: 0.2, Water: 0.1, Air: 0, Earth: 0 },
-      tarotPlanetaryBoosts: { Sun: 0.2, Moon: 0.1 }
+      loading: false,
+      isReady: true,
+      renderCount: 0
     };
 
-    const ingredients = getRecommendedIngredients(astroState);
+    // Get recommended ingredients directly using the CelestialAstroState
+    const ingredients = getRecommendedIngredients(celestialAstroState);
     
     expect(ingredients).toBeInstanceOf(Array);
-    ingredients.forEach(ingredient => {
+    ingredients.forEach((ingredient) => {
       expect(ingredient).toHaveProperty('elementalProperties');
       expect(ingredient).toHaveProperty('astrologicalProfile');
       expect(ingredient.astrologicalProfile).toHaveProperty('rulingPlanets');

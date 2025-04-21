@@ -1,10 +1,10 @@
-import { Planet } from '@/types/alchemy';
-import SunCalc from 'suncalc';
+import { Planet } from '../types/alchemy';
+import sunCalc from 'suncalc';
 
 export class PlanetaryHourCalculator {
     // Planetary hour configuration according to traditional planetary rulers
     private static planetaryHours: Record<string, Planet[]> = {
-        Sunday:    ['sun', 'venus', 'mercury', 'moon', 'saturn', 'jupiter', 'mars'],
+        sunday:    ['sun', 'venus', 'mercury', 'moon', 'saturn', 'jupiter', 'mars'],
         Monday:    ['moon', 'saturn', 'jupiter', 'mars', 'sun', 'venus', 'mercury'],
         Tuesday:   ['mars', 'sun', 'venus', 'mercury', 'moon', 'saturn', 'jupiter'],
         Wednesday: ['mercury', 'moon', 'saturn', 'jupiter', 'mars', 'sun', 'venus'],
@@ -13,9 +13,9 @@ export class PlanetaryHourCalculator {
         Saturday:  ['saturn', 'jupiter', 'mars', 'sun', 'venus', 'mercury', 'moon']
     };
     
-    private static dayNames: string[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    private static dayNames: string[] = ['sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     
-    // Planetary rulers for each day of the week (0 = Sunday)
+    // Planetary rulers for each day of the week (0 = sunday)
     private static dayRulers: Planet[] = ['sun', 'moon', 'mars', 'mercury', 'jupiter', 'venus', 'saturn'];
     
     // Minute rulers - each planet rules approximately 8.57 minutes in sequence
@@ -57,7 +57,7 @@ export class PlanetaryHourCalculator {
      * @returns The planet ruling that day
      */
     getPlanetaryDay(date: Date): Planet {
-        // Day of the week (0 = Sunday, 1 = Monday, etc.)
+        // Day of the week (0 = sunday, 1 = Monday, etc.)
         const dayOfWeek = date.getDay();
         
         // Return the planetary ruler for that day
@@ -78,7 +78,7 @@ export class PlanetaryHourCalculator {
      * @returns The planet ruling that minute
      */
     getPlanetaryMinute(date: Date): Planet {
-        // Day of the week (0 = Sunday, 1 = Monday, etc.)
+        // Day of the week (0 = sunday, 1 = Monday, etc.)
         const dayOfWeek = date.getDay();
         
         // Current hour and minute
@@ -124,7 +124,7 @@ export class PlanetaryHourCalculator {
      */
     getPlanetaryHour(date: Date): { planet: Planet, hourNumber: number, isDaytime: boolean } {
         // Get sun times for the day
-        const times = SunCalc.getTimes(
+        const times = sunCalc.getTimes(
             new Date(date.getFullYear(), date.getMonth(), date.getDate()),
             this.coordinates.latitude,
             this.coordinates.longitude
@@ -159,7 +159,7 @@ export class PlanetaryHourCalculator {
         if (hourIndex < 0) hourIndex = 0;
         if (hourIndex > 11) hourIndex = 11;
         
-        // Determine day of week (0 = Sunday, 1 = Monday, etc.)
+        // Determine day of week (0 = sunday, 1 = Monday, etc.)
         const dayOfWeek = date.getDay();
         
         // The first hour of the day is ruled by the planet that rules the day
@@ -245,7 +245,7 @@ export class PlanetaryHourCalculator {
         return this.getPlanetaryHour(date).planet;
     }
     
-    // Fallback calculation in case SunCalc fails
+    // Fallback calculation in case sunCalc fails
     private getFallbackPlanetaryHour(date: Date): { planet: Planet, hourNumber: number, isDaytime: boolean } {
         const hour = date.getHours();
         const dayOfWeek = date.getDay();

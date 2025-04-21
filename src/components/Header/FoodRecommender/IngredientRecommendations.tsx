@@ -1,8 +1,10 @@
 import React, { useMemo } from 'react';
-import { ElementalCalculator } from '@/services/ElementalCalculator';
-import type { IngredientCategory } from '@/types/ingredients';
-import { Ingredient, NutritionalProfile, ElementalProperties } from '@/types/alchemy';
-import { VALID_CATEGORIES } from '@/data/ingredients';
+import { ElementalCalculator } from '../../../services/ElementalCalculator';
+import { Ingredient, NutritionalProfile, ElementalProperties } from '../../../types/alchemy';
+import { VALID_CATEGORIES } from '../../../data/ingredients';
+
+// Define IngredientCategory type locally if needed
+type IngredientCategory = string;
 
 interface ExtendedIngredient extends Ingredient {
     nutritionalProfile?: NutritionalProfile;

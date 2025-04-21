@@ -1,5 +1,5 @@
-import type { IngredientMapping } from '@/types/alchemy';
-import { fixIngredientMappings } from '@/utils/elementalUtils';
+import type { IngredientMapping } from '../../../types/alchemy';
+import { fixIngredientMappings } from '../../../utils/elementalUtils';
 
 const rawAromaticHerbs: Record<string, Partial<IngredientMapping>> = {
   'thyme': {
@@ -15,13 +15,13 @@ const rawAromaticHerbs: Record<string, Partial<IngredientMapping>> = {
       minerals: []
     },
     astrologicalProfile: {
-      rulingPlanets: ['Mercury', 'Venus'],
+      rulingPlanets: ['mercury', 'venus'],
       favorableZodiac: ['gemini', 'libra', 'aquarius'],
       elementalAffinity: {
         base: 'Air',
         decanModifiers: {
-          first: { element: 'Air', planet: 'Mercury' },
-          second: { element: 'Fire', planet: 'Sun' },
+          first: { element: 'Air', planet: 'mercury' },
+          second: { element: 'Fire', planet: 'sun' },
           third: { element: 'Earth', planet: 'Saturn' }
         }
       }
@@ -58,12 +58,12 @@ const rawAromaticHerbs: Record<string, Partial<IngredientMapping>> = {
       minerals: []
     },
     astrologicalProfile: {
-      rulingPlanets: ['Sun', 'Mars'],
+      rulingPlanets: ['sun', 'Mars'],
       favorableZodiac: ['leo', 'aries', 'sagittarius'],
       elementalAffinity: {
         base: 'Fire',
         decanModifiers: {
-          first: { element: 'Fire', planet: 'Sun' },
+          first: { element: 'Fire', planet: 'sun' },
           second: { element: 'Air', planet: 'Jupiter' },
           third: { element: 'Earth', planet: 'Pluto' }
         }
@@ -117,14 +117,14 @@ const rawAromaticHerbs: Record<string, Partial<IngredientMapping>> = {
       minerals: []
     },
     astrologicalProfile: {
-      rulingPlanets: ['Mercury', 'Moon'],
+      rulingPlanets: ['mercury', 'Moon'],
       favorableZodiac: ['gemini', 'cancer'],
       elementalAffinity: {
         base: 'Air',
         decanModifiers: {
-          first: { element: 'Air', planet: 'Mercury' },
+          first: { element: 'Air', planet: 'mercury' },
           second: { element: 'Fire', planet: 'Moon' },
-          third: { element: 'Earth', planet: 'Venus' }
+          third: { element: 'Earth', planet: 'venus' }
         }
       },
       lunarPhaseModifiers: {
@@ -145,13 +145,13 @@ const rawAromaticHerbs: Record<string, Partial<IngredientMapping>> = {
     name: 'Lovage',
     elementalProperties: { Earth: 0.4, Fire: 0.3, Air: 0.2, Water: 0.1 },
     astrologicalProfile: {
-      rulingPlanets: ['Mercury', 'Jupiter'],
+      rulingPlanets: ['mercury', 'Jupiter'],
       favorableZodiac: ['gemini', 'virgo', 'sagittarius'],
       signAffinities: ['gemini', 'virgo', 'sagittarius'],
       elementalAffinity: {
         base: 'Earth',
         decanModifiers: {
-          first: { element: 'Earth', planet: 'Mercury' },
+          first: { element: 'Earth', planet: 'mercury' },
           second: { element: 'Fire', planet: 'Jupiter' },
           third: { element: 'Air', planet: 'Saturn' }
         }
@@ -199,14 +199,14 @@ const rawAromaticHerbs: Record<string, Partial<IngredientMapping>> = {
       minerals: []
     },
     astrologicalProfile: {
-      rulingPlanets: ['Mercury', 'Venus'],
+      rulingPlanets: ['mercury', 'venus'],
       favorableZodiac: ['gemini', 'libra', 'aquarius'],
       signAffinities: ['gemini', 'libra', 'aquarius'],
       elementalAffinity: {
         base: 'Air',
         decanModifiers: {
-          first: { element: 'Air', planet: 'Mercury' },
-          second: { element: 'Venus', planet: 'Venus' },
+          first: { element: 'Air', planet: 'mercury' },
+          second: { element: 'venus', planet: 'venus' },
           third: { element: 'Air', planet: 'Uranus' }
         }
       }
@@ -379,15 +379,15 @@ const rawAromaticHerbs: Record<string, Partial<IngredientMapping>> = {
       minerals: []
     },
     astrologicalProfile: {
-      rulingPlanets: ['Mercury', 'Moon'],
+      rulingPlanets: ['mercury', 'Moon'],
       favorableZodiac: ['virgo', 'gemini', 'cancer'],
       signAffinities: ['virgo', 'gemini', 'cancer'],
       elementalAffinity: {
         base: 'Air',
         decanModifiers: {
-          first: { element: 'Air', planet: 'Mercury' },
+          first: { element: 'Air', planet: 'mercury' },
           second: { element: 'Water', planet: 'Moon' },
-          third: { element: 'Earth', planet: 'Venus' }
+          third: { element: 'Earth', planet: 'venus' }
         }
       }
     },

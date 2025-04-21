@@ -1,6 +1,33 @@
 import React from 'react';
 import { Flame, Droplets, Mountain, Wind, Beaker, ChefHat, Star, Thermometer } from 'lucide-react';
-import { Ingredient } from '@/types';
+import { Ingredient } from '../types';
+
+// Extended ingredient interface to handle optional properties
+interface ExtendedIngredient extends Ingredient {
+  description?: string;
+  subCategory?: string;
+  energyProfile?: {
+    zodiac?: string[];
+    lunar?: string[];
+    planetary?: string[];
+  };
+  sensoryProfile?: {
+    taste?: Record<string, number>;
+    aroma?: Record<string, number>;
+  };
+  recommendedCookingMethods?: string[];
+  pairingRecommendations?: {
+    complementary?: string[];
+    contrasting?: string[];
+    toAvoid?: string[];
+  };
+  nutrition?: {
+    calories: number;
+    protein: number;
+    carbs: number;
+    fat: number;
+  };
+}
 
 interface IngredientDisplayProps {
   ingredient: Ingredient;
@@ -8,6 +35,9 @@ interface IngredientDisplayProps {
 }
 
 export const IngredientDisplay = ({ ingredient, showDetails = false }: IngredientDisplayProps) => {
+  // Convert to extended ingredient to safely access optional properties
+  const extendedIngredient = ingredient as ExtendedIngredient;
+  
   // Safe accessor function for nested properties
   const safeGet = (obj: unknown, path: string, defaultValue: unknown = 'N/A') => {
     return path.split('.').reduce((prev, curr) => {
@@ -63,14 +93,15 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
         )}
       </div>
       
-      {ingredient.description && (
-        <p className="text-sm text-gray-600 mt-2 italic">{ingredient.description}</p>
+      {/* Description if available */}
+      {extendedIngredient.description && (
+        <p className="text-sm text-gray-600 mt-2 italic">{extendedIngredient.description}</p>
       )}
       
-      {/* Show category if available */}
+      {/* Category information */}
       {ingredient.category && (
         <div className="mt-2 inline-block px-2 py-1 text-xs font-medium rounded-full bg-gray-100 text-gray-700">
-          {ingredient.category}{ingredient.subCategory ? ` • ${ingredient.subCategory}` : ''}
+          {ingredient.category}{extendedIngredient.subCategory ? ` • ${extendedIngredient.subCategory}` : ''}
         </div>
       )}
       
@@ -106,35 +137,35 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
           </div>
           
           {/* Energy Profile Section */}
-          {ingredient.energyProfile && (
+          {extendedIngredient.energyProfile && (
             <div className="bg-white/60 rounded-md p-3 shadow-sm">
               <div className="flex items-center mb-2">
                 <Star className="w-4 h-4 mr-2 text-amber-500" />
                 <h4 className="text-sm font-medium">Energy Profile</h4>
               </div>
               <div className="text-xs space-y-1">
-                {ingredient.energyProfile.zodiac?.length > 0 && (
+                {extendedIngredient.energyProfile.zodiac?.length > 0 && (
                   <div className="flex flex-wrap gap-1">
                     <span className="font-medium">Zodiac:</span>
-                    {ingredient.energyProfile.zodiac.map(sign => (
+                    {extendedIngredient.energyProfile.zodiac.map(sign => (
                       <span key={sign} className="px-2 py-0.5 bg-amber-100 text-amber-800 rounded-full">{sign}</span>
                     ))}
                   </div>
                 )}
                 
-                {ingredient.energyProfile.lunar?.length > 0 && (
+                {extendedIngredient.energyProfile.lunar?.length > 0 && (
                   <div className="flex flex-wrap gap-1">
                     <span className="font-medium">Lunar:</span>
-                    {ingredient.energyProfile.lunar.map(phase => (
+                    {extendedIngredient.energyProfile.lunar.map(phase => (
                       <span key={phase} className="px-2 py-0.5 bg-indigo-100 text-indigo-800 rounded-full">{phase}</span>
                     ))}
                   </div>
                 )}
                 
-                {ingredient.energyProfile.planetary?.length > 0 && (
+                {extendedIngredient.energyProfile.planetary?.length > 0 && (
                   <div className="flex flex-wrap gap-1">
                     <span className="font-medium">Planetary:</span>
-                    {ingredient.energyProfile.planetary.map(alignment => (
+                    {extendedIngredient.energyProfile.planetary.map(alignment => (
                       <span key={alignment} className="px-2 py-0.5 bg-violet-100 text-violet-800 rounded-full">{alignment}</span>
                     ))}
                   </div>
@@ -144,17 +175,17 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
           )}
           
           {/* Sensory Profile Section */}
-          {ingredient.sensoryProfile && (
+          {extendedIngredient.sensoryProfile && (
             <div className="bg-white/60 rounded-md p-3 shadow-sm">
               <div className="flex items-center mb-2">
                 <Thermometer className="w-4 h-4 mr-2 text-orange-500" />
                 <h4 className="text-sm font-medium">Sensory Profile</h4>
               </div>
-              {ingredient.sensoryProfile.taste && (
+              {extendedIngredient.sensoryProfile.taste && (
                 <div>
                   <h5 className="text-xs font-medium mb-1">Taste</h5>
                   <div className="grid grid-cols-2 gap-2">
-                    {Object.entries(ingredient.sensoryProfile.taste).map(([taste, value]) => (
+                    {Object.entries(extendedIngredient.sensoryProfile.taste).map(([taste, value]) => (
                       <div key={taste} className="flex items-center justify-between">
                         <span className="text-xs capitalize">{taste}</span>
                         <div className="relative w-20 h-2 bg-gray-200 rounded-full overflow-hidden">
@@ -169,11 +200,11 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
                 </div>
               )}
               
-              {ingredient.sensoryProfile.aroma && (
+              {extendedIngredient.sensoryProfile.aroma && (
                 <div className="mt-2">
                   <h5 className="text-xs font-medium mb-1">Aroma</h5>
                   <div className="flex flex-wrap gap-1">
-                    {Object.entries(ingredient.sensoryProfile.aroma)
+                    {Object.entries(extendedIngredient.sensoryProfile.aroma)
                       .filter(([_, value]) => value > 0.3) // Only show significant aromas
                       .map(([aroma, _]) => (
                         <span key={aroma} className="px-2 py-0.5 bg-orange-100 text-orange-800 rounded-full text-xs">
@@ -188,14 +219,14 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
           )}
           
           {/* Cooking Methods Section */}
-          {ingredient.recommendedCookingMethods?.length > 0 && (
+          {extendedIngredient.recommendedCookingMethods?.length > 0 && (
             <div className="bg-white/60 rounded-md p-3 shadow-sm">
               <div className="flex items-center mb-2">
                 <ChefHat className="w-4 h-4 mr-2 text-emerald-600" />
                 <h4 className="text-sm font-medium">Cooking Methods</h4>
               </div>
               <div className="flex flex-wrap gap-1">
-                {ingredient.recommendedCookingMethods.map((method) => (
+                {extendedIngredient.recommendedCookingMethods.map((method) => (
                   <span key={method} className="text-xs px-2 py-1 bg-emerald-100 text-emerald-800 rounded-full">
                     {method}
                   </span>
@@ -205,15 +236,15 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
           )}
           
           {/* Pairing Recommendations */}
-          {ingredient.pairingRecommendations && (
+          {extendedIngredient.pairingRecommendations && (
             <div className="bg-white/60 rounded-md p-3 shadow-sm">
               <h4 className="text-sm font-medium mb-2">Pairing Recommendations</h4>
               
-              {ingredient.pairingRecommendations.complementary?.length > 0 && (
+              {extendedIngredient.pairingRecommendations.complementary?.length > 0 && (
                 <div className="mb-2">
                   <h5 className="text-xs font-medium text-green-600 mb-1">Complementary</h5>
                   <div className="flex flex-wrap gap-1">
-                    {ingredient.pairingRecommendations.complementary.map((item) => (
+                    {extendedIngredient.pairingRecommendations.complementary.map((item) => (
                       <span key={item} className="text-xs px-2 py-0.5 bg-green-100 text-green-800 rounded-full">
                         {item}
                       </span>
@@ -222,11 +253,11 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
                 </div>
               )}
               
-              {ingredient.pairingRecommendations.contrasting?.length > 0 && (
+              {extendedIngredient.pairingRecommendations.contrasting?.length > 0 && (
                 <div className="mb-2">
                   <h5 className="text-xs font-medium text-amber-600 mb-1">Contrasting</h5>
                   <div className="flex flex-wrap gap-1">
-                    {ingredient.pairingRecommendations.contrasting.map((item) => (
+                    {extendedIngredient.pairingRecommendations.contrasting.map((item) => (
                       <span key={item} className="text-xs px-2 py-0.5 bg-amber-100 text-amber-800 rounded-full">
                         {item}
                       </span>
@@ -235,11 +266,11 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
                 </div>
               )}
               
-              {ingredient.pairingRecommendations.toAvoid?.length > 0 && (
+              {extendedIngredient.pairingRecommendations.toAvoid?.length > 0 && (
                 <div>
                   <h5 className="text-xs font-medium text-red-600 mb-1">To Avoid</h5>
                   <div className="flex flex-wrap gap-1">
-                    {ingredient.pairingRecommendations.toAvoid.map((item) => (
+                    {extendedIngredient.pairingRecommendations.toAvoid.map((item) => (
                       <span key={item} className="text-xs px-2 py-0.5 bg-red-100 text-red-800 rounded-full">
                         {item}
                       </span>
@@ -251,21 +282,21 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
           )}
           
           {/* Nutrition Details */}
-          {ingredient.nutrition && (
+          {extendedIngredient.nutrition && (
             <div className="bg-white/60 rounded-md p-3 shadow-sm">
               <h4 className="text-sm font-medium mb-2">Nutrition (per 100g)</h4>
               <div className="grid grid-cols-2 gap-2">
                 <div className="text-xs">
-                  <span className="font-medium">Calories:</span> {formatNumber(ingredient.nutrition.calories, 0)}
+                  <span className="font-medium">Calories:</span> {formatNumber(extendedIngredient.nutrition.calories, 0)}
                 </div>
                 <div className="text-xs">
-                  <span className="font-medium">Protein:</span> {formatNumber(ingredient.nutrition.protein)}g
+                  <span className="font-medium">Protein:</span> {formatNumber(extendedIngredient.nutrition.protein)}g
                 </div>
                 <div className="text-xs">
-                  <span className="font-medium">Carbs:</span> {formatNumber(ingredient.nutrition.carbs)}g
+                  <span className="font-medium">Carbs:</span> {formatNumber(extendedIngredient.nutrition.carbs)}g
                 </div>
                 <div className="text-xs">
-                  <span className="font-medium">Fat:</span> {formatNumber(ingredient.nutrition.fat)}g
+                  <span className="font-medium">Fat:</span> {formatNumber(extendedIngredient.nutrition.fat)}g
                 </div>
               </div>
             </div>

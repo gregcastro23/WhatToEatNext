@@ -1,9 +1,11 @@
 import type { 
   CookingMethod, 
-  ElementalProperties, 
-  ZodiacSign, 
-  ThermodynamicProperties 
+  ThermodynamicProperties,
+  ZodiacSign,
+  PlanetName,
+  LunarPhaseWithUnderscores
 } from './alchemy';
+import type { ElementalProperties } from './elemental';
 
 /**
  * Interface defining the structure of cooking method data
@@ -12,7 +14,6 @@ export interface CookingMethodData {
   name: CookingMethod;
   description: string;
   elementalEffect: ElementalProperties;
-  elementalProperties?: ElementalProperties; // Some methods use this property name instead
   duration: {
     min: number;
     max: number;
@@ -20,13 +21,13 @@ export interface CookingMethodData {
   suitable_for: string[];
   benefits: string[];
   
-  // Optional properties
+  // Astrological influences with standardized types
   astrologicalInfluences?: {
     favorableZodiac?: ZodiacSign[];
     unfavorableZodiac?: ZodiacSign[];
-    lunarPhaseEffect?: Record<string, number>;
-    dominantPlanets?: string[];
-    rulingPlanets?: string[];
+    lunarPhaseEffect?: Record<LunarPhaseWithUnderscores, number>;
+    dominantPlanets?: PlanetName[];
+    rulingPlanets?: PlanetName[];
   };
   
   thermodynamicProperties?: ThermodynamicProperties;
@@ -40,19 +41,19 @@ export interface CookingMethodData {
   regionalVariations?: Record<string, string[]>;
   safetyFeatures?: string[];
   
-  // Additional fields that may be used in the application
+  // Additional fields with standardized types
   culturalOrigin?: string;
   bestFor?: string[];
   seasonalPreference?: string[];
-  variations?: CookingMethodData[];
-  relatedToMainMethod?: string;
+  variations?: CookingMethodVariation[];
+  relatedToMainMethod?: CookingMethod;
   
   // Fields used for scoring and recommendations
   score?: number;
   scoreDetails?: Record<string, number>;
   planetaryAffinity?: number;
   
-  // Additional metadata
+  // Additional metadata with standardized types
   history?: string;
   modernVariations?: string[];
   scientificPrinciples?: string[];
@@ -66,4 +67,28 @@ export interface CookingMethodData {
   timingConsiderations?: Record<string, string>;
   doneness_indicators?: Record<string, string>;
   ingredientInteractions?: Record<string, string>;
+  technicalNotes?: Record<string, Record<string, string>>;
+}
+
+/**
+ * Simplified cooking method variation structure for 
+ * referencing within CookingMethodData
+ */
+export interface CookingMethodVariation {
+  id: string;
+  name: string;
+  score?: number;
+  description?: string;
+}
+
+/**
+ * Type to ensure consistent mapping of cooking method keys to names
+ */
+export type CookingMethodKey = string;
+
+/**
+ * Interface for organized collections of cooking methods
+ */
+export interface CookingMethodCollection {
+  [key: CookingMethodKey]: CookingMethodData;
 } 

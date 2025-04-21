@@ -1,9 +1,9 @@
 import type { 
   ZodiacSign, 
   ThermodynamicProperties
-} from '@/types/alchemy';
+} from '../../../../types/alchemy';
 
-import type { CookingMethodData } from '@/types/cookingMethod';
+import type { CookingMethodData } from '../../../../types/cookingMethod';
 
 /**
  * Grilling cooking method
@@ -28,7 +28,7 @@ export const grilling: CookingMethodData = {
   astrologicalInfluences: {
     favorableZodiac: ['aries', 'leo', 'sagittarius'] as ZodiacSign[],
     unfavorableZodiac: ['cancer', 'scorpio', 'pisces'] as ZodiacSign[],
-    dominantPlanets: ['Mars', 'Sun', 'Jupiter'],
+    dominantPlanets: ['Mars', 'sun', 'Jupiter'],
     lunarPhaseEffect: {
       'full_moon': 1.2, // Enhanced flame intensity
       'new_moon': 0.8,  // Reduced flavor development

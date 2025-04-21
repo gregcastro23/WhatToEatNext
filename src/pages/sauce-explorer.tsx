@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import SauceRecommender from '@/components/SauceRecommender';
-import { ElementalProperties } from '@/types/alchemy';
+import SauceRecommender from '../components/SauceRecommender';
+import { ElementalProperties } from '../types/alchemy';
 import { 
   Utensils, 
   Droplet, 
@@ -18,12 +18,12 @@ import Head from 'next/head';
 import Link from 'next/link';
 
 // Import all cuisines
-import { default as italianCuisine } from '@/data/cuisines/italian';
-import { default as frenchCuisine } from '@/data/cuisines/french';
-import { default as japaneseCuisine } from '@/data/cuisines/japanese';
-import { default as indianCuisine } from '@/data/cuisines/indian';
-import { default as thaiCuisine } from '@/data/cuisines/thai';
-import { default as mexicanCuisine } from '@/data/cuisines/mexican';
+import { default as italianCuisine } from '../data/cuisines/italian';
+import { default as frenchCuisine } from '../data/cuisines/french';
+import { default as japaneseCuisine } from '../data/cuisines/japanese';
+import { default as indianCuisine } from '../data/cuisines/indian';
+import { default as thaiCuisine } from '../data/cuisines/thai';
+import { default as mexicanCuisine } from '../data/cuisines/mexican';
 
 // Define interface for sauce data
 interface Sauce {

@@ -1,4 +1,4 @@
-import type { ElementalProperties } from '@/types/alchemy';
+import type { ElementalProperties } from '../../types/alchemy';
 
 interface FlavorProfile {
   elementalProperties: ElementalProperties;

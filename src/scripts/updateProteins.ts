@@ -687,8 +687,8 @@ async function updateProteins() {
       console.log(`  Skipping already processed file: ${newFilePath}`);
     } else {
       // Create a basic file structure
-      const fileContent = `import type { IngredientMapping } from '@/types/alchemy';
-import { fixIngredientMappings } from '@/utils/elementalUtils';
+      const fileContent = `import type { IngredientMapping } from '../types/alchemy';
+import { fixIngredientMappings } from '../utils/elementalUtils';
 
 const rawProteins: Record<string, Partial<IngredientMapping>> = {
   // Placeholder for new ingredients

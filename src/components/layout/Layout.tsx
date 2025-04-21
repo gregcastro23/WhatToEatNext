@@ -3,11 +3,11 @@
 import React, { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 
-import Navigation from '@/components/Navigation/Navigation';
-import CelestialDisplay from '@/components/CelestialDisplay/CelestialDisplay';
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-import { themeManager } from '@/utils/theme';
-import { logger } from '@/utils/logger';
+import Navigation from '../Navigation/Navigation';
+import CelestialDisplay from '../CelestialDisplay/CelestialDisplay';
+import { useAlchemical } from '../../contexts/AlchemicalContext/hooks';
+import { themeManager } from '../../utils/theme';
+import { logger } from '../../utils/logger';
 
 interface LayoutProps {
   children: React.ReactNode;

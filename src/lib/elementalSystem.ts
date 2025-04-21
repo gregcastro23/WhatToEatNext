@@ -7,14 +7,14 @@ import {
     MAXIMUM_THRESHOLD,
     ELEMENT_AFFINITIES,
     ZODIAC_ELEMENTS
-  } from '@/constants/elementalConstants';
+  } from '../constants/elementalConstants';
   import type { 
     ElementalProperties, 
     Element, 
     ZodiacSign,
     AstrologicalState,
     Season
-  } from '@/types/alchemy';
+  } from '../types/alchemy';
   
   class ElementalSystem {
     calculateBalance(properties: ElementalProperties): number {

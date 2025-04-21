@@ -1,22 +1,22 @@
 'use client';
 
 import React, { useState, useEffect, useMemo, useCallback, FC, ReactNode, useRef } from 'react';
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-import { RulingPlanet, RULING_PLANETS } from '@/constants/planets';
-import { ElementalCharacter } from '@/constants/planetaryElements';
-import { useAstrologicalState } from '@/hooks/useAstrologicalState';
+import { useAlchemical } from '../contexts/AlchemicalContext/hooks';
+import { RulingPlanet, RULING_PLANETS } from '../constants/planets';
+import { ElementalCharacter } from '../constants/planetaryElements';
+import { useAstrologicalState } from '../hooks/useAstrologicalState';
 import styles from './ElementalEnergyDisplay.module.css';
 import { Flame, Droplets, Mountain, Wind, Shield, CornerUpRight, Shuffle, Sparkles, Anchor } from 'lucide-react';
-import { ElementalCalculator } from '@/services/ElementalCalculator';
-import { safeImportAndExecute } from '@/utils/dynamicImport';
-import { getCachedCalculation } from '@/utils/calculationCache';
+import { ElementalCalculator } from '../services/ElementalCalculator';
+import { safeImportAndExecute } from '../utils/dynamicImport';
+import { getCachedCalculation } from '../utils/calculationCache';
 import { 
   calculateAlchemicalDistribution, 
   convertToElementalProperties, 
-  calculateThermodynamicProperties 
-} from '@/constants/alchemicalEnergyMapping';
-import { AlchemicalContextType } from '@/contexts/AlchemicalContext/context';
-import { createLogger } from '@/utils/logger';
+  calculateThermodynamicProperties
+} from '../constants/alchemicalEnergyMapping';
+import { AlchemicalContext } from '../contexts/AlchemicalContext/context';
+import { createLogger } from '../utils/logger';
 import { 
   CelestialPosition, 
   PlanetaryAlignment, 
@@ -25,7 +25,7 @@ import {
   AlchemicalProperties, 
   ElementalProperties, 
   ThermodynamicProperties 
-} from '@/types/celestial';
+} from '../types/celestial';
 
 // Create a component-specific logger
 const logger = createLogger('ElementalEnergyDisplay');
@@ -361,7 +361,7 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
         
         // Use our new alchemical energy mapping functions
         // Calculate alchemical distribution from planetary positions
-        const alchemicalDistribution = calculateAlchemicalDistribution(currentPlanetaryAlignment, isDaytime);
+        const alchemicalDistribution = calculateAlchemicalDistribution(currentPlanetaryAlignment as any, isDaytime);
         
         // Convert alchemical distribution to elemental properties
         const elementalProps = convertToElementalProperties(alchemicalDistribution);

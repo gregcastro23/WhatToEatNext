@@ -7,7 +7,7 @@ import {
 import { transformItemsWithPlanetaryPositions } from '../utils/elementalUtils';
 import { calculatePlanetaryPositions, calculateLunarPhase } from '../utils/astrologyUtils';
 import { convertToLunarPhase } from '../utils/lunarUtils';
-import { logger } from '@/utils/logger';
+import { logger } from '../utils/logger';
 
 // Define PlanetData interface to replace all 'any' types
 interface PlanetData {
@@ -669,10 +669,10 @@ export class RecommendationAdapter {
    */
   getPlanetaryElement(planet: string): ElementalCharacter | undefined {
     const planetMap: Record<string, ElementalCharacter> = {
-      'Sun': 'Fire',
+      'sun': 'Fire',
       'Moon': 'Water',
-      'Mercury': 'Air',
-      'Venus': 'Earth',
+      'mercury': 'Air',
+      'venus': 'Earth',
       'Mars': 'Fire',
       'Jupiter': 'Air',
       'Saturn': 'Earth',

@@ -1,4 +1,4 @@
-import { ElementalAffinity, Season } from '@/types/alchemy';
+import { ElementalAffinity, Season } from '../types/alchemy';
 
 export function getCurrentSeason(): Season {
   const month = new Date().getMonth();

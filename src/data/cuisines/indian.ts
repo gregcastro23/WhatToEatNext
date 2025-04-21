@@ -1,5 +1,5 @@
 // src/data/cuisines/indian.ts
-import type { Cuisine } from '@/types/cuisine';
+import type { Cuisine } from '../../types/cuisine';
 
 export const indian: Cuisine = {
   id: "indian",
@@ -1045,7 +1045,7 @@ export const indian: Cuisine = {
         Water: 0.2,
         Air: 0.1
       },
-      astrologicalInfluences: ["Mars", "Sun", "Aries"],
+      astrologicalInfluences: ["Mars", "sun", "Aries"],
       seasonality: "all",
       preparationNotes: "Allow marination for at least 4 hours, preferably overnight for best flavor",
       technicalTips: "For authentic color, use Kashmiri chili powder which adds color without excess heat"
@@ -1063,7 +1063,7 @@ export const indian: Cuisine = {
         Earth: 0.3,
         Air: 0.1
       },
-      astrologicalInfluences: ["Venus", "Moon", "Taurus"],
+      astrologicalInfluences: ["venus", "Moon", "Taurus"],
       seasonality: "all",
       preparationNotes: "Allow the sauce to simmer gently to develop complex flavors",
       technicalTips: "Add kasuri methi (dried fenugreek leaves) at the end for authentic aroma"
@@ -1081,7 +1081,7 @@ export const indian: Cuisine = {
         Air: 0.2,
         Fire: 0.0
       },
-      astrologicalInfluences: ["Moon", "Venus", "Cancer"],
+      astrologicalInfluences: ["Moon", "venus", "Cancer"],
       seasonality: "all",
       preparationNotes: "Use thick, strained yogurt for best texture",
       technicalTips: "Salt and drain cucumber to prevent watery raita"
@@ -1099,7 +1099,7 @@ export const indian: Cuisine = {
         Earth: 0.2,
         Air: 0.1
       },
-      astrologicalInfluences: ["Mercury", "Saturn", "Gemini"],
+      astrologicalInfluences: ["mercury", "Saturn", "Gemini"],
       seasonality: "all",
       preparationNotes: "Balance sweet, sour, and spicy elements carefully",
       technicalTips: "Strain thoroughly for smooth consistency"
@@ -1117,7 +1117,7 @@ export const indian: Cuisine = {
         Fire: 0.2,
         Earth: 0.0
       },
-      astrologicalInfluences: ["Mercury", "Moon", "Virgo"],
+      astrologicalInfluences: ["mercury", "Moon", "Virgo"],
       seasonality: "all",
       preparationNotes: "Use ice water when blending to maintain bright green color",
       technicalTips: "Add a small amount of yogurt for creamier texture and longer shelf life"
@@ -1153,7 +1153,7 @@ export const indian: Cuisine = {
         Water: 0.2,
         Air: 0.1
       },
-      astrologicalInfluences: ["Mars", "Sun", "Leo"],
+      astrologicalInfluences: ["Mars", "sun", "Leo"],
       seasonality: "all",
       preparationNotes: "Properly caramelizing onions (bhunao) is the key to depth of flavor",
       technicalTips: "Prepare in large batches and freeze in portions for quick weeknight cooking"
@@ -1266,7 +1266,7 @@ export const indian: Cuisine = {
       description: "Delicate flavors with emphasis on fish, mustard, panch phoron spice blend and sweets",
       signature: ["maacher jhol", "shorshe ilish", "mishti doi", "rasgulla"],
       elementalProperties: { Water: 0.5, Earth: 0.2, Air: 0.2, Fire: 0.1 },
-      astrologicalInfluences: ["Venus", "Moon", "cancer"],
+      astrologicalInfluences: ["venus", "Moon", "cancer"],
       seasonality: "all"
     },
     south_indian: {
@@ -1274,7 +1274,7 @@ export const indian: Cuisine = {
       description: "Predominantly rice-based with coconut, curry leaves, tamarind and complex spice blends",
       signature: ["dosa", "idli", "sambar", "rasam"],
       elementalProperties: { Water: 0.4, Fire: 0.3, Earth: 0.2, Air: 0.1 },
-      astrologicalInfluences: ["Mercury", "Sun", "virgo"],
+      astrologicalInfluences: ["mercury", "sun", "virgo"],
       seasonality: "all"
     },
     gujarati: {
@@ -1282,7 +1282,7 @@ export const indian: Cuisine = {
       description: "Vegetarian cuisine with balance of sweet, salty and spicy flavors",
       signature: ["dhokla", "thepla", "undhiyu", "fafda-jalebi"],
       elementalProperties: { Air: 0.4, Earth: 0.3, Water: 0.2, Fire: 0.1 },
-      astrologicalInfluences: ["Jupiter", "Mercury", "gemini"],
+      astrologicalInfluences: ["Jupiter", "mercury", "gemini"],
       seasonality: "all"
     }
   },

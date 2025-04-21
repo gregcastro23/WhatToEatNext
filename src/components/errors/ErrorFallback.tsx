@@ -1,8 +1,8 @@
 'use client'
 
 import React, { useEffect } from 'react'
-import { logger } from '@/utils/logger'
-import { errorHandler } from '@/services/errorHandler'
+import { logger } from '../../utils/logger'
+import { errorHandler } from '../../services/errorHandler'
 
 interface ErrorFallbackProps {
   error: Error

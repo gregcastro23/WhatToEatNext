@@ -1,17 +1,17 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-import { calculateSunTimes, formatSunTime } from '@/utils/sunTimes';
-import { getSunPosition } from '@/utils/solarPositions';
-import { Sun, Clock, ArrowDown, Sunrise, Sunset } from 'lucide-react';
-import { AstrologicalService } from '@/services/AstrologicalService';
-import { safeImportAndExecute, safeImportFunction } from '@/utils/dynamicImport';
+import { useAlchemical } from '../contexts/AlchemicalContext/hooks';
+import { calculatesunTimes, formatsunTime } from '../utils/sunTimes';
+import { getsunPosition } from '../utils/solarPositions';
+import { sun, Clock, ArrowDown, sunrise, sunset } from 'lucide-react';
+import { AstrologicalService } from '../services/AstrologicalService';
+import { safeImportAndExecute, safeImportFunction } from '../utils/dynamicImport';
 
-const SunDisplay: React.FC = () => {
+const sunDisplay: React.FC = () => {
   const { planetaryPositions } = useAlchemical();
   const [expanded, setExpanded] = useState(false);
-  const [sunTimes, setSunTimes] = useState({
+  const [sunTimes, setsunTimes] = useState({
     sunrise: null as Date | null,
     sunset: null as Date | null,
     solarNoon: null as Date | null,
@@ -22,7 +22,7 @@ const SunDisplay: React.FC = () => {
     latitude: 40.7128, // Default to New York
     longitude: -74.0060
   });
-  const [sunPosition, setSunPosition] = useState({
+  const [sunPosition, setsunPosition] = useState({
     azimuth: 0,
     altitude: 0
   });
@@ -60,13 +60,13 @@ const SunDisplay: React.FC = () => {
           solarNoon: Date;
           goldenHour: Date;
         }>(
-          '@/utils/sunTimes',
-          'calculateSunTimes',
+          '../utils/sunTimes',
+          'calculatesunTimes',
           [new Date(), coordinates.latitude, coordinates.longitude]
         );
         
         if (times) {
-          setSunTimes({
+          setsunTimes({
             sunrise: times.sunrise,
             sunset: times.sunset,
             solarNoon: times.solarNoon,
@@ -75,7 +75,7 @@ const SunDisplay: React.FC = () => {
           });
         } else {
           console.warn('Failed to calculate sun times, using defaults');
-          setSunTimes(prev => ({ ...prev, calculating: false }));
+          setsunTimes(prev => ({ ...prev, calculating: false }));
         }
         
         // Get sun position with proper typing
@@ -83,13 +83,13 @@ const SunDisplay: React.FC = () => {
           azimuth: number;
           altitude: number;
         }>(
-          '@/utils/solarPositions',
-          'getSunPosition',
+          '../utils/solarPositions',
+          'getsunPosition',
           [new Date(), coordinates.latitude, coordinates.longitude]
         );
         
         if (position) {
-          setSunPosition({
+          setsunPosition({
             azimuth: position.azimuth,
             altitude: position.altitude
           });
@@ -98,7 +98,7 @@ const SunDisplay: React.FC = () => {
         }
       } catch (error) {
         console.error('Error calculating sun data:', error);
-        setSunTimes(prev => ({
+        setsunTimes(prev => ({
           ...prev,
           calculating: false
         }));
@@ -141,7 +141,7 @@ const SunDisplay: React.FC = () => {
     <div className="bg-amber-900 rounded-lg p-4 text-white">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-xl font-medium flex items-center">
-          <Sun className="w-5 h-5 mr-2 text-yellow-300" />
+          <sun className="w-5 h-5 mr-2 text-yellow-300" />
           Solar Energies
         </h3>
         
@@ -179,7 +179,7 @@ const SunDisplay: React.FC = () => {
       {expanded && (
         <div className="mt-4 border-t border-amber-700 pt-4">
           <p className="text-sm text-amber-200 mb-3">
-            The Sun in {sun.sign} brings energy of confidence, vitality, and creative expression.
+            The sun in {sun.sign} brings energy of confidence, vitality, and creative expression.
           </p>
           
           <div className="bg-amber-800 rounded p-3 mt-2">
@@ -192,28 +192,28 @@ const SunDisplay: React.FC = () => {
             </div>
           </div>
           
-          {/* Sun Rise and Set Times */}
+          {/* sun Rise and Set Times */}
           <div className="mt-4 grid grid-cols-2 gap-3">
             <div className="bg-amber-800 rounded p-3 flex items-center">
-              <Sunrise className="w-5 h-5 mr-2 text-yellow-300" />
+              <sunrise className="w-5 h-5 mr-2 text-yellow-300" />
               <div>
-                <div className="text-xs text-amber-300">Sunrise</div>
+                <div className="text-xs text-amber-300">sunrise</div>
                 <div className="font-medium">
                   {sunTimes.calculating 
                     ? 'Calculating...' 
-                    : (sunTimes.sunrise ? formatSunTime(sunTimes.sunrise) : 'Unknown')}
+                    : (sunTimes.sunrise ? formatsunTime(sunTimes.sunrise) : 'Unknown')}
                 </div>
               </div>
             </div>
             
             <div className="bg-amber-800 rounded p-3 flex items-center">
-              <Sunset className="w-5 h-5 mr-2 text-orange-300" />
+              <sunset className="w-5 h-5 mr-2 text-orange-300" />
               <div>
-                <div className="text-xs text-amber-300">Sunset</div>
+                <div className="text-xs text-amber-300">sunset</div>
                 <div className="font-medium">
                   {sunTimes.calculating 
                     ? 'Calculating...' 
-                    : (sunTimes.sunset ? formatSunTime(sunTimes.sunset) : 'Unknown')}
+                    : (sunTimes.sunset ? formatsunTime(sunTimes.sunset) : 'Unknown')}
                 </div>
               </div>
             </div>
@@ -225,7 +225,7 @@ const SunDisplay: React.FC = () => {
                 <div className="font-medium">
                   {sunTimes.calculating 
                     ? 'Calculating...' 
-                    : (sunTimes.goldenHour ? formatSunTime(sunTimes.goldenHour) : 'Unknown')}
+                    : (sunTimes.goldenHour ? formatsunTime(sunTimes.goldenHour) : 'Unknown')}
                 </div>
               </div>
             </div>
@@ -236,4 +236,4 @@ const SunDisplay: React.FC = () => {
   );
 };
 
-export default SunDisplay; 
+export default sunDisplay; 

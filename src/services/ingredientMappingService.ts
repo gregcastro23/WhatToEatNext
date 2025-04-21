@@ -5,12 +5,12 @@
  * to their corresponding ingredient database entries.
  */
 
-import { connectIngredientsToMappings } from '@/utils/recipeMatching';
-import { filterRecipesByIngredientMappings } from '@/utils/recipeFilters';
-import { ingredientsMap } from '@/data/ingredients';
-import { cuisinesMap } from '@/data/cuisines';
-import type { Recipe } from '@/types/recipe';
-import type { ElementalProperties, IngredientMapping } from '@/types/alchemy';
+import { connectIngredientsToMappings } from '../utils/fixedRecipeMatching';
+import { filterRecipesByIngredientMappings } from '../utils/recipeFilters';
+import { ingredientsMap } from '../data/ingredients';
+import { cuisinesMap } from '../data/cuisines';
+import type { Recipe } from '../types/recipe';
+import type { ElementalProperties, IngredientMapping } from '../types/alchemy';
 
 /**
  * Unified service for ingredient mapping operations

@@ -1,12 +1,12 @@
-import type { IngredientMapping } from '@/types/alchemy';
-import { fixIngredientMappings } from '@/utils/elementalUtils';
+import type { IngredientMapping } from '../../../../types/alchemy';
+import { fixIngredientMappings } from '../../../../utils/elementalUtils';
 
 const rawFlaxseed: Record<string, Partial<IngredientMapping>> = {
   'flaxseed': {
     name: 'Flaxseed',
     elementalProperties: { Water: 0.3, Earth: 0.3, Air: 0.3, Fire: 0.1 },
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Venus'],
+      rulingPlanets: ['Moon', 'venus'],
       elementalAffinity: {
         base: 'water',
         secondary: 'air'

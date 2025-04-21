@@ -17,8 +17,9 @@ import {
 } from '../constants/planetaryFoodAssociations';
 import { ZodiacSign } from '../constants/zodiac';
 import { LunarPhaseWithSpaces } from '../types/alchemy';
-import { createLogger } from '@/utils/logger';
-import { CelestialPosition } from '@/types/celestial';
+import { createLogger } from '../utils/logger';
+import { CelestialPosition } from '../types/celestial';
+import { PlanetaryPosition as AlchemyPlanetaryPosition } from '../types/alchemy';
 
 // Create a component-specific logger
 const logger = createLogger('AlchemicalTransformation');
@@ -82,7 +83,7 @@ export const transformItemWithPlanetaryPositions = (
 
     // Calculate alchemical properties based on planetary positions
     const alchemicalResults = calculateAlchemicalProperties(
-      planetPositions,
+      planetPositions as unknown as Record<string, AlchemyPlanetaryPosition>,
       isDaytime
     );
     
@@ -252,7 +253,7 @@ export const transformItemsWithPlanetaryPositions = (
     return items.map(item => 
       transformItemWithPlanetaryPositions(
         item, 
-        planetPositions, 
+        planetPositions,
         isDaytime,
         currentZodiac,
         lunarPhase
@@ -468,11 +469,13 @@ const getDominantAlchemicalProperty = (
 };
 
 /**
- * Normalize values in a record to sum to 1.0
+ * Normalize a record of values so they sum to 1.0
  */
 const normalizeValues = <T extends string>(record: Record<T, number>): void => {
   try {
-    const sum = Object.values(record).reduce((acc, val) => acc + val, 0);
+    const values = Object.values(record) as number[];
+    const sum = values.reduce((acc, val) => acc + val, 0);
+    
     if (sum > 0) {
       Object.keys(record).forEach(key => {
         record[key as T] = record[key as T] / sum;
@@ -480,6 +483,5 @@ const normalizeValues = <T extends string>(record: Record<T, number>): void => {
     }
   } catch (error) {
     logger.error('Error normalizing values:', error);
-    // If normalization fails, leave values as they are
   }
 }; 

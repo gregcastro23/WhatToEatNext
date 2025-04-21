@@ -1,4 +1,4 @@
-import { NutritionalProfile, Element, ZodiacSign, Planet } from '@/types/alchemy';
+import { NutritionalProfile, Element, ZodiacSign, Planet } from '../types/alchemy';
 
 // ========== BASIC NUTRITIONAL PROFILES ==========
 export const baseNutritionalProfiles: Record<string, NutritionalProfile> = {
@@ -191,10 +191,10 @@ export const baseNutritionalProfiles: Record<string, NutritionalProfile> = {
 export const planetaryNutrientRulership: Record<string, string> = {
   'mars': 'protein',   // Mars rules proteins (building, energy, strength)
   'jupiter': 'fats',   // Jupiter rules fats (expansion, storage, abundance)
-  'venus': 'carbs',    // Venus rules carbohydrates (pleasure, energy, comfort)
-  'mercury': 'fiber',  // Mercury rules fiber (communication, movement, cleansing)
+  'venus': 'carbs',    // venus rules carbohydrates (pleasure, energy, comfort)
+  'mercury': 'fiber',  // mercury rules fiber (communication, movement, cleansing)
   'saturn': 'minerals', // Saturn rules minerals (structure, foundation, discipline)
-  'sun': 'vitamins',   // Sun rules vitamins (vitality, energy, life force)
+  'sun': 'vitamins',   // sun rules vitamins (vitality, energy, life force)
   'moon': 'water'      // Moon rules water (emotions, fluidity, cleansing)
 };
 

@@ -52,6 +52,98 @@ function calculatePositionDifference(pos1: PlanetaryPosition, pos2: PlanetaryPos
   return (degreeDiff * 60) + minuteDiff;
 }
 
+/**
+ * Validate coordinates (latitude and longitude)
+ * @param lat Latitude (-90 to 90)
+ * @param lng Longitude (-180 to 180)
+ * @returns Object with isValid flag and error message
+ */
+export function validateCoordinates(
+  lat?: number | string, 
+  lng?: number | string
+): { isValid: boolean; error?: string } {
+  // Check if values are provided
+  if (lat === undefined || lat === null) {
+    return { isValid: false, error: 'Latitude is required' };
+  }
+  
+  if (lng === undefined || lng === null) {
+    return { isValid: false, error: 'Longitude is required' };
+  }
+  
+  // Parse string values to numbers if needed
+  const latitude = typeof lat === 'string' ? parseFloat(lat) : lat;
+  const longitude = typeof lng === 'string' ? parseFloat(lng) : lng;
+  
+  // Check for NaN
+  if (isNaN(latitude)) {
+    return { isValid: false, error: 'Latitude must be a valid number' };
+  }
+  
+  if (isNaN(longitude)) {
+    return { isValid: false, error: 'Longitude must be a valid number' };
+  }
+  
+  // Check ranges
+  if (latitude < -90 || latitude > 90) {
+    return { isValid: false, error: 'Latitude must be between -90 and 90' };
+  }
+  
+  if (longitude < -180 || longitude > 180) {
+    return { isValid: false, error: 'Longitude must be between -180 and 180' };
+  }
+  
+  return { isValid: true };
+}
+
+/**
+ * Validate date string or object
+ * @param date Date to validate
+ * @returns Object with isValid flag, parsed date object, and error message
+ */
+export function validateDate(
+  date?: string | Date
+): { isValid: boolean; parsedDate?: Date; error?: string } {
+  // If no date provided, use current date
+  if (date === undefined || date === null) {
+    return { isValid: true, parsedDate: new Date() };
+  }
+  
+  let parsedDate: Date;
+  
+  // Handle Date objects
+  if (date instanceof Date) {
+    parsedDate = date;
+    
+    // Check if date is valid
+    if (isNaN(parsedDate.getTime())) {
+      return { isValid: false, error: 'Invalid date object' };
+    }
+    
+    return { isValid: true, parsedDate };
+  }
+  
+  // Handle string dates
+  try {
+    parsedDate = new Date(date);
+    
+    // Check if string parsed to a valid date
+    if (isNaN(parsedDate.getTime())) {
+      return { 
+        isValid: false, 
+        error: 'Invalid date format. Use ISO format (YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS)'
+      };
+    }
+    
+    return { isValid: true, parsedDate };
+  } catch (error) {
+    return { 
+      isValid: false, 
+      error: 'Invalid date format. Use ISO format (YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS)'
+    };
+  }
+}
+
 // Main validation function
 export function validatePlanetaryPositions(positions?: Record<string, unknown>): { accurate: boolean, differences: Record<string, unknown> } | boolean {
   // If positions are provided, perform basic validation on the object structure
@@ -234,13 +326,21 @@ export async function validateAgainstAPI(): Promise<{ accurate: boolean, differe
   return { accurate, differences };
 }
 
-// Renamed function to avoid duplication
+// Update the function with proper type definition
+
+interface PlanetaryCoordinates {
+  longitude: number;
+  latitude: number;
+  distance: number;
+  [key: string]: unknown;
+}
+
 export function validatePlanetaryPositionsStructure(positions: Record<string, unknown>): boolean {
-  const requiredPlanets = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 
+  const requiredPlanets = ['sun', 'Moon', 'mercury', 'venus', 'Mars', 
                           'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'];
   
   return requiredPlanets.every(planet => {
-    const p = positions[planet];
+    const p = positions[planet] as PlanetaryCoordinates;
     return p && 
       typeof p.longitude === 'number' &&
       p.longitude >= 0 && p.longitude < 360 &&

@@ -1,22 +1,47 @@
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
-import { useAstrologicalState } from '@/context/AstrologicalContext';
-import { useChakraInfluencedFood } from '@/hooks/useChakraInfluencedFood';
+import { useAstrologicalState } from '../context/AstrologicalContext';
+import { useChakraInfluencedFood } from '../hooks/useChakraInfluencedFood';
 import styles from './FoodRecommender.module.css';
 import { 
-  _ChakraEnergies
-} from '@/types/alchemy';
+  ChakraEnergies,
+  PlanetName
+} from '../types/alchemy';
 import { 
   CHAKRA_SYMBOLS, 
   CHAKRA_SANSKRIT_NAMES,
   normalizeChakraKey
-} from '@/constants/chakraSymbols';
-import { isChakraKey } from '@/utils/typeGuards';
-import { PlanetaryHourCalculator } from '@/lib/PlanetaryHourCalculator';
-import { herbsCollection, oilsCollection, vinegarsCollection, grainsCollection } from '@/data/ingredients';
+} from '../constants/chakraSymbols';
+import { isChakraKey } from '../utils/typeGuards';
+import { PlanetaryHourCalculator } from '../lib/PlanetaryHourCalculator';
+import { herbsCollection, oilsCollection, vinegarsCollection, grainsCollection } from '../data/ingredients';
 import { ChevronUpIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
 import { Ingredient } from '../types/ingredient';
+
+// Extended Ingredient type to include the component-specific properties
+interface ExtendedIngredient extends Ingredient {
+  score?: number;
+  chakra?: string;
+  boostedByPlanetaryHour?: boolean;
+  elementalAffinity?: {
+    base: string;
+    secondary?: string;
+  };
+  subCategory?: string;
+  healthBenefits?: string[];
+  origin?: string[];
+  astrologicalProfile?: {
+    rulingPlanets?: string[];
+    favorableZodiac?: string[];
+  };
+  nutritionalProfile?: {
+    calories?: number;
+    protein?: number;
+    fat?: number;
+    carbohydrates?: number;
+  };
+}
 
 // Type guard functions
 function isNumber(value: unknown): value is number {
@@ -83,13 +108,20 @@ const ScoreDisplay = ({ score }: { score?: number }) => {
 
 export default function FoodRecommender() {
   // Use the hook to get consistent planetary data and ingredient recommendations
-  const { _planetaryPositions, isLoading: astroLoading, _sun } = useAstrologicalState();
+  const { 
+    planetaryPositions, 
+    isLoading: astroLoading, 
+    zodiacEnergies
+  } = useAstrologicalState();
   
   // Time calculation
-  const [_currentTime, setCurrentTime] = useState(new Date());
+  const [currentTime, setCurrentTime] = useState(new Date());
   
   // Get recommended chakra energy foods
-  const { _foodRecommendations, chakraEnergies } = useChakraInfluencedFood();
+  const { recommendations: chakraRecommendations, chakraEnergies, loading: recommendationsLoading, error: recommendationsError } = useChakraInfluencedFood();
+  
+  // Error message state
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   
   // Update the time every minute
   useEffect(() => {
@@ -100,68 +132,17 @@ export default function FoodRecommender() {
     return () => clearInterval(intervalId);
   }, []);
   
-  // Derive activePlanets and lunarPhase from planetaryPositions
-  const { 
-    recommendations, 
-    _chakraRecommendations,
-    loading: recommendationsLoading, 
-    message 
-  } = useMemo(() => {
-    return {
-      recommendations: [],
-      _chakraRecommendations: {},
-      loading: false,
-      message: ''
-    };
-  }, []);
-  
-  // State for selected ingredient
-  const [selectedIngredient, setSelectedIngredient] = useState<Ingredient | null>(null);
-  
-  // State for expanded categories
-  const [expanded, setExpanded] = useState<Record<string, boolean>>({});
-  
-  // State for active category (for navigation highlighting)
-  const [activeCategory, setActiveCategory] = useState<string | null>(null);
-
-  // Track which category is currently in view
+  // Update error message when hooks report errors
   useEffect(() => {
-    const handleScroll = () => {
-      const categories = Object.keys(categorizedRecommendations);
-      if (categories.length === 0) return;
-
-      // Find the category that's most visible in the viewport
-      for (const category of categories) {
-        const element = document.getElementById(category);
-        if (!element) continue;
-
-        const rect = element.getBoundingClientRect();
-        // Consider an element in view if its top is in the top half of the viewport
-        if (rect.top < window.innerHeight / 2 && rect.bottom > 0) {
-          setActiveCategory(category);
-          break;
-        }
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    // Initial check
-    handleScroll();
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, [categorizedRecommendations]);
-
-  // Function to scroll to category
-  const scrollToCategory = (category: string, e: React.MouseEvent) => {
-    e.preventDefault();
-    const element = document.getElementById(category);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-      setActiveCategory(category);
+    if (astroLoading || recommendationsLoading) return;
+    
+    if (recommendationsError) {
+      setErrorMessage(recommendationsError);
     }
-  };
+  }, [astroLoading, recommendationsLoading, recommendationsError]);
+  
+  // Derive activePlanets and lunarPhase from planetaryPositions
+  const [recommendations, setRecommendations] = useState([]);
   
   // Planetary hours calculation
   const [currentPlanetaryHour, setCurrentPlanetaryHour] = useState<string | null>(null);
@@ -174,8 +155,9 @@ export default function FoodRecommender() {
       
       // Get current planetary hour
       const hourInfo = planetaryCalculator.getCurrentPlanetaryHour();
-      if (hourInfo && typeof hourInfo.planet === 'string') {
-        const planetName = hourInfo.planet;
+      if (hourInfo && hourInfo.planet) {
+        // First cast to unknown, then to string to avoid type errors
+        const planetName = String(hourInfo.planet as unknown);
         setCurrentPlanetaryHour(planetName);
         
         // Get associated chakras for this planet (simplified approach)
@@ -199,7 +181,7 @@ export default function FoodRecommender() {
   }, []);
   
   // Get current season
-  const _currentSeason = (() => {
+  const currentSeason = (() => {
     const date = new Date();
     const month = date.getMonth();
     
@@ -210,8 +192,34 @@ export default function FoodRecommender() {
   })();
   
   // Get current zodiac from recommendations if available
-  const _currentZodiac = recommendations[0]?.astrologicalProfile?.favorableZodiac?.[0] || 'aries';
+  const currentZodiacSign = recommendations[0]?.astrologicalProfile?.favorableZodiac?.[0] || 'aries';
   
+  // Define herb names to improve herb detection
+  const herbNames = Object.keys(herbsCollection);
+  
+  // Define oil types for better oil detection - use the keys from oilsCollection
+  const oilTypes = Object.keys(oilsCollection).concat([
+    'oil', 'olive oil', 'vegetable oil', 'sunflower oil', 'sesame oil', 'coconut oil',
+    'avocado oil', 'walnut oil', 'peanut oil', 'grapeseed oil', 'canola oil',
+    'flaxseed oil', 'almond oil', 'truffle oil', 'palm oil', 'corn oil',
+    'ghee', 'butter', 'lard', 'tallow', 'duck fat', 'schmaltz', 'bacon fat',
+    'pumpkin seed oil', 'hemp seed oil', 'macadamia oil', 'hazelnut oil',
+    'pistachio oil', 'perilla oil', 'mustard oil', 'rice bran oil',
+    'argan oil', 'tea seed oil', 'apricot kernel oil', 'safflower oil',
+    'mct oil', 'mct'
+  ]);
+  
+  // Define vinegar types for better vinegar detection - use the keys from vinegarsCollection
+  const vinegarTypes = Object.keys(vinegarsCollection).concat([
+    'vinegar', 'balsamic vinegar', 'apple cider vinegar', 'rice vinegar', 'red wine vinegar',
+    'white wine vinegar', 'sherry vinegar', 'champagne vinegar', 'malt vinegar',
+    'distilled vinegar', 'black vinegar', 'coconut vinegar',
+    'cane vinegar', 'beer vinegar', 'fruit vinegar', 'herb vinegar', 'honey vinegar',
+    'kombucha vinegar', 'date vinegar', 'raspberry vinegar', 'fig vinegar', 
+    'tarragon vinegar', 'palm vinegar', 'plum vinegar', 'white balsamic',
+    'pomegranate vinegar', 'umeboshi vinegar', 'ume plum vinegar'
+  ]);
+
   // Remove duplicate recommendations
   const uniqueRecommendations = useMemo(() => {
     const uniqueNames = new Set();
@@ -223,7 +231,7 @@ export default function FoodRecommender() {
       return true;
     });
   }, [recommendations]);
-  
+
   // Enhanced nutritional score with improved logic for affinity
   const boostedRecommendations = useMemo(() => {
     if (!currentPlanetaryHour || planetaryHourChakras.length === 0) {
@@ -257,35 +265,9 @@ export default function FoodRecommender() {
     }).sort((a, b) => b.score - a.score);
   }, [uniqueRecommendations, currentPlanetaryHour, planetaryHourChakras]);
 
-  // Define herb names to improve herb detection
-  const herbNames = Object.keys(herbsCollection);
-  
-  // Define oil types for better oil detection - use the keys from oilsCollection
-  const oilTypes = Object.keys(oilsCollection).concat([
-    'oil', 'olive oil', 'vegetable oil', 'sunflower oil', 'sesame oil', 'coconut oil',
-    'avocado oil', 'walnut oil', 'peanut oil', 'grapeseed oil', 'canola oil',
-    'flaxseed oil', 'almond oil', 'truffle oil', 'palm oil', 'corn oil',
-    'ghee', 'butter', 'lard', 'tallow', 'duck fat', 'schmaltz', 'bacon fat',
-    'pumpkin seed oil', 'hemp seed oil', 'macadamia oil', 'hazelnut oil',
-    'pistachio oil', 'perilla oil', 'mustard oil', 'rice bran oil',
-    'argan oil', 'tea seed oil', 'apricot kernel oil', 'safflower oil',
-    'mct oil', 'mct'
-  ]);
-  
-  // Define vinegar types for better vinegar detection - use the keys from vinegarsCollection
-  const vinegarTypes = Object.keys(vinegarsCollection).concat([
-    'vinegar', 'balsamic vinegar', 'apple cider vinegar', 'rice vinegar', 'red wine vinegar',
-    'white wine vinegar', 'sherry vinegar', 'champagne vinegar', 'malt vinegar',
-    'distilled vinegar', 'black vinegar', 'coconut vinegar',
-    'cane vinegar', 'beer vinegar', 'fruit vinegar', 'herb vinegar', 'honey vinegar',
-    'kombucha vinegar', 'date vinegar', 'raspberry vinegar', 'fig vinegar', 
-    'tarragon vinegar', 'palm vinegar', 'plum vinegar', 'white balsamic',
-    'pomegranate vinegar', 'umeboshi vinegar', 'ume plum vinegar'
-  ]);
-
   // Categorize recommendations
   const categorizedRecommendations = useMemo(() => {
-    const categories: Record<string, Ingredient[]> = {
+    const categories: Record<string, ExtendedIngredient[]> = {
       proteins: [],
       vegetables: [],
       grains: [],
@@ -310,12 +292,16 @@ export default function FoodRecommender() {
       const displayName = data.name || key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
       
       categories.oils.push({
+        id: `oil-${key}`,
         name: displayName,
-        category: 'oils',
+        category: 'oil',
         score: 0.75, // Slightly higher base score
         chakra: 'sacral', // Update default chakra for oils
-        elementalAffinity: { base: 'water' }
-      } as Ingredient);
+        elementalAffinity: { base: 'water' },
+        elementalProperties: { Fire: 0.2, Water: 0.8, Earth: 0.3, Air: 0.1 },
+        qualities: ['moistening', 'nourishing'],
+        nutrition: { calories: 120, protein: 0, carbs: 0, fat: 14 }
+      } as Partial<Ingredient> as ExtendedIngredient);
     });
 
     // Add all available vinegars from the collection with formatted names
@@ -325,16 +311,20 @@ export default function FoodRecommender() {
       const displayName = data.name || key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
       
       categories.vinegars.push({
+        id: `vinegar-${key}`,
         name: displayName,
-        category: 'vinegars',
+        category: 'vinegar',
         score: 0.78, // Slightly higher base score
         chakra: 'throat', // Update default chakra for vinegars
-        elementalAffinity: { base: 'water' }
-      } as Ingredient);
+        elementalAffinity: { base: 'water' },
+        elementalProperties: { Fire: 0.1, Water: 0.7, Earth: 0.2, Air: 0.4 },
+        qualities: ['acidic', 'preserving'],
+        nutrition: { calories: 3, protein: 0, carbs: 0.9, fat: 0 }
+      } as Partial<Ingredient> as ExtendedIngredient);
     });
 
     // Helper function to check if an ingredient is an oil
-    const isOil = (ingredient: Ingredient): boolean => {
+    const isOil = (ingredient: ExtendedIngredient): boolean => {
       const category = ingredient.category?.toLowerCase() || '';
       if (category === 'oil' || category === 'oils') return true;
       
@@ -350,7 +340,7 @@ export default function FoodRecommender() {
     };
 
     // Helper function to check if an ingredient is a vinegar
-    const isVinegar = (ingredient: Ingredient): boolean => {
+    const isVinegar = (ingredient: ExtendedIngredient): boolean => {
       const category = ingredient.category?.toLowerCase() || '';
       if (category === 'vinegar' || category === 'vinegars') return true;
       
@@ -359,7 +349,7 @@ export default function FoodRecommender() {
     };
 
     // Helper function to get normalized category
-    const getNormalizedCategory = (ingredient: Ingredient): string | null => {
+    const getNormalizedCategory = (ingredient: ExtendedIngredient): string | null => {
       if (!ingredient.category) return null;
       
       const category = ingredient.category.toLowerCase();
@@ -496,9 +486,66 @@ export default function FoodRecommender() {
     // Filter out empty categories
     return Object.fromEntries(
       Object.entries(categories).filter(([_, items]) => items.length > 0)
-    ) as Record<string, Ingredient[]>;
-  }, [boostedRecommendations, herbNames, oilTypes, vinegarTypes]);
+    ) as Record<string, ExtendedIngredient[]>;
+  }, [boostedRecommendations]);
 
+  // Debug state
+  const [internalState, setInternalState] = useState({
+    chartIndex: 0,
+    debugInfo: {},
+    loading: false,
+    error: null,
+    chakraRecommendations: {},
+  });
+
+  // State for selected ingredient
+  const [selectedIngredient, setSelectedIngredient] = useState<ExtendedIngredient | null>(null);
+  
+  // State for expanded categories
+  const [expanded, setExpanded] = useState<Record<string, boolean>>({});
+  
+  // State for active category (for navigation highlighting)
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
+
+  // Track which category is currently in view
+  useEffect(() => {
+    const handleScroll = () => {
+      // We'll check for categories in the DOM directly
+      const categoryElements = document.querySelectorAll('[id^="proteins"],[id^="vegetables"],[id^="grains"],[id^="fruits"],[id^="herbs"],[id^="spices"],[id^="oils"],[id^="vinegars"]');
+      if (categoryElements.length === 0) return;
+
+      // Find the category that's most visible in the viewport
+      for (const element of Array.from(categoryElements)) {
+        if (!element) continue;
+
+        const rect = element.getBoundingClientRect();
+        // Consider an element in view if its top is in the top half of the viewport
+        if (rect.top < window.innerHeight / 2 && rect.bottom > 0) {
+          setActiveCategory(element.id);
+          break;
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    // Initial check
+    handleScroll();
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  // Function to scroll to category
+  const scrollToCategory = (category: string, e: React.MouseEvent) => {
+    e.preventDefault();
+    const element = document.getElementById(category);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+      setActiveCategory(category);
+    }
+  };
+  
   // Toggle expansion for a category
   const toggleCategoryExpansion = (category: string, e: React.MouseEvent) => {
     // Stop event propagation
@@ -511,7 +558,7 @@ export default function FoodRecommender() {
   };
 
   // Handle ingredient selection to display details
-  const handleIngredientSelect = (ingredient: Ingredient, category: string, e: React.MouseEvent) => {
+  const handleIngredientSelect = (ingredient: ExtendedIngredient, category: string, e: React.MouseEvent) => {
     // Stop propagation to prevent category toggle
     e.stopPropagation();
     
@@ -543,7 +590,7 @@ export default function FoodRecommender() {
   }
 
   // Process chakra energies to ensure they're safe for rendering
-  const _safeChakraEnergies = useMemo(() => {
+  const safeChakraEnergies = useMemo(() => {
     if (!chakraEnergies) return {};
     
     // Ensure all values are valid numbers
@@ -571,11 +618,11 @@ export default function FoodRecommender() {
   }
   
   // Render error state if there's an issue
-  if (message) {
+  if (errorMessage) {
     return (
       <div className="p-4 bg-red-50 border border-red-200 rounded-md">
         <h3 className="text-red-700 font-medium mb-2">Error Loading Recommendations</h3>
-        <p>{message}</p>
+        <p>{errorMessage}</p>
       </div>
     );
   }

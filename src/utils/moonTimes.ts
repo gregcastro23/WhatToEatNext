@@ -1,4 +1,4 @@
-import SunCalc from 'suncalc';
+import sunCalc from 'suncalc';
 
 /**
  * Calculate moon rise and set times for a given date and location
@@ -13,8 +13,8 @@ export function calculateMoonTimes(
   longitude: number
 ): { rise?: Date; set?: Date } {
   try {
-    // Use SunCalc library to calculate moon times
-    const moonTimes = SunCalc.getMoonTimes(
+    // Use sunCalc library to calculate moon times
+    const moonTimes = sunCalc.getMoonTimes(
       // Use noon on the given date to get the full day's times
       new Date(date.getFullYear(), date.getMonth(), date.getDate(), 12, 0, 0),
       latitude,
@@ -40,7 +40,7 @@ export function calculateMoonTimes(
  */
 export function getMoonIllumination(date: Date = new Date()): number {
   try {
-    const illumination = SunCalc.getMoonIllumination(date);
+    const illumination = sunCalc.getMoonIllumination(date);
     return illumination.fraction;
   } catch (error) {
     console.error('Error calculating moon illumination:', error);
@@ -61,7 +61,7 @@ export function getMoonPosition(
   longitude: number
 ): { altitude: number; azimuth: number } {
   try {
-    const position = SunCalc.getMoonPosition(date, latitude, longitude);
+    const position = sunCalc.getMoonPosition(date, latitude, longitude);
     return {
       altitude: position.altitude * (180 / Math.PI), // Convert to degrees
       azimuth: position.azimuth * (180 / Math.PI)    // Convert to degrees

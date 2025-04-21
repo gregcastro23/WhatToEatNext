@@ -1,29 +1,29 @@
 'use client';
 
 import React, { useEffect, useState, useMemo } from 'react';
-import Loading from '@/components/ui/Loading';
-import { useAstrologicalState } from '@/hooks/useAstrologicalState';
-import CookingMethods from '@/components/CookingMethods';
-import CuisineRecommender from '@/components/CuisineRecommender';
-import ElementalEnergyDisplay from '@/components/ElementalEnergyDisplay';
-import PlanetaryPositionInitializer from '@/components/PlanetaryPositionInitializer';
-import MoonDisplay from '@/components/MoonDisplay';
-import AstrologicalClock from '@/components/AstrologicalClock';
+import Loading from './ui/Loading';
+import { useAstrologicalState } from '../hooks/useAstrologicalState';
+import CookingMethods from './CookingMethods';
+import CuisineRecommender from './CuisineRecommender';
+import ElementalEnergyDisplay from './ElementalEnergyDisplay';
+import PlanetaryPositionInitializer from './PlanetaryPositionInitializer';
+import MoonDisplay from './MoonDisplay';
+import AstrologicalClock from './AstrologicalClock';
 import dynamic from 'next/dynamic';
-import SunDisplay from '@/components/SunDisplay';
-import OptimizedComponentWrapper from '@/components/OptimizedComponentWrapper';
+import sunDisplay from './sunDisplay';
+import OptimizedComponentWrapper from './OptimizedComponentWrapper';
 
 // Wrap components with optimization
 const OptimizedElementalEnergyDisplay = React.memo(ElementalEnergyDisplay);
 const OptimizedMoonDisplay = React.memo(MoonDisplay);
-const OptimizedSunDisplay = React.memo(SunDisplay);
+const OptimizedsunDisplay = React.memo(sunDisplay);
 const OptimizedAstrologicalClock = React.memo(AstrologicalClock);
 const OptimizedCuisineRecommender = React.memo(CuisineRecommender);
 const OptimizedCookingMethods = React.memo(CookingMethods);
 
 // Dynamic imports with better error handling
 const FoodRecommender = dynamic(
-  () => import('@/components/FoodRecommender'),
+  () => import('./FoodRecommender'),
   { loading: () => <Loading />, ssr: false }
 );
 
@@ -54,8 +54,8 @@ export function ClientPage() {
             <OptimizedMoonDisplay />
           </OptimizedComponentWrapper>
           
-          <OptimizedComponentWrapper name="SunDisplay">
-            <OptimizedSunDisplay />
+          <OptimizedComponentWrapper name="sunDisplay">
+            <OptimizedsunDisplay />
           </OptimizedComponentWrapper>
           
           <OptimizedComponentWrapper name="AstrologicalClock">

@@ -2,7 +2,7 @@ import { Planet } from '../types/astrology';
 
 export interface TimeFactors {
   season: 'spring' | 'summer' | 'fall' | 'winter';
-  dayOfWeek: number; // 0-6, where 0 is Sunday
+  dayOfWeek: number; // 0-6, where 0 is sunday
   hour: number;      // 0-23
   minute: number;    // 0-59
   dayPlanet: Planet;
@@ -47,18 +47,18 @@ export function getCurrentSeason(date: Date = new Date()): 'spring' | 'summer' |
 /**
  * Get the planetary ruler of a day
  * Traditional rulerships:
- * Sunday: Sun, Monday: Moon, Tuesday: Mars,
- * Wednesday: Mercury, Thursday: Jupiter, Friday: Venus, Saturday: Saturn
+ * sunday: sun, Monday: Moon, Tuesday: Mars,
+ * Wednesday: mercury, Thursday: Jupiter, Friday: venus, Saturday: Saturn
  */
 export function getPlanetaryDayRuler(dayOfWeek: number): Planet {
   const planetaryDayRulers: Planet[] = [
-    'Sun',     // Sunday
-    'Moon',    // Monday
-    'Mars',    // Tuesday
-    'Mercury', // Wednesday
-    'Jupiter', // Thursday
-    'Venus',   // Friday
-    'Saturn'   // Saturday
+    'sun',     // sunday
+    'moon',    // Monday
+    'mars',    // Tuesday
+    'mercury', // Wednesday
+    'jupiter', // Thursday
+    'venus',   // Friday
+    'saturn'   // Saturday
   ];
   
   return planetaryDayRulers[dayOfWeek];
@@ -67,12 +67,12 @@ export function getPlanetaryDayRuler(dayOfWeek: number): Planet {
 /**
  * Calculate the planetary hour ruler based on day of week and hour
  * Each day starts with the planet ruling that day, then follows the 
- * Chaldean order: Saturn, Jupiter, Mars, Sun, Venus, Mercury, Moon
+ * Chaldean order: Saturn, Jupiter, Mars, sun, venus, mercury, Moon
  */
 export function getPlanetaryHourRuler(dayOfWeek: number, hour: number): Planet {
   // Planetary hours follow this sequence in the Chaldean order
   const planetaryOrder: Planet[] = [
-    'Saturn', 'Jupiter', 'Mars', 'Sun', 'Venus', 'Mercury', 'Moon'
+    'saturn', 'jupiter', 'mars', 'sun', 'venus', 'mercury', 'moon'
   ];
   
   // Each day starts with its ruling planet
@@ -130,14 +130,17 @@ export function calculatePlanetaryTimeAffinity(planet: Planet, hour: number): nu
   
   // Planet affinities with times of day
   const affinities: Record<Planet, Record<string, number>> = {
-    'Sun': { 'morning': 1.0, 'afternoon': 0.8, 'evening': 0.4, 'night': 0.2 },
-    'Moon': { 'morning': 0.4, 'afternoon': 0.2, 'evening': 0.8, 'night': 1.0 },
-    'Mercury': { 'morning': 0.8, 'afternoon': 1.0, 'evening': 0.8, 'night': 0.4 },
-    'Venus': { 'morning': 0.6, 'afternoon': 0.8, 'evening': 1.0, 'night': 0.7 },
-    'Mars': { 'morning': 0.7, 'afternoon': 1.0, 'evening': 0.8, 'night': 0.5 },
-    'Jupiter': { 'morning': 0.8, 'afternoon': 1.0, 'evening': 0.7, 'night': 0.5 },
-    'Saturn': { 'morning': 0.5, 'afternoon': 0.7, 'evening': 0.8, 'night': 1.0 }
-  };
+    'sun': { 'morning': 1.0, 'afternoon': 0.8, 'evening': 0.4, 'night': 0.2 },
+    'moon': { 'morning': 0.4, 'afternoon': 0.2, 'evening': 0.8, 'night': 1.0 },
+    'mercury': { 'morning': 0.8, 'afternoon': 1.0, 'evening': 0.8, 'night': 0.4 },
+    'venus': { 'morning': 0.6, 'afternoon': 0.8, 'evening': 1.0, 'night': 0.7 },
+    'mars': { 'morning': 0.7, 'afternoon': 1.0, 'evening': 0.8, 'night': 0.5 },
+    'jupiter': { 'morning': 0.8, 'afternoon': 1.0, 'evening': 0.7, 'night': 0.5 },
+    'saturn': { 'morning': 0.5, 'afternoon': 0.7, 'evening': 0.8, 'night': 1.0 },
+    'uranus': { 'morning': 0.6, 'afternoon': 0.7, 'evening': 0.9, 'night': 0.8 },
+    'neptune': { 'morning': 0.3, 'afternoon': 0.5, 'evening': 0.7, 'night': 1.0 },
+    'pluto': { 'morning': 0.4, 'afternoon': 0.6, 'evening': 0.7, 'night': 0.9 }
+  } as Record<Planet, Record<string, number>>;
   
   return affinities[planet][timeOfDay];
 }

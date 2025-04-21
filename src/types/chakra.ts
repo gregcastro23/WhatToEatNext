@@ -248,7 +248,7 @@ export const SUIT_CHAKRA_MAPPINGS: SuitChakraMapping[] = [
     secondaryChakra: 'root',
     element: 'Fire',
     energyState: 'Spirit',
-    description: 'Wands are driven by Mars, Jupiter, and the Sun, which emphasize action, confidence, and leadership.'
+    description: 'Wands are driven by Mars, Jupiter, and the sun, which emphasize action, confidence, and leadership.'
   },
   {
     suit: 'cups',
@@ -264,7 +264,7 @@ export const SUIT_CHAKRA_MAPPINGS: SuitChakraMapping[] = [
     secondaryChakra: 'brow',
     element: 'Air',
     energyState: 'Substance',
-    description: 'Swords, ruled by Mercury, Venus, Saturn, and Uranus, focus on thought, communication, and truth.'
+    description: 'Swords, ruled by mercury, venus, Saturn, and Uranus, focus on thought, communication, and truth.'
   },
   {
     suit: 'pentacles',
@@ -272,7 +272,7 @@ export const SUIT_CHAKRA_MAPPINGS: SuitChakraMapping[] = [
     secondaryChakra: 'solarPlexus',
     element: 'Earth',
     energyState: 'Matter',
-    description: 'Pentacles, influenced by Saturn, Venus, and Mercury, deal with the material world, practicality, and security.'
+    description: 'Pentacles, influenced by Saturn, venus, and mercury, deal with the material world, practicality, and security.'
   }
 ];
 
@@ -393,7 +393,7 @@ export const KEY_CARD_CHAKRA_MAPPINGS: KeyCardChakraMapping[] = [
     description: 'Represents intuition, illusion, and the subconscious mind, connecting to the Third Eye Chakra\'s psychic perception.'
   },
   {
-    cardName: 'The Sun',
+    cardName: 'The sun',
     chakraPosition: 'solarPlexus',
     planet: 'sun',
     description: 'Symbolizes joy, success, and vitality, aligning with the Solar Plexus Chakra\'s themes of personal power and confidence.'

@@ -17,7 +17,7 @@ import {
 } from './gregsEnergy';
 import { Planet } from '../constants/planetaryFoodAssociations';
 import { signs, planetInfo } from '../data/astroData';
-import { StandardizedAlchemicalResult, ElementalProperties, PlanetaryPosition } from '@/types/alchemy';
+import { StandardizedAlchemicalResult, ElementalProperties, PlanetaryPosition } from '../types/alchemy';
 
 /**
  * Calculate elemental balance based on properties
@@ -107,7 +107,7 @@ export interface AlchemicalResults {
 
 // Define day/night element maps for all planets based on original engine
 const planetElementMap = (isDaytime: boolean): Record<string, ElementalCharacter> => ({
-  'sun': 'Fire', // Sun is always Fire
+  'sun': 'Fire', // sun is always Fire
   'moon': 'Water', // Moon is always Water
   'mercury': isDaytime ? 'Air' : 'Earth',
   'venus': isDaytime ? 'Water' : 'Earth',
@@ -285,10 +285,10 @@ export const calculateAlchemicalProperties = (
       } 
       // If the planet is in any sign, weigh the sign element more heavily
       else if (signElement) {
-        // For major planets (Sun, Moon), still use their natural element
+        // For major planets (sun, Moon), still use their natural element
         if (planetLower === 'sun' || planetLower === 'moon') {
           elementalCounts[planetElement] += 1.5; // Extra weight
-          debugLog(`Sun/Moon in ${position.sign} - using natural element ${planetElement} but adding ${signElement} contribution`);
+          debugLog(`sun/Moon in ${position.sign} - using natural element ${planetElement} but adding ${signElement} contribution`);
         } else {
           // For other planets, give more weight to sign element
           elementalCounts[signElement] += 1.5; // Extra weight
@@ -365,11 +365,11 @@ export const calculateAlchemicalProperties = (
     // Apply element contribution
     const elementContribution = strength * tarotBoost;
 
-    // If Sun/Moon are in a different element sign, add both elements
+    // If sun/Moon are in a different element sign, add both elements
     if ((planetLower === 'sun' || planetLower === 'moon') && signElement && signElement !== planetElement) {
       // Give main contribution to natural element
       elementalCounts[planetElement] += elementContribution;
-      // Give 75% contribution to sign element for Sun/Moon
+      // Give 75% contribution to sign element for sun/Moon
       elementalCounts[signElement] += elementContribution * 0.75;
     } else {
       // Normal contribution
@@ -490,22 +490,22 @@ const getDecanString = (decan: number): string => {
 const decanRulers: Record<string, Record<string, string[]>> = {
   "aries": { 
     "1st Decan": ["Mars"], 
-    "2nd Decan": ["Sun"], 
-    "3rd Decan": ["Venus"] 
+    "2nd Decan": ["sun"], 
+    "3rd Decan": ["venus"] 
   },
   "taurus": { 
-    "1st Decan": ["Mercury"], 
+    "1st Decan": ["mercury"], 
     "2nd Decan": ["Moon"], 
     "3rd Decan": ["Saturn"] 
   },
   "gemini": {
     "1st Decan": ["Jupiter"],
     "2nd Decan": ["Mars"],
-    "3rd Decan": ["Uranus", "Sun"]
+    "3rd Decan": ["Uranus", "sun"]
   },
   "cancer": {
-    "1st Decan": ["Venus"],
-    "2nd Decan": ["Mercury", "Pluto"],
+    "1st Decan": ["venus"],
+    "2nd Decan": ["mercury", "Pluto"],
     "3rd Decan": ["Neptune", "Moon"]
   },
   "leo": {
@@ -514,9 +514,9 @@ const decanRulers: Record<string, Record<string, string[]>> = {
     "3rd Decan": ["Mars"]
   },
   "virgo": {
-    "1st Decan": ["Mars", "Sun"],
-    "2nd Decan": ["Venus"],
-    "3rd Decan": ["Mercury"]
+    "1st Decan": ["Mars", "sun"],
+    "2nd Decan": ["venus"],
+    "3rd Decan": ["mercury"]
   },
   "libra": {
     "1st Decan": ["Moon"],
@@ -525,26 +525,26 @@ const decanRulers: Record<string, Record<string, string[]>> = {
   },
   scorpio: {
     "1st Decan": ["Pluto"],
-    "2nd Decan": ["Neptune", "Sun"],
-    "3rd Decan": ["Venus"]
+    "2nd Decan": ["Neptune", "sun"],
+    "3rd Decan": ["venus"]
   },
   "sagittarius": {
-    "1st Decan": ["Mercury"],
+    "1st Decan": ["mercury"],
     "2nd Decan": ["Moon"],
     "3rd Decan": ["Saturn"]
   },
   "capricorn": {
     "1st Decan": ["Jupiter"],
     "2nd Decan": [],
-    "3rd Decan": ["Sun"]
+    "3rd Decan": ["sun"]
   },
   "aquarius": {
     "1st Decan": ["Uranus"],
-    "2nd Decan": ["Mercury"],
+    "2nd Decan": ["mercury"],
     "3rd Decan": ["Moon"]
   },
   "pisces": {
-    "1st Decan": ["Saturn", "Neptune", "Venus"],
+    "1st Decan": ["Saturn", "Neptune", "venus"],
     "2nd Decan": ["Jupiter"],
     "3rd Decan": ["pisces", "Mars"]
   }
@@ -709,7 +709,7 @@ const calculateDegreeEffects = (
     // Try to get planetary element using the imported function
     const rulingPlanet = planet.charAt(0).toUpperCase() + planet.slice(1).toLowerCase() as RulingPlanet;
     // Only apply if it's a valid RulingPlanet type
-    if (['Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Moon', 'Sun', 'Uranus', 'Neptune', 'Pluto'].includes(rulingPlanet)) {
+    if (['mercury', 'venus', 'Mars', 'Jupiter', 'Saturn', 'Moon', 'sun', 'Uranus', 'Neptune', 'Pluto'].includes(rulingPlanet)) {
       const element = getPlanetaryElement(rulingPlanet);
       if (element) {
         // Add a small bonus based on the planetary element from the planetary elements module
@@ -908,8 +908,8 @@ export function alchemize(planetaryPositions: Record<string, PlanetaryPosition>,
     }
     
     // Special handling for specific planets
-    if (planetKey === 'Moon' && lunarPhase && planetData.PlanetSpecific?.Lunar?.Phases) {
-      const lunarData = planetData.PlanetSpecific.Lunar;
+    if (planetKey === 'Moon' && lunarPhase && (planetData.PlanetSpecific as any)?.Lunar?.Phases) {
+      const lunarData = (planetData.PlanetSpecific as any).Lunar;
       const phaseData = lunarData.Phases[lunarPhase];
       
       if (phaseData) {
@@ -935,25 +935,25 @@ export function alchemize(planetaryPositions: Record<string, PlanetaryPosition>,
       }
     }
     
-    // For Sun, apply zodiac transit effects if available
-    if (planetKey === 'Sun' && sign && planetData.PlanetSpecific?.Solar?.ZodiacTransit) {
-      const solarData = planetData.PlanetSpecific.Solar;
+    // For sun, apply zodiac transit effects if available
+    if (planetKey === 'sun' && sign && (planetData.PlanetSpecific as any)?.Solar?.ZodiacTransit) {
+      const solarData = (planetData.PlanetSpecific as any).Solar;
       const transitData = solarData.ZodiacTransit[sign];
       
       if (transitData && transitData.Elements) {
-        // Boost elements based on Sun's position
+        // Boost elements based on sun's position
         Object.entries(transitData.Elements).forEach(([elemKey, value]) => {
           const elem = elemKey.toLowerCase();
           if (elem && (elem === 'fire' || elem === 'earth' || elem === 'air' || elem === 'water')) {
-            elementalBalance[elem as keyof typeof elementalBalance] += value * 0.5;
+            elementalBalance[elem as keyof typeof elementalBalance] += (value as number) * 0.5;
           }
         });
       }
     }
     
-    // For Mercury, apply retrograde cycle effects
-    if (planetKey === 'Mercury' && isRetrograde && planetData.PlanetSpecific?.Mercury?.FlavorModulation) {
-      const mercuryData = planetData.PlanetSpecific.Mercury;
+    // For mercury, apply retrograde cycle effects
+    if (planetKey === 'mercury' && isRetrograde && (planetData.PlanetSpecific as any)?.mercury?.FlavorModulation) {
+      const mercuryData = (planetData.PlanetSpecific as any).mercury;
       // We could apply specific flavor modulations here if needed
     }
   }

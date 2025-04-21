@@ -1,10 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { useAstrologicalState } from '@/hooks/useAstrologicalState';
-import { allCookingMethods } from '@/data/cooking';
-import { calculateMethodScore } from '@/utils/cookingMethodRecommender';
+import { useAstrologicalState } from '../hooks/useAstrologicalState';
+import { allCookingMethods } from '../data/cooking';
+import { calculateMethodScore } from '../utils/cookingMethodRecommender';
 import { ChevronDown, ChevronUp, Flame, Droplets, Wind, Mountain, Info } from 'lucide-react';
 import styles from './CookingMethods.module.css';
-import { getTechnicalTips, getIdealIngredients } from '@/utils/cookingMethodTips';
+import { getTechnicalTips, getIdealIngredients } from '../utils/cookingMethodTips';
+import { LunarPhaseWithSpaces, ZodiacSign } from '../types/alchemy';
 
 // Define proper types for the methods with scores
 interface CookingMethodWithScore {
@@ -47,13 +48,13 @@ export default function MethodsRecommender() {
     if (!loading && currentPlanetaryAlignment) {
       // Convert currentPlanetaryAlignment to AstrologicalState format
       const astroState = {
-        zodiacSign: currentPlanetaryAlignment.sun?.sign || 'Aries',
-        lunarPhase: currentPlanetaryAlignment.moon?.phase || 'New Moon',
+        zodiacSign: (currentPlanetaryAlignment.sun?.sign?.toLowerCase() || 'aries') as ZodiacSign,
+        lunarPhase: 'new moon' as LunarPhaseWithSpaces,
         elementalState: {
-          Fire: ['Aries', 'Leo', 'Sagittarius'].includes(currentPlanetaryAlignment.sun?.sign || '') ? 0.8 : 0.2,
-          Water: ['Cancer', 'Scorpio', 'Pisces'].includes(currentPlanetaryAlignment.sun?.sign || '') ? 0.8 : 0.2,
-          Earth: ['Taurus', 'Virgo', 'Capricorn'].includes(currentPlanetaryAlignment.sun?.sign || '') ? 0.8 : 0.2,
-          Air: ['Gemini', 'Libra', 'Aquarius'].includes(currentPlanetaryAlignment.sun?.sign || '') ? 0.8 : 0.2
+          Fire: ['aries', 'leo', 'sagittarius'].includes(currentPlanetaryAlignment.sun?.sign?.toLowerCase() || '') ? 0.8 : 0.2,
+          Water: ['cancer', 'scorpio', 'pisces'].includes(currentPlanetaryAlignment.sun?.sign?.toLowerCase() || '') ? 0.8 : 0.2,
+          Earth: ['taurus', 'virgo', 'capricorn'].includes(currentPlanetaryAlignment.sun?.sign?.toLowerCase() || '') ? 0.8 : 0.2,
+          Air: ['gemini', 'libra', 'aquarius'].includes(currentPlanetaryAlignment.sun?.sign?.toLowerCase() || '') ? 0.8 : 0.2
         },
         planets: currentPlanetaryAlignment
       };
@@ -81,14 +82,15 @@ export default function MethodsRecommender() {
           return {
             id: methodName,
             name: methodName.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase()), // Capitalize words
-            description: methodData.description || 'A cooking method that transforms food with heat, moisture, or chemical processes.',
+            description: (methodData as { description?: string }).description || 'A cooking method that transforms food with heat, moisture, or chemical processes.',
             score: adjustedScore,
-            elementalEffect: methodData.elementalEffect || methodData.elementalProperties,
-            duration: methodData.duration,
-            suitable_for: methodData.suitable_for || [],
-            benefits: methodData.benefits || [],
-            astrologicalInfluences: methodData.astrologicalInfluences,
-            toolsRequired: methodData.toolsRequired
+            elementalEffect: (methodData as { elementalEffect?: any, elementalProperties?: any }).elementalEffect || 
+                            (methodData as { elementalEffect?: any, elementalProperties?: any }).elementalProperties,
+            duration: (methodData as { duration?: any }).duration,
+            suitable_for: (methodData as { suitable_for?: string[] }).suitable_for || [],
+            benefits: (methodData as { benefits?: string[] }).benefits || [],
+            astrologicalInfluences: (methodData as { astrologicalInfluences?: any }).astrologicalInfluences,
+            toolsRequired: (methodData as { toolsRequired?: string[] }).toolsRequired
           };
         })
         .sort((a, b) => b.score - a.score);

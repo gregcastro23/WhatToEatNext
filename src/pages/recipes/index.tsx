@@ -1,9 +1,9 @@
 import React from 'react';
 import { NextPage } from 'next';
 import Link from 'next/link';
-import { allRecipes } from '@/data/recipes';
-import { cuisines } from '@/data/cuisines';
-import { getCurrentElementalState } from '@/utils/elementalUtils';
+import { allRecipes } from '../../data/recipes';
+import { cuisines } from '../../data/cuisines';
+import { getCurrentElementalState } from '../../utils/elementalUtils';
 
 const RecipesPage: NextPage = () => {
   const [searchTerm, setSearchTerm] = React.useState('');

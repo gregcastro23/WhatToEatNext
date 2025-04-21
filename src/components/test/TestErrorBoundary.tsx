@@ -1,8 +1,8 @@
 'use client';
 
 import React from 'react';
-import { ErrorBoundary } from '@/components/errors/ErrorBoundary';
-import { ErrorDisplay } from '@/components/errors/ErrorDisplay';
+import { ErrorBoundary } from '../errors/ErrorBoundary';
+import { ErrorDisplay } from '../errors/ErrorDisplay';
 
 export function TestErrorBoundary({ children }: { children: React.ReactNode }) {
   return (

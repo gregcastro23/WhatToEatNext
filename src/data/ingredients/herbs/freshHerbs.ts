@@ -1,5 +1,5 @@
-import type { IngredientMapping } from '@/types/alchemy';
-import { fixIngredientMappings } from '@/utils/elementalUtils';
+import type { IngredientMapping } from '../../../types/alchemy';
+import { fixIngredientMappings } from '../../../utils/elementalUtils';
 
 const rawFreshHerbs: Record<string, Partial<IngredientMapping>> = {
   'basil': {
@@ -15,15 +15,15 @@ const rawFreshHerbs: Record<string, Partial<IngredientMapping>> = {
       minerals: ['calcium', 'magnesium', 'potassium', 'iron']
     },
     astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Venus'],
+      rulingPlanets: ['Mars', 'venus'],
       favorableZodiac: ['aries', 'libra', 'scorpio'],
       elementalAffinity: {
         base: 'Air',
         secondary: 'Fire',
         decanModifiers: {
-          first: { element: 'Air', planet: 'Mercury' },
+          first: { element: 'Air', planet: 'mercury' },
           second: { element: 'Fire', planet: 'Mars' },
-          third: { element: 'Water', planet: 'Venus' }
+          third: { element: 'Water', planet: 'venus' }
         }
       },
       lunarPhaseModifiers: {
@@ -36,7 +36,7 @@ const rawFreshHerbs: Record<string, Partial<IngredientMapping>> = {
           preparationTips: ['Harvest at peak flavor', 'Make preserves and infusions']
         }
       },
-      aspectEnhancers: ['Mars trine Venus', 'Mercury in Libra']
+      aspectEnhancers: ['Mars trine venus', 'mercury in Libra']
     },
     qualities: ['warming', 'sweet', 'aromatic', 'uplifting', 'clarifying'],
     origin: ['India', 'Mediterranean', 'Southeast Asia'],

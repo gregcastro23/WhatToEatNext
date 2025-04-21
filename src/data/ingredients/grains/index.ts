@@ -1,8 +1,8 @@
 import { wholeGrains } from './wholeGrains';
 import { refinedGrains } from './refinedGrains';
 import { pseudoGrains } from './pseudoGrains/index';
-import type { IngredientMapping } from '@/types/alchemy';
-import { fixIngredientMappings } from '@/utils/elementalUtils';
+import type { IngredientMapping } from '../../../types/alchemy';
+import { fixIngredientMappings } from '../../../utils/elementalUtils';
 
 // Create a comprehensive collection of all grain types
 export const allGrains: Record<string, IngredientMapping> = fixIngredientMappings({

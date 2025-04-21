@@ -1,12 +1,12 @@
 'use client';
 
 import React, { useEffect, useRef } from 'react';
-import { useAstrologicalState } from '@/hooks/useAstrologicalState';
-import { CelestialPosition, PlanetaryAlignment } from '@/types/celestial';
+import { useAstrologicalState } from '../../hooks/useAstrologicalState';
+import { CelestialPosition, PlanetaryAlignment } from '../../types/celestial';
 
-import { Sun, Moon, Star, Wind, Droplets, Flame, Mountain, Info } from 'lucide-react';
-import { logger } from '@/utils/logger';
-import PlanetaryHoursDisplay from '@/components/PlanetaryHours';
+import { sun, Moon, Star, Wind, Droplets, Flame, Mountain, Info } from 'lucide-react';
+import { logger } from '../../utils/logger';
+import PlanetaryHoursDisplay from '../PlanetaryHours';
 
 const ELEMENT_COLORS = {
   Fire: '#ef4444',

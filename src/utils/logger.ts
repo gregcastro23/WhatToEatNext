@@ -10,9 +10,65 @@ const isDev = process.env.NODE_ENV !== 'production';
 const isBrowser = typeof window !== 'undefined';
 
 /**
- * Logger class providing centralized logging capabilities
+ * Logger utility class for consistent logging across the application
  */
-class Logger {
+export class Logger {
+  /**
+   * Log an informational message
+   * @param message The message to log
+   * @param optionalParams Additional optional parameters
+   */
+  public static info(message: string, ...optionalParams: unknown[]): void {
+    if (process.env.NODE_ENV !== 'production') {
+      console.info(`[INFO] ${message}`, ...optionalParams);
+    }
+  }
+
+  /**
+   * Log a warning message
+   * @param message The message to log
+   * @param optionalParams Additional optional parameters
+   */
+  public static warn(message: string, ...optionalParams: unknown[]): void {
+    console.warn(`[WARN] ${message}`, ...optionalParams);
+  }
+
+  /**
+   * Log an error message
+   * @param message The message to log
+   * @param optionalParams Additional optional parameters
+   */
+  public static error(message: string, ...optionalParams: unknown[]): void {
+    console.error(`[ERROR] ${message}`, ...optionalParams);
+  }
+
+  /**
+   * Log a debug message (only in development)
+   * @param message The message to log
+   * @param optionalParams Additional optional parameters
+   */
+  public static debug(message: string, ...optionalParams: unknown[]): void {
+    if (process.env.NODE_ENV === 'development') {
+      console.debug(`[DEBUG] ${message}`, ...optionalParams);
+    }
+  }
+
+  /**
+   * Log performance information (only in development)
+   * @param message The message to log
+   * @param optionalParams Additional optional parameters
+   */
+  public static perf(message: string, ...optionalParams: unknown[]): void {
+    if (process.env.NODE_ENV === 'development') {
+      console.log(`[PERF] ${message}`, ...optionalParams);
+    }
+  }
+}
+
+/**
+ * Advanced Logger class providing centralized logging capabilities
+ */
+class AdvancedLogger {
   private logLevel: LogLevel = isDev ? 'debug' : 'info';
   private recentErrors: Array<{ message: string; timestamp: number; component?: string }> = [];
   private readonly MAX_ERRORS = 20;
@@ -163,7 +219,7 @@ class Logger {
 }
 
 // Singleton instance of the logger
-export const logger = new Logger();
+export const logger = new AdvancedLogger();
 
 // Helper functions for creating component-specific loggers
 export const createLogger = (component: string) => logger.createLogger(component);

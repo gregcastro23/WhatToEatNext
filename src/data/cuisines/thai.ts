@@ -1,5 +1,5 @@
 // src/data/cuisines/thai.ts
-import type { Cuisine } from '@/types/cuisine';
+import type { Cuisine } from '../../types/cuisine';
 
 export const thai: Cuisine = {
   id: 'thai',
@@ -1630,7 +1630,7 @@ export const thai: Cuisine = {
         Water: 0.1,
         Air: 0.1
       },
-      astrologicalInfluences: ["Mars", "Sun", "Aries"],
+      astrologicalInfluences: ["Mars", "sun", "Aries"],
       seasonality: "all",
       preparationNotes: "Traditional preparation involves pounding in a mortar and pestle to develop complex flavors",
       technicalTips: "Roasting ingredients before pounding enhances aroma and reduces raw spiciness"
@@ -1648,7 +1648,7 @@ export const thai: Cuisine = {
       Fire: 0.2,
         Air: 0.1
       },
-      astrologicalInfluences: ["Venus", "Mercury", "Taurus"],
+      astrologicalInfluences: ["venus", "mercury", "Taurus"],
       seasonality: "all",
       preparationNotes: "Balance of sour from tamarind, sweet from palm sugar, and salty from fish sauce is crucial",
       technicalTips: "Prepare in advance and reduce to concentrate flavors before adding to noodles"
@@ -1684,7 +1684,7 @@ export const thai: Cuisine = {
         Earth: 0.2,
         Air: 0.1
       },
-      astrologicalInfluences: ["Mars", "Mercury", "Sagittarius"],
+      astrologicalInfluences: ["Mars", "mercury", "Sagittarius"],
       seasonality: "all",
       preparationNotes: "Traditional Thai version is tangier and thinner than the popular American version",
       technicalTips: "Fermentation develops depth of flavor beyond simple chili heat"

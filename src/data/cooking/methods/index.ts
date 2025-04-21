@@ -6,13 +6,13 @@ import { rawCookingMethods } from './raw';
 // Import other method categories as they are added
 import { transformationMethods } from './transformation';
 
-import type { CookingMethodData } from '@/types/cookingMethod';
-import type { ZodiacSign, AstrologicalState, Element } from '@/types/alchemy';
+import type { CookingMethodData, CookingMethodCollection } from '../../../types/cookingMethod';
+import type { ZodiacSign, AstrologicalState, Element, PlanetName } from '../../../types/alchemy';
 
 /**
  * Collection of all cooking methods from all categories
  */
-export const allCookingMethods = {
+export const allCookingMethods: CookingMethodCollection = {
   ...dryCookingMethods,
   ...wetCookingMethods,
   ...molecularCookingMethods,
@@ -27,12 +27,12 @@ export const allCookingMethods = {
  * @param sign The zodiac sign to check
  * @returns Object containing cooking methods favorable for the sign
  */
-export const getMethodsForZodiacSign = (sign: ZodiacSign): Record<string, CookingMethodData> => {
+export const getMethodsForZodiacSign = (sign: ZodiacSign): CookingMethodCollection => {
   return Object.entries(allCookingMethods)
     .filter(([_, method]) => 
       method.astrologicalInfluences?.favorableZodiac?.includes(sign)
     )
-    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {} as CookingMethodCollection);
 };
 
 /**
@@ -41,12 +41,12 @@ export const getMethodsForZodiacSign = (sign: ZodiacSign): Record<string, Cookin
  * @param threshold The minimum value for that element (0.0-1.0)
  * @returns Object containing cooking methods with that elemental dominance
  */
-export const getMethodsByElement = (element: Element, threshold = 0.4): Record<string, CookingMethodData> => {
+export const getMethodsByElement = (element: Element, threshold = 0.4): CookingMethodCollection => {
   return Object.entries(allCookingMethods)
     .filter(([_, method]) => 
       (method.elementalEffect?.[element] || 0) >= threshold
     )
-    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {} as CookingMethodCollection);
 };
 
 /**
@@ -54,14 +54,14 @@ export const getMethodsByElement = (element: Element, threshold = 0.4): Record<s
  * @param ingredientType The type of ingredient (e.g., 'meat', 'vegetables')
  * @returns Object containing suitable cooking methods
  */
-export const getMethodsForIngredientType = (ingredientType: string): Record<string, CookingMethodData> => {
+export const getMethodsForIngredientType = (ingredientType: string): CookingMethodCollection => {
   return Object.entries(allCookingMethods)
     .filter(([_, method]) => 
       method.suitable_for.some(type => 
         type.toLowerCase().includes(ingredientType.toLowerCase())
       )
     )
-    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {} as CookingMethodCollection);
 };
 
 /**
@@ -69,13 +69,13 @@ export const getMethodsForIngredientType = (ingredientType: string): Record<stri
  * @param planet The planet to check for influence
  * @returns Object containing methods influenced by the planet
  */
-export const getMethodsByPlanet = (planet: string): Record<string, CookingMethodData> => {
+export const getMethodsByPlanet = (planet: PlanetName): CookingMethodCollection => {
   return Object.entries(allCookingMethods)
     .filter(([_, method]) => 
       method.astrologicalInfluences?.dominantPlanets?.includes(planet) ||
       method.astrologicalInfluences?.rulingPlanets?.includes(planet)
     )
-    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {} as CookingMethodCollection);
 };
 
 // Export individual categories

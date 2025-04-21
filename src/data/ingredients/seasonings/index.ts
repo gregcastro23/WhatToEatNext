@@ -1,4 +1,4 @@
-import type { IngredientMapping, ElementalProperties } from '@/types/alchemy';
+import type { IngredientMapping, ElementalProperties } from '../../../types/alchemy';
 import { spices } from '../spices';
 import { salts } from './salts';
 import { peppers } from './peppers';

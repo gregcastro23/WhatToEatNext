@@ -1,38 +1,94 @@
+/**
+ * Type Definitions Index
+ * 
+ * This file centralizes all type exports from the types directory
+ * to make it easier to import from a single location
+ */
+
 // Time-related types
 export const MEAL_TIMES = ['breakfast', 'lunch', 'snack', 'dinner'] as const;
 export type MealTime = typeof MEAL_TIMES[number];
 
-// Import fundamental types
-import { Recipe as AlchemyRecipe } from './alchemy';
-import { 
-  CelestialPosition, 
+// Import from alchemy.ts (primary source of truth)
+import type { 
   ZodiacSign, 
-  Element, 
   LunarPhase, 
-  Planet, 
-  AspectType, 
+  PlanetaryAlignment, 
+  Element,
+  LunarPhaseWithSpaces,
+  LunarPhaseWithUnderscores,
+  PlanetName, 
+  ElementalProperties, 
+  ThermodynamicProperties,
+  AlchemicalProperties,
+  AspectType,
   DignityType,
   AstrologicalState,
-  ElementalProperties,
-  AlchemicalProperties,
-  ThermodynamicProperties,
-  PlanetaryAlignment
-} from './celestial';
+  Planet,
+  Season,
+  CookingMethod
+} from './alchemy';
 
-// Export types properly for TypeScript isolatedModules
-export type { 
-  CelestialPosition, 
-  ZodiacSign, 
-  Element, 
-  LunarPhase, 
-  Planet, 
-  AspectType, 
+// Import from shared.ts
+import { 
+  DEFAULT_ELEMENTAL_PROPERTIES,
+  MoonPhase,
+  ElementalScore,
+  MOON_PHASE_TO_LOWERCASE,
+  LOWERCASE_TO_MOON_PHASE,
+  LowercaseMoonPhaseWithSpaces,
+  isElementalProperties,
+  MOON_PHASE_MAP,
+  MOON_PHASE_TO_DISPLAY,
+  MoonPhaseWithSpaces
+} from './shared';
+
+// Import from ingredient.ts
+import {
+  IngredientRecommendation,
+  isIngredient,
+  isIngredientMapping
+} from './ingredient';
+
+// Re-export key types from alchemy.ts and others
+export type {
+  ZodiacSign,
+  LunarPhase,
+  PlanetaryAlignment,
+  Element,
+  LunarPhaseWithSpaces, 
+  LunarPhaseWithUnderscores,
+  PlanetName,
+  ElementalProperties,
+  ThermodynamicProperties,
+  AlchemicalProperties,
+  AspectType,
   DignityType,
   AstrologicalState,
-  ElementalProperties,
-  AlchemicalProperties,
-  ThermodynamicProperties,
-  PlanetaryAlignment
+  Planet,
+  Season,
+  CookingMethod
+};
+
+// Re-export from shared.ts
+export {
+  DEFAULT_ELEMENTAL_PROPERTIES,
+  MoonPhase,
+  ElementalScore,
+  MOON_PHASE_TO_LOWERCASE,
+  LOWERCASE_TO_MOON_PHASE,
+  LowercaseMoonPhaseWithSpaces,
+  isElementalProperties,
+  MOON_PHASE_MAP,
+  MOON_PHASE_TO_DISPLAY,
+  MoonPhaseWithSpaces
+};
+
+// Re-export from ingredient.ts
+export {
+  IngredientRecommendation,
+  isIngredient,
+  isIngredientMapping
 };
 
 // Define zodiac signs as seasons
@@ -135,22 +191,46 @@ export type TimeOfDay = {
 // Use as type instead of enum to avoid merging issues
 export type CuisineTypeEnum = 'ITALIAN' | 'FRENCH' | 'CHINESE' | 'INDIAN' | 'MEXICAN';
 
-// Selectively export types from alchemy that don't conflict
-export type {
-  Element,
-  LunarPhase,
-  Planet,
-  AspectType,
-  DignityType,
-  AstrologicalState,
-  BasicThermodynamicProperties,
-  ElementalCharacteristics,
-  ElementalProfile
-} from './alchemy';
+// App State definition moved to state.ts
+export interface AppState {
+  currentIngredients: Ingredient[];
+  savedRecipes: unknown[];
+  userPreferences: {
+    theme: 'light' | 'dark';
+    dietaryRestrictions: string[];
+    favoriteIngredients: string[];
+  };
+}
 
-// Export essential utils
-export * from './utils';
-export * from './cuisine';
+export interface SimpleIngredient {
+  name: string;
+  amount?: number;
+  unit?: string;
+  element?: string;
+  category?: string;
+}
+
+export enum IngredientCategory {
+  Vegetable = 'vegetable',
+  Fruit = 'fruit',
+  Protein = 'protein',
+  Grain = 'grain',
+  Dairy = 'dairy',
+  Herb = 'herb',
+  Spice = 'spice',
+  Oil = 'oil',
+  Vinegar = 'vinegar',
+  Sauce = 'sauce',
+  Sweetener = 'sweetener',
+  Nut = 'nut',
+  Seed = 'seed',
+  Legume = 'legume',
+  Mushroom = 'mushroom',
+  Seafood = 'seafood',
+  Beverage = 'beverage',
+  Alcohol = 'alcohol',
+  Other = 'other'
+}
 
 // Add CuisineType for compatibility
 export type CuisineType = string;
@@ -168,57 +248,41 @@ export type DietaryRestriction =
   | 'low-carb' 
   | 'low-fat';
 
-// Export ZodiacAffinity types
-export * from './zodiacAffinity';
+// Type checking utilities
+export const isObject = (value: unknown): value is Record<string, unknown> => 
+  typeof value === 'object' && value !== null;
 
-// Re-export all relevant types from their modules
-// Remove duplicate exports to avoid conflicts
-export * from './elemental';
-export * from './nutrition';
-export * from './spoonacular';
-export * from './recipe';
-export * from './zodiac';
-export * from './time';
-export * from './seasons';
-export * from './seasonal';
-export * from './cuisine';
-export * from './chakra';
-export * from './astrology';
-export * from './astrological';
-export * from './lunar';
-export * from './food';
-export * from './ingredient';
-export * from './cookingMethod';
-export * from './recipeIngredient';
-export * from './recipes';
-export * from './ingredient-compatibility';
-export * from './utils';
-export * from './validation';
+export const isString = (value: unknown): value is string => 
+  typeof value === 'string';
 
-// Remove these duplicate imports - they're already being exported above
-// import { 
-//   Ingredient,
-//   BaseIngredient,
-//   IngredientCategory,
-//   SensoryProfile,
-//   CookingMethod,
-//   AlchemicalProperties,
-//   ThermodynamicProperties,
-//   ElementalTransformation,
-//   LunarPhaseModifier,
-//   IngredientMapping,
-//   RecipeIngredient,
-//   SimpleIngredient,
-//   Modality
-// } from './ingredients';
-
-// Define core app state types
-export interface AppState {
-  currentIngredients: Ingredient[];
-  savedRecipes: unknown[];
-  userPreferences: {
-    theme: 'light' | 'dark';
-    dietaryRestrictions: string[];
-    favoriteIngredients: string[];
-  };
-}
+// Export individual type modules (without * to avoid duplicate exports)
+export { cookingMethod } from './cookingMethod';
+export { utils } from './utils';
+export { cuisine } from './cuisine';
+export { zodiacAffinity } from './zodiacAffinity';
+export { elemental } from './elemental';
+export { nutrition } from './nutrition';
+export { spoonacular } from './spoonacular';
+export { recipe } from './recipe';
+export { zodiac } from './zodiac';
+export { time } from './time';
+export { seasons } from './seasons';
+export { seasonal } from './seasonal';
+export { chakra } from './chakra';
+export { astrology } from './astrology';
+export { astrological } from './astrological';
+export { lunar } from './lunar';
+export { food } from './food';
+export { state } from './state';
+export { chart } from './chart';
+export { currentChart } from './CurrentChart';
+export { cooking } from './cooking';
+export { constants } from './constants';
+export { common } from './common';
+export { commonTypes } from './commonTypes';
+export { recipeIngredient } from './recipeIngredient';
+export { recipes } from './recipes';
+export { validation } from './validation';
+export { validators } from './validators';
+export { alchemical } from './alchemical';
+export { alchemicalResults } from './alchemicalResults';

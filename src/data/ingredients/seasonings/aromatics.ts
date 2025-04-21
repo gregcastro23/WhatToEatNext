@@ -1,5 +1,5 @@
-import type { IngredientMapping } from '@/types/alchemy';
-import { fixIngredientMappings } from '@/utils/elementalUtils';
+import type { IngredientMapping } from '../../../types/alchemy';
+import { fixIngredientMappings } from '../../../utils/elementalUtils';
 
 const rawAromatics: Record<string, Partial<IngredientMapping>> = {
   'onion': {
@@ -162,13 +162,13 @@ const rawAromatics: Record<string, Partial<IngredientMapping>> = {
     name: 'Ginger',
     elementalProperties: { Fire: 0.7, Earth: 0.2, Air: 0.1, Water: 0 },
     astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Sun'],
+      rulingPlanets: ['Mars', 'sun'],
       favorableZodiac: ['aries', 'leo'],
       elementalAffinity: {
         base: 'Fire',
         decanModifiers: {
           first: { element: 'Fire', planet: 'Mars' },
-          second: { element: 'Air', planet: 'Sun' },
+          second: { element: 'Air', planet: 'sun' },
           third: { element: 'Earth', planet: 'Saturn' }
         }
       }
@@ -232,7 +232,7 @@ const rawAromatics: Record<string, Partial<IngredientMapping>> = {
     name: 'Lemongrass',
     elementalProperties: { Air: 0.5, Water: 0.3, Fire: 0.2, Earth: 0 },
     astrologicalProfile: {
-      rulingPlanets: ['Mercury', 'Venus'],
+      rulingPlanets: ['mercury', 'venus'],
       favorableZodiac: ['gemini', 'libra'],
       elementalAffinity: {
         base: 'Air'
@@ -277,7 +277,7 @@ const rawAromatics: Record<string, Partial<IngredientMapping>> = {
     name: 'Shallot',
     elementalProperties: { Earth: 0.4, Fire: 0.3, Water: 0.2, Air: 0.1 },
     astrologicalProfile: {
-      rulingPlanets: ['Mercury', 'Venus'],
+      rulingPlanets: ['mercury', 'venus'],
       favorableZodiac: ['virgo', 'taurus'],
       elementalAffinity: {
         base: 'Earth'
@@ -322,7 +322,7 @@ const rawAromatics: Record<string, Partial<IngredientMapping>> = {
     name: 'Scallion',
     elementalProperties: { Air: 0.4, Water: 0.3, Earth: 0.2, Fire: 0.1 },
     astrologicalProfile: {
-      rulingPlanets: ['Mercury', 'Moon'],
+      rulingPlanets: ['mercury', 'Moon'],
       favorableZodiac: ['gemini', 'cancer'],
       elementalAffinity: {
         base: 'Air'
@@ -367,14 +367,14 @@ const rawAromatics: Record<string, Partial<IngredientMapping>> = {
     name: 'Saffron',
     elementalProperties: { Fire: 0.7, Earth: 0.2, Air: 0.1, Water: 0 },
     astrologicalProfile: {
-      rulingPlanets: ['Sun', 'Mars'],
+      rulingPlanets: ['sun', 'Mars'],
       favorableZodiac: ['gemini', 'libra'],
       elementalAffinity: {
         base: 'Fire',
         decanModifiers: {
-          first: { element: 'Fire', planet: 'Sun' },
+          first: { element: 'Fire', planet: 'sun' },
           second: { element: 'Earth', planet: 'Mars' },
-          third: { element: 'Air', planet: 'Venus' }
+          third: { element: 'Air', planet: 'venus' }
         }
       }
     },

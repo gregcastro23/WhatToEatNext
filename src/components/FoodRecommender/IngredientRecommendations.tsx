@@ -1,7 +1,8 @@
 import React, { useMemo } from 'react';
-import { ElementalCalculator } from '@/services/ElementalCalculator';
-import type { ElementalProperties, Recipe, Ingredient, IngredientCategory } from '@/types/alchemy';
-import { VALID_CATEGORIES, DEFAULT_ELEMENTAL_PROPERTIES } from '@/data/ingredients';
+import { ElementalCalculator } from '../../services/ElementalCalculator';
+import type { ElementalProperties, Recipe, Ingredient } from '../../types/alchemy';
+import type { IngredientCategory } from '../../data/ingredients/types';
+import { VALID_CATEGORIES, DEFAULT_ELEMENTAL_PROPERTIES } from '../../data/ingredients';
 
 interface IngredientRecommendationsProps {
     ingredients: Record<string, Ingredient[]>;
@@ -33,7 +34,7 @@ export const IngredientRecommendations: React.FC<IngredientRecommendationsProps>
                             elementalProperties: ingredient.elementalProperties,
                             // Add other required properties for calculation
                             name: ingredient.name,
-                            id: ingredient.id || ingredient.name
+                            id: 'id' in ingredient ? ingredient.id : ingredient.name
                         };
                         
                         // Use the more appropriate ingredient match calculation

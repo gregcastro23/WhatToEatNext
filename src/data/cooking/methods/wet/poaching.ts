@@ -1,9 +1,9 @@
 import type { 
   ZodiacSign, 
   ThermodynamicProperties
-} from '@/types/alchemy';
+} from '../../../../types/alchemy';
 
-import type { CookingMethodData } from '@/types/cookingMethod';
+import type { CookingMethodData } from '../../../../types/cookingMethod';
 
 /**
  * Poaching cooking method
@@ -67,8 +67,8 @@ export const poaching: CookingMethodData = {
   astrologicalInfluences: {
     favorableZodiac: ['pisces', 'cancer', 'scorpio', 'libra'] as ZodiacSign[], // Water signs and balanced Libra
     unfavorableZodiac: ['aries', 'leo', 'sagittarius'] as ZodiacSign[], // Fire signs oppose the gentle water method
-    dominantPlanets: ['Venus', 'Neptune', 'Moon'], // Venus (harmony), Neptune (subtlety), Moon (fluidity)
-    rulingPlanets: ['Venus', 'Neptune'], // Primary rulers - gentleness and subtlety
+    dominantPlanets: ['venus', 'Neptune', 'Moon'], // venus (harmony), Neptune (subtlety), Moon (fluidity)
+    rulingPlanets: ['venus', 'Neptune'], // Primary rulers - gentleness and subtlety
     lunarPhaseEffect: {
       'full_moon': 1.2,  // Enhanced subtlety and moisture retention
       'new_moon': 0.9,   // Slightly diminished effects
@@ -318,7 +318,7 @@ export const poaching: CookingMethodData = {
    * which involves the solidification of dissolved elements in a gentle medium.
    * 
    * Alchemical Effects: Increases Spirit and Essence, balances Matter and Substance
-   * Planetary associations: Venus (harmony, beauty) and Moon (fluidity, cycles)
+   * Planetary associations: venus (harmony, beauty) and Moon (fluidity, cycles)
    * Tarot associations: The Empress (nurturing), Queen of Cups (emotional depth)
    * Elemental associations: Primary - Water, Secondary - Air
    */

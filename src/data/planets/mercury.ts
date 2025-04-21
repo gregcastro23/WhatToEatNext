@@ -1,5 +1,5 @@
-import { PlanetData, MercurySpecificData } from './types';
-export type { MercurySpecificData };
+import { PlanetData, mercurySpecificData } from './types';
+export type { mercurySpecificData };
 
 const mercuryData: PlanetData = {
   'Dignity Effect': {
@@ -18,7 +18,7 @@ const mercuryData: PlanetData = {
   'Diurnal Element': 'Air',
   'Nocturnal Element': 'Earth',
   'AstronomicalData': {
-    'DistanceFromSun': '36 million miles (58 million kilometers)',
+    'DistanceFromsun': '36 million miles (58 million kilometers)',
     'DistanceFromEarth': {
       'Minimum': '48 million miles (77 million kilometers)',
       'Maximum': '138 million miles (222 million kilometers)'
@@ -30,13 +30,13 @@ const mercuryData: PlanetData = {
     'OrbitPeriod': '88 Earth days',
     'Axial Tilt': '0.03 degrees',
     'PhaseCycle': '116 days',
-    'SunlightTravelTime': '3.2 minutes',
-    'ZodiacalRestriction': 'Never more than 1 sign away from the Sun',
+    'sunlightTravelTime': '3.2 minutes',
+    'ZodiacalRestriction': 'Never more than 1 sign away from the sun',
     'PhysicalCharacteristics': {
       'Surface': 'Heavily cratered, resembling Earth\'s moon',
       'MagneticField': 'Weak global magnetic field',
       'Composition': 'Large iron core, thin crust, silicate mantle',
-      'NotableFeatures': 'Closest planet to the Sun, fastest orbit in solar system, extreme temperature variations'
+      'NotableFeatures': 'Closest planet to the sun, fastest orbit in solar system, extreme temperature variations'
     }
   },
   'AstrologicalProperties': {
@@ -67,7 +67,7 @@ const mercuryData: PlanetData = {
     'ElementalBridges': ['Connects Air and Earth', 'Facilitates transition between immaterial and material'],
     'SharedElements': {
       'Air': ['Saturn', 'Jupiter'],
-      'Earth': ['Venus', 'Saturn']
+      'Earth': ['venus', 'Saturn']
     },
     'AssociatedQualities': [
       'Adaptable',
@@ -187,7 +187,7 @@ const mercuryData: PlanetData = {
     'Enhances food presentation details'
   ],
   'AspectsEffect': {
-    'Sun': {
+    'sun': {
       'Conjunction': 0.2,
       'Opposition': -0.1,
       'Trine': 0.4,
@@ -201,7 +201,7 @@ const mercuryData: PlanetData = {
       'Square': -0.1,
       'Sextile': 0.2
     },
-    'Venus': {
+    'venus': {
       'Conjunction': 0.4,
       'Opposition': 0.0,
       'Trine': 0.3,
@@ -231,7 +231,7 @@ const mercuryData: PlanetData = {
     }
   },
   'PlanetSpecific': {
-    'Mercury': {
+    'mercury': {
       'RetrogradeIntensity': 0.7,
       'CommunicationEffects': {
         'Direct': 'Enhances clarity of flavor and precision in cooking techniques. Good for following complex recipes and experimental cooking.',

@@ -96,7 +96,7 @@ export const celestialNumerology = {
   
   /**
    * Calculate auspicious days for cooking certain recipes
-   * Returns array of days of the week (0-6, where 0 is Sunday)
+   * Returns array of days of the week (0-6, where 0 is sunday)
    */
   getAuspiciousDays(recipeProfile: {elementalProperties?: unknown, astrologicalInfluences?: string[]}): number[] {
     // Simplified calculation based on recipe profile
@@ -105,7 +105,7 @@ export const celestialNumerology = {
     // Map elements to auspicious days
     switch (dominantElement) {
       case 'Fire':
-        return [0, 3]; // Sunday, Wednesday
+        return [0, 3]; // sunday, Wednesday
       case 'Earth':
         return [1, 6]; // Monday, Saturday
       case 'Air':

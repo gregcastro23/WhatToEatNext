@@ -1,4 +1,5 @@
 import { NutritionalProfile, ElementalProperties } from '../types/alchemy';
+import { isObject, isString } from '../types/common';
 
 // Base nutritional values for common ingredient categories (per 100g)
 const nutritionReferenceValues: Record<string, unknown> = {
@@ -119,26 +120,25 @@ export const calculateEstimatedNutrition = (ingredients: unknown[]): unknown => 
     sugar: 0
   };
   
-  // Track which vitamins and minerals are present
+  // Track vitamins and minerals
   const vitaminsPresent = new Set<string>();
   const mineralsPresent = new Set<string>();
   
-  // Process each ingredient
   ingredients.forEach(ingredient => {
     let ingredientName = '';
-    let amount = 1; // Default to 1 unit if not specified
+    let amount = 1;
     
     // Extract ingredient name and amount based on type
-    if (typeof ingredient === 'string') {
+    if (isString(ingredient)) {
       ingredientName = ingredient.toLowerCase();
       // Try to extract amount from string
       const match = ingredient.match(/^([\d.]+)/);
       if (match && match[1]) {
         amount = parseFloat(match[1]) || 1;
       }
-    } else if (typeof ingredient === 'object') {
-      ingredientName = (ingredient.name || '').toLowerCase();
-      amount = ingredient.amount || 1;
+    } else if (isObject(ingredient)) {
+      ingredientName = isString(ingredient.name) ? ingredient.name.toLowerCase() : '';
+      amount = typeof ingredient.amount === 'number' ? ingredient.amount : 1;
     }
     
     // Find the best matching reference value

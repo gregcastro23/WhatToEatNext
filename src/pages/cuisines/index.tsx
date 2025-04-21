@@ -1,9 +1,9 @@
 import React from 'react';
 import Link from 'next/link';
-import { cuisines } from '@/data/cuisines';
-import { getCurrentElementalState } from '@/utils/elementalUtils';
-import { CuisineRecommender } from '@/components/CuisineRecommender';
-import { cuisineFlavorProfiles } from '@/data/cuisineFlavorProfiles';
+import { cuisines } from '../../data/cuisines';
+import { getCurrentElementalState } from '../../utils/elementalUtils';
+import { CuisineRecommender } from '../../components/CuisineRecommender';
+import { cuisineFlavorProfiles } from '../../data/cuisineFlavorProfiles';
 
 const CuisinesIndexPage = () => {
   const [elementalState, setElementalState] = React.useState({

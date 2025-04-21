@@ -1,12 +1,12 @@
-import type { IngredientMapping } from '@/types/alchemy';
-import { fixIngredientMappings } from '@/utils/elementalUtils';
+import type { IngredientMapping } from '../../../types/alchemy';
+import { fixIngredientMappings } from '../../../utils/elementalUtils';
 
 const rawWholeGrains: Record<string, Partial<IngredientMapping>> = {
   'brown_rice': {
     name: 'Brown Rice',
     elementalProperties: { Earth: 0.5, Water: 0.3, Air: 0.1, Fire: 0.1 },
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Venus'],
+      rulingPlanets: ['Moon', 'venus'],
       favorableZodiac: ['cancer', 'capricorn', 'taurus'],
       elementalAffinity: {
         base: 'Earth',
@@ -14,7 +14,7 @@ const rawWholeGrains: Record<string, Partial<IngredientMapping>> = {
         decanModifiers: {
           first: { element: 'Earth', planet: 'Saturn' },
           second: { element: 'Water', planet: 'Moon' },
-          third: { element: 'Air', planet: 'Mercury' }
+          third: { element: 'Air', planet: 'mercury' }
         }
       },
       lunarPhaseModifiers: {
@@ -35,7 +35,7 @@ const rawWholeGrains: Record<string, Partial<IngredientMapping>> = {
           preparationTips: ['Balanced seasonings', 'Good for everyday preparations']
         }
       },
-      aspectEnhancers: ['Moon trine Venus', 'Saturn sextile Jupiter']
+      aspectEnhancers: ['Moon trine venus', 'Saturn sextile Jupiter']
     },
     qualities: ['nutty', 'chewy', 'wholesome', 'earthy', 'grounding', 'nourishing'],
     origin: ['Asia', 'Global cultivation'],
@@ -336,12 +336,12 @@ const rawWholeGrains: Record<string, Partial<IngredientMapping>> = {
   'quinoa': {
     elementalProperties: { Earth: 0.4, Air: 0.4, Water: 0.2, Fire: 0 },
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Mercury'],
+      rulingPlanets: ['Moon', 'mercury'],
       favorableZodiac: ['cancer', 'gemini'],
       elementalAffinity: {
         base: 'Air',
         decanModifiers: {
-          first: { element: 'Air', planet: 'Mercury' },
+          first: { element: 'Air', planet: 'mercury' },
           second: { element: 'Earth', planet: 'Moon' },
           third: { element: 'Water', planet: 'Neptune' }
         }
@@ -614,14 +614,14 @@ const rawWholeGrains: Record<string, Partial<IngredientMapping>> = {
   'oats': {
     elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Venus'],
+      rulingPlanets: ['Moon', 'venus'],
       favorableZodiac: ['cancer', 'taurus'],
       elementalAffinity: {
         base: 'Earth',
         decanModifiers: {
           first: { element: 'Earth', planet: 'Moon' },
-          second: { element: 'Water', planet: 'Venus' },
-          third: { element: 'Air', planet: 'Mercury' }
+          second: { element: 'Water', planet: 'venus' },
+          third: { element: 'Air', planet: 'mercury' }
         }
       },
       lunarPhaseModifiers: {
@@ -664,7 +664,7 @@ const rawWholeGrains: Record<string, Partial<IngredientMapping>> = {
   'barley': {
     name: 'Barley',
     astrologicalProfile: {
-      rulingPlanets: ['Venus', 'Moon'],
+      rulingPlanets: ['venus', 'Moon'],
       favorableZodiac: ['cancer', 'taurus']
     },
     elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },

@@ -1,4 +1,10 @@
+import React, { useState } from 'react';
 import { testCookingMethodRecommendations } from '../utils/testRecommendations';
+
+interface FoodRecommendationsProps {
+  ingredient: unknown;
+  options?: Record<string, unknown>;
+}
 
 const FoodRecommendations = ({ ingredient, options = {} }: FoodRecommendationsProps) => {
   const [showDebug, setShowDebug] = useState(false);

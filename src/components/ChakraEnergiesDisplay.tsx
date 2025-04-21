@@ -1,9 +1,9 @@
 'use client';
 
 import React from 'react';
-import { useAstrologicalState } from '@/context/AstrologicalContext';
-import { useChakraInfluencedFood } from '@/hooks/useChakraInfluencedFood';
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import { useAstrologicalState } from '../context/AstrologicalContext';
+import { useChakraInfluencedFood } from '../hooks/useChakraInfluencedFood';
+import { useAlchemical } from '../contexts/AlchemicalContext/hooks';
 import { 
   CHAKRA_SYMBOLS, 
   CHAKRA_BG_COLORS, 
@@ -11,8 +11,8 @@ import {
   CHAKRA_SANSKRIT_NAMES,
   normalizeChakraKey,
   getChakraDisplayName
-} from '@/constants/chakraSymbols';
-import { isChakraKey } from '@/utils/typeGuards';
+} from '../constants/chakraSymbols';
+import { isChakraKey } from '../utils/typeGuards';
 
 interface ChakraEnergiesDisplayProps {
   compact?: boolean;
@@ -32,7 +32,7 @@ const ChakraEnergiesDisplay: React.FC<ChakraEnergiesDisplayProps> = ({ compact =
   const ENHANCED_CHAKRA_SYMBOLS: Record<string, string> = {
     root: '⏣',         // Base/Foundation symbol
     sacral: '☾',        // Crescent moon
-    solarPlexus: '☀',   // Sun
+    solarPlexus: '☀',   // sun
     heart: '♥',         // Heart
     throat: '◯',        // Circle
     brow: '👁',         // Eye
@@ -65,23 +65,23 @@ const ChakraEnergiesDisplay: React.FC<ChakraEnergiesDisplayProps> = ({ compact =
   const CHAKRA_PLANETS = (() => {
     if (isDaytime) {
       return {
-        crown: ['Sun', 'Jupiter', 'Saturn', 'Mercury'],
-        brow: ['Neptune', 'Jupiter', 'Mercury'],
-        throat: ['Mercury'],
-        heart: ['Sun', 'Venus'],
+        crown: ['sun', 'Jupiter', 'Saturn', 'mercury'],
+        brow: ['Neptune', 'Jupiter', 'mercury'],
+        throat: ['mercury'],
+        heart: ['sun', 'venus'],
         solarPlexus: ['Mars', 'Jupiter'],
-        sacral: ['Moon', 'Venus'],
+        sacral: ['Moon', 'venus'],
         root: ['Uranus', 'Pluto']
       };
     } else {
       return {
         crown: ['Jupiter', 'Uranus'],
-        brow: ['Mercury', 'Neptune'],
-        throat: ['Mercury', 'Neptune'],
-        heart: ['Venus'],
+        brow: ['mercury', 'Neptune'],
+        throat: ['mercury', 'Neptune'],
+        heart: ['venus'],
         solarPlexus: ['Mars', 'Jupiter'],
-        sacral: ['Moon', 'Venus'],
-        root: ['Saturn', 'Mars', 'Venus', 'Moon', 'Uranus', 'Pluto']
+        sacral: ['Moon', 'venus'],
+        root: ['Saturn', 'Mars', 'venus', 'Moon', 'Uranus', 'Pluto']
       };
     }
   })();
@@ -159,16 +159,37 @@ const ChakraEnergiesDisplay: React.FC<ChakraEnergiesDisplayProps> = ({ compact =
   };
 
   // Ensure all chakras have some energy value
-  const ensureChakraEnergies = (energies: unknown): unknown => {
-    if (!energies) return null;
+  const ensureChakraEnergies = (energies: unknown): Record<string, number> => {
+    // Create a base object with default values
+    const defaultEnergies: Record<string, number> = {
+      root: 1,
+      sacral: 1,
+      solarPlexus: 1,
+      heart: 1, 
+      throat: 1,
+      brow: 1,
+      crown: 1
+    };
     
-    // Create a new object with guaranteed values for all chakras
-    const ensuredEnergies = { ...energies };
+    // If no energies provided, return defaults
+    if (!energies || typeof energies !== 'object') return defaultEnergies;
+    
+    // Create a new object with values from input merged with defaults
+    const ensuredEnergies = { ...defaultEnergies };
+    
+    // Apply any values from the input object if they exist
+    if (energies && typeof energies === 'object') {
+      Object.entries(energies).forEach(([key, value]) => {
+        if (typeof value === 'number') {
+          ensuredEnergies[key] = value;
+        }
+      });
+    }
     
     // Make sure each chakra has at least a minimal value
     CHAKRA_ORDER.forEach(chakra => {
-      // If chakra has no value or value is too low, give it a minimum value
-      if (!ensuredEnergies[chakra] || ensuredEnergies[chakra] < 1) {
+      // If chakra value is too low, give it a minimum value
+      if (ensuredEnergies[chakra] < 1) {
         ensuredEnergies[chakra] = 1 + Math.random() * 2; // Random value between 1-3
       }
     });

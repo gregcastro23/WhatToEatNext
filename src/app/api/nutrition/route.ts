@@ -161,10 +161,13 @@ export async function GET(request: Request) {
   }
 }
 
-// Helper function to count vitamins in a foodNutrients array
+/**
+ * Count the number of vitamins in the nutrients array
+ */
 function countVitamins(nutrients: unknown[]): number {
   return nutrients.filter(n => {
-    const name = (n.nutrient?.name || n.nutrientName || n.name || '').toLowerCase();
+    const nutrientObj = n as { nutrient?: { name?: string }, nutrientName?: string, name?: string };
+    const name = (nutrientObj.nutrient?.name || nutrientObj.nutrientName || nutrientObj.name || '').toLowerCase();
     return name.includes('vitamin');
   }).length;
 } 

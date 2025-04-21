@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { logger } from '@/utils/logger'
-import { errorHandler } from '@/services/errorHandler'
+import { logger } from '../../utils/logger'
+import { errorHandler } from '../../services/errorHandler'
 
 interface ErrorDisplayProps {
   error: Error | string

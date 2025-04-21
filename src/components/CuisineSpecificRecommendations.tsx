@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { enhancedCuisineRecommender } from '@/calculations/enhancedCuisineRecommender';
-import { useAstrologicalState } from '@/hooks/useAstrologicalState';
-import { cuisinesMap } from '@/data/cuisines';
-import { getTimeFactors } from '@/types/time';
+import React, { useState, useEffect, useMemo } from 'react';
+import { enhancedCuisineRecommender } from '../calculations/enhancedCuisineRecommender';
+import { useAstrologicalState } from '../hooks/useAstrologicalState';
+import { cuisinesMap } from '../data/cuisines';
+import { getTimeFactors } from '../types/time';
 import PlanetaryTimeDisplay from './PlanetaryTimeDisplay';
+import { AstrologicalState, PlanetName } from '../types/alchemy';
 
 interface CuisineSpecificRecommendationsProps {
   cuisineName: string;
@@ -25,7 +26,28 @@ const CuisineSpecificRecommendations: React.FC<CuisineSpecificRecommendationsPro
   const [error, setError] = useState<string | null>(null);
   
   // Get current astrological state from a custom hook
-  const { astroState, loading: astroLoading, error: astroError } = useAstrologicalState();
+  const { 
+    currentZodiac, 
+    currentPlanetaryAlignment,
+    lunarPhase,
+    activePlanets,
+    domElements,
+    loading: astroLoading, 
+    isDaytime
+  } = useAstrologicalState();
+  
+  // Create a compatible astroState object from the hook data
+  const astroState = useMemo(() => ({
+    sunSign: currentZodiac,
+    lunarPhase,
+    activePlanets: (activePlanets || []) as PlanetName[],
+    dominantElement: Object.entries(domElements || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 })
+      .sort((a, b) => b[1] - a[1])[0][0] as 'Fire' | 'Water' | 'Earth' | 'Air',
+    dominantPlanets: (activePlanets || []).map(planet => ({
+      name: planet as PlanetName,
+      influence: 0.8
+    }))
+  }), [currentZodiac, lunarPhase, activePlanets, domElements]);
   
   // Get time-based factors for display - replaced with getTimeFactors function
   const timeFactors = getTimeFactors();
@@ -34,16 +56,12 @@ const CuisineSpecificRecommendations: React.FC<CuisineSpecificRecommendationsPro
     // Get recommendations when astroState is available
     if (astroLoading) return;
     
-    if (astroError) {
-      setError('Error loading astrological data. Using default values.');
-    }
-    
     try {
       setLoading(true);
       // Get recommendations from the enhanced recommender
       const results = enhancedCuisineRecommender.getRecommendationsForCuisine(
         cuisineName,
-        astroState,
+        astroState as AstrologicalState,
         count,
         mealType,
         dietaryRestrictions
@@ -71,9 +89,9 @@ const CuisineSpecificRecommendations: React.FC<CuisineSpecificRecommendationsPro
   };
 
   // Function to determine if a planet is favorable/unfavorable for a recipe
-  const getPlanetaryAlignment = (recipe: unknown, planetName: string) => {
-    if (recipe.planetaryDayScore >= 0.7) return 'favorable';
-    if (recipe.planetaryDayScore <= 0.3) return 'unfavorable';
+  const getPlanetaryAlignment = (recipe: any, planetName: string): 'favorable' | 'unfavorable' | 'neutral' => {
+    if (recipe?.planetaryDayScore >= 0.7) return 'favorable';
+    if (recipe?.planetaryDayScore <= 0.3) return 'unfavorable';
     return 'neutral';
   };
   
@@ -152,10 +170,11 @@ const CuisineSpecificRecommendations: React.FC<CuisineSpecificRecommendationsPro
               </div>
             )}
             
+            {/* Key Ingredients section */}
             <div className="mt-3">
               <h4 className="font-medium mb-1">Key Ingredients:</h4>
               <div className="flex flex-wrap gap-1">
-                {recipe.ingredients && recipe.ingredients.slice(0, 3).map((ingredient: unknown, idx: number) => (
+                {recipe.ingredients && recipe.ingredients.slice(0, 3).map((ingredient: any, idx: number) => (
                   <span 
                     key={idx} 
                     className="inline-block px-2 py-1 rounded-full bg-gray-100 text-xs"
@@ -172,7 +191,7 @@ const CuisineSpecificRecommendations: React.FC<CuisineSpecificRecommendationsPro
             </div>
             
             <div className="mt-3 flex flex-wrap gap-1">
-              {recipe.tags.map((tag: string, idx: number) => (
+              {recipe.tags && recipe.tags.map((tag: string, idx: number) => (
                 <span 
                   key={idx} 
                   className="inline-block px-2 py-1 rounded-full bg-blue-100 text-blue-800 text-xs"
@@ -180,12 +199,13 @@ const CuisineSpecificRecommendations: React.FC<CuisineSpecificRecommendationsPro
                   {tag}
                 </span>
               ))}
-              {recipe.season.includes(timeFactors.season.toLowerCase()) && (
+              {recipe.season && Array.isArray(recipe.season) && timeFactors && 
+               recipe.season.includes(timeFactors.season.toLowerCase()) && (
                 <span className="inline-block px-2 py-1 rounded-full bg-green-100 text-green-800 text-xs">
                   In Season
                 </span>
               )}
-              {recipe.mealType.map((type: string, idx: number) => (
+              {recipe.mealType && Array.isArray(recipe.mealType) && recipe.mealType.map((type: string, idx: number) => (
                 <span 
                   key={idx} 
                   className="inline-block px-2 py-1 rounded-full bg-purple-100 text-purple-800 text-xs"

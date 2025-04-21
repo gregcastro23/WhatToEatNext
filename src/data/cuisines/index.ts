@@ -1,4 +1,4 @@
-import type { Cuisine } from '@/types/cuisine';
+import type { Cuisine } from '../../types/cuisine';
 
 // Import all cuisines
 import { chinese } from './chinese';

@@ -1,11 +1,32 @@
 import React from 'react';
-import { Ingredient, RecipeIngredient, ElementalProperties } from '@/types';
-import { isRecipeIngredient, getDominantElement } from '@/utils/ingredientUtils';
+import { Ingredient, RecipeIngredient } from '../types';
+import { ElementalProperties } from '../types/alchemy';
+import { isRecipeIngredient, getDominantElement } from '../utils/ingredientUtils';
 
 interface IngredientCardProps {
   ingredient: Ingredient | RecipeIngredient;
   showAmount?: boolean;
   onClick?: (ingredient: Ingredient | RecipeIngredient) => void;
+}
+
+// Extended ingredient interface to handle optional properties safely
+interface ExtendedIngredient extends Ingredient {
+  subCategory?: string;
+  qualities?: string[];
+  seasonality?: string[];
+  preparation?: string;
+}
+
+// Extended RecipeIngredient interface with preparation
+interface ExtendedRecipeIngredient extends RecipeIngredient {
+  preparation?: string;
+  subCategory?: string;
+  qualities?: string[];
+}
+
+// Type guard for ExtendedIngredient
+function isExtendedIngredient(ingredient: ExtendedIngredient | ExtendedRecipeIngredient): ingredient is ExtendedIngredient {
+  return !isRecipeIngredient(ingredient as Ingredient | RecipeIngredient);
 }
 
 export const IngredientCard: React.FC<IngredientCardProps> = ({ 
@@ -14,12 +35,16 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
   onClick
 }) => {
   // Determine the dominant element to style the card
-  const dominantElement = getDominantElement(ingredient.elementalProperties || {
+  const defaultProps: ElementalProperties = {
     Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-  });
+  };
 
-  // Get class based on dominant element
-  const elementClass = `element-${dominantElement.toLowerCase()}`;
+  // Cast elementalProperties to ElementalProperties type
+  const elementalProps = (ingredient.elementalProperties || defaultProps) as ElementalProperties;
+  const dominantElement = getDominantElement(elementalProps);
+
+  // Get class based on dominant element (dominantElement is already a string key)
+  const elementClass = `element-${dominantElement.toString().toLowerCase()}`;
 
   // Handle click event
   const handleClick = () => {
@@ -27,6 +52,15 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
       onClick(ingredient);
     }
   };
+
+  // Safely handle possible extended properties
+  const extendedIngredient = ingredient as (ExtendedIngredient | ExtendedRecipeIngredient);
+
+  // Safe property checks
+  const hasSubCategory = 'subCategory' in extendedIngredient && typeof extendedIngredient.subCategory === 'string';
+  const hasQualities = 'qualities' in extendedIngredient && Array.isArray(extendedIngredient.qualities);
+  const hasSeasonality = 'seasonality' in extendedIngredient && 
+    (Array.isArray(extendedIngredient.seasonality) || typeof extendedIngredient.seasonality === 'string');
 
   return (
     <div 
@@ -38,7 +72,9 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
       {showAmount && isRecipeIngredient(ingredient) && (
         <div className="ingredient-amount">
           {ingredient.amount} {ingredient.unit}
-          {ingredient.preparation && <span className="ingredient-prep"> ({ingredient.preparation})</span>}
+          {extendedIngredient.preparation && (
+            <span className="ingredient-prep"> ({extendedIngredient.preparation})</span>
+          )}
         </div>
       )}
       
@@ -48,10 +84,10 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
             <span className="element-label">Fire</span>
             <div 
               className="bar fire-bar" 
-              style={{ width: `${(ingredient.elementalProperties.Fire || 0) * 100}%` }}
+              style={{ width: `${(elementalProps.Fire || 0) * 100}%` }}
             />
             <span className="element-value">
-              {Math.round((ingredient.elementalProperties.Fire || 0) * 100)}%
+              {Math.round((elementalProps.Fire || 0) * 100)}%
             </span>
           </div>
           
@@ -59,10 +95,10 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
             <span className="element-label">Water</span>
             <div 
               className="bar water-bar" 
-              style={{ width: `${(ingredient.elementalProperties.Water || 0) * 100}%` }}
+              style={{ width: `${(elementalProps.Water || 0) * 100}%` }}
             />
             <span className="element-value">
-              {Math.round((ingredient.elementalProperties.Water || 0) * 100)}%
+              {Math.round((elementalProps.Water || 0) * 100)}%
             </span>
           </div>
           
@@ -70,10 +106,10 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
             <span className="element-label">Earth</span>
             <div 
               className="bar earth-bar" 
-              style={{ width: `${(ingredient.elementalProperties.Earth || 0) * 100}%` }}
+              style={{ width: `${(elementalProps.Earth || 0) * 100}%` }}
             />
             <span className="element-value">
-              {Math.round((ingredient.elementalProperties.Earth || 0) * 100)}%
+              {Math.round((elementalProps.Earth || 0) * 100)}%
             </span>
           </div>
           
@@ -81,10 +117,10 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
             <span className="element-label">Air</span>
             <div 
               className="bar air-bar" 
-              style={{ width: `${(ingredient.elementalProperties.Air || 0) * 100}%` }}
+              style={{ width: `${(elementalProps.Air || 0) * 100}%` }}
             />
             <span className="element-value">
-              {Math.round((ingredient.elementalProperties.Air || 0) * 100)}%
+              {Math.round((elementalProps.Air || 0) * 100)}%
             </span>
           </div>
         </div>
@@ -98,25 +134,32 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
               <em>{ingredient.notes}</em>
             </div>
           )}
-          {ingredient.optional && (
+          {('isOptional' in ingredient ? ingredient.isOptional : 'optional' in ingredient ? ingredient.optional : false) && (
             <div className="ingredient-optional">Optional</div>
           )}
         </div>
       ) : (
         <div className="full-ingredient-details">
           <div className="ingredient-category">
-            {ingredient.category}{ingredient.subCategory ? ` (${ingredient.subCategory})` : ''}
+            {ingredient.category}
+            {hasSubCategory && ` (${extendedIngredient.subCategory})`}
           </div>
           
-          {ingredient.qualities && ingredient.qualities.length > 0 && (
+          {hasQualities && extendedIngredient.qualities!.length > 0 && (
             <div className="ingredient-qualities">
-              {ingredient.qualities.join(', ')}
+              {extendedIngredient.qualities!.join(', ')}
             </div>
           )}
           
-          {ingredient.seasonality && ingredient.seasonality.length > 0 && (
+          {hasSeasonality && (
             <div className="ingredient-seasonality">
-              <strong>Season:</strong> {ingredient.seasonality.join(', ')}
+              <strong>Season:</strong> {
+                Array.isArray(extendedIngredient.seasonality) 
+                  ? extendedIngredient.seasonality.join(', ')
+                  : typeof extendedIngredient.seasonality === 'string' 
+                    ? extendedIngredient.seasonality
+                    : ''
+              }
             </div>
           )}
         </div>

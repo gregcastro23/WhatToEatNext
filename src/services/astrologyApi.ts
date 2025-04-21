@@ -1,6 +1,6 @@
 import { elementalUtils } from '../utils/elementalUtils';
 import { AstrologicalService } from './AstrologicalService';
-import { calculatePlanetaryPositions, calculateSunSign, calculateLunarPhase } from '../utils/astrologyUtils';
+import { calculatePlanetaryPositions, calculatesunSign, calculateLunarPhase } from '../utils/astrologyUtils';
 
 type CelestialPosition = {
     sunSign: string;
@@ -41,7 +41,7 @@ export const getCelestialPositionsForDate = async (date: Date): Promise<Celestia
     try {
         // Use our local calculation functions
         const positions = await calculatePlanetaryPositions(date);
-        const sunSign = calculateSunSign(date);
+        const sunSign = calculatesunSign(date);
         const lunarPhase = await calculateLunarPhase(date);
         
         // Map positions to planetary alignment structure
@@ -118,7 +118,7 @@ const getFallbackPositions = (date: Date = new Date()): CelestialPosition => {
         
         // Since we can't await here (not an async function), we'll use a static fallback
         return {
-            sunSign: getSunSignFromDate(date),
+            sunSign: getsunSignFromDate(date),
             moonPhase: 'full', // Default fallback
             planetaryPositions: getStaticPlanetaryPositions(),
             time: {
@@ -132,7 +132,7 @@ const getFallbackPositions = (date: Date = new Date()): CelestialPosition => {
         
         // Ultimate fallback - use static calculations
         return {
-            sunSign: calculateSunSign(date),
+            sunSign: calculatesunSign(date),
             moonPhase: 'full', // Default fallback
             planetaryPositions: getStaticPlanetaryPositions(),
             time: {
@@ -161,7 +161,7 @@ function getStaticPlanetaryPositions(): CelestialPosition['planetaryPositions'] 
 }
 
 // Helper function to calculate sun sign from date
-function getSunSignFromDate(date: Date): string {
+function getsunSignFromDate(date: Date): string {
     const month = date.getMonth() + 1;
     const day = date.getDate();
     
@@ -213,7 +213,7 @@ export const getElementalInfluence = async (): Promise<typeof elementalUtils.DEF
             );
             
             // Create a weighted influence based on planetary positions
-            // Sun and Moon have more influence (0.3 each), other planets contribute the rest (0.1 each)
+            // sun and Moon have more influence (0.3 each), other planets contribute the rest (0.1 each)
             const elementalState = {
                 Fire: 0,
                 Water: 0,
@@ -221,16 +221,16 @@ export const getElementalInfluence = async (): Promise<typeof elementalUtils.DEF
                 Air: 0
             };
             
-            // Add Sun influence (30%)
+            // Add sun influence (30%)
             elementalState[sunElement] += 0.3;
             
             // Add Moon influence (30%)
             elementalState[moonElement] += 0.3;
             
-            // Add Mercury influence (15%)
+            // Add mercury influence (15%)
             elementalState[mercuryElement] += 0.15;
             
-            // Add Venus influence (15%)
+            // Add venus influence (15%)
             elementalState[venusElement] += 0.15;
             
             // Add Mars influence (10%)
@@ -293,7 +293,7 @@ export function calculateElementalBalanceFromPositions(positions: Record<string,
     
     // Define planetary weights - some planets have more influence than others
     const planetaryWeights = {
-        sun: 0.25,     // Sun and Moon are most important
+        sun: 0.25,     // sun and Moon are most important
         moon: 0.25,
         mercury: 0.10,  // Inner planets
         venus: 0.10,

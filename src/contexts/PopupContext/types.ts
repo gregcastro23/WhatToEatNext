@@ -1,7 +1,7 @@
 'use client';
 
 import { ReactNode } from 'react';
-import type { Element } from '@/types/alchemy';
+import type { Element } from '../../types/alchemy';
 
 export type ElementalInfluence = {
   sunElement?: string;

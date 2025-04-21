@@ -68,7 +68,7 @@ export const ALCHEMICAL_PILLARS: AlchemicalPillar[] = [
       Matter: -1,
       Substance: 1
     },
-    planetaryAssociations: ['Mercury', 'Saturn'],
+    planetaryAssociations: ['mercury', 'Saturn'],
     tarotAssociations: ['8 of Pentacles', 'Temperance'],
     elementalAssociations: {
       primary: 'Air',
@@ -85,7 +85,7 @@ export const ALCHEMICAL_PILLARS: AlchemicalPillar[] = [
       Matter: -1,
       Substance: -1
     },
-    planetaryAssociations: ['Mercury', 'Uranus'],
+    planetaryAssociations: ['mercury', 'Uranus'],
     tarotAssociations: ['6 of Swords', '8 of Wands'],
     elementalAssociations: {
       primary: 'Air',
@@ -102,7 +102,7 @@ export const ALCHEMICAL_PILLARS: AlchemicalPillar[] = [
       Matter: -1,
       Substance: 1
     },
-    planetaryAssociations: ['Mercury', 'Neptune'],
+    planetaryAssociations: ['mercury', 'Neptune'],
     tarotAssociations: ['Temperance', 'The Star'],
     elementalAssociations: {
       primary: 'Water',
@@ -119,7 +119,7 @@ export const ALCHEMICAL_PILLARS: AlchemicalPillar[] = [
       Matter: 1,
       Substance: -1
     },
-    planetaryAssociations: ['Mercury', 'Uranus', 'Pluto'],
+    planetaryAssociations: ['mercury', 'Uranus', 'Pluto'],
     tarotAssociations: ['2 of Swords', 'The Tower'],
     elementalAssociations: {
       primary: 'Fire',
@@ -136,7 +136,7 @@ export const ALCHEMICAL_PILLARS: AlchemicalPillar[] = [
       Matter: 1,
       Substance: 1
     },
-    planetaryAssociations: ['Sun', 'Jupiter'],
+    planetaryAssociations: ['sun', 'Jupiter'],
     tarotAssociations: ['The World', 'The Star'],
     elementalAssociations: {
       primary: 'Fire'
@@ -169,7 +169,7 @@ export const ALCHEMICAL_PILLARS: AlchemicalPillar[] = [
       Matter: 1,
       Substance: 1
     },
-    planetaryAssociations: ['Venus', 'Jupiter', 'Pluto'],
+    planetaryAssociations: ['venus', 'Jupiter', 'Pluto'],
     tarotAssociations: ['3 of Cups', '10 of Pentacles'],
     elementalAssociations: {
       primary: 'Earth',
@@ -186,7 +186,7 @@ export const ALCHEMICAL_PILLARS: AlchemicalPillar[] = [
       Matter: -1,
       Substance: -1
     },
-    planetaryAssociations: ['Mercury', 'Neptune', 'Moon'],
+    planetaryAssociations: ['mercury', 'Neptune', 'Moon'],
     tarotAssociations: ['The Hermit', 'Temperance'],
     elementalAssociations: {
       primary: 'Fire',
@@ -237,7 +237,7 @@ export const ALCHEMICAL_PILLARS: AlchemicalPillar[] = [
       Matter: 1,
       Substance: 1
     },
-    planetaryAssociations: ['Saturn', 'Venus'],
+    planetaryAssociations: ['Saturn', 'venus'],
     tarotAssociations: ['4 of Pentacles', 'King of Pentacles'],
     elementalAssociations: {
       primary: 'Earth',
@@ -254,8 +254,8 @@ export const ALCHEMICAL_PILLARS: AlchemicalPillar[] = [
       Matter: 1,
       Substance: -1
     },
-    planetaryAssociations: ['Jupiter', 'Sun', 'Uranus'],
-    tarotAssociations: ['The Sun', '3 of Wands'],
+    planetaryAssociations: ['Jupiter', 'sun', 'Uranus'],
+    tarotAssociations: ['The sun', '3 of Wands'],
     elementalAssociations: {
       primary: 'Fire',
       secondary: 'Water'
@@ -271,7 +271,7 @@ export const ALCHEMICAL_PILLARS: AlchemicalPillar[] = [
       Matter: 1,
       Substance: 1
     },
-    planetaryAssociations: ['Sun', 'Moon', 'Mercury', 'Jupiter'],
+    planetaryAssociations: ['sun', 'Moon', 'mercury', 'Jupiter'],
     tarotAssociations: ['The World', 'The Magician'],
     elementalAssociations: {
       primary: 'Fire',
@@ -344,7 +344,7 @@ export const PLANETARY_ALCHEMICAL_EFFECTS: Record<string, {
   diurnal: Record<AlchemicalProperty, number>,
   nocturnal: Record<AlchemicalProperty, number>
 }> = {
-  'Sun': {
+  'sun': {
     diurnal: { Spirit: 1, Essence: 0, Matter: 0, Substance: 0 },
     nocturnal: { Spirit: 0.8, Essence: 0.2, Matter: 0, Substance: 0 }
   },
@@ -352,11 +352,11 @@ export const PLANETARY_ALCHEMICAL_EFFECTS: Record<string, {
     diurnal: { Spirit: 0, Essence: 0.7, Matter: 0.3, Substance: 0 },
     nocturnal: { Spirit: 0, Essence: 1, Matter: 0, Substance: 0 }
   },
-  'Mercury': {
+  'mercury': {
     diurnal: { Spirit: 0.7, Essence: 0, Matter: 0, Substance: 0.3 },
     nocturnal: { Spirit: 0.3, Essence: 0, Matter: 0.3, Substance: 0.4 }
   },
-  'Venus': {
+  'venus': {
     diurnal: { Spirit: 0, Essence: 0.6, Matter: 0.4, Substance: 0 },
     nocturnal: { Spirit: 0, Essence: 0.4, Matter: 0.6, Substance: 0 }
   },

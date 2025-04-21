@@ -151,7 +151,7 @@ export const elementalCharacteristics: Record<keyof ElementalProperties, {
     complementaryIngredients: ['Fresh herbs', 'Citrus', 'Sprouts', 'Greens', 'Aromatics'],
     moodEffects: ['Uplifting', 'Clarifying', 'Refreshing', 'Invigorating', 'Inspiring'],
     culinaryHerbs: ['Mint', 'Basil', 'Cilantro', 'Dill', 'Lemongrass'],
-    timeOfDay: ['Morning', 'Sunrise']
+    timeOfDay: ['Morning', 'sunrise']
   },
   Water: {
     qualities: ['Cool', 'Moist', 'Flowing', 'Adaptable', 'Receptive'],

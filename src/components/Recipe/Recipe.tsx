@@ -1,16 +1,21 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-import { stateManager } from '@/utils/stateManager';
-import { logger } from '@/utils/logger';
+import { useAlchemical } from '../../contexts/AlchemicalContext/hooks';
+import { stateManager } from '../../utils/stateManager';
+import { logger } from '../../utils/logger';
 import { Heart, Clock, Users, ChefHat, Flame } from 'lucide-react';
-import type { ScoredRecipe } from '@/types/recipe';
+import type { ScoredRecipe, RecipeIngredient } from '../../types/recipe';
 
-interface RecipeProps {
-  recipe: ScoredRecipe;
-  isExpanded?: boolean;
-  onToggle?: () => void;
+// Define interface for extended recipe ingredient
+interface ExtendedRecipeIngredient extends RecipeIngredient {
+  preparation?: string;
+  optional?: boolean;
+}
+
+// Type guard for ExtendedRecipeIngredient
+function isExtendedRecipeIngredient(ingredient: RecipeIngredient): ingredient is ExtendedRecipeIngredient {
+  return 'preparation' in ingredient || 'optional' in ingredient;
 }
 
 interface Dish {
@@ -36,14 +41,20 @@ interface Cuisine {
   };
 }
 
-export default function Recipe({ recipe, isExpanded = false, onToggle }: RecipeProps) {
+interface RecipeProps {
+  recipe: ScoredRecipe;
+  isExpanded?: boolean;
+  onToggle?: () => void;
+}
+
+export default function Recipe({ recipe, isExpanded: isExpandedProp = false, onToggle }: RecipeProps) {
   // Either fix the useAlchemical hook or remove it if not needed
   // const { state, dispatch } = useAlchemical();
   
   // Temporary solution: Comment out or remove the hook usage
   const [isLoading, setIsLoading] = useState(false);
-  const [servings, setServings] = useState(recipe.numberOfServings || 2);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(isExpandedProp);
 
   useEffect(() => {
     const checkFavoriteStatus = async () => {
@@ -108,16 +119,6 @@ export default function Recipe({ recipe, isExpanded = false, onToggle }: RecipeP
     }
   };
 
-  const adjustServings = (newServings: number) => {
-    if (newServings < 1 || newServings > 12) return;
-    setServings(newServings);
-  };
-
-  const calculateAdjustedAmount = (amount: number) => {
-    const ratio = servings / (recipe.numberOfServings || 2);
-    return (amount * ratio).toFixed(1).replace(/\.0$/, '');
-  };
-
   const renderelementalState = () => {
     const elements = Object.entries(recipe.elementalProperties || {});
     return (
@@ -167,7 +168,7 @@ export default function Recipe({ recipe, isExpanded = false, onToggle }: RecipeP
           </div>
           <div className="flex items-center">
             <Users className="w-4 h-4 mr-1" />
-            {recipe.numberOfServings} servings
+            {String(recipe.numberOfServings)} servings
           </div>
         </div>
 
@@ -180,34 +181,19 @@ export default function Recipe({ recipe, isExpanded = false, onToggle }: RecipeP
         }`}
       >
         <div className="p-4">
-          <div className="flex items-center mb-4">
-            <label htmlFor="servings" className="mr-2 text-sm text-gray-600">
-              Adjust servings:
-            </label>
-            <input
-              type="number"
-              id="servings"
-              min="1"
-              max="12"
-              value={servings}
-              onChange={(e) => adjustServings(parseInt(e.target.value))}
-              className="w-16 px-2 py-1 border rounded"
-            />
-          </div>
-
           <h4 className="font-medium text-gray-900 mb-2">Ingredients:</h4>
           <ul className="space-y-2 mb-4">
             {recipe.ingredients.map((ingredient, index) => (
               <li key={index} className="text-gray-600">
                 <div className="flex items-start">
                   <span className="font-medium mr-1">
-                    {calculateAdjustedAmount(ingredient.amount)} {ingredient.unit}
+                    {typeof ingredient.amount === 'number' ? ingredient.amount.toFixed(1).replace(/\.0$/, '') : ingredient.amount} {ingredient.unit}
                   </span>
                   <div>
                     <span className="font-medium">{ingredient.name}</span>
                     
                     {/* Display preparation method if available */}
-                    {ingredient.preparation && (
+                    {isExtendedRecipeIngredient(ingredient) && ingredient.preparation && (
                       <span className="ml-1 text-gray-500">({ingredient.preparation})</span>
                     )}
                     
@@ -251,7 +237,7 @@ export default function Recipe({ recipe, isExpanded = false, onToggle }: RecipeP
                   </div>
                   
                   {/* Show optional badge if ingredient is optional */}
-                  {ingredient.optional && (
+                  {((isExtendedRecipeIngredient(ingredient) && ingredient.optional) || ingredient.isOptional) && (
                     <span className="text-xs bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded-full ml-auto">
                       Optional
                     </span>
@@ -271,7 +257,7 @@ export default function Recipe({ recipe, isExpanded = false, onToggle }: RecipeP
           {recipe.notes && (
             <>
               <h4 className="font-medium text-gray-900 mt-4 mb-2">Notes:</h4>
-              <p className="text-gray-600">{recipe.notes}</p>
+              <p className="text-gray-600">{String(recipe.notes)}</p>
             </>
           )}
         </div>

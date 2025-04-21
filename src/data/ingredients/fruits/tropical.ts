@@ -1,19 +1,19 @@
-import type { IngredientMapping } from '@/types/alchemy';
-import { fixIngredientMappings } from '@/utils/elementalUtils';
+import type { IngredientMapping } from '../../../types/alchemy';
+import { fixIngredientMappings } from '../../../utils/elementalUtils';
 
 const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
   'mango': {
     name: 'Mango',
     elementalProperties: { Water: 0.4, Fire: 0.3, Air: 0.2, Earth: 0.1 },
     astrologicalProfile: {
-      rulingPlanets: ['Sun', 'Jupiter'],
+      rulingPlanets: ['sun', 'Jupiter'],
       favorableZodiac: ['leo', 'taurus'],
       elementalAffinity: {
         base: 'Fire',
         decanModifiers: {
-          first: { element: 'Fire', planet: 'Sun' },
-          second: { element: 'Earth', planet: 'Venus' },
-          third: { element: 'Air', planet: 'Mercury' }
+          first: { element: 'Fire', planet: 'sun' },
+          second: { element: 'Earth', planet: 'venus' },
+          third: { element: 'Air', planet: 'mercury' }
         }
       }
     },
@@ -51,12 +51,12 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
     name: 'Pineapple',
     elementalProperties: { Water: 0.4, Fire: 0.3, Air: 0.2, Earth: 0.1 },
     astrologicalProfile: {
-      rulingPlanets: ['Sun', 'Mars'],
+      rulingPlanets: ['sun', 'Mars'],
       favorableZodiac: ['leo', 'aries'],
       elementalAffinity: {
         base: 'Fire',
         decanModifiers: {
-          first: { element: 'Fire', planet: 'Sun' },
+          first: { element: 'Fire', planet: 'sun' },
           second: { element: 'Earth', planet: 'Mars' },
           third: { element: 'Air', planet: 'Jupiter' }
         }

@@ -1,6 +1,6 @@
-import type { ElementalProperties, Recipe, Season, ZodiacSign } from '@/types/alchemy';
-import { SEASONAL_MODIFIERS, SeasonalModifiers } from '@/constants/seasonalModifiers';
-import { getZodiacSignForDate } from '@/data/zodiacSeasons';
+import type { ElementalProperties, Recipe, Season, ZodiacSign } from '../types/alchemy';
+import { SEASONAL_MODIFIERS, SeasonalModifiers } from '../constants/seasonalModifiers';
+import { getZodiacSignForDate } from '../data/zodiacSeasons';
 
 export interface SeasonalEffectiveness {
     score: number;

@@ -1,5 +1,5 @@
 import { SpoonacularService } from '../services/SpoonacularService';
-const { fixIngredientMappings } = require('@/utils/elementalUtils');
+const { fixIngredientMappings } = require('../utils/elementalUtils');
 const fs = require('fs');
 const path = require('path');
 
@@ -98,8 +98,8 @@ async function fetchVegetableData() {
   if (Object.keys(categorizedVegetables.otherVegetables).length > 0) {
     const otherVegetablesPath = path.resolve(__dirname, '../../src/data/ingredients/vegetables/otherVegetables.ts');
     
-    const fileContent = `import type { IngredientMapping } from '@/types/alchemy';
-import { fixIngredientMappings } from '@/utils/elementalUtils';
+    const fileContent = `import type { IngredientMapping } from '../types/alchemy';
+import { fixIngredientMappings } from '../utils/elementalUtils';
 
 const rawOtherVegetables: Record<string, Partial<IngredientMapping>> = ${JSON.stringify(categorizedVegetables.otherVegetables, null, 2)};
 

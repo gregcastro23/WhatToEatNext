@@ -11,18 +11,18 @@ import type {
   AspectType as ImportedAspectType,
   PlanetName,
   Element
-} from '@/types/alchemy';
-import type { TimeFactors } from '@/types/time';
-import { getCurrentSeason, getTimeOfDay } from '@/utils/dateUtils';
-import { PlanetaryHourCalculator } from '@/lib/PlanetaryHourCalculator';
+} from '../types/alchemy';
+import type { TimeFactors } from '../types/time';
+import { getCurrentSeason, getTimeOfDay } from './dateUtils';
+import { PlanetaryHourCalculator } from '../lib/PlanetaryHourCalculator';
 import { solar, moon } from 'astronomia';
 import { getAccuratePlanetaryPositions } from './accurateAstronomy';
 import { calculateAllHouseEffects } from './houseEffects';
-import { ElementalCharacter } from '@/constants/planetaryElements';
-import { DignityType as AlchemicalDignityType } from "@/calculations/alchemicalCalculations";
+import { ElementalCharacter } from '../constants/planetaryElements';
+import { DignityType as AlchemicalDignityType } from "../calculations/alchemicalCalculations";
 // Import calculatePlanetaryAspects from safeAstrology
-import { calculatePlanetaryAspects as safeCalculatePlanetaryAspects } from '@/utils/safeAstrology';
-import SunCalc from 'suncalc';
+import { calculatePlanetaryAspects as safeCalculatePlanetaryAspects } from './safeAstrology';
+import sunCalc from 'suncalc';
 
 /**
  * A utility function for logging debug information
@@ -156,7 +156,7 @@ export interface PlanetaryDignity {
 }
 
 /**
- * Calculate lunar phase more accurately using SunCalc and astronomy-engine data
+ * Calculate lunar phase more accurately using sunCalc and astronomy-engine data
  * @param date Date to calculate phase for
  * @returns A value between 0 and 1 representing the lunar phase
  */
@@ -165,12 +165,12 @@ export async function calculateLunarPhase(date: Date = new Date()): Promise<numb
     // Get accurate positions
     const positions = await getAccuratePlanetaryPositions(date);
     
-    if (!positions.Sun || !positions.Moon) {
-      throw new Error('Sun or Moon position missing');
+    if (!positions.sun || !positions.Moon) {
+      throw new Error('sun or Moon position missing');
     }
     
     // Calculate the angular distance between sun and moon
-    let angularDistance = positions.Moon.exactLongitude - positions.Sun.exactLongitude;
+    let angularDistance = positions.Moon.exactLongitude - positions.sun.exactLongitude;
     
     // Normalize to 0-360 range
     angularDistance = ((angularDistance % 360) + 360) % 360;
@@ -213,12 +213,12 @@ export function getLunarPhaseName(phase: number): LunarPhase {
  */
 export async function getMoonIllumination(date: Date = new Date()): Promise<number> {
   try {
-    // Try using SunCalc library first
-    const moonIllumination = SunCalc.getMoonIllumination(date);
+    // Try using sunCalc library first
+    const moonIllumination = sunCalc.getMoonIllumination(date);
     
     // Validate the illumination data
     if (!moonIllumination || typeof moonIllumination.fraction !== 'number' || isNaN(moonIllumination.fraction)) {
-      throw new Error('Invalid moon illumination data from SunCalc');
+      throw new Error('Invalid moon illumination data from sunCalc');
     }
     
     // Get lunar phase (0-1)
@@ -228,7 +228,7 @@ export async function getMoonIllumination(date: Date = new Date()): Promise<numb
     const phaseName = getLunarPhaseName(phase);
     
     // Calculate corrected illumination fraction
-    // SunCalc returns a value between 0-1 representing illumination
+    // sunCalc returns a value between 0-1 representing illumination
     // We'll adjust it based on the phase for more accurate representation
     let correctedFraction = moonIllumination.fraction;
     
@@ -281,7 +281,7 @@ export async function getMoonIllumination(date: Date = new Date()): Promise<numb
  * @param date Date to calculate sun sign for
  * @returns The zodiac sign the sun is in
  */
-export function calculateSunSign(date: Date = new Date()): ZodiacSign {
+export function calculatesunSign(date: Date = new Date()): ZodiacSign {
   const month = date.getMonth() + 1; // Jan is 1, Feb is 2, etc.
   const day = date.getDate();
   
@@ -371,16 +371,16 @@ export async function calculatePlanetaryPositions(date: Date = new Date()): Prom
  */
 function _standardizePlanetName(planet: string): string {
   const nameMap: Record<string, string> = {
-    'sun': 'Sun',
-    'moon': 'Moon',
-    'mercury': 'Mercury',
-    'venus': 'Venus',
-    'mars': 'Mars',
-    'jupiter': 'Jupiter',
-    'saturn': 'Saturn',
-    'uranus': 'Uranus',
-    'neptune': 'Neptune',
-    'pluto': 'Pluto'
+    'sun': 'sun',
+    'moon': 'moon',
+    'mercury': 'mercury',
+    'venus': 'venus',
+    'mars': 'mars',
+    'jupiter': 'jupiter',
+    'saturn': 'saturn',
+    'uranus': 'uranus',
+    'neptune': 'neptune',
+    'pluto': 'pluto'
   };
   
   const lowerPlanet = planet.toLowerCase();
@@ -393,8 +393,8 @@ function _standardizePlanetName(planet: string): string {
  * @returns True if all positions are valid
  */
 function _validatePlanetaryPositions(positions: Record<string, number>): boolean {
-  const REQUIRED_PLANETS = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 
-                           'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'];
+  const REQUIRED_PLANETS = ['sun', 'moon', 'mercury', 'venus', 'mars', 
+                           'jupiter', 'saturn', 'uranus', 'neptune', 'pluto'];
   
   // Check if we have an empty object
   if (!positions || Object.keys(positions).length === 0) {
@@ -449,7 +449,7 @@ function calculatePlanetLongitude(jd: number, planet: string): number {
   // More accurate calculations for each planet
   switch (planet.toLowerCase()) {
     case 'sun':
-      return calculateSunLongitude(jd);
+      return calculatesunLongitude(jd);
     case 'moon':
       return calculateMoonLongitude(jd);
     case 'mercury':
@@ -501,11 +501,11 @@ function calculateJulianDate(date: Date): number {
 }
 
 /**
- * Calculate the Sun's longitude
+ * Calculate the sun's longitude
  * @param jd Julian date
- * @returns Sun's ecliptic longitude in degrees
+ * @returns sun's ecliptic longitude in degrees
  */
-function calculateSunLongitude(jd: number): number {
+function calculatesunLongitude(jd: number): number {
   // Using more precise VSOP87 model calculations
   const T = (jd - 2451545.0) / 36525;
   let L0 = 280.46646 + T * (36000.76983 + T * 0.0003032);
@@ -528,7 +528,7 @@ function calculateMoonLongitude(jd: number): number {
 }
 
 /**
- * Calculate the longitude of inner planets (Mercury, Venus)
+ * Calculate the longitude of inner planets (mercury, venus)
  * @param jd Julian date
  * @param planet The planet to calculate
  * @returns Planet's ecliptic longitude in degrees
@@ -575,7 +575,7 @@ function calculateInnerPlanetLongitude(jd: number, planet: string): number {
     const t = (jd - 2451545.0) / 36525; // Julian centuries since J2000
     const meanLongitude = planet === 'mercury'
       ? 252.25084 + t * 538101.03
-      : 181.9798 + t * 210664.1366; // Venus
+      : 181.9798 + t * 210664.1366; // venus
     return meanLongitude % 360;
   }
 }
@@ -674,10 +674,10 @@ function _calculateFallbackPositions(date: Date): Record<string, number> {
   
   // Planetary periods and offsets for simple approximation
   const planetaryData = {
-    Sun: { period: 1, offset: 280 },
+    sun: { period: 1, offset: 280 },
     Moon: { period: 0.0748, offset: 100 },
-    Mercury: { period: 0.241, offset: 50 },
-    Venus: { period: 0.615, offset: 140 },
+    mercury: { period: 0.241, offset: 50 },
+    venus: { period: 0.615, offset: 140 },
     Mars: { period: 1.881, offset: 220 },
     Jupiter: { period: 11.86, offset: 30 },
     Saturn: { period: 29.46, offset: 90 },
@@ -696,10 +696,10 @@ function _calculateFallbackPositions(date: Date): Record<string, number> {
 
 // Add missing PLANETARY_JOYS constant
 const PLANETARY_JOYS: Record<string, number> = {
-  'Sun': 9,
+  'sun': 9,
   'Moon': 3,
-  'Mercury': 1,
-  'Venus': 5,
+  'mercury': 1,
+  'venus': 5,
   'Mars': 6,
   'Jupiter': 11,
   'Saturn': 12
@@ -708,12 +708,12 @@ const PLANETARY_JOYS: Record<string, number> = {
 // Add missing HOUSE_AFFINITIES constant
 const HOUSE_AFFINITIES: Record<number, { element: string, planet: string }> = {
   1: { element: 'Fire', planet: 'Mars' },
-  2: { element: 'Earth', planet: 'Venus' },
-  3: { element: 'Air', planet: 'Mercury' },
+  2: { element: 'Earth', planet: 'venus' },
+  3: { element: 'Air', planet: 'mercury' },
   4: { element: 'Water', planet: 'Moon' },
-  5: { element: 'Fire', planet: 'Sun' },
-  6: { element: 'Earth', planet: 'Mercury' },
-  7: { element: 'Air', planet: 'Venus' },
+  5: { element: 'Fire', planet: 'sun' },
+  6: { element: 'Earth', planet: 'mercury' },
+  7: { element: 'Air', planet: 'venus' },
   8: { element: 'Water', planet: 'Pluto' },
   9: { element: 'Fire', planet: 'Jupiter' },
   10: { element: 'Earth', planet: 'Saturn' },
@@ -762,12 +762,12 @@ export function calculateHousePosition(risingDegree: number, planetDegree: numbe
 export function getTraditionalRuler(sign: string): string {
   const rulers: Record<string, string> = {
     'aries': 'Mars',
-    'taurus': 'Venus',
-    'gemini': 'Mercury',
+    'taurus': 'venus',
+    'gemini': 'mercury',
     'cancer': 'Moon',
-    'leo': 'Sun',
-    'virgo': 'Mercury',
-    'Libra': 'Venus',
+    'leo': 'sun',
+    'virgo': 'mercury',
+    'Libra': 'venus',
     'Scorpio': 'Mars', // Traditional ruler (before Pluto)
     'sagittarius': 'Jupiter',
     'capricorn': 'Saturn',
@@ -1377,7 +1377,7 @@ export async function getCurrentAstrologicalState(date: Date = new Date()): Prom
     ]);
     
     const lunarPhase = getLunarPhaseName(lunarPhaseValue);
-    const sunSign = calculateSunSign(date);
+    const sunSign = calculatesunSign(date);
     const moonSign = moonSignValue;
     const planetaryPositions = planetaryPositionsValue;
     
@@ -1442,7 +1442,7 @@ export async function getCurrentAstrologicalState(date: Date = new Date()): Prom
     errorLog('Error in getCurrentAstrologicalState:', error);
     
     // Provide fallback state with basic data
-    const sunSign = calculateSunSign(date);
+    const sunSign = calculatesunSign(date);
     const defaultPositions = getDefaultPlanetaryPositions();
     
     return {
@@ -1471,95 +1471,95 @@ export async function getCurrentAstrologicalState(date: Date = new Date()): Prom
  */
 export function getDefaultPlanetaryPositions(): Record<string, PlanetPosition> {
   const currentPositions: Record<string, PlanetPosition> = {
-    'Sun': {
+    'sun': {
       sign: 'aries',
-      degree: 14,
-      minute: 37,
-      exactLongitude: 14.62, // Position in 0-30 degrees (aries)
+      degree: 26,
+      minute: 17,
+      exactLongitude: 26.28, // Position in 0-30 degrees (aries)
       isRetrograde: false
     },
     'Moon': {
-      sign: 'cancer',
-      degree: 2,
-      minute: 40,
-      exactLongitude: 92.67, // Position in 90-120 degrees (cancer)
+      sign: 'scorpio',
+      degree: 29,
+      minute: 2,
+      exactLongitude: 239.03, // Position in 210-240 degrees (scorpio)
       isRetrograde: false
     },
-    'Mercury': {
+    'mercury': {
       sign: 'pisces',
-      degree: 27,
-      minute: 19,
-      exactLongitude: 357.32, // Position in 330-360 degrees (pisces)
-      isRetrograde: true
+      degree: 29,
+      minute: 50,
+      exactLongitude: 359.83, // Position in 330-360 degrees (pisces)
+      isRetrograde: false
     },
-    'Venus': {
+    'venus': {
       sign: 'pisces',
-      degree: 26,
-      minute: 13,
-      exactLongitude: 356.22, // Position in 330-360 degrees (pisces)
-      isRetrograde: true
+      degree: 24,
+      minute: 47,
+      exactLongitude: 354.78, // Position in 330-360 degrees (pisces)
+      isRetrograde: false
     },
     'Mars': {
       sign: 'cancer',
-      degree: 24,
-      minute: 39,
-      exactLongitude: 114.65, // Position in 90-120 degrees (cancer)
+      degree: 29,
+      minute: 7,
+      exactLongitude: 119.12, // Position in 90-120 degrees (cancer)
       isRetrograde: false
     },
     'Jupiter': {
       sign: 'gemini',
-      degree: 16,
-      minute: 28,
-      exactLongitude: 76.47, // Position in 60-90 degrees (gemini)
+      degree: 18,
+      minute: 30,
+      exactLongitude: 78.5, // Position in 60-90 degrees (gemini)
       isRetrograde: false
     },
     'Saturn': {
       sign: 'pisces',
-      degree: 24,
-      minute: 51,
-      exactLongitude: 354.85, // Position in 330-360 degrees (pisces)
+      degree: 26,
+      minute: 14,
+      exactLongitude: 356.23, // Position in 330-360 degrees (pisces)
       isRetrograde: false
     },
     'Uranus': {
       sign: 'taurus',
-      degree: 24,
-      minute: 54,
-      exactLongitude: 54.90, // Position in 30-60 degrees (taurus)
+      degree: 25,
+      minute: 29,
+      exactLongitude: 55.48, // Position in 30-60 degrees (taurus)
       isRetrograde: false
     },
     'Neptune': {
       sign: 'aries',
       degree: 0,
-      minute: 10,
-      exactLongitude: 0.17, // Position in 0-30 degrees (aries)
+      minute: 36,
+      exactLongitude: 0.6, // Position in 0-30 degrees (aries)
       isRetrograde: false
     },
     'Pluto': {
       sign: 'aquarius',
       degree: 3,
-      minute: 36,
-      exactLongitude: 333.60, // Position in 300-330 degrees (aquarius)
+      minute: 44,
+      exactLongitude: 333.73, // Position in 300-330 degrees (aquarius)
       isRetrograde: false
     },
     'northNode': {
       sign: 'pisces',
-      degree: 26,
-      minute: 33,
-      exactLongitude: 356.55, // Position in 330-360 degrees (pisces)
+      degree: 25,
+      minute: 56,
+      exactLongitude: 355.93, // Position in 330-360 degrees (pisces)
       isRetrograde: true
     },
     'southNode': {
       sign: 'virgo',
-      degree: 26,
-      minute: 33,
-      exactLongitude: 176.55, // Position in 150-180 degrees (virgo), opposite to North Node
+      degree: 25,
+      minute: 56,
+      exactLongitude: 175.93, // Position in 150-180 degrees (virgo), opposite to North Node
       isRetrograde: true
     },
     'Ascendant': {
-      sign: 'sagittarius',
-      degree: 3,
-      minute: 58,
-      exactLongitude: 243.97, // Position in 240-270 degrees (sagittarius)
+      sign: 'scorpio',
+      degree: 10,
+      minute: 7,
+      exactLongitude: 220.12, // Position in 210-240 degrees (scorpio)
       isRetrograde: false
     }
   };
@@ -1590,8 +1590,8 @@ export function getZodiacSign(longitude: number): string {
 }
 
 const PLANETARY_ORBS: Record<string, number> = {
-  'Sun': 1.5, 'Moon': 1.5, 'Mercury': 1.0, 
-  'Venus': 1.0, 'Mars': 0.8, 'Jupiter': 0.6,
+  'sun': 1.5, 'Moon': 1.5, 'mercury': 1.0, 
+  'venus': 1.0, 'Mars': 0.8, 'Jupiter': 0.6,
   'Saturn': 0.5, 'Uranus': 0.4, 'Neptune': 0.3, 'Pluto': 0.2
 };
 
@@ -1702,8 +1702,8 @@ function _calculatePlacidusHouses(jd: number, lat: number, lon: number): number[
 }
 
 const TEST_DATES = [
-  { date: '2024-01-01', expected: { Sun: 'capricorn', Moon: 'taurus' }},
-  { date: '2024-06-21', expected: { Sun: 'gemini', Moon: 'aquarius' }}
+  { date: '2024-01-01', expected: { sun: 'capricorn', Moon: 'taurus' }},
+  { date: '2024-06-21', expected: { sun: 'gemini', Moon: 'aquarius' }}
 ];
 
 export async function runAstroTests() {
@@ -1712,7 +1712,7 @@ export async function runAstroTests() {
     const positions = await calculatePlanetaryPositions(testDate);
     
     debugLog(`Test for ${date}:`);
-    debugLog('Sun Position:', positions.Sun.sign, 'Expected:', expected.Sun);
+    debugLog('sun Position:', positions.sun.sign, 'Expected:', expected.sun);
     debugLog('Moon Position:', positions.Moon.sign, 'Expected:', expected.Moon);
   }
 }
@@ -1728,8 +1728,8 @@ function _calculatePlanetPositionsInternal(date: Date): Record<string, number> {
   const jd = calculateJulianDate(date);
   
   // Calculate sun position - relatively accurate
-  const sunLongitude = calculateSunLongitude(jd);
-  positions.Sun = sunLongitude;
+  const sunLongitude = calculatesunLongitude(jd);
+  positions.sun = sunLongitude;
   
   // Calculate moon position - simplified but reasonable
   const moonLongitude = calculateMoonLongitude(jd);
@@ -1744,8 +1744,8 @@ function _calculatePlanetPositionsInternal(date: Date): Record<string, number> {
   const daysSinceEpoch = (date.getTime() - epoch) / (24 * 60 * 60 * 1000);
   
   // Inner planets move faster than outer planets
-  positions.Mercury = (sunLongitude + (daysSinceEpoch * 4) % 360) % 360;
-  positions.Venus = (sunLongitude + (daysSinceEpoch * 1.6) % 360) % 360;
+  positions.mercury = (sunLongitude + (daysSinceEpoch * 4) % 360) % 360;
+  positions.venus = (sunLongitude + (daysSinceEpoch * 1.6) % 360) % 360;
   positions.Mars = (daysSinceEpoch * 0.5 + 50) % 360;
   positions.Jupiter = (daysSinceEpoch * 0.08 + 120) % 360;
   positions.Saturn = (daysSinceEpoch * 0.03 + 200) % 360;
@@ -1851,12 +1851,12 @@ export function getSignFromLongitude(longitude: number): { sign: string, degree:
  */
 export const zodiacSignToPlanet: Record<string, string> = {
   'Aries': 'Mars',
-  'Taurus': 'Venus',
-  'Gemini': 'Mercury',
+  'Taurus': 'venus',
+  'Gemini': 'mercury',
   'Cancer': 'Moon',
-  'Leo': 'Sun',
-  'Virgo': 'Mercury',
-  'Libra': 'Venus',
+  'Leo': 'sun',
+  'Virgo': 'mercury',
+  'Libra': 'venus',
   'Scorpio': 'Pluto',
   'Sagittarius': 'Jupiter',
   'Capricorn': 'Saturn',
@@ -1887,10 +1887,10 @@ export const parseAstroChartData = (astroChartData: unknown): Record<string, num
     if (astroChartData?.planets) {
       // Map AstroCharts planet names to our internal format
       const planetMapping: Record<string, string> = {
-        'Sun': 'Sun',
+        'sun': 'sun',
         'Moon': 'Moon',
-        'Mercury': 'Mercury',
-        'Venus': 'Venus',
+        'mercury': 'mercury',
+        'venus': 'venus',
         'Mars': 'Mars',
         'Jupiter': 'Jupiter',
         'Saturn': 'Saturn',
@@ -1991,10 +1991,10 @@ export const parseAstroChartAspects = (astroChartData: unknown): Array<{
  */
 export function getPlanetaryElementalInfluence(planet: PlanetName): Element {
   const planetElementMap: Record<PlanetName, Element> = {
-    'Sun': 'Fire',
+    'sun': 'Fire',
     'Moon': 'Water',
-    'Mercury': 'Air',
-    'Venus': 'Earth',
+    'mercury': 'Air',
+    'venus': 'Earth',
     'Mars': 'Fire',
     'Jupiter': 'Air',
     'Saturn': 'Earth',
@@ -2094,7 +2094,7 @@ export function calculateDominantElement(
     'Water': 0
   };
   
-  // Sun sign (strongest influence)
+  // sun sign (strongest influence)
   elementalCounts[getZodiacElementalInfluence(astroState.sunSign)] += 3;
   
   // Moon sign (second strongest)
@@ -2142,7 +2142,7 @@ export function calculateElementalProfile(
     'Water': 0
   };
   
-  // Sun sign (strongest influence)
+  // sun sign (strongest influence)
   elementalCounts[getZodiacElementalInfluence(astroState.sunSign)] += 3;
   
   // Moon sign (second strongest)

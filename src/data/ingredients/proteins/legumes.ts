@@ -1,4 +1,4 @@
-import type { IngredientMapping } from '@/types/alchemy';
+import type { IngredientMapping } from '../../../types/alchemy';
 
 export const legumes: Record<string, IngredientMapping> = {
   "black_beans": {
@@ -79,7 +79,7 @@ export const legumes: Record<string, IngredientMapping> = {
       Air: 0.1
     },
     astrologicalProfile: {
-      rulingPlanets: ['Saturn', 'Mercury'],
+      rulingPlanets: ['Saturn', 'mercury'],
       favorableZodiac: ['capricorn', 'virgo', 'taurus'],
       elementalAffinity: {
         base: 'Earth',

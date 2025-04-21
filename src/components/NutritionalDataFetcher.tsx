@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import { fetchNutritionalData, nutritionalToElemental, zodiacNutritionalNeeds } from '@/data/nutritional';
-import { NutritionalProfile, Element, ZodiacSign } from '@/types/alchemy';
+import { fetchNutritionalData, nutritionalToElemental, zodiacNutritionalNeeds } from '../data/nutritional';
+import { NutritionalProfile, Element, ZodiacSign } from '../types/alchemy';
 
 // Loading spinner component
 function LoadingSpinner() {

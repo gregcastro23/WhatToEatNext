@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
-import { calculatePlanetaryPositions, calculateAspects, getDefaultPlanetaryPositions } from '@/utils/astrologyUtils';
-import { getAccuratePlanetaryPositions } from '@/utils/accurateAstronomy';
-import { cache } from '@/utils/cache';
+import { calculatePlanetaryPositions, calculateAspects, getDefaultPlanetaryPositions } from '../../../utils/astrologyUtils';
+import { getAccuratePlanetaryPositions } from '../../../utils/accurateAstronomy';
+import { cache } from '../../../utils/cache';
 
 const CACHE_KEY = 'planetary-positions';
 const CACHE_TTL = 1 * 60; // 1 minute cache timeout

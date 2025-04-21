@@ -1,5 +1,5 @@
 // src/data/vietnamese.ts
-import type { Cuisine } from '@/types/cuisine';
+import type { Cuisine } from '../../types/cuisine';
 
 export const vietnamese: Cuisine = {
   id: "vietnamese",
@@ -706,7 +706,7 @@ export const vietnamese: Cuisine = {
         Water: 0.2,
         Air: 0.1
       },
-      astrologicalInfluences: ["Mars", "Sun", "Aries"],
+      astrologicalInfluences: ["Mars", "sun", "Aries"],
       seasonality: "all",
       preparationNotes: "Traditional recipes often include fermentation to develop deeper flavor",
       technicalTips: "Roasting or charring chilies first adds complexity and tempers raw heat"
@@ -742,7 +742,7 @@ export const vietnamese: Cuisine = {
         Earth: 0.2,
         Water: 0.1
       },
-      astrologicalInfluences: ["Mars", "Mercury", "Leo"],
+      astrologicalInfluences: ["Mars", "mercury", "Leo"],
       seasonality: "all",
       preparationNotes: "Most authentic when chilies and aromatics are pounded by hand in a mortar and pestle",
       technicalTips: "The oil should separate when fried properly, creating a vibrant red layer on top"

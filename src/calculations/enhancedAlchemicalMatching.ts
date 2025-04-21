@@ -1,10 +1,9 @@
 import { 
   ElementalProperties, 
   ZodiacSign, 
-  AlchemicalResult,
   PlanetaryPosition,
   StandardizedAlchemicalResult
-} from '@/types/alchemy';
+} from '../types/alchemy';
 import { planetInfo, signs } from '../data/astroData';
 import { dignityStrengthModifiers, DignityType } from './alchemicalCalculations';
 
@@ -16,8 +15,8 @@ import { dignityStrengthModifiers, DignityType } from './alchemicalCalculations'
  * 3. Tarot correspondences
  * 4. Modality interactions
  * 
- * @param signA First zodiac sign
- * @param signB Second zodiac sign
+ * @param signA First sun sign
+ * @param signB Second sun sign
  * @param planets Optional planetary positions for more accurate calculations
  * @returns Numeric score between 0-1 representing astrological affinity
  */
@@ -140,16 +139,16 @@ function compareDecanRulers(
       } 
       // Harmonious pairs (based on planetary dignities)
       else if (
-        (rulerA === 'Sun' && rulerB === 'Jupiter') ||
-        (rulerA === 'Jupiter' && rulerB === 'Sun') ||
-        (rulerA === 'Moon' && rulerB === 'Venus') ||
-        (rulerA === 'Venus' && rulerB === 'Moon') ||
-        (rulerA === 'Mercury' && rulerB === 'Uranus') ||
-        (rulerA === 'Uranus' && rulerB === 'Mercury') ||
-        (rulerA === 'Mars' && rulerB === 'Pluto') ||
-        (rulerA === 'Pluto' && rulerB === 'Mars') ||
-        (rulerA === 'Saturn' && rulerB === 'Neptune') ||
-        (rulerA === 'Neptune' && rulerB === 'Saturn')
+        (rulerA === 'sun' && rulerB === 'jupiter') ||
+        (rulerA === 'jupiter' && rulerB === 'sun') ||
+        (rulerA === 'moon' && rulerB === 'venus') ||
+        (rulerA === 'venus' && rulerB === 'moon') ||
+        (rulerA === 'mercury' && rulerB === 'uranus') ||
+        (rulerA === 'uranus' && rulerB === 'mercury') ||
+        (rulerA === 'mars' && rulerB === 'pluto') ||
+        (rulerA === 'pluto' && rulerB === 'mars') ||
+        (rulerA === 'saturn' && rulerB === 'neptune') ||
+        (rulerA === 'neptune' && rulerB === 'saturn')
       ) {
         compatibilityScore += 0.75;
       }
@@ -223,8 +222,8 @@ function calculateDegreeOverlap(
 function compareTarotArcana(tarotA: string, tarotB: string): number {
   // Element-based tarot card groups
   const elementGroups = {
-    fire: ["The Emperor", "Strength", "Temperance", "The Sun"],
-    water: ["The High Priestess", "The Hanged Man", "Death", "The Moon"],
+    fire: ["The Emperor", "Strength", "Temperance", "The sun"],
+    water: ["The High Priestess", "The Hanged Man", "Death", "The moon"],
     air: ["The Magician", "Justice", "The Star", "The World"],
     earth: ["The Hierophant", "The Hermit", "The Devil", "Judgement"],
     neutral: ["The Fool", "The Chariot", "The Tower", "The Lovers", "The Wheel of Fortune"]
@@ -460,28 +459,28 @@ function compareRulers(rulerA: string, rulerB: string): number {
   
   // Define ruler pairs that work well together
   const harmonious: [string, string][] = [
-    ['Sun', 'Jupiter'],
-    ['Jupiter', 'Sun'],
-    ['Moon', 'Venus'],
-    ['Venus', 'Moon'],
-    ['Mercury', 'Uranus'],
-    ['Uranus', 'Mercury'],
-    ['Mars', 'Pluto'],
-    ['Pluto', 'Mars'],
-    ['Saturn', 'Neptune'],
-    ['Neptune', 'Saturn']
+    ['sun', 'jupiter'],
+    ['jupiter', 'sun'],
+    ['moon', 'venus'],
+    ['venus', 'moon'],
+    ['mercury', 'uranus'],
+    ['uranus', 'mercury'],
+    ['mars', 'pluto'],
+    ['pluto', 'mars'],
+    ['saturn', 'neptune'],
+    ['neptune', 'saturn']
   ];
   
   // Define ruler pairs that create tension
   const challenging: [string, string][] = [
-    ['Sun', 'Saturn'],
-    ['Saturn', 'Sun'],
-    ['Moon', 'Mars'],
-    ['Mars', 'Moon'],
-    ['Venus', 'Pluto'],
-    ['Pluto', 'Venus'],
-    ['Mercury', 'Jupiter'],
-    ['Jupiter', 'Mercury']
+    ['sun', 'saturn'],
+    ['saturn', 'sun'],
+    ['moon', 'mars'],
+    ['mars', 'moon'],
+    ['venus', 'pluto'],
+    ['pluto', 'venus'],
+    ['mercury', 'jupiter'],
+    ['jupiter', 'mercury']
   ];
   
   // Check if rulers are in harmonious pairs
@@ -503,46 +502,109 @@ function compareRulers(rulerA: string, rulerB: string): number {
  * 
  * @param elementalPropertiesA First recipe/ingredient's elemental properties
  * @param elementalPropertiesB Second recipe/ingredient's elemental properties
- * @param zodiacA Optional zodiac sign association for first item
- * @param zodiacB Optional zodiac sign association for second item
+ * @param sunSignA Optional sun sign association for first item
+ * @param sunSignB Optional sun sign association for second item
  * @returns Match score between 0 and 1
  */
 export function calculateAlchemicalCompatibility(
   elementalPropertiesA: ElementalProperties,
   elementalPropertiesB: ElementalProperties,
-  zodiacA?: ZodiacSign,
-  zodiacB?: ZodiacSign
+  sunSignA?: ZodiacSign,
+  sunSignB?: ZodiacSign
 ): number {
-  // Calculate basic elemental compatibility
-  let elementalScore = 0;
-  let totalWeight = 0;
+  // Calculate elemental compatibility using cosine similarity
+  // This measures how similar the "direction" of the elemental vectors are
+  // regardless of their magnitude
+  const elements = ['Fire', 'Water', 'Earth', 'Air'];
+  let dotProduct = 0;
+  let magnitudeA = 0;
+  let magnitudeB = 0;
   
-  // Compare each element pair
-  Object.entries(elementalPropertiesA).forEach(([element, valueA]) => {
+  for (const element of elements) {
+    const valueA = elementalPropertiesA[element as keyof ElementalProperties] || 0;
     const valueB = elementalPropertiesB[element as keyof ElementalProperties] || 0;
-    const weight = (valueA + valueB) / 2; // Average weight of this element
     
-    // Similar values are more compatible
-    const similarity = 1 - Math.abs(valueA - valueB);
-    
-    elementalScore += similarity * weight;
-    totalWeight += weight;
-  });
-  
-  // Normalize elemental score
-  const normalizedElementalScore = totalWeight > 0 
-    ? elementalScore / totalWeight 
-    : 0.5;
-  
-  // Calculate zodiac compatibility if signs are provided
-  let zodiacScore = 0.5; // Default neutral score
-  
-  if (zodiacA && zodiacB) {
-    zodiacScore = calculateAstrologicalAffinity(zodiacA, zodiacB);
+    dotProduct += valueA * valueB;
+    magnitudeA += valueA * valueA;
+    magnitudeB += valueB * valueB;
   }
   
-  // Weight elemental properties more than zodiac association
-  return normalizedElementalScore * 0.7 + zodiacScore * 0.3;
+  // Prevent division by zero
+  if (magnitudeA === 0 || magnitudeB === 0) {
+    return 0.5; // Neutral score if either has no elemental properties
+  }
+  
+  // Calculate cosine similarity (ranges from 0 to 1 for positive values)
+  const cosineSimilarity = dotProduct / (Math.sqrt(magnitudeA) * Math.sqrt(magnitudeB));
+  
+  // Element-specific synergy calculations following the principles that
+  // each element is independently valuable and elements don't oppose each other
+  let synergisticBonus = 0;
+  
+  for (const element of elements) {
+    const valueA = elementalPropertiesA[element as keyof ElementalProperties] || 0;
+    const valueB = elementalPropertiesB[element as keyof ElementalProperties] || 0;
+    
+    // Higher values of the same element create stronger harmony
+    // Calculate the synergistic effect (higher when both have high values)
+    // The product represents the combined strength of this element
+    const elementSynergy = valueA * valueB * 0.5;
+    synergisticBonus += elementSynergy;
+  }
+  
+  // Scale the synergistic bonus to ensure it remains in a reasonable range
+  synergisticBonus = Math.min(0.2, synergisticBonus);
+  
+  // Base elemental compatibility score is combination of similarity and synergy
+  const elementalScore = 0.7 * cosineSimilarity + 0.3 * (1 + synergisticBonus);
+  
+  // Calculate sun sign compatibility if provided
+  let sunSignScore = 0.5; // Default neutral value
+  
+  if (sunSignA && sunSignB) {
+    sunSignScore = calculateAstrologicalAffinity(sunSignA, sunSignB);
+    
+    // Element-based harmony bonus for sun signs
+    if (sunSignA && sunSignB) {
+      const signElementA = getZodiacElement(sunSignA);
+      const signElementB = getZodiacElement(sunSignB);
+      
+      // Same element signs have highest compatibility
+      if (signElementA === signElementB) {
+        sunSignScore = Math.max(sunSignScore, 0.9);
+      } else {
+        // Different elements still have good compatibility
+        sunSignScore = Math.max(sunSignScore, 0.7);
+      }
+    }
+  }
+  
+  // Weight elemental properties more than sun sign association
+  const finalScore = elementalScore * 0.7 + sunSignScore * 0.3;
+  
+  return Math.min(1, Math.max(0, finalScore)); // Ensure result is between 0 and 1
+}
+
+/**
+ * Helper function to get the element associated with a zodiac sign
+ */
+function getZodiacElement(sign: ZodiacSign): string {
+  const elementMap: Record<ZodiacSign, string> = {
+    aries: 'Fire',
+    taurus: 'Earth',
+    gemini: 'Air',
+    cancer: 'Water',
+    leo: 'Fire',
+    virgo: 'Earth',
+    libra: 'Air',
+    scorpio: 'Water',
+    sagittarius: 'Fire',
+    capricorn: 'Earth',
+    aquarius: 'Air',
+    pisces: 'Water'
+  };
+  
+  return elementMap[sign] || 'Fire'; // Default to Fire if sign not found
 }
 
 /**
@@ -554,7 +616,7 @@ export function calculateAlchemicalCompatibility(
  * @returns Recommended meal components with reasoning
  */
 export function generateEnhancedRecommendation(
-  astroResult: AlchemicalResult,
+  astroResult: StandardizedAlchemicalResult,
   userPreferences?: string[],
   season?: string
 ): {
@@ -570,12 +632,26 @@ export function generateEnhancedRecommendation(
     modalityInfluence: string;
   }
 } {
-  // Extract dominant element and modality
-  const dominantElement = astroResult.dominant?.element || 'Fire';
-  const dominantModality = astroResult.dominant?.modality || 'Cardinal';
+  // Extract dominant element and modality from the standard properties
+  const dominantElement = astroResult.dominantElement || 'Fire';
+  const dominantModality = astroResult['Dominant Modality'] || 'Cardinal';
   
   // Calculate natural element-modality affinity
-  const naturalAffinity = getElementModalityAffinity(dominantElement, dominantModality);
+  const modalityAffinity = getElementModalityAffinity(dominantElement, dominantModality);
+
+  // Extract the most prominent planet
+  const dominantPlanet = astroResult['Chart Ruler'] || 'sun';
+  
+  // Get seasonal information if provided
+  const currentSeason = season ? season.toLowerCase() : 'spring';
+  const { boost: seasonalBoosts, avoid: seasonalAvoids } = getSeasonalAdjustments(currentSeason, dominantElement);
+  
+  // Calculate alchemical influences based on spirit, essence, matter, substance
+  // These could be used for more nuanced recommendations
+  const spiritInfluence = astroResult.spirit || 0.25;
+  const essenceInfluence = astroResult.essence || 0.25;
+  const matterInfluence = astroResult.matter || 0.25;
+  const substanceInfluence = astroResult.substance || 0.25;
   
   // Base recommendations on dominant element with modality influence
   const elementRecommendations = {
@@ -615,6 +691,15 @@ export function generateEnhancedRecommendation(
         ['aging', 'curing', 'fermenting'] :
         ['quick-cooking', 'raw preparation', 'infusing']
     }
+  };
+  
+  // Use elemental balance to adjust ingredient recommendations
+  // Get the elemental balance and use it to influence the recommendations
+  const elementalBalance = astroResult.elementalBalance || {
+    fire: 0.25,
+    water: 0.25,
+    earth: 0.25,
+    air: 0.25
   };
   
   // Modality influences cooking preparation style with element consideration
@@ -693,6 +778,10 @@ export function generateEnhancedRecommendation(
   const flavor = eleRecs.flavors[0];
   const cookingMethod = eleRecs.methods[0];
   
+  // Use alchemical properties to refine recommendation
+  const alchemicalInfluence = `${spiritInfluence > 0.3 ? 'spiritual' : 'practical'} and ${
+    essenceInfluence > 0.3 ? 'flavorful' : 'substantial'}`;
+  
   // Generate reasoning with added modality influence
   return {
     mainIngredient,
@@ -700,11 +789,15 @@ export function generateEnhancedRecommendation(
     flavor,
     cookingMethod,
     reasoning: {
-      elementalInfluence: `${dominantElement} element suggests ${eleRecs.methods[0]} ${mainIngredient}`,
-      decanic: `Current decan influences favor ${flavor} flavors`,
-      planetary: `Planetary positions suggest ${modRecs.style}`,
+      elementalInfluence: `${dominantElement} element (${Math.round(
+        (dominantElement === 'Fire' ? elementalBalance.fire : 
+         dominantElement === 'Water' ? elementalBalance.water :
+         dominantElement === 'Earth' ? elementalBalance.earth : 
+         elementalBalance.air) * 100)}%) suggests ${eleRecs.methods[0]} ${mainIngredient}`,
+      decanic: `Current ${alchemicalInfluence} influences favor ${flavor} flavors`,
+      planetary: `${dominantPlanet} influence suggests ${modRecs.style}`,
       seasonal: season ? `${season.charAt(0).toUpperCase() + season.slice(1)} calls for ${seasonalInfluence.boost.join(', ')}` : 'No seasonal data provided',
-      modalityInfluence: `${dominantModality} ${dominantElement} particularly favors ${naturalAffinity > 0.7 ? 'strong' : 'moderate'} ${cookingMethod} techniques`
+      modalityInfluence: `${dominantModality} ${dominantElement} particularly favors ${modalityAffinity > 0.7 ? 'strong' : 'moderate'} ${cookingMethod} techniques`
     }
   };
 }
@@ -823,8 +916,8 @@ export function validateAlgorithms(): {
   };
   
   try {
-    const decanA = { "1st Decan": ["Mars"], "2nd Decan": ["Sun"], "3rd Decan": ["Venus"] };
-    const decanB = { "1st Decan": ["Venus"], "2nd Decan": ["Mercury"], "3rd Decan": ["Saturn"] };
+    const decanA = { "1st Decan": ["mars"], "2nd Decan": ["sun"], "3rd Decan": ["venus"] };
+    const decanB = { "1st Decan": ["venus"], "2nd Decan": ["mercury"], "3rd Decan": ["saturn"] };
     const decanScore = compareDecanRulers(decanA, decanB);
     
     decanTest.passed = typeof decanScore === 'number' && decanScore >= 0 && decanScore <= 1;
@@ -843,8 +936,8 @@ export function validateAlgorithms(): {
   };
   
   try {
-    const degreeA = { "Mercury": [15, 21], "Venus": [7, 14], "Mars": [22, 26] };
-    const degreeB = { "Mercury": [9, 15], "Venus": [1, 8], "Mars": [27, 30] };
+    const degreeA = { "mercury": [15, 21], "venus": [7, 14], "mars": [22, 26] };
+    const degreeB = { "mercury": [9, 15], "venus": [1, 8], "mars": [27, 30] };
     const degreeScore = calculateDegreeOverlap(degreeA, degreeB);
     
     degreeTest.passed = typeof degreeScore === 'number' && degreeScore >= 0 && degreeScore <= 1;
@@ -899,7 +992,7 @@ export function validateAlgorithms(): {
   };
   
   try {
-    const rulerScore = compareRulers("Mars", "Venus");
+    const rulerScore = compareRulers("mars", "venus");
     
     rulerTest.passed = typeof rulerScore === 'number' && rulerScore >= 0 && rulerScore <= 1;
     rulerTest.info = `Score: ${rulerScore}`;
@@ -917,7 +1010,42 @@ export function validateAlgorithms(): {
   };
   
   try {
-    const mockResult: AlchemicalResult = {
+    const mockResult: StandardizedAlchemicalResult = {
+      // Core elemental properties
+      elementalBalance: {
+        fire: 0.4,
+        earth: 0.2,
+        air: 0.2,
+        water: 0.2
+      },
+      
+      // Core alchemical properties
+      spirit: 0.3,
+      essence: 0.3,
+      matter: 0.2,
+      substance: 0.2,
+      
+      // Result summary
+      dominantElement: 'Fire',
+      
+      // Using the 'Total Effect Value' for backward compatibility
+      'Total Effect Value': {
+        Fire: 0.4,
+        Water: 0.2,
+        Earth: 0.2,
+        Air: 0.2
+      },
+      
+      // Add modality information
+      '#Cardinal': 3,
+      '#Fixed': 2,
+      '#Mutable': 1,
+      '%Cardinal': 0.5,
+      '%Fixed': 0.3,
+      '%Mutable': 0.2,
+      'Dominant Modality': 'Cardinal',
+      
+      // Add the original mock data under 'additional properties'
       elements: { Fire: 0.4, Water: 0.2, Earth: 0.2, Air: 0.2 },
       modalities: { Cardinal: 0.5, Fixed: 0.3, Mutable: 0.2 },
       qualities: { Hot: 0.6, Dry: 0.4, Cold: 0.2, Wet: 0.2 },

@@ -1,29 +1,51 @@
 'use client';
 
 import { createContext } from 'react';
-import { AlchemicalState, AlchemicalContextType, PlanetaryPositionsType } from './types';
+import { AlchemicalContextType, getCurrentSeason, getTimeOfDay } from './types';
+import { AlchemicalState, AstrologicalState } from '../../types/alchemical';
 
-// Define default state
+// Create a default state for the context
 export const defaultState: AlchemicalState = {
-  currentSeason: 'spring',
-  timeOfDay: 'morning',
-  astrologicalState: null,
+  planetaryPositions: {},
+  normalizedPositions: {},
+  elementalState: {
+    Fire: 0.25,
+    Water: 0.25,
+    Earth: 0.25,
+    Air: 0.25
+  },
+  lunarPhase: 'new moon',
+  dominantElement: 'Fire',
+  planetaryHour: 'sun',
+  svgRepresentation: null,
+  alchemicalValues: {
+    Spirit: 0.25,
+    Essence: 0.25,
+    Matter: 0.25,
+    Substance: 0.25
+  },
+  error: false,
+  errorMessage: '',
+  errors: [],
+  currentSeason: getCurrentSeason(),
+  timeOfDay: getTimeOfDay(),
+  astrologicalState: {
+    currentZodiac: 'aries',
+    sunSign: 'aries',
+    lunarPhase: 'new moon',
+    moonPhase: 'new moon',
+    activePlanets: []
+  },
   currentEnergy: {
-    zodiacEnergy: '',
-    lunarEnergy: '',
-    planetaryEnergy: ''
+    zodiacEnergy: 'aries',
+    lunarEnergy: 'new moon',
+    planetaryEnergy: ['sun', 'moon']
   },
   elementalPreference: {
-    Fire: 0.32,
-    Water: 0.28, 
-    Earth: 0.18,
-    Air: 0.22
-  },
-  elementalState: {
-    Fire: 0.32,
-    Water: 0.28, 
-    Earth: 0.18,
-    Air: 0.22
+    Fire: 0.25,
+    Water: 0.25,
+    Earth: 0.25,
+    Air: 0.25
   },
   celestialPositions: {
     sun: {
@@ -31,23 +53,13 @@ export const defaultState: AlchemicalState = {
       degree: 0
     },
     moon: {
-      sign: 'taurus',
+      sign: 'aries',
       degree: 0
     }
   },
-  error: false,
-  errorMessage: '',
-  errors: [],
-  zodiacEnergy: '',
-  lunarEnergy: '',
-  planetaryEnergy: [],
-  alchemicalValues: {
-    Spirit: 0.29,
-    Essence: 0.28,
-    Matter: 0.21,
-    Substance: 0.22
-  },
-  lunarPhase: 'new moon',
+  zodiacEnergy: 'aries',
+  lunarEnergy: 'new moon',
+  planetaryEnergy: ['sun', 'moon'],
   currentTime: new Date(),
   lastUpdated: new Date()
 };

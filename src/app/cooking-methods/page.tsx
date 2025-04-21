@@ -10,9 +10,9 @@ import {
   traditionalCookingMethods, 
   rawCookingMethods,
   transformationMethods
-} from '@/data/cooking/methods';
-import { capitalizeFirstLetter } from '@/utils/stringUtils';
-import { CookingMethodsSection } from '@/components/CookingMethodsSection';
+} from '../../data/cooking/methods';
+import { capitalizeFirstLetter } from '../../utils/stringUtils';
+import { CookingMethodsSection } from '../../components/CookingMethodsSection';
 
 type MethodCategory = {
   name: string;
@@ -71,28 +71,29 @@ export default function CookingMethodsPage() {
     if (methodCategories[tabValue]) {
       const categoryMethods = methodCategories[tabValue].methods;
       const transformed = Object.entries(categoryMethods).map(([key, method]) => {
+        const typedMethod = method as any;
         return {
           id: key,
           name: capitalizeFirstLetter(key.replace(/_/g, ' ')),
-          description: method.description || '',
-          elementalEffect: method.elementalEffect || method.elementalProperties || {
+          description: typedMethod.description || '',
+          elementalEffect: typedMethod.elementalEffect || typedMethod.elementalProperties || {
             Fire: 0.5,
             Water: 0.5,
             Earth: 0.5,
             Air: 0.5
           },
           score: Math.random() * 0.5 + 0.5, // Mock score between 0.5-1.0
-          duration: method.time_range || method.duration || { min: 10, max: 30 },
-          suitable_for: method.suitable_for || [],
-          benefits: method.benefits || [],
+          duration: typedMethod.time_range || typedMethod.duration || { min: 10, max: 30 },
+          suitable_for: typedMethod.suitable_for || [],
+          benefits: typedMethod.benefits || [],
           // Create variations if they exist
-          variations: method.variations ? 
-            (Array.isArray(method.variations) ? 
-              method.variations.map((v: string, i: number) => ({
+          variations: typedMethod.variations ? 
+            (Array.isArray(typedMethod.variations) ? 
+              typedMethod.variations.map((v: string, i: number) => ({
                 id: `${key}_var_${i}`,
                 name: v,
                 description: `Variation of ${capitalizeFirstLetter(key.replace(/_/g, ' '))}`,
-                elementalEffect: method.elementalEffect || method.elementalProperties,
+                elementalEffect: typedMethod.elementalEffect || typedMethod.elementalProperties,
                 score: Math.random() * 0.3 + 0.6
               })) : []
             ) : []
@@ -108,10 +109,11 @@ export default function CookingMethodsPage() {
   };
 
   const handleSelectMethod = (method: unknown) => {
-    setSelectedMethodId(method.id);
+    const typedMethod = method as { id: string };
+    setSelectedMethodId(typedMethod.id);
     // If it's a main method (not a variation), navigate to it
-    if (!method.id.includes('_var_')) {
-      router.push(`/cooking-methods/${method.id}`);
+    if (!typedMethod.id.includes('_var_')) {
+      router.push(`/cooking-methods/${typedMethod.id}`);
     }
   };
 

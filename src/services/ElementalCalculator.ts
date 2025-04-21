@@ -1,51 +1,66 @@
-import { ElementalProperties, Recipe, Season, TimeOfDay , CombinationResult, Element , Ingredient, ZodiacSign, AstrologicalState, ElementalSummary } from '../types/alchemy';
+import { 
+  ElementalProperties, 
+  DEFAULT_ELEMENTAL_PROPERTIES,
+  Recipe, 
+  Season, 
+  TimeOfDay, 
+  CombinationResult, 
+  Element,
+  Ingredient, 
+  ZodiacSign, 
+  AstrologicalState, 
+  ElementalSummary,
+  Planet
+} from '../types';
 import { normalizeProperties } from '../utils/elementalUtils';
-import { DEFAULT_ELEMENTAL_PROPERTIES } from '../constants/elementalConstants';
 import type { PlanetaryAlignment } from '../types/alchemy';
-import { createLogger } from '@/utils/logger';
+import { createLogger } from '../utils/logger';
 
 const logger = createLogger('ElementalCalculator');
 
+/**
+ * ElementalCalculator Service
+ * 
+ * A service for calculating elemental properties, compatibility,
+ * and other alchemical relationships in the application.
+ * 
+ * This is implemented as a singleton to ensure consistent state
+ * management throughout the application.
+ */
 export class ElementalCalculator {
     private static instance: ElementalCalculator;
-    private currentBalance: ElementalProperties = DEFAULT_ELEMENTAL_PROPERTIES;
-    private initialized = false;
+    private currentElementalState: ElementalProperties = {
+        Fire: 0.25,
+        Water: 0.25,
+        Earth: 0.25,
+        Air: 0.25
+    };
 
-    private constructor() {
-        // Private constructor to enforce singleton pattern
-    }
+    private constructor() {}
 
-    static getInstance(): ElementalCalculator {
+    /**
+     * Get the singleton instance of ElementalCalculator
+     */
+    public static getInstance(): ElementalCalculator {
         if (!ElementalCalculator.instance) {
             ElementalCalculator.instance = new ElementalCalculator();
         }
         return ElementalCalculator.instance;
     }
 
-    static initialize(initialState?: ElementalProperties): void {
-        const instance = ElementalCalculator.getInstance();
-        instance.currentBalance = initialState || { ...DEFAULT_ELEMENTAL_PROPERTIES };
-        instance.initialized = true;
-        logger.debug('ElementalCalculator initialized with', instance.currentBalance);
+    /**
+     * Get the current elemental state
+     */
+    public static getCurrentElementalState(): ElementalProperties {
+        return this.getInstance().currentElementalState;
     }
 
-    static updateElementalState(newState: ElementalProperties): void {
-        const instance = ElementalCalculator.getInstance();
-        instance.currentBalance = { ...newState };
-        logger.debug('ElementalCalculator state updated', instance.currentBalance);
-    }
-
-    static getCurrentElementalState(): ElementalProperties {
-        const instance = ElementalCalculator.getInstance();
-        if (!instance.initialized) {
-            // Only use direct initialization without the dynamic import of useAlchemical
-            // which causes "Invalid hook call" errors in tests
-            ElementalCalculator.initialize();
-            
-            // In a browser, the AlchemicalContext provider will call updateElementalState
-            // so we don't need to worry about initializing with the correct state here
-        }
-        return instance.currentBalance;
+    /**
+     * Update the current elemental state
+     */
+    public static updateElementalState(state: ElementalProperties): void {
+        const instance = this.getInstance();
+        instance.currentElementalState = { ...state };
     }
 
     static calculateMatchScore(item: Recipe | { elementalProperties: ElementalProperties | undefined }): number {
@@ -315,21 +330,21 @@ export class ElementalCalculator {
         return Math.min(1, potency);
     }
 
-    private getDominantElement(properties: ElementalProperties): Element {
-        let highest = -1;
-        let dominantElement: Element = 'Fire';
+    /**
+     * Calculate the dominant element from a set of elemental properties
+     */
+    public getDominantElement(elementalProperties: ElementalProperties): keyof ElementalProperties {
+        let maxElement: keyof ElementalProperties = 'Fire';
+        let maxValue = 0;
         
-        for (const element in properties) {
-            if (Object.prototype.hasOwnProperty.call(properties, element)) {
-                const value = properties[element as keyof ElementalProperties];
-                if (value > highest) {
-                    highest = value;
-                    dominantElement = element as Element;
-                }
+        (Object.keys(elementalProperties) as Array<keyof ElementalProperties>).forEach(element => {
+            if (elementalProperties[element] > maxValue) {
+                maxValue = elementalProperties[element];
+                maxElement = element;
             }
-        }
+        });
         
-        return dominantElement;
+        return maxElement;
     }
 
     private getZodiacElement(sign: ZodiacSign): Element {
@@ -613,6 +628,29 @@ export class ElementalCalculator {
         
         return result;
     }
+
+    /**
+     * Calculate elemental compatibility between two elements
+     * Following elemental logic principles, each element works best with itself
+     * and all elements have good compatibility with each other
+     */
+    public static calculateElementalCompatibility(element1: string, element2: string): number {
+        // Same element has highest compatibility
+        if (element1 === element2) {
+            return 0.9; // Same element has high compatibility
+        }
+        
+        // All different element combinations have good compatibility
+        return 0.7; // Different elements have good compatibility
+    }
 }
 
+/**
+ * Export a singleton instance for ease of use
+ */
+export const elementalCalculator = ElementalCalculator.getInstance();
+
+/**
+ * Default export the class for compatibility
+ */
 export default ElementalCalculator; 

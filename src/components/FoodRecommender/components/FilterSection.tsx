@@ -4,13 +4,14 @@
 
 import React, { useEffect, useState } from 'react';
 import { Timer, Flame, Droplet, Wind, Mountain } from 'lucide-react';
-import type { FilterOptions, NutritionPreferences, ElementalProperties, ZodiacSign, LunarPhase } from '@/types/alchemy';
-import { cuisines } from '@/data/cuisines';
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-import { AlchemicalEngineAdvanced as AlchemicalEngine } from '@/calculations/alchemicalEngine';
-import { calculateSeasonalElements } from '@/calculations/seasonalCalculations';
-import { getCurrentSeason, getDayOfYear, getMoonPhase, getTimeOfDay } from '@/utils/dateUtils';
-import { normalizeLunarPhase } from '@/utils/lunarPhaseUtils';
+import type { FilterOptions, NutritionPreferences, ElementalProperties, ZodiacSign, LunarPhase } from '../../../types/alchemy';
+import { cuisines } from '../../../data/cuisines';
+import { useAlchemical } from '../../../contexts/AlchemicalContext/hooks';
+import { AlchemicalEngineAdvanced as AlchemicalEngine } from '../../../calculations/alchemicalEngine';
+import { calculateSeasonalElements } from '../../../calculations/seasonalCalculations';
+import { getCurrentSeason, getDayOfYear, getMoonPhase, getTimeOfDay } from '../../../utils/dateUtils';
+import { normalizeLunarPhase } from '../../../utils/lunarPhaseUtils';
+import { AlchemicalDispatchType } from '../../../types/alchemical';
 
 type FilterSectionProps = {
   filters: FilterOptions;
@@ -37,8 +38,8 @@ export default function FilterSection({
   const { state, dispatch } = useAlchemical();
   const calculator = new AlchemicalEngine();
 
-  const [currentSunSign, setCurrentSunSign] = useState<ZodiacSign>('aries');
-  const [sunDegrees, setSunDegrees] = useState<number>(0);
+  const [currentsunSign, setCurrentsunSign] = useState<ZodiacSign>('aries');
+  const [sunDegrees, setsunDegrees] = useState<number>(0);
 
   useEffect(() => {
     const updateNaturalInfluences = async () => {
@@ -53,7 +54,7 @@ export default function FilterSection({
           season: currentSeason,
           moonPhase: rawMoonPhase,
           timeOfDay: timeOfDay,
-          sunSign: currentSunSign,
+          sunSign: currentsunSign,
           degreesInSign: sunDegrees
         });
 
@@ -65,7 +66,7 @@ export default function FilterSection({
 
         // Update state with natural influences
         dispatch({
-          type: 'SET_ELEMENTAL_PREFERENCE',
+          type: AlchemicalDispatchType.UPDATE_ELEMENTAL_STATE,
           payload: elementalState
         });
 
@@ -78,7 +79,7 @@ export default function FilterSection({
     // Update every hour
     const interval = setInterval(updateNaturalInfluences, 3600000);
     return () => clearInterval(interval);
-  }, [currentSunSign, sunDegrees, calculator, dispatch]);
+  }, [currentsunSign, sunDegrees, calculator, dispatch]);
 
   useEffect(() => {
     // Get current date
@@ -97,8 +98,8 @@ export default function FilterSection({
       'sagittarius', 'capricorn', 'aquarius', 'pisces'
     ];
     
-    setCurrentSunSign(zodiacSigns[signIndex]);
-    setSunDegrees(Math.floor(daysIntoSign * (30/30.44))); // Convert to degrees (0-29)
+    setCurrentsunSign(zodiacSigns[signIndex]);
+    setsunDegrees(Math.floor(daysIntoSign * (30/30.44))); // Convert to degrees (0-29)
   }, []);
 
   const handleElementalChange = (element: keyof ElementalProperties, value: number) => {
@@ -107,7 +108,7 @@ export default function FilterSection({
       [element]: value / 100
     };
     dispatch({
-      type: 'SET_ELEMENTAL_PREFERENCE',
+      type: AlchemicalDispatchType.UPDATE_ELEMENTAL_STATE,
       payload: newBalance
     });
   };

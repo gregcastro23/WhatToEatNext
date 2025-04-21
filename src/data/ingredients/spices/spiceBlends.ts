@@ -1,18 +1,18 @@
-import type { IngredientMapping } from '@/types/alchemy';
-import { fixIngredientMappings } from '@/utils/elementalUtils';
-import { CUISINE_TYPES } from '@/constants/cuisineTypes';
+import type { IngredientMapping } from '../../../types/alchemy';
+import { fixIngredientMappings } from '../../../utils/elementalUtils';
+import { CUISINE_TYPES } from '../../../constants/cuisineTypes';
 
 const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
   'garam_masala': {
     name: 'Garam Masala',
     elementalProperties: { Fire: 0.5, Air: 0.2, Earth: 0.2, Water: 0.1 },
     astrologicalProfile: {
-      rulingPlanets: ['Sun', 'Jupiter'],
+      rulingPlanets: ['sun', 'Jupiter'],
       favorableZodiac: ['leo', 'sagittarius'],
       elementalAffinity: {
         base: 'Fire',
         decanModifiers: {
-          first: { element: 'Fire', planet: 'Sun' },
+          first: { element: 'Fire', planet: 'sun' },
           second: { element: 'Air', planet: 'Jupiter' },
           third: { element: 'Earth', planet: 'Saturn' }
         }
@@ -73,14 +73,14 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     name: 'Ras El Hanout',
     elementalProperties: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
     astrologicalProfile: {
-      rulingPlanets: ['Venus', 'Mars'],
+      rulingPlanets: ['venus', 'Mars'],
       favorableZodiac: ['taurus', 'scorpio'],
       elementalAffinity: {
         base: 'Fire',
         decanModifiers: {
-          first: { element: 'Fire', planet: 'Venus' },
+          first: { element: 'Fire', planet: 'venus' },
           second: { element: 'Earth', planet: 'Mars' },
-          third: { element: 'Air', planet: 'Mercury' }
+          third: { element: 'Air', planet: 'mercury' }
         }
       }
     },

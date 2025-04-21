@@ -1,17 +1,16 @@
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-import { stateManager } from '@/utils/stateManager';
-import { recipeFilter } from '@/utils/recipeFilters';
-import { logger } from '@/utils/logger';
-import Recipe from '@/components/Recipe/Recipe';
+import { useAlchemical } from '../../contexts/AlchemicalContext/hooks';
+import { stateManager } from '../../utils/stateManager';
+import { recipeFilter } from '../../utils/recipeFilters';
+import { logger } from '../../utils/logger';
+import Recipe from '../Recipe/Recipe';
 import { Filter, Search, SlidersHorizontal, X } from 'lucide-react';
-import type { ScoredRecipe, Recipe as RecipeType } from '@/types/recipe';
-import type { CuisineType, DietaryRestriction } from '@/types/alchemy';
-import { recipeData } from '@/services/recipeData';
-import { cuisines } from '@/data/cuisines';
-import { foodTypes } from '@/data/foodTypes';
+import type { ScoredRecipe, Recipe as RecipeType } from '../../types/recipe';
+import type { CuisineType, DietaryRestriction } from '../../types/alchemy';
+import { recipeData } from '../../services/recipeData';
+import { cuisines } from '../../data/cuisines';
 
 // Use actual cuisine data from imports instead of mock data
 const cuisineTypes = cuisines ? Object.keys(cuisines).reduce((acc, cuisine) => {
@@ -29,8 +28,8 @@ const cuisineTypes = cuisines ? Object.keys(cuisines).reduce((acc, cuisine) => {
   'French': true
 };
 
-// Use actual meal types from food types instead of hardcoded ones
-const mealTypes = foodTypes.mealTypes || [
+// Default meal types since we can't import foodTypes
+const mealTypes = [
   'Breakfast',
   'Lunch',
   'Dinner',
@@ -38,8 +37,8 @@ const mealTypes = foodTypes.mealTypes || [
   'Snack'
 ];
 
-// Use dietary options from food types if available
-const dietaryOptions: DietaryRestriction[] = foodTypes.dietaryRestrictions as DietaryRestriction[] || [
+// Default dietary options
+const dietaryOptions: DietaryRestriction[] = [
   'vegetarian',
   'vegan',
   'gluten-free',
@@ -118,7 +117,7 @@ export default function RecipeList() {
           mealType: filters.mealType,
           dietaryRestrictions: filters.dietary,
           maxPrepTime: filters.maxTime,
-          elementalState: state.elementalPreference
+          elementalState: state.elementalPreference as any
         },
         { by: 'relevance', direction: 'desc' }
       );

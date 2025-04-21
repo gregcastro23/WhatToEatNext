@@ -1,7 +1,7 @@
 import React from 'react';
-import { usePopup } from '@/contexts/PopupContext/hooks';
-import { ZODIAC_ELEMENTS, ELEMENT_AFFINITIES } from '@/constants/elementalConstants';
-import type { ZodiacSign, Element } from '@/types/alchemy';
+import { usePopup } from '../contexts/PopupContext/hooks';
+import { ZODIAC_ELEMENTS, ELEMENT_AFFINITIES } from '../constants/elementalConstants';
+import type { ZodiacSign, Element } from '../types/alchemy';
 
 type PopupOptions = {
   type?: string;

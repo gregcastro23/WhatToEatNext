@@ -1,9 +1,9 @@
 import type { 
   ZodiacSign, 
   ThermodynamicProperties
-} from '@/types/alchemy';
+} from '../../../../types/alchemy';
 
-import type { CookingMethodData } from '@/types/cookingMethod';
+import type { CookingMethodData } from '../../../../types/cookingMethod';
 
 /**
  * Steaming cooking method
@@ -28,7 +28,7 @@ export const steaming: CookingMethodData = {
   astrologicalInfluences: {
     favorableZodiac: ['cancer', 'pisces', 'libra'] as ZodiacSign[],
     unfavorableZodiac: ['leo', 'aries', 'virgo'] as ZodiacSign[],
-    dominantPlanets: ['Moon', 'Venus', 'Neptune'],
+    dominantPlanets: ['Moon', 'venus', 'Neptune'],
     lunarPhaseEffect: {
       'full_moon': 1.25, // Enhanced moisture retention
       'new_moon': 0.85,  // Diminished vapor production

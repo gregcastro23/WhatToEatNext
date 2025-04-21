@@ -19,7 +19,7 @@ const saturnData: PlanetData = {
   'Diurnal Element': 'Air',
   'Nocturnal Element': 'Earth',
   'AstronomicalData': {
-    'DistanceFromSun': '886 million miles (1.4 billion kilometers)',
+    'DistanceFromsun': '886 million miles (1.4 billion kilometers)',
     'DistanceFromEarth': {
       'Minimum': '746 million miles (1.2 billion kilometers)',
       'Maximum': '1 billion miles (1.7 billion kilometers)'
@@ -31,7 +31,7 @@ const saturnData: PlanetData = {
     'OrbitPeriod': '29.5 Earth years',
     'Axial Tilt': '26.7 degrees',
     'PhaseCycle': '378 days (synodic period)',
-    'SunlightTravelTime': '80 minutes',
+    'sunlightTravelTime': '80 minutes',
     'PhysicalCharacteristics': {
       'Surface': 'Gas giant with no solid surface, characterized by subtle bands and periodic storms',
       'MagneticField': 'Strong magnetic field, about 578 times Earth\'s strength',
@@ -67,8 +67,8 @@ const saturnData: PlanetData = {
     'NightEmission': 'Matter - "that which is minimally reactive"',
     'ElementalBridges': ['Connects Air and Earth', 'Bridges theory and practice', 'Links thought and form'],
     'SharedElements': {
-      'Air': ['Mercury', 'Jupiter'],
-      'Earth': ['Mercury', 'Venus']
+      'Air': ['mercury', 'Jupiter'],
+      'Earth': ['mercury', 'venus']
     },
     'AssociatedQualities': [
       'Dry',
@@ -185,7 +185,7 @@ const saturnData: PlanetData = {
     'Reinforces established culinary principles'
   ],
   'AspectsEffect': {
-    'Sun': {
+    'sun': {
       'Conjunction': -0.2,
       'Opposition': -0.3,
       'Trine': 0.1,
@@ -199,7 +199,7 @@ const saturnData: PlanetData = {
       'Square': -0.5,
       'Sextile': -0.1
     },
-    'Mercury': {
+    'mercury': {
       'Conjunction': -0.2,
       'Opposition': -0.3,
       'Trine': 0.2,
@@ -213,7 +213,7 @@ const saturnData: PlanetData = {
       'Square': -0.1,
       'Sextile': 0.2
     },
-    'Venus': {
+    'venus': {
       'Conjunction': 0.1,
       'Opposition': -0.2,
       'Trine': 0.3,

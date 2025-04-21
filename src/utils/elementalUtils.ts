@@ -1,6 +1,6 @@
 // src/utils/elementalUtils.ts
 
-import { ELEMENTAL_CHARACTERISTICS, DEFAULT_ELEMENTAL_PROPERTIES } from '@/constants/elementalConstants';
+import { ELEMENTAL_CHARACTERISTICS, DEFAULT_ELEMENTAL_PROPERTIES } from '../constants/elementalConstants';
 import type { 
   ElementalProperties, 
   Recipe, 
@@ -9,13 +9,13 @@ import type {
   ElementalCharacteristics, 
   Element, 
   ElementalProfile
-} from '@/types/alchemy';
-import { ElementalCalculator } from '@/services/ElementalCalculator';
-import { normalizeElementalProperties } from '@/types/validators';
+} from '../types/alchemy';
+import { ElementalCalculator } from '../services/ElementalCalculator';
+import { normalizeElementalProperties } from '../types/validators';
 import { elements, elementalInteractions, elementalFunctions } from './elementalMappings';
-import { ElementalItem, AlchemicalItem } from '@/calculations/alchemicalTransformation';
-import { ElementalCharacter } from '@/constants/planetaryElements';
-import { LunarPhase, calculatePlanetaryBoost } from '@/constants/planetaryFoodAssociations';
+import { ElementalItem, AlchemicalItem } from '../calculations/alchemicalTransformation';
+import { ElementalCharacter } from '../constants/planetaryElements';
+import { LunarPhase, calculatePlanetaryBoost } from '../constants/planetaryFoodAssociations';
 
 // Define missing AlchemicalProperty type
 type AlchemicalProperty = 'Spirit' | 'Essence' | 'Matter' | 'Substance';

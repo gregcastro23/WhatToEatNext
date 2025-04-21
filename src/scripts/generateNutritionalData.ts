@@ -399,7 +399,7 @@ async function generateNutritionalDataFile(ingredientsDir: string) {
  * Generated on: ${new Date().toISOString()}
  */
 
-import { NutritionalProfile } from '@/types/alchemy';
+import { NutritionalProfile } from '../types/alchemy';
 
 export const usdaNutritionalData: Record<string, NutritionalProfile> = ${JSON.stringify(results, null, 2)};
 

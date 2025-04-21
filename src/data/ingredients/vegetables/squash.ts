@@ -1,5 +1,5 @@
-import type { IngredientMapping } from '@/types/alchemy';
-import { fixIngredientMappings } from '@/utils/elementalUtils';
+import type { IngredientMapping } from '../../../types/alchemy';
+import { fixIngredientMappings } from '../../../utils/elementalUtils';
 
 const rawSquash = {
   "butternut squash": {
@@ -12,7 +12,7 @@ const rawSquash = {
     },
     "astrologicalProfile": {
       "rulingPlanets": [
-        "Venus",
+        "venus",
         "Saturn"
       ],
       "favorableZodiac": [
@@ -24,7 +24,7 @@ const rawSquash = {
         "decanModifiers": {
           "first": {
             "element": "Earth",
-            "planet": "Venus"
+            "planet": "venus"
           },
           "second": {
             "element": "Water",
@@ -32,7 +32,7 @@ const rawSquash = {
           },
           "third": {
             "element": "Fire",
-            "planet": "Sun"
+            "planet": "sun"
           }
         }
       }

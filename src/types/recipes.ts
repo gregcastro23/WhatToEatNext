@@ -1,5 +1,5 @@
-import { ElementalProperties, ZodiacSign, AstrologicalInfluence } from '@/types/alchemy';
-import { CuisineProfile } from '@/data/cuisines/culinaryTraditions';
+import { ElementalProperties, ZodiacSign, AstrologicalInfluence } from './alchemy';
+import { CuisineProfile } from '../data/cuisines/culinaryTraditions';
 
 export interface RecipeElementalMapping {
   elementalProperties: ElementalProperties;

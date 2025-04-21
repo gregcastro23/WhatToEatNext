@@ -1,5 +1,9 @@
 'use client';
 
+import { Dispatch } from 'react';
+import { AlchemicalAction, AlchemicalState } from '../../types/alchemical';
+import { Season } from '../../types/alchemy';
+
 import { 
   ElementalProperties,
   AlchemicalProperties,
@@ -8,78 +12,27 @@ import {
   LunarPhase,
   Planet,
   PlanetaryAlignment
-} from '@/types/celestial';
+} from '../../types/celestial';
+
+import {
+  AstrologicalState as CentralizedAstrologicalState,
+  AlchemicalState as CentralizedAlchemicalState
+} from '../../types/state';
+
+// Use the centralized types but alias them to maintain backward compatibility
+export type AstrologicalState = CentralizedAstrologicalState;
+export type AlchemicalState = CentralizedAlchemicalState;
 
 // Type for planetary positions
-export type PlanetaryPositionsType = Record<string, CelestialPosition>;
-
-// Interface for astrological state
-export interface AstrologicalState {
-  sunSign: string;
-  moonSign: string;
-  lunarPhase: string;
-  timeOfDay: string;
-  isDaytime: boolean;
-  planetaryHour: string;
-  zodiacSign: string;
-  activePlanets: string[];
-  activeAspects: unknown[];
-  dominantElement: string;
-  alchemicalValues?: AlchemicalValues;
-  calculationError: boolean;
-  aspects?: unknown[];
-  tarotElementBoosts?: Record<string, number>;
-  tarotPlanetaryBoosts?: Record<string, number>;
-  currentPlanetaryAlignment?: PlanetaryAlignment;
-  planetaryPositions?: Record<string, CelestialPosition>;
-  currentZodiac?: string;
-  moonPhase?: string;
-  planetaryHours?: string;
-}
+export type PlanetaryPositionsType = Record<string, unknown>;
 
 // Interface for alchemical values
 export interface AlchemicalValues extends AlchemicalProperties {}
 
-// Interface for alchemical state
-export interface AlchemicalState {
-  currentSeason: string;
-  timeOfDay: string;
-  astrologicalState: AstrologicalState | null;
-  currentEnergy: {
-    zodiacEnergy: string;
-    lunarEnergy: string;
-    planetaryEnergy: string | string[];
-  };
-  elementalPreference: ElementalProperties;
-  elementalState: ElementalProperties;
-  celestialPositions: {
-    sun?: {
-      sign: string;
-      degree?: number;
-      exactLongitude?: number;
-    };
-    moon?: {
-      sign: string;
-      degree?: number;
-      exactLongitude?: number;
-    };
-  };
-  error: boolean;
-  errorMessage: string;
-  errors: string[];
-  zodiacEnergy: string;
-  lunarEnergy: string;
-  planetaryEnergy: string[];
-  alchemicalValues: AlchemicalProperties;
-  lunarPhase: string;
-  currentTime: Date;
-  lastUpdated: Date;
-}
-
 // Interface for the context type
 export interface AlchemicalContextType {
   state: AlchemicalState;
-  dispatch: React.Dispatch<any>;
+  dispatch: Dispatch<AlchemicalAction>;
   planetaryPositions: PlanetaryPositionsType;
   isDaytime: boolean;
   updatePlanetaryPositions: (positions: PlanetaryPositionsType) => void;
@@ -89,21 +42,23 @@ export interface AlchemicalContextType {
 }
 
 // Helper functions
-export const getCurrentSeason = (): string => {
+export function getCurrentSeason(): Season {
   const month = new Date().getMonth();
+  
   if (month >= 2 && month <= 4) return 'spring';
   if (month >= 5 && month <= 7) return 'summer';
   if (month >= 8 && month <= 10) return 'autumn';
   return 'winter';
-};
+}
 
-export const getTimeOfDay = (): string => {
+export function getTimeOfDay(): 'morning' | 'afternoon' | 'evening' | 'night' {
   const hour = new Date().getHours();
+  
   if (hour >= 5 && hour < 12) return 'morning';
   if (hour >= 12 && hour < 17) return 'afternoon';
   if (hour >= 17 && hour < 21) return 'evening';
   return 'night';
-};
+}
 
 export const getDayOfYear = (): number => {
   const now = new Date();

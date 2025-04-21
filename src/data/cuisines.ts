@@ -16,7 +16,7 @@ import { vietnamese } from './cuisines/vietnamese';
 import { russian } from './cuisines/russian';
 
 // Import types
-import type { Recipe, ElementalProperties, CuisineType } from '@/types/alchemy';
+import type { Recipe, ElementalProperties, CuisineType } from '../types/alchemy';
 
 // Example recipe type for reference
 const exampleRecipe: Recipe = {

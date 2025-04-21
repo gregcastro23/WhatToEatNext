@@ -1,5 +1,5 @@
-import type { Cuisine } from '@/types/cuisine';
-import type { LunarPhase, ZodiacSign } from '@/types/alchemy';
+import type { Cuisine } from '../../types/cuisine';
+import type { LunarPhase, ZodiacSign } from '../../types/alchemy';
 
 export const american: Cuisine = {
   id: "american",
@@ -1013,7 +1013,7 @@ export const american: Cuisine = {
           allergens: ["gluten", "dairy"],
           prepTime: "30 minutes plus marinating time",
           cookTime: "45 minutes",
-          culturalNotes: "A cornerstone of Southern American cuisine with roots in African American culinary traditions. Sunday dinners and celebrations often featured this meal",
+          culturalNotes: "A cornerstone of Southern American cuisine with roots in African American culinary traditions. sunday dinners and celebrations often featured this meal",
           pairingSuggestions: ["collard greens", "mac and cheese", "sweet tea"],
           dietaryInfo: ["contains meat", "high calorie"],
           spiceLevel: "mild",
@@ -1655,7 +1655,7 @@ export const american: Cuisine = {
         Water: 0.2,
         Air: 0.0
       },
-      astrologicalInfluences: ["Mars", "Sun", "Aries"],
+      astrologicalInfluences: ["Mars", "sun", "Aries"],
       seasonality: "summer",
       preparationNotes: "Traditionally simmered slowly to develop deep flavor and thicken",
       technicalTips: "Balance acid, sweetness, and spice to complement the meat it will accompany"
@@ -1673,7 +1673,7 @@ export const american: Cuisine = {
         Water: 0.6,
         Air: 0.2
       },
-      astrologicalInfluences: ["Venus", "Moon", "Taurus"],
+      astrologicalInfluences: ["venus", "Moon", "Taurus"],
       seasonality: "all",
       preparationNotes: "Best when made fresh and allowed to rest for flavors to meld",
       technicalTips: "Use fresh herbs when possible for brightest flavor"
@@ -1727,7 +1727,7 @@ export const american: Cuisine = {
         Water: 0.5,
         Air: 0.0
       },
-      astrologicalInfluences: ["Venus", "Jupiter", "Libra"],
+      astrologicalInfluences: ["venus", "Jupiter", "Libra"],
       seasonality: "autumn and winter",
       preparationNotes: "Grade B maple syrup offers more robust flavor for cooking",
       technicalTips: "Reduce slowly to prevent burning the sugars"
@@ -1826,7 +1826,7 @@ export const american: Cuisine = {
       description: "Soul-warming food with African, European and Native American influences",
       signature: ["fried chicken", "collard greens", "cornbread", "biscuits and gravy", "peach cobbler"],
       elementalProperties: { Fire: 0.3, Earth: 0.4, Water: 0.2, Air: 0.1 },
-      astrologicalInfluences: ["Venus", "Jupiter", "Taurus"],
+      astrologicalInfluences: ["venus", "Jupiter", "Taurus"],
       seasonality: "year-round with seasonal ingredients"
     },
     newEngland: {
@@ -1842,7 +1842,7 @@ export const american: Cuisine = {
       description: "Bold flavors influenced by Mexican, Spanish, and Native American traditions",
       signature: ["chili con carne", "tex-mex", "barbecue", "corn dishes", "pecan pie"],
       elementalProperties: { Fire: 0.6, Earth: 0.3, Water: 0.0, Air: 0.1 },
-      astrologicalInfluences: ["Mars", "Sun", "Aries"],
+      astrologicalInfluences: ["Mars", "sun", "Aries"],
       seasonality: "desert adaptations with seasonal celebrations"
     },
     midwest: {
@@ -1850,7 +1850,7 @@ export const american: Cuisine = {
       description: "Hearty comfort food emphasizing locally grown ingredients and German influence",
       signature: ["casseroles", "corn on the cob", "meat and potatoes", "wild rice dishes", "fruit pies"],
       elementalProperties: { Fire: 0.2, Earth: 0.6, Water: 0.1, Air: 0.1 },
-      astrologicalInfluences: ["Saturn", "Venus", "Capricorn"],
+      astrologicalInfluences: ["Saturn", "venus", "Capricorn"],
       seasonality: "strongly seasonal with preservation techniques"
     },
     california: {
@@ -1858,7 +1858,7 @@ export const american: Cuisine = {
       description: "Fresh, produce-forward cooking with Mediterranean and Asian influences",
       signature: ["farm-to-table", "avocado toast", "fish tacos", "sourdough bread", "wine country cuisine"],
       elementalProperties: { Fire: 0.2, Earth: 0.3, Water: 0.2, Air: 0.3 },
-      astrologicalInfluences: ["Mercury", "Uranus", "Gemini"],
+      astrologicalInfluences: ["mercury", "Uranus", "Gemini"],
       seasonality: "year-round fresh ingredients"
     }
   },
@@ -1873,7 +1873,7 @@ export const american: Cuisine = {
   astrologicalInfluences: [
     "Jupiter", // Abundance and generosity in portions
     "Mars",    // Bold flavors and cooking techniques
-    "Venus"    // Comfort foods and indulgent desserts
+    "venus"    // Comfort foods and indulgent desserts
   ]
 };
 

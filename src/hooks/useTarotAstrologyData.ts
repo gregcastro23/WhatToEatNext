@@ -1,22 +1,22 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useAstrologicalState } from './useAstrologicalState';
-import { getTarotCardsForDate } from '@/lib/tarotCalculations';
-import { ElementalCharacter } from '@/constants/planetaryElements';
-import { LunarPhase as AlchemyLunarPhase, PlanetaryAspect, LunarPhaseWithSpaces } from '@/types/alchemy';
-import { LunarPhase as FoodAssociationsLunarPhase } from '@/constants/planetaryFoodAssociations';
-import { PLANET_TO_MAJOR_ARCANA } from '@/constants/tarotCards';
-import { calculateSignEnergyStates, SignEnergyState } from '@/constants/signEnergyStates';
-import { calculateAspects } from '@/utils/astrologyUtils';
+import { getTarotCardsForDate } from '../lib/tarotCalculations';
+import { ElementalCharacter } from '../constants/planetaryElements';
+import { LunarPhase as AlchemyLunarPhase, PlanetaryAspect, LunarPhaseWithSpaces } from '../types/alchemy';
+import { LunarPhase as FoodAssociationsLunarPhase } from '../constants/planetaryFoodAssociations';
+import { PLANET_TO_MAJOR_ARCANA } from '../constants/tarotCards';
+import { calculateSignEnergyStates, SignEnergyState } from '../constants/signEnergyStates';
+import { calculateAspects } from '../utils/astrologyUtils';
 
 // Import all lunar phase utilities from the centralized utility file
 import {
   LUNAR_PHASES,
   normalizeLunarPhase,
   REVERSE_LUNAR_PHASE_MAP
-} from '@/utils/lunarPhaseUtils';
+} from '../utils/lunarPhaseUtils';
 
 // Import the logger utility
-import { createLogger } from '@/utils/logger';
+import { createLogger } from '../utils/logger';
 
 // Create a component-specific logger
 const logger = createLogger('TarotAstrology');
@@ -188,7 +188,7 @@ export const useTarotAstrologyData = (): TarotAstrologyResult => {
       } : undefined;
       
       // Log the sun position for debugging
-      logger.debug('Current Sun Position for Tarot Calculation:', sunPosition);
+      logger.debug('Current sun Position for Tarot Calculation:', sunPosition);
       
       // Calculate cards with sun position - don't use cache to ensure fresh calculation
       const cards = getTarotCardsForDate(currentDate, sunPosition);
@@ -318,7 +318,7 @@ export const useTarotAstrologyData = (): TarotAstrologyResult => {
       'The Emperor': 'Fire',
       'The Empress': 'Earth',
       'The Hermit': 'Earth',
-      'The Sun': 'Fire',
+      'The sun': 'Fire',
       'The Moon': 'Water',
       'The Star': 'Air',
       'The Chariot': 'Water',

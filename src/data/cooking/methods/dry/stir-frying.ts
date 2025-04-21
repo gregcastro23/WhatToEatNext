@@ -1,9 +1,9 @@
 import type { 
   ZodiacSign, 
   ThermodynamicProperties
-} from '@/types/alchemy';
+} from '../../../../types/alchemy';
 
-import type { CookingMethodData } from '@/types/cookingMethod';
+import type { CookingMethodData } from '../../../../types/cookingMethod';
 
 /**
  * Stir-frying cooking method
@@ -28,7 +28,7 @@ export const stirFrying: CookingMethodData = {
   astrologicalInfluences: {
     favorableZodiac: ['aries', 'leo', 'gemini'] as ZodiacSign[],
     unfavorableZodiac: ['cancer', 'pisces', 'scorpio'] as ZodiacSign[],
-    dominantPlanets: ['Mercury', 'Mars', 'Sun'],
+    dominantPlanets: ['mercury', 'Mars', 'sun'],
     lunarPhaseEffect: {
       'full_moon': 1.3, // Enhanced wok hei flavor
       'new_moon': 0.9,  // Slightly diminished effect

@@ -7,7 +7,6 @@ export const DEFAULT_FILTERS: FilterOptions = {
   elementalFocus: null,
   mealType: 'any',
   seasonality: null,
-  difficulty: 'any'
 };
 
 // Separate dietary preferences - these are no longer part of FilterOptions

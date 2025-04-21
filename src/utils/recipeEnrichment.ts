@@ -1,5 +1,5 @@
-import { Recipe } from '@/types/recipe';
-import { zodiacSignToPlanet, elementToZodiac } from '@/utils/astrologyUtils';
+import { Recipe } from '../types/recipe';
+import { zodiacSignToPlanet, elementToZodiac } from './astrologyUtils';
 
 /**
  * Enriches recipe data with enhanced astrological properties
@@ -41,36 +41,36 @@ function deriveAstrologicalInfluencesFromIngredients(recipe: Recipe): string[] {
   
   // Common astrological correspondences for ingredients
   const ingredientCorrespondences: Record<string, string[]> = {
-    // Spices - Enhanced Mars, Sun, and Moon associations
-    'cinnamon': ['Sun', 'Mars', 'fire'],
+    // Spices - Enhanced Mars, sun, and Moon associations
+    'cinnamon': ['sun', 'Mars', 'fire'],
     'nutmeg': ['Jupiter', 'air'],
     'clove': ['Jupiter', 'Mars', 'fire'],
     'ginger': ['Mars', 'fire'],
     'pepper': ['Mars', 'fire'], 
     'chili': ['Mars', 'fire'],
     'cayenne': ['Mars', 'fire'],
-    'paprika': ['Mars', 'Sun', 'fire'],
-    'turmeric': ['Sun', 'earth'],
-    'saffron': ['Sun', 'fire'],
+    'paprika': ['Mars', 'sun', 'fire'],
+    'turmeric': ['sun', 'earth'],
+    'saffron': ['sun', 'fire'],
     'cumin': ['Mars', 'earth'],
-    'cardamom': ['Moon', 'Venus', 'water'],
+    'cardamom': ['Moon', 'venus', 'water'],
     
-    // Fruits - Enhanced Sun and Moon associations
-    'apple': ['Venus', 'water'],
-    'orange': ['Sun', 'fire'],
+    // Fruits - Enhanced sun and Moon associations
+    'apple': ['venus', 'water'],
+    'orange': ['sun', 'fire'],
     'lemon': ['Moon', 'water'],
     'lime': ['Moon', 'water'],
-    'grapefruit': ['Sun', 'water'],
-    'pomegranate': ['Mars', 'Sun', 'fire'],
-    'grape': ['Venus', 'water'],
+    'grapefruit': ['sun', 'water'],
+    'pomegranate': ['Mars', 'sun', 'fire'],
+    'grape': ['venus', 'water'],
     'banana': ['Moon', 'water'],
     'coconut': ['Moon', 'water'],
-    'mango': ['Sun', 'fire'],
+    'mango': ['sun', 'fire'],
     'watermelon': ['Moon', 'water'],
     
-    // Vegetables - Enhanced Mars, Sun, and Moon associations
+    // Vegetables - Enhanced Mars, sun, and Moon associations
     'potato': ['Earth', 'Saturn'],
-    'carrot': ['Sun', 'Mars', 'earth'], // Added Mars association
+    'carrot': ['sun', 'Mars', 'earth'], // Added Mars association
     'onion': ['Mars', 'fire'],
     'garlic': ['Mars', 'fire'],
     'tomato': ['Mars', 'fire'],
@@ -79,15 +79,15 @@ function deriveAstrologicalInfluencesFromIngredients(recipe: Recipe): string[] {
     'radish': ['Mars', 'fire'],
     'cucumber': ['Moon', 'water'],
     'mushroom': ['Moon', 'earth'],
-    'corn': ['Sun', 'fire'],
-    'pumpkin': ['Sun', 'earth'],
-    'squash': ['Sun', 'earth'],
+    'corn': ['sun', 'fire'],
+    'pumpkin': ['sun', 'earth'],
+    'squash': ['sun', 'earth'],
     
-    // Grains - Enhanced Sun and Moon associations
+    // Grains - Enhanced sun and Moon associations
     'rice': ['Moon', 'water'],
-    'wheat': ['Sun', 'earth'],
-    'quinoa': ['Sun', 'earth'],
-    'oats': ['Venus', 'earth'],
+    'wheat': ['sun', 'earth'],
+    'quinoa': ['sun', 'earth'],
+    'oats': ['venus', 'earth'],
     'barley': ['Moon', 'earth'],
     'rye': ['Saturn', 'earth'],
     'buckwheat': ['Mars', 'earth'],
@@ -96,7 +96,7 @@ function deriveAstrologicalInfluencesFromIngredients(recipe: Recipe): string[] {
     'beef': ['Mars', 'fire'],
     'lamb': ['aries', 'Mars', 'fire'],
     'venison': ['Mars', 'aries', 'fire'],
-    'chicken': ['Mercury', 'Sun', 'air'], // Added Sun association
+    'chicken': ['mercury', 'sun', 'air'], // Added sun association
     'turkey': ['Jupiter', 'fire'],
     'fish': ['Neptune', 'pisces', 'water'],
     'salmon': ['Moon', 'Neptune', 'water'],
@@ -105,27 +105,27 @@ function deriveAstrologicalInfluencesFromIngredients(recipe: Recipe): string[] {
     'crab': ['Moon', 'cancer', 'water'],
     'egg': ['Moon', 'water'],
     
-    // Herbs - Enhanced Mars, Sun, and Moon associations
+    // Herbs - Enhanced Mars, sun, and Moon associations
     'basil': ['Mars', 'fire'],
-    'rosemary': ['Sun', 'fire'],
-    'thyme': ['Venus', 'air'],
+    'rosemary': ['sun', 'fire'],
+    'thyme': ['venus', 'air'],
     'sage': ['Jupiter', 'air'],
-    'mint': ['Mercury', 'air'],
-    'parsley': ['Mercury', 'air'],
-    'cilantro': ['Mercury', 'air'],
+    'mint': ['mercury', 'air'],
+    'parsley': ['mercury', 'air'],
+    'cilantro': ['mercury', 'air'],
     'oregano': ['Mars', 'fire'],
-    'bay leaf': ['Sun', 'fire'],
-    'dill': ['Mercury', 'air'],
+    'bay leaf': ['sun', 'fire'],
+    'dill': ['mercury', 'air'],
     'tarragon': ['Mars', 'fire'],
     'chives': ['Mars', 'fire'],
     'chamomile': ['Moon', 'water'],
     'lavender': ['Moon', 'Neptune', 'water'],
     
-    // Nuts and seeds - new section with Mars, Sun, and Moon associations
-    'almond': ['Venus', 'Mercury', 'air'],
+    // Nuts and seeds - new section with Mars, sun, and Moon associations
+    'almond': ['venus', 'mercury', 'air'],
     'walnut': ['Jupiter', 'air'],
     'pecan': ['Jupiter', 'earth'],
-    'sunflower seed': ['Sun', 'fire'],
+    'sunflower seed': ['sun', 'fire'],
     'pumpkin seed': ['Moon', 'water'],
     'sesame seed': ['Saturn', 'earth'],
     'pine nut': ['Mars', 'fire'],
@@ -134,15 +134,15 @@ function deriveAstrologicalInfluencesFromIngredients(recipe: Recipe): string[] {
     
     // Dairy - enhanced Moon associations
     'milk': ['Moon', 'water'],
-    'cream': ['Moon', 'Venus', 'water'],
-    'butter': ['Moon', 'Venus', 'water'],
+    'cream': ['Moon', 'venus', 'water'],
+    'butter': ['Moon', 'venus', 'water'],
     'cheese': ['Moon', 'earth'],
     'yogurt': ['Moon', 'Saturn', 'water'],
     
-    // Sweeteners - Sun associations
-    'honey': ['Sun', 'Venus', 'fire'],
-    'maple syrup': ['Sun', 'Jupiter', 'water'],
-    'sugar': ['Venus', 'water'],
+    // Sweeteners - sun associations
+    'honey': ['sun', 'venus', 'fire'],
+    'maple syrup': ['sun', 'Jupiter', 'water'],
+    'sugar': ['venus', 'water'],
     'molasses': ['Saturn', 'earth'],
   };
   
@@ -167,14 +167,14 @@ function deriveAstrologicalInfluencesFromIngredients(recipe: Recipe): string[] {
     if (method.includes('roast') || method.includes('grill') || method.includes('bake')) {
       influences.add('Fire');
       influences.add('Mars');
-      influences.add('Sun');
+      influences.add('sun');
     } else if (method.includes('steam') || method.includes('boil') || method.includes('poach')) {
       influences.add('Water');
       influences.add('Moon');
       influences.add('Neptune');
     } else if (method.includes('fry') || method.includes('sauté')) {
       influences.add('Air');
-      influences.add('Mercury');
+      influences.add('mercury');
       influences.add('Uranus');
     } else if (method.includes('ferment') || method.includes('pickle') || method.includes('cure')) {
       influences.add('Earth');
@@ -197,9 +197,9 @@ function deriveAstrologicalInfluencesFromIngredients(recipe: Recipe): string[] {
       if (s === 'spring' || s === 'aries' || s === 'taurus' || s === 'gemini') {
         influences.add('Mars'); // Spring is ruled by Mars (Aries)
       } else if (s === 'summer' || s === 'cancer' || s === 'leo' || s === 'virgo') {
-        influences.add('Sun'); // Summer is ruled by Sun (Leo)
+        influences.add('sun'); // Summer is ruled by sun (Leo)
       } else if (s === 'fall' || s === 'autumn' || s === 'libra' || s === 'scorpio' || s === 'sagittarius') {
-        influences.add('Venus'); // Fall is associated with Venus (Libra)
+        influences.add('venus'); // Fall is associated with venus (Libra)
       } else if (s === 'winter' || s === 'capricorn' || s === 'aquarius' || s === 'pisces') {
         influences.add('Saturn'); // Winter is ruled by Saturn (Capricorn)
       }
@@ -324,7 +324,7 @@ function deriveCelestialTiming(recipe: Recipe): {
     switch (dominantElement) {
       case 'Fire':
         timing.optimalMoonPhase = 'Full Moon';
-        timing.optimalPlanetaryHour = 'Sun';
+        timing.optimalPlanetaryHour = 'sun';
         break;
       case 'Water':
         timing.optimalMoonPhase = 'New Moon';
@@ -336,7 +336,7 @@ function deriveCelestialTiming(recipe: Recipe): {
         break;
       case 'Air':
         timing.optimalMoonPhase = 'Waxing Moon';
-        timing.optimalPlanetaryHour = 'Mercury';
+        timing.optimalPlanetaryHour = 'mercury';
         break;
     }
   }

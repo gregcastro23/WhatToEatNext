@@ -1,13 +1,13 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { getRecipesForCuisine } from '@/utils/recipeFilters';
-import type { Recipe } from '@/types/recipe';
-import type { Modality } from '@/data/ingredients/types';
-import { ZodiacSign, LunarPhase, LunarPhaseWithSpaces } from '@/types/alchemy';
-import { determineModalityFromElements } from '@/utils/cuisineUtils';
-import { transformCuisines } from '@/utils/alchemicalTransformationUtils';
-import { ElementalItem } from '@/calculations/alchemicalTransformation';
-import cuisines from '@/data/cuisines';
-import { PlanetaryDignityDetails } from '@/constants/planetaryFoodAssociations';
+import { getRecipesForCuisine } from '../utils/recipeFilters';
+import type { Recipe } from '../types/recipe';
+import type { Modality } from '../data/ingredients/types';
+import { ZodiacSign, LunarPhase, LunarPhaseWithSpaces } from '../types/alchemy';
+import { determineModalityFromElements } from '../utils/cuisineUtils';
+import { transformCuisines } from '../utils/alchemicalTransformationUtils';
+import { ElementalItem } from '../calculations/alchemicalTransformation';
+import cuisines from '../data/cuisines';
+import { PlanetaryDignityDetails } from '../constants/planetaryFoodAssociations';
 
 interface CuisineSelectorProps {
   onRecipesChange: (recipes: Recipe[]) => void;
@@ -102,11 +102,25 @@ function CuisineSelector({
   
   // Function to determine cuisine modality
   const getCuisineModality = (cuisine: unknown): Modality => {
-    // If cuisine already has modality defined, use it
-    if (cuisine.modality) return cuisine.modality;
+    // Add type guard to safely check properties
+    if (cuisine && typeof cuisine === 'object') {
+      // Check if modality exists on the object
+      if ('modality' in cuisine && cuisine.modality) {
+        return cuisine.modality as Modality;
+      }
+      
+      // Otherwise determine from elemental state
+      const elementalData = ('elementalState' in cuisine) 
+        ? cuisine.elementalState 
+        : ('elementalProperties' in cuisine ? cuisine.elementalProperties : null);
+      
+      if (elementalData) {
+        return determineModalityFromElements(elementalData as any);
+      }
+    }
     
-    // Otherwise determine from elemental state
-    return determineModalityFromElements(cuisine.elementalState || cuisine.elementalProperties || {
+    // Default return value if no data available
+    return determineModalityFromElements({
       Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
     });
   };
@@ -122,20 +136,36 @@ function CuisineSelector({
       // Apply zodiac filter
       if (zodiacFilter !== 'all') {
         // Check if cuisine has zodiac influences and includes the selected zodiac
-        const zodiacInfluences = cuisine.zodiacInfluences || [];
-        if (zodiacFilter !== 'all' && !zodiacInfluences.includes(zodiacFilter)) {
-          // Also check for planetary dignities if cuisines were transformed
-          if ('planetaryDignities' in cuisine) {
-            const hasPlanetaryMatch = Object.values(cuisine.planetaryDignities || {}).some(
-              (dignity) => (dignity as PlanetaryDignityDetails).favorableZodiacSigns?.includes(zodiacFilter)
-            );
+        if (cuisine && typeof cuisine === 'object' && 'zodiacInfluences' in cuisine) {
+          const zodiacInfluences = Array.isArray(cuisine.zodiacInfluences) 
+            ? cuisine.zodiacInfluences 
+            : [];
             
-            if (!hasPlanetaryMatch) {
+          if (!zodiacInfluences.includes(zodiacFilter)) {
+            // Also check for planetary dignities if cuisines were transformed
+            if (cuisine && typeof cuisine === 'object' && 'planetaryDignities' in cuisine) {
+              const planetaryDignities = cuisine.planetaryDignities as Record<string, unknown> || {};
+              const hasPlanetaryMatch = Object.values(planetaryDignities).some(
+                (dignity) => {
+                  if (dignity && typeof dignity === 'object' && 'favorableZodiacSigns' in dignity) {
+                    const favorableSigns = Array.isArray(dignity.favorableZodiacSigns) 
+                      ? dignity.favorableZodiacSigns 
+                      : [];
+                    return favorableSigns.includes(zodiacFilter);
+                  }
+                  return false;
+                }
+              );
+              
+              if (!hasPlanetaryMatch) {
+                return false;
+              }
+            } else {
               return false;
             }
-          } else {
-            return false;
           }
+        } else {
+          return false;
         }
       }
       
@@ -220,20 +250,51 @@ function CuisineSelector({
       
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {filteredCuisines.map((cuisine) => {
+          // Safely access cuisine properties with type guards
+          const cuisineName = cuisine && typeof cuisine === 'object' && 'name' in cuisine 
+            ? cuisine.name as string 
+            : 'Unknown';
+          
+          const cuisineId = cuisine && typeof cuisine === 'object' && 'id' in cuisine
+            ? cuisine.id as string
+            : 'unknown';
+          
+          // Get zodiac influences safely
+          const zodiacInfluences = cuisine && typeof cuisine === 'object' && 'zodiacInfluences' in cuisine
+            ? Array.isArray(cuisine.zodiacInfluences) ? cuisine.zodiacInfluences : []
+            : [];
+            
           // Determine if current zodiac is favorable for this cuisine
-          const isZodiacFavorable = currentZodiac && 
-            (cuisine.zodiacInfluences?.includes(currentZodiac) ||
-             Object.values(cuisine.planetaryDignities || {}).some(
-               (dignity) => (dignity as PlanetaryDignityDetails).favorableZodiacSigns?.includes(currentZodiac)
-             ));
+          const isZodiacFavorable = currentZodiac && (
+            // Check if the cuisine's zodiac influences include current zodiac
+            zodiacInfluences.includes(currentZodiac) ||
+            // Check planetary dignities
+            (cuisine && typeof cuisine === 'object' && 'planetaryDignities' in cuisine && 
+              Object.values(cuisine.planetaryDignities as Record<string, unknown> || {}).some(
+                (dignity) => {
+                  if (dignity && typeof dignity === 'object' && 'favorableZodiacSigns' in dignity) {
+                    const favorableSigns = Array.isArray(dignity.favorableZodiacSigns) 
+                      ? dignity.favorableZodiacSigns 
+                      : [];
+                    return currentZodiac ? favorableSigns.includes(currentZodiac) : false;
+                  }
+                  return false;
+                }
+              )
+            )
+          );
+          
+          // Get gregsEnergy value safely
+          const hasGregsEnergy = cuisine && typeof cuisine === 'object' && 'gregsEnergy' in cuisine;
+          const gregsEnergyValue = hasGregsEnergy ? (cuisine.gregsEnergy as number) : 0;
           
           return (
             <button
-              key={cuisine.id}
-              onClick={() => handleCuisineSelect(cuisine.name)}
+              key={cuisineId}
+              onClick={() => handleCuisineSelect(cuisineName)}
               className={`
                 p-4 rounded-lg shadow-md transition-all
-                ${selectedCuisine === cuisine.name
+                ${selectedCuisine === cuisineName
                   ? 'bg-primary text-white'
                   : isZodiacFavorable
                     ? 'bg-blue-50 hover:bg-blue-100'
@@ -241,7 +302,7 @@ function CuisineSelector({
                 }
               `}
             >
-              <span className="text-lg font-medium">{cuisine.name}</span>
+              <span className="text-lg font-medium">{cuisineName}</span>
               
               <div className="cuisine-modality flex justify-between items-center mt-2">
                 <span className={`modality-badge ${getCuisineModality(cuisine).toLowerCase()}`}>
@@ -249,21 +310,21 @@ function CuisineSelector({
                 </span>
                 
                 {/* Display alchemical compatibility if available */}
-                {'gregsEnergy' in cuisine && (
+                {hasGregsEnergy && (
                   <span className="alchemical-score text-sm">
-                    Compatibility: {Math.round((cuisine.gregsEnergy as number) * 100)}%
+                    Compatibility: {Math.round(gregsEnergyValue * 100)}%
                   </span>
                 )}
               </div>
               
               {/* Display zodiac influences if available */}
-              {cuisine.zodiacInfluences && cuisine.zodiacInfluences.length > 0 && (
+              {zodiacInfluences.length > 0 && (
                 <div className="zodiac-influences text-xs mt-2">
                   <span>Zodiac influences: </span>
-                  {cuisine.zodiacInfluences.map((sign: string, i: number) => (
+                  {zodiacInfluences.map((sign: string, i: number) => (
                     <span key={sign} className={`${currentZodiac === sign ? 'font-bold' : ''}`}>
                       {sign.charAt(0).toUpperCase() + sign.slice(1)}
-                      {i < cuisine.zodiacInfluences.length - 1 ? ', ' : ''}
+                      {i < zodiacInfluences.length - 1 ? ', ' : ''}
                     </span>
                   ))}
                 </div>

@@ -8,8 +8,8 @@ const FILES = [
   'sepl_18.se1',  // Main planets
   'semo_18.se1',  // Moon
   'seas_18.se1',  // Asteroids
-  'semetr_18.se1', // Mercury
-  'sevenus_18.se1', // Venus
+  'semetr_18.se1', // mercury
+  'sevenus_18.se1', // venus
   'semars_18.se1', // Mars
   'sejup_18.se1', // Jupiter
   'sesat_18.se1', // Saturn

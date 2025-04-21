@@ -1,5 +1,5 @@
-import type { ElementalProperties } from "@/types/alchemy";
-import type { RecipeElementalMapping } from "@/types/recipes";
+import type { ElementalProperties } from "../types/alchemy";
+import type { RecipeElementalMapping } from "../types/recipes";
 
 /**
  * A utility function for logging debug information

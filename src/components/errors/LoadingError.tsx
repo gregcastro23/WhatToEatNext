@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { errorHandler } from '@/services/errorHandler'
+import { errorHandler } from '../../services/errorHandler'
 
 interface LoadingErrorProps {
   message?: string

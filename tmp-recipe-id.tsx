@@ -3,9 +3,28 @@ import { useRouter } from 'next/router';
 import { NextPage } from 'next';
 import Link from 'next/link';
 import { allRecipes } from '@/data/recipes';
-import type { Recipe } from '@/types/recipe';
+import type { Recipe, RecipeIngredient } from '@/types/recipe';
 import RecipeComponent from '@/components/Recipe';
-import { getCurrentElementalState } from '@/utils/elementalUtils';
+import { ElementalCalculator } from '@/services/ElementalCalculator';
+
+// Define constants for element IDs and strings
+const ELEMENT_IDS = {
+  INGREDIENT_LIST: 'ingredient-list',
+  INSTRUCTION_LIST: 'instruction-list',
+  PROCEDURE_LIST: 'procedure-list',
+  NUTRITIONAL_INFO: 'nutritional-info'
+};
+
+// Define meal types and nutritional constants
+const NUTRITION_LABELS = {
+  CALORIES: 'Calories',
+  PROTEIN: 'Protein',
+  CARBS: 'Carbs',
+  FAT: 'Fat',
+  FIBER: 'Fiber',
+  VITAMINS: 'Vitamins',
+  MINERALS: 'Minerals'
+};
 
 const RecipeDetailsPage: NextPage = () => {
   const router = useRouter();
@@ -21,12 +40,16 @@ const RecipeDetailsPage: NextPage = () => {
     season: 'spring',
     timeOfDay: 'lunch',
   });
-  const [selectedIngredient, setSelectedIngredient] = React.useState<any>(null);
+  const [selectedIngredient, setSelectedIngredient] = React.useState<RecipeIngredient | string | null>(null);
 
   React.useEffect(() => {
     // Get current elemental state based on time, date, etc.
-    const currentState = getCurrentElementalState();
-    setElementalState(currentState);
+    const currentState = ElementalCalculator.getCurrentElementalState();
+    setElementalState({
+      ...currentState,
+      season: 'spring',
+      timeOfDay: 'lunch',
+    });
   }, []);
 
   React.useEffect(() => {
@@ -69,7 +92,7 @@ const RecipeDetailsPage: NextPage = () => {
   }
 
   // Handle ingredient click to display ingredient details
-  const handleIngredientClick = (ingredient: any) => {
+  const handleIngredientClick = (ingredient: RecipeIngredient | string) => {
     setSelectedIngredient(ingredient === selectedIngredient ? null : ingredient);
   };
 
@@ -80,6 +103,19 @@ const RecipeDetailsPage: NextPage = () => {
 
   const decreaseServings = () => {
     setServingsMultiplier(prev => Math.max(0.5, prev - 0.5));
+  };
+
+  // Calculate nutritional values based on servings
+  const calculateNutritionalValue = (value: number | undefined): number | undefined => {
+    if (value === undefined) return undefined;
+    // Simplify the calculation to avoid type issues
+    const result = value * servingsMultiplier;
+    return Math.round(result * 10) / 10; // Round to 1 decimal place
+  };
+
+  // Helper function to get name with type check
+  const getIngredientName = (ingredient: RecipeIngredient | string): string => {
+    return typeof ingredient === 'string' ? ingredient : ingredient.name;
   };
 
   return (
@@ -139,6 +175,7 @@ const RecipeDetailsPage: NextPage = () => {
           <button 
             onClick={decreaseServings}
             className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-1 px-3 rounded-l"
+            aria-label="Decrease servings"
           >
             -
           </button>
@@ -146,6 +183,7 @@ const RecipeDetailsPage: NextPage = () => {
           <button 
             onClick={increaseServings}
             className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-1 px-3 rounded-r"
+            aria-label="Increase servings"
           >
             +
           </button>
@@ -158,20 +196,20 @@ const RecipeDetailsPage: NextPage = () => {
               <h2 className="text-xl font-semibold">Ingredients</h2>
               <span className="text-xs text-gray-500 italic">Click an ingredient for details</span>
             </div>
-            <ul className="space-y-2">
+            <ul id={ELEMENT_IDS.INGREDIENT_LIST} className="space-y-2">
               {recipe.ingredients?.map((ingredient, idx) => {
                 const isSelected = selectedIngredient && 
                   (typeof ingredient === 'string' 
                     ? ingredient === selectedIngredient 
-                    : ingredient.name === selectedIngredient.name);
+                    : ingredient.name === getIngredientName(selectedIngredient));
                 
                 return (
                   <li 
-                    key={idx} 
+                    key={`ingredient-${idx}`} 
                     className={`flex justify-between py-2 border-b border-gray-100 hover:bg-gray-50 cursor-pointer transition duration-150 ${isSelected ? 'bg-blue-50 border-l-4 border-l-blue-500 pl-2' : ''}`}
                     onClick={() => handleIngredientClick(ingredient)}
                   >
-                    <span>{typeof ingredient === 'string' ? ingredient : ingredient.name}</span>
+                    <span>{getIngredientName(ingredient)}</span>
                     {typeof ingredient !== 'string' && (
                       <span className="text-gray-600">
                         {ingredient.amount * servingsMultiplier} {ingredient.unit}
@@ -187,7 +225,7 @@ const RecipeDetailsPage: NextPage = () => {
               <div className="mt-4 p-4 bg-blue-50 rounded-lg animate-fade-in">
                 <div className="flex justify-between items-center mb-2">
                   <h3 className="font-semibold text-lg">
-                    {typeof selectedIngredient === 'string' ? selectedIngredient : selectedIngredient.name}
+                    {getIngredientName(selectedIngredient)}
                   </h3>
                   <span className="text-xs text-blue-600 bg-blue-100 px-2 py-1 rounded">Ingredient Details</span>
                 </div>
@@ -204,13 +242,32 @@ const RecipeDetailsPage: NextPage = () => {
                     {selectedIngredient.category && (
                       <li><span className="font-medium">Category:</span> {selectedIngredient.category}</li>
                     )}
-                    {selectedIngredient.substitutes && (
+                    {/* Display preparation if available */}
+                    {selectedIngredient.preparation && (
+                      <li><span className="font-medium">Preparation:</span> {selectedIngredient.preparation}</li>
+                    )}
+                    {/* Display optional status if true */}
+                    {selectedIngredient.optional && (
+                      <li><span className="font-medium">Optional:</span> Yes</li>
+                    )}
+                    {/* Display seasonality if available */}
+                    {selectedIngredient.seasonality && selectedIngredient.seasonality.length > 0 && (
                       <li>
-                        <span className="font-medium">Substitutes:</span> {
-                          Array.isArray(selectedIngredient.substitutes) 
-                            ? selectedIngredient.substitutes.join(', ') 
-                            : selectedIngredient.substitutes
-                        }
+                        <span className="font-medium">Seasonality:</span> {selectedIngredient.seasonality.join(', ')}
+                      </li>
+                    )}
+                    {/* Display elemental properties if available */}
+                    {selectedIngredient.elementalProperties && (
+                      <li>
+                        <details className="mt-2">
+                          <summary className="font-medium cursor-pointer">Elemental Properties</summary>
+                          <div className="pl-4 mt-2 space-y-1 text-sm">
+                            <div>Fire: {Math.round(selectedIngredient.elementalProperties.Fire * 100)}%</div>
+                            <div>Water: {Math.round(selectedIngredient.elementalProperties.Water * 100)}%</div>
+                            <div>Earth: {Math.round(selectedIngredient.elementalProperties.Earth * 100)}%</div>
+                            <div>Air: {Math.round(selectedIngredient.elementalProperties.Air * 100)}%</div>
+                          </div>
+                        </details>
                       </li>
                     )}
                   </ul>
@@ -230,9 +287,9 @@ const RecipeDetailsPage: NextPage = () => {
           {/* Instructions Section */}
           <div className="mb-8">
             <h2 className="text-xl font-semibold mb-4">Instructions</h2>
-            <ol className="list-decimal pl-5 space-y-2">
+            <ol id={ELEMENT_IDS.INSTRUCTION_LIST} className="list-decimal pl-5 space-y-2">
               {recipe.instructions?.map((step, idx) => (
-                <li key={idx} className="py-1">
+                <li key={`instruction-${idx}`} className="py-1">
                   <span className="ml-2">{step}</span>
                 </li>
               ))}
@@ -242,9 +299,9 @@ const RecipeDetailsPage: NextPage = () => {
           {/* Procedure Section */}
           <div className="mb-8">
             <h2 className="text-xl font-semibold mb-4">Procedure</h2>
-            <ol className="list-decimal pl-5 space-y-2">
+            <ol id={ELEMENT_IDS.PROCEDURE_LIST} className="list-decimal pl-5 space-y-2">
               {recipe.instructions?.map((step, idx) => (
-                <li key={idx} className="py-1">
+                <li key={`procedure-${idx}`} className="py-1">
                   <span className="ml-2">{step}</span>
                 </li>
               ))}
@@ -254,33 +311,66 @@ const RecipeDetailsPage: NextPage = () => {
 
         {/* Nutritional Information */}
         {recipe.nutrition && (
-          <section className="mt-8 p-4 bg-gray-50 rounded-lg">
+          <section id={ELEMENT_IDS.NUTRITIONAL_INFO} className="mt-8 p-4 bg-gray-50 rounded-lg">
             <h2 className="text-xl font-semibold mb-4">Nutritional Information</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {recipe.nutrition.calories && (
+              {recipe.nutrition.calories !== undefined && (
                 <div className="text-center p-3 bg-white rounded shadow-sm">
-                  <div className="text-lg font-bold">{recipe.nutrition.calories}</div>
-                  <div className="text-sm text-gray-600">Calories</div>
+                  <div className="text-lg font-bold">{calculateNutritionalValue(recipe.nutrition.calories)}</div>
+                  <div className="text-sm text-gray-600">{NUTRITION_LABELS.CALORIES}</div>
                 </div>
               )}
-              {recipe.nutrition.protein && (
+              {recipe.nutrition.protein !== undefined && (
                 <div className="text-center p-3 bg-white rounded shadow-sm">
-                  <div className="text-lg font-bold">{recipe.nutrition.protein}g</div>
-                  <div className="text-sm text-gray-600">Protein</div>
+                  <div className="text-lg font-bold">{calculateNutritionalValue(recipe.nutrition.protein)}g</div>
+                  <div className="text-sm text-gray-600">{NUTRITION_LABELS.PROTEIN}</div>
                 </div>
               )}
-              {recipe.nutrition.carbs && (
+              {recipe.nutrition.carbs !== undefined && (
                 <div className="text-center p-3 bg-white rounded shadow-sm">
-                  <div className="text-lg font-bold">{recipe.nutrition.carbs}g</div>
-                  <div className="text-sm text-gray-600">Carbs</div>
+                  <div className="text-lg font-bold">{calculateNutritionalValue(recipe.nutrition.carbs)}g</div>
+                  <div className="text-sm text-gray-600">{NUTRITION_LABELS.CARBS}</div>
                 </div>
               )}
-              {recipe.nutrition.fat && (
+              {recipe.nutrition.fat !== undefined && (
                 <div className="text-center p-3 bg-white rounded shadow-sm">
-                  <div className="text-lg font-bold">{recipe.nutrition.fat}g</div>
-                  <div className="text-sm text-gray-600">Fat</div>
+                  <div className="text-lg font-bold">{calculateNutritionalValue(recipe.nutrition.fat)}g</div>
+                  <div className="text-sm text-gray-600">{NUTRITION_LABELS.FAT}</div>
                 </div>
               )}
+            </div>
+
+            {/* Additional Nutritional Information - Vitamins and Minerals */}
+            <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+              {recipe.nutrition.vitamins && recipe.nutrition.vitamins.length > 0 && (
+                <div className="p-3 bg-white rounded shadow-sm">
+                  <h3 className="text-sm font-semibold text-gray-700 mb-2">{NUTRITION_LABELS.VITAMINS}</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {recipe.nutrition.vitamins.map((vitamin, idx) => (
+                      <span key={`vitamin-${idx}`} className="text-xs px-2 py-1 bg-green-50 text-green-700 rounded-full">
+                        {vitamin}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {recipe.nutrition.minerals && recipe.nutrition.minerals.length > 0 && (
+                <div className="p-3 bg-white rounded shadow-sm">
+                  <h3 className="text-sm font-semibold text-gray-700 mb-2">{NUTRITION_LABELS.MINERALS}</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {recipe.nutrition.minerals.map((mineral, idx) => (
+                      <span key={`mineral-${idx}`} className="text-xs px-2 py-1 bg-blue-50 text-blue-700 rounded-full">
+                        {mineral}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Per Serving Note */}
+            <div className="mt-4 text-xs text-gray-500 text-right">
+              *Nutritional values shown are per serving and adjust with the serving multiplier.
             </div>
           </section>
         )}
@@ -290,7 +380,7 @@ const RecipeDetailsPage: NextPage = () => {
           <section className="mt-8">
             <h2 className="text-xl font-semibold mb-4">Notes</h2>
             <div className="p-4 bg-yellow-50 rounded-lg text-gray-800">
-              {recipe.notes}
+              {typeof recipe.notes === 'string' ? recipe.notes : null}
             </div>
           </section>
         )}

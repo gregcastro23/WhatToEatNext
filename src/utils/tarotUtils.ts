@@ -1,4 +1,4 @@
-import { ElementalProperties } from '@/types/alchemy';
+import { ElementalProperties } from '../types/alchemy';
 
 export const getElementalAlignmentFromTarot = (tarot: {
   majorArcana: string[];
@@ -39,30 +39,30 @@ export const getElementalAlignmentFromTarot = (tarot: {
 };
 
 const TAROT_ELEMENT_ASSOCIATIONS: Record<string, { element: keyof ElementalProperties }> = {
-  'The Fool': { element: 'Air' },
-  'The Magician': { element: 'Fire' },
-  'The High Priestess': { element: 'Water' },
-  'The Empress': { element: 'Earth' },
-  'The Emperor': { element: 'Fire' },
-  'The Hierophant': { element: 'Earth' },
-  'The Lovers': { element: 'Air' },
-  'The Chariot': { element: 'Fire' },
-  'Strength': { element: 'Fire' },
-  'The Hermit': { element: 'Earth' },
-  'Wheel of Fortune': { element: 'Air' },
-  'Justice': { element: 'Air' },
-  'The Hanged Man': { element: 'Water' },
-  'Death': { element: 'Water' },
-  'Temperance': { element: 'Water' },
-  'The Devil': { element: 'Earth' },
-  'The Tower': { element: 'Fire' },
-  'The Star': { element: 'Air' },
-  'The Moon': { element: 'Water' },
-  'The Sun': { element: 'Fire' },
-  'Judgement': { element: 'Fire' },
-  'The World': { element: 'Earth' },
-  'Cups': { element: 'Water' },
-  'Wands': { element: 'Fire' },
-  'Swords': { element: 'Air' },
-  'Pentacles': { element: 'Earth' }
+  'the fool': { element: 'Air' },
+  'the magician': { element: 'Fire' },
+  'the high priestess': { element: 'Water' },
+  'the empress': { element: 'Earth' },
+  'the emperor': { element: 'Fire' },
+  'the hierophant': { element: 'Earth' },
+  'the lovers': { element: 'Air' },
+  'the chariot': { element: 'Fire' },
+  'strength': { element: 'Fire' },
+  'the hermit': { element: 'Earth' },
+  'wheel of fortune': { element: 'Air' },
+  'justice': { element: 'Air' },
+  'the hanged man': { element: 'Water' },
+  'death': { element: 'Water' },
+  'temperance': { element: 'Water' },
+  'the devil': { element: 'Earth' },
+  'the tower': { element: 'Fire' },
+  'the star': { element: 'Air' },
+  'the moon': { element: 'Water' },
+  'the sun': { element: 'Fire' },
+  'judgement': { element: 'Fire' },
+  'the world': { element: 'Earth' },
+  'cups': { element: 'Water' },
+  'wands': { element: 'Fire' },
+  'swords': { element: 'Air' },
+  'pentacles': { element: 'Earth' }
 }; 

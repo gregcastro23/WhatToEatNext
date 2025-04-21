@@ -2,16 +2,64 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { 
   ingredientFilterService, 
   INGREDIENT_GROUPS, 
-  type NutritionalFilter, 
   type IngredientFilter,
   type RecipeRecommendation 
-} from '@/services/IngredientFilterService';
-import type { IngredientMapping } from '@/types/alchemy';
+} from '../../services/IngredientFilterService';
+import type { NutritionalFilter, NutritionalProfile } from '../../types/nutrition';
+import type { IngredientMapping } from '../../types/alchemy';
 
 interface NutritionalRecommenderProps {
   initialFilter?: IngredientFilter;
   itemsPerCategory?: number;
   showAllCategories?: boolean;
+}
+
+// Type guard functions
+interface Nutrient {
+  name: string;
+  amount: number;
+  unit: string;
+}
+
+interface EnhancedNutritionData {
+  nutrition?: {
+    nutrients?: Nutrient[];
+  };
+  categoryPath?: string[];
+  possibleSubstitutes?: string;
+}
+
+// Type guard function for nutrient
+function isNutrient(value: unknown): value is Nutrient {
+  return typeof value === 'object' && 
+    value !== null && 
+    'name' in value && 
+    'amount' in value && 
+    'unit' in value;
+}
+
+// Type guard function for enhanced data
+function hasNutrition(data: unknown): data is { nutrition: { nutrients: Nutrient[] } } {
+  return typeof data === 'object' && 
+    data !== null && 
+    'nutrition' in data && 
+    data.nutrition !== null && 
+    typeof data.nutrition === 'object' && 
+    'nutrients' in data.nutrition;
+}
+
+function hasCategoryPath(data: unknown): data is { categoryPath: string[] } {
+  return typeof data === 'object' && 
+    data !== null && 
+    'categoryPath' in data && 
+    Array.isArray(data.categoryPath);
+}
+
+function hasSubstitutes(data: unknown): data is { possibleSubstitutes: string } {
+  return typeof data === 'object' && 
+    data !== null && 
+    'possibleSubstitutes' in data && 
+    typeof data.possibleSubstitutes === 'string';
 }
 
 const NutritionalRecommender: React.FC<NutritionalRecommenderProps> = ({
@@ -536,7 +584,7 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
   isExpanded,
   onToggleExpand
 }) => {
-  const nutritionalProfile = ingredient.nutritionalProfile || {};
+  const nutritionalProfile = (ingredient.nutritionalProfile || {}) as NutritionalProfile;
   
   return (
     <div 
@@ -603,32 +651,32 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
         
         <div className="grid grid-cols-2 gap-x-2 text-xs">
           {nutritionalProfile.calories !== undefined && (
-            <div>Calories: {nutritionalProfile.calories}</div>
+            <div>Calories: {String(nutritionalProfile.calories)}</div>
           )}
           
-          {nutritionalProfile.protein_g !== undefined && (
-            <div>Protein: {nutritionalProfile.protein_g}g</div>
+          {nutritionalProfile.macros?.protein !== undefined && (
+            <div>Protein: {String(nutritionalProfile.macros.protein)}g</div>
           )}
           
-          {nutritionalProfile.fiber_g !== undefined && (
-            <div>Fiber: {nutritionalProfile.fiber_g}g</div>
+          {nutritionalProfile.macros?.fiber !== undefined && (
+            <div>Fiber: {String(nutritionalProfile.macros.fiber)}g</div>
           )}
           
-          {nutritionalProfile.vitamin_density !== undefined && (
-            <div>Vitamin Density: {nutritionalProfile.vitamin_density.toFixed(1)}</div>
+          {'vitamin_density' in nutritionalProfile && nutritionalProfile.vitamin_density !== undefined && (
+            <div>Vitamin Density: {String(Number(nutritionalProfile.vitamin_density).toFixed(1))}</div>
           )}
         </div>
         
         {/* Vitamins & Minerals */}
         {(nutritionalProfile.vitamins || nutritionalProfile.minerals) && (
           <div className="grid grid-cols-1 gap-1 mt-1">
-            {nutritionalProfile.vitamins && nutritionalProfile.vitamins.length > 0 && (
+            {Array.isArray(nutritionalProfile.vitamins) && nutritionalProfile.vitamins.length > 0 && (
               <div className="text-xs">
                 Vitamins: {nutritionalProfile.vitamins.map((v: string) => v.toUpperCase()).join(', ')}
               </div>
             )}
             
-            {nutritionalProfile.minerals && nutritionalProfile.minerals.length > 0 && (
+            {Array.isArray(nutritionalProfile.minerals) && nutritionalProfile.minerals.length > 0 && (
               <div className="text-xs">
                 Minerals: {nutritionalProfile.minerals.join(', ')}
               </div>
@@ -661,26 +709,28 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
           {enhancedData && (
             <div className="space-y-2">
               {/* Display enhanced nutrition data */}
-              {enhancedData.nutrition && enhancedData.nutrition.nutrients && (
+              {hasNutrition(enhancedData) && enhancedData.nutrition.nutrients.length > 0 && (
                 <div className="grid grid-cols-2 gap-x-2 gap-y-1 text-xs">
-                  {enhancedData.nutrition.nutrients.slice(0, 8).map((nutrient: unknown) => (
-                    <div key={nutrient.name} className="flex justify-between">
-                      <span>{nutrient.name}:</span>
-                      <span className="font-medium">{nutrient.amount} {nutrient.unit}</span>
-                    </div>
+                  {enhancedData.nutrition.nutrients.slice(0, 8).map((nutrient) => (
+                    isNutrient(nutrient) && (
+                      <div key={nutrient.name} className="flex justify-between">
+                        <span>{nutrient.name}:</span>
+                        <span className="font-medium">{nutrient.amount} {nutrient.unit}</span>
+                      </div>
+                    )
                   ))}
                 </div>
               )}
               
               {/* Additional properties */}
-              {enhancedData.categoryPath && (
+              {hasCategoryPath(enhancedData) && (
                 <div className="text-xs mt-2">
                   <span className="font-medium">Category:</span> {enhancedData.categoryPath.join(' > ')}
                 </div>
               )}
               
               {/* Possible substitutes */}
-              {enhancedData.possibleSubstitutes && (
+              {hasSubstitutes(enhancedData) && (
                 <div className="text-xs mt-1">
                   <span className="font-medium">Substitutes:</span> {enhancedData.possibleSubstitutes}
                 </div>

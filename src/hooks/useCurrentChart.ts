@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import { useAlchemical } from '../contexts/AlchemicalContext/hooks';
 
 // Don't import from context to avoid potential circular dependency
-// import { useCurrentChart as useContextCurrentChart } from '@/context/CurrentChartContext';
+// import { useCurrentChart as useContextCurrentChart } from '../context/CurrentChartContext';
 
 export interface ChartData {
   ascendant?: string;
@@ -82,10 +82,10 @@ export function useCurrentChart() {
   const createChartSvg = () => {
     // Map of planet names to their astronomical symbols
     const planetSymbols: Record<string, string> = {
-      'Sun': '☉',
+      'sun': '☉',
       'Moon': '☽',
-      'Mercury': '☿',
-      'Venus': '♀',
+      'mercury': '☿',
+      'venus': '♀',
       'Mars': '♂',
       'Jupiter': '♃',
       'Saturn': '♄',
@@ -132,10 +132,10 @@ export function useCurrentChart() {
 
     // Map planet colors
     const planetColors: Record<string, string> = {
-      'Sun': '#ff9500',
+      'sun': '#ff9500',
       'Moon': '#b8b8b8',
-      'Mercury': '#a6a6a6',
-      'Venus': '#ff84bb',
+      'mercury': '#a6a6a6',
+      'venus': '#ff84bb',
       'Mars': '#ff4747',
       'Jupiter': '#8860d0',
       'Saturn': '#5d5d5d',
@@ -243,22 +243,22 @@ export function useCurrentChart() {
         
         <!-- North Node (outside the circle at the top) -->
         <g class="node north-node">
-          <circle cx="160" cy="30" r="15" fill="#7272f7" fill-opacity="0.2" stroke="#7272f7" stroke-width="0.5" />
-          <text x="160" y="30" text-anchor="middle" dominant-baseline="middle" fill="#7272f7" font-size="14" font-weight="bold">
+          <circle cx="160" cy="30" r="12" fill="#7272f7" fill-opacity="0.2" stroke="#7272f7" stroke-width="0.5" />
+          <text x="160" y="30" text-anchor="middle" dominant-baseline="middle" fill="#7272f7" font-size="10" font-weight="bold">
             ☊
           </text>
-          <text x="160" y="50" text-anchor="middle" dominant-baseline="middle" fill="#7272f7" font-size="10">
+          <text x="160" y="46" text-anchor="middle" dominant-baseline="middle" fill="#7272f7" font-size="8">
             North Node
           </text>
         </g>
         
         <!-- South Node (outside the circle at the bottom) -->
         <g class="node south-node">
-          <circle cx="160" cy="290" r="15" fill="#e06c75" fill-opacity="0.2" stroke="#e06c75" stroke-width="0.5" />
-          <text x="160" y="290" text-anchor="middle" dominant-baseline="middle" fill="#e06c75" font-size="14" font-weight="bold">
+          <circle cx="160" cy="290" r="12" fill="#e06c75" fill-opacity="0.2" stroke="#e06c75" stroke-width="0.5" />
+          <text x="160" y="290" text-anchor="middle" dominant-baseline="middle" fill="#e06c75" font-size="10" font-weight="bold">
             ☋
           </text>
-          <text x="160" y="310" text-anchor="middle" dominant-baseline="middle" fill="#e06c75" font-size="10">
+          <text x="160" y="306" text-anchor="middle" dominant-baseline="middle" fill="#e06c75" font-size="8">
             South Node
           </text>
         </g>
@@ -271,14 +271,14 @@ export function useCurrentChart() {
             
             return `
               <g class="planet" filter="url(#glow)">
-                <circle cx="${p.x}" cy="${p.y}" r="15" 
+                <circle cx="${p.x}" cy="${p.y}" r="12" 
                         fill="${p.color}" fill-opacity="0.2" stroke="${p.color}" stroke-width="0.5" />
                 <text x="${p.x}" y="${p.y}" text-anchor="middle" dominant-baseline="middle" 
-                      fill="${p.color}" font-size="14" font-weight="bold">
+                      fill="${p.color}" font-size="10" font-weight="bold">
                   ${p.symbol}
                 </text>
-                <text x="${p.x}" y="${p.y + 22}" text-anchor="middle" dominant-baseline="middle" 
-                      fill="${p.color}" font-size="8">
+                <text x="${p.x}" y="${p.y + 18}" text-anchor="middle" dominant-baseline="middle" 
+                      fill="${p.color}" font-size="7">
                   ${p.degree.toFixed(0)}° ${p.isRetrograde ? '℞' : ''}
                 </text>
               </g>

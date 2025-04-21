@@ -1,9 +1,9 @@
 import { cache } from './cache';
 import { logger } from './logger';
 import { themeManager } from './theme';
-import { celestialCalculator } from '@/services/celestialCalculations';
-import type { Recipe } from '@/types/recipe';
-import type { ElementalProperties } from '@/types/alchemy';
+import { celestialCalculator } from '../services/celestialCalculations';
+import type { Recipe } from '../types/recipe';
+import type { ElementalProperties } from '../types/alchemy';
 
 // Add the missing type definitions
 interface ScoredRecipe extends Recipe {

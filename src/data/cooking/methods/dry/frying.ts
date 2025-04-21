@@ -1,9 +1,9 @@
 import type { 
   ZodiacSign, 
   ThermodynamicProperties
-} from '@/types/alchemy';
+} from '../../../../types/alchemy';
 
-import type { CookingMethodData } from '@/types/cookingMethod';
+import type { CookingMethodData } from '../../../../types/cookingMethod';
 
 /**
  * Frying cooking method
@@ -81,7 +81,7 @@ export const frying: CookingMethodData = {
   astrologicalInfluences: {
     favorableZodiac: ['leo', 'aries', 'sagittarius'] as ZodiacSign[], // Fire signs amplify the transformative heat
     unfavorableZodiac: ['cancer', 'pisces', 'scorpio'] as ZodiacSign[], // Water signs oppose the fire element
-    dominantPlanets: ['Mars', 'Sun', 'Saturn'], // Mars (heat), Sun (transformation), Saturn (structure)
+    dominantPlanets: ['Mars', 'sun', 'Saturn'], // Mars (heat), sun (transformation), Saturn (structure)
     lunarPhaseEffect: {
       'full_moon': 1.2, // Enhanced crispiness, intensifies fire element
       'new_moon': 0.8,  // Reduced oil absorption, calmer energy

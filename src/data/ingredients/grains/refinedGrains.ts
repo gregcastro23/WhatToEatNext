@@ -1,12 +1,12 @@
-import type { IngredientMapping } from '@/types/alchemy';
-import { fixIngredientMappings } from '@/utils/elementalUtils';
+import type { IngredientMapping } from '../../../types/alchemy';
+import { fixIngredientMappings } from '../../../utils/elementalUtils';
 
 const rawRefinedGrains: Record<string, Partial<IngredientMapping>> = {
   'white_rice': {
     name: 'White Rice',
     elementalProperties: { Air: 0.4, Earth: 0.3, Water: 0.2, Fire: 0.1 },
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Mercury'],
+      rulingPlanets: ['Moon', 'mercury'],
       favorableZodiac: ['cancer', 'virgo'],
       elementalAffinity: {
         base: 'Air',
@@ -85,7 +85,7 @@ const rawRefinedGrains: Record<string, Partial<IngredientMapping>> = {
     name: 'Semolina',
     elementalProperties: { Earth: 0.4, Air: 0.4, Fire: 0.2, Water: 0.1 },
     astrologicalProfile: {
-      rulingPlanets: ['Mercury', 'Saturn'],
+      rulingPlanets: ['mercury', 'Saturn'],
       favorableZodiac: ['virgo', 'capricorn'],
       elementalAffinity: {
         base: 'Earth',
@@ -167,7 +167,7 @@ const rawRefinedGrains: Record<string, Partial<IngredientMapping>> = {
         decanModifiers: {
           first: { element: 'Earth', planet: 'Moon' },
           second: { element: 'Water', planet: 'Saturn' },
-          third: { element: 'Air', planet: 'Mercury' }
+          third: { element: 'Air', planet: 'mercury' }
         }
       }
     },
@@ -241,7 +241,7 @@ const rawRefinedGrains: Record<string, Partial<IngredientMapping>> = {
     name: 'Polished Farro',
     elementalProperties: { Earth: 0.4, Air: 0.3, Fire: 0.2, Water: 0.1 },
     astrologicalProfile: {
-      rulingPlanets: ['Saturn', 'Mercury'],
+      rulingPlanets: ['Saturn', 'mercury'],
       favorableZodiac: ['capricorn', 'virgo'],
       elementalAffinity: {
         base: 'Earth',
@@ -319,7 +319,7 @@ const rawRefinedGrains: Record<string, Partial<IngredientMapping>> = {
     name: 'White Cornmeal',
     elementalProperties: { Earth: 0.4, Fire: 0.3, Air: 0.2, Water: 0.1 },
     astrologicalProfile: {
-      rulingPlanets: ['Sun', 'Jupiter'],
+      rulingPlanets: ['sun', 'Jupiter'],
       favorableZodiac: ['leo', 'sagittarius'],
       elementalAffinity: {
         base: 'Earth',
@@ -399,7 +399,7 @@ const rawRefinedGrains: Record<string, Partial<IngredientMapping>> = {
     name: 'All-Purpose Flour',
     elementalProperties: { Earth: 0.4, Air: 0.4, Water: 0.1, Fire: 0.1 },
     astrologicalProfile: {
-      rulingPlanets: ['Mercury', 'Venus'],
+      rulingPlanets: ['mercury', 'venus'],
       favorableZodiac: ['virgo', 'libra'],
       elementalAffinity: {
         base: 'Earth',

@@ -1,9 +1,9 @@
 import type { 
   ZodiacSign, 
   ThermodynamicProperties
-} from '@/types/alchemy';
+} from '../../../../types/alchemy';
 
-import type { CookingMethodData } from '@/types/cookingMethod';
+import type { CookingMethodData } from '../../../../types/cookingMethod';
 
 /**
  * Gelification cooking method
@@ -65,7 +65,7 @@ export const gelification: CookingMethodData = {
   astrologicalInfluences: {
     favorableZodiac: ['virgo', 'capricorn', 'scorpio'] as ZodiacSign[],
     unfavorableZodiac: ['aries', 'leo', 'sagittarius'] as ZodiacSign[],
-    dominantPlanets: ['Mercury', 'Saturn', 'Neptune'],
+    dominantPlanets: ['mercury', 'Saturn', 'Neptune'],
     lunarPhaseEffect: {
       'full_moon': 1.2, // Enhanced gel firmness
       'new_moon': 0.8,  // Reduced setting power

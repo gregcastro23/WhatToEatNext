@@ -1,8 +1,11 @@
-import { recipeElementalService } from '@/services/RecipeElementalService';
-import type { ElementalProperties } from '@/types/alchemy';
-import type { Recipe } from '@/types/recipe';
+import { RecipeElementalService } from '../../services/RecipeElementalService';
+import { ElementalProperties } from '../../types/alchemy';
+import { Recipe } from '../../types/recipe';
+import { toCookingMethod } from '../../types/commonTypes';
 
 describe('RecipeElementalService', () => {
+  const recipeElementalService = RecipeElementalService.getInstance();
+
   describe('standardizeRecipe', () => {
     it('should add missing elemental properties', () => {
       const recipe = {
@@ -20,7 +23,7 @@ describe('RecipeElementalService', () => {
       expect(result.elementalProperties.Air).toBeDefined();
       
       // Values should be normalized to sum to 1
-      const sum = Object.values(result.elementalProperties).reduce((a, b) => a + b, 0);
+      const sum = Object.values(result.elementalProperties).reduce((a: number, b: number) => a + b, 0);
       expect(sum).toBeCloseTo(1, 6);
     });
 
@@ -44,7 +47,7 @@ describe('RecipeElementalService', () => {
       expect(result.elementalProperties.Air).toBeDefined();
       
       // Values should be normalized
-      const sum = Object.values(result.elementalProperties).reduce((a, b) => a + b, 0);
+      const sum = Object.values(result.elementalProperties).reduce((a: number, b: number) => a + b, 0);
       expect(sum).toBeCloseTo(1, 6);
     });
   });
@@ -75,7 +78,7 @@ describe('RecipeElementalService', () => {
       expect(results[0].elementalProperties.Fire).toBeCloseTo(0.25, 2);
       
       // Second recipe should have normalized properties
-      const sum = Object.values(results[1].elementalProperties).reduce((a, b) => a + b, 0);
+      const sum = Object.values(results[1].elementalProperties).reduce((a: number, b: number) => a + b, 0);
       expect(sum).toBeCloseTo(1, 6);
     });
   });
@@ -138,7 +141,7 @@ describe('RecipeElementalService', () => {
     it('should derive properties based on recipe attributes', () => {
       const recipe = {
         cuisine: 'Mexican',
-        cookingMethod: 'grilling'
+        cookingMethod: toCookingMethod('grilling')
       };
 
       const result = recipeElementalService.deriveElementalProperties(recipe);
@@ -146,14 +149,14 @@ describe('RecipeElementalService', () => {
       // Mexican cuisine and grilling should result in higher Fire
       expect(result.Fire).toBeGreaterThan(0.25);
       
-      const sum = Object.values(result).reduce((a, b) => a + b, 0);
+      const sum = Object.values(result).reduce((a: number, b: number) => a + b, 0);
       expect(sum).toBeCloseTo(1, 6);
     });
 
     it('should derive properties for a recipe with ingredients', () => {
       const recipe = {
         cuisine: 'Japanese',
-        cookingMethod: 'steaming',
+        cookingMethod: toCookingMethod('steaming'),
         ingredients: [
           {
             name: 'Rice',
@@ -174,7 +177,7 @@ describe('RecipeElementalService', () => {
       // Japanese cuisine, steaming, and rice should result in higher Water and Earth
       expect(result.Water).toBeGreaterThan(0.2);
       
-      const sum = Object.values(result).reduce((a, b) => a + b, 0);
+      const sum = Object.values(result).reduce((a: number, b: number) => a + b, 0);
       expect(sum).toBeCloseTo(1, 6);
     });
   });

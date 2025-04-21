@@ -16,7 +16,7 @@ const uranusData: PlanetData = {
   'Diurnal Element': 'Water',
   'Nocturnal Element': 'Air',
   'AstronomicalData': {
-    'DistanceFromSun': '1.8 billion miles (2.9 billion km)',
+    'DistanceFromsun': '1.8 billion miles (2.9 billion km)',
     'DistanceFromEarth': {
       'Minimum': '1.6 billion miles (2.57 billion km)',
       'Maximum': '1.98 billion miles (3.18 billion km)'
@@ -27,7 +27,7 @@ const uranusData: PlanetData = {
     'RotationPeriod': '17.24 hours (retrograde)',
     'OrbitPeriod': '84 Earth years',
     'Axial Tilt': '97.8 degrees (extreme sideways tilt)',
-    'SunlightTravelTime': '2 hours 40 minutes',
+    'sunlightTravelTime': '2 hours 40 minutes',
     'PhysicalCharacteristics': {
       'Surface': 'Gas giant with no solid surface',
       'MagneticField': 'Uniquely tilted magnetic field',
@@ -60,7 +60,7 @@ const uranusData: PlanetData = {
     'ElementalBridges': ['Water-Air interaction', 'Electrical conduction through moisture'],
     'SharedElements': {
       'Neptune': ['Water'],
-      'Mercury': ['Air'],
+      'mercury': ['Air'],
       'Saturn': ['Air']
     },
     'AssociatedQualities': ['sudden', 'erratic', 'electric', 'progressive', 'disruptive', 'innovative']
@@ -106,7 +106,7 @@ const uranusData: PlanetData = {
     'Creates surprising sensory experiences'
   ],
   'AspectsEffect': {
-    'Sun': {
+    'sun': {
       'Conjunction': 0.5,
       'Opposition': 0.1,
       'Trine': 0.4,
@@ -134,14 +134,14 @@ const uranusData: PlanetData = {
       'Square': 0.0,
       'Sextile': 0.4
     },
-    'Mercury': {
+    'mercury': {
       'Conjunction': 0.6,
       'Opposition': 0.1,
       'Trine': 0.5,
       'Square': -0.2,
       'Sextile': 0.3
     },
-    'Venus': {
+    'venus': {
       'Conjunction': 0.5,
       'Opposition': 0.0,
       'Trine': 0.4,

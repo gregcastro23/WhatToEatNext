@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-import { getRecommendedIngredients, EnhancedIngredient } from '@/utils/foodRecommender';
-import type { ZodiacSign, Season, AstrologicalState, LunarPhase, Planet } from '@/types/alchemy';
+import { useAlchemical } from '../contexts/AlchemicalContext/hooks';
+import { getRecommendedIngredients, EnhancedIngredient } from '../utils/foodRecommender';
+import type { ZodiacSign, Season, AstrologicalState, LunarPhase, Planet } from '../types/alchemy';
 
 /**
  * Hook to get ingredient recommendations based on current astrological state

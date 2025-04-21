@@ -2,7 +2,8 @@
  * Utility to provide detailed, expert-level technical tips for various cooking methods
  */
 
-import { getAllCookingMethodNames } from '@/data/cooking';
+import { getAllCookingMethodNames } from '../data/cooking';
+import { getDetailedCookingMethod } from '../data/cooking/cookingMethods';
 
 /**
  * Returns an array of technical tips for the specified cooking method
@@ -12,6 +13,19 @@ import { getAllCookingMethodNames } from '@/data/cooking';
 export function getTechnicalTips(methodName: string): string[] {
   const methodLower = methodName.toLowerCase();
   const tips: string[] = [];
+  
+  // First, try to get detailed information from our expanded database
+  const detailedMethod = getDetailedCookingMethod(methodLower);
+  if (detailedMethod && detailedMethod.commonMistakes) {
+    // Use common mistakes as technical tips to avoid (converted to positive advice)
+    return detailedMethod.commonMistakes.map(mistake => {
+      // Convert common mistakes to positive technical tips
+      return mistake.replace(/^Avoid|Don't|Never/i, 'Always')
+                   .replace(/too (hot|cold|much|little)/i, 'proper amount of')
+                   .replace(/improper/i, 'proper')
+                   .replace(/incorrect/i, 'correct');
+    });
+  }
   
   // Expanded switch case with more cooking methods
   switch(methodLower) {
@@ -421,12 +435,40 @@ export function getMethodDetails(methodName: string): string {
 }
 
 /**
- * Returns an array of ideal ingredients for the specified cooking method
- * @param methodName The cooking method to get ingredient suggestions for (case insensitive)
- * @returns An array of strings with suggested ingredients that work well with the method
+ * Get ideal ingredients for a specific cooking method
+ * @param methodName The cooking method to get ideal ingredients for
+ * @returns An array of ideal ingredients for this cooking method
  */
-export function getIdealIngredients(methodName: string): string[] {
-  const methodLower = methodName.toLowerCase();
+export function getIdealIngredients(methodName: string | any): string[] {
+  // Handle case when method is already an object with suitable_for property
+  if (typeof methodName === 'object' && methodName !== null && methodName.suitable_for) {
+    return methodName.suitable_for.slice(0, 10);
+  }
+
+  const methodLower = typeof methodName === 'string' ? methodName.toLowerCase() : '';
+  
+  // First, check if we have detailed data
+  const detailedMethod = getDetailedCookingMethod(methodLower);
+  if (detailedMethod) {
+    // Return suitable ingredients from detailed data if available
+    if (detailedMethod.suitable_for && detailedMethod.suitable_for.length > 0) {
+      return detailedMethod.suitable_for.slice(0, 10);
+    }
+    
+    // Or return specific foods from optimal temperatures if available
+    if (detailedMethod.optimalTemperatures) {
+      return Object.keys(detailedMethod.optimalTemperatures)
+        .map(key => key.replace(/_/g, ' '))
+        .slice(0, 10);
+    }
+    
+    // Or pairing suggestions if available
+    if (detailedMethod.pairingSuggestions) {
+      return detailedMethod.pairingSuggestions.slice(0, 10);
+    }
+  }
+  
+  // Fallback to predefined lists
   const ingredients: string[] = [];
   
   // Switch case with ideal ingredients for different cooking methods

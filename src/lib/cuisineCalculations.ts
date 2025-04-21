@@ -1,5 +1,5 @@
-import { Cuisine } from '@/components/CuisineRecommender';
-import { culinaryTraditions } from '@/data/cuisines/culinaryTraditions';
+import { Cuisine } from '../components/CuisineRecommender';
+import { culinaryTraditions } from '../data/cuisines/culinaryTraditions';
 
 export interface CuisineRecommendation extends Cuisine {
     compatibilityScore: number;

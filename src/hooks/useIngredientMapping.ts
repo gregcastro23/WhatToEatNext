@@ -3,9 +3,9 @@
  */
 
 import { useState, useCallback } from 'react';
-import ingredientMappingService from '@/services/ingredientMappingService';
-import type { Recipe } from '@/types/recipe';
-import type { ElementalProperties } from '@/types/alchemy';
+import ingredientMappingService from '../services/ingredientMappingService';
+import type { Recipe } from '../types/recipe';
+import type { ElementalProperties } from '../types/alchemy';
 
 export function useIngredientMapping() {
   const [isLoading, setIsLoading] = useState(false);

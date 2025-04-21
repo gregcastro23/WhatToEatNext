@@ -13,6 +13,17 @@ const ASTRONOMY_API_URL = 'https://api.astronomyapi.com/api/v2';
 const ASTRONOMY_API_APP_ID = process.env.NEXT_PUBLIC_ASTRONOMY_API_APP_ID || '';
 const ASTRONOMY_API_APP_SECRET = process.env.NEXT_PUBLIC_ASTRONOMY_API_APP_SECRET || '';
 
+// Define GeolocationCoordinates type for browser environments
+type GeolocationCoordinates = {
+  latitude: number;
+  longitude: number;
+  altitude: number | null;
+  accuracy: number;
+  altitudeAccuracy: number | null;
+  heading: number | null;
+  speed: number | null;
+};
+
 // Remove the astronomia import
 // import { solar, planetposition, julian, moonphase, moon } from 'astronomia';
 import * as path from 'path';
@@ -25,12 +36,13 @@ import { createLogger } from '../utils/logger';
 // Import centralized types
 import {
   CelestialPosition,
-  PlanetaryAlignment,
+  PlanetaryAlignment as CentralizedPlanetaryAlignment,
   ZodiacSign,
   Planet,
   LunarPhase,
   AstrologicalState as CentralizedAstrologicalState
-} from '@/types/celestial';
+} from '../types/celestial';
+import { MoonPhase, MoonPhaseWithSpaces, MOON_PHASE_TO_DISPLAY } from '../types/shared';
 
 // Create a component-specific logger
 const logger = createLogger('AstrologicalService');
@@ -55,9 +67,10 @@ const isEphemerisFileAvailable = (fileName: string): boolean => {
   }
 };
 
-// Export simplified aliases for backward compatibility
+// Export types for external use
 export type PlanetName = Planet;
-// Export ZodiacSign from centralized types
+export type { ZodiacSign, CelestialPosition };
+export type PlanetaryAlignment = CentralizedPlanetaryAlignment;
 
 // Interface for legacy code support - use the centralized CelestialPosition type internally
 export interface PlanetPosition {
@@ -67,14 +80,14 @@ export interface PlanetPosition {
   isRetrograde: boolean;
 }
 
-// MoonPhase type for API compatibility - using string literals
-export type MoonPhase = 'new' | 'waxing crescent' | 'first quarter' | 'waxing gibbous' | 
-                       'full' | 'waning gibbous' | 'last quarter' | 'waning crescent';
+// Compatibility alias for moon phase to support both formats
+export type LegacyMoonPhase = 'new' | 'waxing crescent' | 'first quarter' | 'waxing gibbous' | 
+                     'full' | 'waning gibbous' | 'last quarter' | 'waning crescent';
 
 // AstrologicalState for service interface - we'll map this to the centralized one internally
 export interface AstrologicalState {
   currentZodiac: string;
-  moonPhase: MoonPhase;
+  moonPhase: MoonPhaseWithSpaces; // Updated to use standardized type
   currentPlanetaryAlignment: PlanetaryAlignment;
   activePlanets: string[];
   sunSign?: string;
@@ -225,10 +238,10 @@ export class AstrologicalService {
     try {
       const planetsData = data?.output?.[1] || {};
       const planetMapping: Record<string, keyof PlanetaryAlignment> = {
-        'Sun': 'sun',
+        'sun': 'sun',
         'Moon': 'moon',
-        'Mercury': 'mercury',
-        'Venus': 'venus',
+        'mercury': 'mercury',
+        'venus': 'venus',
         'Mars': 'mars',
         'Jupiter': 'jupiter',
         'Saturn': 'saturn',
@@ -278,10 +291,10 @@ export class AstrologicalService {
       
       // Map planet names to our internal format
       const planetMapping: Record<string, keyof PlanetaryAlignment> = {
-        'Sun': 'sun',
+        'sun': 'sun',
         'Moon': 'moon',
-        'Mercury': 'mercury',
-        'Venus': 'venus',
+        'mercury': 'mercury',
+        'venus': 'venus',
         'Mars': 'mars',
         'Jupiter': 'jupiter',
         'Saturn': 'saturn',
@@ -338,10 +351,10 @@ export class AstrologicalService {
       
       // Map planet names to our internal format
       const planetMapping: Record<string, keyof PlanetaryAlignment> = {
-        'Sun': 'sun',
+        'sun': 'sun',
         'Moon': 'moon',
-        'Mercury': 'mercury',
-        'Venus': 'venus',
+        'mercury': 'mercury',
+        'venus': 'venus',
         'Mars': 'mars',
         'Jupiter': 'jupiter',
         'Saturn': 'saturn',
@@ -456,7 +469,7 @@ export class AstrologicalService {
               })
               .catch(error => {
                 logger.error('Error calculating moon phase, using default:', error);
-                const moonPhase = 'full' as MoonPhase; // Default to full moon if calculation fails
+                const moonPhase = 'full' as MoonPhaseWithSpaces; // Default to full moon if calculation fails
                 
                 // Get active planets (those in their ruling sign or exaltation)
                 const activePlanets = this.getActivePlanets(planetaryAlignment);
@@ -485,7 +498,7 @@ export class AstrologicalService {
             logger.error('Error calculating planetary positions, using default:', error);
             const planetaryAlignment = this.calculateDefaultPlanetaryPositions();
             const currentZodiac = planetaryAlignment.sun.sign;
-            const moonPhase = 'full' as MoonPhase;
+            const moonPhase = 'full' as MoonPhaseWithSpaces;
             const activePlanets = this.getActivePlanets(planetaryAlignment);
             
             const state: AstrologicalState = {
@@ -701,37 +714,37 @@ export class AstrologicalService {
     // Updated with accurate positions provided by the user
     const defaultPositions: PlanetaryAlignment = {
       sun: {
-        sign: 'aries', degree: 13, minutes: 46, isRetrograde: false, exactLongitude: 13.77, speed: 1
+        sign: 'aries', degree: 26, minutes: 17, isRetrograde: false, exactLongitude: 26.28, speed: 1
       },
       moon: {
-        sign: 'gemini', degree: 20, minutes: 44, isRetrograde: false, exactLongitude: 80.73, speed: 13
+        sign: 'scorpio', degree: 29, minutes: 2, isRetrograde: false, exactLongitude: 239.03, speed: 13
       },
       mercury: {
-        sign: 'pisces', degree: 27, minutes: 37, isRetrograde: true, exactLongitude: 357.62, speed: 1.2
+        sign: 'pisces', degree: 29, minutes: 50, isRetrograde: false, exactLongitude: 359.83, speed: 1.2
       },
       venus: {
-        sign: 'pisces', degree: 26, minutes: 32, isRetrograde: true, exactLongitude: 356.53, speed: 1.1
+        sign: 'pisces', degree: 24, minutes: 47, isRetrograde: false, exactLongitude: 354.78, speed: 1.1
       },
       mars: {
-        sign: 'cancer', degree: 24, minutes: 21, isRetrograde: false, exactLongitude: 114.35, speed: 0.5
+        sign: 'cancer', degree: 29, minutes: 7, isRetrograde: false, exactLongitude: 119.12, speed: 0.5
       },
       jupiter: {
-        sign: 'gemini', degree: 16, minutes: 20, isRetrograde: false, exactLongitude: 76.33, speed: 0.1
+        sign: 'gemini', degree: 18, minutes: 30, isRetrograde: false, exactLongitude: 78.50, speed: 0.1
       },
       saturn: {
-        sign: 'pisces', degree: 24, minutes: 45, isRetrograde: false, exactLongitude: 354.75, speed: 0.05
+        sign: 'pisces', degree: 26, minutes: 14, isRetrograde: false, exactLongitude: 356.23, speed: 0.05
       },
       uranus: {
-        sign: 'taurus', degree: 24, minutes: 51, isRetrograde: false, exactLongitude: 54.85, speed: 0.02
+        sign: 'taurus', degree: 25, minutes: 29, isRetrograde: false, exactLongitude: 55.48, speed: 0.02
       },
       neptune: {
-        sign: 'aries', degree: 0, minutes: 8, isRetrograde: false, exactLongitude: 0.13, speed: 0.01
+        sign: 'aries', degree: 0, minutes: 36, isRetrograde: false, exactLongitude: 0.60, speed: 0.01
       },
       pluto: {
-        sign: 'aquarius', degree: 3, minutes: 35, isRetrograde: false, exactLongitude: 333.58, speed: 0.005
+        sign: 'aquarius', degree: 3, minutes: 44, isRetrograde: false, exactLongitude: 333.73, speed: 0.005
       },
       ascendant: {
-        sign: 'capricorn', degree: 20, minutes: 45, isRetrograde: false, exactLongitude: 290.75, speed: 0
+        sign: 'scorpio', degree: 10, minutes: 7, isRetrograde: false, exactLongitude: 220.12, speed: 0
       }
     };
     
@@ -749,7 +762,7 @@ export class AstrologicalService {
     }
   }
 
-  private static async calculateMoonPhase(date: Date): Promise<MoonPhase> {
+  private static async calculateMoonPhase(date: Date): Promise<MoonPhaseWithSpaces> {
     try {
       // Calculate moon phase
       // For now, we'll use a simple algorithm based on moon age
@@ -780,33 +793,21 @@ export class AstrologicalService {
     return position;
   }
 
-  private static moonAgeToPhase(ageRatio: number): MoonPhase {
-    // Convert moon age (0-1) to phase name
-    if (ageRatio < 0.025) return 'new';
-    if (ageRatio < 0.25) return 'waxing crescent';
-    if (ageRatio < 0.275) return 'first quarter';
-    if (ageRatio < 0.475) return 'waxing gibbous';
-    if (ageRatio < 0.525) return 'full';
-    if (ageRatio < 0.725) return 'waning gibbous';
-    if (ageRatio < 0.775) return 'last quarter';
-    if (ageRatio < 0.975) return 'waning crescent';
-    return 'new';
+  private static moonAgeToPhase(ageRatio: number): MoonPhaseWithSpaces {
+    if (ageRatio < 0.03) return 'New Moon';
+    if (ageRatio < 0.22) return 'Waxing Crescent';
+    if (ageRatio < 0.28) return 'First Quarter';
+    if (ageRatio < 0.47) return 'Waxing Gibbous';
+    if (ageRatio < 0.53) return 'Full Moon';
+    if (ageRatio < 0.72) return 'Waning Gibbous';
+    if (ageRatio < 0.78) return 'Last Quarter';
+    if (ageRatio < 0.97) return 'Waning Crescent';
+    return 'New Moon';
   }
 
-  private static getLunarPhaseFromMoonPhase(moonPhase: MoonPhase): LunarPhase {
-    // Convert MoonPhase to LunarPhase format
-    const mapping: Record<MoonPhase, LunarPhase> = {
-      'new': 'new moon',
-      'waxing crescent': 'waxing crescent',
-      'first quarter': 'first quarter',
-      'waxing gibbous': 'waxing gibbous',
-      'full': 'full moon',
-      'waning gibbous': 'waning gibbous',
-      'last quarter': 'last quarter',
-      'waning crescent': 'waning crescent'
-    };
-    
-    return mapping[moonPhase];
+  private static getLunarPhaseFromMoonPhase(moonPhase: MoonPhaseWithSpaces): LunarPhase {
+    const moonPhaseUpperCase = moonPhase.toUpperCase().replace(' ', '_') as LunarPhase;
+    return moonPhaseUpperCase;
   }
 
   private static getActivePlanets(alignment: PlanetaryAlignment): string[] {
@@ -1037,5 +1038,34 @@ export class AstrologicalService {
     if (typeof window !== 'undefined') {
       alert('API testing functionality not implemented yet.');
     }
+  }
+
+  /**
+   * Request location from browser geolocation API
+   * @returns Promise that resolves to coordinates or null if unavailable
+   */
+  public static requestLocation(): Promise<GeolocationCoordinates | null> {
+    return new Promise((resolve, reject) => {
+      if (!navigator || !navigator.geolocation) {
+        reject(new Error('Geolocation not available'));
+        return;
+      }
+
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          // Update the static coordinates
+          this.latitude = position.coords.latitude;
+          this.longitude = position.coords.longitude;
+          
+          // Return the coordinates to the caller
+          resolve(position.coords);
+        },
+        (error) => {
+          console.error('Geolocation error:', error);
+          reject(error);
+        },
+        { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
+      );
+    });
   }
 }

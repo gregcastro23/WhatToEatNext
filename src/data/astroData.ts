@@ -33,12 +33,12 @@ export const signInfo = {
     },
     "Decan Effects": {
       "1st Decan": ["Mars"],
-      "2nd Decan": ["Sun"],
-      "3rd Decan": ["Venus"]
+      "2nd Decan": ["sun"],
+      "3rd Decan": ["venus"]
     },
     "Degree Effects": {
-      "Mercury": [15, 21],
-      "Venus": [7, 14],
+      "mercury": [15, 21],
+      "venus": [7, 14],
       "Mars": [22, 26],
       "Jupiter": [1, 6],
       "Saturn": [27, 30]

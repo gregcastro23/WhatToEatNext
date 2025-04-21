@@ -1,9 +1,9 @@
 import type { 
   ZodiacSign, 
   ThermodynamicProperties
-} from '@/types/alchemy';
+} from '../../../../types/alchemy';
 
-import type { CookingMethodData } from '@/types/cookingMethod';
+import type { CookingMethodData } from '../../../../types/cookingMethod';
 
 /**
  * Spherification cooking method
@@ -29,7 +29,7 @@ export const spherification: CookingMethodData = {
   astrologicalInfluences: {
     favorableZodiac: ['aquarius', 'gemini', 'pisces'] as ZodiacSign[],
     unfavorableZodiac: ['taurus', 'virgo', 'capricorn'] as ZodiacSign[],
-    dominantPlanets: ['Neptune', 'Uranus', 'Mercury'],
+    dominantPlanets: ['Neptune', 'Uranus', 'mercury'],
     lunarPhaseEffect: {
       'full_moon': 1.4, // Enhanced spherification
       'new_moon': 0.7,  // Difficult to form spheres

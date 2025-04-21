@@ -1,6 +1,6 @@
 import { getZodiacElement } from './astrologyUtils';
 import type { ElementalCharacter } from '../constants/planetaryElements';
-import type { ZodiacSign } from '@/types/alchemy';
+import type { ZodiacSign } from '../types/alchemy';
 
 /**
  * A utility function for logging debug information
@@ -44,7 +44,7 @@ export const HOUSE_DATA: Record<number, HouseData> = {
     modality: 'Fixed',
     nature: 'Succedent',
     significance: 7,
-    ruling_planet: 'Venus'
+    ruling_planet: 'venus'
   },
   3: {
     number: 3,
@@ -53,7 +53,7 @@ export const HOUSE_DATA: Record<number, HouseData> = {
     modality: 'Mutable',
     nature: 'Cadent',
     significance: 6,
-    ruling_planet: 'Mercury'
+    ruling_planet: 'mercury'
   },
   4: {
     number: 4,
@@ -71,7 +71,7 @@ export const HOUSE_DATA: Record<number, HouseData> = {
     modality: 'Fixed',
     nature: 'Succedent',
     significance: 7,
-    ruling_planet: 'Sun'
+    ruling_planet: 'sun'
   },
   6: {
     number: 6,
@@ -80,7 +80,7 @@ export const HOUSE_DATA: Record<number, HouseData> = {
     modality: 'Mutable',
     nature: 'Cadent',
     significance: 6,
-    ruling_planet: 'Mercury'
+    ruling_planet: 'mercury'
   },
   7: {
     number: 7,
@@ -89,7 +89,7 @@ export const HOUSE_DATA: Record<number, HouseData> = {
     modality: 'Cardinal',
     nature: 'Angular',
     significance: 9,
-    ruling_planet: 'Venus'
+    ruling_planet: 'venus'
   },
   8: {
     number: 8,

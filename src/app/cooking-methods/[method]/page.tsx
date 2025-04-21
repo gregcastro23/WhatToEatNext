@@ -2,14 +2,14 @@
 
 import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
-import { allCookingMethods } from '@/data/cooking/methods';
-import { CookingMethodInfo } from '@/types/cooking';
+import { allCookingMethods } from '../../../data/cooking/methods';
+import { CookingMethodInfo } from '../../../types/cooking';
 import { Box, Card, CardContent, Container, Grid, Typography, Chip, List, ListItem, ListItemText, Divider, Paper, useTheme } from '@mui/material';
 import { AccessTime, ThermostatAuto, LocalFireDepartment, Science, Warning, Kitchen, Whatshot } from '@mui/icons-material';
-import { ZodiacSign } from '@/components/ZodiacSign';
-import MethodImage from '@/components/MethodImage';
+import { ZodiacSign } from '../../../components/ZodiacSign';
+import MethodImage from '../../../components/MethodImage';
 import Link from 'next/link';
-import getMethodData from '@/app/cooking-methods/methods';
+import getMethodData from '../methods';
 
 export default function CookingMethodPage() {
   const params = useParams();
@@ -97,7 +97,7 @@ export default function CookingMethodPage() {
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, my: 3 }}>
               <AccessTime />
               <Typography variant="body1">
-                {method.duration}
+                {method.duration ? `${method.duration.min}-${method.duration.max} minutes` : 'Duration not specified'}
               </Typography>
             </Box>
           </Grid>
@@ -167,7 +167,7 @@ export default function CookingMethodPage() {
                   <List>
                     {Array.isArray(method.variations) && method.variations.map((variation, index) => (
                       <ListItem key={index}>
-                        <ListItemText primary={variation} />
+                        <ListItemText primary={typeof variation === 'object' && variation.name ? variation.name : String(variation)} />
                       </ListItem>
                     ))}
                   </List>
@@ -294,7 +294,11 @@ export default function CookingMethodPage() {
                 <Box sx={{ display: 'flex', alignItems: 'flex-start', mb: 2 }}>
                   <Whatshot sx={{ mr: 2, mt: 0.5 }} />
                   <Typography variant="body1">
-                    <strong>Thermodynamic Properties:</strong> {method.thermodynamicProperties}
+                    <strong>Thermodynamic Properties:</strong> 
+                    {method.thermodynamicProperties.heatTransfer && 
+                     ` Heat Transfer: ${method.thermodynamicProperties.heatTransfer}, `}
+                    {method.thermodynamicProperties.temperatureRange && 
+                     ` Temperature Range: ${method.thermodynamicProperties.temperatureRange}`}
                   </Typography>
                 </Box>
               )}

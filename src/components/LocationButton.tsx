@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { AstrologicalService } from '@/services/AstrologicalService';
+import { AstrologicalService } from '../services/AstrologicalService';
 
 // Define type for GeolocationCoordinates if needed
 type GeolocationCoordinates = {

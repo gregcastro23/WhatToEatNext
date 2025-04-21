@@ -1,7 +1,8 @@
-import { cuisinesMap } from '@/data/cuisines';
-import type { Recipe } from '@/types/recipe';
-import type { Cuisine, SeasonalDishes } from '@/types/cuisine';
-import { logger } from '@/utils/logger';
+import { cuisinesMap } from '../data/cuisines';
+import type { Recipe } from '../types/recipe';
+import type { Cuisine, SeasonalDishes } from '../types/cuisine';
+import { logger } from '../utils/logger';
+import { Utils } from '../utils/utils';
 
 // Define a more specific type for dish objects
 interface RawDish {
@@ -378,151 +379,117 @@ export class LocalRecipeService {
   ): Recipe {
     try {
       if (!dish) {
-        throw new Error('Dish object is null or undefined');
+        throw new Error('Recipe cannot be null or undefined');
       }
       
-      // Generate a deterministic ID if none exists
-      const id = dish.id || `${cuisineName.toLowerCase()}-${dish.name.toLowerCase().replace(/\s+/g, '-')}`;
+      // Generate a deterministic ID based on the name
+      const id = Utils.generateDeterministicId(dish.name || 'unknown');
       
-      // Map cuisine ingredients to our RecipeIngredient type
-      const ingredients = (Array.isArray(dish.ingredients) ? dish.ingredients : []).map(ing => {
-        if (!ing) return {
-          name: 'unknown ingredient',
-          amount: 1,
-          unit: 'unit'
-        };
-        
-        return {
-          name: ing.name || '',
-          amount: ing.amount ? (typeof ing.amount === 'string' ? parseFloat(ing.amount) || 1 : ing.amount) : 1,
-          unit: ing.unit || '',
-          preparation: ing.preparation || '',
-          category: ing.category || '',
-          optional: ing.optional || false,
-          notes: ing.notes || '',
-          substitutes: ing.swaps || ing.substitutes || []
-        };
-      });
+      // Ensure ingredients are properly formatted
+      const standardizedIngredients = Array.isArray(dish.ingredients)
+        ? dish.ingredients.map(ing => {
+            // Handle string ingredients
+            if (typeof ing === 'string') {
+              return {
+                name: ing,
+                amount: '',
+                unit: '',
+                note: ''
+              };
+            }
+            
+            // Handle object ingredients and ensure properties exist
+            if (ing && typeof ing === 'object') {
+              return {
+                name: typeof ing.name === 'string' ? ing.name : '',
+                amount: typeof ing.amount === 'string' ? ing.amount : '',
+                unit: typeof ing.unit === 'string' ? ing.unit : '',
+                note: typeof ing.note === 'string' ? ing.note : ''
+              };
+            }
+            
+            // Fallback for invalid ingredient
+            return {
+              name: '',
+              amount: '',
+              unit: '',
+              note: ''
+            };
+          })
+        : [];
       
-      // Ensure elementalProperties exist - checking all possible property names
-      let elementalProperties = dish.elementalProperties || dish.elementalState || {
-        Fire: 0.25,
-        Water: 0.25,
-        Earth: 0.25,
-        Air: 0.25
-      };
-      
-      // Make sure all elemental properties are numbers
-      elementalProperties = {
-        Fire: typeof elementalProperties.Fire === 'number' ? elementalProperties.Fire : 0.25,
-        Water: typeof elementalProperties.Water === 'number' ? elementalProperties.Water : 0.25,
-        Earth: typeof elementalProperties.Earth === 'number' ? elementalProperties.Earth : 0.25,
-        Air: typeof elementalProperties.Air === 'number' ? elementalProperties.Air : 0.25
+      // Type-safe handling of elemental properties
+      const elementalProperties = {
+        fire: typeof dish.fire === 'number' ? dish.fire : 0,
+        water: typeof dish.water === 'number' ? dish.water : 0,
+        air: typeof dish.air === 'number' ? dish.air : 0,
+        earth: typeof dish.earth === 'number' ? dish.earth : 0,
+        spirit: typeof dish.spirit === 'number' ? dish.spirit : 0
       };
       
       // Standardize timing information
-      const prepTime = dish.prepTime || '';
-      const cookTime = dish.cookTime || '';
+      const timeToMake = typeof dish.timeToMake === 'object' && dish.timeToMake ? {
+        prep: typeof dish.timeToMake.prep === 'number' ? dish.timeToMake.prep : 0,
+        cook: typeof dish.timeToMake.cook === 'number' ? dish.timeToMake.cook : 0,
+        total: typeof dish.timeToMake.total === 'number' ? dish.timeToMake.total : 0
+      } : { prep: 0, cook: 0, total: 0 };
       
-      // Parse timeToMake from prepTime and cookTime if available
-      let timeToMake = dish.timeToMake || '';
-      if (!timeToMake && prepTime && cookTime) {
-        const prepMinutes = parseInt(prepTime.toString().split(' ')[0]) || 0;
-        const cookMinutes = parseInt(cookTime.toString().split(' ')[0]) || 0;
-        timeToMake = `${prepMinutes + cookMinutes} minutes`;
-      }
-      if (!timeToMake) {
-        timeToMake = '30 minutes'; // Default
-      }
+      // Ensure instructions are an array of strings
+      const instructions = Array.isArray(dish.instructions)
+        ? dish.instructions.map(step => typeof step === 'string' ? step : '')
+        : [];
       
-      // Get instructions from preparationSteps or instructions field
-      let instructions = [];
-      if (Array.isArray(dish.preparationSteps) && dish.preparationSteps.length > 0) {
-        instructions = dish.preparationSteps;
-      } else if (Array.isArray(dish.instructions) && dish.instructions.length > 0) {
-        instructions = dish.instructions;
-      } else if (typeof dish.preparationSteps === 'string') {
-        instructions = [dish.preparationSteps];
-      } else if (typeof dish.instructions === 'string') {
-        instructions = [dish.instructions];
-      } else {
-        instructions = ['Place all ingredients in a pot and cook until done.'];
-      }
+      // Process nutrition information safely
+      const nutrition = typeof dish.nutrition === 'object' && dish.nutrition ? {
+        calories: typeof dish.nutrition.calories === 'number' ? dish.nutrition.calories : 0,
+        protein: typeof dish.nutrition.protein === 'number' ? dish.nutrition.protein : 0,
+        carbs: typeof dish.nutrition.carbs === 'number' ? dish.nutrition.carbs : 0,
+        fat: typeof dish.nutrition.fat === 'number' ? dish.nutrition.fat : 0,
+        fiber: typeof dish.nutrition.fiber === 'number' ? dish.nutrition.fiber : 0
+      } : { calories: 0, protein: 0, carbs: 0, fat: 0, fiber: 0 };
       
-      // Process nutrition information
-      const nutrition = dish.nutrition ? {
-        calories: dish.nutrition.calories,
-        protein: dish.nutrition.protein,
-        carbs: dish.nutrition.carbs,
-        fat: dish.nutrition.fat,
-        vitamins: dish.nutrition.vitamins || [],
-        minerals: dish.nutrition.minerals || []
-      } : undefined;
+      // Ensure substitutions are proper format
+      const substitutions = Array.isArray(dish.substitutions)
+        ? dish.substitutions.map(sub => {
+            if (typeof sub === 'object' && sub) {
+              return {
+                ingredient: typeof sub.ingredient === 'string' ? sub.ingredient : '',
+                substitute: typeof sub.substitute === 'string' ? sub.substitute : '',
+                note: typeof sub.note === 'string' ? sub.note : ''
+              };
+            }
+            return { ingredient: '', substitute: '', note: '' };
+          })
+        : [];
       
-      // Process substitutions
-      let substitutions = [];
-      if (dish.substitutions && typeof dish.substitutions === 'object') {
-        // Convert from {ingredient: [alternatives]} format
-        substitutions = Object.entries(dish.substitutions).map(([original, alternatives]) => ({
-          original,
-          alternatives: Array.isArray(alternatives) ? alternatives : [alternatives as string]
-        }));
-      }
-      
-      // Get number of servings
-      const servingSize = dish.servingSize || dish.numberOfServings || dish.servings || 4;
-      
-      // Create standardized recipe
+      // Construct and return the standardized recipe
       return {
         id,
-        name: dish.name,
-        description: dish.description || '',
-        cuisine: cuisineName,
-        ingredients: ingredients,
-        instructions: instructions,
-        timeToMake: timeToMake,
-        numberOfServings: typeof servingSize === 'number' ? servingSize : parseInt(servingSize) || 4,
-        elementalProperties: elementalProperties,
-        season: Array.isArray(dish.season) ? dish.season : seasons,
-        mealType: Array.isArray(dish.mealType) ? dish.mealType : mealTypes,
-        isVegetarian: dish.isVegetarian || dish.dietaryInfo?.includes('vegetarian') || false,
-        isVegan: dish.isVegan || dish.dietaryInfo?.includes('vegan') || false,
-        isGlutenFree: dish.isGlutenFree || dish.dietaryInfo?.includes('gluten-free') || false,
-        isDairyFree: dish.isDairyFree || dish.dietaryInfo?.includes('dairy-free') || false,
-        nutrition: nutrition,
-        astrologicalInfluences: Array.isArray(dish.astrologicalInfluences) ? dish.astrologicalInfluences : [],
-        zodiacInfluences: Array.isArray(dish.zodiacInfluences) ? dish.zodiacInfluences : [],
-        lunarPhaseInfluences: Array.isArray(dish.lunarPhaseInfluences) ? dish.lunarPhaseInfluences : [],
-        planetaryInfluences: dish.planetaryInfluences || {
-          favorable: [],
-          unfavorable: []
-        },
-        cookingMethods: Array.isArray(dish.cookingMethods) ? dish.cookingMethods : [],
-        // New fields
-        substitutions: substitutions,
-        tools: Array.isArray(dish.tools) ? dish.tools : [],
-        servingSize: typeof servingSize === 'number' ? servingSize : parseInt(servingSize) || 4, 
-        spiceLevel: dish.spiceLevel || 'mild',
-        preparationNotes: dish.preparationNotes || dish.culturalNotes || '',
-        technicalTips: Array.isArray(dish.technicalTips) ? dish.technicalTips : []
+        name: typeof dish.name === 'string' ? dish.name : '',
+        description: typeof dish.description === 'string' ? dish.description : '',
+        ingredients: standardizedIngredients,
+        instructions,
+        timeToMake,
+        servings: typeof dish.servings === 'number' ? dish.servings : 1,
+        ...elementalProperties,
+        nutrition,
+        substitutions,
+        isVegan: !!dish.isVegan,
+        isVegetarian: !!dish.isVegetarian,
+        isGlutenFree: !!dish.isGlutenFree,
+        isDairyFree: !!dish.isDairyFree,
+        isNutFree: !!dish.isNutFree,
+        cuisine: typeof dish.cuisine === 'string' ? dish.cuisine : '',
+        season: typeof dish.season === 'string' ? dish.season : '',
+        tags: Array.isArray(dish.tags) ? dish.tags.filter(tag => typeof tag === 'string') : [],
+        imageUrl: typeof dish.imageUrl === 'string' ? dish.imageUrl : '',
+        source: typeof dish.source === 'string' ? dish.source : ''
       };
     } catch (error) {
       console.error('Error standardizing recipe:', error);
       return {
-        id: `error-${Math.random().toString(36).substring(2, 11)}`,
-        name: dish?.name || 'Unknown Recipe',
-        description: 'Error loading recipe details',
-        cuisine: cuisineName,
-        ingredients: [],
-        instructions: ['Recipe details unavailable'],
-        timeToMake: '0 minutes',
-        numberOfServings: 0,
-        elementalProperties: {
-          Fire: 0.25,
-          Water: 0.25,
-          Earth: 0.25,
-          Air: 0.25
-        }
+        error: true,
+        message: error instanceof Error ? error.message : 'Unknown error standardizing recipe'
       };
     }
   }
@@ -553,12 +520,12 @@ export class LocalRecipeService {
         // Search in ingredients
         if (recipe.ingredients && Array.isArray(recipe.ingredients)) {
           for (const ingredient of recipe.ingredients) {
-            const ingredientName = typeof ingredient === 'string' 
-              ? ingredient 
-              : ingredient.name;
-            
-            if (ingredientName && ingredientName.toLowerCase().includes(normalizedQuery)) {
-              return true;
+            // Make sure ingredient is a RecipeIngredient object with a name property
+            if (ingredient && typeof ingredient === 'object' && 'name' in ingredient) {
+              const ingredientName = ingredient.name;
+              if (ingredientName && ingredientName.toLowerCase().includes(normalizedQuery)) {
+                return true;
+              }
             }
           }
         }

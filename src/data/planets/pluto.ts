@@ -17,7 +17,7 @@ const plutoData: PlanetData = {
   'Diurnal Element': 'Earth',
   'Nocturnal Element': 'Water',
   'AstronomicalData': {
-    'DistanceFromSun': '3.7 billion miles (5.9 billion km) average',
+    'DistanceFromsun': '3.7 billion miles (5.9 billion km) average',
     'DistanceFromEarth': {
       'Minimum': '2.66 billion miles (4.28 billion km)',
       'Maximum': '4.67 billion miles (7.5 billion km)'
@@ -28,7 +28,7 @@ const plutoData: PlanetData = {
     'RotationPeriod': '6.4 Earth days (retrograde)',
     'OrbitPeriod': '248 Earth years',
     'Axial Tilt': '122.5 degrees (retrograde rotation)',
-    'SunlightTravelTime': '5.5 hours',
+    'sunlightTravelTime': '5.5 hours',
     'PhysicalCharacteristics': {
       'Surface': 'Icy with mountains, glaciers and plains',
       'MagneticField': 'Weak or nonexistent',
@@ -62,7 +62,7 @@ const plutoData: PlanetData = {
     'SharedElements': {
       'Mars': ['Water'],
       'Saturn': ['Earth'],
-      'Venus': ['Earth']
+      'venus': ['Earth']
     },
     'AssociatedQualities': ['intense', 'penetrating', 'transformative', 'regenerative', 'compulsive', 'controlling']
   },
@@ -107,7 +107,7 @@ const plutoData: PlanetData = {
     'Creates powerful and profound taste experiences'
   ],
   'AspectsEffect': {
-    'Sun': {
+    'sun': {
       'Conjunction': 0.7,
       'Opposition': 0.2,
       'Trine': 0.5,
@@ -128,7 +128,7 @@ const plutoData: PlanetData = {
       'Square': 0.2,
       'Sextile': 0.5
     },
-    'Venus': {
+    'venus': {
       'Conjunction': 0.5,
       'Opposition': 0.0,
       'Trine': 0.4,
@@ -149,7 +149,7 @@ const plutoData: PlanetData = {
       'Square': 0.1,
       'Sextile': 0.4
     },
-    'Mercury': {
+    'mercury': {
       'Conjunction': 0.5,
       'Opposition': 0.0,
       'Trine': 0.4,

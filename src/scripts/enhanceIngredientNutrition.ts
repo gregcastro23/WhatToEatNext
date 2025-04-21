@@ -689,8 +689,8 @@ async function enhanceIngredients() {
       console.log(`  Skipping already processed file: ${newFilePath}`);
     } else {
       // Create a basic file structure
-      const fileContent = `import type { IngredientMapping } from '@/types/alchemy';
-import { fixIngredientMappings } from '@/utils/elementalUtils';
+      const fileContent = `import type { IngredientMapping } from '../types/alchemy';
+import { fixIngredientMappings } from '../utils/elementalUtils';
 
 const raw${capitalizeFirstLetter(targetCategory)}: Record<string, Partial<IngredientMapping>> = {
   // Placeholder for new ingredients

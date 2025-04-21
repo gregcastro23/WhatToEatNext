@@ -1,4 +1,4 @@
-import type { CookingMethodData } from '@/types/cookingMethod';
+import type { CookingMethodData } from '../../../../types/cookingMethod';
 
 /**
  * Infusing: A technique that transfers flavors, colors, or medicinal properties
@@ -11,7 +11,7 @@ export const infusing: CookingMethodData = {
   science: 'Infusion works through the principle of diffusion, where compounds from the flavoring ingredients dissolve into the base liquid. Heat often accelerates this process by increasing the solubility of flavor compounds and breaking down cell walls.',
   alchemical_properties: {
     element: 'Water',
-    planetary_influence: 'Venus',
+    planetary_influence: 'venus',
     effect_on_ingredients: 'Releases Essence, transforms Matter into Spirit, enhances Substance'
   },
   suitable_for: [

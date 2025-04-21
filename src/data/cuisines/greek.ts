@@ -1,5 +1,5 @@
 // src/data/cuisines/greek.ts
-import type { Cuisine } from '@/types/cuisine';
+import type { Cuisine } from '../../types/cuisine';
 
 export const greek: Cuisine = {
   id: "greek",
@@ -1132,7 +1132,7 @@ export const greek: Cuisine = {
         Air: 0.2,
         Fire: 0.0
       },
-      astrologicalInfluences: ["Moon", "Venus", "Cancer"],
+      astrologicalInfluences: ["Moon", "venus", "Cancer"],
       seasonality: "all",
       preparationNotes: "Properly draining the cucumber is key to a thick consistency",
       technicalTips: "Salt and drain cucumbers for at least 30 minutes before mixing"
@@ -1150,7 +1150,7 @@ export const greek: Cuisine = {
         Fire: 0.2,
         Earth: 0.1
       },
-      astrologicalInfluences: ["Mercury", "Moon", "Gemini"],
+      astrologicalInfluences: ["mercury", "Moon", "Gemini"],
       seasonality: "winter, spring",
       preparationNotes: "The key is to temper the eggs properly to avoid curdling",
       technicalTips: "Add hot broth to eggs very slowly while whisking constantly"
@@ -1168,7 +1168,7 @@ export const greek: Cuisine = {
         Earth: 0.2,
         Water: 0.1
       },
-      astrologicalInfluences: ["Sun", "Mercury", "Leo"],
+      astrologicalInfluences: ["sun", "mercury", "Leo"],
       seasonality: "all",
       preparationNotes: "The ratio is typically 3 parts oil to 1 part lemon juice",
       technicalTips: "Whisk vigorously or blend for proper emulsification"
@@ -1204,7 +1204,7 @@ export const greek: Cuisine = {
         Water: 0.1,
         Air: 0.1
       },
-      astrologicalInfluences: ["Mars", "Sun", "Leo"],
+      astrologicalInfluences: ["Mars", "sun", "Leo"],
       seasonality: "summer, autumn",
       preparationNotes: "The smokiness of the peppers is essential for authentic flavor",
       technicalTips: "Roast peppers directly over flame for best smoky taste"
@@ -1325,7 +1325,7 @@ export const greek: Cuisine = {
       description: "Rich in olive oil, citrus, and slow-cooked meat and bean dishes",
       signature: ["rooster kokkinisto", "diples", "kagianas", "lagoto rabbit stew"],
       elementalProperties: { Earth: 0.4, Fire: 0.3, Water: 0.2, Air: 0.1 },
-      astrologicalInfluences: ["Mars", "Venus", "Aries"],
+      astrologicalInfluences: ["Mars", "venus", "Aries"],
       seasonality: "all"
     }
   },

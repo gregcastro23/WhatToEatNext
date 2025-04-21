@@ -19,7 +19,7 @@ const marsData: PlanetData = {
   'Diurnal Element': 'Fire',
   'Nocturnal Element': 'Water',
   'AstronomicalData': {
-    'DistanceFromSun': '142 million miles (228 million kilometers)',
+    'DistanceFromsun': '142 million miles (228 million kilometers)',
     'DistanceFromEarth': {
       'Minimum': '34 million miles (55 million kilometers)',
       'Maximum': '249 million miles (401 million kilometers)'
@@ -31,7 +31,7 @@ const marsData: PlanetData = {
     'OrbitPeriod': '687 Earth days',
     'Axial Tilt': '25.2 degrees',
     'PhaseCycle': '780 days (synodic period)',
-    'SunlightTravelTime': '12.7 minutes',
+    'sunlightTravelTime': '12.7 minutes',
     'PhysicalCharacteristics': {
       'Surface': 'Rocky, desert-like with volcanoes, canyons, and polar ice caps',
       'MagneticField': 'No global magnetic field, but localized crustal fields',
@@ -67,7 +67,7 @@ const marsData: PlanetData = {
     'NightEmission': 'Matter - "that which is minimally reactive"',
     'ElementalBridges': ['Connects Fire to Water', 'Connects Water to Fire'],
     'SharedElements': {
-      'Fire': ['Sun'],
+      'Fire': ['sun'],
       'Water': ['Pluto']
     },
     'AssociatedQualities': [
@@ -179,14 +179,14 @@ const marsData: PlanetData = {
     'Develops complex, assertive flavors'
   ],
   'AspectsEffect': {
-    'Sun': {
+    'sun': {
       'Conjunction': 0.8,
       'Opposition': 0.3,
       'Trine': 0.6,
       'Square': 0.2,
       'Sextile': 0.5
     },
-    'Venus': {
+    'venus': {
       'Conjunction': 0.7,
       'Opposition': 0.2,
       'Trine': 0.5,

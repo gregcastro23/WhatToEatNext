@@ -19,7 +19,7 @@ import type {
   ElementalProperties, 
   AstrologicalState,
   Season
-} from '@/types/alchemy';
+} from '../../types/alchemy';
 
 /**
  * Get astrological effect for a cooking method (simplified version for backwards compatibility)
@@ -99,7 +99,7 @@ import {
   rawCookingMethods
 } from './methods';
 
-import type { CookingMethodData } from '@/types/cookingMethod';
+import type { CookingMethodData } from '../../types/cookingMethod';
 
 // Re-export everything
 export {
@@ -117,6 +117,13 @@ export {
  * @returns The cooking method data or undefined if not found
  */
 export function getCookingMethod(name: string): CookingMethodData | undefined {
+  // Use the detailed method lookup from cookingMethods.ts if available
+  const detailedMethod = require('./cookingMethods').getDetailedCookingMethod?.(name);
+  if (detailedMethod) {
+    return detailedMethod;
+  }
+  
+  // Fall back to the older lookup method
   return allCookingMethods[name] || allCookingMethods[name.toLowerCase()];
 }
 

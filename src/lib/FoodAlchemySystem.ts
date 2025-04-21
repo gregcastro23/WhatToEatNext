@@ -1,9 +1,10 @@
 import { PlanetaryHourCalculator } from './PlanetaryHourCalculator';
 import { ThermodynamicCalculator } from './ThermodynamicCalculator';
-import type { ElementalProperties, ZodiacSign, Planet } from '@/types/celestial';
+import type { ElementalProperties, ZodiacSign, Planet } from '../types/celestial';
+import type { Element } from '../types/shared';
 
-// Define types needed for the Food Alchemy System
-export type Element = 'Fire' | 'Water' | 'Air' | 'Earth';
+// Use imported Element type
+// export type Element = 'Fire' | 'Water' | 'Air' | 'Earth';
 
 export interface FoodCorrespondence {
     food: string;
@@ -116,14 +117,14 @@ export class FoodAlchemySystem {
             {
                 name: 'Roasting',
                 element: 'Fire',
-                planetaryRuler: 'Sun',
+                planetaryRuler: 'sun',
                 energyEffects: {
                     heat: 0.8,
                     entropy: 0.4,
                     reactivity: 0.6
                 },
                 timing: {
-                    optimal: ['Sun', 'Mars'],
+                    optimal: ['sun', 'Mars'],
                     acceptable: ['Jupiter'],
                     avoid: ['Moon', 'Saturn']
                 }
@@ -138,9 +139,9 @@ export class FoodAlchemySystem {
                     reactivity: 0.4
                 },
                 timing: {
-                    optimal: ['Moon', 'Venus'],
-                    acceptable: ['Mercury'],
-                    avoid: ['Mars', 'Sun']
+                    optimal: ['Moon', 'venus'],
+                    acceptable: ['mercury'],
+                    avoid: ['Mars', 'sun']
                 }
             },
             // Add more methods as needed
@@ -259,29 +260,29 @@ export class FoodAlchemySystem {
         
         // Define planetary relationships (complementary and challenging)
         const complementary: Record<Planet, Planet[]> = {
-            'Sun': ['Jupiter', 'Mars'],
-            'Moon': ['Venus', 'Neptune'],
-            'Mercury': ['Venus', 'Uranus'],
-            'Venus': ['Moon', 'Jupiter'],
-            'Mars': ['Sun', 'Pluto'],
-            'Jupiter': ['Sun', 'Venus'],
-            'Saturn': ['Mercury', 'Uranus'],
-            'Uranus': ['Mercury', 'Saturn'],
-            'Neptune': ['Moon', 'Venus'],
+            'sun': ['Jupiter', 'Mars'],
+            'Moon': ['venus', 'Neptune'],
+            'mercury': ['venus', 'Uranus'],
+            'venus': ['Moon', 'Jupiter'],
+            'Mars': ['sun', 'Pluto'],
+            'Jupiter': ['sun', 'venus'],
+            'Saturn': ['mercury', 'Uranus'],
+            'Uranus': ['mercury', 'Saturn'],
+            'Neptune': ['Moon', 'venus'],
             'Pluto': ['Mars', 'Saturn']
         };
         
         const challenging: Record<Planet, Planet[]> = {
-            'Sun': ['Saturn', 'Uranus'],
+            'sun': ['Saturn', 'Uranus'],
             'Moon': ['Mars', 'Saturn'],
-            'Mercury': ['Jupiter', 'Neptune'],
-            'Venus': ['Mars', 'Uranus'],
-            'Mars': ['Venus', 'Moon'],
-            'Jupiter': ['Mercury', 'Saturn'],
-            'Saturn': ['Sun', 'Jupiter'],
-            'Uranus': ['Sun', 'Venus'],
-            'Neptune': ['Mercury', 'Mars'],
-            'Pluto': ['Venus', 'Jupiter']
+            'mercury': ['Jupiter', 'Neptune'],
+            'venus': ['Mars', 'Uranus'],
+            'Mars': ['venus', 'Moon'],
+            'Jupiter': ['mercury', 'Saturn'],
+            'Saturn': ['sun', 'Jupiter'],
+            'Uranus': ['sun', 'venus'],
+            'Neptune': ['mercury', 'Mars'],
+            'Pluto': ['venus', 'Jupiter']
         };
         
         // Check for complementary relationship
@@ -303,63 +304,105 @@ export class FoodAlchemySystem {
             return 0.5; // Default neutral value
         }
         
-        // Calculate match between food's energetic values and current system state
-        
+        // Get energy values for the food and the current system state
         const foodEnergy = food.energyValues;
         const systemEnergy = state.metrics;
         
-        // Calculate the energetic balance needed
-        // For each metric (heat, entropy, reactivity):
-        // - If system value is high (>0.7), we want a lower food value
-        // - If system value is low (<0.3), we want a higher food value
-        // - If system value is balanced, we want a similar food value
+        // Calculate the energetic harmony between food and system
+        // Instead of seeking "balance" through opposites, we focus on harmonious reinforcement
+        // Each energy metric (heat, entropy, reactivity) is calculated independently
         
-        let heatMatch = 0.5;
-        let entropyMatch = 0.5;
-        let reactivityMatch = 0.5;
+        // Calculate harmony for heat
+        const heatSimilarity = 1 - Math.abs(foodEnergy.heat - systemEnergy.heat);
         
-        // Heat balance
-        if (systemEnergy.heat > 0.7 && foodEnergy.heat < 0.3) {
-            // System is hot, food is cooling - good match
-            heatMatch = 0.8;
-        } else if (systemEnergy.heat < 0.3 && foodEnergy.heat > 0.7) {
-            // System is cool, food is warming - good match
-            heatMatch = 0.8;
-        } else if (Math.abs(systemEnergy.heat - foodEnergy.heat) < 0.2) {
-            // Food maintains current heat - neutral match
-            heatMatch = 0.6;
-        } else if ((systemEnergy.heat > 0.7 && foodEnergy.heat > 0.7) || 
-                   (systemEnergy.heat < 0.3 && foodEnergy.heat < 0.3)) {
-            // Food amplifies imbalance - poor match
-            heatMatch = 0.2;
+        // Calculate harmony for entropy
+        const entropySimilarity = 1 - Math.abs(foodEnergy.entropy - systemEnergy.entropy);
+        
+        // Calculate harmony for reactivity
+        const reactivitySimilarity = 1 - Math.abs(foodEnergy.reactivity - systemEnergy.reactivity);
+        
+        // Calculate weighted harmony score
+        let harmonyScore = (
+            heatSimilarity * 0.4 +
+            entropySimilarity * 0.3 +
+            reactivitySimilarity * 0.3
+        );
+        
+        // Apply elemental reinforcement bonus
+        // When food's element matches a prominent element in the system state,
+        // we add a synergistic bonus to the energetic match
+        if (food.element && state.elements) {
+            const elementValue = state.elements[food.element];
+            if (elementValue > 0.4) {
+                // Apply bonus for reinforcing an already prominent element
+                const elementBonus = elementValue * 0.2;
+                harmonyScore += elementBonus;
+                
+                // If this element is also harmonious with the current planetary energies,
+                // add additional bonus
+                const elementPlanetHarmony = this.calculateElementPlanetaryHarmony(food.element, food.planet);
+                harmonyScore += elementPlanetHarmony * 0.1;
+            }
         }
         
-        // Entropy balance - similar logic
-        if (systemEnergy.entropy > 0.7 && foodEnergy.entropy < 0.3) {
-            entropyMatch = 0.8;
-        } else if (systemEnergy.entropy < 0.3 && foodEnergy.entropy > 0.7) {
-            entropyMatch = 0.8;
-        } else if (Math.abs(systemEnergy.entropy - foodEnergy.entropy) < 0.2) {
-            entropyMatch = 0.6;
-        } else if ((systemEnergy.entropy > 0.7 && foodEnergy.entropy > 0.7) || 
-                   (systemEnergy.entropy < 0.3 && foodEnergy.entropy < 0.3)) {
-            entropyMatch = 0.2;
+        // Apply alchemical bonus based on time of day
+        const now = new Date();
+        const hour = now.getHours();
+        const isDaytime = hour >= 6 && hour < 18;
+        
+        if (food.alchemy) {
+            // Choose day or night alchemy values based on current time
+            const alchemyValues = isDaytime ? food.alchemy.day : food.alchemy.night;
+            
+            // Calculate alchemy bonus based on Spirit, Essence, Matter, Substance values
+            if (alchemyValues && alchemyValues.length === 4) {
+                const [spirit, essence, matter, substance] = alchemyValues;
+                
+                // Different metrics are influenced by different alchemical properties
+                // Heat is primarily influenced by Spirit
+                const heatBonus = spirit * 0.05;
+                
+                // Entropy is influenced by a combination of Essence and Substance
+                const entropyBonus = (essence * 0.6 + substance * 0.4) * 0.05;
+                
+                // Reactivity is influenced by Spirit and Essence
+                const reactivityBonus = (spirit * 0.5 + essence * 0.5) * 0.05;
+                
+                // Apply the bonuses
+                harmonyScore += heatBonus + entropyBonus + reactivityBonus;
+            }
         }
         
-        // Reactivity balance - similar logic
-        if (systemEnergy.reactivity > 0.7 && foodEnergy.reactivity < 0.3) {
-            reactivityMatch = 0.8;
-        } else if (systemEnergy.reactivity < 0.3 && foodEnergy.reactivity > 0.7) {
-            reactivityMatch = 0.8;
-        } else if (Math.abs(systemEnergy.reactivity - foodEnergy.reactivity) < 0.2) {
-            reactivityMatch = 0.6;
-        } else if ((systemEnergy.reactivity > 0.7 && foodEnergy.reactivity > 0.7) || 
-                   (systemEnergy.reactivity < 0.3 && foodEnergy.reactivity < 0.3)) {
-            reactivityMatch = 0.2;
+        // Ensure score is within 0-1 range
+        return Math.max(0, Math.min(1, harmonyScore));
+    }
+
+    /**
+     * Calculate harmony between an element and a planet
+     * Higher values indicate stronger natural harmony
+     */
+    private calculateElementPlanetaryHarmony(element: Element, planet: Planet): number {
+        // Define elemental affinities for planets
+        const planetElementMap: Record<Planet, Element[]> = {
+            'sun': ['Fire'],
+            'Moon': ['Water'],
+            'mercury': ['Air', 'Earth'],
+            'venus': ['Water', 'Earth'],
+            'Mars': ['Fire', 'Water'],
+            'Jupiter': ['Air', 'Fire'],
+            'Saturn': ['Air', 'Earth'],
+            'Uranus': ['Air', 'Water'],
+            'Neptune': ['Water'],
+            'Pluto': ['Earth', 'Water']
+        };
+        
+        // Check if the element is among the planet's affinities
+        const planetElements = planetElementMap[planet] || [];
+        if (planetElements.includes(element)) {
+            return 0.15;
         }
         
-        // Weighted average of all three matches
-        return (heatMatch * 0.4 + entropyMatch * 0.3 + reactivityMatch * 0.3);
+        return 0.05;
     }
 
     private generateRecommendations(food: FoodCorrespondence, state: SystemState, time: Date): string[] {
@@ -447,8 +490,8 @@ export class FoodAlchemySystem {
         // Determine current planetary hour (simplified)
         const hourOfDay = time.getHours() % 12;
         const planetaryHours: Planet[] = [
-            'Sun', 'Venus', 'Mercury', 'Moon', 'Saturn', 
-            'Jupiter', 'Mars', 'Sun', 'Venus', 'Mercury', 
+            'sun', 'venus', 'mercury', 'Moon', 'Saturn', 
+            'Jupiter', 'Mars', 'sun', 'venus', 'mercury', 
             'Moon', 'Saturn'
         ];
         const currentPlanetaryHour = planetaryHours[hourOfDay];
@@ -491,7 +534,7 @@ export class FoodAlchemySystem {
         const timeAppropriate = 
             (isDaytimeNow && (method.element === 'Fire' || method.element === 'Air')) ||
             (!isDaytimeNow && (method.element === 'Water' || method.element === 'Earth')) ||
-            method.planetaryRuler === 'Sun' && isDaytimeNow ||
+            method.planetaryRuler === 'sun' && isDaytimeNow ||
             method.planetaryRuler === 'Moon' && !isDaytimeNow;
         
         // Method is compatible if at least two of the three conditions are true

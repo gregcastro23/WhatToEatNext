@@ -1,6 +1,6 @@
 // src/data/cuisines/italian.ts
-import type { Cuisine } from '@/types/cuisine';
-import type { LunarPhase, ZodiacSign } from '@/types/alchemy';
+import type { Cuisine } from '../../types/cuisine';
+import type { LunarPhase, ZodiacSign } from '../../types/alchemy';
 
 export const italian: Cuisine = {
   id: "italian",
@@ -63,7 +63,7 @@ export const italian: Cuisine = {
           season: ["all"],
           mealType: ["breakfast"],
           astrologicalAffinities: {
-            planets: ["Venus", "Mercury"],
+            planets: ["venus", "mercury"],
             signs: ["Taurus", "Libra"],
             lunarPhases: ["New Moon", "First Quarter"]
           },
@@ -1007,11 +1007,10 @@ export const italian: Cuisine = {
         Water: 0.2,
         Air: 0.1
       },
-      astrologicalInfluences: ["Mars", "Sun", "Leo"],
+      astrologicalInfluences: ["Mars", "sun", "Leo"],
       seasonality: "all",
       preparationNotes: "Best when made with San Marzano tomatoes for authentic flavor",
       technicalTips: "Simmer gently to maintain brightness of flavor",
-      difficulty: "easy",
       storageInstructions: "Store in airtight container for up to 5 days in refrigerator",
       yield: "2 cups"
     },
@@ -1029,11 +1028,10 @@ export const italian: Cuisine = {
         Air: 0.1,
         Fire: 0.1
       },
-      astrologicalInfluences: ["Moon", "Venus", "Cancer"],
+      astrologicalInfluences: ["Moon", "venus", "Cancer"],
       seasonality: "all",
       preparationNotes: "For silky texture, add hot milk to roux gradually while whisking constantly",
       technicalTips: "Infuse milk with bay leaf, onion, and clove before making sauce for depth of flavor",
-      difficulty: "medium",
       storageInstructions: "Store refrigerated in airtight container for up to 3 days",
       yield: "2 cups"
     }
@@ -1052,7 +1050,7 @@ export const italian: Cuisine = {
         Water: 0.2,
         Air: 0.1
       },
-      astrologicalInfluences: ["Mars", "Sun", "leo"],
+      astrologicalInfluences: ["Mars", "sun", "leo"],
       seasonality: "all",
       preparationNotes: "Best when made with San Marzano tomatoes for authentic flavor",
       technicalTips: "Simmer gently to maintain brightness of flavor"
@@ -1070,7 +1068,7 @@ export const italian: Cuisine = {
         Fire: 0.2,
         Water: 0.1
       },
-      astrologicalInfluences: ["Mercury", "Venus", "gemini"],
+      astrologicalInfluences: ["mercury", "venus", "gemini"],
       seasonality: "summer",
       preparationNotes: "Traditionally made in a marble mortar with wooden pestle",
       technicalTips: "Blanch basil briefly to preserve color if making ahead"
@@ -1124,7 +1122,7 @@ export const italian: Cuisine = {
         Air: 0.1,
         Fire: 0.1
       },
-      astrologicalInfluences: ["Moon", "Venus", "cancer"],
+      astrologicalInfluences: ["Moon", "venus", "cancer"],
       seasonality: "all",
       preparationNotes: "For silky texture, add hot milk to roux gradually while whisking constantly",
       technicalTips: "Infuse milk with bay leaf, onion, and clove before making sauce for depth of flavor"
@@ -1214,7 +1212,7 @@ export const italian: Cuisine = {
       description: "Bold flavors reflecting diverse cultural influences with emphasis on seafood, citrus, and Arab-influenced sweets",
       signature: ["pasta alla Norma", "arancini", "cannoli", "caponata"],
       elementalProperties: { Fire: 0.4, Water: 0.3, Earth: 0.2, Air: 0.1 },
-      astrologicalInfluences: ["Mars", "Sun", "leo"],
+      astrologicalInfluences: ["Mars", "sun", "leo"],
       seasonality: "all"
     },
     tuscan: {
@@ -1230,7 +1228,7 @@ export const italian: Cuisine = {
       description: "Rich, indulgent cuisine from Italy's food valley, known for pasta, cured meats, and aged cheeses",
       signature: ["tagliatelle al ragù", "tortellini in brodo", "lasagne alla bolognese", "prosciutto di Parma"],
       elementalProperties: { Earth: 0.5, Water: 0.2, Fire: 0.2, Air: 0.1 },
-      astrologicalInfluences: ["Jupiter", "Venus", "taurus"],
+      astrologicalInfluences: ["Jupiter", "venus", "taurus"],
       seasonality: "all"
     },
     neapolitan: {
@@ -1249,9 +1247,9 @@ export const italian: Cuisine = {
     Air: 0.2       // Represents herbs and lightness
   },
   astrologicalInfluences: [
-    "Venus - Roman goddess of love and beauty influences the sensory pleasures of Italian cuisine",
+    "venus - Roman goddess of love and beauty influences the sensory pleasures of Italian cuisine",
     "Jupiter - Brings abundance and generosity to communal Italian dining traditions",
-    "Mercury - Governs the communication and conviviality central to Italian food culture"
+    "mercury - Governs the communication and conviviality central to Italian food culture"
   ]
 };
 

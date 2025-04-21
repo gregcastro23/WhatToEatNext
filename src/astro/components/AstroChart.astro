@@ -53,10 +53,10 @@ const elementColors = {
 
 // Planet symbols
 const planetSymbols: Record<string, string> = {
-  'Sun': '☉',
+  'sun': '☉',
   'Moon': '☽',
-  'Mercury': '☿',
-  'Venus': '♀',
+  'mercury': '☿',
+  'venus': '♀',
   'Mars': '♂',
   'Jupiter': '♃',
   'Saturn': '♄',
@@ -102,8 +102,8 @@ const majorAspects = aspectsData.filter(aspect =>
   ['conjunction', 'opposition', 'trine', 'square'].includes(aspect.type) &&
   // Filter out aspects involving non-planet points (except Rising/ASC)
   (
-    ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto', 'Rising'].includes(aspect.planet1) &&
-    ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto', 'Rising'].includes(aspect.planet2)
+    ['sun', 'Moon', 'mercury', 'venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto', 'Rising'].includes(aspect.planet1) &&
+    ['sun', 'Moon', 'mercury', 'venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto', 'Rising'].includes(aspect.planet2)
   )
 );
 
@@ -122,7 +122,7 @@ const calculateElementalBalance = () => {
     const sign = getSignForDegree(degree);
     // Weight planets differently
     let weight = 1;
-    if (planet === 'Sun' || planet === 'Moon') weight = 3;
+    if (planet === 'sun' || planet === 'Moon') weight = 3;
     if (planet === 'Rising') weight = 2;
     
     elements[sign.element] += weight;

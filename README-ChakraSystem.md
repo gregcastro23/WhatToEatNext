@@ -61,10 +61,10 @@ This chakra system integrates with the existing astrological system:
 | Root          | capricorn, taurus          | Earth         | Saturn       |
 | Sacral        | cancer, Scorpio, pisces    | Water         | Jupiter      |
 | Solar Plexus  | aries, leo, sagittarius    | Fire          | Mars         |
-| Heart         | Libra, taurus              | Air           | Venus        |
-| Throat        | gemini, virgo              | Ether         | Mercury      |
+| Heart         | Libra, taurus              | Air           | venus        |
+| Throat        | gemini, virgo              | Ether         | mercury      |
 | Third Eye     | pisces, sagittarius        | Light         | Moon         |
-| Crown         | aquarius, pisces           | Thought       | Sun          |
+| Crown         | aquarius, pisces           | Thought       | sun          |
 
 ## Food Categories by Chakra
 

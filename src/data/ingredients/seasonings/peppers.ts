@@ -1,18 +1,18 @@
-import type { IngredientMapping } from '@/types/alchemy';
-import { fixIngredientMappings } from '@/utils/elementalUtils';
+import type { IngredientMapping } from '../../../types/alchemy';
+import { fixIngredientMappings } from '../../../utils/elementalUtils';
 
 const rawPeppers: Record<string, Partial<IngredientMapping>> = {
   'black_pepper': {
     name: 'Black Pepper',
     elementalProperties: { Fire: 0.7, Air: 0.2, Earth: 0.1, Water: 0 },
     astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Sun'],
+      rulingPlanets: ['Mars', 'sun'],
       favorableZodiac: ['aries', 'leo'],
       elementalAffinity: {
         base: 'Fire',
         decanModifiers: {
           first: { element: 'Fire', planet: 'Mars' },
-          second: { element: 'Air', planet: 'Sun' },
+          second: { element: 'Air', planet: 'sun' },
           third: { element: 'Earth', planet: 'Saturn' }
         }
       },
@@ -101,7 +101,7 @@ const rawPeppers: Record<string, Partial<IngredientMapping>> = {
     name: 'White Pepper',
     elementalProperties: { Fire: 0.5, Earth: 0.3, Air: 0.2, Water: 0 },
     astrologicalProfile: {
-      rulingPlanets: ['Mercury', 'Mars'],
+      rulingPlanets: ['mercury', 'Mars'],
       favorableZodiac: ['gemini', 'virgo'],
       elementalAffinity: {
         base: 'Fire'
@@ -162,7 +162,7 @@ const rawPeppers: Record<string, Partial<IngredientMapping>> = {
     name: 'Pink Peppercorn',
     elementalProperties: { Air: 0.4, Fire: 0.3, Water: 0.2, Earth: 0.1 },
     astrologicalProfile: {
-      rulingPlanets: ['Venus', 'Mars'],
+      rulingPlanets: ['venus', 'Mars'],
       favorableZodiac: ['libra', 'taurus'],
       elementalAffinity: {
         base: 'Air'
@@ -214,7 +214,7 @@ const rawPeppers: Record<string, Partial<IngredientMapping>> = {
     name: 'Szechuan Peppercorn',
     elementalProperties: { Fire: 0.5, Air: 0.3, Wood: 0.2, Water: 0 , Earth: 0.1},
     astrologicalProfile: {
-      rulingPlanets: ['Mercury', 'Uranus'],
+      rulingPlanets: ['mercury', 'Uranus'],
       favorableZodiac: ['gemini', 'aquarius'],
       elementalAffinity: {
         base: 'Fire'

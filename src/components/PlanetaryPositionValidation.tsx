@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { validatePlanetaryPositions } from '@/utils/astrologyValidation';
+import { validatePlanetaryPositions } from '../utils/astrologyValidation';
 
 export default function PlanetaryPositionValidation() {
   const [expanded, setExpanded] = useState(false);
@@ -33,7 +33,7 @@ export default function PlanetaryPositionValidation() {
               The positions shown above are used to calculate elemental energies that influence the recipe recommendations.
             </p>
             <p className="text-sm mt-2 text-white">
-              Different planets contribute different energies: Sun and Moon are particularly influential, while outer planets 
+              Different planets contribute different energies: sun and Moon are particularly influential, while outer planets 
               like Jupiter, Saturn, Uranus, Neptune, and Pluto contribute more subtle influences.
             </p>
             <p className="text-sm mt-2 text-white">

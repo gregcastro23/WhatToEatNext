@@ -35,10 +35,10 @@ function getAstrologicallyInformedFlavorProfile(
   elementalProps: ElementalProperties
 ): string {
   const planetFlavors: Record<string, string[]> = {
-    'Sun': ['vibrant', 'bold', 'energetic'],
+    'sun': ['vibrant', 'bold', 'energetic'],
     'Moon': ['comforting', 'subtle', 'nurturing'],
-    'Mercury': ['dynamic', 'complex', 'stimulating'],
-    'Venus': ['harmonious', 'indulgent', 'refined'],
+    'mercury': ['dynamic', 'complex', 'stimulating'],
+    'venus': ['harmonious', 'indulgent', 'refined'],
     'Mars': ['intense', 'spicy', 'bold'],
     'Jupiter': ['generous', 'rich', 'abundant'],
     'Saturn': ['traditional', 'structured', 'substantial'],

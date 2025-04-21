@@ -1,5 +1,5 @@
 // src/data/cuisines/russian.ts
-import { Cuisine } from '@/types/cuisine';
+import { Cuisine } from '../../types/cuisine';
 
 export const russian: Cuisine = {
   id: "russian",
@@ -1088,7 +1088,7 @@ export const russian: Cuisine = {
         Air: 0.2,
         Fire: 0.1
       },
-      astrologicalInfluences: ["Moon", "Venus", "Cancer"],
+      astrologicalInfluences: ["Moon", "venus", "Cancer"],
       seasonality: "all",
       preparationNotes: "Traditionally fermented at room temperature for 24-48 hours to develop flavor and texture",
       technicalTips: "Use as a finishing touch, adding after cooking to preserve its probiotic properties"
@@ -1106,7 +1106,7 @@ export const russian: Cuisine = {
         Air: 0.1,
         Water: 0.1
       },
-      astrologicalInfluences: ["Mars", "Sun", "Aries"],
+      astrologicalInfluences: ["Mars", "sun", "Aries"],
       seasonality: "summer preparation, year-round use",
       preparationNotes: "Traditionally ground with stone mortar and pestle, then fermented in clay pots",
       technicalTips: "Can be used raw or cooked; intensity mellows with cooking"
@@ -1160,7 +1160,7 @@ export const russian: Cuisine = {
         Water: 0.2,
         Air: 0.1
       },
-      astrologicalInfluences: ["Venus", "Mars", "Taurus"],
+      astrologicalInfluences: ["venus", "Mars", "Taurus"],
       seasonality: "summer preparation, preserved for winter use",
       preparationNotes: "Traditional preparation involves roasting eggplants over open flame for smoky flavor",
       technicalTips: "Let flavors marry overnight for best taste; serve at room temperature"
@@ -1259,7 +1259,7 @@ export const russian: Cuisine = {
       description: "Classic Russian dishes with simple ingredients and traditional cooking methods",
       signature: ["shchi", "kasha", "olivier salad", "kotlety", "black bread"],
       elementalProperties: { Earth: 0.5, Water: 0.2, Fire: 0.2, Air: 0.1 },
-      astrologicalInfluences: ["Saturn", "Venus", "Taurus"],
+      astrologicalInfluences: ["Saturn", "venus", "Taurus"],
       seasonality: "four distinct seasonal variations with preservation techniques"
     },
     siberian: {
@@ -1275,7 +1275,7 @@ export const russian: Cuisine = {
       description: "Southern Russian cooking with strong influences from Georgia, Armenia, and Azerbaijan",
       signature: ["shashlik", "adjika", "khachapuri adaptations", "herb-forward dishes", "fruit preserves"],
       elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 },
-      astrologicalInfluences: ["Mars", "Sun", "Aries"],
+      astrologicalInfluences: ["Mars", "sun", "Aries"],
       seasonality: "longer growing season with more fresh produce"
     },
     volga: {

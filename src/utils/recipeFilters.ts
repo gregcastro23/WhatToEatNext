@@ -1,12 +1,13 @@
 import { logger } from './logger';
-import type { Recipe, ScoredRecipe } from '@/types/recipe';
-import type { ElementalProperties, DietaryRestriction, IngredientMapping } from '@/types/alchemy';
-import { cuisines } from '@/data/cuisines';
-import type { Cuisine, CuisineType } from '@/types/cuisine';
-import { connectIngredientsToMappings } from './recipeMatching';
+import type { Recipe, ScoredRecipe, ElementalProperties, DietaryRestriction, Season } from '../types/alchemy';
+import type { IngredientMapping } from '../types';
+import { AstrologicalState } from '../types/state';
+import { cuisines } from '../data/cuisines';
+import type { Cuisine, CuisineType } from '../types/cuisine';
+import { connectIngredientsToMappings } from './fixedRecipeMatching';
 
 interface FilterOptions {
-  season?: string;
+  season?: Season;
   mealType?: string[];
   maxPrepTime?: number;
   dietaryRestrictions?: DietaryRestriction[];
@@ -76,9 +77,9 @@ export class RecipeFilter {
     return recipes.filter(recipe => {
       try {
         // Season filter
-        if (options.season && 
-            !recipe.season?.includes(options.season) && 
-            !recipe.season?.includes('all')) {
+        if (options.season && recipe.season && 
+            !recipe.season.includes(options.season as any) && 
+            !recipe.season.includes('all' as any)) {
           return false;
         }
 
@@ -147,7 +148,7 @@ export class RecipeFilter {
 
         // Seasonal score
         if (options.season) {
-          score *= recipe.season?.includes(options.season) ? 1 : 0.5;
+          score *= recipe.season?.includes(options.season as any) ? 1 : 0.5;
         }
 
         // Search relevance score
@@ -161,7 +162,7 @@ export class RecipeFilter {
         }
 
         // Favorite ingredients boost
-        if (recipe.favoriteScore) {
+        if (recipe.favoriteScore && typeof recipe.favoriteScore === 'number') {
           score *= recipe.favoriteScore;
         }
 
@@ -349,7 +350,7 @@ export class RecipeFilter {
   }
 
   private getSeasonalScore(recipe: ScoredRecipe): number {
-    return recipe.season?.includes('all') ? 1 : 0;
+    return recipe.season?.includes('all' as any) ? 1 : 0;
   }
 
   private getFallbackRecipes(recipes: Recipe[]): ScoredRecipe[] {
@@ -365,15 +366,15 @@ export class RecipeFilter {
     return recipes.filter(recipe => {
       try {
         return cuisineTypes.some(cuisineType => {
-          const cuisine: Cuisine = cuisines[cuisineType];
+          const cuisine = cuisines[cuisineType] as any;
           if (!cuisine || !cuisine.dishes) return false;
           
           // Helper function to check if a dish matches the recipe
-          const checkMatch = (dishName: string | { name: string } | null): boolean => {
-            if (!dishName) return false;
-            if (typeof dishName === 'string') return dishName === recipe.name;
-            if (typeof dishName === 'object' && dishName !== null && 'name' in dishName) {
-              return dishName.name === recipe.name;
+          const checkMatch = (dish: any): boolean => {
+            if (!dish) return false;
+            if (typeof dish === 'string') return dish === recipe.name;
+            if (typeof dish === 'object' && dish !== null && 'name' in dish) {
+              return dish.name === recipe.name;
             }
             return false;
           };
@@ -441,6 +442,8 @@ export class RecipeFilter {
 
         // Serving size filter
         if (options.servingSize && recipe.numberOfServings &&
+            typeof recipe.numberOfServings === 'number' && 
+            typeof options.servingSize === 'number' &&
             recipe.numberOfServings < options.servingSize) {
           return false;
         }
@@ -496,15 +499,15 @@ export class RecipeFilter {
 
     try {
       const matchingCuisines = cuisineTypes.filter(cuisineType => {
-        const cuisine = cuisines[cuisineType];
+        const cuisine = cuisines[cuisineType] as any;
         if (!cuisine || !cuisine.dishes) return false;
         
         // Helper function to check if a dish matches the recipe
-        const checkMatch = (dishName: string | { name: string } | null): boolean => {
-          if (!dishName) return false;
-          if (typeof dishName === 'string') return dishName === recipe.name;
-          if (typeof dishName === 'object' && dishName !== null && 'name' in dishName) {
-            return dishName.name === recipe.name;
+        const checkMatch = (dish: any): boolean => {
+          if (!dish) return false;
+          if (typeof dish === 'string') return dish === recipe.name;
+          if (typeof dish === 'object' && dish !== null && 'name' in dish) {
+            return dish.name === recipe.name;
           }
           return false;
         };
@@ -584,7 +587,7 @@ export function filterRecipesByIngredientMappings(
   // Process each recipe
   const results = recipes.map(recipe => {
     // Find ingredient mappings
-    const mappedIngredients = connectIngredientsToMappings(recipe);
+    const mappedIngredients = connectIngredientsToMappings(recipe as any);
     
     // Calculate base match score
     let score = 0.5; // Start with neutral score
@@ -628,8 +631,9 @@ export function filterRecipesByIngredientMappings(
     
     // 3. Check dietary restrictions
     if (ingredientRequirements?.dietaryRestrictions?.length && recipe.dietaryInfo) {
+      const dietaryArray = Array.isArray(recipe.dietaryInfo) ? recipe.dietaryInfo : [];
       const meetsRestrictions = ingredientRequirements.dietaryRestrictions.every(
-        restriction => recipe.dietaryInfo.includes(restriction)
+        restriction => dietaryArray.includes(restriction)
       );
       
       if (!meetsRestrictions) {

@@ -1,4 +1,4 @@
-import LoadingComponent from '@/components/ui/Loading';
+import LoadingComponent from '../components/ui/Loading';
 
 interface LoadingProps {
   fullScreen?: boolean;

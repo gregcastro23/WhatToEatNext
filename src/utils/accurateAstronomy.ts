@@ -1,5 +1,5 @@
 import * as Astronomy from 'astronomy-engine';
-import type { PlanetaryPosition, ZodiacSign } from '@/types/alchemy';
+import type { PlanetaryPosition, ZodiacSign } from '../types/alchemy';
 
 /**
  * A utility function for logging debug information
@@ -13,31 +13,31 @@ const debugLog = (message: string, ...args: unknown[]): void => {
 // Updated reference data based on accurate positions provided by the user
 const REFERENCE_POSITIONS = {
   // Planet: [degrees, minutes, seconds, zodiacSign]
-  Sun: [13, 46, 0, 'Aries'],
-  Moon: [20, 44, 0, 'Gemini'],
-  Mercury: [27, 37, 0, 'Pisces'],
-  Venus: [26, 32, 0, 'Pisces'],
-  Mars: [24, 21, 0, 'Cancer'],
-  Jupiter: [16, 20, 0, 'Gemini'],
-  Saturn: [24, 45, 0, 'Pisces'],
-  Uranus: [24, 51, 0, 'Taurus'],
-  Neptune: [0, 8, 0, 'Aries'],
-  Pluto: [3, 35, 0, 'Aquarius'],
-  northNode: [26, 36, 0, 'Pisces'],
+  sun: [26, 17, 0, 'Aries'],
+  Moon: [29, 2, 0, 'Scorpio'],
+  mercury: [29, 50, 0, 'Pisces'],
+  venus: [24, 47, 0, 'Pisces'],
+  Mars: [29, 7, 0, 'Cancer'],
+  Jupiter: [18, 30, 0, 'Gemini'],
+  Saturn: [26, 14, 0, 'Pisces'],
+  Uranus: [25, 29, 0, 'Taurus'],
+  Neptune: [0, 36, 0, 'Aries'],
+  Pluto: [3, 44, 0, 'Aquarius'],
+  northNode: [25, 56, 0, 'Pisces'],
   Chiron: [22, 25, 0, 'Aries'],
-  Ascendant: [20, 45, 0, 'Capricorn'],
+  Ascendant: [10, 7, 0, 'Scorpio'],
   MC: [6, 57, 0, 'Leo']
 };
 
-// Reference date from astrocharts.com data
-const REFERENCE_DATE = new Date('2025-04-02T20:47:00-04:00'); // New York time (EDT)
+// Reference date updated to current data
+const REFERENCE_DATE = new Date();
 
 // Approximate daily motion of planets in degrees - more accurate values from ephemeris
 const DAILY_MOTION = {
-  Sun: 0.986,
+  sun: 0.986,
   Moon: 13.2,
-  Mercury: 1.383,
-  Venus: 1.2,
+  mercury: 1.383,
+  venus: 1.2,
   Mars: 0.524,
   Jupiter: 0.083,
   Saturn: 0.034,
@@ -52,10 +52,10 @@ const DAILY_MOTION = {
 
 // Keep the retrograde information for the planets based on user data
 const RETROGRADE_STATUS = {
-  Sun: false,
+  sun: false,
   Moon: false,
-  Mercury: true,  // Retrograde based on chart data
-  Venus: true,    // Retrograde based on chart data
+  mercury: true,  // Retrograde based on chart data
+  venus: true,    // Retrograde based on chart data
   Mars: false,
   Jupiter: false,
   Saturn: false,
@@ -90,10 +90,10 @@ interface PlanetPositionData {
 
 // Map our planet names to astronomy-engine bodies
 const PLANET_MAPPING: Record<string, Astronomy.Body> = {
-  Sun: Astronomy.Body.Sun,
+  sun: Astronomy.Body.sun,
   Moon: Astronomy.Body.Moon,
-  Mercury: Astronomy.Body.Mercury,
-  Venus: Astronomy.Body.Venus,
+  mercury: Astronomy.Body.mercury,
+  venus: Astronomy.Body.venus,
   Mars: Astronomy.Body.Mars,
   Jupiter: Astronomy.Body.Jupiter,
   Saturn: Astronomy.Body.Saturn,
@@ -242,12 +242,12 @@ export async function getAccuratePlanetaryPositions(date: Date = new Date()): Pr
     // Calculate position for each planet
     for (const [planet, body] of Object.entries(PLANET_MAPPING)) {
       try {
-        // Special handling for the Sun - can't calculate heliocentric longitude of the Sun
-        if (planet === 'Sun') {
-          // For the Sun, we'll use a different approach - get ecliptic coordinates directly
-          // The Sun is always at the opposite ecliptic longitude from Earth's heliocentric longitude
+        // Special handling for the sun - can't calculate heliocentric longitude of the sun
+        if (planet === 'sun') {
+          // For the sun, we'll use a different approach - get ecliptic coordinates directly
+          // The sun is always at the opposite ecliptic longitude from Earth's heliocentric longitude
           const earthLong = Astronomy.EclipticLongitude(Astronomy.Body.Earth, astroTime);
-          // Sun is 180 degrees opposite Earth's heliocentric position
+          // sun is 180 degrees opposite Earth's heliocentric position
           const sunLong = (earthLong + 180) % 360;
           
           const { sign, degree } = getLongitudeToZodiacPosition(sunLong);
@@ -256,7 +256,7 @@ export async function getAccuratePlanetaryPositions(date: Date = new Date()): Pr
             sign: sign as ZodiacSign,
             degree,
             exactLongitude: sunLong,
-            isRetrograde: false // The Sun is never retrograde from Earth's perspective
+            isRetrograde: false // The sun is never retrograde from Earth's perspective
           };
         } else {
           // For other planets use standard calculation
@@ -327,8 +327,8 @@ export async function getAccuratePlanetaryPositions(date: Date = new Date()): Pr
  */
 function isPlanetRetrograde(body: Astronomy.Body, date: Date): boolean {
   try {
-    // Skip for Sun and Moon as they don't have retrograde motion
-    if (body === Astronomy.Body.Sun || body === Astronomy.Body.Moon) {
+    // Skip for sun and Moon as they don't have retrograde motion
+    if (body === Astronomy.Body.sun || body === Astronomy.Body.Moon) {
       return false;
     }
     
@@ -350,7 +350,7 @@ function isPlanetRetrograde(body: Astronomy.Body, date: Date): boolean {
   } catch (error) {
     debugLog(`Error determining retrograde for ${body}:`, error instanceof Error ? error.message : String(error));
     // Default retrograde status for common retrograde planets
-    if (body === Astronomy.Body.Mercury || body === Astronomy.Body.Venus) {
+    if (body === Astronomy.Body.mercury || body === Astronomy.Body.venus) {
       return Math.random() < 0.4; // 40% chance of retrograde (rough approximation)
     }
     return false;
@@ -388,7 +388,7 @@ export function getLongitudeToZodiacPosition(longitude: number): { sign: string,
  * @param date Date to calculate for
  * @returns Approximate ecliptic longitude in degrees (0-360)
  */
-function calculateSunPosition(date: Date): number {
+function calculatesunPosition(date: Date): number {
   // Simple approximation of sun's position
   const dayOfYear = getDayOfYear(date);
   const year = date.getFullYear();
@@ -410,7 +410,7 @@ function calculateSunPosition(date: Date): number {
  */
 function calculateMoonPosition(date: Date): number {
   // Very simple approximation
-  const sunPosition = calculateSunPosition(date);
+  const sunPosition = calculatesunPosition(date);
   
   // Moon completes a cycle in ~29.53 days
   // Calculate days since new moon (Jan 1, 2000)

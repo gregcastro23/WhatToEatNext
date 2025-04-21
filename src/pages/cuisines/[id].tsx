@@ -1,12 +1,12 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import { NextPage } from 'next';
-import { CuisineSection } from '@/components/CuisineSection';
-import { cuisines } from '@/data/cuisines';
-import { allRecipes, getBestRecipeMatches } from '@/data/recipes';
-import { getRecipesForCuisineMatch } from '@/data/cuisineFlavorProfiles';
-import { getCurrentElementalState } from '@/utils/elementalUtils';
-import type { Recipe } from '@/types/recipe';
+import { CuisineSection } from '../../components/CuisineSection';
+import { cuisines } from '../../data/cuisines';
+import { allRecipes, getBestRecipeMatches } from '../../data/recipes';
+import { getRecipesForCuisineMatch } from '../../data/cuisineFlavorProfiles';
+import { getCurrentElementalState } from '../../utils/elementalUtils';
+import type { Recipe } from '../../types/recipe';
 
 const CuisineDetailsPage: NextPage = () => {
   const router = useRouter();

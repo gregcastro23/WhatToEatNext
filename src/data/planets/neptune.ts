@@ -17,7 +17,7 @@ const neptuneData: PlanetData = {
   'Diurnal Element': 'Water',
   'Nocturnal Element': 'Water',
   'AstronomicalData': {
-    'DistanceFromSun': '2.8 billion miles (4.5 billion km)',
+    'DistanceFromsun': '2.8 billion miles (4.5 billion km)',
     'DistanceFromEarth': {
       'Minimum': '2.7 billion miles (4.3 billion km)',
       'Maximum': '2.9 billion miles (4.7 billion km)'
@@ -28,7 +28,7 @@ const neptuneData: PlanetData = {
     'RotationPeriod': '16.11 hours',
     'OrbitPeriod': '165 Earth years',
     'Axial Tilt': '28.3 degrees',
-    'SunlightTravelTime': '4 hours 10 minutes',
+    'sunlightTravelTime': '4 hours 10 minutes',
     'PhysicalCharacteristics': {
       'Surface': 'Gas giant with no solid surface',
       'MagneticField': 'Highly irregular and displaced from center',
@@ -62,7 +62,7 @@ const neptuneData: PlanetData = {
     'SharedElements': {
       'Moon': ['Water'],
       'Uranus': ['Water'],
-      'Venus': ['Water']
+      'venus': ['Water']
     },
     'AssociatedQualities': ['subtle', 'ethereal', 'dissolving', 'nebulous', 'transcendent', 'illusory']
   },
@@ -107,7 +107,7 @@ const neptuneData: PlanetData = {
     'Inspires intuitive and artistic approaches'
   ],
   'AspectsEffect': {
-    'Sun': {
+    'sun': {
       'Conjunction': 0.3,
       'Opposition': 0.1,
       'Trine': 0.4,
@@ -121,7 +121,7 @@ const neptuneData: PlanetData = {
       'Square': 0.1,
       'Sextile': 0.4
     },
-    'Mercury': {
+    'mercury': {
       'Conjunction': 0.2,
       'Opposition': -0.1,
       'Trine': 0.3,
@@ -142,7 +142,7 @@ const neptuneData: PlanetData = {
       'Square': 0.0,
       'Sextile': 0.3
     },
-    'Venus': {
+    'venus': {
       'Conjunction': 0.7,
       'Opposition': 0.3,
       'Trine': 0.6,

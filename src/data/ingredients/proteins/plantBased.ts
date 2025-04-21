@@ -1,5 +1,5 @@
-import type { ElementalProperties, IngredientMapping, ZodiacSign } from '@/types/alchemy';
-import { fixIngredientMappings } from '@/utils/elementalUtils';
+import type { ElementalProperties, IngredientMapping, ZodiacSign } from '../../../types/alchemy';
+import { fixIngredientMappings } from '../../../utils/elementalUtils';
 
 // Helper function to standardize ingredient mappings
 function createIngredientMapping(
@@ -356,14 +356,14 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
   'tofu_varieties': createIngredientMapping('tofu_varieties', {
     elementalProperties: { Water: 0.5, Earth: 0.3, Air: 0.1, Fire: 0.1 },
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Venus'],
+      rulingPlanets: ['Moon', 'venus'],
       favorableZodiac: ['cancer', 'taurus'],
       elementalAffinity: {
         base: 'Earth',
         decanModifiers: {
           first: { element: 'Earth', planet: 'Moon' },
-          second: { element: 'Water', planet: 'Venus' },
-          third: { element: 'Air', planet: 'Mercury' }
+          second: { element: 'Water', planet: 'venus' },
+          third: { element: 'Air', planet: 'mercury' }
         }
       },
       lunarPhaseModifiers: {
@@ -532,14 +532,14 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
   'legumes_protein': createIngredientMapping('legumes_protein', {
     elementalProperties: { Earth: 0.4, Water: 0.3, Fire: 0.2, Air: 0.1 },
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Venus'],
+      rulingPlanets: ['Moon', 'venus'],
       favorableZodiac: ['cancer', 'taurus'],
       elementalAffinity: {
         base: 'Earth',
         decanModifiers: {
           first: { element: 'Earth', planet: 'Moon' },
-          second: { element: 'Water', planet: 'Venus' },
-          third: { element: 'Air', planet: 'Mercury' }
+          second: { element: 'Water', planet: 'venus' },
+          third: { element: 'Air', planet: 'mercury' }
         }
       },
       lunarPhaseModifiers: {
@@ -807,14 +807,14 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
   'textured_vegetable_protein': createIngredientMapping('textured_vegetable_protein', {
     elementalProperties: { Earth: 0.4, Air: 0.3, Fire: 0.2, Water: 0.1 },
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Venus'],
+      rulingPlanets: ['Moon', 'venus'],
       favorableZodiac: ['cancer', 'taurus'],
       elementalAffinity: {
         base: 'Earth',
         decanModifiers: {
           first: { element: 'Earth', planet: 'Moon' },
-          second: { element: 'Water', planet: 'Venus' },
-          third: { element: 'Air', planet: 'Mercury' }
+          second: { element: 'Water', planet: 'venus' },
+          third: { element: 'Air', planet: 'mercury' }
         }
       },
       lunarPhaseModifiers: {
@@ -903,14 +903,14 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
   'jackfruit_young': createIngredientMapping('jackfruit_young', {
     elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Venus'],
+      rulingPlanets: ['Moon', 'venus'],
       favorableZodiac: ['cancer', 'taurus'],
       elementalAffinity: {
         base: 'Earth',
         decanModifiers: {
           first: { element: 'Earth', planet: 'Moon' },
-          second: { element: 'Water', planet: 'Venus' },
-          third: { element: 'Air', planet: 'Mercury' }
+          second: { element: 'Water', planet: 'venus' },
+          third: { element: 'Air', planet: 'mercury' }
         }
       },
       lunarPhaseModifiers: {
@@ -1021,14 +1021,14 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
   'quinoa_protein': createIngredientMapping('quinoa_protein', {
     elementalProperties: { Earth: 0.3, Air: 0.3, Fire: 0.2, Water: 0.2 },
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Venus'],
+      rulingPlanets: ['Moon', 'venus'],
       favorableZodiac: ['cancer', 'taurus'],
       elementalAffinity: {
         base: 'Earth',
         decanModifiers: {
           first: { element: 'Earth', planet: 'Moon' },
-          second: { element: 'Water', planet: 'Venus' },
-          third: { element: 'Air', planet: 'Mercury' }
+          second: { element: 'Water', planet: 'venus' },
+          third: { element: 'Air', planet: 'mercury' }
         }
       },
       lunarPhaseModifiers: {
@@ -1151,14 +1151,14 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
   'hemp_protein': createIngredientMapping('hemp_protein', {
     elementalProperties: { Earth: 0.4, Air: 0.3, Water: 0.2, Fire: 0.1 },
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Venus'],
+      rulingPlanets: ['Moon', 'venus'],
       favorableZodiac: ['cancer', 'taurus'],
       elementalAffinity: {
         base: 'Earth',
         decanModifiers: {
           first: { element: 'Earth', planet: 'Moon' },
-          second: { element: 'Water', planet: 'Venus' },
-          third: { element: 'Air', planet: 'Mercury' }
+          second: { element: 'Water', planet: 'venus' },
+          third: { element: 'Air', planet: 'mercury' }
         }
       },
       lunarPhaseModifiers: {
@@ -1246,14 +1246,14 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
   'pea_protein': createIngredientMapping('pea_protein', {
     elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Venus'],
+      rulingPlanets: ['Moon', 'venus'],
       favorableZodiac: ['cancer', 'taurus'],
       elementalAffinity: {
         base: 'Earth',
         decanModifiers: {
           first: { element: 'Earth', planet: 'Moon' },
-          second: { element: 'Water', planet: 'Venus' },
-          third: { element: 'Air', planet: 'Mercury' }
+          second: { element: 'Water', planet: 'venus' },
+          third: { element: 'Air', planet: 'mercury' }
         }
       },
       lunarPhaseModifiers: {
@@ -1336,14 +1336,14 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
   'chickpea_protein': createIngredientMapping('chickpea_protein', {
     elementalProperties: { Earth: 0.4, Fire: 0.2, Air: 0.2, Water: 0.2 },
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Venus'],
+      rulingPlanets: ['Moon', 'venus'],
       favorableZodiac: ['cancer', 'taurus'],
       elementalAffinity: {
         base: 'Earth',
         decanModifiers: {
           first: { element: 'Earth', planet: 'Moon' },
-          second: { element: 'Water', planet: 'Venus' },
-          third: { element: 'Air', planet: 'Mercury' }
+          second: { element: 'Water', planet: 'venus' },
+          third: { element: 'Air', planet: 'mercury' }
         }
       },
       lunarPhaseModifiers: {
@@ -1421,14 +1421,14 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
   'lupin_protein': createIngredientMapping('lupin_protein', {
     elementalProperties: { Earth: 0.4, Air: 0.3, Fire: 0.2, Water: 0.1 },
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Venus'],
+      rulingPlanets: ['Moon', 'venus'],
       favorableZodiac: ['cancer', 'taurus'],
       elementalAffinity: {
         base: 'Earth',
         decanModifiers: {
           first: { element: 'Earth', planet: 'Moon' },
-          second: { element: 'Water', planet: 'Venus' },
-          third: { element: 'Air', planet: 'Mercury' }
+          second: { element: 'Water', planet: 'venus' },
+          third: { element: 'Air', planet: 'mercury' }
         }
       },
       lunarPhaseModifiers: {
@@ -1519,14 +1519,14 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
   'fava_protein': createIngredientMapping('fava_protein', {
     elementalProperties: { Earth: 0.3, Water: 0.3, Air: 0.2, Fire: 0.2 },
     astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Venus'],
+      rulingPlanets: ['Moon', 'venus'],
       favorableZodiac: ['cancer', 'taurus'],
       elementalAffinity: {
         base: 'Earth',
         decanModifiers: {
           first: { element: 'Earth', planet: 'Moon' },
-          second: { element: 'Water', planet: 'Venus' },
-          third: { element: 'Air', planet: 'Mercury' }
+          second: { element: 'Water', planet: 'venus' },
+          third: { element: 'Air', planet: 'mercury' }
         }
       },
       lunarPhaseModifiers: {

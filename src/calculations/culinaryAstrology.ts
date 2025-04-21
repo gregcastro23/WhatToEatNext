@@ -1,11 +1,11 @@
-import { cookingMethods } from '@/data/cooking/cookingMethods';
-import { seasonalPatterns } from '@/data/integrations/seasonalPatterns';
-import { celestialCalculator } from '@/services/celestialCalculations';
-import { meats } from '@/data/ingredients/proteins/meat';
-import { culinaryTraditions } from '@/data/cuisines/culinaryTraditions';
-import { recipeElementalMappings } from '@/data/recipes/elementalMappings';
-import { AstrologicalState, Season, ElementalProperties, Element } from '@/types/alchemy';
-import type { RecipeElementalMapping } from '@/types/recipes';
+import { cookingMethods } from '../data/cooking/cookingMethods';
+import { seasonalPatterns } from '../data/integrations/seasonalPatterns';
+import { celestialCalculator } from '../services/celestialCalculations';
+import { meats } from '../data/ingredients/proteins/meat';
+import { culinaryTraditions } from '../data/cuisines/culinaryTraditions';
+import { recipeElementalMappings } from '../data/recipes/elementalMappings';
+import { AstrologicalState, Season, ElementalProperties, Element, PlanetName } from '../types/alchemy';
+import type { RecipeElementalMapping } from '../types/recipes';
 
 // Define the missing interface
 interface AstrologicalCulinaryGuidance {
@@ -68,16 +68,59 @@ export class CulinaryAstrologer {
     seasonal: 0.1
   };
   
-  // Add currentSeason field that's used in calculateCuisineBoost
-  private currentSeason: Season = 'spring';
+  private currentSeason: Season;
+  
+  constructor(initialSeason: Season = 'spring') {
+    this.currentSeason = initialSeason;
+  }
+  
+  // Method to update the current season
+  setCurrentSeason(season: Season): void {
+    if (!season || !(['spring', 'summer', 'autumn', 'winter'] as Season[]).includes(season)) {
+      console.warn(`Invalid season provided: ${season}. Defaulting to spring.`);
+      this.currentSeason = 'spring';
+    } else {
+      this.currentSeason = season;
+    }
+  }
 
-  getGuidance(astroState: AstrologicalState, season: Season): AstrologicalCulinaryGuidance {
+  getGuidance(astroState: AstrologicalState, season?: Season): AstrologicalCulinaryGuidance {
+    // Update current season if provided
+    if (season) {
+      this.setCurrentSeason(season);
+    }
+    
+    // Ensure astroState is valid
+    const safeAstroState = this.validateAstrologicalState(astroState);
+    
     // Base recommendations directly on astrological state without elemental balance
     return {
-      dominantElement: this.getDominantElementFromAstro(astroState),
-      technique: this.getOptimalTechnique(astroState),
-      ingredientFocus: this.getIngredientFocus(astroState),
-      cuisineRecommendation: this.getCuisineRecommendation(astroState, season)
+      dominantElement: this.getDominantElementFromAstro(safeAstroState),
+      technique: this.getOptimalTechnique(safeAstroState),
+      ingredientFocus: this.getIngredientFocus(safeAstroState),
+      cuisineRecommendation: this.getCuisineRecommendation(safeAstroState, this.currentSeason)
+    };
+  }
+  
+  // Validate and provide defaults for astrological state
+  private validateAstrologicalState(astroState?: AstrologicalState): AstrologicalState {
+    const defaultState: AstrologicalState = {
+      sunSign: 'aries',
+      lunarPhase: 'new moon',
+      activePlanets: ['sun'],
+      dominantElement: 'Fire',
+      dominantPlanets: [{ name: 'sun', influence: 1.0 }]
+    };
+    
+    if (!astroState) return defaultState;
+    
+    return {
+      sunSign: astroState.sunSign || defaultState.sunSign,
+      moonSign: astroState.moonSign,
+      lunarPhase: astroState.lunarPhase || defaultState.lunarPhase,
+      activePlanets: Array.isArray(astroState.activePlanets) ? astroState.activePlanets : defaultState.activePlanets,
+      dominantElement: astroState.dominantElement || defaultState.dominantElement,
+      dominantPlanets: Array.isArray(astroState.dominantPlanets) ? astroState.dominantPlanets : defaultState.dominantPlanets
     };
   }
 
@@ -90,14 +133,42 @@ export class CulinaryAstrologer {
       'cancer': 'Water', 'scorpio': 'Water', 'pisces': 'Water'
     };
     
-    return zodiacElementMap[astroState.zodiacSign?.toLowerCase() || ''] || 'Fire';
+    const sign = astroState.sunSign?.toLowerCase();
+    if (!sign || !zodiacElementMap[sign]) {
+      console.warn(`Invalid zodiac sign: ${astroState.sunSign}. Defaulting to Fire.`);
+      return 'Fire';
+    }
+    
+    return zodiacElementMap[sign];
   }
 
   private getOptimalTechnique(astroState: AstrologicalState) {
+    if (!cookingMethods || Object.keys(cookingMethods).length === 0) {
+      console.warn('Cooking methods data is not available. Returning default technique.');
+      return {
+        name: 'Roasting',
+        rationale: 'Default technique when data is unavailable',
+        optimalTiming: 'Best during daylight hours'
+      };
+    }
+    
+    const dominantElement = this.getDominantElementFromAstro(astroState);
+    
     const viableMethods = Object.values(cookingMethods).filter(method => {
-      const element = this.getDominantElementFromAstro(astroState);
-      return method.elementalEffect[element] > 0.3;
+      return method.elementalEffect && 
+        typeof method.elementalEffect[dominantElement] === 'number' && 
+        method.elementalEffect[dominantElement] > 0.3;
     });
+
+    if (viableMethods.length === 0) {
+      // Fallback to any method if no viable methods found
+      const fallbackMethod = Object.values(cookingMethods)[0];
+      return {
+        name: fallbackMethod?.name || 'Basic Cooking',
+        rationale: `Default technique when no elemental alignment is found`,
+        optimalTiming: 'Anytime is suitable'
+      };
+    }
 
     const bestMethod = viableMethods.sort((a, b) => 
       this.getAstrologicalAffinity(b, astroState) - 
@@ -106,27 +177,36 @@ export class CulinaryAstrologer {
 
     return {
       name: bestMethod.name,
-      rationale: `Aligns with ${this.getDominantElementFromAstro(astroState)} dominance through ${bestMethod.benefits.join(' and ')}`,
+      rationale: `Aligns with ${dominantElement} dominance through ${bestMethod.benefits?.join(' and ') || 'various benefits'}`,
       optimalTiming: this.calculateOptimalTiming(bestMethod, astroState)
     };
   }
 
   private getAstrologicalAffinity(method: CookingMethodData, astroState: AstrologicalState): number {
-    const planetScore = method.astrologicalInfluences?.dominantPlanets?.reduce((sum, planet) => 
-      sum + (astroState.activePlanets.includes(planet) ? 0.2 : 0), 0) || 0;
+    if (!method?.astrologicalInfluences?.dominantPlanets || !Array.isArray(astroState.activePlanets)) {
+      return 0;
+    }
+    
+    const planetScore = method.astrologicalInfluences.dominantPlanets.reduce((sum, planet) => 
+      sum + (astroState.activePlanets.includes(planet as PlanetName) ? 0.2 : 0), 0);
     
     return planetScore;
   }
 
   private calculateOptimalTiming(method: CookingMethodData, astroState: AstrologicalState): string {
-    const idealMoonPhase = Object.entries(method.astrologicalInfluences?.lunarPhaseEffect || {})
+    if (!method?.astrologicalInfluences?.lunarPhaseEffect || 
+        Object.keys(method.astrologicalInfluences.lunarPhaseEffect).length === 0) {
+      return 'Timing is flexible';
+    }
+    
+    const idealMoonPhase = Object.entries(method.astrologicalInfluences.lunarPhaseEffect)
       .sort(([,a], [,b]) => b - a)[0][0];
     
-    // Use the planetaryHours property from AstrologicalState
-    const currentPlanetaryHour = astroState.planetaryHours || 'Sun';
-    const dominantPlanet = method.astrologicalInfluences?.dominantPlanets?.[0] || "the planets";
+    // Get the dominant planet from the state
+    const dominantPlanet = astroState.dominantPlanets?.[0]?.name || 'sun';
+    const methodPlanet = method.astrologicalInfluences?.dominantPlanets?.[0] || "the planets";
 
-    return `Best during ${idealMoonPhase.replace('_', ' ')} moon when ${currentPlanetaryHour} or ${dominantPlanet} is dominant`;
+    return `Best during ${idealMoonPhase.replace('_', ' ')} moon when ${dominantPlanet} or ${methodPlanet} is dominant`;
   }
 
   private getIngredientFocus(astroState: AstrologicalState): {
@@ -136,8 +216,19 @@ export class CulinaryAstrologer {
   } {
     const dominantElement = this.getDominantElementFromAstro(astroState);
     
+    // Safely check if meats data is available
+    if (!meats || Object.keys(meats).length === 0) {
+      return {
+        element: dominantElement,
+        examples: ['chicken', 'beef', 'fish'],
+        pairingTip: `Combine with complementary preparations`,
+      };
+    }
+    
     const matchingIngredients = Object.entries(meats).filter(([_, data]) => {
-      const elementalAffinity = data.astrologicalProfile?.elementalAffinity;
+      if (!data?.astrologicalProfile?.elementalAffinity) return false;
+      
+      const elementalAffinity = data.astrologicalProfile.elementalAffinity;
       // Handle cases where elementalAffinity might be a string or an object with a base property
       if (typeof elementalAffinity === 'string') {
         return elementalAffinity === dominantElement;
@@ -147,21 +238,34 @@ export class CulinaryAstrologer {
       return false;
     });
     
+    // Provide fallback if no matching ingredients
+    const examples = matchingIngredients.length > 0 
+      ? matchingIngredients.slice(0, 3).map(([name]) => name)
+      : this.getFallbackIngredientsForElement(dominantElement);
+    
     return {
       element: dominantElement,
-      examples: matchingIngredients.slice(0, 3).map(([name]) => name),
+      examples,
       pairingTip: `Combine with ${this.getComplementaryElement(dominantElement)}-dominant preparations`,
     };
   }
+  
+  // Fallback ingredients when no matches are found
+  private getFallbackIngredientsForElement(element: string): string[] {
+    const fallbacks: Record<string, string[]> = {
+      'Fire': ['lamb', 'venison', 'spicy sausage'],
+      'Earth': ['beef', 'pork', 'game meat'],
+      'Air': ['chicken', 'turkey', 'pheasant'],
+      'Water': ['fish', 'shellfish', 'squid']
+    };
+    
+    return fallbacks[element] || ['chicken', 'beef', 'fish'];
+  }
 
   private getComplementaryElement(element: string): string {
-    const complements: Record<string, string> = {
-      'Fire': 'Air',
-      'Air': 'Water', 
-      'Water': 'Earth',
-      'Earth': 'Fire'
-    };
-    return complements[element] || 'Earth';
+    // Based on cursor_rules_context elementalprinciples.mdc:
+    // Elements reinforce themselves, not oppose each other
+    return element;
   }
 
   private getCuisineRecommendation(
@@ -170,66 +274,123 @@ export class CulinaryAstrologer {
   ): CuisineRecommendation {
     const dominantElement = this.getDominantElementFromAstro(astroState);
     
+    // Check if culinaryTraditions data is available
+    if (!culinaryTraditions || Object.keys(culinaryTraditions).length === 0) {
+      return {
+        style: 'Mediterranean',
+        modification: 'With seasonal herbs and spices',
+        astrologicalBoost: 1.0
+      };
+    }
+    
     const viableCuisines = Object.entries(culinaryTraditions)
       .filter(([_, profile]) => 
+        profile.elementalAlignment && 
+        typeof profile.elementalAlignment[dominantElement] === 'number' &&
         profile.elementalAlignment[dominantElement] > 0.3
       );
 
+    // Fallback if no viable cuisines
+    if (viableCuisines.length === 0) {
+      console.warn('No viable cuisines found for the current astrological state.');
+      const fallbackCuisine = Object.entries(culinaryTraditions)[0];
+      
+      if (!fallbackCuisine) {
+        return {
+          style: 'Mediterranean',
+          modification: 'With seasonal herbs and spices',
+          astrologicalBoost: 1.0
+        };
+      }
+      
+      return {
+        style: fallbackCuisine[0],
+        modification: fallbackCuisine[1].signatureModifications?.[`${dominantElement}_dominant`] || 'Standard preparation',
+        astrologicalBoost: 1.0
+      };
+    }
+
     const bestCuisine = viableCuisines.sort((a, b) => 
-      b[1].elementalAlignment[dominantElement] - 
-      a[1].elementalAlignment[dominantElement]
+      (b[1].elementalAlignment[dominantElement] || 0) - 
+      (a[1].elementalAlignment[dominantElement] || 0)
     )[0];
 
     return {
       style: bestCuisine[0],
-      modification: bestCuisine[1].signatureModifications[`${dominantElement}_dominant`],
-      astrologicalBoost: this.calculateCuisineBoost(bestCuisine[1])
+      modification: bestCuisine[1].signatureModifications?.[`${dominantElement}_dominant`] || 'Standard preparation',
+      astrologicalBoost: this.calculateCuisineBoost(bestCuisine[1], season, astroState)
     };
   }
 
-  private calculateCuisineBoost(cuisine: CuisineProfile): number {
-    // Calculate boost based on seasonal alignment
-    const seasonalBoost = cuisine.seasonalPreferences?.includes(this.currentSeason) 
-      ? 0.2 
-      : 0;
+  private calculateCuisineBoost(cuisine: CuisineProfile, season: Season, astroState: AstrologicalState): number {
+    if (!cuisine?.astrologicalProfile) return 0;
     
-    // Calculate boost based on the cuisine's elemental alignment with dominant element
-    const dominantElement = this.getDominantElementFromAstro({ zodiacSign: 'aries' } as AstrologicalState);
-    const elementalBoost = cuisine.elementalAlignment[dominantElement] || 0;
-    
-    // Calculate ruling planet boost if the cuisine has ruling planets
+    let seasonalBoost = 0;
     let planetaryBoost = 0;
-    if (cuisine.astrologicalProfile?.rulingPlanets?.length > 0) {
-      // More ruling planets = higher base boost
-      planetaryBoost = Math.min(0.1 * cuisine.astrologicalProfile.rulingPlanets.length, 0.3);
+    
+    // Calculate seasonal boost
+    if (cuisine.seasonalPreferences && Array.isArray(cuisine.seasonalPreferences)) {
+      seasonalBoost = cuisine.seasonalPreferences.includes(season) ? 0.2 : 0;
     }
     
-    // Combine all boosts with appropriate weights
-    const totalBoost = 1.0 + (seasonalBoost * 0.5) + (elementalBoost * 0.3) + (planetaryBoost * 0.2);
+    // Calculate planetary boost
+    if (cuisine.astrologicalProfile.rulingPlanets && 
+        Array.isArray(cuisine.astrologicalProfile.rulingPlanets) &&
+        Array.isArray(astroState.activePlanets)) {
+      // Count matching planets for a more nuanced boost
+      const matchingPlanets = cuisine.astrologicalProfile.rulingPlanets
+        .filter(planet => astroState.activePlanets.includes(planet as PlanetName));
+      
+      planetaryBoost = Math.min(0.1 * matchingPlanets.length, 0.3);
+    }
     
-    // Ensure the boost stays within reasonable bounds (0.8 to 1.5)
-    return Math.max(0.8, Math.min(1.5, totalBoost));
+    // Total boost capped at 0.5
+    return Math.min(seasonalBoost + planetaryBoost, 0.5);
   }
 
   getRecipeRecommendations(
     astroState: AstrologicalState,
     cuisineFilter?: string
   ): RecipeRecommendation[] {
+    if (!recipeElementalMappings || Object.keys(recipeElementalMappings).length === 0) {
+      console.warn('Recipe data is not available. Returning empty recommendations.');
+      return [];
+    }
+    
+    // Validate astrological state
+    const safeAstroState = this.validateAstrologicalState(astroState);
+    
     return Object.entries(recipeElementalMappings)
-      .filter(([_, recipe]) => 
-        !cuisineFilter || recipe.cuisine === culinaryTraditions[cuisineFilter]
-      )
+      .filter(([_, recipe]) => {
+        if (!recipe) return false;
+        // Check if cuisine filter applies
+        if (cuisineFilter && culinaryTraditions) {
+          return recipe.cuisine === culinaryTraditions[cuisineFilter];
+        }
+        return true;
+      })
       .map(([name, recipe]) => {
-        // Ensure Sun is always included in the planetary activators for consistent testing
+        if (!recipe?.astrologicalProfile?.rulingPlanets) {
+          return {
+            name,
+            alignmentScore: 0.5, // Default middle score
+            elementDistribution: recipe?.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+            planetaryActivators: ['sun'] // Default to sun
+          };
+        }
+        
+        // Ensure sun is always included in the planetary activators for consistent testing
         const planetaryActivators = [...recipe.astrologicalProfile.rulingPlanets];
-        if (!planetaryActivators.includes('Sun') && astroState.activePlanets.includes('Sun')) {
-          planetaryActivators.push('Sun');
+        if (Array.isArray(safeAstroState.activePlanets) && 
+            !planetaryActivators.includes('sun') && 
+            safeAstroState.activePlanets.includes('sun')) {
+          planetaryActivators.push('sun');
         }
         
         return {
           name,
-          alignmentScore: this.calculateRecipeAlignment(recipe, astroState),
-          elementDistribution: recipe.elementalProperties,
+          alignmentScore: this.calculateRecipeAlignment(recipe, safeAstroState),
+          elementDistribution: recipe.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
           planetaryActivators
         };
       })
@@ -237,105 +398,173 @@ export class CulinaryAstrologer {
   }
 
   private calculateRecipeAlignment(recipe: RecipeElementalMapping, astroState: AstrologicalState): number {
-    // Create separate scores for different types of planetary influences
-    const traditionalPlanets = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars'];
-    const gasGiants = ['Jupiter', 'Saturn'];
-    const outerPlanets = ['Uranus', 'Neptune', 'Pluto'];
+    if (!recipe?.astrologicalProfile || !astroState) return 0.5;
     
-    // Calculate match for traditional planets
-    const traditionalMatch = recipe.astrologicalProfile.rulingPlanets
-      .filter(p => traditionalPlanets.includes(p) && astroState.activePlanets.includes(p)).length;
+    // Calculate element-to-zodiac match score (30% of total)
+    const elementZodiacMatch = this.zodiacMatch(recipe, astroState);
     
-    // Calculate match for gas giants with special handling
-    let gasGiantScore = 0;
-    
-    // Check if Jupiter is active and in recipe's ruling planets
-    if (recipe.astrologicalProfile.rulingPlanets.includes('Jupiter') && 
-        astroState.activePlanets.includes('jupiter')) {
+    // Calculate lunar phase influence (20% of total)
+    let lunarMatch = 0.5; // Start with neutral value
+    if (astroState.lunarPhase) {
+      // Convert lunarPhase to match the format in recipe data
+      const lunarPhaseName = this.normalizeLunarPhaseName(astroState.lunarPhase);
       
-      // Check for Jupiter's effect in dominant planets
-      const jupiterPlanet = astroState.dominantPlanets?.find(p => p.name === 'Jupiter');
-      if (jupiterPlanet) {
-        // Base score for Jupiter
-        let jupiterBoost = 0.6;
-        
-        // Apply modifiers based on Jupiter's effect
-        if ((jupiterPlanet as any).effect === 'expansive') {
-          // Expansive Jupiter enhances foods with abundance, growth, and celebration themes
-          jupiterBoost = 1.0;
-          
-          // Further boost recipes that have abundant, rich, or festive qualities
-          if (recipe.tags?.some(tag => 
-            ['abundant', 'rich', 'festive', 'celebratory', 'generous'].includes(tag.toLowerCase())
-          )) {
-            jupiterBoost = 1.3;
-          }
-        } else if ((jupiterPlanet as any).effect === 'restricted') {
-          // Restricted Jupiter still benefits food, but in more moderate ways
-          jupiterBoost = 0.5;
-        }
-        
-        gasGiantScore += jupiterBoost * jupiterPlanet.influence;
+      // Check if recipe has lunar phase influences - need to check astrologicalProfile has this field
+      const recipeLunarInfluences = (recipe.astrologicalProfile as any)?.lunarPhaseInfluences;
+      
+      if (recipeLunarInfluences && Array.isArray(recipeLunarInfluences) && 
+          recipeLunarInfluences.includes(lunarPhaseName)) {
+        lunarMatch = 0.9; // Strong match
       } else {
-        // Default Jupiter influence if not in dominant planets
-        gasGiantScore += 0.5;
+        // Check elemental compatibility between lunar phase and recipe
+        const lunarElement = this.getLunarPhaseElement(astroState.lunarPhase);
+        if (lunarElement && recipe.elementalProperties) {
+          // Get recipe's strongest element
+          const recipeElements = Object.entries(recipe.elementalProperties);
+          recipeElements.sort((a, b) => b[1] - a[1]);
+          const dominantElement = recipeElements[0]?.[0];
+          
+          // If dominant element matches lunar phase element, it's a good match
+          if (dominantElement === lunarElement) {
+            lunarMatch = 0.8;
+          } else {
+            // All elements have good compatibility still
+            lunarMatch = 0.7;
+          }
+        }
       }
     }
     
-    // Check if Saturn is active and in recipe's ruling planets
-    if (recipe.astrologicalProfile.rulingPlanets.includes('Saturn') && 
-        astroState.activePlanets.includes('saturn')) {
+    // Calculate planetary influence match (30% of total)
+    let planetaryMatch = 0.5; // Start with neutral value
+    if (recipe.astrologicalProfile.rulingPlanets && Array.isArray(astroState.activePlanets)) {
+      // Find matching planets between recipe and current active planets
+      const matchingPlanets = recipe.astrologicalProfile.rulingPlanets.filter(
+        planet => astroState.activePlanets?.includes(planet.toLowerCase() as PlanetName)
+      );
       
-      // Check for Saturn's effect in dominant planets
-      const saturnPlanet = astroState.dominantPlanets?.find(p => p.name === 'Saturn');
-      if (saturnPlanet) {
-        // Base score for Saturn
-        let saturnBoost = 0.6;
+      if (matchingPlanets.length > 0) {
+        // Calculate percentage of matching planets
+        const matchPercentage = matchingPlanets.length / recipe.astrologicalProfile.rulingPlanets.length;
         
-        // Apply modifiers based on Saturn's effect
-        if ((saturnPlanet as any).effect === 'restrictive') {
-          // Restrictive Saturn enhances foods with structure, tradition, and discipline
-          saturnBoost = 0.9;
-          
-          // Further boost recipes that have structured, traditional, or preserved qualities
-          if (recipe.tags?.some(tag => 
-            ['structured', 'traditional', 'preserved', 'aged', 'fermented'].includes(tag.toLowerCase())
-          )) {
-            saturnBoost = 1.2;
-          }
-        } else if ((saturnPlanet as any).effect === 'softened') {
-          // Softened Saturn has less influence on food
-          saturnBoost = 0.4;
+        // Calculate planetary match score based on percentage
+        planetaryMatch = 0.5 + (matchPercentage * 0.5);
+        
+        // Bonus if the sun is active and matches one of the ruling planets
+        if (astroState.activePlanets.includes('sun') && 
+            recipe.astrologicalProfile.rulingPlanets.includes('sun')) {
+          planetaryMatch = Math.min(1.0, planetaryMatch + 0.1);
         }
-        
-        gasGiantScore += saturnBoost * saturnPlanet.influence;
-      } else {
-        // Default Saturn influence if not in dominant planets
-        gasGiantScore += 0.5;
       }
     }
     
-    // Calculate match for outer planets - give them more weight since they change less frequently
-    const outerPlanetMatch = recipe.astrologicalProfile.rulingPlanets
-      .filter(p => outerPlanets.includes(p) && astroState.activePlanets.includes(p)).length;
+    // Calculate modality match (15% of total)
+    let modalityMatch = 0.5; // Start with neutral value
+    // Check for dominantModality as optional property
+    const dominantModality = (astroState as any).dominantModality;
+    const recipeModality = (recipe.astrologicalProfile as any).modality;
+    if (dominantModality && recipeModality) {
+      if (recipeModality === dominantModality) {
+        modalityMatch = 0.9; // Strong match
+      } else {
+        // Different modalities aren't incompatible, just less harmonious
+        modalityMatch = 0.6;
+      }
+    }
     
-    // Higher weight for outer planets to emphasize their importance
-    const planetScore = (traditionalMatch * 0.5) + (gasGiantScore * 0.8) + (outerPlanetMatch * 1.0);
+    // Calculate seasonal alignment (5% of total)
+    let seasonalMatch = 0.5; // Start with neutral value
+    const currentSeason = (astroState as any).currentSeason;
+    if (currentSeason && recipe.seasonalRecommendation) {
+      // Check if recipe is recommended for current season
+      const recipeSeasons = recipe.seasonalRecommendation || [];
+      if (recipeSeasons.includes(currentSeason)) {
+        seasonalMatch = 1.0; // Perfect seasonal match
+      } else {
+        seasonalMatch = 0.3; // Not ideal for this season
+      }
+    }
     
-    // Normalize the planet score
-    const maxPossiblePlanetScore = recipe.astrologicalProfile.rulingPlanets.length; 
-    const normalizedPlanetScore = maxPossiblePlanetScore > 0 ? 
-      planetScore / maxPossiblePlanetScore : 0;
+    // Weight each component appropriately
+    const weights = {
+      elementZodiac: 0.30,
+      lunar: 0.20,
+      planetary: 0.30,
+      modality: 0.15,
+      seasonal: 0.05
+    };
     
-    // Combine with zodiac match
-    return (normalizedPlanetScore * 0.7) + 
-      (this.zodiacMatch(recipe, astroState) * 0.3);
+    // Calculate final weighted score
+    const finalScore = (
+      elementZodiacMatch * weights.elementZodiac +
+      lunarMatch * weights.lunar +
+      planetaryMatch * weights.planetary +
+      modalityMatch * weights.modality +
+      seasonalMatch * weights.seasonal
+    );
+    
+    // Ensure score is within 0-1 range
+    return Math.min(1.0, Math.max(0.0, finalScore));
+  }
+  
+  private normalizeLunarPhaseName(lunarPhase: string): string {
+    // Convert lunar phase names to match the format in recipe data
+    const phaseMap: Record<string, string> = {
+      'newMoon': 'New Moon',
+      'waxingCrescent': 'Waxing Crescent',
+      'firstQuarter': 'First Quarter',
+      'waxingGibbous': 'Waxing Gibbous',
+      'fullMoon': 'Full Moon',
+      'waningGibbous': 'Waning Gibbous',
+      'lastQuarter': 'Last Quarter',
+      'waningCrescent': 'Waning Crescent'
+    };
+    
+    return phaseMap[lunarPhase] || lunarPhase;
+  }
+  
+  private getLunarPhaseElement(lunarPhase: string): string | null {
+    // Map lunar phases to elemental energies
+    const phaseElementMap: Record<string, string> = {
+      'newMoon': 'Earth',
+      'waxingCrescent': 'Water',
+      'firstQuarter': 'Air',
+      'waxingGibbous': 'Fire',
+      'fullMoon': 'Fire',
+      'waningGibbous': 'Air',
+      'lastQuarter': 'Water',
+      'waningCrescent': 'Earth'
+    };
+    
+    return phaseElementMap[lunarPhase] || null;
   }
 
   private zodiacMatch(recipe: RecipeElementalMapping, astroState: AstrologicalState): number {
-    // Simple implementation - could be enhanced with more complex astrological logic
-    const dominantElement = this.getDominantElementFromAstro(astroState);
-    const elementMatch = recipe.elementalProperties[dominantElement] || 0;
-    return elementMatch > 0.6 ? 1 : elementMatch > 0.3 ? 0.5 : 0.1;
+    if (!recipe?.astrologicalProfile?.favorableZodiac || !astroState.sunSign) {
+      return 0.5; // Default middle score
+    }
+    
+    const recipeZodiac = recipe.astrologicalProfile.favorableZodiac.map(sign => sign.toLowerCase());
+    const userZodiac = astroState.sunSign.toLowerCase();
+    
+    // Direct match
+    if (recipeZodiac.includes(userZodiac)) {
+      return 0.9;
+    }
+    
+    // Element-based partial match
+    const zodiacElementMap: Record<string, string> = {
+      'aries': 'fire', 'leo': 'fire', 'sagittarius': 'fire',
+      'taurus': 'earth', 'virgo': 'earth', 'capricorn': 'earth',
+      'gemini': 'air', 'libra': 'air', 'aquarius': 'air',
+      'cancer': 'water', 'scorpio': 'water', 'pisces': 'water'
+    };
+    
+    const userElement = zodiacElementMap[userZodiac];
+    
+    // Check if any of the recipe's favorable zodiac signs share the same element
+    const elementMatch = recipeZodiac.some(sign => zodiacElementMap[sign] === userElement);
+    
+    return elementMatch ? 0.7 : 0.4;
   }
 }

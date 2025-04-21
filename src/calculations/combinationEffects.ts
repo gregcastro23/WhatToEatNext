@@ -4,9 +4,9 @@ import type {
   EffectType, 
   Element,
   LunarPhase
-} from '@/types/alchemy';
-import { ingredientMappings } from '@/utils/elementalMappings/ingredients';
-import { ELEMENT_COMBINATIONS } from '@/utils/constants/elements';
+} from '../types/alchemy';
+import { ingredientMappings } from '../utils/elementalMappings/ingredients';
+import { ELEMENT_COMBINATIONS } from '../utils/constants/elements';
 
 type CookingMethod = 'simmered' | 'infused' | 'raw' | 'baked' | 'fried' | 'grilled';
 type Season = 'spring' | 'summer' | 'fall' | 'winter' | 'all';
@@ -209,7 +209,7 @@ export const suggestComplementaryIngredients = (
     const ingDominant = getDominantElement(ingElements);
 
     if (isHarmoniousWith(dominantElement, ingDominant)) {
-      if (!season || mapping.season?.includes(season)) {
+      if (!season || (mapping.season as string[])?.includes(season)) {
         suggestions.push(ingredient);
       }
     }
