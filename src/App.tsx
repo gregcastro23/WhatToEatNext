@@ -5,7 +5,7 @@ import ElementalEnergyDisplay from './components/ElementalEnergyDisplay';
 import CookingMethods from './components/CookingMethods';
 import CuisineRecommender from './components/CuisineRecommender';
 import MoonDisplay from './components/MoonDisplay';
-import sunDisplay from './components/sunDisplay';
+import SunDisplay from './components/SunDisplay';
 import AstrologicalClock from './components/AstrologicalClock';
 import PlanetaryPositionInitializer from './components/PlanetaryPositionInitializer';
 import dynamic from 'next/dynamic';
@@ -198,7 +198,7 @@ function App() {
             {/* sun Display */}
             {activeComponent === 'sunDisplay' && (
               <div className="mb-6">
-                <sunDisplay />
+                <SunDisplay />
               </div>
             )}
             
