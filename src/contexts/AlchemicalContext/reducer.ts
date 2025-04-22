@@ -25,7 +25,7 @@ export const alchemicalReducer = (state: AlchemicalState, action: AlchemicalActi
         lastUpdated: new Date()
       };
       
-    case AlchemicalDispatchType.SET_ELEMENTAL_STATE:
+    case AlchemicalDispatchType.SET_ELEMENTAL_STATE: {
       const elementalState = {
         Fire: state.elementalState.Fire,
         Water: state.elementalState.Water,
@@ -39,6 +39,7 @@ export const alchemicalReducer = (state: AlchemicalState, action: AlchemicalActi
         elementalState,
         lastUpdated: new Date()
       };
+    }
       
     case AlchemicalDispatchType.SET_ZODIAC_ENERGY:
       return {
@@ -62,7 +63,7 @@ export const alchemicalReducer = (state: AlchemicalState, action: AlchemicalActi
         lastUpdated: new Date()
       };
       
-    case AlchemicalDispatchType.SET_PLANETARY_ENERGY:
+    case AlchemicalDispatchType.SET_PLANETARY_ENERGY: {
       const planetaryEnergy = Array.isArray(action.payload) 
         ? action.payload 
         : [action.payload];
@@ -76,6 +77,7 @@ export const alchemicalReducer = (state: AlchemicalState, action: AlchemicalActi
         },
         lastUpdated: new Date()
       };
+    }
       
     case AlchemicalDispatchType.SET_ASTROLOGICAL_STATE:
       return {
@@ -122,7 +124,7 @@ export const alchemicalReducer = (state: AlchemicalState, action: AlchemicalActi
         lastUpdated: new Date()
       };
       
-    case AlchemicalDispatchType.SET_ALCHEMICAL_VALUES:
+    case AlchemicalDispatchType.SET_ALCHEMICAL_VALUES: {
       const alchemicalValues = {
         Spirit: state.alchemicalValues.Spirit,
         Essence: state.alchemicalValues.Essence,
@@ -136,6 +138,7 @@ export const alchemicalReducer = (state: AlchemicalState, action: AlchemicalActi
         alchemicalValues,
         lastUpdated: new Date()
       };
+    }
       
     case AlchemicalDispatchType.SET_LUNAR_PHASE:
       return {

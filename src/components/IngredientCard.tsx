@@ -145,9 +145,9 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
             {hasSubCategory && ` (${extendedIngredient.subCategory})`}
           </div>
           
-          {hasQualities && extendedIngredient.qualities!.length > 0 && (
+          {hasQualities && extendedIngredient.qualities && extendedIngredient.qualities.length > 0 && (
             <div className="ingredient-qualities">
-              {extendedIngredient.qualities!.join(', ')}
+              {extendedIngredient.qualities.join(', ')}
             </div>
           )}
           
