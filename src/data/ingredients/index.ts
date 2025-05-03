@@ -8,16 +8,17 @@ import { poultry } from './proteins/poultry';
 import { plantBased } from './proteins/plantBased';
 import { meats } from './proteins/meat';
 import { herbs, allHerbs } from './herbs';
-import { oils } from './oils';
+import { processedOils, allOils } from './oils';
 import { spices } from './spices';
-import { vinegars, allVinegars } from './vinegars/vinegars';
+import { warmSpices } from './spices/warmSpices';
+import { vinegars, allVinegars, artisanalVinegars } from './vinegars/vinegars';
 import { french } from '@/data/cuisines/french';
 import { italian } from '@/data/cuisines/italian';
 import { middleEastern } from '@/data/cuisines/middle-eastern';
 import { thai } from '@/data/cuisines/thai';
 import { calculateAlchemicalProperties, calculateThermodynamicProperties, determineIngredientModality } from '@/utils/ingredientUtils';
 import { fruits } from './fruits/index';
-import { vegetables } from './vegetables';
+import { enhancedVegetables, standardizedVegetables } from './vegetables';
 import { seasonings } from './seasonings';
 import { standardizeIngredient } from '@/utils/dataStandardization';
 import type { IngredientMapping } from '@/types/alchemy';
@@ -25,9 +26,14 @@ import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 // Create comprehensive collections that combine all available sources
 export const herbsCollection = allHerbs;
-export const oilsCollection = oils;
+export const oilsCollection = allOils;
 export const vinegarsCollection = allVinegars;
 export const grainsCollection = allGrains;
+export const spicesCollection = {
+  ...spices,
+  ...warmSpices
+};
+export const vegetablesCollection = enhancedVegetables;
 
 export const VALID_CATEGORIES = [
     'culinary_herb',
@@ -35,7 +41,11 @@ export const VALID_CATEGORIES = [
     'protein',
     'oil',
     'grain',
-    'medicinal_herb'
+    'medicinal_herb',
+    'vegetable',
+    'fruit',
+    'vinegar',
+    'seasoning'
 ] as const;
 
 // Default elemental properties
@@ -75,11 +85,41 @@ const processIngredient = (ingredient: unknown, name: string): Ingredient => {
     const defaultLunarPhaseModifiers = {
         newMoon: {
             elementalBoost: { Earth: 0.05, Water: 0.05 },
-            preparationTips: ['Best for subtle preparation methods']
+            preparationTips: ['Best for subtle preparation methods'],
+            thermodynamicEffects: { heat: -0.1, entropy: -0.05 }
         },
         fullMoon: {
             elementalBoost: { Water: 0.1, Air: 0.05 },
-            preparationTips: ['Enhanced flavor extraction']
+            preparationTips: ['Enhanced flavor extraction'],
+            thermodynamicEffects: { reactivity: 0.1, energy: 0.05 }
+        }
+    };
+
+    // Create default sensory profile if none exists
+    const defaultSensoryProfile = {
+        taste: {
+            sweet: 0.25,
+            salty: 0.25,
+            sour: 0.25,
+            bitter: 0.25,
+            umami: 0.25,
+            spicy: 0.25
+        },
+        aroma: {
+            floral: 0.25,
+            fruity: 0.25,
+            herbal: 0.25,
+            spicy: 0.25,
+            earthy: 0.25,
+            woody: 0.25
+        },
+        texture: {
+            crisp: 0.25,
+            tender: 0.25,
+            creamy: 0.25,
+            chewy: 0.25,
+            crunchy: 0.25,
+            silky: 0.25
         }
     };
 
@@ -89,6 +129,11 @@ const processIngredient = (ingredient: unknown, name: string): Ingredient => {
         elementalProperties: normalizeElementalProperties(ingredient.elementalProperties),
         qualities: Array.isArray(ingredient.qualities) ? ingredient.qualities : [],
         lunarPhaseModifiers: ingredient.lunarPhaseModifiers || defaultLunarPhaseModifiers,
+        sensoryProfile: ingredient.sensoryProfile || defaultSensoryProfile,
+        storage: ingredient.storage || { duration: 'unknown' },
+        elementalTransformation: ingredient.elementalTransformation || {
+            whenCooked: { Fire: 0.1, Air: 0.05 }
+        },
         ...ingredient
     };
 };
@@ -108,14 +153,23 @@ const processIngredientCollection = (collection: Record<string, unknown>): Recor
                 processedIngredient.qualities || [],
                 processedIngredient.elementalProperties
             );
+
+            // Create elementalSignature (dominant elements in order)
+            const elementalSignature = Object.entries(processedIngredient.elementalProperties)
+                .sort((a, b) => b[1] - a[1])
+                .map(([element, value]) => [element, value] as [string, number]);
             
             acc[key] = {
                 ...processedIngredient,
                 alchemicalProperties: alchemicalProps,
                 thermodynamicProperties: thermodynamicProps,
-                modality
-                // Note: We're keeping celestialBoost and planetaryInfluence in the data
-                // but not displaying them in the UI
+                modality,
+                elementalSignature: elementalSignature.length > 0 ? elementalSignature : undefined,
+                // Process other enhanced properties if they exist
+                astrologicalCorrespondence: processedIngredient.astrologicalCorrespondence || undefined,
+                pairingRecommendations: processedIngredient.pairingRecommendations || undefined,
+                celestialBoost: processedIngredient.celestialBoost || undefined,
+                planetaryInfluence: processedIngredient.planetaryInfluence || undefined
             };
         } catch (error) {
             console.warn(`Skipping invalid ingredient ${key}:`, error);
@@ -131,8 +185,18 @@ export function normalizeIngredients(ingredients: Ingredient[]): Ingredient[] {
         ...(typeof ingredient === 'object' ? {
             thermodynamicProperties: {
                 ...((ingredient as any).thermodynamicProperties || {}),
-                heat: (ingredient as any).heat ?? calculateHeatFromElements(ingredient.elementalProperties),
-                moisture: (ingredient as any).moisture ?? calculateMoistureFromElements(ingredient.elementalProperties)
+                heat: (ingredient as any).thermodynamicProperties?.heat ?? calculateHeatFromElements(ingredient.elementalProperties),
+                moisture: (ingredient as any).thermodynamicProperties?.moisture ?? calculateMoistureFromElements(ingredient.elementalProperties),
+                entropy: (ingredient as any).thermodynamicProperties?.entropy ?? calculateEntropyFromElements(ingredient.elementalProperties),
+                reactivity: (ingredient as any).thermodynamicProperties?.reactivity ?? calculateReactivityFromElements(ingredient.elementalProperties),
+                energy: (ingredient as any).thermodynamicProperties?.energy ?? calculateEnergyFromElements(ingredient.elementalProperties)
+            },
+            alchemicalProperties: {
+                ...((ingredient as any).alchemicalProperties || {}),
+                spirit: (ingredient as any).alchemicalProperties?.spirit ?? calculateSpiritFromElements(ingredient.elementalProperties),
+                essence: (ingredient as any).alchemicalProperties?.essence ?? calculateEssenceFromElements(ingredient.elementalProperties),
+                matter: (ingredient as any).alchemicalProperties?.matter ?? calculateMatterFromElements(ingredient.elementalProperties),
+                substance: (ingredient as any).alchemicalProperties?.substance ?? calculateSubstanceFromElements(ingredient.elementalProperties)
             }
         } : {})
     } as Ingredient));
@@ -152,6 +216,78 @@ function calculateMoistureFromElements(elementalProperties: Record<string, numbe
     return (water * 0.7 + earth * 0.3);
 }
 
+// Calculate entropy from elemental properties
+function calculateEntropyFromElements(elementalProperties: Record<string, number> = {}): number {
+    const fire = elementalProperties.Fire || 0;
+    const air = elementalProperties.Air || 0;
+    const spirit = (fire * 0.7) + (air * 0.3);
+    const substance = (elementalProperties.Earth || 0) * 0.5 + (elementalProperties.Water || 0) * 0.3 + (air * 0.2);
+    
+    const numerator = (spirit**2 + substance**2 + fire**2 + air**2);
+    const denominator = ((calculateEssenceFromElements(elementalProperties) + 
+                        calculateMatterFromElements(elementalProperties) + 
+                        (elementalProperties.Earth || 0) + 
+                        (elementalProperties.Water || 0))**2) || 1;
+    
+    return numerator / denominator;
+}
+
+// Calculate reactivity from elemental properties
+function calculateReactivityFromElements(elementalProperties: Record<string, number> = {}): number {
+    const fire = elementalProperties.Fire || 0;
+    const air = elementalProperties.Air || 0;
+    const water = elementalProperties.Water || 0;
+    const earth = elementalProperties.Earth || 0;
+    
+    const spirit = (fire * 0.7) + (air * 0.3);
+    const substance = (earth * 0.5) + (water * 0.3) + (air * 0.2);
+    const essence = (water * 0.6) + (fire * 0.2) + (air * 0.2);
+    
+    const numerator = (spirit**2 + substance**2 + essence**2 + fire**2 + air**2 + water**2);
+    const denominator = ((calculateMatterFromElements(elementalProperties) + earth)**2) || 1;
+    
+    return numerator / denominator;
+}
+
+// Calculate energy from elemental properties
+function calculateEnergyFromElements(elementalProperties: Record<string, number> = {}): number {
+    const heat = calculateHeatFromElements(elementalProperties);
+    const reactivity = calculateReactivityFromElements(elementalProperties);
+    const entropy = calculateEntropyFromElements(elementalProperties);
+    
+    return heat - (reactivity * entropy);
+}
+
+// Calculate spirit from elemental properties
+function calculateSpiritFromElements(elementalProperties: Record<string, number> = {}): number {
+    const fire = elementalProperties.Fire || 0;
+    const air = elementalProperties.Air || 0;
+    return (fire * 0.7) + (air * 0.3);
+}
+
+// Calculate essence from elemental properties
+function calculateEssenceFromElements(elementalProperties: Record<string, number> = {}): number {
+    const water = elementalProperties.Water || 0;
+    const fire = elementalProperties.Fire || 0;
+    const air = elementalProperties.Air || 0;
+    return (water * 0.6) + (fire * 0.2) + (air * 0.2);
+}
+
+// Calculate matter from elemental properties
+function calculateMatterFromElements(elementalProperties: Record<string, number> = {}): number {
+    const earth = elementalProperties.Earth || 0;
+    const water = elementalProperties.Water || 0;
+    return (earth * 0.7) + (water * 0.3);
+}
+
+// Calculate substance from elemental properties
+function calculateSubstanceFromElements(elementalProperties: Record<string, number> = {}): number {
+    const earth = elementalProperties.Earth || 0;
+    const water = elementalProperties.Water || 0;
+    const air = elementalProperties.Air || 0;
+    return (earth * 0.5) + (water * 0.3) + (air * 0.2);
+}
+
 // Process and combine all ingredients - using our comprehensive collections
 export const allIngredients = {
     ...processIngredientCollection(seafood),
@@ -159,8 +295,9 @@ export const allIngredients = {
     ...processIngredientCollection(plantBased),
     ...processIngredientCollection(herbsCollection),  // Use complete herbs collection
     ...processIngredientCollection(oilsCollection),   // Use complete oils collection
-    ...processIngredientCollection(spices),
-    ...processIngredientCollection(vinegarsCollection) // Use complete vinegars collection
+    ...processIngredientCollection(spicesCollection), // Use complete spices collection
+    ...processIngredientCollection(vinegarsCollection), // Use complete vinegars collection
+    ...enhancedVegetables // Use enhanced vegetables with all properties
 };
 
 export const AlchemyData = {
@@ -177,7 +314,8 @@ export const AlchemyData = {
         },
         herbs: {
             medicinal: processIngredientCollection(medicinalHerbs)
-        }
+        },
+        vegetables: enhancedVegetables
     }
 };
 
@@ -185,14 +323,17 @@ export const AlchemyData = {
 export {
     herbs,
     spices,
-    oils,
+    warmSpices,
+    processedOils as oils,
     vinegars,
+    artisanalVinegars,
     seafood,
     poultry,
     plantBased,
     wholeGrains,
     refinedGrains,
-    medicinalHerbs
+    medicinalHerbs,
+    enhancedVegetables as vegetables
 };
 
 export * from './types';
@@ -209,7 +350,7 @@ export const proteins = fixIngredientMappings({
 // Create a comprehensive ingredients map with all collections
 export const ingredientsMap: Record<string, Ingredient | IngredientMapping> = {
     ...fruits,
-    ...vegetables,
+    ...enhancedVegetables, // Use enhanced vegetables
     ...seafood,
     ...poultry,
     ...plantBased,
@@ -217,7 +358,7 @@ export const ingredientsMap: Record<string, Ingredient | IngredientMapping> = {
     ...wholeGrains,
     ...herbs,
     ...spices,
-    ...oils,
+    ...processedOils,
     ...vinegars,
     ...seasonings,
     ...herbsCollection,  // Add comprehensive collections

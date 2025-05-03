@@ -1,6 +1,6 @@
 // src/utils/elementalUtils.ts
 
-import { ELEMENTAL_CHARACTERISTICS, DEFAULT_ELEMENTAL_PROPERTIES } from '@/constants/elementalConstants';
+import { ELEMENTAL_CHARACTERISTICS } from '@/constants/elementalConstants';
 import type { 
   ElementalProperties, 
   Recipe, 
@@ -19,6 +19,14 @@ import { LunarPhase, calculatePlanetaryBoost } from '@/constants/planetaryFoodAs
 
 // Define missing AlchemicalProperty type
 type AlchemicalProperty = 'Spirit' | 'Essence' | 'Matter' | 'Substance';
+
+// Local definition to avoid circular dependencies
+const LOCAL_DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {
+  Fire: 0.25,
+  Water: 0.25,
+  Earth: 0.25,
+  Air: 0.25
+};
 
 /**
  * Validates that elemental properties contain valid values
@@ -320,7 +328,7 @@ export const elementalUtils = {
 
     // Get the default elemental properties
     getDefaultElementalProperties(): ElementalProperties {
-        return DEFAULT_ELEMENTAL_PROPERTIES;
+        return LOCAL_DEFAULT_ELEMENTAL_PROPERTIES;
     }
 };
 
@@ -587,7 +595,7 @@ export const fixIngredientMapping = (mapping: Partial<IngredientMapping>, key: s
   // Ensure all required elements exist in elementalProperties
   const elementalProperties = mapping.elementalProperties 
     ? ensureCompleteElementalProperties(mapping.elementalProperties)
-    : DEFAULT_ELEMENTAL_PROPERTIES;
+    : LOCAL_DEFAULT_ELEMENTAL_PROPERTIES;
 
   return {
     ...mapping,
@@ -760,4 +768,331 @@ export function getStrengtheningElement(element: Element): Element {
   };
   
   return strengthMap[element];
+}
+
+/**
+ * Enhance vegetable transformations by adding thermodynamic effects to different cooking methods
+ * @param vegetables The collection of vegetables to enhance
+ * @returns Enhanced vegetables with complete transformation properties
+ */
+export function enhanceVegetableTransformations(vegetables: Record<string, any>): Record<string, any> {
+  return Object.entries(vegetables).reduce((acc, [key, vegetable]) => {
+    // Skip if not an object
+    if (typeof vegetable !== 'object' || vegetable === null) {
+      acc[key] = vegetable;
+      return acc;
+    }
+    
+    const enhanced = { ...vegetable };
+    
+    // Create transformation if it doesn't exist
+    if (!enhanced.elementalTransformation) {
+      // Get the dominant element
+      const elementalProps = enhanced.elementalProperties || { Earth: 0.3, Water: 0.3, Air: 0.2, Fire: 0.2 };
+      let dominantElement = 'Earth';
+      let highestValue = 0;
+      
+      for (const [element, value] of Object.entries(elementalProps)) {
+        if (value > highestValue) {
+          dominantElement = element;
+          highestValue = value;
+        }
+      }
+      
+      // Set default transformations based on dominant element
+      enhanced.elementalTransformation = {
+        whenCooked: { [dominantElement]: 0.1, Fire: 0.05 },
+        whenDried: { Earth: 0.1, Air: 0.05 },
+        whenFermented: { Water: 0.1, Air: 0.05 }
+      };
+    }
+    
+    // Add thermodynamic changes if they don't exist
+    if (enhanced.elementalTransformation && !enhanced.elementalTransformation.thermodynamicChanges) {
+      enhanced.elementalTransformation.thermodynamicChanges = {
+        cooked: {
+          heat: 0.1,
+          entropy: 0.05,
+          reactivity: 0.05
+        },
+        dried: {
+          heat: -0.05,
+          entropy: -0.1,
+          reactivity: -0.05
+        },
+        fermented: {
+          entropy: 0.2,
+          reactivity: 0.15,
+          stabilityIndex: -0.1
+        },
+        roasted: {
+          heat: 0.2,
+          entropy: 0.1,
+          energy: 0.15
+        },
+        steamed: {
+          heat: 0.05,
+          moisture: 0.2,
+          reactivity: 0.05
+        }
+      };
+    }
+    
+    // Add elementalSignature if it doesn't exist
+    if (!enhanced.elementalSignature && enhanced.elementalProperties) {
+      enhanced.elementalSignature = Object.entries(enhanced.elementalProperties)
+        .sort((a, b) => b[1] - a[1])
+        .map(([element, value]) => [element, Number(value)]);
+    }
+    
+    // Add sensory profiles if they don't exist
+    if (!enhanced.sensoryProfile) {
+      // Default sensory profile based on vegetable subCategory
+      const subCategory = enhanced.subCategory || 'vegetable';
+      
+      const profiles = {
+        'leafy green': {
+          taste: { bitter: 0.6, sweet: 0.2, umami: 0.1, salty: 0.05, sour: 0.05, spicy: 0 },
+          aroma: { herbal: 0.5, earthy: 0.3, floral: 0.1, fruity: 0.05, woody: 0.05, spicy: 0 },
+          texture: { crisp: 0.7, tender: 0.2, silky: 0.1, chewy: 0, creamy: 0, crunchy: 0 }
+        },
+        'root': {
+          taste: { sweet: 0.5, earthy: 0.3, bitter: 0.1, umami: 0.1, salty: 0, spicy: 0 },
+          aroma: { earthy: 0.6, woody: 0.2, herbal: 0.1, fruity: 0.1, floral: 0, spicy: 0 },
+          texture: { crunchy: 0.6, chewy: 0.2, tender: 0.2, crisp: 0, silky: 0, creamy: 0 }
+        },
+        'allium': {
+          taste: { pungent: 0.6, sweet: 0.2, umami: 0.2, bitter: 0, salty: 0, sour: 0 },
+          aroma: { spicy: 0.7, earthy: 0.2, herbal: 0.1, floral: 0, fruity: 0, woody: 0 },
+          texture: { crunchy: 0.5, chewy: 0.3, tender: 0.2, crisp: 0, silky: 0, creamy: 0 }
+        },
+        'cruciferous': {
+          taste: { bitter: 0.5, sweet: 0.2, spicy: 0.2, umami: 0.1, salty: 0, sour: 0 },
+          aroma: { earthy: 0.4, sulfurous: 0.3, woody: 0.2, herbal: 0.1, floral: 0, fruity: 0 },
+          texture: { crunchy: 0.7, crisp: 0.2, tender: 0.1, chewy: 0, silky: 0, creamy: 0 }
+        },
+        'nightshade': {
+          taste: { umami: 0.5, sweet: 0.3, sour: 0.1, bitter: 0.1, salty: 0, spicy: 0 },
+          aroma: { fruity: 0.5, earthy: 0.3, herbal: 0.2, floral: 0, woody: 0, spicy: 0 },
+          texture: { tender: 0.5, juicy: 0.3, chewy: 0.2, crisp: 0, crunchy: 0, silky: 0 }
+        },
+        'squash': {
+          taste: { sweet: 0.6, earthy: 0.2, nutty: 0.2, bitter: 0, salty: 0, sour: 0 },
+          aroma: { earthy: 0.4, sweet: 0.4, woody: 0.1, herbal: 0.1, floral: 0, spicy: 0 },
+          texture: { tender: 0.4, creamy: 0.3, chewy: 0.2, crisp: 0.1, crunchy: 0, silky: 0 }
+        },
+        'legume': {
+          taste: { earthy: 0.5, sweet: 0.3, umami: 0.2, bitter: 0, salty: 0, sour: 0 },
+          aroma: { earthy: 0.6, nutty: 0.3, herbal: 0.1, floral: 0, fruity: 0, spicy: 0 },
+          texture: { tender: 0.4, creamy: 0.3, chewy: 0.3, crisp: 0, crunchy: 0, silky: 0 }
+        },
+        'starchy': {
+          taste: { sweet: 0.5, earthy: 0.3, umami: 0.2, bitter: 0, salty: 0, sour: 0 },
+          aroma: { earthy: 0.7, nutty: 0.2, herbal: 0.1, floral: 0, fruity: 0, spicy: 0 },
+          texture: { starchy: 0.6, tender: 0.2, creamy: 0.2, crisp: 0, crunchy: 0, silky: 0 }
+        }
+      };
+      
+      // Select appropriate profile or use default
+      const profile = profiles[subCategory] || {
+        taste: { sweet: 0.25, bitter: 0.25, umami: 0.25, salty: 0.15, sour: 0.1, spicy: 0 },
+        aroma: { earthy: 0.3, herbal: 0.3, woody: 0.2, fruity: 0.1, floral: 0.1, spicy: 0 },
+        texture: { tender: 0.3, crunchy: 0.3, crisp: 0.2, chewy: 0.1, creamy: 0.1, silky: 0 }
+      };
+      
+      enhanced.sensoryProfile = profile;
+    }
+    
+    acc[key] = enhanced;
+    return acc;
+  }, {});
+}
+
+/**
+ * Enhances oil properties with additional culinary, sensory, and transformation details
+ * @param oils Record of oil ingredients
+ * @returns Enhanced oil ingredients with complete properties
+ */
+export function enhanceOilProperties(oils: Record<string, any>): Record<string, any> {
+    return Object.entries(oils).reduce((acc, [key, oil]) => {
+        // Start with the original oil
+        const enhancedOil = { ...oil };
+        
+        // Ensure basic properties exist
+        enhancedOil.category = enhancedOil.category || 'oil';
+        enhancedOil.elementalProperties = enhancedOil.elementalProperties || { Fire: 0.3, Water: 0.2, Earth: 0.3, Air: 0.2 };
+        enhancedOil.qualities = Array.isArray(enhancedOil.qualities) ? enhancedOil.qualities : [];
+        
+        // Create default sensory profile if none exists
+        if (!enhancedOil.sensoryProfile) {
+            const oilType = key.toLowerCase();
+            const isFruity = oilType.includes('olive') || oilType.includes('avocado');
+            const isNutty = oilType.includes('nut') || oilType.includes('sesame') || oilType.includes('walnut') || 
+                        oilType.includes('almond') || oilType.includes('peanut');
+            const isFloral = oilType.includes('sunflower') || oilType.includes('safflower');
+            const isNeutral = oilType.includes('vegetable') || oilType.includes('canola') || oilType.includes('grapeseed');
+            const isTropical = oilType.includes('coconut') || oilType.includes('palm');
+            
+            enhancedOil.sensoryProfile = {
+                taste: {
+                    sweet: isFruity || isTropical ? 0.6 : 0.2,
+                    bitter: isNutty ? 0.4 : 0.1,
+                    umami: isNutty ? 0.5 : 0.2,
+                    rich: isNutty || isFruity ? 0.7 : 0.4
+                },
+                aroma: {
+                    fruity: isFruity ? 0.8 : 0.1,
+                    nutty: isNutty ? 0.8 : 0.1,
+                    floral: isFloral ? 0.7 : 0.1,
+                    neutral: isNeutral ? 0.9 : 0.2,
+                    tropical: isTropical ? 0.8 : 0.1
+                },
+                texture: {
+                    viscosity: isTropical || oilType.includes('olive') ? 0.7 : 0.5,
+                    mouthfeel: isFruity || isNutty ? 0.8 : 0.5,
+                    richness: isFruity || isNutty || isTropical ? 0.7 : 0.4
+                }
+            };
+        }
+        
+        // Enhance culinary applications if present
+        if (enhancedOil.culinaryApplications) {
+            // Ensure all application types are properly structured
+            Object.entries(enhancedOil.culinaryApplications).forEach(([appType, application]) => {
+                if (application && typeof application === 'object') {
+                    enhancedOil.culinaryApplications[appType] = {
+                        ...application,
+                        elementalEffect: application.elementalEffect || {
+                            Fire: appType === 'frying' || appType === 'cooking' || appType === 'highHeat' ? 0.2 : 0.1,
+                            Water: appType === 'dressing' || appType === 'marinade' ? 0.2 : 0.1,
+                            Earth: appType === 'baking' || appType === 'roasting' ? 0.2 : 0.1,
+                            Air: appType === 'emulsion' || appType === 'whipping' ? 0.2 : 0.1
+                        },
+                        alchemicalEffect: application.alchemicalEffect || {
+                            spirit: appType === 'finishing' || appType === 'infusion' ? 0.2 : 0.1,
+                            essence: appType === 'dressing' || appType === 'marinade' ? 0.2 : 0.1,
+                            matter: appType === 'baking' || appType === 'cooking' ? 0.2 : 0.1,
+                            substance: appType === 'frying' || appType === 'highHeat' ? 0.2 : 0.1
+                        }
+                    };
+                }
+            });
+        } else {
+            // Create default culinary applications based on smoke point and oil type
+            const smokePoint = enhancedOil.smokePoint?.fahrenheit || 0;
+            const isHighHeat = smokePoint > 400;
+            const isMediumHeat = smokePoint > 325 && smokePoint <= 400;
+            const isLowHeat = smokePoint <= 325;
+            const isFinishing = key.toLowerCase().includes('olive') || key.toLowerCase().includes('walnut') || 
+                              key.toLowerCase().includes('sesame') || key.toLowerCase().includes('pumpkin');
+            
+            enhancedOil.culinaryApplications = {
+                ...(isHighHeat ? {
+                    frying: {
+                        notes: ["Excellent for high-heat cooking"],
+                        techniques: ["Deep frying", "Stir-frying", "Sautéing"],
+                        elementalEffect: { Fire: 0.3, Earth: 0.1 },
+                        alchemicalEffect: { substance: 0.3, matter: 0.2 }
+                    }
+                } : {}),
+                ...(isMediumHeat ? {
+                    cooking: {
+                        notes: ["Good for medium-heat cooking"],
+                        techniques: ["Sautéing", "Pan frying", "Roasting"],
+                        elementalEffect: { Fire: 0.2, Earth: 0.2 },
+                        alchemicalEffect: { matter: 0.3, essence: 0.1 }
+                    }
+                } : {}),
+                ...(isLowHeat || isFinishing ? {
+                    finishing: {
+                        notes: ["Best used unheated or low heat"],
+                        techniques: ["Drizzling", "Dressings", "Dips"],
+                        elementalEffect: { Water: 0.3, Air: 0.2 },
+                        alchemicalEffect: { spirit: 0.3, essence: 0.2 }
+                    }
+                } : {}),
+                ...(enhancedOil.subCategory === 'baking' || key.toLowerCase().includes('coconut') ? {
+                    baking: {
+                        notes: ["Suitable for baked goods"],
+                        techniques: ["Cakes", "Cookies", "Breads"],
+                        elementalEffect: { Earth: 0.3, Fire: 0.1 },
+                        alchemicalEffect: { matter: 0.3, substance: 0.1 }
+                    }
+                } : {})
+            };
+        }
+        
+        // Add cooking transformations if they don't exist
+        if (!enhancedOil.elementalTransformation) {
+            enhancedOil.elementalTransformation = {
+                whenHeated: {
+                    Fire: 0.2,
+                    Air: 0.1,
+                    Water: -0.1,
+                    Earth: -0.05
+                },
+                whenCooled: {
+                    Water: 0.1,
+                    Earth: 0.2,
+                    Fire: -0.1,
+                    Air: -0.05
+                },
+                whenMixed: {
+                    Air: 0.15,
+                    Water: 0.1,
+                    Fire: -0.05,
+                    Earth: -0.05
+                },
+                whenInfused: {
+                    Air: 0.2,
+                    Fire: 0.1,
+                    Earth: -0.05,
+                    Water: -0.05
+                }
+            };
+        }
+        
+        // Add thermodynamic properties if they don't exist
+        if (!enhancedOil.thermodynamicProperties) {
+            // Base on smoke point if available
+            const smokePoint = enhancedOil.smokePoint?.fahrenheit || 350;
+            const normalizedSmokePoint = (smokePoint - 300) / 250; // Normalize between 300-550°F
+            const heatValue = 0.5 + (normalizedSmokePoint * 0.4); // Scale 0.5-0.9
+            
+            enhancedOil.thermodynamicProperties = {
+                heat: Math.min(Math.max(heatValue, 0.3), 0.9),
+                entropy: 0.4,
+                reactivity: 0.6,
+                energy: 0.7
+            };
+        }
+        
+        // Add recommended cooking methods if they don't exist
+        if (!enhancedOil.recommendedCookingMethods) {
+            const smokePoint = enhancedOil.smokePoint?.fahrenheit || 0;
+            const methods = [];
+            
+            if (smokePoint > 400) {
+                methods.push({ name: 'deepFrying', potency: 0.9 });
+                methods.push({ name: 'stirFrying', potency: 0.9 });
+                methods.push({ name: 'sautéing', potency: 0.8 });
+            }
+            
+            if (smokePoint > 350) {
+                methods.push({ name: 'roasting', potency: 0.7 });
+                methods.push({ name: 'baking', potency: 0.7 });
+            }
+            
+            if (enhancedOil.subCategory === 'finishing' || smokePoint < 350) {
+                methods.push({ name: 'dressing', potency: 0.9 });
+                methods.push({ name: 'marinating', potency: 0.8 });
+                methods.push({ name: 'drizzling', potency: 1.0 });
+            }
+            
+            enhancedOil.recommendedCookingMethods = methods;
+        }
+        
+        acc[key] = enhancedOil;
+        return acc;
+    }, {});
 }

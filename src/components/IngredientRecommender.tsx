@@ -3,7 +3,7 @@ import { useEffect, useState, useMemo } from 'react';
 import { ElementalCalculator } from '@/services/ElementalCalculator';
 import { ElementalProperties } from '@/types/alchemy';
 import { getChakraBasedRecommendations, GroupedIngredientRecommendations, getIngredientRecommendations, IngredientRecommendation } from '@/utils/ingredientRecommender';
-import { Flame, Droplets, Mountain, Wind, Info, Clock, Tag, Leaf, X, ChevronDown, ChevronUp } from 'lucide-react';
+import { Flame, Droplets, Mountain, Wind, Info, Clock, Tag, Leaf, X, ChevronDown, ChevronUp, Beaker } from 'lucide-react';
 import { useChakraInfluencedFood } from '@/hooks/useChakraInfluencedFood';
 import { normalizeChakraKey } from '@/constants/chakraSymbols';
 import { herbsCollection, oilsCollection, vinegarsCollection, grainsCollection } from '@/data/ingredients';
@@ -33,14 +33,14 @@ const CATEGORY_DISPLAY_NAMES: Record<string, string> = {
 
 // Define category display counts
 const CATEGORY_DISPLAY_COUNTS: Record<string, number> = {
-  proteins: 10,
+  proteins: 12,
   vegetables: 10,
   grains: 10,
   fruits: 10,
   herbs: 10,
-  spices: 10,
-  oils: 10,
-  vinegars: 10
+  spices: 12,
+  oils: 8,
+  vinegars: 8
 };
 
 // Using inline styles to avoid CSS module conflicts
@@ -191,7 +191,10 @@ export default function IngredientRecommender() {
   // Define vinegar types for better vinegar detection
   const vinegarTypes = useMemo(() => 
     Object.keys(vinegarsCollection).concat([
-      'vinegar', 'balsamic vinegar', 'apple cider vinegar', 'rice vinegar', 'red wine vinegar'
+      'vinegar', 'balsamic vinegar', 'apple cider vinegar', 'rice vinegar', 'red wine vinegar',
+      'white wine vinegar', 'champagne vinegar', 'sherry vinegar', 'malt vinegar', 
+      'distilled vinegar', 'black vinegar', 'rice wine vinegar', 'white balsamic',
+      'balsamic glaze', 'raspberry vinegar', 'fig vinegar', 'coconut vinegar'
     ]), 
   []);
   
@@ -266,11 +269,41 @@ export default function IngredientRecommender() {
         }
         // Spices and seasonings
         else if (
-          name.includes('pepper') || name.includes('saffron') || name.includes('szechuan') || 
-          name.includes('peppercorn') || name.includes('cumin') || name.includes('spice') || 
-          ingredient.category === 'spice'
+          // Exclude common vegetable peppers
+          (name.includes('pepper') && 
+           !name.includes('bell pepper') && 
+           !name.includes('sweet pepper') && 
+           !name.includes('jalapeno') && 
+           !name.includes('poblano') && 
+           !name.includes('anaheim') && 
+           !name.includes('banana pepper') && 
+           !name.includes('chili pepper') && 
+           !name.includes('paprika')) || 
+          name.includes('cinnamon') || 
+          name.includes('nutmeg') || 
+          name.includes('cumin') || 
+          name.includes('turmeric') || 
+          name.includes('cardamom') ||
+          name.includes('spice') || 
+          name.includes('seasoning')
         ) {
           categories.spices.push({
+            ...ingredient,
+            matchScore: ingredient.score || 0.5
+          });
+        }
+        // Vegetable Peppers
+        else if (
+          name.includes('bell pepper') || 
+          name.includes('sweet pepper') || 
+          name.includes('jalapeno') || 
+          name.includes('poblano') || 
+          name.includes('anaheim') || 
+          name.includes('banana pepper') || 
+          name.includes('chili pepper') || 
+          name.includes('paprika')
+        ) {
+          categories.vegetables.push({
             ...ingredient,
             matchScore: ingredient.score || 0.5
           });
@@ -307,7 +340,14 @@ export default function IngredientRecommender() {
           } else {
             if (
               name.includes('ginger') || name.includes('garlic') || name.includes('onion') || 
-              name.includes('carrot') || name.includes('broccoli') || name.includes('tomato')
+              name.includes('carrot') || name.includes('broccoli') || name.includes('tomato') ||
+              name.includes('zucchini') || name.includes('cucumber') || name.includes('lettuce') ||
+              name.includes('spinach') || name.includes('kale') || name.includes('cabbage') ||
+              name.includes('cauliflower') || name.includes('celery') || name.includes('potato') ||
+              name.includes('squash') || name.includes('eggplant') || name.includes('beet') ||
+              name.includes('asparagus') || name.includes('artichoke') || name.includes('radish') ||
+              name.includes('arugula') || name.includes('turnip') || name.includes('leek') ||
+              ingredient.category?.toLowerCase() === 'vegetable' || ingredient.category?.toLowerCase() === 'vegetables'
             ) {
               categories.vegetables.push({
                 ...ingredient,
@@ -364,6 +404,58 @@ export default function IngredientRecommender() {
       });
     });
     
+    // Ensure vinegars are always present by adding them from the collection if needed
+    if (!categories.vinegars || categories.vinegars.length === 0) {
+      categories.vinegars = Object.entries(vinegarsCollection).map(([key, vinegarData]) => {
+        const displayName = vinegarData.name || key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+        return {
+          name: displayName,
+          category: 'vinegars',
+          matchScore: 0.6,
+          elementalProperties: vinegarData.elementalProperties || { 
+            Water: 0.4, 
+            Earth: 0.3, 
+            Air: 0.2, 
+            Fire: 0.1 
+          },
+          qualities: vinegarData.qualities || ['acidic', 'tangy', 'flavorful'],
+          description: `${displayName} - A versatile acidic component for your culinary creations.`
+        };
+      });
+    }
+    
+    // Add any missing oils from the oils collection
+    if (!categories.oils || categories.oils.length < 3) {
+      const existingOilNames = new Set((categories.oils || []).map(oil => oil.name.toLowerCase()));
+      const additionalOils = Object.entries(oilsCollection)
+        .filter(([_, oilData]) => 
+          !existingOilNames.has(oilData.name?.toLowerCase() || '')
+        )
+        .slice(0, 10) // Limit to 10 additional oils
+        .map(([key, oilData]) => {
+          return {
+            name: oilData.name || key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
+            category: 'oils',
+            matchScore: 0.6,
+            elementalProperties: oilData.elementalProperties || { 
+              Fire: 0.3, 
+              Water: 0.2, 
+              Earth: 0.3, 
+              Air: 0.2 
+            },
+            qualities: oilData.qualities || ['cooking', 'flavoring'],
+            smokePoint: oilData.smokePoint || { celsius: 210, fahrenheit: 410 },
+            culinaryApplications: oilData.culinaryApplications || {},
+            thermodynamicProperties: oilData.thermodynamicProperties || {},
+            sensoryProfile: oilData.sensoryProfile || {},
+            description: `${oilData.name || key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())} - ${oilData.description || "A versatile cooking oil with various applications."}`
+          };
+        });
+      
+      categories.oils = [...(categories.oils || []), ...additionalOils]
+        .sort((a, b) => b.matchScore - a.matchScore);
+    }
+    
     // Sort each category by matchScore
     Object.keys(categories).forEach(category => {
       categories[category] = categories[category]
@@ -404,12 +496,48 @@ export default function IngredientRecommender() {
     
     // Spices
     if (
-      lowercaseName.includes('pepper') || lowercaseName.includes('cinnamon') || 
-      lowercaseName.includes('nutmeg') || lowercaseName.includes('cumin') || 
-      lowercaseName.includes('turmeric') || lowercaseName.includes('cardamom') ||
-      lowercaseName.includes('spice') || lowercaseName.includes('seasoning')
+      (lowercaseName.includes('pepper') && 
+       !lowercaseName.includes('bell pepper') && 
+       !lowercaseName.includes('sweet pepper') && 
+       !lowercaseName.includes('jalapeno') && 
+       !lowercaseName.includes('poblano') && 
+       !lowercaseName.includes('anaheim') && 
+       !lowercaseName.includes('banana pepper') && 
+       !lowercaseName.includes('chili pepper') && 
+       !lowercaseName.includes('paprika')) || 
+      lowercaseName.includes('cinnamon') || 
+      lowercaseName.includes('nutmeg') || 
+      lowercaseName.includes('cumin') || 
+      lowercaseName.includes('turmeric') || 
+      lowercaseName.includes('cardamom') ||
+      lowercaseName.includes('spice') || 
+      lowercaseName.includes('seasoning')
     ) {
       return 'spices';
+    }
+    
+    // Vegetable Peppers
+    if (
+      lowercaseName.includes('bell pepper') || 
+      lowercaseName.includes('sweet pepper') || 
+      lowercaseName.includes('jalapeno') || 
+      lowercaseName.includes('poblano') || 
+      lowercaseName.includes('anaheim') || 
+      lowercaseName.includes('banana pepper') || 
+      lowercaseName.includes('chili pepper') || 
+      lowercaseName.includes('paprika')
+    ) {
+      return 'vegetables';
+    }
+    
+    // Vinegars
+    if (
+      lowercaseName.includes('vinegar') || lowercaseName.includes('balsamic') || 
+      lowercaseName.includes('cider') || lowercaseName.includes('rice wine') || 
+      lowercaseName.includes('sherry vinegar') || lowercaseName.includes('red wine vinegar') ||
+      lowercaseName.includes('white wine vinegar') || lowercaseName.includes('champagne vinegar')
+    ) {
+      return 'vinegars';
     }
     
     // Grains
@@ -430,6 +558,21 @@ export default function IngredientRecommender() {
       lowercaseName.includes('grape') || lowercaseName.includes('fruit')
     ) {
       return 'fruits';
+    }
+    
+    // Vegetables
+    if (
+      lowercaseName.includes('ginger') || lowercaseName.includes('garlic') || lowercaseName.includes('onion') || 
+      lowercaseName.includes('carrot') || lowercaseName.includes('broccoli') || lowercaseName.includes('tomato') ||
+      lowercaseName.includes('zucchini') || lowercaseName.includes('cucumber') || lowercaseName.includes('lettuce') ||
+      lowercaseName.includes('spinach') || lowercaseName.includes('kale') || lowercaseName.includes('cabbage') ||
+      lowercaseName.includes('cauliflower') || lowercaseName.includes('celery') || lowercaseName.includes('potato') ||
+      lowercaseName.includes('squash') || lowercaseName.includes('eggplant') || lowercaseName.includes('beet') ||
+      lowercaseName.includes('asparagus') || lowercaseName.includes('artichoke') || lowercaseName.includes('radish') ||
+      lowercaseName.includes('arugula') || lowercaseName.includes('turnip') || lowercaseName.includes('leek') ||
+      lowercaseName.includes('vegetable')
+    ) {
+      return 'vegetables';
     }
     
     // Default to vegetables for anything else
@@ -482,6 +625,8 @@ export default function IngredientRecommender() {
             else if (category === 'herbs') icon = <Leaf className="mr-1 text-green-500" size={14} />;
             else if (category === 'spices') icon = <Flame className="mr-1 text-orange-500" size={14} />;
             else if (category === 'fruits') icon = <Droplets className="mr-1 text-cyan-500" size={14} />;
+            else if (category === 'oils') icon = <Droplets className="mr-1 text-yellow-500" size={14} />;
+            else if (category === 'vinegars') icon = <Beaker className="mr-1 text-purple-500" size={14} />;
             
             return (
               <a 
@@ -530,6 +675,8 @@ export default function IngredientRecommender() {
                     {category === 'herbs' && <Leaf className="mr-2 text-green-500" size={18} />}
                     {category === 'spices' && <Flame className="mr-2 text-orange-500" size={18} />}
                     {category === 'fruits' && <Droplets className="mr-2 text-cyan-500" size={18} />}
+                    {category === 'oils' && <Droplets className="mr-2 text-yellow-500" size={18} />}
+                    {category === 'vinegars' && <Beaker className="mr-2 text-purple-500" size={18} />}
                     {displayName}
                   </h3>
                   <button className="text-gray-500 hover:text-gray-700 focus:outline-none">
@@ -662,6 +809,42 @@ export default function IngredientRecommender() {
                                 </div>
                               )}
                               
+                              {/* Show smoke point for oils */}
+                              {category === 'oils' && item.smokePoint && (
+                                <div>
+                                  <span className="font-semibold">Smoke Point:</span> {item.smokePoint.fahrenheit}°F / {item.smokePoint.celsius}°C
+                                </div>
+                              )}
+                              
+                              {/* Show recommended culinary applications for oils */}
+                              {category === 'oils' && item.culinaryApplications && (
+                                <div>
+                                  <span className="font-semibold">Best for:</span> {
+                                    Object.entries(item.culinaryApplications)
+                                      .map(([type, data]) => {
+                                        if (typeof data === 'object' && data.techniques) {
+                                          return data.techniques.slice(0, 2).join(', ');
+                                        }
+                                        return type;
+                                      })
+                                      .filter(Boolean)
+                                      .join(', ')
+                                  }
+                                </div>
+                              )}
+                              
+                              {/* Show thermodynamic properties for oils and other ingredients */}
+                              {item.thermodynamicProperties && (
+                                <div>
+                                  <span className="font-semibold">Properties:</span> {
+                                    Object.entries(item.thermodynamicProperties)
+                                      .filter(([key]) => ['heat', 'reactivity', 'energy'].includes(key))
+                                      .map(([key, value]) => `${key}: ${Math.round(value * 100)}%`)
+                                      .join(', ')
+                                  }
+                                </div>
+                              )}
+                              
                               {item.healthBenefits && item.healthBenefits.length > 0 && (
                                 <div>
                                   <span className="font-semibold">Benefits:</span> {item.healthBenefits.join(', ')}
@@ -738,6 +921,13 @@ export default function IngredientRecommender() {
                                     {quality}
                                   </span>
                                 ))}
+                              </div>
+                            )}
+                            
+                            {/* Compact smoke point display for oils */}
+                            {category === 'oils' && item.smokePoint && (
+                              <div className="mt-1 text-[10px] text-gray-600 dark:text-gray-400">
+                                <span className="font-medium">Smoke Point:</span> {item.smokePoint.fahrenheit}°F
                               </div>
                             )}
                           </>
