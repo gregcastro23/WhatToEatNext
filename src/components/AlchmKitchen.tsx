@@ -30,11 +30,11 @@ export default function AlchmKitchen() {
     // Get state from AlchemicalContext
     const { 
         planetaryPositions, 
-        elementalState, 
-        alchemicalValues, 
-        astrologicalState,
+        state,
         isDaytime
     } = useAlchemical();
+
+    const { elementalState, alchemicalValues, astrologicalState } = state;
 
     // Current Sun sign from astrologicalState
     const currentSign = astrologicalState?.sunSign || 'unknown';

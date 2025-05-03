@@ -6,10 +6,12 @@ const rawPoultry: Record<string, Partial<IngredientMapping>> = {
     name: 'Chicken',
     elementalProperties: { Fire: 0.2, Water: 0.3, Air: 0.3, Earth: 0.2 },
     astrologicalProfile: {
-      planetaryRuler: 'Mercury',
-      zodiacRuler: 'Virgo',
-      element: 'Air',
-      energyType: 'Balanced',
+      rulingPlanets: ['Mercury'],
+      favorableZodiac: ['virgo'],
+      elementalAffinity: {
+        base: 'Air',
+        secondary: 'Water'
+      },
       lunarPhaseModifiers: {
         'new': {
           elementalBoost: { Air: 0.1 },

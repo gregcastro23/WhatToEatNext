@@ -16,10 +16,12 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
       Air: 0.0
     },
     astrologicalProfile: {
-      planetaryRuler: 'Mars',
-      zodiacRuler: 'Taurus',
-      element: 'Earth',
-      energyType: 'Yang',
+      rulingPlanets: ['Mars'],
+      favorableZodiac: ['taurus'],
+      elementalAffinity: {
+        base: 'Earth',
+        secondary: 'Fire',
+      },
       lunarPhaseModifiers: {
         'new': {
           elementalBoost: { Fire: 0.1 },
