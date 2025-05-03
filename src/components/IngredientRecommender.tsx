@@ -257,11 +257,52 @@ export default function IngredientRecommender() {
         .trim();
     };
     
-    // Helper function to check if two ingredients should be considered duplicates
+    // Improved function for ingredient name similarity checking with fuzzy matching
     const areSimilarIngredients = (name1: string, name2: string): boolean => {
+      // Normalize both names
       const normalized1 = normalizeIngredientName(name1);
       const normalized2 = normalizeIngredientName(name2);
-      return normalized1 === normalized2;
+      
+      // If normalized names are identical, they're definitely similar
+      if (normalized1 === normalized2) return true;
+      
+      // Check if one name is contained within the other
+      if (normalized1.includes(normalized2) || normalized2.includes(normalized1)) {
+        return true;
+      }
+      
+      // Simple fuzzy matching - check if they share a significant number of characters
+      const commonWords = normalized1.split(' ').filter(word => 
+        word.length > 3 && normalized2.includes(word)
+      );
+      
+      if (commonWords.length > 0) return true;
+      
+      // Check for plurals or slight variations
+      if (normalized1.endsWith('s') && normalized2 === normalized1.slice(0, -1)) return true;
+      if (normalized2.endsWith('s') && normalized1 === normalized2.slice(0, -1)) return true;
+      
+      // Check for common substitutions (e.g., "beef" and "beef steak")
+      const ingredientPairs = [
+        ['chicken', 'chicken breast', 'chicken thigh', 'chicken leg'],
+        ['beef', 'beef steak', 'ground beef', 'beef chuck'],
+        ['pork', 'pork chop', 'pork loin', 'pork shoulder'],
+        ['salmon', 'salmon fillet', 'smoked salmon', 'fresh salmon'],
+        ['tomato', 'tomatoes', 'cherry tomato', 'roma tomato'],
+        ['pepper', 'bell pepper', 'sweet pepper', 'chili pepper'],
+        ['rice', 'brown rice', 'white rice', 'wild rice'],
+        ['olive oil', 'extra virgin olive oil', 'evoo']
+      ];
+      
+      // Check if both names are in the same ingredient family
+      for (const group of ingredientPairs) {
+        if (group.some(item => normalized1.includes(item)) && 
+            group.some(item => normalized2.includes(item))) {
+          return true;
+        }
+      }
+      
+      return false;
     };
 
     // Add food recommendations first (they are already categorized)
@@ -594,6 +635,41 @@ export default function IngredientRecommender() {
     return 'vegetables';
   }
   
+  // Create match score class based on percentage with enhanced visual styling
+  const getMatchScoreClass = (matchScore?: number): string => {
+    // Use safe score value with default
+    const safeScore = typeof matchScore === 'number' && !isNaN(matchScore) ? matchScore : 0.5;
+    const matchPercentage = Math.round(safeScore * 100);
+    
+    // Enhanced styling with gradients and more distinct ranges
+    if (matchPercentage >= 95) {
+      return "bg-gradient-to-r from-indigo-600 to-indigo-500 text-white dark:from-indigo-600 dark:to-indigo-400 dark:text-white font-semibold shadow-sm";
+    } else if (matchPercentage >= 90) {
+      return "bg-gradient-to-r from-blue-500 to-indigo-400 text-white dark:from-blue-600 dark:to-indigo-500 dark:text-white font-semibold shadow-sm";
+    } else if (matchPercentage >= 85) {
+      return "bg-gradient-to-r from-blue-400 to-blue-300 text-blue-900 dark:from-blue-600 dark:to-blue-500 dark:text-blue-100 font-medium";
+    } else if (matchPercentage >= 80) {
+      return "bg-blue-100 text-blue-800 dark:bg-blue-800/40 dark:text-blue-200 font-medium";
+    } else if (matchPercentage >= 75) {
+      return "bg-green-100 text-green-800 dark:bg-green-800/40 dark:text-green-200";
+    } else if (matchPercentage >= 70) {
+      return "bg-green-50 text-green-700 dark:bg-green-800/30 dark:text-green-300";
+    } else if (matchPercentage >= 65) {
+      return "bg-yellow-100 text-yellow-800 dark:bg-yellow-800/40 dark:text-yellow-200";
+    } else if (matchPercentage >= 60) {
+      return "bg-yellow-50 text-yellow-700 dark:bg-yellow-800/30 dark:text-yellow-300";
+    } else if (matchPercentage >= 50) {
+      return "bg-orange-50 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300";
+    }
+    return "bg-gray-100 text-gray-700 dark:bg-gray-800/50 dark:text-gray-400";
+  };
+
+  // Format the match score for display
+  const formatMatchScore = (matchScore?: number): string => {
+    const safeScore = typeof matchScore === 'number' && !isNaN(matchScore) ? matchScore : 0.5;
+    return `${Math.round(safeScore * 100)}%`;
+  };
+  
   // Render loading state if needed
   if (astroLoading || foodLoading) {
     return (
@@ -746,22 +822,8 @@ export default function IngredientRecommender() {
                     
                     const qualities = item.qualities || [];
                     
-                    // Create match score class based on percentage
-                    const matchPercentage = Math.round(((item.matchScore !== undefined && !isNaN(item.matchScore)) ? item.matchScore : 0.5) * 100);
-                    
-                    let matchScoreClass = "bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300";
-                    
-                    if (matchPercentage >= 90) {
-                      matchScoreClass = "bg-indigo-100 text-indigo-800 dark:bg-indigo-900/40 dark:text-indigo-300 font-semibold";
-                    } else if (matchPercentage >= 80) {
-                      matchScoreClass = "bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300";
-                    } else if (matchPercentage >= 70) {
-                      matchScoreClass = "bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300";
-                    } else if (matchPercentage >= 60) {
-                      matchScoreClass = "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/40 dark:text-yellow-300";
-                    } else if (matchPercentage >= 50) {
-                      matchScoreClass = "bg-orange-100 text-orange-800 dark:bg-orange-900/40 dark:text-orange-300";
-                    }
+                    // Use the new getMatchScoreClass function
+                    const matchScoreClass = getMatchScoreClass(item.matchScore);
                     
                     const isSelected = selectedIngredient?.name === item.name;
                     
@@ -774,7 +836,7 @@ export default function IngredientRecommender() {
                         <div className="flex justify-between items-start">
                           <h4 className="font-medium text-sm text-gray-800 dark:text-gray-200">{item.name}</h4>
                           <span className={`ml-1 text-xs px-1.5 py-0.5 rounded-sm ${matchScoreClass}`}>
-                            {matchPercentage}%
+                            {formatMatchScore(item.matchScore)}
                           </span>
                         </div>
                         

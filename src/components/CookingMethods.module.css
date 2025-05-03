@@ -914,4 +914,113 @@
 .ingredient-item:hover {
   border-color: rgba(107, 70, 193, 0.3);
   background-color: rgba(107, 70, 193, 0.02);
+}
+
+/* Add these new styles for the score details */
+.scoreSection {
+  margin-top: 12px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  padding-top: 10px;
+}
+
+.scoreHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  padding: 4px 0;
+  font-weight: 500;
+}
+
+.scoreDetailsButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+}
+
+.scoreDetailsButton:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.scoreDetails {
+  margin-top: 8px;
+  padding: 8px;
+  background-color: rgba(0, 0, 0, 0.03);
+  border-radius: 6px;
+}
+
+.scoreDetails h4 {
+  margin: 0 0 8px 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.scoreDetailsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.scoreDetailsList li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 6px;
+  font-size: 13px;
+}
+
+.scoreDetailsList li span:first-child {
+  width: 100px;
+  flex-shrink: 0;
+}
+
+.scoreDetailsList li span:last-child {
+  width: 50px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.scoreBar {
+  flex-grow: 1;
+  height: 8px;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  margin: 0 10px;
+  overflow: hidden;
+}
+
+.scoreBarFill {
+  height: 100%;
+  background: linear-gradient(to right, #4ade80, #3b82f6);
+  border-radius: 4px;
+}
+
+/* Style variants for different types of scores */
+.scoreBarFill.elemental {
+  background: linear-gradient(to right, #f97316, #ef4444);
+}
+
+.scoreBarFill.astrological {
+  background: linear-gradient(to right, #8b5cf6, #3b82f6);
+}
+
+.scoreBarFill.seasonal {
+  background: linear-gradient(to right, #10b981, #4ade80);
+}
+
+.scoreBarFill.cultural {
+  background: linear-gradient(to right, #f59e0b, #eab308);
+}
+
+.scoreBarFill.lunar {
+  background: linear-gradient(to right, #6366f1, #a855f7);
+}
+
+.scoreBarFill.venus {
+  background: linear-gradient(to right, #ec4899, #f43f5e);
 } 

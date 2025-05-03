@@ -435,9 +435,7 @@ function calculateModalityScore(
 
 /**
  * Calculate elemental score between ingredient and system elemental properties
- * @param ingredientProps Elemental properties of the ingredient
- * @param systemProps System elemental properties
- * @returns Score representing compatibility (0-1)
+ * Enhanced to give more weight to dominant elements and better similarity calculation
  */
 function calculateElementalScore(
   ingredientProps?: ElementalProperties,
@@ -445,6 +443,10 @@ function calculateElementalScore(
 ): number {
   // Return neutral score if either properties are missing
   if (!ingredientProps || !systemProps) return 0.5;
+  
+  // Find dominant system element for extra weighting
+  const dominantElement = Object.entries(systemProps)
+    .sort((a, b) => b[1] - a[1])[0][0] as keyof ElementalProperties;
   
   // Calculate similarity based on overlap of elemental properties
   let similarityScore = 0;
@@ -459,16 +461,19 @@ function calculateElementalScore(
     // This gives higher scores when values are closer together
     const similarity = 1 - Math.abs(ingredientValue - systemValue);
     
-    // Weight by the system's value for this element
-    // This gives more importance to elements that are dominant in the system
-    const weight = systemValue + 0.25; // Add 0.25 to ensure all elements have some weight
+    // Enhanced weighting: dominant element gets extra emphasis
+    // Base weight includes the system's value for this element
+    const baseWeight = systemValue + 0.25; // Add 0.25 to ensure all elements have some weight
     
-    similarityScore += similarity * weight;
-    totalWeight += weight;
+    // Apply 1.5x multiplier to the dominant element's weight
+    const finalWeight = element === dominantElement ? baseWeight * 1.5 : baseWeight;
+    
+    similarityScore += similarity * finalWeight;
+    totalWeight += finalWeight;
   }
   
-  // Normalize to 0-1 range
-  return totalWeight > 0 ? similarityScore / totalWeight : 0.5;
+  // Normalize to 0-1 range with explicit bounds
+  return totalWeight > 0 ? Math.min(1, Math.max(0, similarityScore / totalWeight)) : 0.5;
 }
 
 /**

@@ -161,6 +161,18 @@ interface ExtendedAlchemicalItem extends AlchemicalItem {
   };
   optimalTemperatures?: Record<string, number>;
   thermodynamicProperties?: ThermodynamicProperties;
+  score?: number;
+  scoreDetails?: {
+    elemental?: number;
+    astrological?: number;
+    seasonal?: number;
+    tools?: number;
+    dietary?: number;
+    cultural?: number;
+    lunar?: number;
+    venus?: number;
+    total?: number;
+  };
 }
 
 // Define cooking time recommendations by ingredient class
@@ -1651,305 +1663,152 @@ export default function CookingMethods() {
     fetchMethods();
   };
   
-  // In your return statement, add the debug panel at the end
-  return (
-    <div className={styles.cookingMethodsContainer}>
-      <div className={styles.cookingMethodsHeader}>
-        <div className={styles.title}>
-          <span className={styles.titleText}>Cooking Methods</span>
-          <span className={styles.titleCount}>({recommendedMethods.length})</span>
-        </div>
-        
-        <div className={styles.headerOptions}>
-          <select 
-            className={styles.cultureSelector}
-            value={selectedCulture}
-            onChange={handleCultureChange}
-          >
-            <option value="">All Cultures</option>
-            {Object.keys(culturalCookingMap).filter(c => c !== 'Traditional').map(culture => (
-              <option key={culture} value={culture}>{culture}</option>
-            ))}
-          </select>
-        </div>
-      </div>
+  // Add a new state to control the display of score details
+  const [showScoreDetails, setShowScoreDetails] = useState<Record<string, boolean>>({});
 
-      {loading ? (
-        <div className={styles.loadingContainer}>
-          <div className={styles.spinner}></div>
-          <p>Analyzing cosmic cooking alignments...</p>
-        </div>
-      ) : (
-        <div className={styles.cookingMethodsContent}>
-          <div className={styles.filterControls}>
-            <div>
-              <button 
-                className={styles.filterButton}
-                onClick={() => setShowAllMethods(!showAllMethods)}
-              >
-                {showAllMethods ? 'Show Top Methods' : 'Show All Methods'}
-              </button>
-            </div>
-            
-            <select 
-              className={styles.cultureSelector}
-              value={selectedCulture}
-              onChange={handleCultureChange}
+  // Enhance the renderMethodCard function to display score details
+  const renderMethodCard = (method: ExtendedAlchemicalItem) => {
+    // ... existing code ...
+
+    const toggleScoreDetails = (e: React.MouseEvent, methodName: string) => {
+      e.stopPropagation();
+      setShowScoreDetails(prev => ({
+        ...prev,
+        [methodName]: !prev[methodName]
+      }));
+    };
+
+    // Add this inside the method card JSX, before the closing div
+    return (
+      <div 
+        className={`${styles.methodCard} ${isExpanded[method.name] ? styles.expanded : ''}`}
+        onClick={() => toggleMethodExpansion(method.name)}
+      >
+        {/* Existing card content */}
+        {/* ... */}
+        
+        {/* Add this new section for score details */}
+        <div className={styles.scoreSection}>
+          <div className={styles.scoreHeader} onClick={(e) => toggleScoreDetails(e, method.name)}>
+            <span>Match Score: {(method.score * 100).toFixed(0)}%</span>
+            <button 
+              className={styles.scoreDetailsButton}
+              aria-label="Toggle score details"
             >
-              <option value="">All Cultures</option>
-              {Object.keys(culturalCookingMap).filter(c => c !== 'Traditional').map(culture => (
-                <option key={culture} value={culture}>{culture}</option>
-              ))}
-            </select>
+              {showScoreDetails[method.name] ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+            </button>
           </div>
           
-          <div className={styles.ingredientSearchContainer}>
-            <div className={styles.searchForm}>
-              <input
-                type="text"
-                placeholder="Search for ingredient compatibility..."
-                value={searchIngredient}
-                onChange={(e) => setSearchIngredient(e.target.value)}
-                className={styles.searchInput}
-              />
-              <button 
-                onClick={() => calculateIngredientCompatibility(searchIngredient)}
-                className={styles.searchButton}
-              >
-                Check Compatibility
-              </button>
-            </div>
-            
-            {ingredientCompatibility && Object.keys(ingredientCompatibility).length > 0 && (
-              <div className={styles.compatibilityInfo}>
-                <p>Showing compatibility for: <strong>{searchIngredient}</strong></p>
-              </div>
-            )}
-          </div>
-          
-          <div className={styles.methodsContainer}>
-            {recommendedMethods.length > 0 ? (
-              (showAllMethods ? recommendedMethods : recommendedMethods.slice(0, 10)).map((method, index) => {
-                const methodId = `method-${index}`;
-                const isExpanded = expandedMethods[methodId] || false;
-                
-                // Get dominant element to display
-                const dominantElement = Object.entries(method.elementalProperties || {})
-                  .sort(([_a, a], [_b, b]) => b - a)[0]?.[0]?.toLowerCase() || 'fire';
-                
-                // Use the score from our state with a more reliable key (method.id or name)
-                // This ensures the score is consistent and doesn't change when clicked
-                const scoreKey = method.id || method.name;
-                const displayPercentage = Math.round((methodScores[scoreKey] || 0.5) * 100);
-                
-                // Determine match reason based on the method's properties
-                const matchReasons = [
-                  "high thermal energy",
-                  "harmonizes with current zodiac",
-                  "maintains ingredient structure",
-                  "enhanced during lunar phase",
-                  "water element dominant",
-                  "air element affinity",
-                  "fire element catalyst",
-                  "earth element grounding",
-                  "transforms ingredient thoroughly"
-                ];
-                const matchReason = matchReasons[index % matchReasons.length];
-                
-                return (
-                  <div 
-                    key={index} 
-                    className={`${styles.methodCard} ${isExpanded ? styles.expanded : ''}`}
-                    style={{
-                      // Apply higher z-index to expanded methods to ensure they stay visually on top
-                      zIndex: isExpanded ? 10 : 1
-                    }}
-                  >
-                    <div 
-                      className={styles.methodHeader}
-                      onClick={() => toggleMethodExpansion(methodId)}
-                    >
-                      <h3 className={styles.methodName}>{method.name}</h3>
-                      <div className={styles.headerControls}>
-                        <div className={styles.matchInfo}>
-                          <span className={styles.matchScore}>
-                            {displayPercentage}% match
-                          </span>
-                          <span className={styles.matchReason}>
-                            {matchReason}
-                          </span>
-                        </div>
-                        {isExpanded ? 
-                          <ChevronUp className="w-4 h-4 ml-2" /> : 
-                          <ChevronDown className="w-4 h-4 ml-2" />
-                        }
-                      </div>
-                    </div>
-                    
-                    <div className={styles.methodDescription}>
-                      {isExpanded ? 
-                        method.description : 
-                        `${method.description?.substring(0, 120)}${method.description?.length > 120 ? '...' : ''}`
-                      }
-                    </div>
-                    
+          {showScoreDetails[method.name] && method.scoreDetails && (
+            <div className={styles.scoreDetails}>
+              <h4>Score Breakdown:</h4>
+              <ul className={styles.scoreDetailsList}>
+                {method.scoreDetails.elemental !== undefined && (
+                  <li>
+                    <span>Elemental:</span> 
                     <div className={styles.scoreBar}>
                       <div 
                         className={styles.scoreBarFill} 
-                        style={{ width: `${displayPercentage}%` }}
+                        style={{width: `${Math.min(100, method.scoreDetails.elemental * 100)}%`}}
                       />
                     </div>
-                    
-                    <div className={styles.infoTags}>
-                      {dominantElement && (
-                        <span className={`${styles.elementTag} ${styles[dominantElement]}`}>
-                          {dominantElement.charAt(0).toUpperCase() + dominantElement.slice(1)}
-                        </span>
-                      )}
-                      
-                      {method.bestFor && method.bestFor[0] && (
-                        <span className={styles.infoTag}>
-                          Best for: {method.bestFor[0]}
-                        </span>
-                      )}
-                      
-                      {method.culturalOrigin && (
-                        <span className={styles.infoTag}>
-                          Origin: {method.culturalOrigin}
-                        </span>
-                      )}
+                    <span>{(method.scoreDetails.elemental * 100).toFixed(0)}%</span>
+                  </li>
+                )}
+                {method.scoreDetails.astrological !== undefined && (
+                  <li>
+                    <span>Astrological:</span>
+                    <div className={styles.scoreBar}>
+                      <div 
+                        className={styles.scoreBarFill} 
+                        style={{width: `${Math.min(100, method.scoreDetails.astrological * 100)}%`}}
+                      />
                     </div>
-                    
-                    {isExpanded && (
-                      <div className={styles.expandedDetails}>
-                        <h4>Properties</h4>
-                        <div className={styles.elementalTags}>
-                          {Object.entries(method.elementalProperties || {}).map(([element, value]) => (
-                            <span 
-                              key={element} 
-                              className={`${styles.elementTag} ${styles[element.toLowerCase()]}`}
-                            >
-                              {element}: {Math.round(value * 100)}%
-                            </span>
-                          ))}
-                        </div>
-                        
-                        {method.bestFor && method.bestFor.length > 0 && (
-                          <div className={styles.methodDetailSection}>
-                            <h4>Best For</h4>
-                            <ul className={styles.detailList}>
-                              {method.bestFor.map((item, idx) => (
-                                <li key={idx} className={styles.detailItem}>{item}</li>
-                              ))}
-                            </ul>
-                          </div>
-                        )}
-                        
-                        {method.astrologicalInfluences && (
-                          <div className={styles.methodDetailSection}>
-                            <h4>Astrological Influences</h4>
-                            {method.astrologicalInfluences.favorableZodiac && (
-                              <div>
-                                <strong>Favorable:</strong> {method.astrologicalInfluences.favorableZodiac.join(', ')}
-                              </div>
-                            )}
-                            {method.astrologicalInfluences.unfavorableZodiac && (
-                              <div>
-                                <strong>Challenging:</strong> {method.astrologicalInfluences.unfavorableZodiac.join(', ')}
-                              </div>
-                            )}
-                          </div>
-                        )}
-                        
-                        {method.thermodynamicProperties && (
-                          <div className={styles.methodDetailSection}>
-                            <h4>Thermodynamic Profile</h4>
-                            <div className={styles.energeticValues}>
-                              <div className={styles.energyValue}>
-                                <span>Heat:</span>
-                                <span>{Math.round(method.thermodynamicProperties.heat * 100)}%</span>
-                              </div>
-                              <div className={styles.energyValue}>
-                                <span>Entropy:</span>
-                                <span>{Math.round(method.thermodynamicProperties.entropy * 100)}%</span>
-                              </div>
-                              <div className={styles.energyValue}>
-                                <span>Reactivity:</span>
-                                <span>{Math.round(method.thermodynamicProperties.reactivity * 100)}%</span>
-                              </div>
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    )}
-                    
-                    {ingredientCompatibility[method.id || method.name] !== undefined && (
-                      <div className={styles.ingredientCompatibility}>
-                        <span>Ingredient Compatibility: </span>
-                        <span>{Math.round(ingredientCompatibility[method.id || method.name] * 100)}%</span>
-                        <div 
-                          className={styles.compatibilityBar}
-                          style={{ width: `${Math.round(ingredientCompatibility[method.id || method.name] * 100)}%` }}
-                        />
-                      </div>
-                    )}
-                  </div>
-                );
-              })
-            ) : (
-              <div className={styles.emptyState}>
-                <p>No cooking methods found. Try selecting a different culture.</p>
-              </div>
-            )}
-          </div>
-          
-          {recommendedMethods.length > 10 && !showAllMethods && (
-            <button 
-              className={styles.expandButton}
-              onClick={() => setShowAllMethods(true)}
-            >
-              Show All Methods
-            </button>
-          )}
-          
-          {showAllMethods && recommendedMethods.length > 10 && (
-            <button 
-              className={styles.expandButton}
-              onClick={() => setShowAllMethods(false)}
-            >
-              Show Fewer Methods
-            </button>
+                    <span>{(method.scoreDetails.astrological * 100).toFixed(0)}%</span>
+                  </li>
+                )}
+                {method.scoreDetails.seasonal !== undefined && (
+                  <li>
+                    <span>Seasonal:</span>
+                    <div className={styles.scoreBar}>
+                      <div 
+                        className={styles.scoreBarFill} 
+                        style={{width: `${Math.min(100, method.scoreDetails.seasonal * 100)}%`}}
+                      />
+                    </div>
+                    <span>{(method.scoreDetails.seasonal * 100).toFixed(0)}%</span>
+                  </li>
+                )}
+                {method.scoreDetails.tools !== undefined && (
+                  <li>
+                    <span>Tools:</span>
+                    <div className={styles.scoreBar}>
+                      <div 
+                        className={styles.scoreBarFill} 
+                        style={{width: `${Math.min(100, method.scoreDetails.tools * 100)}%`}}
+                      />
+                    </div>
+                    <span>{(method.scoreDetails.tools * 100).toFixed(0)}%</span>
+                  </li>
+                )}
+                {method.scoreDetails.dietary !== undefined && (
+                  <li>
+                    <span>Dietary:</span>
+                    <div className={styles.scoreBar}>
+                      <div 
+                        className={styles.scoreBarFill} 
+                        style={{width: `${Math.min(100, method.scoreDetails.dietary * 100)}%`}}
+                      />
+                    </div>
+                    <span>{(method.scoreDetails.dietary * 100).toFixed(0)}%</span>
+                  </li>
+                )}
+                {method.scoreDetails.cultural !== undefined && method.scoreDetails.cultural > 0 && (
+                  <li>
+                    <span>Cultural:</span>
+                    <div className={styles.scoreBar}>
+                      <div 
+                        className={styles.scoreBarFill} 
+                        style={{width: `${Math.min(100, method.scoreDetails.cultural * 100)}%`}}
+                      />
+                    </div>
+                    <span>{(method.scoreDetails.cultural * 100).toFixed(0)}%</span>
+                  </li>
+                )}
+                {method.scoreDetails.lunar !== undefined && method.scoreDetails.lunar > 0 && (
+                  <li>
+                    <span>Lunar:</span>
+                    <div className={styles.scoreBar}>
+                      <div 
+                        className={styles.scoreBarFill} 
+                        style={{width: `${Math.min(100, method.scoreDetails.lunar * 100)}%`}}
+                      />
+                    </div>
+                    <span>{(method.scoreDetails.lunar * 100).toFixed(0)}%</span>
+                  </li>
+                )}
+                {method.scoreDetails.venus !== undefined && method.scoreDetails.venus > 0 && (
+                  <li>
+                    <span>Venus:</span>
+                    <div className={styles.scoreBar}>
+                      <div 
+                        className={styles.scoreBarFill} 
+                        style={{width: `${Math.min(100, method.scoreDetails.venus * 100)}%`}}
+                      />
+                    </div>
+                    <span>{(method.scoreDetails.venus * 100).toFixed(0)}%</span>
+                  </li>
+                )}
+              </ul>
+            </div>
           )}
         </div>
-      )}
-      
-      {/* Debug Panel */}
-      <div style={{ fontSize: '12px', padding: '10px', margin: '10px 0', backgroundColor: '#f3f4f6', borderRadius: '4px' }}>
-        <h4 style={{ margin: '0 0 8px' }}>Debug Info</h4>
-        <div>Mounted: {isMounted.toString()}</div>
-        <div>Renders: {renderCount.current}</div>
-        <div>Current Sign: {planetaryPositions?.sun?.sign || 'unknown'}</div>
-        <div>Planetary Hour: {currentPlanetaryHour || 'Unknown'}</div>
-        <div>Lunar Phase: {lunarPhase || 'Unknown'}</div>
-        <div>
-          <div>Alchemical Tokens:</div>
-          <ul style={{ margin: '4px 0', paddingLeft: '20px' }}>
-            <li>⦿ Spirit: {(currentChart.alchemicalTokens?.spirit || 0).toFixed(4)}</li>
-            <li>⦿ Essence: {(currentChart.alchemicalTokens?.essence || 0).toFixed(4)}</li>
-            <li>⦿ Matter: {(currentChart.alchemicalTokens?.matter || 0).toFixed(4)}</li>
-            <li>⦿ Substance: {(currentChart.alchemicalTokens?.substance || 0).toFixed(4)}</li>
-          </ul>
-        </div>
-        <div>
-          <div>Elemental Balance:</div>
-          <ul style={{ margin: '4px 0', paddingLeft: '20px' }}>
-            <li>Fire: {Math.round((currentChart.elementalProfile?.Fire || 0) * 100)}%</li>
-            <li>Water: {Math.round((currentChart.elementalProfile?.Water || 0) * 100)}%</li>
-            <li>Earth: {Math.round((currentChart.elementalProfile?.Earth || 0) * 100)}%</li>
-            <li>Air: {Math.round((currentChart.elementalProfile?.Air || 0) * 100)}%</li>
-          </ul>
-        </div>
+        
+        {/* Rest of card content */}
+        {/* ... */}
       </div>
-    </div>
-  );
-} // End of CookingMethods component
+    );
+  };
+
+  // ... rest of the component ...
+}
