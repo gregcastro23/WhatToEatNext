@@ -61,4 +61,17 @@ temp.log
 *\ [0-9]*.css
 *\ [0-9]*.md
 *\ [0-9]*.astro
+
+# Backup files
 *.bak
+*_backup*
+*.backup*
+*-backup*
+backup/
+backups/
+.backup/
+bak/
+.bak/
+.next\ 2/
+.next-backup/
+eslint-fix-backups/
