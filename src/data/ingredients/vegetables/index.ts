@@ -20,6 +20,12 @@ export const vegetables: Record<string, IngredientMapping> = {
   ...legumes
 };
 
+// Create enhanced vegetables with additional properties
+export const enhancedVegetables = vegetables;
+
+// For standardization - both exports refer to the same object
+export const standardizedVegetables = vegetables;
+
 // Export individual categories
 export {
   leafyGreens,

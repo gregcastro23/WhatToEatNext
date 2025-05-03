@@ -39,6 +39,35 @@ function ClientOnly({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }
 
+// PayPal Button Component
+function PayPalButton() {
+  return (
+    <div className="mx-auto mb-4" style={{ maxWidth: '250px' }}>
+      <form action="https://www.paypal.com/ncp/payment/SVN6Q368TKKLS" method="post" target="_blank">
+        <input 
+          type="submit" 
+          value="HELP" 
+          style={{
+            textAlign: 'center',
+            border: 'none',
+            borderRadius: '0.25rem',
+            width: '100%',
+            padding: '0 2rem',
+            height: '2.625rem',
+            fontWeight: 'bold',
+            backgroundColor: '#FFD140',
+            color: '#000000',
+            fontFamily: '"Helvetica Neue", Arial, sans-serif',
+            fontSize: '1rem',
+            lineHeight: '1.25rem',
+            cursor: 'pointer'
+          }}
+        />
+      </form>
+    </div>
+  );
+}
+
 export default function Home() {
   return (
     <main className="min-h-screen bg-gradient-to-b from-indigo-50 via-blue-50 to-gray-100 text-gray-800">
@@ -90,11 +119,8 @@ export default function Home() {
           </div>
         </div>
         
-        <footer className="mt-12 text-center text-sm text-gray-500">
-          <p>
-            Astrological and chakra data is for demonstration purposes.
-            All recommendations should be considered with proper discretion and personal needs.
-          </p>
+        <footer className="mt-12 text-center">
+          <PayPalButton />
         </footer>
       </div>
     </main>

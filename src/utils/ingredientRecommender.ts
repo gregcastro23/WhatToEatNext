@@ -221,89 +221,188 @@ export function getIngredientRecommendations(
     timestamp: Date;
     currentStability: number;
     planetaryAlignment: Record<string, { sign: string; degree: number }>;
+    zodiacSign: string;
+    activePlanets: string[];
+    lunarPhase: string;
+    aspects: Array<{ aspectType: string; planet1: string; planet2: string; }>;
   }, 
   options: RecommendationOptions
 ): GroupedIngredientRecommendations {
   // Get all ingredients
   const allIngredients = getAllIngredients();
   
+  // Calculate ruling planet based on sun's position
+  const sunSign = elementalProps.zodiacSign?.toLowerCase() as ZodiacSign;
+  
+  // Map of signs to their ruling planets
+  const signRulers: Record<string, string> = {
+    'aries': 'Mars',
+    'taurus': 'Venus',
+    'gemini': 'Mercury',
+    'cancer': 'Moon',
+    'leo': 'Sun',
+    'virgo': 'Mercury',
+    'libra': 'Venus',
+    'scorpio': 'Mars',
+    'sagittarius': 'Jupiter',
+    'capricorn': 'Saturn',
+    'aquarius': 'Saturn', // Traditional ruler
+    'pisces': 'Jupiter'  // Traditional ruler
+  };
+  
+  const rulingPlanet = signRulers[sunSign] || 'Sun';
+  
+  // Get decan information for each planet position
+  const planetDecans: Record<string, { decanNum: number, decanRuler: string, tarotCard: string }> = {};
+  
+  Object.entries(elementalProps.planetaryAlignment || {}).forEach(([planet, position]) => {
+    if (!position || !position.sign) return;
+    
+    const sign = position.sign.toLowerCase();
+    const degree = position.degree || 0;
+    
+    // Determine which decan the planet is in
+    let decanNum = 1;
+    if (degree >= 10 && degree < 20) decanNum = 2;
+    else if (degree >= 20) decanNum = 3;
+    
+    // Reference data for decan rulers and tarot cards based on sign and decan
+    const decanRulerMap: Record<string, Record<number, string>> = {
+      'aries': { 1: 'Mars', 2: 'Sun', 3: 'Venus' },
+      'taurus': { 1: 'Mercury', 2: 'Moon', 3: 'Saturn' },
+      'gemini': { 1: 'Jupiter', 2: 'Mars', 3: 'Sun' },
+      'cancer': { 1: 'Venus', 2: 'Mercury', 3: 'Moon' },
+      'leo': { 1: 'Saturn', 2: 'Jupiter', 3: 'Mars' },
+      'virgo': { 1: 'Sun', 2: 'Venus', 3: 'Mercury' },
+      'libra': { 1: 'Moon', 2: 'Saturn', 3: 'Jupiter' },
+      'scorpio': { 1: 'Mars', 2: 'Sun', 3: 'Venus' },
+      'sagittarius': { 1: 'Mercury', 2: 'Moon', 3: 'Saturn' },
+      'capricorn': { 1: 'Jupiter', 2: 'Mars', 3: 'Sun' },
+      'aquarius': { 1: 'Venus', 2: 'Mercury', 3: 'Moon' },
+      'pisces': { 1: 'Saturn', 2: 'Jupiter', 3: 'Mars' }
+    };
+    
+    const tarotCardMap: Record<string, Record<number, string>> = {
+      'aries': { 1: '2 of Wands', 2: '3 of Wands', 3: '4 of Wands' },
+      'taurus': { 1: '5 of Pentacles', 2: '6 of Pentacles', 3: '7 of Pentacles' },
+      'gemini': { 1: '8 of Swords', 2: '9 of Swords', 3: '10 of Swords' },
+      'cancer': { 1: '2 of Cups', 2: '3 of Cups', 3: '4 of Cups' },
+      'leo': { 1: '5 of Wands', 2: '6 of Wands', 3: '7 of Wands' },
+      'virgo': { 1: '8 of Pentacles', 2: '9 of Pentacles', 3: '10 of Pentacles' },
+      'libra': { 1: '2 of Swords', 2: '3 of Swords', 3: '4 of Swords' },
+      'scorpio': { 1: '5 of Cups', 2: '6 of Cups', 3: '7 of Cups' },
+      'sagittarius': { 1: '8 of Wands', 2: '9 of Wands', 3: '10 of Wands' },
+      'capricorn': { 1: '2 of Pentacles', 2: '3 of Pentacles', 3: '4 of Pentacles' },
+      'aquarius': { 1: '5 of Swords', 2: '6 of Swords', 3: '7 of Swords' },
+      'pisces': { 1: '8 of Cups', 2: '9 of Cups', 3: '10 of Cups' }
+    };
+    
+    const decanRuler = decanRulerMap[sign]?.[decanNum] || '';
+    const tarotCard = tarotCardMap[sign]?.[decanNum] || '';
+    
+    planetDecans[planet] = { decanNum, decanRuler, tarotCard };
+  });
+  
   // Filter and score ingredients
-  const filteredIngredients = allIngredients
+  const scoredIngredients = allIngredients
     .filter(ingredient => {
       // Apply basic filters
       if (options.excludeIngredients?.includes(ingredient.name)) return false;
       if (options.includeOnly && !options.includeOnly.includes(ingredient.name)) return false;
       if (options.category && ingredient.category !== options.category) return false;
       
+      // Filter by dietary preference if specified
+      if (options.dietaryPreferences && options.dietaryPreferences.length > 0) {
+        const dietaryMatches = options.dietaryPreferences.some(pref => 
+          ingredient.dietary?.includes(pref)
+        );
+        if (!dietaryMatches) return false;
+      }
+      
+      // Filter by modality preference if specified
+      if (options.modalityPreference) {
+        const ingredientModality = ingredient.modality || 
+          determineIngredientModality(ingredient.qualities, ingredient.elementalProperties);
+        
+        if (ingredientModality !== options.modalityPreference) return false;
+      }
+      
       return true;
     })
     .map(ingredient => {
-      // Calculate elemental score (40% of total)
+      // Calculate elemental score (30% of total)
       const elementalScore = calculateElementalScore(
         ingredient.elementalProperties,
         elementalProps
       );
       
-      // Calculate modality score (30% of total)
+      // Calculate modality score (15% of total)
       const modalityScore = calculateModalityScore(
         ingredient.qualities || [],
-        options.preferredModality
+        options.modalityPreference
       );
       
-      // Calculate seasonal score (20% of total)
+      // Calculate seasonal score (15% of total)
       const seasonalScore = calculateSeasonalScore(
         ingredient,
         elementalProps.timestamp
       );
       
-      // Calculate planetary score (10% of total)
-      const planetaryScore = calculatePlanetaryScore(
-        ingredient,
-        elementalProps.planetaryAlignment
+      // Calculate planetary score (40% of total) - increased weight for planetary alignment
+      const planetaryScore = calculateEnhancedPlanetaryScore(
+        ingredient, 
+        elementalProps.planetaryAlignment,
+        planetDecans,
+        rulingPlanet
       );
       
-      // Calculate total score
+      // Calculate total score with weighted components
       const totalScore = (
-        elementalScore * 0.4 +
-        modalityScore * 0.3 +
-        seasonalScore * 0.2 +
-        planetaryScore * 0.1
+        elementalScore * 0.30 + 
+        modalityScore * 0.15 + 
+        seasonalScore * 0.15 + 
+        planetaryScore * 0.40
       );
+      
+      // Assign modality if not already present
+      const modality = ingredient.modality || 
+        determineIngredientModality(ingredient.qualities, ingredient.elementalProperties);
       
       return {
         ...ingredient,
-        matchScore: totalScore,
+        score: totalScore,
         elementalScore,
         modalityScore,
         seasonalScore,
-        planetaryScore
+        planetaryScore,
+        modality
       };
     })
-    .sort((a, b) => b.matchScore - a.matchScore);
+    .sort((a, b) => b.score - a.score);
   
-  // Group by ingredient type
-  const grouped: GroupedIngredientRecommendations = {};
+  // Group ingredients by category
+  const groupedRecommendations: GroupedIngredientRecommendations = {};
   
-  filteredIngredients.forEach(ingredient => {
-    const type = ingredient.type ? ingredient.type.toLowerCase() : 'others';
+  // Apply limit per category before grouping to ensure diversity
+  const limit = options.limit || 24;
+  const categoryCounts: Record<string, number> = {};
+  const categoryMaxItems = Math.ceil(limit / 8); // Max items per category
+  
+  scoredIngredients.forEach(ingredient => {
+    const category = ingredient.category || 'other';
     
-    if (!grouped[type]) {
-      grouped[type] = [];
+    if (!groupedRecommendations[category]) {
+      groupedRecommendations[category] = [];
+      categoryCounts[category] = 0;
     }
     
-    grouped[type]?.push(ingredient);
+    if (categoryCounts[category] < categoryMaxItems) {
+      groupedRecommendations[category].push(ingredient);
+      categoryCounts[category]++;
+    }
   });
   
-  // Apply limit if specified
-  if (options.limit) {
-    Object.keys(grouped).forEach(category => {
-      if (grouped[category]?.length > options.limit) {
-        grouped[category] = grouped[category]?.slice(0, options.limit);
-      }
-    });
-  }
-  
-  return grouped;
+  return groupedRecommendations;
 }
 
 // Helper function to calculate modality score
@@ -404,46 +503,63 @@ function calculateSeasonalScore(ingredient: Ingredient, date: Date): number {
 }
 
 /**
- * Calculate planetary score based on alignment with ingredient ruling planets
- * @param ingredient Ingredient to score
- * @param planetaryAlignment Current planetary alignment
- * @returns Planetary score (0-1)
+ * Enhanced planetary score calculation that considers decans and tarot associations,
+ * with special weight for the ruling planet determined by sun position
  */
-function calculatePlanetaryScore(
+function calculateEnhancedPlanetaryScore(
   ingredient: Ingredient,
-  planetaryAlignment: Record<string, { sign: string; degree: number }>
+  planetaryAlignment: Record<string, { sign: string; degree: number }>,
+  planetDecans: Record<string, { decanNum: number, decanRuler: string, tarotCard: string }>,
+  rulingPlanet: string
 ): number {
-  // Default score if no astrological profile
-  if (!ingredient.astrologicalProfile?.rulingPlanets) return 0.5;
+  if (!ingredient.astrologicalProfile) return 0.5; // Neutral score for ingredients without profile
   
-  const rulingPlanets = ingredient.astrologicalProfile.rulingPlanets;
-  
-  // Calculate score based on presence of ruling planets in alignment
   let score = 0;
-  let matchCount = 0;
+  let totalFactors = 0;
   
-  for (const planet of rulingPlanets) {
-    if (planetaryAlignment[planet]) {
-      matchCount++;
-      
-      // Check if planet is in a sign that reinforces the ingredient
-      if (ingredient.astrologicalProfile.signAffinities?.includes(
-        planetaryAlignment[planet].sign.toLowerCase()
-      )) {
-        score += 1.5; // Higher score for planet in compatible sign
-      } else {
-        score += 1.0; // Base score for planet presence
-      }
-    }
+  // Check ruling planet correspondence - this gets extra weight
+  if (ingredient.astrologicalProfile.rulingPlanets?.includes(rulingPlanet)) {
+    score += 1.5; // Significant boost for ruling planet correspondence
+    totalFactors += 1.5;
   }
   
-  // Normalize score (0-1)
-  const baseScore = rulingPlanets.length > 0 
-    ? score / (rulingPlanets.length * 1.5) 
-    : 0.5;
+  // Check planetary positions against ingredient affinities
+  Object.entries(planetaryAlignment).forEach(([planet, position]) => {
+    if (!position.sign) return;
+    
+    const planetName = planet.charAt(0).toUpperCase() + planet.slice(1);
+    
+    // Regular planetary ruler scoring
+    if (ingredient.astrologicalProfile.rulingPlanets?.includes(planetName)) {
+      score += 1;
+      totalFactors += 1;
+    }
+    
+    // Check sign affinities 
+    if (ingredient.astrologicalProfile.signAffinities?.includes(position.sign.toLowerCase())) {
+      score += 1;
+      totalFactors += 1;
+    }
+    
+    // Special handling for decan rulers
+    const decanInfo = planetDecans[planet];
+    if (decanInfo && ingredient.astrologicalProfile.rulingPlanets?.includes(decanInfo.decanRuler)) {
+      score += 0.8; // Good bonus for decan ruler match
+      totalFactors += 0.8;
+    }
+    
+    // Tarot card associations - add subtle influence
+    if (decanInfo?.tarotCard && ingredient.astrologicalProfile.tarotAssociations?.includes(decanInfo.tarotCard)) {
+      score += 0.7;
+      totalFactors += 0.7;
+    }
+  });
   
-  // Cap at 1.0 and ensure minimum of 0.3
-  return Math.min(1.0, Math.max(0.3, baseScore));
+  // If there are no factors to consider, return neutral score
+  if (totalFactors === 0) return 0.5;
+  
+  // Return normalized score (0-1 range)
+  return Math.min(1, score / (totalFactors + 0.5));
 }
 
 /**

@@ -238,14 +238,82 @@ const rawVinegars: Record<string, Partial<IngredientMapping>> = {
 // Export fixed vinegars
 export const vinegars = fixIngredientMappings(rawVinegars) as Record<string, IngredientMapping>;
 
+// Define artisanal vinegars (premium/specialty vinegars)
+const rawArtisanalVinegars: Record<string, Partial<IngredientMapping>> = {
+  'aged_balsamic': {
+    name: 'Aged Balsamic Vinegar',
+    category: 'vinegar',
+    subCategory: 'artisanal',
+    elementalProperties: {
+      Earth: 0.5,
+      Water: 0.3,
+      Fire: 0.1,
+      Air: 0.1
+    },
+    qualities: ['complex', 'syrupy', 'rich', 'sweet', 'premium'],
+    origin: ['Modena, Italy', 'Reggio Emilia, Italy'],
+    nutritionalProfile: {
+      calories: 16,
+      carbs_g: 3.5,
+      sugar_g: 3.0,
+      acidity: '4-6%',
+      notes: 'Aged for 12+ years in wooden barrels'
+    }
+  },
+  'fig_vinegar': {
+    name: 'Fig Vinegar',
+    category: 'vinegar',
+    subCategory: 'artisanal',
+    elementalProperties: {
+      Earth: 0.4,
+      Water: 0.3,
+      Fire: 0.2,
+      Air: 0.1
+    },
+    qualities: ['fruity', 'sweet', 'tangy', 'aromatic'],
+    origin: ['Mediterranean'],
+    nutritionalProfile: {
+      calories: 12,
+      carbs_g: 2.8,
+      sugar_g: 2.3,
+      acidity: '5-6%',
+      notes: 'Made from fermented figs, rich and complex'
+    }
+  },
+  'champagne_rose_vinegar': {
+    name: 'Champagne Rose Vinegar',
+    category: 'vinegar',
+    subCategory: 'artisanal',
+    elementalProperties: {
+      Air: 0.4,
+      Water: 0.3,
+      Earth: 0.2,
+      Fire: 0.1
+    },
+    qualities: ['floral', 'delicate', 'crisp', 'aromatic'],
+    origin: ['France'],
+    nutritionalProfile: {
+      calories: 5,
+      carbs_g: 1.0,
+      sugar_g: 0.5,
+      acidity: '5-6%',
+      notes: 'Infused with rose petals, elegant flavor profile'
+    }
+  }
+};
+
+// Export artisanal vinegars
+export const artisanalVinegars = fixIngredientMappings(rawArtisanalVinegars) as Record<string, IngredientMapping>;
+
 // Add any additional vinegars specific to this directory
 const additionalVinegars: Record<string, Partial<IngredientMapping>> = {
   // Additional vinegars can be added here
 };
 
-// Merge with any additional vinegars
+// Merge with any additional vinegars and artisanal vinegars
 export const allVinegars = fixIngredientMappings({
   ...rawVinegars,
+  ...rawArtisanalVinegars,
   ...additionalVinegars
 }) as Record<string, IngredientMapping>;
 

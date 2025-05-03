@@ -34,9 +34,9 @@ const CATEGORY_DISPLAY_NAMES: Record<string, string> = {
 // Define category display counts
 const CATEGORY_DISPLAY_COUNTS: Record<string, number> = {
   proteins: 12,
-  vegetables: 10,
+  vegetables: 12,
   grains: 10,
-  fruits: 10,
+  fruits: 12,
   herbs: 10,
   spices: 12,
   oils: 8,
@@ -249,6 +249,21 @@ export default function IngredientRecommender() {
       vinegars: []
     };
     
+    // Helper function to normalize ingredient names for comparison
+    const normalizeIngredientName = (name: string): string => {
+      return name.toLowerCase()
+        .replace(/atlantic |wild |farmed |fresh |frozen |organic |raw |cooked /g, '')
+        .replace(/\s+/g, ' ')
+        .trim();
+    };
+    
+    // Helper function to check if two ingredients should be considered duplicates
+    const areSimilarIngredients = (name1: string, name2: string): boolean => {
+      const normalized1 = normalizeIngredientName(name1);
+      const normalized2 = normalizeIngredientName(name2);
+      return normalized1 === normalized2;
+    };
+
     // Add food recommendations first (they are already categorized)
     if (foodRecommendations && foodRecommendations.length > 0) {
       foodRecommendations.forEach(ingredient => {
@@ -380,9 +395,9 @@ export default function IngredientRecommender() {
         const targetCategory = normalizedCategory === 'other' ? determineCategory(item.name) : normalizedCategory;
         
         if (categories[targetCategory]) {
-          // Check if this item already exists in the category
+          // Check if this item already exists in the category (with improved duplicate detection)
           const existingItemIndex = categories[targetCategory].findIndex(
-            existing => existing.name.toLowerCase() === item.name.toLowerCase()
+            existing => areSimilarIngredients(existing.name, item.name)
           );
           
           if (existingItemIndex >= 0) {
@@ -809,6 +824,32 @@ export default function IngredientRecommender() {
                                 </div>
                               )}
                               
+                              {/* Show culinary applications */}
+                              {item.culinaryApplications && (
+                                <div>
+                                  <span className="font-semibold">Culinary Applications:</span>{' '}
+                                  {Object.keys(item.culinaryApplications).slice(0, 3).join(', ')}
+                                </div>
+                              )}
+
+                              {/* Show varieties if available */}
+                              {item.varieties && Object.keys(item.varieties).length > 0 && (
+                                <div>
+                                  <span className="font-semibold">Varieties:</span>{' '}
+                                  {Object.keys(item.varieties).slice(0, 3).join(', ')}
+                                </div>
+                              )}
+
+                              {/* Show storage information */}
+                              {item.storage && (
+                                <div>
+                                  <span className="font-semibold">Storage:</span>{' '}
+                                  {item.storage.duration}
+                                  {item.storage.temperature && typeof item.storage.temperature === 'object' && 
+                                   ` at ${item.storage.temperature.fahrenheit}°F`}
+                                </div>
+                              )}
+                              
                               {/* Show smoke point for oils */}
                               {category === 'oils' && item.smokePoint && (
                                 <div>
@@ -833,6 +874,96 @@ export default function IngredientRecommender() {
                                 </div>
                               )}
                               
+                              {/* Show seasonal adjustments */}
+                              {item.seasonalAdjustments && (
+                                <div>
+                                  <span className="font-semibold">Seasonal Preparations:</span>{' '}
+                                  {Object.keys(item.seasonalAdjustments).join(', ')}
+                                </div>
+                              )}
+
+                              {/* Show cooking time/methods for proteins */}
+                              {category === 'proteins' && item.culinaryApplications && (
+                                <div>
+                                  <span className="font-semibold">Cooking Times:</span>{' '}
+                                  {Object.entries(item.culinaryApplications).map(([method, details], index) => {
+                                    let cookingTime = '';
+                                    
+                                    // Handle different data formats for cooking time
+                                    if (details?.timing) {
+                                      if (typeof details.timing === 'string') {
+                                        cookingTime = details.timing;
+                                      } else if (typeof details.timing === 'object') {
+                                        if (details.timing.minimum && details.timing.maximum) {
+                                          cookingTime = `${details.timing.minimum}-${details.timing.maximum}`;
+                                        } else if (details.timing.optimal) {
+                                          cookingTime = details.timing.optimal;
+                                        } else {
+                                          const times = Object.values(details.timing).filter(t => typeof t === 'string');
+                                          if (times.length) cookingTime = times.join('-');
+                                        }
+                                      }
+                                    }
+                                    
+                                    return cookingTime ? (
+                                      <span key={method}>
+                                        {index > 0 ? ', ' : ''}
+                                        {method.replace(/_/g, ' ')}: {cookingTime}
+                                      </span>
+                                    ) : null;
+                                  }).filter(Boolean)}
+                                </div>
+                              )}
+
+                              {/* Show temperature recommendations for proteins */}
+                              {category === 'proteins' && item.culinaryApplications && (
+                                <div>
+                                  <span className="font-semibold">Cooking Temperatures:</span>{' '}
+                                  {Object.entries(item.culinaryApplications).map(([method, details], index) => {
+                                    let temp = '';
+                                    
+                                    // Handle different data formats for temperature
+                                    if (details?.temperature) {
+                                      if (typeof details.temperature === 'string') {
+                                        temp = details.temperature;
+                                      } else if (typeof details.temperature === 'object') {
+                                        if (details.temperature.fahrenheit) {
+                                          temp = `${details.temperature.fahrenheit}°F`;
+                                        } else if (details.temperature.min && details.temperature.max) {
+                                          temp = `${details.temperature.min}-${details.temperature.max}°${details.temperature.unit === 'celsius' ? 'C' : 'F'}`;
+                                        }
+                                      }
+                                    }
+                                    
+                                    return temp ? (
+                                      <span key={method}>
+                                        {index > 0 ? ', ' : ''}
+                                        {method.replace(/_/g, ' ')}: {temp}
+                                      </span>
+                                    ) : null;
+                                  }).filter(Boolean)}
+                                </div>
+                              )}
+
+                              {/* Show cuts for seafood and proteins */}
+                              {item.cuts && Object.keys(item.cuts).length > 0 && (
+                                <div>
+                                  <span className="font-semibold">Available Cuts:</span>{' '}
+                                  {Object.values(item.cuts).map(cut => 
+                                    typeof cut === 'object' && cut.name ? cut.name : '').filter(Boolean).join(', ')}
+                                </div>
+                              )}
+
+                              {/* Show health benefits */}
+                              {item.healthBenefits && item.healthBenefits.length > 0 && (
+                                <div>
+                                  <span className="font-semibold">Health Benefits:</span>{' '}
+                                  {Array.isArray(item.healthBenefits) 
+                                    ? item.healthBenefits.slice(0, 2).join(', ')
+                                    : typeof item.healthBenefits === 'string' ? item.healthBenefits : ''}
+                                </div>
+                              )}
+                              
                               {/* Show thermodynamic properties for oils and other ingredients */}
                               {item.thermodynamicProperties && (
                                 <div>
@@ -845,15 +976,19 @@ export default function IngredientRecommender() {
                                 </div>
                               )}
                               
-                              {item.healthBenefits && item.healthBenefits.length > 0 && (
-                                <div>
-                                  <span className="font-semibold">Benefits:</span> {item.healthBenefits.join(', ')}
-                                </div>
-                              )}
-                              
                               {item.culinaryUses && item.culinaryUses.length > 0 && (
                                 <div>
                                   <span className="font-semibold">Uses:</span> {item.culinaryUses.join(', ')}
+                                </div>
+                              )}
+
+                              {/* Show nutritional highlights if available */}
+                              {item.nutritionalProfile && (
+                                <div>
+                                  <span className="font-semibold">Nutrition:</span>{' '}
+                                  {item.nutritionalProfile.calories && `${item.nutritionalProfile.calories} cal`}
+                                  {item.nutritionalProfile.macros && item.nutritionalProfile.macros.protein && 
+                                   `, ${item.nutritionalProfile.macros.protein}g protein`}
                                 </div>
                               )}
                               
@@ -928,6 +1063,19 @@ export default function IngredientRecommender() {
                             {category === 'oils' && item.smokePoint && (
                               <div className="mt-1 text-[10px] text-gray-600 dark:text-gray-400">
                                 <span className="font-medium">Smoke Point:</span> {item.smokePoint.fahrenheit}°F
+                              </div>
+                            )}
+
+                            {/* Compact cooking methods for proteins */}
+                            {category === 'proteins' && item.culinaryApplications && (
+                              <div className="mt-1 text-[10px] text-gray-600 dark:text-gray-400">
+                                <span className="font-medium">Cook:</span>{' '}
+                                {Object.keys(item.culinaryApplications).slice(0, 2).map((method, idx) => (
+                                  <span key={method}>
+                                    {idx > 0 && ', '}
+                                    {method.replace(/_/g, ' ')}
+                                  </span>
+                                ))}
                               </div>
                             )}
                           </>
