@@ -8,6 +8,22 @@ import { useChakraInfluencedFood } from '@/hooks/useChakraInfluencedFood';
 import { normalizeChakraKey } from '@/constants/chakraSymbols';
 import { herbsCollection, oilsCollection, vinegarsCollection, grainsCollection } from '@/data/ingredients';
 
+/**
+ * Maps planets to their elemental influences (diurnal and nocturnal elements)
+ */
+const planetaryElements: Record<string, { diurnal: string, nocturnal: string }> = {
+  'Sun': { diurnal: 'Fire', nocturnal: 'Fire' },
+  'Moon': { diurnal: 'Water', nocturnal: 'Water' },
+  'Mercury': { diurnal: 'Air', nocturnal: 'Earth' },
+  'Venus': { diurnal: 'Water', nocturnal: 'Earth' },
+  'Mars': { diurnal: 'Fire', nocturnal: 'Water' },
+  'Jupiter': { diurnal: 'Air', nocturnal: 'Fire' },
+  'Saturn': { diurnal: 'Air', nocturnal: 'Earth' },
+  'Uranus': { diurnal: 'Water', nocturnal: 'Air' },
+  'Neptune': { diurnal: 'Water', nocturnal: 'Water' },
+  'Pluto': { diurnal: 'Earth', nocturnal: 'Water' }
+};
+
 // Define a styles object for animations and custom styles
 const customStyles = {
   '@keyframes fadeIn': {
@@ -121,6 +137,13 @@ export default function IngredientRecommender() {
         elementalProps = calculator.calculateElementalState(planetaryPositions);
       }
       
+      // Determine current planetary day and hour
+      const now = new Date();
+      // Extract planetary day and hour from context if available
+      const planetaryDay = planetaryPositions?.planetaryDay?.planet || 'Sun';
+      const planetaryHour = planetaryPositions?.planetaryHour?.planet || 'Sun';
+      const isDaytime = now.getHours() >= 6 && now.getHours() < 18;
+      
       // Create an object with astrological state data
       const astroState = {
         elementalProperties: elementalProps || {
@@ -135,7 +158,11 @@ export default function IngredientRecommender() {
         dominantElement: elementalProps ? 
           Object.entries(elementalProps).sort((a, b) => b[1] - a[1])[0][0] : 'Fire',
         zodiacSign: currentZodiac || 'aries',
-        activePlanets: ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto']
+        activePlanets: ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'],
+        // Add standardized planetary day and hour information
+        planetaryDay: planetaryDay,
+        planetaryHour: planetaryHour,
+        isDaytime: isDaytime
       };
       
       // Get standard recommendations with all planets

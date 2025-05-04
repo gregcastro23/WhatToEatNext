@@ -1753,453 +1753,479 @@ function getDominantElement(elementalProperties: ElementalProperties): keyof Ele
   return dominantElement;
 }
 
+/**
+ * Maps planets to their elemental influences (diurnal and nocturnal elements)
+ */
+const planetaryElements: Record<string, { diurnal: keyof ElementalProperties, nocturnal: keyof ElementalProperties, dignityEffect?: Record<string, number> }> = {
+  'Sun': { diurnal: 'Fire', nocturnal: 'Fire', dignityEffect: {'Leo': 1, 'Aries': 2, 'Aquarius': -1, 'Libra': -2} },
+  'Moon': { diurnal: 'Water', nocturnal: 'Water', dignityEffect: {'Cancer': 1, 'Taurus': 2, 'Capricorn': -1, 'Scorpio': -2} },
+  'Mercury': { diurnal: 'Air', nocturnal: 'Earth', dignityEffect: {'Gemini': 1, 'Virgo': 3, 'Sagittarius': 1, 'Pisces': -3} },
+  'Venus': { diurnal: 'Water', nocturnal: 'Earth', dignityEffect: {'Libra': 1, 'Taurus': 1, 'Pisces': 2, 'Aries': -1, 'Scorpio': -1, 'Virgo': -2} },
+  'Mars': { diurnal: 'Fire', nocturnal: 'Water', dignityEffect: {'Aries': 1, 'Scorpio': 1, 'Capricorn': 2, 'Taurus': -1, 'Libra': -1, 'Cancer': -2} },
+  'Jupiter': { diurnal: 'Air', nocturnal: 'Fire', dignityEffect: {'Pisces': 1, 'Sagittarius': 1, 'Cancer': 2, 'Gemini': -1, 'Virgo': -1, 'Capricorn': -2} },
+  'Saturn': { diurnal: 'Air', nocturnal: 'Earth', dignityEffect: {'Aquarius': 1, 'Capricorn': 1, 'Libra': 2, 'Cancer': -1, 'Leo': -1, 'Aries': -2} },
+  'Uranus': { diurnal: 'Water', nocturnal: 'Air', dignityEffect: {'Aquarius': 1, 'Scorpio': 2, 'Taurus': -3} },
+  'Neptune': { diurnal: 'Water', nocturnal: 'Water', dignityEffect: {'Pisces': 1, 'Cancer': 2, 'Virgo': -1, 'Capricorn': -2} },
+  'Pluto': { diurnal: 'Earth', nocturnal: 'Water', dignityEffect: {'Scorpio': 1, 'Leo': 2, 'Taurus': -1, 'Aquarius': -2} }
+};
+
+// Define sign info with decan effects and degree effects
+const signInfo: Record<string, { element: keyof ElementalProperties, decanEffects: Record<string, string[]>, degreeEffects: Record<string, number[]> }> = {
+  'Aries': {
+    element: 'Fire',
+    decanEffects: { '1st Decan': ['Mars'], '2nd Decan': ['Sun'], '3rd Decan': ['Venus'] },
+    degreeEffects: { 'Mercury': [15, 21], 'Venus': [7, 14], 'Mars': [22, 26], 'Jupiter': [1, 6], 'Saturn': [27, 30] }
+  },
+  'Taurus': {
+    element: 'Earth',
+    decanEffects: { '1st Decan': ['Mercury'], '2nd Decan': ['Moon'], '3rd Decan': ['Saturn'] },
+    degreeEffects: { 'Mercury': [9, 15], 'Venus': [1, 8], 'Mars': [27, 30], 'Jupiter': [16, 22], 'Saturn': [23, 26] }
+  },
+  'Gemini': {
+    element: 'Air',
+    decanEffects: { '1st Decan': ['Jupiter'], '2nd Decan': ['Mars'], '3rd Decan': ['Uranus', 'Sun'] },
+    degreeEffects: { 'Mercury': [1, 7], 'Venus': [15, 20], 'Mars': [26, 30], 'Jupiter': [8, 14], 'Saturn': [22, 25] }
+  },
+  'Cancer': {
+    element: 'Water',
+    decanEffects: { '1st Decan': ['Venus'], '2nd Decan': ['Mercury', 'Pluto'], '3rd Decan': ['Neptune', 'Moon'] },
+    degreeEffects: { 'Mercury': [14, 20], 'Venus': [21, 27], 'Mars': [1, 6], 'Jupiter': [7, 13], 'Saturn': [28, 30] }
+  },
+  'Leo': {
+    element: 'Fire',
+    decanEffects: { '1st Decan': ['Saturn'], '2nd Decan': ['Jupiter'], '3rd Decan': ['Mars'] },
+    degreeEffects: { 'Mercury': [7, 13], 'Venus': [14, 19], 'Mars': [26, 30], 'Jupiter': [20, 25], 'Saturn': [1, 6] }
+  },
+  'Virgo': {
+    element: 'Earth',
+    decanEffects: { '1st Decan': ['Mars', 'Sun'], '2nd Decan': ['Venus'], '3rd Decan': ['Mercury'] },
+    degreeEffects: { 'Mercury': [1, 7], 'Venus': [8, 13], 'Mars': [25, 30], 'Jupiter': [14, 18], 'Saturn': [19, 24] }
+  },
+  'Libra': {
+    element: 'Air',
+    decanEffects: { '1st Decan': ['Moon'], '2nd Decan': ['Saturn', 'Uranus'], '3rd Decan': ['Jupiter'] },
+    degreeEffects: { 'Mercury': [20, 24], 'Venus': [7, 11], 'Mars': [], 'Jupiter': [12, 19], 'Saturn': [1, 6] }
+  },
+  'Scorpio': {
+    element: 'Water',
+    decanEffects: { '1st Decan': ['Pluto'], '2nd Decan': ['Neptune', 'Sun'], '3rd Decan': ['Venus'] },
+    degreeEffects: { 'Mercury': [22, 27], 'Venus': [15, 21], 'Mars': [1, 6], 'Jupiter': [7, 14], 'Saturn': [28, 30] }
+  },
+  'Sagittarius': {
+    element: 'Fire',
+    decanEffects: { '1st Decan': ['Mercury'], '2nd Decan': ['Moon'], '3rd Decan': ['Saturn'] },
+    degreeEffects: { 'Mercury': [15, 20], 'Venus': [9, 14], 'Mars': [], 'Jupiter': [1, 8], 'Saturn': [21, 25] }
+  },
+  'Capricorn': {
+    element: 'Earth',
+    decanEffects: { '1st Decan': ['Jupiter'], '2nd Decan': [], '3rd Decan': ['Sun'] },
+    degreeEffects: { 'Mercury': [7, 12], 'Venus': [1, 6], 'Mars': [], 'Jupiter': [13, 19], 'Saturn': [26, 30] }
+  },
+  'Aquarius': {
+    element: 'Air',
+    decanEffects: { '1st Decan': ['Uranus'], '2nd Decan': ['Mercury'], '3rd Decan': ['Moon'] },
+    degreeEffects: { 'Mercury': [], 'Venus': [13, 20], 'Mars': [26, 30], 'Jupiter': [21, 25], 'Saturn': [1, 6] }
+  },
+  'Pisces': {
+    element: 'Water',
+    decanEffects: { '1st Decan': ['Saturn', 'Neptune', 'Venus'], '2nd Decan': ['Jupiter'], '3rd Decan': ['Pisces', 'Mars'] },
+    degreeEffects: { 'Mercury': [15, 20], 'Venus': [1, 8], 'Mars': [21, 26], 'Jupiter': [9, 14], 'Saturn': [27, 30] }
+  }
+};
+
+/**
+ * Calculate the planetary day influence on food ingredients
+ * Now enhanced with dignity effects, decan effects, and degree effects
+ */
+function calculatePlanetaryDayInfluence(
+  ingredient: Ingredient,
+  planetaryDay: string,
+  planetaryPositions?: Record<string, { sign: string; degree: number }>
+): number {
+  // Get the elements associated with the current planetary day
+  const dayElements = planetaryElements[planetaryDay];
+  if (!dayElements) return 0.5; // Unknown planet
+  
+  // For planetary day, BOTH diurnal and nocturnal elements influence all day
+  const diurnalElement = dayElements.diurnal;
+  const nocturnalElement = dayElements.nocturnal;
+  
+  // Calculate match based on food's element compared to planetary elements
+  let diurnalMatch = 0;
+  let nocturnalMatch = 0;
+  
+  // Check if ingredient has elemental properties
+  if (ingredient.elementalProperties) {
+    diurnalMatch = ingredient.elementalProperties[diurnalElement] || 0;
+    nocturnalMatch = ingredient.elementalProperties[nocturnalElement] || 0;
+  } else {
+    // Simple matching if no detailed elemental profile is available
+    diurnalMatch = ingredient.element === diurnalElement ? 1.0 : 0.3;
+    nocturnalMatch = ingredient.element === nocturnalElement ? 1.0 : 0.3;
+  }
+  
+  // Calculate a weighted score - both elements are equally important for planetary day
+  let elementalScore = (diurnalMatch + nocturnalMatch) / 2;
+  
+  // Apply dignity effects if we have planet positions
+  if (planetaryPositions && planetaryPositions[planetaryDay]) {
+    const planetSign = planetaryPositions[planetaryDay].sign;
+    const planetDegree = planetaryPositions[planetaryDay].degree;
+    
+    // Dignity effect bonus/penalty
+    if (dayElements.dignityEffect && dayElements.dignityEffect[planetSign]) {
+      const dignityModifier = dayElements.dignityEffect[planetSign] * 0.1; // Scale to 0.1-0.3 effect
+      elementalScore = Math.min(1.0, Math.max(0.0, elementalScore + dignityModifier));
+    }
+    
+    // Calculate decan (1-10°: 1st decan, 11-20°: 2nd decan, 21-30°: 3rd decan)
+    let decan = '1st Decan';
+    if (planetDegree > 10 && planetDegree <= 20) decan = '2nd Decan';
+    else if (planetDegree > 20) decan = '3rd Decan';
+    
+    // Apply decan effects if the planet is in its own decan
+    if (signInfo[planetSign] && 
+        signInfo[planetSign].decanEffects[decan] && 
+        signInfo[planetSign].decanEffects[decan].includes(planetaryDay)) {
+      elementalScore = Math.min(1.0, elementalScore + 0.15);
+    }
+    
+    // Apply degree effects
+    if (signInfo[planetSign] && 
+        signInfo[planetSign].degreeEffects[planetaryDay] && 
+        signInfo[planetSign].degreeEffects[planetaryDay].length === 2) {
+      const [minDegree, maxDegree] = signInfo[planetSign].degreeEffects[planetaryDay];
+      if (planetDegree >= minDegree && planetDegree <= maxDegree) {
+        elementalScore = Math.min(1.0, elementalScore + 0.2);
+      }
+    }
+  }
+  
+  // If the food has a direct planetary affinity, give bonus points
+  if (ingredient.astrologicalProfile?.rulingPlanets?.includes(planetaryDay)) {
+    elementalScore = Math.min(1.0, elementalScore + 0.3);
+  }
+  
+  return elementalScore;
+}
+
+/**
+ * Calculate the planetary hour influence on food
+ * Now enhanced with dignity effects and aspect considerations
+ */
+function calculatePlanetaryHourInfluence(
+  ingredient: Ingredient,
+  planetaryHour: string,
+  isDaytime: boolean,
+  planetaryPositions?: Record<string, { sign: string; degree: number }>,
+  aspects?: Array<{ aspectType: string; planet1: string; planet2: string; }>
+): number {
+  // Get the elements associated with the current planetary hour
+  const hourElements = planetaryElements[planetaryHour];
+  if (!hourElements) return 0.5; // Unknown planet
+  
+  // For planetary hour, use diurnal element during day, nocturnal at night
+  const relevantElement = isDaytime ? hourElements.diurnal : hourElements.nocturnal;
+  
+  // Calculate match based on food's element compared to the hour's relevant element
+  let elementalMatch = 0;
+  
+  // Check if ingredient has elemental properties
+  if (ingredient.elementalProperties) {
+    elementalMatch = ingredient.elementalProperties[relevantElement] || 0;
+  } else {
+    // Simple matching if no detailed elemental profile is available
+    elementalMatch = ingredient.element === relevantElement ? 1.0 : 0.3;
+  }
+  
+  // Apply dignity effects if we have planet positions
+  if (planetaryPositions && planetaryPositions[planetaryHour]) {
+    const planetSign = planetaryPositions[planetaryHour].sign;
+    
+    // Dignity effect bonus/penalty
+    if (hourElements.dignityEffect && hourElements.dignityEffect[planetSign]) {
+      const dignityModifier = hourElements.dignityEffect[planetSign] * 0.1; // Scale to 0.1-0.3 effect
+      elementalMatch = Math.min(1.0, Math.max(0.0, elementalMatch + dignityModifier));
+    }
+  }
+  
+  // Apply aspect effects if available
+  if (aspects && aspects.length > 0) {
+    // Find aspects involving the planetary hour ruler
+    const hourAspects = aspects.filter(a => 
+      a.planet1 === planetaryHour || a.planet2 === planetaryHour);
+    
+    for (const aspect of hourAspects) {
+      const otherPlanet = aspect.planet1 === planetaryHour ? aspect.planet2 : aspect.planet1;
+      let aspectModifier = 0;
+      
+      // Apply different modifier based on aspect type
+      switch (aspect.aspectType) {
+        case 'Conjunction':
+          // Strong beneficial aspect
+          aspectModifier = 0.15;
+          break;
+        case 'Trine':
+          // Beneficial aspect
+          aspectModifier = 0.1;
+          break;
+        case 'Square':
+          // Challenging aspect
+          aspectModifier = -0.1;
+          break;
+        case 'Opposition':
+          // Strong challenging aspect
+          aspectModifier = -0.15;
+          break;
+        default:
+          aspectModifier = 0;
+      }
+      
+      // Apply the aspect modifier if the ingredient is ruled by the other planet in the aspect
+      if (ingredient.astrologicalProfile?.rulingPlanets?.includes(otherPlanet)) {
+        elementalMatch = Math.min(1.0, Math.max(0.0, elementalMatch + aspectModifier));
+      }
+    }
+  }
+  
+  // If the food has a direct planetary affinity, give bonus points
+  if (ingredient.astrologicalProfile?.rulingPlanets?.includes(planetaryHour)) {
+    elementalMatch = Math.min(1.0, elementalMatch + 0.3);
+  }
+  
+  return elementalMatch;
+}
+
+/**
+ * Helper function to determine if it's currently daytime (6am-6pm)
+ */
+function isDaytime(date: Date = new Date()): boolean {
+  const hour = date.getHours();
+  return hour >= 6 && hour < 18;
+}
+
+/**
+ * Recommend ingredients with enhanced planetary, dignity and aspect effects
+ */
 export function recommendIngredients(
   astroState: AstrologicalState,
   options: RecommendationOptions = {}
 ): IngredientRecommendation[] {
+  // Get all available ingredients
+  const allIngredients = getAllIngredients();
+  
+  // Filter by category if specified
+  let filteredIngredients = allIngredients;
+  if (options.category) {
+    filteredIngredients = allIngredients.filter(ing => 
+      ing.type.toLowerCase() === options.category?.toLowerCase());
+  }
+  
+  // Filter out excluded ingredients
+  if (options.excludeIngredients && options.excludeIngredients.length > 0) {
+    filteredIngredients = filteredIngredients.filter(ing => 
+      !options.excludeIngredients?.includes(ing.name));
+  }
+  
+  // Filter to only include specific ingredients
+  if (options.includeOnly && options.includeOnly.length > 0) {
+    filteredIngredients = filteredIngredients.filter(ing => 
+      options.includeOnly?.includes(ing.name));
+  }
+  
+  // Extract key astrological information
   const {
-    lunarPhase,
-    zodiacSign,
-    aspects = []
+    timestamp = new Date(),
+    Fire = 0.5,
+    Water = 0.5,
+    Air = 0.5,
+    Earth = 0.5,
+    zodiacSign = '',
+    planetaryAlignment = {},
+    aspects = [],
+    lunarPhase = ''
   } = astroState;
   
-  const {
-    season = 'any',
-    dietary = [],
-    ingredients = [],
-    mealType = 'any',
-    mood = 'any',
-    preferredElements = {}
-  } = options;
+  // Get planetary day and hour for current time
+  const date = timestamp instanceof Date ? timestamp : new Date(timestamp);
+  const planetaryCalculator = {
+    calculatePlanetaryDay: (date: Date) => {
+      const days = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
+      return days[date.getDay()];
+    },
+    calculatePlanetaryHour: (date: Date) => {
+      // This is a simplified calculation
+      const hours = [
+        'Sun', 'Venus', 'Mercury', 'Moon', 'Saturn', 'Jupiter', 'Mars',
+        'Sun', 'Venus', 'Mercury', 'Moon', 'Saturn', 'Jupiter', 'Mars',
+        'Sun', 'Venus', 'Mercury', 'Moon', 'Saturn', 'Jupiter', 'Mars',
+        'Sun', 'Venus', 'Mercury', 'Moon'
+      ];
+      return hours[date.getHours()];
+    },
+    isDaytime: isDaytime
+  };
   
-  const lunarPhaseKey = lunarPhase.replace(/\s+/g, '') as keyof typeof LUNAR_PHASES;
-  const lunarPhaseData = LUNAR_PHASES[lunarPhaseKey] || LUNAR_PHASES.new;
+  const planetaryDay = planetaryCalculator.calculatePlanetaryDay(date);
+  const planetaryHour = planetaryCalculator.calculatePlanetaryHour(date);
+  const isDaytimeNow = planetaryCalculator.isDaytime(date);
   
-  // Check if Venus is active in the current astrological state
-  const isVenusActive = aspects.some(aspect => 
-    aspect.planets.includes('Venus')
-  );
+  // Create elemental properties object for the current system state
+  const systemElementalProps: ElementalProperties = { Fire, Water, Air, Earth };
   
-  // Check if Venus is retrograde
-  const isVenusRetrograde = astroState.retrograde?.includes('Venus') || false;
+  const recommendations: IngredientRecommendation[] = [];
   
-  // Check if Mars is active in the current astrological state
-  const isMarsActive = aspects.some(aspect => 
-    aspect.planets.includes('Mars')
-  );
+  // Calculate scores for each ingredient
+  for (const ingredient of filteredIngredients) {
+    // Calculate elemental match (45% weight)
+    const elementalScore = calculateElementalScore(ingredient.elementalProperties, systemElementalProps);
+    
+    // Calculate planetary day influence with enhanced dignity effects (35% weight)
+    const planetaryDayScore = calculatePlanetaryDayInfluence(
+      ingredient, 
+      planetaryDay, 
+      planetaryAlignment
+    );
+    
+    // Calculate planetary hour influence with enhanced dignity and aspect effects (20% weight)
+    const planetaryHourScore = calculatePlanetaryHourInfluence(
+      ingredient, 
+      planetaryHour, 
+      isDaytimeNow,
+      planetaryAlignment,
+      aspects
+    );
+    
+    // Apply standardized weighting
+    const totalScore = (
+      elementalScore * 0.45 + 
+      planetaryDayScore * 0.35 + 
+      planetaryHourScore * 0.20
+    );
+    
+    // Generate ingredient-specific recommendations based on planetary influences
+    const recommendations = generateRecommendationsForIngredient(
+      ingredient, 
+      planetaryDay, 
+      planetaryHour, 
+      isDaytimeNow,
+      planetaryAlignment,
+      aspects
+    );
+    
+    // Add to recommendations list
+    recommendations.push({
+      ...ingredient,
+      matchScore: totalScore,
+      totalScore,
+      elementalScore: elementalScore * 0.45,
+      astrologicalScore: (planetaryDayScore * 0.35) + (planetaryHourScore * 0.20),
+      recommendations
+    });
+  }
   
-  // Check if Mars is retrograde
-  const isMarsRetrograde = astroState.retrograde?.includes('Mars') || false;
+  // Sort by match score (highest first)
+  recommendations.sort((a, b) => b.matchScore - a.matchScore);
   
-  // Check if Mercury is active in the current astrological state
-  const isMercuryActive = aspects.some(aspect => 
-    aspect.planets.includes('Mercury')
-  );
+  // Apply limit if specified
+  const limit = options.limit || 10;
+  return recommendations.slice(0, limit);
+}
+
+/**
+ * Generate enhanced recommendations for an ingredient based on planetary influences
+ */
+function generateRecommendationsForIngredient(
+  ingredient: Ingredient,
+  planetaryDay: string,
+  planetaryHour: string,
+  isDaytime: boolean,
+  planetaryPositions?: Record<string, { sign: string; degree: number }>,
+  aspects?: Array<{ aspectType: string; planet1: string; planet2: string; }>
+): string[] {
+  const recs: string[] = [];
   
-  // Check if Mercury is retrograde
-  const isMercuryRetrograde = astroState.retrograde?.includes('Mercury') || false;
+  // Basic recommendation based on planetary day
+  if (planetaryElements[planetaryDay]) {
+    const dayElements = planetaryElements[planetaryDay];
+    recs.push(`${ingredient.name} works well on ${planetaryDay}'s day with its ${dayElements.diurnal} and ${dayElements.nocturnal} influences.`);
+  }
   
-  // Check if Jupiter is active in the current astrological state
-  const isJupiterActive = aspects.some(aspect => 
-    aspect.planets.includes('Jupiter')
-  );
+  // Time-specific recommendation based on planetary hour
+  if (planetaryElements[planetaryHour]) {
+    const hourElement = isDaytime 
+      ? planetaryElements[planetaryHour].diurnal 
+      : planetaryElements[planetaryHour].nocturnal;
+    
+    recs.push(`During the current hour of ${planetaryHour}, ${ingredient.name}'s ${hourElement} properties are enhanced.`);
+  }
   
-  // Check if Jupiter is retrograde
-  const isJupiterRetrograde = astroState.retrograde?.includes('Jupiter') || false;
-  
-  // Check if Saturn is active in the current astrological state
-  const isSaturnActive = aspects.some(aspect => 
-    aspect.planets.includes('Saturn')
-  );
-  
-  // Check if Saturn is retrograde
-  const isSaturnRetrograde = astroState.retrograde?.includes('Saturn') || false;
-  
-  // Get Venus-specific flavor recommendations based on current zodiac sign
-  const venusZodiacTransit = zodiacSign && venusData.PlanetSpecific?.ZodiacTransit?.[zodiacSign];
-  
-  // Get Mars-specific flavor recommendations based on current zodiac sign
-  const marsZodiacTransit = zodiacSign && marsData.PlanetSpecific?.ZodiacTransit?.[zodiacSign];
-  
-  // Get Mercury-specific flavor recommendations based on current zodiac sign
-  const mercuryZodiacTransit = zodiacSign && mercuryData.PlanetSpecific?.ZodiacTransit?.[zodiacSign];
-  
-  // Get Jupiter-specific flavor recommendations based on current zodiac sign
-  const jupiterZodiacTransit = zodiacSign && jupiterData.PlanetSpecific?.ZodiacTransit?.[zodiacSign];
-  
-  // Get Saturn-specific flavor recommendations based on current zodiac sign
-  const saturnZodiacTransit = zodiacSign && saturnData.PlanetSpecific?.ZodiacTransit?.[zodiacSign];
-  
-  // Identify Venus mood based on retrograde status and aspects
-  // ... existing Venus mood code ...
-  
-  // Identify Mars mood based on retrograde status and aspects
-  // ... existing Mars mood code ...
-  
-  // Identify Mercury mood based on retrograde status and aspects
-  // ... existing Mercury mood code ...
-  
-  // Identify Jupiter mood based on retrograde status and aspects
-  let jupiterMood = 'balanced';
-  if (isJupiterActive) {
-    if (isJupiterRetrograde) {
-      jupiterMood = 'reflective';
+  // Add dignity effect recommendations if planet is in dignified or debilitated sign
+  if (planetaryPositions) {
+    // Check day planet dignity
+    if (planetaryElements[planetaryDay]?.dignityEffect && 
+        planetaryPositions[planetaryDay]) {
+      const daySign = planetaryPositions[planetaryDay].sign;
+      const dayDignity = planetaryElements[planetaryDay].dignityEffect?.[daySign];
       
-      // Check if Jupiter is in challenging aspects (square, opposition)
-      const hasChallengingAspects = aspects.some(aspect => 
-        aspect.planets.includes('Jupiter') && 
-        (aspect.type === 'square' || aspect.type === 'opposition')
-      );
-      
-      if (hasChallengingAspects) {
-        jupiterMood = 'restrained';
+      if (dayDignity && dayDignity > 0 && ingredient.astrologicalProfile?.rulingPlanets?.includes(planetaryDay)) {
+        recs.push(`${planetaryDay} is ${dayDignity > 1 ? 'exalted' : 'dignified'} in ${daySign}, strengthening ${ingredient.name}'s properties.`);
+      } else if (dayDignity && dayDignity < 0 && ingredient.astrologicalProfile?.rulingPlanets?.includes(planetaryDay)) {
+        recs.push(`${planetaryDay} is ${dayDignity < -1 ? 'in fall' : 'in detriment'} in ${daySign}, requiring careful preparation of ${ingredient.name}.`);
       }
-    } else {
-      jupiterMood = 'expansive';
+    }
+    
+    // Check hour planet dignity
+    if (planetaryElements[planetaryHour]?.dignityEffect && 
+        planetaryPositions[planetaryHour]) {
+      const hourSign = planetaryPositions[planetaryHour].sign;
+      const hourDignity = planetaryElements[planetaryHour].dignityEffect?.[hourSign];
       
-      // Check if Jupiter is in harmonious aspects (trine, sextile)
-      const hasHarmoniousAspects = aspects.some(aspect => 
-        aspect.planets.includes('Jupiter') && 
-        (aspect.type === 'trine' || aspect.type === 'sextile')
-      );
-      
-      if (hasHarmoniousAspects) {
-        jupiterMood = 'abundant';
+      if (hourDignity && hourDignity > 0 && ingredient.astrologicalProfile?.rulingPlanets?.includes(planetaryHour)) {
+        recs.push(`During this hour, ${planetaryHour}'s dignity in ${hourSign} enhances ${ingredient.name}'s flavor profile.`);
       }
     }
   }
   
-  // Identify Saturn mood based on retrograde status and aspects
-  let saturnMood = 'structured';
-  if (isSaturnActive) {
-    if (isSaturnRetrograde) {
-      saturnMood = 'revisionary';
-      
-      // Check if Saturn is in challenging aspects (square, opposition)
-      const hasChallengingAspects = aspects.some(aspect => 
-        aspect.planets.includes('Saturn') && 
-        (aspect.type === 'square' || aspect.type === 'opposition')
-      );
-      
-      if (hasChallengingAspects) {
-        saturnMood = 'restrictive';
-      }
-    } else {
-      saturnMood = 'disciplined';
-      
-      // Check if Saturn is in harmonious aspects (trine, sextile)
-      const hasHarmoniousAspects = aspects.some(aspect => 
-        aspect.planets.includes('Saturn') && 
-        (aspect.type === 'trine' || aspect.type === 'sextile')
-      );
-      
-      if (hasHarmoniousAspects) {
-        saturnMood = 'stabilizing';
+  // Add aspect-based recommendations
+  if (aspects && aspects.length > 0) {
+    const relevantAspects = aspects.filter(aspect => 
+      (aspect.planet1 === planetaryDay || aspect.planet2 === planetaryDay) ||
+      (aspect.planet1 === planetaryHour || aspect.planet2 === planetaryHour));
+    
+    for (const aspect of relevantAspects) {
+      if (aspect.aspectType === 'Conjunction') {
+        const planets = [aspect.planet1, aspect.planet2];
+        if (planets.includes(planetaryDay) || planets.includes(planetaryHour)) {
+          const otherPlanet = planets.find(p => p !== planetaryDay && p !== planetaryHour);
+          if (otherPlanet && ingredient.astrologicalProfile?.rulingPlanets?.includes(otherPlanet)) {
+            recs.push(`The conjunction between ${aspect.planet1} and ${aspect.planet2} strongly enhances ${ingredient.name}'s qualities.`);
+          }
+        }
+      } else if (aspect.aspectType === 'Trine') {
+        const planets = [aspect.planet1, aspect.planet2];
+        if (planets.includes(planetaryDay) || planets.includes(planetaryHour)) {
+          const otherPlanet = planets.find(p => p !== planetaryDay && p !== planetaryHour);
+          if (otherPlanet && ingredient.astrologicalProfile?.rulingPlanets?.includes(otherPlanet)) {
+            recs.push(`The harmonious trine between ${aspect.planet1} and ${aspect.planet2} creates a flowing energy for ${ingredient.name}.`);
+          }
+        }
       }
     }
   }
   
-  // Begin calculating scores
-  const scores: Record<string, IngredientRecommendation> = {};
-  
-  // Iterate over all ingredient categories and individual ingredients
-  for (const [categoryName, ingredients] of Object.entries(ingredientCategories)) {
-    for (const ingredient of ingredients) {
-      // ... existing ingredient scoring setup ...
-      
-      // ... existing Venus scoring code ...
-      
-      // ... existing Mars scoring code ...
-      
-      // ... existing Mercury scoring code ...
-      
-      // Calculate Jupiter-specific scoring
-      if (isJupiterActive) {
-        let jupiterScore = 0;
-        
-        // Check if ingredient is directly associated with Jupiter
-        if (jupiterData.FoodAssociations && jupiterData.FoodAssociations.includes(ingredient.name)) {
-          jupiterScore += 3.0; // Direct association is highly valued
-        }
-        
-        // Check for ingredient quality match with Jupiter's properties
-        if (jupiterData.AstrologicalProperties) {
-          // Check if ingredient has expansive qualities (growth, abundance)
-          if (ingredient.qualities?.includes('expansive') || 
-              ingredient.qualities?.includes('abundant') ||
-              ingredient.qualities?.includes('joyful')) {
-            jupiterScore += 1.8;
-          }
-          
-          // Check if ingredient has the lush, rich qualities of Jupiter
-          if (ingredient.qualities?.includes('rich') || 
-              ingredient.qualities?.includes('generous') ||
-              ingredient.qualities?.includes('hearty')) {
-            jupiterScore += 1.5;
-          }
-        }
-        
-        // Check for elemental connections to Jupiter
-        if (jupiterData.ElementalConnections && ingredient.elementalProperties) {
-          // Jupiter bridges Air and Fire
-          if (ingredient.elementalProperties.air > 0.5 || ingredient.elementalProperties.fire > 0.5) {
-            jupiterScore += 1.2;
-          }
-          
-          // Check if ingredient aligns with Jupiter's associated qualities
-          if (jupiterData.ElementalConnections.AssociatedQualities) {
-            if ((jupiterData.ElementalConnections.AssociatedQualities.includes('Warm') && 
-                ingredient.qualities?.includes('warming')) ||
-                (jupiterData.ElementalConnections.AssociatedQualities.includes('Moist') && 
-                ingredient.qualities?.includes('moist'))) {
-              jupiterScore += 0.8;
-            }
-          }
-        }
-        
-        // Check for alignment with Jupiter's flavor profile
-        if (jupiterData.FlavorProfiles && ingredient.flavor) {
-          // Jupiter tends to favor sweet, umami, and rich flavors
-          if (ingredient.flavor.sweet > 0.5) jupiterScore += ingredient.flavor.sweet * 1.2;
-          if (ingredient.flavor.umami > 0.5) jupiterScore += ingredient.flavor.umami * 1.0;
-          if (ingredient.flavor.bitter < 0.3) jupiterScore += (1 - ingredient.flavor.bitter) * 0.5; // Jupiter disfavors bitter
-        }
-        
-        // Check for zodiac transit recommendations
-        if (jupiterZodiacTransit && jupiterZodiacTransit.Ingredients) {
-          if (jupiterZodiacTransit.Ingredients.includes(ingredient.name)) {
-            jupiterScore += 2.0; // Strong boost for transit-specific ingredients
-          }
-          
-          // Check ingredient categories for matches
-          if (jupiterZodiacTransit.FoodFocus && ingredient.categories) {
-            const foodFocus = jupiterZodiacTransit.FoodFocus.toLowerCase();
-            const matches = ingredient.categories.filter(category => 
-              foodFocus.includes(category.toLowerCase())
-            ).length;
-            
-            jupiterScore += matches * 0.7;
-          }
-        }
-        
-        // Apply Jupiter mood modifier
-        switch (jupiterMood) {
-          case 'abundant':
-            // Boost rich, festive ingredients
-            if (ingredient.qualities?.includes('festive') || 
-                ingredient.qualities?.includes('celebratory') ||
-                ingredient.qualities?.includes('luxurious')) {
-              jupiterScore *= 1.3;
-            }
-            break;
-          case 'expansive':
-            // Boost growth-oriented ingredients
-            if (ingredient.qualities?.includes('nourishing') || 
-                ingredient.qualities?.includes('vitalizing')) {
-              jupiterScore *= 1.2;
-            }
-            break;
-          case 'reflective':
-            // During reflective periods, moderate the excess
-            if (ingredient.qualities?.includes('balanced') || 
-                ingredient.qualities?.includes('harmonizing')) {
-              jupiterScore *= 1.2;
-            } else if (ingredient.qualities?.includes('excessive') || 
-                      ingredient.qualities?.includes('indulgent')) {
-              jupiterScore *= 0.8; // Reduce score for excessive ingredients
-            }
-            break;
-          case 'restrained':
-            // During challenging retrograde, favor simple ingredients
-            if (ingredient.qualities?.includes('simple') || 
-                ingredient.qualities?.includes('pure') ||
-                ingredient.qualities?.includes('modest')) {
-              jupiterScore *= 1.3;
-            } else if (ingredient.qualities?.includes('rich') || 
-                      ingredient.qualities?.includes('heavy')) {
-              jupiterScore *= 0.7; // Significant reduction for heavy ingredients
-            }
-            break;
-        }
-        
-        // Apply retrograde modifications
-        if (isJupiterRetrograde && jupiterData.PlanetSpecific?.Retrograde) {
-          // During retrograde, Jupiter calls for moderation and simplicity
-          if (jupiterData.PlanetSpecific.Retrograde.ElementalShift) {
-            const elementShift = jupiterData.PlanetSpecific.Retrograde.ElementalShift;
-            
-            // Check if ingredient aligns with Jupiter retrograde elemental shift
-            for (const element in elementShift) {
-              const elemProperty = element.toLowerCase() as keyof ElementalProperties;
-              if (ingredient.elementalProperties && 
-                  ingredient.elementalProperties[elemProperty] > 0.5) {
-                jupiterScore += elementShift[element] * 0.5;
-              }
-            }
-          }
-        }
-        
-        // Apply Jupiter's influence
-        if (isJupiterActive && jupiterData) {
-          // ... existing code ...
-          
-          // Scale Jupiter's influence
-          const scaledJupiterScore = jupiterScore * 1.8; // Jupiter has a strong influence
-          scores[ingredient.name].score += scaledJupiterScore;
-          
-          // Add Jupiter score to details
-          scores[ingredient.name].scoreDetails['jupiterAffinity'] = scaledJupiterScore;
-        }
-      }
-      
-      // Calculate Saturn-specific scoring
-      if (isSaturnActive) {
-        let saturnScore = 0;
-        
-        // Check if ingredient is directly associated with Saturn
-        if (saturnData.FoodAssociations && saturnData.FoodAssociations.includes(ingredient.name)) {
-          saturnScore += 3.0; // Direct association is highly valued
-        }
-        
-        // Check for ingredient quality match with Saturn's properties
-        if (saturnData.AstrologicalProperties) {
-          // Check if ingredient has structured, traditional qualities
-          if (ingredient.qualities?.includes('traditional') || 
-              ingredient.qualities?.includes('grounding') ||
-              ingredient.qualities?.includes('stabilizing')) {
-            saturnScore += 1.8;
-          }
-          
-          // Check if ingredient has the preservative qualities of Saturn
-          if (ingredient.qualities?.includes('preserved') || 
-              ingredient.qualities?.includes('aged') ||
-              ingredient.qualities?.includes('fermented') ||
-              ingredient.qualities?.includes('dried')) {
-            saturnScore += 2.0; // Strong boost for preservation techniques
-          }
-        }
-        
-        // Check for elemental connections to Saturn
-        if (saturnData.ElementalConnections && ingredient.elementalProperties) {
-          // Saturn bridges Earth and Air
-          if (ingredient.elementalProperties.earth > 0.5 || ingredient.elementalProperties.air > 0.5) {
-            saturnScore += 1.2;
-          }
-          
-          // Check if ingredient aligns with Saturn's associated qualities
-          if (saturnData.ElementalConnections.AssociatedQualities) {
-            if ((saturnData.ElementalConnections.AssociatedQualities.includes('Dry') && 
-                ingredient.qualities?.includes('drying')) ||
-                (saturnData.ElementalConnections.AssociatedQualities.includes('Cold') && 
-                ingredient.qualities?.includes('cooling'))) {
-              saturnScore += 0.8;
-            }
-          }
-        }
-        
-        // Check for alignment with Saturn's flavor profile
-        if (saturnData.FlavorProfiles && ingredient.flavor) {
-          // Saturn tends to favor bitter, sour, and umami flavors
-          if (ingredient.flavor.bitter > 0.5) saturnScore += ingredient.flavor.bitter * 1.2;
-          if (ingredient.flavor.sour > 0.5) saturnScore += ingredient.flavor.sour * 1.0;
-          if (ingredient.flavor.umami > 0.5) saturnScore += ingredient.flavor.umami * 0.8;
-          if (ingredient.flavor.sweet > 0.7) saturnScore -= ingredient.flavor.sweet * 0.5; // Saturn disfavors overly sweet
-        }
-        
-        // Check for zodiac transit recommendations
-        if (saturnZodiacTransit && saturnZodiacTransit.Ingredients) {
-          if (saturnZodiacTransit.Ingredients.includes(ingredient.name)) {
-            saturnScore += 2.0; // Strong boost for transit-specific ingredients
-          }
-          
-          // Check ingredient categories for matches
-          if (saturnZodiacTransit.FoodFocus && ingredient.categories) {
-            const foodFocus = saturnZodiacTransit.FoodFocus.toLowerCase();
-            const matches = ingredient.categories.filter(category => 
-              foodFocus.includes(category.toLowerCase())
-            ).length;
-            
-            saturnScore += matches * 0.7;
-          }
-        }
-        
-        // Apply Saturn mood modifier
-        switch (saturnMood) {
-          case 'stabilizing':
-            // Boost grounding, structural ingredients
-            if (ingredient.qualities?.includes('grounding') || 
-                ingredient.qualities?.includes('strengthening') ||
-                ingredient.qualities?.includes('structural')) {
-              saturnScore *= 1.3;
-            }
-            break;
-          case 'disciplined':
-            // Boost traditional, time-tested ingredients
-            if (ingredient.qualities?.includes('traditional') || 
-                ingredient.qualities?.includes('ancient') ||
-                ingredient.qualities?.includes('time-honored')) {
-              saturnScore *= 1.2;
-            }
-            break;
-          case 'revisionary':
-            // During reflective periods, revisit traditional preparations with a twist
-            if (ingredient.qualities?.includes('versatile') || 
-                ingredient.qualities?.includes('adaptable')) {
-              saturnScore *= 1.2;
-            }
-            break;
-          case 'restrictive':
-            // During challenging retrograde, favor foundational ingredients
-            if (ingredient.qualities?.includes('basic') || 
-                ingredient.qualities?.includes('essential') ||
-                ingredient.qualities?.includes('foundational')) {
-              saturnScore *= 1.3;
-            } else if (ingredient.qualities?.includes('exotic') || 
-                      ingredient.qualities?.includes('unusual')) {
-              saturnScore *= 0.7; // Significant reduction for exotic ingredients
-            }
-            break;
-        }
-        
-        // Apply retrograde modifications
-        if (isSaturnRetrograde && saturnData.PlanetSpecific?.Retrograde) {
-          // During retrograde, Saturn calls for review of traditions
-          if (saturnData.PlanetSpecific.Retrograde.ElementalShift) {
-            const elementShift = saturnData.PlanetSpecific.Retrograde.ElementalShift;
-            
-            // Check if ingredient aligns with Saturn retrograde elemental shift
-            for (const element in elementShift) {
-              const elemProperty = element.toLowerCase() as keyof ElementalProperties;
-              if (ingredient.elementalProperties && 
-                  ingredient.elementalProperties[elemProperty] > 0.5) {
-                saturnScore += elementShift[element] * 0.5;
-              }
-            }
-          }
-        }
-        
-        // Root vegetables get a special boost with Saturn
-        if (ingredient.categories?.includes('root vegetable') || 
-            ingredient.categories?.includes('tuber')) {
-          saturnScore *= 1.5; // Major boost for root vegetables
-        }
-        
-        // Apply Saturn's influence
-        if (isSaturnActive && saturnData) {
-          // ... existing code ...
-          
-          // Scale Saturn's influence
-          const scaledSaturnScore = saturnScore * 1.7; // Saturn has a strong influence but slightly less than Jupiter
-          scores[ingredient.name].score += scaledSaturnScore;
-          
-          // Add Saturn score to details
-          scores[ingredient.name].scoreDetails['saturnAffinity'] = scaledSaturnScore;
-        }
-      }
-      
-      // ... existing code continuation ...
+  // Direct planetary affinity recommendation
+  if (ingredient.astrologicalProfile?.rulingPlanets) {
+    const rulingPlanets = ingredient.astrologicalProfile.rulingPlanets;
+    if (rulingPlanets.includes(planetaryDay)) {
+      recs.push(`${ingredient.name} is especially potent today as it's ruled by ${planetaryDay}.`);
+    }
+    if (rulingPlanets.includes(planetaryHour)) {
+      recs.push(`This is an optimal hour to work with ${ingredient.name} due to ${planetaryHour}'s influence.`);
     }
   }
   
-  // ... existing sorting and return code ...
-} 
+  return recs;
+}
+
+// ... existing code ...
