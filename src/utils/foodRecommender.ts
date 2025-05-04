@@ -464,24 +464,72 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
       
       // Enhanced time of day score with planetary hour considerations
       const currentHour = new Date().getHours();
-      let timeOfDayScore = (currentHour >= 6 && currentHour <= 18) ? 
-        (standardized.elementalProperties.Fire * 0.5 + standardized.elementalProperties.Air * 0.5) : 
-        (standardized.elementalProperties.Water * 0.5 + standardized.elementalProperties.Earth * 0.5);
+      let timeOfDayScore = 0.5; // Start with neutral score
       
-      // Add planetary hour influence
-      if (astroState.planetaryHours) {
-        const hourPlanet = astroState.planetaryHours.toLowerCase();
-        // Check if the ingredient's ruling planet matches the current planetary hour
-        if (profile.rulingPlanets.some(p => p.toLowerCase() === hourPlanet)) {
-          timeOfDayScore = Math.min(1, timeOfDayScore + 0.3); // Significant boost
-        }
+      // Get current day of week (0 = Sunday, 1 = Monday, etc.)
+      const dayOfWeek = new Date().getDay();
+      const weekDays = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+      const dayRulers = {
+        'sunday': 'sun',
+        'monday': 'moon',
+        'tuesday': 'mars',
+        'wednesday': 'mercury',
+        'thursday': 'jupiter',
+        'friday': 'venus',
+        'saturday': 'saturn'
+      };
+      
+      // Calculate planetary day influence (35% weight)
+      let planetaryDayScore = 0.5; // Default neutral score
+      const planetaryDay = dayRulers[weekDays[dayOfWeek]];
+      
+      if (planetaryDay && planetaryElements[planetaryDay]) {
+        // For planetary day, BOTH diurnal and nocturnal elements influence all day
+        const diurnalElement = planetaryElements[planetaryDay].diurnal;
+        const nocturnalElement = planetaryElements[planetaryDay].nocturnal;
         
-        // Also check for elemental affinity with the planetary hour
-        const hourElement = getPlanetaryElement(hourPlanet);
-        if (hourElement && standardized.elementalProperties[hourElement] > 0.4) {
-          timeOfDayScore = Math.min(1, timeOfDayScore + 0.2);
+        // Calculate how much of each planetary element is present in the ingredient
+        const diurnalMatch = standardized.elementalProperties[diurnalElement] || 0;
+        const nocturnalMatch = standardized.elementalProperties[nocturnalElement] || 0;
+        
+        // Calculate a weighted score - both elements are equally important for planetary day
+        planetaryDayScore = (diurnalMatch + nocturnalMatch) / 2;
+        
+        // If the ingredient has a direct planetary affinity, give bonus points
+        if (profile.rulingPlanets && profile.rulingPlanets.some(p => 
+          p.toLowerCase() === planetaryDay
+        )) {
+          planetaryDayScore = Math.min(1.0, planetaryDayScore + 0.3);
         }
       }
+      
+      // Calculate planetary hour influence (20% weight)
+      let planetaryHourScore = 0.5; // Default neutral score
+      
+      if (astroState.planetaryHours) {
+        const hourPlanet = astroState.planetaryHours.toLowerCase();
+        
+        if (planetaryElements[hourPlanet]) {
+          // For planetary hour, use diurnal element during day, nocturnal at night
+          const daytime = isDaytime();
+          const relevantElement = daytime ? 
+            planetaryElements[hourPlanet].diurnal : 
+            planetaryElements[hourPlanet].nocturnal;
+          
+          // Calculate how much of the relevant element is present in the ingredient
+          planetaryHourScore = standardized.elementalProperties[relevantElement] || 0;
+          
+          // If the ingredient has a direct planetary affinity, give bonus points
+          if (profile.rulingPlanets && profile.rulingPlanets.some(p => 
+            p.toLowerCase() === hourPlanet
+          )) {
+            planetaryHourScore = Math.min(1.0, planetaryHourScore + 0.3);
+          }
+        }
+      }
+      
+      // Final time score combines both (will be weighted later in final calculation)
+      timeOfDayScore = planetaryDayScore * 0.6 + planetaryHourScore * 0.4;
       
       // Apply lunar phase influences with more specific matching
       let lunarScore = 0.5; // Default neutral score
@@ -831,42 +879,33 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
         nutritionalScore = Math.min(1, Math.max(0, nutritionalScore));
       }
       
-      // Combine scores with adjusted weights to emphasize key factors
-      const totalScore = (
-        elementScore * 0.15 + 
-        planetScore * 0.15 + 
-        zodiacScore * 0.12 + 
-        timeOfDayScore * 0.08 + // Increased from 0.05
-        seasonalScore * 0.12 +
-        lunarScore * 0.12 + // Increased from 0.10
-        aspectScore * 0.08 +
-        tarotScore * 0.08 +
-        sensoryScore * 0.05 +
-        nutritionalScore * 0.05 // Decreased from 0.10
+      // Final score calculation - weighted combination of all factors
+      // Updated weights to prioritize planetary influences:
+      // - Elemental: 45%
+      // - Planetary (day+hour): 35% (day: 21%, hour: 14%)
+      // - Other factors: 20%
+      const finalScore = (
+        elementScore * 0.45 +
+        planetaryDayScore * 0.21 +
+        planetaryHourScore * 0.14 +
+        zodiacScore * 0.05 +
+        seasonalScore * 0.05 +
+        lunarScore * 0.05 +
+        aspectScore * 0.05
       );
-      
-      // Apply a multiplier to better reflect improved recommendation logic
-      // This boosts the score to a more meaningful percentage range
-      const multiplier = 2.0;  // Adjustable multiplier to improve displayed percentages
-      const finalScore = Math.min(1.0, totalScore * multiplier);  // Cap at 1.0 (100%)
       
       return {
         ...standardized,
         score: finalScore,
-        // Add score breakdowns for UI display
         scoreDetails: {
-          elementScore,
-          planetScore,
-          zodiacScore,
-          timeOfDayScore,
-          seasonalScore,
-          lunarScore,
-          aspectScore,
-          tarotScore,
-          sensoryScore,
-          nutritionalScore,
-          originalScore: totalScore,
-          adjustedScore: finalScore
+          elemental: elementScore,
+          zodiac: zodiacScore,
+          season: seasonalScore,
+          timeOfDay: timeOfDayScore,
+          lunar: lunarScore,
+          aspect: aspectScore,
+          planetaryDay: planetaryDayScore,
+          planetaryHour: planetaryHourScore
         }
       };
     });
@@ -1131,6 +1170,30 @@ function getPlanetaryElement(planet: string): keyof ElementalProperties | null {
   
   return null;
 }
+
+/**
+ * Helper function to determine if it's currently daytime (6am-6pm)
+ */
+function isDaytime(date: Date = new Date()): boolean {
+  const hour = date.getHours();
+  return hour >= 6 && hour < 18;
+}
+
+/**
+ * Map planets to their elemental influences (diurnal and nocturnal elements)
+ */
+const planetaryElements: Record<string, { diurnal: string, nocturnal: string }> = {
+  'sun': { diurnal: 'Fire', nocturnal: 'Fire' },
+  'moon': { diurnal: 'Water', nocturnal: 'Water' },
+  'mercury': { diurnal: 'Air', nocturnal: 'Earth' },
+  'venus': { diurnal: 'Water', nocturnal: 'Earth' },
+  'mars': { diurnal: 'Fire', nocturnal: 'Water' },
+  'jupiter': { diurnal: 'Air', nocturnal: 'Fire' },
+  'saturn': { diurnal: 'Air', nocturnal: 'Earth' },
+  'uranus': { diurnal: 'Water', nocturnal: 'Air' },
+  'neptune': { diurnal: 'Water', nocturnal: 'Water' },
+  'pluto': { diurnal: 'Earth', nocturnal: 'Water' }
+};
 
 /**
  * Gets the affinity score between an element and modality based on our hierarchical model.

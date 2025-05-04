@@ -729,7 +729,120 @@ export function getZodiacNutritionalRecommendations(sign: string): {
 }
 
 /**
+ * Map planets to their elemental influences (diurnal and nocturnal elements)
+ */
+const planetaryElements: Record<string, { diurnal: string, nocturnal: string }> = {
+  'sun': { diurnal: 'Fire', nocturnal: 'Fire' },
+  'moon': { diurnal: 'Water', nocturnal: 'Water' },
+  'mercury': { diurnal: 'Air', nocturnal: 'Earth' },
+  'venus': { diurnal: 'Water', nocturnal: 'Earth' },
+  'mars': { diurnal: 'Fire', nocturnal: 'Water' },
+  'jupiter': { diurnal: 'Air', nocturnal: 'Fire' },
+  'saturn': { diurnal: 'Air', nocturnal: 'Earth' },
+  'uranus': { diurnal: 'Water', nocturnal: 'Air' },
+  'neptune': { diurnal: 'Water', nocturnal: 'Water' },
+  'pluto': { diurnal: 'Earth', nocturnal: 'Water' }
+};
+
+/**
+ * Helper function to determine if it's currently daytime (6am-6pm)
+ */
+function isDaytime(date: Date = new Date()): boolean {
+  const hour = date.getHours();
+  return hour >= 6 && hour < 18;
+}
+
+/**
+ * Get nutritional recommendations based on planetary day and hour influences
+ * 
+ * @param planetaryDay The ruling planet of the day
+ * @param planetaryHour The ruling planet of the hour
+ * @param currentTime Optional date to determine day/night (defaults to now)
+ */
+export function getEnhancedPlanetaryNutritionalRecommendations(
+  planetaryDay: string,
+  planetaryHour: string,
+  currentTime: Date = new Date()
+): {
+  elements: Record<string, number>,
+  focusNutrients: string[],
+  healthAreas: string[],
+  recommendedFoods: string[]
+} {
+  // Normalize planet names to lowercase
+  const dayPlanet = planetaryDay.toLowerCase();
+  const hourPlanet = planetaryHour.toLowerCase();
+  
+  // Initialize results
+  const focusNutrients: string[] = [];
+  const healthAreas: string[] = [];
+  const recommendedFoods: string[] = [];
+  const elements: Record<string, number> = {
+    'Fire': 0,
+    'Water': 0,
+    'Earth': 0,
+    'Air': 0
+  };
+  
+  // Get day planet influence (both diurnal and nocturnal elements all day)
+  const dayElements = planetaryElements[dayPlanet];
+  if (dayElements) {
+    // For day planet, both diurnal and nocturnal elements are active
+    const diurnalElement = dayElements.diurnal;
+    const nocturnalElement = dayElements.nocturnal;
+    
+    // Add elemental influence (equal weight for both elements)
+    elements[diurnalElement] = (elements[diurnalElement] || 0) + 0.35;
+    elements[nocturnalElement] = (elements[nocturnalElement] || 0) + 0.35;
+    
+    // Get nutritional associations
+    const dayInfluence = planetaryNutritionInfluence[dayPlanet];
+    if (dayInfluence) {
+      focusNutrients.push(...dayInfluence.nutrientRulership);
+      healthAreas.push(...dayInfluence.healthDomain);
+      recommendedFoods.push(...dayInfluence.beneficialFoods);
+    }
+  }
+  
+  // Get hour planet influence (depends on day/night)
+  const hourElements = planetaryElements[hourPlanet];
+  if (hourElements) {
+    // For hour planet, use diurnal during day, nocturnal at night
+    const isDay = isDaytime(currentTime);
+    const relevantElement = isDay ? hourElements.diurnal : hourElements.nocturnal;
+    
+    // Add elemental influence
+    elements[relevantElement] = (elements[relevantElement] || 0) + 0.30;
+    
+    // Get nutritional associations
+    const hourInfluence = planetaryNutritionInfluence[hourPlanet];
+    if (hourInfluence) {
+      focusNutrients.push(...hourInfluence.nutrientRulership);
+      healthAreas.push(...hourInfluence.healthDomain);
+      recommendedFoods.push(...hourInfluence.beneficialFoods);
+    }
+  }
+  
+  // Normalize elements to sum to 1.0
+  const elementsTotal = Object.values(elements).reduce((sum, val) => sum + val, 0);
+  if (elementsTotal > 0) {
+    Object.keys(elements).forEach(element => {
+      elements[element] = elements[element] / elementsTotal;
+    });
+  }
+  
+  // Remove duplicates
+  return {
+    elements,
+    focusNutrients: [...new Set(focusNutrients)],
+    healthAreas: [...new Set(healthAreas)],
+    recommendedFoods: [...new Set(recommendedFoods)]
+  };
+}
+
+/**
  * Get nutritional recommendations based on planetary influences
+ * Legacy method - consider using getEnhancedPlanetaryNutritionalRecommendations instead
  */
 export function getPlanetaryNutritionalRecommendations(planets: string[]): {
   focusNutrients: string[],
@@ -873,6 +986,7 @@ export default {
   fetchNutritionalData,
   getZodiacNutritionalRecommendations,
   getPlanetaryNutritionalRecommendations,
+  getEnhancedPlanetaryNutritionalRecommendations,
   getSeasonalNutritionalRecommendations,
   evaluateNutritionalElementalBalance
 };
