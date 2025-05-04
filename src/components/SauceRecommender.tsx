@@ -90,6 +90,87 @@ export default function SauceRecommender({
     return Math.max(0, Math.min(1, similarity));
   };
 
+  // Helper function to determine if it's currently daytime (6am-6pm)
+  const isDaytime = (date: Date = new Date()): boolean => {
+    const hour = date.getHours();
+    return hour >= 6 && hour < 18;
+  };
+
+  // Map planets to their elemental influences (diurnal and nocturnal elements)
+  const planetaryElements: Record<string, { diurnal: string, nocturnal: string }> = {
+    'Sun': { diurnal: 'Fire', nocturnal: 'Fire' },
+    'Moon': { diurnal: 'Water', nocturnal: 'Water' },
+    'Mercury': { diurnal: 'Air', nocturnal: 'Earth' },
+    'Venus': { diurnal: 'Water', nocturnal: 'Earth' },
+    'Mars': { diurnal: 'Fire', nocturnal: 'Water' },
+    'Jupiter': { diurnal: 'Air', nocturnal: 'Fire' },
+    'Saturn': { diurnal: 'Air', nocturnal: 'Earth' },
+    'Uranus': { diurnal: 'Water', nocturnal: 'Air' },
+    'Neptune': { diurnal: 'Water', nocturnal: 'Water' },
+    'Pluto': { diurnal: 'Earth', nocturnal: 'Water' }
+  };
+
+  // Calculate planetary day influence score
+  const calculatePlanetaryDayInfluence = (
+    sauceElements: ElementalProperties,
+    planetaryDay: string,
+    planetAffinity?: string[]
+  ): number => {
+    // Get the elements associated with the current planetary day
+    const dayElements = planetaryElements[planetaryDay];
+    if (!dayElements) return 0.5; // Unknown planet
+    
+    // For planetary day, BOTH diurnal and nocturnal elements influence all day
+    const diurnalElement = dayElements.diurnal;
+    const nocturnalElement = dayElements.nocturnal;
+    
+    // Calculate how much of each planetary element is present in the sauce
+    const diurnalMatch = sauceElements[diurnalElement] || 0;
+    const nocturnalMatch = sauceElements[nocturnalElement] || 0;
+    
+    // Calculate a weighted score - both elements are equally important for planetary day
+    let elementalScore = (diurnalMatch + nocturnalMatch) / 2;
+    
+    // If the sauce has a direct planetary affinity, give bonus points
+    if (planetAffinity && planetAffinity.some(p => 
+      p.toLowerCase() === planetaryDay.toLowerCase()
+    )) {
+      elementalScore = Math.min(1.0, elementalScore + 0.3);
+    }
+    
+    return elementalScore;
+  };
+
+  // Calculate planetary hour influence score
+  const calculatePlanetaryHourInfluence = (
+    sauceElements: ElementalProperties,
+    planetaryHour: string,
+    isDaytime: boolean,
+    planetAffinity?: string[]
+  ): number => {
+    // Get the elements associated with the current planetary hour
+    const hourElements = planetaryElements[planetaryHour];
+    if (!hourElements) return 0.5; // Unknown planet
+    
+    // For planetary hour, use diurnal element during day, nocturnal at night
+    const relevantElement = isDaytime ? hourElements.diurnal : hourElements.nocturnal;
+    
+    // Calculate how much of the relevant planetary element is present in the sauce
+    const elementalMatch = sauceElements[relevantElement] || 0;
+    
+    // Calculate score based on how well the sauce matches the planetary hour's element
+    let elementalScore = elementalMatch;
+    
+    // If the sauce has a direct planetary affinity, give bonus points
+    if (planetAffinity && planetAffinity.some(p => 
+      p.toLowerCase() === planetaryHour.toLowerCase()
+    )) {
+      elementalScore = Math.min(1.0, elementalScore + 0.3);
+    }
+    
+    return elementalScore;
+  };
+
   // Helper function to determine ingredient amounts
   const getIngredientAmountRange = (ingredient: string): string => {
     const ing = ingredient.toLowerCase();
@@ -158,9 +239,42 @@ export default function SauceRecommender({
           // Find the sauce data in the traditionalSauces
           Object.entries(cuisineData.traditionalSauces).forEach(([id, sauceData]: [string, any]) => {
             if (sauceData.name.toLowerCase() === sauceName.toLowerCase()) {
-              const matchScore = calculateElementalMatch(
+              // Get current time factors
+              const { getTimeFactors } = require('@/types/time');
+              const timeFactors = getTimeFactors();
+              
+              // Basic elemental match calculation
+              const elementalMatchScore = calculateElementalMatch(
                 sauceData.elementalProperties,
                 currentElementalProfile
+              );
+              
+              // Calculate planetary day influence
+              const planetaryDayScore = calculatePlanetaryDayInfluence(
+                sauceData.elementalProperties,
+                timeFactors.planetaryDay.planet,
+                sauceData.astrologicalAffinities?.planets
+              );
+              
+              // Calculate planetary hour influence
+              const planetaryHourScore = calculatePlanetaryHourInfluence(
+                sauceData.elementalProperties,
+                timeFactors.planetaryHour.planet,
+                isDaytime(),
+                sauceData.astrologicalAffinities?.planets
+              );
+              
+              // Calculate final match score with weights
+              const weights = {
+                elemental: 0.45, // Elemental match: 45%
+                planetaryDay: 0.35, // Planetary day: 35%
+                planetaryHour: 0.20 // Planetary hour: 20%
+              };
+              
+              const finalScore = (
+                elementalMatchScore * weights.elemental +
+                planetaryDayScore * weights.planetaryDay +
+                planetaryHourScore * weights.planetaryHour
               );
               
               results.push({
@@ -175,7 +289,10 @@ export default function SauceRecommender({
                 preparationNotes: sauceData.preparationNotes || "",
                 technicalTips: sauceData.technicalTips || "",
                 elementalProperties: sauceData.elementalProperties,
-                matchScore: matchScore
+                matchScore: finalScore,
+                elementalMatchScore: elementalMatchScore,
+                planetaryDayScore: planetaryDayScore,
+                planetaryHourScore: planetaryHourScore
               });
             }
           });
@@ -188,9 +305,42 @@ export default function SauceRecommender({
           // Find the sauce data in the traditionalSauces
           Object.entries(cuisineData.traditionalSauces).forEach(([id, sauceData]: [string, any]) => {
             if (sauceData.name.toLowerCase() === sauceName.toLowerCase()) {
-              const matchScore = calculateElementalMatch(
+              // Get current time factors
+              const { getTimeFactors } = require('@/types/time');
+              const timeFactors = getTimeFactors();
+              
+              // Basic elemental match calculation
+              const elementalMatchScore = calculateElementalMatch(
                 sauceData.elementalProperties,
                 currentElementalProfile
+              );
+              
+              // Calculate planetary day influence
+              const planetaryDayScore = calculatePlanetaryDayInfluence(
+                sauceData.elementalProperties,
+                timeFactors.planetaryDay.planet,
+                sauceData.astrologicalAffinities?.planets
+              );
+              
+              // Calculate planetary hour influence
+              const planetaryHourScore = calculatePlanetaryHourInfluence(
+                sauceData.elementalProperties,
+                timeFactors.planetaryHour.planet,
+                isDaytime(),
+                sauceData.astrologicalAffinities?.planets
+              );
+              
+              // Calculate final match score with weights
+              const weights = {
+                elemental: 0.45, // Elemental match: 45%
+                planetaryDay: 0.35, // Planetary day: 35%
+                planetaryHour: 0.20 // Planetary hour: 20%
+              };
+              
+              const finalScore = (
+                elementalMatchScore * weights.elemental +
+                planetaryDayScore * weights.planetaryDay +
+                planetaryHourScore * weights.planetaryHour
               );
               
               results.push({
@@ -205,7 +355,10 @@ export default function SauceRecommender({
                 preparationNotes: sauceData.preparationNotes || "",
                 technicalTips: sauceData.technicalTips || "",
                 elementalProperties: sauceData.elementalProperties,
-                matchScore: matchScore
+                matchScore: finalScore,
+                elementalMatchScore: elementalMatchScore,
+                planetaryDayScore: planetaryDayScore,
+                planetaryHourScore: planetaryHourScore
               });
             }
           });
@@ -218,9 +371,42 @@ export default function SauceRecommender({
           // Find the sauce data in the traditionalSauces
           Object.entries(cuisineData.traditionalSauces).forEach(([id, sauceData]: [string, any]) => {
             if (sauceData.name.toLowerCase() === sauceName.toLowerCase()) {
-              const matchScore = calculateElementalMatch(
+              // Get current time factors
+              const { getTimeFactors } = require('@/types/time');
+              const timeFactors = getTimeFactors();
+              
+              // Basic elemental match calculation
+              const elementalMatchScore = calculateElementalMatch(
                 sauceData.elementalProperties,
                 currentElementalProfile
+              );
+              
+              // Calculate planetary day influence
+              const planetaryDayScore = calculatePlanetaryDayInfluence(
+                sauceData.elementalProperties,
+                timeFactors.planetaryDay.planet,
+                sauceData.astrologicalAffinities?.planets
+              );
+              
+              // Calculate planetary hour influence
+              const planetaryHourScore = calculatePlanetaryHourInfluence(
+                sauceData.elementalProperties,
+                timeFactors.planetaryHour.planet,
+                isDaytime(),
+                sauceData.astrologicalAffinities?.planets
+              );
+              
+              // Calculate final match score with weights
+              const weights = {
+                elemental: 0.45, // Elemental match: 45%
+                planetaryDay: 0.35, // Planetary day: 35%
+                planetaryHour: 0.20 // Planetary hour: 20%
+              };
+              
+              const finalScore = (
+                elementalMatchScore * weights.elemental +
+                planetaryDayScore * weights.planetaryDay +
+                planetaryHourScore * weights.planetaryHour
               );
               
               results.push({
@@ -235,7 +421,10 @@ export default function SauceRecommender({
                 preparationNotes: sauceData.preparationNotes || "",
                 technicalTips: sauceData.technicalTips || "",
                 elementalProperties: sauceData.elementalProperties,
-                matchScore: matchScore
+                matchScore: finalScore,
+                elementalMatchScore: elementalMatchScore,
+                planetaryDayScore: planetaryDayScore,
+                planetaryHourScore: planetaryHourScore
               });
             }
           });
@@ -245,9 +434,42 @@ export default function SauceRecommender({
       // If we don't have specific filters, add all sauces from the cuisine
       if (!protein && !vegetable && !cookingMethod) {
         Object.entries(cuisineData.traditionalSauces).forEach(([id, sauceData]: [string, any]) => {
-          const matchScore = calculateElementalMatch(
+          // Get current time factors
+          const { getTimeFactors } = require('@/types/time');
+          const timeFactors = getTimeFactors();
+          
+          // Basic elemental match calculation
+          const elementalMatchScore = calculateElementalMatch(
             sauceData.elementalProperties,
             currentElementalProfile
+          );
+          
+          // Calculate planetary day influence
+          const planetaryDayScore = calculatePlanetaryDayInfluence(
+            sauceData.elementalProperties,
+            timeFactors.planetaryDay.planet,
+            sauceData.astrologicalAffinities?.planets
+          );
+          
+          // Calculate planetary hour influence
+          const planetaryHourScore = calculatePlanetaryHourInfluence(
+            sauceData.elementalProperties,
+            timeFactors.planetaryHour.planet,
+            isDaytime(),
+            sauceData.astrologicalAffinities?.planets
+          );
+          
+          // Calculate final match score with weights
+          const weights = {
+            elemental: 0.45, // Elemental match: 45%
+            planetaryDay: 0.35, // Planetary day: 35%
+            planetaryHour: 0.20 // Planetary hour: 20%
+          };
+          
+          const finalScore = (
+            elementalMatchScore * weights.elemental +
+            planetaryDayScore * weights.planetaryDay +
+            planetaryHourScore * weights.planetaryHour
           );
           
           results.push({
@@ -262,7 +484,10 @@ export default function SauceRecommender({
             preparationNotes: sauceData.preparationNotes || "",
             technicalTips: sauceData.technicalTips || "",
             elementalProperties: sauceData.elementalProperties,
-            matchScore: matchScore
+            matchScore: finalScore,
+            elementalMatchScore: elementalMatchScore,
+            planetaryDayScore: planetaryDayScore,
+            planetaryHourScore: planetaryHourScore
           });
         });
       }
@@ -280,14 +505,47 @@ export default function SauceRecommender({
         // Only consider cuisines with traditional sauces
         if (cuisineData.traditionalSauces) {
           Object.entries(cuisineData.traditionalSauces).forEach(([id, sauceData]: [string, any]) => {
-            const matchScore = calculateElementalMatch(
+            // Get current time factors
+            const { getTimeFactors } = require('@/types/time');
+            const timeFactors = getTimeFactors();
+            
+            // Basic elemental match calculation
+            const elementalMatchScore = calculateElementalMatch(
               sauceData.elementalProperties,
               currentElementalProfile
             );
             
+            // Calculate planetary day influence
+            const planetaryDayScore = calculatePlanetaryDayInfluence(
+              sauceData.elementalProperties,
+              timeFactors.planetaryDay.planet,
+              sauceData.astrologicalAffinities?.planets
+            );
+            
+            // Calculate planetary hour influence
+            const planetaryHourScore = calculatePlanetaryHourInfluence(
+              sauceData.elementalProperties,
+              timeFactors.planetaryHour.planet,
+              isDaytime(),
+              sauceData.astrologicalAffinities?.planets
+            );
+            
+            // Calculate final match score with weights
+            const weights = {
+              elemental: 0.45, // Elemental match: 45%
+              planetaryDay: 0.35, // Planetary day: 35%
+              planetaryHour: 0.20 // Planetary hour: 20%
+            };
+            
+            const finalScore = (
+              elementalMatchScore * weights.elemental +
+              planetaryDayScore * weights.planetaryDay +
+              planetaryHourScore * weights.planetaryHour
+            );
+            
             // More restrictive filtering for cross-cuisine sauce recommendations
             // Increased threshold and added exclusion rules based on culinary appropriateness
-            if (matchScore > 0.85) { // Increased from 0.65 for higher quality matches
+            if (finalScore > 0.85) { // Increased from 0.65 for higher quality matches
               // Skip inappropriate combinations
               if (shouldExcludeSauceCombination(sauceData.name, cuisine)) {
                 return;
@@ -305,7 +563,10 @@ export default function SauceRecommender({
                 preparationNotes: sauceData.preparationNotes || "",
                 technicalTips: sauceData.technicalTips || "",
                 elementalProperties: sauceData.elementalProperties,
-                matchScore: matchScore,
+                matchScore: finalScore,
+                elementalMatchScore: elementalMatchScore,
+                planetaryDayScore: planetaryDayScore,
+                planetaryHourScore: planetaryHourScore,
                 isFusion: true
               });
             }

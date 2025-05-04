@@ -254,68 +254,109 @@ export class EnhancedCuisineRecommender {
   
   /**
    * Calculate match based on planetary day (0-1)
+   * The planetary day influences the entire day with both its diurnal and nocturnal elements
    */
   private calculatePlanetaryDayScore(recipe: unknown, timeFactors: TimeFactors, astroState: AstrologicalState): number {
-    const { planetaryDay } = timeFactors;
+    const { planetaryDay, currentDate } = timeFactors;
+    const isDaytime = this.isDaytime(currentDate);
     
-    // Check if recipe has astrological affinities
-    if (!recipe.astrologicalAffinities?.planets || recipe.astrologicalAffinities.planets.length === 0) {
-      return 0.5; // Neutral score for recipes without planetary affinities
+    // If recipe has no elemental properties, give it a neutral score
+    if (!recipe.elementalProperties) {
+      return 0.5;
     }
     
-    // Convert planet names to consistent format
-    const recipePlanets = recipe.astrologicalAffinities.planets.map((p: string) => 
-      p.charAt(0).toUpperCase() + p.slice(1).toLowerCase()
-    );
-    
-    // Check if the current planetary day matches any of the recipe's planetary affinities
-    if (recipePlanets.includes(planetaryDay)) {
-      return 1.0; // Perfect match
-    }
-    
-    // Check for complementary planets (simplified relationship model)
-    const complementaryPlanets: Record<PlanetaryDay, PlanetaryDay[]> = {
-      'Sun': ['Jupiter', 'Mars'],
-      'Moon': ['Venus', 'Neptune'],
-      'Mars': ['Sun', 'Pluto'],
-      'Mercury': ['Uranus', 'Jupiter'],
-      'Jupiter': ['Sun', 'Mercury'],
-      'Venus': ['Moon', 'Neptune'],
-      'Saturn': ['Pluto', 'Uranus']
+    // Map planets to their elemental influences (diurnal and nocturnal elements)
+    const planetaryElements: Record<string, { diurnal: string, nocturnal: string }> = {
+      'Sun': { diurnal: 'Fire', nocturnal: 'Fire' },
+      'Moon': { diurnal: 'Water', nocturnal: 'Water' },
+      'Mercury': { diurnal: 'Air', nocturnal: 'Earth' },
+      'Venus': { diurnal: 'Water', nocturnal: 'Earth' },
+      'Mars': { diurnal: 'Fire', nocturnal: 'Water' },
+      'Jupiter': { diurnal: 'Air', nocturnal: 'Fire' },
+      'Saturn': { diurnal: 'Air', nocturnal: 'Earth' },
+      'Uranus': { diurnal: 'Water', nocturnal: 'Air' },
+      'Neptune': { diurnal: 'Water', nocturnal: 'Water' },
+      'Pluto': { diurnal: 'Earth', nocturnal: 'Water' }
     };
     
-    // Check if any of the recipe's planets are complementary to today's planetary day
-    if (recipePlanets.some(planet => complementaryPlanets[planetaryDay]?.includes(planet))) {
-      return 0.8; // Good but not perfect match
+    // Get the elements associated with the current planetary day
+    const dayElements = planetaryElements[planetaryDay];
+    if (!dayElements) return 0.5; // Unknown planet
+    
+    // For planetary day, BOTH diurnal and nocturnal elements influence all day
+    // regardless of whether it's day or night
+    const diurnalElement = dayElements.diurnal;
+    const nocturnalElement = dayElements.nocturnal;
+    
+    // Calculate how much of each planetary element is present in the recipe
+    const recipeElementals = recipe.elementalProperties as Record<string, number>;
+    const diurnalMatch = recipeElementals[diurnalElement] || 0;
+    const nocturnalMatch = recipeElementals[nocturnalElement] || 0;
+    
+    // Calculate a weighted score - both elements are equally important for planetary day
+    let elementalScore = (diurnalMatch + nocturnalMatch) / 2;
+    
+    // If the recipe has a direct planetary affinity, give bonus points
+    if (recipe.astrologicalAffinities?.planets && 
+        recipe.astrologicalAffinities.planets.some((p: string) => 
+          p.toLowerCase() === planetaryDay.toLowerCase()
+        )) {
+      elementalScore = Math.min(1.0, elementalScore + 0.3);
     }
     
-    return 0.4; // Lower score for non-matching planets
+    return elementalScore;
   }
   
   /**
    * Calculate match based on planetary hour (0-1)
+   * The planetary hour influences with its diurnal element during day, and nocturnal element at night
    */
   private calculatePlanetaryHourScore(recipe: unknown, timeFactors: TimeFactors, astroState: AstrologicalState): number {
-    const { planetaryHour } = timeFactors;
+    const { planetaryHour, currentDate } = timeFactors;
+    const isDaytime = this.isDaytime(currentDate);
     
-    // Check if recipe has astrological affinities
-    if (!recipe.astrologicalAffinities?.planets || recipe.astrologicalAffinities.planets.length === 0) {
-      return 0.5; // Neutral score for recipes without planetary affinities
+    // If recipe has no elemental properties, give it a neutral score
+    if (!recipe.elementalProperties) {
+      return 0.5;
     }
     
-    // Convert planet names to consistent format
-    const recipePlanets = recipe.astrologicalAffinities.planets.map((p: string) => 
-      p.charAt(0).toUpperCase() + p.slice(1).toLowerCase()
-    );
+    // Map planets to their elemental influences (diurnal and nocturnal elements)
+    const planetaryElements: Record<string, { diurnal: string, nocturnal: string }> = {
+      'Sun': { diurnal: 'Fire', nocturnal: 'Fire' },
+      'Moon': { diurnal: 'Water', nocturnal: 'Water' },
+      'Mercury': { diurnal: 'Air', nocturnal: 'Earth' },
+      'Venus': { diurnal: 'Water', nocturnal: 'Earth' },
+      'Mars': { diurnal: 'Fire', nocturnal: 'Water' },
+      'Jupiter': { diurnal: 'Air', nocturnal: 'Fire' },
+      'Saturn': { diurnal: 'Air', nocturnal: 'Earth' },
+      'Uranus': { diurnal: 'Water', nocturnal: 'Air' },
+      'Neptune': { diurnal: 'Water', nocturnal: 'Water' },
+      'Pluto': { diurnal: 'Earth', nocturnal: 'Water' }
+    };
     
-    // Check if the current planetary hour matches any of the recipe's planetary affinities
-    if (recipePlanets.includes(planetaryHour)) {
-      return 1.0; // Perfect match
+    // Get the elements associated with the current planetary hour
+    const hourElements = planetaryElements[planetaryHour];
+    if (!hourElements) return 0.5; // Unknown planet
+    
+    // For planetary hour, use diurnal element during the day and nocturnal element at night
+    const relevantElement = isDaytime ? hourElements.diurnal : hourElements.nocturnal;
+    
+    // Calculate how much of the relevant planetary element is present in the recipe
+    const recipeElementals = recipe.elementalProperties as Record<string, number>;
+    const elementalMatch = recipeElementals[relevantElement] || 0;
+    
+    // Calculate a score based on how well the recipe matches the planetary hour's element
+    let elementalScore = elementalMatch;
+    
+    // If the recipe has a direct planetary affinity, give bonus points
+    if (recipe.astrologicalAffinities?.planets && 
+        recipe.astrologicalAffinities.planets.some((p: string) => 
+          p.toLowerCase() === planetaryHour.toLowerCase()
+        )) {
+      elementalScore = Math.min(1.0, elementalScore + 0.3);
     }
     
-    // For planetary hour, we could consider it less important than the planetary day
-    // So we use a higher baseline even for non-matches
-    return 0.6;
+    return elementalScore;
   }
   
   /**
@@ -412,17 +453,17 @@ export class EnhancedCuisineRecommender {
     astrologicalScore: number,
     timeOfDayScore: number
   ): number {
-    // Weight the different factors
+    // Weight the different factors - increased planetary influence
     const weights = {
-      seasonal: 0.25,
-      planetaryDay: 0.15,
-      planetaryHour: 0.10,
-      elemental: 0.20,
-      astrological: 0.15,
-      timeOfDay: 0.15
+      seasonal: 0.15,       // Reduced from 0.25
+      planetaryDay: 0.30,   // Doubled from 0.15
+      planetaryHour: 0.20,  // Doubled from 0.10
+      elemental: 0.15,      // Reduced from 0.20
+      astrological: 0.10,   // Reduced from 0.15
+      timeOfDay: 0.10       // Reduced from 0.15
     };
     
-    // Calculate weighted score
+    // Calculate weighted score with stronger emphasis on planetary factors
     const weightedScore = 
       (seasonalScore * weights.seasonal) +
       (planetaryDayScore * weights.planetaryDay) +
@@ -488,6 +529,14 @@ export class EnhancedCuisineRecommender {
     
     // Default to no conflict if we can't determine
     return false;
+  }
+  
+  /**
+   * Determine if the current time is during daylight hours
+   */
+  private isDaytime(date: Date): boolean {
+    const hour = date.getHours();
+    return hour >= 6 && hour < 18;
   }
 }
 

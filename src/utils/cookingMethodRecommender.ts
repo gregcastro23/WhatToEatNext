@@ -306,6 +306,103 @@ function calculateEnhancedElementalCompatibility(
   return Math.min(1, compatibilityScore / 2.5);
 }
 
+// Add after line 205 (before calculateThermodynamicBaseScore function)
+/**
+ * Maps planets to their elemental influences (diurnal and nocturnal elements)
+ */
+const planetaryElements: Record<string, { diurnal: string, nocturnal: string }> = {
+  'Sun': { diurnal: 'Fire', nocturnal: 'Fire' },
+  'Moon': { diurnal: 'Water', nocturnal: 'Water' },
+  'Mercury': { diurnal: 'Air', nocturnal: 'Earth' },
+  'Venus': { diurnal: 'Water', nocturnal: 'Earth' },
+  'Mars': { diurnal: 'Fire', nocturnal: 'Water' },
+  'Jupiter': { diurnal: 'Air', nocturnal: 'Fire' },
+  'Saturn': { diurnal: 'Air', nocturnal: 'Earth' },
+  'Uranus': { diurnal: 'Water', nocturnal: 'Air' },
+  'Neptune': { diurnal: 'Water', nocturnal: 'Water' },
+  'Pluto': { diurnal: 'Earth', nocturnal: 'Water' }
+};
+
+/**
+ * Calculate the planetary day influence on a cooking method
+ * The day's ruling planet contributes BOTH its diurnal and nocturnal elements all day
+ * 
+ * @param method The cooking method profile
+ * @param planetaryDay The planetary day
+ * @returns A score between 0 and 1 indicating the influence
+ */
+function calculatePlanetaryDayInfluence(
+  method: CookingMethodProfile,
+  planetaryDay: string
+): number {
+  // Get the elements associated with the current planetary day
+  const dayElements = planetaryElements[planetaryDay];
+  if (!dayElements) return 0.5; // Unknown planet
+  
+  // For planetary day, BOTH diurnal and nocturnal elements influence all day
+  const diurnalElement = dayElements.diurnal;
+  const nocturnalElement = dayElements.nocturnal;
+  
+  // Calculate how much of each planetary element is present in the method
+  const methodElementals = method.elementalProperties || method.elementalEffect || {};
+  const diurnalMatch = methodElementals[diurnalElement] || 0;
+  const nocturnalMatch = methodElementals[nocturnalElement] || 0;
+  
+  // Calculate a weighted score - both elements are equally important for planetary day
+  let elementalScore = (diurnalMatch + nocturnalMatch) / 2;
+  
+  // If the method has a direct planetary affinity, give bonus points
+  if (method.astrologicalInfluences?.dominantPlanets?.includes(planetaryDay)) {
+    elementalScore = Math.min(1.0, elementalScore + 0.3);
+  }
+  
+  return elementalScore;
+}
+
+/**
+ * Calculate the planetary hour influence on a cooking method
+ * The hour's ruling planet contributes only its diurnal element during day, nocturnal at night
+ * 
+ * @param method The cooking method profile
+ * @param planetaryHour The planetary hour
+ * @param isDaytime Whether it's currently daytime (6am-6pm)
+ * @returns A score between 0 and 1 indicating the influence
+ */
+function calculatePlanetaryHourInfluence(
+  method: CookingMethodProfile,
+  planetaryHour: string,
+  isDaytime: boolean
+): number {
+  // Get the elements associated with the current planetary hour
+  const hourElements = planetaryElements[planetaryHour];
+  if (!hourElements) return 0.5; // Unknown planet
+  
+  // For planetary hour, use diurnal element during day, nocturnal at night
+  const relevantElement = isDaytime ? hourElements.diurnal : hourElements.nocturnal;
+  
+  // Calculate how much of the relevant planetary element is present in the method
+  const methodElementals = method.elementalProperties || method.elementalEffect || {};
+  const elementalMatch = methodElementals[relevantElement] || 0;
+  
+  // Calculate score based on how well the method matches the planetary hour's element
+  let elementalScore = elementalMatch;
+  
+  // If the method has a direct planetary affinity, give bonus points
+  if (method.astrologicalInfluences?.dominantPlanets?.includes(planetaryHour)) {
+    elementalScore = Math.min(1.0, elementalScore + 0.3);
+  }
+  
+  return elementalScore;
+}
+
+/**
+ * Helper function to determine if it's currently daytime (6am-6pm)
+ */
+function isDaytime(date: Date = new Date()): boolean {
+  const hour = date.getHours();
+  return hour >= 6 && hour < 18;
+}
+
 // Improved scoring algorithm for cooking method recommendations
 export function getRecommendedCookingMethods(
   elementalComposition: ElementalProperties,
@@ -548,26 +645,73 @@ export function getRecommendedCookingMethods(
         }
       }
       
-      // Planetary compatibility - enhanced with strength calculation
+      // ---- Planetary compatibility - New approach ----
+      
+      // Calculate planetary day influence (35% of astrological score)
+      let planetaryDayScore = 0;
       if (planets && planets.length > 0) {
-        // Count direct matches
-        const matchCount = planets.filter(planet => {
-          // Strip off retrograde marker for matching
-          const basePlanet = planet.replace(/-R$/, '');
-          return method.astrologicalInfluences?.dominantPlanets?.includes(basePlanet);
-        }).length;
+        // Get the current day of the week
+        const dayOfWeek = new Date().getDay();
+        const weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        const dayRulers = {
+          'Sunday': 'Sun',
+          'Monday': 'Moon',
+          'Tuesday': 'Mars',
+          'Wednesday': 'Mercury',
+          'Thursday': 'Jupiter',
+          'Friday': 'Venus',
+          'Saturday': 'Saturn'
+        };
         
-        // Calculate base score from matches
-        const baseScore = (matchCount / planets.length) * 0.25;
+        const planetaryDay = dayRulers[weekDays[dayOfWeek]];
+        if (planetaryDay) {
+          planetaryDayScore = calculatePlanetaryDayInfluence(method, planetaryDay);
+        }
+      }
+      
+      // Calculate planetary hour influence (20% of astrological score)
+      let planetaryHourScore = 0;
+      if (planets && planets.length > 0) {
+        // Simple approximation for the planetary hour
+        // For a real app, you should use an accurate calculation based on sunrise/sunset
+        const now = new Date();
+        const dayOfWeek = now.getDay();
+        const hour = now.getHours();
         
-        // Adjust for retrograde status - retrograde planets may suggest 
-        // more traditional or slower methods
-        const retrogradeCount = planets.filter(planet => planet.endsWith('-R')).length;
-        const retrogradeAdjustment = retrogradeCount > 0 ? 
-          (method.name.toLowerCase().includes('slow') || 
-           method.name.toLowerCase().includes('traditional') ? 0.05 : -0.05) : 0;
+        // Chaldean order of planets
+        const planetaryOrder = [
+          'Saturn', 'Jupiter', 'Mars', 'Sun', 'Venus', 'Mercury', 'Moon'
+        ];
         
-        astrologicalScore += baseScore + retrogradeAdjustment;
+        // Starting planet for the day
+        const dayRulerPlanets = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
+        const startingPlanet = dayRulerPlanets[dayOfWeek];
+        
+        // Find starting position in the sequence
+        const startingPosition = planetaryOrder.indexOf(startingPlanet);
+        
+        // Calculate hour position (0-23)
+        const daytime = isDaytime(now);
+        const hourPosition = daytime ? (hour - 6) : (hour < 6 ? hour + 18 : hour - 6);
+        
+        // Get the ruling planet for the current hour
+        const hourPosition7 = (startingPosition + hourPosition) % 7;
+        const planetaryHour = planetaryOrder[hourPosition7];
+        
+        if (planetaryHour) {
+          planetaryHourScore = calculatePlanetaryHourInfluence(method, planetaryHour, daytime);
+        }
+      }
+      
+      // Add weighted planetary scores to the astrological score
+      // Elemental match: 45%, Planetary day: 35%, Planetary hour: 20%
+      if (planets && planets.length > 0) {
+        // Base zodiac score already calculated (worth 45% of astrological score)
+        // Add planetary day influence (35%)
+        astrologicalScore += planetaryDayScore * 0.35;
+        
+        // Add planetary hour influence (20%)
+        astrologicalScore += planetaryHourScore * 0.20;
       }
     }
     
