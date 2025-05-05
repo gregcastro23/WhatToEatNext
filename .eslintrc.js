@@ -4,7 +4,6 @@ module.exports = {
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:react/recommended',
-    'plugin:react-hooks/recommended',
     'next/core-web-vitals'
   ],
   parser: '@typescript-eslint/parser',
@@ -16,7 +15,7 @@ module.exports = {
     }
   },
   plugins: [
-    '@typescript-eslint', 'react', 'react-hooks', 'import'
+    '@typescript-eslint', 'react', 'import'
   ],
   rules: {
     // Overrides

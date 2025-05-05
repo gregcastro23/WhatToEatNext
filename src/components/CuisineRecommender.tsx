@@ -11,7 +11,7 @@ import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { transformCuisines, sortByAlchemicalCompatibility } from '@/utils/alchemicalTransformationUtils';
 import { ZodiacSign, LunarPhase, LunarPhaseWithSpaces, ElementalProperties } from '@/types/alchemy';
 import { cuisineFlavorProfiles, getRecipesForCuisineMatch } from '@/data/cuisineFlavorProfiles';
-import { allRecipes } from '@/data/recipes';
+import { getAllRecipes } from '@/data/recipes';
 import { SpoonacularService } from '@/services/SpoonacularService';
 import { LocalRecipeService } from '@/services/LocalRecipeService';
 import { sauceRecommendations as sauceRecsData, SauceRecommendation, allSauces, Sauce } from '@/data/sauces';
@@ -97,6 +97,7 @@ export default function CuisineRecommender() {
     }
   );
   const [matchingRecipes, setMatchingRecipes] = useState<any[]>([]);
+  const [allRecipesData, setAllRecipesData] = useState<Recipe[]>([]);
 
   // Update current moment elemental profile when astrological state changes
   useEffect(() => {
@@ -506,7 +507,7 @@ export default function CuisineRecommender() {
       setShowAllRecipes(false);
       
       // Get recipes for the selected cuisine
-      const recipes = getRecipesForCuisineMatch(selectedCuisineData.name, allRecipes || [], 10);
+      const recipes = getRecipesForCuisineMatch(selectedCuisineData.name, allRecipesData || [], 10);
       
       // Remove duplicates by name
       const uniqueRecipes = recipes.filter((recipe, index, self) => 
@@ -668,6 +669,21 @@ export default function CuisineRecommender() {
     
     return sortedSauces;
   };
+
+  // Add an effect to load all recipes when component mounts
+  useEffect(() => {
+    async function loadAllRecipes() {
+      try {
+        const recipes = await getAllRecipes();
+        setAllRecipesData(recipes);
+      } catch (error) {
+        console.error("Failed to load recipes:", error);
+        setError("Failed to load recipes. Please try again later.");
+      }
+    }
+    
+    loadAllRecipes();
+  }, []);
 
   if (loading) {
     return <div className="p-4 text-center">Loading cuisine recommendations...</div>;

@@ -856,7 +856,7 @@ export default function IngredientRecommender() {
                     
                     return (
                       <div 
-                        key={`${item.name}-${category}`} 
+                        key={`${item.name}-${category}-${item.subCategory || ''}-${Math.random().toString(36).substr(2, 5)}`} 
                         className={`p-3 rounded-lg border-l-4 ${elementColor} hover:shadow-md transition-all flex flex-col ${isSelected ? 'ring-2 ring-indigo-500 shadow-md min-h-[200px] sm:col-span-2 md:col-span-2 lg:col-span-2' : 'h-full'} cursor-pointer`}
                         onClick={(e) => handleIngredientSelect(item, e)}
                       >
