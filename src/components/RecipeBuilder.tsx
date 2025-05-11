@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import type { Modality } from '@/data/ingredients/types';
-import { determineIngredientModality } from '@/utils/ingredientUtils';
-import { SignEnergyState } from '@/constants/signEnergyStates';
-import { Chakra } from '@/constants/chakraMappings';
-import type { Recipe } from '@/types/recipe'; // Import the Recipe type
+import @/data  from 'ingredients ';
+import @/utils  from 'ingredientUtils ';
+import @/constants  from 'signEnergyStates ';
+import @/constants  from 'chakraMappings ';
+import @/types  from 'recipe '; // Import the Recipe type
 
 // Define a type for chakra access points to the energy states
 interface ChakraEnergyAccess {
@@ -22,133 +22,191 @@ export default function RecipeBuilder() {
   const [recipeModality, setRecipeModality] = useState<Modality>('Mutable');
   const [chakraAccess, setChakraAccess] = useState<ChakraEnergyAccess[]>([]);
   const [recipe, setRecipe] = useState<Recipe | null>(null);
-  const [signEnergyStates, setSignEnergyStates] = useState<SignEnergyState[]>([]);
-  
+  const [signEnergyStates, setSignEnergyStates] = useState<SignEnergyState[]>(
+    []
+  );
+
   // Calculate the dominant modality of the recipe based on selected ingredients
   useEffect(() => {
     if (selectedIngredients.length === 0) {
       setRecipeModality('Mutable');
       return;
     }
-    
-    const modalityCounts: Record<Modality, number> = { Cardinal: 0, Fixed: 0, Mutable: 0 };
-    
-    selectedIngredients.forEach(ingredient => {
-      const modality = (ingredient.modality || 
-        determineIngredientModality(ingredient.elementalProperties, ingredient.qualities || [])) as Modality;
+
+    const modalityCounts: Record<Modality, number> = {
+      Cardinal: 0,
+      Fixed: 0,
+      Mutable: 0,
+    };
+
+    selectedIngredients.forEach((ingredient) => {
+      let modality = (ingredient.modality ||
+        determineIngredientModality(
+          ingredient.elementalProperties,
+          ingredient.qualities || []
+        )) as Modality;
       modalityCounts[modality]++;
     });
-    
+
     // Find the dominant modality
     let dominantModality: Modality = 'Mutable';
     let highestCount = 0;
-    
-    (Object.entries(modalityCounts) as [Modality, number][]).forEach(([modality, count]) => {
-      if (count > highestCount) {
-        highestCount = count;
-        dominantModality = modality;
+
+    (Object.entries(modalityCounts) as [Modality, number][]).forEach(
+      ([modality, count]) => {
+        if (count > highestCount) {
+          highestCount = count;
+          dominantModality = modality;
+        }
       }
-    });
-    
+    );
+
     setRecipeModality(dominantModality);
   }, [selectedIngredients]);
-  
+
   useEffect(() => {
     if (signEnergyStates && signEnergyStates.length > 0) {
       // Instead of calculating chakra energy states, map chakras to access the energy states
-      const chakraAccessPoints = mapChakrasToEnergyStates(signEnergyStates);
+      let chakraAccessPoints = mapChakrasToEnergyStates(signEnergyStates);
       setChakraAccess(chakraAccessPoints);
     }
   }, [signEnergyStates]);
-  
+
   // Map chakras to access the energy states (Spirit, Essence, Matter, Substance)
-  const mapChakrasToEnergyStates = (energyStates: SignEnergyState[]): ChakraEnergyAccess[] => {
-    const chakras: Chakra[] = ['Root', 'Sacral', 'Solar Plexus', 'Heart', 'Throat', 'Third Eye', 'Crown'];
-    
+  let mapChakrasToEnergyStates = (
+    energyStates: SignEnergyState[]
+  ): ChakraEnergyAccess[] => {
+    const chakras: Chakra[] = [
+      'Root',
+      'Sacral',
+      'Solar Plexus',
+      'Heart',
+      'Throat',
+      'Third Eye',
+      'Crown',
+    ];
+
     // Mapping of chakras to their influence on the four energy types
-    const chakraInfluenceMap: Record<Chakra, { spirit: number, essence: number, matter: number, substance: number }> = {
-      'Root': { spirit: 0.2, essence: 0.3, matter: 0.8, substance: 0.7 },
-      'Sacral': { spirit: 0.3, essence: 0.7, matter: 0.6, substance: 0.4 },
-      'Solar Plexus': { spirit: 0.4, essence: 0.8, matter: 0.4, substance: 0.3 },
-      'Heart': { spirit: 0.6, essence: 0.7, matter: 0.4, substance: 0.2 },
-      'Throat': { spirit: 0.7, essence: 0.5, matter: 0.3, substance: 0.4 },
+    const chakraInfluenceMap: Record<
+      Chakra,
+      { spirit: number; essence: number; matter: number; substance: number }
+    > = {
+      Root: { spirit: 0.2, essence: 0.3, matter: 0.8, substance: 0.7 },
+      Sacral: { spirit: 0.3, essence: 0.7, matter: 0.6, substance: 0.4 },
+      'Solar Plexus': {
+        spirit: 0.4,
+        essence: 0.8,
+        matter: 0.4,
+        substance: 0.3,
+      },
+      Heart: { spirit: 0.6, essence: 0.7, matter: 0.4, substance: 0.2 },
+      Throat: { spirit: 0.7, essence: 0.5, matter: 0.3, substance: 0.4 },
       'Third Eye': { spirit: 0.9, essence: 0.4, matter: 0.2, substance: 0.3 },
-      'Crown': { spirit: 1.0, essence: 0.3, matter: 0.1, substance: 0.2 }
+      Crown: { spirit: 1.0, essence: 0.3, matter: 0.1, substance: 0.2 },
     };
-    
+
     // Calculate average energy values across all signs
-    const avgSpirit = energyStates.reduce((sum, state) => 
-      sum + (state.planetaryModifiers.Sun || 0) * chakraInfluenceMap['Crown'].spirit, 0) / energyStates.length;
-    
-    const avgEssence = energyStates.reduce((sum, state) => 
-      sum + (state.planetaryModifiers.Moon || 0) * chakraInfluenceMap['Heart'].essence, 0) / energyStates.length;
-    
-    const avgMatter = energyStates.reduce((sum, state) => 
-      sum + (state.planetaryModifiers.Saturn || 0) * chakraInfluenceMap['Root'].matter, 0) / energyStates.length;
-    
-    const avgSubstance = energyStates.reduce((sum, state) => 
-      sum + (state.planetaryModifiers.Mercury || 0) * chakraInfluenceMap['Throat'].substance, 0) / energyStates.length;
-    
+    let avgSpirit =
+      energyStates.reduce(
+        (sum, state) =>
+          sum +
+          (state.planetaryModifiers.Sun || 0) *
+            chakraInfluenceMap['Crown'].spirit,
+        0
+      ) / energyStates.length;
+
+    let avgEssence =
+      energyStates.reduce(
+        (sum, state) =>
+          sum +
+          (state.planetaryModifiers.Moon || 0) *
+            chakraInfluenceMap['Heart'].essence,
+        0
+      ) / energyStates.length;
+
+    let avgMatter =
+      energyStates.reduce(
+        (sum, state) =>
+          sum +
+          (state.planetaryModifiers.Saturn || 0) *
+            chakraInfluenceMap['Root'].matter,
+        0
+      ) / energyStates.length;
+
+    let avgSubstance =
+      energyStates.reduce(
+        (sum, state) =>
+          sum +
+          (state.planetaryModifiers.Mercury || 0) *
+            chakraInfluenceMap['Throat'].substance,
+        0
+      ) / energyStates.length;
+
     // Generate food recommendations based on energy state influence through chakras
-    const chakraAccessPoints = chakras.map(chakra => {
+    let chakraAccessPoints = chakras.map((chakra) => {
       const influence = chakraInfluenceMap[chakra];
       // Calculate influence values
-      const spiritInfluence = avgSpirit * influence.spirit;
-      const essenceInfluence = avgEssence * influence.essence;
-      const matterInfluence = avgMatter * influence.matter;
-      const substanceInfluence = avgSubstance * influence.substance;
-      
+      let spiritInfluence = avgSpirit * influence.spirit;
+      let essenceInfluence = avgEssence * influence.essence;
+      let matterInfluence = avgMatter * influence.matter;
+      let substanceInfluence = avgSubstance * influence.substance;
+
       // Example food recommendations based on the energy balance
-      const primaryFoods = getChakraFoodRecommendations(chakra, {
+      let primaryFoods = getChakraFoodRecommendations(chakra, {
         spirit: spiritInfluence,
         essence: essenceInfluence,
         matter: matterInfluence,
-        substance: substanceInfluence
+        substance: substanceInfluence,
       });
-      
+
       return {
         chakra,
         spiritInfluence,
         essenceInfluence,
         matterInfluence,
         substanceInfluence,
-        primaryFoods
+        primaryFoods,
       };
     });
-    
+
     return chakraAccessPoints;
   };
-  
+
   // Get food recommendations for a chakra based on energy influences
-  const getChakraFoodRecommendations = (
-    chakra: Chakra, 
-    energyInfluence: { spirit: number, essence: number, matter: number, substance: number }
+  let getChakraFoodRecommendations = (
+    chakra: Chakra,
+    energyInfluence: {
+      spirit: number;
+      essence: number;
+      matter: number;
+      substance: number;
+    }
   ): string[] => {
     // Basic chakra-food mappings
     const chakraFoodMap: Record<Chakra, string[]> = {
-      'Root': ['Sweet Potatoes', 'Carrots', 'Beets', 'Red Meat', 'Nuts'],
-      'Sacral': ['Oranges', 'Mangoes', 'Pumpkin', 'Salmon', 'Seeds'],
+      Root: ['Sweet Potatoes', 'Carrots', 'Beets', 'Red Meat', 'Nuts'],
+      Sacral: ['Oranges', 'Mangoes', 'Pumpkin', 'Salmon', 'Seeds'],
       'Solar Plexus': ['Corn', 'Bananas', 'Ginger', 'Yellow Peppers', 'Grains'],
-      'Heart': ['Leafy Greens', 'Broccoli', 'Avocados', 'Green Tea', 'Olive Oil'],
-      'Throat': ['Blueberries', 'Fruit Juices', 'Herbal Teas', 'Sea Vegetables'],
+      Heart: ['Leafy Greens', 'Broccoli', 'Avocados', 'Green Tea', 'Olive Oil'],
+      Throat: ['Blueberries', 'Fruit Juices', 'Herbal Teas', 'Sea Vegetables'],
       'Third Eye': ['Purple Grapes', 'Eggplant', 'Walnuts', 'Dark Chocolate'],
-      'Crown': ['Mushrooms', 'Garlic', 'Ginger', 'Pure Water']
+      Crown: ['Mushrooms', 'Garlic', 'Ginger', 'Pure Water'],
     };
-    
+
     // Determine which energy aspect needs the most balance
-    const energyAspects = [
+    let energyAspects = [
       { type: 'spirit', value: energyInfluence.spirit },
       { type: 'essence', value: energyInfluence.essence },
       { type: 'matter', value: energyInfluence.matter },
-      { type: 'substance', value: energyInfluence.substance }
+      { type: 'substance', value: energyInfluence.substance },
     ];
-    
+
     // Sort by lowest value (what needs most support)
     energyAspects.sort((a, b) => a.value - b.value);
-    
+
     // Basic foods for the chakra
     let recommendedFoods = [...chakraFoodMap[chakra]];
-    
+
     // Add specific foods based on which energy aspect needs most support
     if (energyAspects[0].type === 'spirit') {
       recommendedFoods.push('Light, Aromatic Herbs', 'Subtle Flavors');
@@ -159,12 +217,12 @@ export default function RecipeBuilder() {
     } else {
       recommendedFoods.push('Textured Foods', 'Varied Ingredients');
     }
-    
+
     return recommendedFoods;
   };
-  
+
   // Get description for the recipe's modality
-  const getModalityDescription = (modality: Modality): string => {
+  let getModalityDescription = (modality: Modality): string => {
     switch (modality) {
       case 'Cardinal':
         return 'This recipe has strong, bold flavors and will be energizing and stimulating.';
@@ -176,18 +234,21 @@ export default function RecipeBuilder() {
         return '';
     }
   };
-  
-  const enhanceRecipe = (baseRecipe: Recipe): void => {
+
+  let enhanceRecipe = (baseRecipe: Recipe): void => {
     if (chakraAccess && chakraAccess.length > 0) {
       // Find the chakras that can best help balance the energy
       const chakrasToFocus = chakraAccess
-        .sort((a, b) => 
-          (a.spiritInfluence + a.essenceInfluence) - (b.spiritInfluence + b.essenceInfluence)
+        .sort(
+          (a, b) =>
+            a.spiritInfluence +
+            a.essenceInfluence -
+            (b.spiritInfluence + b.essenceInfluence)
         )
         .slice(0, 3); // Focus on top 3 chakras for energy balance
-      
+
       // Create a copy of the recipe with the required fields ensured
-      const enhancedRecipe = {
+      let enhancedRecipe = {
         ...baseRecipe,
         // Ensure required fields exist
         id: baseRecipe.id || `recipe-${Date.now()}`,
@@ -199,17 +260,19 @@ export default function RecipeBuilder() {
         instructions: baseRecipe.instructions || [],
         // Add chakra balance data using the Recipe's allowance for additional properties
         chakraBalance: {
-          focusChakras: chakrasToFocus.map(c => c.chakra),
-          suggestedAdditions: chakrasToFocus.flatMap(c => c.primaryFoods).slice(0, 5),
-          energyAccessPoints: chakrasToFocus
+          focusChakras: chakrasToFocus.map((c) => c.chakra),
+          suggestedAdditions: chakrasToFocus
+            .flatMap((c) => c.primaryFoods)
+            .slice(0, 5),
+          energyAccessPoints: chakrasToFocus,
         },
         // Add special note on astrologicalInfluences for integration with existing systems
         astrologicalInfluences: [
           ...(baseRecipe.astrologicalInfluences || []),
-          ...chakrasToFocus.map(c => `Chakra: ${c.chakra}`)
-        ]
+          ...chakrasToFocus.map((c) => `Chakra: ${c.chakra}`),
+        ],
       } as Recipe; // Use type assertion to handle the extended property
-      
+
       // Use the enhanced recipe
       setRecipe(enhancedRecipe);
     } else {
@@ -217,29 +280,31 @@ export default function RecipeBuilder() {
       setRecipe(baseRecipe);
     }
   };
-  
+
   return (
     <div className="recipe-builder">
       <h2>Recipe Builder</h2>
-      
+
       {/* Ingredient selector */}
-      <div className="ingredient-selector">
-        {/* Ingredient selection UI */}
-      </div>
-      
+      <div className="ingredient-selector">{/* Ingredient selection UI */}</div>
+
       {/* Selected ingredients list */}
       <div className="selected-ingredients">
         <h3>Selected Ingredients</h3>
-        {selectedIngredients.map(ingredient => (
+        {selectedIngredients.map((ingredient) => (
           <div key={ingredient.id} className="selected-ingredient">
             <span>{ingredient.name}</span>
-            <span className={`modality-badge ${ingredient.modality?.toLowerCase() || 'mutable'}`}>
+            <span
+              className={`modality-badge ${
+                ingredient.modality?.toLowerCase() || 'mutable'
+              }`}
+            >
               {ingredient.modality || 'Mutable'}
             </span>
           </div>
         ))}
       </div>
-      
+
       {/* Recipe modality */}
       <div className="recipe-modality">
         <h3>Recipe Quality</h3>
@@ -266,13 +331,15 @@ export default function RecipeBuilder() {
           <div className="suggested-additions">
             <h4>Suggested additions for energy balance:</h4>
             <ul>
-              {recipe.chakraBalance.suggestedAdditions.map((food: string, index: number) => (
-                <li key={index}>{food}</li>
-              ))}
+              {recipe.chakraBalance.suggestedAdditions.map(
+                (food: string, index: number) => (
+                  <li key={index}>{food}</li>
+                )
+              )}
             </ul>
           </div>
         </div>
       )}
     </div>
   );
-} 
+}

@@ -1,9 +1,9 @@
-// src/components/recipe/RecipeCard.tsx
+// src / (components || 1)/recipe / (RecipeCard || 1).tsx
 
 'use client';
 
 import React from 'react';
-import { getTimeFactors } from '@/types/time';
+import @/types  from 'time ';
 import styles from './RecipeCard.module.css';
 
 // Add missing type definitions
@@ -75,14 +75,14 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
     matchPercentage 
 }) => {
     const [isExpanded, setIsExpanded] = React.useState(false);
-    const timeFactors = React.useMemo(() => getTimeFactors(), []);
+    let timeFactors = React.useMemo(() => getTimeFactors(), []);
 
-    // Check if current planetary day/hour is favorable/unfavorable
-    const planetaryDayInfluence = React.useMemo(() => {
+    // Check if current planetary day / (hour || 1) is favorable / (unfavorable || 1)
+    let planetaryDayInfluence = React.useMemo(() => {
         if (!recipe.planetaryInfluences || !recipe.planetaryInfluences.favorable || !recipe.planetaryInfluences.unfavorable) return null;
 
-        const isFavorable = recipe.planetaryInfluences.favorable.includes(timeFactors.planetaryDay.planet);
-        const isUnfavorable = recipe.planetaryInfluences.unfavorable.includes(timeFactors.planetaryDay.planet);
+        let isFavorable = recipe.planetaryInfluences.favorable.includes(timeFactors.planetaryDay.planet);
+        let isUnfavorable = recipe.planetaryInfluences.unfavorable.includes(timeFactors.planetaryDay.planet);
         
         return { 
             planet: timeFactors.planetaryDay.planet,
@@ -93,11 +93,11 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
     }, [recipe.planetaryInfluences, timeFactors.planetaryDay]);
 
     // Check planetary hour influence
-    const planetaryHourInfluence = React.useMemo(() => {
+    let planetaryHourInfluence = React.useMemo(() => {
         if (!recipe.planetaryInfluences || !recipe.planetaryInfluences.favorable || !recipe.planetaryInfluences.unfavorable) return null;
 
-        const isFavorable = recipe.planetaryInfluences.favorable.includes(timeFactors.planetaryHour.planet);
-        const isUnfavorable = recipe.planetaryInfluences.unfavorable.includes(timeFactors.planetaryHour.planet);
+        let isFavorable = recipe.planetaryInfluences.favorable.includes(timeFactors.planetaryHour.planet);
+        let isUnfavorable = recipe.planetaryInfluences.unfavorable.includes(timeFactors.planetaryHour.planet);
         
         return { 
             planet: timeFactors.planetaryHour.planet,

@@ -1,6 +1,6 @@
 import React from 'react';
-import type { Recipe } from '@/types/recipe';
-import Image from 'next/image';
+import @/types  from 'recipe ';
+import next  from 'image ';
 
 interface RecipeCardProps {
   recipe: Recipe;

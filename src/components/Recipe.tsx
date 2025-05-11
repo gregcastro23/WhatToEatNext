@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import type { Recipe } from '@/types/recipe';
+import @/types  from 'recipe ';
 
 interface RecipeProps {
   recipe: Recipe;
@@ -12,7 +12,7 @@ const RecipeComponent: FC<RecipeProps> = ({
   servingsMultiplier = 1,
   onIngredientClick 
 }) => {
-  const calculateAmount = (amount: number): string => {
+  let calculateAmount = (amount: number): string => {
     return (amount * servingsMultiplier).toFixed(2);
   };
 

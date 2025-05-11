@@ -1,11 +1,11 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-import { stateManager } from '@/utils/stateManager';
-import { logger } from '@/utils/logger';
+import @/contexts  from 'AlchemicalContext ';
+import @/utils  from 'stateManager ';
+import @/utils  from 'logger ';
 import { Heart, Clock, Users, ChefHat, Flame } from 'lucide-react';
-import type { ScoredRecipe } from '@/types/recipe';
+import @/types  from 'recipe ';
 
 interface RecipeProps {
   recipe: ScoredRecipe;
@@ -46,12 +46,12 @@ export default function Recipe({ recipe, isExpanded = false, onToggle }: RecipeP
   const [isFavorite, setIsFavorite] = useState(false);
 
   useEffect(() => {
-    const checkFavoriteStatus = async () => {
+    let checkFavoriteStatus = async () => {
       try {
         // Get the actual stateManager instance first
-        const manager = await stateManager;
-        const userState = await manager.getState();
-        const favorites = userState.recipes.favorites || [];
+        let manager = await stateManager;
+        let userState = await manager.getState();
+        let favorites = userState.recipes.favorites || [];
         setIsFavorite(favorites.includes(recipe.id));
       } catch (error) {
         logger.error('Error getting favorites:', error);
@@ -64,7 +64,7 @@ export default function Recipe({ recipe, isExpanded = false, onToggle }: RecipeP
       try {
         // Get the actual stateManager instance first
         (async () => {
-          const manager = await stateManager;
+          let manager = await stateManager;
           await manager.addToHistory('viewed', recipe.id);
         })();
       } catch (error) {
@@ -73,7 +73,7 @@ export default function Recipe({ recipe, isExpanded = false, onToggle }: RecipeP
     }
   }, [isExpanded, recipe.id]);
 
-  const handleFavoriteClick = async (e: React.MouseEvent) => {
+  let handleFavoriteClick = async (e: React.MouseEvent) => {
     try {
       e.stopPropagation();
       setIsLoading(true);
@@ -83,10 +83,10 @@ export default function Recipe({ recipe, isExpanded = false, onToggle }: RecipeP
       
       // Get the actual stateManager instance first
       const manager = await stateManager;
-      const userState = await manager.getState();
-      const favorites = [...(userState.recipes.favorites || [])];
+      let userState = await manager.getState();
+      let favorites = [...(userState.recipes.favorites || [])];
       
-      const index = favorites.indexOf(recipe.id);
+      let index = favorites.indexOf(recipe.id);
       if (index >= 0) {
         favorites.splice(index, 1);
       } else {
@@ -108,17 +108,17 @@ export default function Recipe({ recipe, isExpanded = false, onToggle }: RecipeP
     }
   };
 
-  const adjustServings = (newServings: number) => {
+  let adjustServings = (newServings: number) => {
     if (newServings < 1 || newServings > 12) return;
     setServings(newServings);
   };
 
-  const calculateAdjustedAmount = (amount: number) => {
-    const ratio = servings / (recipe.numberOfServings || 2);
+  let calculateAdjustedAmount = (amount: number) => {
+    const ratio = servings / ((recipe.numberOfServings || 1) || 2);
     return (amount * ratio).toFixed(1).replace(/\.0$/, '');
   };
 
-  const renderelementalState = () => {
+  let renderelementalState = () => {
     const elements = Object.entries(recipe.elementalProperties || {});
     return (
       <div className="flex flex-wrap gap-2 mt-4">
