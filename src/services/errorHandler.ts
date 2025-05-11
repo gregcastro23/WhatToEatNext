@@ -1,103 +1,333 @@
-import { logger } from '../utils/logger'
+/**
+ * Error Handler Service
+ * Centralized error handling and logging
+ */
+
+// Simple logger functionality
+const logError = (message: string, data?: any) => {
+  console.error(`[ERROR] ${message}`, data);
+};
+
+const logWarning = (message: string, data?: any) => {
+  console.warn(`[WARNING] ${message}`, data);
+};
+
+const logInfo = (message: string, data?: any) => {
+  console.info(`[INFO] ${message}`, data);
+};
+
+// Error types
+export enum ErrorType {
+  UI = 'UI',
+  API = 'API',
+  DATA = 'DATA',
+  NETWORK = 'NETWORK',
+  ASTROLOGY = 'ASTROLOGY',
+  UNKNOWN = 'UNKNOWN'
+}
+
+// Error severity levels
+export enum ErrorSeverity {
+  INFO = 'INFO',
+  WARNING = 'WARNING',
+  ERROR = 'ERROR',
+  CRITICAL = 'CRITICAL',
+  FATAL = 'FATAL'
+}
+
+// Options for the error handler
+export interface ErrorOptions {
+  type?: ErrorType;
+  severity?: ErrorSeverity;
+  component?: string;
+  context?: string;
+  data?: any;
+  isFatal?: boolean;
+  silent?: boolean;
+}
 
 interface ErrorDetails {
-  code?: string
-  context?: Record<string, unknown>
-  timestamp: number
-  recovered?: boolean
+  message: string;
+  stack?: string;
+  componentStack?: string;
+  context?: string;
+  data?: unknown;
+  timestamp: string;
+  errorType: string;
 }
 
-class ErrorHandler {
-  private errorLog: Map<string, ErrorDetails[]> = new Map()
-  private readonly MAX_ERRORS_PER_TYPE = 10
-  private readonly ERROR_RETENTION_MS = 1000 * 60 * 5 // 5 minutes
+class ErrorHandlerService {
+  /**
+   * Log an error with additional context
+   */
+  log(error: any, options: ErrorOptions = {}) {
+    const {
+      type = ErrorType.UNKNOWN,
+      severity = ErrorSeverity.ERROR,
+      component = 'unknown',
+      context = {},
+      data = {},
+      isFatal = false,
+      silent = false
+    } = options;
 
-  handleError(error: unknown, context?: Record<string, unknown>): void {
-    const errorMessage = this.getErrorMessage(error)
-    const errorCode = this.getErrorCode(error)
-    
-    // Log the error
-    logger.error(`Error [${errorCode}]:`, errorMessage, context)
+    const errorDetails = this.prepareErrorDetails(error, options);
 
-    // Store error details
-    this.storeError(errorCode, {
-      code: errorCode,
-      context,
-      timestamp: Date.now()
-    })
-
-    // Clean up old errors
-    this.cleanupOldErrors()
-  }
-
-  private getErrorMessage(error: unknown): string {
-    if (error instanceof Error) {
-      return error.message
-    }
-    return String(error)
-  }
-
-  private getErrorCode(error: unknown): string {
-    if (error instanceof Error) {
-      return error.name || 'UnknownError'
-    }
-    return 'UnknownError'
-  }
-
-  private storeError(type: string, details: ErrorDetails): void {
-    const errors = this.errorLog.get(type) || []
-    errors.unshift(details)
-    
-    // Keep only recent errors
-    if (errors.length > this.MAX_ERRORS_PER_TYPE) {
-      errors.pop()
-    }
-    
-    this.errorLog.set(type, errors)
-  }
-
-  private cleanupOldErrors(): void {
-    const now = Date.now()
-    this.errorLog.forEach((errors, type) => {
-      const recentErrors = errors.filter(
-        error => now - error.timestamp < this.ERROR_RETENTION_MS
-      )
-      if (recentErrors.length === 0) {
-        this.errorLog.delete(type)
-      } else {
-        this.errorLog.set(type, recentErrors)
-      }
-    })
-  }
-
-  getRecentErrors(): Map<string, ErrorDetails[]> {
-    this.cleanupOldErrors()
-    return new Map(this.errorLog)
-  }
-
-  markErrorAsRecovered(type: string, timestamp: number): void {
-    const errors = this.errorLog.get(type)
-    if (errors) {
-      const error = errors.find(e => e.timestamp === timestamp)
-      if (error) {
-        error.recovered = true
+    // Log to console based on severity
+    if (!silent) {
+      switch (severity) {
+        case ErrorSeverity.INFO:
+          logInfo(`[${component}] ${errorDetails.message}`, { error, context, data });
+          break;
+        case ErrorSeverity.WARNING:
+          logWarning(`[${component}] ${errorDetails.message}`, { error, context, data });
+          break;
+        case ErrorSeverity.ERROR:
+        case ErrorSeverity.CRITICAL:
+        case ErrorSeverity.FATAL:
+          logError(`[${severity}][${type}][${component}] ${errorDetails.message}`, { error, context, data });
+          break;
       }
     }
+
+    // Here you could add integrations with error monitoring services
+    // Example: Sentry.captureException(error, { extra: { type, severity, component, ...context } });
+
+    return {
+      error,
+      type,
+      severity,
+      timestamp: new Date().toISOString(),
+      handled: true
+    };
   }
 
-  hasRepeatingErrors(type: string): boolean {
-    const errors = this.errorLog.get(type)
-    if (!errors) return false
+  /**
+   * Create a custom application error
+   */
+  createError(message: string, options: ErrorOptions = {}): Error {
+    const error = new Error(message);
+    // Add custom properties to the error
+    Object.assign(error, {
+      type: options.type || ErrorType.UNKNOWN,
+      severity: options.severity || ErrorSeverity.ERROR,
+      context: options.context || {}
+    });
+    return error;
+  }
 
-    const recentErrors = errors.filter(
-      error => Date.now() - error.timestamp < 60000 // Last minute
+  /**
+   * Safely execute an async function and return a default value if it fails
+   */
+  async safeAsync<T>(fn: () => Promise<T>, defaultValue: T, context = 'unknown'): Promise<T> {
+    try {
+      return await fn();
+    } catch (error) {
+      this.log(error, { context });
+      return defaultValue;
+    }
+  }
+
+  /**
+   * Safely execute a function and return a default value if it fails
+   */
+  safeExecute<T>(fn: () => T, defaultValue: T, context = 'unknown'): T {
+    try {
+      return fn();
+    } catch (error) {
+      this.log(error, { context });
+      return defaultValue;
+    }
+  }
+
+  /**
+   * Prepare standardized error details object
+   */
+  private prepareErrorDetails(error: unknown, options: ErrorOptions): ErrorDetails {
+    let message = 'Unknown error';
+    let stack: string | undefined;
+    let errorType = 'unknown';
+    
+    if (error instanceof Error) {
+      message = error.message;
+      stack = error.stack;
+      errorType = error.name;
+    } else if (typeof error === 'string') {
+      message = error;
+      errorType = 'string';
+    } else if (error !== null && typeof error === 'object') {
+      message = String(error);
+      errorType = 'object';
+    }
+    
+    return {
+      message,
+      stack,
+      context: options.context,
+      data: options.data,
+      timestamp: new Date().toISOString(),
+      errorType,
+      componentStack: (error as any)?.componentStack,
+    };
+  }
+}
+
+// Create singleton instance
+const ErrorHandler = new ErrorHandlerService();
+
+// Export the singleton instance as default and for named imports
+export default ErrorHandler;
+export { ErrorHandler };
+
+/**
+ * Global function to safely check if a value exists and has the right type
+ * Use this to validate critical values before using them
+ */
+export function safeValue<T>(
+  value: T | null | undefined, 
+  fallback: T, 
+  context: string,
+  variableName: string
+): T {
+  if (value === null || value === undefined) {
+    ErrorHandler.warnNullValue(variableName, context)
+    return fallback
+  }
+  return value
+}
+
+/**
+ * Safely access a property from an object with proper error handling
+ * @param obj The object to access
+ * @param properties Array of nested property names to access
+ * @param defaultValue Default value if property doesn't exist
+ * @param context Context for error logging
+ */
+export function safePropertyAccess<T>(
+  obj: unknown,
+  properties: string[],
+  defaultValue: T,
+  context: string
+): T {
+  if (obj === null || obj === undefined) {
+    ErrorHandler.warnNullValue(`${properties.join('.')}.${prop}`, context);
+    return defaultValue;
+  }
+
+  try {
+    let current: any = obj;
+    for (const prop of properties) {
+      if (current === null || current === undefined) {
+        ErrorHandler.warnNullValue(`${properties.join('.')}.${prop}`, context);
+        return defaultValue;
+      }
+      current = current[prop];
+    }
+    
+    if (current === undefined || current === null) {
+      return defaultValue;
+    }
+    
+    return current as T;
+  } catch (error) {
+    ErrorHandler.handlePropertyAccessError(error, properties.join('.'), context);
+    return defaultValue;
+  }
+}
+
+/**
+ * Safely execute a function with error handling
+ * @param fn Function to execute
+ * @param defaultValue Default value to return if function throws
+ * @param context Context for error logging
+ */
+export function safeExecuteWithContext<T>(
+  fn: () => T,
+  defaultValue: T,
+  context: string
+): T {
+  try {
+    return fn();
+  } catch (error) {
+    ErrorHandler.log(error, { context });
+    return defaultValue;
+  }
+}
+
+/**
+ * Log a warning about a potentially undefined or null value
+ */
+export function warnNullValue(variableName: string, context: string, value?: unknown): void {
+  logWarning(
+    `Potential null / (undefined || 1) value: ${variableName} in ${context}`, 
+    { value, timestamp: new Date().toISOString() }
+  )
+}
+
+/**
+ * Detect issues with runtime type mismatches
+ */
+export function validateType(value: unknown, expectedType: string, context: string, variableName: string): boolean {
+  const actualType = value === null ? 'null' : typeof value
+  
+  // Handle array type special case
+  if (expectedType === 'array' && Array.isArray(value)) {
+    return true
+  }
+  
+  // Handle object type special case (but not null)
+  if (expectedType === 'object' && actualType === 'object' && value !== null) {
+    return true
+  }
+  
+  // Basic type checking
+  if (actualType !== expectedType && !(expectedType === 'object' && Array.isArray(value))) {
+    logWarning(
+      `Type mismatch in ${context}: ${variableName} should be ${expectedType}, but got ${actualType}`,
+      { value }
     )
-    return recentErrors.length >= 3
+    return false
   }
-
-  clearErrors(): void {
-    this.errorLog.clear()
-  }
+  
+  return true
 }
 
-export const errorHandler = new ErrorHandler() 
+/**
+ * Handle property access errors with detailed reporting
+ * Use this when accessing potentially undefined nested properties
+ */
+export function handlePropertyAccessError(error: unknown, propertyPath: string, context: string): void {
+  let message = "Property access error";
+  if (error instanceof TypeError && (
+    error.message.includes("Cannot read properties of undefined") ||
+    error.message.includes("Cannot read properties of null") ||
+    error.message.includes("is not a function") ||
+    error.message.includes("is not iterable")
+  )) {
+    message = `TypeError accessing ${propertyPath} in ${context}: ${error.message}`;
+  } else if (error instanceof Error) {
+    message = `Error accessing ${propertyPath} in ${context}: ${error.message}`;
+  }
+  
+  ErrorHandler.log(error, {
+    context,
+    data: { propertyPath }
+  });
+}
+
+/**
+ * Track code execution paths for debugging
+ */
+export function trackExecution(functionName: string, step: string, data?: unknown): void {
+  logInfo(`[EXECUTION] ${functionName} - ${step}`, data);
+}
+
+/**
+ * Log TypeScript specific errors (undefined access, type mismatches)
+ */
+export function logTypeError(error: unknown, context: string, operation: string): void {
+  ErrorHandler.log(error, {
+    context: `TypeScript:${context}`,
+    data: { operation }
+  });
+} 
