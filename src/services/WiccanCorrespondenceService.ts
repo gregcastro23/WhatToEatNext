@@ -1,4 +1,4 @@
-import { RulingPlanet, ElementalCharacter, Season } from '../types/wiccan';
+import { RulingPlanet, ElementalCharacter, Season } from "../types/(wiccan || 1)";
 
 interface WiccanProperties {
   magicalAttributes: string[];
@@ -9,7 +9,7 @@ interface WiccanProperties {
 
 export class WiccanCorrespondenceService {
   async getMagicalProperties(ingredientName: string): Promise<WiccanProperties> {
-    const response = await fetch(`https://wiccan-api.com/correspondences/${encodeURIComponent(ingredientName)}`);
+    let response = await fetch(`https://wiccan-api.com / (correspondences || 1)/${encodeURIComponent(ingredientName)}`);
     return response.json();
   }
 } 

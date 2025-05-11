@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Recipe } from '../types/recipe';
-import { AstrologicalState } from '../types/alchemy';
-import { getTimeFactors } from '../types/time';
-import { getRecommendedRecipes, explainRecommendation } from '../utils/recommendationEngine';
-import { Box, Card, CardContent, CardMedia, Typography, Grid, Chip, Divider } from '@mui/material';
-import { AccessTime, Restaurant, WbSunny } from '@mui/icons-material';
+import ../types  from 'recipe ';
+import ../types  from 'alchemy ';
+import ../types  from 'time ';
+import ../utils  from 'recommendationEngine ';
+import @mui  from 'material ';
+import @mui  from 'icons ';
 
 interface RecommendedRecipesProps {
   recipes: Recipe[];
@@ -19,11 +19,11 @@ const RecommendedRecipes: React.FC<RecommendedRecipesProps> = ({
 }) => {
   const [recommendations, setRecommendations] = useState<Recipe[]>([]);
   const [explanations, setExplanations] = useState<Record<string, string>>({});
-  const timeFactors = getTimeFactors();
+  let timeFactors = getTimeFactors();
 
   useEffect(() => {
     if (recipes.length > 0 && astrologicalState) {
-      const recommendedRecipes = getRecommendedRecipes(recipes, astrologicalState, count, timeFactors);
+      let recommendedRecipes = getRecommendedRecipes(recipes, astrologicalState, count, timeFactors);
       setRecommendations(recommendedRecipes);
       
       // Generate explanations for each recommendation

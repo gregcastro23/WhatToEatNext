@@ -18,7 +18,7 @@ if (process.env.CI) {
 }
 
 // Mock fetch for all tests
-global.fetch = jest.fn(() => 
+global.fetch = jest.fn(() =>
   Promise.resolve({
     json: () => Promise.resolve({}),
     text: () => Promise.resolve(''),
@@ -36,13 +36,13 @@ jest.mock('@/services/ElementalCalculator', () => ({
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
-      Air: 0.25
+      Air: 0.25,
     }),
     initialize: jest.fn((initialState) => {
-      console.log('Mock initialize called', initialState);
+      // console.log('Mock initialize called', initialState);
     }),
     updateElementalState: jest.fn((newState) => {
-      console.log('Mock updateElementalState called', newState);
+      // console.log('Mock updateElementalState called', newState);
     }),
     getInstance: jest.fn().mockReturnValue({
       initialized: true,
@@ -50,10 +50,10 @@ jest.mock('@/services/ElementalCalculator', () => ({
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
-        Air: 0.25
-      }
-    })
-  }
+        Air: 0.25,
+      },
+    }),
+  },
 }));
 
 // Add platform-specific mocks
@@ -73,6 +73,6 @@ test('setup is working correctly', () => {
     Fire: 0.25,
     Water: 0.25,
     Earth: 0.25,
-    Air: 0.25
+    Air: 0.25,
   });
-}); 
+});

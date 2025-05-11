@@ -1,4 +1,4 @@
-import type { CookingMethodModifier, Element } from '@/types/alchemy';
+import @/types  from 'alchemy ';
 
 export const cookingMethodModifiers: CookingMethodModifier[] = [
   {

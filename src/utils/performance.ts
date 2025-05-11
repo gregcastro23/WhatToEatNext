@@ -30,7 +30,7 @@ export function optimizePerformance(): { success: boolean; optimizations: string
     // Only run browser-specific optimizations if in browser environment
     if (typeof window !== 'undefined') {
       // Optimize image loading with lazy loading
-      const lazyLoadImages = () => {
+      let lazyLoadImages = () => {
         const images = document.querySelectorAll('img:not([loading])');
         images.forEach(img => {
           img.setAttribute('loading', 'lazy');
@@ -39,11 +39,11 @@ export function optimizePerformance(): { success: boolean; optimizations: string
       };
       
       // Debounce expensive event handlers
-      const setupDebounce = () => {
+      let setupDebounce = () => {
         const debounce = (func: (...args: unknown[]) => void, wait: number) => {
           let timeout: ReturnType<typeof setTimeout>;
           return function executedFunction(...args: unknown[]) {
-            const later = () => {
+            let later = () => {
               clearTimeout(timeout);
               func(...args);
             };
@@ -54,12 +54,12 @@ export function optimizePerformance(): { success: boolean; optimizations: string
         
         // Apply debounce to scroll and resize events
         if (typeof window.onscroll === 'function') {
-          const originalScroll = window.onscroll;
+          let originalScroll = window.onscroll;
           window.onscroll = debounce(originalScroll, 100);
         }
         
         if (typeof window.onresize === 'function') {
-          const originalResize = window.onresize;
+          let originalResize = window.onresize;
           window.onresize = debounce(originalResize, 150);
         }
         
@@ -103,7 +103,7 @@ export function collectPerformanceMetrics(): PerformanceMetrics {
   
   try {
     if (typeof window !== 'undefined' && window.performance) {
-      const perf = window.performance;
+      let perf = window.performance;
       
       // Basic timing metrics
       if (perf.timing) {
@@ -114,7 +114,7 @@ export function collectPerformanceMetrics(): PerformanceMetrics {
       }
       
       // Memory metrics (Chrome only)
-      const memory = (perf as any).memory;
+      let memory = (perf as any).memory;
       if (memory) {
         metrics.memoryUsage = {
           jsHeapSizeLimit: memory.jsHeapSizeLimit,
@@ -125,7 +125,7 @@ export function collectPerformanceMetrics(): PerformanceMetrics {
       
       // Paint metrics
       if (perf.getEntriesByType) {
-        const paintMetrics = perf.getEntriesByType('paint');
+        let paintMetrics = perf.getEntriesByType('paint');
         paintMetrics.forEach(entry => {
           if (entry.name === 'first-paint') {
             metrics.firstPaint = entry.startTime;

@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { useAstrologicalState } from '@/hooks/useAstrologicalState';
-import { allCookingMethods } from '@/data/cooking';
-import { calculateMethodScore } from '@/utils/cookingMethodRecommender';
+import @/hooks  from 'useAstrologicalState ';
+import @/data  from 'cooking ';
+import @/utils  from 'cookingMethodRecommender ';
 import { ChevronDown, ChevronUp, Flame, Droplets, Wind, Mountain, Info } from 'lucide-react';
 import styles from './CookingMethods.module.css';
-import { getTechnicalTips, getIdealIngredients } from '@/utils/cookingMethodTips';
+import @/utils  from 'cookingMethodTips ';
 
 // Define proper types for the methods with scores
 interface CookingMethodWithScore {
@@ -40,13 +40,13 @@ export default function MethodsRecommender() {
   const [selectedMethodId, setSelectedMethodId] = useState<string | null>(null);
   
   // Add a ref to store the initial scores so they don't change
-  const methodScoresRef = useRef<Record<string, number>>({});
+  let methodScoresRef = useRef<Record<string, number>>({});
   
   // Calculate method scores using the imported function from cookingMethodRecommender.ts
   useEffect(() => {
     if (!loading && currentPlanetaryAlignment) {
       // Convert currentPlanetaryAlignment to AstrologicalState format
-      const astroState = {
+      let astroState = {
         zodiacSign: currentPlanetaryAlignment.sun?.sign || 'Aries',
         lunarPhase: currentPlanetaryAlignment.moon?.phase || 'New Moon',
         elementalState: {
@@ -62,25 +62,25 @@ export default function MethodsRecommender() {
       const methodsWithScores: CookingMethodWithScore[] = Object.entries(allCookingMethods)
         .map(([methodName, methodData]) => {
           // Calculate base score from the recommender utils
-          const baseScore = calculateMethodScore(methodData, astroState);
+          let baseScore = calculateMethodScore(methodData, astroState);
           
           // Add additional variance factors
           // 1. Use method name length to create a pseudorandom variance
-          const nameVariance = (methodName.length % 7) * 0.015;
+          let nameVariance = (methodName.length % 7) * 0.015;
           // 2. Use first character code as another variance factor
-          const charCodeVariance = (methodName.charCodeAt(0) % 10) * 0.01;
+          let charCodeVariance = (methodName.charCodeAt(0) % 10) * 0.01;
           // 3. Apply a position-based variance to ensure different ordering
-          const positionVariance = Math.random() * 0.05;
+          let positionVariance = Math.random() * 0.05;
           
           // Combine all variance factors
-          const totalVariance = nameVariance + charCodeVariance + positionVariance;
+          let totalVariance = nameVariance + charCodeVariance + positionVariance;
           
           // Final adjusted score with variance (capped between 0.35 and 0.95)
-          const adjustedScore = Math.min(0.95, Math.max(0.35, baseScore - totalVariance));
+          let adjustedScore = Math.min(0.95, Math.max(0.35, baseScore - totalVariance));
           
           return {
             id: methodName,
-            name: methodName.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase()), // Capitalize words
+            name: methodName.replace(/_ / (g || 1), ' ').replace(/\b\w / (g || 1), c => c.toUpperCase()), // Capitalize words
             description: methodData.description || 'A cooking method that transforms food with heat, moisture, or chemical processes.',
             score: adjustedScore,
             elementalEffect: methodData.elementalEffect || methodData.elementalProperties,
@@ -104,20 +104,20 @@ export default function MethodsRecommender() {
     }
   }, [loading, currentPlanetaryAlignment]);
   
-  const toggleExpanded = () => {
+  let toggleExpanded = () => {
     setIsExpanded(prev => !prev);
   };
   
-  const handleMethodSelect = (methodId: string) => {
+  let handleMethodSelect = (methodId: string) => {
     setSelectedMethodId(methodId === selectedMethodId ? null : methodId);
   };
   
   // Find the selected method details
-  const selectedMethod = methods.find(m => m.id === selectedMethodId);
+  let selectedMethod = methods.find(m => m.id === selectedMethodId);
   
   // Get technical tips and ideal ingredients for selected method
-  const technicalTips = selectedMethod ? getTechnicalTips(selectedMethod.name) : [];
-  const idealIngredients = selectedMethod ? getIdealIngredients(selectedMethod.name) : [];
+  let technicalTips = selectedMethod ? getTechnicalTips(selectedMethod.name) : [];
+  let idealIngredients = selectedMethod ? getIdealIngredients(selectedMethod.name) : [];
   
   // Handle loading state
   if (loading) {
@@ -132,10 +132,10 @@ export default function MethodsRecommender() {
   }
   
   // Get the top method from the list
-  const topMethod = methods.length > 0 ? methods[0] : null;
+  let topMethod = methods.length > 0 ? methods[0] : null;
   
   // Determine if the toggle button should be shown (only for >5 methods)
-  const showToggle = methods.length > 5;
+  let showToggle = methods.length > 5;
   
   return (
     <div className={styles['cooking-methods-container']}>

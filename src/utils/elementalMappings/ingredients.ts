@@ -4,7 +4,7 @@ import {
   Element,
   Season,
   IngredientMapping
-} from '@/types/alchemy';
+} from '@/types / (alchemy || 1)';
 
 // Helper function to standardize ingredient mappings
 function createIngredientMapping(
@@ -381,11 +381,11 @@ export const ingredientMappings: Record<string, IngredientMapping> = {
 } as const;
 
 // Helper function to get ingredients by dominant element
-export const getIngredientsByElement = (element: keyof ElementalProperties) => {
+export let getIngredientsByElement = (element: keyof ElementalProperties) => {
   return Object.entries(ingredientMappings)
     .filter(([_, mapping]) => {
       const elements = Object.entries(mapping.elementalProperties);
-      const dominantElement = elements.reduce((max, curr) => 
+      let dominantElement = elements.reduce((max, curr) => 
         curr[1] > max[1] ? curr : max
       );
       return dominantElement[0] === element;
@@ -394,21 +394,21 @@ export const getIngredientsByElement = (element: keyof ElementalProperties) => {
 };
 
 // Helper function to get seasonal ingredients
-export const getSeasonalIngredients = (season: string) => {
+export let getSeasonalIngredients = (season: string) => {
   return Object.entries(ingredientMappings)
     .filter(([_, mapping]) => mapping.season.includes(season as Season))
     .map(([name]) => name);
 };
 
 // Helper function to get complementary ingredients
-export const getComplementaryIngredients = (ingredient: keyof typeof ingredientMappings) => {
+export let getComplementaryIngredients = (ingredient: keyof typeof ingredientMappings) => {
   const baseElement = Object.entries(ingredientMappings[ingredient].elementalProperties)
     .reduce((max, curr) => curr[1] > max[1] ? curr : max)[0];
   
   return Object.entries(ingredientMappings)
     .filter(([name, mapping]) => {
       if (name === ingredient) return false;
-      const complementaryElement = Object.entries(mapping.elementalProperties)
+      let complementaryElement = Object.entries(mapping.elementalProperties)
         .reduce((max, curr) => curr[1] > max[1] ? curr : max)[0];
       return isComplementaryElement(baseElement, complementaryElement);
     })
@@ -416,7 +416,7 @@ export const getComplementaryIngredients = (ingredient: keyof typeof ingredientM
 };
 
 // Helper function to determine if elements are complementary
-const isComplementaryElement = (element1: string, element2: string): boolean => {
+let isComplementaryElement = (element1: string, element2: string): boolean => {
   const complementaryPairs = [
     ['Fire', 'Air'],
     ['Water', 'Earth']

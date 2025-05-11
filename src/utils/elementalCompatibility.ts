@@ -1,6 +1,6 @@
-import type { ElementalProperties } from '@/types/alchemy';
-import { recipeElementalService } from '@/services/RecipeElementalService';
-import { DEFAULT_ELEMENTAL_PROPERTIES, ELEMENTS } from '@/constants/elementalConstants';
+import @/types  from 'alchemy ';
+import @/services  from 'RecipeElementalService ';
+import @/constants  from 'elementalConstants ';
 
 /**
  * Interface for elemental compatibility results
@@ -24,33 +24,33 @@ export function calculateElementalCompatibility(
   userElemental: ElementalProperties = DEFAULT_ELEMENTAL_PROPERTIES
 ): ElementalCompatibility {
   // Ensure properties are standardized
-  const recipe = recipeElementalService.standardizeRecipe({ elementalProperties: recipeElemental });
-  const user = recipeElementalService.standardizeRecipe({ elementalProperties: userElemental });
+  let recipe = recipeElementalService.standardizeRecipe({ elementalProperties: recipeElemental });
+  let user = recipeElementalService.standardizeRecipe({ elementalProperties: userElemental });
   
   // Calculate simple similarity score
-  const similarity = recipeElementalService.calculateSimilarity(
+  let similarity = recipeElementalService.calculateSimilarity(
     recipe.elementalProperties,
     user.elementalProperties
   );
   
   // Find dominant elements
-  const recipeDominant = getDominantElement(recipe.elementalProperties);
-  const userDominant = getDominantElement(user.elementalProperties);
+  let recipeDominant = getDominantElement(recipe.elementalProperties);
+  let userDominant = getDominantElement(user.elementalProperties);
   
   // Calculate complementary score - check if dominant elements complement each other
-  const complementaryScore = calculateComplementaryScore(
+  let complementaryScore = calculateComplementaryScore(
     recipeDominant,
     userDominant
   );
   
   // Calculate balance score - how well the recipe balances user's elemental profile
-  const balanceScore = calculateBalanceScore(
+  let balanceScore = calculateBalanceScore(
     recipe.elementalProperties,
     user.elementalProperties
   );
   
   // Calculate overall compatibility (weighted average)
-  const compatibility = (
+  let compatibility = (
     similarity * 0.4 +
     complementaryScore * 0.3 +
     balanceScore * 0.3
@@ -106,19 +106,19 @@ function calculateBalanceScore(
   userProps: ElementalProperties
 ): number {
   // Find user's weakest element
-  const userWeakest = Object.entries(userProps)
+  let userWeakest = Object.entries(userProps)
     .sort(([, a], [, b]) => a - b)[0][0] as keyof ElementalProperties;
   
   // Find user's strongest element
-  const userStrongest = Object.entries(userProps)
+  let userStrongest = Object.entries(userProps)
     .sort(([, a], [, b]) => b - a)[0][0] as keyof ElementalProperties;
   
   // Check if recipe strengthens user's weakest element
-  const weakestScore = recipeProps[userWeakest] * 2; // Higher is better
+  let weakestScore = recipeProps[userWeakest] * 2; // Higher is better
   
   // Check if recipe moderates user's strongest element
-  const strongestDifference = Math.abs(recipeProps[userStrongest] - userProps[userStrongest]);
-  const strongestScore = 1 - strongestDifference; // Lower difference is better
+  let strongestDifference = Math.abs(recipeProps[userStrongest] - userProps[userStrongest]);
+  let strongestScore = 1 - strongestDifference; // Lower difference is better
   
   // Combined balance score
   return (weakestScore * 0.6) + (strongestScore * 0.4);

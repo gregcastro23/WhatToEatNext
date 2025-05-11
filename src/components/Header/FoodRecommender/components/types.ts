@@ -1,4 +1,4 @@
-// src/components/FoodRecommender/types.ts
+// src / (components || 1)/FoodRecommender / (types || 1).ts
 export type FilterOptions = {
     dietary: {
       vegetarian: boolean;

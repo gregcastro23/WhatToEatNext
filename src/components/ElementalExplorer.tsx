@@ -1,15 +1,15 @@
 import { useState } from 'react';
-import type { Modality } from '@/data/ingredients/types';
-import { determineIngredientModality } from '@/utils/ingredientUtils';
+import @/data  from 'ingredients ';
+import @/utils  from 'ingredientUtils ';
 
 export default function ElementalExplorer() {
   const [qualities, setQualities] = useState<string[]>([]);
   
   // Calculate modality based on qualities
-  const modality = determineIngredientModality(qualities);
+  let modality = determineIngredientModality(qualities);
   
   // Handle quality toggle
-  const toggleQuality = (quality: string) => {
+  let toggleQuality = (quality: string) => {
     if (qualities.includes(quality)) {
       setQualities(qualities.filter(q => q !== quality));
     } else {

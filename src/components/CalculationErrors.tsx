@@ -1,8 +1,8 @@
 import React from 'react';
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import { useAlchemical } from '@/contexts/AlchemicalContext';
 import { ExclamationTriangleIcon } from '@heroicons/react/24/solid';
 
-const CalculationErrors = () => {
+let CalculationErrors = () => {
   const { state } = useAlchemical();
   
   // Show component only when there are errors or the main error flag is true

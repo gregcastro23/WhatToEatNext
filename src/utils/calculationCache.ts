@@ -1,6 +1,6 @@
 /**
  * Calculation Cache Utility
- * 
+ *
  * A utility for caching expensive calculations with precise TypeScript typing
  * and performance monitoring.
  */
@@ -15,11 +15,11 @@ interface CacheItem<T> {
 const calculationCache: Record<string, CacheItem<any>> = {};
 
 // Default TTL is 60 seconds - adjust based on how quickly data changes
-const DEFAULT_CACHE_TTL = 60 * 1000; 
+let DEFAULT_CACHE_TTL = 60 * 1000;
 
 /**
  * Get a cached calculation result or compute and cache it if not found
- * 
+ *
  * @param cacheKey - Unique identifier for this calculation
  * @param inputObj - Object representing the calculation inputs (for comparison)
  * @param calculationFn - Function that performs the actual calculation
@@ -33,33 +33,31 @@ export function getCachedCalculation<T>(
   ttl: number = DEFAULT_CACHE_TTL
 ): T | Promise<T> {
   // Create a hash of the input for comparison
-  const inputHash = JSON.stringify(inputObj);
-  const now = Date.now();
-  const cached = calculationCache[cacheKey];
-  
+  let inputHash = JSON.stringify(inputObj);
+  let now = Date.now();
+  let cached = calculationCache[cacheKey];
+
   // Check if we have a valid cached result
-  if (cached && 
-      cached.input === inputHash && 
-      (now - cached.timestamp) < ttl) {
-    console.log(`🔄 Cache hit for ${cacheKey} (age: ${Math.round((now - cached.timestamp)/1000)}s)`);
+  if (cached && cached.input === inputHash && now - cached.timestamp < ttl) {
+    // console.log(`🔄 Cache hit for ${cacheKey} (age: ${Math.round((now - cached.timestamp)/1000)}s)`);
     return cached.value;
   }
-  
+
   // Log cache miss
-  console.log(`⚡ Cache miss for ${cacheKey}, calculating...`);
-  
+  // console.log(`⚡ Cache miss for ${cacheKey}, calculating...`);
+
   try {
     // Perform the calculation
-    const resultOrPromise = calculationFn();
-    
+    let resultOrPromise = calculationFn();
+
     // Handle both synchronous and asynchronous calculations
     if (resultOrPromise instanceof Promise) {
       // For async functions, return a promise that caches when resolved
-      return resultOrPromise.then(asyncResult => {
+      return resultOrPromise.then((asyncResult) => {
         calculationCache[cacheKey] = {
           value: asyncResult,
           timestamp: Date.now(), // Use current time (not 'now') for actual caching
-          input: inputHash
+          input: inputHash,
         };
         return asyncResult;
       });
@@ -68,12 +66,12 @@ export function getCachedCalculation<T>(
       calculationCache[cacheKey] = {
         value: resultOrPromise,
         timestamp: now,
-        input: inputHash
+        input: inputHash,
       };
       return resultOrPromise;
     }
   } catch (error) {
-    console.error(`Error in cached calculation ${cacheKey}:`, error);
+    // console.error(`Error in cached calculation ${cacheKey}:`, error);
     throw error; // Re-throw to let caller handle errors
   }
 }
@@ -85,13 +83,13 @@ export function getCachedCalculation<T>(
 export function clearCalculationCache(cacheKey?: string): void {
   if (cacheKey) {
     delete calculationCache[cacheKey];
-    console.log(`Cache cleared for: ${cacheKey}`);
+    // console.log(`Cache cleared for: ${cacheKey}`);
   } else {
     // Clear all cache entries
-    Object.keys(calculationCache).forEach(key => {
+    Object.keys(calculationCache).forEach((key) => {
       delete calculationCache[key];
     });
-    console.log('All calculation cache entries cleared');
+    // console.log('All calculation cache entries cleared');
   }
 }
 
@@ -104,13 +102,13 @@ export function getCacheStats(): {
   oldestEntry: number;
   newestEntry: number;
 } {
-  const keys = Object.keys(calculationCache);
-  const timestamps = keys.map(key => calculationCache[key].timestamp);
-  
+  let keys = Object.keys(calculationCache);
+  let timestamps = keys.map((key) => calculationCache[key].timestamp);
+
   return {
     totalEntries: keys.length,
     keys,
     oldestEntry: timestamps.length ? Math.min(...timestamps) : 0,
-    newestEntry: timestamps.length ? Math.max(...timestamps) : 0
+    newestEntry: timestamps.length ? Math.max(...timestamps) : 0,
   };
-} 
+}

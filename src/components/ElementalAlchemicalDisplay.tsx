@@ -1,19 +1,19 @@
 'use client';
 
 import React from 'react';
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import @/contexts  from 'AlchemicalContext ';
 import { 
   calculateHeat, 
   calculateEntropy, 
   calculateReactivity, 
   calculateGregsEnergy 
-} from '@/calculations/gregsEnergy';
+} from "@/calculations/(gregsEnergy || 1)";
 
 export default function ElementalAlchemicalDisplay() {
   const { state } = useAlchemical();
   
   // Get values from the correct location (state.alchemicalValues) with fallbacks
-  const alchemicalValues = state?.alchemicalValues || { 
+  let alchemicalValues = state?.alchemicalValues || { 
     Spirit: 0.25, 
     Essence: 0.25, 
     Matter: 0.25, 
@@ -21,7 +21,7 @@ export default function ElementalAlchemicalDisplay() {
   };
   
   // Get elemental balance values from elementalState instead of elementalPreference
-  const elementalState = state?.elementalState || { 
+  let elementalState = state?.elementalState || { 
     Fire: 0.25, 
     Water: 0.25, 
     Earth: 0.25, 
@@ -29,31 +29,31 @@ export default function ElementalAlchemicalDisplay() {
   };
   
   // Calculate thermodynamic properties using the actual calculation functions
-  const heat = calculateHeat(
+  let heat = calculateHeat(
     elementalState.Fire || 0.25,
     elementalState.Earth || 0.25,
     elementalState.Air || 0.25,
     elementalState.Water || 0.25
   );
   
-  const entropy = calculateEntropy(
+  let entropy = calculateEntropy(
     elementalState.Fire || 0.25,
     elementalState.Earth || 0.25,
     elementalState.Air || 0.25,
     elementalState.Water || 0.25
   );
   
-  const reactivity = calculateReactivity(
+  let reactivity = calculateReactivity(
     elementalState.Fire || 0.25,
     elementalState.Earth || 0.25,
     elementalState.Air || 0.25,
     elementalState.Water || 0.25
   );
   
-  const celestialEnergy = calculateGregsEnergy(heat, entropy, reactivity);
+  let celestialEnergy = calculateGregsEnergy(heat, entropy, reactivity);
   
   // Helper function to format values as decimals
-  const formatValue = (value: number = 0) => {
+  let formatValue = (value: number = 0) => {
     return value.toFixed(2);
   };
 

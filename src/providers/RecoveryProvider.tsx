@@ -1,105 +1,90 @@
 'use client'
 
-import { createContext, useContext, useEffect, useState } from 'react'
-import { ErrorBoundary } from '@/components/errors/ErrorBoundary'
-import { ErrorFallback } from '@/components/errors/ErrorFallback'
-import { logger } from '@/utils/logger'
+import React, { createContext, useContext, useState, useEffect } from 'react'
+import { createLogger } from '@/utils/logger'
+
+const logger = createLogger('RecoveryProvider')
 
 interface RecoveryContextType {
-  resetApp: () => Promise<void>
+  recover: (id: string) => void
+  registerRecoverable: (id: string, callback: () => void) => void
+  unregisterRecoverable: (id: string) => void
   isRecovering: boolean
+  lastRecoveredId: string | null
 }
 
-const RecoveryContext = createContext<RecoveryContextType | null>(null)
+const RecoveryContext = createContext<RecoveryContextType>({
+  recover: () => {},
+  registerRecoverable: () => {},
+  unregisterRecoverable: () => {},
+  isRecovering: false,
+  lastRecoveredId: null
+})
 
-export function RecoveryProvider({ children }: { children: React.ReactNode }) {
+export const useRecovery = () => useContext(RecoveryContext)
+
+interface RecoveryProviderProps {
+  children: React.ReactNode
+}
+
+export function RecoveryProvider({ children }: RecoveryProviderProps) {
+  const [recoverables, setRecoverables] = useState<Record<string, () => void>>({})
   const [isRecovering, setIsRecovering] = useState(false)
-  const [lastError, setLastError] = useState<Error | null>(null)
+  const [lastRecoveredId, setLastRecoveredId] = useState<string | null>(null)
 
-  // Monitor for unhandled errors globally
-  useEffect(() => {
-    const handleGlobalError = (event: ErrorEvent) => {
-      logger.error('Global error caught:', event.error)
-      setLastError(event.error)
-    }
+  const registerRecoverable = (id: string, callback: () => void) => {
+    setRecoverables(prev => ({
+      ...prev,
+      [id]: callback
+    }))
+    logger.debug(`Registered recoverable: ${id}`)
+  }
 
-    const handleUnhandledRejection = (event: PromiseRejectionEvent) => {
-      logger.error('Unhandled promise rejection:', event.reason)
-      if (event.reason instanceof Error) {
-        setLastError(event.reason)
+  const unregisterRecoverable = (id: string) => {
+    setRecoverables(prev => {
+      const newRecoverables = { ...prev }
+      delete newRecoverables[id]
+      return newRecoverables
+    })
+    logger.debug(`Unregistered recoverable: ${id}`)
+  }
+
+  const recover = (id: string) => {
+    logger.info(`Attempting recovery for: ${id}`)
+    const callback = recoverables[id]
+    
+    if (callback) {
+      setIsRecovering(true)
+      setLastRecoveredId(id)
+      
+      try {
+        callback()
+        logger.info(`Recovery for ${id} triggered`)
+      } catch (error) {
+        logger.error(`Recovery for ${id} failed`, error)
+      } finally {
+        // Reset recovery state after a short delay
+        setTimeout(() => {
+          setIsRecovering(false)
+        }, 100)
       }
+    } else {
+      logger.warn(`No recovery callback found for: ${id}`)
     }
+  }
 
-    // Set up global error listeners
-    window.addEventListener('error', handleGlobalError)
-    window.addEventListener('unhandledrejection', handleUnhandledRejection)
-
-    // Clean up listeners on unmount
-    return () => {
-      window.removeEventListener('error', handleGlobalError)
-      window.removeEventListener('unhandledrejection', handleUnhandledRejection)
-    }
-  }, [])
-
-  // Log when recovery status changes
-  useEffect(() => {
-    if (isRecovering) {
-      logger.info('App recovery started')
-    } else if (lastError) {
-      logger.info('App recovered from error')
-    }
-  }, [isRecovering, lastError])
-
-  const resetApp = async () => {
-    setIsRecovering(true)
-    try {
-      // Clear all caches
-      if ('caches' in window) {
-        const cacheKeys = await caches.keys()
-        await Promise.all(cacheKeys.map(key => caches.delete(key)))
-      }
-
-      // Reset IndexedDB
-      const databases = await window.indexedDB.databases()
-      databases.forEach(db => {
-        if (db.name) window.indexedDB.deleteDatabase(db.name)
-      })
-
-      // Clear storage
-      localStorage.clear()
-      sessionStorage.clear()
-
-      // Wait for cleanup
-      await new Promise(resolve => setTimeout(resolve, 1000))
-
-      // Reload the page
-      window.location.reload()
-    } catch (error) {
-      logger.error('Failed to reset app:', error)
-    } finally {
-      setIsRecovering(false)
-    }
+  // Expose the context value
+  const contextValue = {
+    recover,
+    registerRecoverable,
+    unregisterRecoverable,
+    isRecovering,
+    lastRecoveredId
   }
 
   return (
-    <RecoveryContext.Provider value={{ resetApp, isRecovering }}>
-      <ErrorBoundary
-        FallbackComponent={ErrorFallback}
-        onError={(error) => {
-          logger.error('App error caught:', error)
-          setLastError(error)
-        }}
-      >
-        {children}
-      </ErrorBoundary>
+    <RecoveryContext.Provider value={contextValue}>
+      {children}
     </RecoveryContext.Provider>
   )
-}
-
-export function useRecovery() {
-  const context = useContext(RecoveryContext)
-  if (!context) {
-    throw new Error('useRecovery must be used within RecoveryProvider')
-  }
-  return context
 } 

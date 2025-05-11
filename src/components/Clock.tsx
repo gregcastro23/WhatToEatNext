@@ -2,19 +2,19 @@
 
 import { useState, useEffect } from 'react';
 
-const Clock = () => {
+let Clock = () => {
   const [time, setTime] = useState('');
 
   useEffect(() => {
-    const updateTime = () => {
+    let updateTime = () => {
       const now = new Date();
-      const hours = now.getHours().toString().padStart(2, '0');
-      const minutes = now.getMinutes().toString().padStart(2, '0');
+      let hours = now.getHours().toString().padStart(2, '0');
+      let minutes = now.getMinutes().toString().padStart(2, '0');
       setTime(`${hours}:${minutes}`);
     };
 
     updateTime(); // Initial call
-    const interval = setInterval(updateTime, 1000);
+    let interval = setInterval(updateTime, 1000);
 
     return () => clearInterval(interval);
   }, []);

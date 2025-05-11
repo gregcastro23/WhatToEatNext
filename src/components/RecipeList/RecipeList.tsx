@@ -1,54 +1,57 @@
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-import { stateManager } from '@/utils/stateManager';
-import { recipeFilter } from '@/utils/recipeFilters';
-import { logger } from '@/utils/logger';
-import Recipe from '@/components/Recipe/Recipe';
+import @/contexts  from 'AlchemicalContext ';
+import @/utils  from 'stateManager ';
+import @/utils  from 'recipeFilters ';
+import @/utils  from 'logger ';
+import @/components  from 'Recipe ';
 import { Filter, Search, SlidersHorizontal, X } from 'lucide-react';
-import type { ScoredRecipe, Recipe as RecipeType } from '@/types/recipe';
-import type { CuisineType, DietaryRestriction } from '@/types/alchemy';
-import { recipeData } from '@/services/recipeData';
-import { cuisines } from '@/data/cuisines';
-import { foodTypes } from '@/data/foodTypes';
+import @/types  from 'recipe ';
+import @/types  from 'alchemy ';
+import @/services  from 'recipeData ';
+import @/data  from 'cuisines ';
+import @/data  from 'foodTypes ';
 
 // Use actual cuisine data from imports instead of mock data
-const cuisineTypes = cuisines ? Object.keys(cuisines).reduce((acc, cuisine) => {
-  acc[cuisine] = true;
-  return acc;
-}, {} as Record<string, boolean>) : {
-  'Italian': true,
-  'Mexican': true,
-  'Chinese': true,
-  'Japanese': true,
-  'Indian': true,
-  'Thai': true,
-  'Mediterranean': true,
-  'American': true,
-  'French': true
-};
+let cuisineTypes = cuisines
+  ? Object.keys(cuisines).reduce((acc, cuisine) => {
+      acc[cuisine] = true;
+      return acc;
+    }, {} as Record<string, boolean>)
+  : {
+      Italian: true,
+      Mexican: true,
+      Chinese: true,
+      Japanese: true,
+      Indian: true,
+      Thai: true,
+      Mediterranean: true,
+      American: true,
+      French: true,
+    };
 
 // Use actual meal types from food types instead of hardcoded ones
-const mealTypes = foodTypes.mealTypes || [
+let mealTypes = foodTypes.mealTypes || [
   'Breakfast',
   'Lunch',
   'Dinner',
   'Dessert',
-  'Snack'
+  'Snack',
 ];
 
 // Use dietary options from food types if available
-const dietaryOptions: DietaryRestriction[] = foodTypes.dietaryRestrictions as DietaryRestriction[] || [
-  'vegetarian',
-  'vegan',
-  'gluten-free',
-  'dairy-free',
-  'keto',
-  'paleo',
-  'low-carb',
-  'low-fat'
-];
+const dietaryOptions: DietaryRestriction[] =
+  (foodTypes.dietaryRestrictions as DietaryRestriction[]) || [
+    'vegetarian',
+    'vegan',
+    'gluten-free',
+    'dairy-free',
+    'keto',
+    'paleo',
+    'low-carb',
+    'low-fat',
+  ];
 
 interface FilterState {
   search: string;
@@ -67,7 +70,7 @@ const initialFilters: FilterState = {
   dietary: [],
   maxTime: undefined,
   spiciness: null,
-  complexity: null
+  complexity: null,
 };
 
 export default function RecipeList() {
@@ -80,22 +83,24 @@ export default function RecipeList() {
   const [recipes, setRecipes] = useState<ScoredRecipe[]>([]);
 
   // Ensure recipes are always of ScoredRecipe type
-  const ensureScoredRecipes = (recipes: (RecipeType | ScoredRecipe)[]): ScoredRecipe[] => {
-    return recipes.map(recipe => {
+  let ensureScoredRecipes = (
+    recipes: (RecipeType | ScoredRecipe)[]
+  ): ScoredRecipe[] => {
+    return recipes.map((recipe) => {
       if ('score' in recipe) {
         return recipe as ScoredRecipe;
       }
       // Convert Recipe to ScoredRecipe with default score
-      return { 
-        ...recipe, 
+      return {
+        ...recipe,
         score: 0.5,
-        id: recipe.id || `recipe-${Math.random().toString(36).substr(2, 9)}`
+        id: recipe.id || `recipe-${Math.random().toString(36).substr(2, 9)}`,
       } as ScoredRecipe;
     });
   };
 
   // Memoized filtered recipes
-  const filteredRecipes = useMemo(() => {
+  let filteredRecipes = useMemo(() => {
     try {
       if (!recipes.length) return [];
 
@@ -103,9 +108,9 @@ export default function RecipeList() {
       let filteredByCuisine = recipes;
       if (filters.cuisineTypes.length > 0) {
         // Ensure we're returning ScoredRecipe[] by wrapping the result
-        const cuisineFiltered = recipeFilter.filterByCuisine(
-          recipes, 
-          filters.cuisineTypes.map(cuisine => cuisine as unknown as string)
+        let cuisineFiltered = recipeFilter.filterByCuisine(
+          recipes,
+          filters.cuisineTypes.map((cuisine) => cuisine as unknown as string)
         );
         filteredByCuisine = ensureScoredRecipes(cuisineFiltered);
       }
@@ -118,7 +123,7 @@ export default function RecipeList() {
           mealType: filters.mealType,
           dietaryRestrictions: filters.dietary,
           maxPrepTime: filters.maxTime,
-          elementalState: state.elementalPreference
+          elementalState: state.elementalPreference,
         },
         { by: 'relevance', direction: 'desc' }
       );
@@ -129,36 +134,36 @@ export default function RecipeList() {
   }, [recipes, state.elementalPreference, filters]);
 
   // Handle recipe expansion
-  const handleRecipeToggle = (recipeId: string) => {
+  let handleRecipeToggle = (recipeId: string) => {
     setExpandedRecipeId(expandedRecipeId === recipeId ? null : recipeId);
   };
 
   // Update filters
-  const updateFilters = (updates: Partial<FilterState>) => {
-    setFilters(prev => ({ ...prev, ...updates }));
+  let updateFilters = (updates: Partial<FilterState>) => {
+    setFilters((prev) => ({ ...prev, ...updates }));
   };
 
   // Reset filters
-  const resetFilters = () => {
+  let resetFilters = () => {
     setFilters(initialFilters);
     setShowFilters(false);
   };
 
   // Handle search
-  const handleSearch = (value: string) => {
+  let handleSearch = (value: string) => {
     updateFilters({ search: value });
   };
 
   // Group recipes by category for better organization
-  const groupedRecipes = useMemo(() => {
+  let groupedRecipes = useMemo(() => {
     try {
       const groups: Record<string, ScoredRecipe[]> = {
         recommended: [],
         favorites: [],
-        other: []
+        other: [],
       };
 
-      filteredRecipes.forEach(recipe => {
+      filteredRecipes.forEach((recipe) => {
         // Simulate favorites with hardcoded array since state.favorites is not available
         const favorites: string[] = [];
         if (favorites.includes(recipe.id)) {
@@ -179,14 +184,14 @@ export default function RecipeList() {
 
   // Load recipes on component mount
   useEffect(() => {
-    const loadRecipes = async () => {
+    let loadRecipes = async () => {
       try {
         setIsLoading(true);
         // Get the recipes directly from recipeData service
-        const recipesData = await recipeData.getAllRecipes();
-        
+        let recipesData = await recipeData.getAllRecipes();
+
         // Ensure all recipes have a score
-        const scoredRecipes = ensureScoredRecipes(recipesData);
+        let scoredRecipes = ensureScoredRecipes(recipesData);
         setRecipes(scoredRecipes);
       } catch (error) {
         logger.error('Error loading recipes:', error);
@@ -195,7 +200,7 @@ export default function RecipeList() {
         setIsLoading(false);
       }
     };
-    
+
     loadRecipes();
   }, []);
 
@@ -205,7 +210,7 @@ export default function RecipeList() {
       <div className="mb-6 space-y-4">
         <div className="flex gap-4">
           <div className="flex-1 relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+            <Search className="absolute left-3 top-1 / (2 || 1) transform -translate-y-1 / (2 || 1) text-gray-400" />
             <input
               type="text"
               value={filters.search}
@@ -233,16 +238,25 @@ export default function RecipeList() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {/* Cuisine Types */}
               <div>
-                <label className="block text-sm font-medium mb-2">Cuisine</label>
+                <label className="block text-sm font-medium mb-2">
+                  Cuisine
+                </label>
                 <select
                   multiple
-                  value={filters.cuisineTypes.map(cuisine => cuisine.toString())}
-                  onChange={(e) => updateFilters({
-                    cuisineTypes: Array.from(e.target.selectedOptions, option => option.value as unknown as CuisineType)
-                  })}
+                  value={filters.cuisineTypes.map((cuisine) =>
+                    cuisine.toString()
+                  )}
+                  onChange={(e) =>
+                    updateFilters({
+                      cuisineTypes: Array.from(
+                        e.target.selectedOptions,
+                        (option) => option.value as unknown as CuisineType
+                      ),
+                    })
+                  }
                   className="w-full p-2 border rounded"
                 >
-                  {Object.keys(cuisineTypes).map(cuisine => (
+                  {Object.keys(cuisineTypes).map((cuisine) => (
                     <option key={cuisine} value={cuisine}>
                       {cuisine}
                     </option>
@@ -252,16 +266,23 @@ export default function RecipeList() {
 
               {/* Meal Type */}
               <div>
-                <label className="block text-sm font-medium mb-2">Meal Type</label>
+                <label className="block text-sm font-medium mb-2">
+                  Meal Type
+                </label>
                 <select
                   multiple
                   value={filters.mealType}
-                  onChange={(e) => updateFilters({
-                    mealType: Array.from(e.target.selectedOptions, option => option.value)
-                  })}
+                  onChange={(e) =>
+                    updateFilters({
+                      mealType: Array.from(
+                        e.target.selectedOptions,
+                        (option) => option.value
+                      ),
+                    })
+                  }
                   className="w-full p-2 border rounded"
                 >
-                  {mealTypes.map(type => (
+                  {mealTypes.map((type) => (
                     <option key={type} value={type}>
                       {type}
                     </option>
@@ -271,16 +292,23 @@ export default function RecipeList() {
 
               {/* Dietary Restrictions */}
               <div>
-                <label className="block text-sm font-medium mb-2">Dietary</label>
+                <label className="block text-sm font-medium mb-2">
+                  Dietary
+                </label>
                 <select
                   multiple
                   value={filters.dietary}
-                  onChange={(e) => updateFilters({
-                    dietary: Array.from(e.target.selectedOptions, option => option.value as DietaryRestriction)
-                  })}
+                  onChange={(e) =>
+                    updateFilters({
+                      dietary: Array.from(
+                        e.target.selectedOptions,
+                        (option) => option.value as DietaryRestriction
+                      ),
+                    })
+                  }
                   className="w-full p-2 border rounded"
                 >
-                  {dietaryOptions.map(option => (
+                  {dietaryOptions.map((option) => (
                     <option key={option} value={option}>
                       {option}
                     </option>
@@ -314,7 +342,7 @@ export default function RecipeList() {
           <section>
             <h2 className="text-xl font-semibold mb-4">Recommended for You</h2>
             <div className="space-y-4">
-              {groupedRecipes.recommended.map(recipe => (
+              {groupedRecipes.recommended.map((recipe) => (
                 <Recipe
                   key={recipe.id}
                   recipe={recipe}
@@ -331,7 +359,7 @@ export default function RecipeList() {
           <section>
             <h2 className="text-xl font-semibold mb-4">Your Favorites</h2>
             <div className="space-y-4">
-              {groupedRecipes.favorites.map(recipe => (
+              {groupedRecipes.favorites.map((recipe) => (
                 <Recipe
                   key={recipe.id}
                   recipe={recipe}
@@ -348,7 +376,7 @@ export default function RecipeList() {
           <section>
             <h2 className="text-xl font-semibold mb-4">More Recipes</h2>
             <div className="space-y-4">
-              {groupedRecipes.other.map(recipe => (
+              {groupedRecipes.other.map((recipe) => (
                 <Recipe
                   key={recipe.id}
                   recipe={recipe}
@@ -361,9 +389,11 @@ export default function RecipeList() {
         )}
 
         {/* No Results */}
-        {Object.values(groupedRecipes).every(group => group.length === 0) && (
+        {Object.values(groupedRecipes).every((group) => group.length === 0) && (
           <div className="text-center py-8">
-            <p className="text-gray-500">No recipes found matching your criteria</p>
+            <p className="text-gray-500">
+              No recipes found matching your criteria
+            </p>
             <button
               onClick={resetFilters}
               className="mt-4 px-4 py-2 text-blue-500 hover:text-blue-600"
@@ -375,4 +405,4 @@ export default function RecipeList() {
       </div>
     </div>
   );
-} 
+}

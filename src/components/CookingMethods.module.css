@@ -118,6 +118,18 @@
   transform: translateY(-5px);
 }
 
+/* Add styling for expanded method cards */
+.method-card.expanded {
+  border-left-color: #38a169;
+  box-shadow: 0 8px 16px rgba(56, 161, 105, 0.15);
+  background-color: #f0fff4;
+}
+
+.method-card.expanded:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(56, 161, 105, 0.2);
+}
+
 .method-header {
   display: flex;
   justify-content: space-between;
@@ -1023,4 +1035,66 @@
 
 .scoreBarFill.venus {
   background: linear-gradient(to right, #ec4899, #f43f5e);
+}
+
+/* Add these styles at the end of the file */
+
+.noDataMessage {
+  text-align: center;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  background-color: #f9f9f9;
+  margin: 1rem 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.noDataIcon {
+  color: #666;
+  margin-bottom: 1rem;
+}
+
+.fallbackMethods {
+  margin-top: 2rem;
+  text-align: left;
+}
+
+.methodGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.methodCard {
+  background-color: white;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.methodCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.methodCard h5 {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+}
+
+.methodCard p {
+  margin: 0.5rem 0 0;
+  font-size: 0.75rem;
+  color: #666;
+}
+
+.elementalIcons {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.elementalIcons svg {
+  opacity: 0.7;
 } 

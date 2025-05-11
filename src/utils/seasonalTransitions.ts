@@ -1,5 +1,5 @@
-import type { ElementalState } from '@/types/elemental';
-import type { Season } from '@/types/alchemy';
+import @/types  from 'elemental ';
+import @/types  from 'alchemy ';
 
 // Default elemental balance
 const defaultBalance: ElementalState = {
@@ -43,8 +43,8 @@ export function applySeasonalTransition(
 ): ElementalState {
   if (!currentPhase) return defaultBalance;
   
-  const progress = calculateProgressInPhase(currentDate, currentPhase);
-  const strength = calculateSeasonalStrength(progress);
+  let progress = calculateProgressInPhase(currentDate, currentPhase);
+  let strength = calculateSeasonalStrength(progress);
   
   return {
     Fire: baseElements.Fire * (1 + strength * seasonalModifiers[currentPhase.name].Fire),

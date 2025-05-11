@@ -1,3 +1,3 @@
 // Re-export the PlanetaryHoursDisplay component
-import PlanetaryHoursDisplay from './PlanetaryHours/PlanetaryHoursDisplay';
+import ./PlanetaryHours  from 'PlanetaryHoursDisplay ';
 export default PlanetaryHoursDisplay; 

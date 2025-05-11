@@ -1,5 +1,5 @@
 import { validateIngredient } from '@/types/recipeIngredient';
-import type { RecipeIngredient } from '@/types/recipeIngredient';
+// Removed duplicate: // Removed duplicate: // Removed duplicate: import type { RecipeIngredient } from '@/types/recipeIngredient';
 
 describe('Ingredient Data Structure', () => {
   it('should validate a correctly structured ingredient', () => {
@@ -12,19 +12,19 @@ describe('Ingredient Data Structure', () => {
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
-        Air: 0.25
-      }
+        Air: 0.25,
+      },
     };
-    
+
     expect(validateIngredient(validIngredient)).toBe(true);
   });
 
   it('should reject an ingredient with missing required fields', () => {
     const missingNameIngredient = {
       amount: 1,
-      unit: 'cup'
+      unit: 'cup',
     };
-    
+
     expect(validateIngredient(missingNameIngredient as any)).toBe(false);
   });
 
@@ -33,9 +33,9 @@ describe('Ingredient Data Structure', () => {
       name: 'Test Ingredient',
       amount: 1,
       unit: 'cup',
-      category: 'vegetables'
+      category: 'vegetables',
     };
-    
+
     // This should still be valid as elemental properties are optional
     expect(validateIngredient(noElementalIngredient)).toBe(true);
   });
@@ -45,23 +45,31 @@ describe('Ingredient Data Structure', () => {
       name: 'Test Ingredient',
       amount: 0.5,
       unit: 'cup',
-      category: 'vegetables'
+      category: 'vegetables',
     };
-    
+
     expect(validateIngredient(fractionIngredient)).toBe(true);
   });
 
   it('should validate ingredients with different unit types', () => {
-    const units = ['cup', 'tablespoon', 'teaspoon', 'gram', 'ounce', 'pound', 'piece'];
-    
+    const units = [
+      'cup',
+      'tablespoon',
+      'teaspoon',
+      'gram',
+      'ounce',
+      'pound',
+      'piece',
+    ];
+
     for (const unit of units) {
       const ingredient: RecipeIngredient = {
         name: 'Test Ingredient',
         amount: 1,
         unit,
-        category: 'vegetables'
+        category: 'vegetables',
       };
-      
+
       expect(validateIngredient(ingredient)).toBe(true);
     }
   });
@@ -79,11 +87,11 @@ describe('Ingredient Data Structure', () => {
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
-        Air: 0.25
+        Air: 0.25,
       },
-      season: ['summer', 'fall']
+      season: ['summer', 'fall'],
     };
-    
+
     expect(validateIngredient(fullIngredient)).toBe(true);
   });
-}); 
+});

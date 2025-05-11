@@ -2,14 +2,16 @@
 
 import React from 'react';
 import { ThemeProvider } from '@/contexts/ThemeContext';
-import { AlchemicalProvider } from '@/contexts/AlchemicalContext/provider';
-import { ChartProvider } from '@/contexts/ChartContext/provider';
+import { AlchemicalProvider } from '@/contexts/AlchemicalContext';
+import { ChartProvider } from '@/contexts/ChartContext';
 import AstrologyWarning from '@/components/AstrologyWarning';
 import CalculationErrors from '@/components/CalculationErrors';
 import Clock from '@/components/Clock';
+import { SomeProvider } from '@/components/providers';
+import { ErrorHandler } from '@/components/errors';
+import ErrorBoundary from '@/components/ErrorBoundary';
+import ErrorFallback from '@/components/errors/ErrorFallback';
 import ClientProviders from '@/components/providers/ClientProviders';
-import { ErrorBoundary } from '@/components/errors/ErrorBoundary';
-import { ErrorFallback } from '@/components/errors/ErrorFallback';
 
 export default function ClientWrapper({ children }: { children: React.ReactNode }) {
   return (

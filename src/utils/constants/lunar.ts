@@ -1,4 +1,4 @@
-import type { ElementalProperties } from '@/types/alchemy';
+import @/types  from 'alchemy ';
 
 export const LUNAR_PHASES: { [key: string]: ElementalProperties } = {
   NEW_MOON: {

@@ -1,8 +1,11 @@
+'use client';
+
 import React, { useState, useEffect, useMemo } from 'react';
 import { ChevronDown, ChevronUp, Globe, Flame, Droplets, Wind, Mountain, Search, ArrowUp, ArrowDown, Zap, Sparkles, Minus, Info, List, ThumbsUp, Clock } from 'lucide-react'; // Added Zap, Sparkles, and Minus icons
-import { useIngredientMapping } from '@/hooks'; // Import our new hook
+import { useIngredientMapping } from '@/hooks'; // Import from hooks index
 import styles from './CookingMethods.module.css';
-import { getTechnicalTips, getIdealIngredients } from '@/utils/cookingMethodTips';
+import { getTipsForMethod } from '@/utils/cookingMethodTips';
+import { cookingMethods } from '@/data/cooking/cookingMethods';
 
 // Define proper types for the methods
 interface CookingMethod {
@@ -40,6 +43,58 @@ interface CookingMethodsProps {
   initiallyExpanded?: boolean;
 }
 
+// Utility function to get ideal ingredients by method name
+const getIdealIngredients = (methodName: string): string[] => {
+  // Convert to lowercase for more flexible matching
+  const method = methodName.toLowerCase();
+  
+  // Check if the method exists in the cooking methods 
+  const methodObj = Object.values(cookingMethods).find(
+    m => m.name?.toLowerCase() === method
+  );
+  
+  // If the method has suitable_for, use that
+  if (methodObj?.suitable_for) {
+    return methodObj.suitable_for;
+  }
+  
+  // Default mappings for common methods
+  const defaultIngredients: Record<string, string[]> = {
+    'roasting': ['chicken', 'beef', 'root vegetables', 'potatoes', 'turkey', 'lamb', 'pork loin', 'winter squash'],
+    'baking': ['bread', 'cakes', 'cookies', 'fish', 'casseroles', 'potatoes', 'pasta dishes', 'pies'],
+    'grilling': ['steak', 'burgers', 'chicken', 'fish', 'vegetables', 'tofu', 'corn', 'kebabs'],
+    'steaming': ['vegetables', 'fish', 'dumplings', 'shellfish', 'rice', 'custards', 'puddings', 'buns'],
+    'sauteing': ['vegetables', 'mushrooms', 'chicken cutlets', 'fish fillets', 'tofu', 'shrimp', 'greens', 'stir-fries'],
+    'boiling': ['pasta', 'eggs', 'rice', 'potatoes', 'vegetables', 'grains', 'beans', 'stocks'],
+    'braising': ['short ribs', 'chuck roast', 'chicken thighs', 'lamb shanks', 'pork shoulder', 'vegetables', 'lentils', 'beans'],
+    'broiling': ['steaks', 'fish', 'chicken', 'lamb chops', 'kebabs', 'vegetables', 'fruit crumbles', 'gratins'],
+    'poaching': ['eggs', 'fish', 'chicken breasts', 'fruits', 'delicate proteins', 'salmon', 'pears', 'shellfish'],
+    'frying': ['chicken', 'fish', 'vegetables', 'fritters', 'tofu', 'tempura', 'potatoes', 'donuts'],
+    'smoking': ['brisket', 'pork shoulder', 'ribs', 'fish', 'chicken', 'turkey', 'cheese', 'nuts'],
+    'sous vide': ['steak', 'fish', 'chicken breasts', 'eggs', 'pork chops', 'vegetables', 'custards', 'infusions'],
+    'pressure cooking': ['beans', 'grains', 'tough meats', 'stews', 'broths', 'stocks', 'vegetables', 'pulses'],
+    'fermenting': ['cabbage', 'vegetables', 'milk', 'grains', 'fruits', 'meat', 'soybeans', 'tea'],
+    'pickling': ['cucumbers', 'vegetables', 'eggs', 'fruits', 'peppers', 'onions', 'beets', 'garlic'],
+    'dehydrating': ['fruits', 'vegetables', 'herbs', 'jerky', 'mushrooms', 'tomatoes', 'berries', 'citrus']
+  };
+  
+  // Handle common method name variations
+  for (const [key, ingredients] of Object.entries(defaultIngredients)) {
+    if (method.includes(key) || key.includes(method)) {
+      return ingredients;
+    }
+  }
+  
+  // Generic fallback
+  return [
+    'vegetables', 
+    'proteins', 
+    'grains', 
+    'fruits',
+    'refer to specific recipes for more suggestions'
+  ];
+};
+
 export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
   methods,
   onSelectMethod,
@@ -57,20 +112,20 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
   const [showAllMethods, setShowAllMethods] = useState(false);
   
   // Get top method based on score
-  const topMethod = useMemo(() => {
+  let topMethod = useMemo(() => {
     if (!methods.length) return null;
     return [...methods].sort((a, b) => {
-      const scoreA = a.score !== undefined ? a.score : 0;
-      const scoreB = b.score !== undefined ? b.score : 0;
+      let scoreA = a.score !== undefined ? a.score : 0;
+      let scoreB = b.score !== undefined ? b.score : 0;
       return scoreB - scoreA;
     })[0];
   }, [methods]);
   
   // Sort methods by score and limit display unless showAll is true
-  const displayMethods = useMemo(() => {
+  let displayMethods = useMemo(() => {
     const sortedMethods = [...methods].sort((a, b) => {
       const scoreA = a.score !== undefined ? a.score : 0;
-      const scoreB = b.score !== undefined ? b.score : 0;
+      let scoreB = b.score !== undefined ? b.score : 0;
       return scoreB - scoreA;
     });
     
@@ -93,7 +148,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
         setIsExpanded(true);
         
         // Find the selected method
-        const selectedMethod = methods.find(m => m.id === selectedMethodId);
+        let selectedMethod = methods.find(m => m.id === selectedMethodId);
         
         if (selectedMethod) {
           // If the selected method has variations, expand it
@@ -105,7 +160,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
           }
           
           // If this is a variation, find and expand its parent method
-          const parentMethod = methods.find(m => 
+          let parentMethod = methods.find(m => 
             m.variations?.some(v => v.id === selectedMethodId)
           );
           
@@ -121,7 +176,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
   }, [methods, selectedMethodId]);
   
   // Handle ingredient compatibility calculation
-  const calculateIngredientCompatibility = () => {
+  let calculateIngredientCompatibility = () => {
     if (!searchIngredient.trim()) return;
     
     // Calculate compatibility with each cooking method based on elemental properties
@@ -130,7 +185,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
     methods.forEach(method => {
       if (method.elementalEffect) {
         // Create a compatibility object from method's elemental effect
-        const methodElemental = {
+        let methodElemental = {
           Fire: method.elementalEffect.Fire || 0,
           Water: method.elementalEffect.Water || 0,
           Earth: method.elementalEffect.Earth || 0,
@@ -138,7 +193,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
         };
         
         // Calculate compatibility between ingredient and cooking method
-        const result = calculateCompatibility(searchIngredient, {
+        let result = calculateCompatibility(searchIngredient, {
           name: method.name,
           elementalProperties: methodElemental,
           category: 'cooking_method'
@@ -152,10 +207,10 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
         if (method.variations) {
           method.variations.forEach(variation => {
             // Use parent method's elemental effect if variation doesn't have one
-            const variationElemental = variation.elementalEffect || method.elementalEffect;
+            let variationElemental = variation.elementalEffect || method.elementalEffect;
             
             if (variationElemental) {
-              const variationResult = calculateCompatibility(searchIngredient, {
+              let variationResult = calculateCompatibility(searchIngredient, {
                 name: variation.name,
                 elementalProperties: variationElemental,
                 category: 'cooking_method'
@@ -173,24 +228,27 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
     setIngredientCompatibility(compatibilityResults);
   };
   
-  const toggleExpanded = () => {
-    // Only allow toggling if there are more than 5 methods
-    if (methods.length > 5) {
-      setIsExpanded(prev => !prev);
-    }
+  let toggleExpanded = () => {
+    setIsExpanded(prev => !prev);
   };
   
-  const toggleMethodExpanded = (methodId: string, e: React.MouseEvent) => {
-    // Prevent the click from selecting the method
+  let toggleMethodExpanded = (methodId: string, e: React.MouseEvent) => {
+    // Prevent the click from bubbling up
+    e.preventDefault();
     e.stopPropagation();
-    setExpandedMethods(prev => ({
-      ...prev,
-      [methodId]: !prev[methodId]
-    }));
+    
+    // Update expanded state for this method
+    setExpandedMethods(prev => {
+      console.log(`Toggling expansion for method ${methodId}: ${!prev[methodId]}`);
+      return {
+        ...prev,
+        [methodId]: !prev[methodId]
+      };
+    });
   };
   
   // Toggle ingredient search section
-  const toggleIngredientSearch = () => {
+  let toggleIngredientSearch = () => {
     setShowIngredientSearch(prev => !prev);
     // Clear results when hiding
     if (showIngredientSearch) {
@@ -200,8 +258,8 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
   };
   
   // Calculate elemental transformation capacity from alchemical properties
-  const getElementalTransformations = (method: CookingMethod) => {
-    const transformations = {
+  let getElementalTransformations = (method: CookingMethod) => {
+    let transformations = {
       Fire: 0,
       Water: 0,
       Earth: 0,
@@ -246,18 +304,18 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
   };
 
   // Determine if an element is increased or decreased by the method
-  const getElementalDirection = (value: number): {direction: 'increase' | 'decrease' | 'neutral', intensity: number} => {
+  let getElementalDirection = (value: number): {direction: 'increase' | 'decrease' | 'neutral', intensity: number} => {
     if (value > 0.5) return { direction: 'increase', intensity: (value - 0.5) * 2 };
     if (value < 0.5) return { direction: 'decrease', intensity: (0.5 - value) * 2 };
     return { direction: 'neutral', intensity: 0 };
   };
 
   // Get alchemical essence label from properties
-  const getAlchemicalLabel = (method: CookingMethod): { primary: string, secondary: string } | null => {
+  let getAlchemicalLabel = (method: CookingMethod): { primary: string, secondary: string } | null => {
     if (!method.alchemicalProperties) return null;
     
     const { Spirit, Essence, Matter, Substance } = method.alchemicalProperties;
-    const alchemical = [
+    let alchemical = [
       { name: 'Spirit', value: Spirit || 0 },
       { name: 'Essence', value: Essence || 0 },
       { name: 'Matter', value: Matter || 0 },
@@ -273,7 +331,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
   };
   
   // Map compatibility score to color and label
-  const getCompatibilityLabel = (score: number): { label: string; className: string } => {
+  let getCompatibilityLabel = (score: number): { label: string; className: string } => {
     if (score >= 0.8) return { label: 'Excellent', className: 'compatibility-excellent' };
     if (score >= 0.6) return { label: 'Good', className: 'compatibility-good' };
     if (score >= 0.4) return { label: 'Fair', className: 'compatibility-fair' };
@@ -282,7 +340,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
   };
 
   // Get score class for styling
-  const getScoreClass = (score: number): string => {
+  let getScoreClass = (score: number): string => {
     if (score >= 0.8) return styles['score-excellent'];
     if (score >= 0.6) return styles['score-good'];
     if (score >= 0.4) return styles['score-fair'];
@@ -364,9 +422,13 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
           <div className={styles['methods-grid']}>
             {displayMethods.map((method) => (
               <div 
-                key={method.id} 
-                className={`${styles['method-card']} ${selectedMethodId === method.id ? styles.selected : ''}`}
+                key={method.id}
+                className={`${styles['method-card']} 
+                  ${showIngredientSearch && ingredientCompatibility[method.id] !== undefined ? styles['with-compatibility'] : ''} 
+                  ${selectedMethodId === method.id ? styles.selected : ''} 
+                  ${expandedMethods[method.id] ? styles['expanded'] : ''}`}
                 onClick={() => onSelectMethod && onSelectMethod(method)}
+                data-expanded={expandedMethods[method.id] ? 'true' : 'false'}
               >
                 <div className={styles['method-header']}>
                   <h4 className={styles['method-name']}>{method.name}</h4>
@@ -415,11 +477,11 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
                   </div>
                   <div className={styles['elemental-transformations']}>
                     {(() => {
-                      const transformations = getElementalTransformations(method);
+                      let transformations = getElementalTransformations(method);
                       
                       return Object.entries(transformations).map(([element, value]) => {
                         const { direction, intensity } = getElementalDirection(value);
-                        const displayIntensity = Math.min(Math.round(intensity * 100), 100); // 0-100 range
+                        let displayIntensity = Math.min(Math.round(intensity * 100), 100); // 0-100 range
                         
                         // Skip elements with no significant change
                         if (direction === 'neutral') return null;
@@ -506,8 +568,12 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
                 </div>
                 
                 {/* Show cultural variations if expanded */}
-                {method.variations && method.variations.length > 0 && expandedMethods[method.id] && (
-                  <div className={styles['variations-container']}>
+                {method.variations && method.variations.length > 0 && (
+                  <div 
+                    className={styles['variations-container']} 
+                    style={{ display: expandedMethods[method.id] ? 'block' : 'none' }}
+                    data-expanded={expandedMethods[method.id] ? 'true' : 'false'}
+                  >
                     <h5 className={styles['variations-header']}>
                       <Globe size={14} className={styles['variations-icon']} />
                       Variations & Subcategories
@@ -555,11 +621,11 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
                           {(variation.elementalEffect || variation.alchemicalProperties) && (
                             <div className={styles['elemental-transformations-small']}>
                               {(() => {
-                                const transformations = getElementalTransformations(variation);
+                                let transformations = getElementalTransformations(variation);
                                 
                                 return Object.entries(transformations).map(([element, value]) => {
                                   const { direction, intensity } = getElementalDirection(value);
-                                  const displayIntensity = Math.min(Math.round(intensity * 100), 100); // 0-100 range
+                                  let displayIntensity = Math.min(Math.round(intensity * 100), 100); // 0-100 range
                                   
                                   // Skip elements with no significant change
                                   if (direction === 'neutral' || displayIntensity < 5) return null;
@@ -607,7 +673,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
                         <span>Expert Technical Tips</span>
                       </div>
                       <div className={styles['tips-grid']}>
-                        {getTechnicalTips(method.name).slice(0, 5).map((tip, index) => (
+                        {getTipsForMethod(method.name).slice(0, 5).map((tip, index) => (
                           <div key={index} className={styles['tip-item']}>
                             {tip}
                           </div>
@@ -635,7 +701,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
             ))}
           </div>
           
-          {/* Show more/less button */}
+          {/* Show more / (less || 1) button */}
           {methods.length > 8 && (
             <div className={styles['show-more-container']}>
               <button 

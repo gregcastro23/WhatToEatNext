@@ -1,4 +1,4 @@
-import { ElementalAffinity } from '../types/alchemy';
+import ../types  from 'alchemy ';
 
 // Add this utility function to ensure all ElementalAffinity objects have the required properties
 export function formatElementalAffinity(input: unknown): ElementalAffinity {

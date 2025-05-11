@@ -50,7 +50,7 @@ export function handleError(error: unknown): ErrorResponse {
   };
 }
 
-export const errorMessages = {
+export let errorMessages = {
   INVALID_REQUEST: 'Invalid request parameters',
   NOT_FOUND: 'Resource not found',
   UNAUTHORIZED: 'Unauthorized access',
@@ -63,7 +63,7 @@ export const errorMessages = {
   TIMEOUT_ERROR: 'Request timeout',
 } as const;
 
-export const errorCodes = {
+export let errorCodes = {
   INVALID_REQUEST: 400,
   NOT_FOUND: 404,
   UNAUTHORIZED: 401,

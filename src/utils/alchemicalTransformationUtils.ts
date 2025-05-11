@@ -1,29 +1,30 @@
-import { RulingPlanet } from '../constants/planets';
-import { LunarPhase, LunarPhaseWithSpaces, CookingMethod } from '../types/alchemy';
+import { PLANETS } from '@/constants/planets';
+import type { ElementalProperties, PlanetaryPosition } from '@/types/alchemy';
 import { 
   transformItemWithPlanetaryPositions, 
   transformItemsWithPlanetaryPositions,
   ElementalItem,
   AlchemicalItem
-} from '../calculations/alchemicalTransformation';
+} from "../calculations/alchemicalTransformation";
 import { 
   getCookingMethodPillar, 
   applyPillarTransformation,
   calculateCookingMethodCompatibility,
   getHolisticCookingRecommendations
 } from './alchemicalPillarUtils';
+import { elementalUtils } from './elementalUtils';
 
 /**
  * Transforms a set of ingredients based on current planetary positions
  * 
  * @param ingredients The original ingredients with elemental data
- * @param planetPositions Current planetary positions/strengths
+ * @param planetPositions Current planetary positions / (strengths || 1)
  * @param isDaytime Whether it's day or night
  * @param currentZodiac Current zodiac sign
  * @param lunarPhase Current lunar phase
  * @returns Ingredients transformed with alchemical properties
  */
-export const transformIngredients = (
+export let transformIngredients = (
   ingredients: ElementalItem[],
   planetPositions: Record<string, number>,
   isDaytime: boolean,
@@ -44,13 +45,13 @@ export const transformIngredients = (
  * and applies alchemical pillar transformations
  * 
  * @param methods The original cooking methods with elemental data
- * @param planetPositions Current planetary positions/strengths
+ * @param planetPositions Current planetary positions / (strengths || 1)
  * @param isDaytime Whether it's day or night
  * @param currentZodiac Current zodiac sign
  * @param lunarPhase Current lunar phase
  * @returns Methods transformed with alchemical properties
  */
-export const transformCookingMethods = (
+export let transformCookingMethods = (
   methods: ElementalItem[],
   planetPositions: Record<string, number>,
   isDaytime: boolean,
@@ -68,7 +69,7 @@ export const transformCookingMethods = (
   
   // Then apply alchemical pillar transformations based on method names
   return transformedItems.map(method => {
-    const methodName = method.name.toLowerCase();
+    let methodName = method.name.toLowerCase();
     // Apply pillar-based transformations to the method
     return applyPillarTransformation(method, methodName);
   });
@@ -78,13 +79,13 @@ export const transformCookingMethods = (
  * Transforms a set of cuisines based on current planetary positions
  * 
  * @param cuisines The original cuisines with elemental data
- * @param planetPositions Current planetary positions/strengths
+ * @param planetPositions Current planetary positions / (strengths || 1)
  * @param isDaytime Whether it's day or night
  * @param currentZodiac Current zodiac sign
  * @param lunarPhase Current lunar phase
  * @returns Cuisines transformed with alchemical properties
  */
-export const transformCuisines = (
+export let transformCuisines = (
   cuisines: ElementalItem[],
   planetPositions: Record<string, number>,
   isDaytime: boolean,
@@ -107,7 +108,7 @@ export const transformCuisines = (
  * @param targetElementalProperties The target elemental properties to match against
  * @returns The sorted items with compatibilityScore added
  */
-export const sortByAlchemicalCompatibility = (
+export let sortByAlchemicalCompatibility = (
   items: AlchemicalItem[],
   targetElementalProperties?: Record<string, number>
 ): AlchemicalItem[] => {
@@ -117,18 +118,18 @@ export const sortByAlchemicalCompatibility = (
   }
   
   // Calculate compatibility scores for each item based on elemental properties
-  const itemsWithScores = items.map(item => {
+  let itemsWithScores = items.map(item => {
     // Calculate cosine similarity between item's elements and target elements
     let dotProduct = 0;
     let itemNorm = 0;
     let targetNorm = 0;
     
     // Get the element names (Fire, Water, Earth, Air)
-    const elements = ['Fire', 'Water', 'Earth', 'Air'];
+    let elements = ['Fire', 'Water', 'Earth', 'Air'];
     
     for (const element of elements) {
-      const itemValue = item.elementalProperties[element] || 0;
-      const targetValue = targetElementalProperties[element] || 0;
+      let itemValue = item.elementalProperties[element] || 0;
+      let targetValue = targetElementalProperties[element] || 0;
       
       dotProduct += itemValue * targetValue;
       itemNorm += itemValue * itemValue;
@@ -143,14 +144,14 @@ export const sortByAlchemicalCompatibility = (
       return { ...item, compatibilityScore: 0.5 }; // Neutral match if either has no elemental values
     }
     
-    // Calculate cosine similarity (dot product / (magnitude of A * magnitude of B))
-    const similarity = dotProduct / (itemNorm * targetNorm);
+    // Calculate cosine similarity (dot product / ((magnitude || 1) of A * magnitude of B))
+    let similarity = dotProduct / ((itemNorm || 1) * targetNorm);
     
     // Add a small bonus for items with high gregsEnergy
-    const energyBonus = (item.gregsEnergy || 0.5) * 0.2;
+    let energyBonus = (item.gregsEnergy || 0.5) * 0.2;
     
     // Final compatibility score (0.0 to 1.0)
-    const compatibilityScore = Math.min(1.0, similarity * 0.8 + energyBonus);
+    let compatibilityScore = Math.min(1.0, similarity * 0.8 + energyBonus);
     
     return {
       ...item,
@@ -172,7 +173,7 @@ export const sortByAlchemicalCompatibility = (
  * @param targetProperty Optional alchemical property to prioritize
  * @returns Filtered items with good compatibility
  */
-export const filterByAlchemicalCompatibility = (
+export let filterByAlchemicalCompatibility = (
   items: AlchemicalItem[],
   targetElement?: string,
   targetProperty?: string
@@ -184,8 +185,8 @@ export const filterByAlchemicalCompatibility = (
   
   return items.filter(item => {
     // Keep items that match either target element or property
-    const elementMatch = !targetElement || item.dominantElement === targetElement;
-    const propertyMatch = !targetProperty || item.dominantAlchemicalProperty === targetProperty;
+    let elementMatch = !targetElement || item.dominantElement === targetElement;
+    let propertyMatch = !targetProperty || item.dominantAlchemicalProperty === targetProperty;
     
     return elementMatch || propertyMatch;
   });
@@ -198,7 +199,7 @@ export const filterByAlchemicalCompatibility = (
  * @param count The number of items to return
  * @returns Top compatible items
  */
-export const getTopCompatibleItems = (
+export let getTopCompatibleItems = (
   items: AlchemicalItem[],
   count = 5
 ): AlchemicalItem[] => {
@@ -219,7 +220,7 @@ export const getTopCompatibleItems = (
  * @param count Number of recommendations to return
  * @returns Array of recommended cooking methods with compatibility scores
  */
-export const getRecommendedCookingMethodsForIngredient = (
+export let getRecommendedCookingMethodsForIngredient = (
   ingredient: AlchemicalItem,
   cookingMethods: AlchemicalItem[],
   count = 5
@@ -237,12 +238,12 @@ export const getRecommendedCookingMethodsForIngredient = (
   console.log(`Available cooking methods: ${cookingMethods.length}`);
   
   // Convert cookingMethods names to method strings for holistic recommendations
-  const methodNames = cookingMethods.map(method => method.name);
+  let methodNames = cookingMethods.map(method => method.name);
   console.log('Method names to evaluate:', methodNames.join(', '));
   
   // Use our enhanced holistic recommendations that include elemental character
   console.log('\nEvaluating methods with holistic cooking recommendations algorithm...');
-  const holisticRecommendations = getHolisticCookingRecommendations(
+  let holisticRecommendations = getHolisticCookingRecommendations(
     ingredient,
     undefined, // No specific planet influence
     undefined, // No specific tarot card influence
@@ -252,7 +253,7 @@ export const getRecommendedCookingMethodsForIngredient = (
   );
   
   // Convert to the expected return format
-  const results = holisticRecommendations.map(rec => ({
+  let results = holisticRecommendations.map(rec => ({
     method: rec.method,
     compatibility: rec.compatibility
   }));
@@ -296,5 +297,5 @@ function calculateAlchemicalScore(item: AlchemicalItem): number {
   });
   
   // Calculate average score
-  return count > 0 ? score / count : 0.5;
+  return count > 0 ? score / (count || 1) : 0.5;
 } 

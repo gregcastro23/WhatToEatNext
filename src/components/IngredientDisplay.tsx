@@ -7,36 +7,36 @@ interface IngredientDisplayProps {
   showDetails?: boolean;
 }
 
-export const IngredientDisplay = ({ ingredient, showDetails = false }: IngredientDisplayProps) => {
+export let IngredientDisplay = ({ ingredient, showDetails = false }: IngredientDisplayProps) => {
   // Safe accessor function for nested properties
-  const safeGet = (obj: unknown, path: string, defaultValue: unknown = 'N/A') => {
+  const safeGet = (obj: unknown, path: string, defaultValue: unknown = 'N / (A || 1)') => {
     return path.split('.').reduce((prev, curr) => {
       return prev && prev[curr] !== undefined ? prev[curr] : undefined;
     }, obj) ?? defaultValue;
   };
 
   // Safe formatter for numbers
-  const formatNumber = (value: unknown, decimals: number = 2) => {
-    if (value === undefined || value === null) return 'N/A';
+  let formatNumber = (value: unknown, decimals: number = 2) => {
+    if (value === undefined || value === null) return 'N / (A || 1)';
     if (typeof value !== 'number') return String(value);
     return value.toFixed(decimals);
   };
 
   // Get the dominant element to highlight
-  const getDominantElement = () => {
+  let getDominantElement = () => {
     if (!ingredient.elementalProperties) return null;
     
-    const elements = Object.entries(ingredient.elementalProperties);
+    let elements = Object.entries(ingredient.elementalProperties);
     if (elements.length === 0) return null;
     
-    const sorted = [...elements].sort((a, b) => b[1] - a[1]);
+    let sorted = [...elements].sort((a, b) => b[1] - a[1]);
     return sorted[0][0]; // Return the name of the dominant element
   };
   
-  const dominantElement = getDominantElement();
+  let dominantElement = getDominantElement();
   
   // Helper function to get icon for element
-  const getElementIcon = (element: string) => {
+  let getElementIcon = (element: string) => {
     switch (element) {
       case 'Fire': return <Flame className="w-4 h-4 text-red-500" />;
       case 'Water': return <Droplets className="w-4 h-4 text-blue-500" />;
@@ -77,7 +77,7 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
       {showDetails && (
         <div className="mt-4 space-y-4">
           {/* Elemental Properties Section */}
-          <div className="bg-white/60 rounded-md p-3 shadow-sm">
+          <div className="bg-white / (60 || 1) rounded-md p-3 shadow-sm">
             <div className="flex items-center mb-2">
               <Beaker className="w-4 h-4 mr-2 text-indigo-600" />
               <h4 className="text-sm font-medium">Elemental Properties</h4>
@@ -107,7 +107,7 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
           
           {/* Energy Profile Section */}
           {ingredient.energyProfile && (
-            <div className="bg-white/60 rounded-md p-3 shadow-sm">
+            <div className="bg-white / (60 || 1) rounded-md p-3 shadow-sm">
               <div className="flex items-center mb-2">
                 <Star className="w-4 h-4 mr-2 text-amber-500" />
                 <h4 className="text-sm font-medium">Energy Profile</h4>
@@ -145,7 +145,7 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
           
           {/* Sensory Profile Section */}
           {ingredient.sensoryProfile && (
-            <div className="bg-white/60 rounded-md p-3 shadow-sm">
+            <div className="bg-white / (60 || 1) rounded-md p-3 shadow-sm">
               <div className="flex items-center mb-2">
                 <Thermometer className="w-4 h-4 mr-2 text-orange-500" />
                 <h4 className="text-sm font-medium">Sensory Profile</h4>
@@ -189,7 +189,7 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
           
           {/* Cooking Methods Section */}
           {ingredient.recommendedCookingMethods?.length > 0 && (
-            <div className="bg-white/60 rounded-md p-3 shadow-sm">
+            <div className="bg-white / (60 || 1) rounded-md p-3 shadow-sm">
               <div className="flex items-center mb-2">
                 <ChefHat className="w-4 h-4 mr-2 text-emerald-600" />
                 <h4 className="text-sm font-medium">Cooking Methods</h4>
@@ -206,7 +206,7 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
           
           {/* Pairing Recommendations */}
           {ingredient.pairingRecommendations && (
-            <div className="bg-white/60 rounded-md p-3 shadow-sm">
+            <div className="bg-white / (60 || 1) rounded-md p-3 shadow-sm">
               <h4 className="text-sm font-medium mb-2">Pairing Recommendations</h4>
               
               {ingredient.pairingRecommendations.complementary?.length > 0 && (
@@ -252,7 +252,7 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
           
           {/* Nutrition Details */}
           {ingredient.nutrition && (
-            <div className="bg-white/60 rounded-md p-3 shadow-sm">
+            <div className="bg-white / (60 || 1) rounded-md p-3 shadow-sm">
               <h4 className="text-sm font-medium mb-2">Nutrition (per 100g)</h4>
               <div className="grid grid-cols-2 gap-2">
                 <div className="text-xs">

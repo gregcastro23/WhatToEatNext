@@ -1,11 +1,12 @@
 import React from 'react';
-import { Box, Tooltip } from '@mui/material';
+import { Box, Typography, Tooltip } from '@mui/material';
 import { ZodiacSign as ZodiacSignType } from '@/types/alchemy';
 
 interface ZodiacSignProps {
-  sign: ZodiacSignType | string;
+  sign: ZodiacSignType;
   size?: 'small' | 'medium' | 'large';
   showLabel?: boolean;
+  showTooltip?: boolean;
 }
 
 const zodiacEmoji: Record<string, string> = {
@@ -48,19 +49,20 @@ const elementColor: Record<string, string> = {
 export const ZodiacSign: React.FC<ZodiacSignProps> = ({ 
   sign, 
   size = 'medium',
-  showLabel = false
+  showLabel = false,
+  showTooltip = true
 }) => {
-  const signName = sign.toLowerCase() as ZodiacSignType;
-  const element = zodiacElement[signName] || 'Unknown';
-  const emoji = zodiacEmoji[signName] || '?';
+  let signName = sign.toLowerCase() as ZodiacSignType;
+  let element = zodiacElement[signName] || 'Unknown';
+  let emoji = zodiacEmoji[signName] || '?';
   
-  const sizeMap = {
+  let sizeMap = {
     small: { fontSize: '1.5rem', padding: '0.2rem' },
     medium: { fontSize: '2rem', padding: '0.5rem' },
     large: { fontSize: '3rem', padding: '0.8rem' }
   };
   
-  const formattedName = signName.charAt(0).toUpperCase() + signName.slice(1);
+  let formattedName = signName.charAt(0).toUpperCase() + signName.slice(1);
   
   return (
     <Tooltip title={`${formattedName} (${element})`}>

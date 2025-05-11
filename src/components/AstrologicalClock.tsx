@@ -1,11 +1,11 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-import { useCurrentChart } from '@/hooks/useCurrentChart';
+import @/contexts  from 'AlchemicalContext ';
+import @/hooks  from 'useCurrentChart ';
 import { Clock, Sun, Moon, Star, Loader2, Info } from 'lucide-react';
-import type { ZodiacSign, PlanetaryAlignment } from '@/types/alchemy';
-import { calculatePlanetaryPositions, longitudeToZodiacPosition, getPlanetaryDignity } from '@/utils/astrologyUtils';
+import @/types  from 'alchemy ';
+import @/utils  from 'astrologyUtils ';
 import PlanetaryPositionValidation from './PlanetaryPositionValidation';
 import { PlanetInfoModal } from './PlanetInfoModal';
 
@@ -64,13 +64,26 @@ interface ClockPlanetaryPosition {
 const AstrologicalClock: React.FC = () => {
   const { planetaryPositions } = useAlchemical();
   const { chartData, createChartSvg, isLoading, error } = useCurrentChart();
-  const svgContainerRef = useRef<HTMLDivElement>(null);
+  let svgContainerRef = useRef<HTMLDivElement>(null);
   const [showLegend, setShowLegend] = useState(false);
 
   useEffect(() => {
     if (!isLoading && svgContainerRef.current) {
       const { svgContent } = createChartSvg();
-      svgContainerRef.current.innerHTML = svgContent;
+      
+      // Clear any existing content
+      while (svgContainerRef.current.firstChild) {
+        svgContainerRef.current.removeChild(svgContainerRef.current.firstChild);
+      }
+      
+      // Create a parser and parse the SVG content
+      let parser = new DOMParser();
+      let svgDoc = parser.parseFromString(svgContent, 'image / (svg || 1)+xml');
+      
+      // Append the SVG element to the container
+      if (svgDoc.documentElement) {
+        svgContainerRef.current.appendChild(svgDoc.documentElement);
+      }
     }
   }, [isLoading, createChartSvg]);
 
@@ -174,15 +187,15 @@ const AstrologicalClock: React.FC = () => {
               <tbody>
                 {Object.entries(chartData.planets).map(([planet, data]) => {
                   // Special handling for nodes
-                  const isNode = planet === 'NorthNode' || planet === 'SouthNode';
-                  const nodeClass = planet === 'NorthNode' ? 'text-blue-600' : 'text-red-600';
+                  let isNode = planet === 'NorthNode' || planet === 'SouthNode';
+                  let nodeClass = planet === 'NorthNode' ? 'text-blue-600' : 'text-red-600';
                   
                   // Only calculate dignity for actual planets, not nodes
-                  const dignity = isNode 
-                    ? { type: 'N/A', strength: 0 } 
+                  let dignity = isNode 
+                    ? { type: 'N / (A || 1)', strength: 0 } 
                     : getPlanetaryDignity(planet, data.sign);
                     
-                  const dignityClass = isNode
+                  let dignityClass = isNode
                     ? nodeClass 
                     : dignity.strength > 0 
                       ? 'text-green-600' 

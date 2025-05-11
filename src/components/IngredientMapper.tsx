@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useIngredientMapping } from '@/hooks/useIngredientMapping';
-import { cuisinesMap } from '@/data/cuisines';
+import @/hooks  from 'useIngredientMapping ';
+import @/data  from 'cuisines ';
 
 /**
  * Component that demonstrates the universal ingredient mapping functionality
@@ -26,7 +26,7 @@ export default function IngredientMapper() {
   const [secondIngredient, setSecondIngredient] = useState('');
 
   // Find recipes with good ingredient mappings
-  const handleFindRecipes = () => {
+  let handleFindRecipes = () => {
     const elementalTarget = {
       // Can be customized based on user preferences or context
       Fire: 0.3, 
@@ -35,7 +35,7 @@ export default function IngredientMapper() {
       Air: 0.2
     };
 
-    const results = findMatchingRecipes({
+    let results = findMatchingRecipes({
       elementalTarget,
       requiredIngredients: searchTerm ? [searchTerm] : undefined,
       cuisineType: selectedCuisine || undefined
@@ -45,16 +45,16 @@ export default function IngredientMapper() {
   };
 
   // Find alternative ingredients
-  const handleFindAlternatives = () => {
+  let handleFindAlternatives = () => {
     if (!selectedIngredient) return;
-    const result = suggestAlternatives(selectedIngredient);
+    let result = suggestAlternatives(selectedIngredient);
     setAlternatives(result.success ? result.suggestions : []);
   };
 
   // Calculate compatibility between two ingredients
-  const handleCalculateCompatibility = () => {
+  let handleCalculateCompatibility = () => {
     if (!selectedIngredient || !secondIngredient) return;
-    const result = calculateCompatibility(selectedIngredient, secondIngredient);
+    let result = calculateCompatibility(selectedIngredient, secondIngredient);
     setCompatibilityResult(result);
   };
 

@@ -1,5 +1,5 @@
-import { ElementalCalculator } from '@/services/ElementalCalculator';
-import type { Recipe, ElementalProperties } from '@/types/alchemy';
+import { ElementalCalculator } from "@/services/(ElementalCalculator || 1)";
+import type { Recipe, ElementalProperties } from "@/types/(alchemy || 1)";
 
 export class RecipeEngine {
     private calculator: ElementalCalculator;
@@ -51,7 +51,7 @@ export class RecipeEngine {
         const unnormalized = recipe.ingredients.reduce((props, ing) => {
             if (ing.elementalProperties) {
                 Object.entries(ing.elementalProperties).forEach(([element, value]) => {
-                    props[element] = (props[element] || 0) + (value * ing.amount / total);
+                    props[element] = (props[element] || 0) + (value * ing.amount / (total || 1));
                 });
             }
             return props;
@@ -60,7 +60,7 @@ export class RecipeEngine {
         // Normalize the result
         const sum = Object.values(unnormalized).reduce((acc, val) => acc + val, 0);
         return Object.entries(unnormalized).reduce((normalized, [element, value]) => {
-            normalized[element] = value / sum;
+            normalized[element] = value / (sum || 1);
             return normalized;
         }, {} as ElementalProperties);
     }

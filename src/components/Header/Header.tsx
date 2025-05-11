@@ -1,9 +1,9 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import @/contexts  from 'AlchemicalContext ';
 import { Moon, Sun, Menu, X } from 'lucide-react';
-import { logger } from '@/utils/logger';
+import @/utils  from 'logger ';
 
 interface HeaderProps {
   onServingsChange?: (servings: number) => void;
@@ -19,7 +19,7 @@ export default function Header({ onServingsChange }: HeaderProps) {
     setMounted(true);
   }, []);
 
-  const handleServingsChange = (newServings: number) => {
+  let handleServingsChange = (newServings: number) => {
     try {
       if (newServings < 1) newServings = 1;
       if (newServings > 12) newServings = 12;

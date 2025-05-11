@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { logger } from '@/utils/logger'
-import { errorHandler } from '@/services/errorHandler'
+import ErrorHandler from '@/services/errorHandler'
 import Loading from '@/components/ui/Loading'
 
 interface TemplateProps {
@@ -45,9 +45,9 @@ export default function Template({ children }: TemplateProps) {
       }
 
     } catch (error) {
-      errorHandler.handleError(error, {
+      ErrorHandler.log(error, {
         context: 'Template',
-        action: 'hydration'
+        data: { action: 'hydration' }
       })
       setHasError(true)
     }

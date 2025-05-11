@@ -10,73 +10,86 @@ const CATEGORIES = [
   'proteins',
   'seasonings',
   'spices',
-  'vegetables'
+  'vegetables',
 ];
 
 // Fix a single file with missing elemental properties
 function fixElementalProperties(filePath) {
-  console.log(`Processing ${filePath}...`);
-  
+  // console.log(`Processing ${filePath}...`);
+
   // Read the file
-  let content = fs.readFileSync(filePath, 'utf8');
-  let modified = false;
-  
+  const content = fs.readFileSync(filePath, 'utf8');
+  const modified = false;
+
   // Fix missing elemental properties
   const missingAir = /elementalProperties:\s*{\s*(?!.*?\bAir\b.*?})[^}]+}/g;
   const missingFire = /elementalProperties:\s*{\s*(?!.*?\bFire\b.*?})[^}]+}/g;
   const missingWater = /elementalProperties:\s*{\s*(?!.*?\bWater\b.*?})[^}]+}/g;
   const missingEarth = /elementalProperties:\s*{\s*(?!.*?\bEarth\b.*?})[^}]+}/g;
-  
+
   // Fix each missing element
   if (missingAir.test(content)) {
-    content = content.replace(/elementalProperties:\s*{([^}]+)}/g, (match, group) => {
-      if (!match.includes('Air:')) {
-        return `elementalProperties: {${group}, Air: 0.1}`;
+    content = content.replace(
+      /elementalProperties:\s*{([^}]+)}/g,
+      (match, group) => {
+        if (!match.includes('Air:')) {
+          return `elementalProperties: {${group}, Air: 0.1}`;
+        }
+        return match;
       }
-      return match;
-    });
+    );
     modified = true;
   }
-  
+
   if (missingFire.test(content)) {
-    content = content.replace(/elementalProperties:\s*{([^}]+)}/g, (match, group) => {
-      if (!match.includes('Fire:')) {
-        return `elementalProperties: {${group}, Fire: 0.1}`;
+    content = content.replace(
+      /elementalProperties:\s*{([^}]+)}/g,
+      (match, group) => {
+        if (!match.includes('Fire:')) {
+          return `elementalProperties: {${group}, Fire: 0.1}`;
+        }
+        return match;
       }
-      return match;
-    });
+    );
     modified = true;
   }
-  
+
   if (missingWater.test(content)) {
-    content = content.replace(/elementalProperties:\s*{([^}]+)}/g, (match, group) => {
-      if (!match.includes('Water:')) {
-        return `elementalProperties: {${group}, Water: 0.1}`;
+    content = content.replace(
+      /elementalProperties:\s*{([^}]+)}/g,
+      (match, group) => {
+        if (!match.includes('Water:')) {
+          return `elementalProperties: {${group}, Water: 0.1}`;
+        }
+        return match;
       }
-      return match;
-    });
+    );
     modified = true;
   }
-  
+
   if (missingEarth.test(content)) {
-    content = content.replace(/elementalProperties:\s*{([^}]+)}/g, (match, group) => {
-      if (!match.includes('Earth:')) {
-        return `elementalProperties: {${group}, Earth: 0.1}`;
+    content = content.replace(
+      /elementalProperties:\s*{([^}]+)}/g,
+      (match, group) => {
+        if (!match.includes('Earth:')) {
+          return `elementalProperties: {${group}, Earth: 0.1}`;
+        }
+        return match;
       }
-      return match;
-    });
+    );
     modified = true;
   }
-  
+
   // Fix capitalized zodiac signs
-  const wrongCaseZodiac = /'(Aries|Taurus|Gemini|Cancer|Leo|Virgo|Libra|Scorpio|Sagittarius|Capricorn|Aquarius|Pisces)'/g;
+  const wrongCaseZodiac =
+    /'(Aries|Taurus|Gemini|Cancer|Leo|Virgo|Libra|Scorpio|Sagittarius|Capricorn|Aquarius|Pisces)'/g;
   if (wrongCaseZodiac.test(content)) {
     content = content.replace(wrongCaseZodiac, (match, sign) => {
       return `'${sign.toLowerCase()}'`;
     });
     modified = true;
   }
-  
+
   // Fix string origin to array
   const stringOrigin = /origin:\s*'([^']+)'/g;
   if (stringOrigin.test(content)) {
@@ -85,14 +98,14 @@ function fixElementalProperties(filePath) {
     });
     modified = true;
   }
-  
+
   // If the file was modified, write it back
   if (modified) {
     fs.writeFileSync(filePath, content, 'utf8');
-    console.log(`  Updated ${filePath}`);
+    // console.log(`  Updated ${filePath}`);
     return true;
   } else {
-    console.log(`  No issues found in ${filePath}`);
+    // console.log(`  No issues found in ${filePath}`);
     return false;
   }
 }
@@ -100,52 +113,56 @@ function fixElementalProperties(filePath) {
 // Process all TypeScript files in a directory
 function processDirectory(dirPath) {
   const files = fs.readdirSync(dirPath);
-  let processed = 0;
-  
+  const processed = 0;
+
   for (const file of files) {
     const fullPath = path.join(dirPath, file);
     const stats = fs.statSync(fullPath);
-    
+
     if (stats.isDirectory()) {
       processed += processDirectory(fullPath);
-    } else if (file.endsWith('.ts') && !file.endsWith('.d.ts') && file !== 'index.ts') {
+    } else if (
+      file.endsWith('.ts') &&
+      !file.endsWith('.d.ts') &&
+      file !== 'index.ts'
+    ) {
       if (fixElementalProperties(fullPath)) {
         processed++;
       }
     }
   }
-  
+
   return processed;
 }
 
 // Main function
 async function main() {
-  let totalProcessed = 0;
-  
+  const totalProcessed = 0;
+
   for (const category of CATEGORIES) {
     const categoryPath = path.join(INGREDIENTS_BASE_PATH, category);
-    
+
     if (!fs.existsSync(categoryPath)) {
-      console.warn(`Category directory not found: ${categoryPath}`);
+      // console.warn(`Category directory not found: ${categoryPath}`);
       continue;
     }
-    
-    console.log(`\nProcessing category: ${category}`);
+
+    // console.log(`\nProcessing category: ${category}`);
     const processed = processDirectory(categoryPath);
     totalProcessed += processed;
-    console.log(`Processed ${processed} files in ${category}`);
+    // console.log(`Processed ${processed} files in ${category}`);
   }
-  
-  console.log(`\nTotal files processed: ${totalProcessed}`);
+
+  // console.log(`\nTotal files processed: ${totalProcessed}`);
 }
 
 // Run the script
 main()
   .then(() => {
-    console.log('All ingredient files have been processed.');
+    // console.log('All ingredient files have been processed.');
     process.exit(0);
   })
-  .catch(error => {
-    console.error('Error during processing:', error);
+  .catch((error) => {
+    // console.error('Error during processing:', error);
     process.exit(1);
-  }); 
+  });

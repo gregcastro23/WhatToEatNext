@@ -41,7 +41,7 @@ export const PopupProvider = ({ children }: PopupProviderProps): React.ReactElem
       className = ''
     } = options;
 
-    const id = Date.now();
+    let id = Date.now();
     
     // Calculate elemental influences
     const elemental = calculateElementalInfluence(sunSign, moonSign);
@@ -89,7 +89,7 @@ export const PopupProvider = ({ children }: PopupProviderProps): React.ReactElem
     // Handle animation timing
     const animationDuration = 300; // ms
     setTimeout(() => {
-      const popupElement = document.getElementById(`popup-${id}`);
+      let popupElement = document.getElementById(`popup-${id}`);
       if (popupElement) {
         popupElement.classList.add('popup-exit');
       }
@@ -104,7 +104,7 @@ export const PopupProvider = ({ children }: PopupProviderProps): React.ReactElem
   };
 
   const closePopup = (id: number): void => {
-    const popupElement = document.getElementById(`popup-${id}`);
+    let popupElement = document.getElementById(`popup-${id}`);
     if (popupElement) {
       popupElement.classList.add('popup-exit');
       setTimeout(() => {

@@ -6,7 +6,7 @@ declare global {
 }
 
 import { StandardizedAlchemicalResult } from '@/types/alchemy';
-import alchemicalEngine from '@/app/alchemicalEngine';
+import { alchemicalEngine } from '@/app/alchemicalEngine';
 
 // Use the standardized interface we created
 export type AlchemicalResult = StandardizedAlchemicalResult;
@@ -16,13 +16,13 @@ export type AlchemicalResult = StandardizedAlchemicalResult;
  */
 export function initializeAlchemicalEngine() {
   if (typeof window === 'undefined') return;
-  
+
   try {
     // Assign the core alchemize function to the window object
     window.alchemize = alchemicalEngine.alchemize;
-    console.log("Alchemical engine initialized successfully");
+    // console.log("Alchemical engine initialized successfully");
   } catch (error) {
-    console.error("Failed to initialize alchemize function:", error);
+    // console.error("Failed to initialize alchemize function:", error);
   }
 }
 
@@ -30,9 +30,12 @@ export function initializeAlchemicalEngine() {
  * A static version of the alchemize function that can be used directly
  * This wraps the core engine's implementation
  */
-export const staticAlchemize = (birthInfo: unknown, horoscopeDict: unknown): AlchemicalResult => {
+export let staticAlchemize = (
+  birthInfo: unknown,
+  horoscopeDict: unknown
+): AlchemicalResult => {
   return alchemicalEngine.alchemize(birthInfo, horoscopeDict);
 };
 
 // Re-export the core functionality
-export { alchemicalEngine }; 
+export { alchemicalEngine };

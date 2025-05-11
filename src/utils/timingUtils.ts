@@ -1,6 +1,6 @@
-import type { ElementalProperties } from '@/types/alchemy';
+import @/types  from 'alchemy ';
 import { elementalUtils } from './elementalUtils';
-import { culinaryTraditions } from '@/data/cuisines/culinaryTraditions';
+import @/data  from 'cuisines ';
 
 // Define TimingResult interface
 interface TimingResult {
@@ -8,7 +8,7 @@ interface TimingResult {
   phases: Array<{ name: string; time: number }>;
 }
 
-export const timingUtils = {
+export let timingUtils = {
   calculateOptimalTiming(
     ingredients: ElementalProperties[],
     cookingMethod: string,
@@ -17,8 +17,8 @@ export const timingUtils = {
     const baseTiming = this.calculateBaseTiming(ingredients, cookingMethod);
     
     if (cuisine) {
-      const cuisineProfile = culinaryTraditions[cuisine];
-      const cuisineElement = Object.entries(cuisineProfile.elementalAlignment)
+      let cuisineProfile = culinaryTraditions[cuisine];
+      let cuisineElement = Object.entries(cuisineProfile.elementalAlignment)
         .sort(([,a], [,b]) => b - a)[0][0];
       
       return this.applyCuisineModifiers(baseTiming, cuisineElement);
@@ -27,7 +27,7 @@ export const timingUtils = {
   },
 
   applyCuisineModifiers(base: TimingResult, element: string): TimingResult {
-    const modifiers = {
+    let modifiers = {
       Fire: { duration: 0.8, mainPhase: 0.7 },
       Water: { duration: 1.2, mainPhase: 0.5 },
       Earth: { duration: 1.1, mainPhase: 0.6 },
@@ -49,13 +49,13 @@ export const timingUtils = {
     ingredients: ElementalProperties[],
     cookingMethod: string
   ): TimingResult {
-    const baseProperties = ingredients.reduce(
+    let baseProperties = ingredients.reduce(
       (acc, curr) => elementalUtils.combineProperties(acc, curr),
       elementalUtils.DEFAULT_ELEMENTAL_PROPERTIES
     );
 
     // Implement getDominantElement directly
-    const dominantElement = Object.entries(baseProperties)
+    let dominantElement = Object.entries(baseProperties)
       .reduce((a, b) => a[1] > b[1] ? a : b)[0];
     
     // Base timing by dominant element (in minutes)
@@ -75,9 +75,9 @@ export const timingUtils = {
       'raw': 0
     };
 
-    const baseTime = elementalTiming[dominantElement] || 30;
-    const modifier = methodModifiers[cookingMethod.toLowerCase()] || 1.0;
-    const totalTime = baseTime * modifier;
+    let baseTime = elementalTiming[dominantElement] || 30;
+    let modifier = methodModifiers[cookingMethod.toLowerCase()] || 1.0;
+    let totalTime = baseTime * modifier;
 
     // Calculate cooking phases
     return {

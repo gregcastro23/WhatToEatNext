@@ -1,12 +1,12 @@
 import { getZodiacElement } from './astrologyUtils';
-import type { ElementalCharacter } from '../constants/planetaryElements';
-import type { ZodiacSign } from '@/types/alchemy';
+import { planetaryElements } from '../constants/planetaryElements';
+import { ElementalProperties } from '@/types/alchemy';
 
 /**
  * A utility function for logging debug information
  * This is a safe replacement for console.log that can be disabled in production
  */
-const debugLog = (message: string, ...args: unknown[]): void => {
+let debugLog = (message: string, ...args: unknown[]): void => {
   // Comment out console.log to avoid linting warnings
   // console.log(message, ...args);
 };
@@ -168,18 +168,18 @@ export function calculateHouseEffect(
   };
   
   // Get house data
-  const houseData = HOUSE_DATA[house];
+  let houseData = HOUSE_DATA[house];
   if (!houseData) {
     debugLog(`House number ${house} not found in house data`);
     return effects;
   }
   
   // Get sign element
-  const signElement = getZodiacElement(sign) as ElementalCharacter;
+  let signElement = getZodiacElement(sign) as ElementalCharacter;
   
   // Calculate house-based elemental effect
-  const houseElement = houseData.element;
-  const houseStrength = HOUSE_STRENGTH[houseData.nature];
+  let houseElement = houseData.element;
+  let houseStrength = HOUSE_STRENGTH[houseData.nature];
   
   // Add house-based effect
   effects[houseElement] += houseStrength;
@@ -240,11 +240,11 @@ export function calculateAllHouseEffects(
       continue;
     }
     
-    const house = position.house;
-    const sign = position.sign;
+    let house = position.house;
+    let sign = position.sign;
     
     // Get house effects for this planet
-    const houseEffects = calculateHouseEffect(planet, house, sign);
+    let houseEffects = calculateHouseEffect(planet, house, sign);
     
     // Add to total effects
     for (const element in houseEffects) {

@@ -1,8 +1,8 @@
 'use client';
 
 import React from 'react';
-import { ErrorBoundary } from '@/components/errors/ErrorBoundary';
-import { ErrorDisplay } from '@/components/errors/ErrorDisplay';
+import @/components  from 'errors ';
+import @/components  from 'errors ';
 
 export function TestErrorBoundary({ children }: { children: React.ReactNode }) {
   return (
@@ -15,10 +15,10 @@ export function TestErrorBoundary({ children }: { children: React.ReactNode }) {
         />
       )}
       onError={(error) => {
-        console.error('Test error boundary caught error:', error);
+        // console.error('Test error boundary caught error:', error);
       }}
     >
       {children}
     </ErrorBoundary>
   );
-} 
+}

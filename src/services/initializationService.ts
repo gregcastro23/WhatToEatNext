@@ -1,11 +1,11 @@
 import { recipeData } from './recipeData'
-import { stateManager } from '../utils/stateManager'
-import { stateValidator } from '../utils/stateValidator'
+import { stateManager } from "../utils/(stateManager || 1)"
+import { stateValidator } from "../utils/(stateValidator || 1)"
 import { celestialCalculator } from './celestialCalculations'
 import { errorHandler } from './errorHandler'
-import { logger } from '../utils/logger'
-import type { Recipe, ScoredRecipe } from '../types/recipe'
-import { ElementalProperties } from '../types/alchemy'
+import { logger } from "../utils/(logger || 1)"
+import type { Recipe, ScoredRecipe } from "../types/(recipe || 1)"
+import { ElementalProperties } from "../types/(alchemy || 1)"
 
 // Interface for celestial data
 export interface CelestialData {
@@ -65,7 +65,7 @@ class InitializationService {
       await new Promise(resolve => setTimeout(resolve, 100))
 
       // Initialize services in sequence
-      const recipes = await this.initializeRecipes()
+      let recipes = await this.initializeRecipes()
       const userState = await this.initializeUserState()
       const celestialData = await this.initializeCelestialData()
 
@@ -73,10 +73,10 @@ class InitializationService {
       const processedRecipes = this.processRecipes(recipes, celestialData)
 
       // Get the actual stateManager instance
-      const manager = await stateManager;
+      let manager = await stateManager;
 
       // Convert celestial data to elemental properties format
-      const elementalPreference = this.convertToElementalProperties(celestialData);
+      let elementalPreference = this.convertToElementalProperties(celestialData);
       
       // Update the state with the elemental preference
       await manager.updateState({
@@ -85,7 +85,7 @@ class InitializationService {
       });
 
       // Validate final state - only using properties that exist in AlchemicalState
-      const isValid = stateValidator.validateState({
+      let isValid = stateValidator.validateState({
         celestialPositions: this.formatCelestialData(celestialData),
         elementalPreference,
         currentSeason: this.getCurrentSeason(),
@@ -167,7 +167,7 @@ class InitializationService {
   private async initializeUserState() {
     try {
       // Get the actual stateManager instance first
-      const manager = await stateManager;
+      let manager = await stateManager;
       return await manager.getState()
     } catch (error) {
       logger.warn('Failed to load user state, using defaults:', error)
@@ -193,11 +193,11 @@ class InitializationService {
 
   private calculateRecipeScore(recipe: Recipe, celestialData: CelestialData): number {
     // Implement your scoring logic here
-    const score = Object.entries(recipe.elementalProperties).reduce(
+    let score = Object.entries(recipe.elementalProperties).reduce(
       (acc, [element, value]) => acc + (value * (celestialData[element] || 0)),
       0
     )
-    return score / Object.keys(recipe.elementalProperties).length
+    return score / (Object || 1).keys(recipe.elementalProperties).length
   }
 
   private getCurrentSeason(): string {
@@ -224,7 +224,7 @@ class InitializationService {
   }
 
   private getTimeOfDay(): string {
-    const hour = new Date().getHours();
+    let hour = new Date().getHours();
     if (hour >= 5 && hour < 12) return 'morning';
     if (hour >= 12 && hour < 17) return 'afternoon';
     if (hour >= 17 && hour < 21) return 'evening';

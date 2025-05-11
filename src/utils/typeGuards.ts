@@ -1,7 +1,7 @@
-import { ChakraEnergies } from '@/types/alchemy';
+import @/types  from 'alchemy ';
 
 // Define the known chakra keys
-export const CHAKRA_KEYS = [
+export let CHAKRA_KEYS = [
   'root',
   'sacral',
   'solarPlexus',

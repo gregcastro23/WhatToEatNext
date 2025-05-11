@@ -550,6 +550,45 @@ export interface CookingMethodData {
   safetyFeatures?: string[];
 }
 
+// Add definition for CookingMethodProfile used in cookingMethodRecommender.ts
+export interface CookingMethodProfile {
+  name: string;
+  description?: string;
+  elementalProperties?: ElementalProperties;
+  thermodynamicProperties?: BasicThermodynamicProperties;
+  astrologicalInfluences?: {
+    favorableZodiac?: ZodiacSign[];
+    unfavorableZodiac?: ZodiacSign[];
+    dominantPlanets?: string[];
+  };
+  duration?: {
+    min: number;
+    max: number;
+  };
+  suitable_for?: string[];
+  benefits?: string[];
+  toolsRequired?: string[];
+}
+
+// Add definition for MethodRecommendation and MethodRecommendationOptions
+export interface MethodRecommendation {
+  method: CookingMethodProfile;
+  score: number;
+  matchReasons?: string[];
+  elementalMatch?: number;
+  astrologicalMatch?: number;
+  seasonalMatch?: number;
+}
+
+export interface MethodRecommendationOptions {
+  limit?: number;
+  culturalPreference?: string;
+  dietaryPreferences?: string[];
+  availableTools?: string[];
+  includeMatchExplanations?: boolean;
+  includeScores?: boolean;
+}
+
 export interface FlavorProfile {
   elementalProperties: ElementalProperties;
   taste: string[];

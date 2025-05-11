@@ -1,7 +1,7 @@
-// src/__tests__/utils/elementalUtils.test.ts
+// src / (__tests__ || 1)/utils / (elementalUtils || 1).test.ts
 
-import { elementalUtils } from '@/utils/elementalUtils';
-import type { ElementalProperties } from '@/types/alchemy';
+import @/utils  from 'elementalUtils ';
+import @/types  from 'alchemy ';
 
 describe('elementalUtils', () => {
   const validProps: ElementalProperties = {
@@ -30,19 +30,19 @@ describe('elementalUtils', () => {
 
   describe('normalizeProperties', () => {
     it('should normalize properties to sum to 1', () => {
-      const normalized = elementalUtils.normalizeProperties(invalidProps);
-      const sum = Object.values(normalized).reduce((acc, val) => acc + (val as number), 0);
+      let normalized = elementalUtils.normalizeProperties(invalidProps);
+      let sum = Object.values(normalized).reduce((acc, val) => acc + (val as number), 0);
       expect(Math.abs(sum - 1)).toBeLessThan(0.000001);
     });
 
     it('should handle empty or zero properties', () => {
-      const emptyProps = {
+      let emptyProps = {
         Fire: 0,
         Water: 0,
         Air: 0,
         Earth: 0
       };
-      const normalized = elementalUtils.normalizeProperties(emptyProps);
+      let normalized = elementalUtils.normalizeProperties(emptyProps);
       expect(normalized.Fire).toBe(0.25);
       expect(normalized.Water).toBe(0.25);
       expect(normalized.Air).toBe(0.25);

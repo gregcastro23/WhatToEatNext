@@ -17,8 +17,8 @@ export class ElementalRecommendationService {
    * @returns A comprehensive recommendation object
    */
   public static generateRecommendation(properties: ElementalProperties): ElementalRecommendation {
-    const profile = elementalUtils.getElementalProfile(properties);
-    const dominantElement = this.getDominantElement(properties);
+    let profile = elementalUtils.getElementalProfile(properties);
+    let dominantElement = this.getDominantElement(properties);
 
     return {
       elementalBalance: properties,
@@ -40,8 +40,8 @@ export class ElementalRecommendationService {
    * @returns A recommendation tailored to the zodiac sign
    */
   public static generateZodiacRecommendation(zodiacSign: ZodiacSign): ElementalRecommendation {
-    const element = ZODIAC_ELEMENTS[zodiacSign];
-    const properties = {
+    let element = ZODIAC_ELEMENTS[zodiacSign];
+    let properties = {
       Fire: element === 'Fire' ? 0.6 : 0.1,
       Water: element === 'Water' ? 0.6 : 0.1,
       Earth: element === 'Earth' ? 0.6 : 0.1,
@@ -69,7 +69,7 @@ export class ElementalRecommendationService {
       'waning crescent': { Earth: 0.5, Air: 0.2 }
     };
 
-    const properties = {
+    let properties = {
       Fire: lunarElementalMap[lunarPhase]?.Fire || 0.25,
       Water: lunarElementalMap[lunarPhase]?.Water || 0.25,
       Earth: lunarElementalMap[lunarPhase]?.Earth || 0.25,
@@ -85,7 +85,7 @@ export class ElementalRecommendationService {
    * @returns A recommendation tailored to the recipe
    */
   public static generateRecipeRecommendation(recipe: Recipe): ElementalRecommendation {
-    const properties = elementalUtils.calculateelementalState(recipe);
+    let properties = elementalUtils.calculateelementalState(recipe);
     return this.generateRecommendation(properties);
   }
 

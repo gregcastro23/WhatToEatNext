@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { getTopIngredientMatches } from '@/utils/foodRecommender';
+import @/utils  from 'foodRecommender ';
 import styles from './IngredientRecommendations.module.css';
 import type { AstrologicalState } from '@/types';
 
@@ -10,7 +10,7 @@ interface IngredientRecommendationsProps {
 const IngredientRecommendations: React.FC<IngredientRecommendationsProps> = ({
   astrologicalState
 }) => {
-  const recommendedIngredients = useMemo(() => {
+  let recommendedIngredients = useMemo(() => {
     return getTopIngredientMatches(astrologicalState, 5);
   }, [astrologicalState]);
 

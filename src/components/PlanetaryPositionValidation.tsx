@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { validatePlanetaryPositions } from '@/utils/astrologyValidation';
+import @/utils  from 'astrologyValidation ';
 
 export default function PlanetaryPositionValidation() {
   const [expanded, setExpanded] = useState(false);

@@ -6,7 +6,7 @@ import MoonDisplay from './src/components/MoonDisplay';
 import AstrologicalClock from './src/components/AstrologicalClock';
 import FoodRecommender from './src/components/FoodRecommender';
 import CuisineRecommender from './src/components/CuisineRecommender';
-import CookingMethods from './src/components/CookingMethods';
+import CookingMethodsSection from './src/components/CookingMethodsSection';
 
 function App() {
   return (
@@ -29,7 +29,11 @@ function App() {
           {/* Right column */}
           <div className="space-y-6">
             <CuisineRecommender />
-            <CookingMethods />
+            <CookingMethodsSection 
+              methods={[]} 
+              showToggle={true}
+              initiallyExpanded={true}
+            />
           </div>
         </div>
       </div>

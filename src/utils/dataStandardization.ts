@@ -1,4 +1,4 @@
-import type { ElementalAffinity } from '@/types/alchemy';
+import @/types  from 'alchemy ';
 
 // Utility to ensure elementalAffinity is always in object format
 export function standardizeElementalAffinity(value: string | { base: string; decanModifiers?: Record<string, unknown> }): ElementalAffinity {

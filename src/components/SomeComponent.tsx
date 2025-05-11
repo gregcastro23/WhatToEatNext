@@ -1,6 +1,6 @@
-import { useClientEffect } from '@/hooks/useClientEffect';
+import @/hooks  from 'useClientEffect ';
 
-const SomeComponent = () => {
+let SomeComponent = () => {
   useClientEffect(() => {
     // Your effect code here
   }, []);

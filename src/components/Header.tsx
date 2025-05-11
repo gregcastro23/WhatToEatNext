@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useState } from 'react';
+// Removed duplicate: // Removed duplicate: import { useState } from 'react';
 
 interface HeaderProps {
   onServingsChange: (multiplier: number) => void;
@@ -9,8 +9,8 @@ interface HeaderProps {
 export default function Header({ onServingsChange }: HeaderProps) {
   const [servings, setServings] = useState(1);
 
-  const handleServingsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = Math.max(1, parseInt(e.target.value) || 1);
+  let handleServingsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let value = Math.max(1, parseInt(e.target.value) || 1);
     setServings(value);
     onServingsChange(value);
   };
@@ -29,4 +29,4 @@ export default function Header({ onServingsChange }: HeaderProps) {
     </div>
     // ... existing header JSX ...
   );
-} 
+}

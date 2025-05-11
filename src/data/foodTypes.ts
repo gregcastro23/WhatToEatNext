@@ -6,16 +6,16 @@ import { Recipe as Dish } from '@/types/recipe';
 import { NutritionalInfo } from '@/constants/recipe';
 
 // Properties that describe food characteristics
-export type FoodProperty = 
-  | 'hot' 
-  | 'cold' 
-  | 'wet' 
-  | 'dry' 
-  | 'light' 
-  | 'heavy' 
-  | 'spicy' 
-  | 'mild' 
-  | 'fresh' 
+export type FoodProperty =
+  | 'hot'
+  | 'cold'
+  | 'wet'
+  | 'dry'
+  | 'light'
+  | 'heavy'
+  | 'spicy'
+  | 'mild'
+  | 'fresh'
   | 'preserved'
   | 'sweet'
   | 'sour'
@@ -65,7 +65,7 @@ export const nutritionTargets = {
   protein: { min: 50, max: 100, unit: 'g' },
   carbs: { min: 225, max: 325, unit: 'g' },
   fats: { min: 44, max: 78, unit: 'g' },
-  fiber: { min: 25, max: 35, unit: 'g' }
+  fiber: { min: 25, max: 35, unit: 'g' },
 };
 
 // Cultural balance rules that extend existing cuisine data
@@ -83,9 +83,9 @@ export interface CulturalBalance {
 }
 
 // Helper to calculate nutritional balance
-export function calculateNutritionalBalance(
-  entries: FoodEntry[]
-): { [key: string]: number } {
+export function calculateNutritionalBalance(entries: FoodEntry[]): {
+  [key: string]: number;
+} {
   return entries.reduce((acc, entry) => {
     Object.entries(entry.nutrition).forEach(([nutrient, value]) => {
       if (typeof value === 'number') {
@@ -101,7 +101,7 @@ export function analyzePropertyBalance(
   entries: FoodEntry[]
 ): { property: FoodProperty; count: number }[] {
   const propertyCount = entries.reduce((acc, entry) => {
-    entry.properties.forEach(prop => {
+    entry.properties.forEach((prop) => {
       acc[prop] = (acc[prop] || 0) + 1;
     });
     return acc;
@@ -109,7 +109,7 @@ export function analyzePropertyBalance(
 
   return Object.entries(propertyCount).map(([property, count]) => ({
     property: property as FoodProperty,
-    count
+    count,
   }));
 }
 
@@ -121,34 +121,36 @@ export function findComplementaryDishes(
 ): Dish[] {
   // Get current nutritional totals
   const currentNutrition = calculateNutritionalBalance(currentEntries);
-  
+
   // Find dishes that help balance nutrition and properties
   const recommendations: Dish[] = [];
-  
-  Object.values(availableDishes).forEach(cuisine => {
+
+  Object.values(availableDishes).forEach((cuisine) => {
     if (cuisine && cuisine.dishes) {
-      Object.values(cuisine.dishes).forEach(mealTypes => {
+      Object.values(cuisine.dishes).forEach((mealTypes) => {
         if (mealTypes) {
-          Object.values(mealTypes).forEach(seasonalDishes => {
+          Object.values(mealTypes).forEach((seasonalDishes) => {
             if (seasonalDishes && Array.isArray(seasonalDishes)) {
-              seasonalDishes.forEach(dish => {
-                let score = 0;
-                
+              seasonalDishes.forEach((dish) => {
+                const score = 0;
+
                 // Score based on needed nutrients
-                Object.entries(nutritionTargets).forEach(([nutrient, target]) => {
-                  const current = currentNutrition[nutrient] || 0;
-                  if (current < target.min) {
-                    score += 1;
+                Object.entries(nutritionTargets).forEach(
+                  ([nutrient, target]) => {
+                    const current = currentNutrition[nutrient] || 0;
+                    if (current < target.min) {
+                      score += 1;
+                    }
                   }
-                });
-                
+                );
+
                 // Score based on desired properties
-                targetProperties.forEach(prop => {
+                targetProperties.forEach((prop) => {
                   if (dish.properties?.includes(prop)) {
                     score += 1;
                   }
                 });
-                
+
                 if (score > 0) {
                   recommendations.push(dish);
                 }
@@ -159,7 +161,7 @@ export function findComplementaryDishes(
       });
     }
   });
-  
+
   return recommendations.sort((a, b) => {
     const bProtein = b.nutrition?.protein || 0;
     const aProtein = a.nutrition?.protein || 0;

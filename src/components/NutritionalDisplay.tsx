@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import { getNutritionalData, getAvailableNutritionalIngredients } from '@/utils/nutritionalUtils';
-import { NutritionalProfile } from '@/types/alchemy';
+import { getNutritionalInfo } from '@/utils/nutritionalUtils';
+import { IngredientMapping } from '@/types/alchemy';
 
 interface NutritionalDisplayProps {
   ingredientName?: string;
@@ -22,17 +22,17 @@ export default function NutritionalDisplay({
   );
 
   // Get all available ingredients for dropdown
-  const availableIngredients = getAvailableNutritionalIngredients();
+  let availableIngredients = getAvailableNutritionalIngredients();
 
   // Handle ingredient selection
-  const handleIngredientSelect = (ingredient: string) => {
+  let handleIngredientSelect = (ingredient: string) => {
     setSelectedIngredient(ingredient);
-    const data = getNutritionalData(ingredient);
+    let data = getNutritionalData(ingredient);
     setNutritionalData(data);
   };
 
   // Format percentage for display
-  const formatPercent = (value: number) => {
+  let formatPercent = (value: number) => {
     return `${Math.round(value * 100)}%`;
   };
 

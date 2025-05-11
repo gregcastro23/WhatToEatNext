@@ -1,4 +1,4 @@
-import type { Element } from '@/types/alchemy';
+import @/types  from 'alchemy ';
 
 interface ElementCombinations {
   harmonious: [Element, Element][];
@@ -40,7 +40,7 @@ export const ELEMENT_WEAKNESSES: Record<Element, Element> = {
   Air: 'Fire'
 } as const;
 
-export const ELEMENTAL_THRESHOLDS = {
+export let ELEMENTAL_THRESHOLDS = {
   LOW: 0.33,
   MEDIUM: 0.66,
   HIGH: 1.0,

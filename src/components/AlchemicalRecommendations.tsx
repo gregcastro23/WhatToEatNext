@@ -1,19 +1,19 @@
 import React, { useState, useMemo } from 'react';
-import { RulingPlanet } from '@/constants/planets';
-import { ElementalCharacter, AlchemicalProperty } from '@/constants/planetaryElements';
-import { useAlchemicalRecommendations } from '@/hooks/useAlchemicalRecommendations';
-import { ElementalItem } from '@/calculations/alchemicalTransformation';
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-import { LunarPhase, LunarPhaseWithSpaces, ZodiacSign, PlanetaryAspect } from '@/types/alchemy';
+import @/constants  from 'planets ';
+import @/constants  from 'planetaryElements ';
+import @/hooks  from 'useAlchemicalRecommendations ';
+import @/calculations  from 'alchemicalTransformation ';
+import @/contexts  from 'AlchemicalContext ';
+import @/types  from 'alchemy ';
 
 // Import the correct data sources
-import allIngredients from '@/data/ingredients';
-import { cookingMethods } from '@/data/cooking/cookingMethods';
-import { cuisines } from '@/data/cuisines';
+import @/data  from 'ingredients ';
+import @/data  from 'cooking ';
+import @/data  from 'cuisines ';
 
 // Add import for modality type and utils
-import type { Modality } from '@/data/ingredients/types';
-import { determineIngredientModality } from '@/utils/ingredientUtils';
+import @/data  from 'ingredients ';
+import @/utils  from 'ingredientUtils ';
 
 interface AlchemicalRecommendationsProps {
   // If these aren't passed, the component will use current astronomical conditions
@@ -36,10 +36,10 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
   aspects = []
 }) => {
   // Use AlchemicalContext to get current astronomical state if not provided
-  const alchemicalContext = useAlchemical();
+  let alchemicalContext = useAlchemical();
   
   // Use context values as fallbacks if props aren't provided
-  const resolvedPlanetaryPositions = useMemo(() => {
+  let resolvedPlanetaryPositions = useMemo(() => {
     if (planetPositions) {
       return planetPositions;
     }
@@ -84,8 +84,8 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
     };
   }, [planetPositions, alchemicalContext.planetaryPositions]);
   
-  const resolvedIsDaytime = isDaytime !== undefined ? isDaytime : alchemicalContext.isDaytime;
-  const resolvedCurrentZodiac = currentZodiac || 
+  let resolvedIsDaytime = isDaytime !== undefined ? isDaytime : alchemicalContext.isDaytime;
+  let resolvedCurrentZodiac = currentZodiac || 
     (alchemicalContext.state?.astrologicalState?.zodiacSign as ZodiacSign) || null;
   
   // Fix the lunar phase type resolution
@@ -101,7 +101,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
   const [modalityFilter, setModalityFilter] = useState<Modality | 'all'>('all');
   
   // Convert ingredients object to an array of ElementalItem objects
-  const ingredientsArray = useMemo(() => {
+  let ingredientsArray = useMemo(() => {
     return Object.entries(allIngredients).map(([key, ingredient]) => {
       // Get ingredient elemental properties or calculate them
       let elementalProps;
@@ -109,8 +109,8 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         elementalProps = (ingredient as any).elementalProperties;
       } else {
         // Calculate based on ingredient category and attributes
-        const category = (ingredient as any).category || '';
-        const rulingPlanets = (ingredient as any).astrologicalProfile?.rulingPlanets || [];
+        let category = (ingredient as any).category || '';
+        let rulingPlanets = (ingredient as any).astrologicalProfile?.rulingPlanets || [];
         
         // Start with empty properties
         elementalProps = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
@@ -163,7 +163,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         });
         
         // Normalize values
-        const total = Object.values(elementalProps).reduce((sum, val) => sum + val, 0);
+        let total = Object.values(elementalProps).reduce((sum, val) => sum + val, 0);
         if (total > 0) {
           for (const element in elementalProps) {
             elementalProps[element as keyof typeof elementalProps] /= total;
@@ -185,7 +185,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
   }, []);
   
   // Convert cooking methods to ElementalItem array
-  const cookingMethodsArray = useMemo(() => {
+  let cookingMethodsArray = useMemo(() => {
     return Object.entries(cookingMethods).map(([key, method]) => {
       // Get cooking method elemental effect or calculate it
       let elementalEffect;
@@ -195,7 +195,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         // Calculate based on cooking method characteristics
         elementalEffect = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
         
-        const methodName = ((method as any).name || key).toLowerCase();
+        let methodName = ((method as any).name || key).toLowerCase();
         
         // Adjust by cooking method type
         if (methodName.includes('grill') || methodName.includes('roast') || methodName.includes('bake') ||
@@ -227,7 +227,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         }
         
         // Normalize values
-        const total = Object.values(elementalEffect).reduce((sum, val) => sum + val, 0);
+        let total = Object.values(elementalEffect).reduce((sum, val) => sum + val, 0);
         if (total > 0) {
           for (const element in elementalEffect) {
             elementalEffect[element as keyof typeof elementalEffect] /= total;
@@ -244,7 +244,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
   }, []);
   
   // Convert cuisines to ElementalItem array
-  const cuisinesArray = useMemo(() => {
+  let cuisinesArray = useMemo(() => {
     return Object.entries(cuisines).map(([key, cuisine]) => {
       // Get cuisine elemental state or calculate it
       let elementalState;
@@ -254,10 +254,10 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         // Calculate based on cuisine characteristics
         elementalState = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
         
-        const cuisineName = ((cuisine as any).name || key).toLowerCase();
-        const region = ((cuisine as any).region || '').toLowerCase();
+        let cuisineName = ((cuisine as any).name || key).toLowerCase();
+        let region = ((cuisine as any).region || '').toLowerCase();
         
-        // Adjust by cuisine type/region
+        // Adjust by cuisine type / (region || 1)
         if (cuisineName.includes('indian') || cuisineName.includes('thai') || 
             cuisineName.includes('mexican') || cuisineName.includes('cajun')) {
           // Spicy cuisines tend to have more Fire
@@ -293,7 +293,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         }
         
         // Normalize values
-        const total = Object.values(elementalState).reduce((sum, val) => sum + val, 0);
+        let total = Object.values(elementalState).reduce((sum, val) => sum + val, 0);
         if (total > 0) {
           for (const element in elementalState) {
             elementalState[element as keyof typeof elementalState] /= total;
@@ -310,13 +310,13 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
   }, []);
   
   // Filter ingredients array by modality
-  const filteredIngredientsArray = useMemo(() => {
+  let filteredIngredientsArray = useMemo(() => {
     if (modalityFilter === 'all') return ingredientsArray;
     
     return ingredientsArray.filter(ingredient => {
-      const elementalProps = ingredient.elementalProperties;
-      const qualities = ingredient.qualities || [];
-      const modality = ingredient.modality || 
+      let elementalProps = ingredient.elementalProperties;
+      let qualities = ingredient.qualities || [];
+      let modality = ingredient.modality || 
         determineIngredientModality(elementalProps, qualities);
       return modality === modalityFilter;
     });

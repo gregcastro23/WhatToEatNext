@@ -32,27 +32,27 @@ const sourceContent = fs.readFileSync(SOURCE_FILE, 'utf8');
 // 4. Update the findIngredientMatch function to use POST search method
 // 5. Ensure improved API error handling and logging is in place
 
-console.log('Starting to update ingredient category scripts...');
+// console.log('Starting to update ingredient category scripts...');
 
 // Process each target file
 TARGET_FILES.forEach(filename => {
   const filePath = path.resolve(process.cwd(), 'src/scripts', filename);
   
   if (!fs.existsSync(filePath)) {
-    console.log(`File not found: ${filePath}`);
+    // console.log(`File not found: ${filePath}`);
     return;
   }
   
-  console.log(`\nProcessing ${filename}...`);
+  // console.log(`\nProcessing ${filename}...`);
   
   // Read the target file
-  let content = fs.readFileSync(filePath, 'utf8');
+  const content = fs.readFileSync(filePath, 'utf8');
   
   // Extract the category name from the file
   const categoryMatch = content.match(/const CATEGORY = ['"]([^'"]+)['"]/);
   const category = categoryMatch ? categoryMatch[1] : filename.replace('update', '').replace('.ts', '').toLowerCase();
   
-  console.log(`Identified category: ${category}`);
+  // console.log(`Identified category: ${category}`);
   
   // 1. Update the import/require statement
   content = content.replace(
@@ -85,7 +85,7 @@ TARGET_FILES.forEach(filename => {
     const targetMakeApiRequest = content.match(makeApiRequestRegex);
     if (targetMakeApiRequest) {
       content = content.replace(targetMakeApiRequest[0], makeApiRequestFunc[0]);
-      console.log(`Updated makeApiRequest function`);
+      // console.log(`Updated makeApiRequest function`);
     }
   }
   
@@ -97,14 +97,14 @@ TARGET_FILES.forEach(filename => {
     const targetFindIngredientMatch = content.match(findIngredientMatchRegex);
     if (targetFindIngredientMatch) {
       // Update the function but preserve the category-specific caching
-      let newFunc = findIngredientMatchFunc[0];
+      const newFunc = findIngredientMatchFunc[0];
       
       // Update any herbs-specific cache references to use the current category
       newFunc = newFunc.replace(/progress.processedIngredients\[ingredientKey\]/g, 
         `progress.processedIngredients[ingredientKey]`);
       
       content = content.replace(targetFindIngredientMatch[0], newFunc);
-      console.log(`Updated findIngredientMatch function`);
+      // console.log(`Updated findIngredientMatch function`);
     }
   }
   
@@ -116,8 +116,8 @@ TARGET_FILES.forEach(filename => {
   
   // 6. Update any logging mentions of herbs to the current category
   content = content.replace(
-    /console\.log\(`Completed enhancing herbs\.\`\)/g,
-    `console.log(\`Completed enhancing ${category}.\`)`
+    /console\.log\(`Completed enhancing herbs\.`\)/g,
+    `console.log(`Completed enhancing ${category}.`)`
   );
   
   // 7. Update function name in exports
@@ -127,7 +127,7 @@ TARGET_FILES.forEach(filename => {
   );
   
   // 8. Update main function name
-  const updateFuncRegex = new RegExp(`async function update${category.charAt(0).toUpperCase() + category.slice(1)}\\(\\) {`);
+  const updateFuncRegex = new RegExp(`async function update${category.charAt(0).toUpperCase() + category.slice(1)}() {`);
   if (!content.match(updateFuncRegex)) {
     content = content.replace(
       /async function updateHerbs\(\) {/,
@@ -149,21 +149,21 @@ TARGET_FILES.forEach(filename => {
   
   // Save the updated file
   fs.writeFileSync(filePath, content, 'utf8');
-  console.log(`Updated ${filename}`);
+  // console.log(`Updated ${filename}`);
   
   // Format the file with Prettier if available
   try {
     execSync(`yarn prettier --write ${filePath}`);
-    console.log(`Formatted ${filename}`);
+    // console.log(`Formatted ${filename}`);
   } catch (error) {
-    console.log(`Note: Prettier formatting failed for ${filename}. The file is still updated.`);
+    // console.log(`Note: Prettier formatting failed for ${filename}. The file is still updated.`);
   }
 });
 
-console.log('\nAll files have been updated successfully!');
-console.log('Key improvements applied:');
-console.log('1. Updated node-fetch import to nodeFetch for consistency');
-console.log('2. Updated API request logic with better headers and error handling');
-console.log('3. Updated ingredient search function to use POST method');
-console.log('4. Ensured category-specific progress tracking and logging');
+// console.log('\nAll files have been updated successfully!');
+// console.log('Key improvements applied:');
+// console.log('1. Updated node-fetch import to nodeFetch for consistency');
+// console.log('2. Updated API request logic with better headers and error handling');
+// console.log('3. Updated ingredient search function to use POST method');
+// console.log('4. Ensured category-specific progress tracking and logging');
 console.log('\nNote: You should still manually verify each file to ensure everything works correctly.'); 

@@ -1,33 +1,33 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { usePathname } from 'next/navigation';
+import next  from 'navigation ';
 
-import Navigation from '@/components/Navigation/Navigation';
-import CelestialDisplay from '@/components/CelestialDisplay/CelestialDisplay';
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-import { themeManager } from '@/utils/theme';
-import { logger } from '@/utils/logger';
+import @/components  from 'Navigation ';
+import @/components  from 'CelestialDisplay ';
+import @/contexts  from 'AlchemicalContext ';
+import @/utils  from 'theme ';
+import @/utils  from 'logger ';
 
 interface LayoutProps {
   children: React.ReactNode;
 }
 
 export default function Layout({ children }: LayoutProps) {
-  const pathname = usePathname();
+  let pathname = usePathname();
   const { state } = useAlchemical();
   const [isLoading, setIsLoading] = useState(true);
   const [showCelestial, setShowCelestial] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const initializeLayout = async () => {
+    let initializeLayout = async () => {
       try {
         // Initialize theme
         await themeManager.initializeTheme();
         
         // Check if celestial display should be shown
-        const shouldShowCelestial = pathname ? 
+        let shouldShowCelestial = pathname ? 
           (!pathname.includes('/settings') && !pathname.includes('/profile')) : 
           true;
         setShowCelestial(shouldShowCelestial);
@@ -122,7 +122,7 @@ function ScrollToTopButton() {
   const [showButton, setShowButton] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
+    let handleScroll = () => {
       setShowButton(window.scrollY > 400);
     };
 
@@ -130,7 +130,7 @@ function ScrollToTopButton() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const scrollToTop = () => {
+  let scrollToTop = () => {
     window.scrollTo({
       top: 0,
       behavior: 'smooth'

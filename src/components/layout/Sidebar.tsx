@@ -1,4 +1,4 @@
-// src/components/layout/Sidebar.tsx
+// src / (components || 1)/layout / (Sidebar || 1).tsx
 
 import React from 'react';
 import { Filter } from 'lucide-react';

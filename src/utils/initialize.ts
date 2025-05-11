@@ -12,7 +12,7 @@ export function initializeApp() {
   setupGlobalErrorHandlers();
 
   // Initialize cache
-  const cache = new Cache(3600000); // 1 hour cache timeout
+  let cache = new Cache(3600000); // 1 hour cache timeout
 
   // Clean up and validate database
   initializeDatabaseIntegrity();

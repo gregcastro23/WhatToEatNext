@@ -1,22 +1,27 @@
-import { testCookingMethodRecommendations } from '../utils/testRecommendations';
+import ../utils  from 'testRecommendations ';
 
-const FoodRecommendations = ({ ingredient, options = {} }: FoodRecommendationsProps) => {
+let FoodRecommendations = ({
+  ingredient,
+  options = {},
+}: FoodRecommendationsProps) => {
   const [showDebug, setShowDebug] = useState(false);
-  
-  const runDebugTest = () => {
-    console.log("Running cooking method recommendations test...");
+
+  let runDebugTest = () => {
+    // console.log("Running cooking method recommendations test...");
     testCookingMethodRecommendations();
   };
-  
+
   return (
     <div className="food-recommendations">
       {/* ... existing component content ... */}
-      
+
       {/* Add debug section - visible only in development */}
       {process.env.NODE_ENV === 'development' && (
         <div className="mt-8 p-4 border border-gray-300 rounded">
           <div className="flex justify-between items-center">
-            <h3 className="text-lg font-semibold text-gray-700">Developer Tools</h3>
+            <h3 className="text-lg font-semibold text-gray-700">
+              Developer Tools
+            </h3>
             <button
               onClick={() => setShowDebug(!showDebug)}
               className="text-sm text-blue-600 hover:text-blue-800"
@@ -24,7 +29,7 @@ const FoodRecommendations = ({ ingredient, options = {} }: FoodRecommendationsPr
               {showDebug ? 'Hide' : 'Show'}
             </button>
           </div>
-          
+
           {showDebug && (
             <div className="mt-4">
               <button
@@ -42,4 +47,4 @@ const FoodRecommendations = ({ ingredient, options = {} }: FoodRecommendationsPr
       )}
     </div>
   );
-}; 
+};

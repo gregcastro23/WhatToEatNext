@@ -2,10 +2,10 @@
 
 import React, { useState, useEffect } from 'react';
 
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-import { stateManager } from '@/utils/stateManager';
-import { themeManager } from '@/utils/theme';
-import { logger } from '@/utils/logger';
+import @/contexts  from 'AlchemicalContext ';
+import @/utils  from 'stateManager ';
+import @/utils  from 'theme ';
+import @/utils  from 'logger ';
 import { 
   Settings as SettingsIcon,
   Moon,
@@ -97,11 +97,11 @@ export default function Settings() {
     loadSettings();
   }, []);
 
-  const loadSettings = async () => {
+  let loadSettings = async () => {
     try {
-      const manager = await stateManager;
-      const userPrefs = manager.getState().user.preferences;
-      const themeSettings = themeManager.getTheme();
+      let manager = await stateManager;
+      let userPrefs = manager.getState().user.preferences;
+      let themeSettings = themeManager.getTheme();
 
       setSettings({
         appearance: {
@@ -131,12 +131,12 @@ export default function Settings() {
       });
     } catch (error) {
       logger.error('Error loading settings:', error);
-      const manager = await stateManager;
+      let manager = await stateManager;
       manager.addNotification('error', 'Failed to load settings');
     }
   };
 
-  const handleSettingChange = (section: keyof AppSettings, key: string, value: unknown) => {
+  let handleSettingChange = (section: keyof AppSettings, key: string, value: unknown) => {
     setSettings(prev => {
       const newSettings = { ...prev };
       
@@ -167,7 +167,7 @@ export default function Settings() {
     setHasChanges(true);
   };
 
-  const saveSettings = async () => {
+  let saveSettings = async () => {
     try {
       setIsSaving(true);
 
@@ -175,7 +175,7 @@ export default function Settings() {
       await themeManager.updateTheme(settings.appearance.theme);
 
       // Update user preferences
-      const manager = await stateManager;
+      let manager = await stateManager;
       
       // Use setState to update user preferences
       manager.setState({
@@ -209,14 +209,14 @@ export default function Settings() {
       manager.addNotification('success', 'Settings saved successfully');
     } catch (error) {
       logger.error('Error saving settings:', error);
-      const manager = await stateManager;
+      let manager = await stateManager;
       manager.addNotification('error', 'Failed to save settings');
     } finally {
       setIsSaving(false);
     }
   };
 
-  const resetSettings = async () => {
+  let resetSettings = async () => {
     try {
       // Reset to default theme
       themeManager.updateTheme('light');
@@ -224,7 +224,7 @@ export default function Settings() {
       // Reload settings
       await loadSettings();
       
-      const manager = await stateManager;
+      let manager = await stateManager;
       manager.addNotification('success', 'Settings reset to defaults');
     } catch (error) {
       logger.error('Error resetting settings:', error);

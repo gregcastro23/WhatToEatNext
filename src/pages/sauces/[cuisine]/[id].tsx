@@ -46,20 +46,25 @@ const SauceDetailsPage: NextPage = () => {
       // Find the sauce by cuisine and ID
       try {
         const cuisineKey = Object.keys(cuisinesMap).find(
-          key => key.toLowerCase() === String(cuisine).toLowerCase()
+          (key) => key.toLowerCase() === String(cuisine).toLowerCase()
         );
-        
+
         if (cuisineKey && cuisinesMap[cuisineKey].traditionalSauces) {
           // Find the sauce with the matching ID
-          const sauceId = Object.keys(cuisinesMap[cuisineKey].traditionalSauces).find(sKey => {
-            const urlFriendlySauceId = sKey.toLowerCase().replace(/ /g, '-').replace(/[^\w-]/g, '');
+          const sauceId = Object.keys(
+            cuisinesMap[cuisineKey].traditionalSauces
+          ).find((sKey) => {
+            const urlFriendlySauceId = sKey
+              .toLowerCase()
+              .replace(/ /g, '-')
+              .replace(/[^\w-]/g, '');
             return urlFriendlySauceId === id;
           });
-          
+
           if (sauceId) {
             const foundSauce = {
               id: sauceId,
-              ...cuisinesMap[cuisineKey].traditionalSauces[sauceId]
+              ...cuisinesMap[cuisineKey].traditionalSauces[sauceId],
             };
             setSauce(foundSauce);
           } else {
@@ -69,10 +74,10 @@ const SauceDetailsPage: NextPage = () => {
           setSauce(null);
         }
       } catch (error) {
-        console.error('Error finding sauce:', error);
+        // console.error('Error finding sauce:', error);
         setSauce(null);
       }
-      
+
       setLoading(false);
     }
   }, [cuisine, id]);
@@ -95,8 +100,14 @@ const SauceDetailsPage: NextPage = () => {
     return (
       <div className="container mx-auto px-4 py-16">
         <h1 className="text-3xl font-bold mb-8">Sauce not found</h1>
-        <p className="text-lg mb-8">The sauce you&apos;re looking for doesn&apos;t exist or may have been removed.</p>
-        <Link href={`/cuisines/${cuisine}`} className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        <p className="text-lg mb-8">
+          The sauce you&apos;re looking for doesn&apos;t exist or may have been
+          removed.
+        </p>
+        <Link
+          href={`/cuisines/${cuisine}`}
+          className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        >
           Back to {cuisine} cuisine
         </Link>
       </div>
@@ -106,7 +117,10 @@ const SauceDetailsPage: NextPage = () => {
   return (
     <div className="container mx-auto px-4 py-8">
       <nav className="mb-6">
-        <Link href={`/cuisines/${cuisine}`} className="text-blue-600 hover:text-blue-800">
+        <Link
+          href={`/cuisines/${cuisine}`}
+          className="text-blue-600 hover:text-blue-800"
+        >
           ← Back to {cuisine} cuisine
         </Link>
       </nav>
@@ -114,11 +128,11 @@ const SauceDetailsPage: NextPage = () => {
       <div className="bg-white rounded-lg shadow-lg p-6">
         <header className="mb-8">
           <h1 className="text-3xl font-bold mb-3">{sauce.name}</h1>
-          
+
           {sauce.description && (
             <p className="text-lg text-gray-700 mb-4">{sauce.description}</p>
           )}
-          
+
           <div className="flex flex-wrap gap-2 mt-4">
             {sauce.base && (
               <span className="text-sm px-3 py-1 bg-amber-100 text-amber-800 rounded-full">
@@ -140,7 +154,10 @@ const SauceDetailsPage: NextPage = () => {
               <h2 className="text-xl font-semibold mb-4">Key Ingredients</h2>
               <div className="flex flex-wrap gap-2">
                 {sauce.keyIngredients.map((ingredient: string, idx: number) => (
-                  <span key={idx} className="px-3 py-1 bg-gray-100 text-gray-800 rounded-full">
+                  <span
+                    key={idx}
+                    className="px-3 py-1 bg-gray-100 text-gray-800 rounded-full"
+                  >
                     {ingredient}
                   </span>
                 ))}
@@ -154,7 +171,9 @@ const SauceDetailsPage: NextPage = () => {
               <h2 className="text-xl font-semibold mb-4">Culinary Uses</h2>
               <ul className="list-disc list-inside space-y-2">
                 {sauce.culinaryUses.map((use: string, idx: number) => (
-                  <li key={idx} className="text-gray-700">{use}</li>
+                  <li key={idx} className="text-gray-700">
+                    {use}
+                  </li>
                 ))}
               </ul>
             </section>
@@ -167,7 +186,10 @@ const SauceDetailsPage: NextPage = () => {
             <h2 className="text-xl font-semibold mb-4">Variants</h2>
             <div className="flex flex-wrap gap-2">
               {sauce.variants.map((variant: string, idx: number) => (
-                <span key={idx} className="px-3 py-1 bg-blue-50 text-blue-800 rounded-full">
+                <span
+                  key={idx}
+                  className="px-3 py-1 bg-blue-50 text-blue-800 rounded-full"
+                >
                   {variant}
                 </span>
               ))}
@@ -180,41 +202,69 @@ const SauceDetailsPage: NextPage = () => {
           <section className="mt-8">
             <h2 className="text-xl font-semibold mb-4">Elemental Balance</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {Object.entries(sauce.elementalProperties).map(([element, value]) => (
-                <div key={element} className="text-center p-4 rounded-lg" style={{
-                  backgroundColor: element === 'Fire' ? 'rgba(239, 68, 68, 0.1)' : 
-                                   element === 'Water' ? 'rgba(59, 130, 246, 0.1)' :
-                                   element === 'Earth' ? 'rgba(75, 85, 99, 0.1)' :
-                                   'rgba(167, 139, 250, 0.1)'
-                }}>
-                  <div className="text-lg font-bold" style={{
-                    color: element === 'Fire' ? 'rgb(185, 28, 28)' : 
-                            element === 'Water' ? 'rgb(29, 78, 216)' :
-                            element === 'Earth' ? 'rgb(55, 65, 81)' :
-                            'rgb(109, 40, 217)'
-                  }}>
-                    {typeof value === 'number' ? Math.round(value * 100) : value}%
+              {Object.entries(sauce.elementalProperties).map(
+                ([element, value]) => (
+                  <div
+                    key={element}
+                    className="text-center p-4 rounded-lg"
+                    style={{
+                      backgroundColor:
+                        element === 'Fire'
+                          ? 'rgba(239, 68, 68, 0.1)'
+                          : element === 'Water'
+                          ? 'rgba(59, 130, 246, 0.1)'
+                          : element === 'Earth'
+                          ? 'rgba(75, 85, 99, 0.1)'
+                          : 'rgba(167, 139, 250, 0.1)',
+                    }}
+                  >
+                    <div
+                      className="text-lg font-bold"
+                      style={{
+                        color:
+                          element === 'Fire'
+                            ? 'rgb(185, 28, 28)'
+                            : element === 'Water'
+                            ? 'rgb(29, 78, 216)'
+                            : element === 'Earth'
+                            ? 'rgb(55, 65, 81)'
+                            : 'rgb(109, 40, 217)',
+                      }}
+                    >
+                      {typeof value === 'number'
+                        ? Math.round(value * 100)
+                        : value}
+                      %
+                    </div>
+                    <div className="text-sm text-gray-600">{element}</div>
                   </div>
-                  <div className="text-sm text-gray-600">{element}</div>
-                </div>
-              ))}
+                )
+              )}
             </div>
           </section>
         )}
 
         {/* Astrological Influences */}
-        {sauce.astrologicalInfluences && sauce.astrologicalInfluences.length > 0 && (
-          <section className="mt-8">
-            <h2 className="text-xl font-semibold mb-4">Astrological Influences</h2>
-            <div className="flex flex-wrap gap-2">
-              {sauce.astrologicalInfluences.map((influence: string, idx: number) => (
-                <span key={idx} className="px-3 py-1 bg-purple-50 text-purple-800 rounded-full">
-                  {influence}
-                </span>
-              ))}
-            </div>
-          </section>
-        )}
+        {sauce.astrologicalInfluences &&
+          sauce.astrologicalInfluences.length > 0 && (
+            <section className="mt-8">
+              <h2 className="text-xl font-semibold mb-4">
+                Astrological Influences
+              </h2>
+              <div className="flex flex-wrap gap-2">
+                {sauce.astrologicalInfluences.map(
+                  (influence: string, idx: number) => (
+                    <span
+                      key={idx}
+                      className="px-3 py-1 bg-purple-50 text-purple-800 rounded-full"
+                    >
+                      {influence}
+                    </span>
+                  )
+                )}
+              </div>
+            </section>
+          )}
 
         {/* Preparation Notes */}
         {sauce.preparationNotes && (
@@ -240,4 +290,4 @@ const SauceDetailsPage: NextPage = () => {
   );
 };
 
-export default SauceDetailsPage; 
+export default SauceDetailsPage;

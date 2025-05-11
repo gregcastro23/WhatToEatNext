@@ -33,7 +33,7 @@ export async function collectFeedback(feedback: FeedbackData): Promise<{ success
       priority: feedback.priority || 'medium'
     });
 
-    // In a real application, you would send this to a server/API endpoint
+    // In a real application, you would send this to a server / (API || 1) endpoint
     // For now, just simulate success
     await new Promise(resolve => setTimeout(resolve, 500));
     

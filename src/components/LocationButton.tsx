@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { AstrologicalService } from '@/services/AstrologicalService';
+import @/services  from 'AstrologicalService ';
 
 // Define type for GeolocationCoordinates if needed
 type GeolocationCoordinates = {
@@ -16,14 +16,14 @@ interface LocationButtonProps {
   onLocationUpdate?: (location: GeolocationCoordinates | null) => void;
 }
 
-export const LocationButton = ({ onLocationUpdate }: LocationButtonProps) => {
+export let LocationButton = ({ onLocationUpdate }: LocationButtonProps) => {
   const [locationStatus, setLocationStatus] = useState<string>('');
   const [manualLocation, setManualLocation] = useState<string>('');
 
-  const handleLocationClick = async () => {
+  let handleLocationClick = async () => {
     try {
       setLocationStatus('Getting location...');
-      const location = await AstrologicalService.requestLocation();
+      let location = await AstrologicalService.requestLocation();
       setLocationStatus('Location updated!');
       // Pass the location data to the parent component
       if (onLocationUpdate && location) {
@@ -36,7 +36,7 @@ export const LocationButton = ({ onLocationUpdate }: LocationButtonProps) => {
     }
   };
 
-  const handleManualLocation = async (e: React.FormEvent) => {
+  let handleManualLocation = async (e: React.FormEvent) => {
     e.preventDefault();
     // Parse location string and set coordinates
     // You might want to use a geocoding API here

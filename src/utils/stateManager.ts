@@ -1,9 +1,9 @@
 import { cache } from './cache';
 import { logger } from './logger';
 import { themeManager } from './theme';
-import { celestialCalculator } from '@/services/celestialCalculations';
-import type { Recipe } from '@/types/recipe';
-import type { ElementalProperties } from '@/types/alchemy';
+import @/services  from 'celestialCalculations ';
+import @/types  from 'recipe ';
+import @/types  from 'alchemy ';
 
 // Add the missing type definitions
 interface ScoredRecipe extends Recipe {
@@ -15,7 +15,7 @@ interface ScoredRecipe extends Recipe {
   };
 }
 
-type DietaryRestriction = 
+type DietaryRestriction =
   | 'vegetarian'
   | 'vegan'
   | 'gluten-free'
@@ -25,7 +25,7 @@ type DietaryRestriction =
   | 'keto'
   | 'paleo';
 
-export type CuisineType = 
+export type CuisineType =
   | 'italian'
   | 'chinese'
   | 'mexican'
@@ -124,13 +124,14 @@ class StateManager {
   private loadInitialState(): AppState {
     try {
       // Fix: Remove type parameter since cache.get doesn't accept it
-      const cached = cache.get(this.STORAGE_KEY);
+      let cached = cache.get(this.STORAGE_KEY);
       // Add type guard to ensure cached data has the right shape
       if (cached && this.isValidAppState(cached)) return cached as AppState;
 
-      const stored = typeof window !== 'undefined' 
-        ? localStorage.getItem(this.STORAGE_KEY)
-        : null;
+      let stored =
+        typeof window !== 'undefined'
+          ? localStorage.getItem(this.STORAGE_KEY)
+          : null;
 
       return stored ? JSON.parse(stored) : this.getDefaultState();
     } catch (error) {
@@ -141,12 +142,14 @@ class StateManager {
 
   // Add helper to validate the state structure
   private isValidAppState(obj: unknown): obj is AppState {
-    return obj 
-      && typeof obj === 'object'
-      && obj.recipes 
-      && obj.celestial 
-      && obj.user 
-      && obj.ui;
+    return (
+      obj &&
+      typeof obj === 'object' &&
+      obj.recipes &&
+      obj.celestial &&
+      obj.user &&
+      obj.ui
+    );
   }
 
   private getDefaultState(): AppState {
@@ -157,18 +160,18 @@ class StateManager {
         favorites: [],
         recent: [],
         loading: false,
-        error: null
+        error: null,
       },
       celestial: {
         elementalState: {
           Fire: 0.25,
           Earth: 0.25,
           Air: 0.25,
-          Water: 0.25
+          Water: 0.25,
         },
         season: 'spring',
         moonPhase: 'new',
-        lastUpdated: Date.now()
+        lastUpdated: Date.now(),
       },
       user: {
         preferences: {
@@ -176,30 +179,30 @@ class StateManager {
             mode: 'system',
             colorScheme: 'default',
             fontSize: 16,
-            animations: true
+            animations: true,
           },
           dietary: {
             restrictions: [],
             favorites: [],
             excluded: [],
-            spiciness: 'medium'
+            spiciness: 'medium',
           },
           cooking: {
             preferredMethods: [],
             maxPrepTime: 60,
             servingSize: 2,
-            complexity: 'moderate'
+            complexity: 'moderate',
           },
           cuisines: {
             preferred: [],
-            excluded: []
-          }
+            excluded: [],
+          },
         },
         history: {
           viewed: [],
           cooked: [],
-          rated: {}
-        }
+          rated: {},
+        },
       },
       ui: {
         activeFilters: new Set(),
@@ -207,8 +210,8 @@ class StateManager {
         selectedRecipe: null,
         modalOpen: false,
         sidebarOpen: false,
-        notifications: []
-      }
+        notifications: [],
+      },
     };
   }
 
@@ -222,12 +225,12 @@ class StateManager {
       }
 
       this.startUpdateCycle();
-      
+
       await this.updateCelestialData();
 
       this.saveState();
     } catch (error) {
-      console.error('Error initializing state:', error);
+      // console.error('Error initializing state:', error);
     }
   }
 
@@ -239,21 +242,21 @@ class StateManager {
 
   private async updateCelestialData(): Promise<void> {
     try {
-      const influences = celestialCalculator.calculateCurrentInfluences();
+      let influences = celestialCalculator.calculateCurrentInfluences();
       // Convert influences to proper ElementalProperties
       const elementalState: ElementalProperties = {
         Fire: influences.elementalBalance?.Fire || 0,
-        Water: influences.elementalBalance?.Water || 0, 
+        Water: influences.elementalBalance?.Water || 0,
         Earth: influences.elementalBalance?.Earth || 0,
-        Air: influences.elementalBalance?.Air || 0
+        Air: influences.elementalBalance?.Air || 0,
       };
-      
+
       this.setState({
         celestial: {
           ...this.state.celestial,
           elementalState,
-          lastUpdated: Date.now()
-        }
+          lastUpdated: Date.now(),
+        },
       });
     } catch (error) {
       logger.error('Error updating celestial data:', error);
@@ -262,12 +265,12 @@ class StateManager {
 
   private saveState(): void {
     try {
-      const serializable = {
+      let serializable = {
         ...this.state,
         ui: {
           ...this.state.ui,
-          activeFilters: Array.from(this.state.ui.activeFilters)
-        }
+          activeFilters: Array.from(this.state.ui.activeFilters),
+        },
       };
 
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(serializable));
@@ -292,14 +295,14 @@ class StateManager {
     if (!this.listeners.has(key)) {
       this.listeners.set(key, new Set());
     }
-    
-    const listenerSet = this.listeners.get(key);
+
+    let listenerSet = this.listeners.get(key);
     if (listenerSet) {
       listenerSet.add(listener);
     }
 
     return () => {
-      const listeners = this.listeners.get(key);
+      let listeners = this.listeners.get(key);
       if (listeners) {
         listeners.delete(listener);
         if (listeners.size === 0) {
@@ -310,21 +313,21 @@ class StateManager {
   }
 
   private notifyListeners(): void {
-    this.listeners.forEach(listeners => {
-      listeners.forEach(listener => listener(this.state));
+    this.listeners.forEach((listeners) => {
+      listeners.forEach((listener) => listener(this.state));
     });
   }
 
   // Enhanced functionality
   addToHistory(type: 'viewed' | 'cooked', recipeId: string): void {
-    const history = [...this.state.user.history[type]];
-    const index = history.indexOf(recipeId);
-    
+    let history = [...this.state.user.history[type]];
+    let index = history.indexOf(recipeId);
+
     if (index > -1) {
       history.splice(index, 1);
     }
     history.unshift(recipeId);
-    
+
     if (history.length > 50) history.pop();
 
     this.setState({
@@ -332,9 +335,9 @@ class StateManager {
         ...this.state.user,
         history: {
           ...this.state.user.history,
-          [type]: history
-        }
-      }
+          [type]: history,
+        },
+      },
     });
   }
 
@@ -346,16 +349,16 @@ class StateManager {
           ...this.state.user.history,
           rated: {
             ...this.state.user.history.rated,
-            [recipeId]: rating
-          }
-        }
-      }
+            [recipeId]: rating,
+          },
+        },
+      },
     });
   }
 
   toggleFavorite(recipeId: string): void {
-    const favorites = [...this.state.recipes.favorites];
-    const index = favorites.indexOf(recipeId);
+    let favorites = [...this.state.recipes.favorites];
+    let index = favorites.indexOf(recipeId);
 
     if (index > -1) {
       favorites.splice(index, 1);
@@ -366,29 +369,29 @@ class StateManager {
     this.setState({
       recipes: {
         ...this.state.recipes,
-        favorites
-      }
+        favorites,
+      },
     });
   }
 
   addNotification(type: 'success' | 'error' | 'info', message: string): void {
-    const notification = {
+    let notification = {
       id: Date.now().toString(),
       type,
       message,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     };
 
-    const notifications = [
-      notification,
-      ...this.state.ui.notifications
-    ].slice(0, 5);
+    let notifications = [notification, ...this.state.ui.notifications].slice(
+      0,
+      5
+    );
 
     this.setState({
       ui: {
         ...this.state.ui,
-        notifications
-      }
+        notifications,
+      },
     });
 
     // Auto-remove after 5 seconds
@@ -397,12 +400,12 @@ class StateManager {
         ui: {
           ...this.state.ui,
           notifications: this.state.ui.notifications.filter(
-            n => n.id !== notification.id
-          )
-        }
+            (n) => n.id !== notification.id
+          ),
+        },
       });
     }, 5000);
   }
 }
 
-export const stateManager = StateManager.getInstance(); 
+export let stateManager = StateManager.getInstance();

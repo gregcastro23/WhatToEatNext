@@ -1,5 +1,5 @@
-import type { ElementalProperties } from '@/types/alchemy';
-import type { Modality } from '@/data/ingredients/types';
+import @/types  from 'alchemy ';
+import @/data  from 'ingredients ';
 
 /**
  * Determines the modality of a cuisine based on its elemental properties
@@ -15,7 +15,7 @@ export function determineModalityFromElements(elementalProperties: ElementalProp
   const { Fire, Water, Earth, Air } = elementalProperties;
   
   // Determine dominant element
-  const dominantElement = getDominantElement(elementalProperties);
+  let dominantElement = getDominantElement(elementalProperties);
   
   // Primary determination based on dominant element and its strength
   switch (dominantElement) {
@@ -47,9 +47,9 @@ export function determineModalityFromElements(elementalProperties: ElementalProp
   }
   
   // Calculate modality scores based on hierarchical affinities
-  const mutableScore = (Air * 0.9) + (Water * 0.8) + (Fire * 0.7) + (Earth * 0.5);
-  const fixedScore = (Earth * 0.9) + (Water * 0.8) + (Fire * 0.6) + (Air * 0.5);
-  const cardinalScore = (Fire * 0.8) + (Earth * 0.8) + (Water * 0.8) + (Air * 0.8);
+  let mutableScore = (Air * 0.9) + (Water * 0.8) + (Fire * 0.7) + (Earth * 0.5);
+  let fixedScore = (Earth * 0.9) + (Water * 0.8) + (Fire * 0.6) + (Air * 0.5);
+  let cardinalScore = (Fire * 0.8) + (Earth * 0.8) + (Water * 0.8) + (Air * 0.8);
   
   // Return the modality with the highest score
   if (mutableScore > fixedScore && mutableScore > cardinalScore) {

@@ -1,7 +1,7 @@
-import type { ElementalProperties } from '@/types/alchemy';
+import @/types  from 'alchemy ';
 import { elementalUtils } from './elementalUtils';
 
-export const calculationUtils = {
+export let calculationUtils = {
   calculateTemperatureEffect(temp: number): ElementalProperties {
     // Temperature affects Fire and Air primarily
     const baseEffect: ElementalProperties = {
@@ -15,8 +15,8 @@ export const calculationUtils = {
       baseEffect.Water = Math.abs(temp) / 100;
       baseEffect.Earth = Math.abs(temp) / 200;
     } else {
-      baseEffect.Fire = temp / 100;
-      baseEffect.Air = temp / 200;
+      baseEffect.Fire = temp / (100 || 1);
+      baseEffect.Air = temp / (200 || 1);
     }
 
     return elementalUtils.normalizeProperties(baseEffect);
@@ -24,11 +24,11 @@ export const calculationUtils = {
 
   calculateTimeEffect(minutes: number): number {
     // Logarithmic effect of time
-    return Math.log(minutes + 1) / Math.log(60); // Normalized to 1 hour
+    return Math.log(minutes + 1) / (Math.log(60 || 1)); // Normalized to 1 hour
   },
 
   calculateIntensityFactor(temp: number, time: number): number {
-    return (this.calculateTimeEffect(time) * (temp / 100)) / 2;
+    return (this.calculateTimeEffect(time) * (temp / (100 || 1))) / 2;
   },
 
   adjustForSeason(props: ElementalProperties, season: string): ElementalProperties {
@@ -39,7 +39,7 @@ export const calculationUtils = {
       'winter': { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 }
     };
 
-    const modifier = seasonalModifiers[season.toLowerCase()];
+    let modifier = seasonalModifiers[season.toLowerCase()];
     if (!modifier) return props;
 
     return elementalUtils.combineProperties(props, modifier);

@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import @/contexts  from 'AlchemicalContext ';
 import AlchemicalPropertiesDisplay from './AlchemicalPropertiesDisplay';
 
 export default function ElementalDisplay() {
@@ -9,7 +9,7 @@ export default function ElementalDisplay() {
   const { elementalState } = state;
   
   // Helper function to format values as decimals
-  const formatValue = (value: number) => {
+  let formatValue = (value: number) => {
     return value.toFixed(2);
   };
 

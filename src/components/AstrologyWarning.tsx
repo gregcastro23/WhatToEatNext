@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { AlertTriangle } from 'lucide-react';
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import { useAlchemical } from '@/contexts/AlchemicalContext';
 
 const AstrologyWarning: React.FC = () => {
   const { state } = useAlchemical();

@@ -1,6 +1,6 @@
-import { ElementalProperties } from '@/types/alchemy';
+import @/types  from 'alchemy ';
 
-export const getElementalAlignmentFromTarot = (tarot: {
+export let getElementalAlignmentFromTarot = (tarot: {
   majorArcana: string[];
   minorArcana: string[];
 }): {
@@ -9,11 +9,11 @@ export const getElementalAlignmentFromTarot = (tarot: {
   Earth: number;
   Air: number;
 } => {
-  const alignment = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
+  let alignment = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
   
   // Major arcana influences
   tarot.majorArcana.forEach(card => {
-    const cardElement = TAROT_ELEMENT_ASSOCIATIONS[card]?.element;
+    let cardElement = TAROT_ELEMENT_ASSOCIATIONS[card]?.element;
     if (cardElement) {
       alignment[cardElement] += 0.5;
     }
@@ -21,17 +21,17 @@ export const getElementalAlignmentFromTarot = (tarot: {
 
   // Minor arcana influences
   tarot.minorArcana.forEach(card => {
-    const cardElement = TAROT_ELEMENT_ASSOCIATIONS[card]?.element;
+    let cardElement = TAROT_ELEMENT_ASSOCIATIONS[card]?.element;
     if (cardElement) {
       alignment[cardElement] += 0.3;
     }
   });
 
   // Normalize values to 0-1 range
-  const maxValue = Math.max(...Object.values(alignment));
+  let maxValue = Math.max(...Object.values(alignment));
   if (maxValue > 0) {
     Object.keys(alignment).forEach(key => {
-      alignment[key] = alignment[key] / maxValue;
+      alignment[key] = alignment[key] / (maxValue || 1);
     });
   }
 
