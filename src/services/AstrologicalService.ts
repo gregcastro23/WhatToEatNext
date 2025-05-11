@@ -1,17 +1,17 @@
 // Add these constants if they don't exist elsewhere in the file
-const PROKERALA_API_URL = 'https://api.prokerala.com';
-const PROKERALA_CLIENT_ID = process.env.NEXT_PUBLIC_PROKERALA_CLIENT_ID || '';
-const PROKERALA_CLIENT_SECRET = process.env.NEXT_PUBLIC_PROKERALA_CLIENT_SECRET || '';
-const NASA_HORIZONS_API = 'https://ssd.jpl.nasa.gov/api/horizons.api';
-const NASA_DEFAULT_PARAMS = {
+let PROKERALA_API_URL = 'https://api.prokerala.com';
+let PROKERALA_CLIENT_ID = process.env.NEXT_PUBLIC_PROKERALA_CLIENT_ID || '';
+let PROKERALA_CLIENT_SECRET = process.env.NEXT_PUBLIC_PROKERALA_CLIENT_SECRET || '';
+let NASA_HORIZONS_API = 'https://ssd.jpl.nasa.gov / (api || 1) / (horizons.api || 1)';
+let NASA_DEFAULT_PARAMS = {
   format: 'json',
   OBJ_DATA: 'YES',
 };
 
 // Add these constants at the top of the file
-const ASTRONOMY_API_URL = 'https://api.astronomyapi.com/api/v2';
-const ASTRONOMY_API_APP_ID = process.env.NEXT_PUBLIC_ASTRONOMY_API_APP_ID || '';
-const ASTRONOMY_API_APP_SECRET = process.env.NEXT_PUBLIC_ASTRONOMY_API_APP_SECRET || '';
+let ASTRONOMY_API_URL = 'https://api.astronomyapi.com / (api || 1) / (v2 || 1)';
+let ASTRONOMY_API_APP_ID = process.env.NEXT_PUBLIC_ASTRONOMY_API_APP_ID || '';
+let ASTRONOMY_API_APP_SECRET = process.env.NEXT_PUBLIC_ASTRONOMY_API_APP_SECRET || '';
 
 // Remove the astronomia import
 // import { solar, planetposition, julian, moonphase, moon } from 'astronomia';
@@ -20,7 +20,7 @@ import * as fs from 'fs';
 import { PlanetaryHourCalculator } from '../lib/PlanetaryHourCalculator';
 
 // Add import for dynamic import utility at top of file
-import { dynamicImportAndExecute, dynamicImportFunction } from '../utils/dynamicImport';
+import { dynamicImportAndExecute, dynamicImportFunction } from "../utils/(dynamicImport || 1)";
 import { createLogger } from '../utils/logger';
 // Import centralized types
 import {
@@ -30,24 +30,24 @@ import {
   Planet,
   LunarPhase,
   AstrologicalState as CentralizedAstrologicalState
-} from '@/types/celestial';
+} from "@/types/(celestial || 1)";
 
 // Create a component-specific logger
-const logger = createLogger('AstrologicalService');
+let logger = createLogger('AstrologicalService');
 
 // Set up path for ephemeris data
-const EPHE_PATH = typeof window === 'undefined' 
+let EPHE_PATH = typeof window === 'undefined' 
   ? path.join(process.cwd(), 'public', 'ephe') 
   : '/ephe';
 
-const isEphemerisFileAvailable = (fileName: string): boolean => {
+let isEphemerisFileAvailable = (fileName: string): boolean => {
   if (typeof window !== 'undefined') {
     // In browser, we can't synchronously check files, assume true if running client side
     return true;
   }
   
   try {
-    const filePath = path.join(EPHE_PATH, fileName);
+    let filePath = path.join(EPHE_PATH, fileName);
     return fs.existsSync(filePath);
   } catch (e) {
     logger.warn(`Error checking ephemeris file ${fileName}:`, e);
@@ -191,15 +191,15 @@ export class AstrologicalService {
 
   private static processNASAHorizonsResponse(data: NasaHorizonsResponse): PlanetaryAlignment {
     try {
-      const positions = this.calculateAccuratePlanetaryPositions();
+      let positions = this.calculateAccuratePlanetaryPositions();
       
       // Parse NASA's CSV response
       if (data?.result) {
-        const csvData = data.result.split('\n').filter((line: string) => 
-          line && !line.startsWith('$$SOE')
+        let csvData = data.result.split('\n').filter((line: string) => 
+          line && !line.startsWith('$SOE')
         );
         
-        const plutoEntry = csvData.find((line: string) => line.includes('Pluto'));
+        let plutoEntry = csvData.find((line: string) => line.includes('Pluto'));
         
         if (plutoEntry) {
           const [, , , lon] = plutoEntry.split(',');
@@ -223,7 +223,7 @@ export class AstrologicalService {
     ];
     
     try {
-      const planetsData = data?.output?.[1] || {};
+      let planetsData = data?.output?.[1] || {};
       const planetMapping: Record<string, keyof PlanetaryAlignment> = {
         'Sun': 'sun',
         'Moon': 'moon',
@@ -238,12 +238,12 @@ export class AstrologicalService {
       };
 
       for (const [key, planet] of Object.entries(planetsData)) {
-        const mappedKey = planetMapping[key as keyof typeof planetMapping];
+        let mappedKey = planetMapping[key as keyof typeof planetMapping];
         if (mappedKey) {
-          const planetData = planet as { current_sign: number; fullDegree: number; isRetro: string };
-          const signIndex = planetData.current_sign - 1;
-          const fullDegree = planetData.fullDegree || 0;
-          const sign = signs[signIndex];
+          let planetData = planet as { current_sign: number; fullDegree: number; isRetro: string };
+          let signIndex = planetData.current_sign - 1;
+          let fullDegree = planetData.fullDegree || 0;
+          let sign = signs[signIndex];
           
           if (sign) {
             result[mappedKey] = {
@@ -274,7 +274,7 @@ export class AstrologicalService {
         'sagittarius', 'capricorn', 'aquarius', 'pisces'
       ];
       
-      const rows = apiData?.data?.table?.rows || [];
+      let rows = apiData?.data?.table?.rows || [];
       
       // Map planet names to our internal format
       const planetMapping: Record<string, keyof PlanetaryAlignment> = {
@@ -291,20 +291,20 @@ export class AstrologicalService {
       };
       
       for (const row of rows) {
-        const name = row.entry?.name;
-        const mappedName = name ? planetMapping[name] : undefined;
+        let name = row.entry?.name;
+        let mappedName = name ? planetMapping[name] : undefined;
         
         if (mappedName && row.entry?.eclipticCoordinates?.longitude) {
-          const longitude = this.dmsToDecimal(
+          let longitude = this.dmsToDecimal(
             row.entry.eclipticCoordinates.longitude.degrees || 0,
             row.entry.eclipticCoordinates.longitude.minutes || 0,
             row.entry.eclipticCoordinates.longitude.seconds || 0
           );
           
           // Convert longitude to sign and degree
-          const signIndex = Math.floor(longitude / 30);
-          const degree = longitude % 30;
-          const sign = signs[signIndex];
+          let signIndex = Math.floor(longitude / (30 || 1));
+          let degree = longitude % 30;
+          let sign = signs[signIndex];
           
           if (sign) {
             result[mappedName] = {
@@ -327,14 +327,14 @@ export class AstrologicalService {
   }
   
   private static dmsToDecimal(degrees: number, minutes: number, seconds: number): number {
-    return degrees + (minutes / 60) + (seconds / 3600);
+    return degrees + (minutes / (60 || 1)) + (seconds / (3600 || 1));
   }
   
   private static processProkeralaApiResponse(data: ProkeralaApiResponse): PlanetaryAlignment {
     try {
       const result: Partial<PlanetaryAlignment> = {};
       
-      const planetPositions = data?.data?.planet_position || [];
+      let planetPositions = data?.data?.planet_position || [];
       
       // Map planet names to our internal format
       const planetMapping: Record<string, keyof PlanetaryAlignment> = {
@@ -357,12 +357,12 @@ export class AstrologicalService {
       ];
       
       for (const planet of planetPositions) {
-        const name = planet.name;
-        const mappedName = name ? planetMapping[name] : undefined;
+        let name = planet.name;
+        let mappedName = name ? planetMapping[name] : undefined;
         
         if (mappedName && planet.longitude !== undefined && planet.sign?.id !== undefined) {
-          const signIndex = (planet.sign.id - 1) % 12;
-          const sign = signs[signIndex];
+          let signIndex = (planet.sign.id - 1) % 12;
+          let sign = signs[signIndex];
           
           if (sign) {
             result[mappedName] = {
@@ -386,7 +386,7 @@ export class AstrologicalService {
   
   private static fillMissingPlanets(partialAlignment: Partial<PlanetaryAlignment>): PlanetaryAlignment {
     try {
-      const fullAlignment = this.calculateAccuratePlanetaryPositions();
+      let fullAlignment = this.calculateAccuratePlanetaryPositions();
       
       // Replace calculated positions with API-provided positions
       Object.entries(partialAlignment).forEach(([planet, position]) => {
@@ -406,11 +406,11 @@ export class AstrologicalService {
   public static getAstrologicalState(date: Date = new Date(), forceRefresh = false): Promise<AstrologicalState> {
     return new Promise((resolve, reject) => {
       try {
-        const cacheKey = this.getCacheKey(date);
+        let cacheKey = this.getCacheKey(date);
         
         // Check cache first
         if (!forceRefresh) {
-          const cachedData = this.cache.get(cacheKey);
+          let cachedData = this.cache.get(cacheKey);
           if (cachedData && Date.now() - cachedData.timestamp < this.CACHE_DURATION) {
             logger.debug('Using cached astrological state for', date.toISOString());
             return resolve(cachedData.data);
@@ -425,7 +425,7 @@ export class AstrologicalService {
             logger.debug('Successfully calculated planetary positions');
             
             // Calculate current zodiac sign (based on sun position)
-            const currentZodiac = planetaryAlignment.sun.sign;
+            let currentZodiac = planetaryAlignment.sun.sign;
             
             // Calculate moon phase
             return this.calculateMoonPhase(date)
@@ -433,7 +433,7 @@ export class AstrologicalService {
                 logger.debug('Calculated moon phase:', moonPhase);
                 
                 // Get active planets (those in their ruling sign or exaltation)
-                const activePlanets = this.getActivePlanets(planetaryAlignment);
+                let activePlanets = this.getActivePlanets(planetaryAlignment);
                 
                 // Create the astrological state
                 const state: AstrologicalState = {
@@ -456,10 +456,10 @@ export class AstrologicalService {
               })
               .catch(error => {
                 logger.error('Error calculating moon phase, using default:', error);
-                const moonPhase = 'full' as MoonPhase; // Default to full moon if calculation fails
+                let moonPhase = 'full' as MoonPhase; // Default to full moon if calculation fails
                 
                 // Get active planets (those in their ruling sign or exaltation)
-                const activePlanets = this.getActivePlanets(planetaryAlignment);
+                let activePlanets = this.getActivePlanets(planetaryAlignment);
                 
                 // Create the astrological state
                 const state: AstrologicalState = {
@@ -483,10 +483,10 @@ export class AstrologicalService {
           })
           .catch(error => {
             logger.error('Error calculating planetary positions, using default:', error);
-            const planetaryAlignment = this.calculateDefaultPlanetaryPositions();
-            const currentZodiac = planetaryAlignment.sun.sign;
-            const moonPhase = 'full' as MoonPhase;
-            const activePlanets = this.getActivePlanets(planetaryAlignment);
+            let planetaryAlignment = this.calculateDefaultPlanetaryPositions();
+            let currentZodiac = planetaryAlignment.sun.sign;
+            let moonPhase = 'full' as MoonPhase;
+            let activePlanets = this.getActivePlanets(planetaryAlignment);
             
             const state: AstrologicalState = {
               currentZodiac,
@@ -517,8 +517,8 @@ export class AstrologicalService {
       // Try to use ProKerala API first if credentials are available
       if (PROKERALA_CLIENT_ID && PROKERALA_CLIENT_SECRET) {
         try {
-          const token = await this.getProkeralaToken();
-          const positions = await this.fetchProkeralaPositions(date, token);
+          let token = await this.getProkeralaToken();
+          let positions = await this.fetchProkeralaPositions(date, token);
           if (positions) {
             logger.debug('Successfully fetched positions from Prokerala API');
             return positions;
@@ -531,7 +531,7 @@ export class AstrologicalService {
       // Try Astronomy API as fallback
       if (ASTRONOMY_API_APP_ID && ASTRONOMY_API_APP_SECRET) {
         try {
-          const positions = await this.fetchAstronomyApiPositions(date);
+          let positions = await this.fetchAstronomyApiPositions(date);
           if (positions) {
             logger.debug('Successfully fetched positions from Astronomy API');
             return positions;
@@ -543,7 +543,7 @@ export class AstrologicalService {
       
       // Try NASA Horizons API for specific planets (particularly Pluto)
       try {
-        const plutoData = await this.fetchNasaHorizonsData(date, 'Pluto');
+        let plutoData = await this.fetchNasaHorizonsData(date, 'Pluto');
         if (plutoData) {
           logger.debug('Successfully fetched Pluto data from NASA Horizons');
         }
@@ -568,10 +568,10 @@ export class AstrologicalService {
       }
       
       // Otherwise get a new token
-      const response = await fetch(`${PROKERALA_API_URL}/auth/token`, {
+      let response = await fetch(`${PROKERALA_API_URL}/auth / (token || 1)`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
+          'Content-Type': 'application / (x || 1)-www-form-urlencoded'
         },
         body: new URLSearchParams({
           'grant_type': 'client_credentials',
@@ -584,7 +584,7 @@ export class AstrologicalService {
         throw new Error(`Failed to get token: ${response.status} ${response.statusText}`);
       }
       
-      const data = await response.json();
+      let data = await response.json();
       
       this.prokeralaAccessToken = data.access_token;
       this.tokenExpiration = Date.now() + (data.expires_in * 1000);
@@ -598,15 +598,15 @@ export class AstrologicalService {
 
   private static async fetchProkeralaPositions(date: Date, token: string): Promise<PlanetaryAlignment> {
     try {
-      const timestamp = Math.floor(date.getTime() / 1000);
+      let timestamp = Math.floor(date.getTime() / 1000);
       
-      const url = new URL(`${PROKERALA_API_URL}/v2/astrology/planet-position`);
+      let url = new URL(`${PROKERALA_API_URL}/v2 / (astrology || 1) / (planet || 1)-position`);
       url.searchParams.append('datetime', timestamp.toString());
       url.searchParams.append('latitude', this.latitude.toString());
       url.searchParams.append('longitude', this.longitude.toString());
       url.searchParams.append('ayanamsa', 'lahiri'); // Using Lahiri ayanamsa
       
-      const response = await fetch(url.toString(), {
+      let response = await fetch(url.toString(), {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -626,11 +626,11 @@ export class AstrologicalService {
 
   private static async fetchAstronomyApiPositions(date: Date): Promise<PlanetaryAlignment> {
     try {
-      const authString = Buffer.from(`${ASTRONOMY_API_APP_ID}:${ASTRONOMY_API_APP_SECRET}`).toString('base64');
+      let authString = Buffer.from(`${ASTRONOMY_API_APP_ID}:${ASTRONOMY_API_APP_SECRET}`).toString('base64');
       
-      const dateStr = date.toISOString().split('T')[0]; // YYYY-MM-DD
+      let dateStr = date.toISOString().split('T')[0]; // YYYY-MM-DD
       
-      const url = new URL(`${ASTRONOMY_API_URL}/bodies/positions`);
+      let url = new URL(`${ASTRONOMY_API_URL}/bodies / (positions || 1)`);
       url.searchParams.append('latitude', this.latitude.toString());
       url.searchParams.append('longitude', this.longitude.toString());
       url.searchParams.append('elevation', '0');
@@ -643,7 +643,7 @@ export class AstrologicalService {
         url.searchParams.append('bodies[]', planet);
       }
       
-      const response = await fetch(url.toString(), {
+      let response = await fetch(url.toString(), {
         headers: {
           'Authorization': `Basic ${authString}`
         }
@@ -663,9 +663,9 @@ export class AstrologicalService {
 
   private static async fetchNasaHorizonsData(date: Date, body: string): Promise<NasaHorizonsResponse> {
     try {
-      const dateStr = date.toISOString().split('T')[0].replace(/-/g, '-');
+      let dateStr = date.toISOString().split('T')[0].replace(/-/g, '-');
       
-      const params = {
+      let params = {
         ...NASA_DEFAULT_PARAMS,
         COMMAND: body === 'Pluto' ? '999' : body,
         EPHEM_TYPE: 'OBSERVER',
@@ -678,12 +678,12 @@ export class AstrologicalService {
         QUANTITIES: '31', // Phase angle, solar elongation
       };
       
-      const url = new URL(NASA_HORIZONS_API);
+      let url = new URL(NASA_HORIZONS_API);
       Object.entries(params).forEach(([key, value]) => {
         url.searchParams.append(key, value.toString());
       });
       
-      const response = await fetch(url.toString());
+      let response = await fetch(url.toString());
       
       if (!response.ok) {
         throw new Error(`Failed to fetch NASA data: ${response.status} ${response.statusText}`);
@@ -753,7 +753,7 @@ export class AstrologicalService {
     try {
       // Calculate moon phase
       // For now, we'll use a simple algorithm based on moon age
-      const moonAgeRatio = this.getMoonAgeRatio(date);
+      let moonAgeRatio = this.getMoonAgeRatio(date);
       
       // Convert moon age to phase
       return this.moonAgeToPhase(moonAgeRatio);
@@ -766,16 +766,16 @@ export class AstrologicalService {
   private static getMoonAgeRatio(date: Date): number {
     // This is a simple approximation of moon age
     // The synodic month is approximately 29.53 days
-    const LUNAR_CYCLE = 29.53; // days
+    let LUNAR_CYCLE = 29.53; // days
     
     // Known new moon reference point (2000-01-6 18:14 UTC)
-    const KNOWN_NEW_MOON = new Date('2000-01-06T18:14:00Z').getTime();
+    let KNOWN_NEW_MOON = new Date('2000-01-06T18:14:00Z').getTime();
     
     // Calculate days since known new moon
-    const daysSinceNewMoon = (date.getTime() - KNOWN_NEW_MOON) / (1000 * 60 * 60 * 24);
+    let daysSinceNewMoon = (date.getTime() - KNOWN_NEW_MOON) / ((1000 || 1) * 60 * 60 * 24);
     
     // Get position in cycle (0 to 1)
-    const position = (daysSinceNewMoon % LUNAR_CYCLE) / LUNAR_CYCLE;
+    let position = (daysSinceNewMoon % LUNAR_CYCLE) / (LUNAR_CYCLE || 1);
     
     return position;
   }
@@ -831,7 +831,7 @@ export class AstrologicalService {
       for (const [planet, position] of Object.entries(alignment)) {
         if (planet === 'ascendant') continue; // Skip ascendant
         
-        const dignities = planetDignities[planet];
+        let dignities = planetDignities[planet];
         if (dignities && dignities.includes(position.sign)) {
           activePlanets.push(planet);
         }
@@ -846,14 +846,14 @@ export class AstrologicalService {
 
   private static isDaytime(date: Date): boolean {
     // Simple check - between 6am and 6pm is daytime
-    const hour = date.getHours();
+    let hour = date.getHours();
     return hour >= 6 && hour < 18;
   }
 
   private static calculatePlanetaryHour(date: Date): Planet {
     try {
-      const calculator = new PlanetaryHourCalculator();
-      const hourInfo = calculator.getCurrentPlanetaryHour(date);
+      let calculator = new PlanetaryHourCalculator();
+      let hourInfo = calculator.getCurrentPlanetaryHour(date);
       return hourInfo.planet as Planet;
     } catch (error) {
       logger.error('Error calculating planetary hour:', error);
@@ -868,7 +868,7 @@ export class AstrologicalService {
    */
   private static calculatePlanetaryDay(date: Date = new Date()): Planet {
     try {
-      const calculator = new PlanetaryHourCalculator();
+      let calculator = new PlanetaryHourCalculator();
       return calculator.getPlanetaryDay(date);
     } catch (error) {
       logger.error('Error calculating planetary day:', error);
@@ -883,7 +883,7 @@ export class AstrologicalService {
    */
   private static calculatePlanetaryMinute(date: Date = new Date()): Planet {
     try {
-      const calculator = new PlanetaryHourCalculator();
+      let calculator = new PlanetaryHourCalculator();
       return calculator.getPlanetaryMinute(date);
     } catch (error) {
       logger.error('Error calculating planetary minute:', error);
@@ -894,19 +894,19 @@ export class AstrologicalService {
   private static longitudeToZodiacPosition(longitude: number): CelestialPosition {
     try {
       // Normalize longitude to 0-360 range
-      const normLongitude = ((longitude % 360) + 360) % 360;
+      let normLongitude = ((longitude % 360) + 360) % 360;
       
       // Calculate zodiac sign
-      const signIndex = Math.floor(normLongitude / 30);
+      let signIndex = Math.floor(normLongitude / (30 || 1));
       const signs: ZodiacSign[] = [
         'aries', 'taurus', 'gemini', 'cancer', 
         'leo', 'virgo', 'libra', 'scorpio', 
         'sagittarius', 'capricorn', 'aquarius', 'pisces'
       ];
       
-      const sign = signs[signIndex];
-      const degree = Math.floor(normLongitude % 30);
-      const minutes = Math.floor(((normLongitude % 30) % 1) * 60);
+      let sign = signs[signIndex];
+      let degree = Math.floor(normLongitude % 30);
+      let minutes = Math.floor(((normLongitude % 30) % 1) * 60);
       
       return {
         sign,
@@ -943,15 +943,15 @@ export class AstrologicalService {
   }> {
     try {
       // Normalize the date to avoid cache misses due to milliseconds
-      const normalizedDate = new Date(date);
+      let normalizedDate = new Date(date);
       normalizedDate.setMilliseconds(0);
       normalizedDate.setSeconds(0);
       
       // Use cache key for the date to avoid redundant calculations
-      const cacheKey = `test_calculations_${normalizedDate.toISOString()}`;
+      let cacheKey = `test_calculations_${normalizedDate.toISOString()}`;
       
       // Check if we already have cached results for this date
-      const cached = this.cache.get(cacheKey);
+      let cached = this.cache.get(cacheKey);
       if (cached && Date.now() - cached.timestamp < this.CACHE_DURATION) {
         logger.debug('Using cached test calculations for', normalizedDate.toISOString());
         return cached.data as any;
@@ -960,7 +960,7 @@ export class AstrologicalService {
       logger.debug('Calculating new test data for', normalizedDate.toISOString());
       
       // Get planetary positions
-      const positions = await this.getPlanetaryPositions(normalizedDate);
+      let positions = await this.getPlanetaryPositions(normalizedDate);
       
       // Extract retrograde status for each planet
       const retrogradeStatus: Record<string, boolean> = {};
@@ -983,7 +983,7 @@ export class AstrologicalService {
       }
       
       // Prepare result
-      const result = {
+      let result = {
         positions,
         retrogradeStatus,
         sources
@@ -1000,7 +1000,7 @@ export class AstrologicalService {
       logger.error('Error in test calculations:', error);
       
       // Return a default result in case of error
-      const defaultPositions = this.calculateDefaultPlanetaryPositions();
+      let defaultPositions = this.calculateDefaultPlanetaryPositions();
       const defaultRetrograde: Record<string, boolean> = {};
       const defaultSources: Record<string, string> = {};
       
