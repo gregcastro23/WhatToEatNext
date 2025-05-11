@@ -1,4 +1,4 @@
-import { planetInfo as planets } from './planets';
+import { planetInfo } from './astrology';
 
 // Astrological signs data with consistent lowercase for all signs
 export const signs = {
@@ -16,8 +16,8 @@ export const signs = {
   11: 'pisces'
 };
 
-// Export the planetInfo from our new modular structure
-export const planetInfo = planets;
+// Export the planetInfo directly from astrology.ts
+export { planetInfo };
 
 // Complete sign information for all zodiac signs
 export const signInfo = {
