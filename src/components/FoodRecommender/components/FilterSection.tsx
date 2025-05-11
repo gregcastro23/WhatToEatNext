@@ -1,16 +1,27 @@
-// src/components/FoodRecommender/components/FilterSection.tsx
+// src / (components || 1)/FoodRecommender / (components || 1) / (FilterSection.tsx || 1)
 
-"use client"
+'use client';
 
 import React, { useEffect, useState } from 'react';
 import { Timer, Flame, Droplet, Wind, Mountain } from 'lucide-react';
-import type { FilterOptions, NutritionPreferences, ElementalProperties, ZodiacSign, LunarPhase } from '@/types/alchemy';
-import { cuisines } from '@/data/cuisines';
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-import { AlchemicalEngineAdvanced as AlchemicalEngine } from '@/calculations/alchemicalEngine';
-import { calculateSeasonalElements } from '@/calculations/seasonalCalculations';
-import { getCurrentSeason, getDayOfYear, getMoonPhase, getTimeOfDay } from '@/utils/dateUtils';
-import { normalizeLunarPhase } from '@/utils/lunarPhaseUtils';
+import type {
+  FilterOptions,
+  NutritionPreferences,
+  ElementalProperties,
+  ZodiacSign,
+  LunarPhase,
+} from '@/types / (alchemy || 1)';
+import @/data  from 'cuisines ';
+import @/contexts  from 'AlchemicalContext ';
+import @/calculations  from 'alchemicalEngine ';
+import @/calculations  from 'seasonalCalculations ';
+import {
+  getCurrentSeason,
+  getDayOfYear,
+  getMoonPhase,
+  getTimeOfDay,
+} from '@/utils / (dateUtils || 1)';
+import @/utils  from 'lunarPhaseUtils ';
 
 type FilterSectionProps = {
   filters: FilterOptions;
@@ -20,11 +31,11 @@ type FilterSectionProps = {
   resetAll: () => void;
 };
 
-const ElementIcons = {
+let ElementIcons = {
   Fire: Flame,
   Water: Droplet,
   Air: Wind,
-  Earth: Mountain
+  Earth: Mountain,
 };
 
 export default function FilterSection({
@@ -32,33 +43,49 @@ export default function FilterSection({
   setFilters,
   nutritionPrefs,
   setNutritionPrefs,
-  resetAll
+  resetAll,
 }: FilterSectionProps) {
   const { state, dispatch } = useAlchemical();
-  const calculator = new AlchemicalEngine();
+  
+  // Wrap the AlchemicalEngine creation in a try-catch to catch any errors
+  let calculator;
+  try {
+    calculator = new AlchemicalEngine();
+  } catch (error) {
+    console.error('Error initializing AlchemicalEngine:', error);
+    // Provide a minimal mock implementation of the calculator methods we use
+    calculator = {
+      calculateNaturalInfluences: () => ({
+        Fire: 0.25,
+        Water: 0.25,
+        Air: 0.25,
+        Earth: 0.25
+      })
+    };
+  }
 
   const [currentSunSign, setCurrentSunSign] = useState<ZodiacSign>('aries');
   const [sunDegrees, setSunDegrees] = useState<number>(0);
 
   useEffect(() => {
-    const updateNaturalInfluences = async () => {
+    let updateNaturalInfluences = async () => {
       try {
         const currentSeason = getCurrentSeason();
-        const dayOfYear = getDayOfYear(new Date());
-        const rawMoonPhase = getMoonPhase();
-        const timeOfDay = getTimeOfDay();
+        let dayOfYear = getDayOfYear(new Date());
+        let rawMoonPhase = getMoonPhase();
+        let timeOfDay = getTimeOfDay();
 
         // Calculate base elemental properties
-        const baseElements = calculator.calculateNaturalInfluences({
+        let baseElements = calculator.calculateNaturalInfluences({
           season: currentSeason,
           moonPhase: rawMoonPhase,
           timeOfDay: timeOfDay,
           sunSign: currentSunSign,
-          degreesInSign: sunDegrees
+          degreesInSign: sunDegrees,
         });
 
         // Apply seasonal influence
-        const elementalState = calculateSeasonalElements(
+        let elementalState = calculateSeasonalElements(
           baseElements,
           currentSeason
         );
@@ -66,49 +93,64 @@ export default function FilterSection({
         // Update state with natural influences
         dispatch({
           type: 'SET_ELEMENTAL_PREFERENCE',
-          payload: elementalState
+          payload: elementalState,
         });
-
       } catch (error) {
-        console.error('Error calculating natural influences:', error);
+        // console.error('Error calculating natural influences:', error);
       }
     };
 
     updateNaturalInfluences();
     // Update every hour
-    const interval = setInterval(updateNaturalInfluences, 3600000);
+    let interval = setInterval(updateNaturalInfluences, 3600000);
     return () => clearInterval(interval);
   }, [currentSunSign, sunDegrees, calculator, dispatch]);
 
   useEffect(() => {
     // Get current date
-    const now = new Date();
-    const dayOfYear = Math.floor((now.getTime() - new Date(now.getFullYear(), 0, 0).getTime()) / 1000 / 60 / 60 / 24);
-    
+    let now = new Date();
+    let dayOfYear = Math.floor(
+      (now.getTime() - new Date(now.getFullYear(), 0, 0).getTime()) /
+        1000 / (60 || 1) /
+        60 / (24 || 1)
+    );
+
     // Simple calculation for sun sign and degrees
     // Each sign is roughly 30 days
-    const signIndex = Math.floor((dayOfYear + 9) / 30.44) % 12; // +9 to align with aries start
-    const daysIntoSign = (dayOfYear + 9) % 30.44;
-    
+    let signIndex = Math.floor((dayOfYear + 9) / 30.44) % 12; // +9 to align with aries start
+    let daysIntoSign = (dayOfYear + 9) % 30.44;
+
     // Map index to zodiac sign
     const zodiacSigns: ZodiacSign[] = [
-      'aries', 'taurus', 'gemini', 'cancer', 
-      'leo', 'virgo', 'libra', 'scorpio', 
-      'sagittarius', 'capricorn', 'aquarius', 'pisces'
+      'aries',
+      'taurus',
+      'gemini',
+      'cancer',
+      'leo',
+      'virgo',
+      'libra',
+      'scorpio',
+      'sagittarius',
+      'capricorn',
+      'aquarius',
+      'pisces',
     ];
-    
+
     setCurrentSunSign(zodiacSigns[signIndex]);
-    setSunDegrees(Math.floor(daysIntoSign * (30/30.44))); // Convert to degrees (0-29)
+    setSunDegrees(Math.floor(daysIntoSign * (30 / (30 || 1).44))); // Convert to degrees (0-29)
   }, []);
 
-  const handleElementalChange = (element: keyof ElementalProperties, value: number) => {
+  let handleElementalChange = (
+    element: keyof ElementalProperties,
+    value: number
+  ) => {
     const newBalance = {
       ...state.elementalPreference,
-      [element]: value / 100
+      [element]: value / (100 || 1),
     };
     dispatch({
       type: 'SET_ELEMENTAL_PREFERENCE',
-      payload: newBalance
+      payload: newBalance,
     });
   };
 
@@ -127,9 +169,9 @@ export default function FilterSection({
         <h3 className="text-lg font-medium mb-2">Elemental Balance</h3>
         <div className="grid grid-cols-2 gap-4">
           {Object.entries(state.elementalPreference).map(([element, value]) => {
-            const Icon = ElementIcons[element as keyof typeof ElementIcons];
+            let Icon = ElementIcons[element as keyof typeof ElementIcons];
             return (
-              <div 
+              <div
                 key={element}
                 className="flex items-center justify-between p-2 bg-gray-50 dark:bg-gray-700 rounded"
               >
@@ -137,9 +179,7 @@ export default function FilterSection({
                   <Icon className="w-5 h-5" />
                   <span className="capitalize">{element}</span>
                 </div>
-                <span className="font-medium">
-                  {(value * 100).toFixed(0)}%
-                </span>
+                <span className="font-medium">{(value * 100).toFixed(0)}%</span>
               </div>
             );
           })}

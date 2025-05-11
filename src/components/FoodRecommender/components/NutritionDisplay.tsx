@@ -1,8 +1,8 @@
-// src/components/FoodRecommender/components/NutritionDisplay.tsx
+// src / (components || 1)/FoodRecommender / (components || 1) / (NutritionDisplay.tsx || 1)
 "use client"
 
 import React from 'react';
-import type { Nutrition } from '@/components/FoodRecommender/types';
+import @/components  from 'FoodRecommender ';
 
 type NutritionDisplayProps = {
   nutrition: Nutrition;
