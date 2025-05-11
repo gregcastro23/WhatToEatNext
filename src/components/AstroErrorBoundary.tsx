@@ -15,7 +15,7 @@ interface State {
 class AstroErrorBoundary extends Component<Props, State> {
   public state: State = {
     hasError: false,
-    error: null
+    error: null,
   };
 
   public static getDerivedStateFromError(error: Error): State {
@@ -23,7 +23,7 @@ class AstroErrorBoundary extends Component<Props, State> {
   }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error("Uncaught error:", error, errorInfo);
+    // console.error("Uncaught error:", error, errorInfo);
   }
 
   public render() {
@@ -34,10 +34,13 @@ class AstroErrorBoundary extends Component<Props, State> {
             <AlertTriangle className="w-5 h-5 mr-2 text-amber-300" />
             <div>
               <p className="font-semibold">Astrological calculation error</p>
-              <p className="text-sm">{this.state.error?.message || 'Something went wrong with astronomical calculations'}</p>
+              <p className="text-sm">
+                {this.state.error?.message ||
+                  'Something went wrong with astronomical calculations'}
+              </p>
             </div>
           </div>
-          <button 
+          <button
             onClick={() => window.location.reload()}
             className="mt-2 px-3 py-1 bg-amber-700 hover:bg-amber-600 rounded text-sm"
           >
@@ -51,4 +54,4 @@ class AstroErrorBoundary extends Component<Props, State> {
   }
 }
 
-export default AstroErrorBoundary; 
+export default AstroErrorBoundary;

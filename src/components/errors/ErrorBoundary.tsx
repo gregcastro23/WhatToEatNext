@@ -1,25 +1,33 @@
 'use client'
 
 import React, { Component, ErrorInfo } from 'react'
-import { logger } from '@/utils/logger'
-import { errorHandler } from '@/services/errorHandler'
+import { createLogger } from '@/utils/logger' 
+import { ErrorHandler } from '@/utils/errorHandler'
+import ErrorFallback from './ErrorFallback'
 
 interface Props {
   children: React.ReactNode
-  FallbackComponent: React.ComponentType<{
-    error: Error
-    resetErrorBoundary: () => void
-  }>
+  fallback?: React.ComponentType<FallbackProps>
   onError?: (error: Error, errorInfo: ErrorInfo) => void
-  onReset?: () => void
+}
+
+interface FallbackProps {
+  error: Error
+  resetErrorBoundary: () => void
 }
 
 interface State {
-  error: Error | null
   hasError: boolean
+  error: Error | null
 }
 
+const logger = createLogger('ErrorBoundary')
+
 export class ErrorBoundary extends Component<Props, State> {
+  static defaultProps = {
+    fallback: ErrorFallback
+  }
+
   constructor(props: Props) {
     super(props)
     this.state = { error: null, hasError: false }
@@ -31,22 +39,22 @@ export class ErrorBoundary extends Component<Props, State> {
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     logger.error('ErrorBoundary caught an error:', error)
-    errorHandler.handleError(error, {
+    ErrorHandler.log(error, {
       context: 'ErrorBoundary',
-      errorInfo
+      data: { errorInfo }
     })
     this.props.onError?.(error, errorInfo)
   }
 
   resetErrorBoundary = () => {
-    this.props.onReset?.()
     this.setState({ error: null, hasError: false })
   }
 
   render() {
     if (this.state.hasError && this.state.error) {
+      const FallbackComponent = this.props.fallback || ErrorFallback
       return (
-        <this.props.FallbackComponent
+        <FallbackComponent
           error={this.state.error}
           resetErrorBoundary={this.resetErrorBoundary}
         />
@@ -55,4 +63,6 @@ export class ErrorBoundary extends Component<Props, State> {
 
     return this.props.children
   }
-} 
+}
+
+export default ErrorBoundary 

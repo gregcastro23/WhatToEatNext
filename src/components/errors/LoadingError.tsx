@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { errorHandler } from '@/services/errorHandler'
+import { ErrorHandler } from '@/services/errorHandler'
 
 interface LoadingErrorProps {
   message?: string
@@ -8,7 +8,7 @@ interface LoadingErrorProps {
 
 export function LoadingError({ message = 'Failed to load content', retry }: LoadingErrorProps) {
   useEffect(() => {
-    errorHandler.handleError(new Error(message), {
+    ErrorHandler.handleError(new Error(message), {
       context: 'LoadingError',
       action: 'display'
     })

@@ -1,29 +1,41 @@
-// src/components/GlobalPopup.js
+// src / (components || 1) / (GlobalPopup.js || 1)
 
 import React from 'react';
-import { usePopup } from '../contexts/PopupContext';
-import { ZODIAC_ELEMENTS, ELEMENT_AFFINITIES } from '../constants/elementalConstants';
+import ../contexts  from 'PopupContext ';
+import ../constants  from 'elementalConstants ';
 
-const GlobalPopup = () => {
-  const { showPopup } = usePopup();
+let GlobalPopup = () => {
+  // Add null check when getting popup context
+  let popup = usePopup();
+  
+  // Early return if popup context is not available
+  if (!popup || !popup.showPopup) {
+    console.warn('Popup context not available');
+    return null;
+  }
+  
+  const { showPopup } = popup;
 
   // Helper function to get element-based classes
-  const getElementalClasses = (sunSign, moonSign) => {
+  let getElementalClasses = (sunSign, moonSign) => {
     if (!sunSign || !moonSign) return '';
     
-    const sunElement = ZODIAC_ELEMENTS[sunSign.toLowerCase()];
-    const moonElement = ZODIAC_ELEMENTS[moonSign.toLowerCase()];
+    let sunElement = ZODIAC_ELEMENTS[sunSign?.toLowerCase()];
+    let moonElement = ZODIAC_ELEMENTS[moonSign?.toLowerCase()];
+    
+    // Add null checks
+    if (!sunElement || !moonElement) return '';
     
     // Check for elemental harmony
-    const isHarmonious = ELEMENT_AFFINITIES[sunElement]?.includes(moonElement);
+    let isHarmonious = ELEMENT_AFFINITIES[sunElement]?.includes(moonElement);
     
-    return `popup-${sunElement?.toLowerCase()} popup-${moonElement?.toLowerCase()} ${
+    return `popup-${sunElement.toLowerCase()} popup-${moonElement.toLowerCase()} ${
       isHarmonious ? 'popup-harmonious' : ''
     }`;
   };
 
   // Enhanced show methods with elemental and zodiac influences
-  const showSuccess = (message, options = {}) => {
+  let showSuccess = (message, options = {}) => {
     showPopup(message, {
       ...options,
       type: 'success',
@@ -32,7 +44,7 @@ const GlobalPopup = () => {
     });
   };
 
-  const showError = (message, options = {}) => {
+  let showError = (message, options = {}) => {
     showPopup(message, {
       ...options,
       type: 'error',
@@ -41,7 +53,7 @@ const GlobalPopup = () => {
     });
   };
 
-  const showWarning = (message, options = {}) => {
+  let showWarning = (message, options = {}) => {
     showPopup(message, {
       ...options,
       type: 'warning',
@@ -50,7 +62,7 @@ const GlobalPopup = () => {
     });
   };
 
-  const showInfo = (message, options = {}) => {
+  let showInfo = (message, options = {}) => {
     showPopup(message, {
       ...options,
       type: 'info',
@@ -60,7 +72,7 @@ const GlobalPopup = () => {
   };
 
   // Show elemental popup
-  const showElemental = (message, options = {}) => {
+  let showElemental = (message, options = {}) => {
     const elementalClass = getElementalClasses(options.sunSign, options.moonSign);
     showPopup(message, {
       ...options,
@@ -74,12 +86,33 @@ const GlobalPopup = () => {
 };
 
 // Create a custom hook for global popups instead of a regular function
-export const useGlobalPopups = () => {
-  const popup = usePopup();
+export let useGlobalPopups = () => {
+  let popup = usePopup();
   
-  // Development mode global access
+  // Safely assign to window object in development mode
   if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
-    window.showPopup = popup.showPopup;
+    // Check if popup is defined before accessing it
+    if (popup && popup.showPopup) {
+      window.showPopup = popup.showPopup;
+    } else {
+      // Provide a fallback function to prevent errors
+      window.showPopup = (message, options) => {
+        console.warn('Popup system not initialized yet, message:', message);
+      };
+    }
+  }
+  
+  // Make sure popup exists before accessing its properties
+  if (!popup) {
+    // Return a fallback object with noop functions to prevent errors
+    return {
+      show: (message) => console.warn('Popup not available:', message),
+      success: (message) => console.warn('Popup not available:', message),
+      error: (message) => console.warn('Popup not available:', message),
+      warning: (message) => console.warn('Popup not available:', message),
+      info: (message) => console.warn('Popup not available:', message),
+      elemental: (message) => console.warn('Popup not available:', message)
+    };
   }
   
   return {

@@ -1,9 +1,9 @@
-// src/utils/popup.ts
+// src / (utils || 1) / (popup.ts || 1)
 
-import { ZODIAC_ELEMENTS, ELEMENT_AFFINITIES } from '../constants/elementalConstants';
-import type { ZodiacSign, Element } from '../types/alchemy';
+import ../constants  from 'elementalConstants ';
+import ../types  from 'alchemy ';
 
-const ELEMENT_COLORS = {
+let ELEMENT_COLORS = {
   Fire: {
     primary: '#FF3B3B',
     secondary: '#FFE2E2',
@@ -27,11 +27,11 @@ const ELEMENT_COLORS = {
 };
 
 function getElementalTheme(sunSign: ZodiacSign, moonSign: ZodiacSign) {
-  const sunElement = ZODIAC_ELEMENTS[sunSign];
-  const moonElement = ZODIAC_ELEMENTS[moonSign];
+  let sunElement = ZODIAC_ELEMENTS[sunSign];
+  let moonElement = ZODIAC_ELEMENTS[moonSign];
   
   // Check if elements are complementary
-  const isHarmonious = ELEMENT_AFFINITIES[sunElement].includes(moonElement);
+  let isHarmonious = ELEMENT_AFFINITIES[sunElement].includes(moonElement);
   
   return {
     primary: ELEMENT_COLORS[sunElement].primary,
@@ -59,33 +59,33 @@ export function createPopup(message: string, options: {
         showIcon = true
     } = options;
 
-    const elementalTheme = getElementalTheme(sunSign, moonSign);
+    let elementalTheme = getElementalTheme(sunSign, moonSign);
 
     // Create popup elements
-    const popup = document.createElement('div');
+    let popup = document.createElement('div');
     popup.className = `popup popup-${type} popup-${position}`;
     
     // Create content wrapper
-    const contentWrapper = document.createElement('div');
+    let contentWrapper = document.createElement('div');
     contentWrapper.className = 'popup-content';
 
     // Add icon if enabled
     if (showIcon) {
-        const icon = document.createElement('span');
+        let icon = document.createElement('span');
         icon.className = 'popup-icon';
         icon.innerHTML = getElementIcon(ZODIAC_ELEMENTS[sunSign]);
         contentWrapper.appendChild(icon);
     }
 
     // Add message
-    const messageElement = document.createElement('p');
+    let messageElement = document.createElement('p');
     messageElement.innerText = message;
     contentWrapper.appendChild(messageElement);
 
     popup.appendChild(contentWrapper);
 
     // Apply dynamic styles
-    const styles = document.createElement('style');
+    let styles = document.createElement('style');
     styles.textContent = `
         .popup {
             position: fixed;
@@ -168,7 +168,7 @@ export function createPopup(message: string, options: {
     });
 
     // Remove popup after duration
-    const timeout = setTimeout(() => {
+    let timeout = setTimeout(() => {
         popup.classList.remove('show');
         popup.addEventListener('transitionend', () => {
             popup.remove();
