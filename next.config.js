@@ -10,8 +10,41 @@ const path = require('path');
  * 
  * @type {import('next').NextConfig}
  */
+const securityHeaders = [
+  {
+    key: 'Content-Security-Policy',
+    value: `
+      default-src 'self';
+      script-src 'self' 'unsafe-inline' 'unsafe-eval';
+      style-src 'self' 'unsafe-inline';
+      img-src 'self' data: blob:;
+      font-src 'self';
+      connect-src 'self';
+      media-src 'self';
+      object-src 'none';
+      frame-src 'self';
+    `.replace(/\s+/g, ' ').trim()
+  },
+  {
+    key: 'X-Frame-Options',
+    value: 'DENY'
+  },
+  {
+    key: 'X-Content-Type-Options',
+    value: 'nosniff'
+  },
+  {
+    key: 'Referrer-Policy',
+    value: 'strict-origin-when-cross-origin'
+  },
+  {
+    key: 'Permissions-Policy',
+    value: 'camera=(), microphone=(), geolocation=()'
+  }
+];
+
 const nextConfig = {
-  reactStrictMode: false,
+  reactStrictMode: true,
   images: {
     domains: [], // Add any image domains you need
     remotePatterns: [
@@ -30,7 +63,8 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   eslint: {
-    ignoreDuringBuilds: true, // Temporarily disable ESLint due to config issues
+    ignoreDuringBuilds: false, // Enable ESLint during builds to catch issues
+    dirs: ['src', 'pages'], // Directories to lint
   },
   poweredByHeader: false,
   compress: true,
@@ -90,43 +124,102 @@ const nextConfig = {
   async headers() {
     return [
       {
+        // Apply these headers to all routes
         source: '/:path*',
         headers: [
           {
-            key: 'X-DNS-Prefetch-Control',
-            value: 'on'
-          },
-          {
-            key: 'Strict-Transport-Security',
-            value: 'max-age=63072000; includeSubDomains; preload'
+            key: 'Content-Security-Policy',
+            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' *.astro-api.com *.nutritionix.com; frame-src 'self'; worker-src 'self' blob:; manifest-src 'self'",
           },
           {
             key: 'X-Content-Type-Options',
-            value: 'nosniff'
+            value: 'nosniff',
           },
           {
             key: 'X-Frame-Options',
-            value: 'SAMEORIGIN'
+            value: 'SAMEORIGIN',
           },
           {
             key: 'X-XSS-Protection',
-            value: '1; mode=block'
+            value: '1; mode=block',
           },
           {
             key: 'Referrer-Policy',
-            value: 'origin-when-cross-origin'
+            value: 'strict-origin-when-cross-origin',
           },
-          {
-            key: 'Content-Security-Policy',
-            value: "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self' https://api.timeanddate.com https://json.astrologyapi.com https://ssd.jpl.nasa.gov https://*.nasa.gov https://*.astrologyapi.com"
-          }
-        ]
+        ],
+      },
+    ];
+  },
+  async rewrites() {
+    return [
+      // Rewrite any requests to popup.js to either dummy-popup.js or empty.js
+      {
+        source: '/popup.js',
+        destination: '/dummy-popup.js',
+      },
+      {
+        source: '/scripts/popup.js',
+        destination: '/empty.js',
+      },
+      {
+        source: '/assets/popup.js',
+        destination: '/empty.js',
+      },
+      {
+        source: '/js/popup.js',
+        destination: '/empty.js',
+      },
+      {
+        source: '/popup/:path*',
+        destination: '/empty.js',
+      },
+      // Handle lockdown-related scripts
+      {
+        source: '/lockdown-install.js',
+        destination: '/lockdown-patch.js',
+      },
+      {
+        source: '/lockdown.js',
+        destination: '/lockdown-patch.js',
+      },
+      {
+        source: '/scripts/lockdown.js',
+        destination: '/lockdown-patch.js',
+      },
+      {
+        source: '/assets/lockdown.js',
+        destination: '/lockdown-patch.js',
+      },
+      {
+        source: '/js/lockdown.js',
+        destination: '/lockdown-patch.js',
+      },
+      // Handle problematic viewer.js
+      {
+        source: '/viewer.js',
+        destination: '/empty.js', 
+      },
+      {
+        source: '/scripts/viewer.js',
+        destination: '/empty.js',
       }
     ];
   },
   experimental: {
-    largePageDataBytes: 128 * 100000, // Increase the chunk size limit
-  }
+    largePageDataBytes: 12800000, // Increase from 128kb default
+  },
+  async redirects() {
+    return [
+      // Redirects can be defined here
+    ];
+  },
+  serverRuntimeConfig: {
+    // Will only be available on the server side
+  },
+  publicRuntimeConfig: {
+    // Will be available on both server and client
+  },
 };
 
 module.exports = nextConfig;
