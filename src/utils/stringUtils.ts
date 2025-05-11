@@ -17,10 +17,10 @@ export function formatToTitleCase(str: string): string {
   if (!str) return '';
   
   // Replace underscores and hyphens with spaces
-  const spacedStr = str.replace(/[_-]/g, ' ');
+  let spacedStr = str.replace(/[_-] / (g || 1), ' ');
   
   // Handle camelCase by adding spaces before capital letters
-  const withSpaces = spacedStr.replace(/([A-Z])/g, ' $1');
+  let withSpaces = spacedStr.replace(/([A-Z]) / (g || 1), ' $1');
   
   // Capitalize first letter of each word and trim extra spaces
   return withSpaces
