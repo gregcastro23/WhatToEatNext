@@ -63,7 +63,7 @@ import {
   calculateElementalProfileFromZodiac,
   calculateElementalContributionsFromPlanets,
 } from '@/utils/cuisineRecommender';
-import { venusData, marsData, mercuryData, jupiterData } from '@/data/planets';
+import { planetaryData } from '@/data/planets';
 
 // Keep the interface exports for any code that depends on them
 export interface Cuisine {
@@ -260,6 +260,7 @@ export default function CuisineRecommender() {
     Record<string, boolean>
   >({});
   const [showCuisineDetails, setShowCuisineDetails] = useState<boolean>(false);
+  const [showAllCuisines, setShowAllCuisines] = useState<boolean>(false);
   const [currentMomentElementalProfile, setCurrentMomentElementalProfile] =
     useState<ElementalProperties>(
       alchemicalContext?.state?.astrologicalState?.elementalState ||
@@ -448,32 +449,29 @@ export default function CuisineRecommender() {
   };
 
   let toggleRecipeExpansion = (index: number, event: React.MouseEvent) => {
-    // console.log(`Toggling recipe expansion for index ${index}`);
-    
-    // Create a copy of the current state
+    // Ensure event doesn't propagate to parent elements
+    if (event) {
+      event.stopPropagation();
+      event.preventDefault();
+    }
+
+    // Log click to help with debugging
+    console.log(`[CuisineRecommender] Toggling recipe at index ${index}, current expanded state:`, expandedRecipes);
+
+    // Create a copy of the expandedRecipes object (not an array)
     const newExpandedRecipes = { ...expandedRecipes };
     
-    // Toggle the expansion state for this recipe
-    const isExpanding = !newExpandedRecipes[index];
-    newExpandedRecipes[index] = isExpanding;
+    // Toggle the state for this index
+    newExpandedRecipes[index] = !newExpandedRecipes[index];
     
-    // console.log(`Recipe ${index} expanded state changing to: ${isExpanding ? 'expanded' : 'collapsed'}`);
+    // Log the new state being set
+    console.log(`[CuisineRecommender] Setting new expanded state:`, newExpandedRecipes);
     
-    if (isExpanding && cuisineRecipes && cuisineRecipes[index]) {
-      // console.log(`Expanding recipe: ${cuisineRecipes[index].name}`, {
-      //   currentState: expandedRecipes,
-      //   newState: newExpandedRecipes
-      // });
-      
-      // Log the event
-      trackEvent('recipe_expand', cuisineRecipes[index].name);
-    }
-    
-    // Update state
+    // Update the state with the new object
     setExpandedRecipes(newExpandedRecipes);
     
-    // Force a re-render for this recipe
-    // console.log(`Forced re-render for recipe ${index}`);
+    // Track the interaction for analytics
+    logCuisineAction('toggleRecipe', { index, newState: newExpandedRecipes[index] });
   };
 
   let toggleSauceExpansion = (index: number) => {
@@ -603,7 +601,7 @@ export default function CuisineRecommender() {
 
   // Add this function inside the CuisineRecommender component or before it
   function getCuisineRecommendations(astroState) {
-    // Start with all cuisines
+    // Start with all cuisines from cuisineFlavorProfiles
     const availableCuisines = Object.values(cuisineFlavorProfiles);
     
     // Create a map of parent cuisines to their regional variants
@@ -627,43 +625,227 @@ export default function CuisineRecommender() {
       }
     });
     
+    // Import cuisines from data folder if needed
+    try {
+      const { cuisinesMap } = require('@/data/cuisines');
+      // Add any missing cuisines from the data folder
+      Object.values(cuisinesMap).forEach(cuisine => {
+        const id = cuisine.id.toLowerCase();
+        if (!cuisineMap.has(id)) {
+          // Add as a parent cuisine if it doesn't exist
+          cuisineMap.set(id, {
+            cuisine: {
+              id: id,
+              name: cuisine.name,
+              description: cuisine.description,
+              elementalAlignment: cuisine.elementalProperties,
+              signatureTechniques: cuisine.cookingTechniques?.map(t => t.name) || [],
+              regionalVariants: Object.keys(cuisine.regionalCuisines || {}),
+              regionalCuisines: cuisine.regionalCuisines
+            },
+            regionalVariants: []
+          });
+        }
+      });
+    } catch (error) {
+      console.warn('Error loading cuisines from data folder:', error);
+    }
+    
     // Transform cuisines into the format expected by the UI
     let transformedCuisines = [];
     
+    // Load planetary influence data for more precise scoring
+    const planetsData = {
+      Sun: planetaryData.Sun || {},
+      Moon: planetaryData.Moon || {},
+      Mars: planetaryData.Mars || {},
+      Mercury: planetaryData.Mercury || {},
+      Jupiter: planetaryData.Jupiter || {}
+      // Add more planets as needed
+    };
+    
+    // Current date and season for seasonal matching
+    const now = new Date();
+    const seasons = ['winter', 'spring', 'summer', 'fall'];
+    const currentMonth = now.getMonth();
+    const currentSeason = seasons[Math.floor(((currentMonth + 1) % 12) / 3)];
+    
+    // Try to load time factors if available
+    let timeFactors = { day: 1, hour: 0.5 };
+    try {
+      const { getTimeFactors } = require('@/types/time');
+      timeFactors = getTimeFactors() || timeFactors;
+    } catch (error) {
+      console.warn('Could not load time factors, using defaults');
+    }
+    
     cuisineMap.forEach(({ cuisine, regionalVariants }, cuisineId) => {
-      // Calculate a score based on astroState
-      let score = 0.5; // Default score
+      // Calculate a more comprehensive score based on multiple factors
+      let baseScore = 0.5; // Default score
+      let scoreFactors = []; // Track individual scoring factors for debugging
       
-      // Calculate better score if we have astrological data
+      // If we have astrological data
       if (astroState && astroState.elementalState) {
-        // Match cuisine elemental properties with current elemental state
-        score = calculateElementalMatch(
+        // 1. Elemental Match (15% of score - reduced from 30%)
+        const elementalMatch = calculateElementalMatch(
           cuisine.elementalAlignment || cuisine.elementalProperties || {
             Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
           },
           astroState.elementalState
         );
+        scoreFactors.push({ factor: 'Elemental Match', value: elementalMatch, weight: 0.15 });
         
-        // Boost score for matching zodiac influences
-        if (astroState.zodiacSign && cuisine.zodiacInfluences && 
-            cuisine.zodiacInfluences.includes(astroState.zodiacSign)) {
-          score += 0.15; // Add bonus for zodiac match
+        // 2. Zodiac Influence (20% of score - unchanged)
+        let zodiacScore = 0.5;
+        if (astroState.zodiacSign && cuisine.zodiacInfluences) {
+          // Direct match
+          if (cuisine.zodiacInfluences.includes(astroState.zodiacSign)) {
+            zodiacScore = 0.9;
+          } 
+          // Element match (check if cuisine zodiac influences have same element as current zodiac)
+          else {
+            const currentElement = calculateElementalProfileFromZodiac(
+              astroState.zodiacSign as ZodiacSign
+            );
+            
+            // Find dominant element of current zodiac
+            const dominantElement = Object.entries(currentElement)
+              .sort((a, b) => b[1] - a[1])[0][0];
+            
+            // Check if any of the cuisine's zodiac influences share this element
+            const hasElementMatch = (cuisine.zodiacInfluences || []).some(zodiac => {
+              const zodiacElement = calculateElementalProfileFromZodiac(
+                zodiac as ZodiacSign
+              );
+              const zodiacDominantElement = Object.entries(zodiacElement)
+                .sort((a, b) => b[1] - a[1])[0][0];
+              
+              return zodiacDominantElement === dominantElement;
+            });
+            
+            if (hasElementMatch) {
+              zodiacScore = 0.7;
+            }
+          }
+        }
+        scoreFactors.push({ factor: 'Zodiac Influence', value: zodiacScore, weight: 0.20 });
+        
+        // 3. Lunar Phase Match (15% of score)
+        let lunarScore = 0.5;
+        if (astroState.lunarPhase && cuisine.lunarPhaseInfluences) {
+          if (cuisine.lunarPhaseInfluences.includes(astroState.lunarPhase)) {
+            lunarScore = 0.9;
+          }
+          // Check for similar lunar phase categories (waxing, waning, etc.)
+          else if (
+            (astroState.lunarPhase.includes('waxing') && cuisine.lunarPhaseInfluences.some(phase => phase.includes('waxing'))) ||
+            (astroState.lunarPhase.includes('waning') && cuisine.lunarPhaseInfluences.some(phase => phase.includes('waning'))) ||
+            (astroState.lunarPhase.includes('full') && cuisine.lunarPhaseInfluences.includes('full moon')) ||
+            (astroState.lunarPhase.includes('new') && cuisine.lunarPhaseInfluences.includes('new moon'))
+          ) {
+            lunarScore = 0.7;
+          }
+        }
+        scoreFactors.push({ factor: 'Lunar Phase', value: lunarScore, weight: 0.15 });
+        
+        // 4. Seasonal Match (10% of score)
+        let seasonalScore = 0.5;
+        if (cuisine.seasonalPreference) {
+          if (cuisine.seasonalPreference.includes(currentSeason) || 
+              cuisine.seasonalPreference.includes('all')) {
+            seasonalScore = 0.9;
+          }
+        }
+        scoreFactors.push({ factor: 'Seasonal Match', value: seasonalScore, weight: 0.10 });
+        
+        // 5. Planetary Resonance (15% of score)
+        let planetaryScore = 0.5;
+        
+        // Find current planetary day/hour influences
+        const currentPlanetaryInfluences = [];
+        try {
+          const dayOfWeek = now.getDay();
+          const hour = now.getHours();
+          
+          // Simplified planetary day/hour calculations (would be more complex in real app)
+          const planetaryDays = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
+          const planetaryDay = planetaryDays[dayOfWeek];
+          currentPlanetaryInfluences.push(planetaryDay);
+          
+          // Could add hour rulers for more precision
+        } catch (error) {
+          console.warn('Error calculating planetary influences:', error);
         }
         
-        // Boost score for matching lunar influences
-        if (astroState.lunarPhase && cuisine.lunarPhaseInfluences &&
-            cuisine.lunarPhaseInfluences.includes(astroState.lunarPhase)) {
-          score += 0.1; // Add bonus for lunar phase match
+        // Check if cuisine has resonance with any current planetary influences
+        if (cuisine.planetaryResonance) {
+          const matches = currentPlanetaryInfluences.filter(planet => 
+            cuisine.planetaryResonance.includes(planet)
+          );
+          
+          if (matches.length > 0) {
+            planetaryScore = 0.5 + (matches.length * 0.2);
+            // Cap at 0.9
+            planetaryScore = Math.min(0.9, planetaryScore);
+          }
         }
+        scoreFactors.push({ factor: 'Planetary Resonance', value: planetaryScore, weight: 0.15 });
         
-        // Ensure score is within 0-1 range
-        score = Math.min(0.95, Math.max(0.5, score));
+        // 6. Flavor Affinities (25% of score - increased from 10%)
+        let flavorScore = 0.6; // Base score
+        
+        // This would normally be more sophisticated
+        if (cuisine.flavorProfiles) {
+          // Enhanced flavor matching logic
+          flavorScore = 0.6;
+          
+          try {
+            // Check if cuisine has flavor profiles that might match current preferences
+            // This could be based on time of day, season, or user profile
+            if (cuisine.flavorProfiles.spicy && isDaytime) {
+              // During day, spicy foods score higher
+              flavorScore += cuisine.flavorProfiles.spicy * 0.1;
+            }
+            
+            if (cuisine.flavorProfiles.umami) {
+              // Umami is generally valued
+              flavorScore += cuisine.flavorProfiles.umami * 0.2;
+            }
+            
+            // Seasonal preferences
+            if (currentSeason === 'summer' && cuisine.flavorProfiles.sweet) {
+              flavorScore += cuisine.flavorProfiles.sweet * 0.1;
+            } else if (currentSeason === 'winter' && cuisine.flavorProfiles.bitter) {
+              flavorScore += cuisine.flavorProfiles.bitter * 0.1;
+            }
+            
+            // Cap at 0.95
+            flavorScore = Math.min(0.95, flavorScore);
+          } catch (error) {
+            console.warn('Error in flavor matching:', error);
+            // Fallback to simpler calculation
+            flavorScore = 0.6 + (Math.random() * 0.3);
+          }
+        }
+        scoreFactors.push({ factor: 'Flavor Profile', value: flavorScore, weight: 0.25 });
+        
+        // Calculate weighted average of all scores
+        baseScore = scoreFactors.reduce((acc, factor) => {
+          return acc + (factor.value * factor.weight);
+        }, 0);
+        
+        // Apply some randomization (±5%) to break ties and clusters
+        const randomFactor = 1 + ((Math.random() * 0.1) - 0.05);
+        baseScore = baseScore * randomFactor;
+        
+        // Ensure score is within 0-1 range with more precision
+        baseScore = Math.min(0.95, Math.max(0.5, baseScore));
       } else {
         // Add some randomness if no astrological data
-        score = 0.5 + Math.random() * 0.3;
+        baseScore = 0.5 + Math.random() * 0.3;
       }
       
-      // Create the main cuisine object
+      // Create the main cuisine object with enhanced score
       const mainCuisine = {
         id: cuisine.id || cuisine.name?.toLowerCase().replace(/\s+/g, '-') || `cuisine-${Math.random()}`,
         name: cuisine.name || 'Unknown Cuisine',
@@ -677,10 +859,12 @@ export default function CuisineRecommender() {
         astrologicalInfluences: cuisine.zodiacInfluences || [],
         zodiacInfluences: cuisine.zodiacInfluences || [],
         lunarPhaseInfluences: cuisine.lunarPhaseInfluences || [],
-        score: score,
-        matchPercentage: Math.round(score * 100),
-        compatibilityScore: score,
+        score: baseScore,
+        rawScore: baseScore,
+        matchPercentage: Math.round(baseScore * 1000) / 10, // Show one decimal place precision
+        compatibilityScore: baseScore,
         recipes: [],
+        scoreFactors: scoreFactors, // Store individual factors for debugging
         // Add additional cuisine data if available
         signatureDishes: cuisine.signatureTechniques || cuisine.signatureDishes || [],
         commonIngredients: cuisine.signatureIngredients || cuisine.primaryIngredients || [],
@@ -693,18 +877,28 @@ export default function CuisineRecommender() {
       
       // Add regional variants with slightly lower scores
       regionalVariants.forEach(variant => {
-        // Regional variants get a slightly lower base score than their parent
-        let variantScore = score * 0.95;
+        // Skip adding Cantonese and Sichuanese as separate cards
+        // We'll keep them in Chinese cuisine's regionalVariants
+        if (variant.id === 'cantonese' || variant.id === 'sichuanese') {
+          return;
+        }
         
-        // But if they have zodiac or lunar phase matches of their own, they can increase
+        // Regional variants get a modified score based on parent
+        let variantScore = baseScore * 0.95;
+        
+        // Recalculate for zodiac and lunar matches specific to the variant
         if (astroState?.zodiacSign && variant.zodiacInfluences?.includes(astroState.zodiacSign)) {
-          variantScore += 0.1;
+          variantScore += 0.08;
         }
         
         if (astroState?.lunarPhase && variant.lunarPhaseInfluences?.includes(astroState.lunarPhase)) {
           variantScore += 0.05;
         }
         
+        // Apply small random factor to further differentiate similar variants
+        variantScore = variantScore * (1 + ((Math.random() * 0.06) - 0.03));
+        
+        // Ensure score is within bounds with precision
         variantScore = Math.min(0.95, Math.max(0.5, variantScore));
         
         transformedCuisines.push({
@@ -721,7 +915,8 @@ export default function CuisineRecommender() {
           zodiacInfluences: variant.zodiacInfluences || [],
           lunarPhaseInfluences: variant.lunarPhaseInfluences || [],
           score: variantScore,
-          matchPercentage: Math.round(variantScore * 100),
+          rawScore: variantScore,
+          matchPercentage: Math.round(variantScore * 1000) / 10, // Show one decimal place precision
           compatibilityScore: variantScore,
           recipes: [],
           signatureDishes: variant.signatureTechniques || variant.signatureDishes || [],
@@ -732,10 +927,9 @@ export default function CuisineRecommender() {
       });
     });
 
-    // Sort cuisines by score and return more recommendations to fill the page
+    // Sort cuisines by score - we'll apply the slice in the render function now
     return transformedCuisines
-      .sort((a, b) => b.score - a.score)
-      .slice(0, 18); // Increased from 10 to 18
+      .sort((a, b) => b.score - a.score);
   }
 
   if (loading) {
@@ -764,291 +958,142 @@ export default function CuisineRecommender() {
       <h2 className="text-xl font-medium mb-3">Celestial Cuisine Guide</h2>
 
       {/* Group cuisine cards in a better grid layout */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mb-4">
-        {cuisineRecommendations.map((cuisine) => {
-          // Calculate match percentage
-          let matchPercentage = cuisine.matchPercentage || 
-            (cuisine.compatibilityScore ? Math.round(cuisine.compatibilityScore * 100) : 50);
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mb-3">
+        {cuisineRecommendations
+          .slice(0, showAllCuisines ? undefined : 6) // Show only top 6 cuisines by default
+          .map((cuisine) => {
+            // Display formatted match percentage
+            let matchPercentage = typeof cuisine.matchPercentage === 'number' 
+              ? cuisine.matchPercentage 
+              : (cuisine.compatibilityScore 
+                  ? Math.round(cuisine.compatibilityScore * 1000) / 10 
+                  : 50);
 
-          // Check if this is a regional variant
-          const isRegionalVariant = !!cuisine.parentCuisine;
+            // Check if this is a regional variant
+            const isRegionalVariant = !!cuisine.parentCuisine;
 
-          return (
-            <div
-              key={cuisine.id}
-              className={`rounded border p-3 cursor-pointer transition-all duration-200 hover:shadow-md ${
-                selectedCuisine === cuisine.id || selectedCuisine === cuisine.name
-                  ? 'border-blue-400 bg-blue-50'
-                  : isRegionalVariant 
-                    ? 'border-gray-200 bg-gray-50' 
-                    : 'border-gray-200'
-              }`}
-              onClick={() => handleCuisineSelect(cuisine.id)}
-            >
-              {/* Cuisine header with name and match score */}
-              <div className="flex justify-between items-center mb-2">
-                <div>
-                  <h3 className="font-medium text-sm">{cuisine.name}</h3>
-                  {isRegionalVariant && (
-                    <span className="text-xs text-gray-500">Regional variant of {cuisine.parentCuisine}</span>
-                  )}
-                  {cuisine.regionalVariants && cuisine.regionalVariants.length > 0 && (
-                    <span className="text-xs text-gray-500 block">
-                      {cuisine.regionalVariants.length} regional variants
-                    </span>
-                  )}
-                </div>
-                <span
-                  className={`text-xs px-2 py-1 rounded ${getMatchScoreClass(
-                    cuisine.compatibilityScore || cuisine.score || 0.5
-                  )}`}
-                >
-                  {matchPercentage}%
-                </span>
-              </div>
-
-              {/* Cuisine description - truncated */}
-              <p className="text-xs text-gray-600 mb-2 line-clamp-2" title={cuisine.description}>
-                {cuisine.description}
-              </p>
-
-              {/* Elemental properties */}
-              <div className="flex items-center space-x-1 mb-2">
-                <span className="text-xs font-medium text-gray-500">Elements:</span>
-                <div className="flex space-x-1">
-                  {cuisine.elementalProperties.Fire >= 0.3 && (
-                    <div className="flex items-center" title={`Fire: ${Math.round(cuisine.elementalProperties.Fire * 100)}%`}>
-                      <Flame size={14} className="text-red-500" />
-                      <span className="text-xs ml-1">{Math.round(cuisine.elementalProperties.Fire * 100)}%</span>
-                    </div>
-                  )}
-                  {cuisine.elementalProperties.Water >= 0.3 && (
-                    <div className="flex items-center" title={`Water: ${Math.round(cuisine.elementalProperties.Water * 100)}%`}>
-                      <Droplets size={14} className="text-blue-500" />
-                      <span className="text-xs ml-1">{Math.round(cuisine.elementalProperties.Water * 100)}%</span>
-                    </div>
-                  )}
-                  {cuisine.elementalProperties.Earth >= 0.3 && (
-                    <div className="flex items-center" title={`Earth: ${Math.round(cuisine.elementalProperties.Earth * 100)}%`}>
-                      <Mountain size={14} className="text-green-500" />
-                      <span className="text-xs ml-1">{Math.round(cuisine.elementalProperties.Earth * 100)}%</span>
-                    </div>
-                  )}
-                  {cuisine.elementalProperties.Air >= 0.3 && (
-                    <div className="flex items-center" title={`Air: ${Math.round(cuisine.elementalProperties.Air * 100)}%`}>
-                      <Wind size={14} className="text-yellow-500" />
-                      <span className="text-xs ml-1">{Math.round(cuisine.elementalProperties.Air * 100)}%</span>
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              {/* Show signature dishes and techniques if available */}
-              {cuisine.signatureDishes && cuisine.signatureDishes.length > 0 && (
-                <div className="mt-1">
-                  <span className="text-xs font-medium text-gray-500 block">Signature dishes:</span>
-                  <span className="text-xs text-gray-600">
-                    {cuisine.signatureDishes.slice(0, 3).join(", ")}
-                    {cuisine.signatureDishes.length > 3 ? "..." : ""}
-                  </span>
-                </div>
-              )}
-
-              {/* Show astrological influences if available */}
-              {cuisine.zodiacInfluences && cuisine.zodiacInfluences.length > 0 && (
-                <div className="mt-1 flex flex-wrap gap-1">
-                  {cuisine.zodiacInfluences.slice(0, 3).map(sign => (
-                    <span 
-                      key={sign} 
-                      className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs
-                        ${currentZodiac === sign ? 'bg-blue-100 text-blue-800 font-medium' : 'bg-gray-100 text-gray-700'}`}
-                    >
-                      {sign}
-                      {currentZodiac === sign && <span className="ml-1">✓</span>}
-                    </span>
-                  ))}
-                </div>
-              )}
-            </div>
-          );
-        })}
-      </div>
-
-      {/* Standalone Sauce Recommendations Section */}
-      <div className="mt-6 pt-4 border-t border-gray-200">
-        <h3 className="text-lg font-medium mb-3">Celestial Sauce Harmonizer</h3>
-        <p className="text-sm text-gray-600 mb-4">
-          Discover sauces that complement the current moment's alchemical alignment and enhance your culinary experience.
-        </p>
-        
-        {loading ? (
-          <div className="p-4 text-center">
-            <div className="w-8 h-8 border-4 border-blue-200 border-t-blue-500 rounded-full animate-spin mx-auto mb-2"></div>
-            <p className="text-sm text-gray-500">Finding harmonious sauces...</p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            {(sauceRecommendations.length > 0 ? sauceRecommendations : generateTopSauceRecommendations(currentMomentElementalProfile, 6)).map((sauce, index) => (
+            return (
               <div
-                key={`${sauce.id || sauce.name}-${index}`}
-                className={`p-3 border rounded bg-white hover:shadow-md transition-all duration-200 ${
-                  expandedSauceCards[`${sauce.id || sauce.name}-${index}`] ? 'shadow-md' : ''
+                key={cuisine.id}
+                className={`rounded border p-3 cursor-pointer transition-all duration-200 hover:shadow-md ${
+                  selectedCuisine === cuisine.id || selectedCuisine === cuisine.name
+                    ? 'border-blue-400 bg-blue-50'
+                    : isRegionalVariant 
+                      ? 'border-gray-200 bg-gray-50' 
+                      : 'border-gray-200'
                 }`}
-                onClick={() => toggleSauceCard(`${sauce.id || sauce.name}-${index}`)}
+                onClick={() => handleCuisineSelect(cuisine.id)}
               >
-                <div className="flex justify-between items-start mb-2">
-                  <h5 className="font-medium text-sm leading-tight mr-1">{sauce.name}</h5>
+                {/* Cuisine header with name and match score */}
+                <div className="flex justify-between items-center mb-2">
+                  <div>
+                    <h3 className="font-medium text-sm">{cuisine.name}</h3>
+                    {isRegionalVariant && (
+                      <span className="text-xs text-gray-500">Regional variant of {cuisine.parentCuisine}</span>
+                    )}
+                    {cuisine.regionalVariants && cuisine.regionalVariants.length > 0 && (
+                      <span className="text-xs text-gray-500 block">
+                        {cuisine.regionalVariants.length} regional variants
+                      </span>
+                    )}
+                  </div>
                   <span
-                    className={`text-xs px-1.5 py-0.5 rounded ${getMatchScoreClass(
-                      sauce.matchPercentage / 100
+                    className={`text-xs px-2 py-1 rounded ${getMatchScoreClass(
+                      cuisine.compatibilityScore || cuisine.score || 0.5
                     )}`}
                   >
-                    {sauce.matchPercentage}%
+                    {matchPercentage}%
                   </span>
                 </div>
-                <p
-                  className="text-xs leading-relaxed text-gray-600 line-clamp-3 grow"
-                  title={sauce.description}
-                >
-                  {sauce.description}
-                </p>
-                
-                {/* Show elemental properties */}
-                <div className="flex space-x-1 mt-2">
-                  {sauce.elementalProperties?.Fire >= 0.3 && (
-                    <div className="flex items-center" title="Fire">
-                      <Flame size={12} className="text-red-500" />
-                    </div>
-                  )}
-                  {sauce.elementalProperties?.Water >= 0.3 && (
-                    <div className="flex items-center" title="Water">
-                      <Droplets size={12} className="text-blue-500" />
-                    </div>
-                  )}
-                  {sauce.elementalProperties?.Earth >= 0.3 && (
-                    <div className="flex items-center" title="Earth">
-                      <Mountain size={12} className="text-green-500" />
-                    </div>
-                  )}
-                  {sauce.elementalProperties?.Air >= 0.3 && (
-                    <div className="flex items-center" title="Air">
-                      <Wind size={12} className="text-yellow-500" />
-                    </div>
-                  )}
-                </div>
 
-                {/* Show key ingredients if available */}
-                {sauce.ingredients && sauce.ingredients.length > 0 && (
-                  <div className="mt-2 flex flex-wrap gap-1">
-                    {sauce.ingredients.slice(0, 3).map((ingredient, i) => (
-                      <span key={i} className="text-xs bg-white px-1.5 py-0.5 rounded border border-gray-100">
-                        {ingredient}
-                      </span>
-                    ))}
-                    {sauce.ingredients.length > 3 && (
-                      <span className="text-xs text-gray-500">+{sauce.ingredients.length - 3} more</span>
+                {/* Cuisine description - truncated */}
+                <p className="text-xs text-gray-600 mb-2 line-clamp-2" title={cuisine.description}>
+                  {cuisine.description}
+                </p>
+
+                {/* Elemental properties */}
+                <div className="flex items-center space-x-1 mb-2">
+                  <span className="text-xs font-medium text-gray-500">Elements:</span>
+                  <div className="flex space-x-1">
+                    {cuisine.elementalProperties.Fire >= 0.3 && (
+                      <div className="flex items-center" title={`Fire: ${Math.round(cuisine.elementalProperties.Fire * 100)}%`}>
+                        <Flame size={14} className="text-red-500" />
+                        <span className="text-xs ml-1">{Math.round(cuisine.elementalProperties.Fire * 100)}%</span>
+                      </div>
+                    )}
+                    {cuisine.elementalProperties.Water >= 0.3 && (
+                      <div className="flex items-center" title={`Water: ${Math.round(cuisine.elementalProperties.Water * 100)}%`}>
+                        <Droplets size={14} className="text-blue-500" />
+                        <span className="text-xs ml-1">{Math.round(cuisine.elementalProperties.Water * 100)}%</span>
+                      </div>
+                    )}
+                    {cuisine.elementalProperties.Earth >= 0.3 && (
+                      <div className="flex items-center" title={`Earth: ${Math.round(cuisine.elementalProperties.Earth * 100)}%`}>
+                        <Mountain size={14} className="text-green-500" />
+                        <span className="text-xs ml-1">{Math.round(cuisine.elementalProperties.Earth * 100)}%</span>
+                      </div>
+                    )}
+                    {cuisine.elementalProperties.Air >= 0.3 && (
+                      <div className="flex items-center" title={`Air: ${Math.round(cuisine.elementalProperties.Air * 100)}%`}>
+                        <Wind size={14} className="text-yellow-500" />
+                        <span className="text-xs ml-1">{Math.round(cuisine.elementalProperties.Air * 100)}%</span>
+                      </div>
                     )}
                   </div>
+                </div>
+
+                {/* Show signature dishes and techniques if available */}
+                {cuisine.signatureDishes && cuisine.signatureDishes.length > 0 && (
+                  <div className="mt-1">
+                    <span className="text-xs font-medium text-gray-500 block">Signature dishes:</span>
+                    <span className="text-xs text-gray-600">
+                      {cuisine.signatureDishes.slice(0, 3).join(", ")}
+                      {cuisine.signatureDishes.length > 3 ? "..." : ""}
+                    </span>
+                  </div>
                 )}
-                
-                {/* Expanded sauce details */}
-                {expandedSauceCards[`${sauce.id || sauce.name}-${index}`] && (
-                  <div className="mt-2 pt-2 border-t border-gray-200 text-xs">
-                    <div className="mt-2 mb-2 space-y-1">
-                      <div className="flex justify-between items-center text-gray-600">
-                        <span>Elemental Match:</span>
-                        <span
-                          className={`text-xs px-1.5 py-0.5 rounded ${getMatchScoreClass(
-                            sauce.elementalMatchScore / 100
-                          )}`}
-                        >
-                          {sauce.elementalMatchScore}%
-                        </span>
-                      </div>
-                      <div className="flex justify-between items-center text-gray-600">
-                        <span>Celestial Alignment:</span>
-                        <span
-                          className={`text-xs px-1.5 py-0.5 rounded ${getMatchScoreClass(
-                            sauce.userMatchScore / 100
-                          )}`}
-                        >
-                          {sauce.userMatchScore}%
-                        </span>
-                      </div>
-                      <div className="flex justify-between items-center text-gray-600">
-                        <span>Planetary Day Match:</span>
-                        <span
-                          className={`text-xs px-1.5 py-0.5 rounded ${getMatchScoreClass(
-                            sauce.planetaryDayScore / 100
-                          )}`}
-                        >
-                          {sauce.planetaryDayScore}%
-                        </span>
-                      </div>
-                      <div className="flex justify-between items-center text-gray-600">
-                        <span>Planetary Hour Match:</span>
-                        <span
-                          className={`text-xs px-1.5 py-0.5 rounded ${getMatchScoreClass(
-                            sauce.planetaryHourScore / 100
-                          )}`}
-                        >
-                          {sauce.planetaryHourScore}%
-                        </span>
-                      </div>
-                    </div>
 
-                    {/* Show all ingredients */}
-                    {sauce.ingredients && sauce.ingredients.length > 0 && (
-                      <div className="mt-1">
-                        <h6 className="font-medium mb-1">Ingredients:</h6>
-                        <div className="flex flex-wrap gap-1">
-                          {sauce.ingredients.map(
-                            (ingredient: string, i: number) => (
-                              <span key={i} className="inline-block px-1.5 py-0.5 bg-gray-100 rounded">
-                                {ingredient}
-                              </span>
-                            )
-                          )}
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Show preparation steps */}
-                    {(sauce.preparationSteps ||
-                      sauce.procedure ||
-                      sauce.instructions) && (
-                      <div className="mt-2">
-                        <h6 className="font-medium mb-1">Preparation:</h6>
-                        {Array.isArray(
-                          sauce.preparationSteps ||
-                            sauce.procedure ||
-                            sauce.instructions
-                        ) ? (
-                          <ol className="pl-4 list-decimal">
-                            {(
-                              sauce.preparationSteps ||
-                              sauce.procedure ||
-                              sauce.instructions
-                            ).map((step: string, i: number) => (
-                              <li key={i}>{step}</li>
-                            ))}
-                          </ol>
-                        ) : (
-                          <p>
-                            {sauce.preparationSteps ||
-                              sauce.procedure ||
-                              sauce.instructions}
-                          </p>
-                        )}
-                      </div>
-                    )}
+                {/* Show astrological influences if available */}
+                {cuisine.zodiacInfluences && cuisine.zodiacInfluences.length > 0 && (
+                  <div className="mt-1 flex flex-wrap gap-1">
+                    {cuisine.zodiacInfluences.slice(0, 3).map(sign => (
+                      <span 
+                        key={sign} 
+                        className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs
+                          ${currentZodiac === sign ? 'bg-blue-100 text-blue-800 font-medium' : 'bg-gray-100 text-gray-700'}`}
+                      >
+                        {sign}
+                        {currentZodiac === sign && <span className="ml-1">✓</span>}
+                      </span>
+                    ))}
                   </div>
                 )}
               </div>
-            ))}
-          </div>
-        )}
+            );
+          })}
       </div>
+
+      {/* Show more/less button */}
+      {cuisineRecommendations.length > 6 && (
+        <div className="mb-4">
+          <button
+            onClick={() => setShowAllCuisines(!showAllCuisines)}
+            className="text-sm text-blue-500 hover:text-blue-700 flex items-center justify-center w-full py-2 border border-gray-200 rounded bg-white hover:bg-blue-50 transition-colors"
+          >
+            {showAllCuisines ? (
+              <>
+                <ChevronUp size={16} className="mr-1" />
+                Show Top 6 Cuisines
+              </>
+            ) : (
+              <>
+                <ChevronDown size={16} className="mr-1" />
+                Show All {cuisineRecommendations.length} Cuisines
+              </>
+            )}
+          </button>
+        </div>
+      )}
 
       {/* Display expanded details for selected cuisine */}
       {selectedCuisineData && showCuisineDetails && (
@@ -1130,18 +1175,18 @@ export default function CuisineRecommender() {
                   </div>
                 </div>
               ) : (
-                <p className="text-xs text-gray-500">No specific zodiac influences</p>
+                <div className="text-sm text-gray-500">No specific zodiac influences</div>
               )}
               
-              {selectedCuisineData.lunarPhaseInfluences && selectedCuisineData.lunarPhaseInfluences.length > 0 ? (
-                <div>
-                  <span className="text-xs font-medium text-gray-500 block mb-1">Lunar Phases:</span>
+              {selectedCuisineData.lunarPhaseInfluences && selectedCuisineData.lunarPhaseInfluences.length > 0 && (
+                <div className="mt-2">
+                  <span className="text-xs font-medium text-gray-500 block mb-1">Lunar phase:</span>
                   <div className="flex flex-wrap gap-1">
                     {selectedCuisineData.lunarPhaseInfluences.map(phase => (
                       <span 
                         key={phase} 
                         className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs
-                          ${lunarPhase === phase ? 'bg-blue-100 text-blue-800 font-medium' : 'bg-gray-100 text-gray-700'}`}
+                          ${lunarPhase === phase ? 'bg-indigo-100 text-indigo-800 font-medium' : 'bg-gray-100 text-gray-700'}`}
                       >
                         {phase}
                         {lunarPhase === phase && <span className="ml-1">✓</span>}
@@ -1149,7 +1194,7 @@ export default function CuisineRecommender() {
                     ))}
                   </div>
                 </div>
-              ) : null}
+              )}
             </div>
           </div>
 
@@ -1158,14 +1203,48 @@ export default function CuisineRecommender() {
             <div className="mb-4">
               <h4 className="text-sm font-medium mb-2">Regional Variants</h4>
               <div className="flex flex-wrap gap-2">
-                {selectedCuisineData.regionalVariants.map(variant => (
-                  <span 
-                    key={variant} 
-                    className="inline-flex items-center px-2 py-1 rounded text-sm bg-gray-100 text-gray-800"
-                  >
-                    {variant}
-                  </span>
-                ))}
+                {selectedCuisineData.regionalVariants.map(variant => {
+                  // For Chinese cuisine, check if we need to add Chinese regional cuisines 
+                  // from data directory that might not be in the FlavorProfiles
+                  let variantName = variant;
+                  let variantData = null;
+                  
+                  // Special handling for Chinese cuisine to ensure regional variants are displayed
+                  if (selectedCuisineData.name === 'Chinese' && 
+                      selectedCuisineData.id.toLowerCase() === 'chinese') {
+                    try {
+                      const { cuisinesMap } = require('@/data/cuisines');
+                      const chineseCuisine = cuisinesMap.Chinese || {};
+                      
+                      // Get regional cuisines from the data folder
+                      if (chineseCuisine.regionalCuisines && 
+                          Object.keys(chineseCuisine.regionalCuisines).length > 0) {
+                        
+                        // Find the variant in the regionalCuisines
+                        const variantKey = Object.keys(chineseCuisine.regionalCuisines)
+                          .find(key => key.toLowerCase() === variant.toLowerCase() || 
+                                      chineseCuisine.regionalCuisines[key].name === variant);
+                        
+                        if (variantKey && chineseCuisine.regionalCuisines[variantKey]) {
+                          variantData = chineseCuisine.regionalCuisines[variantKey];
+                          variantName = variantData.name || variant;
+                        }
+                      }
+                    } catch (error) {
+                      console.warn("Error loading Chinese regional cuisines:", error);
+                    }
+                  }
+                  
+                  return (
+                    <span 
+                      key={variant} 
+                      className="inline-flex items-center px-2 py-1 rounded text-sm bg-gray-100 text-gray-800"
+                      title={variantData?.description || ""}
+                    >
+                      {variantName}
+                    </span>
+                  );
+                })}
               </div>
             </div>
           )}
@@ -1447,6 +1526,95 @@ export default function CuisineRecommender() {
           )}
         </div>
       )}
+
+      {/* Global Sauce Recommender Section - now always shown regardless of cuisine selection */}
+      <div className="mt-6 pt-4 border-t border-gray-200">
+        <h3 className="text-lg font-medium mb-3">Celestial Sauce Harmonizer</h3>
+        <p className="text-sm text-gray-600 mb-4">
+          Discover sauces that complement the current moment's alchemical alignment and enhance your culinary experience.
+        </p>
+        
+        {loading ? (
+          <div className="p-4 text-center">
+            <div className="w-8 h-8 border-4 border-blue-200 border-t-blue-500 rounded-full animate-spin mx-auto mb-2"></div>
+            <p className="text-sm text-gray-500">Finding harmonious sauces...</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            {(sauceRecommendations.length > 0 ? sauceRecommendations : generateTopSauceRecommendations(currentMomentElementalProfile, 6)).map((sauce, index) => (
+              <div
+                key={`${sauce.id || sauce.name}-${index}`}
+                className={`p-3 border rounded bg-white hover:shadow-md transition-all duration-200 ${
+                  expandedSauceCards[`${sauce.id || sauce.name}-${index}`] ? 'shadow-md' : ''
+                }`}
+                onClick={() => toggleSauceCard(`${sauce.id || sauce.name}-${index}`)}
+              >
+                <div className="flex justify-between items-start mb-2">
+                  <h5 className="font-medium text-sm leading-tight mr-1">{sauce.name}</h5>
+                  <span
+                    className={`text-xs px-1.5 py-0.5 rounded ${getMatchScoreClass(
+                      sauce.matchPercentage / 100
+                    )}`}
+                  >
+                    {sauce.matchPercentage}%
+                  </span>
+                </div>
+                <p
+                  className="text-xs leading-relaxed text-gray-600 line-clamp-3 grow"
+                  title={sauce.description}
+                >
+                  {sauce.description}
+                </p>
+                
+                {/* Show elemental properties */}
+                <div className="flex space-x-1 mt-2">
+                  {sauce.elementalProperties?.Fire >= 0.3 && (
+                    <div className="flex items-center" title="Fire">
+                      <Flame size={12} className="text-red-500" />
+                    </div>
+                  )}
+                  {sauce.elementalProperties?.Water >= 0.3 && (
+                    <div className="flex items-center" title="Water">
+                      <Droplets size={12} className="text-blue-500" />
+                    </div>
+                  )}
+                  {sauce.elementalProperties?.Earth >= 0.3 && (
+                    <div className="flex items-center" title="Earth">
+                      <Mountain size={12} className="text-green-500" />
+                    </div>
+                  )}
+                  {sauce.elementalProperties?.Air >= 0.3 && (
+                    <div className="flex items-center" title="Air">
+                      <Wind size={12} className="text-yellow-500" />
+                    </div>
+                  )}
+                </div>
+
+                {/* Show key ingredients if available */}
+                {sauce.ingredients && sauce.ingredients.length > 0 && (
+                  <div className="mt-2 flex flex-wrap gap-1">
+                    {sauce.ingredients.slice(0, 3).map((ingredient, i) => (
+                      <span key={i} className="text-xs bg-white px-1.5 py-0.5 rounded border border-gray-100">
+                        {ingredient}
+                      </span>
+                    ))}
+                    {sauce.ingredients.length > 3 && (
+                      <span className="text-xs text-gray-500">+{sauce.ingredients.length - 3} more</span>
+                    )}
+                  </div>
+                )}
+                
+                {/* Expanded sauce details */}
+                {expandedSauceCards[`${sauce.id || sauce.name}-${index}`] && (
+                  <div className="mt-2 pt-2 border-t border-gray-200 text-xs">
+                    {/* Expanded sauce details content */}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
