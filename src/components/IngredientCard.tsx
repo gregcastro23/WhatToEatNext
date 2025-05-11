@@ -23,9 +23,17 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
   let elementClass = styles[`element${dominantElement.charAt(0).toUpperCase() + dominantElement.slice(1)}`];
 
   // Handle click event
-  let handleClick = () => {
+  let handleClick = (event: React.MouseEvent) => {
+    // Prevent event propagation to ensure the click event doesn't trigger parent handlers
+    event.stopPropagation();
+    
+    console.log('[IngredientCard] Click detected on ingredient:', ingredient.name);
+    
     if (onClick) {
+      console.log('[IngredientCard] Calling provided onClick handler');
       onClick(ingredient);
+    } else {
+      console.log('[IngredientCard] No onClick handler provided');
     }
   };
 
@@ -33,6 +41,8 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
     <div 
       className={`${styles.ingredientCard} ${elementClass} p-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-300`}
       onClick={handleClick}
+      data-expandable="true"
+      data-ingredient-id={ingredient.id || ingredient.name}
     >
       <div className="flex justify-between items-start mb-4">
         <h3 className="text-xl font-semibold">{ingredient.name}</h3>

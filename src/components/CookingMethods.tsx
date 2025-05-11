@@ -762,28 +762,54 @@ export default function CookingMethods({ onMethodsReady }: CookingMethodsProps =
     {[key: string]: boolean}
   >({});
 
-  // Toggle method expansion function
-  const toggleMethodExpansion = (methodName: string) => {
-    setShowScoreDetails(prev => ({
+  const toggleMethodExpansion = (methodName: string, event?: React.MouseEvent) => {
+    console.log(`[CookingMethods] Toggling method: ${methodName}, current expanded:`, expandedMethods);
+    
+    // Prevent event propagation if this was triggered by a click event
+    if (event) {
+      event.stopPropagation();
+    }
+    
+    // Toggle the expanded method
+    setExpandedMethods(prev => ({
       ...prev,
       [methodName]: !prev[methodName],
     }));
+    console.log(`[CookingMethods] New expanded method:`, expandedMethods);
+  };
+
+  const toggleScoreDetails = (e: React.MouseEvent, methodName: string) => {
+    // Prevent the click from propagating to the parent container
+    if (e) {
+      e.stopPropagation();
+    }
+    
+    console.log(`[CookingMethods] Toggling score details for ${methodName}, current state:`, showScoreDetails);
+    
+    // Create a copy of the current state
+    const newShowScoreDetails = { ...showScoreDetails };
+    
+    // Toggle the score details for this method
+    newShowScoreDetails[methodName] = !newShowScoreDetails[methodName];
+    
+    // Update the state
+    setShowScoreDetails(newShowScoreDetails);
+    console.log(`[CookingMethods] New score details state:`, newShowScoreDetails);
+    
+    // Explicitly prevent default to avoid any navigation or other browser actions
+    if (e) {
+      e.preventDefault();
+    }
   };
 
   // Render method card
   const renderMethodCard = (method: ExtendedAlchemicalItem) => {
-    const toggleScoreDetails = (e: React.MouseEvent, methodName: string) => {
-      e.stopPropagation();
-      toggleMethodExpansion(methodName);
-    };
-
     return (
       <div
-        className={`${styles.methodCard} ${
-          showScoreDetails[method.name as string] ? styles.expanded : ''
-        }`}
-        onClick={() => toggleScoreDetails(null, method.name as string)}
-        key={method.name}
+        className={`${styles.methodCard} ${expandedMethods[method.name as string] ? styles.expanded : ''}`}
+        onClick={(e) => toggleMethodExpansion(method.name as string, e)}
+        data-expandable="true"
+        data-method-name={method.name}
       >
         <h3>{method.name}</h3>
         <div className={styles.scoreContainer}>
@@ -905,7 +931,7 @@ export default function CookingMethods({ onMethodsReady }: CookingMethodsProps =
         )}
         
         {/* Tips for the method if expanded */}
-        {showScoreDetails[method.name as string] && (
+        {expandedMethods[method.name as string] && (
           <div className={styles.methodTips}>
             <h4>Tips:</h4>
             <ul>
@@ -943,7 +969,7 @@ export default function CookingMethods({ onMethodsReady }: CookingMethodsProps =
   
   // Actually render the cooking methods with scores
   return (
-    <div className={styles.cookingMethodsContainer}>
+    <div className={styles.cookingMethodsContainer} data-testid="cooking-methods-container">
       <h2>Recommended Cooking Methods</h2>
       {loading ? (
         <p>Loading cooking method recommendations...</p>

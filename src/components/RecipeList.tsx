@@ -880,8 +880,30 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
   };
 
   // Toggle recipe expansion
-  let toggleRecipe = (id: string) => {
+  let toggleRecipe = (id: string, event?: React.MouseEvent) => {
+    // Prevent event propagation if event exists
+    if (event) {
+      event.stopPropagation();
+      event.preventDefault();
+    }
+
+    console.log(`[RecipeList] Toggling recipe: ${id}, current expanded id:`, expandedRecipeId);
+    
+    // Toggle expanded state
     setExpandedRecipeId(expandedRecipeId === id ? null : id);
+    
+    // Log the change
+    console.log(`[RecipeList] New expanded id:`, expandedRecipeId === id ? null : id);
+    
+    // If we're expanding the recipe, scroll it into view
+    if (expandedRecipeId !== id) {
+      setTimeout(() => {
+        const element = document.getElementById(`recipe-${id}`);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }, 100);
+    }
   };
 
   // Render element icon based on dominance
@@ -1020,7 +1042,7 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
           >
             <div
               className="p-4 cursor-pointer"
-              onClick={() => toggleRecipe(recipe.id)}
+              onClick={(event) => toggleRecipe(recipe.id, event)}
             >
               <div className="flex justify-between items-start">
                 <h3 className="text-lg font-semibold">{recipe.name}</h3>
