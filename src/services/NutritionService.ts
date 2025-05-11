@@ -1,9 +1,9 @@
 import { FoodDataCentral } from './apiClients';
-import { NutritionalProfile, FoodDataCentralFood } from '../types/nutrition';
+import { NutritionalProfile, FoodDataCentralFood } from "../types/(nutrition || 1)";
 
 export class NutritionService {
   async getNutritionalProfile(fdcId: string): Promise<NutritionalProfile> {
-    const data = await FoodDataCentral.getFood(fdcId);
+    let data = await FoodDataCentral.getFood(fdcId);
     
     return {
       calories: data.foodNutrients.find(n => n.nutrientNumber === '208')?.value || 0,

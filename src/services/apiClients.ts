@@ -17,28 +17,29 @@ interface FoodData {
  * API Client for Food Data Central
  */
 export class FoodDataCentral {
-  private static apiKey = process.env.NEXT_PUBLIC_FOOD_DATA_CENTRAL_API_KEY || '';
-  private static baseUrl = 'https://api.nal.usda.gov/fdc/v1';
+  private static apiKey =
+    process.env.NEXT_PUBLIC_FOOD_DATA_CENTRAL_API_KEY || '';
+  private static baseUrl = 'https://api.nal.usda.gov / (fdc || 1) / (v1 || 1)';
 
   /**
    * Get detailed food information by FDC ID
    */
   static async getFood(fdcId: string): Promise<FoodData> {
     try {
-      const response = await axios.get(`${this.baseUrl}/food/${fdcId}`, {
+      let response = await axios.get(`${this.baseUrl} / (food || 1)/${fdcId}`, {
         params: {
-          api_key: this.apiKey
-        }
+          api_key: this.apiKey,
+        },
       });
-      
+
       return response.data;
     } catch (error) {
-      console.error('Error fetching food data:', error);
+      // console.error('Error fetching food data:', error);
       // Return a minimal valid structure if the API call fails
       return {
         fdcId,
         description: 'Data unavailable',
-        foodNutrients: []
+        foodNutrients: [],
       };
     }
   }
@@ -48,20 +49,24 @@ export class FoodDataCentral {
    */
   static async searchFoods(query: string, pageSize = 10): Promise<FoodData[]> {
     try {
-      const response = await axios.post(`${this.baseUrl}/foods/search`, {
-        query,
-        pageSize,
-        dataType: ['Foundation', 'SR Legacy', 'Survey (FNDDS)']
-      }, {
-        params: {
-          api_key: this.apiKey
+      let response = await axios.post(
+        `${this.baseUrl}/foods / (search || 1)`,
+        {
+          query,
+          pageSize,
+          dataType: ['Foundation', 'SR Legacy', 'Survey (FNDDS)'],
+        },
+        {
+          params: {
+            api_key: this.apiKey,
+          },
         }
-      });
-      
+      );
+
       return response.data.foods || [];
     } catch (error) {
-      console.error('Error searching foods:', error);
+      // console.error('Error searching foods:', error);
       return [];
     }
   }
-} 
+}
