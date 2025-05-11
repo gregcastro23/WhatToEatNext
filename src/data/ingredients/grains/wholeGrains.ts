@@ -43,7 +43,7 @@ const rawWholeGrains: Record<string, Partial<IngredientMapping>> = {
     category: 'whole_grain',
     subCategory: 'rice',
     nutritionalProfile: {
-      serving_size: "1/2 cup cooked",
+      serving_size: "1 / (2 || 1) cup cooked",
       calories: 108,
       macros: {
         protein: 2.5,
@@ -170,13 +170,8 @@ const rawWholeGrains: Record<string, Partial<IngredientMapping>> = {
         benefits: 'enhances nutty flavor',
         timing: '3-5 minutes until fragrant',
         notes: 'Stir constantly to prevent burning'
-      },
-      'cooking': {
-        method: 'simmer covered',
-        tips: ['do not stir while cooking', 'rest 10 minutes after cooking', 'check doneness at 40 minutes'],
-        troubleshooting: 'if still firm but water absorbed, add 1/4 cup more water and cook 5-10 minutes longer'
       }
-    },
+},
     culinaryApplications: {
       'basic_method': {
         name: 'Basic Method',
@@ -271,20 +266,7 @@ const rawWholeGrains: Record<string, Partial<IngredientMapping>> = {
           notes: 'Natural oils can go rancid, so store properly'
         }
       },
-      'cooked': {
-        refrigerator: {
-          duration: '4-6 days',
-          container: 'airtight container',
-          reheating: 'add splash of water when reheating',
-          notes: 'Cool completely before refrigerating'
-        },
-        freezer: {
-          duration: 'up to 6 months',
-          method: 'portion in airtight containers or bags',
-          thawing: 'refrigerator overnight or microwave',
-          notes: 'Slight texture change but still usable'
-        }
-      },
+      
       'sprouted': {
         refrigerator: {
           duration: '3-5 days',
@@ -294,37 +276,13 @@ const rawWholeGrains: Record<string, Partial<IngredientMapping>> = {
       }
     },
     seasonalAdjustments: {
-      'summer': {
-        name: 'Summer',
-        preparations: ['cold rice salads', 'grain bowls', 'stuffed vegetables'],
-        pairings: ['fresh herbs', 'grilled vegetables', 'citrus', 'cucumbers'],
-        service: 'room temperature or chilled',
-        notes: 'Lighter preparations highlight seasonal produce'
-      },
-      'winter': {
-        name: 'Winter',
-        preparations: ['pilafs', 'casseroles', 'stuffings', 'hearty soups'],
-        pairings: ['roasted root vegetables', 'hearty stews', 'warming spices'],
-        service: 'hot',
-        notes: 'Comforting, substantial preparations for cold weather'
-      }
+      
+      
     },
     cuisineAffinity: {
-      'asian': {
-        cultures: ['Japanese', 'Korean', 'Chinese'],
-        traditional_dishes: ['genmaicha tea', 'bibimbap', 'congee'],
-        notes: 'Often mixed with white rice in traditional preparations'
-      },
-      'indian': {
-        preparations: 'whole grain accompaniment to curries and dal',
-        regional_variations: 'often with cumin, mustard seeds, or legumes',
-        notes: 'Less traditional than white rice but gaining popularity'
-      },
-      'mediterranean': {
-        preparations: 'pilaf style with herbs, lemon, olive oil',
-        applications: ['stuffed vegetables', 'salads', 'side dishes'],
-        notes: 'Emphasis on fresh herbs and quality olive oil'
-      },
+      
+      
+      
       'modern_health': {
         preparations: 'grain bowls, alternative sushi, veggie burgers',
         emphasis: 'nutrient density, whole foods philosophy',
@@ -350,27 +308,15 @@ const rawWholeGrains: Record<string, Partial<IngredientMapping>> = {
     qualities: ['light', 'protein-rich', 'versatile'],
     category: 'whole_grain',
     varieties: {
-      'white': {
-        characteristics: 'mild, fluffy',
-        cooking_ratio: '1:2 quinoa to water',
-        cooking_time: '15-20 minutes'
-      },
-      'red': {
-        characteristics: 'earthy, chewy',
-        cooking_ratio: '1:2 quinoa to water',
-        cooking_time: '15-20 minutes'
-      }
+      
+      
     },
     preparation: {
       'rinsing': {
         duration: '1-2 minutes',
         purpose: 'remove saponins'
-      },
-      'cooking': {
-        method: 'simmer covered',
-        tips: ['fluff with fork', 'let stand 5 minutes']
       }
-    }
+}
   },
 
   'kamut': {
@@ -551,11 +497,7 @@ const rawWholeGrains: Record<string, Partial<IngredientMapping>> = {
       }
     },
     preparations: {
-      'stuffing': {
-        method: 'partially cook',
-        additions: ['mushrooms', 'herbs', 'nuts'],
-        service: 'hot'
-      },
+      
       'grain_blends': {
         method: 'mix with other rices',
         ratio: '1:2 wild to other rice',
@@ -653,12 +595,8 @@ const rawWholeGrains: Record<string, Partial<IngredientMapping>> = {
       'soaking': {
         duration: '8-12 hours',
         benefits: ['reduces cooking time', 'improves digestibility']
-      },
-      'cooking': {
-        method: 'simmer covered',
-        tips: ['do not stir', 'rest 10 minutes after']
       }
-    }
+}
   },
 
   'barley': {
@@ -709,6 +647,6 @@ const rawWholeGrains: Record<string, Partial<IngredientMapping>> = {
 export const wholeGrains: Record<string, IngredientMapping> = fixIngredientMappings(rawWholeGrains);
 
 // Create a collection of all whole grains
-export const allWholeGrains = Object.values(wholeGrains);
+export let allWholeGrains = Object.values(wholeGrains);
 
 export default wholeGrains;

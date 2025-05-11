@@ -187,18 +187,8 @@ const rawAlliums: Record<string, Partial<IngredientMapping>> = {
         best_uses: ['caramelizing', 'all cooking methods'],
         storage: 'longest shelf life of common varieties'
       },
-      'red': {
-        characteristics: 'purple-red skin and tinged flesh',
-        flavor: 'slightly sweeter, mild with slight spiciness',
-        best_uses: ['raw applications', 'grilling', 'pickling'],
-        notes: 'color bleeds; excellent for visual appeal'
-      },
-      'white': {
-        characteristics: 'white skin and flesh, crisp texture',
-        flavor: 'sharper, more pungent than yellow',
-        best_uses: ['raw applications', 'quick cooking', 'sauces'],
-        notes: 'traditional in Mexican and Mediterranean cuisines'
-      },
+      
+      
       'sweet': {
         characteristics: 'larger, flatter shape, thinner skin',
         flavor: 'notably sweeter, milder',
@@ -301,7 +291,7 @@ const rawAlliums: Record<string, Partial<IngredientMapping>> = {
       'anti_inflammatory': 'moderate'
     },
     preparation: {
-      washing: 'thoroughly between layers to remove sand/grit',
+      washing: 'thoroughly between layers to remove sand / (grit || 1)',
       trimming: 'remove dark green tops (save for stock) and root end',
       cutting: 'halve lengthwise first, then slice as needed',
       notes: 'Soak in cold water to remove sand, drain thoroughly',
@@ -402,8 +392,8 @@ const rawAlliums: Record<string, Partial<IngredientMapping>> = {
             preparationTips: ['Best for vinaigrettes', 'Maximum flavor expression']
           }
         }
-      },
-    },
+      }
+},
     qualities: ['refined', 'complex', 'elegant', 'balanced', 'aromatic'],
     season: ['all'],
     category: 'vegetable',
@@ -429,12 +419,7 @@ const rawAlliums: Record<string, Partial<IngredientMapping>> = {
       shallot_vs_clove: 'recipes typically call for whole shallots, not individual cloves'
     },
     varieties: {
-      'french': {
-        characteristics: 'elongated, copper-pink skin, purple-tinged flesh',
-        flavor: 'classic shallot flavor, balanced sweetness and sharpness',
-        best_uses: ['fine sauces', 'vinaigrettes', 'classic French cuisine'],
-        notes: 'traditional variety, often more expensive'
-      },
+      
       'gray': {
         characteristics: 'gray outer skin, multiple cloves like garlic',
         flavor: 'stronger, more assertive than French',
@@ -455,13 +440,7 @@ const rawAlliums: Record<string, Partial<IngredientMapping>> = {
       }
     },
     culinaryApplications: {
-      'vinaigrette': {
-        method: 'finely mince and combine with acid and oil',
-        ratio: '1 small shallot per cup of dressing',
-        timing: 'let sit 10-15 minutes before serving',
-        variations: ['champagne-shallot', 'dijon-shallot', 'herb-shallot'],
-        notes: 'cornerstone of classic French vinaigrettes'
-      },
+      
       'fried': {
         method: 'thinly slice and fry until crisp',
         temperature: { fahrenheit: 325, celsius: 165 },
@@ -645,10 +624,10 @@ const rawAlliums: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ['delicate', 'fresh', 'subtle', 'aromatic', 'light'],
     season: ['spring', 'summer', 'fall', 'perennial herb'],
-    category: 'herb/vegetable',
+    category: 'herb / (vegetable || 1)',
     subCategory: 'allium',
     affinities: ['eggs', 'dairy', 'potatoes', 'fish', 'soft cheese', 'butter', 'lemon', 'dill'],
-    cookingMethods: ['raw garnish', 'snipped', 'infused', 'baked', 'mixed into dough/batter'],
+    cookingMethods: ['raw garnish', 'snipped', 'infused', 'baked', 'mixed into dough / (batter || 1)'],
     nutritionalProfile: {
       vitamins: ['k', 'c', 'a', 'folate'],
       minerals: ['iron', 'manganese', 'calcium', 'magnesium'],
@@ -717,14 +696,8 @@ const rawAlliums: Record<string, Partial<IngredientMapping>> = {
         timing: 'blanch 10 seconds, shock in ice water',
         uses: ['drizzling', 'plating', 'finishing'],
         notes: 'vibrant green color, use within a few days'
-      },
-      'baking': {
-        method: 'fold into dough or batter',
-        uses: ['biscuits', 'scones', 'savory muffins', 'bread'],
-        ratios: '2-3 tablespoons per cup of flour',
-        notes: 'maintains some flavor through baking process'
       }
-    },
+},
     storage: {
       temperature: 'refrigerated',
       duration: '1-2 weeks',
@@ -780,10 +753,10 @@ const rawAlliums: Record<string, Partial<IngredientMapping>> = {
       protein_g: 1.8
     },
     preparation: {
-      washing: "thoroughly between layers to remove sand/grit",
+      washing: "thoroughly between layers to remove sand / (grit || 1)",
       trimming: "remove dark green tops (save for stock) and root end",
       cutting: "slice thinly on bias or chop",
-      whites_greens: "separate white/light green parts from dark green for different applications",
+      whites_greens: "separate white / (light || 1) green parts from dark green for different applications",
       special_technique: "curl by soaking thin slices in ice water"
     },
     culinaryApplications: {
@@ -835,6 +808,12 @@ const rawAlliums: Record<string, Partial<IngredientMapping>> = {
       "Mexican": ["salsas", "guacamole", "tacos", "grilled as side"],
       "American": ["loaded potatoes", "dips", "garnish"]
     }
+  },
+
+  'special_applications': {
+    "Indian": ["curries", "side dishes", "raitas"],
+    "French": ["soups", "stews", "gratins"],
+    "American": ["loaded potatoes", "dips", "garnish"]
   }
 };
 

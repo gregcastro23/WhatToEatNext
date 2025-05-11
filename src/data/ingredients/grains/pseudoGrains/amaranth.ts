@@ -21,14 +21,8 @@ const rawAmaranth: Record<string, Partial<IngredientMapping>> = {
         texture: 'Sticky when cooked, gelatinous',
         flavor: 'Earthy, nutty, slightly peppery',
         uses: 'Porridges, binding agent in dishes, flour for baking'
-      },
-      'red': {
-        appearance: 'Reddish-purple seeds',
-        texture: 'Similar to regular but with slight color when cooked',
-        flavor: 'Slightly more robust than regular',
-        uses: 'Traditional South American dishes, visual accent'
       }
-    },
+},
     preparation: {
       fresh: {
         duration: '20-25 minutes',
@@ -57,4 +51,4 @@ const rawAmaranth: Record<string, Partial<IngredientMapping>> = {
   }
 };
 
-export const amaranth = fixIngredientMappings(rawAmaranth) as Record<string, IngredientMapping>; 
+export let amaranth = fixIngredientMappings(rawAmaranth) as Record<string, IngredientMapping>; 

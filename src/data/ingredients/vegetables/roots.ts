@@ -18,6 +18,7 @@ const rawRootVegetables: Record<string, Partial<IngredientMapping>> = {
       }
     },
     subCategory: 'root',
+    // Consistent with spice category definition
     season: ['summer', 'fall'],
     category: 'vegetable',
     cookingMethods: ['roast', 'saute', 'steam', 'raw'],
@@ -149,7 +150,7 @@ const rawRootVegetables: Record<string, Partial<IngredientMapping>> = {
     },
     subCategory: 'root',
     season: ['fall', 'winter'],
-    category: 'vegetable',
+    category: 'spice',
     cookingMethods: ['grate', 'sliced', 'juiced', 'infused'],
     qualities: ['warming', 'spicy', 'aromatic'],
     affinities: ['garlic', 'lemon', 'honey', 'soy sauce', 'turmeric'],
@@ -189,7 +190,7 @@ const rawRootVegetables: Record<string, Partial<IngredientMapping>> = {
     },
     subCategory: 'root',
     season: ['fall', 'winter'],
-    category: 'vegetable',
+    category: 'spice',
     cookingMethods: ['roast', 'boil', 'fry', 'raw'],
     qualities: ['grounding', 'sweet', 'nutty'],
     affinities: ['thyme', 'lemon', 'butter', 'sage', 'parsley'],
@@ -217,4 +218,4 @@ const rawRootVegetables: Record<string, Partial<IngredientMapping>> = {
 // Fix the ingredient mappings to ensure they have all required properties
 export const roots: Record<string, IngredientMapping> = fixIngredientMappings(rawRootVegetables);
 // For backwards compatibility
-export const rootVegetables = roots; 
+export let rootVegetables = roots; 

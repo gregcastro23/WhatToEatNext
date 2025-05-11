@@ -417,10 +417,7 @@ const rawAromaticHerbs: Record<string, Partial<IngredientMapping>> = {
       }
     },
     traditionalUses: {
-      'french': {
-        combinations: ['part of fines herbes', 'béarnaise sauce', 'ravigote sauce'],
-        classics: ['omelette aux fines herbes', 'potage bonne femme']
-      }
+      
     },
     modality: 'Mutable'
   },
@@ -442,40 +439,8 @@ const rawAromaticHerbs: Record<string, Partial<IngredientMapping>> = {
       minerals: []
     }
   },
-  'cilantro': {
-    name: 'Cilantro',
-    elementalProperties: { 
-      Air: 0.4, Fire: 0.3, Earth: 0.2, Water: 0.1
-    },
-    category: 'culinary_herb',
-    qualities: ['nourishing'],
-    nutritionalProfile: {
-      calories: 0,
-      protein_g: 0,
-      carbs_g: 0,
-      fat_g: 0,
-      fiber_g: 0,
-      vitamins: [],
-      minerals: []
-    }
-  },
-  'chives': {
-    name: 'Chives',
-    elementalProperties: { 
-      Air: 0.4, Fire: 0.3, Earth: 0.2, Water: 0.1
-    },
-    category: 'culinary_herb',
-    qualities: ['nourishing'],
-    nutritionalProfile: {
-      calories: 0,
-      protein_g: 0,
-      carbs_g: 0,
-      fat_g: 0,
-      fiber_g: 0,
-      vitamins: [],
-      minerals: []
-    }
-  },
+  
+  
   'bay_leaf': {
     name: 'Bay Leaf',
     elementalProperties: { 
@@ -509,7 +474,7 @@ const rawAromaticHerbs: Record<string, Partial<IngredientMapping>> = {
       vitamins: [],
       minerals: []
     }
-  },
+  }
 };
 
 // Fix the ingredient mappings to ensure they have all required properties

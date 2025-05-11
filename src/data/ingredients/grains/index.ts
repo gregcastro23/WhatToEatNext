@@ -1,6 +1,6 @@
 import { wholeGrains } from './wholeGrains';
 import { refinedGrains } from './refinedGrains';
-import { pseudoGrains } from './pseudoGrains/index';
+import { pseudoGrains } from './pseudoGrains';
 import type { IngredientMapping } from '@/types/alchemy';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
@@ -12,20 +12,20 @@ export const allGrains: Record<string, IngredientMapping> = fixIngredientMapping
 });
 
 // Fix the raw grains object with proper ingredient mapping structure
-const rawGrains = {
+let rawGrains = {
   'whole': wholeGrains,
   'refined': refinedGrains,
-  'pseudo': pseudoGrains,
+  'pseudo': pseudoGrains
 };
 
 // Apply the fix to ensure all required properties exist
 export const grains: Record<string, IngredientMapping> = fixIngredientMappings(rawGrains);
 
 // Create a list of all grain names for easy reference
-export const grainNames = Object.keys(allGrains);
+export let grainNames = Object.keys(allGrains);
 
 // Keep the preparation methods as a separate object
-export const grainPreparationMethods = {
+export let grainPreparationMethods = {
   'basic_cooking': {
     'boiling': {
       method: 'covered pot',
@@ -62,38 +62,6 @@ export const grainPreparationMethods = {
         'some improvement in cooking'
       ],
       method: 'hot water (not boiling)'
-    }
-  },
-  'storage': {
-    'whole_grains': {
-      container: 'airtight',
-      location: 'cool, dry place',
-      duration: '6 months to 1 year',
-      tips: [
-        'check for moisture',
-        'protect from light',
-        'label with date'
-      ]
-    },
-    'refined_grains': {
-      container: 'airtight',
-      location: 'room temperature',
-      duration: '1-2 years',
-      tips: [
-        'protect from insects',
-        'keep dry',
-        'check periodically'
-      ]
-    },
-    'pseudo_grains': {
-      container: 'airtight',
-      location: 'cool, dry place',
-      duration: '6 months to 1 year',
-      tips: [
-        'particularly susceptible to moisture',
-        'refrigerate in humid climates',
-        'check for insect activity'
-      ]
     }
   }
 };

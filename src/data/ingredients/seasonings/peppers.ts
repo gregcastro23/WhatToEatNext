@@ -239,14 +239,8 @@ const rawPeppers: Record<string, Partial<IngredientMapping>> = {
           'oil_infusion': 'for numbing oil'
         },
         pairings: ['chili', 'garlic', 'star anise', 'beef', 'tofu']
-      },
-      'preparation': {
-    name: 'Preparation',
-        method: 'toast before using',
-        timing: 'until fragrant, 1-2 minutes',
-        notes: 'Remove black seeds before using'
       }
-    },
+},
     storage: {
       temperature: 'room temperature',
       humidity: 'low',

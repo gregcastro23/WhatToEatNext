@@ -22,31 +22,8 @@ const rawAromatics: Record<string, Partial<IngredientMapping>> = {
     category: 'aromatic',
     subCategory: 'allium',
     varieties: {
-      'Yellow': {
-    name: 'Yellow',
-        appearance: 'golden skin, white flesh',
-        flavor: 'balanced sweetness when cooked',
-        uses: 'all-purpose cooking'
-      },
-      'Red': {
-    name: 'Red',
-        appearance: 'deep purple-red skin',
-        flavor: 'milder, slightly sweet',
-        uses: 'raw in salads, grilling'
-      },
-      'White': {
-    name: 'White',
-        appearance: 'paper-white skin and flesh',
-        flavor: 'sharp, clean',
-        uses: 'Mexican and Latin cuisine'
-      },
-      'Shallot': {
-    name: 'Shallot',
-        appearance: 'small, copper-brown skin',
-        flavor: 'delicate, garlic notes',
-        uses: 'French cuisine, vinaigrettes'
-      }
-    },
+      
+},
     culinaryApplications: {
       'base_flavor': {
     name: 'Base Flavor',
@@ -57,18 +34,8 @@ const rawAromatics: Record<string, Partial<IngredientMapping>> = {
           'sofrito': 'with peppers and tomatoes',
           'holy_trinity': 'with celery and bell peppers'
         }
-      },
-      'caramelized': {
-    name: 'Caramelized',
-        method: 'slow cook on low heat',
-        timing: '30-45 minutes',
-        applications: {
-          'onion_soup': 'french classic',
-          'condiment': 'for burgers and sandwiches',
-          'flavor_base': 'for savory dishes'
-        }
       }
-    },
+},
     storage: {
       temperature: 'cool, dry place',
       humidity: 'low',
@@ -98,46 +65,12 @@ const rawAromatics: Record<string, Partial<IngredientMapping>> = {
     category: 'aromatic',
     subCategory: 'allium',
     varieties: {
-      'Hardneck': {
-    name: 'Hardneck',
-        appearance: 'larger cloves, woody stem',
-        flavor: 'complex, strong',
-        uses: 'gourmet applications'
-      },
-      'Softneck': {
-    name: 'Softneck',
-        appearance: 'smaller cloves, many layers',
-        flavor: 'standard garlic flavor',
-        uses: 'everyday cooking'
-      },
-      'Black': {
-    name: 'Black',
-        appearance: 'black, fermented',
-        flavor: 'sweet, molasses-like',
-        uses: 'Asian cuisine, specialty dishes'
-      }
-    },
+      
+      
+},
     culinaryApplications: {
-      'raw': {
-    name: 'Raw',
-        method: 'finely minced or pressed',
-        timing: 'add near end of cooking',
-        applications: {
-          'dressings': 'sharp, pungent flavor',
-          'dips': 'aioli, skordalia',
-          'bruschetta': 'rubbed on bread'
-        }
-      },
-      'roasted': {
-    name: 'Roasted',
-        method: 'whole heads, oil wrapped in foil',
-        timing: '45-60 minutes at 350°F',
-        applications: {
-          'spread': 'on bread',
-          'mashed_potatoes': 'creamy addition',
-          'compound_butter': 'for steak or bread'
-        }
-      },
+      
+      
       'sautéed': {
     name: 'Sautéed',
         method: 'minced and cooked in oil',
@@ -175,7 +108,7 @@ const rawAromatics: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ['warming', 'pungent', 'aromatic'],
     origin: ['Southeast Asia'],
-    category: 'aromatic',
+    category: 'spice',
     subCategory: 'rhizome',
     varieties: {
       'Young': {
@@ -207,18 +140,8 @@ const rawAromatics: Record<string, Partial<IngredientMapping>> = {
           'marinades': 'tenderizing properties',
           'teas': 'medicinal and flavorful'
         }
-      },
-      'pickled': {
-    name: 'Pickled',
-        method: 'sliced thin and brined',
-        timing: 'minimum 24 hours',
-        applications: {
-          'sushi': 'palate cleanser',
-          'condiment': 'with rice dishes',
-          'addition': 'to dressings'
-        }
       }
-    },
+},
     storage: {
       temperature: 'room temperature or refrigerated',
       humidity: 'moderate',
@@ -297,18 +220,8 @@ const rawAromatics: Record<string, Partial<IngredientMapping>> = {
           'pan_sauces': 'for proteins',
           'garnishes': 'raw or fried'
         }
-      },
-      'fried': {
-    name: 'Fried',
-        method: 'thinly sliced and deep fried',
-        timing: 'until golden brown',
-        applications: {
-          'garnish': 'for soups, salads',
-          'condiment': 'with rice dishes',
-          'topping': 'for burgers'
-        }
       }
-    },
+},
     storage: {
       temperature: 'cool, dry place',
       humidity: 'low',
@@ -333,16 +246,7 @@ const rawAromatics: Record<string, Partial<IngredientMapping>> = {
     category: 'aromatic',
     subCategory: 'allium',
     culinaryApplications: {
-      'garnish': {
-    name: 'Garnish',
-        method: 'thinly sliced',
-        timing: 'add at end of cooking',
-        applications: {
-          'soups': 'floating slices',
-          'noodles': 'asian dishes',
-          'proteins': 'finishing touch'
-        }
-      },
+      
       'cooked': {
     name: 'Cooked',
         method: 'chopped or whole',

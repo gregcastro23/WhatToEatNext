@@ -1,7 +1,7 @@
 import type { IngredientMapping } from '@/types/alchemy';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-const rawSquash = {
+let rawSquash = {
   "butternut squash": {
     "name": "Butternut squash",
     "elementalProperties": {
@@ -312,7 +312,7 @@ const rawSquash = {
     "storage": {
       "temperature": "cool, dry place",
       "duration": "1-2 months",
-      "notes": "Store away from apples/pears"
+      "notes": "Store away from apples / (pears || 1)"
     }
   }
 };

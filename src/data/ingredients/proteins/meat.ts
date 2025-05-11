@@ -20,17 +20,11 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
       favorableZodiac: ['taurus'],
       elementalAffinity: {
         base: 'Earth',
-        secondary: 'Fire',
-      },
+        secondary: 'Fire'
+},
       lunarPhaseModifiers: {
-        'new': {
-          elementalBoost: { Fire: 0.1 },
-          preparationTip: 'Marinate with red wine and fresh herbs for enhanced vitality'
-        },
-        'full': {
-          elementalBoost: { Earth: 0.1 },
-          preparationTip: 'Slow roast with root vegetables for grounding energy'
-        },
+        
+        
         'waning': {
           elementalBoost: { Water: 0.05 },
           preparationTip: 'Braise with bone broth for restoration'
@@ -232,7 +226,7 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
         internalTemp: {
           'rare': { name: 'Rare', fahrenheit: 125, celsius: 52 },
           'medium_rare': { name: 'Medium Rare', fahrenheit: 135, celsius: 57 },
-          'medium': { name: 'Medium', fahrenheit: 145, celsius: 63 },
+          
           'medium_well': { name: 'Medium Well', fahrenheit: 150, celsius: 66 },
           'well_done': { name: 'Well Done', fahrenheit: 160, celsius: 71 }
         },
@@ -286,14 +280,8 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
             name: 'Butter Basting',
             ingredients: ['butter', 'garlic', 'thyme'],
             method: 'spoon butter over continuously'
-          },
-          'compound_butter': {
-            name: 'Compound Butter',
-            ingredients: ['butter', 'shallots', 'herbs', 'black pepper'],
-            method: 'add to pan last 2 minutes',
-            notes: 'creates luxurious sauce'
           }
-        },
+},
         pans: {
           'cast_iron': {
             name: 'Cast Iron',
@@ -317,9 +305,8 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
         method: 'vacuum sealed, water bath',
         temperature: {
           'rare': { name: 'Rare', fahrenheit: 125, celsius: 52 },
-          'medium_rare': { name: 'Medium Rare', fahrenheit: 131, celsius: 55 },
-          'medium': { name: 'Medium', fahrenheit: 140, celsius: 60 }
-        },
+          'medium_rare': { name: 'Medium Rare', fahrenheit: 131, celsius: 55 }
+},
         timing: {
           'minimum': '1 hour',
           'maximum': '4 hours',
@@ -507,28 +494,15 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
       notes: 'Utilizes less desirable cuts, reducing food waste'
     },
     varieties: {
-      'Fresh': {
-        name: 'Fresh',
-        appearance: 'pink meat, white fat layers',
-        texture: 'firm, layered',
-        uses: 'braising, roasting, smoking',
-        notes: 'Most versatile form'
-      },
+      
       'Cured': {
         name: 'Cured',
         appearance: 'pink throughout',
         texture: 'firm, dense',
         uses: 'pancetta, bacon',
         notes: 'Extended shelf life, concentrated flavor'
-      },
-      'Smoked': {
-        name: 'Smoked',
-        appearance: 'brown exterior, pink interior',
-        texture: 'firm, sliceable',
-        uses: 'direct consumption, flavoring agent',
-        notes: 'Pronounced smoky flavor, improved preservation'
       }
-    },
+},
     culinaryApplications: {
       'braise': {
         name: 'Braise',
@@ -607,9 +581,8 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
         name: 'Sous Vide',
         method: 'vacuum sealed',
         temperature: {
-          'tender': { name: 'Tender', fahrenheit: 170, celsius: 77 },
-          'traditional': { name: 'Traditional', fahrenheit: 180, celsius: 82 }
-        },
+          'tender': { name: 'Tender', fahrenheit: 170, celsius: 77 }
+},
         timing: {
           'minimum': '12 hours',
           'maximum': '36 hours',
@@ -786,21 +759,7 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
           notes: 'Iconic sweet-savory preparation'
         }
       },
-      'italian': {
-        name: 'Italian',
-        'porchetta': {
-          name: 'Porchetta',
-          region: 'Central Italy',
-          method: 'stuffed, rolled, roasted',
-          notes: 'Celebratory dish with crisp skin'
-        },
-        'pancetta': {
-          name: 'Pancetta',
-          region: 'Northern Italy',
-          method: 'salt-cured, spiced',
-          notes: 'Essential Italian cured meat'
-        }
-      },
+      
       'filipino': {
         name: 'Filipino',
         'lechon_kawali': {
@@ -999,9 +958,8 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
         },
         internalTemp: {
           'rare': { name: 'Rare', fahrenheit: 120, celsius: 49 },
-          'medium_rare': { name: 'Medium Rare', fahrenheit: 130, celsius: 54 },
-          'medium': { name: 'Medium', fahrenheit: 140, celsius: 60 }
-        },
+          'medium_rare': { name: 'Medium Rare', fahrenheit: 130, celsius: 54 }
+},
         benefits: [
           'More even cooking throughout',
           'Better control of doneness',
@@ -1014,9 +972,8 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
         method: 'vacuum sealed, water bath',
         temperature: {
           'rare': { name: 'Rare', fahrenheit: 125, celsius: 52 },
-          'medium_rare': { name: 'Medium Rare', fahrenheit: 131, celsius: 55 },
-          'medium': { name: 'Medium', fahrenheit: 140, celsius: 60 }
-        },
+          'medium_rare': { name: 'Medium Rare', fahrenheit: 131, celsius: 55 }
+},
         timing: {
           'minimum': '1 hour',
           'maximum': '4 hours',
@@ -1109,7 +1066,7 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
     },
     pairingRecommendations: {
       wine: {
-        red: ['Bordeaux Blend', 'Syrah/Shiraz', 'Cabernet Sauvignon', 'Rioja'],
+        red: ['Bordeaux Blend', 'Syrah / (Shiraz || 1)', 'Cabernet Sauvignon', 'Rioja'],
         notes: 'Tannic reds stand up to richness'
       },
       sides: {
@@ -1122,35 +1079,8 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
       toAvoid: ['overwhelming spices', 'very acidic sauces']
     },
     regionalPreparations: {
-      'french': {
-        name: 'French',
-        'carré_d_agneau': {
-          name: 'Carré d\'Agneau',
-          method: 'herb-crusted, precision roasted',
-          accompaniments: 'fine vegetables, reduction sauce',
-          notes: 'Classic technique emphasizing the meat\'s quality'
-        },
-        'persillade': {
-          name: 'Persillade',
-          method: 'parsley-garlic crust',
-          notes: 'Aromatic crust adds bright flavor contrast'
-        }
-      },
-      'mediterranean': {
-        name: 'Mediterranean',
-        'greek_style': {
-          name: 'Greek Style',
-          method: 'lemon, oregano, olive oil marinade',
-          accompaniments: 'tzatziki, grilled vegetables',
-          notes: 'Bright flavors highlight the lamb\'s sweetness'
-        },
-        'moroccan': {
-          name: 'Moroccan',
-          method: 'ras el hanout spice coating',
-          accompaniments: 'couscous, preserved lemon',
-          notes: 'Complex spice profile enhances without overwhelming'
-        }
-      },
+      
+      
       'british': {
         name: 'British',
         'sunday_roast': {
@@ -1198,13 +1128,7 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
       }
     },
     culinaryTraditions: {
-      'french': {
-        name: 'magret de canard',
-        usage: ['pan seared', 'medium rare'],
-        preparation: 'score fat, render slowly',
-        pairings: ['orange sauce', 'cherry gastrique', 'wild mushrooms'],
-        cultural_notes: 'Classic bistro dish'
-      },
+      
       'chinese': {
         name: 'pipa duck',
         usage: ['roasted', 'glazed'],
@@ -1267,21 +1191,8 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
     affinities: ['white wine', 'garlic', 'citrus zest', 'tomatoes'],
     cookingMethods: ['braise', 'slow_cook', 'dutch_oven'],
     culinaryTraditions: {
-      'italian': {
-        name: 'osso buco alla milanese',
-        usage: ['braised', 'special occasions'],
-        preparation: 'tied with string, braised in wine',
-        pairings: ['risotto milanese', 'gremolata', 'polenta'],
-        cultural_notes: 'Traditional Milanese specialty'
-      },
-      'french': {
-        name: 'jarret de veau',
-        usage: ['braised', 'slow cooked'],
-        preparation: 'wine and herb braised',
-        pairings: ['root vegetables', 'herb bouquet', 'crusty bread'],
-        cultural_notes: 'Classic bistro preparation'
-      }
-    },
+      
+},
     preparation: {
       tying: 'secure with kitchen twine',
       browning: 'sear all sides well',
@@ -1342,14 +1253,8 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
         appearance: 'deep red, consistent',
         texture: 'tender, mild flavor',
         uses: 'versatile cooking methods'
-      },
-      'Wild': {
-        name: 'Wild',
-        appearance: 'darker red, varied',
-        texture: 'firmer, stronger flavor',
-        uses: 'traditional game dishes'
       }
-    },
+},
     culinaryTraditions: {
       'german': {
         name: 'hirschrücken',

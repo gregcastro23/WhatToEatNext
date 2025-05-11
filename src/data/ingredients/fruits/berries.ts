@@ -101,19 +101,8 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
       enhancing: 'add a tiny pinch of salt to enhance sweetness'
     },
     culinaryApplications: {
-      'fresh': {
-        name: 'Fresh Eating',
-        method: 'raw, uncooked',
-        pairings: ['yogurt', 'granola', 'other berries', 'cream'],
-        notes: 'Best with fully ripe berries'
-      },
-      'baked': {
-        name: 'Baked Goods',
-        method: 'mixed into batters or fillings',
-        applications: ['muffins', 'pies', 'cakes', 'pancakes'],
-        techniques: 'toss with flour to prevent sinking',
-        notes: 'May burst during baking, creating pockets of juice'
-      },
+      
+      
       'preserves': {
         name: 'Preserves',
         method: 'cooked with sugar',
@@ -128,28 +117,15 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
         techniques: 'combine with creamier fruits for texture',
         notes: 'Freeze individually first for best results'
       },
-      'savory': {
-        name: 'Savory Applications',
-        method: 'ingredient in savory dishes',
-        applications: ['sauces for meat', 'salads', 'salsas', 'vinaigrettes'],
-        techniques: 'balance sweetness with acid or heat',
-        notes: 'Pairs well with game meats and aged cheeses'
-      },
+      
       'beverage': {
         name: 'Beverages',
         method: 'juiced, infused, or muddled',
         applications: ['smoothies', 'cocktails', 'infused water', 'kombucha'],
         techniques: 'muddle gently to release juice without bitterness',
         notes: 'Beautiful natural colorant'
-      },
-      'fermented': {
-        name: 'Fermented',
-        method: 'allowed to ferment',
-        applications: ['wine', 'shrub', 'vinegar', 'kombucha'],
-        techniques: 'crush berries to release juice and sugars',
-        notes: 'Produces complex, deep flavors'
       }
-    },
+},
     storage: {
       refrigerated: {
         temperature: { fahrenheit: 32, celsius: 0 },

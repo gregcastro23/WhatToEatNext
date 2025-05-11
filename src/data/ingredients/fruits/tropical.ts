@@ -442,36 +442,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
     }
   },
 
-  'banana': {
-    name: 'Banana',
-    elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
-    qualities: ['sweet', 'creamy', 'filling'],
-    season: ['year-round'],
-    category: 'fruit',
-    subCategory: 'tropical',
-    affinities: ['chocolate', 'caramel', 'coconut', 'cinnamon', 'honey'],
-    cookingMethods: ['raw', 'baked', 'fried', 'dried'],
-    nutritionalProfile: {
-      fiber: 'moderate',
-      vitamins: ['b6', 'c', 'folate'],
-      minerals: ['potassium', 'magnesium'],
-      calories: 89,
-      carbs_g: 23,
-      fiber_g: 2.6,
-      antioxidants: ['dopamine', 'catechins']
-    },
-    preparation: {
-      peeling: 'required',
-      ripeness: 'yellow with brown spots for eating',
-      notes: 'Green bananas can be cooked as plantains'
-    },
-    storage: {
-      temperature: 'room temperature',
-      duration: '5-7 days',
-      ripening: 'paper bag to speed up',
-      notes: 'Refrigeration darkens skin but preserves flesh'
-    }
-  },
+  
 
   'kiwi': {
     name: 'Kiwi',
@@ -635,4 +606,4 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 };
 
 // Fix the ingredient mappings to ensure they have all required properties
-export const tropical = fixIngredientMappings(rawTropicalFruits);
+export let tropical = fixIngredientMappings(rawTropicalFruits);

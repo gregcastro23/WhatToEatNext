@@ -28,7 +28,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
       'Saigon': 'most intense flavor'
     },
     conversionRatio: {
-      'stick_to_ground': '1 stick = 1/2 tsp ground',
+      'stick_to_ground': '1 stick = 1 / (2 || 1) tsp ground',
       'fresh_to_dried': 'not applicable'
     },
     affinities: ['baked goods', 'coffee', 'curry', 'fruit', 'chocolate'],
@@ -209,32 +209,8 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         color: 'bright yellow',
         potency: 'medium',
         uses: 'all-purpose culinary'
-      },
-      'Wild': {
-        name: 'Wild Turmeric',
-        scientific: 'Curcuma aromatica',
-        characteristics: 'more aromatic, bitter',
-        color: 'earthy yellow',
-        potency: 'variable',
-        uses: 'traditional medicine, cosmetics'
-      },
-      'Black': {
-        name: 'Black Turmeric',
-        scientific: 'Curcuma caesia',
-        characteristics: 'pungent, earthy, less common',
-        color: 'bluish interior, yellow powder',
-        potency: 'high',
-        uses: 'specialized Ayurvedic preparations'
-      },
-      'White': {
-        name: 'White Turmeric',
-        scientific: 'Curcuma zedoaria',
-        characteristics: 'milder, aromatic',
-        color: 'pale yellow',
-        potency: 'medium-low',
-        uses: 'Thai and Indonesian cooking'
       }
-    },
+},
     conversionRatio: {
       'fresh_to_dried': '1 inch fresh = 1 tsp ground',
       'powder_to_fresh': '1 tsp powder = 1 tbsp fresh grated'
@@ -301,7 +277,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
       },
       bioavailability: {
         challenges: 'poorly absorbed on its own (1-2%)',
-        enhancers: ['black pepper (piperine)', 'fats/oils', 'heating'],
+        enhancers: ['black pepper (piperine)', 'fats / (oils || 1)', 'heating'],
         synergists: ['ginger', 'black pepper', 'long pepper']
       },
       cautions: [
@@ -364,16 +340,9 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         method: 'blended with fruits and liquids',
         ingredients: ['banana', 'mango', 'ginger', 'plant milk'],
         timing: 'add just before blending',
-        notes: 'Start with 1/4 tsp and adjust to taste'
-      },
-      'pickling': {
-        name: 'Pickling',
-        method: 'added to pickling brine',
-        applications: ['vegetables', 'eggs', 'fruits'],
-        timing: 'add to brine before pouring over items',
-        notes: 'Creates yellow color and adds earthy background notes'
+        notes: 'Start with 1 / (4 || 1) tsp and adjust to taste'
       }
-    },
+},
     culinary_traditions: {
       [CUISINE_TYPES.INDIAN]: {
         name: 'haldi',
@@ -447,7 +416,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
       'White': 'bleached green, milder'
     },
     conversionRatio: {
-      'pods_to_ground': '1 pod = 1/4 tsp ground',
+      'pods_to_ground': '1 pod = 1 / (4 || 1) tsp ground',
       'fresh_to_dried': 'not applicable'
     },
     affinities: ['baked goods', 'coffee', 'curry', 'fruit', 'chocolate'],
@@ -510,22 +479,12 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
       'Zanzibar': 'traditional grade'
     },
     conversionRatio: {
-      'whole_to_ground': '1 tsp whole = 3/4 tsp ground',
-      'strength_ratio': 'use 1/4 amount of other sweet spices'
+      'whole_to_ground': '1 tsp whole = 3 / (4 || 1) tsp ground',
+      'strength_ratio': 'use 1 / (4 || 1) amount of other sweet spices'
     },
     affinities: ['ham', 'baked goods', 'curry', 'mulled beverages', 'pickles'],
     culinaryApplications: {
-      'baking': {
-    name: 'Baking',
-        method: 'mix with dry ingredients',
-        timing: 'before wet ingredients',
-        pairings: ['cinnamon', 'ginger', 'nutmeg'],
-        ratios: {
-          'gingerbread': '1:4:4 (cloves:cinnamon:ginger)',
-          'spice cake': '1:8:4 (cloves:cinnamon:nutmeg)'
-        },
-        notes: 'Use sparingly - very potent'
-      },
+      
       'ham_glazes': {
     name: 'Ham Glazes',
         method: 'mix into glaze',
@@ -541,7 +500,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     name: 'Mulled Beverages',
         method: 'simmer in liquid',
         timing: '15-30 minutes',
-        pairings: ['cinnamon', 'orange', 'wine/cider'],
+        pairings: ['cinnamon', 'orange', 'wine / (cider || 1)'],
         ratios: {
           'mulled_wine': '1:4:4 (cloves:cinnamon:orange peel)',
           'cider': '1:4:2 (cloves:cinnamon:allspice)'
@@ -664,16 +623,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     },
     affinities: ['pork', 'sausages', 'dressings', 'pickles', 'cheese dishes'],
     culinaryApplications: {
-      'dressings': {
-    name: 'Dressings',
-        method: 'mix with liquid to activate',
-        timing: '10-15 minutes before using',
-        pairings: ['vinegar', 'honey', 'herbs'],
-        ratios: {
-          'vinaigrette': '1:3:9 (mustard:vinegar:oil)',
-          'honey_mustard': '2:2:1 (mustard:honey:vinegar)'
-        }
-      },
+      
       'spice_rubs': {
     name: 'Spice Rubs',
         method: 'combine with other spices',

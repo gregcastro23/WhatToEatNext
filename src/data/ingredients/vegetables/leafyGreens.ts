@@ -2,7 +2,7 @@ import type { IngredientMapping } from '@/types/alchemy';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 // Helper function for generating consistent numeric values
-const generateVegetableAttributes = (vegData: {
+let generateVegetableAttributes = (vegData: {
   water: number; // water content percentage (0-100)
   fiber: number; // fiber content (0-10 scale)
   bitterness: number; // bitterness level (0-10 scale)
@@ -15,7 +15,7 @@ const generateVegetableAttributes = (vegData: {
     cooking_time_minutes: vegData.cooking_time,
     volume_reduction: Math.round(vegData.water * 0.8) / 10, // How much it shrinks when cooked (1-10 scale)
     seasonal_peak_months: [], // Will be set individually
-    cell_wall_strength: Math.round((10 - vegData.water / 10) + (vegData.fiber / 2)), // Structural integrity when cooked
+    cell_wall_strength: Math.round((10 - vegData.water / (10 || 1)) + (vegData.fiber / (2 || 1))), // Structural integrity when cooked
     nutrient_density: Math.round(
       (vegData.fiber * 0.6) + 
       ((100 - vegData.water) * 0.05) + 
@@ -27,35 +27,12 @@ const generateVegetableAttributes = (vegData: {
 const rawLeafyGreens: Record<string, Partial<IngredientMapping>> = {
   'kale': {
     name: 'Kale',
+    category: 'vegetable',
+    subCategory: 'leafy_green',
     elementalProperties: { Air: 0.38, Earth: 0.34, Water: 0.22, Fire: 0.06 },
-    astrologicalProfile: {
-      rulingPlanets: ['Mercury', 'Saturn'],
-      favorableZodiac: ['virgo', 'capricorn'],
-      elementalAffinity: {
-        base: 'Air',
-        decanModifiers: {
-          first: { element: 'Air', planet: 'Mercury' },
-          second: { element: 'Earth', planet: 'Saturn' },
-          third: { element: 'Water', planet: 'Moon' }
-        }
-      },
-      lunarPhaseModifiers: {
-        newMoon: {
-          elementalBoost: { Air: 0.1, Earth: 0.05 },
-          preparationTips: ['Light preparations', 'Quick cooking methods']
-        },
-        fullMoon: {
-          elementalBoost: { Water: 0.15, Air: 0.05 },
-          preparationTips: ['Fermentation', 'Longer cooking processes']
-        }
-      },
-      aspectEnhancers: ['Mercury trine Saturn', 'Moon in Virgo']
-    },
-    qualities: ['cleansing', 'strengthening', 'cooling', 'grounding', 'resilient'],
+    qualities: ['cleansing', 'strengthening', 'cooling', 'grounding', 'resilient', 'bitter', 'hardy'],
     origin: ['Mediterranean', 'Northern Europe'],
     season: ['fall', 'winter', 'early spring'],
-    category: 'vegetable',
-    subCategory: 'leafy green',
     affinities: ['garlic', 'olive oil', 'lemon', 'pine nuts', 'chili', 'tahini', 'mushrooms', 'apple'],
     cookingMethods: ['raw', 'steamed', 'sautéed', 'baked', 'braised', 'fermented', 'juiced', 'soup'],
     ...generateVegetableAttributes({
@@ -66,7 +43,7 @@ const rawLeafyGreens: Record<string, Partial<IngredientMapping>> = {
     }),
     seasonal_peak_months: [10, 11, 12, 1, 2], // Oct-Feb
     nutritionalProfile: {
-      serving_size: "1 cup, raw",
+      serving_size: "1 cup, raw (67g)",
       calories: 33,
       macros: {
         protein: 3,
@@ -75,9 +52,9 @@ const rawLeafyGreens: Record<string, Partial<IngredientMapping>> = {
         fiber: 2.5
       },
       vitamins: {
-        K: 0.68,
-        C: 0.80,
-        A: 0.53,
+        A: 0.206, // Values as percentage of RDA
+        C: 0.134,
+        K: 0.684,
         B6: 0.14,
         E: 0.10,
         folate: 0.07,
@@ -100,6 +77,86 @@ const rawLeafyGreens: Record<string, Partial<IngredientMapping>> = {
       },
       source: "USDA FoodData Central"
     },
+    sensoryProfile: {
+      taste: {
+        sweet: 0.1,
+        salty: 0.1,
+        sour: 0.2,
+        bitter: 0.7,
+        umami: 0.3,
+        spicy: 0.0
+      },
+      aroma: {
+        floral: 0.1,
+        fruity: 0.0,
+        herbal: 0.4,
+        spicy: 0.1,
+        earthy: 0.7,
+        woody: 0.5
+      },
+      texture: {
+        crisp: 0.7,
+        tender: 0.2,
+        creamy: 0.0,
+        chewy: 0.6,
+        crunchy: 0.5,
+        silky: 0.0
+      }
+    },
+    storage: {
+      temperature: "refrigerated",
+      duration: "5-7 days",
+      container: "sealed container with paper towel",
+      humidity: "high",
+      tips: [
+        "Do not wash until ready to use",
+        "Keep stems in water for longer storage",
+        "Freeze blanched kale for up to 8 months"
+      ],
+      frozen: {
+        method: "blanch for 2 minutes, shock in ice water",
+        duration: "8-10 months"
+      }
+    },
+    preparation: {
+      washing: true,
+      methods: ["raw", "steamed", "sautéed", "baked", "blanched", "braised", "fermented", "juiced"],
+      processing: {
+        stemming: "remove tough stems for raw applications",
+        massage: "massage with oil and salt to tenderize for raw use",
+        chopping: "chop finely for smoother texture in soups and stews"
+      },
+      notes: "Becomes sweeter after frost exposure or light cooking"
+    },
+    culinaryApplications: {
+      commonUses: ["salads", "smoothies", "sautés", "soups", "chips", "braises", "stews"],
+      pairingRecommendations: {
+        complementary: ["garlic", "olive oil", "lemon", "pine nuts", "chili", "tahini", "apple", "onion"],
+        contrasting: ["bacon", "sausage", "sweet potato", "cranberry", "white beans"],
+        toAvoid: ["delicate herbs", "subtle fish"]
+      },
+      seasonalPeak: ["fall", "winter", "early spring"],
+      techniques: {
+        "salad": {
+          method: "raw, massaged with oil and salt",
+          ingredients: ["lemon juice", "olive oil", "salt", "garlic"],
+          notes: "Massage 2-3 minutes to break down fibers"
+        },
+        "chips": {
+          method: "baked or dehydrated",
+          temperature: { fahrenheit: 300, celsius: 150 },
+          timing: "10-15 minutes",
+          ingredients: ["olive oil", "salt", "nutritional yeast"],
+          notes: "Space evenly and watch carefully to prevent burning"
+        },
+        "sauté": {
+          method: "quick cook in hot oil",
+          timing: "5-7 minutes",
+          ingredients: ["garlic", "red pepper flakes", "olive oil"],
+          notes: "Add liquid to help wilt if needed"
+        }
+      }
+    },
     healthBenefits: [
       'Anti-inflammatory properties',
       'Supports cardiovascular health',
@@ -116,21 +173,24 @@ const rawLeafyGreens: Record<string, Partial<IngredientMapping>> = {
         appearance: 'ruffled leaves, vibrant green',
         texture: 'sturdy, slightly tough',
         flavor: 'peppery, slightly bitter',
-        uses: 'salads, chips, sautés'
+        uses: 'salads, chips, sautés',
+        nutritionalDifferences: "Higher in fiber than other varieties"
       },
       'Lacinato': {
         name: 'Lacinato (Dinosaur) Kale',
         appearance: 'long, narrow, bumpy dark leaves',
         texture: 'more tender than curly',
         flavor: 'earthy, slightly sweeter',
-        uses: 'raw applications, Italian cuisine'
+        uses: 'raw applications, Italian cuisine',
+        nutritionalDifferences: "Higher in antioxidants"
       },
       'Red Russian': {
         name: 'Red Russian Kale',
         appearance: 'flat, toothed edges, purple stems',
         texture: 'tender, delicate',
         flavor: 'mild, slightly sweet',
-        uses: 'salads, quick cooking'
+        uses: 'salads, quick cooking',
+        nutritionalDifferences: "Higher in anthocyanins"
       },
       'Redbor': {
         name: 'Redbor Kale',
@@ -140,96 +200,111 @@ const rawLeafyGreens: Record<string, Partial<IngredientMapping>> = {
         uses: 'garnishes, sturdy cooking applications'
       }
     },
-    preparation: {
-      washing: true,
-      stemming: 'remove tough stems',
-      massage: 'when raw for tenderness',
-      blanching: 'brief blanch to tenderize',
-      storage_prep: 'dry completely before storing',
-      notes: 'Becomes sweeter after frost exposure'
+    seasonality: ["fall", "winter", "early spring"],
+    harvestMaturity: {
+      days: "50-65 days from seed",
+      size: "8-10 inches tall",
+      signs: ["deep color", "firm leaves", "fully developed leaves"]
     },
-    culinaryApplications: {
-      'salad': {
-        name: 'Salad',
-        method: 'raw, massaged with oil and salt',
-        ingredients: ['lemon juice', 'olive oil', 'salt', 'garlic'],
-        notes: 'Massage 2-3 minutes to break down fibers'
+    cooking: {
+      methodsRanked: {
+        "sauté": 9,
+        "steam": 8,
+        "roast": 7, 
+        "blanch": 8,
+        "raw": 6,
+        "bake": 7,
+        "soup": 9,
+        "ferment": 6
       },
-      'chips': {
-        name: 'Kale Chips',
-        method: 'baked or dehydrated',
-        temperature: { fahrenheit: 300, celsius: 150 },
-        timing: '10-15 minutes',
-        ingredients: ['olive oil', 'salt', 'nutritional yeast', 'spices'],
-        notes: 'Space evenly and watch carefully to prevent burning'
+      cookingTimesByMethod: {
+        "sauté": "5-7 minutes",
+        "steam": "5 minutes",
+        "roast": "10-15 minutes",
+        "blanch": "2-3 minutes",
+        "bake": "15-20 minutes"
       },
-      'sauté': {
-        name: 'Sautéed Kale',
-        method: 'quick cook in hot oil',
-        timing: '5-7 minutes',
-        ingredients: ['garlic', 'red pepper flakes', 'olive oil', 'lemon'],
-        notes: 'Add liquid to help wilt if needed'
+      doneness: [
+        "Leaves become deeper green", 
+        "Texture softens but maintains some structure",
+        "Stems are tender when pierced"
+      ]
+    },
+    astrologicalProfile: {
+      rulingPlanets: ['Mercury', 'Saturn'],
+      favorableZodiac: ['virgo', 'capricorn'],
+      elementalAffinity: {
+        base: 'Air',
+        secondary: 'Earth',
+        decanModifiers: {
+          first: { element: 'Air', planet: 'Mercury' },
+          second: { element: 'Earth', planet: 'Saturn' },
+          third: { element: 'Water', planet: 'Moon' }
+        }
       },
-      'soup': {
-        name: 'Kale Soup',
-        method: 'added to broth-based soups',
-        timing: 'add 10 minutes before serving',
-        techniques: 'chop finely for better texture',
-        pairs_with: ['white beans', 'sausage', 'potatoes', 'carrots']
+      lunarPhaseModifiers: {
+        newMoon: {
+          elementalBoost: { Air: 0.1, Earth: 0.05 },
+          preparationTips: ['Light preparations', 'Quick cooking methods']
+        },
+        fullMoon: {
+          elementalBoost: { Water: 0.15, Air: 0.05 },
+          preparationTips: ['Fermentation', 'Longer cooking processes']
+        }
       },
-      'smoothie': {
-        name: 'Kale Smoothie',
-        method: 'blended with fruits',
-        ingredients: ['banana', 'pineapple', 'ginger', 'citrus'],
-        notes: 'Freeze first for creamier texture'
+      aspectEnhancers: ['Mercury trine Saturn', 'Moon in Virgo']
+    },
+    waterContent: 84, // percentage
+    fiberContent: 9, // 1-10 scale
+    bitternessLevel: 7, // 1-10 scale
+    cookingTimeMinutes: 8,
+    volumeReduction: 6.7, // How much it shrinks when cooked (1-10 scale)
+    cellWallStrength: 9, // Structural integrity when cooked
+    nutrientDensity: 8.5, // 1-10 scale
+    processingEffects: {
+      cooking: {
+        nutrientRetention: 0.7, // 70% retention
+        volumeChange: 0.4, // Reduces to 40% of original volume
+        flavorChange: "reduced bitterness, enhanced sweetness"
       },
-      'braise': {
-        name: 'Braised Kale',
-        method: 'slow-cooked with liquid',
-        timing: '20-30 minutes',
-        ingredients: ['onions', 'broth', 'vinegar', 'bay leaf'],
-        notes: 'Becomes tender and flavorful'
+      freezing: {
+        nutrientRetention: 0.9, // 90% retention
+        textureChange: "softens cell structure",
+        bestPrepMethod: "blanch before freezing"
+      },
+      drying: {
+        nutrientRetention: 0.8,
+        flavorConcentration: 1.8, // Concentrates by 1.8x
+        rehydrationMethod: "soak in warm water for 20 minutes"
       }
-    },
-    storage: {
-      temperature: 'refrigerated',
-      duration: '5-7 days',
-      method: 'sealed container with paper towel',
-      sensitivity: 4, // 1-10 scale of how quickly it spoils
-      frozen: {
-        method: 'blanch for 2 minutes, shock in ice water',
-        duration: 'up to 6 months',
-        notes: 'Best used in cooked applications after freezing'
-      },
-      dehydrated: {
-        method: 'dry at 125°F until completely crisp',
-        duration: 'up to 1 year in airtight container',
-        notes: 'Rehydrate in warm water or add directly to soups'
-      }
-    },
-    seasonalUses: {
-      'winter': {
-        name: 'Winter',
-        preparations: ['hearty soups', 'stews', 'braised side dishes'],
-        pairings: ['root vegetables', 'grains', 'legumes']
-      },
-      'summer': {
-        name: 'Summer',
-        preparations: ['raw salads', 'chilled soups', 'smoothies'],
-        pairings: ['citrus', 'berries', 'light vinaigrettes']
-      }
-    },
-    cuisineAffinity: {
-      'mediterranean': 'used in soups and bean dishes',
-      'northern_european': 'traditional side dish',
-      'american_southern': 'slow-cooked with ham hock',
-      'modern_health': 'smoothies and raw preparations',
-      'asian_fusion': 'stir-fried with ginger and sesame'
     }
   },
   'spinach': {
     name: 'Spinach',
     elementalProperties: { Water: 0.42, Air: 0.31, Earth: 0.22, Fire: 0.05 },
+    astrologicalProfile: {
+      rulingPlanets: ['Moon', 'Mercury'],
+      favorableZodiac: ['cancer', 'gemini', 'virgo'],
+      elementalAffinity: {
+        base: 'Water',
+        decanModifiers: {
+          first: { element: 'Water', planet: 'Moon' },
+          second: { element: 'Air', planet: 'Mercury' },
+          third: { element: 'Earth', planet: 'Venus' }
+        }
+      },
+      lunarPhaseModifiers: {
+        fullMoon: {
+          elementalBoost: { Water: 0.15, Air: 0.05 },
+          preparationTips: ['Gentle steaming', 'Fresh in salads']
+        },
+        newMoon: {
+          elementalBoost: { Air: 0.1 },
+          preparationTips: ['Quick sautéing', 'Light seasoning']
+        }
+      },
+      aspectEnhancers: ['Moon trine Mercury', 'Venus in Cancer']
+    },
     qualities: ['cooling', 'moistening', 'cleansing'],
     season: ['spring', 'fall'],
     category: 'vegetable',
@@ -269,6 +344,29 @@ const rawLeafyGreens: Record<string, Partial<IngredientMapping>> = {
   'swiss chard': {
     name: 'Swiss chard',
     elementalProperties: { Water: 0.39, Earth: 0.33, Air: 0.21, Fire: 0.07 },
+    astrologicalProfile: {
+      rulingPlanets: ['Venus', 'Saturn'],
+      favorableZodiac: ['taurus', 'capricorn', 'libra'],
+      elementalAffinity: {
+        base: 'Water',
+        decanModifiers: {
+          first: { element: 'Water', planet: 'Venus' },
+          second: { element: 'Earth', planet: 'Saturn' },
+          third: { element: 'Air', planet: 'Jupiter' }
+        }
+      },
+      lunarPhaseModifiers: {
+        fullMoon: {
+          elementalBoost: { Water: 0.15, Earth: 0.1 },
+          preparationTips: ['Braising', 'Slow cooking']
+        },
+        quarterMoon: {
+          elementalBoost: { Earth: 0.1 },
+          preparationTips: ['Sautéing with aromatics', 'Cooking with grains']
+        }
+      },
+      aspectEnhancers: ['Venus trine Saturn', 'Jupiter in Taurus']
+    },
     qualities: ['cooling', 'cleansing'],
     season: ['summer', 'fall'],
     category: 'vegetable',
@@ -308,10 +406,6 @@ const rawLeafyGreens: Record<string, Partial<IngredientMapping>> = {
   }
 };
 
-// Fix the ingredient mappings to ensure they have all required properties
-export const leafyGreens: Record<string, IngredientMapping> = fixIngredientMappings(rawLeafyGreens);
-
-// Create a collection of all leafy greens
-export const allLeafyGreens = Object.values(leafyGreens);
+export let leafyGreens = fixIngredientMappings(rawLeafyGreens);
 
 export default leafyGreens;

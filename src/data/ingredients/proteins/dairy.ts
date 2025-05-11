@@ -131,11 +131,7 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       notes: "May continue to increase in tanginess over time"
     },
     culturalSignificance: {
-      "mediterranean": {
-        role: "Staple protein source and cooking ingredient",
-        pairings: "Olive oil, cucumber, garlic, herbs",
-        dishes: "Tzatziki, marinades, mezze"
-      },
+      
       "middle_eastern": {
         role: "Traditional breakfast component and sauce base",
         pairings: "Olive oil, za'atar, honey, nuts",
@@ -442,11 +438,7 @@ const rawDairy: Record<string, Partial<IngredientMapping>> = {
       notes: "Best used fresh, texture deteriorates over time"
     },
     culturalSignificance: {
-      "italian": {
-        role: "Traditional cheese made from recooking whey (ri-cotta = re-cooked)",
-        pairings: "Olive oil, herbs, honey, fruit, bread",
-        dishes: "Lasagna, cannoli, cheesecake, stuffed pasta"
-      },
+      
       "sicilian": {
         role: "Key ingredient in traditional desserts",
         pairings: "Chocolate, pistachios, candied fruit, cinnamon",

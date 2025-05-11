@@ -400,7 +400,7 @@ const rawPome: Record<string, Partial<IngredientMapping>> = {
       'French': 'Cotignac (quince jelly), pâte de coing (quince paste)'
     },
     culturalSignificance: {
-      'Classical': 'Associated with Aphrodite/Venus, symbol of love and fertility',
+      'Classical': 'Associated with Aphrodite / (Venus || 1), symbol of love and fertility',
       'Medieval': 'Used as room freshener and medicinal tonic',
       'Spanish': 'Essential component of classic cheese service',
       'Middle Eastern': 'Traditional accompaniment to meat dishes'
@@ -457,15 +457,8 @@ const rawPome: Record<string, Partial<IngredientMapping>> = {
         flavor: 'subtle sweetness, clean finish',
         best_uses: ['eating fresh', 'pickling'],
         notes: 'also called "20th Century pear"'
-      },
-      'Korean': {
-        appearance: 'very large, brown russeted skin',
-        texture: 'crisp, granular flesh',
-        flavor: 'sweet, distinctive fragrance',
-        best_uses: ['special occasions', 'gifts', 'fresh eating'],
-        notes: 'often individually wrapped and given as presents'
       }
-    },
+},
     culinaryApplications: {
       raw: {
         notes: ['Best eaten fresh and crisp', 'Does not soften like European pears'],
@@ -550,13 +543,7 @@ const rawPome: Record<string, Partial<IngredientMapping>> = {
       notes: 'Contains tannins that decrease with bletting'
     },
     varieties: {
-      'Dutch': {
-        appearance: 'small to medium, russet brown',
-        texture: 'gritty until bletted, then soft',
-        flavor: 'apple-cinnamon-date notes when ripe',
-        best_uses: ['traditional recipes', 'preserves'],
-        notes: 'most common variety'
-      },
+      
       'Nottingham': {
         appearance: 'smaller fruit, darker color',
         texture: 'finer flesh when bletted',
@@ -676,15 +663,8 @@ const rawPome: Record<string, Partial<IngredientMapping>> = {
         flavor: 'exceptionally sweet',
         best_uses: ['eating fresh', 'desserts'],
         notes: 'California variety'
-      },
-      'Champagne': {
-        appearance: 'pear-shaped, pale yellow to orange',
-        texture: 'delicate, very juicy',
-        flavor: 'balanced sweet-tart, white wine notes',
-        best_uses: ['eating fresh', 'gourmet applications'],
-        notes: 'prized for exceptional flavor'
       }
-    },
+},
     culinaryApplications: {
       raw: {
         notes: ['Complex flavor best enjoyed fresh', 'Similar to blend of peach and citrus'],

@@ -16,19 +16,8 @@ const rawChia: Record<string, Partial<IngredientMapping>> = {
     category: 'pseudo_grain',
     origin: ['Central America', 'Mexico', 'Guatemala'],
     varieties: {
-      'black': {
-        appearance: 'Tiny black seeds',
-        texture: 'Crunchy dry, gel-like when soaked',
-        flavor: 'Mild, slightly nutty',
-        uses: 'Puddings, smoothies, baked goods, egg substitute'
-      },
-      'white': {
-        appearance: 'Tiny white or light gray seeds',
-        texture: 'Same as black, gel-like when soaked',
-        flavor: 'Milder than black seeds',
-        uses: 'Same as black, sometimes preferred for appearance in light-colored dishes'
-      }
-    },
+      
+},
     preparation: {
       fresh: {
         duration: 'No cooking required, soak 10-20 minutes for gel',
@@ -57,4 +46,4 @@ const rawChia: Record<string, Partial<IngredientMapping>> = {
   }
 };
 
-export const chia = fixIngredientMappings(rawChia) as Record<string, IngredientMapping>; 
+export let chia = fixIngredientMappings(rawChia) as Record<string, IngredientMapping>; 

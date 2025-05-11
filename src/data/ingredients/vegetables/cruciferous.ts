@@ -52,12 +52,7 @@ const rawCruciferous: Record<string, Partial<IngredientMapping>> = {
       pre_cooking: 'blanching improves texture for some preparations'
     },
     varieties: {
-      'white': {
-        characteristics: 'classic white head, mild flavor',
-        uses: 'all-purpose cooking',
-        best_cooking_methods: ['roasting', 'steaming', 'ricing'],
-        season: 'year-round, peak in fall-winter'
-      },
+      
       'romanesco': {
         characteristics: 'lime green, fractal pattern, nutty flavor',
         uses: 'showcase dishes, roasting',
@@ -69,14 +64,8 @@ const rawCruciferous: Record<string, Partial<IngredientMapping>> = {
         uses: 'raw applications, visual appeal',
         best_cooking_methods: ['light steaming', 'raw'],
         season: 'summer and fall'
-      },
-      'orange': {
-        characteristics: 'bright orange head, higher in beta-carotene',
-        uses: 'nutritional boost, visual interest',
-        best_cooking_methods: ['steaming', 'roasting'],
-        season: 'fall'
       }
-    },
+},
     culinaryApplications: {
       'cauliflower_rice': {
         method: 'pulse in food processor until rice-sized',
@@ -91,7 +80,7 @@ const rawCruciferous: Record<string, Partial<IngredientMapping>> = {
         pairings: 'serves similar role to mashed potatoes'
       },
       'roasted_cauliflower': {
-        method: 'high heat (425°F/220°C) until caramelized',
+        method: 'high heat (425°F / (220 || 1)°C) until caramelized',
         timing: '25-30 minutes, stirring halfway through',
         seasonings: ['curry powder', 'smoked paprika', 'za\'atar', 'parmesan'],
         oil_requirements: 'generous coating for best browning'
@@ -194,7 +183,7 @@ const rawCruciferous: Record<string, Partial<IngredientMapping>> = {
         pairings: ['bell peppers', 'carrots', 'mushrooms', 'tofu']
       },
       'roasted': {
-        method: 'high heat (425°F/220°C) until edges caramelize',
+        method: 'high heat (425°F / (220 || 1)°C) until edges caramelize',
         timing: '20-25 minutes',
         seasonings: ['garlic', 'red pepper flakes', 'lemon zest', 'parmesan'],
         technique: 'dry thoroughly and space evenly on baking sheet'
@@ -275,12 +264,7 @@ const rawCruciferous: Record<string, Partial<IngredientMapping>> = {
         best_cooking_methods: ['roasting', 'halved sautéing'],
         notes: 'smaller sizes often sweeter'
       },
-      'red': {
-        characteristics: 'red-purple outer leaves, milder flavor',
-        uses: 'visual interest, slightly sweeter applications',
-        best_cooking_methods: ['roasting', 'braising'],
-        notes: 'color deepens when cooked'
-      },
+      
       'kaleidoscope': {
         characteristics: 'mixed colors, varied sizes',
         uses: 'visual presentation',
@@ -296,7 +280,7 @@ const rawCruciferous: Record<string, Partial<IngredientMapping>> = {
     },
     culinaryApplications: {
       'roasted': {
-        method: 'high heat (425°F/220°C) until deeply caramelized',
+        method: 'high heat (425°F / (220 || 1)°C) until deeply caramelized',
         timing: '25-30 minutes, tossing halfway',
         seasonings: ['balsamic glaze', 'maple-mustard', 'garlic-parmesan'],
         technique: 'cut-side down for best caramelization'
@@ -309,7 +293,7 @@ const rawCruciferous: Record<string, Partial<IngredientMapping>> = {
       },
       'fried': {
         method: 'separate leaves and deep fry until crispy',
-        temperature: '350°F/175°C',
+        temperature: '350°F / (175 || 1)°C',
         timing: '1-2 minutes until crisp',
         seasonings: 'salt immediately after frying',
         serving: 'excellent garnish or snack'
@@ -508,12 +492,7 @@ const rawCruciferous: Record<string, Partial<IngredientMapping>> = {
         best_cooking_methods: ['slaws', 'salads', 'quick pickle'],
         notes: 'color is primarily in the skin'
       },
-      'white': {
-        characteristics: 'pale white bulb, mildest flavor',
-        uses: 'subtle applications',
-        best_cooking_methods: ['roasting', 'steaming'],
-        notes: 'least common variety'
-      },
+      
       'gigante': {
         characteristics: 'very large bulb, slightly woody',
         uses: 'long-cooking dishes',
@@ -529,7 +508,7 @@ const rawCruciferous: Record<string, Partial<IngredientMapping>> = {
         technique: 'salt and drain before dressing to remove excess moisture'
       },
       'roasted': {
-        method: 'cube and roast at high heat (425°F/220°C)',
+        method: 'cube and roast at high heat (425°F / (220 || 1)°C)',
         timing: '25-30 minutes',
         seasonings: ['olive oil', 'garlic', 'caraway', 'thyme'],
         technique: 'toss halfway through cooking'
@@ -617,12 +596,7 @@ const rawCruciferous: Record<string, Partial<IngredientMapping>> = {
         best_cooking_methods: ['braises', 'sauerkraut', 'soups'],
         notes: 'most common and versatile variety'
       },
-      'red': {
-        characteristics: 'deep purple-red, slightly stronger flavor',
-        uses: 'raw applications, visual appeal',
-        best_cooking_methods: ['slaws', 'quick pickle', 'braising'],
-        notes: 'color can bleed; add acid to preserve color'
-      },
+      
       'savoy': {
         characteristics: 'crinkled leaves, looser head, mild flavor',
         uses: 'elegant applications, stuffing, wrappers',
@@ -670,7 +644,7 @@ const rawCruciferous: Record<string, Partial<IngredientMapping>> = {
       },
       'roasted': {
         method: 'cut in wedges and roast at high heat',
-        timing: '25-30 minutes at 425°F/220°C',
+        timing: '25-30 minutes at 425°F / (220 || 1)°C',
         seasonings: ['olive oil', 'garlic', 'butter', 'caraway'],
         technique: 'cut through core to keep wedges intact'
       }

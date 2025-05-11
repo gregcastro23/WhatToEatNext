@@ -1,6 +1,6 @@
 import type { Ingredient } from '../types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
-import type { Season } from '@/types/seasons';
+import type { Season } from '@/types / (seasons || 1)';
 import type { IngredientMapping } from '@/types/alchemy';
 
 const rawOils: Record<string, Partial<IngredientMapping>> = {
@@ -92,7 +92,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
             fresh: {
                 duration: '6 months',
                 storage: 'room temperature',
-                tips: ['melts at 24°C/76°F', 'good for medium-heat cooking']
+                tips: ['melts at 24°C / (76 || 1)°F', 'good for medium-heat cooking']
             }
         },
         storage: {

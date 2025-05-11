@@ -36,13 +36,7 @@ const rawWholeSpices: Record<string, Partial<IngredientMapping>> = {
         pairings: ['cinnamon', 'ginger', 'onions'],
         ratios: '1-2 pods per 2 cups liquid'
       },
-      'braising': {
-    name: 'Braising',
-        method: 'add to braising liquid',
-        timing: 'beginning of cooking',
-        pairings: ['soy sauce', 'rice wine', 'ginger'],
-        ratios: '2-3 pods per pound of meat'
-      },
+      
       'tea_blends': {
     name: 'Tea Blends',
         method: 'combine with other spices',
@@ -78,22 +72,9 @@ const rawWholeSpices: Record<string, Partial<IngredientMapping>> = {
     category: 'spice',
     subCategory: 'whole',
     varieties: {
-      'Green': {
-    name: 'Green',
-        flavor: 'sweet, intense',
-        uses: 'sweet and savory dishes'
-      },
-      'Black': {
-    name: 'Black',
-        flavor: 'smoky, robust',
-        uses: 'primarily savory dishes'
-      },
-      'White': {
-    name: 'White',
-        flavor: 'milder, bleached green',
-        uses: 'light-colored dishes'
-      }
-    },
+      
+      
+},
     preparation: {
       toasting: {
         method: 'light dry toast',
@@ -147,25 +128,14 @@ const rawWholeSpices: Record<string, Partial<IngredientMapping>> = {
     category: 'spice',
     subCategory: 'whole',
     varieties: {
-      'Yellow': {
-    name: 'Yellow',
-        appearance: 'large, light colored',
-        flavor: 'mild, slightly sweet',
-        uses: 'pickling, European cuisine'
-      },
+      
       'Brown': {
     name: 'Brown',
         appearance: 'smaller, dark brown',
         flavor: 'more pungent',
         uses: 'Indian cuisine, oil blooming'
-      },
-      'Black': {
-    name: 'Black',
-        appearance: 'tiny, dark black',
-        flavor: 'most intense',
-        uses: 'Bengali cuisine, tempering'
       }
-    },
+},
     culinaryApplications: {
       'tempering': {
     name: 'Tempering',
@@ -179,18 +149,7 @@ const rawWholeSpices: Record<string, Partial<IngredientMapping>> = {
           'layering': 'add at multiple cooking stages'
         }
       },
-      'pickling': {
-    name: 'Pickling',
-        method: 'add whole to brine',
-        timing: 'during preparation',
-        pairings: ['dill', 'garlic', 'peppercorns'],
-        ratios: '1 tbsp per quart',
-        techniques: {
-          'hot_brine': 'toast seeds before adding',
-          'fermentation': 'add raw to ferment',
-          'quick_pickle': 'crush slightly before using'
-        }
-      },
+      
       'marinades': {
     name: 'Marinades',
         method: 'crush or grind',

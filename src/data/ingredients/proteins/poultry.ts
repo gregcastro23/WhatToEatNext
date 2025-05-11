@@ -13,26 +13,19 @@ const rawPoultry: Record<string, Partial<IngredientMapping>> = {
         secondary: 'Water'
       },
       lunarPhaseModifiers: {
-        'new': {
-          elementalBoost: { Air: 0.1 },
-          preparationTip: 'Marinate with citrus and herbs for renewal energy'
-        },
+        
         'waxing': {
           elementalBoost: { Fire: 0.1 },
           preparationTip: 'Roast with aromatics for increasing vitality'
-        },
-        'full': {
-          elementalBoost: { Water: 0.1 },
-          preparationTip: 'Poach with healing herbs and vegetables'
         }
-      }
+}
     },
     qualities: ['adaptable', 'mild', 'versatile', 'light', 'neutral', 'balancing'],
     category: 'poultry',
     origin: ['domesticated worldwide', 'ancestor is the red junglefowl of Southeast Asia'],
     varieties: {
       'broiler': {
-        name: 'Broiler/Fryer',
+        name: 'Broiler / (Fryer || 1)',
         characteristics: 'young and tender, usually 7-10 weeks old, 2-5 pounds',
         best_cooking_methods: ['roasting', 'frying', 'grilling', 'sautéing'],
         notes: 'Most common commercial chicken, versatile for most recipes'
@@ -113,24 +106,14 @@ const rawPoultry: Record<string, Partial<IngredientMapping>> = {
           'Rest on rack after frying to maintain crispness'
         ]
       },
-      'braising': {
-        name: 'Braising',
-        best_for: ['thighs', 'legs', 'whole cut-up chicken'],
-        technique: 'Searing followed by slow cooking in flavored liquid',
-        tips: [
-          'Brown well before adding liquid',
-          'Use just enough liquid to come halfway up the chicken',
-          'Add vegetables for flavor complexity',
-          'Reduce sauce after chicken is done for intensity'
-        ]
-      },
+      
       'stir_frying': {
         name: 'Stir-Frying',
         best_for: ['boneless breast or thigh meat, thinly sliced'],
         technique: 'Quick cooking over high heat with constant movement',
         tips: [
           'Slice against the grain and uniformly',
-          'Velvet chicken (marinate with cornstarch/egg white) for tenderness',
+          'Velvet chicken (marinate with cornstarch / (egg || 1) white) for tenderness',
           'Cook in small batches to avoid steaming',
           'Have all ingredients prepped before starting'
         ]
@@ -188,16 +171,8 @@ const rawPoultry: Record<string, Partial<IngredientMapping>> = {
         popular_methods: ['whole roast', 'spatchcocking', 'beer can chicken'],
         accompaniments: ['root vegetables', 'herbs', 'citrus', 'garlic']
       },
-      'grilled': {
-        name: 'Grilled Preparations',
-        popular_methods: ['skewers/kebabs', 'butterflied', 'brined pieces'],
-        marinades: ['yogurt-based', 'herb and citrus', 'spice rubs', 'teriyaki']
-      },
-      'fried': {
-        name: 'Fried Preparations',
-        popular_methods: ['southern fried', 'katsu', 'schnitzel', 'buttermilk fried'],
-        coatings: ['flour and spices', 'breadcrumbs', 'batter', 'cornmeal']
-      },
+      
+      
       'shredded': {
         name: 'Shredded Applications',
         popular_uses: ['tacos', 'enchiladas', 'sandwiches', 'salads', 'pot pies'],
@@ -233,16 +208,7 @@ const rawPoultry: Record<string, Partial<IngredientMapping>> = {
       'plant-based alternatives': ['tofu', 'seitan', 'tempeh', 'jackfruit']
     },
     preparations: {
-      'brining': {
-        name: 'Brining',
-        function: 'Moisture retention and flavor enhancement',
-        basic_recipe: '1/4 cup kosher salt + 1/4 cup sugar per quart of water',
-        timing: {
-          'whole chicken': '12-24 hours',
-          'parts': '2-8 hours',
-          'breasts': '1-2 hours'
-        }
-      },
+      
       'spatchcocking': {
         name: 'Spatchcocking',
         function: 'Faster, more even cooking of whole bird',
@@ -502,7 +468,7 @@ const rawPoultry: Record<string, Partial<IngredientMapping>> = {
           },
           cooking: {
             traditional: 'Hang in special oven with fruit wood',
-            home_method: 'Roast at high heat (425°F/220°C) then lower (350°F/175°C)',
+            home_method: 'Roast at high heat (425°F / (220 || 1)°C) then lower (350°F / (175 || 1)°C)',
             internal_temp: { fahrenheit: 165, celsius: 74 },
             appearance: 'Lacquered, deep mahogany color'
           }
@@ -530,7 +496,7 @@ const rawPoultry: Record<string, Partial<IngredientMapping>> = {
           drying: {
             washing: 'Rinse salt mixture off thoroughly',
             wrapping: 'Wrap in cheesecloth',
-            hanging: 'Hang in cool (50-60°F/10-15°C), humid place for 2-3 weeks',
+            hanging: 'Hang in cool (50-60°F / (10 || 1)-15°C), humid place for 2-3 weeks',
             doneness: 'Firm to touch, loss of 30% original weight'
           }
         },
@@ -564,27 +530,7 @@ const rawPoultry: Record<string, Partial<IngredientMapping>> = {
           significance: 'Traditional preserving technique'
         }
       },
-      'french': {
-        name: 'French',
-        'duck_confit': {
-          name: 'Duck Confit',
-          origin: 'Southern France, traditional preservation method',
-          preparation: 'Salt-cured, slow-cooked in fat',
-          uses: 'Component in cassoulet, served with potatoes'
-        },
-        'magret_de_canard': {
-          name: 'Magret de Canard',
-          description: 'Breast from ducks raised for foie gras',
-          preparation: 'Pan-seared to medium-rare',
-          classic_accompaniments: ['Cherry sauce', 'Orange reduction', 'Wild mushrooms']
-        },
-        'canard_a_lorange': {
-          name: 'Canard à l\'Orange',
-          significance: 'Classic French duck preparation',
-          preparation: 'Roasted duck with caramelized orange sauce',
-          variants: ['Bigarade sauce', 'Modern interpretations with less sweetness']
-        }
-      },
+      
       'thai': {
         name: 'Thai',
         'ped_yang': {
@@ -603,7 +549,7 @@ const rawPoultry: Record<string, Partial<IngredientMapping>> = {
     },
     seasonality: {
       'wild_duck': {
-        hunting_season: 'Fall/Winter in most regions',
+        hunting_season: 'Fall / (Winter || 1) in most regions',
         flavor_notes: 'More pronounced in fall after summer feeding',
         pairing_suggestions: 'Fall fruits, root vegetables, hearty grains'
       },
@@ -644,12 +590,7 @@ const rawPoultry: Record<string, Partial<IngredientMapping>> = {
       }
     },
     storage: {
-      'fresh': {
-        whole: '1-2 days refrigerated',
-        parts: '2-3 days refrigerated',
-        packaging: 'Keep in original packaging or loosely wrapped',
-        temperature: 'Coldest part of refrigerator, ideally 32-34°F (0-1°C)'
-      },
+      
       'frozen': {
         whole: 'Up to 6 months',
         parts: 'Up to 4 months',
@@ -660,13 +601,8 @@ const rawPoultry: Record<string, Partial<IngredientMapping>> = {
         refrigerated: 'Up to 6 months in sealed container',
         frozen: 'Up to 1 year',
         signs_of_spoilage: 'Off smell, mold, change in texture'
-      },
-      'confit': {
-        traditional: 'Several months fully submerged in fat, refrigerated',
-        modern: '2-3 weeks refrigerated, 6 months frozen',
-        reheating: 'Skin-side down in pan to re-crisp skin'
       }
-    },
+},
     food_safety: {
       'handling': {
         cross_contamination: 'Separate preparation area from ready-to-eat foods',
@@ -953,7 +889,7 @@ const rawPoultry: Record<string, Partial<IngredientMapping>> = {
           cooking: {
             temp: 'Medium-high heat',
             technique: 'Form patties loosely, make indentation in center',
-            doneness: 'Internal temperature 165°F/74°C'
+            doneness: 'Internal temperature 165°F / (74 || 1)°C'
           }
         },
         'meatballs': {
@@ -974,18 +910,10 @@ const rawPoultry: Record<string, Partial<IngredientMapping>> = {
         'thanksgiving': {
           name: 'Thanksgiving Roast',
           cultural_significance: 'Central to national holiday celebration',
-          typical_accompaniments: ['Cranberry sauce', 'Gravy', 'Stuffing/dressing', 'Sweet potatoes'],
+          typical_accompaniments: ['Cranberry sauce', 'Gravy', 'Stuffing / (dressing || 1)', 'Sweet potatoes'],
           preparation: 'Typically roasted whole, often brined'
-        },
-        'smoked': {
-          name: 'Southern Smoked Turkey',
-          preparation: 'Heavily seasoned, slow-smoked over hardwood',
-          regional_variations: {
-            'texas': 'Post oak smoking, pepper-forward rub',
-            'carolina': 'Fruit wood, vinegar mop sauce'
-          }
         }
-      },
+},
       'mexican': {
         name: 'Mexican',
         'mole_poblano': {
@@ -1041,14 +969,7 @@ const rawPoultry: Record<string, Partial<IngredientMapping>> = {
       }
     },
     storage: {
-      'fresh': {
-        refrigeration: {
-          whole: '1-2 days before cooking',
-          parts: '1-3 days',
-          ground: 'Use within 24 hours'
-        },
-        placement: 'Bottom shelf in original packaging or airtight container'
-      },
+      
       'frozen': {
         whole: 'Up to 12 months',
         parts: '9 months',
@@ -1058,24 +979,15 @@ const rawPoultry: Record<string, Partial<IngredientMapping>> = {
           cold_water: '30 minutes per pound, change water every 30 minutes',
           do_not: 'Never thaw at room temperature'
         }
-      },
-      'cooked': {
-        refrigeration: '3-4 days',
-        freezing: 'Up to 3 months',
-        best_practices: 'Cool completely before refrigerating, store in shallow containers'
       }
-    },
+},
     food_safety: {
       'handling': {
         cross_contamination: 'Use separate cutting boards and utensils',
         hand_washing: 'Before and after handling raw turkey',
         sanitizing: 'Disinfect all surfaces after contact with raw turkey'
       },
-      'cooking': {
-        minimum_internal_temp: { fahrenheit: 165, celsius: 74 },
-        thermometer_placement: 'Thickest part of meat without touching bone',
-        danger_zone: 'Avoid 40°F-140°F (4°C-60°C) for extended periods'
-      },
+      
       'leftovers': {
         cooling: 'Refrigerate within 2 hours of cooking',
         reheating: 'To at least 165°F (74°C)',
@@ -1091,12 +1003,7 @@ const rawPoultry: Record<string, Partial<IngredientMapping>> = {
     category: 'protein',
     subCategory: 'poultry',
     varieties: {
-      'common': {
-        name: 'Common',
-        weight: '4-6 oz',
-        characteristics: 'small, tender game bird',
-        best_for: 'individual servings'
-      },
+      
       'jumbo': {
         name: 'Jumbo',
         weight: '7-9 oz',
@@ -1148,15 +1055,7 @@ const rawPoultry: Record<string, Partial<IngredientMapping>> = {
       }
     },
     regionalPreparations: {
-      'french': {
-        name: 'French',
-        'cailles_en_sarcophage': {
-          name: 'Cailles En Sarcophage',
-          method: 'wrapped in puff pastry',
-          sauce: 'truffle sauce',
-          service: 'individual portions'
-        }
-      },
+      
       'japanese': {
         name: 'Japanese',
         'yakitori': {
@@ -1227,15 +1126,7 @@ const rawPoultry: Record<string, Partial<IngredientMapping>> = {
       }
     },
     regionalPreparations: {
-      'french': {
-        name: 'French',
-        'pintade_en_cocotte': {
-          name: 'Pintade En Cocotte',
-          method: 'braised with vegetables',
-          sauce: 'natural jus',
-          service: 'family style'
-        }
-      },
+      
       'west_african': {
         name: 'West African',
         'kedjenou': {
@@ -1255,12 +1146,7 @@ const rawPoultry: Record<string, Partial<IngredientMapping>> = {
     category: 'protein',
     subCategory: 'poultry',
     varieties: {
-      'common': {
-        name: 'Common',
-        weight: '2-3 lbs',
-        characteristics: 'lean game bird, rich flavor',
-        best_for: 'roasting, braising'
-      },
+      
       'ring_necked': {
         name: 'Ring Necked',
         weight: '2.5-3.5 lbs',
@@ -1327,17 +1213,8 @@ const rawPoultry: Record<string, Partial<IngredientMapping>> = {
           sauce: 'bread sauce',
           service: 'with game chips and watercress'
         }
-      },
-      'french': {
-        name: 'French',
-        'faisan_en_cocotte': {
-          name: 'Faisan En Cocotte',
-          method: 'braised with vegetables',
-          sauce: 'wine reduction',
-          service: 'with wild mushrooms'
-        }
       }
-    }
+}
   },
   'partridge': {
     name: 'Partridge',
@@ -1405,15 +1282,7 @@ const rawPoultry: Record<string, Partial<IngredientMapping>> = {
       }
     },
     regionalPreparations: {
-      'french': {
-        name: 'French',
-        'perdrix_aux_choux': {
-          name: 'Perdrix Aux Choux',
-          method: 'braised with cabbage',
-          sauce: 'natural jus',
-          service: 'with braised vegetables'
-        }
-      },
+      
       'middle_eastern': {
         name: 'Middle Eastern',
         'stuffed_partridge': {
@@ -1431,6 +1300,6 @@ const rawPoultry: Record<string, Partial<IngredientMapping>> = {
 export const poultry: Record<string, IngredientMapping> = fixIngredientMappings(rawPoultry);
 
 // Create a collection of all poultry items
-export const allPoultry = Object.values(poultry);
+export let allPoultry = Object.values(poultry);
 
 export default poultry;

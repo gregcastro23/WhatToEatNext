@@ -70,136 +70,16 @@ const rawVinegars: Record<string, Partial<IngredientMapping>> = {
     category: 'vinegar',
     subCategory: 'grain',
     varieties: {
-      'Chinese Black': {
-        name: 'Chinese Black',
-        appearance: 'dark brown to black',
-        flavor: 'deep, malty, earthy',
-        acidity: '4.5-5.5%',
-        uses: 'dipping sauces, braising, stir-fries',
-        region: 'Zhejiang province',
-        aging: '1-3 years',
-        traditional_pairings: ['soy sauce', 'star anise', 'ginger']
-      },
-      'Japanese Clear': {
-        name: 'Japanese Clear',
-        appearance: 'clear, pale, transparent',
-        flavor: 'delicate, mild, slightly sweet',
-        acidity: '4-5%',
-        uses: 'sushi rice, dressings, marinades, pickles',
-        region: 'various regions of Japan',
-        fermentation: 'slower process for clarity',
-        traditional_pairings: ['mirin', 'wasabi', 'kombu']
-      },
-      'Seasoned': {
-        name: 'Seasoned',
-        appearance: 'clear, pale yellow',
-        flavor: 'sweet and tangy, umami notes',
-        acidity: '4-5%',
-        uses: 'sushi, salads, dipping sauces',
-        ingredients: 'rice vinegar, sugar, salt, sometimes mirin',
-        balance: 'sweet-acid ratio varies by brand',
-        shelf_life: 'shorter than unseasoned varieties'
-      },
-      'Red': {
-        name: 'Red Rice Vinegar',
-        appearance: 'red to pink tinted',
-        flavor: 'sweet-tart with distinct fermented notes',
-        acidity: '4-5%',
-        uses: 'seafood dishes, soups, sweet and sour preparations',
-        origin: 'Southern China',
-        process: 'made with red yeast rice',
-        traditional_pairings: ['fish', 'duck', 'sweet dim sum']
-      }
-    },
+      
+      
+      
+},
     culinaryApplications: {
-      'sushi_rice': {
-        name: 'Sushi Rice',
-        method: 'mix into hot rice',
-        timing: 'immediately after cooking',
-        ratios: {
-          'basic': '2-3 tbsp per 2 cups rice',
-          'seasoned': '2 tbsp per 2 cups rice',
-          'professional': '80-100ml per 1kg rice'
-        },
-        techniques: {
-          'traditional': 'fan while mixing to cool and remove moisture',
-          'quick': 'fold in gently with wooden paddle',
-          'hangiri': 'use traditional wooden tub for authentic results'
-        },
-        tips: [
-          'Rice should be just warm, not hot when adding vinegar',
-          'Avoid overmixing to prevent mushy texture',
-          'Let rest covered with damp cloth for 10-15 minutes'
-        ]
-      },
-      'dressings': {
-        name: 'Dressings',
-        method: 'whisk with oil',
-        ratios: {
-          'basic': '1:3 (vinegar:oil)',
-          'light': '1:2 (vinegar:oil)',
-          'asian': '1:1:1 (vinegar:oil:soy sauce)'
-        },
-        pairings: ['sesame oil', 'soy sauce', 'ginger', 'miso', 'mirin'],
-        emulsifiers: {
-          'traditional': 'mustard or egg yolk',
-          'plant_based': 'miso or tahini'
-        },
-        applications: ['green salads', 'cucumber salads', 'warm vegetable dishes', 'noodle salads']
-      },
-      'pickling': {
-        name: 'Pickling',
-        method: 'combine with salt and sugar',
-        timing: {
-          'quick_pickles': '1-4 hours',
-          'refrigerator_pickles': '24-48 hours',
-          'traditional': '1-2 weeks'
-        },
-        ratios: {
-          'basic_brine': '1:1:4 (vinegar:sugar:water)',
-          'quick_pickle': '1:1 (vinegar:water)',
-          'sweet_pickle': '1:2:3 (vinegar:sugar:water)'
-        },
-        vegetables: {
-          'quick_pickle_suitable': ['cucumber', 'radish', 'carrot', 'daikon'],
-          'long_pickle_suitable': ['cabbage', 'turnip', 'burdock root']
-        },
-        flavor_additions: ['kombu', 'chili', 'ginger', 'citrus zest', 'shiso leaves']
-      },
-      'marinades': {
-        name: 'Marinades',
-        method: 'combine with aromatics and oil',
-        timing: {
-          'fish': '15-30 minutes',
-          'poultry': '30 minutes to 2 hours',
-          'vegetables': '30 minutes to 1 hour'
-        },
-        ratios: {
-          'basic': '1:1:2 (vinegar:aromatics:oil)',
-          'asian_style': '2:1:1:1 (vinegar:soy:sugar:oil)'
-        },
-        tenderizing_effect: 'minimal compared to other vinegars',
-        best_proteins: ['fish', 'shrimp', 'chicken', 'tofu'],
-        flavor_boosters: ['garlic', 'ginger', 'lemongrass', 'citrus zest', 'chili']
-      },
-      'sauces': {
-        name: 'Sauces',
-        method: 'reduce with other ingredients or use raw',
-        applications: {
-          'dipping': 'combine with soy, sugar, and aromatics',
-          'glazes': 'reduce with honey or mirin',
-          'ponzu': 'blend with citrus juice and soy sauce'
-        },
-        texture_enhancers: {
-          'thickeners': ['cornstarch slurry', 'reduced fruit'],
-          'emulsifiers': ['tahini', 'miso', 'egg yolk']
-        },
-        signature_combinations: {
-          'sweet_sour': 'rice vinegar, sugar, tomato paste',
-          'tangy_umami': 'rice vinegar, dashi, mirin, soy',
-          'bright_herbs': 'rice vinegar, cilantro, ginger, lime'
-        }
-      }
+      
+      
+      
+      
+      
     },
     storage: {
       temperature: 'room temperature',
@@ -263,16 +143,7 @@ const rawVinegars: Record<string, Partial<IngredientMapping>> = {
     category: 'vinegar',
     subCategory: 'grape',
     varieties: {
-      'Traditional': {
-        name: 'Traditional Balsamic Vinegar of Modena DOP',
-        appearance: 'glossy dark brown, syrupy consistency',
-        flavor: 'complex sweet-sour balance, notes of fig, molasses, and wood',
-        acidity: '6%',
-        uses: 'finishing oil, desserts, aged cheeses, premium preparations',
-        aging: '12-25+ years',
-        processing: 'aged in series of successively smaller wooden barrels',
-        certification: 'DOP (Protected Designation of Origin)'
-      },
+      
       'Commercial': {
         name: 'Balsamic Vinegar of Modena IGP',
         appearance: 'dark brown, medium viscosity',
@@ -282,71 +153,12 @@ const rawVinegars: Record<string, Partial<IngredientMapping>> = {
         aging: '2 months to 3 years',
         processing: 'mix of wine vinegar and grape must, may contain caramel color',
         certification: 'IGP (Protected Geographical Indication)'
-      },
-      'Condimento': {
-        name: 'Condimento Grade Balsamic',
-        appearance: 'dark brown, variable viscosity',
-        flavor: 'between traditional and commercial quality',
-        uses: 'cooking, finishing, dressings',
-        aging: 'variable',
-        notes: 'made in traditional method but outside consortium regulations'
-      },
-      'White': {
-        name: 'White Balsamic',
-        appearance: 'golden to light amber, clear',
-        flavor: 'mild, delicate sweetness, subtle acidity',
-        uses: 'light colored dishes, seafood, fruit',
-        processing: 'cooked at lower temperatures, not caramelized',
-        notes: 'milder flavor profile than dark balsamic'
       }
-    },
+},
     culinaryApplications: {
-      'reduction': {
-        name: 'Reduction',
-        method: 'simmer until thickened',
-        timing: {
-          'light': '5-10 minutes',
-          'syrupy': '15-20 minutes',
-          'glaze': '25-30 minutes'
-        },
-        ratios: {
-          'basic': 'reduce by 1/3 for sauce, 1/2 for glaze',
-          'sweetened': '2:1 (vinegar:honey) for dessert applications'
-        },
-        applications: ['drizzle over roasted vegetables', 'finish grilled meats', 'dessert topping'],
-        cautions: 'can burn easily, watch carefully and use low heat'
-      },
-      'dressings': {
-        name: 'Dressings',
-        method: 'whisk with oil and seasonings',
-        ratios: {
-          'classic': '1:3 (vinegar:oil)',
-          'balanced': '1:2 (vinegar:oil)',
-          'sweet': '1:2:0.5 (vinegar:oil:honey)'
-        },
-        pairings: ['extra virgin olive oil', 'dijon mustard', 'shallots', 'herbs'],
-        emulsifiers: {
-          'traditional': 'mustard or honey',
-          'plant_based': 'mustard or nutritional yeast'
-        },
-        applications: ['bitter greens', 'roasted vegetable salads', 'fruit salads', 'grain bowls']
-      },
-      'marinades': {
-        name: 'Marinades',
-        method: 'combine with oil and aromatics',
-        timing: {
-          'poultry': '2-4 hours',
-          'beef': '4-6 hours',
-          'vegetables': '30 minutes'
-        },
-        ratios: {
-          'basic': '1:2:1 (vinegar:oil:aromatics)',
-          'sweet': '1:2:0.5 (vinegar:oil:honey or maple)'
-        },
-        tenderizing_effect: 'mild, adds flavor more than tenderness',
-        best_proteins: ['chicken', 'beef', 'pork', 'portobello mushrooms'],
-        flavor_boosters: ['garlic', 'rosemary', 'thyme', 'juniper']
-      },
+      
+      
+      
       'glazes': {
         name: 'Glazes',
         method: 'reduce or apply directly',
@@ -476,67 +288,12 @@ const rawVinegars: Record<string, Partial<IngredientMapping>> = {
         processing: 'unfiltered and unpasteurized',
         properties: 'contains probiotics and enzymes',
         traditional_pairings: ['honey', 'lemon', 'garlic', 'herbs']
-      },
-      'Filtered': {
-        name: 'Filtered',
-        appearance: 'clear, amber color',
-        flavor: 'fruity, clean, crisp',
-        acidity: '5%',
-        uses: 'cooking, pickling, general culinary use',
-        processing: 'filtered to remove sediment',
-        shelf_life: 'longer than unfiltered varieties'
       }
-    },
+},
     culinaryApplications: {
-      'dressings': {
-        name: 'Dressings',
-        method: 'whisk with oil and seasonings',
-        ratios: {
-          'basic': '1:3 (vinegar:oil)',
-          'tangy': '1:2 (vinegar:oil)',
-          'honey_mustard': '1:1:2 (vinegar:honey:oil)'
-        },
-        pairings: ['olive oil', 'honey', 'dijon mustard', 'garlic', 'herbs'],
-        emulsifiers: {
-          'traditional': 'mustard or egg yolk',
-          'plant_based': 'mustard or ground flaxseed'
-        },
-        applications: ['green salads', 'grain salads', 'slaws', 'bean salads']
-      },
-      'marinades': {
-        name: 'Marinades',
-        method: 'combine with aromatics, oil and seasonings',
-        timing: {
-          'poultry': '2-4 hours',
-          'pork': '4-8 hours',
-          'vegetables': '30 minutes to 1 hour'
-        },
-        ratios: {
-          'basic': '1:1:2 (vinegar:aromatics:oil)',
-          'tenderizing': '2:1:1 (vinegar:seasonings:oil)'
-        },
-        tenderizing_effect: 'moderate, helps break down proteins',
-        best_proteins: ['chicken', 'pork', 'tofu'],
-        flavor_boosters: ['garlic', 'shallots', 'herbs', 'honey', 'soy sauce']
-      },
-      'pickling': {
-        name: 'Pickling',
-        method: 'combine with water, salt, and sugar',
-        timing: {
-          'quick_pickles': '1-2 hours',
-          'refrigerator_pickles': '24-48 hours',
-          'shelf_stable': '2-4 weeks processing'
-        },
-        ratios: {
-          'basic_brine': '1:1:2 (vinegar:sugar:water)',
-          'tart_brine': '2:1:2 (vinegar:sugar:water)'
-        },
-        vegetables: {
-          'quick_pickle_suitable': ['onions', 'cucumber', 'radish', 'carrot'],
-          'long_pickle_suitable': ['cabbage', 'beets', 'cauliflower']
-        },
-        flavor_additions: ['dill', 'garlic', 'mustard seed', 'black pepper', 'bay leaf']
-      },
+      
+      
+      
       'health_tonics': {
         name: 'Health Tonics',
         method: 'dilute with water or juice',
@@ -573,13 +330,7 @@ const rawVinegars: Record<string, Partial<IngredientMapping>> = {
     category: 'vinegar',
     subCategory: 'wine',
     varieties: {
-      'Aged': {
-    name: 'Aged',
-        appearance: 'deep ruby',
-        flavor: 'complex, mellow',
-        aging: '2+ years',
-        uses: 'finishing, dressings'
-      },
+      
       'Young': {
     name: 'Young',
         appearance: 'bright red',
@@ -630,11 +381,7 @@ const rawVinegars: Record<string, Partial<IngredientMapping>> = {
           'vegetable': '1:2:1 (vinegar:oil:aromatics)'
         },
         techniques: {
-          'mediterranean': {
-    name: 'Mediterranean',
-            ingredients: ['olive oil', 'garlic', 'herbs'],
-            ratio: '1:3:1'
-          },
+          
           'provençal': {
     name: 'Provençal',
             ingredients: ['olive oil', 'herbes de provence', 'garlic'],
@@ -648,14 +395,10 @@ const rawVinegars: Record<string, Partial<IngredientMapping>> = {
         timing: 'immediately after removing protein',
         ratios: {
           'basic': '2-3 tbsp per cup of stock',
-          'rich': '1/4 cup per cup of stock'
+          'rich': '1 / (4 || 1) cup per cup of stock'
         },
         techniques: {
-          'reduction': {
-    name: 'Reduction',
-            method: 'reduce by half before adding stock',
-            timing: '2-3 minutes'
-          },
+          
           'mounted': {
     name: 'Mounted',
             method: 'finish with cold butter',
@@ -698,15 +441,11 @@ const rawVinegars: Record<string, Partial<IngredientMapping>> = {
         method: 'incorporate into sauce',
         timing: 'during or after cooking',
         ratios: {
-          'beurre_blanc': '1/2 cup vinegar per cup wine',
+          'beurre_blanc': '1 / (2 || 1) cup vinegar per cup wine',
           'herb_sauce': '2 tbsp per cup of base'
         },
         techniques: {
-          'reduction': {
-    name: 'Reduction',
-            method: 'reduce with shallots',
-            timing: 'until nearly dry'
-          },
+          
           'cold_emulsion': {
     name: 'Cold Emulsion',
             method: 'whisk into mayonnaise',
@@ -746,12 +485,7 @@ const rawVinegars: Record<string, Partial<IngredientMapping>> = {
     category: 'vinegar',
     subCategory: 'wine',
     varieties: {
-      'Traditional': {
-    name: 'Traditional',
-        appearance: 'crystal clear',
-        flavor: 'subtle, complex',
-        uses: 'fine vinaigrettes, delicate dishes'
-      }
+      
     },
     culinaryApplications: {
       'delicate_vinaigrettes': {
@@ -767,7 +501,7 @@ const rawVinegars: Record<string, Partial<IngredientMapping>> = {
           'citrus_enhanced': {
     name: 'Citrus Enhanced',
             method: 'add citrus zest',
-            ratio: '1/4 tsp zest per cup'
+            ratio: '1 / (4 || 1) tsp zest per cup'
           },
           'herb_infused': {
     name: 'Herb Infused',
@@ -789,7 +523,7 @@ const rawVinegars: Record<string, Partial<IngredientMapping>> = {
           'mignonette': {
     name: 'Mignonette',
             ingredients: ['shallots', 'pepper'],
-            ratio: '1/4 cup vinegar to 1 tbsp shallots'
+            ratio: '1 / (4 || 1) cup vinegar to 1 tbsp shallots'
           }
         }
       }
@@ -808,12 +542,7 @@ const rawVinegars: Record<string, Partial<IngredientMapping>> = {
     category: 'vinegar',
     subCategory: 'grain',
     varieties: {
-      'Traditional': {
-    name: 'Traditional',
-        appearance: 'dark brown',
-        flavor: 'strong, malty',
-        uses: 'fish & chips, pickling'
-      },
+      
       'Distilled': {
     name: 'Distilled',
         appearance: 'lighter brown',
@@ -828,11 +557,7 @@ const rawVinegars: Record<string, Partial<IngredientMapping>> = {
         timing: 'just before eating',
         ratios: 'to taste',
         techniques: {
-          'traditional': {
-    name: 'Traditional',
-            method: 'generous sprinkle',
-            notes: 'serve with salt'
-          },
+          
           'malt_aioli': {
     name: 'Malt Aioli',
             ratio: '1 tbsp vinegar per cup mayonnaise',

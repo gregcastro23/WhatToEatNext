@@ -16,18 +16,8 @@ const rawBuckwheat: Record<string, Partial<IngredientMapping>> = {
     category: 'pseudo_grain',
     origin: ['Central Asia', 'Eastern Europe', 'Russia'],
     varieties: {
-      'roasted': {
-        appearance: 'Dark brown triangular groats',
-        texture: 'Firm, pleasantly chewy',
-        flavor: 'Deep, intense, nutty flavor',
-        uses: 'Kasha, traditional Eastern European dishes, pilafs'
-      },
-      'raw': {
-        appearance: 'Light green or tan triangular groats',
-        texture: 'Softer when cooked than roasted',
-        flavor: 'Milder than roasted, subtle nutty taste',
-        uses: 'Porridges, more delicate dishes, sprouting'
-      },
+      
+      
       'flour': {
         appearance: 'Gray-purple fine powder',
         texture: 'Dense in baked goods',
@@ -63,4 +53,4 @@ const rawBuckwheat: Record<string, Partial<IngredientMapping>> = {
   }
 };
 
-export const buckwheat = fixIngredientMappings(rawBuckwheat) as Record<string, IngredientMapping>; 
+export let buckwheat = fixIngredientMappings(rawBuckwheat) as Record<string, IngredientMapping>; 

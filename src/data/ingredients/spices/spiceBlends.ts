@@ -295,7 +295,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     category: 'spice',
     subCategory: 'blend',
     baseIngredients: {
-      'chili peppers': 4,
+      'dried chili peppers': 4,
       'garlic': 2,
       'ginger': 2,
       'basil': 1,
@@ -355,7 +355,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     category: 'spice',
     subCategory: 'blend',
     baseIngredients: {
-      'red chili pepper': 3,
+      'dried red chili pepper': 3,
       'sansho pepper': 1,
       'orange peel': 1,
       'black sesame': 1,

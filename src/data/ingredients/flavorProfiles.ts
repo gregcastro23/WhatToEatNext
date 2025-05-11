@@ -27,7 +27,7 @@ export function enrichIngredientsWithFlavorProfiles(
 const ingredientFlavorMap: Record<string, IngredientFlavorProfile> = {
   // Vegetables
   "onion": { spicy: 0.4, sweet: 0.3, sour: 0.1, bitter: 0.1, salty: 0.1, umami: 0.4 },
-  "garlic": { spicy: 0.5, sweet: 0.2, sour: 0.1, bitter: 0.3, salty: 0.1, umami: 0.5 },
+  
   "tomato": { spicy: 0.0, sweet: 0.4, sour: 0.6, bitter: 0.1, salty: 0.1, umami: 0.6 },
   "bell pepper": { spicy: 0.1, sweet: 0.6, sour: 0.2, bitter: 0.1, salty: 0.0, umami: 0.2 },
   "carrot": { spicy: 0.0, sweet: 0.7, sour: 0.1, bitter: 0.1, salty: 0.0, umami: 0.2 },
@@ -43,7 +43,7 @@ const ingredientFlavorMap: Record<string, IngredientFlavorProfile> = {
   // Herbs & Spices
   "basil": { spicy: 0.1, sweet: 0.3, sour: 0.0, bitter: 0.2, salty: 0.0, umami: 0.2 },
   "cilantro": { spicy: 0.1, sweet: 0.1, sour: 0.1, bitter: 0.3, salty: 0.0, umami: 0.1 },
-  "cinnamon": { spicy: 0.4, sweet: 0.6, sour: 0.0, bitter: 0.2, salty: 0.0, umami: 0.0 },
+  
   "black pepper": { spicy: 0.8, sweet: 0.0, sour: 0.0, bitter: 0.2, salty: 0.1, umami: 0.1 },
   "turmeric": { spicy: 0.3, sweet: 0.1, sour: 0.0, bitter: 0.5, salty: 0.0, umami: 0.2 },
   "cardamom": { spicy: 0.4, sweet: 0.3, sour: 0.0, bitter: 0.3, salty: 0.0, umami: 0.0 },
@@ -82,7 +82,7 @@ const ingredientFlavorMap: Record<string, IngredientFlavorProfile> = {
   
   // Sweeteners
   "honey": { spicy: 0.0, sweet: 0.9, sour: 0.1, bitter: 0.1, salty: 0.0, umami: 0.0 },
-  "maple syrup": { spicy: 0.0, sweet: 0.9, sour: 0.0, bitter: 0.1, salty: 0.0, umami: 0.1 },
+  "maple syrup": { spicy: 0.0, sweet: 0.9, sour: 0.0, bitter: 0.1, salty: 0.0, umami: 0.1 }
 };
 
 /**
@@ -101,7 +101,7 @@ export function getFlavorProfileForIngredient(ingredientName: string): Ingredien
   }
   
   // Try to find partial matches
-  const nameLower = ingredientName.toLowerCase();
+  let nameLower = ingredientName.toLowerCase();
   for (const [key, profile] of Object.entries(ingredientFlavorMap)) {
     if (
       nameLower.includes(key.toLowerCase()) || 

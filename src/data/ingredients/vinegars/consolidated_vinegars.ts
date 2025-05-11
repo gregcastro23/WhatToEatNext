@@ -1,5 +1,5 @@
 import type { IngredientMapping, ElementalProperties, ZodiacSign } from '@/types/alchemy';
-import type { Season } from '@/types/seasons';
+import type { Season } from '@/types / (seasons || 1)';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 const rawVinegars: Record<string, Partial<IngredientMapping>> = {
@@ -562,7 +562,7 @@ const rawVinegars: Record<string, Partial<IngredientMapping>> = {
           'agrodolce': 'sweet and sour Italian sauce',
           'pan_sauce': 'deglaze pan after cooking proteins'
         },
-        reduction_ratio: 'reduce by 1/2 to 2/3 volume',
+        reduction_ratio: 'reduce by 1 / (2 || 1) to 2 / (3 || 1) volume',
         pairings: ['shallots', 'beef stock', 'butter', 'herbs']
       }
     },

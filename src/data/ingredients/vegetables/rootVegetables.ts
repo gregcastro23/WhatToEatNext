@@ -44,37 +44,7 @@ const rawRootVegetables: Record<string, Partial<IngredientMapping>> = {
     }
   },
 
-  'carrot': {
-    name: 'Carrot',
-    elementalProperties: { Earth: 0.4, Fire: 0.3, Air: 0.2, Water: 0.1 },
-    qualities: ['grounding', 'warming', 'strengthening'],
-    season: ['fall', 'winter', 'spring'],
-    category: 'vegetable',
-    subCategory: 'root',
-    affinities: ['ginger', 'cumin', 'honey', 'orange', 'parsley'],
-    cookingMethods: ['raw', 'roasted', 'steamed', 'juiced'],
-    nutritionalProfile: {
-      fiber: 'high',
-      vitamins: ['a', 'k1', 'b6'],
-      minerals: ['potassium', 'biotin'],
-      calories: 41,
-      carbs_g: 9,
-      fiber_g: 3,
-      antioxidants: ['beta carotene', 'lutein']
-    },
-    preparation: {
-      washing: true,
-      peeling: 'optional',
-      cutting: 'bias cut for stir-fry, rounds for steaming',
-      notes: 'Greens can be used in pesto'
-    },
-    storage: {
-      temperature: 'refrigerated',
-      duration: '2-3 weeks',
-      humidity: 'high',
-      notes: 'Remove greens before storing'
-    }
-  },
+  
 
   'parsnip': {
     name: 'Parsnip',

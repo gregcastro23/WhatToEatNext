@@ -613,23 +613,7 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     }
   },
 
-  'chives': {
-    name: 'Chives',
-    elementalProperties: { 
-      Air: 0.4, Fire: 0.3, Earth: 0.2, Water: 0.1
-    },
-    category: 'culinary_herb',
-    qualities: ['nourishing'],
-    nutritionalProfile: {
-      calories: 0,
-      protein_g: 0,
-      carbs_g: 0,
-      fat_g: 0,
-      fiber_g: 0,
-      vitamins: [],
-      minerals: []
-    }
-  },
+  
   'chervil': {
     name: 'Chervil',
     elementalProperties: { 
@@ -664,23 +648,7 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       minerals: []
     }
   },
-  'basil': {
-    name: 'Basil',
-    elementalProperties: { 
-      Air: 0.4, Fire: 0.3, Earth: 0.2, Water: 0.1
-    },
-    category: 'culinary_herb',
-    qualities: ['nourishing'],
-    nutritionalProfile: {
-      calories: 0,
-      protein_g: 0,
-      carbs_g: 0,
-      fat_g: 0,
-      fiber_g: 0,
-      vitamins: [],
-      minerals: []
-    }
-  },
+  
   'anise': {
     name: 'Anise',
     elementalProperties: { 

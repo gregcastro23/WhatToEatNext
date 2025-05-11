@@ -142,12 +142,7 @@ const rawMelons: Record<string, Partial<IngredientMapping>> = {
         flavor: 'sweet, characteristic musky aroma',
         notes: 'common grocery store variety'
       },
-      'European': {
-        appearance: 'smooth or netted rind, pale green flesh',
-        size: 'smaller (2-4 lbs)',
-        flavor: 'less sweet, more subtle flavor',
-        notes: 'often called Charentais melon'
-      },
+      
       'Galia': {
         appearance: 'netted rind like cantaloupe, green flesh like honeydew',
         size: 'medium-small (3-5 lbs)',
@@ -538,12 +533,7 @@ const rawMelons: Record<string, Partial<IngredientMapping>> = {
     },
     medicinalProperties: ['cooling', 'detoxifying', 'diuretic', 'anti-inflammatory'],
     varieties: {
-      'Chinese': {
-        appearance: 'large, oblong, waxy white coating when mature',
-        size: 'very large (10-40 lbs)',
-        flavor: 'mild, absorbs flavors well',
-        notes: 'not sweet, used more like a vegetable'
-      },
+      
       'Eastern': {
         appearance: 'fuzzy skin when young, waxy white coating when mature',
         size: 'large (10-15 lbs)',

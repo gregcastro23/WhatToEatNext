@@ -7,11 +7,248 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     category: 'protein',
     subCategory: 'seafood',
     elementalProperties: { Water: 0.6, Earth: 0.2, Fire: 0.1, Air: 0.1 },
+    qualities: ['omega-rich', 'flaky', 'buttery', 'mild', 'versatile', 'nutrient-dense'],
+    origin: ['Norway', 'Scotland', 'Chile', 'Canada', 'United States'],
+    
+    // Nutritional information (standardized)
+    nutritionalProfile: {
+      serving_size: "3 oz (85g)",
+      calories: 206,
+      macros: {
+        protein: 22,
+        carbs: 0,
+        fat: 12,
+        fiber: 0
+      },
+      vitamins: {
+        B12: 1.17, // Values as percentage of RDA
+        D: 0.66,
+        niacin: 0.50,
+        B6: 0.38,
+        pantothenic_acid: 0.30,
+        thiamine: 0.28
+      },
+      minerals: {
+        selenium: 0.75,
+        phosphorus: 0.20,
+        potassium: 0.08
+      },
+      omega3: 1.8, // grams per serving
+      source: "USDA FoodData Central"
+    },
+    
+    // Sensory profile (standardized)
+    sensoryProfile: {
+      taste: {
+        sweet: 0.3,
+        salty: 0.2,
+        sour: 0.0,
+        bitter: 0.0,
+        umami: 0.8,
+        spicy: 0.0
+      },
+      aroma: {
+        floral: 0.0,
+        fruity: 0.0,
+        herbal: 0.0,
+        spicy: 0.0,
+        earthy: 0.3,
+        woody: 0.0
+      },
+      texture: {
+        crisp: 0.0,
+        tender: 0.7,
+        creamy: 0.4,
+        chewy: 0.2,
+        crunchy: 0.0,
+        silky: 0.7
+      }
+    },
+    
+    // Storage information (standardized)
+    storage: {
+      temperature: {
+        fahrenheit: 32,
+        celsius: 0
+      },
+      duration: "1-2 days (fresh), 2-3 months (frozen)",
+      container: "airtight wrapping",
+      tips: [
+        "Keep in coldest part of refrigerator",
+        "Use within 24 hours of purchase for best flavor",
+        "Wrap in moisture-proof paper or plastic before freezing"
+      ]
+    },
+    
+    // Preparation (standardized)
+    preparation: {
+      methods: ["grill", "bake", "pan-sear", "poach", "steam", "smoke", "raw (sushi-grade)"],
+      washing: false,
+      notes: "Leave skin on during cooking for easier handling and extra nutrients"
+    },
+    
+    // Health benefits (standardized)
+    healthBenefits: [
+      'Heart health (reduces blood pressure and inflammation)',
+      'Brain function (enhances memory and cognitive performance)',
+      'Joint health (reduces stiffness and arthritis symptoms)',
+      'Weight management (protein-rich and satiating)',
+      'Thyroid health (good source of selenium)',
+      'Bone health (contains vitamin D and phosphorus)',
+      'Mental well-being (omega-3s may help reduce depression symptoms)'
+    ],
+    
+    // Culinary applications (standardized)
+    culinaryApplications: {
+      commonUses: ["entrees", "salads", "sushi", "appetizers", "sandwiches", "breakfast dishes"],
+      pairingRecommendations: {
+        complementary: ["lemon", "dill", "capers", "butter", "olive oil", "garlic", "white wine", "fennel"],
+        contrasting: ["dijon mustard", "maple syrup", "soy sauce", "ginger", "cucumber"],
+        toAvoid: ["strong cheeses", "chocolate", "most red wine", "very spicy peppers"]
+      },
+      seasonalPeak: ["spring", "summer"],
+      techniques: {
+        "grill": {
+          method: "direct heat, medium-high",
+          temperature: { celsius: 190, fahrenheit: 375 },
+          timing: "4-5 minutes per side",
+          ingredients: ["butter", "garlic", "dill", "lemon zest"],
+          notes: "Cedar plank adds smoky flavor"
+        },
+        "pan_sear": {
+          method: "high heat, skin-on",
+          timing: "4-5 minutes skin side, 2-3 minutes flesh side",
+          ingredients: ["butter", "thyme", "garlic", "lemon"],
+          notes: "Start with very hot pan, cook skin side first until crispy"
+        }
+      }
+    },
+    
+    // Varieties (standardized)
+    varieties: {
+      'Farm Raised': {
+        name: 'Farm Raised',
+        appearance: 'light orange-pink',
+        texture: 'fatty, soft',
+        flavor: 'mild, buttery',
+        uses: 'all-purpose'
+      }
+},
+    
+    // Category-specific extension: proteins
+    cuts: {
+      'fillet': {
+        description: 'boneless side',
+        weight: '6-8 oz per serving',
+        notes: 'most versatile',
+        cookingMethods: ["grill", "bake", "pan-sear", "poach"]
+      },
+      'steak': {
+        description: 'cross-section cut',
+        weight: '8-10 oz',
+        notes: 'good for grilling',
+        cookingMethods: ["grill", "bake"]
+      },
+      'whole_side': {
+        description: 'entire fillet',
+        weight: '2-4 lbs',
+        notes: 'ideal for large gatherings',
+        cookingMethods: ["bake", "smoke", "grill"]
+      }
+    },
+    
+    cookingTips: {
+      internalTemperature: {
+        medium: { fahrenheit: 125, celsius: 52 },
+        mediumWell: { fahrenheit: 135, celsius: 57 },
+        safe: { fahrenheit: 145, celsius: 63 }
+      },
+      restingTime: "3-5 minutes",
+      commonMistakes: [
+        "Overcooking (becomes dry)",
+        "Starting in a cold pan (causes sticking)",
+        "Removing skin (provides barrier during cooking)",
+        "Cooking straight from refrigerator (uneven cooking)"
+      ]
+    },
+    
+    sustainability: {
+      rating: 'Variable',
+      considerations: [
+        "Farming methods impact environmental footprint",
+        "Look for ASC or MSC certification",
+        "Closed containment farming reduces environmental impact"
+      ],
+      alternatives: ["Arctic char", "Rainbow trout", "MSC-certified wild salmon"]
+    },
+    
+    // Protein-specific properties
+    proteinContent: 22, // grams per 3oz serving
+    fatProfile: {
+      saturated: 3, // grams per 3oz serving
+      monounsaturated: 4,
+      polyunsaturated: 5,
+      omega3: 1.8,
+      omega6: 0.2
+    },
+    
+    // Cooking details
+    cookingMethods: [
+      {
+        name: "Grill",
+        method: "direct heat, medium-high",
+        temperature: { celsius: 190, fahrenheit: 375 },
+        timing: "4-5 minutes per side",
+        internalTemp: { celsius: 60, fahrenheit: 140 },
+        moistureRetention: 0.7, // 70% moisture retention
+        flavorDevelopment: {
+          maillard: 0.8, // 0-1 scale
+          caramelization: 0.5,
+          smoky: 0.7,
+          notes: "Develops crispy exterior with moist interior"
+        }
+      },
+      {
+        name: "Bake",
+        method: "dry heat",
+        temperature: { fahrenheit: 400, celsius: 200 },
+        timing: "12-15 minutes",
+        internalTemp: { celsius: 60, fahrenheit: 140 },
+        moistureRetention: 0.85,
+        flavorDevelopment: {
+          maillard: 0.5,
+          caramelization: 0.4,
+          aromatic: 0.7,
+          notes: "Even cooking with good moisture retention"
+        }
+      },
+      {
+        name: "Pan-Sear",
+        method: "high heat, skin-on",
+        temperature: "medium-high",
+        timing: {
+          skinSide: "4-5 minutes",
+          fleshSide: "2-3 minutes",
+          resting: "3-4 minutes"
+        },
+        internalTemp: { celsius: 55, fahrenheit: 130 },
+        moistureRetention: 0.75,
+        flavorDevelopment: {
+          maillard: 0.9,
+          caramelization: 0.7,
+          fatty: 0.8,
+          notes: "Creates crispy skin and keeps moisture sealed in"
+        }
+      }
+    ],
+    
+    // Astrology / (elemental || 1) connections (standardized)
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Neptune'],
       favorableZodiac: ['cancer', 'pisces'],
       elementalAffinity: {
         base: 'Water',
+        secondary: 'Earth',
         decanModifiers: {
           first: { element: 'Water', planet: 'Moon' },
           second: { element: 'Earth', planet: 'Neptune' },
@@ -29,237 +266,6 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         }
       },
       aspectEnhancers: ['Moon trine Neptune', 'Jupiter in pisces']
-    },
-    qualities: ['omega-rich', 'flaky', 'buttery', 'mild', 'versatile'],
-    origin: ['Norway', 'Scotland', 'Chile', 'Canada', 'United States'],
-    nutritionalProfile: {
-      serving_size: "3 oz",
-      calories: 206,
-      macros: {
-        protein: 22,
-        carbs: 0,
-        fat: 12,
-        fiber: 0
-      },
-      vitamins: {
-        B12: 1.17,
-        D: 0.66,
-        niacin: 0.50,
-        B6: 0.38,
-        pantothenic_acid: 0.30,
-        thiamine: 0.28
-      },
-      minerals: {
-        selenium: 0.75,
-        phosphorus: 0.20,
-        potassium: 0.08
-      },
-      omega3: 1.8,
-      source: "USDA FoodData Central"
-    },
-    healthBenefits: [
-      'Heart health (reduces blood pressure and inflammation)',
-      'Brain function (enhances memory and cognitive performance)',
-      'Joint health (reduces stiffness and arthritis symptoms)',
-      'Weight management (protein-rich and satiating)',
-      'Thyroid health (good source of selenium)',
-      'Bone health (contains vitamin D and phosphorus)',
-      'Mental well-being (omega-3s may help reduce depression symptoms)'
-    ],
-    sustainability: {
-      rating: 'Variable',
-      source: 'Depends on farming practices'
-    },
-    varieties: {
-      'Farm Raised': {
-        name: 'Farm Raised',
-        appearance: 'light orange-pink',
-        texture: 'fatty, soft',
-        flavor: 'mild, buttery',
-        uses: 'all-purpose'
-      },
-      'Wild': {
-        name: 'Wild',
-        appearance: 'deep orange-red',
-        texture: 'firm, lean',
-        flavor: 'robust',
-        uses: 'premium preparations'
-      }
-    },
-    cuts: {
-      'fillet': {
-        name: 'Fillet',
-        description: 'boneless side',
-        weight: '6-8 oz per serving',
-        notes: 'most versatile'
-      },
-      'steak': {
-        name: 'Steak',
-        description: 'cross-section cut',
-        weight: '8-10 oz',
-        notes: 'good for grilling'
-      },
-      'whole_side': {
-        name: 'Whole Side',
-        description: 'entire fillet',
-        weight: '2-4 lbs',
-        notes: 'ideal for large gatherings'
-      }
-    },
-    culinaryApplications: {
-      'grill': {
-        name: 'Grill',
-        method: 'direct heat, medium-high',
-        temperature: { celsius: 190, fahrenheit: 375 },
-        timing: '4-5 minutes per side',
-        preparations: {
-          'herb_butter': {
-            name: 'Herb Butter',
-            ingredients: ['butter', 'garlic', 'dill', 'lemon zest'],
-            notes: 'brush on while grilling'
-          },
-          'cedar_plank': {
-            name: 'Cedar Plank',
-            method: 'soak plank for 1 hour, place salmon on top',
-            notes: 'adds smoky flavor'
-          }
-        }
-      },
-      'pan_sear': {
-        name: 'Pan Sear',
-        method: 'high heat, skin-on',
-        temperature: 'medium-high',
-        timing: {
-          'skin_side': '4-5 minutes',
-          'flesh_side': '2-3 minutes',
-          'resting': '3-4 minutes'
-        },
-        techniques: {
-          'crispy_skin': {
-            name: 'Crispy Skin',
-            method: 'pat dry, score skin',
-            notes: 'press down gently when first added'
-          },
-          'basting': {
-            name: 'Basting',
-            method: 'butter baste last minute',
-            aromatics: ['thyme', 'garlic', 'lemon']
-          }
-        }
-      },
-      'bake': {
-        name: 'Bake',
-        method: 'dry heat',
-        temperature: {
-          fahrenheit: 400,
-          celsius: 200
-        },
-        timing: '12-15 minutes',
-        techniques: {
-          'en_papillote': {
-            name: 'En Papillote',
-            method: 'wrapped in parchment',
-            ingredients: ['herbs', 'citrus', 'vegetables'],
-            timing: '12-15 minutes'
-          },
-          'glazed': {
-            name: 'Glazed',
-            method: 'brush with glaze',
-            frequency: 'every 4-5 minutes',
-            types: ['miso', 'honey-soy', 'maple']
-          }
-        }
-      },
-      'sous_vide': {
-        name: 'Sous Vide',
-        method: 'vacuum sealed',
-        temperature: {
-          'rare': { name: 'Rare', fahrenheit: 110, celsius: 43 },
-          'medium_rare': { name: 'Medium Rare', fahrenheit: 120, celsius: 49 },
-          'medium': { name: 'Medium', fahrenheit: 130, celsius: 54 }
-        },
-        timing: {
-          'minimum': '30 minutes',
-          'maximum': '45 minutes',
-          'optimal': '35 minutes'
-        },
-        finishing: {
-          method: 'quick sear',
-          duration: '30 seconds per side'
-        }
-      },
-      'raw': {
-        name: 'Raw',
-        method: 'sushi or sashimi style',
-        preparation: 'sushi-grade only, previously frozen',
-        accompaniments: ['soy sauce', 'wasabi', 'pickled ginger'],
-        notes: 'best for highest quality fresh salmon'
-      }
-    },
-    seasonalAdjustments: {
-      'summer': {
-        name: 'Summer',
-        methods: ['grill', 'raw'],
-        preparations: {
-          'crudo': {
-            name: 'Crudo',
-            style: 'thin sliced',
-            accompaniments: ['citrus', 'olive oil', 'sea salt']
-          },
-          'poke': {
-            name: 'Poke',
-            style: 'cubed',
-            marinades: ['soy', 'sesame', 'ginger']
-          }
-        }
-      },
-      'winter': {
-        name: 'Winter',
-        methods: ['roast', 'poach'],
-        preparations: {
-          'braised': {
-            name: 'Braised',
-            style: 'whole fillet',
-            sauces: ['cream', 'wine', 'herb']
-          }
-        }
-      }
-    },
-    storage: {
-      fresh: {
-        temperature: { fahrenheit: 32, celsius: 0 },
-        duration: '1-2 days',
-        method: 'on ice, uncovered'
-      },
-      frozen: {
-        temperature: { fahrenheit: 0, celsius: -18 },
-        duration: '3-4 months',
-        method: 'vacuum sealed'
-      },
-      thawing: {
-        preferred: {
-          method: 'refrigerator',
-          time: '24 hours'
-        },
-        alternate: {
-          method: 'cold water',
-          time: '1-2 hours',
-          notes: 'keep sealed, change water every 30 minutes'
-        }
-      }
-    },
-    safetyThresholds: {
-      raw: {
-        requirements: ['sushi-grade', 'previously frozen'],
-        freezing: {
-          temperature: { fahrenheit: -4, celsius: -20 },
-          duration: '7 days'
-        }
-      },
-      cooked: {
-        minimum: { fahrenheit: 145, celsius: 63 },
-        resting: '3 minutes'
-      }
     }
   },
   'shrimp_jumbo': {
@@ -297,24 +303,18 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     category: 'seafood',
     subCategory: 'shellfish',
     varieties: {
-      'Gulf': {
-    name: 'Gulf',
-        appearance: 'pink-grey raw, pink cooked',
-        size: '16/20 to U/15',
-        flavor: 'sweet, mineral',
-        notes: 'premium American variety'
-      },
+      
       'Tiger': {
     name: 'Tiger',
         appearance: 'grey with black stripes',
-        size: '13/15 to U/10',
+        size: '13 / (15 || 1) to U / (10 || 1)',
         flavor: 'robust, briny',
         notes: 'ideal for grilling'
       },
       'Spot Prawns': {
     name: 'Spot Prawns',
         appearance: 'reddish with white spots',
-        size: 'U/10 to U/8',
+        size: 'U / (10 || 1) to U / (8 || 1)',
         flavor: 'sweet, delicate',
         notes: 'premium Pacific variety'
       }
@@ -335,7 +335,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         },
         peeled: {
           method: 'skewered, high heat',
-          preparation: 'devein, tail on/off',
+          preparation: 'devein, tail on / (off || 1)',
           marinade: {
             'lemon_garlic': ['lemon', 'garlic', 'parsley'],
             'cajun': ['paprika', 'cayenne', 'herbs'],
@@ -366,14 +366,8 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
             marinade: ['egg white', 'cornstarch', 'rice wine'],
             method: 'oil blanch then stir-fry',
             timing: 'blanch 30 seconds, fry 1 minute'
-          },
-          'standard': {
-    name: 'Standard',
-            marinade: ['soy', 'wine', 'ginger'],
-            method: 'high heat wok',
-            timing: '1-2 minutes'
           }
-        }
+}
       }
     },
     saucePairings: {
@@ -390,14 +384,8 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
           base: 'mayonnaise',
           ingredients: ['cajun spice', 'pickles', 'capers'],
           service: 'chilled, side sauce'
-        },
-        'mignonette': {
-    name: 'Mignonette',
-          base: 'vinegar',
-          ingredients: ['shallot', 'pepper', 'herbs'],
-          service: 'chilled, raw preparations'
         }
-      },
+},
       'hot': {
     name: 'Hot',
         'scampi': {
@@ -534,13 +522,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     category: 'protein',
     subCategory: 'shellfish',
     varieties: {
-      'Wild': {
-    name: 'Wild',
-        appearance: 'blue-black shells',
-        texture: 'firm, plump',
-        flavor: 'intense, briny',
-        notes: 'best for steaming'
-      },
+      
       'Farm Raised': {
     name: 'Farm Raised',
         appearance: 'cleaner shells',
@@ -640,27 +622,9 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       }
     },
     culinaryApplications: {
-      'raw': {
-        name: 'Raw',
-        method: 'served on the half shell',
-        timing: 'serve immediately after shucking',
-        accompaniments: ['mignonette sauce', 'lemon wedges', 'horseradish', 'cocktail sauce'],
-        notes: 'best consumed within hours of harvesting'
-      },
-      'grilled': {
-        name: 'Grilled',
-        method: 'grill until shells open or juices bubble',
-        timing: '5-6 minutes over medium-high heat',
-        toppings: ['garlic butter', 'herb butter', 'parmesan', 'breadcrumbs', 'bacon'],
-        notes: 'close lid to create steam while grilling'
-      },
-      'fried': {
-        name: 'Fried',
-        method: 'breaded and deep-fried',
-        timing: '2-3 minutes at 375°F (190°C)',
-        accompaniments: ['remoulade sauce', 'tartar sauce', 'lemon wedges'],
-        notes: 'perfect for po\' boy sandwiches'
-      },
+      
+      
+      
       'baked': {
         name: 'Baked',
         method: 'topped and baked in shell',
@@ -736,15 +700,8 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         texture: 'fatty, soft',
         flavor: 'mild',
         uses: 'all-purpose'
-      },
-      'Wild': {
-    name: 'Wild',
-        appearance: 'deep orange-red',
-        texture: 'firm, lean',
-        flavor: 'robust',
-        uses: 'premium preparations'
       }
-    },
+},
     cuts: {
       'fillet': {
     name: 'Fillet',
@@ -821,10 +778,8 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
           'rare': {
     name: 'Rare', fahrenheit: 110, celsius: 43 },
           'medium_rare': {
-    name: 'Medium Rare', fahrenheit: 120, celsius: 49 },
-          'medium': {
-    name: 'Medium', fahrenheit: 130, celsius: 54 }
-        },
+    name: 'Medium Rare', fahrenheit: 120, celsius: 49 }
+},
         timing: {
           'minimum': '30 minutes',
           'maximum': '45 minutes',
@@ -857,11 +812,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     name: 'Winter',
         methods: ['roast', 'poach'],
         preparations: {
-          'braised': {
-    name: 'Braised',
-            style: 'whole fillet',
-            sauces: ['cream', 'wine', 'herb']
-          }
+          
         }
       }
     },
@@ -987,23 +938,8 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
             }
           }
         }
-      },
-      'french': {
-    name: 'French',
-        'thermidor': {
-    name: 'Thermidor',
-          sauce: 'mustard-cream gratinée',
-          preparation: 'meat removed, mixed, restuffed',
-          garnish: 'broiled cheese crust'
-        },
-        'américaine': {
-    name: 'Américaine',
-          sauce: 'tomato-cognac',
-          method: 'flambéed',
-          service: 'in shell pieces'
-        }
       }
-    },
+},
     seasonalAdjustments: {
       'summer': {
     name: 'Summer',
@@ -1025,11 +961,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     name: 'Winter',
         methods: ['roast', 'braise'],
         preparations: {
-          'roasted': {
-    name: 'Roasted',
-            style: 'fillets',
-            sauces: ['butter sauce', 'wine reduction']
-          }
+          
         }
       }
     },
@@ -1081,14 +1013,8 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         appearance: 'similar to Atlantic',
         texture: 'slightly firmer',
         notes: 'more sustainable option'
-      },
-      'Black': {
-    name: 'Black',
-        appearance: 'darker flesh',
-        texture: 'denser, oilier',
-        notes: 'premium sablefish variety'
       }
-    },
+},
     culinaryApplications: {
       'traditional': {
     name: 'Traditional',
@@ -1146,14 +1072,8 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     },
     regionalPreparations: {
       'british': {
-    name: 'British',
-        'fish_and_chips': {
-    name: 'Fish And Chips',
-          accompaniments: ['malt vinegar', 'tartar sauce'],
-          sides: ['chips', 'mushy peas'],
-          service: 'newspaper style'
-        }
-      },
+    name: 'British'
+},
       'portuguese': {
     name: 'Portuguese',
         'bacalhau': {
@@ -1250,14 +1170,8 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         appearance: 'light beige to white',
         texture: 'very delicate, thin fillets',
         notes: 'premium variety'
-      },
-      'Lemon': {
-    name: 'Lemon',
-        appearance: 'slightly darker',
-        texture: 'firmer than Dover',
-        notes: 'good substitute'
       }
-    },
+},
     culinaryApplications: {
       'classic': {
     name: 'Classic',
@@ -1285,21 +1199,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       }
     },
     regionalPreparations: {
-      'french': {
-    name: 'French',
-        'veronique': {
-    name: 'Veronique',
-          sauce: 'white wine cream',
-          garnish: 'peeled green grapes',
-          method: 'poached or pan-fried'
-        },
-        'dugléré': {
-    name: 'Dugléré',
-          sauce: 'tomato-wine',
-          aromatics: ['shallots', 'parsley'],
-          method: 'poached'
-        }
-      }
+      
     },
     saucePairings: {
       'classic': {
@@ -1389,66 +1289,21 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     culinaryApplications: {
       'chinese': {
     name: 'Chinese',
-        'steamed': {
-    name: 'Steamed',
-          method: 'whole fish steamed',
-          sauce: 'ginger-scallion soy',
-          timing: '8-10 minutes total'
-        },
+        
         'pan_fried': {
     name: 'Pan Fried',
           method: 'light dredge, pan-fried',
           sauce: 'sweet-sour',
           garnish: ['scallions', 'cilantro']
         }
-      },
-      'western': {
-    name: 'Western',
-        'broiled': {
-    name: 'Broiled',
-          method: 'brushed with butter',
-          seasoning: ['herbs', 'lemon'],
-          timing: '6-8 minutes total'
-        }
       }
-    },
+},
     regionalPreparations: {
-      'asian': {
-    name: 'Asian',
-        'cantonese': {
-    name: 'Cantonese',
-          method: 'steamed whole',
-          aromatics: ['ginger', 'scallion', 'cilantro'],
-          sauce: 'hot oil and soy finish'
-        },
-        'korean': {
-    name: 'Korean',
-          method: 'pan-fried whole',
-          sauce: 'gochugaru-based',
-          accompaniments: ['banchan', 'rice']
-        }
-      }
+      
     },
     saucePairings: {
-      'asian': {
-    name: 'Asian',
-        'ginger_scallion': {
-    name: 'Ginger Scallion',
-          base: 'hot oil infusion',
-          aromatics: ['ginger', 'scallion'],
-          finish: 'light soy sauce'
-        }
-      },
-      'western': {
-    name: 'Western',
-        'herb_butter': {
-    name: 'Herb Butter',
-          base: 'melted butter',
-          herbs: ['parsley', 'dill'],
-          finish: 'lemon juice'
-        }
-      }
-    },
+      
+},
     seasonalAdjustments: {
       'summer': {
     name: 'Summer',
@@ -1506,13 +1361,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     category: 'seafood',
     subCategory: 'fish',
     varieties: {
-      'Wild': {
-    name: 'Wild',
-        appearance: 'silvery with dark back',
-        texture: 'firm, fine flake',
-        flavor: 'sweet, mild',
-        uses: 'premium preparations'
-      },
+      
       'Farmed': {
     name: 'Farmed',
         appearance: 'lighter coloring',
@@ -1554,7 +1403,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
           'scoring': {
     name: 'Scoring',
             method: 'diagonal cuts on sides',
-            depth: '1/4 inch',
+            depth: '1 / (4 || 1) inch',
             purpose: 'even cooking'
           }
         }
@@ -1578,22 +1427,14 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     name: 'Summer',
         methods: ['grill', 'pan-sear'],
         preparations: {
-          'grilled': {
-    name: 'Grilled',
-            style: 'whole fish',
-            accompaniments: ['herb sauce', 'grilled lemon']
-          }
+          
         }
       },
       'winter': {
     name: 'Winter',
         methods: ['roast', 'braise'],
         preparations: {
-          'roasted': {
-    name: 'Roasted',
-            style: 'fillets',
-            sauces: ['butter sauce', 'wine reduction']
-          }
+          
         }
       }
     },
@@ -1652,25 +1493,13 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     category: 'seafood',
     subCategory: 'cephalopod',
     varieties: {
-      'Common': {
-    name: 'Common',
-        appearance: 'reddish-purple',
-        texture: 'firm, tender when cooked',
-        size: '2-4 lbs average',
-        uses: 'grilling, braising'
-      },
-      'Baby': {
-    name: 'Baby',
-        appearance: 'lighter color',
-        texture: 'very tender',
-        size: '4-8 oz',
-        uses: 'quick cooking methods'
-      }
+      
+      
     },
     preparation: {
       'tenderizing': {
     name: 'Tenderizing',
-        methods: ['massage with salt', 'freeze/thaw'],
+        methods: ['massage with salt', 'freeze / (thaw || 1)'],
         timing: '15-20 minutes massage',
         notes: 'breaks down muscle fibers'
       },
@@ -1697,18 +1526,8 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
           'testing': 'pierce with knife for tenderness'
         },
         aromatics: ['wine', 'herbs', 'garlic', 'olive oil']
-      },
-      'grilled': {
-    name: 'Grilled',
-        method: 'pre-tenderize, then grill',
-        temperature: 'medium-high',
-        timing: {
-          'per_side': '3-4 minutes',
-          'total': '8-10 minutes'
-        },
-        finish: 'olive oil, lemon, herbs'
       }
-    },
+},
     regionalPreparations: {
       'greek': {
     name: 'Greek',
@@ -1718,17 +1537,8 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
           service: 'with ladolemono sauce',
           accompaniments: ['oregano', 'lemon']
         }
-      },
-      'spanish': {
-    name: 'Spanish',
-        'pulpo_gallega': {
-    name: 'Pulpo Gallega',
-          method: 'boiled then grilled',
-          service: 'with paprika and olive oil',
-          accompaniments: ['potatoes', 'sea salt']
-        }
       }
-    },
+},
     storage: {
       fresh: {
         temperature: { fahrenheit: 34, celsius: 1 },
@@ -1793,66 +1603,21 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     culinaryApplications: {
       'chinese': {
     name: 'Chinese',
-        'steamed': {
-    name: 'Steamed',
-          method: 'whole fish steamed',
-          sauce: 'ginger-scallion soy',
-          timing: '8-10 minutes total'
-        },
+        
         'pan_fried': {
     name: 'Pan Fried',
           method: 'light dredge, pan-fried',
           sauce: 'sweet-sour',
           garnish: ['scallions', 'cilantro']
         }
-      },
-      'western': {
-    name: 'Western',
-        'broiled': {
-    name: 'Broiled',
-          method: 'brushed with butter',
-          seasoning: ['herbs', 'lemon'],
-          timing: '6-8 minutes total'
-        }
       }
-    },
+},
     regionalPreparations: {
-      'asian': {
-    name: 'Asian',
-        'cantonese': {
-    name: 'Cantonese',
-          method: 'steamed whole',
-          aromatics: ['ginger', 'scallion', 'cilantro'],
-          sauce: 'hot oil and soy finish'
-        },
-        'korean': {
-    name: 'Korean',
-          method: 'pan-fried whole',
-          sauce: 'gochugaru-based',
-          accompaniments: ['banchan', 'rice']
-        }
-      }
+      
     },
     saucePairings: {
-      'asian': {
-    name: 'Asian',
-        'ginger_scallion': {
-    name: 'Ginger Scallion',
-          base: 'hot oil infusion',
-          aromatics: ['ginger', 'scallion'],
-          finish: 'light soy sauce'
-        }
-      },
-      'western': {
-    name: 'Western',
-        'herb_butter': {
-    name: 'Herb Butter',
-          base: 'melted butter',
-          herbs: ['parsley', 'dill'],
-          finish: 'lemon juice'
-        }
-      }
-    },
+      
+},
     seasonalAdjustments: {
       'summer': {
     name: 'Summer',
@@ -1905,25 +1670,13 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     category: 'seafood',
     subCategory: 'cephalopod',
     varieties: {
-      'Common': {
-    name: 'Common',
-        appearance: 'reddish-purple',
-        texture: 'firm, tender when cooked',
-        size: '2-4 lbs average',
-        uses: 'grilling, braising'
-      },
-      'Baby': {
-    name: 'Baby',
-        appearance: 'lighter color',
-        texture: 'very tender',
-        size: '4-8 oz',
-        uses: 'quick cooking methods'
-      }
+      
+      
     },
     preparation: {
       'tenderizing': {
     name: 'Tenderizing',
-        methods: ['massage with salt', 'freeze/thaw'],
+        methods: ['massage with salt', 'freeze / (thaw || 1)'],
         timing: '15-20 minutes massage',
         notes: 'breaks down muscle fibers'
       },
@@ -1950,18 +1703,8 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
           'testing': 'pierce with knife for tenderness'
         },
         aromatics: ['wine', 'herbs', 'garlic', 'olive oil']
-      },
-      'grilled': {
-    name: 'Grilled',
-        method: 'pre-tenderize, then grill',
-        temperature: 'medium-high',
-        timing: {
-          'per_side': '3-4 minutes',
-          'total': '8-10 minutes'
-        },
-        finish: 'olive oil, lemon, herbs'
       }
-    },
+},
     regionalPreparations: {
       'greek': {
     name: 'Greek',
@@ -1971,17 +1714,8 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
           service: 'with ladolemono sauce',
           accompaniments: ['oregano', 'lemon']
         }
-      },
-      'spanish': {
-    name: 'Spanish',
-        'pulpo_gallega': {
-    name: 'Pulpo Gallega',
-          method: 'boiled then grilled',
-          service: 'with paprika and olive oil',
-          accompaniments: ['potatoes', 'sea salt']
-        }
       }
-    },
+},
     storage: {
       fresh: {
         temperature: { fahrenheit: 34, celsius: 1 },
@@ -2025,24 +1759,18 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     category: 'seafood',
     subCategory: 'shellfish',
     varieties: {
-      'Gulf': {
-    name: 'Gulf',
-        appearance: 'pink-grey raw, pink cooked',
-        size: '16/20 to U/15',
-        flavor: 'sweet, mineral',
-        notes: 'premium American variety'
-      },
+      
       'Tiger': {
     name: 'Tiger',
         appearance: 'grey with black stripes',
-        size: '13/15 to U/10',
+        size: '13 / (15 || 1) to U / (10 || 1)',
         flavor: 'robust, briny',
         notes: 'ideal for grilling'
       },
       'Spot Prawns': {
     name: 'Spot Prawns',
         appearance: 'reddish with white spots',
-        size: 'U/10 to U/8',
+        size: 'U / (10 || 1) to U / (8 || 1)',
         flavor: 'sweet, delicate',
         notes: 'premium Pacific variety'
       }
@@ -2063,7 +1791,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         },
         peeled: {
           method: 'skewered, high heat',
-          preparation: 'devein, tail on/off',
+          preparation: 'devein, tail on / (off || 1)',
           marinade: {
             'lemon_garlic': ['lemon', 'garlic', 'parsley'],
             'cajun': ['paprika', 'cayenne', 'herbs'],
@@ -2094,14 +1822,8 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
             marinade: ['egg white', 'cornstarch', 'rice wine'],
             method: 'oil blanch then stir-fry',
             timing: 'blanch 30 seconds, fry 1 minute'
-          },
-          'standard': {
-    name: 'Standard',
-            marinade: ['soy', 'wine', 'ginger'],
-            method: 'high heat wok',
-            timing: '1-2 minutes'
           }
-        }
+}
       }
     },
     saucePairings: {
@@ -2118,14 +1840,8 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
           base: 'mayonnaise',
           ingredients: ['cajun spice', 'pickles', 'capers'],
           service: 'chilled, side sauce'
-        },
-        'mignonette': {
-    name: 'Mignonette',
-          base: 'vinegar',
-          ingredients: ['shallot', 'pepper', 'herbs'],
-          service: 'chilled, raw preparations'
         }
-      },
+},
       'hot': {
     name: 'Hot',
         'scampi': {
@@ -2178,6 +1894,6 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
 export const seafood: Record<string, IngredientMapping> = fixIngredientMappings(rawSeafood);
 
 // Create a collection of all herbs for export
-export const allSeafood = Object.values(seafood);
+export let allSeafood = Object.values(seafood);
 
 export default seafood;

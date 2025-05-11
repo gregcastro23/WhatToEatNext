@@ -16,27 +16,9 @@ const rawQuinoa: Record<string, Partial<IngredientMapping>> = {
     category: 'pseudo_grain',
     origin: ['South America', 'Andean region', 'Peru', 'Bolivia', 'Ecuador'],
     varieties: {
-      'white': {
-        appearance: 'Pale ivory color',
-        texture: 'Fluffy, light',
-        flavor: 'Mild, subtle',
-        characteristics: 'Mildest flavor, fluffiest texture',
-        uses: 'Salads, substituting for rice, breakfast porridge'
-      },
-      'red': {
-        appearance: 'Reddish-brown color',
-        texture: 'Firmer, holds shape better',
-        flavor: 'Nuttier, more pronounced',
-        characteristics: 'Nuttier flavor, holds shape better',
-        uses: 'Salads, grain bowls, stuffed vegetables'
-      },
-      'black': {
-        appearance: 'Dark black color',
-        texture: 'Crunchiest, most firm',
-        flavor: 'Earthiest, most robust',
-        characteristics: 'Earthiest flavor, crunchiest texture',
-        uses: 'Hearty dishes, contrast in salads, pilaf'
-      },
+      
+      
+      
       'rainbow': {
         appearance: 'Mix of white, red, and black',
         texture: 'Varied',
@@ -73,4 +55,4 @@ const rawQuinoa: Record<string, Partial<IngredientMapping>> = {
   }
 };
 
-export const quinoa = fixIngredientMappings(rawQuinoa) as Record<string, IngredientMapping>; 
+export let quinoa = fixIngredientMappings(rawQuinoa) as Record<string, IngredientMapping>; 

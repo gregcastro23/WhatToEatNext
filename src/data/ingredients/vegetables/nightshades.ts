@@ -84,37 +84,6 @@ const rawNightshades: Record<string, Partial<IngredientMapping>> = {
       duration: '5-7 days',
       notes: 'Sensitive to ethylene gas'
     }
-  },
-
-  'bell pepper': {
-    name: 'Bell pepper',
-    elementalProperties: { Fire: 0.3, Water: 0.3, Air: 0.3, Earth: 0.1 },
-    qualities: ['cooling', 'moistening'],
-    season: ['summer', 'fall'],
-    category: 'vegetable',
-    subCategory: 'nightshade',
-    affinities: ['onion', 'garlic', 'olive oil', 'basil', 'oregano'],
-    cookingMethods: ['raw', 'roasted', 'grilled', 'sautéed'],
-    nutritionalProfile: {
-      fiber: 'moderate',
-      vitamins: ['c', 'a', 'b6'],
-      minerals: ['potassium', 'folate'],
-      calories: 30,
-      carbs_g: 7,
-      fiber_g: 2.1
-    },
-    preparation: {
-      washing: true,
-      seeding: 'recommended',
-      cutting: 'strips or dice',
-      notes: 'Remove white pith for better texture'
-    },
-    storage: {
-      temperature: 'refrigerated',
-      duration: '1-2 weeks',
-      humidity: 'medium',
-      notes: 'Store in crisper drawer'
-    }
   }
 };
 

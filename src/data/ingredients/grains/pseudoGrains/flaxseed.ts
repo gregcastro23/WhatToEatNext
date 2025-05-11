@@ -16,12 +16,7 @@ const rawFlaxseed: Record<string, Partial<IngredientMapping>> = {
     category: 'pseudo_grain',
     origin: ['Middle East', 'Mediterranean', 'widely cultivated worldwide'],
     varieties: {
-      'brown': {
-        appearance: 'Small brown seeds',
-        texture: 'Hard shell, soft interior',
-        flavor: 'Nutty, earthy, more robust',
-        uses: 'General use, baking, grinding for meal'
-      },
+      
       'golden': {
         appearance: 'Small yellow seeds',
         texture: 'Similar to brown',
@@ -63,4 +58,4 @@ const rawFlaxseed: Record<string, Partial<IngredientMapping>> = {
   }
 };
 
-export const flaxseed = fixIngredientMappings(rawFlaxseed) as Record<string, IngredientMapping>; 
+export let flaxseed = fixIngredientMappings(rawFlaxseed) as Record<string, IngredientMapping>; 

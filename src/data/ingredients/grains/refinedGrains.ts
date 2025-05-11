@@ -33,23 +33,14 @@ const rawRefinedGrains: Record<string, Partial<IngredientMapping>> = {
         cooking_ratio: 'varies for risotto',
         cooking_time: '18-20 minutes',
         origin: 'Italy'
-      },
-      'sushi_rice': {
-        characteristics: 'short grain, sticky, glossy',
-        cooking_ratio: '1:1.2 rice to water',
-        cooking_time: '15-18 minutes',
-        origin: 'Japan'
       }
-    },
+},
     preparation: {
       'rinsing': {
         duration: 'until water runs clear',
         purpose: 'remove excess starch'
       },
-      'cooking': {
-        method: 'simmer covered',
-        tips: ['rest 5-10 minutes after cooking']
-      },
+      
       'pilaf': {
         method: 'toast rice in oil before adding liquid',
         tips: ['adds nutty flavor', 'helps separate grains'],
@@ -95,18 +86,8 @@ const rawRefinedGrains: Record<string, Partial<IngredientMapping>> = {
     qualities: ['smooth', 'versatile', 'firm', 'golden', 'structured'],
     category: 'refined_grain',
     varieties: {
-      'fine': {
-        characteristics: 'smooth texture, pale yellow color',
-        uses: ['pasta', 'puddings', 'desserts'],
-        cooking_time: 'varies by application',
-        origin: 'Mediterranean'
-      },
-      'coarse': {
-        characteristics: 'grainy texture, more robust',
-        uses: ['couscous', 'hot cereal', 'polenta substitute'],
-        cooking_time: 'varies by application',
-        origin: 'North Africa'
-      },
+      
+      
       'durum': {
         characteristics: 'highest protein content, golden color',
         uses: ['premium pasta', 'bread making'],
@@ -174,25 +155,14 @@ const rawRefinedGrains: Record<string, Partial<IngredientMapping>> = {
     qualities: ['tender', 'mild', 'versatile', 'creamy', 'nutritious'],
     category: 'refined_grain',
     varieties: {
-      'medium': {
-        characteristics: 'common variety, versatile, pearly white',
-        cooking_ratio: '1:3 barley to water',
-        cooking_time: '30-40 minutes',
-        origin: 'Middle East'
-      },
+      
       'quick': {
         characteristics: 'pre-steamed, faster cooking, less texture',
         cooking_ratio: '1:2.5 barley to water',
         cooking_time: '10-15 minutes',
         processing: 'partially pre-cooked'
-      },
-      'fine': {
-        characteristics: 'most polished, fastest cooking',
-        cooking_ratio: '1:2 barley to water',
-        cooking_time: '8-12 minutes',
-        texture: 'least chewy of pearl varieties'
       }
-    },
+},
     preparation: {
       'basic': {
         duration: 'rinse before cooking',
@@ -206,11 +176,7 @@ const rawRefinedGrains: Record<string, Partial<IngredientMapping>> = {
         notes: 'stir frequently for creamy texture',
         alternative_name: 'orzotto'
       },
-      'soup': {
-        method: 'add to simmering broth',
-        duration: '30-35 minutes',
-        tips: ['thickens broth naturally', 'add early in cooking process']
-      },
+      
       'pilaf': {
         method: 'toast in oil before adding liquid',
         duration: '40-45 minutes total',
@@ -262,14 +228,8 @@ const rawRefinedGrains: Record<string, Partial<IngredientMapping>> = {
         cooking_ratio: '1:2.5 farro to water',
         cooking_time: '20-25 minutes',
         nutrition: 'moderate fiber content'
-      },
-      'italian': {
-        characteristics: 'traditional processing, medium refinement',
-        cooking_ratio: '1:3 farro to water',
-        cooking_time: '25-30 minutes',
-        origin: 'Tuscany region'
       }
-    },
+},
     preparation: {
       'pilaf': {
         method: 'toast then simmer',
@@ -277,17 +237,8 @@ const rawRefinedGrains: Record<string, Partial<IngredientMapping>> = {
         tips: ['drain excess water', 'fluff when done'],
         seasonings: 'herbs, garlic, olive oil complement well'
       },
-      'salad': {
-        method: 'cook until al dente',
-        cooling: 'rinse with cold water',
-        notes: 'maintains texture when chilled',
-        dressings: 'holds up to bold vinaigrettes'
-      },
-      'soup': {
-        method: 'add to soup base',
-        duration: 'add 25 minutes before serving',
-        tips: ['provides body and texture', 'absorbs broth flavors']
-      },
+      
+      
       'breakfast': {
         method: 'simmer in milk or water',
         sweeteners: 'honey, maple syrup, fruit',
@@ -329,18 +280,8 @@ const rawRefinedGrains: Record<string, Partial<IngredientMapping>> = {
     qualities: ['versatile', 'mild', 'smooth', 'sweet', 'adaptable'],
     category: 'refined_grain',
     varieties: {
-      'fine': {
-        characteristics: 'smooth texture, quick cooking',
-        uses: ['polenta', 'baking', 'thickening'],
-        cooking_time: '15-20 minutes for polenta',
-        origin: 'Southern United States'
-      },
-      'medium': {
-        characteristics: 'traditional grind, balanced texture',
-        uses: ['cornbread', 'coating', 'spoonbread'],
-        cooking_time: '20-25 minutes for polenta',
-        texture: 'slight graininess adds character'
-      },
+      
+      
       'bolted': {
         characteristics: 'some hull and germ removed, moderate refinement',
         uses: ['traditional Southern recipes', 'grits'],
@@ -355,12 +296,7 @@ const rawRefinedGrains: Record<string, Partial<IngredientMapping>> = {
         tips: ['whisk to prevent lumps', 'can finish with butter and cheese'],
         variations: 'can be cooled, sliced and grilled'
       },
-      'baking': {
-        ratio: 'varies by recipe',
-        method: 'mix with dry ingredients',
-        notes: 'sift for finer texture',
-        leavening: 'pairs with baking powder, baking soda, or yeast'
-      },
+      
       'breading': {
         method: 'coat moistened items',
         tips: ['season well', 'creates crispy exterior'],
@@ -429,12 +365,7 @@ const rawRefinedGrains: Record<string, Partial<IngredientMapping>> = {
       }
     },
     preparation: {
-      'baking': {
-        method: 'measure by weight for accuracy',
-        tips: ['sift for aeration', 'avoid overmixing for tender results'],
-        ratio: 'varies by recipe type',
-        hydration: '50-75% depending on application'
-      },
+      
       'roux': {
         ratio: '1:1 flour to fat',
         method: 'cook while stirring',

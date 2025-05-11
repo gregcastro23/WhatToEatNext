@@ -1,4 +1,8 @@
-import type { ElementalProperties, IngredientMapping, ZodiacSign } from '@/types/alchemy';
+import type {
+  ElementalProperties,
+  IngredientMapping,
+  ZodiacSign,
+} from '@/types / (alchemy || 1)';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 // Helper function to standardize ingredient mappings
@@ -8,19 +12,19 @@ function createIngredientMapping(
 ): IngredientMapping {
   return {
     name: id,
-    elementalProperties: properties.elementalProperties || { 
-      Earth: 0.25, 
-      Water: 0.25, 
-      Fire: 0.25, 
-      Air: 0.25 
+    elementalProperties: properties.elementalProperties || {
+      Earth: 0.25,
+      Water: 0.25,
+      Fire: 0.25,
+      Air: 0.25,
     },
     category: properties.category || '',
-    ...properties
+    ...properties,
   };
 }
 
 const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
-  'tempeh': createIngredientMapping('tempeh', {
+  tempeh: createIngredientMapping('tempeh', {
     elementalProperties: { Earth: 0.4, Water: 0.3, Fire: 0.2, Air: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Saturn', 'Mars'],
@@ -30,186 +34,186 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         decanModifiers: {
           first: { element: 'Earth', planet: 'Saturn' },
           second: { element: 'Fire', planet: 'Mars' },
-          third: { element: 'Water', planet: 'Pluto' }
-        }
+          third: { element: 'Water', planet: 'Pluto' },
+        },
       },
       lunarPhaseModifiers: {
         waxingGibbous: {
           elementalBoost: { Earth: 0.1, Fire: 0.1 },
-          preparationTips: ['Best for grilling']
+          preparationTips: ['Best for grilling'],
         },
         fullMoon: {
           elementalBoost: { Fire: 0.2 },
-          preparationTips: ['Ideal for frying']
-        }
-      }
+          preparationTips: ['Ideal for frying'],
+        },
+      },
     },
     qualities: ['fermented', 'nutty', 'firm'],
     origin: ['Indonesia', 'Java'],
     category: 'protein',
     subCategory: 'plant_based',
     nutritionalProfile: {
-      serving_size: "3 oz",
+      serving_size: '3 oz',
       calories: 160,
       macros: {
         protein: 19,
         carbs: 9,
         fat: 11,
-        fiber: 6
+        fiber: 6,
       },
       vitamins: {
         B2: 0.18,
         B3: 0.12,
         B6: 0.15,
-        folate: 0.14
+        folate: 0.14,
       },
       minerals: {
         manganese: 0.65,
-        copper: 0.40,
+        copper: 0.4,
         phosphorus: 0.22,
-        magnesium: 0.20,
-        iron: 0.12
+        magnesium: 0.2,
+        iron: 0.12,
       },
-      source: "USDA FoodData Central",
-      probiotics: "Contains beneficial bacteria from fermentation"
+      source: 'USDA FoodData Central',
+      probiotics: 'Contains beneficial bacteria from fermentation',
     },
     culinaryApplications: {
       'stir-fry': {
-    name: 'Stir-fry',
+        name: 'Stir-fry',
         prepTime: '15 mins',
-        cookingTemp: 'medium-high'
+        cookingTemp: 'medium-high',
       },
-      'baking': {
-    name: 'Baking',
+      baking: {
+        name: 'Baking',
         prepTime: '25 mins',
-        cookingTemp: '375°F'
-      }
+        cookingTemp: '375°F',
+      },
     },
     varieties: {
-      'Traditional': {
-    name: 'Traditional',
+      Traditional: {
+        name: 'Traditional',
         appearance: 'white mycelium, visible soybeans',
         texture: 'firm, dense',
         flavor: 'nutty, mushroom-like',
-        notes: 'whole soybean variety'
+        notes: 'whole soybean variety',
       },
-      'Multi_grain': {
-    name: 'Multi Grain',
+      Multi_grain: {
+        name: 'Multi Grain',
         appearance: 'varied color based on grains',
         texture: 'more varied texture',
         flavor: 'complex grain notes',
-        notes: 'mixed with various grains'
+        notes: 'mixed with various grains',
       },
-      'Flax': {
-    name: 'Flax',
+      Flax: {
+        name: 'Flax',
         appearance: 'darker spots from seeds',
         texture: 'slightly looser bind',
         flavor: 'nutty, omega-rich',
-        notes: 'higher in omega-3'
-      }
+        notes: 'higher in omega-3',
+      },
     },
     regionalPreparations: {
-      'indonesian': {
-    name: 'Indonesian',
-        'traditional': {
-    name: 'Traditional',
-          'goreng': {
-    name: 'Goreng',
+      indonesian: {
+        name: 'Indonesian',
+        traditional: {
+          name: 'Traditional',
+          goreng: {
+            name: 'Goreng',
             method: 'thin slice and fry',
             marinade: ['garlic', 'coriander', 'turmeric'],
-            service: 'with sambal and rice'
+            service: 'with sambal and rice',
           },
-          'bacem': {
-    name: 'Bacem',
+          bacem: {
+            name: 'Bacem',
             method: 'braised in spiced coconut water',
             spices: ['galangal', 'tamarind', 'palm sugar'],
-            finish: 'pan-fry until caramelized'
-          }
-        }
+            finish: 'pan-fry until caramelized',
+          },
+        },
       },
-      'modern': {
-    name: 'Modern',
-        'western': {
-    name: 'Western',
-          'bacon_style': {
-    name: 'Bacon Style',
+      modern: {
+        name: 'Modern',
+        western: {
+          name: 'Western',
+          bacon_style: {
+            name: 'Bacon Style',
             marinade: ['liquid smoke', 'maple', 'soy'],
             method: 'thin slice and pan-fry',
-            use: 'breakfast protein, sandwiches'
+            use: 'breakfast protein, sandwiches',
           },
-          'cutlet': {
-    name: 'Cutlet',
+          cutlet: {
+            name: 'Cutlet',
             preparation: 'steam, marinate, bread',
             cooking: 'pan-fry or bake',
-            service: 'with gravy or sauce'
-          }
+            service: 'with gravy or sauce',
+          },
         },
-        'fusion': {
-    name: 'Fusion',
-          'korean_bbq': {
-    name: 'Korean Bbq',
+        fusion: {
+          name: 'Fusion',
+          korean_bbq: {
+            name: 'Korean Bbq',
             marinade: ['gochujang', 'sesame', 'garlic'],
             method: 'grill or pan-fry',
-            service: 'with lettuce wraps'
+            service: 'with lettuce wraps',
           },
-          'mediterranean': {
-    name: 'Mediterranean',
+          mediterranean: {
+            name: 'Mediterranean',
             marinade: ['olive oil', 'herbs', 'lemon'],
             method: 'grill or bake',
-            service: 'with tahini sauce'
-          }
-        }
-      }
+            service: 'with tahini sauce',
+          },
+        },
+      },
     },
     saucePairings: {
-      'asian': {
-    name: 'Asian',
-        'peanut': {
-    name: 'Peanut',
+      asian: {
+        name: 'Asian',
+        peanut: {
+          name: 'Peanut',
           base: 'ground peanuts',
           ingredients: ['coconut milk', 'soy', 'lime'],
-          spices: ['ginger', 'garlic', 'chili']
+          spices: ['ginger', 'garlic', 'chili'],
         },
-        'sweet_soy': {
-    name: 'Sweet Soy',
+        sweet_soy: {
+          name: 'Sweet Soy',
           base: 'kecap manis',
           aromatics: ['garlic', 'chili'],
-          finish: 'lime juice'
-        }
+          finish: 'lime juice',
+        },
       },
-      'western': {
-    name: 'Western',
-        'mushroom_gravy': {
-    name: 'Mushroom Gravy',
+      western: {
+        name: 'Western',
+        mushroom_gravy: {
+          name: 'Mushroom Gravy',
           base: 'mushroom stock',
           thickener: 'roux or cornstarch',
-          finish: 'herbs and wine'
+          finish: 'herbs and wine',
         },
-        'chimichurri': {
-    name: 'Chimichurri',
+        chimichurri: {
+          name: 'Chimichurri',
           base: 'olive oil',
           herbs: ['parsley', 'oregano'],
-          aromatics: ['garlic', 'chili']
-        }
-      }
+          aromatics: ['garlic', 'chili'],
+        },
+      },
     },
     seasonalAdjustments: {
-      'summer': {
-    name: 'Summer',
+      summer: {
+        name: 'Summer',
         preparations: ['grilled', 'smoked'],
         marinades: ['lighter citrus', 'herb-based'],
-        accompaniments: ['fresh slaws', 'grilled vegetables']
+        accompaniments: ['fresh slaws', 'grilled vegetables'],
       },
-      'winter': {
-    name: 'Winter',
+      winter: {
+        name: 'Winter',
         preparations: ['baked', 'braised'],
         marinades: ['richer soy', 'spice-based'],
-        accompaniments: ['roasted vegetables', 'hearty grains']
-      }
-    }
+        accompaniments: ['roasted vegetables', 'hearty grains'],
+      },
+    },
   }),
 
-  'seitan': {
+  seitan: {
     name: 'seitan',
     elementalProperties: { Fire: 0.4, Earth: 0.4, Air: 0.1, Water: 0.1 },
     astrologicalProfile: {
@@ -220,19 +224,19 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         decanModifiers: {
           first: { element: 'Earth', planet: 'Mars' },
           second: { element: 'Fire', planet: 'Saturn' },
-          third: { element: 'Water', planet: 'Pluto' }
-        }
+          third: { element: 'Water', planet: 'Pluto' },
+        },
       },
       lunarPhaseModifiers: {
         waxingGibbous: {
           elementalBoost: { Earth: 0.1, Fire: 0.1 },
-          preparationTips: ['Best for grilling']
+          preparationTips: ['Best for grilling'],
         },
         fullMoon: {
           elementalBoost: { Fire: 0.2 },
-          preparationTips: ['Ideal for frying']
-        }
-      }
+          preparationTips: ['Ideal for frying'],
+        },
+      },
     },
     qualities: ['chewy', 'versatile', 'high-protein'],
     origin: ['China', 'Buddhist Cuisine'],
@@ -241,119 +245,119 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
     preparation: {
       basic: {
         ingredients: ['vital wheat gluten', 'spices'],
-        steps: ['mix', 'knead', 'simmer']
-      }
+        steps: ['mix', 'knead', 'simmer'],
+      },
     },
     culinaryApplications: {
-      'cooking_methods': {
-    name: 'Cooking Methods',
-        'braise': {
-    name: 'Braise',
+      cooking_methods: {
+        name: 'Cooking Methods',
+        braise: {
+          name: 'Braise',
           liquid: 'flavorful broth',
           timing: '1-2 hours',
-          result: 'tender, flavor-infused'
+          result: 'tender, flavor-infused',
         },
-        'grill': {
-    name: 'Grill',
+        grill: {
+          name: 'Grill',
           preparation: 'slice thick',
           marinade: 'oil-based',
-          timing: '4-5 minutes per side'
+          timing: '4-5 minutes per side',
         },
-        'stir_fry': {
-    name: 'Stir Fry',
+        stir_fry: {
+          name: 'Stir Fry',
           cut: 'thin strips',
           heat: 'high',
-          timing: '3-4 minutes total'
-        }
-      }
+          timing: '3-4 minutes total',
+        },
+      },
     },
     regionalPreparations: {
-      'chinese': {
-    name: 'Chinese',
-        'buddhist': {
-    name: 'Buddhist',
-          'mock_duck': {
-    name: 'Mock Duck',
+      chinese: {
+        name: 'Chinese',
+        buddhist: {
+          name: 'Buddhist',
+          mock_duck: {
+            name: 'Mock Duck',
             seasoning: ['five spice', 'soy'],
             method: 'braised',
-            service: 'with vegetables'
+            service: 'with vegetables',
           },
-          'mapo_style': {
-    name: 'Mapo Style',
+          mapo_style: {
+            name: 'Mapo Style',
             sauce: ['doubanjiang', 'soy'],
             preparation: 'cubed',
-            spice_level: 'adjustable'
-          }
-        }
+            spice_level: 'adjustable',
+          },
+        },
       },
-      'western': {
-    name: 'Western',
-        'roasts': {
-    name: 'Roasts',
-          'holiday': {
-    name: 'Holiday',
+      western: {
+        name: 'Western',
+        roasts: {
+          name: 'Roasts',
+          holiday: {
+            name: 'Holiday',
             seasoning: ['sage', 'thyme', 'garlic'],
             method: 'baked',
-            service: 'with gravy'
+            service: 'with gravy',
           },
-          'smoky': {
-    name: 'Smoky',
+          smoky: {
+            name: 'Smoky',
             seasoning: ['smoked paprika', 'garlic'],
             method: 'slow roasted',
-            service: 'with barbecue sauce'
-          }
-        }
-      }
+            service: 'with barbecue sauce',
+          },
+        },
+      },
     },
     saucePairings: {
-      'asian': {
-    name: 'Asian',
-        'black_bean': {
-    name: 'Black Bean',
+      asian: {
+        name: 'Asian',
+        black_bean: {
+          name: 'Black Bean',
           base: 'fermented black beans',
           aromatics: ['garlic', 'ginger'],
-          finish: 'sesame oil'
+          finish: 'sesame oil',
         },
-        'kung_pao': {
-    name: 'Kung Pao',
+        kung_pao: {
+          name: 'Kung Pao',
           base: 'soy sauce',
           spices: ['dried chilies', 'Sichuan peppercorns'],
-          finish: 'peanuts'
-        }
+          finish: 'peanuts',
+        },
       },
-      'western': {
-    name: 'Western',
-        'mushroom_gravy': {
-    name: 'Mushroom Gravy',
+      western: {
+        name: 'Western',
+        mushroom_gravy: {
+          name: 'Mushroom Gravy',
           base: 'mushroom stock',
           thickener: 'roux',
-          finish: 'herbs'
+          finish: 'herbs',
         },
-        'barbecue': {
-    name: 'Barbecue',
+        barbecue: {
+          name: 'Barbecue',
           base: 'tomato',
           seasonings: ['smoke', 'molasses'],
-          finish: 'vinegar'
-        }
-      }
+          finish: 'vinegar',
+        },
+      },
     },
     seasonalAdjustments: {
-      'summer': {
-    name: 'Summer',
+      summer: {
+        name: 'Summer',
         preparations: ['grilled', 'kebabs'],
         sauces: ['lighter barbecue', 'herb marinades'],
-        accompaniments: ['grilled vegetables', 'fresh salads']
+        accompaniments: ['grilled vegetables', 'fresh salads'],
       },
-      'winter': {
-    name: 'Winter',
+      winter: {
+        name: 'Winter',
         preparations: ['roasts', 'stews'],
         sauces: ['rich gravies', 'thick glazes'],
-        accompaniments: ['roasted roots', 'hearty grains']
-      }
-    }
+        accompaniments: ['roasted roots', 'hearty grains'],
+      },
+    },
   },
 
-  'tofu_varieties': createIngredientMapping('tofu_varieties', {
+  tofu_varieties: createIngredientMapping('tofu_varieties', {
     elementalProperties: { Water: 0.5, Earth: 0.3, Air: 0.1, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Venus'],
@@ -363,173 +367,173 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         decanModifiers: {
           first: { element: 'Earth', planet: 'Moon' },
           second: { element: 'Water', planet: 'Venus' },
-          third: { element: 'Air', planet: 'Mercury' }
-        }
+          third: { element: 'Air', planet: 'Mercury' },
+        },
       },
       lunarPhaseModifiers: {
         newMoon: {
           elementalBoost: { Earth: 0.1, Water: 0.1 },
-          preparationTips: ['Best for marinating']
+          preparationTips: ['Best for marinating'],
         },
         fullMoon: {
           elementalBoost: { Water: 0.2 },
-          preparationTips: ['Ideal for baking']
-        }
-      }
+          preparationTips: ['Ideal for baking'],
+        },
+      },
     },
     qualities: ['versatile', 'neutral', 'protein-rich'],
     origin: ['China', 'East Asia'],
     category: 'protein',
     subCategory: 'plant_based',
     varieties: {
-      'silken': {
-    name: 'Silken',
+      silken: {
+        name: 'Silken',
         texture: 'custard-like',
         protein_content: 'lower',
         applications: {
-          'raw': ['smoothies', 'desserts', 'sauces'],
-          'cooked': ['soups', 'delicate braised dishes'],
-          'handling': 'very gentle, breaks easily'
-        }
+          raw: ['smoothies', 'desserts', 'sauces'],
+          cooked: ['soups', 'delicate braised dishes'],
+          handling: 'very gentle, breaks easily',
+        },
       },
-      'firm': {
-    name: 'Firm',
+      firm: {
+        name: 'Firm',
         texture: 'solid but tender',
         protein_content: 'medium',
         applications: {
-          'stir_fry': 'holds shape well',
-          'grilling': 'can be grilled if handled carefully',
-          'braising': 'ideal for most braised dishes'
-        }
+          stir_fry: 'holds shape well',
+          grilling: 'can be grilled if handled carefully',
+          braising: 'ideal for most braised dishes',
+        },
       },
-      'extra_firm': {
-    name: 'Extra Firm',
+      extra_firm: {
+        name: 'Extra Firm',
         texture: 'dense, meaty',
         protein_content: 'highest',
         applications: {
-          'grilling': 'ideal for grilling',
-          'baking': 'holds shape perfectly',
-          'frying': 'crispy exterior possible'
-        }
-      }
+          grilling: 'ideal for grilling',
+          baking: 'holds shape perfectly',
+          frying: 'crispy exterior possible',
+        },
+      },
     },
     culinaryApplications: {
-      'pressing': {
-    name: 'Pressing',
+      pressing: {
+        name: 'Pressing',
         method: 'weight and drain',
         timing: {
-          'firm': '30 minutes',
-          'extra_firm': '15-20 minutes'
+          firm: '30 minutes',
+          extra_firm: '15-20 minutes',
         },
-        notes: 'skip for silken'
+        notes: 'skip for silken',
       },
-      'marinades': {
-    name: 'Marinades',
-        'basic': {
-    name: 'Basic',
+      marinades: {
+        name: 'Marinades',
+        basic: {
+          name: 'Basic',
           ingredients: ['soy sauce', 'rice vinegar', 'ginger'],
           timing: '2-24 hours',
-          notes: 'longer for firmer varieties'
+          notes: 'longer for firmer varieties',
         },
-        'spicy': {
-    name: 'Spicy',
+        spicy: {
+          name: 'Spicy',
           ingredients: ['chili oil', 'garlic', 'sesame'],
           timing: '2-12 hours',
-          notes: 'good for grilling'
-        }
+          notes: 'good for grilling',
+        },
       },
-      'cooking_methods': {
-    name: 'Cooking Methods',
-        'agedashi': {
-    name: 'Agedashi',
+      cooking_methods: {
+        name: 'Cooking Methods',
+        agedashi: {
+          name: 'Agedashi',
           preparation: 'cornstarch dusted',
           frying: 'medium heat',
-          sauce: 'dashi-based'
+          sauce: 'dashi-based',
         },
-        'mapo': {
-    name: 'Mapo',
+        mapo: {
+          name: 'Mapo',
           cut: 'large cubes',
           sauce: 'spicy bean paste',
-          method: 'simmer gently'
+          method: 'simmer gently',
         },
-        'grilled': {
-    name: 'Grilled',
+        grilled: {
+          name: 'Grilled',
           preparation: 'pressed and marinated',
           method: 'high heat',
-          finish: 'glaze or sauce'
-        }
-      }
+          finish: 'glaze or sauce',
+        },
+      },
     },
     regionalPreparations: {
-      'chinese': {
-    name: 'Chinese',
-        'sichuan': {
-    name: 'Sichuan',
-          'mapo_tofu': {
-    name: 'Mapo Tofu',
+      chinese: {
+        name: 'Chinese',
+        sichuan: {
+          name: 'Sichuan',
+          mapo_tofu: {
+            name: 'Mapo Tofu',
             spices: ['doubanjiang', 'Sichuan peppercorn'],
             method: 'braise with ground meat or mushrooms',
-            service: 'with rice'
+            service: 'with rice',
           },
-          'home_style': {
-    name: 'Home Style',
+          home_style: {
+            name: 'Home Style',
             sauce: 'black bean garlic',
             vegetables: 'varied seasonal',
-            method: 'quick braise'
-          }
+            method: 'quick braise',
+          },
         },
-        'cantonese': {
-    name: 'Cantonese',
-          'clay_pot': {
-    name: 'Clay Pot',
+        cantonese: {
+          name: 'Cantonese',
+          clay_pot: {
+            name: 'Clay Pot',
             method: 'slow cook',
             ingredients: ['mushrooms', 'greens'],
-            sauce: 'oyster-style sauce'
-          }
-        }
+            sauce: 'oyster-style sauce',
+          },
+        },
       },
-      'japanese': {
-    name: 'Japanese',
-        'hiyayakko': {
-    name: 'Hiyayakko',
+      japanese: {
+        name: 'Japanese',
+        hiyayakko: {
+          name: 'Hiyayakko',
           type: 'silken',
           toppings: ['ginger', 'bonito', 'scallion'],
-          service: 'chilled'
+          service: 'chilled',
         },
-        'dengaku': {
-    name: 'Dengaku',
+        dengaku: {
+          name: 'Dengaku',
           type: 'firm',
           glaze: 'miso-based',
-          method: 'grilled or broiled'
-        }
+          method: 'grilled or broiled',
+        },
       },
-      'korean': {
-    name: 'Korean',
-        'soondubu': {
-    name: 'Soondubu',
+      korean: {
+        name: 'Korean',
+        soondubu: {
+          name: 'Soondubu',
           type: 'silken',
           preparation: 'spicy stew',
-          accompaniments: ['eggs', 'seafood or vegetables']
-        }
-      }
+          accompaniments: ['eggs', 'seafood or vegetables'],
+        },
+      },
     },
     seasonalAdjustments: {
-      'summer': {
-    name: 'Summer',
+      summer: {
+        name: 'Summer',
         preparations: ['chilled', 'grilled'],
         sauces: ['light dipping', 'citrus-based'],
-        accompaniments: ['cold noodles', 'fresh herbs']
+        accompaniments: ['cold noodles', 'fresh herbs'],
       },
-      'winter': {
-    name: 'Winter',
+      winter: {
+        name: 'Winter',
         preparations: ['braised', 'stewed'],
         sauces: ['rich spicy', 'warming'],
-        accompaniments: ['hot pot', 'warming soups']
-      }
-    }
+        accompaniments: ['hot pot', 'warming soups'],
+      },
+    },
   }),
 
-  'legumes_protein': createIngredientMapping('legumes_protein', {
+  legumes_protein: createIngredientMapping('legumes_protein', {
     elementalProperties: { Earth: 0.4, Water: 0.3, Fire: 0.2, Air: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Venus'],
@@ -539,368 +543,371 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         decanModifiers: {
           first: { element: 'Earth', planet: 'Moon' },
           second: { element: 'Water', planet: 'Venus' },
-          third: { element: 'Air', planet: 'Mercury' }
-        }
+          third: { element: 'Air', planet: 'Mercury' },
+        },
       },
       lunarPhaseModifiers: {
         newMoon: {
           elementalBoost: { Earth: 0.1, Water: 0.1 },
-          preparationTips: ['Best for marinating']
+          preparationTips: ['Best for marinating'],
         },
         fullMoon: {
           elementalBoost: { Water: 0.2 },
-          preparationTips: ['Ideal for baking']
-        }
-      }
+          preparationTips: ['Ideal for baking'],
+        },
+      },
     },
     qualities: ['hearty', 'versatile', 'nutritious'],
     category: 'protein',
     subCategory: 'plant_based',
     varieties: {
-      'chickpeas': {
-    name: 'Chickpeas',
+      chickpeas: {
+        name: 'Chickpeas',
         preparation: {
-          'dried': {
-    name: 'Dried',
+          dried: {
+            name: 'Dried',
             soaking: '8-24 hours',
             cooking: '1-2 hours',
-            notes: 'firmer texture, better for falafel'
+            notes: 'firmer texture, better for falafel',
           },
-          'quick': {
-    name: 'Quick',
+          quick: {
+            name: 'Quick',
             method: 'pressure cook',
             timing: '45 minutes',
-            notes: 'no soaking needed'
-          }
+            notes: 'no soaking needed',
+          },
         },
         applications: {
-          'falafel': {
-    name: 'Falafel',
+          falafel: {
+            name: 'Falafel',
             ingredients: ['herbs', 'spices', 'garlic'],
             method: 'ground and fried',
-            notes: 'use dried, not canned'
+            notes: 'use dried, not canned',
           },
-          'hummus': {
-    name: 'Hummus',
+          hummus: {
+            name: 'Hummus',
             ingredients: ['tahini', 'lemon', 'garlic'],
             method: 'pureed smooth',
-            variations: ['classic', 'roasted red pepper', 'herb']
-          }
-        }
+            variations: ['classic', 'roasted red pepper', 'herb'],
+          },
+        },
       },
-      'lentils': {
-    name: 'Lentils',
+      lentils: {
+        name: 'Lentils',
         varieties: {
-          'red': {
-    name: 'Red',
+          red: {
+            name: 'Red',
             cooking_time: '20-25 minutes',
             texture: 'soft, breaking down',
-            best_for: ['soups', 'dals', 'purees']
+            best_for: ['soups', 'dals', 'purees'],
           },
-          'green_french': {
-    name: 'Green French',
+          green_french: {
+            name: 'Green French',
             cooking_time: '25-30 minutes',
             texture: 'holds shape',
-            best_for: ['salads', 'side dishes']
+            best_for: ['salads', 'side dishes'],
           },
-          'black_beluga': {
-    name: 'Black Beluga',
+          black_beluga: {
+            name: 'Black Beluga',
             cooking_time: '20-25 minutes',
             texture: 'firm, caviar-like',
-            best_for: ['garnishes', 'salads']
-          }
-        }
-      }
+            best_for: ['garnishes', 'salads'],
+          },
+        },
+      },
     },
     culinaryApplications: {
-      'legume_preparations': {
-    name: 'Legume Preparations',
-        'dal': {
-    name: 'Dal',
+      legume_preparations: {
+        name: 'Legume Preparations',
+        dal: {
+          name: 'Dal',
           method: 'simmer with spices',
           spices: ['turmeric', 'cumin', 'ginger'],
           variations: {
-            'masoor': 'red lentils',
-            'moong': 'split mung beans',
-            'chana': 'split chickpeas'
+            masoor: 'red lentils',
+            moong: 'split mung beans',
+            chana: 'split chickpeas',
           },
           tempering: {
             method: 'spiced oil finish',
             ingredients: ['cumin seeds', 'garlic', 'chilies'],
-            timing: 'add just before serving'
-          }
+            timing: 'add just before serving',
+          },
         },
-        'falafel': {
-    name: 'Falafel',
+        falafel: {
+          name: 'Falafel',
           ingredients: {
             base: ['dried chickpeas', 'herbs', 'spices'],
             herbs: ['parsley', 'cilantro'],
-            spices: ['cumin', 'coriander', 'cardamom']
+            spices: ['cumin', 'coriander', 'cardamom'],
           },
           method: {
             preparation: 'ground raw chickpeas',
             resting: '30 minutes minimum',
             shaping: 'small balls or patties',
-            frying: '350°F/175°C until golden'
-          }
+            frying: '350°F / (175 || 1)°C until golden',
+          },
         },
-        'lentil_loaf': {
-    name: 'Lentil Loaf',
+        lentil_loaf: {
+          name: 'Lentil Loaf',
           ingredients: {
             legumes: 'brown or green lentils',
             binders: ['oats', 'flax', 'vegetables'],
-            seasonings: ['herbs', 'mushrooms', 'soy sauce']
+            seasonings: ['herbs', 'mushrooms', 'soy sauce'],
           },
           method: {
             preparation: 'combine cooked lentils with binders',
-            baking: '350°F/175°C for 45 minutes',
-            resting: '10 minutes before slicing'
-          }
-        }
+            baking: '350°F / (175 || 1)°C for 45 minutes',
+            resting: '10 minutes before slicing',
+          },
+        },
       },
-      'modern_applications': {
-    name: 'Modern Applications',
-        'burger_patties': {
-    name: 'Burger Patties',
+      modern_applications: {
+        name: 'Modern Applications',
+        burger_patties: {
+          name: 'Burger Patties',
           base: ['lentils', 'chickpeas', 'black beans'],
           binders: ['vital wheat gluten', 'oats'],
           seasonings: ['smoke', 'umami', 'spices'],
-          method: 'form and grill or pan-fry'
+          method: 'form and grill or pan-fry',
         },
-        'meat_crumbles': {
-    name: 'Meat Crumbles',
+        meat_crumbles: {
+          name: 'Meat Crumbles',
           base: 'lentils or tempeh',
           seasoning: ['taco', 'italian', 'chorizo'],
-          usage: ['tacos', 'pasta', 'stuffing']
-        }
-      }
+          usage: ['tacos', 'pasta', 'stuffing'],
+        },
+      },
     },
     regionalPreparations: {
-      'middle_eastern': {
-    name: 'Middle Eastern',
-        'mujaddara': {
-    name: 'Mujaddara',
+      middle_eastern: {
+        name: 'Middle Eastern',
+        mujaddara: {
+          name: 'Mujaddara',
           ingredients: ['lentils', 'rice', 'caramelized onions'],
           spices: ['cumin', 'black pepper'],
-          service: 'with yogurt sauce'
+          service: 'with yogurt sauce',
         },
-        'koshari': {
-    name: 'Koshari',
+        koshari: {
+          name: 'Koshari',
           ingredients: ['lentils', 'rice', 'pasta', 'tomato sauce'],
           toppings: ['fried onions', 'spicy sauce'],
-          service: 'layered in bowl'
-        }
+          service: 'layered in bowl',
+        },
       },
-      'indian': {
-    name: 'Indian',
-        'dal_variations': {
-    name: 'Dal Variations',
-          'tadka_dal': {
-    name: 'Tadka Dal',
+      indian: {
+        name: 'Indian',
+        dal_variations: {
+          name: 'Dal Variations',
+          tadka_dal: {
+            name: 'Tadka Dal',
             lentils: 'yellow split peas',
             tempering: 'ghee with spices',
-            service: 'with rice or roti'
+            service: 'with rice or roti',
           },
-          'dal_makhani': {
-    name: 'Dal Makhani',
+          dal_makhani: {
+            name: 'Dal Makhani',
             legumes: ['black lentils', 'kidney beans'],
             cooking: 'slow simmered with cream',
-            service: 'rich and creamy'
-          }
-        }
+            service: 'rich and creamy',
+          },
+        },
       },
-      'mediterranean': {
-    name: 'Mediterranean',
-        'farinata': {
-    name: 'Farinata',
+      mediterranean: {
+        name: 'Mediterranean',
+        farinata: {
+          name: 'Farinata',
           base: 'chickpea flour',
           method: 'baked in hot pan',
-          seasonings: ['rosemary', 'black pepper']
+          seasonings: ['rosemary', 'black pepper'],
         },
-        'revithia': {
-    name: 'Revithia',
+        revithia: {
+          name: 'Revithia',
           base: 'chickpeas',
           method: 'slow baked',
-          seasonings: ['olive oil', 'lemon', 'herbs']
-        }
-      }
+          seasonings: ['olive oil', 'lemon', 'herbs'],
+        },
+      },
     },
     saucePairings: {
-      'traditional': {
-    name: 'Traditional',
-        'tahini': {
-    name: 'Tahini',
+      traditional: {
+        name: 'Traditional',
+        tahini: {
+          name: 'Tahini',
           base: 'sesame paste',
           additions: ['lemon', 'garlic', 'herbs'],
-          uses: ['falafel', 'buddha bowls']
+          uses: ['falafel', 'buddha bowls'],
         },
-        'tamarind_chutney': {
-    name: 'Tamarind Chutney',
+        tamarind_chutney: {
+          name: 'Tamarind Chutney',
           base: 'tamarind paste',
           sweetener: 'jaggery or dates',
-          spices: ['cumin', 'ginger', 'chili']
-        }
+          spices: ['cumin', 'ginger', 'chili'],
+        },
       },
-      'modern': {
-    name: 'Modern',
-        'cashew_cream': {
-    name: 'Cashew Cream',
+      modern: {
+        name: 'Modern',
+        cashew_cream: {
+          name: 'Cashew Cream',
           base: 'soaked cashews',
           variations: ['garlic herb', 'spicy chipotle', 'ranch'],
-          uses: 'creamy sauce replacement'
+          uses: 'creamy sauce replacement',
         },
-        'umami_gravy': {
-    name: 'Umami Gravy',
+        umami_gravy: {
+          name: 'Umami Gravy',
           base: ['mushroom stock', 'miso'],
           thickener: 'arrowroot or cornstarch',
-          finish: ['herbs', 'nutritional yeast']
-        }
-      }
+          finish: ['herbs', 'nutritional yeast'],
+        },
+      },
     },
     seasonalAdjustments: {
-      'summer': {
-    name: 'Summer',
+      summer: {
+        name: 'Summer',
         preparations: ['cold salads', 'grilled patties'],
         sauces: ['light herb', 'citrus-based'],
-        accompaniments: ['fresh vegetables', 'herbs']
+        accompaniments: ['fresh vegetables', 'herbs'],
       },
-      'winter': {
-    name: 'Winter',
+      winter: {
+        name: 'Winter',
         preparations: ['stews', 'baked dishes'],
         sauces: ['rich gravies', 'spiced'],
-        accompaniments: ['roasted vegetables', 'grains']
-      }
+        accompaniments: ['roasted vegetables', 'grains'],
+      },
     },
     safetyThresholds: {
-      'storage': {
-    name: 'Storage',
-        'dried': {
-    name: 'Dried',
+      storage: {
+        name: 'Storage',
+        dried: {
+          name: 'Dried',
           conditions: 'cool, dry place',
           duration: 'up to 1 year',
-          notes: 'check for insects'
+          notes: 'check for insects',
         },
-        'cooked': {
-    name: 'Cooked',
+        cooked: {
+          name: 'Cooked',
           refrigerated: '3-5 days',
-          frozen: 'up to 6 months'
-        }
+          frozen: 'up to 6 months',
+        },
       },
-      'preparation': {
-    name: 'Preparation',
-        'sprouting': {
-    name: 'Sprouting',
+      preparation: {
+        name: 'Preparation',
+        sprouting: {
+          name: 'Sprouting',
           method: 'rinse 2-3 times daily',
           duration: '2-5 days',
-          safety: 'use clean water, watch for mold'
+          safety: 'use clean water, watch for mold',
         },
-        'cooking': {
-    name: 'Cooking',
-          'minimum': 'until tender',
-          'pressure_cooking': 'follow cooker instructions',
-          'boiling': 'full rolling boil for specified time'
-        }
-      }
-    }
+        cooking: {
+          name: 'Cooking',
+          minimum: 'until tender',
+          pressure_cooking: 'follow cooker instructions',
+          boiling: 'full rolling boil for specified time',
+        },
+      },
+    },
   }),
 
-  'textured_vegetable_protein': createIngredientMapping('textured_vegetable_protein', {
-    elementalProperties: { Earth: 0.4, Air: 0.3, Fire: 0.2, Water: 0.1 },
-    astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Venus'],
-      favorableZodiac: ['cancer', 'taurus'],
-      elementalAffinity: {
-        base: 'Earth',
-        decanModifiers: {
-          first: { element: 'Earth', planet: 'Moon' },
-          second: { element: 'Water', planet: 'Venus' },
-          third: { element: 'Air', planet: 'Mercury' }
-        }
-      },
-      lunarPhaseModifiers: {
-        newMoon: {
-          elementalBoost: { Earth: 0.1, Water: 0.1 },
-          preparationTips: ['Best for marinating']
+  textured_vegetable_protein: createIngredientMapping(
+    'textured_vegetable_protein',
+    {
+      elementalProperties: { Earth: 0.4, Air: 0.3, Fire: 0.2, Water: 0.1 },
+      astrologicalProfile: {
+        rulingPlanets: ['Moon', 'Venus'],
+        favorableZodiac: ['cancer', 'taurus'],
+        elementalAffinity: {
+          base: 'Earth',
+          decanModifiers: {
+            first: { element: 'Earth', planet: 'Moon' },
+            second: { element: 'Water', planet: 'Venus' },
+            third: { element: 'Air', planet: 'Mercury' },
+          },
         },
-        fullMoon: {
-          elementalBoost: { Water: 0.2 },
-          preparationTips: ['Ideal for baking']
-        }
-      }
-    },
-    qualities: ['versatile', 'meat-like', 'protein-rich'],
-    origin: ['United States', 'Industrial Development'],
-    category: 'protein',
-    subCategory: 'plant_based',
-    varieties: {
-      'Granules': {
-    name: 'Granules',
-        appearance: 'small, crumbly pieces',
-        texture: 'ground meat-like',
-        applications: {
-          'ground_meat_substitute': ['tacos', 'bolognese', 'chili'],
-          'preparation': 'rehydrate before use'
-        }
-      },
-      'Chunks': {
-    name: 'Chunks',
-        appearance: 'larger pieces',
-        texture: 'chewy, meat-like',
-        applications: {
-          'stews': 'holds shape well',
-          'curries': 'absorbs flavors well',
-          'stir_fries': 'maintains texture'
-        }
-      }
-    },
-    culinaryApplications: {
-      'rehydration': {
-    name: 'Rehydration',
-        method: 'hot liquid soak',
-        timing: {
-          'granules': '5-10 minutes',
-          'chunks': '15-20 minutes'
+        lunarPhaseModifiers: {
+          newMoon: {
+            elementalBoost: { Earth: 0.1, Water: 0.1 },
+            preparationTips: ['Best for marinating'],
+          },
+          fullMoon: {
+            elementalBoost: { Water: 0.2 },
+            preparationTips: ['Ideal for baking'],
+          },
         },
-        liquids: {
-          'basic': 'hot water',
-          'flavored': ['vegetable broth', 'mushroom stock'],
-          'ratio': '1:1 TVP to liquid'
-        }
       },
-      'cooking_methods': {
-    name: 'Cooking Methods',
-        'pan_fry': {
-    name: 'Pan Fry',
-          preparation: 'rehydrate first',
-          method: 'medium-high heat',
-          timing: '5-7 minutes',
-          notes: 'brown for better flavor'
+      qualities: ['versatile', 'meat-like', 'protein-rich'],
+      origin: ['United States', 'Industrial Development'],
+      category: 'protein',
+      subCategory: 'plant_based',
+      varieties: {
+        Granules: {
+          name: 'Granules',
+          appearance: 'small, crumbly pieces',
+          texture: 'ground meat-like',
+          applications: {
+            ground_meat_substitute: ['tacos', 'bolognese', 'chili'],
+            preparation: 'rehydrate before use',
+          },
         },
-        'bake': {
-    name: 'Bake',
-          temperature: { fahrenheit: 350, celsius: 175 },
-          timing: '20-25 minutes',
-          notes: 'good for casseroles'
-        }
-      }
-    },
-    seasonalAdjustments: {
-      'summer': {
-    name: 'Summer',
-        preparations: ['taco filling', 'burger crumbles'],
-        seasonings: ['fresh herbs', 'grilling spices'],
-        accompaniments: ['fresh salads', 'grilled vegetables']
+        Chunks: {
+          name: 'Chunks',
+          appearance: 'larger pieces',
+          texture: 'chewy, meat-like',
+          applications: {
+            stews: 'holds shape well',
+            curries: 'absorbs flavors well',
+            stir_fries: 'maintains texture',
+          },
+        },
       },
-      'winter': {
-    name: 'Winter',
-        preparations: ['stews', 'casseroles'],
-        seasonings: ['warming spices', 'herbs'],
-        accompaniments: ['root vegetables', 'grains']
-      }
+      culinaryApplications: {
+        rehydration: {
+          name: 'Rehydration',
+          method: 'hot liquid soak',
+          timing: {
+            granules: '5-10 minutes',
+            chunks: '15-20 minutes',
+          },
+          liquids: {
+            basic: 'hot water',
+            flavored: ['vegetable broth', 'mushroom stock'],
+            ratio: '1:1 TVP to liquid',
+          },
+        },
+        cooking_methods: {
+          name: 'Cooking Methods',
+          pan_fry: {
+            name: 'Pan Fry',
+            preparation: 'rehydrate first',
+            method: 'medium-high heat',
+            timing: '5-7 minutes',
+            notes: 'brown for better flavor',
+          },
+          bake: {
+            name: 'Bake',
+            temperature: { fahrenheit: 350, celsius: 175 },
+            timing: '20-25 minutes',
+            notes: 'good for casseroles',
+          },
+        },
+      },
+      seasonalAdjustments: {
+        summer: {
+          name: 'Summer',
+          preparations: ['taco filling', 'burger crumbles'],
+          seasonings: ['fresh herbs', 'grilling spices'],
+          accompaniments: ['fresh salads', 'grilled vegetables'],
+        },
+        winter: {
+          name: 'Winter',
+          preparations: ['stews', 'casseroles'],
+          seasonings: ['warming spices', 'herbs'],
+          accompaniments: ['root vegetables', 'grains'],
+        },
+      },
     }
-  }),
+  ),
 
-  'jackfruit_young': createIngredientMapping('jackfruit_young', {
+  jackfruit_young: createIngredientMapping('jackfruit_young', {
     elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Venus'],
@@ -910,115 +917,115 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         decanModifiers: {
           first: { element: 'Earth', planet: 'Moon' },
           second: { element: 'Water', planet: 'Venus' },
-          third: { element: 'Air', planet: 'Mercury' }
-        }
+          third: { element: 'Air', planet: 'Mercury' },
+        },
       },
       lunarPhaseModifiers: {
         newMoon: {
           elementalBoost: { Earth: 0.1, Water: 0.1 },
-          preparationTips: ['Best for marinating']
+          preparationTips: ['Best for marinating'],
         },
         fullMoon: {
           elementalBoost: { Water: 0.2 },
-          preparationTips: ['Ideal for baking']
-        }
-      }
+          preparationTips: ['Ideal for baking'],
+        },
+      },
     },
     qualities: ['fibrous', 'meaty', 'neutral'],
     origin: ['Southeast Asia'],
     category: 'protein',
     subCategory: 'plant_based',
     varieties: {
-      'Canned': {
-    name: 'Canned',
+      Canned: {
+        name: 'Canned',
         appearance: 'pale, chunky pieces',
         texture: 'shreddable, meat-like',
         applications: {
-          'pulled_meat_substitute': ['sandwiches', 'tacos'],
-          'preparation': 'drain and rinse well'
-        }
+          pulled_meat_substitute: ['sandwiches', 'tacos'],
+          preparation: 'drain and rinse well',
+        },
       },
-      'Fresh': {
-    name: 'Fresh',
+      Fresh: {
+        name: 'Fresh',
         appearance: 'pale yellow, fibrous',
         texture: 'firm, stringy',
         applications: {
-          'curry': 'traditional preparation',
-          'braised_dishes': 'holds sauce well'
-        }
-      }
+          curry: 'traditional preparation',
+          braised_dishes: 'holds sauce well',
+        },
+      },
     },
     culinaryApplications: {
-      'preparation': {
-    name: 'Preparation',
-        'canned': {
-    name: 'Canned',
+      preparation: {
+        name: 'Preparation',
+        canned: {
+          name: 'Canned',
           steps: [
             'drain thoroughly',
             'rinse well',
             'squeeze out liquid',
-            'shred or chop'
+            'shred or chop',
           ],
-          notes: 'remove tough core pieces'
+          notes: 'remove tough core pieces',
         },
-        'fresh': {
-    name: 'Fresh',
+        fresh: {
+          name: 'Fresh',
           steps: [
             'oil hands well',
             'remove core',
             'separate pods',
-            'remove seeds'
+            'remove seeds',
           ],
-          notes: 'very sticky when fresh'
-        }
+          notes: 'very sticky when fresh',
+        },
       },
-      'cooking_methods': {
-    name: 'Cooking Methods',
-        'pulled_style': {
-    name: 'Pulled Style',
+      cooking_methods: {
+        name: 'Cooking Methods',
+        pulled_style: {
+          name: 'Pulled Style',
           preparation: 'shred thoroughly',
           sauce: 'barbecue or similar',
           timing: '20-30 minutes simmer',
-          finish: 'reduce sauce until thick'
+          finish: 'reduce sauce until thick',
         },
-        'curry': {
-    name: 'Curry',
+        curry: {
+          name: 'Curry',
           preparation: 'chunk or shred',
           spices: 'curry blend',
           timing: '25-35 minutes',
-          notes: 'absorbs flavors well'
-        }
-      }
+          notes: 'absorbs flavors well',
+        },
+      },
     },
     regionalPreparations: {
-      'southeast_asian': {
-    name: 'Southeast Asian',
-        'traditional': {
-    name: 'Traditional',
-          'curry': {
-    name: 'Curry',
+      southeast_asian: {
+        name: 'Southeast Asian',
+        traditional: {
+          name: 'Traditional',
+          curry: {
+            name: 'Curry',
             spices: ['turmeric', 'coconut milk', 'chilies'],
             method: 'simmer until tender',
-            service: 'with rice'
-          }
-        }
+            service: 'with rice',
+          },
+        },
       },
-      'western': {
-    name: 'Western',
-        'modern': {
-    name: 'Modern',
-          'pulled_bbq': {
-    name: 'Pulled Bbq',
+      western: {
+        name: 'Western',
+        modern: {
+          name: 'Modern',
+          pulled_bbq: {
+            name: 'Pulled Bbq',
             sauce: ['smoky barbecue', 'liquid smoke'],
             method: 'slow cook',
-            service: 'on buns with slaw'
-          }
-        }
-      }
-    }
+            service: 'on buns with slaw',
+          },
+        },
+      },
+    },
   }),
 
-  'quinoa_protein': createIngredientMapping('quinoa_protein', {
+  quinoa_protein: createIngredientMapping('quinoa_protein', {
     elementalProperties: { Earth: 0.3, Air: 0.3, Fire: 0.2, Water: 0.2 },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Venus'],
@@ -1028,127 +1035,127 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         decanModifiers: {
           first: { element: 'Earth', planet: 'Moon' },
           second: { element: 'Water', planet: 'Venus' },
-          third: { element: 'Air', planet: 'Mercury' }
-        }
+          third: { element: 'Air', planet: 'Mercury' },
+        },
       },
       lunarPhaseModifiers: {
         newMoon: {
           elementalBoost: { Earth: 0.1, Water: 0.1 },
-          preparationTips: ['Best for marinating']
+          preparationTips: ['Best for marinating'],
         },
         fullMoon: {
           elementalBoost: { Water: 0.2 },
-          preparationTips: ['Ideal for baking']
-        }
-      }
+          preparationTips: ['Ideal for baking'],
+        },
+      },
     },
     qualities: ['complete protein', 'fluffy', 'versatile'],
     origin: ['Andean Region'],
     category: 'protein',
     subCategory: 'plant_based',
     varieties: {
-      'White': {
-    name: 'White',
+      White: {
+        name: 'White',
         appearance: 'pale, small seeds',
         texture: 'light, fluffy',
         applications: {
-          'protein_bowl': ['buddha bowls', 'salads'],
-          'preparation': 'rinse thoroughly before cooking'
-        }
+          protein_bowl: ['buddha bowls', 'salads'],
+          preparation: 'rinse thoroughly before cooking',
+        },
       },
-      'Red': {
-    name: 'Red',
+      Red: {
+        name: 'Red',
         appearance: 'burgundy colored',
         texture: 'slightly crunchier',
         applications: {
-          'warm_dishes': 'holds shape well',
-          'cold_salads': 'dramatic color'
-        }
+          warm_dishes: 'holds shape well',
+          cold_salads: 'dramatic color',
+        },
       },
-      'Black': {
-    name: 'Black',
+      Black: {
+        name: 'Black',
         appearance: 'deep black',
         texture: 'earthier, firmer',
         applications: {
-          'gourmet_dishes': 'striking presentation',
-          'protein_base': 'hearty texture'
-        }
-      }
+          gourmet_dishes: 'striking presentation',
+          protein_base: 'hearty texture',
+        },
+      },
     },
     culinaryApplications: {
-      'preparation': {
-    name: 'Preparation',
-        'basic_cooking': {
-    name: 'Basic Cooking',
+      preparation: {
+        name: 'Preparation',
+        basic_cooking: {
+          name: 'Basic Cooking',
           ratio: '1:2 quinoa to liquid',
           timing: '15-20 minutes',
           method: 'simmer then steam',
-          notes: 'let stand 5-10 minutes covered'
+          notes: 'let stand 5-10 minutes covered',
         },
-        'pilaf_style': {
-    name: 'Pilaf Style',
+        pilaf_style: {
+          name: 'Pilaf Style',
           method: 'toast first, then cook',
           aromatics: ['onion', 'garlic', 'herbs'],
-          liquid: 'vegetable broth'
-        }
+          liquid: 'vegetable broth',
+        },
       },
-      'modern_applications': {
-    name: 'Modern Applications',
-        'quinoa_burger': {
-    name: 'Quinoa Burger',
+      modern_applications: {
+        name: 'Modern Applications',
+        quinoa_burger: {
+          name: 'Quinoa Burger',
           base: ['cooked quinoa', 'black beans'],
           binders: ['ground flax', 'breadcrumbs'],
           seasonings: ['cumin', 'garlic', 'smoked paprika'],
-          method: 'form and pan-fry'
+          method: 'form and pan-fry',
         },
-        'protein_crust': {
-    name: 'Protein Crust',
+        protein_crust: {
+          name: 'Protein Crust',
           method: 'bind with flax egg',
           applications: ['quiche', 'savory tarts'],
-          notes: 'pre-bake for crispy texture'
-        }
-      }
+          notes: 'pre-bake for crispy texture',
+        },
+      },
     },
     regionalPreparations: {
-      'andean': {
-    name: 'Andean',
-        'traditional': {
-    name: 'Traditional',
-          'quinoa_soup': {
-    name: 'Quinoa Soup',
+      andean: {
+        name: 'Andean',
+        traditional: {
+          name: 'Traditional',
+          quinoa_soup: {
+            name: 'Quinoa Soup',
             ingredients: ['vegetables', 'herbs', 'quinoa'],
             method: 'simmer until tender',
-            service: 'hot with garnishes'
-          }
-        }
+            service: 'hot with garnishes',
+          },
+        },
       },
-      'modern_global': {
-    name: 'Modern Global',
-        'breakfast_bowl': {
-    name: 'Breakfast Bowl',
+      modern_global: {
+        name: 'Modern Global',
+        breakfast_bowl: {
+          name: 'Breakfast Bowl',
           base: 'cooked quinoa',
           toppings: ['nuts', 'fruits', 'plant milk'],
-          variations: ['sweet', 'savory']
-        }
-      }
+          variations: ['sweet', 'savory'],
+        },
+      },
     },
     seasonalAdjustments: {
-      'summer': {
-    name: 'Summer',
+      summer: {
+        name: 'Summer',
         preparations: ['cold salads', 'stuffed vegetables'],
         seasonings: ['fresh herbs', 'citrus'],
-        accompaniments: ['grilled vegetables', 'light dressings']
+        accompaniments: ['grilled vegetables', 'light dressings'],
       },
-      'winter': {
-    name: 'Winter',
+      winter: {
+        name: 'Winter',
         preparations: ['warm bowls', 'soups'],
         seasonings: ['warming spices', 'roasted garlic'],
-        accompaniments: ['roasted vegetables', 'hearty sauces']
-      }
-    }
+        accompaniments: ['roasted vegetables', 'hearty sauces'],
+      },
+    },
   }),
 
-  'hemp_protein': createIngredientMapping('hemp_protein', {
+  hemp_protein: createIngredientMapping('hemp_protein', {
     elementalProperties: { Earth: 0.4, Air: 0.3, Water: 0.2, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Venus'],
@@ -1158,92 +1165,92 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         decanModifiers: {
           first: { element: 'Earth', planet: 'Moon' },
           second: { element: 'Water', planet: 'Venus' },
-          third: { element: 'Air', planet: 'Mercury' }
-        }
+          third: { element: 'Air', planet: 'Mercury' },
+        },
       },
       lunarPhaseModifiers: {
         newMoon: {
           elementalBoost: { Earth: 0.1, Water: 0.1 },
-          preparationTips: ['Best for marinating']
+          preparationTips: ['Best for marinating'],
         },
         fullMoon: {
           elementalBoost: { Water: 0.2 },
-          preparationTips: ['Ideal for baking']
-        }
-      }
+          preparationTips: ['Ideal for baking'],
+        },
+      },
     },
     qualities: ['complete protein', 'nutty', 'sustainable'],
     category: 'protein',
     subCategory: 'plant_based',
     varieties: {
-      'Seeds': {
-    name: 'Seeds',
+      Seeds: {
+        name: 'Seeds',
         appearance: 'small, greenish',
         texture: 'crunchy, tender',
         applications: {
-          'topping': ['salads', 'bowls', 'yogurt'],
-          'preparation': 'no preparation needed'
-        }
+          topping: ['salads', 'bowls', 'yogurt'],
+          preparation: 'no preparation needed',
+        },
       },
-      'Protein_Powder': {
-    name: 'Protein Powder',
+      Protein_Powder: {
+        name: 'Protein Powder',
         appearance: 'fine green powder',
         texture: 'slightly gritty',
         applications: {
-          'smoothies': 'blend with liquids',
-          'baking': 'partial flour replacement'
-        }
-      }
+          smoothies: 'blend with liquids',
+          baking: 'partial flour replacement',
+        },
+      },
     },
     culinaryApplications: {
-      'protein_boost': {
-    name: 'Protein Boost',
-        'smoothies': {
-    name: 'Smoothies',
+      protein_boost: {
+        name: 'Protein Boost',
+        smoothies: {
+          name: 'Smoothies',
           base: ['plant milk', 'fruits'],
           additions: ['hemp protein', 'seeds'],
-          notes: 'blend thoroughly'
+          notes: 'blend thoroughly',
         },
-        'baked_goods': {
-    name: 'Baked Goods',
+        baked_goods: {
+          name: 'Baked Goods',
           method: 'replace 25% flour',
           applications: ['breads', 'muffins'],
-          notes: 'increases moisture needed'
-        }
+          notes: 'increases moisture needed',
+        },
       },
-      'raw_applications': {
-    name: 'Raw Applications',
-        'energy_balls': {
-    name: 'Energy Balls',
+      raw_applications: {
+        name: 'Raw Applications',
+        energy_balls: {
+          name: 'Energy Balls',
           ingredients: ['dates', 'nuts', 'hemp'],
           method: 'process and form',
-          storage: 'refrigerate'
+          storage: 'refrigerate',
         },
-        'seed_coating': {
-    name: 'Seed Coating',
+        seed_coating: {
+          name: 'Seed Coating',
           applications: ['tofu', 'tempeh'],
           method: 'press seeds into surface',
-          cooking: 'pan-sear for crunch'
-        }
-      }
+          cooking: 'pan-sear for crunch',
+        },
+      },
     },
     seasonalAdjustments: {
-      'summer': {
-    name: 'Summer',
+      summer: {
+        name: 'Summer',
         preparations: ['smoothie bowls', 'cold drinks'],
         combinations: ['fresh fruits', 'herbs'],
-        notes: 'lighter applications'
+        notes: 'lighter applications',
       },
-      'winter': {
-    name: 'Winter',
+      winter: {
+        name: 'Winter',
         preparations: ['hot cereals', 'baking'],
         combinations: ['warming spices', 'dried fruits'],
-        notes: 'heartier applications'
-      }
-    }
+        notes: 'heartier applications',
+      },
+    },
   }),
 
-  'pea_protein': createIngredientMapping('pea_protein', {
+  pea_protein: createIngredientMapping('pea_protein', {
     elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Venus'],
@@ -1253,87 +1260,87 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         decanModifiers: {
           first: { element: 'Earth', planet: 'Moon' },
           second: { element: 'Water', planet: 'Venus' },
-          third: { element: 'Air', planet: 'Mercury' }
-        }
+          third: { element: 'Air', planet: 'Mercury' },
+        },
       },
       lunarPhaseModifiers: {
         newMoon: {
           elementalBoost: { Earth: 0.1, Water: 0.1 },
-          preparationTips: ['Best for marinating']
+          preparationTips: ['Best for marinating'],
         },
         fullMoon: {
           elementalBoost: { Water: 0.2 },
-          preparationTips: ['Ideal for baking']
-        }
-      }
+          preparationTips: ['Ideal for baking'],
+        },
+      },
     },
     qualities: ['versatile', 'neutral', 'complete protein'],
     origin: ['Global'],
     category: 'protein',
     subCategory: 'plant_based',
     varieties: {
-      'Isolate': {
-    name: 'Isolate',
+      Isolate: {
+        name: 'Isolate',
         appearance: 'fine beige powder',
         texture: 'smooth when blended',
         applications: {
-          'protein_shakes': 'complete amino profile',
-          'meat_alternatives': 'binding and structure'
-        }
+          protein_shakes: 'complete amino profile',
+          meat_alternatives: 'binding and structure',
+        },
       },
-      'Textured': {
-    name: 'Textured',
+      Textured: {
+        name: 'Textured',
         appearance: 'granules or chunks',
         texture: 'meat-like when hydrated',
         applications: {
-          'meat_substitute': ['ground meat alternatives', 'patties'],
-          'preparation': 'rehydrate before use'
-        }
-      }
+          meat_substitute: ['ground meat alternatives', 'patties'],
+          preparation: 'rehydrate before use',
+        },
+      },
     },
     culinaryApplications: {
-      'protein_fortification': {
-    name: 'Protein Fortification',
-        'baking': {
-    name: 'Baking',
+      protein_fortification: {
+        name: 'Protein Fortification',
+        baking: {
+          name: 'Baking',
           method: 'blend with dry ingredients',
           ratio: 'up to 15% of flour weight',
-          notes: 'may need additional liquid'
+          notes: 'may need additional liquid',
         },
-        'smoothies': {
-    name: 'Smoothies',
+        smoothies: {
+          name: 'Smoothies',
           method: 'blend with liquid first',
           ratio: '20-30g per serving',
-          notes: 'combine with fruits for flavor'
-        }
+          notes: 'combine with fruits for flavor',
+        },
       },
-      'meat_alternative': {
-    name: 'Meat Alternative',
-        'burger_base': {
-    name: 'Burger Base',
+      meat_alternative: {
+        name: 'Meat Alternative',
+        burger_base: {
+          name: 'Burger Base',
           ingredients: ['pea protein', 'vegetable oils', 'binders'],
           method: 'mix and form',
-          cooking: 'grill or pan-fry'
-        }
-      }
+          cooking: 'grill or pan-fry',
+        },
+      },
     },
     seasonalAdjustments: {
-      'summer': {
-    name: 'Summer',
+      summer: {
+        name: 'Summer',
         preparations: ['protein shakes', 'cold applications'],
         combinations: ['fresh fruits', 'mint'],
-        notes: 'lighter preparations'
+        notes: 'lighter preparations',
       },
-      'winter': {
-    name: 'Winter',
+      winter: {
+        name: 'Winter',
         preparations: ['baked goods', 'hot drinks'],
         combinations: ['cocoa', 'warming spices'],
-        notes: 'heartier applications'
-      }
-    }
+        notes: 'heartier applications',
+      },
+    },
   }),
 
-  'chickpea_protein': createIngredientMapping('chickpea_protein', {
+  chickpea_protein: createIngredientMapping('chickpea_protein', {
     elementalProperties: { Earth: 0.4, Fire: 0.2, Air: 0.2, Water: 0.2 },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Venus'],
@@ -1343,82 +1350,82 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         decanModifiers: {
           first: { element: 'Earth', planet: 'Moon' },
           second: { element: 'Water', planet: 'Venus' },
-          third: { element: 'Air', planet: 'Mercury' }
-        }
+          third: { element: 'Air', planet: 'Mercury' },
+        },
       },
       lunarPhaseModifiers: {
         newMoon: {
           elementalBoost: { Earth: 0.1, Water: 0.1 },
-          preparationTips: ['Best for marinating']
+          preparationTips: ['Best for marinating'],
         },
         fullMoon: {
           elementalBoost: { Water: 0.2 },
-          preparationTips: ['Ideal for baking']
-        }
-      }
+          preparationTips: ['Ideal for baking'],
+        },
+      },
     },
     qualities: ['versatile', 'nutty', 'hearty'],
     origin: ['Mediterranean', 'Middle East'],
     category: 'protein',
     subCategory: 'plant_based',
     varieties: {
-      'Whole': {
-    name: 'Whole',
+      Whole: {
+        name: 'Whole',
         appearance: 'round, beige',
         texture: 'firm, creamy when cooked',
         applications: {
-          'hummus': 'traditional spread',
-          'falafel': 'deep-fried patties',
-          'curries': 'whole bean dishes'
-        }
+          hummus: 'traditional spread',
+          falafel: 'deep-fried patties',
+          curries: 'whole bean dishes',
+        },
       },
-      'Flour': {
-    name: 'Flour',
+      Flour: {
+        name: 'Flour',
         appearance: 'fine yellow powder',
         texture: 'smooth when cooked',
         applications: {
-          'flatbreads': 'socca/farinata',
-          'batters': 'binding agent',
-          'protein_boost': 'baking enhancement'
-        }
-      }
+          flatbreads: 'socca / (farinata || 1)',
+          batters: 'binding agent',
+          protein_boost: 'baking enhancement',
+        },
+      },
     },
     culinaryTraditions: {
-      'middle_eastern': {
+      middle_eastern: {
         name: 'hummus',
         usage: ['dips', 'spreads', 'sauces'],
         preparation: 'pureed with tahini and lemon',
         pairings: ['olive oil', 'paprika', 'pita'],
-        cultural_notes: 'Essential mezze component'
+        cultural_notes: 'Essential mezze component',
       },
-      'indian': {
+      indian: {
         name: 'chana',
         usage: ['curries', 'stews', 'snacks'],
         preparation: 'whole or ground preparations',
         pairings: ['spices', 'rice', 'flatbreads'],
-        cultural_notes: 'Important protein source'
-      }
+        cultural_notes: 'Important protein source',
+      },
     },
     preparation: {
       soaking: '8-12 hours',
       cooking: '45-60 minutes',
-      notes: 'Save aquafaba (cooking liquid)'
+      notes: 'Save aquafaba (cooking liquid)',
     },
     storage: {
       dried: {
         temperature: 'room temperature',
         duration: '1-2 years',
-        method: 'airtight container'
+        method: 'airtight container',
       },
       cooked: {
         temperature: { fahrenheit: 40, celsius: 4 },
         duration: '3-5 days',
-        method: 'refrigerated in liquid'
-      }
-    }
+        method: 'refrigerated in liquid',
+      },
+    },
   }),
 
-  'lupin_protein': createIngredientMapping('lupin_protein', {
+  lupin_protein: createIngredientMapping('lupin_protein', {
     elementalProperties: { Earth: 0.4, Air: 0.3, Fire: 0.2, Water: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Venus'],
@@ -1428,95 +1435,95 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         decanModifiers: {
           first: { element: 'Earth', planet: 'Moon' },
           second: { element: 'Water', planet: 'Venus' },
-          third: { element: 'Air', planet: 'Mercury' }
-        }
+          third: { element: 'Air', planet: 'Mercury' },
+        },
       },
       lunarPhaseModifiers: {
         newMoon: {
           elementalBoost: { Earth: 0.1, Water: 0.1 },
-          preparationTips: ['Best for marinating']
+          preparationTips: ['Best for marinating'],
         },
         fullMoon: {
           elementalBoost: { Water: 0.2 },
-          preparationTips: ['Ideal for baking']
-        }
-      }
+          preparationTips: ['Ideal for baking'],
+        },
+      },
     },
     qualities: ['high-protein', 'low-carb', 'alkaline'],
     origin: ['Mediterranean', 'Australia'],
     category: 'protein',
     subCategory: 'plant_based',
     varieties: {
-      'Flour': {
-    name: 'Flour',
+      Flour: {
+        name: 'Flour',
         appearance: 'fine yellow powder',
         texture: 'smooth, protein-rich',
         applications: {
-          'baking': 'protein enrichment',
-          'pasta': 'protein boost',
-          'protein_bars': 'binding agent'
-        }
+          baking: 'protein enrichment',
+          pasta: 'protein boost',
+          protein_bars: 'binding agent',
+        },
       },
-      'Flakes': {
-    name: 'Flakes',
+      Flakes: {
+        name: 'Flakes',
         appearance: 'golden flakes',
         texture: 'crunchy when dry',
         applications: {
-          'coating': 'breading alternative',
-          'granola': 'protein boost',
-          'yogurt_topping': 'crunchy addition'
-        }
-      }
+          coating: 'breading alternative',
+          granola: 'protein boost',
+          yogurt_topping: 'crunchy addition',
+        },
+      },
     },
     culinaryApplications: {
-      'baking': {
-    name: 'Baking',
-        'bread': {
-    name: 'Bread',
+      baking: {
+        name: 'Baking',
+        bread: {
+          name: 'Bread',
           ratio: 'up to 20% flour replacement',
           benefits: 'protein boost, structure',
-          notes: 'may need additional liquid'
+          notes: 'may need additional liquid',
         },
-        'pasta': {
-    name: 'Pasta',
+        pasta: {
+          name: 'Pasta',
           method: 'blend with semolina',
           ratio: '15-30% replacement',
-          notes: 'increases protein content'
-        }
+          notes: 'increases protein content',
+        },
       },
-      'protein_enrichment': {
-    name: 'Protein Enrichment',
-        'smoothies': {
-    name: 'Smoothies',
+      protein_enrichment: {
+        name: 'Protein Enrichment',
+        smoothies: {
+          name: 'Smoothies',
           amount: '10-20g per serving',
           method: 'blend with liquid first',
-          notes: 'neutral flavor profile'
+          notes: 'neutral flavor profile',
         },
-        'bars': {
-    name: 'Bars',
+        bars: {
+          name: 'Bars',
           binding: 'combines well with dates',
           ratio: '20-30% of dry ingredients',
-          notes: 'good protein-to-fiber ratio'
-        }
-      }
+          notes: 'good protein-to-fiber ratio',
+        },
+      },
     },
     seasonalAdjustments: {
-      'summer': {
-    name: 'Summer',
+      summer: {
+        name: 'Summer',
         preparations: ['smoothie bowls', 'cold drinks'],
         combinations: ['fresh fruits', 'seeds'],
-        notes: 'light applications'
+        notes: 'light applications',
       },
-      'winter': {
-    name: 'Winter',
+      winter: {
+        name: 'Winter',
         preparations: ['baked goods', 'warm cereals'],
         combinations: ['nuts', 'dried fruits'],
-        notes: 'heartier applications'
-      }
-    }
+        notes: 'heartier applications',
+      },
+    },
   }),
 
-  'fava_protein': createIngredientMapping('fava_protein', {
+  fava_protein: createIngredientMapping('fava_protein', {
     elementalProperties: { Earth: 0.3, Water: 0.3, Air: 0.2, Fire: 0.2 },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Venus'],
@@ -1526,104 +1533,110 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         decanModifiers: {
           first: { element: 'Earth', planet: 'Moon' },
           second: { element: 'Water', planet: 'Venus' },
-          third: { element: 'Air', planet: 'Mercury' }
-        }
+          third: { element: 'Air', planet: 'Mercury' },
+        },
       },
       lunarPhaseModifiers: {
         newMoon: {
           elementalBoost: { Earth: 0.1, Water: 0.1 },
-          preparationTips: ['Best for marinating']
+          preparationTips: ['Best for marinating'],
         },
         fullMoon: {
           elementalBoost: { Water: 0.2 },
-          preparationTips: ['Ideal for baking']
-        }
-      }
+          preparationTips: ['Ideal for baking'],
+        },
+      },
     },
     qualities: ['rich', 'creamy', 'versatile'],
     origin: ['Mediterranean', 'Middle East'],
     category: 'protein',
     subCategory: 'plant_based',
     varieties: {
-      'Whole_Beans': {
-    name: 'Whole Beans',
+      Whole_Beans: {
+        name: 'Whole Beans',
         appearance: 'large, light green',
         texture: 'creamy when cooked',
         applications: {
-          'stews': 'traditional dishes',
-          'purees': 'dips and spreads',
-          'salads': 'when young and tender'
-        }
+          stews: 'traditional dishes',
+          purees: 'dips and spreads',
+          salads: 'when young and tender',
+        },
       },
-      'Split': {
-    name: 'Split',
+      Split: {
+        name: 'Split',
         appearance: 'yellow split beans',
         texture: 'smooth when cooked',
         applications: {
-          'soups': 'quick-cooking',
-          'dips': 'traditional bessara',
-          'patties': 'formed and fried'
-        }
-      }
+          soups: 'quick-cooking',
+          dips: 'traditional bessara',
+          patties: 'formed and fried',
+        },
+      },
     },
     culinaryTraditions: {
-      'egyptian': {
+      egyptian: {
         name: 'ful medames',
         usage: ['breakfast', 'main dish'],
         preparation: 'slow-cooked with olive oil',
         pairings: ['cumin', 'lemon', 'parsley'],
-        cultural_notes: 'Traditional breakfast dish'
+        cultural_notes: 'Traditional breakfast dish',
       },
-      'moroccan': {
+      moroccan: {
         name: 'bessara',
         usage: ['soup', 'dip'],
         preparation: 'pureed with olive oil and spices',
         pairings: ['olive oil', 'paprika', 'cumin'],
-        cultural_notes: 'Popular street food'
-      }
+        cultural_notes: 'Popular street food',
+      },
     },
     preparation: {
       soaking: '8-12 hours',
       peeling: 'recommended for whole beans',
       cooking: '30-45 minutes',
-      notes: 'Remove skins for smoother texture'
+      notes: 'Remove skins for smoother texture',
     },
     storage: {
       dried: {
         temperature: 'room temperature',
         duration: '1 year',
-        method: 'airtight container'
+        method: 'airtight container',
       },
       cooked: {
         temperature: { fahrenheit: 40, celsius: 4 },
         duration: '3-4 days',
-        method: 'refrigerated in liquid'
-      }
-    }
-  })
+        method: 'refrigerated in liquid',
+      },
+    },
+  }),
 };
 
 // Fix the ingredient mappings to ensure they have all required properties
-export const plantBased: Record<string, IngredientMapping> = fixIngredientMappings(rawPlantBased);
+export const plantBased: Record<string, IngredientMapping> =
+  fixIngredientMappings(rawPlantBased);
 
 // Add validation for elemental sums
 Object.entries(plantBased).forEach(([id, ingredient]) => {
   if (!ingredient.elementalProperties) return;
 
-  const sum = Object.values(ingredient.elementalProperties).reduce((a, b) => a + b, 0);
+  let sum = Object.values(ingredient.elementalProperties).reduce(
+    (a, b) => a + b,
+    0
+  );
   if (Math.abs(sum - 1) > 0.0001) {
-    console.error(`Elemental sum error in ${ingredient.name || id}: ${sum}`);
-    
+    // console.error(`Elemental sum error in ${ingredient.name || id}: ${sum}`);
+
     // Optionally auto-normalize the values
-    const factor = 1 / sum;
-    Object.entries(ingredient.elementalProperties).forEach(([element, value]) => {
-      const elementKey = element as keyof ElementalProperties;
-      ingredient.elementalProperties[elementKey] = value * factor;
-    });
+    let factor = 1 / (sum || 1);
+    Object.entries(ingredient.elementalProperties).forEach(
+      ([element, value]) => {
+        let elementKey = element as keyof ElementalProperties;
+        ingredient.elementalProperties[elementKey] = value * factor;
+      }
+    );
   }
 });
 
 // Create a collection of all plant-based proteins
-export const allPlantBased = Object.values(plantBased);
+export let allPlantBased = Object.values(plantBased);
 
 export default plantBased;

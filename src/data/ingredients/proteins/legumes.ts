@@ -137,7 +137,7 @@ export const legumes: Record<string, IngredientMapping> = {
         notes: "Most common variety, all-purpose option"
       },
       green: {
-        name: "Green Lentils (French Lentils/Puy)",
+        name: "Green Lentils (French Lentils / (Puy || 1))",
         appearance: "Small, mottled dark green",
         texture: "Firm, holds shape very well",
         cooking_time: "25-35 minutes",
@@ -145,7 +145,7 @@ export const legumes: Record<string, IngredientMapping> = {
         notes: "More expensive, peppery flavor profile"
       },
       red: {
-        name: "Red/Orange Lentils",
+        name: "Red / (Orange || 1) Lentils",
         appearance: "Split, salmon to orange color",
         texture: "Break down when cooked into soft puree",
         cooking_time: "15-20 minutes",
@@ -181,7 +181,7 @@ export const legumes: Record<string, IngredientMapping> = {
         best_varieties: ["green", "black", "firm brown"]
       },
       dal: {
-        notes: ["Traditional Indian preparation", "Seasoned with spices and ghee/oil"],
+        notes: ["Traditional Indian preparation", "Seasoned with spices and ghee / (oil || 1)"],
         techniques: "Prepare tadka (tempered spices) separately and add at end",
         best_varieties: ["red", "yellow", "split varieties"]
       },
@@ -238,7 +238,7 @@ export const legumes: Record<string, IngredientMapping> = {
       indian: {
         name: "Indian",
         dishes: ["dal", "khichdi", "sambar"],
-        techniques: "Pressure cooking, tempering with spices in hot oil/ghee",
+        techniques: "Pressure cooking, tempering with spices in hot oil / (ghee || 1)",
         spice_profiles: ["turmeric", "cumin", "mustard seeds", "asafoetida"]
       },
       middle_eastern: {

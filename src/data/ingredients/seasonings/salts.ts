@@ -77,12 +77,7 @@ const rawSalts: Record<string, Partial<IngredientMapping>> = {
     category: 'seasoning',
     subCategory: 'salt',
     varieties: {
-      'Traditional': {
-    name: 'Traditional',
-        appearance: 'pyramid-shaped flakes',
-        texture: 'crunchy, dissolves quickly',
-        uses: 'universal finishing'
-      },
+      
       'Smoked': {
     name: 'Smoked',
         appearance: 'golden-brown flakes',
@@ -150,12 +145,7 @@ const rawSalts: Record<string, Partial<IngredientMapping>> = {
     category: 'seasoning',
     subCategory: 'salt',
     varieties: {
-      'Traditional': {
-    name: 'Traditional',
-        appearance: 'crystals',
-        texture: 'delicate flakes',
-        uses: 'universal finishing'
-      },
+      
       'Smoked': {
     name: 'Smoked',
         appearance: 'golden-brown flakes',
@@ -255,7 +245,7 @@ const rawSalts: Record<string, Partial<IngredientMapping>> = {
         notes: 'Provides textural element and visual appeal'
       },
       'blocks': {
-        name: 'Salt Blocks/Slabs',
+        name: 'Salt Blocks / (Slabs || 1)',
         characteristics: 'Solid pieces used for cooking and serving',
         culinary_uses: 'Cooking surface, cold food presentation, salt plate cooking',
         notes: 'Imparts subtle mineral flavor to foods placed on it'
@@ -285,12 +275,7 @@ const rawSalts: Record<string, Partial<IngredientMapping>> = {
         traditional_applications: ['Gravlax', 'Charcuterie', 'Preserved lemons'],
         notes: 'Mineral content adds depth to preserved foods'
       },
-      'baking': {
-        name: 'Baking Applications',
-        methods: ['Dough enhancement', 'Flavor balancing', 'Decoration'],
-        effects: 'Controls yeast fermentation, strengthens gluten, enhances flavors',
-        notes: 'Fine ground recommended for even distribution'
-      },
+      
       'finishing': {
         name: 'Finishing Salt',
         methods: ['Sprinkled over completed dishes', 'Visual garnish', 'Textural element'],

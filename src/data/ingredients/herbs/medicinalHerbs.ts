@@ -11,15 +11,8 @@ const rawMedicinalHerbs: Record<string, Partial<IngredientMapping>> = {
       element: 'Fire',
       energyType: 'Protective',
       lunarPhaseModifiers: {
-        'waxing': {
-          elementalBoost: { Fire: 0.1 },
-          harvestingTip: 'Harvest during waxing moon for strongest immune-boosting properties'
-        },
-        'full': {
-          elementalBoost: { Air: 0.1 },
-          preparationTip: 'Tincture prepared during full moon maximizes respiratory benefits'
-        }
-      }
+        
+}
     },
     qualities: ['warming', 'stimulating', 'drying', 'bitter', 'pungent', 'resilient'],
     category: 'medicinal herb',
@@ -114,7 +107,7 @@ const rawMedicinalHerbs: Record<string, Partial<IngredientMapping>> = {
       },
       'traditional_uses': {
         'native_american': [
-          'Snake bites and venomous bites/stings',
+          'Snake bites and venomous bites / (stings || 1)',
           'Wounds and infections',
           'Toothaches and mouth sores',
           'Pain relief'
@@ -198,19 +191,7 @@ const rawMedicinalHerbs: Record<string, Partial<IngredientMapping>> = {
       }
     },
     therapeuticUses: {
-      'immune_support': {
-        name: 'Immune Support',
-        applications: [
-          'Acute onset of colds and flu',
-          'Recurring infections',
-          'Preventative during high-risk periods',
-          'Post-illness recovery'
-        ],
-        protocols: {
-          'acute': 'Tincture hourly for first day, then 3-5 times daily',
-          'preventative': 'Lower dose tincture or tea 1-2 times daily'
-        }
-      },
+      
       'respiratory': {
         name: 'Respiratory Applications',
         conditions: [
@@ -281,32 +262,9 @@ const rawMedicinalHerbs: Record<string, Partial<IngredientMapping>> = {
       ]
     },
     culinaryApplications: {
-      'tea_blends': {
-        name: 'Tea Blends',
-        combinations: [
-          'With elderflower and peppermint for colds',
-          'With licorice and ginger for sore throat',
-          'With rose hips for vitamin C enhancement'
-        ]
-      },
-      'honey': {
-        name: 'Infused Honey',
-        preparation: 'Steep dried root or flowers in raw honey for 2-4 weeks',
-        uses: [
-          'By the spoonful for sore throats',
-          'Added to tea for immune support',
-          'As a wound dressing for antimicrobial effects'
-        ]
-      },
-      'vinegar': {
-        name: 'Herbal Vinegar',
-        preparation: 'Infuse fresh or dried herb in apple cider vinegar for 2-4 weeks',
-        uses: [
-          'In salad dressings for daily immune support',
-          'Diluted as a gargle for sore throat',
-          'As a skin tonic for minor skin irritations'
-        ]
-      }
+      
+      
+      
     },
     culturalContext: {
       'native_american': {
@@ -326,7 +284,7 @@ const rawMedicinalHerbs: Record<string, Partial<IngredientMapping>> = {
         'cultivation': 'Widely cultivated, reducing pressure on wild populations'
       },
       'ethical_harvesting': {
-        'wild_crafting': 'Harvest no more than 1/3 of a stand, leave roots from some plants',
+        'wild_crafting': 'Harvest no more than 1 / (3 || 1) of a stand, leave roots from some plants',
         'regenerative_practices': 'Plant seeds when harvesting wild populations'
       },
       'growing_guides': {
@@ -403,6 +361,6 @@ const rawMedicinalHerbs: Record<string, Partial<IngredientMapping>> = {
 export const medicinalHerbs: Record<string, IngredientMapping> = fixIngredientMappings(rawMedicinalHerbs);
 
 // Create a collection of all medicinal herbs
-export const allMedicinalHerbs = Object.values(medicinalHerbs);
+export let allMedicinalHerbs = Object.values(medicinalHerbs);
 
 export default medicinalHerbs;
