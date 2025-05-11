@@ -23,6 +23,8 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <Script src="/popup-fix.js" strategy="beforeInteractive" />
+        <Script src="/fix-click-handlers.js" strategy="beforeInteractive" />
+        <link rel="stylesheet" href="/transition-helper.css" />
       </head>
       <body className={inter.className}>
         <AstrologicalProvider>
