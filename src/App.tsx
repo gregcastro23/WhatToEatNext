@@ -14,6 +14,8 @@ import GlobalErrorBoundary from '@/components/errors/GlobalErrorBoundary';
 import ErrorFallback from '@/components/errors/ErrorFallback';
 import ErrorHandler from '@/services/errorHandler';
 import { ElementalCalculator } from '@/services/ElementalCalculator';
+import { useRouter } from 'next/router';
+import './styles/expandable.css';  // Import our expandable component styles
 
 // Dynamically import FoodRecommender with loading state
 const FoodRecommender = dynamic(
@@ -56,6 +58,8 @@ interface NutritionInfo {
 type ComponentName = 'foodRecommender' | 'elementalEnergy' | 'moonDisplay' | 'sunDisplay' | 'astrologicalClock' | 'cuisineRecommender' | 'cookingMethods';
 
 function App() {
+  const router = useRouter();
+  
   // State variables with underscore prefix are intentionally kept for future use
   const [isInitialized, setIsInitialized] = useState(false);
   const [userLocation, setUserLocation] = useState<GeolocationCoordinates | null>(null);

@@ -5,7 +5,7 @@ import './globals.css'
 import ClientWrapper from '@/components/ClientWrapper'
 import '@/utils/retryChunkLoad'
 import { AstrologicalProvider } from '@/context/AstrologicalContext'
-import Script from 'next/script'
+import ScriptLoader from '@/components/ScriptLoader'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -22,11 +22,10 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <Script src="/popup-fix.js" strategy="beforeInteractive" />
-        <Script src="/fix-click-handlers.js" strategy="beforeInteractive" />
         <link rel="stylesheet" href="/transition-helper.css" />
       </head>
       <body className={inter.className}>
+        <ScriptLoader />
         <AstrologicalProvider>
           <ClientWrapper>
             {children}
