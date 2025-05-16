@@ -762,11 +762,12 @@ function calculateElementalScore(
   
   // Calculate score based on elemental compatibility
   let score = 0;
-  const totalWeight = 0;
+  let totalWeight = 0;
 
   // Handle each element
   Object.entries(systemProps).forEach(([element, weight]) => {
     if (typeof weight !== 'number') return;
+    
     
     const elementKey = element as keyof ElementalProperties;
     const ingredientValue = ingredientProps[elementKey] || 0;
@@ -831,7 +832,7 @@ function calculateEnhancedPlanetaryScore(
   if (!ingredient.astrologicalProfile) return 0.65; // Improved neutral score for ingredients without profile
 
   let score = 0;
-  const totalFactors = 0;
+  let totalFactors = 0;
 
   // Check ruling planet correspondence - this gets extra weight
   if (ingredient.astrologicalProfile.rulingPlanets?.includes(rulingPlanet)) {

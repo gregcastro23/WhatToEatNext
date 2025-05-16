@@ -293,8 +293,8 @@ export function calculateElementalMatch(
   userElements: ElementalProperties
 ): number {
   // Calculate similarity based on elemental profiles
-  const matchSum = 0;
-  const totalWeight = 0;
+  let matchSum = 0;
+  let totalWeight = 0;
   
   // Get dominant elements
   const recipeDominant = Object.entries(recipeElements)

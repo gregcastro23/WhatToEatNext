@@ -94,8 +94,8 @@ export const getAllIngredients = (): EnhancedIngredient[] => {
   ];
 
   // Track counts for categories of interest
-  const herbCount = 0;
-  const grainCount = 0;
+  let herbCount = 0;
+  let grainCount = 0;
 
   // Process each category
   categories.forEach((category) => {

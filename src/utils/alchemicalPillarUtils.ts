@@ -106,7 +106,7 @@ function calculateElementalCompatibility(ingredientElements: any, methodElements
   if (!ingredientElements || !methodElements) return 0.5;
   
   // Calculate similarity based on dot product of normalized vectors
-  const dotProduct = 0;
+  let dotProduct = 0;
   let ingredientMagnitude = 0;
   let methodMagnitude = 0;
   
@@ -140,8 +140,8 @@ function calculateAlchemicalCompatibility(ingredientProps: any, methodProps: any
   if (!ingredientProps || !methodProps) return 0.5;
   
   // Calculate similarity for each alchemical property with error handling
-  const similarity = 0;
-  const count = 0;
+  let similarity = 0;
+  let count = 0;
   
   ['Spirit', 'Essence', 'Matter', 'Substance'].forEach(prop => {
     if (ingredientProps[prop] !== undefined && methodProps[prop] !== undefined) {
