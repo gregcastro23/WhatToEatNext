@@ -44,7 +44,7 @@ interface PlanetaryPosition {
 export default function CombinedHeader({ "onServingsChange", ",setNumberOfPeople" }: HeaderProps) {""
   const { "state", ",planetaryPositions" } = useAlchemical() as AlchemicalContextType""
   const { "currentUser", ,isLoading: isUserLoading } = useUser()""
-  let router = useRouter();
+  const router = useRouter();
   const [isMenuOpen, "setIsMenuOpen", string]: = useState(false);""
   const [servings, "setServings", string]: = useState(2);""
 const [peopleCount;
@@ -57,7 +57,7 @@ const [astroData;
   }, [])
 
   // Handle servings change
-  let handleServingsChange = (newServings: number) ={'{',>'}'} {''
+  const handleServingsChange = (newServings: number) ={'{',>'}'} {''
     try {
       if (newServings {'{',<'}'} 1) newServings = 1''
       if (newServings {'{',>'}'} 12) newServings = 12''
@@ -68,7 +68,7 @@ const [astroData;
   }
 
   // Handle people count update
-  let handlePeopleUpdate = (count: number) ={'{',>'}'} {''
+  const handlePeopleUpdate = (count: number) ={'{',>'}'} {''
     setPeopleCount(count)
     setNumberOfPeople?.(count)
   }
@@ -86,11 +86,11 @@ const [astroData;
         const data = await getCurrentCelestialPositions();
         
         // Extract degrees from planetary positions if available
-        let sunDegree = data.planetaryPositions?.sun?.degree || 0;
-        let sunMinutes = 0; // This data might not be available in the new API
+        const sunDegree = data.planetaryPositions?.sun?.degree || 0;
+        const sunMinutes = 0; // This data might not be available in the new API
         
-        let moonDegree = data.planetaryPositions?.moon?.degree || 0;
-        let moonMinutes = 0; // This data might not be available in the new API
+        const moonDegree = data.planetaryPositions?.moon?.degree || 0;
+        const moonMinutes = 0; // This data might not be available in the new API
         
 setAstroData({
 }
@@ -104,9 +104,9 @@ setAstroData({
     }
 
     fetchAstroData()
-    let interval = setInterval(fetchAstroData, 5 * 60 * 1000);
+    const interval = setInterval(fetchAstroData, 5 * 60 * 1000);
     return () ={'{',>'}'} clearInterval(interval);: }, [])''
-let formatDegrees = (deg;
+const formatDegrees = (deg;
 return `${deg.toString().padStart(2```
   }
 
@@ -115,7 +115,7 @@ return ({
   }
 
   // Safe accessor for planetaryPositions
-  let getSafeSign = (planet: unknown): string ={'{',>'}'} {''
+  const getSafeSign = (planet: unknown): string ={'{',>'}'} {''
     if (!planet) return 
     return (planet as PlanetaryPosition).sign || 
   }

@@ -8,7 +8,7 @@ export function validatePlanetaryModifiers(): string[] {
   const issues: string[] = [];
 
   // Required planets
-  let requiredPlanets = [
+  const requiredPlanets = [
     'Sun',
     'Moon',
     'Mercury',
@@ -29,7 +29,7 @@ export function validatePlanetaryModifiers(): string[] {
   }
 
   // Check if all planets have all required attributes
-  let requiredAttributes = [
+  const requiredAttributes = [
     'Fire',
     'Water',
     'Air',
@@ -51,7 +51,7 @@ export function validatePlanetaryModifiers(): string[] {
   // Check that all modifier values are within a reasonable range (-1 to 1)
   for (const planet in planetaryModifiers) {
     for (const attr in planetaryModifiers[planet]) {
-      let value = planetaryModifiers[planet][attr];
+      const value = planetaryModifiers[planet][attr];
       if (value < -1 || value > 1) {
         issues.push(`Value out of range for ${planet}.${attr}: ${value}`);
       }
@@ -65,7 +65,7 @@ export function validatePlanetaryModifiers(): string[] {
  * Logs the validation results to the console
  */
 export function logPlanetaryConsistencyCheck(): void {
-  let issues = validatePlanetaryModifiers();
+  const issues = validatePlanetaryModifiers();
 
   if (issues.length === 0) {
     // console.log('✅ Planetary modifiers are consistent');

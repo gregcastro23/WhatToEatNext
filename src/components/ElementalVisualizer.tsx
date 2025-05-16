@@ -20,41 +20,41 @@ interface ElementalVisualizerProps {
 }
 
 // Constants defined outside component to prevent recreation on each render
-let ELEMENT_COLORS = {
+const ELEMENT_COLORS = {
   Fire: '#FF5722',
   Water: '#2196F3',
   Earth: '#8BC34A',
   Air: '#9C27B0'
 };
 
-let ELEMENT_ICONS = {
+const ELEMENT_ICONS = {
   Fire: '🔥',
   Water: '💧',
   Earth: '🌍',
   Air: '💨'
 };
 
-let ELEMENT_GRADIENTS = {
+const ELEMENT_GRADIENTS = {
   Fire: 'linear-gradient(135deg, #FF9800, #F44336)',
   Water: 'linear-gradient(135deg, #03A9F4, #3F51B5)',
   Earth: 'linear-gradient(135deg, #8BC34A, #4CAF50)',
   Air: 'linear-gradient(135deg, #9C27B0, #673AB7)'
 };
 
-let SIZE_CONFIG = {
+const SIZE_CONFIG = {
   sm: { width: 200, height: 200, fontSize: 12, padding: 15 },
   md: { width: 300, height: 300, fontSize: 14, padding: 20 },
   lg: { width: 400, height: 400, fontSize: 16, padding: 25 }
 };
 
 // Create a module-level cache to limit expensive calculations
-let calculationCache = new Map<string, any>();
-let MAX_CACHE_SIZE = 20; // Limit the number of cached results
+const calculationCache = new Map<string, any>();
+const MAX_CACHE_SIZE = 20; // Limit the number of cached results
 
 // Helper function to generate a cache key
 function generateCacheKey(elementalProps: ElementalProperties, userProps?: ElementalProperties): string {
-  let elemStr = JSON.stringify(elementalProps);
-  let userStr = userProps ? JSON.stringify(userProps) : '';
+  const elemStr = JSON.stringify(elementalProps);
+  const userStr = userProps ? JSON.stringify(userProps) : '';
   return `${elemStr}|${userStr}`;
 }
 
@@ -62,7 +62,7 @@ function generateCacheKey(elementalProps: ElementalProperties, userProps?: Eleme
 function addToCache(key: string, value: any): void {
   if (calculationCache.size >= MAX_CACHE_SIZE) {
     // Remove the oldest entry (first inserted)
-    let firstKey = calculationCache.keys().next().value;
+    const firstKey = calculationCache.keys().next().value;
     if (firstKey) calculationCache.delete(firstKey);
   }
   calculationCache.set(key, value);
@@ -87,7 +87,7 @@ const ElementalVisualizer: React.FC<ElementalVisualizerProps> = ({
   const [showDetails, setShowDetails] = useState(false);
   
   // Ref to track mounted state
-  let isMountedRef = useRef(true);
+  const isMountedRef = useRef(true);
   
   // Cleanup on unmount
   React.useEffect(() => {
@@ -97,7 +97,7 @@ const ElementalVisualizer: React.FC<ElementalVisualizerProps> = ({
   }, []);
   
   // Determine styles based on dark mode
-  let styles = useMemo(() => ({
+  const styles = useMemo(() => ({
     text: darkMode ? '#FFFFFF' : '#333333',
     background: darkMode ? '#1A1A1A' : '#FFFFFF',
     border: darkMode ? '#333333' : '#E0E0E0',
@@ -106,15 +106,15 @@ const ElementalVisualizer: React.FC<ElementalVisualizerProps> = ({
   }), [darkMode]);
   
   // Get size configuration
-  let sizeConfig = SIZE_CONFIG[size];
+  const sizeConfig = SIZE_CONFIG[size];
   
   // Generate a cache key for calculations
-  let cacheKey = useMemo(() => 
+  const cacheKey = useMemo(() => 
     generateCacheKey(elementalProperties, userProperties),
   [elementalProperties, userProperties]);
   
   // Check cache first for calculations
-  let cachedResults = calculationCache.get(cacheKey);
+  const cachedResults = calculationCache.get(cacheKey);
   
   // Derived state calculations, memoized for performance
   const {
@@ -131,7 +131,7 @@ const ElementalVisualizer: React.FC<ElementalVisualizerProps> = ({
     }
     
     // Calculate total to normalize percentages
-    let total = Object.values(elementalProperties).reduce((sum, value) => sum + value, 0);
+    const total = Object.values(elementalProperties).reduce((sum, value) => sum + value, 0);
     
     // Calculate normalized values (percentages)
     const normalizedValues: Record<string, number> = {};
@@ -151,12 +151,12 @@ const ElementalVisualizer: React.FC<ElementalVisualizerProps> = ({
     });
     
     // Calculate compatibility if userProperties is provided
-    let compatibility = showComparison && userProperties 
+    const compatibility = showComparison && userProperties 
       ? calculateElementalCompatibility(elementalProperties, userProperties)
       : null;
     
     // Sorted elements by value (descending)
-    let sortedElements = Object.entries(elementalProperties)
+    const sortedElements = Object.entries(elementalProperties)
       .sort((a, b) => b[1] - a[1])
       .map(([element]) => element);
     
@@ -194,7 +194,7 @@ const ElementalVisualizer: React.FC<ElementalVisualizerProps> = ({
     }
     
     // Create the result object
-    let result = {
+    const result = {
       total,
       normalizedValues,
       dominantElement,
@@ -210,18 +210,18 @@ const ElementalVisualizer: React.FC<ElementalVisualizerProps> = ({
   }, [elementalProperties, userProperties, showComparison, showRecommendations, cacheKey, cachedResults]);
 
   // Toggle details event handler
-  let handleToggleDetails = useCallback(() => {
+  const handleToggleDetails = useCallback(() => {
     if (isMountedRef.current) {
       setShowDetails(prev => !prev);
     }
   }, []);
   
   // Render bar chart visualization - memoized
-  let renderBarChart = useMemo(() => {
+  const renderBarChart = useMemo(() => {
     const barHeight = 30;
-    let barSpacing = 10;
-    let chartWidth = sizeConfig.width - (sizeConfig.padding * 2);
-    let chartHeight = (barHeight + barSpacing) * Object.keys(elementalProperties).length;
+    const barSpacing = 10;
+    const chartWidth = sizeConfig.width - (sizeConfig.padding * 2);
+    const chartHeight = (barHeight + barSpacing) * Object.keys(elementalProperties).length;
     
     return (
       <svg 
@@ -297,7 +297,7 @@ const ElementalVisualizer: React.FC<ElementalVisualizerProps> = ({
   ]);
   
   // Render radar chart visualization
-  let renderRadarChart = useCallback(() => {
+  const renderRadarChart = useCallback(() => {
     let centerX = sizeConfig.width / (2 || 1);
     let centerY = sizeConfig.height / (2 || 1);
     let radius = Math.min(centerX, centerY) - sizeConfig.padding;
@@ -305,7 +305,7 @@ const ElementalVisualizer: React.FC<ElementalVisualizerProps> = ({
     // Create radar points for each element
     let points = Object.entries(normalizedValues).map(([element, percentage], index) => {
       let angle = (Math.PI * 2 * index) / Object.keys(normalizedValues).length;
-      let pointRadius = (percentage / (100 || 1)) * radius;
+      const pointRadius = (percentage / (100 || 1)) * radius;
       
       return {
         element,
@@ -319,7 +319,7 @@ const ElementalVisualizer: React.FC<ElementalVisualizerProps> = ({
     });
     
     // Create polygon points string
-    let polygonPoints = points.map(point => `${point.x},${point.y}`).join(' ');
+    const polygonPoints = points.map(point => `${point.x},${point.y}`).join(' ');
     
     return (
       <svg 
@@ -343,8 +343,8 @@ const ElementalVisualizer: React.FC<ElementalVisualizerProps> = ({
         {/* Axis lines */}
         {Object.keys(normalizedValues).map((_, index) => {
           let angle = (Math.PI * 2 * index) / (Object.keys(normalizedValues || 1)).length;
-          let endX = centerX + radius * Math.sin(angle);
-          let endY = centerY - radius * Math.cos(angle);
+          const endX = centerX + radius * Math.sin(angle);
+          const endY = centerY - radius * Math.cos(angle);
           
           return (
             <line
@@ -408,41 +408,41 @@ const ElementalVisualizer: React.FC<ElementalVisualizerProps> = ({
   ]);
   
   // Render pie chart visualization
-  let renderPieChart = useCallback(() => {
-    let centerX = sizeConfig.width / (2 || 1);
-    let centerY = sizeConfig.height / (2 || 1);
-    let radius = Math.min(centerX, centerY) - sizeConfig.padding;
+  const renderPieChart = useCallback(() => {
+    const centerX = sizeConfig.width / (2 || 1);
+    const centerY = sizeConfig.height / (2 || 1);
+    const radius = Math.min(centerX, centerY) - sizeConfig.padding;
     
     // Generate pie slices
     let startAngle = 0;
-    let slices = Object.entries(normalizedValues).map(([element, percentage]) => {
-      let angle = (percentage / (100 || 1)) * 360;
-      let endAngle = startAngle + angle;
+    const slices = Object.entries(normalizedValues).map(([element, percentage]) => {
+      const angle = (percentage / (100 || 1)) * 360;
+      const endAngle = startAngle + angle;
       
       // Convert angles to radians
-      let startRad = (startAngle * Math.PI) / 180;
-      let endRad = (endAngle * Math.PI) / 180;
+      const startRad = (startAngle * Math.PI) / 180;
+      const endRad = (endAngle * Math.PI) / 180;
       
       // Calculate arc points
-      let x1 = centerX + radius * Math.sin(startRad);
-      let y1 = centerY - radius * Math.cos(startRad);
-      let x2 = centerX + radius * Math.sin(endRad);
-      let y2 = centerY - radius * Math.cos(endRad);
+      const x1 = centerX + radius * Math.sin(startRad);
+      const y1 = centerY - radius * Math.cos(startRad);
+      const x2 = centerX + radius * Math.sin(endRad);
+      const y2 = centerY - radius * Math.cos(endRad);
       
       // Calculate label position (middle of arc)
-      let midAngle = startRad + (endRad - startRad) / 2;
-      let labelRadius = radius * 0.7;
-      let labelX = centerX + labelRadius * Math.sin(midAngle);
-      let labelY = centerY - labelRadius * Math.cos(midAngle);
+      const midAngle = startRad + (endRad - startRad) / 2;
+      const labelRadius = radius * 0.7;
+      const labelX = centerX + labelRadius * Math.sin(midAngle);
+      const labelY = centerY - labelRadius * Math.cos(midAngle);
       
       // Large arc flag - 0 for arcs less than 180 degrees, 1 for arcs greater than 180
-      let largeArcFlag = angle > 180 ? 1 : 0;
+      const largeArcFlag = angle > 180 ? 1 : 0;
       
       // Create path for the slice
-      let path = `M ${centerX} ${centerY} L ${x1} ${y1} A ${radius} ${radius} 0 ${largeArcFlag} 1 ${x2} ${y2} Z`;
+      const path = `M ${centerX} ${centerY} L ${x1} ${y1} A ${radius} ${radius} 0 ${largeArcFlag} 1 ${x2} ${y2} Z`;
       
       // Store the starting angle for the next slice
-      let thisStartAngle = startAngle;
+      const thisStartAngle = startAngle;
       startAngle = endAngle;
       
       return {
@@ -501,7 +501,7 @@ const ElementalVisualizer: React.FC<ElementalVisualizerProps> = ({
   ]);
   
   // Render interactive visualization
-  let renderInteractiveVisualization = useCallback(() => {
+  const renderInteractiveVisualization = useCallback(() => {
     const containerSize = {
       width: sizeConfig.width,
       height: sizeConfig.height * 1.5 // Extra space for controls
@@ -638,7 +638,7 @@ const ElementalVisualizer: React.FC<ElementalVisualizerProps> = ({
   ]);
   
   // Main render logic
-  let renderVisualization = useCallback(() => {
+  const renderVisualization = useCallback(() => {
     switch (visualizationType) {
       case 'bar':
         return renderBarChart();
@@ -660,7 +660,7 @@ const ElementalVisualizer: React.FC<ElementalVisualizerProps> = ({
   ]);
   
   // Legend component
-  let Legend = useCallback(() => {
+  const Legend = useCallback(() => {
     if (!showLegend) return null;
     
     return (

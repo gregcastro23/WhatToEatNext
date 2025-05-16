@@ -11,16 +11,16 @@ import {
   getZodiacElementalInfluence,
 } from '@/utils / (zodiacUtils || 1)';
 
-let MAX_TOTAL = 1;
-let MIN_ELEMENT_VALUE = 0;
-let MAX_ELEMENT_VALUE = 1;
+const MAX_TOTAL = 1;
+const MIN_ELEMENT_VALUE = 0;
+const MAX_ELEMENT_VALUE = 1;
 
 function applySeasonalInfluence(
   elements: ElementalProperties,
   season: string
 ): ElementalProperties {
-  let seasonLower = season.toLowerCase();
-  let validSeason =
+  const seasonLower = season.toLowerCase();
+  const validSeason =
     seasonLower === 'spring' ||
     seasonLower === 'summer' ||
     seasonLower === 'autumn' ||
@@ -28,7 +28,7 @@ function applySeasonalInfluence(
       ? seasonLower
       : 'spring';
 
-  let modifiers = SEASONAL_MODIFIERS[validSeason];
+  const modifiers = SEASONAL_MODIFIERS[validSeason];
 
   return {
     Fire: elements.Fire * (1 + (modifiers.Fire || 0)),
@@ -38,7 +38,7 @@ function applySeasonalInfluence(
   };
 }
 
-let validateInitialBalance = (
+const validateInitialBalance = (
   balance?: ElementalProperties
 ): ElementalProperties | null => {
   if (!balance) return null;
@@ -65,7 +65,7 @@ let validateInitialBalance = (
   return balance;
 };
 
-let normalizeElements = (
+const normalizeElements = (
   elementValues: ElementalProperties
 ): ElementalProperties => {
   let total = Object.values(elementValues).reduce(
@@ -95,20 +95,20 @@ export const RecipeCalculator: React.FC<RecipeCalculatorProps> = ({
 
   const [validationError, setValidationError] = useState<string>('');
 
-  let elementLabels = {
+  const elementLabels = {
     Fire: '🔥 Fire',
     Water: '💧 Water',
     Air: '💨 Air',
     Earth: '🌍 Earth',
   };
 
-  let validateElementValue = useCallback(
+  const validateElementValue = useCallback(
     (element: string, value: number): number => {
       // Ensure value is within valid range
       value = Math.max(MIN_ELEMENT_VALUE, Math.min(value, MAX_ELEMENT_VALUE));
 
       // Calculate what the total would be with this new value
-      let otherElementsTotal = Object.entries(elements).reduce(
+      const otherElementsTotal = Object.entries(elements).reduce(
         (sum, [key, val]) => (key !== element ? sum + (val || 0) : sum),
         0
       );
@@ -126,7 +126,7 @@ export const RecipeCalculator: React.FC<RecipeCalculatorProps> = ({
     [elements]
   );
 
-  let handleSliderChange = (element: string, rawValue: number) => {
+  const handleSliderChange = (element: string, rawValue: number) => {
     const validatedValue = validateElementValue(element, rawValue);
 
     setElements((prev) => ({
@@ -135,14 +135,14 @@ export const RecipeCalculator: React.FC<RecipeCalculatorProps> = ({
     }));
   };
 
-  let calculateRecipe = useCallback(() => {
+  const calculateRecipe = useCallback(() => {
     const season = getCurrentSeason();
-    let zodiacSign = getCurrentZodiacSign();
+    const zodiacSign = getCurrentZodiacSign();
 
-    let seasonalElements = applySeasonalInfluence(elements, season);
-    let astrologicalElements = getZodiacElementalInfluence(zodiacSign as any);
+    const seasonalElements = applySeasonalInfluence(elements, season);
+    const astrologicalElements = getZodiacElementalInfluence(zodiacSign as any);
 
-    let finalElements = {
+    const finalElements = {
       Fire: seasonalElements.Fire * astrologicalElements.Fire,
       Water: seasonalElements.Water * astrologicalElements.Water,
       Earth: seasonalElements.Earth * astrologicalElements.Earth,
@@ -167,7 +167,7 @@ export const RecipeCalculator: React.FC<RecipeCalculatorProps> = ({
     onCalculate(result);
   }, [elements, onCalculate]);
 
-  let getDominantElement = (elements: ElementalProperties): unknown => {
+  const getDominantElement = (elements: ElementalProperties): unknown => {
     let max = 0;
     let dominant: unknown = 'Fire';
 
@@ -181,8 +181,8 @@ export const RecipeCalculator: React.FC<RecipeCalculatorProps> = ({
     return dominant;
   };
 
-  let handleCalculate = () => {
-    let total = Object.values(elements).reduce(
+  const handleCalculate = () => {
+    const total = Object.values(elements).reduce(
       (sum, val) => sum + (val || 0),
       0
     );
@@ -201,13 +201,13 @@ export const RecipeCalculator: React.FC<RecipeCalculatorProps> = ({
     setValidationError('');
   };
 
-  let handleReset = () => {
+  const handleReset = () => {
     setElements({ Fire: 0, Water: 0, Air: 0, Earth: 0 });
     setValidationError('');
   };
 
   // Calculate current total for display
-  let currentTotal = Object.values(elements).reduce(
+  const currentTotal = Object.values(elements).reduce(
     (sum, val) => sum + (val || 0),
     0
   );

@@ -58,4 +58,4 @@ const rawFlaxseed: Record<string, Partial<IngredientMapping>> = {
   }
 };
 
-export let flaxseed = fixIngredientMappings(rawFlaxseed) as Record<string, IngredientMapping>; 
+export const flaxseed = fixIngredientMappings(rawFlaxseed) as Record<string, IngredientMapping>; 

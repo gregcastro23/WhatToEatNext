@@ -124,11 +124,11 @@ class StateManager {
   private loadInitialState(): AppState {
     try {
       // Fix: Remove type parameter since cache.get doesn't accept it
-      let cached = cache.get(this.STORAGE_KEY);
+      const cached = cache.get(this.STORAGE_KEY);
       // Add type guard to ensure cached data has the right shape
       if (cached && this.isValidAppState(cached)) return cached as AppState;
 
-      let stored =
+      const stored =
         typeof window !== 'undefined'
           ? localStorage.getItem(this.STORAGE_KEY)
           : null;
@@ -242,7 +242,7 @@ class StateManager {
 
   private async updateCelestialData(): Promise<void> {
     try {
-      let influences = celestialCalculator.calculateCurrentInfluences();
+      const influences = celestialCalculator.calculateCurrentInfluences();
       // Convert influences to proper ElementalProperties
       const elementalState: ElementalProperties = {
         Fire: influences.elementalBalance?.Fire || 0,
@@ -265,7 +265,7 @@ class StateManager {
 
   private saveState(): void {
     try {
-      let serializable = {
+      const serializable = {
         ...this.state,
         ui: {
           ...this.state.ui,
@@ -296,13 +296,13 @@ class StateManager {
       this.listeners.set(key, new Set());
     }
 
-    let listenerSet = this.listeners.get(key);
+    const listenerSet = this.listeners.get(key);
     if (listenerSet) {
       listenerSet.add(listener);
     }
 
     return () => {
-      let listeners = this.listeners.get(key);
+      const listeners = this.listeners.get(key);
       if (listeners) {
         listeners.delete(listener);
         if (listeners.size === 0) {
@@ -320,7 +320,7 @@ class StateManager {
 
   // Enhanced functionality
   addToHistory(type: 'viewed' | 'cooked', recipeId: string): void {
-    let history = [...this.state.user.history[type]];
+    const history = [...this.state.user.history[type]];
     let index = history.indexOf(recipeId);
 
     if (index > -1) {
@@ -357,8 +357,8 @@ class StateManager {
   }
 
   toggleFavorite(recipeId: string): void {
-    let favorites = [...this.state.recipes.favorites];
-    let index = favorites.indexOf(recipeId);
+    const favorites = [...this.state.recipes.favorites];
+    const index = favorites.indexOf(recipeId);
 
     if (index > -1) {
       favorites.splice(index, 1);
@@ -375,14 +375,14 @@ class StateManager {
   }
 
   addNotification(type: 'success' | 'error' | 'info', message: string): void {
-    let notification = {
+    const notification = {
       id: Date.now().toString(),
       type,
       message,
       timestamp: Date.now(),
     };
 
-    let notifications = [notification, ...this.state.ui.notifications].slice(
+    const notifications = [notification, ...this.state.ui.notifications].slice(
       0,
       5
     );
@@ -408,4 +408,4 @@ class StateManager {
   }
 }
 
-export let stateManager = StateManager.getInstance();
+export const stateManager = StateManager.getInstance();

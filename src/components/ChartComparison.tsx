@@ -70,7 +70,7 @@ Dominant Modality
 }
 
 // Helper function to get color for element display;
-let getElementColor = (element: string): string ={'{',>'}'} {''
+const getElementColor = (element: string): string ={'{',>'}'} {''
 const colorMap;
   }
   return colorMap[index: string]:element] || ',#777777''

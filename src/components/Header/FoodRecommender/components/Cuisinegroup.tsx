@@ -28,7 +28,7 @@ const CuisineGroup: React.FC<Props> = ({ recipes, elementalState }) => {
     'elemental'
   );
 
-  let isAppropriateForTimeOfDay = React.useCallback(
+  const isAppropriateForTimeOfDay = React.useCallback(
     (recipe: Recipe): boolean => {
       let timeOfDay = elementalState.timeOfDay;
       let mealTypes = Array.isArray(recipe.mealType)
@@ -58,21 +58,21 @@ const CuisineGroup: React.FC<Props> = ({ recipes, elementalState }) => {
     [elementalState.timeOfDay]
   );
 
-  let calculateMatchScore = React.useCallback(
+  const calculateMatchScore = React.useCallback(
     (recipe: Recipe): number => {
       if (!recipe?.elementalProperties) return 0;
       if (!isAppropriateForTimeOfDay(recipe)) return 0;
 
       try {
         // Use a local helper function instead
-        let baseScore = calculateElementalMatch(
+        const baseScore = calculateElementalMatch(
           recipe.elementalProperties,
           elementalState
         );
-        let score = baseScore * 100;
+        const score = baseScore * 100;
 
         // Enhanced scoring factors
-        let bonusFactors = {
+        const bonusFactors = {
           seasonMatch: 10, // Season matching bonus
           timeMatch: 15, // Perfect time of day match
           balancedNutrition: 8, // Well-balanced nutritional profile
@@ -81,7 +81,7 @@ const CuisineGroup: React.FC<Props> = ({ recipes, elementalState }) => {
         };
 
         // Season matching with more nuanced scoring
-        let seasons = Array.isArray(recipe.season)
+        const seasons = Array.isArray(recipe.season)
           ? recipe.season
           : typeof recipe.season === 'string'
           ? [recipe.season]
@@ -98,7 +98,7 @@ const CuisineGroup: React.FC<Props> = ({ recipes, elementalState }) => {
 
         // Time of day matching with granular scoring
         const timeOfDay = elementalState.timeOfDay;
-        let mealTypes = Array.isArray(recipe.mealType)
+        const mealTypes = Array.isArray(recipe.mealType)
           ? recipe.mealType
           : [recipe.mealType];
 
@@ -116,21 +116,21 @@ const CuisineGroup: React.FC<Props> = ({ recipes, elementalState }) => {
         // Revamped nutrition assessment approach
         if (recipe.nutrition) {
           // Calculate nutrition ratios rather than absolute values
-          let totalMacros =
+          const totalMacros =
             (recipe.nutrition.protein ?? 0) +
             (recipe.nutrition.carbs ?? 0) +
             (recipe.nutrition.fat ?? 0);
 
           if (totalMacros > 0) {
-            let proteinRatio = (recipe.nutrition.protein ?? 0) / (totalMacros || 1);
-            let carbsRatio = (recipe.nutrition.carbs ?? 0) / totalMacros;
-            let fatRatio = (recipe.nutrition.fat ?? 0) / totalMacros;
+            const proteinRatio = (recipe.nutrition.protein ?? 0) / (totalMacros || 1);
+            const carbsRatio = (recipe.nutrition.carbs ?? 0) / totalMacros;
+            const fatRatio = (recipe.nutrition.fat ?? 0) / totalMacros;
 
             // Check if ratios are within healthy ranges
             // Protein: ~15-35% of calories
             // Carbs: ~45-65% of calories
             // Fat: ~20-35% of calories
-            let hasBalancedRatios =
+            const hasBalancedRatios =
               proteinRatio >= 0.15 &&
               proteinRatio <= 0.35 &&
               carbsRatio >= 0.45 &&
@@ -139,18 +139,18 @@ const CuisineGroup: React.FC<Props> = ({ recipes, elementalState }) => {
               fatRatio <= 0.35;
 
             // Alternative: Score based on how close ratios are to ideal targets
-            let idealProtein = 0.25; // 25% as target
-            let idealCarbs = 0.55; // 55% as target
-            let idealFat = 0.2; // 20% as target
+            const idealProtein = 0.25; // 25% as target
+            const idealCarbs = 0.55; // 55% as target
+            const idealFat = 0.2; // 20% as target
 
-            let proteinDeviation = Math.abs(proteinRatio - idealProtein);
-            let carbsDeviation = Math.abs(carbsRatio - idealCarbs);
-            let fatDeviation = Math.abs(fatRatio - idealFat);
+            const proteinDeviation = Math.abs(proteinRatio - idealProtein);
+            const carbsDeviation = Math.abs(carbsRatio - idealCarbs);
+            const fatDeviation = Math.abs(fatRatio - idealFat);
 
             // Lower deviation means better balance
-            let totalDeviation =
+            const totalDeviation =
               proteinDeviation + carbsDeviation + fatDeviation;
-            let balanceScore = Math.max(
+            const balanceScore = Math.max(
               0,
               bonusFactors.balancedNutrition * (1 - totalDeviation)
             );
@@ -159,8 +159,8 @@ const CuisineGroup: React.FC<Props> = ({ recipes, elementalState }) => {
           }
 
           // Caloric appropriateness still makes sense
-          let calories = recipe.nutrition.calories ?? 0;
-          let isAppropriateCalories =
+          const calories = recipe.nutrition.calories ?? 0;
+          const isAppropriateCalories =
             (timeOfDay === 'morning' && calories >= 300 && calories <= 500) ||
             (timeOfDay === 'afternoon' && calories >= 400 && calories <= 700) ||
             (timeOfDay === 'evening' && calories >= 400 && calories <= 800);
@@ -171,7 +171,7 @@ const CuisineGroup: React.FC<Props> = ({ recipes, elementalState }) => {
         }
 
         // Preparation time bonus for quick meals during busy times
-        let prepTime = parseInt(recipe.timeToMake) || 0;
+        const prepTime = parseInt(recipe.timeToMake) || 0;
         if (prepTime <= 30) {
           score += bonusFactors.quickPrep;
         } else if (prepTime <= 45) {
@@ -197,27 +197,27 @@ const CuisineGroup: React.FC<Props> = ({ recipes, elementalState }) => {
   );
 
   // Add this helper function
-  let calculateElementalMatch = (
+  const calculateElementalMatch = (
     recipeElements: Record<string, number>,
     targetElements: unknown // Change type to match your needs
   ): number => {
     if (!recipeElements || !targetElements) return 0.6;
 
-    let totalSimilarity = 0;
-    let count = 0;
+    const totalSimilarity = 0;
+    const count = 0;
 
     // Only use the elemental properties from targetElements
-    let elements = ['Fire', 'Water', 'Earth', 'Air'] as const;
+    const elements = ['Fire', 'Water', 'Earth', 'Air'] as const;
 
     for (const element of elements) {
       if (
         typeof recipeElements[element] === 'number' &&
         typeof targetElements[element] === 'number'
       ) {
-        let difference = Math.abs(
+        const difference = Math.abs(
           recipeElements[element] - targetElements[element]
         );
-        let similarity = 1 - difference;
+        const similarity = 1 - difference;
         totalSimilarity += similarity;
         count++;
       }
@@ -227,7 +227,7 @@ const CuisineGroup: React.FC<Props> = ({ recipes, elementalState }) => {
   };
 
   // Get styling class based on match score
-  let getMatchScoreClass = (score: number): string => {
+  const getMatchScoreClass = (score: number): string => {
     if (score >= 96)
       return 'bg-gradient-to-r from-green-500 to-green-400 text-white font-bold shadow-sm';
     if (score >= 90)
@@ -241,7 +241,7 @@ const CuisineGroup: React.FC<Props> = ({ recipes, elementalState }) => {
   };
 
   // Function to render a more visually appealing score badge
-  let renderScoreBadge = (score: number) => {
+  const renderScoreBadge = (score: number) => {
     let stars = '';
     let tooltipText =
       'Match score based on elemental profile and current conditions';
@@ -274,7 +274,7 @@ const CuisineGroup: React.FC<Props> = ({ recipes, elementalState }) => {
     );
   };
 
-  let organizedRecipes = useMemo(() => {
+  const organizedRecipes = useMemo(() => {
     logger.debug('Organizing recipes...');
 
     // Initialize with all cuisine types
@@ -289,9 +289,9 @@ const CuisineGroup: React.FC<Props> = ({ recipes, elementalState }) => {
     // Process and organize recipes
     recipes.forEach((recipe) => {
       if (!recipe.cuisine) return;
-      let cuisineKey = recipe.cuisine.toLowerCase();
+      const cuisineKey = recipe.cuisine.toLowerCase();
       if (recipesByCuisine[cuisineKey]) {
-        let matchScore = calculateMatchScore(recipe);
+        const matchScore = calculateMatchScore(recipe);
         if (matchScore > 0) {
           recipesByCuisine[cuisineKey].push({
             ...recipe,

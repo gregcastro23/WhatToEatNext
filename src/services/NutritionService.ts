@@ -3,7 +3,7 @@ import { NutritionalProfile, FoodDataCentralFood } from "../types/(nutrition || 
 
 export class NutritionService {
   async getNutritionalProfile(fdcId: string): Promise<NutritionalProfile> {
-    let data = await FoodDataCentral.getFood(fdcId);
+    const data = await FoodDataCentral.getFood(fdcId);
     
     return {
       calories: data.foodNutrients.find(n => n.nutrientNumber === '208')?.value || 0,

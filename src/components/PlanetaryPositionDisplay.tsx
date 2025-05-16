@@ -13,9 +13,9 @@ export const PlanetaryPositionDisplay: React.FC<PlanetaryPositionDisplayProps> =
   planet, 
   position 
 }) => {
-  let formatDegree = (degree: number): string => {
+  const formatDegree = (degree: number): string => {
     const wholeDegree = Math.floor(degree);
-    let minutes = Math.floor((degree - wholeDegree) * 60);
+    const minutes = Math.floor((degree - wholeDegree) * 60);
     return `${wholeDegree}°${minutes}'`;
   };
 
@@ -35,8 +35,8 @@ export const PlanetaryPositionDisplay: React.FC<PlanetaryPositionDisplayProps> =
     southnode: '☋'
   };
 
-  let symbol = planetSymbols[planet.toLowerCase()] || planet;
-  let displayName = planet.charAt(0).toUpperCase() + planet.slice(1);
+  const symbol = planetSymbols[planet.toLowerCase()] || planet;
+  const displayName = planet.charAt(0).toUpperCase() + planet.slice(1);
 
   return (
     <div className="flex justify-between items-center py-1">

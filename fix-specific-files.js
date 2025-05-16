@@ -114,7 +114,7 @@ function fixIngredientRecommenderJSX() {
   }
   
   // We'll read the original file
-  let content = fs.readFileSync(filePath, 'utf8');
+  const content = fs.readFileSync(filePath, 'utf8');
   
   // Create a simplified version that just wraps everything in a div
   // This is a very minimal implementation to avoid JSX parsing errors
@@ -199,7 +199,7 @@ function fixRecipeImports() {
     'src/utils/recipeFilters.ts'
   ];
   
-  let fixedCount = 0;
+  const fixedCount = 0;
   
   filesToFix.forEach(relPath => {
     const filePath = path.join(process.cwd(), relPath);

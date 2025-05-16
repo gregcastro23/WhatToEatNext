@@ -20,7 +20,7 @@ interface PropInfo {
  * Helper function to get detailed prop information
  */
 function getPropInfo(key: string, value: unknown): PropInfo {
-  let type = Array.isArray(value) ? 'array' : typeof value;
+  const type = Array.isArray(value) ? 'array' : typeof value;
 
   const info: PropInfo = { key, type };
 
@@ -36,7 +36,7 @@ function getPropInfo(key: string, value: unknown): PropInfo {
     info.isEmpty = info.size === 0;
     // Sample a few keys for debugging
     if (info.size > 0) {
-      let sampleKeys = Object.keys(value).slice(0, 3).join(', ');
+      const sampleKeys = Object.keys(value).slice(0, 3).join(', ');
       info.value = `{${sampleKeys}${info.size > 3 ? '...' : ''}}`;
     }
   } else if (typeof value === 'string') {
@@ -62,7 +62,7 @@ export function withRenderTracking<P extends object>(
   componentName: string
 ): FunctionComponent<P> {
   // Define display name for React DevTools
-  let displayName = `RenderTracked(${
+  const displayName = `RenderTracked(${
     componentName || Component.displayName || Component.name || 'Component'
   })`;
 
@@ -73,15 +73,15 @@ export function withRenderTracking<P extends object>(
 
     // Track renders
     useEffect(() => {
-      let startTime = performance.now();
+      const startTime = performance.now();
 
       setRenderCount((prev) => {
-        let newCount = prev + 1;
+        const newCount = prev + 1;
 
         // Log more details on first render or every 5 renders
         if (firstRender || newCount % 5 === 0) {
           // Get detailed prop information for debugging
-          let propDetails = Object.entries(props).map(([key, value]) =>
+          const propDetails = Object.entries(props).map(([key, value]) =>
             getPropInfo(key, value)
           );
 
@@ -101,7 +101,7 @@ export function withRenderTracking<P extends object>(
 
       // Calculate and track render time
       return () => {
-        let endTime = performance.now();
+        const endTime = performance.now();
         setRenderTime(endTime - startTime);
       };
     }, [firstRender, props]);
@@ -151,7 +151,7 @@ export function withRenderTracking<P extends object>(
  *
  * @example
  * // As a function
- * let TrackedComponent = trackRenders(MyComponent, 'MyComponent');
+ * const TrackedComponent = trackRenders(MyComponent, 'MyComponent');
  *
  * @example
  * // As a decorator (TypeScript)

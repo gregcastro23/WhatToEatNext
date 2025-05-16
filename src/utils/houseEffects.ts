@@ -6,7 +6,7 @@ import { ElementalProperties } from '@/types/alchemy';
  * A utility function for logging debug information
  * This is a safe replacement for console.log that can be disabled in production
  */
-let debugLog = (message: string, ...args: unknown[]): void => {
+const debugLog = (message: string, ...args: unknown[]): void => {
   // Comment out console.log to avoid linting warnings
   // console.log(message, ...args);
 };
@@ -168,18 +168,18 @@ export function calculateHouseEffect(
   };
   
   // Get house data
-  let houseData = HOUSE_DATA[house];
+  const houseData = HOUSE_DATA[house];
   if (!houseData) {
     debugLog(`House number ${house} not found in house data`);
     return effects;
   }
   
   // Get sign element
-  let signElement = getZodiacElement(sign) as ElementalCharacter;
+  const signElement = getZodiacElement(sign) as ElementalCharacter;
   
   // Calculate house-based elemental effect
-  let houseElement = houseData.element;
-  let houseStrength = HOUSE_STRENGTH[houseData.nature];
+  const houseElement = houseData.element;
+  const houseStrength = HOUSE_STRENGTH[houseData.nature];
   
   // Add house-based effect
   effects[houseElement] += houseStrength;
@@ -240,11 +240,11 @@ export function calculateAllHouseEffects(
       continue;
     }
     
-    let house = position.house;
-    let sign = position.sign;
+    const house = position.house;
+    const sign = position.sign;
     
     // Get house effects for this planet
-    let houseEffects = calculateHouseEffect(planet, house, sign);
+    const houseEffects = calculateHouseEffect(planet, house, sign);
     
     // Add to total effects
     for (const element in houseEffects) {

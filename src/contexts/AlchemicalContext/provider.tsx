@@ -335,7 +335,7 @@ export const AlchemicalProvider: React.FC<{children: React.ReactNode}> = ({ chil
       
       // Calculate planetary hour
       const now = new Date();
-      let hour = now.getHours();
+      const hour = now.getHours();
       // Use a simple planetary hour calculation - each day is ruled by a planet in sequence
       // and hours are ruled in sequence: Sun, Venus, Mercury, Moon, Saturn, Jupiter, Mars
       const planetaryRulers = ['Sun', 'Venus', 'Mercury', 'Moon', 'Saturn', 'Jupiter', 'Mars'];
@@ -415,7 +415,7 @@ export const AlchemicalProvider: React.FC<{children: React.ReactNode}> = ({ chil
   };
 
   const getTimeOfDay = () => {
-    let hour = new Date().getHours();
+    const hour = new Date().getHours();
     if (hour >= 5 && hour < 12) return 'morning';
     if (hour >= 12 && hour < 17) return 'afternoon';
     if (hour >= 17 && hour < 21) return 'evening';

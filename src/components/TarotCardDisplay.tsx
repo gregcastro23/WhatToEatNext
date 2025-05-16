@@ -41,13 +41,13 @@ export default function TarotCardDisplay() {
 
   useEffect(() => {
     try {
-      let currentDate = new Date();
-      let cards = getTarotCardsForDate(currentDate);
+      const currentDate = new Date();
+      const cards = getTarotCardsForDate(currentDate);
       setTarotCards(cards as unknown as TarotCards);
 
       // Calculate token values directly in useEffect
       if (cards) {
-        let newValues = { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 };
+        const newValues = { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 };
         const suitMap: Record<string, keyof TarotTokenValues> = {
           Wands: 'Spirit',
           Cups: 'Essence',
@@ -55,9 +55,9 @@ export default function TarotCardDisplay() {
           Swords: 'Substance',
         };
 
-        let suit = cards.minorCard.suit;
-        let tokenType = suitMap[suit];
-        let value = cards.minorCard.number;
+        const suit = cards.minorCard.suit;
+        const tokenType = suitMap[suit];
+        const value = cards.minorCard.number;
 
         if (tokenType) {
           newValues[tokenType] = value;

@@ -94,7 +94,7 @@ interface ElementalRecommendation {
   ingredients: string[];
 }
 
-let ElementIcons = {
+const ElementIcons = {
   Fire: Flame,
   Water: Droplet,
   Air: Wind,
@@ -134,12 +134,12 @@ const FoodBalanceTracker: React.FC<FoodBalanceTrackerProps> = ({
   const [selectedView, setSelectedView] = useState<'today' | 'week'>('today');
 
   // Calculate current nutritional totals
-  let nutritionalBalance = calculateNutritionalBalance(entries);
-  let propertyBalance = analyzePropertyBalance(entries);
+  const nutritionalBalance = calculateNutritionalBalance(entries);
+  const propertyBalance = analyzePropertyBalance(entries);
 
   // Update meal type based on time of day
   useEffect(() => {
-    let hour = new Date().getHours();
+    const hour = new Date().getHours();
     if (hour < 11) setMealType('breakfast');
     else if (hour < 16) setMealType('lunch');
     else if (hour < 20) setMealType('dinner');
@@ -147,7 +147,7 @@ const FoodBalanceTracker: React.FC<FoodBalanceTrackerProps> = ({
   }, []);
 
   // Update search results when search term changes
-  let handleSearch = useCallback(async () => {
+  const handleSearch = useCallback(async () => {
     if (!searchTerm.trim()) {
       setSearchResults([]);
       return;
@@ -158,7 +158,7 @@ const FoodBalanceTracker: React.FC<FoodBalanceTrackerProps> = ({
       // Search for dishes in selected cuisine
       if (cuisines[selectedCuisine]?.dishes) {
         // Type-safe access to dishes
-        let cuisineDishes = cuisines[selectedCuisine].dishes;
+        const cuisineDishes = cuisines[selectedCuisine].dishes;
         const results: Dish[] = [];
 
         // Safely iterate over dishes
@@ -192,7 +192,7 @@ const FoodBalanceTracker: React.FC<FoodBalanceTrackerProps> = ({
       }
     } else {
       // Search for ingredients
-      let results = ingredients
+      const results = ingredients
         .filter((ingredient) =>
           ingredient.name.toLowerCase().includes(searchTerm.toLowerCase())
         )
@@ -229,7 +229,7 @@ const FoodBalanceTracker: React.FC<FoodBalanceTrackerProps> = ({
   }, [handleSearch]);
 
   // Handle ingredient / (dish || 1) selection
-  let handleIngredientSelect = (item: Ingredient | Dish) => {
+  const handleIngredientSelect = (item: Ingredient | Dish) => {
     if (showCuisineSelection && selectedCuisine && 'mealType' in item) {
       // Add dish from cuisine
       const dish = item as Dish;
@@ -274,7 +274,7 @@ const FoodBalanceTracker: React.FC<FoodBalanceTrackerProps> = ({
         : [];
 
       // Ensure elementalProperties is never an empty object
-      let elementalProps =
+      const elementalProps =
         dish.elementalProperties || defaultElementalProperties;
 
       setEntries([
@@ -300,7 +300,7 @@ const FoodBalanceTracker: React.FC<FoodBalanceTrackerProps> = ({
       // Add ingredient
       let ingredient = item as Ingredient;
       // Convert string[] properties to FoodProperty[] safely
-      let propertyEntries = ingredient.properties
+      const propertyEntries = ingredient.properties
         ? (ingredient.properties.filter((prop) =>
             // Only include valid FoodProperty values
             [
@@ -362,7 +362,7 @@ const FoodBalanceTracker: React.FC<FoodBalanceTrackerProps> = ({
   // Update cultural recommendations when entries change
   useEffect(() => {
     if (showCuisineSelection && entries.length > 0 && entries[0].cuisineId) {
-      let lastEntry = entries[entries.length - 1];
+      const lastEntry = entries[entries.length - 1];
       if (lastEntry.cuisineId) {
         const { recommended } = getCulturalRecommendations(
           lastEntry.cuisineId,
@@ -374,7 +374,7 @@ const FoodBalanceTracker: React.FC<FoodBalanceTrackerProps> = ({
   }, [entries, showCuisineSelection]);
 
   // Get icon for meal type
-  let getMealTypeIcon = (type: string) => {
+  const getMealTypeIcon = (type: string) => {
     if (showCuisineSelection) {
       switch (type) {
         case 'breakfast':
@@ -416,17 +416,17 @@ const FoodBalanceTracker: React.FC<FoodBalanceTrackerProps> = ({
         // If element is below 20%, recommend ingredients rich in this element
         if (numericValue < 0.2) {
           // Find top 3 ingredients rich in this element
-          let recommendedIngredients = ingredients
+          const recommendedIngredients = ingredients
             .filter((ing) => {
               const elementValue =
                 ing.elementalProperties[element as keyof ElementalProperties];
               return elementValue && elementValue > 0.4; // Only ingredients strong in this element
             })
             .sort((a, b) => {
-              let aValue =
+              const aValue =
                 a.elementalProperties[element as keyof ElementalProperties] ||
                 0;
-              let bValue =
+              const bValue =
                 b.elementalProperties[element as keyof ElementalProperties] ||
                 0;
               return bValue - aValue;
@@ -448,7 +448,7 @@ const FoodBalanceTracker: React.FC<FoodBalanceTrackerProps> = ({
     }
   }, [entries, propertyBalance, showElementalFeatures]);
 
-  let calculateNutritionSummary = (nutrient: string): NutritionSummary => {
+  const calculateNutritionSummary = (nutrient: string): NutritionSummary => {
     const total = nutritionalBalance[nutrient] || 0;
 
     // Type-safe way to access nutritionTargets
@@ -457,8 +457,8 @@ const FoodBalanceTracker: React.FC<FoodBalanceTrackerProps> = ({
       target = nutritionTargets[nutrient as NutrientKey].max;
     }
 
-    let unit = nutrient === 'calories' ? 'kcal' : 'g';
-    let percentage = target > 0 ? (total / (target || 1)) * 100 : 0;
+    const unit = nutrient === 'calories' ? 'kcal' : 'g';
+    const percentage = target > 0 ? (total / (target || 1)) * 100 : 0;
 
     return { total, target, unit, percentage };
   };
@@ -704,7 +704,7 @@ const FoodBalanceTracker: React.FC<FoodBalanceTrackerProps> = ({
             <h3 className="text-lg font-medium mb-3">Nutritional Balance</h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {Object.keys(nutritionTargets).map((nutrient) => {
-                let summary = calculateNutritionSummary(nutrient);
+                const summary = calculateNutritionSummary(nutrient);
                 let statusColor =
                   summary.percentage < 50
                     ? 'bg-blue-100 text-blue-800'
@@ -801,7 +801,7 @@ const FoodBalanceTracker: React.FC<FoodBalanceTrackerProps> = ({
 
                 let ElementIcon =
                   ElementIcons[element as keyof typeof ElementIcons] || Flame;
-                let elementLevel =
+                const elementLevel =
                   numericValue < 0.2
                     ? 'Low'
                     : numericValue < 0.4
@@ -810,7 +810,7 @@ const FoodBalanceTracker: React.FC<FoodBalanceTrackerProps> = ({
                     ? 'Balanced'
                     : 'High';
 
-                let statusColor =
+                const statusColor =
                   numericValue < 0.2
                     ? 'bg-red-100 text-red-800'
                     : numericValue < 0.4
@@ -857,7 +857,7 @@ const FoodBalanceTracker: React.FC<FoodBalanceTrackerProps> = ({
                 </h4>
                 <div className="space-y-3">
                   {missingElements.map((rec) => {
-                    let ElementIcon = ElementIcons[rec.element] || Flame;
+                    const ElementIcon = ElementIcons[rec.element] || Flame;
                     return (
                       <div
                         key={rec.element}
@@ -875,7 +875,7 @@ const FoodBalanceTracker: React.FC<FoodBalanceTrackerProps> = ({
                             <button
                               key={ing}
                               onClick={() => {
-                                let ingredient = ingredients.find(
+                                const ingredient = ingredients.find(
                                   (i) => i.name === ing
                                 );
                                 if (ingredient) {
@@ -940,7 +940,7 @@ const FoodBalanceTracker: React.FC<FoodBalanceTrackerProps> = ({
                   })
                   .map(([element, value], index, arr) => {
                     if (index < arr.length - 1) {
-                      let nextElement = arr[index + 1][0];
+                      const nextElement = arr[index + 1][0];
                       return (
                         <li
                           key={`${element}-${nextElement}`}
@@ -989,7 +989,7 @@ const FoodBalanceTracker: React.FC<FoodBalanceTrackerProps> = ({
 
               {/* If no significant combinations */}
               {Object.entries(propertyBalance).filter(([_, value]) => {
-                let numericValue =
+                const numericValue =
                   typeof value === 'object' && value && 'count' in value
                     ? value.count
                     : (value as unknown as number);

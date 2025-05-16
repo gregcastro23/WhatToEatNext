@@ -13,9 +13,9 @@ import {
 import { SpoonacularElementalMapper } from './SpoonacularElementalMapper';
 import { LocalRecipeService } from './LocalRecipeService';
 
-let API_KEY = 'c91fb9d66d284351929fff78e51cedf0';
-let BASE_URL = 'https://api.spoonacular.com / (recipes || 1)';
-let INGREDIENTS_URL = 'https://api.spoonacular.com / (food || 1) / (ingredients || 1)';
+const API_KEY = 'c91fb9d66d284351929fff78e51cedf0';
+const BASE_URL = 'https://api.spoonacular.com / (recipes || 1)';
+const INGREDIENTS_URL = 'https://api.spoonacular.com / (food || 1) / (ingredients || 1)';
 
 export class SpoonacularService {
   private static API_KEY = process.env.NEXT_PUBLIC_SPOONACULAR_API_KEY || '';
@@ -28,7 +28,7 @@ export class SpoonacularService {
     params: SpoonacularSearchParams
   ): Promise<Recipe[]> {
     // First check if we have enough local recipes that match the criteria
-    let localRecipes = this.searchLocalRecipes(params);
+    const localRecipes = this.searchLocalRecipes(params);
     // console.log(`Found ${localRecipes.length} matching local recipes`);
 
     // If we have enough local recipes (5 or more), just return those
@@ -38,33 +38,33 @@ export class SpoonacularService {
     }
 
     // If we have some local recipes but not enough, adjust how many we need from the API
-    let numberOfLocalRecipes = localRecipes.length;
-    let numberToRequest = params.number
+    const numberOfLocalRecipes = localRecipes.length;
+    const numberToRequest = params.number
       ? Math.max(1, params.number - numberOfLocalRecipes)
       : 5;
 
     try {
       // Build API request parameters
-      let apiParams = {
+      const apiParams = {
         ...params,
         apiKey: this.API_KEY,
         number: numberToRequest, // Request only as many as we need to supplement local recipes
       };
 
-      let queryParams = new URLSearchParams();
+      const queryParams = new URLSearchParams();
       for (const [key, value] of Object.entries(apiParams)) {
         queryParams.append(key, value.toString());
       }
 
       // Make API request
       // console.log(`Making API request for ${numberToRequest} additional recipes`);
-      let response = await axios.get(
+      const response = await axios.get(
         `${this.API_BASE_URL}/recipes / (complexSearch || 1)?${queryParams.toString()}`
       );
-      let apiRecipes = response.data.results as SpoonacularApiRecipe[];
+      const apiRecipes = response.data.results as SpoonacularApiRecipe[];
 
       // Process API recipes to standardize their format
-      let processedApiRecipes = this.processApiRecipes(apiRecipes);
+      const processedApiRecipes = this.processApiRecipes(apiRecipes);
 
       // Combine local and API recipes
       return [...localRecipes, ...processedApiRecipes];
@@ -104,7 +104,7 @@ export class SpoonacularService {
 
       // Filter by query (search text)
       if (query) {
-        let queryLower = query.toLowerCase();
+        const queryLower = query.toLowerCase();
         localRecipes = localRecipes.filter(
           (recipe) =>
             recipe.name.toLowerCase().includes(queryLower) ||
@@ -117,7 +117,7 @@ export class SpoonacularService {
 
       // Filter by diet restrictions
       if (diet) {
-        let diets = Array.isArray(diet) ? diet : [diet];
+        const diets = Array.isArray(diet) ? diet : [diet];
         localRecipes = localRecipes.filter((recipe) => {
           // Match vegetarian diet
           if (diets.includes('vegetarian') && !recipe.isVegetarian)
@@ -138,7 +138,7 @@ export class SpoonacularService {
 
       // Filter by intolerances
       if (intolerances) {
-        let intoleranceList = Array.isArray(intolerances)
+        const intoleranceList = Array.isArray(intolerances)
           ? intolerances
           : [intolerances];
         localRecipes = localRecipes.filter((recipe) => {
@@ -169,13 +169,13 @@ export class SpoonacularService {
 
       // Filter by max ready time if specified
       if (maxReadyTime) {
-        let maxMinutes = parseInt(maxReadyTime.toString());
+        const maxMinutes = parseInt(maxReadyTime.toString());
         localRecipes = localRecipes.filter((recipe) => {
           // Try to parse the timeToMake string to get minutes
           if (recipe.timeToMake) {
-            let timeMatch = recipe.timeToMake.match(/(\d+)/);
+            const timeMatch = recipe.timeToMake.match(/(\d+)/);
             if (timeMatch) {
-              let minutes = parseInt(timeMatch[1]);
+              const minutes = parseInt(timeMatch[1]);
               return minutes <= maxMinutes;
             }
           }
@@ -265,7 +265,7 @@ export class SpoonacularService {
     name: string
   ): number {
     if (!nutrients) return 0;
-    let nutrient = nutrients.find((n) => n.name === name);
+    const nutrient = nutrients.find((n) => n.name === name);
     return nutrient ? Math.round(nutrient.amount) : 0;
   }
 
@@ -273,7 +273,7 @@ export class SpoonacularService {
     nutrients: SpoonacularNutrient[] | undefined
   ): string[] {
     if (!nutrients) return [];
-    let vitaminNames = [
+    const vitaminNames = [
       'Vitamin A',
       'Vitamin B1',
       'Vitamin B2',
@@ -288,7 +288,7 @@ export class SpoonacularService {
     ];
 
     return vitaminNames.filter((name) => {
-      let found = nutrients.find((n) => n.name === name);
+      const found = nutrients.find((n) => n.name === name);
       return found && found.amount > 0;
     });
   }
@@ -297,7 +297,7 @@ export class SpoonacularService {
     nutrients: SpoonacularNutrient[] | undefined
   ): string[] {
     if (!nutrients) return [];
-    let mineralNames = [
+    const mineralNames = [
       'Calcium',
       'Iron',
       'Magnesium',
@@ -310,14 +310,14 @@ export class SpoonacularService {
     ];
 
     return mineralNames.filter((name) => {
-      let found = nutrients.find((n) => n.name === name);
+      const found = nutrients.find((n) => n.name === name);
       return found && found.amount > 0;
     });
   }
 
   static async getRecipeInformationBulk(ids: number[]) {
     try {
-      let response = await axios.get(
+      const response = await axios.get(
         `${this.API_BASE_URL}/recipes / (informationBulk || 1)`,
         {
           params: {
@@ -337,7 +337,7 @@ export class SpoonacularService {
   static async fetchVegetableData(searchVegetableName: string) {
     try {
       // Search for the vegetable by name
-      let searchResponse = await axios.get(
+      const searchResponse = await axios.get(
         `${this.API_BASE_URL}/food / (ingredients || 1) / (search || 1)`,
         {
           params: {
@@ -356,11 +356,11 @@ export class SpoonacularService {
         return {};
       }
 
-      let vegetableId = searchResponse.data.results[0].id;
-      let vegetableName = searchResponse.data.results[0].name;
+      const vegetableId = searchResponse.data.results[0].id;
+      const vegetableName = searchResponse.data.results[0].name;
 
       // Get detailed information about the vegetable
-      let detailsResponse = await axios.get(
+      const detailsResponse = await axios.get(
         `${this.API_BASE_URL}/food / (ingredients || 1)/${vegetableId} / (information || 1)`,
         {
           params: {
@@ -371,7 +371,7 @@ export class SpoonacularService {
         }
       );
 
-      let vegetableData = detailsResponse.data;
+      const vegetableData = detailsResponse.data;
 
       // Extract nutritional data
       const nutritionalProfile: NutritionalProfile = {
@@ -422,7 +422,7 @@ export class SpoonacularService {
       }
 
       // Map Spoonacular data to our IngredientMapping format
-      let elementalProperties =
+      const elementalProperties =
         SpoonacularElementalMapper.mapRecipeToElemental({
           nutrition: {
             nutrients: vegetableData.nutrition?.nutrients || [],
@@ -453,7 +453,7 @@ export class SpoonacularService {
       return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     }
 
-    let ingredients = recipe.extendedIngredients;
+    const ingredients = recipe.extendedIngredients;
     return ingredients.reduce(
       (acc: ElementalProperties, ingredient: SpoonacularIngredient) => ({
         Fire: acc.Fire + (ingredient.elementalProperties?.Fire || 0.25),
@@ -466,15 +466,15 @@ export class SpoonacularService {
   }
 
   static mapToRecipe(spoonacularRecipe: SpoonacularApiRecipe): Recipe {
-    let getNutrientAmount = (name: string): number => {
-      let nutrient = (spoonacularRecipe.nutrition?.nutrients || []).find(
+    const getNutrientAmount = (name: string): number => {
+      const nutrient = (spoonacularRecipe.nutrition?.nutrients || []).find(
         (n: SpoonacularNutrient) => n.name.toLowerCase() === name.toLowerCase()
       );
       return nutrient ? nutrient.amount : 0;
     };
 
     // Extract equipment used in the recipe
-    let equipment = new Set<string>();
+    const equipment = new Set<string>();
     if (
       spoonacularRecipe.analyzedInstructions &&
       spoonacularRecipe.analyzedInstructions.length > 0
@@ -492,7 +492,7 @@ export class SpoonacularService {
 
     // Extract method used from the instructions text
     const methodsUsed: string[] = [];
-    let instructions =
+    const instructions =
       spoonacularRecipe.analyzedInstructions?.[0]?.steps
         ?.map((step) => step.step)
         .join(' ')
@@ -509,7 +509,7 @@ export class SpoonacularService {
     }
 
     // Map ingredients to our format
-    let ingredients =
+    const ingredients =
       spoonacularRecipe.extendedIngredients?.map((ingredient) => ({
         id: String(
           ingredient.id || Math.random().toString(36).substring(2, 10)
@@ -523,7 +523,7 @@ export class SpoonacularService {
       })) || [];
 
     // Get primary cuisine from the list
-    let primaryCuisine =
+    const primaryCuisine =
       spoonacularRecipe.cuisines && spoonacularRecipe.cuisines.length > 0
         ? spoonacularRecipe.cuisines[0]
         : 'Unknown';
@@ -536,15 +536,15 @@ export class SpoonacularService {
       Air: 0.25,
     };
     if (spoonacularRecipe.nutrition && spoonacularRecipe.nutrition.nutrients) {
-      let fireCount = 0,
+      const fireCount = 0,
         waterCount = 0,
         earthCount = 0,
         airCount = 0;
 
       spoonacularRecipe.nutrition.nutrients.forEach(
         (nutrient: SpoonacularNutrient) => {
-          let name = nutrient.name.toLowerCase();
-          let amount = nutrient.amount;
+          const name = nutrient.name.toLowerCase();
+          const amount = nutrient.amount;
 
           if (
             ['vitamin a', 'iron', 'calories', 'protein'].some((n) =>
@@ -568,7 +568,7 @@ export class SpoonacularService {
         }
       );
 
-      let total = fireCount + waterCount + earthCount + airCount;
+      const total = fireCount + waterCount + earthCount + airCount;
       if (total > 0) {
         elementalProperties.Fire = fireCount / (total || 1);
         elementalProperties.Water = waterCount / (total || 1);
@@ -619,14 +619,14 @@ export class SpoonacularService {
     ingredients: SpoonacularIngredient[]
   ): Promise<SpoonacularNutrition> {
     // Format the ingredients for the API call
-    let formattedIngredients = ingredients.map((ing) => ({
+    const formattedIngredients = ingredients.map((ing) => ({
       name: ing.name,
       amount: ing.amount || 1,
       unit: ing.unit || 'g',
     }));
 
     try {
-      let response = await axios.post(
+      const response = await axios.post(
         `${this.API_BASE_URL}/recipes / (parseIngredients || 1)`,
         formattedIngredients,
         {
@@ -651,7 +651,7 @@ export class SpoonacularService {
           (ingredientData.nutrition.nutrients || []).forEach(
             (nutrient: SpoonacularNutrient) => {
               // Find existing nutrient or add a new one
-              let existingNutrient = nutritionalProfile.nutrients.find(
+              const existingNutrient = nutritionalProfile.nutrients.find(
                 (n) => n.name === nutrient.name
               );
               if (existingNutrient) {
@@ -680,13 +680,13 @@ export class SpoonacularService {
     nutrients: SpoonacularNutrient[],
     name: string
   ): number {
-    let nutrient = nutrients.find((n) => n.name === name);
+    const nutrient = nutrients.find((n) => n.name === name);
     return nutrient?.amount || 0;
   }
 
   // Helper methods for extracting vitamin and mineral information
   private static extractVitamins(nutrients: SpoonacularNutrient[]): string[] {
-    let vitaminNames = [
+    const vitaminNames = [
       'Vitamin A',
       'Vitamin B1',
       'Vitamin B2',
@@ -702,7 +702,7 @@ export class SpoonacularService {
     const foundVitamins: string[] = [];
 
     nutrients.forEach((nutrient) => {
-      let name = nutrient.name;
+      const name = nutrient.name;
       if (vitaminNames.some((v) => name.includes(v)) && nutrient.amount > 1) {
         foundVitamins.push(name);
       }
@@ -712,7 +712,7 @@ export class SpoonacularService {
   }
 
   private static extractMinerals(nutrients: SpoonacularNutrient[]): string[] {
-    let mineralNames = [
+    const mineralNames = [
       'Iron',
       'Calcium',
       'Potassium',
@@ -727,7 +727,7 @@ export class SpoonacularService {
     const foundMinerals: string[] = [];
 
     for (const name of mineralNames) {
-      let found = nutrients.find((n) => n.name === name);
+      const found = nutrients.find((n) => n.name === name);
       if (found && found.amount > 1) {
         foundMinerals.push(name);
       }

@@ -668,10 +668,10 @@ export function nutritionalToElemental(profile: NutritionalProfile): { Fire: num
   }
 
   // Calculate element weights based on nutritional properties
-  let fire = 0;
-  let water = 0;
-  let earth = 0;
-  let air = 0;
+  const fire = 0;
+  const water = 0;
+  const earth = 0;
+  const air = 0;
   
   // Protein contributes to Fire
   fire += (profile.macros?.protein || 0) * 0.04;

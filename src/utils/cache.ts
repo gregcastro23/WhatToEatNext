@@ -23,7 +23,7 @@ export class Cache<T = any> {
    * @param ttl Time to live in milliseconds (optional)
    */
   set(key: string, value: unknown, ttl?: number): void {
-    let expiry = ttl ? Date.now() + ttl : null;
+    const expiry = ttl ? Date.now() + ttl : null;
     this.cache.set(key, { data: value, expiry });
   }
 
@@ -33,7 +33,7 @@ export class Cache<T = any> {
    * @returns The cached value or undefined if not found or expired
    */
   get<T>(key: string): T | undefined {
-    let item = this.cache.get(key);
+    const item = this.cache.get(key);
     
     // Return undefined if item doesn't exist
     if (!item) return undefined;
@@ -72,13 +72,13 @@ export class Cache<T = any> {
 }
 
 // Create a default cache instance with a 1-hour timeout if config is not available
-let DEFAULT_CACHE_TIMEOUT = 3600000;
+const DEFAULT_CACHE_TIMEOUT = 3600000;
 
 // Create a single instance of the cache for recipes
-export let recipeCache = new Cache<any>(DEFAULT_CACHE_TIMEOUT);
+export const recipeCache = new Cache<any>(DEFAULT_CACHE_TIMEOUT);
 
 // Create a simplified interface to the cache
-export let cache = {
+export const cache = {
   get: (key: string) => recipeCache.get(key),
   set: (key: string, value: unknown, ttl?: number) => recipeCache.set(key, value, ttl),
   delete: (key: string) => recipeCache.delete(key),

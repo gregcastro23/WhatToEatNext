@@ -40,7 +40,7 @@ targetFiles.forEach(filePath => {
   console.log(`Processing ${filePath}...`);
   
   // Read file content
-  let content = fs.readFileSync(filePath, 'utf8');
+  const content = fs.readFileSync(filePath, 'utf8');
   const originalContent = content;
   
   // Split into lines for analysis

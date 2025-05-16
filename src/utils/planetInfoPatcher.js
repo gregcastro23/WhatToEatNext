@@ -9,7 +9,7 @@ if (typeof window !== 'undefined') {
   window.addEventListener('DOMContentLoaded', function() {
     try {
       // Create safe versions of all the functions that might interact with planetInfo
-      let safeFunctions = {
+      const safeFunctions = {
         // CRUCIAL FIX: Safely implement getElementRanking with no assignments to constants
         getElementRanking: function(element_object, rank) {
           if (!element_object) {
@@ -17,7 +17,7 @@ if (typeof window !== 'undefined') {
           }
           
           // Create a new object that won't conflict with any constants
-          let result = {};
+          const result = {};
           
           // Find the largest element
           let maxValue = -Infinity;
@@ -44,7 +44,7 @@ if (typeof window !== 'undefined') {
             let secondMaxElement = '';
             
             Object.keys(element_object).forEach(function(element) {
-              let value = element_object[element];
+              const value = element_object[element];
               if (value > secondMaxValue && value < maxValue && element !== maxElement) {
                 secondMaxValue = value;
                 secondMaxElement = element;
@@ -65,7 +65,7 @@ if (typeof window !== 'undefined') {
           if (!element_object) return 0;
           
           // Calculate total value
-          let total = 0;
+          const total = 0;
           Object.keys(element_object).forEach(function(element) {
             total += element_object[element] || 0;
           });
@@ -84,7 +84,7 @@ if (typeof window !== 'undefined') {
         console.log('[PlanetInfoPatcher] Found planetInfo object, applying fixes...');
         
         // Create a proxy around planetInfo to intercept problematic operations
-        let originalPlanetInfo = window.planetInfo;
+        const originalPlanetInfo = window.planetInfo;
         window.planetInfo = new Proxy(originalPlanetInfo, {
           get: function(target, prop) {
             // Return the fixed getElementRanking if that's what's requested

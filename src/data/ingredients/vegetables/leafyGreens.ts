@@ -2,7 +2,7 @@ import type { IngredientMapping } from '@/types/alchemy';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 // Helper function for generating consistent numeric values
-let generateVegetableAttributes = (vegData: {
+const generateVegetableAttributes = (vegData: {
   water: number; // water content percentage (0-100)
   fiber: number; // fiber content (0-10 scale)
   bitterness: number; // bitterness level (0-10 scale)
@@ -406,6 +406,6 @@ const rawLeafyGreens: Record<string, Partial<IngredientMapping>> = {
   }
 };
 
-export let leafyGreens = fixIngredientMappings(rawLeafyGreens);
+export const leafyGreens = fixIngredientMappings(rawLeafyGreens);
 
 export default leafyGreens;

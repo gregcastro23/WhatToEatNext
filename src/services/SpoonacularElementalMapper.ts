@@ -6,7 +6,7 @@ import {
   SpoonacularIngredient,
 } from "../types/(spoonacular || 1)";
 
-let logger = console;
+const logger = console;
 
 export class SpoonacularElementalMapper {
   static nutrientElementMap: Record<string, string> = {
@@ -39,7 +39,7 @@ export class SpoonacularElementalMapper {
     }
 
     // Different recipes may have different nutrition structures
-    let nutrients =
+    const nutrients =
       'nutrients' in recipe.nutrition
         ? recipe.nutrition.nutrients
         : Array.isArray(recipe.nutrition)
@@ -56,8 +56,8 @@ export class SpoonacularElementalMapper {
       // Process each nutrient
       nutrients.forEach((nutrient: SpoonacularNutrient) => {
         // Handle different nutrient formats
-        let name = nutrient.name ? nutrient.name.toLowerCase() : '';
-        let amount =
+        const name = nutrient.name ? nutrient.name.toLowerCase() : '';
+        const amount =
           typeof nutrient.amount === 'number' ? nutrient.amount : 0;
 
         // Map nutrients to elements
@@ -81,7 +81,7 @@ export class SpoonacularElementalMapper {
       });
 
       // Get total to normalize
-      let total = fireCount + waterCount + earthCount + airCount;
+      const total = fireCount + waterCount + earthCount + airCount;
 
       if (total > 0) {
         // Normalize to ensure values sum to 1
@@ -110,15 +110,15 @@ export class SpoonacularElementalMapper {
       }
 
       // Extract basic properties
-      let name =
+      const name =
         spoonacularIngredient.name ||
         spoonacularIngredient.originalName ||
         'Unknown';
-      let id =
+      const id =
         spoonacularIngredient.id?.toString() ||
         Math.random().toString(36).substring(2, 9);
-      let amount = spoonacularIngredient.amount || 1;
-      let unit = spoonacularIngredient.unit || '';
+      const amount = spoonacularIngredient.amount || 1;
+      const unit = spoonacularIngredient.unit || '';
 
       // Handle categories based on aisle if available
       let category = 'other';
@@ -171,15 +171,15 @@ export class SpoonacularElementalMapper {
       }
 
       // Initialize counters
-      let fireCount = 0,
+      const fireCount = 0,
         waterCount = 0,
         earthCount = 0,
         airCount = 0;
 
       // Map nutrients to elements
       nutrition.nutrients.forEach((nutrient: SpoonacularNutrient) => {
-        let name = nutrient.name ? nutrient.name.toLowerCase() : '';
-        let amount =
+        const name = nutrient.name ? nutrient.name.toLowerCase() : '';
+        const amount =
           typeof nutrient.amount === 'number' ? nutrient.amount : 0;
 
         // Mapping logic
@@ -203,7 +203,7 @@ export class SpoonacularElementalMapper {
       });
 
       // Normalize
-      let total = fireCount + waterCount + earthCount + airCount;
+      const total = fireCount + waterCount + earthCount + airCount;
       if (total > 0) {
         elements.Fire = fireCount / (total || 1);
         elements.Water = waterCount / (total || 1);

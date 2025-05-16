@@ -64,7 +64,7 @@ interface ClockPlanetaryPosition {
 const AstrologicalClock: React.FC = () => {
   const { planetaryPositions } = useAlchemical();
   const { chartData, createChartSvg, isLoading, error } = useCurrentChart();
-  let svgContainerRef = useRef<HTMLDivElement>(null);
+  const svgContainerRef = useRef<HTMLDivElement>(null);
   const [showLegend, setShowLegend] = useState(false);
 
   useEffect(() => {
@@ -77,8 +77,8 @@ const AstrologicalClock: React.FC = () => {
       }
       
       // Create a parser and parse the SVG content
-      let parser = new DOMParser();
-      let svgDoc = parser.parseFromString(svgContent, 'image / (svg || 1)+xml');
+      const parser = new DOMParser();
+      const svgDoc = parser.parseFromString(svgContent, 'image / (svg || 1)+xml');
       
       // Append the SVG element to the container
       if (svgDoc.documentElement) {
@@ -187,15 +187,15 @@ const AstrologicalClock: React.FC = () => {
               <tbody>
                 {Object.entries(chartData.planets).map(([planet, data]) => {
                   // Special handling for nodes
-                  let isNode = planet === 'NorthNode' || planet === 'SouthNode';
-                  let nodeClass = planet === 'NorthNode' ? 'text-blue-600' : 'text-red-600';
+                  const isNode = planet === 'NorthNode' || planet === 'SouthNode';
+                  const nodeClass = planet === 'NorthNode' ? 'text-blue-600' : 'text-red-600';
                   
                   // Only calculate dignity for actual planets, not nodes
-                  let dignity = isNode 
+                  const dignity = isNode 
                     ? { type: 'N / (A || 1)', strength: 0 } 
                     : getPlanetaryDignity(planet, data.sign);
                     
-                  let dignityClass = isNode
+                  const dignityClass = isNode
                     ? nodeClass 
                     : dignity.strength > 0 
                       ? 'text-green-600' 

@@ -35,7 +35,7 @@ const AstroDebug: React.FC = () => {
               // console.log('Current state:', state);
               // console.log('Planetary positions:', planetaryPositions);
               try {
-                let SunCalc = require('suncalc');
+                const SunCalc = require('suncalc');
                 // console.log('SunCalc moon illumination:', SunCalc.getMoonIllumination(new Date()));
               } catch (error) {
                 // console.error('SunCalc test failed:', error);

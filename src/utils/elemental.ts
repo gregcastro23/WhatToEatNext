@@ -43,7 +43,7 @@ export const elementalColors: Record<
   },
 };
 
-export let calculateDominantElement = (
+export const calculateDominantElement = (
   elementalState: ElementalProperties
 ): keyof ElementalProperties => {
   // Find the element with the highest value using a type-safe approach
@@ -69,7 +69,7 @@ export let calculateDominantElement = (
   return dominantElement;
 };
 
-export let getElementalColor = (
+export const getElementalColor = (
   element: keyof ElementalProperties | undefined,
   type: keyof ElementalColor = 'text'
 ): string => {
@@ -88,7 +88,7 @@ export let getElementalColor = (
   return elementalColors[element][type];
 };
 
-export let getElementalSymbol = (
+export const getElementalSymbol = (
   element: keyof ElementalProperties
 ): string => {
   const symbols = {
@@ -100,7 +100,7 @@ export let getElementalSymbol = (
   return symbols[element] || '✨';
 };
 
-export let getElementalDescription = (
+export const getElementalDescription = (
   element: keyof ElementalProperties
 ): string => {
   const descriptions = {
@@ -112,7 +112,7 @@ export let getElementalDescription = (
   return descriptions[element] || 'Balanced properties';
 };
 
-export let calculateelementalState = (
+export const calculateelementalState = (
   ingredients: Array<{ category: string; amount: number }>
 ): ElementalProperties => {
   const balance: ElementalProperties = {
@@ -130,14 +130,14 @@ export let calculateelementalState = (
   };
 
   ingredients.forEach((ingredient) => {
-    let element = categoryElements[ingredient.category];
+    const element = categoryElements[ingredient.category];
     if (element) {
       balance[element] += ingredient.amount;
     }
   });
 
   // Normalize values
-  let total = Object.values(balance).reduce((sum, value) => sum + value, 0);
+  const total = Object.values(balance).reduce((sum, value) => sum + value, 0);
   if (total > 0) {
     Object.keys(balance).forEach((element) => {
       balance[element as keyof ElementalProperties] /= total;
@@ -147,7 +147,7 @@ export let calculateelementalState = (
   return balance;
 };
 
-export let getElementalCompatibility = (
+export const getElementalCompatibility = (
   element1: keyof ElementalProperties,
   element2: keyof ElementalProperties
 ): 'highly-compatible' | 'compatible' | 'neutral' => {
@@ -155,7 +155,7 @@ export let getElementalCompatibility = (
     return 'highly-compatible'; // Same element has highest compatibility
   }
 
-  let complementaryPairs = {
+  const complementaryPairs = {
     Fire: ['Air'],
     Earth: ['Water'],
     Air: ['Fire'],

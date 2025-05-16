@@ -78,7 +78,7 @@ function fixRemainingImports() {
     
     // Remove any createLogger reference if it doesn't exist
     content = content.replace(
-      /let logger = createLogger\('SafeAstrology'\);/g,
+      /const logger = createLogger\('SafeAstrology'\);/g,
       "// Using imported logger"
     );
     

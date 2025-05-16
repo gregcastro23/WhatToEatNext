@@ -287,7 +287,7 @@ function fixDuplicateImports(content) {
   uniqueImports.forEach((lines, source) => {
     if (lines.length > 1) {
       // Keep only the first import line
-      for (let i = 1; i < lines.length; i++) {
+      for (const i = 1; i < lines.length; i++) {
         updatedContent = updatedContent.replace(lines[i], `// Removed duplicate: ${lines[i]}`);
       }
     }
@@ -304,8 +304,8 @@ async function restoreBackups() {
   const backupFiles = findFiles(BACKUP_DIR, EXCLUDED_DIRS, EXTENSIONS);
   log(`Found ${backupFiles.length} backup files`);
   
-  let restoredFiles = 0;
-  let failedFiles = 0;
+  const restoredFiles = 0;
+  const failedFiles = 0;
   
   for (const backupPath of backupFiles) {
     const relativePath = path.relative(BACKUP_DIR, backupPath);
@@ -349,9 +349,9 @@ async function fixLintingIssues() {
   const files = findFiles(SRC_DIR, EXCLUDED_DIRS, EXTENSIONS);
   log(`Found ${files.length} files to process`);
   
-  let fixedFiles = 0;
-  let skippedFiles = 0;
-  let backupMap = new Map(); // Track files and their backups
+  const fixedFiles = 0;
+  const skippedFiles = 0;
+  const backupMap = new Map(); // Track files and their backups
   
   // Process each file
   for (const filePath of files) {

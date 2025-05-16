@@ -8,7 +8,7 @@ interface TimingResult {
   phases: Array<{ name: string; time: number }>;
 }
 
-export let timingUtils = {
+export const timingUtils = {
   calculateOptimalTiming(
     ingredients: ElementalProperties[],
     cookingMethod: string,
@@ -17,8 +17,8 @@ export let timingUtils = {
     const baseTiming = this.calculateBaseTiming(ingredients, cookingMethod);
     
     if (cuisine) {
-      let cuisineProfile = culinaryTraditions[cuisine];
-      let cuisineElement = Object.entries(cuisineProfile.elementalAlignment)
+      const cuisineProfile = culinaryTraditions[cuisine];
+      const cuisineElement = Object.entries(cuisineProfile.elementalAlignment)
         .sort(([,a], [,b]) => b - a)[0][0];
       
       return this.applyCuisineModifiers(baseTiming, cuisineElement);
@@ -27,7 +27,7 @@ export let timingUtils = {
   },
 
   applyCuisineModifiers(base: TimingResult, element: string): TimingResult {
-    let modifiers = {
+    const modifiers = {
       Fire: { duration: 0.8, mainPhase: 0.7 },
       Water: { duration: 1.2, mainPhase: 0.5 },
       Earth: { duration: 1.1, mainPhase: 0.6 },
@@ -49,13 +49,13 @@ export let timingUtils = {
     ingredients: ElementalProperties[],
     cookingMethod: string
   ): TimingResult {
-    let baseProperties = ingredients.reduce(
+    const baseProperties = ingredients.reduce(
       (acc, curr) => elementalUtils.combineProperties(acc, curr),
       elementalUtils.DEFAULT_ELEMENTAL_PROPERTIES
     );
 
     // Implement getDominantElement directly
-    let dominantElement = Object.entries(baseProperties)
+    const dominantElement = Object.entries(baseProperties)
       .reduce((a, b) => a[1] > b[1] ? a : b)[0];
     
     // Base timing by dominant element (in minutes)
@@ -75,9 +75,9 @@ export let timingUtils = {
       'raw': 0
     };
 
-    let baseTime = elementalTiming[dominantElement] || 30;
-    let modifier = methodModifiers[cookingMethod.toLowerCase()] || 1.0;
-    let totalTime = baseTime * modifier;
+    const baseTime = elementalTiming[dominantElement] || 30;
+    const modifier = methodModifiers[cookingMethod.toLowerCase()] || 1.0;
+    const totalTime = baseTime * modifier;
 
     // Calculate cooking phases
     return {

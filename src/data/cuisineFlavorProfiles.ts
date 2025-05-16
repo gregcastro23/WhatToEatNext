@@ -809,7 +809,7 @@ export function getRecipesForCuisineMatch(
     ];
     
     // Generate mock recipes
-    for (let i = 0; i < Math.min(count, dishNames.length); i++) {
+    for (const i = 0; i < Math.min(count, dishNames.length); i++) {
       mockRecipes.push({
         id: `mock-${normalizedCuisineName}-${i}`,
         name: dishNames[i],
@@ -1113,7 +1113,7 @@ export function getRecipesForCuisineMatch(
     console.log(`Found ${scoredOtherRecipes.length} scored other recipes for ${cuisineName}`);
 
     // Combine all matches, prioritizing direct matches, then regional, then others
-    let allMatches = [
+    const allMatches = [
       ...exactCuisineMatches.map((recipe) => ({
         ...recipe,
         matchScore: 0.9 + Math.random() * 0.1, // 90-100% match
@@ -1180,7 +1180,7 @@ export const getCuisineElementalMatch = (
   cuisineName: string,
   elementalProps: ElementalProperties
 ): number => {
-  let matchScore = 0;
+  const matchScore = 0;
   let totalWeight = 0;
 
   // Get the cuisine profile
@@ -1219,13 +1219,13 @@ export const calculateCuisineSimilarity = (
     return 0.5; // Default neutral similarity if profiles not found
   }
 
-  let similarityScore = 0;
+  const similarityScore = 0;
   let totalWeight = 0;
 
   // Elemental similarity (weight: 0.4)
   const elements = ['Fire', 'Water', 'Earth', 'Air'];
-  let elementalSimilarity = 0;
-  let elementCount = 0;
+  const elementalSimilarity = 0;
+  const elementCount = 0;
 
   elements.forEach((element) => {
     const elementKey = element as keyof ElementalProperties;
@@ -1244,8 +1244,8 @@ export const calculateCuisineSimilarity = (
 
   // Flavor profile similarity (weight: 0.6)
   const flavors = ['sweet', 'salty', 'sour', 'bitter', 'umami', 'spicy'];
-  let flavorSimilarity = 0;
-  let flavorCount = 0;
+  const flavorSimilarity = 0;
+  const flavorCount = 0;
 
   flavors.forEach((flavor) => {
     const val1 = profile1.flavorIntensities?.[flavor] || 0;
@@ -1272,7 +1272,7 @@ export const findRelatedRecipes = (
   const scoredRecipes = otherRecipes
     .map((recipe) => {
       const scoreComponents = [];
-      let totalWeight = 0;
+      const totalWeight = 0;
       
       // ... existing code ...
     });
@@ -1282,8 +1282,8 @@ export const calculateSimilarityScore = (
   elementalProps1: ElementalProperties,
   elementalProps2: ElementalProperties
 ): number => {
-  let similarity = 0;
-  let count = 0;
+  const similarity = 0;
+  const count = 0;
   
   // ... existing code ...
 };

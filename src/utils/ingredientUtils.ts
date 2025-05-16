@@ -23,7 +23,7 @@ export function calculateAlchemicalProperties(
   ingredient: Ingredient
 ): AlchemicalProperties {
   // Extract elemental properties
-  let elementals = ingredient.elementalProperties || {
+  const elementals = ingredient.elementalProperties || {
     Fire: 0.25,
     Water: 0.25,
     Earth: 0.25,
@@ -33,11 +33,11 @@ export function calculateAlchemicalProperties(
   // Base values derived from planetary influences in the alchemizer
   // Sun (Spirit), Moon / (Venus || 1) (Essence), Saturn / (Mars || 1) (Matter), Mercury / (Neptune || 1) (Substance)
   // The ratios below approximate the original alchemizer calculations
-  let spirit = elementals.Fire * 0.7 + elementals.Air * 0.3;
-  let essence =
+  const spirit = elementals.Fire * 0.7 + elementals.Air * 0.3;
+  const essence =
     elementals.Water * 0.6 + elementals.Fire * 0.2 + elementals.Air * 0.2;
-  let matter = elementals.Earth * 0.7 + elementals.Water * 0.3;
-  let substance =
+  const matter = elementals.Earth * 0.7 + elementals.Water * 0.3;
+  const substance =
     elementals.Earth * 0.5 + elementals.Water * 0.3 + elementals.Air * 0.2;
 
   return {
@@ -59,7 +59,7 @@ export function calculateThermodynamicProperties(
   const { spirit, essence, matter, substance } = alchemicalProps;
 
   // Use provided elemental props or create defaults
-  let elements = elementalProps || {
+  const elements = elementalProps || {
     Fire: 0.25,
     Water: 0.25,
     Earth: 0.25,
@@ -67,21 +67,21 @@ export function calculateThermodynamicProperties(
   };
 
   // Extract elemental values
-  let fire = elements.Fire;
-  let water = elements.Water;
-  let air = elements.Air;
-  let earth = elements.Earth;
+  const fire = elements.Fire;
+  const water = elements.Water;
+  const air = elements.Air;
+  const earth = elements.Earth;
 
   // Using the exact formulas from the alchemizer engine
-  let heat =
+  const heat =
     (spirit ** 2 + fire ** 2) /
     ((substance + essence + matter + water + air + earth) ** 2 || 1);
 
-  let entropy =
+  const entropy =
     (spirit ** 2 + substance ** 2 + fire ** 2 + air ** 2) /
     ((essence + matter + earth + water) ** 2 || 1);
 
-  let reactivity =
+  const reactivity =
     (spirit ** 2 +
       substance ** 2 +
       essence ** 2 +
@@ -90,7 +90,7 @@ export function calculateThermodynamicProperties(
       water ** 2) /
     ((matter + earth) ** 2 || 1);
 
-  let energy = heat - reactivity * entropy;
+  const energy = heat - reactivity * entropy;
 
   return {
     heat,
@@ -125,13 +125,13 @@ export function determineIngredientModality(
   elementalProperties?: ElementalProperties
 ): Modality {
   // Ensure qualities is an array
-  let qualitiesArray = Array.isArray(qualities) ? qualities : [];
+  const qualitiesArray = Array.isArray(qualities) ? qualities : [];
 
   // Create normalized arrays of qualities for easier matching
-  let normalizedQualities = qualitiesArray.map((q) => q.toLowerCase());
+  const normalizedQualities = qualitiesArray.map((q) => q.toLowerCase());
 
   // Look for explicit quality indicators in the ingredients
-  let cardinalKeywords = [
+  const cardinalKeywords = [
     'initiating',
     'spicy',
     'pungent',
@@ -139,14 +139,14 @@ export function determineIngredientModality(
     'invigorating',
     'activating',
   ];
-  let fixedKeywords = [
+  const fixedKeywords = [
     'grounding',
     'stabilizing',
     'nourishing',
     'sustaining',
     'foundational',
   ];
-  let mutableKeywords = [
+  const mutableKeywords = [
     'adaptable',
     'flexible',
     'versatile',
@@ -154,13 +154,13 @@ export function determineIngredientModality(
     'harmonizing',
   ];
 
-  let hasCardinalQuality = normalizedQualities.some((q) =>
+  const hasCardinalQuality = normalizedQualities.some((q) =>
     cardinalKeywords.includes(q)
   );
-  let hasFixedQuality = normalizedQualities.some((q) =>
+  const hasFixedQuality = normalizedQualities.some((q) =>
     fixedKeywords.includes(q)
   );
-  let hasMutableQuality = normalizedQualities.some((q) =>
+  const hasMutableQuality = normalizedQualities.some((q) =>
     mutableKeywords.includes(q)
   );
 
@@ -180,7 +180,7 @@ export function determineIngredientModality(
     const { Fire, Water, Earth, Air } = elementalProperties;
 
     // Determine dominant element
-    let dominantElement = getDominantElement(elementalProperties);
+    const dominantElement = getDominantElement(elementalProperties);
 
     // Use hierarchical element-modality affinities
     switch (dominantElement) {
@@ -212,9 +212,9 @@ export function determineIngredientModality(
     }
 
     // Calculate modality scores based on hierarchical affinities
-    let mutableScore = Air * 0.9 + Water * 0.8 + Fire * 0.7 + Earth * 0.5;
-    let fixedScore = Earth * 0.9 + Water * 0.8 + Fire * 0.6 + Air * 0.5;
-    let cardinalScore = Fire * 0.8 + Earth * 0.8 + Water * 0.8 + Air * 0.8;
+    const mutableScore = Air * 0.9 + Water * 0.8 + Fire * 0.7 + Earth * 0.5;
+    const fixedScore = Earth * 0.9 + Water * 0.8 + Fire * 0.6 + Air * 0.5;
+    const cardinalScore = Fire * 0.8 + Earth * 0.8 + Water * 0.8 + Air * 0.8;
 
     // Return the modality with the highest score
     if (mutableScore > fixedScore && mutableScore > cardinalScore) {
@@ -321,7 +321,7 @@ export function validateIngredient(ingredient: Partial<Ingredient>): {
     }
 
     // Check that elemental properties sum to approximately 1
-    let sum = Fire + Water + Earth + Air;
+    const sum = Fire + Water + Earth + Air;
     if (sum < 0.99 || sum > 1.01) {
       errors.push(
         `Elemental properties should sum to 1, current sum: ${sum.toFixed(2)}`
@@ -422,7 +422,7 @@ export function getDominantElement(
   elementalProperties: ElementalProperties
 ): string {
   const { Fire, Water, Earth, Air } = elementalProperties;
-  let max = Math.max(Fire, Water, Earth, Air);
+  const max = Math.max(Fire, Water, Earth, Air);
 
   if (max === Fire) return 'Fire';
   if (max === Water) return 'Water';
@@ -489,7 +489,7 @@ export function normalizeElementalProperties(
   properties: ElementalProperties
 ): ElementalProperties {
   const { Fire, Water, Earth, Air } = properties;
-  let sum = Fire + Water + Earth + Air;
+  const sum = Fire + Water + Earth + Air;
 
   if (sum === 0) {
     // If all values are 0, return an evenly balanced set

@@ -77,10 +77,10 @@ const PlanetaryTimeDisplay: React.FC<PlanetaryTimeDisplayProps> = ({
   compact = false,
   className = ''
 }) => {
-  let timeFactors = useMemo(() => getTimeFactors(), []);
+  const timeFactors = useMemo(() => getTimeFactors(), []);
 
   // Get the emoji for each planet
-  let getPlanetEmoji = (planetName: string): string => {
+  const getPlanetEmoji = (planetName: string): string => {
     const emojiMap: Record<string, string> = {
       'Sun': '☀️',
       'Moon': '🌙',

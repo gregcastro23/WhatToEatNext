@@ -24,7 +24,7 @@ export interface NutritionData {
 }
 
 // Sample cuisines for initial data
-let CUISINES = [
+const CUISINES = [
   'Italian',
   'Japanese',
   'Mexican',
@@ -36,7 +36,7 @@ let CUISINES = [
 ];
 
 // Cache key for recipes
-let RECIPE_CACHE_KEY = 'all_recipes';
+const RECIPE_CACHE_KEY = 'all_recipes';
 
 /**
  * Ensures a recipe has all required properties with defaults as needed
@@ -159,7 +159,7 @@ function validateAndNormalizeTime(time: string | number | unknown): string {
     }
 
     // Try to parse as number
-    let timeNum = parseInt(time, 10);
+    const timeNum = parseInt(time, 10);
     if (!isNaN(timeNum)) {
       return `${timeNum} minutes`;
     }
@@ -174,7 +174,7 @@ function validateServings(servings: number | string | unknown): number {
   }
 
   if (typeof servings === 'string') {
-    let num = parseInt(servings, 10);
+    const num = parseInt(servings, 10);
     if (!isNaN(num)) {
       return Math.max(1, Math.min(12, num));
     }
@@ -184,7 +184,7 @@ function validateServings(servings: number | string | unknown): number {
 }
 
 function validateMealType(mealType: string | string[] | unknown): string[] {
-  let validMealTypes = [
+  const validMealTypes = [
     'breakfast',
     'lunch',
     'dinner',
@@ -203,7 +203,7 @@ function validateMealType(mealType: string | string[] | unknown): string[] {
   }
 
   if (Array.isArray(mealType)) {
-    let validEntries = mealType
+    const validEntries = mealType
       .filter((type) => typeof type === 'string')
       .map((type) => type.toLowerCase())
       .filter((type) => validMealTypes.includes(type));
@@ -215,7 +215,7 @@ function validateMealType(mealType: string | string[] | unknown): string[] {
 }
 
 function validateSeason(season: string | string[] | unknown): string[] {
-  let validSeasons = ['spring', 'summer', 'fall', 'winter', 'all'];
+  const validSeasons = ['spring', 'summer', 'fall', 'winter', 'all'];
 
   if (typeof season === 'string') {
     if (validSeasons.includes(season.toLowerCase())) {
@@ -225,7 +225,7 @@ function validateSeason(season: string | string[] | unknown): string[] {
   }
 
   if (Array.isArray(season)) {
-    let validEntries = season
+    const validEntries = season
       .filter((s) => typeof s === 'string')
       .map((s) => s.toLowerCase())
       .filter((s) => validSeasons.includes(s));
@@ -244,7 +244,7 @@ function validateAstrologicalInfluences(
   }
 
   if (Array.isArray(influences)) {
-    let validEntries = influences
+    const validEntries = influences
       .filter((i) => typeof i === 'string')
       .filter((i) => i.length > 0);
 
@@ -309,7 +309,7 @@ class RecipeData {
       }
 
       // Handle different formats of recipeElementalMappings
-      let mappingsEntries = Array.isArray(recipeElementalMappings)
+      const mappingsEntries = Array.isArray(recipeElementalMappings)
         ? recipeElementalMappings
         : Object.entries(recipeElementalMappings).map(([id, mapping]) => ({
             id,
@@ -392,7 +392,7 @@ class RecipeData {
   private standardizeRecipes(recipes: Recipe[]): Recipe[] {
     return recipes.map((recipe) => {
       // First ensure elemental properties are properly set
-      let withElementalProps =
+      const withElementalProps =
         recipeElementalService.standardizeRecipe(recipe);
 
       // Then ensure all other properties are valid
@@ -406,7 +406,7 @@ class RecipeData {
   async getAllRecipes(): Promise<Recipe[]> {
     try {
       // Check cache first
-      let cachedRecipes = cache.get(RECIPE_CACHE_KEY) as Recipe[] | undefined;
+      const cachedRecipes = cache.get(RECIPE_CACHE_KEY) as Recipe[] | undefined;
       if (cachedRecipes) {
         // Standardize all cached recipes
         return this.standardizeRecipes(cachedRecipes);
@@ -424,12 +424,12 @@ class RecipeData {
 
       // If we still have no recipes, return at least a fallback recipe
       if (!this.recipes.length) {
-        let fallbackRecipe = this.getFallbackRecipe();
+        const fallbackRecipe = this.getFallbackRecipe();
         return [fallbackRecipe];
       }
 
       // Standardize all recipes
-      let safeRecipes = this.standardizeRecipes(this.recipes);
+      const safeRecipes = this.standardizeRecipes(this.recipes);
 
       // Update cache
       cache.set(RECIPE_CACHE_KEY, safeRecipes);
@@ -492,7 +492,7 @@ class RecipeData {
         await this.initPromise;
       }
 
-      let allRecipes = await this.getAllRecipes();
+      const allRecipes = await this.getAllRecipes();
       return allRecipes.filter(
         (recipe) => recipe.cuisine?.toLowerCase() === cuisine.toLowerCase()
       );
@@ -511,8 +511,8 @@ class RecipeData {
       if (this.initPromise) {
         await this.initPromise;
       }
-      let lowercaseQuery = query.toLowerCase();
-      let recipes = await this.getAllRecipes();
+      const lowercaseQuery = query.toLowerCase();
+      const recipes = await this.getAllRecipes();
       return recipes.filter(
         (recipe) =>
           recipe.name.toLowerCase().includes(lowercaseQuery) ||
@@ -533,7 +533,7 @@ class RecipeData {
       if (this.initPromise) {
         await this.initPromise;
       }
-      let recipes = await this.getAllRecipes();
+      const recipes = await this.getAllRecipes();
 
       // For now, just return random recipes
       return recipes.sort(() => Math.random() - 0.5).slice(0, count);
@@ -548,7 +548,7 @@ class RecipeData {
 
   async addRecipe(recipe: Partial<Recipe>): Promise<Recipe> {
     // Ensure the recipe has all required properties
-    let newRecipe = ensureRecipeProperties(recipe);
+    const newRecipe = ensureRecipeProperties(recipe);
 
     // Add to recipes array
     this.recipes.push(newRecipe);
@@ -561,8 +561,8 @@ class RecipeData {
 
   async getRecipeById(id: string): Promise<Recipe | null> {
     try {
-      let recipes = await this.getAllRecipes();
-      let recipe = recipes.find((r) => r.id === id);
+      const recipes = await this.getAllRecipes();
+      const recipe = recipes.find((r) => r.id === id);
 
       return recipe || null;
     } catch (error) {
@@ -590,13 +590,13 @@ class RecipeData {
         await this.initPromise;
       }
 
-      let recipes = await this.getAllRecipes();
+      const recipes = await this.getAllRecipes();
 
-      let filteredRecipes = recipes.filter((recipe) => {
+      const filteredRecipes = recipes.filter((recipe) => {
         // Filter by cuisine
         if (filters.cuisine && recipe.cuisine) {
           const recipeCuisine = recipe.cuisine.toLowerCase();
-          let targetCuisine = filters.cuisine.toLowerCase();
+          const targetCuisine = filters.cuisine.toLowerCase();
 
           if (!recipeCuisine.includes(targetCuisine)) {
             return false;
@@ -609,11 +609,11 @@ class RecipeData {
           filters.mealType.length > 0 &&
           recipe.mealType
         ) {
-          let mealTypes = Array.isArray(recipe.mealType)
+          const mealTypes = Array.isArray(recipe.mealType)
             ? recipe.mealType.map((mt) => mt.toLowerCase())
             : [recipe.mealType.toLowerCase()];
 
-          let targetMealTypes = filters.mealType.map((mt) =>
+          const targetMealTypes = filters.mealType.map((mt) =>
             mt.toLowerCase()
           );
 
@@ -624,13 +624,13 @@ class RecipeData {
 
         // Filter by season
         if (filters.season && filters.season.length > 0 && recipe.season) {
-          let seasons = Array.isArray(recipe.season)
+          const seasons = Array.isArray(recipe.season)
             ? recipe.season.map((s) => s.toLowerCase())
             : [recipe.season.toLowerCase()];
 
           // Special case: if 'all' is included in recipe seasons, it matches any season
           if (!seasons.includes('all')) {
-            let targetSeasons = filters.season.map((s) => s.toLowerCase());
+            const targetSeasons = filters.season.map((s) => s.toLowerCase());
 
             if (!targetSeasons.some((target) => seasons.includes(target))) {
               return false;
@@ -643,11 +643,11 @@ class RecipeData {
           filters.astrologicalInfluences &&
           filters.astrologicalInfluences.length > 0
         ) {
-          let influences = recipe.astrologicalInfluences || [];
+          const influences = recipe.astrologicalInfluences || [];
 
           // Special case: if 'all' is included, it matches any influence
           if (!influences.includes('all')) {
-            let hasMatch = filters.astrologicalInfluences.some((influence) =>
+            const hasMatch = filters.astrologicalInfluences.some((influence) =>
               influences.some(
                 (recipeInfluence) =>
                   recipeInfluence.toLowerCase() === influence.toLowerCase()
@@ -691,4 +691,4 @@ class RecipeData {
   }
 }
 
-export let recipeData = new RecipeData();
+export const recipeData = new RecipeData();

@@ -40,7 +40,7 @@ export const ELEMENT_WEAKNESSES: Record<Element, Element> = {
   Air: 'Fire'
 } as const;
 
-export let ELEMENTAL_THRESHOLDS = {
+export const ELEMENTAL_THRESHOLDS = {
   LOW: 0.33,
   MEDIUM: 0.66,
   HIGH: 1.0,

@@ -17,7 +17,7 @@
   window.__scriptReplacerInitialized = true;
   
   // Names of scripts to intercept
-  let PROBLEMATIC_SCRIPTS = ['popup.js', 'lockdown-install.js', 'chrome-api.js', 'extension-api.js'];
+  const PROBLEMATIC_SCRIPTS = ['popup.js', 'lockdown-install.js', 'chrome-api.js', 'extension-api.js'];
   
   // Create a Chrome API mock early to prevent any errors
   if (typeof window.chrome === 'undefined') {
@@ -43,13 +43,13 @@
   }
   
   // Replace XMLHttpRequest to intercept script loading via XHR
-  let originalXHROpen = XMLHttpRequest.prototype.open;
+  const originalXHROpen = XMLHttpRequest.prototype.open;
   XMLHttpRequest.prototype.open = function() {
     if (arguments[1] && typeof arguments[1] === 'string') {
-      let url = arguments[1];
+      const url = arguments[1];
       
       // Check if this is a problematic script
-      let isProblematic = PROBLEMATIC_SCRIPTS.some(script => url.includes(script));
+      const isProblematic = PROBLEMATIC_SCRIPTS.some(script => url.includes(script));
       
       if (isProblematic) {
         console.log(`[ScriptReplacer] Intercepted XHR request for problematic script: ${url}`);
@@ -61,15 +61,15 @@
   };
   
   // Replace script src attributes for problematic scripts
-  let originalCreateElement = document.createElement;
+  const originalCreateElement = document.createElement;
   document.createElement = function(tagName) {
-    let element = originalCreateElement.call(document, tagName);
+    const element = originalCreateElement.call(document, tagName);
     
     if (tagName.toLowerCase() === 'script') {
-      let originalSetAttribute = element.setAttribute;
+      const originalSetAttribute = element.setAttribute;
       element.setAttribute = function(name, value) {
         if (name === 'src' && value && typeof value === 'string') {
-          let isProblematic = PROBLEMATIC_SCRIPTS.some(script => value.includes(script));
+          const isProblematic = PROBLEMATIC_SCRIPTS.some(script => value.includes(script));
           
           if (isProblematic) {
             console.log(`[ScriptReplacer] Intercepted script src attribute: ${value}`);
@@ -84,12 +84,12 @@
   };
   
   // Intercept direct script assignments
-  let originalDescriptor = Object.getOwnPropertyDescriptor(HTMLScriptElement.prototype, 'src');
+  const originalDescriptor = Object.getOwnPropertyDescriptor(HTMLScriptElement.prototype, 'src');
   if (originalDescriptor && originalDescriptor.set) {
     Object.defineProperty(HTMLScriptElement.prototype, 'src', {
       set: function(value) {
         if (value && typeof value === 'string') {
-          let isProblematic = PROBLEMATIC_SCRIPTS.some(script => value.includes(script));
+          const isProblematic = PROBLEMATIC_SCRIPTS.some(script => value.includes(script));
           
           if (isProblematic) {
             console.log(`[ScriptReplacer] Intercepted direct script.src assignment: ${value}`);
@@ -104,10 +104,10 @@
   }
   
   // Handle dynamic script insertions via appendChild
-  let originalAppendChild = Node.prototype.appendChild;
+  const originalAppendChild = Node.prototype.appendChild;
   Node.prototype.appendChild = function(node) {
     if (node.nodeName === 'SCRIPT' && node.src && typeof node.src === 'string') {
-      let isProblematic = PROBLEMATIC_SCRIPTS.some(script => node.src.includes(script));
+      const isProblematic = PROBLEMATIC_SCRIPTS.some(script => node.src.includes(script));
       
       if (isProblematic) {
         console.log(`[ScriptReplacer] Intercepted script append for: ${node.src}`);
@@ -118,10 +118,10 @@
   };
   
   // Safer insertBefore handling for script injection
-  let originalInsertBefore = Node.prototype.insertBefore;
+  const originalInsertBefore = Node.prototype.insertBefore;
   Node.prototype.insertBefore = function(newNode, referenceNode) {
     if (newNode.nodeName === 'SCRIPT' && newNode.src && typeof newNode.src === 'string') {
-      let isProblematic = PROBLEMATIC_SCRIPTS.some(script => newNode.src.includes(script));
+      const isProblematic = PROBLEMATIC_SCRIPTS.some(script => newNode.src.includes(script));
       
       if (isProblematic) {
         console.log(`[ScriptReplacer] Intercepted insertBefore for script: ${newNode.src}`);
@@ -147,7 +147,7 @@
         console.log('[ScriptReplacer] Re-initializing Chrome API after error');
         
         // Force browser to load our dummy implementation
-        let script = document.createElement('script');
+        const script = document.createElement('script');
         script.src = '/dummy-popup.js';
         script.async = true;
         document.head.appendChild(script);

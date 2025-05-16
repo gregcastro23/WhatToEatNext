@@ -53,7 +53,7 @@ const ErrorFallback = ({
             window.__foodRecommenderFixApplied = false;
             
             // Create a script element to reload our fix
-            let script = document.createElement('script');
+            const script = document.createElement('script');
             script.src = '/_next/static/chunks/foodRecommenderFix.js?' + Date.now();
             script.onload = resetErrorBoundary;
             document.head.appendChild(script);

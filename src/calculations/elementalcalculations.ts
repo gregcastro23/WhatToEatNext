@@ -58,7 +58,7 @@ export class ElementalCalculator {
     if (!recipe?.elementalProperties) return 0;
 
     const seasonalModifiers = this.getSeasonalModifiers(season as Season);
-    let score = 0;
+    const score = 0;
 
     // Calculate base seasonal alignment
     Object.entries(recipe.elementalProperties).forEach(([element, value]) => {

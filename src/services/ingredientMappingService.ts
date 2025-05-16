@@ -42,7 +42,7 @@ class IngredientMappingService {
     const allRecipes: Recipe[] = [];
 
     // Filter by cuisine if specified
-    let cuisines = options.cuisineType
+    const cuisines = options.cuisineType
       ? [cuisinesMap[options.cuisineType as keyof typeof cuisinesMap]].filter(
           Boolean
         )
@@ -53,7 +53,7 @@ class IngredientMappingService {
       if (!cuisine?.dishes) return;
 
       // Define which meal types to include
-      let mealTypes = options.mealType
+      const mealTypes = options.mealType
         ? [options.mealType as keyof typeof cuisine.dishes].filter(
             (mealType) =>
               cuisine.dishes[mealType as keyof typeof cuisine.dishes]
@@ -61,18 +61,18 @@ class IngredientMappingService {
         : ['breakfast', 'lunch', 'dinner', 'dessert'];
 
       // Define which seasons to include
-      let seasons = options.season
+      const seasons = options.season
         ? [options.season as 'spring' | 'summer' | 'autumn' | 'winter']
         : ['spring', 'summer', 'autumn', 'winter'];
 
       // Collect recipes matching criteria
       mealTypes.forEach((mealType) => {
-        let mealDishes =
+        const mealDishes =
           cuisine.dishes[mealType as keyof typeof cuisine.dishes];
         if (!mealDishes) return;
 
         seasons.forEach((season) => {
-          let seasonalDishes = mealDishes[season as keyof typeof mealDishes];
+          const seasonalDishes = mealDishes[season as keyof typeof mealDishes];
           if (Array.isArray(seasonalDishes)) {
             allRecipes.push(...seasonalDishes);
           }
@@ -105,7 +105,7 @@ class IngredientMappingService {
     } = {}
   ) {
     // Find the original ingredient
-    let originalIngredient = ingredientsMap[ingredientName.toLowerCase()];
+    const originalIngredient = ingredientsMap[ingredientName.toLowerCase()];
     if (!originalIngredient) {
       return {
         success: false,
@@ -117,7 +117,7 @@ class IngredientMappingService {
     const { similarityThreshold = 0.7, maxResults = 5, category } = options;
 
     // Find alternatives with similar elemental properties
-    let potentialAlternatives = Object.entries(ingredientsMap)
+    const potentialAlternatives = Object.entries(ingredientsMap)
       .filter(([name, mapping]) => {
         // Skip the original ingredient
         if (name.toLowerCase() === ingredientName.toLowerCase()) return false;
@@ -130,7 +130,7 @@ class IngredientMappingService {
           return false;
 
         // Check elemental similarity
-        let similarity = this.calculateElementalSimilarity(
+        const similarity = this.calculateElementalSimilarity(
           originalIngredient.elementalProperties,
           mapping.elementalProperties
         );
@@ -163,12 +163,12 @@ class IngredientMappingService {
     ingredient2: string | IngredientMapping
   ) {
     // Convert string names to ingredient mappings if needed
-    let mapping1 =
+    const mapping1 =
       typeof ingredient1 === 'string'
         ? ingredientsMap[ingredient1.toLowerCase()]
         : ingredient1;
 
-    let mapping2 =
+    const mapping2 =
       typeof ingredient2 === 'string'
         ? ingredientsMap[ingredient2.toLowerCase()]
         : ingredient2;
@@ -184,7 +184,7 @@ class IngredientMappingService {
     }
 
     // Calculate base elemental similarity
-    let similarity = this.calculateElementalSimilarity(
+    const similarity = this.calculateElementalSimilarity(
       mapping1.elementalProperties,
       mapping2.elementalProperties
     );
@@ -209,8 +209,8 @@ class IngredientMappingService {
       spice: ['protein', 'vegetable', 'fruit'],
     };
 
-    let category1 = mapping1.category;
-    let category2 = mapping2.category;
+    const category1 = mapping1.category;
+    const category2 = mapping2.category;
 
     if (category1 && category2) {
       // Same category usually works well together
@@ -229,7 +229,7 @@ class IngredientMappingService {
     }
 
     // Adjust final compatibility score
-    let adjustedCompatibility = Math.min(
+    const adjustedCompatibility = Math.min(
       1,
       Math.max(0, similarity + categoryAdjustment)
     );
@@ -249,8 +249,8 @@ class IngredientMappingService {
    * Analyze ingredient combinations for a recipe
    */
   analyzeRecipeIngredientCombinations(recipe: Recipe) {
-    let mappedIngredients = this.mapRecipeIngredients(recipe);
-    let validMappings = mappedIngredients.filter(
+    const mappedIngredients = this.mapRecipeIngredients(recipe);
+    const validMappings = mappedIngredients.filter(
       (mapping) => mapping.matchedTo
     );
 
@@ -271,13 +271,13 @@ class IngredientMappingService {
       type: string;
     }[] = [];
 
-    for (let i = 0; i < validMappings.length; i++) {
-      for (let j = i + 1; j < validMappings.length; j++) {
-        let ing1 = validMappings[i];
-        let ing2 = validMappings[j];
+    for (const i = 0; i < validMappings.length; i++) {
+      for (const j = i + 1; j < validMappings.length; j++) {
+        const ing1 = validMappings[i];
+        const ing2 = validMappings[j];
 
         if (ing1.matchedTo && ing2.matchedTo) {
-          let result = this.calculateCompatibility(
+          const result = this.calculateCompatibility(
             ing1.matchedTo,
             ing2.matchedTo
           );
@@ -294,14 +294,14 @@ class IngredientMappingService {
     }
 
     // Calculate overall recipe harmony
-    let averageCompatibility =
+    const averageCompatibility =
       combinations.length > 0
         ? combinations.reduce((sum, combo) => sum + combo.compatibility, 0) /
           combinations.length
         : 0;
 
     // Find strongest and weakest combinations
-    let sortedCombinations = [...combinations].sort(
+    const sortedCombinations = [...combinations].sort(
       (a, b) => b.compatibility - a.compatibility
     );
 
@@ -326,19 +326,19 @@ class IngredientMappingService {
     if (!properties1 || !properties2) return 0;
 
     // Calculate difference for each element
-    let fireDiff = Math.abs(
+    const fireDiff = Math.abs(
       (properties1.Fire || 0) - (properties2.Fire || 0)
     );
-    let waterDiff = Math.abs(
+    const waterDiff = Math.abs(
       (properties1.Water || 0) - (properties2.Water || 0)
     );
-    let earthDiff = Math.abs(
+    const earthDiff = Math.abs(
       (properties1.Earth || 0) - (properties2.Earth || 0)
     );
-    let airDiff = Math.abs((properties1.Air || 0) - (properties2.Air || 0));
+    const airDiff = Math.abs((properties1.Air || 0) - (properties2.Air || 0));
 
     // Total difference (maximum possible is 4)
-    let totalDiff = fireDiff + waterDiff + earthDiff + airDiff;
+    const totalDiff = fireDiff + waterDiff + earthDiff + airDiff;
 
     // Convert to similarity (0-1 range)
     return 1 - totalDiff / (4 || 1);
@@ -346,5 +346,5 @@ class IngredientMappingService {
 }
 
 // Create singleton instance
-let ingredientMappingService = new IngredientMappingService();
+const ingredientMappingService = new IngredientMappingService();
 export default ingredientMappingService;

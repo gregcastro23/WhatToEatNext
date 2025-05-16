@@ -12,7 +12,7 @@ import type {
 import { PlanetaryPosition } from '@/types/celestial';
 import { logger } from './logger';
 
-export let recipeSchema = z.object({
+export const recipeSchema = z.object({
   name: z.string().min(1),
   description: z.string().optional(),
   cuisine: z.string().optional(),
@@ -63,7 +63,7 @@ export function isElementalProperties(props: unknown): props is ElementalPropert
     return false;
   }
   
-  let requiredKeys = ['Fire', 'Water', 'Earth', 'Air'];
+  const requiredKeys = ['Fire', 'Water', 'Earth', 'Air'];
   for (const key of requiredKeys) {
     if (!(key in (props as Record<string, unknown>)) || 
         typeof (props as Record<string, unknown>)[key] !== 'number') {
@@ -94,7 +94,7 @@ export function isChakraEnergies(props: unknown): props is ChakraEnergies {
     return false;
   }
   
-  let requiredKeys = ['root', 'sacral', 'solarPlexus', 'heart', 'throat', 'thirdEye', 'crown'];
+  const requiredKeys = ['root', 'sacral', 'solarPlexus', 'heart', 'throat', 'thirdEye', 'crown'];
   for (const key of requiredKeys) {
     if (!(key in (props as Record<string, unknown>)) || 
         typeof (props as Record<string, unknown>)[key] !== 'number') {
@@ -167,7 +167,7 @@ export function isAstrologicalState(state: unknown): state is AstrologicalState 
     return false;
   }
   
-  let stateObj = state as Partial<AstrologicalState>;
+  const stateObj = state as Partial<AstrologicalState>;
   
   if (!stateObj.sunSign || !isZodiacSign(stateObj.sunSign)) {
     return false;
@@ -217,7 +217,7 @@ export function isValidCelestialPosition(position: unknown): position is Celesti
     return false;
   }
   
-  let pos = position as Partial<CelestialPosition>;
+  const pos = position as Partial<CelestialPosition>;
   
   return (
     typeof pos.sign === 'string' &&
@@ -321,7 +321,7 @@ export function areStructurallyEqual(obj1: unknown, obj2: unknown): boolean {
   if (Array.isArray(obj1) && Array.isArray(obj2)) {
     if (obj1.length !== obj2.length) return false;
     
-    for (let i = 0; i < obj1.length; i++) {
+    for (const i = 0; i < obj1.length; i++) {
       if (!areStructurallyEqual(obj1[i], obj2[i])) return false;
     }
     
@@ -331,8 +331,8 @@ export function areStructurallyEqual(obj1: unknown, obj2: unknown): boolean {
   // Not arrays but objects
   if (Array.isArray(obj1) || Array.isArray(obj2)) return false;
   
-  let keys1 = Object.keys(obj1);
-  let keys2 = Object.keys(obj2);
+  const keys1 = Object.keys(obj1);
+  const keys2 = Object.keys(obj2);
   
   if (keys1.length !== keys2.length) return false;
   
@@ -346,10 +346,10 @@ export function areStructurallyEqual(obj1: unknown, obj2: unknown): boolean {
  * Validate a config object against a schema with detailed error reporting
  */
 export function validateConfig<T>(config: unknown, schema: z.ZodType<T>): T {
-  let result = schema.safeParse(config);
+  const result = schema.safeParse(config);
   
   if (!result.success) {
-    let errors = result.error.errors.map(err => 
+    const errors = result.error.errors.map(err => 
       `${err.path.join('.')}: ${err.message}`
     ).join(', ');
     

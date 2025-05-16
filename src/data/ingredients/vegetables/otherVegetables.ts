@@ -1,7 +1,7 @@
 import type { IngredientMapping } from '@/types/alchemy';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-let rawOtherVegetables = {
+const rawOtherVegetables = {
   "asparagus": {
     "name": "asparagus",
     "elementalProperties": {

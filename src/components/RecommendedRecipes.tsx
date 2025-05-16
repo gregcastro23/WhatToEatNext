@@ -19,11 +19,11 @@ const RecommendedRecipes: React.FC<RecommendedRecipesProps> = ({
 }) => {
   const [recommendations, setRecommendations] = useState<Recipe[]>([]);
   const [explanations, setExplanations] = useState<Record<string, string>>({});
-  let timeFactors = getTimeFactors();
+  const timeFactors = getTimeFactors();
 
   useEffect(() => {
     if (recipes.length > 0 && astrologicalState) {
-      let recommendedRecipes = getRecommendedRecipes(recipes, astrologicalState, count, timeFactors);
+      const recommendedRecipes = getRecommendedRecipes(recipes, astrologicalState, count, timeFactors);
       setRecommendations(recommendedRecipes);
       
       // Generate explanations for each recommendation

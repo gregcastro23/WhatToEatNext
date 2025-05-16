@@ -1,8 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { tarotCalculations } from '@/lib';
-import { recipeCalculations } from '@/lib';
+import { tarotCalculations , recipeCalculations } from '@/lib';
 import styles from './AlchmKitchen.module.css';
 import { useAstrologicalState } from '@/hooks';
 import { ElementalProperties } from '@/types/alchemy';
@@ -15,7 +14,7 @@ import { useChakraInfluencedFood } from '@/hooks/useChakraInfluencedFood';
 import { createLogger } from '@/utils/logger';
 import { initializeAlchemy } from '@/utils/alchemyInitializer';
 
-let logger = createLogger('AlchmKitchen');
+const logger = createLogger('AlchmKitchen');
 
 interface Recipe {
   id: string;
@@ -39,11 +38,11 @@ export default function AlchmKitchen() {
   const { elementalState, alchemicalValues, astrologicalState } = state;
 
   // Current Sun sign from astrologicalState
-  let currentSign = astrologicalState?.sunSign || 'unknown';
+  const currentSign = astrologicalState?.sunSign || 'unknown';
   // Planetary hour from astrologicalState
-  let planetaryHour = astrologicalState?.planetaryHour || 'Unknown';
+  const planetaryHour = astrologicalState?.planetaryHour || 'Unknown';
   // Lunar phase from astrologicalState
-  let lunarPhase = astrologicalState?.lunarPhase || 'Unknown';
+  const lunarPhase = astrologicalState?.lunarPhase || 'Unknown';
 
   useEffect(() => {
     setMounted(true);
@@ -51,7 +50,7 @@ export default function AlchmKitchen() {
       setRenderCount((prev) => prev + 1);
     }
 
-    let fetchData = async () => {
+    const fetchData = async () => {
       try {
         setLoading(true);
         logger.debug('Fetching tarot data for recipes', {
@@ -60,8 +59,8 @@ export default function AlchmKitchen() {
         });
 
         // Get current tarot cards
-        let currentDate = new Date();
-        let cards = getTarotCardsForDate(
+        const currentDate = new Date();
+        const cards = getTarotCardsForDate(
           currentDate,
           planetaryPositions.sun && {
             sign: planetaryPositions.sun.sign || 'aries',
@@ -70,7 +69,7 @@ export default function AlchmKitchen() {
         );
 
         // Get recipes based on tarot cards
-        let fetchedRecipes = await getRecipesForTarotCard({
+        const fetchedRecipes = await getRecipesForTarotCard({
           minorCard: {
             name: cards.minorCard.name,
             suit: cards.minorCard.suit,
@@ -106,7 +105,7 @@ export default function AlchmKitchen() {
   }
 
   // Format elemental balance for display
-  let elementalBalance = elementalState
+  const elementalBalance = elementalState
     ? {
         Fire: Math.round(elementalState.Fire * 100),
         Water: Math.round(elementalState.Water * 100),

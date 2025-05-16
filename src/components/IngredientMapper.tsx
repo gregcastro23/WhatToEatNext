@@ -26,7 +26,7 @@ export default function IngredientMapper() {
   const [secondIngredient, setSecondIngredient] = useState('');
 
   // Find recipes with good ingredient mappings
-  let handleFindRecipes = () => {
+  const handleFindRecipes = () => {
     const elementalTarget = {
       // Can be customized based on user preferences or context
       Fire: 0.3, 
@@ -35,7 +35,7 @@ export default function IngredientMapper() {
       Air: 0.2
     };
 
-    let results = findMatchingRecipes({
+    const results = findMatchingRecipes({
       elementalTarget,
       requiredIngredients: searchTerm ? [searchTerm] : undefined,
       cuisineType: selectedCuisine || undefined
@@ -45,16 +45,16 @@ export default function IngredientMapper() {
   };
 
   // Find alternative ingredients
-  let handleFindAlternatives = () => {
+  const handleFindAlternatives = () => {
     if (!selectedIngredient) return;
     let result = suggestAlternatives(selectedIngredient);
     setAlternatives(result.success ? result.suggestions : []);
   };
 
   // Calculate compatibility between two ingredients
-  let handleCalculateCompatibility = () => {
+  const handleCalculateCompatibility = () => {
     if (!selectedIngredient || !secondIngredient) return;
-    let result = calculateCompatibility(selectedIngredient, secondIngredient);
+    const result = calculateCompatibility(selectedIngredient, secondIngredient);
     setCompatibilityResult(result);
   };
 

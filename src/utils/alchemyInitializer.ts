@@ -30,7 +30,7 @@ export function initializeAlchemicalEngine() {
  * A static version of the alchemize function that can be used directly
  * This wraps the core engine's implementation
  */
-export let staticAlchemize = (
+export const staticAlchemize = (
   birthInfo: unknown,
   horoscopeDict: unknown
 ): AlchemicalResult => {

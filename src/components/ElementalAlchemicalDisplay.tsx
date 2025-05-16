@@ -13,7 +13,7 @@ export default function ElementalAlchemicalDisplay() {
   const { state } = useAlchemical();
   
   // Get values from the correct location (state.alchemicalValues) with fallbacks
-  let alchemicalValues = state?.alchemicalValues || { 
+  const alchemicalValues = state?.alchemicalValues || { 
     Spirit: 0.25, 
     Essence: 0.25, 
     Matter: 0.25, 
@@ -21,7 +21,7 @@ export default function ElementalAlchemicalDisplay() {
   };
   
   // Get elemental balance values from elementalState instead of elementalPreference
-  let elementalState = state?.elementalState || { 
+  const elementalState = state?.elementalState || { 
     Fire: 0.25, 
     Water: 0.25, 
     Earth: 0.25, 
@@ -29,31 +29,31 @@ export default function ElementalAlchemicalDisplay() {
   };
   
   // Calculate thermodynamic properties using the actual calculation functions
-  let heat = calculateHeat(
+  const heat = calculateHeat(
     elementalState.Fire || 0.25,
     elementalState.Earth || 0.25,
     elementalState.Air || 0.25,
     elementalState.Water || 0.25
   );
   
-  let entropy = calculateEntropy(
+  const entropy = calculateEntropy(
     elementalState.Fire || 0.25,
     elementalState.Earth || 0.25,
     elementalState.Air || 0.25,
     elementalState.Water || 0.25
   );
   
-  let reactivity = calculateReactivity(
+  const reactivity = calculateReactivity(
     elementalState.Fire || 0.25,
     elementalState.Earth || 0.25,
     elementalState.Air || 0.25,
     elementalState.Water || 0.25
   );
   
-  let celestialEnergy = calculateGregsEnergy(heat, entropy, reactivity);
+  const celestialEnergy = calculateGregsEnergy(heat, entropy, reactivity);
   
   // Helper function to format values as decimals
-  let formatValue = (value: number = 0) => {
+  const formatValue = (value: number = 0) => {
     return value.toFixed(2);
   };
 

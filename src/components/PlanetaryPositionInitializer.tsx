@@ -11,7 +11,7 @@ import @/services  from 'errorHandler ';
 import @/utils  from 'validation ';
 
 // Create a component-specific logger
-let logger = createLogger('PlanetaryPositions');
+const logger = createLogger('PlanetaryPositions');
 
 // Define interfaces for better type safety
 interface RetryStatus {
@@ -77,7 +77,7 @@ function getSafeCelestialPosition(
 function validatePlanetaryPositions(positions: Partial<PlanetaryPositions> | null | undefined): positions is PlanetaryPositions {
   if (!positions) return false;
   
-  let requiredPlanets = ['sun', 'moon', 'mercury', 'venus', 'mars', 'jupiter', 'saturn', 'uranus', 'neptune', 'pluto'];
+  const requiredPlanets = ['sun', 'moon', 'mercury', 'venus', 'mars', 'jupiter', 'saturn', 'uranus', 'neptune', 'pluto'];
   
   for (const planet of requiredPlanets) {
     if (!positions[planet] || !isValidCelestialPosition(positions[planet])) {
@@ -101,7 +101,7 @@ const PlanetaryPositionInitializer: React.FC = () => {
   const [updateError, setUpdateError] = useState<string | null>(null);
 
   // Function to update positions with comprehensive retry logic
-  let attemptPositionUpdate = async (force = false): Promise<boolean> => {
+  const attemptPositionUpdate = async (force = false): Promise<boolean> => {
     if (retryStatus.isRetrying && !force) return false;
     
     try {
@@ -140,7 +140,7 @@ const PlanetaryPositionInitializer: React.FC = () => {
       });
       return true;
     } catch (error) {
-      let errorMessage = error instanceof Error 
+      const errorMessage = error instanceof Error 
         ? error.message 
         : 'Unknown error fetching planetary positions';
       
@@ -178,7 +178,7 @@ const PlanetaryPositionInitializer: React.FC = () => {
   };
 
   // Function to apply fallback positions
-  let applyFallbackPositions = (): void => {
+  const applyFallbackPositions = (): void => {
     logger.warn('Applying fallback positions...');
     
     try {
@@ -272,7 +272,7 @@ const PlanetaryPositionInitializer: React.FC = () => {
       applyFallbackPositions();
       
       // Then attempt to get actual positions
-      let getInitialPositions = async (): Promise<void> => {
+      const getInitialPositions = async (): Promise<void> => {
         try {
           const success = await attemptPositionUpdate(true);
           if (!success) {
@@ -305,9 +305,9 @@ const PlanetaryPositionInitializer: React.FC = () => {
   // Set up periodic position updates
   useEffect(() => {
     // Refresh positions every 12 hours
-    let refreshInterval = 12 * 60 * 60 * 1000; // 12 hours in milliseconds
+    const refreshInterval = 12 * 60 * 60 * 1000; // 12 hours in milliseconds
     
-    let scheduleNextUpdate = () => {
+    const scheduleNextUpdate = () => {
       const timerId = setTimeout(async () => {
         try {
           logger.info('Performing scheduled position update');

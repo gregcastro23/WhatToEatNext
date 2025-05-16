@@ -40,7 +40,7 @@ export function initializeChromeApis(): void {
             try {
               // Use timeout to avoid popup blockers
               setTimeout(() => {
-                let newTab = window.open(options.url, '_blank');
+                const newTab = window.open(options.url, '_blank');
                 if (!newTab) {
                   console.warn('[ChromeAPI] Popup may have been blocked');
                 }

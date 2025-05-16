@@ -18,7 +18,7 @@ export function standardizeIngredient(ingredient) {
   }
 
   // Ensure basic properties exist
-  let standardized = {
+  const standardized = {
     // Basic identification fields
     name: ingredient.name || '',
     category: ingredient.category || 'unknown',
@@ -86,16 +86,16 @@ export function standardizeIngredient(ingredient) {
  * @returns {Object} - The normalized elemental properties
  */
 function normalizeElementalProperties(properties) {
-  let elements = ['Fire', 'Water', 'Earth', 'Air'];
+  const elements = ['Fire', 'Water', 'Earth', 'Air'];
   
   // Create a new object with the required elements
-  let normalized = elements.reduce((obj, element) => {
+  const normalized = elements.reduce((obj, element) => {
     obj[element] = properties[element] || 0;
     return obj;
   }, {});
   
   // Calculate the sum of all elements
-  let sum = elements.reduce((total, element) => total + normalized[element], 0);
+  const sum = elements.reduce((total, element) => total + normalized[element], 0);
   
   // If sum is 0 or very close to 0, return default values
   if (sum < 0.001) {
@@ -140,7 +140,7 @@ function standardizeNutritionalProfile(profile = {}) {
  * @returns {Object} - The standardized sensory profile
  */
 function standardizeSensoryProfile(profile = {}) {
-  let defaultValue = 0.25;
+  const defaultValue = 0.25;
   
   return {
     taste: {
@@ -344,7 +344,7 @@ function standardizeGrain(grain) {
  * @returns {Object} - The standardized oil or vinegar
  */
 function standardizeOilOrVinegar(oilOrVinegar) {
-  let isOil = oilOrVinegar.category === 'oil';
+  const isOil = oilOrVinegar.category === 'oil';
   
   return {
     ...oilOrVinegar,

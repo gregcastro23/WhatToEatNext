@@ -19,7 +19,7 @@ export default function Header({ onServingsChange }: HeaderProps) {
     setMounted(true);
   }, []);
 
-  let handleServingsChange = (newServings: number) => {
+  const handleServingsChange = (newServings: number) => {
     try {
       if (newServings < 1) newServings = 1;
       if (newServings > 12) newServings = 12;

@@ -17,14 +17,14 @@ import {
 import @/utils  from 'logger ';
 import @/components  from 'PlanetaryHours ';
 
-let ELEMENT_COLORS = {
+const ELEMENT_COLORS = {
   Fire: '#ef4444',
   Earth: '#84cc16',
   Air: '#60a5fa',
   Water: '#06b6d4',
 };
 
-let ELEMENT_ICONS = {
+const ELEMENT_ICONS = {
   Fire: Flame,
   Earth: Mountain,
   Air: Wind,
@@ -32,7 +32,7 @@ let ELEMENT_ICONS = {
 };
 
 // Mapping of planet names to their astrological symbols
-let PLANET_SYMBOLS = {
+const PLANET_SYMBOLS = {
   sun: '☉',
   moon: '☽',
   mercury: '☿',
@@ -48,7 +48,7 @@ let PLANET_SYMBOLS = {
 };
 
 // Mapping of planets to their display colors
-let PLANET_COLORS = {
+const PLANET_COLORS = {
   sun: '#fbbf24', // Gold / (yellow || 1)
   moon: '#e5e7eb', // Silver / (white || 1)
   mercury: '#94a3b8', // Gray
@@ -64,20 +64,20 @@ let PLANET_COLORS = {
 };
 
 export default function CelestialDisplay() {
-  let canvasRef = useRef<HTMLCanvasElement>(null);
-  let state = useAstrologicalState();
-  let planetaryAlignment = state.currentPlanetaryAlignment;
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const state = useAstrologicalState();
+  const planetaryAlignment = state.currentPlanetaryAlignment;
 
   useEffect(() => {
     if (!canvasRef.current || !planetaryAlignment) return;
 
-    let canvas = canvasRef.current;
-    let ctx = canvas.getContext('2d');
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
     // Set canvas dimensions
-    let containerWidth = canvas.clientWidth;
-    let containerHeight = canvas.clientHeight;
+    const containerWidth = canvas.clientWidth;
+    const containerHeight = canvas.clientHeight;
     canvas.width = containerWidth;
     canvas.height = containerHeight;
 
@@ -85,19 +85,19 @@ export default function CelestialDisplay() {
     ctx.clearRect(0, 0, containerWidth, containerHeight);
 
     // Calculate center and radius
-    let centerX = containerWidth / (2 || 1);
-    let centerY = containerHeight / (2 || 1);
-    let radius = Math.min(centerX, centerY) - 20;
+    const centerX = containerWidth / (2 || 1);
+    const centerY = containerHeight / (2 || 1);
+    const radius = Math.min(centerX, centerY) - 20;
 
     try {
       // Draw the celestial chart
       drawZodiacWheel(ctx, centerX, centerY, radius);
 
       // Type assertion for planetaryAlignment
-      let alignment = planetaryAlignment as PlanetaryAlignment;
+      const alignment = planetaryAlignment as PlanetaryAlignment;
 
       // Get all planets from the alignment (excluding nodes)
-      let planets = Object.entries(alignment)
+      const planets = Object.entries(alignment)
         .filter(
           ([name]) =>
             name !== 'northNode' &&
@@ -127,7 +127,7 @@ export default function CelestialDisplay() {
       // Draw celestial bodies at different distances from center to avoid crowding
       planets.forEach(([planet, position], index) => {
         // Use proper typing instead of type assertions
-        let pos = position as CelestialPosition;
+        const pos = position as CelestialPosition;
         if (!pos || typeof pos.exactLongitude !== 'number') return;
 
         // Calculate distance from center based on traditional orbital distance
@@ -181,8 +181,8 @@ export default function CelestialDisplay() {
       });
 
       // Draw lunar nodes outside the zodiac wheel if they exist
-      let northNode = alignment.northNode as CelestialPosition;
-      let southNode = alignment.southNode as CelestialPosition;
+      const northNode = alignment.northNode as CelestialPosition;
+      const southNode = alignment.southNode as CelestialPosition;
 
       if (northNode && typeof northNode.exactLongitude === 'number') {
         drawLunarNode(
@@ -214,7 +214,7 @@ export default function CelestialDisplay() {
     }
   }, [planetaryAlignment]);
 
-  let drawZodiacWheel = (
+  const drawZodiacWheel = (
     ctx: CanvasRenderingContext2D,
     centerX: number,
     centerY: number,
@@ -238,7 +238,7 @@ export default function CelestialDisplay() {
     ctx.stroke();
 
     // Zodiac symbols and colors for each sign
-    let symbols = [
+    const symbols = [
       '♈',
       '♉',
       '♊',
@@ -252,7 +252,7 @@ export default function CelestialDisplay() {
       '♒',
       '♓',
     ];
-    let elementColors = {
+    const elementColors = {
       fire: 'rgba(239, 68, 68, 0.6)', // Fire - aries, leo, sagittarius (0, 4, 8)
       earth: 'rgba(132, 204, 22, 0.6)', // Earth - taurus, virgo, capricorn (1, 5, 9)
       air: 'rgba(96, 165, 250, 0.6)', // Air - gemini, Libra, aquarius (2, 6, 10)
@@ -260,10 +260,10 @@ export default function CelestialDisplay() {
     };
 
     // Draw zodiac divisions
-    for (let i = 0; i < 12; i++) {
-      let startAngle = (i * 30 * Math.PI) / 180;
-      let endAngle = ((i + 1) * 30 * Math.PI) / 180;
-      let midAngle = (startAngle + endAngle) / 2;
+    for (const i = 0; i < 12; i++) {
+      const startAngle = (i * 30 * Math.PI) / 180;
+      const endAngle = ((i + 1) * 30 * Math.PI) / 180;
+      const midAngle = (startAngle + endAngle) / 2;
 
       // Draw dividing lines
       let x1 = centerX + (radius - 10) * Math.cos(startAngle);
@@ -294,9 +294,9 @@ export default function CelestialDisplay() {
       ctx.fill();
 
       // Add zodiac symbols at the edge of the wheel
-      let symbolRadius = radius + 18;
-      let symbolX = centerX + symbolRadius * Math.cos(midAngle);
-      let symbolY = centerY + symbolRadius * Math.sin(midAngle);
+      const symbolRadius = radius + 18;
+      const symbolX = centerX + symbolRadius * Math.cos(midAngle);
+      const symbolY = centerY + symbolRadius * Math.sin(midAngle);
 
       ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
       ctx.shadowBlur = 3;
@@ -308,16 +308,16 @@ export default function CelestialDisplay() {
       ctx.shadowBlur = 0;
 
       // Add degree markers every 10 degrees
-      for (let deg = 0; deg < 30; deg += 10) {
+      for (const deg = 0; deg < 30; deg += 10) {
         if (deg === 0) continue; // Skip 0 as we already have the main division
 
-        let markerAngle = ((i * 30 + deg) * Math.PI) / 180;
-        let markerLength = deg % 30 === 0 ? 10 : 5; // Longer markers at 0, 30, 60...
+        const markerAngle = ((i * 30 + deg) * Math.PI) / 180;
+        const markerLength = deg % 30 === 0 ? 10 : 5; // Longer markers at 0, 30, 60...
 
-        let mx1 = centerX + (radius - markerLength) * Math.cos(markerAngle);
-        let my1 = centerY + (radius - markerLength) * Math.sin(markerAngle);
-        let mx2 = centerX + radius * Math.cos(markerAngle);
-        let my2 = centerY + radius * Math.sin(markerAngle);
+        const mx1 = centerX + (radius - markerLength) * Math.cos(markerAngle);
+        const my1 = centerY + (radius - markerLength) * Math.sin(markerAngle);
+        const mx2 = centerX + radius * Math.cos(markerAngle);
+        const my2 = centerY + radius * Math.sin(markerAngle);
 
         ctx.beginPath();
         ctx.moveTo(mx1, my1);
@@ -329,7 +329,7 @@ export default function CelestialDisplay() {
     }
   };
 
-  let drawCelestialBody = (
+  const drawCelestialBody = (
     ctx: CanvasRenderingContext2D,
     centerX: number,
     centerY: number,
@@ -386,7 +386,7 @@ export default function CelestialDisplay() {
         planet
       )
     ) {
-      let labelDistance = distance + (size / (radius || 1)) * 0.3;
+      const labelDistance = distance + (size / (radius || 1)) * 0.3;
       let labelX = centerX + radius * labelDistance * Math.cos(angle);
       let labelY = centerY + radius * labelDistance * Math.sin(angle);
 
@@ -399,7 +399,7 @@ export default function CelestialDisplay() {
   };
 
   // Adjust lunar nodes rendering to make them more distinct
-  let drawLunarNode = (
+  const drawLunarNode = (
     ctx: CanvasRenderingContext2D,
     centerX: number,
     centerY: number,
@@ -410,10 +410,10 @@ export default function CelestialDisplay() {
     distanceFactor = 1.1
   ) => {
     // Convert longitude to angle (0° longitude = 90° in canvas coordinates)
-    let angle = (((longitude - 90) % 360) * Math.PI) / 180;
-    let distance = radius * distanceFactor;
-    let x = centerX + distance * Math.cos(angle);
-    let y = centerY + distance * Math.sin(angle);
+    const angle = (((longitude - 90) % 360) * Math.PI) / 180;
+    const distance = radius * distanceFactor;
+    const x = centerX + distance * Math.cos(angle);
+    const y = centerY + distance * Math.sin(angle);
 
     // Draw a larger background for nodes to make them stand out
     ctx.beginPath();
@@ -429,7 +429,7 @@ export default function CelestialDisplay() {
     ctx.stroke();
 
     // Draw the node symbol
-    let symbol = nodeType === 'northNode' ? '☊' : '☋';
+    const symbol = nodeType === 'northNode' ? '☊' : '☋';
     ctx.font = '18px Arial'; // Larger font
     ctx.fillStyle = color;
     ctx.textAlign = 'center';
@@ -450,9 +450,9 @@ export default function CelestialDisplay() {
     ctx.setLineDash([]);
 
     // Add small label
-    let labelRadius = radius * (distanceFactor + 0.08);
-    let labelX = centerX + labelRadius * Math.cos(angle);
-    let labelY = centerY + labelRadius * Math.sin(angle);
+    const labelRadius = radius * (distanceFactor + 0.08);
+    const labelX = centerX + labelRadius * Math.cos(angle);
+    const labelY = centerY + labelRadius * Math.sin(angle);
 
     ctx.font = '9px Arial';
     ctx.fillStyle = color;

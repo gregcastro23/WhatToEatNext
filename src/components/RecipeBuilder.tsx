@@ -40,7 +40,7 @@ export default function RecipeBuilder() {
     };
 
     selectedIngredients.forEach((ingredient) => {
-      let modality = (ingredient.modality ||
+      const modality = (ingredient.modality ||
         determineIngredientModality(
           ingredient.elementalProperties,
           ingredient.qualities || []
@@ -73,7 +73,7 @@ export default function RecipeBuilder() {
   }, [signEnergyStates]);
 
   // Map chakras to access the energy states (Spirit, Essence, Matter, Substance)
-  let mapChakrasToEnergyStates = (
+  const mapChakrasToEnergyStates = (
     energyStates: SignEnergyState[]
   ): ChakraEnergyAccess[] => {
     const chakras: Chakra[] = [
@@ -106,7 +106,7 @@ export default function RecipeBuilder() {
     };
 
     // Calculate average energy values across all signs
-    let avgSpirit =
+    const avgSpirit =
       energyStates.reduce(
         (sum, state) =>
           sum +
@@ -115,7 +115,7 @@ export default function RecipeBuilder() {
         0
       ) / energyStates.length;
 
-    let avgEssence =
+    const avgEssence =
       energyStates.reduce(
         (sum, state) =>
           sum +
@@ -124,7 +124,7 @@ export default function RecipeBuilder() {
         0
       ) / energyStates.length;
 
-    let avgMatter =
+    const avgMatter =
       energyStates.reduce(
         (sum, state) =>
           sum +
@@ -133,7 +133,7 @@ export default function RecipeBuilder() {
         0
       ) / energyStates.length;
 
-    let avgSubstance =
+    const avgSubstance =
       energyStates.reduce(
         (sum, state) =>
           sum +
@@ -143,16 +143,16 @@ export default function RecipeBuilder() {
       ) / energyStates.length;
 
     // Generate food recommendations based on energy state influence through chakras
-    let chakraAccessPoints = chakras.map((chakra) => {
+    const chakraAccessPoints = chakras.map((chakra) => {
       const influence = chakraInfluenceMap[chakra];
       // Calculate influence values
-      let spiritInfluence = avgSpirit * influence.spirit;
-      let essenceInfluence = avgEssence * influence.essence;
-      let matterInfluence = avgMatter * influence.matter;
-      let substanceInfluence = avgSubstance * influence.substance;
+      const spiritInfluence = avgSpirit * influence.spirit;
+      const essenceInfluence = avgEssence * influence.essence;
+      const matterInfluence = avgMatter * influence.matter;
+      const substanceInfluence = avgSubstance * influence.substance;
 
       // Example food recommendations based on the energy balance
-      let primaryFoods = getChakraFoodRecommendations(chakra, {
+      const primaryFoods = getChakraFoodRecommendations(chakra, {
         spirit: spiritInfluence,
         essence: essenceInfluence,
         matter: matterInfluence,
@@ -173,7 +173,7 @@ export default function RecipeBuilder() {
   };
 
   // Get food recommendations for a chakra based on energy influences
-  let getChakraFoodRecommendations = (
+  const getChakraFoodRecommendations = (
     chakra: Chakra,
     energyInfluence: {
       spirit: number;
@@ -194,7 +194,7 @@ export default function RecipeBuilder() {
     };
 
     // Determine which energy aspect needs the most balance
-    let energyAspects = [
+    const energyAspects = [
       { type: 'spirit', value: energyInfluence.spirit },
       { type: 'essence', value: energyInfluence.essence },
       { type: 'matter', value: energyInfluence.matter },
@@ -205,7 +205,7 @@ export default function RecipeBuilder() {
     energyAspects.sort((a, b) => a.value - b.value);
 
     // Basic foods for the chakra
-    let recommendedFoods = [...chakraFoodMap[chakra]];
+    const recommendedFoods = [...chakraFoodMap[chakra]];
 
     // Add specific foods based on which energy aspect needs most support
     if (energyAspects[0].type === 'spirit') {
@@ -222,7 +222,7 @@ export default function RecipeBuilder() {
   };
 
   // Get description for the recipe's modality
-  let getModalityDescription = (modality: Modality): string => {
+  const getModalityDescription = (modality: Modality): string => {
     switch (modality) {
       case 'Cardinal':
         return 'This recipe has strong, bold flavors and will be energizing and stimulating.';
@@ -235,7 +235,7 @@ export default function RecipeBuilder() {
     }
   };
 
-  let enhanceRecipe = (baseRecipe: Recipe): void => {
+  const enhanceRecipe = (baseRecipe: Recipe): void => {
     if (chakraAccess && chakraAccess.length > 0) {
       // Find the chakras that can best help balance the energy
       const chakrasToFocus = chakraAccess
@@ -248,7 +248,7 @@ export default function RecipeBuilder() {
         .slice(0, 3); // Focus on top 3 chakras for energy balance
 
       // Create a copy of the recipe with the required fields ensured
-      let enhancedRecipe = {
+      const enhancedRecipe = {
         ...baseRecipe,
         // Ensure required fields exist
         id: baseRecipe.id || `recipe-${Date.now()}`,

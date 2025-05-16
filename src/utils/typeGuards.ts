@@ -1,7 +1,7 @@
 import @/types  from 'alchemy ';
 
 // Define the known chakra keys
-export let CHAKRA_KEYS = [
+export const CHAKRA_KEYS = [
   'root',
   'sacral',
   'solarPlexus',

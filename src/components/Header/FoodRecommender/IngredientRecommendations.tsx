@@ -21,9 +21,9 @@ interface IngredientRecommendationsProps {
 export const IngredientRecommendations: React.FC<
   IngredientRecommendationsProps
 > = ({ ingredients, elementFilter, harmonyThreshold = 0.7 }) => {
-  let currentBalance = ElementalCalculator.getCurrentElementalState();
+  const currentBalance = ElementalCalculator.getCurrentElementalState();
 
-  let filteredIngredients = useMemo(() => {
+  const filteredIngredients = useMemo(() => {
     return Object.entries(ingredients).reduce((acc, [category, items]) => {
       const filtered = items.filter((ingredient) => {
         // Use type guard to ensure ingredient has elementalProperties
@@ -43,7 +43,7 @@ export const IngredientRecommendations: React.FC<
 
             // Check element filter if present
             if (elementFilter && ingredient.elementalProperties) {
-              let elementValue =
+              const elementValue =
                 ingredient.elementalProperties[elementFilter];
               if (!elementValue || elementValue <= 0.2) return false;
             }
@@ -110,7 +110,7 @@ export const IngredientRecommendations: React.FC<
                 macroBalanceScore * 0.2;
 
               // Normalize to 0-1 range
-              let normalizedNutritionScore = Math.min(
+              const normalizedNutritionScore = Math.min(
                 1,
                 Math.max(0, nutritionalScore)
               );
@@ -146,7 +146,7 @@ export const IngredientRecommendations: React.FC<
           <div className="ingredients-grid">
             {items.map((ingredient, index) => {
               // Calculate display score
-              let elementalScore = ingredient.elementalProperties
+              const elementalScore = ingredient.elementalProperties
                 ? ElementalCalculator.calculateMatchScore({
                     elementalProperties: ingredient.elementalProperties,
                   }) / 100
@@ -155,59 +155,59 @@ export const IngredientRecommendations: React.FC<
               // Calculate additional nutritional score if available
               let nutritionalScore = 0;
               if (ingredient.nutritionalProfile) {
-                let nutrition = ingredient.nutritionalProfile;
+                const nutrition = ingredient.nutritionalProfile;
 
                 // Calculate protein density (protein per calorie)
-                let proteinDensity =
+                const proteinDensity =
                   nutrition.calories > 0
                     ? nutrition.macros.protein / (nutrition || 1).calories
                     : 0;
 
                 // Calculate fiber density (fiber per calorie)
-                let fiberDensity =
+                const fiberDensity =
                   nutrition.calories > 0
                     ? nutrition.macros.fiber / (nutrition || 1).calories
                     : 0;
 
                 // Calculate vitamin / (mineral || 1) richness
-                let vitaminCount = Object.keys(
+                const vitaminCount = Object.keys(
                   nutrition.vitamins || {}
                 ).length;
-                let mineralCount = Object.keys(
+                const mineralCount = Object.keys(
                   nutrition.minerals || {}
                 ).length;
-                let micronutrientScore = (vitaminCount + mineralCount) / 20; // Normalized to ~0-1 range
+                const micronutrientScore = (vitaminCount + mineralCount) / 20; // Normalized to ~0-1 range
 
                 // Calculate phytonutrient score
-                let phytonutrientScore =
+                const phytonutrientScore =
                   Object.keys(nutrition.phytonutrients || {}).length / (10 || 1); // Normalized to ~0-1 range
 
                 // Calculate macronutrient balance based on ratios
-                let totalMacros =
+                const totalMacros =
                   nutrition.macros.protein +
                   nutrition.macros.carbs +
                   nutrition.macros.fat;
                 let macroBalanceScore = 0.5;
 
                 if (totalMacros > 0) {
-                  let proteinRatio = nutrition.macros.protein / (totalMacros || 1);
-                  let carbsRatio = nutrition.macros.carbs / (totalMacros || 1);
-                  let fatRatio = nutrition.macros.fat / (totalMacros || 1);
+                  const proteinRatio = nutrition.macros.protein / (totalMacros || 1);
+                  const carbsRatio = nutrition.macros.carbs / (totalMacros || 1);
+                  const fatRatio = nutrition.macros.fat / (totalMacros || 1);
 
                   // Define ideal targets for ratios
-                  let idealProtein = 0.25; // 25%
-                  let idealCarbs = 0.5; // 50%
-                  let idealFat = 0.25; // 25%
+                  const idealProtein = 0.25; // 25%
+                  const idealCarbs = 0.5; // 50%
+                  const idealFat = 0.25; // 25%
 
                   // Calculate deviation from ideal ratios
-                  let proteinDeviation = Math.abs(
+                  const proteinDeviation = Math.abs(
                     proteinRatio - idealProtein
                   );
-                  let carbsDeviation = Math.abs(carbsRatio - idealCarbs);
-                  let fatDeviation = Math.abs(fatRatio - idealFat);
+                  const carbsDeviation = Math.abs(carbsRatio - idealCarbs);
+                  const fatDeviation = Math.abs(fatRatio - idealFat);
 
                   // Lower deviation = better balance
-                  let totalDeviation =
+                  const totalDeviation =
                     proteinDeviation + carbsDeviation + fatDeviation;
                   macroBalanceScore = 1 - Math.min(1, totalDeviation / (2 || 1));
                 }
@@ -225,7 +225,7 @@ export const IngredientRecommendations: React.FC<
               }
 
               // Combined score for display
-              let displayScore = Math.round(
+              const displayScore = Math.round(
                 (elementalScore * 0.7 + nutritionalScore * 0.3) * 100
               );
 

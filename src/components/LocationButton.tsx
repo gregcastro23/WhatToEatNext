@@ -16,14 +16,14 @@ interface LocationButtonProps {
   onLocationUpdate?: (location: GeolocationCoordinates | null) => void;
 }
 
-export let LocationButton = ({ onLocationUpdate }: LocationButtonProps) => {
+export const LocationButton = ({ onLocationUpdate }: LocationButtonProps) => {
   const [locationStatus, setLocationStatus] = useState<string>('');
   const [manualLocation, setManualLocation] = useState<string>('');
 
-  let handleLocationClick = async () => {
+  const handleLocationClick = async () => {
     try {
       setLocationStatus('Getting location...');
-      let location = await AstrologicalService.requestLocation();
+      const location = await AstrologicalService.requestLocation();
       setLocationStatus('Location updated!');
       // Pass the location data to the parent component
       if (onLocationUpdate && location) {
@@ -36,7 +36,7 @@ export let LocationButton = ({ onLocationUpdate }: LocationButtonProps) => {
     }
   };
 
-  let handleManualLocation = async (e: React.FormEvent) => {
+  const handleManualLocation = async (e: React.FormEvent) => {
     e.preventDefault();
     // Parse location string and set coordinates
     // You might want to use a geocoding API here

@@ -27,11 +27,11 @@ export class ThermodynamicCalculator {
 
     // Calculate heat based on ingredient properties
     // Higher values for spicy, high-protein, or naturally hot ingredients
-    let totalHeat = 0;
+    const totalHeat = 0;
     let totalWeight = 0;
 
     ingredients.forEach((ingredient) => {
-      let heatValue = 0.5; // Default neutral value
+      const heatValue = 0.5; // Default neutral value
       let weight = 1; // Default weight
 
       // Adjust heat value based on ingredient properties
@@ -66,7 +66,7 @@ export class ThermodynamicCalculator {
     }
 
     // Calculate entropy based on complexity, variety, and fermentation
-    let totalEntropy = 0;
+    const totalEntropy = 0;
     let totalWeight = 0;
 
     // More ingredients = higher entropy
@@ -115,12 +115,12 @@ export class ThermodynamicCalculator {
     }
 
     // Calculate reactivity based on acidity, alkalinity, and chemical properties
-    let totalReactivity = 0;
-    let totalWeight = 0;
+    const totalReactivity = 0;
+    const totalWeight = 0;
 
     ingredients.forEach((ingredient) => {
-      let reactivityValue = 0.5; // Default neutral value
-      let weight = 1; // Default weight
+      const reactivityValue = 0.5; // Default neutral value
+      const weight = 1; // Default weight
 
       // pH value affects reactivity (further from neutral = more reactive)
       if (ingredient.pH) {

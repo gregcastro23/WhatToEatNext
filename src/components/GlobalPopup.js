@@ -4,7 +4,7 @@ import React from 'react';
 import ../contexts  from 'PopupContext ';
 import ../constants  from 'elementalConstants ';
 
-let GlobalPopup = () => {
+const GlobalPopup = () => {
   // Add null check when getting popup context
   let popup = usePopup();
   
@@ -17,17 +17,17 @@ let GlobalPopup = () => {
   const { showPopup } = popup;
 
   // Helper function to get element-based classes
-  let getElementalClasses = (sunSign, moonSign) => {
+  const getElementalClasses = (sunSign, moonSign) => {
     if (!sunSign || !moonSign) return '';
     
-    let sunElement = ZODIAC_ELEMENTS[sunSign?.toLowerCase()];
-    let moonElement = ZODIAC_ELEMENTS[moonSign?.toLowerCase()];
+    const sunElement = ZODIAC_ELEMENTS[sunSign?.toLowerCase()];
+    const moonElement = ZODIAC_ELEMENTS[moonSign?.toLowerCase()];
     
     // Add null checks
     if (!sunElement || !moonElement) return '';
     
     // Check for elemental harmony
-    let isHarmonious = ELEMENT_AFFINITIES[sunElement]?.includes(moonElement);
+    const isHarmonious = ELEMENT_AFFINITIES[sunElement]?.includes(moonElement);
     
     return `popup-${sunElement.toLowerCase()} popup-${moonElement.toLowerCase()} ${
       isHarmonious ? 'popup-harmonious' : ''
@@ -35,7 +35,7 @@ let GlobalPopup = () => {
   };
 
   // Enhanced show methods with elemental and zodiac influences
-  let showSuccess = (message, options = {}) => {
+  const showSuccess = (message, options = {}) => {
     showPopup(message, {
       ...options,
       type: 'success',
@@ -44,7 +44,7 @@ let GlobalPopup = () => {
     });
   };
 
-  let showError = (message, options = {}) => {
+  const showError = (message, options = {}) => {
     showPopup(message, {
       ...options,
       type: 'error',
@@ -53,7 +53,7 @@ let GlobalPopup = () => {
     });
   };
 
-  let showWarning = (message, options = {}) => {
+  const showWarning = (message, options = {}) => {
     showPopup(message, {
       ...options,
       type: 'warning',
@@ -62,7 +62,7 @@ let GlobalPopup = () => {
     });
   };
 
-  let showInfo = (message, options = {}) => {
+  const showInfo = (message, options = {}) => {
     showPopup(message, {
       ...options,
       type: 'info',
@@ -72,7 +72,7 @@ let GlobalPopup = () => {
   };
 
   // Show elemental popup
-  let showElemental = (message, options = {}) => {
+  const showElemental = (message, options = {}) => {
     const elementalClass = getElementalClasses(options.sunSign, options.moonSign);
     showPopup(message, {
       ...options,
@@ -86,8 +86,8 @@ let GlobalPopup = () => {
 };
 
 // Create a custom hook for global popups instead of a regular function
-export let useGlobalPopups = () => {
-  let popup = usePopup();
+export const useGlobalPopups = () => {
+  const popup = usePopup();
   
   // Safely assign to window object in development mode
   if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {

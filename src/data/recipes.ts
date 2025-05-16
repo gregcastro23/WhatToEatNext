@@ -67,6 +67,22 @@ export interface RecipeData {
   planetaryInfluences?: Record<string, number>;
   regionalCuisine?: string; // Store specific regional variation if applicable
   matchScore?: number; // Used for sorting and displaying compatibility
+  matchPercentage?: number; // Percentage for display purposes
+
+  // Additional properties needed to fix type errors
+  season?: Season[] | string;
+  mealType?: string[] | string;
+  cookingMethod?: string;
+  cookingTechniques?: string[];
+  elementalProperties?: ElementalProperties;
+  cookingMethods?: string[];
+  equipmentNeeded?: string[];
+  dishType?: string[];
+  createdAt?: string;
+  updatedAt?: string;
+  notes?: string;
+  preparation?: string;
+  seasonalIngredients?: string[];
 
   // Standardized fields
   servingSize?: number; // Number of servings
@@ -149,8 +165,8 @@ const transformCuisineData = async (): Promise<RecipeData[]> => {
                     // console.log(`Found ${dishes.length} dishes for ${cuisineName} - ${mealType} - ${season}`);
 
                     // Process individual dishes
-                    dishes.forEach((dish: unknown) => {
-                      if (!dish || !dish.name) {
+                    dishes.forEach((dish: any) => {
+                      if (!dish || typeof dish !== 'object' || !dish.name) {
                         // console.log('Skipping invalid dish:', dish);
                         return;
                       }
@@ -269,43 +285,6 @@ const transformCuisineData = async (): Promise<RecipeData[]> => {
 // Example static recipe
 const staticRecipes: RecipeData[] = [
   {
-    id: 'aries-stir-fry',
-    name: 'Fiery Aries Stir Fry',
-    description: 'A bold and spicy dish for aries energy',
-    ingredients: [
-      { name: 'Bell pepper', amount: 1, unit: 'whole' },
-      { name: 'Chili', amount: 2, unit: 'tsp' },
-      { name: 'Garlic', amount: 3, unit: 'cloves' },
-    ],
-    instructions: [
-      'Heat oil in wok',
-      'Add garlic and stir',
-      'Add vegetables and spices',
-    ],
-    energyProfile: {
-      zodiac: ['aries', 'leo', 'sagittarius'],
-      lunar: ['new moon', 'waxing crescent'],
-      planetary: ['Mars', 'Sun'],
-      season: ['spring'],
-    },
-    tags: ['spicy', 'quick', 'stir-fry'],
-    timeToMake: 20,
-    flavorProfile: {
-      spicy: 0.9,
-      sweet: 0.1,
-      sour: 0.2,
-      bitter: 0.3,
-      salty: 0.6,
-      umami: 0.4,
-    },
-    planetaryInfluences: {
-      Mars: 0.7,
-      Sun: 0.5,
-    },
-    cuisine: 'chinese',
-    regionalCuisine: 'sichuanese',
-  },
-  {
     id: 'cancer-seafood-risotto',
     name: 'Cancer Seafood Risotto',
     description:
@@ -405,7 +384,16 @@ export const getRecipes = async (): Promise<RecipeData[]> => {
   }
 
   const transformedRecipes = await transformCuisineData();
-  recipesCache = [...staticRecipes, ...transformedRecipes];
+  
+  // Only include static recipes in development environment
+  const isDevEnvironment = process.env.NODE_ENV === 'development';
+  
+  // Get the recipes based on environment
+  const recipes = isDevEnvironment 
+    ? [...staticRecipes, ...transformedRecipes] 
+    : [...transformedRecipes];
+    
+  recipesCache = recipes;
   return recipesCache;
 };
 
@@ -416,9 +404,10 @@ export const getRecipesForZodiac = async (
   zodiac: ZodiacSign
 ): Promise<RecipeData[]> => {
   const recipes = await getRecipes();
-  return recipes.filter((recipe) =>
+  const filteredRecipes = recipes.filter((recipe) =>
     recipe.energyProfile.zodiac?.includes(zodiac)
   );
+  return deduplicateRecipes(filteredRecipes);
 };
 
 /**
@@ -428,9 +417,10 @@ export const getRecipesForSeason = async (
   season: Season
 ): Promise<RecipeData[]> => {
   const recipes = await getRecipes();
-  return recipes.filter((recipe) =>
+  const filteredRecipes = recipes.filter((recipe) =>
     recipe.energyProfile.season?.includes(season)
   );
+  return deduplicateRecipes(filteredRecipes);
 };
 
 /**
@@ -440,9 +430,10 @@ export const getRecipesForLunarPhase = async (
   lunarPhase: LunarPhase
 ): Promise<RecipeData[]> => {
   const recipes = await getRecipes();
-  return recipes.filter((recipe) =>
+  const filteredRecipes = recipes.filter((recipe) =>
     recipe.energyProfile.lunar?.includes(lunarPhase)
   );
+  return deduplicateRecipes(filteredRecipes);
 };
 
 /**
@@ -484,7 +475,7 @@ export const getRecipesForPlanetaryAlignment = async (
   minMatchScore = 0.6
 ): Promise<RecipeData[]> => {
   const recipes = await getRecipes();
-  return recipes
+  const matchedRecipes = recipes
     .filter((recipe) => recipe.flavorProfile)
     .map((recipe) => ({
       ...recipe,
@@ -497,6 +488,8 @@ export const getRecipesForPlanetaryAlignment = async (
     }))
     .filter((recipe) => (recipe.matchScore || 0) >= minMatchScore)
     .sort((a, b) => (b.matchScore || 0) - (a.matchScore || 0));
+  
+  return deduplicateRecipes(matchedRecipes);
 };
 
 /**
@@ -564,11 +557,11 @@ export const getRecipesForFlavorProfile = async (
   minMatchScore = 0.7
 ): Promise<RecipeData[]> => {
   const recipes = await getRecipes();
-  return recipes
+  const matchedRecipes = recipes
     .filter((recipe) => recipe.flavorProfile)
     .map((recipe) => {
       // Calculate similarity between flavor profiles
-      let similarity = 0;
+      const similarity = 0;
       const totalWeight = 0;
 
       Object.entries(flavorProfile).forEach(([flavor, value]) => {
@@ -592,6 +585,8 @@ export const getRecipesForFlavorProfile = async (
     })
     .filter((recipe) => (recipe.matchScore || 0) >= minMatchScore)
     .sort((a, b) => (b.matchScore || 0) - (a.matchScore || 0));
+  
+  return deduplicateRecipes(matchedRecipes);
 };
 
 /**
@@ -609,7 +604,7 @@ export const getRecipesForCuisineMatch = async (
   // Get related cuisines
   const relatedCuisines = [cuisineName, ...getRelatedCuisines(cuisineName)];
 
-  return recipes
+  const matchedRecipes = recipes
     .map((recipe) => {
       // Direct cuisine match gets a boost
       const directMatch = relatedCuisines.includes(
@@ -647,6 +642,8 @@ export const getRecipesForCuisineMatch = async (
     })
     .filter((recipe) => (recipe.matchScore || 0) >= minMatchScore)
     .sort((a, b) => (b.matchScore || 0) - (a.matchScore || 0));
+  
+  return deduplicateRecipes(matchedRecipes);
 };
 
 /**
@@ -666,7 +663,8 @@ export const getBestRecipeMatches = async (
   // console.log("getBestRecipeMatches called with criteria:", criteria);
 
   // Start with all recipes
-  const candidateRecipes = [...(await getRecipes())];
+  const allRecipes = await getRecipes();
+  const candidateRecipes = [...allRecipes];
   // console.log(`Starting with ${candidateRecipes.length} total recipes`);
 
   // Apply cuisine filter if specified
@@ -689,118 +687,46 @@ export const getBestRecipeMatches = async (
 
       if (matchedCuisineRecipes && matchedCuisineRecipes.length > 0) {
         // Convert the recipes to ensure they match RecipeData format
-        const formattedRecipes = matchedCuisineRecipes.map((recipe) => ({
-          id: recipe.id || `${recipe.name.toLowerCase().replace(/\s+/g, '-')}`,
-          name: recipe.name,
-          description: recipe.description || `A ${criteria.cuisine} recipe`,
-          ingredients: Array.isArray(recipe.ingredients)
-            ? recipe.ingredients.map((ing) => ({
-                name: ing.name || '',
-                amount:
-                  typeof ing.amount === 'number'
-                    ? ing.amount
-                    : parseFloat(ing.amount) || 1,
-                unit: ing.unit || '',
-                optional: ing.optional || false,
-              }))
-            : [],
-          instructions: Array.isArray(recipe.instructions)
-            ? recipe.instructions
-            : typeof recipe.instructions === 'string'
-            ? [recipe.instructions]
-            : [],
-          cuisine: recipe.cuisine || criteria.cuisine,
-          regionalCuisine: recipe.regionalCuisine,
-          cookingMethod: recipe.cookingMethod || recipe.cookingMethods?.[0],
-          flavorProfile: recipe.flavorProfile || {
-            spicy: 0.5,
-            sweet: 0.5,
-            sour: 0.5,
-            bitter: 0.5,
-            salty: 0.5,
-            umami: 0.5,
-          },
-          elementalProperties: recipe.elementalProperties,
-          energyProfile: {
-            season: Array.isArray(recipe.season)
-              ? (recipe.season as Season[])
-              : typeof recipe.season === 'string'
-              ? [recipe.season as Season]
-              : ['all'],
-            zodiac: [],
-            lunar: [],
-            planetary: [],
-          },
-          tags: [
-            ...(Array.isArray(recipe.mealType)
-              ? recipe.mealType
-              : typeof recipe.mealType === 'string'
-              ? [recipe.mealType]
-              : []
-            ).map((type) => type.toLowerCase()),
-            ...(Array.isArray(recipe.season)
-              ? recipe.season
-              : typeof recipe.season === 'string'
-              ? [recipe.season]
-              : []
-            ).map((s) => s.toLowerCase()),
-          ],
-          timeToMake: recipe.timeToMake,
-          // Use the matchScore or matchPercentage if provided, otherwise use a default score
-          matchScore:
-            recipe.matchScore ||
-            (recipe.matchPercentage ? recipe.matchPercentage / 100 : 0.85),
-        }));
-
-        candidateRecipes = formattedRecipes;
-
-        // If we got recipes directly and they already have match scores,
-        // we can just return them after additional filtering
-        if (
-          formattedRecipes.length > 0 &&
-          formattedRecipes[0].matchScore !== undefined
-        ) {
-          // Apply additional filters if needed
-          return applyAdditionalFilters(formattedRecipes, criteria, limit);
-        }
-      }
-    } catch (error) {
-      // console.error("Error using enhanced getRecipesForCuisineMatch:", error);
-    }
-
-    // Fallback to LocalRecipeService if getRecipesForCuisineMatch failed
-    if (
-      candidateRecipes.length === 0 ||
-      candidateRecipes === (await getRecipes())
-    ) {
-      try {
-        // Import and use LocalRecipeService directly
-        const { LocalRecipeService } = await import(
-          '../services/LocalRecipeService'
-        );
-
-        // Get local recipes directly
-        const localRecipes = LocalRecipeService.getRecipesByCuisine(
-          criteria.cuisine || ''
-        );
-        // console.log(`Found ${localRecipes.length} recipes from LocalRecipeService for ${criteria.cuisine}`);
-
-        if (localRecipes.length > 0) {
-          // Convert the recipes to RecipeData format
-          candidateRecipes = localRecipes.map((recipe) => ({
-            id: recipe.id,
-            name: recipe.name,
-            description: recipe.description,
-            ingredients: recipe.ingredients.map((ing) => ({
-              name: ing.name,
-              amount: ing.amount,
-              unit: ing.unit,
-              optional: ing.optional,
-            })),
-            instructions: recipe.instructions,
-            cuisine: recipe.cuisine,
+        const formattedRecipes: RecipeData[] = matchedCuisineRecipes.map((recipe: any) => {
+          // Create a RecipeData compatible object
+          const recipeData: RecipeData = {
+            id: recipe.id || `${recipe.name?.toLowerCase().replace(/\s+/g, '-') || 'unnamed'}`,
+            name: recipe.name || 'Unnamed Recipe',
+            description: recipe.description || `A ${criteria.cuisine} recipe`,
+            ingredients: Array.isArray(recipe.ingredients)
+              ? recipe.ingredients.map((ing: any) => ({
+                  name: ing.name || '',
+                  amount:
+                    typeof ing.amount === 'number'
+                      ? ing.amount
+                      : parseFloat(ing.amount) || 1,
+                  unit: ing.unit || '',
+                  optional: ing.optional || false,
+                }))
+              : [],
+            instructions: Array.isArray(recipe.instructions)
+              ? recipe.instructions
+              : typeof recipe.instructions === 'string'
+              ? [recipe.instructions]
+              : [],
+            cuisine: recipe.cuisine || criteria.cuisine,
+            regionalCuisine: recipe.regionalCuisine,
+            cookingMethod: recipe.cookingMethod || recipe.cookingMethods?.[0],
+            flavorProfile: recipe.flavorProfile || {
+              spicy: 0.5,
+              sweet: 0.5,
+              sour: 0.5,
+              bitter: 0.5,
+              salty: 0.5,
+              umami: 0.5,
+            },
+            elementalProperties: recipe.elementalProperties,
             energyProfile: {
-              season: recipe.season as Season[],
+              season: Array.isArray(recipe.season)
+                ? (recipe.season as Season[])
+                : typeof recipe.season === 'string'
+                ? [recipe.season as Season]
+                : ['all' as Season],
               zodiac: [],
               lunar: [],
               planetary: [],
@@ -811,21 +737,109 @@ export const getBestRecipeMatches = async (
                 : typeof recipe.mealType === 'string'
                 ? [recipe.mealType]
                 : []
-              ).map((type) => type.toLowerCase()),
+              ).map((type: string) => type.toLowerCase()),
               ...(Array.isArray(recipe.season)
                 ? recipe.season
                 : typeof recipe.season === 'string'
                 ? [recipe.season]
                 : []
-              ).map((s) => s.toLowerCase()),
+              ).map((s: string) => s.toLowerCase()),
             ],
             timeToMake: recipe.timeToMake,
-            matchScore: 0.85, // Default high score for local recipes
-            matchPercentage: 85, // For display purposes
-          }));
+            // Use the matchScore or matchPercentage if provided, otherwise use a default score
+            matchScore:
+              recipe.matchScore ||
+              (recipe.matchPercentage ? recipe.matchPercentage / 100 : 0.85),
+            
+            // Add these as explicit properties to make TypeScript happy
+            season: recipe.season,
+            mealType: recipe.mealType
+          };
+          
+          return recipeData;
+        });
+
+        return applyAdditionalFilters(formattedRecipes, criteria, limit);
+      }
+    } catch (error) {
+      // console.error("Error using enhanced getRecipesForCuisineMatch:", error);
+    }
+
+    // Fallback to LocalRecipeService if getRecipesForCuisineMatch failed
+    if (candidateRecipes.length === 0 || candidateRecipes === allRecipes) {
+      try {
+        // Import and use LocalRecipeService directly
+        const { LocalRecipeService } = await import(
+          '../services/LocalRecipeService'
+        );
+
+        // Get local recipes directly
+        const localRecipesPromise = LocalRecipeService.getRecipesByCuisine(
+          criteria.cuisine || ''
+        );
+        
+        // Wait for the promise to resolve
+        const localRecipes = await localRecipesPromise;
+        // console.log(`Found ${localRecipes.length} recipes from LocalRecipeService for ${criteria.cuisine}`);
+
+        if (localRecipes.length > 0) {
+          // Convert the recipes to RecipeData format with correct types
+          const localFormattedRecipes: RecipeData[] = localRecipes.map((recipe: any) => {
+            // Ensure timeToMake is a number
+            let timeToMakeNum: number | undefined = undefined;
+            if (typeof recipe.timeToMake === 'number') {
+              timeToMakeNum = recipe.timeToMake;
+            } else if (typeof recipe.timeToMake === 'string') {
+              const parsed = parseInt(recipe.timeToMake);
+              if (!isNaN(parsed)) {
+                timeToMakeNum = parsed;
+              }
+            }
+
+            return {
+              id: recipe.id,
+              name: recipe.name,
+              description: recipe.description,
+              ingredients: recipe.ingredients.map((ing: any) => ({
+                name: ing.name,
+                amount: ing.amount,
+                unit: ing.unit,
+                optional: ing.optional,
+              })),
+              instructions: recipe.instructions,
+              cuisine: recipe.cuisine,
+              energyProfile: {
+                season: recipe.season as Season[],
+                zodiac: [],
+                lunar: [],
+                planetary: [],
+              },
+              tags: [
+                ...(Array.isArray(recipe.mealType)
+                  ? recipe.mealType
+                  : typeof recipe.mealType === 'string'
+                  ? [recipe.mealType]
+                  : []
+                ).map((type: string) => type.toLowerCase()),
+                ...(Array.isArray(recipe.season)
+                  ? recipe.season
+                  : typeof recipe.season === 'string'
+                  ? [recipe.season]
+                  : []
+                ).map((s: string) => s.toLowerCase()),
+              ],
+              timeToMake: timeToMakeNum,
+              matchScore: 0.85, // Default high score for local recipes
+              matchPercentage: 85, // For display purposes
+              
+              // Add these explicit properties for type compatibility
+              season: recipe.season,
+              mealType: recipe.mealType
+            };
+          });
 
           // Apply additional filters if needed
-          return applyAdditionalFilters(candidateRecipes, criteria, limit);
+          return applyAdditionalFilters(localFormattedRecipes, criteria, limit);
         }
       } catch (error) {
         // console.error("Error using LocalRecipeService directly:", error);
@@ -836,13 +850,16 @@ export const getBestRecipeMatches = async (
   // console.log(`After cuisine filtering: ${candidateRecipes.length} recipes`);
 
   // Apply additional filters and scoring
-  return applyAdditionalFilters(candidateRecipes, criteria, limit);
+  const filteredResults = await applyAdditionalFilters(candidateRecipes, criteria, limit);
+  
+  // Deduplicate results before returning
+  return deduplicateRecipes(filteredResults);
 };
 
 // Helper function to apply additional filters and calculate scores
 async function applyAdditionalFilters(
   candidateRecipes: RecipeData[],
-  criteria: unknown,
+  criteria: any, // Use 'any' temporarily to fix type errors
   limit: number
 ): Promise<RecipeData[]> {
   // Preload modules we'll need
@@ -861,7 +878,7 @@ async function applyAdditionalFilters(
     const seasonRecipes = candidateRecipes.filter(
       (recipe) =>
         recipe.energyProfile.season?.includes(criteria.season ?? '') ||
-        (Array.isArray(recipe.season) &&
+        (recipe.season && Array.isArray(recipe.season) &&
           recipe.season.includes(criteria.season))
     );
 
@@ -869,7 +886,7 @@ async function applyAdditionalFilters(
 
     // If we have enough seasonal recipes, use only those
     if (seasonRecipes.length >= limit) {
-      candidateRecipes = seasonRecipes;
+      candidateRecipes = [...seasonRecipes];
     }
   }
 
@@ -886,16 +903,16 @@ async function applyAdditionalFilters(
         return true;
       }
 
-      // Also check mealType field directly
+      // Also check mealType field directly if it exists on the recipe
       if (
-        Array.isArray(recipe.mealType) &&
+        recipe.mealType && Array.isArray(recipe.mealType) &&
         recipe.mealType.some((mt) => mt.toLowerCase() === normalizedMealType)
       ) {
         return true;
       }
 
       if (
-        typeof recipe.mealType === 'string' &&
+        recipe.mealType && typeof recipe.mealType === 'string' &&
         recipe.mealType.toLowerCase() === normalizedMealType
       ) {
         return true;
@@ -908,7 +925,7 @@ async function applyAdditionalFilters(
 
     // If we have enough meal type specific recipes, use only those
     if (mealTypeRecipes.length >= limit) {
-      candidateRecipes = mealTypeRecipes;
+      candidateRecipes = [...mealTypeRecipes];
     }
   }
 
@@ -930,13 +947,13 @@ async function applyAdditionalFilters(
         ...recipe,
         // Add matchPercentage if it doesn't exist
         matchPercentage:
-          recipe.matchPercentage || Math.round(recipe.matchScore * 100),
+          recipe.matchPercentage !== undefined ? recipe.matchPercentage : Math.round(recipe.matchScore * 100),
       };
     }
 
     // Otherwise calculate a new score
-    let totalScore = 0;
-    let factorsConsidered = 0;
+    const totalScore = 0;
+    const factorsConsidered = 0;
 
     // Base score from cuisine match
     if (criteria.cuisine && cuisineModule) {
@@ -990,9 +1007,9 @@ async function applyAdditionalFilters(
       const seasonMatch =
         (recipe.energyProfile.season &&
           recipe.energyProfile.season.includes(criteria.season)) ||
-        (Array.isArray(recipe.season) &&
+        (recipe.season && Array.isArray(recipe.season) &&
           recipe.season.includes(criteria.season)) ||
-        (typeof recipe.season === 'string' &&
+        (recipe.season && typeof recipe.season === 'string' &&
           recipe.season === criteria.season);
 
       if (seasonMatch) {
@@ -1014,11 +1031,11 @@ async function applyAdditionalFilters(
           recipe.tags.some(
             (tag) => tag.toLowerCase() === normalizedMealType
           )) ||
-        (Array.isArray(recipe.mealType) &&
+        (recipe.mealType && Array.isArray(recipe.mealType) &&
           recipe.mealType.some(
             (mt) => mt.toLowerCase() === normalizedMealType
           )) ||
-        (typeof recipe.mealType === 'string' &&
+        (recipe.mealType && typeof recipe.mealType === 'string' &&
           recipe.mealType.toLowerCase() === normalizedMealType);
 
       if (mealTypeMatch) {
@@ -1061,17 +1078,17 @@ async function applyAdditionalFilters(
 
   // console.log(`Returning ${Math.min(scoredRecipes.length, limit)} recipes after scoring`);
 
-  // Sort by match score and return top results
-  return scoredRecipes
-    .sort((a, b) => (b.matchScore || 0) - (a.matchScore || 0))
-    .slice(0, limit);
+  // Sort by match score and return top results after deduplication
+  const uniqueRecipes = deduplicateRecipes(scoredRecipes);
+  
+  return uniqueRecipes.slice(0, limit);
 }
 
 // Export additional utility functions
 export { calculateCuisineFlavorMatch } from '@/data/cuisineFlavorProfiles';
 
 // Re-export these functions with proper implementations
-export const getRecommendedCuisines = (profile: unknown) => {
+export const getRecommendedCuisines = (profile: any) => {
   // Implementation based on cuisine flavor profiles
   if (!profile || typeof profile !== 'object') return [];
 
@@ -1109,7 +1126,13 @@ export const getRecommendedCuisines = (profile: unknown) => {
       if (profile.dietaryPreference && cuisineProfile.dietarySuitability) {
         const dietaryScore =
           cuisineProfile.dietarySuitability[profile.dietaryPreference] || 0;
-        matchScore += dietaryScore;
+        
+        // Convert dietaryScore to a number to ensure consistent types
+        const numericDietaryScore = typeof dietaryScore === 'number' 
+          ? dietaryScore
+          : parseFloat(String(dietaryScore)) || 0;
+        
+        matchScore += numericDietaryScore;
         totalFactors += 1;
       }
 
@@ -1122,12 +1145,10 @@ export const getRecommendedCuisines = (profile: unknown) => {
         score: finalScore,
       };
     })
-    .filter((result) => result !== null && result.score > 0.6)
-    .sort((a, b) => (b?.score || 0) - (a?.score || 0)) as {
-    id: string;
-    name: string;
-    score: number;
-  }[];
+    .filter((result): result is { id: string; name: string; score: number } => 
+      result !== null && result.score > 0.6
+    )
+    .sort((a, b) => b.score - a.score);
 };
 
 export const getFusionSuggestions = (cuisine1: string, cuisine2: string) => {
@@ -1176,120 +1197,145 @@ export const getFusionSuggestions = (cuisine1: string, cuisine2: string) => {
 // Create a mapped array of recipes with proper Recipe type
 export const getAllRecipes = async (): Promise<Recipe[]> => {
   const recipes = await getRecipes();
-  return recipes.map((recipe) => ({
-    id: recipe.id,
-    name: recipe.name,
-    description: recipe.description,
-    cuisine: recipe.cuisine || '',
-    regionalCuisine: recipe.regionalCuisine,
-    ingredients: recipe.ingredients.map((ing) => ({
-      name: ing.name,
-      amount: ing.amount,
-      unit: ing.unit,
-      optional: ing.optional || false,
-      preparation: ing.preparation,
-      // Add other ingredient properties with defaults
-      category: '',
-      notes: '',
-      elementalProperties: {
-        Fire: 0.25,
-        Water: 0.25,
-        Earth: 0.25,
-        Air: 0.25,
+  const uniqueRecipes = deduplicateRecipes(recipes);
+  
+  return uniqueRecipes.map((recipe) => {
+    // Convert recipe time to string format
+    let timeToMakeStr = '30 minutes'; // Default
+    if (typeof recipe.timeToMake === 'number') {
+      timeToMakeStr = `${recipe.timeToMake} minutes`;
+    } else if (recipe.timeToMake) {
+      timeToMakeStr = String(recipe.timeToMake);
+    }
+    
+    return {
+      id: recipe.id,
+      name: recipe.name,
+      description: recipe.description,
+      cuisine: recipe.cuisine || '',
+      regionalCuisine: recipe.regionalCuisine,
+      ingredients: recipe.ingredients.map((ing) => ({
+        name: ing.name,
+        amount: ing.amount,
+        unit: ing.unit,
+        optional: ing.optional || false,
+        preparation: ing.preparation,
+        // Add other ingredient properties with defaults
+        category: '',
+        notes: '',
+        elementalProperties: {
+          Fire: 0.25,
+          Water: 0.25,
+          Earth: 0.25,
+          Air: 0.25,
+        },
+        seasonality: [],
+      })),
+      instructions: recipe.instructions,
+      timeToMake: timeToMakeStr,
+      servingSize: recipe.servingSize || 4, // Add required servingSize property
+      numberOfServings: 4, // Default
+      elementalProperties: recipe.flavorProfile
+        ? {
+            Fire: recipe.flavorProfile.spicy || 0,
+            Water: recipe.flavorProfile.sweet || 0,
+            Earth: recipe.flavorProfile.umami || 0,
+            Air: recipe.flavorProfile.sour || 0,
+          }
+        : { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+      season: recipe.energyProfile.season || ['all'],
+      mealType: recipe.tags?.filter((tag) =>
+        ['breakfast', 'lunch', 'dinner', 'dessert', 'snack'].includes(tag)
+      ) || ['any'],
+
+      // UI-specific properties
+      isVegetarian: recipe.tags?.includes('vegetarian') || false,
+      isVegan: recipe.tags?.includes('vegan') || false,
+      isGlutenFree: recipe.tags?.includes('gluten-free') || false,
+      isDairyFree: recipe.tags?.includes('dairy-free') || false,
+
+      // Enhanced astrological properties
+      astrologicalInfluences: recipe.energyProfile.planetary || [],
+      zodiacInfluences: recipe.energyProfile.zodiac || [],
+      lunarPhaseInfluences: recipe.energyProfile.lunar || [],
+      planetaryInfluences: {
+        favorable: recipe.planetaryInfluences
+          ? Object.entries(recipe.planetaryInfluences)
+              .filter(([_, value]) => value >= 0.6)
+              .map(([planet]) => planet)
+          : [],
+        unfavorable: recipe.planetaryInfluences
+          ? Object.entries(recipe.planetaryInfluences)
+              .filter(([_, value]) => value <= 0.3)
+              .map(([planet]) => planet)
+          : [],
       },
-      seasonality: [],
-    })),
-    instructions: recipe.instructions,
-    timeToMake:
-      typeof recipe.timeToMake === 'number'
-        ? `${recipe.timeToMake} minutes`
-        : recipe.timeToMake?.toString() || '30 minutes',
-    numberOfServings: 4, // Default
-    elementalProperties: recipe.flavorProfile
-      ? {
-          Fire: recipe.flavorProfile.spicy || 0,
-          Water: recipe.flavorProfile.sweet || 0,
-          Earth: recipe.flavorProfile.umami || 0,
-          Air: recipe.flavorProfile.sour || 0,
-        }
-      : { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
-    season: recipe.energyProfile.season || ['all'],
-    mealType: recipe.tags?.filter((tag) =>
-      ['breakfast', 'lunch', 'dinner', 'dessert', 'snack'].includes(tag)
-    ) || ['any'],
 
-    // UI-specific properties
-    isVegetarian: recipe.tags?.includes('vegetarian') || false,
-    isVegan: recipe.tags?.includes('vegan') || false,
-    isGlutenFree: recipe.tags?.includes('gluten-free') || false,
-    isDairyFree: recipe.tags?.includes('dairy-free') || false,
+      // Nutrition data
+      nutrition: {
+        calories: recipe.nutrition?.calories || 0,
+        protein: recipe.nutrition?.protein || 0,
+        carbs: recipe.nutrition?.carbs || 0,
+        fat: recipe.nutrition?.fat || 0,
+        vitamins: recipe.nutrition?.vitamins || [],
+        minerals: recipe.nutrition?.minerals || [],
+      },
 
-    // Enhanced astrological properties
-    astrologicalInfluences: recipe.energyProfile.planetary || [],
-    zodiacInfluences: recipe.energyProfile.zodiac || [],
-    lunarPhaseInfluences: recipe.energyProfile.lunar || [],
-    planetaryInfluences: {
-      favorable: recipe.planetaryInfluences
-        ? Object.entries(recipe.planetaryInfluences)
-            .filter(([_, value]) => value >= 0.6)
-            .map(([planet]) => planet)
-        : [],
-      unfavorable: recipe.planetaryInfluences
-        ? Object.entries(recipe.planetaryInfluences)
-            .filter(([_, value]) => value <= 0.3)
-            .map(([planet]) => planet)
-        : [],
-    },
+      // Additional recipe properties
+      cookingMethod: recipe.cookingMethod || 'bake',
+      cookingTechniques: recipe.cookingTechniques || [],
+      equipmentNeeded: recipe.equipmentNeeded || [],
+      dishType: recipe.dishType || [],
+      course:
+        recipe.tags?.filter((tag) =>
+          [
+            'appetizer',
+            'main course',
+            'dessert',
+            'side dish',
+            'soup',
+            'salad',
+          ].includes(tag)
+        ) || [],
 
-    // Nutrition data
-    nutrition: {
-      calories: recipe.nutrition?.calories || 0,
-      protein: recipe.nutrition?.protein || 0,
-      carbs: recipe.nutrition?.carbs || 0,
-      fat: recipe.nutrition?.fat || 0,
-      vitamins: recipe.nutrition?.vitamins || [],
-      minerals: recipe.nutrition?.minerals || [],
-    },
+      // Timestamps
+      createdAt: recipe.createdAt || new Date().toISOString(),
+      updatedAt: recipe.updatedAt || new Date().toISOString(),
 
-    // Additional recipe properties
-    cookingMethod: recipe.cookingMethod || 'bake',
-    cookingTechniques: recipe.cookingTechniques || [],
-    equipmentNeeded: recipe.equipmentNeeded || [],
-    dishType: recipe.dishType || [],
-    course:
-      recipe.tags?.filter((tag) =>
-        [
-          'appetizer',
-          'main course',
-          'dessert',
-          'side dish',
-          'soup',
-          'salad',
-        ].includes(tag)
-      ) || [],
+      // Add tags
+      tags: recipe.tags || [],
 
-    // Timestamps
-    createdAt: recipe.createdAt || new Date().toISOString(),
-    updatedAt: recipe.updatedAt || new Date().toISOString(),
+      // Match score
+      matchScore: recipe.matchScore || 0,
 
-    // Add tags
-    tags: recipe.tags || [],
+      // Alchemical scores
+      alchemicalScores: {
+        elementalScore: 0.5,
+        zodiacalScore: recipe.energyProfile.zodiac ? 0.7 : 0.3,
+        lunarScore: recipe.energyProfile.lunar ? 0.7 : 0.3,
+        planetaryScore: recipe.planetaryInfluences ? 0.7 : 0.3,
+        seasonalScore: recipe.energyProfile.season ? 0.7 : 0.3,
+      },
 
-    // Match score
-    matchScore: recipe.matchScore || 0,
+      // Additional fields
+      notes: recipe.notes || '',
+      preparation: recipe.preparation || '',
+      seasonalIngredients: recipe.seasonalIngredients || [],
+    };
+  });
+};
 
-    // Alchemical scores
-    alchemicalScores: {
-      elementalScore: 0.5,
-      zodiacalScore: recipe.energyProfile.zodiac ? 0.7 : 0.3,
-      lunarScore: recipe.energyProfile.lunar ? 0.7 : 0.3,
-      planetaryScore: recipe.planetaryInfluences ? 0.7 : 0.3,
-      seasonalScore: recipe.energyProfile.season ? 0.7 : 0.3,
-    },
-
-    // Additional fields
-    notes: recipe.notes || '',
-    preparation: recipe.preparation || '',
-    seasonalIngredients: recipe.seasonalIngredients || [],
-  }));
+// Helper function to deduplicate recipes
+const deduplicateRecipes = (recipes: RecipeData[]): RecipeData[] => {
+  const uniqueRecipes = new Map<string, RecipeData>();
+  
+  recipes.forEach(recipe => {
+    // Only add if not already present or if the new recipe has a higher match score
+    const existingRecipe = uniqueRecipes.get(recipe.id);
+    if (!existingRecipe || (recipe.matchScore && existingRecipe.matchScore && recipe.matchScore > existingRecipe.matchScore)) {
+      uniqueRecipes.set(recipe.id, recipe);
+    }
+  });
+  
+  return Array.from(uniqueRecipes.values());
 };

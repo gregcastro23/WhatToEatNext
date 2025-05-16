@@ -24,9 +24,9 @@ const ChakraEnergiesDisplay: React.FC<ChakraEnergiesDisplayProps> = ({ compact =
   const { isDaytime } = useAlchemical();
 
   // Merge chakra data - prioritize the data from useChakraInfluencedFood
-  let chakraEnergies = foodChakraEnergies || contextChakraEnergies;
-  let isLoading = foodLoading || contextLoading;
-  let error = foodError || contextError;
+  const chakraEnergies = foodChakraEnergies || contextChakraEnergies;
+  const isLoading = foodLoading || contextLoading;
+  const error = foodError || contextError;
 
   // Enhanced chakra symbols with more recognizable unicode characters
   const ENHANCED_CHAKRA_SYMBOLS: Record<string, string> = {
@@ -62,7 +62,7 @@ const ChakraEnergiesDisplay: React.FC<ChakraEnergiesDisplayProps> = ({ compact =
   };
 
   // Planetary correspondences for each chakra with day / (night || 1) distinctions
-  let CHAKRA_PLANETS = (() => {
+  const CHAKRA_PLANETS = (() => {
     if (isDaytime) {
       return {
         crown: ['Sun', 'Jupiter', 'Saturn', 'Mercury'],
@@ -87,10 +87,10 @@ const ChakraEnergiesDisplay: React.FC<ChakraEnergiesDisplayProps> = ({ compact =
   })();
 
   // Order of chakras from top to bottom (crown to root)
-  let CHAKRA_ORDER = ['crown', 'brow', 'throat', 'heart', 'solarPlexus', 'sacral', 'root'];
+  const CHAKRA_ORDER = ['crown', 'brow', 'throat', 'heart', 'solarPlexus', 'sacral', 'root'];
 
   // Function to get a color intensity based on the chakra energy level
-  let getColorIntensity = (energy: number): number => {
+  const getColorIntensity = (energy: number): number => {
     // Ensure energy is within expected range (0-10)
     const safeEnergy = Math.max(0, Math.min(10, energy));
     // Map energy to an intensity between 30 and 100 in a consistent way
@@ -98,60 +98,60 @@ const ChakraEnergiesDisplay: React.FC<ChakraEnergiesDisplayProps> = ({ compact =
   };
 
   // Get chakra color classes
-  let getChakraColor = (chakra: string, energy: number): string => {
+  const getChakraColor = (chakra: string, energy: number): string => {
     let normalizedKey = normalizeChakraKey(chakra);
     if (!normalizedKey) return 'bg-gray-200'; // Fallback color
     
-    let baseColorClass = CHAKRA_BG_COLORS[normalizedKey];
+    const baseColorClass = CHAKRA_BG_COLORS[normalizedKey];
     if (!baseColorClass) return 'bg-gray-200';
     
     return baseColorClass;
   };
 
   // Get text color classes
-  let getChakraTextColor = (chakra: string): string => {
+  const getChakraTextColor = (chakra: string): string => {
     let normalizedKey = normalizeChakraKey(chakra);
     return normalizedKey ? CHAKRA_TEXT_COLORS[normalizedKey] || 'text-gray-600' : 'text-gray-600';
   };
 
   // Get chakra symbol from enhanced set
-  let getChakraSymbol = (chakra: string): string => {
+  const getChakraSymbol = (chakra: string): string => {
     let normalizedKey = normalizeChakraKey(chakra);
     return normalizedKey ? ENHANCED_CHAKRA_SYMBOLS[normalizedKey] || CHAKRA_SYMBOLS[normalizedKey] || '•' : '•';
   };
 
   // Get chakra display name
-  let getDisplayName = (chakra: string): string => {
+  const getDisplayName = (chakra: string): string => {
     let normalizedKey = normalizeChakraKey(chakra);
     return normalizedKey ? getChakraDisplayName(normalizedKey) : chakra;
   };
 
   // Get Sanskrit name
-  let getSanskritName = (chakra: string): string => {
+  const getSanskritName = (chakra: string): string => {
     let normalizedKey = normalizeChakraKey(chakra);
     return normalizedKey ? CHAKRA_SANSKRIT_NAMES[normalizedKey] || '' : '';
   };
 
   // Get chakra description
-  let getChakraDescription = (chakra: string): string => {
+  const getChakraDescription = (chakra: string): string => {
     let normalizedKey = normalizeChakraKey(chakra);
     return normalizedKey ? CHAKRA_DESCRIPTIONS[normalizedKey] || '' : '';
   };
 
   // Get energy state for a chakra
-  let getChakraEnergyState = (chakra: string): string => {
+  const getChakraEnergyState = (chakra: string): string => {
     let normalizedKey = normalizeChakraKey(chakra);
     return normalizedKey ? CHAKRA_ENERGY_STATES[normalizedKey] || '' : '';
   };
 
   // Get planetary correspondences for a chakra
-  let getChakraPlanets = (chakra: string): string[] => {
+  const getChakraPlanets = (chakra: string): string[] => {
     let normalizedKey = normalizeChakraKey(chakra);
     return normalizedKey ? CHAKRA_PLANETS[normalizedKey] || [] : [];
   };
 
   // Format energy level for display
-  let formatEnergyLevel = (energy: number): string => {
+  const formatEnergyLevel = (energy: number): string => {
     if (energy >= 7.5) return 'High';
     if (energy >= 5) return 'Balanced';
     if (energy >= 2.5) return 'Moderate';
@@ -159,11 +159,11 @@ const ChakraEnergiesDisplay: React.FC<ChakraEnergiesDisplayProps> = ({ compact =
   };
 
   // Ensure all chakras have some energy value
-  let ensureChakraEnergies = (energies: unknown): unknown => {
+  const ensureChakraEnergies = (energies: unknown): unknown => {
     if (!energies) return null;
     
     // Create a new object with guaranteed values for all chakras
-    let ensuredEnergies = { ...energies };
+    const ensuredEnergies = { ...energies };
     
     // Make sure each chakra has at least a minimal value
     CHAKRA_ORDER.forEach(chakra => {
@@ -198,10 +198,10 @@ const ChakraEnergiesDisplay: React.FC<ChakraEnergiesDisplayProps> = ({ compact =
   }
 
   // Ensure all chakras have energy values
-  let validatedChakraEnergies = ensureChakraEnergies(chakraEnergies);
+  const validatedChakraEnergies = ensureChakraEnergies(chakraEnergies);
 
   // Prepare chakra data in the correct order
-  let orderedChakras = CHAKRA_ORDER
+  const orderedChakras = CHAKRA_ORDER
     .filter(chakraKey => chakraKey in validatedChakraEnergies)
     .map(chakraKey => ({
       key: chakraKey,
@@ -224,22 +224,22 @@ const ChakraEnergiesDisplay: React.FC<ChakraEnergiesDisplayProps> = ({ compact =
       
       <div className={`space-y-4 ${compact ? 'text-sm' : ''}`}>
         {orderedChakras.map(({ key: chakra, energy }) => {
-          let normalizedKey = normalizeChakraKey(chakra);
+          const normalizedKey = normalizeChakraKey(chakra);
           if (!normalizedKey || !isChakraKey(normalizedKey)) return null;
 
-          let displayName = getDisplayName(chakra);
-          let sanskritName = getSanskritName(chakra);
-          let symbol = getChakraSymbol(chakra);
-          let colorClass = getChakraColor(chakra, energy);
-          let textColorClass = getChakraTextColor(chakra);
-          let intensity = getColorIntensity(energy);
-          let description = getChakraDescription(chakra);
-          let planets = getChakraPlanets(chakra);
-          let energyState = getChakraEnergyState(chakra);
-          let energyLevel = formatEnergyLevel(energy);
+          const displayName = getDisplayName(chakra);
+          const sanskritName = getSanskritName(chakra);
+          const symbol = getChakraSymbol(chakra);
+          const colorClass = getChakraColor(chakra, energy);
+          const textColorClass = getChakraTextColor(chakra);
+          const intensity = getColorIntensity(energy);
+          const description = getChakraDescription(chakra);
+          const planets = getChakraPlanets(chakra);
+          const energyState = getChakraEnergyState(chakra);
+          const energyLevel = formatEnergyLevel(energy);
 
           // Get recommendations for this chakra
-          let recommendations = chakraRecommendations && chakraRecommendations[normalizedKey] 
+          const recommendations = chakraRecommendations && chakraRecommendations[normalizedKey] 
             ? chakraRecommendations[normalizedKey].slice(0, 3) 
             : [];
 

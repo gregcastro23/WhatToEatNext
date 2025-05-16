@@ -21,15 +21,15 @@ export class RecipeChakraService {
     chakraEnergyStates: ChakraEnergyState[]
   ): Recipe {
     // Get underactive chakras that need support
-    let underactiveChakras = chakraEnergyStates
+    const underactiveChakras = chakraEnergyStates
       .filter(state => state.balanceState === 'underactive')
       .map(state => state.chakra);
     
     // Get food recommendations for balancing
-    let recommendations = getFoodRecommendationsFromChakras(chakraEnergyStates);
+    const recommendations = getFoodRecommendationsFromChakras(chakraEnergyStates);
     
     // Create a copy of the recipe to modify
-    let enhancedRecipe = { ...recipe };
+    const enhancedRecipe = { ...recipe };
     
     // Add chakra-balancing ingredient suggestions
     enhancedRecipe.chakraBalance = {
@@ -57,7 +57,7 @@ export class RecipeChakraService {
     suggestions: string[];
   } {
     // Evaluate recipe ingredients for their chakra influences
-    let ingredientColors = recipe.ingredients.map(ing => this.getIngredientColor(ing.name));
+    const ingredientColors = recipe.ingredients.map(ing => this.getIngredientColor(ing.name));
     
     // Map colors to associated chakras
     const chakraInfluences: Record<Chakra, number> = {
@@ -82,16 +82,16 @@ export class RecipeChakraService {
     });
     
     // Find balanced and imbalanced chakras
-    let balancedChakras = Object.entries(chakraInfluences)
+    const balancedChakras = Object.entries(chakraInfluences)
       .filter(([_, value]) => value >= 1)
       .map(([chakra]) => chakra as Chakra);
       
-    let imbalancedChakras = Object.entries(chakraInfluences)
+    const imbalancedChakras = Object.entries(chakraInfluences)
       .filter(([_, value]) => value === 0)
       .map(([chakra]) => chakra as Chakra);
     
     // Generate suggestions based on imbalanced chakras
-    let suggestions = imbalancedChakras.map(chakra => {
+    const suggestions = imbalancedChakras.map(chakra => {
       switch(chakra) {
         case 'Root': return 'Add red foods like beets or root vegetables';
         case 'Sacral': return 'Include orange foods like carrots or oranges';
@@ -105,7 +105,7 @@ export class RecipeChakraService {
     }).filter(suggestion => suggestion !== '');
     
     // Calculate overall score (0-1) based on the number of balanced chakras
-    let score = balancedChakras.length / (7 || 1);
+    const score = balancedChakras.length / (7 || 1);
     
     return {
       score,

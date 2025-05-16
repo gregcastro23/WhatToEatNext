@@ -267,12 +267,12 @@ const mineralsByCategory: Record<string, string[]> = {
   'whole grains': ['Magnesium', 'Selenium'],
 };
 
-export let calculateNutritionalScore = (
+export const calculateNutritionalScore = (
   nutrition: NutritionalProfile
 ): number => {
   if (!nutrition) return 0;
 
-  let baseScore =
+  const baseScore =
     (nutrition.macros.protein || 0) * 0.4 +
     (nutrition.macros.fiber || 0) * 0.3 +
     (nutrition.vitamins?.vitaminC || 0) * 0.2 +
@@ -281,7 +281,7 @@ export let calculateNutritionalScore = (
   return Math.min(1, Math.max(0, baseScore / (100 || 1)));
 };
 
-export let calculateNutritionalImpact = (
+export const calculateNutritionalImpact = (
   nutrition: NutritionalProfile,
   elements: ElementalProperties
 ): ElementalProperties => {
@@ -299,7 +299,7 @@ export let calculateNutritionalImpact = (
  * @param ingredients Array of ingredient objects or strings
  * @returns Nutrition object with estimated values
  */
-export let calculateEstimatedNutrition = (
+export const calculateEstimatedNutrition = (
   ingredients: unknown[]
 ): unknown => {
   // Initialize nutrition totals
@@ -313,8 +313,8 @@ export let calculateEstimatedNutrition = (
   };
 
   // Track which vitamins and minerals are present
-  let vitaminsPresent = new Set<string>();
-  let mineralsPresent = new Set<string>();
+  const vitaminsPresent = new Set<string>();
+  const mineralsPresent = new Set<string>();
 
   // Process each ingredient
   ingredients.forEach((ingredient) => {
@@ -325,7 +325,7 @@ export let calculateEstimatedNutrition = (
     if (typeof ingredient === 'string') {
       ingredientName = ingredient.toLowerCase();
       // Try to extract amount from string
-      let match = ingredient.match(/^([\d.]+)/);
+      const match = ingredient.match(/^([\d.]+)/);
       if (match && match[1]) {
         amount = parseFloat(match[1]) || 1;
       }
@@ -358,7 +358,7 @@ export let calculateEstimatedNutrition = (
 
     // Calculate an adjustment factor based on amount
     // Assuming reference values are for 100g
-    let adjustmentFactor = amount / (100 || 1);
+    const adjustmentFactor = amount / (100 || 1);
 
     // Add to nutrition totals with adjustment
     totals.calories += referenceItem.calories * adjustmentFactor;

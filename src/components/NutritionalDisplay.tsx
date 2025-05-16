@@ -22,17 +22,17 @@ export default function NutritionalDisplay({
   );
 
   // Get all available ingredients for dropdown
-  let availableIngredients = getAvailableNutritionalIngredients();
+  const availableIngredients = getAvailableNutritionalIngredients();
 
   // Handle ingredient selection
-  let handleIngredientSelect = (ingredient: string) => {
+  const handleIngredientSelect = (ingredient: string) => {
     setSelectedIngredient(ingredient);
-    let data = getNutritionalData(ingredient);
+    const data = getNutritionalData(ingredient);
     setNutritionalData(data);
   };
 
   // Format percentage for display
-  let formatPercent = (value: number) => {
+  const formatPercent = (value: number) => {
     return `${Math.round(value * 100)}%`;
   };
 

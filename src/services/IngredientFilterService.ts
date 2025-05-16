@@ -53,7 +53,7 @@ export interface RecipeRecommendation {
 }
 
 // Groupings for ingredient types
-export let INGREDIENT_GROUPS = {
+export const INGREDIENT_GROUPS = {
   PROTEINS: 'Proteins',
   VEGETABLES: 'Vegetables',
   FRUITS: 'Fruits',
@@ -98,7 +98,7 @@ export class IngredientFilterService {
     const filteredResults: Record<string, IngredientMapping[]> = {};
 
     // Determine which categories to include
-    let categoriesToInclude =
+    const categoriesToInclude =
       filter.categories && filter.categories.length > 0
         ? filter.categories
         : Object.keys(this.allIngredients);
@@ -108,7 +108,7 @@ export class IngredientFilterService {
       if (!this.allIngredients[category]) return;
 
       // Convert object to array of ingredients with names
-      let categoryIngredients = Object.entries(
+      const categoryIngredients = Object.entries(
         this.allIngredients[category]
       ).map(([name, data]) => ({ name, ...data } as IngredientMapping));
 
@@ -163,7 +163,7 @@ export class IngredientFilterService {
     filter: NutritionalFilter
   ): IngredientMapping[] {
     return ingredients.filter((ingredient) => {
-      let nutrition = ingredient.nutritionalProfile || {};
+      const nutrition = ingredient.nutritionalProfile || {};
 
       // Check protein requirements
       if (
@@ -215,7 +215,7 @@ export class IngredientFilterService {
 
       // Check for required vitamins
       if (filter.vitamins && filter.vitamins.length > 0 && nutrition.vitamins) {
-        let hasAllVitamins = filter.vitamins.every((vitamin) =>
+        const hasAllVitamins = filter.vitamins.every((vitamin) =>
           nutrition.vitamins.includes(vitamin)
         );
         if (!hasAllVitamins) return false;
@@ -223,7 +223,7 @@ export class IngredientFilterService {
 
       // Check for required minerals
       if (filter.minerals && filter.minerals.length > 0 && nutrition.minerals) {
-        let hasAllMinerals = filter.minerals.every((mineral) =>
+        const hasAllMinerals = filter.minerals.every((mineral) =>
           nutrition.minerals.includes(mineral)
         );
         if (!hasAllMinerals) return false;
@@ -257,7 +257,7 @@ export class IngredientFilterService {
     filter: ElementalFilter
   ): IngredientMapping[] {
     return ingredients.filter((ingredient) => {
-      let elemental = ingredient.elementalProperties || {
+      const elemental = ingredient.elementalProperties || {
         Fire: 0,
         Water: 0,
         Earth: 0,
@@ -330,7 +330,7 @@ export class IngredientFilterService {
 
       // Check dominant element
       if (filter.dominantElement) {
-        let sortedElements = Object.entries(elemental)
+        const sortedElements = Object.entries(elemental)
           .filter(([key]) => ['Fire', 'Water', 'Earth', 'Air'].includes(key))
           .sort(([, a], [, b]) => (b as number) - (a as number));
 
@@ -411,7 +411,7 @@ export class IngredientFilterService {
     ingredients: IngredientMapping[],
     query: string
   ): IngredientMapping[] {
-    let lowerQuery = query.toLowerCase();
+    const lowerQuery = query.toLowerCase();
 
     return ingredients.filter((ingredient) => {
       // Check ingredient name
@@ -444,7 +444,7 @@ export class IngredientFilterService {
     ingredients: IngredientMapping[],
     excludedIngredients: string[]
   ): IngredientMapping[] {
-    let lowerExcluded = excludedIngredients.map((name) => name.toLowerCase());
+    const lowerExcluded = excludedIngredients.map((name) => name.toLowerCase());
 
     return ingredients.filter(
       (ingredient) => !lowerExcluded.includes(ingredient.name.toLowerCase())
@@ -457,19 +457,19 @@ export class IngredientFilterService {
     filter: IngredientFilter = {}
   ): Record<string, IngredientMapping[]> {
     // Apply basic filtering first
-    let filteredByCategory = this.filterIngredients(filter);
+    const filteredByCategory = this.filterIngredients(filter);
     const result: Record<string, IngredientMapping[]> = {};
 
     // For each category, select a limited number of most nutritionally balanced items
     Object.entries(filteredByCategory).forEach(([category, ingredients]) => {
       // Sort ingredients by nutritional completeness (if data available)
-      let sorted = [...ingredients].sort((a, b) => {
+      const sorted = [...ingredients].sort((a, b) => {
         const aNutrition = a.nutritionalProfile || {};
-        let bNutrition = b.nutritionalProfile || {};
+        const bNutrition = b.nutritionalProfile || {};
 
         // Create a simple score based on available nutritional data
-        let aScore = this.calculateNutritionalScore(aNutrition);
-        let bScore = this.calculateNutritionalScore(bNutrition);
+        const aScore = this.calculateNutritionalScore(aNutrition);
+        const bScore = this.calculateNutritionalScore(bNutrition);
 
         return bScore - aScore; // Higher score first
       });
@@ -485,7 +485,7 @@ export class IngredientFilterService {
   private calculateNutritionalScore(nutrition: NutritionData): number {
     if (!nutrition) return 0;
 
-    let score = 0;
+    const score = 0;
 
     // Award points for protein content
     if (nutrition.protein_g) {
@@ -531,24 +531,24 @@ export class IngredientFilterService {
       }
 
       // Format query for API
-      let query = ingredientName.toLowerCase().trim();
+      const query = ingredientName.toLowerCase().trim();
 
       // Call SpoonacularService to get ingredient data
-      let response = await fetch(
+      const response = await fetch(
         `https://api.spoonacular.com / (food || 1)/ingredients / (search || 1)?query=${encodeURIComponent(
           query
         )}&number=1&apiKey=c91fb9d66d284351929fff78e51cedf0`
       );
-      let data = await response.json();
+      const data = await response.json();
 
       if (data.results && data.results.length > 0) {
-        let ingredientId = data.results[0].id;
+        const ingredientId = data.results[0].id;
 
         // Get detailed nutrition information
-        let nutritionResponse = await fetch(
+        const nutritionResponse = await fetch(
           `https://api.spoonacular.com / (food || 1) / (ingredients || 1)/${ingredientId} / (information || 1)?amount=100&unit=grams&apiKey=c91fb9d66d284351929fff78e51cedf0`
         );
-        let nutritionData =
+        const nutritionData =
           (await nutritionResponse.json()) as SpoonacularNutritionData;
 
         // Cache the result
@@ -571,7 +571,7 @@ export class IngredientFilterService {
   ): Promise<RecipeRecommendation[]> {
     try {
       // Join ingredients with commas for the API call
-      let ingredientsList = ingredients.join(',');
+      const ingredientsList = ingredients.join(',');
 
       // Build diet restrictions for API
       let dietParam = '';
@@ -585,24 +585,24 @@ export class IngredientFilterService {
       }
 
       // Call Spoonacular API to find recipes by ingredients
-      let response = await fetch(
+      const response = await fetch(
         `https://api.spoonacular.com / (recipes || 1) / (findByIngredients || 1)?ingredients=${encodeURIComponent(
           ingredientsList
         )}&number=5&ranking=2&apiKey=c91fb9d66d284351929fff78e51cedf0`
       );
-      let data = await response.json();
+      const data = await response.json();
 
       if (!Array.isArray(data)) {
         return [];
       }
 
       // Get nutrition info for each recipe
-      let recipePromises = data.map(async (recipe: SpoonacularRecipe) => {
+      const recipePromises = data.map(async (recipe: SpoonacularRecipe) => {
         try {
           const nutritionResponse = await fetch(
             `https://api.spoonacular.com / (recipes || 1)/${recipe.id} / (nutritionWidget.json || 1)?apiKey=c91fb9d66d284351929fff78e51cedf0`
           );
-          let nutritionData = await nutritionResponse.json();
+          const nutritionData = await nutritionResponse.json();
 
           return {
             id: recipe.id?.toString() || '',
@@ -622,7 +622,7 @@ export class IngredientFilterService {
         }
       });
 
-      let results = await Promise.all(recipePromises);
+      const results = await Promise.all(recipePromises);
       return results.filter(Boolean) as RecipeRecommendation[];
     } catch (error) {
       // console.error('Error fetching recipe recommendations:', error);
@@ -632,4 +632,4 @@ export class IngredientFilterService {
 }
 
 // Export singleton instance
-export let ingredientFilterService = IngredientFilterService.getInstance();
+export const ingredientFilterService = IngredientFilterService.getInstance();

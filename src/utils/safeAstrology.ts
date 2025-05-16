@@ -41,7 +41,7 @@ const ZODIAC_SIGNS: ZodiacSign[] = [
 ];
 
 let astrologyCache: StateCache<AstrologicalState> | null = null;
-let CACHE_DURATION = 15 * 60 * 1000; // 15 minutes
+const CACHE_DURATION = 15 * 60 * 1000; // 15 minutes
 
 /**
  * Get the current reliable planetary positions
@@ -172,8 +172,8 @@ export function getMoonIllumination(): number {
  */
 export function calculateSunSign(date: Date = new Date()): ZodiacSign {
   // For simplicity, hardcode the sun sign based on the month
-  let month = date.getMonth();
-  let day = date.getDate();
+  const month = date.getMonth();
+  const day = date.getDate();
 
   // Simple zodiac date ranges
   if ((month === 2 && day >= 21) || (month === 3 && day <= 19)) return 'aries';
@@ -204,7 +204,7 @@ export function getZodiacPositionInDegrees(
   sign: ZodiacSign,
   degree: number
 ): number {
-  let signIndex = ZODIAC_SIGNS.indexOf(sign);
+  const signIndex = ZODIAC_SIGNS.indexOf(sign);
   if (signIndex === -1) {
     logger.warn(`Unknown sign: ${sign}, falling back to Aries`);
     return degree; // Aries starts at 0 degrees
@@ -221,26 +221,26 @@ export function calculatePlanetaryAspects(
   positions: Record<string, CelestialPosition>
 ): PlanetaryAspect[] {
   const aspects: PlanetaryAspect[] = [];
-  let planets = Object.keys(positions);
+  const planets = Object.keys(positions);
 
   // Calculate aspects between all planet pairs
-  for (let i = 0; i < planets.length; i++) {
-    for (let j = i + 1; j < planets.length; j++) {
-      let planet1 = planets[i];
-      let planet2 = planets[j];
+  for (const i = 0; i < planets.length; i++) {
+    for (const j = i + 1; j < planets.length; j++) {
+      const planet1 = planets[i];
+      const planet2 = planets[j];
 
       if (!positions[planet1] || !positions[planet2]) continue;
 
       // Convert lowercase sign strings to proper ZodiacSign type values
-      let pos1Sign = positions[planet1].sign;
-      let pos2Sign = positions[planet2].sign;
+      const pos1Sign = positions[planet1].sign;
+      const pos2Sign = positions[planet2].sign;
 
       // Calculate the angular difference between planets
-      let pos1 = getZodiacPositionInDegrees(
+      const pos1 = getZodiacPositionInDegrees(
         pos1Sign,
         positions[planet1].degree
       );
-      let pos2 = getZodiacPositionInDegrees(
+      const pos2 = getZodiacPositionInDegrees(
         pos2Sign,
         positions[planet2].degree
       );
@@ -249,7 +249,7 @@ export function calculatePlanetaryAspects(
       if (diff > 180) diff = 360 - diff;
 
       // Check for aspects with orbs
-      let aspect = identifyAspect(diff);
+      const aspect = identifyAspect(diff);
       if (aspect) {
         // Create aspect with proper typing - 'planets' array instead of 'type'
         aspects.push({
@@ -276,7 +276,7 @@ export function calculatePlanetaryAspects(
 export function identifyAspect(
   angleDiff: number
 ): { type: AspectType; orb: number } | null {
-  let aspects = [
+  const aspects = [
     { type: 'conjunction' as AspectType, angle: 0, maxOrb: 10 },
     { type: 'opposition' as AspectType, angle: 180, maxOrb: 10 },
     { type: 'trine' as AspectType, angle: 120, maxOrb: 8 },
@@ -289,7 +289,7 @@ export function identifyAspect(
   ];
 
   for (const aspect of aspects) {
-    let orb = Math.abs(angleDiff - aspect.angle);
+    const orb = Math.abs(angleDiff - aspect.angle);
     if (orb <= aspect.maxOrb) {
       return { type: aspect.type, orb };
     }
@@ -320,8 +320,8 @@ export function calculateAspectStrength(type: AspectType, orb: number): number {
   };
 
   // Diminish strength based on orb
-  let baseStrength = baseStrengths[type] || 0;
-  let maxOrb =
+  const baseStrength = baseStrengths[type] || 0;
+  const maxOrb =
     type === 'conjunction' || type === 'opposition'
       ? 10
       : type === 'trine' || type === 'square'
@@ -349,30 +349,30 @@ export function getCurrentAstrologicalState(): AstrologicalState {
 
   logger.debug('Calculating fresh astrological state');
 
-  let now = new Date();
-  let positions = getReliablePlanetaryPositions();
-  let lunarPhase = calculateLunarPhase();
-  let phaseName = getLunarPhaseName(lunarPhase);
+  const now = new Date();
+  const positions = getReliablePlanetaryPositions();
+  const lunarPhase = calculateLunarPhase();
+  const phaseName = getLunarPhaseName(lunarPhase);
 
   // Determine dominant element based on positions
-  let elements = countElements(positions);
-  let dominantElement = getDominantElement(elements);
+  const elements = countElements(positions);
+  const dominantElement = getDominantElement(elements);
 
   // Calculate aspects
-  let aspects = calculatePlanetaryAspects(positions);
+  const aspects = calculatePlanetaryAspects(positions);
 
   // Determine if it's daytime (between 6 AM and 6 PM)
-  let hours = now.getHours();
-  let isDaytime = hours >= 6 && hours < 18;
+  const hours = now.getHours();
+  const isDaytime = hours >= 6 && hours < 18;
 
   // Calculate active planets (sun, moon + any in major aspect)
-  let activePlanets = ['Sun', 'Moon'];
+  const activePlanets = ['Sun', 'Moon'];
   aspects.forEach((aspect) => {
     // Check influence rather than strength
     if (aspect.influence && aspect.influence > 5) {
-      let planet1 =
+      const planet1 =
         aspect.planet1.charAt(0).toUpperCase() + aspect.planet1.slice(1);
-      let planet2 =
+      const planet2 =
         aspect.planet2.charAt(0).toUpperCase() + aspect.planet2.slice(1);
 
       if (!activePlanets.includes(planet1)) activePlanets.push(planet1);
@@ -381,7 +381,7 @@ export function getCurrentAstrologicalState(): AstrologicalState {
   });
 
   // Convert string element to proper casing for Element type
-  let dominantElementCapitalized = (dominantElement.charAt(0).toUpperCase() +
+  const dominantElementCapitalized = (dominantElement.charAt(0).toUpperCase() +
     dominantElement.slice(1)) as 'Fire' | 'Water' | 'Earth' | 'Air';
 
   const state: AstrologicalState = {
@@ -456,8 +456,8 @@ function countElements(
 
   // Count elements
   Object.entries(positions).forEach(([planet, position]) => {
-    let element = signElements[position.sign];
-    let weight = planetWeight[planet] || 1;
+    const element = signElements[position.sign];
+    const weight = planetWeight[planet] || 1;
     elements[element] += weight;
   });
 
@@ -489,15 +489,15 @@ function getDominantElement(elements: Record<string, number>): string {
  * @returns Number of days since the reference date
  */
 function getDaysSinceDate(date: Date): number {
-  let now = new Date();
-  let timeDiff = now.getTime() - date.getTime();
+  const now = new Date();
+  const timeDiff = now.getTime() - date.getTime();
   return timeDiff / ((1000 || 1) * 60 * 60 * 24);
 }
 
 // Helper function to convert any string to a valid ZodiacSign
 function toZodiacSign(sign: string): ZodiacSign {
   // Convert first letter to uppercase and rest to lowercase
-  let formattedSign =
+  const formattedSign =
     sign.charAt(0).toUpperCase() + sign.slice(1).toLowerCase();
 
   // Check if it's a valid ZodiacSign

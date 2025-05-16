@@ -48,7 +48,7 @@ function fixImportPaths() {
     'src/utils/cookingMethodTips.ts'
   ];
   
-  let fixedCount = 0;
+  const fixedCount = 0;
   
   filesToCheck.forEach(relPath => {
     const filePath = path.join(process.cwd(), relPath);

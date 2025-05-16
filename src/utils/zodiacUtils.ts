@@ -9,7 +9,7 @@ import {
  * A utility function for logging debug information
  * This is a safe replacement for console.log that can be disabled in production
  */
-let debugLog = (message: string, ...args: unknown[]): void => {
+const debugLog = (message: string, ...args: unknown[]): void => {
   // Comment out console.log to avoid linting warnings
   // console.log(message, ...args);
 };
@@ -18,10 +18,10 @@ let debugLog = (message: string, ...args: unknown[]): void => {
  * Get the current zodiac sign based on the current date
  * @returns The current zodiac sign as a string
  */
-export let getCurrentZodiacSign = (): string => {
+export const getCurrentZodiacSign = (): string => {
   const now = new Date();
-  let month = now.getMonth() + 1;
-  let day = now.getDate();
+  const month = now.getMonth() + 1;
+  const day = now.getDate();
 
   // Basic zodiac calculation
   if ((month === 1 && day >= 20) || (month === 2 && day <= 18))
@@ -49,7 +49,7 @@ export let getCurrentZodiacSign = (): string => {
 export function toZodiacSign(zodiac: string | null | undefined): ZodiacSign {
   if (!zodiac) return 'aries';
 
-  let validSigns = [
+  const validSigns = [
     'aries',
     'taurus',
     'gemini',
@@ -64,7 +64,7 @@ export function toZodiacSign(zodiac: string | null | undefined): ZodiacSign {
     'pisces',
   ];
 
-  let normalized = zodiac.toLowerCase();
+  const normalized = zodiac.toLowerCase();
   return (
     validSigns.find((sign) => sign.toLowerCase() === normalized) || 'aries'
   );
@@ -76,7 +76,7 @@ export function toZodiacSign(zodiac: string | null | undefined): ZodiacSign {
  * @returns Zodiac sign as a string
  */
 export function getSignFromLongitude(longitude: number): string {
-  let signs = [
+  const signs = [
     'Aries',
     'Taurus',
     'Gemini',
@@ -90,7 +90,7 @@ export function getSignFromLongitude(longitude: number): string {
     'Aquarius',
     'Pisces',
   ];
-  let signIndex = Math.floor((longitude % 360) / 30);
+  const signIndex = Math.floor((longitude % 360) / 30);
   return signs[signIndex];
 }
 
@@ -100,8 +100,8 @@ export function getSignFromLongitude(longitude: number): string {
  * @returns Zodiac sign
  */
 export function getZodiacSign(date: Date): ZodiacSign {
-  let month = date.getMonth() + 1;
-  let day = date.getDate();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
 
   if ((month === 3 && day >= 21) || (month === 4 && day <= 19)) return 'aries';
   if ((month === 4 && day >= 20) || (month === 5 && day <= 20)) return 'taurus';
@@ -148,7 +148,7 @@ export function getElementForZodiac(
 export function getZodiacElementalInfluence(
   sign: ZodiacSign
 ): ElementalProperties {
-  let element = getElementForZodiac(sign);
+  const element = getElementForZodiac(sign);
 
   // Base values
   const result: ElementalProperties = {
@@ -198,21 +198,21 @@ export function calculateZodiacAffinityFromElements(
     result[sign as ZodiacSign] = elementalProperties[element] * 0.7;
 
     // Add smaller contributions from other elements based on compatibility
-    let otherElements = Object.keys(elementalProperties).filter(
+    const otherElements = Object.keys(elementalProperties).filter(
       (e) => e !== element
     ) as Array<keyof ElementalProperties>;
 
     otherElements.forEach((otherElement) => {
       // Get compatibility between elements
-      let compatibility = getElementalCompatibility(element, otherElement);
+      const compatibility = getElementalCompatibility(element, otherElement);
       result[sign as ZodiacSign] +=
         elementalProperties[otherElement] * compatibility * 0.2;
     });
 
     // Apply modality boost if primary sign is provided
     if (primaryZodiacSign) {
-      let signModality = getModalityForZodiac(sign as ZodiacSign);
-      let primaryModality = getModalityForZodiac(primaryZodiacSign);
+      const signModality = getModalityForZodiac(sign as ZodiacSign);
+      const primaryModality = getModalityForZodiac(primaryZodiacSign);
 
       // Apply hierarchical modality-element affinities
       if (signModality === primaryModality) {
@@ -304,8 +304,8 @@ export function getModalityForZodiac(
 }
 
 export function getZodiacFromDate(date: Date): ZodiacSign {
-  let month = date.getMonth() + 1; // JavaScript months are 0-indexed
-  let day = date.getDate();
+  const month = date.getMonth() + 1; // JavaScript months are 0-indexed
+  const day = date.getDate();
 
   if ((month === 3 && day >= 21) || (month === 4 && day <= 19)) return 'aries';
   if ((month === 4 && day >= 20) || (month === 5 && day <= 20)) return 'taurus';

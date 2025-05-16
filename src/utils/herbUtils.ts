@@ -8,7 +8,7 @@ const seasonalHerbGuide: Record<string, { cuisines: Record<string, string[]> }> 
   winter: { cuisines: {} }
 };
 
-export let herbUtils = {
+export const herbUtils = {
   findByCuisine: (cuisine: string) => {
     return Object.entries(herbs)
       .filter(([_, herb]) => herb.culinary_traditions?.[cuisine])
@@ -16,7 +16,7 @@ export let herbUtils = {
   },
 
   findComplementary: (herbName: string, cuisine: string) => {
-    let herb = herbs[herbName];
+    const herb = herbs[herbName];
     if (!herb?.culinary_traditions?.[cuisine]) return [];
     
     return herb.culinary_traditions[cuisine].pairings;

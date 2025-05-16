@@ -23,7 +23,7 @@ import {
   Utensils,
 } from 'lucide-react';
 
-let NAV_ITEMS = [
+const NAV_ITEMS = [
   { path: '/', label: 'Home', icon: Home },
   { path: '/recipes', label: 'Recipes', icon: Book },
   { path: '/favorites', label: 'Favorites', icon: Heart },
@@ -35,7 +35,7 @@ let NAV_ITEMS = [
 ];
 
 export default function Navigation() {
-  let pathname = usePathname();
+  const pathname = usePathname();
   const { state } = useAlchemical();
   const [isOpen, setIsOpen] = useState(false);
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
@@ -49,7 +49,7 @@ export default function Navigation() {
 
   useEffect(() => {
     // Initialize theme
-    let currentTheme = themeManager.getTheme();
+    const currentTheme = themeManager.getTheme();
     setTheme(
       currentTheme.mode === 'system'
         ? window.matchMedia('(prefers-color-scheme: dark)').matches
@@ -61,7 +61,7 @@ export default function Navigation() {
     // Initialize state manager and listen for notifications
     let unsubscribeFunction: (() => void) | undefined;
 
-    let initStateManager = async () => {
+    const initStateManager = async () => {
       try {
         // stateManager is already a Promise<StateManager>
         const stateManagerInstance = await stateManager;
@@ -85,13 +85,13 @@ export default function Navigation() {
     };
   }, []);
 
-  let toggleTheme = () => {
+  const toggleTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
     setTheme(newTheme);
     themeManager.updateTheme(newTheme);
   };
 
-  let closeMenu = () => {
+  const closeMenu = () => {
     setIsOpen(false);
   };
 
@@ -134,7 +134,7 @@ export default function Navigation() {
           {/* Navigation Items */}
           <div className="flex-1 space-y-2">
             {NAV_ITEMS.map(({ path, label, icon: Icon }) => {
-              let isActive = pathname === path;
+              const isActive = pathname === path;
               return (
                 <Link
                   key={path}

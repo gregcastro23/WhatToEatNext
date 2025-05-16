@@ -40,13 +40,13 @@ export default function MethodsRecommender() {
   const [selectedMethodId, setSelectedMethodId] = useState<string | null>(null);
   
   // Add a ref to store the initial scores so they don't change
-  let methodScoresRef = useRef<Record<string, number>>({});
+  const methodScoresRef = useRef<Record<string, number>>({});
   
   // Calculate method scores using the imported function from cookingMethodRecommender.ts
   useEffect(() => {
     if (!loading && currentPlanetaryAlignment) {
       // Convert currentPlanetaryAlignment to AstrologicalState format
-      let astroState = {
+      const astroState = {
         zodiacSign: currentPlanetaryAlignment.sun?.sign || 'Aries',
         lunarPhase: currentPlanetaryAlignment.moon?.phase || 'New Moon',
         elementalState: {
@@ -62,21 +62,21 @@ export default function MethodsRecommender() {
       const methodsWithScores: CookingMethodWithScore[] = Object.entries(allCookingMethods)
         .map(([methodName, methodData]) => {
           // Calculate base score from the recommender utils
-          let baseScore = calculateMethodScore(methodData, astroState);
+          const baseScore = calculateMethodScore(methodData, astroState);
           
           // Add additional variance factors
           // 1. Use method name length to create a pseudorandom variance
-          let nameVariance = (methodName.length % 7) * 0.015;
+          const nameVariance = (methodName.length % 7) * 0.015;
           // 2. Use first character code as another variance factor
-          let charCodeVariance = (methodName.charCodeAt(0) % 10) * 0.01;
+          const charCodeVariance = (methodName.charCodeAt(0) % 10) * 0.01;
           // 3. Apply a position-based variance to ensure different ordering
-          let positionVariance = Math.random() * 0.05;
+          const positionVariance = Math.random() * 0.05;
           
           // Combine all variance factors
-          let totalVariance = nameVariance + charCodeVariance + positionVariance;
+          const totalVariance = nameVariance + charCodeVariance + positionVariance;
           
           // Final adjusted score with variance (capped between 0.35 and 0.95)
-          let adjustedScore = Math.min(0.95, Math.max(0.35, baseScore - totalVariance));
+          const adjustedScore = Math.min(0.95, Math.max(0.35, baseScore - totalVariance));
           
           return {
             id: methodName,
@@ -104,20 +104,20 @@ export default function MethodsRecommender() {
     }
   }, [loading, currentPlanetaryAlignment]);
   
-  let toggleExpanded = () => {
+  const toggleExpanded = () => {
     setIsExpanded(prev => !prev);
   };
   
-  let handleMethodSelect = (methodId: string) => {
+  const handleMethodSelect = (methodId: string) => {
     setSelectedMethodId(methodId === selectedMethodId ? null : methodId);
   };
   
   // Find the selected method details
-  let selectedMethod = methods.find(m => m.id === selectedMethodId);
+  const selectedMethod = methods.find(m => m.id === selectedMethodId);
   
   // Get technical tips and ideal ingredients for selected method
-  let technicalTips = selectedMethod ? getTechnicalTips(selectedMethod.name) : [];
-  let idealIngredients = selectedMethod ? getIdealIngredients(selectedMethod.name) : [];
+  const technicalTips = selectedMethod ? getTechnicalTips(selectedMethod.name) : [];
+  const idealIngredients = selectedMethod ? getIdealIngredients(selectedMethod.name) : [];
   
   // Handle loading state
   if (loading) {
@@ -132,10 +132,10 @@ export default function MethodsRecommender() {
   }
   
   // Get the top method from the list
-  let topMethod = methods.length > 0 ? methods[0] : null;
+  const topMethod = methods.length > 0 ? methods[0] : null;
   
   // Determine if the toggle button should be shown (only for >5 methods)
-  let showToggle = methods.length > 5;
+  const showToggle = methods.length > 5;
   
   return (
     <div className={styles['cooking-methods-container']}>

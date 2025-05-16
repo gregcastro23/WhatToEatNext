@@ -25,14 +25,14 @@ export function PlanetInfoModal({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  let processPlanetInfo = useCallback(() => {
+  const processPlanetInfo = useCallback(() => {
     if (isOpen && planetName && Object.keys(planetaryPositions).length > 0) {
       setLoading(true);
       setError(null);
 
       try {
         // console.log(`Processing planet info for ${planetName}:`, planetaryPositions[planetName.toLowerCase()]);
-        let info = getPlanetInfo(planetName, planetaryPositions);
+        const info = getPlanetInfo(planetName, planetaryPositions);
 
         if (!info) {
           setError(`Could not retrieve information for ${planetName}`);
@@ -62,7 +62,7 @@ export function PlanetInfoModal({
   if (!isOpen) return null;
 
   // Helper function to get aspect color
-  let getAspectColor = (aspectType: string): string => {
+  const getAspectColor = (aspectType: string): string => {
     switch (aspectType.toLowerCase()) {
       case 'conjunction':
         return 'bg-purple-500';

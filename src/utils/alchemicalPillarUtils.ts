@@ -26,13 +26,13 @@ export function getHolisticCookingRecommendations(ingredient: any, preferences =
     const allMethods = getCookingMethods();
     
     // First pass - calculate raw compatibility scores
-    let methodScores = [];
+    const methodScores = [];
     
     for (const [methodName, methodData] of Object.entries(allMethods)) {
       if (!methodData || !methodData.elementalEffect) continue;
       
       // Base elemental score
-      let elementalScore = calculateElementalCompatibility(
+      const elementalScore = calculateElementalCompatibility(
         elementalProps,
         methodData.elementalEffect
       );
@@ -106,7 +106,7 @@ function calculateElementalCompatibility(ingredientElements: any, methodElements
   if (!ingredientElements || !methodElements) return 0.5;
   
   // Calculate similarity based on dot product of normalized vectors
-  let dotProduct = 0;
+  const dotProduct = 0;
   let ingredientMagnitude = 0;
   let methodMagnitude = 0;
   
@@ -140,8 +140,8 @@ function calculateAlchemicalCompatibility(ingredientProps: any, methodProps: any
   if (!ingredientProps || !methodProps) return 0.5;
   
   // Calculate similarity for each alchemical property with error handling
-  let similarity = 0;
-  let count = 0;
+  const similarity = 0;
+  const count = 0;
   
   ['Spirit', 'Essence', 'Matter', 'Substance'].forEach(prop => {
     if (ingredientProps[prop] !== undefined && methodProps[prop] !== undefined) {

@@ -45,9 +45,8 @@ import type {
   CookingMethod,
   BasicThermodynamicProperties,
 } from "@/types/alchemy";
-import { calculationCache } from "@/utils";
+import { calculationCache , testRecommendations , lunarMultiplier , ingredientUtils } from "@/utils";
 import { useCurrentChart } from '@/context/ChartContext';
-import { testRecommendations } from "../utils";
 
 // Import cooking methods from both traditional and cultural sources
 import { cookingMethods, allCookingMethods } from '@/data/cooking';
@@ -60,7 +59,6 @@ import { herbalCookingMethods, exoticCookingMethods } from '@/data/cooking';
 
 // Add this import at the top with the other imports
 import { nutritionalCalculator } from '@/data/integrations';
-import { lunarMultiplier } from '@/utils';
 
 // Add these imports or declarations at the top of the component
 import { TarotContext } from '@/contexts'; // If this exists in your app
@@ -68,7 +66,6 @@ import { useTarotContext, DEFAULT_TAROT_DATA } from '@/context/TarotContext';
 
 // Add import for modality type and utils
 import { ingredients } from '@/data';
-import { ingredientUtils } from '@/utils';
 
 // Import cookingMethodTips
 import cookingMethodTips, { getTipsForMethod } from '@/utils/cookingMethodTips';
@@ -81,7 +78,7 @@ import { staticAlchemize } from '@/utils/alchemyInitializer';
 import { getHolisticCookingRecommendations, calculateCookingMethodCompatibility } from '@/utils/alchemicalPillarUtils';
 
 // Implement the alchemize function using staticAlchemize
-let alchemize = async (
+const alchemize = async (
   elements: ElementalProperties | Record<string, number>,
   astroState: unknown,
   thermodynamics: unknown
@@ -97,7 +94,7 @@ let alchemize = async (
     };
 
     // Create a simplified horoscope object
-    let horoscopeDict = {
+    const horoscopeDict = {
       tropical: {
         CelestialBodies: {},
         Ascendant: {},
@@ -125,7 +122,7 @@ let alchemize = async (
     }
 
     // Use the static alchemize function to get the full result
-    let alchemicalResult = staticAlchemize(birthInfo, horoscopeDict);
+    const alchemicalResult = staticAlchemize(birthInfo, horoscopeDict);
 
     // Combine the result with the input elements and thermodynamics
     return {
@@ -222,7 +219,7 @@ interface MolecularGastronomyDetails {
 // Define the types if needed
 
 // Add these methods if they're missing from your COOKING_METHOD_THERMODYNAMICS constant
-let ADDITIONAL_THERMODYNAMICS = Object.entries(allCookingMethods).reduce(
+const ADDITIONAL_THERMODYNAMICS = Object.entries(allCookingMethods).reduce(
   (acc, [methodName, methodData]) => {
     if (methodData && methodData.thermodynamicProperties) {
       acc[methodName] = methodData.thermodynamicProperties;
@@ -235,7 +232,7 @@ let ADDITIONAL_THERMODYNAMICS = Object.entries(allCookingMethods).reduce(
 // Merge with your existing COOKING_METHOD_THERMODYNAMICS constant
 
 // Add this utility function to provide fallback information for any method
-let generateMethodInfo = (
+const generateMethodInfo = (
   methodName: string
 ): {
   description: string;
@@ -245,7 +242,7 @@ let generateMethodInfo = (
   impact: { impact: string; benefits: string[]; considerations: string[] };
 } => {
   // Convert method name to human-readable form
-  let readableName = methodName
+  const readableName = methodName
     .replace(/_ / (g || 1), ' ')
     .split(' ')
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
@@ -342,7 +339,7 @@ let generateMethodInfo = (
 };
 
 // Add these at the top of the file (before the component function)
-let DEFAULT_TAROT_DATA = {
+const DEFAULT_TAROT_DATA = {
   tarotCard: null,
   tarotElementalInfluences: {
     Fire: 0,
@@ -381,7 +378,7 @@ const LUNAR_PHASE_DISPLAY: Record<LunarPhase, string> = {
 };
 
 // Function to safely convert any lunar phase string to the correct type
-let normalizeLunarPhase = (
+const normalizeLunarPhase = (
   phase: string | null | undefined
 ): LunarPhase | undefined => {
   if (!phase) return undefined;
@@ -392,7 +389,7 @@ let normalizeLunarPhase = (
   }
 
   // Try to convert by looking for matching patterns
-  let phaseLower = phase.toLowerCase();
+  const phaseLower = phase.toLowerCase();
 
   if (phaseLower.includes('full') && phaseLower.includes('moon')) {
     return 'FULL_MOON';
@@ -423,7 +420,7 @@ let normalizeLunarPhase = (
 };
 
 // Helper for adapting between LunarPhase types
-let adaptLunarPhase = (phase: LunarPhase | undefined): unknown => {
+const adaptLunarPhase = (phase: LunarPhase | undefined): unknown => {
   if (!phase) return undefined;
   // Convert from our uppercase format to the format expected by the API
   // This part needs to be adjusted based on what the external functions expect
@@ -455,9 +452,9 @@ interface CookingMethodsProps {
 
 export default function CookingMethods({ onMethodsReady }: CookingMethodsProps = {}) {
   // Add renderCount ref for debugging
-  let renderCount = useRef(0);
+  const renderCount = useRef(0);
   // Use ref for tracking component mounted state
-  let isMountedRef = useRef(false);
+  const isMountedRef = useRef(false);
   const [isMounted, setIsMounted] = useState(false);
   
   // Add these state variables at the beginning of the component
@@ -525,16 +522,16 @@ export default function CookingMethods({ onMethodsReady }: CookingMethodsProps =
 
     // More sophisticated calculation that weights the properties differently
     // Heat and reactivity are positive factors, while high entropy is generally a negative factor
-    let heatScore = elements.heat || 0;
-    let entropyScore = 1 - (elements.entropy || 0); // Invert entropy so lower is better
-    let reactivityScore = elements.reactivity || 0;
+    const heatScore = elements.heat || 0;
+    const entropyScore = 1 - (elements.entropy || 0); // Invert entropy so lower is better
+    const reactivityScore = elements.reactivity || 0;
 
     // Calculate weighted average with more weight on heat and reactivity
-    let rawScore = heatScore * 0.4 + entropyScore * 0.3 + reactivityScore * 0.3;
+    const rawScore = heatScore * 0.4 + entropyScore * 0.3 + reactivityScore * 0.3;
 
     // Apply a more moderate multiplier to ensure reasonable differentiation between methods
     // Using 1.8 instead of 2.5 to prevent extreme values
-    let multiplier = 1.8;
+    const multiplier = 1.8;
 
     // Cap at 0.95 (95%) but ensure minimum of 0.15 (15%) for better score distribution
     return Math.min(0.95, Math.max(0.15, rawScore * multiplier));
@@ -638,7 +635,7 @@ export default function CookingMethods({ onMethodsReady }: CookingMethodsProps =
     if (!domElements || !methodElements) return 0.5;
     
     // Calculate dot product for similarity
-    let dotProduct = 0;
+    const dotProduct = 0;
     let domMagnitude = 0;
     let methodMagnitude = 0;
     
@@ -718,7 +715,7 @@ export default function CookingMethods({ onMethodsReady }: CookingMethodsProps =
   };
 
   // Define the list of 14 common cooking methods to prioritize
-  let commonCookingMethods = useMemo(
+  const commonCookingMethods = useMemo(
     () => [
       'baking',
       'roasting',
@@ -739,7 +736,7 @@ export default function CookingMethods({ onMethodsReady }: CookingMethodsProps =
     []
   );
 
-  let methodToThermodynamics = (
+  const methodToThermodynamics = (
     method: unknown
   ): BasicThermodynamicProperties => {
     const methodName = (method as any)?.name || "";

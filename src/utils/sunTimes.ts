@@ -29,7 +29,7 @@ export function calculateSunTimes(
   longitude = -74.006
 ): SunTimes {
   try {
-    let times = SunCalc.getTimes(date, latitude, longitude);
+    const times = SunCalc.getTimes(date, latitude, longitude);
 
     return {
       sunrise: times.sunrise || null,
@@ -84,8 +84,8 @@ export function formatSunTime(date: Date | null): string {
  * @returns Boolean indicating if it's currently daytime
  */
 export function isDaytime(latitude = 40.7128, longitude = -74.006): boolean {
-  let now = new Date();
-  let times = calculateSunTimes(now, latitude, longitude);
+  const now = new Date();
+  const times = calculateSunTimes(now, latitude, longitude);
 
   // Check if current time is between sunrise and sunset
   return (

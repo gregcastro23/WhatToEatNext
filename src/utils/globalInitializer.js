@@ -12,14 +12,14 @@
   console.log('[GlobalInitializer] Starting early initialization');
   
   // Store original values of methods that might be affected by lockdown
-  let safeObjectDefineProperty = Object.defineProperty;
-  let safeObjectCreate = Object.create;
+  const safeObjectDefineProperty = Object.defineProperty;
+  const safeObjectCreate = Object.create;
   
   /**
    * Create a reliable popup object with all necessary methods
    * This uses closure to protect the methods from being removed
    */
-  let createSafePopup = () => {
+  const createSafePopup = () => {
     const popupMethods = {
       create: function() {
         console.log('[SafePopup] create() called');
@@ -42,13 +42,13 @@
   };
   
   // Create our safe popup provider
-  let safePopupProvider = createSafePopup();
+  const safePopupProvider = createSafePopup();
   
   // Check if popup object already exists and preserve its methods
-  let existingPopupMethods = {};
+  const existingPopupMethods = {};
   if (window.popup) {
     console.log('[GlobalInitializer] Preserving existing popup methods');
-    let methods = ['create', 'show', 'hide', 'update'];
+    const methods = ['create', 'show', 'hide', 'update'];
     methods.forEach(method => {
       if (typeof window.popup[method] === 'function') {
         existingPopupMethods[method] = window.popup[method];
@@ -57,11 +57,11 @@
   }
   
   // Create getters for elemental functions
-  let safeElementalFunctions = {
+  const safeElementalFunctions = {
     getElementRanking: function(element_object) {
       try {
         // Create a completely new result object, never try to modify an existing one
-        let result = {
+        const result = {
           1: '',
           2: '',
           3: '',
@@ -75,7 +75,7 @@
         }
         
         // Convert to array of [element, value] pairs for sorting
-        let elementPairs = Object.entries(element_object);
+        const elementPairs = Object.entries(element_object);
         
         // Sort by value in descending order
         elementPairs.sort((a, b) => b[1] - a[1]);
@@ -98,7 +98,7 @@
     },
     combineElementObjects: function(obj1, obj2) {
       try {
-        let result = { 'Fire': 0, 'Water': 0, 'Air': 0, 'Earth': 0 };
+        const result = { 'Fire': 0, 'Water': 0, 'Air': 0, 'Earth': 0 };
         
         if (obj1 && typeof obj1 === 'object') {
           result.Fire += obj1.Fire || 0;
@@ -124,7 +124,7 @@
       try {
         if (!obj || typeof obj !== 'object') return 0;
         
-        let sum = 0;
+        const sum = 0;
         sum += parseFloat(obj.Fire || 0);
         sum += parseFloat(obj.Water || 0);
         sum += parseFloat(obj.Air || 0);
@@ -147,7 +147,7 @@
     enumerable: true,
     get: function() {
       // Combine safe popup with any existing methods
-      let safePopup = safePopupProvider();
+      const safePopup = safePopupProvider();
       for (const method in existingPopupMethods) {
         if (typeof existingPopupMethods[method] === 'function') {
           safePopup[method] = existingPopupMethods[method];
@@ -158,7 +158,7 @@
     set: function(newPopup) {
       // If something tries to replace popup, store its methods
       if (newPopup && typeof newPopup === 'object') {
-        let methods = ['create', 'show', 'hide', 'update'];
+        const methods = ['create', 'show', 'hide', 'update'];
         methods.forEach(method => {
           if (typeof newPopup[method] === 'function') {
             existingPopupMethods[method] = newPopup[method];
@@ -170,7 +170,7 @@
   });
   
   // Add elemental functions
-  let elementalFunctions = [
+  const elementalFunctions = [
     'getElementRanking',
     'createElementObject',
     'combineElementObjects',
@@ -203,7 +203,7 @@
       if (event.message.includes('popup')) {
         console.log('[GlobalInitializer] Reinitializing popup object');
         // Force a get on popup to trigger our getter
-        let _ = window.popup;
+        const _ = window.popup;
       }
       
       event.preventDefault();

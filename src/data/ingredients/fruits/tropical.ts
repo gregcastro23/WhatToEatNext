@@ -606,4 +606,4 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 };
 
 // Fix the ingredient mappings to ensure they have all required properties
-export let tropical = fixIngredientMappings(rawTropicalFruits);
+export const tropical = fixIngredientMappings(rawTropicalFruits);

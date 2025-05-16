@@ -28,7 +28,7 @@ export function normalizeIngredientName(name: string): string {
  */
 export function getNutritionalData(ingredientName: string): NutritionalProfile | null {
   // Normalize the name for lookup
-  let normalizedName = normalizeIngredientName(ingredientName);
+  const normalizedName = normalizeIngredientName(ingredientName);
   
   // Try exact match first
   if (usdaNutritionalData[normalizedName]) {
@@ -37,10 +37,10 @@ export function getNutritionalData(ingredientName: string): NutritionalProfile |
   
   // If no exact match, try fuzzy matching by checking if the normalized name
   // contains our search term or vice versa
-  let keys = Object.keys(usdaNutritionalData);
+  const keys = Object.keys(usdaNutritionalData);
   
   // Try to find a key that contains our search term or vice versa
-  let matchedKey = keys.find(key => 
+  const matchedKey = keys.find(key => 
     key.includes(normalizedName) || normalizedName.includes(key)
   );
   
@@ -77,8 +77,8 @@ export function compareNutritionalValues(
   ingredient2: NutritionalProfile | null,
   differences: Record<string, number> 
 } {
-  let profile1 = getNutritionalData(ingredient1);
-  let profile2 = getNutritionalData(ingredient2);
+  const profile1 = getNutritionalData(ingredient1);
+  const profile2 = getNutritionalData(ingredient2);
   
   // Return early if either ingredient not found
   if (!profile1 || !profile2) {

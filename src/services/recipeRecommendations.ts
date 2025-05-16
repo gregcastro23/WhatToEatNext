@@ -40,12 +40,12 @@ export class RecipeRecommender {
       }
 
       // Get current celestial influences if not provided
-      let celestialInfluence =
+      const celestialInfluence =
         criteria.celestialInfluence ||
         celestialCalculator.calculateCurrentInfluences();
 
       // Score and sort recipes
-      let scoredRecipes = recipes
+      const scoredRecipes = recipes
         .map((recipe) => ({
           ...recipe,
           score: this.calculateRecipeScore(recipe, criteria),
@@ -70,11 +70,11 @@ export class RecipeRecommender {
     criteria: RecommendationCriteria
   ): number {
     try {
-      let score = 0;
-      let totalWeight = 0;
+      const score = 0;
+      const totalWeight = 0;
 
       // Enhanced weighting system with more factors
-      let weights = {
+      const weights = {
         elemental: 0.6, // Doubled from 0.3
         seasonal: 0.5, // Doubled from 0.25
         timeOfDay: 0.3, // Doubled from 0.15
@@ -85,7 +85,7 @@ export class RecipeRecommender {
 
       // Elemental alignment - enhanced with improved calculation
       if (criteria.celestialInfluence && recipe.elementalProperties) {
-        let elementalScore = this.calculateElementalAlignment(
+        const elementalScore = this.calculateElementalAlignment(
           recipe,
           criteria.celestialInfluence
         );
@@ -95,7 +95,7 @@ export class RecipeRecommender {
 
       // Seasonal appropriateness - enhanced to consider multi-seasonal recipes
       if (criteria.season && recipe.season) {
-        let recipeSeasons = Array.isArray(recipe.season)
+        const recipeSeasons = Array.isArray(recipe.season)
           ? recipe.season
           : [recipe.season];
 
@@ -117,12 +117,12 @@ export class RecipeRecommender {
 
       // Time of day appropriateness - enhanced with better scoring
       if (criteria.timeOfDay && recipe.mealType) {
-        let recipeMealTypes = Array.isArray(recipe.mealType)
+        const recipeMealTypes = Array.isArray(recipe.mealType)
           ? recipe.mealType
           : [recipe.mealType];
 
         // Calculate time match
-        let timeScore = this.calculateTimeMatch(
+        const timeScore = this.calculateTimeMatch(
           recipeMealTypes,
           criteria.timeOfDay
         );
@@ -133,7 +133,7 @@ export class RecipeRecommender {
 
       // Variety (avoid recent meals) - enhanced with better penalty system
       if (criteria.previousMeals && criteria.previousMeals.length > 0) {
-        let varietyScore = this.calculateVarietyScore(
+        const varietyScore = this.calculateVarietyScore(
           recipe.name,
           criteria.previousMeals
         );
@@ -144,7 +144,7 @@ export class RecipeRecommender {
 
       // NEW: Ingredient preferences
       if (recipe.ingredients && criteria.preferredIngredients) {
-        let ingredientScore = this.calculateIngredientPreferenceMatch(
+        const ingredientScore = this.calculateIngredientPreferenceMatch(
           recipe.ingredients,
           criteria.preferredIngredients
         );
@@ -155,7 +155,7 @@ export class RecipeRecommender {
 
       // NEW: Cooking techniques
       if (recipe.cookingMethod && criteria.preferredTechniques) {
-        let techniqueScore = this.calculateTechniqueMatch(
+        const techniqueScore = this.calculateTechniqueMatch(
           recipe.cookingMethod,
           criteria.preferredTechniques
         );
@@ -165,7 +165,7 @@ export class RecipeRecommender {
       }
 
       // Normalize score based on weights actually used
-      let normalizedScore = totalWeight > 0 ? score / (totalWeight || 1) : 0.5;
+      const normalizedScore = totalWeight > 0 ? score / (totalWeight || 1) : 0.5;
 
       // Apply a non-linear transformation to better differentiate matches
       let finalScore;
@@ -188,20 +188,20 @@ export class RecipeRecommender {
     recipe: Recipe,
     target: ElementalProperties
   ) {
-    let recipeElements = this.aggregateIngredients(recipe.ingredients);
+    const recipeElements = this.aggregateIngredients(recipe.ingredients);
 
     // Get current date and check if we're in Aries season (roughly March 21 - April 19)
-    let currentDate = new Date();
-    let month = currentDate.getMonth(); // 0-indexed (0 = January)
-    let day = currentDate.getDate();
-    let isAriesSeason =
+    const currentDate = new Date();
+    const month = currentDate.getMonth(); // 0-indexed (0 = January)
+    const day = currentDate.getDate();
+    const isAriesSeason =
       (month === 2 && day >= 21) || (month === 3 && day <= 19); // March 21 - April 19
 
     // Standard element matching
-    let baseAlignment = this.calculateElementMatch(recipeElements, target);
+    const baseAlignment = this.calculateElementMatch(recipeElements, target);
 
     // Boost for Mars-influenced recipes during Aries season
-    let finalAlignment = baseAlignment;
+    const finalAlignment = baseAlignment;
 
     if (isAriesSeason && recipe.astrologicalInfluences) {
       // Mars energy gets a significant boost during Aries season
@@ -252,12 +252,12 @@ export class RecipeRecommender {
     recipeElements: ElementalProperties,
     targetElements: ElementalProperties
   ): number {
-    let alignment = 0;
-    let total = 0;
+    const alignment = 0;
+    const total = 0;
 
     Object.keys(targetElements).forEach((element) => {
-      let key = element as keyof ElementalProperties;
-      let diff = Math.abs(
+      const key = element as keyof ElementalProperties;
+      const diff = Math.abs(
         (recipeElements[key] || 0) - (targetElements[key] || 0)
       );
       alignment += 1 - diff;
@@ -288,7 +288,7 @@ export class RecipeRecommender {
     recipeName: string,
     previousMeals: string[]
   ): number {
-    let recentIndex = previousMeals.indexOf(recipeName);
+    const recentIndex = previousMeals.indexOf(recipeName);
     if (recentIndex === -1) return 1; // Not recently eaten
     return 1 - (previousMeals.length - recentIndex) / previousMeals.length;
   }
@@ -341,11 +341,11 @@ export class RecipeRecommender {
   ): number {
     if (!preferredIngredients.length) return 0.5;
 
-    let recipeIngredientNames = recipeIngredients.map((ing) =>
+    const recipeIngredientNames = recipeIngredients.map((ing) =>
       ing.name.toLowerCase()
     );
 
-    let matchCount = preferredIngredients.filter((prefIng) =>
+    const matchCount = preferredIngredients.filter((prefIng) =>
       recipeIngredientNames.some((recIng) =>
         recIng.includes(prefIng.toLowerCase())
       )
@@ -364,11 +364,11 @@ export class RecipeRecommender {
   ): number {
     if (!preferredTechniques.length) return 0.5;
 
-    let techniques = Array.isArray(recipeTechniques)
+    const techniques = Array.isArray(recipeTechniques)
       ? recipeTechniques.map((t) => t.toLowerCase())
       : [recipeTechniques.toLowerCase()];
 
-    let matchCount = preferredTechniques.filter((prefTech) =>
+    const matchCount = preferredTechniques.filter((prefTech) =>
       techniques.some((tech) => tech.includes(prefTech.toLowerCase()))
     ).length;
 
@@ -379,4 +379,4 @@ export class RecipeRecommender {
   }
 }
 
-export let recipeRecommender = RecipeRecommender.getInstance();
+export const recipeRecommender = RecipeRecommender.getInstance();

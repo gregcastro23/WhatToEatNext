@@ -15,15 +15,15 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
   onClick
 }) => {
   // Determine the dominant element to style the card
-  let dominantElement = getDominantElement(ingredient.elementalProperties || {
+  const dominantElement = getDominantElement(ingredient.elementalProperties || {
     Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
   });
 
   // Get class based on dominant element
-  let elementClass = styles[`element${dominantElement.charAt(0).toUpperCase() + dominantElement.slice(1)}`];
+  const elementClass = styles[`element${dominantElement.charAt(0).toUpperCase() + dominantElement.slice(1)}`];
 
   // Handle click event
-  let handleClick = (event: React.MouseEvent) => {
+  const handleClick = (event: React.MouseEvent) => {
     // Prevent event propagation to ensure the click event doesn't trigger parent handlers
     event.stopPropagation();
     
@@ -432,7 +432,7 @@ const Beaker = (props: any) => {
 };
 
 // CSS styles for the component (can be moved to a separate CSS file)
-let styles = `
+const styles = `
 .ingredient-card {
   border-radius: 8px;
   padding: 16px;
@@ -558,7 +558,7 @@ let styles = `
 
 // Add styles to head
 if (typeof document !== 'undefined') {
-  let styleElement = document.createElement('style');
+  const styleElement = document.createElement('style');
   styleElement.textContent = styles;
   document.head.appendChild(styleElement);
 }

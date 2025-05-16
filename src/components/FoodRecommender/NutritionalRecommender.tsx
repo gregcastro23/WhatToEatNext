@@ -37,12 +37,12 @@ const NutritionalRecommender: React.FC<NutritionalRecommenderProps> = ({
   >({});
 
   // Filter category options for rendering tabs
-  let categoryOptions = useMemo(() => {
+  const categoryOptions = useMemo(() => {
     return Object.values(INGREDIENT_GROUPS);
   }, []);
 
   // Apply filtering based on the current filter settings
-  let recommendations = useMemo(() => {
+  const recommendations = useMemo(() => {
     return ingredientFilterService.getBalancedRecommendations(
       itemsPerCategory,
       filter
@@ -50,7 +50,7 @@ const NutritionalRecommender: React.FC<NutritionalRecommenderProps> = ({
   }, [filter, itemsPerCategory]);
 
   // Handle filter changes from the form
-  let handleFilterChange = (newFilterValues: Partial<IngredientFilter>) => {
+  const handleFilterChange = (newFilterValues: Partial<IngredientFilter>) => {
     setFilter((prev) => ({
       ...prev,
       ...newFilterValues,
@@ -58,7 +58,7 @@ const NutritionalRecommender: React.FC<NutritionalRecommenderProps> = ({
   };
 
   // Update nutritional filter settings
-  let handleNutritionalFilterChange = (
+  const handleNutritionalFilterChange = (
     nutritionalFilter: Partial<NutritionalFilter>
   ) => {
     setFilter((prev) => ({
@@ -71,7 +71,7 @@ const NutritionalRecommender: React.FC<NutritionalRecommenderProps> = ({
   };
 
   // Handle tab switching
-  let handleTabChange = (tabName: string) => {
+  const handleTabChange = (tabName: string) => {
     setActiveTab(tabName);
 
     if (tabName === 'all') {
@@ -88,7 +88,7 @@ const NutritionalRecommender: React.FC<NutritionalRecommenderProps> = ({
   };
 
   // Toggle ingredient selection for recipe recommendations
-  let toggleIngredientSelection = (ingredientName: string) => {
+  const toggleIngredientSelection = (ingredientName: string) => {
     setSelectedIngredients((prev) => {
       if (prev.includes(ingredientName)) {
         return prev.filter((name) => name !== ingredientName);
@@ -99,7 +99,7 @@ const NutritionalRecommender: React.FC<NutritionalRecommenderProps> = ({
   };
 
   // Fetch enhanced nutrition data from Spoonacular
-  let fetchEnhancedNutritionData = async (ingredientName: string) => {
+  const fetchEnhancedNutritionData = async (ingredientName: string) => {
     if (
       enhancedNutritionData[ingredientName] ||
       isSpoonacularLoading[ingredientName]
@@ -110,7 +110,7 @@ const NutritionalRecommender: React.FC<NutritionalRecommenderProps> = ({
     setIsSpoonacularLoading((prev) => ({ ...prev, [ingredientName]: true }));
 
     try {
-      let data = await ingredientFilterService.getEnhancedNutritionData(
+      const data = await ingredientFilterService.getEnhancedNutritionData(
         ingredientName
       );
       if (data) {
@@ -128,7 +128,7 @@ const NutritionalRecommender: React.FC<NutritionalRecommenderProps> = ({
 
   // Fetch recipe recommendations when selected ingredients change
   useEffect(() => {
-    let getRecipes = async () => {
+    const getRecipes = async () => {
       if (selectedIngredients.length === 0) {
         setRecipeRecommendations([]);
         return;
@@ -136,7 +136,7 @@ const NutritionalRecommender: React.FC<NutritionalRecommenderProps> = ({
 
       setIsLoadingRecipes(true);
       try {
-        let recipes = await ingredientFilterService.getRecipeRecommendations(
+        const recipes = await ingredientFilterService.getRecipeRecommendations(
           selectedIngredients,
           filter.dietary
         );
@@ -152,7 +152,7 @@ const NutritionalRecommender: React.FC<NutritionalRecommenderProps> = ({
   }, [selectedIngredients, filter.dietary]);
 
   // Determine which categories to display based on active tab and available data
-  let categoriesToDisplay = useMemo(() => {
+  const categoriesToDisplay = useMemo(() => {
     if (activeTab === 'all') {
       return Object.keys(recommendations);
     }
@@ -221,9 +221,9 @@ const NutritionalRecommender: React.FC<NutritionalRecommenderProps> = ({
               className="w-full p-2 border rounded"
               value=""
               onChange={(e) => {
-                let selectedVitamin = e.target.value;
+                const selectedVitamin = e.target.value;
                 if (selectedVitamin) {
-                  let currentVitamins = filter.nutritional?.vitamins || [];
+                  const currentVitamins = filter.nutritional?.vitamins || [];
                   handleNutritionalFilterChange({
                     vitamins: [...currentVitamins, selectedVitamin],
                   });
@@ -254,7 +254,7 @@ const NutritionalRecommender: React.FC<NutritionalRecommenderProps> = ({
                       <button
                         className="ml-1 text-blue-800"
                         onClick={() => {
-                          let updatedVitamins =
+                          const updatedVitamins =
                             filter.nutritional?.vitamins?.filter(
                               (v) => v !== vitamin
                             ) || [];
@@ -278,9 +278,9 @@ const NutritionalRecommender: React.FC<NutritionalRecommenderProps> = ({
               className="w-full p-2 border rounded"
               value=""
               onChange={(e) => {
-                let selectedMineral = e.target.value;
+                const selectedMineral = e.target.value;
                 if (selectedMineral) {
-                  let currentMinerals = filter.nutritional?.minerals || [];
+                  const currentMinerals = filter.nutritional?.minerals || [];
                   handleNutritionalFilterChange({
                     minerals: [...currentMinerals, selectedMineral],
                   });
@@ -309,7 +309,7 @@ const NutritionalRecommender: React.FC<NutritionalRecommenderProps> = ({
                       <button
                         className="ml-1 text-green-800"
                         onClick={() => {
-                          let updatedMinerals =
+                          const updatedMinerals =
                             filter.nutritional?.minerals?.filter(
                               (m) => m !== mineral
                             ) || [];
@@ -478,16 +478,16 @@ const NutritionalRecommender: React.FC<NutritionalRecommenderProps> = ({
 // Recipe card subcomponent
 const RecipeCard: React.FC<{ recipe: RecipeRecommendation }> = ({ recipe }) => {
   // Find key nutrients
-  let getKeyNutrient = (name: string) => {
+  const getKeyNutrient = (name: string) => {
     return recipe.nutrition.nutrients.find(
       (n) => n.name.toLowerCase() === name.toLowerCase()
     );
   };
 
-  let calories = getKeyNutrient('Calories');
-  let protein = getKeyNutrient('Protein');
-  let carbs = getKeyNutrient('Carbohydrates');
-  let fat = getKeyNutrient('Fat');
+  const calories = getKeyNutrient('Calories');
+  const protein = getKeyNutrient('Protein');
+  const carbs = getKeyNutrient('Carbohydrates');
+  const fat = getKeyNutrient('Fat');
 
   return (
     <div className="bg-white border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
@@ -608,7 +608,7 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
   isExpanded,
   onToggleExpand,
 }) => {
-  let nutritionalProfile = ingredient.nutritionalProfile || {};
+  const nutritionalProfile = ingredient.nutritionalProfile || {};
 
   return (
     <div

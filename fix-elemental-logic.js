@@ -214,7 +214,7 @@ function fixElementalCalculations(filePath) {
 
 // Main function
 function main() {
-  let targetDirs = [];
+  const targetDirs = [];
   
   for (const dir of SEARCH_DIRS) {
     const fullPath = path.join(ROOT_DIR, dir);
@@ -243,7 +243,7 @@ function main() {
   console.log(`Found ${allIssues.length} issues in ${new Set(allIssues.map(i => i.filePath)).size} files.`);
   
   // Fix issues
-  let fixedFiles = 0;
+  const fixedFiles = 0;
   const fileIssues = {};
   
   for (const issue of allIssues) {

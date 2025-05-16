@@ -51,4 +51,4 @@ const rawAmaranth: Record<string, Partial<IngredientMapping>> = {
   }
 };
 
-export let amaranth = fixIngredientMappings(rawAmaranth) as Record<string, IngredientMapping>; 
+export const amaranth = fixIngredientMappings(rawAmaranth) as Record<string, IngredientMapping>; 

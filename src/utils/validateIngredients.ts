@@ -19,7 +19,7 @@ export function validateIngredientData(
         };
       } else {
         // Ensure all elemental properties exist
-        let elements = ['Fire', 'Water', 'Air', 'Earth'] as const;
+        const elements = ['Fire', 'Water', 'Air', 'Earth'] as const;
         elements.forEach((element) => {
           if (
             ingredient.elementalProperties &&

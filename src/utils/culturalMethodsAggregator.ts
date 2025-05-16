@@ -147,7 +147,7 @@ export function extractCulturalCookingMethods(): CulturalCookingMethod[] {
   // Use empty objects for all cuisines to avoid undefined errors
   const defaultData = { cookingTechniques: [], name: '', description: '' };
   
-  let cuisines = [
+  const cuisines = [
     { data: defaultData, name: 'Thai' },
     { data: defaultData, name: 'Vietnamese' },
     { data: defaultData, name: 'Italian' },
@@ -212,7 +212,7 @@ export function extractCulturalCookingMethods(): CulturalCookingMethod[] {
 }
 
 // Export a ready-to-use object with all cultural cooking methods
-export let culturalCookingMethods = extractCulturalCookingMethods();
+export const culturalCookingMethods = extractCulturalCookingMethods();
 
 // Helper to get methods by cultural origin
 export function getMethodsByCulture(culture: string): CulturalCookingMethod[] {

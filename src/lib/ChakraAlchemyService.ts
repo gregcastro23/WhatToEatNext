@@ -159,7 +159,7 @@ export class ChakraAlchemyService {
     dominantPlanets.forEach(planet => {
       const chakras = this.getChakrasByPlanet(planet);
       chakras.forEach(chakra => {
-        let key = this.getChakraKey(chakra);
+        const key = this.getChakraKey(chakra);
         if (key) energies[key] += 0.8;
       });
     });
@@ -167,7 +167,7 @@ export class ChakraAlchemyService {
     // Add influence from current planetary hour
     const hourChakras = this.getChakrasByPlanet(planetaryHour);
     hourChakras.forEach(chakra => {
-      let key = this.getChakraKey(chakra);
+      const key = this.getChakraKey(chakra);
       if (key) energies[key] += 1.0;
     });
     
@@ -191,7 +191,7 @@ export class ChakraAlchemyService {
     
     // Map energy states to chakras based on the primary energy state of each chakra
     Object.entries(CHAKRAS).forEach(([position, chakra]) => {
-      let key = this.getChakraKey(position as ChakraPosition);
+      const key = this.getChakraKey(position as ChakraPosition);
       if (key) {
         chakraEnergies[key] = energyStates[chakra.primaryEnergyState] * 2; // Scale to make it more visible
       }
@@ -277,7 +277,7 @@ export class ChakraAlchemyService {
       }
       
       if (hasMatchingElement) {
-        let key = this.getChakraKey(chakraPos as ChakraPosition);
+        const key = this.getChakraKey(chakraPos as ChakraPosition);
         if (key) energies[key] += strength;
       }
     });

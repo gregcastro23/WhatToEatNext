@@ -52,7 +52,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
 
   // Load sauce data from cuisine
   React.useEffect(() => {
-    let loadSauces = () => {
+    const loadSauces = () => {
       try {
         // Find cuisine by name (case insensitive)
         let cuisineKey = Object.keys(cuisinesMap).find(
@@ -61,7 +61,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
 
         if (cuisineKey && cuisinesMap[cuisineKey]?.traditionalSauces) {
           // Convert traditional sauces object to array
-          let saucesArray = Object.entries(
+          const saucesArray = Object.entries(
             cuisinesMap[cuisineKey].traditionalSauces || {}
           ).map(([id, sauce]) => ({
             id,
@@ -82,14 +82,14 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
   }, [cuisine]);
 
   // Filter recipes for the current cuisine, prioritizing match scores
-  let cuisineRecipes = React.useMemo(() => {
+  const cuisineRecipes = React.useMemo(() => {
     let matchedRecipes: Recipe[] = [];
 
     if (!Array.isArray(recipes) || recipes.length === 0) {
       // If no recipes provided, try to find some using the cuisine name directly
       try {
         // First try using getRecipesForCuisineMatch
-        let matchedCuisineRecipes = getRecipesForCuisineMatch(
+        const matchedCuisineRecipes = getRecipesForCuisineMatch(
           cuisine || '',
           [], // Pass empty array to trigger service use
           8
@@ -133,7 +133,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
 
         // Try to match related cuisines
         try {
-          let relatedCuisines = getRelatedCuisines(cuisine || '');
+          const relatedCuisines = getRelatedCuisines(cuisine || '');
           if (
             relatedCuisines.some(
               (rc) =>
@@ -152,15 +152,15 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
       })
       .sort((a, b) => {
         // First sort by match score
-        let scoreA = a.matchScore || 0;
-        let scoreB = b.matchScore || 0;
+        const scoreA = a.matchScore || 0;
+        const scoreB = b.matchScore || 0;
 
         if (scoreB !== scoreA) return scoreB - scoreA;
 
         // If match scores are equal, prioritize direct cuisine matches
-        let directMatchA =
+        const directMatchA =
           a.cuisine?.toLowerCase() === cuisine?.toLowerCase();
-        let directMatchB =
+        const directMatchB =
           b.cuisine?.toLowerCase() === cuisine?.toLowerCase();
 
         if (directMatchA && !directMatchB) return -1;
@@ -174,14 +174,14 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
 
   if (!cuisineRecipes.length) {
     // Special case for African and American cuisines
-    let isSpecialCase =
+    const isSpecialCase =
       cuisine?.toLowerCase() === 'african' ||
       cuisine?.toLowerCase() === 'american';
     if (isSpecialCase) {
       // Last-ditch effort to find recipes for these problematic cuisines
       try {
         // Try direct access with different capitalizations
-        let importedCuisine =
+        const importedCuisine =
           cuisinesMap[cuisine] ||
           cuisinesMap[cuisine?.toLowerCase()] ||
           cuisinesMap[
@@ -189,7 +189,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
           ];
 
         if (importedCuisine && importedCuisine.dishes) {
-          let specialRecipes = [];
+          const specialRecipes = [];
 
           // Try to extract some recipes directly
           Object.entries(importedCuisine.dishes).forEach(
@@ -234,7 +234,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
     }
   }
 
-  let renderSeasonalInfo = (recipe: Recipe) => (
+  const renderSeasonalInfo = (recipe: Recipe) => (
     <div className="flex flex-wrap gap-2 mt-2">
       {recipe.season && (
         <span className="text-sm px-2 py-1 bg-green-50 text-green-700 rounded">
@@ -260,7 +260,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
   );
 
   // Function to get match score CSS class based on the score
-  let getMatchScoreClass = (score: number) => {
+  const getMatchScoreClass = (score: number) => {
     // More dynamic classification with smoother transitions and more differentiation
     if (score >= 0.95)
       return 'bg-gradient-to-r from-emerald-600 to-emerald-500 text-white font-bold shadow-md';
@@ -276,7 +276,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
   };
 
   // Function to render a score badge with stars for high scores
-  let renderScoreBadge = (score: number, hasDualMatch: boolean = false) => {
+  const renderScoreBadge = (score: number, hasDualMatch: boolean = false) => {
     // Apply a small multiplier to emphasize differences in scores
     const enhancedScore = Math.min(100, Math.round(score * 110));
     let stars = '';
@@ -315,21 +315,21 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
   };
 
   // Check for regional variations to add information about cuisine relationships
-  let isRegionalVariant = cuisineRecipes.some(
+  const isRegionalVariant = cuisineRecipes.some(
     (r) => r.regionalCuisine?.toLowerCase() === cuisine.toLowerCase()
   );
-  let parentCuisineName = isRegionalVariant
+  const parentCuisineName = isRegionalVariant
     ? cuisineRecipes.find(
         (r) => r.regionalCuisine?.toLowerCase() === cuisine.toLowerCase()
       )?.cuisine
     : null;
 
   // Check if this is a parent cuisine with regional variants shown
-  let hasRegionalVariants = cuisineRecipes.some(
+  const hasRegionalVariants = cuisineRecipes.some(
     (r) =>
       r.regionalCuisine && r.cuisine?.toLowerCase() === cuisine.toLowerCase()
   );
-  let regionalVariantNames = [
+  const regionalVariantNames = [
     ...new Set(
       cuisineRecipes
         .filter(
@@ -352,21 +352,21 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
   };
 
   // Render a sauce card
-  let renderSauceCard = (sauce: SauceInfo, index: number) => {
+  const renderSauceCard = (sauce: SauceInfo, index: number) => {
     if (!sauce || !sauce.id) {
       return null;
     }
 
     // Create a URL-friendly sauce ID
-    let cuisineKey = Object.keys(cuisinesMap).find(
+    const cuisineKey = Object.keys(cuisinesMap).find(
       (key) => key.toLowerCase() === cuisine?.toLowerCase()
     );
 
-    let sauceUrlId = sauce.id
+    const sauceUrlId = sauce.id
       .toLowerCase()
       .replace(/ /g, '-')
       .replace(/[^\w-] / (g || 1), '');
-    let sauceUrl = `/sauces/${
+    const sauceUrl = `/sauces/${
       cuisineKey?.toLowerCase() || 'unknown'
     }/${sauceUrlId}`;
 
@@ -408,13 +408,13 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
   };
 
   // Render a recipe card
-  let renderRecipeCard = (recipe: Recipe, index: number) => {
+  const renderRecipeCard = (recipe: Recipe, index: number) => {
     if (!recipe || !recipe.name) {
       return null;
     }
 
     // Create URL-friendly recipe ID
-    let recipeId = recipe.name
+    const recipeId = recipe.name
       .toLowerCase()
       .replace(/ /g, '-')
       .replace(/[^\w-] / (g || 1), '');

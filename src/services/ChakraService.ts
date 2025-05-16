@@ -51,14 +51,14 @@ export class ChakraService {
         });
         
         // Calculate raw chakra energy levels
-        let chakraEnergies = calculateChakraEnergies(signEnergyRecord);
+        const chakraEnergies = calculateChakraEnergies(signEnergyRecord);
         
         // Get food recommendations based on energy levels
-        let foodRecommendations = recommendFoodsForChakraBalance(chakraEnergies);
+        const foodRecommendations = recommendFoodsForChakraBalance(chakraEnergies);
         
         // Create detailed chakra energy states
         return CHAKRAS.map(chakra => {
-            let energyLevel = chakraEnergies[chakra];
+            const energyLevel = chakraEnergies[chakra];
             
             // Determine balance state
             let balanceState: 'balanced' | 'underactive' | 'overactive';
@@ -71,10 +71,10 @@ export class ChakraService {
             }
             
             // Get properties
-            let properties = CHAKRA_PROPERTIES[chakra];
+            const properties = CHAKRA_PROPERTIES[chakra];
             
             // Find related signs (signs that influence this chakra)
-            let relatedSigns = signEnergyStates
+            const relatedSigns = signEnergyStates
                 .filter(state => chakraEnergies[chakra] > 0)
                 .map(state => state.sign)
                 .slice(0, 3); // Limit to top 3 related signs
@@ -125,7 +125,7 @@ export class ChakraService {
         const suggestions: string[] = [];
         
         // Check for root chakra imbalance
-        let rootState = chakraEnergyStates.find(state => state.chakra === 'Root');
+        const rootState = chakraEnergyStates.find(state => state.chakra === 'Root');
         if (rootState && rootState.balanceState === 'underactive') {
             suggestions.push('Increase grounding foods like root vegetables and proteins');
         } else if (rootState && rootState.balanceState === 'overactive') {
@@ -133,19 +133,19 @@ export class ChakraService {
         }
         
         // Check for sacral chakra imbalance
-        let sacralState = chakraEnergyStates.find(state => state.chakra === 'Sacral');
+        const sacralState = chakraEnergyStates.find(state => state.chakra === 'Sacral');
         if (sacralState && sacralState.balanceState === 'underactive') {
             suggestions.push('Add orange foods and sweet flavors to stimulate creativity');
         }
         
         // Check for solar plexus imbalance
-        let solarPlexusState = chakraEnergyStates.find(state => state.chakra === 'Solar Plexus');
+        const solarPlexusState = chakraEnergyStates.find(state => state.chakra === 'Solar Plexus');
         if (solarPlexusState && solarPlexusState.balanceState === 'underactive') {
             suggestions.push('Include more complex carbohydrates and yellow foods for energy');
         }
         
         // Check for heart chakra imbalance
-        let heartState = chakraEnergyStates.find(state => state.chakra === 'Heart');
+        const heartState = chakraEnergyStates.find(state => state.chakra === 'Heart');
         if (heartState && heartState.balanceState === 'underactive') {
             suggestions.push('Incorporate more leafy greens and heart-opening foods like rose tea');
         }
@@ -168,7 +168,7 @@ export class ChakraService {
         }
         
         // General recommendation based on overall chakra balance
-        let underactiveChakras = chakraEnergyStates.filter(state => state.balanceState === 'underactive');
+        const underactiveChakras = chakraEnergyStates.filter(state => state.balanceState === 'underactive');
         if (underactiveChakras.length > 3) {
             suggestions.push('Consider a rainbow diet with foods of all colors to balance all chakras');
         }

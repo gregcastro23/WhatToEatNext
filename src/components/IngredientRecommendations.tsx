@@ -35,7 +35,7 @@ function getRecommendations(
     useAstrologicalState();
 
   // Create an object with real astrological state data
-  let astroState = {
+  const astroState = {
     elementalProperties: elementalProps || {
       Fire: 0.25,
       Water: 0.25,
@@ -86,7 +86,7 @@ export default function IngredientRecommendations({
   const { currentZodiac } = useAstrologicalState();
 
   // Use the helper function to ensure valid ZodiacSign
-  let zodiacSign = toZodiacSign(currentZodiac);
+  const zodiacSign = toZodiacSign(currentZodiac);
 
   const [recommendations, setRecommendations] =
     useState<GroupedIngredientRecommendations>({});
@@ -104,7 +104,7 @@ export default function IngredientRecommendations({
     // Get recommendations with current filters
     setLoading(true);
 
-    let options = {
+    const options = {
       currentSeason: selectedSeason,
       dietaryPreferences: dietaryFilter !== 'all' ? [dietaryFilter] : [],
       modalityPreference:
@@ -114,7 +114,7 @@ export default function IngredientRecommendations({
     };
 
     // Use our adapter function with modality filtering
-    let recommendedIngredients = getRecommendations(targetElements, options);
+    const recommendedIngredients = getRecommendations(targetElements, options);
 
     setRecommendations(recommendedIngredients);
     setLoading(false);
@@ -127,7 +127,7 @@ export default function IngredientRecommendations({
     zodiacSign,
   ]);
 
-  let getElementIcon = (element: string) => {
+  const getElementIcon = (element: string) => {
     switch (element) {
       case 'Fire':
         return (
@@ -148,7 +148,7 @@ export default function IngredientRecommendations({
     }
   };
 
-  let getSensoryProfileBar = (value: number, type: string) => {
+  const getSensoryProfileBar = (value: number, type: string) => {
     return (
       <div className={styles.sensoryBar}>
         <span className={styles.sensoryLabel}>{type}</span>
@@ -165,7 +165,7 @@ export default function IngredientRecommendations({
     );
   };
 
-  let renderIngredientDetails = (ingredient: Ingredient) => {
+  const renderIngredientDetails = (ingredient: Ingredient) => {
     // Get the elemental properties
     let elementalProps = ingredient.elementalProperties || {
       Fire: 0.25,
@@ -175,11 +175,11 @@ export default function IngredientRecommendations({
     };
 
     // Calculate alchemical properties
-    let alchemicalProps =
+    const alchemicalProps =
       calculateAlchemicalPropertiesForDisplay(elementalProps);
 
     // Calculate thermodynamic properties based on elemental properties
-    let thermodynamicProps = {
+    const thermodynamicProps = {
       heat: elementalProps.Fire * 1.2 + elementalProps.Air * 0.4,
       entropy: elementalProps.Air * 1.1 + elementalProps.Fire * 0.5,
       reactivity: elementalProps.Water * 0.8 + elementalProps.Fire * 0.7,
@@ -327,7 +327,7 @@ export default function IngredientRecommendations({
     );
   };
 
-  let calculateAlchemicalPropertiesForDisplay = (
+  const calculateAlchemicalPropertiesForDisplay = (
     elementalProperties: ElementalProperties
   ) => {
     // Default values with proper elemental calculations
@@ -341,11 +341,11 @@ export default function IngredientRecommendations({
   };
 
   // Display a compact ingredient card
-  let renderCompactIngredientCard = (
+  const renderCompactIngredientCard = (
     ingredient: IngredientRecommendation
   ) => {
     // Get the elemental properties
-    let elementalProps = ingredient.elementalProperties || {
+    const elementalProps = ingredient.elementalProperties || {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
@@ -353,13 +353,13 @@ export default function IngredientRecommendations({
     };
 
     // Format the match percentage from score
-    let matchPercentage =
+    const matchPercentage =
       ingredient.score !== undefined && !isNaN(ingredient.score)
         ? `${Math.round(ingredient.score * 100)}%`
         : '50%';
 
     // Get dominant element for styling
-    let dominantElement = Object.entries(elementalProps).sort(
+    const dominantElement = Object.entries(elementalProps).sort(
       (a, b) => b[1] - a[1]
     )[0][0];
 

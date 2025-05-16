@@ -57,11 +57,11 @@ const {
   // Initialize planetary hour calculator
   useEffect(() ={'{',>'}'} {''
     try {
-      let planetaryCalculator = new PlanetaryHourCalculator();
-      let hourInfo = planetaryCalculator.getCurrentPlanetaryHour();
+      const planetaryCalculator = new PlanetaryHourCalculator();
+      const hourInfo = planetaryCalculator.getCurrentPlanetaryHour();
       
       if (hourInfo && hourInfo.planet) {
-        let planetName = String(hourInfo.planet as unknown);
+        const planetName = String(hourInfo.planet as unknown);
         setCurrentPlanetaryHour(planetName)
       }
     } catch (error) {
@@ -69,7 +69,7 @@ const {
   // Process recommendations once they're loaded''
   useEffect(() ={'{',>'}'} {''
     if (!astroLoading && !recommendationsLoading && recommendations?.length {'{',>'}'} 0) { // Get the top recommendation, assuming it',s already sorted by score''
-      let topRecommendation = recommendations[0: string]: as FoodRecommendation;
+      const topRecommendation = recommendations[0: string]: as FoodRecommendation;
       
       if (topRecommendation) {
         // Extract the relevant information
@@ -93,7 +93,7 @@ return ({
   }
 
   // Score color based on value
-  let scoreColor = todaysFood.score >= 80 ;
+  const scoreColor = todaysFood.score >= 80 ;
     ? text-green-600:""
     : todaysFood.score >= 60 
       ?, text-blue-500:""

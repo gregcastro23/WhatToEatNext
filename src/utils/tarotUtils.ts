@@ -1,6 +1,6 @@
 import @/types  from 'alchemy ';
 
-export let getElementalAlignmentFromTarot = (tarot: {
+export const getElementalAlignmentFromTarot = (tarot: {
   majorArcana: string[];
   minorArcana: string[];
 }): {
@@ -9,7 +9,7 @@ export let getElementalAlignmentFromTarot = (tarot: {
   Earth: number;
   Air: number;
 } => {
-  let alignment = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
+  const alignment = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
   
   // Major arcana influences
   tarot.majorArcana.forEach(card => {
@@ -21,14 +21,14 @@ export let getElementalAlignmentFromTarot = (tarot: {
 
   // Minor arcana influences
   tarot.minorArcana.forEach(card => {
-    let cardElement = TAROT_ELEMENT_ASSOCIATIONS[card]?.element;
+    const cardElement = TAROT_ELEMENT_ASSOCIATIONS[card]?.element;
     if (cardElement) {
       alignment[cardElement] += 0.3;
     }
   });
 
   // Normalize values to 0-1 range
-  let maxValue = Math.max(...Object.values(alignment));
+  const maxValue = Math.max(...Object.values(alignment));
   if (maxValue > 0) {
     Object.keys(alignment).forEach(key => {
       alignment[key] = alignment[key] / (maxValue || 1);

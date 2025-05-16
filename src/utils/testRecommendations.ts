@@ -94,9 +94,9 @@ export function testIngredientRecommendations() {
   };
   
   // Mock current season and time of day
-  let mockSeason = 'summer';
-  let mockTimeOfDay = 'afternoon';
-  let mockZodiacSign = 'taurus';
+  const mockSeason = 'summer';
+  const mockTimeOfDay = 'afternoon';
+  const mockZodiacSign = 'taurus';
   
   console.warn('Elemental Properties:', mockElementalProperties);
   console.warn('Season:', mockSeason);
@@ -104,7 +104,7 @@ export function testIngredientRecommendations() {
   console.warn('Zodiac Sign:', mockZodiacSign);
   
   // Create a complete mock data object for getIngredientRecommendations
-  let mockData = {
+  const mockData = {
     ...mockElementalProperties,
     timestamp: new Date(),
     currentStability: 0.5,
@@ -132,7 +132,7 @@ export function testIngredientRecommendations() {
   // Test direct ingredient recommendations
   try {
     console.warn('\nTESTING DIRECT INGREDIENT RECOMMENDATIONS:');
-    let directRecommendations = getIngredientRecommendations(
+    const directRecommendations = getIngredientRecommendations(
       mockData,
       {
         currentSeason: mockSeason,
@@ -164,7 +164,7 @@ export function testIngredientRecommendations() {
   }
   
   // Get balanced ingredients from direct recommendations
-  let getBalancedIngredients = (props: ElementalProperties) => {
+  const getBalancedIngredients = (props: ElementalProperties) => {
     try {
       // Create a complete data object with the elemental properties
       const data = {
@@ -192,7 +192,7 @@ export function testIngredientRecommendations() {
       };
       
       // Get all recommendations
-      let allRecs = getIngredientRecommendations(data, {});
+      const allRecs = getIngredientRecommendations(data, {});
       
       // Flatten all categories into a single array
       let allIngredients = [];
@@ -200,7 +200,7 @@ export function testIngredientRecommendations() {
       // Safely iterate through categories
       if (allRecs && typeof allRecs === 'object') {
         for (const category in allRecs) {
-          let categoryItems = allRecs[category];
+          const categoryItems = allRecs[category];
           if (categoryItems && Array.isArray(categoryItems)) {
             allIngredients = [...allIngredients, ...categoryItems];
           }
@@ -228,7 +228,7 @@ export function testIngredientRecommendations() {
   // Test elementally balanced recommendations
   try {
     console.warn('\nTESTING ELEMENTALLY BALANCED RECOMMENDATIONS:');
-    let balancedRecommendations = getBalancedIngredients(mockElementalProperties);
+    const balancedRecommendations = getBalancedIngredients(mockElementalProperties);
     
     // Log the number of recommendations
     console.warn(`Found ${balancedRecommendations.length} balanced ingredients`);

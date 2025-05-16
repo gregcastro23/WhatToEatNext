@@ -24,22 +24,22 @@ export default function Header({ setNumberOfPeople }: HeaderProps) {
   });
   const [isLoading, setIsLoading] = useState(true);
 
-  let handlePeopleUpdate = (count: number) => {
+  const handlePeopleUpdate = (count: number) => {
     setPeopleCount(count);
     setNumberOfPeople(count);
   };
 
   useEffect(() => {
-    let fetchAstroData = async () => {
+    const fetchAstroData = async () => {
       try {
         const data = await getCurrentCelestialPositions();
 
         // Extract degrees from planetary positions if available
-        let sunDegree = data.planetaryPositions?.sun?.degree || 0;
-        let sunMinutes = 0; // This data might not be available in the new API
+        const sunDegree = data.planetaryPositions?.sun?.degree || 0;
+        const sunMinutes = 0; // This data might not be available in the new API
 
-        let moonDegree = data.planetaryPositions?.moon?.degree || 0;
-        let moonMinutes = 0; // This data might not be available in the new API
+        const moonDegree = data.planetaryPositions?.moon?.degree || 0;
+        const moonMinutes = 0; // This data might not be available in the new API
 
         setAstroData({
           sun: {
@@ -62,11 +62,11 @@ export default function Header({ setNumberOfPeople }: HeaderProps) {
     };
 
     fetchAstroData();
-    let interval = setInterval(fetchAstroData, 5 * 60 * 1000);
+    const interval = setInterval(fetchAstroData, 5 * 60 * 1000);
     return () => clearInterval(interval);
   }, []);
 
-  let formatDegrees = (deg: number, min: number) => {
+  const formatDegrees = (deg: number, min: number) => {
     return `${deg.toString().padStart(2, '0')}°${min
       .toString()
       .padStart(2, '0')}'`;
@@ -165,7 +165,7 @@ export default function Header({ setNumberOfPeople }: HeaderProps) {
 }
 
 function getCurrentTimeOfDay() {
-  let hour = new Date().getHours();
+  const hour = new Date().getHours();
   if (hour < 12) return 'Morning';
   if (hour < 17) return 'Afternoon';
   if (hour < 21) return 'Evening';

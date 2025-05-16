@@ -73,7 +73,7 @@ export class GlobalErrorBoundary extends Component<Props, State> {
    * Analyzes the error to determine if it's related to undefined variable access
    */
   isUndefinedVariableError(): boolean {
-    let error = this.state.error;
+    const error = this.state.error;
     if (!error) return false;
     
     return (
@@ -92,7 +92,7 @@ export class GlobalErrorBoundary extends Component<Props, State> {
     
     if (hasError && error) {
       // Check for undefined variable errors
-      let isUndefinedError = this.isUndefinedVariableError();
+      const isUndefinedError = this.isUndefinedVariableError();
       
       // If a custom fallback is provided as a function, use it
       if (typeof fallback === 'function') {

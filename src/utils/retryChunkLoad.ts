@@ -1,4 +1,4 @@
-export let retryChunkLoad = () => {
+export const retryChunkLoad = () => {
   if (typeof window !== 'undefined') {
     if (!window.location.hash) {
       window.location.hash = 'loading';

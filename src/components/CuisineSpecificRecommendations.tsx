@@ -28,7 +28,7 @@ const CuisineSpecificRecommendations: React.FC<CuisineSpecificRecommendationsPro
   const { astroState, loading: astroLoading, error: astroError } = useAstrologicalState();
   
   // Get time-based factors for display - replaced with getTimeFactors function
-  let timeFactors = getTimeFactors();
+  const timeFactors = getTimeFactors();
   
   useEffect(() => {
     // Get recommendations when astroState is available
@@ -41,7 +41,7 @@ const CuisineSpecificRecommendations: React.FC<CuisineSpecificRecommendationsPro
     try {
       setLoading(true);
       // Get recommendations from the enhanced recommender
-      let results = enhancedCuisineRecommender.getRecommendationsForCuisine(
+      const results = enhancedCuisineRecommender.getRecommendationsForCuisine(
         cuisineName,
         astroState,
         count,
@@ -58,7 +58,7 @@ const CuisineSpecificRecommendations: React.FC<CuisineSpecificRecommendationsPro
   }, [astroState, astroLoading, cuisineName, count, mealType, dietaryRestrictions]);
   
   // Function to get color based on match percentage
-  let getMatchColor = (percentage: number) => {
+  const getMatchColor = (percentage: number) => {
     if (percentage >= 85) return 'text-green-600';
     if (percentage >= 70) return 'text-green-500';
     if (percentage >= 60) return 'text-yellow-500';
@@ -66,12 +66,12 @@ const CuisineSpecificRecommendations: React.FC<CuisineSpecificRecommendationsPro
   };
   
   // Function to format score for display
-  let formatScore = (score: number) => {
+  const formatScore = (score: number) => {
     return Math.round(score * 100);
   };
 
   // Function to determine if a planet is favorable / (unfavorable || 1) for a recipe
-  let getPlanetaryAlignment = (recipe: unknown, planetName: string) => {
+  const getPlanetaryAlignment = (recipe: unknown, planetName: string) => {
     if (recipe.planetaryDayScore >= 0.7) return 'favorable';
     if (recipe.planetaryDayScore <= 0.3) return 'unfavorable';
     return 'neutral';

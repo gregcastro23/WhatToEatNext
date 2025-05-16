@@ -6,8 +6,8 @@
 type LogLevel = 'debug' | 'info' | 'warn' | 'error';
 
 // Get environment
-let isDev = process.env.NODE_ENV !== 'production';
-let isBrowser = typeof window !== 'undefined';
+const isDev = process.env.NODE_ENV !== 'production';
+const isBrowser = typeof window !== 'undefined';
 
 /**
  * Logger class providing centralized logging capabilities
@@ -64,8 +64,8 @@ class Logger {
    */
   debug(message: string, ...args: unknown[]): void {
     if (this.shouldLog('debug')) {
-      let options = this.extractOptions(args);
-      let component = options.component ? `[${options.component}]` : '';
+      const options = this.extractOptions(args);
+      const component = options.component ? `[${options.component}]` : '';
       console.debug(`[DEBUG]${component} ${message}`, ...options.rest);
     }
   }
@@ -75,8 +75,8 @@ class Logger {
    */
   info(message: string, ...args: unknown[]): void {
     if (this.shouldLog('info')) {
-      let options = this.extractOptions(args);
-      let component = options.component ? `[${options.component}]` : '';
+      const options = this.extractOptions(args);
+      const component = options.component ? `[${options.component}]` : '';
       console.info(`[INFO]${component} ${message}`, ...options.rest);
     }
   }
@@ -86,8 +86,8 @@ class Logger {
    */
   warn(message: string, ...args: unknown[]): void {
     if (this.shouldLog('warn')) {
-      let options = this.extractOptions(args);
-      let component = options.component ? `[${options.component}]` : '';
+      const options = this.extractOptions(args);
+      const component = options.component ? `[${options.component}]` : '';
       console.warn(`[WARN]${component} ${message}`, ...options.rest);
     }
   }
@@ -97,8 +97,8 @@ class Logger {
    */
   error(message: string, ...args: unknown[]): void {
     if (this.shouldLog('error')) {
-      let options = this.extractOptions(args);
-      let component = options.component ? `[${options.component}]` : '';
+      const options = this.extractOptions(args);
+      const component = options.component ? `[${options.component}]` : '';
       console.error(`[ERROR]${component} ${message}`, ...options.rest);
 
       // Store error for summary
@@ -110,7 +110,7 @@ class Logger {
    * Extract options from args, if last arg is an object with component property
    */
   private extractOptions(args: unknown[]) {
-    let last = args[args.length - 1];
+    const last = args[args.length - 1];
     if (
       last &&
       typeof last === 'object' &&
@@ -151,8 +151,8 @@ class Logger {
 
     return this.recentErrors
       .map((err) => {
-        let date = new Date(err.timestamp).toLocaleTimeString();
-        let component = err.component ? `[${err.component}]` : '';
+        const date = new Date(err.timestamp).toLocaleTimeString();
+        const component = err.component ? `[${err.component}]` : '';
         return `[${date}]${component} ${err.message}`;
       })
       .join('\n');
@@ -186,15 +186,15 @@ class Logger {
 export const logger = new Logger();
 
 // Helper functions for creating component-specific loggers
-export let createLogger = (component: string) =>
+export const createLogger = (component: string) =>
   logger.createLogger(component);
 
 // Utility functions for direct use (for backwards compatibility)
-export let debugLog = (message: string, ...args: unknown[]): void =>
+export const debugLog = (message: string, ...args: unknown[]): void =>
   logger.debug(message, ...args);
-export let infoLog = (message: string, ...args: unknown[]): void =>
+export const infoLog = (message: string, ...args: unknown[]): void =>
   logger.info(message, ...args);
-export let warnLog = (message: string, ...args: unknown[]): void =>
+export const warnLog = (message: string, ...args: unknown[]): void =>
   logger.warn(message, ...args);
-export let errorLog = (message: string, ...args: unknown[]): void =>
+export const errorLog = (message: string, ...args: unknown[]): void =>
   logger.error(message, ...args);

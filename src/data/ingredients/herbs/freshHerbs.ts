@@ -266,6 +266,6 @@ const rawFreshHerbs: Record<string, Partial<IngredientMapping>> = {
   // More herbs would be added here...
 };
 
-export let freshHerbs = fixIngredientMappings(rawFreshHerbs);
+export const freshHerbs = fixIngredientMappings(rawFreshHerbs);
 
 export default freshHerbs;

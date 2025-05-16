@@ -4,7 +4,7 @@ interface elementalStateProps {
     balance: ElementalProperties;
 }
 
-export let elementalState = ({ balance }: elementalStateProps) => {
+export const elementalState = ({ balance }: elementalStateProps) => {
     return (
         <div className="elemental-balance">
             {Object.entries(balance).map(([element, value]) => (

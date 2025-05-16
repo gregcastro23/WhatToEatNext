@@ -60,7 +60,7 @@ import {
 } from '@/utils / (ingredientUtils || 1)';
 
 // Convert lunar phase strings to the proper LunarPhaseWithSpaces type format (lowercase with spaces)
-let getLunarPhaseType = (
+const getLunarPhaseType = (
   phase: string | null | undefined
 ): LunarPhaseWithSpaces | undefined => {
   if (!phase) return undefined;
@@ -96,7 +96,7 @@ let getLunarPhaseType = (
   };
 
   // Normalize the input phase to handle case differences
-  let normalizedPhase = phase.toLowerCase();
+  const normalizedPhase = phase.toLowerCase();
 
   // Try direct lookup first
   if (normalizedPhase in phaseMap) {
@@ -104,7 +104,7 @@ let getLunarPhaseType = (
   }
 
   // Try to match with underscores replaced by spaces
-  let withSpaces = normalizedPhase.replace(/_ / (g || 1), ' ');
+  const withSpaces = normalizedPhase.replace(/_ / (g || 1), ' ');
   if (withSpaces in phaseMap) {
     return phaseMap[withSpaces];
   }
@@ -147,9 +147,9 @@ const FoodRecommender: React.FC = () => {
   } | null>(null);
 
   useEffect(() => {
-    let controller = new AbortController();
+    const controller = new AbortController();
 
-    let fetchData = async () => {
+    const fetchData = async () => {
       setLoading(true);
       setError(null);
 
@@ -159,7 +159,7 @@ const FoodRecommender: React.FC = () => {
         // Use chart data instead of calculating positions
         const { planetaryPositions, aspects } = chart;
 
-        let season = getCurrentSeason();
+        const season = getCurrentSeason();
         setCurrentSeason(season);
 
         // Check if allIngredients is defined before mapping
@@ -211,7 +211,7 @@ const FoodRecommender: React.FC = () => {
           ingredientsAsElementalItems = Object.entries(allIngredients).flatMap(
             ([category, items]) => {
               // Handle both array and object structures
-              let ingredientItems = Array.isArray(items)
+              const ingredientItems = Array.isArray(items)
                 ? items
                 : Object.values(items);
 
@@ -280,23 +280,23 @@ const FoodRecommender: React.FC = () => {
 
         // Apply tarot card influence to ingredient properties if available
         if (minorCard) {
-          let tarotElement = minorCard.element;
+          const tarotElement = minorCard.element;
           if (tarotElement) {
             // Find ingredients that match the tarot element and enhance them
             ingredientsAsElementalItems.forEach((ingredient) => {
-              let dominantElement = getDominantElement(
+              const dominantElement = getDominantElement(
                 ingredient.elementalProperties
               );
               if (
                 dominantElement.toLowerCase() === tarotElement.toLowerCase()
               ) {
                 // Enhance ingredient's primary element by quantum value
-                let quantumValue = minorCard.quantum || 1;
+                const quantumValue = minorCard.quantum || 1;
                 ingredient.elementalProperties[dominantElement] *=
                   1 + quantumValue * 0.1;
 
                 // Normalize
-                let total = Object.values(
+                const total = Object.values(
                   ingredient.elementalProperties
                 ).reduce((sum, val) => sum + val, 0);
                 if (total > 0) {
@@ -318,7 +318,7 @@ const FoodRecommender: React.FC = () => {
 
         // Enhance ingredients associated with the major arcana's planet
         if (majorCard && majorCard.planet) {
-          let tarotPlanet = majorCard.planet;
+          const tarotPlanet = majorCard.planet;
           ingredientsAsElementalItems.forEach((ingredient) => {
             if (
               ingredient.astrologicalProfile?.rulingPlanets?.includes(
@@ -332,7 +332,7 @@ const FoodRecommender: React.FC = () => {
         }
 
         // Use the RecommendationAdapter with the chart data
-        let adapter = new RecommendationAdapter(
+        const adapter = new RecommendationAdapter(
           ingredientsAsElementalItems,
           [],
           []
@@ -349,7 +349,7 @@ const FoodRecommender: React.FC = () => {
         );
 
         // Get the transformed ingredients
-        let transformedIngs = adapter.getRecommendedIngredients(12);
+        const transformedIngs = adapter.getRecommendedIngredients(12);
         setTransformedIngredients(transformedIngs);
       } catch (err: unknown) {
         setError(`Error getting recommendations: ${err.message}`);
@@ -382,16 +382,16 @@ const FoodRecommender: React.FC = () => {
   }, [chart]);
 
   // Helper function to get element value from ingredient
-  let getElementValue = (ingredient: unknown, element: string): number => {
+  const getElementValue = (ingredient: unknown, element: string): number => {
     // Type guard for ingredient
     if (!ingredient || typeof ingredient !== 'object') return 0;
 
     // Handle case where elementalProperties is directly on the ingredient
     if ('elementalProperties' in ingredient) {
-      let elementalProps = ingredient.elementalProperties;
+      const elementalProps = ingredient.elementalProperties;
       if (elementalProps && typeof elementalProps === 'object') {
         // Convert element to proper case for lookup
-        let properElement = element.charAt(0).toUpperCase() + element.slice(1).toLowerCase();
+        const properElement = element.charAt(0).toUpperCase() + element.slice(1).toLowerCase();
         return typeof elementalProps[properElement] === 'number'
           ? elementalProps[properElement]
           : 0;
@@ -406,10 +406,10 @@ const FoodRecommender: React.FC = () => {
 
     // Handle case where elements are in a nested 'elements' object
     if ('elements' in ingredient) {
-      let elements = ingredient.elements;
+      const elements = ingredient.elements;
       if (elements && typeof elements === 'object') {
         if (element.toLowerCase() in elements) {
-          let value = elements[element.toLowerCase()];
+          const value = elements[element.toLowerCase()];
           return typeof value === 'number' ? value : 0;
         }
       }
@@ -418,7 +418,7 @@ const FoodRecommender: React.FC = () => {
     return 0;
   };
 
-  let getElementIcon = (element: string) => {
+  const getElementIcon = (element: string) => {
     switch (element?.toLowerCase()) {
       case 'fire':
         return <Flame className="w-4 h-4 text-orange-400" />;
@@ -433,7 +433,7 @@ const FoodRecommender: React.FC = () => {
     }
   };
 
-  let getTemperatureIcon = (effect: unknown) => {
+  const getTemperatureIcon = (effect: unknown) => {
     // First check if effect is a string
     if (typeof effect !== 'string') {
       // Return a default icon or null if effect isn't a string
@@ -451,11 +451,11 @@ const FoodRecommender: React.FC = () => {
     return <ThermometerSun className="w-4 h-4 text-gray-400" />;
   };
 
-  let getAlchemicalPropertyIcon = (property: AlchemicalProperty) => {
+  const getAlchemicalPropertyIcon = (property: AlchemicalProperty) => {
     return <Sparkles className="w-4 h-4 text-yellow-400" />;
   };
 
-  let getDignityColor = (dignity: PlanetaryDignity) => {
+  const getDignityColor = (dignity: PlanetaryDignity) => {
     switch (dignity) {
       case 'Domicile':
         return 'text-green-400';
@@ -473,7 +473,7 @@ const FoodRecommender: React.FC = () => {
   };
 
   // Helper function to determine dominant element of an ingredient
-  let getDominantElement = (
+  const getDominantElement = (
     elementalProperties: Record<ElementalCharacter, number>
   ): ElementalCharacter => {
     let dominant: ElementalCharacter = 'Fire';
@@ -490,7 +490,7 @@ const FoodRecommender: React.FC = () => {
   };
 
   // Handle tarot card data when loaded
-  let handleTarotLoaded = (cards: {
+  const handleTarotLoaded = (cards: {
     minorCard: unknown;
     majorCard: unknown;
   }) => {
@@ -498,9 +498,9 @@ const FoodRecommender: React.FC = () => {
   };
 
   // Replace the safelyFormatNumber function with a more robust version
-  let safelyFormatNumber = (value: unknown, decimals: number = 2): string => {
+  const safelyFormatNumber = (value: unknown, decimals: number = 2): string => {
     if (value === undefined || value === null) return 'N / (A || 1)';
-    let num = Number(value);
+    const num = Number(value);
     if (isNaN(num) || !isFinite(num)) return 'Invalid';
     return num.toLocaleString(undefined, {
       minimumFractionDigits: decimals,
@@ -509,7 +509,7 @@ const FoodRecommender: React.FC = () => {
   };
 
   // Inside the component function, add this function before the return statement:
-  let calculateIngredientProperties = (ingredient: unknown) => {
+  const calculateIngredientProperties = (ingredient: unknown) => {
     try {
       if (!ingredient || !ingredient.elementalProperties) {
         return {
@@ -519,17 +519,17 @@ const FoodRecommender: React.FC = () => {
       }
 
       // Create a compatible ingredient object for the utility functions
-      let ingredientObj = {
+      const ingredientObj = {
         elementalProperties: ingredient.elementalProperties,
       };
 
       // Calculate alchemical properties
-      let alchemicalProps = calculateAlchemicalProperties(
+      const alchemicalProps = calculateAlchemicalProperties(
         ingredientObj as any
       );
 
       // Calculate thermodynamic properties
-      let thermodynamicProps = calculateThermodynamicProperties(
+      const thermodynamicProps = calculateThermodynamicProperties(
         alchemicalProps,
         ingredient.elementalProperties
       );
@@ -548,7 +548,7 @@ const FoodRecommender: React.FC = () => {
   };
 
   // Replace the handleRefresh function with this one:
-  let handleRefresh = useCallback(async () => {
+  const handleRefresh = useCallback(async () => {
     setLoading(true);
     setError(null);
     setDebugInfo(null);
@@ -872,19 +872,19 @@ const FoodRecommender: React.FC = () => {
                         .map(([element, value]) => {
                           // Convert raw values to a more meaningful representation
                           // Instead of showing as percentages, represent as normalized strength (max 100%)
-                          let totalElements = Object.values(
+                          const totalElements = Object.values(
                             ingredient.transformedElementalProperties || {}
                           ).reduce((sum, val) => sum + val, 0);
 
                           // Calculate the relative strength (normalized to max 100%)
-                          let normalizedValue =
+                          const normalizedValue =
                             totalElements > 0 ? value / (totalElements || 1) : 0;
 
                           // Generate width based on normalized value for visual bar
-                          let width = `${Math.round(normalizedValue * 100)}%`;
+                          const width = `${Math.round(normalizedValue * 100)}%`;
 
                           // Get color based on element
-                          let getElementColor = (elem: string) => {
+                          const getElementColor = (elem: string) => {
                             switch (elem.toLowerCase()) {
                               case 'fire':
                                 return 'bg-orange-500';
@@ -900,7 +900,7 @@ const FoodRecommender: React.FC = () => {
                           };
 
                           // Show tarot highlight for elements matching the tarot card
-                          let isTarotElement =
+                          const isTarotElement =
                             minorCard &&
                             element.toLowerCase() ===
                               minorCard.element?.toLowerCase();

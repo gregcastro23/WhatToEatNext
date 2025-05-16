@@ -1300,6 +1300,6 @@ const rawPoultry: Record<string, Partial<IngredientMapping>> = {
 export const poultry: Record<string, IngredientMapping> = fixIngredientMappings(rawPoultry);
 
 // Create a collection of all poultry items
-export let allPoultry = Object.values(poultry);
+export const allPoultry = Object.values(poultry);
 
 export default poultry;

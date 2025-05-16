@@ -38,7 +38,7 @@ const ElementalEnergyDisplay: React.FC<ElementalEnergyDisplayProps> = ({
   }, [planetaryPositions, isDaytime, showDebug]); // Only update when these dependencies change
 
   // Memoize the calculation to avoid recalculating unnecessarily
-  let calculateEnergies = useCallback(() => {
+  const calculateEnergies = useCallback(() => {
     if (!planetaryPositions || Object.keys(planetaryPositions).length === 0) {
       // console.log('No planetary positions available');
       return [];
@@ -46,7 +46,7 @@ const ElementalEnergyDisplay: React.FC<ElementalEnergyDisplayProps> = ({
 
     try {
       // Use the cache utility to prevent redundant calculations
-      let result = getCachedCalculation(
+      const result = getCachedCalculation(
         'elementalEnergies',
         { positions: planetaryPositions, isDaytime },
         () => calculateElementalEnergies(planetaryPositions, isDaytime)
@@ -72,7 +72,7 @@ const ElementalEnergyDisplay: React.FC<ElementalEnergyDisplayProps> = ({
       return;
     }
 
-    let newEnergies = calculateEnergies();
+    const newEnergies = calculateEnergies();
 
     // Only update state if energies have changed
     if (!isEqual(energies, newEnergies)) {
@@ -84,7 +84,7 @@ const ElementalEnergyDisplay: React.FC<ElementalEnergyDisplayProps> = ({
   }, [planetaryPositions, isDaytime, calculateEnergies, showDebug]); // Removed energies and lastPositions from dependencies
 
   // Memoize the sorted energies array
-  let sortedEnergies = useMemo(() => {
+  const sortedEnergies = useMemo(() => {
     return [...energies].sort((a, b) => b.strength - a.strength);
   }, [energies]);
 

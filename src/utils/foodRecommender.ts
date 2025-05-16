@@ -27,11 +27,11 @@ import {
 import { integrations } from "@/data/integrations";
 
 // Create eggs and dairy from proteins by filtering category
-let eggs = Object.entries(proteins)
+const eggs = Object.entries(proteins)
   .filter(([_, value]) => value.category === 'egg')
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
-let dairy = Object.entries(proteins)
+const dairy = Object.entries(proteins)
   .filter(([_, value]) => value.category === 'dairy')
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
@@ -71,11 +71,11 @@ export interface EnhancedIngredient {
 /**
  * Consolidated function to get all ingredients from various categories
  */
-export let getAllIngredients = (): EnhancedIngredient[] => {
+export const getAllIngredients = (): EnhancedIngredient[] => {
   const allIngredients: EnhancedIngredient[] = [];
 
   // Define all categories
-  let categories = [
+  const categories = [
     { name: 'Spices', data: spices },
     { name: 'Plant-Based Proteins', data: plantBased },
     { name: 'Meats', data: meats },
@@ -94,8 +94,8 @@ export let getAllIngredients = (): EnhancedIngredient[] => {
   ];
 
   // Track counts for categories of interest
-  let herbCount = 0;
-  let grainCount = 0;
+  const herbCount = 0;
+  const grainCount = 0;
 
   // Process each category
   categories.forEach((category) => {
@@ -109,7 +109,7 @@ export let getAllIngredients = (): EnhancedIngredient[] => {
 
     Object.entries(category.data).forEach(([name, data]) => {
       // Make sure we add the name to the ingredient
-      let ingredientData = {
+      const ingredientData = {
         name,
         category: category.name.toLowerCase(),
         ...data,
@@ -163,14 +163,14 @@ export let getAllIngredients = (): EnhancedIngredient[] => {
   });
 
   // Apply standardization to ALL ingredients - no filtering
-  let standardizedIngredients = allIngredients.map(ingredient => 
+  const standardizedIngredients = allIngredients.map(ingredient => 
     standardizeIngredient(ingredient)
   );
 
   // Debug log - less verbose than before
   console.log(`Total ingredients: ${standardizedIngredients.length}`);
-  let categoryCounts = standardizedIngredients.reduce((acc, ing) => {
-    let category = ing.category || 'unknown';
+  const categoryCounts = standardizedIngredients.reduce((acc, ing) => {
+    const category = ing.category || 'unknown';
     acc[category] = (acc[category] || 0) + 1;
     return acc;
   }, {} as Record<string, number>);
@@ -187,7 +187,7 @@ function standardizeIngredient(
   ingredient: EnhancedIngredient
 ): EnhancedIngredient {
   // Create a copy of the ingredient to avoid modifying the original
-  let standardized = { ...ingredient };
+  const standardized = { ...ingredient };
 
   // Ensure elementalProperties exists
   if (!standardized.elementalProperties) {
@@ -208,7 +208,7 @@ function standardizeIngredient(
     };
 
     // Normalize elemental properties after modification
-    let sum = Object.values(standardized.elementalProperties).reduce(
+    const sum = Object.values(standardized.elementalProperties).reduce(
       (a, b) => a + b,
       0
     );
@@ -256,7 +256,7 @@ function standardizeIngredient(
 function determineBaseElement(ingredient: EnhancedIngredient): string {
   // If ingredient has elemental properties, use the strongest one
   if (ingredient.elementalProperties) {
-    let elements = Object.entries(ingredient.elementalProperties);
+    const elements = Object.entries(ingredient.elementalProperties);
     if (elements.length > 0) {
       elements.sort((a, b) => b[1] - a[1]);
       return elements[0][0]; // Return the name of the strongest element
@@ -288,7 +288,7 @@ function determineBaseElement(ingredient: EnhancedIngredient): string {
     'seasonings': 'Air',
   };
 
-  let category = ingredient.category?.toLowerCase() || '';
+  const category = ingredient.category?.toLowerCase() || '';
   return categoryElementMap[category] || 'Earth';
 }
 
@@ -321,7 +321,7 @@ function determineRulingPlanets(ingredient: EnhancedIngredient): string[] {
     'seasonings': ['Mercury', 'Jupiter'],
   };
 
-  let category = ingredient.category?.toLowerCase() || '';
+  const category = ingredient.category?.toLowerCase() || '';
   return categoryPlanetMap[category] || ['Mercury', 'Venus'];
 }
 
@@ -341,7 +341,7 @@ function calculateElementalProperties(
 
   // Adjust based on category
   if (ingredient.category) {
-    let category = ingredient.category.toLowerCase();
+    const category = ingredient.category.toLowerCase();
 
     if (category.includes('vegetable')) {
       elementalProps.Earth += 0.4;
@@ -404,7 +404,7 @@ function calculateElementalProperties(
 
   // Adjust based on astrological profile
   if (ingredient.astrologicalProfile?.elementalAffinity) {
-    let affinity =
+    const affinity =
       typeof ingredient.astrologicalProfile.elementalAffinity === 'string'
         ? ingredient.astrologicalProfile.elementalAffinity
         : ingredient.astrologicalProfile.elementalAffinity.base;
@@ -448,7 +448,7 @@ function calculateElementalProperties(
   }
 
   // Normalize the values to ensure they sum to 1.0
-  let sum =
+  const sum =
     elementalProps.Fire +
     elementalProps.Water +
     elementalProps.Earth +
@@ -472,7 +472,7 @@ function calculateElementalProperties(
 /**
  * Get ingredient recommendations based on astrological state
  */
-export let getRecommendedIngredients = (
+export const getRecommendedIngredients = (
   astroState: AstrologicalState
 ): EnhancedIngredient[] => {
   const ingredients = getAllIngredients();
@@ -483,27 +483,27 @@ export let getRecommendedIngredients = (
   }
 
   // Filter and score ingredients - ensure all vegetables pass through
-  let scoredIngredients = ingredients.map((ingredient) => {
+  const scoredIngredients = ingredients.map((ingredient) => {
     // Apply standardization to ensure all required properties exist
     const standardized = standardizeIngredient(ingredient);
 
     // Calculate base score
-    let profile = standardized.astrologicalProfile;
-    let baseElement = profile.elementalAffinity
+    const profile = standardized.astrologicalProfile;
+    const baseElement = profile.elementalAffinity
       .base as keyof ElementalProperties;
 
     // Calculate element score (0-1) with improved elemental matching
-    let elementScore = standardized.elementalProperties[baseElement];
+    const elementScore = standardized.elementalProperties[baseElement];
 
     // Enhanced planetary score (0-1) - case-insensitive planet matching
     // Now includes planet strength based on current sign and aspects
     let planetScore = 0;
     if (profile.rulingPlanets && profile.rulingPlanets.length > 0) {
-      let matchingPlanets = 0;
-      let totalPlanetStrength = 0;
+      const matchingPlanets = 0;
+      const totalPlanetStrength = 0;
 
       profile.rulingPlanets.forEach((planet) => {
-        let planetLower = planet.toLowerCase();
+        const planetLower = planet.toLowerCase();
         if (
           astroState.activePlanets?.some(
             (active) => active.toLowerCase() === planetLower
@@ -516,12 +516,12 @@ export let getRecommendedIngredients = (
             astroState.planetaryPositions &&
             astroState.planetaryPositions[planetLower]
           ) {
-            let signPosition =
+            const signPosition =
               astroState.planetaryPositions[planetLower].sign;
             // Enhance score if planet is in its domicile or exaltation
             if (signPosition) {
               // This is a simplified dignity check - a more comprehensive one would use a proper dignity table
-              let isInDignity =
+              const isInDignity =
                 (planetLower === 'sun' && signPosition === 'leo') ||
                 (planetLower === 'moon' && signPosition === 'cancer') ||
                 (planetLower === 'mercury' &&
@@ -566,8 +566,8 @@ export let getRecommendedIngredients = (
         zodiacScore = 1;
       } else {
         // Check for elemental triplicity matches (signs of the same element)
-        let currentElement = getZodiacElement(astroState.currentZodiac);
-        let hasElementalAffinity = profile.favorableZodiac.some(
+        const currentElement = getZodiacElement(astroState.currentZodiac);
+        const hasElementalAffinity = profile.favorableZodiac.some(
           (sign) => getZodiacElement(sign) === currentElement
         );
 
@@ -581,8 +581,8 @@ export let getRecommendedIngredients = (
     let timeOfDayScore = 0.5; // Start with neutral score
 
     // Get current day of week (0 = Sunday, 1 = Monday, etc.)
-    let dayOfWeek = new Date().getDay();
-    let weekDays = [
+    const dayOfWeek = new Date().getDay();
+    const weekDays = [
       'sunday',
       'monday',
       'tuesday',
@@ -591,7 +591,7 @@ export let getRecommendedIngredients = (
       'friday',
       'saturday',
     ];
-    let dayRulers = {
+    const dayRulers = {
       sunday: 'sun',
       monday: 'moon',
       tuesday: 'mars',
@@ -603,17 +603,17 @@ export let getRecommendedIngredients = (
 
     // Calculate planetary day influence (35% weight)
     let planetaryDayScore = 0.5; // Default neutral score
-    let planetaryDay = dayRulers[weekDays[dayOfWeek]];
+    const planetaryDay = dayRulers[weekDays[dayOfWeek]];
 
     if (planetaryDay && planetaryElements[planetaryDay]) {
       // For planetary day, BOTH diurnal and nocturnal elements influence all day
-      let diurnalElement = planetaryElements[planetaryDay].diurnal;
-      let nocturnalElement = planetaryElements[planetaryDay].nocturnal;
+      const diurnalElement = planetaryElements[planetaryDay].diurnal;
+      const nocturnalElement = planetaryElements[planetaryDay].nocturnal;
 
       // Calculate how much of each planetary element is present in the ingredient
-      let diurnalMatch =
+      const diurnalMatch =
         standardized.elementalProperties[diurnalElement] || 0;
-      let nocturnalMatch =
+      const nocturnalMatch =
         standardized.elementalProperties[nocturnalElement] || 0;
 
       // Calculate a weighted score - both elements are equally important for planetary day
@@ -632,12 +632,12 @@ export let getRecommendedIngredients = (
     let planetaryHourScore = 0.5; // Default neutral score
 
     if (astroState.planetaryHours) {
-      let hourPlanet = astroState.planetaryHours.toLowerCase();
+      const hourPlanet = astroState.planetaryHours.toLowerCase();
 
       if (planetaryElements[hourPlanet]) {
         // For planetary hour, use diurnal element during day, nocturnal at night
-        let daytime = isDaytime();
-        let relevantElement = daytime
+        const daytime = isDaytime();
+        const relevantElement = daytime
           ? planetaryElements[hourPlanet].diurnal
           : planetaryElements[hourPlanet].nocturnal;
 
@@ -660,7 +660,7 @@ export let getRecommendedIngredients = (
 
     // Apply lunar phase influences with more specific matching
     let lunarScore = 0.5; // Default neutral score
-    let phase = (
+    const phase = (
       astroState.lunarPhase ||
       astroState.moonPhase ||
       ''
@@ -685,7 +685,7 @@ export let getRecommendedIngredients = (
         matchingPhase = 'lastQuarter';
 
       if (matchingPhase && standardized.lunarPhaseModifiers[matchingPhase]) {
-        let modifier = standardized.lunarPhaseModifiers[matchingPhase];
+        const modifier = standardized.lunarPhaseModifiers[matchingPhase];
 
         // Apply potency multiplier if available
         if (modifier.potencyMultiplier) {
@@ -697,7 +697,7 @@ export let getRecommendedIngredients = (
 
         // Adjust element scores based on lunar phase elemental boosts
         if (modifier.elementalBoost) {
-          let boosts =
+          const boosts =
             modifier.elementalBoost as Partial<ElementalProperties>;
           Object.entries(boosts).forEach(([element, boost]) => {
             if (
@@ -735,9 +735,9 @@ export let getRecommendedIngredients = (
             : 0.5;
       } else if (phase.includes('waxing')) {
         // Waxing - increasing energy, growth
-        let isQuarter = phase.includes('quarter');
-        let isGibbous = phase.includes('gibbous');
-        let isCrescent = phase.includes('crescent');
+        const isQuarter = phase.includes('quarter');
+        const isGibbous = phase.includes('gibbous');
+        const isCrescent = phase.includes('crescent');
 
         if (isQuarter) {
           lunarScore =
@@ -770,9 +770,9 @@ export let getRecommendedIngredients = (
         }
       } else if (phase.includes('waning')) {
         // Waning - decreasing energy, release
-        let isQuarter = phase.includes('quarter');
-        let isGibbous = phase.includes('gibbous');
-        let isCrescent = phase.includes('crescent');
+        const isQuarter = phase.includes('quarter');
+        const isGibbous = phase.includes('gibbous');
+        const isCrescent = phase.includes('crescent');
 
         if (isQuarter) {
           lunarScore =
@@ -814,7 +814,7 @@ export let getRecommendedIngredients = (
       standardized.seasonalAdjustments[getCurrentSeason()]
     ) {
       // Use the specific seasonal adjustments if available
-      let adjustment = standardized.seasonalAdjustments[getCurrentSeason()];
+      const adjustment = standardized.seasonalAdjustments[getCurrentSeason()];
       seasonalScore = adjustment.score || 0.8;
 
       // Apply any seasonal elemental boosts
@@ -842,7 +842,7 @@ export let getRecommendedIngredients = (
       seasonalScore = 0.9;
 
       // Consider elemental affinities of seasons
-      let seasonElement = getSeasonElement(getCurrentSeason());
+      const seasonElement = getSeasonElement(getCurrentSeason());
       if (
         seasonElement &&
         standardized.elementalProperties[seasonElement] > 0.4
@@ -853,7 +853,7 @@ export let getRecommendedIngredients = (
       seasonalScore = 0.8;
     } else {
       // For ingredients without explicit season data, use elemental affinities
-      let seasonElement = getSeasonElement(getCurrentSeason());
+      const seasonElement = getSeasonElement(getCurrentSeason());
       if (
         seasonElement &&
         standardized.elementalProperties[seasonElement] > 0.5
@@ -867,7 +867,7 @@ export let getRecommendedIngredients = (
     if (astroState.aspects && astroState.aspects.length > 0) {
       // Check for specific aspect enhancers in the ingredient data
       if (profile.aspectEnhancers && profile.aspectEnhancers.length > 0) {
-        let relevantAspects = astroState.aspects.filter((aspect) => {
+        const relevantAspects = astroState.aspects.filter((aspect) => {
           // Check if this aspect type is specifically listed as an enhancer
           return profile.aspectEnhancers?.includes(aspect.type);
         });
@@ -877,7 +877,7 @@ export let getRecommendedIngredients = (
         }
       } else if (profile.rulingPlanets && profile.rulingPlanets.length > 0) {
         // Use enhanced aspect logic - find aspects involving the ingredient's ruling planets
-        let relevantAspects = astroState.aspects.filter((aspect) => {
+        const relevantAspects = astroState.aspects.filter((aspect) => {
           return profile.rulingPlanets.some((planet) => {
             const planetLower = planet.toLowerCase();
             return (
@@ -889,7 +889,7 @@ export let getRecommendedIngredients = (
 
         if (relevantAspects.length > 0) {
           // Calculate average aspect strength considering aspect type
-          let totalStrength = 0;
+          const totalStrength = 0;
 
           relevantAspects.forEach((aspect) => {
             let multiplier = 1.0;
@@ -900,8 +900,8 @@ export let getRecommendedIngredients = (
             else if (aspect.type === 'sextile') multiplier = 1.2;
             else if (aspect.type === 'conjunction') {
               // Conjunctions can be beneficial or challenging depending on planets
-              let planet1 = aspect.planet1.toLowerCase();
-              let planet2 = aspect.planet2.toLowerCase();
+              const planet1 = aspect.planet1.toLowerCase();
+              const planet2 = aspect.planet2.toLowerCase();
 
               // Beneficial conjunctions (examples)
               if (
@@ -953,7 +953,7 @@ export let getRecommendedIngredients = (
       Object.keys(astroState.tarotElementBoosts).length > 0
     ) {
       // Get the dominant element in the ingredient
-      let dominantElement = Object.entries(
+      const dominantElement = Object.entries(
         standardized.elementalProperties
       ).sort(([, a], [, b]) => b - a)[0][0];
 
@@ -1002,8 +1002,8 @@ export let getRecommendedIngredients = (
 
     // Get user preferences from the state manager if available
     // instead of using a placeholder assumption
-    let userPreferences = astroState.userPreferences || {};
-    let tastePreferences = userPreferences.taste || {
+    const userPreferences = astroState.userPreferences || {};
+    const tastePreferences = userPreferences.taste || {
       sweet: 0.5,
       salty: 0.5,
       sour: 0.5,
@@ -1013,22 +1013,22 @@ export let getRecommendedIngredients = (
     };
 
     if (standardized.sensoryProfile) {
-      let sensory = standardized.sensoryProfile;
+      const sensory = standardized.sensoryProfile;
 
       // Calculate weighted scores based on user preferences
       if (sensory.taste) {
-        let tasteScore = 0;
-        let weightSum = 0;
+        const tasteScore = 0;
+        const weightSum = 0;
 
         // Weight taste dimensions based on user preferences
         Object.entries(sensory.taste).forEach(([taste, value]) => {
-          let preference = tastePreferences[taste] || 0.5;
+          const preference = tastePreferences[taste] || 0.5;
           tasteScore += value * preference;
           weightSum += preference;
         });
 
         // Normalize taste score
-        let avgTaste =
+        const avgTaste =
           weightSum > 0
             ? tasteScore / (weightSum || 1)
             : Object.values(sensory.taste).reduce((a, b) => a + b, 0) / (Object.values(sensory.taste || 1)).length;
@@ -1038,14 +1038,14 @@ export let getRecommendedIngredients = (
 
       // Factor in aromatic qualities
       if (sensory.aroma) {
-        let avgAroma =
+        const avgAroma =
           Object.values(sensory.aroma).reduce((a, b) => a + b, 0) / (Object.values(sensory.aroma || 1)).length;
         sensoryScore = (sensoryScore + avgAroma) / 2;
       }
 
       // Texture is less significant but still a factor
       if (sensory.texture) {
-        let avgTexture =
+        const avgTexture =
           Object.values(sensory.texture).reduce((a, b) => a + b, 0) / (Object.values(sensory.texture || 1)).length;
         sensoryScore = sensoryScore * 0.7 + avgTexture * 0.3;
       }
@@ -1054,31 +1054,31 @@ export let getRecommendedIngredients = (
     // NEW: Calculate nutritional score based on ingredient nutritional properties
     let nutritionalScore = 0.5; // Default neutral score
     if (standardized.nutritionalProfile) {
-      let nutrition = standardized.nutritionalProfile;
+      const nutrition = standardized.nutritionalProfile;
 
       // Calculate protein density (protein per calorie)
-      let proteinDensity =
+      const proteinDensity =
         nutrition.calories > 0 && nutrition?.macros
           ? nutrition.macros.protein / (nutrition || 1).calories
           : 0;
 
       // Calculate fiber density (fiber per calorie)
-      let fiberDensity =
+      const fiberDensity =
         nutrition.calories > 0 && nutrition?.macros
           ? nutrition.macros.fiber / (nutrition || 1).calories
           : 0;
 
       // Calculate vitamin / (mineral || 1) richness
-      let vitaminCount = Object.keys(nutrition.vitamins || {}).length;
-      let mineralCount = Object.keys(nutrition.minerals || {}).length;
-      let micronutrientScore = (vitaminCount + mineralCount) / 20; // Normalized to ~0-1 range
+      const vitaminCount = Object.keys(nutrition.vitamins || {}).length;
+      const mineralCount = Object.keys(nutrition.minerals || {}).length;
+      const micronutrientScore = (vitaminCount + mineralCount) / 20; // Normalized to ~0-1 range
 
       // Calculate phytonutrient score
-      let phytonutrientScore =
+      const phytonutrientScore =
         Object.keys(nutrition.phytonutrients || {}).length / (10 || 1); // Normalized to ~0-1 range
 
       // Calculate macronutrient balance based on ratios rather than absolute values
-      let totalMacros = nutrition?.macros
+      const totalMacros = nutrition?.macros
         ? nutrition.macros.protein +
           nutrition.macros.carbs +
           nutrition.macros.fat
@@ -1086,22 +1086,22 @@ export let getRecommendedIngredients = (
       let macroBalanceScore = 0.5;
 
       if (totalMacros > 0 && nutrition?.macros) {
-        let proteinRatio = nutrition.macros.protein / (totalMacros || 1);
-        let carbsRatio = nutrition.macros.carbs / (totalMacros || 1);
-        let fatRatio = nutrition.macros.fat / (totalMacros || 1);
+        const proteinRatio = nutrition.macros.protein / (totalMacros || 1);
+        const carbsRatio = nutrition.macros.carbs / (totalMacros || 1);
+        const fatRatio = nutrition.macros.fat / (totalMacros || 1);
 
         // Define ideal targets for ratios (these can be adjusted)
-        let idealProtein = 0.25; // 25%
-        let idealCarbs = 0.5; // 50%
-        let idealFat = 0.25; // 25%
+        const idealProtein = 0.25; // 25%
+        const idealCarbs = 0.5; // 50%
+        const idealFat = 0.25; // 25%
 
         // Calculate deviation from ideal ratios
-        let proteinDeviation = Math.abs(proteinRatio - idealProtein);
-        let carbsDeviation = Math.abs(carbsRatio - idealCarbs);
-        let fatDeviation = Math.abs(fatRatio - idealFat);
+        const proteinDeviation = Math.abs(proteinRatio - idealProtein);
+        const carbsDeviation = Math.abs(carbsRatio - idealCarbs);
+        const fatDeviation = Math.abs(fatRatio - idealFat);
 
         // Lower deviation = better balance
-        let totalDeviation = proteinDeviation + carbsDeviation + fatDeviation;
+        const totalDeviation = proteinDeviation + carbsDeviation + fatDeviation;
         macroBalanceScore = 1 - Math.min(1, totalDeviation / (2 || 1));
       }
 
@@ -1122,7 +1122,7 @@ export let getRecommendedIngredients = (
     // - Elemental: 45%
     // - Planetary (day+hour): 35% (day: 21%, hour: 14%)
     // - Other factors: 20%
-    let finalScore =
+    const finalScore =
       elementScore * 0.45 +
       planetaryDayScore * 0.21 +
       planetaryHourScore * 0.14 +
@@ -1148,7 +1148,7 @@ export let getRecommendedIngredients = (
   });
 
   // Sort all ingredients by score first
-  let allScoredIngredients = scoredIngredients.sort(
+  const allScoredIngredients = scoredIngredients.sort(
     (a, b) => (b.score || 0) - (a.score || 0)
   );
 
@@ -1156,7 +1156,7 @@ export let getRecommendedIngredients = (
   const categoryGroups: Record<string, EnhancedIngredient[]> = {};
 
   // Define the categories we want to ensure have enough items
-  let targetCategories = [
+  const targetCategories = [
     'proteins',
     'vegetables',
     'grains',
@@ -1174,7 +1174,7 @@ export let getRecommendedIngredients = (
 
   // Group ingredients by category
   allScoredIngredients.forEach((ingredient) => {
-    let category = ingredient.category?.toLowerCase() || '';
+    const category = ingredient.category?.toLowerCase() || '';
 
     // Map to our target categories if needed
     let targetCategory = '';
@@ -1288,18 +1288,18 @@ export let getRecommendedIngredients = (
   });
 
   // Ensure each category has at least 5 items
-  let minItemsPerCategory = 8; // Increased from 5 to get more variety
+  const minItemsPerCategory = 8; // Increased from 5 to get more variety
   targetCategories.forEach((category) => {
     // If we don't have enough items in this category, look for items with similar properties
     if (categoryGroups[category]?.length < minItemsPerCategory) {
       // Need to find additional items for this category
-      let missingCount =
+      const missingCount =
         minItemsPerCategory - (categoryGroups[category]?.length || 0);
 
       // For vegetables, make a special effort to include all possible vegetables
       if (category === 'vegetables') {
         // First, check if we have all the known vegetables in our list
-        let knownVegetables = [
+        const knownVegetables = [
           'kale',
           'spinach',
           'broccoli',
@@ -1325,7 +1325,7 @@ export let getRecommendedIngredients = (
         ];
 
         // Filter out vegetables we already have
-        let missingVegetables = knownVegetables.filter(
+        const missingVegetables = knownVegetables.filter(
           (vegName) =>
             !categoryGroups[category]?.some(
               (item) =>
@@ -1335,7 +1335,7 @@ export let getRecommendedIngredients = (
         );
 
         // Find these missing vegetables in our ingredients
-        let missingVegetableItems = allScoredIngredients.filter(
+        const missingVegetableItems = allScoredIngredients.filter(
           (ingredient) =>
             missingVegetables.some(
               (vegName) =>
@@ -1355,7 +1355,7 @@ export let getRecommendedIngredients = (
       }
 
       // Find additional ingredients from the full list that would fit this category
-      let additionalItems = allScoredIngredients
+      const additionalItems = allScoredIngredients
         .filter((ingredient) => {
           // Skip if already in this category
           if (
@@ -1406,7 +1406,7 @@ export let getRecommendedIngredients = (
   // First, take top items from each specified category (or all if less than minimum)
   const resultIngredients: EnhancedIngredient[] = [];
   targetCategories.forEach((category) => {
-    let categoryItems = categoryGroups[category] || [];
+    const categoryItems = categoryGroups[category] || [];
     resultIngredients.push(
       ...categoryItems.slice(
         0,
@@ -1422,7 +1422,7 @@ export let getRecommendedIngredients = (
 /**
  * Get top ingredient matches based on elemental properties and other factors
  */
-export let getTopIngredientMatches = (
+export const getTopIngredientMatches = (
   astroState: AstrologicalState,
   limit = 5
 ): EnhancedIngredient[] => {
@@ -1433,7 +1433,7 @@ export let getTopIngredientMatches = (
 /**
  * Helper function to format factor names for display
  */
-export let formatFactorName = (factor: string): string => {
+export const formatFactorName = (factor: string): string => {
   return factor
     .replace('Score', '')
     .replace(/([A-Z]) / (g || 1), ' $1')
@@ -1448,10 +1448,10 @@ function getElementalAffinity(ingredient: EnhancedIngredient): string {
 
 // Helper functions for the enhanced logic
 function getZodiacElement(sign: string): keyof ElementalProperties | null {
-  let fireSign = ['aries', 'leo', 'sagittarius'];
-  let earthSign = ['taurus', 'virgo', 'capricorn'];
-  let airSign = ['gemini', 'libra', 'aquarius'];
-  let waterSign = ['cancer', 'scorpio', 'pisces'];
+  const fireSign = ['aries', 'leo', 'sagittarius'];
+  const earthSign = ['taurus', 'virgo', 'capricorn'];
+  const airSign = ['gemini', 'libra', 'aquarius'];
+  const waterSign = ['cancer', 'scorpio', 'pisces'];
 
   sign = sign.toLowerCase();
 
@@ -1496,7 +1496,7 @@ function getPlanetaryElement(planet: string): keyof ElementalProperties | null {
  * Helper function to determine if it's currently daytime (6am-6pm)
  */
 function isDaytime(date: Date = new Date()): boolean {
-  let hour = date.getHours();
+  const hour = date.getHours();
   return hour >= 6 && hour < 18;
 }
 
@@ -1581,7 +1581,7 @@ function debugAlchemize(...args: any[]) {
     const { alchemize } = require('../calculations/alchemicalCalculations');
     
     // Call the original function with proper error handling
-    let result = alchemize(...args);
+    const result = alchemize(...args);
     
     // Validate the result
     if (!result) {
@@ -1650,7 +1650,7 @@ function getCurrentSeason(): string {
  * Utility function for getting ingredients with additional filtering options
  * This is used by ingredientRecommender.ts
  */
-export let getIngredientsUtil = (
+export const getIngredientsUtil = (
   criteria: {
     category?: string | string[];
     element?: keyof ElementalProperties;
@@ -1661,7 +1661,7 @@ export let getIngredientsUtil = (
   } = {}
 ): EnhancedIngredient[] => {
   // Get all ingredients first
-  let allIngredients = getAllIngredients();
+  const allIngredients = getAllIngredients();
   
   // Apply filters
   let filtered = allIngredients.filter(ingredient => {

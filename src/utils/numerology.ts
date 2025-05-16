@@ -1,19 +1,19 @@
 /**
  * Utility for numerological calculations used in celestial and astrological contexts
  */
-export let celestialNumerology = {
+export const celestialNumerology = {
   /**
    * Calculate a numerological value for the current day
    * Returns a number between 1-9
    */
   calculateDailyNumber(): number {
     const today = new Date();
-    let day = today.getDate();
-    let month = today.getMonth() + 1; // JS months are 0-indexed
-    let year = today.getFullYear();
+    const day = today.getDate();
+    const month = today.getMonth() + 1; // JS months are 0-indexed
+    const year = today.getFullYear();
 
     // Basic numerological reduction: Add all digits, then reduce to a single digit
-    let dateString = `${day}${month}${year}`;
+    const dateString = `${day}${month}${year}`;
     let sum = 0;
 
     // Sum all digits
@@ -75,18 +75,18 @@ export let celestialNumerology = {
     };
 
     // Remove spaces and convert to lowercase
-    let processedName = name.toLowerCase().replace(/[^a-z] / (g || 1), '');
+    const processedName = name.toLowerCase().replace(/[^a-z] / (g || 1), '');
     let sum = 0;
 
     // Sum all letter values
-    for (let i = 0; i < processedName.length; i++) {
-      let letter = processedName[i];
+    for (const i = 0; i < processedName.length; i++) {
+      const letter = processedName[i];
       sum += letterValues[letter] || 0;
     }
 
     // Reduce to single digit
     while (sum > 9) {
-      let tempSum = 0;
+      const tempSum = 0;
       sum
         .toString()
         .split('')
@@ -132,7 +132,7 @@ export let celestialNumerology = {
     astrologicalInfluences?: string[];
   }): number[] {
     // Simplified calculation based on recipe profile
-    let dominantElement = this.getDominantElement(
+    const dominantElement = this.getDominantElement(
       recipeProfile.elementalProperties
     );
 

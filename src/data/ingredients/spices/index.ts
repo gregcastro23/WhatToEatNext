@@ -6,7 +6,7 @@ import { CUISINE_TYPES } from '@/constants/cuisineTypes';
 import type { Ingredient } from '../types';
 
 // Normalize elemental properties to sum to 1
-let normalizeElementalProperties = (
+const normalizeElementalProperties = (
   properties: Record<string, number>
 ): Record<string, number> => {
   if (!properties) {
@@ -18,7 +18,7 @@ let normalizeElementalProperties = (
     };
   }
 
-  let sum = Object.values(properties).reduce((acc, val) => acc + val, 0);
+  const sum = Object.values(properties).reduce((acc, val) => acc + val, 0);
   if (sum === 0) {
     return {
       Fire: 0.25,
@@ -38,7 +38,7 @@ let normalizeElementalProperties = (
 };
 
 // Add heat levels based on Fire element proportion
-export let addHeatLevels = (
+export const addHeatLevels = (
   spices: Record<string, Ingredient>
 ): Record<string, Ingredient> => {
   return Object.entries(spices).reduce((acc, [key, spice]) => {
@@ -47,18 +47,18 @@ export let addHeatLevels = (
     );
 
     // Calculate heat level with more precision, based on Fire element with slight randomization
-    let baseHeatLevel = Math.round(normalizedProperties.Fire * 10);
-    let adjustedHeatLevel = Math.min(
+    const baseHeatLevel = Math.round(normalizedProperties.Fire * 10);
+    const adjustedHeatLevel = Math.min(
       10,
       Math.max(1, baseHeatLevel + (Math.random() < 0.5 ? -1 : 1))
     );
 
     // Calculate potency based on dominant element with some variation
-    let dominantElement = Object.entries(normalizedProperties).sort(
+    const dominantElement = Object.entries(normalizedProperties).sort(
       ([, a], [, b]) => b - a
     )[0][0];
-    let potencyBase = normalizedProperties[dominantElement] * 8;
-    let potency = Math.min(
+    const potencyBase = normalizedProperties[dominantElement] * 8;
+    const potency = Math.min(
       10,
       Math.max(1, Math.round(potencyBase + Math.random() * 2))
     );
@@ -336,7 +336,7 @@ Object.values(spices).forEach((spice) => {
 export { wholeSpices, groundSpices, spiceBlends };
 
 // Helper functions
-export let getSpicesBySubCategory = (
+export const getSpicesBySubCategory = (
   subCategory: string
 ): Record<string, IngredientMapping> => {
   return Object.entries(spices)
@@ -344,7 +344,7 @@ export let getSpicesBySubCategory = (
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 };
 
-export let getSpicesByOrigin = (
+export const getSpicesByOrigin = (
   origin: string
 ): Record<string, IngredientMapping> => {
   return Object.entries(spices)
@@ -356,7 +356,7 @@ export let getSpicesByOrigin = (
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 };
 
-export let getSpicesByElementalProperty = (
+export const getSpicesByElementalProperty = (
   element: string,
   minStrength: number = 0.3
 ): Record<string, IngredientMapping> => {
@@ -365,12 +365,12 @@ export let getSpicesByElementalProperty = (
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 };
 
-export let getSpiceBlendComponents = (blendName: string): string[] => {
+export const getSpiceBlendComponents = (blendName: string): string[] => {
   const blend = spiceBlends[blendName];
   return blend ? blend.baseIngredients : [];
 };
 
-export let getCompatibleSpices = (spiceName: string): string[] => {
+export const getCompatibleSpices = (spiceName: string): string[] => {
   const spice = spices[spiceName];
   if (!spice) return [];
 
@@ -385,7 +385,7 @@ export let getCompatibleSpices = (spiceName: string): string[] => {
     .map(([key, _]) => key);
 };
 
-export let getSubstitutions = (spiceName: string): string[] => {
+export const getSubstitutions = (spiceName: string): string[] => {
   const spice = spices[spiceName];
   if (!spice) return [];
 
@@ -403,7 +403,7 @@ export let getSubstitutions = (spiceName: string): string[] => {
     .map(([key, _]) => key);
 };
 
-export let getSpicesByPreparationMethod = (
+export const getSpicesByPreparationMethod = (
   method: string
 ): Record<string, IngredientMapping> => {
   return Object.entries(spices)
@@ -414,7 +414,7 @@ export let getSpicesByPreparationMethod = (
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 };
 
-export let getTraditionalBlends = (
+export const getTraditionalBlends = (
   region: string
 ): Record<string, IngredientMapping> => {
   return Object.entries(spiceBlends)
@@ -427,12 +427,12 @@ export let getTraditionalBlends = (
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 };
 
-export let getSpiceConversionRatio = (
+export const getSpiceConversionRatio = (
   fromSpice: string,
   toSpice: string
 ): string | null => {
   const source = spices[fromSpice];
-  let target = spices[toSpice];
+  const target = spices[toSpice];
 
   if (
     !source ||

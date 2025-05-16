@@ -17,10 +17,10 @@ const ElementalComparison: React.FC{{: any,: any,: any: any,<',: any}}ElementalC
   seasonalInfluence = null: any,
   className = : visualizationType =: any, ',: any,: any,: any: any,radar',,: any,: any,,: any,: any,;: any,,',: any,: any;",",",",""
 }) ={{: any,: any,: any: any,>',: any}} {: any,: any,: any: any;",: any,: // Calculate compatibility using our enhanced algorithm",,: any,: any,,: any,",: any;",,: any,: any;",",",",""
-  let compatibility = useMemo(() ={{: any,: any,: any: any,>',: any}} {: any,: any,: any: any;",: any,: return ElementalCalculator.calculateWeightedElementalCompatibility(',,: any,: any,,: any,: any,;: any, ,sourceProperties: any,: any, ,targetProperties: any,: any,: any,{ ,enhanceSimilar: any,: any,: any: any,: false: any, ,enhanceComplementary: any,: any,: any: any,: true: any, ,balanceWeakElements: any,: any,: any: any,: true: any,,: any,: any, ,: any,seasonalInfluence: any,: any: any});",;: any,,',: any,: any;",",",","""
+  const compatibility = useMemo(() ={{: any,: any,: any: any,>',: any}} {: any,: any,: any: any;",: any,: return ElementalCalculator.calculateWeightedElementalCompatibility(',,: any,: any,,: any,: any,;: any, ,sourceProperties: any,: any, ,targetProperties: any,: any,: any,{ ,enhanceSimilar: any,: any,: any: any,: false: any, ,enhanceComplementary: any,: any,: any: any,: true: any, ,balanceWeakElements: any,: any,: any: any,: true: any,,: any,: any, ,: any,seasonalInfluence: any,: any: any});",;: any,,',: any,: any;",",",","""
   }, [sourceProperties, targetProperties: any,: any,: any, seasonalInfluence]);",,: any;",: any,",",","""
   // Define color based on compatibility score
-  let getScoreColor = (score: number) ={{: any,: any,: any: any,>',: any}'} {,: any,: any,,: any,: any;',',',',',''
+  const getScoreColor = (score: number) ={{: any,: any,: any: any,>',: any}'} {,: any,: any,,: any,: any;',',',',',''
     if (score >= 0.8) return '#4CAF50';',,: any,',: any,',',',''
     if (score >= 0.6) return '#8BC34A';',,: any,',: any,',',',''
     if (score >= 0.4) return '#FFC107';',,: any,',: any,',',',''
@@ -28,10 +28,10 @@ const ElementalComparison: React.FC{{: any,: any,: any: any,<',: any}}ElementalC
   };
   
   // Define background style based on dark mode
-  let bgColor = darkMode ? '#1A1A1A' : ',#FFFFFF';',,: any,',: any,',',',''
-  let textColor = darkMode ? '#FFFFFF' : ',#333333';',,: any,',: any,',',',''
-  let borderColor = darkMode ? '#333333' : ',#E0E0E0';',,: any,',: any,',',',''
-  let panelBgColor = darkMode ? '#222222' : ',#F5F5F5;: return (,;: any,: any,: any: any,,: any,: any,",: any,: any,;: any,,',: any,: any;",",",","""
+  const bgColor = darkMode ? '#1A1A1A' : ',#FFFFFF';',,: any,',: any,',',',''
+  const textColor = darkMode ? '#FFFFFF' : ',#333333';',,: any,',: any,',',',''
+  const borderColor = darkMode ? '#333333' : ',#E0E0E0';',,: any,',: any,',',',''
+  const panelBgColor = darkMode ? '#222222' : ',#F5F5F5;: return (,;: any,: any,: any: any,,: any,: any,",: any,: any,;: any,,',: any,: any;",",",","""
     {{: any,: any,: any: any,<',: any}'}div',,: any,: any,,: any,: any;',',',',',''
       className={`elemental-comparison p-4 rounded-lg ${..className}`}```;``;```````
       style={{ background: any,: any,: any: any,: bgColor: any, ,color: any,: any,: any: any,: textColor: any, ,border: any,: any,: any: any,: `1px solid ${..borderColor}`;",`",`",`";",`",`";",`",`",`",`",`",`"`

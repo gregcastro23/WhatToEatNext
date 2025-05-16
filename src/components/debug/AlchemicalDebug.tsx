@@ -38,7 +38,7 @@ const AlchemicalDebug: React.FC = () => {
   const [ingredientLoading, setIngredientLoading] = useState(false);
   const [ingredientError, setIngredientError] = useState<string | null>(null);
 
-  let runTest = () => {
+  const runTest = () => {
     setLoading(true);
     setError(null);
 
@@ -55,13 +55,13 @@ const AlchemicalDebug: React.FC = () => {
     }
   };
   
-  let runIngredientTest = () => {
+  const runIngredientTest = () => {
     setIngredientLoading(true);
     setIngredientError(null);
 
     try {
       // Run the ingredient test and store results
-      let results = testIngredientRecommendations();
+      const results = testIngredientRecommendations();
       setIngredientTestResults({
         elementalProperties: results.elementalProperties,
         balancedRecommendations: results.balancedRecommendations?.slice(0, 5) || []

@@ -52,8 +52,8 @@ export function getCurrentDecan(
     const absoluteDegree = signStartDegree + sunPosition.degree;
 
     // Get the decan range (each has a 10 degree span)
-    let decanStart = Math.floor(absoluteDegree / 10) * 10;
-    let decanEnd = decanStart + 10;
+    const decanStart = Math.floor(absoluteDegree / 10) * 10;
+    const decanEnd = decanStart + 10;
 
     return `${decanStart}-${decanEnd}` as DecanKey;
   }
@@ -70,15 +70,15 @@ export function getCurrentDecan(
   const approxDegree = Math.floor((dayOfYear * 360) / 365);
 
   // Get the decan ranges (each has a 10 degree span)
-  let decanStart = Math.floor(approxDegree / 10) * 10;
-  let decanEnd = decanStart + 10;
+  const decanStart = Math.floor(approxDegree / 10) * 10;
+  const decanEnd = decanStart + 10;
 
   return `${decanStart}-${decanEnd}` as DecanKey;
 }
 
 export function getTarotCardForDate(date: Date) {
-  let decan = getCurrentDecan(date);
-  let cardKey = DECAN_TO_TAROT[decan] as TarotCardKey;
+  const decan = getCurrentDecan(date);
+  const cardKey = DECAN_TO_TAROT[decan] as TarotCardKey;
   return TAROT_CARDS[cardKey] || TAROT_CARDS['10_of_cups'];
 }
 
@@ -88,8 +88,8 @@ export function getRecipesForTarotCard(card: unknown): string[] {
 }
 
 export function getMajorArcanaForDecan(decan: DecanKey) {
-  let decanRuler = DECAN_RULERS[decan] as PlanetKey;
-  let cardKey = PLANET_TO_MAJOR_ARCANA[decanRuler] as MajorArcanaKey;
+  const decanRuler = DECAN_RULERS[decan] as PlanetKey;
+  const cardKey = PLANET_TO_MAJOR_ARCANA[decanRuler] as MajorArcanaKey;
   return MAJOR_ARCANA[cardKey];
 }
 
@@ -406,7 +406,7 @@ export const getTarotCardsForDate = (
   sunPosition?: { sign: string; degree: number }
 ): { minorCard: TarotCard; majorCard: MajorArcanaCard } => {
   // Get the current decan based on the day of the year or sun position if provided
-  let decan = getCurrentDecan(date, sunPosition);
+  const decan = getCurrentDecan(date, sunPosition);
 
   // Get minor arcana card key from the decan mapping
   const minorArcanaKey = DECAN_TO_TAROT[decan] as TarotCardKey;
@@ -419,7 +419,7 @@ export const getTarotCardsForDate = (
   // console.log(`Tarot Card Debug - Decan: ${decan}, Sun Position:`, sunPosition, `Selected Card: ${minorArcanaKey || '10_of_cups'}`);
 
   // Get the minor arcana card details
-  let cardKey = minorArcanaKey || ('10_of_cups' as TarotCardKey); // Default if not found
+  const cardKey = minorArcanaKey || ('10_of_cups' as TarotCardKey); // Default if not found
   const tarotCard = TAROT_CARDS[cardKey];
 
   // Extract suit and number from the card name
@@ -456,7 +456,7 @@ export const getTarotCardsForDate = (
   };
 
   // For major arcana, get the planet ruling the current decan
-  let decanRuler = DECAN_RULERS[decan] as PlanetKey;
+  const decanRuler = DECAN_RULERS[decan] as PlanetKey;
 
   // Map the planet to corresponding major arcana card
   const majorArcanaName =
@@ -492,7 +492,7 @@ export function getQuantumValueForCard(card: unknown): number {
 
 export function getElementalQuantum(card: unknown) {
   if (!card) return { Fire: 0, Water: 0, Earth: 0, Air: 0 };
-  let element = card.element || 'Fire';
+  const element = card.element || 'Fire';
   const quantum = card.quantum || 1;
 
   return {
@@ -555,11 +555,11 @@ export const getTarotFoodRecommendations = (
   insights: string;
 } => {
   const tarotCards = getTarotCardsForDate(date);
-  let decan = getCurrentDecan(date);
-  let decanRuler = DECAN_RULERS[decan as DecanKey] as PlanetKey;
+  const decan = getCurrentDecan(date);
+  const decanRuler = DECAN_RULERS[decan as DecanKey] as PlanetKey;
 
   // Extract element from tarot cards
-  let element = tarotCards.minorCard.element;
+  const element = tarotCards.minorCard.element;
   const planetaryInfluence = tarotCards.majorCard.planet;
 
   // Generate cooking approach based on planetary influence

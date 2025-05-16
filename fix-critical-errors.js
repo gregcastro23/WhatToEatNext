@@ -67,7 +67,7 @@ function fixMoreImportPaths() {
     'src/utils/alchemicalPillarUtils.ts'
   ];
   
-  let fixedCount = 0;
+  const fixedCount = 0;
   
   filesToCheck.forEach(relPath => {
     const filePath = path.join(process.cwd(), relPath);

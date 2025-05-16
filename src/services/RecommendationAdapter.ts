@@ -1,9 +1,8 @@
 import {
   ElementalItem,
   AlchemicalItem,
-} from '@/types/alchemy';
+ LunarPhaseWithSpaces, PlanetaryAspect } from '@/types/alchemy';
 import { ElementalCharacter } from '@/constants/planetaryElements';
-import { LunarPhaseWithSpaces, PlanetaryAspect } from '@/types/alchemy';
 import { transformItemsWithPlanetaryPositions } from '@/utils/elementalUtils';
 import {
   calculatePlanetaryPositions,
@@ -139,22 +138,22 @@ export class RecommendationAdapter {
   async initializeFromCurrentPositions(): Promise<void> {
     try {
       // Calculate real-time planetary positions
-      let positions = await calculatePlanetaryPositions();
+      const positions = await calculatePlanetaryPositions();
 
       // Calculate current lunar phase
-      let lunarPhase = await calculateLunarPhase(new Date());
+      const lunarPhase = await calculateLunarPhase(new Date());
 
       // Convert to format expected by adapter
-      let lunarPhaseFormatted = convertToLunarPhase(lunarPhase);
+      const lunarPhaseFormatted = convertToLunarPhase(lunarPhase);
 
       // Calculate if it's currently daytime
-      let now = new Date();
-      let hours = now.getHours();
-      let isDaytime = hours >= 6 && hours < 18;
+      const now = new Date();
+      const hours = now.getHours();
+      const isDaytime = hours >= 6 && hours < 18;
 
       // Get current sun sign as current zodiac
-      let sunPosition = positions['sun'];
-      let currentZodiac = sunPosition?.sign || null;
+      const sunPosition = positions['sun'];
+      const currentZodiac = sunPosition?.sign || null;
 
       // Initialize adapter with calculated values
       this.initialize(positions, isDaytime, currentZodiac, lunarPhaseFormatted);
@@ -207,7 +206,7 @@ export class RecommendationAdapter {
   private transformItems(): void {
     try {
       // Get alchemical results from the positions
-      let result = alchemize(
+      const result = alchemize(
         this.convertedPositions,
         this.isDaytime,
         this.lunarPhase || undefined,
@@ -217,7 +216,7 @@ export class RecommendationAdapter {
       this.alchemicalResult = result;
 
       // Prepare alchemical properties
-      let alchemicalProperties = {
+      const alchemicalProperties = {
         Spirit: result.spirit,
         Essence: result.essence,
         Matter: result.matter,
@@ -225,7 +224,7 @@ export class RecommendationAdapter {
       };
 
       // Prepare elemental properties, converting to uppercase keys
-      let elementalProperties = {
+      const elementalProperties = {
         Fire: result.elementalBalance.fire,
         Earth: result.elementalBalance.earth,
         Air: result.elementalBalance.air,
@@ -292,22 +291,22 @@ export class RecommendationAdapter {
       if (this.aspects && this.aspects.length > 0) {
         this.aspects.forEach((aspect) => {
           // Lookup planet data for both bodies
-          let planet1 = aspect.body1?.toLowerCase();
-          let planet2 = aspect.body2?.toLowerCase();
+          const planet1 = aspect.body1?.toLowerCase();
+          const planet2 = aspect.body2?.toLowerCase();
 
           if (!planet1 || !planet2) return;
 
           // Get planets data
-          let planetData1 = this.getPlanetData(planet1);
-          let planetData2 = this.getPlanetData(planet2);
+          const planetData1 = this.getPlanetData(planet1);
+          const planetData2 = this.getPlanetData(planet2);
 
           // If either planet has aspect effects for the other planet
           if (planetData1?.AspectsEffect?.[planet2]) {
-            let aspectEffect =
+            const aspectEffect =
               planetData1.AspectsEffect[planet2][aspect.aspectType];
             if (aspectEffect) {
               // Boost alchemical properties based on aspect effect
-              let boost = aspectEffect;
+              const boost = aspectEffect;
               alchemicalProperties.Spirit += planetData1.Alchemy.Spirit * boost;
               alchemicalProperties.Essence +=
                 planetData1.Alchemy.Essence * boost;
@@ -318,11 +317,11 @@ export class RecommendationAdapter {
           }
 
           if (planetData2?.AspectsEffect?.[planet1]) {
-            let aspectEffect =
+            const aspectEffect =
               planetData2.AspectsEffect[planet1][aspect.aspectType];
             if (aspectEffect) {
               // Boost alchemical properties based on aspect effect
-              let boost = aspectEffect;
+              const boost = aspectEffect;
               alchemicalProperties.Spirit += planetData2.Alchemy.Spirit * boost;
               alchemicalProperties.Essence +=
                 planetData2.Alchemy.Essence * boost;
@@ -371,7 +370,7 @@ export class RecommendationAdapter {
    * Get planet data from the planetInfo object
    */
   private getPlanetData(planet: string): Record<string, unknown> {
-    let planetKey =
+    const planetKey =
       planet.charAt(0).toUpperCase() + planet.slice(1).toLowerCase();
     return planetInfo[planetKey as keyof typeof planetInfo] || {};
   }
@@ -407,8 +406,8 @@ export class RecommendationAdapter {
     return items
       .sort((a, b) => {
         // Use gregsEnergy as primary sort field, defaulting to 0 if undefined
-        let energyA = a.gregsEnergy || 0;
-        let energyB = b.gregsEnergy || 0;
+        const energyA = a.gregsEnergy || 0;
+        const energyB = b.gregsEnergy || 0;
         return energyB - energyA; // Descending sort (highest energy first)
       })
       .slice(0, limit);
@@ -436,7 +435,7 @@ export class RecommendationAdapter {
 
   private calculateNutritionalBoosts(): Record<string, number> {
     return this.ingredients.reduce((acc, ingredient) => {
-      let nutrition = ingredient.nutritionalProfile;
+      const nutrition = ingredient.nutritionalProfile;
       if (
         nutrition &&
         nutrition.macros &&
@@ -459,7 +458,7 @@ export class RecommendationAdapter {
     item: TransformedItem,
     boosts: Record<string, number>
   ): TransformedItem {
-    let boost = boosts[item.id] || 1;
+    const boost = boosts[item.id] || 1;
     return {
       ...item,
       elementalProperties: {
@@ -476,7 +475,7 @@ export class RecommendationAdapter {
     tarotEnergyBoosts: Record<string, number>
   ): AlchemicalItem {
     // Calculate alchemical properties from elemental properties if they don't exist
-    let elementalProps = ingredient.elementalProperties || {
+    const elementalProps = ingredient.elementalProperties || {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
@@ -489,45 +488,45 @@ export class RecommendationAdapter {
     // - Essence is related to Water (fluidity)
     // - Matter is related to Earth (stability)
     // - Substance is related to Air (connection)
-    let calculatedSpirit =
+    const calculatedSpirit =
       ingredient.spirit || elementalProps.Fire * 0.6 + elementalProps.Air * 0.4;
-    let calculatedEssence =
+    const calculatedEssence =
       ingredient.essence ||
       elementalProps.Water * 0.6 + elementalProps.Fire * 0.4;
-    let calculatedMatter =
+    const calculatedMatter =
       ingredient.matter ||
       elementalProps.Earth * 0.7 + elementalProps.Water * 0.3;
-    let calculatedSubstance =
+    const calculatedSubstance =
       ingredient.substance ||
       elementalProps.Air * 0.6 + elementalProps.Earth * 0.4;
 
     // Apply tarot boosts to calculated values
-    let boostedSpirit = Math.min(
+    const boostedSpirit = Math.min(
       Math.max(calculatedSpirit * (tarotEnergyBoosts.Spirit || 1.0), 0.1),
       1.0
     );
-    let boostedEssence = Math.min(
+    const boostedEssence = Math.min(
       Math.max(calculatedEssence * (tarotEnergyBoosts.Essence || 1.0), 0.1),
       1.0
     );
-    let boostedMatter = Math.min(
+    const boostedMatter = Math.min(
       Math.max(calculatedMatter * (tarotEnergyBoosts.Matter || 1.0), 0.1),
       1.0
     );
-    let boostedSubstance = Math.min(
+    const boostedSubstance = Math.min(
       Math.max(calculatedSubstance * (tarotEnergyBoosts.Substance || 1.0), 0.1),
       1.0
     );
 
     // Calculate energy metrics using the formulas with safety checks
-    let fire = Math.max(elementalProps.Fire, 0.1);
-    let water = Math.max(elementalProps.Water, 0.1);
-    let air = Math.max(elementalProps.Air, 0.1);
-    let earth = Math.max(elementalProps.Earth, 0.1);
+    const fire = Math.max(elementalProps.Fire, 0.1);
+    const water = Math.max(elementalProps.Water, 0.1);
+    const air = Math.max(elementalProps.Air, 0.1);
+    const earth = Math.max(elementalProps.Earth, 0.1);
 
     // Heat formula: (spirit^2 + fire^2) / ((substance || 1) + essence + matter + water + air + earth)^2
     // Add safety checks to prevent division by zero and ensure positive results
-    let denominatorHeat = Math.max(
+    const denominatorHeat = Math.max(
       boostedSubstance + boostedEssence + boostedMatter + water + air + earth,
       0.1
     );
@@ -535,7 +534,7 @@ export class RecommendationAdapter {
       (Math.pow(boostedSpirit, 2) + Math.pow(fire, 2)) / Math.pow(denominatorHeat, 2);
 
     // Entropy formula
-    let denominatorEntropy = Math.max(
+    const denominatorEntropy = Math.max(
       boostedEssence + boostedMatter + earth + water,
       0.1
     );
@@ -546,7 +545,7 @@ export class RecommendationAdapter {
         Math.pow(air, 2)) / Math.pow(denominatorEntropy, 2);
 
     // Reactivity formula
-    let denominatorReactivity = Math.max(boostedMatter + earth, 0.1);
+    const denominatorReactivity = Math.max(boostedMatter + earth, 0.1);
     let reactivity =
       (Math.pow(boostedSpirit, 2) +
         Math.pow(boostedSubstance, 2) +
@@ -562,9 +561,9 @@ export class RecommendationAdapter {
 
     // Calculate gregsEnergy using the original formula: heat - (reactivity * entropy)
     // Then scale to the 0-1 range for UI friendliness
-    let rawGregsEnergy = heat - reactivity * entropy;
-    let scaledGregsEnergy = (rawGregsEnergy + 1) / 2; // Convert from range (-1,1) to (0,1)
-    let gregsEnergy = Math.min(Math.max(scaledGregsEnergy, 0.1), 1.0);
+    const rawGregsEnergy = heat - reactivity * entropy;
+    const scaledGregsEnergy = (rawGregsEnergy + 1) / 2; // Convert from range (-1,1) to (0,1)
+    const gregsEnergy = Math.min(Math.max(scaledGregsEnergy, 0.1), 1.0);
 
     // Create updated properties
     return {
@@ -586,7 +585,7 @@ export class RecommendationAdapter {
   getDominantElement(): ElementalCharacter | null {
     if (!this.alchemicalResult) return null;
 
-    let elementName = this.alchemicalResult.dominantElement;
+    const elementName = this.alchemicalResult.dominantElement;
     // Normalize to proper case for ElementalCharacter
     if (elementName === 'fire') return 'Fire';
     if (elementName === 'water') return 'Water';
@@ -603,7 +602,7 @@ export class RecommendationAdapter {
     if (!this.alchemicalResult) return null;
 
     // Find the dominant property based on the highest value
-    let properties = {
+    const properties = {
       Spirit: this.alchemicalResult.spirit || 0,
       Essence: this.alchemicalResult.essence || 0,
       Matter: this.alchemicalResult.matter || 0,
@@ -634,8 +633,8 @@ export class RecommendationAdapter {
 
     // Otherwise derive from alchemical properties
     if (this.alchemicalResult) {
-      let fire = this.alchemicalResult.elementalBalance.fire || 0;
-      let spirit = this.alchemicalResult.spirit || 0;
+      const fire = this.alchemicalResult.elementalBalance.fire || 0;
+      const spirit = this.alchemicalResult.spirit || 0;
 
       // Heat is primarily influenced by Fire element and Spirit property
       return (fire * 0.6 + spirit * 0.4) / 2;
@@ -655,8 +654,8 @@ export class RecommendationAdapter {
 
     // Otherwise derive from alchemical properties
     if (this.alchemicalResult) {
-      let air = this.alchemicalResult.elementalBalance.air || 0;
-      let substance = this.alchemicalResult.substance || 0;
+      const air = this.alchemicalResult.elementalBalance.air || 0;
+      const substance = this.alchemicalResult.substance || 0;
 
       // Entropy is primarily influenced by Air element and Substance property
       return (air * 0.7 + substance * 0.3) / 2;
@@ -676,8 +675,8 @@ export class RecommendationAdapter {
 
     // Otherwise derive from alchemical properties
     if (this.alchemicalResult) {
-      let essence = this.alchemicalResult.essence || 0;
-      let water = this.alchemicalResult.elementalBalance.water || 0;
+      const essence = this.alchemicalResult.essence || 0;
+      const water = this.alchemicalResult.elementalBalance.water || 0;
 
       // Reactivity is primarily influenced by Water element and Essence property
       return (water * 0.5 + essence * 0.5) / 2;
@@ -702,8 +701,8 @@ export class RecommendationAdapter {
       const { spirit, essence, matter, substance } = this.alchemicalResult;
 
       // Weighted combination of all elements and properties
-      let elementalBalance = (fire + water + earth + air) / 4;
-      let propertyBalance = (spirit + essence + matter + substance) / 4;
+      const elementalBalance = (fire + water + earth + air) / 4;
+      const propertyBalance = (spirit + essence + matter + substance) / 4;
 
       return elementalBalance * 0.4 + propertyBalance * 0.6;
     }

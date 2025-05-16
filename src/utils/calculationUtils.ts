@@ -1,7 +1,7 @@
 import @/types  from 'alchemy ';
 import { elementalUtils } from './elementalUtils';
 
-export let calculationUtils = {
+export const calculationUtils = {
   calculateTemperatureEffect(temp: number): ElementalProperties {
     // Temperature affects Fire and Air primarily
     const baseEffect: ElementalProperties = {
@@ -39,7 +39,7 @@ export let calculationUtils = {
       'winter': { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 }
     };
 
-    let modifier = seasonalModifiers[season.toLowerCase()];
+    const modifier = seasonalModifiers[season.toLowerCase()];
     if (!modifier) return props;
 
     return elementalUtils.combineProperties(props, modifier);

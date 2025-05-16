@@ -6,10 +6,10 @@ export default function ElementalExplorer() {
   const [qualities, setQualities] = useState<string[]>([]);
   
   // Calculate modality based on qualities
-  let modality = determineIngredientModality(qualities);
+  const modality = determineIngredientModality(qualities);
   
   // Handle quality toggle
-  let toggleQuality = (quality: string) => {
+  const toggleQuality = (quality: string) => {
     if (qualities.includes(quality)) {
       setQualities(qualities.filter(q => q !== quality));
     } else {

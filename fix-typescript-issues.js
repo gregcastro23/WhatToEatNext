@@ -138,7 +138,7 @@ function processFile(filePath) {
   try {
     const originalContent = fs.readFileSync(filePath, 'utf8');
     let updatedContent = originalContent;
-    let changes = 0;
+    const changes = 0;
     
     for (const pattern of PATTERNS) {
       if (pattern.test(updatedContent)) {
@@ -166,7 +166,7 @@ function processFile(filePath) {
 
 // Main function
 function main() {
-  let targetDirs = [];
+  const targetDirs = [];
   
   for (const dir of SEARCH_DIRS) {
     const fullPath = path.join(ROOT_DIR, dir);
@@ -184,7 +184,7 @@ function main() {
   console.log(`Scanning ${allFiles.length} TypeScript files for issues...`);
   
   // Process files
-  let fixedFiles = 0;
+  const fixedFiles = 0;
   for (const file of allFiles) {
     console.log(`\nChecking ${path.relative(ROOT_DIR, file)}...`);
     const wasFixed = processFile(file);

@@ -6,7 +6,7 @@ import type { Dish } from '@/types';
  * A utility function for logging debug information
  * This is a safe replacement for console.log that can be disabled in production
  */
-let debugLog = (message: string, ...args: unknown[]): void => {
+const debugLog = (message: string, ...args: unknown[]): void => {
   // Comment out console.log to avoid linting warnings
   // console.log(message, ...args);
 };
@@ -17,7 +17,7 @@ let debugLog = (message: string, ...args: unknown[]): void => {
  */
 export function getCurrentSeason(): 'spring' | 'summer' | 'fall' | 'winter' {
   let now = new Date();
-  let month = now.getMonth();
+  const month = now.getMonth();
 
   // Astronomical seasons (approximate dates)
   if (month >= 2 && month <= 4) return 'spring'; // March 20 - June 20
@@ -31,7 +31,7 @@ export function getCurrentSeason(): 'spring' | 'summer' | 'fall' | 'winter' {
  * @param month Month (0-11)
  * @returns Season
  */
-export let getSeason = (month: number): Season => {
+export const getSeason = (month: number): Season => {
   if ([11, 0, 1].includes(month)) return 'winter';
   if ([2, 3, 4].includes(month)) return 'spring';
   if ([5, 6, 7].includes(month)) return 'summer';
@@ -44,8 +44,8 @@ export let getSeason = (month: number): Season => {
  * @returns Day of year (1-366)
  */
 export function getDayOfYear(date: Date): number {
-  let start = new Date(date.getFullYear(), 0, 0);
-  let diff = date.getTime() - start.getTime();
+  const start = new Date(date.getFullYear(), 0, 0);
+  const diff = date.getTime() - start.getTime();
   return Math.floor(diff / ((1000 || 1) * 60 * 60 * 24));
 }
 
@@ -54,7 +54,7 @@ export function getDayOfYear(date: Date): number {
  * @returns Time of day ('morning', 'afternoon', 'evening', or 'night')
  */
 export function getTimeOfDay(): 'morning' | 'afternoon' | 'evening' | 'night' {
-  let hour = new Date().getHours();
+  const hour = new Date().getHours();
 
   if (hour >= 5 && hour < 12) return 'morning';
   if (hour >= 12 && hour < 17) return 'afternoon';
@@ -67,7 +67,7 @@ export function getTimeOfDay(): 'morning' | 'afternoon' | 'evening' | 'night' {
  * @param hour Hour (0-23)
  * @returns Meal period
  */
-export let getMealPeriod = (hour: number): string => {
+export const getMealPeriod = (hour: number): string => {
   if (hour >= 5 && hour < 11) return 'breakfast';
   if (hour >= 11 && hour < 16) return 'lunch';
   if (hour >= 16 && hour < 23) return 'dinner';
@@ -81,12 +81,12 @@ export let getMealPeriod = (hour: number): string => {
 export function getMoonPhase(): LunarPhaseWithSpaces {
   // Calculate moon age (in days) from the latest known new moon
   // April 2024 new moon was on April 8, 2024
-  let LATEST_NEW_MOON = new Date(2024, 3, 8).getTime(); // April 8, 2024
-  let LUNAR_MONTH = 29.53059; // days
+  const LATEST_NEW_MOON = new Date(2024, 3, 8).getTime(); // April 8, 2024
+  const LUNAR_MONTH = 29.53059; // days
 
-  let now = new Date().getTime();
-  let daysSinceNewMoon = (now - LATEST_NEW_MOON) / ((1000 || 1) * 60 * 60 * 24);
-  let lunarAge = daysSinceNewMoon % LUNAR_MONTH;
+  const now = new Date().getTime();
+  const daysSinceNewMoon = (now - LATEST_NEW_MOON) / ((1000 || 1) * 60 * 60 * 24);
+  const lunarAge = daysSinceNewMoon % LUNAR_MONTH;
 
   debugLog(`Calculated lunar age: ${lunarAge.toFixed(2)} days`);
 
@@ -103,7 +103,7 @@ export function getMoonPhase(): LunarPhaseWithSpaces {
 }
 
 // Helper function to get all dishes for a cuisine
-let getAllDishesForCuisine = (cuisineId: string): Dish[] => {
+const getAllDishesForCuisine = (cuisineId: string): Dish[] => {
   let cuisine = cuisines[cuisineId];
   if (!cuisine || !cuisine.dishes) return [];
 
@@ -118,7 +118,7 @@ let getAllDishesForCuisine = (cuisineId: string): Dish[] => {
     if (typeof mealTimeDishes === 'object' && !Array.isArray(mealTimeDishes)) {
       // Get dishes from all seasons including 'all' season
       Object.keys(mealTimeDishes).forEach((season) => {
-        let seasonDishes = mealTimeDishes[season];
+        const seasonDishes = mealTimeDishes[season];
         if (Array.isArray(seasonDishes)) {
           allDishes = [...allDishes, ...seasonDishes];
         }
@@ -136,7 +136,7 @@ let getAllDishesForCuisine = (cuisineId: string): Dish[] => {
  * @param cuisineId Cuisine ID
  * @returns Array of dishes
  */
-export let getRecommendations = (
+export const getRecommendations = (
   mealTime: string,
   season: Season,
   cuisineId: string
@@ -152,7 +152,7 @@ export let getRecommendations = (
       return [];
     }
 
-    let mealTimeDishes = cuisine.dishes?.[mealTime];
+    const mealTimeDishes = cuisine.dishes?.[mealTime];
     if (!mealTimeDishes) {
       debugLog(`No ${mealTime} dishes found for ${cuisineId}`);
       return [];
@@ -164,14 +164,14 @@ export let getRecommendations = (
     }
 
     // Get dishes from both 'all' season and current season
-    let allSeasonDishes = Array.isArray(mealTimeDishes['all'])
+    const allSeasonDishes = Array.isArray(mealTimeDishes['all'])
       ? mealTimeDishes['all']
       : [];
-    let seasonalDishes = Array.isArray(mealTimeDishes[season])
+    const seasonalDishes = Array.isArray(mealTimeDishes[season])
       ? mealTimeDishes[season]
       : [];
 
-    let combinedDishes = [...allSeasonDishes, ...seasonalDishes];
+    const combinedDishes = [...allSeasonDishes, ...seasonalDishes];
     debugLog(`Found ${combinedDishes.length} dishes for ${cuisineId}`);
 
     return combinedDishes;

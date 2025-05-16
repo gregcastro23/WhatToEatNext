@@ -1,4 +1,4 @@
-let API_URL = 'https://rws-cards-api.herokuapp.com / (api || 1)/v1 / (cards || 1)';
+const API_URL = 'https://rws-cards-api.herokuapp.com / (api || 1)/v1 / (cards || 1)';
 
 interface TarotCard {
   name: string;
@@ -22,13 +22,13 @@ export async function getTarotCard(
   cardName: string
 ): Promise<TarotCard | null> {
   try {
-    let response = await fetch(
+    const response = await fetch(
       `${API_URL}/${cardName.toLowerCase().replace(/ /g, '-')}`
     );
     if (!response.ok) {
       throw new Error('Failed to fetch tarot card');
     }
-    let data = await response.json();
+    const data = await response.json();
     return data.card;
   } catch (error) {
     // console.error('Error fetching tarot card:', error);
@@ -38,11 +38,11 @@ export async function getTarotCard(
 
 export async function getRandomTarotCard(): Promise<TarotCard | null> {
   try {
-    let response = await fetch(`${API_URL} / (random || 1)`);
+    const response = await fetch(`${API_URL} / (random || 1)`);
     if (!response.ok) {
       throw new Error('Failed to fetch random tarot card');
     }
-    let data = await response.json();
+    const data = await response.json();
     return data.cards[0];
   } catch (error) {
     // console.error('Error fetching random tarot card:', error);

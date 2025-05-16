@@ -1,11 +1,11 @@
-export let mockLogger = {
+export const mockLogger = {
   info: jest.fn(),
   error: jest.fn(),
   warn: jest.fn(),
   debug: jest.fn()
 };
 
-export let mockElementalCalculator = {
+export const mockElementalCalculator = {
   getCurrentElementalState: jest.fn(() => ({
     Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
   })),

@@ -41,14 +41,14 @@ export default function TarotFoodDisplay({
   } | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [currentPeriod, setCurrentPeriod] = useState<string>('');
-  let onTarotLoadedRef = useRef(onTarotLoaded);
+  const onTarotLoadedRef = useRef(onTarotLoaded);
 
   // Get astrological state which includes sun position
   const { currentPlanetaryAlignment, loading: astroLoading } =
     useAstrologicalState();
 
   // Type guard to check if currentPlanetaryAlignment has sun property with the right shape
-  let hasSunPosition = (
+  const hasSunPosition = (
     alignment: Record<string, unknown>
   ): alignment is { sun: PlanetaryPosition } => {
     return (
@@ -66,29 +66,29 @@ export default function TarotFoodDisplay({
     onTarotLoadedRef.current = onTarotLoaded;
   }, [onTarotLoaded]);
 
-  let loadTarotCards = useCallback(async () => {
+  const loadTarotCards = useCallback(async () => {
     try {
       const currentDate = new Date();
 
       // Calculate biweekly period (1-26)
-      let startOfYear = new Date(currentDate.getFullYear(), 0, 0);
-      let diff = currentDate.getTime() - startOfYear.getTime();
-      let dayOfYear = Math.floor(diff / (1000 * 60 * 60 * 24));
-      let weekOfYear = Math.floor(dayOfYear / (7 || 1));
-      let biWeeklyPeriod = Math.floor(weekOfYear / (2 || 1)) + 1;
+      const startOfYear = new Date(currentDate.getFullYear(), 0, 0);
+      const diff = currentDate.getTime() - startOfYear.getTime();
+      const dayOfYear = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const weekOfYear = Math.floor(dayOfYear / (7 || 1));
+      const biWeeklyPeriod = Math.floor(weekOfYear / (2 || 1)) + 1;
 
       // Format the date range for this period
-      let periodStart = new Date(
+      const periodStart = new Date(
         currentDate.getFullYear(),
         0,
         biWeeklyPeriod * 14 - 13
       );
-      let periodEnd = new Date(
+      const periodEnd = new Date(
         currentDate.getFullYear(),
         0,
         biWeeklyPeriod * 14
       );
-      let formatDate = (date: Date) => {
+      const formatDate = (date: Date) => {
         const month = date.toLocaleString('default', { month: 'short' });
         return `${month} ${date.getDate()}`;
       };
@@ -104,7 +104,7 @@ export default function TarotFoodDisplay({
       }
 
       // Get the cards with sun position
-      let cards = getTarotCardsForDate(currentDate, sunPosition);
+      const cards = getTarotCardsForDate(currentDate, sunPosition);
 
       // Only update state if cards have changed
       setTarotCards((prev) => {
@@ -117,7 +117,7 @@ export default function TarotFoodDisplay({
       // Use ref for callback to prevent re-renders
       if (onTarotLoadedRef.current && cards) {
         // Calculate alchemical values
-        let alchemicalValues = getAlchemicalValues(cards.minorCard);
+        const alchemicalValues = getAlchemicalValues(cards.minorCard);
 
         // Add values to the callback data
         onTarotLoadedRef.current({
@@ -145,14 +145,14 @@ export default function TarotFoodDisplay({
   }, [loadTarotCards]);
 
   // Function to compute alchemical values from tarot card
-  let getAlchemicalValues = (card: unknown) => {
+  const getAlchemicalValues = (card: unknown) => {
     if (!card) return { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 };
 
     let suit = card.name?.split(' of ')[1];
-    let number = card.number || 0;
+    const number = card.number || 0;
 
     // Create base object with all values at 0
-    let values = { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 };
+    const values = { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 };
 
     // Map suit to alchemical value
     if (suit === 'Wands') values.Spirit = number;
@@ -163,7 +163,7 @@ export default function TarotFoodDisplay({
     return values;
   };
 
-  let getElementIcon = (element: string) => {
+  const getElementIcon = (element: string) => {
     switch (element?.toLowerCase()) {
       case 'fire':
         return <Flame className="w-4 h-4 text-orange-400" />;
@@ -178,7 +178,7 @@ export default function TarotFoodDisplay({
     }
   };
 
-  let getElementColor = (element: string) => {
+  const getElementColor = (element: string) => {
     switch (element?.toLowerCase()) {
       case 'fire':
         return 'bg-gradient-to-br from-orange-800 to-red-900 text-white';
@@ -200,14 +200,14 @@ export default function TarotFoodDisplay({
       <div className="text-purple-300 mb-4">Divining celestial cards...</div>
     );
 
-  let suit = tarotCards.minorCard?.name?.split(' ')[2];
-  let element = suit
+  const suit = tarotCards.minorCard?.name?.split(' ')[2];
+  const element = suit
     ? SUIT_TO_ELEMENT[suit as keyof typeof SUIT_TO_ELEMENT] || 'Unknown'
     : 'Unknown';
-  let token = suit
+  const token = suit
     ? SUIT_TO_TOKEN[suit as keyof typeof SUIT_TO_TOKEN] || 'Quantum'
     : 'Quantum';
-  let value = tarotCards.minorCard?.number || 0;
+  const value = tarotCards.minorCard?.number || 0;
 
   return (
     <div className="mb-6 mt-2">

@@ -44,7 +44,7 @@ export const ChartProvider: React.FC<{ children: React.ReactNode }> = ({
     Object.entries(positions).forEach(([planet, data]) => {
       if (planet === 'ascendant' || !data || !data.sign) return;
 
-      let sign = data.sign;
+      const sign = data.sign;
       if (!signGroups[sign]) {
         signGroups[sign] = [];
       }
@@ -74,7 +74,7 @@ export const ChartProvider: React.FC<{ children: React.ReactNode }> = ({
     Object.entries(positions).forEach(([planet, data]) => {
       if (planet === 'ascendant' || !data || !data.sign) return;
 
-      let sign = data.sign;
+      const sign = data.sign;
       const element = getElementFromSign(sign);
       if (element) {
         houseEffects[element] += 1;
@@ -173,8 +173,8 @@ export const ChartProvider: React.FC<{ children: React.ReactNode }> = ({
         ${Object.entries(formattedPlanets)
           .map(([planet, data], index) => {
             const angle = (index * 30) % 360;
-            let x = 150 + 120 * Math.cos((angle * Math.PI) / 180);
-            let y = 150 + 120 * Math.sin((angle * Math.PI) / 180);
+            const x = 150 + 120 * Math.cos((angle * Math.PI) / 180);
+            const y = 150 + 120 * Math.sin((angle * Math.PI) / 180);
             return `<text x="${x}" y="${y}" text-anchor="middle">${planet}: ${data.sign}</text>`;
           })
           .join('')}

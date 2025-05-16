@@ -114,7 +114,7 @@ export class LocalRecipeService {
       // Get recipes from all available cuisines
       for (const cuisine of Object.values(cuisinesMap)) {
         if (cuisine) {
-          let cuisineRecipes = await this.getRecipesFromCuisine(cuisine);
+          const cuisineRecipes = await this.getRecipesFromCuisine(cuisine);
           recipes.push(...cuisineRecipes);
         }
       }
@@ -146,7 +146,7 @@ export class LocalRecipeService {
       // console.log(`Getting recipes for cuisine: ${cuisineName}`);
 
       // Normalize cuisine name for comparison
-      let normalizedName = cuisineName.toLowerCase().trim();
+      const normalizedName = cuisineName.toLowerCase().trim();
 
       // Handle special cases for African and American cuisines
       if (normalizedName === 'african' || normalizedName === 'american') {
@@ -158,10 +158,10 @@ export class LocalRecipeService {
         try {
           // Try importing the cuisine directly from its file using dynamic imports
           if (normalizedName === 'african') {
-            let africanModule = await import('../data/cuisines/african');
+            const africanModule = await import('../data/cuisines/african');
             directCuisine = africanModule.african;
           } else {
-            let americanModule = await import('../data/cuisines/american');
+            const americanModule = await import('../data/cuisines/american');
             directCuisine = americanModule.american;
           }
 
@@ -204,13 +204,13 @@ export class LocalRecipeService {
       }
 
       // Find the cuisine object in the regular way
-      let cuisine = Object.values(cuisinesMap).find(
+      const cuisine = Object.values(cuisinesMap).find(
         (c) => c?.name?.toLowerCase() === normalizedName
       );
 
       if (!cuisine) {
         // Try finding the cuisine by ID or variations of the name
-        let byIdMatch = Object.entries(cuisinesMap).find(
+        const byIdMatch = Object.entries(cuisinesMap).find(
           ([id, c]) =>
             id.toLowerCase() === normalizedName ||
             c?.name?.toLowerCase() === normalizedName ||
@@ -244,13 +244,13 @@ export class LocalRecipeService {
     if (!cuisine) return [];
 
     const recipes: Recipe[] = [];
-    let mealTypes = ['breakfast', 'lunch', 'dinner', 'dessert', 'snacks'];
+    const mealTypes = ['breakfast', 'lunch', 'dinner', 'dessert', 'snacks'];
 
     try {
       // console.log(`Extracting recipes from cuisine: ${cuisine.name}`);
 
       // Special handling for American and African cuisines
-      let isSpecialCase =
+      const isSpecialCase =
         cuisine.name.toLowerCase() === 'american' ||
         cuisine.name.toLowerCase() === 'african';
 
@@ -315,16 +315,16 @@ export class LocalRecipeService {
           return;
         }
 
-        let seasonalDishes = cuisine.dishes[
+        const seasonalDishes = cuisine.dishes[
           mealType
         ] as SeasonalDishCollection;
         // console.log(`Meal type ${mealType} structure:`, JSON.stringify(Object.keys(seasonalDishes || {})));
 
         // Process seasonal recipes (spring, summer, autumn, winter)
-        let seasons = ['spring', 'summer', 'autumn', 'winter'];
+        const seasons = ['spring', 'summer', 'autumn', 'winter'];
         seasons.forEach((season) => {
           // Use both season and its alternative name (autumn / (fall || 1))
-          let seasonalKey =
+          const seasonalKey =
             season === 'autumn'
               ? 'fall'
               : season === 'fall'
@@ -443,14 +443,14 @@ export class LocalRecipeService {
       }
 
       // Generate a deterministic ID if none exists
-      let id =
+      const id =
         dish.id ||
         `${cuisineName.toLowerCase()}-${dish.name
           .toLowerCase()
           .replace(/\s+/g, '-')}`;
 
       // Map cuisine ingredients to our RecipeIngredient type
-      let ingredients = (
+      const ingredients = (
         Array.isArray(dish.ingredients) ? dish.ingredients : []
       ).map((ing) => {
         if (!ing)
@@ -506,14 +506,14 @@ export class LocalRecipeService {
       };
 
       // Standardize timing information
-      let prepTime = dish.prepTime || '';
-      let cookTime = dish.cookTime || '';
+      const prepTime = dish.prepTime || '';
+      const cookTime = dish.cookTime || '';
 
       // Parse timeToMake from prepTime and cookTime if available
       let timeToMake = dish.timeToMake || '';
       if (!timeToMake && prepTime && cookTime) {
-        let prepMinutes = parseInt(prepTime.toString().split(' ')[0]) || 0;
-        let cookMinutes = parseInt(cookTime.toString().split(' ')[0]) || 0;
+        const prepMinutes = parseInt(prepTime.toString().split(' ')[0]) || 0;
+        const cookMinutes = parseInt(cookTime.toString().split(' ')[0]) || 0;
         timeToMake = `${prepMinutes + cookMinutes} minutes`;
       }
       if (!timeToMake) {
@@ -541,7 +541,7 @@ export class LocalRecipeService {
       }
 
       // Process nutrition information
-      let nutrition = dish.nutrition
+      const nutrition = dish.nutrition
         ? {
             calories: dish.nutrition.calories,
             protein: dish.nutrition.protein,
@@ -567,7 +567,7 @@ export class LocalRecipeService {
       }
 
       // Get number of servings
-      let servingSize =
+      const servingSize =
         dish.servingSize || dish.numberOfServings || dish.servings || 4;
 
       // Create standardized recipe
@@ -657,8 +657,8 @@ export class LocalRecipeService {
     if (!query) return [];
 
     try {
-      let normalizedQuery = query.toLowerCase().trim();
-      let recipes = await this.getAllRecipes();
+      const normalizedQuery = query.toLowerCase().trim();
+      const recipes = await this.getAllRecipes();
 
       return recipes.filter((recipe) => {
         // Search in recipe name
@@ -680,7 +680,7 @@ export class LocalRecipeService {
         // Search in ingredients
         if (recipe.ingredients && Array.isArray(recipe.ingredients)) {
           for (const ingredient of recipe.ingredients) {
-            let ingredientName =
+            const ingredientName =
               typeof ingredient === 'string' ? ingredient : ingredient.name;
 
             if (
@@ -709,8 +709,8 @@ export class LocalRecipeService {
     if (!mealType) return [];
 
     try {
-      let normalizedMealType = mealType.toLowerCase().trim();
-      let recipes = await this.getAllRecipes();
+      const normalizedMealType = mealType.toLowerCase().trim();
+      const recipes = await this.getAllRecipes();
 
       return recipes.filter(
         (recipe) =>
@@ -736,8 +736,8 @@ export class LocalRecipeService {
     if (!season) return [];
 
     try {
-      let normalizedSeason = season.toLowerCase().trim();
-      let recipes = await this.getAllRecipes();
+      const normalizedSeason = season.toLowerCase().trim();
+      const recipes = await this.getAllRecipes();
 
       return recipes.filter(
         (recipe) =>

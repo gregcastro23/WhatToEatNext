@@ -65,7 +65,7 @@ class InitializationService {
       await new Promise(resolve => setTimeout(resolve, 100))
 
       // Initialize services in sequence
-      let recipes = await this.initializeRecipes()
+      const recipes = await this.initializeRecipes()
       const userState = await this.initializeUserState()
       const celestialData = await this.initializeCelestialData()
 
@@ -73,10 +73,10 @@ class InitializationService {
       const processedRecipes = this.processRecipes(recipes, celestialData)
 
       // Get the actual stateManager instance
-      let manager = await stateManager;
+      const manager = await stateManager;
 
       // Convert celestial data to elemental properties format
-      let elementalPreference = this.convertToElementalProperties(celestialData);
+      const elementalPreference = this.convertToElementalProperties(celestialData);
       
       // Update the state with the elemental preference
       await manager.updateState({
@@ -85,7 +85,7 @@ class InitializationService {
       });
 
       // Validate final state - only using properties that exist in AlchemicalState
-      let isValid = stateValidator.validateState({
+      const isValid = stateValidator.validateState({
         celestialPositions: this.formatCelestialData(celestialData),
         elementalPreference,
         currentSeason: this.getCurrentSeason(),
@@ -167,7 +167,7 @@ class InitializationService {
   private async initializeUserState() {
     try {
       // Get the actual stateManager instance first
-      let manager = await stateManager;
+      const manager = await stateManager;
       return await manager.getState()
     } catch (error) {
       logger.warn('Failed to load user state, using defaults:', error)
@@ -193,7 +193,7 @@ class InitializationService {
 
   private calculateRecipeScore(recipe: Recipe, celestialData: CelestialData): number {
     // Implement your scoring logic here
-    let score = Object.entries(recipe.elementalProperties).reduce(
+    const score = Object.entries(recipe.elementalProperties).reduce(
       (acc, [element, value]) => acc + (value * (celestialData[element] || 0)),
       0
     )
@@ -224,7 +224,7 @@ class InitializationService {
   }
 
   private getTimeOfDay(): string {
-    let hour = new Date().getHours();
+    const hour = new Date().getHours();
     if (hour >= 5 && hour < 12) return 'morning';
     if (hour >= 12 && hour < 17) return 'afternoon';
     if (hour >= 17 && hour < 21) return 'evening';

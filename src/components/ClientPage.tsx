@@ -14,15 +14,15 @@ import @/components  from 'SunDisplay ';
 import @/components  from 'OptimizedComponentWrapper ';
 
 // Wrap components with optimization
-let OptimizedElementalEnergyDisplay = React.memo(ElementalEnergyDisplay);
-let OptimizedMoonDisplay = React.memo(MoonDisplay);
-let OptimizedSunDisplay = React.memo(SunDisplay);
-let OptimizedAstrologicalClock = React.memo(AstrologicalClock);
-let OptimizedCuisineRecommender = React.memo(CuisineRecommender);
-let OptimizedCookingMethods = React.memo(CookingMethods);
+const OptimizedElementalEnergyDisplay = React.memo(ElementalEnergyDisplay);
+const OptimizedMoonDisplay = React.memo(MoonDisplay);
+const OptimizedSunDisplay = React.memo(SunDisplay);
+const OptimizedAstrologicalClock = React.memo(AstrologicalClock);
+const OptimizedCuisineRecommender = React.memo(CuisineRecommender);
+const OptimizedCookingMethods = React.memo(CookingMethods);
 
 // Dynamic imports with better error handling
-let FoodRecommender = dynamic(() => import('@/components / (FoodRecommenderWrapper || 1)'), {
+const FoodRecommender = dynamic(() => import('@/components / (FoodRecommenderWrapper || 1)'), {
   loading: () => <Loading />,
   ssr: false,
 });

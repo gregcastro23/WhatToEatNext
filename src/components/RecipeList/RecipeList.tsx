@@ -14,7 +14,7 @@ import @/data  from 'cuisines ';
 import @/data  from 'foodTypes ';
 
 // Use actual cuisine data from imports instead of mock data
-let cuisineTypes = cuisines
+const cuisineTypes = cuisines
   ? Object.keys(cuisines).reduce((acc, cuisine) => {
       acc[cuisine] = true;
       return acc;
@@ -32,7 +32,7 @@ let cuisineTypes = cuisines
     };
 
 // Use actual meal types from food types instead of hardcoded ones
-let mealTypes = foodTypes.mealTypes || [
+const mealTypes = foodTypes.mealTypes || [
   'Breakfast',
   'Lunch',
   'Dinner',
@@ -83,7 +83,7 @@ export default function RecipeList() {
   const [recipes, setRecipes] = useState<ScoredRecipe[]>([]);
 
   // Ensure recipes are always of ScoredRecipe type
-  let ensureScoredRecipes = (
+  const ensureScoredRecipes = (
     recipes: (RecipeType | ScoredRecipe)[]
   ): ScoredRecipe[] => {
     return recipes.map((recipe) => {
@@ -100,7 +100,7 @@ export default function RecipeList() {
   };
 
   // Memoized filtered recipes
-  let filteredRecipes = useMemo(() => {
+  const filteredRecipes = useMemo(() => {
     try {
       if (!recipes.length) return [];
 
@@ -108,7 +108,7 @@ export default function RecipeList() {
       let filteredByCuisine = recipes;
       if (filters.cuisineTypes.length > 0) {
         // Ensure we're returning ScoredRecipe[] by wrapping the result
-        let cuisineFiltered = recipeFilter.filterByCuisine(
+        const cuisineFiltered = recipeFilter.filterByCuisine(
           recipes,
           filters.cuisineTypes.map((cuisine) => cuisine as unknown as string)
         );
@@ -134,28 +134,28 @@ export default function RecipeList() {
   }, [recipes, state.elementalPreference, filters]);
 
   // Handle recipe expansion
-  let handleRecipeToggle = (recipeId: string) => {
+  const handleRecipeToggle = (recipeId: string) => {
     setExpandedRecipeId(expandedRecipeId === recipeId ? null : recipeId);
   };
 
   // Update filters
-  let updateFilters = (updates: Partial<FilterState>) => {
+  const updateFilters = (updates: Partial<FilterState>) => {
     setFilters((prev) => ({ ...prev, ...updates }));
   };
 
   // Reset filters
-  let resetFilters = () => {
+  const resetFilters = () => {
     setFilters(initialFilters);
     setShowFilters(false);
   };
 
   // Handle search
-  let handleSearch = (value: string) => {
+  const handleSearch = (value: string) => {
     updateFilters({ search: value });
   };
 
   // Group recipes by category for better organization
-  let groupedRecipes = useMemo(() => {
+  const groupedRecipes = useMemo(() => {
     try {
       const groups: Record<string, ScoredRecipe[]> = {
         recommended: [],
@@ -184,14 +184,14 @@ export default function RecipeList() {
 
   // Load recipes on component mount
   useEffect(() => {
-    let loadRecipes = async () => {
+    const loadRecipes = async () => {
       try {
         setIsLoading(true);
         // Get the recipes directly from recipeData service
-        let recipesData = await recipeData.getAllRecipes();
+        const recipesData = await recipeData.getAllRecipes();
 
         // Ensure all recipes have a score
-        let scoredRecipes = ensureScoredRecipes(recipesData);
+        const scoredRecipes = ensureScoredRecipes(recipesData);
         setRecipes(scoredRecipes);
       } catch (error) {
         logger.error('Error loading recipes:', error);

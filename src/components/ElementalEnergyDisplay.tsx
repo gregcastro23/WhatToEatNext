@@ -46,10 +46,10 @@ import {
 } from "@/types/(celestial || 1)";
 
 // Create a component-specific logger
-let logger = createLogger('ElementalEnergyDisplay');
+const logger = createLogger('ElementalEnergyDisplay');
 
 // Energy state descriptions
-let energyStateDescriptions = {
+const energyStateDescriptions = {
   high: {
     heat: 'Highly transformative energy capable of rapid change',
     entropy: 'High degree of disorder and unpredictability',
@@ -112,7 +112,7 @@ interface AlchemicalHookResult {
 }
 
 // Function to get energy level description
-let getEnergyLevelDescription = (
+const getEnergyLevelDescription = (
   value: number,
   type: keyof typeof energyStateDescriptions.high
 ) => {
@@ -131,7 +131,7 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
   const [renderCount, setRenderCount] = useState<number>(0);
 
   // Create the ref at the component level instead of inside useEffect
-  let lastPositionKeyRef = useRef('');
+  const lastPositionKeyRef = useRef('');
 
   // Log render count - run only once
   useEffect(() => {
@@ -207,7 +207,7 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
   );
 
   // Memoize planetary position input with proper serialization to prevent infinite loops
-  let memoizedPlanetaryInput = useMemo(() => {
+  const memoizedPlanetaryInput = useMemo(() => {
     // Create a stable hash from the positions that only changes when relevant data changes
     const positionsHash = Object.entries(planetaryPositions || {}).reduce(
       (acc, [planet, data]) => {
@@ -223,7 +223,7 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
       ''
     );
 
-    let serialized = {
+    const serialized = {
       positionsHash,
       isDaytime,
       timestamp: Math.floor(Date.now() / 60000), // Only recalculate at most once per minute
@@ -261,7 +261,7 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
       );
 
       // Use a function to determine if updates are needed, with defined equality thresholds
-      let isSignificantChange = (
+      const isSignificantChange = (
         prev: AlchemicalResults,
         newProps: {
           elementalProps: ElementalProperties;
@@ -384,7 +384,7 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
   }, [state.astrologicalState]);
 
   // Memoize total elementals calculation
-  let totalElementals = useMemo(() => {
+  const totalElementals = useMemo(() => {
     logger.debug('Recalculating totalElementals');
     return Object.values(alchemicalResults.elementalCounts).reduce(
       (sum: number, val: unknown) => sum + (typeof val === 'number' ? val : 0),
@@ -393,7 +393,7 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
   }, [alchemicalResults.elementalCounts]);
 
   // Memoize total alchemicals calculation
-  let totalAlchemicals = useMemo(() => {
+  const totalAlchemicals = useMemo(() => {
     logger.debug('Recalculating totalAlchemicals');
     return Object.values(alchemicalResults.alchemicalCounts).reduce(
       (sum: number, val: unknown) => sum + (typeof val === 'number' ? val : 0),
@@ -402,7 +402,7 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
   }, [alchemicalResults.alchemicalCounts]);
 
   // Memoize energy level descriptions
-  let energyDescriptions = useMemo(
+  const energyDescriptions = useMemo(
     () => ({
       heat: energyStateDescriptions[
         alchemicalResults.heat >= 0.7
@@ -449,8 +449,8 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
 
     // Debug indicator for data format
     if (planetaryPositions) {
-      let firstPlanet = Object.keys(planetaryPositions)[0] || '';
-      let firstPlanetData = planetaryPositions[firstPlanet];
+      const firstPlanet = Object.keys(planetaryPositions)[0] || '';
+      const firstPlanetData = planetaryPositions[firstPlanet];
       logger.debug('First planet data format:', {
         planet: firstPlanet,
         dataType: typeof firstPlanetData,
@@ -467,7 +467,7 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
     if (currentPlanetaryAlignment) {
       try {
         // Only run this calculation when there's actually a change in alignment
-        let positionKey = Object.entries(currentPlanetaryAlignment)
+        const positionKey = Object.entries(currentPlanetaryAlignment)
           .filter(
             ([k, v]) => typeof v === 'object' && v !== null && 'sign' in v
           )
@@ -484,26 +484,26 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
 
         // Use our new alchemical energy mapping functions
         // Calculate alchemical distribution from planetary positions
-        let alchemicalDistribution = calculateAlchemicalDistribution(
+        const alchemicalDistribution = calculateAlchemicalDistribution(
           currentPlanetaryAlignment,
           isDaytime
         );
 
         // Convert alchemical distribution to elemental properties
-        let elementalProps = convertToElementalProperties(
+        const elementalProps = convertToElementalProperties(
           alchemicalDistribution
         );
 
         // Calculate thermodynamic properties from alchemical distribution
-        let thermodynamicProps = calculateThermodynamicProperties(
+        const thermodynamicProps = calculateThermodynamicProperties(
           alchemicalDistribution
         );
 
         // Update the alchemical results state
         setAlchemicalResults((prev) => {
           // Only update if there's a significant change
-          let THRESHOLD = 0.01;
-          let hasSignificantChange =
+          const THRESHOLD = 0.01;
+          const hasSignificantChange =
             Math.abs(prev.heat - thermodynamicProps.heat) >= THRESHOLD ||
             Math.abs(prev.entropy - thermodynamicProps.entropy) >= THRESHOLD ||
             Math.abs(prev.reactivity - thermodynamicProps.reactivity) >=
@@ -535,8 +535,8 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
         });
 
         // Calculate modality distribution - pulled this out of the state update to avoid unnecessary re-renders
-        let modalityCount = { Cardinal: 0, Fixed: 0, Mutable: 0 };
-        let totalPlanets = 0;
+        const modalityCount = { Cardinal: 0, Fixed: 0, Mutable: 0 };
+        const totalPlanets = 0;
 
         // Map of which signs belong to which modality
         const signModality: Record<string, string> = {
@@ -563,8 +563,8 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
             'sign' in position &&
             typeof position.sign === 'string'
           ) {
-            let signKey = position.sign.toLowerCase();
-            let modality =
+            const signKey = position.sign.toLowerCase();
+            const modality =
               signKey in signModality ? signModality[signKey] : undefined;
             if (
               modality &&
@@ -579,7 +579,7 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
         });
 
         // Calculate percentages
-        let modalityDistribution = {
+        const modalityDistribution = {
           Cardinal:
             totalPlanets > 0 ? modalityCount.Cardinal / (totalPlanets || 1) : 0.33,
           Fixed: totalPlanets > 0 ? modalityCount.Fixed / (totalPlanets || 1) : 0.33,
@@ -588,11 +588,11 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
         };
 
         // Determine dominant modality
-        let entries = Object.entries(modalityDistribution) as [
+        const entries = Object.entries(modalityDistribution) as [
           Modality,
           number
         ][];
-        let dominantModality = entries.reduce(
+        const dominantModality = entries.reduce(
           (max, [modality, value]) =>
             value > max.value ? { modality, value } : max,
           { modality: 'Mutable' as Modality, value: 0 }
@@ -625,7 +625,7 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
         logger.error('Error calculating elemental state:', err);
 
         // Fallback to a default state if calculation fails
-        let defaultState = ElementalCalculator.getCurrentElementalState();
+        const defaultState = ElementalCalculator.getCurrentElementalState();
         setAlchemicalResults((prev) => ({
           ...prev,
           elementalCounts: defaultState,
@@ -641,7 +641,7 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
   }, [currentPlanetaryAlignment, isDaytime]); // Only depend on these two values
 
   // Get color based on value
-  let getEnergyColor = (value: number) => {
+  const getEnergyColor = (value: number) => {
     if (isNaN(value)) return 'rgb(128, 128, 128)';
     if (value >= 0.7) return 'rgb(0, 200, 83)';
     if (value >= 0.4) return 'rgb(65, 105, 225)';
@@ -649,7 +649,7 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
   };
 
   // Functions for visualization
-  let getElementIcon = (element: string) => {
+  const getElementIcon = (element: string) => {
     switch (element) {
       case 'Fire':
         return '🔥';
@@ -664,7 +664,7 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
     }
   };
 
-  let getElementColor = (element: string) => {
+  const getElementColor = (element: string) => {
     switch (element) {
       case 'Fire':
         return 'rgb(255, 87, 51)';
@@ -679,7 +679,7 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
     }
   };
 
-  let getAlchemicalPropertyIcon = (property: string) => {
+  const getAlchemicalPropertyIcon = (property: string) => {
     switch (property) {
       case 'Spirit':
         return '✨';
@@ -694,7 +694,7 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
     }
   };
 
-  let getAlchemicalPropertyColor = (property: string) => {
+  const getAlchemicalPropertyColor = (property: string) => {
     switch (property) {
       case 'Spirit':
         return 'rgb(186, 85, 211)';
@@ -710,7 +710,7 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
   };
 
   // Replace the debug-info section with a memoized version to prevent re-rendering loops
-  let DebugInfo = React.memo(() => (
+  const DebugInfo = React.memo(() => (
     <div
       style={{
         fontSize: '10px',

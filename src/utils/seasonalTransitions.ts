@@ -43,8 +43,8 @@ export function applySeasonalTransition(
 ): ElementalState {
   if (!currentPhase) return defaultBalance;
   
-  let progress = calculateProgressInPhase(currentDate, currentPhase);
-  let strength = calculateSeasonalStrength(progress);
+  const progress = calculateProgressInPhase(currentDate, currentPhase);
+  const strength = calculateSeasonalStrength(progress);
   
   return {
     Fire: baseElements.Fire * (1 + strength * seasonalModifiers[currentPhase.name].Fire),

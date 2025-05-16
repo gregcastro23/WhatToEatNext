@@ -2,12 +2,12 @@ import @/types  from 'alchemy ';
 import { elementalUtils } from './elementalUtils';
 import { calculationUtils } from './calculationUtils';
 
-export let recipeUtils = {
+export const recipeUtils = {
   calculateRecipeBalance(
     ingredients: Array<{ properties: ElementalProperties; amount: number }>
   ): ElementalProperties {
     // Weight ingredients by their amounts
-    let weighted = ingredients.map(({ properties, amount }) => {
+    const weighted = ingredients.map(({ properties, amount }) => {
       return Object.entries(properties).reduce((acc, [element, value]) => {
         acc[element] = value * amount;
         return acc;
@@ -28,11 +28,11 @@ export let recipeUtils = {
   suggestBalancingIngredients(
     currentBalance: ElementalProperties
   ): { element: string; strength: number }[] {
-    let ideal = 0.25; // Perfect balance for 4 elements
+    const ideal = 0.25; // Perfect balance for 4 elements
     const suggestions: { element: string; strength: number }[] = [];
 
     Object.entries(currentBalance).forEach(([element, value]) => {
-      let difference = ideal - (value || 0);
+      const difference = ideal - (value || 0);
       if (difference > 0.1) { // Only suggest if significantly below ideal
         suggestions.push({
           element,
@@ -83,7 +83,7 @@ export let recipeUtils = {
       }
     };
 
-    let modifier = methodModifiers[method.toLowerCase()];
+    const modifier = methodModifiers[method.toLowerCase()];
     return modifier 
       ? elementalUtils.combineProperties(properties, modifier)
       : properties;

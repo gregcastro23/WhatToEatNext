@@ -85,8 +85,8 @@ export function generateTopSauceRecommendations(currentElementalProfile = null, 
       const currentFlavors = planetaryFlavors[currentPlanetaryDay] || {};
       
       // Calculate flavor match
-      let flavorMatch = 0;
-      let flavorCount = 0;
+      const flavorMatch = 0;
+      const flavorCount = 0;
       
       Object.entries(currentFlavors).forEach(([flavor, strength]) => {
         if (sauce.flavorProfile[flavor]) {
@@ -190,7 +190,7 @@ export function recommendCuisines(
     scores[cuisineName].score += Math.random() * 0.3;
     
     // Find recommended dishes
-    let dishes = findRecommendedDishes(
+    const dishes = findRecommendedDishes(
       cuisineData,
       lunarPhase,
       zodiacSign,
@@ -236,7 +236,7 @@ function findRecommendedDishes(
   // Go through all dishes in the cuisine
   Object.entries(cuisineData.dishes || {}).forEach(([dishName, dishData]) => {
     // Type the dishData properly
-    let typedDishData = dishData as {
+    const typedDishData = dishData as {
       seasonal?: string[];
       ingredients?: string[];
       recommendedFor?: string[];
@@ -255,7 +255,7 @@ function findRecommendedDishes(
     
     // Check ingredients
     if (ingredients.length > 0 && typedDishData.ingredients) {
-      let matchesIngredients = ingredients.some((ing) => typedDishData.ingredients?.includes(ing));
+      const matchesIngredients = ingredients.some((ing) => typedDishData.ingredients?.includes(ing));
       if (!matchesIngredients) {
         shouldInclude = false;
       }
@@ -293,8 +293,8 @@ export function calculateElementalMatch(
   userElements: ElementalProperties
 ): number {
   // Calculate similarity based on elemental profiles
-  let matchSum = 0;
-  let totalWeight = 0;
+  const matchSum = 0;
+  const totalWeight = 0;
   
   // Get dominant elements
   const recipeDominant = Object.entries(recipeElements)
@@ -323,7 +323,7 @@ export function calculateElementalMatch(
   
   // Calculate final score
   const baseScore = matchSum / totalWeight;
-  let finalScore = baseScore + dominantBonus;
+  const finalScore = baseScore + dominantBonus;
   
   // Ensure score is between 0 and 1
   return Math.min(1, Math.max(0, finalScore));
@@ -389,7 +389,7 @@ export function calculateElementalProfileFromZodiac(
     pisces: 'Water',
   };
 
-  let primaryElement = zodiacElementMap[zodiacSign];
+  const primaryElement = zodiacElementMap[zodiacSign];
 
   // Start with base values
   const elementalProfile: ElementalProperties = {
@@ -415,7 +415,7 @@ export function calculateElementalProfileFromZodiac(
       'waning crescent': 'Earth',
     };
 
-    let lunarElement = lunarElementMap[lunarPhase];
+    const lunarElement = lunarElementMap[lunarPhase];
 
     if (lunarElement) {
       // Increase the lunar element (avoid exceeding 1.0 total)
@@ -424,7 +424,7 @@ export function calculateElementalProfileFromZodiac(
   }
 
   // Normalize to ensure sum is approximately 1.0
-  let sum = Object.values(elementalProfile).reduce(
+  const sum = Object.values(elementalProfile).reduce(
     (acc, val) => acc + val,
     0
   );
@@ -466,10 +466,10 @@ export function calculateElementalContributionsFromPlanets(
 
   // Calculate contributions based on planet positions
   for (const [planet, position] of Object.entries(positions)) {
-    let element = planetElementMap[planet];
+    const element = planetElementMap[planet];
     if (element) {
       // Weight by planet importance (Sun and Moon have higher influence)
-      let weight = planet === 'Sun' || planet === 'Moon' ? 0.3 : 0.1;
+      const weight = planet === 'Sun' || planet === 'Moon' ? 0.3 : 0.1;
       contributions[element] += weight;
     }
   }
@@ -502,10 +502,10 @@ export function calculateCuisineScore(
   astroState: AstrologicalState
 ): number {
   // Use simplified score calculation
-  let baseScore = calculateBaseScore(cuisine, astroState);
+  const baseScore = calculateBaseScore(cuisine, astroState);
 
   // Apply a multiplier for better differentiation
-  let multiplier = 1.5;
+  const multiplier = 1.5;
   return Math.min(1.0, baseScore * multiplier); 
 }
 

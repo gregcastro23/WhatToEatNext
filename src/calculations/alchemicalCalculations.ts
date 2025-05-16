@@ -855,10 +855,10 @@ const calculateAspectEffects = (
   );
 
   // Check each planet pair for aspects
-  for (let i = 0; i < validPlanets.length; i++) {
+  for (const i = 0; i < validPlanets.length; i++) {
     const [planet1, pos1] = validPlanets[i];
 
-    for (let j = i + 1; j < validPlanets.length; j++) {
+    for (const j = i + 1; j < validPlanets.length; j++) {
       const [planet2, pos2] = validPlanets[j];
 
       // Calculate the angular distance between planets
@@ -977,10 +977,10 @@ export function alchemize(
   retrogrades?: Record<string, boolean>
 ): AlchemicalResult {
   // Initialize alchemical properties
-  let spirit = 0;
-  let essence = 0;
-  let matter = 0;
-  let substance = 0;
+  const spirit = 0;
+  const essence = 0;
+  const matter = 0;
+  const substance = 0;
 
   // Initialize elemental balance
   const elementalBalance = {

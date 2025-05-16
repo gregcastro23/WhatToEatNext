@@ -169,7 +169,7 @@ export function getFoodRecommendationsFromChakras(
   balancingMeals: string[];
 } {
   // Identify underactive chakras that need support
-  let underactiveChakras = chakraEnergyStates
+  const underactiveChakras = chakraEnergyStates
     .filter((state) => state.balanceState === 'underactive')
     .map((state) => state.chakra);
 
@@ -180,12 +180,12 @@ export function getFoodRecommendationsFromChakras(
       : ['Root', 'Heart', 'Crown'];
 
   // Identify overactive chakras that need calming
-  let overactiveChakras = chakraEnergyStates
+  const overactiveChakras = chakraEnergyStates
     .filter((state) => state.balanceState === 'overactive')
     .map((state) => state.chakra);
 
   // Get food groups that support target chakras
-  let supportingFoodGroups = Object.entries(FOOD_GROUP_CHAKRA_MAP)
+  const supportingFoodGroups = Object.entries(FOOD_GROUP_CHAKRA_MAP)
     .filter(([_, chakras]) =>
       chakras.some((chakra) => chakrasToUse.includes(chakra))
     )
@@ -211,11 +211,11 @@ export function getFoodRecommendationsFromChakras(
   }
 
   // Get secondary supporting food groups (for chakras that are neutral)
-  let neutralChakras = chakraEnergyStates
+  const neutralChakras = chakraEnergyStates
     .filter((state) => state.balanceState === 'balanced')
     .map((state) => state.chakra);
 
-  let secondaryFoodGroups = Object.entries(FOOD_GROUP_CHAKRA_MAP)
+  const secondaryFoodGroups = Object.entries(FOOD_GROUP_CHAKRA_MAP)
     .filter(([_, chakras]) =>
       chakras.some((chakra) => neutralChakras.includes(chakra))
     )
@@ -241,7 +241,7 @@ export function getFoodRecommendationsFromChakras(
   }
 
   // Get food groups to avoid (those that might stimulate overactive chakras)
-  let avoidFoodGroups = Object.entries(FOOD_GROUP_CHAKRA_MAP)
+  const avoidFoodGroups = Object.entries(FOOD_GROUP_CHAKRA_MAP)
     .filter(([_, chakras]) =>
       chakras.some((chakra) => overactiveChakras.includes(chakra))
     )
@@ -265,7 +265,7 @@ export function getFoodRecommendationsFromChakras(
   }
 
   // Generate balancing meal ideas
-  let balancingMeals = generateBalancingMeals(
+  const balancingMeals = generateBalancingMeals(
     chakrasToUse,
     neutralChakras,
     primaryFoods
@@ -359,11 +359,11 @@ function generateBalancingMeals(
 
   // Generate general meals from primary foods if none of the specific meals were generated
   if (meals.length === 0 && primaryFoods.length > 0) {
-    let proteins = primaryFoods.filter(
+    const proteins = primaryFoods.filter(
       (food) => FOOD_ITEMS_BY_GROUP['Proteins']?.includes(food) || false
     );
 
-    let vegetables = primaryFoods.filter(
+    const vegetables = primaryFoods.filter(
       (food) => !FOOD_ITEMS_BY_GROUP['Proteins']?.includes(food) || false
     );
 
@@ -411,17 +411,17 @@ export function getZodiacSignFoodRecommendations(
     pisces: 'Third Eye',
   };
 
-  let primaryChakra = ZODIAC_PRIMARY_CHAKRA[zodiacSign];
+  const primaryChakra = ZODIAC_PRIMARY_CHAKRA[zodiacSign];
 
   // Get chakra-specific recommendations
-  let recommendations = CHAKRA_BALANCING_FOODS[primaryChakra] || [];
+  const recommendations = CHAKRA_BALANCING_FOODS[primaryChakra] || [];
 
   // Convert general food categories to specific food items
-  let foodGroups = Object.entries(FOOD_GROUP_CHAKRA_MAP)
+  const foodGroups = Object.entries(FOOD_GROUP_CHAKRA_MAP)
     .filter(([_, chakras]) => chakras.includes(primaryChakra))
     .map(([group]) => group);
 
-  let specificFoods = foodGroups.flatMap(
+  const specificFoods = foodGroups.flatMap(
     (group) => FOOD_ITEMS_BY_GROUP[group] || []
   );
 

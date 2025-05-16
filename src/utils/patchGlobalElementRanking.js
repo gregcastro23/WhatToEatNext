@@ -13,7 +13,7 @@
   window.getElementRanking = function(element_object, rank) {
     try {
       // Create a completely new result object, never try to modify an existing one
-      let result = {
+      const result = {
         1: '',
         2: '',
         3: '',
@@ -21,7 +21,7 @@
       };
       
       // Convert to array of [element, value] pairs for sorting
-      let elementPairs = Object.entries(element_object || {});
+      const elementPairs = Object.entries(element_object || {});
       
       // Sort by value in descending order
       elementPairs.sort((a, b) => b[1] - a[1]);
@@ -41,7 +41,7 @@
   };
 
   // Also patch the original problematic function in case it's directly called
-  let originalAlchemize = window.alchemize;
+  const originalAlchemize = window.alchemize;
   window.alchemize = function(birth_info, horoscope_dict) {
     try {
       // If the original exists, try to use it with error handling
@@ -71,14 +71,14 @@
   };
   
   // Other potential functions that might need patching
-  let functionsToProtect = [
+  const functionsToProtect = [
     'combineElementObjects',
     'createElementObject',
     'getAbsoluteElementValue'
   ];
   
   functionsToProtect.forEach(functionName => {
-    let original = window[functionName];
+    const original = window[functionName];
     if (typeof original === 'function') {
       window[functionName] = function(...args) {
         try {

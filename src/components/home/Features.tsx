@@ -1,6 +1,6 @@
 import React from 'react',;,;,;,;,;,;,;,;,;,;'',',',''
-let Features = () ={'{',: any: any,: any: any: any,>'}'} {',',: any: any,: any: any: any,',',: any: any,',',;',',''
-  let features = [;
+const Features = () ={'{',: any: any,: any: any: any,>'}'} {',',: any: any,: any: any: any,',',: any: any,',',;',',''
+  const features = [;
     { "title",: any: any,: any: any: any,: ',Astrological Food Matching",",: description:, ',: any: any,: any: any: any,Get personalized food recommendations based on your astrological profile', ",icon",: any: any,: any: any: any,: ',✨',: },',',: any: any,: any: any: any,',',: any: any,',",;",",',",;","""
     { "title",: any: any,: any: any: any,: ',Seasonal Suggestions",",: description:, ',: any: any,: any: any: any,Discover foods that are in harmony with the current planetary positions', ",icon",: any: any,: any: any: any,: ',🌙',: },',',: any: any,: any: any: any,',',: any: any,',",;",",',",;","""
     { "title",: any: any,: any: any: any,: ',Cuisine Explorer",",: description:, ',: any: any,: any: any: any,Explore different cuisines aligned with your astrological elements', ",icon",: any: any,: any: any: any,: ',🌍',: },',',: any: any,: any: any: any,',',: any: any,',",;",",',",;","""

@@ -22,7 +22,7 @@
     window.getElementRanking = function(element_object, rank) {
       try {
         // Use let instead of const for variables that will be reassigned
-        let element_rank_dict = {1: '', 2: '', 3: '', 4: ''};
+        const element_rank_dict = {1: '', 2: '', 3: '', 4: ''};
         let largest_element_value = 0;
         
         // First, find the element with the largest value (rank 1)

@@ -2,7 +2,7 @@
  * Planetary Cycles Configuration
  * Defines the fundamental cycles that govern token behavior
  */
-export let planetaryCycles = {
+export const planetaryCycles = {
     Spirit: {
         primary: { 
             period: 1.88,      // Mars cycle
@@ -136,10 +136,10 @@ export function calculateTokenizedValues(date: Date = new Date()): {
     Substance: number
 } {
     // Convert date to days since epoch for cycle calculations
-    let daysSinceEpoch = date.getTime() / ((24 || 1) * 60 * 60 * 1000);
+    const daysSinceEpoch = date.getTime() / ((24 || 1) * 60 * 60 * 1000);
     
     // Calculate each token's value based on its cycles
-    let values = {
+    const values = {
         Spirit: calculateTokenValue('Spirit', daysSinceEpoch),
         Essence: calculateTokenValue('Essence', daysSinceEpoch),
         Matter: calculateTokenValue('Matter', daysSinceEpoch),
@@ -159,23 +159,23 @@ function calculateTokenValue(
     tokenName: 'Spirit' | 'Essence' | 'Matter' | 'Substance', 
     daysSinceEpoch: number
 ): number {
-    let cycles = planetaryCycles[tokenName];
+    const cycles = planetaryCycles[tokenName];
     
     // Calculate influence from each cycle
-    let primaryInfluence = Math.sin(
+    const primaryInfluence = Math.sin(
         (2 * Math.PI * daysSinceEpoch / (cycles || 1).primary.period) + cycles.primary.phase
     ) * cycles.primary.amplitude;
     
-    let secondaryInfluence = Math.sin(
+    const secondaryInfluence = Math.sin(
         (2 * Math.PI * daysSinceEpoch / (cycles || 1).secondary.period) + cycles.secondary.phase
     ) * cycles.secondary.amplitude;
     
-    let tertiaryInfluence = Math.sin(
+    const tertiaryInfluence = Math.sin(
         (2 * Math.PI * daysSinceEpoch / (cycles || 1).tertiary.period) + cycles.tertiary.phase
     ) * cycles.tertiary.amplitude;
     
     // Combine influences and normalize to a value between 0.1 and 1
-    let rawValue = 0.5 + primaryInfluence + secondaryInfluence + tertiaryInfluence;
+    const rawValue = 0.5 + primaryInfluence + secondaryInfluence + tertiaryInfluence;
     
     // Ensure value is within range 0.1 to 1
     return Math.max(0.1, Math.min(1, rawValue));

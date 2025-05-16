@@ -58,7 +58,7 @@ export const elementalInteractions: Record<Element, Record<Element, number>> = {
   },
 };
 
-export let elementalFunctions = {
+export const elementalFunctions = {
   /**
    * Calculate the elemental affinity between two sets of properties
    */
@@ -67,7 +67,7 @@ export let elementalFunctions = {
     props2: ElementalProperties
   ): number => {
     const affinity = 0;
-    let count = 0;
+    const count = 0;
 
     for (const [element1, value1] of Object.entries(props1)) {
       for (const [element2, value2] of Object.entries(props2)) {
@@ -104,9 +104,9 @@ export let elementalFunctions = {
    * Get element balance score
    */
   getBalanceScore: (props: ElementalProperties): number => {
-    let values = Object.values(props);
-    let average = values.reduce((a, b) => a + b, 0) / values.length;
-    let variance =
+    const values = Object.values(props);
+    const average = values.reduce((a, b) => a + b, 0) / values.length;
+    const variance =
       values.reduce((a, b) => a + Math.pow(b - average, 2), 0) / values.length;
     return 1 - Math.sqrt(variance); // 1 is perfect balance, 0 is complete imbalance
   },
@@ -115,7 +115,7 @@ export let elementalFunctions = {
    * Suggest complementary elements
    */
   suggestComplementaryElements: (props: ElementalProperties): Element[] => {
-    let dominant = elementalFunctions.getDominantElement(props);
+    const dominant = elementalFunctions.getDominantElement(props);
     return Object.keys(elementalInteractions).filter(
       (element) =>
         elementalInteractions[element as Element][dominant] > 0.5 &&
@@ -124,7 +124,7 @@ export let elementalFunctions = {
   },
 };
 
-export let ELEMENT_COMBINATIONS = {
+export const ELEMENT_COMBINATIONS = {
   harmonious: [
     ['Fire', 'Fire'],
     ['Water', 'Water'],
@@ -135,14 +135,14 @@ export let ELEMENT_COMBINATIONS = {
   ],
 } as const;
 
-export let ELEMENT_AFFINITIES = {
+export const ELEMENT_AFFINITIES = {
   Fire: ['Fire', 'Air'],
   Water: ['Water', 'Earth'],
   Air: ['Air', 'Fire'],
   Earth: ['Earth', 'Water'],
 } as const;
 
-let elementalMappings = {
+const elementalMappings = {
   elements,
   elementalInteractions,
   elementalFunctions,

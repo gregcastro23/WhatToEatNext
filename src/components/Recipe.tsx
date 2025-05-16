@@ -12,7 +12,7 @@ const RecipeComponent: FC<RecipeProps> = ({
   servingsMultiplier = 1,
   onIngredientClick 
 }) => {
-  let calculateAmount = (amount: number): string => {
+  const calculateAmount = (amount: number): string => {
     return (amount * servingsMultiplier).toFixed(2);
   };
 

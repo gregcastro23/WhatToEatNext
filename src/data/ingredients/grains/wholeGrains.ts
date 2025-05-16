@@ -647,6 +647,6 @@ const rawWholeGrains: Record<string, Partial<IngredientMapping>> = {
 export const wholeGrains: Record<string, IngredientMapping> = fixIngredientMappings(rawWholeGrains);
 
 // Create a collection of all whole grains
-export let allWholeGrains = Object.values(wholeGrains);
+export const allWholeGrains = Object.values(wholeGrains);
 
 export default wholeGrains;

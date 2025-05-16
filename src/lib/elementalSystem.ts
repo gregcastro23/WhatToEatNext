@@ -19,7 +19,7 @@ import type {
 class ElementalSystem {
   calculateBalance(properties: ElementalProperties): number {
     const values = ELEMENTS.map((element) => properties[element] || 0);
-    let total = values.reduce((sum, val) => sum + val, 0);
+    const total = values.reduce((sum, val) => sum + val, 0);
 
     if (total === 0) return 0;
 
@@ -32,12 +32,12 @@ class ElementalSystem {
 
   getRecommendedAdjustments(properties: ElementalProperties): string[] {
     const adjustments: string[] = [];
-    let total = Object.values(properties).reduce((sum, val) => sum + val, 0);
+    const total = Object.values(properties).reduce((sum, val) => sum + val, 0);
 
     if (total === 0) return ['No elemental properties found'];
 
     ELEMENTS.forEach((element) => {
-      let value = properties[element] || 0;
+      const value = properties[element] || 0;
       const proportion = value / (total || 1);
 
       if (proportion < MINIMUM_THRESHOLD) {
@@ -53,7 +53,7 @@ class ElementalSystem {
   normalizeProperties(
     properties: Partial<ElementalProperties>
   ): ElementalProperties {
-    let total = Object.values(properties).reduce(
+    const total = Object.values(properties).reduce(
       (sum: number, val) => sum + (val || 0),
       0
     );
@@ -82,7 +82,7 @@ class ElementalSystem {
     let maxValue = -Infinity;
 
     ELEMENTS.forEach((element) => {
-      let value = properties[element] || 0;
+      const value = properties[element] || 0;
       if (value > maxValue) {
         maxValue = value;
         dominantElement = element;

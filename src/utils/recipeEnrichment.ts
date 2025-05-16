@@ -6,7 +6,7 @@ import @/utils  from 'astrologyUtils ';
  */
 export function enrichRecipeData(recipe: unknown): Recipe {
   // Create a deep copy to avoid mutating the original
-  let enrichedRecipe = JSON.parse(JSON.stringify(recipe));
+  const enrichedRecipe = JSON.parse(JSON.stringify(recipe));
   
   // Ensure all required properties exist
   enrichedRecipe.id = enrichedRecipe.id || `recipe-${Date.now()}`;
@@ -149,7 +149,7 @@ function deriveAstrologicalInfluencesFromIngredients(recipe: Recipe): string[] {
   // Extract ingredient names from recipe
   if (recipe.ingredients) {
     recipe.ingredients.forEach(ingredient => {
-      let ingredientName = ingredient.name.toLowerCase();
+      const ingredientName = ingredient.name.toLowerCase();
       
       // Check for exact matches
       for (const [key, correspondences] of Object.entries(ingredientCorrespondences)) {
@@ -190,7 +190,7 @@ function deriveAstrologicalInfluencesFromIngredients(recipe: Recipe): string[] {
   
   // Add seasonal influences
   if (recipe.season) {
-    let seasons = Array.isArray(recipe.season) ? recipe.season : [recipe.season];
+    const seasons = Array.isArray(recipe.season) ? recipe.season : [recipe.season];
     
     seasons.forEach(season => {
       let s = season.toLowerCase();
@@ -211,7 +211,7 @@ function deriveAstrologicalInfluencesFromIngredients(recipe: Recipe): string[] {
 
 function deriveElementalProperties(recipe: Recipe): {Fire: number, Water: number, Earth: number, Air: number} {
   // Default balanced elemental properties
-  let properties = {
+  const properties = {
     Fire: 0.25,
     Water: 0.25,
     Earth: 0.25,
@@ -220,7 +220,7 @@ function deriveElementalProperties(recipe: Recipe): {Fire: number, Water: number
   
   // Check cooking method
   if (recipe.cookingMethod) {
-    let method = recipe.cookingMethod.toLowerCase();
+    const method = recipe.cookingMethod.toLowerCase();
     
     if (method.includes('roast') || method.includes('grill') || method.includes('bake')) {
       properties.Fire += 0.2;
@@ -240,7 +240,7 @@ function deriveElementalProperties(recipe: Recipe): {Fire: number, Water: number
   
   // Adjust based on cuisine type
   if (recipe.cuisine) {
-    let cuisine = recipe.cuisine.toLowerCase();
+    const cuisine = recipe.cuisine.toLowerCase();
     
     if (['mexican', 'thai', 'indian', 'cajun'].includes(cuisine)) {
       // Spicy cuisines - more Fire
@@ -262,7 +262,7 @@ function deriveElementalProperties(recipe: Recipe): {Fire: number, Water: number
   }
   
   // Normalize values between 0 and 1
-  let total = properties.Fire + properties.Water + properties.Earth + properties.Air;
+  const total = properties.Fire + properties.Water + properties.Earth + properties.Air;
   
   return {
     Fire: Math.max(0, Math.min(1, properties.Fire / (total || 1))),
@@ -277,10 +277,10 @@ function enrichAndNormalizeSeasons(seasons?: string[]): string[] {
     return ['all'];
   }
   
-  let normalizedSeasons = new Set<string>();
+  const normalizedSeasons = new Set<string>();
   
   seasons.forEach(season => {
-    let normalized = season.toLowerCase();
+    const normalized = season.toLowerCase();
     
     // Add the base season
     normalizedSeasons.add(normalized);
@@ -318,8 +318,8 @@ function deriveCelestialTiming(recipe: Recipe): {
   // Derive optimal moon phase based on recipe properties
   if (recipe.elementalProperties) {
     // Dominant element suggests optimal moon phase
-    let elements = Object.entries(recipe.elementalProperties).sort((a, b) => b[1] - a[1]);
-    let dominantElement = elements[0][0];
+    const elements = Object.entries(recipe.elementalProperties).sort((a, b) => b[1] - a[1]);
+    const dominantElement = elements[0][0];
     
     switch (dominantElement) {
       case 'Fire':
@@ -343,14 +343,14 @@ function deriveCelestialTiming(recipe: Recipe): {
   
   // Determine best zodiac season from astrologicalInfluences if available
   if (recipe.astrologicalInfluences && recipe.astrologicalInfluences.length > 0) {
-    let zodiacSigns = [
+    const zodiacSigns = [
       'aries', 'taurus', 'gemini', 'cancer', 'leo', 'virgo',
       'libra', 'scorpio', 'sagittarius', 'capricorn', 'aquarius', 'pisces'
     ];
     
     // Find mentions of zodiac signs in influences
     for (const influence of recipe.astrologicalInfluences) {
-      let lowerInfluence = influence.toLowerCase();
+      const lowerInfluence = influence.toLowerCase();
       
       for (const sign of zodiacSigns) {
         if (lowerInfluence.includes(sign)) {

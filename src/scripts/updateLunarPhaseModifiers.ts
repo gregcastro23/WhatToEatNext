@@ -38,8 +38,8 @@ interface ProcessedFile {
  */
 async function updateAllIngredientFiles() {
   const results: ProcessedFile[] = [];
-  let totalProcessed = 0;
-  let totalUpdated = 0;
+  const totalProcessed = 0;
+  const totalUpdated = 0;
 
   console.log('Starting update of ingredient files with lunar phase modifiers...');
 
@@ -208,8 +208,8 @@ function findInsertPoint(ingredientText: string): number {
       // Find the closing bracket of this property
       const bracketStart = ingredientText.indexOf('{', propIndex);
       if (bracketStart !== -1) {
-        let openBrackets = 1;
-        let closingIndex = bracketStart + 1;
+        const openBrackets = 1;
+        const closingIndex = bracketStart + 1;
         
         while (openBrackets > 0 && closingIndex < ingredientText.length) {
           if (ingredientText[closingIndex] === '{') openBrackets++;
@@ -266,7 +266,7 @@ function parseElementalProperties(propsText: string): ElementalProperties {
  * Format lunar phase modifiers as a string to insert into the ingredient definition
  */
 function formatLunarPhaseModifiers(modifiers: Record<string, unknown>): string {
-  let result = '\n    lunarPhaseModifiers: {\n';
+  const result = '\n    lunarPhaseModifiers: {\n';
   
   for (const [phase, modifier] of Object.entries(modifiers)) {
     result += `      ${phase}: {\n`;

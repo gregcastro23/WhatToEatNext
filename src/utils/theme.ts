@@ -14,7 +14,7 @@ export class ThemeManager {
   
   async initializeTheme() {
     try {
-      let savedTheme = localStorage.getItem('theme') || 'light';
+      const savedTheme = localStorage.getItem('theme') || 'light';
       this.updateTheme(savedTheme);
       return savedTheme;
     } catch (error) {
@@ -26,8 +26,8 @@ export class ThemeManager {
 
   getTheme(): ThemeData {
     try {
-      let savedTheme = localStorage.getItem('theme') || 'light';
-      let savedAccent = localStorage.getItem('accent-color') || 'blue';
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      const savedAccent = localStorage.getItem('accent-color') || 'blue';
       
       return {
         mode: savedTheme as 'light' | 'dark' | 'system',
@@ -40,6 +40,6 @@ export class ThemeManager {
   }
 }
 
-export let themeManager = new ThemeManager();
+export const themeManager = new ThemeManager();
 
 export { themeManager as default }; 

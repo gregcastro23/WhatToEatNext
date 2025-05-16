@@ -117,8 +117,8 @@ export const compareDecanRulers = (
   decanA: Record<string, unknown>,
   decanB: Record<string, unknown>
 ): number => {
-  let compatibilityScore = 0;
-  let comparisons = 0;
+  const compatibilityScore = 0;
+  const comparisons = 0;
 
   // Extract all planetary rulers from both signs' decans
   const rulerKeysA = Object.keys(decanA).filter(key => key.includes('Decan') && key.includes('Ruler'));
@@ -171,8 +171,8 @@ function calculateDegreeOverlap(
     return 0.5;
   }
 
-  let totalPlanets = 0;
-  let overlappingPlanets = 0;
+  const totalPlanets = 0;
+  const overlappingPlanets = 0;
 
   // Count planets that appear in both signs' degree effects
   Object.keys(degreesA).forEach((planet) => {
@@ -565,8 +565,8 @@ export const calculateElementalCompatibility = (
   zodiacA?: string,
   zodiacB?: string
 ): { score: number; breakdown: any } => {
-  let elementalScore = 0;
-  let totalWeight = 0;
+  const elementalScore = 0;
+  const totalWeight = 0;
 
   // Compare each element pair
   Object.keys(elementsA).forEach(element => {

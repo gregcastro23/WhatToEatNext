@@ -1,6 +1,6 @@
 import CookingMethodsSection from './CookingMethodsSection';
 
-let YourComponent = () => {
+const YourComponent = () => {
   // Your component logic
   
   const cookingMethods = [

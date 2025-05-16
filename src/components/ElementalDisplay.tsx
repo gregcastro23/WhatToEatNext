@@ -9,7 +9,7 @@ export default function ElementalDisplay() {
   const { elementalState } = state;
   
   // Helper function to format values as decimals
-  let formatValue = (value: number) => {
+  const formatValue = (value: number) => {
     return value.toFixed(2);
   };
 

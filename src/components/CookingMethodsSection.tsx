@@ -112,20 +112,20 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
   const [showAllMethods, setShowAllMethods] = useState(false);
   
   // Get top method based on score
-  let topMethod = useMemo(() => {
+  const topMethod = useMemo(() => {
     if (!methods.length) return null;
     return [...methods].sort((a, b) => {
-      let scoreA = a.score !== undefined ? a.score : 0;
-      let scoreB = b.score !== undefined ? b.score : 0;
+      const scoreA = a.score !== undefined ? a.score : 0;
+      const scoreB = b.score !== undefined ? b.score : 0;
       return scoreB - scoreA;
     })[0];
   }, [methods]);
   
   // Sort methods by score and limit display unless showAll is true
-  let displayMethods = useMemo(() => {
+  const displayMethods = useMemo(() => {
     const sortedMethods = [...methods].sort((a, b) => {
       const scoreA = a.score !== undefined ? a.score : 0;
-      let scoreB = b.score !== undefined ? b.score : 0;
+      const scoreB = b.score !== undefined ? b.score : 0;
       return scoreB - scoreA;
     });
     
@@ -148,7 +148,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
         setIsExpanded(true);
         
         // Find the selected method
-        let selectedMethod = methods.find(m => m.id === selectedMethodId);
+        const selectedMethod = methods.find(m => m.id === selectedMethodId);
         
         if (selectedMethod) {
           // If the selected method has variations, expand it
@@ -160,7 +160,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
           }
           
           // If this is a variation, find and expand its parent method
-          let parentMethod = methods.find(m => 
+          const parentMethod = methods.find(m => 
             m.variations?.some(v => v.id === selectedMethodId)
           );
           
@@ -176,7 +176,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
   }, [methods, selectedMethodId]);
   
   // Handle ingredient compatibility calculation
-  let calculateIngredientCompatibility = () => {
+  const calculateIngredientCompatibility = () => {
     if (!searchIngredient.trim()) return;
     
     // Calculate compatibility with each cooking method based on elemental properties
@@ -185,7 +185,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
     methods.forEach(method => {
       if (method.elementalEffect) {
         // Create a compatibility object from method's elemental effect
-        let methodElemental = {
+        const methodElemental = {
           Fire: method.elementalEffect.Fire || 0,
           Water: method.elementalEffect.Water || 0,
           Earth: method.elementalEffect.Earth || 0,
@@ -193,7 +193,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
         };
         
         // Calculate compatibility between ingredient and cooking method
-        let result = calculateCompatibility(searchIngredient, {
+        const result = calculateCompatibility(searchIngredient, {
           name: method.name,
           elementalProperties: methodElemental,
           category: 'cooking_method'
@@ -207,10 +207,10 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
         if (method.variations) {
           method.variations.forEach(variation => {
             // Use parent method's elemental effect if variation doesn't have one
-            let variationElemental = variation.elementalEffect || method.elementalEffect;
+            const variationElemental = variation.elementalEffect || method.elementalEffect;
             
             if (variationElemental) {
-              let variationResult = calculateCompatibility(searchIngredient, {
+              const variationResult = calculateCompatibility(searchIngredient, {
                 name: variation.name,
                 elementalProperties: variationElemental,
                 category: 'cooking_method'
@@ -228,11 +228,11 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
     setIngredientCompatibility(compatibilityResults);
   };
   
-  let toggleExpanded = () => {
+  const toggleExpanded = () => {
     setIsExpanded(prev => !prev);
   };
   
-  let toggleMethodExpanded = (methodId: string, e: React.MouseEvent) => {
+  const toggleMethodExpanded = (methodId: string, e: React.MouseEvent) => {
     // Prevent the click from bubbling up
     e.preventDefault();
     e.stopPropagation();
@@ -248,7 +248,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
   };
   
   // Toggle ingredient search section
-  let toggleIngredientSearch = () => {
+  const toggleIngredientSearch = () => {
     setShowIngredientSearch(prev => !prev);
     // Clear results when hiding
     if (showIngredientSearch) {
@@ -258,8 +258,8 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
   };
   
   // Calculate elemental transformation capacity from alchemical properties
-  let getElementalTransformations = (method: CookingMethod) => {
-    let transformations = {
+  const getElementalTransformations = (method: CookingMethod) => {
+    const transformations = {
       Fire: 0,
       Water: 0,
       Earth: 0,
@@ -304,18 +304,18 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
   };
 
   // Determine if an element is increased or decreased by the method
-  let getElementalDirection = (value: number): {direction: 'increase' | 'decrease' | 'neutral', intensity: number} => {
+  const getElementalDirection = (value: number): {direction: 'increase' | 'decrease' | 'neutral', intensity: number} => {
     if (value > 0.5) return { direction: 'increase', intensity: (value - 0.5) * 2 };
     if (value < 0.5) return { direction: 'decrease', intensity: (0.5 - value) * 2 };
     return { direction: 'neutral', intensity: 0 };
   };
 
   // Get alchemical essence label from properties
-  let getAlchemicalLabel = (method: CookingMethod): { primary: string, secondary: string } | null => {
+  const getAlchemicalLabel = (method: CookingMethod): { primary: string, secondary: string } | null => {
     if (!method.alchemicalProperties) return null;
     
     const { Spirit, Essence, Matter, Substance } = method.alchemicalProperties;
-    let alchemical = [
+    const alchemical = [
       { name: 'Spirit', value: Spirit || 0 },
       { name: 'Essence', value: Essence || 0 },
       { name: 'Matter', value: Matter || 0 },
@@ -331,7 +331,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
   };
   
   // Map compatibility score to color and label
-  let getCompatibilityLabel = (score: number): { label: string; className: string } => {
+  const getCompatibilityLabel = (score: number): { label: string; className: string } => {
     if (score >= 0.8) return { label: 'Excellent', className: 'compatibility-excellent' };
     if (score >= 0.6) return { label: 'Good', className: 'compatibility-good' };
     if (score >= 0.4) return { label: 'Fair', className: 'compatibility-fair' };
@@ -340,7 +340,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
   };
 
   // Get score class for styling
-  let getScoreClass = (score: number): string => {
+  const getScoreClass = (score: number): string => {
     if (score >= 0.8) return styles['score-excellent'];
     if (score >= 0.6) return styles['score-good'];
     if (score >= 0.4) return styles['score-fair'];
@@ -477,11 +477,11 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
                   </div>
                   <div className={styles['elemental-transformations']}>
                     {(() => {
-                      let transformations = getElementalTransformations(method);
+                      const transformations = getElementalTransformations(method);
                       
                       return Object.entries(transformations).map(([element, value]) => {
                         const { direction, intensity } = getElementalDirection(value);
-                        let displayIntensity = Math.min(Math.round(intensity * 100), 100); // 0-100 range
+                        const displayIntensity = Math.min(Math.round(intensity * 100), 100); // 0-100 range
                         
                         // Skip elements with no significant change
                         if (direction === 'neutral') return null;
@@ -621,11 +621,11 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
                           {(variation.elementalEffect || variation.alchemicalProperties) && (
                             <div className={styles['elemental-transformations-small']}>
                               {(() => {
-                                let transformations = getElementalTransformations(variation);
+                                const transformations = getElementalTransformations(variation);
                                 
                                 return Object.entries(transformations).map(([element, value]) => {
                                   const { direction, intensity } = getElementalDirection(value);
-                                  let displayIntensity = Math.min(Math.round(intensity * 100), 100); // 0-100 range
+                                  const displayIntensity = Math.min(Math.round(intensity * 100), 100); // 0-100 range
                                   
                                   // Skip elements with no significant change
                                   if (direction === 'neutral' || displayIntensity < 5) return null;

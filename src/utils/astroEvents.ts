@@ -21,14 +21,14 @@ export function getUpcomingAstroEvents(
   longitude = -74.006
 ): AstroEvent[] {
   const events: AstroEvent[] = [];
-  let now = new Date();
+  const now = new Date();
 
   // Loop through upcoming days
-  for (let i = 0; i < days; i++) {
-    let date = new Date(now.getTime() + i * 24 * 60 * 60 * 1000);
+  for (const i = 0; i < days; i++) {
+    const date = new Date(now.getTime() + i * 24 * 60 * 60 * 1000);
 
     // Get moon illumination for the date
-    let moonIllum = SunCalc.getMoonIllumination(date);
+    const moonIllum = SunCalc.getMoonIllumination(date);
 
     // Check for full moon
     if (moonIllum.phase > 0.48 && moonIllum.phase < 0.52) {

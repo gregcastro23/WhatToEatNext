@@ -15,7 +15,7 @@ interface CacheItem<T> {
 const calculationCache: Record<string, CacheItem<any>> = {};
 
 // Default TTL is 60 seconds - adjust based on how quickly data changes
-let DEFAULT_CACHE_TTL = 60 * 1000;
+const DEFAULT_CACHE_TTL = 60 * 1000;
 
 /**
  * Get a cached calculation result or compute and cache it if not found
@@ -33,9 +33,9 @@ export function getCachedCalculation<T>(
   ttl: number = DEFAULT_CACHE_TTL
 ): T | Promise<T> {
   // Create a hash of the input for comparison
-  let inputHash = JSON.stringify(inputObj);
-  let now = Date.now();
-  let cached = calculationCache[cacheKey];
+  const inputHash = JSON.stringify(inputObj);
+  const now = Date.now();
+  const cached = calculationCache[cacheKey];
 
   // Check if we have a valid cached result
   if (cached && cached.input === inputHash && now - cached.timestamp < ttl) {
@@ -48,7 +48,7 @@ export function getCachedCalculation<T>(
 
   try {
     // Perform the calculation
-    let resultOrPromise = calculationFn();
+    const resultOrPromise = calculationFn();
 
     // Handle both synchronous and asynchronous calculations
     if (resultOrPromise instanceof Promise) {
@@ -102,8 +102,8 @@ export function getCacheStats(): {
   oldestEntry: number;
   newestEntry: number;
 } {
-  let keys = Object.keys(calculationCache);
-  let timestamps = keys.map((key) => calculationCache[key].timestamp);
+  const keys = Object.keys(calculationCache);
+  const timestamps = keys.map((key) => calculationCache[key].timestamp);
 
   return {
     totalEntries: keys.length,

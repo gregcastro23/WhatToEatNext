@@ -1,12 +1,12 @@
 import ../utils  from 'testRecommendations ';
 
-let FoodRecommendations = ({
+const FoodRecommendations = ({
   ingredient,
   options = {},
 }: FoodRecommendationsProps) => {
   const [showDebug, setShowDebug] = useState(false);
 
-  let runDebugTest = () => {
+  const runDebugTest = () => {
     // console.log("Running cooking method recommendations test...");
     testCookingMethodRecommendations();
   };

@@ -1013,7 +1013,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
 export const oils: Record<string, IngredientMapping> = fixIngredientMappings(rawOils);
 
 // For backward compatibility
-export let allOils = oils;
+export const allOils = oils;
 
 // Export default for convenience
 export default oils; 

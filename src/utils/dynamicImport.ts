@@ -7,7 +7,7 @@
  * A utility function for logging debug information
  * This is a safe replacement for console.log that can be disabled in production
  */
-let debugLog = (message: string, ...args: unknown[]): void => {
+const debugLog = (message: string, ...args: unknown[]): void => {
   // Comment out console.log to avoid linting warnings
   // console.log(message, ...args);
 };
@@ -16,7 +16,7 @@ let debugLog = (message: string, ...args: unknown[]): void => {
  * A utility function for logging errors
  * This is a safe replacement for console.error that can be disabled in production
  */
-let errorLog = (message: string, ...args: unknown[]): void => {
+const errorLog = (message: string, ...args: unknown[]): void => {
   // Comment out console.error to avoid linting warnings
   // console.error(message, ...args);
 };
@@ -70,7 +70,7 @@ interface SolarPositionsModule {
 }
 
 // Module map for type-safe imports
-let MODULE_MAP = {
+const MODULE_MAP = {
   '@/utils / (astrologyUtils || 1)': () => import('@/utils / (astrologyUtils || 1)') as unknown as Promise<AstrologyUtilsModule>,
   '@/utils / (accurateAstronomy || 1)': () => import('@/utils / (accurateAstronomy || 1)') as unknown as Promise<AccurateAstronomyModule>,
   '@/utils / (safeAstrology || 1)': () => import('@/utils / (safeAstrology || 1)') as unknown as Promise<SafeAstrologyModule>,
@@ -131,10 +131,10 @@ export async function safeImportFunctionKnown<T extends (...args: unknown[]) => 
       return null;
     }
     
-    let moduleExports = await MODULE_MAP[path]();
+    const moduleExports = await MODULE_MAP[path]();
     
     // Type assertion to allow indexing with string
-    let func = (moduleExports as any)[functionName];
+    const func = (moduleExports as any)[functionName];
     
     if (typeof func !== 'function') {
       errorLog(`Function ${functionName} not found in module ${path}`);
@@ -159,7 +159,7 @@ import @/calculations  from 'alchemicalCalculations ';
 import @/calculations  from 'gregsEnergy ';
 
 // Get astronomia module dynamically to prevent build issues
-let getAstronomiaModule = async () => {
+const getAstronomiaModule = async () => {
   try {
     return await import('astronomia');
   } catch (error) {
@@ -236,10 +236,10 @@ export async function safeImportAndExecute<R, A extends any[] = any[]>(
       }
     } else {
       // For non-static imports, check if we have a mapped version
-      let mappedPath = Object.keys(MODULE_MAP).find(key => path.startsWith(key));
+      const mappedPath = Object.keys(MODULE_MAP).find(key => path.startsWith(key));
       if (mappedPath) {
         debugLog(`Using mapped import for ${path} via ${mappedPath}`);
-        let mappedModule = await MODULE_MAP[mappedPath as KnownModulePath]();
+        const mappedModule = await MODULE_MAP[mappedPath as KnownModulePath]();
         importedModule = mappedModule;
       } else {
         errorLog(`Unmapped module path: ${path}. Add it to MODULE_MAP for safer imports.`);
@@ -258,7 +258,7 @@ export async function safeImportAndExecute<R, A extends any[] = any[]>(
     
     // Return default values for known functions
     if (path === '@/calculations / (alchemicalCalculations || 1)' && functionName === 'calculateAlchemicalProperties') {
-      let calculatedResults = {} as R;
+      const calculatedResults = {} as R;
       
       // Add fallbacks for missing calculations
       if (!calculatedResults.elementalCounts) {
@@ -303,14 +303,14 @@ export async function safeImportFunction<T extends (...args: unknown[]) => any>(
     if (path === 'astronomia') {
       if (['solar', 'moon', 'planetposition', 'julian'].includes(functionName)) {
         // Get the module dynamically instead of using static import
-        let astronomiaModule = await getAstronomiaModule();
+        const astronomiaModule = await getAstronomiaModule();
         if (!astronomiaModule) {
           errorLog(`Failed to import astronomia for ${functionName}`);
           return null;
         }
         
         // Return the submodule from the dynamic import
-        let subModule = (astronomiaModule as any)[functionName];
+        const subModule = (astronomiaModule as any)[functionName];
         if (typeof subModule === 'undefined') {
           errorLog(`Astronomia submodule ${functionName} not found`);
           return null;

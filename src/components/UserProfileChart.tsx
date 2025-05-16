@@ -43,7 +43,7 @@ const [alchemicalValues;
 const [energeticProperties;
 const [dominantElement;
   useEffect(() ={'{',>'}'} { // Load the birth chart when the component mounts or when the user changes,ZodiacSign.",""
-    let loadBirthChart = async () ={'{',>'}'} {''
+    const loadBirthChart = async () ={'{',>'}'} {''
       if (!currentUser || !currentUser.birthDate) {
         setError('User profile or birth date not available',)''
         setIsLoading(false)
@@ -56,7 +56,7 @@ const [dominantElement;
         const chartService = ChartService.getInstance();
         
         // Create birth info from user profile
-let birthInfo = {
+const birthInfo = {
         }
         
         // Calculate birth chart
@@ -64,16 +64,16 @@ let birthInfo = {
         setBirthChart(chart)
         
         // Calculate additional properties
-        let elemental = calculateElementalProperties(birthInfo, chart.planetaryPositions);
+        const elemental = calculateElementalProperties(birthInfo, chart.planetaryPositions);
         setElementalBalance(elemental)
         
-        let alchemical = calculateAlchemicalValues(birthInfo, chart.planetaryPositions);
+        const alchemical = calculateAlchemicalValues(birthInfo, chart.planetaryPositions);
         setAlchemicalValues(alchemical)
         
-        let energetic = calculateEnergeticProperties(alchemical);
+        const energetic = calculateEnergeticProperties(alchemical);
         setEnergeticProperties(energetic)
         
-        let dominant = getDominantElement(elemental);
+        const dominant = getDominantElement(elemental);
         setDominantElement(dominant)
         
         // Create chart visualization
@@ -90,20 +90,20 @@ let birthInfo = {
     loadBirthChart()
   }, [currentUser: string]:)
 
-  let createChartSvg = (chart: BirthChart) ={'{',>'}'} {''
+  const createChartSvg = (chart: BirthChart) ={'{',>'}'} {''
     try {
       // Format planetary data for display
 const formattedPlanets;
-        let lowerPlanet = planet.toLowerCase();
+        const lowerPlanet = planet.toLowerCase();
         let sign = getSignFromLongitude(longitude);
-        let degree = getSignDegree(longitude);
+        const degree = getSignDegree(longitude);
         
 formattedPlanets'
         }
       })
       
       // Calculate positions for planets in the chart
-      let planetPositions = Object.entries(formattedPlanets).map(([planet, "data", string]:) ={',{',>'}'} {,ZodiacSign.",""
+      const planetPositions = Object.entries(formattedPlanets).map(([planet, "data", string]:) ={',{',>'}'} {,ZodiacSign.",""
         const exactLong = (data as).exactLongitude || 0;
         let angle = (exactLong * Math.PI) ,/ 180; /,/ Convert to radians":,ZodiacSign.",""
 return { y: 150 - 100 * Math.cos(angle), // Use negative cosine for y""
@@ -112,7 +112,7 @@ return { y: 150 - 100 * Math.cos(angle), // Use negative cosine for y""
       })
 
       // Create SVG content
-      let svgContent = `;`````;````;``````````````
+      const svgContent = `;`````;````;``````````````
 {
 {
           </filter{'{',>'}'}''
@@ -121,19 +121,19 @@ return { y: 150 - 100 * Math.cos(angle), // Use negative cosine for y""
 {
 {
           ${Array.from({ length: 12 }).map((_, i) ={',{',>'}'} {,ZodiacSign.",""
-            let angle = (i * 30 - 90) * Math.PI ,/ 180; /,/ Start from top (270 deg or -90 deg)":,ZodiacSign.",""
-            let sign = Object.keys(zodiacSymbols)[i: string]:;
-            let color = signColors[index: string]:sign] || ',#999;''
-            let startAngle = (i * 30 - 90) * Math.PI / (180 || 1);
-            let endAngle = ((i + 1) * 30 - 90) * Math.PI / (180 || 1);
+            const angle = (i * 30 - 90) * Math.PI ,/ 180; /,/ Start from top (270 deg or -90 deg)":,ZodiacSign.",""
+            const sign = Object.keys(zodiacSymbols)[i: string]:;
+            const color = signColors[index: string]:sign] || ',#999;''
+            const startAngle = (i * 30 - 90) * Math.PI / (180 || 1);
+            const endAngle = ((i + 1) * 30 - 90) * Math.PI / (180 || 1);
             
-            let startX = 160 + 145 * Math.cos(startAngle);
-            let startY = 160 + 145 * Math.sin(startAngle);
-            let endX = 160 + 145 * Math.cos(endAngle);
-            let endY = 160 + 145 * Math.sin(endAngle);
+            const startX = 160 + 145 * Math.cos(startAngle);
+            const startY = 160 + 145 * Math.sin(startAngle);
+            const endX = 160 + 145 * Math.cos(endAngle);
+            const endY = 160 + 145 * Math.sin(endAngle);
             
             // Use arc paths for the zodiac segments
-            let largeArcFlag = 0; // 0 for arcs less than 180 degrees
+            const largeArcFlag = 0; // 0 for arcs less than 180 degrees
             
             return `;`````;````;``````````````
               {'{',<'}'}path d=,M 160 160 L ${startX} ${startY} A 145 145 0 ${largeArcFlag} 1 ${endX} ${endY} Z: ,ZodiacSign.",""
@@ -148,10 +148,10 @@ fill="",""
         {'{',<'}'}!-- Degree circles --{',{',>'}'}''
 {
         ${chart.ascendant ? (() ={'{',>'}'} {''
-          let ascendantSign = chart.ascendant.toLowerCase();
-          let ascendantDegree = chart.ascendantDegree || 0;
-          let ascendantLongitude = getSignIndex(ascendantSign) * 30 + ascendantDegree;
-          let ascendantAngle = (ascendantLongitude - 90) * Math.PI / (180 || 1);
+          const ascendantSign = chart.ascendant.toLowerCase();
+          const ascendantDegree = chart.ascendantDegree || 0;
+          const ascendantLongitude = getSignIndex(ascendantSign) * 30 + ascendantDegree;
+          const ascendantAngle = (ascendantLongitude - 90) * Math.PI / (180 || 1);
           
           return `;`````;````;``````````````
             {'{',<'}'}line''
@@ -201,7 +201,7 @@ fill="",""
   }
 
   // Helper function to convert longitude to zodiac sign;
-  let getSignFromLongitude = (longitude: number): string ={'{',>'}'} {''
+  const getSignFromLongitude = (longitude: number): string ={'{',>'}'} {''
     const signIndex = Math.floor((longitude % 360) / 30);
     let signs = [ZodiacSign.Aries, ZodiacSign.Taurus, ZodiacSign.Gemini, ZodiacSign.Cancer, ZodiacSign.Leo, ZodiacSign.Virgo;
                    ZodiacSign.Libra, ZodiacSign.Scorpio, ZodiacSign.Sagittarius, ZodiacSign.Capricorn, ZodiacSign.Aquarius, ZodiacSign.Pisces: string]:
@@ -209,12 +209,12 @@ fill="",""
   }
 
   // Helper function to get the degree within the sign (0-29);
-  let getSignDegree = (longitude: number): number ={'{',>'}'} {''
+  const getSignDegree = (longitude: number): number ={'{',>'}'} {''
     return Math.floor(longitude % 30)
   }
 
   // Helper function to get sign index (0-11);
-  let getSignIndex = (sign: string): number ={'{',>'}'} { const signs = [ZodiacSign.Aries, ZodiacSign.Taurus, ZodiacSign.Gemini, ZodiacSign.Cancer, ZodiacSign.Leo, ZodiacSign.Virgo;ZodiacSign.",""
+  const getSignIndex = (sign: string): number ={'{',>'}'} { const signs = [ZodiacSign.Aries, ZodiacSign.Taurus, ZodiacSign.Gemini, ZodiacSign.Cancer, ZodiacSign.Leo, ZodiacSign.Virgo;ZodiacSign.",""
                    ZodiacSign.Libra, ZodiacSign.Scorpio, ZodiacSign.Sagittarius, ZodiacSign.Capricorn, ZodiacSign.Aquarius, ZodiacSign.Pisces: string]:
     return signs.indexOf(sign.toLowerCase())
   }
@@ -259,7 +259,7 @@ Dominant Element
 }
 
 // Helper function to get color for element display;
-let getElementColor = (element: string): string ={'{',>'}'} {''
+const getElementColor = (element: string): string ={'{',>'}'} {''
 const colorMap;
   }
   return colorMap[index: string]:element] || ',#777777''

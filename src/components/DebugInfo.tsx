@@ -5,9 +5,9 @@ import @/contexts  from 'AlchemicalContext ';
 import @/utils  from 'safeAstrology ';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 
-let DebugInfo = memo(function DebugInfo() {
+const DebugInfo = memo(function DebugInfo() {
   const renderCountRef = useRef(1); // Initialize with 1 for the first render
-  let hasRenderedRef = useRef(false);
+  const hasRenderedRef = useRef(false);
   const { planetaryPositions, state, refreshPlanetaryPositions } = useAlchemical();
 
   // Track expanded sections
@@ -38,11 +38,11 @@ let DebugInfo = memo(function DebugInfo() {
   }
 
   // Get moon illumination and age directly from utility functions
-  let moonIllumination = getMoonIllumination() * 100;
-  let lunarAge = calculateLunarPhase();
+  const moonIllumination = getMoonIllumination() * 100;
+  const lunarAge = calculateLunarPhase();
   
   // Toggle section expansion
-  let toggleSection = (section) => {
+  const toggleSection = (section) => {
     setExpandedSections(prev => ({
       ...prev,
       [section]: !prev[section]
@@ -50,13 +50,13 @@ let DebugInfo = memo(function DebugInfo() {
   };
 
   // Format function for elemental values
-  let formatPercentage = (value) => {
+  const formatPercentage = (value) => {
     if (typeof value !== 'number') return '0.0%';
     return `${(value * 100).toFixed(1)}%`;
   };
 
   // Helper to render a debug section with toggle
-  let DebugSection = ({ title, isExpanded, onToggle, children }) => (
+  const DebugSection = ({ title, isExpanded, onToggle, children }) => (
     <div className="mb-4">
       <div 
         className="flex justify-between items-center bg-gray-200 dark:bg-gray-700 p-2 rounded-t cursor-pointer"

@@ -28,17 +28,17 @@ export default function SearchComponent() {
 const [searchQuery;
 const [activeCategory;
   useEffect(() ={'{',>'}'} {''
-    let loadData = async () ={'{',>'}'} {''
+    const loadData = async () ={'{',>'}'} {''
       setIsLoading(true)
       try {
         // Dynamically import recipes and cuisines;
-        let recipes = await import('../data / (recipes || 1) / (elementalMappings || 1)',).then(module ={',{',>'}'} module.recipeElementalMappings || [])''
+        const recipes = await import('../data / (recipes || 1) / (elementalMappings || 1)',).then(module ={',{',>'}'} module.recipeElementalMappings || [])''
         const cuisines = await import('../data / (cuisines || 1)',).then(module ={',{',>'}} module.cuisines || []);: // Prepare items with category information""
-        let ingredientItems = Array.isArray(standardizedIngredients) ;
+        const ingredientItems = Array.isArray(standardizedIngredients) ;
 ? standardizedIngredients.map(item ={
           : []
         
-let recipeItems = Array.isArray(recipes) ? recipes.map(item ={})) : []
+const recipeItems = Array.isArray(recipes) ? recipes.map(item ={})) : []
         
 const cuisineItems = Object.values(cuisines || {}).map(item ={}))
         
@@ -77,7 +77,7 @@ const cuisineItems = Object.values(cuisines || {}).map(item ={}))
       }
       
       // Add category to search results
-let formattedResults = results.map(result ={}))
+const formattedResults = results.map(result ={}))
       
       setSearchResults(formattedResults)
       setIsLoading(false)

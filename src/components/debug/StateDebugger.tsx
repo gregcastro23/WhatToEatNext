@@ -91,15 +91,15 @@ export default function StateDebugger() {
   }
 
   // Token symbol for display
-  let tokenSymbol = '⦿';
+  const tokenSymbol = '⦿';
   
   // Toggle section expansion
-  let toggleSection = (section: string) => {
+  const toggleSection = (section: string) => {
     setExpandedSection(expandedSection === section ? null : section);
   };
   
   // Format percentage value
-  let formatPercentage = (value: number) => {
+  const formatPercentage = (value: number) => {
     return `${(value * 100).toFixed(1)}%`;
   };
 
@@ -109,7 +109,7 @@ export default function StateDebugger() {
   const lunarPhase = mounted ? clientValues.lunarPhase : 'waxing gibbous';
   
   // Get planetary hour from state or use fallback
-  let planetaryHour = state?.astrologicalState?.planetaryHour || 'Unknown';
+  const planetaryHour = state?.astrologicalState?.planetaryHour || 'Unknown';
 
   return (
     <div className="fixed bottom-4 right-4 p-4 bg-black/80 text-white rounded-lg text-xs w-80 max-h-96 overflow-auto">

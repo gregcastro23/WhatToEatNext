@@ -41,8 +41,8 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
 
   // Use the calculator directly
   useEffect(() => {
-    let calculator = new PlanetaryHourCalculator();
-    let hourInfo = calculator.getCurrentPlanetaryHour();
+    const calculator = new PlanetaryHourCalculator();
+    const hourInfo = calculator.getCurrentPlanetaryHour();
     setPlanetaryHour(hourInfo.planet);
   }, []);
 
@@ -62,7 +62,7 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
       // Process each cuisine's dishes
       if (cuisine.dishes) {
         // Track indices for unique IDs
-        let recipeIndex = 0;
+        const recipeIndex = 0;
 
         Object.entries(cuisine.dishes).forEach(([mealType, mealTypeData]) => {
           if (!mealTypeData) return; // Skip if mealTypeData is undefined
@@ -222,26 +222,26 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
               // If seasonRecipes is a single object
               recipeIndex++;
               let recipe = seasonRecipes;
-              let baseName = recipe.name
+              const baseName = recipe.name
                 ? recipe.name.toLowerCase().replace(/\s+/g, '-')
                 : 'unknown';
-              let uniqueId = `${cuisineId}-${baseName}-${recipeIndex}`;
+              const uniqueId = `${cuisineId}-${baseName}-${recipeIndex}`;
 
               // Extract dietary information
-              let dietaryInfo = recipe.dietaryInfo || [];
-              let isVegetarian = 
+              const dietaryInfo = recipe.dietaryInfo || [];
+              const isVegetarian = 
                 recipe.isVegetarian || 
                 dietaryInfo.includes('vegetarian') || 
                 false;
-              let isVegan = 
+              const isVegan = 
                 recipe.isVegan || 
                 dietaryInfo.includes('vegan') || 
                 false;
-              let isGlutenFree = 
+              const isGlutenFree = 
                 recipe.isGlutenFree || 
                 dietaryInfo.includes('gluten-free') || 
                 false;
-              let isDairyFree = 
+              const isDairyFree = 
                 recipe.isDairyFree || 
                 dietaryInfo.includes('dairy-free') || 
                 false;
@@ -250,7 +250,7 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
               let astrologicalInfluences = recipe.astrologicalInfluences || [];
               if (!astrologicalInfluences.length && recipe.astrologicalAffinities) {
                 // Try to extract from astrologicalAffinities if available
-                let affinity = recipe.astrologicalAffinities || {};
+                const affinity = recipe.astrologicalAffinities || {};
                 if (Array.isArray(affinity.planets)) {
                   astrologicalInfluences = [...astrologicalInfluences, ...affinity.planets];
                 } else if (typeof affinity.planets === 'string') {
@@ -282,20 +282,20 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
               }
 
               // Process preparation & cooking time
-              let prepTime = recipe.prepTime 
+              const prepTime = recipe.prepTime 
                 ? typeof recipe.prepTime === 'number' 
                   ? `${recipe.prepTime} minutes` 
                   : recipe.prepTime
                 : undefined;
               
-              let cookTime = recipe.cookTime
+              const cookTime = recipe.cookTime
                 ? typeof recipe.cookTime === 'number'
                   ? `${recipe.cookTime} minutes`
                   : recipe.cookTime
                 : undefined;
               
               // Calculate total time if available
-              let totalTime = prepTime && cookTime
+              const totalTime = prepTime && cookTime
                 ? `${parseInt(prepTime) + parseInt(cookTime)} minutes`
                 : recipe.timeToMake || undefined;
 
@@ -365,7 +365,7 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
     });
 
     // Ensure all recipes have normalized elemental properties
-    let normalizedRecipes = extractedRecipes.map(recipe => {
+    const normalizedRecipes = extractedRecipes.map(recipe => {
       // Fallback elemental properties if missing
       if (!recipe.elementalProperties) {
         recipe.elementalProperties = {
@@ -377,9 +377,9 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
       }
       
       // Ensure the sum of elemental properties is 1.0
-      let sum = Object.values(recipe.elementalProperties).reduce((a, b) => a + b, 0);
+      const sum = Object.values(recipe.elementalProperties).reduce((a, b) => a + b, 0);
       if (sum > 0 && Math.abs(sum - 1.0) > 0.01) {
-        let factor = 1.0 / (sum || 1);
+        const factor = 1.0 / (sum || 1);
         recipe.elementalProperties = {
           Fire: recipe.elementalProperties.Fire * factor,
           Water: recipe.elementalProperties.Water * factor,
@@ -392,15 +392,15 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
     });
 
     // Enrich all recipes with enhanced astrological data
-    let enrichedRecipes = normalizedRecipes.map((recipe) =>
+    const enrichedRecipes = normalizedRecipes.map((recipe) =>
       enrichRecipeData(recipe)
     );
 
     // Calculate astrological compatibility for each recipe
-    let scoredRecipes = calculateAstrologicalCompatibility(enrichedRecipes);
+    const scoredRecipes = calculateAstrologicalCompatibility(enrichedRecipes);
 
     // Sort recipes by compatibility score in descending order
-    let sortedRecipes = scoredRecipes.sort(
+    const sortedRecipes = scoredRecipes.sort(
       (a, b) => (b.compatibilityScore || 0) - (a.compatibilityScore || 0)
     );
 
@@ -414,7 +414,7 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
   ]);
 
   // Enhanced astrological compatibility calculation with day / (night || 1) effects and planetary hours
-  let calculateAstrologicalCompatibility = (
+  const calculateAstrologicalCompatibility = (
     recipeList: Recipe[]
   ): Recipe[] => {
     return recipeList.map((recipe) => {
@@ -422,7 +422,7 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
         let score = 50; // Base score
 
         // Make sure elemental properties are valid for calculation
-        let safeElementalProps = {
+        const safeElementalProps = {
           Fire: recipe.elementalProperties?.Fire || 0,
           Water: recipe.elementalProperties?.Water || 0,
           Earth: recipe.elementalProperties?.Earth || 0,
@@ -449,12 +449,12 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
             pisces: 'Water',
           };
 
-          let currentElement = zodiacElementMap[currentZodiac.toLowerCase()];
+          const currentElement = zodiacElementMap[currentZodiac.toLowerCase()];
           if (
             currentElement &&
             safeElementalProps[currentElement] !== undefined
           ) {
-            let elementValue = safeElementalProps[currentElement];
+            const elementValue = safeElementalProps[currentElement];
             // Safely add to score, ensuring we don't add NaN
             if (!isNaN(elementValue)) {
               score += elementValue * 20; // Up to 20 points for elemental match
@@ -487,7 +487,7 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
             pisces: 'winter',
           };
 
-          let currentSeason = zodiacToSeason[currentZodiac.toLowerCase()];
+          const currentSeason = zodiacToSeason[currentZodiac.toLowerCase()];
 
           // Check if recipe is appropriate for current astrological season
           if (
@@ -574,12 +574,12 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
 
         // 4. Time of day compatibility
         if (recipe.mealType) {
-          let hour = new Date().getHours();
-          let isBreakfastTime = hour >= 6 && hour < 11;
-          let isLunchTime = hour >= 11 && hour < 15;
-          let isDinnerTime = hour >= 17 && hour < 22;
+          const hour = new Date().getHours();
+          const isBreakfastTime = hour >= 6 && hour < 11;
+          const isLunchTime = hour >= 11 && hour < 15;
+          const isDinnerTime = hour >= 17 && hour < 22;
 
-          let mealTypes = Array.isArray(recipe.mealType)
+          const mealTypes = Array.isArray(recipe.mealType)
             ? recipe.mealType.map((m) => m.toLowerCase())
             : [
                 typeof recipe.mealType === 'string'
@@ -673,7 +673,7 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
             ],
           };
 
-          let hourKeywords =
+          const hourKeywords =
             planetaryInfluenceMap[recipe.astrologicalInfluences[0]] || [];
 
           // Check if recipe has any influences matching the current planetary hour
@@ -695,10 +695,10 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
           recipe.astrologicalInfluences.length > 0
         ) {
           // Check if recipe has influences related to active planets
-          let activePlanetsArray = Array.isArray(activePlanets)
+          const activePlanetsArray = Array.isArray(activePlanets)
             ? (activePlanets as string[])
             : [];
-          let matchingInfluences = activePlanetsArray.filter((planet) =>
+          const matchingInfluences = activePlanetsArray.filter((planet) =>
             recipe.astrologicalInfluences?.some(
               (influence) =>
                 typeof influence === 'string' &&
@@ -714,7 +714,7 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
         // NEW: Enhanced planetary positioning influences
         if (currentPlanetaryAlignment && recipe.astrologicalInfluences) {
           // Check all planets, not just Sun position
-          let planetaryPositions = [
+          const planetaryPositions = [
             {
               planet: 'Sun',
               sign: (currentPlanetaryAlignment as any)?.sun?.sign,
@@ -753,7 +753,7 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
           ].filter((p) => p.sign); // Filter out undefined positions
 
           // Planet in dominant house gives stronger influence
-          let dominantPlanets = planetaryPositions.filter((p) => {
+          const dominantPlanets = planetaryPositions.filter((p) => {
             // Planets in angular houses (1, 4, 7, 10) have stronger influence
             // This is a simplified calculation - we could use actual house positions
             const degree = p.degree || 0;
@@ -770,7 +770,7 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
             if (!planet.sign) return;
 
             // Check if recipe has influences related to this planet's sign
-            let matchesPlanetSign =
+            const matchesPlanetSign =
               recipe.astrologicalInfluences?.some(
                 (influence) =>
                   typeof influence === 'string' &&
@@ -781,7 +781,7 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
 
             if (matchesPlanetSign) {
               // Base points for matching
-              let points = 3;
+              const points = 3;
 
               // Bonus points for dominant planets
               if (dominantPlanets.some((p) => p.planet === planet.planet)) {
@@ -798,11 +798,11 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
           });
 
           // Check for special aspect patterns - planets in harmonious aspects
-          let harmonicPairs = checkHarmonicAspects(currentPlanetaryAlignment);
+          const harmonicPairs = checkHarmonicAspects(currentPlanetaryAlignment);
           if (harmonicPairs.length > 0) {
             // If recipe matches the energy of harmonic pairs, boost score
             harmonicPairs.forEach((pair) => {
-              let matchesHarmonicPair =
+              const matchesHarmonicPair =
                 recipe.astrologicalInfluences?.some(
                   (influence) =>
                     typeof influence === 'string' &&
@@ -828,7 +828,7 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
         score = Math.max(0, Math.min(100, score));
 
         // Compute compatibility percentage (always a number between 0-100)
-        let compatibilityPercentage = Math.round(score);
+        const compatibilityPercentage = Math.round(score);
 
         return {
           ...recipe,
@@ -846,7 +846,7 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
   };
 
   // Helper function to identify harmonious planetary aspects
-  let checkHarmonicAspects = (
+  const checkHarmonicAspects = (
     alignment: unknown
   ): Array<{ planet1: string; planet2: string; aspect: string }> => {
     const aspects: Array<{ planet1: string; planet2: string; aspect: string }> =
@@ -854,19 +854,19 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
 
     // Use zodiac data from the imported zodiacSeasons
     if (alignment.sun && alignment.jupiter) {
-      let sunSign = alignment.sun.sign.toLowerCase();
-      let jupiterSign = alignment.jupiter.sign.toLowerCase();
+      const sunSign = alignment.sun.sign.toLowerCase();
+      const jupiterSign = alignment.jupiter.sign.toLowerCase();
 
       // Get sign elements from zodiacSeasons
-      let getElement = (sign: string): string => {
+      const getElement = (sign: string): string => {
         const signData = zodiacSeasons.find(
           (s) => s.sign.toLowerCase() === sign
         );
         return signData?.element || '';
       };
 
-      let sunElement = getElement(sunSign);
-      let jupiterElement = getElement(jupiterSign);
+      const sunElement = getElement(sunSign);
+      const jupiterElement = getElement(jupiterSign);
 
       // Check if planets are in signs of the same element (trine)
       if (sunElement && jupiterElement && sunElement === jupiterElement) {
@@ -880,7 +880,7 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
   };
 
   // Toggle recipe expansion
-  let toggleRecipe = (id: string, event?: React.MouseEvent) => {
+  const toggleRecipe = (id: string, event?: React.MouseEvent) => {
     // Prevent event propagation if event exists
     if (event) {
       event.stopPropagation();
@@ -907,11 +907,11 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
   };
 
   // Render element icon based on dominance
-  let renderElementIcon = (properties: Recipe['elementalProperties']) => {
+  const renderElementIcon = (properties: Recipe['elementalProperties']) => {
     if (!properties) return null;
 
-    let elements = Object.entries(properties).sort((a, b) => b[1] - a[1]);
-    let dominantElement = elements[0];
+    const elements = Object.entries(properties).sort((a, b) => b[1] - a[1]);
+    const dominantElement = elements[0];
 
     if (dominantElement[1] <= 0) return null;
 
@@ -930,7 +930,7 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
   };
 
   // Display dietary restrictions as badges
-  let renderDietaryBadges = (recipe: Recipe) => {
+  const renderDietaryBadges = (recipe: Recipe) => {
     const badges = [];
 
     if (recipe.isVegetarian) {

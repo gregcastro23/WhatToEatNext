@@ -29,7 +29,7 @@
   };
 
   // Block popupjs script loading via XHR interception
-  let originalOpen = XMLHttpRequest.prototype.open;
+  const originalOpen = XMLHttpRequest.prototype.open;
   XMLHttpRequest.prototype.open = function() {
     if (arguments[1] && typeof arguments[1] === 'string') {
       // If this is trying to load popup.js, log it and continue without actually loading
@@ -43,7 +43,7 @@
   };
 
   // Block popup.js script loading via script tags
-  let observer = new MutationObserver((mutations) => {
+  const observer = new MutationObserver((mutations) => {
     mutations.forEach((mutation) => {
       if (mutation.type === 'childList') {
         mutation.addedNodes.forEach((node) => {

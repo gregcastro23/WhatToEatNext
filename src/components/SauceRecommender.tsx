@@ -50,11 +50,11 @@ export default function SauceRecommender({
 
   useEffect(() => {
     // Generate sauce recommendations when component mounts or when inputs change
-    let generateRecommendations = async () => {
+    const generateRecommendations = async () => {
       setLoading(true);
       try {
         // Wait for any async data to load
-        let recommendations = await generateSauceRecommendations();
+        const recommendations = await generateSauceRecommendations();
         setSauceRecommendations(recommendations);
       } catch (error) {
         // console.error("Error generating sauce recommendations:", error);
@@ -67,7 +67,7 @@ export default function SauceRecommender({
   }, [cuisine, protein, vegetable, cookingMethod, currentElementalProfile]);
 
   // Toggle function for sauce card expansion
-  let toggleSauceCard = (sauceId: string) => {
+  const toggleSauceCard = (sauceId: string) => {
     setExpandedSauceCards((prev) => ({
       ...prev,
       [sauceId]: !prev[sauceId],
@@ -75,7 +75,7 @@ export default function SauceRecommender({
   };
 
   // Calculate elemental match between sauce and current profile
-  let calculateElementalMatch = (
+  const calculateElementalMatch = (
     sauceElements: ElementalProperties,
     userElements: ElementalProperties
   ): number => {
@@ -83,10 +83,10 @@ export default function SauceRecommender({
     const elements = ['Fire', 'Water', 'Earth', 'Air'];
 
     // Calculate Euclidean distance (lower is better)
-    let sumSquaredDiff = 0;
+    const sumSquaredDiff = 0;
     elements.forEach((element) => {
-      let elementKey = element as keyof ElementalProperties;
-      let diff =
+      const elementKey = element as keyof ElementalProperties;
+      const diff =
         (sauceElements[elementKey] || 0) - (userElements[elementKey] || 0);
       sumSquaredDiff += diff * diff;
     });
@@ -95,15 +95,15 @@ export default function SauceRecommender({
     // Distance of 0 = perfect match (1.0)
     // Maximum possible distance = 2 (sqrt(4)) when opposite elements
     const distance = Math.sqrt(sumSquaredDiff);
-    let maxDistance = Math.sqrt(4); // Maximum possible distance (theoretical)
-    let similarity = 1 - distance / (maxDistance || 1);
+    const maxDistance = Math.sqrt(4); // Maximum possible distance (theoretical)
+    const similarity = 1 - distance / (maxDistance || 1);
 
     // Ensure score is in [0,1]
     return Math.max(0, Math.min(1, similarity));
   };
 
   // Helper function to determine if it's currently daytime (6am-6pm)
-  let isDaytime = (date: Date = new Date()): boolean => {
+  const isDaytime = (date: Date = new Date()): boolean => {
     const hour = date.getHours();
     return hour >= 6 && hour < 18;
   };
@@ -126,7 +126,7 @@ export default function SauceRecommender({
   };
 
   // Calculate planetary day influence score
-  let calculatePlanetaryDayInfluence = (
+  const calculatePlanetaryDayInfluence = (
     sauceElements: ElementalProperties,
     planetaryDay: string,
     planetAffinity?: string[]
@@ -136,12 +136,12 @@ export default function SauceRecommender({
     if (!dayElements) return 0.5; // Unknown planet
 
     // For planetary day, BOTH diurnal and nocturnal elements influence all day
-    let diurnalElement = dayElements.diurnal;
-    let nocturnalElement = dayElements.nocturnal;
+    const diurnalElement = dayElements.diurnal;
+    const nocturnalElement = dayElements.nocturnal;
 
     // Calculate how much of each planetary element is present in the sauce
-    let diurnalMatch = sauceElements[diurnalElement] || 0;
-    let nocturnalMatch = sauceElements[nocturnalElement] || 0;
+    const diurnalMatch = sauceElements[diurnalElement] || 0;
+    const nocturnalMatch = sauceElements[nocturnalElement] || 0;
 
     // Calculate a weighted score - both elements are equally important for planetary day
     let elementalScore = (diurnalMatch + nocturnalMatch) / 2;
@@ -158,7 +158,7 @@ export default function SauceRecommender({
   };
 
   // Calculate planetary hour influence score
-  let calculatePlanetaryHourInfluence = (
+  const calculatePlanetaryHourInfluence = (
     sauceElements: ElementalProperties,
     planetaryHour: string,
     isDaytime: boolean,
@@ -169,12 +169,12 @@ export default function SauceRecommender({
     if (!hourElements) return 0.5; // Unknown planet
 
     // For planetary hour, use diurnal element during day, nocturnal at night
-    let relevantElement = isDaytime
+    const relevantElement = isDaytime
       ? hourElements.diurnal
       : hourElements.nocturnal;
 
     // Calculate how much of the relevant planetary element is present in the sauce
-    let elementalMatch = sauceElements[relevantElement] || 0;
+    const elementalMatch = sauceElements[relevantElement] || 0;
 
     // Calculate score based on how well the sauce matches the planetary hour's element
     let elementalScore = elementalMatch;
@@ -203,7 +203,7 @@ export default function SauceRecommender({
   };
 
   // Helper function to determine ingredient amounts
-  let getIngredientAmountRange = (ingredient: string): string => {
+  const getIngredientAmountRange = (ingredient: string): string => {
     const ing = ingredient.toLowerCase();
 
     // Return appropriate range based on ingredient type
@@ -257,7 +257,7 @@ export default function SauceRecommender({
   };
 
   // Generate sauce recommendations based on criteria
-  let generateSauceRecommendations = async (): Promise<any[]> => {
+  const generateSauceRecommendations = async (): Promise<any[]> => {
     // Initialize results array
     const results: unknown[] = [];
 
@@ -265,12 +265,12 @@ export default function SauceRecommender({
     const allAvailableSauces: Record<string, Sauce> = sauces || {};
 
     // Get all available cuisines
-    let allCuisines = cuisines || {};
+    const allCuisines = cuisines || {};
 
     // If we have a specific cuisine, prioritize its sauces
     if (cuisine && allCuisines[cuisine.toLowerCase()]?.traditionalSauces) {
-      let cuisineData = allCuisines[cuisine.toLowerCase()];
-      let sauceRecommender = cuisineData.sauceRecommender || {};
+      const cuisineData = allCuisines[cuisine.toLowerCase()];
+      const sauceRecommender = cuisineData.sauceRecommender || {};
 
       // Add sauce recommendations based on protein
       if (
@@ -568,23 +568,23 @@ export default function SauceRecommender({
               ([id, sauceData]: [string, any]) => {
                 // Get current time factors
                 const { getTimeFactors } = require('@/types / (time || 1) ');
-                let timeFactors = getTimeFactors();
+                const timeFactors = getTimeFactors();
 
                 // Basic elemental match calculation
-                let elementalMatchScore = calculateElementalMatch(
+                const elementalMatchScore = calculateElementalMatch(
                   sauceData.elementalProperties,
                   currentElementalProfile
                 );
 
                 // Calculate planetary day influence
-                let planetaryDayScore = calculatePlanetaryDayInfluence(
+                const planetaryDayScore = calculatePlanetaryDayInfluence(
                   sauceData.elementalProperties,
                   timeFactors.planetaryDay.planet,
                   sauceData.astrologicalAffinities?.planets
                 );
 
                 // Calculate planetary hour influence
-                let planetaryHourScore = calculatePlanetaryHourInfluence(
+                const planetaryHourScore = calculatePlanetaryHourInfluence(
                   sauceData.elementalProperties,
                   timeFactors.planetaryHour.planet,
                   isDaytime(),
@@ -592,13 +592,13 @@ export default function SauceRecommender({
                 );
 
                 // Calculate final match score with weights
-                let weights = {
+                const weights = {
                   elemental: 0.45, // Elemental match: 45%
                   planetaryDay: 0.35, // Planetary day: 35%
                   planetaryHour: 0.2, // Planetary hour: 20%
                 };
 
-                let finalScore =
+                const finalScore =
                   elementalMatchScore * weights.elemental +
                   planetaryDayScore * weights.planetaryDay +
                   planetaryHourScore * weights.planetaryHour;
@@ -639,7 +639,7 @@ export default function SauceRecommender({
     }
 
     // Remove duplicates and sort by match score
-    let uniqueResults = results.filter(
+    const uniqueResults = results.filter(
       (sauce, index, self) =>
         index === self.findIndex((s) => s.name === sauce.name)
     );
@@ -650,7 +650,7 @@ export default function SauceRecommender({
   };
 
   // Helper function to determine if a sauce-cuisine combination should be excluded
-  let shouldExcludeSauceCombination = (
+  const shouldExcludeSauceCombination = (
     sauceName: string,
     targetCuisine?: string
   ): boolean => {
@@ -675,8 +675,8 @@ export default function SauceRecommender({
     };
 
     // Normalize cuisine and sauce names for comparison
-    let normalizedCuisine = targetCuisine.toLowerCase();
-    let normalizedSauceName = sauceName.toLowerCase();
+    const normalizedCuisine = targetCuisine.toLowerCase();
+    const normalizedSauceName = sauceName.toLowerCase();
 
     // Check if this cuisine has incompatible sauces defined
     if (incompatiblePairs[normalizedCuisine]) {
@@ -690,7 +690,7 @@ export default function SauceRecommender({
   };
 
   // Helper function to render the sauce element icons
-  let renderElementIcons = (elementalProps: ElementalProperties) => {
+  const renderElementIcons = (elementalProps: ElementalProperties) => {
     let dominant = Object.entries(elementalProps).sort(
       ([, a], [, b]) => b - a
     )[0][0];
@@ -721,7 +721,7 @@ export default function SauceRecommender({
   };
 
   // Render match score badge
-  let renderMatchBadge = (score: number) => {
+  const renderMatchBadge = (score: number) => {
     let colorClass = '';
     let label = '';
 
@@ -753,7 +753,7 @@ export default function SauceRecommender({
   };
 
   // Filter sauces based on current filter
-  let filteredSauces = () => {
+  const filteredSauces = () => {
     if (filter === 'all') {
       return sauceRecommendations;
     }
@@ -862,19 +862,19 @@ export default function SauceRecommender({
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
           {filteredSauces().map((sauce, index) => {
-            let isExpanded = expandedSauceCards[sauce.id] || false;
+            const isExpanded = expandedSauceCards[sauce.id] || false;
 
             // Determine styling based on dominant element
-            let elementalProps = sauce.elementalProperties || {
+            const elementalProps = sauce.elementalProperties || {
               Fire: 0.25,
               Water: 0.25,
               Earth: 0.25,
               Air: 0.25,
             };
-            let dominant = Object.entries(elementalProps).sort(
+            const dominant = Object.entries(elementalProps).sort(
               ([, a], [, b]) => b - a
             )[0][0];
-            let elementClass = dominant.toLowerCase();
+            const elementClass = dominant.toLowerCase();
 
             return (
               <div

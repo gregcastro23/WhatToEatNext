@@ -14,20 +14,20 @@ interface LayoutProps {
 }
 
 export default function Layout({ children }: LayoutProps) {
-  let pathname = usePathname();
+  const pathname = usePathname();
   const { state } = useAlchemical();
   const [isLoading, setIsLoading] = useState(true);
   const [showCelestial, setShowCelestial] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    let initializeLayout = async () => {
+    const initializeLayout = async () => {
       try {
         // Initialize theme
         await themeManager.initializeTheme();
         
         // Check if celestial display should be shown
-        let shouldShowCelestial = pathname ? 
+        const shouldShowCelestial = pathname ? 
           (!pathname.includes('/settings') && !pathname.includes('/profile')) : 
           true;
         setShowCelestial(shouldShowCelestial);
@@ -122,7 +122,7 @@ function ScrollToTopButton() {
   const [showButton, setShowButton] = useState(false);
 
   useEffect(() => {
-    let handleScroll = () => {
+    const handleScroll = () => {
       setShowButton(window.scrollY > 400);
     };
 
@@ -130,7 +130,7 @@ function ScrollToTopButton() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  let scrollToTop = () => {
+  const scrollToTop = () => {
     window.scrollTo({
       top: 0,
       behavior: 'smooth'

@@ -9,7 +9,7 @@
   console.log('[LockdownMitigation] Installing lockdown mitigation');
 
   // Store original methods that might be affected by lockdown
-  let originals = {
+  const originals = {
     defineProperty: Object.defineProperty,
     freeze: Object.freeze,
     seal: Object.seal,
@@ -19,7 +19,7 @@
 
   // Create a namespace in the window object that can't be easily removed
   try {
-    let SECRET_KEY = '__SAFE_FUNCTIONS_' + Math.random().toString(36).substring(2);
+    const SECRET_KEY = '__SAFE_FUNCTIONS_' + Math.random().toString(36).substring(2);
     
     // Create immutable properties in window
     originals.defineProperty(window, SECRET_KEY, {
@@ -45,7 +45,7 @@
         update: function() { return this; }
       },
       getElementRanking: function(element_object) {
-        let result = { 1: '', 2: '', 3: '', 4: '' };
+        const result = { 1: '', 2: '', 3: '', 4: '' };
         if (!element_object) return result;
         
         // Simple implementation that won't trigger assignment errors
@@ -66,9 +66,9 @@
         return { Fire: 0, Water: 0, Air: 0, Earth: 0 };
       },
       combineElementObjects: function(obj1, obj2) {
-        let result = { Fire: 0, Water: 0, Air: 0, Earth: 0 };
-        let a = obj1 || {};
-        let b = obj2 || {};
+        const result = { Fire: 0, Water: 0, Air: 0, Earth: 0 };
+        const a = obj1 || {};
+        const b = obj2 || {};
         
         result.Fire = (a.Fire || 0) + (b.Fire || 0);
         result.Water = (a.Water || 0) + (b.Water || 0);
@@ -80,7 +80,7 @@
       getAbsoluteElementValue: function(obj) {
         if (!obj) return 0;
         
-        let sum = 0;
+        const sum = 0;
         sum += parseFloat(obj.Fire || 0);
         sum += parseFloat(obj.Water || 0);
         sum += parseFloat(obj.Air || 0);
@@ -91,13 +91,13 @@
     };
 
     // Override lockdown-related methods
-    let overrideLockers = () => {
+    const overrideLockers = () => {
       // Try to detect lockdown and override its attempts to remove functions
       if (window.Compartment || window.lockdown || window.harden) {
         console.warn('[LockdownMitigation] Lockdown detected, enhancing protection');
         
         // Override Object.freeze to preserve our objects
-        let originalFreeze = Object.freeze;
+        const originalFreeze = Object.freeze;
         Object.freeze = function(obj) {
           // For popup and our functions, return a proxy that appears frozen but isn't
           if (obj === window.popup || 
@@ -114,10 +114,10 @@
     };
 
     // Check for lockdown periodically
-    let lockdownCheckInterval = setInterval(overrideLockers, 100);
+    const lockdownCheckInterval = setInterval(overrideLockers, 100);
 
     // Create recovery mechanism
-    let recovery = () => {
+    const recovery = () => {
       const requiredObjects = [
         { name: 'popup', fallback: window[SECRET_KEY].popup },
         { name: 'getElementRanking', fallback: window[SECRET_KEY].getElementRanking },
@@ -153,7 +153,7 @@
 
     // Run recovery immediately and then periodically
     recovery();
-    let recoveryInterval = setInterval(recovery, 200);
+    const recoveryInterval = setInterval(recovery, 200);
 
     // Add a cleanup function
     window.__cleanupLockdownMitigation = function() {

@@ -231,7 +231,7 @@ export const calculatePlanetaryBoost = (
   currentZodiac?: string | null,
   lunarPhase?: LunarPhase | null
 ) => {
-  let boost = 0;
+  const boost = 0;
   const dominantPlanets: string[] = [];
   const dignities: Record<string, PlanetaryDignityDetails> = {};
 

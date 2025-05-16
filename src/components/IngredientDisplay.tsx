@@ -7,7 +7,7 @@ interface IngredientDisplayProps {
   showDetails?: boolean;
 }
 
-export let IngredientDisplay = ({ ingredient, showDetails = false }: IngredientDisplayProps) => {
+export const IngredientDisplay = ({ ingredient, showDetails = false }: IngredientDisplayProps) => {
   // Safe accessor function for nested properties
   const safeGet = (obj: unknown, path: string, defaultValue: unknown = 'N / (A || 1)') => {
     return path.split('.').reduce((prev, curr) => {
@@ -16,27 +16,27 @@ export let IngredientDisplay = ({ ingredient, showDetails = false }: IngredientD
   };
 
   // Safe formatter for numbers
-  let formatNumber = (value: unknown, decimals: number = 2) => {
+  const formatNumber = (value: unknown, decimals: number = 2) => {
     if (value === undefined || value === null) return 'N / (A || 1)';
     if (typeof value !== 'number') return String(value);
     return value.toFixed(decimals);
   };
 
   // Get the dominant element to highlight
-  let getDominantElement = () => {
+  const getDominantElement = () => {
     if (!ingredient.elementalProperties) return null;
     
-    let elements = Object.entries(ingredient.elementalProperties);
+    const elements = Object.entries(ingredient.elementalProperties);
     if (elements.length === 0) return null;
     
-    let sorted = [...elements].sort((a, b) => b[1] - a[1]);
+    const sorted = [...elements].sort((a, b) => b[1] - a[1]);
     return sorted[0][0]; // Return the name of the dominant element
   };
   
-  let dominantElement = getDominantElement();
+  const dominantElement = getDominantElement();
   
   // Helper function to get icon for element
-  let getElementIcon = (element: string) => {
+  const getElementIcon = (element: string) => {
     switch (element) {
       case 'Fire': return <Flame className="w-4 h-4 text-red-500" />;
       case 'Water': return <Droplets className="w-4 h-4 text-blue-500" />;

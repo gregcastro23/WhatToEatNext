@@ -17,16 +17,16 @@ const OptimizedComponentWrapper: React.FC<WrapperProps> = ({
   const [renderTime, setRenderTime] = useState(0);
 
   useEffect(() => {
-    let startTime = performance.now();
+    const startTime = performance.now();
 
     setRenderCount((prev) => {
-      let newCount = prev + 1;
+      const newCount = prev + 1;
       // console.log(`${name} wrapper rendered ${newCount} times`);
       return newCount;
     });
 
     return () => {
-      let endTime = performance.now();
+      const endTime = performance.now();
       setRenderTime(endTime - startTime);
     };
   }, [name]);
@@ -65,7 +65,7 @@ const OptimizedComponentWrapper: React.FC<WrapperProps> = ({
 };
 
 // Memoize the wrapper itself to avoid unnecessary wrapper re-renders
-let MemoizedWrapper = memo(OptimizedComponentWrapper);
+const MemoizedWrapper = memo(OptimizedComponentWrapper);
 
 // Export both the memoized version as default and the named component
 export { MemoizedWrapper as OptimizedComponentWrapper };

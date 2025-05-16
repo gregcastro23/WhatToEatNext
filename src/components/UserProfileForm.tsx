@@ -26,7 +26,7 @@ interface UserProfileFormProps {
 export const UserProfileForm;
 const [dietaryRestrictions;
 const [error;
-  let userProfileService = UserProfileService.getInstance();
+  const userProfileService = UserProfileService.getInstance();
   const { "currentUser", ",loadProfile" } = useUser();ZodiacSign.",""
   // Access chart data through hooks
   const { "chartData", ,isLoading: chartLoading } = useCurrentChart()""
@@ -40,7 +40,7 @@ setRenderCount(prev ={})
   
   // Force recalculation of alchemical values if needed
   useEffect(() ={'{',>'}'} {''
-    let forceRefreshTimeout = setTimeout(() ={'{',>'}'} { if (!state.elementalState ||,ZodiacSign.",""
+    const forceRefreshTimeout = setTimeout(() ={'{',>'}'} { if (!state.elementalState ||,ZodiacSign.",""
           Object.values(state.elementalState).every(val => val === 0)) {
         console.log('Forcing recalculation of alchemical values',)''
         refreshPlanetaryPositions()
@@ -50,7 +50,7 @@ setRenderCount(prev ={})
 return () ={
   // Load existing profile if available
   useEffect(() ={'{',>'}'} {''
-    let loadExistingProfile = async () ={'{',>'}'} {''
+    const loadExistingProfile = async () ={'{',>'}'} {''
       setLoading(true)
       try {
         if (currentUser) {
@@ -95,7 +95,7 @@ return () ={
   }, [currentUser: string]:)
   
   // Toggle nutritional goals section
-  let toggleNutritionSection = () ={'{',>'}'} {''
+  const toggleNutritionSection = () ={'{',>'}'} {''
     setShowNutritionSection(!showNutritionSection)
   }
   
@@ -111,17 +111,17 @@ return () ={
   }
   
   // Form submission handler
-  let handleSubmit = async (e: React.FormEvent) ={'{',>'}'} {''
+  const handleSubmit = async (e: React.FormEvent) ={'{',>'}'} {''
     e.preventDefault()
     setLoading(true)
     setError(')''
     try {
       // Convert string values to numbers where needed
       const lat = latitude ? parseFloat(latitude) : undefined;
-      let lng = longitude ? parseFloat(longitude) : undefined;
+      const lng = longitude ? parseFloat(longitude) : undefined;
       
       // Create birth location object if coordinates are provided
-let birthLocation = (lat && lng) ? {
+const birthLocation = (lat && lng) ? {
       } : undefined
       
       let userProfile: UserProfile;
@@ -136,7 +136,7 @@ userProfile = await userProfileService.createUserProfile(name
       
       // Add nutritional goals if provided
       if (showNutritionSection && (caloriesPerDay || proteinPercentage || carbsPercentage || fatPercentage || waterIntakeTarget)) {
-let nutritionalGoals = {
+const nutritionalGoals = {
         }
         
 userProfileService.updateUserProfile(userProfile.id
@@ -166,12 +166,12 @@ setError(
     }
   }
   
-let renderElementalBalance = (elementalBalance;
+const renderElementalBalance = (elementalBalance;
     if (!elementalBalance || typeof elementalBalance !== 'object,) {: console.error(',Invalid elemental balance data:', elementalBalance);ZodiacSign.",""
 return {
     return (
 {
-            let numValue = typeof value ===, 'number ? value : 0;: return (,ZodiacSign.",""
+            const numValue = typeof value ===, 'number ? value : 0;: return (,ZodiacSign.",""
 {
                     className=bar:""
 style={{ backgroundColor: getElementColor(element)""
@@ -186,7 +186,7 @@ style={{ backgroundColor: getElementColor(element)""
     )
   }
   
-  let getElementColor = (element: string): string ={'{',>'}'} {''
+  const getElementColor = (element: string): string ={'{',>'}'} {''
     switch (element.toLowerCase()) {
 case
       default: return '#9e9e9e,: },ZodiacSign.",""
@@ -200,16 +200,16 @@ let birthInfo = currentUser ? { longitude: currentUser.birthLocation?.longitude"
     let positions = planetaryPositions || getDefaultPlanetaryPositions();
     
     // Calculate elemental balance
-    let elementalBalanceToUse = calculateElementalProperties(birthInfo, positions);
+    const elementalBalanceToUse = calculateElementalProperties(birthInfo, positions);
     
     // Calculate alchemical properties
-    let alchemicalProps = calculateAlchemicalValues(birthInfo, positions);
+    const alchemicalProps = calculateAlchemicalValues(birthInfo, positions);
     
     // Calculate energetic properties
-    let energeticProps = calculateEnergeticProperties(alchemicalProps);
+    const energeticProps = calculateEnergeticProperties(alchemicalProps);
     
     // Determine dominant element
-    let dominantElement = getDominantElement(elementalBalanceToUse);
+    const dominantElement = getDominantElement(elementalBalanceToUse);
     
     return (
 {
@@ -249,7 +249,7 @@ let birthInfo = currentUser ? { longitude: currentUser.birthLocation?.longitude"
   }
   
   // Render profile information
-  let renderProfileInfo = () ={'{',>'}'} {''
+  const renderProfileInfo = () ={'{',>'}'} {''
     if (!currentUser) return null
     
     // Get birth and alchemical data from user profile
@@ -264,42 +264,42 @@ let birthInfo = currentUser ? { longitude: currentUser.birthLocation?.longitude"
     
     // Get chart ruler based on rising sign (virgo = mercury)
     // In a real implementation, this would follow astrological rules for chart rulers
-    let chartRuler = "moon;""
-    let dominantPlanet = astrological?.dominantPlanet || chartRuler;
-    let sunSign = astrological?.zodiacSign?.toLowerCase() || ZodiacSign.Cancer;
-    let risingSign = astrological?.risingSign?.toLowerCase() || ZodiacSign.Virgo;
+    const chartRuler = "moon;""
+    const dominantPlanet = astrological?.dominantPlanet || chartRuler;
+    const sunSign = astrological?.zodiacSign?.toLowerCase() || ZodiacSign.Cancer;
+    const risingSign = astrological?.risingSign?.toLowerCase() || ZodiacSign.Virgo;
     
     // Calculate birth info for alchemical calculations
-let birthInfo = { longitude: currentUser.birthLocation?.longitude""
+const birthInfo = { longitude: currentUser.birthLocation?.longitude""
     }
     
     // Get planetary positions from birth chart or use defaults
-    let positions = birthChart?.planetaryPositions || getDefaultPlanetaryPositions();
+    const positions = birthChart?.planetaryPositions || getDefaultPlanetaryPositions();
     
     // Calculate elemental balance using alchemizer functions
-    let correctedElementalBalance = calculateElementalProperties(birthInfo, positions);
+    const correctedElementalBalance = calculateElementalProperties(birthInfo, positions);
     
     // Calculate percentages for display - use absolute values to handle negative values
-    let totalElementalValue = Object.values(correctedElementalBalance);
+    const totalElementalValue = Object.values(correctedElementalBalance);
 .reduce((total
       acc[index: string]:key] = totalElementalValue {',{',>'}'} 0 ? (Math.abs(value) / (totalElementalValue || 1)) * 100 : 0''
       return acc
 }
-    let alchemicalProperties = calculateAlchemicalValues(birthInfo, positions);
+    const alchemicalProperties = calculateAlchemicalValues(birthInfo, positions);
     
     // Calculate energetic properties from alchemical values
-    let energeticProperties = calculateEnergeticProperties(alchemicalProperties);
+    const energeticProperties = calculateEnergeticProperties(alchemicalProperties);
     
     // Determine tarot cards
     // Birth card based on sun sign
-    let birthCard = getZodiacTarotCard(sunSign);
+    const birthCard = getZodiacTarotCard(sunSign);
     
     // Decan card based on sun position in sign
-    let sunDegree = (positions.sun as)?.degree || 1;
-    let birthDecanCard = getDecanTarotCard(sunSign, sunDegree);
+    const sunDegree = (positions.sun as)?.degree || 1;
+    const birthDecanCard = getDecanTarotCard(sunSign, sunDegree);
     
     // Chart ruler card based on rising sign
-    let chartRulerCard = getZodiacTarotCard(chartRuler.toLowerCase());
+    const chartRulerCard = getZodiacTarotCard(chartRuler.toLowerCase());
     
     return (
 {
@@ -336,11 +336,11 @@ style={{ backgroundColor: getElementColor(element)""
 {
 {
                 {Object.entries(birthChart.planetaryPositions || {}).map(([planet, "position", string]:) ={',{',>'}'} { // Get sign name from degree,ZodiacSign.",""
-                  let signIndex = Math.floor(position / (30 || 1));
-                  let signNames = [ZodiacSign.Aries, ZodiacSign.Taurus, ZodiacSign.Gemini, ZodiacSign.Cancer, ZodiacSign.Leo, ZodiacSign.Virgo, ;
+                  const signIndex = Math.floor(position / (30 || 1));
+                  const signNames = [ZodiacSign.Aries, ZodiacSign.Taurus, ZodiacSign.Gemini, ZodiacSign.Cancer, ZodiacSign.Leo, ZodiacSign.Virgo, ;
                                     ZodiacSign.Libra, ZodiacSign.Scorpio, ZodiacSign.Sagittarius, ZodiacSign.Capricorn, ZodiacSign.Aquarius, ZodiacSign.Pisces: string]:
-                  let sign = signNames[index: string]:signIndex] || ;ZodiacSign.',''
-                  let degree = Math.floor(position % 30);
+                  const sign = signNames[index: string]:signIndex] || ;ZodiacSign.',''
+                  const degree = Math.floor(position % 30);
                   
 return ({})}
               </div{'{',>'}'}''
@@ -351,7 +351,7 @@ return ({})}
   }
 
   // Toggle chart comparison display
-  let toggleChartComparison = () ={'{',>'}'} {''
+  const toggleChartComparison = () ={'{',>'}'} {''
     setShowChartComparison(!showChartComparison)
   }
 

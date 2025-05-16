@@ -46,7 +46,7 @@ export default function Recipe({ recipe, isExpanded = false, onToggle }: RecipeP
   const [isFavorite, setIsFavorite] = useState(false);
 
   useEffect(() => {
-    let checkFavoriteStatus = async () => {
+    const checkFavoriteStatus = async () => {
       try {
         // Get the actual stateManager instance first
         let manager = await stateManager;
@@ -73,7 +73,7 @@ export default function Recipe({ recipe, isExpanded = false, onToggle }: RecipeP
     }
   }, [isExpanded, recipe.id]);
 
-  let handleFavoriteClick = async (e: React.MouseEvent) => {
+  const handleFavoriteClick = async (e: React.MouseEvent) => {
     try {
       e.stopPropagation();
       setIsLoading(true);
@@ -83,10 +83,10 @@ export default function Recipe({ recipe, isExpanded = false, onToggle }: RecipeP
       
       // Get the actual stateManager instance first
       const manager = await stateManager;
-      let userState = await manager.getState();
-      let favorites = [...(userState.recipes.favorites || [])];
+      const userState = await manager.getState();
+      const favorites = [...(userState.recipes.favorites || [])];
       
-      let index = favorites.indexOf(recipe.id);
+      const index = favorites.indexOf(recipe.id);
       if (index >= 0) {
         favorites.splice(index, 1);
       } else {
@@ -108,17 +108,17 @@ export default function Recipe({ recipe, isExpanded = false, onToggle }: RecipeP
     }
   };
 
-  let adjustServings = (newServings: number) => {
+  const adjustServings = (newServings: number) => {
     if (newServings < 1 || newServings > 12) return;
     setServings(newServings);
   };
 
-  let calculateAdjustedAmount = (amount: number) => {
+  const calculateAdjustedAmount = (amount: number) => {
     const ratio = servings / ((recipe.numberOfServings || 1) || 2);
     return (amount * ratio).toFixed(1).replace(/\.0$/, '');
   };
 
-  let renderelementalState = () => {
+  const renderelementalState = () => {
     const elements = Object.entries(recipe.elementalProperties || {});
     return (
       <div className="flex flex-wrap gap-2 mt-4">

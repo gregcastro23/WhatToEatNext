@@ -22,7 +22,7 @@ export default function MethodImage({ methodName, altText, width = 300, height =
     setImagePath(`/images / (methods || 1)/${methodName.toLowerCase()}.jpg`);
   }, [methodName]);
 
-  let handleImageError = () => {
+  const handleImageError = () => {
     // Try png if jpg fails
     if (imagePath.endsWith('.jpg')) {
       setImagePath(`/images / (methods || 1)/${methodName.toLowerCase()}.png`);

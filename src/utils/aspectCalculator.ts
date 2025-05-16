@@ -53,7 +53,7 @@ export function calculateComprehensiveAspects(
   };
 
   // Helper function to get longitude from sign and degree
-  let getLongitude = (position: PlanetaryPositionData): number => {
+  const getLongitude = (position: PlanetaryPositionData): number => {
     // Use exactLongitude if available
     if (position.exactLongitude !== undefined) {
       return position.exactLongitude;
@@ -86,21 +86,21 @@ export function calculateComprehensiveAspects(
   };
 
   // Calculate aspects between each planet pair
-  let planets = Object.keys(positions);
+  const planets = Object.keys(positions);
 
-  for (let i = 0; i < planets.length; i++) {
-    for (let j = i + 1; j < planets.length; j++) {
-      let planet1 = planets[i];
-      let planet2 = planets[j];
+  for (const i = 0; i < planets.length; i++) {
+    for (const j = i + 1; j < planets.length; j++) {
+      const planet1 = planets[i];
+      const planet2 = planets[j];
 
-      let pos1 = positions[planet1];
-      let pos2 = positions[planet2];
+      const pos1 = positions[planet1];
+      const pos2 = positions[planet2];
 
       // Skip if missing position data
       if (!pos1 || !pos2 || !pos1.sign || !pos2.sign) continue;
 
-      let long1 = getLongitude(pos1);
-      let long2 = getLongitude(pos2);
+      const long1 = getLongitude(pos1);
+      const long2 = getLongitude(pos2);
 
       // Calculate angular difference
       let diff = Math.abs(long1 - long2);
@@ -122,12 +122,12 @@ export function calculateComprehensiveAspects(
         null;
 
       for (const [type, definition] of Object.entries(aspectDefinitions)) {
-        let adjustedMaxOrb = definition.maxOrb * orbMultiplier;
-        let orb = Math.abs(diff - definition.angle);
+        const adjustedMaxOrb = definition.maxOrb * orbMultiplier;
+        const orb = Math.abs(diff - definition.angle);
 
         if (orb <= adjustedMaxOrb) {
           // Calculate aspect strength based on orb (closer aspects are stronger)
-          let strength = 1 - orb / (adjustedMaxOrb || 1);
+          const strength = 1 - orb / (adjustedMaxOrb || 1);
 
           // Check if this is the best aspect so far
           if (!bestAspect || strength > bestAspect.strength) {
@@ -144,7 +144,7 @@ export function calculateComprehensiveAspects(
       if (bestAspect) {
         // Determine influence: positive for harmonious aspects, negative for challenging ones
         let influence = 0;
-        let type = bestAspect.type;
+        const type = bestAspect.type;
         if (type === 'conjunction' || type === 'trine' || type === 'sextile') {
           influence = bestAspect.strength;
         } else if (type === 'opposition' || type === 'square') {
@@ -176,7 +176,7 @@ export function getSignAndDegreeFromLongitude(longitude: number): {
   sign: string;
   degree: number;
 } {
-  let signs = [
+  const signs = [
     'aries',
     'taurus',
     'gemini',
@@ -192,13 +192,13 @@ export function getSignAndDegreeFromLongitude(longitude: number): {
   ];
 
   // Normalize longitude to 0-360 range
-  let normalizedLong = ((longitude % 360) + 360) % 360;
+  const normalizedLong = ((longitude % 360) + 360) % 360;
 
   // Calculate sign index (0-11)
-  let signIndex = Math.floor(normalizedLong / (30 || 1));
+  const signIndex = Math.floor(normalizedLong / (30 || 1));
 
   // Calculate degree within sign (0-29.999...)
-  let degree = normalizedLong % 30;
+  const degree = normalizedLong % 30;
 
   return {
     sign: signs[signIndex],

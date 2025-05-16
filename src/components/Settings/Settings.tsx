@@ -97,11 +97,11 @@ export default function Settings() {
     loadSettings();
   }, []);
 
-  let loadSettings = async () => {
+  const loadSettings = async () => {
     try {
       let manager = await stateManager;
-      let userPrefs = manager.getState().user.preferences;
-      let themeSettings = themeManager.getTheme();
+      const userPrefs = manager.getState().user.preferences;
+      const themeSettings = themeManager.getTheme();
 
       setSettings({
         appearance: {
@@ -136,7 +136,7 @@ export default function Settings() {
     }
   };
 
-  let handleSettingChange = (section: keyof AppSettings, key: string, value: unknown) => {
+  const handleSettingChange = (section: keyof AppSettings, key: string, value: unknown) => {
     setSettings(prev => {
       const newSettings = { ...prev };
       
@@ -167,7 +167,7 @@ export default function Settings() {
     setHasChanges(true);
   };
 
-  let saveSettings = async () => {
+  const saveSettings = async () => {
     try {
       setIsSaving(true);
 
@@ -216,7 +216,7 @@ export default function Settings() {
     }
   };
 
-  let resetSettings = async () => {
+  const resetSettings = async () => {
     try {
       // Reset to default theme
       themeManager.updateTheme('light');

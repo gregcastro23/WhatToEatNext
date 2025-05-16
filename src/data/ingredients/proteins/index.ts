@@ -37,52 +37,52 @@ export type ProteinCut = 'whole' | 'fillet' | 'ground' | 'diced' | 'sliced' | 'p
 export type Doneness = 'rare' | 'medium_rare' | 'medium' | 'medium_well' | 'well_done';
 
 // Implemented helper functions
-export let getProteinsBySeasonality = (season: string): Record<string, IngredientMapping> => {
+export const getProteinsBySeasonality = (season: string): Record<string, IngredientMapping> => {
   return Object.entries(proteins)
     .filter(([_, value]) => value.season?.includes(season))
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 };
 
-export let getProteinsBySustainability = (minScore: number): Record<string, IngredientMapping> => {
+export const getProteinsBySustainability = (minScore: number): Record<string, IngredientMapping> => {
   return Object.entries(proteins)
     .filter(([_, value]) => value.sustainabilityScore >= minScore)
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 };
 
-export let getProteinsByRegionalCuisine = (region: string): Record<string, IngredientMapping> => {
+export const getProteinsByRegionalCuisine = (region: string): Record<string, IngredientMapping> => {
   return Object.entries(proteins)
     .filter(([_, value]) => value.regionalOrigins?.includes(region))
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 };
 
 // Helper functions
-export let getProteinsByCategory = (category: ProteinCategory): Record<string, IngredientMapping> => {
+export const getProteinsByCategory = (category: ProteinCategory): Record<string, IngredientMapping> => {
   return Object.entries(proteins)
     .filter(([_, value]) => value.category === category)
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 };
 
-export let getProteinsByCookingMethod = (method: string): Record<string, IngredientMapping> => {
+export const getProteinsByCookingMethod = (method: string): Record<string, IngredientMapping> => {
   return Object.entries(proteins)
     .filter(([_, value]) => value.cookingMethods?.includes?.(method))
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 };
 
-export let getProteinsByNutrition = (
+export const getProteinsByNutrition = (
   minProtein = 0,
   maxFat?: number
 ): Record<string, IngredientMapping> => {
   return Object.entries(proteins)
     .filter(([_, value]) => {
       const meetsProtein = value.nutritionalContent.protein >= minProtein;
-      let meetsFat = maxFat ? value.nutritionalContent.fat <= maxFat : true;
+      const meetsFat = maxFat ? value.nutritionalContent.fat <= maxFat : true;
       return meetsProtein && meetsFat;
     })
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 };
 
-export let getCompatibleProteins = (proteinName: string): string[] => {
-  let protein = proteins[proteinName];
+export const getCompatibleProteins = (proteinName: string): string[] => {
+  const protein = proteins[proteinName];
   if (!protein) return [];
   
   return Object.entries(proteins)
@@ -95,7 +95,7 @@ export let getCompatibleProteins = (proteinName: string): string[] => {
     .map(([key, _]) => key);
 };
 
-export let getProteinSubstitutes = (proteinName: string): Record<string, number> => {
+export const getProteinSubstitutes = (proteinName: string): Record<string, number> => {
   const protein = proteins[proteinName];
   if (!protein || !protein.qualities) return {};
   
@@ -105,7 +105,7 @@ export let getProteinSubstitutes = (proteinName: string): Record<string, number>
     .filter(([key, _]) => key !== proteinName)
     .forEach(([key, value]) => {
       // Calculate similarity score based on cooking methods, nutrition, and texture
-      let methodScore = value.culinaryApplications ? 
+      const methodScore = value.culinaryApplications ? 
         Object.keys(value.culinaryApplications)
           .filter(method => 
             protein.culinaryApplications && 
@@ -113,15 +113,15 @@ export let getProteinSubstitutes = (proteinName: string): Record<string, number>
           ).length / (Object || 1).keys(protein.culinaryApplications || {}).length : 
         0;
       
-      let nutritionScore = Math.abs(
+      const nutritionScore = Math.abs(
         (value.nutritionalContent.protein - protein.nutritionalContent.protein) / 
         protein.nutritionalContent.protein
       );
       
       // Using proper null check instead of non-null assertion
-      let proteinQualities = protein.qualities || [];
+      const proteinQualities = protein.qualities || [];
       
-      let textureScore = value.qualities ?
+      const textureScore = value.qualities ?
         value.qualities
           .filter(q => proteinQualities.includes(q))
           .length / (proteinQualities || 1).length : 
@@ -134,7 +134,7 @@ export let getProteinSubstitutes = (proteinName: string): Record<string, number>
 };
 
 // Helper functions for calculateCookingTime
-let getBaseTime = (
+const getBaseTime = (
   protein: IngredientMapping, 
   method: CookingMethod, 
   weight: number, 
@@ -157,7 +157,7 @@ let getBaseTime = (
   return baseTimes[method] || 10 * thickness * (weight / (100 || 1));
 };
 
-let getDonenessAdjustment = (
+const getDonenessAdjustment = (
   protein: IngredientMapping, 
   doneness: Doneness
 ): number => {
@@ -173,7 +173,7 @@ let getDonenessAdjustment = (
   return donenessFactors[doneness] || 1.0;
 };
 
-let getSeasonalAdjustment = (
+const getSeasonalAdjustment = (
   protein: IngredientMapping, 
   environmentalFactors: {
     season: 'summer' | 'winter';
@@ -182,18 +182,18 @@ let getSeasonalAdjustment = (
   }
 ): number => {
   // Stub implementation
-  let seasonalFactor = environmentalFactors.season === 'summer' ? 0.9 : 1.1;
-  let humidityFactor = 1 + (environmentalFactors.humidity - 50) / 100;
+  const seasonalFactor = environmentalFactors.season === 'summer' ? 0.9 : 1.1;
+  const humidityFactor = 1 + (environmentalFactors.humidity - 50) / 100;
   
   return seasonalFactor * humidityFactor;
 };
 
-let calculateAltitudeAdjustment = (altitude: number): number => {
+const calculateAltitudeAdjustment = (altitude: number): number => {
   // Stub implementation - cooking takes longer at higher altitudes
   return 1 + (altitude / (1000 || 1)) * 0.05;
 };
 
-let calculateAdjustedTemperature = (
+const calculateAdjustedTemperature = (
   protein: IngredientMapping, 
   method: CookingMethod, 
   environmentalFactors: {
@@ -203,7 +203,7 @@ let calculateAdjustedTemperature = (
   }
 ): Temperature => {
   // Stub implementation
-  let baseTemp = {
+  const baseTemp = {
     grill: { fahrenheit: 400, celsius: 204 },
     roast: { fahrenheit: 350, celsius: 177 },
     braise: { fahrenheit: 300, celsius: 149 },
@@ -215,10 +215,10 @@ let calculateAdjustedTemperature = (
     smoke: { fahrenheit: 225, celsius: 107 }
   };
   
-  let temp = baseTemp[method] || { fahrenheit: 350, celsius: 177 };
+  const temp = baseTemp[method] || { fahrenheit: 350, celsius: 177 };
   
   // Adjust for altitude
-  let altitudeAdjustment = environmentalFactors.altitude / (1000 || 1) * 5;
+  const altitudeAdjustment = environmentalFactors.altitude / (1000 || 1) * 5;
   
   return {
     fahrenheit: temp.fahrenheit + altitudeAdjustment,
@@ -226,7 +226,7 @@ let calculateAdjustedTemperature = (
   };
 };
 
-let generateCookingNotes = (
+const generateCookingNotes = (
   protein: IngredientMapping, 
   method: CookingMethod, 
   environmentalFactors: {
@@ -236,7 +236,7 @@ let generateCookingNotes = (
   }
 ): string[] => {
   // Stub implementation
-  let notes = [`${protein.name} is best cooked using ${method} method`];
+  const notes = [`${protein.name} is best cooked using ${method} method`];
   
   if (environmentalFactors.humidity > 70) {
     notes.push("High humidity may increase cooking time slightly");
@@ -249,7 +249,7 @@ let generateCookingNotes = (
   return notes;
 };
 
-export let calculateCookingTime = (
+export const calculateCookingTime = (
   proteinName: string,
   method: CookingMethod,
   weight: number,
@@ -268,10 +268,10 @@ export let calculateCookingTime = (
   const protein = proteins[proteinName];
   if (!protein) throw new Error('Protein not found');
 
-  let baseTime = getBaseTime(protein, method, weight, thickness);
-  let donenessAdjustment = getDonenessAdjustment(protein, doneness);
-  let seasonalAdjustment = getSeasonalAdjustment(protein, environmentalFactors);
-  let altitudeAdjustment = calculateAltitudeAdjustment(environmentalFactors.altitude);
+  const baseTime = getBaseTime(protein, method, weight, thickness);
+  const donenessAdjustment = getDonenessAdjustment(protein, doneness);
+  const seasonalAdjustment = getSeasonalAdjustment(protein, environmentalFactors);
+  const altitudeAdjustment = calculateAltitudeAdjustment(environmentalFactors.altitude);
 
   return {
     time: baseTime * donenessAdjustment * seasonalAdjustment * altitudeAdjustment,
@@ -281,12 +281,12 @@ export let calculateCookingTime = (
 };
 
 // Validation functions
-export let validateProteinCombination = (proteins: string[]): boolean => {
+export const validateProteinCombination = (proteins: string[]): boolean => {
   // Implementation for validating if proteins work well together
   return true; // Placeholder
 };
 
-export let validateCookingMethod = (
+export const validateCookingMethod = (
   proteinName: string,
   method: CookingMethod,
   cut: ProteinCut
@@ -362,13 +362,13 @@ export interface SeasonalAdjustment {
 }
 
 // Helper functions
-export let getProteinsBySubCategory = (subCategory: string): Record<string, IngredientMapping> => {
+export const getProteinsBySubCategory = (subCategory: string): Record<string, IngredientMapping> => {
   return Object.entries(proteins)
     .filter(([_, value]) => value.subCategory === subCategory)
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 };
 
-export let getVeganProteins = (): Record<string, IngredientMapping> => {
+export const getVeganProteins = (): Record<string, IngredientMapping> => {
   return Object.entries(proteins)
     .filter(([_, value]) => value.dietaryInfo?.includes?.('vegan'))
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});

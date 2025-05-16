@@ -33,7 +33,7 @@ function CuisineSelector({
   const [sortBy, setSortBy] = useState<string>('default');
   
   // Get all cuisines
-  let cuisineList = useMemo(() => {
+  const cuisineList = useMemo(() => {
     // Ensure each cuisine has the required properties for ElementalItem
     const baseCuisines: ElementalItem[] = [
       { 
@@ -81,7 +81,7 @@ function CuisineSelector({
   }, [planetaryPositions, isDaytime, currentZodiac, currentLunarPhase]);
   
   // Sort cuisines when sort preference changes
-  let sortedCuisines = useMemo(() => {
+  const sortedCuisines = useMemo(() => {
     const sorted = [...cuisineList];
     
     if (sortBy === 'alchemical' && Object.keys(planetaryPositions).length > 0) {
@@ -101,7 +101,7 @@ function CuisineSelector({
   }, [cuisineList, sortBy, planetaryPositions]);
   
   // Function to determine cuisine modality
-  let getCuisineModality = (cuisine: unknown): Modality => {
+  const getCuisineModality = (cuisine: unknown): Modality => {
     // If cuisine already has modality defined, use it
     if (cuisine.modality) return cuisine.modality;
     
@@ -112,7 +112,7 @@ function CuisineSelector({
   };
   
   // Filter cuisines by modality and zodiac influence
-  let filteredCuisines = useMemo(() => {
+  const filteredCuisines = useMemo(() => {
     return sortedCuisines.filter(cuisine => {
       // Apply modality filter
       if (modalityFilter !== 'all' && getCuisineModality(cuisine) !== modalityFilter) {
@@ -122,11 +122,11 @@ function CuisineSelector({
       // Apply zodiac filter
       if (zodiacFilter !== 'all') {
         // Check if cuisine has zodiac influences and includes the selected zodiac
-        let zodiacInfluences = cuisine.zodiacInfluences || [];
+        const zodiacInfluences = cuisine.zodiacInfluences || [];
         if (zodiacFilter !== 'all' && !zodiacInfluences.includes(zodiacFilter)) {
           // Also check for planetary dignities if cuisines were transformed
           if ('planetaryDignities' in cuisine) {
-            let hasPlanetaryMatch = Object.values(cuisine.planetaryDignities || {}).some(
+            const hasPlanetaryMatch = Object.values(cuisine.planetaryDignities || {}).some(
               (dignity) => (dignity as PlanetaryDignityDetails).favorableZodiacSigns?.includes(zodiacFilter)
             );
             
@@ -143,7 +143,7 @@ function CuisineSelector({
     });
   }, [sortedCuisines, modalityFilter, zodiacFilter]);
 
-  let handleCuisineSelect = (cuisine: string) => {
+  const handleCuisineSelect = (cuisine: string) => {
     // Just notify the parent component about the cuisine change
     // and let it handle getting the recipes
     onRecipesChange([]);  // Pass empty array initially
@@ -221,7 +221,7 @@ function CuisineSelector({
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {filteredCuisines.map((cuisine) => {
           // Determine if current zodiac is favorable for this cuisine
-          let isZodiacFavorable = currentZodiac && 
+          const isZodiacFavorable = currentZodiac && 
             (cuisine.zodiacInfluences?.includes(currentZodiac) ||
              Object.values(cuisine.planetaryDignities || {}).some(
                (dignity) => (dignity as PlanetaryDignityDetails).favorableZodiacSigns?.includes(currentZodiac)

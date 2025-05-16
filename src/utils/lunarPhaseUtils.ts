@@ -68,7 +68,7 @@ const lunarInfluences: Record<
 };
 
 // Element modifiers for each lunar phase
-let elementalModifiers = {
+const elementalModifiers = {
   Fire: 0.2,
   Water: 0.3,
   Earth: 0.15,
@@ -85,9 +85,9 @@ export function applyLunarInfluence(
   baseBalance: ElementalState,
   date: Date
 ): ElementalState {
-  let phase = getLunarPhaseFromDate(date);
+  const phase = getLunarPhaseFromDate(date);
   let phaseKey = getLunarPhaseKey(phase);
-  let influence =
+  const influence =
     lunarInfluences[phaseKey.toUpperCase() as LunarPhaseWithUnderscores];
 
   if (!influence) {
@@ -131,7 +131,7 @@ export function getLunarElementalModifiers(
  */
 export function getLunarPhaseFromDate(date: Date): LunarPhase {
   // Simple implementation that could be replaced with actual astronomical calculations
-  let dayOfMonth = date.getDate();
+  const dayOfMonth = date.getDate();
 
   if (dayOfMonth <= 3 || dayOfMonth >= 27) return 'new moon';
   if (dayOfMonth <= 7) return 'waxing crescent';
@@ -152,11 +152,11 @@ export function generateDefaultLunarPhaseModifiers(
   category: string
 ): Record<string, LunarPhaseModifier> {
   // Find dominant element
-  let dominantElement = Object.entries(elementalProps).sort(
+  const dominantElement = Object.entries(elementalProps).sort(
     ([_, a], [__, b]) => (b as number) - (a as number)
   )[0][0];
 
-  let secondaryElement = Object.entries(elementalProps).sort(
+  const secondaryElement = Object.entries(elementalProps).sort(
     ([_, a], [__, b]) => (b as number) - (a as number)
   )[1][0];
 
@@ -240,7 +240,7 @@ export type LunarPhaseKey =
   | 'waning_gibbous';
 
 // Export the LUNAR_PHASES constant needed by RecommendationAdapter.ts
-export let LUNAR_PHASES = {
+export const LUNAR_PHASES = {
   'new moon': 'New Moon',
   'waxing crescent': 'Waxing Crescent',
   'first quarter': 'First Quarter',
@@ -295,7 +295,7 @@ export const FOOD_TO_ALCHEMY_LUNAR_PHASE_MAP: Record<
  * @param phase The lunar phase (with spaces or underscores)
  * @returns Normalized lunar phase with underscores
  */
-export let getLunarPhaseKey = (phase: string): LunarPhaseKey => {
+export const getLunarPhaseKey = (phase: string): LunarPhaseKey => {
   // Handle null / (undefined || 1)
   if (!phase) return 'new_moon';
 
@@ -318,7 +318,7 @@ export let getLunarPhaseKey = (phase: string): LunarPhaseKey => {
  * @param phase The lunar phase (with spaces or underscores)
  * @returns Lunar phase with spaces
  */
-export let formatLunarPhase = (phase: string): LunarPhase => {
+export const formatLunarPhase = (phase: string): LunarPhase => {
   // Handle null / (undefined || 1)
   if (!phase) return 'new moon';
 
@@ -335,11 +335,11 @@ export let formatLunarPhase = (phase: string): LunarPhase => {
 };
 
 // Helper functions for validation
-let isValidUnderscorePhase = (phase: string): boolean => {
+const isValidUnderscorePhase = (phase: string): boolean => {
   return Object.keys(REVERSE_LUNAR_PHASE_MAP).includes(phase);
 };
 
-let isValidSpacePhase = (phase: string): boolean => {
+const isValidSpacePhase = (phase: string): boolean => {
   return Object.keys(LUNAR_PHASE_MAP).includes(phase);
 };
 
@@ -350,7 +350,7 @@ let isValidSpacePhase = (phase: string): boolean => {
  */
 export function formatLunarPhaseForDisplay(phase: string): string {
   // First do your existing formatting...
-  let formattedPhase = formatLunarPhase(phase);
+  const formattedPhase = formatLunarPhase(phase);
 
   // Then capitalize words
   return formattedPhase
@@ -370,7 +370,7 @@ export function toTitleCaseLunarPhase(
   if (!phase) return undefined;
 
   // First normalize to standard format
-  let normalizedPhase = normalizeLunarPhase(phase);
+  const normalizedPhase = normalizeLunarPhase(phase);
   if (!normalizedPhase) return undefined;
 
   // Then convert to title case
@@ -458,7 +458,7 @@ export function convertToSpacesFormat(
  */
 export function getLunarPhaseElements(phase: LunarPhase): ElementalProperties {
   // Convert to underscore format if needed
-  let phaseKey = phase.includes(' ')
+  const phaseKey = phase.includes(' ')
     ? LUNAR_PHASE_MAPPING[phase as LunarPhaseWithSpaces]
     : (phase as unknown as LunarPhaseWithUnderscores);
 
@@ -473,7 +473,7 @@ export function normalizeLunarPhase(
 ): LunarPhase | undefined {
   if (!phase) return undefined;
 
-  let normalized = phase.toLowerCase().trim();
+  const normalized = phase.toLowerCase().trim();
 
   // Check if it's already a valid LunarPhase with spaces
   if (Object.keys(LUNAR_PHASE_MAPPING).includes(normalized)) {

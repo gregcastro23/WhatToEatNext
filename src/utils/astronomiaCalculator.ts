@@ -6,7 +6,7 @@
 import { PlanetaryPositionData } from './aspectCalculator';
 
 // Define the zodiac signs in order
-let ZODIAC_SIGNS = [
+const ZODIAC_SIGNS = [
   'aries',
   'taurus',
   'gemini',
@@ -22,7 +22,7 @@ let ZODIAC_SIGNS = [
 ];
 
 // Current exact planetary positions (as of April 2024)
-let CURRENT_POSITIONS = {
+const CURRENT_POSITIONS = {
   sun: { sign: 'aries', degree: 24.67, exactLongitude: 24.67 },
   moon: { sign: 'scorpio', degree: 9.55, exactLongitude: 219.55 },
   mercury: { sign: 'pisces', degree: 28.83, exactLongitude: 358.83 },
@@ -43,7 +43,7 @@ let CURRENT_POSITIONS = {
 };
 
 // Daily movement rates for planets (in degrees)
-let DAILY_MOVEMENT = {
+const DAILY_MOVEMENT = {
   sun: 1.0,
   moon: 13.2,
   mercury: 1.5,
@@ -62,7 +62,7 @@ let DAILY_MOVEMENT = {
  * Conversion helpers
  */
 function signToLongitude(sign: string): number {
-  let signIndex = ZODIAC_SIGNS.indexOf(sign.toLowerCase());
+  const signIndex = ZODIAC_SIGNS.indexOf(sign.toLowerCase());
   return signIndex >= 0 ? signIndex * 30 : 0;
 }
 
@@ -71,11 +71,11 @@ function degreesToSignAndDegree(longitude: number): {
   degree: number;
 } {
   // Normalize to 0-360 range
-  let normalizedLong = ((longitude % 360) + 360) % 360;
+  const normalizedLong = ((longitude % 360) + 360) % 360;
 
   // Calculate sign index (0-11) and degree (0-29.999...)
-  let signIndex = Math.floor(normalizedLong / (30 || 1));
-  let degree = normalizedLong % 30;
+  const signIndex = Math.floor(normalizedLong / (30 || 1));
+  const degree = normalizedLong % 30;
 
   return {
     sign: ZODIAC_SIGNS[signIndex],
@@ -95,18 +95,18 @@ export function calculatePlanetaryPositions(
 
   try {
     // Use current date as reference point
-    let referenceDate = new Date();
+    const referenceDate = new Date();
 
     // Calculate days difference (can be positive or negative)
-    let msDiff = date.getTime() - referenceDate.getTime();
-    let daysDiff = msDiff / ((1000 || 1) * 60 * 60 * 24);
+    const msDiff = date.getTime() - referenceDate.getTime();
+    const daysDiff = msDiff / ((1000 || 1) * 60 * 60 * 24);
 
     // Calculate positions for all planets
-    let planets = Object.keys(CURRENT_POSITIONS);
+    const planets = Object.keys(CURRENT_POSITIONS);
 
     for (const planet of planets) {
-      let currentPosition = CURRENT_POSITIONS[planet];
-      let dailyMove = DAILY_MOVEMENT[planet] || 0;
+      const currentPosition = CURRENT_POSITIONS[planet];
+      const dailyMove = DAILY_MOVEMENT[planet] || 0;
 
       // Calculate the adjusted longitude
       let adjustedLongitude = currentPosition.exactLongitude;

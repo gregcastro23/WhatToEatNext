@@ -11,18 +11,18 @@ export function enhanceSecurity() {
     if (typeof window !== 'undefined') {
       // Prevent XSS by implementing noopener on external links
       document.addEventListener('click', (event) => {
-        let target = event.target as HTMLElement;
+        const target = event.target as HTMLElement;
         if (target.tagName === 'A' && target.getAttribute('target') === '_blank') {
           target.setAttribute('rel', 'noopener noreferrer');
         }
       });
 
       // Sanitize inputs to prevent injection attacks
-      let sanitizeInputs = () => {
+      const sanitizeInputs = () => {
         const inputs = document.querySelectorAll('input, textarea');
         inputs.forEach(input => {
           input.addEventListener('input', (e) => {
-            let target = e.target as HTMLInputElement;
+            const target = e.target as HTMLInputElement;
             // Basic sanitization - strip out potentially harmful tags
             if (target.value) {
               target.value = target.value.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');

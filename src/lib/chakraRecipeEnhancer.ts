@@ -64,7 +64,7 @@ export class ChakraRecipeEnhancer {
    * Get the dominant chakra based on elemental properties
    */
   getDominantChakra(elementalProps: ElementalProperties): keyof ChakraEnergies {
-    let dominantElement = getDominantElement(elementalProps);
+    const dominantElement = getDominantElement(elementalProps);
     const chakraMap = getElementalChakraMap();
 
     // Return the first chakra associated with the dominant element
@@ -87,7 +87,7 @@ export class ChakraRecipeEnhancer {
   ): number {
     if (!recipe.elementalProperties) return 0;
 
-    let dominantChakra = this.getDominantChakra(recipe.elementalProperties);
+    const dominantChakra = this.getDominantChakra(recipe.elementalProperties);
     const chakraEnergy = chakraEnergies[dominantChakra] || 0;
 
     // Calculate alignment score (0-1)
@@ -148,7 +148,7 @@ export class ChakraRecipeEnhancer {
           };
         }
 
-        let dominantChakra = this.getDominantChakra(
+        const dominantChakra = this.getDominantChakra(
           recipe.elementalProperties
         );
         const chakraAlignment = this.calculateChakraAlignment(
@@ -182,7 +182,7 @@ export class ChakraRecipeEnhancer {
         // Calculate elemental alignment
         let elementalAlignment = 0;
         if (recipe.elementalProperties) {
-          let dominantElement = getDominantElement(
+          const dominantElement = getDominantElement(
             recipe.elementalProperties
           );
           const elementValue = recipe.elementalProperties[dominantElement];

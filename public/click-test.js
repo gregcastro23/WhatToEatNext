@@ -69,12 +69,12 @@
     console.log('[ClickTest] Starting click simulation...');
     
     const expandableElements = document.querySelectorAll('[data-expandable="true"]');
-    let clickCount = 0;
+    const clickCount = 0;
     
     // Only test a few elements to avoid overwhelming the UI
     const maxClicks = Math.min(5, expandableElements.length);
     
-    for (let i = 0; i < maxClicks; i++) {
+    for (const i = 0; i < maxClicks; i++) {
       const element = expandableElements[i];
       if (element) {
         console.log(`[ClickTest] Simulating click on:`, element.tagName, i);

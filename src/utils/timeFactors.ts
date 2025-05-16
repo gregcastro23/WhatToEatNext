@@ -14,7 +14,7 @@ export interface TimeFactors {
  * ruling planet of the day, and ruling planet of the hour
  */
 export function getCurrentTimeFactors(): TimeFactors {
-  let now = new Date();
+  const now = new Date();
   
   return {
     season: getCurrentSeason(now),
@@ -31,7 +31,7 @@ export function getCurrentTimeFactors(): TimeFactors {
  * This is primarily northern hemisphere focused
  */
 export function getCurrentSeason(date: Date = new Date()): 'spring' | 'summer' | 'fall' | 'winter' {
-  let month = date.getMonth(); // 0-11
+  const month = date.getMonth(); // 0-11
   
   if (month >= 2 && month <= 4) {
     return 'spring';  // March, April, May
@@ -76,14 +76,14 @@ export function getPlanetaryHourRuler(dayOfWeek: number, hour: number): Planet {
   ];
   
   // Each day starts with its ruling planet
-  let dayPlanet = getPlanetaryDayRuler(dayOfWeek);
+  const dayPlanet = getPlanetaryDayRuler(dayOfWeek);
   
   // Find the position of the day's ruling planet in the Chaldean order
-  let startPosition = planetaryOrder.indexOf(dayPlanet);
+  const startPosition = planetaryOrder.indexOf(dayPlanet);
   
   // For planetary hours, we count from sunrise to sunset as 12 hours,
   // and sunset to sunrise as 12 hours. For simplicity, we use civil hours.
-  let hourSequencePosition = (startPosition + hour) % 7;
+  const hourSequencePosition = (startPosition + hour) % 7;
   
   return planetaryOrder[hourSequencePosition];
 }
@@ -105,9 +105,9 @@ export function calculateSeasonalAppropriateness(
   }
   
   // Adjacent seasons have some compatibility
-  let seasonOrder = ['winter', 'spring', 'summer', 'fall'];
-  let currentIndex = seasonOrder.indexOf(currentSeason);
-  let recipeIndex = seasonOrder.indexOf(recipeSeason as any);
+  const seasonOrder = ['winter', 'spring', 'summer', 'fall'];
+  const currentIndex = seasonOrder.indexOf(currentSeason);
+  const recipeIndex = seasonOrder.indexOf(recipeSeason as any);
   
   // Check if it's an adjacent season (circular)
   if ((currentIndex + 1) % 4 === recipeIndex || (currentIndex - 1 + 4) % 4 === recipeIndex) {
@@ -123,7 +123,7 @@ export function calculateSeasonalAppropriateness(
  */
 export function calculatePlanetaryTimeAffinity(planet: Planet, hour: number): number {
   // Morning: 5-11, Afternoon: 12-17, Evening: 18-22, Night: 23-4
-  let timeOfDay = 
+  const timeOfDay = 
     hour >= 5 && hour <= 11 ? 'morning' :
     hour >= 12 && hour <= 17 ? 'afternoon' :
     hour >= 18 && hour <= 22 ? 'evening' : 'night';

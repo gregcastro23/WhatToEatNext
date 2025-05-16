@@ -31,11 +31,11 @@ const SunDisplay: React.FC = () => {
   });
 
   // Get sun position from planetaryPositions if available
-  let sun = planetaryPositions.sun || { sign: 'unknown', degree: 0 };
+  const sun = planetaryPositions.sun || { sign: 'unknown', degree: 0 };
 
   // Get user's location
   useEffect(() => {
-    let getLocation = async () => {
+    const getLocation = async () => {
       try {
         const coords = await AstrologicalService.requestLocation();
         if (coords) {
@@ -54,7 +54,7 @@ const SunDisplay: React.FC = () => {
 
   // Calculate sun times and position based on location
   useEffect(() => {
-    let calculateData = async () => {
+    const calculateData = async () => {
       try {
         // Use safe import and execute with proper typing
         const times = await safeImportAndExecute<{
@@ -82,7 +82,7 @@ const SunDisplay: React.FC = () => {
         }
 
         // Get sun position with proper typing
-        let position = await safeImportAndExecute<{
+        const position = await safeImportAndExecute<{
           azimuth: number;
           altitude: number;
         }>('@/utils / (solarPositions || 1)', 'getSunPosition', [
@@ -111,35 +111,35 @@ const SunDisplay: React.FC = () => {
     calculateData();
 
     // Update sun position every minute
-    let interval = setInterval(() => calculateData(), 60 * 1000);
+    const interval = setInterval(() => calculateData(), 60 * 1000);
     return () => clearInterval(interval);
   }, [coordinates.latitude, coordinates.longitude]);
 
-  let formatDegree = (degree: number): string => {
+  const formatDegree = (degree: number): string => {
     if (degree === undefined) return "0°0'";
-    let wholeDegree = Math.floor(degree);
-    let minutes = Math.floor((degree - wholeDegree) * 60);
+    const wholeDegree = Math.floor(degree);
+    const minutes = Math.floor((degree - wholeDegree) * 60);
     return `${wholeDegree}°${minutes}'`;
   };
 
   // Calculate daylight percentage
-  let getDaylightPercentage = (): number => {
+  const getDaylightPercentage = (): number => {
     if (!sunTimes.sunrise || !sunTimes.sunset) return 50;
 
-    let now = new Date();
+    const now = new Date();
 
     // If before sunrise or after sunset, return 0
     if (now < sunTimes.sunrise || now > sunTimes.sunset) return 0;
 
     // Calculate percentage of daylight elapsed
-    let daylightTotal =
+    const daylightTotal =
       sunTimes.sunset.getTime() - sunTimes.sunrise.getTime();
-    let daylightElapsed = now.getTime() - sunTimes.sunrise.getTime();
+    const daylightElapsed = now.getTime() - sunTimes.sunrise.getTime();
 
     return Math.round((daylightElapsed / (daylightTotal || 1)) * 100);
   };
 
-  let daylightPercentage = getDaylightPercentage();
+  const daylightPercentage = getDaylightPercentage();
 
   return (
     <div className="bg-amber-900 rounded-lg p-4 text-white">

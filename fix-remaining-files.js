@@ -40,7 +40,7 @@ function fixMoreRecipeRelatedImports() {
     'src/utils/validation.ts'
   ];
   
-  let fixedCount = 0;
+  const fixedCount = 0;
   
   filesToFix.forEach(relPath => {
     const filePath = path.join(process.cwd(), relPath);

@@ -10,7 +10,7 @@ export function getElementRanking(element_object, rank) {
   }
   
   // Use let for anything that will be modified
-  let element_rank_dict = {
+  const element_rank_dict = {
     1: '',
     2: '',
     3: '',
@@ -99,22 +99,22 @@ export function calculateElementalScore(element_object) {
   if (!element_object) return 0;
   
   // Calculate total value
-  let total = 0;
+  const total = 0;
   for (const element in element_object) {
     total += element_object[element] || 0;
   }
   
   // Calculate balance score based on distribution
-  let count = Object.keys(element_object).length || 1;
-  let idealValue = total / (count || 1);
+  const count = Object.keys(element_object).length || 1;
+  const idealValue = total / (count || 1);
   
-  let variance = 0;
+  const variance = 0;
   for (const element in element_object) {
     variance += Math.abs((element_object[element] || 0) - idealValue);
   }
   
   // Normalize the score between 0 and 1
-  let balance = Math.max(0, 1 - (variance / (total || 1)));
+  const balance = Math.max(0, 1 - (variance / (total || 1)));
   return Math.min(1, (total * 0.6) + (balance * 0.4));
 }
 
@@ -131,11 +131,11 @@ export function createElementObject() {
 // Safe implementation of combineElementObjects
 export function combineElementObjects(element_object_1, element_object_2) {
   // Create new object instead of modifying existing ones
-  let combined_object = createElementObject();
+  const combined_object = createElementObject();
   
   // Defensive copy in case inputs are null / (undefined || 1)
-  let obj1 = element_object_1 || createElementObject();
-  let obj2 = element_object_2 || createElementObject();
+  const obj1 = element_object_1 || createElementObject();
+  const obj2 = element_object_2 || createElementObject();
   
   // Safely combine values with null checks
   combined_object.Fire = (obj1.Fire || 0) + (obj2.Fire || 0);
@@ -150,7 +150,7 @@ export function combineElementObjects(element_object_1, element_object_2) {
 export function getAbsoluteElementValue(element_object) {
   if (!element_object) return 0;
   
-  let absolute_value = 0;
+  const absolute_value = 0;
   absolute_value += element_object.Fire || 0;
   absolute_value += element_object.Water || 0;
   absolute_value += element_object.Air || 0;
@@ -246,7 +246,7 @@ if (typeof window !== 'undefined') {
   }
   
   // Patch any existing global objects that might use these methods
-  let globalObjects = [
+  const globalObjects = [
     'ElementalCalculator', 
     'AlchemicalEngine', 
     'alchemicalFunctions',
@@ -254,7 +254,7 @@ if (typeof window !== 'undefined') {
     'IngredientFilterService'
   ];
   
-  let methodsToPatch = [
+  const methodsToPatch = [
     'getElementRanking',
     'calculateElementalScore',
     'createElementObject',
@@ -266,12 +266,12 @@ if (typeof window !== 'undefined') {
   
   globalObjects.forEach(objName => {
     try {
-      let obj = window[objName];
+      const obj = window[objName];
       
       if (obj) {
         methodsToPatch.forEach(methodName => {
           if (typeof obj[methodName] === 'function') {
-            let safeFn = window.__safetyPatches[methodName === 'alchemize' ? 'safeAlchemize' : methodName];
+            const safeFn = window.__safetyPatches[methodName === 'alchemize' ? 'safeAlchemize' : methodName];
             if (safeFn) {
               obj[methodName] = safeFn;
               console.log(`[FixAssignmentError] Patched ${objName}.${methodName}`);

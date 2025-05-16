@@ -52,12 +52,12 @@ export function getPlanetInfo(
 ): PlanetInfo | null {
   try {
     // Handle case sensitivity
-    let normalizedPlanetName =
+    const normalizedPlanetName =
       planetName.charAt(0).toUpperCase() + planetName.slice(1).toLowerCase();
-    let planetKey = planetName.toLowerCase();
+    const planetKey = planetName.toLowerCase();
 
     // Get planet position
-    let planetPosition = planetaryPositions[planetKey];
+    const planetPosition = planetaryPositions[planetKey];
     if (!planetPosition) {
       // console.error(`Planet position not found for ${planetName}`);
       return null;
@@ -113,7 +113,7 @@ export function getPlanetInfo(
         element: MAJOR_ARCANA[cardName]?.element || 'Unknown',
       };
     } else if (PLANET_TO_MAJOR_ARCANA[normalizedPlanetName]) {
-      let cardName = PLANET_TO_MAJOR_ARCANA[normalizedPlanetName];
+      const cardName = PLANET_TO_MAJOR_ARCANA[normalizedPlanetName];
       tarotCard = {
         name: cardName,
         element: MAJOR_ARCANA[cardName]?.element || 'Unknown',
@@ -169,7 +169,7 @@ export function getPlanetInfo(
 
       let element = signToElement[planetPosition.sign] || 'air';
       // North Node emphasizes its element, South Node has less influence
-      let strength = normalizedPlanetName === 'SouthNode' ? 0.2 : 0.3;
+      const strength = normalizedPlanetName === 'SouthNode' ? 0.2 : 0.3;
       elementalInfluence[element] = strength;
     } else {
       if (planetaryModifiers[normalizedPlanetName]) {
@@ -209,7 +209,7 @@ export function getPlanetInfo(
         pisces: 'water',
       };
 
-      let element = signToElement[planetPosition.sign] || 'air';
+      const element = signToElement[planetPosition.sign] || 'air';
 
       // Map elements to tokens with different emphasis for North vs South Node
       if (normalizedPlanetName === 'NorthNode') {
@@ -258,7 +258,7 @@ export function getPlanetInfo(
       }
     } else {
       // Use the planetary modifiers for token influence
-      let planetary = planetaryModifiers[normalizedPlanetName];
+      const planetary = planetaryModifiers[normalizedPlanetName];
       if (planetary) {
         tokenInfluence = {
           spirit: planetary.Spirit || 0,

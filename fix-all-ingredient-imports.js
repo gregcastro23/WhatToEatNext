@@ -14,11 +14,11 @@ console.log('Running fix for all ingredient import statements...');
 const ingredientFiles = glob.sync('src/data/ingredients/**/*.ts');
 
 // Fix each file
-let fixedCount = 0;
+const fixedCount = 0;
 ingredientFiles.forEach(filePath => {
   // Read file content
   let content = fs.readFileSync(filePath, 'utf8');
-  let originalContent = content;
+  const originalContent = content;
   
   // Fix import statements
   content = content.replace(

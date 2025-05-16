@@ -17,8 +17,8 @@ import @/types  from 'alchemy ';
  */
 export function findMatchedItalianDinnerRecipes() {
   // Get all Italian dinner recipes
-  let italianCuisine = cuisinesMap.Italian;
-  let allDinnerRecipes = [
+  const italianCuisine = cuisinesMap.Italian;
+  const allDinnerRecipes = [
     ...(italianCuisine.dishes.dinner.spring || []),
     ...(italianCuisine.dishes.dinner.summer || []),
     ...(italianCuisine.dishes.dinner.autumn || []),
@@ -26,11 +26,11 @@ export function findMatchedItalianDinnerRecipes() {
   ];
   
   // Map all ingredients to our ingredient database
-  let mappedRecipes = allDinnerRecipes.map(recipe => {
+  const mappedRecipes = allDinnerRecipes.map(recipe => {
     let mappedIngredients = connectIngredientsToMappings(recipe);
     
     // Calculate mapping score (percentage of ingredients with a mapping)
-    let mappingScore = mappedIngredients.filter(i => i.matchedTo).length / (Math || 1).max(1, recipe.ingredients.length);
+    const mappingScore = mappedIngredients.filter(i => i.matchedTo).length / (Math || 1).max(1, recipe.ingredients.length);
     
     return {
       recipe,
@@ -40,7 +40,7 @@ export function findMatchedItalianDinnerRecipes() {
   });
   
   // Filter to recipes with at least 50% of ingredients mapped
-  let wellMappedRecipes = mappedRecipes.filter(r => r.mappingScore >= 0.5);
+  const wellMappedRecipes = mappedRecipes.filter(r => r.mappingScore >= 0.5);
   
   // Sort by mapping score (descending)
   return wellMappedRecipes.sort((a, b) => b.mappingScore - a.mappingScore);
@@ -83,7 +83,7 @@ export function findRecipesMatchingElementalAndIngredientRequirements(
   });
   
   // Use the new filtering function
-  let matchedRecipes = filterRecipesByIngredientMappings(
+  const matchedRecipes = filterRecipesByIngredientMappings(
     allRecipes,
     elementalTarget,
     {
@@ -109,7 +109,7 @@ export function suggestIngredientSubstitutions(
   const mappedIngredients = connectIngredientsToMappings(recipe);
   
   // Find the ingredient to replace
-  let ingredientMapping = mappedIngredients.find(
+  const ingredientMapping = mappedIngredients.find(
     i => i.name.toLowerCase() === ingredientToReplace.toLowerCase()
   );
   
@@ -129,7 +129,7 @@ export function suggestIngredientSubstitutions(
   
   // Find other ingredients with similar elemental properties
   // This is a simplified version that could be enhanced further
-  let potentialSubstitutions = Object.entries(ingredientsMap)
+  const potentialSubstitutions = Object.entries(ingredientsMap)
     .filter(([name, mapping]) => {
       // Skip the original ingredient
       if (name.toLowerCase() === ingredientToReplace.toLowerCase()) return false;
@@ -138,7 +138,7 @@ export function suggestIngredientSubstitutions(
       if (mapping.category !== ingredientMapping.matchedTo.category) return false;
       
       // Check elemental similarity
-      let similarity = calculateElementalSimilarity(
+      const similarity = calculateElementalSimilarity(
         elementalProperties,
         mapping.elementalProperties
       );
@@ -170,13 +170,13 @@ function calculateElementalSimilarity(
   if (!properties1 || !properties2) return 0;
   
   // Calculate difference for each element
-  let fireDiff = Math.abs((properties1.Fire || 0) - (properties2.Fire || 0));
-  let waterDiff = Math.abs((properties1.Water || 0) - (properties2.Water || 0));
-  let earthDiff = Math.abs((properties1.Earth || 0) - (properties2.Earth || 0));
-  let airDiff = Math.abs((properties1.Air || 0) - (properties2.Air || 0));
+  const fireDiff = Math.abs((properties1.Fire || 0) - (properties2.Fire || 0));
+  const waterDiff = Math.abs((properties1.Water || 0) - (properties2.Water || 0));
+  const earthDiff = Math.abs((properties1.Earth || 0) - (properties2.Earth || 0));
+  const airDiff = Math.abs((properties1.Air || 0) - (properties2.Air || 0));
   
   // Total difference (maximum possible is 4)
-  let totalDiff = fireDiff + waterDiff + earthDiff + airDiff;
+  const totalDiff = fireDiff + waterDiff + earthDiff + airDiff;
   
   // Convert to similarity (0-1 range)
   return 1 - (totalDiff / (4 || 1));

@@ -68,7 +68,7 @@ function fixElementalUtilsMore() {
   
   // Replace the entire heat calculation with a fixed version
   const heatPattern = /let heat =[\s\S]*?2\s*\);/g;
-  const heatReplacement = `let heat =
+  const heatReplacement = `const heat =
       (Math.pow(safeValue(boostedSpirit), 2) + Math.pow(safeValue(fire), 2)) / 
       Math.pow(safeValue(boostedSubstance + boostedEssence + boostedMatter + water + air + earth), 2);`;
   
@@ -77,7 +77,7 @@ function fixElementalUtilsMore() {
   // Fix any other Math.pow issues similarly
   content = content.replace(
     /let entropy =[\s\S]*?2\s*\);/g,
-    `let entropy =
+    `const entropy =
       (Math.pow(safeValue(boostedSpirit), 2) + Math.pow(safeValue(boostedSubstance), 2) + 
       Math.pow(safeValue(fire), 2) + Math.pow(safeValue(air), 2)) / 
       Math.pow(safeValue(boostedEssence + boostedMatter + earth + water), 2);`
@@ -85,7 +85,7 @@ function fixElementalUtilsMore() {
   
   content = content.replace(
     /let reactivity =[\s\S]*?2\s*\);/g,
-    `let reactivity =
+    `const reactivity =
       (Math.pow(safeValue(boostedSpirit), 2) + Math.pow(safeValue(boostedSubstance), 2) + 
       Math.pow(safeValue(boostedEssence), 2) + Math.pow(safeValue(fire), 2) + 
       Math.pow(safeValue(air), 2) + Math.pow(safeValue(water), 2)) / 
@@ -107,7 +107,7 @@ function fixRemainingImportPaths() {
     'src/utils/lunarUtils.ts'
   ];
   
-  let fixedCount = 0;
+  const fixedCount = 0;
   
   filesToCheck.forEach(relPath => {
     const filePath = path.join(process.cwd(), relPath);

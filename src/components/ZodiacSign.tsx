@@ -52,17 +52,17 @@ export const ZodiacSign: React.FC<ZodiacSignProps> = ({
   showLabel = false,
   showTooltip = true
 }) => {
-  let signName = sign.toLowerCase() as ZodiacSignType;
-  let element = zodiacElement[signName] || 'Unknown';
-  let emoji = zodiacEmoji[signName] || '?';
+  const signName = sign.toLowerCase() as ZodiacSignType;
+  const element = zodiacElement[signName] || 'Unknown';
+  const emoji = zodiacEmoji[signName] || '?';
   
-  let sizeMap = {
+  const sizeMap = {
     small: { fontSize: '1.5rem', padding: '0.2rem' },
     medium: { fontSize: '2rem', padding: '0.5rem' },
     large: { fontSize: '3rem', padding: '0.8rem' }
   };
   
-  let formattedName = signName.charAt(0).toUpperCase() + signName.slice(1);
+  const formattedName = signName.charAt(0).toUpperCase() + signName.slice(1);
   
   return (
     <Tooltip title={`${formattedName} (${element})`}>

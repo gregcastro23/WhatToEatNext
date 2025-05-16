@@ -12,7 +12,7 @@
   console.log('[SafePopupImpl] Installing standalone popup implementation');
   
   // Create a standalone popup implementation
-  let createStandalonePopup = () => {
+  const createStandalonePopup = () => {
     // Private data store - can't be accessed directly from outside
     const state = {
       isShown: false,
@@ -26,7 +26,7 @@
      * Creates a popup with configurable options
      * @returns {Object} - Methods to control the popup
      */
-    let create = function(content, options = {}) {
+    const create = function(content, options = {}) {
       // Default options
       const {
         duration = 3000,
@@ -54,7 +54,7 @@
             state.element.className = `safe-popup safe-popup-${state.type} safe-popup-${state.position}`;
             
             // Create content container using DOM methods instead of innerHTML
-            let contentContainer = document.createElement('div');
+            const contentContainer = document.createElement('div');
             contentContainer.className = 'safe-popup-content';
             
             // Set content safely
@@ -67,7 +67,7 @@
             state.element.appendChild(contentContainer);
             
             // Add basic styles
-            let style = document.createElement('style');
+            const style = document.createElement('style');
             style.textContent = `
               .safe-popup {
                 position: fixed;
@@ -161,7 +161,7 @@
           state.content = content || state.content;
           
           if (state.element) {
-            let contentElement = state.element.querySelector('.safe-popup-content');
+            const contentElement = state.element.querySelector('.safe-popup-content');
             if (contentElement) {
               // Clear existing content
               while (contentElement.firstChild) {
@@ -213,7 +213,7 @@
       },
       update: function(content) {
         if (state.element) {
-          let contentElement = state.element.querySelector('.safe-popup-content');
+          const contentElement = state.element.querySelector('.safe-popup-content');
           if (contentElement) {
             // Clear existing content
             while (contentElement.firstChild) {
@@ -235,7 +235,7 @@
   };
   
   // Create the standalone popup
-  let standalonePopup = createStandalonePopup();
+  const standalonePopup = createStandalonePopup();
   
   // Safely install it if window.popup doesn't exist or doesn't have create
   if (!window.popup || !window.popup.create) {
@@ -244,7 +244,7 @@
   } else {
     console.log('[SafePopupImpl] popup.create already exists, preserving original with fallback');
     // Backup the original create method
-    let originalCreate = window.popup.create;
+    const originalCreate = window.popup.create;
     
     // Replace with a version that falls back to our implementation if original fails
     window.popup.create = function() {

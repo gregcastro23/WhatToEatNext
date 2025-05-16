@@ -20,12 +20,23 @@ import {
   Search,
 } from 'lucide-react';
 import { cuisines } from '@/data/cuisines';
-import { getCuisineRecommendations } from '@/utils/cuisineRecommender';
+import { getCuisineRecommendations ,
+  generateTopSauceRecommendations,
+  calculateElementalMatch,
+  getMatchScoreClass,
+  renderScoreBadge,
+  calculateElementalProfileFromZodiac,
+  calculateElementalContributionsFromPlanets,
+} from '@/utils/cuisineRecommender';
 import styles from './CuisineRecommender.module.css';
 import {
   ElementalItem,
   AlchemicalItem,
-} from '@/types/alchemy';
+
+  ZodiacSign,
+  LunarPhase,
+  LunarPhaseWithSpaces,
+  ElementalProperties} from '@/types/alchemy';
 import { ElementalCharacter, AlchemicalProperty } from '@/constants/planetaryElements';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import {
@@ -38,12 +49,6 @@ import {
   sortByAlchemicalCompatibility,
 } from '@/utils/alchemicalTransformationUtils';
 import {
-  ZodiacSign,
-  LunarPhase,
-  LunarPhaseWithSpaces,
-  ElementalProperties,
-} from '@/types/alchemy';
-import {
   cuisineFlavorProfiles,
   getRecipesForCuisineMatch,
 } from '@/data/cuisineFlavorProfiles';
@@ -55,14 +60,6 @@ import {
   Sauce,
 } from '@/data/sauces';
 import { Recipe } from '@/types/recipe';
-import {
-  generateTopSauceRecommendations,
-  calculateElementalMatch,
-  getMatchScoreClass,
-  renderScoreBadge,
-  calculateElementalProfileFromZodiac,
-  calculateElementalContributionsFromPlanets,
-} from '@/utils/cuisineRecommender';
 import { planetaryData } from '@/data/planets';
 
 // Keep the interface exports for any code that depends on them
@@ -97,7 +94,7 @@ interface CuisineStyles {
 }
 
 // Add this helper function near the top of the file, outside any components
-let getSafeScore = (score: unknown): number => {
+const getSafeScore = (score: unknown): number => {
   // Convert to number if needed, default to 0.5 if NaN or undefined
   const numScore = typeof score === 'number' ? score : parseFloat(score);
   return !isNaN(numScore) ? numScore : 0.5;
@@ -149,8 +146,8 @@ function calculateElementalMatch(
   userElements: ElementalProperties
 ): number {
   // Calculate similarity based on elemental profiles
-  let matchSum = 0;
-  let totalWeight = 0;
+  const matchSum = 0;
+  const totalWeight = 0;
   
   // Get dominant elements
   const recipeDominant = Object.entries(recipeElements)
@@ -179,7 +176,7 @@ function calculateElementalMatch(
   
   // Calculate final score
   const baseScore = matchSum / totalWeight;
-  let finalScore = baseScore + dominantBonus;
+  const finalScore = baseScore + dominantBonus;
   
   // Ensure score is between 0 and 1
   return Math.min(1, Math.max(0, finalScore));
@@ -203,16 +200,16 @@ export default function CuisineRecommender() {
 
   // Get access to the AlchemicalContext
   const alchemicalContext = useAlchemical();
-  let isDaytime = alchemicalContext?.isDaytime ?? true;
-  let planetaryPositions = alchemicalContext?.planetaryPositions ?? {};
-  let state = alchemicalContext?.state ?? {
+  const isDaytime = alchemicalContext?.isDaytime ?? true;
+  const planetaryPositions = alchemicalContext?.planetaryPositions ?? {};
+  const state = alchemicalContext?.state ?? {
     astrologicalState: {
       zodiacSign: 'aries',
       lunarPhase: 'new moon',
     },
   };
-  let currentZodiac = state.astrologicalState?.zodiacSign;
-  let lunarPhase = state.astrologicalState?.lunarPhase;
+  const currentZodiac = state.astrologicalState?.zodiacSign;
+  const lunarPhase = state.astrologicalState?.lunarPhase;
 
   // Create a ref to store astrological state
   const astroStateRef = useRef({
@@ -277,7 +274,7 @@ export default function CuisineRecommender() {
   // Update current moment elemental profile when astrological state changes
   useEffect(() => {
     // Use type assertion to avoid type errors
-    let safeState = state?.astrologicalState || {};
+    const safeState = state?.astrologicalState || {};
     if (safeState?.elementalState) {
       // Use type assertion to ensure type compatibility
       setCurrentMomentElementalProfile({
@@ -285,7 +282,7 @@ export default function CuisineRecommender() {
       } as unknown as ElementalProperties);
     } else if (currentZodiac) {
       // If no elemental state but we have zodiac, calculate based on that
-      let zodiacElements = calculateElementalProfileFromZodiac(
+      const zodiacElements = calculateElementalProfileFromZodiac(
         currentZodiac as ZodiacSign,
         lunarPhase as LunarPhase
       );
@@ -351,7 +348,7 @@ export default function CuisineRecommender() {
           // Set up matching recipes for each recommendation
           setLoadingStep('Matching recipes to cuisines...');
           
-          let cuisinesWithRecipes = recommendations.map((cuisine) => {
+          const cuisinesWithRecipes = recommendations.map((cuisine) => {
             // Find matching recipes for this cuisine
             const matchingRecipes = recipes.filter(recipe => 
               recipe.cuisine && recipe.cuisine.toLowerCase() === cuisine.name.toLowerCase()
@@ -387,7 +384,7 @@ export default function CuisineRecommender() {
     }
   }
 
-  let handleCuisineSelect = (cuisineId: string) => {
+  const handleCuisineSelect = (cuisineId: string) => {
     // console.log(`Cuisine selected: ${cuisineId}`);
     
     if (selectedCuisine === cuisineId) {
@@ -408,7 +405,7 @@ export default function CuisineRecommender() {
     setShowAllSauces(false);
 
     // Find selected cuisine from the cuisineRecommendations list
-    let selectedCuisineData = cuisineRecommendations.find((c) => c.id === cuisineId || c.name === cuisineId);
+    const selectedCuisineData = cuisineRecommendations.find((c) => c.id === cuisineId || c.name === cuisineId);
     if (selectedCuisineData) {
       // console.log(`Found cuisine data for: ${selectedCuisineData.name}`);
       trackEvent('cuisine_select', selectedCuisineData.name);
@@ -448,7 +445,7 @@ export default function CuisineRecommender() {
     }
   };
 
-  let toggleRecipeExpansion = (index: number, event: React.MouseEvent) => {
+  const toggleRecipeExpansion = (index: number, event: React.MouseEvent) => {
     // Ensure event doesn't propagate to parent elements
     if (event) {
       event.stopPropagation();
@@ -474,14 +471,14 @@ export default function CuisineRecommender() {
     logCuisineAction('toggleRecipe', { index, newState: newExpandedRecipes[index] });
   };
 
-  let toggleSauceExpansion = (index: number) => {
+  const toggleSauceExpansion = (index: number) => {
     setExpandedSauces((prev) => ({
       ...prev,
       [index]: !prev[index],
     }));
   };
 
-  let toggleSauceCard = (sauceId: string) => {
+  const toggleSauceCard = (sauceId: string) => {
     setExpandedSauceCards((prev) => ({
       ...prev,
       [sauceId]: !prev[sauceId],
@@ -493,7 +490,7 @@ export default function CuisineRecommender() {
     try {
       const { allSauces } = require('@/data/sauces');
       const { getTimeFactors } = require('@/types/time');
-      let timeFactors = getTimeFactors();
+      const timeFactors = getTimeFactors();
       
       // Get the cuisine's elemental profile
       const cuisine = cuisineRecommendations.find(c => 
@@ -544,8 +541,8 @@ export default function CuisineRecommender() {
         
         if (sauce.flavorProfile && cuisine.flavorProfile) {
           // Calculate how well sauce flavors complement cuisine flavors
-          let flavorMatch = 0;
-          let flavorCount = 0;
+          const flavorMatch = 0;
+          const flavorCount = 0;
           
           // Match key flavors
           const flavors = ['sweet', 'sour', 'salty', 'bitter', 'umami', 'spicy'];
@@ -652,7 +649,7 @@ export default function CuisineRecommender() {
     }
     
     // Transform cuisines into the format expected by the UI
-    let transformedCuisines = [];
+    const transformedCuisines = [];
     
     // Load planetary influence data for more precise scoring
     const planetsData = {
@@ -682,7 +679,7 @@ export default function CuisineRecommender() {
     cuisineMap.forEach(({ cuisine, regionalVariants }, cuisineId) => {
       // Calculate a more comprehensive score based on multiple factors
       let baseScore = 0.5; // Default score
-      let scoreFactors = []; // Track individual scoring factors for debugging
+      const scoreFactors = []; // Track individual scoring factors for debugging
       
       // If we have astrological data
       if (astroState && astroState.elementalState) {
@@ -949,7 +946,7 @@ export default function CuisineRecommender() {
   }
 
   // Get the currently selected cuisine data
-  let selectedCuisineData = cuisineRecommendations.find(
+  const selectedCuisineData = cuisineRecommendations.find(
     (c) => c.id === selectedCuisine || c.name === selectedCuisine
   );
 
@@ -963,7 +960,7 @@ export default function CuisineRecommender() {
           .slice(0, showAllCuisines ? undefined : 6) // Show only top 6 cuisines by default
           .map((cuisine) => {
             // Display formatted match percentage
-            let matchPercentage = typeof cuisine.matchPercentage === 'number' 
+            const matchPercentage = typeof cuisine.matchPercentage === 'number' 
               ? cuisine.matchPercentage 
               : (cuisine.compatibilityScore 
                   ? Math.round(cuisine.compatibilityScore * 1000) / 10 

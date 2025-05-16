@@ -10,7 +10,7 @@ interface IngredientRecommendationsProps {
 const IngredientRecommendations: React.FC<IngredientRecommendationsProps> = ({
   astrologicalState
 }) => {
-  let recommendedIngredients = useMemo(() => {
+  const recommendedIngredients = useMemo(() => {
     return getTopIngredientMatches(astrologicalState, 5);
   }, [astrologicalState]);
 

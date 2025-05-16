@@ -62,7 +62,7 @@ function isValidAlchemyPlanet(value: string): value is AlchemyPlanet {
 
 // Function to capitalize a planet name
 function capitalizePlanet(planet: string): CapitalizedPlanet | null {
-  let capitalizedPlanet =
+  const capitalizedPlanet =
     planet.charAt(0).toUpperCase() + planet.slice(1).toLowerCase();
   return isCapitalizedPlanet(capitalizedPlanet) ? capitalizedPlanet : null;
 }
@@ -94,7 +94,7 @@ const PlanetaryHoursDisplay: React.FC<PlanetaryHoursDisplayProps> = ({
   const [showDetails, setShowDetails] = useState(false);
 
   // Determine if it's daytime based on the current hour (between 6am and 6pm)
-  let isDaytime = () => {
+  const isDaytime = () => {
     const hour = new Date().getHours();
     return hour >= 6 && hour < 18;
   };
@@ -104,7 +104,7 @@ const PlanetaryHoursDisplay: React.FC<PlanetaryHoursDisplayProps> = ({
     updatePlanetaryInfo();
 
     // Update every minute
-    let intervalId = setInterval(() => {
+    const intervalId = setInterval(() => {
       setCurrentTime(new Date());
       updatePlanetaryInfo();
     }, 60000);
@@ -112,23 +112,23 @@ const PlanetaryHoursDisplay: React.FC<PlanetaryHoursDisplayProps> = ({
     return () => clearInterval(intervalId);
   }, []);
 
-  let updatePlanetaryInfo = () => {
+  const updatePlanetaryInfo = () => {
     const now = new Date();
-    let isDay = isDaytime();
+    const isDay = isDaytime();
 
     try {
       // Get current planetary hour
-      let hourInfo = planetaryCalculator.getCurrentPlanetaryHour();
+      const hourInfo = planetaryCalculator.getCurrentPlanetaryHour();
       if (hourInfo && typeof hourInfo.planet === 'string') {
         // Safely check if the planet is a valid CapitalizedPlanet
         if (isCapitalizedPlanet(hourInfo.planet)) {
           setCurrentHour(hourInfo.planet);
 
           // Safely convert to AlchemyPlanet (lowercase)
-          let planetLowerCase = hourInfo.planet.toLowerCase();
+          const planetLowerCase = hourInfo.planet.toLowerCase();
           if (isValidAlchemyPlanet(planetLowerCase)) {
             // Get associated chakras from the planet's alchemical property
-            let property =
+            const property =
               planetPropertyMap(isDay)[
                 planetLowerCase as keyof ReturnType<typeof planetPropertyMap>
               ];
@@ -136,23 +136,23 @@ const PlanetaryHoursDisplay: React.FC<PlanetaryHoursDisplayProps> = ({
 
             // Get associated chakras from the energy state mapping
             if (property && ENERGY_STATE_CHAKRA_MAPPING[property]) {
-              let associatedChakraKeys =
+              const associatedChakraKeys =
                 ENERGY_STATE_CHAKRA_MAPPING[property];
 
               // Get the display names for these chakras
-              let chakraNames = associatedChakraKeys.map((key) =>
+              const chakraNames = associatedChakraKeys.map((key) =>
                 getChakraDisplayName(key)
               );
 
               setAssociatedChakras(chakraNames);
             } else {
               // Fallback to the service method if no mapping is found
-              let chakras = chakraService.getChakrasByPlanet(
+              const chakras = chakraService.getChakrasByPlanet(
                 planetLowerCase as AlchemyPlanet
               );
               setAssociatedChakras(
                 chakras.map((c) => {
-                  let chakraInfo = chakraService.getChakraInfo(c);
+                  const chakraInfo = chakraService.getChakraInfo(c);
                   return chakraInfo.name;
                 })
               );
@@ -162,16 +162,16 @@ const PlanetaryHoursDisplay: React.FC<PlanetaryHoursDisplayProps> = ({
       }
 
       // Get current planetary day
-      let dayPlanet = planetaryCalculator.getCurrentPlanetaryDay();
+      const dayPlanet = planetaryCalculator.getCurrentPlanetaryDay();
       setCurrentDay(capitalizePlanet(dayPlanet));
 
       // Get current planetary minute
-      let minutePlanet = planetaryCalculator.getCurrentPlanetaryMinute();
+      const minutePlanet = planetaryCalculator.getCurrentPlanetaryMinute();
       setCurrentMinute(capitalizePlanet(minutePlanet));
 
       // Get all hours and safely convert them to a new Map with the correct type
-      let calculatedHours = planetaryCalculator.getDailyPlanetaryHours(now);
-      let typedHours = new Map<number, CapitalizedPlanet>();
+      const calculatedHours = planetaryCalculator.getDailyPlanetaryHours(now);
+      const typedHours = new Map<number, CapitalizedPlanet>();
 
       calculatedHours.forEach((planet, hour) => {
         if (isCapitalizedPlanet(planet)) {
@@ -185,7 +185,7 @@ const PlanetaryHoursDisplay: React.FC<PlanetaryHoursDisplayProps> = ({
     }
   };
 
-  let getPlanetIcon = (planet: CapitalizedPlanet) => {
+  const getPlanetIcon = (planet: CapitalizedPlanet) => {
     switch (planet) {
       case 'Sun':
         return <Sun className="h-4 w-4 text-yellow-400" />;
@@ -206,7 +206,7 @@ const PlanetaryHoursDisplay: React.FC<PlanetaryHoursDisplayProps> = ({
     }
   };
 
-  let getPlanetColor = (planet: CapitalizedPlanet): string => {
+  const getPlanetColor = (planet: CapitalizedPlanet): string => {
     const colors: Record<CapitalizedPlanet, string> = {
       Sun: 'text-yellow-400',
       Moon: 'text-blue-300',
@@ -399,8 +399,8 @@ const PlanetaryHoursDisplay: React.FC<PlanetaryHoursDisplayProps> = ({
         <h4 className="text-md font-semibold mb-2 text-white">Daily Hours</h4>
         <div className="grid grid-cols-2 gap-2">
           {Array.from({ length: 24 }, (_, i) => i).map((hour) => {
-            let planet = allHours.get(hour);
-            let isCurrentHour = new Date().getHours() === hour;
+            const planet = allHours.get(hour);
+            const isCurrentHour = new Date().getHours() === hour;
 
             return (
               <div

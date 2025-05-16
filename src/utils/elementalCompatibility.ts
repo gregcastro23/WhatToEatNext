@@ -24,33 +24,33 @@ export function calculateElementalCompatibility(
   userElemental: ElementalProperties = DEFAULT_ELEMENTAL_PROPERTIES
 ): ElementalCompatibility {
   // Ensure properties are standardized
-  let recipe = recipeElementalService.standardizeRecipe({ elementalProperties: recipeElemental });
-  let user = recipeElementalService.standardizeRecipe({ elementalProperties: userElemental });
+  const recipe = recipeElementalService.standardizeRecipe({ elementalProperties: recipeElemental });
+  const user = recipeElementalService.standardizeRecipe({ elementalProperties: userElemental });
   
   // Calculate simple similarity score
-  let similarity = recipeElementalService.calculateSimilarity(
+  const similarity = recipeElementalService.calculateSimilarity(
     recipe.elementalProperties,
     user.elementalProperties
   );
   
   // Find dominant elements
-  let recipeDominant = getDominantElement(recipe.elementalProperties);
-  let userDominant = getDominantElement(user.elementalProperties);
+  const recipeDominant = getDominantElement(recipe.elementalProperties);
+  const userDominant = getDominantElement(user.elementalProperties);
   
   // Calculate complementary score - check if dominant elements complement each other
-  let complementaryScore = calculateComplementaryScore(
+  const complementaryScore = calculateComplementaryScore(
     recipeDominant,
     userDominant
   );
   
   // Calculate balance score - how well the recipe balances user's elemental profile
-  let balanceScore = calculateBalanceScore(
+  const balanceScore = calculateBalanceScore(
     recipe.elementalProperties,
     user.elementalProperties
   );
   
   // Calculate overall compatibility (weighted average)
-  let compatibility = (
+  const compatibility = (
     similarity * 0.4 +
     complementaryScore * 0.3 +
     balanceScore * 0.3
@@ -106,19 +106,19 @@ function calculateBalanceScore(
   userProps: ElementalProperties
 ): number {
   // Find user's weakest element
-  let userWeakest = Object.entries(userProps)
+  const userWeakest = Object.entries(userProps)
     .sort(([, a], [, b]) => a - b)[0][0] as keyof ElementalProperties;
   
   // Find user's strongest element
-  let userStrongest = Object.entries(userProps)
+  const userStrongest = Object.entries(userProps)
     .sort(([, a], [, b]) => b - a)[0][0] as keyof ElementalProperties;
   
   // Check if recipe strengthens user's weakest element
-  let weakestScore = recipeProps[userWeakest] * 2; // Higher is better
+  const weakestScore = recipeProps[userWeakest] * 2; // Higher is better
   
   // Check if recipe moderates user's strongest element
-  let strongestDifference = Math.abs(recipeProps[userStrongest] - userProps[userStrongest]);
-  let strongestScore = 1 - strongestDifference; // Lower difference is better
+  const strongestDifference = Math.abs(recipeProps[userStrongest] - userProps[userStrongest]);
+  const strongestScore = 1 - strongestDifference; // Lower difference is better
   
   // Combined balance score
   return (weakestScore * 0.6) + (strongestScore * 0.4);

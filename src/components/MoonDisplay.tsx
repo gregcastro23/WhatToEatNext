@@ -14,7 +14,7 @@ import {
  * A utility function for logging debug information
  * This is a safe replacement for console.log that can be disabled in production
  */
-let debugLog = (message: string, ...args: unknown[]): void => {
+const debugLog = (message: string, ...args: unknown[]): void => {
   // Comment out console.log to avoid linting warnings
   // console.log(message, ...args);
 };
@@ -23,13 +23,13 @@ let debugLog = (message: string, ...args: unknown[]): void => {
  * A utility function for logging errors
  * This is a safe replacement for console.error that can be disabled in production
  */
-let errorLog = (message: string, ...args: unknown[]): void => {
+const errorLog = (message: string, ...args: unknown[]): void => {
   // Comment out console.error to avoid linting warnings
   // console.error(message, ...args);
 };
 
 // Helper function to get moon phase description
-let getLunarPhaseDescription = (phase: string): string => {
+const getLunarPhaseDescription = (phase: string): string => {
   const descriptions: Record<string, string> = {
     new_moon: 'New beginnings, planting seeds, and setting intentions.',
     waxing_crescent:
@@ -67,14 +67,14 @@ interface Coordinates {
 }
 
 // Helper function to format moon time
-let formatMoonTime = (time: Date | undefined): string => {
+const formatMoonTime = (time: Date | undefined): string => {
   if (!time) return 'Unknown';
 
-  let hours = time.getHours();
+  const hours = time.getHours();
   let minutes = time.getMinutes();
-  let ampm = hours >= 12 ? 'PM' : 'AM';
-  let displayHours = hours % 12 || 12;
-  let displayMinutes = minutes < 10 ? `0${minutes}` : minutes;
+  const ampm = hours >= 12 ? 'PM' : 'AM';
+  const displayHours = hours % 12 || 12;
+  const displayMinutes = minutes < 10 ? `0${minutes}` : minutes;
 
   return `${displayHours}:${displayMinutes} ${ampm}`;
 };
@@ -106,7 +106,7 @@ const MoonDisplay: React.FC = () => {
 
   // Extract moon info directly from planetaryPositions rather than calculating it separately
   // Fall back to using the moon position from planetaryPositions if available
-  let moon = planetaryPositions?.moon || {
+  const moon = planetaryPositions?.moon || {
     sign: 'unknown',
     degree: 0,
     exactLongitude: 0,
@@ -114,7 +114,7 @@ const MoonDisplay: React.FC = () => {
   };
 
   // Simplified lunar node handling - ensure we have default values if northNode or southNode are missing
-  let northNode = useMemo(() => {
+  const northNode = useMemo(() => {
     if (!planetaryPositions?.northnode && !planetaryPositions?.northNode) {
       // If north node is missing completely, provide a default
       return {
@@ -137,7 +137,7 @@ const MoonDisplay: React.FC = () => {
     };
   }, [planetaryPositions]);
 
-  let southNode = useMemo(() => {
+  const southNode = useMemo(() => {
     if (!planetaryPositions?.southnode && !planetaryPositions?.southNode) {
       // If south node is missing completely, provide a default
       return {
@@ -149,7 +149,7 @@ const MoonDisplay: React.FC = () => {
     }
 
     // Try both possible property names
-    let node = planetaryPositions?.southnode || planetaryPositions?.southNode;
+    const node = planetaryPositions?.southnode || planetaryPositions?.southNode;
 
     // Ensure all required properties are present
     return {
@@ -162,7 +162,7 @@ const MoonDisplay: React.FC = () => {
 
   // Get user's location
   useEffect(() => {
-    let getLocation = async () => {
+    const getLocation = async () => {
       try {
         const coords = await AstrologicalService.requestLocation();
         if (coords) {
@@ -181,7 +181,7 @@ const MoonDisplay: React.FC = () => {
 
   // Dynamic import for moon time calculations
   useEffect(() => {
-    let calculateTimes = async () => {
+    const calculateTimes = async () => {
       try {
         // Use the safe import and execute function
         const times = await safeImportAndExecute<{ rise?: Date; set?: Date }>(
@@ -199,8 +199,8 @@ const MoonDisplay: React.FC = () => {
         } else {
           // If calculation fails, use a fallback
           debugLog('Moon times calculation failed, using fallback values');
-          let now = new Date();
-          let tomorrow = new Date(now);
+          const now = new Date();
+          const tomorrow = new Date(now);
           tomorrow.setDate(tomorrow.getDate() + 1);
 
           // Simple fallback calculation (not accurate but better than nothing)
@@ -230,7 +230,7 @@ const MoonDisplay: React.FC = () => {
 
   // Safely import and calculate lunar phase
   useEffect(() => {
-    let getLunarPhaseData = async () => {
+    const getLunarPhaseData = async () => {
       try {
         // Get all the lunar phase functions at once to avoid multiple imports
         const [calculatePhase, getPhaseName, getIllumination] =
@@ -251,11 +251,11 @@ const MoonDisplay: React.FC = () => {
 
         if (calculatePhase && getPhaseName && getIllumination) {
           // Calculate current lunar phase (0-1)
-          let currentPhase = await calculatePhase(new Date());
+          const currentPhase = await calculatePhase(new Date());
           // Get phase name
-          let phaseName = getPhaseName(currentPhase);
+          const phaseName = getPhaseName(currentPhase);
           // Get illumination percentage
-          let illuminationPct = await getIllumination(new Date());
+          const illuminationPct = await getIllumination(new Date());
 
           debugLog('Lunar phase calculation:', {
             phaseValue: currentPhase,
@@ -293,19 +293,19 @@ const MoonDisplay: React.FC = () => {
     getLunarPhaseData();
 
     // Run calculation every minute to ensure accuracy
-    let interval = setInterval(() => getLunarPhaseData(), 60 * 1000);
+    const interval = setInterval(() => getLunarPhaseData(), 60 * 1000);
     return () => clearInterval(interval);
   }, [planetaryPositions.moon]);
 
-  let formatDegree = (degree: number): string => {
+  const formatDegree = (degree: number): string => {
     if (degree === undefined) return "0°0'";
-    let wholeDegree = Math.floor(degree);
-    let minutes = Math.floor((degree - wholeDegree) * 60);
+    const wholeDegree = Math.floor(degree);
+    const minutes = Math.floor((degree - wholeDegree) * 60);
     return `${wholeDegree}°${minutes}'`;
   };
 
   // Get lunar phase icon
-  let getLunarPhaseIcon = (phase: string): string => {
+  const getLunarPhaseIcon = (phase: string): string => {
     const phases: Record<string, string> = {
       new_moon: '🌑',
       waxing_crescent: '🌒',
@@ -321,7 +321,7 @@ const MoonDisplay: React.FC = () => {
   };
 
   // Helper function to capitalize the first letter of each word
-  let capitalizeFirstLetter = (string: string | undefined | null): string => {
+  const capitalizeFirstLetter = (string: string | undefined | null): string => {
     if (!string) return '';
 
     return string
@@ -360,9 +360,9 @@ const MoonDisplay: React.FC = () => {
     }
 
     // Check for north node data only once when positions are available
-    let northNodeMissing =
+    const northNodeMissing =
       !planetaryPositions.northNode && !planetaryPositions.northnode;
-    let northNodeIncomplete =
+    const northNodeIncomplete =
       (planetaryPositions.northNode && !planetaryPositions.northNode.sign) ||
       (planetaryPositions.northnode && !planetaryPositions.northnode.sign);
 

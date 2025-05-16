@@ -1894,6 +1894,6 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
 export const seafood: Record<string, IngredientMapping> = fixIngredientMappings(rawSeafood);
 
 // Create a collection of all herbs for export
-export let allSeafood = Object.values(seafood);
+export const allSeafood = Object.values(seafood);
 
 export default seafood;

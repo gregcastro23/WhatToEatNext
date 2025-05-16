@@ -16,8 +16,8 @@ interface IngredientWithAstrology extends Ingredient {
  * Ensures all required properties exist and have appropriate values
  */
 export function cleanupIngredientsDatabase() {
-  let fixedEntries = 0;
-  let invalidEntries = 0;
+  const fixedEntries = 0;
+  const invalidEntries = 0;
 
   try {
     // Process each category
@@ -29,7 +29,7 @@ export function cleanupIngredientsDatabase() {
 
       ingredients.forEach((ingredient, index) => {
         // Cast to our extended type for this function
-        let ingredientWithAstrology =
+        const ingredientWithAstrology =
           ingredient as unknown as IngredientWithAstrology;
 
         // Ensure ingredient has a name
@@ -117,7 +117,7 @@ export function cleanupIngredientsDatabase() {
           !ingredientWithAstrology.astrologicalProfile.elementalAffinity
         ) {
           // Ensure elementalAffinity exists within the profile
-          let dominantElement = ingredientWithAstrology.elementalProperties
+          const dominantElement = ingredientWithAstrology.elementalProperties
             ? Object.entries(
                 ingredientWithAstrology.elementalProperties
               ).reduce((a, b) => (a[1] > b[1] ? a : b), ['Fire', 0])[0]

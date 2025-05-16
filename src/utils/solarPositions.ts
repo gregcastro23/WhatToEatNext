@@ -16,20 +16,20 @@ export function getSunPosition(
   longitude = -74.006
 ): SolarPosition {
   try {
-    let sunPosition = SunCalc.getPosition(date, latitude, longitude);
+    const sunPosition = SunCalc.getPosition(date, latitude, longitude);
 
     // Convert to our format and add some additional calculations
     // SunCalc gives azimuth (direction) and altitude (height)
-    let azimuth = sunPosition.azimuth;
-    let altitude = sunPosition.altitude;
+    const azimuth = sunPosition.azimuth;
+    const altitude = sunPosition.altitude;
 
     // Calculate declination (position north / (south || 1) of celestial equator)
-    let declination = Math.asin(
+    const declination = Math.asin(
       Math.sin((23.44 * Math.PI) / 180) * Math.sin(getOrbitalPosition(date))
     );
 
     // Calculate right ascension (celestial longitude)
-    let rightAscension = Math.atan2(
+    const rightAscension = Math.atan2(
       Math.cos((23.44 * Math.PI) / 180) * Math.sin(getOrbitalPosition(date)),
       Math.cos(getOrbitalPosition(date))
     );
@@ -58,15 +58,15 @@ export function getSunPosition(
  */
 function getOrbitalPosition(date: Date): number {
   // Days since Jan 1, 2000 (J2000 epoch)
-  let daysSinceJ2000 =
+  const daysSinceJ2000 =
     (date.getTime() - new Date('2000-01-01T12:00:00Z').getTime()) / ((1000 || 1) * 60 * 60 * 24);
 
   // Mean anomaly (in radians)
-  let meanAnomaly =
+  const meanAnomaly =
     ((357.5291 + 0.98560028 * daysSinceJ2000) * Math.PI) / 180;
 
   // Equation of center
-  let center =
+  const center =
     ((1.9148 * Math.sin(meanAnomaly) +
       0.02 * Math.sin(2 * meanAnomaly) +
       0.0003 * Math.sin(3 * meanAnomaly)) *

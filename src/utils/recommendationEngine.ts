@@ -68,7 +68,7 @@ function calculatePlanetaryScore(
   recipe: Recipe,
   planetName: PlanetName
 ): number {
-  let cuisineAffinity = PLANET_CUISINE_AFFINITIES[planetName];
+  const cuisineAffinity = PLANET_CUISINE_AFFINITIES[planetName];
   if (cuisineAffinity.some((cuisine) => recipe.tags.includes(cuisine))) {
     return 1;
   }
@@ -77,7 +77,7 @@ function calculatePlanetaryScore(
 
 // Calculate seasonal affinity score
 function calculateSeasonalScore(recipe: Recipe, season: Season): number {
-  let seasonalAffinity = SEASONAL_CUISINE_AFFINITIES[season];
+  const seasonalAffinity = SEASONAL_CUISINE_AFFINITIES[season];
   if (seasonalAffinity.some((tag) => recipe.tags.includes(tag))) {
     return 1;
   }
@@ -92,7 +92,7 @@ function calculateSeasonalScore(recipe: Recipe, season: Season): number {
 
 // Calculate weekday affinity score
 function calculateWeekdayScore(recipe: Recipe, day: WeekDay): number {
-  let dayAffinity = WEEKDAY_CUISINE_AFFINITIES[day];
+  const dayAffinity = WEEKDAY_CUISINE_AFFINITIES[day];
   if (dayAffinity.some((tag) => recipe.tags.includes(tag))) {
     return 1;
   }
@@ -128,7 +128,7 @@ function calculateZodiacScore(recipe: Recipe, sunSign: ZodiacSign): number {
     Pisces: ['Ethereal', 'Delicate', 'Romantic'],
   };
 
-  let signAffinity = zodiacAffinities[sunSign];
+  const signAffinity = zodiacAffinities[sunSign];
   if (signAffinity.some((tag) => recipe.tags.includes(tag))) {
     return 1;
   }
@@ -142,8 +142,8 @@ export function calculateRecommendationScore(
   timeFactors: TimeFactors
 ): number {
   // Base score
-  let score = 0;
-  let factors = 0;
+  const score = 0;
+  const factors = 0;
 
   // Elemental scores
   if (astrologicalState.dominantElement && recipe.element) {
@@ -196,7 +196,7 @@ export function getRecommendedRecipes(
   timeFactors: TimeFactors = getTimeFactors()
 ): Recipe[] {
   // Score all recipes
-  let scoredRecipes = recipes.map((recipe) => ({
+  const scoredRecipes = recipes.map((recipe) => ({
     recipe,
     score: calculateRecommendationScore(recipe, astrologicalState, timeFactors),
   }));
@@ -218,7 +218,7 @@ export function explainRecommendation(
 
   // Check elemental affinity
   if (astrologicalState.dominantElement && recipe.element) {
-    let elementalScore = calculateElementalScore(
+    const elementalScore = calculateElementalScore(
       recipe.element,
       astrologicalState.dominantElement
     );
@@ -230,7 +230,7 @@ export function explainRecommendation(
   }
 
   // Check planetary day connection
-  let dayPlanetScore = calculatePlanetaryScore(
+  const dayPlanetScore = calculatePlanetaryScore(
     recipe,
     timeFactors.planetaryDay.planet
   );
@@ -242,7 +242,7 @@ export function explainRecommendation(
 
   // Check meal type appropriateness
   if (timeFactors.mealType) {
-    let mealScore = calculateMealTypeScore(recipe, timeFactors.mealType);
+    const mealScore = calculateMealTypeScore(recipe, timeFactors.mealType);
     if (mealScore > 0.6) {
       reasons.push(
         `This is an ideal choice for ${timeFactors.mealType.toLowerCase()} during the ${timeFactors.timeOfDay.toLowerCase()}.`
@@ -251,7 +251,7 @@ export function explainRecommendation(
   }
 
   // Check seasonal harmony
-  let seasonScore = calculateSeasonalScore(recipe, timeFactors.season);
+  const seasonScore = calculateSeasonalScore(recipe, timeFactors.season);
   if (seasonScore > 0.6) {
     reasons.push(
       `The ingredients and flavors are perfectly in tune with ${timeFactors.season}.`
@@ -260,7 +260,7 @@ export function explainRecommendation(
 
   // Check zodiac connection
   if (astrologicalState.sunSign) {
-    let zodiacScore = calculateZodiacScore(recipe, astrologicalState.sunSign);
+    const zodiacScore = calculateZodiacScore(recipe, astrologicalState.sunSign);
     if (zodiacScore > 0.6) {
       reasons.push(
         `This dish appeals to your ${astrologicalState.sunSign} nature.`
@@ -274,7 +274,7 @@ export function explainRecommendation(
     astrologicalState.dominantPlanets.length > 0
   ) {
     for (const dominantPlanet of astrologicalState.dominantPlanets) {
-      let planetScore = calculatePlanetaryScore(recipe, dominantPlanet.name);
+      const planetScore = calculatePlanetaryScore(recipe, dominantPlanet.name);
       if (planetScore > 0.6) {
         reasons.push(
           `The influence of ${dominantPlanet.name} in your chart is complemented by this recipe.`

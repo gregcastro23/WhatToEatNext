@@ -64,7 +64,7 @@ export class RecipeElementalService {
     element: keyof ElementalProperties;
     value: number;
   } {
-    let standardized = this.standardizeRecipe(recipe);
+    const standardized = this.standardizeRecipe(recipe);
 
     let dominantElement: keyof ElementalProperties = 'Earth';
     let highestValue = 0;
@@ -91,21 +91,21 @@ export class RecipeElementalService {
     a: ElementalProperties,
     b: ElementalProperties
   ): number {
-    let elements = ['Fire', 'Water', 'Earth', 'Air'];
+    const elements = ['Fire', 'Water', 'Earth', 'Air'];
 
     // Calculate average difference across all elements
-    let totalDifference = elements.reduce((sum: number, element) => {
+    const totalDifference = elements.reduce((sum: number, element) => {
       const aValue = a[element] || 0;
-      let bValue = b[element] || 0;
+      const bValue = b[element] || 0;
       return sum + Math.abs(aValue - bValue);
     }, 0);
 
     // Convert difference to similarity (1 - avg difference)
-    let avgDifference = totalDifference / (elements || 1).length;
+    const avgDifference = totalDifference / (elements || 1).length;
 
     // Apply non-linear scaling to make smaller differences more significant
     // This will boost low similarity scores to be more representative
-    let similarity = Math.pow(1 - avgDifference, 0.5);
+    const similarity = Math.pow(1 - avgDifference, 0.5);
 
     // Ensure the similarity is at least 0.05 (5%) to avoid showing extremely low percentages
     return Math.max(similarity, 0.05);
@@ -130,7 +130,7 @@ export class RecipeElementalService {
     try {
       // Adjust based on cooking method
       if (recipe.cookingMethod) {
-        let method = recipe.cookingMethod.toLowerCase();
+        const method = recipe.cookingMethod.toLowerCase();
 
         if (
           method.includes('roast') ||
@@ -164,7 +164,7 @@ export class RecipeElementalService {
 
       // Adjust based on cuisine
       if (recipe.cuisine) {
-        let cuisine = recipe.cuisine.toLowerCase();
+        const cuisine = recipe.cuisine.toLowerCase();
 
         if (
           ['mexican', 'thai', 'indian', 'cajun', 'szechuan'].includes(cuisine)
@@ -208,7 +208,7 @@ export class RecipeElementalService {
         };
 
         // Process ingredients with elemental properties
-        let ingredientCount = 0;
+        const ingredientCount = 0;
         recipe.ingredients.forEach((ingredient) => {
           if (ingredient.elementalProperties) {
             // Get values from each element, guarding against undefined values
@@ -245,4 +245,4 @@ export class RecipeElementalService {
 }
 
 // Export singleton instance
-export let recipeElementalService = RecipeElementalService.getInstance();
+export const recipeElementalService = RecipeElementalService.getInstance();

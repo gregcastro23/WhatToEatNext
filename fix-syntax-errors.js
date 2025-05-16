@@ -111,7 +111,7 @@ function fixDivisionOperators() {
     'src/services/ElementalCalculator.ts'
   ];
   
-  let fixedCount = 0;
+  const fixedCount = 0;
   
   keyFiles.forEach(relPath => {
     const filePath = path.join(process.cwd(), relPath);

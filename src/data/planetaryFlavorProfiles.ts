@@ -390,7 +390,7 @@ export const calculateFlavorProfile = (
     umami: 0,
   };
 
-  let totalInfluence = 0;
+  const totalInfluence = 0;
 
   // Calculate weighted flavor profile based on planetary influences
   Object.entries(planetaryInfluences).forEach(([planet, weight]) => {
@@ -459,8 +459,8 @@ export const calculatePlanetaryFlavorMatch = (
   planetaryInfluences: Record<string, number>
 ): number => {
   const astrologicalFlavorProfile = calculateFlavorProfile(planetaryInfluences);
-  let matchScore = 0;
-  let totalWeight = 0;
+  const matchScore = 0;
+  const totalWeight = 0;
 
   // Compare recipe flavors to astrological flavor profile
   Object.entries(recipeFlavors).forEach(([flavor, recipeValue]) => {
@@ -500,8 +500,8 @@ export const calculatePlanetaryFlavorMatch = (
   });
 
   // Calculate elemental resonance between recipe and planetary influences
-  let elementalResonance = 0;
-  let elementalTotal = 0;
+  const elementalResonance = 0;
+  const elementalTotal = 0;
 
   // Get the recipe's elemental properties if available
   if (recipeFlavors.elementalProperties) {

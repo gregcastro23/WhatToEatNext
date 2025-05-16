@@ -6,7 +6,7 @@ import type { IngredientMapping } from '@/types/alchemy';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 // Define cuisine types as string literals
-let CUISINE_TYPES = {
+const CUISINE_TYPES = {
   ITALIAN: 'italian',
   THAI: 'thai',
   VIETNAMESE: 'vietnamese',
@@ -28,23 +28,23 @@ let CUISINE_TYPES = {
 // Helper function to generate meaningful herb values
 function generateHerbValues(elementalProps: Record<string, number>): Record<string, number> {
   // Normalize elements to ensure they sum to 1
-  let totalElements = Object.values(elementalProps).reduce((sum, val) => sum + val, 0);
-  let normalized = Object.entries(elementalProps).reduce((acc, [key, val]) => {
+  const totalElements = Object.values(elementalProps).reduce((sum, val) => sum + val, 0);
+  const normalized = Object.entries(elementalProps).reduce((acc, [key, val]) => {
     acc[key] = val / (totalElements || 1);
     return acc;
   }, {} as Record<string, number>);
   
   // Find dominant element
-  let dominant = Object.entries(normalized)
+  const dominant = Object.entries(normalized)
     .sort(([, a], [, b]) => b - a)[0][0];
   
   // Calculate unique values
-  let aromaticStrength = Math.round((normalized['Air'] * 6 + normalized['Fire'] * 4) + Math.random() * 2);
-  let potency = Math.round((normalized[dominant] * 7) + Math.random() * 3);
-  let flavor_complexity = Math.round(
+  const aromaticStrength = Math.round((normalized['Air'] * 6 + normalized['Fire'] * 4) + Math.random() * 2);
+  const potency = Math.round((normalized[dominant] * 7) + Math.random() * 3);
+  const flavor_complexity = Math.round(
     (Object.keys(normalized).filter(k => normalized[k] > 0.15).length * 2) + Math.random() * 3
   );
-  let preservation_factor = Math.round((normalized['Earth'] * 5 + normalized['Water'] * 3) + Math.random());
+  const preservation_factor = Math.round((normalized['Earth'] * 5 + normalized['Water'] * 3) + Math.random());
   
   return {
     aromatics: Math.min(10, Math.max(1, aromaticStrength)),
@@ -61,7 +61,7 @@ function createIngredientMapping(
   properties: Partial<IngredientMapping>
 ): IngredientMapping {
   // Default elemental properties if none provided
-  let elementalProps = properties.elementalProperties || { 
+  const elementalProps = properties.elementalProperties || { 
     Earth: 0.25, 
     Water: 0.25, 
     Fire: 0.25, 
@@ -69,7 +69,7 @@ function createIngredientMapping(
   };
   
   // Generate meaningful numeric values based on elemental properties
-  let herbValues = generateHerbValues(elementalProps);
+  const herbValues = generateHerbValues(elementalProps);
   
   return {
     name: id,
@@ -316,7 +316,7 @@ export {
 };
 
 // Create a comprehensive herb collection that includes all herb variants
-export let allHerbs = fixIngredientMappings({
+export const allHerbs = fixIngredientMappings({
   ...freshHerbs,
   ...driedHerbs,
   ...aromaticHerbs,
@@ -324,4 +324,4 @@ export let allHerbs = fixIngredientMappings({
 });
 
 // Export a list of herb names for easy reference
-export let herbNames = Object.keys(allHerbs);
+export const herbNames = Object.keys(allHerbs);

@@ -60,7 +60,7 @@ async function fixUnusedVarsInFile(filePath, unusedVars) {
   
   console.log(`\nProcessing ${path.basename(filePath)}`);
   
-  let fileContent = fs.readFileSync(filePath, 'utf8');
+  const fileContent = fs.readFileSync(filePath, 'utf8');
   const lines = fileContent.split('\n');
   
   // Group the unused vars by line number

@@ -55,11 +55,11 @@ function ZodiacRecommendations({
 }: {
   dominantElement: Element;
 }) {
-  let compatibleSigns = Object.entries(zodiacNutritionalNeeds)
+  const compatibleSigns = Object.entries(zodiacNutritionalNeeds)
     .filter(([_sign, data]) => {
       // Find signs that need this element the most
       const elementNeeds = data.elementalNeeds;
-      let dominantElementNeeded = Object.entries(elementNeeds).sort(
+      const dominantElementNeeded = Object.entries(elementNeeds).sort(
         ([_a, valueA], [_b, valueB]) => valueB - valueA
       )[0][0];
       return dominantElementNeeded === dominantElement;
@@ -104,7 +104,7 @@ export default function NutritionalDataFetcher() {
   } | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  let handleSearch = async () => {
+  const handleSearch = async () => {
     if (!searchTerm.trim()) {
       setError('Please enter a food name to search');
       return;
@@ -114,7 +114,7 @@ export default function NutritionalDataFetcher() {
     setError(null);
 
     try {
-      let data = await fetchNutritionalData(searchTerm);
+      const data = await fetchNutritionalData(searchTerm);
 
       if (!data) {
         setError(
@@ -126,7 +126,7 @@ export default function NutritionalDataFetcher() {
       }
 
       setNutritionalData(data);
-      let elemental = nutritionalToElemental(data);
+      const elemental = nutritionalToElemental(data);
       setElementalData(elemental);
     } catch (err) {
       // console.error('Error in nutritional search:', err);
@@ -257,7 +257,7 @@ export default function NutritionalDataFetcher() {
                       <ul className="pl-5 list-disc">
                         {Object.entries(nutritionalData.minerals).map(
                           ([mineral, value]) => {
-                            let percentage = value * 100;
+                            const percentage = value * 100;
                             // Choose appropriate styling based on percentage
                             let textClass = 'text-gray-500'; // Default for 0%
                             if (percentage > 50)

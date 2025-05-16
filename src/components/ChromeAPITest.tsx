@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 
-let ChromeAPITest = () => {
+const ChromeAPITest = () => {
   const [apiReady, setApiReady] = useState(false);
 
   // Initialize Chrome API
@@ -31,7 +31,7 @@ let ChromeAPITest = () => {
       }
       
       // Load the dummy-popup.js script to ensure full API is available
-      let script = document.createElement('script');
+      const script = document.createElement('script');
       script.src = '/dummy-popup.js';
       script.async = true;
       script.onload = () => {
@@ -47,7 +47,7 @@ let ChromeAPITest = () => {
     }
   }, []);
 
-  let handleOpenFormSwift = () => {
+  const handleOpenFormSwift = () => {
     try {
       console.log('Attempting to open FormSwift URL');
       // Use our guaranteed available Chrome API
