@@ -1,9 +1,8 @@
 /**
- * Advanced logger utility to standardize logging across the application.
- * This module provides component-specific logging capabilities and consistent formatting.
+ * Utility for consistent logging across the application
  */
 
-type LogLevel = 'debug' | 'info' | 'warn' | 'error';
+export type LogLevel = 'debug' | 'info' | 'warn' | 'error';
 
 // Get environment
 const isDev = process.env.NODE_ENV !== 'production';
@@ -182,8 +181,12 @@ class Logger {
   }
 }
 
-// Singleton instance of the logger
-export const logger = new Logger();
+// Create singleton instance
+const logger = new Logger();
+
+// Export the logger as default and named export
+export default logger;
+export { logger };
 
 // Helper functions for creating component-specific loggers
 export const createLogger = (component: string) =>
@@ -198,3 +201,24 @@ export const warnLog = (message: string, ...args: unknown[]): void =>
   logger.warn(message, ...args);
 export const errorLog = (message: string, ...args: unknown[]): void =>
   logger.error(message, ...args);
+
+/**
+ * Logs an error with proper formatting and context
+ * @param error The error to log
+ * @param context Optional context information
+ */
+export function logError(error: Error, context?: { [key: string]: string }): void {
+  const errorMessage = error.message || 'Unknown error';
+  const errorStack = error.stack || '';
+  const contextString = context ? JSON.stringify(context, null, 2) : '';
+  
+  console.error(`[ERROR] ${errorMessage}`);
+  
+  if(errorStack) {
+    console.error(`Stack trace: ${errorStack}`);
+  }
+  
+  if(contextString) {
+    console.error(`Context: ${contextString}`);
+  }
+}

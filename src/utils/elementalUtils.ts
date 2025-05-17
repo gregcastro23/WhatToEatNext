@@ -1483,3 +1483,91 @@ export function enhanceOilProperties(
     return acc;
   }, {});
 }
+
+/**
+ * Get the background color for an element
+ * @param element The elemental name (Fire, Water, Earth, Air)
+ * @param opacity Optional opacity (0-1)
+ * @returns CSS background color string
+ */
+export function getElementBackgroundColor(element: string, opacity: number = 0.1): string {
+  switch (element) {
+    case 'Fire':
+      return `rgba(239, 68, 68, ${opacity})`; // red
+    case 'Water':
+      return `rgba(59, 130, 246, ${opacity})`; // blue
+    case 'Earth':
+      return `rgba(75, 85, 99, ${opacity})`; // gray
+    case 'Air':
+      return `rgba(167, 139, 250, ${opacity})`; // purple
+    default:
+      return `rgba(156, 163, 175, ${opacity})`; // default gray
+  }
+}
+
+/**
+ * Get the text color for an element
+ * @param element The elemental name (Fire, Water, Earth, Air)
+ * @returns CSS color string
+ */
+export function getElementTextColor(element: string): string {
+  switch (element) {
+    case 'Fire':
+      return 'rgb(185, 28, 28)'; // red-700
+    case 'Water':
+      return 'rgb(29, 78, 216)'; // blue-700
+    case 'Earth':
+      return 'rgb(55, 65, 81)'; // gray-700
+    case 'Air':
+      return 'rgb(109, 40, 217)'; // purple-700
+    default:
+      return 'rgb(75, 85, 99)'; // gray-600
+  }
+}
+
+/**
+ * Get the border color for an element
+ * @param element The elemental name (Fire, Water, Earth, Air)
+ * @returns CSS color string
+ */
+export function getElementBorderColor(element: string): string {
+  switch (element) {
+    case 'Fire':
+      return 'rgb(239, 68, 68)'; // red-500
+    case 'Water':
+      return 'rgb(59, 130, 246)'; // blue-500
+    case 'Earth':
+      return 'rgb(107, 114, 128)'; // gray-500
+    case 'Air':
+      return 'rgb(167, 139, 250)'; // purple-500
+    default:
+      return 'rgb(156, 163, 175)'; // gray-400
+  }
+}
+
+/**
+ * Get the dominant element from elemental properties
+ * @param elementalProperties The elemental properties object
+ * @returns The name of the dominant element
+ */
+export function getDominantElement(elementalProperties: ElementalProperties): keyof ElementalProperties {
+  return Object.entries(elementalProperties)
+    .sort(([, a], [, b]) => b - a)[0][0] as keyof ElementalProperties;
+}
+
+/**
+ * Mock function to get current elemental state based on time, date, etc.
+ * Note: This should be replaced with actual implementation that calculates
+ * the elemental state based on astronomical data
+ */
+export function getCurrentElementalState() {
+  // This is a placeholder - should be connected to astronomical calculations
+  return {
+    Fire: 0.25,
+    Water: 0.25,
+    Earth: 0.25,
+    Air: 0.25,
+    season: 'spring',
+    timeOfDay: 'lunch',
+  };
+}
