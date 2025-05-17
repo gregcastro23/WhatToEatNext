@@ -1,3 +1,583 @@
+<<<<<<< HEAD
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import { UserProfileService } from "../services/user/UserProfileService";
+import { useCurrentChart } from "../hooks/useCurrentChart";
+import { useAlchemical } from "../contexts/AlchemicalContext/hooks";
+import { useUser } from "../contexts/UserContext";
+import ChartComparison from "../components/ChartComparison";
+import { ElementalProperties } from "../types/elementalProperties";
+import { UserBirthInfo } from "../types/user";
+import { createLogger } from "../utils/logger";
+
+const logger = createLogger('UserProfileForm');
+
+// Define the UserProfile interface with proper typing
+interface UserProfile {
+  id: string;
+  name: string;
+  birthDate?: string;
+  birthTime?: string;
+  birthLocation?: {
+    latitude?: number;
+    longitude?: number;
+    city?: string;
+    country?: string;
+  };
+  astrological?: {
+    sunSign?: string;
+    moonSign?: string;
+    risingSign?: string;
+    dominantPlanet?: string;
+    elementalDistribution?: {
+      fire: number;
+      water: number;
+      earth: number;
+      air: number;
+    };
+  };
+  preferences?: {
+    dietaryRestrictions?: string[];
+    cuisinePreferences?: string[];
+    alchemicalPreferences?: {
+      preferredElement?: string;
+      avoidedElement?: string;
+    };
+  };
+  nutritionalGoals?: {
+    caloriesPerDay?: number;
+    proteinPercentage?: number;
+    carbsPercentage?: number;
+    fatPercentage?: number;
+    waterIntakeTarget?: number;
+  };
+  elementalBalance?: ElementalProperties;
+  alchemicalValues?: {
+    spirit?: number;
+    essence?: number;
+    matter?: number;
+    substance?: number;
+    heat?: number;
+    entropy?: number;
+    reactivity?: number;
+    energy?: number;
+  };
+}
+
+// Define validation error interface for form fields
+interface ValidationErrors {
+  name?: string;
+  birthDate?: string;
+  birthTime?: string;
+  city?: string;
+  country?: string;
+  latitude?: string;
+  longitude?: string;
+  caloriesPerDay?: string;
+  proteinPercentage?: string;
+  carbsPercentage?: string;
+  fatPercentage?: string;
+  waterIntakeTarget?: string;
+}
+
+interface UserProfileFormProps {
+  onProfileCreated?: (profile: UserProfile) => void;
+  initialData?: UserProfile | null;
+  onSave?: (formData: any) => void;
+}
+
+export const UserProfileForm: React.FC<UserProfileFormProps> = ({ 
+  onProfileCreated, 
+  initialData, 
+  onSave 
+}) => {
+  // User profile form state
+  const [name, setName] = useState("");
+  const [birthDate, setBirthDate] = useState("");
+  const [birthTime, setBirthTime] = useState("");
+  const [latitude, setLatitude] = useState("");
+  const [longitude, setLongitude] = useState("");
+  const [city, setCity] = useState("");
+  const [country, setCountry] = useState("");
+  const [dietaryRestrictions, setDietaryRestrictions] = useState<string[]>([]);
+  const [showNutritionSection, setShowNutritionSection] = useState(false);
+  const [caloriesPerDay, setCaloriesPerDay] = useState("");
+  const [proteinPercentage, setProteinPercentage] = useState("");
+  const [carbsPercentage, setCarbsPercentage] = useState("");
+  const [fatPercentage, setFatPercentage] = useState("");
+  const [waterIntakeTarget, setWaterIntakeTarget] = useState("");
+  const [compositeChart, setCompositeChart] = useState<any>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [validationErrors, setValidationErrors] = useState<ValidationErrors>({});
+  const [showChartComparison, setShowChartComparison] = useState(false);
+  const [culinaryRecommendations, setCulinaryRecommendations] = useState<{
+    ingredients: string[], 
+    cuisines: string[], 
+    cookingMethods: string[], 
+    seasonalSuggestions: string[]
+  } | null>(null);
+  const [showCulinaryRecommendations, setShowCulinaryRecommendations] = useState(false);
+
+  // Services and hooks
+  const userProfileService = UserProfileServicegetInstance();
+  const { currentUser, loadProfile } = useUser();
+  
+  // Access chart data through hooks
+  const { chartData, isLoading: chartLoading } = useCurrentChart();
+  const { state, refreshPlanetaryPositions } = useAlchemical();
+
+  // Force recalculation of alchemical values if needed
+  useEffect(() => {
+    const forceRefreshTimeout = setTimeout(() => {
+      if (!stateelementalState || Objectvalues(stateelementalState).every(val => val === 0)) {
+        loggerinfo('Forcing recalculation of alchemical values');
+        refreshPlanetaryPositions();
+      }
+    }, 5000); // Wait 5 seconds after mount to do this check
+    
+    return () => clearTimeout(forceRefreshTimeout);
+  }, [stateelementalState, refreshPlanetaryPositions]);
+
+  // Load existing profile if available
+  useEffect(() => {
+    const loadExistingProfile = async () => {
+      setLoading(true);
+      try {
+        if (currentUser) {
+          // Use the user from context
+          setName(currentUsername || "");
+          setBirthDate(currentUserbirthDate || "");
+          setBirthTime(currentUserbirthTime || "");
+          
+          if (currentUserbirthLocation) {
+            setLatitude(currentUserbirthLocation.latitude?.toString() || "");
+            setLongitude(currentUserbirthLocation.longitude?.toString() || "");
+            setCity(currentUserbirthLocation.city || "");
+            setCountry(currentUserbirthLocation.country || "");
+          }
+          
+          // Set dietary restrictions if available
+          if (currentUserpreferences?.dietaryRestrictions) {
+            setDietaryRestrictions(currentUserpreferences.dietaryRestrictions);
+          }
+          
+          // Set nutritional goals if available
+          if (currentUsernutritionalGoals) {
+            const { nutritionalGoals } = currentUser;
+            if (nutritionalGoalscaloriesPerDay) setCaloriesPerDay(nutritionalGoalscaloriesPerDay.toString());
+            if (nutritionalGoalsproteinPercentage) setProteinPercentage(nutritionalGoalsproteinPercentage.toString());
+            if (nutritionalGoalscarbsPercentage) setCarbsPercentage(nutritionalGoalscarbsPercentage.toString());
+            if (nutritionalGoalsfatPercentage) setFatPercentage(nutritionalGoalsfatPercentage.toString());
+            if (nutritionalGoalswaterIntakeTarget) setWaterIntakeTarget(nutritionalGoalswaterIntakeTarget.toString());
+            setShowNutritionSection(true);
+          }
+          
+          // Fetch composite chart for the profile
+          if (currentUserid) {
+            const chart = await userProfileServicegetCompositeChart(currentUserid, true);
+            if (chart) {
+              setCompositeChart(chart);
+            }
+            
+            // Get culinary recommendations
+            const recommendations = await userProfileServicegetCulinaryRecommendations(currentUserid);
+            if (recommendations) {
+              setCulinaryRecommendations(recommendations);
+              setShowCulinaryRecommendations(true);
+            }
+          }
+        }
+      } catch (error) {
+        loggererror('Error loading profile:', error);
+        setError('Failed to load your profile. Please try again.');
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    loadExistingProfile();
+  }, [currentUser]);
+
+  // Toggle nutritional goals section
+  const toggleNutritionSection = () => {
+    setShowNutritionSection(!showNutritionSection);
+  };
+
+  // Toggle culinary recommendations section
+  const toggleCulinaryRecommendations = () => {
+    setShowCulinaryRecommendations(!showCulinaryRecommendations);
+  };
+
+  // Handle dietary restriction changes
+  const handleDietaryRestrictionChange = (restriction: string) => {
+    setDietaryRestrictions(current => {
+      if (currentincludes(restriction)) {
+        return currentfilter(r => r !== restriction);
+      } else {
+        return [...current, restriction];
+      }
+    });
+  };
+
+  // Validate form fields
+  const validateForm = (): boolean => {
+    const errors: ValidationErrors = {};
+    
+    // Required field validation
+    if (!nametrim()) {
+      errorsname = 'Name is required';
+    }
+    
+    // Date validation
+    if (birthDate) {
+      const birthDateObj = new Date(birthDate);
+      const today = new Date();
+      
+      if (birthDateObj > today) {
+        errorsbirthDate = 'Birth date cannot be in the future';
+      }
+      
+      // Check for valid date format
+      if (isNaN(birthDateObjgetTime())) {
+        errorsbirthDate = 'Please enter a valid date';
+      }
+      
+      // Check if date is too far in the past (eg., more than 120 years)
+      const minDate = new Date();
+      minDatesetFullYear(minDategetFullYear() - 120);
+      
+      if (birthDateObj < minDate) {
+        errorsbirthDate = 'Birth date seems too far in the past';
+      }
+    }
+    
+    // Time validation if provided
+    if (birthTime) {
+      // Validate time format (HH:MM)
+      const timeRegex = /^([01]\d|2[0-3]):([0-5]\d)$/;
+      if (!timeRegextest(birthTime)) {
+        errorsbirthTime = 'Please enter a valid time in 24-hour format (HH:MM)';
+      }
+    }
+    
+    // Coordinate validation
+    if (latitude && (isNaN(Number(latitude)) || Number(latitude) < -90 || Number(latitude) > 90)) {
+      errorslatitude = 'Latitude must be a number between -90 and 90';
+    }
+    
+    if (longitude && (isNaN(Number(longitude)) || Number(longitude) < -180 || Number(longitude) > 180)) {
+      errorslongitude = 'Longitude must be a number between -180 and 180';
+    }
+    
+    // City and country validation
+    if (city && citytrim().length < 2) {
+      errorscity = 'City name is too short';
+    }
+    
+    if (country && countrytrim().length < 2) {
+      errorscountry = 'Country name is too short';
+    }
+    
+    // Nutritional goals validation
+    if (showNutritionSection) {
+      if (caloriesPerDay && (isNaN(Number(caloriesPerDay)) || Number(caloriesPerDay) <= 0)) {
+        errorscaloriesPerDay = 'Calories must be a positive number';
+      }
+      
+      if (proteinPercentage && (isNaN(Number(proteinPercentage)) || Number(proteinPercentage) < 0 || Number(proteinPercentage) > 100)) {
+        errorsproteinPercentage = 'Protein percentage must be between 0 and 100';
+      }
+      
+      if (carbsPercentage && (isNaN(Number(carbsPercentage)) || Number(carbsPercentage) < 0 || Number(carbsPercentage) > 100)) {
+        errorscarbsPercentage = 'Carbs percentage must be between 0 and 100';
+      }
+      
+      if (fatPercentage && (isNaN(Number(fatPercentage)) || Number(fatPercentage) < 0 || Number(fatPercentage) > 100)) {
+        errorsfatPercentage = 'Fat percentage must be between 0 and 100';
+      }
+      
+      if (waterIntakeTarget && (isNaN(Number(waterIntakeTarget)) || Number(waterIntakeTarget) <= 0)) {
+        errorswaterIntakeTarget = 'Water intake must be a positive number';
+      }
+      
+      // Check if macronutrient percentages add up to 100 (if all are provided)
+      if (proteinPercentage && carbsPercentage && fatPercentage) {
+        const total = Number(proteinPercentage) + Number(carbsPercentage) + Number(fatPercentage);
+        if (total !== 100) {
+          errorsproteinPercentage = 'Macronutrient percentages must add up to 100%';
+        }
+      }
+    }
+    
+    // Update validation errors state
+    setValidationErrors(errors);
+    
+    // Form is valid if there are no errors
+    return Objectkeys(errors).length === 0;
+  };
+
+  // Form submission handler
+  const handleSubmit = async (e: ReactFormEvent) => {
+    epreventDefault();
+    
+    // Validate form
+    if (!validateForm()) {
+      return;
+    }
+    
+    setLoading(true);
+    setError("");
+    
+    try {
+      // Process form data
+      loggerinfo("Submitting user profile form...");
+      
+      // In a real implementation, this would save to your API
+      if (onSave) {
+        const formData = {
+          name,
+          birthDate,
+          birthTime,
+          birthLocation: {
+            latitude: latitude ? Number(latitude) : undefined,
+            longitude: longitude ? Number(longitude) : undefined,
+            city,
+            country
+          },
+          preferences: {
+            dietaryRestrictions
+          },
+          nutritionalGoals: showNutritionSection ? {
+            caloriesPerDay: caloriesPerDay ? Number(caloriesPerDay) : undefined,
+            proteinPercentage: proteinPercentage ? Number(proteinPercentage) : undefined,
+            carbsPercentage: carbsPercentage ? Number(carbsPercentage) : undefined,
+            fatPercentage: fatPercentage ? Number(fatPercentage) : undefined,
+            waterIntakeTarget: waterIntakeTarget ? Number(waterIntakeTarget) : undefined
+          } : undefined
+        };
+        
+        await onSave(formData);
+      }
+      
+      loggerinfo("User profile saved successfully");
+    } catch (error) {
+      loggererror('Error saving profile:', error);
+      setError('Failed to save your profile. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Helper function to get color based on element
+  const getElementColor = (element: string): string => {
+    const colors: Record<string, string> = {
+      fire: '#FF5722',
+      water: '#2196F3',
+      earth: '#8BC34A',
+      air: '#FFEB3B'
+    };
+    
+    return colors[elementtoLowerCase()] || '#9E9E9E';
+  };
+
+  return (
+    <div className="user-profile-form" data-testid="user-profile-form">
+      <h2>{currentUser?.id ? 'Edit Your Profile' : 'Create Your Profile'}</h2>
+      
+      <form onSubmit={handleSubmit} noValidate>
+        <div className={`form-group ${validationErrorsname ? 'has-error' : ''}`}>
+          <label htmlFor="name">Name <span className="required">*</span></label>
+          <input 
+            type="text" 
+            id="name" 
+            value={name} 
+            onChange={(e) => setName(etarget.value)} 
+            required 
+            className="form-control"
+            aria-describedby={validationErrorsname ? "name-error" : undefined}
+          />
+          {validationErrorsname && (
+            <div className="error-message" id="name-error">{validationErrorsname}</div>
+          )}
+        </div>
+        
+        <div className={`form-group ${validationErrorsbirthDate ? 'has-error' : ''}`}>
+          <label htmlFor="birthDate">Birth Date</label>
+          <input 
+            type="date" 
+            id="birthDate" 
+            value={birthDate} 
+            onChange={(e) => setBirthDate(etarget.value)} 
+            className="form-control"
+            aria-describedby={validationErrorsbirthDate ? "birthDate-error" : undefined}
+          />
+          {validationErrorsbirthDate && (
+            <div className="error-message" id="birthDate-error">{validationErrorsbirthDate}</div>
+          )}
+        </div>
+        
+        <div className={`form-group ${validationErrorsbirthTime ? 'has-error' : ''}`}>
+          <label htmlFor="birthTime">Birth Time (optional)</label>
+          <input 
+            type="time" 
+            id="birthTime" 
+            value={birthTime} 
+            onChange={(e) => setBirthTime(etarget.value)} 
+            className="form-control"
+            aria-describedby={validationErrorsbirthTime ? "birthTime-error" : undefined}
+          />
+          {validationErrorsbirthTime && (
+            <div className="error-message" id="birthTime-error">{validationErrorsbirthTime}</div>
+          )}
+        </div>
+        
+        <div className="form-group">
+          <h3>Dietary Preferences</h3>
+          <div className="dietary-restrictions">
+            <label className="form-label">Select any dietary restrictions that apply:</label>
+            <div className="restriction-options">
+              {[
+                'vegan', 'vegetarian', 'pescatarian', 'gluten-free', 'dairy-free', 
+                'keto', 'paleo', 'low-carb', 'low-fat', 'low-sodium', 'nut-free'
+              ].map(restriction => (
+                <div key={restriction} className="form-check">
+                  <input 
+                    type="checkbox" 
+                    id={`restriction-${restriction}`} 
+                    checked={dietaryRestrictionsincludes(restriction)} 
+                    onChange={() => handleDietaryRestrictionChange(restriction)} 
+                    className="form-check-input"
+                  />
+                  <label htmlFor={`restriction-${restriction}`} className="form-check-label">
+                    {restrictioncharAt(0).toUpperCase() + restrictionslice(1).replace(/-/g, ' ')}
+                  </label>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+        
+        <div className="form-group">
+          <button 
+            type="button" 
+            onClick={toggleNutritionSection} 
+            className="btn btn-outline-secondary"
+          >
+            {showNutritionSection ? 'Hide Nutritional Goals' : 'Add Nutritional Goals'}
+          </button>
+        </div>
+        
+        {showNutritionSection && (
+          <div className="nutrition-section">
+            <h3>Nutritional Goals</h3>
+            
+            <div className={`form-group ${validationErrorscaloriesPerDay ? 'has-error' : ''}`}>
+              <label htmlFor="caloriesPerDay">Calories per Day</label>
+              <input 
+                type="number" 
+                id="caloriesPerDay" 
+                value={caloriesPerDay} 
+                onChange={(e) => setCaloriesPerDay(etarget.value)} 
+                min="0" 
+                className="form-control"
+                aria-describedby={validationErrorscaloriesPerDay ? "calories-error" : undefined}
+              />
+              {validationErrorscaloriesPerDay && (
+                <div className="error-message" id="calories-error">{validationErrorscaloriesPerDay}</div>
+              )}
+            </div>
+            
+            <div className={`form-group ${validationErrorsproteinPercentage ? 'has-error' : ''}`}>
+              <label htmlFor="proteinPercentage">Protein (%)</label>
+              <input 
+                type="number" 
+                id="proteinPercentage" 
+                value={proteinPercentage} 
+                onChange={(e) => setProteinPercentage(etarget.value)} 
+                min="0" 
+                max="100" 
+                className="form-control"
+                aria-describedby={validationErrorsproteinPercentage ? "protein-error" : undefined}
+              />
+              {validationErrorsproteinPercentage && (
+                <div className="error-message" id="protein-error">{validationErrorsproteinPercentage}</div>
+              )}
+            </div>
+            
+            <div className={`form-group ${validationErrorscarbsPercentage ? 'has-error' : ''}`}>
+              <label htmlFor="carbsPercentage">Carbs (%)</label>
+              <input 
+                type="number" 
+                id="carbsPercentage" 
+                value={carbsPercentage} 
+                onChange={(e) => setCarbsPercentage(etarget.value)} 
+                min="0" 
+                max="100" 
+                className="form-control"
+                aria-describedby={validationErrorscarbsPercentage ? "carbs-error" : undefined}
+              />
+              {validationErrorscarbsPercentage && (
+                <div className="error-message" id="carbs-error">{validationErrorscarbsPercentage}</div>
+              )}
+            </div>
+            
+            <div className={`form-group ${validationErrorsfatPercentage ? 'has-error' : ''}`}>
+              <label htmlFor="fatPercentage">Fat (%)</label>
+              <input 
+                type="number" 
+                id="fatPercentage" 
+                value={fatPercentage} 
+                onChange={(e) => setFatPercentage(etarget.value)} 
+                min="0" 
+                max="100" 
+                className="form-control"
+                aria-describedby={validationErrorsfatPercentage ? "fat-error" : undefined}
+              />
+              {validationErrorsfatPercentage && (
+                <div className="error-message" id="fat-error">{validationErrorsfatPercentage}</div>
+              )}
+            </div>
+            
+            <div className={`form-group ${validationErrorswaterIntakeTarget ? 'has-error' : ''}`}>
+              <label htmlFor="waterIntakeTarget">Water Intake Target (ml)</label>
+              <input 
+                type="number" 
+                id="waterIntakeTarget" 
+                value={waterIntakeTarget} 
+                onChange={(e) => setWaterIntakeTarget(etarget.value)} 
+                min="0" 
+                className="form-control"
+                aria-describedby={validationErrorswaterIntakeTarget ? "water-error" : undefined}
+              />
+              {validationErrorswaterIntakeTarget && (
+                <div className="error-message" id="water-error">{validationErrorswaterIntakeTarget}</div>
+              )}
+            </div>
+          </div>
+        )}
+        
+        <button 
+          type="submit" 
+          disabled={loading || !name} 
+          className="btn btn-primary"
+        >
+          {loading ? 'Saving...' : currentUser?.id ? 'Update Profile' : 'Create Profile'}
+        </button>
+      </form>
+      
+      {error && (
+        <div className="alert alert-danger mt-4" role="alert">
+          {error}
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default UserProfileForm;
+=======
 import React;
 import ,..,/services/,user  from 'UserProfileService '
 import {
@@ -714,3 +1294,4 @@ box-shadow
     </div{'{',>'}'}''
   )
 }; ,ZodiacSign."','}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}})))))''"
+>>>>>>> main

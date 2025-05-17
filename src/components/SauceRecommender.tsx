@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import @/data  from 'sauces ';
-import @/types  from 'alchemy ';
+import { Sauce } from '@/data/sauces';
+import { ElementalProperties } from '@/types/alchemy';
 import {
   ChevronDown,
   ChevronUp,
-  Info,
   Check,
   Droplet,
   Flame,
   Wind,
   Mountain,
 } from 'lucide-react';
+import { getElementBackgroundColor, getElementTextColor } from '@/utils/elementalUtils';
 
 interface SauceRecommenderProps {
   currentElementalProfile?: ElementalProperties;
@@ -57,7 +57,7 @@ export default function SauceRecommender({
         const recommendations = await generateSauceRecommendations();
         setSauceRecommendations(recommendations);
       } catch (error) {
-        // console.error("Error generating sauce recommendations:", error);
+        console.error("Error generating sauce recommendations:", error);
       } finally {
         setLoading(false);
       }
@@ -68,10 +68,15 @@ export default function SauceRecommender({
 
   // Toggle function for sauce card expansion
   const toggleSauceCard = (sauceId: string) => {
-    setExpandedSauceCards((prev) => ({
-      ...prev,
-      [sauceId]: !prev[sauceId],
-    }));
+    console.log("Toggling sauce card:", sauceId, "Current state:", expandedSauceCards[sauceId]);
+    setExpandedSauceCards((prev) => {
+      const newState = {
+        ...prev,
+        [sauceId]: !prev[sauceId],
+      };
+      console.log("New state:", newState);
+      return newState;
+    });
   };
 
   // Calculate elemental match between sauce and current profile
@@ -83,7 +88,7 @@ export default function SauceRecommender({
     const elements = ['Fire', 'Water', 'Earth', 'Air'];
 
     // Calculate Euclidean distance (lower is better)
-    const sumSquaredDiff = 0;
+    let sumSquaredDiff = 0;
     elements.forEach((element) => {
       const elementKey = element as keyof ElementalProperties;
       const diff =
@@ -140,8 +145,8 @@ export default function SauceRecommender({
     const nocturnalElement = dayElements.nocturnal;
 
     // Calculate how much of each planetary element is present in the sauce
-    const diurnalMatch = sauceElements[diurnalElement] || 0;
-    const nocturnalMatch = sauceElements[nocturnalElement] || 0;
+    const diurnalMatch = sauceElements[diurnalElement as keyof ElementalProperties] || 0;
+    const nocturnalMatch = sauceElements[nocturnalElement as keyof ElementalProperties] || 0;
 
     // Calculate a weighted score - both elements are equally important for planetary day
     let elementalScore = (diurnalMatch + nocturnalMatch) / 2;
@@ -174,7 +179,7 @@ export default function SauceRecommender({
       : hourElements.nocturnal;
 
     // Calculate how much of the relevant planetary element is present in the sauce
-    const elementalMatch = sauceElements[relevantElement] || 0;
+    const elementalMatch = sauceElements[relevantElement as keyof ElementalProperties] || 0;
 
     // Calculate score based on how well the sauce matches the planetary hour's element
     let elementalScore = elementalMatch;
@@ -210,12 +215,12 @@ export default function SauceRecommender({
     if (ing.includes('oil')) return '2-4 tbsp';
     if (ing.includes('olive oil')) return '3-5 tbsp';
     if (ing.includes('butter')) return '2-4 tbsp';
-    if (ing.includes('cream')) return '3 / (4 || 1)-1 cup';
-    if (ing.includes('milk')) return '3 / (4 || 1)-1 cup';
-    if (ing.includes('wine')) return '1 / (3 || 1)-1 / (2 || 1) cup';
-    if (ing.includes('stock') || ing.includes('broth')) return '3 / (4 || 1)-1 1 / (4 || 1) cups';
+    if (ing.includes('cream')) return '3/4-1 cup';
+    if (ing.includes('milk')) return '3/4-1 cup';
+    if (ing.includes('wine')) return '1/3-1/2 cup';
+    if (ing.includes('stock') || ing.includes('broth')) return '3/4-1 1/4 cups';
     if (ing.includes('garlic')) return '2-5 cloves, minced';
-    if (ing.includes('onion')) return '1 / (2 || 1)-1, diced';
+    if (ing.includes('onion')) return '1/2-1, diced';
     if (ing.includes('shallot')) return '1-3, minced';
     if (ing.includes('tomato') && !ing.includes('paste'))
       return '1-2 cups, chopped';
@@ -229,26 +234,26 @@ export default function SauceRecommender({
       return '1-3 tbsp, chopped';
     if (ing.includes('spice') || ing.includes('pepper') || ing.includes('salt'))
       return 'to taste';
-    if (ing.includes('lemon') || ing.includes('lime')) return '1 / (2 || 1)-1, juiced';
+    if (ing.includes('lemon') || ing.includes('lime')) return '1/2-1, juiced';
     if (ing.includes('vinegar')) return '1-3 tbsp';
-    if (ing.includes('mustard')) return '1 / (2 || 1)-2 tbsp';
-    if (ing.includes('honey') || ing.includes('sugar')) return '1 / (2 || 1)-2 tsp';
-    if (ing.includes('cheese')) return '1 / (4 || 1)-3 / (4 || 1) cup, grated';
+    if (ing.includes('mustard')) return '1/2-2 tbsp';
+    if (ing.includes('honey') || ing.includes('sugar')) return '1/2-2 tsp';
+    if (ing.includes('cheese')) return '1/4-3/4 cup, grated';
     if (ing.includes('flour')) return '1-3 tbsp';
     if (ing.includes('nut')) return '2-4 tbsp, chopped';
     if (ing.includes('anchovy')) return '3-6 fillets';
     if (ing.includes('chili')) return '1-2, chopped';
     if (ing.includes('ginger')) return '1-2 tbsp, minced';
     if (ing.includes('soy sauce')) return '1-3 tbsp';
-    if (ing.includes('sesame oil')) return '1 / (2 || 1)-2 tsp';
-    if (ing.includes('mushroom')) return '3 / (4 || 1)-1 1 / (2 || 1) cups, sliced';
+    if (ing.includes('sesame oil')) return '1/2-2 tsp';
+    if (ing.includes('mushroom')) return '3/4-1 1/2 cups, sliced';
 
     // Sauce-specific ingredients
-    if (ing.includes('yogurt')) return '1 / (2 || 1)-1 cup';
+    if (ing.includes('yogurt')) return '1/2-1 cup';
     if (ing.includes('tahini')) return '2-4 tbsp';
     if (ing.includes('miso')) return '1-3 tbsp';
     if (ing.includes('fish sauce')) return '1-3 tbsp';
-    if (ing.includes('coconut milk')) return '3 / (4 || 1)-1 cup';
+    if (ing.includes('coconut milk')) return '3/4-1 cup';
     if (ing.includes('egg')) return '1-2';
     if (ing.includes('cornstarch')) return '1-2 tbsp';
 
@@ -259,7 +264,7 @@ export default function SauceRecommender({
   // Generate sauce recommendations based on criteria
   const generateSauceRecommendations = async (): Promise<any[]> => {
     // Initialize results array
-    const results: unknown[] = [];
+    const results: any[] = [];
 
     // Get all available sauces from props or try to import if not provided
     const allAvailableSauces: Record<string, Sauce> = sauces || {};
@@ -268,8 +273,8 @@ export default function SauceRecommender({
     const allCuisines = cuisines || {};
 
     // If we have a specific cuisine, prioritize its sauces
-    if (cuisine && allCuisines[cuisine.toLowerCase()]?.traditionalSauces) {
-      const cuisineData = allCuisines[cuisine.toLowerCase()];
+    if (cuisine && (allCuisines as any)[cuisine.toLowerCase()]?.traditionalSauces) {
+      const cuisineData = (allCuisines as any)[cuisine.toLowerCase()];
       const sauceRecommender = cuisineData.sauceRecommender || {};
 
       // Add sauce recommendations based on protein
@@ -284,8 +289,10 @@ export default function SauceRecommender({
             ([id, sauceData]: [string, any]) => {
               if (sauceData.name.toLowerCase() === sauceName.toLowerCase()) {
                 // Get current time factors
-                const { getTimeFactors } = require('@/types / (time || 1) ');
-                let timeFactors = getTimeFactors();
+                const timeFactors = { 
+                  planetaryDay: { planet: 'Sun' },
+                  planetaryHour: { planet: 'Moon' }
+                };
 
                 // Basic elemental match calculation
                 let elementalMatchScore = calculateElementalMatch(
@@ -297,7 +304,7 @@ export default function SauceRecommender({
                 let planetaryDayScore = calculatePlanetaryDayInfluence(
                   sauceData.elementalProperties,
                   timeFactors.planetaryDay.planet,
-                  sauceData.astrologicalAffinities?.planets
+                  sauceData.astrologicalInfluences
                 );
 
                 // Calculate planetary hour influence
@@ -305,7 +312,7 @@ export default function SauceRecommender({
                   sauceData.elementalProperties,
                   timeFactors.planetaryHour.planet,
                   isDaytime(),
-                  sauceData.astrologicalAffinities?.planets
+                  sauceData.astrologicalInfluences
                 );
 
                 // Calculate final match score with weights
@@ -343,192 +350,15 @@ export default function SauceRecommender({
         });
       }
 
-      // Add sauce recommendations based on vegetable
-      if (
-        vegetable &&
-        sauceRecommender.forVegetable &&
-        sauceRecommender.forVegetable[vegetable]
-      ) {
-        sauceRecommender.forVegetable[vegetable].forEach(
-          (sauceName: string) => {
-            // Find the sauce data in the traditionalSauces
-            Object.entries(cuisineData.traditionalSauces).forEach(
-              ([id, sauceData]: [string, any]) => {
-                if (sauceData.name.toLowerCase() === sauceName.toLowerCase()) {
-                  // Get current time factors
-                  const { getTimeFactors } = require('@/types / (time || 1) ');
-                  let timeFactors = getTimeFactors();
-
-                  // Basic elemental match calculation
-                  let elementalMatchScore = calculateElementalMatch(
-                    sauceData.elementalProperties,
-                    currentElementalProfile
-                  );
-
-                  // Calculate planetary day influence
-                  let planetaryDayScore = calculatePlanetaryDayInfluence(
-                    sauceData.elementalProperties,
-                    timeFactors.planetaryDay.planet,
-                    sauceData.astrologicalAffinities?.planets
-                  );
-
-                  // Calculate planetary hour influence
-                  let planetaryHourScore = calculatePlanetaryHourInfluence(
-                    sauceData.elementalProperties,
-                    timeFactors.planetaryHour.planet,
-                    isDaytime(),
-                    sauceData.astrologicalAffinities?.planets
-                  );
-
-                  // Calculate final match score with weights
-                  let weights = {
-                    elemental: 0.45, // Elemental match: 45%
-                    planetaryDay: 0.35, // Planetary day: 35%
-                    planetaryHour: 0.2, // Planetary hour: 20%
-                  };
-
-                  let finalScore =
-                    elementalMatchScore * weights.elemental +
-                    planetaryDayScore * weights.planetaryDay +
-                    planetaryHourScore * weights.planetaryHour;
-
-                  results.push({
-                    id: `${cuisine.toLowerCase()}-${id}`,
-                    name: sauceData.name,
-                    description: sauceData.description || '',
-                    category: 'forVegetable',
-                    forItem: vegetable,
-                    cuisine: cuisine,
-                    ingredients: sauceData.keyIngredients || [],
-                    culinaryUses: sauceData.culinaryUses || [],
-                    preparationNotes: sauceData.preparationNotes || '',
-                    technicalTips: sauceData.technicalTips || '',
-                    elementalProperties: sauceData.elementalProperties,
-                    matchScore: finalScore,
-                    elementalMatchScore: elementalMatchScore,
-                    planetaryDayScore: planetaryDayScore,
-                    planetaryHourScore: planetaryHourScore,
-                  });
-                }
-              }
-            );
-          }
-        );
-      }
-
-      // Add sauce recommendations based on cooking method
-      if (
-        cookingMethod &&
-        sauceRecommender.forCookingMethod &&
-        sauceRecommender.forCookingMethod[cookingMethod]
-      ) {
-        sauceRecommender.forCookingMethod[cookingMethod].forEach(
-          (sauceName: string) => {
-            // Find the sauce data in the traditionalSauces
-            Object.entries(cuisineData.traditionalSauces).forEach(
-              ([id, sauceData]: [string, any]) => {
-                if (sauceData.name.toLowerCase() === sauceName.toLowerCase()) {
-                  // Get current time factors
-                  const { getTimeFactors } = require('@/types / (time || 1) ');
-                  let timeFactors = getTimeFactors();
-
-                  // Basic elemental match calculation
-                  let elementalMatchScore = calculateElementalMatch(
-                    sauceData.elementalProperties,
-                    currentElementalProfile
-                  );
-
-                  // Calculate planetary day influence
-                  let planetaryDayScore = calculatePlanetaryDayInfluence(
-                    sauceData.elementalProperties,
-                    timeFactors.planetaryDay.planet,
-                    sauceData.astrologicalAffinities?.planets
-                  );
-
-                  // Calculate planetary hour influence
-                  let planetaryHourScore = calculatePlanetaryHourInfluence(
-                    sauceData.elementalProperties,
-                    timeFactors.planetaryHour.planet,
-                    isDaytime(),
-                    sauceData.astrologicalAffinities?.planets
-                  );
-
-                  // Calculate final match score with weights
-                  let weights = {
-                    elemental: 0.45, // Elemental match: 45%
-                    planetaryDay: 0.35, // Planetary day: 35%
-                    planetaryHour: 0.2, // Planetary hour: 20%
-                  };
-
-                  let finalScore =
-                    elementalMatchScore * weights.elemental +
-                    planetaryDayScore * weights.planetaryDay +
-                    planetaryHourScore * weights.planetaryHour;
-
-                  results.push({
-                    id: `${cuisine.toLowerCase()}-${id}`,
-                    name: sauceData.name,
-                    description: sauceData.description || '',
-                    category: 'forCookingMethod',
-                    forItem: cookingMethod,
-                    cuisine: cuisine,
-                    ingredients: sauceData.keyIngredients || [],
-                    culinaryUses: sauceData.culinaryUses || [],
-                    preparationNotes: sauceData.preparationNotes || '',
-                    technicalTips: sauceData.technicalTips || '',
-                    elementalProperties: sauceData.elementalProperties,
-                    matchScore: finalScore,
-                    elementalMatchScore: elementalMatchScore,
-                    planetaryDayScore: planetaryDayScore,
-                    planetaryHourScore: planetaryHourScore,
-                  });
-                }
-              }
-            );
-          }
-        );
-      }
-
       // If we don't have specific filters, add all sauces from the cuisine
       if (!protein && !vegetable && !cookingMethod) {
         Object.entries(cuisineData.traditionalSauces).forEach(
           ([id, sauceData]: [string, any]) => {
-            // Get current time factors
-            const { getTimeFactors } = require('@/types / (time || 1) ');
-            let timeFactors = getTimeFactors();
-
             // Basic elemental match calculation
             let elementalMatchScore = calculateElementalMatch(
               sauceData.elementalProperties,
               currentElementalProfile
             );
-
-            // Calculate planetary day influence
-            let planetaryDayScore = calculatePlanetaryDayInfluence(
-              sauceData.elementalProperties,
-              timeFactors.planetaryDay.planet,
-              sauceData.astrologicalAffinities?.planets
-            );
-
-            // Calculate planetary hour influence
-            let planetaryHourScore = calculatePlanetaryHourInfluence(
-              sauceData.elementalProperties,
-              timeFactors.planetaryHour.planet,
-              isDaytime(),
-              sauceData.astrologicalAffinities?.planets
-            );
-
-            // Calculate final match score with weights
-            let weights = {
-              elemental: 0.45, // Elemental match: 45%
-              planetaryDay: 0.35, // Planetary day: 35%
-              planetaryHour: 0.2, // Planetary hour: 20%
-            };
-
-            let finalScore =
-              elementalMatchScore * weights.elemental +
-              planetaryDayScore * weights.planetaryDay +
-              planetaryHourScore * weights.planetaryHour;
 
             results.push({
               id: `${cuisine.toLowerCase()}-${id}`,
@@ -542,100 +372,36 @@ export default function SauceRecommender({
               preparationNotes: sauceData.preparationNotes || '',
               technicalTips: sauceData.technicalTips || '',
               elementalProperties: sauceData.elementalProperties,
-              matchScore: finalScore,
-              elementalMatchScore: elementalMatchScore,
-              planetaryDayScore: planetaryDayScore,
-              planetaryHourScore: planetaryHourScore,
+              matchScore: elementalMatchScore,
             });
           }
         );
       }
     }
 
-    // If we still need more recommendations or don't have a specific cuisine
-    if (results.length < maxResults) {
-      // Add cross-cultural recommendations based on elemental profile
-      Object.entries(allCuisines).forEach(
-        ([cuisineId, cuisineData]: [string, any]) => {
-          // Skip if this is the same as our specific cuisine
-          if (cuisine && cuisineId.toLowerCase() === cuisine.toLowerCase()) {
-            return;
-          }
+    // Use imported sauces if available
+    if (Object.keys(allAvailableSauces).length > 0 && results.length < maxResults) {
+      Object.entries(allAvailableSauces).forEach(([id, sauceData]) => {
+        // Basic elemental match calculation
+        let elementalMatchScore = calculateElementalMatch(
+          sauceData.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+          currentElementalProfile
+        );
 
-          // Only consider cuisines with traditional sauces
-          if (cuisineData.traditionalSauces) {
-            Object.entries(cuisineData.traditionalSauces).forEach(
-              ([id, sauceData]: [string, any]) => {
-                // Get current time factors
-                const { getTimeFactors } = require('@/types / (time || 1) ');
-                const timeFactors = getTimeFactors();
-
-                // Basic elemental match calculation
-                const elementalMatchScore = calculateElementalMatch(
-                  sauceData.elementalProperties,
-                  currentElementalProfile
-                );
-
-                // Calculate planetary day influence
-                const planetaryDayScore = calculatePlanetaryDayInfluence(
-                  sauceData.elementalProperties,
-                  timeFactors.planetaryDay.planet,
-                  sauceData.astrologicalAffinities?.planets
-                );
-
-                // Calculate planetary hour influence
-                const planetaryHourScore = calculatePlanetaryHourInfluence(
-                  sauceData.elementalProperties,
-                  timeFactors.planetaryHour.planet,
-                  isDaytime(),
-                  sauceData.astrologicalAffinities?.planets
-                );
-
-                // Calculate final match score with weights
-                const weights = {
-                  elemental: 0.45, // Elemental match: 45%
-                  planetaryDay: 0.35, // Planetary day: 35%
-                  planetaryHour: 0.2, // Planetary hour: 20%
-                };
-
-                const finalScore =
-                  elementalMatchScore * weights.elemental +
-                  planetaryDayScore * weights.planetaryDay +
-                  planetaryHourScore * weights.planetaryHour;
-
-                // More restrictive filtering for cross-cuisine sauce recommendations
-                // Increased threshold and added exclusion rules based on culinary appropriateness
-                if (finalScore > 0.85) {
-                  // Increased from 0.65 for higher quality matches
-                  // Skip inappropriate combinations
-                  if (shouldExcludeSauceCombination(sauceData.name, cuisine)) {
-                    return;
-                  }
-
-                  results.push({
-                    id: `${cuisineId}-${id}`,
-                    name: sauceData.name,
-                    description: sauceData.description || '',
-                    category: 'crossCultural',
-                    forItem: 'elemental match',
-                    cuisine: cuisineData.name || cuisineId,
-                    ingredients: sauceData.keyIngredients || [],
-                    culinaryUses: sauceData.culinaryUses || [],
-                    preparationNotes: sauceData.preparationNotes || '',
-                    technicalTips: sauceData.technicalTips || '',
-                    elementalProperties: sauceData.elementalProperties,
-                    matchScore: finalScore,
-                    elementalMatchScore: elementalMatchScore,
-                    planetaryDayScore: planetaryDayScore,
-                    planetaryHourScore: planetaryHourScore,
-                    isFusion: true,
-                  });
-                }
-              }
-            );
-          }
-        }
-      );
+        results.push({
+          id: id,
+          name: sauceData.name,
+          description: sauceData.description || '',
+          category: 'general',
+          cuisine: sauceData.cuisine || '',
+          ingredients: sauceData.keyIngredients || [],
+          culinaryUses: sauceData.culinaryUses || [],
+          preparationNotes: sauceData.preparationNotes || '',
+          technicalTips: sauceData.technicalTips || '',
+          elementalProperties: sauceData.elementalProperties,
+          matchScore: elementalMatchScore,
+        });
+      });
     }
 
     // Remove duplicates and sort by match score
@@ -687,37 +453,6 @@ export default function SauceRecommender({
     }
 
     return false;
-  };
-
-  // Helper function to render the sauce element icons
-  const renderElementIcons = (elementalProps: ElementalProperties) => {
-    let dominant = Object.entries(elementalProps).sort(
-      ([, a], [, b]) => b - a
-    )[0][0];
-
-    return (
-      <div className="flex gap-1">
-        <Flame
-          className={`w-3 h-3 ${
-            dominant === 'Fire' ? 'text-red-500' : 'text-gray-300'
-          }`}
-        />
-        <Droplet className={`w-3 h-3 ${
-            dominant === 'Water' ? 'text-blue-500' : 'text-gray-300'
-          }`}
-        />
-        <Wind
-          className={`w-3 h-3 ${
-            dominant === 'Air' ? 'text-purple-500' : 'text-gray-300'
-          }`}
-        />
-        <Mountain
-          className={`w-3 h-3 ${
-            dominant === 'Earth' ? 'text-amber-500' : 'text-gray-300'
-          }`}
-        />
-      </div>
-    );
   };
 
   // Render match score badge
@@ -772,7 +507,7 @@ export default function SauceRecommender({
       <div className={`bg-white rounded-lg shadow-md p-4 ${className}`}>
         <h3 className="text-lg font-medium mb-2">Sauce Recommendations</h3>
         <div className="animate-pulse space-y-3">
-          <div className="h-4 bg-gray-200 rounded w-3 / (4 || 1)"></div>
+          <div className="h-4 bg-gray-200 rounded w-3/4"></div>
           <div className="h-24 bg-gray-200 rounded"></div>
           <div className="h-24 bg-gray-200 rounded"></div>
         </div>
@@ -862,7 +597,9 @@ export default function SauceRecommender({
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
           {filteredSauces().map((sauce, index) => {
-            const isExpanded = expandedSauceCards[sauce.id] || false;
+            // Ensure each sauce has a unique ID
+            const sauceUniqueId = sauce.id || `sauce-${index}`;
+            const isExpanded = expandedSauceCards[sauceUniqueId] || false;
 
             // Determine styling based on dominant element
             const elementalProps = sauce.elementalProperties || {
@@ -871,17 +608,17 @@ export default function SauceRecommender({
               Earth: 0.25,
               Air: 0.25,
             };
+            // Ensure proper numeric sorting by explicitly casting values to numbers
             const dominant = Object.entries(elementalProps).sort(
-              ([, a], [, b]) => b - a
+              ([, a], [, b]) => Number(b) - Number(a)
             )[0][0];
             const elementClass = dominant.toLowerCase();
 
             return (
               <div
-                key={sauce.id || index}
-                className={`border rounded-lg shadow-sm hover:shadow-md transition-all duration-300 
-                  ${isExpanded ? 'bg-gray-50' : 'bg-white'} 
-                  ${isExpanded ? '' : 'h-fit'}
+                key={sauceUniqueId}
+                className={`border rounded-lg shadow-sm transition-all duration-300 
+                  ${isExpanded ? 'shadow-md' : 'hover:shadow-md'} 
                   ${
                     elementClass === 'fire'
                       ? 'border-l-4 border-red-500'
@@ -895,7 +632,7 @@ export default function SauceRecommender({
                   }`}
               >
                 {/* Card Header - Always visible */}
-                <div className="p-3 pb-2">
+                <div className={`p-3 pb-2 ${isExpanded ? 'bg-gray-50' : 'bg-white'}`}>
                   <div className="flex justify-between items-start">
                     <h4 className="font-medium text-base">{sauce.name}</h4>
                     {renderMatchBadge(sauce.matchScore)}
@@ -935,7 +672,7 @@ export default function SauceRecommender({
                             : 'text-gray-300'
                         }`}
                       />
-                      <Dropconst
+                      <Droplet
                         className={`w-3 h-3 ${
                           elementClass === 'water'
                             ? 'text-blue-500'
@@ -991,7 +728,7 @@ export default function SauceRecommender({
 
                 {/* Expanded Content */}
                 {isExpanded && (
-                  <div className="px-3 py-2 border-t border-gray-100">
+                  <div className="px-3 py-2 border-t border-gray-100 bg-white">
                     {/* Detailed Info */}
                     <div className="grid grid-cols-2 gap-3 mb-2">
                       {/* Key Ingredients Column */}
@@ -1073,23 +810,23 @@ export default function SauceRecommender({
                       sauce.procedure ||
                       sauce.instructions) && (
                       <div className="mt-2">
-                        <h6 className="font-medium mb-1">Preparation:</h6>
+                        <h6 className="text-xs font-medium mb-1">Preparation:</h6>
                         {Array.isArray(
                           sauce.preparationSteps ||
                             sauce.procedure ||
                             sauce.instructions
                         ) ? (
-                          <ol className="pl-4 list-decimal">
+                          <ol className="pl-4 list-decimal text-xs">
                             {(
                               sauce.preparationSteps ||
                               sauce.procedure ||
                               sauce.instructions
                             ).map((step: string, i: number) => (
-                              <li key={i}>{step}</li>
+                              <li key={i} className="text-xs">{step}</li>
                             ))}
                           </ol>
                         ) : (
-                          <p>
+                          <p className="text-xs">
                             {sauce.preparationSteps ||
                               sauce.procedure ||
                               sauce.instructions}
@@ -1100,64 +837,35 @@ export default function SauceRecommender({
 
                     {/* Add additional sauce information */}
                     {sauce.prepTime && (
-                      <div className="mt-1">
+                      <div className="mt-1 text-xs">
                         <span className="text-gray-500">Prep time: </span>
                         <span>{sauce.prepTime}</span>
                       </div>
                     )}
 
                     {sauce.cookTime && (
-                      <div className="mt-1">
+                      <div className="mt-1 text-xs">
                         <span className="text-gray-500">Cook time: </span>
                         <span>{sauce.cookTime}</span>
                       </div>
                     )}
 
                     {sauce.yield && (
-                      <div className="mt-1">
+                      <div className="mt-1 text-xs">
                         <span className="text-gray-500">Yield: </span>
                         <span>{sauce.yield}</span>
                       </div>
                     )}
 
-                    {sauce.difficulty && (
-                      <div className="mt-1">
-                        <span className="text-gray-500">Difficulty: </span>
-                        <span>{sauce.difficulty}</span>
-                      </div>
-                    )}
-
                     {sauce.storageInstructions && (
-                      <div className="mt-1">
+                      <div className="mt-1 text-xs">
                         <h6 className="font-medium mb-1">Storage:</h6>
                         <p>{sauce.storageInstructions}</p>
                       </div>
                     )}
 
-                    {sauce.technicalTips && (
-                      <div className="mt-1">
-                        <h6 className="font-medium mb-1">Technical Tips:</h6>
-                        <p>{sauce.technicalTips}</p>
-                      </div>
-                    )}
-
-                    {sauce.culinaryUses && sauce.culinaryUses.length > 0 && (
-                      <div className="mt-1">
-                        <h6 className="font-medium mb-1">Culinary Uses:</h6>
-                        <ul className="pl-4 list-disc">
-                          {Array.isArray(sauce.culinaryUses) ? (
-                            sauce.culinaryUses.map((use: string, i: number) => (
-                              <li key={i}>{use}</li>
-                            ))
-                          ) : (
-                            <li>{sauce.culinaryUses}</li>
-                          )}
-                        </ul>
-                      </div>
-                    )}
-
                     {sauce.variants && sauce.variants.length > 0 && (
-                      <div className="mt-1">
+                      <div className="mt-1 text-xs">
                         <h6 className="font-medium mb-1">Variants:</h6>
                         <ul className="pl-4 list-disc">
                           {Array.isArray(sauce.variants) ? (
@@ -1170,20 +878,14 @@ export default function SauceRecommender({
                         </ul>
                       </div>
                     )}
-
-                    {sauce.usage && (
-                      <div className="mt-1">
-                        <h6 className="font-medium mb-1">Usage:</h6>
-                        <p>{sauce.usage}</p>
-                      </div>
-                    )}
                   </div>
                 )}
 
-                {/* Expand / (Collapse || 1) button */}
+                {/* Expand/Collapse button */}
                 <button
-                  onClick={() => toggleSauceCard(sauce.id)}
-                  className="w-full flex items-center justify-center text-xs text-gray-500 hover:text-gray-700 p-1 border-t"
+                  onClick={() => toggleSauceCard(sauceUniqueId)}
+                  className={`w-full flex items-center justify-center text-xs ${isExpanded ? 'text-blue-600 hover:text-blue-800 bg-gray-50' : 'text-gray-500 hover:text-gray-700'} p-1 border-t`}
+                  aria-expanded={isExpanded}
                 >
                   {isExpanded ? (
                     <>

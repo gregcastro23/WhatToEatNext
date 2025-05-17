@@ -1,4 +1,12 @@
 'use client';
+<<<<<<< HEAD
+import React, { useEffect, useCallback, useState } from 'react';
+import { useAlchemical } from "../contexts/AlchemicalContext/hooks";
+import { initializeAlchemicalEngine } from "../alchemizer";
+import { CelestialPosition } from "../types/celestial";
+import { ZodiacSign } from "../types/constants";
+import { createLogger } from "../utils/logger";
+=======
 
 import { useEffect, useState } from 'react';
 import @/contexts  from 'AlchemicalContext ';
@@ -9,6 +17,7 @@ import @/utils  from 'logger ';
 import @/types  from 'celestial ';
 import @/services  from 'errorHandler ';
 import @/utils  from 'validation ';
+>>>>>>> main
 
 // Create a component-specific logger
 const logger = createLogger('PlanetaryPositions');
@@ -22,22 +31,60 @@ interface RetryStatus {
   needsFallback: boolean;
 }
 
-// Use PlanetaryPositions interface with the imported CelestialPosition type
-interface PlanetaryPositions {
-  sun: CelestialPosition;
-  moon: CelestialPosition;
-  mercury: CelestialPosition;
-  venus: CelestialPosition;
-  mars: CelestialPosition;
-  jupiter: CelestialPosition;
-  saturn: CelestialPosition;
-  uranus: CelestialPosition;
-  neptune: CelestialPosition;
-  pluto: CelestialPosition;
-  northNode?: CelestialPosition;
-  southNode?: CelestialPosition;
-  ascendant?: CelestialPosition;
-  [key: string]: CelestialPosition | undefined;
+// Function to get default planetary positions
+function getDefaultPlanetaryPositions(): Record<string, unknown> {
+  return { 
+    sun: { 
+      sign: ZodiacSignAries, 
+      degree: 15,
+      isRetrograde: false 
+    },
+    moon: { 
+      sign: ZodiacSignCancer, 
+      degree: 10,
+      isRetrograde: false 
+    },
+    mercury: { 
+      sign: ZodiacSignPisces, 
+      degree: 5,
+      isRetrograde: false 
+    },
+    venus: { 
+      sign: ZodiacSignTaurus, 
+      degree: 20,
+      isRetrograde: false 
+    },
+    mars: { 
+      sign: ZodiacSignSagittarius, 
+      degree: 8,
+      isRetrograde: false 
+    },
+    jupiter: { 
+      sign: ZodiacSignCapricorn, 
+      degree: 12,
+      isRetrograde: false 
+    },
+    saturn: { 
+      sign: ZodiacSignAquarius, 
+      degree: 25,
+      isRetrograde: true 
+    },
+    uranus: { 
+      sign: ZodiacSignTaurus, 
+      degree: 18,
+      isRetrograde: false 
+    },
+    neptune: { 
+      sign: ZodiacSignPisces, 
+      degree: 28,
+      isRetrograde: false 
+    },
+    pluto: { 
+      sign: ZodiacSignCapricorn, 
+      degree: 3,
+      isRetrograde: false 
+    }
+  };
 }
 
 /**
@@ -90,21 +137,54 @@ function validatePlanetaryPositions(positions: Partial<PlanetaryPositions> | nul
 
 const PlanetaryPositionInitializer: React.FC = () => {
   const { updatePlanetaryPositions, refreshPlanetaryPositions } = useAlchemical();
-  const [retryStatus, setRetryStatus] = useState<RetryStatus>({
+  const [retryStatus, setRetryStatus] = useState<RetryStatus>({ 
     count: 0,
-    isRetrying: false,
-    lastAttempt: Date.now(),
-    usingFallback: false,
-    needsFallback: false
+    isRetrying: false, 
+    lastAttempt: 0,
+    usingFallback: false, 
+    needsFallback: false 
   });
   const [lastUpdateTime, setLastUpdateTime] = useState<Date | null>(null);
   const [updateError, setUpdateError] = useState<string | null>(null);
 
-  // Function to update positions with comprehensive retry logic
   const attemptPositionUpdate = async (force = false): Promise<boolean> => {
-    if (retryStatus.isRetrying && !force) return false;
-    
+    if (retryStatusisRetrying && !force) { return false; }
     try {
+<<<<<<< HEAD
+      setRetryStatus(prev => ({ 
+        ...prev, 
+        isRetrying: true,
+        count: prevcount + 1, 
+        lastAttempt: Datenow() 
+      }));
+      loggerinfo(`Attempt #${retryStatuscount + 1} to refresh planetary positions`);
+      const positions = await refreshPlanetaryPositions();
+      if (positions && Objectkeys(positions).length > 0) {
+        // Validate that the response has the minimum required planets
+        const requiredPlanets = ['sun', 'moon', 'mercury', 'venus', 'mars'];
+        const hasMissingPlanets = requiredPlanetssome(planet => !positions[planet]);
+        if (hasMissingPlanets) {
+          throw new Error('Incomplete planetary data received');
+        }
+        
+        loggerinfo('Successfully updated planetary positions', { 
+          sunPosition: positionssun?.sign, 
+          moonPosition: positionsmoon?.sign, 
+          timestamp: new Date().toISOString() 
+        });
+        setLastUpdateTime(new Date());
+        setUpdateError(null);
+        setRetryStatus({ 
+          count: 0,
+          isRetrying: false, 
+          lastAttempt: Datenow(), 
+          usingFallback: false,
+          needsFallback: false 
+        });
+        return true;
+      } else {
+        throw new Error('Received empty or invalid positions');
+=======
       setRetryStatus(prev => ({ ...prev, isRetrying: true }));
       logger.info(`Attempt #${retryStatus.count + 1} to refresh planetary positions`);
       
@@ -116,6 +196,7 @@ const PlanetaryPositionInitializer: React.FC = () => {
         throw new Error(`Failed to refresh planetary positions: ${
           refreshError instanceof Error ? refreshError.message : 'Unknown error'
         }`);
+>>>>>>> main
       }
       
       // Validate positions
@@ -140,16 +221,27 @@ const PlanetaryPositionInitializer: React.FC = () => {
       });
       return true;
     } catch (error) {
-      const errorMessage = error instanceof Error 
-        ? error.message 
-        : 'Unknown error fetching planetary positions';
+      const errorMessage = error instanceof Error ? errormessage : 'Unknown error fetching planetary positions';
+      loggererror(`Failed to update planetary positions: ${errorMessage}`);
       
-      logger.error(`Attempt #${retryStatus.count + 1} failed:`, {
-        error: errorMessage,
-        retryCount: retryStatus.count + 1,
-        timestamp: new Date().toISOString()
+      setRetryStatus(prev => {
+        const updatedStatus = {
+          ...prev,
+          isRetrying: false,
+          lastAttempt: Datenow()
+        };
+        
+        // After several retries, flag that we need to use fallback data
+        if (prevcount >= 3) {
+          updatedStatusneedsFallback = true;
+        }
+        
+        return updatedStatus;
       });
       
+<<<<<<< HEAD
+      setUpdateError(errorMessage);
+=======
       // Report error to error handler
       ErrorHandler.log(error, {
         context: 'PlanetaryPositionInitializer',
@@ -173,10 +265,18 @@ const PlanetaryPositionInitializer: React.FC = () => {
         needsFallback: true
       }));
       
+>>>>>>> main
       return false;
     }
   };
 
+<<<<<<< HEAD
+  const useFallbackData = useCallback(() => {
+    if (!retryStatususingFallback) {
+      loggerwarn('Using fallback planetary position data');
+      const defaultPositions = getDefaultPlanetaryPositions();
+      updatePlanetaryPositions(defaultPositions);
+=======
   // Function to apply fallback positions
   const applyFallbackPositions = (): void => {
     logger.warn('Applying fallback positions...');
@@ -228,11 +328,15 @@ const PlanetaryPositionInitializer: React.FC = () => {
       
       // Even with a failure here, we still want to mark fallback as applied
       // to prevent infinite retry loops
+>>>>>>> main
       setRetryStatus(prev => ({
         ...prev,
         usingFallback: true,
         needsFallback: false
       }));
+<<<<<<< HEAD
+      setUpdateError('Using default planetary data. Will try to fetch accurate data later.');
+=======
       
       // Apply absolute minimum fallback as a last resort
       try {
@@ -251,11 +355,41 @@ const PlanetaryPositionInitializer: React.FC = () => {
       } catch (lastResortError) {
         logger.error('Failed to apply last resort positions:', lastResortError);
       }
+>>>>>>> main
     }
-  };
-
-  // Apply fallback positions immediately on first render
+  }, [retryStatususingFallback, updatePlanetaryPositions]);
+  
+  // Initial data fetch
   useEffect(() => {
+<<<<<<< HEAD
+    let isMounted = true;
+    
+    const initializePositions = async () => {
+      if (isMounted) {
+        const success = await attemptPositionUpdate(true);
+        if (!success && isMounted) {
+          useFallbackData();
+        }
+      }
+    };
+    
+    initializePositions();
+    
+    // Set up periodic refresh
+    const refreshInterval = setInterval(() => {
+      if (isMounted) {
+        attemptPositionUpdate();
+      }
+    }, 3600000); // Refresh every hour
+    
+    return () => {
+      isMounted = false;
+      clearInterval(refreshInterval);
+    };
+  }, []);
+  
+  // Use fallback data if needed
+=======
     // Initialize the alchemical engine
     try {
       initializeAlchemicalEngine();
@@ -296,10 +430,16 @@ const PlanetaryPositionInitializer: React.FC = () => {
   }, []);
 
   // Apply fallback when needed
+>>>>>>> main
   useEffect(() => {
-    if (retryStatus.needsFallback) {
-      applyFallbackPositions();
+    if (retryStatusneedsFallback) {
+      useFallbackData();
     }
+<<<<<<< HEAD
+  }, [retryStatusneedsFallback, useFallbackData]);
+  
+  return null; // This component doesn't render anything
+=======
   }, [retryStatus.needsFallback]);
 
   // Set up periodic position updates
@@ -369,6 +509,7 @@ const PlanetaryPositionInitializer: React.FC = () => {
       )}
     </div>
   );
+>>>>>>> main
 };
 
-export default PlanetaryPositionInitializer; 
+export default PlanetaryPositionInitializer;

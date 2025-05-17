@@ -315,7 +315,7 @@ export default function SauceExplorer() {
             <div className="mb-4">
               <div className="flex justify-between mb-1">
                 <label className="text-xs flex items-center text-blue-600">
-                  <Dropconst className="w-3 h-3 mr-1" />
+                  <Droplet className="w-3 h-3 mr-1" />
                   Water
                 </label>
                 <span className="text-xs text-gray-500">
@@ -448,7 +448,7 @@ export default function SauceExplorer() {
                     {Object.entries(elementalProfile).sort(
                       ([, a], [, b]) => b - a
                     )[0][0] === 'Water' && (
-                      <Dropconst className="w-3 h-3 mr-1 text-blue-500" />
+                      <Droplet className="w-3 h-3 mr-1 text-blue-500" />
                     )}
                     {Object.entries(elementalProfile).sort(
                       ([, a], [, b]) => b - a

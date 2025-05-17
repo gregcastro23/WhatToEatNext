@@ -1604,7 +1604,193 @@ export default function CuisineRecommender() {
                 {/* Expanded sauce details */}
                 {expandedSauceCards[`${sauce.id || sauce.name}-${index}`] && (
                   <div className="mt-2 pt-2 border-t border-gray-200 text-xs">
-                    {/* Expanded sauce details content */}
+                    {/* Main culinary information */}
+                    <div className="mb-3">
+                      <h6 className="font-medium text-sm mb-2 text-amber-800 pb-1 border-b border-amber-100">Culinary Profile</h6>
+                      
+                      {/* Base & Cuisine */}
+                      <div className="flex flex-wrap gap-x-4 gap-y-1 mb-2">
+                        {sauce.base && (
+                          <div>
+                            <span className="font-medium text-gray-700">Base:</span>{" "}
+                            <span className="text-gray-600">{sauce.base}</span>
+                          </div>
+                        )}
+                        {sauce.cuisine && (
+                          <div>
+                            <span className="font-medium text-gray-700">Cuisine:</span>{" "}
+                            <span className="text-gray-600">{sauce.cuisine}</span>
+                          </div>
+                        )}
+                        {sauce.difficulty && (
+                          <div>
+                            <span className="font-medium text-gray-700">Difficulty:</span>{" "}
+                            <span className="text-gray-600">{sauce.difficulty}</span>
+                          </div>
+                        )}
+                      </div>
+                      
+                      {/* Timing Information */}
+                      <div className="flex flex-wrap gap-x-4 gap-y-1 mb-2">
+                        {sauce.prepTime && (
+                          <div>
+                            <span className="font-medium text-gray-700">Prep:</span>{" "}
+                            <span className="text-gray-600">{sauce.prepTime}</span>
+                          </div>
+                        )}
+                        {sauce.cookTime && (
+                          <div>
+                            <span className="font-medium text-gray-700">Cook:</span>{" "}
+                            <span className="text-gray-600">{sauce.cookTime}</span>
+                          </div>
+                        )}
+                        {sauce.yield && (
+                          <div>
+                            <span className="font-medium text-gray-700">Yield:</span>{" "}
+                            <span className="text-gray-600">{sauce.yield}</span>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Culinary Uses */}
+                      {sauce.culinaryUses && sauce.culinaryUses.length > 0 && (
+                        <div className="mb-2">
+                          <h6 className="font-medium text-gray-700 mb-1">Perfect For:</h6>
+                          <div className="flex flex-wrap gap-1">
+                            {sauce.culinaryUses.map((use, idx) => (
+                              <span key={idx} className="inline-flex items-center px-2 py-0.5 bg-blue-50 text-blue-700 rounded-full text-xs">
+                                {use}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Complete Ingredients List */}
+                    {(sauce.ingredients || sauce.keyIngredients) && (
+                      <div className="mb-3 bg-gray-50 p-2 rounded border border-gray-100">
+                        <h6 className="font-medium mb-1.5 text-gray-800">Ingredients:</h6>
+                        <ul className="pl-1 space-y-1">
+                          {(sauce.ingredients || sauce.keyIngredients).map((ingredient, idx) => (
+                            <li key={idx} className="flex items-start text-gray-700">
+                              <span className="inline-block w-1 h-1 rounded-full bg-amber-500 mt-1.5 mr-1.5"></span>
+                              <span>{ingredient}</span>
+                            </li>
+                          ))}
+                        </ul>
+                        
+                        {/* Ingredient Substitutions */}
+                        <div className="mt-2 pt-1 border-t border-gray-200">
+                          <h6 className="font-medium mb-1 text-gray-700">Common Substitutions:</h6>
+                          <ul className="pl-1">
+                            {sauce.base === "tomato" && (
+                              <li className="text-xs text-gray-600 flex items-start">
+                                <span className="inline-block w-1 h-1 rounded-full bg-gray-400 mt-1.5 mr-1.5"></span>
+                                <span>Fresh tomatoes: Use 3-4 lbs fresh tomatoes, peeled and deseeded, for 2 lbs canned</span>
+                              </li>
+                            )}
+                            {sauce.keyIngredients?.includes("pine nuts") && (
+                              <li className="text-xs text-gray-600 flex items-start">
+                                <span className="inline-block w-1 h-1 rounded-full bg-gray-400 mt-1.5 mr-1.5"></span>
+                                <span>Pine nuts: Substitute with walnuts, almonds, or sunflower seeds</span>
+                              </li>
+                            )}
+                            {sauce.keyIngredients?.includes("guanciale") && (
+                              <li className="text-xs text-gray-600 flex items-start">
+                                <span className="inline-block w-1 h-1 rounded-full bg-gray-400 mt-1.5 mr-1.5"></span>
+                                <span>Guanciale: Substitute with pancetta or bacon (less authentic but workable)</span>
+                              </li>
+                            )}
+                            {sauce.keyIngredients?.includes("Pecorino Romano") && (
+                              <li className="text-xs text-gray-600 flex items-start">
+                                <span className="inline-block w-1 h-1 rounded-full bg-gray-400 mt-1.5 mr-1.5"></span>
+                                <span>Pecorino Romano: Use Parmigiano-Reggiano for milder flavor</span>
+                              </li>
+                            )}
+                            {sauce.keyIngredients?.some(ing => ing.includes("wine")) && (
+                              <li className="text-xs text-gray-600 flex items-start">
+                                <span className="inline-block w-1 h-1 rounded-full bg-gray-400 mt-1.5 mr-1.5"></span>
+                                <span>Wine: Use stock with a splash of vinegar for alcohol-free version</span>
+                              </li>
+                            )}
+                            <li className="text-xs text-gray-600 flex items-start">
+                              <span className="inline-block w-1 h-1 rounded-full bg-gray-400 mt-1.5 mr-1.5"></span>
+                              <span>Herbs: Fresh and dried can be swapped (1 tbsp fresh = 1 tsp dried)</span>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    )}
+                    
+                    {/* Preparation Steps */}
+                    {sauce.preparationSteps && sauce.preparationSteps.length > 0 && (
+                      <div className="mb-3">
+                        <h6 className="font-medium mb-1.5 text-gray-800">Preparation:</h6>
+                        <ol className="pl-5 list-decimal space-y-1.5">
+                          {sauce.preparationSteps.map((step, idx) => (
+                            <li key={idx} className="text-gray-700">{step}</li>
+                          ))}
+                        </ol>
+                      </div>
+                    )}
+
+                    {/* Chef Notes and Technical Tips - Combined for better culinary focus */}
+                    {(sauce.preparationNotes || sauce.technicalTips) && (
+                      <div className="mb-3 bg-amber-50 p-2 rounded border border-amber-100">
+                        <h6 className="font-medium mb-1 text-amber-800">Chef's Tips:</h6>
+                        {sauce.preparationNotes && (
+                          <p className="text-gray-700 mb-1.5">{sauce.preparationNotes}</p>
+                        )}
+                        {sauce.technicalTips && (
+                          <p className="text-gray-700">{sauce.technicalTips}</p>
+                        )}
+                      </div>
+                    )}
+                    
+                    {/* Storage Instructions */}
+                    {sauce.storageInstructions && (
+                      <div className="mb-3 bg-blue-50 p-2 rounded border border-blue-100">
+                        <h6 className="font-medium mb-1 text-blue-800">Storage & Shelf Life:</h6>
+                        <p className="text-gray-700">{sauce.storageInstructions}</p>
+                      </div>
+                    )}
+                    
+                    {/* Sauce Variants */}
+                    {sauce.variants && sauce.variants.length > 0 && (
+                      <div className="mb-3">
+                        <h6 className="font-medium mb-1 text-gray-800">Popular Variations:</h6>
+                        <div className="flex flex-wrap gap-1">
+                          {sauce.variants.map((variant, idx) => (
+                            <span key={idx} className="px-2 py-1 bg-gray-50 text-gray-700 rounded border border-gray-200 text-xs">
+                              {variant}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    
+                    {/* Seasonal Information - Kept because it's relevant to cooking */}
+                    {sauce.seasonality && (
+                      <div className="mb-2">
+                        <h6 className="font-medium inline-block mr-1 text-gray-700">Best Season:</h6>
+                        <span className="text-gray-600">{sauce.seasonality}</span>
+                      </div>
+                    )}
+                    
+                    {/* Move Astrological influences to bottom with less prominence */}
+                    {sauce.astrologicalInfluences && sauce.astrologicalInfluences.length > 0 && (
+                      <div className="mt-3 pt-2 border-t border-gray-100 text-gray-500">
+                        <h6 className="text-xs font-medium mb-0.5 text-gray-500">Astrological Harmony:</h6>
+                        <div className="flex flex-wrap gap-1">
+                          {sauce.astrologicalInfluences.map((influence, idx) => (
+                            <span key={idx} className="px-1.5 py-0.5 bg-gray-50 text-gray-500 rounded text-xs">
+                              {influence}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
