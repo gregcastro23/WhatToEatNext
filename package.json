@@ -2,13 +2,14 @@
   "name": "what-to-eat-next",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "engines": {
     "node": ">=20.18.0",
     "yarn": ">=1.22.0"
   },
   "scripts": {
-    "predev": "node scripts/check-node-version.js",
-    "prebuild": "node scripts/check-node-version.js",
+    "predev": "node scripts/check-node-version.cjs",
+    "prebuild": "node scripts/check-node-version.cjs",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
