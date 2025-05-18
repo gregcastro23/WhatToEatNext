@@ -427,20 +427,45 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
                   ${showIngredientSearch && ingredientCompatibility[method.id] !== undefined ? styles['with-compatibility'] : ''} 
                   ${selectedMethodId === method.id ? styles.selected : ''} 
                   ${expandedMethods[method.id] ? styles['expanded'] : ''}`}
-                onClick={() => onSelectMethod && onSelectMethod(method)}
+                onClick={() => {
+                  // Call the onSelectMethod handler if provided
+                  onSelectMethod && onSelectMethod(method);
+                  
+                  // Also toggle the expanded state for this method
+                  setExpandedMethods(prev => ({
+                    ...prev,
+                    [method.id]: !prev[method.id]
+                  }));
+                }}
                 data-expanded={expandedMethods[method.id] ? 'true' : 'false'}
               >
                 <div className={styles['method-header']}>
                   <h4 className={styles['method-name']}>{method.name}</h4>
                   
-                  {method.score !== undefined && (
-                    <div className={`${styles['method-score']} ${getScoreClass(method.score)}`}>
-                      <span className={styles['score-value']}>{Math.round(method.score * 100)}%</span>
-                      <div className={styles['score-bar']}>
-                        <div className={styles['score-bar-fill']} style={{width: `${Math.round(method.score * 100)}%`}}></div>
+                  <div className={styles['header-right']}>
+                    {method.score !== undefined && (
+                      <div className={`${styles['method-score']} ${getScoreClass(method.score)}`}>
+                        <span className={styles['score-value']}>{Math.round(method.score * 100)}%</span>
+                        <div className={styles['score-bar']}>
+                          <div className={styles['score-bar-fill']} style={{width: `${Math.round(method.score * 100)}%`}}></div>
+                        </div>
                       </div>
-                    </div>
-                  )}
+                    )}
+                    
+                    <button 
+                      className={styles['expand-indicator']}
+                      aria-label={expandedMethods[method.id] ? "Collapse method details" : "Expand method details"}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setExpandedMethods(prev => ({
+                          ...prev,
+                          [method.id]: !prev[method.id]
+                        }));
+                      }}
+                    >
+                      {expandedMethods[method.id] ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                    </button>
+                  </div>
                   
                   {/* Show ingredient compatibility if available */}
                   {ingredientCompatibility[method.id] !== undefined && (
@@ -567,6 +592,37 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
                   )}
                 </div>
                 
+                {/* Add expanded content section that shows when card is expanded */}
+                {expandedMethods[method.id] && (
+                  <div className={styles['expanded-content']}>
+                    <div className={styles['expanded-section']}>
+                      <h5 className={styles['expanded-header']}>
+                        <Info size={14} className={styles['section-icon']} />
+                        Technical Tips
+                      </h5>
+                      <ul className={styles['tip-list']}>
+                        {getTipsForMethod(method.name).slice(0, 3).map((tip, index) => (
+                          <li key={index} className={styles['tip-item']}>{tip}</li>
+                        ))}
+                      </ul>
+                    </div>
+                    
+                    {method.suitable_for && method.suitable_for.length > 0 && (
+                      <div className={styles['expanded-section']}>
+                        <h5 className={styles['expanded-header']}>
+                          <List size={14} className={styles['section-icon']} />
+                          Ideal Ingredients
+                        </h5>
+                        <div className={styles['ingredients-grid']}>
+                          {method.suitable_for.map((ingredient, index) => (
+                            <div key={index} className={styles['ingredient-item']}>{ingredient}</div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+                
                 {/* Show cultural variations if expanded */}
                 {method.variations && method.variations.length > 0 && (
                   <div 
@@ -660,40 +716,6 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
                           )}
                         </div>
                       ))}
-                    </div>
-                  </div>
-                )}
-                
-                {selectedMethodId === method.id && (
-                  <div className={styles['expanded-details']}>
-                    {/* Technical Tips Section */}
-                    <div className={styles['technical-tips']}>
-                      <div className={styles['section-header']}>
-                        <Info size={14} className={styles['section-icon']} />
-                        <span>Expert Technical Tips</span>
-                      </div>
-                      <div className={styles['tips-grid']}>
-                        {getTipsForMethod(method.name).slice(0, 5).map((tip, index) => (
-                          <div key={index} className={styles['tip-item']}>
-                            {tip}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                    
-                    {/* Ideal Ingredients Section */}
-                    <div className={styles['ideal-ingredients']}>
-                      <div className={styles['section-header']}>
-                        <List size={14} className={styles['section-icon']} />
-                        <span>Ideal Ingredients</span>
-                      </div>
-                      <div className={styles['ingredients-grid']}>
-                        {getIdealIngredients(method.name).slice(0, 8).map((ingredient, index) => (
-                          <div key={index} className={styles['ingredient-item']}>
-                            {ingredient}
-                          </div>
-                        ))}
-                      </div>
                     </div>
                   </div>
                 )}
