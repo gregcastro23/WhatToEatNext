@@ -752,6 +752,7 @@ export default function CookingMethods({ onMethodsReady }: CookingMethodsProps =
   >({});
   const [selectedCulture, setSelectedCulture] = useState<string>(''); // For culture filtering
   const [showAllMethods, setShowAllMethods] = useState(false);
+  const [expandedMethods, setExpandedMethods] = useState<Record<string, boolean>>({});
   const [expandedMolecular, setExpandedMolecular] = useState<
     Record<string, boolean>
   >({});
@@ -808,7 +809,20 @@ export default function CookingMethods({ onMethodsReady }: CookingMethodsProps =
         data-expandable="true"
         data-method-name={method.name}
       >
-        <h3>{method.name}</h3>
+        <div className={styles.methodHeader}>
+          <h3>{method.name}</h3>
+          <button 
+            className={styles.expandButton} 
+            onClick={(e) => {
+              e.stopPropagation();
+              toggleMethodExpansion(method.name as string, e);
+            }}
+            aria-label={expandedMethods[method.name as string] ? "Collapse method details" : "Expand method details"}
+          >
+            {expandedMethods[method.name as string] ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+          </button>
+        </div>
+        
         <div className={styles.scoreContainer}>
           <div 
             className={styles.scoreBar}
