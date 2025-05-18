@@ -7,11 +7,17 @@
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
+    border: 1px solid #e2e8f0;
+    background-color: white;
 }
 
 .recipeCard:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.recipeCard.expanded {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
 .expanded {
@@ -36,57 +42,79 @@
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    padding: 1rem;
 }
 
 .header {
-    margin-bottom: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.75rem;
 }
 
 .title {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     font-weight: 600;
-    color: var(--text-primary);
+    color: #2d3748;
     margin: 0;
 }
 
-.cuisine {
-    font-size: 0.9rem;
-    color: var(--text-secondary);
-    margin-top: 0.25rem;
+.matchScore {
+    display: flex;
+    align-items: center;
+}
+
+.matchPercentage {
+    font-size: 0.875rem;
+    font-weight: 500;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+}
+
+.highMatch {
+    background-color: #c6f6d5;
+    color: #22543d;
+}
+
+.mediumMatch {
+    background-color: #fefcbf;
+    color: #744210;
+}
+
+.lowMatch {
+    background-color: #fed7d7;
+    color: #822727;
 }
 
 .basicInfo {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
     gap: 0.75rem;
-    font-size: 0.9rem;
-    color: var(--text-secondary);
-    padding: 1rem 0;
-    border-top: 1px solid var(--border-color);
-    border-bottom: 1px solid var(--border-color);
+    font-size: 0.875rem;
+    color: #4a5568;
+    margin-bottom: 0.75rem;
 }
 
 .timeInfo, .moreInfo {
     display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
+    gap: 0.5rem;
 }
 
-.timeInfo span, .moreInfo span {
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
+.moreInfo {
+    flex-wrap: wrap;
 }
 
 .details {
     margin-top: 1rem;
+    border-top: 1px solid #e2e8f0;
+    padding-top: 1rem;
 }
 
 .description {
-    font-size: 1rem;
-    line-height: 1.6;
-    color: var(--text-primary);
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.25rem;
+    font-size: 0.875rem;
+    color: #4a5568;
+    line-height: 1.5;
 }
 
 .nutritionalInfo {
@@ -104,53 +132,49 @@
 
 .nutritionGrid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-    gap: 1rem;
-    text-align: center;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    margin-top: 0.5rem;
 }
 
-.nutritionGrid div {
+.nutritionGrid > div {
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
+    align-items: center;
+    padding: 0.5rem;
+    background-color: #f7fafc;
+    border-radius: 0.25rem;
 }
 
-.nutritionGrid span {
-    font-size: 0.9rem;
-    color: var(--text-secondary);
+.micronutrients {
+    margin-top: 0.75rem;
 }
 
-.nutritionGrid strong {
-    font-size: 1.1rem;
-    color: var(--text-primary);
+.micronutrients > div {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.25rem;
 }
 
-.sectionTitle {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    margin: 1.5rem 0 1rem;
-}
-
-.ingredientsSection ul,
-.instructionsSection ol {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+.micronutrients span:first-child {
+    font-weight: 500;
 }
 
 .ingredient {
-    display: flex;
-    align-items: baseline;
-    gap: 0.5rem;
-    margin-bottom: 0.75rem;
-    line-height: 1.4;
+    margin-bottom: 0.375rem;
 }
 
 .amount {
     font-weight: 500;
-    color: var(--text-primary);
-    white-space: nowrap;
+}
+
+.substitution {
+    margin-bottom: 0.375rem;
+}
+
+.originalIngredient {
+    font-weight: 500;
+    margin-right: 0.25rem;
 }
 
 .ingredientName {
@@ -259,55 +283,28 @@
     animation: fadeIn 0.3s ease-out;
 }
 
-.matchPercentage {
-    font-weight: 600;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 0.875rem;
-}
-
-.highMatch {
-    background-color: #dcfce7;
-    color: #166534;
-}
-
-.mediumMatch {
-    background-color: #fef9c3;
-    color: #854d0e;
-}
-
-.lowMatch {
-    background-color: #fee2e2;
-    color: #991b1b;
-}
-
 .planetaryBadges {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
-    margin-top: 0.5rem;
+    margin-bottom: 0.75rem;
 }
 
 .planetaryBadge {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.25rem 0.75rem;
-    border-radius: 12px;
-    font-size: 0.8rem;
-    font-weight: 500;
-    background: #f0f0f0;
+    font-size: 0.75rem;
+    padding: 0.125rem 0.375rem;
+    border-radius: 0.25rem;
+    background-color: #e2e8f0;
 }
 
 .favorablePlanet {
-    background: rgba(0, 128, 0, 0.1);
-    color: darkgreen;
-    border: 1px solid rgba(0, 128, 0, 0.2);
+    background-color: #c6f6d5;
+    color: #22543d;
 }
 
 .unfavorablePlanet {
-    background: rgba(220, 53, 69, 0.1);
-    color: #dc3545;
-    border: 1px solid rgba(220, 53, 69, 0.2);
+    background-color: #fed7d7;
+    color: #822727;
 }
 
 .planetarySection {
@@ -319,9 +316,9 @@
 
 .planetaryGrid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-    margin-bottom: 1rem;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+    margin-top: 0.375rem;
 }
 
 .favorable, .unfavorable {
@@ -332,8 +329,7 @@
 
 .favorable span:first-child, .unfavorable span:first-child {
     font-weight: 500;
-    font-size: 0.9rem;
-    color: var(--text-secondary, #666);
+    margin-right: 0.25rem;
 }
 
 .favorable span:last-child {
@@ -345,40 +341,27 @@
 }
 
 .currentInfluences {
-    border-top: 1px solid var(--border-color, #eee);
-    padding-top: 1rem;
+    margin-top: 0.75rem;
+    background-color: #f8f9fa;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
 }
 
 .currentTimeLabel {
     font-weight: 500;
-    margin-bottom: 0.5rem;
-    font-size: 0.9rem;
-    color: var(--text-secondary, #666);
+    margin-bottom: 0.25rem;
 }
 
 .timeInfluenceDetails {
     display: flex;
     justify-content: space-between;
-    font-size: 0.9rem;
-}
-
-@media (max-width: 768px) {
-    .planetaryGrid {
-        grid-template-columns: 1fr;
-    }
-    
-    .timeInfluenceDetails {
-        flex-direction: column;
-        gap: 0.5rem;
-    }
 }
 
 /* New sections */
 .servingInfo, .spiceLevelInfo, .toolsSection, .substitutionsSection, .preparationNotesSection, .technicalTipsSection {
-    margin-bottom: 1.5rem;
-    padding: 1rem;
-    background: var(--bg-secondary);
-    border-radius: 8px;
+    margin-bottom: 1.25rem;
+    font-size: 0.875rem;
 }
 
 .servingInfo p {
@@ -388,13 +371,11 @@
 
 .spiceIndicator {
     display: flex;
-    gap: 0.5rem;
-    margin-top: 0.5rem;
+    gap: 0.25rem;
 }
 
 .spiceDot {
     opacity: 0.3;
-    transition: opacity 0.3s ease;
 }
 
 .spiceDot.active {
@@ -402,92 +383,27 @@
 }
 
 .toolsList, .substitutionsList, .tipsList {
-    list-style: none;
-    padding: 0;
-    margin: 0.5rem 0 0;
-}
-
-.toolsList li, .tipsList li {
-    position: relative;
-    padding-left: 1.5rem;
-    margin-bottom: 0.75rem;
-    line-height: 1.4;
-}
-
-.toolsList li::before, .tipsList li::before {
-    content: "•";
-    position: absolute;
-    left: 0.5rem;
-    color: var(--accent-color);
-    font-weight: bold;
-}
-
-.substitution {
-    margin-bottom: 0.75rem;
-    line-height: 1.4;
-}
-
-.originalIngredient {
-    font-weight: 600;
-    margin-right: 0.5rem;
-}
-
-.alternatives {
-    color: var(--text-secondary);
-}
-
-.preparationNotes {
-    margin: 0.5rem 0 0;
-    line-height: 1.6;
-}
-
-.servingInfo {
-    margin-bottom: 1.5rem;
-    background: var(--bg-secondary);
-    padding: 0.75rem;
-    border-radius: 8px;
-}
-
-.spiceLevelInfo {
-    margin-bottom: 1.5rem;
-    padding: 0.75rem;
-    border-radius: 8px;
-    background: var(--bg-secondary);
-}
-
-.spiceIndicator {
-    display: flex;
-    gap: 0.25rem;
+    list-style-type: disc;
+    padding-left: 1.25rem;
     margin-top: 0.5rem;
 }
 
-.spiceDot {
-    opacity: 0.3;
-    transition: opacity 0.2s ease;
+.instructionsList {
+    list-style-type: decimal;
 }
 
-.spiceDot.active {
-    opacity: 1;
+.sectionTitle {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #2d3748;
+    margin: 0 0 0.5rem 0;
 }
 
-.ingredientsSection {
-    margin-bottom: 1.5rem;
-}
-
-.ingredient {
-    margin-bottom: 0.5rem;
-    display: flex;
-    align-items: flex-start;
-}
-
-.amount {
-    font-weight: 500;
-    margin-right: 0.5rem;
-    min-width: 80px;
-}
-
-.ingredientName {
-    flex: 1;
+.ingredientsSection ul,
+.instructionsSection ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
 .category {
@@ -496,76 +412,439 @@
     margin-left: 0.5rem;
 }
 
+.cuisine {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-top: 0.25rem;
+}
+
+.cuisineInfo {
+    background-color: #f8f9fa;
+    padding: 0.875rem;
+    border-radius: 0.375rem;
+    margin-bottom: 0.75rem;
+}
+
+.cuisineName {
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+}
+
+.cuisineDescription {
+    margin-bottom: 0.75rem;
+    line-height: 1.5;
+}
+
+.regionalInfo {
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px dashed #cbd5e0;
+}
+
+.regionalInfo h5 {
+    font-weight: 600;
+    margin-bottom: 0.375rem;
+    font-size: 0.875rem;
+}
+
+.keyIngredients {
+    margin-top: 0.5rem;
+    font-size: 0.8125rem;
+}
+
+.cookingMethods {
+    background-color: #f8f9fa;
+    padding: 0.75rem;
+    border-radius: 0.375rem;
+}
+
+.primaryMethod, .techniques {
+    margin-bottom: 0.5rem;
+}
+
+/* Element visualization */
+.elementalGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+}
+
+.elementalProperty {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem;
+    background-color: #f8f9fa;
+    border-radius: 0.375rem;
+}
+
+.elementalIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    color: white;
+}
+
+.elementName {
+    font-weight: 600;
+    font-size: 0.875rem;
+    margin-bottom: 0.25rem;
+}
+
+.elementBar {
+    width: 5rem;
+    height: 0.375rem;
+    background-color: #e2e8f0;
+    border-radius: 1rem;
+    overflow: hidden;
+}
+
+.elementFill {
+    height: 100%;
+    border-radius: 1rem;
+}
+
+.elementValue {
+    font-size: 0.75rem;
+    color: #4a5568;
+    margin-top: 0.25rem;
+}
+
+/* Astrological influences */
+.zodiacInfluences, .lunarInfluences, .generalInfluences, .planetaryInfluences {
+    margin-bottom: 1rem;
+}
+
+.astrologicalSection h5 {
+    font-weight: 600;
+    margin-bottom: 0.375rem;
+    font-size: 0.875rem;
+}
+
+.influencesList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.375rem;
+}
+
+.influenceTag {
+    background-color: #e9d8fd;
+    color: #553c9a;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+}
+
+/* Alchemical scores */
+.scoresGrid {
+    display: grid;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.scoreItem {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem;
+    background-color: #f8f9fa;
+    border-radius: 0.25rem;
+}
+
+.scoreName {
+    width: 7rem;
+    font-weight: 500;
+    font-size: 0.8125rem;
+}
+
+.scoreBar {
+    width: 8rem;
+    height: 0.375rem;
+    background-color: #e2e8f0;
+    border-radius: 1rem;
+    overflow: hidden;
+}
+
+.scoreFill {
+    height: 100%;
+    border-radius: 1rem;
+}
+
+.scoreValue {
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+/* Additional recipe ingredient styles */
+.preparation, .optional {
+    color: #718096;
+    font-style: italic;
+}
+
+@media (max-width: 640px) {
+    .elementalGrid, .planetaryGrid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.culinaryNotesSection {
+    margin: 1.5rem 0;
+    border-radius: 0.5rem;
+    background-color: #fafafa;
+    padding: 1rem;
+}
+
+.culinarySubtitle {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem 0;
+    color: #4a5568;
+}
+
+.prepNotesSubsection,
+.techTipsSubsection,
+.culturalSubsection,
+.originSubsection,
+.occasionSubsection,
+.seasonalSubsection,
+.pairingSubsection {
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px dashed #e2e8f0;
+}
+
+.prepNotesSubsection:last-child,
+.techTipsSubsection:last-child,
+.culturalSubsection:last-child,
+.originSubsection:last-child,
+.occasionSubsection:last-child,
+.seasonalSubsection:last-child,
+.pairingSubsection:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.culturalNotes,
+.originInfo,
+.seasonalNotes,
+.preparationNotes {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: #4a5568;
+    margin: 0;
+}
+
+.occasionTags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.occasionTag {
+    background-color: #e9d8fd;
+    color: #553c9a;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+}
+
+.pairingGroup {
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+}
+
+.pairingLabel {
+    font-weight: 500;
+    margin-right: 0.5rem;
+    color: #2d3748;
+}
+
+.pairingItems {
+    color: #4a5568;
+}
+
+/* Enhanced substitutions styling */
 .substitutionsSection {
     margin-bottom: 1.5rem;
-    background: var(--bg-secondary);
-    padding: 0.75rem;
-    border-radius: 8px;
+    background-color: #f7fafc;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border-left: 3px solid #cbd5e0;
 }
 
-.substitutionsList {
-    list-style: none;
-    padding: 0;
-    margin: 0.5rem 0 0;
-}
-
-.substitution {
-    margin-bottom: 0.5rem;
+.substitutionHeader {
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    margin-bottom: 0.25rem;
 }
 
 .originalIngredient {
-    font-weight: 500;
-    margin-right: 0.5rem;
-}
-
-.alternatives {
-    color: var(--text-secondary);
-    font-style: italic;
-}
-
-.toolsSection {
-    margin-bottom: 1.5rem;
-    background: var(--bg-secondary);
-    padding: 0.75rem;
-    border-radius: 8px;
-}
-
-.toolsList {
-    list-style: disc;
-    margin: 0.5rem 0 0;
-    padding-left: 1.25rem;
-}
-
-.preparationNotesSection {
-    margin-bottom: 1.5rem;
-    background: var(--bg-accent);
-    padding: 0.75rem;
-    border-radius: 8px;
-}
-
-.preparationNotes {
-    font-style: italic;
-    line-height: 1.4;
-}
-
-.technicalTipsSection {
-    margin-bottom: 1.5rem;
-    background: var(--bg-secondary);
-    padding: 0.75rem;
-    border-radius: 8px;
-}
-
-.tipsList {
-    list-style: disc;
-    margin: 0.5rem 0 0;
-    padding-left: 1.25rem;
-}
-
-.sectionTitle {
-    font-size: 1rem;
     font-weight: 600;
-    color: var(--text-primary);
-    margin: 0 0 0.5rem;
+    color: #2d3748;
+}
+
+.substitutionArrow {
+    margin: 0 0.5rem;
+    color: #718096;
+    font-weight: 600;
+}
+
+.alternativesList {
+    padding-left: 1.5rem;
+    font-size: 0.875rem;
+    color: #4a5568;
+}
+
+.alternativeItem {
+    display: inline;
+}
+
+/* Culinary Profile Section */
+.culinaryProfileSection {
+    margin: 1.5rem 0;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    background-color: #f9f7f3;
+}
+
+.culinaryProfileGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+}
+
+.profileItem {
+    padding: 1rem;
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.profileLabel {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    color: #4a5568;
+    border-bottom: 1px solid #edf2f7;
+    padding-bottom: 0.5rem;
+}
+
+.techniqueList, .sauceList, .regionList, .influenceList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.techniqueBadge {
+    font-size: 0.75rem;
+    padding: 0.35rem 0.7rem;
+    background-color: #ebf8ff;
+    color: #2b6cb0;
+    border-radius: 1rem;
+    white-space: nowrap;
+}
+
+.sauceTag {
+    font-size: 0.75rem;
+    padding: 0.35rem 0.7rem;
+    background-color: #fff5f5;
+    color: #c53030;
+    border-radius: 1rem;
+    white-space: nowrap;
+}
+
+.sauceTag.highMatch {
+    background-color: #c6f6d5;
+    color: #276749;
+}
+
+.sauceTag.mediumMatch {
+    background-color: #fefcbf;
+    color: #975a16;
+}
+
+.regionTag {
+    font-size: 0.75rem;
+    padding: 0.35rem 0.7rem;
+    background-color: #e6fffa;
+    color: #2c7a7b;
+    border-radius: 1rem;
+    white-space: nowrap;
+}
+
+.influenceTag {
+    font-size: 0.75rem;
+    padding: 0.35rem 0.7rem;
+    background-color: #edf2f7;
+    color: #4a5568;
+    border-radius: 1rem;
+    white-space: nowrap;
+}
+
+.sauceItem {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0.5rem;
+    border-left: 2px solid #fed7d7;
+    padding-left: 0.5rem;
+}
+
+.sauceName {
+    font-weight: 500;
+    font-size: 0.85rem;
+    color: #4a5568;
+}
+
+.sauceDescription {
+    font-size: 0.75rem;
+    color: #718096;
+    margin-top: 0.25rem;
+}
+
+.moreIndicator {
+    font-size: 0.75rem;
+    color: #718096;
+    font-style: italic;
+    margin-top: 0.25rem;
+}
+
+.ingredientsSection {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px dashed #e2e8f0;
+}
+
+.ingredientsSection h5 {
+    font-weight: 600;
+    margin-bottom: 0.375rem;
+    font-size: 0.875rem;
+}
+
+.ingredientList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.ingredientItem {
+    background-color: #f8f9fa;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+    color: #4a5568;
 } 
