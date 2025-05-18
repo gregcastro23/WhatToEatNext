@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Recipe } from '@/types/recipe';
 import { AlchemicalProvider } from '@/contexts/AlchemicalContext/provider';
 import ElementalEnergyDisplay from '@/components/ElementalEnergyDisplay';
 import CookingMethods from '@/components/CookingMethods';
@@ -14,7 +13,6 @@ import GlobalErrorBoundary from '@/components/errors/GlobalErrorBoundary';
 import ErrorFallback from '@/components/errors/ErrorFallback';
 import ErrorHandler from '@/services/errorHandler';
 import { ElementalCalculator } from '@/services/ElementalCalculator';
-import { useRouter } from 'next/router';
 import './styles/expandable.css';  // Import our expandable component styles
 
 // Dynamically import FoodRecommender with loading state
@@ -22,16 +20,6 @@ const FoodRecommender = dynamic(
   () => import('@/components/FoodRecommender'),
   { loading: () => <div className="loading">Loading recommendations...</div>, ssr: false }
 );
-
-// Define a function to create default ingredients since the import is failing
-function createDefaultIngredient(name = '') {
-  return {
-    id: `ingredient-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
-    name,
-    amount: 1,
-    unit: 'unit'
-  };
-}
 
 // Add this type definition at the top of the file
 type GeolocationCoordinates = {
@@ -44,61 +32,13 @@ type GeolocationCoordinates = {
   speed: number | null;
 };
 
-// Add this interface at the top of the file
-interface NutritionInfo {
-  calories: number;
-  protein: number;
-  carbs: number;
-  fat: number;
-  vitamins: string[];
-  minerals: string[];
-}
-
 // Define the available components for navigation
 type ComponentName = 'foodRecommender' | 'elementalEnergy' | 'moonDisplay' | 'sunDisplay' | 'astrologicalClock' | 'cuisineRecommender' | 'cookingMethods';
 
 function App() {
-  const _router = useRouter();
-  
-  // State variables with underscore prefix are intentionally kept for future use
-  const [_isInitialized, setIsInitialized] = useState(false);
-  const [_userLocation, setUserLocation] = useState<GeolocationCoordinates | null>(null);
-  const [_servings, setServings] = useState(4);
+  const [isInitialized, setIsInitialized] = useState(false);
+  const [userLocation, setUserLocation] = useState<GeolocationCoordinates | null>(null);
   const [activeComponent, setActiveComponent] = useState<ComponentName>('foodRecommender');
-  
-  // Use ElementalCalculator to get real-time elemental properties instead of hardcoded values
-  const [_recipe, _setRecipe] = useState<Recipe & { nutrition: NutritionInfo }>(() => {
-    // Generate initial recipe with calculated elemental properties
-    const elementalProperties = ElementalCalculator.getCurrentElementalState();
-    
-    return {
-      id: 'custom-recipe-1',
-      name: 'Example Recipe',
-      description: 'A sample recipe to demonstrate the app functionality',
-      preparationTime: 30,
-      cookingTime: 45,
-      numberOfServings: 4,
-      cuisine: 'Global',
-      ingredients: [
-        createDefaultIngredient('Ingredient 1'),
-        createDefaultIngredient('Ingredient 2')
-      ],
-      instructions: ["Step 1: Mix ingredients", "Step 2: Cook"],
-      nutrition: {
-        calories: 500,
-        protein: 20,
-        carbs: 30,
-        fat: 15,
-        vitamins: ['A', 'C'],
-        minerals: ['Iron', 'Zinc']
-      },
-      timeToMake: '30 minutes',
-      season: ['spring', 'summer'],
-      mealType: ['lunch', 'dinner'],
-      // Use calculated elemental properties instead of hardcoded values
-      elementalProperties
-    };
-  });
 
   // Handle errors that occur during setup
   const handleSetupError = (error: Error) => {
@@ -144,11 +84,6 @@ function App() {
     }
   }, []);
 
-  // Servings handler - kept for future use
-  const _handleServingsChange = (newServings: number) => {
-    setServings(newServings);
-  };
-
   // Navigation component definitions
   const navigationItems: { name: string; id: ComponentName }[] = [
     { name: 'Food Recommender', id: 'foodRecommender' },
@@ -160,6 +95,18 @@ function App() {
     { name: 'Astrological Clock', id: 'astrologicalClock' }
   ];
 
+  // Show loading state until the app is initialized
+  if (!isInitialized) {
+    return (
+      <div className="w-full h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-xl mb-2">Initializing What To Eat Next...</h2>
+          <p>Loading astrological data and ingredients...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <GlobalErrorBoundary
       context="AppRoot"
@@ -170,6 +117,13 @@ function App() {
       <AlchemicalProvider>
         <div className="w-full px-4 py-4">
           <h1 className="text-3xl font-bold mb-4 text-center">What To Eat Next</h1>
+          
+          {/* Display user location if available */}
+          {userLocation && (
+            <div className="text-xs text-gray-500 text-center mb-2">
+              Using location: {userLocation.latitude.toFixed(2)}, {userLocation.longitude.toFixed(2)}
+            </div>
+          )}
           
           {/* Planetary position initializer helps fetch position data */}
           <PlanetaryPositionInitializer />
