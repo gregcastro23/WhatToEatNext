@@ -13,7 +13,9 @@ import {
 import { 
   Flame, Droplets, Mountain, Wind, Tag, Clock, 
   ChevronDown, ChevronUp, Info, Utensils, Leaf,
-  Heart, RefrigeratorIcon, BookOpen, GitFork, Sandwich
+  Heart, RefrigeratorIcon, BookOpen, GitFork, Sandwich,
+  LightbulbIcon, // Add this for culinary tips
+  ArrowLeftRight // Use ArrowLeftRight for substitutions instead of SwapIcon
 } from 'lucide-react';
 import { allIngredients } from '@/data/ingredients'; // Import all ingredients directly
 import { vegetables } from '@/data/ingredients/vegetables'; // Import vegetables directly
@@ -1653,6 +1655,15 @@ export default function IngredientDisplay() {
                       culinaryInfo.pairings.length > 0 : 
                       Object.keys(culinaryInfo.pairings).length > 0) : false;
                   
+                  // Check if has substitutions
+                  const hasSubstitutions = culinaryInfo?.substitutions ? 
+                    (Array.isArray(culinaryInfo.substitutions) ? 
+                      culinaryInfo.substitutions.length > 0 : 
+                      Object.keys(culinaryInfo.substitutions).length > 0) : false;
+                  
+                  // Check if has technical tips
+                  const hasTechnicalTips = item.technicalTips && item.technicalTips.length > 0;
+
                   return (
                     <div 
                       key={`search-${item.name}-${index}`}
@@ -1743,6 +1754,20 @@ export default function IngredientDisplay() {
                           {hasPairings && (
                             <div className="text-xs text-purple-600 flex items-center" title="Pairings">
                               <GitFork size={12} className="mr-1" />
+                            </div>
+                          )}
+                          
+                          {/* Add substitutions indicator */}
+                          {hasSubstitutions && (
+                            <div className="text-xs text-emerald-600 flex items-center" title="Substitutions available">
+                              <ArrowLeftRight size={12} className="mr-1" />
+                            </div>
+                          )}
+                          
+                          {/* Add technical tips indicator */}
+                          {hasTechnicalTips && (
+                            <div className="text-xs text-amber-600 flex items-center" title="Culinary tips">
+                              <LightbulbIcon size={12} className="mr-1" />
                             </div>
                           )}
                           
@@ -1869,6 +1894,15 @@ export default function IngredientDisplay() {
                           culinaryInfo.pairings.length > 0 : 
                           Object.keys(culinaryInfo.pairings).length > 0) : false;
                       
+                      // Check if has substitutions
+                      const hasSubstitutions = culinaryInfo?.substitutions ? 
+                        (Array.isArray(culinaryInfo.substitutions) ? 
+                          culinaryInfo.substitutions.length > 0 : 
+                          Object.keys(culinaryInfo.substitutions).length > 0) : false;
+                      
+                      // Check if has technical tips
+                      const hasTechnicalTips = item.technicalTips && item.technicalTips.length > 0;
+
                       return (
                         <div 
                           key={`${item.name}-${item.category || category}-${index}`}
@@ -1962,7 +1996,21 @@ export default function IngredientDisplay() {
                                 </div>
                               )}
                               
-                            {isInSeason && (
+                              {/* Add substitutions indicator */}
+                              {hasSubstitutions && (
+                                <div className="text-xs text-emerald-600 flex items-center" title="Substitutions available">
+                                  <ArrowLeftRight size={12} className="mr-1" />
+                                </div>
+                              )}
+                              
+                              {/* Add technical tips indicator */}
+                              {hasTechnicalTips && (
+                                <div className="text-xs text-amber-600 flex items-center" title="Culinary tips">
+                                  <LightbulbIcon size={12} className="mr-1" />
+                                </div>
+                              )}
+                              
+                              {isInSeason && (
                                 <div className="text-xs text-green-600 flex items-center" title="In Season">
                                 <Clock size={12} className="mr-1" />
                                 In Season
@@ -2603,32 +2651,42 @@ export default function IngredientDisplay() {
                         {culinaryInfo.substitutions && (
                             <div className="mb-5">
                               <h4 className="text-lg font-medium mb-3 text-black">Substitutions</h4>
-                            <div className="flex flex-wrap gap-1">
+                              
+                              {/* Enhanced substitutions display */}
+                              <div className="bg-gray-50 rounded-lg p-4">
                               {Array.isArray(culinaryInfo.substitutions) 
-                                ? culinaryInfo.substitutions.map(sub => (
-                                    <span 
-                                      key={sub}
-                                      className="px-2 py-1 bg-purple-50 text-purple-800 rounded-full text-xs"
-                                    >
-                                      {typeof sub === 'string' ? sub.replace(/_/g, ' ') : safeRenderValue(sub)}
-                                    </span>
-                                  ))
-                                : Object.entries(culinaryInfo.substitutions).map(([sub, similarity]) => (
-                                    <span 
-                                      key={sub}
-                                      className="px-2 py-1 bg-purple-50 text-purple-800 rounded-full text-xs flex items-center"
-                                    >
-                                      {sub.replace(/_/g, ' ')}
-                                      {typeof similarity === 'number' && (
-                                        <span className="ml-1 text-purple-600">
-                                          ({Math.round(similarity * 100)}%)
+                                ? (
+                                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    {culinaryInfo.substitutions.map(sub => (
+                                      <div key={sub} className="flex items-center bg-white p-2 rounded border border-gray-200 shadow-sm">
+                                        <ArrowLeftRight size={16} className="mr-2 text-emerald-500" />
+                                        <span className="text-sm">
+                                          {typeof sub === 'string' ? sub.replace(/_/g, ' ') : safeRenderValue(sub)}
                                         </span>
-                                      )}
-                                    </span>
-                                  ))
+                                      </div>
+                                    ))}
+                                  </div>
+                                )
+                                : (
+                                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    {Object.entries(culinaryInfo.substitutions).map(([sub, similarity]) => (
+                                      <div key={sub} className="flex items-center bg-white p-2 rounded border border-gray-200 shadow-sm">
+                                        <ArrowLeftRight size={16} className="mr-2 text-emerald-500" />
+                                        <div className="flex flex-col">
+                                          <span className="text-sm font-medium">{sub.replace(/_/g, ' ')}</span>
+                                          {typeof similarity === 'number' && (
+                                            <span className="text-xs text-gray-500">
+                                              Similarity: {Math.round(similarity * 100)}%
+                                            </span>
+                                          )}
+                                        </div>
+                                      </div>
+                                    ))}
+                                  </div>
+                                )
                               }
+                              </div>
                             </div>
-                          </div>
                         )}
                         
                           {/* Cooking Times for proteins */}
@@ -2648,25 +2706,46 @@ export default function IngredientDisplay() {
                                                 <span className="font-medium">Time:</span> {(timeInfo as any).min}-{(timeInfo as any).max} {(timeInfo as any).unit || 'minutes'}
                                               </div>
                                             )}
+                                            
+                                            {(timeInfo as any).temperature && (
+                                              <div>
+                                                <span className="font-medium">Temperature:</span>{' '}
+                                                {typeof (timeInfo as any).temperature === 'object' 
+                                                  ? `${(timeInfo as any).temperature.fahrenheit}°F / ${(timeInfo as any).temperature.celsius}°C`
+                                                  : (timeInfo as any).temperature}
+                                              </div>
+                                            )}
+                                            
                                             {(timeInfo as any).notes && (
                                               <div>
                                                 <span className="font-medium">Notes:</span> {(timeInfo as any).notes}
                                               </div>
                                             )}
-                                            {(timeInfo as any).temperature && (
-                                              <div>
-                                                <span className="font-medium">Temperature:</span> {(timeInfo as any).temperature}
-                                              </div>
-                                            )}
                                           </div>
-                                        )
-                                        : (
+                                        ) : (
                                           typeof timeInfo === 'string' ? timeInfo : safeRenderValue(timeInfo)
                                         )}
                                     </div>
                                   </div>
-                                          ))}
-                                        </div>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Technical Tips */}
+                          {item.technicalTips && item.technicalTips.length > 0 && (
+                            <div className="mb-5">
+                              <h4 className="text-lg font-medium mb-3 text-black">Culinary Tips</h4>
+                              <div className="bg-amber-50 p-4 rounded-lg">
+                                <ul className="space-y-2">
+                                  {item.technicalTips.map((tip, index) => (
+                                    <li key={index} className="flex items-start">
+                                      <LightbulbIcon size={18} className="mr-2 text-amber-600 flex-shrink-0 mt-0.5" />
+                                      <span className="text-sm text-gray-800">{tip}</span>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
                             </div>
                           )}
                                       </div>
