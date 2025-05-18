@@ -1,5 +1,6 @@
 /** @type {import('jest').Config} */
-module.exports = {
+// @ts-check
+const config = {
     preset: 'ts-jest',
     testEnvironment: 'jsdom',
     moduleNameMapper: {
@@ -25,3 +26,5 @@ module.exports = {
     maxWorkers: process.env.CI ? 2 : '50%',
     verbose: true
 };
+
+export default config;
