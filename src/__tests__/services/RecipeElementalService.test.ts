@@ -1,6 +1,6 @@
-import { recipeElementalService } from '@/services/RecipeElementalService';
-import type { ElementalProperties } from '@/types/alchemy';
-import type { Recipe } from '@/types/recipe';
+import { recipeElementalService } from '../../services/RecipeElementalService';
+import type { ElementalProperties } from '../../types/alchemy';
+import type { Recipe } from '../../types/recipe';
 
 describe('RecipeElementalService', () => {
   describe('standardizeRecipe', () => {

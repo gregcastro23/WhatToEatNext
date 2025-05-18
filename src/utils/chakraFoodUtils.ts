@@ -1,6 +1,17 @@
-import ../services  from 'ChakraService ';
-import ../constants  from 'chakraMappings ';
-import ../constants  from 'signEnergyStates ';
+import { ChakraService, ChakraEnergyState } from '../services/ChakraService';
+import { Chakra, CHAKRAS, CHAKRA_PROPERTIES } from '../constants/chakraMappings';
+import { ZodiacSign } from '../constants/signEnergyStates';
+
+// Chakra-specific food recommendations
+const CHAKRA_BALANCING_FOODS: Record<Chakra, string[]> = {
+  Root: ['Root Vegetables', 'Proteins', 'Red Fruits', 'Grains'],
+  Sacral: ['Orange Foods', 'Watery Foods', 'Seeds'],
+  'Solar Plexus': ['Yellow Foods', 'Grains', 'Proteins'],
+  Heart: ['Green Foods', 'Leafy Greens', 'Teas'],
+  Throat: ['Blue Foods', 'Teas'],
+  'Third Eye': ['Purple Foods', 'Omega-rich Foods', 'Seeds'],
+  Crown: ['White Foods', 'Purple Foods', 'Omega-rich Foods']
+};
 
 // Mapping food groups to chakras
 const FOOD_GROUP_CHAKRA_MAP: Record<string, Chakra[]> = {

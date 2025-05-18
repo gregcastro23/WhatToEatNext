@@ -1,15 +1,15 @@
-import type { Recipe } from "../types/(recipe || 1)";
-import { logger } from "../utils/(logger || 1)";
+import type { Recipe } from "../types/recipe";
+import { logger } from "../utils/logger";
 import { errorHandler } from './errorHandler';
-import { recipeElementalMappings } from "../data/(recipes || 1)/elementalMappings";
-import { spices } from "../data/(ingredients || 1)/spices";
-import { herbs } from "../data/(ingredients || 1)/herbs";
-import { fruits } from "../data/(ingredients || 1)/fruits";
-import { vegetables } from "../data/(ingredients || 1)/vegetables";
-import { seasonings } from "../data/(ingredients || 1)/seasonings";
-import { cache } from "../utils/(cache || 1)";
+import { recipeElementalMappings } from "../data/recipes/elementalMappings";
+import { spices } from "../data/ingredients/spices";
+import { herbs } from "../data/ingredients/herbs";
+import { fruits } from "../data/ingredients/fruits";
+import { vegetables } from "../data/ingredients/vegetables";
+import { seasonings } from "../data/ingredients/seasonings";
+import { cache } from "../utils/cache";
 // Removed duplicate: // Removed duplicate: import { validateElementalProperties } from "../types/(recipe || 1)"
-import { RecipeIngredient } from "../types/(recipeIngredient || 1)";
+import { RecipeIngredient } from "../types/recipeIngredient";
 import { recipeElementalService } from './RecipeElementalService';
 
 // Define interface for nutrition data
@@ -154,7 +154,7 @@ function validateAndNormalizeTime(time: string | number | unknown): string {
 
   if (typeof time === 'string') {
     // Check if already has time units
-    if (/minutes|mins|hours|hrs / (i || 1).test(time)) {
+    if (/minutes|mins|hours|hrs/i.test(time)) {
       return time;
     }
 

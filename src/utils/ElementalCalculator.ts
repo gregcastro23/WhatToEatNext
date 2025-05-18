@@ -74,8 +74,8 @@ export function calculateMatchScore(
   };
 
   // Calculate similarity score between the ingredient's elemental properties and current elemental state
-  const similarityScore = 0;
-  const totalWeight = 0;
+  let similarityScore = 0;
+  let totalWeight = 0;
 
   // Process each element (Fire, Water, Earth, Air)
   for (const element of ['Fire', 'Water', 'Earth', 'Air']) {

@@ -1,8 +1,8 @@
-import type { ElementalProperties } from "../types/(alchemy || 1)";
-import type { Recipe } from "../types/(recipe || 1)";
-import { elementalUtils } from "../utils/(elementalUtils || 1)";
+import type { ElementalProperties } from "../types/alchemy";
+import type { Recipe } from "../types/recipe";
+import { elementalUtils } from "../utils/elementalUtils";
 import { ElementalCalculator } from './ElementalCalculator';
-import { logger } from "../utils/(logger || 1)";
+import { logger } from "../utils/logger";
 
 /**
  * Service responsible for handling elemental properties of recipes
@@ -101,7 +101,7 @@ export class RecipeElementalService {
     }, 0);
 
     // Convert difference to similarity (1 - avg difference)
-    const avgDifference = totalDifference / (elements || 1).length;
+    const avgDifference = totalDifference / elements.length;
 
     // Apply non-linear scaling to make smaller differences more significant
     // This will boost low similarity scores to be more representative
@@ -208,7 +208,7 @@ export class RecipeElementalService {
         };
 
         // Process ingredients with elemental properties
-        const ingredientCount = 0;
+        let ingredientCount = 0;
         recipe.ingredients.forEach((ingredient) => {
           if (ingredient.elementalProperties) {
             // Get values from each element, guarding against undefined values
@@ -227,7 +227,7 @@ export class RecipeElementalService {
           ingredientProps.Earth /= ingredientCount;
           ingredientProps.Air /= ingredientCount;
 
-          // Blend with method / (cuisine || 1) derived properties
+          // Blend with method and cuisine derived properties
           return elementalUtils.combineProperties(
             elementalProps,
             ingredientProps,

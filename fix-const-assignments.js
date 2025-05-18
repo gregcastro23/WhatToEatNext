@@ -1,110 +1,116 @@
 #!/usr/bin/env node
 
 /**
- * Script to fix const variable assignments that should be let
- * 
- * This script scans the codebase for variables declared with const
- * that are later reassigned, and converts them to let declarations.
+ * Script to fix const assignment errors across the codebase
+ * This replaces 'const' with 'let' for variables that are reassigned
  */
+import fs from 'fs';
+import path from 'path';
+import { execSync } from 'child_process';
 
-const fs = require('fs');
-const path = require('path');
-const glob = require('glob');
+// Get a list of files with const assignment errors from eslint
+function getFilesWithConstAssignmentErrors() {
+  try {
+    const output = execSync('yarn eslint --config eslint.config.cjs src --format json')
+      .toString()
+      .trim();
 
-console.log('Running fix for const-to-let conversions...');
-
-// Directories to scan
-const DIRECTORIES = [
-  'src/services',
-  'src/components',
-  'src/utils',
-  'src/lib',
-  'src/contexts'
-];
-
-// Find all target files
-let targetFiles = [];
-DIRECTORIES.forEach(dir => {
-  const pattern = path.join(dir, '**', '*.{js,jsx,ts,tsx}');
-  const files = glob.sync(pattern);
-  targetFiles = targetFiles.concat(files);
-});
-
-console.log(`Found ${targetFiles.length} files to process`);
-
-// Track files that were modified
-const modifiedFiles = [];
-
-// Process each file
-targetFiles.forEach(filePath => {
-  console.log(`Processing ${filePath}...`);
-  
-  // Read file content
-  const content = fs.readFileSync(filePath, 'utf8');
-  const originalContent = content;
-  
-  // Split into lines for analysis
-  const lines = content.split('\n');
-  
-  // Track const declarations and reassignments
-  const constDeclarations = new Map(); // line number -> variable name
-  const reassignedVars = new Set();
-  
-  // First pass: find all const declarations
-  lines.forEach((line, index) => {
-    // Match const declarations
-    const constMatch = line.match(/const\s+([a-zA-Z0-9_]+)\s*=/);
-    if (constMatch) {
-      constDeclarations.set(index, constMatch[1]);
-    }
-  });
-  
-  // Second pass: find all reassignments
-  lines.forEach((line, index) => {
-    // For each known const variable, check if it's reassigned
-    for (const [declarationLine, varName] of constDeclarations.entries()) {
-      if (index > declarationLine) { // Only check lines after declaration
-        // Check for assignment patterns (varName = ...)
-        const assignmentRegex = new RegExp(`${varName}\\s*=(?!=)`);
-        if (assignmentRegex.test(line)) {
-          reassignedVars.add(varName);
-        }
+    const results = JSON.parse(output);
+    
+    const filesWithConstAssignmentErrors = new Set();
+    
+    results.forEach(result => {
+      const hasConstAssignmentError = result.messages.some(
+        msg => msg.ruleId === 'no-const-assign'
+      );
+      
+      if (hasConstAssignmentError) {
+        filesWithConstAssignmentErrors.add(result.filePath);
       }
-    }
-  });
-  
-  // If we found reassigned const variables, fix them
-  if (reassignedVars.size > 0) {
-    console.log(`  Found ${reassignedVars.size} const variables that should be let:`);
-    reassignedVars.forEach(varName => console.log(`    - ${varName}`));
+    });
     
-    // Create a backup
-    const backupPath = `${filePath}.backup`;
-    fs.writeFileSync(backupPath, originalContent, 'utf8');
-    console.log(`  Created backup at ${backupPath}`);
-    
-    // Replace const with let for reassigned variables
-    let modifiedContent = content;
-    for (const varName of reassignedVars) {
-      const constRegex = new RegExp(`(const\\s+)(${varName})(\\s*=)`, 'g');
-      modifiedContent = modifiedContent.replace(constRegex, 'let $2$3');
-    }
-    
-    // Write the modified content
-    fs.writeFileSync(filePath, modifiedContent, 'utf8');
-    console.log(`  Updated ${filePath}`);
-    modifiedFiles.push(filePath);
-  } else {
-    console.log(`  No const-to-let issues found in ${filePath}`);
+    return Array.from(filesWithConstAssignmentErrors);
+  } catch (error) {
+    console.error('Error getting files with errors:', error);
+    return [];
   }
-});
-
-console.log('\nConst-to-let fix summary:');
-console.log(`Modified ${modifiedFiles.length} files`);
-
-if (modifiedFiles.length > 0) {
-  console.log('\nFiles modified:');
-  modifiedFiles.forEach(file => console.log(`- ${file}`));
 }
 
-console.log('\nConst-to-let fixes complete!'); 
+// Fix const assignment errors in a file
+function fixConstAssignmentErrorsInFile(filePath) {
+  try {
+    const content = fs.readFileSync(filePath, 'utf8');
+    
+    // Get the lines with const assignment errors using eslint
+    const output = execSync(`yarn eslint --config eslint.config.cjs "${filePath}" --format json`)
+      .toString()
+      .trim();
+    
+    const results = JSON.parse(output);
+    const errors = results.find(r => r.filePath === filePath)?.messages || [];
+    
+    // Filter for const assignment errors and get the line numbers
+    const constAssignmentErrors = errors
+      .filter(error => error.ruleId === 'no-const-assign')
+      .map(error => error.line);
+    
+    if (constAssignmentErrors.length === 0) {
+      return false;
+    }
+    
+    // Split content into lines
+    const lines = content.split('\n');
+    
+    // Track if we made any changes
+    let madeChanges = false;
+    
+    // Fix each line with a const assignment error
+    constAssignmentErrors.forEach(lineNum => {
+      const line = lines[lineNum - 1];
+      
+      // Replace 'const' with 'let' only if it's a variable declaration
+      if (line.match(/^\s*const\s+([a-zA-Z0-9_$]+)\s*=/)) {
+        lines[lineNum - 1] = line.replace(/\bconst\b/, 'let');
+        madeChanges = true;
+      }
+    });
+    
+    if (madeChanges) {
+      // Write the fixed content back to the file
+      fs.writeFileSync(filePath, lines.join('\n'), 'utf8');
+      console.log(`Fixed const assignment errors in ${filePath}`);
+      return true;
+    }
+    
+    return false;
+  } catch (error) {
+    console.error(`Error fixing file ${filePath}:`, error);
+    return false;
+  }
+}
+
+// Main function
+function main() {
+  console.log('Finding files with const assignment errors...');
+  const files = getFilesWithConstAssignmentErrors();
+  
+  if (files.length === 0) {
+    console.log('No files with const assignment errors found.');
+    return;
+  }
+  
+  console.log(`Found ${files.length} files with const assignment errors.`);
+  
+  let fixedCount = 0;
+  
+  files.forEach(filePath => {
+    const fixed = fixConstAssignmentErrorsInFile(filePath);
+    if (fixed) {
+      fixedCount++;
+    }
+  });
+  
+  console.log(`Fixed const assignment errors in ${fixedCount} files.`);
+}
+
+main(); 

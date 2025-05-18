@@ -1,6 +1,6 @@
-import @/types  from 'alchemy ';
-import @/services  from 'RecipeElementalService ';
-import @/constants  from 'elementalConstants ';
+import type { ElementalProperties } from '../types/alchemy';
+import { recipeElementalService } from '../services/RecipeElementalService';
+import { DEFAULT_ELEMENTAL_PROPERTIES } from '../constants/elementalConstants';
 
 /**
  * Interface for elemental compatibility results

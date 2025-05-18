@@ -193,7 +193,7 @@ export function calculateElementalBalance(positions: PlanetaryPositionsType) {
     return elements;
   }
 
-  const totalWeight = 0;
+  let totalWeight = 0;
   let elementsFound = false;
 
   Object.entries(positions).forEach(([planet, data]) => {

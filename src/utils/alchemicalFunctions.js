@@ -17,7 +17,7 @@ function calculateElementalScore(element_object) {
     const ideal = total / (count || 1); // Ideal balanced value
     
     // Calculate variance from ideal balance
-    const variance = 0;
+    let variance = 0;
     for (const element in element_object) {
         variance += Math.abs(element_object[element] - ideal);
     }
@@ -99,7 +99,7 @@ function combineElementObjects(element_object_1, element_object_2) {
 }
 
 function getAbsoluteElementValue(element_object) {
-    const absolute_value = 0;
+    let absolute_value = 0;
     absolute_value += element_object['Fire'] || 0;
     absolute_value += element_object['Water'] || 0;
     absolute_value += element_object['Air'] || 0;

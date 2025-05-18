@@ -117,8 +117,8 @@ export const compareDecanRulers = (
   decanA: Record<string, unknown>,
   decanB: Record<string, unknown>
 ): number => {
-  const compatibilityScore = 0;
-  const comparisons = 0;
+  let compatibilityScore = 0;
+  let comparisons = 0;
 
   // Extract all planetary rulers from both signs' decans
   const rulerKeysA = Object.keys(decanA).filter(key => key.includes('Decan') && key.includes('Ruler'));
@@ -171,8 +171,8 @@ function calculateDegreeOverlap(
     return 0.5;
   }
 
-  const totalPlanets = 0;
-  const overlappingPlanets = 0;
+  let totalPlanets = 0;
+  let overlappingPlanets = 0;
 
   // Count planets that appear in both signs' degree effects
   Object.keys(degreesA).forEach((planet) => {
@@ -559,14 +559,14 @@ function compareRulers(rulerA: string, rulerB: string): number {
  * @param zodiacB Optional zodiac sign association for second item
  * @returns Match score between 0 and 1
  */
-export const calculateElementalCompatibility = (
+export const calculateAlchemicalCompatibility = (
   elementsA: ElementalProperties,
   elementsB: ElementalProperties,
   zodiacA?: string,
   zodiacB?: string
 ): { score: number; breakdown: any } => {
-  const elementalScore = 0;
-  const totalWeight = 0;
+  let elementalScore = 0;
+  let totalWeight = 0;
 
   // Compare each element pair
   Object.keys(elementsA).forEach(element => {
@@ -587,7 +587,8 @@ export const calculateElementalCompatibility = (
   let zodiacScore = 0.5; // Default neutral score
 
   if (zodiacA && zodiacB) {
-    zodiacScore = getZodiacCompatibility(zodiacA, zodiacB);
+    // Use the calculateAstrologicalAffinity function instead of getZodiacCompatibility
+    zodiacScore = calculateAstrologicalAffinity(zodiacA as ZodiacSign, zodiacB as ZodiacSign);
   }
 
   // Combine element and zodiac compatibility
@@ -735,8 +736,8 @@ export function generateEnhancedRecommendation(
     : eleRecs.ingredients;
 
   // Select ingredients with seasonal adjustments
-  const mainIngredient = filteredIngredients[0];
-  const secondaryIngredient = filteredIngredients[1];
+  let mainIngredient = filteredIngredients[0];
+  let secondaryIngredient = filteredIngredients[1];
 
   // Adjust based on seasonal boosts
   if (seasonalInfluence.boost.length > 0) {
