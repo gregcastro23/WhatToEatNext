@@ -21,6 +21,7 @@ import { calculateAllHouseEffects } from './houseEffects';
 import { ElementalCharacter } from "@/constants/planetaryElements";
 import { safeCalculatePlanetaryAspects } from "@/utils/safeAstrology";
 import SunCalc from 'suncalc';
+import { getCurrentTransitPositions, validatePlanetaryPositions } from './validatePlanetaryPositions';
 
 /**
  * A utility function for logging debug information
@@ -388,7 +389,11 @@ export async function calculatePlanetaryPositions(
         };
       });
 
-      return formattedPositions;
+      // Validate the positions against transit dates from planet data files
+      const validatedPositions = validatePlanetaryPositions(formattedPositions, date);
+      debugLog('Positions validated against transit dates:', validatedPositions);
+
+      return validatedPositions;
     } catch (error) {
       errorLog('Error in getAccuratePlanetaryPositions:', error);
       throw error; // Rethrow to fallback
@@ -400,7 +405,10 @@ export async function calculatePlanetaryPositions(
     Object.values(defaults).forEach((p) => {
       if (p) p.error = true;
     });
-    return defaults;
+    
+    // Even with fallback positions, validate against transit dates
+    const validatedDefaults = validatePlanetaryPositions(defaults, date);
+    return validatedDefaults;
   }
 }
 
@@ -1690,107 +1698,116 @@ export async function getCurrentAstrologicalState(
 }
 
 /**
- * Get default planetary positions
- * This is used as a fallback when calculations fail
- * @returns Record of planetary positions
+ * Get default planetary positions to use when astronomical calculations fail
+ * Updated to use current transit data based on the current date
  */
 export function getDefaultPlanetaryPositions(): Record<string, PlanetPosition> {
-  const currentPositions: Record<string, PlanetPosition> = {
-    Sun: {
-      sign: 'aries',
-      degree: 14,
-      minute: 37,
-      exactLongitude: 14.62, // Position in 0-30 degrees (aries)
-      isRetrograde: false,
-    },
-    Moon: {
-      sign: 'cancer',
-      degree: 2,
-      minute: 40,
-      exactLongitude: 92.67, // Position in 90-120 degrees (cancer)
-      isRetrograde: false,
-    },
-    Mercury: {
-      sign: 'pisces',
-      degree: 27,
-      minute: 19,
-      exactLongitude: 357.32, // Position in 330-360 degrees (pisces)
-      isRetrograde: true,
-    },
-    Venus: {
-      sign: 'pisces',
-      degree: 26,
-      minute: 13,
-      exactLongitude: 356.22, // Position in 330-360 degrees (pisces)
-      isRetrograde: true,
-    },
-    Mars: {
-      sign: 'cancer',
-      degree: 24,
-      minute: 39,
-      exactLongitude: 114.65, // Position in 90-120 degrees (cancer)
-      isRetrograde: false,
-    },
-    Jupiter: {
-      sign: 'gemini',
-      degree: 16,
-      minute: 28,
-      exactLongitude: 76.47, // Position in 60-90 degrees (gemini)
-      isRetrograde: false,
-    },
-    Saturn: {
-      sign: 'pisces',
-      degree: 24,
-      minute: 51,
-      exactLongitude: 354.85, // Position in 330-360 degrees (pisces)
-      isRetrograde: false,
-    },
-    Uranus: {
-      sign: 'taurus',
-      degree: 24,
-      minute: 54,
-      exactLongitude: 54.9, // Position in 30-60 degrees (taurus)
-      isRetrograde: false,
-    },
-    Neptune: {
-      sign: 'aries',
-      degree: 0,
-      minute: 10,
-      exactLongitude: 0.17, // Position in 0-30 degrees (aries)
-      isRetrograde: false,
-    },
-    Pluto: {
-      sign: 'aquarius',
-      degree: 3,
-      minute: 36,
-      exactLongitude: 333.6, // Position in 300-330 degrees (aquarius)
-      isRetrograde: false,
-    },
-    northNode: {
-      sign: 'pisces',
-      degree: 26,
-      minute: 33,
-      exactLongitude: 356.55, // Position in 330-360 degrees (pisces)
-      isRetrograde: true,
-    },
-    southNode: {
-      sign: 'virgo',
-      degree: 26,
-      minute: 33,
-      exactLongitude: 176.55, // Position in 150-180 degrees (virgo), opposite to North Node
-      isRetrograde: true,
-    },
-    Ascendant: {
-      sign: 'sagittarius',
-      degree: 3,
-      minute: 58,
-      exactLongitude: 243.97, // Position in 240-270 degrees (sagittarius)
-      isRetrograde: false,
-    },
-  };
+  // First check browser date to determine current transits
+  try {
+    // Get positions based on current transit dates from planet data files
+    const currentPositions = getCurrentTransitPositions();
+    
+    debugLog('Using current transit positions based on planet data:', currentPositions);
+    return currentPositions;
+  } catch (error) {
+    // If there's any error with the transit date approach, fall back to hardcoded positions
+    const hardcodedPositions: Record<string, PlanetPosition> = {
+      Sun: {
+        sign: 'taurus',
+        degree: 27,
+        minute: 12,
+        exactLongitude: 57.2, // Position in 30-60 degrees (taurus)
+        isRetrograde: false,
+      },
+      Moon: {
+        sign: 'capricorn',
+        degree: 25,
+        minute: 36,
+        exactLongitude: 295.6, // Position in 270-300 degrees (capricorn)
+        isRetrograde: false,
+      },
+      Mercury: {
+        sign: 'taurus',
+        degree: 13,
+        minute: 17,
+        exactLongitude: 43.28, // Position in 30-60 degrees (taurus)
+        isRetrograde: false,
+      },
+      Venus: {
+        sign: 'aries',
+        degree: 12,
+        minute: 10,
+        exactLongitude: 12.17, // Position in 0-30 degrees (aries)
+        isRetrograde: false,
+      },
+      Mars: {
+        sign: 'leo',
+        degree: 13,
+        minute: 44,
+        exactLongitude: 133.73, // Position in 120-150 degrees (leo)
+        isRetrograde: false,
+      },
+      Jupiter: {
+        sign: 'gemini',
+        degree: 24,
+        minute: 53,
+        exactLongitude: 84.88, // Position in 60-90 degrees (gemini)
+        isRetrograde: false,
+      },
+      Saturn: {
+        sign: 'pisces',
+        degree: 29,
+        minute: 25,
+        exactLongitude: 359.42, // Position in 330-360 degrees (pisces)
+        isRetrograde: false,
+      },
+      Uranus: {
+        sign: 'taurus',
+        degree: 27,
+        minute: 17,
+        exactLongitude: 57.28, // Position in 30-60 degrees (taurus)
+        isRetrograde: false,
+      },
+      Neptune: {
+        sign: 'aries',
+        degree: 1,
+        minute: 33,
+        exactLongitude: 1.55, // Position in 0-30 degrees (aries)
+        isRetrograde: false,
+      },
+      Pluto: {
+        sign: 'aquarius',
+        degree: 3,
+        minute: 46,
+        exactLongitude: 333.77, // Position in 330-360 degrees (aquarius)
+        isRetrograde: true,
+      },
+      northNode: {
+        sign: 'pisces',
+        degree: 24,
+        minute: 14,
+        exactLongitude: 354.23, // Position in 330-360 degrees (pisces)
+        isRetrograde: true,
+      },
+      southNode: {
+        sign: 'virgo',
+        degree: 24,
+        minute: 14,
+        exactLongitude: 174.23, // Position in 150-180 degrees (virgo), opposite to North Node
+        isRetrograde: true,
+      },
+      Ascendant: {
+        sign: 'libra',
+        degree: 23,
+        minute: 47,
+        exactLongitude: 203.78, // Position in 180-210 degrees (libra)
+        isRetrograde: false,
+      },
+    };
 
-  debugLog('Using updated current planetary positions:', currentPositions);
-  return currentPositions;
+    debugLog('Using updated hardcoded current planetary positions:', hardcodedPositions);
+    return hardcodedPositions;
+  }
 }
 
 /**
