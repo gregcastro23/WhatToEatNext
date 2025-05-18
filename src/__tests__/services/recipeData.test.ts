@@ -64,11 +64,11 @@ describe('RecipeData Service', () => {
 
   // Mock the getFallbackRecipe method
   // Note: We're using type assertion to work around the private method access
-  const originalGetFallbackRecipe = (recipeData as any).getFallbackRecipe;
+  const originalGetFallbackRecipe = (recipeData as unknown as { getFallbackRecipe: () => Recipe }).getFallbackRecipe;
 
   beforeAll(() => {
     // Use type assertion to access the private method
-    (recipeData as any).getFallbackRecipe = jest
+    (recipeData as unknown as { getFallbackRecipe: jest.Mock }).getFallbackRecipe = jest
       .fn()
       .mockReturnValue(testRecipe);
 
@@ -80,7 +80,7 @@ describe('RecipeData Service', () => {
 
   afterAll(() => {
     // Use type assertion to restore the private method
-    (recipeData as any).getFallbackRecipe = originalGetFallbackRecipe;
+    (recipeData as unknown as { getFallbackRecipe: () => Recipe }).getFallbackRecipe = originalGetFallbackRecipe;
   });
 
   // Reset mocks before each test
@@ -362,5 +362,14 @@ describe('RecipeData Service', () => {
     // Restore original methods
     recipeData.getAllRecipes = originalGetAllRecipes;
     recipeElementalService.standardizeRecipe = originalStandardizeRecipe;
+  });
+
+  it('should reject an ingredient with missing required fields', () => {
+    const missingNameIngredient = {
+      amount: 1,
+      unit: 'cup',
+    };
+
+    expect(validateIngredient(missingNameIngredient as unknown as RecipeIngredient)).toBe(false);
   });
 });

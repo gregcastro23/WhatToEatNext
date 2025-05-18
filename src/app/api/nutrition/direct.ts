@@ -22,7 +22,7 @@ export async function GET(request: Request) {
 
   try {
     // Step 1: If we don't have a food ID, search for it first
-    const targetFoodId = foodId;
+    let targetFoodId = foodId;
 
     if (!targetFoodId && query) {
       // console.log(`Searching for: ${query}`);
@@ -48,7 +48,7 @@ export async function GET(request: Request) {
       }
 
       // Try to find the best match, preferring SR Legacy or Foundation foods
-      const bestMatch = searchData.foods[0];
+      let bestMatch = searchData.foods[0];
       for (const food of searchData.foods) {
         if (food.dataType === 'SR Legacy' || food.dataType === 'Foundation') {
           bestMatch = food;
@@ -178,8 +178,8 @@ function countVitamins(nutrients: unknown[]): number {
 
 // Determine which endpoint returned the most vitamin data
 function getBestEndpoint(results: Record<string, unknown>): string {
-  const bestEndpoint = '';
-  const maxVitamins = 0;
+  let bestEndpoint = '';
+  let maxVitamins = 0;
 
   for (const [endpoint, data] of Object.entries(results)) {
     if (data.vitaminCount && data.vitaminCount > maxVitamins) {

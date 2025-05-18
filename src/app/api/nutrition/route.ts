@@ -60,7 +60,7 @@ export async function GET(request: Request) {
     }
 
     // Find the best food by data type - prioritize SR Legacy and Foundation foods
-    const bestMatchFood = null;
+    let bestMatchFood = null;
     // First try SR Legacy
     bestMatchFood = searchData.foods.find((f) => f.dataType === 'SR Legacy');
     // If not found, try Foundation

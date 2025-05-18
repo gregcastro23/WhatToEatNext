@@ -25,7 +25,7 @@ describe('Ingredient Data Structure', () => {
       unit: 'cup',
     };
 
-    expect(validateIngredient(missingNameIngredient as any)).toBe(false);
+    expect(validateIngredient(missingNameIngredient as unknown as RecipeIngredient)).toBe(false);
   });
 
   it('should handle ingredients with missing elemental properties', () => {

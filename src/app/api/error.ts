@@ -11,9 +11,9 @@ import { ApiError, ValidationError, NotFoundError } from '@/types/errors';
  */
 export function handleApiError(error: unknown): NextResponse {
   // Default to 500 Internal Server Error
-  const statusCode = 500;
-  const message = 'Internal server error';
-  const details = undefined;
+  let statusCode = 500;
+  let message = 'Internal server error';
+  let details = undefined;
 
   // If this is one of our custom API errors, use its status code
   if ((error as ApiError).statusCode) {

@@ -58,16 +58,16 @@ interface NutritionInfo {
 type ComponentName = 'foodRecommender' | 'elementalEnergy' | 'moonDisplay' | 'sunDisplay' | 'astrologicalClock' | 'cuisineRecommender' | 'cookingMethods';
 
 function App() {
-  const router = useRouter();
+  const _router = useRouter();
   
   // State variables with underscore prefix are intentionally kept for future use
-  const [isInitialized, setIsInitialized] = useState(false);
-  const [userLocation, setUserLocation] = useState<GeolocationCoordinates | null>(null);
-  const [servings, setServings] = useState(4);
+  const [_isInitialized, setIsInitialized] = useState(false);
+  const [_userLocation, setUserLocation] = useState<GeolocationCoordinates | null>(null);
+  const [_servings, setServings] = useState(4);
   const [activeComponent, setActiveComponent] = useState<ComponentName>('foodRecommender');
   
   // Use ElementalCalculator to get real-time elemental properties instead of hardcoded values
-  const [recipe, setRecipe] = useState<Recipe & { nutrition: NutritionInfo }>(() => {
+  const [_recipe, _setRecipe] = useState<Recipe & { nutrition: NutritionInfo }>(() => {
     // Generate initial recipe with calculated elemental properties
     const elementalProperties = ElementalCalculator.getCurrentElementalState();
     
@@ -145,7 +145,7 @@ function App() {
   }, []);
 
   // Servings handler - kept for future use
-  const handleServingsChange = (newServings: number) => {
+  const _handleServingsChange = (newServings: number) => {
     setServings(newServings);
   };
 
