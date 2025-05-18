@@ -32,6 +32,12 @@ interface RecipeListProps {
   cuisineFilter?: string;
 }
 
+// Helper to ensure recipe IDs are safe for use in DOM IDs
+const sanitizeId = (id: string): string => {
+  // Replace any characters that aren't valid in HTML IDs with dashes
+  return id.replace(/[^a-zA-Z0-9-_]/g, '-');
+};
+
 export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
   const { currentPlanetaryAlignment, currentZodiac, activePlanets, isDaytime } =
     useAstrologicalState();
@@ -889,21 +895,32 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
 
     console.log(`[RecipeList] Toggling recipe: ${id}, current expanded id:`, expandedRecipeId);
     
-    // Toggle expanded state
-    setExpandedRecipeId(expandedRecipeId === id ? null : id);
+    // Use the function form of setState to ensure we're working with the latest state
+    setExpandedRecipeId(prevId => {
+      const newExpandedId = prevId === id ? null : id;
+      console.log(`[RecipeList] Setting expanded id from ${prevId} to:`, newExpandedId);
+      return newExpandedId;
+    });
     
-    // Log the change
-    console.log(`[RecipeList] New expanded id:`, expandedRecipeId === id ? null : id);
+    // Check if element with recipe ID exists
+    const safeId = sanitizeId(id);
+    const element = document.getElementById(`recipe-${safeId}`);
+    console.log(`[RecipeList] Recipe element exists:`, !!element, 'Element ID:', element?.id);
     
     // If we're expanding the recipe, scroll it into view
-    if (expandedRecipeId !== id) {
-      setTimeout(() => {
-        const element = document.getElementById(`recipe-${id}`);
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-      }, 100);
-    }
+    setTimeout(() => {
+      // Get the updated state by querying the DOM for visual indicators
+      const isExpanded = document.getElementById(`recipe-${safeId}`)?.classList.contains('ring-blue-500');
+      console.log(`[RecipeList] Is expanded based on DOM classes:`, isExpanded);
+      
+      const element = document.getElementById(`recipe-${safeId}`);
+      if (element) {
+        console.log(`[RecipeList] Scrolling element into view:`, element.id);
+        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } else {
+        console.log(`[RecipeList] Element not found for scrolling:`, `recipe-${safeId}`);
+      }
+    }, 100);
   };
 
   // Render element icon based on dominance
@@ -1035,13 +1052,21 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
 
       {/* Recipe Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* This is a hidden test element to verify if expansion works */}
+        <div className="hidden">
+          {expandedRecipeId && <div>Current expanded ID: {expandedRecipeId}</div>}
+        </div>
+        
         {recipes.map((recipe) => (
           <div
             key={recipe.id}
-            className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow"
+            id={`recipe-${sanitizeId(recipe.id)}`}
+            className={`border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow ${
+              expandedRecipeId === recipe.id ? 'ring-2 ring-blue-500 bg-blue-50' : ''
+            }`}
           >
             <div
-              className="p-4 cursor-pointer"
+              className="p-4 cursor-pointer recipe-card-clickable"
               onClick={(event) => toggleRecipe(recipe.id, event)}
             >
               <div className="flex justify-between items-start">
@@ -1112,7 +1137,24 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
             </div>
 
             {expandedRecipeId === recipe.id && (
-              <div className="p-4 border-t bg-gray-50">
+              <div className="p-4 border-t bg-gray-50 recipe-expanded-content shadow-inner">
+                {/* Add a visual button to help close the content */}
+                <div className="flex justify-between items-center mb-4">
+                  <div className="text-sm text-blue-700 bg-blue-50 p-2 rounded">
+                    <strong>Debug Info:</strong> Card ID: {recipe.id} <br/>
+                    Element ID: recipe-{sanitizeId(recipe.id)} <br/>
+                    Expanded: {String(expandedRecipeId === recipe.id)}
+                  </div>
+                  <button 
+                    className="px-3 py-1 bg-gray-200 text-gray-800 rounded hover:bg-gray-300"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setExpandedRecipeId(null);
+                    }}
+                  >
+                    Close
+                  </button>
+                </div>
                 {/* Recipe Details */}
                 <div className="mb-4">
                   <h4 className="font-medium mb-2">Details</h4>
@@ -1327,6 +1369,21 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
                     </div>
                   )}
 
+                  {/* Substitutions - NEW SECTION */}
+                  {recipe.substitutions && recipe.substitutions.length > 0 && (
+                    <div className="mt-4">
+                      <h4 className="font-medium mb-2">Substitutions</h4>
+                      <ul className="list-disc list-inside space-y-1 text-sm">
+                        {recipe.substitutions.map((sub, idx: number) => (
+                          <li key={idx} className="pb-2">
+                            <span className="font-medium">{sub.original}</span> → {' '}
+                            <span>{sub.alternatives.join(', ')}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
                   {/* Procedure */}
                   {recipe.instructions && recipe.instructions.length > 0 && (
                     <div className="mt-4">
@@ -1340,6 +1397,72 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
                           )
                         )}
                       </ol>
+                    </div>
+                  )}
+
+                  {/* Culinary Notes - NEW SECTION */}
+                  {(recipe.culturalNotes || recipe.preparationNotes || recipe.seasonalAdjustments || recipe.origin || recipe.traditionalOccasion || recipe.pairingRecommendations) && (
+                    <div className="mt-4 p-3 bg-amber-50 rounded-md border border-amber-100">
+                      <h4 className="font-medium mb-2">Culinary Notes</h4>
+                      
+                      {recipe.preparationNotes && (
+                        <div className="mb-2">
+                          <h5 className="text-sm font-medium">Preparation Notes</h5>
+                          <p className="text-sm">{recipe.preparationNotes}</p>
+                        </div>
+                      )}
+                      
+                      {recipe.culturalNotes && (
+                        <div className="mb-2">
+                          <h5 className="text-sm font-medium">Cultural Context</h5>
+                          <p className="text-sm">{recipe.culturalNotes}</p>
+                        </div>
+                      )}
+                      
+                      {recipe.origin && (
+                        <div className="mb-2">
+                          <h5 className="text-sm font-medium">Origin</h5>
+                          <p className="text-sm">{recipe.origin}</p>
+                        </div>
+                      )}
+                      
+                      {recipe.traditionalOccasion && recipe.traditionalOccasion.length > 0 && (
+                        <div className="mb-2">
+                          <h5 className="text-sm font-medium">Traditional Occasions</h5>
+                          <div className="flex flex-wrap gap-1">
+                            {recipe.traditionalOccasion.map((occasion, idx) => (
+                              <span key={idx} className="inline-block px-2 py-1 text-xs bg-amber-100 text-amber-800 rounded">
+                                {occasion}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                      
+                      {recipe.seasonalAdjustments && (
+                        <div className="mb-2">
+                          <h5 className="text-sm font-medium">Seasonal Adjustments</h5>
+                          <p className="text-sm">{recipe.seasonalAdjustments}</p>
+                        </div>
+                      )}
+                      
+                      {recipe.pairingRecommendations && (
+                        <div>
+                          <h5 className="text-sm font-medium">Pairing Suggestions</h5>
+                          {recipe.pairingRecommendations.wines && recipe.pairingRecommendations.wines.length > 0 && (
+                            <div className="text-sm"><span className="font-medium">Wine:</span> {recipe.pairingRecommendations.wines.join(', ')}</div>
+                          )}
+                          {recipe.pairingRecommendations.beverages && recipe.pairingRecommendations.beverages.length > 0 && (
+                            <div className="text-sm"><span className="font-medium">Beverages:</span> {recipe.pairingRecommendations.beverages.join(', ')}</div>
+                          )}
+                          {recipe.pairingRecommendations.sides && recipe.pairingRecommendations.sides.length > 0 && (
+                            <div className="text-sm"><span className="font-medium">Side Dishes:</span> {recipe.pairingRecommendations.sides.join(', ')}</div>
+                          )}
+                          {recipe.pairingRecommendations.condiments && recipe.pairingRecommendations.condiments.length > 0 && (
+                            <div className="text-sm"><span className="font-medium">Condiments:</span> {recipe.pairingRecommendations.condiments.join(', ')}</div>
+                          )}
+                        </div>
+                      )}
                     </div>
                   )}
 
