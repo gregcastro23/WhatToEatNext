@@ -1233,7 +1233,7 @@ export default function IngredientDisplay() {
       
       const currentMonth = new Date().toLocaleString('default', { month: 'long' }).toLowerCase();
       return item.seasonality.peak_months.some(
-        month => month.toLowerCase() === currentMonth
+        month => (month && typeof month === "string" ? month.toLowerCase() === currentMonth : false)
       );
     }
     
@@ -1445,7 +1445,7 @@ export default function IngredientDisplay() {
     if (!peakMonths || !Array.isArray(peakMonths)) return false;
     
     const currentMonth = new Date().toLocaleString('default', { month: 'long' }).toLowerCase();
-    return peakMonths.some(month => month.toLowerCase() === currentMonth);
+    return peakMonths.some(month => (month && typeof month === "string" ? month.toLowerCase() === currentMonth : false));
   };
 
   // Search functionality
