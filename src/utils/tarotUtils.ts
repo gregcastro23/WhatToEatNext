@@ -1,4 +1,4 @@
-import @/types  from 'alchemy ';
+import { ElementalProperties } from '@/types/alchemy';
 
 export const getElementalAlignmentFromTarot = (tarot: {
   majorArcana: string[];
@@ -13,7 +13,7 @@ export const getElementalAlignmentFromTarot = (tarot: {
   
   // Major arcana influences
   tarot.majorArcana.forEach(card => {
-    let cardElement = TAROT_ELEMENT_ASSOCIATIONS[card]?.element;
+    const cardElement = TAROT_ELEMENT_ASSOCIATIONS[card]?.element;
     if (cardElement) {
       alignment[cardElement] += 0.5;
     }
@@ -31,7 +31,7 @@ export const getElementalAlignmentFromTarot = (tarot: {
   const maxValue = Math.max(...Object.values(alignment));
   if (maxValue > 0) {
     Object.keys(alignment).forEach(key => {
-      alignment[key] = alignment[key] / (maxValue || 1);
+      alignment[key] = alignment[key] / maxValue;
     });
   }
 

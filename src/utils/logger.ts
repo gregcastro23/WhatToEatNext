@@ -1,8 +1,9 @@
 /**
- * Utility for consistent logging across the application
+ * Advanced logger utility to standardize logging across the application.
+ * This module provides component-specific logging capabilities and consistent formatting.
  */
 
-export type LogLevel = 'debug' | 'info' | 'warn' | 'error';
+type LogLevel = 'debug' | 'info' | 'warn' | 'error';
 
 // Get environment
 const isDev = process.env.NODE_ENV !== 'production';
@@ -12,22 +13,12 @@ const isBrowser = typeof window !== 'undefined';
  * Logger class providing centralized logging capabilities
  */
 class Logger {
-  private enabled: boolean;
-  private logLevel: LogLevel;
-  private recentErrors: Array<{
-    message: string;
-    timestamp: number;
-    component?: string;
-  }> = [];
+  private logLevel: LogLevel = isDev ? 'debug' : 'info';
+  private recentErrors: Array<{ message: string; timestamp: number; component?: string }> = [];
   private readonly MAX_ERRORS = 20;
-
+  
   // Track components that have created loggers
   private componentLoggers: Set<string> = new Set();
-
-  constructor() {
-    this.enabled = process.env.NODE_ENV !== 'test';
-    this.logLevel = (process.env.NEXT_PUBLIC_LOG_LEVEL as LogLevel) || 'info';
-  }
 
   /**
    * Set the minimum log level
@@ -43,17 +34,17 @@ class Logger {
    */
   createLogger(component: string) {
     this.componentLoggers.add(component);
-
+    
     return {
-      debug: (message: string, ...args: unknown[]): void =>
+      debug: (message: string, ...args: unknown[]): void => 
         this.debug(message, ...args, { component }),
-      log: (message: string, ...args: unknown[]): void =>
+      log: (message: string, ...args: unknown[]): void => 
         this.info(message, ...args, { component }),
-      info: (message: string, ...args: unknown[]): void =>
+      info: (message: string, ...args: unknown[]): void => 
         this.info(message, ...args, { component }),
-      warn: (message: string, ...args: unknown[]): void =>
+      warn: (message: string, ...args: unknown[]): void => 
         this.warn(message, ...args, { component }),
-      error: (message: string, ...args: unknown[]): void =>
+      error: (message: string, ...args: unknown[]): void => 
         this.error(message, ...args, { component }),
     };
   }
@@ -99,7 +90,7 @@ class Logger {
       const options = this.extractOptions(args);
       const component = options.component ? `[${options.component}]` : '';
       console.error(`[ERROR]${component} ${message}`, ...options.rest);
-
+      
       // Store error for summary
       this.storeError(message, options.component);
     }
@@ -110,15 +101,10 @@ class Logger {
    */
   private extractOptions(args: unknown[]) {
     const last = args[args.length - 1];
-    if (
-      last &&
-      typeof last === 'object' &&
-      !Array.isArray(last) &&
-      'component' in last
-    ) {
+    if (last && typeof last === 'object' && !Array.isArray(last) && 'component' in last) {
       return {
         component: last.component as string,
-        rest: args.slice(0, args.length - 1),
+        rest: args.slice(0, args.length - 1)
       };
     }
     return { rest: args };
@@ -131,9 +117,9 @@ class Logger {
     this.recentErrors.unshift({
       message,
       timestamp: Date.now(),
-      component,
+      component
     });
-
+    
     // Keep list at max length
     if (this.recentErrors.length > this.MAX_ERRORS) {
       this.recentErrors.pop();
@@ -147,9 +133,9 @@ class Logger {
     if (this.recentErrors.length === 0) {
       return 'No recent errors';
     }
-
+    
     return this.recentErrors
-      .map((err) => {
+      .map(err => {
         const date = new Date(err.timestamp).toLocaleTimeString();
         const component = err.component ? `[${err.component}]` : '';
         return `[${date}]${component} ${err.message}`;
@@ -168,57 +154,22 @@ class Logger {
    * Check if we should log at this level
    */
   private shouldLog(level: LogLevel): boolean {
-    if (!this.enabled) return false;
+    const levels: LogLevel[] = ['debug', 'info', 'warn', 'error'];
+    const currentLevelIndex = levels.indexOf(this.logLevel);
+    const targetLevelIndex = levels.indexOf(level);
     
-    const levels: Record<LogLevel, number> = {
-      debug: 0,
-      info: 1,
-      warn: 2,
-      error: 3
-    };
-    
-    return levels[level] >= levels[this.logLevel];
+    return targetLevelIndex >= currentLevelIndex;
   }
 }
 
-// Create singleton instance
-const logger = new Logger();
-
-// Export the logger as default and named export
-export default logger;
-export { logger };
+// Singleton instance of the logger
+export const logger = new Logger();
 
 // Helper functions for creating component-specific loggers
-export const createLogger = (component: string) =>
-  logger.createLogger(component);
+export const createLogger = (component: string) => logger.createLogger(component);
 
 // Utility functions for direct use (for backwards compatibility)
-export const debugLog = (message: string, ...args: unknown[]): void =>
-  logger.debug(message, ...args);
-export const infoLog = (message: string, ...args: unknown[]): void =>
-  logger.info(message, ...args);
-export const warnLog = (message: string, ...args: unknown[]): void =>
-  logger.warn(message, ...args);
-export const errorLog = (message: string, ...args: unknown[]): void =>
-  logger.error(message, ...args);
-
-/**
- * Logs an error with proper formatting and context
- * @param error The error to log
- * @param context Optional context information
- */
-export function logError(error: Error, context?: { [key: string]: string }): void {
-  const errorMessage = error.message || 'Unknown error';
-  const errorStack = error.stack || '';
-  const contextString = context ? JSON.stringify(context, null, 2) : '';
-  
-  console.error(`[ERROR] ${errorMessage}`);
-  
-  if(errorStack) {
-    console.error(`Stack trace: ${errorStack}`);
-  }
-  
-  if(contextString) {
-    console.error(`Context: ${contextString}`);
-  }
-}
+export const debugLog = (message: string, ...args: unknown[]): void => logger.debug(message, ...args);
+export const infoLog = (message: string, ...args: unknown[]): void => logger.info(message, ...args);
+export const warnLog = (message: string, ...args: unknown[]): void => logger.warn(message, ...args);
+export const errorLog = (message: string, ...args: unknown[]): void => logger.error(message, ...args); 

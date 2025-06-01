@@ -1,11 +1,11 @@
-import { SignEnergyState, ZodiacSign } from "../constants/signEnergyStates";
+import { SignEnergyState, ZodiacSign } from '../constants/signEnergyStates';
 import { 
     Chakra, 
     CHAKRAS, 
     calculateChakraEnergies, 
     recommendFoodsForChakraBalance, 
     CHAKRA_PROPERTIES 
-} from "../constants/chakraMappings";
+} from '../constants/chakraMappings';
 
 export interface ChakraEnergyState {
     chakra: Chakra;

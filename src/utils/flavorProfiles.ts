@@ -1,7 +1,7 @@
-import ../data  from 'cuisineFlavorProfiles ';
-import ../data  from 'planetaryFlavorProfiles ';
-import ../data  from 'integrations ';
-import ../types  from 'alchemy ';
+import { cuisineFlavorProfiles } from '../data/cuisineFlavorProfiles';
+import { planetaryFlavorProfiles } from '../data/planetaryFlavorProfiles';
+import { flavorProfiles } from '../data/integrations/flavorProfiles';
+import type { ElementalProperties } from '../types/alchemy';
 
 /**
  * Get detailed flavor profile for a cuisine
@@ -58,7 +58,7 @@ function getAstrologicallyInformedFlavorProfile(
     return generateFlavorProfileFromElements(elementalProps);
   }
   
-  let primaryElement = Object.entries(elementalProps)
+  const primaryElement = Object.entries(elementalProps)
     .sort((a, b) => b[1] - a[1])[0][0];
   
   return `${flavorAttributes.join(', ')} flavors with ${getElementalDescription(primaryElement)} characteristics`;

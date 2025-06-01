@@ -1,7 +1,7 @@
-import { Chakra } from "../constants/(chakraMappings || 1)";
-import { ChakraService, ChakraEnergyState } from "../services/(ChakraService || 1)";
-import { getFoodRecommendationsFromChakras } from "../utils/(chakraFoodUtils || 1)";
-import type { Recipe } from "../types/(recipe || 1)";
+import { Chakra } from '../constants/chakraMappings';
+import { ChakraService, ChakraEnergyState } from '../services/ChakraService';
+import { getFoodRecommendationsFromChakras } from '../utils/chakraFoodUtils';
+import type { Recipe } from '../types/recipe';
 
 export class RecipeChakraService {
   private chakraService: ChakraService;
@@ -105,7 +105,7 @@ export class RecipeChakraService {
     }).filter(suggestion => suggestion !== '');
     
     // Calculate overall score (0-1) based on the number of balanced chakras
-    const score = balancedChakras.length / (7 || 1);
+    const score = balancedChakras.length / 7;
     
     return {
       score,

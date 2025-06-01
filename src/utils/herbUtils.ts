@@ -1,4 +1,4 @@
-import ../data  from 'ingredients ';
+import { herbs } from '../data/ingredients/herbs';
 
 // Define seasonalHerbGuide - a simple placeholder implementation
 const seasonalHerbGuide: Record<string, { cuisines: Record<string, string[]> }> = {

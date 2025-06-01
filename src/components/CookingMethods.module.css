@@ -90,7 +90,7 @@
   grid-auto-flow: dense;
 }
 
-.methodCard {
+.method-card {
   background-color: white;
   border-radius: 10px;
   padding: 1.25rem;
@@ -99,45 +99,23 @@
   cursor: pointer;
   position: relative;
   border: 1px solid rgba(10, 10, 30, 0.06);
-  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   overflow: hidden;
+  border-left: 3px solid transparent;
 }
 
-.methodCard:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+.method-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
 }
 
-.methodCard.expanded {
-  border-left: 4px solid #6b46c1;
-  background-color: #f8f7fe;
-  transform: translateY(-3px);
-  box-shadow: 0 6px 15px rgba(107, 70, 193, 0.15);
-}
-
-.methodCard.expanded:after {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 0 25px 25px 0;
-  border-color: transparent #6b46c1 transparent transparent;
-}
-
-.methodTips {
-  margin-top: 1rem;
-  padding-top: 1rem;
-  border-top: 1px dashed #e2e8f0;
-  display: block;
-  animation: fadeIn 0.3s ease-in-out;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
+/* Styling for selected method cards */
+.method-card.selected {
+  border-left-color: #6b46c1;
+  box-shadow: 0 8px 16px rgba(107, 70, 193, 0.15);
+  transform: translateY(-5px);
 }
 
 .method-header {
@@ -209,36 +187,6 @@
 
 .score-bad .score-bar-fill {
   background: linear-gradient(90deg, #718096, #a0aec0);
-}
-
-/* Add styles for header organization and expand indicator */
-.header-right {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.expand-indicator {
-  background: transparent;
-  border: none;
-  color: #6b46c1;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4px;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  transition: all 0.2s;
-}
-
-.expand-indicator:hover {
-  background-color: rgba(107, 70, 193, 0.1);
-}
-
-.expanded .expand-indicator {
-  background-color: rgba(107, 70, 193, 0.15);
 }
 
 .method-description {
@@ -1075,159 +1023,4 @@
 
 .scoreBarFill.venus {
   background: linear-gradient(to right, #ec4899, #f43f5e);
-}
-
-/* Add these styles at the end of the file */
-
-.noDataMessage {
-  text-align: center;
-  padding: 2rem;
-  border-radius: 0.5rem;
-  background-color: #f9f9f9;
-  margin: 1rem 0;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
-
-.noDataIcon {
-  color: #666;
-  margin-bottom: 1rem;
-}
-
-.fallbackMethods {
-  margin-top: 2rem;
-  text-align: left;
-}
-
-.methodGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 1rem;
-  margin-top: 1rem;
-}
-
-.methodCard {
-  background-color: white;
-  border-radius: 0.5rem;
-  padding: 1rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.methodCard:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-}
-
-.methodCard h5 {
-  margin: 0 0 0.5rem;
-  font-size: 1rem;
-}
-
-.methodCard p {
-  margin: 0.5rem 0 0;
-  font-size: 0.75rem;
-  color: #666;
-}
-
-.elementalIcons {
-  display: flex;
-  gap: 0.5rem;
-  margin-bottom: 0.5rem;
-}
-
-.elementalIcons svg {
-  opacity: 0.7;
-}
-
-.methodHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.75rem;
-}
-
-.methodHeader h3 {
-  margin: 0;
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #2d3748;
-}
-
-.expandButton {
-  background: transparent;
-  border: none;
-  color: #6b46c1;
-  cursor: pointer;
-  padding: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  width: 28px;
-  height: 28px;
-  transition: all 0.2s ease;
-}
-
-.expandButton:hover {
-  background: rgba(107, 70, 193, 0.1);
-  transform: scale(1.1);
-}
-
-.expanded .expandButton {
-  background: rgba(107, 70, 193, 0.15);
-}
-
-/* Expanded content styles */
-.expanded-content {
-  margin-top: 1rem;
-  padding-top: 1rem;
-  border-top: 1px dashed #e2e8f0;
-  animation: fadeIn 0.3s ease-in-out;
-  overflow: hidden;
-}
-
-.expanded-section {
-  margin-bottom: 1rem;
-  padding: 0.75rem;
-  background-color: rgba(107, 70, 193, 0.04);
-  border-radius: 6px;
-}
-
-.expanded-header {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin: 0 0 0.75rem 0;
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: #4a5568;
-}
-
-.tip-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.tip-item {
-  background-color: rgba(255, 255, 255, 0.7);
-  border-left: 2px solid #6b46c1;
-  padding: 0.5rem 0.75rem;
-  border-radius: 4px;
-  font-size: 0.8rem;
-  color: #4b5563;
-  margin-bottom: 0.5rem;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.method-description {
-  font-size: 0.9rem;
-  line-height: 1.5;
-  color: #4b5563;
-  margin-bottom: 1rem;
-  flex: 1;
 } 

@@ -1,13 +1,13 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import next  from 'navigation ';
+import { usePathname } from 'next/navigation';
 
-import @/components  from 'Navigation ';
-import @/components  from 'CelestialDisplay ';
-import @/contexts  from 'AlchemicalContext ';
-import @/utils  from 'theme ';
-import @/utils  from 'logger ';
+import Navigation from '@/components/Navigation/Navigation';
+import CelestialDisplay from '@/components/CelestialDisplay/CelestialDisplay';
+import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import { themeManager } from '@/utils/theme';
+import { logger } from '@/utils/logger';
 
 interface LayoutProps {
   children: React.ReactNode;

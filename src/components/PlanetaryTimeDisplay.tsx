@@ -1,76 +1,9 @@
 import React, { useMemo } from 'react';
-import { PlanetaryHour, PlanetaryDay, getLunarPhase } from '@/types/time';
+import { getTimeFactors, TimeFactors } from '@/types/time';
 
 interface PlanetaryTimeDisplayProps {
   compact?: boolean;
   className?: string;
-}
-
-// Add the missing getTimeFactors function
-function getTimeFactors() {
-  // Get current date and day of week
-  const now = new Date();
-  const dayOfWeek = now.getDay(); // 0 = Sunday, 1 = Monday, etc.
-  const hour = now.getHours();
-  
-  // Map day of week to planetary day
-  const weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-  const planetaryDays = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
-  
-  // Map hour to planetary hour (simplified)
-  const planetaryHourRulers = [
-    'Sun', 'Venus', 'Mercury', 'Moon', 'Saturn', 'Jupiter', 'Mars', // 0-6
-    'Sun', 'Venus', 'Mercury', 'Moon', 'Saturn', 'Jupiter', 'Mars', // 7-13 
-    'Sun', 'Venus', 'Mercury', 'Moon', 'Saturn', 'Jupiter', 'Mars'  // 14-20
-  ];
-  
-  // Determine season
-  const month = now.getMonth();
-  let season = 'Spring';
-  if (month >= 2 && month <= 4) season = 'Spring';
-  else if (month >= 5 && month <= 7) season = 'Summer';
-  else if (month >= 8 && month <= 10) season = 'Autumn';
-  else season = 'Winter';
-  
-  // Determine time of day
-  let timeOfDay = 'Day';
-  if (hour < 6) timeOfDay = 'Night';
-  else if (hour < 12) timeOfDay = 'Morning';
-  else if (hour < 18) timeOfDay = 'Afternoon';
-  else timeOfDay = 'Evening';
-  
-  return {
-    weekDay: weekDays[dayOfWeek],
-    planetaryDay: { 
-      planet: planetaryDays[dayOfWeek],
-      element: getPlanetElement(planetaryDays[dayOfWeek])
-    },
-    planetaryHour: {
-      planet: planetaryHourRulers[hour % 21],
-      element: getPlanetElement(planetaryHourRulers[hour % 21])
-    },
-    season,
-    timeOfDay,
-    hour
-  };
-}
-
-// Helper function for planetary elements
-function getPlanetElement(planet: string) {
-  const elementMap: Record<string, string> = {
-    'Sun': 'Fire',
-    'Moon': 'Water',
-    'Mercury': 'Air',
-    'Venus': 'Water',
-    'Mars': 'Fire',
-    'Jupiter': 'Air',
-    'Saturn': 'Earth',
-    'Uranus': 'Air',
-    'Neptune': 'Water',
-    'Pluto': 'Earth'
-  };
-  
-  return elementMap[planet] || 'Air';
 }
 
 const PlanetaryTimeDisplay: React.FC<PlanetaryTimeDisplayProps> = ({ 

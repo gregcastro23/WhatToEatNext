@@ -127,7 +127,7 @@ export class ApiErrorBoundary extends Component<ApiErrorBoundaryProps, ApiErrorB
     }
 
     // Default fallbacks for each error type
-    const defaultNetworkErrorFallback = (
+    let defaultNetworkErrorFallback = (
       <div className="error-container">
         <h3>Network Error</h3>
         <p>We couldn't connect to the server. Please check your internet connection and try again.</p>
@@ -135,7 +135,7 @@ export class ApiErrorBoundary extends Component<ApiErrorBoundaryProps, ApiErrorB
       </div>
     );
 
-    const defaultTimeoutErrorFallback = (
+    let defaultTimeoutErrorFallback = (
       <div className="error-container">
         <h3>Request Timeout</h3>
         <p>The server took too long to respond. Please try again later.</p>
@@ -143,7 +143,7 @@ export class ApiErrorBoundary extends Component<ApiErrorBoundaryProps, ApiErrorB
       </div>
     );
 
-    const defaultApiFallback = (
+    let defaultApiFallback = (
       <div className="error-container">
         <h3>API Error</h3>
         <p>Something went wrong with the data request. Please try again later.</p>
@@ -152,7 +152,7 @@ export class ApiErrorBoundary extends Component<ApiErrorBoundaryProps, ApiErrorB
       </div>
     );
 
-    const defaultGenericFallback = (
+    let defaultGenericFallback = (
       <div className="error-container">
         <h3>Something Went Wrong</h3>
         <p>An unexpected error occurred. Please try again.</p>

@@ -8,15 +8,17 @@ import {
   calculateElementalMatch, 
   calculateElementalProfileFromZodiac,
   calculateElementalContributionsFromPlanets
-, 
-  generateTopSauceRecommendations 
 } from '@/utils/cuisineRecommender';
 import { cuisines } from '@/data/cuisines';
-import { getRecipesForCuisineMatch , cuisineFlavorProfiles } from '@/data/cuisineFlavorProfiles';
+import { 
+  generateTopSauceRecommendations 
+} from '@/utils/cuisineRecommender';
+import { getRecipesForCuisineMatch } from '@/data/cuisineFlavorProfiles';
 import { getAllRecipes } from '@/data/recipes';
 import { Recipe, ElementalProperties, ZodiacSign, LunarPhaseWithSpaces } from '@/types/alchemy';
 import { Loader2, ChevronDown, ChevronUp, Info, Flame, Droplets, Wind, Mountain } from 'lucide-react';
 import { transformCuisines, sortByAlchemicalCompatibility } from '@/utils/alchemicalTransformationUtils';
+import { cuisineFlavorProfiles } from '@/data/cuisineFlavorProfiles';
 
 type DebugStep = {
   name: string;
@@ -284,7 +286,7 @@ export default function CuisineRecommenderDebug() {
       }
       
       // Normalize
-      const total = Object.values(combinedProfile).reduce((sum, val) => sum + val, 0);
+      let total = Object.values(combinedProfile).reduce((sum, val) => sum + val, 0);
       for (const element in combinedProfile) {
         combinedProfile[element] = combinedProfile[element] / total;
       }

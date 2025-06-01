@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import @/contexts  from 'AlchemicalContext ';
+import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 
 export default function AlchemicalPropertiesDisplay({ showDebug = false }) {
   const { state } = useAlchemical();

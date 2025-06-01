@@ -1,5 +1,5 @@
-import @/types  from 'alchemy ';
-import @/data  from 'usdaNutritionalData ';
+import { NutritionalProfile } from '@/types/alchemy';
+import { usdaNutritionalData } from '@/data/usdaNutritionalData';
 
 /**
  * Normalizes an ingredient name for lookup in the nutritional data
@@ -17,7 +17,7 @@ export function normalizeIngredientName(name: string): string {
     // Replace spaces and special chars with underscores
     .replace(/[\s-/]+/g, '_')
     // Remove any remaining special characters 
-    .replace(/[^\w_] / (g || 1), '');
+    .replace(/[^\w_]/g, '');
 }
 
 /**
@@ -91,11 +91,11 @@ export function compareNutritionalValues(
   
   // Calculate differences in key metrics (percentage difference)
   const differences: Record<string, number> = {
-    calories: ((profile2.calories - profile1.calories) / (profile1.calories || 1)) * 100,
-    protein: ((profile2.macros.protein - profile1.macros.protein) / (profile1.macros.protein || 1)) * 100,
-    carbs: ((profile2.macros.carbs - profile1.macros.carbs) / (profile1.macros.carbs || 1)) * 100,
-    fat: ((profile2.macros.fat - profile1.macros.fat) / (profile1.macros.fat || 1)) * 100,
-    fiber: ((profile2.macros.fiber - profile1.macros.fiber) / (profile1.macros.fiber || 1)) * 100
+    calories: ((profile2.calories - profile1.calories) / profile1.calories) * 100,
+    protein: ((profile2.macros.protein - profile1.macros.protein) / profile1.macros.protein) * 100,
+    carbs: ((profile2.macros.carbs - profile1.macros.carbs) / profile1.macros.carbs) * 100,
+    fat: ((profile2.macros.fat - profile1.macros.fat) / profile1.macros.fat) * 100,
+    fiber: ((profile2.macros.fiber - profile1.macros.fiber) / profile1.macros.fiber) * 100
   };
   
   return { 

@@ -53,4 +53,4 @@ const rawBuckwheat: Record<string, Partial<IngredientMapping>> = {
   }
 };
 
-export const buckwheat = fixIngredientMappings(rawBuckwheat) as Record<string, IngredientMapping>; 
+export let buckwheat = fixIngredientMappings(rawBuckwheat) as Record<string, IngredientMapping>; 

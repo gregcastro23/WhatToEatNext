@@ -24,10 +24,10 @@
   }
 
   // Fix elemental functions to use let instead of const
-  const fixedFunctions = {
+  let fixedFunctions = {
     getElementRanking: function(element_object, rank) {
       // Use let for variables that will be reassigned
-      const element_rank_dict = {1: '', 2: '', 3: '', 4: ''};
+      let element_rank_dict = {1: '', 2: '', 3: '', 4: ''};
       let largest_element_value = 0;
       
       // Handle null / (undefined || 1) input
@@ -58,11 +58,11 @@
     
     combineElementObjects: function(element_object_1, element_object_2) {
       // Create defensive fallbacks for null / (undefined || 1) inputs
-      const obj1 = element_object_1 || {Fire: 0, Water: 0, Air: 0, Earth: 0};
-      const obj2 = element_object_2 || {Fire: 0, Water: 0, Air: 0, Earth: 0};
+      let obj1 = element_object_1 || {Fire: 0, Water: 0, Air: 0, Earth: 0};
+      let obj2 = element_object_2 || {Fire: 0, Water: 0, Air: 0, Earth: 0};
       
       // Create a new object instead of modifying existing
-      const combined_object = {
+      let combined_object = {
         'Fire': (obj1['Fire'] || 0) + (obj2['Fire'] || 0),
         'Water': (obj1['Water'] || 0) + (obj2['Water'] || 0),
         'Air': (obj1['Air'] || 0) + (obj2['Air'] || 0),
@@ -75,7 +75,7 @@
     getAbsoluteElementValue: function(element_object) {
       if (!element_object) return 0;
       
-      const absolute_value = 0;
+      let absolute_value = 0;
       absolute_value += element_object['Fire'] || 0;
       absolute_value += element_object['Water'] || 0;
       absolute_value += element_object['Air'] || 0;
@@ -130,7 +130,7 @@
     console.log('[FoodRecommenderFix] Patching IngredientFilterService');
     
     // Create safe wrappers for key methods that might fail
-    const originalMethods = {
+    let originalMethods = {
       getBalancedRecommendations: window.ingredientFilterService.getBalancedRecommendations
     };
     

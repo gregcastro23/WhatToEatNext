@@ -1,11 +1,11 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import @/contexts  from 'AlchemicalContext ';
-import @/hooks  from 'useCurrentChart ';
+import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import { useCurrentChart } from '@/hooks/useCurrentChart';
 import { Clock, Sun, Moon, Star, Loader2, Info } from 'lucide-react';
-import @/types  from 'alchemy ';
-import @/utils  from 'astrologyUtils ';
+import type { ZodiacSign, PlanetaryAlignment } from '@/types/alchemy';
+import { calculatePlanetaryPositions, longitudeToZodiacPosition, getPlanetaryDignity } from '@/utils/astrologyUtils';
 import PlanetaryPositionValidation from './PlanetaryPositionValidation';
 import { PlanetInfoModal } from './PlanetInfoModal';
 
@@ -70,20 +70,7 @@ const AstrologicalClock: React.FC = () => {
   useEffect(() => {
     if (!isLoading && svgContainerRef.current) {
       const { svgContent } = createChartSvg();
-      
-      // Clear any existing content
-      while (svgContainerRef.current.firstChild) {
-        svgContainerRef.current.removeChild(svgContainerRef.current.firstChild);
-      }
-      
-      // Create a parser and parse the SVG content
-      const parser = new DOMParser();
-      const svgDoc = parser.parseFromString(svgContent, 'image / (svg || 1)+xml');
-      
-      // Append the SVG element to the container
-      if (svgDoc.documentElement) {
-        svgContainerRef.current.appendChild(svgDoc.documentElement);
-      }
+      svgContainerRef.current.innerHTML = svgContent;
     }
   }, [isLoading, createChartSvg]);
 
@@ -192,7 +179,7 @@ const AstrologicalClock: React.FC = () => {
                   
                   // Only calculate dignity for actual planets, not nodes
                   const dignity = isNode 
-                    ? { type: 'N / (A || 1)', strength: 0 } 
+                    ? { type: 'N/A', strength: 0 } 
                     : getPlanetaryDignity(planet, data.sign);
                     
                   const dignityClass = isNode

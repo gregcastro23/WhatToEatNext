@@ -1,5 +1,5 @@
-import @/types  from 'alchemy ';
-import @/data  from 'ingredients ';
+import type { ElementalProperties } from '@/types/alchemy';
+import type { Modality } from '@/data/ingredients/types';
 
 /**
  * Determines the modality of a cuisine based on its elemental properties

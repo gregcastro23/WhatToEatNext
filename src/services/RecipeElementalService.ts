@@ -1,8 +1,8 @@
-import type { ElementalProperties } from "../types/alchemy";
-import type { Recipe } from "../types/recipe";
-import { elementalUtils } from "../utils/elementalUtils";
+import type { ElementalProperties } from '../types/alchemy';
+import type { Recipe } from '../types/recipe';
+import { elementalUtils } from '../utils/elementalUtils';
 import { ElementalCalculator } from './ElementalCalculator';
-import { logger } from "../utils/logger";
+import { logger } from '../utils/logger';
 
 /**
  * Service responsible for handling elemental properties of recipes
@@ -29,9 +29,7 @@ export class RecipeElementalService {
    * @param recipe The recipe to standardize
    * @returns Recipe with guaranteed elemental properties
    */
-  public standardizeRecipe<T extends Partial<Recipe>>(
-    recipe: T
-  ): T & { elementalProperties: ElementalProperties } {
+  public standardizeRecipe<T extends Partial<Recipe>>(recipe: T): T & { elementalProperties: ElementalProperties } {
     try {
       return elementalUtils.standardizeRecipeElements(recipe);
     } catch (error) {
@@ -39,7 +37,7 @@ export class RecipeElementalService {
       // Return recipe with current elemental state if there's an error
       return {
         ...recipe,
-        elementalProperties: ElementalCalculator.getCurrentElementalState(),
+        elementalProperties: ElementalCalculator.getCurrentElementalState()
       } as T & { elementalProperties: ElementalProperties };
     }
   }
@@ -49,10 +47,8 @@ export class RecipeElementalService {
    * @param recipes Array of recipes to standardize
    * @returns Array of recipes with guaranteed elemental properties
    */
-  public standardizeRecipes<T extends Partial<Recipe>>(
-    recipes: T[]
-  ): Array<T & { elementalProperties: ElementalProperties }> {
-    return recipes.map((recipe) => this.standardizeRecipe(recipe));
+  public standardizeRecipes<T extends Partial<Recipe>>(recipes: T[]): Array<T & { elementalProperties: ElementalProperties }> {
+    return recipes.map(recipe => this.standardizeRecipe(recipe));
   }
 
   /**
@@ -60,24 +56,19 @@ export class RecipeElementalService {
    * @param recipe The recipe to analyze
    * @returns The dominant element and its value
    */
-  public getDominantElement(recipe: Recipe): {
-    element: keyof ElementalProperties;
-    value: number;
-  } {
+  public getDominantElement(recipe: Recipe): { element: keyof ElementalProperties; value: number } {
     const standardized = this.standardizeRecipe(recipe);
-
+    
     let dominantElement: keyof ElementalProperties = 'Earth';
     let highestValue = 0;
-
-    Object.entries(standardized.elementalProperties).forEach(
-      ([element, value]) => {
-        if (value > highestValue) {
-          highestValue = value;
-          dominantElement = element as keyof ElementalProperties;
-        }
+    
+    Object.entries(standardized.elementalProperties).forEach(([element, value]) => {
+      if (value > highestValue) {
+        highestValue = value;
+        dominantElement = element as keyof ElementalProperties;
       }
-    );
-
+    });
+    
     return { element: dominantElement, value: highestValue };
   }
 
@@ -87,26 +78,23 @@ export class RecipeElementalService {
    * @param b Second elemental property set
    * @returns Similarity score (0-1)
    */
-  public calculateSimilarity(
-    a: ElementalProperties,
-    b: ElementalProperties
-  ): number {
+  public calculateSimilarity(a: ElementalProperties, b: ElementalProperties): number {
     const elements = ['Fire', 'Water', 'Earth', 'Air'];
-
+    
     // Calculate average difference across all elements
     const totalDifference = elements.reduce((sum: number, element) => {
       const aValue = a[element] || 0;
       const bValue = b[element] || 0;
       return sum + Math.abs(aValue - bValue);
     }, 0);
-
+    
     // Convert difference to similarity (1 - avg difference)
     const avgDifference = totalDifference / elements.length;
-
+    
     // Apply non-linear scaling to make smaller differences more significant
     // This will boost low similarity scores to be more representative
     const similarity = Math.pow(1 - avgDifference, 0.5);
-
+    
     // Ensure the similarity is at least 0.05 (5%) to avoid showing extremely low percentages
     return Math.max(similarity, 0.05);
   }
@@ -116,36 +104,26 @@ export class RecipeElementalService {
    * @param recipe Recipe to derive elemental properties for
    * @returns Derived elemental properties
    */
-  public deriveElementalProperties(
-    recipe: Partial<Recipe>
-  ): ElementalProperties {
+  public deriveElementalProperties(recipe: Partial<Recipe>): ElementalProperties {
     // Start with a balanced base
     const elementalProps: ElementalProperties = {
       Fire: 0.25,
       Water: 0.25,
-      Earth: 0.25,
-      Air: 0.25,
+      Earth: 0.25, 
+      Air: 0.25
     };
-
+    
     try {
       // Adjust based on cooking method
       if (recipe.cookingMethod) {
         const method = recipe.cookingMethod.toLowerCase();
-
-        if (
-          method.includes('roast') ||
-          method.includes('grill') ||
-          method.includes('bake')
-        ) {
+        
+        if (method.includes('roast') || method.includes('grill') || method.includes('bake')) {
           elementalProps.Fire += 0.2;
           elementalProps.Earth += 0.05;
           elementalProps.Water -= 0.15;
           elementalProps.Air -= 0.1;
-        } else if (
-          method.includes('steam') ||
-          method.includes('boil') ||
-          method.includes('poach')
-        ) {
+        } else if (method.includes('steam') || method.includes('boil') || method.includes('poach')) {
           elementalProps.Water += 0.2;
           elementalProps.Fire -= 0.15;
           elementalProps.Air += 0.05;
@@ -161,14 +139,12 @@ export class RecipeElementalService {
           elementalProps.Fire -= 0.2;
         }
       }
-
+      
       // Adjust based on cuisine
       if (recipe.cuisine) {
         const cuisine = recipe.cuisine.toLowerCase();
-
-        if (
-          ['mexican', 'thai', 'indian', 'cajun', 'szechuan'].includes(cuisine)
-        ) {
+        
+        if (['mexican', 'thai', 'indian', 'cajun', 'szechuan'].includes(cuisine)) {
           // Spicy cuisines - more Fire
           elementalProps.Fire += 0.1;
           elementalProps.Air += 0.05;
@@ -186,9 +162,7 @@ export class RecipeElementalService {
           elementalProps.Fire += 0.05;
           elementalProps.Water -= 0.05;
           elementalProps.Air -= 0.1;
-        } else if (
-          ['german', 'russian', 'english', 'scandinavian'].includes(cuisine)
-        ) {
+        } else if (['german', 'russian', 'english', 'scandinavian'].includes(cuisine)) {
           // Northern cuisines
           elementalProps.Earth += 0.15;
           elementalProps.Water += 0.05;
@@ -204,12 +178,12 @@ export class RecipeElementalService {
           Fire: 0,
           Water: 0,
           Earth: 0,
-          Air: 0,
+          Air: 0
         };
-
+        
         // Process ingredients with elemental properties
         let ingredientCount = 0;
-        recipe.ingredients.forEach((ingredient) => {
+        recipe.ingredients.forEach(ingredient => {
           if (ingredient.elementalProperties) {
             // Get values from each element, guarding against undefined values
             ingredientProps.Fire += ingredient.elementalProperties.Fire || 0;
@@ -219,30 +193,26 @@ export class RecipeElementalService {
             ingredientCount++;
           }
         });
-
+        
         // Average ingredient properties if we found any
         if (ingredientCount > 0) {
           ingredientProps.Fire /= ingredientCount;
           ingredientProps.Water /= ingredientCount;
           ingredientProps.Earth /= ingredientCount;
           ingredientProps.Air /= ingredientCount;
-
-          // Blend with method and cuisine derived properties
-          return elementalUtils.combineProperties(
-            elementalProps,
-            ingredientProps,
-            0.7
-          );
+          
+          // Blend with method/cuisine derived properties
+          return elementalUtils.combineProperties(elementalProps, ingredientProps, 0.7);
         }
       }
     } catch (error) {
       logger.error('Error deriving elemental properties', error);
     }
-
+    
     // Normalize to ensure values sum to 1
     return elementalUtils.normalizeProperties(elementalProps);
   }
 }
 
 // Export singleton instance
-export const recipeElementalService = RecipeElementalService.getInstance();
+export const recipeElementalService = RecipeElementalService.getInstance(); 

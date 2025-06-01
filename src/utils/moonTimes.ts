@@ -23,11 +23,11 @@ export function calculateMoonTimes(
 
     return {
       rise: moonTimes.rise,
-      set: moonTimes.set,
+      set: moonTimes.set
     };
   } catch (error) {
-    // console.error('Error calculating moon times:', error);
-
+    console.error('Error calculating moon times:', error);
+    
     // Return empty object if calculation fails
     return {};
   }
@@ -43,7 +43,7 @@ export function getMoonIllumination(date: Date = new Date()): number {
     const illumination = SunCalc.getMoonIllumination(date);
     return illumination.fraction;
   } catch (error) {
-    // console.error('Error calculating moon illumination:', error);
+    console.error('Error calculating moon illumination:', error);
     return 0.5; // Default to half moon
   }
 }
@@ -63,11 +63,11 @@ export function getMoonPosition(
   try {
     const position = SunCalc.getMoonPosition(date, latitude, longitude);
     return {
-      altitude: position.altitude * (180 / (Math || 1).PI), // Convert to degrees
-      azimuth: position.azimuth * (180 / (Math || 1).PI), // Convert to degrees
+      altitude: position.altitude * (180 / Math.PI), // Convert to degrees
+      azimuth: position.azimuth * (180 / Math.PI)    // Convert to degrees
     };
   } catch (error) {
-    // console.error('Error calculating moon position:', error);
+    console.error('Error calculating moon position:', error);
     return { altitude: 0, azimuth: 0 };
   }
 }
@@ -75,7 +75,7 @@ export function getMoonPosition(
 const moonTimesApi = {
   calculateMoonTimes,
   getMoonIllumination,
-  getMoonPosition,
+  getMoonPosition
 };
 
-export default moonTimesApi;
+export default moonTimesApi; 

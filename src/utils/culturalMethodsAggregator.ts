@@ -1,19 +1,17 @@
-import { 
-  thai, 
-  vietnamese, 
-  italian, 
-  chinese, 
-  indian, 
-  japanese, 
-  korean, 
-  mexican, 
-  middleEastern, 
-  russian, 
-  greek, 
-  french, 
-  african 
-} from '@/data/cuisines';
-import { cookingMethods, allCookingMethods } from '@/data/cooking';
+import { thai } from '@/data/cuisines/thai';
+import { vietnamese } from '@/data/cuisines/vietnamese';
+import { italian } from '@/data/cuisines/italian';
+import { chinese } from '@/data/cuisines/chinese';
+import { indian } from '@/data/cuisines/indian';
+import { japanese } from '@/data/cuisines/japanese';
+import { korean } from '@/data/cuisines/korean';
+import { mexican } from '@/data/cuisines/mexican';
+import { middleEastern } from '@/data/cuisines/middle-eastern';
+import { russian } from '@/data/cuisines/russian';
+import { greek } from '@/data/cuisines/greek';
+import { french } from '@/data/cuisines/french';
+import { african } from '@/data/cuisines/african';
+import { cookingMethods } from '@/data/cooking';
 
 // Define a standardized cooking method interface to use across the app
 export interface CulturalCookingMethod {
@@ -144,71 +142,112 @@ const TECHNIQUE_MAPPING: Record<string, string> = {
  * into a standardized structure
  */
 export function extractCulturalCookingMethods(): CulturalCookingMethod[] {
-  // Use empty objects for all cuisines to avoid undefined errors
-  const defaultData = { cookingTechniques: [], name: '', description: '' };
-  
   const cuisines = [
-    { data: defaultData, name: 'Thai' },
-    { data: defaultData, name: 'Vietnamese' },
-    { data: defaultData, name: 'Italian' },
-    { data: defaultData, name: 'Chinese' },
-    { data: defaultData, name: 'Indian' },
-    { data: defaultData, name: 'Japanese' },
-    { data: defaultData, name: 'Korean' },
-    { data: defaultData, name: 'Mexican' },
-    { data: defaultData, name: 'Middle Eastern' },
-    { data: defaultData, name: 'Russian' },
-    { data: defaultData, name: 'Greek' },
-    { data: defaultData, name: 'French' },
-    { data: defaultData, name: 'African' }
+    { data: thai, name: 'Thai' },
+    { data: vietnamese, name: 'Vietnamese' },
+    { data: italian, name: 'Italian' },
+    { data: chinese, name: 'Chinese' },
+    { data: indian, name: 'Indian' },
+    { data: japanese, name: 'Japanese' },
+    { data: korean, name: 'Korean' },
+    { data: mexican, name: 'Mexican' },
+    { data: middleEastern, name: 'Middle Eastern' },
+    { data: russian, name: 'Russian' },
+    { data: greek, name: 'Greek' },
+    { data: french, name: 'French' },
+    { data: african, name: 'African' }
   ];
+
+  const methods: CulturalCookingMethod[] = [];
+  // Use a Set to track method names already added (case insensitive)
+  const addedMethods = new Set<string>();
+  // Keep track of method variations already mapped to main methods
+  const methodVariationsMap: Record<string, Set<string>> = {};
   
-  // Initialize result array
-  const result: CulturalCookingMethod[] = [];
-  
-  // Set to track used method IDs to prevent duplicates
-  const usedIds = new Set<string>();
-  
+  // Group methods by main category for hierarchical organization
+  const methodsByMainCategory: Record<string, CulturalCookingMethod[]> = {};
+
   // Extract cooking techniques from each cuisine
   cuisines.forEach(cuisine => {
-    const techniques = cuisine.data.cookingTechniques || [];
+    if (!cuisine.data.cookingTechniques) return;
     
-    techniques.forEach((technique) => {
+    cuisine.data.cookingTechniques.forEach((technique) => {
       // Generate a unique ID for each cooking method
-      const methodId = `${cuisine.name.toLowerCase()}-${(technique.name || 'unknown').toLowerCase().replace(/\s+/g, '-')}`;
+      const methodName = technique.name.toLowerCase();
+      const methodId = `${cuisine.name.toLowerCase()}_${methodName.replace(/\s+/g, '_')}`;
       
-      // Skip if we've already processed this ID
-      if (usedIds.has(methodId)) return;
-      usedIds.add(methodId);
+      // Skip if this is a duplicate name/cuisine combination
+      const caseInsensitiveKey = `${cuisine.name.toLowerCase()}:${methodName.toLowerCase()}`;
+      if (addedMethods.has(caseInsensitiveKey)) {
+        return;
+      }
+      addedMethods.add(caseInsensitiveKey);
       
-      // Create a standardized cooking method object
-      const cookingMethod: CulturalCookingMethod = {
+      // Check if this method is a variation of a standard cooking method
+      // Use case-insensitive matching for technique mapping
+      const relatedMainMethod = Object.entries(TECHNIQUE_MAPPING)
+        .find(([key]) => methodName.toLowerCase() === key.toLowerCase())?.[1];
+      
+      // If this is a variation and we've already added a variation from this culture 
+      // to this main method, skip it to avoid duplicates
+      if (relatedMainMethod) {
+        if (!methodVariationsMap[relatedMainMethod]) {
+          methodVariationsMap[relatedMainMethod] = new Set<string>();
+        }
+        
+        const culturalMethodKey = `${cuisine.name.toLowerCase()}:${relatedMainMethod}`;
+        if (methodVariationsMap[relatedMainMethod].has(culturalMethodKey)) {
+          return;
+        }
+        methodVariationsMap[relatedMainMethod].add(culturalMethodKey);
+      }
+      
+      const culturalMethod: CulturalCookingMethod = {
         id: methodId,
-        name: technique.name || 'Unknown Technique',
-        culture: cuisine.name,
-        description: technique.description || '',
-        elementalProperties: technique.elementalProperties || {
-          Fire: 0.25,
-          Water: 0.25,
-          Earth: 0.25,
-          Air: 0.25
-        },
-        traditionalDishes: technique.dishes || [],
-        keyIngredients: technique.keyIngredients || [],
-        equipmentNeeded: technique.equipment || [],
-        preparationTime: technique.preparationTime || 'Unknown',
-        difficultyLevel: technique.difficultyLevel || 'Unknown',
-        tips: technique.tips || [],
-        history: technique.history || '',
-        seasonality: technique.seasonality || 'All Seasons',
-        regionalVariations: technique.regionalVariations || {}
+        name: technique.name,
+        description: technique.description,
+        elementalProperties: technique.elementalProperties,
+        culturalOrigin: cuisine.name,
+        toolsRequired: technique.toolsRequired,
+        bestFor: technique.bestFor,
+        // Add relationship to main method if applicable
+        relatedToMainMethod: relatedMainMethod,
+        variationName: relatedMainMethod ? `${cuisine.name} ${technique.name}` : undefined,
+        // Add placeholder for astrological influences that we can map later
+        astrologicalInfluences: {
+          dominantPlanets: []
+        }
       };
       
-      result.push(cookingMethod);
+      methods.push(culturalMethod);
+      
+      // Group method by main category for hierarchical organization
+      if (relatedMainMethod) {
+        if (!methodsByMainCategory[relatedMainMethod]) {
+          methodsByMainCategory[relatedMainMethod] = [];
+        }
+        methodsByMainCategory[relatedMainMethod].push(culturalMethod);
+      }
     });
   });
-  
-  return result;
+
+  // Add basic astrological influences for methods that don't have them
+  methods.forEach(method => {
+    if (method.relatedToMainMethod && cookingMethods[method.relatedToMainMethod]) {
+      // Inherit some properties from the main method
+      const mainMethod = cookingMethods[method.relatedToMainMethod];
+      if (mainMethod.astrologicalInfluences) {
+        method.astrologicalInfluences = {
+          ...method.astrologicalInfluences,
+          favorableZodiac: mainMethod.astrologicalInfluences.favorableZodiac,
+          unfavorableZodiac: mainMethod.astrologicalInfluences.unfavorableZodiac,
+          dominantPlanets: mainMethod.astrologicalInfluences.dominantPlanets || []
+        };
+      }
+    }
+  });
+
+  return methods;
 }
 
 // Export a ready-to-use object with all cultural cooking methods

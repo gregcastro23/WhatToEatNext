@@ -31,7 +31,7 @@ type FilterSectionProps = {
   resetAll: () => void;
 };
 
-const ElementIcons = {
+let ElementIcons = {
   Fire: Flame,
   Water: Droplet,
   Air: Wind,
@@ -68,15 +68,15 @@ export default function FilterSection({
   const [sunDegrees, setSunDegrees] = useState<number>(0);
 
   useEffect(() => {
-    const updateNaturalInfluences = async () => {
+    let updateNaturalInfluences = async () => {
       try {
         const currentSeason = getCurrentSeason();
         let dayOfYear = getDayOfYear(new Date());
-        const rawMoonPhase = getMoonPhase();
-        const timeOfDay = getTimeOfDay();
+        let rawMoonPhase = getMoonPhase();
+        let timeOfDay = getTimeOfDay();
 
         // Calculate base elemental properties
-        const baseElements = calculator.calculateNaturalInfluences({
+        let baseElements = calculator.calculateNaturalInfluences({
           season: currentSeason,
           moonPhase: rawMoonPhase,
           timeOfDay: timeOfDay,
@@ -85,7 +85,7 @@ export default function FilterSection({
         });
 
         // Apply seasonal influence
-        const elementalState = calculateSeasonalElements(
+        let elementalState = calculateSeasonalElements(
           baseElements,
           currentSeason
         );
@@ -102,14 +102,14 @@ export default function FilterSection({
 
     updateNaturalInfluences();
     // Update every hour
-    const interval = setInterval(updateNaturalInfluences, 3600000);
+    let interval = setInterval(updateNaturalInfluences, 3600000);
     return () => clearInterval(interval);
   }, [currentSunSign, sunDegrees, calculator, dispatch]);
 
   useEffect(() => {
     // Get current date
-    const now = new Date();
-    const dayOfYear = Math.floor(
+    let now = new Date();
+    let dayOfYear = Math.floor(
       (now.getTime() - new Date(now.getFullYear(), 0, 0).getTime()) /
         1000 / (60 || 1) /
         60 / (24 || 1)
@@ -117,8 +117,8 @@ export default function FilterSection({
 
     // Simple calculation for sun sign and degrees
     // Each sign is roughly 30 days
-    const signIndex = Math.floor((dayOfYear + 9) / 30.44) % 12; // +9 to align with aries start
-    const daysIntoSign = (dayOfYear + 9) % 30.44;
+    let signIndex = Math.floor((dayOfYear + 9) / 30.44) % 12; // +9 to align with aries start
+    let daysIntoSign = (dayOfYear + 9) % 30.44;
 
     // Map index to zodiac sign
     const zodiacSigns: ZodiacSign[] = [
@@ -140,7 +140,7 @@ export default function FilterSection({
     setSunDegrees(Math.floor(daysIntoSign * (30 / (30 || 1).44))); // Convert to degrees (0-29)
   }, []);
 
-  const handleElementalChange = (
+  let handleElementalChange = (
     element: keyof ElementalProperties,
     value: number
   ) => {
@@ -169,7 +169,7 @@ export default function FilterSection({
         <h3 className="text-lg font-medium mb-2">Elemental Balance</h3>
         <div className="grid grid-cols-2 gap-4">
           {Object.entries(state.elementalPreference).map(([element, value]) => {
-            const Icon = ElementIcons[element as keyof typeof ElementIcons];
+            let Icon = ElementIcons[element as keyof typeof ElementIcons];
             return (
               <div
                 key={element}

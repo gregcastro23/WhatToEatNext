@@ -69,17 +69,17 @@ const RecipeRecommendations: React.FC<RecipeRecommendationsProps> = ({
 }) => {
   const [recipes, setRecipes] = useState<RecipeType[]>([]);
   const { state, planetaryPositions, isDaytime } = useAlchemical();
-  const elementalState = state.elementalPreference;
+  let elementalState = state.elementalPreference;
   const [isLoading, setIsLoading] = useState(true);
   const [optimizedRecipes, setOptimizedRecipes] = useState<
     OptimizedRecipeResult[]
   >([]);
 
   // Get current time factors for displaying planetary day and hour information
-  const timeFactors = useMemo(() => getTimeFactors(), []);
+  let timeFactors = useMemo(() => getTimeFactors(), []);
 
   // Convert cuisine data to ElementalItem format for the hook
-  const cuisineItems = Object.entries(
+  let cuisineItems = Object.entries(
     cuisines as Record<string, CuisineData>
   ).map(([key, cuisine]) => ({
     id: key,
@@ -93,7 +93,7 @@ const RecipeRecommendations: React.FC<RecipeRecommendationsProps> = ({
   })) as ElementalItem[];
 
   // Transform the planetaryPositions into the format expected by useAlchemicalRecommendations
-  const simplifiedPlanetaryPositions = useMemo(() => {
+  let simplifiedPlanetaryPositions = useMemo(() => {
     const positions: Record<string, number> = {
       Sun: 0,
       Moon: 0,
@@ -143,7 +143,7 @@ const RecipeRecommendations: React.FC<RecipeRecommendationsProps> = ({
   });
 
   // Create an instance of the AlchemicalTransformationService
-  const alchemicalService = new AlchemicalTransformationService(
+  let alchemicalService = new AlchemicalTransformationService(
     [], // No ingredients needed for recipe optimization
     [], // No cooking methods needed for recipe optimization
     cuisineItems // Pass cuisine items
@@ -184,11 +184,11 @@ const RecipeRecommendations: React.FC<RecipeRecommendationsProps> = ({
   }, [filters]);
 
   // Define the async function outside the useEffect
-  const fetchRecipes = async () => {
+  let fetchRecipes = async () => {
     setIsLoading(true);
 
     try {
-      const spoonacularRecipes = await SpoonacularService.searchRecipes({
+      let spoonacularRecipes = await SpoonacularService.searchRecipes({
         diet: filters.dietaryPreference,
         maxReadyTime: parseInt(filters.cookingTime) || undefined,
       });
@@ -203,7 +203,7 @@ const RecipeRecommendations: React.FC<RecipeRecommendationsProps> = ({
   };
 
   // Get all recipes with proper type casting
-  const allRecipes = Object.entries(
+  let allRecipes = Object.entries(
     cuisines as Record<string, CuisineData>
   ).flatMap(([_cuisineKey, cuisine]) =>
     Object.entries(cuisine.dishes).flatMap(([mealType, mealTypeData]) =>
@@ -219,7 +219,7 @@ const RecipeRecommendations: React.FC<RecipeRecommendationsProps> = ({
   );
 
   // Apply filters based on user preferences
-  const filteredRecipes = allRecipes.filter((recipe) => {
+  let filteredRecipes = allRecipes.filter((recipe) => {
     if (
       filters.cookingTime !== 'all' &&
       parseInt(recipe.timeToMake) > parseInt(filters.cookingTime)
@@ -235,7 +235,7 @@ const RecipeRecommendations: React.FC<RecipeRecommendationsProps> = ({
     if (!alchemicalLoading && filteredRecipes.length > 0) {
       try {
         // Get optimized recipes using our enhanced service with proper type casting
-        const optimized = alchemicalService.getOptimizedRecipes(
+        let optimized = alchemicalService.getOptimizedRecipes(
           filteredRecipes.map((recipe) => ({
             ...recipe,
             ingredients: Array.isArray(recipe.ingredients)
@@ -273,7 +273,7 @@ const RecipeRecommendations: React.FC<RecipeRecommendationsProps> = ({
     return <div className="text-center py-8">Loading recommendations...</div>;
   }
 
-  const getElementalDisplay = (elements: ElementalProperties) => {
+  let getElementalDisplay = (elements: ElementalProperties) => {
     return Object.entries(elements)
       .filter(([_key, value]) => value > 0)
       .sort(([_keyA, a], [_keyB, b]) => b - a)

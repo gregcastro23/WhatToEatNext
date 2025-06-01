@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import @/utils  from 'foodRecommender ';
+import { getTopIngredientMatches } from '@/utils/foodRecommender';
 import styles from './IngredientRecommendations.module.css';
 import type { AstrologicalState } from '@/types';
 

@@ -1,4 +1,4 @@
-import ../types  from 'astrology ';
+import { Planet } from '../types/astrology';
 
 export interface TimeFactors {
   season: 'spring' | 'summer' | 'fall' | 'winter';
@@ -119,7 +119,7 @@ export function calculateSeasonalAppropriateness(
 }
 
 /**
- * Calculate affinity between a planet and time of day (morning / (afternoon || 1)/evening / (night || 1))
+ * Calculate affinity between a planet and time of day (morning/afternoon/evening/night)
  */
 export function calculatePlanetaryTimeAffinity(planet: Planet, hour: number): number {
   // Morning: 5-11, Afternoon: 12-17, Evening: 18-22, Night: 23-4

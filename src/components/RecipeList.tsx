@@ -32,12 +32,6 @@ interface RecipeListProps {
   cuisineFilter?: string;
 }
 
-// Helper to ensure recipe IDs are safe for use in DOM IDs
-const sanitizeId = (id: string): string => {
-  // Replace any characters that aren't valid in HTML IDs with dashes
-  return id.replace(/[^a-zA-Z0-9-_]/g, '-');
-};
-
 export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
   const { currentPlanetaryAlignment, currentZodiac, activePlanets, isDaytime } =
     useAstrologicalState();
@@ -47,8 +41,8 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
 
   // Use the calculator directly
   useEffect(() => {
-    const calculator = new PlanetaryHourCalculator();
-    const hourInfo = calculator.getCurrentPlanetaryHour();
+    let calculator = new PlanetaryHourCalculator();
+    let hourInfo = calculator.getCurrentPlanetaryHour();
     setPlanetaryHour(hourInfo.planet);
   }, []);
 
@@ -68,7 +62,7 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
       // Process each cuisine's dishes
       if (cuisine.dishes) {
         // Track indices for unique IDs
-        const recipeIndex = 0;
+        let recipeIndex = 0;
 
         Object.entries(cuisine.dishes).forEach(([mealType, mealTypeData]) => {
           if (!mealTypeData) return; // Skip if mealTypeData is undefined
@@ -228,26 +222,26 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
               // If seasonRecipes is a single object
               recipeIndex++;
               let recipe = seasonRecipes;
-              const baseName = recipe.name
+              let baseName = recipe.name
                 ? recipe.name.toLowerCase().replace(/\s+/g, '-')
                 : 'unknown';
-              const uniqueId = `${cuisineId}-${baseName}-${recipeIndex}`;
+              let uniqueId = `${cuisineId}-${baseName}-${recipeIndex}`;
 
               // Extract dietary information
-              const dietaryInfo = recipe.dietaryInfo || [];
-              const isVegetarian = 
+              let dietaryInfo = recipe.dietaryInfo || [];
+              let isVegetarian = 
                 recipe.isVegetarian || 
                 dietaryInfo.includes('vegetarian') || 
                 false;
-              const isVegan = 
+              let isVegan = 
                 recipe.isVegan || 
                 dietaryInfo.includes('vegan') || 
                 false;
-              const isGlutenFree = 
+              let isGlutenFree = 
                 recipe.isGlutenFree || 
                 dietaryInfo.includes('gluten-free') || 
                 false;
-              const isDairyFree = 
+              let isDairyFree = 
                 recipe.isDairyFree || 
                 dietaryInfo.includes('dairy-free') || 
                 false;
@@ -256,7 +250,7 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
               let astrologicalInfluences = recipe.astrologicalInfluences || [];
               if (!astrologicalInfluences.length && recipe.astrologicalAffinities) {
                 // Try to extract from astrologicalAffinities if available
-                const affinity = recipe.astrologicalAffinities || {};
+                let affinity = recipe.astrologicalAffinities || {};
                 if (Array.isArray(affinity.planets)) {
                   astrologicalInfluences = [...astrologicalInfluences, ...affinity.planets];
                 } else if (typeof affinity.planets === 'string') {
@@ -288,20 +282,20 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
               }
 
               // Process preparation & cooking time
-              const prepTime = recipe.prepTime 
+              let prepTime = recipe.prepTime 
                 ? typeof recipe.prepTime === 'number' 
                   ? `${recipe.prepTime} minutes` 
                   : recipe.prepTime
                 : undefined;
               
-              const cookTime = recipe.cookTime
+              let cookTime = recipe.cookTime
                 ? typeof recipe.cookTime === 'number'
                   ? `${recipe.cookTime} minutes`
                   : recipe.cookTime
                 : undefined;
               
               // Calculate total time if available
-              const totalTime = prepTime && cookTime
+              let totalTime = prepTime && cookTime
                 ? `${parseInt(prepTime) + parseInt(cookTime)} minutes`
                 : recipe.timeToMake || undefined;
 
@@ -371,7 +365,7 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
     });
 
     // Ensure all recipes have normalized elemental properties
-    const normalizedRecipes = extractedRecipes.map(recipe => {
+    let normalizedRecipes = extractedRecipes.map(recipe => {
       // Fallback elemental properties if missing
       if (!recipe.elementalProperties) {
         recipe.elementalProperties = {
@@ -383,9 +377,9 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
       }
       
       // Ensure the sum of elemental properties is 1.0
-      const sum = Object.values(recipe.elementalProperties).reduce((a, b) => a + b, 0);
+      let sum = Object.values(recipe.elementalProperties).reduce((a, b) => a + b, 0);
       if (sum > 0 && Math.abs(sum - 1.0) > 0.01) {
-        const factor = 1.0 / (sum || 1);
+        let factor = 1.0 / (sum || 1);
         recipe.elementalProperties = {
           Fire: recipe.elementalProperties.Fire * factor,
           Water: recipe.elementalProperties.Water * factor,
@@ -398,15 +392,15 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
     });
 
     // Enrich all recipes with enhanced astrological data
-    const enrichedRecipes = normalizedRecipes.map((recipe) =>
+    let enrichedRecipes = normalizedRecipes.map((recipe) =>
       enrichRecipeData(recipe)
     );
 
     // Calculate astrological compatibility for each recipe
-    const scoredRecipes = calculateAstrologicalCompatibility(enrichedRecipes);
+    let scoredRecipes = calculateAstrologicalCompatibility(enrichedRecipes);
 
     // Sort recipes by compatibility score in descending order
-    const sortedRecipes = scoredRecipes.sort(
+    let sortedRecipes = scoredRecipes.sort(
       (a, b) => (b.compatibilityScore || 0) - (a.compatibilityScore || 0)
     );
 
@@ -420,7 +414,7 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
   ]);
 
   // Enhanced astrological compatibility calculation with day / (night || 1) effects and planetary hours
-  const calculateAstrologicalCompatibility = (
+  let calculateAstrologicalCompatibility = (
     recipeList: Recipe[]
   ): Recipe[] => {
     return recipeList.map((recipe) => {
@@ -428,7 +422,7 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
         let score = 50; // Base score
 
         // Make sure elemental properties are valid for calculation
-        const safeElementalProps = {
+        let safeElementalProps = {
           Fire: recipe.elementalProperties?.Fire || 0,
           Water: recipe.elementalProperties?.Water || 0,
           Earth: recipe.elementalProperties?.Earth || 0,
@@ -455,12 +449,12 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
             pisces: 'Water',
           };
 
-          const currentElement = zodiacElementMap[currentZodiac.toLowerCase()];
+          let currentElement = zodiacElementMap[currentZodiac.toLowerCase()];
           if (
             currentElement &&
             safeElementalProps[currentElement] !== undefined
           ) {
-            const elementValue = safeElementalProps[currentElement];
+            let elementValue = safeElementalProps[currentElement];
             // Safely add to score, ensuring we don't add NaN
             if (!isNaN(elementValue)) {
               score += elementValue * 20; // Up to 20 points for elemental match
@@ -493,7 +487,7 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
             pisces: 'winter',
           };
 
-          const currentSeason = zodiacToSeason[currentZodiac.toLowerCase()];
+          let currentSeason = zodiacToSeason[currentZodiac.toLowerCase()];
 
           // Check if recipe is appropriate for current astrological season
           if (
@@ -580,12 +574,12 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
 
         // 4. Time of day compatibility
         if (recipe.mealType) {
-          const hour = new Date().getHours();
-          const isBreakfastTime = hour >= 6 && hour < 11;
-          const isLunchTime = hour >= 11 && hour < 15;
-          const isDinnerTime = hour >= 17 && hour < 22;
+          let hour = new Date().getHours();
+          let isBreakfastTime = hour >= 6 && hour < 11;
+          let isLunchTime = hour >= 11 && hour < 15;
+          let isDinnerTime = hour >= 17 && hour < 22;
 
-          const mealTypes = Array.isArray(recipe.mealType)
+          let mealTypes = Array.isArray(recipe.mealType)
             ? recipe.mealType.map((m) => m.toLowerCase())
             : [
                 typeof recipe.mealType === 'string'
@@ -679,7 +673,7 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
             ],
           };
 
-          const hourKeywords =
+          let hourKeywords =
             planetaryInfluenceMap[recipe.astrologicalInfluences[0]] || [];
 
           // Check if recipe has any influences matching the current planetary hour
@@ -701,10 +695,10 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
           recipe.astrologicalInfluences.length > 0
         ) {
           // Check if recipe has influences related to active planets
-          const activePlanetsArray = Array.isArray(activePlanets)
+          let activePlanetsArray = Array.isArray(activePlanets)
             ? (activePlanets as string[])
             : [];
-          const matchingInfluences = activePlanetsArray.filter((planet) =>
+          let matchingInfluences = activePlanetsArray.filter((planet) =>
             recipe.astrologicalInfluences?.some(
               (influence) =>
                 typeof influence === 'string' &&
@@ -720,7 +714,7 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
         // NEW: Enhanced planetary positioning influences
         if (currentPlanetaryAlignment && recipe.astrologicalInfluences) {
           // Check all planets, not just Sun position
-          const planetaryPositions = [
+          let planetaryPositions = [
             {
               planet: 'Sun',
               sign: (currentPlanetaryAlignment as any)?.sun?.sign,
@@ -759,7 +753,7 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
           ].filter((p) => p.sign); // Filter out undefined positions
 
           // Planet in dominant house gives stronger influence
-          const dominantPlanets = planetaryPositions.filter((p) => {
+          let dominantPlanets = planetaryPositions.filter((p) => {
             // Planets in angular houses (1, 4, 7, 10) have stronger influence
             // This is a simplified calculation - we could use actual house positions
             const degree = p.degree || 0;
@@ -776,7 +770,7 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
             if (!planet.sign) return;
 
             // Check if recipe has influences related to this planet's sign
-            const matchesPlanetSign =
+            let matchesPlanetSign =
               recipe.astrologicalInfluences?.some(
                 (influence) =>
                   typeof influence === 'string' &&
@@ -787,7 +781,7 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
 
             if (matchesPlanetSign) {
               // Base points for matching
-              const points = 3;
+              let points = 3;
 
               // Bonus points for dominant planets
               if (dominantPlanets.some((p) => p.planet === planet.planet)) {
@@ -804,11 +798,11 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
           });
 
           // Check for special aspect patterns - planets in harmonious aspects
-          const harmonicPairs = checkHarmonicAspects(currentPlanetaryAlignment);
+          let harmonicPairs = checkHarmonicAspects(currentPlanetaryAlignment);
           if (harmonicPairs.length > 0) {
             // If recipe matches the energy of harmonic pairs, boost score
             harmonicPairs.forEach((pair) => {
-              const matchesHarmonicPair =
+              let matchesHarmonicPair =
                 recipe.astrologicalInfluences?.some(
                   (influence) =>
                     typeof influence === 'string' &&
@@ -834,7 +828,7 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
         score = Math.max(0, Math.min(100, score));
 
         // Compute compatibility percentage (always a number between 0-100)
-        const compatibilityPercentage = Math.round(score);
+        let compatibilityPercentage = Math.round(score);
 
         return {
           ...recipe,
@@ -852,7 +846,7 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
   };
 
   // Helper function to identify harmonious planetary aspects
-  const checkHarmonicAspects = (
+  let checkHarmonicAspects = (
     alignment: unknown
   ): Array<{ planet1: string; planet2: string; aspect: string }> => {
     const aspects: Array<{ planet1: string; planet2: string; aspect: string }> =
@@ -860,19 +854,19 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
 
     // Use zodiac data from the imported zodiacSeasons
     if (alignment.sun && alignment.jupiter) {
-      const sunSign = alignment.sun.sign.toLowerCase();
-      const jupiterSign = alignment.jupiter.sign.toLowerCase();
+      let sunSign = alignment.sun.sign.toLowerCase();
+      let jupiterSign = alignment.jupiter.sign.toLowerCase();
 
       // Get sign elements from zodiacSeasons
-      const getElement = (sign: string): string => {
+      let getElement = (sign: string): string => {
         const signData = zodiacSeasons.find(
           (s) => s.sign.toLowerCase() === sign
         );
         return signData?.element || '';
       };
 
-      const sunElement = getElement(sunSign);
-      const jupiterElement = getElement(jupiterSign);
+      let sunElement = getElement(sunSign);
+      let jupiterElement = getElement(jupiterSign);
 
       // Check if planets are in signs of the same element (trine)
       if (sunElement && jupiterElement && sunElement === jupiterElement) {
@@ -886,49 +880,16 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
   };
 
   // Toggle recipe expansion
-  const toggleRecipe = (id: string, event?: React.MouseEvent) => {
-    // Prevent event propagation if event exists
-    if (event) {
-      event.stopPropagation();
-      event.preventDefault();
-    }
-
-    console.log(`[RecipeList] Toggling recipe: ${id}, current expanded id:`, expandedRecipeId);
-    
-    // Use the function form of setState to ensure we're working with the latest state
-    setExpandedRecipeId(prevId => {
-      const newExpandedId = prevId === id ? null : id;
-      console.log(`[RecipeList] Setting expanded id from ${prevId} to:`, newExpandedId);
-      return newExpandedId;
-    });
-    
-    // Check if element with recipe ID exists
-    const safeId = sanitizeId(id);
-    const element = document.getElementById(`recipe-${safeId}`);
-    console.log(`[RecipeList] Recipe element exists:`, !!element, 'Element ID:', element?.id);
-    
-    // If we're expanding the recipe, scroll it into view
-    setTimeout(() => {
-      // Get the updated state by querying the DOM for visual indicators
-      const isExpanded = document.getElementById(`recipe-${safeId}`)?.classList.contains('ring-blue-500');
-      console.log(`[RecipeList] Is expanded based on DOM classes:`, isExpanded);
-      
-      const element = document.getElementById(`recipe-${safeId}`);
-      if (element) {
-        console.log(`[RecipeList] Scrolling element into view:`, element.id);
-        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      } else {
-        console.log(`[RecipeList] Element not found for scrolling:`, `recipe-${safeId}`);
-      }
-    }, 100);
+  let toggleRecipe = (id: string) => {
+    setExpandedRecipeId(expandedRecipeId === id ? null : id);
   };
 
   // Render element icon based on dominance
-  const renderElementIcon = (properties: Recipe['elementalProperties']) => {
+  let renderElementIcon = (properties: Recipe['elementalProperties']) => {
     if (!properties) return null;
 
-    const elements = Object.entries(properties).sort((a, b) => b[1] - a[1]);
-    const dominantElement = elements[0];
+    let elements = Object.entries(properties).sort((a, b) => b[1] - a[1]);
+    let dominantElement = elements[0];
 
     if (dominantElement[1] <= 0) return null;
 
@@ -947,7 +908,7 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
   };
 
   // Display dietary restrictions as badges
-  const renderDietaryBadges = (recipe: Recipe) => {
+  let renderDietaryBadges = (recipe: Recipe) => {
     const badges = [];
 
     if (recipe.isVegetarian) {
@@ -1052,22 +1013,14 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
 
       {/* Recipe Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {/* This is a hidden test element to verify if expansion works */}
-        <div className="hidden">
-          {expandedRecipeId && <div>Current expanded ID: {expandedRecipeId}</div>}
-        </div>
-        
         {recipes.map((recipe) => (
           <div
             key={recipe.id}
-            id={`recipe-${sanitizeId(recipe.id)}`}
-            className={`border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow ${
-              expandedRecipeId === recipe.id ? 'ring-2 ring-blue-500 bg-blue-50' : ''
-            }`}
+            className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow"
           >
             <div
-              className="p-4 cursor-pointer recipe-card-clickable"
-              onClick={(event) => toggleRecipe(recipe.id, event)}
+              className="p-4 cursor-pointer"
+              onClick={() => toggleRecipe(recipe.id)}
             >
               <div className="flex justify-between items-start">
                 <h3 className="text-lg font-semibold">{recipe.name}</h3>
@@ -1137,24 +1090,7 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
             </div>
 
             {expandedRecipeId === recipe.id && (
-              <div className="p-4 border-t bg-gray-50 recipe-expanded-content shadow-inner">
-                {/* Add a visual button to help close the content */}
-                <div className="flex justify-between items-center mb-4">
-                  <div className="text-sm text-blue-700 bg-blue-50 p-2 rounded">
-                    <strong>Debug Info:</strong> Card ID: {recipe.id} <br/>
-                    Element ID: recipe-{sanitizeId(recipe.id)} <br/>
-                    Expanded: {String(expandedRecipeId === recipe.id)}
-                  </div>
-                  <button 
-                    className="px-3 py-1 bg-gray-200 text-gray-800 rounded hover:bg-gray-300"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setExpandedRecipeId(null);
-                    }}
-                  >
-                    Close
-                  </button>
-                </div>
+              <div className="p-4 border-t bg-gray-50">
                 {/* Recipe Details */}
                 <div className="mb-4">
                   <h4 className="font-medium mb-2">Details</h4>
@@ -1369,21 +1305,6 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
                     </div>
                   )}
 
-                  {/* Substitutions - NEW SECTION */}
-                  {recipe.substitutions && recipe.substitutions.length > 0 && (
-                    <div className="mt-4">
-                      <h4 className="font-medium mb-2">Substitutions</h4>
-                      <ul className="list-disc list-inside space-y-1 text-sm">
-                        {recipe.substitutions.map((sub, idx: number) => (
-                          <li key={idx} className="pb-2">
-                            <span className="font-medium">{sub.original}</span> → {' '}
-                            <span>{sub.alternatives.join(', ')}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-
                   {/* Procedure */}
                   {recipe.instructions && recipe.instructions.length > 0 && (
                     <div className="mt-4">
@@ -1397,72 +1318,6 @@ export default function RecipeList({ cuisineFilter }: RecipeListProps = {}) {
                           )
                         )}
                       </ol>
-                    </div>
-                  )}
-
-                  {/* Culinary Notes - NEW SECTION */}
-                  {(recipe.culturalNotes || recipe.preparationNotes || recipe.seasonalAdjustments || recipe.origin || recipe.traditionalOccasion || recipe.pairingRecommendations) && (
-                    <div className="mt-4 p-3 bg-amber-50 rounded-md border border-amber-100">
-                      <h4 className="font-medium mb-2">Culinary Notes</h4>
-                      
-                      {recipe.preparationNotes && (
-                        <div className="mb-2">
-                          <h5 className="text-sm font-medium">Preparation Notes</h5>
-                          <p className="text-sm">{recipe.preparationNotes}</p>
-                        </div>
-                      )}
-                      
-                      {recipe.culturalNotes && (
-                        <div className="mb-2">
-                          <h5 className="text-sm font-medium">Cultural Context</h5>
-                          <p className="text-sm">{recipe.culturalNotes}</p>
-                        </div>
-                      )}
-                      
-                      {recipe.origin && (
-                        <div className="mb-2">
-                          <h5 className="text-sm font-medium">Origin</h5>
-                          <p className="text-sm">{recipe.origin}</p>
-                        </div>
-                      )}
-                      
-                      {recipe.traditionalOccasion && recipe.traditionalOccasion.length > 0 && (
-                        <div className="mb-2">
-                          <h5 className="text-sm font-medium">Traditional Occasions</h5>
-                          <div className="flex flex-wrap gap-1">
-                            {recipe.traditionalOccasion.map((occasion, idx) => (
-                              <span key={idx} className="inline-block px-2 py-1 text-xs bg-amber-100 text-amber-800 rounded">
-                                {occasion}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                      
-                      {recipe.seasonalAdjustments && (
-                        <div className="mb-2">
-                          <h5 className="text-sm font-medium">Seasonal Adjustments</h5>
-                          <p className="text-sm">{recipe.seasonalAdjustments}</p>
-                        </div>
-                      )}
-                      
-                      {recipe.pairingRecommendations && (
-                        <div>
-                          <h5 className="text-sm font-medium">Pairing Suggestions</h5>
-                          {recipe.pairingRecommendations.wines && recipe.pairingRecommendations.wines.length > 0 && (
-                            <div className="text-sm"><span className="font-medium">Wine:</span> {recipe.pairingRecommendations.wines.join(', ')}</div>
-                          )}
-                          {recipe.pairingRecommendations.beverages && recipe.pairingRecommendations.beverages.length > 0 && (
-                            <div className="text-sm"><span className="font-medium">Beverages:</span> {recipe.pairingRecommendations.beverages.join(', ')}</div>
-                          )}
-                          {recipe.pairingRecommendations.sides && recipe.pairingRecommendations.sides.length > 0 && (
-                            <div className="text-sm"><span className="font-medium">Side Dishes:</span> {recipe.pairingRecommendations.sides.join(', ')}</div>
-                          )}
-                          {recipe.pairingRecommendations.condiments && recipe.pairingRecommendations.condiments.length > 0 && (
-                            <div className="text-sm"><span className="font-medium">Condiments:</span> {recipe.pairingRecommendations.condiments.join(', ')}</div>
-                          )}
-                        </div>
-                      )}
                     </div>
                   )}
 

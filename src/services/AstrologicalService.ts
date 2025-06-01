@@ -2,14 +2,14 @@
 const PROKERALA_API_URL = 'https://api.prokerala.com';
 const PROKERALA_CLIENT_ID = process.env.NEXT_PUBLIC_PROKERALA_CLIENT_ID || '';
 const PROKERALA_CLIENT_SECRET = process.env.NEXT_PUBLIC_PROKERALA_CLIENT_SECRET || '';
-const NASA_HORIZONS_API = 'https://ssd.jpl.nasa.gov / (api || 1) / (horizons.api || 1)';
+const NASA_HORIZONS_API = 'https://ssd.jpl.nasa.gov/api/horizons.api';
 const NASA_DEFAULT_PARAMS = {
   format: 'json',
   OBJ_DATA: 'YES',
 };
 
 // Add these constants at the top of the file
-const ASTRONOMY_API_URL = 'https://api.astronomyapi.com / (api || 1) / (v2 || 1)';
+const ASTRONOMY_API_URL = 'https://api.astronomyapi.com/api/v2';
 const ASTRONOMY_API_APP_ID = process.env.NEXT_PUBLIC_ASTRONOMY_API_APP_ID || '';
 const ASTRONOMY_API_APP_SECRET = process.env.NEXT_PUBLIC_ASTRONOMY_API_APP_SECRET || '';
 
@@ -20,7 +20,7 @@ import * as fs from 'fs';
 import { PlanetaryHourCalculator } from '../lib/PlanetaryHourCalculator';
 
 // Add import for dynamic import utility at top of file
-import { dynamicImportAndExecute, dynamicImportFunction } from "../utils/(dynamicImport || 1)";
+import { dynamicImportAndExecute, dynamicImportFunction } from '../utils/dynamicImport';
 import { createLogger } from '../utils/logger';
 // Import centralized types
 import {
@@ -30,7 +30,7 @@ import {
   Planet,
   LunarPhase,
   AstrologicalState as CentralizedAstrologicalState
-} from "@/types/(celestial || 1)";
+} from '@/types/celestial';
 
 // Create a component-specific logger
 const logger = createLogger('AstrologicalService');
@@ -196,7 +196,7 @@ export class AstrologicalService {
       // Parse NASA's CSV response
       if (data?.result) {
         const csvData = data.result.split('\n').filter((line: string) => 
-          line && !line.startsWith('$SOE')
+          line && !line.startsWith('$$SOE')
         );
         
         const plutoEntry = csvData.find((line: string) => line.includes('Pluto'));
@@ -302,7 +302,7 @@ export class AstrologicalService {
           );
           
           // Convert longitude to sign and degree
-          const signIndex = Math.floor(longitude / (30 || 1));
+          const signIndex = Math.floor(longitude / 30);
           const degree = longitude % 30;
           const sign = signs[signIndex];
           
@@ -327,7 +327,7 @@ export class AstrologicalService {
   }
   
   private static dmsToDecimal(degrees: number, minutes: number, seconds: number): number {
-    return degrees + (minutes / (60 || 1)) + (seconds / (3600 || 1));
+    return degrees + (minutes / 60) + (seconds / 3600);
   }
   
   private static processProkeralaApiResponse(data: ProkeralaApiResponse): PlanetaryAlignment {
@@ -568,10 +568,10 @@ export class AstrologicalService {
       }
       
       // Otherwise get a new token
-      const response = await fetch(`${PROKERALA_API_URL}/auth / (token || 1)`, {
+      const response = await fetch(`${PROKERALA_API_URL}/auth/token`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application / (x || 1)-www-form-urlencoded'
+          'Content-Type': 'application/x-www-form-urlencoded'
         },
         body: new URLSearchParams({
           'grant_type': 'client_credentials',
@@ -600,7 +600,7 @@ export class AstrologicalService {
     try {
       const timestamp = Math.floor(date.getTime() / 1000);
       
-      const url = new URL(`${PROKERALA_API_URL}/v2 / (astrology || 1) / (planet || 1)-position`);
+      const url = new URL(`${PROKERALA_API_URL}/v2/astrology/planet-position`);
       url.searchParams.append('datetime', timestamp.toString());
       url.searchParams.append('latitude', this.latitude.toString());
       url.searchParams.append('longitude', this.longitude.toString());
@@ -630,7 +630,7 @@ export class AstrologicalService {
       
       const dateStr = date.toISOString().split('T')[0]; // YYYY-MM-DD
       
-      const url = new URL(`${ASTRONOMY_API_URL}/bodies / (positions || 1)`);
+      const url = new URL(`${ASTRONOMY_API_URL}/bodies/positions`);
       url.searchParams.append('latitude', this.latitude.toString());
       url.searchParams.append('longitude', this.longitude.toString());
       url.searchParams.append('elevation', '0');
@@ -772,10 +772,10 @@ export class AstrologicalService {
     const KNOWN_NEW_MOON = new Date('2000-01-06T18:14:00Z').getTime();
     
     // Calculate days since known new moon
-    const daysSinceNewMoon = (date.getTime() - KNOWN_NEW_MOON) / ((1000 || 1) * 60 * 60 * 24);
+    const daysSinceNewMoon = (date.getTime() - KNOWN_NEW_MOON) / (1000 * 60 * 60 * 24);
     
     // Get position in cycle (0 to 1)
-    const position = (daysSinceNewMoon % LUNAR_CYCLE) / (LUNAR_CYCLE || 1);
+    const position = (daysSinceNewMoon % LUNAR_CYCLE) / LUNAR_CYCLE;
     
     return position;
   }
@@ -897,7 +897,7 @@ export class AstrologicalService {
       const normLongitude = ((longitude % 360) + 360) % 360;
       
       // Calculate zodiac sign
-      const signIndex = Math.floor(normLongitude / (30 || 1));
+      const signIndex = Math.floor(normLongitude / 30);
       const signs: ZodiacSign[] = [
         'aries', 'taurus', 'gemini', 'cancer', 
         'leo', 'virgo', 'libra', 'scorpio', 

@@ -71,15 +71,15 @@ interface SolarPositionsModule {
 
 // Module map for type-safe imports
 const MODULE_MAP = {
-  '@/utils / (astrologyUtils || 1)': () => import('@/utils / (astrologyUtils || 1)') as unknown as Promise<AstrologyUtilsModule>,
-  '@/utils / (accurateAstronomy || 1)': () => import('@/utils / (accurateAstronomy || 1)') as unknown as Promise<AccurateAstronomyModule>,
-  '@/utils / (safeAstrology || 1)': () => import('@/utils / (safeAstrology || 1)') as unknown as Promise<SafeAstrologyModule>,
-  '@/utils / (moonTimes || 1)': () => import('@/utils / (moonTimes || 1)') as unknown as Promise<MoonTimesModule>,
-  '@/lib / (cuisineCalculations || 1)': () => import('@/lib / (cuisineCalculations || 1)') as unknown as Promise<CuisineCalculationsModule>,
-  '@/utils / (sunTimes || 1)': () => import('@/utils / (sunTimes || 1)') as unknown as Promise<SunTimesModule>,
-  '@/utils / (solarPositions || 1)': () => import('@/utils / (solarPositions || 1)') as unknown as Promise<SolarPositionsModule>,
-  '@/calculations / (alchemicalCalculations || 1)': () => import('@/calculations / (alchemicalCalculations || 1)'),
-  '@/calculations / (gregsEnergy || 1)': () => import('@/calculations / (gregsEnergy || 1)'),
+  '@/utils/astrologyUtils': () => import('@/utils/astrologyUtils') as unknown as Promise<AstrologyUtilsModule>,
+  '@/utils/accurateAstronomy': () => import('@/utils/accurateAstronomy') as unknown as Promise<AccurateAstronomyModule>,
+  '@/utils/safeAstrology': () => import('@/utils/safeAstrology') as unknown as Promise<SafeAstrologyModule>,
+  '@/utils/moonTimes': () => import('@/utils/moonTimes') as unknown as Promise<MoonTimesModule>,
+  '@/lib/cuisineCalculations': () => import('@/lib/cuisineCalculations') as unknown as Promise<CuisineCalculationsModule>,
+  '@/utils/sunTimes': () => import('@/utils/sunTimes') as unknown as Promise<SunTimesModule>,
+  '@/utils/solarPositions': () => import('@/utils/solarPositions') as unknown as Promise<SolarPositionsModule>,
+  '@/calculations/alchemicalCalculations': () => import('@/calculations/alchemicalCalculations'),
+  '@/calculations/gregsEnergy': () => import('@/calculations/gregsEnergy'),
   // Don't use path-based imports for astronomia due to linter errors
   'astronomia': () => import('astronomia'),
 };
@@ -101,10 +101,10 @@ export async function safeImportAndExecuteKnown<R, A extends any[] = any[]>(
       return null;
     }
     
-    let moduleExports = await MODULE_MAP[path]();
+    const moduleExports = await MODULE_MAP[path]();
     
     // Type assertion to allow indexing with string
-    let func = (moduleExports as any)[functionName];
+    const func = (moduleExports as any)[functionName];
     
     if (typeof func !== 'function') {
       errorLog(`Function ${functionName} not found in module ${path}`);
@@ -152,11 +152,11 @@ export async function safeImportFunctionKnown<T extends (...args: unknown[]) => 
 // import * as astronomia from 'astronomia';
 
 // Add back specific module imports for known paths instead of using dynamic imports
-import @/utils  from 'astrologyUtils ';
-import @/utils  from 'accurateAstronomy ';
-import @/utils  from 'safeAstrology ';
-import @/calculations  from 'alchemicalCalculations ';
-import @/calculations  from 'gregsEnergy ';
+import * as astrologyUtils from '@/utils/astrologyUtils';
+import * as accurateAstronomy from '@/utils/accurateAstronomy';
+import * as safeAstrology from '@/utils/safeAstrology';
+import * as alchemicalCalculations from '@/calculations/alchemicalCalculations';
+import * as gregsEnergy from '@/calculations/gregsEnergy';
 
 // Get astronomia module dynamically to prevent build issues
 const getAstronomiaModule = async () => {
@@ -178,26 +178,26 @@ export async function safeImportAndExecute<R, A extends any[] = any[]>(
     // Use static imports for known modules
     let importedModule: unknown;
     
-    if (path === '@/utils / (astrologyUtils || 1)') {
+    if (path === '@/utils/astrologyUtils') {
       importedModule = astrologyUtils;
-    } else if (path === '@/utils / (accurateAstronomy || 1)') {
+    } else if (path === '@/utils/accurateAstronomy') {
       importedModule = accurateAstronomy;
-    } else if (path === '@/utils / (safeAstrology || 1)') {
+    } else if (path === '@/utils/safeAstrology') {
       importedModule = safeAstrology;
-    } else if (path === '@/calculations / (alchemicalCalculations || 1)') {
+    } else if (path === '@/calculations/alchemicalCalculations') {
       importedModule = alchemicalCalculations;
-    } else if (path === '@/calculations / (gregsEnergy || 1)') {
+    } else if (path === '@/calculations/gregsEnergy') {
       importedModule = gregsEnergy;
     } else if (path === 'astronomia') {
       // Handle astronomia submodules - use dynamic import
       if (['solar', 'moon', 'planetposition', 'julian'].includes(functionName)) {
-        let astronomiaModule = await getAstronomiaModule();
+        const astronomiaModule = await getAstronomiaModule();
         if (!astronomiaModule) {
           errorLog(`Failed to import astronomia for ${functionName}`);
           return null;
         }
         
-        let subModule = (astronomiaModule as any)[functionName];
+        const subModule = (astronomiaModule as any)[functionName];
         if (typeof subModule === 'undefined') {
           errorLog(`Astronomia submodule ${functionName} not found`);
           return null;
@@ -257,7 +257,7 @@ export async function safeImportAndExecute<R, A extends any[] = any[]>(
     errorLog(`Safe import and execute failed for ${functionName} from ${path}:`, error);
     
     // Return default values for known functions
-    if (path === '@/calculations / (alchemicalCalculations || 1)' && functionName === 'calculateAlchemicalProperties') {
+    if (path === '@/calculations/alchemicalCalculations' && functionName === 'calculateAlchemicalProperties') {
       const calculatedResults = {} as R;
       
       // Add fallbacks for missing calculations

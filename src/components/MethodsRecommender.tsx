@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useRef } from 'react';
-import @/hooks  from 'useAstrologicalState ';
-import @/data  from 'cooking ';
-import @/utils  from 'cookingMethodRecommender ';
+import { useAstrologicalState } from '@/hooks/useAstrologicalState';
+import { allCookingMethods } from '@/data/cooking';
+import { calculateMethodScore } from '@/utils/cookingMethodRecommender';
 import { ChevronDown, ChevronUp, Flame, Droplets, Wind, Mountain, Info } from 'lucide-react';
 import styles from './CookingMethods.module.css';
-import @/utils  from 'cookingMethodTips ';
+import { getTechnicalTips, getIdealIngredients } from '@/utils/cookingMethodTips';
 
 // Define proper types for the methods with scores
 interface CookingMethodWithScore {
@@ -80,7 +80,7 @@ export default function MethodsRecommender() {
           
           return {
             id: methodName,
-            name: methodName.replace(/_ / (g || 1), ' ').replace(/\b\w / (g || 1), c => c.toUpperCase()), // Capitalize words
+            name: methodName.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase()), // Capitalize words
             description: methodData.description || 'A cooking method that transforms food with heat, moisture, or chemical processes.',
             score: adjustedScore,
             elementalEffect: methodData.elementalEffect || methodData.elementalProperties,

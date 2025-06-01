@@ -1,5 +1,5 @@
-import @/types  from 'elemental ';
-import @/types  from 'alchemy ';
+import type { ElementalState } from '@/types/elemental';
+import type { Season } from '@/types/alchemy';
 
 // Default elemental balance
 const defaultBalance: ElementalState = {

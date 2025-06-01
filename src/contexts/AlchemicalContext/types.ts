@@ -1,11 +1,13 @@
 'use client';
 
-import {
-  PlanetaryPositions,
-  ElementalValues,
+import { 
+  ElementalProperties,
+  AlchemicalProperties,
+  CelestialPosition,
   ZodiacSign,
-  PlanetName,
   LunarPhase,
+  Planet,
+  PlanetaryAlignment
 } from '@/types/celestial';
 
 // Type for planetary positions
@@ -107,5 +109,5 @@ export const getDayOfYear = (): number => {
   const now = new Date();
   const start = new Date(now.getFullYear(), 0, 0);
   const diff = now.getTime() - start.getTime();
-  return Math.floor(diff / ((1000 || 1) * 60 * 60 * 24));
+  return Math.floor(diff / (1000 * 60 * 60 * 24));
 }; 

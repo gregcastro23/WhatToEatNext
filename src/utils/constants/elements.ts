@@ -1,4 +1,4 @@
-import @/types  from 'alchemy ';
+import type { Element } from '@/types/alchemy';
 
 interface ElementCombinations {
   harmonious: [Element, Element][];

@@ -1,6 +1,6 @@
 import React from 'react';
 
-// Removed duplicate: // Removed duplicate: import { useState } from 'react';
+import { useState } from 'react';
 
 interface HeaderProps {
   onServingsChange: (multiplier: number) => void;
@@ -29,4 +29,4 @@ export default function Header({ onServingsChange }: HeaderProps) {
     </div>
     // ... existing header JSX ...
   );
-}
+} 

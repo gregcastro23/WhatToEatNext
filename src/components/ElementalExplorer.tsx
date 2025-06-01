@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import @/data  from 'ingredients ';
-import @/utils  from 'ingredientUtils ';
+import type { Modality } from '@/data/ingredients/types';
+import { determineIngredientModality } from '@/utils/ingredientUtils';
 
 export default function ElementalExplorer() {
   const [qualities, setQualities] = useState<string[]>([]);

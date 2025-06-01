@@ -1,4 +1,4 @@
-import @/components / (FoodRecommender || 1) / (components || 1)  from 'FoodBalanceTracker ';
+import FoodBalanceTracker from '@/components/FoodRecommender/components/FoodBalanceTracker';
 
 // Re-export the component with specific props for the header version
 const HeaderFoodBalanceTracker = (props: unknown) => {

@@ -1,4 +1,4 @@
-import { logger } from "../utils/(logger || 1)"
+import { logger } from '../utils/logger'
 
 type LoadingState = {
   isLoading: boolean

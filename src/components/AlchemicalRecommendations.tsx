@@ -1,19 +1,19 @@
 import React, { useState, useMemo } from 'react';
-import @/constants  from 'planets ';
-import @/constants  from 'planetaryElements ';
-import @/hooks  from 'useAlchemicalRecommendations ';
-import @/calculations  from 'alchemicalTransformation ';
-import @/contexts  from 'AlchemicalContext ';
-import @/types  from 'alchemy ';
+import { RulingPlanet } from '@/constants/planets';
+import { ElementalCharacter, AlchemicalProperty } from '@/constants/planetaryElements';
+import { useAlchemicalRecommendations } from '@/hooks/useAlchemicalRecommendations';
+import { ElementalItem } from '@/calculations/alchemicalTransformation';
+import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import { LunarPhase, LunarPhaseWithSpaces, ZodiacSign, PlanetaryAspect } from '@/types/alchemy';
 
 // Import the correct data sources
-import @/data  from 'ingredients ';
-import @/data  from 'cooking ';
-import @/data  from 'cuisines ';
+import allIngredients from '@/data/ingredients';
+import { cookingMethods } from '@/data/cooking/cookingMethods';
+import { cuisines } from '@/data/cuisines';
 
 // Add import for modality type and utils
-import @/data  from 'ingredients ';
-import @/utils  from 'ingredientUtils ';
+import type { Modality } from '@/data/ingredients/types';
+import { determineIngredientModality } from '@/utils/ingredientUtils';
 
 interface AlchemicalRecommendationsProps {
   // If these aren't passed, the component will use current astronomical conditions
@@ -163,7 +163,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         });
         
         // Normalize values
-        let total = Object.values(elementalProps).reduce((sum, val) => sum + val, 0);
+        const total = Object.values(elementalProps).reduce((sum, val) => sum + val, 0);
         if (total > 0) {
           for (const element in elementalProps) {
             elementalProps[element as keyof typeof elementalProps] /= total;
@@ -227,7 +227,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         }
         
         // Normalize values
-        let total = Object.values(elementalEffect).reduce((sum, val) => sum + val, 0);
+        const total = Object.values(elementalEffect).reduce((sum, val) => sum + val, 0);
         if (total > 0) {
           for (const element in elementalEffect) {
             elementalEffect[element as keyof typeof elementalEffect] /= total;
@@ -257,7 +257,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         const cuisineName = ((cuisine as any).name || key).toLowerCase();
         const region = ((cuisine as any).region || '').toLowerCase();
         
-        // Adjust by cuisine type / (region || 1)
+        // Adjust by cuisine type/region
         if (cuisineName.includes('indian') || cuisineName.includes('thai') || 
             cuisineName.includes('mexican') || cuisineName.includes('cajun')) {
           // Spicy cuisines tend to have more Fire

@@ -62,14 +62,10 @@ const FoodRecommender = () => {
   
   return (
     <div className="food-recommender-container">
-      <div className="mb-8">
-        <h2 className="text-2xl font-bold mb-2">Ingredient Recommendations</h2>
-        <p className="text-gray-600">
-          Discover ingredients that align with current celestial influences, with detailed cooking methods and culinary applications.
-        </p>
-      </div>
+      <h2>Ingredient Recommendations</h2>
+      <p>Based on current celestial influences</p>
       
-      {/* Use IngredientDisplay for a comprehensive display with all 8 categories */}
+      {/* Only use the IngredientDisplay component to avoid duplicates */}
       <IngredientDisplay />
     </div>
   );

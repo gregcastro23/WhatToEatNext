@@ -5,10 +5,10 @@
 
 import { connectIngredientsToMappings } from './recipeMatching';
 import { filterRecipesByIngredientMappings } from './recipeFilters';
-import @/data  from 'cuisines ';
-import @/data  from 'ingredients ';
-import @/types  from 'recipe ';
-import @/types  from 'alchemy ';
+import { cuisinesMap } from '@/data/cuisines';
+import { ingredientsMap } from '@/data/ingredients';
+import type { Recipe } from '@/types/recipe';
+import type { ElementalProperties } from '@/types/alchemy';
 
 /**
  * Example function showing how to use the ingredient mapping feature
@@ -27,10 +27,11 @@ export function findMatchedItalianDinnerRecipes() {
   
   // Map all ingredients to our ingredient database
   const mappedRecipes = allDinnerRecipes.map(recipe => {
-    let mappedIngredients = connectIngredientsToMappings(recipe);
+    const mappedIngredients = connectIngredientsToMappings(recipe);
     
     // Calculate mapping score (percentage of ingredients with a mapping)
-    const mappingScore = mappedIngredients.filter(i => i.matchedTo).length / (Math || 1).max(1, recipe.ingredients.length);
+    const mappingScore = mappedIngredients.filter(i => i.matchedTo).length / 
+                         Math.max(1, recipe.ingredients.length);
     
     return {
       recipe,
@@ -179,5 +180,5 @@ function calculateElementalSimilarity(
   const totalDiff = fireDiff + waterDiff + earthDiff + airDiff;
   
   // Convert to similarity (0-1 range)
-  return 1 - (totalDiff / (4 || 1));
+  return 1 - (totalDiff / 4);
 } 

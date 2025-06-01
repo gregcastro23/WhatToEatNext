@@ -1,6 +1,6 @@
 import { getZodiacElement } from './astrologyUtils';
-import { planetaryElements } from '../constants/planetaryElements';
-import { ElementalProperties } from '@/types/alchemy';
+import type { ElementalCharacter } from '../constants/planetaryElements';
+import type { ZodiacSign } from '@/types/alchemy';
 
 /**
  * A utility function for logging debug information

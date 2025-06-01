@@ -6,8 +6,23 @@ import { getChakraBasedRecommendations, GroupedIngredientRecommendations, getIng
 import { Flame, Droplets, Mountain, Wind, Info, Clock, Tag, Leaf, X, ChevronDown, ChevronUp, Beaker } from 'lucide-react';
 import { useChakraInfluencedFood } from '@/hooks/useChakraInfluencedFood';
 import { normalizeChakraKey } from '@/constants/chakraSymbols';
-import { herbsCollection, oilsCollection, vinegarsCollection, grainsCollection, spicesCollection } from '@/data/ingredients';
-import IngredientRecommender from './IngredientRecommender/index';
+import { herbsCollection, oilsCollection, vinegarsCollection, grainsCollection } from '@/data/ingredients';
+
+/**
+ * Maps planets to their elemental influences (diurnal and nocturnal elements)
+ */
+const planetaryElements: Record<string, { diurnal: string, nocturnal: string }> = {
+  'Sun': { diurnal: 'Fire', nocturnal: 'Fire' },
+  'Moon': { diurnal: 'Water', nocturnal: 'Water' },
+  'Mercury': { diurnal: 'Air', nocturnal: 'Earth' },
+  'Venus': { diurnal: 'Water', nocturnal: 'Earth' },
+  'Mars': { diurnal: 'Fire', nocturnal: 'Water' },
+  'Jupiter': { diurnal: 'Air', nocturnal: 'Fire' },
+  'Saturn': { diurnal: 'Air', nocturnal: 'Earth' },
+  'Uranus': { diurnal: 'Water', nocturnal: 'Air' },
+  'Neptune': { diurnal: 'Water', nocturnal: 'Water' },
+  'Pluto': { diurnal: 'Earth', nocturnal: 'Water' }
+};
 
 // Define a styles object for animations and custom styles
 const customStyles = {
@@ -32,42 +47,27 @@ const CATEGORY_DISPLAY_NAMES: Record<string, string> = {
   vinegars: 'Vinegars & Acidifiers'
 };
 
-// Update display count for more balanced presentation
+// Define category display counts
 const CATEGORY_DISPLAY_COUNTS: Record<string, number> = {
-  proteins: 8,
-  vegetables: 8,
-  fruits: 8,
-  grains: 8,
-  herbs: 8,
+  proteins: 12,
+  vegetables: 12,
+  grains: 10,
+  fruits: 12,
+  herbs: 10,
   spices: 12,
-  seasonings: 8,
-  oils: 6,
-  vinegars: 6
+  oils: 8,
+  vinegars: 8
 };
-
-// Define the ordered categories for display 
-const ORDERED_CATEGORIES = [
-  'proteins',
-  'vegetables',
-  'fruits',
-  'grains',
-  'herbs',
-  'spices',
-  'seasonings',
-  'oils',
-  'vinegars'
-];
 
 // Using inline styles to avoid CSS module conflicts
 export default function IngredientRecommender() {
   // Use the context to get astrological data including chakra energies
   const { chakraEnergies: contextChakraEnergies, planetaryPositions, isLoading: astroLoading, error: astroError, currentZodiac } = useAstrologicalState();
   const [astroRecommendations, setAstroRecommendations] = useState<GroupedIngredientRecommendations>({});
+  // States for selected item and expansion
   const [selectedIngredient, setSelectedIngredient] = useState<IngredientRecommendation | null>(null);
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [activeCategory, setActiveCategory] = useState<string>('proteins');
-  const [showAll, setShowAll] = useState<boolean>(false);
-  const [combinedCategorizedRecommendations, setCombinedCategorizedRecommendations] = useState<Record<string, IngredientRecommendation[]>>({});
   
   // Use the custom hook for food recommendations
   const { 
@@ -97,41 +97,16 @@ export default function IngredientRecommender() {
     }
   };
   
-  // Get background gradient for element
-  const getElementGradient = (element: string) => {
-    switch (element) {
-      case 'Fire': return 'linear-gradient(135deg, rgba(255, 107, 107, 0.15) 0%, rgba(255, 107, 107, 0.05) 100%)';
-      case 'Water': return 'linear-gradient(135deg, rgba(107, 181, 255, 0.15) 0%, rgba(107, 181, 255, 0.05) 100%)';
-      case 'Earth': return 'linear-gradient(135deg, rgba(107, 255, 142, 0.15) 0%, rgba(107, 255, 142, 0.05) 100%)';
-      case 'Air': return 'linear-gradient(135deg, rgba(217, 179, 255, 0.15) 0%, rgba(217, 179, 255, 0.05) 100%)';
-      default: return 'linear-gradient(135deg, rgba(229, 231, 235, 0.15) 0%, rgba(229, 231, 235, 0.05) 100%)';
-    }
-  };
-  
-  // Get border color for element
-  const getElementBorderColor = (element: string) => {
-    switch (element) {
-      case 'Fire': return 'rgba(255, 107, 107, 0.6)';
-      case 'Water': return 'rgba(107, 181, 255, 0.6)';
-      case 'Earth': return 'rgba(107, 255, 142, 0.6)';
-      case 'Air': return 'rgba(217, 179, 255, 0.6)';
-      default: return 'rgba(229, 231, 235, 0.6)';
-    }
-  };
-  
   // Handle ingredient selection to display details
   const handleIngredientSelect = (item: IngredientRecommendation, e: React.MouseEvent) => {
-    e.preventDefault(); // Prevent default behavior
-    e.stopPropagation(); // Prevent event bubbling
+    e.stopPropagation();
     
-    setSelectedIngredient(prevSelected => {
-      // If the same item is clicked, toggle it off (set to null)
-      if (prevSelected?.name === item.name) {
-        return null;
-      }
-      // Otherwise, select the new item
-      return item;
-    });
+    // Toggle selected ingredient
+    if (selectedIngredient?.name === item.name) {
+      setSelectedIngredient(null);
+    } else {
+      setSelectedIngredient(item);
+    }
   };
   
   // Toggle expansion for a category
@@ -142,11 +117,6 @@ export default function IngredientRecommender() {
       ...prev,
       [category]: !prev[category]
     }));
-  };
-  
-  // Toggle show all ingredients
-  const toggleShowAll = () => {
-    setShowAll(prev => !prev);
   };
   
   // Reset selected ingredient when recommendations change
@@ -167,6 +137,13 @@ export default function IngredientRecommender() {
         elementalProps = calculator.calculateElementalState(planetaryPositions);
       }
       
+      // Determine current planetary day and hour
+      const now = new Date();
+      // Extract planetary day and hour from context if available
+      const planetaryDay = planetaryPositions?.planetaryDay?.planet || 'Sun';
+      const planetaryHour = planetaryPositions?.planetaryHour?.planet || 'Sun';
+      const isDaytime = now.getHours() >= 6 && now.getHours() < 18;
+      
       // Create an object with astrological state data
       const astroState = {
         elementalProperties: elementalProps || {
@@ -181,7 +158,11 @@ export default function IngredientRecommender() {
         dominantElement: elementalProps ? 
           Object.entries(elementalProps).sort((a, b) => b[1] - a[1])[0][0] : 'Fire',
         zodiacSign: currentZodiac || 'aries',
-        activePlanets: ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto']
+        activePlanets: ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'],
+        // Add standardized planetary day and hour information
+        planetaryDay: planetaryDay,
+        planetaryHour: planetaryHour,
+        isDaytime: isDaytime
       };
       
       // Get standard recommendations with all planets
@@ -254,7 +235,7 @@ export default function IngredientRecommender() {
   };
   
   // Helper function to check if an ingredient is a vinegar
-  const isVinegar = (ingredient: any): boolean => {
+  const isVinegar = (ingredient: unknown): boolean => {
     const category = ingredient.category?.toLowerCase() || '';
     if (category === 'vinegar' || category === 'vinegars') return true;
     
@@ -263,7 +244,7 @@ export default function IngredientRecommender() {
   };
   
   // Helper function to get normalized category
-  const getNormalizedCategory = (ingredient: any): string => {
+  const getNormalizedCategory = (ingredient: unknown): string => {
     if (!ingredient.category) return 'other';
     
     const category = ingredient.category.toLowerCase();
@@ -281,245 +262,6 @@ export default function IngredientRecommender() {
     return 'other';
   };
   
-  // Update the ingredient recommendation filtering to remove duplicates
-  const getUniqueRecommendations = (recommendations: IngredientRecommendation[]): IngredientRecommendation[] => {
-    const uniqueMap = new Map<string, IngredientRecommendation>();
-    const spiceVariationMap = new Map<string, IngredientRecommendation[]>();
-    const spiceBaseNames = new Map<string, string[]>();
-    
-    // Define base names for common spices to group variations
-    spiceBaseNames.set('cumin', ['cumin', 'ground cumin', 'cumin seed', 'cumin powder', 'whole cumin']);
-    spiceBaseNames.set('cinnamon', ['cinnamon', 'ground cinnamon', 'cinnamon stick', 'cinnamon powder', 'ceylon cinnamon']);
-    spiceBaseNames.set('pepper', ['black pepper', 'white pepper', 'green pepper', 'pink pepper', 'ground pepper', 'pepper powder', 'peppercorn']);
-    spiceBaseNames.set('cardamom', ['cardamom', 'green cardamom', 'black cardamom', 'ground cardamom', 'cardamom pod']);
-    spiceBaseNames.set('chili', ['chili', 'chili powder', 'red chili', 'dried chili', 'chili flake']);
-    spiceBaseNames.set('paprika', ['paprika', 'sweet paprika', 'hot paprika', 'smoked paprika']);
-    
-    // First pass - identify spices/seasonings and group them by base name
-    recommendations.forEach(item => {
-      const category = categorizeIngredient(item);
-      const normalizedName = item.name.toLowerCase().trim();
-      
-      // Special handling for spices and seasonings
-      if (category === 'spices' || category === 'seasonings') {
-        // Try to find a base spice name that matches this item
-        let baseNameFound = false;
-        
-        // Check if this spice matches any of our base name groups
-        for (const [baseName, variations] of spiceBaseNames.entries()) {
-          if (variations.some(v => normalizedName.includes(v))) {
-            // This is a variation of a known spice, add it to that group
-            if (!spiceVariationMap.has(baseName)) {
-              spiceVariationMap.set(baseName, []);
-            }
-            spiceVariationMap.get(baseName)?.push(item);
-            baseNameFound = true;
-            break;
-          }
-        }
-        
-        // If no base name was found, treat it as its own unique spice
-        if (!baseNameFound) {
-          if (!spiceVariationMap.has(normalizedName)) {
-            spiceVariationMap.set(normalizedName, []);
-          }
-          spiceVariationMap.get(normalizedName)?.push(item);
-        }
-      } else {
-        // For non-spice categories, keep only the highest scoring duplicate
-        const existingItem = uniqueMap.get(normalizedName);
-        if (!existingItem || existingItem.matchScore < item.matchScore) {
-          uniqueMap.set(normalizedName, item);
-        }
-      }
-    });
-    
-    // Second pass - select the best variation for each spice group
-    spiceVariationMap.forEach((variations, spiceKey) => {
-      // Sort by match score
-      variations.sort((a, b) => b.matchScore - a.matchScore);
-      
-      // Add the highest scoring variation from each group
-      if (variations.length > 0) {
-        // Use the actual name as the key to avoid overwriting
-        uniqueMap.set(variations[0].name.toLowerCase(), variations[0]);
-      }
-    });
-    
-    return Array.from(uniqueMap.values());
-  };
-  
-  // Ensure all ingredients are categorized properly
-  const categorizeIngredient = (ingredient: IngredientRecommendation): string => {
-    // Normalize the name for consistent checking
-    const name = ingredient.name.toLowerCase().trim();
-    
-    // First check for explicit category
-    if (ingredient.category) {
-      const category = ingredient.category.toLowerCase();
-      
-      // Handle specific category mappings
-      if (['protein', 'meat', 'egg', 'dairy', 'plant_based', 'seafood', 'poultry'].includes(category)) {
-        return 'proteins';
-      }
-      
-      if (['culinary_herb', 'medicinal_herb', 'herb', 'herbs'].includes(category)) {
-        return 'herbs';
-      }
-      
-      if (['spice', 'spices'].includes(category)) {
-        return 'spices';
-      }
-      
-      if (['seasoning', 'seasonings'].includes(category)) {
-        return 'seasonings';
-      }
-      
-      if (['vegetable', 'vegetables'].includes(category)) {
-        return 'vegetables';
-      }
-      
-      if (['fruit', 'fruits'].includes(category)) {
-        return 'fruits';
-      }
-      
-      if (['grain', 'grains', 'cereal', 'cereals', 'pasta', 'rice'].includes(category)) {
-        return 'grains';
-      }
-      
-      if (['oil', 'oils', 'fat', 'fats'].includes(category)) {
-        return 'oils';
-      }
-      
-      if (['vinegar', 'vinegars', 'acid', 'acids'].includes(category)) {
-        return 'vinegars';
-      }
-    }
-    
-    // Check if it's an oil by name
-    if (isOil(ingredient)) {
-      return 'oils';
-    }
-    
-    // Check if it's a vinegar by name
-    if (isVinegar(ingredient)) {
-      return 'vinegars';
-    }
-    
-    // Check for known herb names
-    if (herbNames.some(herb => name.includes(herb.toLowerCase()))) {
-        return 'herbs';
-      }
-      
-    // Known spices list for more accurate categorization
-    const knownSpices = [
-      'pepper', 'cinnamon', 'nutmeg', 'cumin', 'turmeric', 'cardamom',
-      'clove', 'allspice', 'paprika', 'coriander', 'fennel', 'oregano',
-      'thyme', 'basil', 'sage', 'marjoram', 'cayenne', 'chile', 
-      'chili', 'curry', 'garam masala', 'five spice', 'star anise',
-      'bay leaf', 'caraway', 'fenugreek', 'sumac', 'saffron', 'vanilla',
-      'za\'atar', 'mustard', 'pepper', 'peppercorn'
-    ];
-    
-    // Check for spices but exclude common vegetables that might include "pepper"
-    if (knownSpices.some(spice => name.includes(spice)) &&
-        !name.includes('bell pepper') && 
-        !name.includes('sweet pepper') && 
-        !name.includes('chili pepper') &&
-        !name.includes('jalapeno') && 
-        !name.includes('poblano') && 
-        !name.includes('anaheim') && 
-        !name.includes('banana pepper')) {
-      
-      // Differentiate between spice blends and individual spices
-      if (name.includes('blend') || 
-          name.includes('mix') ||
-          name.includes('seasoning') ||
-          name.includes('rub') ||
-          name.includes('masala')) {
-        return 'seasonings';
-      }
-        return 'spices';
-      }
-      
-    // Known fruits list
-    const knownFruits = [
-      'apple', 'orange', 'banana', 'berry', 'strawberry', 'blueberry',
-      'raspberry', 'blackberry', 'melon', 'watermelon', 'cantaloupe',
-      'pear', 'grape', 'kiwi', 'mango', 'papaya', 'pineapple', 'peach',
-      'plum', 'apricot', 'cherry', 'fig', 'lemon', 'lime', 'grapefruit',
-      'avocado', 'coconut', 'date', 'pomegranate', 'persimmon'
-    ];
-    
-    // Check for fruits
-    if (knownFruits.some(fruit => name.includes(fruit)) || 
-        name.includes('fruit')) {
-      return 'fruits';
-    }
-    
-    // Known vegetables list
-    const knownVegetables = [
-      'carrot', 'broccoli', 'cauliflower', 'spinach', 'kale', 'lettuce',
-      'cabbage', 'onion', 'garlic', 'leek', 'shallot', 'asparagus',
-      'zucchini', 'cucumber', 'eggplant', 'bell pepper', 'sweet pepper',
-      'tomato', 'potato', 'sweet potato', 'yam', 'beet', 'radish',
-      'turnip', 'rutabaga', 'celery', 'fennel', 'artichoke', 'brussels sprout',
-      'mushroom', 'pea', 'green bean', 'corn', 'squash'
-    ];
-    
-    // Check for vegetables
-    if (knownVegetables.some(vegetable => name.includes(vegetable)) || 
-        name.includes('vegetable')) {
-      return 'vegetables';
-    }
-    
-    // Known grains list
-    const knownGrains = [
-      'rice', 'pasta', 'bread', 'quinoa', 'barley', 'oat', 'oatmeal',
-      'wheat', 'corn', 'cornmeal', 'polenta', 'flour', 'cereal',
-      'bulgur', 'couscous', 'farro', 'amaranth', 'buckwheat', 'spelt',
-      'millet', 'rye', 'noodle'
-    ];
-    
-    // Check for grains
-    if (knownGrains.some(grain => name.includes(grain)) || 
-        name.includes('grain')) {
-      return 'grains';
-    }
-    
-    // Known proteins list
-    const knownProteins = [
-      'chicken', 'beef', 'pork', 'lamb', 'turkey', 'duck', 'goose',
-      'fish', 'salmon', 'tuna', 'cod', 'tilapia', 'shrimp', 'crab',
-      'lobster', 'scallop', 'clam', 'mussel', 'oyster', 'tofu', 'tempeh',
-      'seitan', 'bean', 'lentil', 'chickpea', 'edamame', 'egg', 'cheese',
-      'yogurt', 'milk', 'dairy'
-    ];
-    
-    // Check for proteins
-    if (knownProteins.some(protein => name.includes(protein)) || 
-        name.includes('protein')) {
-      return 'proteins';
-    }
-    
-    // Default category based on dominant element if available
-    if (ingredient.elementalProperties) {
-      const dominantElement = Object.entries(ingredient.elementalProperties)
-        .sort(([, a], [, b]) => b - a)[0][0];
-        
-      switch (dominantElement) {
-        case 'Fire': return 'spices';
-        case 'Water': return 'vegetables';
-        case 'Earth': return 'grains';
-        case 'Air': return 'herbs';
-        default: return 'vegetables';
-      }
-    }
-    
-    // Final fallback
-    return 'vegetables';
-  };
-  
   // Combine and categorize all recommendations
   const combinedCategorizedRecommendations = useMemo(() => {
     // Start with empty categories
@@ -534,6 +276,62 @@ export default function IngredientRecommender() {
       vinegars: []
     };
     
+    // Helper function to normalize ingredient names for comparison
+    const normalizeIngredientName = (name: string): string => {
+      return name.toLowerCase()
+        .replace(/atlantic |wild |farmed |fresh |frozen |organic |raw |cooked /g, '')
+        .replace(/\s+/g, ' ')
+        .trim();
+    };
+    
+    // Improved function for ingredient name similarity checking with fuzzy matching
+    const areSimilarIngredients = (name1: string, name2: string): boolean => {
+      // Normalize both names
+      const normalized1 = normalizeIngredientName(name1);
+      const normalized2 = normalizeIngredientName(name2);
+      
+      // If normalized names are identical, they're definitely similar
+      if (normalized1 === normalized2) return true;
+      
+      // Check if one name is contained within the other
+      if (normalized1.includes(normalized2) || normalized2.includes(normalized1)) {
+        return true;
+      }
+      
+      // Simple fuzzy matching - check if they share a significant number of characters
+      const commonWords = normalized1.split(' ').filter(word => 
+        word.length > 3 && normalized2.includes(word)
+      );
+      
+      if (commonWords.length > 0) return true;
+      
+      // Check for plurals or slight variations
+      if (normalized1.endsWith('s') && normalized2 === normalized1.slice(0, -1)) return true;
+      if (normalized2.endsWith('s') && normalized1 === normalized2.slice(0, -1)) return true;
+      
+      // Check for common substitutions (e.g., "beef" and "beef steak")
+      const ingredientPairs = [
+        ['chicken', 'chicken breast', 'chicken thigh', 'chicken leg'],
+        ['beef', 'beef steak', 'ground beef', 'beef chuck'],
+        ['pork', 'pork chop', 'pork loin', 'pork shoulder'],
+        ['salmon', 'salmon fillet', 'smoked salmon', 'fresh salmon'],
+        ['tomato', 'tomatoes', 'cherry tomato', 'roma tomato'],
+        ['pepper', 'bell pepper', 'sweet pepper', 'chili pepper'],
+        ['rice', 'brown rice', 'white rice', 'wild rice'],
+        ['olive oil', 'extra virgin olive oil', 'evoo']
+      ];
+      
+      // Check if both names are in the same ingredient family
+      for (const group of ingredientPairs) {
+        if (group.some(item => normalized1.includes(item)) && 
+            group.some(item => normalized2.includes(item))) {
+          return true;
+        }
+      }
+      
+      return false;
+    };
+
     // Add food recommendations first (they are already categorized)
     if (foodRecommendations && foodRecommendations.length > 0) {
       foodRecommendations.forEach(ingredient => {
@@ -665,9 +463,9 @@ export default function IngredientRecommender() {
         const targetCategory = normalizedCategory === 'other' ? determineCategory(item.name) : normalizedCategory;
         
         if (categories[targetCategory]) {
-          // Check if this item already exists in the category
+          // Check if this item already exists in the category (with improved duplicate detection)
           const existingItemIndex = categories[targetCategory].findIndex(
-            existing => existing.name.toLowerCase() === item.name.toLowerCase()
+            existing => areSimilarIngredients(existing.name, item.name)
           );
           
           if (existingItemIndex >= 0) {
@@ -864,846 +662,553 @@ export default function IngredientRecommender() {
     return 'vegetables';
   }
   
-  // Render ingredient details when selected
-  const renderIngredientDetails = (item: IngredientRecommendation) => {
-    return (
-      <div 
-        className="ingredient-details"
-        style={{
-          padding: '1.25rem',
-          marginTop: '1rem',
-          borderTop: '1px solid rgba(229, 231, 235, 0.8)',
-          backgroundColor: 'white',
-          borderRadius: '0.5rem',
-          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.08)',
-          animation: 'fadeIn 0.3s ease-in-out'
-        }}
-      >
-        {/* Description if available */}
-        {item.description && (
-          <div className="detail-section" style={{ marginBottom: '1rem' }}>
-            <h4 style={{ 
-              margin: '0 0 0.5rem 0', 
-              fontSize: '1rem', 
-              fontWeight: '600',
-              color: '#374151'
-            }}>
-              About {item.name}:
-            </h4>
-            <p style={{ 
-              margin: '0 0 0.75rem 0',
-              fontSize: '0.9rem',
-              lineHeight: '1.5',
-              color: '#4b5563'
-            }}>
-              {item.description}
-            </p>
-          </div>
-        )}
-        
-        {/* Elemental Properties with improved visualization */}
-        {item.elementalProperties && (
-          <div className="detail-section" style={{ marginBottom: '1.25rem' }}>
-            <h4 style={{ 
-              margin: '0 0 0.5rem 0', 
-              fontSize: '1rem', 
-              fontWeight: '600',
-              color: '#374151',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.5rem'
-            }}>
-              <Beaker size={16} /> Elemental Properties
-            </h4>
-            <div style={{ 
-              display: 'flex', 
-              flexWrap: 'wrap', 
-              gap: '0.5rem',
-              fontSize: '0.85rem'
-            }}>
-              {Object.entries(item.elementalProperties)
-                .sort(([, a], [, b]) => b - a)
-                .map(([element, value]) => {
-                  // Calculate width for progress bar (25% minimum width)
-                  const barWidth = Math.max(25, Math.round(value * 100));
-                  return (
-                    <div key={element} style={{ 
-                      display: 'flex',
-                      flexDirection: 'column',
-                      width: '48%',
-                      padding: '0.5rem',
-                      borderRadius: '0.375rem',
-                      backgroundColor: `rgba(${
-                        element === 'Fire' ? '255, 107, 107, 0.05' :
-                        element === 'Water' ? '107, 181, 255, 0.05' :
-                        element === 'Earth' ? '107, 255, 142, 0.05' :
-                        '217, 179, 255, 0.05'
-                      })`,
-                      marginBottom: '0.5rem'
-                    }}>
-                      <div style={{ 
-                        display: 'flex',
-                        alignItems: 'center',
-                        marginBottom: '0.25rem',
-                        fontWeight: '500'
-                      }}>
-                        {getElementIcon(element)}
-                        <span style={{ marginLeft: '0.25rem' }}>{element}</span>
-                      </div>
-                      <div style={{ 
-                        height: '0.5rem',
-                        width: '100%',
-                        backgroundColor: 'rgba(229, 231, 235, 0.5)',
-                        borderRadius: '999px',
-                        overflow: 'hidden'
-                      }}>
-                        <div style={{ 
-                          height: '100%',
-                          width: `${barWidth}%`,
-                          backgroundColor: getElementBorderColor(element),
-                          borderRadius: '999px'
-                        }} />
-                      </div>
-                      <div style={{ 
-                        fontSize: '0.75rem',
-                        textAlign: 'right',
-                        marginTop: '0.25rem',
-                        color: '#6b7280',
-                        fontWeight: '500'
-                      }}>
-                        {Math.round(value * 100)}%
-                      </div>
-                    </div>
-                  );
-                })}
-            </div>
-          </div>
-        )}
-        
-        {/* Culinary Applications with improved structure */}
-        {item.culinaryApplications && Object.keys(item.culinaryApplications).length > 0 && (
-          <div className="detail-section" style={{ marginBottom: '1.25rem' }}>
-            <h4 style={{ 
-              margin: '0 0 0.75rem 0', 
-              fontSize: '1rem', 
-              fontWeight: '600',
-              color: '#374151',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.5rem'
-            }}>
-              <Leaf size={16} /> Culinary Applications
-            </h4>
-            <div style={{ 
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
-              gap: '0.75rem'
-            }}>
-              {Object.entries(item.culinaryApplications).map(([method, details]) => (
-                <div key={method} style={{
-                  border: '1px solid rgba(229, 231, 235, 0.8)',
-                  borderRadius: '0.375rem',
-                  padding: '0.75rem',
-                  backgroundColor: 'rgba(249, 250, 251, 0.5)'
-                }}>
-                  <div style={{ 
-                    fontWeight: '600', 
-                    marginBottom: '0.25rem',
-                    fontSize: '0.9rem',
-                    color: '#374151'
-                  }}>
-                    {method.charAt(0).toUpperCase() + method.slice(1)}
-                  </div>
-                  {details.notes && Array.isArray(details.notes) && details.notes.length > 0 && (
-                    <div style={{ 
-                      fontSize: '0.85rem', 
-                      color: '#4b5563',
-                      lineHeight: '1.4' 
-                    }}>
-                      {details.notes[0]}
-                    </div>
-                  )}
-                  {details.techniques && Array.isArray(details.techniques) && details.techniques.length > 0 && (
-                    <div style={{ 
-                      fontSize: '0.8rem', 
-                      color: '#6b7280',
-                      marginTop: '0.5rem' 
-                    }}>
-                      <strong>Techniques:</strong> {details.techniques.join(', ')}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-        
-        {/* Pairings with improved visualization */}
-        {item.pairings && (
-          <div className="detail-section" style={{ marginBottom: '1.25rem' }}>
-            <h4 style={{ 
-              margin: '0 0 0.75rem 0', 
-              fontSize: '1rem', 
-              fontWeight: '600',
-              color: '#374151',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.5rem'
-            }}>
-              <Tag size={16} /> Pairs Well With
-            </h4>
-            <div style={{ 
-              display: 'flex', 
-              flexWrap: 'wrap', 
-              gap: '0.5rem',
-              fontSize: '0.85rem'
-            }}>
-              {Array.isArray(item.pairings) 
-                ? item.pairings.slice(0, 10).map(pairing => (
-                    <span key={pairing} style={{ 
-                      backgroundColor: 'rgba(167, 139, 250, 0.1)',
-                      padding: '0.35rem 0.65rem',
-                      borderRadius: '0.375rem',
-                      fontWeight: '500',
-                      color: '#5b21b6',
-                      border: '1px solid rgba(167, 139, 250, 0.2)'
-                    }}>
-                      {pairing}
-                    </span>
-                  ))
-                : Object.keys(item.pairings).slice(0, 10).map(pairing => (
-                    <span key={pairing} style={{ 
-                      backgroundColor: 'rgba(167, 139, 250, 0.1)',
-                      padding: '0.35rem 0.65rem',
-                      borderRadius: '0.375rem',
-                      fontWeight: '500',
-                      color: '#5b21b6',
-                      border: '1px solid rgba(167, 139, 250, 0.2)'
-                    }}>
-                      {pairing}
-                    </span>
-                  ))
-              }
-            </div>
-          </div>
-        )}
-        
-        {/* Nutritional Highlights if available */}
-        {item.nutritionalHighlights && Object.keys(item.nutritionalHighlights).length > 0 && (
-          <div className="detail-section" style={{ marginBottom: '1.25rem' }}>
-            <h4 style={{ 
-              margin: '0 0 0.75rem 0', 
-              fontSize: '1rem', 
-              fontWeight: '600',
-              color: '#374151',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.5rem'
-            }}>
-              <Info size={16} /> Nutritional Highlights
-            </h4>
-            <div style={{ 
-              display: 'flex', 
-              flexWrap: 'wrap', 
-              gap: '0.75rem',
-              fontSize: '0.85rem'
-            }}>
-              {Object.entries(item.nutritionalHighlights).map(([nutrient, value]) => (
-                <div key={nutrient} style={{ 
-                  padding: '0.5rem 0.75rem',
-                  backgroundColor: 'rgba(249, 250, 251, 0.8)',
-                  border: '1px solid rgba(229, 231, 235, 0.8)',
-                  borderRadius: '0.375rem',
-                  fontSize: '0.85rem',
-                  minWidth: '120px',
-                  flex: '1'
-                }}>
-                  <div style={{ fontWeight: '600', color: '#374151' }}>
-                    {nutrient.charAt(0).toUpperCase() + nutrient.slice(1)}
-                  </div>
-                  <div style={{ color: '#4b5563', marginTop: '0.25rem' }}>
-                    {typeof value === 'string' ? value : 
-                     typeof value === 'number' ? `${value}mg` : 
-                     JSON.stringify(value)}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-        
-        {/* Astrological Profile with improved styling */}
-        {item.astrologicalProfile && (
-          <div className="detail-section">
-            <h4 style={{ 
-              margin: '0 0 0.75rem 0', 
-              fontSize: '1rem', 
-              fontWeight: '600',
-              color: '#374151',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.5rem'
-            }}>
-              <Clock size={16} /> Astrological Influence
-            </h4>
-            
-            <div style={{ 
-              backgroundColor: 'rgba(243, 244, 246, 0.6)',
-              borderRadius: '0.5rem',
-              padding: '0.75rem 1rem',
-              border: '1px solid rgba(229, 231, 235, 0.8)'
-            }}>
-              {item.astrologicalProfile.rulingPlanets && (
-                <div style={{ fontSize: '0.85rem', marginBottom: '0.5rem', display: 'flex', alignItems: 'center' }}>
-                  <span style={{ fontWeight: '600', width: '140px', color: '#4b5563' }}>Planetary influence: </span>
-                  <span style={{ fontWeight: '500', color: '#1f2937' }}>
-                    {item.astrologicalProfile.rulingPlanets.join(', ')}
-                  </span>
-                </div>
-              )}
-              
-              {item.astrologicalProfile.favorableZodiac && (
-                <div style={{ fontSize: '0.85rem', display: 'flex', alignItems: 'center' }}>
-                  <span style={{ fontWeight: '600', width: '140px', color: '#4b5563' }}>Favorable zodiac: </span>
-                  <span style={{ fontWeight: '500', color: '#1f2937' }}>
-                    {item.astrologicalProfile.favorableZodiac.map(sign => 
-                      sign.charAt(0).toUpperCase() + sign.slice(1)
-                    ).join(', ')}
-                  </span>
-                </div>
-              )}
-            </div>
-          </div>
-        )}
-      </div>
-    );
+  // Create match score class based on percentage with enhanced visual styling
+  const getMatchScoreClass = (matchScore?: number): string => {
+    // Use safe score value with default
+    const safeScore = typeof matchScore === 'number' && !isNaN(matchScore) ? matchScore : 0.5;
+    const matchPercentage = Math.round(safeScore * 100);
+    
+    // Enhanced styling with gradients and more distinct ranges
+    if (matchPercentage >= 95) {
+      return "bg-gradient-to-r from-indigo-600 to-indigo-500 text-white dark:from-indigo-600 dark:to-indigo-400 dark:text-white font-semibold shadow-sm";
+    } else if (matchPercentage >= 90) {
+      return "bg-gradient-to-r from-blue-500 to-indigo-400 text-white dark:from-blue-600 dark:to-indigo-500 dark:text-white font-semibold shadow-sm";
+    } else if (matchPercentage >= 85) {
+      return "bg-gradient-to-r from-blue-400 to-blue-300 text-blue-900 dark:from-blue-600 dark:to-blue-500 dark:text-blue-100 font-medium";
+    } else if (matchPercentage >= 80) {
+      return "bg-blue-100 text-blue-800 dark:bg-blue-800/40 dark:text-blue-200 font-medium";
+    } else if (matchPercentage >= 75) {
+      return "bg-green-100 text-green-800 dark:bg-green-800/40 dark:text-green-200";
+    } else if (matchPercentage >= 70) {
+      return "bg-green-50 text-green-700 dark:bg-green-800/30 dark:text-green-300";
+    } else if (matchPercentage >= 65) {
+      return "bg-yellow-100 text-yellow-800 dark:bg-yellow-800/40 dark:text-yellow-200";
+    } else if (matchPercentage >= 60) {
+      return "bg-yellow-50 text-yellow-700 dark:bg-yellow-800/30 dark:text-yellow-300";
+    } else if (matchPercentage >= 50) {
+      return "bg-orange-50 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300";
+    }
+    return "bg-gray-100 text-gray-700 dark:bg-gray-800/50 dark:text-gray-400";
   };
 
-  // Modified ingredient card rendering function to use in both views
-  const renderIngredientCard = (item: IngredientRecommendation) => {
-    // Get dominant element for styling
-    const dominantElement = Object.entries(item.elementalProperties || {})
-      .sort(([, a], [, b]) => b - a)[0][0];
-    
-    // Check if this card is selected
-    const isSelected = selectedIngredient?.name === item.name;
-    
+  // Format the match score for display
+  const formatMatchScore = (matchScore?: number): string => {
+    const safeScore = typeof matchScore === 'number' && !isNaN(matchScore) ? matchScore : 0.5;
+    return `${Math.round(safeScore * 100)}%`;
+  };
+  
+  // Render loading state if needed
+  if (astroLoading || foodLoading) {
     return (
-      <div
-        key={item.name}
-        className="ingredient-card"
-        style={{
-          borderTop: `3px solid ${getElementBorderColor(dominantElement)}`,
-          // Add subtle highlight if selected
-          boxShadow: isSelected ? 
-            `0 0 0 2px ${getElementBorderColor(dominantElement)}, 0 4px 12px rgba(0, 0, 0, 0.1)` : 
-            undefined
-        }}
-      >
-        <div className="card-content" style={{ padding: '1rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem' }}>
-            {getElementIcon(dominantElement)}
-            <h3 style={{ 
-              margin: '0 0 0 0.25rem', 
-              fontSize: '1rem', 
-              fontWeight: '600',
-              color: '#1f2937'
-            }}>
-              {item.name}
-            </h3>
-          </div>
-          
-          <div style={{ 
-            fontSize: '0.75rem', 
-            color: '#4b5563', 
-            marginBottom: '0.5rem' 
-          }}>
-            Match: {Math.round(item.matchScore * 100)}%
-          </div>
-          
-          {item.qualities && item.qualities.length > 0 && (
-            <div style={{ 
-              display: 'flex', 
-              flexWrap: 'wrap', 
-              gap: '0.25rem',
-              marginBottom: '0.75rem' 
-            }}>
-              {item.qualities.slice(0, 3).map((quality) => (
-                <span key={quality} style={{ 
-                  fontSize: '0.7rem',
-                  backgroundColor: 'rgba(243, 244, 246, 0.8)',
-                  padding: '0.15rem 0.35rem',
-                  borderRadius: '0.25rem',
-                  fontWeight: '500',
-                  color: '#6b7280'
-                }}>
-                  {quality}
-                </span>
-              ))}
-            </div>
-          )}
-          
-          <button
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '0.25rem',
-              padding: '0.35rem 0.75rem',
-              fontSize: '0.75rem',
-              fontWeight: '500',
-              color: isSelected ? 'white' : '#4f46e5',
-              backgroundColor: isSelected ? '#4f46e5' : 'white',
-              border: `1px solid ${isSelected ? '#4f46e5' : '#d1d5db'}`,
-              borderRadius: '0.375rem',
-              cursor: 'pointer',
-              transition: 'all 0.2s ease'
-            }}
-            onClick={(e) => handleIngredientSelect(item, e)}
-          >
-            {isSelected ? 'Hide Details' : 'View Details'}
-          </button>
-          
-          {isSelected && renderIngredientDetails(item)}
+      <div className="flex items-center justify-center p-8 h-64">
+        <div className="text-center">
+          <div className="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-indigo-500 mb-4"></div>
+          <p className="text-indigo-800 dark:text-indigo-300">Loading celestial influences...</p>
         </div>
       </div>
     );
-  };
+  }
   
-  // JSX rendering
+  if (astroError || foodError) {
+    return (
+      <div className="p-6 bg-red-50 dark:bg-red-900/20 rounded-lg border border-red-200 dark:border-red-800 text-red-600 dark:text-red-300">
+        <p className="font-medium">Error: {astroError || foodError}</p>
+      </div>
+    );
+  }
+  
+  // Display the recommendations
   return (
-    <div style={{ 
-      background: '#e9ecef', 
-      minHeight: '100vh',
-      padding: '1rem',
-      backgroundImage: 'linear-gradient(to bottom, #e9ecef, #dee2e6)'
-    }}>
-      <div className="ingredient-recommender-container" style={{ 
-        padding: '1.25rem',
-        background: '#f8f9fa',
-        borderRadius: '0.625rem',
-        border: '1px solid rgba(229, 231, 235, 0.5)',
-        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.05)',
-        position: 'relative',
-        overflow: 'hidden'
-      }}>
-        <style jsx>{`
-          @keyframes gradientShift {
-            0% { background-position: 0% 50% }
-            50% { background-position: 100% 50% }
-            100% { background-position: 0% 50% }
-          }
-          
-          .category-header {
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            padding: 0.5rem 0;
-            margin: 0.5rem 0;
-            border-bottom: 1px solid rgba(229, 231, 235, 0.8);
-            transition: all 0.2s ease;
-          }
-          
-          .category-header:hover {
-            color: #4f46e5;
-          }
-          
-          .category-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1rem;
-            margin-top: 1rem;
-            margin-bottom: 1.5rem;
-            width: 100%;
-          }
-          
-          @media (max-width: 1200px) {
-            .category-grid {
-              grid-template-columns: repeat(3, 1fr);
-            }
-          }
-          
-          @media (max-width: 768px) {
-            .category-grid {
-              grid-template-columns: repeat(2, 1fr);
-            }
-          }
-          
-          @media (max-width: 480px) {
-            .category-grid {
-              grid-template-columns: 1fr;
-            }
-          }
-          
-          .ingredient-card {
-            background: white;
-            border-radius: 0.5rem;
-            overflow: hidden;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-            border: 1px solid rgba(229, 231, 235, 0.8);
-          }
-          
-          .ingredient-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-          }
-          
-          .card-content {
-            padding: 1.25rem;
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-          }
-          
-          .element-icon {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 2.5rem;
-            height: 2.5rem;
-            border-radius: 50%;
-            background-color: #f3f4f6;
-            margin-bottom: 0.75rem;
-            align-self: center;
-          }
-          
-          .ingredient-name {
-            font-size: 1.125rem;
-            font-weight: 600;
-            margin: 0 0 0.5rem 0;
-            text-align: center;
-            color: #1f2937;
-          }
-          
-          .match-score {
-            margin-bottom: 0.75rem;
-            font-size: 0.875rem;
-            color: #4b5563;
-            font-weight: 500;
-            text-align: center;
-          }
-          
-          .qualities-list {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-            min-height: 1.75rem;
-          }
-          
-          .quality-tag {
-            font-size: 0.75rem;
-            padding: 0.25rem 0.5rem;
-            background-color: #f3f4f6;
-            border-radius: 999px;
-            color: #4b5563;
-          }
-          
-          .details-button {
-            margin-top: auto;
-            padding: 0.5rem 0.75rem;
-            background-color: white;
-            border: 1px solid #d1d5db;
-            border-radius: 0.375rem;
-            font-size: 0.875rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            margin-bottom: 0.25rem;
-            text-align: center;
-            color: #1f2937;
-          }
-          
-          .details-button:hover {
-            background-color: #4f46e5;
-            color: white;
-          }
-          
-          .ingredient-details {
-            margin-top: 1rem;
-            padding: 0.75rem;
-            background-color: #f9fafb;
-            border-radius: 0.375rem;
-            width: 100%;
-            text-align: left;
-            font-size: 0.875rem;
-            border: 1px solid #e5e7eb;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
-            animation: fadeIn 0.3s ease-in-out;
-          }
-          
-          @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-5px); }
-            to { opacity: 1; transform: translateY(0); }
-          }
-          
-          .view-all-container {
-            text-align: center;
-            margin: 1rem 0;
-          }
-          
-          .view-all-button {
-            padding: 0.5rem 1rem;
-            background-color: #4f46e5;
-            color: white;
-            border-radius: 0.375rem;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.2s ease;
-          }
-          
-          .view-all-button:hover {
-            background-color: #4338ca;
-          }
-          
-          .detail-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-          }
-          
-          .modal-content {
-            background: white;
-            border-radius: 0.5rem;
-            padding: 1.5rem;
-            width: 90%;
-            max-width: 600px;
-            max-height: 80vh;
-            overflow-y: auto;
-            position: relative;
-          }
-          
-          .close-button {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: #6b7280;
-          }
-          
-          .modal-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            color: #111827;
-          }
-          
-          .modal-section {
-            margin-bottom: 1.5rem;
-          }
-          
-          .section-title {
-            font-size: 1.125rem;
-            font-weight: 500;
-            margin-bottom: 0.5rem;
-            color: #374151;
-          }
-          
-          .property-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 0.5rem;
-          }
-          
-          .property-item {
-            display: flex;
-            align-items: center;
-          }
-          
-          .property-label {
-            font-weight: 500;
-            margin-right: 0.5rem;
-            color: #4b5563;
-          }
-          
-          .property-value {
-            color: #1f2937;
-          }
-          
-          .details-button-active {
-            background-color: #4f46e5;
-            color: white;
-            border-color: #4f46e5;
-          }
-          
-          .category-filters {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 0.75rem;
-            margin-bottom: 1.5rem;
-            width: 100%;
-            max-width: 100%;
-          }
-          
-          .category-filter-row {
-            display: flex;
-            justify-content: center;
-            gap: 0.75rem;
-            width: 100%;
-            margin-bottom: 0.5rem;
-          }
-          
-          .category-button {
-            padding: 0.5rem 1rem;
-            background-color: #f3f4f6;
-            border: 1px solid #e5e7eb;
-            border-radius: 0.375rem;
-            font-size: 0.875rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            min-width: 100px;
-            text-align: center;
-          }
-          
-          .category-button:hover {
-            background-color: #e5e7eb;
-          }
-          
-          .category-button.active {
-            background-color: #4f46e5;
-            color: white;
-            border-color: #4f46e5;
-          }
-        `}</style>
+    <div className="mt-6 w-full max-w-none">
+      <div className="bg-gradient-to-r from-indigo-800/10 via-purple-800/10 to-indigo-800/10 p-4 rounded-xl backdrop-blur-sm border border-indigo-100 dark:border-indigo-950 mb-6">
+        <h2 className="text-2xl font-bold text-indigo-900 dark:text-indigo-300">Celestial Ingredient Recommendations</h2>
+        <p className="text-indigo-700 dark:text-indigo-400 text-sm">
+          Ingredients aligned with your current celestial influences for optimal alchemical harmony.
+        </p>
+        <p className="text-indigo-600 dark:text-indigo-500 text-xs mt-1 italic">
+          Click on any ingredient card to view detailed information.
+        </p>
         
-        <h1 style={{ 
-          textAlign: 'center', 
-          color: '#111827', 
-          margin: '0 0 1.5rem 0',
-          fontSize: '1.75rem',
-          fontWeight: '600'
-        }}>
-          Celestial Ingredient Recommendations
-        </h1>
-        
-        {showAll ? (
-          <div>
-            {ORDERED_CATEGORIES
-              .filter(category => Object.keys(combinedCategorizedRecommendations).includes(category))
-              .map(category => (
-                <div key={category} className="category-section">
-                  <div
-                    className="category-header"
-                    onClick={(e) => toggleCategoryExpansion(category, e)}
-                  >
-                    <h2 style={{ margin: 0, fontSize: '1.25rem', fontWeight: '500' }}>
-                      {category.charAt(0).toUpperCase() + category.slice(1)}
-                    </h2>
-                    <span style={{ marginLeft: 'auto' }}>
-                      {expanded[category] ? '▼' : '►'}
-                    </span>
-                  </div>
+        {/* Category navigation links */}
+        <div className="flex flex-wrap justify-center gap-2 mt-4 bg-white/70 dark:bg-gray-800/70 p-2 rounded-lg shadow-sm">
+          {Object.entries(combinedCategorizedRecommendations).map(([category]) => {
+            const displayName = CATEGORY_DISPLAY_NAMES[category] || (category.charAt(0).toUpperCase() + category.slice(1));
+            const isActive = category === activeCategory;
+            
+            // Define icons for each category
+            let icon;
+            if (category === 'proteins') icon = <Tag className="mr-1 text-rose-500" size={14} />;
+            else if (category === 'vegetables') icon = <Leaf className="mr-1 text-emerald-500" size={14} />;
+            else if (category === 'grains') icon = <Wind className="mr-1 text-amber-500" size={14} />;
+            else if (category === 'herbs') icon = <Leaf className="mr-1 text-green-500" size={14} />;
+            else if (category === 'spices') icon = <Flame className="mr-1 text-orange-500" size={14} />;
+            else if (category === 'fruits') icon = <Droplets className="mr-1 text-cyan-500" size={14} />;
+            else if (category === 'oils') icon = <Droplets className="mr-1 text-yellow-500" size={14} />;
+            else if (category === 'vinegars') icon = <Beaker className="mr-1 text-purple-500" size={14} />;
+            
+            return (
+              <a 
+                key={`nav-${category}`}
+                href={`#${category}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  const element = document.getElementById(category);
+                  if (element) {
+                    element.scrollIntoView({ behavior: 'smooth' });
+                    setActiveCategory(category);
+                  }
+                }}
+                className={`px-3 py-1.5 rounded-full text-xs font-medium flex items-center shadow-sm transition-colors duration-200 ${
+                  isActive 
+                    ? 'bg-indigo-500 text-white' 
+                    : 'bg-white/90 dark:bg-gray-700/90 text-gray-700 dark:text-gray-300 hover:bg-indigo-100 dark:hover:bg-indigo-900/40 hover:text-indigo-600 dark:hover:text-indigo-300'
+                }`}
+              >
+                {icon}
+                {displayName}
+              </a>
+            );
+          })}
+        </div>
+      </div>
+      
+      {Object.keys(combinedCategorizedRecommendations).length > 0 ? (
+        <div className="space-y-6">
+          {Object.entries(combinedCategorizedRecommendations).map(([category, items]) => {
+            const displayName = CATEGORY_DISPLAY_NAMES[category] || (category.charAt(0).toUpperCase() + category.slice(1));
+            const displayCount = CATEGORY_DISPLAY_COUNTS[category] || 5;
+            const isExpanded = expanded[category] || false;
+            const itemsToShow = isExpanded ? items : items.slice(0, displayCount);
+            
+            return (
+              <div id={category} key={category} className="bg-white/90 dark:bg-gray-800/90 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 scroll-mt-16">
+                <div 
+                  className="flex justify-between items-center mb-3 cursor-pointer"
+                  onClick={(e) => toggleCategoryExpansion(category, e)}
+                >
+                  <h3 className="text-lg font-semibold capitalize text-gray-800 dark:text-gray-200 flex items-center">
+                    {category === 'proteins' && <Tag className="mr-2 text-rose-500" size={18} />}
+                    {category === 'vegetables' && <Leaf className="mr-2 text-emerald-500" size={18} />}
+                    {category === 'grains' && <Wind className="mr-2 text-amber-500" size={18} />}
+                    {category === 'herbs' && <Leaf className="mr-2 text-green-500" size={18} />}
+                    {category === 'spices' && <Flame className="mr-2 text-orange-500" size={18} />}
+                    {category === 'fruits' && <Droplets className="mr-2 text-cyan-500" size={18} />}
+                    {category === 'oils' && <Droplets className="mr-2 text-yellow-500" size={18} />}
+                    {category === 'vinegars' && <Beaker className="mr-2 text-purple-500" size={18} />}
+                    {displayName}
+                  </h3>
+                  <button className="text-gray-500 hover:text-gray-700 focus:outline-none">
+                    {isExpanded ? (
+                      <ChevronUp className="h-5 w-5" />
+                    ) : (
+                      <ChevronDown className="h-5 w-5" />
+                    )}
+                  </button>
+                </div>
+                
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-3">
+                  {itemsToShow.map((item) => {
+                    // Get element color class
+                    const elementalProps = item.elementalProperties || {
+                      Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+                    };
+                    
+                    // Find dominant element
+                    const dominantElement = Object.entries(elementalProps)
+                      .sort((a, b) => b[1] - a[1])[0][0];
+                    
+                    const elementColor = {
+                      'Fire': 'border-red-400 bg-red-50/70 dark:bg-red-900/30',
+                      'Water': 'border-blue-400 bg-blue-50/70 dark:bg-blue-900/30',
+                      'Earth': 'border-green-400 bg-green-50/70 dark:bg-green-900/30',
+                      'Air': 'border-purple-400 bg-purple-50/70 dark:bg-purple-900/30'
+                    }[dominantElement] || 'border-gray-400 bg-gray-50/70 dark:bg-gray-900/30';
+                    
+                    // Find sensory properties if available
+                    const defaultSeason = ['Spring', 'Summer', 'Fall', 'Winter'][Math.floor(Math.random() * 4)];
+                    let seasonality;
+                    
+                    // Handle both string and object seasonality formats
+                    if (item.seasonality) {
+                      if (typeof item.seasonality === 'string') {
+                        seasonality = item.seasonality;
+                      } else if (typeof item.seasonality === 'object') {
+                        // Handle both array and object formats
+                        if (Array.isArray(item.seasonality)) {
+                          seasonality = item.seasonality.join(', ');
+                        } else if (item.seasonality.peak) {
+                          // Handle {peak: [...], notes: string} format
+                          seasonality = Array.isArray(item.seasonality.peak) 
+                            ? item.seasonality.peak.join(', ')
+                            : item.seasonality.peak;
+                        }
+                      }
+                    } else {
+                      seasonality = defaultSeason;
+                    }
+                    
+                    const qualities = item.qualities || [];
+                    
+                    // Use the new getMatchScoreClass function
+                    const matchScoreClass = getMatchScoreClass(item.matchScore);
+                    
+                    const isSelected = selectedIngredient?.name === item.name;
+                    
+                    return (
+                      <div 
+                        key={`${item.name}-${category}-${item.subCategory || ''}-${Math.random().toString(36).substr(2, 5)}`} 
+                        className={`p-3 rounded-lg border-l-4 ${elementColor} hover:shadow-md transition-all flex flex-col ${isSelected ? 'ring-2 ring-indigo-500 shadow-md min-h-[200px] sm:col-span-2 md:col-span-2 lg:col-span-2' : 'h-full'} cursor-pointer`}
+                        onClick={(e) => handleIngredientSelect(item, e)}
+                      >
+                        <div className="flex justify-between items-start">
+                          <h4 className="font-medium text-sm text-gray-800 dark:text-gray-200">{item.name}</h4>
+                          <span className={`ml-1 text-xs px-1.5 py-0.5 rounded-sm ${matchScoreClass}`}>
+                            {formatMatchScore(item.matchScore)}
+                          </span>
+                        </div>
+                        
+                        {/* Quick info row */}
+                        <div className="flex items-center text-xs text-gray-600 dark:text-gray-400 mt-1 gap-2">
+                          {item.category && (
+                            <span className="flex items-center">
+                              <Tag size={10} className="mr-0.5" />
+                              {item.category.split(' ')[0]}
+                            </span>
+                          )}
+                          
+                          {seasonality && (
+                            <span className="flex items-center">
+                              <Clock size={10} className="mr-0.5" />
+                              {seasonality}
+                            </span>
+                          )}
+                        </div>
+                        
+                        {/* Expanded view */}
+                        {isSelected ? (
+                          <div className="mt-2 pt-1" style={{ animation: 'fadeIn 0.3s ease-in-out' }}>
+                            {/* Close button */}
+                            <div className="flex justify-end">
+                              <button 
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setSelectedIngredient(null);
+                                }}
+                                className="text-gray-400 hover:text-gray-600 p-1 rounded-full hover:bg-gray-200/50 dark:hover:bg-gray-700/50"
+                                aria-label="Close details"
+                              >
+                                <X size={14} />
+                              </button>
+                            </div>
+                            
+                            {/* More detailed information */}
+                            <div className="mt-1 space-y-2 text-xs text-gray-700 dark:text-gray-300">
+                              {item.description && (
+                                <p>{item.description}</p>
+                              )}
+                              
+                              {item.qualities && item.qualities.length > 0 && (
+                                <div>
+                                  <span className="font-semibold">Qualities:</span> {item.qualities.join(', ')}
+                                </div>
+                              )}
+                              
+                              {/* Show culinary applications */}
+                              {item.culinaryApplications && (
+                                <div>
+                                  <span className="font-semibold">Culinary Applications:</span>{' '}
+                                  {Object.keys(item.culinaryApplications).slice(0, 3).join(', ')}
+                                </div>
+                              )}
+
+                              {/* Show varieties if available */}
+                              {item.varieties && Object.keys(item.varieties).length > 0 && (
+                                <div>
+                                  <span className="font-semibold">Varieties:</span>{' '}
+                                  {Object.keys(item.varieties).slice(0, 3).join(', ')}
+                                </div>
+                              )}
+
+                              {/* Show storage information */}
+                              {item.storage && (
+                                <div>
+                                  <span className="font-semibold">Storage:</span>{' '}
+                                  {item.storage.duration}
+                                  {item.storage.temperature && typeof item.storage.temperature === 'object' && 
+                                   ` at ${item.storage.temperature.fahrenheit}°F`}
+                                </div>
+                              )}
+                              
+                              {/* Show smoke point for oils */}
+                              {category === 'oils' && item.smokePoint && (
+                                <div>
+                                  <span className="font-semibold">Smoke Point:</span> {item.smokePoint.fahrenheit}°F / {item.smokePoint.celsius}°C
+                                </div>
+                              )}
+                              
+                              {/* Show recommended culinary applications for oils */}
+                              {category === 'oils' && item.culinaryApplications && (
+                                <div>
+                                  <span className="font-semibold">Best for:</span> {
+                                    Object.entries(item.culinaryApplications)
+                                      .map(([type, data]) => {
+                                        if (typeof data === 'object' && data.techniques) {
+                                          return data.techniques.slice(0, 2).join(', ');
+                                        }
+                                        return type;
+                                      })
+                                      .filter(Boolean)
+                                      .join(', ')
+                                  }
+                                </div>
+                              )}
+                              
+                              {/* Show seasonal adjustments */}
+                              {item.seasonalAdjustments && (
+                                <div>
+                                  <span className="font-semibold">Seasonal Preparations:</span>{' '}
+                                  {Object.keys(item.seasonalAdjustments).join(', ')}
+                                </div>
+                              )}
+
+                              {/* Show cooking time/methods for proteins */}
+                              {category === 'proteins' && item.culinaryApplications && (
+                                <div>
+                                  <span className="font-semibold">Cooking Times:</span>{' '}
+                                  {Object.entries(item.culinaryApplications).map(([method, details], index) => {
+                                    let cookingTime = '';
+                                    
+                                    // Handle different data formats for cooking time
+                                    if (details?.timing) {
+                                      if (typeof details.timing === 'string') {
+                                        cookingTime = details.timing;
+                                      } else if (typeof details.timing === 'object') {
+                                        if (details.timing.minimum && details.timing.maximum) {
+                                          cookingTime = `${details.timing.minimum}-${details.timing.maximum}`;
+                                        } else if (details.timing.optimal) {
+                                          cookingTime = details.timing.optimal;
+                                        } else {
+                                          const times = Object.values(details.timing).filter(t => typeof t === 'string');
+                                          if (times.length) cookingTime = times.join('-');
+                                        }
+                                      }
+                                    }
+                                    
+                                    return cookingTime ? (
+                                      <span key={method}>
+                                        {index > 0 ? ', ' : ''}
+                                        {method.replace(/_/g, ' ')}: {cookingTime}
+                                      </span>
+                                    ) : null;
+                                  }).filter(Boolean)}
+                                </div>
+                              )}
+
+                              {/* Show temperature recommendations for proteins */}
+                              {category === 'proteins' && item.culinaryApplications && (
+                                <div>
+                                  <span className="font-semibold">Cooking Temperatures:</span>{' '}
+                                  {Object.entries(item.culinaryApplications).map(([method, details], index) => {
+                                    let temp = '';
+                                    
+                                    // Handle different data formats for temperature
+                                    if (details?.temperature) {
+                                      if (typeof details.temperature === 'string') {
+                                        temp = details.temperature;
+                                      } else if (typeof details.temperature === 'object') {
+                                        if (details.temperature.fahrenheit) {
+                                          temp = `${details.temperature.fahrenheit}°F`;
+                                        } else if (details.temperature.min && details.temperature.max) {
+                                          temp = `${details.temperature.min}-${details.temperature.max}°${details.temperature.unit === 'celsius' ? 'C' : 'F'}`;
+                                        }
+                                      }
+                                    }
+                                    
+                                    return temp ? (
+                                      <span key={method}>
+                                        {index > 0 ? ', ' : ''}
+                                        {method.replace(/_/g, ' ')}: {temp}
+                                      </span>
+                                    ) : null;
+                                  }).filter(Boolean)}
+                                </div>
+                              )}
+
+                              {/* Show cuts for seafood and proteins */}
+                              {item.cuts && Object.keys(item.cuts).length > 0 && (
+                                <div>
+                                  <span className="font-semibold">Available Cuts:</span>{' '}
+                                  {Object.values(item.cuts).map(cut => 
+                                    typeof cut === 'object' && cut.name ? cut.name : '').filter(Boolean).join(', ')}
+                                </div>
+                              )}
+
+                              {/* Show health benefits */}
+                              {item.healthBenefits && item.healthBenefits.length > 0 && (
+                                <div>
+                                  <span className="font-semibold">Health Benefits:</span>{' '}
+                                  {Array.isArray(item.healthBenefits) 
+                                    ? item.healthBenefits.slice(0, 2).join(', ')
+                                    : typeof item.healthBenefits === 'string' ? item.healthBenefits : ''}
+                                </div>
+                              )}
+                              
+                              {/* Show thermodynamic properties for oils and other ingredients */}
+                              {item.thermodynamicProperties && (
+                                <div>
+                                  <span className="font-semibold">Properties:</span> {
+                                    Object.entries(item.thermodynamicProperties)
+                                      .filter(([key]) => ['heat', 'reactivity', 'energy'].includes(key))
+                                      .map(([key, value]) => `${key}: ${Math.round(value * 100)}%`)
+                                      .join(', ')
+                                  }
+                                </div>
+                              )}
+                              
+                              {item.culinaryUses && item.culinaryUses.length > 0 && (
+                                <div>
+                                  <span className="font-semibold">Uses:</span> {item.culinaryUses.join(', ')}
+                                </div>
+                              )}
+
+                              {/* Show nutritional highlights if available */}
+                              {item.nutritionalProfile && (
+                                <div>
+                                  <span className="font-semibold">Nutrition:</span>{' '}
+                                  {item.nutritionalProfile.calories && `${item.nutritionalProfile.calories} cal`}
+                                  {item.nutritionalProfile.macros && item.nutritionalProfile.macros.protein && 
+                                   `, ${item.nutritionalProfile.macros.protein}g protein`}
+                                </div>
+                              )}
+                              
+                              {item.astrologicalProfile && item.astrologicalProfile.rulingPlanets && (
+                                <div>
+                                  <span className="font-semibold">Planets:</span> {item.astrologicalProfile.rulingPlanets.join(', ')}
+                                </div>
+                              )}
+                            </div>
+                            
+                            {/* Elemental properties - show in expanded view */}
+                            <div className="mt-2 pt-1 space-y-1">
+                              <div className="font-semibold text-xs text-gray-700 dark:text-gray-300">Elemental Balance:</div>
+                              {Object.entries(elementalProps).map(([element, value]) => (
+                                <div key={element} className="flex items-center text-xs">
+                                  {getElementIcon(element)}
+                                  <div className="flex-grow ml-1 bg-gray-200 dark:bg-gray-700 h-1.5 rounded-full overflow-hidden">
+                                    <div 
+                                      className="h-full rounded-full"
+                                      style={{ 
+                                        width: `${value * 100}%`,
+                                        backgroundColor: 
+                                          element === 'Fire' ? '#ff6b6b' : 
+                                          element === 'Water' ? '#6bb5ff' :
+                                          element === 'Earth' ? '#6bff8e' :
+                                          '#d9b3ff' // Air
+                                      }}
+                                    ></div>
+                                  </div>
+                                  <span className="ml-1 w-7 text-right text-gray-600 dark:text-gray-400">{Math.round(value * 100)}%</span>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        ) : (
+                          <>
+                            {/* Elemental properties in collapsed view */}
+                            <div className="mt-2 pt-1 space-y-1">
+                              {Object.entries(elementalProps).map(([element, value]) => (
+                                <div key={element} className="flex items-center text-xs">
+                                  {getElementIcon(element)}
+                                  <div className="flex-grow ml-1 bg-gray-200 dark:bg-gray-700 h-1.5 rounded-full overflow-hidden">
+                                    <div 
+                                      className="h-full rounded-full"
+                                      style={{ 
+                                        width: `${value * 100}%`,
+                                        backgroundColor: 
+                                          element === 'Fire' ? '#ff6b6b' : 
+                                          element === 'Water' ? '#6bb5ff' :
+                                          element === 'Earth' ? '#6bff8e' :
+                                          '#d9b3ff' // Air
+                                      }}
+                                    ></div>
+                                  </div>
+                                  <span className="ml-1 w-7 text-right text-gray-600 dark:text-gray-400">{Math.round(value * 100)}%</span>
+                                </div>
+                              ))}
+                            </div>
+                            
+                            {/* Qualities tags if space allows */}
+                            {qualities.length > 0 && (
+                              <div className="flex flex-wrap gap-1 mt-2">
+                                {qualities.slice(0, 2).map(quality => (
+                                  <span key={quality} className="text-xs bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-1 py-0.5 rounded text-[10px]">
+                                    {quality}
+                                  </span>
+                                ))}
+                              </div>
+                            )}
+                            
+                            {/* Compact smoke point display for oils */}
+                            {category === 'oils' && item.smokePoint && (
+                              <div className="mt-1 text-[10px] text-gray-600 dark:text-gray-400">
+                                <span className="font-medium">Smoke Point:</span> {item.smokePoint.fahrenheit}°F
+                              </div>
+                            )}
+
+                            {/* Compact cooking methods for proteins */}
+                            {category === 'proteins' && item.culinaryApplications && (
+                              <div className="mt-1 text-[10px] text-gray-600 dark:text-gray-400">
+                                <span className="font-medium">Cook:</span>{' '}
+                                {Object.keys(item.culinaryApplications).slice(0, 2).map((method, idx) => (
+                                  <span key={method}>
+                                    {idx > 0 && ', '}
+                                    {method.replace(/_/g, ' ')}
+                                  </span>
+                                ))}
+                              </div>
+                            )}
+                          </>
+                        )}
+                      </div>
+                    );
+                  })}
                   
-                  {expanded[category] && (
-                    <div className="category-grid">
-                      {combinedCategorizedRecommendations[category].slice(0, CATEGORY_DISPLAY_COUNTS[category] || 8).map((item) => {
-                        return renderIngredientCard(item);
-                      })}
+                  {/* Show more/less button */}
+                  {items.length > displayCount && (
+                    <div 
+                      className="col-span-full flex justify-center mt-2"
+                    >
+                      <button 
+                        onClick={(e) => toggleCategoryExpansion(category, e)}
+                        className="text-indigo-600 dark:text-indigo-400 text-sm font-medium hover:text-indigo-800 dark:hover:text-indigo-300 transition-colors py-1 px-3 rounded-full border border-indigo-200 dark:border-indigo-700/50 hover:bg-indigo-50 dark:hover:bg-indigo-900/30"
+                      >
+                        {isExpanded ? (
+                          <span className="flex items-center">Show Less <ChevronUp size={14} className="ml-1" /></span>
+                        ) : (
+                          <span className="flex items-center">Show {items.length - displayCount} More <ChevronDown size={14} className="ml-1" /></span>
+                        )}
+                      </button>
                     </div>
                   )}
                 </div>
-              ))}
-          </div>
-        ) : (
-          <div style={{ textAlign: 'center', marginTop: '1rem' }}>
-            <button
-              onClick={toggleShowAll}
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                padding: '0.5rem 1.25rem',
-                background: 'white',
-                color: '#794bc4',
-                border: '1px solid #d1d5db',
-                borderRadius: '0.5rem',
-                cursor: 'pointer',
-                fontWeight: '500',
-                fontSize: '0.875rem',
-                transition: 'all 0.2s ease',
-                boxShadow: '0 1px 2px rgba(0,0,0,0.05)'
-              }}
-              onMouseOver={(e) => {
-                e.currentTarget.style.borderColor = '#794bc4';
-                e.currentTarget.style.background = 'rgba(121, 75, 196, 0.05)';
-              }}
-              onMouseOut={(e) => {
-                e.currentTarget.style.borderColor = '#d1d5db';
-                e.currentTarget.style.background = 'white';
-              }}
-            >
-              {showAll ? (
-                <>
-                  <ChevronUp size={16} />
-                  Show less
-                </>
-              ) : (
-                <>
-                  <ChevronDown size={16} />
-                  View all {Object.values(combinedCategorizedRecommendations).reduce((total, category) => total + category.length, 0)} ingredients
-                </>
-              )}
-            </button>
-          </div>
-        )}
-        
-        <div className="filters">
-          <h3 className="filter-heading">Filter by category:</h3>
-          <div className="category-filters">
-            <div className="category-filter-row">
-              {ORDERED_CATEGORIES.slice(0, 3).map(category => (
-                <button
-                  key={category}
-                  className={`category-button ${activeCategory === category ? 'active' : ''}`}
-                  onClick={() => handleCategoryFilter(category)}
-                >
-                  {category.charAt(0).toUpperCase() + category.slice(1)}
-                </button>
-              ))}
-            </div>
-            <div className="category-filter-row">
-              {ORDERED_CATEGORIES.slice(3, 6).map(category => (
-                <button
-                  key={category}
-                  className={`category-button ${activeCategory === category ? 'active' : ''}`}
-                  onClick={() => handleCategoryFilter(category)}
-                >
-                  {category.charAt(0).toUpperCase() + category.slice(1)}
-                </button>
-              ))}
-            </div>
-            <div className="category-filter-row">
-              {ORDERED_CATEGORIES.slice(6).map(category => (
-                <button
-                  key={category}
-                  className={`category-button ${activeCategory === category ? 'active' : ''}`}
-                  onClick={() => handleCategoryFilter(category)}
-                >
-                  {category.charAt(0).toUpperCase() + category.slice(1)}
-                </button>
-              ))}
-            </div>
-          </div>
+              </div>
+            );
+          })}
         </div>
+      ) : (
+        <div className="bg-gray-100 dark:bg-gray-800 p-8 rounded-lg text-center">
+          <p className="text-gray-600 dark:text-gray-400">No recommendations available. Try refreshing your astrological data.</p>
+        </div>
+      )}
+      
+      <div className="mt-6 text-center">
+        <button 
+          className="px-5 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-medium rounded-lg shadow-sm hover:shadow-md transform hover:-translate-y-0.5 transition-all"
+          onClick={() => window.location.reload()}
+        >
+          Refresh Celestial Recommendations
+        </button>
       </div>
     </div>
   );
-}
-
-export default IngredientRecommender;
+} 

@@ -22,7 +22,7 @@
     window.getElementRanking = function(element_object, rank) {
       try {
         // Use let instead of const for variables that will be reassigned
-        const element_rank_dict = {1: '', 2: '', 3: '', 4: ''};
+        let element_rank_dict = {1: '', 2: '', 3: '', 4: ''};
         let largest_element_value = 0;
         
         // First, find the element with the largest value (rank 1)
@@ -48,7 +48,7 @@
 
     // PATCH 3: Ensure combineElementObjects is available
     window.combineElementObjects = window.combineElementObjects || function(element_object_1, element_object_2) {
-      const combined_object = window.createElementObject();
+      let combined_object = window.createElementObject();
       combined_object.Fire = (element_object_1?.Fire || 0) + (element_object_2?.Fire || 0);
       combined_object.Water = (element_object_1?.Water || 0) + (element_object_2?.Water || 0);
       combined_object.Air = (element_object_1?.Air || 0) + (element_object_2?.Air || 0);

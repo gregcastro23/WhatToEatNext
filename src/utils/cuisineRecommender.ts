@@ -85,8 +85,8 @@ export function generateTopSauceRecommendations(currentElementalProfile = null, 
       const currentFlavors = planetaryFlavors[currentPlanetaryDay] || {};
       
       // Calculate flavor match
-      const flavorMatch = 0;
-      const flavorCount = 0;
+      let flavorMatch = 0;
+      let flavorCount = 0;
       
       Object.entries(currentFlavors).forEach(([flavor, strength]) => {
         if (sauce.flavorProfile[flavor]) {
@@ -190,7 +190,7 @@ export function recommendCuisines(
     scores[cuisineName].score += Math.random() * 0.3;
     
     // Find recommended dishes
-    const dishes = findRecommendedDishes(
+    let dishes = findRecommendedDishes(
       cuisineData,
       lunarPhase,
       zodiacSign,
@@ -236,7 +236,7 @@ function findRecommendedDishes(
   // Go through all dishes in the cuisine
   Object.entries(cuisineData.dishes || {}).forEach(([dishName, dishData]) => {
     // Type the dishData properly
-    const typedDishData = dishData as {
+    let typedDishData = dishData as {
       seasonal?: string[];
       ingredients?: string[];
       recommendedFor?: string[];
@@ -255,7 +255,7 @@ function findRecommendedDishes(
     
     // Check ingredients
     if (ingredients.length > 0 && typedDishData.ingredients) {
-      const matchesIngredients = ingredients.some((ing) => typedDishData.ingredients?.includes(ing));
+      let matchesIngredients = ingredients.some((ing) => typedDishData.ingredients?.includes(ing));
       if (!matchesIngredients) {
         shouldInclude = false;
       }
@@ -323,7 +323,7 @@ export function calculateElementalMatch(
   
   // Calculate final score
   const baseScore = matchSum / totalWeight;
-  const finalScore = baseScore + dominantBonus;
+  let finalScore = baseScore + dominantBonus;
   
   // Ensure score is between 0 and 1
   return Math.min(1, Math.max(0, finalScore));
@@ -389,7 +389,7 @@ export function calculateElementalProfileFromZodiac(
     pisces: 'Water',
   };
 
-  const primaryElement = zodiacElementMap[zodiacSign];
+  let primaryElement = zodiacElementMap[zodiacSign];
 
   // Start with base values
   const elementalProfile: ElementalProperties = {
@@ -415,7 +415,7 @@ export function calculateElementalProfileFromZodiac(
       'waning crescent': 'Earth',
     };
 
-    const lunarElement = lunarElementMap[lunarPhase];
+    let lunarElement = lunarElementMap[lunarPhase];
 
     if (lunarElement) {
       // Increase the lunar element (avoid exceeding 1.0 total)
@@ -424,7 +424,7 @@ export function calculateElementalProfileFromZodiac(
   }
 
   // Normalize to ensure sum is approximately 1.0
-  const sum = Object.values(elementalProfile).reduce(
+  let sum = Object.values(elementalProfile).reduce(
     (acc, val) => acc + val,
     0
   );
@@ -466,10 +466,10 @@ export function calculateElementalContributionsFromPlanets(
 
   // Calculate contributions based on planet positions
   for (const [planet, position] of Object.entries(positions)) {
-    const element = planetElementMap[planet];
+    let element = planetElementMap[planet];
     if (element) {
       // Weight by planet importance (Sun and Moon have higher influence)
-      const weight = planet === 'Sun' || planet === 'Moon' ? 0.3 : 0.1;
+      let weight = planet === 'Sun' || planet === 'Moon' ? 0.3 : 0.1;
       contributions[element] += weight;
     }
   }
@@ -502,10 +502,10 @@ export function calculateCuisineScore(
   astroState: AstrologicalState
 ): number {
   // Use simplified score calculation
-  const baseScore = calculateBaseScore(cuisine, astroState);
+  let baseScore = calculateBaseScore(cuisine, astroState);
 
   // Apply a multiplier for better differentiation
-  const multiplier = 1.5;
+  let multiplier = 1.5;
   return Math.min(1.0, baseScore * multiplier); 
 }
 

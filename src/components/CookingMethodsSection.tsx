@@ -1,11 +1,8 @@
-'use client';
-
 import React, { useState, useEffect, useMemo } from 'react';
 import { ChevronDown, ChevronUp, Globe, Flame, Droplets, Wind, Mountain, Search, ArrowUp, ArrowDown, Zap, Sparkles, Minus, Info, List, ThumbsUp, Clock } from 'lucide-react'; // Added Zap, Sparkles, and Minus icons
-import { useIngredientMapping } from '@/hooks'; // Import from hooks index
+import { useIngredientMapping } from '@/hooks'; // Import our new hook
 import styles from './CookingMethods.module.css';
-import { getTipsForMethod } from '@/utils/cookingMethodTips';
-import { cookingMethods } from '@/data/cooking/cookingMethods';
+import { getTechnicalTips, getIdealIngredients } from '@/utils/cookingMethodTips';
 
 // Define proper types for the methods
 interface CookingMethod {
@@ -42,58 +39,6 @@ interface CookingMethodsProps {
   showToggle?: boolean;
   initiallyExpanded?: boolean;
 }
-
-// Utility function to get ideal ingredients by method name
-const getIdealIngredients = (methodName: string): string[] => {
-  // Convert to lowercase for more flexible matching
-  const method = methodName.toLowerCase();
-  
-  // Check if the method exists in the cooking methods 
-  const methodObj = Object.values(cookingMethods).find(
-    m => m.name?.toLowerCase() === method
-  );
-  
-  // If the method has suitable_for, use that
-  if (methodObj?.suitable_for) {
-    return methodObj.suitable_for;
-  }
-  
-  // Default mappings for common methods
-  const defaultIngredients: Record<string, string[]> = {
-    'roasting': ['chicken', 'beef', 'root vegetables', 'potatoes', 'turkey', 'lamb', 'pork loin', 'winter squash'],
-    'baking': ['bread', 'cakes', 'cookies', 'fish', 'casseroles', 'potatoes', 'pasta dishes', 'pies'],
-    'grilling': ['steak', 'burgers', 'chicken', 'fish', 'vegetables', 'tofu', 'corn', 'kebabs'],
-    'steaming': ['vegetables', 'fish', 'dumplings', 'shellfish', 'rice', 'custards', 'puddings', 'buns'],
-    'sauteing': ['vegetables', 'mushrooms', 'chicken cutlets', 'fish fillets', 'tofu', 'shrimp', 'greens', 'stir-fries'],
-    'boiling': ['pasta', 'eggs', 'rice', 'potatoes', 'vegetables', 'grains', 'beans', 'stocks'],
-    'braising': ['short ribs', 'chuck roast', 'chicken thighs', 'lamb shanks', 'pork shoulder', 'vegetables', 'lentils', 'beans'],
-    'broiling': ['steaks', 'fish', 'chicken', 'lamb chops', 'kebabs', 'vegetables', 'fruit crumbles', 'gratins'],
-    'poaching': ['eggs', 'fish', 'chicken breasts', 'fruits', 'delicate proteins', 'salmon', 'pears', 'shellfish'],
-    'frying': ['chicken', 'fish', 'vegetables', 'fritters', 'tofu', 'tempura', 'potatoes', 'donuts'],
-    'smoking': ['brisket', 'pork shoulder', 'ribs', 'fish', 'chicken', 'turkey', 'cheese', 'nuts'],
-    'sous vide': ['steak', 'fish', 'chicken breasts', 'eggs', 'pork chops', 'vegetables', 'custards', 'infusions'],
-    'pressure cooking': ['beans', 'grains', 'tough meats', 'stews', 'broths', 'stocks', 'vegetables', 'pulses'],
-    'fermenting': ['cabbage', 'vegetables', 'milk', 'grains', 'fruits', 'meat', 'soybeans', 'tea'],
-    'pickling': ['cucumbers', 'vegetables', 'eggs', 'fruits', 'peppers', 'onions', 'beets', 'garlic'],
-    'dehydrating': ['fruits', 'vegetables', 'herbs', 'jerky', 'mushrooms', 'tomatoes', 'berries', 'citrus']
-  };
-  
-  // Handle common method name variations
-  for (const [key, ingredients] of Object.entries(defaultIngredients)) {
-    if (method.includes(key) || key.includes(method)) {
-      return ingredients;
-    }
-  }
-  
-  // Generic fallback
-  return [
-    'vegetables', 
-    'proteins', 
-    'grains', 
-    'fruits',
-    'refer to specific recipes for more suggestions'
-  ];
-};
 
 export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
   methods,
@@ -229,22 +174,19 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
   };
   
   const toggleExpanded = () => {
-    setIsExpanded(prev => !prev);
+    // Only allow toggling if there are more than 5 methods
+    if (methods.length > 5) {
+      setIsExpanded(prev => !prev);
+    }
   };
   
   const toggleMethodExpanded = (methodId: string, e: React.MouseEvent) => {
-    // Prevent the click from bubbling up
-    e.preventDefault();
+    // Prevent the click from selecting the method
     e.stopPropagation();
-    
-    // Update expanded state for this method
-    setExpandedMethods(prev => {
-      console.log(`Toggling expansion for method ${methodId}: ${!prev[methodId]}`);
-      return {
-        ...prev,
-        [methodId]: !prev[methodId]
-      };
-    });
+    setExpandedMethods(prev => ({
+      ...prev,
+      [methodId]: !prev[methodId]
+    }));
   };
   
   // Toggle ingredient search section
@@ -422,50 +364,21 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
           <div className={styles['methods-grid']}>
             {displayMethods.map((method) => (
               <div 
-                key={method.id}
-                className={`${styles['method-card']} 
-                  ${showIngredientSearch && ingredientCompatibility[method.id] !== undefined ? styles['with-compatibility'] : ''} 
-                  ${selectedMethodId === method.id ? styles.selected : ''} 
-                  ${expandedMethods[method.id] ? styles['expanded'] : ''}`}
-                onClick={() => {
-                  // Call the onSelectMethod handler if provided
-                  onSelectMethod && onSelectMethod(method);
-                  
-                  // Also toggle the expanded state for this method
-                  setExpandedMethods(prev => ({
-                    ...prev,
-                    [method.id]: !prev[method.id]
-                  }));
-                }}
-                data-expanded={expandedMethods[method.id] ? 'true' : 'false'}
+                key={method.id} 
+                className={`${styles['method-card']} ${selectedMethodId === method.id ? styles.selected : ''}`}
+                onClick={() => onSelectMethod && onSelectMethod(method)}
               >
                 <div className={styles['method-header']}>
                   <h4 className={styles['method-name']}>{method.name}</h4>
                   
-                  <div className={styles['header-right']}>
-                    {method.score !== undefined && (
-                      <div className={`${styles['method-score']} ${getScoreClass(method.score)}`}>
-                        <span className={styles['score-value']}>{Math.round(method.score * 100)}%</span>
-                        <div className={styles['score-bar']}>
-                          <div className={styles['score-bar-fill']} style={{width: `${Math.round(method.score * 100)}%`}}></div>
-                        </div>
+                  {method.score !== undefined && (
+                    <div className={`${styles['method-score']} ${getScoreClass(method.score)}`}>
+                      <span className={styles['score-value']}>{Math.round(method.score * 100)}%</span>
+                      <div className={styles['score-bar']}>
+                        <div className={styles['score-bar-fill']} style={{width: `${Math.round(method.score * 100)}%`}}></div>
                       </div>
-                    )}
-                    
-                    <button 
-                      className={styles['expand-indicator']}
-                      aria-label={expandedMethods[method.id] ? "Collapse method details" : "Expand method details"}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setExpandedMethods(prev => ({
-                          ...prev,
-                          [method.id]: !prev[method.id]
-                        }));
-                      }}
-                    >
-                      {expandedMethods[method.id] ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-                    </button>
-                  </div>
+                    </div>
+                  )}
                   
                   {/* Show ingredient compatibility if available */}
                   {ingredientCompatibility[method.id] !== undefined && (
@@ -592,44 +505,9 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
                   )}
                 </div>
                 
-                {/* Add expanded content section that shows when card is expanded */}
-                {expandedMethods[method.id] && (
-                  <div className={styles['expanded-content']}>
-                    <div className={styles['expanded-section']}>
-                      <h5 className={styles['expanded-header']}>
-                        <Info size={14} className={styles['section-icon']} />
-                        Technical Tips
-                      </h5>
-                      <ul className={styles['tip-list']}>
-                        {getTipsForMethod(method.name).slice(0, 3).map((tip, index) => (
-                          <li key={index} className={styles['tip-item']}>{tip}</li>
-                        ))}
-                      </ul>
-                    </div>
-                    
-                    {method.suitable_for && method.suitable_for.length > 0 && (
-                      <div className={styles['expanded-section']}>
-                        <h5 className={styles['expanded-header']}>
-                          <List size={14} className={styles['section-icon']} />
-                          Ideal Ingredients
-                        </h5>
-                        <div className={styles['ingredients-grid']}>
-                          {method.suitable_for.map((ingredient, index) => (
-                            <div key={index} className={styles['ingredient-item']}>{ingredient}</div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                )}
-                
                 {/* Show cultural variations if expanded */}
-                {method.variations && method.variations.length > 0 && (
-                  <div 
-                    className={styles['variations-container']} 
-                    style={{ display: expandedMethods[method.id] ? 'block' : 'none' }}
-                    data-expanded={expandedMethods[method.id] ? 'true' : 'false'}
-                  >
+                {method.variations && method.variations.length > 0 && expandedMethods[method.id] && (
+                  <div className={styles['variations-container']}>
                     <h5 className={styles['variations-header']}>
                       <Globe size={14} className={styles['variations-icon']} />
                       Variations & Subcategories
@@ -719,11 +597,45 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
                     </div>
                   </div>
                 )}
+                
+                {selectedMethodId === method.id && (
+                  <div className={styles['expanded-details']}>
+                    {/* Technical Tips Section */}
+                    <div className={styles['technical-tips']}>
+                      <div className={styles['section-header']}>
+                        <Info size={14} className={styles['section-icon']} />
+                        <span>Expert Technical Tips</span>
+                      </div>
+                      <div className={styles['tips-grid']}>
+                        {getTechnicalTips(method.name).slice(0, 5).map((tip, index) => (
+                          <div key={index} className={styles['tip-item']}>
+                            {tip}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    
+                    {/* Ideal Ingredients Section */}
+                    <div className={styles['ideal-ingredients']}>
+                      <div className={styles['section-header']}>
+                        <List size={14} className={styles['section-icon']} />
+                        <span>Ideal Ingredients</span>
+                      </div>
+                      <div className={styles['ingredients-grid']}>
+                        {getIdealIngredients(method.name).slice(0, 8).map((ingredient, index) => (
+                          <div key={index} className={styles['ingredient-item']}>
+                            {ingredient}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             ))}
           </div>
           
-          {/* Show more / (less || 1) button */}
+          {/* Show more/less button */}
           {methods.length > 8 && (
             <div className={styles['show-more-container']}>
               <button 

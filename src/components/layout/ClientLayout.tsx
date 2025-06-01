@@ -1,10 +1,10 @@
 'use client'
 
-import @/components  from 'errors '
-import @/components  from 'errors '
-import @/components  from 'debug '
-import @/providers  from 'RecoveryProvider '
-import @/contexts  from 'AlchemicalContext '
+import { ErrorBoundary } from '@/components/errors/ErrorBoundary'
+import { ErrorFallback } from '@/components/errors/ErrorFallback'
+import { StateDebugger } from '@/components/debug/StateDebugger'
+import { RecoveryProvider } from '@/providers/RecoveryProvider'
+import { AlchemicalProvider } from '@/contexts/AlchemicalContext/provider'
 
 export function ClientLayout({ children }: { children: React.ReactNode }) {
   return (

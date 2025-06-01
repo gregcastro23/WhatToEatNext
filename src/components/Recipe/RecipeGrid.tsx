@@ -50,9 +50,9 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
     useState<ElementalFilter>('all');
   const [showSortMenu, setShowSortMenu] = useState(false);
   const [showElementalMenu, setShowElementalMenu] = useState(false);
-  const currentSeason = getCurrentSeason();
+  let currentSeason = getCurrentSeason();
 
-  const getElementalScore = (
+  let getElementalScore = (
     recipe: ScoredRecipe,
     element: ElementalFilter
   ) => {
@@ -63,13 +63,13 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
       : standardizedRecipe.elementalProperties[element] || 0;
   };
 
-  const getSeasonalScore = (recipe: ScoredRecipe) => {
+  let getSeasonalScore = (recipe: ScoredRecipe) => {
     if (recipe.season?.includes(currentSeason)) return 2;
     if (recipe.season?.includes('all')) return 1;
     return 0;
   };
 
-  const calculateMatchPercentage = (recipe: ScoredRecipe): number => {
+  let calculateMatchPercentage = (recipe: ScoredRecipe): number => {
     if (!state.elementalPreference) return 0;
 
     // First ensure recipe has standardized elemental properties
@@ -88,14 +88,14 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
 
     // Convert to percentage with enhanced scaling for better user experience
     // Use a sigmoid-like function to boost middle-range scores
-    const enhancedScore =
+    let enhancedScore =
       similarity < 0.5 ? similarity * 1.5 : 0.75 + (similarity - 0.5) * 0.5;
 
     // Ensure minimum 10% display value to avoid showing very low percentages
     return Math.max(Math.round(enhancedScore * 100), 10);
   };
 
-  const filteredAndSortedRecipes = useMemo(() => {
+  let filteredAndSortedRecipes = useMemo(() => {
     // First standardize elemental properties for all recipes
     const standardizedRecipes = recipes.map((recipe) => ({
       ...recipe,
@@ -110,21 +110,21 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
       .filter((recipe) => {
         if (!recipe) return false;
 
-        const cuisineMatch =
+        let cuisineMatch =
           !selectedCuisine ||
           selectedCuisine.toLowerCase() ===
             recipe.cuisine?.split(' ')[0].toLowerCase() ||
           recipe.cuisine?.toLowerCase().includes(selectedCuisine.toLowerCase());
 
-        const mealTypeMatch =
+        let mealTypeMatch =
           !mealType || (recipe.mealType && recipe.mealType.includes(mealType));
 
-        const seasonMatch =
+        let seasonMatch =
           !recipe.season ||
           recipe.season.includes(currentSeason) ||
           recipe.season.includes('all');
 
-        const elementalMatch =
+        let elementalMatch =
           elementalFilter === 'all' ||
           (recipe.elementalProperties &&
             recipe.elementalProperties[elementalFilter] >= 0.3);
@@ -166,7 +166,7 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
     elementalFilter,
   ]);
 
-  const getViewModeClass = () => {
+  let getViewModeClass = () => {
     switch (viewMode) {
       case 'compact':
         return 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4';

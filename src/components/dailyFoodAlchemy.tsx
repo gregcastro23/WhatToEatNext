@@ -1,4 +1,4 @@
-import @/contexts  from 'AlchemicalContext ';
+import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 
 const DailyFoodAlchemy: React.FC = () => {
   const { state } = useAlchemical();

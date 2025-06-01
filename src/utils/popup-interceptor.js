@@ -11,7 +11,7 @@
   console.log('[PopupInterceptor] Installing popup.js interceptor');
 
   // Create a failsafe popup object that will survive lockdown
-  const failsafePopup = {
+  let failsafePopup = {
     create: () => ({
       show: () => ({}),
       hide: () => ({}),
@@ -39,7 +39,7 @@
   });
 
   // Monitor for popup integrity issues
-  const checkPopupIntegrity = () => {
+  let checkPopupIntegrity = () => {
     if (!window.popup || !window.popup.create) {
       console.warn('[PopupInterceptor] Popup object is missing, restoring!');
       window.popup = window.__popup_backup;
@@ -53,14 +53,14 @@
   setInterval(checkPopupIntegrity, 500);
 
   // Intercept script loading to handle popup.js specifically
-  const originalCreateElement = document.createElement;
+  let originalCreateElement = document.createElement;
   
   document.createElement = function(tagName) {
-    const element = originalCreateElement.call(document, tagName);
+    let element = originalCreateElement.call(document, tagName);
     
     if (tagName.toLowerCase() === 'script') {
       // Monitor script src attribute
-      const originalSetAttribute = element.setAttribute;
+      let originalSetAttribute = element.setAttribute;
       element.setAttribute = function(name, value) {
         if (name === 'src' && (value.includes('popup.js') || value.includes('lockdown'))) {
           console.warn(`[PopupInterceptor] Intercepted ${value}`);

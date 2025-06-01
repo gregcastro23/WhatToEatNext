@@ -1,12 +1,11 @@
 import React from 'react';
-import { Box, Typography, Tooltip } from '@mui/material';
+import { Box, Tooltip } from '@mui/material';
 import { ZodiacSign as ZodiacSignType } from '@/types/alchemy';
 
 interface ZodiacSignProps {
-  sign: ZodiacSignType;
+  sign: ZodiacSignType | string;
   size?: 'small' | 'medium' | 'large';
   showLabel?: boolean;
-  showTooltip?: boolean;
 }
 
 const zodiacEmoji: Record<string, string> = {
@@ -49,8 +48,7 @@ const elementColor: Record<string, string> = {
 export const ZodiacSign: React.FC<ZodiacSignProps> = ({ 
   sign, 
   size = 'medium',
-  showLabel = false,
-  showTooltip = true
+  showLabel = false
 }) => {
   const signName = sign.toLowerCase() as ZodiacSignType;
   const element = zodiacElement[signName] || 'Unknown';

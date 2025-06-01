@@ -1,4 +1,4 @@
-import @/types  from 'alchemy ';
+import type { ElementalProperties } from '@/types/alchemy';
 
 export const defaultElementalProps: ElementalProperties = {
   Fire: 0.25,

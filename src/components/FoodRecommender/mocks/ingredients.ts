@@ -7,7 +7,7 @@ export const defaultElementalProps: ElementalProperties = {
   Air: 0.25
 };
 
-export const mockIngredients = {
+export let mockIngredients = {
   'Oils & Fats': [
     {
       name: 'sesame oil',

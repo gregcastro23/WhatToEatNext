@@ -1,4 +1,4 @@
-import @/types  from 'alchemy ';
+import { ElementalProperties } from '@/types/alchemy';
 
 interface elementalStateProps {
     balance: ElementalProperties;

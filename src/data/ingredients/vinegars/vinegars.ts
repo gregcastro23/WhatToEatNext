@@ -236,7 +236,7 @@ const rawVinegars: Record<string, Partial<IngredientMapping>> = {
 };
 
 // Export fixed vinegars
-export const vinegars = fixIngredientMappings(rawVinegars) as Record<string, IngredientMapping>;
+export let vinegars = fixIngredientMappings(rawVinegars) as Record<string, IngredientMapping>;
 
 // Define artisanal vinegars (premium / (specialty || 1) vinegars)
 const rawArtisanalVinegars: Record<string, Partial<IngredientMapping>> = {
@@ -303,7 +303,7 @@ const rawArtisanalVinegars: Record<string, Partial<IngredientMapping>> = {
 };
 
 // Export artisanal vinegars
-export const artisanalVinegars = fixIngredientMappings(rawArtisanalVinegars) as Record<string, IngredientMapping>;
+export let artisanalVinegars = fixIngredientMappings(rawArtisanalVinegars) as Record<string, IngredientMapping>;
 
 // Add any additional vinegars specific to this directory
 const additionalVinegars: Record<string, Partial<IngredientMapping>> = {
@@ -311,7 +311,7 @@ const additionalVinegars: Record<string, Partial<IngredientMapping>> = {
 };
 
 // Merge with any additional vinegars and artisanal vinegars
-export const allVinegars = fixIngredientMappings({
+export let allVinegars = fixIngredientMappings({
   ...rawVinegars,
   ...rawArtisanalVinegars,
   ...additionalVinegars

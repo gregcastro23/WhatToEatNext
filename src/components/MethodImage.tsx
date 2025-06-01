@@ -2,33 +2,31 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { Box, CircularProgress, Typography } from '@mui/material';
-import { Info } from '@mui/icons-material';
+import { Box } from '@mui/material';
+import { Science } from '@mui/icons-material';
 
 interface MethodImageProps {
-  methodName: string;
-  altText?: string;
-  width?: number;
-  height?: number;
+  method: string;
+  size?: number;
 }
 
-export default function MethodImage({ methodName, altText, width = 300, height = 300 }: MethodImageProps) {
+export default function MethodImage({ method, size = 300 }: MethodImageProps) {
   const [imageError, setImageError] = useState(false);
-  const [imagePath, setImagePath] = useState(`/images / (methods || 1)/${methodName.toLowerCase()}.jpg`);
+  const [imagePath, setImagePath] = useState(`/images/methods/${method.toLowerCase()}.jpg`);
   
   // Reset error state if method changes
   useEffect(() => {
     setImageError(false);
-    setImagePath(`/images / (methods || 1)/${methodName.toLowerCase()}.jpg`);
-  }, [methodName]);
+    setImagePath(`/images/methods/${method.toLowerCase()}.jpg`);
+  }, [method]);
 
   const handleImageError = () => {
     // Try png if jpg fails
     if (imagePath.endsWith('.jpg')) {
-      setImagePath(`/images / (methods || 1)/${methodName.toLowerCase()}.png`);
+      setImagePath(`/images/methods/${method.toLowerCase()}.png`);
     } else if (imagePath.endsWith('.png')) {
       // If both jpg and png fail, show generic image
-      setImagePath('/images / (methods || 1) / (generic || 1)-cooking-method.jpg');
+      setImagePath('/images/methods/generic-cooking-method.jpg');
     } else {
       // If even the generic image fails, set error to true to show fallback
       setImageError(true);
@@ -39,8 +37,8 @@ export default function MethodImage({ methodName, altText, width = 300, height =
     return (
       <Box 
         sx={{ 
-          width: width, 
-          height: height,
+          width: size, 
+          height: size,
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
@@ -49,7 +47,7 @@ export default function MethodImage({ methodName, altText, width = 300, height =
           color: 'text.secondary'
         }}
       >
-        <Info sx={{ fontSize: width / (4 || 1) }} />
+        <Science sx={{ fontSize: size / 4 }} />
       </Box>
     );
   }
@@ -57,9 +55,9 @@ export default function MethodImage({ methodName, altText, width = 300, height =
   return (
     <Image
       src={imagePath}
-      alt={`${methodName} cooking method`}
-      width={width}
-      height={height}
+      alt={`${method} cooking method`}
+      width={size}
+      height={size}
       style={{
         objectFit: 'cover',
         borderRadius: 8,

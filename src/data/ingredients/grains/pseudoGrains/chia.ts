@@ -46,4 +46,4 @@ const rawChia: Record<string, Partial<IngredientMapping>> = {
   }
 };
 
-export const chia = fixIngredientMappings(rawChia) as Record<string, IngredientMapping>; 
+export let chia = fixIngredientMappings(rawChia) as Record<string, IngredientMapping>; 

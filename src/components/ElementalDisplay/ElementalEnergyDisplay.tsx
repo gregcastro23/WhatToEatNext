@@ -1,10 +1,10 @@
 'use client';
 
 import React, { useEffect, useState, useMemo, useCallback } from 'react';
-import @/contexts  from 'AlchemicalContext ';
-import @/types  from 'elements ';
-import @/calculations  from 'elementalcalculations ';
-import @/utils  from 'calculationCache ';
+import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import { ElementType, ElementalEnergy } from '@/types/elements';
+import { calculateElementalEnergies } from '@/calculations/elementalcalculations 3';
+import { getCachedCalculation } from '@/utils/calculationCache';
 import { isEqual } from 'lodash';
 import { OptimizedComponentWrapper } from '../OptimizedComponentWrapper';
 
@@ -12,9 +12,7 @@ interface ElementalEnergyDisplayProps {
   showDebug?: boolean;
 }
 
-const ElementalEnergyDisplay: React.FC<ElementalEnergyDisplayProps> = ({
-  showDebug = false,
-}) => {
+const ElementalEnergyDisplay: React.FC<ElementalEnergyDisplayProps> = ({ showDebug = false }) => {
   const [renderCount, setRenderCount] = useState(0);
   const [energies, setEnergies] = useState<ElementalEnergy[]>([]);
   const [lastPositions, setLastPositions] = useState({});
@@ -24,7 +22,7 @@ const ElementalEnergyDisplay: React.FC<ElementalEnergyDisplayProps> = ({
   useEffect(() => {
     // Only increment on component mount, not on every render
     if (showDebug) {
-      // console.log(`ElementalEnergyDisplay initial render`);
+      console.log(`ElementalEnergyDisplay initial render`);
     }
     // Empty dependency array ensures this runs only once on mount
   }, []);
@@ -32,15 +30,15 @@ const ElementalEnergyDisplay: React.FC<ElementalEnergyDisplayProps> = ({
   // Only update render count when needed for debugging
   useEffect(() => {
     if (showDebug) {
-      setRenderCount((prev) => prev + 1);
-      // console.log(`ElementalEnergyDisplay rendered ${renderCount} times`);
+      setRenderCount(prev => prev + 1);
+      console.log(`ElementalEnergyDisplay rendered ${renderCount} times`);
     }
   }, [planetaryPositions, isDaytime, showDebug]); // Only update when these dependencies change
 
   // Memoize the calculation to avoid recalculating unnecessarily
   const calculateEnergies = useCallback(() => {
     if (!planetaryPositions || Object.keys(planetaryPositions).length === 0) {
-      // console.log('No planetary positions available');
+      console.log('No planetary positions available');
       return [];
     }
 
@@ -53,13 +51,13 @@ const ElementalEnergyDisplay: React.FC<ElementalEnergyDisplayProps> = ({
       );
 
       if (!result || !Array.isArray(result)) {
-        // console.error('Invalid calculation result:', result);
+        console.error('Invalid calculation result:', result);
         return [];
       }
 
       return result;
     } catch (error) {
-      // console.error('Error calculating elemental energies:', error);
+      console.error('Error calculating elemental energies:', error);
       return [];
     }
   }, [planetaryPositions, isDaytime]);
@@ -73,13 +71,13 @@ const ElementalEnergyDisplay: React.FC<ElementalEnergyDisplayProps> = ({
     }
 
     const newEnergies = calculateEnergies();
-
+    
     // Only update state if energies have changed
     if (!isEqual(energies, newEnergies)) {
       if (showDebug) console.log('Updating energy values:', newEnergies);
       setEnergies(newEnergies);
     }
-
+    
     setLastPositions(planetaryPositions);
   }, [planetaryPositions, isDaytime, calculateEnergies, showDebug]); // Removed energies and lastPositions from dependencies
 
@@ -105,31 +103,26 @@ const ElementalEnergyDisplay: React.FC<ElementalEnergyDisplayProps> = ({
       )}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {sortedEnergies.map((element) => (
-          <div
-            key={element.type}
+          <div 
+            key={element.type} 
             className="element-card p-3 rounded-lg shadow-md"
             style={{
               backgroundColor: getElementColor(element.type, 0.2),
               borderColor: getElementColor(element.type, 1),
-              borderWidth: '2px',
+              borderWidth: '2px'
             }}
           >
             <h3 className="font-bold">{capitalizeFirstLetter(element.type)}</h3>
             <div className="strength-bar h-4 rounded bg-gray-200 mt-2">
-              <div
+              <div 
                 className="h-full rounded"
-                style={{
-                  width: `${Math.max(
-                    5,
-                    Math.min(100, element.strength * 100)
-                  )}%`,
-                  backgroundColor: getElementColor(element.type, 0.8),
+                style={{ 
+                  width: `${Math.max(5, Math.min(100, element.strength * 100))}%`,
+                  backgroundColor: getElementColor(element.type, 0.8) 
                 }}
               ></div>
             </div>
-            <p className="text-sm mt-1">
-              {Math.round(element.strength * 100)}%
-            </p>
+            <p className="text-sm mt-1">{Math.round(element.strength * 100)}%</p>
           </div>
         ))}
       </div>
@@ -142,10 +135,7 @@ function capitalizeFirstLetter(string: string): string {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-function getElementColor(
-  elementType: ElementType,
-  opacity: number = 1
-): string {
+function getElementColor(elementType: ElementType, opacity: number = 1): string {
   const colors: Record<ElementType, string> = {
     fire: `rgba(255, 59, 48, ${opacity})`,
     water: `rgba(0, 122, 255, ${opacity})`,
@@ -153,9 +143,9 @@ function getElementColor(
     earth: `rgba(52, 199, 89, ${opacity})`,
     metal: `rgba(191, 191, 191, ${opacity})`,
     wood: `rgba(90, 200, 90, ${opacity})`,
-    void: `rgba(88, 86, 214, ${opacity})`,
+    void: `rgba(88, 86, 214, ${opacity})`
   };
-
+  
   return colors[elementType] || `rgba(155, 155, 155, ${opacity})`;
 }
 
@@ -163,4 +153,4 @@ function getElementColor(
 export default React.memo(ElementalEnergyDisplay, (prevProps, nextProps) => {
   // Only re-render if showDebug changes
   return prevProps.showDebug === nextProps.showDebug;
-});
+}); 

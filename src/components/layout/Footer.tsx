@@ -1,4 +1,4 @@
-// src / (components || 1)/layout / (Footer || 1).tsx
+// src/components/layout/Footer.tsx
 
 import React from 'react';
 

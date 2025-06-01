@@ -2,10 +2,10 @@
 
 import React, { useState, useEffect } from 'react';
 
-import @/contexts  from 'AlchemicalContext ';
-import @/utils  from 'stateManager ';
-import @/utils  from 'theme ';
-import @/utils  from 'logger ';
+import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import { stateManager } from '@/utils/stateManager';
+import { themeManager } from '@/utils/theme';
+import { logger } from '@/utils/logger';
 import { 
   Settings as SettingsIcon,
   Moon,
@@ -99,7 +99,7 @@ export default function Settings() {
 
   const loadSettings = async () => {
     try {
-      let manager = await stateManager;
+      const manager = await stateManager;
       const userPrefs = manager.getState().user.preferences;
       const themeSettings = themeManager.getTheme();
 
@@ -131,7 +131,7 @@ export default function Settings() {
       });
     } catch (error) {
       logger.error('Error loading settings:', error);
-      let manager = await stateManager;
+      const manager = await stateManager;
       manager.addNotification('error', 'Failed to load settings');
     }
   };
@@ -175,7 +175,7 @@ export default function Settings() {
       await themeManager.updateTheme(settings.appearance.theme);
 
       // Update user preferences
-      let manager = await stateManager;
+      const manager = await stateManager;
       
       // Use setState to update user preferences
       manager.setState({
@@ -209,7 +209,7 @@ export default function Settings() {
       manager.addNotification('success', 'Settings saved successfully');
     } catch (error) {
       logger.error('Error saving settings:', error);
-      let manager = await stateManager;
+      const manager = await stateManager;
       manager.addNotification('error', 'Failed to save settings');
     } finally {
       setIsSaving(false);
@@ -224,7 +224,7 @@ export default function Settings() {
       // Reload settings
       await loadSettings();
       
-      let manager = await stateManager;
+      const manager = await stateManager;
       manager.addNotification('success', 'Settings reset to defaults');
     } catch (error) {
       logger.error('Error resetting settings:', error);

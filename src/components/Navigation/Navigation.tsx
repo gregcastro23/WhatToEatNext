@@ -1,26 +1,26 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import next  from 'link ';
-import next  from 'navigation ';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
-import @/contexts  from 'AlchemicalContext ';
-import @/utils  from 'stateManager ';
-import @/utils  from 'theme ';
-import {
-  Home,
-  Book,
-  Heart,
-  Settings,
-  Moon,
-  Sun,
-  Menu,
-  X,
+import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import { stateManager } from '@/utils/stateManager';
+import { themeManager } from '@/utils/theme';
+import { 
+  Home, 
+  Book, 
+  Heart, 
+  Settings, 
+  Moon, 
+  Sun, 
+  Menu, 
+  X, 
   Star,
   Clock,
   ChefHat,
   Filter,
-  Utensils,
+  Utensils
 } from 'lucide-react';
 
 const NAV_ITEMS = [
@@ -39,43 +39,34 @@ export default function Navigation() {
   const { state } = useAlchemical();
   const [isOpen, setIsOpen] = useState(false);
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
-  const [notifications, setNotifications] = useState<
-    Array<{
-      id: string;
-      message: string;
-      type: string;
-    }>
-  >([]);
+  const [notifications, setNotifications] = useState<Array<{
+    id: string;
+    message: string;
+    type: string;
+  }>>([]);
 
   useEffect(() => {
     // Initialize theme
     const currentTheme = themeManager.getTheme();
-    setTheme(
-      currentTheme.mode === 'system'
-        ? window.matchMedia('(prefers-color-scheme: dark)').matches
-          ? 'dark'
-          : 'light'
-        : currentTheme.mode
-    );
+    setTheme(currentTheme.mode === 'system' 
+      ? window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+      : currentTheme.mode);
 
     // Initialize state manager and listen for notifications
     let unsubscribeFunction: (() => void) | undefined;
-
+    
     const initStateManager = async () => {
       try {
         // stateManager is already a Promise<StateManager>
         const stateManagerInstance = await stateManager;
-        unsubscribeFunction = stateManagerInstance.subscribe(
-          'navigation',
-          (state) => {
-            setNotifications(state.ui.notifications);
-          }
-        );
+        unsubscribeFunction = stateManagerInstance.subscribe('navigation', (state) => {
+          setNotifications(state.ui.notifications);
+        });
       } catch (error) {
-        // console.error('Failed to initialize state manager:', error);
+        console.error('Failed to initialize state manager:', error);
       }
     };
-
+    
     initStateManager();
 
     return () => {
@@ -111,21 +102,13 @@ export default function Navigation() {
           fixed top-0 right-0 h-full bg-white shadow-xl z-40
           md:relative md:shadow-none md:w-64
           transition-all duration-300 ease-in-out
-          ${
-            isOpen
-              ? 'translate-x-0 w-full'
-              : 'translate-x-full md:translate-x-0 w-0 md:w-64'
-          }
+          ${isOpen ? 'translate-x-0 w-full' : 'translate-x-full md:translate-x-0 w-0 md:w-64'}
         `}
       >
         <div className="h-full flex flex-col p-4">
-          {/* Logo / (Header || 1) */}
+          {/* Logo/Header */}
           <div className="flex items-center justify-between mb-8 p-2">
-            <Link
-              href="/"
-              className="flex items-center space-x-2"
-              onClick={closeMenu}
-            >
+            <Link href="/" className="flex items-center space-x-2" onClick={closeMenu}>
               <ChefHat className="w-6 h-6 text-blue-500" />
               <span className="text-xl font-semibold">Culinary Cosmos</span>
             </Link>
@@ -143,11 +126,9 @@ export default function Navigation() {
                   className={`
                     flex items-center space-x-3 px-4 py-3 rounded-lg
                     transition-colors duration-200
-                    ${
-                      isActive
-                        ? 'bg-blue-50 text-blue-600'
-                        : 'hover:bg-gray-50 text-gray-700'
-                    }
+                    ${isActive 
+                      ? 'bg-blue-50 text-blue-600' 
+                      : 'hover:bg-gray-50 text-gray-700'}
                   `}
                 >
                   <Icon className="w-5 h-5" />
@@ -197,13 +178,9 @@ export default function Navigation() {
             key={notification.id}
             className={`
               p-4 rounded-lg shadow-lg max-w-sm
-              ${
-                notification.type === 'error'
-                  ? 'bg-red-500 text-white'
-                  : notification.type === 'success'
-                  ? 'bg-green-500 text-white'
-                  : 'bg-blue-500 text-white'
-              }
+              ${notification.type === 'error' ? 'bg-red-500 text-white' :
+                notification.type === 'success' ? 'bg-green-500 text-white' :
+                'bg-blue-500 text-white'}
               animate-fade-in-up
             `}
           >
@@ -221,4 +198,4 @@ export default function Navigation() {
       )}
     </>
   );
-}
+} 

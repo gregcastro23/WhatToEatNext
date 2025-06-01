@@ -1,13 +1,13 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import @/utils  from 'recipeFilters ';
-import @/types  from 'recipe ';
-import @/data  from 'ingredients ';
-import @/types  from 'alchemy ';
-import @/utils  from 'cuisineUtils ';
-import @/utils  from 'alchemicalTransformationUtils ';
-import @/calculations  from 'alchemicalTransformation ';
-import @/data  from 'cuisines ';
-import @/constants  from 'planetaryFoodAssociations ';
+import { getRecipesForCuisine } from '@/utils/recipeFilters';
+import type { Recipe } from '@/types/recipe';
+import type { Modality } from '@/data/ingredients/types';
+import { ZodiacSign, LunarPhase, LunarPhaseWithSpaces } from '@/types/alchemy';
+import { determineModalityFromElements } from '@/utils/cuisineUtils';
+import { transformCuisines } from '@/utils/alchemicalTransformationUtils';
+import { ElementalItem } from '@/calculations/alchemicalTransformation';
+import cuisines from '@/data/cuisines';
+import { PlanetaryDignityDetails } from '@/constants/planetaryFoodAssociations';
 
 interface CuisineSelectorProps {
   onRecipesChange: (recipes: Recipe[]) => void;

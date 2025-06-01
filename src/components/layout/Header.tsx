@@ -1,10 +1,17 @@
-// src / (components || 1)/layout / (Header || 1).tsx
-'use client';
+// src/components/layout/Header.tsx
+"use client";
 
 import React, { useState, useEffect } from 'react';
-import @/contexts  from 'AlchemicalContext ';
-import @/services  from 'astrologyApi ';
-import { Sun, Moon, Users, ChefHat, Clock, CalendarDays } from 'lucide-react';
+import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import { getCurrentCelestialPositions } from '@/services/astrologyApi';
+import { 
+  Sun, 
+  Moon, 
+  Users, 
+  ChefHat, 
+  Clock,
+  CalendarDays
+} from 'lucide-react';
 
 interface HeaderProps {
   setNumberOfPeople: (num: number) => void;
@@ -20,7 +27,7 @@ export default function Header({ setNumberOfPeople }: HeaderProps) {
   }>({
     sun: { sign: '', degree: 0, minutes: 0 },
     moon: { sign: '', degree: 0, minutes: 0 },
-    lastUpdated: '',
+    lastUpdated: ''
   });
   const [isLoading, setIsLoading] = useState(true);
 
@@ -33,29 +40,29 @@ export default function Header({ setNumberOfPeople }: HeaderProps) {
     const fetchAstroData = async () => {
       try {
         const data = await getCurrentCelestialPositions();
-
+        
         // Extract degrees from planetary positions if available
         const sunDegree = data.planetaryPositions?.sun?.degree || 0;
         const sunMinutes = 0; // This data might not be available in the new API
-
+        
         const moonDegree = data.planetaryPositions?.moon?.degree || 0;
         const moonMinutes = 0; // This data might not be available in the new API
-
+        
         setAstroData({
           sun: {
             sign: data.sunSign,
             degree: sunDegree,
-            minutes: sunMinutes,
+            minutes: sunMinutes
           },
           moon: {
             sign: data.moonPhase, // This might be moonSign in your API
             degree: moonDegree,
-            minutes: moonMinutes,
+            minutes: moonMinutes
           },
-          lastUpdated: new Date(data.timestamp).toLocaleTimeString(),
+          lastUpdated: new Date(data.timestamp).toLocaleTimeString()
         });
       } catch (error) {
-        // console.error('Error fetching astro data:', error);
+        console.error('Error fetching astro data:', error);
       } finally {
         setIsLoading(false);
       }
@@ -67,9 +74,7 @@ export default function Header({ setNumberOfPeople }: HeaderProps) {
   }, []);
 
   const formatDegrees = (deg: number, min: number) => {
-    return `${deg.toString().padStart(2, '0')}°${min
-      .toString()
-      .padStart(2, '0')}'`;
+    return `${deg.toString().padStart(2, '0')}°${min.toString().padStart(2, '0')}'`;
   };
 
   return (
@@ -79,7 +84,7 @@ export default function Header({ setNumberOfPeople }: HeaderProps) {
           <div className="flex flex-col md:flex-row justify-between items-center py-4 space-y-4 md:space-y-0">
             {/* Left Section */}
             <div className="flex items-center space-x-4">
-              <div className="p-2 bg-white / (10 || 1) rounded-lg">
+              <div className="p-2 bg-white/10 rounded-lg">
                 <ChefHat className="h-8 w-8" />
               </div>
               <div>
@@ -92,7 +97,7 @@ export default function Header({ setNumberOfPeople }: HeaderProps) {
             </div>
 
             {/* Center Section - Astrological Info */}
-            <div className="flex items-center bg-white / (10 || 1) rounded-lg p-4">
+            <div className="flex items-center bg-white/10 rounded-lg p-4">
               {isLoading ? (
                 <div className="flex items-center space-x-2 text-sm">
                   <div className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full" />
@@ -105,14 +110,9 @@ export default function Header({ setNumberOfPeople }: HeaderProps) {
                       <Sun className="h-5 w-5 text-yellow-300" />
                       <span className="font-medium">Sun</span>
                     </div>
-                    <div className="text-lg font-semibold">
-                      {astroData.sun.sign}
-                    </div>
+                    <div className="text-lg font-semibold">{astroData.sun.sign}</div>
                     <div className="text-sm opacity-90">
-                      {formatDegrees(
-                        astroData.sun.degree,
-                        astroData.sun.minutes
-                      )}
+                      {formatDegrees(astroData.sun.degree, astroData.sun.minutes)}
                     </div>
                   </div>
                   <div className="text-center">
@@ -120,14 +120,9 @@ export default function Header({ setNumberOfPeople }: HeaderProps) {
                       <Moon className="h-5 w-5 text-blue-200" />
                       <span className="font-medium">Moon</span>
                     </div>
-                    <div className="text-lg font-semibold">
-                      {astroData.moon.sign}
-                    </div>
+                    <div className="text-lg font-semibold">{astroData.moon.sign}</div>
                     <div className="text-sm opacity-90">
-                      {formatDegrees(
-                        astroData.moon.degree,
-                        astroData.moon.minutes
-                      )}
+                      {formatDegrees(astroData.moon.degree, astroData.moon.minutes)}
                     </div>
                   </div>
                 </div>
@@ -137,22 +132,22 @@ export default function Header({ setNumberOfPeople }: HeaderProps) {
             {/* Right Section */}
             <div className="flex items-center space-x-4">
               <button
-                onClick={() =>
-                  handlePeopleUpdate(peopleCount > 1 ? peopleCount - 1 : 1)
-                }
-                className="p-2 bg-white / (10 || 1) rounded-lg hover:bg-white / (20 || 1) transition-colors"
+                onClick={() => handlePeopleUpdate(peopleCount > 1 ? peopleCount - 1 : 1)}
+                className="p-2 bg-white/10 rounded-lg hover:bg-white/20 transition-colors"
               >
                 <Users className="h-4 w-4" />
               </button>
-              <span className="min-w-[3ch] text-center">{peopleCount}</span>
+              <span className="min-w-[3ch] text-center">
+                {peopleCount}
+              </span>
               <button
                 onClick={() => handlePeopleUpdate(peopleCount + 1)}
-                className="p-2 bg-white / (10 || 1) rounded-lg hover:bg-white / (20 || 1) transition-colors"
+                className="p-2 bg-white/10 rounded-lg hover:bg-white/20 transition-colors"
               >
                 <Users className="h-4 w-4" />
               </button>
 
-              <div className="flex items-center space-x-2 bg-white / (10 || 1) rounded-lg px-3 py-2">
+              <div className="flex items-center space-x-2 bg-white/10 rounded-lg px-3 py-2">
                 <CalendarDays className="h-4 w-4" />
                 <span className="text-sm">{state.currentSeason}</span>
               </div>
@@ -166,8 +161,8 @@ export default function Header({ setNumberOfPeople }: HeaderProps) {
 
 function getCurrentTimeOfDay() {
   const hour = new Date().getHours();
-  if (hour < 12) return 'Morning';
-  if (hour < 17) return 'Afternoon';
-  if (hour < 21) return 'Evening';
-  return 'Night';
+  if (hour < 12) return "Morning";
+  if (hour < 17) return "Afternoon";
+  if (hour < 21) return "Evening";
+  return "Night";
 }

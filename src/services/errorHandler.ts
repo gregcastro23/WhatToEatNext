@@ -103,39 +103,6 @@ class ErrorHandlerService {
   }
 
   /**
-   * Log a warning about a potentially undefined or null value
-   */
-  warnNullValue(variableName: string, context: string, value?: unknown): void {
-    logWarning(
-      `Potential null / undefined value: ${variableName} in ${context}`,
-      { value, timestamp: new Date().toISOString() }
-    );
-  }
-
-  /**
-   * Handle property access errors with detailed reporting
-   * Use this when accessing potentially undefined nested properties
-   */
-  handlePropertyAccessError(error: unknown, propertyPath: string, context: string): void {
-    let message = "Property access error";
-    if (error instanceof TypeError && (
-      error.message.includes("Cannot read properties of undefined") ||
-      error.message.includes("Cannot read properties of null") ||
-      error.message.includes("is not a function") ||
-      error.message.includes("is not iterable")
-    )) {
-      message = `TypeError accessing ${propertyPath} in ${context}: ${error.message}`;
-    } else if (error instanceof Error) {
-      message = `Error accessing ${propertyPath} in ${context}: ${error.message}`;
-    }
-    
-    this.log(error, {
-      context,
-      data: { propertyPath }
-    });
-  }
-
-  /**
    * Create a custom application error
    */
   createError(message: string, options: ErrorOptions = {}): Error {
@@ -243,7 +210,7 @@ export function safePropertyAccess<T>(
   context: string
 ): T {
   if (obj === null || obj === undefined) {
-    ErrorHandler.warnNullValue('object', context);
+    ErrorHandler.warnNullValue(`${properties.join('.')}.${prop}`, context);
     return defaultValue;
   }
 
@@ -251,7 +218,7 @@ export function safePropertyAccess<T>(
     let current: any = obj;
     for (const prop of properties) {
       if (current === null || current === undefined) {
-        ErrorHandler.warnNullValue(`${properties.join('.')}`, context);
+        ErrorHandler.warnNullValue(`${properties.join('.')}.${prop}`, context);
         return defaultValue;
       }
       current = current[prop];
@@ -288,6 +255,16 @@ export function safeExecuteWithContext<T>(
 }
 
 /**
+ * Log a warning about a potentially undefined or null value
+ */
+export function warnNullValue(variableName: string, context: string, value?: unknown): void {
+  logWarning(
+    `Potential null / (undefined || 1) value: ${variableName} in ${context}`, 
+    { value, timestamp: new Date().toISOString() }
+  )
+}
+
+/**
  * Detect issues with runtime type mismatches
  */
 export function validateType(value: unknown, expectedType: string, context: string, variableName: string): boolean {
@@ -313,6 +290,29 @@ export function validateType(value: unknown, expectedType: string, context: stri
   }
   
   return true
+}
+
+/**
+ * Handle property access errors with detailed reporting
+ * Use this when accessing potentially undefined nested properties
+ */
+export function handlePropertyAccessError(error: unknown, propertyPath: string, context: string): void {
+  let message = "Property access error";
+  if (error instanceof TypeError && (
+    error.message.includes("Cannot read properties of undefined") ||
+    error.message.includes("Cannot read properties of null") ||
+    error.message.includes("is not a function") ||
+    error.message.includes("is not iterable")
+  )) {
+    message = `TypeError accessing ${propertyPath} in ${context}: ${error.message}`;
+  } else if (error instanceof Error) {
+    message = `Error accessing ${propertyPath} in ${context}: ${error.message}`;
+  }
+  
+  ErrorHandler.log(error, {
+    context,
+    data: { propertyPath }
+  });
 }
 
 /**

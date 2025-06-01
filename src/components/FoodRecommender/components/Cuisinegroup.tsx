@@ -3,12 +3,12 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import type { Recipe } from '@/types';
-import { calculateElementalMatch } from '@/services/ElementalCalculator';
-import { CUISINE_TYPES } from '@/constants/cuisineTypes';
+import @/types  from 'recipe ';
+import @/services  from 'ElementalCalculator ';
+import @/constants  from 'cuisineTypes ';
 import styles from './CuisineGroup.module.css';
-import { logger } from '@/utils';
-import type { ElementalProperties } from '@/types/alchemy';
+import @/utils  from 'logger ';
+import @/types  from 'alchemy ';
 
 interface Props {
   recipes: Recipe[];
@@ -29,10 +29,10 @@ const CuisineGroup: React.FC<Props> = ({ recipes, elementalState }) => {
     'elemental'
   );
 
-  const isAppropriateForTimeOfDay = React.useCallback(
+  let isAppropriateForTimeOfDay = React.useCallback(
     (recipe: Recipe): boolean => {
       const timeOfDay = elementalState.timeOfDay;
-      const mealTypes = Array.isArray(recipe.mealType)
+      let mealTypes = Array.isArray(recipe.mealType)
         ? recipe.mealType
         : typeof recipe.mealType === 'string'
         ? [recipe.mealType]
@@ -59,7 +59,7 @@ const CuisineGroup: React.FC<Props> = ({ recipes, elementalState }) => {
     [elementalState.timeOfDay]
   );
 
-  const calculateMatchScore = React.useCallback(
+  let calculateMatchScore = React.useCallback(
     (recipe: Recipe): number => {
       // Validate required recipe properties
       if (!recipe?.elementalProperties) {
@@ -76,14 +76,14 @@ const CuisineGroup: React.FC<Props> = ({ recipes, elementalState }) => {
       // Initial score components
       let elementalScore = 0;
       let seasonalScore = 0;
-      const timeScore = 0;
-      const nutritionScore = 0;
-      const culturalScore = 0;
-      const planetaryScore = 0;
-      const techniqueScore = 0;
+      let timeScore = 0;
+      let nutritionScore = 0;
+      let culturalScore = 0;
+      let planetaryScore = 0;
+      let techniqueScore = 0;
 
       // Track the number of factors considered for proper normalization
-      const factorsConsidered = 0;
+      let factorsConsidered = 0;
 
       // 1. Elemental match calculation (base component - 35% weight)
       elementalScore = calculateElementalMatch(
@@ -93,7 +93,7 @@ const CuisineGroup: React.FC<Props> = ({ recipes, elementalState }) => {
       factorsConsidered += 3.5; // Higher weight to elemental alignment
 
       // 2. Season matching with more nuanced scoring (15% weight)
-      const seasons = Array.isArray(recipe.season)
+      let seasons = Array.isArray(recipe.season)
         ? recipe.season
         : typeof recipe.season === 'string'
         ? [recipe.season]
@@ -109,7 +109,7 @@ const CuisineGroup: React.FC<Props> = ({ recipes, elementalState }) => {
       }
       // Off-season dishes receive lower scores
       else {
-        const opposingSeason = getOpposingSeason(elementalState.season);
+        let opposingSeason = getOpposingSeason(elementalState.season);
         if (seasons.some((s) => s === opposingSeason)) {
           seasonalScore = 0.3; // Lower score for opposing season
         } else {
@@ -119,7 +119,7 @@ const CuisineGroup: React.FC<Props> = ({ recipes, elementalState }) => {
       factorsConsidered += 1.5;
 
       // Calculate weighted total score from all factors
-      const totalScore =
+      let totalScore =
         (elementalScore * 3.5 +
           seasonalScore * 1.5 +
           timeScore * 2.0 +
@@ -129,7 +129,7 @@ const CuisineGroup: React.FC<Props> = ({ recipes, elementalState }) => {
           techniqueScore * 1.0) / (factorsConsidered || 1);
 
       // Convert to percentage (0-100 scale) with minimum score of 50
-      const percentageScore = Math.round(Math.max(50, totalScore * 100));
+      let percentageScore = Math.round(Math.max(50, totalScore * 100));
 
       // Apply a more pronounced curve to better differentiate top recommendations
       let finalScore = percentageScore;
@@ -150,7 +150,7 @@ const CuisineGroup: React.FC<Props> = ({ recipes, elementalState }) => {
   );
 
   // Helper function to get opposing season
-  const getOpposingSeason = (season: string): string => {
+  let getOpposingSeason = (season: string): string => {
     const opposites: Record<string, string> = {
       spring: 'fall',
       fall: 'spring',
@@ -162,7 +162,7 @@ const CuisineGroup: React.FC<Props> = ({ recipes, elementalState }) => {
   };
 
   // Elemental match calculation with proper validation
-  const calculateElementalMatch = (
+  let calculateElementalMatch = (
     recipeElements: ElementalProperties,
     targetElements: unknown
   ): number => {
@@ -173,7 +173,7 @@ const CuisineGroup: React.FC<Props> = ({ recipes, elementalState }) => {
     }
 
     // Extract just the elemental properties and validate
-    const elements = ['Fire', 'Water', 'Earth', 'Air'] as const;
+    let elements = ['Fire', 'Water', 'Earth', 'Air'] as const;
     const validRecipeElements: Record<string, number> = {};
     const validTargetElements: Record<string, number> = {};
 
@@ -199,30 +199,106 @@ const CuisineGroup: React.FC<Props> = ({ recipes, elementalState }) => {
       ) {
         validTargetElements[element] = targetElements[element];
       } else {
-        // Default to balanced if missing
-        validTargetElements[element] = 0.25;
+        logger.warn(
+          `Invalid target element value for ${element}: ${targetElements[element]}`
+        );
+        validTargetElements[element] = 0.25; // Default to balanced
       }
     }
 
-    // Call a helper to do the actual similarity calculation
-    return calculateElementSimilarity(validRecipeElements, validTargetElements);
-  };
+    // Calculate similarity using validated data
+    let totalSimilarity = 0;
+    let count = 0;
 
-  // Add a deduplication function that keeps recipes with highest match scores
-  const deduplicateRecipes = (recipes: Array<Recipe & { matchScore: number }>) => {
-    const uniqueRecipes = new Map<string, Recipe & { matchScore: number }>();
-    
-    recipes.forEach(recipe => {
-      const existingRecipe = uniqueRecipes.get(recipe.id);
-      if (!existingRecipe || recipe.matchScore > existingRecipe.matchScore) {
-        uniqueRecipes.set(recipe.id, recipe);
+    for (const element of elements) {
+      let recipeValue = validRecipeElements[element];
+      let targetValue = validTargetElements[element];
+
+      // For very close matches, give extra credit
+      let difference = Math.abs(recipeValue - targetValue);
+      let similarity = 0;
+
+      if (difference < 0.1) {
+        // Excellent match (90-100% similarity)
+        similarity = 1 - difference * 0.5;
+      } else if (difference < 0.2) {
+        // Good match (80-90% similarity)
+        similarity = 0.9 - (difference - 0.1) * 1;
+      } else if (difference < 0.3) {
+        // Decent match (70-80% similarity)
+        similarity = 0.8 - (difference - 0.2) * 1;
+      } else {
+        // Basic linear scaling for larger differences
+        similarity = Math.max(0.5, 1 - difference);
       }
-    });
-    
-    return Array.from(uniqueRecipes.values());
+
+      // Weight by the target element's importance
+      let elementWeight = targetValue > 0.3 ? 1.5 : 1.0;
+      totalSimilarity += similarity * elementWeight;
+      count += elementWeight;
+    }
+
+    // Return normalized score - guaranteed to be valid due to input validation
+    return count > 0 ? Math.min(1, Math.max(0, totalSimilarity / (count || 1))) : 0.5;
   };
 
-  const organizedRecipes = useMemo(() => {
+  let calculatePlanetaryHour = (date: Date, isDaytime: boolean): string => {
+    // Simple implementation based on traditional planetary hours
+    const daysOfWeek = [
+      'Sun',
+      'Moon',
+      'Mars',
+      'Mercury',
+      'Jupiter',
+      'Venus',
+      'Saturn',
+    ];
+    let dayRulers = {
+      0: 'Sun', // Sunday
+      1: 'Moon', // Monday
+      2: 'Mars', // Tuesday
+      3: 'Mercury', // Wednesday
+      4: 'Jupiter', // Thursday
+      5: 'Venus', // Friday
+      6: 'Saturn', // Saturday
+    };
+
+    let day = date.getDay();
+    let hour = date.getHours();
+
+    // Map hour of day to planetary hour
+    let daySequence = [
+      'Sun',
+      'Venus',
+      'Mercury',
+      'Moon',
+      'Saturn',
+      'Jupiter',
+      'Mars',
+    ];
+    let nightSequence = [
+      'Jupiter',
+      'Mars',
+      'Sun',
+      'Venus',
+      'Mercury',
+      'Moon',
+      'Saturn',
+    ];
+
+    // Calculate hour index (0-11)
+    let hourIndex = isDaytime
+      ? (hour - 6) % 12 // Daytime hours (6am-6pm)
+      : (hour - 18 + 24) % 12; // Nighttime hours (6pm-6am)
+
+    // Get the sequence based on daytime
+    let sequence = isDaytime ? daySequence : nightSequence;
+
+    // Map hour index to actual planetary ruler
+    return sequence[hourIndex % 7];
+  };
+
+  let organizedRecipes = useMemo(() => {
     // console.log('Organizing recipes...');
 
     // Initialize with all cuisine types
@@ -234,22 +310,12 @@ const CuisineGroup: React.FC<Props> = ({ recipes, elementalState }) => {
       return acc;
     }, {} as Record<string, Array<Recipe & { matchScore: number }>>);
 
-    // Track recipes we've already seen to avoid duplicates
-    const processedRecipeIds = new Set<string>();
-
     // Process and organize recipes
     recipes.forEach((recipe) => {
       if (!recipe.cuisine) return;
-      
-      // Skip the problematic Aries stir fry recipe
-      if (recipe.id === 'aries-stir-fry' || recipe.name === 'Fiery Aries Stir Fry') {
-        return;
-      }
-      
-      const cuisineKey = recipe.cuisine.toLowerCase();
-      
+      let cuisineKey = recipe.cuisine.toLowerCase();
       if (recipesByCuisine[cuisineKey]) {
-        const matchScore = calculateMatchScore(recipe);
+        let matchScore = calculateMatchScore(recipe);
         if (matchScore > 0) {
           recipesByCuisine[cuisineKey].push({
             ...recipe,
@@ -259,9 +325,8 @@ const CuisineGroup: React.FC<Props> = ({ recipes, elementalState }) => {
       }
     });
 
-    // Sort and deduplicate recipes within each cuisine based on selected criteria
+    // Sort recipes within each cuisine based on selected criteria
     Object.keys(recipesByCuisine).forEach((cuisine) => {
-      // First sort by criteria
       recipesByCuisine[cuisine].sort((a, b) => {
         switch (sortBy) {
           case 'time':
@@ -275,16 +340,13 @@ const CuisineGroup: React.FC<Props> = ({ recipes, elementalState }) => {
             return b.matchScore - a.matchScore;
         }
       });
-      
-      // Then deduplicate to ensure we only show each recipe once with its best match
-      recipesByCuisine[cuisine] = deduplicateRecipes(recipesByCuisine[cuisine]);
     });
 
     return recipesByCuisine;
   }, [recipes, calculateMatchScore, sortBy]);
 
   // Get styling class based on match score
-  const getMatchScoreClass = (score: number): string => {
+  let getMatchScoreClass = (score: number): string => {
     if (score >= 96)
       return 'bg-gradient-to-r from-green-500 to-green-400 text-white font-bold shadow-sm';
     if (score >= 90)
@@ -298,7 +360,7 @@ const CuisineGroup: React.FC<Props> = ({ recipes, elementalState }) => {
   };
 
   // Function to render a more visually appealing score badge
-  const renderScoreBadge = (score: number) => {
+  let renderScoreBadge = (score: number) => {
     // Validate score is a proper positive number
     const isValidScore =
       typeof score === 'number' && score > 0 && !isNaN(score);
@@ -347,34 +409,6 @@ const CuisineGroup: React.FC<Props> = ({ recipes, elementalState }) => {
     );
   };
 
-  // Calculate element similarity helper (this makes TypeScript happy)
-  const calculateElementSimilarity = (
-    recipeElements: Record<string, number>,
-    targetElements: Record<string, number>
-  ): number => {
-    // Calculate similarity between recipe elements and target elements
-    const totalSimilarity = 0;
-    const totalElements = 0;
-
-    for (const element of Object.keys(recipeElements)) {
-      if (targetElements[element] !== undefined) {
-        const recipeValue = recipeElements[element];
-        const targetValue = targetElements[element];
-        
-        // Higher similarity for higher target values that match recipe values
-        const similarity = 1 - Math.abs(recipeValue - targetValue);
-        const weight = targetValue > 0.5 ? 1.5 : 1.0;
-        
-        totalSimilarity += similarity * weight;
-        totalElements += weight;
-      }
-    }
-
-    return totalElements > 0 
-      ? totalSimilarity / totalElements 
-      : 0.5; // Default to medium match if no elements to compare
-  };
-
   return (
     <div className="cuisine-groups space-y-8">
       <div className="controls flex gap-4 mb-6">
@@ -415,54 +449,41 @@ const CuisineGroup: React.FC<Props> = ({ recipes, elementalState }) => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {cuisineRecipes.slice(0, displayCount).map((recipe, index) => (
                 <div
-                  key={`${recipe.id}-${index}`}
-                  className="recipe-card border rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow"
+                  key={`${recipe.name}-${index}`}
+                  className="recipe-card p-4 border rounded-lg hover:shadow-lg transition-shadow"
                 >
                   <div className="flex justify-between items-start mb-2">
                     <h3 className="text-lg font-semibold">{recipe.name}</h3>
                     {renderScoreBadge(recipe.matchScore)}
                   </div>
-                  <p className="text-sm text-gray-600 mb-3 line-clamp-2">
+                  <p className="text-sm text-gray-600 mb-3">
                     {recipe.description}
                   </p>
-                  <div className="recipe-meta text-xs text-gray-500 space-y-1">
-                    <div className="flex items-center justify-between">
+                  <div className="text-sm space-y-1">
+                    <div className="flex items-center gap-2">
+                      <span className="font-medium">Season:</span>
                       <span>
-                        Time: {recipe.timeToMake || 'Not specified'}{' '}
-                        {typeof recipe.timeToMake === 'number' ? 'min' : ''}
+                        {Array.isArray(recipe.season)
+                          ? recipe.season.join(', ')
+                          : recipe.season}
                       </span>
-                      {recipe.nutrition?.calories && (
-                        <span>Calories: {recipe.nutrition.calories}</span>
-                      )}
                     </div>
-                    {recipe.tags && recipe.tags.length > 0 && (
-                      <div className="flex flex-wrap gap-1 mt-2">
-                        {recipe.tags
-                          .filter(
-                            (tag) =>
-                              tag &&
-                              ![
-                                'breakfast',
-                                'lunch',
-                                'dinner',
-                                'dessert',
-                                'snack',
-                                'spring',
-                                'summer',
-                                'fall',
-                                'winter',
-                                'autumn',
-                              ].includes(tag.toLowerCase())
-                          )
-                          .slice(0, 3)
-                          .map((tag, i) => (
-                            <span
-                              key={i}
-                              className="px-2 py-0.5 bg-gray-100 text-gray-700 rounded text-xs"
-                            >
-                              {tag}
-                            </span>
-                          ))}
+                    <div className="flex items-center gap-2">
+                      <span className="font-medium">Type:</span>
+                      <span>
+                        {Array.isArray(recipe.mealType)
+                          ? recipe.mealType.join(', ')
+                          : recipe.mealType}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="font-medium">Time:</span>
+                      <span>{recipe.timeToMake}</span>
+                    </div>
+                    {recipe.nutrition?.calories && (
+                      <div className="flex items-center gap-2">
+                        <span className="font-medium">Calories:</span>
+                        <span>{recipe.nutrition.calories}</span>
                       </div>
                     )}
                   </div>
@@ -470,10 +491,8 @@ const CuisineGroup: React.FC<Props> = ({ recipes, elementalState }) => {
               ))}
             </div>
           ) : (
-            <div className="text-center py-6 bg-gray-50 rounded-lg">
-              <p className="text-gray-500">
-                No suitable recipes available for this cuisine at this time.
-              </p>
+            <div className="text-gray-500 text-center py-4 border rounded">
+              No recipes available for this cuisine at this time
             </div>
           )}
         </div>

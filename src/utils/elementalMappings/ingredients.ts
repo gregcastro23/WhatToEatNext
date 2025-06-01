@@ -4,7 +4,7 @@ import {
   Element,
   Season,
   IngredientMapping
-} from '@/types / (alchemy || 1)';
+} from '@/types/alchemy';
 
 // Helper function to standardize ingredient mappings
 function createIngredientMapping(

@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import ErrorHandler from '@/services/errorHandler';
+import { errorHandler } from '@/services/errorHandler';
 import { logger } from '@/utils/logger';
 
 export default function Error({
@@ -12,18 +12,10 @@ export default function Error({
   reset: () => void;
 }) {
   useEffect(() => {
-    // Safely log the error using ErrorHandler
-    try {
-      ErrorHandler.log(error, {
-        context: 'RootErrorBoundary',
-        data: { digest: error.digest }
-      });
-      
-      logger.error(`Global error boundary caught:`, error);
-    } catch (loggingError) {
-      console.error('Failed to log error:', loggingError);
-      console.error('Original error:', error);
-    }
+    errorHandler.handleError(error, {
+      context: 'RootErrorBoundary',
+      digest: error.digest
+    });
   }, [error]);
 
   return (

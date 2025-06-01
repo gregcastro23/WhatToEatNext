@@ -1,24 +1,23 @@
-import { PLANETS } from '@/constants/planets';
-import type { ElementalProperties, PlanetaryPosition } from '@/types/alchemy';
+import { RulingPlanet } from '../constants/planets';
+import { LunarPhase, LunarPhaseWithSpaces, CookingMethod } from '../types/alchemy';
 import { 
   transformItemWithPlanetaryPositions, 
   transformItemsWithPlanetaryPositions,
   ElementalItem,
   AlchemicalItem
-} from "../calculations/alchemicalTransformation";
+} from '../calculations/alchemicalTransformation';
 import { 
   getCookingMethodPillar, 
   applyPillarTransformation,
   calculateCookingMethodCompatibility,
   getHolisticCookingRecommendations
 } from './alchemicalPillarUtils';
-import { elementalUtils } from './elementalUtils';
 
 /**
  * Transforms a set of ingredients based on current planetary positions
  * 
  * @param ingredients The original ingredients with elemental data
- * @param planetPositions Current planetary positions / (strengths || 1)
+ * @param planetPositions Current planetary positions/strengths
  * @param isDaytime Whether it's day or night
  * @param currentZodiac Current zodiac sign
  * @param lunarPhase Current lunar phase
@@ -45,7 +44,7 @@ export const transformIngredients = (
  * and applies alchemical pillar transformations
  * 
  * @param methods The original cooking methods with elemental data
- * @param planetPositions Current planetary positions / (strengths || 1)
+ * @param planetPositions Current planetary positions/strengths
  * @param isDaytime Whether it's day or night
  * @param currentZodiac Current zodiac sign
  * @param lunarPhase Current lunar phase
@@ -79,7 +78,7 @@ export const transformCookingMethods = (
  * Transforms a set of cuisines based on current planetary positions
  * 
  * @param cuisines The original cuisines with elemental data
- * @param planetPositions Current planetary positions / (strengths || 1)
+ * @param planetPositions Current planetary positions/strengths
  * @param isDaytime Whether it's day or night
  * @param currentZodiac Current zodiac sign
  * @param lunarPhase Current lunar phase
@@ -144,8 +143,8 @@ export const sortByAlchemicalCompatibility = (
       return { ...item, compatibilityScore: 0.5 }; // Neutral match if either has no elemental values
     }
     
-    // Calculate cosine similarity (dot product / ((magnitude || 1) of A * magnitude of B))
-    const similarity = dotProduct / ((itemNorm || 1) * targetNorm);
+    // Calculate cosine similarity (dot product / (magnitude of A * magnitude of B))
+    const similarity = dotProduct / (itemNorm * targetNorm);
     
     // Add a small bonus for items with high gregsEnergy
     const energyBonus = (item.gregsEnergy || 0.5) * 0.2;
@@ -297,5 +296,5 @@ function calculateAlchemicalScore(item: AlchemicalItem): number {
   });
   
   // Calculate average score
-  return count > 0 ? score / (count || 1) : 0.5;
+  return count > 0 ? score / count : 0.5;
 } 

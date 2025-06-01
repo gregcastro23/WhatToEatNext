@@ -3,8 +3,8 @@ import {
   calculateAlchemicalCompatibility,
   generateEnhancedRecommendation,
   validateAlgorithms
-} from "../calculations/(enhancedAlchemicalMatching || 1)";
-import @/types  from 'alchemy ';
+} from '../calculations/enhancedAlchemicalMatching';
+import { AlchemicalResult, ElementalProperties, ZodiacSign } from '@/types/alchemy';
 import { getZodiacElementalInfluence } from './zodiacUtils';
 
 /**
@@ -14,7 +14,7 @@ import { getZodiacElementalInfluence } from './zodiacUtils';
  * NOTE: Recipe generation functionality is temporarily disabled as we're using existing recipes.
  * 
  * @param alchemicalResult The result from alchemize function
- * @param userPreferences Optional array of user dietary preferences / (restrictions || 1)
+ * @param userPreferences Optional array of user dietary preferences/restrictions
  * @param season Optional current season
  * @returns Enhanced food recommendation with explanations
  */
@@ -86,7 +86,7 @@ export function getUserFoodCompatibility(
   const baseAffinity = calculateAstrologicalAffinity(userSign, foodSign);
   
   // Get user's elemental profile based on zodiac sign
-  let userElementalProfile = getZodiacElementalInfluence(userSign);
+  const userElementalProfile = getZodiacElementalInfluence(userSign);
   
   // Calculate elemental compatibility
   const elementalCompatibility = calculateAlchemicalCompatibility(
@@ -107,7 +107,7 @@ export function getUserFoodCompatibility(
  * @param alchemicalResult The result from alchemize function
  * @param userSign User's zodiac sign
  * @param season Current season
- * @param userPreferences Optional dietary preferences / (restrictions || 1)
+ * @param userPreferences Optional dietary preferences/restrictions
  * @returns Meal plan with multiple courses and detailed explanations
  */
 export function generatePersonalizedMealPlan(
@@ -240,7 +240,7 @@ export function validateEnhancedAlgorithms() {
  * @param alchemicalResult Result from the original alchemize function
  * @param userSign Optional user's zodiac sign for personalization
  * @param season Optional current season
- * @param userPreferences Optional dietary preferences / (restrictions || 1)
+ * @param userPreferences Optional dietary preferences/restrictions
  * @returns Enhanced calculations with all the new features
  */
 export function enhanceAlchemicalCalculations(

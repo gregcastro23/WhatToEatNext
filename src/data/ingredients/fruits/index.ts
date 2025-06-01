@@ -27,25 +27,25 @@ export {
 };
 
 // Helper functions
-export const getFruitsBySubCategory = (subCategory: string): Record<string, IngredientMapping> => {
+export let getFruitsBySubCategory = (subCategory: string): Record<string, IngredientMapping> => {
   return Object.entries(fruits)
     .filter(([_, value]) => value.subCategory === subCategory)
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 };
 
-export const getSeasonalFruits = (season: string): Record<string, IngredientMapping> => {
+export let getSeasonalFruits = (season: string): Record<string, IngredientMapping> => {
   return Object.entries(fruits)
     .filter(([_, value]) => value.season.includes(season))
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 };
 
-export const getFruitsByPreparation = (method: string): Record<string, IngredientMapping> => {
+export let getFruitsByPreparation = (method: string): Record<string, IngredientMapping> => {
   return Object.entries(fruits)
     .filter(([_, value]) => value.preparation && value.preparation[method])
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 };
 
-export const findCompatibleFruits = (ingredientName: string): string[] => {
+export let findCompatibleFruits = (ingredientName: string): string[] => {
   const fruit = fruits[ingredientName];
   if (!fruit) return [];
   return fruit.affinities || [];
@@ -87,13 +87,13 @@ export type FruitAstrologicalProfile = {
 };
 
 // Add new helper functions
-export const getFruitsByRulingPlanet = (planet: string): Record<string, IngredientMapping> => {
+export let getFruitsByRulingPlanet = (planet: string): Record<string, IngredientMapping> => {
   return Object.entries(fruits)
     .filter(([_, value]) => value.astrologicalProfile?.rulingPlanets?.includes(planet))
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 };
 
-export const getFruitsByElementalAffinity = (element: string): Record<string, IngredientMapping> => {
+export let getFruitsByElementalAffinity = (element: string): Record<string, IngredientMapping> => {
   return Object.entries(fruits)
     .filter(([_, value]) => {
       const affinity = value.astrologicalProfile?.elementalAffinity;
@@ -109,10 +109,10 @@ export const getFruitsByElementalAffinity = (element: string): Record<string, In
 };
 
 // Add new validation function
-export const isValidFruitAstrologicalProfile = (profile: unknown): profile is FruitAstrologicalProfile => {
+export let isValidFruitAstrologicalProfile = (profile: unknown): profile is FruitAstrologicalProfile => {
   if (typeof profile !== 'object' || !profile) return false;
   
-  const requiredProperties = [
+  let requiredProperties = [
     'rulingPlanets',
     'favorableZodiac',
     'elementalAffinity'
@@ -122,10 +122,10 @@ export const isValidFruitAstrologicalProfile = (profile: unknown): profile is Fr
 };
 
 // Validation
-export const isValidFruit = (ingredient: unknown): ingredient is IngredientMapping => {
+export let isValidFruit = (ingredient: unknown): ingredient is IngredientMapping => {
   if (typeof ingredient !== 'object' || !ingredient) return false;
   
-  const requiredProperties = [
+  let requiredProperties = [
     'elementalProperties',
     'qualities',
     'season',

@@ -35,9 +35,9 @@ export function handleApiError(error: unknown): NextResponse {
 
   // Return the error response
   return NextResponse.json(
-    {
+    { 
       error: message,
-      ...(details ? { details } : {}),
+      ...(details ? { details } : {})
     },
     { status: statusCode }
   );
@@ -49,10 +49,7 @@ export function handleApiError(error: unknown): NextResponse {
  * @param details Validation details
  * @returns NextResponse with 400 status
  */
-export function validationError(
-  message: string,
-  details?: unknown
-): NextResponse {
+export function validationError(message: string, details?: unknown): NextResponse {
   return handleApiError(new ValidationError(message, details));
 }
 
@@ -66,12 +63,11 @@ export function notFoundError(message: string): NextResponse {
 }
 
 export function handleServerError(error: unknown) {
-  // console.error('Server error:', error)
+  console.error('Server error:', error)
   return new NextResponse(
     JSON.stringify({
       error: 'Internal Server Error',
-      message:
-        error instanceof Error ? error.message : 'Unknown error occurred',
+      message: error instanceof Error ? error.message : 'Unknown error occurred',
     }),
     {
       status: 500,
@@ -79,5 +75,5 @@ export function handleServerError(error: unknown) {
         'Content-Type': 'application/json',
       },
     }
-  );
-}
+  )
+} 

@@ -9,7 +9,7 @@ interface IngredientDisplayProps {
 
 export const IngredientDisplay = ({ ingredient, showDetails = false }: IngredientDisplayProps) => {
   // Safe accessor function for nested properties
-  const safeGet = (obj: unknown, path: string, defaultValue: unknown = 'N / (A || 1)') => {
+  const safeGet = (obj: unknown, path: string, defaultValue: unknown = 'N/A') => {
     return path.split('.').reduce((prev, curr) => {
       return prev && prev[curr] !== undefined ? prev[curr] : undefined;
     }, obj) ?? defaultValue;
@@ -17,7 +17,7 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
 
   // Safe formatter for numbers
   const formatNumber = (value: unknown, decimals: number = 2) => {
-    if (value === undefined || value === null) return 'N / (A || 1)';
+    if (value === undefined || value === null) return 'N/A';
     if (typeof value !== 'number') return String(value);
     return value.toFixed(decimals);
   };
@@ -77,7 +77,7 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
       {showDetails && (
         <div className="mt-4 space-y-4">
           {/* Elemental Properties Section */}
-          <div className="bg-white / (60 || 1) rounded-md p-3 shadow-sm">
+          <div className="bg-white/60 rounded-md p-3 shadow-sm">
             <div className="flex items-center mb-2">
               <Beaker className="w-4 h-4 mr-2 text-indigo-600" />
               <h4 className="text-sm font-medium">Elemental Properties</h4>
@@ -107,7 +107,7 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
           
           {/* Energy Profile Section */}
           {ingredient.energyProfile && (
-            <div className="bg-white / (60 || 1) rounded-md p-3 shadow-sm">
+            <div className="bg-white/60 rounded-md p-3 shadow-sm">
               <div className="flex items-center mb-2">
                 <Star className="w-4 h-4 mr-2 text-amber-500" />
                 <h4 className="text-sm font-medium">Energy Profile</h4>
@@ -145,7 +145,7 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
           
           {/* Sensory Profile Section */}
           {ingredient.sensoryProfile && (
-            <div className="bg-white / (60 || 1) rounded-md p-3 shadow-sm">
+            <div className="bg-white/60 rounded-md p-3 shadow-sm">
               <div className="flex items-center mb-2">
                 <Thermometer className="w-4 h-4 mr-2 text-orange-500" />
                 <h4 className="text-sm font-medium">Sensory Profile</h4>
@@ -189,7 +189,7 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
           
           {/* Cooking Methods Section */}
           {ingredient.recommendedCookingMethods?.length > 0 && (
-            <div className="bg-white / (60 || 1) rounded-md p-3 shadow-sm">
+            <div className="bg-white/60 rounded-md p-3 shadow-sm">
               <div className="flex items-center mb-2">
                 <ChefHat className="w-4 h-4 mr-2 text-emerald-600" />
                 <h4 className="text-sm font-medium">Cooking Methods</h4>
@@ -206,7 +206,7 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
           
           {/* Pairing Recommendations */}
           {ingredient.pairingRecommendations && (
-            <div className="bg-white / (60 || 1) rounded-md p-3 shadow-sm">
+            <div className="bg-white/60 rounded-md p-3 shadow-sm">
               <h4 className="text-sm font-medium mb-2">Pairing Recommendations</h4>
               
               {ingredient.pairingRecommendations.complementary?.length > 0 && (
@@ -252,7 +252,7 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
           
           {/* Nutrition Details */}
           {ingredient.nutrition && (
-            <div className="bg-white / (60 || 1) rounded-md p-3 shadow-sm">
+            <div className="bg-white/60 rounded-md p-3 shadow-sm">
               <h4 className="text-sm font-medium mb-2">Nutrition (per 100g)</h4>
               <div className="grid grid-cols-2 gap-2">
                 <div className="text-xs">

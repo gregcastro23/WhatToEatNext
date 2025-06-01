@@ -82,16 +82,16 @@ export class EnhancedCuisineRecommender {
     dietaryRestrictions: string[] = []
   ): EnhancedRecipeMatch[] {
     // Get the cuisine data
-    const cuisine = cuisinesMap[cuisineName];
+    let cuisine = cuisinesMap[cuisineName];
     if (!cuisine) {
       throw new Error(`Cuisine "${cuisineName}" not found`);
     }
 
     // Get current time factors
-    const timeFactors = this.getCurrentTimeFactors();
+    let timeFactors = this.getCurrentTimeFactors();
 
     // Filter recipes based on meal type and dietary restrictions
-    const filteredDishes = cuisine.dishes.filter((dish) => {
+    let filteredDishes = cuisine.dishes.filter((dish) => {
       // Filter by meal type if specified
       if (mealType && !dish.tags?.includes(mealType)) {
         return false;
@@ -123,14 +123,14 @@ export class EnhancedCuisineRecommender {
 
     // Calculate match score for each dish
     const matches: EnhancedRecipeMatch[] = filteredDishes.map((dish) => {
-      const scores = this.calculateDetailedScores(
+      let scores = this.calculateDetailedScores(
         dish,
         timeFactors,
         astroState
       );
 
       // Calculate total match percentage (weighted average of all scores)
-      const totalScore =
+      let totalScore =
         (scores.seasonal * 1.5 +
           scores.planetaryDay * 1.0 +
           scores.planetaryHour * 1.2 +
@@ -139,7 +139,7 @@ export class EnhancedCuisineRecommender {
           scores.elemental * 1.3) /
         8.0; // Sum of weights
 
-      const matchPercentage = Math.min(Math.round(totalScore * 100), 100);
+      let matchPercentage = Math.min(Math.round(totalScore * 100), 100);
 
       return {
         dish,
@@ -163,10 +163,10 @@ export class EnhancedCuisineRecommender {
    * Get current time factors (day of week, planetary hour, season)
    */
   private getCurrentTimeFactors(): TimeFactors {
-    const now = new Date();
+    let now = new Date();
 
     // Get day of week (planetary day)
-    const dayOfWeek = now.getDay();
+    let dayOfWeek = now.getDay();
     const planetaryDays: PlanetaryDay[] = [
       'Sunday',
       'Monday',
@@ -176,11 +176,11 @@ export class EnhancedCuisineRecommender {
       'Friday',
       'Saturday',
     ];
-    const planetaryDay = planetaryDays[dayOfWeek];
+    let planetaryDay = planetaryDays[dayOfWeek];
 
     // Calculate planetary hour (based on traditional astrology)
     // This is a simplified implementation
-    const hour = now.getHours();
+    let hour = now.getHours();
     const planetaryRulers: PlanetaryHour[] = [
       'Sun',
       'Venus',
@@ -190,9 +190,9 @@ export class EnhancedCuisineRecommender {
       'Jupiter',
       'Mars',
     ];
-    const dayRulerIndex = dayOfWeek % planetaryRulers.length;
-    const hourRulerIndex = (dayRulerIndex + hour) % planetaryRulers.length;
-    const planetaryHour = planetaryRulers[hourRulerIndex];
+    let dayRulerIndex = dayOfWeek % planetaryRulers.length;
+    let hourRulerIndex = (dayRulerIndex + hour) % planetaryRulers.length;
+    let planetaryHour = planetaryRulers[hourRulerIndex];
 
     // Get time of day
     let timeOfDay: TimeOfDay;
@@ -207,7 +207,7 @@ export class EnhancedCuisineRecommender {
     }
 
     // Calculate season based on month (simplified for Northern Hemisphere)
-    const month = now.getMonth(); // 0-indexed (0 = January)
+    let month = now.getMonth(); // 0-indexed (0 = January)
     let season: Season;
     if (month >= 2 && month <= 4) {
       season = 'Spring';
@@ -259,8 +259,8 @@ export class EnhancedCuisineRecommender {
     if (!dish.tags) return 0.5; // Default score if no seasonal information
 
     // Check if dish has explicit seasonal tags
-    const seasonTags = ['Spring', 'Summer', 'Fall', 'Winter'];
-    const dishSeasons = dish.tags.filter((tag) => seasonTags.includes(tag));
+    let seasonTags = ['Spring', 'Summer', 'Fall', 'Winter'];
+    let dishSeasons = dish.tags.filter((tag) => seasonTags.includes(tag));
 
     if (dishSeasons.length === 0) {
       // No season specified, could be year-round dish
@@ -294,7 +294,7 @@ export class EnhancedCuisineRecommender {
       Saturday: 'Saturn',
     };
 
-    const rulingPlanet = dayToPlanetMap[planetaryDay];
+    let rulingPlanet = dayToPlanetMap[planetaryDay];
 
     // Check if dish has astrological affinities to this planet
     if (dish.astrologicalAffinities?.includes(rulingPlanet)) {
@@ -328,7 +328,7 @@ export class EnhancedCuisineRecommender {
     dish: Dish,
     astroState: AstrologicalState
   ): number {
-    const score = 0.5; // Default score
+    let score = 0.5; // Default score
 
     // Check for zodiac sign influences
     if (dish.zodiacInfluences?.includes(astroState.sunSign)) {
@@ -365,7 +365,7 @@ export class EnhancedCuisineRecommender {
       Night: ['Dinner', 'Dessert', 'Snack'],
     };
 
-    const appropriateMeals = timeToMealMap[timeOfDay];
+    let appropriateMeals = timeToMealMap[timeOfDay];
 
     // Check if dish tags include appropriate meal type for this time
     for (const meal of appropriateMeals) {
@@ -375,7 +375,7 @@ export class EnhancedCuisineRecommender {
     }
 
     // If dish has a meal type tag that doesn't match current time
-    const allMealTypes = ['Breakfast', 'Lunch', 'Dinner', 'Snack', 'Dessert'];
+    let allMealTypes = ['Breakfast', 'Lunch', 'Dinner', 'Snack', 'Dessert'];
     for (const mealType of allMealTypes) {
       if (dish.tags.includes(mealType)) {
         return 0.3; // Significant penalty for wrong time
@@ -392,7 +392,7 @@ export class EnhancedCuisineRecommender {
   private calculateElementalScore(dish: Dish, dominantElement: string): number {
     if (!dish.elementalProperties) return 0.5;
 
-    const properties = dish.elementalProperties as ElementalProperties;
+    let properties = dish.elementalProperties as ElementalProperties;
 
     // Get score based on dominant element
     const elementMap: Record<string, keyof ElementalProperties> = {
@@ -403,7 +403,7 @@ export class EnhancedCuisineRecommender {
       Aether: 'aether',
     };
 
-    const elementKey = elementMap[dominantElement];
+    let elementKey = elementMap[dominantElement];
     if (!elementKey) return 0.5;
 
     // Return the elemental score, normalized to 0-1 range
@@ -412,5 +412,5 @@ export class EnhancedCuisineRecommender {
 }
 
 // Export singleton instance
-export const enhancedCuisineRecommender =
+export let enhancedCuisineRecommender =
   EnhancedCuisineRecommender.getInstance();

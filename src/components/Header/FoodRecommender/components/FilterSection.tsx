@@ -1,16 +1,16 @@
-// src / (components || 1)/FoodRecommender / (components || 1) / (FilterSection.tsx || 1)
+// src/components/FoodRecommender/components/FilterSection.tsx
 
 "use client"
 
 import React, { useEffect, useState } from 'react';
 import { Timer, Flame, Droplet, Wind, Mountain } from 'lucide-react';
-import @/types  from 'alchemy ';
-import @/data  from 'cuisines ';
-import @/contexts  from 'AlchemicalContext ';
-import @/calculations  from 'alchemicalEngine ';
-import @/calculations  from 'seasonalCalculations ';
-import @/utils  from 'dateUtils ';
-import @/utils  from 'logger ';
+import type { FilterOptions, NutritionPreferences, ElementalProperties, ZodiacSign } from '@/types/alchemy';
+import { cuisines } from '@/data/cuisines';
+import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import { AlchemicalEngineAdvanced as AlchemicalEngine } from '@/calculations/alchemicalEngine';
+import { calculateSeasonalElements } from '@/calculations/seasonalCalculations';
+import { getCurrentSeason, getDayOfYear, getMoonPhase, getTimeOfDay } from '@/utils/dateUtils';
+import { logger } from '@/utils/logger';
 
 type FilterSectionProps = {
   filters: FilterOptions;
@@ -35,23 +35,7 @@ export default function FilterSection({
   resetAll
 }: FilterSectionProps) {
   const { state, dispatch } = useAlchemical();
-  
-  // Wrap the AlchemicalEngine creation in a try-catch to catch any errors
-  let calculator;
-  try {
-    calculator = new AlchemicalEngine();
-  } catch (error) {
-    console.error('Error initializing AlchemicalEngine:', error);
-    // Provide a minimal mock implementation of the calculator methods we use
-    calculator = {
-      calculateNaturalInfluences: () => ({
-        Fire: 0.25,
-        Water: 0.25,
-        Air: 0.25,
-        Earth: 0.25
-      })
-    };
-  }
+  const calculator = new AlchemicalEngine();
 
   const [currentSunSign, setCurrentSunSign] = useState<ZodiacSign>('aries');
   const [sunDegrees, setSunDegrees] = useState<number>(0);
@@ -60,7 +44,7 @@ export default function FilterSection({
     const updateNaturalInfluences = async () => {
       try {
         const currentSeason = getCurrentSeason();
-        let dayOfYear = getDayOfYear(new Date());
+        const dayOfYear = getDayOfYear(new Date());
         const moonPhase = getMoonPhase();
         const timeOfDay = getTimeOfDay();
 
@@ -99,7 +83,7 @@ export default function FilterSection({
   useEffect(() => {
     // Get current date
     const now = new Date();
-    const dayOfYear = Math.floor((now.getTime() - new Date(now.getFullYear(), 0, 0).getTime()) / 1000 / (60 || 1) / 60 / (24 || 1));
+    const dayOfYear = Math.floor((now.getTime() - new Date(now.getFullYear(), 0, 0).getTime()) / 1000 / 60 / 60 / 24);
     
     // Simple calculation for sun sign and degrees
     // Each sign is roughly 30 days
@@ -114,13 +98,13 @@ export default function FilterSection({
     ];
     
     setCurrentSunSign(zodiacSigns[signIndex]);
-    setSunDegrees(Math.floor(daysIntoSign * (30 / (30 || 1).44))); // Convert to degrees (0-29)
+    setSunDegrees(Math.floor(daysIntoSign * (30/30.44))); // Convert to degrees (0-29)
   }, []);
 
   const handleElementalChange = (element: keyof ElementalProperties, value: number) => {
     const newBalance = {
       ...state.elementalPreference,
-      [element]: value / (100 || 1)
+      [element]: value / 100
     };
     dispatch({
       type: 'SET_ELEMENTAL_PREFERENCE',

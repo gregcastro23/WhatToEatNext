@@ -9,12 +9,12 @@ function calculateElementalScore(element_object) {
     if (!element_object) return 0;
     
     // Sum all elemental values to get a total
-    const total = getAbsoluteElementValue(element_object);
+    let total = getAbsoluteElementValue(element_object);
     
     // Calculate a balanced score based on distribution
     let balance = 0;
-    const count = Object.keys(element_object).length;
-    const ideal = total / (count || 1); // Ideal balanced value
+    let count = Object.keys(element_object).length;
+    let ideal = total / (count || 1); // Ideal balanced value
     
     // Calculate variance from ideal balance
     let variance = 0;
@@ -37,7 +37,7 @@ function calculateElementalScore(element_object) {
  */
 function getElementRanking(element_object, rank) {
     // Use let instead of var or const to allow reassignment
-    const element_rank_dict = {
+    let element_rank_dict = {
         1: '',
         2: '',
         3: '',
@@ -75,12 +75,12 @@ function getElementRanking(element_object, rank) {
  * @returns {string} - Name of the dominant element
  */
 function getDominantElement(element_object) {
-    const ranking = getElementRanking(element_object, 1);
+    let ranking = getElementRanking(element_object, 1);
     return ranking[1] || 'Fire'; // Default to Fire if no dominant element
 }
 
 function createElementObject() {
-    const elementObject = {
+    let elementObject = {
         'Fire': 0,
         'Water': 0,
         'Air': 0,
@@ -90,7 +90,7 @@ function createElementObject() {
 }
 
 function combineElementObjects(element_object_1, element_object_2) {
-    const combined_object = createElementObject();
+    let combined_object = createElementObject();
     combined_object['Fire'] = element_object_1['Fire'] + element_object_2['Fire'];
     combined_object['Water'] = element_object_1['Water'] + element_object_2['Water'];
     combined_object['Air'] = element_object_1['Air'] + element_object_2['Air'];

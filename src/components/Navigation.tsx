@@ -1,5 +1,5 @@
 import React from 'react';
-import next  from 'link ';
+import Link from 'next/link';
 
 export default function Navigation() {
   return (

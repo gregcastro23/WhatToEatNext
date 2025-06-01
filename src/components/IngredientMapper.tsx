@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import @/hooks  from 'useIngredientMapping ';
-import @/data  from 'cuisines ';
+import { useIngredientMapping } from '@/hooks/useIngredientMapping';
+import { cuisinesMap } from '@/data/cuisines';
 
 /**
  * Component that demonstrates the universal ingredient mapping functionality
@@ -47,7 +47,7 @@ export default function IngredientMapper() {
   // Find alternative ingredients
   const handleFindAlternatives = () => {
     if (!selectedIngredient) return;
-    let result = suggestAlternatives(selectedIngredient);
+    const result = suggestAlternatives(selectedIngredient);
     setAlternatives(result.success ? result.suggestions : []);
   };
 

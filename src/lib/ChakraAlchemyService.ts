@@ -8,8 +8,8 @@ import {
   MajorArcanaChakra,
   SuitChakraMapping,
   KeyCardChakraMapping
-} from "@/types/(chakra || 1)";
-import { Planet, ZodiacSign, Element, TarotSuit, ChakraPosition, ChakraEnergies, EnergyStateProperties } from "@/types/(alchemy || 1)";
+} from '@/types/chakra';
+import { Planet, ZodiacSign, Element, TarotSuit, ChakraPosition, ChakraEnergies, EnergyStateProperties } from '@/types/alchemy';
 
 /**
  * ChakraAlchemyService provides utilities for working with chakra-tarot associations
@@ -40,7 +40,7 @@ export class ChakraAlchemyService {
       properties: { heat: '-', entropy: '-', reactivity: '+' }
     },
     'heart': {
-      energyState: 'Essence / (Spirit || 1)',
+      energyState: 'Essence/Spirit',
       elements: ['Air', 'Fire'],
       properties: { heat: '±', entropy: '±', reactivity: '+' }
     },
@@ -232,7 +232,7 @@ export class ChakraAlchemyService {
     
     Object.keys(energies).forEach(key => {
       const chakraKey = key as keyof ChakraEnergies;
-      normalized[chakraKey] = (energies[chakraKey] / (max || 1)) * 10;
+      normalized[chakraKey] = (energies[chakraKey] / max) * 10;
     });
     
     return normalized;
@@ -271,7 +271,7 @@ export class ChakraAlchemyService {
         return;
       }
       
-      // Special case: Root / (Throat || 1) chakras should not include Fire
+      // Special case: Root/Throat chakras should not include Fire
       if ((chakraPos === 'root' || chakraPos === 'throat') && elements.includes('Fire')) {
         return;
       }

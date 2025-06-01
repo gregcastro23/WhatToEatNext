@@ -7,9 +7,9 @@ export function calculateElementalScore(
   seasonalInfluence = 0,
   lunarInfluence = 0
 ): number {
-  const baseScore = calculateBaseElementalScore(recipe, targetBalance);
-  const seasonalScore = applySeasonalModifiers(baseScore, seasonalInfluence);
-  const finalScore = applyLunarModifiers(seasonalScore, lunarInfluence);
+  let baseScore = calculateBaseElementalScore(recipe, targetBalance);
+  let seasonalScore = applySeasonalModifiers(baseScore, seasonalInfluence);
+  let finalScore = applyLunarModifiers(seasonalScore, lunarInfluence);
 
   return normalizeScore(finalScore);
 }
@@ -20,8 +20,8 @@ function calculateBaseElementalScore(
   targetBalance: ElementalState
 ): number {
   // Simple matching algorithm between recipe and target elemental balance
-  const recipeElements = recipe.elementalProperties;
-  const score = 0;
+  let recipeElements = recipe.elementalProperties;
+  let score = 0;
 
   // Calculate how well the recipe matches the target balance
   score += (1 - Math.abs(recipeElements.Fire - targetBalance.Fire)) * 0.25;

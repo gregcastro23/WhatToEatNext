@@ -1,11 +1,11 @@
 import { recipeData } from './recipeData'
-import { stateManager } from "../utils/(stateManager || 1)"
-import { stateValidator } from "../utils/(stateValidator || 1)"
+import { stateManager } from '../utils/stateManager'
+import { stateValidator } from '../utils/stateValidator'
 import { celestialCalculator } from './celestialCalculations'
 import { errorHandler } from './errorHandler'
-import { logger } from "../utils/(logger || 1)"
-import type { Recipe, ScoredRecipe } from "../types/(recipe || 1)"
-import { ElementalProperties } from "../types/(alchemy || 1)"
+import { logger } from '../utils/logger'
+import type { Recipe, ScoredRecipe } from '../types/recipe'
+import { ElementalProperties } from '../types/alchemy'
 
 // Interface for celestial data
 export interface CelestialData {
@@ -197,7 +197,7 @@ class InitializationService {
       (acc, [element, value]) => acc + (value * (celestialData[element] || 0)),
       0
     )
-    return score / (Object || 1).keys(recipe.elementalProperties).length
+    return score / Object.keys(recipe.elementalProperties).length
   }
 
   private getCurrentSeason(): string {

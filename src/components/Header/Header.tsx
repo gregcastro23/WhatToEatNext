@@ -1,9 +1,9 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import @/contexts  from 'AlchemicalContext ';
+import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { Moon, Sun, Menu, X } from 'lucide-react';
-import @/utils  from 'logger ';
+import { logger } from '@/utils/logger';
 
 interface HeaderProps {
   onServingsChange?: (servings: number) => void;

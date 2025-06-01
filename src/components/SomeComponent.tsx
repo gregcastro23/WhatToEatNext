@@ -1,4 +1,4 @@
-import @/hooks  from 'useClientEffect ';
+import { useClientEffect } from '@/hooks/useClientEffect';
 
 const SomeComponent = () => {
   useClientEffect(() => {

@@ -18,14 +18,14 @@ const GlobalPopup: React.FC = () => {
   const { showPopup } = usePopup();
 
   // Helper function to get element-based classes
-  const getElementalClasses = (sunSign?: string, moonSign?: string): string => {
+  let getElementalClasses = (sunSign?: string, moonSign?: string): string => {
     if (!sunSign || !moonSign) return '';
     
-    const sunElement = ZODIAC_ELEMENTS[sunSign.toLowerCase() as ZodiacSign];
-    const moonElement = ZODIAC_ELEMENTS[moonSign.toLowerCase() as ZodiacSign];
+    let sunElement = ZODIAC_ELEMENTS[sunSign.toLowerCase() as ZodiacSign];
+    let moonElement = ZODIAC_ELEMENTS[moonSign.toLowerCase() as ZodiacSign];
     
     // Check for elemental harmony
-    const isHarmonious = sunElement && moonElement ? 
+    let isHarmonious = sunElement && moonElement ? 
       ELEMENT_AFFINITIES[sunElement as Element]?.includes(moonElement as Element) : 
       false;
     
@@ -35,7 +35,7 @@ const GlobalPopup: React.FC = () => {
   };
 
   // Enhanced show methods with elemental and zodiac influences
-  const showSuccess = (message: string, options: PopupOptions = {}): void => {
+  let showSuccess = (message: string, options: PopupOptions = {}): void => {
     showPopup(message, {
       ...options,
       type: 'success',
@@ -44,7 +44,7 @@ const GlobalPopup: React.FC = () => {
     });
   };
 
-  const showError = (message: string, options: PopupOptions = {}): void => {
+  let showError = (message: string, options: PopupOptions = {}): void => {
     showPopup(message, {
       ...options,
       type: 'error',
@@ -53,7 +53,7 @@ const GlobalPopup: React.FC = () => {
     });
   };
 
-  const showWarning = (message: string, options: PopupOptions = {}): void => {
+  let showWarning = (message: string, options: PopupOptions = {}): void => {
     showPopup(message, {
       ...options,
       type: 'warning',
@@ -62,7 +62,7 @@ const GlobalPopup: React.FC = () => {
     });
   };
 
-  const showInfo = (message: string, options: PopupOptions = {}): void => {
+  let showInfo = (message: string, options: PopupOptions = {}): void => {
     showPopup(message, {
       ...options,
       type: 'info',
@@ -72,7 +72,7 @@ const GlobalPopup: React.FC = () => {
   };
 
   // Show elemental popup
-  const showElemental = (message: string, options: PopupOptions = {}): void => {
+  let showElemental = (message: string, options: PopupOptions = {}): void => {
     const elementalClass = getElementalClasses(options.sunSign, options.moonSign);
     showPopup(message, {
       ...options,
@@ -93,7 +93,7 @@ declare global {
 }
 
 // Create a custom hook for global popups with proper TypeScript types
-export const useGlobalPopups = () => {
+export let useGlobalPopups = () => {
   const popup = usePopup();
   
   // Development mode global access

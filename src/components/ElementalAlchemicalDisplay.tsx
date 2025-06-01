@@ -1,13 +1,13 @@
 'use client';
 
 import React from 'react';
-import @/contexts  from 'AlchemicalContext ';
+import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { 
   calculateHeat, 
   calculateEntropy, 
   calculateReactivity, 
   calculateGregsEnergy 
-} from "@/calculations/(gregsEnergy || 1)";
+} from '@/calculations/gregsEnergy';
 
 export default function ElementalAlchemicalDisplay() {
   const { state } = useAlchemical();

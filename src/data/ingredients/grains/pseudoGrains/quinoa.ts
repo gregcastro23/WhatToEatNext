@@ -55,4 +55,4 @@ const rawQuinoa: Record<string, Partial<IngredientMapping>> = {
   }
 };
 
-export const quinoa = fixIngredientMappings(rawQuinoa) as Record<string, IngredientMapping>; 
+export let quinoa = fixIngredientMappings(rawQuinoa) as Record<string, IngredientMapping>; 
