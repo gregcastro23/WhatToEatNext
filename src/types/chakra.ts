@@ -458,3 +458,13 @@ export const CHAKRA_MAPPING_SUMMARY: ChakraMappingSummary[] = [
     secondarySuit: 'swords'
   }
 ]; 
+export interface ChakraEnergies {
+  root: number;
+  sacral: number;
+  solarPlexus: number;
+  heart: number;
+  throat: number;
+  thirdEye: number;
+  crown: number;
+  brow: number;
+}

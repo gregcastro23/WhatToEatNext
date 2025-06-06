@@ -2076,10 +2076,10 @@ function safeAlchemize(birthInfo: BirthInfo, horoscopeDict: HoroscopeData): Alch
     
     // Return fallback result
     return {
-      sunSign: 'aries',
-      dominantElement: 'Fire',
-      elementalBalance: {
-        Fire: 0.25,
+    sunSign: String('aries'),
+    dominantElement: String('Fire'),
+    elementalBalance: {
+        Fire: 0.25 as ElementalProperties,
         Water: 0.25,
         Earth: 0.25,
         Air: 0.25
@@ -2160,10 +2160,10 @@ function alchemizeWithSafety(
     
     // Return fallback result
     return {
-      sunSign: 'aries',
-      dominantElement: 'Fire',
-      elementalBalance: {
-        Fire: 0.25,
+    sunSign: String('aries'),
+    dominantElement: String('Fire'),
+    elementalBalance: {
+        Fire: 0.25 as ElementalProperties,
         Water: 0.25,
         Earth: 0.25,
         Air: 0.25
