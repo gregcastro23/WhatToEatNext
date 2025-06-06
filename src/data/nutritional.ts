@@ -436,7 +436,7 @@ function transformUSDADataToNutritionalProfile(food: unknown): NutritionalProfil
     };
   }
   
-  console.log(`Transforming food data: ${food.description || food.foodClass || 'Unknown'} [${food.dataType || 'Unknown type'}]`);
+  console.log(`Transforming food data: ${(food as any)?.description || food.foodClass || 'Unknown'} [${food.dataType || 'Unknown type'}]`);
   
   // Initialize nutrition values
   const nutrients: Record<string, number> = {};
@@ -445,21 +445,21 @@ function transformUSDADataToNutritionalProfile(food: unknown): NutritionalProfil
   food.foodNutrients.forEach((nutrient: unknown) => {
     // The nutrient ID/name can be in different properties depending on the API response format
     // 1. Standard format (number/id + amount/value)
-    const id = nutrient.number || nutrient.nutrientId || (nutrient.nutrient && nutrient.nutrient.id) || nutrient.id || '';
+    const id = nutrient.number || nutrient.nutrientId || (nutrient.nutrient && (nutrient.nutrient as any)?.id) || (nutrient as any)?.id || '';
     const value = nutrient.amount || nutrient.value || 0;
     
     // 2. SR Legacy format might have nutrient.nutrient.number
     const legacyId = nutrient.nutrient?.number || '';
     
     // 3. Name-based lookup (backup)
-    const name = nutrient.name || nutrient.nutrientName || nutrient.nutrient?.name || '';
+    const name = (nutrient as any)?.name || nutrient.nutrientName || nutrient.nutrient?.name || '';
     
     // Store the nutrient by both modern and legacy IDs
     if (id) nutrients[id.toString()] = value;
     if (legacyId) nutrients[legacyId] = value;
     
     // Debug output for vitamins
-    if (name.toLowerCase().includes('vitamin')) {
+    if ((name as any)?.toLowerCase?.().includes('vitamin')) {
       console.log(`Found vitamin: ${name}, ID: ${id || legacyId}, Value: ${value}`);
     }
   });
@@ -529,33 +529,33 @@ function transformUSDADataToNutritionalProfile(food: unknown): NutritionalProfil
   if (food.dataType === 'SR Legacy') {
     // Name-based lookup for vitamins and minerals
     food.foodNutrients.forEach((nutrient: unknown) => {
-      const name = (nutrient.nutrient?.name || nutrient.name || nutrient.nutrientName || '').toLowerCase();
+      const name = (nutrient.nutrient?.name || (nutrient as any)?.name || nutrient.nutrientName || '').toLowerCase();
       const value = nutrient.amount || nutrient.value || 0;
       
       // Vitamin mapping
-      if (name.includes('vitamin a, ')) vitamins.A = value / 900;
-      else if (name.includes('vitamin c')) vitamins.C = value / 90;
-      else if (name.includes('vitamin d')) vitamins.D = value / 20;
-      else if (name.includes('vitamin e')) vitamins.E = value / 15;
-      else if (name.includes('vitamin k')) vitamins.K = value / 120;
-      else if (name.includes('thiamin')) vitamins.B1 = value / 1.2;
-      else if (name.includes('riboflavin')) vitamins.B2 = value / 1.3;
-      else if (name.includes('niacin')) vitamins.B3 = value / 16;
-      else if (name.includes('vitamin b-6')) vitamins.B6 = value / 1.7;
-      else if (name.includes('vitamin b-12')) vitamins.B12 = value / 2.4;
-      else if (name.includes('folate')) vitamins.folate = value / 400;
+      if ((name as any)?.includes?.('vitamin a, ')) vitamins.A = value / 900;
+      else if ((name as any)?.includes?.('vitamin c')) vitamins.C = value / 90;
+      else if ((name as any)?.includes?.('vitamin d')) vitamins.D = value / 20;
+      else if ((name as any)?.includes?.('vitamin e')) vitamins.E = value / 15;
+      else if ((name as any)?.includes?.('vitamin k')) vitamins.K = value / 120;
+      else if ((name as any)?.includes?.('thiamin')) vitamins.B1 = value / 1.2;
+      else if ((name as any)?.includes?.('riboflavin')) vitamins.B2 = value / 1.3;
+      else if ((name as any)?.includes?.('niacin')) vitamins.B3 = value / 16;
+      else if ((name as any)?.includes?.('vitamin b-6')) vitamins.B6 = value / 1.7;
+      else if ((name as any)?.includes?.('vitamin b-12')) vitamins.B12 = value / 2.4;
+      else if ((name as any)?.includes?.('folate')) vitamins.folate = value / 400;
       
       // Mineral mapping
-      else if (name.includes('calcium')) minerals.calcium = value / 1000;
-      else if (name.includes('iron')) minerals.iron = value / 18;
-      else if (name.includes('magnesium')) minerals.magnesium = value / 400;
-      else if (name.includes('phosphorus')) minerals.phosphorus = value / 1000;
-      else if (name.includes('potassium')) minerals.potassium = value / 3500;
-      else if (name.includes('sodium')) minerals.sodium = value / 2300;
-      else if (name.includes('zinc')) minerals.zinc = value / 11;
-      else if (name.includes('copper')) minerals.copper = value / 0.9;
-      else if (name.includes('manganese')) minerals.manganese = value / 2.3;
-      else if (name.includes('selenium')) minerals.selenium = value / 55;
+      else if ((name as any)?.includes?.('calcium')) minerals.calcium = value / 1000;
+      else if ((name as any)?.includes?.('iron')) minerals.iron = value / 18;
+      else if ((name as any)?.includes?.('magnesium')) minerals.magnesium = value / 400;
+      else if ((name as any)?.includes?.('phosphorus')) minerals.phosphorus = value / 1000;
+      else if ((name as any)?.includes?.('potassium')) minerals.potassium = value / 3500;
+      else if ((name as any)?.includes?.('sodium')) minerals.sodium = value / 2300;
+      else if ((name as any)?.includes?.('zinc')) minerals.zinc = value / 11;
+      else if ((name as any)?.includes?.('copper')) minerals.copper = value / 0.9;
+      else if ((name as any)?.includes?.('manganese')) minerals.manganese = value / 2.3;
+      else if ((name as any)?.includes?.('selenium')) minerals.selenium = value / 55;
     });
   }
   
@@ -580,8 +580,8 @@ function transformUSDADataToNutritionalProfile(food: unknown): NutritionalProfil
   };
   
   // Add food metadata if available
-  if (food.description) {
-    profile.name = food.description;
+  if ((food as any)?.description) {
+    profile.name = (food as any)?.description;
   }
   
   if (food.fdcId) {
@@ -618,7 +618,7 @@ export function calculateNutritionalBalance(ingredients: unknown[]): Nutritional
   }
 
   return ingredients.reduce((acc, ingredient) => {
-    const profile = ingredient.nutritionalProfile || {};
+    const profile = (ingredient as any)?.nutritionalProfile || {};
     
     // Add calories
     acc.calories += profile.calories || 0;
@@ -721,8 +721,8 @@ export function getZodiacNutritionalRecommendations(sign: string): {
   const signData = zodiacNutritionalNeeds[sign];
   
   return {
-    elementalBalance: signData.elementalNeeds,
-    focusNutrients: signData.nutritionalFocus,
+    elementalBalance: (signData as any)?.elementalNeeds,
+    focusNutrients: (signData as any)?.nutritionalFocus,
     recommendedFoods: signData.beneficialFoods,
     avoidFoods: signData.challengeFoods
   };
@@ -770,8 +770,8 @@ export function getEnhancedPlanetaryNutritionalRecommendations(
   recommendedFoods: string[]
 } {
   // Normalize planet names to lowercase
-  const dayPlanet = planetaryDay.toLowerCase();
-  const hourPlanet = planetaryHour.toLowerCase();
+  const dayPlanet = (planetaryDay as any)?.toLowerCase?.();
+  const hourPlanet = (planetaryHour as any)?.toLowerCase?.();
   
   // Initialize results
   const focusNutrients: string[] = [];
@@ -880,7 +880,7 @@ export function getSeasonalNutritionalRecommendations(season: string): {
   seasonalFoods: string[]
 } {
   // Normalize season name
-  const normalizedSeason = season.toLowerCase();
+  const normalizedSeason = (season as any)?.toLowerCase?.();
   
   // Handle both "autumn" and "fall"
   const seasonKey = (normalizedSeason === 'fall' || normalizedSeason === 'autumn') 
@@ -890,8 +890,8 @@ export function getSeasonalNutritionalRecommendations(season: string): {
   const seasonData = seasonalNutritionFocus[seasonKey] || seasonalNutritionFocus['spring'];
   
   return {
-    element: seasonData.elementalEmphasis,
-    focusNutrients: seasonData.nutritionalFocus,
+    element: (seasonData as any)?.elementalEmphasis,
+    focusNutrients: (seasonData as any)?.nutritionalFocus,
     seasonalFoods: seasonData.recommendedFoods
   };
 }
