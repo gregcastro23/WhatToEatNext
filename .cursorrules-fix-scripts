@@ -1,0 +1,331 @@
+# Fix Scripts Usage Guide - Cursor Rules
+
+## 🚀 Quick Start
+**For immediate help**: See `scripts/QUICK_REFERENCE.md` for the most commonly used scripts.
+
+## Overview
+This project contains organized fix scripts in the `scripts/` directory. These scripts are categorized by problem type and should be used to resolve specific issues systematically.
+
+**📋 Complete Inventory**: See `scripts/INVENTORY.md` for all available scripts.
+
+## Directory Structure
+```
+scripts/
+├── typescript-fixes/     # Type errors, import/export issues, API fixes
+├── syntax-fixes/         # Syntax errors, JSX issues, structural fixes
+├── ingredient-scripts/   # Ingredient data and food recommendation fixes
+├── elemental-fixes/      # Elemental logic and alchemical calculation fixes
+├── cuisine-fixes/        # Cuisine data and cooking method fixes
+├── cleanup-scripts/      # General cleanup and comprehensive fixes
+├── uncategorized/        # Scripts that need manual categorization
+├── INVENTORY.md         # Complete inventory of all scripts
+└── QUICK_REFERENCE.md   # Most commonly used scripts
+```
+
+## When to Use Fix Scripts
+
+### TypeScript Errors
+**Problem**: TypeScript compilation errors, type mismatches, missing imports
+**Solution**: Use scripts from `scripts/typescript-fixes/`
+
+Examples:
+```bash
+# For type definition issues
+node scripts/typescript-fixes/fix-core-type-definitions.js --dry-run
+
+# For import/export problems
+node scripts/typescript-fixes/fix-import-exports-systematic.js --dry-run
+
+# For duplicate identifier errors
+node scripts/typescript-fixes/fix-duplicate-identifiers-systematic.js --dry-run
+
+# For missing properties or interfaces
+node scripts/typescript-fixes/fix-missing-exports-and-properties.js --dry-run
+```
+
+### Syntax Errors
+**Problem**: Syntax corruption, malformed code, JSX parsing errors
+**Solution**: Use scripts from `scripts/syntax-fixes/`
+
+Examples:
+```bash
+# For general syntax corruption
+node scripts/syntax-fixes/fix-remaining-syntax-errors.js --dry-run
+
+# For specific syntax issues
+node scripts/syntax-fixes/fix-specific-syntax-errors.js --dry-run
+
+# Run all syntax fixes
+node scripts/syntax-fixes/run-all-fixes.js --dry-run
+```
+
+### Elemental Logic Issues
+**Problem**: Incorrect elemental calculations, opposing element logic, casing issues
+**Solution**: Use scripts from `scripts/elemental-fixes/`
+
+Examples:
+```bash
+# Fix elemental logic principles (opposing elements)
+node scripts/elemental-fixes/fix-elemental-principles.js --dry-run
+
+# Fix casing conventions (Fire vs fire, etc.)
+node scripts/elemental-fixes/fix-casing-conventions.js --dry-run
+
+# Fix alchemical engine calculations
+node scripts/elemental-fixes/fix-alchemical-engine.js --dry-run
+```
+
+### Ingredient Data Issues
+**Problem**: Ingredient import errors, missing ingredient properties, food recommendation issues
+**Solution**: Use scripts from `scripts/ingredient-scripts/`
+
+Examples:
+```bash
+# Fix herb imports
+node scripts/fix-herbs-imports.js --dry-run
+
+# Fix spice imports  
+node scripts/fix-spices-imports.js --dry-run
+
+# Check ingredient imports
+node scripts/check-ingredient-imports.js
+```
+
+### Cuisine and Recipe Issues
+**Problem**: Cuisine data errors, cooking method issues, recipe recommendations
+**Solution**: Use scripts from `scripts/cuisine-fixes/`
+
+### Build and Cleanup Issues
+**Problem**: General build failures, accumulated errors, project-wide cleanup
+**Solution**: Use scripts from `scripts/cleanup-scripts/`
+
+## Script Usage Workflow
+
+### 1. Always Start with Dry Run
+```bash
+# ALWAYS run with --dry-run first
+node scripts/category/script-name.js --dry-run
+```
+
+### 2. Review Changes
+- Check the dry run output carefully
+- Ensure the changes align with your expectations
+- Look for any unexpected modifications
+
+### 3. Run Without Dry Run
+```bash
+# Only after reviewing dry run output
+node scripts/category/script-name.js
+```
+
+### 4. Verify Results
+```bash
+# Check build status
+yarn build
+
+# Check for TypeScript errors
+yarn type-check
+
+# Run tests
+yarn test
+```
+
+### 5. Commit Changes
+```bash
+git add .
+git commit -m "fix: applied [script-name] to resolve [issue-type]"
+```
+
+## Common Problem → Script Mapping
+
+| Problem Type | Script Category | Example Script |
+|--------------|----------------|----------------|
+| `Cannot find module` errors | typescript-fixes | `fix-import-exports-systematic.js` |
+| `Property does not exist` errors | typescript-fixes | `fix-missing-exports-and-properties.js` |
+| `Unexpected token` errors | syntax-fixes | `fix-remaining-syntax-errors.js` |
+| Elemental logic with "opposing" elements | elemental-fixes | `fix-elemental-principles.js` |
+| Inconsistent element casing (fire vs Fire) | elemental-fixes | `fix-casing-conventions.js` |
+| Missing ingredient imports | ingredient-scripts | `fix-[ingredient-type]-imports.js` |
+| Build failing with many errors | cleanup-scripts | Choose specific cleanup script |
+
+## Best Practices
+
+### 1. Targeted Fixes Over Broad Fixes
+- ✅ Use specific scripts for specific problems
+- ❌ Avoid broad "fix-all" scripts unless necessary
+
+### 2. Check Project State
+- Always run `yarn build` before applying fixes
+- Check current error count with TypeScript
+- Review recent changes that might have introduced issues
+
+### 3. Incremental Approach
+- Fix one category of errors at a time
+- Test after each script run
+- Commit changes incrementally
+
+### 4. Documentation
+- Update this file when creating new scripts
+- Document any custom modifications to existing scripts
+- Keep the INVENTORY.md file updated
+
+## Creating New Fix Scripts
+
+### Template for New Scripts
+```javascript
+#!/usr/bin/env node
+
+import fs from 'fs';
+import path from 'path';
+
+// Configuration
+const DRY_RUN = process.argv.includes('--dry-run');
+const ROOT_DIR = process.cwd();
+
+// Description of what this script fixes
+console.log('🔧 Fixing [specific issue type]');
+
+if (DRY_RUN) {
+  console.log('🏃 DRY RUN MODE - No files will be modified');
+}
+
+// Main logic here...
+
+// Always include dry run support
+function applyFix(filePath, changes) {
+  if (DRY_RUN) {
+    console.log(`Would fix: ${filePath}`);
+    return;
+  }
+  
+  // Apply actual changes
+  fs.writeFileSync(filePath, changes, 'utf8');
+  console.log(`Fixed: ${filePath}`);
+}
+```
+
+### Script Requirements
+1. **Must support `--dry-run` mode**
+2. **Must use ES modules (`import`/`export`)**
+3. **Must include clear console output**
+4. **Must handle errors gracefully**
+5. **Must not create backup files**
+
+## Emergency Procedures
+
+### If Scripts Break the Build
+1. **Stop immediately** - don't run more scripts
+2. **Check git status** - see what files were changed
+3. **Review the last script output** - look for errors
+4. **Revert changes if needed**: `git checkout -- .`
+5. **Report the issue** and fix the script before reusing
+
+### If You Need to Create a Custom Fix
+1. **Check existing scripts first** - might already exist
+2. **Copy from a similar script** - use as template
+3. **Test with dry run extensively**
+4. **Start with a small subset of files**
+5. **Add to appropriate category directory**
+
+## Maintenance
+
+### Regular Tasks
+- Review and update script categories monthly
+- Remove obsolete scripts that are no longer needed
+- Update the INVENTORY.md file when scripts change
+- Test key scripts periodically to ensure they still work
+
+### When Adding New Scripts
+1. Place in appropriate category directory
+2. Follow naming convention: `fix-[specific-issue].js`
+3. Include dry run support
+4. Update INVENTORY.md if needed
+5. Document usage in this file
+
+## Integration with Cursor AI
+
+When working with this project or when Cursor AI suggests creating a fix script:
+
+### 1. Check Existing Scripts First
+- **Before creating new scripts**, consult `scripts/QUICK_REFERENCE.md`
+- **Search the organized directories** for existing solutions
+- **Use `scripts/INVENTORY.md`** to find scripts by functionality
+
+### 2. Use Existing Scripts
+```bash
+# For syntax errors
+node scripts/syntax-fixes/fix-remaining-syntax-errors.js --dry-run
+
+# For TypeScript issues  
+node scripts/typescript-fixes/fix-duplicate-identifiers-systematic.js --dry-run
+
+# For elemental logic issues (CRITICAL for project principles)
+node scripts/elemental-fixes/fix-elemental-logic.js --dry-run
+```
+
+### 3. When Creating New Scripts
+1. **Place in appropriate category directory** (`scripts/[category]/`)
+2. **Follow naming convention**: `fix-[specific-issue].js`
+3. **Always include dry run support**: Check for `--dry-run` argument
+4. **Use ES modules**: `import`/`export` syntax
+5. **Don't create backup files**: Follow project rules
+6. **Update documentation**: Add to QUICK_REFERENCE.md if commonly needed
+
+### 4. Script Requirements Checklist
+- ✅ Supports `--dry-run` mode
+- ✅ Uses ES modules (`import`/`export`)
+- ✅ Includes clear console output
+- ✅ Handles errors gracefully
+- ✅ Does not create backup files
+- ✅ Follows elemental principles (if applicable)
+
+### 5. Testing New Scripts
+```bash
+# Always test with dry-run first
+node scripts/category/your-script.js --dry-run
+
+# Check the changes look correct
+git diff
+
+# Apply if satisfied
+node scripts/category/your-script.js
+
+# Verify build still works
+yarn build
+```
+
+### 6. When to Suggest Specific Scripts
+
+| User Problem | Suggest This Script |
+|--------------|-------------------|
+| "Build is broken with syntax errors" | `scripts/syntax-fixes/fix-remaining-syntax-errors.js` |
+| "TypeScript type errors" | `scripts/typescript-fixes/fix-duplicate-identifiers-systematic.js` |
+| "Elements are treated as opposites" | `scripts/elemental-fixes/fix-elemental-logic.js` |
+| "Inconsistent element casing" | `scripts/elemental-fixes/fix-casing-conventions.js` |
+| "Missing ingredient imports" | `scripts/ingredient-scripts/fix-all-ingredient-imports.js` |
+| "Import/export errors" | `scripts/typescript-fixes/fix-astrologize-api-usage.js` |
+
+### 7. Maintenance Reminders
+- **Monthly**: Review and update script categories
+- **After major changes**: Test key scripts still work
+- **When adding scripts**: Update QUICK_REFERENCE.md and INVENTORY.md
+- **Before suggesting broad fixes**: Check if specific scripts exist first
+
+## Project-Specific Considerations
+
+### Elemental Logic (CRITICAL)
+This project has specific principles about elemental logic:
+- **Elements are NOT opposing** (Fire doesn't oppose Water)
+- **Elements work best with themselves** (Fire complements Fire)
+- **All element combinations are harmonious**
+- Use `scripts/elemental-fixes/fix-elemental-logic.js` to enforce these principles
+
+### Always Use Yarn
+- **Never suggest npm commands**
+- **Always use `yarn` for package management**
+- **Scripts should respect this preference**
+
+### No Backup Files
+- **Scripts must not create backup files**
+- **Use git for version control instead**
+- **Include `--no-backup` flags where applicable** 

@@ -40,4 +40,17 @@ export const recipeSchema = z.object({
 
 export function validateRecipe(recipe: Recipe) {
   return recipeSchema.safeParse(recipe);
+}
+
+// Re-export validation functions from elemental utilities
+export { isElementalProperties } from './elemental/elementalUtils';
+
+// Type guard to check if a string is a valid elemental property key
+export function isElementalPropertyKey(key: any): key is keyof import('@/types/alchemy').ElementalProperties {
+  return typeof key === 'string' && ['Fire', 'Water', 'Earth', 'Air'].includes(key);
+}
+
+// Logs unexpected values for debugging purposes
+export function logUnexpectedValue(context: string, details: any): void {
+  console.warn(`Unexpected value in ${context}:`, details);
 } 

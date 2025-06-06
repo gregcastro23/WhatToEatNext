@@ -179,6 +179,9 @@ const ErrorHandler = new ErrorHandlerService();
 export default ErrorHandler;
 export { ErrorHandler };
 
+// Export with lowercase name for compatibility
+export const errorHandler = ErrorHandler;
+
 /**
  * Global function to safely check if a value exists and has the right type
  * Use this to validate critical values before using them

@@ -1,4 +1,4 @@
-import { planetInfo as planets } from './planets';
+import { planetInfo as planets } from './planets/index';
 
 // Astrological signs data with consistent lowercase for all signs
 export const signs = {

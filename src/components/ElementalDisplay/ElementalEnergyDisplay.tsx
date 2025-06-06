@@ -3,7 +3,7 @@
 import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { ElementType, ElementalEnergy } from '@/types/elements';
-import { calculateElementalEnergies } from '@/calculations/elementalcalculations 3';
+import { calculateElementalEnergies } from '@/calculations/elementalcalculations';
 import { getCachedCalculation } from '@/utils/calculationCache';
 import { isEqual } from 'lodash';
 import { OptimizedComponentWrapper } from '../OptimizedComponentWrapper';

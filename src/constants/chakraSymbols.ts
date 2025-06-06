@@ -1,5 +1,8 @@
 import { Chakra } from './chakraMappings';
 
+// Order of chakras from crown to root
+export const CHAKRA_ORDER = ['crown', 'brow', 'throat', 'heart', 'solarPlexus', 'sacral', 'root'];
+
 // Map of chakra positions to their symbols
 export const CHAKRA_SYMBOLS: Record<string, string> = {
   root: '▼',       // Downward-pointing triangle
