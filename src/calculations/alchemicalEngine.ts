@@ -2188,3 +2188,6 @@ function alchemizeWithSafety(
     };
   }
 }
+
+// Export calculateCurrentPlanetaryPositions for external use
+export { calculateCurrentPlanetaryPositions };

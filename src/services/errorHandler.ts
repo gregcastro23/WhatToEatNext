@@ -141,6 +141,18 @@ class ErrorHandlerService {
   }
 
   /**
+   * Legacy handleError method for backward compatibility
+   */
+  handleError(error: any, context?: any): void {
+    // Delegate to the main log method with proper options
+    this.log(error, {
+      context: context || 'unknown',
+      type: ErrorType.UNKNOWN,
+      severity: ErrorSeverity.ERROR
+    });
+  }
+
+  /**
    * Prepare standardized error details object
    */
   private prepareErrorDetails(error: unknown, options: ErrorOptions): ErrorDetails {
@@ -213,7 +225,7 @@ export function safePropertyAccess<T>(
   context: string
 ): T {
   if (obj === null || obj === undefined) {
-    ErrorHandler.warnNullValue(`${properties.join('.')}.${prop}`, context);
+    warnNullValue(properties.join('.'), context);
     return defaultValue;
   }
 
@@ -221,7 +233,7 @@ export function safePropertyAccess<T>(
     let current: any = obj;
     for (const prop of properties) {
       if (current === null || current === undefined) {
-        ErrorHandler.warnNullValue(`${properties.join('.')}.${prop}`, context);
+        warnNullValue(`${properties.join('.')}.${prop}`, context);
         return defaultValue;
       }
       current = current[prop];
@@ -233,7 +245,7 @@ export function safePropertyAccess<T>(
     
     return current as T;
   } catch (error) {
-    ErrorHandler.handlePropertyAccessError(error, properties.join('.'), context);
+    handlePropertyAccessError(error, properties.join('.'), context);
     return defaultValue;
   }
 }
