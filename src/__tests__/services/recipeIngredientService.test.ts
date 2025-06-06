@@ -4,21 +4,21 @@ import type { Recipe } from '@/types/recipe';
 describe('Recipe Ingredient Processing', () => {
   it('should correctly process recipe ingredients', () => {
     const recipe: Partial<Recipe> = {
-      id: ['test-recipe'],
-      name: ['Test Recipe'],
+      id: 'test-recipe',
+      name: 'Test Recipe',
       ingredients: [
         {
-          name: ['Tomato'],
+          name: 'Tomato',
           amount: 2,
-          unit: ['whole'],
-          category: ['vegetables'],
+          unit: 'whole',
+          category: 'vegetables',
           elementalProperties: { Fire: 0.7, Water: 0.2, Earth: 0.05, Air: 0.05 }
         },
         {
-          name: ['Onion'],
+          name: 'Onion',
           amount: 1,
-          unit: ['medium'],
-          category: ['vegetables'],
+          unit: 'medium',
+          category: 'vegetables',
           elementalProperties: { Earth: 0.5, Fire: 0.2, Water: 0.2, Air: 0.1 }
         }
       ]
@@ -37,14 +37,14 @@ describe('Recipe Ingredient Processing', () => {
 
   it('should handle recipes with missing ingredient properties', () => {
     const recipe: Partial<Recipe> = {
-      id: ['test-recipe'],
-      name: ['Test Recipe'],
+      id: 'test-recipe',
+      name: 'Test Recipe',
       ingredients: [
         {
-          name: ['Test Ingredient'],
+          name: 'Test Ingredient',
           amount: 1,
-          unit: ['piece'],
-          category: ['other']
+          unit: 'piece',
+          category: 'other'
           // No elemental properties
         }
       ]
@@ -60,26 +60,26 @@ describe('Recipe Ingredient Processing', () => {
 
   it('should correctly calculate recipe elemental properties based on ingredients', () => {
     const recipe: Partial<Recipe> = {
-      id: ['test-recipe'],
-      name: ['Test Recipe'],
+      id: 'test-recipe',
+      name: 'Test Recipe',
       ingredients: [
         {
-          name: ['Ingredient1'],
+          name: 'Ingredient1',
           amount: 2,
-          unit: ['cup'],
-          category: ['vegetables'],
+          unit: 'cup',
+          category: 'vegetables',
           elementalProperties: { Fire: 0.8, Water: 0.1, Earth: 0.05, Air: 0.05 }
         },
         {
-          name: ['Ingredient2'],
+          name: 'Ingredient2',
           amount: 1,
-          unit: ['cup'],
-          category: ['vegetables'],
+          unit: 'cup',
+          category: 'vegetables',
           elementalProperties: { Fire: 0.1, Water: 0.8, Earth: 0.05, Air: 0.05 }
         }
       ],
-      cuisine: ['Thai'],
-      cookingMethod: ['frying']
+      cuisine: 'Thai',
+      cookingMethod: 'frying'
     };
     
     const result = recipeElementalService.deriveElementalProperties(recipe);
@@ -93,8 +93,8 @@ describe('Recipe Ingredient Processing', () => {
 
   it('should handle recipes with empty ingredients array', () => {
     const recipe: Partial<Recipe> = {
-      id: ['test-recipe'],
-      name: ['Test Recipe'],
+      id: 'test-recipe',
+      name: 'Test Recipe',
       ingredients: []
     };
     
@@ -108,8 +108,8 @@ describe('Recipe Ingredient Processing', () => {
 
   it('should handle recipes with undefined ingredients', () => {
     const recipe: Partial<Recipe> = {
-      id: ['test-recipe'],
-      name: ['Test Recipe']
+      id: 'test-recipe',
+      name: 'Test Recipe'
       // No ingredients property
     };
     
