@@ -1,3 +1,13 @@
+import React, { useState, useEffect } from 'react';
+import type { ElementalProperties } from '@/types/alchemy';
+
+// Define FoodRecommendationsProps interface
+interface FoodRecommendationsProps {
+  elementalProfile?: ElementalProperties;
+  onRecommendationSelect?: (recommendation: any) => void;
+  maxRecommendations?: number;
+}
+
 import { testCookingMethodRecommendations } from '../utils/testRecommendations';
 
 const FoodRecommendations = ({ ingredient, options = {} }: FoodRecommendationsProps) => {

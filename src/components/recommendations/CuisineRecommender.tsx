@@ -105,6 +105,18 @@ import { Element } from "@/types/alchemy";
 import { ElementalProperties } from "@/types/alchemy";
 import { PlanetaryPosition } from "@/types/celestial";
 
+// Define AlchemicalItem interface for cuisine recommendations
+interface AlchemicalItem {
+  id: string;
+  name: string;
+  type: 'recipe' | 'ingredient' | 'cuisine';
+  elementalProperties: ElementalProperties;
+  astrologicalAffinity?: number;
+  seasonalRelevance?: string[];
+  description?: string;
+}
+
+
 // DUPLICATE: import { Element } from "@/types/alchemy";
 // Keep the interface exports for any code that depends on them
 export interface Cuisine {

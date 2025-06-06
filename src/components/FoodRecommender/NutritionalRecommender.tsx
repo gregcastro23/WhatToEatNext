@@ -8,6 +8,16 @@ import {
 } from '@/services/IngredientFilterService';
 import { ElementalProperties } from '@/types/alchemy';
 
+// Define IngredientMapping interface for nutritional recommendations
+interface IngredientMapping {
+  ingredient: string;
+  nutritionalValue: number;
+  elementalProperties?: ElementalProperties;
+  seasonalAvailability?: string[];
+  healthBenefits?: string[];
+}
+
+
 interface NutritionalRecommenderProps {
   initialFilter?: IngredientFilter;
   itemsPerCategory?: number;
