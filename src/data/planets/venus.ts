@@ -2,12 +2,12 @@ import { PlanetData } from './types';
 
 const venusData: PlanetData = {
   'Dignity Effect': {
-    'Libra': 1, 
-    'Taurus': 1,
-    'Pisces': 2, 
-    'Aries': -1,
-    'Scorpio': -1,
-    'Virgo': -2
+    'libra': 1, 
+    'taurus': 1,
+    'pisces': 2, 
+    'aries': -1,
+    'scorpio': -1,
+    'virgo': -2
   },
   'Elements': ['Water', 'Earth'],
   'Alchemy': {
@@ -251,7 +251,7 @@ const venusData: PlanetData = {
   },
   'PlanetSpecific': {
     'ZodiacTransit': {
-      'Aries': {
+      'aries': {
         'FoodFocus': 'Impulsive food combinations, bold yet balanced flavors, innovative presentation styles',
         'Elements': {
           'Fire': 0.8,
@@ -261,7 +261,7 @@ const venusData: PlanetData = {
         },
         'Ingredients': ['pomegranate', 'arugula', 'pink peppercorns', 'rare meats', 'radishes', 'chili-infused honey']
       },
-      'Taurus': {
+      'taurus': {
         'FoodFocus': 'Rich, indulgent flavors, creamy textures, and luxurious ingredients',
         'Elements': {
           'Fire': 0.2,
@@ -271,7 +271,7 @@ const venusData: PlanetData = {
         },
         'Ingredients': ['truffle', 'mascarpone', 'figs', 'artisanal butter', 'heavy cream', 'vanilla bean']
       },
-      'Gemini': {
+      'gemini': {
         'FoodFocus': 'Playful contrasts, dual presentations, small bites with complex layers',
         'Elements': {
           'Fire': 0.3,
@@ -281,7 +281,7 @@ const venusData: PlanetData = {
         },
         'Ingredients': ['edible flowers', 'microgreens', 'paired tastings', 'sweet and savory combinations', 'infused oils', 'herb-dusted dishes']
       },
-      'Cancer': {
+      'cancer': {
         'FoodFocus': 'Comforting dishes with elegant touches, nostalgic flavors with refined presentation',
         'Elements': {
           'Fire': 0.1,
@@ -291,7 +291,7 @@ const venusData: PlanetData = {
         },
         'Ingredients': ['crab', 'coconut milk', 'delicate seafood', 'vanilla custards', 'almond-based desserts', 'floral teas']
       },
-      'Leo': {
+      'leo': {
         'FoodFocus': 'Impressive, showy dishes, golden colors, luxurious and dramatic presentations',
         'Elements': {
           'Fire': 0.8,
@@ -301,7 +301,7 @@ const venusData: PlanetData = {
         },
         'Ingredients': ['saffron', 'golden foods', 'honey', 'orange blossom water', 'high-quality olive oil', 'edible gold']
       },
-      'Virgo': {
+      'virgo': {
         'FoodFocus': 'Precisely created dishes with health-conscious elements, purified flavors',
         'Elements': {
           'Fire': 0.2,
@@ -311,7 +311,7 @@ const venusData: PlanetData = {
         },
         'Ingredients': ['refined grains', 'fermented dairy', 'subtle herbs', 'pure honey', 'elegant vegetable preparations', 'delicate spices']
       },
-      'Libra': {
+      'libra': {
         'FoodFocus': 'Balanced, elegant dishes with visual appeal and harmonious flavors',
         'Elements': {
           'Fire': 0.3,
@@ -321,7 +321,7 @@ const venusData: PlanetData = {
         },
         'Ingredients': ['rose water', 'balanced vinaigrettes', 'symmetrical presentations', 'elegant appetizers', 'champagne', 'pretty garnishes']
       },
-      'Scorpio': {
+      'scorpio': {
         'FoodFocus': 'Intense flavors with luxurious undertones, mysterious and sensual food experiences',
         'Elements': {
           'Fire': 0.4,
@@ -331,7 +331,7 @@ const venusData: PlanetData = {
         },
         'Ingredients': ['dark chocolate', 'red wine reductions', 'black foods', 'aphrodisiacs', 'fermented fruits', 'rich sauces']
       },
-      'Sagittarius': {
+      'sagittarius': {
         'FoodFocus': 'Internationally inspired elegant cuisine, exotic flavors with refined touches',
         'Elements': {
           'Fire': 0.8,
@@ -341,7 +341,7 @@ const venusData: PlanetData = {
         },
         'Ingredients': ['cardamom', 'exotic fruits', 'refined global spices', 'botanical liqueurs', 'sophisticated fusion dishes', 'elegant preserved foods']
       },
-      'Capricorn': {
+      'capricorn': {
         'FoodFocus': 'Traditional dishes with modern elegance, refined comfort foods, enduring classics',
         'Elements': {
           'Fire': 0.2,
@@ -351,7 +351,7 @@ const venusData: PlanetData = {
         },
         'Ingredients': ['aged cheeses', 'refined grains', 'winter vegetables', 'preserved fruits', 'elegant desserts', 'classic sauces perfected']
       },
-      'Aquarius': {
+      'aquarius': {
         'FoodFocus': 'Innovative presentations of beautiful foods, unexpected pleasant flavor combinations',
         'Elements': {
           'Fire': 0.3,
@@ -361,7 +361,7 @@ const venusData: PlanetData = {
         },
         'Ingredients': ['unusual fruits', 'modern culinary techniques', 'unexpected sweet applications', 'beautiful patterns', 'elegant molecular gastronomy', 'futuristic presentations']
       },
-      'Pisces': {
+      'pisces': {
         'FoodFocus': 'Ethereal dishes with delicate flavors, dreamy presentations, otherworldly experiences',
         'Elements': {
           'Fire': 0.1,
@@ -384,18 +384,18 @@ const venusData: PlanetData = {
       'HerbalShift': 'Greater potency in dried herbs over fresh, intensified flavors, preserved ingredients'
     },
     'TransitDates': {
-      'Aries': { 'Start': '2024-05-23', 'End': '2024-06-17' },
-      'Taurus': { 'Start': '2024-06-17', 'End': '2024-07-11' },
-      'Gemini': { 'Start': '2024-07-11', 'End': '2024-08-04' },
-      'Cancer': { 'Start': '2024-08-04', 'End': '2024-08-28' },
-      'Leo': { 'Start': '2024-08-28', 'End': '2024-09-22' },
-      'Virgo': { 'Start': '2024-09-22', 'End': '2024-10-17' },
-      'Libra': { 'Start': '2024-10-17', 'End': '2024-11-11' },
-      'Scorpio': { 'Start': '2024-11-11', 'End': '2024-12-07' },
-      'Sagittarius': { 'Start': '2024-12-07', 'End': '2025-01-03' },
-      'Capricorn': { 'Start': '2025-01-03', 'End': '2025-01-27' },
-      'Aquarius': { 'Start': '2025-01-27', 'End': '2025-02-20' },
-      'Pisces': { 'Start': '2025-02-20', 'End': '2025-03-16' }
+      'aries': { 'Start': '2024-05-23', 'End': '2024-06-17' },
+      'taurus': { 'Start': '2024-06-17', 'End': '2024-07-11' },
+      'gemini': { 'Start': '2024-07-11', 'End': '2024-08-04' },
+      'cancer': { 'Start': '2024-08-04', 'End': '2024-08-28' },
+      'leo': { 'Start': '2024-08-28', 'End': '2024-09-22' },
+      'virgo': { 'Start': '2024-09-22', 'End': '2024-10-17' },
+      'libra': { 'Start': '2024-10-17', 'End': '2024-11-11' },
+      'scorpio': { 'Start': '2024-11-11', 'End': '2024-12-07' },
+      'sagittarius': { 'Start': '2024-12-07', 'End': '2025-01-03' },
+      'capricorn': { 'Start': '2025-01-03', 'End': '2025-01-27' },
+      'aquarius': { 'Start': '2025-01-27', 'End': '2025-02-20' },
+      'pisces': { 'Start': '2025-02-20', 'End': '2025-03-16' }
     },
     'CulinaryTechniques': {
       'Flavor Balancing': 0.9,

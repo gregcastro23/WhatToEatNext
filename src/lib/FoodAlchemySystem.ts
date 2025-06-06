@@ -17,52 +17,52 @@ const planetaryElements: Record<string, {
   'Sun': { 
     diurnal: 'Fire', 
     nocturnal: 'Fire',
-    dignityEffect: {'Leo': 1, 'Aries': 2, 'Aquarius': -1, 'Libra': -2}
+    dignityEffect: {'leo': 1, 'aries': 2, 'aquarius': -1, 'libra': -2}
   },
   'Moon': { 
     diurnal: 'Water', 
     nocturnal: 'Water',
-    dignityEffect: {'Cancer': 1, 'Taurus': 2, 'Capricorn': -1, 'Scorpio': -2}
+    dignityEffect: {'cancer': 1, 'taurus': 2, 'capricorn': -1, 'scorpio': -2}
   },
   'Mercury': { 
     diurnal: 'Air', 
     nocturnal: 'Earth',
-    dignityEffect: {'Gemini': 1, 'Virgo': 3, 'Sagittarius': 1, 'Pisces': -3}
+    dignityEffect: {'gemini': 1, 'virgo': 3, 'sagittarius': 1, 'pisces': -3}
   },
   'Venus': { 
     diurnal: 'Water', 
     nocturnal: 'Earth',
-    dignityEffect: {'Libra': 1, 'Taurus': 1, 'Pisces': 2, 'Aries': -1, 'Scorpio': -1, 'Virgo': -2}
+    dignityEffect: {'libra': 1, 'taurus': 1, 'pisces': 2, 'aries': -1, 'scorpio': -1, 'virgo': -2}
   },
   'Mars': { 
     diurnal: 'Fire', 
     nocturnal: 'Water',
-    dignityEffect: {'Aries': 1, 'Scorpio': 1, 'Capricorn': 2, 'Taurus': -1, 'Libra': -1, 'Cancer': -2}
+    dignityEffect: {'aries': 1, 'scorpio': 1, 'capricorn': 2, 'taurus': -1, 'libra': -1, 'cancer': -2}
   },
   'Jupiter': { 
     diurnal: 'Air', 
     nocturnal: 'Fire',
-    dignityEffect: {'Pisces': 1, 'Sagittarius': 1, 'Cancer': 2, 'Gemini': -1, 'Virgo': -1, 'Capricorn': -2}
+    dignityEffect: {'pisces': 1, 'sagittarius': 1, 'cancer': 2, 'gemini': -1, 'virgo': -1, 'capricorn': -2}
   },
   'Saturn': { 
     diurnal: 'Air', 
     nocturnal: 'Earth',
-    dignityEffect: {'Aquarius': 1, 'Capricorn': 1, 'Libra': 2, 'Cancer': -1, 'Leo': -1, 'Aries': -2}
+    dignityEffect: {'aquarius': 1, 'capricorn': 1, 'libra': 2, 'cancer': -1, 'leo': -1, 'aries': -2}
   },
   'Uranus': { 
     diurnal: 'Water', 
     nocturnal: 'Air',
-    dignityEffect: {'Aquarius': 1, 'Scorpio': 2, 'Taurus': -3}
+    dignityEffect: {'aquarius': 1, 'scorpio': 2, 'taurus': -3}
   },
   'Neptune': { 
     diurnal: 'Water', 
     nocturnal: 'Water',
-    dignityEffect: {'Pisces': 1, 'Cancer': 2, 'Virgo': -1, 'Capricorn': -2}
+    dignityEffect: {'pisces': 1, 'cancer': 2, 'virgo': -1, 'capricorn': -2}
   },
   'Pluto': { 
     diurnal: 'Earth', 
     nocturnal: 'Water',
-    dignityEffect: {'Scorpio': 1, 'Leo': 2, 'Taurus': -1, 'Aquarius': -2}
+    dignityEffect: {'scorpio': 1, 'leo': 2, 'taurus': -1, 'aquarius': -2}
   }
 };
 
@@ -74,62 +74,62 @@ const signInfo: Record<string, {
   decanEffects: Record<string, string[]>, 
   degreeEffects: Record<string, number[]> 
 }> = {
-  'Aries': {
+  'aries': {
     element: 'Fire',
     decanEffects: { '1st Decan': ['Mars'], '2nd Decan': ['Sun'], '3rd Decan': ['Venus'] },
     degreeEffects: { 'Mercury': [15, 21], 'Venus': [7, 14], 'Mars': [22, 26], 'Jupiter': [1, 6], 'Saturn': [27, 30] }
   },
-  'Taurus': {
+  'taurus': {
     element: 'Earth',
     decanEffects: { '1st Decan': ['Mercury'], '2nd Decan': ['Moon'], '3rd Decan': ['Saturn'] },
     degreeEffects: { 'Mercury': [9, 15], 'Venus': [1, 8], 'Mars': [27, 30], 'Jupiter': [16, 22], 'Saturn': [23, 26] }
   },
-  'Gemini': {
+  'gemini': {
     element: 'Air',
     decanEffects: { '1st Decan': ['Jupiter'], '2nd Decan': ['Mars'], '3rd Decan': ['Uranus', 'Sun'] },
     degreeEffects: { 'Mercury': [1, 7], 'Venus': [15, 20], 'Mars': [26, 30], 'Jupiter': [8, 14], 'Saturn': [22, 25] }
   },
-  'Cancer': {
+  'cancer': {
     element: 'Water',
     decanEffects: { '1st Decan': ['Venus'], '2nd Decan': ['Mercury', 'Pluto'], '3rd Decan': ['Neptune', 'Moon'] },
     degreeEffects: { 'Mercury': [14, 20], 'Venus': [21, 27], 'Mars': [1, 6], 'Jupiter': [7, 13], 'Saturn': [28, 30] }
   },
-  'Leo': {
+  'leo': {
     element: 'Fire',
     decanEffects: { '1st Decan': ['Saturn'], '2nd Decan': ['Jupiter'], '3rd Decan': ['Mars'] },
     degreeEffects: { 'Mercury': [7, 13], 'Venus': [14, 19], 'Mars': [26, 30], 'Jupiter': [20, 25], 'Saturn': [1, 6] }
   },
-  'Virgo': {
+  'virgo': {
     element: 'Earth',
     decanEffects: { '1st Decan': ['Mars', 'Sun'], '2nd Decan': ['Venus'], '3rd Decan': ['Mercury'] },
     degreeEffects: { 'Mercury': [1, 7], 'Venus': [8, 13], 'Mars': [25, 30], 'Jupiter': [14, 18], 'Saturn': [19, 24] }
   },
-  'Libra': {
+  'libra': {
     element: 'Air',
     decanEffects: { '1st Decan': ['Moon'], '2nd Decan': ['Saturn', 'Uranus'], '3rd Decan': ['Jupiter'] },
     degreeEffects: { 'Mercury': [20, 24], 'Venus': [7, 11], 'Mars': [], 'Jupiter': [12, 19], 'Saturn': [1, 6] }
   },
-  'Scorpio': {
+  'scorpio': {
     element: 'Water',
     decanEffects: { '1st Decan': ['Pluto'], '2nd Decan': ['Neptune', 'Sun'], '3rd Decan': ['Venus'] },
     degreeEffects: { 'Mercury': [22, 27], 'Venus': [15, 21], 'Mars': [1, 6], 'Jupiter': [7, 14], 'Saturn': [28, 30] }
   },
-  'Sagittarius': {
+  'sagittarius': {
     element: 'Fire',
     decanEffects: { '1st Decan': ['Mercury'], '2nd Decan': ['Moon'], '3rd Decan': ['Saturn'] },
     degreeEffects: { 'Mercury': [15, 20], 'Venus': [9, 14], 'Mars': [], 'Jupiter': [1, 8], 'Saturn': [21, 25] }
   },
-  'Capricorn': {
+  'capricorn': {
     element: 'Earth',
     decanEffects: { '1st Decan': ['Jupiter'], '2nd Decan': [], '3rd Decan': ['Sun'] },
     degreeEffects: { 'Mercury': [7, 12], 'Venus': [1, 6], 'Mars': [], 'Jupiter': [13, 19], 'Saturn': [26, 30] }
   },
-  'Aquarius': {
+  'aquarius': {
     element: 'Air',
     decanEffects: { '1st Decan': ['Uranus'], '2nd Decan': ['Mercury'], '3rd Decan': ['Moon'] },
     degreeEffects: { 'Mercury': [], 'Venus': [13, 20], 'Mars': [26, 30], 'Jupiter': [21, 25], 'Saturn': [1, 6] }
   },
-  'Pisces': {
+  'pisces': {
     element: 'Water',
     decanEffects: { '1st Decan': ['Saturn', 'Neptune', 'Venus'], '2nd Decan': ['Jupiter'], '3rd Decan': ['Pisces', 'Mars'] },
     degreeEffects: { 'Mercury': [15, 20], 'Venus': [1, 8], 'Mars': [21, 26], 'Jupiter': [9, 14], 'Saturn': [27, 30] }

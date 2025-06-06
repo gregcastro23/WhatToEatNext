@@ -15,6 +15,56 @@ import { fruits } from '../data/ingredients/fruits';
 import { logger } from '../utils/logger';
 import type { Recipe } from '../types/recipe';
 
+
+// Phase 10: Calculation Type Interfaces
+interface CalculationData {
+  value: number;
+  weight?: number;
+  score?: number;
+}
+
+interface ScoredItem {
+  score: number;
+  [key: string]: unknown;
+}
+
+interface ElementalData {
+  Fire: number;
+  Water: number;
+  Earth: number;
+  Air: number;
+  [key: string]: unknown;
+}
+
+interface CuisineData {
+  id: string;
+  name: string;
+  zodiacInfluences?: string[];
+  planetaryDignities?: Record<string, unknown>;
+  elementalState?: ElementalData;
+  elementalProperties?: ElementalData;
+  modality?: string;
+  gregsEnergy?: number;
+  [key: string]: unknown;
+}
+
+interface NutrientData {
+  nutrient?: { name?: string };
+  nutrientName?: string;
+  name?: string;
+  vitaminCount?: number;
+  data?: unknown;
+  [key: string]: unknown;
+}
+
+interface MatchingResult {
+  score: number;
+  elements: ElementalData;
+  recipe?: unknown;
+  [key: string]: unknown;
+}
+
+
 import type { Season } from '@/types/seasons';
 import type { ZodiacSign } from '../types/zodiac';
 import type { ElementalFilter } from '../types/elemental';
@@ -1239,7 +1289,7 @@ export class IngredientService implements IngredientServiceInterface {
       }
       
       // Sort pAirings by score
-      pAirings.sort((a, b) => b.score - a.score);
+      pAirings.sort((a, b) => (a as ScoredItem).score - (b as ScoredItem).score);
       
       // Get strong and weak pAirings
       result.strongPAirings = pAirings
@@ -1395,7 +1445,7 @@ export class IngredientService implements IngredientServiceInterface {
           ingredient: candidate,
           score: this.calculateIngredientCompatibility(targetIngredient, candidate)?.score
         }))
-        .sort((a, b) => b.score - a.score)
+        .sort((a, b) => (a as ScoredItem).score - (b as ScoredItem).score)
         .slice(0, maxResults)
         .map(result => result.ingredient);
       

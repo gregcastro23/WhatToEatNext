@@ -6,7 +6,7 @@ const sunData: PlanetData = {
     'leo': 1,
     'aries': 2,
     'aquarius': -1,
-    'Libra': -2
+    'libra': -2
   },
   'Elements': ['Fire', 'Fire'],
   'Alchemy': {
@@ -183,7 +183,7 @@ const sunData: PlanetData = {
             'Water': 0.2
           }
         },
-        'Libra': {
+        'libra': {
           'FoodFocus': 'Balanced flavor profiles, beautiful presentation, shared plates',
           'Elements': {
             'Fire': 0.3,
@@ -192,7 +192,7 @@ const sunData: PlanetData = {
             'Water': 0.3
           }
         },
-        'Scorpio': {
+        'scorpio': {
           'FoodFocus': 'Fermented foods, strong flavors, transformative cooking',
           'Elements': {
             'Fire': 0.4,

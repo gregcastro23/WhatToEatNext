@@ -12,7 +12,7 @@ export function testCookingMethodRecommendations() {
   // Create a mock ingredient
   const mockIngredient: AlchemicalItem = {
     name: 'Tomato',
-    element: 'water',
+    element: 'Water',
     elementalCharacter: 'Substance',
     spirit: 0.4,
     essence: 0.3,
@@ -26,16 +26,16 @@ export function testCookingMethodRecommendations() {
 
   // Create mock cooking methods
   const mockCookingMethods = [
-    { name: 'baking', element: 'fire' },
-    { name: 'boiling', element: 'water' },
-    { name: 'grilling', element: 'fire' },
-    { name: 'steaming', element: 'water' },
-    { name: 'sauteing', element: 'air' },
-    { name: 'roasting', element: 'fire' },
-    { name: 'braising', element: 'water' },
-    { name: 'poaching', element: 'water' },
-    { name: 'frying', element: 'fire' },
-    { name: 'fermenting', element: 'earth' }
+    { name: 'baking', element: 'Fire' },
+    { name: 'boiling', element: 'Water' },
+    { name: 'grilling', element: 'Fire' },
+    { name: 'steaming', element: 'Water' },
+    { name: 'sauteing', element: 'Air' },
+    { name: 'roasting', element: 'Fire' },
+    { name: 'braising', element: 'Water' },
+    { name: 'poaching', element: 'Water' },
+    { name: 'frying', element: 'Fire' },
+    { name: 'fermenting', element: 'Earth' }
   ];
 
   // Run the test

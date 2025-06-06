@@ -106,8 +106,8 @@ export function useCurrentChart() {
       'cancer': '♋',
       'leo': '♌',
       'virgo': '♍',
-      'Libra': '♎',
-      'Scorpio': '♏',
+      'libra': '♎',
+      'scorpio': '♏',
       'sagittarius': '♐',
       'capricorn': '♑',
       'aquarius': '♒',
@@ -123,10 +123,10 @@ export function useCurrentChart() {
       'virgo': '#8bc34a', // Earth
       'capricorn': '#5d9c59', // Earth
       'gemini': '#7ac7ff', // Air
-      'Libra': '#a8d1f7', // Air
+      'libra': '#a8d1f7', // Air
       'aquarius': '#64b5f6', // Air
       'cancer': '#64b5f6', // Water
-      'Scorpio': '#0d6efd', // Water
+      'scorpio': '#0d6efd', // Water
       'pisces': '#00bcd4' // Water
     };
 

@@ -195,7 +195,7 @@ export const planetaryNutrientRulership: Record<string, string> = {
   'mercury': 'fiber',  // Mercury rules fiber (communication, movement, cleansing)
   'saturn': 'minerals', // Saturn rules minerals (structure, foundation, discipline)
   'sun': 'vitamins',   // Sun rules vitamins (vitality, energy, life force)
-  'moon': 'water'      // Moon rules water (emotions, fluidity, cleansing)
+  'moon': 'Water'      // Moon rules water (emotions, fluidity, cleansing)
 };
 
 // Elemental food affinities

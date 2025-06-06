@@ -1,3 +1,53 @@
+
+
+// Phase 10: Calculation Type Interfaces
+interface CalculationData {
+  value: number;
+  weight?: number;
+  score?: number;
+}
+
+interface ScoredItem {
+  score: number;
+  [key: string]: unknown;
+}
+
+interface ElementalData {
+  Fire: number;
+  Water: number;
+  Earth: number;
+  Air: number;
+  [key: string]: unknown;
+}
+
+interface CuisineData {
+  id: string;
+  name: string;
+  zodiacInfluences?: string[];
+  planetaryDignities?: Record<string, unknown>;
+  elementalState?: ElementalData;
+  elementalProperties?: ElementalData;
+  modality?: string;
+  gregsEnergy?: number;
+  [key: string]: unknown;
+}
+
+interface NutrientData {
+  nutrient?: { name?: string };
+  nutrientName?: string;
+  name?: string;
+  vitaminCount?: number;
+  data?: unknown;
+  [key: string]: unknown;
+}
+
+interface MatchingResult {
+  score: number;
+  elements: ElementalData;
+  recipe?: unknown;
+  [key: string]: unknown;
+}
+
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -249,7 +299,7 @@ export default function RecipeRecommendations() {
       }
 
       // Sort by score (descending)
-      return scoredRecipes.sort((a, b) => b.score - a.score).slice(0, 5);
+      return scoredRecipes.sort((a, b) => (a as ScoredItem).score - (b as ScoredItem).score).slice(0, 5);
     } catch (err) {
       console.error('Error calculating recipe recommendations:', err);
       return [];

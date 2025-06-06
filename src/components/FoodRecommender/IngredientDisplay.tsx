@@ -24,12 +24,12 @@ export default function IngredientDisplay() {
         
         // Simple mock data for display purposes
         const mockIngredients: Ingredient[] = [
-          { name: 'Ginger', category: 'Herbs', element: 'fire', energyLevel: 0.8, score: 0.9 },
-          { name: 'Spinach', category: 'Vegetables', element: 'earth', energyLevel: 0.6, score: 0.85 },
-          { name: 'Salmon', category: 'Proteins', element: 'water', energyLevel: 0.7, score: 0.8 },
-          { name: 'Bell Pepper', category: 'Vegetables', element: 'fire', energyLevel: 0.75, score: 0.78 },
-          { name: 'Quinoa', category: 'Grains', element: 'earth', energyLevel: 0.65, score: 0.77 },
-          { name: 'Cucumber', category: 'Vegetables', element: 'water', energyLevel: 0.5, score: 0.75 },
+          { name: 'Ginger', category: 'Herbs', element: 'Fire', energyLevel: 0.8, score: 0.9 },
+          { name: 'Spinach', category: 'Vegetables', element: 'Earth', energyLevel: 0.6, score: 0.85 },
+          { name: 'Salmon', category: 'Proteins', element: 'Water', energyLevel: 0.7, score: 0.8 },
+          { name: 'Bell Pepper', category: 'Vegetables', element: 'Fire', energyLevel: 0.75, score: 0.78 },
+          { name: 'Quinoa', category: 'Grains', element: 'Earth', energyLevel: 0.65, score: 0.77 },
+          { name: 'Cucumber', category: 'Vegetables', element: 'Water', energyLevel: 0.5, score: 0.75 },
         ];
         
         // Simulate API delay

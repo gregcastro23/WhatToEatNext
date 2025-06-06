@@ -146,7 +146,7 @@ export const chinese = {
           cookingMethods: ["simmering", "slow-cooking"],
           ingredients: [
             { name: "rice", amount: "1", unit: "cup", category: "grain" },
-            { name: "water", amount: "10", unit: "cups", category: "liquid" },
+            { name: "Water", amount: "10", unit: "cups", category: "liquid" },
             { name: "ginger", amount: "3", unit: "slices", category: "aromatic" },
             { name: "scallions", amount: "2", unit: "stalks", category: "vegetable", swaps: ["chives"] },
             { name: "century egg", amount: "1", unit: "piece", category: "protein", optional: true, swaps: ["salted duck egg"] }
@@ -226,7 +226,7 @@ export const chinese = {
           cookingMethods: ["blending", "straining", "simmering"],
           ingredients: [
             { name: "soybeans", amount: "1", unit: "cup", category: "legume" },
-            { name: "water", amount: "8", unit: "cups", category: "liquid" },
+            { name: "Water", amount: "8", unit: "cups", category: "liquid" },
             { name: "sugar", amount: "2", unit: "tbsp", category: "sweetener", optional: true },
             { name: "salt", amount: "1/2", unit: "tsp", category: "seasoning", optional: true },
             { name: "youtiao", amount: "2", unit: "pieces", category: "bread", swaps: ["fried breadsticks"] }

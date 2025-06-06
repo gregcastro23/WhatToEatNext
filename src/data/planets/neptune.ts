@@ -2,10 +2,10 @@ import { PlanetData } from './types';
 
 const neptuneData: PlanetData = {
   'Dignity Effect': {
-    'Pisces': 1,
-    'Cancer': 2,
-    'Virgo': -1,
-    'Capricorn': -2
+    'pisces': 1,
+    'cancer': 2,
+    'virgo': -1,
+    'capricorn': -2
   },
   'Elements': ['Water', 'Water'],
   'Alchemy': {
@@ -173,7 +173,7 @@ const neptuneData: PlanetData = {
   },
   'PlanetSpecific': {
     'ZodiacTransit': {
-      'Pisces': {
+      'pisces': {
         'FoodFocus': 'Mystical and transcendent culinary experiences, subtle and elusive flavors',
         'Elements': {
           'Fire': 0.1,
@@ -185,7 +185,7 @@ const neptuneData: PlanetData = {
         'FavoredIngredients': ['seafood', 'edible flowers', 'clear broths', 'delicate herbs', 'iridescent garnishes', 'misty foams'],
         'FlavorCombinations': 'Subtle layering, barely perceptible transitions, ethereal flavor landscapes'
       },
-      'Cancer': {
+      'cancer': {
         'FoodFocus': 'Emotionally soothing foods with nostalgic qualities, nurturing dishes with gentle flavors',
         'Elements': {
           'Fire': 0.1,
@@ -197,7 +197,7 @@ const neptuneData: PlanetData = {
         'FavoredIngredients': ['shellfish', 'dairy', 'comfort foods with elevated presentation', 'moon-reflecting foods', 'emotionally resonant dishes'],
         'FlavorCombinations': 'Nurturing blends, emotionally evocative tastes, soothing progressive flavor profiles'
       },
-      'Virgo': {
+      'virgo': {
         'FoodFocus': 'Precise ethereal presentations that bring clarity to subtlety, healing food experiences',
         'Elements': {
           'Fire': 0.1,
@@ -236,7 +236,7 @@ const neptuneData: PlanetData = {
       }
     },
     'TransitDates': {
-      'Pisces': {
+      'pisces': {
         '1stDecan': { 
           'Start': '2012-02-03', 
           'End': '2020-03-30',
@@ -265,7 +265,7 @@ const neptuneData: PlanetData = {
           }
         }
       },
-      'Aries': {
+      'aries': {
         '1stDecan': { 
           'Start': '2036-02-20', 
           'End': '2039-07-12',

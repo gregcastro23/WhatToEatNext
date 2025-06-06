@@ -136,10 +136,10 @@ export function getPlanetInfo(
         normalizedPlanetName === 'SouthNode') {
       // Set elemental influence based on the sign
       const signToElement: Record<string, string> = {
-        'aries': 'fire', 'leo': 'fire', 'sagittarius': 'fire',
-        'taurus': 'earth', 'virgo': 'earth', 'capricorn': 'earth',
-        'gemini': 'air', 'libra': 'air', 'aquarius': 'air',
-        'cancer': 'water', 'scorpio': 'water', 'pisces': 'water'
+        'aries': 'Fire', 'leo': 'Fire', 'sagittarius': 'Fire',
+        'taurus': 'Earth', 'virgo': 'Earth', 'capricorn': 'Earth',
+        'gemini': 'Air', 'libra': 'Air', 'aquarius': 'Air',
+        'cancer': 'Water', 'scorpio': 'Water', 'pisces': 'Water'
       };
       
       const element = signToElement[planetPosition.sign] || 'air';
@@ -168,10 +168,10 @@ export function getPlanetInfo(
         normalizedPlanetName === 'SouthNode') {
       // Set token influence based on the sign element
       const signToElement: Record<string, string> = {
-        'aries': 'fire', 'leo': 'fire', 'sagittarius': 'fire',
-        'taurus': 'earth', 'virgo': 'earth', 'capricorn': 'earth',
-        'gemini': 'air', 'libra': 'air', 'aquarius': 'air',
-        'cancer': 'water', 'scorpio': 'water', 'pisces': 'water'
+        'aries': 'Fire', 'leo': 'Fire', 'sagittarius': 'Fire',
+        'taurus': 'Earth', 'virgo': 'Earth', 'capricorn': 'Earth',
+        'gemini': 'Air', 'libra': 'Air', 'aquarius': 'Air',
+        'cancer': 'Water', 'scorpio': 'Water', 'pisces': 'Water'
       };
       
       const element = signToElement[planetPosition.sign] || 'air';

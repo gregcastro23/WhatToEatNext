@@ -66,7 +66,7 @@ export const poaching: CookingMethodData = {
   ],
   astrologicalInfluences: {
     favorableZodiac: ['pisces', 'cancer', 'scorpio', 'libra'] as ZodiacSign[], // Water signs and balanced Libra
-    unfavorableZodiac: ['aries', 'leo', 'sagittarius'] as ZodiacSign[], // Fire signs oppose the gentle water method
+    unfavorableZodiac: ['aries', 'leo', 'sagittarius'] as ZodiacSign[], // Fire signs prefer more dynamic cooking methods
     dominantPlanets: ['Venus', 'Neptune', 'Moon'], // Venus (harmony), Neptune (subtlety), Moon (fluidity)
     rulingPlanets: ['Venus', 'Neptune'], // Primary rulers - gentleness and subtlety
     lunarPhaseEffect: {

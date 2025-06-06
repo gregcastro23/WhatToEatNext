@@ -1,4 +1,53 @@
+
 'use client';
+
+// Phase 10: Calculation Type Interfaces
+interface CalculationData {
+  value: number;
+  weight?: number;
+  score?: number;
+}
+
+interface ScoredItem {
+  score: number;
+  [key: string]: unknown;
+}
+
+interface ElementalData {
+  Fire: number;
+  Water: number;
+  Earth: number;
+  Air: number;
+  [key: string]: unknown;
+}
+
+interface CuisineData {
+  id: string;
+  name: string;
+  zodiacInfluences?: string[];
+  planetaryDignities?: Record<string, unknown>;
+  elementalState?: ElementalData;
+  elementalProperties?: ElementalData;
+  modality?: string;
+  gregsEnergy?: number;
+  [key: string]: unknown;
+}
+
+interface NutrientData {
+  nutrient?: { name?: string };
+  nutrientName?: string;
+  name?: string;
+  vitaminCount?: number;
+  data?: unknown;
+  [key: string]: unknown;
+}
+
+interface MatchingResult {
+  score: number;
+  elements: ElementalData;
+  recipe?: unknown;
+  [key: string]: unknown;
+}
 
 import { useState, useEffect, useMemo, useRef } from 'react';
 import { useAstrologicalState } from '@/hooks/useAstrologicalState';
@@ -734,7 +783,7 @@ export default function CuisineRecommender() {
 
     // Sort cuisines by score and return more recommendations to fill the page
     return transformedCuisines
-      .sort((a, b) => b.score - a.score)
+      .sort((a, b) => (a as ScoredItem).score - (b as ScoredItem).score)
       .slice(0, 18); // Increased from 10 to 18
   }
 
@@ -1117,7 +1166,7 @@ export default function CuisineRecommender() {
                 <div>
                   <span className="text-xs font-medium text-gray-500 block mb-1">Zodiac:</span>
                   <div className="flex flex-wrap gap-1 mb-2">
-                    {selectedCuisineData.zodiacInfluences.map(sign => (
+                    {(selectedCuisineData.zodiacInfluences as string[]).map(sign => (
                       <span 
                         key={sign} 
                         className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs

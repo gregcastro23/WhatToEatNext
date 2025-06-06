@@ -774,7 +774,7 @@ export const mexican = {
           astrologicalProfile: {
             favorableZodiac: ["leo", "sagittarius"],
             rulingPlanets: ["sun", "jupiter"],
-            elementalAffinity: "fire"
+            elementalAffinity: "Fire"
           }
         },
         {
@@ -783,7 +783,7 @@ export const mexican = {
           cuisine: "Mexican",
           ingredients: [
             { name: "flour", amount: "2", unit: "cups", category: "grain", swaps: ["gluten-free flour blend"] },
-            { name: "water", amount: "2", unit: "cups", category: "liquid" },
+            { name: "Water", amount: "2", unit: "cups", category: "liquid" },
             { name: "cinnamon sugar", amount: "1", unit: "cup", category: "sweetener" },
             { name: "chocolate sauce", amount: "1", unit: "cup", category: "sauce" }
           ],

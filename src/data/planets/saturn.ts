@@ -2,12 +2,12 @@ import { PlanetData } from './types';
 
 const saturnData: PlanetData = {
   'Dignity Effect': {
-    'Aquarius': 1,
-    'Capricorn': 1,
-    'Libra': 2,
-    'Cancer': -1,
-    'Leo': -1,
-    'Aries': -2
+    'aquarius': 1,
+    'capricorn': 1,
+    'libra': 2,
+    'cancer': -1,
+    'leo': -1,
+    'aries': -2
   },
   'Elements': ['Air', 'Earth'],
   'Alchemy': {
@@ -230,7 +230,7 @@ const saturnData: PlanetData = {
   },
   'PlanetSpecific': {
     'ZodiacTransit': {
-      'Capricorn': {
+      'capricorn': {
         'FoodFocus': 'Traditional, structured dishes with aged ingredients and earthy flavors',
         'Elements': {
           'Fire': 0.1,
@@ -240,7 +240,7 @@ const saturnData: PlanetData = {
         },
         'Ingredients': ['root vegetables', 'aged cheese', 'preserved meats', 'traditional grains', 'heirloom varieties', 'bone broths']
       },
-      'Aquarius': {
+      'aquarius': {
         'FoodFocus': 'Innovative preservation techniques, unusual combinations of traditional ingredients',
         'Elements': {
           'Fire': 0.2,
@@ -250,7 +250,7 @@ const saturnData: PlanetData = {
         },
         'Ingredients': ['fermented foods', 'ancient grains', 'heritage ingredients', 'experimental preservation', 'structured presentations']
       },
-      'Libra': {
+      'libra': {
         'FoodFocus': 'Balanced traditional dishes with careful attention to structure and proportion',
         'Elements': {
           'Fire': 0.1,
@@ -260,7 +260,7 @@ const saturnData: PlanetData = {
         },
         'Ingredients': ['precisely measured ingredients', 'balanced bitter elements', 'aged vinegars', 'structured flavor profiles', 'architectural presentations']
       },
-      'Taurus': {
+      'taurus': {
         'FoodFocus': 'Disciplined earth-focused cooking with emphasis on time-honored techniques and patient preparation',
         'Elements': {
           'Fire': 0.1,

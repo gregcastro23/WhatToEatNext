@@ -362,10 +362,10 @@ export function calculateRecipeZodiacCompatibility(mainIngredientSign: ZodiacSig
   
   // Get elements (from zodiacUtils)
   const elementMap: Record<ZodiacSign, string> = {
-    aries: 'fire', leo: 'fire', sagittarius: 'fire',
-    taurus: 'earth', virgo: 'earth', capricorn: 'earth',
-    gemini: 'air', libra: 'air', aquarius: 'air',
-    cancer: 'water', scorpio: 'water', pisces: 'water'
+    aries: 'Fire', leo: 'Fire', sagittarius: 'Fire',
+    taurus: 'Earth', virgo: 'Earth', capricorn: 'Earth',
+    gemini: 'Air', libra: 'Air', aquarius: 'Air',
+    cancer: 'Water', scorpio: 'Water', pisces: 'Water'
   };
   
   const ingredientElement = elementMap[mainIngredientSign];

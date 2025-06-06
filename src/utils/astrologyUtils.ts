@@ -767,8 +767,8 @@ export function getTraditionalRuler(sign: string): string {
     'cancer': 'Moon',
     'leo': 'Sun',
     'virgo': 'Mercury',
-    'Libra': 'Venus',
-    'Scorpio': 'Mars', // Traditional ruler (before Pluto)
+    'libra': 'Venus',
+    'scorpio': 'Mars', // Traditional ruler (before Pluto)
     'sagittarius': 'Jupiter',
     'capricorn': 'Saturn',
     'aquarius': 'Saturn', // Traditional ruler (before Uranus)
@@ -838,7 +838,7 @@ export function calculateEnhancedStelliumEffects(
             planetElement = 'water';
             break;
           case 'mercury':
-            planetElement = planetPositions[planet]?.degree < 15 ? 'air' : 'earth'; // First half: Air, Second half: Earth
+            planetElement = planetPositions[planet]?.degree < 15 ? 'air' : 'Earth'; // First half: Air, Second half: Earth
             break;
           case 'venus':
             planetElement = 'water';
@@ -952,10 +952,10 @@ export function calculateEnhancedStelliumEffects(
 function getHouseElement(house: number): string {
   // Houses follow the elemental pattern: Fire, Earth, Air, Water, repeating
   const houseElements = {
-    1: 'fire', 5: 'fire', 9: 'fire',
-    2: 'earth', 6: 'earth', 10: 'earth',
-    3: 'air', 7: 'air', 11: 'air',
-    4: 'water', 8: 'water', 12: 'water'
+    1: 'Fire', 5: 'Fire', 9: 'Fire',
+    2: 'Earth', 6: 'Earth', 10: 'Earth',
+    3: 'Air', 7: 'Air', 11: 'Air',
+    4: 'Water', 8: 'Water', 12: 'Water'
   };
   
   return houseElements[house as keyof typeof houseElements] || 'fire';
@@ -1850,18 +1850,18 @@ export function getSignFromLongitude(longitude: number): { sign: string, degree:
  * Maps zodiac signs to their ruling planets
  */
 export const zodiacSignToPlanet: Record<string, string> = {
-  'Aries': 'Mars',
-  'Taurus': 'Venus',
-  'Gemini': 'Mercury',
-  'Cancer': 'Moon',
-  'Leo': 'Sun',
-  'Virgo': 'Mercury',
-  'Libra': 'Venus',
-  'Scorpio': 'Pluto',
-  'Sagittarius': 'Jupiter',
-  'Capricorn': 'Saturn',
-  'Aquarius': 'Uranus',
-  'Pisces': 'Neptune'
+  'aries': 'Mars',
+  'taurus': 'Venus',
+  'gemini': 'Mercury',
+  'cancer': 'Moon',
+  'leo': 'Sun',
+  'virgo': 'Mercury',
+  'libra': 'Venus',
+  'scorpio': 'Pluto',
+  'sagittarius': 'Jupiter',
+  'capricorn': 'Saturn',
+  'aquarius': 'Uranus',
+  'pisces': 'Neptune'
 };
 
 /**
@@ -2014,18 +2014,18 @@ export function getPlanetaryElementalInfluence(planet: PlanetName): Element {
  */
 export function getZodiacElementalInfluence(sign: ZodiacSign): Element {
   const zodiacElementMap: Record<ZodiacSign, Element> = {
-    'Aries': 'Fire',
-    'Taurus': 'Earth',
-    'Gemini': 'Air',
-    'Cancer': 'Water',
-    'Leo': 'Fire',
-    'Virgo': 'Earth',
-    'Libra': 'Air',
-    'Scorpio': 'Water',
-    'Sagittarius': 'Fire',
-    'Capricorn': 'Earth',
-    'Aquarius': 'Air',
-    'Pisces': 'Water'
+    'aries': 'Fire',
+    'taurus': 'Earth',
+    'gemini': 'Air',
+    'cancer': 'Water',
+    'leo': 'Fire',
+    'virgo': 'Earth',
+    'libra': 'Air',
+    'scorpio': 'Water',
+    'sagittarius': 'Fire',
+    'capricorn': 'Earth',
+    'aquarius': 'Air',
+    'pisces': 'Water'
   };
   
   return zodiacElementMap[sign];

@@ -345,10 +345,10 @@ export function calculateElementalEnergies(
  */
 function getDefaultElementalEnergies(): ElementalEnergy[] {
   return [
-    { type: 'fire', strength: 0.25, influence: [] },
-    { type: 'water', strength: 0.25, influence: [] },
-    { type: 'earth', strength: 0.25, influence: [] },
-    { type: 'air', strength: 0.25, influence: [] },
+    { type: 'Fire', strength: 0.25, influence: [] },
+    { type: 'Water', strength: 0.25, influence: [] },
+    { type: 'Earth', strength: 0.25, influence: [] },
+    { type: 'Air', strength: 0.25, influence: [] },
   ];
 }
 

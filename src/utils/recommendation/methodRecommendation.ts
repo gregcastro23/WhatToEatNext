@@ -644,7 +644,7 @@ export function getCookingMethodRecommendations(
 export function getElementForSign(sign: string): Element {
   const fireSigns = ['aries', 'leo', 'sagittarius'];
   const earthSigns = ['taurus', 'virgo', 'capricorn'];
-  const AirSigns = ['gemini', 'libra', 'aquarius'];
+  const airSigns = ['gemini', 'libra', 'aquarius']; // Fixed casing
   const waterSigns = ['cancer', 'scorpio', 'pisces'];
   
   const signLower = sign?.toLowerCase();

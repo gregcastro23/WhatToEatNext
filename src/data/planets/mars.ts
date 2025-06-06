@@ -217,7 +217,7 @@ const marsData: PlanetData = {
   },
   'PlanetSpecific': {
     'ZodiacTransit': {
-      'Aries': {
+      'aries': {
         'FoodFocus': 'Bold, spicy dishes with intense flavors and quick cooking methods',
         'Elements': {
           'Fire': 0.9,
@@ -227,7 +227,7 @@ const marsData: PlanetData = {
         },
         'Ingredients': ['chili peppers', 'harissa', 'grilled meats', 'strong mustard', 'seared foods', 'impulsively created dishes']
       },
-      'Taurus': {
+      'taurus': {
         'FoodFocus': 'Rich, hearty dishes with profound flavor intensity and substantial texture',
         'Elements': {
           'Fire': 0.5,
@@ -237,7 +237,7 @@ const marsData: PlanetData = {
         },
         'Ingredients': ['aged steaks', 'root vegetables roasted at high heat', 'sharp cheese', 'bone marrow', 'rustic breads', 'bold red wines']
       },
-      'Gemini': {
+      'gemini': {
         'FoodFocus': 'Dual cooking methods, contrasting spice levels, quick-shifting flavor profiles',
         'Elements': {
           'Fire': 0.6,
@@ -247,7 +247,7 @@ const marsData: PlanetData = {
         },
         'Ingredients': ['spice blends', 'stir-fried dishes', 'foods with contrasting temperatures', 'quick-cooking vegetables', 'varied tapas', 'spicy finger foods']
       },
-      'Cancer': {
+      'cancer': {
         'FoodFocus': 'Emotionally challenging flavors, protective spice levels, comfort foods with an edge',
         'Elements': {
           'Fire': 0.4,
@@ -257,7 +257,7 @@ const marsData: PlanetData = {
         },
         'Ingredients': ['spicy seafood', 'dishes with defensive heat', 'fermented shellfish', 'briny pickles', 'kimchi', 'spicy broths']
       },
-      'Leo': {
+      'leo': {
         'FoodFocus': 'Dramatic, fiery presentations, bold centerpiece dishes, primal cooking methods',
         'Elements': {
           'Fire': 0.9,
@@ -267,7 +267,7 @@ const marsData: PlanetData = {
         },
         'Ingredients': ['flambéed dishes', 'showy grilled foods', 'theatrical presentations', 'food cooked over open flame', 'spicy centerpiece dishes', 'dramatic sauces']
       },
-      'Virgo': {
+      'virgo': {
         'FoodFocus': 'Precisely controlled heat, analytical approach to spice, methodical preparation',
         'Elements': {
           'Fire': 0.5,
@@ -277,7 +277,7 @@ const marsData: PlanetData = {
         },
         'Ingredients': ['measured spice blends', 'foods with calculated heat', 'precisely fermented items', 'surgical knife work', 'carefully calibrated cooking times', 'methodically prepared spices']
       },
-      'Libra': {
+      'libra': {
         'FoodFocus': 'Balanced heat, diplomatic approach to assertive flavors, fair distribution of spice',
         'Elements': {
           'Fire': 0.5,
@@ -287,7 +287,7 @@ const marsData: PlanetData = {
         },
         'Ingredients': ['balanced spice blends', 'sweet and spicy combinations', 'fair trade spices', 'elegant hot dishes', 'moderate heat with complex flavors', 'complementary opposites']
       },
-      'Scorpio': {
+      'scorpio': {
         'FoodFocus': 'Fermented foods, aged ingredients, and complex, transformative cooking techniques',
         'Elements': {
           'Fire': 0.4,
@@ -297,7 +297,7 @@ const marsData: PlanetData = {
         },
         'Ingredients': ['fermented hot sauces', 'aged meats', 'hidden heat in dishes', 'vinegar reductions', 'intense umami flavors', 'deeply transformed ingredients']
       },
-      'Sagittarius': {
+      'sagittarius': {
         'FoodFocus': 'International spice profiles, adventure-seeking heat levels, philosophical approach to bold flavors',
         'Elements': {
           'Fire': 0.8,
@@ -307,7 +307,7 @@ const marsData: PlanetData = {
         },
         'Ingredients': ['international hot peppers', 'global spice blends', 'exotic meat preparations', 'food with a story', 'large-format spicy dishes', 'expanded flavor horizons']
       },
-      'Capricorn': {
+      'capricorn': {
         'FoodFocus': 'Traditional cooking with disciplined heat, achievement-oriented complexity',
         'Elements': {
           'Fire': 0.4,
@@ -317,7 +317,7 @@ const marsData: PlanetData = {
         },
         'Ingredients': ['slow-cooked spicy dishes', 'traditionally aged foods', 'heirloom peppers', 'strategic use of heat', 'historic preparations', 'foods requiring mastery']
       },
-      'Aquarius': {
+      'aquarius': {
         'FoodFocus': 'Revolutionary cooking techniques, unexpected heat applications, inventive fermentation',
         'Elements': {
           'Fire': 0.5,
@@ -327,7 +327,7 @@ const marsData: PlanetData = {
         },
         'Ingredients': ['innovative spice combinations', 'modernist cuisine', 'alternative proteins', 'scientific approach to heat', 'unexpected cooking methods', 'future-focused foods']
       },
-      'Pisces': {
+      'pisces': {
         'FoodFocus': 'Mystical flavor combinations, transcendent heat experiences, spiritual approaches',
         'Elements': {
           'Fire': 0.3,
@@ -350,18 +350,18 @@ const marsData: PlanetData = {
       'HerbalShift': 'Emphasis on dried herbs and spices, concentrated extracts, intensified flavors'
     },
     'TransitDates': {
-      'Aries': { 'Start': '2024-06-09', 'End': '2024-07-20' },
-      'Taurus': { 'Start': '2024-07-20', 'End': '2024-08-27' },
-      'Gemini': { 'Start': '2024-08-27', 'End': '2024-10-04' },
-      'Cancer': { 'Start': '2024-10-04', 'End': '2024-11-11' },
-      'Leo': { 'Start': '2024-11-11', 'End': '2024-12-20' },
-      'Virgo': { 'Start': '2024-12-20', 'End': '2025-01-29' },
-      'Libra': { 'Start': '2025-01-29', 'End': '2025-03-10' },
-      'Scorpio': { 'Start': '2025-03-10', 'End': '2025-04-20' },
-      'Sagittarius': { 'Start': '2025-04-20', 'End': '2025-05-31' },
-      'Capricorn': { 'Start': '2025-05-31', 'End': '2025-07-11' },
-      'Aquarius': { 'Start': '2025-07-11', 'End': '2025-08-22' },
-      'Pisces': { 'Start': '2025-08-22', 'End': '2025-10-03' }
+      'aries': { 'Start': '2024-06-09', 'End': '2024-07-20' },
+      'taurus': { 'Start': '2024-07-20', 'End': '2024-08-27' },
+      'gemini': { 'Start': '2024-08-27', 'End': '2024-10-04' },
+      'cancer': { 'Start': '2024-10-04', 'End': '2024-11-11' },
+      'leo': { 'Start': '2024-11-11', 'End': '2024-12-20' },
+      'virgo': { 'Start': '2024-12-20', 'End': '2025-01-29' },
+      'libra': { 'Start': '2025-01-29', 'End': '2025-03-10' },
+      'scorpio': { 'Start': '2025-03-10', 'End': '2025-04-20' },
+      'sagittarius': { 'Start': '2025-04-20', 'End': '2025-05-31' },
+      'capricorn': { 'Start': '2025-05-31', 'End': '2025-07-11' },
+      'aquarius': { 'Start': '2025-07-11', 'End': '2025-08-22' },
+      'pisces': { 'Start': '2025-08-22', 'End': '2025-10-03' }
     },
     'CulinaryTechniques': {
       'High Heat Cooking': 0.9,

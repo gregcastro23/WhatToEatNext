@@ -690,7 +690,7 @@ export const thai: Cuisine = {
           astrologicalProfile: {
             favorableZodiac: ["cancer", "pisces"],
             rulingPlanets: ["moon", "venus"],
-            elementalAffinity: "water"
+            elementalAffinity: "Water"
           },
           astrologicalInfluences: ["neptune", "mars", "pisces"]
         },

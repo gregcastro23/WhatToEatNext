@@ -1,6 +1,56 @@
 import { AstrologicalState, ElementalProperties, ChakraEnergies, AstrologicalProfile, ElementalAffinity, PlanetName, Element } from "@/types/alchemy";
 import type { Modality, Ingredient, SensoryProfile, CookingMethod } from '../../data/ingredients/types';
 
+
+// Phase 10: Calculation Type Interfaces
+interface CalculationData {
+  value: number;
+  weight?: number;
+  score?: number;
+}
+
+interface ScoredItem {
+  score: number;
+  [key: string]: unknown;
+}
+
+interface ElementalData {
+  Fire: number;
+  Water: number;
+  Earth: number;
+  Air: number;
+  [key: string]: unknown;
+}
+
+interface CuisineData {
+  id: string;
+  name: string;
+  zodiacInfluences?: string[];
+  planetaryDignities?: Record<string, unknown>;
+  elementalState?: ElementalData;
+  elementalProperties?: ElementalData;
+  modality?: string;
+  gregsEnergy?: number;
+  [key: string]: unknown;
+}
+
+interface NutrientData {
+  nutrient?: { name?: string };
+  nutrientName?: string;
+  name?: string;
+  vitaminCount?: number;
+  data?: unknown;
+  [key: string]: unknown;
+}
+
+interface MatchingResult {
+  score: number;
+  elements: ElementalData;
+  recipe?: unknown;
+  [key: string]: unknown;
+}
+
+
 // Phase 8: Lazy loading imports for performance optimization
 let vegetables: { [key: string]: any } = {};
 let fruits: { [key: string]: any } = {};
@@ -518,7 +568,7 @@ function standardizeIngredient(ingredient: EnhancedIngredient): EnhancedIngredie
   if (ingredient.flavorProfile) standardized.flavorProfile = ingredient.flavorProfile;
   if (ingredient.season) standardized.season = ingredient.season;
   if (ingredient.nutritionalProfile) standardized.nutritionalProfile = ingredient.nutritionalProfile;
-  if (ingredient.score) standardized.score = ingredient.score;
+  if (ingredient.score) (standardized as ScoredItem).score >= (ingredient as ScoredItem).score;
   if (ingredient.scoreDetails) standardized.scoreDetails = ingredient.scoreDetails;
   if (ingredient.subCategory) standardized.subCategory = ingredient.subCategory;
   if (ingredient.qualities) standardized.qualities = ingredient.qualities;

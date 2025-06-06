@@ -8,8 +8,8 @@ const rawFlaxseed: Record<string, Partial<IngredientMapping>> = {
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Venus'],
       elementalAffinity: {
-        base: 'water',
-        secondary: 'air'
+        base: 'Water',
+        secondary: 'Air'
       }
     },
     qualities: ['gelatinous', 'omega-rich', 'nutty', 'gluten-free', 'binding'],

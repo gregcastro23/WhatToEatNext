@@ -13,9 +13,9 @@ export const config = {
     },
   },
   elements: {
-    Fire: { opposite: 'Water', complement: 'Air' },
-    Water: { opposite: 'Fire', complement: 'Earth' },
-    Air: { opposite: 'Earth', complement: 'Fire' },
-    Earth: { opposite: 'Air', complement: 'Water' },
+    Fire: { complement: 'Fire', harmony: 'Air' },
+    Water: { complement: 'Water', harmony: 'Earth' },
+    Air: { complement: 'Air', harmony: 'Fire' },
+    Earth: { complement: 'Earth', harmony: 'Water' },
   },
 } as const; 

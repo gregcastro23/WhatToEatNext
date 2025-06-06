@@ -80,7 +80,7 @@ export const frying: CookingMethodData = {
   ],
   astrologicalInfluences: {
     favorableZodiac: ['leo', 'aries', 'sagittarius'] as ZodiacSign[], // Fire signs amplify the transformative heat
-    unfavorableZodiac: ['cancer', 'pisces', 'scorpio'] as ZodiacSign[], // Water signs oppose the fire element
+    unfavorableZodiac: ['cancer', 'pisces', 'scorpio'] as ZodiacSign[], // Water signs prefer gentler cooking methods
     dominantPlanets: ['Mars', 'Sun', 'Saturn'], // Mars (heat), Sun (transformation), Saturn (structure)
     lunarPhaseEffect: {
       'full_moon': 1.2, // Enhanced crispiness, intensifies fire element

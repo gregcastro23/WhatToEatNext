@@ -135,7 +135,7 @@ const transformCuisineData = async (): Promise<RecipeData[]> => {
                 
                 // Process individual dishes
                 dishes.forEach((dish: unknown) => {
-                  if (!dish || !dish.name) {
+                  if (!dish || !(dish as any)?.name) {
                     console.log('Skipping invalid dish:', dish);
                     return;
                   }
@@ -162,8 +162,8 @@ const transformCuisineData = async (): Promise<RecipeData[]> => {
                   
                   // Create the recipe entry
                   const recipeData: RecipeData = {
-                    id: `${cuisineName}-${mealType}-${dish.name}`.replace(/\s+/g, '-').toLowerCase(),
-                    name: dish.name,
+                    id: `${cuisineName}-${mealType}-${(dish as any)?.name}`.replace(/\s+/g, '-').toLowerCase(),
+                    name: (dish as any)?.name,
                     description: dish.description || '',
                     ingredients: dish.ingredients || [],
                     instructions: dish.preparationSteps || dish.instructions || [],
@@ -387,7 +387,7 @@ export const getRecipesForZodiac = async (zodiac: ZodiacSign): Promise<RecipeDat
 export const getRecipesForSeason = async (season: Season): Promise<RecipeData[]> => {
   const recipes = await getRecipes();
   return recipes.filter(recipe => 
-    recipe.energyProfile.season?.includes(season)
+    (recipe.energyProfile as any)?.season?.includes(season)
   );
 };
 
@@ -623,12 +623,12 @@ export const getBestRecipeMatches = async (
       if (matchedCuisineRecipes && matchedCuisineRecipes.length > 0) {
         // Convert the recipes to ensure they match RecipeData format
         const formattedRecipes = matchedCuisineRecipes.map(recipe => ({
-          id: recipe.id || `${recipe.name.toLowerCase().replace(/\s+/g, '-')}`,
-          name: recipe.name,
+          id: recipe.id || `${(recipe as any)?.name.toLowerCase().replace(/\s+/g, '-')}`,
+          name: (recipe as any)?.name,
           description: recipe.description || `A ${criteria.cuisine} recipe`,
           ingredients: Array.isArray(recipe.ingredients) ? 
             recipe.ingredients.map(ing => ({
-              name: ing.name || '',
+              name: (ing as any)?.name || '',
               amount: typeof ing.amount === 'number' ? ing.amount : parseFloat(ing.amount) || 1,
               unit: ing.unit || '',
               optional: ing.optional || false
@@ -646,17 +646,17 @@ export const getBestRecipeMatches = async (
             salty: 0.5,
             umami: 0.5
           },
-          elementalProperties: recipe.elementalProperties,
+          elementalProperties: (recipe as any)?.elementalProperties,
           energyProfile: {
-            season: Array.isArray(recipe.season) ? recipe.season as Season[] : 
-              typeof recipe.season === 'string' ? [recipe.season as Season] : ['all'],
+            season: Array.isArray((recipe as any)?.season) ? (recipe as any)?.season as Season[] : 
+              typeof recipe.season === 'string' ? [(recipe as any)?.season as Season] : ['all'],
             zodiac: [],
             lunar: [],
             planetary: []
           },
           tags: [
             ...(Array.isArray(recipe.mealType) ? recipe.mealType : (typeof recipe.mealType === 'string' ? [recipe.mealType] : [])).map(type => type.toLowerCase()),
-            ...(Array.isArray(recipe.season) ? recipe.season : (typeof recipe.season === 'string' ? [recipe.season] : [])).map(s => s.toLowerCase())
+            ...(Array.isArray((recipe as any)?.season) ? (recipe as any)?.season : (typeof recipe.season === 'string' ? [(recipe as any)?.season] : [])).map(s => s.toLowerCase())
           ],
           timeToMake: recipe.timeToMake,
           // Use the matchScore or matchPercentage if provided, otherwise use a default score
@@ -690,10 +690,10 @@ export const getBestRecipeMatches = async (
           // Convert the recipes to RecipeData format
           candidateRecipes = localRecipes.map(recipe => ({
             id: recipe.id,
-            name: recipe.name,
+            name: (recipe as any)?.name,
             description: recipe.description,
             ingredients: recipe.ingredients.map(ing => ({
-              name: ing.name,
+              name: (ing as any)?.name,
               amount: ing.amount,
               unit: ing.unit,
               optional: ing.optional
@@ -701,14 +701,14 @@ export const getBestRecipeMatches = async (
             instructions: recipe.instructions,
             cuisine: recipe.cuisine,
             energyProfile: {
-              season: recipe.season as Season[],
+              season: (recipe as any)?.season as Season[],
               zodiac: [],
               lunar: [],
               planetary: []
             },
             tags: [
               ...(Array.isArray(recipe.mealType) ? recipe.mealType : (typeof recipe.mealType === 'string' ? [recipe.mealType] : [])).map(type => type.toLowerCase()),
-              ...(Array.isArray(recipe.season) ? recipe.season : (typeof recipe.season === 'string' ? [recipe.season] : [])).map(s => s.toLowerCase())
+              ...(Array.isArray((recipe as any)?.season) ? (recipe as any)?.season : (typeof recipe.season === 'string' ? [(recipe as any)?.season] : [])).map(s => s.toLowerCase())
             ],
             timeToMake: recipe.timeToMake,
             matchScore: 0.85, // Default high score for local recipes
@@ -747,14 +747,14 @@ async function applyAdditionalFilters(
   }
   
   // Apply season filter if specified
-  if (criteria.season) {
-    console.log(`Filtering by season: ${criteria.season}`);
+  if ((criteria as any)?.season) {
+    console.log(`Filtering by season: ${(criteria as any)?.season}`);
     const seasonRecipes = candidateRecipes.filter(recipe => 
-      recipe.energyProfile.season?.includes(criteria.season ?? '') ||
-      (Array.isArray(recipe.season) && recipe.season.includes(criteria.season))
+      (recipe.energyProfile as any)?.season?.includes((criteria as any)?.season ?? '') ||
+      (Array.isArray((recipe as any)?.season) && (recipe as any)?.season.includes((criteria as any)?.season))
     );
     
-    console.log(`Found ${seasonRecipes.length} recipes for season ${criteria.season}`);
+    console.log(`Found ${seasonRecipes.length} recipes for season ${(criteria as any)?.season}`);
     
     // If we have enough seasonal recipes, use only those
     if (seasonRecipes.length >= limit) {
@@ -832,7 +832,7 @@ async function applyAdditionalFilters(
             if (typeof value === 'number' && !isNaN(value)) {
               validFlavorProfile[flavor] = value;
             } else {
-              console.warn(`Invalid ${flavor} value in recipe ${recipe.name}: ${value}`);
+              console.warn(`Invalid ${flavor} value in recipe ${(recipe as any)?.name}: ${value}`);
               validFlavorProfile[flavor] = 0; // Default to none
             }
           }
@@ -862,11 +862,11 @@ async function applyAdditionalFilters(
     }
     
     // Season match - enhanced with better scoring
-    if (criteria.season) {
+    if ((criteria as any)?.season) {
       const seasonMatch = (
-        (recipe.energyProfile.season && recipe.energyProfile.season.includes(criteria.season)) ||
-        (Array.isArray(recipe.season) && recipe.season.includes(criteria.season)) ||
-        (typeof recipe.season === 'string' && recipe.season === criteria.season)
+        ((recipe.energyProfile as any)?.season && (recipe.energyProfile as any)?.season.includes((criteria as any)?.season)) ||
+        (Array.isArray((recipe as any)?.season) && (recipe as any)?.season.includes((criteria as any)?.season)) ||
+        (typeof recipe.season === 'string' && recipe.season === (criteria as any)?.season)
       );
       
       if (seasonMatch) {
@@ -962,8 +962,8 @@ export const getRecommendedCuisines = (profile: unknown) => {
       }
       
       // Season matching
-      if (profile.season && cuisineProfile.seasonalPreference) {
-        const seasonMatch = cuisineProfile.seasonalPreference.includes(profile.season);
+      if ((profile as any)?.season && (cuisineProfile as any)?.seasonalPreference) {
+        const seasonMatch = (cuisineProfile as any)?.seasonalPreference.includes((profile as any)?.season);
         if (seasonMatch) {
           matchScore += 1;
           totalFactors += 1;
@@ -982,7 +982,7 @@ export const getRecommendedCuisines = (profile: unknown) => {
       
       return {
         id: cuisineName,
-        name: cuisineProfile.name,
+        name: (cuisineProfile as any)?.name,
         score: finalScore
       };
     })
@@ -1033,12 +1033,12 @@ export const getAllRecipes = async (): Promise<Recipe[]> => {
   const recipes = await getRecipes();
   return recipes.map(recipe => ({
     id: recipe.id,
-    name: recipe.name,
+    name: (recipe as any)?.name,
     description: recipe.description,
     cuisine: recipe.cuisine || '',
     regionalCuisine: recipe.regionalCuisine,
     ingredients: recipe.ingredients.map(ing => ({
-      name: ing.name,
+      name: (ing as any)?.name,
       amount: ing.amount,
       unit: ing.unit,
       optional: ing.optional || false,
@@ -1067,7 +1067,7 @@ export const getAllRecipes = async (): Promise<Recipe[]> => {
           Air: recipe.flavorProfile.sour || 0
         }
       : { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
-    season: recipe.energyProfile.season || ['all'],
+          season: (recipe.energyProfile as any)?.season || ['all'],
     mealType: recipe.tags?.filter(tag => 
       ['breakfast', 'lunch', 'dinner', 'dessert', 'snack'].includes(tag)
     ) || ['any'],
@@ -1130,12 +1130,12 @@ export const getAllRecipes = async (): Promise<Recipe[]> => {
       zodiacalScore: recipe.energyProfile.zodiac ? 0.7 : 0.3,
       lunarScore: recipe.energyProfile.lunar ? 0.7 : 0.3,
       planetaryScore: recipe.planetaryInfluences ? 0.7 : 0.3,
-      seasonalScore: recipe.energyProfile.season ? 0.7 : 0.3
+      seasonalScore: (recipe.energyProfile as any)?.season ? 0.7 : 0.3
     },
     
     // Additional fields
     notes: recipe.notes || '',
     preparation: recipe.preparation || '',
-    seasonalIngredients: recipe.seasonalIngredients || []
+    seasonalIngredients: (recipe as any)?.seasonalIngredients || []
   }));
 };

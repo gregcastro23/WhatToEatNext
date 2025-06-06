@@ -6,102 +6,102 @@ export const zodiacSigns = [
 ];
 
 export const elements = {
-  'Aries': 'Fire',
-  'Leo': 'Fire',
-  'Sagittarius': 'Fire',
-  'Taurus': 'Earth',
-  'Virgo': 'Earth',
-  'Capricorn': 'Earth',
-  'Gemini': 'Air',
-  'Libra': 'Air',
-  'Aquarius': 'Air',
-  'Cancer': 'Water',
-  'Scorpio': 'Water',
-  'Pisces': 'Water'
+  'aries': 'Fire',
+  'leo': 'Fire',
+  'sagittarius': 'Fire',
+  'taurus': 'Earth',
+  'virgo': 'Earth',
+  'capricorn': 'Earth',
+  'gemini': 'Air',
+  'libra': 'Air',
+  'aquarius': 'Air',
+  'cancer': 'Water',
+  'scorpio': 'Water',
+  'pisces': 'Water'
 };
 
 export const planetaryRulers = {
-  'Aries': 'Mars',
-  'Taurus': 'Venus',
-  'Gemini': 'Mercury',
-  'Cancer': 'Moon',
-  'Leo': 'Sun',
-  'Virgo': 'Mercury',
-  'Libra': 'Venus',
-  'Scorpio': 'Pluto',
-  'Sagittarius': 'Jupiter',
-  'Capricorn': 'Saturn',
-  'Aquarius': 'Uranus',
-  'Pisces': 'Neptune'
+  'aries': 'Mars',
+  'taurus': 'Venus',
+  'gemini': 'Mercury',
+  'cancer': 'Moon',
+  'leo': 'Sun',
+  'virgo': 'Mercury',
+  'libra': 'Venus',
+  'scorpio': 'Pluto',
+  'sagittarius': 'Jupiter',
+  'capricorn': 'Saturn',
+  'aquarius': 'Uranus',
+  'pisces': 'Neptune'
 };
 
 // Export planetInfo data structure needed by the calculations
 export const planetInfo = {
   'Sun': {
-    'Dignity Effect': {'Leo': 1, 'Aries': 2, 'Aquarius': -1, 'Libra': -2},
+    'Dignity Effect': {'leo': 1, 'aries': 2, 'aquarius': -1, 'libra': -2},
     'Elements': ['Fire', 'Fire'],
     'Alchemy': {'Spirit': 1, 'Essence': 0, 'Matter': 0, 'Substance': 0},
     'Diurnal Element': 'Fire',
     'Nocturnal Element': 'Fire'
   },
   'Moon': {
-    'Dignity Effect': {'Cancer': 1, 'Taurus': 2, 'Capricorn': -1, 'Scorpio': -2},
+    'Dignity Effect': {'cancer': 1, 'taurus': 2, 'capricorn': -1, 'scorpio': -2},
     'Elements': ['Water', 'Water'],
     'Alchemy': {'Spirit': 0, 'Essence': 1, 'Matter': 1, 'Substance': 0},
     'Diurnal Element': 'Water',
     'Nocturnal Element': 'Water'
   },
   'Mercury': {
-    'Dignity Effect': {'Gemini': 1, 'Virgo': 3, 'Sagittarius': 1, 'Pisces': -3},
+    'Dignity Effect': {'gemini': 1, 'virgo': 3, 'sagittarius': 1, 'pisces': -3},
     'Elements': ['Air', 'Earth'],
     'Alchemy': {'Spirit': 1, 'Essence': 0, 'Matter': 0, 'Substance': 1},
     'Diurnal Element': 'Air',
     'Nocturnal Element': 'Earth'
   },
   'Venus': {
-    'Dignity Effect': {'Libra': 1, 'Taurus': 1, 'Pisces': 2, 'Aries': -1, 'Scorpio': -1, 'Virgo': -2},
+    'Dignity Effect': {'libra': 1, 'taurus': 1, 'pisces': 2, 'aries': -1, 'scorpio': -1, 'virgo': -2},
     'Elements': ['Water', 'Earth'],
     'Alchemy': {'Spirit': 0, 'Essence': 1, 'Matter': 1, 'Substance': 0},
     'Diurnal Element': 'Water',
     'Nocturnal Element': 'Earth'
   },
   'Mars': {
-    'Dignity Effect': {'Aries': 1, 'Scorpio': 1, 'Capricorn': 2, 'Taurus': -1, 'Libra': -1, 'Cancer': -2},
+    'Dignity Effect': {'aries': 1, 'scorpio': 1, 'capricorn': 2, 'taurus': -1, 'libra': -1, 'cancer': -2},
     'Elements': ['Fire', 'Water'],
     'Alchemy': {'Spirit': 0, 'Essence': 1, 'Matter': 1, 'Substance': 0},
     'Diurnal Element': 'Fire',
     'Nocturnal Element': 'Water'
   },
   'Jupiter': {
-    'Dignity Effect': {'Pisces': 1, 'Sagittarius': 1, 'Cancer': 2, 'Gemini': -1, 'Virgo': -1, 'Capricorn': -2},
+    'Dignity Effect': {'pisces': 1, 'sagittarius': 1, 'cancer': 2, 'gemini': -1, 'virgo': -1, 'capricorn': -2},
     'Elements': ['Air', 'Fire'],
     'Alchemy': {'Spirit': 1, 'Essence': 1, 'Matter': 0, 'Substance': 0},
     'Diurnal Element': 'Air',
     'Nocturnal Element': 'Fire'
   },
   'Saturn': {
-    'Dignity Effect': {'Aquarius': 1, 'Capricorn': 1, 'Libra': 2, 'Cancer': -1, 'Leo': -1, 'Aries': -2},
+    'Dignity Effect': {'aquarius': 1, 'capricorn': 1, 'libra': 2, 'cancer': -1, 'leo': -1, 'aries': -2},
     'Elements': ['Air', 'Earth'],
     'Alchemy': {'Spirit': 1, 'Essence': 0, 'Matter': 1, 'Substance': 0},
     'Diurnal Element': 'Air',
     'Nocturnal Element': 'Earth'
   },
   'Uranus': {
-    'Dignity Effect': {'Aquarius': 1, 'Scorpio': 2, 'Taurus': -3},
+    'Dignity Effect': {'aquarius': 1, 'scorpio': 2, 'taurus': -3},
     'Elements': ['Water', 'Air'],
     'Alchemy': {'Spirit': 0, 'Essence': 1, 'Matter': 1, 'Substance': 0},
     'Diurnal Element': 'Water',
     'Nocturnal Element': 'Air'
   },
   'Neptune': {
-    'Dignity Effect': {'Pisces': 1, 'Cancer': 2, 'Virgo': -1, 'Capricorn': -2},
+    'Dignity Effect': {'pisces': 1, 'cancer': 2, 'virgo': -1, 'capricorn': -2},
     'Elements': ['Water', 'Water'],
     'Alchemy': {'Spirit': 0, 'Essence': 1, 'Matter': 0, 'Substance': 1},
     'Diurnal Element': 'Water',
     'Nocturnal Element': 'Water'
   },
   'Pluto': {
-    'Dignity Effect': {'Scorpio': 1, 'Leo': 2, 'Taurus': -1, 'Aquarius': -2},
+    'Dignity Effect': {'scorpio': 1, 'leo': 2, 'taurus': -1, 'aquarius': -2},
     'Elements': ['Earth', 'Water'],
     'Alchemy': {'Spirit': 0, 'Essence': 1, 'Matter': 1, 'Substance': 0},
     'Diurnal Element': 'Earth',
@@ -115,7 +115,7 @@ export const planetInfo = {
 
 // Export signInfo data structure needed by the calculations
 export const signInfo = {
-  "Aries": {
+  "aries": {
     "Element": "Fire",
     "Start": {"Day": 21, "Month": 3, "Year": 2022},
     "End": {"Day": 19, "Month": 4, "Year": 2022},
@@ -126,7 +126,7 @@ export const signInfo = {
     "Ruler": "Mars",
     "Modality": "Cardinal"
   },
-  "Taurus": {
+  "taurus": {
     "Element": "Earth",
     "Start": {"Day": 20, "Month": 4, "Year": 2022},
     "End": {"Day": 20, "Month": 5, "Year": 2022},
@@ -137,7 +137,7 @@ export const signInfo = {
     "Ruler": "Venus",
     "Modality": "Fixed"
   },
-  "Gemini": {
+  "gemini": {
     "Element": "Air",
     "Start": {"Day": 21, "Month": 5, "Year": 2022},
     "End": {"Day": 20, "Month": 6, "Year": 2022},
@@ -148,7 +148,7 @@ export const signInfo = {
     "Ruler": "Mercury",
     "Modality": "Mutable"
   },
-  "Cancer": {
+  "cancer": {
     "Element": "Water",
     "Start": {"Day": 21, "Month": 6, "Year": 2022},
     "End": {"Day": 22, "Month": 7, "Year": 2022},
@@ -159,7 +159,7 @@ export const signInfo = {
     "Ruler": "Moon",
     "Modality": "Cardinal"
   },
-  "Leo": {
+  "leo": {
     "Element": "Fire",
     "Start": {"Day": 23, "Month": 7, "Year": 2022},
     "End": {"Day": 22, "Month": 8, "Year": 2022},
@@ -170,7 +170,7 @@ export const signInfo = {
     "Ruler": "Sun",
     "Modality": "Fixed"
   },
-  "Virgo": {
+  "virgo": {
     "Element": "Earth",
     "Start": {"Day": 23, "Month": 8, "Year": 2022},
     "End": {"Day": 22, "Month": 9, "Year": 2022},
@@ -181,7 +181,7 @@ export const signInfo = {
     "Ruler": "Mercury",
     "Modality": "Mutable"
   },
-  "Libra": {
+  "libra": {
     "Element": "Air",
     "Start": {"Day": 23, "Month": 9, "Year": 2022},
     "End": {"Day": 22, "Month": 10, "Year": 2022},
@@ -192,7 +192,7 @@ export const signInfo = {
     "Ruler": "Venus",
     "Modality": "Cardinal"
   },
-  "Scorpio": {
+  "scorpio": {
     "Element": "Water",
     "Start": {"Day": 23, "Month": 10, "Year": 2022},
     "End": {"Day": 21, "Month": 11, "Year": 2022},
@@ -203,7 +203,7 @@ export const signInfo = {
     "Ruler": "Mars",
     "Modality": "Fixed"
   },
-  "Sagittarius": {
+  "sagittarius": {
     "Element": "Fire",
     "Start": {"Day": 22, "Month": 11, "Year": 2022},
     "End": {"Day": 21, "Month": 12, "Year": 2022},
@@ -214,7 +214,7 @@ export const signInfo = {
     "Ruler": "Jupiter",
     "Modality": "Mutable"
   },
-  "Capricorn": {
+  "capricorn": {
     "Element": "Earth",
     "Start": {"Day": 22, "Month": 12, "Year": 2022},
     "End": {"Day": 19, "Month": 1, "Year": 2023},
@@ -225,7 +225,7 @@ export const signInfo = {
     "Ruler": "Saturn",
     "Modality": "Cardinal"
   },
-  "Aquarius": {
+  "aquarius": {
     "Element": "Air",
     "Start": {"Day": 20, "Month": 1, "Year": 2023},
     "End": {"Day": 18, "Month": 2, "Year": 2023},
@@ -236,7 +236,7 @@ export const signInfo = {
     "Ruler": "Saturn",
     "Modality": "Fixed"
   },
-  "Pisces": {
+  "pisces": {
     "Element": "Water",
     "Start": {"Day": 19, "Month": 2, "Year": 2023},
     "End": {"Day": 20, "Month": 3, "Year": 2023},

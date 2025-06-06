@@ -3,10 +3,10 @@ export type { MercurySpecificData };
 
 const mercuryData: PlanetData = {
   'Dignity Effect': {
-    'Gemini': 1, 
-    'Virgo': 3,
-    'Sagittarius': 1, 
-    'Pisces': -3
+    'gemini': 1, 
+    'virgo': 3,
+    'sagittarius': 1, 
+    'pisces': -3
   },
   'Elements': ['Air', 'Earth'],
   'Alchemy': {
@@ -256,15 +256,15 @@ const mercuryData: PlanetData = {
         }
       },
       'ZodiacInfluence': {
-        'Gemini': {
+        'gemini': {
           'CulinaryEffect': 'Enhances versatility in cooking, good for fusion cuisine',
           'RecommendedTechniques': ['stir-frying', 'small plates', 'appetizers', 'varied tasting menus']
         },
-        'Virgo': {
+        'virgo': {
           'CulinaryEffect': 'Increases precision and attention to detail in cooking',
           'RecommendedTechniques': ['detailed garnishing', 'precise baking', 'health-focused cooking', 'fermentation']
         },
-        'Pisces': {
+        'pisces': {
           'CulinaryEffect': 'Can cause confusion in recipes, but increases intuitive cooking',
           'RecommendedTechniques': ['infusions', 'seafood preparation', 'ethereal presentation', 'subtle seasoning']
         }
@@ -288,7 +288,7 @@ const mercuryData: PlanetData = {
       }
     },
     'ZodiacTransit': {
-      'Gemini': {
+      'gemini': {
         'FoodFocus': 'Diverse, light dishes with multiple flavor notes and interesting combinations',
         'Elements': {
           'Fire': 0.2,
@@ -298,7 +298,7 @@ const mercuryData: PlanetData = {
         },
         'Ingredients': ['fresh herbs', 'variety of spices', 'finger foods', 'fusion cuisine', 'appetizer flights', 'complex salads']
       },
-      'Cancer': {
+      'cancer': {
         'FoodFocus': 'Thoughtful comfort food with precise seasoning and nostalgic elements',
         'Elements': {
           'Fire': 0.1,
@@ -308,7 +308,7 @@ const mercuryData: PlanetData = {
         },
         'Ingredients': ['herb-infused broths', 'delicate seafood', 'carefully seasoned rice dishes', 'family recipes with modern twists']
       },
-      'Leo': {
+      'leo': {
         'FoodFocus': 'Bold presentation with technical finesse, showstopping dishes that stimulate conversation',
         'Elements': {
           'Fire': 0.7,
@@ -318,7 +318,7 @@ const mercuryData: PlanetData = {
         },
         'Ingredients': ['dishes requiring technical skill', 'visually impressive presentations', 'foods that foster sharing', 'aromatic herbs']
       },
-      'Virgo': {
+      'virgo': {
         'FoodFocus': 'Precisely executed dishes with attention to health factors and detailed preparation',
         'Elements': {
           'Fire': 0.1,
@@ -328,7 +328,7 @@ const mercuryData: PlanetData = {
         },
         'Ingredients': ['carefully measured spices', 'meticulously prepared vegetables', 'precise fermentations', 'artfully arranged plates']
       },
-      'Libra': {
+      'libra': {
         'FoodFocus': 'Balanced flavor combinations that engage multiple senses, aesthetically pleasing presentation',
         'Elements': {
           'Fire': 0.1,
@@ -338,7 +338,7 @@ const mercuryData: PlanetData = {
         },
         'Ingredients': ['harmonious ingredient pairings', 'visually balanced plates', 'social dining experiences', 'contrasting textures']
       },
-      'Scorpio': {
+      'scorpio': {
         'FoodFocus': 'Complex, mysterious flavor profiles with hidden ingredients, intensely aromatic dishes',
         'Elements': {
           'Fire': 0.3,
@@ -381,20 +381,20 @@ const mercuryData: PlanetData = {
         }
       },
       'DirectPhasesQ2_2024': {
-        'Aries': { 'Start': '2024-04-01', 'End': '2024-04-13' },
-        'Taurus': { 'Start': '2024-05-15', 'End': '2024-05-31' },
-        'Gemini': { 'Start': '2024-05-31', 'End': '2024-06-17' },
-        'Cancer': { 'Start': '2024-06-17', 'End': '2024-07-02' },
-        'Leo': { 'Start': '2024-07-02', 'End': '2024-07-21' },
-        'Virgo': { 'Start': '2024-07-21', 'End': '2024-08-08' }
+        'aries': { 'Start': '2024-04-01', 'End': '2024-04-13' },
+        'taurus': { 'Start': '2024-05-15', 'End': '2024-05-31' },
+        'gemini': { 'Start': '2024-05-31', 'End': '2024-06-17' },
+        'cancer': { 'Start': '2024-06-17', 'End': '2024-07-02' },
+        'leo': { 'Start': '2024-07-02', 'End': '2024-07-21' },
+        'virgo': { 'Start': '2024-07-21', 'End': '2024-08-08' }
       },
       'DirectPhasesQ4_2024': {
-        'Libra': { 'Start': '2024-10-02', 'End': '2024-10-26' },
-        'Scorpio': { 'Start': '2024-10-26', 'End': '2024-11-15' },
-        'Sagittarius': { 'Start': '2024-11-15', 'End': '2024-12-01' },
-        'Capricorn': { 'Start': '2025-01-02', 'End': '2025-01-22' },
-        'Aquarius': { 'Start': '2025-01-22', 'End': '2025-02-10' },
-        'Pisces': { 'Start': '2025-02-10', 'End': '2025-02-27' }
+        'libra': { 'Start': '2024-10-02', 'End': '2024-10-26' },
+        'scorpio': { 'Start': '2024-10-26', 'End': '2024-11-15' },
+        'sagittarius': { 'Start': '2024-11-15', 'End': '2024-12-01' },
+        'capricorn': { 'Start': '2025-01-02', 'End': '2025-01-22' },
+        'aquarius': { 'Start': '2025-01-22', 'End': '2025-02-10' },
+        'pisces': { 'Start': '2025-02-10', 'End': '2025-02-27' }
       }
     }
   }

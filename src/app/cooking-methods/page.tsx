@@ -74,25 +74,25 @@ export default function CookingMethodsPage() {
         return {
           id: key,
           name: capitalizeFirstLetter(key.replace(/_/g, ' ')),
-          description: method.description || '',
-          elementalEffect: method.elementalEffect || method.elementalProperties || {
+          description: (method as any).description || '',
+          elementalEffect: (method as any).elementalEffect || (method as any).elementalProperties || {
             Fire: 0.5,
             Water: 0.5,
             Earth: 0.5,
             Air: 0.5
           },
           score: Math.random() * 0.5 + 0.5, // Mock score between 0.5-1.0
-          duration: method.time_range || method.duration || { min: 10, max: 30 },
-          suitable_for: method.suitable_for || [],
-          benefits: method.benefits || [],
+          duration: (method as any).time_range || (method as any).duration || { min: 10, max: 30 },
+          suitable_for: (method as any).suitable_for || [],
+          benefits: (method as any).benefits || [],
           // Create variations if they exist
-          variations: method.variations ? 
-            (Array.isArray(method.variations) ? 
-              method.variations.map((v: string, i: number) => ({
+          variations: (method as any).variations ? 
+            (Array.isArray((method as any).variations) ? 
+              (method as any).variations.map((v: string, i: number) => ({
                 id: `${key}_var_${i}`,
                 name: v,
                 description: `Variation of ${capitalizeFirstLetter(key.replace(/_/g, ' '))}`,
-                elementalEffect: method.elementalEffect || method.elementalProperties,
+                elementalEffect: (method as any).elementalEffect || (method as any).elementalProperties,
                 score: Math.random() * 0.3 + 0.6
               })) : []
             ) : []
@@ -108,10 +108,10 @@ export default function CookingMethodsPage() {
   };
 
   const handleSelectMethod = (method: unknown) => {
-    setSelectedMethodId(method.id);
+    setSelectedMethodId((method as any).id);
     // If it's a main method (not a variation), navigate to it
-    if (!method.id.includes('_var_')) {
-      router.push(`/cooking-methods/${method.id}`);
+    if (!(method as any).id.includes('_var_')) {
+      router.push(`/cooking-methods/${(method as any).id}`);
     }
   };
 

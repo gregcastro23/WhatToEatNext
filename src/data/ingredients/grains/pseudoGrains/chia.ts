@@ -8,8 +8,8 @@ const rawChia: Record<string, Partial<IngredientMapping>> = {
     astrologicalProfile: {
       rulingPlanets: ['Neptune', 'Moon'],
       elementalAffinity: {
-        base: 'water',
-        secondary: 'earth'
+        base: 'Water',
+        secondary: 'Earth'
       }
     },
     qualities: ['gelatinous', 'hydrophilic', 'versatile', 'gluten-free', 'omega-rich'],

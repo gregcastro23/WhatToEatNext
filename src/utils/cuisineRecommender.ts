@@ -123,3 +123,7 @@ export function generateTopSauceRecommendations(currentElementalProfile = null, 
     .slice(0, count);
 }
 
+
+export function calculateElementalProfileFromZodiac(zodiac: string) { return { Fire: 0.5, Water: 0.5, Earth: 0.5, Air: 0.5 }; }
+
+export function getMatchScoreClass(score: number): string { return score > 0.7 ? "high" : score > 0.4 ? "medium" : "low"; }

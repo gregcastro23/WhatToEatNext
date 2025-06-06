@@ -222,10 +222,10 @@ export class RecommendationAdapter {
       
       // Prepare elemental properties, converting to uppercase keys
       const elementalProperties = {
-        Fire: result.elementalBalance.fire,
-        Earth: result.elementalBalance.earth,
-        Air: result.elementalBalance.air,
-        Water: result.elementalBalance.water
+        Fire: result.elementalBalance.Fire || result.elementalBalance.fire || 0,
+        Earth: result.elementalBalance.Earth || result.elementalBalance.earth || 0,
+        Air: result.elementalBalance.Air || result.elementalBalance.air || 0,
+        Water: result.elementalBalance.Water || result.elementalBalance.water || 0
       };
       
       // Apply tarot element boosts if available
@@ -567,7 +567,7 @@ export class RecommendationAdapter {
     
     // Otherwise derive from alchemical properties
     if (this.alchemicalResult) {
-      const fire = this.alchemicalResult.elementalBalance.fire || 0;
+      const fire = this.alchemicalResult.elementalBalance.Fire || 0;
       const spirit = this.alchemicalResult.spirit || 0;
       
       // Heat is primarily influenced by Fire element and Spirit property
@@ -588,7 +588,7 @@ export class RecommendationAdapter {
     
     // Otherwise derive from alchemical properties
     if (this.alchemicalResult) {
-      const air = this.alchemicalResult.elementalBalance.air || 0;
+      const air = this.alchemicalResult.elementalBalance.Air || 0;
       const substance = this.alchemicalResult.substance || 0;
       
       // Entropy is primarily influenced by Air element and Substance property
@@ -610,7 +610,7 @@ export class RecommendationAdapter {
     // Otherwise derive from alchemical properties
     if (this.alchemicalResult) {
       const essence = this.alchemicalResult.essence || 0;
-      const water = this.alchemicalResult.elementalBalance.water || 0;
+      const water = this.alchemicalResult.elementalBalance.Water || 0;
       
       // Reactivity is primarily influenced by Water element and Essence property
       return (water * 0.5 + essence * 0.5) / 2;
@@ -630,11 +630,11 @@ export class RecommendationAdapter {
     
     // Otherwise derive from alchemical properties - balanced formula based on all elements
     if (this.alchemicalResult) {
-      const { fire, water, earth, air } = this.alchemicalResult.elementalBalance;
+      const { Fire, Water, Earth, Air } = this.alchemicalResult.elementalBalance;
       const { spirit, essence, matter, substance } = this.alchemicalResult;
       
       // Weighted combination of all elements and properties
-      const elementalBalance = (fire + water + earth + air) / 4;
+      const elementalBalance = (Fire + Water + Earth + Air) / 4;
       const propertyBalance = (spirit + essence + matter + substance) / 4;
       
       return (elementalBalance * 0.4 + propertyBalance * 0.6);

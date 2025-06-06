@@ -8,8 +8,8 @@ const rawAmaranth: Record<string, Partial<IngredientMapping>> = {
     astrologicalProfile: {
       rulingPlanets: ['Mars', 'Venus'],
       elementalAffinity: {
-        base: 'earth',
-        secondary: 'fire'
+        base: 'Earth',
+        secondary: 'Fire'
       }
     },
     qualities: ['nutty', 'earthy', 'gelatinous', 'gluten-free', 'protein-rich'],

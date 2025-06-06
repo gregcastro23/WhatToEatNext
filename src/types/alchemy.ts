@@ -36,6 +36,160 @@ export interface ElementalInteraction {
   resultingElement?: Element;
 }
 
+// ========== MISSING TYPES FOR PHASE 8 ==========
+
+// Season type
+export type Season = 'spring' | 'summer' | 'autumn' | 'winter';
+
+// Alchemical calculation results
+export interface AlchemicalResult {
+  elementalProperties: ElementalProperties;
+  thermodynamicProperties: ThermodynamicProperties;
+  kalchm: number;
+  monica: number;
+  score: number;
+}
+
+export interface StandardizedAlchemicalResult extends AlchemicalResult {
+  normalized: boolean;
+  confidence: number;
+  metadata?: Record<string, unknown>;
+}
+
+export interface AlchemicalCalculationResult {
+  result: AlchemicalResult;
+  confidence: number;
+  factors: string[];
+}
+
+// Thermodynamic properties
+export interface ThermodynamicProperties {
+  heat: number;
+  entropy: number;
+  reactivity: number;
+  energy: number;
+}
+
+export interface BasicThermodynamicProperties {
+  heat: number;
+  entropy: number;
+  reactivity: number;
+  gregsEnergy: number; // Added to match extensive usage throughout codebase
+}
+
+export interface ThermodynamicMetrics extends ThermodynamicProperties {
+  gregsEnergy: number;
+  kalchm: number;
+  monica: number;
+}
+
+// Elemental characteristics and profiles
+export interface ElementalCharacteristics {
+  element: Element;
+  strength: number;
+  purity: number;
+  interactions: ElementalInteraction[];
+}
+
+export interface ElementalProfile {
+  dominant: Element;
+  secondary?: Element;
+  characteristics: ElementalCharacteristics[];
+  balance: ElementalProperties;
+}
+
+// Elemental affinity
+export interface ElementalAffinity {
+  primary: Element;
+  secondary?: Element;
+  strength: number;
+  compatibility: Record<Element, number>;
+}
+
+// Astrological influence
+export interface _AstrologicalInfluence {
+  planet: string;
+  sign: ZodiacSign;
+  element: Element;
+  strength: number;
+  aspects: PlanetaryAspect[];
+}
+
+// Recipe harmony
+export interface RecipeHarmonyResult {
+  overall: number;
+  elemental: number;
+  astrological: number;
+  seasonal: number;
+  factors: string[];
+}
+
+// Chakra energies
+export interface ChakraEnergies {
+  root: number;
+  sacral: number;
+  solarPlexus: number;
+  heart: number;
+  throat: number;
+  thirdEye: number;
+  crown: number;
+}
+
+// Combination effects
+export interface CombinationEffect {
+  type: EffectType;
+  strength: number;
+  elements: Element[];
+  description: string;
+}
+
+export type EffectType = 'synergy' | 'conflict' | 'neutralize' | 'amplify' | 'transmute';
+
+// Recipe interface for alchemy calculations
+export interface Recipe {
+  id: string;
+  name: string;
+  ingredients: RecipeIngredient[];
+  elementalProperties: ElementalProperties;
+  season?: Season[];
+  mealType?: string[];
+  [key: string]: unknown;
+}
+
+export interface RecipeIngredient {
+  name: string;
+  amount: number;
+  unit: string;
+  elementalProperties?: ElementalProperties;
+  [key: string]: unknown;
+}
+
+// Birth and horoscope data types
+export interface BirthInfo {
+  date: Date;
+  location: {
+    latitude: number;
+    longitude: number;
+    timezone?: string;
+  };
+  name?: string;
+}
+
+export interface HoroscopeData {
+  planets: Record<string, PlanetaryPosition>;
+  houses: Record<string, unknown>;
+  aspects: PlanetaryAspect[];
+  ascendant?: {
+    sign: ZodiacSign;
+    degree: number;
+  };
+  midheaven?: {
+    sign: ZodiacSign;
+    degree: number;
+  };
+  [key: string]: unknown;
+}
+
 // ========== COOKING METHOD MODIFIERS ==========
 
 export interface CookingMethodModifier {
@@ -84,10 +238,6 @@ export const LUNAR_PHASE_REVERSE_MAPPING: Record<LunarPhaseWithUnderscores, Luna
   'last_quarter': 'last quarter',
   'waning_crescent': 'waning crescent'
 };
-
-
-
-
 
 export interface Planet {
   name: PlanetName;
@@ -168,11 +318,10 @@ export interface CelestialPosition {
   dignity?: DignityType;
 }
 
-
-
 // Re-export AstrologicalState from celestial types
 export { AstrologicalState } from "@/types/celestial";
 
-
 // Re-export standard types from celestial
 export { Planet, PlanetName, ZodiacSign, LunarPhase } from "@/types/celestial";
+
+export const COOKING_METHOD_THERMODYNAMICS = {};

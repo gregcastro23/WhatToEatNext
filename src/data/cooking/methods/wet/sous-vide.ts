@@ -54,7 +54,7 @@ export const sousVide: CookingMethodData = {
   ],
   astrologicalInfluences: {
     favorableZodiac: ['aquarius', 'virgo', 'capricorn'] as ZodiacSign[], // Earth signs and technological Aquarius
-    unfavorableZodiac: ['aries', 'leo', 'sagittarius'] as ZodiacSign[], // Fire signs oppose the water-based method
+    unfavorableZodiac: ['aries', 'leo', 'sagittarius'] as ZodiacSign[], // Fire signs prefer more spontaneous cooking methods
     dominantPlanets: ['Mercury', 'Saturn', 'Uranus'], // Precision (Mercury), stability (Saturn), innovation (Uranus)
     lunarPhaseEffect: {
       'full_moon': 0.8,  // Less effective - water energies are more chaotic

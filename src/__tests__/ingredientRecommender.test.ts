@@ -1,26 +1,29 @@
 import { getRecommendedIngredients } from '@/utils/ingredientRecommender';
 import { AstrologicalState } from '@/types/alchemy';
+import { Ingredient } from '@/types/ingredient';
 
 // Mock implementation of getRecommendedIngredients
 jest.mock('@/utils/ingredientRecommender', () => {
   return {
-    getRecommendedIngredients: () => [
+    getRecommendedIngredients: (): Ingredient[] => [
       {
         name: 'Rosemary',
-        type: 'herb',
+        category: 'culinary_herb',
+        qualities: ['aromatic', 'warming'],
         elementalProperties: { Fire: 0.6, Air: 0.3, Earth: 0.1, Water: 0 },
         astrologicalProfile: {
           rulingPlanets: ['Sun', 'Mercury']
         }
-      },
+      } as Ingredient,
       {
         name: 'Thyme',
-        type: 'herb',
+        category: 'culinary_herb',
+        qualities: ['aromatic', 'warming'],
         elementalProperties: { Fire: 0.4, Air: 0.4, Earth: 0.2, Water: 0 },
         astrologicalProfile: {
           rulingPlanets: ['Mercury']
         }
-      }
+      } as Ingredient
     ]
   };
 });
@@ -40,8 +43,7 @@ describe('getRecommendedIngredients', () => {
         moon: { sign: 'cancer', degree: 5 }
       },
       lunarPhase: 'full moon',
-      zodiacSign: 'leo',
-      planetaryHours: 'sun',
+      planetaryHour: 'Sun',
       planetaryAlignment: {
         sun: { sign: 'leo', degree: 15 },
         moon: { sign: 'cancer', degree: 5 }
@@ -57,10 +59,11 @@ describe('getRecommendedIngredients', () => {
     ingredients.forEach(ingredient => {
       expect(ingredient).toHaveProperty('elementalProperties');
       expect(ingredient).toHaveProperty('astrologicalProfile');
-      expect(ingredient.astrologicalProfile).toHaveProperty('rulingPlanets');
+      const astroProfile = (ingredient as any).astrologicalProfile;
+      expect(astroProfile).toHaveProperty('rulingPlanets');
       expect(
-        ingredient.astrologicalProfile.rulingPlanets.some(
-          planet => ['Sun', 'Mercury', 'Saturn'].includes(planet)
+        astroProfile.rulingPlanets.some(
+          (planet: string) => ['Sun', 'Mercury', 'Saturn'].includes(planet)
         )
       ).toBe(true);
     });

@@ -41,21 +41,21 @@ export default function CookingMethodsDemoPage() {
       return {
         id: `${prefix}_${key}`,
         name,
-        description: method.description || '',
-        elementalEffect: method.elementalEffect || method.elementalProperties || {
+        description: (method as any).description || '',
+        elementalEffect: (method as any).elementalEffect || (method as any).elementalProperties || {
           Fire: Math.random(),
           Water: Math.random(),
           Earth: Math.random(),
           Air: Math.random()
         },
         score,
-        duration: method.time_range || method.duration || { min: 10, max: 30 },
-        suitable_for: method.suitable_for || [],
-        benefits: method.benefits || [],
+        duration: (method as any).time_range || (method as any).duration || { min: 10, max: 30 },
+        suitable_for: (method as any).suitable_for || [],
+        benefits: (method as any).benefits || [],
         // Create variations if they exist
-        variations: method.variations ? 
-          (Array.isArray(method.variations) ? 
-            method.variations.map((v: string, i: number) => ({
+        variations: (method as any).variations ? 
+          (Array.isArray((method as any).variations) ? 
+            (method as any).variations.map((v: string, i: number) => ({
               id: `${prefix}_${key}_var_${i}`,
               name: v,
               description: `A variation of ${name} with different characteristics.`,
@@ -92,7 +92,7 @@ export default function CookingMethodsDemoPage() {
           <CookingMethodsSection 
             methods={methods} 
             onSelectMethod={handleSelectMethod}
-            selectedMethodId={selectedMethod?.id || null}
+            selectedMethodId={(selectedMethod as any)?.id || null}
             initiallyExpanded={true}
           />
         </Box>
@@ -103,10 +103,10 @@ export default function CookingMethodsDemoPage() {
       {selectedMethod && (
         <Box sx={{ mt: 4, p: 3, bgcolor: 'background.paper', borderRadius: 2, boxShadow: 2 }}>
           <Typography variant="h5" gutterBottom>
-            Selected Method: {selectedMethod.name}
+            Selected Method: {(selectedMethod as any).name}
           </Typography>
           <Typography variant="body1" paragraph>
-            {selectedMethod.description}
+            {(selectedMethod as any).description}
           </Typography>
           <Box component="pre" sx={{ 
             p: 2, 

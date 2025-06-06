@@ -69,8 +69,7 @@ describe('CulinaryAstrologer', () => {
         moon: { sign: 'cancer', degree: 5 }
       },
       lunarPhase: 'full moon',
-      zodiacSign: 'leo',
-      planetaryHours: 'sun',
+      planetaryHour: 'Sun',
       planetaryAlignment: {
         sun: { sign: 'leo', degree: 15 },
         moon: { sign: 'cancer', degree: 5 }

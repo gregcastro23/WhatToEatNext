@@ -71,7 +71,7 @@ const ascendantData: PlanetData = {
   },
   'PlanetSpecific': {
     'SignInfluence': {
-      'Aries': {
+      'aries': {
         'FoodFocus': 'Quick, energetic dining style, preference for bold flavors and simple preparations',
         'Elements': {
           'Fire': 0.8,
@@ -80,7 +80,7 @@ const ascendantData: PlanetData = {
           'Water': 0.1
         }
       },
-      'Taurus': {
+      'taurus': {
         'FoodFocus': 'Sensual eating experiences, rich foods, appreciation for quality ingredients',
         'Elements': {
           'Fire': 0.2,
@@ -89,7 +89,7 @@ const ascendantData: PlanetData = {
           'Water': 0.3
         }
       },
-      'Gemini': {
+      'gemini': {
         'FoodFocus': 'Variety in meals, interest in food knowledge, enjoyment of food conversation',
         'Elements': {
           'Fire': 0.3,
@@ -98,7 +98,7 @@ const ascendantData: PlanetData = {
           'Water': 0.2
         }
       },
-      'Cancer': {
+      'cancer': {
         'FoodFocus': 'Emotional connection to food, nurturing meals, traditional family recipes',
         'Elements': {
           'Fire': 0.1,
@@ -107,7 +107,7 @@ const ascendantData: PlanetData = {
           'Water': 0.8
         }
       },
-      'Leo': {
+      'leo': {
         'FoodFocus': 'Dramatic presentations, generous portions, celebratory dining experiences',
         'Elements': {
           'Fire': 0.8,
@@ -116,7 +116,7 @@ const ascendantData: PlanetData = {
           'Water': 0.1
         }
       },
-      'Virgo': {
+      'virgo': {
         'FoodFocus': 'Healthy and precise preparations, attention to nutritional details, clean eating',
         'Elements': {
           'Fire': 0.2,
@@ -125,7 +125,7 @@ const ascendantData: PlanetData = {
           'Water': 0.1
         }
       },
-      'Libra': {
+      'libra': {
         'FoodFocus': 'Beautiful presentation, balanced flavors, social dining experiences',
         'Elements': {
           'Fire': 0.2,
@@ -134,7 +134,7 @@ const ascendantData: PlanetData = {
           'Water': 0.2
         }
       },
-      'Scorpio': {
+      'scorpio': {
         'FoodFocus': 'Intense flavors, mysterious ingredients, transformative cooking methods',
         'Elements': {
           'Fire': 0.3,
@@ -143,7 +143,7 @@ const ascendantData: PlanetData = {
           'Water': 0.8
         }
       },
-      'Sagittarius': {
+      'sagittarius': {
         'FoodFocus': 'International cuisines, adventurous eating, philosophical approach to food',
         'Elements': {
           'Fire': 0.8,
@@ -152,7 +152,7 @@ const ascendantData: PlanetData = {
           'Water': 0.1
         }
       },
-      'Capricorn': {
+      'capricorn': {
         'FoodFocus': 'Traditional recipes, disciplined approach to meals, quality over quantity',
         'Elements': {
           'Fire': 0.1,
@@ -161,7 +161,7 @@ const ascendantData: PlanetData = {
           'Water': 0.3
         }
       },
-      'Aquarius': {
+      'aquarius': {
         'FoodFocus': 'Innovative food concepts, unusual combinations, intellectual approach to eating',
         'Elements': {
           'Fire': 0.2,
@@ -170,7 +170,7 @@ const ascendantData: PlanetData = {
           'Water': 0.2
         }
       },
-      'Pisces': {
+      'pisces': {
         'FoodFocus': 'Intuitive cooking, creative presentations, ethereal flavors and experiences',
         'Elements': {
           'Fire': 0.1,

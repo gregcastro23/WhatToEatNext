@@ -14,6 +14,8 @@ export interface PlanetaryHour {
   hourOfDay: number;
 }
 
+export type MealType = 'Breakfast' | 'Lunch' | 'Dinner' | 'Snack' | 'Anytime';
+
 export interface TimeFactors {
   currentDate: Date;
   season: Season;
@@ -21,6 +23,7 @@ export interface TimeFactors {
   planetaryDay: PlanetaryDay;
   planetaryHour: PlanetaryHour;
   weekDay: WeekDay;
+  mealType?: MealType; // Added to support meal recommendations
 }
 
 const DAY_RULERS: Record<WeekDay, PlanetName> = {
@@ -99,12 +102,25 @@ export function getTimeFactors(): TimeFactors {
     hourOfDay: planetaryHourOfDay
   };
   
+  // Determine meal type based on time of day
+  let mealType: MealType;
+  if (hour >= 5 && hour < 11) {
+    mealType = 'Breakfast';
+  } else if (hour >= 11 && hour < 15) {
+    mealType = 'Lunch';
+  } else if (hour >= 17 && hour < 22) {
+    mealType = 'Dinner';
+  } else {
+    mealType = 'Snack';
+  }
+  
   return {
     currentDate: now,
     season,
     timeOfDay,
     planetaryDay,
     planetaryHour,
-    weekDay
+    weekDay,
+    mealType
   };
 } 

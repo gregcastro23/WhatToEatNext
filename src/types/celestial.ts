@@ -62,7 +62,7 @@ export type AlchemicalProperty = 'Spirit' | 'Essence' | 'Matter' | 'Substance';
 export interface CelestialPosition {
   sign?: string;
   degree?: number;
-  exactLongitude?: number;
+  exactLongitude?: number; // Used extensively in astronomy calculations
   isRetrograde?: boolean;
   minutes?: number;
   speed?: number;
@@ -84,9 +84,13 @@ export interface PlanetaryPosition {
 export interface PlanetaryAspect {
   planet1: string;
   planet2: string;
-  aspectType: AspectType;
+  aspectType?: AspectType; // Optional for compatibility
+  type?: AspectType; // Alternative name used in many places
   orb: number;
-  influence: number;
+  influence?: number; // Optional for compatibility
+  strength?: number; // Alternative name used in alchemy.ts
+  planets?: string[]; // Used for multi-planet aspects
+  additionalInfo?: Record<string, unknown>; // For extended data
 }
 
 // Overall planetary alignment
@@ -95,7 +99,7 @@ export interface PlanetaryAlignment {
   activeAspects?: PlanetaryAspect[];
   dominantPlanets?: string[];
   stabilityIndex?: number;
-  [key: string]: CelestialPosition | string[] | PlanetaryAspect[] | number | string | undefined;
+  // Planetary positions
   sun?: CelestialPosition;
   moon?: CelestialPosition;
   mercury?: CelestialPosition;
@@ -165,6 +169,12 @@ export interface AstrologicalState {
   dominantElement?: Element;
   dominantModality?: Modality;
   aspects?: PlanetaryAspect[];
+  
+  // Missing properties found in error analysis
+  zodiacSign?: ZodiacSign; // Used extensively in alchemical calculations
+  ascendantSign?: ZodiacSign; // Used in birth chart calculations  
+  planetaryAlignment?: PlanetaryAlignment; // Alternative name for currentPlanetaryAlignment
+  dominantPlanets?: string[]; // Used in recommendation engine
   
   // Planetary positions for test compatibility
   planetaryPositions?: Record<string, CelestialPosition>;

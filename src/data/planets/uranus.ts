@@ -2,9 +2,9 @@ import { PlanetData } from './types';
 
 const uranusData: PlanetData = {
   'Dignity Effect': {
-    'Aquarius': 1,
-    'Scorpio': 2,
-    'Taurus': -3
+    'aquarius': 1,
+    'scorpio': 2,
+    'taurus': -3
   },
   'Elements': ['Water', 'Air'],
   'Alchemy': {
@@ -172,7 +172,7 @@ const uranusData: PlanetData = {
   },
   'PlanetSpecific': {
     'ZodiacTransit': {
-      'Aquarius': {
+      'aquarius': {
         'FoodFocus': 'Revolutionary food concepts, technological and scientific approaches to cooking',
         'Elements': {
           'Fire': 0.3,
@@ -184,7 +184,7 @@ const uranusData: PlanetData = {
         'FavoredIngredients': ['blue spirulina', 'edible flowers', 'exotic mushrooms', 'plant-based proteins', 'aerated textures', 'freeze-dried elements'],
         'FlavorCombinations': 'Unexpected contrasts, electrically-charged sensations, synesthesia-inducing pairings'
       },
-      'Scorpio': {
+      'scorpio': {
         'FoodFocus': 'Transformative foods with unusual depth, unexpected flavor combinations with intensity',
         'Elements': {
           'Fire': 0.3,
@@ -196,7 +196,7 @@ const uranusData: PlanetData = {
         'FavoredIngredients': ['fermented foods', 'phosphorescent ingredients', 'black foods', 'dramatic presentations', 'color-changing elements'],
         'FlavorCombinations': 'Intense contrasts, transformed flavors, deep unexpected harmonies'
       },
-      'Gemini': {
+      'gemini': {
         'FoodFocus': 'Dual-natured preparations, foods that transform while eating, interactive dining',
         'Elements': {
           'Fire': 0.3,
@@ -235,7 +235,7 @@ const uranusData: PlanetData = {
       }
     },
     'TransitDates': {
-      'Taurus': {
+      'taurus': {
         '1stDecan': { 
           'Start': '2018-05-15', 
           'End': '2019-01-06',
@@ -264,7 +264,7 @@ const uranusData: PlanetData = {
           }
         }
       },
-      'Gemini': {
+      'gemini': {
         '1stDecan': { 
           'Start': '2025-09-01', 
           'End': '2026-11-20',

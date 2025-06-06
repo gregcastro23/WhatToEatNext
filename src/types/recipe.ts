@@ -38,6 +38,9 @@ export interface RecipeIngredient {
   optional?: boolean;
   preparation?: string;
   notes?: string;
+  function?: string;
+  cookingPoint?: string;
+  substitutes?: string[];
   elementalProperties?: ElementalProperties;
   seasonality?: string[];
   
@@ -47,64 +50,175 @@ export interface RecipeIngredient {
   lunarPhaseInfluences?: LunarPhase[];
 }
 
-// Core Recipe interface - this is the primary interface used across components
+// Unified Recipe interface - consolidates all previous recipe types
 export interface Recipe {
+  // Core identification
   id: string;
   name: string;
-  description: string;
-  cuisine: string;
+  description?: string;
+  cuisine?: string;
+  
+  // Ingredients and instructions
   ingredients: RecipeIngredient[];
   instructions: string[];
-  timeToMake: string;
-  servingSize: number; // Standardized from numberOfServings
+  
+  // Time and serving information
+  timeToMake?: string;
+  prepTime?: string;
+  cookTime?: string;
+  totalTime?: string;
+  restTime?: string;
+  servingSize?: number;
+  numberOfServings?: number;
+  yield?: string;
+  
+  // Elemental properties (required)
   elementalProperties: ElementalProperties;
+  
+  // Meal and cuisine classification
   mealType?: string | string[];
   season?: string | string[];
+  course?: string[];
+  dishType?: string[];
   
-  // UI-specific properties
+  // Dietary considerations
   isVegetarian?: boolean;
   isVegan?: boolean;
   isGlutenFree?: boolean;
   isDairyFree?: boolean;
+  isNutFree?: boolean;
+  isLowCarb?: boolean;
+  isKeto?: boolean;
+  isPaleo?: boolean;
+  allergens?: string[];
+  
+  // Culinary details
+  cookingMethod?: string[];
+  cookingTechniques?: string[];
+  equipmentNeeded?: string[];
+  skillsRequired?: string[];
+  spiceLevel?: number | 'mild' | 'medium' | 'hot' | 'very hot';
+  
+  // Flavor and sensory
+  flavorProfile?: {
+    primary?: string[];
+    accent?: string[];
+    base?: string[];
+    tasteBalance?: {
+      sweet: number;
+      salty: number;
+      sour: number;
+      bitter: number;
+      umami: number;
+    };
+  };
+  texturalElements?: string[];
+  aromatics?: string[];
+  colorProfile?: string[];
+  
+  // Cultural context
+  origin?: string;
+  history?: string;
+  traditionalOccasion?: string[];
+  regionalVariations?: string[];
+  
+  // Pairing and serving
+  pairingRecommendations?: {
+    wines?: string[];
+    beverages?: string[];
+    sides?: string[];
+    condiments?: string[];
+  };
+  
+  // Technical details
+  cookingTemperature?: {
+    value: number;
+    unit: 'C' | 'F';
+    technique: string;
+  }[];
+  internalTemperature?: {
+    value: number;
+    unit: 'C' | 'F';
+    doneness: string;
+  };
   
   // Enhanced astrological properties
   astrologicalInfluences?: string[];
   zodiacInfluences?: ZodiacSign[];
   lunarPhaseInfluences?: LunarPhase[];
   planetaryInfluences?: {
-    favorable: string[];   // Planet names that enhance this recipe
-    unfavorable: string[]; // Planet names that diminish this recipe
+    favorable: string[];
+    unfavorable: string[];
+    neutral?: string[];
   };
   
-  // Support for nutrition data
+  // Nutritional information
   nutrition?: {
     calories?: number;
+    servingSize?: string;
     protein?: number;
     carbs?: number;
     fat?: number;
+    fiber?: number;
+    macronutrients?: {
+      protein: number;
+      carbs: number;
+      fat: number;
+      fiber: number;
+    };
+    micronutrients?: {
+      vitamins: Record<string, number>;
+      minerals: Record<string, number>;
+    };
     vitamins?: string[];
     minerals?: string[];
   };
   
-  // Additional standardized fields
-  substitutions?: { original: string; alternatives: string[] }[];
-  tools?: string[]; // Required cooking tools/equipment
-  spiceLevel?: number | 'mild' | 'medium' | 'hot' | 'very hot'; // Indicator of spiciness
-  preparationNotes?: string; // Special notes about preparation
-  technicalTips?: string[]; // Technical cooking tips
+  // Chef's notes and guidance
+  preparationNotes?: string;
+  technicalTips?: string[];
+  chefNotes?: string[];
+  commonMistakes?: string[];
+  tips?: string[];
+  variations?: string[];
+  presentationTips?: string[];
   
-  // Timestamp properties
+  // Sensory indicators
+  sensoryIndicators?: {
+    visual: string[];
+    aroma: string[];
+    texture: string[];
+    sound: string[];
+  };
+  
+  // Recipe metadata
+  tags?: string[];
+  keywords?: string[];
+  notes?: string;
+  preparation?: string;
+  procedure?: string | string[];
+  idealTimeOfDay?: string;
+  
+  // Multi-component recipes
+  componentParts?: {
+    name: string;
+    ingredients: RecipeIngredient[];
+    instructions: string[];
+  }[];
+  
+  // Substitutions and alternatives
+  substitutions?: { original: string; alternatives: string[] }[];
+  tools?: string[];
+  
+  // Seasonal considerations
+  seasonalIngredients?: string[];
+  
+  // Timestamps
   createdAt?: string;
   updatedAt?: string;
   
-  // Allow additional properties
-  [key: string]: unknown;
-}
-
-// Scored recipe extends the base Recipe interface with a score property
-export interface ScoredRecipe extends Recipe {
-  score: number;
-  // Add alchemical score breakdowns
+  // Scoring (for recommendations)
+  score?: number;
   alchemicalScores?: {
     elementalScore: number;
     zodiacalScore: number;
@@ -112,6 +226,14 @@ export interface ScoredRecipe extends Recipe {
     planetaryScore: number;
     seasonalScore: number;
   };
+  
+  // Allow additional dynamic properties for extensibility
+  [key: string]: unknown;
+}
+
+// Legacy interface for backward compatibility - now extends unified Recipe
+export interface ScoredRecipe extends Recipe {
+  score: number; // Required for this interface
 }
 
 // Validation utilities
@@ -165,70 +287,13 @@ export const validateElementalPropertiesExt = validateAlchemyElementalProps;
 export const validateIngredientExt = validateAlchemyIngredient;
 export const validateRecipeExt = validateAlchemyRecipe;
 
-// Simpler ingredient extension for specific cases
-export interface RecipeIngredientExt {
-  name: string;
-  amount: number;
-  unit: string;
-  category?: string;
-  id?: string;
-  optional?: boolean;
-  preparation?: string;
-  
-  // Add astrological associations
-  zodiacInfluences?: ZodiacSign[];
-  planetaryInfluences?: string[]; // Planet names
-  lunarPhaseInfluences?: LunarPhase[];
+// Legacy interfaces for backward compatibility - all now extend unified Recipe
+export interface RecipeExtended extends Recipe {
+  // All properties are now inherited from unified Recipe interface
 }
 
-// Extended recipe with optional description
-export interface RecipeExtended {
-  id: string;
-  name: string;
-  description?: string;
-  ingredients: RecipeIngredientExt[];
-  instructions: string[];
-  timeToMake: string;
-  numberOfServings: number;
-  elementalProperties: ElementalProperties;
-  season?: string[];
-  mealType?: string[];
-  cuisine?: string;
-  isVegetarian?: boolean;
-  isVegan?: boolean;
-  isGlutenFree?: boolean;
-  isDairyFree?: boolean;
-  score?: number;
-  createdAt?: string;
-  updatedAt?: string;
-  
-  // Inherited properties from RecipeIngredientExt (excluding 'amount' and 'unit')
-  category?: string;
-  optional?: boolean;
-  preparation?: string;
-  zodiacInfluences?: ZodiacSign[];
-  lunarPhaseInfluences?: LunarPhase[];
-  
-  // Enhanced astrological properties
-  astrologicalInfluences?: string[];
-  planetaryInfluences?: {
-    favorable: string[];   // Planet names that enhance this recipe
-    unfavorable: string[]; // Planet names that diminish this recipe
-  };
-  
-  alchemicalScores?: {
-    elementalScore: number;
-    zodiacalScore: number;
-    lunarScore: number;
-    planetaryScore: number;
-    seasonalScore: number;
-  };
-  
-  [key: string]: unknown;
-}
-
-export interface ScoredRecipeExtended extends RecipeExtended {
-  score: number;
+export interface ScoredRecipeExtended extends Recipe {
+  score: number; // Required for this interface
 }
 
 export type TimeOfDay = 'morning' | 'noon' | 'evening' | 'night';

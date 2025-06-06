@@ -138,7 +138,7 @@ describe('RecipeElementalService', () => {
     it('should derive properties based on recipe attributes', () => {
       const recipe = {
         cuisine: 'Mexican',
-        cookingMethod: 'grilling'
+        cookingMethod: ['grilling']
       };
 
       const result = recipeElementalService.deriveElementalProperties(recipe);
@@ -153,7 +153,7 @@ describe('RecipeElementalService', () => {
     it('should derive properties for a recipe with ingredients', () => {
       const recipe = {
         cuisine: 'Japanese',
-        cookingMethod: 'steaming',
+        cookingMethod: ['steaming'],
         ingredients: [
           {
             name: 'Rice',

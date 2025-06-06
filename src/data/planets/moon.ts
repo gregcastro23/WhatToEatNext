@@ -6,7 +6,7 @@ const moonData: PlanetData = {
     'cancer': 1,
     'taurus': 2,
     'capricorn': -1,
-    'Scorpio': -2
+    'scorpio': -2
   },
   'Elements': ['Water', 'Water'],
   'Alchemy': {

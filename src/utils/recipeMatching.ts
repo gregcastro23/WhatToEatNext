@@ -123,15 +123,15 @@ export function findBestMatches(
     // Prioritize seasonal recipes but don't completely exclude off-season ones
     filteredRecipes = filteredRecipes.sort((a, b) => {
       let aIsInSeason =
-        a.season === matchFilters.season || a.season === 'all';
+        a.season === (matchFilters as any)?.season || a.season === 'all';
       let bIsInSeason =
-        b.season === matchFilters.season || b.season === 'all';
+        b.season === (matchFilters as any)?.season || b.season === 'all';
 
       if (aIsInSeason && !bIsInSeason) return -1;
       if (!aIsInSeason && bIsInSeason) return 1;
       return 0;
     });
-    // console.log(`After season sorting (${matchFilters.season}): prioritized seasonal recipes`);
+    // console.log(`After season sorting (${(matchFilters as any)?.season}): prioritized seasonal recipes`);
   }
 
   if (matchFilters?.servings) {
@@ -156,7 +156,7 @@ export function findBestMatches(
           return recipe.ingredients.some((ingredient) =>
             typeof ingredient === 'string'
               ? ingredient.toLowerCase().includes(lowerExcluded)
-              : ingredient.name?.toLowerCase().includes(lowerExcluded)
+              : (ingredient as any)?.name?.toLowerCase().includes(lowerExcluded)
           );
         }
       );
@@ -199,12 +199,12 @@ export function findBestMatches(
     let reasons = [];
 
     // If we have elemental info and current energy, calculate elemental match
-    if (recipe.elementalProperties && currentEnergy) {
+    if ((recipe as any)?.elementalProperties && currentEnergy) {
       let elementalScore = calculateMatchScore(
-        recipe.elementalProperties,
+        (recipe as any)?.elementalProperties,
         currentEnergy,
         {
-          season: matchFilters.season,
+          season: (matchFilters as any)?.season,
           mealType: recipe.mealType || matchFilters.mealType,
           cuisine: recipe.cuisine,
           preferHigherContrast: matchFilters.preferHigherContrast,
@@ -296,9 +296,9 @@ export function findBestMatches(
     data: result.map((recipe) => ({
       recipe,
       score: recipe.matchScore,
-      elements: recipe.elementalProperties || DEFAULT_ELEMENTAL_PROPERTIES,
+      elements: (recipe as any)?.elementalProperties || DEFAULT_ELEMENTAL_PROPERTIES,
       dominantElements: calculateDominantElements(
-        recipe.elementalProperties || DEFAULT_ELEMENTAL_PROPERTIES
+        (recipe as any)?.elementalProperties || DEFAULT_ELEMENTAL_PROPERTIES
       ),
     })),
     timestamp: Date.now(),
@@ -307,9 +307,9 @@ export function findBestMatches(
   return result.map((recipe) => ({
     recipe,
     score: recipe.matchScore,
-    elements: recipe.elementalProperties || DEFAULT_ELEMENTAL_PROPERTIES,
+    elements: (recipe as any)?.elementalProperties || DEFAULT_ELEMENTAL_PROPERTIES,
     dominantElements: calculateDominantElements(
-      recipe.elementalProperties || DEFAULT_ELEMENTAL_PROPERTIES
+      (recipe as any)?.elementalProperties || DEFAULT_ELEMENTAL_PROPERTIES
     ),
   }));
 }
@@ -324,7 +324,7 @@ let calculateBaseElements = (recipe: Recipe): ElementalProperties => {
 
   recipe.ingredients.forEach((ingredient) => {
     let baseProps =
-      ingredient.elementalProperties || DEFAULT_ELEMENTAL_PROPERTIES;
+      (ingredient as any)?.elementalProperties || DEFAULT_ELEMENTAL_PROPERTIES;
     let nutrition = ingredient.nutritionalProfile;
 
     // Calculate nutritional boost
@@ -474,8 +474,8 @@ function calculateRecipeEnergyMatch(
   }
 
   // 4. Calculate seasonal score - check if season exists
-  if (recipe.season && currentEnergy.season) {
-    let seasonalScore = recipe.season.includes(currentEnergy.season)
+  if ((recipe as any)?.season && (currentEnergy as any)?.season) {
+    let seasonalScore = (recipe as any)?.season.includes((currentEnergy as any)?.season)
       ? 1.0
       : 0.0;
     score += seasonalScore * 0.2; // Doubled from 0.1
@@ -498,7 +498,7 @@ function calculateElementalAlignment(
 
   // Get current astrological elemental properties
   let currentElements =
-    currentEnergy.elementalProperties || DEFAULT_ELEMENTAL_PROPERTIES;
+    (currentEnergy as any)?.elementalProperties || DEFAULT_ELEMENTAL_PROPERTIES;
 
   // Calculate weighted similarity between the two elemental profiles
   let similarity = 0;
@@ -790,7 +790,7 @@ function getCacheKey(
 ): string {
   // Create a simplified representation of recipes (just ids to avoid huge keys)
   let recipeIds =
-    recipes?.map((r) => r.id || `${r.name}-${r.cuisine}`).join(',') || 'none';
+    recipes?.map((r) => r.id || `${(r as any)?.name}-${r.cuisine}`).join(',') || 'none';
 
   // Stringify the filters and energy objects
   let filtersStr = JSON.stringify(filters);
@@ -934,7 +934,7 @@ export let connectIngredientsToMappings = (
   let isBrowser = typeof window !== 'undefined';
 
   // Create a cache key for this recipe's ingredients
-  let cacheKey = `ingredient-mapping-${recipe.id || recipe.name}`;
+  let cacheKey = `ingredient-mapping-${recipe.id || (recipe as any)?.name}`;
   let cached: string | null = null;
 
   // Try to get from localStorage, with proper error handling
@@ -966,13 +966,13 @@ export let connectIngredientsToMappings = (
   let matches = recipe.ingredients.map((recipeIngredient) => {
     // Initial result with no match
     const result = {
-      name: recipeIngredient.name,
+      name: (recipeIngredient as any)?.name,
       matchedTo: undefined,
       confidence: 0,
     };
 
     // 1. Try exact match first
-    let exactMatch = ingredientsMap[recipeIngredient.name.toLowerCase()];
+    let exactMatch = ingredientsMap[(recipeIngredient as any)?.name.toLowerCase()];
     if (exactMatch) {
       result.matchedTo = exactMatch as IngredientMapping;
       result.confidence = 1.0;
@@ -980,7 +980,7 @@ export let connectIngredientsToMappings = (
     }
 
     // 2. Try matching by name parts (for compound ingredients)
-    let nameParts = recipeIngredient.name.toLowerCase().split(/\s+/);
+    let nameParts = (recipeIngredient as any)?.name.toLowerCase().split(/\s+/);
     for (const part of nameParts) {
       if (part.length < 3) continue; // Skip short parts like "of", "and", etc.
 
@@ -1012,7 +1012,7 @@ export let connectIngredientsToMappings = (
 
       // Calculate string similarity
       let similarity =
-        getStringSimilarity(recipeIngredient.name, key) + categoryMatch;
+        getStringSimilarity((recipeIngredient as any)?.name, key) + categoryMatch;
 
       if (similarity > bestMatch.similarity) {
         bestMatch = {
@@ -1160,18 +1160,18 @@ function calculateAstrologicalMatch(
 
   // Define astrological compatibility between signs and elements
   const signElementMap: Record<string, string> = {
-    aries: 'fire',
-    taurus: 'earth',
-    gemini: 'air',
-    cancer: 'water',
-    leo: 'fire',
-    virgo: 'earth',
-    libra: 'air',
-    scorpio: 'water',
-    sagittarius: 'fire',
-    capricorn: 'earth',
-    aquarius: 'air',
-    pisces: 'water',
+    aries: 'Fire',
+    taurus: 'Earth',
+    gemini: 'Air',
+    cancer: 'Water',
+    leo: 'Fire',
+    virgo: 'Earth',
+    libra: 'Air',
+    scorpio: 'Water',
+    sagittarius: 'Fire',
+    capricorn: 'Earth',
+    aquarius: 'Air',
+    pisces: 'Water',
   };
 
   // Define elemental compatibility relationships

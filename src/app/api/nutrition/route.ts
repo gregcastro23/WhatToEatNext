@@ -1,5 +1,55 @@
 import { NextResponse } from 'next/server';
 
+
+// Phase 10: Calculation Type Interfaces
+interface CalculationData {
+  value: number;
+  weight?: number;
+  score?: number;
+}
+
+interface ScoredItem {
+  score: number;
+  [key: string]: unknown;
+}
+
+interface ElementalData {
+  Fire: number;
+  Water: number;
+  Earth: number;
+  Air: number;
+  [key: string]: unknown;
+}
+
+interface CuisineData {
+  id: string;
+  name: string;
+  zodiacInfluences?: string[];
+  planetaryDignities?: Record<string, unknown>;
+  elementalState?: ElementalData;
+  elementalProperties?: ElementalData;
+  modality?: string;
+  gregsEnergy?: number;
+  [key: string]: unknown;
+}
+
+interface NutrientData {
+  nutrient?: { name?: string };
+  nutrientName?: string;
+  name?: string;
+  vitaminCount?: number;
+  data?: unknown;
+  [key: string]: unknown;
+}
+
+interface MatchingResult {
+  score: number;
+  elements: ElementalData;
+  recipe?: unknown;
+  [key: string]: unknown;
+}
+
+
 // USDA FoodData Central API endpoint and key
 const USDA_API_BASE = 'https://api.nal.usda.gov/fdc/v1';
 const USDA_API_KEY = 'mymNfzEYKEYQoDNDf7hR9O0OdrF3spSeIQBcdMBl';
@@ -162,7 +212,7 @@ export async function GET(request: Request) {
 }
 
 // Helper function to count vitamins in a foodNutrients array
-function countVitamins(nutrients: unknown[]): number {
+function countVitamins(nutrients: NutrientData[]): number {
   return nutrients.filter(n => {
     const name = (n.nutrient?.name || n.nutrientName || n.name || '').toLowerCase();
     return name.includes('vitamin');

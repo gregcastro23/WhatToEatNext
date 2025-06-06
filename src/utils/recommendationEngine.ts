@@ -22,7 +22,12 @@ const PLANET_CUISINE_AFFINITIES: Record<PlanetName, string[]> = {
   Venus: ['French', 'Desserts', 'Romantic'],
   Mars: ['Spicy', 'Mexican', 'Indian', 'Thai'],
   Jupiter: ['American', 'German', 'Hearty', 'Rich'],
-  Saturn: ['Traditional', 'Fermented', 'Preserved', 'Slow-cooked']
+  Saturn: ['Traditional', 'Fermented', 'Preserved', 'Slow-cooked'],
+  // Add missing planets to complete the Record<PlanetName, string[]>
+  Uranus: ['Innovative', 'Unusual', 'Future-forward', 'Molecular'],
+  Neptune: ['Ethereal', 'Mystical', 'Fluid', 'Oceanic'],
+  Pluto: ['Transformative', 'Intense', 'Powerful', 'Regenerative'],
+  Ascendant: ['Personal', 'Identity', 'Self-expression', 'Signature']
 };
 
 // Season to cuisine mapping
@@ -102,18 +107,18 @@ function calculateMealTypeScore(recipe: Recipe, mealType: MealType): number {
 // Calculate sun sign affinity - certain zodiac signs favor certain flavors/cuisines
 function calculateZodiacScore(recipe: Recipe, sunSign: ZodiacSign): number {
   const zodiacAffinities: Record<ZodiacSign, string[]> = {
-    'Aries': ['Spicy', 'Bold', 'Quick'],
-    'Taurus': ['Rich', 'Indulgent', 'Traditional'],
-    'Gemini': ['Varied', 'Fusion', 'Surprising'],
-    'Cancer': ['Comfort', 'Home-style', 'Nurturing'],
-    'Leo': ['Luxurious', 'Showy', 'Bold'],
-    'Virgo': ['Healthy', 'Precise', 'Detailed'],
-    'Libra': ['Balanced', 'Beautiful', 'Elegant'],
-    'Scorpio': ['Intense', 'Complex', 'Powerful'],
-    'Sagittarius': ['Adventurous', 'Exotic', 'Foreign'],
-    'Capricorn': ['Traditional', 'Classic', 'Quality'],
-    'Aquarius': ['Unusual', 'Innovative', 'Unexpected'],
-    'Pisces': ['Ethereal', 'Delicate', 'Romantic']
+    'aries': ['Spicy', 'Bold', 'Quick'],
+    'taurus': ['Rich', 'Indulgent', 'Traditional'],
+    'gemini': ['Varied', 'Fusion', 'Surprising'],
+    'cancer': ['Comfort', 'Home-style', 'Nurturing'],
+    'leo': ['Luxurious', 'Showy', 'Bold'],
+    'virgo': ['Healthy', 'Precise', 'Detailed'],
+    'libra': ['Balanced', 'Beautiful', 'Elegant'],
+    'scorpio': ['Intense', 'Complex', 'Powerful'],
+    'sagittarius': ['Adventurous', 'Exotic', 'Foreign'],
+    'capricorn': ['Traditional', 'Classic', 'Quality'],
+    'aquarius': ['Unusual', 'Innovative', 'Unexpected'],
+    'pisces': ['Ethereal', 'Delicate', 'Romantic']
   };
   
   const signAffinity = zodiacAffinities[sunSign];

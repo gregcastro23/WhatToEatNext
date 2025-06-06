@@ -2,10 +2,10 @@ import { PlanetData } from './types';
 
 const plutoData: PlanetData = {
   'Dignity Effect': {
-    'Scorpio': 1,
-    'Leo': 2,
-    'Taurus': -1,
-    'Aquarius': -2
+    'scorpio': 1,
+    'leo': 2,
+    'taurus': -1,
+    'aquarius': -2
   },
   'Elements': ['Earth', 'Water'],
   'Alchemy': {
@@ -173,7 +173,7 @@ const plutoData: PlanetData = {
   },
   'PlanetSpecific': {
     'ZodiacTransit': {
-      'Scorpio': {
+      'scorpio': {
         'FoodFocus': 'Deeply transformed foods, fermentation at its most extreme, intense and primal flavors',
         'Elements': {
           'Fire': 0.3,
@@ -185,7 +185,7 @@ const plutoData: PlanetData = {
         'FavoredIngredients': ['black foods', 'fermented ingredients', 'aged foods', 'foraged fungi', 'blood-based dishes', 'organ meats'],
         'FlavorCombinations': 'Maximum depth and intensity, profound umami layers, transformative taste journeys'
       },
-      'Leo': {
+      'leo': {
         'FoodFocus': 'Powerful showstopping dishes, dramatic presentations with hidden depths',
         'Elements': {
           'Fire': 0.8,
@@ -197,7 +197,7 @@ const plutoData: PlanetData = {
         'FavoredIngredients': ['dramatic dark colors', 'powerful centerpieces', 'rare ingredients', 'ancestral foods', 'ingredients with history'],
         'FlavorCombinations': 'Bold contrasts, magnetic flavor pairings, transformative heat progressions'
       },
-      'Capricorn': {
+      'capricorn': {
         'FoodFocus': 'Deeply structured preparations with hidden transformative elements, ancient preservation techniques',
         'Elements': {
           'Fire': 0.2,
@@ -236,7 +236,7 @@ const plutoData: PlanetData = {
       }
     },
     'TransitDates': {
-      'Capricorn': {
+      'capricorn': {
         '1stDecan': { 
           'Start': '2008-01-25', 
           'End': '2018-07-12',
@@ -265,7 +265,7 @@ const plutoData: PlanetData = {
           }
         }
       },
-      'Aquarius': {
+      'aquarius': {
         '1stDecan': { 
           'Start': '2023-03-23', 
           'End': '2043-01-09',

@@ -2,10 +2,10 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import { NextPage } from 'next';
 import Link from 'next/link';
-import { allRecipes } from '@/data/recipes';
+import { getAllRecipes } from '@/data/recipes';
 import type { Recipe } from '@/types/recipe';
 import RecipeComponent from '@/components/Recipe';
-import { getCurrentElementalState } from '@/utils/elementalUtils';
+import { getDefaultElementalProperties } from '@/utils/elementalUtils';
 
 const RecipeDetailsPage: NextPage = () => {
   const router = useRouter();
@@ -24,21 +24,27 @@ const RecipeDetailsPage: NextPage = () => {
   const [selectedIngredient, setSelectedIngredient] = React.useState<any>(null);
 
   React.useEffect(() => {
-    // Get current elemental state based on time, date, etc.
-    const currentState = getCurrentElementalState();
-    setElementalState(currentState);
+    // Get default elemental state
+    const currentState = getDefaultElementalProperties();
+    setElementalState({
+      ...currentState,
+      season: 'spring',
+      timeOfDay: 'lunch'
+    });
   }, []);
 
   React.useEffect(() => {
     if (id) {
       // Find the recipe by URL-friendly ID
-      const foundRecipe = allRecipes.find(recipe => {
-        const recipeId = recipe.name.toLowerCase().replace(/ /g, '-').replace(/[^\w-]/g, '');
-        return recipeId === id;
+      getAllRecipes().then(allRecipes => {
+        const foundRecipe = allRecipes.find(recipe => {
+          const recipeId = recipe.name.toLowerCase().replace(/ /g, '-').replace(/[^\w-]/g, '');
+          return recipeId === id;
+        });
+        
+        setRecipe(foundRecipe || null);
+        setLoading(false);
       });
-      
-      setRecipe(foundRecipe || null);
-      setLoading(false);
     }
   }, [id]);
 

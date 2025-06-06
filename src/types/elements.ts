@@ -26,19 +26,19 @@ export interface ElementalBalance {
 
 // Mapping between zodiac signs and their elements
 export const signElementMap: Record<string, ElementType> = {
-  aries: 'fire',
-  leo: 'fire',
-  sagittarius: 'fire',
+  aries: 'Fire',
+  leo: 'Fire',
+  sagittarius: 'Fire',
   
-  taurus: 'earth',
-  virgo: 'earth',
-  capricorn: 'earth',
+  taurus: 'Earth',
+  virgo: 'Earth',
+  capricorn: 'Earth',
   
-  gemini: 'air',
-  libra: 'air',
-  aquarius: 'air',
+  gemini: 'Air',
+  libra: 'Air',
+  aquarius: 'Air',
   
-  cancer: 'water',
-  scorpio: 'water',
-  pisces: 'water'
+  cancer: 'Water',
+  scorpio: 'Water',
+  pisces: 'Water'
 }; 

@@ -7,11 +7,11 @@ import type { ZodiacSign } from '@/types';
 jest.mock('@/data/planets/mars', () => ({
   PlanetSpecific: {
     TransitDates: {
-      'Leo': { 
+      'leo': { 
         Start: '2024-05-01', 
         End: '2024-06-30' 
       },
-      'Virgo': { 
+      'virgo': { 
         Start: '2024-07-01', 
         End: '2024-08-31' 
       }
@@ -22,11 +22,11 @@ jest.mock('@/data/planets/mars', () => ({
 jest.mock('@/data/planets/venus', () => ({
   PlanetSpecific: {
     TransitDates: {
-      'Aries': { 
+      'aries': { 
         Start: '2024-05-01', 
         End: '2024-06-30' 
       },
-      'Taurus': { 
+      'taurus': { 
         Start: '2024-07-01', 
         End: '2024-08-31' 
       }

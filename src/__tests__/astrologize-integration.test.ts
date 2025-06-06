@@ -276,13 +276,13 @@ describe('Real-time Astrologize Output Demo', () => {
         Object.values(currentPositions || []).forEach(pos => {
           if (pos && pos.sign) {
             const element = getSignElement(pos.sign);
-            if (element) elementCounts[element]++;
+            if (element) elementCounts[element as keyof typeof elementCounts]++;
           }
         });
         
         console.log('\n🔥 ELEMENTAL DISTRIBUTION:');
         Object.entries(elementCounts || []).forEach(([element, count]) => {
-          const emoji = { Fire: '🔥', Earth: '🌍', Air: '💨', Water: '🌊' }[element];
+          const emoji = { Fire: '🔥', Earth: '🌍', Air: '💨', Water: '🌊' }[element as keyof typeof elementCounts];
           console.log(`  ${emoji} ${element.charAt(0)?.toUpperCase() + element?.slice(1)}: ${count} planets`);
         });
         
@@ -325,7 +325,7 @@ function getSignElement(sign: string): string | null {
   return elements[sign as keyof typeof elements] || null;
 }
 
-function getElementDescription(element: Element | null): string {
+function getElementDescription(element: string | null): string {
   const descriptions = {
     Fire: 'action and inspiration',
     Earth: 'stability and practicality', 

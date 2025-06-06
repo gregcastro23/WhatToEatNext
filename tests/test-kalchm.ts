@@ -1,6 +1,67 @@
 // TODO: Fix import - was: import from "./calculations/core/kalchmEngine.ts";
 // Test script for K_alchm and Monica Constant calculations
 
+import { alchemize } from '../src/calculations/alchemicalEngine';
+
+// Mock planetary positions for testing
+const testPositions = {
+  Sun: "Gemini",
+  Moon: "Leo", 
+  Mercury: "Taurus",
+  Venus: "Gemini",
+  Mars: "Aries",
+  Jupiter: "Gemini", 
+  Saturn: "Pisces",
+  Uranus: "Taurus",
+  Neptune: "Aries",
+  Pluto: "Aquarius"
+};
+
+// Calculate alchemical metrics using the main engine
+const metrics = alchemize(testPositions);
+
+console.log('🧙‍♂️ ALCHEMICAL METRICS:');
+console.log(`  Heat: ${metrics.heat.toFixed(4)}`);
+console.log(`  Entropy: ${metrics.entropy.toFixed(4)}`);
+console.log(`  Reactivity: ${metrics.reactivity.toFixed(4)}`);
+console.log(`  Greg's Energy: ${metrics.gregsEnergy.toFixed(4)}`);
+console.log(`  K_alchm: ${metrics.kalchm.toFixed(4)}`);
+console.log(`  Monica Constant: ${metrics.monica.toFixed(4)}`);
+
+// Legacy functions for backward compatibility
+export function calculateKAlchm(spirit: number, essence: number, matter: number, substance: number): number {
+  if (matter === 0 || substance === 0) {
+    return 0; // Avoid division by zero
+  }
+  return (Math.pow(spirit, spirit) * Math.pow(essence, essence)) / 
+         (Math.pow(matter, matter) * Math.pow(substance, substance));
+}
+
+export function calculateMonicaConstant(energy: number, reactivity: number, kAlchm: number): number {
+  if (reactivity === 0 || kAlchm <= 0) {
+    return NaN; // Invalid parameters
+  }
+  const lnK = Math.log(kAlchm);
+  if (lnK === 0) {
+    return NaN;
+  }
+  return -energy / (reactivity * lnK);
+}
+
+// Test the legacy functions
+const Spirit = 5;
+const Essence = 3;
+const Matter = 2;
+const Substance = 1;
+const energy = metrics.gregsEnergy;
+const reactivity = metrics.reactivity;
+
+const kAlchm = calculateKAlchm(Spirit, Essence, Matter, Substance);
+const monicaConstant = calculateMonicaConstant(energy, reactivity, kAlchm);
+
+console.log('\n🔮 LEGACY CALCULATION TEST:');
+console.log(`  Legacy K_alchm: ${kAlchm.toFixed(4)}`);
+console.log(`  Legacy Monica: ${monicaConstant.toFixed(4)}`);
 
 // Sample values
 const Spirit = 4;

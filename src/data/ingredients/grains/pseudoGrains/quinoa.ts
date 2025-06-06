@@ -8,8 +8,8 @@ const rawQuinoa: Record<string, Partial<IngredientMapping>> = {
     astrologicalProfile: {
       rulingPlanets: ['Mercury'],
       elementalAffinity: {
-        base: 'earth',
-        secondary: 'air'
+        base: 'Earth',
+        secondary: 'Air'
       }
     },
     qualities: ['nutty', 'fluffy', 'versatile', 'complete protein', 'gluten-free'],

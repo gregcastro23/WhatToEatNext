@@ -10,33 +10,72 @@ import type { ElementalProperties } from './alchemy';
 import type { ZodiacSign, LunarPhase, PlanetaryAlignment } from './astrology';
 
 export interface Ingredient {
-  id: string;
+  id?: string;
   name: string;
   description?: string;
   category: IngredientCategory;
-  energyProfile: {
+  
+  // Missing properties extensively used in data files
+  qualities: string[];
+  storage?: string | {
+    container?: string;
+    duration: string;
+    temperature?: string | {
+      fahrenheit: number;
+      celsius: number;
+    };
+    notes?: string;
+  };
+  
+  // Astrological profile
+  energyProfile?: {
     zodiac?: ZodiacSign[];
     lunar?: LunarPhase[];
     planetary?: PlanetaryAlignment[];
   };
+  
+  // Alternative astrological profile format (for compatibility)
+  astrologicalProfile?: {
+    elementalAffinity?: {
+      base: string;
+      secondary?: string;
+    };
+    rulingPlanets?: string[];
+    zodiacAffinity?: string[];
+  };
+  
+  // Core properties
   elementalProperties: ElementalProperties;
-  qualities: string[];
   modality?: Modality;
   sensoryProfile?: SensoryProfile;
   alchemicalProperties?: AlchemicalProperties;
   thermodynamicProperties?: ThermodynamicProperties;
   recommendedCookingMethods?: CookingMethod[];
+  
+  // Pairing recommendations
   pairingRecommendations?: {
     complementary: string[];
     contrasting: string[];
     toAvoid: string[];
   };
-  nutrition: {
+  
+  // Nutritional information
+  nutrition?: {
     calories: number;
     protein: number;
     carbs: number;
     fat: number;
-    // Other nutrition properties...
+    fiber?: number;
+    vitamins?: { [key: string]: number };
+    minerals?: { [key: string]: number };
   };
-  // ... other properties
+  
+  // Additional properties for compatibility
+  origin?: string[];
+  subCategory?: string;
+  seasonality?: string[];
+  varieties?: Record<string, any>;
+  
+  // Allow additional properties for extensibility
+  [key: string]: any;
 } 

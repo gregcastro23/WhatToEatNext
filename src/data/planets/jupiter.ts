@@ -2,12 +2,12 @@ import { PlanetData } from './types';
 
 const jupiterData: PlanetData = {
   'Dignity Effect': {
-    'Pisces': 1,
-    'Sagittarius': 1,
-    'Cancer': 2,
-    'Gemini': -1,
-    'Virgo': -1,
-    'Capricorn': -2
+    'pisces': 1,
+    'sagittarius': 1,
+    'cancer': 2,
+    'gemini': -1,
+    'virgo': -1,
+    'capricorn': -2
   },
   'Elements': ['Air', 'Fire'],
   'Alchemy': {
@@ -227,7 +227,7 @@ const jupiterData: PlanetData = {
   },
   'PlanetSpecific': {
     'ZodiacTransit': {
-      'Sagittarius': {
+      'sagittarius': {
         'FoodFocus': 'Abundant, celebratory dishes with exotic spices and foreign influences',
         'Elements': {
           'Fire': 0.8,
@@ -237,7 +237,7 @@ const jupiterData: PlanetData = {
         },
         'Ingredients': ['international spices', 'game meats', 'exotic fruits', 'hearty stews', 'celebratory dishes', 'festive breads']
       },
-      'Pisces': {
+      'pisces': {
         'FoodFocus': 'Spiritual and healing foods, seafood, and dishes with subtle, complex flavors',
         'Elements': {
           'Fire': 0.2,
@@ -247,7 +247,7 @@ const jupiterData: PlanetData = {
         },
         'Ingredients': ['seafood', 'healing herbs', 'infused oils', 'mead', 'fermented foods', 'sacred recipes']
       },
-      'Aries': {
+      'aries': {
         'FoodFocus': 'Bold, pioneering fusion dishes with adventurous flavors and innovative techniques',
         'Elements': {
           'Fire': 0.9,
@@ -257,7 +257,7 @@ const jupiterData: PlanetData = {
         },
         'Ingredients': ['chili peppers', 'global spice blends', 'large roasted meats', 'abundant platters', 'adventurous combinations']
       },
-      'Taurus': {
+      'taurus': {
         'FoodFocus': 'Rich, indulgent comfort foods with emphasis on quality and luxury ingredients',
         'Elements': {
           'Fire': 0.3,

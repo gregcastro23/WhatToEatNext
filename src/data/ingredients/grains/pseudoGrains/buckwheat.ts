@@ -8,8 +8,8 @@ const rawBuckwheat: Record<string, Partial<IngredientMapping>> = {
     astrologicalProfile: {
       rulingPlanets: ['Saturn', 'Mars'],
       elementalAffinity: {
-        base: 'earth',
-        secondary: 'fire'
+        base: 'Earth',
+        secondary: 'Fire'
       }
     },
     qualities: ['earthy', 'robust', 'gluten-free', 'hearty', 'nutty'],
