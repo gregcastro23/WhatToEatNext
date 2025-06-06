@@ -1,11 +1,18 @@
-import type { // ===== UNIFIED INGREDIENTS SYSTEM =====
+// ===== UNIFIED INGREDIENTS SYSTEM =====
 // This file provides a unified interface for accessing ingredients with enhanced alchemical properties
 // It acts as an adapter/enhancer for existing ingredient data rather than duplicating it
 
+import type { 
   IngredientMapping, 
   ElementalProperties, 
   ThermodynamicMetrics,
-  ThermodynamicProperties } from "@/types/alchemy";
+  ThermodynamicProperties,
+  AlchemicalProperties 
+} from "@/types/alchemy";
+
+import type { 
+  UnifiedIngredient 
+} from "@/types/unified";
 // TODO: Fix import - add what to import from "./unifiedTypes.ts"
 import { createElementalProperties } from '../../utils/elemental/elementalUtils';
 
@@ -20,8 +27,6 @@ import { allOils as oils } from '../ingredients/oils';
 import { vinegars } from '../ingredients/vinegars/vinegars';
 import { seasonings } from '../ingredients/seasonings';
 import { meats, poultry, seafood, plantBased } from '../ingredients/proteins';
-
-import { AlchemicalProperties } from '@/types';
 
 // Combine all protein types
 const proteins = {

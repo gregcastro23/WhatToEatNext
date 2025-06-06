@@ -1,5 +1,6 @@
 import { logger } from './logger';
 import { Recipe, RecipeFilters } from '@/types/recipe';
+import type { ScoredRecipe } from '@/types/recipe';
 import type {
   ElementalProperties,
   DietaryRestriction,

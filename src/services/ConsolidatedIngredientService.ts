@@ -264,7 +264,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       const filteredResults: Record<string, UnifiedIngredient[]> = {};
       
       // Determine which categories to include
-      const categoriesToInclude = filter.categories && ($1.$2 || []).length > 0 
+      const categoriesToInclude = filter.categories && (ingredient.$2 || []).length > 0 
         ? filter.categories 
         : Object.keys(allIngredients);
       
@@ -291,7 +291,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         }
         
         // Apply seasonal filter if specified
-        if (filter.currentSeason && ($1.$2 || []).length > 0) {
+        if (filter.currentSeason && (ingredient.$2 || []).length > 0) {
           filtered = this.applySeasonalFilter(filtered, filter.currentSeason);
         }
         
@@ -301,7 +301,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         }
         
         // Apply exclusion filter if specified
-        if (filter.excludeIngredients && ($1.$2 || []).length > 0) {
+        if (filter.excludeIngredients && (ingredient.$2 || []).length > 0) {
           filtered = this.applyExclusionFilter(filtered, filter.excludeIngredients);
         }
         
@@ -563,13 +563,13 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         let seasonalBonus = 0;
         if (optimizeForSeason && ingredient.currentSeason) {
           const currentSeason = this.getCurrentSeason();
-          if (Array.isArray(ingredient.currentSeason) && Array.isArray($1.$3) ? $1.$3.includes($5) : $1.$3 === $5) {
+          if (Array.isArray(ingredient.currentSeason) && Array.isArray(ingredient.$3) ? ingredient.$3.includes($5) : ingredient.$3 === $5) {
             seasonalBonus = 0.2; // 20% bonus for in-season ingredients
           }
         }
         
         // Apply exoticness filter if needed
-        if (!includeExotic && Array.isArray($1.$3) ? $1.$3.includes($5) : $1.$3 === $5) {
+        if (!includeExotic && Array.isArray(ingredient.$3) ? ingredient.$3.includes($5) : ingredient.$3 === $5) {
           return { ingredient, score: 0 }; // Exclude exotic ingredients
         }
         
@@ -585,7 +585,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         .sort((a, b) => sortByScore ? b.score - a.score : 0);
       
       // Return top results
-      const results = filtered?.slice(0, $1 || []).map(item => ({
+      const results = filtered?.slice(0, ingredient || []).map(item => ({
         ...item.ingredient,
         score: item.score
       }));
@@ -718,7 +718,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       }
       
       // Check for required vitamins
-      if (filter.vitamins && ($1.$2 || []).length > 0) {
+      if (filter.vitamins && (ingredient.$2 || []).length > 0) {
         const vitamins = nutritional.vitamins || {};
         const vitaminKeys = Object.keys(vitamins);
         
@@ -730,7 +730,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       }
       
       // Check for required minerals
-      if (filter.minerals && ($1.$2 || []).length > 0) {
+      if (filter.minerals && (ingredient.$2 || []).length > 0) {
         const minerals = nutritional.minerals || {};
         const mineralKeys = Object.keys(minerals);
         
