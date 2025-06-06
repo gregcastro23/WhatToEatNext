@@ -14,6 +14,9 @@ import { unifiedRecipeService } from '../UnifiedRecipeService';
 import { createLogger } from '../../utils/logger';
 import { Element , ElementalProperties } from "@/types/alchemy";
 
+import type { Recipe, RecipeSearchCriteria } from '@/types/recipe';
+import { LocalRecipeService } from '../LocalRecipeService';
+
 import type {
   ScoredRecipe 
 } from "@/types/recipe";
