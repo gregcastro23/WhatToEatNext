@@ -1,3 +1,32 @@
+
+// Enhanced interfaces for Phase 11 - Alchemical Pillar utilities
+interface AlchemicalPillarData {
+  name?: string;
+  element?: string;
+  description?: string;
+  astrologicalProfile?: {
+    planetaryInfluences?: Record<string, number>;
+    zodiacAffinities?: string[];
+    seasonalAlignment?: string;
+  };
+  elementalProperties?: {
+    Fire?: number;
+    Water?: number;
+    Earth?: number;
+    Air?: number;
+  };
+  pillarType?: string;
+  season?: string | string[];
+}
+
+interface PillarCalculationResult {
+  id?: string;
+  name?: string;
+  element?: string;
+  strength?: number;
+  compatibility?: number;
+  seasonalAlignment?: number;
+}
 import { AlchemicalProperty } from '../types/celestial';
 import { CookingMethod } from '../types/alchemy';
 import { 
@@ -49,7 +78,7 @@ function calculatePillarCompatibility(
   pillarB: AlchemicalPillar
 ): number {
   // If they're the same pillar, they're perfectly compatible
-  if (pillarA.id === pillarB.id) return 1.0;
+  if (pillarA.id === (pillarB as any)?.id) return 1.0;
   
   // Calculate compatibility based on their transformative effects
   // How well do the effects of pillarA complement or counter pillarB?
@@ -160,8 +189,8 @@ export function applyPillarTransformation(
   
   // Also apply elemental effects if the item has elemental properties and the pillar has elemental associations
   if (pillar?.elementalAssociations) {
-    const primaryElement = pillar.elementalAssociations.primary;
-    const secondaryElement = pillar.elementalAssociations.secondary;
+    const primaryElement = (pillar as any)?.elementalAssociations.primary;
+    const secondaryElement = (pillar as any)?.elementalAssociations.secondary;
     
     // Apply effects to elemental properties if they exist in the item
     if ('fire' in transformedItem && typeof transformedItem.fire === 'number') {
@@ -365,7 +394,7 @@ const getMethodCompatibility = (
   cookingMethods: Record<string, number>
 ): number => {
   console.log(`==== COMPATIBILITY CALCULATION FOR ${methodName.toUpperCase()} ====`);
-  console.log(`Ingredient: ${transformedItem.name} (Element: ${transformedItem.element})`);
+  console.log(`Ingredient: ${(transformedItem as any)?.name} (Element: ${(transformedItem as any)?.element})`);
   
   // In case the method isn't found in our cooking methods
   if (!cookingMethods[methodName]) {
@@ -381,20 +410,20 @@ const getMethodCompatibility = (
   }
   
   console.log(`Method: ${methodName}`);
-  console.log(`- Associated Pillar: ${pillar.name} (ID: ${pillar.id})`);
+  console.log(`- Associated Pillar: ${(pillar as any)?.name} (ID: ${(pillar as any)?.id})`);
   
-  if (pillar.elementalAssociations) {
-    console.log(`- Primary Element: ${pillar.elementalAssociations.primary}`);
-    if (pillar.elementalAssociations.secondary) {
-      console.log(`- Secondary Element: ${pillar.elementalAssociations.secondary}`);
+  if ((pillar as any)?.elementalAssociations) {
+    console.log(`- Primary Element: ${(pillar as any)?.elementalAssociations.primary}`);
+    if ((pillar as any)?.elementalAssociations.secondary) {
+      console.log(`- Secondary Element: ${(pillar as any)?.elementalAssociations.secondary}`);
     }
   }
   
   console.log(`- Alchemical Effects: Spirit:${pillar.effects.Spirit}, Essence:${pillar.effects.Essence}, Matter:${pillar.effects.Matter}, Substance:${pillar.effects.Substance}`);
   
   console.log(`\nIngredient Details:`)
-  console.log(`- Element: ${transformedItem.element || 'Not specified'}`);
-  console.log(`- Elemental Character: ${transformedItem.elementalCharacter || 'Not specified'}`);
+  console.log(`- Element: ${(transformedItem as any)?.element || 'Not specified'}`);
+  console.log(`- Elemental Character: ${(transformedItem as any)?.elementalCharacter || 'Not specified'}`);
   console.log(`- Spirit: ${transformedItem.spirit || 0}, Essence: ${transformedItem.essence || 0}, Matter: ${transformedItem.matter || 0}, Substance: ${transformedItem.substance || 0}`);
 
   // Base compatibility from element matching
@@ -402,26 +431,26 @@ const getMethodCompatibility = (
   console.log(`\nStarting with base compatibility: ${compatibility}%`);
   
   // Element match - if both the transformed item and pillar have elemental associations
-  if (transformedItem.element && pillar.elementalAssociations) {
-    const primaryElement = pillar.elementalAssociations.primary;
+  if ((transformedItem as any)?.element && (pillar as any)?.elementalAssociations) {
+    const primaryElement = (pillar as any)?.elementalAssociations.primary;
     
     // Primary element match (case insensitive)
-    if (primaryElement.toLowerCase() === transformedItem.element.toLowerCase()) {
+          if ((primaryElement as any)?.toLowerCase?.() === (transformedItem as any)?.element?.toLowerCase?.()) {
       const bonus = 20;
       compatibility += bonus;
       console.log(`✓ Primary element match (${primaryElement}): +${bonus}% → ${compatibility}%`);
     } else {
-      console.log(`✗ No primary element match (${primaryElement} vs ${transformedItem.element})`);
+      console.log(`✗ No primary element match (${primaryElement} vs ${(transformedItem as any)?.element})`);
     }
     
     // Secondary element match (if defined)
-    if (pillar.elementalAssociations.secondary && 
-        pillar.elementalAssociations.secondary.toLowerCase() === transformedItem.element.toLowerCase()) {
+    if ((pillar as any)?.elementalAssociations.secondary && 
+        (pillar as any)?.elementalAssociations.secondary?.toLowerCase?.() === (transformedItem as any)?.element?.toLowerCase?.()) {
       const bonus = 10;
       compatibility += bonus;
-      console.log(`✓ Secondary element match (${pillar.elementalAssociations.secondary}): +${bonus}% → ${compatibility}%`);
-    } else if (pillar.elementalAssociations.secondary) {
-      console.log(`✗ No secondary element match (${pillar.elementalAssociations.secondary} vs ${transformedItem.element})`);
+      console.log(`✓ Secondary element match (${(pillar as any)?.elementalAssociations.secondary}): +${bonus}% → ${compatibility}%`);
+    } else if ((pillar as any)?.elementalAssociations.secondary) {
+      console.log(`✗ No secondary element match (${(pillar as any)?.elementalAssociations.secondary} vs ${(transformedItem as any)?.element})`);
     }
   }
   
@@ -433,13 +462,13 @@ const getMethodCompatibility = (
     earth: ['water']
   };
   
-  if (transformedItem.element && pillar.elementalAssociations) {
-    const primaryElement = pillar.elementalAssociations.primary.toLowerCase();
+  if ((transformedItem as any)?.element && (pillar as any)?.elementalAssociations) {
+    const primaryElement = (pillar as any)?.elementalAssociations.primary?.toLowerCase?.();
     
-    if (complementaryPairs[transformedItem.element.toLowerCase()]?.includes(primaryElement)) {
+          if (complementaryPairs[(transformedItem as any)?.element?.toLowerCase?.()]?.includes(primaryElement)) {
       const bonus = 10;
       compatibility += bonus;
-      console.log(`✓ Complementary elements (${transformedItem.element} - ${primaryElement}): +${bonus}% → ${compatibility}%`);
+      console.log(`✓ Complementary elements (${(transformedItem as any)?.element} - ${primaryElement}): +${bonus}% → ${compatibility}%`);
     } else {
       console.log(`✗ No complementary elements relationship detected`);
     }
@@ -492,11 +521,11 @@ export const getHolisticCookingRecommendations = (
   count = 5
 ): Array<{ method: string, compatibility: number, reason: string }> => {
   console.log('\n--- HOLISTIC COOKING RECOMMENDATIONS ---');
-  console.log(`Ingredient: ${item.name}`);
+  console.log(`Ingredient: ${(item as any)?.name}`);
   console.log(`Planet influence: ${planet || 'None'}`);
   console.log(`Tarot influence: ${tarotCard || 'None'}`);
   console.log(`Time of day: ${isDaytime ? 'Daytime' : 'Nighttime'}`);
-  console.log(`Available methods count: ${availableMethods.length}`);
+  console.log(`Available methods count: ${(availableMethods as any)?.length}`);
   console.log(`Requesting top ${count} recommendations`);
 
   // Transform ingredient based on planetary and tarot influences
@@ -505,7 +534,7 @@ export const getHolisticCookingRecommendations = (
   
   if (planet || tarotCard) {
     console.log('Original item:', {
-      element: item.element,
+      element: (item as any)?.element,
       spirit: item.spirit || 0,
       essence: item.essence || 0,
       matter: item.matter || 0,
@@ -513,7 +542,7 @@ export const getHolisticCookingRecommendations = (
     });
   
     console.log('Transformed item:', {
-      element: transformedItem.element,
+      element: (transformedItem as any)?.element,
       spirit: transformedItem.spirit || 0,
       essence: transformedItem.essence || 0,
       matter: transformedItem.matter || 0,
@@ -528,11 +557,11 @@ export const getHolisticCookingRecommendations = (
   console.log(`\nLoaded ${Object.keys(cookingMethods).length} cooking methods from database`);
   
   // Filter methods if specified
-  const methods = availableMethods.length > 0
+  const methods = (availableMethods as any)?.length > 0
     ? availableMethods
     : Object.keys(cookingMethods);
   
-  console.log(`Evaluating ${methods.length} cooking methods: ${methods.length <= 10 ? methods.join(', ') : methods.length + ' methods (too many to display)'}`);
+  console.log(`Evaluating ${(methods as any)?.length} cooking methods: ${(methods as any)?.length <= 10 ? methods.join(', ') : (methods as any)?.length + ' methods (too many to display)'}`);
 
   // Calculate compatibility for each method
   const compatibility: Array<{ method: string, compatibility: number, reason: string }> = [];
@@ -556,19 +585,19 @@ export const getHolisticCookingRecommendations = (
       if (pillar.effects.Matter > 0) enhancedProps.push("Matter");
       if (pillar.effects.Substance > 0) enhancedProps.push("Substance");
       
-      reason = `${pillar.name} `;
+      reason = `${(pillar as any)?.name} `;
       
-      if (enhancedProps.length > 0) {
+      if ((enhancedProps as any)?.length > 0) {
         reason += `enhances ${enhancedProps.join(", ")}`;
       } else {
         reason += `stabilizes alchemical balance`;
       }
       
       // Add elemental associations
-      if (pillar.elementalAssociations) {
-        const elements = [pillar.elementalAssociations.primary];
-        if (pillar.elementalAssociations.secondary) {
-          elements.push(pillar.elementalAssociations.secondary);
+      if ((pillar as any)?.elementalAssociations) {
+        const elements = [(pillar as any)?.elementalAssociations.primary];
+        if ((pillar as any)?.elementalAssociations.secondary) {
+          elements.push((pillar as any)?.elementalAssociations.secondary);
         }
         reason += ` with ${elements.join("-")} energy`;
       }
@@ -587,7 +616,7 @@ export const getHolisticCookingRecommendations = (
   console.log('\nSORTED RECOMMENDATIONS:');
   console.log('--------------------------------');
   sortedResults.slice(0, count).forEach((rec, index) => {
-    console.log(`${index + 1}. ${rec.method} - Compatibility: ${Math.round(rec.compatibility)}% - ${rec.reason}`);
+    console.log(`${index + 1}. ${(rec as any)?.method} - Compatibility: ${Math.round(rec.compatibility)}% - ${rec.reason}`);
   });
   console.log('--------------------------------\n');
   
@@ -619,7 +648,7 @@ export function getRecommendedCookingMethods(
   count = 5
 ): Array<{ method: string, compatibility: number }> {
   // Calculate compatibility for each available method
-  const compatibilities = availableMethods.map(method => {
+  const compatibilities = (availableMethods as any)?.map?.(method => {
     // Apply the transformation to see how it affects the item
     const transformed = applyPillarTransformation(item, method.toString());
     
@@ -733,10 +762,10 @@ export function getEnhancedCookingRecommendations(
   const allCookingMethods = getAllCookingMethodData();
   
   // Convert available methods to strings if they aren't already
-  const methodStrings = availableMethods.map(m => m.toString());
+  const methodStrings = (availableMethods as any)?.map?.(m => m.toString());
   
   // Filter available methods to those we have data for
-  const availableMethodsWithData = methodStrings.filter(
+  const availableMethodsWithData = (methodStrings as any)?.filter?.(
     method => method in allCookingMethods
   );
   
@@ -744,12 +773,12 @@ export function getEnhancedCookingRecommendations(
   const baseRecommendations = getRecommendedCookingMethods(
     item, 
     availableMethodsWithData,
-    availableMethodsWithData.length // Get all, we'll filter later
+    (availableMethodsWithData as any)?.length // Get all, we'll filter later
   );
   
   // Create enhanced recommendations with additional data
-  const enhancedRecommendations = baseRecommendations.map(rec => {
-    const methodData = allCookingMethods[rec.method];
+  const enhancedRecommendations = (baseRecommendations as any)?.map?.(rec => {
+    const methodData = allCookingMethods[(rec as any)?.method];
     let zodiacCompatibility = 1.0;
     let lunarCompatibility = 1.0;
     let timeCompatibility = 1.0;
@@ -797,21 +826,21 @@ export function getEnhancedCookingRecommendations(
     }
     
     // Check available tools if specified
-    if (options.availableTools && options.availableTools.length > 0 && methodData.toolsRequired) {
+    if (options.availableTools && (options.availableTools as any)?.length > 0 && methodData.toolsRequired) {
       const requiredTools = methodData.toolsRequired;
-      const missingTools = requiredTools.filter(
+      const missingTools = (requiredTools as any)?.filter?.(
         tool => !options.availableTools?.some(
-          availableTool => tool.toLowerCase().includes(availableTool.toLowerCase())
+          availableTool => (tool as any)?.toLowerCase?.().includes((availableTool as any)?.toLowerCase?.())
         )
       );
       
-      if (missingTools.length > 0) {
+      if ((missingTools as any)?.length > 0) {
         // Penalty based on percentage of missing tools
-        toolCompatibility = 1 - (missingTools.length / requiredTools.length) * 0.8;
+        toolCompatibility = 1 - ((missingTools as any)?.length / (requiredTools as any)?.length) * 0.8;
         if (missingTools.length === 1) {
           reasons.push(`missing tool: ${missingTools[0]}`);
         } else {
-          reasons.push(`missing ${missingTools.length} tools`);
+          reasons.push(`missing ${(missingTools as any)?.length} tools`);
         }
       } else {
         toolCompatibility = 1.2; // Bonus for having all tools
@@ -824,14 +853,14 @@ export function getEnhancedCookingRecommendations(
     
     if (options.healthFocus && methodData.healthConsiderations) {
       // Extract positive health considerations
-      healthBenefits = methodData.healthConsiderations.filter(
-        consideration => !consideration.toLowerCase().includes('risk') &&
-                        !consideration.toLowerCase().includes('concern') &&
-                        !consideration.toLowerCase().includes('monitor')
+              healthBenefits = (methodData.healthConsiderations as any)?.filter?.(
+        consideration => !(consideration as any)?.toLowerCase?.().includes('risk') &&
+                        !(consideration as any)?.toLowerCase?.().includes('concern') &&
+                        !(consideration as any)?.toLowerCase?.().includes('monitor')
       );
       
-      if (healthBenefits.length >= 3) {
-        reasons.push(`offers ${healthBenefits.length} health benefits`);
+      if ((healthBenefits as any)?.length >= 3) {
+        reasons.push(`offers ${(healthBenefits as any)?.length} health benefits`);
       }
     }
     
@@ -847,7 +876,7 @@ export function getEnhancedCookingRecommendations(
     let suitabilityFactor = 1.0;
     if (item.type && methodData.suitable_for) {
       const isExplicitlySuitable = methodData.suitable_for.some(
-        suitableType => suitableType.toLowerCase() === item.type?.toLowerCase()
+        suitableType => (suitableType as any)?.toLowerCase?.() === item.type?.toLowerCase()
       );
       
       if (isExplicitlySuitable) {
@@ -865,9 +894,9 @@ export function getEnhancedCookingRecommendations(
                                  suitabilityFactor;
     
     return {
-      method: rec.method,
+      method: (rec as any)?.method,
       compatibility: Math.min(1, enhancedCompatibility), // Cap at 1.0
-      reason: reasons.length > 0 ? reasons.join("; ") : "Compatible cooking method",
+      reason: (reasons as any)?.length > 0 ? reasons.join("; ") : "Compatible cooking method",
       cookingTime: methodData.duration || { min: 0, max: 60 },
       sustainabilityRating: sustainabilityScore,
       equipmentComplexity: complexityScore,

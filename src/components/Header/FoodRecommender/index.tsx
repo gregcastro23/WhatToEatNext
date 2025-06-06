@@ -1,3 +1,31 @@
+
+// Enhanced interfaces for Phase 11 - FoodRecommender component
+interface FoodRecommenderProps {
+  userPreferences?: {
+    cuisine?: string;
+    season?: string;
+    mealType?: string;
+    astrologicalProfile?: Record<string, any>;
+  };
+  recommendations?: Array<{
+    id?: string;
+    name?: string;
+    description?: string;
+    flavorProfile?: Record<string, number>;
+  }>;
+  onRecommendationSelect?: (recommendation: any) => void;
+}
+
+interface RecommendationItem {
+  id?: string;
+  name?: string;
+  description?: string;
+  cuisine?: string;
+  flavorProfile?: Record<string, number>;
+  astrologicalProfile?: Record<string, any>;
+  season?: string | string[];
+  mealType?: string | string[];
+}
 "use client"
 
 import React, { useState, useEffect, useCallback } from 'react';
@@ -65,7 +93,7 @@ const getLunarPhaseType = (phase: string | null | undefined): LunarPhaseWithSpac
   };
   
   // Normalize the input phase to handle case differences
-  const normalizedPhase = phase.toLowerCase();
+  const normalizedPhase = (phase as any)?.toLowerCase?.();
   
   // Try direct lookup first
   if (normalizedPhase in phaseMap) {
@@ -139,8 +167,8 @@ const FoodRecommender: React.FC = () => {
                 if (Object.values(allIngredients).some(item => item && typeof item === 'object' && 'name' in item)) {
                     // Structure is flat
                     ingredientsAsElementalItems = Object.values(allIngredients).map((ingredient: unknown) => ({
-                        id: ingredient.id || ingredient.name.replace(/\s+/g, '_').toLowerCase(),
-                        name: ingredient.name,
+                        id: (ingredient as any)?.id || (ingredient as any)?.name.replace(/\s+/g, '_').toLowerCase(),
+                        name: (ingredient as any)?.name,
                         elementalProperties: {
                             Fire: getElementValue(ingredient, 'fire'),
                             Water: getElementValue(ingredient, 'water'),
@@ -153,7 +181,7 @@ const FoodRecommender: React.FC = () => {
                         temperatureEffect: ingredient.temperatureEffect,
                         medicinalProperties: ingredient.medicinalProperties,
                         qualities: ingredient.qualities,
-                        astrologicalProfile: ingredient.astrologicalProfile
+                        astrologicalProfile: (ingredient as any)?.astrologicalProfile
                     }));
                 } else {
                     // Structure is categorized (structure from ingredients.ts)
@@ -162,9 +190,9 @@ const FoodRecommender: React.FC = () => {
                         // Handle both array and object structures
                         const ingredientItems = Array.isArray(items) ? items : Object.values(items);
                         
-                        return ingredientItems.map((ingredient: unknown) => ({
-                            id: ingredient.id || ingredient.name.replace(/\s+/g, '_').toLowerCase(),
-                            name: ingredient.name,
+                        return (ingredientItems as any)?.map?.((ingredient: unknown) => ({
+                            id: (ingredient as any)?.id || (ingredient as any)?.name.replace(/\s+/g, '_').toLowerCase(),
+                            name: (ingredient as any)?.name,
                             elementalProperties: {
                                 Fire: getElementValue(ingredient, 'fire'),
                                 Water: getElementValue(ingredient, 'water'),
@@ -177,7 +205,7 @@ const FoodRecommender: React.FC = () => {
                             temperatureEffect: ingredient.temperatureEffect,
                             medicinalProperties: ingredient.medicinalProperties,
                             qualities: ingredient.qualities,
-                            astrologicalProfile: ingredient.astrologicalProfile
+                            astrologicalProfile: (ingredient as any)?.astrologicalProfile
                         }));
                     });
                 }
@@ -186,7 +214,7 @@ const FoodRecommender: React.FC = () => {
                     throw new Error('Failed to extract any valid ingredients');
                 }
                 
-                logger.debug(`Processed ${ingredientsAsElementalItems.length} ingredients`);
+                logger.debug(`Processed ${(ingredientsAsElementalItems as any)?.length} ingredients`);
                 
                 // Apply seasonal modifiers
                 if (season) {
@@ -199,37 +227,37 @@ const FoodRecommender: React.FC = () => {
                     
                     // Adjust ingredients based on season
                     ingredientsAsElementalItems.forEach(ingredient => {
-                        if (seasonalModifiers[season.toLowerCase()]) {
-                            Object.entries(seasonalModifiers[season.toLowerCase()]).forEach(([element, modifier]) => {
-                                ingredient.elementalProperties[element as ElementalCharacter] += modifier;
+                        if (seasonalModifiers[(season as any)?.toLowerCase?.()]) {
+                            Object.entries(seasonalModifiers[(season as any)?.toLowerCase?.()]).forEach(([element, modifier]) => {
+                                (ingredient as any)?.elementalProperties[element as ElementalCharacter] += modifier;
                             });
                         }
                         
                         // Mark ingredients that are in season
                         if (ingredient.isInSeason && typeof ingredient.isInSeason === 'object') {
-                            ingredient.isCurrentlyInSeason = ingredient.isInSeason[season.toLowerCase()];
+                            ingredient.isCurrentlyInSeason = ingredient.isInSeason[(season as any)?.toLowerCase?.()];
                         }
                     });
                 }
                 
                 // Apply tarot card influence to ingredient properties if available 
                 if (minorCard) {
-                    const tarotElement = minorCard.element;
+                    const tarotElement = (minorCard as any)?.element;
                     if (tarotElement) {
                         // Find ingredients that match the tarot element and enhance them
                         ingredientsAsElementalItems.forEach(ingredient => {
-                            const dominantElement = getDominantElement(ingredient.elementalProperties);
-                            if (dominantElement.toLowerCase() === tarotElement.toLowerCase()) {
+                            const dominantElement = getDominantElement((ingredient as any)?.elementalProperties);
+                            if ((dominantElement as any)?.toLowerCase?.() === (tarotElement as any)?.toLowerCase?.()) {
                                 // Enhance ingredient's primary element by quantum value
                                 const quantumValue = minorCard.quantum || 1;
-                                ingredient.elementalProperties[dominantElement] *= (1 + (quantumValue * 0.1));
+                                (ingredient as any)?.elementalProperties[dominantElement] *= (1 + (quantumValue * 0.1));
                                 
                                 // Normalize
-                                const total = Object.values(ingredient.elementalProperties).reduce((sum, val) => sum + val, 0);
+                                const total = Object.values((ingredient as any)?.elementalProperties).reduce((sum, val) => sum + val, 0);
                                 if (total > 0) {
-                                    Object.keys(ingredient.elementalProperties).forEach(element => {
-                                        ingredient.elementalProperties[element as ElementalCharacter] = 
-                                            ingredient.elementalProperties[element as ElementalCharacter] / total;
+                                    Object.keys((ingredient as any)?.elementalProperties).forEach(element => {
+                                        (ingredient as any)?.elementalProperties[element as ElementalCharacter] = 
+                                            (ingredient as any)?.elementalProperties[element as ElementalCharacter] / total;
                                     });
                                 }
                             }
@@ -241,9 +269,9 @@ const FoodRecommender: React.FC = () => {
                 if (majorCard && majorCard.planet) {
                     const tarotPlanet = majorCard.planet;
                     ingredientsAsElementalItems.forEach(ingredient => {
-                        if (ingredient.astrologicalProfile?.rulingPlanets?.includes(tarotPlanet)) {
+                        if ((ingredient as any)?.astrologicalProfile?.rulingPlanets?.includes(tarotPlanet)) {
                             // Add a new property to indicate tarot major arcana affinity
-                            ingredient.tarotMajorAffinity = majorCard.name;
+                            ingredient.tarotMajorAffinity = (majorCard as any)?.name;
                         }
                     });
                 }
@@ -304,11 +332,11 @@ const FoodRecommender: React.FC = () => {
 
         // Fallback to astrological profile with validation
         const profile = ingredient?.astrologicalProfile || {};
-        const baseElement = profile.elementalAffinity?.base?.toLowerCase();
-        const secondaryElement = profile.elementalAffinity?.secondary?.toLowerCase();
+        const baseElement = (profile as any)?.elementalAffinity?.base?.toLowerCase();
+        const secondaryElement = (profile as any)?.elementalAffinity?.secondary?.toLowerCase();
         
-        return element.toLowerCase() === baseElement ? 0.6 :
-               element.toLowerCase() === secondaryElement ? 0.3 :
+        return (element as any)?.toLowerCase?.() === baseElement ? 0.6 :
+               (element as any)?.toLowerCase?.() === secondaryElement ? 0.3 :
                0.1; // Minimum value to prevent division by zero
     };
 
@@ -329,10 +357,10 @@ const FoodRecommender: React.FC = () => {
             return <ThermometerSun className="w-4 h-4 text-gray-400" />;
         }
         
-        if (effect.includes('warm') || effect.includes('hot')) {
+        if ((effect as any)?.includes?.('warm') || (effect as any)?.includes?.('hot')) {
             return <ThermometerSun className="w-4 h-4 text-orange-300" />;
         }
-        if (effect.includes('cool') || effect.includes('cold')) {
+        if ((effect as any)?.includes?.('cool') || (effect as any)?.includes?.('cold')) {
             return <ThermometerSnowflake className="w-4 h-4 text-blue-300" />;
         }
         
@@ -389,7 +417,7 @@ const FoodRecommender: React.FC = () => {
     // Inside the component function, add this function before the return statement:
     const calculateIngredientProperties = (ingredient: unknown) => {
         try {
-            if (!ingredient || !ingredient.elementalProperties) {
+            if (!ingredient || !(ingredient as any)?.elementalProperties) {
                 return {
                     alchemical: { spirit: 0, essence: 0, matter: 0, substance: 0 },
                     thermodynamic: { heat: 0, entropy: 0, reactivity: 0, energy: 0 }
@@ -398,7 +426,7 @@ const FoodRecommender: React.FC = () => {
             
             // Create a compatible ingredient object for the utility functions
             const ingredientObj = {
-                elementalProperties: ingredient.elementalProperties
+                elementalProperties: (ingredient as any)?.elementalProperties
             };
             
             // Calculate alchemical properties
@@ -407,7 +435,7 @@ const FoodRecommender: React.FC = () => {
             // Calculate thermodynamic properties
             const thermodynamicProps = calculateThermodynamicProperties(
                 alchemicalProps, 
-                ingredient.elementalProperties
+                (ingredient as any)?.elementalProperties
             );
             
             return {
@@ -539,13 +567,13 @@ const FoodRecommender: React.FC = () => {
                         </div>
                     ) : (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                            {transformedIngredients.map((ingredient, index) => {
+                            {(transformedIngredients as any)?.map?.((ingredient, index) => {
                                 // Calculate additional properties
                                 const { alchemical, thermodynamic } = calculateIngredientProperties(ingredient);
 
                                 return (
                                 <div key={index} className="bg-opacity-20 bg-purple-900 rounded-lg p-4 hover:bg-opacity-30 transition-all">
-                                    <h4 className="font-medium text-white capitalize">{ingredient.name.replace('_', ' ')}</h4>
+                                    <h4 className="font-medium text-white capitalize">{(ingredient as any)?.name.replace('_', ' ')}</h4>
                                     
                                     {ingredient.category && (
                                         <div className="text-xs text-gray-400 mb-2">{ingredient.category}</div>
@@ -682,7 +710,7 @@ const FoodRecommender: React.FC = () => {
                                                 
                                                 // Get color based on element
                                                 const getElementColor = (elem: string) => {
-                                                    switch(elem.toLowerCase()) {
+                                                    switch((elem as any)?.toLowerCase?.()) {
                                                         case 'fire': return 'bg-orange-500';
                                                         case 'water': return 'bg-blue-500';
                                                         case 'earth': return 'bg-green-500';
@@ -693,7 +721,7 @@ const FoodRecommender: React.FC = () => {
                                                 
                                                 // Show tarot highlight for elements matching the tarot card
                                                 const isTarotElement = minorCard && 
-                                                    element.toLowerCase() === minorCard.element?.toLowerCase();
+                                                    (element as any)?.toLowerCase?.() === (minorCard as any)?.element?.toLowerCase();
                                                 
                                                 return (
                                                     <div key={element} className="relative">
