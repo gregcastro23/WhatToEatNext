@@ -1,3 +1,6 @@
+import type { Recipe } from '@/types/recipe';
+import type { ElementalProperties } from '@/types/alchemy';
+
 /**
  * RecipeFinder.ts
  * 

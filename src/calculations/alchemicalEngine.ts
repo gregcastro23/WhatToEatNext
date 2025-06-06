@@ -25,6 +25,8 @@ import { isElementalProperties, validateOrDefault } from '@/utils/validation';
 import { DEFAULT_ELEMENTAL_PROPERTIES } from '@/constants/defaults';
 import ErrorHandler from '@/services/errorHandler';
 
+// Import planetary and sign data for alchemical calculations
+import { planetInfo, signInfo, signs } from '@/calculations/core/alchemicalEngine';
 /**
  * A utility function for logging debug information
  * This is a safe replacement for console.log that can be disabled in production

@@ -1,3 +1,7 @@
+// Import unified types for cuisine integrations
+import type { UnifiedIngredient } from '@/types/unified';
+import type { EnhancedCookingMethod } from '@/types/cooking';
+
 type Season = 'spring' | 'summer' | 'autumn' | 'winter';
 
 function createElementalProperties(props: { Fire: number; Water: number; Earth: number; Air: number } = { Fire: 0, Water: 0, Earth: 0, Air: 0 }): ElementalProperties {
