@@ -171,7 +171,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       );
     }
     
-    if (filter.excludeIngredients && ($1 || []).length > 0) {
+    if (filter.excludeIngredients && (ingredient || []).length > 0) {
       filteredIngredients = this.applyExclusionFilter(
         filteredIngredients,
         filter.excludeIngredients
@@ -319,7 +319,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     const allIngredients = this.getAllIngredientsFlat();
     
     return (allIngredients || []).filter(ingredient => {
-      if (!$1.astrologicalProperties?.planets) return false;
+      if (!ingredient.astrologicalProperties?.planets) return false;
       
       const planets = ingredient?.astrologicalPropertiesProperties?.planets;
       return Array.isArray(planets) 
@@ -335,7 +335,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     const allIngredients = this.getAllIngredientsFlat();
     
     return (allIngredients || []).filter(ingredient => {
-      if (!$1.astrologicalProperties?.signs) return false;
+      if (!ingredient.astrologicalProperties?.signs) return false;
       
       const signs = ingredient?.astrologicalPropertiesProperties?.signs;
       return Array.isArray(signs) 
@@ -606,8 +606,8 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       }
       
       // Check vitamins
-      if (filter.vitamins && ($1 || []).length > 0) {
-        if (!nutrition.vitamins || ($1 || []).length === 0) {
+      if (filter.vitamins && (ingredient || []).length > 0) {
+        if (!nutrition.vitamins || (ingredient || []).length === 0) {
           return false;
         }
         
@@ -623,8 +623,8 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       }
       
       // Check minerals
-      if (filter.minerals && ($1 || []).length > 0) {
-        if (!nutrition.minerals || ($1 || []).length === 0) {
+      if (filter.minerals && (ingredient || []).length > 0) {
+        if (!nutrition.minerals || (ingredient || []).length === 0) {
           return false;
         }
         
@@ -818,7 +818,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       }
       
       // Check tags
-      if (($1.$2 || []).some(tag => 
+      if ((ingredient.$2 || []).some(tag => 
         tag?.toLowerCase()?.includes(normalizedQuery)
       )) {
         return true;

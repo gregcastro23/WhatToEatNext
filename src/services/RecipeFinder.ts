@@ -28,6 +28,12 @@ import type {
   RecipeRecommendationOptions 
 } from './interfaces/RecipeServiceInterface';
 
+// Missing service imports
+import type { RecipeServiceInterface } from './interfaces/RecipeServiceInterface';
+import { ConsolidatedRecipeService } from './ConsolidatedRecipeService';
+import { errorHandler } from '@/utils/errorHandler';
+
+
 /**
  * RecipeFinder class for finding recipes based on various criteria
  * Implements the RecipeServiceInterface and adds additional error handling
