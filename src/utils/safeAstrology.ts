@@ -292,7 +292,7 @@ export function getCurrentAstrologicalState(): AstrologicalState {
   const state: AstrologicalState = {
     sunSign: toZodiacSign(positions.sun.sign),
     moonSign: toZodiacSign(positions.moon.sign),
-    lunarPhase: phaseName,
+    lunarPhase: phaseName as LunarPhase,
     activePlanets,
     dominantElement: dominantElementCapitalized,
     dominantPlanets: activePlanets.map(name => ({ 
