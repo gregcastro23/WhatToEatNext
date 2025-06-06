@@ -839,6 +839,10 @@ export default function CookingMethods() {
   // First, add this new helper function to get detailed examples for each cooking method
   const getMethodDetails = (method: ExtendedAlchemicalItem): { examples: string[], fullDefinition: string } => {
     const methodName = (method as any)?.(name as any)?.toLowerCase?.();
+
+  // Missing description variable for cooking methods
+  const description = method?.description || method?.name || "No description available";
+
     
     // Default values
     let examples: string[] = [];
