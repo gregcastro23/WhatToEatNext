@@ -39,6 +39,28 @@ import {
   getSharedIngredients
 } from '../../utils/cuisine/cuisineUtils';
 
+// Missing unified seasonal system variables
+const unifiedSeasonalSystem = {
+  spring: { dominantElement: "Air", supportingElements: ["Water"] },
+  summer: { dominantElement: "Fire", supportingElements: ["Air"] },
+  autumn: { dominantElement: "Earth", supportingElements: ["Fire"] },
+  winter: { dominantElement: "Water", supportingElements: ["Earth"] }
+};
+
+const unifiedSeasonalProfiles = {
+  spring: { ingredients: [], flavors: [], techniques: [] },
+  summer: { ingredients: [], flavors: [], techniques: [] },
+  autumn: { ingredients: [], flavors: [], techniques: [] },
+  winter: { ingredients: [], flavors: [], techniques: [] }
+};
+
+const unifiedIngredients = {
+  // Placeholder for unified ingredient system
+  getAllIngredients: () => [],
+  getIngredientsByCategory: (category: string) => [],
+  getIngredientProperties: (ingredient: string) => ({})
+};
+
 // Import existing cuisine data
 import { grainCuisineMatrix } from '../integrations/grainCuisineMatrix';
 import { herbCuisineMatrix } from '../integrations/herbCuisineMatrix';
