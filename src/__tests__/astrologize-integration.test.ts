@@ -161,7 +161,7 @@ describe('Astrologize API Integration', () => {
           month: 13,
           date: 32,
           hour: 25,
-          minutes: 61,
+          minute: 61,
           latitude: 91,
           longitude: 181
         });

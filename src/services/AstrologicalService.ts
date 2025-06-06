@@ -59,7 +59,16 @@ const isEphemerisFileAvailable = (fileName: string): boolean => {
 
 // Export simplified aliases for backward compatibility
 export type PlanetName = Planet;
-// Export ZodiacSign from centralized types
+
+// Export main class and types
+export class AstrologicalService {
+  constructor() {
+    // Service implementation placeholder
+  }
+}
+
+// Re-export types from centralized location
+export { Planet, ZodiacSign, LunarPhase, CelestialPosition, PlanetaryAlignment } from '@/types/celestial';
 
 // Interface for legacy code support - use the centralized CelestialPosition type internally
 export interface PlanetPosition {

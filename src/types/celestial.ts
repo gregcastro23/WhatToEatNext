@@ -70,6 +70,16 @@ export interface CelestialPosition {
   dignity?: DignityType;
 }
 
+// Planetary position interface for compatibility
+export interface PlanetaryPosition {
+  sign: ZodiacSign;
+  degree: number;
+  minute?: number;
+  element?: string;
+  dignity?: string;
+  isRetrograde?: boolean;
+}
+
 // Aspect between two celestial bodies
 export interface PlanetaryAspect {
   planet1: string;
@@ -145,16 +155,26 @@ export type DignityType = 'Domicile' | 'Exaltation' | 'Detriment' | 'Fall' | 'Ne
  * Complete astrological state information
  */
 export interface AstrologicalState {
-  currentZodiac: ZodiacSign;
-  moonPhase: LunarPhase;
-  currentPlanetaryAlignment: PlanetaryAlignment;
-  activePlanets: string[];
+  currentZodiac?: ZodiacSign;
+  moonPhase?: LunarPhase;
+  currentPlanetaryAlignment?: PlanetaryAlignment;
+  activePlanets?: string[];
   lunarPhase?: LunarPhase;
   isDaytime?: boolean;
   planetaryHour?: Planet;
   dominantElement?: Element;
   dominantModality?: Modality;
   aspects?: PlanetaryAspect[];
+  
+  // Planetary positions for test compatibility
+  planetaryPositions?: Record<string, CelestialPosition>;
+  
+  // Additional properties for compatibility
+  sunSign?: ZodiacSign;
+  moonSign?: ZodiacSign;
+  alchemicalValues?: AlchemicalProperties;
+  tarotElementBoosts?: Record<string, number>;
+  tarotPlanetaryBoosts?: Record<string, number>;
   
   // Optional tracking fields
   loading?: boolean;

@@ -94,7 +94,7 @@ describe('Chakra System', () => {
     test('Zodiac sign food recommendations', () => {
         const zodiacSigns: ZodiacSign[] = [
             'aries', 'taurus', 'gemini', 'cancer', 
-            'leo', 'virgo', 'Libra', 'Scorpio',
+            'leo', 'virgo', 'libra', 'scorpio',
             'sagittarius', 'capricorn', 'aquarius', 'pisces'
         ];
         

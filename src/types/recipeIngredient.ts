@@ -1,67 +1,24 @@
-import type { ElementalProperties } from '@/types/alchemy';
+import { Ingredient, ElementalProperties } from './index';
 
 /**
  * Comprehensive recipe ingredient type that covers all use cases
  * in the application
  */
-export interface RecipeIngredient {
-  // Core properties (required)
+export interface RecipeIngredient extends Ingredient {
   id?: string;
-  name: string;
   amount: number;
   unit: string;
-  
-  // Categorization
-  category?: string;
-  subCategory?: string;
-  
-  // Preparation details
-  preparation?: string;
   optional?: boolean;
-  substitutes?: string[];
+  preparation?: string;
   notes?: string;
-  
-  // Nutritional information
-  nutritionalProfile?: {
-    calories?: number;
-    macros?: {
-      protein?: number;
-      carbs?: number;
-      fat?: number;
-      fiber?: number;
-      sugars?: number;
-    };
-    vitamins?: Record<string, number>;
-    minerals?: Record<string, number>;
-    phytonutrients?: Record<string, number>;
-  };
-  
-  // Astrological and alchemical properties
-  elementalProperties?: ElementalProperties;
   astrologicalProfile?: {
-    rulingPlanets?: string[];
-    favorableZodiac?: string[];
-    elementalAffinity?: string | {
+    elementalAffinity: {
       base: string;
       secondary?: string;
     };
+    rulingPlanets: string[];
+    zodiacAffinity?: string[];
   };
-  
-  // Seasonal availability
-  season?: string[];
-  
-  // Flavor characteristics
-  flavorProfile?: {
-    spicy?: number;
-    sweet?: number;
-    sour?: number;
-    bitter?: number;
-    salty?: number;
-    umami?: number;
-  };
-  
-  // Additional properties
-  [key: string]: unknown;
 }
 
 /**

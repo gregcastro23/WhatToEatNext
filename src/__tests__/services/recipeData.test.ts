@@ -1,3 +1,4 @@
+import { RecipeIngredient } from '@/types/recipeIngredient';
 import { recipeData } from '@/services/recipeData';
 import { recipeElementalService } from '@/services/RecipeElementalService';
 
