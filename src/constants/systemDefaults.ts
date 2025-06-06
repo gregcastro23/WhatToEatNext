@@ -70,57 +70,67 @@ export const DEFAULT_PLANETARY_ALIGNMENT: PlanetaryAlignment = {
 /**
  * Default planetary positions for Sun and Moon
  */
-export const DEFAULT_PLANETARY_POSITIONS: { [key: string]: PlanetaryPosition  } as const = {
-  Sun: { sign: 'aries' as ZodiacSign,
+export const DEFAULT_PLANETARY_POSITIONS: { [key: string]: PlanetaryPosition } = {
+  Sun: {
+    sign: 'aries' as ZodiacSign,
     degree: 15,
     exactLongitude: 15.5,
     isRetrograde: false
-   } as const,
-  moon: { sign: 'taurus' as ZodiacSign,
+  },
+  moon: {
+    sign: 'taurus' as ZodiacSign,
     degree: 8,
     exactLongitude: 38.2,
     isRetrograde: false
-   } as const,
-  Mercury: { sign: 'gemini' as ZodiacSign,
+  },
+  Mercury: {
+    sign: 'gemini' as ZodiacSign,
     degree: 10,
     exactLongitude: 70.0,
     isRetrograde: false
-   } as const,
-  Venus: { sign: 'libra' as ZodiacSign,
+  },
+  Venus: {
+    sign: 'libra' as ZodiacSign,
     degree: 12,
     exactLongitude: 192.0,
     isRetrograde: false
-   } as const,
-  Mars: { sign: 'aries' as ZodiacSign,
+  },
+  Mars: {
+    sign: 'aries' as ZodiacSign,
     degree: 20,
     exactLongitude: 20.0,
     isRetrograde: false
-   } as const,
-  Jupiter: { sign: 'sagittarius' as ZodiacSign,
+  },
+  Jupiter: {
+    sign: 'sagittarius' as ZodiacSign,
     degree: 5,
     exactLongitude: 245.0,
     isRetrograde: false
-   } as const,
-  Saturn: { sign: 'capricorn' as ZodiacSign,
+  },
+  Saturn: {
+    sign: 'capricorn' as ZodiacSign,
     degree: 18,
     exactLongitude: 288.0,
     isRetrograde: false
-   } as const,
-  Uranus: { sign: 'aquarius' as ZodiacSign,
+  },
+  Uranus: {
+    sign: 'aquarius' as ZodiacSign,
     degree: 25,
     exactLongitude: 325.0,
     isRetrograde: false
-   } as const,
-  Neptune: { sign: 'pisces' as ZodiacSign,
+  },
+  Neptune: {
+    sign: 'pisces' as ZodiacSign,
     degree: 14,
     exactLongitude: 344.0,
     isRetrograde: false
-   } as const,
-  Pluto: { sign: 'scorpio' as ZodiacSign,
+  },
+  Pluto: {
+    sign: 'scorpio' as ZodiacSign,
     degree: 22,
     exactLongitude: 232.0,
     isRetrograde: false
-   } as const
+  }
 };
 
 // ===== CHAKRA DEFAULTS =====
@@ -153,10 +163,11 @@ export const DEFAULT_ASTROLOGICAL_STATE: AstrologicalState = {
   planetaryDay: 'Sun',
   season: 'spring',
   timeOfDay: 'morning',
-  decan: { sunDecan: 1,
+  decan: {
+    sunDecan: 1,
     moonDecan: 1,
     risingDecan: 1
-   } as const,
+  },
   aspects: [],
   dominantElement: 'Fire',
   elementalProfile: DEFAULT_ELEMENTAL_PROPERTIES,
@@ -165,7 +176,8 @@ export const DEFAULT_ASTROLOGICAL_STATE: AstrologicalState = {
   activePlanets: ['Sun', 'Moon'],
   activeAspects: [],
   currentZodiacSign: DEFAULT_SUN_SIGN,
-  calculationError: false,alchemicalValues: DEFAULT_ALCHEMICAL_VALUES
+  calculationError: false,
+  alchemicalValues: DEFAULT_ALCHEMICAL_VALUES
 };
 
 // ===== ENERGY AND CALCULATION DEFAULTS =====
@@ -174,7 +186,7 @@ export const DEFAULT_ASTROLOGICAL_STATE: AstrologicalState = {
  * Default zodiac energies
  * NOTE: For type safety only. Do NOT use for live calculations or UI. Always use real calculated values.
  */
-export const DEFAULT_ZODIAC_ENERGIES: { [key: string]: number  } as const = {
+export const DEFAULT_ZODIAC_ENERGIES: { [key: string]: number } = {
   aries: 0,
   taurus: 0,
   gemini: 0,
@@ -216,8 +228,12 @@ export const DEFAULT_MODALITY_DISTRIBUTION = {
 /**
  * Default recipe elemental values
  */
-export const DEFAULT_RECIPE_ELEMENTAL_VALUES = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
- };
+export const DEFAULT_RECIPE_ELEMENTAL_VALUES = {
+  Fire: 0.25,
+  Water: 0.25,
+  Earth: 0.25,
+  Air: 0.25
+};
 
 /**
  * Default food recommendation
@@ -364,7 +380,7 @@ export function getDefaultAstrologicalState(): AstrologicalState {
 /**
  * Get default planetary positions
  */
-export function getDefaultPlanetaryPositions(): { [key: string]: PlanetaryPosition  } as const {
+export function getDefaultPlanetaryPositions(): { [key: string]: PlanetaryPosition } {
   return cloneDefault(DEFAULT_PLANETARY_POSITIONS);
 }
 
@@ -398,7 +414,7 @@ export function mergeWithDefaults<T extends Record<string, any>>(
 export function validateAgainstDefaults<T>(
   values: Partial<T>,
   defaults: T,
-): { isValid: boolean; errors: string[]  } as const {
+): { isValid: boolean; errors: string[] } {
   const errors: string[] = [];
   
   // Check for unknown keys
