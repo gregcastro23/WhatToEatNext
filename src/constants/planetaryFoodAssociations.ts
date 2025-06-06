@@ -5,19 +5,13 @@ import { LunarPhaseWithSpaces } from '../types/alchemy';
 /**
  * Enhanced planet type incorporating multiple astrological traditions
  */
+/**
+ * Extended Planet type for planetary food associations
+ */
 export type Planet = 
-  | 'Sun'
-  | 'Moon'
-  | 'Mercury'
-  | 'Venus'
-  | 'Mars'
-  | 'Jupiter'
-  | 'Saturn'
-  | 'Rahu'
-  | 'Ketu'
-  | 'Uranus'
-  | 'Neptune'
-  | 'Pluto';
+  | 'Sun' | 'Moon' | 'Mercury' | 'Venus' | 'Mars' 
+  | 'Jupiter' | 'Saturn' | 'Uranus' | 'Neptune' | 'Pluto'
+  | 'Rahu' | 'Ketu';
 
 /**
  * Planetary dignity types for calculation

@@ -10,10 +10,41 @@
  */
 
 // Planet types
-export type Planet = 'sun' | 'moon' | 'mercury' | 'venus' | 'mars' | 'jupiter' | 'saturn' | 'uranus' | 'neptune' | 'pluto' | 'northnode' | 'southnode' | 'chiron' | 'ascendant';
+/**
+ * Standard Planet type - capitalized format for consistency
+ * Used for planetary influences in astrological calculations
+ */
+export type Planet = 
+  | 'Sun' 
+  | 'Moon' 
+  | 'Mercury' 
+  | 'Venus' 
+  | 'Mars' 
+  | 'Jupiter' 
+  | 'Saturn' 
+  | 'Uranus' 
+  | 'Neptune' 
+  | 'Pluto'
+  | 'Ascendant';
+
+/**
+ * Extended Planet type including traditional Vedic nodes
+ */
+export type ExtendedPlanet = Planet | 'Rahu' | 'Ketu' | 'Chiron';
+
+/**
+ * Planet Name alias for backward compatibility
+ */
+export type PlanetName = Planet;
 
 // Zodiac sign types
-export type ZodiacSign = 'aries' | 'taurus' | 'gemini' | 'cancer' | 'leo' | 'virgo' | 'libra' | 'scorpio' | 'sagittarius' | 'capricorn' | 'aquarius' | 'pisces';
+/**
+ * Standard ZodiacSign type - lowercase format for consistency
+ */
+export type ZodiacSign = 
+  | 'aries' | 'taurus' | 'gemini' | 'cancer' 
+  | 'leo' | 'virgo' | 'libra' | 'scorpio' 
+  | 'sagittarius' | 'capricorn' | 'aquarius' | 'pisces';
 
 // Element types
 export type Element = 'Fire' | 'Water' | 'Earth' | 'Air';
@@ -97,6 +128,9 @@ export interface ThermodynamicProperties {
 
 /**
  * Lunar phase definitions with spaces (used for display)
+ */
+/**
+ * Standard LunarPhase type - spaces format for display
  */
 export type LunarPhase = 
   | 'new moon' | 'waxing crescent' | 'first quarter' | 'waxing gibbous' 

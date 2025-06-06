@@ -8,47 +8,17 @@ import { ElementalCharacter } from '../constants/planetaryElements';
 /**
  * Represents planets in astrology 
  */
-export type Planet = 
-  | 'Sun'
-  | 'Moon'
-  | 'Mercury'
-  | 'Venus'
-  | 'Mars'
-  | 'Jupiter'
-  | 'Saturn'
-  | 'Uranus'
-  | 'Neptune'
-  | 'Pluto';
+
 
 /**
  * Represents the zodiac signs in astrology
  */
-export type ZodiacSign = 
-  | 'aries'
-  | 'taurus'
-  | 'gemini'
-  | 'cancer'
-  | 'leo'
-  | 'virgo'
-  | 'libra'
-  | 'scorpio'
-  | 'sagittarius'
-  | 'capricorn'
-  | 'aquarius'
-  | 'pisces';
+
 
 /**
  * Represents the phases of the moon
  */
-export type LunarPhase = 
-  | 'new_moon'
-  | 'waxing_crescent'
-  | 'first_quarter'
-  | 'waxing_gibbous'
-  | 'full_moon'
-  | 'waning_gibbous'
-  | 'third_quarter'
-  | 'waning_crescent';
+
 
 /**
  * Represents planetary alignments in astrology
@@ -111,6 +81,7 @@ export interface AstrologicalAspect {
 /* Example code - commented out to avoid type errors
 import { FoodAlchemySystem } from '@/services/FoodAlchemySystem';
 import { thermodynamicCalculator } from '@/calculations/gregsEnergy';
+import { Planet, PlanetName, ZodiacSign, LunarPhase } from '@/types/celestial';
 
 // Example usage
 const foodSystem = new FoodAlchemySystem();
@@ -131,3 +102,6 @@ export type AstrologyLunarPhase =
   | 'waning_gibbous'
   | 'last_quarter'
   | 'waning_crescent'; 
+
+// Re-export standard types from celestial
+export { Planet, PlanetName, ZodiacSign, LunarPhase } from "@/types/celestial";
