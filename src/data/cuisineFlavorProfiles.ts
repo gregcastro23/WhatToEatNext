@@ -1269,7 +1269,7 @@ export const findRelatedRecipes = (
   recipes: any[],
   count = 3
 ): any[] => {
-  const scoredRecipes = otherRecipes
+  const scoredRecipes = recipes
     .map((recipe) => {
       const scoreComponents = [];
       let totalWeight = 0;
