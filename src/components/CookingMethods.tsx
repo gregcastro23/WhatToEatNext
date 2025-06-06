@@ -422,6 +422,29 @@ const adaptLunarPhase = (phase: LunarPhase | undefined): unknown => {
   return LUNAR_PHASE_DISPLAY[phase]?.toLowerCase();
 };
 
+
+// Missing function definitions for CookingMethods component
+function getIdealIngredients(method: any): string[] {
+  // Placeholder implementation
+  return method?.idealIngredients || [];
+}
+
+function determineMatchReason(ingredient: any, method: any): string {
+  // Placeholder implementation
+  return "Compatible elemental properties";
+}
+
+// Missing variable declarations
+const planets = {
+  Sun: "sun",
+  Moon: "moon",
+  Mercury: "mercury",
+  Venus: "venus",
+  Mars: "mars",
+  Jupiter: "jupiter",
+  Saturn: "saturn"
+};
+
 export default function CookingMethods() {
   // Add renderCount ref for debugging
   const renderCount = useRef(0);
