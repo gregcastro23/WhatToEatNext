@@ -8,6 +8,16 @@ import { flavorProfiles as integrationFlavorProfiles } from '../integrations/fla
 import { ingredientFlavorMap } from '../ingredients/flavorProfiles';
 import { Element } from "@/types/alchemy";
 
+// Missing unified system type imports
+import type { 
+  UnifiedFlavorProfile, 
+  BaseFlavorNotes 
+} from '@/types/unified';
+
+// Missing unified data imports
+import { unifiedFlavorProfiles } from './data/unifiedFlavorProfiles';
+
+
 // ===== FLAVOR PROFILE MIGRATION UTILITY - PHASE 4 =====
 // Consolidates all existing flavor profile data into the unified system
 // Preserves backward compatibility while enabling new features

@@ -16,6 +16,13 @@ import type { ElementalProperties,
 
 import { AlchemicalProperties } from "@/types/alchemy";
 
+// Missing elemental and alchemical item types
+import type { 
+  ElementalItem,
+  AlchemicalItem 
+} from '@/types/items';
+
+
 // --- Types ---
 
 export interface TransformationContext {

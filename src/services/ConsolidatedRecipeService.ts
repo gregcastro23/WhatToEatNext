@@ -33,6 +33,24 @@ import type {
   PlanetName 
 } from '@/types/alchemy';
 
+// Missing service and interface imports
+import type { Recipe } from '@/types/recipe';
+import type { RecipeServiceInterface } from './interfaces/RecipeServiceInterface';
+import type { ElementalProperties } from '@/types/alchemy';
+import { LocalRecipeService } from './LocalRecipeService';
+import { UnifiedRecipeService } from './UnifiedRecipeService';
+import { errorHandler } from '@/utils/errorHandler';
+
+// Missing unified system imports
+import { 
+  getRecipesForZodiac,
+  getRecipesForSeason, 
+  getRecipesForLunarPhase,
+  adaptAllRecipes
+} from '@/data/recipes';
+import { unifiedRecipeService } from '@/services/UnifiedRecipeService';
+
+
 import type {
   RecipeSearchCriteria, 
   RecipeRecommendationOptions 
