@@ -4,6 +4,10 @@ import { getCurrentPlanetaryPositions } from '@/services/astrologizeApi';
 import { logger } from '../utils/logger';
 import { createError } from '../utils/errorHandling';
 import { calculateLunarPhase } from '../utils/astrologyUtils';
+import { calculatePlanetaryPositions } from '../utils/astrology/core';
+import { transformItemsWithPlanetaryPositions } from '../utils/astrologyUtils';
+import { ScoredRecipe } from '@/types/recipe';
+import { AstrologicalState } from '@/types/alchemy';
 import { convertToLunarPhase } from '@/utils/lunarPhaseUtils';
 
 import type { ElementalProperties, 

@@ -605,7 +605,7 @@ export function filterRecipesByIngredientMappings(
 
     try {
       // Connect ingredients to mappings
-      const ingredientMappings = connectIngredientsToMappings(recipe);
+      const ingredientMappings = this.connectIngredientsToMappings(recipe);
       matchedIngredients = ingredientMappings;
 
       // Calculate elemental match if target provided

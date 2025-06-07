@@ -13,6 +13,7 @@ import neptuneData from '@/data/planets/neptune';
 import plutoData from '@/data/planets/pluto';
 import { _calculateLunarSuitability } from '@/utils/lunarUtils';
 import { PlanetaryAspect, LunarPhase, AstrologicalState, BasicThermodynamicProperties, CookingMethodProfile, MethodRecommendationOptions, MethodRecommendation, COOKING_METHOD_THERMODYNAMICS } from '@/types/alchemy';
+import { CookingMethod } from '@/types/cooking';
 import { calculateLunarPhase } from '@/utils/astrologyUtils';
 
 // Define a proper interface for our cooking method objects
@@ -910,7 +911,7 @@ export function getRecommendedCookingMethods(
       if (venusTemperament && venusTemperament.FoodFocus) {
         const foodFocus = (venusTemperament.FoodFocus as any)?.toLowerCase?.();
         const methodName = (method as any)?.(name as any)?.toLowerCase?.();
-        const methodDesc = (method as any)?.(description as any)?.toLowerCase?.();
+        const methodDesc = (method as any)?.description?.toLowerCase?.();
         
         // Check keyword matches between Venus temperament food focus and method description
         const keywords = foodFocus.split(/[\s,;]+/).filter(k => k.length > 3);
