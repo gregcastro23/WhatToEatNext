@@ -11,6 +11,9 @@ import type { // ===== UNIFIED RECIPE BUILDING SYSTEM =====
   LunarPhase,
   CookingMethod } from "@/types/alchemy";
 import type { Recipe } from "@/types/recipe";
+import { UnifiedIngredient } from '@/types/ingredient';
+import { SeasonalRecommendations } from '@/types/seasons';
+import { unifiedSeasonalSystem } from '@/data/integrations/seasonal';
 // TODO: Fix import - add what to import from "./ingredients.js.ts"
 // TODO: Fix import - add what to import from "./seasonal.js.ts"
 import { Element } from "@/types/alchemy";
