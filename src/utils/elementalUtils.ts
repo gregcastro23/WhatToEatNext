@@ -35,6 +35,35 @@ import {
 import { ErrorHandler } from '@/services/errorHandler';
 
 // Define missing AlchemicalProperty type
+
+// Missing ELEMENTAL_CHARACTERISTICS constant
+const ELEMENTAL_CHARACTERISTICS = {
+  Fire: {
+    cookingTechniques: ['grilling', 'roasting', 'searing', 'flambéing'],
+    timeOfDay: ['morning', 'noon'],
+    qualities: ['energetic', 'transformative', 'intense'],
+    temperature: 'hot'
+  },
+  Water: {
+    cookingTechniques: ['boiling', 'steaming', 'poaching', 'braising'],
+    timeOfDay: ['evening', 'night'],
+    qualities: ['flowing', 'cooling', 'nurturing'],
+    temperature: 'cool'
+  },
+  Earth: {
+    cookingTechniques: ['baking', 'slow-cooking', 'roasting', 'smoking'],
+    timeOfDay: ['afternoon', 'evening'],
+    qualities: ['grounding', 'stable', 'nourishing'],
+    temperature: 'moderate'
+  },
+  Air: {
+    cookingTechniques: ['whipping', 'frying', 'sautéing', 'dehydrating'],
+    timeOfDay: ['morning', 'midday'],
+    qualities: ['light', 'airy', 'quick'],
+    temperature: 'variable'
+  }
+};
+
 type AlchemicalProperty = 'Spirit' | 'Essence' | 'Matter' | 'Substance';
 
 /**
@@ -284,7 +313,7 @@ export let elementalUtils = {
       { Fire: 0, Water: 0, Earth: 0, Air: 0 }
     );
 
-    return normalizeElementalProperties(combinedProperties);
+    return normalizeProperties(combinedProperties);
   },
 
   /**
@@ -761,7 +790,7 @@ export function fixRawIngredientMappings(
     if (!value) return acc;
 
     // Ensure elemental properties are normalized
-    let elementalProperties = normalizeElementalProperties(
+    let elementalProperties = normalizeProperties(
       value.elementalProperties || {}
     );
 

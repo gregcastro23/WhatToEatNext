@@ -276,8 +276,8 @@ export class EnhancedIngredientsSystem {
     // Filter by seasonal alignment
     if (criteria.seasonalAlignment) {
       results = (results || []).filter(ingredient => 
-        ingredient.culinaryProperties?.seasonality && Array.isArray(ingredient.culinaryProperties.seasonality.peak) ? ingredient.culinaryProperties.seasonality.peak?.includes(criteria.seasonalAlignment!) : ingredient.culinaryProperties.seasonality.peak === criteria.seasonalAlignment! ||
-        ingredient.culinaryProperties?.seasonality && Array.isArray(ingredient.culinaryProperties.seasonality.optimal) ? ingredient.culinaryProperties.seasonality.optimal?.includes(criteria.seasonalAlignment!) : ingredient.culinaryProperties.seasonality.optimal === criteria.seasonalAlignment!
+        ingredient.culinaryProperties?.seasonality && Array.isArray(ingredient.culinaryProperties.seasonality.peak) ? ingredient.culinaryProperties.seasonality.peak?.includes(season) : ingredient.culinaryProperties.seasonality.peak === season ||
+        ingredient.culinaryProperties?.seasonality && Array.isArray(ingredient.culinaryProperties.seasonality.optimal) ? ingredient.culinaryProperties.seasonality.optimal?.includes(season) : ingredient.culinaryProperties.seasonality.optimal === season
       );
     }
 
@@ -481,9 +481,9 @@ export class EnhancedIngredientsSystem {
     // Fall back to direct filtering
     return Object.values(this.ingredients)
       .filter(ingredient => 
-        ingredient.culinaryProperties?.seasonality && Array.isArray(ingredient.culinaryProperties.seasonality.peak) ? ingredient.culinaryProperties.seasonality.peak?.includes(criteria.seasonalAlignment!) : ingredient.culinaryProperties.seasonality.peak === criteria.seasonalAlignment! ||
-        ingredient.culinaryProperties?.seasonality && Array.isArray(ingredient.culinaryProperties.seasonality.optimal) ? ingredient.culinaryProperties.seasonality.optimal?.includes(criteria.seasonalAlignment!) : ingredient.culinaryProperties.seasonality.optimal === criteria.seasonalAlignment! ||
-        ingredient.culinaryProperties?.seasonality && Array.isArray(ingredient.culinaryProperties.seasonality.available) ? ingredient.culinaryProperties.seasonality.available?.includes(criteria.seasonalAlignment!) : ingredient.culinaryProperties.seasonality.available === criteria.seasonalAlignment!
+        ingredient.culinaryProperties?.seasonality && Array.isArray(ingredient.culinaryProperties.seasonality.peak) ? ingredient.culinaryProperties.seasonality.peak?.includes(season) : ingredient.culinaryProperties.seasonality.peak === season ||
+        ingredient.culinaryProperties?.seasonality && Array.isArray(ingredient.culinaryProperties.seasonality.optimal) ? ingredient.culinaryProperties.seasonality.optimal?.includes(season) : ingredient.culinaryProperties.seasonality.optimal === season ||
+        ingredient.culinaryProperties?.seasonality && Array.isArray(ingredient.culinaryProperties.seasonality.available) ? ingredient.culinaryProperties.seasonality.available?.includes(season) : ingredient.culinaryProperties.seasonality.available === season
       );
   }
   
@@ -493,9 +493,9 @@ export class EnhancedIngredientsSystem {
   adaptIngredientsForSeason(ingredients: EnhancedIngredient[], season: string): EnhancedIngredient[] {
     // Filter to keep only seasonally appropriate ingredients
     const seasonal = (ingredients || []).filter(ingredient =>
-      ingredient.culinaryProperties?.seasonality && Array.isArray(ingredient.culinaryProperties.seasonality.peak) ? ingredient.culinaryProperties.seasonality.peak?.includes(criteria.seasonalAlignment!) : ingredient.culinaryProperties.seasonality.peak === criteria.seasonalAlignment! ||
-      ingredient.culinaryProperties?.seasonality && Array.isArray(ingredient.culinaryProperties.seasonality.optimal) ? ingredient.culinaryProperties.seasonality.optimal?.includes(criteria.seasonalAlignment!) : ingredient.culinaryProperties.seasonality.optimal === criteria.seasonalAlignment! ||
-      ingredient.culinaryProperties?.seasonality && Array.isArray(ingredient.culinaryProperties.seasonality.available) ? ingredient.culinaryProperties.seasonality.available?.includes(criteria.seasonalAlignment!) : ingredient.culinaryProperties.seasonality.available === criteria.seasonalAlignment!
+      ingredient.culinaryProperties?.seasonality && Array.isArray(ingredient.culinaryProperties.seasonality.peak) ? ingredient.culinaryProperties.seasonality.peak?.includes(season) : ingredient.culinaryProperties.seasonality.peak === season ||
+      ingredient.culinaryProperties?.seasonality && Array.isArray(ingredient.culinaryProperties.seasonality.optimal) ? ingredient.culinaryProperties.seasonality.optimal?.includes(season) : ingredient.culinaryProperties.seasonality.optimal === season ||
+      ingredient.culinaryProperties?.seasonality && Array.isArray(ingredient.culinaryProperties.seasonality.available) ? ingredient.culinaryProperties.seasonality.available?.includes(season) : ingredient.culinaryProperties.seasonality.available === season
     );
     
     // If we have enough seasonal ingredients, return them

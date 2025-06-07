@@ -17,6 +17,8 @@ import {
   getMonicaCompatibleCookingMethods,
   type EnhancedCookingMethod 
 } from '../../constants/alchemicalPillars';
+import type { UnifiedIngredient } from '@/types/unified';
+import { unifiedIngredients } from './ingredients';
 
 // ===== ENHANCED SEASONAL INTERFACES =====
 
