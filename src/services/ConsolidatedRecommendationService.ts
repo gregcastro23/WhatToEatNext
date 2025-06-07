@@ -18,6 +18,8 @@ import { getIngredientRecommendations } from '../utils/recommendation/foodRecomm
 import { getCookingMethodRecommendations } from '../utils/recommendation/methodRecommendation';
 
 // Import consolidated services
+import { ConsolidatedRecipeService } from './ConsolidatedRecipeService';
+import { ConsolidatedIngredientService } from './ConsolidatedIngredientService';
 
 import { Element } from "@/types/alchemy";
 import { PlanetaryAlignment } from "@/types/celestial";

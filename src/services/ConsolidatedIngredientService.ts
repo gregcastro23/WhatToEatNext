@@ -264,7 +264,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       const filteredResults: Record<string, UnifiedIngredient[]> = {};
       
       // Determine which categories to include
-      const categoriesToInclude = filter.categories && (ingredient.$2 || []).length > 0 
+      const categoriesToInclude = filter.categories && (filter.categories || []).length > 0 
         ? filter.categories 
         : Object.keys(allIngredients);
       
@@ -291,7 +291,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         }
         
         // Apply seasonal filter if specified
-        if (filter.currentSeason && (ingredient.$2 || []).length > 0) {
+        if (filter.currentSeason) {
           filtered = this.applySeasonalFilter(filtered, filter.currentSeason);
         }
         
@@ -301,7 +301,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         }
         
         // Apply exclusion filter if specified
-        if (filter.excludeIngredients && (ingredient.$2 || []).length > 0) {
+        if (filter.excludeIngredients && (filter.excludeIngredients || []).length > 0) {
           filtered = this.applyExclusionFilter(filtered, filter.excludeIngredients);
         }
         
@@ -569,7 +569,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         }
         
         // Apply exoticness filter if needed
-        if (!includeExotic && Array.isArray(ingredient.$3) ? ingredient.$3.includes($5) : ingredient.$3 === $5) {
+        if (!includeExotic && ingredient.isExotic) {
           return { ingredient, score: 0 }; // Exclude exotic ingredients
         }
         
@@ -585,7 +585,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         .sort((a, b) => sortByScore ? b.score - a.score : 0);
       
       // Return top results
-      const results = filtered?.slice(0, ingredient || []).map(item => ({
+      const results = filtered?.slice(0, maxResults || 10).map(item => ({
         ...item.ingredient,
         score: item.score
       }));
@@ -718,7 +718,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       }
       
       // Check for required vitamins
-      if (filter.vitamins && (ingredient.$2 || []).length > 0) {
+      if (filter.vitamins && (filter.vitamins || []).length > 0) {
         const vitamins = nutritional.vitamins || {};
         const vitaminKeys = Object.keys(vitamins);
         
@@ -730,7 +730,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       }
       
       // Check for required minerals
-      if (filter.minerals && (ingredient.$2 || []).length > 0) {
+      if (filter.minerals && (filter.minerals || []).length > 0) {
         const minerals = nutritional.minerals || {};
         const mineralKeys = Object.keys(minerals);
         

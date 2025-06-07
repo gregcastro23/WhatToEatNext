@@ -10,6 +10,7 @@ import type { ElementalProperties,
 import { getCurrentSeason , recipe} from '@/types/seasons';
 
 import { Element } from "@/types/alchemy";
+import alchemicalEngine, { AlchemicalEngine } from '@/calculations/core/alchemicalEngine';
 
 /**
  * AlchemicalRecommendation interface for providing structured recommendations
@@ -55,7 +56,10 @@ export class AlchemicalRecommendationService {
     // Calculate thermodynamic properties using the engine
     const thermodynamics = this.engine.alchemize(planetaryPositions);
     
-    // Convert thermodynamic properties to elemental properties// Determine dominant element
+    // Convert thermodynamic properties to elemental properties
+    const elementalBalance = this.deriveElementalProperties(thermodynamics);
+    
+    // Determine dominant element
     const dominantElement = this.getDominantElement(elementalBalance);
     
     // Filter ingredients by elemental compatibility
