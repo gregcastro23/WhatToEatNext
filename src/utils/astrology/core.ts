@@ -16,7 +16,7 @@ import { AstrologicalState } from "@/types/celestial";
 import { ElementalProperties } from '@/types';
 import { PlanetaryPosition } from "@/types/celestial";
 import type { PlanetPosition } from '../types/celestial';
-// DUPLICATE: import { ElementalProperties } from "@/types/alchemy";
+
 /**
  * A utility function for logging debug information
  * This is a safe replacement for console.log that can be disabled in production

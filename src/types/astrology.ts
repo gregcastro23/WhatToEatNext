@@ -37,7 +37,7 @@ export type PlanetaryAlignment =
  */
 export interface PlanetaryPosition {
   planet: string;
-  sign: ZodiacSign;
+  sign: string;
   degree: number;
   isRetrograde?: boolean;
 }
@@ -65,15 +65,15 @@ export interface AstrologicalProfile {
 
 export interface BirthChart {
     elementalState: Record<ElementalCharacter, number>;
-    planetaryPositions: Record<Planet, number>;
+    planetaryPositions: Record<string, number>;
     ascendant: string;
-    lunarPhase: LunarPhase;
+    lunarPhase: string;
     aspects: AstrologicalAspect[];
 }
 
 export interface AstrologicalAspect {
-    planet1: Planet;
-    planet2: Planet;
+    planet1: string;
+    planet2: string;
     aspectType: 'Conjunction' | 'Opposition' | 'Trine' | 'Square' | 'Sextile';
     orb: number;
 }
