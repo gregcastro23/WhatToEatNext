@@ -2,6 +2,11 @@ import { Recipe } from '@/types/recipe';
 import { createLogger } from '../utils/logger';
 import { Element } from "@/types/alchemy";
 import { PlanetaryPosition } from "@/types/celestial";
+import alchemicalEngine from '@/calculations/core/alchemicalEngine';
+import { astrologyService } from '@/services/AstrologyService';
+import { unifiedIngredientService } from '@/services/UnifiedIngredientService';
+import { unifiedRecipeService } from '@/services/UnifiedRecipeService';
+import { unifiedRecommendationService } from '@/services/UnifiedRecommendationService';
 
 // Initialize logger
 const logger = createLogger('ServicesManager');

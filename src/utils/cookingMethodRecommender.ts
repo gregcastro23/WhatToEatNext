@@ -716,7 +716,7 @@ export function getRecommendedCookingMethods(
     }
     
     // Seasonal bonus (15% of score) - enhanced with more seasonal associations
-    if ((method as any)?.preferences?.seasonalPreference || false && (method as any)?.(preferences?.seasonalPreference || false as any)?.includes?.(season)) {
+    if ((method as any)?.preferences?.seasonalPreference && (method as any)?.preferences?.seasonalPreference?.includes?.(season)) {
       seasonalScore += 0.15;
     } else {
       // Enhanced default seasonal preferences
@@ -867,7 +867,7 @@ export function getRecommendedCookingMethods(
       // Check if method aligns with Venus culinary techniques
       if (venusData.PlanetSpecific?.CulinaryTechniques) {
         const methodNameLower = (method as any)?.(name as any)?.toLowerCase?.();
-        const methodDescLower = (method as any)?.(description as any)?.toLowerCase?.();
+        const methodDescLower = (method as any)?.description?.toLowerCase?.();
         
         // Check for aesthetic techniques
         if (((methodNameLower as any)?.includes?.('plate') || (methodNameLower as any)?.includes?.('present') ||
