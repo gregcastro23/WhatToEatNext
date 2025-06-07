@@ -210,7 +210,7 @@ export class RecipeFilter {
         if ((options.excludedIngredients && options.excludedIngredients.length > 0)) {
           const hasExcluded = (options.excludedIngredients || []).some((excluded) =>
             (recipe.ingredients || []).some((ingredient) =>
-              ingredient.name?.toLowerCase()?.includes(excluded?.toLowerCase())
+              ingredient.name?.toLowerCase()?.includes(ingredientRequirements?.avoided.toLowerCase())
             )
           );
           if (hasExcluded) return false;
@@ -252,7 +252,7 @@ export class RecipeFilter {
 
         // Seasonal score
         if (options.currentSeason) {
-          score *= (recipe.currentSeason && recipe.currentSeason.includes(currentSeason?.includes(options.currentSeason)  )) ? 1 : 0.5;
+          score *= (recipe.season && recipe.season.includes(options.currentSeason)) ? 1 : 0.5;
         }
 
         // Search relevance score
@@ -633,7 +633,7 @@ export function filterRecipesByIngredientMappings(
       if (ingredientRequirements?.(required || []).length) {
         const requiredMatches = ingredientRequirements?.(required || []).filter(required =>
           (recipe.ingredients || []).some(ingredient =>
-            ingredient.name?.toLowerCase()?.includes(required?.toLowerCase())
+            ingredient.name?.toLowerCase()?.includes(ingredientRequirements?.required.toLowerCase())
           )
         () || []).length;
         
@@ -645,7 +645,7 @@ export function filterRecipesByIngredientMappings(
       if (ingredientRequirements?.(excluded || []).length) {
         const excludedFound = ingredientRequirements?.(excluded || []).filter(excluded =>
           (recipe.ingredients || []).some(ingredient =>
-            ingredient.name?.toLowerCase()?.includes(excluded?.toLowerCase())
+            ingredient.name?.toLowerCase()?.includes(ingredientRequirements?.avoided.toLowerCase())
           )
         () || []).length;
         

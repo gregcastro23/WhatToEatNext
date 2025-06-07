@@ -18,6 +18,56 @@ import { Element } from "@/types/alchemy";
  * A consolidated service for all ingredient-related operations.
  * Implements the IngredientServiceInterface and follows the singleton pattern.
  */
+
+// Missing interface definitions
+interface IngredientServiceInterface {
+  getAllIngredients(): Record<string, UnifiedIngredient[]>;
+  getIngredientByName(name: string): UnifiedIngredient | undefined;
+  getIngredientsByCategory(category: string): UnifiedIngredient[];
+  filterIngredients(filter: IngredientFilter): Record<string, UnifiedIngredient[]>;
+}
+
+interface IngredientFilter {
+  nutritional?: NutritionalFilter;
+  elemental?: ElementalFilter;
+  dietary?: DietaryFilter;
+  currentSeason?: string;
+  searchQuery?: string;
+  excludeIngredients?: string[];
+  currentZodiacSign?: ZodiacSign;
+  planetaryInfluence?: PlanetName;
+}
+
+interface ElementalFilter {
+  element?: Element;
+  minThreshold?: number;
+  maxThreshold?: number;
+  dominantElement?: Element;
+}
+
+interface NutritionalFilter {
+  maxCalories?: number;
+  minProtein?: number;
+  maxCarbs?: number;
+  minFiber?: number;
+  vegetarian?: boolean;
+  vegan?: boolean;
+  glutenFree?: boolean;
+}
+
+interface DietaryFilter {
+  restrictions: string[];
+  preferences: string[];
+  allergies?: string[];
+}
+
+interface IngredientRecommendationOptions {
+  maxResults?: number;
+  includeAlternatives?: boolean;
+  seasonalPreference?: boolean;
+  elementalBalance?: boolean;
+}
+
 export class UnifiedIngredientService implements IngredientServiceInterface {
   private static instance: UnifiedIngredientService;
   private ingredientCache: Map<string, UnifiedIngredient[]> = new Map();
@@ -171,7 +221,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       );
     }
     
-    if (filter.excludeIngredients && (ingredient || []).length > 0) {
+    if (filter.excludeIngredients && filter.excludeIngredients.length > 0) {
       filteredIngredients = this.applyExclusionFilter(
         filteredIngredients,
         filter.excludeIngredients

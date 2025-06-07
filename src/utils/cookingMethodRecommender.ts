@@ -36,7 +36,7 @@ interface CookingMethodData {
   toolsRequired?: string[];
   bestFor?: string[];
   culturalOrigin?: string;
-  seasonalPreference?: string[];
+  seasonalRecommendations?: string[];
   score?: number;
   variations?: CookingMethodData[]; // Add variations property to store related cultural methods
   relatedToMainMethod?: string; // Track if this is a variation of another method
@@ -716,7 +716,7 @@ export function getRecommendedCookingMethods(
     }
     
     // Seasonal bonus (15% of score) - enhanced with more seasonal associations
-    if ((method as any)?.seasonalPreference && (method as any)?.(seasonalPreference as any)?.includes?.(season)) {
+    if ((method as any)?.preferences?.seasonalPreference || false && (method as any)?.(preferences?.seasonalPreference || false as any)?.includes?.(season)) {
       seasonalScore += 0.15;
     } else {
       // Enhanced default seasonal preferences
