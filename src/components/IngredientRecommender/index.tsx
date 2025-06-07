@@ -148,25 +148,47 @@ export default function IngredientRecommender() {
   }, [astroRecommendations, foodRecommendations]);
   
   // Define herb names to improve herb detection
-  const herbNames = useMemo(() => Object.keys(herbsCollection), []);
+  const herbNames = useMemo(() => {
+    try {
+      const keys = Object.keys(herbsCollection || {});
+      return keys.filter(key => typeof key === 'string' && key.length > 0);
+    } catch (error) {
+      console.warn('Error loading herb names:', error);
+      return [];
+    }
+  }, []);
   
   // Define oil types for better oil detection
-  const oilTypes = useMemo(() => 
-    Object.keys(oilsCollection).concat([
-      'oil', 'olive oil', 'vegetable oil', 'sunflower oil', 'sesame oil', 'coconut oil',
-      'avocado oil', 'walnut oil', 'peanut oil', 'grapeseed oil', 'canola oil'
-    ]), 
-  []);
+  const oilTypes = useMemo(() => {
+    try {
+      const baseOils = Object.keys(oilsCollection || {}).filter(key => typeof key === 'string');
+      const additionalOils = [
+        'oil', 'olive oil', 'vegetable oil', 'sunflower oil', 'sesame oil', 'coconut oil',
+        'avocado oil', 'walnut oil', 'peanut oil', 'grapeseed oil', 'canola oil'
+      ];
+      return [...baseOils, ...additionalOils];
+    } catch (error) {
+      console.warn('Error loading oil types:', error);
+      return ['oil', 'olive oil', 'vegetable oil'];
+    }
+  }, []);
   
   // Define vinegar types for better vinegar detection
-  const vinegarTypes = useMemo(() => 
-    Object.keys(vinegarsCollection).concat([
-      'vinegar', 'balsamic vinegar', 'apple cider vinegar', 'rice vinegar', 'red wine vinegar',
-      'white wine vinegar', 'champagne vinegar', 'sherry vinegar', 'malt vinegar', 
-      'distilled vinegar', 'black vinegar', 'rice wine vinegar', 'white balsamic',
-      'balsamic glaze', 'raspberry vinegar', 'fig vinegar', 'coconut vinegar'
-    ]), 
-  []);
+  const vinegarTypes = useMemo(() => {
+    try {
+      const baseVinegars = Object.keys(vinegarsCollection || {}).filter(key => typeof key === 'string');
+      const additionalVinegars = [
+        'vinegar', 'balsamic vinegar', 'apple cider vinegar', 'rice vinegar', 'red wine vinegar',
+        'white wine vinegar', 'champagne vinegar', 'sherry vinegar', 'malt vinegar', 
+        'distilled vinegar', 'black vinegar', 'rice wine vinegar', 'white balsamic',
+        'balsamic glaze', 'raspberry vinegar', 'fig vinegar', 'coconut vinegar'
+      ];
+      return [...baseVinegars, ...additionalVinegars];
+    } catch (error) {
+      console.warn('Error loading vinegar types:', error);
+      return ['vinegar', 'balsamic vinegar', 'apple cider vinegar'];
+    }
+  }, []);
   
   // Helper function to check if an ingredient is an oil
   const isOil = (ingredient: IngredientRecommendation): boolean => {
@@ -174,7 +196,7 @@ export default function IngredientRecommender() {
     if (category === 'oil' || category === 'oils') return true;
     
     const name = ingredient.name.toLowerCase();
-    return oilTypes.some(oil => name.includes(oil.toLowerCase()));
+    return oilTypes.some(oil => typeof oil === 'string' && name.includes(oil.toLowerCase()));
   };
   
   // Helper function to check if an ingredient is a vinegar
@@ -183,7 +205,7 @@ export default function IngredientRecommender() {
     if (category === 'vinegar' || category === 'vinegars') return true;
     
     const name = ingredient.name.toLowerCase();
-    return vinegarTypes.some(vinegar => name.includes(vinegar.toLowerCase()));
+    return vinegarTypes.some(vinegar => typeof vinegar === 'string' && name.includes(vinegar.toLowerCase()));
   };
   
   // Helper function to get normalized category
@@ -336,7 +358,7 @@ export default function IngredientRecommender() {
     }
     
     // Check for known herb names
-    if (herbNames.some(herb => name.includes(herb.toLowerCase()))) {
+    if (herbNames.some(herb => typeof herb === 'string' && name.includes(herb.toLowerCase()))) {
       return 'herbs';
     }
       
@@ -716,7 +738,7 @@ export default function IngredientRecommender() {
           });
         }
         // Herbs
-        else if (ingredient.category === 'herb' || name.includes('herb') || herbNames.some(herb => name.includes(herb.toLowerCase()))) {
+        else if (ingredient.category === 'herb' || name.includes('herb') || herbNames.some(herb => typeof herb === 'string' && name.includes(herb.toLowerCase()))) {
           categories.herbs.push({
             ...ingredient,
             matchScore: ingredient.score || 0.5
