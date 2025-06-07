@@ -1,4 +1,5 @@
-import { ZodiacSign, Planet, Element, TarotSuit, EnergyState } from './alchemy';
+import { ZodiacSign, Planet, Element } from './celestial';
+import { TarotSuit, EnergyState } from './alchemy';
 
 // Define chakra positions
 export type ChakraPosition = 
@@ -85,7 +86,7 @@ export const CHAKRAS: ChakraProperties = {
     governs: ['Basic survival', 'Stability', 'Groundedness'],
     balanceIndicators: ['Security', 'Stability', 'Groundedness'],
     imbalanceIndicators: ['Fear', 'Anxiety', 'Survival issues'],
-    planet: 'saturn'
+    planet: 'Saturn'
   },
   sacral: {
     name: 'Sacral Chakra',
@@ -96,7 +97,7 @@ export const CHAKRAS: ChakraProperties = {
     governs: ['Creativity', 'Sexuality', 'Emotions'],
     balanceIndicators: ['Passion', 'Joy', 'Healthy boundaries'],
     imbalanceIndicators: ['Emotional issues', 'Addiction', 'Detachment'],
-    planet: 'jupiter'
+    planet: 'Jupiter'
   },
   solarPlexus: {
     name: 'Solar Plexus Chakra',
@@ -107,7 +108,7 @@ export const CHAKRAS: ChakraProperties = {
     governs: ['Personal power', 'Will', 'Assertiveness'],
     balanceIndicators: ['Confidence', 'Motivation', 'Purpose'],
     imbalanceIndicators: ['Control issues', 'Lack of direction', 'Perfectionism'],
-    planet: 'mars'
+    planet: 'Mars'
   },
   heart: {
     name: 'Heart Chakra',
@@ -118,7 +119,7 @@ export const CHAKRAS: ChakraProperties = {
     governs: ['Love', 'Compassion', 'Forgiveness'],
     balanceIndicators: ['Empathy', 'Openness', 'Connection'],
     imbalanceIndicators: ['Grief', 'Isolation', 'Resentment'],
-    planet: 'venus'
+    planet: 'Venus'
   },
   throat: {
     name: 'Throat Chakra',
@@ -129,7 +130,7 @@ export const CHAKRAS: ChakraProperties = {
     governs: ['Communication', 'Self-expression', 'Truth'],
     balanceIndicators: ['Clear communication', 'Authentic expression', 'Active listening'],
     imbalanceIndicators: ['Communication issues', 'Dishonesty', 'Inability to express'],
-    planet: 'mercury'
+    planet: 'Mercury'
   },
   brow: {
     name: 'Third Eye Chakra',
@@ -140,7 +141,7 @@ export const CHAKRAS: ChakraProperties = {
     governs: ['Intuition', 'Imagination', 'Vision'],
     balanceIndicators: ['Clear insight', 'Strong intuition', 'Wisdom'],
     imbalanceIndicators: ['Confusion', 'Poor intuition', 'Lack of focus'],
-    planet: 'moon'
+    planet: 'Moon'
   },
   crown: {
     name: 'Crown Chakra',
@@ -151,7 +152,7 @@ export const CHAKRAS: ChakraProperties = {
     governs: ['Connection to higher self', 'Spirituality', 'Universal consciousness'],
     balanceIndicators: ['Enlightenment', 'Spiritual connection', 'Inner wisdom'],
     imbalanceIndicators: ['Closed-mindedness', 'Isolation', 'Over-intellectualization'],
-    planet: 'sun'
+    planet: 'Sun'
   }
 };
 
@@ -167,19 +168,19 @@ export const MAJOR_ARCANA_CHAKRAS: MajorArcanaChakra[] = [
   {
     cardName: 'The Emperor',
     chakraPosition: 'root',
-    planet: 'saturn',
+    planet: 'Saturn',
     description: 'Represents structure, authority, and stability, which align with the Root Chakra\'s focus on security and foundation.'
   },
   {
     cardName: 'The Empress',
     chakraPosition: 'sacral',
-    planet: 'venus',
+    planet: 'Venus',
     description: 'Symbolizes nurturing, creativity, and sensuality, perfectly matching the Sacral Chakra\'s themes.'
   },
   {
     cardName: 'The Tower',
     chakraPosition: 'solarPlexus',
-    planet: 'mars',
+    planet: 'Mars',
     description: 'The Tower\'s transformative energy and Mars\'s action-oriented nature reflect personal power and breakthroughs.'
   },
   {
@@ -190,13 +191,13 @@ export const MAJOR_ARCANA_CHAKRAS: MajorArcanaChakra[] = [
   {
     cardName: 'The Lovers',
     chakraPosition: 'heart',
-    planet: 'venus',
+    planet: 'Venus',
     description: 'Represent relationships and harmony, aligning with the Heart Chakra\'s focus on love and connection.'
   },
   {
     cardName: 'The Star',
     chakraPosition: 'heart',
-    planet: 'neptune',
+    planet: 'Neptune',
     description: 'Offers hope and healing, connecting to the Heart Chakra\'s themes of compassion and healing.'
   },
   {

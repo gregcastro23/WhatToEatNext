@@ -1,28 +1,28 @@
-import { Planet } from '@/types/alchemy';
+import { Planet } from '@/types/celestial';
 import SunCalc from 'suncalc';
 
 export class PlanetaryHourCalculator {
     // Planetary hour configuration according to traditional planetary rulers
     private static planetaryHours: Record<string, Planet[]> = {
-        Sunday:    ['sun', 'venus', 'mercury', 'moon', 'saturn', 'jupiter', 'mars'],
-        Monday:    ['moon', 'saturn', 'jupiter', 'mars', 'sun', 'venus', 'mercury'],
-        Tuesday:   ['mars', 'sun', 'venus', 'mercury', 'moon', 'saturn', 'jupiter'],
-        Wednesday: ['mercury', 'moon', 'saturn', 'jupiter', 'mars', 'sun', 'venus'],
-        Thursday:  ['jupiter', 'mars', 'sun', 'venus', 'mercury', 'moon', 'saturn'],
-        Friday:    ['venus', 'mercury', 'moon', 'saturn', 'jupiter', 'mars', 'sun'],
-        Saturday:  ['saturn', 'jupiter', 'mars', 'sun', 'venus', 'mercury', 'moon']
+        Sunday:    ['Sun', 'Venus', 'Mercury', 'Moon', 'Saturn', 'Jupiter', 'Mars'],
+        Monday:    ['Moon', 'Saturn', 'Jupiter', 'Mars', 'Sun', 'Venus', 'Mercury'],
+        Tuesday:   ['Mars', 'Sun', 'Venus', 'Mercury', 'Moon', 'Saturn', 'Jupiter'],
+        Wednesday: ['Mercury', 'Moon', 'Saturn', 'Jupiter', 'Mars', 'Sun', 'Venus'],
+        Thursday:  ['Jupiter', 'Mars', 'Sun', 'Venus', 'Mercury', 'Moon', 'Saturn'],
+        Friday:    ['Venus', 'Mercury', 'Moon', 'Saturn', 'Jupiter', 'Mars', 'Sun'],
+        Saturday:  ['Saturn', 'Jupiter', 'Mars', 'Sun', 'Venus', 'Mercury', 'Moon']
     };
     
     private static dayNames: string[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     
     // Planetary rulers for each day of the week (0 = Sunday)
-    private static dayRulers: Planet[] = ['sun', 'moon', 'mars', 'mercury', 'jupiter', 'venus', 'saturn'];
+    private static dayRulers: Planet[] = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
     
     // Minute rulers - each planet rules approximately 8.57 minutes in sequence
-    private static minuteRulers: Planet[] = ['sun', 'venus', 'mercury', 'moon', 'saturn', 'jupiter', 'mars'];
+    private static minuteRulers: Planet[] = ['Sun', 'Venus', 'Mercury', 'Moon', 'Saturn', 'Jupiter', 'Mars'];
     
     private readonly planetaryRulers = [
-        'sun', 'moon', 'mars', 'mercury', 'jupiter', 'venus', 'saturn'
+        'Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'
     ];
     
     private coordinates = {

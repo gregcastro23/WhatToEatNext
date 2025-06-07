@@ -6,7 +6,8 @@
  * complex API calls and calculations that might fail.
  */
 
-import { AstrologicalState, ZodiacSign, PlanetaryAspect, CelestialPosition, AspectType } from '@/types/alchemy';
+import { ZodiacSign, PlanetaryAspect, CelestialPosition, AspectType } from '@/types/celestial';
+import { AstrologicalState } from '@/types/alchemy';
 import { createLogger } from '@/utils/logger';
 
 // Create a component-specific logger
@@ -35,19 +36,19 @@ const CACHE_DURATION = 15 * 60 * 1000; // 15 minutes
  */
 export function getReliablePlanetaryPositions(): Record<string, CelestialPosition> {
   const positions: Record<string, CelestialPosition> = {
-    sun: { sign: 'aries', degree: 8.63, exactLongitude: 8.63, isRetrograde: false },
-    moon: { sign: 'aries', degree: 3.48, exactLongitude: 3.48, isRetrograde: false },
-    mercury: { sign: 'aries', degree: 0.75, exactLongitude: 0.75, isRetrograde: true },
-    venus: { sign: 'pisces', degree: 29.0, exactLongitude: 359.0, isRetrograde: true },
-    mars: { sign: 'cancer', degree: 22.67, exactLongitude: 112.67, isRetrograde: false },
-    jupiter: { sign: 'gemini', degree: 15.53, exactLongitude: 75.53, isRetrograde: false },
-    saturn: { sign: 'pisces', degree: 24.13, exactLongitude: 354.13, isRetrograde: false },
-    uranus: { sign: 'taurus', degree: 24.62, exactLongitude: 54.62, isRetrograde: false },
-    neptune: { sign: 'pisces', degree: 29.93, exactLongitude: 359.93, isRetrograde: false },
-    pluto: { sign: 'aquarius', degree: 3.5, exactLongitude: 333.5, isRetrograde: false },
+    Sun: { sign: 'aries', degree: 8.63, exactLongitude: 8.63, isRetrograde: false },
+    Moon: { sign: 'aries', degree: 3.48, exactLongitude: 3.48, isRetrograde: false },
+    Mercury: { sign: 'aries', degree: 0.75, exactLongitude: 0.75, isRetrograde: true },
+    Venus: { sign: 'pisces', degree: 29.0, exactLongitude: 359.0, isRetrograde: true },
+    Mars: { sign: 'cancer', degree: 22.67, exactLongitude: 112.67, isRetrograde: false },
+    Jupiter: { sign: 'gemini', degree: 15.53, exactLongitude: 75.53, isRetrograde: false },
+    Saturn: { sign: 'pisces', degree: 24.13, exactLongitude: 354.13, isRetrograde: false },
+    Uranus: { sign: 'taurus', degree: 24.62, exactLongitude: 54.62, isRetrograde: false },
+    Neptune: { sign: 'pisces', degree: 29.93, exactLongitude: 359.93, isRetrograde: false },
+    Pluto: { sign: 'aquarius', degree: 3.5, exactLongitude: 333.5, isRetrograde: false },
     northNode: { sign: 'pisces', degree: 26.88, exactLongitude: 356.88, isRetrograde: true },
     southNode: { sign: 'virgo', degree: 26.88, exactLongitude: 176.88, isRetrograde: true },
-    ascendant: { sign: 'scorpio', degree: 13.88, exactLongitude: 223.88, isRetrograde: false }
+    Ascendant: { sign: 'scorpio', degree: 13.88, exactLongitude: 223.88, isRetrograde: false }
   };
   
   return positions;
