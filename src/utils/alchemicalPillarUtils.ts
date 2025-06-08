@@ -28,7 +28,13 @@ interface PillarCalculationResult {
   seasonalAlignment?: number;
 }
 import { AlchemicalProperty } from '../types/celestial';
-import { CookingMethod } from '../types/alchemy';
+// CookingMethod type definition
+interface CookingMethod {
+  name: string;
+  category?: string;
+  description?: string;
+  elementalProperties?: Record<string, number>;
+}
 import { 
   getCookingMethodAlchemicalEffect, 
   getCookingMethodPillar as _getCookingMethodPillar,
@@ -135,19 +141,19 @@ export function applyPillarTransformation(
   
   // Apply to spirit, essence, matter, substance if they exist in the item
   if ('spirit' in transformedItem) {
-    transformedItem.spirit = (transformedItem.spirit || 0) * (1 + 0.2 * alchemicalEffects.Spirit);
+    transformedItem.spirit = Number(transformedItem.spirit || 0) * (1 + 0.2 * Number(alchemicalEffects.Spirit || 0));
   }
   
   if ('essence' in transformedItem) {
-    transformedItem.essence = (transformedItem.essence || 0) * (1 + 0.2 * alchemicalEffects.Essence);
+    transformedItem.essence = Number(transformedItem.essence || 0) * (1 + 0.2 * Number(alchemicalEffects.Essence || 0));
   }
   
   if ('matter' in transformedItem) {
-    transformedItem.matter = (transformedItem.matter || 0) * (1 + 0.2 * alchemicalEffects.Matter);
+    transformedItem.matter = Number(transformedItem.matter || 0) * (1 + 0.2 * Number(alchemicalEffects.Matter || 0));
   }
   
   if ('substance' in transformedItem) {
-    transformedItem.substance = (transformedItem.substance || 0) * (1 + 0.2 * alchemicalEffects.Substance);
+    transformedItem.substance = Number(transformedItem.substance || 0) * (1 + 0.2 * Number(alchemicalEffects.Substance || 0));
   }
   
   // Get thermodynamic properties based on elemental associations of the cooking method
@@ -156,34 +162,34 @@ export function applyPillarTransformation(
   // Apply thermodynamic effects if available
   if (thermodynamicProps) {
     if ('heat' in transformedItem) {
-      transformedItem.heat = (transformedItem.heat || 0) * (1 + 0.15 * thermodynamicProps.heat);
+      transformedItem.heat = Number(transformedItem.heat || 0) * (1 + 0.15 * Number(thermodynamicProps.heat || 0));
     }
     
     if ('entropy' in transformedItem) {
-      transformedItem.entropy = (transformedItem.entropy || 0) * (1 + 0.15 * thermodynamicProps.entropy);
+      transformedItem.entropy = Number(transformedItem.entropy || 0) * (1 + 0.15 * Number(thermodynamicProps.entropy || 0));
     }
     
     if ('reactivity' in transformedItem) {
-      transformedItem.reactivity = (transformedItem.reactivity || 0) * (1 + 0.15 * thermodynamicProps.reactivity);
+      transformedItem.reactivity = Number(transformedItem.reactivity || 0) * (1 + 0.15 * Number(thermodynamicProps.reactivity || 0));
     }
   } else {
     // Fallback to traditional calculation if no thermodynamic properties
     if ('heat' in transformedItem) {
       // Spirit and Fire increase heat
-      transformedItem.heat = (transformedItem.heat || 0) * 
-        (1 + 0.15 * (alchemicalEffects.Spirit + (alchemicalEffects.Essence * 0.5)));
+      transformedItem.heat = Number(transformedItem.heat || 0) * 
+        (1 + 0.15 * (Number(alchemicalEffects.Spirit || 0) + (Number(alchemicalEffects.Essence || 0) * 0.5)));
     }
     
     if ('entropy' in transformedItem) {
       // Matter decreases entropy, Spirit increases it
-      transformedItem.entropy = (transformedItem.entropy || 0) * 
-        (1 + 0.15 * (alchemicalEffects.Spirit - alchemicalEffects.Matter));
+      transformedItem.entropy = Number(transformedItem.entropy || 0) * 
+        (1 + 0.15 * (Number(alchemicalEffects.Spirit || 0) - Number(alchemicalEffects.Matter || 0)));
     }
     
     if ('reactivity' in transformedItem) {
       // Essence increases reactivity, Substance decreases it
-      transformedItem.reactivity = (transformedItem.reactivity || 0) * 
-        (1 + 0.15 * (alchemicalEffects.Essence - alchemicalEffects.Substance));
+      transformedItem.reactivity = Number(transformedItem.reactivity || 0) * 
+        (1 + 0.15 * (Number(alchemicalEffects.Essence || 0) - Number(alchemicalEffects.Substance || 0)));
     }
   }
   
