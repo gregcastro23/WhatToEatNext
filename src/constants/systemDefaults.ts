@@ -64,7 +64,7 @@ export const DEFAULT_PLANETARY_ALIGNMENT: PlanetaryAlignment = {
   Saturn: {},
   Uranus: {},
   Neptune: {},
-  Pluto: { sign: '', degree: 0  } as const
+  Pluto: { sign: 'scorpio', degree: 0  } as const
 };
 
 /**

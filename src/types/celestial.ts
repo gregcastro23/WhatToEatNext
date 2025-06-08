@@ -75,9 +75,12 @@ export interface PlanetaryPosition {
   sign: ZodiacSign;
   degree: number;
   minute?: number;
+  minutes?: number; // Alternative name used in astrologizeApi
   element?: string;
   dignity?: string;
   isRetrograde?: boolean;
+  exactLongitude?: number; // Used extensively in astronomy calculations
+  speed?: number; // Optional planetary speed
 }
 
 // Aspect between two celestial bodies
