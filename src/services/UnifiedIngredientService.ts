@@ -8,7 +8,8 @@ import {
 , RecipeIngredient} from '../types';
 import { UnifiedIngredient } from '../types/ingredient';
 import { Recipe } from '../types/recipe';
-import { getCurrentSeason } from '@/types/seasons';
+// Fix import - getCurrentSeason is likely in a different location
+import { getCurrentSeason } from '@/data/integrations/seasonal';
 
 import { Element } from "@/types/alchemy";
 

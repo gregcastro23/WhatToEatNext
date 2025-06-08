@@ -11,6 +11,17 @@ interface IngredientMapping {
   elementalProperties: ElementalProperties;
   astrologicalProfile?: any;
   qualities?: string[];
+  // Add commonly missing properties
+  description?: string;
+  category?: string;
+  cuisine?: string;
+  flavorProfile?: Record<string, number>;
+  regionalCuisine?: string;
+  season?: any;
+  timing?: any;
+  duration?: any;
+  matchScore?: number;
+  mealType?: string;
 }
 import { elementalUtils } from './elementalUtils';
 import { ingredientsMap } from '@/data/ingredients';
@@ -28,6 +39,12 @@ interface MatchResult {
     matchedTo?: IngredientMapping;
     confidence: number;
   }[];
+  // Add commonly missing properties
+  matchScore?: number;
+  timing?: any;
+  duration?: any;
+  season?: any;
+  mealType?: string;
 }
 
 interface MatchFilters {

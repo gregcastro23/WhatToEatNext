@@ -12,6 +12,16 @@ interface EnhancedIngredient {
     rulingPlanets?: string[];
     signAffinities?: string[];
   };
+  // Add commonly missing properties
+  flavorProfile?: Record<string, number>;
+  cuisine?: string;
+  description?: string;
+  category?: string;
+  qualities?: string[];
+  mealType?: string;
+  matchScore?: number;
+  timing?: any;
+  duration?: any;
 }
 import { AstrologicalState } from '@/types';
 import { ElementalProperties, ChakraEnergies, Season } from '@/types/alchemy';
@@ -68,6 +78,17 @@ export interface IngredientRecommendation {
   astrologicalScore?: number;
   seasonalScore?: number;
   dietary?: string[];
+  // Add commonly missing properties
+  flavorProfile?: Record<string, number>;
+  cuisine?: string;
+  regionalCuisine?: string;
+  astrologicalProfile?: any;
+  astrologicalInfluences?: any;
+  season?: any;
+  mealType?: string;
+  timing?: any;
+  duration?: any;
+  isRetrograde?: boolean;
   sensoryProfile?: {
     taste: Record<string, number>;
     aroma: Record<string, number>;
