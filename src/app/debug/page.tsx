@@ -3,8 +3,14 @@
 import React, { useState } from 'react';
 import { testCookingMethodRecommendations } from '../../utils/testRecommendations';
 
+interface TestIngredient {
+  name: string;
+  element: string;
+  elementalCharacter: string;
+}
+
 interface TestResult {
-  ingredient: unknown;
+  ingredient: TestIngredient;
   holisticRecommendations: Array<{ method: string, compatibility: number, reason: string }>;
   standardRecommendations: Array<{ method: string, compatibility: number }>;
 }
