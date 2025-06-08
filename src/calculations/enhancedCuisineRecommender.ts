@@ -7,6 +7,26 @@ import type {
 } from '@/types/alchemy';
 import { cuisinesMap } from '@/data/cuisines';
 
+// Recipe interface for internal use in enhanced recommender
+interface RecipeData {
+  name?: string;
+  id?: string;
+  tags?: string[];
+  description?: string;
+  ingredients?: any[];
+  season?: string[];
+  mealType?: string[];
+  dietaryInfo?: string[];
+  planetary?: string[];
+  zodiac?: string[];
+  lunar?: string[];
+  flavorProfile?: Record<string, number>;
+  timeToMake?: number;
+  spiceLevel?: number | string;
+  preparationSteps?: string[];
+  instructions?: string[];
+}
+
 interface EnhancedRecipeMatch {
   cuisine: string;
   recipeName: string;
@@ -250,8 +270,8 @@ export class EnhancedCuisineRecommender {
   private getAllRecipesFromCuisine(
     cuisine: Cuisine,
     currentSeason: Season
-  ): unknown[] {
-    const allRecipes: unknown[] = [];
+  ): RecipeData[] {
+    const allRecipes: RecipeData[] = [];
 
     const mealTypes = ['breakfast', 'lunch', 'dinner', 'dessert'];
 
@@ -282,7 +302,7 @@ export class EnhancedCuisineRecommender {
    * Calculate seasonal match score (0-1)
    */
   private calculateSeasonalScore(
-    recipe: unknown,
+    recipe: RecipeData,
     timeFactors: TimeFactors
   ): number {
     // If recipe has no seasonal information, give it a neutral score
@@ -309,7 +329,7 @@ export class EnhancedCuisineRecommender {
    * The planetary day influences the entire day with both its diurnal and nocturnal elements
    */
   private calculatePlanetaryDayScore(
-    recipe: unknown,
+    recipe: RecipeData,
     timeFactors: TimeFactors,
     astroState: AstrologicalState
   ): number {
@@ -376,7 +396,7 @@ export class EnhancedCuisineRecommender {
    * The planetary hour influences with its diurnal element during day, and nocturnal element at night
    */
   private calculatePlanetaryHourScore(
-    recipe: unknown,
+    recipe: RecipeData,
     timeFactors: TimeFactors,
     astroState: AstrologicalState
   ): number {
@@ -441,7 +461,7 @@ export class EnhancedCuisineRecommender {
    * Calculate elemental match score (0-1)
    */
   private calculateElementalScore(
-    recipe: unknown,
+    recipe: RecipeData,
     astroState: AstrologicalState
   ): number {
     // If recipe has no elemental properties, give it a neutral score
@@ -463,7 +483,7 @@ export class EnhancedCuisineRecommender {
    * Calculate astrological match score based on signs and lunar phases (0-1)
    */
   private calculateAstrologicalScore(
-    recipe: unknown,
+    recipe: RecipeData,
     astroState: AstrologicalState
   ): number {
     const score = 0.5; // Start with neutral score
@@ -507,7 +527,7 @@ export class EnhancedCuisineRecommender {
    * Calculate match based on time of day (0-1)
    */
   private calculateTimeOfDayScore(
-    recipe: unknown,
+    recipe: RecipeData,
     timeFactors: TimeFactors
   ): number {
     const { timeOfDay } = timeFactors;
@@ -607,7 +627,7 @@ export class EnhancedCuisineRecommender {
    * Check if a recipe conflicts with a dietary restriction
    */
   private conflictsWithRestriction(
-    recipe: unknown,
+    recipe: RecipeData,
     restriction: string
   ): boolean {
     // Check allergens if restriction is an allergy
