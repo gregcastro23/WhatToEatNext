@@ -1,4 +1,20 @@
-import { NutritionalProfile, Element, ZodiacSign, Planet } from '@/types/alchemy';
+import { Element, ZodiacSign, Planet } from '@/types/alchemy';
+
+// Define NutritionalProfile locally
+interface NutritionalProfile {
+  calories?: number;
+  macros?: {
+    protein?: number;
+    carbs?: number;
+    fat?: number;
+    fiber?: number;
+  };
+  vitamins?: Record<string, number>;
+  minerals?: Record<string, number>;
+  phytonutrients?: Record<string, number>;
+  macronutrients?: Record<string, number>;
+  micronutrients?: Record<string, number>;
+}
 
 // ========== BASIC NUTRITIONAL PROFILES ==========
 export const baseNutritionalProfiles: Record<string, NutritionalProfile> = {
