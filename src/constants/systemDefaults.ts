@@ -1,13 +1,10 @@
 import { Recipe } from '@/types/recipe';
 import { Element , ElementalProperties ,
   AlchemicalValues,
-  AstrologicalState,
   ChakraEnergies,
   LunarPhase,
   ZodiacSign,
-  PlanetaryAlignment,
   alchemicalValues,
-  PlanetaryPosition,
   LunarPhaseWithSpaces 
 } from "@/types/alchemy";
 import { PlanetaryAlignment , AstrologicalState , PlanetaryPosition } from "@/types/celestial";
