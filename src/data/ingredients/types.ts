@@ -79,6 +79,8 @@ export interface LunarPhaseModifier {
 export interface Ingredient extends BaseIngredient {
     origin?: string[];
     subCategory?: string;
+    dietary?: string[];
+    modality?: Modality;
     varieties?: Record<string, {
         appearance?: string;
         texture?: string;

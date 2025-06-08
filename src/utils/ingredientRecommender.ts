@@ -1,15 +1,31 @@
 
 // Enhanced Ingredient interface for Phase 11
-interface EnhancedIngredient extends Ingredient {
+interface EnhancedIngredient {
+  name: string;
+  type: string;
   elementalProperties?: ElementalProperties;
   astrologicalInfluences?: AstrologicalInfluences;
   elementalState?: ElementalState;
   season?: Season;
   regionalCuisine?: string;
+  astrologicalProfile?: {
+    rulingPlanets?: string[];
+    signAffinities?: string[];
+  };
 }
 import { AstrologicalState } from '@/types';
-import { ElementalProperties , ChakraEnergies } from '@/types/alchemy';
+import { ElementalProperties, ChakraEnergies, Season } from '@/types/alchemy';
+import { ElementalState } from '@/types/elemental';
 import type { Modality, Ingredient } from '@/data/ingredients/types';
+
+// AstrologicalInfluences interface
+export interface AstrologicalInfluences {
+  rulingPlanets?: string[];
+  favorableZodiac?: string[];
+  elementalAffinity?: string;
+  lunarPhaseModifiers?: Record<string, unknown>;
+  aspectEnhancers?: string[];
+}
 
 // Import actual ingredient data
 import { vegetables } from '@/data/ingredients/vegetables';
@@ -37,16 +53,21 @@ import { calculateLunarPhase, calculatePlanetaryPositions } from '@/utils/astrol
 import { getAllIngredients as getIngredientsUtil } from '@/utils/foodRecommender';
 
 // Export the necessary types needed by IngredientRecommendations.ts
-export interface IngredientRecommendation extends Ingredient {
+export interface IngredientRecommendation {
+  name: string;
+  type: string;
+  category?: string;
+  elementalProperties?: ElementalProperties;
+  qualities?: string[];
   matchScore: number;
   modality?: Modality;
   recommendations?: string[];
-  qualities?: string[];
   description?: string;
   totalScore?: number;
   elementalScore?: number;
   astrologicalScore?: number;
   seasonalScore?: number;
+  dietary?: string[];
   sensoryProfile?: {
     taste: Record<string, number>;
     aroma: Record<string, number>;
