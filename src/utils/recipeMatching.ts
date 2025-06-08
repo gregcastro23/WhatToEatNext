@@ -3,12 +3,20 @@ import type {
   ElementalProperties,
   AstrologicalState,
   Season,
-  IngredientMapping,
 } from "@/types/alchemy";
+
+// Define IngredientMapping locally since it's not exported from alchemy
+interface IngredientMapping {
+  name: string;
+  elementalProperties: ElementalProperties;
+  astrologicalProfile?: any;
+  qualities?: string[];
+}
 import { elementalUtils } from './elementalUtils';
-import { ingredients } from '@/data/ingredients';
+import { ingredientsMap } from '@/data/ingredients';
 import { calculateMatchScore } from './ElementalCalculator';
-import { getRecipes } from '@/services/LocalRecipeService';
+// Import from correct location
+import { getRecipes } from '@/data/recipes';
 
 interface MatchResult {
   recipe: Recipe;

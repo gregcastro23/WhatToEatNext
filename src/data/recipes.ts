@@ -27,6 +27,33 @@ export interface Ingredient {
   category?: string;
 }
 
+// Interface for dish data from cuisine files
+interface DishData {
+  name?: string;
+  description?: string;
+  ingredients?: any[];
+  preparationSteps?: string[];
+  instructions?: string[];
+  planetary?: string[];
+  flavorProfile?: Record<string, number>;
+  substitutions?: Record<string, any>;
+  zodiac?: string[];
+  lunar?: string[];
+  tags?: string[];
+  timeToMake?: number;
+  cookTime?: number;
+  servingSize?: number;
+  numberOfServings?: number;
+  tools?: string[];
+  spiceLevel?: number | string;
+  nutrition?: any;
+  preparationNotes?: string;
+  culturalNotes?: string;
+  technicalTips?: string[];
+  dietaryInfo?: string[];
+  regionalCuisine?: string;
+}
+
 export interface Nutrition {
   calories?: number;
   protein?: number;
@@ -134,8 +161,8 @@ const transformCuisineData = async (): Promise<RecipeData[]> => {
                 console.log(`Found ${dishes.length} dishes for ${cuisineName} - ${mealType} - ${season}`);
                 
                 // Process individual dishes
-                dishes.forEach((dish: unknown) => {
-                  if (!dish || !(dish as any)?.name) {
+                dishes.forEach((dish: DishData) => {
+                  if (!dish || !dish?.name) {
                     console.log('Skipping invalid dish:', dish);
                     return;
                   }
@@ -162,8 +189,8 @@ const transformCuisineData = async (): Promise<RecipeData[]> => {
                   
                   // Create the recipe entry
                   const recipeData: RecipeData = {
-                    id: `${cuisineName}-${mealType}-${(dish as any)?.name}`.replace(/\s+/g, '-').toLowerCase(),
-                    name: (dish as any)?.name,
+                    id: `${cuisineName}-${mealType}-${dish?.name}`.replace(/\s+/g, '-').toLowerCase(),
+                    name: dish?.name || '',
                     description: dish.description || '',
                     ingredients: dish.ingredients || [],
                     instructions: dish.preparationSteps || dish.instructions || [],
