@@ -1369,7 +1369,7 @@ function getSeasonFromSunSign(sunSign: ZodiacSign): Season {
     } else if (['cancer', 'leo', 'virgo'].includes(sign)) {
       return 'summer';
     } else if (['libra', 'scorpio', 'sagittarius'].includes(sign)) {
-      return 'fall';
+      return 'autumn';
     } else if (['capricorn', 'aquarius', 'pisces'].includes(sign)) {
       return 'winter';
     }

@@ -39,7 +39,7 @@ export interface ElementalInteraction {
 // ========== MISSING TYPES FOR PHASE 8 ==========
 
 // Season type
-export type Season = 'spring' | 'summer' | 'autumn' | 'winter';
+export type Season = 'spring' | 'summer' | 'autumn' | 'fall' | 'winter' | 'all';
 
 // Alchemical calculation results
 export interface AlchemicalResult {

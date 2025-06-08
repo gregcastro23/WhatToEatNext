@@ -1,4 +1,4 @@
-export type Season = 'spring' | 'summer' | 'autumn' | 'winter';
+export type Season = 'spring' | 'summer' | 'autumn' | 'fall' | 'winter' | 'all';
 
 export interface SeasonalProfile {
   spring: number;
