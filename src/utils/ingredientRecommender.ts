@@ -798,11 +798,12 @@ function isVenusAssociatedIngredient(ingredientName: string): boolean {
     }
   }
   
-  // Check if the ingredient appears in Venus's spice associations
-  if (venusData.HerbalAssociations?.Spices) {
-    for (const spice of venusData.HerbalAssociations.Spices) {
-      if (ingredientName.toLowerCase().includes(spice.toLowerCase()) || 
-          spice.toLowerCase().includes(ingredientName.toLowerCase())) {
+  // Check if the ingredient appears in Venus's herb associations
+  // Note: HerbalAssociations only has Herbs, Flowers, Woods, Scents - Spices not available
+  if (venusData.HerbalAssociations?.Herbs) {
+    for (const herb of venusData.HerbalAssociations.Herbs) {
+      if (ingredientName.toLowerCase().includes(herb.toLowerCase()) || 
+          herb.toLowerCase().includes(ingredientName.toLowerCase())) {
         return true;
       }
     }
@@ -898,42 +899,42 @@ function calculateVenusInfluence(
   }
   
   // Check elemental properties alignment with Venus
-  if (ingredient.elemental_properties) {
+  if (ingredient.elementalProperties) {
     // Venus favors Water and Earth elements
-    score += (ingredient.elemental_properties.Water || 0) * 1.5;
-    score += (ingredient.elemental_properties.Earth || 0) * 1.8;
+    score += (ingredient.elementalProperties.Water || 0) * 1.5;
+    score += (ingredient.elementalProperties.Earth || 0) * 1.8;
     // Lesser affinities with Air and Fire
-    score += (ingredient.elemental_properties.Air || 0) * 0.8;
-    score += (ingredient.elemental_properties.Fire || 0) * 0.5;
+    score += (ingredient.elementalProperties.Air || 0) * 0.8;
+    score += (ingredient.elementalProperties.Fire || 0) * 0.5;
   }
   
   // Check flavor profile alignment with Venus preferences
-  if (ingredient.flavor_profile) {
+  if (ingredient.flavorProfile) {
     // Venus favors sweet, rich, creamy flavors
-    if (ingredient.flavor_profile.sweet) {
-      score += ingredient.flavor_profile.sweet * 2.0;
+    if (ingredient.flavorProfile.sweet) {
+      score += ingredient.flavorProfile.sweet * 2.0;
     }
     
-    if (ingredient.flavor_profile.umami) {
-      score += ingredient.flavor_profile.umami * 1.5;
+    if (ingredient.flavorProfile.umami) {
+      score += ingredient.flavorProfile.umami * 1.5;
     }
     
-    if (ingredient.flavor_profile.creamy || ingredient.flavor_profile.rich) {
-      score += ((ingredient.flavor_profile.creamy || 0) + (ingredient.flavor_profile.rich || 0)) * 1.7;
+    if (ingredient.flavorProfile.creamy || ingredient.flavorProfile.rich) {
+      score += ((ingredient.flavorProfile.creamy || 0) + (ingredient.flavorProfile.rich || 0)) * 1.7;
     }
     
     // Venus appreciates aromatic, fragrant qualities
-    if (ingredient.flavor_profile.aromatic || ingredient.flavor_profile.fragrant) {
-      score += ((ingredient.flavor_profile.aromatic || 0) + (ingredient.flavor_profile.fragrant || 0)) * 1.6;
+    if (ingredient.flavorProfile.aromatic || ingredient.flavorProfile.fragrant) {
+      score += ((ingredient.flavorProfile.aromatic || 0) + (ingredient.flavorProfile.fragrant || 0)) * 1.6;
     }
     
     // Venus is less interested in bitter or excessively spicy flavors
-    if (ingredient.flavor_profile.bitter) {
-      score -= ingredient.flavor_profile.bitter * 0.5;
+    if (ingredient.flavorProfile.bitter) {
+      score -= ingredient.flavorProfile.bitter * 0.5;
     }
     
-    if (ingredient.flavor_profile.spicy && ingredient.flavor_profile.spicy > 0.7) {
-      score -= (ingredient.flavor_profile.spicy - 0.7) * 0.8;
+    if (ingredient.flavorProfile.spicy && ingredient.flavorProfile.spicy > 0.7) {
+      score -= (ingredient.flavorProfile.spicy - 0.7) * 0.8;
     }
   }
   
@@ -949,41 +950,41 @@ function calculateVenusInfluence(
   }
   
   // Check culinary technique alignment
-  if (venusData.PlanetSpecific?.CulinaryTechniques && ingredient.culinary_uses) {
+  if (venusData.PlanetSpecific?.CulinaryTechniques && ingredient.culinaryUses) {
     // Check for aesthetic presentation techniques
     if (
-      ingredient.culinary_uses.includes('garnish') || 
-      ingredient.culinary_uses.includes('plating')
+      ingredient.culinaryUses.includes('garnish') || 
+      ingredient.culinaryUses.includes('plating')
     ) {
       score += 1.8;
     }
     
     // Check for balance and harmony in flavor pairings
-    if (ingredient.harmony_pairings && ingredient.harmony_pairings.length > 3) {
+    if (ingredient.harmonyPairings && ingredient.harmonyPairings.length > 3) {
       score += 1.5;
     }
     
     // Sweet and indulgent preparation techniques
     if (
-      ingredient.culinary_uses.includes('dessert') || 
-      ingredient.culinary_uses.includes('baking') ||
-      ingredient.culinary_uses.includes('confection')
+      ingredient.culinaryUses.includes('dessert') || 
+      ingredient.culinaryUses.includes('baking') ||
+      ingredient.culinaryUses.includes('confection')
     ) {
       score += 1.2;
     }
     
     // Check for fragrance and aroma enhancement
     if (
-      ingredient.aromatic_properties || 
-      (ingredient.flavor_profile?.aromatic && ingredient.flavor_profile.aromatic > 0.7)
+      ingredient.aromaticProperties || 
+      (ingredient.flavorProfile?.aromatic && ingredient.flavorProfile.aromatic > 0.7)
     ) {
       score += 1.6;
     }
     
     // Check for textural contrast techniques
     if (
-      ingredient.culinary_uses.includes('crispy') || 
-      ingredient.culinary_uses.includes('crunchy') || 
+      ingredient.culinaryUses.includes('crispy') || 
+      ingredient.culinaryUses.includes('crunchy') || 
       ingredient.texture?.includes('contrast')
     ) {
       score += 1.3;
@@ -1004,7 +1005,7 @@ function calculateVenusInfluence(
       for (const keyword of keywords) {
         if (ingredientName.includes(keyword) || 
             ingredient.description?.toLowerCase().includes(keyword) ||
-            ingredient.culinary_uses?.some(use => use.toLowerCase().includes(keyword))) {
+            ingredient.culinaryUses?.some(use => use.toLowerCase().includes(keyword))) {
           score += 2.0;
           break;
         }
@@ -1012,10 +1013,10 @@ function calculateVenusInfluence(
     }
     
     // Check Elements alignment
-    if (transitData.Elements && ingredient.elemental_properties) {
+    if (transitData.Elements && ingredient.elementalProperties) {
       for (const element in transitData.Elements) {
-        if (ingredient.elemental_properties[element]) {
-          score += transitData.Elements[element] * ingredient.elemental_properties[element] * 0.7;
+        if (ingredient.elementalProperties[element]) {
+          score += transitData.Elements[element] * ingredient.elementalProperties[element] * 0.7;
         }
       }
     }
@@ -1035,8 +1036,8 @@ function calculateVenusInfluence(
       }
       
       // Related ingredient match
-      if (ingredient.related_ingredients) {
-        const relatedMatches = ingredient.related_ingredients.filter(related => 
+      if (ingredient.relatedIngredients) {
+        const relatedMatches = ingredient.relatedIngredients.filter(related => 
           transitIngredients.some(i => related.toLowerCase().includes(i) || i.includes(related.toLowerCase()))
         ).length;
         
@@ -1044,8 +1045,8 @@ function calculateVenusInfluence(
       }
       
       // Complementary ingredients match
-      if (ingredient.complementary_ingredients) {
-        const complementaryMatches = ingredient.complementary_ingredients.filter(complement => 
+      if (ingredient.complementaryIngredients) {
+        const complementaryMatches = ingredient.complementaryIngredients.filter(complement => 
           transitIngredients.some(i => complement.toLowerCase().includes(i) || i.includes(complement.toLowerCase()))
         ).length;
         
@@ -1067,9 +1068,9 @@ function calculateVenusInfluence(
       const earthVenus = venusData.PlanetSpecific.CulinaryTemperament.EarthVenus;
       
       // Check for sensual, rich ingredients
-      if (ingredient.flavor_profile?.rich > 0.5 || 
-          ingredient.flavor_profile?.umami > 0.5 ||
-          ingredient.culinary_uses?.includes('comfort food')) {
+      if (ingredient.flavorProfile?.rich > 0.5 || 
+          ingredient.flavorProfile?.umami > 0.5 ||
+          ingredient.culinaryUses?.includes('comfort food')) {
         score += 2.0;
       }
       
@@ -1084,10 +1085,10 @@ function calculateVenusInfluence(
       }
       
       // Elements alignment
-      if (earthVenus.Elements && ingredient.elemental_properties) {
+      if (earthVenus.Elements && ingredient.elementalProperties) {
         for (const element in earthVenus.Elements) {
-          if (ingredient.elemental_properties[element]) {
-            score += earthVenus.Elements[element] * ingredient.elemental_properties[element] * 1.0;
+          if (ingredient.elementalProperties[element]) {
+            score += earthVenus.Elements[element] * ingredient.elementalProperties[element] * 1.0;
           }
         }
       }
@@ -1100,7 +1101,7 @@ function calculateVenusInfluence(
       // Check for light, delicate ingredients
       if (ingredient.texture?.includes('light') || 
           ingredient.texture?.includes('crisp') ||
-          ingredient.flavor_profile?.light > 0.5) {
+          ingredient.flavorProfile?.light > 0.5) {
         score += 2.0;
       }
       
@@ -1115,10 +1116,10 @@ function calculateVenusInfluence(
       }
       
       // Elements alignment
-      if (airVenus.Elements && ingredient.elemental_properties) {
+      if (airVenus.Elements && ingredient.elementalProperties) {
         for (const element in airVenus.Elements) {
-          if (ingredient.elemental_properties[element]) {
-            score += airVenus.Elements[element] * ingredient.elemental_properties[element] * 1.0;
+          if (ingredient.elementalProperties[element]) {
+            score += airVenus.Elements[element] * ingredient.elementalProperties[element] * 1.0;
           }
         }
       }
@@ -1131,7 +1132,7 @@ function calculateVenusInfluence(
       // Check for moist, juicy ingredients
       if (ingredient.texture?.includes('juicy') || 
           ingredient.texture?.includes('tender') ||
-          ingredient.flavor_profile?.juicy > 0.5) {
+          ingredient.flavorProfile?.juicy > 0.5) {
         score += 2.0;
       }
       
@@ -1146,10 +1147,10 @@ function calculateVenusInfluence(
       }
       
       // Elements alignment
-      if (waterVenus.Elements && ingredient.elemental_properties) {
+      if (waterVenus.Elements && ingredient.elementalProperties) {
         for (const element in waterVenus.Elements) {
-          if (ingredient.elemental_properties[element]) {
-            score += waterVenus.Elements[element] * ingredient.elemental_properties[element] * 1.0;
+          if (ingredient.elementalProperties[element]) {
+            score += waterVenus.Elements[element] * ingredient.elementalProperties[element] * 1.0;
           }
         }
       }
@@ -1160,9 +1161,9 @@ function calculateVenusInfluence(
       const fireVenus = venusData.PlanetSpecific.CulinaryTemperament.FireVenus;
       
       // Check for vibrant, spicy ingredients
-      if (ingredient.flavor_profile?.spicy > 0.3 || 
-          ingredient.flavor_profile?.vibrant > 0.5 ||
-          ingredient.culinary_uses?.includes('stimulating')) {
+      if (ingredient.flavorProfile?.spicy > 0.3 || 
+          ingredient.flavorProfile?.vibrant > 0.5 ||
+          ingredient.culinaryUses?.includes('stimulating')) {
         score += 2.0;
       }
       
@@ -1177,10 +1178,10 @@ function calculateVenusInfluence(
       }
       
       // Elements alignment
-      if (fireVenus.Elements && ingredient.elemental_properties) {
+      if (fireVenus.Elements && ingredient.elementalProperties) {
         for (const element in fireVenus.Elements) {
-          if (ingredient.elemental_properties[element]) {
-            score += fireVenus.Elements[element] * ingredient.elemental_properties[element] * 1.0;
+          if (ingredient.elementalProperties[element]) {
+            score += fireVenus.Elements[element] * ingredient.elementalProperties[element] * 1.0;
           }
         }
       }
@@ -1223,11 +1224,11 @@ function calculateVenusInfluence(
     }
     
     // Check retrograde elements
-    if (venusData.PlanetSpecific.Retrograde.Elements && ingredient.elemental_properties) {
+    if (venusData.PlanetSpecific.Retrograde.Elements && ingredient.elementalProperties) {
       for (const element in venusData.PlanetSpecific.Retrograde.Elements) {
-        if (ingredient.elemental_properties[element]) {
+        if (ingredient.elementalProperties[element]) {
           score += venusData.PlanetSpecific.Retrograde.Elements[element] * 
-                   ingredient.elemental_properties[element] * 0.9;
+                   ingredient.elementalProperties[element] * 0.9;
         }
       }
     }
