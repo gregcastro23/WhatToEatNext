@@ -260,9 +260,12 @@ export async function safeImportAndExecute<R, A extends any[] = any[]>(
     if (path === '@/calculations/alchemicalCalculations' && functionName === 'calculateAlchemicalProperties') {
       const calculatedResults = {} as R;
       
+      // Fix TS2339: Property does not exist on type 'R'
+      const resultData = calculatedResults as any;
+      
       // Add fallbacks for missing calculations
-      if (!calculatedResults.elementalCounts) {
-        calculatedResults.elementalCounts = { 
+      if (!resultData.elementalCounts) {
+        resultData.elementalCounts = { 
           Fire: 0.32, 
           Water: 0.28, 
           Earth: 0.18, 
@@ -270,8 +273,8 @@ export async function safeImportAndExecute<R, A extends any[] = any[]>(
         };
       }
       
-      if (!calculatedResults.alchemicalCounts) {
-        calculatedResults.alchemicalCounts = { 
+      if (!resultData.alchemicalCounts) {
+        resultData.alchemicalCounts = { 
           Spirit: 0.29, 
           Essence: 0.28, 
           Matter: 0.21, 
