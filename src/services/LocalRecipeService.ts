@@ -182,10 +182,10 @@ export class LocalRecipeService {
             name: directCuisine.name,
             hasDishes: !!directCuisine.dishes,
             dishTypes: directCuisine.dishes ? Object.keys(directCuisine.dishes).join(', ') : 'none',
-            breakfast: directCuisine.dishes?.breakfast?.all?.length || 0,
-            lunch: directCuisine.dishes?.lunch?.all?.length || 0,
-            dinner: directCuisine.dishes?.dinner?.all?.length || 0,
-            dessert: directCuisine.dishes?.dessert?.all?.length || 0
+            breakfast: ((directCuisine.dishes as any)?.breakfast?.all?.length || (directCuisine.dishes as any)?.dishes?.breakfast?.all?.length) || 0,
+            lunch: ((directCuisine.dishes as any)?.lunch?.all?.length || (directCuisine.dishes as any)?.dishes?.lunch?.all?.length) || 0,
+            dinner: ((directCuisine.dishes as any)?.dinner?.all?.length || (directCuisine.dishes as any)?.dishes?.dinner?.all?.length) || 0,
+            dessert: ((directCuisine.dishes as any)?.dessert?.all?.length || (directCuisine.dishes as any)?.dishes?.dessert?.all?.length) || 0
           })}`);
           
           return await this.getRecipesFromCuisine(directCuisine);
@@ -247,15 +247,17 @@ export class LocalRecipeService {
           id: cuisine.id,
           name: cuisine.name,
           dishesKeys: Object.keys(cuisine.dishes || {}),
-          breakfastAllLength: cuisine.dishes?.breakfast?.all?.length,
-          lunchAllLength: cuisine.dishes?.lunch?.all?.length,
-          dinnerAllLength: cuisine.dishes?.dinner?.all?.length,
-          dessertAllLength: cuisine.dishes?.dessert?.all?.length,
+          breakfastAllLength: ((cuisine.dishes as any)?.breakfast?.all?.length || (cuisine.dishes as any)?.dishes?.breakfast?.all?.length) || 0,
+          lunchAllLength: ((cuisine.dishes as any)?.lunch?.all?.length || (cuisine.dishes as any)?.dishes?.lunch?.all?.length) || 0,
+          dinnerAllLength: ((cuisine.dishes as any)?.dinner?.all?.length || (cuisine.dishes as any)?.dishes?.dinner?.all?.length) || 0,
+          dessertAllLength: ((cuisine.dishes as any)?.dessert?.all?.length || (cuisine.dishes as any)?.dishes?.dessert?.all?.length) || 0,
         }));
         
-        // Check if "all" arrays actually contain recipes
-        if (cuisine.dishes?.breakfast?.all?.length > 0) {
-          console.log('Sample breakfast recipe:', JSON.stringify(cuisine.dishes.breakfast.all[0]));
+        // Check if "all" arrays actually contain recipes with safe type casting
+        const dishesData = cuisine.dishes as any;
+        const breakfastAll = dishesData?.breakfast?.all || dishesData?.dishes?.breakfast?.all;
+        if (breakfastAll?.length > 0) {
+          console.log('Sample breakfast recipe:', JSON.stringify(breakfastAll[0]));
         }
       }
       
