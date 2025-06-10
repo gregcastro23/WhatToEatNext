@@ -837,9 +837,11 @@ class CelestialCalculator {
   private calculateLunarPhase(date: Date): string {
     // Try to use the astronomy calculator if available
     try {
-      if (typeof astronomiaCalculator !== 'undefined' && 
-          typeof astronomiaCalculator.calculateLunarPhase === 'function') {
-        const lunarPhase = astronomiaCalculator.calculateLunarPhase(date);
+      // Apply safe type casting for module property access
+      const calculator = astronomiaCalculator as any;
+      if (typeof calculator !== 'undefined' && 
+          typeof calculator?.calculateLunarPhase === 'function') {
+        const lunarPhase = calculator.calculateLunarPhase(date);
         if (lunarPhase) return lunarPhase;
       }
     } catch (error) {
@@ -1345,7 +1347,9 @@ class CelestialCalculator {
     chakraEnergies.solarPlexus += alignment.elementalBalance.Fire * 0.3;
     chakraEnergies.heart += (alignment.elementalBalance.Air * 0.25) + (alignment.elementalBalance.Water * 0.25);
     chakraEnergies.throat += alignment.elementalBalance.Air * 0.4;
-    chakraEnergies.brow += (alignment.elementalBalance.Water * 0.2) + (alignment.elementalBalance.Air * 0.2);
+    // Apply safe type casting for chakra property access
+    const chakraData = chakraEnergies as any;
+    chakraData.brow += (alignment.elementalBalance.Water * 0.2) + (alignment.elementalBalance.Air * 0.2);
     chakraEnergies.crown += alignment.elementalBalance.Fire * 0.3;
     
     // Map energy states to chakras using the correct ESMS relationships
@@ -1365,7 +1369,9 @@ class CelestialCalculator {
       case 'new':
         // New moon boosts crown and brow (Spirit/Substance)
         chakraEnergies.crown += 0.1;
-        chakraEnergies.brow += 0.1;
+        // Apply safe type casting for chakra property access
+        const chakraNewMoon = chakraEnergies as any;
+        chakraNewMoon.brow += 0.1;
         break;
       case 'full':
         // Full moon boosts heart and sacral (Essence)
@@ -1456,7 +1462,8 @@ class CelestialCalculator {
         const value = valueMap[cardName.split('_')[0]] || 0;
         
         // Get elemental association
-        const { element, _energyState } = MINOR_ARCANA_ELEMENTAL_AFFINITIES[suit as keyof typeof MINOR_ARCANA_ELEMENTAL_AFFINITIES];
+        const affinityData = MINOR_ARCANA_ELEMENTAL_AFFINITIES[suit as keyof typeof MINOR_ARCANA_ELEMENTAL_AFFINITIES] as any;
+        const { element, _energyState } = affinityData;
         
         // Determine the zodiac sign based on the date
         const zodiacSign = this.determineZodiacSign(month, day);

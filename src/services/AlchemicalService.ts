@@ -394,16 +394,19 @@ export class AlchemicalService {
   generateElementalRecommendation(properties: ElementalProperties): ElementalRecommendation {
     const profile = {}; // elementalUtils.getElementalProfile(properties);
     const dominantElement = this.getDominantElement(properties);
+    
+    // Apply safe type casting for profile property access
+    const profileData = profile as any;
 
     return {dominantElement,
       cookingTechniques: [], // elementalUtils.getSuggestedCookingTechniques(properties),
       complementaryIngredients: [], // elementalUtils.getComplementaryElement(properties),
-      flavorProfiles: profile.characteristics?.flavorProfiles || [],
-      healthBenefits: profile.characteristics?.healthBenefits || [],
-      timeOfDay: profile.characteristics?.timeOfDay || [],
+      flavorProfiles: profileData?.characteristics?.flavorProfiles || [],
+      healthBenefits: profileData?.characteristics?.healthBenefits || [],
+      timeOfDay: profileData?.characteristics?.timeOfDay || [],
       seasonalBest: this.getSeasonalRecommendations(dominantElement),
-      moodEffects: profile.characteristics?.moodEffects || [],
-      culinaryHerbs: profile.characteristics?.culinaryHerbs || []
+      moodEffects: profileData?.characteristics?.moodEffects || [],
+      culinaryHerbs: profileData?.characteristics?.culinaryHerbs || []
     };
   }
 

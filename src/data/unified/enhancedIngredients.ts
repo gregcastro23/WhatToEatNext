@@ -499,7 +499,8 @@ export class EnhancedIngredientsSystem {
     );
     
     // If we have enough seasonal ingredients, return them
-    if ((seasonal || []).length >= (Math.ceil(ingredients  || []).length * 0.7)) {
+    const ingredientsArray = Array.isArray(ingredients) ? ingredients : [];
+    if ((seasonal || []).length >= (Math.ceil(ingredientsArray.length * 0.7))) {
       return seasonal;
     }
     

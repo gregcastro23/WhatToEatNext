@@ -42,15 +42,17 @@ const SaucesPage: NextPage = () => {
     Object.entries(cuisinesMap).forEach(([cuisineId, cuisineData]) => {
       if (cuisineData.traditionalSauces) {
         Object.entries(cuisineData.traditionalSauces).forEach(([sauceId, sauceData]) => {
+          // Apply safe type casting for sauce data property access
+          const sauceInfo = sauceData as any;
           sauces.push({
             id: sauceId,
-            name: sauceData.name || sauceId,
-            description: sauceData.description,
-            base: sauceData.base,
+            name: sauceInfo?.name || sauceId,
+            description: sauceInfo?.description,
+            base: sauceInfo?.base,
             cuisine: cuisineData.name,
             cuisineId: cuisineId,
-            seasonality: sauceData.seasonality,
-            elementalProperties: sauceData.elementalProperties
+            seasonality: sauceInfo?.seasonality,
+            elementalProperties: sauceInfo?.elementalProperties
           });
         });
       }

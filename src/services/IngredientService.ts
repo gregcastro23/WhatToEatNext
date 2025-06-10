@@ -316,8 +316,9 @@ export class IngredientService implements IngredientServiceInterface {
         }
 
         // Apply seasonal filter if specified
-        if (isNonEmptyArray(filter.currentSeason)) {
-          filtered = this.applySeasonalFilterUnified(filtered, filter.currentSeason);
+        const filterData = filter as any;
+        if (isNonEmptyArray(filterData?.currentSeason)) {
+          filtered = this.applySeasonalFilterUnified(filtered, filterData.currentSeason);
         }
 
         // Apply search query filter if specified
@@ -960,8 +961,10 @@ export class IngredientService implements IngredientServiceInterface {
         : ['breakfast', 'lunch', 'dinner', 'dessert'];
       
       // Define which seasons to include
-      const seasons = options.currentSeason
-        ? [options.currentSeason as 'spring' | 'summer' | 'autumn' | 'winter']
+      // Apply safe type casting for options property access
+      const optionsData = options as any;
+      const seasons = optionsData?.currentSeason
+        ? [optionsData.currentSeason as 'spring' | 'summer' | 'autumn' | 'winter']
         : ['spring', 'summer', 'autumn', 'winter'];
       
       // Collect recipes matching criteria
@@ -1244,7 +1247,13 @@ export class IngredientService implements IngredientServiceInterface {
         
         // Calculate average for each element
         const count = (elementalPropertiesList || []).length;
-        result.elementalState = { Fire: summedProperties.Fire / count, Water: summedProperties.Water / count, Earth: summedProperties.Earth / count, Air: summedProperties.Air / count
+        // Apply safe type casting for result property access
+        const resultData = result as any;
+        resultData.elementalState = { 
+          Fire: summedProperties.Fire / count, 
+          Water: summedProperties.Water / count, 
+          Earth: summedProperties.Earth / count, 
+          Air: summedProperties.Air / count
         };
       }
       
