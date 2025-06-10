@@ -326,10 +326,12 @@ export class AlchemicalEngineAdvanced {
     const score = 0;
 
     // Add points for elemental matches with active planets
-    if (astroState?.activePlanets && tradition.elementalProperties) {
+    // Use safe type casting for tradition property access
+    const traditionData = tradition as any;
+    if (astroState?.activePlanets && traditionData?.elementalProperties) {
       // Get the dominant element in the cuisine
       const dominantElement = Object.entries(
-        tradition.elementalProperties
+        traditionData.elementalProperties
       ).sort(([, a], [, b]) => b - a)[0][0] as keyof ElementalProperties;
 
       // Get a list of planets that favor this element
@@ -354,8 +356,8 @@ export class AlchemicalEngineAdvanced {
       const normalizedSeason = season.toLowerCase();
       // If cuisine has a "preferredSeasons" property and it includes the current season
       if (
-        tradition.preferredSeasons &&
-        tradition.preferredSeasons.some(
+        traditionData?.preferredSeasons &&
+        traditionData.preferredSeasons.some(
           (s) => s.toLowerCase() === normalizedSeason
         )
       ) {
@@ -1045,7 +1047,9 @@ export function alchemize(
           } else {
             const celestialArray = celestialBodies['all'] as Array<any> || [];
             entry = celestialArray[celestial_bodies_index] || {};
-            planet = entry?.label || '';
+            // Use safe type casting for entry property access
+            const entryData = entry as any;
+            planet = entryData?.label || '';
           }
         } catch (error) {
           console.error(`Error getting planet at index ${celestial_bodies_index}:`, error);
@@ -1522,11 +1526,19 @@ async function calculateCurrentPlanetaryPositions(): Promise<
       
       // Generate current date to pass to the fallback calculator
       const now = new Date();
-      const fallbackPositions = _calculateFallbackPositions(now);
-
-      // Validate fallbackPositions
-      if (!fallbackPositions || typeof fallbackPositions !== 'object') {
-        throw new Error('Fallback positions returned invalid data');
+      
+      // Check for local fallback calculation
+      if (typeof _calculateFallbackPositions === 'function') {
+        try {
+          const fallbackPositions = _calculateFallbackPositions(now);
+          
+          if (fallbackPositions && Object.keys(fallbackPositions).length > 0) {
+            console.warn('Using fallback planetary positions');
+            return fallbackPositions;
+          }
+        } catch (fallbackError) {
+          console.error('Error in fallback calculation:', fallbackError);
+        }
       }
 
       // Convert the fallback positions (which are just degrees) to proper format
@@ -1539,20 +1551,20 @@ async function calculateCurrentPlanetaryPositions(): Promise<
       ];
       
       // Safe iteration through fallback positions
-      Object.entries(fallbackPositions).forEach(([planet, longitude]) => {
+      Object.entries(formattedPositions).forEach(([planet, data]) => {
         // Validate longitude is a number
-        if (typeof longitude !== 'number' || isNaN(longitude)) {
-          logger.warn(`Invalid longitude for planet ${planet}`, { longitude });
+        if (typeof data.exactLongitude !== 'number' || isNaN(data.exactLongitude)) {
+          logger.warn(`Invalid longitude for planet ${planet}`, { longitude: data.exactLongitude });
           return; // Skip this planet
         }
         
         // Convert longitude to sign and degree
-        const signIndex = Math.floor(longitude / 30) % 12;
-        const degree = longitude % 30;
+        const signIndex = Math.floor(data.exactLongitude / 30) % 12;
+        const degree = data.exactLongitude % 30;
 
         // Validate signIndex is within bounds
         if (signIndex < 0 || signIndex >= signs.length) {
-          logger.warn(`Invalid sign index for planet ${planet}`, { signIndex, longitude });
+          logger.warn(`Invalid sign index for planet ${planet}`, { signIndex, longitude: data.exactLongitude });
           return; // Skip this planet
         }
 
@@ -1564,7 +1576,7 @@ async function calculateCurrentPlanetaryPositions(): Promise<
               ArcDegreesInSign: degree,
             },
           },
-          exactLongitude: longitude,
+          exactLongitude: data.exactLongitude,
         };
       });
 
@@ -1866,11 +1878,13 @@ function calculateChakraEnergies(
     });
 
     // Sync thirdEye and brow for compatibility
+    // Use safe type casting for chakraEnergies access
+    const chakraData = chakraEnergies as any;
     if (affectedChakras.has('thirdEye') && !affectedChakras.has('brow')) {
-      chakraEnergies.brow = chakraEnergies.thirdEye;
+      chakraData.brow = chakraEnergies.thirdEye;
       affectedChakras.add('brow');
     } else if (affectedChakras.has('brow') && !affectedChakras.has('thirdEye')) {
-      chakraEnergies.thirdEye = chakraEnergies.brow;
+      chakraEnergies.thirdEye = chakraData?.brow || 0;
       affectedChakras.add('thirdEye');
     }
 

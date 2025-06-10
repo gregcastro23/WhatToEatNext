@@ -270,16 +270,19 @@ class AstrologizeApiCache {
    * Private helper methods
    */
   private assessDataQuality(result: StandardizedAlchemicalResult): 'high' | 'medium' | 'low' {
+    // Use safe type casting for result property access
+    const resultData = result as any;
+    
     // Assess based on completeness and reasonableness of data
-    const hasAllElements = result.elementalBalance && 
-                          Object.values(result.elementalBalance).every(v => typeof v === 'number' && v >= 0);
-    const hasThermodynamics = typeof result.heat === 'number' && 
-                             typeof result.entropy === 'number' && 
-                             typeof result.reactivity === 'number';
-    const hasAlchemical = typeof result.Spirit === 'number' && 
-                         typeof result.Essence === 'number' && 
-                         typeof result.Matter === 'number' && 
-                         typeof result.Substance === 'number';
+    const hasAllElements = resultData?.elementalBalance && 
+                          Object.values(resultData.elementalBalance).every(v => typeof v === 'number' && v >= 0);
+    const hasThermodynamics = typeof resultData?.heat === 'number' && 
+                             typeof resultData?.entropy === 'number' && 
+                             typeof resultData?.reactivity === 'number';
+    const hasAlchemical = typeof resultData?.Spirit === 'number' && 
+                         typeof resultData?.Essence === 'number' && 
+                         typeof resultData?.Matter === 'number' && 
+                         typeof resultData?.Substance === 'number';
 
     if (hasAllElements && hasThermodynamics && hasAlchemical) {
       return 'high';

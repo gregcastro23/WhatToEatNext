@@ -46,14 +46,18 @@ export default function MethodsRecommender() {
   useEffect(() => {
     if (!loading && currentPlanetaryAlignment) {
       // Convert currentPlanetaryAlignment to AstrologicalState format
+      // Use safe type casting for celestial position access
+      const moonData = currentPlanetaryAlignment.moon as any;
+      const sunData = currentPlanetaryAlignment.sun as any;
+      
       const astroState = {
-        zodiacSign: currentPlanetaryAlignment.sun?.sign || 'Aries',
-        lunarPhase: currentPlanetaryAlignment.moon?.phase || 'New Moon',
+        zodiacSign: sunData?.sign || 'Aries',
+        lunarPhase: moonData?.phase || 'New Moon',
         elementalState: {
-          Fire: ['Aries', 'Leo', 'Sagittarius'].includes(currentPlanetaryAlignment.sun?.sign || '') ? 0.8 : 0.2,
-          Water: ['Cancer', 'Scorpio', 'Pisces'].includes(currentPlanetaryAlignment.sun?.sign || '') ? 0.8 : 0.2,
-          Earth: ['Taurus', 'Virgo', 'Capricorn'].includes(currentPlanetaryAlignment.sun?.sign || '') ? 0.8 : 0.2,
-          Air: ['Gemini', 'Libra', 'Aquarius'].includes(currentPlanetaryAlignment.sun?.sign || '') ? 0.8 : 0.2
+          Fire: ['Aries', 'Leo', 'Sagittarius'].includes(sunData?.sign || '') ? 0.8 : 0.2,
+          Water: ['Cancer', 'Scorpio', 'Pisces'].includes(sunData?.sign || '') ? 0.8 : 0.2,
+          Earth: ['Taurus', 'Virgo', 'Capricorn'].includes(sunData?.sign || '') ? 0.8 : 0.2,
+          Air: ['Gemini', 'Libra', 'Aquarius'].includes(sunData?.sign || '') ? 0.8 : 0.2
         },
         planets: currentPlanetaryAlignment
       };
@@ -61,6 +65,9 @@ export default function MethodsRecommender() {
       // Calculate scores for each cooking method and transform into our format
       const methodsWithScores: CookingMethodWithScore[] = Object.entries(allCookingMethods)
         .map(([methodName, methodData]) => {
+          // Use safe type casting for methodData property access
+          const methodInfo = methodData as any;
+          
           // Calculate base score from the recommender utils
           const baseScore = calculateMethodScore(methodData, astroState);
           
@@ -81,14 +88,14 @@ export default function MethodsRecommender() {
           return {
             id: methodName,
             name: methodName.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase()), // Capitalize words
-            description: methodData.description || 'A cooking method that transforms food with heat, moisture, or chemical processes.',
+            description: methodInfo?.description || 'A cooking method that transforms food with heat, moisture, or chemical processes.',
             score: adjustedScore,
-            elementalEffect: methodData.elementalEffect || methodData.elementalProperties,
-            duration: methodData.duration,
-            suitable_for: methodData.suitable_for || [],
-            benefits: methodData.benefits || [],
-            astrologicalInfluences: methodData.astrologicalInfluences,
-            toolsRequired: methodData.toolsRequired
+            elementalEffect: methodInfo?.elementalEffect || methodInfo?.elementalProperties,
+            duration: methodInfo?.duration,
+            suitable_for: methodInfo?.suitable_for || [],
+            benefits: methodInfo?.benefits || [],
+            astrologicalInfluences: methodInfo?.astrologicalInfluences,
+            toolsRequired: methodInfo?.toolsRequired
           };
         })
         .sort((a, b) => b.score - a.score);

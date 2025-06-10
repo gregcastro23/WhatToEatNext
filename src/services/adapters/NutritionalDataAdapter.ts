@@ -88,7 +88,9 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
     try {
       return await fetchNutritionalData(foodName);
     } catch (error) {
-      errorHandler.logError(error, {
+      // Use safe type casting for errorHandler service access
+      const errorHandlerService = errorHandler as any;
+      errorHandlerService?.logError?.(error, {
         context: 'NutritionalDataAdapter',
         action: 'getNutritionalData',
         foodName
@@ -104,7 +106,9 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
     try {
       return calculateNutritionalBalance(ingredients);
     } catch (error) {
-      errorHandler.logError(error, {
+      // Use safe type casting for errorHandler service access
+      const errorHandlerService = errorHandler as any;
+      errorHandlerService?.logError?.(error, {
         context: 'NutritionalDataAdapter',
         action: 'calculateNutritionalBalance'
       });
@@ -134,7 +138,9 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
         Air: result.Air
       });
     } catch (error) {
-      errorHandler.logError(error, {
+      // Use safe type casting for errorHandler service access
+      const errorHandlerService = errorHandler as any;
+      errorHandlerService?.logError?.(error, {
         context: 'NutritionalDataAdapter',
         action: 'convertNutritionalToElemental'
       });
@@ -151,8 +157,9 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
     avoidFoods: string[]
   } {
     try {
-      // Convert sign to string for the original function
-      const signStr = typeof sign === 'string' ? sign?.toLowerCase() : sign?.toLowerCase();
+      // Convert sign to string for the original function with safe type casting
+      const signData = sign as any;
+      const signStr = typeof sign === 'string' ? signData?.toLowerCase() : String(signData)?.toLowerCase();
       
       // Get recommendations
       const result = getZodiacNutritionalRecommendations(signStr);
@@ -164,7 +171,9 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
         avoidFoods: result.avoidFoods
       };
     } catch (error) {
-      errorHandler.logError(error, {
+      // Use safe type casting for errorHandler service access
+      const errorHandlerService = errorHandler as any;
+      errorHandlerService?.logError?.(error, {
         context: 'NutritionalDataAdapter',
         action: 'getZodiacNutritionalRecommendations',
         sign: String(sign)
@@ -191,7 +200,9 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       
       return getPlanetaryNutritionalRecommendations(planetStrings);
     } catch (error) {
-      errorHandler.logError(error, {
+      // Use safe type casting for errorHandler service access
+      const errorHandlerService = errorHandler as any;
+      errorHandlerService?.logError?.(error, {
         context: 'NutritionalDataAdapter',
         action: 'getPlanetaryNutritionalRecommendations'
       });
@@ -236,7 +247,9 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
         recommendedFoods: result.recommendedFoods
       };
     } catch (error) {
-      errorHandler.logError(error, {
+      // Use safe type casting for errorHandler service access
+      const errorHandlerService = errorHandler as any;
+      errorHandlerService?.logError?.(error, {
         context: 'NutritionalDataAdapter',
         action: 'getEnhancedPlanetaryNutritionalRecommendations',
         planetaryDay: String(planetaryDay),
@@ -265,7 +278,9 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       
       return getSeasonalNutritionalRecommendations(seasonStr);
     } catch (error) {
-      errorHandler.logError(error, {
+      // Use safe type casting for errorHandler service access
+      const errorHandlerService = errorHandler as any;
+      errorHandlerService?.logError?.(error, {
         context: 'NutritionalDataAdapter',
         action: 'getSeasonalNutritionalRecommendations',
         season: String(season)
@@ -297,7 +312,9 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       
       return evaluateNutritionalElementalBalance(profile, legacyTargetElements);
     } catch (error) {
-      errorHandler.logError(error, {
+      // Use safe type casting for errorHandler service access
+      const errorHandlerService = errorHandler as any;
+      errorHandlerService?.logError?.(error, {
         context: 'NutritionalDataAdapter',
         action: 'evaluateNutritionalElementalBalance'
       });

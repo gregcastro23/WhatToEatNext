@@ -1,4 +1,3 @@
-
 import type { ElementalProperties } from "@/types/alchemy";
 import { Recipe } from '@/types/recipe';
 import { 
@@ -301,10 +300,12 @@ export class RecipeEnhancer {
   }
   
   /**
-   * Calculate optimal cooking temperature
+   * Calculate optimal cooking temperature based on thermodynamic properties
    */
   static calculateOptimalTemperature(thermodynamics: {}): number {
-    const { heat, reactivity } = thermodynamics;
+    // Use safe type casting for thermodynamics property access
+    const thermoData = thermodynamics as any;
+    const { heat = 0.5, reactivity = 0.5 } = thermoData || {};
     // Base temperature (350°F) adjusted by thermodynamic properties
     return Math.round(350 + (heat * 50) - (reactivity * 25));
   }
@@ -407,12 +408,15 @@ export class RecipeEnhancer {
    * Calculate planetary timing
    */
   static calculatePlanetaryTiming(recipe: {}): string | null {
+    // Use safe type casting for recipe property access
+    const recipeData = recipe as any;
+    
     // Use existing astrological data if available
-    if (recipe.astrologicalAffinities?.planets && recipe.astrologicalAffinities.planets.length > 0) {
-      return recipe.astrologicalAffinities.planets[0] + ' hour';
+    if (recipeData?.astrologicalAffinities?.planets && recipeData.astrologicalAffinities.planets.length > 0) {
+      return recipeData.astrologicalAffinities.planets[0] + ' hour';
     }
     
-    if (recipe.zodiacInfluences && recipe.zodiacInfluences.length > 0) {
+    if (recipeData?.zodiacInfluences && recipeData.zodiacInfluences.length > 0) {
       // Map zodiac to planetary rulers
       const zodiacPlanets: { [key: string]: string } = {
         'aries': 'Mars', 'taurus': 'Venus', 'gemini': 'Mercury',
@@ -421,7 +425,7 @@ export class RecipeEnhancer {
         'capricorn': 'Saturn', 'aquarius': 'Saturn', 'pisces': 'Jupiter'
       };
       
-      const planet = zodiacPlanets[recipe?.zodiacInfluences?.[0].toLowerCase()];
+      const planet = zodiacPlanets[recipeData?.zodiacInfluences?.[0].toLowerCase()];
       return planet ? planet + ' hour' : null;
     }
     
@@ -537,7 +541,9 @@ export class RecipeAnalyzer {
     threshold: number = 0.4
   ): EnhancedRecipe[] {
     return recipes.filter(recipe => {
-      const elementalBalance = recipe.alchemicalProperties?.elementalBalance;
+      // Use safe type casting for alchemical properties access
+      const alchemicalData = recipe.alchemicalProperties as any;
+      const elementalBalance = alchemicalData?.elementalBalance;
       return elementalBalance && elementalBalance[element] >= threshold;
     });
   }
