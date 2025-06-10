@@ -404,9 +404,22 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
                   <h4 className="font-medium text-sm mb-2">Nutrition (per serving):</h4>
                   <div className="text-sm grid grid-cols-2 gap-2">
                     {recipe.nutrition.calories && <span>Calories: {Math.round(recipe.nutrition.calories * servings / (recipe.numberOfServings || servings))}</span>}
-                    {recipe.nutrition.protein && <span>Protein: {(recipe.nutrition.protein * servings / (recipe.numberOfServings || servings)).toFixed(1)}g</span>}
-                    {recipe.nutrition.carbs && <span>Carbs: {(recipe.nutrition.carbs * servings / (recipe.numberOfServings || servings)).toFixed(1)}g</span>}
-                    {recipe.nutrition.fat && <span>Fat: {(recipe.nutrition.fat * servings / (recipe.numberOfServings || servings)).toFixed(1)}g</span>}
+                    
+                    {/* Apply safe type casting for macronutrients access */}
+                    {(() => {
+                      const nutritionData = recipe.nutrition as any;
+                      const protein = nutritionData?.protein || nutritionData?.macronutrients?.protein;
+                      const carbs = nutritionData?.carbs || nutritionData?.macronutrients?.carbs;
+                      const fat = nutritionData?.fat || nutritionData?.macronutrients?.fat;
+                      
+                      return (
+                        <>
+                          {protein && <span>Protein: {(protein * servings / (recipe.numberOfServings || servings)).toFixed(1)}g</span>}
+                          {carbs && <span>Carbs: {(carbs * servings / (recipe.numberOfServings || servings)).toFixed(1)}g</span>}
+                          {fat && <span>Fat: {(fat * servings / (recipe.numberOfServings || servings)).toFixed(1)}g</span>}
+                        </>
+                      );
+                    })()}
                   </div>
                 </div>
               )}
