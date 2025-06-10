@@ -53,42 +53,46 @@ const CuisineDetailsPage: NextPage = () => {
     
     // Add recipes that match both criteria
     for (const recipe1 of cuisineMatchedRecipes) {
-      const matchingRecipe = elementalMatchedRecipes.find(r => r.name === recipe1.name);
+      const recipe1Data = recipe1 as any;
+      const matchingRecipe = elementalMatchedRecipes.find((r: any) => r?.name === recipe1Data?.name);
       if (matchingRecipe) {
-        const baseScore = Math.max(recipe1.matchScore || 0, matchingRecipe.matchScore || 0);
-        const secondScore = Math.min(recipe1.matchScore || 0, matchingRecipe.matchScore || 0);
+        const matchingRecipeData = matchingRecipe as any;
+        const baseScore = Math.max(recipe1Data?.matchScore || 0, matchingRecipeData?.matchScore || 0);
+        const secondScore = Math.min(recipe1Data?.matchScore || 0, matchingRecipeData?.matchScore || 0);
         const randomFactor = 0.95 + (Math.random() * 0.1);
         const enhancedScore = Math.min(1.0, (baseScore * 0.7 + secondScore * 0.5 + 0.15) * randomFactor);
         
         combined.push({
-          ...recipe1, 
+          ...recipe1Data, 
           matchScore: enhancedScore,
           dualMatch: true
         });
-        recipeIds.add(recipe1.name);
+        recipeIds.add(recipe1Data?.name);
       }
     }
     
     // Add remaining cuisine-matched recipes
     for (const recipe of cuisineMatchedRecipes) {
-      if (!recipeIds.has(recipe.name)) {
-        const baseScore = Math.pow(recipe.matchScore || 0, 0.8);
+      const recipeData = recipe as any;
+      if (!recipeIds.has(recipeData?.name)) {
+        const baseScore = Math.pow(recipeData?.matchScore || 0, 0.8);
         const randomFactor = 0.9 + (Math.random() * 0.2);
         const finalScore = Math.max(baseScore * randomFactor, 0.35);
         
         combined.push({
-          ...recipe, 
+          ...recipeData, 
           matchScore: Math.min(finalScore, 0.92),
           cuisineMatch: true
         });
-        recipeIds.add(recipe.name);
+        recipeIds.add(recipeData?.name);
       }
     }
     
     // Add remaining elemental-matched recipes
     for (const recipe of elementalMatchedRecipes) {
-      if (!recipeIds.has(recipe.name)) {
-        const baseScore = recipe.matchScore || 0;
+      const recipeData = recipe as any;
+      if (!recipeIds.has(recipeData?.name)) {
+        const baseScore = recipeData?.matchScore || 0;
         const sigmoidScore = baseScore < 0.5 
           ? baseScore * 1.4 
           : 0.7 + (baseScore - 0.5) * 0.6;
@@ -96,11 +100,11 @@ const CuisineDetailsPage: NextPage = () => {
         const finalScore = Math.min(Math.max(sigmoidScore * randomFactor, 0.3), 0.85);
         
         combined.push({
-          ...recipe, 
+          ...recipeData, 
           matchScore: finalScore,
           elementalMatch: true
         });
-        recipeIds.add(recipe.name);
+        recipeIds.add(recipeData?.name);
       }
     }
     

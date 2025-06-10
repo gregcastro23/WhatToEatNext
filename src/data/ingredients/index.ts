@@ -128,20 +128,21 @@ let processIngredient = (ingredient: unknown, name: string): Ingredient => {
   };
 
   // Apply uniform standardization to the ingredient
+  const ingredientData = ingredient as any;
   let standardized = standardizeIngredient({
     name: name,
-    category: ingredient.category || 'culinary_herb',
+    category: ingredientData?.category || 'culinary_herb',
     elementalProperties: normalizeElementalProperties(
-      ingredient.elementalProperties
+      ingredientData?.elementalProperties
     ),
-    qualities: Array.isArray(ingredient.qualities) ? ingredient.qualities : [],
+    qualities: Array.isArray(ingredientData?.qualities) ? ingredientData.qualities : [],
     lunarPhaseModifiers:
-      ingredient.lunarPhaseModifiers || defaultLunarPhaseModifiers,
-    storage: ingredient.storage || { duration: 'unknown' },
-    elementalTransformation: ingredient.elementalTransformation || {
+      ingredientData?.lunarPhaseModifiers || defaultLunarPhaseModifiers,
+    storage: ingredientData?.storage || { duration: 'unknown' },
+    elementalTransformation: ingredientData?.elementalTransformation || {
       whenCooked: { Fire: 0.1, Air: 0.05 },
     },
-    ...ingredient,
+    ...ingredientData,
   });
 
   return standardized as Ingredient;

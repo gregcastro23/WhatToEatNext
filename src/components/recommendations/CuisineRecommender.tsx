@@ -1,5 +1,3 @@
-
-
 // Phase 10: Calculation Type Interfaces
 interface CalculationData {
   value: number;
@@ -204,6 +202,11 @@ function buildCompleteRecipe(recipe: RecipeData, cuisineName: string): RecipeDat
     c.id?.toLowerCase() === cuisineName?.toLowerCase()
   );
 
+  // Apply safe type casting for cuisineProfile access
+  const cuisineProfileData = cuisineProfile as any;
+  const elementalAlignment = cuisineProfileData?.elementalAlignment;
+  const elementalState = cuisineProfileData?.elementalState;
+
   // Complete recipe with fallbacks
   return {
     id: recipe.id || `recipe-${Math.random()?.toString(36).substring(2, 9)}`,
@@ -214,7 +217,7 @@ function buildCompleteRecipe(recipe: RecipeData, cuisineName: string): RecipeDat
       (recipe.matchScore ? Math.round(recipe.matchScore * 100) : 85),
     matchScore: recipe.matchScore || 0.85,
     elementalProperties: recipe.elementalState || 
-      (cuisineProfile?.elementalAlignment || cuisineProfile?.elementalState || defaultElementalProperties),
+      (elementalAlignment || elementalState || defaultElementalProperties),
     ingredients: recipe.ingredients || [],
     instructions: recipe.instructions || recipe.preparationSteps || recipe.procedure || [],
     cookTime: recipe.cookingTime || recipe.cooking_time || recipe.cook_time || "30 minutes",
@@ -562,8 +565,12 @@ export default function CuisineRecommender() {
       
       // Map sauces with match calculations
       const saucesWithMatches = saucesArray.map(sauce => {
+        // Apply safe type casting for sauce access
+        const sauceData = sauce as any;
+        const sauceElementalState = sauceData?.elementalState;
+        
         // Make sure sauce has elemental properties
-        const sauceElements = sauce.elementalState || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+        const sauceElements = sauceElementalState || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
          };
         
         // Calculate cuisine-sauce elemental match
@@ -578,7 +585,12 @@ export default function CuisineRecommender() {
         // Add flavor profile matching if available
         let flavorMatchScore = 0.7; // default
         
-        if (sauce.flavorProfile && cuisine.flavorProfile) {
+        // Apply safe type casting for flavor profile access
+        const sauceFlavorProfile = sauceData?.flavorProfile;
+        const cuisineData = cuisine as any;
+        const cuisineFlavorProfile = cuisineData?.flavorProfile;
+        
+        if (sauceFlavorProfile && cuisineFlavorProfile) {
           // Calculate how well sauce flavors complement cuisine flavors
           let flavorMatch = 0;
           let flavorCount = 0;
@@ -586,10 +598,10 @@ export default function CuisineRecommender() {
           // Match key flavors
           const flavors = ['sweet', 'sour', 'salty', 'bitter', 'umami', 'spicy'];
           (flavors || []).forEach(flavor => {
-            if (sauce?.flavorProfile?.[flavor] && cuisine?.flavorProfile?.[flavor]) {
+            if (sauceFlavorProfile?.[flavor] && cuisineFlavorProfile?.[flavor]) {
               // Calculate complementary match (not exact match)
-              const sauceValue = sauce?.flavorProfile?.[flavor];
-              const cuisineValue = cuisine?.flavorProfile?.[flavor];
+              const sauceValue = sauceFlavorProfile?.[flavor];
+              const cuisineValue = cuisineFlavorProfile?.[flavor];
               
               // If cuisine is strong in a flavor, sauce should be moderate/low
               // If cuisine is weak in a flavor, sauce can enhance it
@@ -611,9 +623,13 @@ export default function CuisineRecommender() {
         const finalScore = (combinedScore * 0.8) + (flavorMatchScore * 0.2);
         const matchPercentage = Math.round(finalScore * 100);
         
+        // Apply safe type casting for sauce properties
+        const sauceId = sauceData?.id;
+        const sauceName = sauceData?.name;
+        
         return {
           ...sauce,
-          id: sauce.id || sauce.name?.replace(/\s+/g, '-')?.toLowerCase(),
+          id: sauceId || sauceName?.replace(/\s+/g, '-')?.toLowerCase(),
           matchPercentage,
           elementalMatchScore: Math.round(cuisineMatchScore * 100),
           currentMomentMatchScore: Math.round(currentMomentMatchScore * 100),

@@ -120,16 +120,15 @@ interface EnhancedGroupedRecommendations {
 
 const IngredientRecommenderMigrated: React.FC = () => {
   // Replace context hooks with services hook
-  const { 
-    isLoading: servicesLoading, 
-    error: servicesError,
-    astrologyService,
-    chakraService,
-    ingredientService,
-    recommendationService,
-    flavorProfileService,
-    elementalCalculator
-  } = useServices();
+  const servicesData = useServices();
+  const servicesLoading = servicesData?.isLoading || false;
+  const servicesError = servicesData?.error || null;
+  const astrologyService = (servicesData as any)?.astrologyService;
+  const chakraService = (servicesData as any)?.chakraService;
+  const ingredientService = (servicesData as any)?.ingredientService;
+  const recommendationService = (servicesData as any)?.recommendationService;
+  const flavorProfileService = (servicesData as any)?.flavorProfileService;
+  const elementalCalculator = (servicesData as any)?.elementalCalculator;
 
   // State variables
   const [astroRecommendations, setAstroRecommendations] = useState<GroupedIngredientRecommendations>({});
@@ -186,7 +185,8 @@ const IngredientRecommenderMigrated: React.FC = () => {
         setIsDaytime(daytime);
         
         // Get current zodiac
-        const chartData = await astrologyService.getChartData();
+        const astrologyServiceData = astrologyService as any;
+        const chartData = await astrologyServiceData?.getChartData?.();
         if (chartData && chartData.Sun && chartData.Sun.sign) {
           setCurrentZodiac(chartData.Sun.sign);
         }
@@ -212,15 +212,15 @@ const IngredientRecommenderMigrated: React.FC = () => {
       try {
         // Get herbs collection
         const herbs = await ingredientService.getAllIngredientsByCategory('herbs');
-        (setHerbNames(herbs || []).map(herb => herb.name));
+        setHerbNames((herbs || []).map((herb: any) => herb?.name || ''));
         
         // Get oils collection
         const oils = await ingredientService.getAllIngredientsByCategory('oils');
-        (setOilTypes(oils || []).map(oil => oil.name));
+        setOilTypes((oils || []).map((oil: any) => oil?.name || ''));
         
         // Get vinegars collection
         const vinegars = await ingredientService.getAllIngredientsByCategory('vinegars');
-        (setVinegarTypes(vinegars || []).map(vinegar => vinegar.name));
+        setVinegarTypes((vinegars || []).map((vinegar: any) => vinegar?.name || ''));
       } catch (err) {
         console.error('Error loading ingredient data:', err);
       }
@@ -244,8 +244,9 @@ const IngredientRecommenderMigrated: React.FC = () => {
     const loadRecommendations = async () => {
       try {
         // Get ingredient recommendations based on astrological data
-        const recommendations = await recommendationService.getIngredientRecommendations({
-          elementalProperties: await elementalCalculator.calculateElementalProperties(
+        const recommendationServiceData = recommendationService as any;
+        const recommendations = await recommendationServiceData?.getIngredientRecommendations?.({
+          elementalProperties: await elementalCalculator?.calculateElementalProperties?.(
             planetaryPositions,
             isDaytime
           ),
