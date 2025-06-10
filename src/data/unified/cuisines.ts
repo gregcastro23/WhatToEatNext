@@ -1,4 +1,3 @@
-
 import type { ElementalProperties } from "@/types/alchemy";
 import Recipe from "@/types/flavor";
 import { 
@@ -155,12 +154,14 @@ export class CuisineEnhancer {
   static extractRecipesFromCuisine(cuisine: {}): any[] {
     const recipes: any[] = [];
     
-    if (!cuisine.dishes || typeof cuisine.dishes !== 'object') {
+    // Use safe type casting for cuisine property access
+    const cuisineData = cuisine as any;
+    if (!cuisineData?.dishes || typeof cuisineData.dishes !== 'object') {
       return recipes;
     }
     
     // Navigate through meal types (breakfast, lunch, dinner, etc.)
-    for (const [mealType, mealData] of Object.entries(cuisine.dishes)) {
+    for (const [mealType, mealData] of Object.entries(cuisineData.dishes)) {
       if (!mealData || typeof mealData !== 'object') continue;
       
       // Navigate through seasons (spring, summer, autumn, winter, all)
@@ -174,7 +175,7 @@ export class CuisineEnhancer {
               ...dish,
               mealType,
               season,
-              cuisine: cuisine.name
+              cuisine: cuisineData?.name || 'Unknown'
             });
           }
         }
@@ -285,13 +286,16 @@ export class CuisineEnhancer {
    * Calculate elemental balance for cuisine
    */
   static calculateCuisineElementalBalance(cuisine: {}): ElementalProperties {
+    // Use safe type casting for cuisine property access
+    const cuisineData = cuisine as any;
+    
     // Use existing elemental properties if available
-    if (cuisine.elementalState) {
-      return cuisine.elementalState;
+    if (cuisineData?.elementalState) {
+      return cuisineData.elementalState;
     }
     
-    if (cuisine.elementalState) {
-      return cuisine.elementalState;
+    if (cuisineData?.elementalState) {
+      return cuisineData.elementalState;
     }
     
     // Calculate from recipes
@@ -500,7 +504,9 @@ export class CuisineAnalyzer {
     threshold: number = 0.4
   ): EnhancedCuisine[] {
     return cuisines.filter(cuisine => {
-      const elementalBalance = cuisine.alchemicalProperties?.elementalBalance;
+      // Use safe type casting for alchemicalProperties access
+      const alchemicalData = cuisine.alchemicalProperties as any;
+      const elementalBalance = alchemicalData?.elementalBalance;
       return elementalBalance && elementalBalance[element] >= threshold;
     });
   }
@@ -545,8 +551,9 @@ export class CuisineAnalyzer {
     const ingredientMap = new Map<string, { count: number; totalKalchm: number }>();
     
     enhanced.forEach(cuisine => {
-      // Analyze elemental dominance
-      const elementalBalance = cuisine.alchemicalProperties?.elementalBalance;
+      // Analyze elemental dominance with safe type casting
+      const alchemicalData = cuisine.alchemicalProperties as any;
+      const elementalBalance = alchemicalData?.elementalBalance;
       if (elementalBalance) {
         const dominant = Object.entries(elementalBalance)
           .reduce((a, b) => elementalBalance[a[0] as keyof ElementalProperties] > elementalBalance[b[0] as keyof ElementalProperties] ? a : b)[0];
