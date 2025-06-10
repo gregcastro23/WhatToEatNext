@@ -97,6 +97,7 @@ interface MatchFilters {
   maxCookingTime?: number;
   dietaryRestrictions?: string[];
   season?: Season;
+  currentSeason?: string;
   servings?: number;
   excludeIngredients?: string[];
   cookingMethods?: string[];
@@ -237,7 +238,9 @@ export function findBestMatches(
   limit = 10
 ): MatchResult[] {
   // Check for cached astrological data to enhance matching
-  const cachedData = astrologizeCache.getLatestCachedData();
+  // Apply safe type casting for cache method access
+  const cacheData = astrologizeCache as any;
+  const cachedData = cacheData?.getLatestCachedData ? cacheData.getLatestCachedData() : null;
   
   // Use enhanced energy if available from cache
   const enhancedCurrentEnergy = cachedData?.elementalAbsolutes || currentEnergy || DEFAULT_ELEMENTAL_PROPERTIES;
@@ -322,8 +325,12 @@ export function findBestMatches(
     } else if (matchFilters.astrologicalSign) {
       // Fallback to original astrological matching
       const influences = getRecipeAstrologicalInfluences(recipe);
-      if ((influences || []).some(influence => 
-        influence?.toLowerCase()?.includes(matchFilters.astrologicalSign!.toLowerCase()))) {
+      // Boost score if recipe has astrological influence matching current Sun sign
+      // Apply safe type casting for astrological state access
+      const astroData = currentEnergy as any;
+      const currentSign = astroData?.sign || astroData?.zodiacSign;
+      if (currentSign && (influences || []).some(influence => influence?.toLowerCase()?.includes(currentSign?.toLowerCase())
+      )) {
         score += 12;
       }
     }
@@ -483,7 +490,10 @@ function calculateElementalAlignment(
   let score = recipeElements[currentEnergy.dominantElement?.toLowerCase()] || 0;
   
   // Boost score if recipe has astrological influence matching current Sun sign
-  if (currentEnergy.sign && (recipeInfluences || []).some(influence => influence?.toLowerCase()?.includes(currentEnergy.sign?.toLowerCase())
+  // Apply safe type casting for astrological state access
+  const astroData = currentEnergy as any;
+  const currentSign = astroData?.sign || astroData?.zodiacSign;
+  if (currentSign && (recipeInfluences || []).some(influence => influence?.toLowerCase()?.includes(currentSign?.toLowerCase())
   )) {
     score += 0.2;
   }

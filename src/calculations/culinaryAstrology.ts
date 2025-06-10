@@ -254,28 +254,40 @@ export class CulinaryAstrologer {
         astroState.activePlanets.includes('jupiter')) {
       
       // Check for Jupiter's effect in dominant planets
-      const jupiterPlanet = astroState.dominantPlanets?.find(p => p.name === 'Jupiter');
+      const jupiterPlanet = astroState.dominantPlanets?.find(p => {
+        // Apply safe type casting for planet access
+        const planetData = p as any;
+        return planetData?.name === 'Jupiter';
+      });
       if (jupiterPlanet) {
+        // Apply safe type casting for planet data access
+        const planetData = jupiterPlanet as any;
+        const planetEffect = planetData?.effect;
+        const planetInfluence = planetData?.influence || 1;
+        
         // Base score for Jupiter
         let jupiterBoost = 0.6;
         
         // Apply modifiers based on Jupiter's effect
-        if ((jupiterPlanet as any).effect === 'expansive') {
+        if (planetEffect === 'expansive') {
           // Expansive Jupiter enhances foods with abundance, growth, and celebration themes
           jupiterBoost = 1.0;
           
           // Further boost recipes that have abundant, rich, or festive qualities
-          if (recipe.tags?.some(tag => 
+          // Apply safe type casting for recipe tags access
+          const recipeData = recipe as any;
+          const recipeTags = recipeData?.tags;
+          if (Array.isArray(recipeTags) && recipeTags.some(tag => 
             ['abundant', 'rich', 'festive', 'celebratory', 'generous'].includes(tag.toLowerCase())
           )) {
             jupiterBoost = 1.3;
           }
-        } else if ((jupiterPlanet as any).effect === 'restricted') {
+        } else if (planetEffect === 'restricted') {
           // Restricted Jupiter still benefits food, but in more moderate ways
           jupiterBoost = 0.5;
         }
         
-        gasGiantScore += jupiterBoost * jupiterPlanet.influence;
+        gasGiantScore += jupiterBoost * planetInfluence;
       } else {
         // Default Jupiter influence if not in dominant planets
         gasGiantScore += 0.5;
@@ -287,28 +299,40 @@ export class CulinaryAstrologer {
         astroState.activePlanets.includes('saturn')) {
       
       // Check for Saturn's effect in dominant planets
-      const saturnPlanet = astroState.dominantPlanets?.find(p => p.name === 'Saturn');
+      const saturnPlanet = astroState.dominantPlanets?.find(p => {
+        // Apply safe type casting for planet access
+        const planetData = p as any;
+        return planetData?.name === 'Saturn';
+      });
       if (saturnPlanet) {
+        // Apply safe type casting for planet data access
+        const planetData = saturnPlanet as any;
+        const planetEffect = planetData?.effect;
+        const planetInfluence = planetData?.influence || 1;
+        
         // Base score for Saturn
         let saturnBoost = 0.6;
         
         // Apply modifiers based on Saturn's effect
-        if ((saturnPlanet as any).effect === 'restrictive') {
+        if (planetEffect === 'restrictive') {
           // Restrictive Saturn enhances foods with structure, tradition, and discipline
           saturnBoost = 0.9;
           
           // Further boost recipes that have structured, traditional, or preserved qualities
-          if (recipe.tags?.some(tag => 
+          // Apply safe type casting for recipe tags access
+          const recipeData = recipe as any;
+          const recipeTags = recipeData?.tags;
+          if (Array.isArray(recipeTags) && recipeTags.some(tag => 
             ['structured', 'traditional', 'preserved', 'aged', 'fermented'].includes(tag.toLowerCase())
           )) {
             saturnBoost = 1.2;
           }
-        } else if ((saturnPlanet as any).effect === 'softened') {
+        } else if (planetEffect === 'softened') {
           // Softened Saturn has less influence on food
           saturnBoost = 0.4;
         }
         
-        gasGiantScore += saturnBoost * saturnPlanet.influence;
+        gasGiantScore += saturnBoost * planetInfluence;
       } else {
         // Default Saturn influence if not in dominant planets
         gasGiantScore += 0.5;

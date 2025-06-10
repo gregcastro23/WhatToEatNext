@@ -264,12 +264,14 @@ export async function calculatePlanetaryPositions(date: Date = new Date()): Prom
     
     // Transform each position to ensure consistent format
     for (const [planet, position] of Object.entries(accuratePositions)) {
+      // Apply safe type casting for position property access
+      const positionData = position as any;
       positions[planet] = {
-        sign: position.sign,
-        degree: position.degree,
-        minutes: position.minutes || 0,
-        exactLongitude: position.exactLongitude || 0,
-        isRetrograde: position.isRetrograde || false
+        sign: positionData?.sign,
+        degree: positionData?.degree,
+        minutes: positionData?.minutes || 0,
+        exactLongitude: positionData?.exactLongitude || 0,
+        isRetrograde: positionData?.isRetrograde || false
       };
     }
     

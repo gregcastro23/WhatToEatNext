@@ -11,21 +11,24 @@ export function formatElementalAffinity(input: unknown): ElementalAffinity {
     return { base: input };
   }
   
+  // Apply safe type casting for property access
+  const inputData = input as any;
+  
   // Ensure the base property exists
-  if (!input.base && input.element) {
+  if (!inputData?.base && inputData?.element) {
     return {
-      ...input,
-      base: input.element
+      ...inputData,
+      base: inputData.element
     };
   }
   
   // If neither base nor element exists, provide a default
-  if (!input.base && !input.element) {
+  if (!inputData?.base && !inputData?.element) {
     return {
-      ...input,
+      ...inputData,
       base: 'Fire'
     };
   }
   
-  return input;
+  return inputData;
 } 

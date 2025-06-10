@@ -261,10 +261,12 @@ export function validatePlanetaryPositionsStructure(positions: Record<string, un
   
   return requiredPlanets.every(planet => {
     const p = positions[planet];
-    return p && 
-      typeof p.longitude === 'number' &&
-      p.longitude >= 0 && p.longitude < 360 &&
-      typeof p.latitude === 'number' &&
-      typeof p.distance === 'number';
+    // Apply safe type casting for property access
+    const planetData = p as any;
+    return planetData && 
+      typeof planetData?.longitude === 'number' &&
+      planetData.longitude >= 0 && planetData.longitude < 360 &&
+      typeof planetData?.latitude === 'number' &&
+      typeof planetData?.distance === 'number';
   });
 } 
