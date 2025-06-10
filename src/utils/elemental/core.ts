@@ -472,14 +472,18 @@ function generateCompatibilityRecommendation(
   recipeDominant: keyof ElementalProperties,
   userDominant: keyof ElementalProperties,
 ): string {
+  // Use safe type casting for string operations
+  const recipeDominantStr = (recipeDominant as string)?.toLowerCase();
+  const userDominantStr = (userDominant as string)?.toLowerCase();
+  
   if (score >= 0.8) {
-    return `Excellent match! This ${recipeDominant?.toLowerCase()}-dominant recipe aligns perfectly with your ${userDominant?.toLowerCase()} energy.`;
+    return `Excellent match! This ${recipeDominantStr}-dominant recipe aligns perfectly with your ${userDominantStr} energy.`;
   } else if (score >= 0.6) {
-    return `Good compatibility. This ${recipeDominant?.toLowerCase()}-based recipe complements your ${userDominant?.toLowerCase()} nature well.`;
+    return `Good compatibility. This ${recipeDominantStr}-based recipe complements your ${userDominantStr} nature well.`;
   } else if (score >= 0.4) {
-    return `Moderate match. This ${recipeDominant?.toLowerCase()} recipe offers a different but harmonious energy to your ${userDominant?.toLowerCase()} state.`;
+    return `Moderate match. This ${recipeDominantStr} recipe offers a different but harmonious energy to your ${userDominantStr} state.`;
   } else {
-    return `This ${recipeDominant?.toLowerCase()} recipe provides a contrasting energy to your ${userDominant?.toLowerCase()} nature, which can be balancing.`;
+    return `This ${recipeDominantStr} recipe provides a contrasting energy to your ${userDominantStr} nature, which can be balancing.`;
   }
 }
 
@@ -505,8 +509,10 @@ export function standardizeRecipeElements<T>(
     } as T & { elementalProperties: ElementalProperties };
   }
 
-  const elementalProperties = recipe.elementalState 
-    ? normalizeProperties(recipe.elementalState)
+  // Use safe type casting for property access
+  const recipeData = recipe as any;
+  const elementalProperties = recipeData?.elementalState 
+    ? normalizeProperties(recipeData.elementalState)
     : DEFAULT_ELEMENTAL_PROPERTIES;
 
   return {
