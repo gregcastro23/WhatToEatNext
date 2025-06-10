@@ -9,6 +9,16 @@ import { normalizeChakraKey } from '@/constants/chakraSymbols';
 import { herbsCollection, oilsCollection, vinegarsCollection, grainsCollection, spicesCollection } from '@/data/ingredients';
 import styles from './IngredientRecommender.module.css';
 
+// Extended IngredientRecommendation interface to handle missing properties
+interface ExtendedIngredientRecommendation extends IngredientRecommendation {
+  culinaryApplications?: Record<string, {
+    notes?: string[];
+    techniques?: string[];
+  }>;
+  pairings?: string[] | Record<string, any>;
+  nutritionalHighlights?: Record<string, string | number>;
+}
+
 // Define category display names
 const CATEGORY_DISPLAY_NAMES: Record<string, string> = {
   proteins: 'Proteins',
@@ -51,7 +61,7 @@ export default function IngredientRecommender() {
   // Use the context to get astrological data including chakra energies
   const { chakraEnergies: contextChakraEnergies, planetaryPositions, isLoading: astroLoading, error: astroError, currentZodiac } = useAstrologicalState();
   const [astroRecommendations, setAstroRecommendations] = useState<GroupedIngredientRecommendations>({});
-  const [selectedIngredient, setSelectedIngredient] = useState<IngredientRecommendation | null>(null);
+  const [selectedIngredient, setSelectedIngredient] = useState<ExtendedIngredientRecommendation | null>(null);
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [activeCategory, setActiveCategory] = useState<string>('proteins');
   const [showAll, setShowAll] = useState<boolean>(false);
@@ -123,7 +133,7 @@ export default function IngredientRecommender() {
         return null;
       }
       // Otherwise, select the new item
-      return item;
+      return item as ExtendedIngredientRecommendation;
     });
   };
   
@@ -945,7 +955,7 @@ export default function IngredientRecommender() {
         )}
         
         {/* Culinary Applications with improved structure */}
-        {item.culinaryApplications && Object.keys(item.culinaryApplications).length > 0 && (
+        {(item as ExtendedIngredientRecommendation).culinaryApplications && Object.keys((item as ExtendedIngredientRecommendation).culinaryApplications || {}).length > 0 && (
           <div className={styles.detailSection}>
             <h4 className={styles.detailTitle}>
               <Leaf size={16} /> Culinary Applications
@@ -955,47 +965,50 @@ export default function IngredientRecommender() {
               gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
               gap: '0.75rem'
             }}>
-              {Object.entries(item.culinaryApplications).map(([method, details]) => (
-                <div key={method} style={{
-                  border: '1px solid rgba(229, 231, 235, 0.8)',
-                  borderRadius: '0.375rem',
-                  padding: '0.75rem',
-                  backgroundColor: 'rgba(249, 250, 251, 0.5)'
-                }}>
-                  <div style={{ 
-                    fontWeight: '600', 
-                    marginBottom: '0.25rem',
-                    fontSize: '0.9rem',
-                    color: '#374151'
+              {Object.entries((item as ExtendedIngredientRecommendation).culinaryApplications || {}).map(([method, details]) => {
+                const detailsData = details as any;
+                return (
+                  <div key={method} style={{
+                    border: '1px solid rgba(229, 231, 235, 0.8)',
+                    borderRadius: '0.375rem',
+                    padding: '0.75rem',
+                    backgroundColor: 'rgba(249, 250, 251, 0.5)'
                   }}>
-                    {method.charAt(0).toUpperCase() + method.slice(1)}
+                    <div style={{ 
+                      fontWeight: '600', 
+                      marginBottom: '0.25rem',
+                      fontSize: '0.9rem',
+                      color: '#374151'
+                    }}>
+                      {method.charAt(0).toUpperCase() + method.slice(1)}
+                    </div>
+                    {detailsData?.notes && Array.isArray(detailsData.notes) && detailsData.notes.length > 0 && (
+                      <div style={{ 
+                        fontSize: '0.85rem', 
+                        color: '#4b5563',
+                        lineHeight: '1.4' 
+                      }}>
+                        {detailsData.notes[0]}
+                      </div>
+                    )}
+                    {detailsData?.techniques && Array.isArray(detailsData.techniques) && detailsData.techniques.length > 0 && (
+                      <div style={{ 
+                        fontSize: '0.8rem', 
+                        color: '#6b7280',
+                        marginTop: '0.5rem' 
+                      }}>
+                        <strong>Techniques:</strong> {detailsData.techniques.join(', ')}
+                      </div>
+                    )}
                   </div>
-                  {details.notes && Array.isArray(details.notes) && details.notes.length > 0 && (
-                    <div style={{ 
-                      fontSize: '0.85rem', 
-                      color: '#4b5563',
-                      lineHeight: '1.4' 
-                    }}>
-                      {details.notes[0]}
-                    </div>
-                  )}
-                  {details.techniques && Array.isArray(details.techniques) && details.techniques.length > 0 && (
-                    <div style={{ 
-                      fontSize: '0.8rem', 
-                      color: '#6b7280',
-                      marginTop: '0.5rem' 
-                    }}>
-                      <strong>Techniques:</strong> {details.techniques.join(', ')}
-                    </div>
-                  )}
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         )}
         
         {/* Pairings with improved visualization */}
-        {item.pairings && (
+        {(item as ExtendedIngredientRecommendation).pairings && (
           <div className={styles.detailSection}>
             <h4 className={styles.detailTitle}>
               <Tag size={16} /> Pairs Well With
@@ -1006,8 +1019,8 @@ export default function IngredientRecommender() {
               gap: '0.5rem',
               fontSize: '0.85rem'
             }}>
-              {Array.isArray(item.pairings) 
-                ? item.pairings.slice(0, 10).map(pairing => (
+              {Array.isArray((item as ExtendedIngredientRecommendation).pairings) 
+                ? ((item as ExtendedIngredientRecommendation).pairings as string[]).slice(0, 10).map(pairing => (
                     <span key={pairing} style={{ 
                       backgroundColor: 'rgba(167, 139, 250, 0.1)',
                       padding: '0.35rem 0.65rem',
@@ -1019,7 +1032,7 @@ export default function IngredientRecommender() {
                       {pairing}
                     </span>
                   ))
-                : Object.keys(item.pairings).slice(0, 10).map(pairing => (
+                : Object.keys((item as ExtendedIngredientRecommendation).pairings as Record<string, any> || {}).slice(0, 10).map(pairing => (
                     <span key={pairing} style={{ 
                       backgroundColor: 'rgba(167, 139, 250, 0.1)',
                       padding: '0.35rem 0.65rem',
@@ -1037,7 +1050,7 @@ export default function IngredientRecommender() {
         )}
         
         {/* Nutritional Highlights if available */}
-        {item.nutritionalHighlights && Object.keys(item.nutritionalHighlights).length > 0 && (
+        {(item as ExtendedIngredientRecommendation).nutritionalHighlights && Object.keys((item as ExtendedIngredientRecommendation).nutritionalHighlights || {}).length > 0 && (
           <div className={styles.detailSection}>
             <h4 className={styles.detailTitle}>
               <Info size={16} /> Nutritional Highlights
@@ -1048,7 +1061,7 @@ export default function IngredientRecommender() {
               gap: '0.75rem',
               fontSize: '0.85rem'
             }}>
-              {Object.entries(item.nutritionalHighlights).map(([nutrient, value]) => (
+              {Object.entries((item as ExtendedIngredientRecommendation).nutritionalHighlights || {}).map(([nutrient, value]) => (
                 <div key={nutrient} style={{ 
                   padding: '0.5rem 0.75rem',
                   backgroundColor: 'rgba(249, 250, 251, 0.8)',

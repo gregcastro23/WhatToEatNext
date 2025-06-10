@@ -9,24 +9,28 @@ export interface CuisineRecommendation extends Cuisine {
 export async function getCuisineRecommendations(): Promise<Cuisine[]> {
     try {
         // Convert culinary traditions to Cuisine format
-        const recommendations: Cuisine[] = Object.entries(culinaryTraditions).map(([id, tradition]) => ({
-            id,
-            name: id.charAt(0).toUpperCase() + id.slice(1),
-            description: tradition.description || 'A unique culinary tradition',
-            alchemicalProperties: tradition.elementalAlignment || {
-                Fire: 0.25,
-                Water: 0.25,
-                Earth: 0.25,
-                Air: 0.25
-            },
-            elementalProperties: tradition.elementalAlignment || {
-                Fire: 0.25,
-                Water: 0.25,
-                Earth: 0.25,
-                Air: 0.25
-            },
-            astrologicalInfluences: deriveAstrologicalInfluences(tradition)
-        }));
+        const recommendations: Cuisine[] = Object.entries(culinaryTraditions).map(([id, tradition]) => {
+            const traditionData = tradition as any;
+            
+            return {
+                id,
+                name: id.charAt(0).toUpperCase() + id.slice(1),
+                description: traditionData?.description || 'A unique culinary tradition',
+                alchemicalProperties: traditionData?.elementalAlignment || {
+                    Fire: 0.25,
+                    Water: 0.25,
+                    Earth: 0.25,
+                    Air: 0.25
+                },
+                elementalProperties: traditionData?.elementalAlignment || {
+                    Fire: 0.25,
+                    Water: 0.25,
+                    Earth: 0.25,
+                    Air: 0.25
+                },
+                astrologicalInfluences: deriveAstrologicalInfluences(tradition)
+            };
+        });
 
         return recommendations;
     } catch (error) {
@@ -37,26 +41,33 @@ export async function getCuisineRecommendations(): Promise<Cuisine[]> {
 
 // Helper function to derive meaningful astrological influences from regional cuisines
 function deriveAstrologicalInfluences(tradition: unknown): string[] {
+    const traditionData = tradition as any;
+    
     // If the tradition explicitly has astrological influences, use those
-    if (tradition.astrologicalProfile?.influences && 
-        tradition.astrologicalProfile.influences.length > 0 && 
-        !tradition.astrologicalProfile.influences.includes('Universal')) {
-        return tradition.astrologicalProfile.influences;
+    const astroProfile = traditionData?.astrologicalProfile;
+    if (astroProfile?.influences && 
+        astroProfile.influences.length > 0 && 
+        !astroProfile.influences.includes('Universal')) {
+        return astroProfile.influences;
     }
     
     // Otherwise, use ruling planets from astrologicalProfile if available
-    if (tradition.astrologicalProfile?.rulingPlanets && 
-        tradition.astrologicalProfile.rulingPlanets.length > 0) {
-        return tradition.astrologicalProfile.rulingPlanets;
+    if (astroProfile?.rulingPlanets && 
+        astroProfile.rulingPlanets.length > 0) {
+        return astroProfile.rulingPlanets;
     }
     
     // Collect influences from regional cuisines if available
     const influences = new Set<string>();
     
-    if (tradition.regionalCuisines) {
-        Object.values(tradition.regionalCuisines).forEach((region: unknown) => {
-            if (region.astrologicalInfluences) {
-                region.astrologicalInfluences.forEach((influence: string) => {
+    const regionalCuisines = traditionData?.regionalCuisines;
+    if (regionalCuisines) {
+        Object.values(regionalCuisines).forEach((region: unknown) => {
+            const regionData = region as any;
+            const regionInfluences = regionData?.astrologicalInfluences;
+            
+            if (regionInfluences && Array.isArray(regionInfluences)) {
+                regionInfluences.forEach((influence: string) => {
                     influences.add(influence);
                 });
             }

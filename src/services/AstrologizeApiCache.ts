@@ -70,8 +70,9 @@ class AstrologizeApiCache {
    * Calculate elemental absolute and relative values
    */
   private calculateElementalValues(alchemicalResult: StandardizedAlchemicalResult) {
-    const { Fire, Water, Earth, Air } = alchemicalResult.elementalBalance || 
-                                      { Fire: 0, Water: 0, Earth: 0, Air: 0 };
+    const resultData = alchemicalResult as any;
+    const elementalBalance = resultData?.elementalBalance || {};
+    const { Fire = 0, Water = 0, Earth = 0, Air = 0 } = elementalBalance;
 
     // Absolute values (direct from alchemical result)
     const elementalAbsolutes = {
@@ -107,6 +108,9 @@ class AstrologizeApiCache {
     
     const { elementalAbsolutes, elementalRelatives } = this.calculateElementalValues(alchemicalResult);
     
+    // Safe access to alchemical result properties
+    const resultData = alchemicalResult as any;
+    
     const cachedData: CachedAstrologicalData = {
       timestamp: Date.now(),
       date,
@@ -117,12 +121,12 @@ class AstrologizeApiCache {
       elementalAbsolutes,
       elementalRelatives,
       thermodynamics: {
-        heat: alchemicalResult.heat || 0,
-        entropy: alchemicalResult.entropy || 0,
-        reactivity: alchemicalResult.reactivity || 0,
-        gregsEnergy: alchemicalResult.energy || 0,
-        kalchm: alchemicalResult.kalchm || 1,
-        monica: alchemicalResult.monica || 1
+        heat: resultData?.heat || 0,
+        entropy: resultData?.entropy || 0,
+        reactivity: resultData?.reactivity || 0,
+        gregsEnergy: resultData?.energy || 0,
+        kalchm: resultData?.kalchm || 1,
+        monica: resultData?.monica || 1
       },
       quality: this.assessDataQuality(alchemicalResult)
     };
@@ -199,34 +203,32 @@ class AstrologizeApiCache {
     if (nearbyData.length === 0) {
       return null;
     }
-
-    // Use the most recent high-quality data for prediction
-    const highQualityData = nearbyData.filter(d => d.quality === 'high');
-    const sourceData = highQualityData.length > 0 ? highQualityData.slice(0, 3) : nearbyData.slice(0, 3);
-
-    const predictedPositions: Record<string, PlanetaryPosition> = {};
-    const confidence = Math.min(0.9, sourceData.length / 3); // Max 90% confidence
-
-    // Simple prediction based on average movement (could be enhanced with orbital mechanics)
-    const planets = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'];
     
-    for (const planet of planets) {
-      if (sourceData.every(d => d.planetaryPositions[planet])) {
-        const avgPosition = sourceData.reduce((sum, d) => sum + d.planetaryPositions[planet].degree, 0) / sourceData.length;
-        
-        predictedPositions[planet] = {
-          sign: this.degreeToSign(avgPosition),
-          degree: avgPosition % 30, // Degree within sign
-          isRetrograde: false // Would need more sophisticated calculation
-        };
-      }
+    // Use the closest data as base for prediction
+    const baseData = nearbyData[0];
+    const predictedPositions: Record<string, PlanetaryPosition> = {};
+    const sources: string[] = [];
+    
+    // For each planet, predict its position
+    for (const [planet, position] of Object.entries(baseData.planetaryPositions)) {
+      const planetData = position as any;
+      predictedPositions[planet] = {
+        sign: planetData?.sign || '',
+        degree: planetData?.degree || 0,
+        isRetrograde: planetData?.isRetrograde || false
+      };
+      sources.push(`${planet}:${baseData.date.toISOString()}`);
     }
-
+    
+    // Calculate confidence based on how much data we have and how recent it is
+    const confidence = Math.min(1, nearbyData.length / 5) * 
+                      Math.max(0.3, 1 - (Math.abs(targetDate.getTime() - baseData.date.getTime()) / (30 * 24 * 60 * 60 * 1000)));
+    
     return {
       date: targetDate,
       predictedPositions,
       confidence,
-      sources: sourceData.map(d => `${d.coordinates.lat},${d.coordinates.lng},${d.date.toISOString()}`)
+      sources
     };
   }
 

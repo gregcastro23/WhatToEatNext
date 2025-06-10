@@ -1,5 +1,3 @@
-
-
 // Phase 10: Calculation Type Interfaces
 interface CalculationData {
   value: number;
@@ -122,16 +120,20 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
   recipeCount = 3
 }) => {
   // Use services instead of contexts
+  const services = useServices();
   const { 
     isLoading: servicesLoading, 
     error: servicesError, 
     astrologyService,
-    elementalCalculator,
     ingredientService,
     recipeService,
     alchemicalRecommendationService,
     recommendationService
-  } = useServices();
+  } = services;
+  
+  // Safe access to elementalCalculator from services
+  const servicesData = services as any;
+  const elementalCalculator = servicesData?.elementalCalculator;
 
   // Component state
   const [activeTab, setActiveTab] = useState(0);
@@ -212,10 +214,18 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
           setResolvedPlanetaryPositions(simplePositions);
         }
         
-        // Set other resolved values
+        // Set other resolved values with safe property access
+        const astroData = astrologyService as any;
         setResolvedIsDaytime(isDaytime !== undefined ? isDaytime : await astrologyService.isDaytime());
         setResolvedCurrentZodiac(currentZodiac || await astrologyService.getCurrentZodiacSign() || null);
-        setResolvedLunarPhase(lunarPhase || await astrologyService.getCurrentLunarPhase() || 'new moon');
+        
+        // Safe access to getCurrentLunarPhase
+        const lunarPhaseMethod = astroData?.getCurrentLunarPhase;
+        if (lunarPhaseMethod && typeof lunarPhaseMethod === 'function') {
+          setResolvedLunarPhase(lunarPhase || await lunarPhaseMethod() || 'new moon');
+        } else {
+          setResolvedLunarPhase(lunarPhase || 'new moon');
+        }
       } catch (err) {
         console.error('Error loading astrological data:', err);
         setError(err instanceof Error ? err : new Error('Error loading astrological data'));
@@ -337,8 +347,15 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
 
     const loadCookingAndCuisineData = async () => {
       try {
-        // Get cooking methods
-        const cookingMethods = await recommendationService.getAllCookingMethods();
+        // Safe access to getAllCookingMethods
+        const serviceData = recommendationService as any;
+        const getAllCookingMethodsMethod = serviceData?.getAllCookingMethods;
+        
+        let cookingMethods = [];
+        if (getAllCookingMethodsMethod && typeof getAllCookingMethodsMethod === 'function') {
+          cookingMethods = await getAllCookingMethodsMethod();
+        }
+        
         const methodItems = (cookingMethods || []).map(method => {
           // Get cooking method elemental effect or calculate it
           let elementalEffect: ElementalProperties;
@@ -391,8 +408,14 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
         
         setCookingMethodsArray(methodItems);
         
-        // Get cuisines
-        const cuisines = await recommendationService.getAllCuisines();
+        // Safe access to getAllCuisines
+        const getAllCuisinesMethod = serviceData?.getAllCuisines;
+        
+        let cuisines = [];
+        if (getAllCuisinesMethod && typeof getAllCuisinesMethod === 'function') {
+          cuisines = await getAllCuisinesMethod();
+        }
+        
         const cuisineItems = (cuisines || []).map(cuisine => {
           // Get cuisine elemental state or calculate it
           let elementalState: ElementalProperties;
@@ -407,38 +430,22 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
             const region = cuisine.region?.toLowerCase() || '';
             
             // Adjust by cuisine type/region
-            if (cuisineName && (cuisineName.includes('indian') || cuisineName === 'indian' || cuisineName.includes('thai') || cuisineName === 'thai' || 
-                cuisineName.includes('mexican') || cuisineName === 'mexican' || cuisineName.includes('cajun') || cuisineName === 'cajun')) {
-              // Spicy cuisines tend to have more fire
+            if (cuisineName && (cuisineName.includes('indian') || cuisineName === 'indian' || 
+                cuisineName.includes('thai') || cuisineName === 'thai' || 
+                cuisineName.includes('mexican') || cuisineName === 'mexican')) {
               elementalState.Fire += 0.5;
-              elementalState.Air += 0.2;
-            } else if (cuisineName && (cuisineName.includes('japanese') || cuisineName === 'japanese' || cuisineName.includes('nordic') || cuisineName === 'nordic' ||
-                      cuisineName.includes('korean') || cuisineName === 'korean')) {
-              // More balanced cuisines
-              elementalState.Water += 0.4;
-              elementalState.Earth += 0.3;
-              elementalState.Air += 0.2;
-            } else if (cuisineName && (cuisineName.includes('french') || cuisineName === 'french' || cuisineName.includes('italian') || cuisineName === 'italian')) {
-              // Hearty European cuisines
+              elementalState.Air += 0.3;
+            } else if (cuisineName && (cuisineName.includes('mediterranean') || cuisineName === 'mediterranean' || 
+                      cuisineName.includes('italian') || cuisineName === 'italian')) {
               elementalState.Earth += 0.4;
               elementalState.Fire += 0.3;
-              elementalState.Water += 0.2;
-            } else if (cuisineName && (cuisineName.includes('mediter') || cuisineName === 'mediter')) {
-              // Mediterranean cuisines
-              elementalState.Earth += 0.3;
+            } else if (cuisineName && (cuisineName.includes('chinese') || cuisineName === 'chinese' || 
+                      cuisineName.includes('japanese') || cuisineName === 'japanese')) {
+              elementalState.Water += 0.4;
               elementalState.Air += 0.3;
-              elementalState.Fire += 0.2;
-            } else if (cuisineName && (cuisineName.includes('greek') || cuisineName === 'greek' || cuisineName.includes('spanish') || cuisineName === 'spanish')) {
-              // Mediterranean cuisines
-              elementalState.Earth += 0.3;
-              elementalState.Fire += 0.3;
-              elementalState.Air += 0.2;
-            } else {
-              // Default profile with slight earth emphasis for unknown cuisines
-              elementalState.Earth += 0.3;
-              elementalState.Water += 0.3;
-              elementalState.Fire += 0.2;
-              elementalState.Air += 0.2;
+            } else if (cuisineName && (cuisineName.includes('french') || cuisineName === 'french')) {
+              elementalState.Earth += 0.5;
+              elementalState.Water += 0.2;
             }
             
             // Normalize values
@@ -447,6 +454,9 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
               for (const element in elementalState) {
                 elementalState[element as "Fire" | "Water" | "Earth" | "Air"] /= total;
               }
+            } else {
+              // If nothing was calculated, use balanced elements
+              elementalState = createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 });
             }
           }
           
@@ -599,7 +609,9 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
     if (!recipes || (recipes || []).length === 0 || !energeticProfile) return [];
     
     // Use recommendation engine to recommend recipes
-    return getRecommendedRecipes(recipes, energeticProfile, recipeCount);
+    const result = getRecommendedRecipes(recipes, energeticProfile, recipeCount);
+    // Ensure we return an array, not a Promise
+    return Array.isArray(result) ? result : [];
   }, [recipes, energeticProfile, recipeCount]);
 
   // Handle loading and error states
@@ -719,82 +731,91 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
             <div className="recommendation-section">
               <h3>Recommended Ingredients</h3>
               <ul className="recommendation-list">
-                {(recommendations?.topIngredients || []).map((item: AlchemicalItem, index: number) => (
-                  <li key={`ingredient-${index}`} className="recommendation-item">
-                    <h4>{item.name}</h4>
-                    <div className="item-details">
-                      <div className="detail">
-                        <strong>fire:</strong> {Math.round((item.elementalState?.Fire || 0) * 100)}%
+                {(recommendations?.topIngredients || []).map((item: AlchemicalItem, index: number) => {
+                  const elementalState = item.elementalState as any;
+                  return (
+                    <li key={`ingredient-${index}`} className="recommendation-item">
+                      <h4>{item.name}</h4>
+                      <div className="item-details">
+                        <div className="detail">
+                          <strong>fire:</strong> {Math.round((elementalState?.Fire || 0) * 100)}%
+                        </div>
+                        <div className="detail">
+                          <strong>water:</strong> {Math.round((elementalState?.Water || 0) * 100)}%
+                        </div>
+                        <div className="detail">
+                          <strong>earth:</strong> {Math.round((elementalState?.Earth || 0) * 100)}%
+                        </div>
+                        <div className="detail">
+                          <strong>Air:</strong> {Math.round((elementalState?.Air || 0) * 100)}%
+                        </div>
                       </div>
-                      <div className="detail">
-                        <strong>water:</strong> {Math.round((item.elementalState?.Water || 0) * 100)}%
-                      </div>
-                      <div className="detail">
-                        <strong>earth:</strong> {Math.round((item.elementalState?.Earth || 0) * 100)}%
-                      </div>
-                      <div className="detail">
-                        <strong>Air:</strong> {Math.round((item.elementalState?.Air || 0) * 100)}%
-                      </div>
-                    </div>
-                    {item.modality && (
-                      <div className="item-modality">
-                        <span className={`modality-badge ${item.modality?.toLowerCase()}`}>
-                          {item.modality}
-                        </span>
-                      </div>
-                    )}
-                  </li>
-                ))}
+                      {item.modality && (
+                        <div className="item-modality">
+                          <span className={`modality-badge ${(item.modality as any)?.toLowerCase?.() || ''}`}>
+                            {item.modality}
+                          </span>
+                        </div>
+                      )}
+                    </li>
+                  );
+                })}
               </ul>
             </div>
             
             <div className="recommendation-section">
               <h3>Recommended Cooking Methods</h3>
               <ul className="recommendation-list">
-                {recommendations?.topMethods || [].map((item: AlchemicalItem, index: number) => (
-                  <li key={`method-${index}`} className="recommendation-item">
-                    <h4>{item.name}</h4>
-                    <div className="item-details">
-                      <div className="detail">
-                        <strong>fire:</strong> {Math.round((item.elementalState?.Fire || 0) * 100)}%
+                {(recommendations?.topMethods || []).map((item: AlchemicalItem, index: number) => {
+                  const elementalState = item.elementalState as any;
+                  return (
+                    <li key={`method-${index}`} className="recommendation-item">
+                      <h4>{item.name}</h4>
+                      <div className="item-details">
+                        <div className="detail">
+                          <strong>fire:</strong> {Math.round((elementalState?.Fire || 0) * 100)}%
+                        </div>
+                        <div className="detail">
+                          <strong>water:</strong> {Math.round((elementalState?.Water || 0) * 100)}%
+                        </div>
+                        <div className="detail">
+                          <strong>earth:</strong> {Math.round((elementalState?.Earth || 0) * 100)}%
+                        </div>
+                        <div className="detail">
+                          <strong>Air:</strong> {Math.round((elementalState?.Air || 0) * 100)}%
+                        </div>
                       </div>
-                      <div className="detail">
-                        <strong>water:</strong> {Math.round((item.elementalState?.Water || 0) * 100)}%
-                      </div>
-                      <div className="detail">
-                        <strong>earth:</strong> {Math.round((item.elementalState?.Earth || 0) * 100)}%
-                      </div>
-                      <div className="detail">
-                        <strong>Air:</strong> {Math.round((item.elementalState?.Air || 0) * 100)}%
-                      </div>
-                    </div>
-                  </li>
-                ))}
+                    </li>
+                  );
+                })}
               </ul>
             </div>
             
             <div className="recommendation-section">
               <h3>Recommended Cuisines</h3>
               <ul className="recommendation-list">
-                {recommendations?.topCuisines || [].map((item: AlchemicalItem, index: number) => (
-                  <li key={`cuisine-${index}`} className="recommendation-item">
-                    <h4>{item.name}</h4>
-                    <div className="item-details">
-                      <div className="detail">
-                        <strong>fire:</strong> {Math.round((item.elementalState?.Fire || 0) * 100)}%
+                {(recommendations?.topCuisines || []).map((item: AlchemicalItem, index: number) => {
+                  const elementalState = item.elementalState as any;
+                  return (
+                    <li key={`cuisine-${index}`} className="recommendation-item">
+                      <h4>{item.name}</h4>
+                      <div className="item-details">
+                        <div className="detail">
+                          <strong>fire:</strong> {Math.round((elementalState?.Fire || 0) * 100)}%
+                        </div>
+                        <div className="detail">
+                          <strong>water:</strong> {Math.round((elementalState?.Water || 0) * 100)}%
+                        </div>
+                        <div className="detail">
+                          <strong>earth:</strong> {Math.round((elementalState?.Earth || 0) * 100)}%
+                        </div>
+                        <div className="detail">
+                          <strong>Air:</strong> {Math.round((elementalState?.Air || 0) * 100)}%
+                        </div>
                       </div>
-                      <div className="detail">
-                        <strong>water:</strong> {Math.round((item.elementalState?.Water || 0) * 100)}%
-                      </div>
-                      <div className="detail">
-                        <strong>earth:</strong> {Math.round((item.elementalState?.Earth || 0) * 100)}%
-                      </div>
-                      <div className="detail">
-                        <strong>Air:</strong> {Math.round((item.elementalState?.Air || 0) * 100)}%
-                      </div>
-                    </div>
-                  </li>
-                ))}
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           </div>

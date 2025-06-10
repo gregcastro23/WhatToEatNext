@@ -454,27 +454,33 @@ const NutritionalRecommender: React.FC<NutritionalRecommenderProps> = ({
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {recommendations[category].map(
-                  (ingredient: IngredientMapping) => (
-                    <IngredientCard
-                      key={ingredient.name}
-                      ingredient={ingredient}
-                      isSelected={selectedIngredients.includes(ingredient.name)}
-                      onToggleSelection={toggleIngredientSelection}
-                      enhancedData={enhancedNutritionData[ingredient.name]}
-                      isSpoonacularLoading={
-                        isSpoonacularLoading[ingredient.name] || false
-                      }
-                      onLoadSpoonacularData={() =>
-                        fetchEnhancedNutritionData(ingredient.name)
-                      }
-                      isExpanded={expandedIngredient === ingredient.name}
-                      onToggleExpand={(name) =>
-                        setExpandedIngredient((prev) =>
-                          prev === name ? null : name
-                        )
-                      }
-                    />
-                  )
+                  (ingredient: IngredientMapping) => {
+                    // Extract ingredient data with safe property access
+                    const ingredientData = ingredient as any;
+                    const ingredientName = ingredientData?.name || ingredientData?.ingredient || '';
+                    
+                    return (
+                      <IngredientCard
+                        key={ingredientName}
+                        ingredient={ingredient}
+                        isSelected={selectedIngredients.includes(ingredientName)}
+                        onToggleSelection={toggleIngredientSelection}
+                        enhancedData={enhancedNutritionData[ingredientName]}
+                        isSpoonacularLoading={
+                          isSpoonacularLoading[ingredientName] || false
+                        }
+                        onLoadSpoonacularData={() =>
+                          fetchEnhancedNutritionData(ingredientName)
+                        }
+                        isExpanded={expandedIngredient === ingredientName}
+                        onToggleExpand={(name) =>
+                          setExpandedIngredient((prev) =>
+                            prev === name ? null : name
+                          )
+                        }
+                      />
+                    );
+                  }
                 )}
               </div>
             </div>
@@ -618,7 +624,11 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
   isExpanded,
   onToggleExpand,
 }) => {
-  let nutritionalProfile = ingredient.nutritionalProfile || {};
+  // Extract ingredient data with safe property access
+  const ingredientData = ingredient as any;
+  const nutritionalProfile = ingredientData?.nutritionalProfile || {};
+  const ingredientName = ingredientData?.name || ingredientData?.ingredient || '';
+  const qualities = ingredientData?.qualities;
 
   return (
     <div
@@ -626,21 +636,21 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
                   ${isSelected ? 'ring-2 ring-purple-500' : ''}`}
     >
       <div className="flex justify-between items-start mb-2">
-        <h4 className="font-medium text-lg">{ingredient.name}</h4>
+        <h4 className="font-medium text-lg">{ingredientName}</h4>
         <label className="inline-flex items-center cursor-pointer">
           <input
             type="checkbox"
             className="form-checkbox h-4 w-4 text-purple-600"
             checked={isSelected}
-            onChange={() => onToggleSelection(ingredient.name)}
+            onChange={() => onToggleSelection(ingredientName)}
           />
           <span className="ml-1 text-xs text-gray-600">Select</span>
         </label>
       </div>
 
-      {ingredient.qualities && ingredient.qualities.length > 0 && (
+      {qualities && qualities.length > 0 && (
         <div className="mb-2 flex flex-wrap gap-1">
-          {ingredient.qualities.map((quality) => (
+          {qualities.map((quality) => (
             <span
               key={quality}
               className="text-xs bg-purple-100 text-purple-800 px-1.5 py-0.5 rounded"
@@ -683,7 +693,7 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
         <div className="flex justify-between">
           <h5 className="text-sm font-medium">Nutrition</h5>
           <button
-            onClick={() => onToggleExpand(ingredient.name)}
+            onClick={() => onToggleExpand(ingredientName)}
             className="text-xs text-blue-600 hover:text-blue-800"
           >
             {isExpanded ? 'Show Less' : 'Show More'}
@@ -756,37 +766,60 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
 
           {enhancedData && (
             <div className="space-y-2">
-              {/* Display enhanced nutrition data */}
-              {enhancedData.nutrition && enhancedData.nutrition.nutrients && (
-                <div className="grid grid-cols-2 gap-x-2 gap-y-1 text-xs">
-                  {enhancedData.nutrition.nutrients
-                    .slice(0, 8)
-                    .map((nutrient: unknown) => (
-                      <div key={nutrient.name} className="flex justify-between">
-                        <span>{nutrient.name}:</span>
-                        <span className="font-medium">
-                          {nutrient.amount} {nutrient.unit}
-                        </span>
-                      </div>
-                    ))}
-                </div>
-              )}
+              {/* Display enhanced nutrition data with safe property access */}
+              {(() => {
+                const enhancedDataObj = enhancedData as any;
+                const nutrition = enhancedDataObj?.nutrition;
+                const nutrients = nutrition?.nutrients;
+                
+                return nutrients && (
+                  <div className="grid grid-cols-2 gap-x-2 gap-y-1 text-xs">
+                    {nutrients
+                      .slice(0, 8)
+                      .map((nutrient: unknown) => {
+                        const nutrientData = nutrient as any;
+                        const name = nutrientData?.name || '';
+                        const amount = nutrientData?.amount || 0;
+                        const unit = nutrientData?.unit || '';
+                        
+                        return (
+                          <div key={name} className="flex justify-between">
+                            <span>{name}:</span>
+                            <span className="font-medium">
+                              {amount} {unit}
+                            </span>
+                          </div>
+                        );
+                      })}
+                  </div>
+                );
+              })()}
 
-              {/* Additional properties */}
-              {enhancedData.categoryPath && (
-                <div className="text-xs mt-2">
-                  <span className="font-medium">Category:</span>{' '}
-                  {enhancedData.categoryPath.join(' > ')}
-                </div>
-              )}
+              {/* Additional properties with safe access */}
+              {(() => {
+                const enhancedDataObj = enhancedData as any;
+                const categoryPath = enhancedDataObj?.categoryPath;
+                
+                return categoryPath && (
+                  <div className="text-xs mt-2">
+                    <span className="font-medium">Category:</span>{' '}
+                    {categoryPath.join(' > ')}
+                  </div>
+                );
+              })()}
 
-              {/* Possible substitutes */}
-              {enhancedData.possibleSubstitutes && (
-                <div className="text-xs mt-1">
-                  <span className="font-medium">Substitutes:</span>{' '}
-                  {enhancedData.possibleSubstitutes}
-                </div>
-              )}
+              {/* Possible substitutes with safe access */}
+              {(() => {
+                const enhancedDataObj = enhancedData as any;
+                const possibleSubstitutes = enhancedDataObj?.possibleSubstitutes;
+                
+                return possibleSubstitutes && (
+                  <div className="text-xs mt-1">
+                    <span className="font-medium">Substitutes:</span>{' '}
+                    {possibleSubstitutes}
+                  </div>
+                );
+              })()}
             </div>
           )}
         </div>

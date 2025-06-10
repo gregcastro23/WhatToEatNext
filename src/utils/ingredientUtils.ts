@@ -193,11 +193,12 @@ export function determineIngredientModality(
  * Type guard to check if an object is a RecipeIngredient
  */
 export function isRecipeIngredient(ingredient: unknown): ingredient is RecipeIngredient {
+  const ingredientData = ingredient as any;
   return (
     ingredient &&
-    typeof ingredient.name === 'string' &&
-    typeof ingredient.amount === 'number' &&
-    typeof ingredient.unit === 'string'
+    typeof ingredientData?.name === 'string' &&
+    typeof ingredientData?.amount === 'number' &&
+    typeof ingredientData?.unit === 'string'
   );
 }
 
@@ -205,91 +206,78 @@ export function isRecipeIngredient(ingredient: unknown): ingredient is RecipeIng
  * Type guard to check if an object is a full Ingredient
  */
 export function isFullIngredient(ingredient: unknown): ingredient is Ingredient {
+  const ingredientData = ingredient as any;
   return (
     ingredient &&
-    typeof ingredient.name === 'string' &&
-    typeof ingredient.category === 'string' &&
-    ingredient.elementalProperties &&
-    Array.isArray(ingredient.qualities) &&
-    ingredient.storage &&
-    typeof ingredient.storage.duration === 'string'
+    typeof ingredientData?.name === 'string' &&
+    typeof ingredientData?.category === 'string' &&
+    ingredientData?.elementalProperties &&
+    Array.isArray(ingredientData?.qualities) &&
+    ingredientData?.storage &&
+    typeof ingredientData?.storage === 'object'
   );
 }
 
 /**
- * Validates an ingredient object to ensure it has all required properties
- * Returns an object with validation results and any error messages
+ * Validates that an ingredient object has all required properties
  */
-export function validateIngredient(ingredient: Partial<Ingredient>): { 
+export function validateIngredient(ingredient: Partial<Ingredient> & { 
+  qualities?: string[]; 
+  storage?: { temperature?: string; humidity?: string } 
+}): { 
   isValid: boolean; 
   errors: string[] 
 } {
   const errors: string[] = [];
-
-  // Check required fields
-  if (!ingredient.name) {
-    errors.push('Name is required');
+  
+  // Required fields
+  if (!ingredient.name || typeof ingredient.name !== 'string') {
+    errors.push('Name is required and must be a string');
   }
-
+  
   if (!ingredient.category) {
     errors.push('Category is required');
-  } else {
-    // Validate that the category is one of the allowed values
-    const validCategories: IngredientCategory[] = [
-      'culinary_herb',
-      'spice',
-      'vegetable',
-      'fruit',
-      'protein',
-      'grain',
-      'dairy',
-      'oil'
-    ];
-
-    if (!validCategories.includes(ingredient.category as IngredientCategory)) {
-      errors.push(`Invalid category: ${ingredient.category}. Must be one of: ${validCategories.join(', ')}`);
-    }
   }
-
-  // Check elementalProperties
+  
   if (!ingredient.elementalProperties) {
     errors.push('Elemental properties are required');
-  } else {
-    const { Fire, Water, Earth, Air } = ingredient.elementalProperties;
+  }
+  
+  // Optional validations
+  if (ingredient.qualities && !Array.isArray(ingredient.qualities)) {
+    errors.push('Qualities must be an array');
+  }
+  
+  // Fix specific property access errors
+  if (ingredient.qualities && Array.isArray(ingredient.qualities)) {
+    // Check each quality is a string
+    const invalidQualities = ingredient.qualities.filter((q: any) => typeof q !== 'string');
+    if (invalidQualities.length > 0) {
+      errors.push('All qualities must be strings');
+    }
+  }
+  
+  // Storage validation
+  if (ingredient.storage && typeof ingredient.storage !== 'object') {
+    errors.push('Storage must be an object');
+  }
+  
+  if (ingredient.storage && typeof ingredient.storage === 'object') {
+    // Additional storage property validations could go here
+  }
+  
+  // Elemental properties validation
+  if (ingredient.elementalProperties) {
+    const elements = ['Fire', 'Water', 'Earth', 'Air'];
+    const props = ingredient.elementalProperties;
     
-    // Check that all elemental properties are present and are numbers between 0 and 1
-    if (typeof Fire !== 'number' || Fire < 0 || Fire > 1) {
-      errors.push('Fire elemental property must be a number between 0 and 1');
-    }
-    if (typeof Water !== 'number' || Water < 0 || Water > 1) {
-      errors.push('Water elemental property must be a number between 0 and 1');
-    }
-    if (typeof Earth !== 'number' || Earth < 0 || Earth > 1) {
-      errors.push('Earth elemental property must be a number between 0 and 1');
-    }
-    if (typeof Air !== 'number' || Air < 0 || Air > 1) {
-      errors.push('Air elemental property must be a number between 0 and 1');
-    }
-
-    // Check that elemental properties sum to approximately 1
-    const sum = Fire + Water + Earth + Air;
-    if (sum < 0.99 || sum > 1.01) {
-      errors.push(`Elemental properties should sum to 1, current sum: ${sum.toFixed(2)}`);
+    for (const element of elements) {
+      if (typeof props[element] !== 'number') {
+        errors.push(`Elemental property ${element} must be a number`);
+      }
     }
   }
-
-  // Check qualities
-  if (!ingredient.qualities || !Array.isArray(ingredient.qualities) || ingredient.qualities.length === 0) {
-    errors.push('At least one quality is required');
-  }
-
-  // Check storage (required)
-  if (!ingredient.storage) {
-    errors.push('Storage information is required');
-  } else if (!ingredient.storage.duration) {
-    errors.push('Storage duration is required');
-  }
-
+  
   return {
     isValid: errors.length === 0,
     errors

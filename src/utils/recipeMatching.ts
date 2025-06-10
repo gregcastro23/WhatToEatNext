@@ -58,6 +58,7 @@ interface MatchFilters {
   astrologicalSign?: string;
   mealType?: string;
   preferHigherContrast?: boolean;
+  preferredComplexity?: number | string;
 }
 
 // Default elemental properties for calculations
@@ -131,11 +132,15 @@ export function findBestMatches(
     matchFilters.dietaryRestrictions.length > 0
   ) {
     filteredRecipes = filteredRecipes.filter((recipe) => {
-      if (!recipe.dietaryTags) return true; // Keep recipes without tags
+      // Extract recipe data with safe property access
+      const recipeData = recipe as any;
+      const dietaryTags = recipeData?.dietaryTags;
+      
+      if (!dietaryTags) return true; // Keep recipes without tags
 
       // Check if any of the restrictions are in the recipe's dietary tags
       let hasRestrictedTag = matchFilters.dietaryRestrictions.some(
-        (restriction) => recipe.dietaryTags.includes(restriction)
+        (restriction) => Array.isArray(dietaryTags) && dietaryTags.includes(restriction)
       );
 
       // If recipe has the restricted tag, exclude it
@@ -178,11 +183,17 @@ export function findBestMatches(
       let hasExcludedIngredient = matchFilters.excludeIngredients.some(
         (excluded) => {
           const lowerExcluded = excluded.toLowerCase();
-          return recipe.ingredients.some((ingredient) =>
-            typeof ingredient === 'string'
-              ? ingredient.toLowerCase().includes(lowerExcluded)
-              : (ingredient as any)?.name?.toLowerCase().includes(lowerExcluded)
-          );
+          return recipe.ingredients.some((ingredient) => {
+            if (typeof ingredient === 'string') {
+              const ingredientStr = ingredient as string;
+              return ingredientStr.toLowerCase().includes(lowerExcluded);
+            } else {
+              // Extract ingredient data with safe property access
+              const ingredientData = ingredient as any;
+              const name = ingredientData?.name;
+              return typeof name === 'string' && name.toLowerCase().includes(lowerExcluded);
+            }
+          });
         }
       );
 
@@ -195,13 +206,19 @@ export function findBestMatches(
   if (matchFilters?.cookingMethods && matchFilters.cookingMethods.length > 0) {
     // Prioritize recipes that use preferred cooking methods
     filteredRecipes = filteredRecipes.sort((a, b) => {
+      // Extract recipe data with safe property access for cooking methods
+      const aData = a as any;
+      const bData = b as any;
+      const aCookingMethods = aData?.cookingMethods;
+      const bCookingMethods = bData?.cookingMethods;
+      
       let aUsesMethod =
-        a.cookingMethods?.some((method) =>
+        Array.isArray(aCookingMethods) && aCookingMethods.some((method) =>
           matchFilters.cookingMethods.includes(method)
         ) || false;
 
       let bUsesMethod =
-        b.cookingMethods?.some((method) =>
+        Array.isArray(bCookingMethods) && bCookingMethods.some((method) =>
           matchFilters.cookingMethods.includes(method)
         ) || false;
 
@@ -352,14 +369,17 @@ let calculateBaseElements = (recipe: Recipe): ElementalProperties => {
       (ingredient as any)?.elementalProperties || DEFAULT_ELEMENTAL_PROPERTIES;
     let nutrition = ingredient.nutritionalProfile;
 
-    // Calculate nutritional boost
-    let nutritionBoost = nutrition
-      ? Math.log1p(
-          nutrition.calories +
-            nutrition.macros.protein * 3 +
-            nutrition.macros.fiber * 2
-        )
-      : 1;
+    // Calculate nutritional boost with safe property access
+    let nutritionBoost = 1;
+    if (nutrition) {
+      const nutritionData = nutrition as any;
+      const calories = nutritionData?.calories || 0;
+      const macros = nutritionData?.macros;
+      const protein = macros?.protein || 0;
+      const fiber = macros?.fiber || 0;
+      
+      nutritionBoost = Math.log1p(calories + protein * 3 + fiber * 2);
+    }
 
     let boostedProps = {
       Fire: baseProps.Fire * nutritionBoost,
@@ -378,9 +398,18 @@ let calculateBaseElements = (recipe: Recipe): ElementalProperties => {
   return elementalUtils.normalizeProperties(elements);
 };
 
+interface EnergyData {
+  zodiacEnergy?: string;
+  lunarEnergy?: string;
+  planetaryEnergy?: string | string[];
+  zodiac?: string;
+  lunar?: string;
+  planetary?: string | string[];
+}
+
 let calculateEnergyMatch = (
-  recipeEnergy: unknown,
-  currentEnergy: unknown
+  recipeEnergy: EnergyData,
+  currentEnergy: EnergyData
 ) => {
   let score = 0;
 
@@ -396,7 +425,7 @@ let calculateEnergyMatch = (
     if (
       isAriesSeason &&
       recipeEnergy.planetary &&
-      recipeEnergy.planetary.includes('Mars')
+      (Array.isArray(recipeEnergy.planetary) ? recipeEnergy.planetary.includes('Mars') : recipeEnergy.planetary === 'Mars')
     ) {
       score += 0.2; // Additional bonus for Mars-influenced recipes during Aries season
     }
@@ -480,11 +509,15 @@ function calculateRecipeEnergyMatch(
 
   // 2. Calculate modality score - use qualities array even if preferredModality doesn't exist
   let qualities = recipe.qualities || [];
+  // Extract currentEnergy data with safe property access for preferredModality
+  const energyData = currentEnergy as any;
+  const preferredModality = energyData?.preferredModality;
+  
   // Check if preferredModality exists in currentEnergy, if not skip this boost
-  if (currentEnergy.preferredModality) {
+  if (preferredModality) {
     let modalityScore = calculateModalityScore(
       qualities,
-      currentEnergy.preferredModality
+      preferredModality
     );
     score += modalityScore * 0.5; // Doubled from 0.25
   }
@@ -563,8 +596,12 @@ function calculateNutritionalAlignment(
   recipe: Recipe,
   currentEnergy: AstrologicalState
 ): number {
+  // Extract currentEnergy data with safe property access for nutritionalNeeds
+  const energyData = currentEnergy as any;
+  const nutritionalNeeds = energyData?.nutritionalNeeds;
+  
   // If there are no nutritional needs or recipe ingredients, return a neutral score
-  if (!recipe.ingredients || !currentEnergy.nutritionalNeeds) {
+  if (!recipe.ingredients || !nutritionalNeeds) {
     return 0.5;
   }
 
@@ -573,8 +610,8 @@ function calculateNutritionalAlignment(
 
   // Adjust based on predefined nutritional needs
   if (
-    currentEnergy.nutritionalNeeds &&
-    currentEnergy.nutritionalNeeds.highProtein &&
+    nutritionalNeeds &&
+    nutritionalNeeds.highProtein &&
     hasHighProtein(recipe)
   ) {
     score += 0.2;
@@ -582,8 +619,8 @@ function calculateNutritionalAlignment(
   }
 
   if (
-    currentEnergy.nutritionalNeeds &&
-    currentEnergy.nutritionalNeeds.lowCarb &&
+    nutritionalNeeds &&
+    nutritionalNeeds.lowCarb &&
     hasLowCarb(recipe)
   ) {
     score += 0.2;
@@ -591,8 +628,8 @@ function calculateNutritionalAlignment(
   }
 
   if (
-    currentEnergy.nutritionalNeeds &&
-    currentEnergy.nutritionalNeeds.highFiber &&
+    nutritionalNeeds &&
+    nutritionalNeeds.highFiber &&
     hasHighFiber(recipe)
   ) {
     score += 0.2;
@@ -600,8 +637,8 @@ function calculateNutritionalAlignment(
   }
 
   if (
-    currentEnergy.nutritionalNeeds &&
-    currentEnergy.nutritionalNeeds.lowFat &&
+    nutritionalNeeds &&
+    nutritionalNeeds.lowFat &&
     hasLowFat(recipe)
   ) {
     score += 0.2;
@@ -619,31 +656,40 @@ function calculateNutritionalAlignment(
 
 // Helper functions for nutritional evaluation
 function hasHighProtein(recipe: Recipe): boolean {
-  return recipe.ingredients.some(
-    (ingredient) => ingredient.nutritionalProfile?.macros.protein > 15
-  );
+  return recipe.ingredients.some((ingredient) => {
+    const nutritionData = ingredient.nutritionalProfile as any;
+    const macros = nutritionData?.macros;
+    const protein = macros?.protein || 0;
+    return protein > 15;
+  });
 }
 
 function hasLowCarb(recipe: Recipe): boolean {
-  let totalCarbs = recipe.ingredients.reduce(
-    (sum, ingredient) =>
-      sum + (ingredient.nutritionalProfile?.macros.carbs || 0),
-    0
-  );
+  let totalCarbs = recipe.ingredients.reduce((sum, ingredient) => {
+    const nutritionData = ingredient.nutritionalProfile as any;
+    const macros = nutritionData?.macros;
+    const carbs = macros?.carbs || 0;
+    return sum + carbs;
+  }, 0);
   return totalCarbs < 30;
 }
 
 function hasHighFiber(recipe: Recipe): boolean {
-  return recipe.ingredients.some(
-    (ingredient) => ingredient.nutritionalProfile?.macros.fiber > 5
-  );
+  return recipe.ingredients.some((ingredient) => {
+    const nutritionData = ingredient.nutritionalProfile as any;
+    const macros = nutritionData?.macros;
+    const fiber = macros?.fiber || 0;
+    return fiber > 5;
+  });
 }
 
 function hasLowFat(recipe: Recipe): boolean {
-  let totalFat = recipe.ingredients.reduce(
-    (sum, ingredient) => sum + (ingredient.nutritionalProfile?.macros.fat || 0),
-    0
-  );
+  let totalFat = recipe.ingredients.reduce((sum, ingredient) => {
+    const nutritionData = ingredient.nutritionalProfile as any;
+    const macros = nutritionData?.macros;
+    const fat = macros?.fat || 0;
+    return sum + fat;
+  }, 0);
   return totalFat < 15;
 }
 
@@ -862,7 +908,8 @@ function getStringSimilarity(str1: string, str2: string): number {
     let longerStr = s1.length > s2.length ? s1 : s2;
     let shorterStr = s1.length > s2.length ? s2 : s1;
     // The shorter the gap between lengths, the higher the score
-    return 0.8 + (shorterStr.length / (longerStr || 1).length) * 0.2;
+    const longerLength = longerStr.length || 1;
+    return 0.8 + (shorterStr.length / longerLength) * 0.2;
   }
 
   // Calculate Levenshtein distance
@@ -1054,8 +1101,10 @@ export let connectIngredientsToMappings = (
     }
 
     // 4. Try matching with swaps if provided
-    if (recipeIngredient.swaps && recipeIngredient.swaps.length > 0) {
-      for (const swap of recipeIngredient.swaps) {
+    const ingredientData = recipeIngredient as any;
+    const swaps = ingredientData?.swaps;
+    if (swaps && Array.isArray(swaps) && swaps.length > 0) {
+      for (const swap of swaps) {
         let swapMatch = ingredientsMap[swap.toLowerCase()];
         if (swapMatch) {
           result.matchedTo = swapMatch as IngredientMapping;
@@ -1177,8 +1226,14 @@ function calculateNutritionalMatch(
 /**
  * Calculate how well a recipe aligns with the user's astrological sign
  */
+interface AstrologicalInfluence {
+  zodiacCompatibility?: Record<string, number>;
+  planetaryAlignment?: Record<string, number>;
+  lunarInfluence?: Record<string, number>;
+}
+
 function calculateAstrologicalMatch(
-  recipeInfluence: unknown,
+  recipeInfluence: AstrologicalInfluence,
   userSign: string
 ): number {
   if (!recipeInfluence || !userSign) return 0.5; // Default to neutral if no data
@@ -1389,9 +1444,14 @@ function calculateAstrologicalMatch(
 
   if (!userElement) return 0.5; // Default to neutral if sign not recognized
 
+  // Extract recipeInfluence data with safe property access
+  const influenceData = recipeInfluence as any;
+  const sign = influenceData?.sign;
+  const elements = influenceData?.elements;
+  
   // If recipe has a specific sign it aligns with
-  if (recipeInfluence.sign) {
-    let recipeSignLower = recipeInfluence.sign.toLowerCase();
+  if (sign) {
+    let recipeSignLower = sign.toLowerCase();
 
     // Direct sign match is very favorable
     if (recipeSignLower === userSignLower) {
@@ -1411,23 +1471,23 @@ function calculateAstrologicalMatch(
   }
 
   // If recipe has elemental influences directly
-  if (recipeInfluence.elements) {
+  if (elements) {
     // Check if recipe has the user's element
-    if (typeof recipeInfluence.elements === 'string') {
-      let singleElement = recipeInfluence.elements.toLowerCase();
+    if (typeof elements === 'string') {
+      let singleElement = elements.toLowerCase();
       return elementCompatibility[userElement][singleElement] || 0.5;
     }
 
     // If recipe has multiple elements, average their compatibility
-    if (Array.isArray(recipeInfluence.elements)) {
+    if (Array.isArray(elements)) {
       let totalCompatibility = 0;
-      recipeInfluence.elements.forEach((element: string) => {
+      elements.forEach((element: string) => {
         let elemLower = element.toLowerCase();
         totalCompatibility +=
           elementCompatibility[userElement][elemLower] || 0.5;
       });
-      return recipeInfluence.elements.length > 0
-        ? totalCompatibility / (recipeInfluence || 1).elements.length
+      return elements.length > 0
+        ? totalCompatibility / elements.length
         : 0.5;
     }
   }

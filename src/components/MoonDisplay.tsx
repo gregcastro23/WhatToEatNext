@@ -113,13 +113,14 @@ const MoonDisplay: React.FC = () => {
     
     // Try both possible property names
     const node = planetaryPositions?.northnode || planetaryPositions?.northNode;
+    const nodeData = node as any;
     
     // Ensure all required properties are present
     return {
-      sign: node?.sign || 'virgo',
-      degree: node?.degree ?? 15,
-      exactLongitude: node?.exactLongitude ?? 165,
-      isRetrograde: node?.isRetrograde ?? true
+      sign: nodeData?.sign || 'virgo',
+      degree: nodeData?.degree ?? 15,
+      exactLongitude: nodeData?.exactLongitude ?? 165,
+      isRetrograde: nodeData?.isRetrograde ?? true
     };
   }, [planetaryPositions]);
   
@@ -131,13 +132,14 @@ const MoonDisplay: React.FC = () => {
     
     // Try both possible property names
     const node = planetaryPositions?.southnode || planetaryPositions?.southNode;
+    const nodeData = node as any;
     
     // Ensure all required properties are present
     return {
-      sign: node?.sign || 'pisces',
-      degree: node?.degree ?? 15,
-      exactLongitude: node?.exactLongitude ?? 345,
-      isRetrograde: node?.isRetrograde ?? true
+      sign: nodeData?.sign || 'pisces',
+      degree: nodeData?.degree ?? 15,
+      exactLongitude: nodeData?.exactLongitude ?? 345,
+      isRetrograde: nodeData?.isRetrograde ?? true
     };
   }, [planetaryPositions]);
 
@@ -145,12 +147,30 @@ const MoonDisplay: React.FC = () => {
   useEffect(() => {
     const getLocation = async () => {
       try {
-        const coords = await AstrologicalService.requestLocation();
-        if (coords) {
-          setCoordinates({
-            latitude: coords.latitude,
-            longitude: coords.longitude
-          });
+        // Use safe method call checking if requestLocation exists
+        if (typeof (AstrologicalService as any).requestLocation === 'function') {
+          const coords = await (AstrologicalService as any).requestLocation();
+          if (coords) {
+            setCoordinates({
+              latitude: coords.latitude,
+              longitude: coords.longitude
+            });
+          }
+        } else {
+          // Fallback: try to get location using browser geolocation API
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+              (position) => {
+                setCoordinates({
+                  latitude: position.coords.latitude,
+                  longitude: position.coords.longitude
+                });
+              },
+              (error) => {
+                errorLog('Geolocation error:', error);
+              }
+            );
+          }
         }
       } catch (error) {
         errorLog('Failed to get location, using default:', error);
@@ -307,7 +327,8 @@ const MoonDisplay: React.FC = () => {
     });
     
     // If the moon position is available and has proper sign information
-    if (planetaryPositions.moon && planetaryPositions.moon.sign) {
+    const moonData = planetaryPositions.moon as any;
+    if (planetaryPositions.moon && moonData?.sign) {
       // No need for additional calculations - the context already has the sign and degree
       debugLog('Moon position available from planetary alignment:', planetaryPositions.moon);
     }
@@ -324,10 +345,12 @@ const MoonDisplay: React.FC = () => {
     
     // Check for north node data only once when positions are available
     const northNodeMissing = !planetaryPositions.northNode && !planetaryPositions.northnode;
+    const moonData = planetaryPositions.moon as any;
+    const northNodeData = (planetaryPositions.northNode || planetaryPositions.northnode) as any;
     const northNodeIncomplete = 
-      (planetaryPositions.northNode && !planetaryPositions.northNode.sign) || 
-      (planetaryPositions.northnode && !planetaryPositions.northnode.sign);
-    
+      (planetaryPositions.northNode && !northNodeData?.sign) || 
+      (planetaryPositions.northnode && !northNodeData?.sign);
+      
     if (northNodeMissing || northNodeIncomplete) {
       // Log only once
       console.warn('North Node data missing or incomplete:', {
@@ -359,10 +382,16 @@ const MoonDisplay: React.FC = () => {
         <div>
           <p className="font-medium capitalize">{moonPhase.phase.replace(/_/g, ' ')}</p>
           <p className="text-sm text-gray-300">
-            {moon && moon.sign 
-              ? `Moon in ${capitalizeFirstLetter(moon.sign)} ${formatDegree(moon.degree)}` 
-              : 'Loading...'}
-            {moon && moon.isRetrograde ? ' ℞' : ''}
+            {(() => {
+              const moonData = moon as any;
+              return moonData?.sign 
+                ? `Moon in ${capitalizeFirstLetter(moonData.sign)} ${formatDegree(moonData.degree)}` 
+                : 'Loading...';
+            })()}
+            {(() => {
+              const moonData = moon as any;
+              return moonData?.isRetrograde ? ' ℞' : '';
+            })()}
           </p>
           <p className="text-xs text-gray-400">{moonPhase.illumination}% illuminated</p>
         </div>

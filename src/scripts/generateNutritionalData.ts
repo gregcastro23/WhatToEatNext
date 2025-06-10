@@ -182,11 +182,12 @@ function transformUSDADataToNutritionalProfile(
 
   // Process all nutrient formats
   food.foodNutrients.forEach((nutrient: unknown) => {
+    const nutrientData = nutrient as any;
     // Extract ID and value (handling different API response formats)
     const id =
-      nutrient.nutrientId || nutrient.nutrient?.id || nutrient.number || '';
-    const value = nutrient.amount || nutrient.value || 0;
-    const legacyId = nutrient.nutrient?.number || '';
+      nutrientData?.nutrientId || nutrientData?.nutrient?.id || nutrientData?.number || '';
+    const value = nutrientData?.amount || nutrientData?.value || 0;
+    const legacyId = nutrientData?.nutrient?.number || '';
 
     // Store nutrient value by both modern and legacy IDs
     if (id) nutrients[id.toString()] = value;
@@ -249,13 +250,14 @@ function transformUSDADataToNutritionalProfile(
   // Handle SR Legacy format with name-based lookup if needed
   if (food.dataType === 'SR Legacy') {
     food.foodNutrients.forEach((nutrient: unknown) => {
+      const nutrientData = nutrient as any;
       const name = (
-        nutrient.nutrient?.name ||
-        nutrient.name ||
-        nutrient.nutrientName ||
+        nutrientData?.nutrient?.name ||
+        nutrientData?.name ||
+        nutrientData?.nutrientName ||
         ''
       ).toLowerCase();
-      const value = nutrient.amount || nutrient.value || 0;
+      const value = nutrientData?.amount || nutrientData?.value || 0;
 
       if (name.includes('vitamin a, ')) vitamins.A = value / 900;
       else if (name.includes('vitamin c')) vitamins.C = value / 90;
@@ -323,16 +325,16 @@ async function findBestFoodMatch(query: string): Promise<USDAFood | null> {
     }
 
     // Prioritize SR Legacy and Foundation foods
-    const bestMatch = null;
+    let bestMatch = null;
 
     // First try SR Legacy
     bestMatch = searchData.foods.find(
-      (f: unknown) => f.dataType === 'SR Legacy'
+      (f: unknown) => (f as any)?.dataType === 'SR Legacy'
     );
     // If not found, try Foundation
     if (!bestMatch) {
       bestMatch = searchData.foods.find(
-        (f: unknown) => f.dataType === 'Foundation'
+        (f: unknown) => (f as any)?.dataType === 'Foundation'
       );
     }
     // If still not found, use the first result
@@ -340,7 +342,7 @@ async function findBestFoodMatch(query: string): Promise<USDAFood | null> {
       bestMatch = searchData.foods[0];
     }
 
-    const fdcId = bestMatch.fdcId;
+    const fdcId = (bestMatch as any)?.fdcId;
     // console.log(`Found food: ${bestMatch.description} (${fdcId}) [${bestMatch.dataType}]`);
 
     // Get detailed data using the best endpoint for complete vitamin data
@@ -399,10 +401,11 @@ async function findBestFoodMatch(query: string): Promise<USDAFood | null> {
 // Count vitamins in a nutrients array
 function countVitamins(nutrients: unknown[]): number {
   return nutrients.filter((n: unknown) => {
+    const nutrientData = n as any;
     const name = (
-      n.nutrient?.name ||
-      n.nutrientName ||
-      n.name ||
+      nutrientData?.nutrient?.name ||
+      nutrientData?.nutrientName ||
+      nutrientData?.name ||
       ''
     ).toLowerCase();
     return name.includes('vitamin');

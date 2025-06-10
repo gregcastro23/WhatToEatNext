@@ -25,6 +25,16 @@ interface RecipeData {
   spiceLevel?: number | string;
   preparationSteps?: string[];
   instructions?: string[];
+  // Additional properties that are accessed in the code
+  elementalProperties?: ElementalProperties | Record<string, number>;
+  astrologicalAffinities?: {
+    planets?: string[];
+    zodiac?: string[];
+    lunar?: string[];
+  };
+  zodiacInfluences?: string[];
+  lunarPhaseInfluences?: string[];
+  allergens?: string[];
 }
 
 interface EnhancedRecipeMatch {
@@ -166,8 +176,8 @@ export class EnhancedCuisineRecommender {
 
       return {
         cuisine: cuisineName,
-        recipeName: recipe.name,
-        recipeId: recipe.id || recipe.name.toLowerCase().replace(/\s+/g, '-'),
+        recipeName: recipe.name || 'Unknown Recipe',
+        recipeId: recipe.id || recipe.name?.toLowerCase().replace(/\s+/g, '-') || 'unknown',
         matchPercentage,
         seasonalScore,
         planetaryDayScore,
@@ -376,7 +386,7 @@ export class EnhancedCuisineRecommender {
     const nocturnalMatch = recipeElementals[nocturnalElement] || 0;
 
     // Calculate a weighted score - both elements are equally important for planetary day
-    const elementalScore = (diurnalMatch + nocturnalMatch) / 2;
+    let elementalScore = (diurnalMatch + nocturnalMatch) / 2;
 
     // If the recipe has a direct planetary affinity, give bonus points
     if (
@@ -442,7 +452,7 @@ export class EnhancedCuisineRecommender {
     const elementalMatch = recipeElementals[relevantElement] || 0;
 
     // Calculate a score based on how well the recipe matches the planetary hour's element
-    const elementalScore = elementalMatch;
+    let elementalScore = elementalMatch;
 
     // If the recipe has a direct planetary affinity, give bonus points
     if (
@@ -486,7 +496,7 @@ export class EnhancedCuisineRecommender {
     recipe: RecipeData,
     astroState: AstrologicalState
   ): number {
-    const score = 0.5; // Start with neutral score
+    let score = 0.5; // Start with neutral score
 
     // Check zodiac influences
     if (

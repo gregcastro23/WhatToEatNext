@@ -96,9 +96,10 @@ export const CurrentChartProvider: React.FC<{children: React.ReactNode}> = ({ ch
   const calculateStelliums = (positions: Record<string, unknown>): Record<string, string[]> => {
     const signGroups: Record<string, string[]> = {};
     Object.entries(positions).forEach(([planet, data]) => {
-      if (planet === 'ascendant' || !data || !data.sign) return;
+      const planetData = data as any;
+      if (planet === 'ascendant' || !data || !planetData?.sign) return;
       
-      const sign = data.sign;
+      const sign = planetData.sign;
       if (!signGroups[sign]) {
         signGroups[sign] = [];
       }
@@ -124,9 +125,10 @@ export const CurrentChartProvider: React.FC<{children: React.ReactNode}> = ({ ch
     };
 
     Object.entries(positions).forEach(([planet, data]) => {
-      if (planet === 'ascendant' || !data || !data.sign) return;
+      const planetData = data as any;
+      if (planet === 'ascendant' || !data || !planetData?.sign) return;
       
-      const sign = data.sign;
+      const sign = planetData.sign;
       const element = getElementFromSign(sign);
       if (element) {
         houseEffects[element] += 1;
@@ -224,27 +226,30 @@ export const CurrentChartProvider: React.FC<{children: React.ReactNode}> = ({ ch
     Object.entries(chart.planetaryPositions).forEach(([key, data]) => {
       if (key === 'ascendant') return;
       
+      const planetData = data as any;
       const planetName = key.charAt(0).toUpperCase() + key.slice(1);
       formattedPlanets[planetName] = {
-        sign: data.sign || 'Unknown',
-        degree: data.degree || 0,
-        isRetrograde: data.isRetrograde || false,
-        exactLongitude: data.exactLongitude || 0,
+        sign: planetData?.sign || 'Unknown',
+        degree: planetData?.degree || 0,
+        isRetrograde: planetData?.isRetrograde || false,
+        exactLongitude: planetData?.exactLongitude || 0,
       };
     });
     
     // Create a basic SVG representation
+    const ascendantData = chart.planetaryPositions.ascendant as any;
     return {
       planetPositions: formattedPlanets,
-      ascendantSign: chart.planetaryPositions.ascendant?.sign || 'Libra',
+      ascendantSign: ascendantData?.sign || 'Libra',
       svgContent: `<svg width="300" height="300" viewBox="0 0 300 300">
         <circle cx="150" cy="150" r="140" fill="none" stroke="#333" stroke-width="1"/>
         <text x="150" y="20" text-anchor="middle">Current Chart</text>
         ${Object.entries(formattedPlanets).map(([planet, data], index) => {
+          const planetInfo = data as any;
           const angle = (index * 30) % 360;
           const x = 150 + 120 * Math.cos(angle * Math.PI / 180);
           const y = 150 + 120 * Math.sin(angle * Math.PI / 180);
-          return `<text x="${x}" y="${y}" text-anchor="middle">${planet}: ${data.sign}</text>`;
+          return `<text x="${x}" y="${y}" text-anchor="middle">${planet}: ${planetInfo?.sign}</text>`;
         }).join('')}
       </svg>`
     };
@@ -268,20 +273,22 @@ export const useCurrentChart = () => {
   }
   
   // Return the same interface that standalone hook would return for compatibility
+  const ascendantData = context.chart.planetaryPositions.ascendant as any;
   return {
     chartData: {
       planets: Object.entries(context.chart.planetaryPositions).reduce((acc, [key, data]) => {
         if (key === 'ascendant') return acc;
+        const planetData = data as any;
         const planetName = key.charAt(0).toUpperCase() + key.slice(1);
         acc[planetName] = {
-          sign: data.sign || 'Unknown',
-          degree: data.degree || 0,
-          isRetrograde: data.isRetrograde || false,
-          exactLongitude: data.exactLongitude || 0,
+          sign: planetData?.sign || 'Unknown',
+          degree: planetData?.degree || 0,
+          isRetrograde: planetData?.isRetrograde || false,
+          exactLongitude: planetData?.exactLongitude || 0,
         };
         return acc;
       }, {} as Record<string, unknown>),
-      ascendant: context.chart.planetaryPositions.ascendant?.sign
+      ascendant: ascendantData?.sign
     },
     createChartSvg: context.createChartSvg,
     isLoading: context.loading,

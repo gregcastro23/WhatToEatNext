@@ -76,7 +76,7 @@ export let validateElementalProperties = (
 ): boolean => {
   // If properties is null or undefined, return false immediately
   if (!properties) {
-    ErrorHandler.warnNullValue('properties', 'validateElementalProperties');
+    console.warn('Warning: properties is null or undefined in validateElementalProperties');
     return false;
   }
 
@@ -84,7 +84,7 @@ export let validateElementalProperties = (
   let requiredElements = ['Fire', 'Water', 'Earth', 'Air'];
   for (const element of requiredElements) {
     if (typeof properties[element] !== 'number') {
-      ErrorHandler.warnNullValue(`properties.${element}`, 'validateElementalProperties');
+      console.warn(`Warning: properties.${element} is not a number in validateElementalProperties`);
       return false;
     }
 
@@ -124,7 +124,7 @@ export let normalizeProperties = (
 ): ElementalProperties => {
   // Handle null or undefined
   if (!properties) {
-    ErrorHandler.warnNullValue('properties', 'normalizeProperties');
+    console.warn('Warning: properties is null or undefined in normalizeProperties');
     return { ...DEFAULT_ELEMENTAL_PROPERTIES };
   }
 
@@ -140,7 +140,7 @@ export let normalizeProperties = (
 
   if (sum === 0) {
     // If sum is 0, return balanced default
-    ErrorHandler.warnNullValue('properties (sum is 0)', 'normalizeProperties');
+    console.warn('Warning: properties sum is 0 in normalizeProperties');
     return { ...DEFAULT_ELEMENTAL_PROPERTIES };
   }
 
@@ -150,7 +150,7 @@ export let normalizeProperties = (
       acc[key] = value /sum;
     } else {
       // This shouldn't happen with the type-safety above, but just in case
-      ErrorHandler.warnNullValue(`invalid key: ${key}`, 'normalizeProperties');
+      console.warn(`Warning: invalid key ${key} in normalizeProperties`);
     }
     return acc;
   }, { ...DEFAULT_ELEMENTAL_PROPERTIES });
@@ -169,7 +169,7 @@ export let standardizeRecipeElements = <
 ): T & { elementalProperties: ElementalProperties } => {
   // Handle null /undefined recipe
   if (!recipe) {
-    ErrorHandler.warnNullValue('recipe', 'standardizeRecipeElements');
+    console.warn('Warning: recipe is null or undefined in standardizeRecipeElements');
     return {
       elementalProperties: { ...DEFAULT_ELEMENTAL_PROPERTIES }
     } as T & { elementalProperties: ElementalProperties };
@@ -210,7 +210,7 @@ export let getMissingElements = (
 
   // Check for null /undefined
   if (!properties) {
-    ErrorHandler.warnNullValue('properties', 'getMissingElements');
+    console.warn('Warning: properties is null or undefined in getMissingElements');
     return ['Fire', 'Water', 'Earth', 'Air']; // Return all elements as missing
   }
 
@@ -611,8 +611,10 @@ export function transformItemsWithPlanetaryPositions(
         .sort(([_, valA], [__, valB]) => {
           // Sort by strength /dignity if available
           if (typeof valA === 'object' && typeof valB === 'object') {
-            let strengthA = valA.strength || 0;
-            let strengthB = valB.strength || 0;
+            const dataA = valA as any;
+            const dataB = valB as any;
+            let strengthA = dataA?.strength || 0;
+            let strengthB = dataB?.strength || 0;
             return strengthB - strengthA;
           }
           // Default sort for simple numeric values
@@ -702,8 +704,9 @@ export function normalizeElementalValues(
 export function getPrimaryElement(
   elementalAffinity: ElementalAffinity
 ): string {
+  const affinityData = elementalAffinity as any;
   return (
-    elementalAffinity.base || (elementalAffinity.element as string) || 'Fire'
+    affinityData?.base || affinityData?.element || 'Fire'
   );
 }
 
@@ -711,7 +714,8 @@ export function getPrimaryElement(
 export function getElementStrength(
   elementalAffinity: ElementalAffinity
 ): number {
-  return elementalAffinity.strength || 1;
+  const affinityData = elementalAffinity as any;
+  return affinityData?.strength || 1;
 }
 
 /**
@@ -789,13 +793,14 @@ export function fixRawIngredientMappings(
     // Skip null or undefined values
     if (!value) return acc;
 
+    const valueData = value as any;
     // Ensure elemental properties are normalized
     let elementalProperties = normalizeProperties(
-      value.elementalProperties || {}
+      valueData?.elementalProperties || {}
     );
 
     // Create a standardized astrological profile if one doesn't exist
-    let astroProfile = value.astrologicalProfile || {};
+    let astroProfile = valueData?.astrologicalProfile || {};
 
     // Determine base elemental affinity if not provided
     if (!astroProfile.elementalAffinity) {
@@ -808,24 +813,12 @@ export function fixRawIngredientMappings(
       };
     }
 
-    // Convert string elemental affinity to object format
-    if (typeof astroProfile.elementalAffinity === 'string') {
-      astroProfile.elementalAffinity = {
-        base: astroProfile.elementalAffinity,
-      };
-    }
-
-    // Ensure ruling planets is an array
-    if (!astroProfile.rulingPlanets) {
-      astroProfile.rulingPlanets = [];
-    }
-
     acc[key] = {
       ...value,
+      name: valueData?.name || key.replace(/_/g, ' '),
+      category: valueData?.category || 'ingredient',
       elementalProperties,
       astrologicalProfile: astroProfile,
-      name: value.name || key,
-      category: value.category || 'unknown',
     };
 
     return acc;
@@ -1351,9 +1344,10 @@ export function enhanceOilProperties(
       Object.entries(enhancedOil.culinaryApplications).forEach(
         ([appType, application]) => {
           if (application && typeof application === 'object') {
+            const appData = application as any;
             enhancedOil.culinaryApplications[appType] = {
               ...application,
-              elementalEffect: application.elementalEffect || {
+              elementalEffect: appData?.elementalEffect || {
                 Fire:
                   appType === 'frying' ||
                   appType === 'cooking' ||
@@ -1367,7 +1361,7 @@ export function enhanceOilProperties(
                 Air:
                   appType === 'emulsion' || appType === 'whipping' ? 0.2 : 0.1,
               },
-              alchemicalEffect: application.alchemicalEffect || {
+              alchemicalEffect: appData?.alchemicalEffect || {
                 spirit:
                   appType === 'finishing' || appType === 'infusion' ? 0.2 : 0.1,
                 essence:

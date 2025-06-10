@@ -63,9 +63,14 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
         )}
       </div>
       
-      {ingredient.description && (
-        <p className="text-sm text-gray-600 mt-2 italic">{ingredient.description}</p>
-      )}
+      {/* Show description if available with safe property access */}
+      {(() => {
+        const ingredientData = ingredient as any;
+        const description = ingredientData?.description;
+        return description ? (
+          <p className="text-sm text-gray-600 mt-2 italic">{description}</p>
+        ) : null;
+      })()}
       
       {/* Show category if available */}
       {ingredient.category && (
@@ -105,171 +110,226 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
             </div>
           </div>
           
-          {/* Energy Profile Section */}
-          {ingredient.energyProfile && (
-            <div className="bg-white/60 rounded-md p-3 shadow-sm">
-              <div className="flex items-center mb-2">
-                <Star className="w-4 h-4 mr-2 text-amber-500" />
-                <h4 className="text-sm font-medium">Energy Profile</h4>
-              </div>
-              <div className="text-xs space-y-1">
-                {ingredient.energyProfile.zodiac?.length > 0 && (
-                  <div className="flex flex-wrap gap-1">
-                    <span className="font-medium">Zodiac:</span>
-                    {ingredient.energyProfile.zodiac.map(sign => (
-                      <span key={sign} className="px-2 py-0.5 bg-amber-100 text-amber-800 rounded-full">{sign}</span>
-                    ))}
-                  </div>
-                )}
-                
-                {ingredient.energyProfile.lunar?.length > 0 && (
-                  <div className="flex flex-wrap gap-1">
-                    <span className="font-medium">Lunar:</span>
-                    {ingredient.energyProfile.lunar.map(phase => (
-                      <span key={phase} className="px-2 py-0.5 bg-indigo-100 text-indigo-800 rounded-full">{phase}</span>
-                    ))}
-                  </div>
-                )}
-                
-                {ingredient.energyProfile.planetary?.length > 0 && (
-                  <div className="flex flex-wrap gap-1">
-                    <span className="font-medium">Planetary:</span>
-                    {ingredient.energyProfile.planetary.map(alignment => (
-                      <span key={alignment} className="px-2 py-0.5 bg-violet-100 text-violet-800 rounded-full">{alignment}</span>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
-          )}
-          
-          {/* Sensory Profile Section */}
-          {ingredient.sensoryProfile && (
-            <div className="bg-white/60 rounded-md p-3 shadow-sm">
-              <div className="flex items-center mb-2">
-                <Thermometer className="w-4 h-4 mr-2 text-orange-500" />
-                <h4 className="text-sm font-medium">Sensory Profile</h4>
-              </div>
-              {ingredient.sensoryProfile.taste && (
-                <div>
-                  <h5 className="text-xs font-medium mb-1">Taste</h5>
-                  <div className="grid grid-cols-2 gap-2">
-                    {Object.entries(ingredient.sensoryProfile.taste).map(([taste, value]) => (
-                      <div key={taste} className="flex items-center justify-between">
-                        <span className="text-xs capitalize">{taste}</span>
-                        <div className="relative w-20 h-2 bg-gray-200 rounded-full overflow-hidden">
-                          <div 
-                            className="absolute h-full bg-gradient-to-r from-orange-300 to-orange-500 rounded-full"
-                            style={{ width: `${Math.min(100, (value as number * 100) || 0)}%` }}
-                          ></div>
-                        </div>
+          {/* Energy Profile Section with safe property access */}
+          {(() => {
+            const ingredientData = ingredient as any;
+            const energyProfile = ingredientData?.energyProfile;
+            
+            if (!energyProfile) return null;
+            
+            return (
+              <div className="bg-white/60 rounded-md p-3 shadow-sm">
+                <div className="flex items-center mb-2">
+                  <Star className="w-4 h-4 mr-2 text-amber-500" />
+                  <h4 className="text-sm font-medium">Energy Profile</h4>
+                </div>
+                <div className="text-xs space-y-1">
+                  {(() => {
+                    const zodiac = energyProfile?.zodiac;
+                    return zodiac?.length > 0 ? (
+                      <div className="flex flex-wrap gap-1">
+                        <span className="font-medium">Zodiac:</span>
+                        {zodiac.map((sign: string) => (
+                          <span key={sign} className="px-2 py-0.5 bg-amber-100 text-amber-800 rounded-full">{sign}</span>
+                        ))}
                       </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-              
-              {ingredient.sensoryProfile.aroma && (
-                <div className="mt-2">
-                  <h5 className="text-xs font-medium mb-1">Aroma</h5>
-                  <div className="flex flex-wrap gap-1">
-                    {Object.entries(ingredient.sensoryProfile.aroma)
-                      .filter(([_, value]) => value > 0.3) // Only show significant aromas
-                      .map(([aroma, _]) => (
-                        <span key={aroma} className="px-2 py-0.5 bg-orange-100 text-orange-800 rounded-full text-xs">
-                          {aroma}
-                        </span>
-                      ))
-                    }
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
-          
-          {/* Cooking Methods Section */}
-          {ingredient.recommendedCookingMethods?.length > 0 && (
-            <div className="bg-white/60 rounded-md p-3 shadow-sm">
-              <div className="flex items-center mb-2">
-                <ChefHat className="w-4 h-4 mr-2 text-emerald-600" />
-                <h4 className="text-sm font-medium">Cooking Methods</h4>
-              </div>
-              <div className="flex flex-wrap gap-1">
-                {ingredient.recommendedCookingMethods.map((method) => (
-                  <span key={method} className="text-xs px-2 py-1 bg-emerald-100 text-emerald-800 rounded-full">
-                    {method}
-                  </span>
-                ))}
-              </div>
-            </div>
-          )}
-          
-          {/* Pairing Recommendations */}
-          {ingredient.pairingRecommendations && (
-            <div className="bg-white/60 rounded-md p-3 shadow-sm">
-              <h4 className="text-sm font-medium mb-2">Pairing Recommendations</h4>
-              
-              {ingredient.pairingRecommendations.complementary?.length > 0 && (
-                <div className="mb-2">
-                  <h5 className="text-xs font-medium text-green-600 mb-1">Complementary</h5>
-                  <div className="flex flex-wrap gap-1">
-                    {ingredient.pairingRecommendations.complementary.map((item) => (
-                      <span key={item} className="text-xs px-2 py-0.5 bg-green-100 text-green-800 rounded-full">
-                        {item}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
-              
-              {ingredient.pairingRecommendations.contrasting?.length > 0 && (
-                <div className="mb-2">
-                  <h5 className="text-xs font-medium text-amber-600 mb-1">Contrasting</h5>
-                  <div className="flex flex-wrap gap-1">
-                    {ingredient.pairingRecommendations.contrasting.map((item) => (
-                      <span key={item} className="text-xs px-2 py-0.5 bg-amber-100 text-amber-800 rounded-full">
-                        {item}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
-              
-              {ingredient.pairingRecommendations.toAvoid?.length > 0 && (
-                <div>
-                  <h5 className="text-xs font-medium text-red-600 mb-1">To Avoid</h5>
-                  <div className="flex flex-wrap gap-1">
-                    {ingredient.pairingRecommendations.toAvoid.map((item) => (
-                      <span key={item} className="text-xs px-2 py-0.5 bg-red-100 text-red-800 rounded-full">
-                        {item}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
-          
-          {/* Nutrition Details */}
-          {ingredient.nutrition && (
-            <div className="bg-white/60 rounded-md p-3 shadow-sm">
-              <h4 className="text-sm font-medium mb-2">Nutrition (per 100g)</h4>
-              <div className="grid grid-cols-2 gap-2">
-                <div className="text-xs">
-                  <span className="font-medium">Calories:</span> {formatNumber(ingredient.nutrition.calories, 0)}
-                </div>
-                <div className="text-xs">
-                  <span className="font-medium">Protein:</span> {formatNumber(ingredient.nutrition.protein)}g
-                </div>
-                <div className="text-xs">
-                  <span className="font-medium">Carbs:</span> {formatNumber(ingredient.nutrition.carbs)}g
-                </div>
-                <div className="text-xs">
-                  <span className="font-medium">Fat:</span> {formatNumber(ingredient.nutrition.fat)}g
+                    ) : null;
+                  })()}
+                  
+                  {(() => {
+                    const lunar = energyProfile?.lunar;
+                    return lunar?.length > 0 ? (
+                      <div className="flex flex-wrap gap-1">
+                        <span className="font-medium">Lunar:</span>
+                        {lunar.map((phase: string) => (
+                          <span key={phase} className="px-2 py-0.5 bg-indigo-100 text-indigo-800 rounded-full">{phase}</span>
+                        ))}
+                      </div>
+                    ) : null;
+                  })()}
+                  
+                  {(() => {
+                    const planetary = energyProfile?.planetary;
+                    return planetary?.length > 0 ? (
+                      <div className="flex flex-wrap gap-1">
+                        <span className="font-medium">Planetary:</span>
+                        {planetary.map((alignment: string) => (
+                          <span key={alignment} className="px-2 py-0.5 bg-violet-100 text-violet-800 rounded-full">{alignment}</span>
+                        ))}
+                      </div>
+                    ) : null;
+                  })()}
                 </div>
               </div>
-            </div>
-          )}
+            );
+          })()}
+          
+          {/* Sensory Profile Section with safe property access */}
+          {(() => {
+            const ingredientData = ingredient as any;
+            const sensoryProfile = ingredientData?.sensoryProfile;
+            
+            if (!sensoryProfile) return null;
+            
+            return (
+              <div className="bg-white/60 rounded-md p-3 shadow-sm">
+                <div className="flex items-center mb-2">
+                  <Thermometer className="w-4 h-4 mr-2 text-orange-500" />
+                  <h4 className="text-sm font-medium">Sensory Profile</h4>
+                </div>
+                {(() => {
+                  const taste = sensoryProfile?.taste;
+                  return taste ? (
+                    <div>
+                      <h5 className="text-xs font-medium mb-1">Taste</h5>
+                      <div className="grid grid-cols-2 gap-2">
+                        {Object.entries(taste).map(([tasteName, value]) => (
+                          <div key={tasteName} className="flex items-center justify-between">
+                            <span className="text-xs capitalize">{tasteName}</span>
+                            <div className="relative w-20 h-2 bg-gray-200 rounded-full overflow-hidden">
+                              <div 
+                                className="absolute h-full bg-gradient-to-r from-orange-300 to-orange-500 rounded-full"
+                                style={{ width: `${Math.min(100, (value as number * 100) || 0)}%` }}
+                              ></div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ) : null;
+                })()}
+                
+                {(() => {
+                  const aroma = sensoryProfile?.aroma;
+                  return aroma ? (
+                    <div className="mt-2">
+                      <h5 className="text-xs font-medium mb-1">Aroma</h5>
+                      <div className="flex flex-wrap gap-1">
+                        {Object.entries(aroma)
+                          .filter(([_, value]) => (value as number) > 0.3) // Only show significant aromas
+                          .map(([aromaName, _]) => (
+                            <span key={aromaName} className="px-2 py-0.5 bg-orange-100 text-orange-800 rounded-full text-xs">
+                              {aromaName}
+                            </span>
+                          ))
+                        }
+                      </div>
+                    </div>
+                  ) : null;
+                })()}
+              </div>
+            );
+          })()}
+          
+          {/* Cooking Methods Section with safe property access */}
+          {(() => {
+            const ingredientData = ingredient as any;
+            const recommendedCookingMethods = ingredientData?.recommendedCookingMethods;
+            
+            return recommendedCookingMethods?.length > 0 ? (
+              <div className="bg-white/60 rounded-md p-3 shadow-sm">
+                <div className="flex items-center mb-2">
+                  <ChefHat className="w-4 h-4 mr-2 text-emerald-600" />
+                  <h4 className="text-sm font-medium">Cooking Methods</h4>
+                </div>
+                <div className="flex flex-wrap gap-1">
+                  {recommendedCookingMethods.map((method: string) => (
+                    <span key={method} className="text-xs px-2 py-1 bg-emerald-100 text-emerald-800 rounded-full">
+                      {method}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ) : null;
+          })()}
+          
+          {/* Pairing Recommendations with safe property access */}
+          {(() => {
+            const ingredientData = ingredient as any;
+            const pairingRecommendations = ingredientData?.pairingRecommendations;
+            
+            if (!pairingRecommendations) return null;
+            
+            return (
+              <div className="bg-white/60 rounded-md p-3 shadow-sm">
+                <h4 className="text-sm font-medium mb-2">Pairing Recommendations</h4>
+                
+                {(() => {
+                  const complementary = pairingRecommendations?.complementary;
+                  return complementary?.length > 0 ? (
+                    <div className="mb-2">
+                      <h5 className="text-xs font-medium text-green-600 mb-1">Complementary</h5>
+                      <div className="flex flex-wrap gap-1">
+                        {complementary.map((item: string) => (
+                          <span key={item} className="text-xs px-2 py-0.5 bg-green-100 text-green-800 rounded-full">
+                            {item}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  ) : null;
+                })()}
+                
+                {(() => {
+                  const contrasting = pairingRecommendations?.contrasting;
+                  return contrasting?.length > 0 ? (
+                    <div className="mb-2">
+                      <h5 className="text-xs font-medium text-amber-600 mb-1">Contrasting</h5>
+                      <div className="flex flex-wrap gap-1">
+                        {contrasting.map((item: string) => (
+                          <span key={item} className="text-xs px-2 py-0.5 bg-amber-100 text-amber-800 rounded-full">
+                            {item}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  ) : null;
+                })()}
+                
+                {(() => {
+                  const toAvoid = pairingRecommendations?.toAvoid;
+                  return toAvoid?.length > 0 ? (
+                    <div>
+                      <h5 className="text-xs font-medium text-red-600 mb-1">To Avoid</h5>
+                      <div className="flex flex-wrap gap-1">
+                        {toAvoid.map((item: string) => (
+                          <span key={item} className="text-xs px-2 py-0.5 bg-red-100 text-red-800 rounded-full">
+                            {item}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  ) : null;
+                })()}
+              </div>
+            );
+          })()}
+          
+          {/* Nutrition Details with safe property access */}
+          {(() => {
+            const ingredientData = ingredient as any;
+            const nutrition = ingredientData?.nutrition;
+            
+            return nutrition ? (
+              <div className="bg-white/60 rounded-md p-3 shadow-sm">
+                <h4 className="text-sm font-medium mb-2">Nutrition (per 100g)</h4>
+                <div className="grid grid-cols-2 gap-2">
+                  <div className="text-xs">
+                    <span className="font-medium">Calories:</span> {formatNumber(nutrition.calories, 0)}
+                  </div>
+                  <div className="text-xs">
+                    <span className="font-medium">Protein:</span> {formatNumber(nutrition.protein)}g
+                  </div>
+                  <div className="text-xs">
+                    <span className="font-medium">Carbs:</span> {formatNumber(nutrition.carbs)}g
+                  </div>
+                  <div className="text-xs">
+                    <span className="font-medium">Fat:</span> {formatNumber(nutrition.fat)}g
+                  </div>
+                </div>
+              </div>
+            ) : null;
+          })()}
         </div>
       )}
     </div>

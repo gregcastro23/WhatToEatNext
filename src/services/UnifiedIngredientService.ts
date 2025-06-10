@@ -275,7 +275,10 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     
     return (allIngredients || []).filter(ingredient => {
       const metrics = this.calculateThermodynamicMetrics(ingredient);
-      return metrics.kalchm > threshold;
+      // Extract thermodynamic metrics with safe property access
+      const metricsData = metrics as any;
+      const kalchmValue = metricsData?.kalchm || 0;
+      return kalchmValue > threshold;
     });
   }
   
@@ -403,11 +406,11 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     options: IngredientRecommendationOptions = {}
   ): UnifiedIngredient[] {
     const allIngredients = this.getAllIngredientsFlat();
-    const { 
-      maxResults = 10, 
-      optimizeForSeason = true,
-      includeExotic = false
-    } = options;
+    // Extract options with safe property access for missing properties
+    const optionsData = options as any;
+    const maxResults = optionsData?.maxResults || 10;
+    const optimizeForSeason = optionsData?.optimizeForSeason !== undefined ? optionsData.optimizeForSeason : true;
+    const includeExotic = optionsData?.includeExotic !== undefined ? optionsData.includeExotic : false;
     
     // Filter out exotic ingredients if not requested
     let candidates = includeExotic 
@@ -640,8 +643,12 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
         return false;
       }
       
-      if (filter.maxFiber !== undefined && 
-          (nutrition.fiber || 0) > filter.maxFiber) {
+      // Extract filter data with safe property access for maxFiber
+      const filterData = filter as any;
+      const maxFiber = filterData?.maxFiber;
+      
+      if (maxFiber !== undefined && 
+          (nutrition.fiber || 0) > maxFiber) {
         return false;
       }
       
@@ -657,12 +664,15 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       }
       
       // Check vitamins
-      if (filter.vitamins && (ingredient || []).length > 0) {
-        if (!nutrition.vitamins || (ingredient || []).length === 0) {
+      // Extract filter vitamins with safe property access
+      const filterVitamins = filterData?.vitamins;
+      
+      if (filterVitamins && Array.isArray(filterVitamins)) {
+        if (!nutrition.vitamins) {
           return false;
         }
         
-        const hasAllVitamins = filter.vitamins.every(vitamin => 
+        const hasAllVitamins = filterVitamins.every(vitamin => 
           nutrition.vitamins && Array.isArray(nutrition.vitamins) 
             ? nutrition.vitamins.includes(vitamin) 
             : nutrition.vitamins === vitamin
@@ -674,12 +684,15 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       }
       
       // Check minerals
-      if (filter.minerals && (ingredient || []).length > 0) {
-        if (!nutrition.minerals || (ingredient || []).length === 0) {
+      // Extract filter minerals with safe property access
+      const filterMinerals = filterData?.minerals;
+      
+      if (filterMinerals && Array.isArray(filterMinerals)) {
+        if (!nutrition.minerals) {
           return false;
         }
         
-        const hasAllMinerals = filter.minerals.every(mineral => 
+        const hasAllMinerals = filterMinerals.every(mineral => 
           nutrition.minerals && Array.isArray(nutrition.minerals) 
             ? nutrition.minerals.includes(mineral) 
             : nutrition.minerals === mineral
@@ -691,17 +704,22 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       }
       
       // Check high protein flag
-      if (filter.highProtein && (nutrition.protein || 0) < 15) {
+      // Extract additional filter flags with safe property access
+      const highProtein = filterData?.highProtein;
+      const lowCarb = filterData?.lowCarb;
+      const lowFat = filterData?.lowFat;
+      
+      if (highProtein && (nutrition.protein || 0) < 15) {
         return false;
       }
       
       // Check low carb flag
-      if (filter.lowCarb && (nutrition.carbs || 0) > 10) {
+      if (lowCarb && (nutrition.carbs || 0) > 10) {
         return false;
       }
       
       // Check low fat flag
-      if (filter.lowFat && (nutrition.fat || 0) > 3) {
+      if (lowFat && (nutrition.fat || 0) > 3) {
         return false;
       }
       
@@ -720,39 +738,50 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       const elemental = ingredient.elementalPropertiesState;
       if (!elemental) return true; // Skip if no elemental data
       
+      // Extract filter data with safe property access for elemental properties
+      const filterData = filter as any;
+      const minfire = filterData?.minfire;
+      const maxfire = filterData?.maxfire;
+      const minwater = filterData?.minwater;
+      const maxwater = filterData?.maxwater;
+      const minearth = filterData?.minearth;
+      const maxearth = filterData?.maxearth;
+      const minAir = filterData?.minAir;
+      const maxAir = filterData?.maxAir;
+      
       // Check Fire
-      if (filter.minfire !== undefined && elemental.Fire < filter.minfire) {
+      if (minfire !== undefined && elemental.Fire < minfire) {
         return false;
       }
       
-      if (filter.maxfire !== undefined && elemental.Fire > filter.maxfire) {
+      if (maxfire !== undefined && elemental.Fire > maxfire) {
         return false;
       }
       
       // Check Water
-      if (filter.minwater !== undefined && elemental.Water < filter.minwater) {
+      if (minwater !== undefined && elemental.Water < minwater) {
         return false;
       }
       
-      if (filter.maxwater !== undefined && elemental.Water > filter.maxwater) {
+      if (maxwater !== undefined && elemental.Water > maxwater) {
         return false;
       }
       
       // Check Earth
-      if (filter.minearth !== undefined && elemental.Earth < filter.minearth) {
+      if (minearth !== undefined && elemental.Earth < minearth) {
         return false;
       }
       
-      if (filter.maxearth !== undefined && elemental.Earth > filter.maxearth) {
+      if (maxearth !== undefined && elemental.Earth > maxearth) {
         return false;
       }
       
       // Check Air
-      if (filter.minAir !== undefined && elemental.Air < filter.minAir) {
+      if (minAir !== undefined && elemental.Air < minAir) {
         return false;
       }
       
-      if (filter.maxAir !== undefined && elemental.Air > filter.maxAir) {
+      if (maxAir !== undefined && elemental.Air > maxAir) {
         return false;
       }
       
@@ -779,38 +808,48 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       const dietary = ingredient.dietaryFlags;
       if (!dietary) return true; // Skip if no dietary data
       
+      // Extract filter data with safe property access for dietary properties
+      const filterData = filter as any;
+      const isVegetarian = filterData?.isVegetarian;
+      const isVegan = filterData?.isVegan;
+      const isGlutenFree = filterData?.isGlutenFree;
+      const isDAiryFree = filterData?.isDAiryFree;
+      const isNutFree = filterData?.isNutFree;
+      const isLowSodium = filterData?.isLowSodium;
+      const isLowSugar = filterData?.isLowSugar;
+      
       // Check vegetarian
-      if (filter.isVegetarian && !dietary.isVegetarian) {
+      if (isVegetarian && !dietary.isVegetarian) {
         return false;
       }
       
       // Check vegan
-      if (filter.isVegan && !dietary.isVegan) {
+      if (isVegan && !dietary.isVegan) {
         return false;
       }
       
       // Check gluten-free
-      if (filter.isGlutenFree && !dietary.isGlutenFree) {
+      if (isGlutenFree && !dietary.isGlutenFree) {
         return false;
       }
       
       // Check dAiry-free
-      if (filter.isDAiryFree && !dietary.isDAiryFree) {
+      if (isDAiryFree && !dietary.isDAiryFree) {
         return false;
       }
       
       // Check nut-free
-      if (filter.isNutFree && !dietary.isNutFree) {
+      if (isNutFree && !dietary.isNutFree) {
         return false;
       }
       
       // Check low-sodium
-      if (filter.isLowSodium && !dietary.isLowSodium) {
+      if (isLowSodium && !dietary.isLowSodium) {
         return false;
       }
       
       // Check low-sugar
-      if (filter.isLowSugar && !dietary.isLowSugar) {
+      if (isLowSugar && !dietary.isLowSugar) {
         return false;
       }
       
@@ -890,9 +929,10 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       name?.toLowerCase()?.trim()
     );
     
-    return (ingredients || []).filter(ingredient => 
-      Array.isArray(normalizedExclusions) ? !normalizedExclusions.includes(ingredient.name?.toLowerCase() || '') : !normalizedExclusions.includes(ingredient.name?.toLowerCase() || '')
-    );
+    return (ingredients || []).filter(ingredient => {
+      const ingredientName = ingredient.name?.toLowerCase() || '';
+      return !normalizedExclusions.includes(ingredientName);
+    });
   }
   
   /**

@@ -14,11 +14,6 @@ const DynamicCuisineRecommender = dynamic(
   { ssr: false }
 );
 
-const DynamicHomeMethodsComponent = dynamic(
-  () => import('@/components/HomeMethodsComponent'),
-  { ssr: false }
-);
-
 const DynamicPlanetaryTimeDisplay = dynamic(
   () => import('@/components/PlanetaryTimeDisplay'),
   { ssr: false }
@@ -94,9 +89,6 @@ export default function Home() {
           <a href="#ingredients" className="text-indigo-600 hover:text-indigo-800 font-medium">
             Ingredient Recommendations
           </a>
-          <a href="#methods" className="text-indigo-600 hover:text-indigo-800 font-medium">
-            Cooking Methods
-          </a>
         </nav>
         
         <div className="flex flex-col gap-6 max-w-6xl mx-auto">
@@ -109,12 +101,6 @@ export default function Home() {
           <div id="ingredients" className="bg-white rounded-lg shadow-md p-5 w-full">
             <ClientOnly>
               <IngredientRecommender />
-            </ClientOnly>
-          </div>
-          
-          <div id="methods" className="bg-white rounded-lg shadow-md p-5 w-full">
-            <ClientOnly>
-              <DynamicHomeMethodsComponent />
             </ClientOnly>
           </div>
         </div>

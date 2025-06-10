@@ -1,4 +1,3 @@
-
 // Enhanced Recipe interfaces for Phase 11
 export interface RecipeDataEnhanced {
   id?: string;
@@ -309,43 +308,48 @@ class RecipeData {
         
         // If no elemental properties, derive them from cuisine or other attributes
         if (!elementalProps) {
+          const mappingData = mapping as any;
           elementalProps = recipeElementalService.deriveElementalProperties({
-            cuisine: (mapping as any)?.cuisine?.name || (mapping as any)?.cuisine,
-            cookingMethod: mapping.cookingMethod
+            cuisine: mappingData?.cuisine?.name || mappingData?.cuisine,
+            cookingMethod: mappingData?.cookingMethod
           });
         }
         
         // Create a partial recipe object with safe defaults
+        const mappingData = mapping as any;
         const partialRecipe: Partial<Recipe> = {
-          id: (mapping as any)?.id || `recipe-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
-          name: (mapping as any)?.name || (mapping as any)?.id || 'Unknown Recipe',
-          cuisine: (mapping as any)?.cuisine?.name || (mapping as any)?.cuisine || 'Unknown',
-          description: (mapping as any)?.description || (mapping as any)?.cuisine?.description || '',
+          id: mappingData?.id || `recipe-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
+          name: mappingData?.name || mappingData?.id || 'Unknown Recipe',
+          cuisine: mappingData?.cuisine?.name || mappingData?.cuisine || 'Unknown',
+          description: mappingData?.description || mappingData?.cuisine?.description || '',
           elementalProperties: elementalProps,
-          ingredients: Array.isArray(mapping.ingredients) 
-            ? mapping.ingredients.map((ing: unknown) => ({
-                name: (ing as any)?.name || 'Unknown Ingredient',
-                amount: typeof ing.amount === 'number' ? ing.amount : 1,
-                unit: ing.unit || 'piece',
-                category: ing.category || 'other'
-              }))
+          ingredients: Array.isArray(mappingData?.ingredients) 
+            ? mappingData.ingredients.map((ing: unknown) => {
+                const ingData = ing as any;
+                return {
+                  name: ingData?.name || 'Unknown Ingredient',
+                  amount: typeof ingData?.amount === 'number' ? ingData.amount : 1,
+                  unit: ingData?.unit || 'piece',
+                  category: ingData?.category || 'other'
+                };
+              })
             : [],
-          instructions: Array.isArray(mapping.instructions) ? mapping.instructions : [],
-          timeToMake: mapping.timeToMake || '30 minutes',
-          energyProfile: mapping.energyProfile || {},
+          instructions: Array.isArray(mappingData?.instructions) ? mappingData.instructions : [],
+          timeToMake: mappingData?.timeToMake || '30 minutes',
+          energyProfile: mappingData?.energyProfile || {},
           // Critical field: always ensure astrologicalInfluences is set
-          astrologicalInfluences: (mapping.astrologicalInfluences ? 
-                                  (Array.isArray(mapping.astrologicalInfluences) ? 
-                                    mapping.astrologicalInfluences : 
-                                    [mapping.astrologicalInfluences]) : 
-                                  ((mapping as any)?.astrologicalProfile?.rulingPlanets ? 
-                                    (Array.isArray((mapping as any)?.astrologicalProfile.rulingPlanets) ? 
-                                      (mapping as any)?.astrologicalProfile.rulingPlanets : 
-                                      [(mapping as any)?.astrologicalProfile.rulingPlanets]) : 
+          astrologicalInfluences: (mappingData?.astrologicalInfluences ? 
+                                  (Array.isArray(mappingData.astrologicalInfluences) ? 
+                                    mappingData.astrologicalInfluences : 
+                                    [mappingData.astrologicalInfluences]) : 
+                                  (mappingData?.astrologicalProfile?.rulingPlanets ? 
+                                    (Array.isArray(mappingData.astrologicalProfile.rulingPlanets) ? 
+                                      mappingData.astrologicalProfile.rulingPlanets : 
+                                      [mappingData.astrologicalProfile.rulingPlanets]) : 
                                     ["all"])),
-          season: (mapping as any)?.seasonalProperties || (mapping as any)?.season || ['all'],
-          mealType: (mapping as any)?.mealType || ['dinner'],
-          numberOfServings: mapping.servings || 2,
+          season: mappingData?.seasonalProperties || mappingData?.season || ['all'],
+          mealType: mappingData?.mealType || ['dinner'],
+          numberOfServings: mappingData?.servings || 2,
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString()
         }

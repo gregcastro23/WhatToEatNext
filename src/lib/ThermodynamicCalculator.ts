@@ -15,20 +15,26 @@ export class ThermodynamicCalculator {
             let heatValue = 0.5; // Default neutral value
             let weight = 1; // Default weight
             
+            // Extract ingredient data with safe property access
+            const ingredientData = ingredient as any;
+            const spiciness = ingredientData?.spiciness;
+            const elementalProperties = ingredientData?.elementalProperties;
+            const cookingTemperature = ingredientData?.cookingTemperature;
+            
             // Adjust heat value based on ingredient properties
-            if (ingredient.spiciness) {
-                heatValue += ingredient.spiciness * 0.3;
+            if (spiciness) {
+                heatValue += spiciness * 0.3;
                 weight += 1;
             }
             
-            if (ingredient.elementalProperties?.Fire) {
-                heatValue += ingredient.elementalProperties.Fire * 0.4;
+            if (elementalProperties?.Fire) {
+                heatValue += elementalProperties.Fire * 0.4;
                 weight += 2;
             }
             
-            if (ingredient.cookingTemperature) {
+            if (cookingTemperature) {
                 // Normalize cooking temperature (assuming max around 500°F)
-                const normalizedTemp = Math.min(ingredient.cookingTemperature / 500, 1);
+                const normalizedTemp = Math.min(cookingTemperature / 500, 1);
                 heatValue += normalizedTemp * 0.2;
                 weight += 1;
             }
@@ -58,25 +64,32 @@ export class ThermodynamicCalculator {
         // Check for diversity in ingredient types
         const categories = new Set();
         ingredients.forEach(ingredient => {
-            if (ingredient.category) {
-                categories.add(ingredient.category);
+            // Extract ingredient data with safe property access
+            const ingredientData = ingredient as any;
+            const category = ingredientData?.category;
+            const fermented = ingredientData?.fermented;
+            const complexity = ingredientData?.complexity;
+            const elementalProperties = ingredientData?.elementalProperties;
+            
+            if (category) {
+                categories.add(category);
             }
             
             // Fermented ingredients have high entropy
-            if (ingredient.fermented) {
+            if (fermented) {
                 totalEntropy += 0.8;
                 totalWeight += 1;
             }
             
             // Molecular complexity
-            if (ingredient.complexity) {
-                totalEntropy += ingredient.complexity * 0.5;
+            if (complexity) {
+                totalEntropy += complexity * 0.5;
                 totalWeight += 1;
             }
             
             // Air element contributes to entropy (representing change and variability)
-            if (ingredient.elementalProperties?.Air) {
-                totalEntropy += ingredient.elementalProperties.Air * 0.3;
+            if (elementalProperties?.Air) {
+                totalEntropy += elementalProperties.Air * 0.3;
                 totalWeight += 1;
             }
         });
@@ -103,28 +116,35 @@ export class ThermodynamicCalculator {
             let reactivityValue = 0.5; // Default neutral value
             let weight = 1; // Default weight
             
+            // Extract ingredient data with safe property access
+            const ingredientData = ingredient as any;
+            const pH = ingredientData?.pH;
+            const alcoholContent = ingredientData?.alcoholContent;
+            const enzymeActivity = ingredientData?.enzymeActivity;
+            const elementalProperties = ingredientData?.elementalProperties;
+            
             // pH value affects reactivity (further from neutral = more reactive)
-            if (ingredient.pH) {
-                const pHDeviation = Math.abs(ingredient.pH - 7) / 7; // Normalize pH deviation
+            if (pH) {
+                const pHDeviation = Math.abs(pH - 7) / 7; // Normalize pH deviation
                 reactivityValue += pHDeviation * 0.5;
                 weight += 2;
             }
             
             // Alcohol content increases reactivity
-            if (ingredient.alcoholContent) {
-                reactivityValue += ingredient.alcoholContent * 0.6;
+            if (alcoholContent) {
+                reactivityValue += alcoholContent * 0.6;
                 weight += 1;
             }
             
             // Enzyme activity increases reactivity
-            if (ingredient.enzymeActivity) {
-                reactivityValue += ingredient.enzymeActivity * 0.4;
+            if (enzymeActivity) {
+                reactivityValue += enzymeActivity * 0.4;
                 weight += 1;
             }
             
             // Water element relates to chemical reactions
-            if (ingredient.elementalProperties?.Water) {
-                reactivityValue += ingredient.elementalProperties.Water * 0.3;
+            if (elementalProperties?.Water) {
+                reactivityValue += elementalProperties.Water * 0.3;
                 weight += 1;
             }
             

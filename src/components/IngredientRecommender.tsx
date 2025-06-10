@@ -236,18 +236,24 @@ export default function IngredientRecommender() {
   
   // Helper function to check if an ingredient is a vinegar
   const isVinegar = (ingredient: unknown): boolean => {
-    const category = ingredient.category?.toLowerCase() || '';
+    // Extract ingredient data with safe property access
+    const ingredientData = ingredient as any;
+    const category = ingredientData?.category?.toLowerCase() || '';
     if (category === 'vinegar' || category === 'vinegars') return true;
     
-    const name = ingredient.name.toLowerCase();
+    const name = ingredientData?.name?.toLowerCase() || '';
     return vinegarTypes.some(vinegar => name.includes(vinegar.toLowerCase()));
   };
   
   // Helper function to get normalized category
   const getNormalizedCategory = (ingredient: unknown): string => {
-    if (!ingredient.category) return 'other';
+    // Extract ingredient data with safe property access
+    const ingredientData = ingredient as any;
+    const categoryProperty = ingredientData?.category;
     
-    const category = ingredient.category.toLowerCase();
+    if (!categoryProperty) return 'other';
+    
+    const category = categoryProperty.toLowerCase();
     
     // Map categories to our standard ones
     if (['vegetable', 'vegetables'].includes(category)) return 'vegetables';
@@ -952,8 +958,13 @@ export default function IngredientRecommender() {
                                   <span className="font-semibold">Best for:</span> {
                                     Object.entries(item.culinaryApplications)
                                       .map(([type, data]) => {
-                                        if (typeof data === 'object' && data.techniques) {
-                                          return data.techniques.slice(0, 2).join(', ');
+                                        if (typeof data === 'object') {
+                                          // Extract data with safe property access
+                                          const culinaryData = data as any;
+                                          const techniques = culinaryData?.techniques;
+                                          if (Array.isArray(techniques)) {
+                                            return techniques.slice(0, 2).join(', ');
+                                          }
                                         }
                                         return type;
                                       })
@@ -979,16 +990,26 @@ export default function IngredientRecommender() {
                                     let cookingTime = '';
                                     
                                     // Handle different data formats for cooking time
-                                    if (details?.timing) {
-                                      if (typeof details.timing === 'string') {
-                                        cookingTime = details.timing;
-                                      } else if (typeof details.timing === 'object') {
-                                        if (details.timing.minimum && details.timing.maximum) {
-                                          cookingTime = `${details.timing.minimum}-${details.timing.maximum}`;
-                                        } else if (details.timing.optimal) {
-                                          cookingTime = details.timing.optimal;
+                                    // Extract details data with safe property access
+                                    const detailsData = details as any;
+                                    const timing = detailsData?.timing;
+                                    
+                                    if (timing) {
+                                      if (typeof timing === 'string') {
+                                        cookingTime = timing;
+                                      } else if (typeof timing === 'object') {
+                                        // Extract timing properties with safe access
+                                        const timingData = timing as any;
+                                        const minimum = timingData?.minimum;
+                                        const maximum = timingData?.maximum;
+                                        const optimal = timingData?.optimal;
+                                        
+                                        if (minimum && maximum) {
+                                          cookingTime = `${minimum}-${maximum}`;
+                                        } else if (optimal) {
+                                          cookingTime = optimal;
                                         } else {
-                                          const times = Object.values(details.timing).filter(t => typeof t === 'string');
+                                          const times = Object.values(timing).filter(t => typeof t === 'string');
                                           if (times.length) cookingTime = times.join('-');
                                         }
                                       }
@@ -1012,14 +1033,25 @@ export default function IngredientRecommender() {
                                     let temp = '';
                                     
                                     // Handle different data formats for temperature
-                                    if (details?.temperature) {
-                                      if (typeof details.temperature === 'string') {
-                                        temp = details.temperature;
-                                      } else if (typeof details.temperature === 'object') {
-                                        if (details.temperature.fahrenheit) {
-                                          temp = `${details.temperature.fahrenheit}°F`;
-                                        } else if (details.temperature.min && details.temperature.max) {
-                                          temp = `${details.temperature.min}-${details.temperature.max}°${details.temperature.unit === 'celsius' ? 'C' : 'F'}`;
+                                    // Extract details data with safe property access
+                                    const tempDetailsData = details as any;
+                                    const temperature = tempDetailsData?.temperature;
+                                    
+                                    if (temperature) {
+                                      if (typeof temperature === 'string') {
+                                        temp = temperature;
+                                      } else if (typeof temperature === 'object') {
+                                        // Extract temperature properties with safe access
+                                        const temperatureData = temperature as any;
+                                        const fahrenheit = temperatureData?.fahrenheit;
+                                        const min = temperatureData?.min;
+                                        const max = temperatureData?.max;
+                                        const unit = temperatureData?.unit;
+                                        
+                                        if (fahrenheit) {
+                                          temp = `${fahrenheit}°F`;
+                                        } else if (min && max) {
+                                          temp = `${min}-${max}°${unit === 'celsius' ? 'C' : 'F'}`;
                                         }
                                       }
                                     }
@@ -1038,8 +1070,15 @@ export default function IngredientRecommender() {
                               {item.cuts && Object.keys(item.cuts).length > 0 && (
                                 <div>
                                   <span className="font-semibold">Available Cuts:</span>{' '}
-                                  {Object.values(item.cuts).map(cut => 
-                                    typeof cut === 'object' && cut.name ? cut.name : '').filter(Boolean).join(', ')}
+                                  {Object.values(item.cuts).map(cut => {
+                                    if (typeof cut === 'object') {
+                                      // Extract cut data with safe property access
+                                      const cutData = cut as any;
+                                      const name = cutData?.name;
+                                      return name ? name : '';
+                                    }
+                                    return '';
+                                  }).filter(Boolean).join(', ')}
                                 </div>
                               )}
 

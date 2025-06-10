@@ -1875,16 +1875,17 @@ export const elementToZodiac: Record<string, string[]> = {
 };
 
 /**
- * Parse data from AstroCharts.com format to internal planetary positions format
+ * Parse AstroCharts.com data format to internal planetary positions
  * @param astroChartData Raw data from AstroCharts.com
  * @returns Formatted planetary positions in our internal format
  */
 export const parseAstroChartData = (astroChartData: unknown): Record<string, number> => {
   try {
     const result: Record<string, number> = {};
+    const data = astroChartData as any;
     
     // Process planetary positions
-    if (astroChartData?.planets) {
+    if (data?.planets) {
       // Map AstroCharts planet names to our internal format
       const planetMapping: Record<string, string> = {
         'Sun': 'Sun',
@@ -1903,19 +1904,20 @@ export const parseAstroChartData = (astroChartData: unknown): Record<string, num
       };
       
       // Process each planet
-      Object.entries(astroChartData.planets).forEach(([planetName, data]: [string, any]) => {
+      Object.entries(data.planets).forEach(([planetName, planetData]: [string, any]) => {
         const internalName = planetMapping[planetName];
-        if (internalName && data.longitude !== undefined) {
+        if (internalName && planetData?.longitude !== undefined) {
           // AstroCharts provides longitude in decimal degrees (0-360)
-          result[internalName] = data.longitude;
+          result[internalName] = planetData.longitude;
         }
       });
     }
     
     // Process houses and angles if available
-    if (astroChartData?.houses) {
-      result['Ascendant'] = astroChartData.houses[1]?.longitude || 0;
-      result['MC'] = astroChartData.houses[10]?.longitude || 0;
+    if (data?.houses) {
+      const houses = data.houses;
+      result['Ascendant'] = houses[1]?.longitude || 0;
+      result['MC'] = houses[10]?.longitude || 0;
     }
     
     return result;
@@ -1946,7 +1948,9 @@ export const parseAstroChartAspects = (astroChartData: unknown): Array<{
       applying: boolean;
     }> = [];
     
-    if (astroChartData?.aspects && Array.isArray(astroChartData.aspects)) {
+    const data = astroChartData as any;
+    
+    if (data?.aspects && Array.isArray(data.aspects)) {
       // Map aspect types to internal format
       const aspectTypeMapping: Record<string, string> = {
         'conjunction': 'conjunction',
@@ -1963,14 +1967,15 @@ export const parseAstroChartAspects = (astroChartData: unknown): Array<{
       };
       
       // Process each aspect
-      astroChartData.aspects.forEach((aspect: unknown) => {
-        if (aspect.aspectType && aspect.planet1 && aspect.planet2) {
+      data.aspects.forEach((aspect: unknown) => {
+        const aspectData = aspect as any;
+        if (aspectData?.aspectType && aspectData?.planet1 && aspectData?.planet2) {
           aspects.push({
-            type: aspectTypeMapping[aspect.aspectType] || aspect.aspectType,
-            planet1: aspect.planet1,
-            planet2: aspect.planet2,
-            orb: aspect.orb || 0,
-            applying: aspect.applying === true
+            type: aspectTypeMapping[aspectData.aspectType] || aspectData.aspectType,
+            planet1: aspectData.planet1,
+            planet2: aspectData.planet2,
+            orb: aspectData.orb || 0,
+            applying: aspectData.applying === true
           });
         }
       });

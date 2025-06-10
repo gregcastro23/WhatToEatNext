@@ -60,8 +60,8 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
         Earth: 0,
         Air: 0
       },
-      suitable_for: method.suitable_for || [],
-      benefits: method.benefits || [],
+      suitable_for: (method as any)?.suitable_for || [],
+      benefits: (method as any)?.benefits || [],
       variations: [] // Initialize empty variations array
     };
     return acc;
@@ -94,7 +94,7 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
               culturalOrigin: method.culturalOrigin,
               astrologicalInfluences: method.astrologicalInfluences,
               duration: { min: 10, max: 30 },
-              suitable_for: method.bestFor || [],
+              suitable_for: (method as any)?.bestFor || [],
               benefits: [],
               relatedToMainMethod: method.relatedToMainMethod
             }
@@ -126,7 +126,7 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
           dominantPlanets: method.astrologicalInfluences?.dominantPlanets || []
         },
         duration: { min: 10, max: 30 },
-        suitable_for: method.bestFor || [],
+        suitable_for: (method as any)?.bestFor || [],
         benefits: [],
         variations: [] // Initialize empty variations array
       };
@@ -530,14 +530,14 @@ export function getRecommendedCookingMethods(
     const waterSigns = ['cancer', 'scorpio', 'pisces'];
     const fireSigns = ['aries', 'leo', 'sagittarius'];
     
-    if ((earthSigns as any)?.includes?.(lowerSign) && venusData.PlanetSpecific?.CulinaryTemperament?.EarthVenus) {
-      venusTemperament = venusData.PlanetSpecific.CulinaryTemperament.EarthVenus;
-    } else if ((airSigns as any)?.includes?.(lowerSign) && venusData.PlanetSpecific?.CulinaryTemperament?.AirVenus) {
-      venusTemperament = venusData.PlanetSpecific.CulinaryTemperament.AirVenus;
-    } else if ((waterSigns as any)?.includes?.(lowerSign) && venusData.PlanetSpecific?.CulinaryTemperament?.WaterVenus) {
-      venusTemperament = venusData.PlanetSpecific.CulinaryTemperament.WaterVenus;
-    } else if ((fireSigns as any)?.includes?.(lowerSign) && venusData.PlanetSpecific?.CulinaryTemperament?.FireVenus) {
-      venusTemperament = venusData.PlanetSpecific.CulinaryTemperament.FireVenus;
+    if ((earthSigns as any)?.includes?.(lowerSign) && (venusData.PlanetSpecific?.CulinaryTemperament as any)?.EarthVenus) {
+      venusTemperament = (venusData.PlanetSpecific.CulinaryTemperament as any).EarthVenus;
+    } else if ((airSigns as any)?.includes?.(lowerSign) && (venusData.PlanetSpecific?.CulinaryTemperament as any)?.AirVenus) {
+      venusTemperament = (venusData.PlanetSpecific.CulinaryTemperament as any).AirVenus;
+    } else if ((waterSigns as any)?.includes?.(lowerSign) && (venusData.PlanetSpecific?.CulinaryTemperament as any)?.WaterVenus) {
+      venusTemperament = (venusData.PlanetSpecific.CulinaryTemperament as any).WaterVenus;
+    } else if ((fireSigns as any)?.includes?.(lowerSign) && (venusData.PlanetSpecific?.CulinaryTemperament as any)?.FireVenus) {
+      venusTemperament = (venusData.PlanetSpecific.CulinaryTemperament as any).FireVenus;
     }
   }
   
@@ -548,10 +548,10 @@ export function getRecommendedCookingMethods(
     const fireSigns = ['aries', 'leo', 'sagittarius'];
     const waterSigns = ['cancer', 'scorpio', 'pisces'];
     
-    if ((fireSigns as any)?.includes?.(lowerSign) && marsData.PlanetSpecific?.CulinaryTemperament?.FireMars) {
-      _marsTemperament = marsData.PlanetSpecific.CulinaryTemperament.FireMars;
-    } else if ((waterSigns as any)?.includes?.(lowerSign) && marsData.PlanetSpecific?.CulinaryTemperament?.WaterMars) {
-      _marsTemperament = marsData.PlanetSpecific.CulinaryTemperament.WaterMars;
+    if ((fireSigns as any)?.includes?.(lowerSign) && (marsData.PlanetSpecific?.CulinaryTemperament as any)?.FireMars) {
+      _marsTemperament = (marsData.PlanetSpecific.CulinaryTemperament as any).FireMars;
+    } else if ((waterSigns as any)?.includes?.(lowerSign) && (marsData.PlanetSpecific?.CulinaryTemperament as any)?.WaterMars) {
+      _marsTemperament = (marsData.PlanetSpecific.CulinaryTemperament as any).WaterMars;
     }
   }
   
@@ -562,10 +562,10 @@ export function getRecommendedCookingMethods(
     const airSigns = ['gemini', 'libra', 'aquarius'];
     const earthSigns = ['taurus', 'virgo', 'capricorn'];
     
-    if ((airSigns as any)?.includes?.(lowerSign) && mercuryData.PlanetSpecific?.CulinaryTemperament?.AirMercury) {
-      mercuryTemperament = mercuryData.PlanetSpecific.CulinaryTemperament.AirMercury;
-    } else if ((earthSigns as any)?.includes?.(lowerSign) && mercuryData.PlanetSpecific?.CulinaryTemperament?.EarthMercury) {
-      mercuryTemperament = mercuryData.PlanetSpecific.CulinaryTemperament.EarthMercury;
+    if ((airSigns as any)?.includes?.(lowerSign) && (mercuryData.PlanetSpecific?.CulinaryTemperament as any)?.AirMercury) {
+      mercuryTemperament = (mercuryData.PlanetSpecific.CulinaryTemperament as any).AirMercury;
+    } else if ((earthSigns as any)?.includes?.(lowerSign) && (mercuryData.PlanetSpecific?.CulinaryTemperament as any)?.EarthMercury) {
+      mercuryTemperament = (mercuryData.PlanetSpecific.CulinaryTemperament as any).EarthMercury;
     }
   }
   
@@ -576,10 +576,10 @@ export function getRecommendedCookingMethods(
     const fireSigns = ['aries', 'leo', 'sagittarius'];
     const airSigns = ['gemini', 'libra', 'aquarius'];
     
-    if ((fireSigns as any)?.includes?.(lowerSign) && jupiterData.PlanetSpecific?.CulinaryTemperament?.FireJupiter) {
-      jupiterTemperament = jupiterData.PlanetSpecific.CulinaryTemperament.FireJupiter;
-    } else if ((airSigns as any)?.includes?.(lowerSign) && jupiterData.PlanetSpecific?.CulinaryTemperament?.AirJupiter) {
-      jupiterTemperament = jupiterData.PlanetSpecific.CulinaryTemperament.AirJupiter;
+    if ((fireSigns as any)?.includes?.(lowerSign) && (jupiterData.PlanetSpecific?.CulinaryTemperament as any)?.FireJupiter) {
+      jupiterTemperament = (jupiterData.PlanetSpecific.CulinaryTemperament as any).FireJupiter;
+    } else if ((airSigns as any)?.includes?.(lowerSign) && (jupiterData.PlanetSpecific?.CulinaryTemperament as any)?.AirJupiter) {
+      jupiterTemperament = (jupiterData.PlanetSpecific.CulinaryTemperament as any).AirJupiter;
     }
   }
   
@@ -590,10 +590,10 @@ export function getRecommendedCookingMethods(
     const earthSigns = ['taurus', 'virgo', 'capricorn'];
     const airSigns = ['gemini', 'libra', 'aquarius'];
     
-    if ((earthSigns as any)?.includes?.(lowerSign) && saturnData.PlanetSpecific?.CulinaryTemperament?.EarthSaturn) {
-      _saturnTemperament = saturnData.PlanetSpecific.CulinaryTemperament.EarthSaturn;
-    } else if ((airSigns as any)?.includes?.(lowerSign) && saturnData.PlanetSpecific?.CulinaryTemperament?.AirSaturn) {
-      _saturnTemperament = saturnData.PlanetSpecific.CulinaryTemperament.AirSaturn;
+    if ((earthSigns as any)?.includes?.(lowerSign) && (saturnData.PlanetSpecific?.CulinaryTemperament as any)?.EarthSaturn) {
+      _saturnTemperament = (saturnData.PlanetSpecific.CulinaryTemperament as any).EarthSaturn;
+    } else if ((airSigns as any)?.includes?.(lowerSign) && (saturnData.PlanetSpecific?.CulinaryTemperament as any)?.AirSaturn) {
+      _saturnTemperament = (saturnData.PlanetSpecific.CulinaryTemperament as any).AirSaturn;
     }
   }
   
@@ -964,8 +964,12 @@ export function getRecommendedCookingMethods(
       // Apply Venus retrograde modifications
       if (isVenusRetrograde && venusData.PlanetSpecific?.Retrograde) {
         // Check if cooking method aligns with retrograde focus
-        if (venusData.PlanetSpecific.Retrograde.FoodFocus) {
-          const retroFocus = (venusData.PlanetSpecific.Retrograde.FoodFocus as any)?.toLowerCase?.();
+        // Extract retrograde data with safe property access
+        const retrogradeData = venusData.PlanetSpecific.Retrograde as any;
+        const foodFocus = retrogradeData?.FoodFocus;
+        
+        if (foodFocus) {
+          const retroFocus = foodFocus?.toLowerCase?.();
           const methodName = (method as any)?.(name as any)?.toLowerCase?.();
           const methodDesc = (method as any)?.(description as any)?.toLowerCase?.();
           
@@ -985,11 +989,12 @@ export function getRecommendedCookingMethods(
         }
         
         // Apply retrograde elements influence
-        if (venusData.PlanetSpecific.Retrograde.Elements && (method as any)?.elementalEffect) {
-          for (const element in venusData.PlanetSpecific.Retrograde.Elements) {
+        const elements = retrogradeData?.Elements;
+        if (elements && (method as any)?.elementalEffect) {
+          for (const element in elements) {
             const elementProperty = element as keyof ElementalProperties;
             if ((method as any)?.elementalEffect[elementProperty]) {
-              venusScore *= (1 + (venusData.PlanetSpecific.Retrograde.Elements[element] * 
+              venusScore *= (1 + (elements[element] * 
                                (method as any)?.elementalEffect[elementProperty] * 0.15));
             }
           }
@@ -1034,10 +1039,12 @@ export function getRecommendedCookingMethods(
     );
     
     // Capture detailed scoring components for transparency
-    if (!method.scoreDetails) {
-      method.scoreDetails = {}; 
+    // Extract method data with safe property access
+    const methodData = method as any;
+    if (!methodData.scoreDetails) {
+      methodData.scoreDetails = {}; 
     }
-    method.scoreDetails = {
+    const scoreDetails = {
       elemental: elementalScore * 0.40,
       astrological: astrologicalScore * 0.25,
       seasonal: seasonalScore * 0.15,
@@ -1048,8 +1055,13 @@ export function getRecommendedCookingMethods(
       venus: venusScore * 0.15,
       total: Math.max(0, score) // Ensure score isn't negative
     };
+    methodData.scoreDetails = scoreDetails;
 
     // Add the recommendation with calculated score
+    // Extract affinity data with safe property access
+    const planetaryAffinity = methodData?.planetaryAffinity || 0;
+    const scoreDetailsForUI = methodData?.scoreDetails || {};
+    
     recommendations.push({
       method: (method as any)?.id,
       score: Math.max(0, score), // Ensure score isn't negative
@@ -1057,8 +1069,8 @@ export function getRecommendedCookingMethods(
       benefits: method.benefits,
       lunarAffinity: calculateLunarMethodAffinity(method, lunarPhase),
       elementalAffinity: (method as any)?.elementalEffect?.[signElement] || 0,
-      planetaryAffinity: method.planetaryAffinity || 0,
-      scoreDetails: method.scoreDetails // Include detailed scoring for UI display
+      planetaryAffinity: planetaryAffinity,
+      scoreDetails: scoreDetailsForUI // Include detailed scoring for UI display
     });
     
     // Mark this method as processed to avoid duplicates
@@ -1072,41 +1084,46 @@ export function getRecommendedCookingMethods(
 function calculateLunarMethodAffinity(method: CookingMethod, phase: LunarPhase): number {
   let affinity = 0;
 
+  // Extract method data with safe property access
+  const methodData = method as any;
+  const properties = methodData?.properties;
+  const element = methodData?.element;
+
   switch (phase) {
     case 'New Moon':
       // New Moon favors gentle, water-based methods
-      if (method.properties?.includes('gentle')) affinity += 0.5;
-      if (method.element === 'water') affinity += 0.5;
+      if (properties?.includes('gentle')) affinity += 0.5;
+      if (element === 'water') affinity += 0.5;
       break;
     case 'Waxing Crescent':
       // Waxing Crescent favors methods that build flavor
-      if (method.properties?.includes('builds flavor')) affinity += 0.7;
+      if (properties?.includes('builds flavor')) affinity += 0.7;
       break;
     case 'First Quarter':
       // First Quarter favors methods that transform 
-      if (method.properties?.includes('transformative')) affinity += 0.7;
+      if (properties?.includes('transformative')) affinity += 0.7;
       break;
     case 'Waxing Gibbous':
       // Waxing Gibbous favors methods that intensify
-      if (method.properties?.includes('intensifies flavor')) affinity += 0.8;
+      if (properties?.includes('intensifies flavor')) affinity += 0.8;
       break;
     case 'Full Moon':
       // Full Moon favors methods that fully express flavor
-      if (method.properties?.includes('maximizes flavor')) affinity += 1.0;
-      if (method.element === 'fire') affinity += 0.5;
+      if (properties?.includes('maximizes flavor')) affinity += 1.0;
+      if (element === 'fire') affinity += 0.5;
       break;
     case 'Waning Gibbous':
       // Waning Gibbous favors methods that preserve
-      if (method.properties?.includes('preserves nutrients')) affinity += 0.8;
+      if (properties?.includes('preserves nutrients')) affinity += 0.8;
       break;
     case 'Last Quarter':
       // Last Quarter favors methods that reduce and concentrate
-      if (method.properties?.includes('concentrates')) affinity += 0.7;
+      if (properties?.includes('concentrates')) affinity += 0.7;
       break;
     case 'Waning Crescent':
       // Waning Crescent favors subtle, gentle methods
-      if (method.properties?.includes('subtle')) affinity += 0.7;
-      if (method.element === 'water') affinity += 0.3;
+      if (properties?.includes('subtle')) affinity += 0.7;
+      if (element === 'water') affinity += 0.3;
       break;
     default:
       // Default minimal affinity
@@ -1136,10 +1153,15 @@ function _calculateAspectMethodAffinity(aspects: PlanetaryAspect[], method: Cook
       // Special consideration for Venus aspects
               if ((aspect.planets as any)?.includes?.('Venus')) {
         // Venus aspects boost methods that enhance aesthetic appeal or harmony
-        if (method.sensoryProfile?.visual && method.sensoryProfile.visual > 0.6) {
+        // Extract method data with safe property access
+        const aspectMethodData = method as any;
+        const sensoryProfile = aspectMethodData?.sensoryProfile;
+        const aspectProperties = aspectMethodData?.properties;
+        
+        if (sensoryProfile?.visual && sensoryProfile.visual > 0.6) {
           baseInfluence += 0.3;
         }
-        if (method.properties?.includes('balances flavors')) {
+        if (aspectProperties?.includes('balances flavors')) {
           baseInfluence += 0.4;
         }
       }

@@ -984,22 +984,26 @@ export function getRecipesForCuisineMatch(
 
     // Direct exact cuisine matches (highest priority)
     const exactCuisineMatches = recipes.filter(
-      (recipe) => 
-        recipe.cuisine?.toLowerCase() === normalizedCuisineName ||
-        recipe.cuisine?.toLowerCase().includes(normalizedCuisineName) ||
-        normalizedCuisineName.includes(recipe.cuisine?.toLowerCase())
+      (recipe) => {
+        const recipeData = recipe as any;
+        return recipeData?.cuisine?.toLowerCase() === normalizedCuisineName ||
+               recipeData?.cuisine?.toLowerCase()?.includes(normalizedCuisineName) ||
+               normalizedCuisineName.includes(recipeData?.cuisine?.toLowerCase());
+      }
     );
 
     console.log(`Found ${exactCuisineMatches.length} exact cuisine matches for ${cuisineName}`);
 
     // Regional variant matches
     const regionalMatches = recipes.filter(
-      (recipe) =>
-        !exactCuisineMatches.includes(recipe) && (
-          recipe.regionalCuisine?.toLowerCase() === normalizedCuisineName ||
-          recipe.regionalCuisine?.toLowerCase()?.includes(normalizedCuisineName) ||
-          normalizedCuisineName.includes(recipe.regionalCuisine?.toLowerCase())
-        )
+      (recipe) => {
+        const recipeData = recipe as any;
+        return !exactCuisineMatches.includes(recipe) && (
+                 recipeData?.regionalCuisine?.toLowerCase() === normalizedCuisineName ||
+                 recipeData?.regionalCuisine?.toLowerCase()?.includes(normalizedCuisineName) ||
+                 normalizedCuisineName.includes(recipeData?.regionalCuisine?.toLowerCase())
+               );
+      }
     );
 
     console.log(`Found ${regionalMatches.length} regional matches for ${cuisineName}`);
@@ -1017,13 +1021,14 @@ export function getRecipesForCuisineMatch(
       scoredOtherRecipes = otherRecipes
         .map((recipe) => {
           try {
+            const recipeData = recipe as any;
             const scoreComponents = [];
             let totalWeight = 0;
 
             // Base flavor profile match (weight: 0.4)
-            if (cuisineProfile && recipe.flavorProfile) {
+            if (cuisineProfile && recipeData?.flavorProfile) {
               const flavorScore = calculateFlavorProfileMatch(
-                recipe.flavorProfile,
+                recipeData.flavorProfile,
                 cuisineProfile.flavorProfiles
               );
               scoreComponents.push(flavorScore * 0.4);
@@ -1031,10 +1036,11 @@ export function getRecipesForCuisineMatch(
             }
 
             // Ingredient similarity (weight: 0.3)
-            if (cuisineProfile.signatureIngredients && recipe.ingredients) {
-              const recipeIngredientNames = recipe.ingredients.map((ing: unknown) =>
-                typeof ing === 'string' ? ing.toLowerCase() : ing.name.toLowerCase()
-              );
+            if (cuisineProfile.signatureIngredients && recipeData?.ingredients) {
+              const recipeIngredientNames = recipeData.ingredients.map((ing: unknown) => {
+                const ingData = ing as any;
+                return typeof ing === 'string' ? ing.toLowerCase() : ingData?.name?.toLowerCase() || '';
+              });
 
               const commonIngredients = cuisineProfile.signatureIngredients.filter(
                 (ing) =>
@@ -1050,10 +1056,10 @@ export function getRecipesForCuisineMatch(
             }
 
             // Technique similarity (weight: 0.2)
-            if (cuisineProfile.signatureTechniques && recipe.cookingMethods) {
-              const recipeTechniques = Array.isArray(recipe.cookingMethods)
-                ? recipe.cookingMethods.map((tech: string) => tech.toLowerCase())
-                : [recipe.cookingMethods.toLowerCase()];
+            if (cuisineProfile.signatureTechniques && recipeData?.cookingMethods) {
+              const recipeTechniques = Array.isArray(recipeData.cookingMethods)
+                ? recipeData.cookingMethods.map((tech: string) => tech?.toLowerCase() || '')
+                : [recipeData.cookingMethods?.toLowerCase() || ''];
 
               const commonTechniques = cuisineProfile.signatureTechniques.filter(
                 (tech) => recipeTechniques.some((rt) => rt?.includes(tech.toLowerCase()))
@@ -1069,11 +1075,11 @@ export function getRecipesForCuisineMatch(
             // Elemental alignment (weight: 0.1)
             if (
               cuisineProfile.elementalAlignment &&
-              recipe.elementalProperties
+              recipeData?.elementalProperties
             ) {
               const elementScore = calculateSimilarityScore(
                 cuisineProfile.elementalAlignment,
-                recipe.elementalProperties
+                recipeData.elementalProperties
               );
               scoreComponents.push(elementScore * 0.1);
               totalWeight += 0.1;
@@ -1106,8 +1112,8 @@ export function getRecipesForCuisineMatch(
             };
           }
         })
-        .filter((recipe) => recipe.matchScore >= 0.5) // Only include reasonably good matches
-        .sort((a, b) => b.matchScore - a.matchScore); // Sort by score (high to low)
+        .filter((recipe) => (recipe as any)?.matchScore >= 0.5) // Only include reasonably good matches
+        .sort((a, b) => (b as any).matchScore - (a as any).matchScore); // Sort by score (high to low)
     }
 
     console.log(`Found ${scoredOtherRecipes.length} scored other recipes for ${cuisineName}`);
@@ -1129,12 +1135,14 @@ export function getRecipesForCuisineMatch(
 
     // Remove duplicates by name
     const uniqueMatches = allMatches.filter(
-      (recipe, index, self) =>
-        index === self.findIndex((r) => r.name === recipe.name)
+      (recipe, index, self) => {
+        const recipeData = recipe as any;
+        return index === self.findIndex((r) => (r as any)?.name === recipeData?.name);
+      }
     );
 
     // Sort by match score
-    const sortedMatches = uniqueMatches.sort((a, b) => b.matchScore - a.matchScore);
+    const sortedMatches = uniqueMatches.sort((a, b) => (b as any).matchScore - (a as any).matchScore);
     
     console.log(`Returning ${sortedMatches.length} sorted matches for ${cuisineName}`);
     
@@ -1156,19 +1164,22 @@ function calculateFlavorProfileMatch(
   recipeProfile: unknown,
   cuisineProfile: unknown
 ): number {
-  const similarity = 0;
-  const count = 0;
+  let similarity = 0;
+  let count = 0;
+
+  const recipeData = recipeProfile as any;
+  const cuisineData = cuisineProfile as any;
 
   // Compare common flavor dimensions
   const flavors = ['spicy', 'sweet', 'sour', 'bitter', 'salty', 'umami'];
 
   flavors.forEach((flavor) => {
     if (
-      recipeProfile[flavor] !== undefined &&
-      cuisineProfile[flavor] !== undefined
+      recipeData?.[flavor] !== undefined &&
+      cuisineData?.[flavor] !== undefined
     ) {
       similarity +=
-        1 - Math.abs(recipeProfile[flavor] - cuisineProfile[flavor]);
+        1 - Math.abs(recipeData[flavor] - cuisineData[flavor]);
       count++;
     }
   });

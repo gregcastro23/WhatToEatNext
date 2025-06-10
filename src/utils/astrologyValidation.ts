@@ -75,12 +75,15 @@ export function validatePlanetaryPositions(positions?: Record<string, unknown>):
         return;
       }
       
+      // Safe access to calculated properties
+      const calculatedData = calculated as any;
+      
       // Convert our formatting to match reference format
       const formattedCalculated: PlanetaryPosition = {
-        sign: calculated.sign.toLowerCase(),
-        degree: Math.floor(calculated.degree),
-        minute: Math.floor((calculated.degree % 1) * 60),
-        isRetrograde: calculated.isRetrograde
+        sign: (calculatedData?.sign || '').toLowerCase(),
+        degree: Math.floor(calculatedData?.degree || 0),
+        minute: Math.floor(((calculatedData?.degree || 0) % 1) * 60),
+        isRetrograde: calculatedData?.isRetrograde
       };
       
       // Calculate difference
@@ -140,22 +143,27 @@ export function getValidationSummary(): string {
   summary += `Overall Accuracy: ${accurate ? 'PASSED ✓' : 'FAILED ✗'}\n\n`;
   
   Object.entries(differences).forEach(([planet, data]) => {
-    if (data.status === 'missing') {
+    const planetData = data as any;
+    
+    if (planetData?.status === 'missing') {
       summary += `${planet}: MISSING\n`;
       return;
     }
     
-    const { calculated, reference, accurate: planetAccurate } = data;
-    summary += `${planet.padEnd(10)}: ${planetAccurate ? '✓' : '✗'} `;
-    summary += `Calculated: ${calculated.sign} ${calculated.degree}°${calculated.minute}' `;
+    const calculated = planetData?.calculated;
+    const reference = planetData?.reference;
+    const planetAccurate = planetData?.accurate;
     
-    if (calculated.isRetrograde) {
+    summary += `${planet.padEnd(10)}: ${planetAccurate ? '✓' : '✗'} `;
+    summary += `Calculated: ${calculated?.sign} ${calculated?.degree}°${calculated?.minute}' `;
+    
+    if (calculated?.isRetrograde) {
       summary += 'R ';
     }
     
-    summary += `| Reference: ${reference.sign} ${reference.degree}°${reference.minute}' `;
+    summary += `| Reference: ${reference?.sign} ${reference?.degree}°${reference?.minute}' `;
     
-    if (reference.isRetrograde) {
+    if (reference?.isRetrograde) {
       summary += 'R';
     }
     
@@ -175,7 +183,8 @@ export async function fetchLatestPositions(): Promise<Record<string, unknown>> {
     }
     
     const data = await response.json();
-    return data.calculatedPositions || {};
+    const responseData = data as any;
+    return responseData?.calculatedPositions || {};
   } catch (error) {
     console.error('Error fetching latest positions:', error);
     return {};
@@ -198,37 +207,48 @@ export async function validateAgainstAPI(): Promise<{ accurate: boolean, differe
   
   // Compare each planet
   Object.entries(REFERENCE_POSITIONS).forEach(([planet, refPosition]) => {
-    const calculated = calculatedPositions[planet];
+    const calculatedPosition = (calculatedPositions as any)?.[planet];
     
-    if (!calculated) {
+    if (!calculatedPosition) {
       differences[planet] = { status: 'missing' };
       accurate = false;
       return;
     }
     
-    // Calculate difference
-    const diff = {
-      signMatch: calculated.sign === refPosition.sign,
-      degreeDiff: calculated.degree - refPosition.degree,
-      minuteDiff: calculated.minute - refPosition.minute,
-      retrogradeMatch: calculated.isRetrograde === refPosition.isRetrograde
+    // Safe access to calculated position data
+    const positionData = calculatedPosition as any;
+    
+    const formattedCalculated: PlanetaryPosition = {
+      sign: (positionData?.sign || '').toLowerCase(),
+      degree: Math.floor(positionData?.degree || 0),
+      minute: Math.floor(((positionData?.degree || 0) % 1) * 60),
+      isRetrograde: positionData?.isRetrograde
     };
     
-    // Determine if accurate (within 5 minutes)
-    const totalDiffMinutes = Math.abs(diff.degreeDiff * 60 + diff.minuteDiff);
-    const isAccurate = diff.signMatch && totalDiffMinutes <= 5 && 
-                       (refPosition.isRetrograde === undefined || diff.retrogradeMatch);
+    // Calculate differences
+    const signDiff = formattedCalculated.sign !== refPosition.sign;
+    const degreeDiff = Math.abs(formattedCalculated.degree - refPosition.degree);
+    const minuteDiff = refPosition.minute ? Math.abs((formattedCalculated.minute || 0) - refPosition.minute) : 0;
+    const retrogradeMatch = formattedCalculated.isRetrograde === refPosition.isRetrograde;
+    
+    const planetAccurate = !signDiff && 
+                          degreeDiff < 1 &&
+                          (refPosition.minute === undefined || minuteDiff < 5) &&
+                          (refPosition.isRetrograde === undefined || retrogradeMatch);
     
     differences[planet] = {
-      calculated,
       reference: refPosition,
-      difference: diff,
-      accurate: isAccurate
+      calculated: formattedCalculated,
+      differences: {
+        sign: signDiff ? `${refPosition.sign} ≠ ${formattedCalculated.sign}` : null,
+        degree: degreeDiff > 1 ? `${refPosition.degree}° ≠ ${formattedCalculated.degree}°` : null,
+        minute: minuteDiff > 5 ? `${refPosition.minute}' ≠ ${formattedCalculated.minute || 0}'` : null,
+        retrograde: !retrogradeMatch ? `${refPosition.isRetrograde} ≠ ${formattedCalculated.isRetrograde}` : null
+      },
+      accurate: planetAccurate
     };
     
-    if (!isAccurate) {
-      accurate = false;
-    }
+    if (!planetAccurate) accurate = false;
   });
   
   return { accurate, differences };

@@ -909,83 +909,88 @@ function calculateVenusInfluence(
   }
   
   // Check flavor profile alignment with Venus preferences
-  if (ingredient.flavorProfile) {
+  const flavorProfile = (ingredient as any)?.flavorProfile;
+  if (flavorProfile) {
     // Venus favors sweet, rich, creamy flavors
-    if (ingredient.flavorProfile.sweet) {
-      score += ingredient.flavorProfile.sweet * 2.0;
+    if (flavorProfile.sweet) {
+      score += flavorProfile.sweet * 2.0;
     }
     
-    if (ingredient.flavorProfile.umami) {
-      score += ingredient.flavorProfile.umami * 1.5;
+    if (flavorProfile.umami) {
+      score += flavorProfile.umami * 1.5;
     }
     
-    if (ingredient.flavorProfile.creamy || ingredient.flavorProfile.rich) {
-      score += ((ingredient.flavorProfile.creamy || 0) + (ingredient.flavorProfile.rich || 0)) * 1.7;
+    if (flavorProfile.creamy || flavorProfile.rich) {
+      score += ((flavorProfile.creamy || 0) + (flavorProfile.rich || 0)) * 1.7;
     }
     
     // Venus appreciates aromatic, fragrant qualities
-    if (ingredient.flavorProfile.aromatic || ingredient.flavorProfile.fragrant) {
-      score += ((ingredient.flavorProfile.aromatic || 0) + (ingredient.flavorProfile.fragrant || 0)) * 1.6;
+    if (flavorProfile.aromatic || flavorProfile.fragrant) {
+      score += ((flavorProfile.aromatic || 0) + (flavorProfile.fragrant || 0)) * 1.6;
     }
     
     // Venus is less interested in bitter or excessively spicy flavors
-    if (ingredient.flavorProfile.bitter) {
-      score -= ingredient.flavorProfile.bitter * 0.5;
+    if (flavorProfile.bitter) {
+      score -= flavorProfile.bitter * 0.5;
     }
     
-    if (ingredient.flavorProfile.spicy && ingredient.flavorProfile.spicy > 0.7) {
-      score -= (ingredient.flavorProfile.spicy - 0.7) * 0.8;
+    if (flavorProfile.spicy && flavorProfile.spicy > 0.7) {
+      score -= (flavorProfile.spicy - 0.7) * 0.8;
     }
   }
   
   // Check texture alignment with Venus preferences
-  if (ingredient.texture) {
+  const texture = (ingredient as any)?.texture;
+  if (texture) {
     // Venus favors smooth, creamy, luscious textures
     const venusTextures = ['smooth', 'creamy', 'velvety', 'soft', 'tender', 'juicy', 'buttery'];
-    const textureMatch = venusTextures.filter(texture => 
-      ingredient.texture.includes(texture)
+    const textureMatch = venusTextures.filter(venusTexture => 
+      Array.isArray(texture) ? texture.includes(venusTexture) : texture.includes && texture.includes(venusTexture)
     ).length;
     
     score += textureMatch * 0.5;
   }
   
   // Check culinary technique alignment
-  if (venusData.PlanetSpecific?.CulinaryTechniques && ingredient.culinaryUses) {
+  const culinaryUses = (ingredient as any)?.culinaryUses;
+  if (venusData.PlanetSpecific?.CulinaryTechniques && culinaryUses) {
     // Check for aesthetic presentation techniques
     if (
-      ingredient.culinaryUses.includes('garnish') || 
-      ingredient.culinaryUses.includes('plating')
+      culinaryUses.includes('garnish') || 
+      culinaryUses.includes('plating')
     ) {
       score += 1.8;
     }
     
     // Check for balance and harmony in flavor pairings
-    if (ingredient.harmonyPairings && ingredient.harmonyPairings.length > 3) {
+    const harmonyPairings = (ingredient as any)?.harmonyPairings;
+    if (harmonyPairings && harmonyPairings.length > 3) {
       score += 1.5;
     }
     
     // Sweet and indulgent preparation techniques
     if (
-      ingredient.culinaryUses.includes('dessert') || 
-      ingredient.culinaryUses.includes('baking') ||
-      ingredient.culinaryUses.includes('confection')
+      culinaryUses.includes('dessert') || 
+      culinaryUses.includes('baking') ||
+      culinaryUses.includes('confection')
     ) {
       score += 1.2;
     }
     
     // Check for fragrance and aroma enhancement
+    const aromaticProperties = (ingredient as any)?.aromaticProperties;
     if (
-      ingredient.aromaticProperties || 
-      (ingredient.flavorProfile?.aromatic && ingredient.flavorProfile.aromatic > 0.7)
+      aromaticProperties || 
+      (flavorProfile?.aromatic && flavorProfile.aromatic > 0.7)
     ) {
       score += 1.6;
     }
     
     // Check for textural contrast techniques
     if (
-      ingredient.culinaryUses.includes('crispy') || 
-      ingredient.culinaryUses.includes('crunchy') || 
-      ingredient.texture?.includes('contrast')
+      culinaryUses.includes('crispy') || 
+      culinaryUses.includes('crunchy') || 
+      (texture && ((Array.isArray(texture) && texture.includes('contrast')) || (texture.includes && texture.includes('contrast'))))
     ) {
       score += 1.3;
     }
@@ -996,16 +1001,22 @@ function calculateVenusInfluence(
     const transitData = venusData.PlanetSpecific.ZodiacTransit[zodiacSign];
     
     // Check food focus alignment
-    if (transitData.FoodFocus) {
-      const foodFocus = transitData.FoodFocus.toLowerCase();
+    // Extract transit data with safe property access
+    const transitDataAny = transitData as any;
+    const foodFocusProperty = transitDataAny?.FoodFocus;
+    
+    if (foodFocusProperty) {
+      const foodFocus = foodFocusProperty.toLowerCase();
       const ingredientName = (ingredient as any)?.name.toLowerCase();
       
       // Direct keywords match
       const keywords = foodFocus.split(/[\s,;]+/).filter(k => k.length > 3);
       for (const keyword of keywords) {
+        const description = (ingredient as any)?.description;
+        const culinaryUses = (ingredient as any)?.culinaryUses;
         if (ingredientName.includes(keyword) || 
-            ingredient.description?.toLowerCase().includes(keyword) ||
-            ingredient.culinaryUses?.some(use => use.toLowerCase().includes(keyword))) {
+            (description && description.toLowerCase().includes(keyword)) ||
+            (culinaryUses && culinaryUses.some((use: string) => use.toLowerCase().includes(keyword)))) {
           score += 2.0;
           break;
         }
@@ -1013,10 +1024,13 @@ function calculateVenusInfluence(
     }
     
     // Check Elements alignment
-    if (transitData.Elements && ingredient.elementalProperties) {
-      for (const element in transitData.Elements) {
+    // Extract transit data with safe property access for elements
+    const transitElements = transitDataAny?.Elements;
+    
+    if (transitElements && ingredient.elementalProperties) {
+      for (const element in transitElements) {
         if (ingredient.elementalProperties[element]) {
-          score += transitData.Elements[element] * ingredient.elementalProperties[element] * 0.7;
+          score += transitElements[element] * ingredient.elementalProperties[element] * 0.7;
         }
       }
     }
@@ -1036,8 +1050,9 @@ function calculateVenusInfluence(
       }
       
       // Related ingredient match
-      if (ingredient.relatedIngredients) {
-        const relatedMatches = ingredient.relatedIngredients.filter(related => 
+      const relatedIngredients = (ingredient as any)?.relatedIngredients;
+      if (relatedIngredients) {
+        const relatedMatches = relatedIngredients.filter((related: string) => 
           transitIngredients.some(i => related.toLowerCase().includes(i) || i.includes(related.toLowerCase()))
         ).length;
         
@@ -1045,8 +1060,9 @@ function calculateVenusInfluence(
       }
       
       // Complementary ingredients match
-      if (ingredient.complementaryIngredients) {
-        const complementaryMatches = ingredient.complementaryIngredients.filter(complement => 
+      const complementaryIngredients = (ingredient as any)?.complementaryIngredients;
+      if (complementaryIngredients) {
+        const complementaryMatches = complementaryIngredients.filter((complement: string) => 
           transitIngredients.some(i => complement.toLowerCase().includes(i) || i.includes(complement.toLowerCase()))
         ).length;
         
@@ -1064,124 +1080,164 @@ function calculateVenusInfluence(
     const lowerSign = zodiacSign.toLowerCase();
     
     // Earth Venus
-    if (earthSigns.includes(lowerSign) && venusData.PlanetSpecific?.CulinaryTemperament?.EarthVenus) {
-      const earthVenus = venusData.PlanetSpecific.CulinaryTemperament.EarthVenus;
+    if (earthSigns.includes(lowerSign) && (venusData.PlanetSpecific?.CulinaryTemperament as any)?.EarthVenus) {
+      const earthVenus = (venusData.PlanetSpecific.CulinaryTemperament as any).EarthVenus;
       
       // Check for sensual, rich ingredients
-      if (ingredient.flavorProfile?.rich > 0.5 || 
-          ingredient.flavorProfile?.umami > 0.5 ||
-          ingredient.culinaryUses?.includes('comfort food')) {
+      if (flavorProfile?.rich > 0.5 || 
+          flavorProfile?.umami > 0.5 ||
+          culinaryUses?.includes('comfort food')) {
         score += 2.0;
       }
       
       // Food focus alignment
-      if (earthVenus.FoodFocus) {
-        const focusKeywords = earthVenus.FoodFocus.toLowerCase().split(/[\s,;]+/).filter(k => k.length > 3);
+      // Extract earth venus data with safe property access
+      const earthVenusAny = earthVenus as any;
+      const earthVenusFoodFocus = earthVenusAny?.FoodFocus;
+      
+      if (earthVenusFoodFocus) {
+        const focusKeywords = earthVenusFoodFocus.toLowerCase().split(/[\s,;]+/).filter(k => k.length > 3);
+        const description = (ingredient as any)?.description;
         if (focusKeywords.some(keyword => 
             (ingredient as any)?.name.toLowerCase().includes(keyword) || 
-            ingredient.description?.toLowerCase().includes(keyword))) {
+            (description && description.toLowerCase().includes(keyword)))) {
           score += 1.5;
         }
       }
       
       // Elements alignment
-      if (earthVenus.Elements && ingredient.elementalProperties) {
-        for (const element in earthVenus.Elements) {
+      // Extract earth venus elements with safe property access
+      const earthVenusElements = earthVenusAny?.Elements;
+      
+      if (earthVenusElements && ingredient.elementalProperties) {
+        for (const element in earthVenusElements) {
           if (ingredient.elementalProperties[element]) {
-            score += earthVenus.Elements[element] * ingredient.elementalProperties[element] * 1.0;
+            score += earthVenusElements[element] * ingredient.elementalProperties[element] * 1.0;
           }
         }
       }
     }
     
     // Air Venus
-    if (airSigns.includes(lowerSign) && venusData.PlanetSpecific?.CulinaryTemperament?.AirVenus) {
-      const airVenus = venusData.PlanetSpecific.CulinaryTemperament.AirVenus;
+    if (airSigns.includes(lowerSign) && (venusData.PlanetSpecific?.CulinaryTemperament as any)?.AirVenus) {
+      const airVenus = (venusData.PlanetSpecific.CulinaryTemperament as any).AirVenus;
       
       // Check for light, delicate ingredients
-      if (ingredient.texture?.includes('light') || 
-          ingredient.texture?.includes('crisp') ||
-          ingredient.flavorProfile?.light > 0.5) {
+      if ((texture && ((Array.isArray(texture) && texture.includes('light')) || (texture.includes && texture.includes('light')))) || 
+          (texture && ((Array.isArray(texture) && texture.includes('crisp')) || (texture.includes && texture.includes('crisp')))) ||
+          flavorProfile?.light > 0.5) {
         score += 2.0;
       }
       
       // Food focus alignment
-      if (airVenus.FoodFocus) {
-        const focusKeywords = airVenus.FoodFocus.toLowerCase().split(/[\s,;]+/).filter(k => k.length > 3);
+      // Extract air venus data with safe property access
+      const airVenusAny = airVenus as any;
+      const airVenusFoodFocus = airVenusAny?.FoodFocus;
+      
+      if (airVenusFoodFocus) {
+        const focusKeywords = airVenusFoodFocus.toLowerCase().split(/[\s,;]+/).filter(k => k.length > 3);
+        const description = (ingredient as any)?.description;
         if (focusKeywords.some(keyword => 
             (ingredient as any)?.name.toLowerCase().includes(keyword) || 
-            ingredient.description?.toLowerCase().includes(keyword))) {
+            (description && description.toLowerCase().includes(keyword)))) {
           score += 1.5;
         }
       }
       
       // Elements alignment
-      if (airVenus.Elements && ingredient.elementalProperties) {
-        for (const element in airVenus.Elements) {
+      // Extract air venus elements with safe property access
+      const airVenusElements = airVenusAny?.Elements;
+      
+      if (airVenusElements && ingredient.elementalProperties) {
+        for (const element in airVenusElements) {
           if (ingredient.elementalProperties[element]) {
-            score += airVenus.Elements[element] * ingredient.elementalProperties[element] * 1.0;
+            score += airVenusElements[element] * ingredient.elementalProperties[element] * 1.0;
           }
         }
       }
     }
     
     // Water Venus
-    if (waterSigns.includes(lowerSign) && venusData.PlanetSpecific?.CulinaryTemperament?.WaterVenus) {
-      const waterVenus = venusData.PlanetSpecific.CulinaryTemperament.WaterVenus;
+    if (waterSigns.includes(lowerSign) && (venusData.PlanetSpecific?.CulinaryTemperament as any)?.WaterVenus) {
+      const waterVenus = (venusData.PlanetSpecific.CulinaryTemperament as any).WaterVenus;
       
       // Check for moist, juicy ingredients
-      if (ingredient.texture?.includes('juicy') || 
-          ingredient.texture?.includes('tender') ||
-          ingredient.flavorProfile?.juicy > 0.5) {
+      if ((texture && ((Array.isArray(texture) && texture.includes('juicy')) || (texture.includes && texture.includes('juicy')))) || 
+          (texture && ((Array.isArray(texture) && texture.includes('tender')) || (texture.includes && texture.includes('tender')))) ||
+          flavorProfile?.juicy > 0.5) {
         score += 2.0;
       }
       
       // Food focus alignment
-      if (waterVenus.FoodFocus) {
-        const focusKeywords = waterVenus.FoodFocus.toLowerCase().split(/[\s,;]+/).filter(k => k.length > 3);
-        if (focusKeywords.some(keyword => 
-            (ingredient as any)?.name.toLowerCase().includes(keyword) || 
-            ingredient.description?.toLowerCase().includes(keyword))) {
+      // Extract water venus data with safe property access
+      const waterVenusAny = waterVenus as any;
+      const waterVenusFoodFocus = waterVenusAny?.FoodFocus;
+      
+      if (waterVenusFoodFocus) {
+        const focusKeywords = waterVenusFoodFocus.toLowerCase().split(/[\s,;]+/).filter(k => k.length > 3);
+              // Extract ingredient data with safe property access
+      const ingredientData = ingredient as any;
+      const ingredientName = ingredientData?.name?.toLowerCase() || '';
+      const ingredientDescription = ingredientData?.description?.toLowerCase() || '';
+      
+      if (focusKeywords.some(keyword => 
+          ingredientName.includes(keyword) || 
+          ingredientDescription.includes(keyword))) {
           score += 1.5;
         }
       }
       
       // Elements alignment
-      if (waterVenus.Elements && ingredient.elementalProperties) {
-        for (const element in waterVenus.Elements) {
+      // Extract water venus elements with safe property access
+      const waterVenusElements = waterVenusAny?.Elements;
+      
+      if (waterVenusElements && ingredient.elementalProperties) {
+        for (const element in waterVenusElements) {
           if (ingredient.elementalProperties[element]) {
-            score += waterVenus.Elements[element] * ingredient.elementalProperties[element] * 1.0;
+            score += waterVenusElements[element] * ingredient.elementalProperties[element] * 1.0;
           }
         }
       }
     }
     
     // Fire Venus
-    if (fireSigns.includes(lowerSign) && venusData.PlanetSpecific?.CulinaryTemperament?.FireVenus) {
-      const fireVenus = venusData.PlanetSpecific.CulinaryTemperament.FireVenus;
+    if (fireSigns.includes(lowerSign) && (venusData.PlanetSpecific?.CulinaryTemperament as any)?.FireVenus) {
+      const fireVenus = (venusData.PlanetSpecific.CulinaryTemperament as any).FireVenus;
       
       // Check for vibrant, spicy ingredients
-      if (ingredient.flavorProfile?.spicy > 0.3 || 
-          ingredient.flavorProfile?.vibrant > 0.5 ||
-          ingredient.culinaryUses?.includes('stimulating')) {
+      if (flavorProfile?.spicy > 0.3 || 
+          flavorProfile?.vibrant > 0.5 ||
+          culinaryUses?.includes('stimulating')) {
         score += 2.0;
       }
       
       // Food focus alignment
-      if (fireVenus.FoodFocus) {
-        const focusKeywords = fireVenus.FoodFocus.toLowerCase().split(/[\s,;]+/).filter(k => k.length > 3);
+      // Extract fire venus data with safe property access
+      const fireVenusAny = fireVenus as any;
+      const fireVenusFoodFocus = fireVenusAny?.FoodFocus;
+      
+      if (fireVenusFoodFocus) {
+        const focusKeywords = fireVenusFoodFocus.toLowerCase().split(/[\s,;]+/).filter(k => k.length > 3);
+        // Extract ingredient data with safe property access
+        const ingredientData = ingredient as any;
+        const ingredientName = ingredientData?.name?.toLowerCase() || '';
+        const ingredientDescription = ingredientData?.description?.toLowerCase() || '';
+        
         if (focusKeywords.some(keyword => 
-            (ingredient as any)?.name.toLowerCase().includes(keyword) || 
-            ingredient.description?.toLowerCase().includes(keyword))) {
+            ingredientName.includes(keyword) || 
+            ingredientDescription.includes(keyword))) {
           score += 1.5;
         }
       }
       
       // Elements alignment
-      if (fireVenus.Elements && ingredient.elementalProperties) {
-        for (const element in fireVenus.Elements) {
+      // Extract fire venus elements with safe property access
+      const fireVenusElements = fireVenusAny?.Elements;
+      
+      if (fireVenusElements && ingredient.elementalProperties) {
+        for (const element in fireVenusElements) {
           if (ingredient.elementalProperties[element]) {
-            score += fireVenus.Elements[element] * ingredient.elementalProperties[element] * 1.0;
+            score += fireVenusElements[element] * ingredient.elementalProperties[element] * 1.0;
           }
         }
       }
@@ -1191,10 +1247,12 @@ function calculateVenusInfluence(
   // Retrograde modifiers
   if (isVenusRetrograde && venusData.PlanetSpecific?.Retrograde) {
     // Increase score for preserved or dried herbs during retrograde
+    const preservationMethods = (ingredient as any)?.preservation_methods;
+    const categories = (ingredient as any)?.categories;
     if (
-      ingredient.preservation_methods?.includes('dried') || 
+      (preservationMethods && preservationMethods.includes('dried')) || 
       ingredient.category === 'herb' ||
-      ingredient.categories?.includes('preserved')
+      (categories && categories.includes('preserved'))
     ) {
       score *= 1.5;
     } else {
@@ -1202,16 +1260,28 @@ function calculateVenusInfluence(
     }
     
     // Nostalgia foods get a boost during retrograde
-    if (ingredient.cultural_significance?.includes('traditional') ||
-        ingredient.cultural_significance?.includes('nostalgic')) {
+    // Extract ingredient data with safe property access for cultural significance
+    const ingredientData = ingredient as any;
+    const culturalSignificance = ingredientData?.cultural_significance;
+    const culturalSignificanceArray = Array.isArray(culturalSignificance) ? culturalSignificance : 
+                                     (typeof culturalSignificance === 'string' ? [culturalSignificance] : []);
+    
+    if (culturalSignificanceArray.includes('traditional') ||
+        culturalSignificanceArray.includes('nostalgic')) {
       score += 1.8;
     }
     
     // Check retrograde food focus
-    if (venusData.PlanetSpecific.Retrograde.FoodFocus) {
-      const retroFocus = venusData.PlanetSpecific.Retrograde.FoodFocus.toLowerCase();
-      const ingredientName = (ingredient as any)?.name.toLowerCase();
-      const ingredientDesc = ingredient.description?.toLowerCase() || '';
+    // Extract retrograde data with safe property access
+    const retrogradeData = venusData.PlanetSpecific.Retrograde as any;
+    const retroFoodFocus = retrogradeData?.FoodFocus;
+    
+    if (retroFoodFocus) {
+      const retroFocus = retroFoodFocus.toLowerCase();
+      // Extract ingredient data with safe property access
+      const ingredientData = ingredient as any;
+      const ingredientName = ingredientData?.name?.toLowerCase() || '';
+      const ingredientDesc = ingredientData?.description?.toLowerCase() || '';
       
       // Check for keyword matches
       const retroKeywords = retroFocus.split(/[\s,;]+/).filter(k => k.length > 3);
@@ -1223,19 +1293,27 @@ function calculateVenusInfluence(
       }
     }
     
-    // Check retrograde elements
-    if (venusData.PlanetSpecific.Retrograde.Elements && ingredient.elementalProperties) {
-      for (const element in venusData.PlanetSpecific.Retrograde.Elements) {
-        if (ingredient.elementalProperties[element]) {
-          score += venusData.PlanetSpecific.Retrograde.Elements[element] * 
-                   ingredient.elementalProperties[element] * 0.9;
+          // Check retrograde elements
+      // Extract retrograde elements with safe property access
+      const retrogradeElements = retrogradeData?.Elements;
+      
+      if (retrogradeElements && ingredient.elementalProperties) {
+        
+        for (const element in retrogradeElements) {
+          if (ingredient.elementalProperties[element]) {
+            score += retrogradeElements[element] * 
+                     ingredient.elementalProperties[element] * 0.9;
+          }
         }
       }
-    }
   }
   
   // Lunar phase connections with Venus
-  if (venusData.LunarConnection) {
+  // Extract planetary data with safe property access
+  const venusDataAny = venusData as any;
+  const lunarConnection = venusDataAny?.LunarConnection;
+  
+  if (lunarConnection) {
     // This would be checked against the current lunar phase in a full implementation
   }
 
@@ -1257,7 +1335,10 @@ function enhanceVenusIngredientScoring(
   const zodiacSign = astroState.zodiacSign as string | undefined;
   
   // Check if Venus is retrograde
-  const isVenusRetrograde = astroState.retrograde?.includes('Venus') || false;
+  // Extract astrological state with safe property access
+  const astroStateData = astroState as any;
+  const retrogradeArray = Array.isArray(astroStateData?.retrograde) ? astroStateData.retrograde : [];
+  const isVenusRetrograde = retrogradeArray.includes('Venus') || false;
   
   // Calculate Venus influence score
   const venusInfluence = calculateVenusInfluence(ingredient, zodiacSign, isVenusRetrograde);
@@ -1278,7 +1359,10 @@ function enhanceVenusIngredientBatch(ingredients: Ingredient[], astroState: Astr
   const zodiacSign = astroState.zodiacSign as string | undefined;
   
   // Check if Venus is retrograde
-  const isVenusRetrograde = astroState.retrograde?.includes('Venus') || false;
+  // Extract astrological state with safe property access for batch processing
+  const astroStateData = astroState as any;
+  const retrogradeArray = Array.isArray(astroStateData?.retrograde) ? astroStateData.retrograde : [];
+  const isVenusRetrograde = retrogradeArray.includes('Venus') || false;
   
   // Add a "venusScore" property to each ingredient for sorting
   ingredients.forEach(ingredient => {
@@ -1331,11 +1415,15 @@ function calculateMarsInfluence(
   }
   
   // Flavor profile alignment
-  if (marsData.FlavorProfiles && ingredient.flavorProfile) {
+  // Extract ingredient data with safe property access for flavor profile
+  const ingredientData = ingredient as any;
+  const ingredientFlavorProfile = ingredientData?.flavorProfile;
+  
+  if (marsData.FlavorProfiles && ingredientFlavorProfile) {
     for (const flavor in marsData.FlavorProfiles) {
-      if (ingredient.flavorProfile[flavor]) {
+      if (ingredientFlavorProfile[flavor]) {
         // Higher score when both have high values for same flavor
-        score += marsData.FlavorProfiles[flavor] * ingredient.flavorProfile[flavor];
+        score += marsData.FlavorProfiles[flavor] * ingredientFlavorProfile[flavor];
       }
     }
   }
@@ -1379,12 +1467,18 @@ function calculateMarsInfluence(
   // Mars retrograde effects
   if (isMarsRetrograde && marsData.PlanetSpecific?.Retrograde) {
     // During retrograde, Mars emphasizes dried herbs and spices
-    if (ingredient.type === 'spice' || ingredient.type === 'herb' || ingredient.type === 'seasoning') {
+    // Extract ingredient data with safe property access for type
+    const ingredientData = ingredient as any;
+    const ingredientType = ingredientData?.type || ingredientData?.category || '';
+    
+    if (ingredientType === 'spice' || ingredientType === 'herb' || ingredientType === 'seasoning') {
       score += 1.5;
     }
     
     // Focus shifts to traditional uses
-    if (ingredient.traditional) {
+    // Extract ingredient data with safe property access for traditional property
+    const ingredientTraditional = ingredientData?.traditional;
+    if (ingredientTraditional) {
       score += 1.2;
     }
   }
@@ -1394,9 +1488,14 @@ function calculateMarsInfluence(
     const fireDominant = ((ingredient as any)?.elementalProperties.Fire || 0) > 0.6;
     const waterDominant = ((ingredient as any)?.elementalProperties.Water || 0) > 0.6;
     
-    if (fireDominant && marsData.PlanetSpecific?.CulinaryTemperament?.FireMars) {
+    // Extract Mars temperament data with safe property access
+    const marsTemperament = marsData.PlanetSpecific?.CulinaryTemperament as any;
+    const fireMars = marsTemperament?.FireMars;
+    const waterMars = marsTemperament?.WaterMars;
+    
+    if (fireDominant && fireMars) {
       score += 1.5;
-    } else if (waterDominant && marsData.PlanetSpecific?.CulinaryTemperament?.WaterMars) {
+    } else if (waterDominant && waterMars) {
       score += 1.3;
     }
   }
@@ -1409,7 +1508,10 @@ function calculateMarsInfluence(
  */
 function enhanceMarsIngredientScoring(ingredients: Ingredient[], astroState: AstrologicalState): void {
   // Get Mars status info from astro state
-  const isMarsRetrograde = astroState.retrograde?.includes('Mars') || false;
+  // Extract astrological state with safe property access for Mars retrograde
+  const astroStateData = astroState as any;
+  const retrogradeArray = Array.isArray(astroStateData?.retrograde) ? astroStateData.retrograde : [];
+  const isMarsRetrograde = retrogradeArray.includes('Mars') || false;
   const zodiacSign = astroState.zodiacSign;
   
   // Compute Mars influence for each ingredient
@@ -1417,7 +1519,12 @@ function enhanceMarsIngredientScoring(ingredients: Ingredient[], astroState: Ast
     const ingredient = ingredients[i];
     
     // Only process if it has necessary data
-    if (!(ingredient as any)?.name || !ingredient.matchScore) continue;
+    // Extract ingredient data with safe property access
+    const ingredientData = ingredient as any;
+    const ingredientName = ingredientData?.name;
+    const ingredientMatchScore = ingredientData?.matchScore;
+    
+    if (!ingredientName || !ingredientMatchScore) continue;
     
     // Calculate Mars influence
     const marsInfluence = calculateMarsInfluence(
@@ -1429,18 +1536,22 @@ function enhanceMarsIngredientScoring(ingredients: Ingredient[], astroState: Ast
     // Apply Mars boost to match score
     if (marsInfluence > 0) {
       // Include the original score, add the Mars influence
-      ingredient.matchScore = (ingredient.matchScore || 0) + (marsInfluence * 1.8);
+      ingredientData.matchScore = (ingredientData.matchScore || 0) + (marsInfluence * 1.8);
       
       // Add a flag or data point to indicate Mars influence was applied
-      if (!ingredient.influences) {
-        ingredient.influences = {};
+      if (!ingredientData.influences) {
+        ingredientData.influences = {};
       }
-      ingredient.influences.mars = marsInfluence;
+      ingredientData.influences.mars = marsInfluence;
     }
   }
   
   // Re-sort the ingredients based on the updated scores
-  ingredients.sort((a, b) => (b.matchScore || 0) - (a.matchScore || 0));
+  ingredients.sort((a, b) => {
+    const aData = a as any;
+    const bData = b as any;
+    return (bData.matchScore || 0) - (aData.matchScore || 0);
+  });
 }
 
 // Add the new function for Mercury associated ingredients
@@ -1531,8 +1642,12 @@ function calculateMercuryInfluence(
   }
   
   // Mercury herb associations
+  // Extract ingredient data with safe property access for type
+  const ingredientData = ingredient as any;
+  const ingredientType = ingredientData?.type || ingredientData?.category || '';
+  
   if (mercuryData.HerbalAssociations?.Herbs && 
-      (ingredient.type === 'herb' || ingredient.type === 'spice')) {
+      (ingredientType === 'herb' || ingredientType === 'spice')) {
     for (const herb of mercuryData.HerbalAssociations.Herbs) {
       if ((ingredient as any)?.name.toLowerCase().includes(herb.toLowerCase()) ||
           herb.toLowerCase().includes((ingredient as any)?.name.toLowerCase())) {
@@ -1658,7 +1773,10 @@ function calculateMercuryInfluence(
 // Add the function to enhance Mercury ingredient scoring
 function enhanceMercuryIngredientScoring(ingredients: Ingredient[], astroState: AstrologicalState): void {
   // Check if Mercury is retrograde
-  const isMercuryRetrograde = astroState.retrograde?.includes('Mercury') || false;
+  // Extract astrological state with safe property access for Mercury retrograde
+  const astroStateData = astroState as any;
+  const retrogradeArray = Array.isArray(astroStateData?.retrograde) ? astroStateData.retrograde : [];
+  const isMercuryRetrograde = retrogradeArray.includes('Mercury') || false;
   
   // Get the current zodiac sign
   const zodiacSign = astroState.zodiacSign;
@@ -1667,11 +1785,14 @@ function enhanceMercuryIngredientScoring(ingredients: Ingredient[], astroState: 
   ingredients.forEach(ingredient => {
     const mercuryScore = calculateMercuryInfluence(ingredient, zodiacSign, isMercuryRetrograde);
     
+    // Extract ingredient data with safe property access for score manipulation
+    const ingredientData = ingredient as any;
+    
     // Apply Mercury score as a multiplier to the ingredient's existing score
-    if (ingredient.matchScore !== undefined) {
-      ingredient.matchScore *= (1 + mercuryScore * 0.3);
-    } else if ('score' in ingredient) {
-      (ingredient as any).score *= (1 + mercuryScore * 0.3);
+    if (ingredientData.matchScore !== undefined) {
+      ingredientData.matchScore *= (1 + mercuryScore * 0.3);
+    } else if ('score' in ingredientData) {
+      ingredientData.score *= (1 + mercuryScore * 0.3);
     }
     
     // If the ingredient has a Mercury score field, update it
@@ -1912,8 +2033,12 @@ function calculatePlanetaryDayInfluence(
     nocturnalMatch = (ingredient as any)?.elementalProperties[nocturnalElement] || 0;
   } else {
     // Simple matching if no detailed elemental profile is available
-    diurnalMatch = ingredient.element === diurnalElement ? 1.0 : 0.3;
-    nocturnalMatch = ingredient.element === nocturnalElement ? 1.0 : 0.3;
+    // Extract ingredient data with safe property access for element
+    const ingredientData = ingredient as any;
+    const ingredientElement = ingredientData?.element || ingredientData?.category || '';
+    
+    diurnalMatch = ingredientElement === diurnalElement ? 1.0 : 0.3;
+    nocturnalMatch = ingredientElement === nocturnalElement ? 1.0 : 0.3;
   }
   
   // Calculate a weighted score - both elements are equally important for planetary day
@@ -1987,7 +2112,11 @@ function calculatePlanetaryHourInfluence(
     elementalMatch = (ingredient as any)?.elementalProperties[relevantElement] || 0;
   } else {
     // Simple matching if no detailed elemental profile is available
-    elementalMatch = ingredient.element === relevantElement ? 1.0 : 0.3;
+    // Extract ingredient data with safe property access for element
+    const ingredientData = ingredient as any;
+    const ingredientElement = ingredientData?.element || ingredientData?.category || '';
+    
+    elementalMatch = ingredientElement === relevantElement ? 1.0 : 0.3;
   }
   
   // Apply dignity effects if we have planet positions
@@ -2069,8 +2198,12 @@ export function recommendIngredients(
   // Filter by category if specified
   let filteredIngredients = allIngredients;
   if (options.category) {
-    filteredIngredients = allIngredients.filter(ing => 
-      ing.type.toLowerCase() === options.category?.toLowerCase());
+    filteredIngredients = allIngredients.filter(ing => {
+      // Extract ingredient data with safe property access for type/category
+      const ingredientData = ing as any;
+      const ingredientType = ingredientData?.type || ingredientData?.category || '';
+      return ingredientType.toLowerCase() === options.category?.toLowerCase();
+    });
   }
   
   // Filter out excluded ingredients
@@ -2086,17 +2219,17 @@ export function recommendIngredients(
   }
   
   // Extract key astrological information
-  const {
-    timestamp = new Date(),
-    Fire = 0.5,
-    Water = 0.5,
-    Air = 0.5,
-    Earth = 0.5,
-    zodiacSign = '',
-    planetaryAlignment = {},
-    aspects = [],
-    lunarPhase = ''
-  } = astroState;
+  // Extract astrological state with safe property access
+  const astroStateData = astroState as any;
+  const timestamp = astroStateData?.timestamp || new Date();
+  const Fire = astroStateData?.Fire || 0.5;
+  const Water = astroStateData?.Water || 0.5;
+  const Air = astroStateData?.Air || 0.5;
+  const Earth = astroStateData?.Earth || 0.5;
+  const zodiacSign = astroStateData?.zodiacSign || '';
+  const planetaryAlignment = astroStateData?.planetaryAlignment || {};
+  const aspects = astroStateData?.aspects || [];
+  const lunarPhase = astroStateData?.lunarPhase || '';
   
   // Get planetary day and hour for current time
   const date = timestamp instanceof Date ? timestamp : new Date(timestamp);

@@ -50,14 +50,17 @@ export function getRecipeElementalProperties(recipe: Recipe): ElementalPropertie
     return createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0 });
   }
 
-  if (recipe.elementalState && isElementalProperties(recipe.elementalState)) {
-    return recipe.elementalState;
+  const recipeData = recipe as any;
+  
+  if (recipeData?.elementalState && isElementalProperties(recipeData.elementalState)) {
+    return recipeData.elementalState;
   }
 
   // Try to get from elementalMapping if available
-  if (recipe.elementalMapping?.elementalState && 
-      isElementalProperties(recipe.elementalMapping.elementalState)) {
-    return recipe.elementalMapping.elementalState;
+  const elementalMapping = recipeData?.elementalMapping;
+  if (elementalMapping?.elementalState && 
+      isElementalProperties(elementalMapping.elementalState)) {
+    return elementalMapping.elementalState;
   }
 
   return createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0 });
@@ -69,18 +72,20 @@ export function getRecipeElementalProperties(recipe: Recipe): ElementalPropertie
 export function getRecipeCookingMethods(recipe: Recipe): string[] {
   if (!recipe) return [];
 
+  const recipeData = recipe as any;
+  
   // Check cookingMethod (string or string[])
-  if (typeof recipe.cookingMethods === 'string') {
-    return [recipe.cookingMethods];
+  if (typeof recipeData?.cookingMethods === 'string') {
+    return [recipeData.cookingMethods];
   }
   
-  if (Array.isArray(recipe.cookingMethods)) {
-    return recipe.cookingMethods;
+  if (Array.isArray(recipeData?.cookingMethods)) {
+    return recipeData.cookingMethods;
   }
 
-  // Check for backward compatibility with cookingMethods
-  if (Array.isArray((recipe as Record<string, any>)?.cookingMethods)) {
-    return (recipe as Record<string, any>).cookingMethods;
+  // Check for backward compatibility with cookingMethod
+  if (typeof recipeData?.cookingMethod === 'string') {
+    return [recipeData.cookingMethod];
   }
 
   return [];
@@ -92,8 +97,10 @@ export function getRecipeCookingMethods(recipe: Recipe): string[] {
 export function getRecipeMealTypes(recipe: Recipe): string[] {
   if (!recipe) return [];
   
-  if (recipe.mealType) {
-    return toArray(recipe.mealType);
+  const recipeData = recipe as any;
+  
+  if (recipeData?.mealType) {
+    return toArray(recipeData.mealType);
   }
   
   return [];
@@ -105,8 +112,14 @@ export function getRecipeMealTypes(recipe: Recipe): string[] {
 export function getRecipeSeasons(recipe: Recipe): string[] {
   if (!recipe) return [];
   
-  if (recipe.currentSeason) {
-    return toArray(recipe.currentSeason);
+  const recipeData = recipe as any;
+  
+  if (recipeData?.currentSeason) {
+    return toArray(recipeData.currentSeason);
+  }
+  
+  if (recipeData?.season) {
+    return toArray(recipeData.season);
   }
   
   return [];
@@ -118,14 +131,21 @@ export function getRecipeSeasons(recipe: Recipe): string[] {
 export function getRecipeAstrologicalInfluences(recipe: Recipe): string[] {
   if (!recipe) return [];
   
-  if (Array.isArray(recipe.astrologicalPropertiesInfluences)) {
-    return recipe.astrologicalPropertiesInfluences;
+  const recipeData = recipe as any;
+  
+  if (Array.isArray(recipeData?.astrologicalPropertiesInfluences)) {
+    return recipeData.astrologicalPropertiesInfluences;
+  }
+  
+  if (Array.isArray(recipeData?.astrologicalInfluences)) {
+    return recipeData.astrologicalInfluences;
   }
   
   // Try to get from elementalMapping if available
-  if (recipe.elementalMapping?.astrologicalInfluences && 
-      Array.isArray(recipe.elementalMapping.astrologicalInfluences)) {
-    return recipe.elementalMapping.astrologicalInfluences;
+  const elementalMapping = recipeData?.elementalMapping;
+  if (elementalMapping?.astrologicalInfluences && 
+      Array.isArray(elementalMapping.astrologicalInfluences)) {
+    return elementalMapping.astrologicalInfluences;
   }
   
   return [];
@@ -137,14 +157,18 @@ export function getRecipeAstrologicalInfluences(recipe: Recipe): string[] {
 export function getRecipeZodiacInfluences(recipe: Recipe): string[] {
   if (!recipe) return [];
   
-  if (Array.isArray(recipe.zodiacInfluences)) {
-    return recipe.zodiacInfluences;
+  const recipeData = recipe as any;
+  
+  if (Array.isArray(recipeData?.zodiacInfluences)) {
+    return recipeData.zodiacInfluences;
   }
   
   // Try to get from elementalMapping if available
-  if (recipe.elementalMapping?.astrologicalProfile?.favorableZodiac && 
-      Array.isArray(recipe?.elementalMapping?.astrologicalProfile?.favorableZodiac)) {
-    return recipe?.elementalMapping?.astrologicalProfile?.favorableZodiac;
+  const elementalMapping = recipeData?.elementalMapping;
+  const astrologicalProfile = elementalMapping?.astrologicalProfile;
+  if (astrologicalProfile?.favorableZodiac && 
+      Array.isArray(astrologicalProfile.favorableZodiac)) {
+    return astrologicalProfile.favorableZodiac;
   }
   
   return [];
@@ -156,21 +180,23 @@ export function getRecipeZodiacInfluences(recipe: Recipe): string[] {
 export function getRecipeCookingTime(recipe: Recipe): number {
   if (!recipe) return 0;
   
-  if (typeof recipe.cookingTime === 'number') {
-    return recipe.cookingTime;
+  const recipeData = recipe as any;
+  
+  if (typeof recipeData?.cookingTime === 'number') {
+    return recipeData.cookingTime;
   }
   
-  if (typeof recipe.totalTime === 'number') {
-    return recipe.totalTime;
+  if (typeof recipeData?.totalTime === 'number') {
+    return recipeData.totalTime;
   }
   
-  if (typeof recipe.timeToMake === 'number') {
-    return recipe.timeToMake;
+  if (typeof recipeData?.timeToMake === 'number') {
+    return recipeData.timeToMake;
   }
   
-  if (typeof recipe.timeToMake === 'string') {
+  if (typeof recipeData?.timeToMake === 'string') {
     // Try to extract number from string like "30 minutes"
-    const match = recipe.timeToMake.match(/(\d+)/);
+    const match = recipeData.timeToMake.match(/(\d+)/);
     if (match && match[1]) {
       return parseInt(match[1], 10);
     }
@@ -185,7 +211,10 @@ export function getRecipeCookingTime(recipe: Recipe): number {
 export function recipeHasTag(recipe: Recipe, tag: string): boolean {
   if (!recipe || !tag) return false;
   
-  return safeSome(Array.isArray(recipe.tags) ? recipe.tags : [recipe.tags], (t) => t === tag?.toLowerCase());
+  const recipeData = recipe as any;
+  const tags = Array.isArray(recipeData?.tags) ? recipeData.tags : [recipeData?.tags];
+  
+  return safeSome(tags, (t) => t === tag?.toLowerCase());
 }
 
 /**
@@ -194,49 +223,49 @@ export function recipeHasTag(recipe: Recipe, tag: string): boolean {
 export function isRecipeCompatibleWithDiet(recipe: Recipe, restriction: string): boolean {
   if (!recipe) return false;
   
+  const recipeData = recipe as any;
+  
   switch (restriction?.toLowerCase()) {
     case 'vegetarian':
-      return recipe.isVegetarian === true;
+      return recipeData?.isVegetarian === true;
     case 'vegan':
-      return recipe.isVegan === true;
+      return recipeData?.isVegan === true;
     case 'gluten-free':
-    case 'glutenfree':
-      return recipe.isGlutenFree === true;
-    case 'dAiry-free':
-    case 'dAiryfree':
-      return recipe.isDAiryFree === true;
-    case 'nut-free':
-    case 'nutfree':
-      return recipe.isNutFree === true;
-    case 'low-carb':
-    case 'lowcarb':
-      return recipe.isLowCarb === true;
+      return recipeData?.isGlutenFree === true;
+    case 'dairy-free':
+      return recipeData?.isDairyFree === true;
     case 'keto':
-      return recipe.isKeto === true;
+      return recipeData?.isKeto === true;
     case 'paleo':
-      return recipe.isPaleo === true;
+      return recipeData?.isPaleo === true;
     default:
-      return safeSome(recipe.dietaryTags, tag => tag?.toLowerCase() === restriction?.toLowerCase());
+      return true;
   }
 }
 
 /**
- * Checks if a recipe has a specific ingredient
+ * Checks if a recipe contains a specific ingredient
  */
 export function recipeHasIngredient(recipe: Recipe, ingredientName: string): boolean {
-  if (!recipe || !ingredientName || !isNonEmptyArray(recipe.ingredients)) {
-    return false;
-  }
+  if (!recipe || !ingredientName) return false;
   
-  const normalizedName = ingredientName?.toLowerCase();
+  const recipeData = recipe as any;
+  const ingredients = recipeData?.ingredients || [];
   
-  return recipe.ingredients  || [].some(ingredient => {
-    if (typeof ingredient === 'string') {
-      return ingredient?.toLowerCase()?.includes(normalizedName);
+  if (!Array.isArray(ingredients)) return false;
+  
+  const searchName = ingredientName.toLowerCase();
+  
+  return ingredients.some((ingredient: any) => {
+    const ingredientData = ingredient as any;
+    
+    // Handle both string and object ingredients
+    if (typeof ingredientData === 'string') {
+      return ingredientData.toLowerCase().includes(searchName);
     }
     
-    if (isRecipeIngredient(ingredient)) {
-      return ingredient.name?.toLowerCase()?.includes(normalizedName);
+    if (typeof ingredientData === 'object' && ingredientData?.name) {
+      return ingredientData.name.toLowerCase().includes(searchName);
     }
     
     return false;
@@ -244,108 +273,134 @@ export function recipeHasIngredient(recipe: Recipe, ingredientName: string): boo
 }
 
 /**
- * Gets the dominant element from a recipe
+ * Gets the dominant element of a recipe
  */
 export function getRecipeDominantElement(recipe: Recipe): string {
+  if (!recipe) return 'Earth'; // Default element
+  
   const elementalProperties = getRecipeElementalProperties(recipe);
-  let maxElement = 'Fire';
-  let maxValue = elementalProperties.Fire;
   
-  if (elementalProperties.Water > maxValue) {
-    maxElement = 'Water';
-    maxValue = elementalProperties.Water;
-  }
+  // Find the element with the highest value
+  let maxElement = 'Earth';
+  let maxValue = 0;
   
-  if (elementalProperties.Earth > maxValue) {
-    maxElement = 'Earth';
-    maxValue = elementalProperties.Earth;
-  }
-  
-  if (elementalProperties.Air > maxValue) {
-    maxElement = 'Air';
-    maxValue = elementalProperties.Air;
-  }
+  (['Fire', 'Water', 'Earth', 'Air'] as const).forEach(element => {
+    const elementData = elementalProperties as any;
+    const value = elementData?.[element] || 0;
+    if (value > maxValue) {
+      maxValue = value;
+      maxElement = element;
+    }
+  });
   
   return maxElement;
 }
 
 /**
- * Gets a safe version of the recipe's name
+ * Gets a safe recipe name with fallback
  */
 export function getSafeRecipeName(recipe: Recipe): string {
   if (!recipe) return 'Unknown Recipe';
-  return recipe.name || 'Unnamed Recipe';
+  
+  const recipeData = recipe as any;
+  return recipeData?.name || 'Unknown Recipe';
 }
 
 /**
- * Gets a safe version of the recipe's description
+ * Gets a safe recipe description with fallback
  */
 export function getSafeRecipeDescription(recipe: Recipe): string {
-  if (!recipe) return '';
-  return recipe.description || '';
+  if (!recipe) return 'No description available';
+  
+  const recipeData = recipe as any;
+  return recipeData?.description || 'No description available';
 }
 
 /**
- * Safely convert any Recipe to a ScoredRecipe with optional score
+ * Converts a Recipe to a ScoredRecipe with optional score
  */
 export function toScoredRecipe(recipe: Recipe, score?: number): ScoredRecipe {
-  if (isScoredRecipe(recipe)) {
-    return recipe;
+  if (!recipe) {
+    throw new Error('Cannot convert null or undefined recipe to ScoredRecipe');
   }
+  
+  const defaultScore = score !== undefined ? score : 0.5;
   
   return {
     ...recipe,
-    score: score ?? 0,
-    alchemicalScores: recipe.alchemicalScores || {
-      elementalScore: 0,
-      zodiacalScore: 0,
-      lunarScore: 0,
-      planetaryScore: 0,
-      seasonalScore: 0,
-    }
-  };
-} 
+    score: defaultScore
+  } as ScoredRecipe;
+}
+
 /**
  * Checks if a recipe is compatible with dietary restrictions
  */
 export function isRecipeDietaryCompatible(recipe: any, dietaryRestrictions: string[] = []): boolean {
-  if (!recipe || !dietaryRestrictions.length) {
+  if (!recipe || !Array.isArray(dietaryRestrictions) || dietaryRestrictions.length === 0) {
     return true;
   }
   
-  // Check if recipe has dietary tags or properties
-  const recipeTags = recipe.tags || recipe.dietaryTags || [];
-  const recipeIngredients = recipe.ingredients || [];
+  const recipeData = recipe as any;
   
-  // Simple compatibility check
-  for (const restriction of dietaryRestrictions) {
-    const restrictionLower = restriction.toLowerCase();
-    
-    // Check if recipe explicitly supports this dietary restriction
-    if (recipeTags.some((tag: string) => tag.toLowerCase().includes(restrictionLower))) {
-      continue;
+  return dietaryRestrictions.every(restriction => {
+    switch (restriction.toLowerCase()) {
+      case 'vegetarian':
+        return recipeData?.isVegetarian === true;
+      case 'vegan':
+        return recipeData?.isVegan === true;
+      case 'gluten-free':
+        return recipeData?.isGlutenFree === true;
+      case 'dairy-free':
+        return recipeData?.isDairyFree === true;
+      case 'nut-free':
+        return recipeData?.isNutFree === true;
+      case 'keto':
+        return recipeData?.isKeto === true;
+      case 'paleo':
+        return recipeData?.isPaleo === true;
+      default:
+        return true; // Unknown restrictions are ignored
     }
-    
-    // Basic ingredient checks for common restrictions
-    if (restrictionLower.includes('vegan') || restrictionLower.includes('vegetarian')) {
-      const hasAnimalProducts = recipeIngredients.some((ing: any) => 
-        (ing.name || ing).toLowerCase().includes('meat') ||
-        (ing.name || ing).toLowerCase().includes('chicken') ||
-        (ing.name || ing).toLowerCase().includes('beef') ||
-        (ing.name || ing).toLowerCase().includes('pork')
-      );
-      if (hasAnimalProducts) return false;
-    }
-    
-    if (restrictionLower.includes('gluten-free')) {
-      const hasGluten = recipeIngredients.some((ing: any) => 
-        (ing.name || ing).toLowerCase().includes('wheat') ||
-        (ing.name || ing).toLowerCase().includes('flour') ||
-        (ing.name || ing).toLowerCase().includes('bread')
-      );
-      if (hasGluten) return false;
-    }
-  }
+  });
+}
+
+/**
+ * Gets safe ingredient list from recipe
+ */
+export function getRecipeIngredients(recipe: Recipe): RecipeIngredient[] {
+  if (!recipe) return [];
   
-  return true;
+  const recipeData = recipe as any;
+  const ingredients = recipeData?.ingredients || [];
+  
+  if (!Array.isArray(ingredients)) return [];
+  
+  return ingredients.map((ingredient: any) => {
+    const ingredientData = ingredient as any;
+    
+    // Handle both string and object ingredients
+    if (typeof ingredientData === 'string') {
+      return {
+        name: ingredientData,
+        amount: 1,
+        unit: 'piece'
+      } as RecipeIngredient;
+    }
+    
+    if (typeof ingredientData === 'object') {
+      return {
+        name: ingredientData?.name || 'Unknown ingredient',
+        amount: ingredientData?.amount || 1,
+        unit: ingredientData?.unit || 'piece',
+        optional: ingredientData?.optional || false,
+        preparation: ingredientData?.preparation || undefined
+      } as RecipeIngredient;
+    }
+    
+    return {
+      name: 'Unknown ingredient',
+      amount: 1,
+      unit: 'piece'
+    } as RecipeIngredient;
+  }).filter(ingredient => ingredient.name !== 'Unknown ingredient');
 }

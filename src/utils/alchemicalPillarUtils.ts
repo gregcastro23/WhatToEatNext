@@ -785,28 +785,39 @@ export function getEnhancedCookingRecommendations(
   // Create enhanced recommendations with additional data
   const enhancedRecommendations = (baseRecommendations as any)?.map?.(rec => {
     const methodData = allCookingMethods[(rec as any)?.method];
+    
+    // Extract methodData with safe property access
+    const data = methodData as any;
+    const sustainabilityRating = data?.sustainabilityRating;
+    const equipmentComplexity = data?.equipmentComplexity;
+    const astrologicalInfluences = data?.astrologicalInfluences;
+    const duration = data?.duration;
+    const toolsRequired = data?.toolsRequired;
+    const healthConsiderations = data?.healthConsiderations;
+    const suitable_for = data?.suitable_for;
+    
     let zodiacCompatibility = 1.0;
     let lunarCompatibility = 1.0;
     let timeCompatibility = 1.0;
     let toolCompatibility = 1.0;
-    const sustainabilityScore = methodData.sustainabilityRating || 0.5;
-    const complexityScore = methodData.equipmentComplexity || 0.5;
+    const sustainabilityScore = sustainabilityRating || 0.5;
+    const complexityScore = equipmentComplexity || 0.5;
     const reasons = [];
     
     // Adjust for zodiac compatibility if provided
-    if (options.zodiacSign && methodData.astrologicalInfluences) {
-      if (methodData.astrologicalInfluences.favorableZodiac?.includes(options.zodiacSign)) {
+    if (options.zodiacSign && astrologicalInfluences) {
+      if (astrologicalInfluences.favorableZodiac?.includes(options.zodiacSign)) {
         zodiacCompatibility = 1.5;
         reasons.push(`favorable for ${options.zodiacSign}`);
-      } else if (methodData.astrologicalInfluences.unfavorableZodiac?.includes(options.zodiacSign)) {
+      } else if (astrologicalInfluences.unfavorableZodiac?.includes(options.zodiacSign)) {
         zodiacCompatibility = 0.5;
         reasons.push(`less favorable for ${options.zodiacSign}`);
       }
     }
     
     // Adjust for lunar phase if provided
-    if (options.lunarPhase && methodData.astrologicalInfluences?.lunarPhaseEffect?.[options.lunarPhase]) {
-      lunarCompatibility = methodData.astrologicalInfluences.lunarPhaseEffect[options.lunarPhase];
+    if (options.lunarPhase && astrologicalInfluences?.lunarPhaseEffect?.[options.lunarPhase]) {
+      lunarCompatibility = astrologicalInfluences.lunarPhaseEffect[options.lunarPhase];
       if (lunarCompatibility > 1.0) {
         reasons.push(`enhanced during ${options.lunarPhase}`);
       } else if (lunarCompatibility < 1.0) {
@@ -815,25 +826,25 @@ export function getEnhancedCookingRecommendations(
     }
     
     // Check time constraints
-    if (options.timeConstraint && methodData.duration) {
-      if (methodData.duration.min > options.timeConstraint) {
+    if (options.timeConstraint && duration) {
+      if (duration.min > options.timeConstraint) {
         timeCompatibility = 0.1; // Significant penalty if minimum time exceeds constraint
-        reasons.push(`exceeds time constraint (${methodData.duration.min} min)`);
-      } else if (methodData.duration.max > options.timeConstraint) {
+        reasons.push(`exceeds time constraint (${duration.min} min)`);
+      } else if (duration.max > options.timeConstraint) {
         // Some penalty if maximum time exceeds constraint but minimum doesn't
-        timeCompatibility = 0.5 + 0.5 * (options.timeConstraint - methodData.duration.min) / 
-                          (methodData.duration.max - methodData.duration.min);
+        timeCompatibility = 0.5 + 0.5 * (options.timeConstraint - duration.min) / 
+                          (duration.max - duration.min);
         reasons.push(`may exceed time constraint depending on preparation`);
-      } else if (methodData.duration.max < options.timeConstraint * 0.5) {
+      } else if (duration.max < options.timeConstraint * 0.5) {
         // Bonus for methods well under time constraint
         timeCompatibility = 1.2;
-        reasons.push(`efficient cooking time (${methodData.duration.min}-${methodData.duration.max} min)`);
+        reasons.push(`efficient cooking time (${duration.min}-${duration.max} min)`);
       }
     }
     
     // Check available tools if specified
-    if (options.availableTools && (options.availableTools as any)?.length > 0 && methodData.toolsRequired) {
-      const requiredTools = methodData.toolsRequired;
+    if (options.availableTools && (options.availableTools as any)?.length > 0 && toolsRequired) {
+      const requiredTools = toolsRequired;
       const missingTools = (requiredTools as any)?.filter?.(
         tool => !options.availableTools?.some(
           availableTool => (tool as any)?.toLowerCase?.().includes((availableTool as any)?.toLowerCase?.())
@@ -857,9 +868,9 @@ export function getEnhancedCookingRecommendations(
     // Adjust sustainability and health focus if requested
     let healthBenefits: string[] = [];
     
-    if (options.healthFocus && methodData.healthConsiderations) {
+    if (options.healthFocus && healthConsiderations) {
       // Extract positive health considerations
-              healthBenefits = (methodData.healthConsiderations as any)?.filter?.(
+              healthBenefits = (healthConsiderations as any)?.filter?.(
         consideration => !(consideration as any)?.toLowerCase?.().includes('risk') &&
                         !(consideration as any)?.toLowerCase?.().includes('concern') &&
                         !(consideration as any)?.toLowerCase?.().includes('monitor')
@@ -870,19 +881,24 @@ export function getEnhancedCookingRecommendations(
       }
     }
     
-    if (options.sustainabilityFocus && methodData.sustainabilityRating) {
-      if (methodData.sustainabilityRating >= 0.8) {
-        reasons.push(`highly sustainable (${Math.round(methodData.sustainabilityRating * 100)}%)`);
-      } else if (methodData.sustainabilityRating <= 0.4) {
-        reasons.push(`lower sustainability (${Math.round(methodData.sustainabilityRating * 100)}%)`);
+    if (options.sustainabilityFocus && sustainabilityRating) {
+      if (sustainabilityRating >= 0.8) {
+        reasons.push(`highly sustainable (${Math.round(sustainabilityRating * 100)}%)`);
+      } else if (sustainabilityRating <= 0.4) {
+        reasons.push(`lower sustainability (${Math.round(sustainabilityRating * 100)}%)`);
       }
     }
     
     // Check if this method is suitable for the item's type
     let suitabilityFactor = 1.0;
-    if (item.type && methodData.suitable_for) {
-      const isExplicitlySuitable = methodData.suitable_for.some(
-        suitableType => (suitableType as any)?.toLowerCase?.() === item.type?.toLowerCase()
+    if (item.type && suitable_for) {
+      const isExplicitlySuitable = suitable_for.some(
+        suitableType => {
+          const typeStr = suitableType as string;
+          const itemType = item.type as string;
+          return typeof typeStr === 'string' && typeof itemType === 'string' && 
+                 typeStr.toLowerCase() === itemType.toLowerCase();
+        }
       );
       
       if (isExplicitlySuitable) {
@@ -903,7 +919,7 @@ export function getEnhancedCookingRecommendations(
       method: (rec as any)?.method,
       compatibility: Math.min(1, enhancedCompatibility), // Cap at 1.0
       reason: (reasons as any)?.length > 0 ? reasons.join("; ") : "Compatible cooking method",
-      cookingTime: methodData.duration || { min: 0, max: 60 },
+      cookingTime: duration || { min: 0, max: 60 },
       sustainabilityRating: sustainabilityScore,
       equipmentComplexity: complexityScore,
       healthBenefits: healthBenefits.slice(0, 3) // Top 3 health benefits
@@ -928,9 +944,9 @@ function getAllCookingMethodData(): Record<string, unknown> {
     
     // Import methods from each category
     // Using dynamic imports instead of require statements
-    const dryMethods = import('../data/cooking/methods/dry').then(module => module.default);
-    const wetMethods = import('../data/cooking/methods/wet').then(module => module.default);
-    const traditionalMethods = import('../data/cooking/methods/traditional').then(module => module.default);
+    const dryMethods = import('../data/cooking/methods/dry').then(module => (module as any).default || module);
+    const wetMethods = import('../data/cooking/methods/wet').then(module => (module as any).default || module);
+    const traditionalMethods = import('../data/cooking/methods/traditional').then(module => (module as any).default || module);
     
     // Since we're using async imports, return a promise with all methods
     return Promise.all([dryMethods, wetMethods, traditionalMethods])

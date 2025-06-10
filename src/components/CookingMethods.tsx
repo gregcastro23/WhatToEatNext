@@ -123,10 +123,11 @@ const alchemize = async (
         Earth: (alchemicalResult as any)?.elementalBalance?.earth || 0,
         Air: (alchemicalResult as any)?.elementalBalance?.air || 0
       },
-      heat: thermodynamics?.heat || alchemicalResult.heat || 0.5,
-      entropy: thermodynamics?.entropy || alchemicalResult.entropy || 0.5,
-      reactivity: thermodynamics?.reactivity || alchemicalResult.reactivity || 0.5,
-      energy: thermodynamics?.energy || alchemicalResult.energy || 0.5
+      // Extract thermodynamic properties with safe property access
+      heat: (thermodynamics as any)?.heat || (alchemicalResult as any)?.heat || 0.5,
+      entropy: (thermodynamics as any)?.entropy || (alchemicalResult as any)?.entropy || 0.5,
+      reactivity: (thermodynamics as any)?.reactivity || (alchemicalResult as any)?.reactivity || 0.5,
+      energy: (thermodynamics as any)?.energy || (alchemicalResult as any)?.energy || 0.5
     };
   } catch (error) {
     console.error('Error in alchemize function:', error);
@@ -135,9 +136,9 @@ const alchemize = async (
       ...elements,
       alchemicalProperties: {},
       transformedElementalProperties: elements,
-      heat: thermodynamics?.heat || 0.5,
-      entropy: thermodynamics?.entropy || 0.5,
-      reactivity: thermodynamics?.reactivity || 0.5,
+      heat: (thermodynamics as any)?.heat || 0.5,
+      entropy: (thermodynamics as any)?.entropy || 0.5,
+      reactivity: (thermodynamics as any)?.reactivity || 0.5,
       energy: 0.5
     };
   }
@@ -146,11 +147,14 @@ const alchemize = async (
 const calculateMatchScore = (elements: unknown): number => {
   if (!elements) return 0;
   
+  // Extract elements data with safe property access
+  const elementsData = elements as any;
+  
   // More sophisticated calculation that weights the properties differently
   // Heat and reactivity are positive factors, while high entropy is generally a negative factor
-  const heatScore = elements.heat || 0;
-  const entropyScore = 1 - (elements.entropy || 0); // Invert entropy so lower is better
-  const reactivityScore = elements.reactivity || 0;
+  const heatScore = elementsData?.heat || 0;
+  const entropyScore = 1 - (elementsData?.entropy || 0); // Invert entropy so lower is better
+  const reactivityScore = elementsData?.reactivity || 0;
   
   // Calculate weighted average with more weight on heat and reactivity
   const rawScore = (heatScore * 0.4) + (entropyScore * 0.3) + (reactivityScore * 0.3);
@@ -226,8 +230,12 @@ interface MolecularGastronomyDetails {
 // Add these methods if they're missing from your COOKING_METHOD_THERMODYNAMICS constant
 const ADDITIONAL_THERMODYNAMICS = Object.entries(allCookingMethods)
   .reduce((acc, [methodName, methodData]) => {
-    if (methodData && methodData.thermodynamicProperties) {
-      acc[methodName] = methodData.thermodynamicProperties;
+    // Extract method data with safe property access
+    const methodDataObj = methodData as any;
+    const thermodynamicProperties = methodDataObj?.thermodynamicProperties;
+    
+    if (methodData && thermodynamicProperties) {
+      acc[methodName] = thermodynamicProperties;
     }
     return acc;
   }, {} as Record<string, ThermodynamicProperties>);
@@ -568,8 +576,9 @@ export default function CookingMethods() {
         // This is a simplified version - you would use your actual compatibility calculation
         let compatibilityScore = 0.5; // Default medium compatibility
         
-        // Check if ingredient is in the method's suitable_for list
-        if (method.suitable_for && method.suitable_for.some(item => 
+        // Check if ingredient is in the method's suitable_for list with safe array access
+        const suitableFor = method.suitable_for;
+        if (suitableFor && Array.isArray(suitableFor) && suitableFor.some(item => 
           (item as any)?.toLowerCase?.().includes((ingredient as any)?.toLowerCase?.())
         )) {
           compatibilityScore += 0.3; // Big boost for explicitly suitable ingredients
@@ -824,11 +833,14 @@ export default function CookingMethods() {
       
       if (molecularKey && molecularCookingMethods[molecularKey as CookingMethod]) {
         const sourceData = molecularCookingMethods[molecularKey as CookingMethod];
+        // Extract data with safe property access
+        const sourceDataObj = sourceData as any;
+        
         return {
-          benefits: sourceData?.benefits || [],
-          chemicalChanges: sourceData?.chemicalChanges || {},
-          toolsRequired: sourceData?.toolsRequired || [],
-          optimalTemperatures: sourceData?.optimalTemperatures || {}
+          benefits: sourceDataObj?.benefits || [],
+          chemicalChanges: sourceDataObj?.chemicalChanges || {},
+          toolsRequired: sourceDataObj?.toolsRequired || [],
+          optimalTemperatures: sourceDataObj?.optimalTemperatures || {}
         };
       }
     }
@@ -1631,19 +1643,21 @@ export default function CookingMethods() {
       if (isMountedRef.current) {
         setRecommendedMethods(sortedMethods);
         
-        // Also set planetary cooking methods
+        // Also set planetary cooking methods with safe array access
         const planetaryCookingMethodsMap: Record<string, string[]> = {};
-        planets.forEach(planet => {
-          const methodsForPlanet = sortedMethods
-            .filter(method => 
-              method.astrologicalInfluences?.dominantPlanets?.includes(planet)
-            )
-            .map(method => (method as any)?.name);
-          
-          if ((methodsForPlanet as any)?.length > 0) {
-            planetaryCookingMethodsMap[planet] = methodsForPlanet;
-          }
-        });
+        if (Array.isArray(planets)) {
+          planets.forEach(planet => {
+            const methodsForPlanet = sortedMethods
+              .filter(method => 
+                method.astrologicalInfluences?.dominantPlanets?.includes(planet)
+              )
+              .map(method => (method as any)?.name);
+            
+            if ((methodsForPlanet as any)?.length > 0) {
+              planetaryCookingMethodsMap[planet] = methodsForPlanet;
+            }
+          });
+        }
         
         setPlanetaryCookingMethods(planetaryCookingMethodsMap);
         

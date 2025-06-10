@@ -668,10 +668,11 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
       let aspectScore = 0.5; // Default neutral score
       if (astroState.aspects && astroState.aspects.length > 0) {
         // Check for specific aspect enhancers in the ingredient data
-        if (profile.aspectEnhancers && profile.aspectEnhancers.length > 0) {
+        const profileData = profile as any;
+        if (profileData?.aspectEnhancers && profileData.aspectEnhancers.length > 0) {
           const relevantAspects = astroState.aspects.filter(aspect => {
             // Check if this aspect type is specifically listed as an enhancer
-            return profile.aspectEnhancers?.includes(aspect.type);
+            return profileData.aspectEnhancers?.includes(aspect.type);
           });
           
           if (relevantAspects.length > 0) {
@@ -771,7 +772,8 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
       
       // Get user preferences from the state manager if available
       // instead of using a placeholder assumption
-      const userPreferences = astroState.userPreferences || {};
+      const astroStateData = astroState as any;
+      const userPreferences = astroStateData?.userPreferences || {};
       const tastePreferences = userPreferences.taste || {
         sweet: 0.5,
         salty: 0.5,
@@ -782,38 +784,39 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
       };
       
       if (standardized.sensoryProfile) {
-        const sensory = standardized.sensoryProfile;
+        const sensory = standardized.sensoryProfile as any;
         
         // Calculate weighted scores based on user preferences
-        if (sensory.taste) {
+        if (sensory?.taste) {
           let tasteScore = 0;
           let weightSum = 0;
           
           // Weight taste dimensions based on user preferences
           Object.entries(sensory.taste).forEach(([taste, value]) => {
+            const tasteValue = value as number;
             const preference = tastePreferences[taste] || 0.5;
-            tasteScore += value * preference;
+            tasteScore += tasteValue * preference;
             weightSum += preference;
           });
           
           // Normalize taste score
           const avgTaste = weightSum > 0 ? tasteScore / weightSum : 
-                         Object.values(sensory.taste).reduce((a, b) => a + b, 0) / 
+                         Object.values(sensory.taste).reduce((a: number, b: number) => a + b, 0) / 
                          Object.values(sensory.taste).length;
           
           sensoryScore = (sensoryScore + avgTaste) / 2;
         }
         
         // Factor in aromatic qualities
-        if (sensory.aroma) {
-          const avgAroma = Object.values(sensory.aroma).reduce((a, b) => a + b, 0) / 
+        if (sensory?.aroma) {
+          const avgAroma = Object.values(sensory.aroma).reduce((a: number, b: number) => a + b, 0) / 
                         Object.values(sensory.aroma).length;
           sensoryScore = (sensoryScore + avgAroma) / 2;
         }
         
         // Texture is less significant but still a factor
-        if (sensory.texture) {
-          const avgTexture = Object.values(sensory.texture).reduce((a, b) => a + b, 0) / 
+        if (sensory?.texture) {
+          const avgTexture = Object.values(sensory.texture).reduce((a: number, b: number) => a + b, 0) / 
                            Object.values(sensory.texture).length;
           sensoryScore = (sensoryScore * 0.7) + (avgTexture * 0.3);
         }

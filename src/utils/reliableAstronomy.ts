@@ -383,16 +383,17 @@ async function fetchPublicApiData(date: Date): Promise<Record<string, unknown>> 
       // Process each planet
       if (data && Array.isArray(data)) {
         data.forEach((planet: unknown) => {
-          if (planet.name && planet.longitude !== undefined && planetNameMap[planet.name.toLowerCase()]) {
-            const standardName = planetNameMap[planet.name.toLowerCase()];
-            const exactLongitude = parseFloat(planet.longitude);
+          const planetData = planet as any;
+          if (planetData?.name && planetData?.longitude !== undefined && planetNameMap[planetData.name.toLowerCase()]) {
+            const standardName = planetNameMap[planetData.name.toLowerCase()];
+            const exactLongitude = parseFloat(planetData.longitude);
             const { sign, degree } = getLongitudeToZodiacSign(exactLongitude);
             
             positions[standardName] = {
               sign,
               degree,
               exactLongitude,
-              isRetrograde: planet.isRetrograde === true
+              isRetrograde: planetData?.isRetrograde === true
             };
           }
         });
@@ -487,15 +488,16 @@ async function fetchTimeAndDateData(date: Date): Promise<Record<string, unknown>
       
       if (data && data.objects && Array.isArray(data.objects)) {
         data.objects.forEach((obj: unknown) => {
-          if (obj.name && obj.position && typeof obj.position.eclipticLongitude === 'number') {
-            const planetName = obj.name.charAt(0).toUpperCase() + obj.name.slice(1);
-            const { sign, degree } = getLongitudeToZodiacSign(obj.position.eclipticLongitude);
+          const objData = obj as any;
+          if (objData?.name && objData?.position && typeof objData.position?.eclipticLongitude === 'number') {
+            const planetName = objData.name.charAt(0).toUpperCase() + objData.name.slice(1);
+            const { sign, degree } = getLongitudeToZodiacSign(objData.position.eclipticLongitude);
             
             positions[planetName] = {
               sign,
               degree,
-              exactLongitude: obj.position.eclipticLongitude,
-              isRetrograde: obj.position.isRetrograde === true
+              exactLongitude: objData.position.eclipticLongitude,
+              isRetrograde: objData.position?.isRetrograde === true
             };
           }
         });
