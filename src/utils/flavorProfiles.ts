@@ -7,7 +7,9 @@ import type { ElementalProperties } from '../types/alchemy';
  * Get detailed flavor profile for a cuisine
  */
 export function getDetailedFlavorProfile(cuisine: unknown): string {
-  const cuisineId = (cuisine.id || cuisine.name || '').toLowerCase();
+  // Use safe type casting for cuisine property access
+  const cuisineData = cuisine as any;
+  const cuisineId = (cuisineData?.id || cuisineData?.name || '').toLowerCase();
   
   // Get flavor profile from static mapping
   const staticProfile = getStaticFlavorProfile(cuisineId);
@@ -16,15 +18,15 @@ export function getDetailedFlavorProfile(cuisine: unknown): string {
   }
   
   // If we have astrological influences, use them
-  if (cuisine.astrologicalInfluences && cuisine.astrologicalInfluences.length > 0) {
+  if (cuisineData?.astrologicalInfluences && cuisineData.astrologicalInfluences.length > 0) {
     return getAstrologicallyInformedFlavorProfile(
-      cuisine.astrologicalInfluences,
-      cuisine.alchemicalProperties || cuisine.elementalProperties || {}
+      cuisineData.astrologicalInfluences,
+      cuisineData?.alchemicalProperties || cuisineData?.elementalProperties || {}
     );
   }
   
   // Fall back to elemental properties
-  return generateFlavorProfileFromElements(cuisine.alchemicalProperties || cuisine.elementalProperties || {});
+  return generateFlavorProfileFromElements(cuisineData?.alchemicalProperties || cuisineData?.elementalProperties || {});
 }
 
 /**
