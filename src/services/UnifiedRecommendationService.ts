@@ -45,16 +45,20 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
   async getRecommendedRecipes(
     criteria: RecipeRecommendationCriteria
   ): Promise<RecommendationResult<Recipe>> {
-    const allRecipes = await unifiedRecipeService.getAllRecipes();
+    const allRecipes = recipeDataService.getAllRecipes();
     
     // Score recipes based on criteria
     const scoredRecipes = (allRecipes || []).map(recipe => {
       let score = 0;
       
+      // Use safe type casting for criteria access
+      const criteriaData = criteria as any;
+      const elementalState = criteriaData?.elementalState || criteriaData?.elementalProperties;
+      
       // Calculate elemental compatibility if criteria includes elemental properties
-      if (criteria.elementalState && recipe.elementalState) {
+      if (elementalState && recipe.elementalState) {
         const elementalScore = this.calculateElementalCompatibility(
-          criteria.elementalState,
+          elementalState,
           recipe.elementalState
         );
         
@@ -151,10 +155,14 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     const scoredIngredients = (allIngredients || []).map(ingredient => {
       let score = 0;
       
+      // Use safe type casting for criteria access
+      const criteriaData = criteria as any;
+      const elementalState = criteriaData?.elementalState || criteriaData?.elementalProperties;
+      
       // Calculate elemental compatibility if criteria includes elemental properties
-      if (criteria.elementalState && ingredient.elementalProperties) {
+      if (elementalState && ingredient.elementalProperties) {
         const elementalScore = this.calculateElementalCompatibility(
-          criteria.elementalState,
+          elementalState,
           ingredient.elementalProperties
         );
         
@@ -177,10 +185,11 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
         score += planetMatch ? 0.1 : 0;
       }
       
-      // Check for season match
-      if (criteria.currentSeason && ingredient.seasonality) {
+      // Check for season match with safe type casting
+      const currentSeason = criteriaData?.currentSeason || criteriaData?.season;
+      if (currentSeason && ingredient.seasonality) {
         const seasonMatch = (ingredient.seasonality || []).some(s =>
-          s?.toLowerCase() === criteria.currentSeason?.toLowerCase()
+          s?.toLowerCase() === currentSeason?.toLowerCase()
         );
         
         score += seasonMatch ? 0.1 : 0;
@@ -275,10 +284,14 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     const scoredCuisines = (availableCuisines || []).map(cuisine => {
       let score = 0.5; // Start with a neutral score
       
+      // Use safe type casting for criteria access
+      const criteriaData = criteria as any;
+      const elementalState = criteriaData?.elementalState || criteriaData?.elementalProperties;
+      
       // Calculate elemental compatibility if criteria includes elemental properties
-      if (criteria.elementalState && cuisineElements[cuisine]) {
+      if (elementalState && cuisineElements[cuisine]) {
         const elementalScore = this.calculateElementalCompatibility(
-          criteria.elementalState,
+          elementalState,
           cuisineElements[cuisine]
         );
         
@@ -367,8 +380,8 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     
     // Filter out excluded methods
     let availableMethods = cookingMethods;
-    if ($1 && ($1 || []).length > 0) {
-      const excludedSet = new Set(criteria?.excludeMethods || [].map(m => m?.toLowerCase()));
+    if (criteria.excludeMethods && (criteria.excludeMethods || []).length > 0) {
+      const excludedSet = new Set((criteria?.excludeMethods || []).map(m => m?.toLowerCase()));
       availableMethods = (cookingMethods || []).filter(method => 
         !excludedSet.has(method.name?.toLowerCase())
       );
@@ -378,11 +391,15 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     const scoredMethods = (availableMethods || []).map(method => {
       let score = 0.5; // Start with a neutral score
       
+      // Use safe type casting for criteria access
+      const criteriaData = criteria as any;
+      const elementalState = criteriaData?.elementalState || criteriaData?.elementalProperties;
+      
       // Calculate elemental compatibility if criteria includes elemental properties
-      if (criteria.elementalState && method.elementalState) {
+      if (elementalState && method.elementalProperties) {
         const elementalScore = this.calculateElementalCompatibility(
-          criteria.elementalState,
-          method.elementalState
+          elementalState,
+          method.elementalProperties
         );
         
         score = elementalScore; // Base score on elemental compatibility
