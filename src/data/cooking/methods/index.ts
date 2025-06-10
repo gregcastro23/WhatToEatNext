@@ -29,9 +29,11 @@ export const allCookingMethods = {
  */
 export const getMethodsForZodiacSign = (sign: ZodiacSign): Record<string, CookingMethodData> => {
   return Object.entries(allCookingMethods)
-    .filter(([_, method]) => 
-      method.astrologicalInfluences?.favorableZodiac?.includes(sign)
-    )
+    .filter(([_, method]) => {
+      // Apply safe type casting for method property access
+      const methodData = method as any;
+      return methodData?.astrologicalInfluences?.favorableZodiac?.includes(sign);
+    })
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 };
 
@@ -43,9 +45,11 @@ export const getMethodsForZodiacSign = (sign: ZodiacSign): Record<string, Cookin
  */
 export const getMethodsByElement = (element: Element, threshold = 0.4): Record<string, CookingMethodData> => {
   return Object.entries(allCookingMethods)
-    .filter(([_, method]) => 
-      (method.elementalEffect?.[element] || 0) >= threshold
-    )
+    .filter(([_, method]) => {
+      // Apply safe type casting for method property access
+      const methodData = method as any;
+      return (methodData?.elementalEffect?.[element] || 0) >= threshold;
+    })
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 };
 
@@ -56,11 +60,13 @@ export const getMethodsByElement = (element: Element, threshold = 0.4): Record<s
  */
 export const getMethodsForIngredientType = (ingredientType: string): Record<string, CookingMethodData> => {
   return Object.entries(allCookingMethods)
-    .filter(([_, method]) => 
-      method.suitable_for.some(type => 
-        type.toLowerCase().includes(ingredientType.toLowerCase())
-      )
-    )
+    .filter(([_, method]) => {
+      // Apply safe type casting for method property access
+      const methodData = method as any;
+      return (methodData?.suitable_for || []).some((type: any) => 
+        type?.toLowerCase()?.includes(ingredientType.toLowerCase())
+      );
+    })
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 };
 
@@ -71,10 +77,12 @@ export const getMethodsForIngredientType = (ingredientType: string): Record<stri
  */
 export const getMethodsByPlanet = (planet: string): Record<string, CookingMethodData> => {
   return Object.entries(allCookingMethods)
-    .filter(([_, method]) => 
-      method.astrologicalInfluences?.dominantPlanets?.includes(planet) ||
-      method.astrologicalInfluences?.rulingPlanets?.includes(planet)
-    )
+    .filter(([_, method]) => {
+      // Apply safe type casting for method property access
+      const methodData = method as any;
+      return methodData?.astrologicalInfluences?.dominantPlanets?.includes(planet) ||
+             methodData?.astrologicalInfluences?.rulingPlanets?.includes(planet);
+    })
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 };
 

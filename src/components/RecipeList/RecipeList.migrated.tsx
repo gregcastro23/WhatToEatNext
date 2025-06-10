@@ -496,14 +496,17 @@ export default function RecipeListMigrated() {
         filters: filters.search ? { search: filters.search } : undefined
       });
       
-      if (response.success) {
-        setRecipes(response.data || []);
+      // Apply safe type casting for response property access
+      const responseData = response as any;
+      
+      if (responseData?.success) {
+        setRecipes(responseData.data || []);
         
-        if (response.metadata) {
-          setTotalPages(response.metadata.totalPages || 1);
+        if (responseData?.metadata) {
+          setTotalPages(responseData.metadata.totalPages || 1);
         }
       } else {
-        setError(response.error?.message || 'Failed to fetch recipes');
+        setError(responseData?.error?.message || 'Failed to fetch recipes');
         setRecipes([]);
       }
     } catch (err) {

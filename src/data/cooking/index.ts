@@ -204,10 +204,12 @@ export function getCookingMethodsByTemperature(
 ): Record<string, CookingMethodData> {
   return Object.entries(allCookingMethods)
     .filter(([_, method]) => {
+      // Apply safe type casting for method property access
+      const methodData = method as any;
       // Check if the method has optimal temperatures and at least one falls within range
-      if (!method.optimalTemperatures) return false;
+      if (!methodData?.optimalTemperatures) return false;
 
-      return Object.values(method.optimalTemperatures).some(
+      return Object.values(methodData.optimalTemperatures).some(
         (temp) => temp >= minTemp && temp <= maxTemp
       );
     })
@@ -223,10 +225,17 @@ export function getCookingMethodsBySustainability(
   descending = true
 ): CookingMethodData[] {
   return Object.values(allCookingMethods)
-    .filter((method) => method.sustainabilityRating !== undefined)
+    .filter((method) => {
+      // Apply safe type casting for method property access
+      const methodData = method as any;
+      return methodData?.sustainabilityRating !== undefined;
+    })
     .sort((a, b) => {
-      const aRating = a.sustainabilityRating || 0;
-      const bRating = b.sustainabilityRating || 0;
+      // Apply safe type casting for method property access
+      const aData = a as any;
+      const bData = b as any;
+      const aRating = aData?.sustainabilityRating || 0;
+      const bRating = bData?.sustainabilityRating || 0;
       return descending ? bRating - aRating : aRating - bRating;
     });
 }

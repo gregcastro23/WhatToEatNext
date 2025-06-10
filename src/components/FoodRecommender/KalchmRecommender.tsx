@@ -29,11 +29,13 @@ export default function KalchmRecommender({
       // Convert planetary positions to the expected format
       const convertedPositions: { [key: string]: any } = {};
       Object.entries(planetaryPositions).forEach(([planet, position]) => {
+        // Apply safe type casting for position property access
+        const positionData = position as any;
         convertedPositions[planet] = {
-          sign: position.sign || 'Aries',
-          degree: position.degree || 0,
-          retrograde: position.isRetrograde || false,
-          exactLongitude: position.exactLongitude || position.degree || 0
+          sign: positionData?.sign || 'Aries',
+          degree: positionData?.degree || 0,
+          retrograde: positionData?.isRetrograde || false,
+          exactLongitude: positionData?.exactLongitude || positionData?.degree || 0
         };
       });
       
