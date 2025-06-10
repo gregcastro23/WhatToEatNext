@@ -50,6 +50,7 @@ export interface RecipeBuildingCriteria {
   // Core Requirements
   cuisine?: string;
   season?: Season;
+  currentSeason?: Season; // For seasonal adaptation
   mealType?: string[];
   servings?: number;
   
@@ -252,8 +253,9 @@ export class UnifiedRecipeBuildingSystem {
     // Step 3: Apply Monica optimization
     const monicaOptimization = this.calculateMonicaOptimization(enhancedRecipe, criteria);
     
-    // Step 4: Apply seasonal adaptation
-    const seasonalAdaptation = this.applySeasonalAdaptation(enhancedRecipe, criteria.currentSeason);
+    // Step 4: Apply seasonal adaptation with enhanced type safety
+    const seasonCriteria = criteria.currentSeason || criteria.season;
+    const seasonalAdaptation = this.applySeasonalAdaptation(enhancedRecipe, seasonCriteria);
     
     // Step 5: Apply cuisine integration
     const cuisineIntegration = this.applyCuisineIntegration(enhancedRecipe, criteria.cuisine);
@@ -510,8 +512,9 @@ export class UnifiedRecipeBuildingSystem {
     // Apply Monica optimization for fusion
     const monicaOptimization = this.calculateFusionMonicaOptimization(enhancedFusionRecipe, cuisines);
     
-    // Apply seasonal adaptation
-    const seasonalAdaptation = this.applySeasonalAdaptation(enhancedFusionRecipe, criteria.currentSeason);
+    // Apply seasonal adaptation with enhanced type safety
+    const seasonCriteria = criteria.currentSeason || criteria.season;
+    const seasonalAdaptation = this.applySeasonalAdaptation(enhancedFusionRecipe, seasonCriteria);
     
     // Apply cuisine integration for fusion
     const cuisineIntegration = this.applyFusionCuisineIntegration(enhancedFusionRecipe, cuisines);
@@ -614,7 +617,7 @@ export class UnifiedRecipeBuildingSystem {
       ingredients: baseIngredients,
       instructions: baseInstructions,
       cookingMethods: baseCookingMethods,
-      season: criteria.currentSeason ? [criteria.currentSeason] : ['all'],
+      season: criteria.currentSeason || criteria.season ? [criteria.currentSeason || criteria.season] : ['all'],
       mealType: criteria.mealType || ['dinner'],
       numberOfServings: criteria.servings || 4,
       prepTime: this.estimatePrepTime(baseIngredients, baseCookingMethods),
@@ -637,9 +640,10 @@ export class UnifiedRecipeBuildingSystem {
     // Base Monica calculation
     let optimalMonica = 1.0;
     
-    // Adjust for season
-    if (criteria.currentSeason) {
-      const seasonalProfile = this.seasonalSystem.getSeasonalRecommendations(criteria.currentSeason);
+    // Adjust for season with enhanced type safety
+    const seasonCriteria = criteria.currentSeason || criteria.season;
+    if (seasonCriteria) {
+      const seasonalProfile = this.seasonalSystem.getSeasonalRecommendations(seasonCriteria);
       optimalMonica *= seasonalProfile.monicaOptimization;
     }
     

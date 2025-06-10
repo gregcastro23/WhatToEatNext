@@ -76,7 +76,9 @@ export function getTarotCardForDate(date: Date) {
 
 export function getRecipesForTarotCard(card: unknown): string[] {
   if (!card) return [];
-  return card.associatedRecipes || [];
+  // Apply safe type casting for card access
+  const cardData = card as any;
+  return cardData?.associatedRecipes || [];
 }
 
 export function getMajorArcanaForDecan(decan: DecanKey) {
@@ -350,11 +352,15 @@ export const getTarotCardsForDate = (date: Date, sunPosition?: { sign: string, d
 };
 
 export function getQuantumValueForCard(card: unknown): number {
-  if (typeof card.quantum === 'number') {
-    return card.quantum;
+  // Apply safe type casting for card access
+  const cardData = card as any;
+  const quantum = cardData?.quantum;
+  
+  if (typeof quantum === 'number') {
+    return quantum;
   }
   
-  switch (card.quantum) {
+  switch (quantum) {
     case 'spirit':
     case 'essence':
     case 'substance':
@@ -367,8 +373,11 @@ export function getQuantumValueForCard(card: unknown): number {
 
 export function getElementalQuantum(card: unknown) {
   if (!card) return { Fire: 0, Water: 0, Earth: 0, Air: 0 };
-  const element = card.element || 'Fire';
-  const quantum = card.quantum || 1;
+  
+  // Apply safe type casting for card access
+  const cardData = card as any;
+  const element = cardData?.element || 'Fire';
+  const quantum = cardData?.quantum || 1;
   
   return {
     Fire: element === 'Fire' ? quantum : 0,

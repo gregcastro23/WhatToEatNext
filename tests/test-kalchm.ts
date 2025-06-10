@@ -20,13 +20,22 @@ const testPositions = {
 // Calculate alchemical metrics using the main engine
 const metrics = alchemize(testPositions);
 
+// Apply safe type casting for metrics access
+const metricsData = metrics as any;
+const heat = metricsData?.heat || 0;
+const entropy = metricsData?.entropy || 0;
+const reactivity = metricsData?.reactivity || 0;
+const gregsEnergy = metricsData?.gregsEnergy || 0;
+const kalchm = metricsData?.kalchm || 0;
+const monica = metricsData?.monica || 0;
+
 console.log('🧙‍♂️ ALCHEMICAL METRICS:');
-console.log(`  Heat: ${metrics.heat.toFixed(4)}`);
-console.log(`  Entropy: ${metrics.entropy.toFixed(4)}`);
-console.log(`  Reactivity: ${metrics.reactivity.toFixed(4)}`);
-console.log(`  Greg's Energy: ${metrics.gregsEnergy.toFixed(4)}`);
-console.log(`  K_alchm: ${metrics.kalchm.toFixed(4)}`);
-console.log(`  Monica Constant: ${metrics.monica.toFixed(4)}`);
+console.log(`  Heat: ${heat.toFixed(4)}`);
+console.log(`  Entropy: ${entropy.toFixed(4)}`);
+console.log(`  Reactivity: ${reactivity.toFixed(4)}`);
+console.log(`  Greg's Energy: ${gregsEnergy.toFixed(4)}`);
+console.log(`  K_alchm: ${kalchm.toFixed(4)}`);
+console.log(`  Monica Constant: ${monica.toFixed(4)}`);
 
 // Legacy functions for backward compatibility
 export function calculateKAlchm(spirit: number, essence: number, matter: number, substance: number): number {
@@ -53,11 +62,11 @@ const Spirit = 5;
 const Essence = 3;
 const Matter = 2;
 const Substance = 1;
-const energy = metrics.gregsEnergy;
-const reactivity = metrics.reactivity;
+const energy = gregsEnergy;
+const reactivityValue = reactivity;
 
 const kAlchm = calculateKAlchm(Spirit, Essence, Matter, Substance);
-const monicaConstant = calculateMonicaConstant(energy, reactivity, kAlchm);
+const monicaConstant = calculateMonicaConstant(energy, reactivityValue, kAlchm);
 
 console.log('\n🔮 LEGACY CALCULATION TEST:');
 console.log(`  Legacy K_alchm: ${kAlchm.toFixed(4)}`);

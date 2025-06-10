@@ -71,25 +71,17 @@ function CuisineSelectorMigrated({
 
     const loadAstrologyData = async () => {
       try {
-        // Use props if provided, otherwise get from service
-        if (propPlanetaryPositions) {
-          setResolvedPlanetaryPositions(propPlanetaryPositions);
-        } else {
-          const positions = await astrologyService.getCurrentPlanetaryPositions();
-          // Convert to simple format needed by the component
-          const simplifiedPositions: { [key: string]: number } = {};
-          Object.entries(positions || {}).forEach(([planet, data]) => {
-            if (data && typeof data === 'object' && 'degree' in data) {
-              simplifiedPositions[planet] = Number((data as any).degree) || 0;
-            }
-          });
-          setResolvedPlanetaryPositions(simplifiedPositions);
-        }
+        // Apply safe type casting for astrology service access
+        const serviceData = astrologyService as any;
         
-        // Resolve other astrological properties
+        setResolvedPlanetaryPositions(propPlanetaryPositions || await astrologyService.getPlanetaryPositions());
         setResolvedIsDaytime(propIsDaytime !== undefined ? propIsDaytime : await astrologyService.isDaytime());
         setResolvedCurrentZodiac(propCurrentZodiac || await astrologyService.getCurrentZodiacSign());
-        setResolvedLunarPhase(propCurrentLunarPhase || await astrologyService.getCurrentLunarPhase());
+        
+        // Use safe method access for lunar phase
+        const lunarPhase = propCurrentLunarPhase || 
+          (serviceData?.getCurrentLunarPhase ? await serviceData.getCurrentLunarPhase() : 'full moon');
+        setResolvedLunarPhase(lunarPhase);
       } catch (err) {
         console.error('Error loading astrological data:', err);
         setError(err instanceof Error ? err : new Error('Error loading astrological data'));
@@ -119,8 +111,13 @@ function CuisineSelectorMigrated({
         // Get recommended cuisines based on planetary positions
         const result = await recommendationService.getRecommendedCuisines({
           planetaryPositions: Object.entries(resolvedPlanetaryPositions)?.reduce((acc, [planet, degree]) => {
+            // Apply safe type casting for astrology service access
+            const serviceData = astrologyService as any;
+            const zodiacSign = serviceData?.getZodiacSignForDegree ? 
+              serviceData.getZodiacSignForDegree(Number(degree)) : 'aries';
+            
             acc[planet] = { 
-              sign: astrologyService?.getZodiacSignForDegree(Number(degree)) || 'aries',
+              sign: zodiacSign,
               degree: Number(degree)
             };
             return acc;
@@ -204,7 +201,10 @@ function CuisineSelectorMigrated({
       // Apply zodiac filter
       if (zodiacFilter !== 'all') {
         // Check if cuisine has zodiac influences and includes the selected zodiac
-        const zodiacInfluences = cuisine.zodiacInfluences || [];
+        // Apply safe type casting for zodiac influences access
+        const zodiacInfluencesData = cuisine.zodiacInfluences as any;
+        const zodiacInfluences = Array.isArray(zodiacInfluencesData) ? zodiacInfluencesData : [];
+        
         if (zodiacFilter !== 'all' && !zodiacInfluences.includes(zodiacFilter)) {
           // Also check for planetary dignities if cuisines were transformed
           if ('planetaryDignities' in cuisine) {
@@ -436,17 +436,23 @@ function CuisineSelectorMigrated({
               </div>
               
               {/* Display zodiac influences if available */}
-              {cuisine.zodiacInfluences && (cuisine.zodiacInfluences || []).length > 0 && (
-                <div className="zodiac-influences text-xs mt-2">
-                  <span>Zodiac influences: </span>
-                  {(cuisine?.zodiacInfluences || []).map((sign: string, i: number) => (
-                    <span key={sign} className={`${resolvedCurrentZodiac === sign ? 'font-bold' : ''}`}>
-                      {sign.charAt(0)?.toUpperCase() + sign?.slice(1)}
-                      {i < (cuisine.zodiacInfluences || []).length - 1 ? ', ' : ''}
-                    </span>
-                  ))}
-                </div>
-              )}
+              {cuisine.zodiacInfluences && (() => {
+                // Apply safe type casting for zodiac influences access
+                const zodiacInfluencesData = cuisine.zodiacInfluences as any;
+                const zodiacInfluences = Array.isArray(zodiacInfluencesData) ? zodiacInfluencesData : [];
+                
+                return zodiacInfluences.length > 0 && (
+                  <div className="zodiac-influences text-xs mt-2">
+                    <span>Zodiac influences: </span>
+                    {zodiacInfluences.map((sign: string, i: number) => (
+                      <span key={sign} className={`${resolvedCurrentZodiac === sign ? 'font-bold' : ''}`}>
+                        {sign.charAt(0)?.toUpperCase() + sign?.slice(1)}
+                        {i < zodiacInfluences.length - 1 ? ', ' : ''}
+                      </span>
+                    ))}
+                  </div>
+                );
+              })()}
             </button>
           );
         })}

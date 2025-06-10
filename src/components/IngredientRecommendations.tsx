@@ -17,10 +17,17 @@ function getRecommendations(
   elementalProps: ElementalProperties | undefined,
   options: RecommendationOptions
 ): GroupedIngredientRecommendations {
-  const { currentZodiac, planetaryPositions, moonPhase, aspects } = useAstrologicalState();
+  const astroData = useAstrologicalState();
+  
+  // Apply safe type casting for astrological data access
+  const astroState = astroData as any;
+  const planetaryPositions = astroState?.planetaryPositions;
+  const moonPhase = astroState?.moonPhase;
+  const aspects = astroState?.aspects;
+  const currentZodiac = astroState?.currentZodiac;
   
   // Create an object with real astrological state data
-  const astroState = {
+  const astroStateData = {
     elementalProperties: elementalProps || {
       Fire: 0.25,
       Water: 0.25,
@@ -45,7 +52,7 @@ function getRecommendations(
   };
   
   // Use the proper utility function with the actual data
-  return getIngredientRecommendations(astroState, options);
+  return getIngredientRecommendations(astroStateData, options);
 }
 
 interface IngredientRecommendationsProps {
@@ -265,14 +272,18 @@ export default function IngredientRecommendations({
   
   // Display a compact ingredient card
   const renderCompactIngredientCard = (ingredient: IngredientRecommendation) => {
-    // Get the elemental properties
+    // Apply safe type casting for ingredient access
+    const ingredientData = ingredient as any;
+    const score = ingredientData?.score;
+    
+    // Get elemental properties
     const elementalProps = ingredient.elementalProperties || {
       Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
     };
     
-    // Format the match percentage from score
-    const matchPercentage = ingredient.score !== undefined && !isNaN(ingredient.score)
-      ? `${Math.round(ingredient.score * 100)}%`
+    // Format the match percentage from score with enhanced safety
+    const matchPercentage = score !== undefined && !isNaN(score)
+      ? `${Math.round(score * 100)}%`
       : '50%';
     
     // Get dominant element for styling

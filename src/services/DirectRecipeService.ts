@@ -24,6 +24,23 @@ const performAlchemicalAnalysis = (recipe: any, alignment: any) => ({
 });
 
 /**
+ * Enhanced criteria interface for recipe matching with full astrological support
+ */
+export interface RecipeMatchCriteria {
+  cuisine?: string;
+  season?: string;
+  currentSeason?: string; // For seasonal matching
+  mealType?: string;
+  ingredients?: string[];
+  elementalProperties?: { [key: string]: number };
+  elementalState?: { [key: string]: number }; // For elemental compatibility
+  dietaryPreferences?: string[];
+  location?: { lat: number; lng: number }; // For accurate astrological calculations
+  zodiacSign?: string; // For zodiacal compatibility
+  currentMoment?: Date; // For real-time astrological calculations
+}
+
+/**
  * Service for accessing recipe data directly from data files
  * This replaces the need for API routes by providing direct data access
  * with full astrological, alchemical, and thermodynamic integration
@@ -310,20 +327,24 @@ export class DirectRecipeService {
    * Calculate seasonal compatibility score
    */
   private calculateSeasonalScore(recipe: Recipe, alignment: CelestialAlignment): number {
-    if (!recipe.currentSeason || (recipe.currentSeason || []).length === 0) return 0.5;
+    // Apply safe type casting for currentSeason access
+    const recipeData = recipe as any;
+    const currentSeason = recipeData?.currentSeason;
+    
+    if (!currentSeason || (Array.isArray(currentSeason) && currentSeason.length === 0)) return 0.5;
     
     // Determine current season from date
     const currentMonth = new Date().getMonth();
-    let currentSeason = 'spring';
+    let currentSeasonName = 'spring';
     
-    if (currentMonth >= 2 && currentMonth <= 4) currentSeason = 'spring';
-    else if (currentMonth >= 5 && currentMonth <= 7) currentSeason = 'summer';
-    else if (currentMonth >= 8 && currentMonth <= 10) currentSeason = 'autumn';
-    else currentSeason = 'winter';
+    if (currentMonth >= 2 && currentMonth <= 4) currentSeasonName = 'spring';
+    else if (currentMonth >= 5 && currentMonth <= 7) currentSeasonName = 'summer';
+    else if (currentMonth >= 8 && currentMonth <= 10) currentSeasonName = 'autumn';
+    else currentSeasonName = 'winter';
     
-    const seasonArray = Array.isArray(recipe.currentSeason) ? recipe.currentSeason : [recipe.currentSeason];
+    const seasonArray = Array.isArray(currentSeason) ? currentSeason : [currentSeason];
     const hasSeasonMatch = seasonArray.some(
-      season => season?.toLowerCase() === currentSeason ||
+      season => season?.toLowerCase() === currentSeasonName ||
                 season?.toLowerCase() === 'all'
     );
     
@@ -455,15 +476,7 @@ export class DirectRecipeService {
    * Get best recipe matches based on provided criteria with full astrological integration
    */
   public async getBestRecipeMatches(options: {
-    criteria: {
-      cuisine?: string;
-      season?: string;
-      mealType?: string;
-      ingredients?: string[];
-      elementalProperties?: { [key: string]: number };
-      dietaryPreferences?: string[];
-      location?: { lat: number; lng: number }; // For accurate astrological calculations
-    };
+    criteria: RecipeMatchCriteria;
     limit?: number;
     offset?: number;
   }): Promise<ScoredRecipe[]> {
@@ -480,12 +493,17 @@ export class DirectRecipeService {
       candidateRecipes = candidateRecipes.filter(r => r.cuisine?.toLowerCase() === criteria.cuisine?.toLowerCase());
     }
     
-    if (criteria.currentSeason) {
+    // Enhanced seasonal filtering with safe type casting
+    if (criteria.currentSeason || criteria.season) {
+      const seasonCriteria = criteria.currentSeason || criteria.season;
       candidateRecipes = candidateRecipes.filter(recipe => {
-        if (Array.isArray(recipe.currentSeason)) {
-          return (recipe.currentSeason || []).some(s => s?.toLowerCase() === criteria.currentSeason?.toLowerCase());
-        } else if (typeof recipe.currentSeason === 'string') {
-          return recipe.currentSeason?.toLowerCase() === criteria.currentSeason?.toLowerCase();
+        const recipeData = recipe as any;
+        const recipeCurrentSeason = recipeData?.currentSeason;
+        
+        if (Array.isArray(recipeCurrentSeason)) {
+          return recipeCurrentSeason.some(s => s?.toLowerCase() === seasonCriteria?.toLowerCase());
+        } else if (typeof recipeCurrentSeason === 'string') {
+          return recipeCurrentSeason?.toLowerCase() === seasonCriteria?.toLowerCase();
         }
         return false;
       });
@@ -526,11 +544,14 @@ export class DirectRecipeService {
       const alchemicalScore = await this.calculateAlchemicalScore(recipe);
       let finalScore = alchemicalScore.score;
       
-      // Additional scoring based on specific criteria
+      // Enhanced elemental compatibility scoring with safe type casting
       if (criteria.elementalState && recipe.elementalState) {
+        const criteriaElementalState = criteria.elementalState;
+        const recipeElementalState = recipe.elementalState;
+        
         const criteriaCompatibility = calculateElementalCompatibility(
-          criteria.elementalState,
-          recipe.elementalState
+          criteriaElementalState,
+          recipeElementalState
         );
         finalScore = (finalScore + criteriaCompatibility) / 2;
       }

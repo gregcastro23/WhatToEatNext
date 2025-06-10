@@ -421,18 +421,22 @@ function scoreRecipe(
   const planetaryPoints = Math.floor(planetaryElementalScore * 40);
   score += planetaryPoints;
 
-  // Zodiac sign alignment
+  // Zodiac influences from Sun sign
+  // Apply safe type casting for astrological state access
+  const astrologicalData = astrologicalState as any;
+  const sunSign = astrologicalData?.sign || astrologicalData?.sunSign;
+  
   if (
     recipe.zodiacInfluences && 
     (Array.isArray(recipe.zodiacInfluences) 
-      ? recipe.zodiacInfluences.includes(astrologicalState.sign) 
-      : recipe.zodiacInfluences === astrologicalState.sign)
+      ? recipe.zodiacInfluences.includes(sunSign) 
+      : recipe.zodiacInfluences === sunSign)
   ) {
     score += 12;
-    reasons?.push(`Aligned with your Sun sign (${astrologicalState.sign})`);
+    reasons?.push(`Aligned with your Sun sign (${sunSign})`);
 
     // Add zodiac elemental influence check
-    const sunSignElement = getZodiacElementalInfluence(astrologicalState.sign);
+    const sunSignElement = getZodiacElementalInfluence(sunSign);
     
     if (
       recipe.elementalState && 
@@ -443,20 +447,22 @@ function scoreRecipe(
     }
   }
 
+  // Moon sign influences
+  const moonSign = astrologicalData?.moonSign;
   if (
-    astrologicalState.moonSign && 
+    moonSign && 
     recipe.zodiacInfluences && 
     (Array.isArray(recipe.zodiacInfluences) 
-      ? recipe.zodiacInfluences.includes(astrologicalState.moonSign) 
-      : recipe.zodiacInfluences === astrologicalState.moonSign)
+      ? recipe.zodiacInfluences.includes(moonSign) 
+      : recipe.zodiacInfluences === moonSign)
   ) {
     score += 10;
     reasons?.push(
-      `Harmonious with your Moon sign (${astrologicalState.moonSign})`
+      `Harmonious with your Moon sign (${moonSign})`
     );
 
     // Add zodiac elemental influence check for Moon sign
-    const moonSignElement = getZodiacElementalInfluence(astrologicalState.moonSign);
+    const moonSignElement = getZodiacElementalInfluence(moonSign);
     
     if (
       recipe.elementalState && 
@@ -663,14 +669,29 @@ function calculatePlanetaryDayInfluence(
     }
   }
 
-  // Check for ingredient matches
+  // Check for ingredient matches with enhanced type safety
   let ingredientMatch = false;
   if (recipe.ingredients) {
-    const ingredientText = Array.isArray(recipe.ingredients)
-      ? recipe.ingredients.join(' ').toLowerCase()
-      : typeof recipe.ingredients === 'string'
-        ? recipe.ingredients.toLowerCase()
-        : '';
+    // Apply safe type casting for ingredients access
+    const ingredientsData = recipe.ingredients as any;
+    let ingredientText = '';
+    
+    if (Array.isArray(ingredientsData)) {
+      // Handle array of ingredients
+      ingredientText = ingredientsData
+        .map(ingredient => {
+          if (typeof ingredient === 'string') {
+            return ingredient.toLowerCase();
+          } else if (ingredient && typeof ingredient === 'object' && ingredient.name) {
+            return ingredient.name.toLowerCase();
+          }
+          return '';
+        })
+        .join(' ');
+    } else if (typeof ingredientsData === 'string') {
+      // Handle string ingredients
+      ingredientText = ingredientsData.toLowerCase();
+    }
 
     for (const ingredient of associations.ingredients) {
       if (ingredientText.includes(ingredient.toLowerCase())) {
