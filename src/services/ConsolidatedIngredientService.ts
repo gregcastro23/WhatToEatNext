@@ -1,5 +1,3 @@
-
-
 // Phase 10: Calculation Type Interfaces
 interface CalculationData {
   value: number;
@@ -290,9 +288,11 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
           filtered = this.applyDietaryFilter(filtered, filter.dietary);
         }
         
-        // Apply seasonal filter if specified
-        if (filter.currentSeason) {
-          filtered = this.applySeasonalFilter(filtered, filter.currentSeason);
+        // Apply seasonal filter if specified with safe type casting
+        const filterData = filter as any;
+        const currentSeason = filterData?.currentSeason || filterData?.season;
+        if (currentSeason) {
+          filtered = this.applySeasonalFilter(filtered, currentSeason);
         }
         
         // Apply search query if specified
@@ -536,34 +536,37 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
     options: IngredientRecommendationOptions = {}
   ): UnifiedIngredient[] {
     try {
-      // Default options
+      // Default options with safe type casting
+      const optionsData = options as any;
       const {
-        includeAlternatives = true,
-        optimizeForSeason = true,
-        maxResults = 20,
-        includeExotic = false,
-        sortByScore = true
-      } = options;
+        includeAlternatives = optionsData?.includeAlternatives ?? true,
+        optimizeForSeason = optionsData?.optimizeForSeason ?? true,
+        maxResults = optionsData?.maxResults ?? 20,
+        includeExotic = optionsData?.includeExotic ?? false,
+        sortByScore = optionsData?.sortByScore ?? true
+      } = optionsData || {};
       
       // Get all ingredients
       const allIngredients = this.getAllIngredientsFlat();
       
-      // If no ingredients, return empty array
-      if ((!allIngredients || []).length) return [];
+      // If no ingredients, return empty array with safe array check
+      const ingredientsArray = Array.isArray(allIngredients) ? allIngredients : [];
+      if (ingredientsArray.length === 0) return [];
       
       // Calculate compatibility scores
-      const scoredIngredients = (allIngredients || []).map(ingredient => {
+      const scoredIngredients = (ingredientsArray || []).map(ingredient => {
         // Calculate elemental compatibility
         const elementalCompatibility = calculateElementalCompatibility(
           elementalState,
           ingredient.elementalProperties || this.calculateElementalProperties(ingredient)
         );
         
-        // Apply seasonal bonus if relevant
+        // Apply seasonal bonus if relevant with safe type casting
         let seasonalBonus = 0;
         if (optimizeForSeason && ingredient.currentSeason) {
           const currentSeason = this.getCurrentSeason();
-          if (Array.isArray(ingredient.currentSeason) && Array.isArray(ingredient.$3) ? ingredient.$3.includes($5) : ingredient.$3 === $5) {
+          const seasonArray = Array.isArray(ingredient.currentSeason) ? ingredient.currentSeason : [ingredient.currentSeason];
+          if (seasonArray.includes(currentSeason)) {
             seasonalBonus = 0.2; // 20% bonus for in-season ingredients
           }
         }
@@ -622,14 +625,16 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
   calculateThermodynamicMetrics(ingredient: UnifiedIngredient): ThermodynamicMetrics {
     try {
       if (ingredient.energyValues) {
-        // Convert energyValues to ThermodynamicMetrics format
-        const { heat, entropy, reactivity, gregsEnergy } = ingredient.energyValues;
+        // Convert energyValues to ThermodynamicMetrics format with safe property access
+        const energyData = ingredient.energyValues as any;
+        const { heat, entropy, reactivity } = energyData;
+        const gregsEnergy = energyData?.gregsEnergy || energyData?.energy || 0;
         
         return {
           heat,
           entropy,
           reactivity,
-          energy: gregsEnergy || 0 // Map gregsEnergy to energy
+          energy: gregsEnergy // Map gregsEnergy to energy
         };
       }
       
@@ -930,9 +935,20 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
    * Check if an ingredient is gluten-free
    */
   private isGlutenFree(ingredient: UnifiedIngredient): boolean {
-    const glutenGrains = ['wheat', 'barley', 'rye', 'triticale'];
-    const name = ingredient.name?.toLowerCase();
-    return (!glutenGrains || []).some(grain => (Array.isArray(name) ? name.includes(grain) : name === grain));
+    // Check for explicit gluten-free property
+    if (ingredient.isGlutenFree === true) return true;
+    if (ingredient.isGlutenFree === false) return false;
+    
+    // Check dietary properties with safe type casting
+    const dietaryData = ingredient.dietaryProperties as any;
+    if (dietaryData?.isGlutenFree === true) return true;
+    if (dietaryData?.isGlutenFree === false) return false;
+    
+    // Check if ingredient has gluten content (unsafe method check)
+    const hasGlutenArray = Array.isArray(ingredient.glutenContent) ? ingredient.glutenContent : [ingredient.glutenContent];
+    if (hasGlutenArray.some(item => item === true)) return false;
+    
+    return true;
   }
   
   /**
