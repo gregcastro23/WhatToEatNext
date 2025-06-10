@@ -108,17 +108,28 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
             {ingredient.category}{ingredient.subCategory ? ` (${ingredient.subCategory})` : ''}
           </div>
           
-          {ingredient.qualities && ingredient.qualities.length > 0 && (
-            <div className="ingredient-qualities">
-              {ingredient.qualities.join(', ')}
-            </div>
-          )}
-          
-          {ingredient.seasonality && ingredient.seasonality.length > 0 && (
-            <div className="ingredient-seasonality">
-              <strong>Season:</strong> {ingredient.seasonality.join(', ')}
-            </div>
-          )}
+          {/* Apply safe type casting for ingredient properties access */}
+          {(() => {
+            const ingredientData = ingredient as any;
+            const qualities = ingredientData?.qualities;
+            const seasonality = ingredientData?.seasonality;
+            
+            return (
+              <>
+                {qualities && qualities.length > 0 && (
+                  <div className="ingredient-qualities">
+                    {qualities.join(', ')}
+                  </div>
+                )}
+                
+                {seasonality && seasonality.length > 0 && (
+                  <div className="ingredient-seasonality">
+                    <strong>Season:</strong> {seasonality.join(', ')}
+                  </div>
+                )}
+              </>
+            );
+          })()}
         </div>
       )}
     </div>
