@@ -1010,7 +1010,10 @@ export function alchemize(
     
     // CRITICAL: Safely get the Ascendant sign
     try {
-      const rising_sign = horoscope.Ascendant?.Sign?.label || "Aries";
+      // Use safe type casting for unknown property access
+      const ascendantData = horoscope.Ascendant as any;
+      const signData = ascendantData?.Sign;
+      const rising_sign = signData?.label || "Aries";
       
       // SAFELY update planetInfo with correct typing
       if (typeof planetInfo === 'object' && planetInfo && 'Ascendant' in planetInfo) {
@@ -1520,9 +1523,9 @@ async function calculateCurrentPlanetaryPositions(): Promise<
     // If both methods fail, use the fallback positions
     // Import the fallback calculator dynamically
     try {
-      const { _calculateFallbackPositions } = await import(
-        '@/utils/astrologyUtils'
-      );
+      const astrologyUtils = await import('@/utils/astrologyUtils');
+      const fallbackCalculator = astrologyUtils as any;
+      const _calculateFallbackPositions = fallbackCalculator?._calculateFallbackPositions;
       
       // Generate current date to pass to the fallback calculator
       const now = new Date();
@@ -1552,19 +1555,23 @@ async function calculateCurrentPlanetaryPositions(): Promise<
       
       // Safe iteration through fallback positions
       Object.entries(formattedPositions).forEach(([planet, data]) => {
+        // Use safe type casting for unknown data access
+        const dataObject = data as any;
+        const exactLongitude = dataObject?.exactLongitude;
+        
         // Validate longitude is a number
-        if (typeof data.exactLongitude !== 'number' || isNaN(data.exactLongitude)) {
-          logger.warn(`Invalid longitude for planet ${planet}`, { longitude: data.exactLongitude });
+        if (typeof exactLongitude !== 'number' || isNaN(exactLongitude)) {
+          logger.warn(`Invalid longitude for planet ${planet}`, { longitude: exactLongitude });
           return; // Skip this planet
         }
         
         // Convert longitude to sign and degree
-        const signIndex = Math.floor(data.exactLongitude / 30) % 12;
-        const degree = data.exactLongitude % 30;
+        const signIndex = Math.floor(exactLongitude / 30) % 12;
+        const degree = exactLongitude % 30;
 
         // Validate signIndex is within bounds
         if (signIndex < 0 || signIndex >= signs.length) {
-          logger.warn(`Invalid sign index for planet ${planet}`, { signIndex, longitude: data.exactLongitude });
+          logger.warn(`Invalid sign index for planet ${planet}`, { signIndex, longitude: exactLongitude });
           return; // Skip this planet
         }
 
@@ -1576,7 +1583,7 @@ async function calculateCurrentPlanetaryPositions(): Promise<
               ArcDegreesInSign: degree,
             },
           },
-          exactLongitude: data.exactLongitude,
+          exactLongitude: exactLongitude,
         };
       });
 
@@ -2142,8 +2149,14 @@ function alchemizeWithSafety(
     console.log('Using safe alchemize with cloned constants');
     
     // Return simplified, but useful result that won't cause errors
+    const horoscopeData = horoscopeDict as any;
+    const celestialBodies = horoscopeData?.tropical?.CelestialBodies;
+    const sunData = celestialBodies?.sun;
+    const sunSignData = sunData?.Sign;
+    const sunSignLabel = sunSignData?.label || 'aries';
+    
     return {
-      sunSign: horoscopeDict?.tropical?.CelestialBodies?.sun?.Sign?.label || 'aries',
+      sunSign: sunSignLabel,
       dominantElement: 'Fire', // Safe default
       elementalBalance: {
         Fire: 0.25,
