@@ -337,9 +337,10 @@ export function getTechnicalTips(methodName: string): string[] {
           methodName.toLowerCase().includes(method.toLowerCase())
         );
         
-        if (methodData && methodData.expertTips && Array.isArray(methodData.expertTips)) {
+        const methodObj = methodData as any;
+        if (methodObj && methodObj.expertTips && Array.isArray(methodObj.expertTips)) {
           // Use the method's actual expert tips
-          methodData.expertTips.forEach(tip => tips.push(tip));
+          methodObj.expertTips.forEach((tip: string) => tips.push(tip));
         } else {
           // Fallback to a more specific default message if no method-specific tips found
           tips.push(`Maintain appropriate temperature control for ${methodName}`);
@@ -409,8 +410,9 @@ export function getMethodDetails(methodName: string): string {
           methodName.toLowerCase().includes(method.toLowerCase())
         );
         
-        if (methodData && methodData.description) {
-          return methodData.description;
+        const methodObj = methodData as any;
+        if (methodObj && methodObj.description) {
+          return methodObj.description;
         } else {
           return `${methodName} is a cooking technique that transforms ingredients through specific application of heat, pressure, or chemical processes. It affects texture, flavor, and nutritional properties in unique ways.`;
         }
@@ -761,9 +763,10 @@ export function getIdealIngredients(methodName: string): string[] {
           methodName.toLowerCase().includes(method.toLowerCase())
         );
         
-        if (methodData && methodData.suitable_for && Array.isArray(methodData.suitable_for)) {
+        const methodObj = methodData as any;
+        if (methodObj && methodObj.suitable_for && Array.isArray(methodObj.suitable_for)) {
           // Use the actual suitable ingredients from the method data
-          methodData.suitable_for.forEach(ingredient => ingredients.push(ingredient));
+          methodObj.suitable_for.forEach((ingredient: string) => ingredients.push(ingredient));
         } else {
           // Generic fallback
           ingredients.push("Ingredients traditionally used with this method");

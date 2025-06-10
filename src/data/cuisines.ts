@@ -44,31 +44,33 @@ const exampleRecipe: Recipe = {
 
 // Helper function to adapt ElementalProperties from cuisine.ts to alchemy.ts format
 function adaptElementalProperties(props: unknown): ElementalProperties {
+  const propsData = props as any;
   // If it already has the index signature, return as is
-  if (props && typeof props === 'object' && props.hasOwnProperty('Fire')) {
-    return props as ElementalProperties;
+  if (propsData && typeof propsData === 'object' && propsData.hasOwnProperty('Fire')) {
+    return propsData as ElementalProperties;
   }
   
   // Convert to the format expected by alchemy.ts
   return {
-    Fire: props?.Fire || 0,
-    Water: props?.Water || 0,
-    Earth: props?.Earth || 0,
-    Air: props?.Air || 0
+    Fire: propsData?.Fire || 0,
+    Water: propsData?.Water || 0,
+    Earth: propsData?.Earth || 0,
+    Air: propsData?.Air || 0
   };
 }
 
 // Helper function to adapt cuisines to the CuisineType format
 function adaptCuisine(cuisine: unknown): CuisineType {
+  const cuisineData = cuisine as any;
   return {
-    ...cuisine,
+    ...cuisineData,
     // Convert elementalProperties if present
-    elementalProperties: cuisine.elementalProperties ? 
-      adaptElementalProperties(cuisine.elementalProperties) : undefined,
+    elementalProperties: cuisineData.elementalProperties ? 
+      adaptElementalProperties(cuisineData.elementalProperties) : undefined,
     
     // Convert elementalState if present
-    elementalState: cuisine.elementalState ? 
-      adaptElementalProperties(cuisine.elementalState) : undefined
+    elementalState: cuisineData.elementalState ? 
+      adaptElementalProperties(cuisineData.elementalState) : undefined
   };
 }
 

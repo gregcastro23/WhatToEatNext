@@ -55,23 +55,24 @@ export class ElementalCalculator {
     recipe: unknown,
     season: string
   ): number {
-    if (!recipe?.elementalProperties) return 0;
+    const recipeData = recipe as any;
+    if (!recipeData?.elementalProperties) return 0;
 
     const seasonalModifiers = this.getSeasonalModifiers(season as Season);
     let score = 0;
 
     // Calculate base seasonal alignment
-    Object.entries(recipe.elementalProperties).forEach(([element, value]) => {
+    Object.entries(recipeData.elementalProperties).forEach(([element, value]) => {
       const modifier =
         seasonalModifiers[element as keyof ElementalProperties] || 0;
       score += (value as number) * modifier * 100;
     });
 
     // Apply seasonal bonuses/penalties
-    if (recipe.season) {
-      const seasons = Array.isArray(recipe.season)
-        ? recipe.season
-        : [recipe.season];
+    if (recipeData.season) {
+      const seasons = Array.isArray(recipeData.season)
+        ? recipeData.season
+        : [recipeData.season];
       if (
         seasons
           .map((s: string) => s.toLowerCase())
@@ -292,10 +293,11 @@ export function calculateElementalEnergies(
     const weight = planetWeights[planet.toLowerCase()] || 0.05;
 
     // Skip if position doesn't have a sign
-    if (!position?.sign) continue;
+    const positionData = position as any;
+    if (!positionData?.sign) continue;
 
     // Convert the sign to lowercase to ensure matching
-    const sign = position.sign.toLowerCase();
+    const sign = positionData.sign.toLowerCase();
     const element = signElementMap[sign];
 
     if (element) {

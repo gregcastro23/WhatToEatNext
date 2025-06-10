@@ -58,21 +58,29 @@ export function generateTopSauceRecommendations(currentElementalProfile = null, 
   
   // Map all sauces with scores
   const scoredSauces = saucesArray.map(sauce => {
+    // Use safe type casting for unknown property access
+    const sauceData = sauce as any;
+    const elementalProperties = sauceData?.elementalProperties;
+    const planetaryInfluences = sauceData?.planetaryInfluences;
+    const flavorProfile = sauceData?.flavorProfile;
+    const sauceId = sauceData?.id;
+    const sauceName = sauceData?.name;
+    
     // Calculate elemental match score
     const elementalMatchScore = calculateElementalMatch(
-      sauce.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+      elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
       userProfile
     );
     
     // Calculate planetary day bonus - sauces that match the current planetary day get a bonus
     let planetaryDayScore = 0.7; // base score
-    if (sauce.planetaryInfluences && sauce.planetaryInfluences.includes(currentPlanetaryDay)) {
+    if (planetaryInfluences && planetaryInfluences.includes(currentPlanetaryDay)) {
       planetaryDayScore = 0.9; // bonus for matching the day
     }
     
     // Calculate flavor profile match if available
     let flavorMatchScore = 0.7; // base score
-    if (sauce.flavorProfile) {
+    if (flavorProfile) {
       // Use planetary flavor data to calculate preferred flavors
       const planetaryFlavors = {
         Sun: { spicy: 0.8, umami: 0.6 },
@@ -91,8 +99,8 @@ export function generateTopSauceRecommendations(currentElementalProfile = null, 
       let flavorCount = 0;
       
       Object.entries(currentFlavors).forEach(([flavor, strength]) => {
-        if (sauce.flavorProfile[flavor]) {
-          flavorMatch += (1 - Math.abs(sauce.flavorProfile[flavor] - strength));
+        if (flavorProfile[flavor]) {
+          flavorMatch += (1 - Math.abs(flavorProfile[flavor] - strength));
           flavorCount++;
         }
       });
@@ -109,7 +117,7 @@ export function generateTopSauceRecommendations(currentElementalProfile = null, 
     
     return {
       ...sauce,
-      id: sauce.id || sauce.name?.replace(/\s+/g, '-').toLowerCase(),
+      id: sauceId || sauceName?.replace(/\s+/g, '-').toLowerCase(),
       matchPercentage,
       elementalMatchScore: Math.round(elementalMatchScore * 100),
       planetaryDayScore: Math.round(planetaryDayScore * 100),

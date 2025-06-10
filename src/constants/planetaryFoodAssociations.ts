@@ -279,17 +279,18 @@ export const getZodiacBoost = (zodiacSign: string, item: unknown): number => {
   const zodiacElement = zodiacElements[normalizedSign as keyof typeof zodiacElements] || 'Fire';
   
   // Check if item has elemental properties
-  if (!item.elementalProperties) {
+  const itemData = item as any;
+  if (!itemData.elementalProperties) {
     return 0.1; // Minimum boost if no elemental data
   }
   
   // Calculate boost based on elemental affinity
   // Higher boost if the cuisine's dominant element matches the zodiac element
-  const elementValue = item.elementalProperties[zodiacElement] || 0;
+  const elementValue = itemData.elementalProperties[zodiacElement] || 0;
   const elementBoost = elementValue * 0.8; // Scale based on how strong the element is
 
   // Check if cuisine explicitly lists this zodiac sign as favorable
-  const zodiacBoost = item.zodiacInfluences?.includes(normalizedSign) ? 0.3 : 0;
+  const zodiacBoost = itemData.zodiacInfluences?.includes(normalizedSign) ? 0.3 : 0;
 
   // Apply modality boost based on cardinal/fixed/mutable qualities
   let modalityBoost = 0;
@@ -299,13 +300,13 @@ export const getZodiacBoost = (zodiacSign: string, item: unknown): number => {
   
   if (cardinalSigns.includes(normalizedSign)) {
     // Cardinal signs prefer bold, distinctive cuisines
-    modalityBoost = (item.elementalProperties['Fire'] || 0) * 0.2;
+    modalityBoost = (itemData.elementalProperties['Fire'] || 0) * 0.2;
   } else if (fixedSigns.includes(normalizedSign)) {
     // Fixed signs prefer substantial, traditional cuisines
-    modalityBoost = (item.elementalProperties['Earth'] || 0) * 0.2;
+    modalityBoost = (itemData.elementalProperties['Earth'] || 0) * 0.2;
   } else {
     // Mutable signs prefer adaptable, fusion cuisines
-    modalityBoost = (item.elementalProperties['Air'] || 0) * 0.2;
+    modalityBoost = (itemData.elementalProperties['Air'] || 0) * 0.2;
   }
 
   // Calculate seasonal alignment (certain cuisines are better aligned with seasons)
@@ -342,7 +343,8 @@ const calculateSeasonalAlignment = (zodiacSign: string, item: unknown): number =
   
   // Calculate alignment based on the cuisine's elemental properties
   // Higher value if the cuisine aligns with the season's element
-  return item.elementalProperties[seasonalElement] || 0.1;
+  const itemData = item as any;
+  return itemData.elementalProperties?.[seasonalElement] || 0.1;
 };
 
 /**
@@ -387,9 +389,10 @@ export const getFlavorBoost = (
   planet: Planet,
   ingredient: unknown
 ): number => {
+  const ingredientData = ingredient as any;
   const elementBoost = planetaryFoodAssociations[planet].elementalBoost || {};
   return Object.entries(elementBoost).reduce((acc, [element, boost]) => {
-    return acc + (ingredient.elementalProperties?.[element] || 0) * (boost || 0);
+    return acc + (ingredientData.elementalProperties?.[element] || 0) * (boost || 0);
   }, 0);
 };
 
