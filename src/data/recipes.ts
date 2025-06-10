@@ -579,13 +579,15 @@ export const getBestRecipeMatches = async (
     }
     
     // Fallback to LocalRecipeService if getRecipesForCuisineMatch failed
-    if (candidateRecipes.length === 0 || candidateRecipes === await getRecipes()) {
+    const allRecipes = await getRecipes();
+    if (candidateRecipes.length === 0 || candidateRecipes === allRecipes) {
       try {
         // Import and use LocalRecipeService directly
         const { LocalRecipeService } = await import('../services/LocalRecipeService');
         
         // Get local recipes directly
-        const localRecipes = LocalRecipeService.getRecipesByCuisine(criteria.cuisine || '');
+        const localRecipeResults = LocalRecipeService.getRecipesByCuisine(criteria.cuisine || '');
+        const localRecipes = await Promise.resolve(localRecipeResults);
         console.log(`Found ${localRecipes.length} recipes from LocalRecipeService for ${criteria.cuisine}`);
         
         if (localRecipes.length > 0) {
@@ -990,7 +992,7 @@ export const getAllRecipes = async (): Promise<Recipe[]> => {
     instructions: recipe.instructions, 
     timeToMake: typeof recipe.timeToMake === 'number' 
       ? `${recipe.timeToMake} minutes` 
-      : recipe.timeToMake?.toString() || '30 minutes',
+      : (recipe.timeToMake as any)?.toString() || '30 minutes',
     numberOfServings: 4, // Default
     elementalProperties: recipe.flavorProfile 
       ? {
@@ -1038,18 +1040,18 @@ export const getAllRecipes = async (): Promise<Recipe[]> => {
       minerals: recipe.nutrition?.minerals || []
     },
     
-    // Additional recipe properties
+    // Additional recipe properties with safe type casting
     cookingMethod: recipe.cookingMethod || 'bake',
-    cookingTechniques: recipe.cookingTechniques || [],
-    equipmentNeeded: recipe.equipmentNeeded || [],
-    dishType: recipe.dishType || [],
+    cookingTechniques: (recipe as any)?.cookingTechniques || [],
+    equipmentNeeded: (recipe as any)?.equipmentNeeded || [],
+    dishType: (recipe as any)?.dishType || [],
     course: recipe.tags?.filter(tag => 
       ['appetizer', 'main course', 'dessert', 'side dish', 'soup', 'salad'].includes(tag)
     ) || [],
     
-    // Timestamps
-    createdAt: recipe.createdAt || new Date().toISOString(),
-    updatedAt: recipe.updatedAt || new Date().toISOString(),
+    // Timestamps with safe type casting
+    createdAt: (recipe as any)?.createdAt || new Date().toISOString(),
+    updatedAt: (recipe as any)?.updatedAt || new Date().toISOString(),
     
     // Add tags
     tags: recipe.tags || [],
@@ -1066,9 +1068,9 @@ export const getAllRecipes = async (): Promise<Recipe[]> => {
       seasonalScore: (recipe.energyProfile as any)?.season ? 0.7 : 0.3
     },
     
-    // Additional fields
-    notes: recipe.notes || '',
-    preparation: recipe.preparation || '',
+    // Additional fields with safe type casting
+    notes: (recipe as any)?.notes || '',
+    preparation: (recipe as any)?.preparation || '',
     seasonalIngredients: (recipe as any)?.seasonalIngredients || []
   }));
 };
