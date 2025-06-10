@@ -250,7 +250,8 @@ export class AlchemicalEngineBase {
       return 2;
     };
 
-    const sunDegree = astrologicalState.sunDegree || 15;
+    const astroStateData = astrologicalState as any;
+    const sunDegree = astroStateData?.sunDegree || 15;
     const currentDecan = getCurrentDecan(sunDegree);
 
     if (
@@ -266,7 +267,8 @@ export class AlchemicalEngineBase {
     const power = 0.2;
 
     const recipeElement = this.zodiacElements[recipeSunSign].baseElement;
-    if (recipeElement === astrologicalState.moonSignElement) power += 0.3;
+    const moonSignElementData = astrologicalState as any;
+    if (recipeElement === moonSignElementData?.moonSignElement) power += 0.3;
 
     if (astrologicalState.activePlanets?.includes(decanRuler)) power += 0.25;
 
@@ -342,10 +344,11 @@ export class AlchemicalEngineBase {
     season: string,
     element: keyof ElementalProperties
   ): number {
-    const seasonalModifiers = this.calculator.calculateElementalState(
+    const seasonalModifiersData = this.calculator.calculateElementalState(
       ElementalCalculator.getCurrentElementalState()
-    ).seasonalInfluence;
-    return seasonalModifiers[element];
+    ) as any;
+    const seasonalInfluence = seasonalModifiersData?.seasonalInfluence || {};
+    return seasonalInfluence[element] || 0.25;
   }
 
   calculateRecipeHarmony(recipe: Recipe): number {
@@ -440,10 +443,15 @@ export class AlchemicalEngineBase {
     return recipes
       .map((recipe) => ({
         ...recipe,
-        seasonalScore: ElementalCalculator.calculateSeasonalEffectiveness(
-          recipe,
-          season
-        ),
+        seasonalScore: (() => {
+          const calculatorData = ElementalCalculator as any;
+          if (calculatorData?.calculateSeasonalEffectiveness) {
+            return calculatorData.calculateSeasonalEffectiveness(recipe, season);
+          }
+          // Fallback calculation using recipe's elemental properties
+          const seasonalBonus = this.getSeasonalInfluence(season, 'Fire');
+          return (recipe.elementalProperties?.Fire || 0.25) * seasonalBonus;
+        })(),
       }))
       .sort((a, b) => b.seasonalScore - a.seasonalScore);
   }

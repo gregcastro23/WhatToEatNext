@@ -120,9 +120,10 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
       // If the main method exists, add this as a variation
       if (methods[((method as unknown as Record<string, any>)).relatedToMainMethod]) {
         const existingVariations = methods[((method as unknown as Record<string, any>)).relatedToMainMethod].variations || [];
-        if ((!existingVariations || []).some(v => v.id === ((method as unknown as Record<string, any>))?.id)) {
+        const existingVariationsArray = Array.isArray(existingVariations) ? existingVariations : [];
+        if (!existingVariationsArray.some(v => v.id === ((method as unknown as Record<string, any>))?.id)) {
           methods[((method as unknown as Record<string, any>)).relatedToMainMethod].variations = [
-            ...existingVariations,
+            ...existingVariationsArray,
             {
               id: ((method as unknown as Record<string, any>)).id,
               name: ((method as unknown as Record<string, any>)).variationName || ((method as unknown as Record<string, any>)).name,
@@ -625,8 +626,8 @@ export function getCookingMethodRecommendations(
     
     return {
         method: {
-          id: method.name || 'unknown',
-          name: method.name || 'Unknown Method',
+          id: (method as any)?.id || (method as any)?.name || 'unknown',
+          name: (method as any)?.name || 'Unknown Method',
           elementalEffect: ((method as unknown as Record<string, any>)).elementalEffect || createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0  }),
           astrologicalInfluences: ((method as unknown as Record<string, any>)).astrologicalInfluences || {}
         },

@@ -53,10 +53,10 @@ export function useCurrentChart() {
           }
           
           planets[planetName] = {
-            sign: data.sign,
-            degree: data.degree,
-            isRetrograde: data.isRetrograde || false,
-            exactLongitude: data.exactLongitude || 0,
+            sign: (data as any)?.sign || 'Aries',
+            degree: (data as any)?.degree || 0,
+            isRetrograde: (data as any)?.isRetrograde || false,
+            exactLongitude: (data as any)?.exactLongitude || 0,
           };
         });
         

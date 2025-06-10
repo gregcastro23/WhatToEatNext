@@ -756,7 +756,9 @@ export function filterRecipesByIngredientMappings(
     ) {
       let meetsRestrictions =
         ingredientRequirements.dietaryRestrictions.every((restriction) =>
-          recipe.dietaryInfo.includes(restriction)
+          Array.isArray(recipe.dietaryInfo) 
+            ? recipe.dietaryInfo.includes(restriction)
+            : (recipe.dietaryInfo as any)?.includes?.(restriction) || false
         );
 
       if (!meetsRestrictions) {
@@ -774,7 +776,7 @@ export function filterRecipesByIngredientMappings(
 
     // 4. Calculate mapping quality
     let mappedCount = mappedIngredients.filter((m) => m.matchedTo).length;
-    let mappingQuality = mappedCount / (Math || 1).max(1, recipe.ingredients.length);
+    let mappingQuality = mappedCount / Math.max(1, recipe.ingredients.length);
 
     // Add mapping quality to score (better mappings = better score)
     score += mappingQuality * 0.2;
@@ -793,9 +795,11 @@ export function filterRecipesByIngredientMappings(
       );
 
       // Boost score for each emphasized ingredient found
+      const emphasizedLength = Array.isArray(ingredientRequirements?.emphasized) 
+        ? ingredientRequirements.emphasized.length 
+        : 1;
       score +=
-        (emphasisMatches.length / (ingredientRequirements || 1).emphasized.length) *
-        0.2;
+        (emphasisMatches.length / emphasizedLength) * 0.2;
     }
 
     // 6. Calculate elemental alignment with target

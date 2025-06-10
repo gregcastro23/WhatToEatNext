@@ -577,11 +577,11 @@ export default function SauceRecommender({
     
     // Remove duplicates and sort by match score
     const uniqueResults = results.filter((sauce, index, self) =>
-      index === self.findIndex((s) => s.name === sauce.name)
+      index === self.findIndex((s) => (s as any)?.name === (sauce as any)?.name)
     );
     
     return uniqueResults
-      .sort((a, b) => b.matchScore - a.matchScore)
+      .sort((a, b) => ((b as any)?.matchScore || 0) - ((a as any)?.matchScore || 0))
       .slice(0, maxResults);
   };
 

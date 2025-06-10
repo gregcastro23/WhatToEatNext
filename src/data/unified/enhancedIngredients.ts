@@ -562,7 +562,10 @@ export class EnhancedIngredientsSystem {
     // Find seasonal ingredients that might not be in the base set
     const seasonal = conditions?.season
       ? this.getSeasonalIngredients(conditions.currentSeason)
-        .filter(i => (!baseIngredients || []).some(bi => bi.name === i.name))
+        .filter(i => {
+          const baseIngredientsArray = Array.isArray(baseIngredients) ? baseIngredients : [];
+          return !baseIngredientsArray.some(bi => bi.name === i.name);
+        })
         .slice(0, 10)
       : [];
     
@@ -574,13 +577,19 @@ export class EnhancedIngredientsSystem {
     const avgKalchm = kalchmValues.reduce((sum, v) => sum + v, 0) / 
                       ((kalchmValues || []).length || 1);
     const kalchmBalanced = this.findKalchmCompatibleIngredients(avgKalchm, 0.2)
-      .filter(i => (!baseIngredients || []).some(bi => bi.name === i.name))
+      .filter(i => {
+        const baseIngredientsArray = Array.isArray(baseIngredients) ? baseIngredients : [];
+        return !baseIngredientsArray.some(bi => bi.name === i.name);
+      })
       .slice(0, 10);
     
     // Find flavor-compatible ingredients if we have at least one base ingredient
     const flavorCompatible = (seasonallyAdjusted || []).length > 0
       ? this.findFlavorCompatibleIngredients(seasonallyAdjusted[0])
-        .filter(i => (!baseIngredients || []).some(bi => bi.name === i.name))
+        .filter(i => {
+          const baseIngredientsArray = Array.isArray(baseIngredients) ? baseIngredients : [];
+          return !baseIngredientsArray.some(bi => bi.name === i.name);
+        })
         .slice(0, 10)
       : [];
     
@@ -860,7 +869,10 @@ export class EnhancedIngredientsSystem {
     // Find ingredients with complementary elemental properties
     return Object.values(this.ingredients)
       // Exclude ingredients already in the set
-      .filter(ingredient => (!ingredients || []).some(i => i.name === ingredient.name))
+      .filter(ingredient => {
+        const ingredientsArray = Array.isArray(ingredients) ? ingredients : [];
+        return !ingredientsArray.some(i => i.name === ingredient.name);
+      })
       // Score by compatibility
       .map(ingredient => ({
         ingredient,

@@ -126,14 +126,14 @@ function deriveElementalProperties(recipe: Recipe): ElementalProperties {
   
   // Cooking method influences
   if (recipe.cookingMethods) {
-    const method = recipe.cookingMethods?.toLowerCase();
-    if (method?.includes('grill') || method?.includes('roast') || method?.includes('bake') || method?.includes('fry')) {
+    const methodStr = (recipe.cookingMethods as any)?.toLowerCase?.() || '';
+    if (methodStr?.includes('grill') || methodStr?.includes('roast') || methodStr?.includes('bake') || methodStr?.includes('fry')) {
       elementalProps.Fire += 0.3;
-    } else if (method?.includes('steam') || method?.includes('boil') || method?.includes('poach')) {
+    } else if (methodStr?.includes('steam') || methodStr?.includes('boil') || methodStr?.includes('poach')) {
       elementalProps.Water += 0.3;
-    } else if (method?.includes('raw') || method?.includes('fresh')) {
+    } else if (methodStr?.includes('raw') || methodStr?.includes('fresh')) {
       elementalProps.Air += 0.3;
-    } else if (method?.includes('slow') || method?.includes('stew')) {
+    } else if (methodStr?.includes('slow') || methodStr?.includes('stew')) {
       elementalProps.Earth += 0.3;
     }
   }
@@ -214,14 +214,14 @@ function deriveCelestialTiming(recipe: Recipe): {
   
   // Determine optimal Moon phase based on recipe characteristics
   if (recipe.cookingMethods) {
-    const method = recipe.cookingMethods?.toLowerCase();
-    if (method?.includes('ferment') || method?.includes('rise') || method?.includes('proof')) {
+    const methodStr = (recipe.cookingMethods as any)?.toLowerCase?.() || '';
+    if (methodStr?.includes('ferment') || methodStr?.includes('rise') || methodStr?.includes('proof')) {
       timing.optimalMoonPhase = 'waxing'; // Growing energy for fermentation
-    } else if (method?.includes('preserve') || method?.includes('cure') || method?.includes('age')) {
+    } else if (methodStr?.includes('preserve') || methodStr?.includes('cure') || methodStr?.includes('age')) {
       timing.optimalMoonPhase = 'waning'; // Reducing energy for preservation
-    } else if (method?.includes('quick') || method?.includes('flash') || method?.includes('instant')) {
+    } else if (methodStr?.includes('quick') || methodStr?.includes('flash') || methodStr?.includes('instant')) {
       timing.optimalMoonPhase = 'new'; // New beginnings for quick cooking
-    } else if (method?.includes('slow') || method?.includes('braise') || method?.includes('stew')) {
+    } else if (methodStr?.includes('slow') || methodStr?.includes('braise') || methodStr?.includes('stew')) {
       timing.optimalMoonPhase = 'full'; // Full energy for long cooking
     }
   }
@@ -242,12 +242,12 @@ export function calculateRecipeComplexity(recipe: Recipe): number {
   
   // Cooking method complexity
   if (recipe.cookingMethods) {
-    const method = recipe.cookingMethods?.toLowerCase();
-    if (method?.includes('sous vide') || method?.includes('molecular') || method?.includes('smoking')) {
+    const methodStr = (recipe.cookingMethods as any)?.toLowerCase?.() || '';
+    if (methodStr?.includes('sous vide') || methodStr?.includes('molecular') || methodStr?.includes('smoking')) {
       complexity += 3;
-    } else if (method?.includes('braise') || method?.includes('confit') || method?.includes('ferment')) {
+    } else if (methodStr?.includes('braise') || methodStr?.includes('confit') || methodStr?.includes('ferment')) {
       complexity += 2;
-    } else if (method?.includes('roast') || method?.includes('bake') || method?.includes('grill')) {
+    } else if (methodStr?.includes('roast') || methodStr?.includes('bake') || methodStr?.includes('grill')) {
       complexity += 1;
     }
   }

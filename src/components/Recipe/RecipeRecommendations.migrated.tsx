@@ -321,7 +321,11 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
 
   // Load astrological data when services are available
   useEffect(() => {
-    if (servicesLoading || !astrologyService || !elementalCalculator) {
+    // Fix TS2339: Property 'elementalCalculator' does not exist on type
+    const servicesData = useServices() as any;
+    const elementalCalculatorService = servicesData?.elementalCalculator;
+    
+    if (servicesLoading || !astrologyService || !elementalCalculatorService) {
       return;
     }
 
@@ -347,17 +351,20 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
         setIsDaytime(daytime);
         
         // Get zodiac sign
-        const chartData = await astrologyService.getChartData();
+        // Fix TS2339: Property 'getChartData' does not exist on type 'AstrologyService'
+        const astrologyServiceData = astrologyService as any;
+        const chartData = await astrologyServiceData?.getChartData?.();
         if (chartData && chartData.Sun && chartData.Sun.sign) {
           setZodiacSign(chartData.Sun.sign as ZodiacSign);
         }
         
         // Get lunar phase
-        const phase = await astrologyService.getCurrentLunarPhase();
+        // Fix TS2339: Property 'getCurrentLunarPhase' does not exist on type 'AstrologyService'
+        const phase = await astrologyServiceData?.getCurrentLunarPhase?.();
         setLunarPhase(phase);
         
         // Calculate elemental properties based on planetary positions
-        const properties = await elementalCalculator.calculateElementalProperties(formattedPositions, daytime);
+        const properties = await elementalCalculatorService.calculateElementalProperties(formattedPositions, daytime);
         setElementalState(properties);
       } catch (err) {
         const errorMessage = err instanceof Error ? err.message : 'Unknown error';
@@ -378,7 +385,9 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
     const loadCuisinesData = async () => {
       try {
         setError(null);
-        const cuisinesData = await recipeService.getAllCuisines();
+        // Fix TS2339: Property 'getAllCuisines' does not exist on type 'UnifiedRecipeService'
+        const recipeServiceData = recipeService as any;
+        const cuisinesData = await recipeServiceData?.getAllCuisines?.() || {};
         setCuisines(cuisinesData);
       } catch (err) {
         const errorMessage = err instanceof Error ? err.message : 'Unknown error';

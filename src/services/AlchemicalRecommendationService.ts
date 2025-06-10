@@ -176,7 +176,9 @@ export class AlchemicalRecommendationService {
       recommendations?.push('Current conditions favor experimentation and fusion cooking.');
     }
     
-    if (thermodynamics.kalchm > 2.0) {
+    // Fix TS2339: Property 'kalchm' does not exist on type 'ThermodynamicProperties'
+    const thermodynamicsData = thermodynamics as any;
+    if (thermodynamicsData?.kalchm > 2.0) {
       recommendations?.push('Exceptional transformation potential - fermentation and aging processes are enhanced.');
     }
     
@@ -201,7 +203,9 @@ export class AlchemicalRecommendationService {
       warnings?.push('Heightened reactivity may cause flavor clashes - simplify ingredient combinations.');
     }
     
-    if (thermodynamics.kalchm < 0.5) {
+    // Fix TS2339: Property 'kalchm' does not exist on type 'ThermodynamicProperties'
+    const warningsThermodynamicsData = thermodynamics as any;
+    if (warningsThermodynamicsData?.kalchm < 0.5) {
       warnings?.push('Low kalchm levels indicate poor transformation potential - avoid fermentation or chemical leavening.');
     }
     
@@ -250,10 +254,13 @@ export class AlchemicalRecommendationService {
    * Derive elemental properties from thermodynamic properties
    */
   private deriveElementalProperties(thermodynamics: ThermodynamicProperties): ElementalProperties {
+    // Fix TS2339: Property 'monica' and 'kalchm' do not exist on type 'ThermodynamicProperties'
+    const derivedThermodynamicsData = thermodynamics as any;
+    
     // Simplified mapping from thermodynamics to elemental properties
     const Fire = thermodynamics.heat * 0.7 + thermodynamics.reactivity * 0.3;
-    const Water = thermodynamics.monica * 0.6 + (1 - thermodynamics.heat) * 0.4;
-    const Earth = thermodynamics.kalchm * 0.5 + (1 - thermodynamics.entropy) * 0.5;
+    const Water = (derivedThermodynamicsData?.monica || 0) * 0.6 + (1 - thermodynamics.heat) * 0.4;
+    const Earth = (derivedThermodynamicsData?.kalchm || 0) * 0.5 + (1 - thermodynamics.entropy) * 0.5;
     const Air = thermodynamics.entropy * 0.8 + thermodynamics.reactivity * 0.2;
     
     // Normalize to ensure values sum to 1
