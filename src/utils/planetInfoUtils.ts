@@ -48,25 +48,42 @@ export function getPlanetInfo(
   planetaryPositions: Record<string, unknown>
 ): PlanetInfo | null {
   try {
-    // Handle case sensitivity
-    const normalizedPlanetName = planetName.charAt(0).toUpperCase() + planetName.slice(1).toLowerCase();
     const planetKey = planetName.toLowerCase();
-    
-    // Get planet position
     const planetPosition = planetaryPositions[planetKey];
+    
+    // Use safe type casting for unknown property access
+    const positionData = planetPosition as any;
+    const planetSign = positionData?.sign || 'Unknown';
+    const planetDegree = positionData?.degree;
+    const planetIsRetrograde = positionData?.isRetrograde;
+
     if (!planetPosition) {
-      console.error(`Planet position not found for ${planetName}`);
+      console.log(`No position data found for planet: ${planetName}`);
       return null;
     }
+
+    let normalizedPlanetName = planetName;
     
-    // Get planet dignity
-    // Special handling for Ascendant and Lunar Nodes which might not have a standard dignity
+    // Normalize planet names for chart data
+    if (planetName === 'north_node' || planetName === 'northnode') {
+      normalizedPlanetName = 'NorthNode';
+    } else if (planetName === 'south_node' || planetName === 'southnode') {
+      normalizedPlanetName = 'SouthNode';
+    } else if (planetName === 'ascendant') {
+      normalizedPlanetName = 'Ascendant';
+    } else {
+      normalizedPlanetName = planetName.charAt(0).toUpperCase() + planetName.slice(1).toLowerCase();
+    }
+
+    // Get dignity information
     let dignity = { type: 'Neutral', strength: 0 };
+    
+    // Don't calculate dignity for Ascendant and Lunar Nodes
     if (normalizedPlanetName !== 'Ascendant' && 
         normalizedPlanetName !== 'NorthNode' && 
         normalizedPlanetName !== 'SouthNode') {
       try {
-        dignity = getPlanetaryDignityInfo(normalizedPlanetName, planetPosition.sign);
+        dignity = getPlanetaryDignityInfo(normalizedPlanetName, planetSign);
       } catch (error) {
         console.error(`Error getting dignity for ${normalizedPlanetName}:`, error);
         dignity = { type: 'Neutral', strength: 0 };
@@ -96,7 +113,7 @@ export function getPlanetInfo(
         'pisces': 'The Moon'
       };
       
-      const cardName = signToCard[planetPosition.sign] || 'The Fool';
+      const cardName = signToCard[planetSign] || 'The Fool';
       tarotCard = {
         name: cardName,
         element: MAJOR_ARCANA[cardName]?.element || 'Unknown'
@@ -142,7 +159,7 @@ export function getPlanetInfo(
         'cancer': 'Water', 'scorpio': 'Water', 'pisces': 'Water'
       };
       
-      const element = signToElement[planetPosition.sign] || 'air';
+      const element = signToElement[planetSign] || 'air';
       // North Node emphasizes its element, South Node has less influence
       const strength = normalizedPlanetName === 'SouthNode' ? 0.2 : 0.3;
       elementalInfluence[element] = strength;
@@ -174,7 +191,7 @@ export function getPlanetInfo(
         'cancer': 'Water', 'scorpio': 'Water', 'pisces': 'Water'
       };
       
-      const element = signToElement[planetPosition.sign] || 'air';
+      const element = signToElement[planetSign] || 'air';
       
       // Map elements to tokens with different emphasis for North vs South Node
       if (normalizedPlanetName === 'NorthNode') {
@@ -235,12 +252,12 @@ export function getPlanetInfo(
       }
     }
     
-    // Return organized planet information
+    // Return organized planet information with safe property access
     return {
       name: normalizedPlanetName,
-      sign: planetPosition.sign || 'Unknown',
-      degree: typeof planetPosition.degree === 'number' ? planetPosition.degree : 0,
-      isRetrograde: !!planetPosition.isRetrograde,
+      sign: planetSign || 'Unknown',
+      degree: typeof planetDegree === 'number' ? planetDegree : 0,
+      isRetrograde: !!planetIsRetrograde,
       dignity,
       tarotCard,
       aspects: planetAspects,
