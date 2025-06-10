@@ -76,15 +76,18 @@ const processCuisineRecipes = (cuisine: Partial<Cuisine>): Cuisine => {
   const combineRecipes = (mealType: unknown) => {
     if (!mealType) return { spring: [], summer: [], autumn: [], winter: [] };
     
+    // Use safe type casting for mealType property access
+    const mealData = mealType as any;
+    
     // Extract the "all" recipes that should be added to each season
     // Make sure "all" is an array even if it's not defined
-    const allRecipes = Array.isArray(mealType.all) ? mealType.all : [];
+    const allRecipes = Array.isArray(mealData?.all) ? mealData.all : [];
     
     return {
-      spring: [...(Array.isArray(mealType.spring) ? mealType.spring : []), ...allRecipes],
-      summer: [...(Array.isArray(mealType.summer) ? mealType.summer : []), ...allRecipes],
-      autumn: [...(Array.isArray(mealType.autumn) ? mealType.autumn : []), ...allRecipes],
-      winter: [...(Array.isArray(mealType.winter) ? mealType.winter : []), ...allRecipes]
+      spring: [...(Array.isArray(mealData?.spring) ? mealData.spring : []), ...allRecipes],
+      summer: [...(Array.isArray(mealData?.summer) ? mealData.summer : []), ...allRecipes],
+      autumn: [...(Array.isArray(mealData?.autumn) ? mealData.autumn : []), ...allRecipes],
+      winter: [...(Array.isArray(mealData?.winter) ? mealData.winter : []), ...allRecipes]
     };
   };
   
