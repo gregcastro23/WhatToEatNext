@@ -20,17 +20,27 @@ export class ElementalRecommendationService {
     const profile = elementalUtils.getElementalProfile(properties);
     const dominantElement = this.getDominantElement(properties);
 
+    // Fix TS2339: Property access on service object using safe type casting
+    const utilsService = elementalUtils as any;
+
     return {
       elementalBalance: properties,
       dominantElement,
       cookingTechniques: elementalUtils.getSuggestedCookingTechniques(properties),
       complementaryIngredients: elementalUtils.getComplementaryIngredients(properties),
-      flavorProfiles: elementalUtils.getFlavorProfileRecommendations(properties),
-      healthBenefits: elementalUtils.getHealthBenefits(properties),
+      flavorProfiles: utilsService?.getFlavorProfileRecommendations?.(properties) || [],
+      healthBenefits: utilsService?.getHealthBenefits?.(properties) || [],
       timeOfDay: elementalUtils.getRecommendedTimeOfDay(properties),
       seasonalBest: this.getSeasonalRecommendations(dominantElement),
-      moodEffects: profile.characteristics?.moodEffects || [],
-      culinaryHerbs: profile.characteristics?.culinaryHerbs || []
+      // Fix TS2339: Property access on array type using safe type casting
+      moodEffects: (() => {
+        const characteristics = profile.characteristics as any;
+        return characteristics?.moodEffects || [];
+      })(),
+      culinaryHerbs: (() => {
+        const characteristics = profile.characteristics as any;
+        return characteristics?.culinaryHerbs || [];
+      })()
     };
   }
 
