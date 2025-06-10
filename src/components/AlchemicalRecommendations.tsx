@@ -62,7 +62,10 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
       // Extract degrees from the planetary positions
       Object.entries(alchemicalContext.planetaryPositions).forEach(([planet, data]) => {
         if (planet in positions) {
-          positions[planet as RulingPlanet] = data.degree || 0;
+          // Fix TS2339: Property 'degree' does not exist on type 'unknown'
+          const planetData = data as any;
+          const degree = planetData?.degree;
+          positions[planet as RulingPlanet] = degree || 0;
         }
       });
       
@@ -176,7 +179,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
       
       return {
         id: key,
-        name: ingredient.name || key,
+        name: (ingredient as any)?.name || key,
         elementalProperties: elementalProps,
         qualities: (ingredient as any).qualities || [],
         modality: (ingredient as any).modality
@@ -508,7 +511,11 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
                     </div>
                   </div>
                   <div className="item-modality">
-                    <span className={`modality-badge ${ingredient.modality?.toLowerCase() || ''}`}>
+                    <span className={`modality-badge ${(() => {
+                      const modalityData = ingredient.modality as any;
+                      const modalityStr = modalityData?.toLowerCase ? modalityData.toLowerCase() : (modalityData || '').toString().toLowerCase();
+                      return modalityStr;
+                    })()}`}>
                       {ingredient.modality}
                     </span>
                   </div>
@@ -539,7 +546,11 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
                     </div>
                   </div>
                   <div className="item-modality">
-                    <span className={`modality-badge ${method.modality?.toLowerCase() || ''}`}>
+                    <span className={`modality-badge ${(() => {
+                      const modalityData = method.modality as any;
+                      const modalityStr = modalityData?.toLowerCase ? modalityData.toLowerCase() : (modalityData || '').toString().toLowerCase();
+                      return modalityStr;
+                    })()}`}>
                       {method.modality}
                     </span>
                   </div>
@@ -570,7 +581,11 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
                     </div>
                   </div>
                   <div className="item-modality">
-                    <span className={`modality-badge ${cuisine.modality?.toLowerCase() || ''}`}>
+                    <span className={`modality-badge ${(() => {
+                      const modalityData = cuisine.modality as any;
+                      const modalityStr = modalityData?.toLowerCase ? modalityData.toLowerCase() : (modalityData || '').toString().toLowerCase();
+                      return modalityStr;
+                    })()}`}>
                       {cuisine.modality}
                     </span>
                   </div>
