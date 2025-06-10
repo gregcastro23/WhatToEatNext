@@ -105,8 +105,8 @@ export class EnhancedRecommendationService {
     }
   ): Promise<EnhancedRecommendationResult>  {
     try {
-      // Get base ingredient recommendations
-      const baseRecommendations = getRecommendedIngredients(astroState);
+      // Get base recommendations
+      const baseRecommendations = await getRecommendedIngredients(astroState);
 
       // Calculate chakra energies from astrological state
       const chakraEnergies = this.calculateChakraEnergiesFromAstroState(astroState);
@@ -166,7 +166,7 @@ export class EnhancedRecommendationService {
       console.error('Error in enhanced recommendations:', error);
       
       // Fallback to base recommendations
-      const baseRecommendations = getRecommendedIngredients(astroState);
+      const baseRecommendations = await getRecommendedIngredients(astroState);
       const fallbackRecommendations = baseRecommendations.slice(0, 10).map(ingredient => ({
         ingredient,
         score: ingredient.score || 0.5,
@@ -322,14 +322,17 @@ export class EnhancedRecommendationService {
   ): { card: string; element: Element; recommendation: string } | undefined {
     if (!tarotGuidance || !ingredient.elementalPropertiesState) return undefined;
 
+    // Use safe type casting for tarot guidance property access
+    const tarotData = tarotGuidance as any;
+    
     const dominantElement = this.getDominantElement(ingredient.elementalPropertiesState);
     
     // Check if ingredient element matches tarot element
-    if (dominantElement?.toLowerCase() === tarotGuidance.element?.toLowerCase()) {
+    if (dominantElement?.toLowerCase() === tarotData?.element?.toLowerCase()) {
       return {
-        card: tarotGuidance.dailyCard || 'Unknown',
-        element: tarotGuidance.element,
-        recommendation: `This ${dominantElement} ingredient resonates with today's ${tarotGuidance.element} energy`
+        card: tarotData?.dailyCard || 'Unknown',
+        element: tarotData?.element,
+        recommendation: `This ${dominantElement} ingredient resonates with today's ${tarotData?.element} energy`
       };
     }
 
@@ -384,8 +387,10 @@ export class EnhancedRecommendationService {
     }
 
     // Apply elemental properties if available
-    if (astroState.elementalState) {
-      const { Fire, Water, Earth, Air } = astroState.elementalState;
+    // Use safe type casting for astroState property access
+    const astroData = astroState as any;
+    if (astroData?.elementalState) {
+      const { Fire, Water, Earth, Air } = astroData.elementalState;
       
       // Fire signs
       zodiacEnergies['aries'] += Fire * 0.3;
@@ -636,7 +641,9 @@ export class EnhancedRecommendationService {
     chakraEnergies?: ChakraEnergies
   ): UnifiedFlavorProfile  {
     // Calculate elemental properties from astrological state
-    const elementalProps = astroState.elementalState || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+    // Use safe type casting for astroState property access
+    const astroData = astroState as any;
+    const elementalProps = astroData?.elementalState || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
     };
     
     // Enhance with chakra influences if available
