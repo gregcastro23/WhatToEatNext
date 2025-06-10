@@ -35,9 +35,13 @@ export const ChartProvider: React.FC<{children: React.ReactNode}> = ({ children 
   const calculateStelliums = (positions: Record<string, unknown>): Record<string, string[]> => {
     const signGroups: Record<string, string[]> = {};
     Object.entries(positions).forEach(([planet, data]) => {
-      if (planet === 'ascendant' || !data || !data.sign) return;
+      if (planet === 'ascendant' || !data) return;
       
-      const sign = data.sign;
+      // Use safe type casting for planetary data access
+      const planetData = data as any;
+      if (!planetData?.sign) return;
+      
+      const sign = planetData.sign;
       if (!signGroups[sign]) {
         signGroups[sign] = [];
       }
@@ -63,9 +67,13 @@ export const ChartProvider: React.FC<{children: React.ReactNode}> = ({ children 
     };
 
     Object.entries(positions).forEach(([planet, data]) => {
-      if (planet === 'ascendant' || !data || !data.sign) return;
+      if (planet === 'ascendant' || !data) return;
       
-      const sign = data.sign;
+      // Use safe type casting for planetary data access  
+      const planetData = data as any;
+      if (!planetData?.sign) return;
+      
+      const sign = planetData.sign;
       const element = getElementFromSign(sign);
       if (element) {
         houseEffects[element] += 1;
@@ -145,19 +153,22 @@ export const ChartProvider: React.FC<{children: React.ReactNode}> = ({ children 
     Object.entries(chart.planetaryPositions).forEach(([key, data]) => {
       if (key === 'ascendant') return;
       
+      // Use safe type casting for planetary data access
+      const planetData = data as any;
+      
       const planetName = key.charAt(0).toUpperCase() + key.slice(1);
       formattedPlanets[planetName] = {
-        sign: data.sign || 'Unknown',
-        degree: data.degree || 0,
-        isRetrograde: data.isRetrograde || false,
-        exactLongitude: data.exactLongitude || 0,
+        sign: planetData?.sign || 'Unknown',
+        degree: planetData?.degree || 0,
+        isRetrograde: planetData?.isRetrograde || false,
+        exactLongitude: planetData?.exactLongitude || 0,
       };
     });
     
-    // Create a basic SVG representation
+    // Create a basic SVG representation  
     return {
       planetPositions: formattedPlanets,
-      ascendantSign: chart.planetaryPositions.ascendant?.sign || 'Libra',
+      ascendantSign: (chart.planetaryPositions.ascendant as any)?.sign || 'Libra',
       svgContent: `<svg width="300" height="300" viewBox="0 0 300 300">
         <circle cx="150" cy="150" r="140" fill="none" stroke="#333" stroke-width="1"/>
         <text x="150" y="20" text-anchor="middle">Current Chart</text>
@@ -165,7 +176,8 @@ export const ChartProvider: React.FC<{children: React.ReactNode}> = ({ children 
           const angle = (index * 30) % 360;
           const x = 150 + 120 * Math.cos(angle * Math.PI / 180);
           const y = 150 + 120 * Math.sin(angle * Math.PI / 180);
-          return `<text x="${x}" y="${y}" text-anchor="middle">${planet}: ${data.sign}</text>`;
+          const planetInfo = data as any;
+          return `<text x="${x}" y="${y}" text-anchor="middle">${planet}: ${planetInfo?.sign}</text>`;
         }).join('')}
       </svg>`
     };
