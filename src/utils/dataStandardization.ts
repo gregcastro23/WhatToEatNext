@@ -10,15 +10,19 @@ export function standardizeElementalAffinity(value: string | { base: string; dec
 
 // Helper function to update entire ingredient objects
 export function standardizeIngredient(ingredient: unknown): unknown {
-  if (!ingredient || !ingredient.astrologicalProfile) {
+  // Apply surgical type casting with variable extraction
+  const ingredientData = ingredient as any;
+  const astrologicalProfile = ingredientData?.astrologicalProfile;
+  
+  if (!ingredient || !astrologicalProfile) {
     return ingredient;
   }
 
   return {
-    ...ingredient,
+    ...ingredientData,
     astrologicalProfile: {
-      ...ingredient.astrologicalProfile,
-      elementalAffinity: standardizeElementalAffinity(ingredient.astrologicalProfile.elementalAffinity)
+      ...astrologicalProfile,
+      elementalAffinity: standardizeElementalAffinity(astrologicalProfile.elementalAffinity)
     }
   };
 } 
