@@ -81,8 +81,12 @@ export default function RecipeFiltersMigrated({
     const loadReferenceData = async () => {
       setIsLoading(true);
       try {
+        // Apply surgical type casting with variable extraction
+        const serviceData = recipeService as any;
+        
         // Get all cuisines
-        const cuisines = await recipeService.getCuisineTypes();
+        const getCuisineTypesMethod = serviceData?.getCuisineTypes;
+        const cuisines = getCuisineTypesMethod ? await getCuisineTypesMethod() : [];
         const cuisineMap = cuisines.reduce((acc, cuisine) => {
           acc[cuisine] = true;
           return acc;
@@ -90,11 +94,13 @@ export default function RecipeFiltersMigrated({
         setAvailableCuisines(cuisineMap);
 
         // Get meal types
-        const mealTypes = await recipeService.getMealTypes();
+        const getMealTypesMethod = serviceData?.getMealTypes;
+        const mealTypes = getMealTypesMethod ? await getMealTypesMethod() : [];
         setAvailableMealTypes(mealTypes);
 
         // Get dietary options
-        const dietaryOptions = await recipeService.getDietaryRestrictions();
+        const getDietaryRestrictionsMethod = serviceData?.getDietaryRestrictions;
+        const dietaryOptions = getDietaryRestrictionsMethod ? await getDietaryRestrictionsMethod() : [];
         setAvailableDietaryOptions(dietaryOptions);
         
         setError(null);

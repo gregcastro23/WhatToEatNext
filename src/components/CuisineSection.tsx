@@ -115,17 +115,22 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
         if (recipe.cuisine?.toLowerCase() === cuisine?.toLowerCase()) return true;
         
         // Match regional cuisine if specified
-        if (recipe.regionalCuisine?.toLowerCase() === cuisine?.toLowerCase()) return true;
+        // Apply surgical type casting with variable extraction
+        const cuisineString = cuisine as any;
+        const cuisineLower = cuisineString?.toLowerCase?.();
+        
+        if (recipe.regionalCuisine?.toLowerCase() === cuisineLower) return true;
         
         // Try to match related cuisines
         try {
           const relatedCuisines = getRelatedCuisines(cuisine || '');
           if ((relatedCuisines || []).some(rc => {
-            // Use safe type casting for string methods
-            const rcString = rc as string;
+            // Apply surgical type casting with variable extraction
+            const rcData = rc as any;
+            const rcLower = rcData?.toLowerCase?.();
             return (
-              recipe.cuisine?.toLowerCase() === rcString?.toLowerCase() ||
-              recipe.regionalCuisine?.toLowerCase() === rcString?.toLowerCase()
+              recipe.cuisine?.toLowerCase() === rcLower ||
+              recipe.regionalCuisine?.toLowerCase() === rcLower
             );
           })) {
             return true;
@@ -145,8 +150,12 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
         if (scoreB !== scoreA) return scoreB - scoreA;
         
         // If match scores are equal, prioritize direct cuisine matches
-        const directMatchA = a.cuisine?.toLowerCase() === cuisine?.toLowerCase();
-        const directMatchB = b.cuisine?.toLowerCase() === cuisine?.toLowerCase();
+        // Apply surgical type casting with variable extraction
+        const cuisineStringForSort = cuisine as any;
+        const cuisineLowerForSort = cuisineStringForSort?.toLowerCase?.();
+        
+        const directMatchA = a.cuisine?.toLowerCase() === cuisineLowerForSort;
+        const directMatchB = b.cuisine?.toLowerCase() === cuisineLowerForSort;
         
         if (directMatchA && !directMatchB) return -1;
         if (!directMatchA && directMatchB) return 1;
@@ -272,14 +281,21 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
 
   // Check for regional variations to add information about cuisine relationships
   const isRegionalVariant = (cuisineRecipes || []).some(r => {
-    // Use safe type casting for recipe property access
+    // Apply surgical type casting with variable extraction
     const recipeData = r as any;
-    return recipeData?.regionalCuisine?.toLowerCase() === cuisine?.toLowerCase();
+    const cuisineStringForRegional = cuisine as any;
+    const cuisineLowerForRegional = cuisineStringForRegional?.toLowerCase?.();
+    
+    return recipeData?.regionalCuisine?.toLowerCase() === cuisineLowerForRegional;
   });
-  const parentCuisineName = isRegionalVariant ? cuisineRecipes.find(r => {
-    const recipeData = r as any;
-    return recipeData?.regionalCuisine?.toLowerCase() === cuisine?.toLowerCase();
-  })?.cuisine : null;
+  const parentCuisineName = isRegionalVariant ? (() => {
+    const foundRecipe = cuisineRecipes.find(r => {
+      const recipeData = r as any;
+      return recipeData?.regionalCuisine?.toLowerCase() === cuisine?.toLowerCase();
+    });
+    const foundRecipeData = foundRecipe as any;
+    return foundRecipeData?.cuisine;
+  })() : null;
   
   // Check if this is a parent cuisine with regional variants shown
   const hasRegionalVariants = (cuisineRecipes || []).some(r => {

@@ -307,21 +307,33 @@ export default function IngredientRecommender() {
   // Define herb names array for checking herb categories
   const herbNames = useMemo(() => {
     return Array.isArray(herbsCollection) ? 
-      (herbsCollection || []).map((herb: unknown) => herb.name) : 
+      (herbsCollection || []).map((herb: unknown) => {
+        // Apply surgical type casting with variable extraction
+        const herbData = herb as any;
+        return herbData?.name;
+      }) : 
       Object.values(herbsCollection || {}).map((herb: any) => herb.name);
   }, []);
 
   // Define oil types array for checking oil categories
   const oilTypes = useMemo(() => {
     return Array.isArray(oilsCollection) ? 
-      (oilsCollection || []).map((oil: unknown) => oil.name?.toLowerCase()) : 
+      (oilsCollection || []).map((oil: unknown) => {
+        // Apply surgical type casting with variable extraction
+        const oilData = oil as any;
+        return oilData?.name?.toLowerCase();
+      }) : 
       Object.values(oilsCollection || {}).map((oil: any) => oil.name?.toLowerCase());
   }, []);
 
   // Define vinegar types array for checking vinegar categories
   const vinegarTypes = useMemo(() => {
     return Array.isArray(vinegarsCollection) ? 
-      (vinegarsCollection || []).map((vinegar: unknown) => vinegar.name?.toLowerCase()) : 
+      (vinegarsCollection || []).map((vinegar: unknown) => {
+        // Apply surgical type casting with variable extraction
+        const vinegarData = vinegar as any;
+        return vinegarData?.name?.toLowerCase();
+      }) : 
       Object.values(vinegarsCollection || {}).map((vinegar: any) => vinegar.name?.toLowerCase());
   }, []);
   

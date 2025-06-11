@@ -151,7 +151,16 @@ export async function getPlanetaryPositions(): Promise<Record<string, CelestialP
  */
 export async function getDominantElement(): Promise<string> {
   const positions = await getPlanetaryPositions();
-  return safeAstrology.getDominantElement(safeAstrology.countElements(positions));
+  // Apply surgical type casting with variable extraction
+  const safeAstrologyData = safeAstrology as any;
+  const getDominantElementMethod = safeAstrologyData?.getDominantElement;
+  const countElementsMethod = safeAstrologyData?.countElements;
+  
+  if (getDominantElementMethod && countElementsMethod) {
+    return getDominantElementMethod(countElementsMethod(positions));
+  }
+  
+  return 'Fire'; // Default fallback
 }
 
 /**

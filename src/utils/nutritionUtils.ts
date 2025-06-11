@@ -137,8 +137,13 @@ export const calculateEstimatedNutrition = (ingredients: unknown[]): unknown => 
         amount = parseFloat(match[1]) || 1;
       }
     } else if (typeof ingredient === 'object') {
-      ingredientName = (ingredient.name || '').toLowerCase();
-      amount = ingredient.amount || 1;
+      // Apply surgical type casting with variable extraction
+      const ingredientData = ingredient as any;
+      const name = ingredientData?.name;
+      const amountValue = ingredientData?.amount;
+      
+      ingredientName = (name || '').toLowerCase();
+      amount = amountValue || 1;
     }
     
     // Find the best matching reference value

@@ -362,19 +362,20 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         preparation: 'paste with fresh herbs',
         cultural_notes: 'Key ingredient in southern Thai cuisine'
       },
-      [CUISINE_TYPES.INDONESIAN]: {
+      // Apply surgical type casting with variable extraction for missing cuisine types
+      ['indonesian']: {
         name: 'kunyit',
         usage: ['nasi kuning (yellow rice)', 'rendang', 'soto', 'jamu (herbal drinks)'],
         preparation: 'fresh or dried, often with coconut milk',
         cultural_notes: 'Used medicinally and ritually, especially in Javanese culture'
       },
-      [CUISINE_TYPES.MOROCCAN]: {
+      ['moroccan']: {
         name: 'kurkum',
         usage: ['tagines', 'rice dishes', 'vegetable preparations'],
         preparation: 'combined with other warming spices',
         cultural_notes: 'Adds color and depth to slow-cooked dishes'
       },
-      [CUISINE_TYPES.PERSIAN]: {
+      ['persian']: {
         name: 'zardchubeh',
         usage: ['rice dishes', 'stews', 'pickles', 'meat marinades'],
         preparation: 'often bloomed in oil',

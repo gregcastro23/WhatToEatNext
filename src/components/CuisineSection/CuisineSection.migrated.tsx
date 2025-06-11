@@ -172,11 +172,15 @@ export function CuisineSectionMigrated({
       .filter(recipe => {
         if (!recipe) return false;
         
+        // Apply surgical type casting with variable extraction
+        const cuisineStringMatch = cuisine as any;
+        const cuisineLowerMatch = cuisineStringMatch?.toLowerCase?.();
+        
         // Direct cuisine match
-        if (recipe.cuisine?.toLowerCase() === cuisine?.toLowerCase()) return true;
+        if (recipe.cuisine?.toLowerCase() === cuisineLowerMatch) return true;
         
         // Regional cuisine match
-        if (recipe.regionalCuisine?.toLowerCase() === cuisine?.toLowerCase()) return true;
+        if (recipe.regionalCuisine?.toLowerCase() === cuisineLowerMatch) return true;
         
         // High match score
         return (recipe.matchScore || 0) > 0.75;
@@ -189,8 +193,12 @@ export function CuisineSectionMigrated({
         if (scoreB !== scoreA) return scoreB - scoreA;
         
         // If match scores are equal, prioritize direct cuisine matches
-        const directMatchA = a.cuisine?.toLowerCase() === cuisine?.toLowerCase();
-        const directMatchB = b.cuisine?.toLowerCase() === cuisine?.toLowerCase();
+        // Apply surgical type casting with variable extraction
+        const cuisineStringSort = cuisine as any;
+        const cuisineLowerSort = cuisineStringSort?.toLowerCase?.();
+        
+        const directMatchA = a.cuisine?.toLowerCase() === cuisineLowerSort;
+        const directMatchB = b.cuisine?.toLowerCase() === cuisineLowerSort;
         
         if (directMatchA && !directMatchB) return -1;
         if (!directMatchA && directMatchB) return 1;

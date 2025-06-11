@@ -25,12 +25,17 @@ export function getEnhancedFoodRecommendation(
 ) {
   // Recipe generation functionality is deactivated
   // Return a placeholder with the dominant element information
+  // Apply surgical type casting with variable extraction
+  const resultData = alchemicalResult as any;
+  const dominant = resultData?.dominant;
+  const dominantElement = dominant?.element || 'balanced';
+  
   return {
     cookingMethod: "See existing recipes",
     mainIngredient: "See existing recipes",
     secondaryIngredient: "See existing recipes",
     reasoning: {
-      elementalInfluence: `Using existing recipes with ${alchemicalResult.dominant?.element || 'balanced'} qualities.`,
+      elementalInfluence: `Using existing recipes with ${dominantElement} qualities.`,
       planetary: "Recipe generation is deactivated."
     }
   };
@@ -116,11 +121,15 @@ export function generatePersonalizedMealPlan(
   season: string,
   userPreferences?: string[]
 ) {
+  // Apply surgical type casting with variable extraction
+  const alchemicalResultData = alchemicalResult as any;
+  const dominant = alchemicalResultData?.dominant;
+  
   // Recipe generation functionality is deactivated
   // Return a simple placeholder instead
   return {
     message: "Recipe generation is deactivated. Using existing recipes instead.",
-    dominant: alchemicalResult.dominant
+    dominant: dominant
   };
   
   /* Original implementation commented out

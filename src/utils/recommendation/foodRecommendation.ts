@@ -169,9 +169,14 @@ function calculateElementalScore(recipe: Recipe, userElement?: Element): number 
 function calculatePlanetaryScore(recipe: Recipe, planetName?: PlanetName): number {
   if (!recipe.astrologicalPropertiesInfluences || !planetName) return 0.5;
   
-  const planetaryMatch = safeSome(recipe.astrologicalPropertiesInfluences, influence => 
-    influence?.toLowerCase()?.includes(planetName?.toLowerCase())
-  );
+  const planetaryMatch = safeSome(recipe.astrologicalPropertiesInfluences, influence => {
+    // Apply surgical type casting with variable extraction
+    const influenceData = influence as any;
+    const influenceLower = influenceData?.toLowerCase?.();
+    const planetNameLower = planetName?.toLowerCase();
+    
+    return influenceLower?.includes(planetNameLower);
+  });
   return planetaryMatch ? 0.8 : 0.4;
 }
 
@@ -222,9 +227,14 @@ function calculateZodiacScore(recipe: Recipe, sunSign: ZodiacSign): number {
   if (!recipe.astrologicalPropertiesInfluences) return 0.5;
   
   // Check if recipe has zodiac-specific influences
-  const zodiacMatch = safeSome(recipe.astrologicalPropertiesInfluences, influence => 
-    influence?.toLowerCase()?.includes(sunSign?.toLowerCase())
-  );
+  const zodiacMatch = safeSome(recipe.astrologicalPropertiesInfluences, influence => {
+    // Apply surgical type casting with variable extraction
+    const influenceDataZodiac = influence as any;
+    const influenceLowerZodiac = influenceDataZodiac?.toLowerCase?.();
+    const sunSignLower = sunSign?.toLowerCase();
+    
+    return influenceLowerZodiac?.includes(sunSignLower);
+  });
   
   if (zodiacMatch) return 0.8;
   

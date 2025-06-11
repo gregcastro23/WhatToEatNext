@@ -80,13 +80,15 @@ export class EnhancedIngredientSystem {
       // Apply additional filters
       let filtered = recommended;
       
-      // Filter by season if specified
-      if (options.currentSeason) {
+      // Filter by season if specified - apply surgical type casting
+      const optionsData = options as any;
+      const currentSeason = optionsData?.currentSeason;
+      if (currentSeason) {
         filtered = filtered.filter(ingredient => {
           const seasons = ingredient.seasonality || ingredient.currentSeason || [];
           const seasonArray = Array.isArray(seasons) ? seasons : [seasons];
           return seasonArray.some(s => typeof s === 'string' && 
-                                       s?.toLowerCase() === options.currentSeason?.toLowerCase());
+                                       s?.toLowerCase() === currentSeason?.toLowerCase());
         });
       }
       

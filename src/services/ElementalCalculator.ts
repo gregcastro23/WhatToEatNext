@@ -501,8 +501,12 @@ export class ElementalCalculator {
   }
 
   public static calculateIngredientMatch(ingredient: unknown): number {
+    // Apply surgical type casting with variable extraction
+    const ingredientData = ingredient as any;
+    const elementalProperties = ingredientData?.elementalProperties;
+    
     // If the ingredient has elementalProperties, use those
-    if (ingredient.elementalProperties) {
+    if (elementalProperties) {
       let currentState = this.getCurrentElementalState();
 
       // Calculate similarity between ingredient's elemental properties and current state
@@ -511,7 +515,7 @@ export class ElementalCalculator {
 
       Object.entries(currentState).forEach(([element, value]) => {
         let elementKey = element as keyof ElementalProperties;
-        let ingredientValue = ingredient.elementalProperties[elementKey] || 0;
+        let ingredientValue = elementalProperties[elementKey] || 0;
 
         // Calculate weighted difference (more important elements get higher weight)
         let weight = value * 2; // Emphasize elements that are strong in current state

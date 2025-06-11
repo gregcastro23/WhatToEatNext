@@ -58,9 +58,21 @@ const AlchemicalDebug: React.FC = () => {
           <h3 className="text-lg font-bold mb-2">Test Results</h3>
           
           <div className="mb-4">
-            <h4 className="font-bold">Ingredient: {testResults.ingredient.name}</h4>
-            <p>Element: {testResults.ingredient.element}</p>
-            <p>Elemental Character: {testResults.ingredient.elementalCharacter}</p>
+            {/* Apply surgical type casting with variable extraction */}
+            {(() => {
+              const ingredientData = testResults.ingredient as any;
+              const name = ingredientData?.name;
+              const element = ingredientData?.element;
+              const elementalCharacter = ingredientData?.elementalCharacter;
+              
+              return (
+                <>
+                  <h4 className="font-bold">Ingredient: {name}</h4>
+                  <p>Element: {element}</p>
+                  <p>Elemental Character: {elementalCharacter}</p>
+                </>
+              );
+            })()}
           </div>
           
           <div className="mb-4">

@@ -233,21 +233,28 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
         <div className="mt-4">
           <h4 className="text-sm font-semibold mb-2">Active Planetary Influences</h4>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
-            {Object.entries(tarotCards.planetaryCards).map(([planet, card]) => (
-              <div key={planet} className="rounded-lg p-2 bg-gray-800 bg-opacity-40 text-xs">
-                <div className="font-medium text-purple-300">{planet}</div>
-                <div className="text-gray-400 mt-1">{card.name}</div>
-                <div className="flex items-center mt-1">
-                  <div className="h-1 bg-gray-700 flex-grow rounded-full overflow-hidden">
-                    <div 
-                      className="h-1 bg-purple-500" 
-                      style={{ width: `${(card.energy || 0.5) * 100}%` }}
-                    ></div>
+            {Object.entries(tarotCards.planetaryCards).map(([planet, card]) => {
+              // Apply surgical type casting with variable extraction
+              const cardData = card as any;
+              const name = cardData?.name;
+              const energy = cardData?.energy;
+              
+              return (
+                <div key={planet} className="rounded-lg p-2 bg-gray-800 bg-opacity-40 text-xs">
+                  <div className="font-medium text-purple-300">{planet}</div>
+                  <div className="text-gray-400 mt-1">{name}</div>
+                  <div className="flex items-center mt-1">
+                    <div className="h-1 bg-gray-700 flex-grow rounded-full overflow-hidden">
+                      <div 
+                        className="h-1 bg-purple-500" 
+                        style={{ width: `${(energy || 0.5) * 100}%` }}
+                      ></div>
+                    </div>
+                    <span className="ml-1 text-xs text-gray-500">{Math.round((energy || 0.5) * 100)}%</span>
                   </div>
-                  <span className="ml-1 text-xs text-gray-500">{Math.round((card.energy || 0.5) * 100)}%</span>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       )}

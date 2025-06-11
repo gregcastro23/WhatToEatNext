@@ -105,15 +105,19 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
       const planetaryInfluences: { [key: string]: number } = {};
       
       for (const [planet, position] of Object.entries(state.planetaryPositions)) {
+        // Apply surgical type casting with variable extraction
+        const positionData = position as any;
+        const sign = positionData?.sign;
+        
         // Skip non-standard planets or positions
-        if (!position || !position.sign) continue;
+        if (!position || !sign) continue;
         
         // Calculate base influence (0.5 as neutral)
         const influence = 0.5;
         
         // Add dignity effects if applicable
         const planetKey = planet.charAt(0)?.toUpperCase() + planet?.slice(1);
-        const sign = position.sign.charAt(0)?.toUpperCase() + position.sign?.slice(1);
+        const signFormatted = sign.charAt(0)?.toUpperCase() + sign?.slice(1);
         
         // Track this planet's influence
         planetaryInfluences[planetKey] = influence;

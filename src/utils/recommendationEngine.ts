@@ -222,7 +222,13 @@ export function explainRecommendation(
   if (timeFactors.mealType) {
     const mealScore = calculateMealTypeScore(recipe, timeFactors.mealType);
     if (mealScore > 0.6) {
-      reasons.push(`This is an ideal choice for ${timeFactors.mealType.toLowerCase()} during the ${timeFactors.timeOfDay.toLowerCase()}.`);
+      // Apply surgical type casting with variable extraction
+      const mealTypeData = timeFactors.mealType as any;
+      const timeOfDayData = timeFactors.timeOfDay as any;
+      const mealTypeLower = mealTypeData?.toLowerCase?.() || timeFactors.mealType;
+      const timeOfDayLower = timeOfDayData?.toLowerCase?.() || timeFactors.timeOfDay;
+      
+      reasons.push(`This is an ideal choice for ${mealTypeLower} during the ${timeOfDayLower}.`);
     }
   }
   

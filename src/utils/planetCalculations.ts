@@ -63,29 +63,45 @@ export function calculateBasicPlanetaryPositions(date: Date = new Date()) {
   let northNode, southNode;
   
   try {
+    // Apply surgical type casting with variable extraction
+    const accurateAstronomyData = accurateAstronomy as any;
+    const calculateLunarNodesMethod = accurateAstronomyData?.calculateLunarNodes;
+    
     // First try to import and use the accurate astronomy module
-    const nodeData = accurateAstronomy.calculateLunarNodes(date);
+    const nodeData = calculateLunarNodesMethod ? calculateLunarNodesMethod(date) : null;
+    
+    if (!nodeData) {
+      throw new Error('Node data not available');
+    }
+    
+    // Apply surgical type casting for node data access
+    const nodeDataTyped = nodeData as any;
+    const northNodeValue = nodeDataTyped?.northNode || 0;
+    const southNodeValue = nodeDataTyped?.southNode || ((northNodeValue + 180) % 360);
     
     // Convert longitude to sign and degree
-    const northNodeSign = getSignFromLongitude(nodeData.northNode);
-    const northNodeDegree = nodeData.northNode % 30;
+    const northNodeSign = getSignFromLongitude(northNodeValue);
+    const northNodeDegree = northNodeValue % 30;
     
-    const southNodeLongitude = (nodeData.northNode + 180) % 360;
+    const southNodeLongitude = (northNodeValue + 180) % 360;
     const southNodeSign = getSignFromLongitude(southNodeLongitude);
     const southNodeDegree = southNodeLongitude % 30;
+    
+    // Apply surgical type casting for node data properties
+    const isRetrograde = nodeDataTyped?.isRetrograde || true;
     
     northNode = {
       sign: northNodeSign,
       degree: northNodeDegree,
-      exactLongitude: nodeData.northNode,
-      isRetrograde: nodeData.isRetrograde || true
+      exactLongitude: northNodeValue,
+      isRetrograde: isRetrograde
     };
     
     southNode = {
       sign: southNodeSign, 
       degree: southNodeDegree,
       exactLongitude: southNodeLongitude,
-      isRetrograde: nodeData.isRetrograde || true
+      isRetrograde: isRetrograde
     };
   } catch (error) {
     // If that fails, fall back to the simplified calculation

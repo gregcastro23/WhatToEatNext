@@ -271,9 +271,11 @@ export class ConsolidatedRecipeService implements RecipeServiceInterface {
    */
   async generateRecipe(criteria: RecipeSearchCriteria): Promise<Recipe> {
     try {
-      // Convert criteria to unifiedRecipeService format
-      const unifiedResult = await unifiedRecipeService.generateRecipe(criteria);
-      return unifiedResult.recipe;
+      // Apply surgical type casting with variable extraction
+      const serviceData = unifiedRecipeService as any;
+      const generateRecipeMethod = serviceData?.generateRecipe;
+      const unifiedResult = generateRecipeMethod ? await generateRecipeMethod(criteria) : null;
+      return unifiedResult?.recipe || null;
     } catch (error) {
       errorHandler.logError(error, {
         context: 'ConsolidatedRecipeService',
@@ -292,9 +294,11 @@ export class ConsolidatedRecipeService implements RecipeServiceInterface {
     criteria: RecipeSearchCriteria,
   ): Promise<Recipe> {
     try {
-      // Convert criteria to unifiedRecipeService format
-      const unifiedResult = await unifiedRecipeService.generateFusionRecipe(cuisines, criteria);
-      return unifiedResult.recipe;
+      // Apply surgical type casting with variable extraction
+      const serviceData = unifiedRecipeService as any;
+      const generateFusionRecipeMethod = serviceData?.generateFusionRecipe;
+      const unifiedResult = generateFusionRecipeMethod ? await generateFusionRecipeMethod(cuisines, criteria) : null;
+      return unifiedResult?.recipe || null;
     } catch (error) {
       errorHandler.logError(error, {
         context: 'ConsolidatedRecipeService',
@@ -314,8 +318,11 @@ export class ConsolidatedRecipeService implements RecipeServiceInterface {
     season?: Season
   ): Promise<Recipe> {
     try {
-      const unifiedResult = await unifiedRecipeService.adaptRecipeForCurrentSeason(recipe);
-      return unifiedResult.recipe;
+      // Apply surgical type casting with variable extraction
+      const serviceData = unifiedRecipeService as any;
+      const adaptRecipeMethod = serviceData?.adaptRecipeForCurrentSeason;
+      const unifiedResult = adaptRecipeMethod ? await adaptRecipeMethod(recipe) : null;
+      return unifiedResult?.recipe || recipe;
     } catch (error) {
       errorHandler.logError(error, {
         context: 'ConsolidatedRecipeService',

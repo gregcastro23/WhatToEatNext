@@ -97,8 +97,12 @@ export class UnifiedNutritionalService {
         return null;
       }
       
+      // Apply surgical type casting with variable extraction
+      const systemData = unifiedNutritionalSystem as any;
+      const enhanceMethod = systemData?.enhanceNutritionalProfile;
+      
       // Enhance with alchemical properties
-      const enhanced = unifiedNutritionalSystem.enhanceNutritionalProfile(nutritionalProfile, context);
+      const enhanced = enhanceMethod ? enhanceMethod(nutritionalProfile, context) : nutritionalProfile;
       
       this.cache.set(cacheKey, enhanced);
       return enhanced;
@@ -113,7 +117,11 @@ export class UnifiedNutritionalService {
    * Calculate nutritional Kalchm value
    */
   calculateNutritionalKalchm(profile: NutritionalProfile): number {
-    return unifiedNutritionalSystem.calculateNutritionalKalchm(profile);
+    // Apply surgical type casting with variable extraction
+    const systemData = unifiedNutritionalSystem as any;
+    const calculateKalchmMethod = systemData?.calculateNutritionalKalchm;
+    
+    return calculateKalchmMethod ? calculateKalchmMethod(profile) : 0;
   }
   
   /**

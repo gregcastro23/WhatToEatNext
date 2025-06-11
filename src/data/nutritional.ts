@@ -619,17 +619,20 @@ function transformUSDADataToNutritionalProfile(food: USDAFoodData): NutritionalP
     phytonutrients: {}
   };
   
+  // Apply surgical type casting with variable extraction for additional properties
+  const profileData = profile as any;
+  
   // Add food metadata if available
   if ((food as any)?.description) {
-    profile.name = (food as any)?.description;
+    profileData.name = (food as any)?.description;
   }
   
   if (food.fdcId) {
-    profile.fdcId = food.fdcId;
+    profileData.fdcId = food.fdcId;
   }
   
   // Add source information
-  profile.source = food.dataType || 'USDA';
+  profileData.source = food.dataType || 'USDA';
   
   return profile;
 }

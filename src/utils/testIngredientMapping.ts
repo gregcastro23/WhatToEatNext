@@ -30,8 +30,12 @@ export function findMatchedItalianDinnerRecipes() {
     const mappedIngredients = connectIngredientsToMappings(recipe);
     
     // Calculate mapping score (percentage of ingredients with a mapping)
+    // Apply surgical type casting with variable extraction
+    const recipeData = recipe as any;
+    const ingredients = recipeData?.ingredients || [];
+    
     const mappingScore = mappedIngredients.filter(i => i.matchedTo).length / 
-                         Math.max(1, recipe.ingredients.length);
+                         Math.max(1, ingredients.length);
     
     return {
       recipe,
@@ -123,10 +127,10 @@ export function suggestIngredientSubstitutions(
   }
   
   // Get the elemental properties of the ingredient
-  const { 
-    elementalProperties,
-    alchemicalProperties
-  } = ingredientMapping.matchedTo;
+  // Apply surgical type casting with variable extraction
+  const matchedToData = ingredientMapping.matchedTo as any;
+  const elementalProperties = matchedToData?.elementalProperties;
+  const alchemicalProperties = matchedToData?.alchemicalProperties;
   
   // Find other ingredients with similar elemental properties
   // This is a simplified version that could be enhanced further

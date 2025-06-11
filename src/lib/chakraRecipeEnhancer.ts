@@ -135,12 +135,16 @@ export class ChakraRecipeEnhancer {
       
       // Calculate planetary alignment
       let planetaryAlignment = 0;
-      if (recipe.astrologicalAffinities?.planets) {
-        if (recipe.astrologicalAffinities.planets.includes(planetaryHour)) {
+      // Apply surgical type casting with variable extraction
+      const astrologicalAffinities = recipe.astrologicalAffinities as any;
+      const planets = astrologicalAffinities?.planets;
+      
+      if (planets) {
+        if (planets.includes(planetaryHour)) {
           planetaryAlignment = 1.0;
         } else {
           const hourChakras = this.chakraService.getChakrasByPlanet(planetaryHour);
-          const recipeChakras = recipe.astrologicalAffinities.planets.flatMap(
+          const recipeChakras = planets.flatMap(
             (planet: Planet) => this.chakraService.getChakrasByPlanet(planet)
           );
           

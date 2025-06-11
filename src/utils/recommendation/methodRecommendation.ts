@@ -624,15 +624,23 @@ export function getCookingMethodRecommendations(
   const scoredMethods = (methods || []).map(method => {
     const score = calculateMethodScore(method as CookingMethodProfile, astroState);
     
+    // Apply surgical type casting with variable extraction
+    const methodData = method as any;
+    const methodId = methodData?.id || methodData?.name || 'unknown';
+    const methodName = methodData?.name || 'Unknown Method';
+    const elementalEffect = methodData?.elementalEffect || createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0  });
+    const astrologicalInfluences = methodData?.astrologicalInfluences || {};
+    const description = methodData?.description || 'Recommended cooking method';
+    
     return {
         method: {
-          id: (method as any)?.id || (method as any)?.name || 'unknown',
-          name: (method as any)?.name || 'Unknown Method',
-          elementalEffect: ((method as unknown as Record<string, any>)).elementalEffect || createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0  }),
-          astrologicalInfluences: ((method as unknown as Record<string, any>)).astrologicalInfluences || {}
+          id: methodId,
+          name: methodName,
+          elementalEffect: elementalEffect,
+          astrologicalInfluences: astrologicalInfluences
         },
         score: score,
-        reasons: [((method as unknown as Record<string, any>)).description || 'Recommended cooking method']
+        reasons: [description]
       } as MethodRecommendation;
   });
   
