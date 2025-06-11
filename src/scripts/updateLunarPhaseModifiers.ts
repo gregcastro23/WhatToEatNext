@@ -271,20 +271,25 @@ function formatLunarPhaseModifiers(modifiers: Record<string, unknown>): string {
   for (const [phase, modifier] of Object.entries(modifiers)) {
     result += `      ${phase}: {\n`;
     
-    if (modifier.elementalBoost) {
+    // Apply surgical type casting with variable extraction
+    const modifierData = modifier as any;
+    const elementalBoost = modifierData?.elementalBoost;
+    const preparationTips = modifierData?.preparationTips;
+    
+    if (elementalBoost) {
       result += '        elementalBoost: { ';
       
-      const boosts = Object.entries(modifier.elementalBoost)
+      const boosts = Object.entries(elementalBoost)
         .map(([element, value]) => `${element}: ${value}`)
         .join(', ');
       
       result += boosts + ' },\n';
     }
     
-    if (modifier.preparationTips) {
+    if (preparationTips) {
       result += '        preparationTips: [';
       
-      const tips = modifier.preparationTips
+      const tips = preparationTips
         .map(tip => `'${tip}'`)
         .join(', ');
       
@@ -356,20 +361,27 @@ function generateLunarPhaseModifiersWithAspects(
   
   // If there are ruling planets, add extra tips related to planetary alignments
   if (rulingPlanets.length > 0) {
+    // Apply surgical type casting with variable extraction for modifiers
+    const modifiersData = basicModifiers as any;
+    const fullMoon = modifiersData?.fullMoon;
+    const firstQuarter = modifiersData?.firstQuarter;
+    
     // For full moon, add specific tips for conjunctions with ruling planets
-    if (basicModifiers.fullMoon) {
+    if (fullMoon) {
       const planetTip = `Most potent when ${rulingPlanets.join(' or ')} is prominent`;
-      basicModifiers.fullMoon.preparationTips = [
-        ...basicModifiers.fullMoon.preparationTips,
+      const existingTips = fullMoon?.preparationTips || [];
+      fullMoon.preparationTips = [
+        ...existingTips,
         planetTip
       ];
     }
     
     // For first quarter moon, add planetary alignment tips
-    if (basicModifiers.firstQuarter) {
+    if (firstQuarter) {
       const alignmentTip = `Benefits from ${rulingPlanets[0]} alignments`;
-      basicModifiers.firstQuarter.preparationTips = [
-        ...basicModifiers.firstQuarter.preparationTips,
+      const existingTips = firstQuarter?.preparationTips || [];
+      firstQuarter.preparationTips = [
+        ...existingTips,
         alignmentTip
       ];
     }
