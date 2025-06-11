@@ -44,10 +44,15 @@ const ZODIAC_SYMBOLS: Record<string, string> = {
 
 // Use the imported PlanetaryPosition type directly
 function isValidPosition(pos: unknown): boolean {
+  // Apply surgical type casting with variable extraction
+  const posData = pos as any;
+  const sign = posData?.sign;
+  const degree = posData?.degree;
+  
   return pos && 
-         typeof pos.sign === 'string' &&
-         typeof pos.degree === 'number' &&
-         pos.degree >= 0 && pos.degree < 30;
+         typeof sign === 'string' &&
+         typeof degree === 'number' &&
+         degree >= 0 && degree < 30;
 }
 
 // Rename this interface to avoid the conflict
@@ -173,6 +178,12 @@ const AstrologicalClock: React.FC = () => {
               </thead>
               <tbody>
                 {Object.entries(chartData.planets).map(([planet, data]) => {
+                  // Apply surgical type casting with variable extraction
+                  const planetData = data as any;
+                  const sign = planetData?.sign;
+                  const degree = planetData?.degree;
+                  const isRetrograde = planetData?.isRetrograde;
+                  
                   // Special handling for nodes
                   const isNode = planet === 'NorthNode' || planet === 'SouthNode';
                   const nodeClass = planet === 'NorthNode' ? 'text-blue-600' : 'text-red-600';
@@ -180,7 +191,7 @@ const AstrologicalClock: React.FC = () => {
                   // Only calculate dignity for actual planets, not nodes
                   const dignity = isNode 
                     ? { type: 'N/A', strength: 0 } 
-                    : getPlanetaryDignity(planet, data.sign);
+                    : getPlanetaryDignity(planet, sign);
                     
                   const dignityClass = isNode
                     ? nodeClass 
@@ -197,12 +208,12 @@ const AstrologicalClock: React.FC = () => {
                         {planet === 'NorthNode' ? 'North Node' : planet === 'SouthNode' ? 'South Node' : planet}
                       </td>
                       <td className="px-2 py-1">
-                        <span className="mr-1">{ZODIAC_SYMBOLS[data.sign]}</span>
-                        {data.sign}
+                        <span className="mr-1">{ZODIAC_SYMBOLS[sign]}</span>
+                        {sign}
                       </td>
                       <td className="px-2 py-1">
-                        {data.degree.toFixed(1)}°
-                        {data.isRetrograde && <span className="ml-1 text-orange-500">℞</span>}
+                        {degree?.toFixed(1)}°
+                        {isRetrograde && <span className="ml-1 text-orange-500">℞</span>}
                       </td>
                       <td className={`px-2 py-1 ${dignityClass}`}>
                         {dignity.type}
