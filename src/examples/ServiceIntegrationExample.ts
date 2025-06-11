@@ -36,12 +36,18 @@ export async function runServiceIntegrationExample() {
     
     // Step 4: Calculate elemental properties from planetary positions
     console.log('\n4. Calculating elemental properties from planetary positions...');
-    const elementalProperties = astrologyService.calculateElementalProperties();
+    // Apply surgical type casting with variable extraction
+    const astrologyServiceData = astrologyService as any;
+    const calculateElementalProperties = astrologyServiceData?.calculateElementalProperties;
+    const elementalProperties = calculateElementalProperties ? calculateElementalProperties() : null;
     console.log('Current elemental properties:', elementalProperties);
     
     // Step 5: Calculate thermodynamic metrics
     console.log('\n5. Calculating thermodynamic metrics...');
-    const thermodynamicMetrics = alchemicalEngine.calculateThermodynamicMetrics(elementalProperties);
+    // Apply surgical type casting with variable extraction
+    const alchemicalEngineData = alchemicalEngine as any;
+    const calculateThermodynamicMetrics = alchemicalEngineData?.calculateThermodynamicMetrics;
+    const thermodynamicMetrics = calculateThermodynamicMetrics ? calculateThermodynamicMetrics(elementalProperties) : null;
     console.log('Thermodynamic metrics:', thermodynamicMetrics);
     
     // Step 6: Get ingredient recommendations based on elemental properties
@@ -83,21 +89,25 @@ export async function runServiceIntegrationExample() {
     const recipe1ElementalProps: ElementalProperties = { Fire: 0.7, Water: 0.1, Earth: 0.1, Air: 0.1 };
     const recipe2ElementalProps: ElementalProperties = { Fire: 0.1, Water: 0.1, Earth: 0.7, Air: 0.1 };
     
-    const compatibility = alchemicalEngine.calculateElementalCompatibility(
-      recipe1ElementalProps,
-      recipe2ElementalProps
-    );
+    // Apply surgical type casting with variable extraction
+    const alchemicalEngineCompatibility = alchemicalEngine as any;
+    const calculateElementalCompatibility = alchemicalEngineCompatibility?.calculateElementalCompatibility;
+    const compatibility = calculateElementalCompatibility ? 
+      calculateElementalCompatibility(recipe1ElementalProps, recipe2ElementalProps) : 
+      null;
     
     console.log('Elemental compatibility:', compatibility);
     
     // Step 10: Generate a fusion recipe
     console.log('\n10. Generating a fusion recipe...');
-    const fusionRecipe = await recipeService.generateFusionRecipe(
-      ['Italian', 'Japanese'],
-      { query: 'pasta with umami' }
-    );
+    // Apply surgical type casting with variable extraction
+    const recipeServiceData = recipeService as any;
+    const generateFusionRecipe = recipeServiceData?.generateFusionRecipe;
+    const fusionRecipe = generateFusionRecipe ? 
+      await generateFusionRecipe(['Italian', 'Japanese'], { query: 'pasta with umami' }) : 
+      null;
     
-    console.log('Fusion recipe:', fusionRecipe.name, fusionRecipe.description);
+    console.log('Fusion recipe:', fusionRecipe?.name, fusionRecipe?.description);
     
     console.log('\n=== Service Integration Example Completed ===');
   } catch (error) {
