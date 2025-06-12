@@ -48,6 +48,9 @@ interface Sauce {
   seasonality: string;
   preparationNotes: string;
   technicalTips: string;
+  difficulty: string;
+  storageInstructions: string;
+  yield: string;
 }
 
 interface ElementalProperties {
@@ -72,6 +75,7 @@ interface CookingTechnique {
   elementalProperties: ElementalProperties;
   toolsRequired: string[];
   bestFor: string[];
+  difficulty: string;
 }
 
 interface RegionalCuisine {
@@ -86,4 +90,5 @@ interface RegionalCuisine {
   culturalInfluences?: string[];
   philosophicalFoundations?: string;
   seasonality?: string;
+  specialIngredients?: string[];
 } 

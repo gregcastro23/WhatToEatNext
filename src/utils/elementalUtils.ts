@@ -369,8 +369,9 @@ export let elementalUtils = {
     }
 
     return {
-      properties,
-      characteristics: this.getElementalCharacteristics(dominantElement),
+      dominant: dominantElement as 'Fire' | 'Water' | 'Earth' | 'Air',
+      balance: properties,
+      characteristics: [this.getElementalCharacteristics(dominantElement as Element)],
     };
   },
 
@@ -878,22 +879,20 @@ export function getElementalRelationship(
     return 'same';
   }
 
-  // The generating /creative cycle: Wood → Fire → Earth → Metal → Water → Wood
+  // The generating cycle for 4-element system: Fire → Earth → Water → Air → Fire
   const generatingCycle: { [key in Element]: Element } = {
-    Wood: 'Fire',
     Fire: 'Earth',
-    Earth: 'Metal',
-    Metal: 'Water',
-    Water: 'Wood',
+    Earth: 'Water', 
+    Water: 'Air',
+    Air: 'Fire',
   };
 
-  // The controlling /destructive cycle: Wood → Earth → Water → Fire → Metal → Wood
+  // The controlling cycle for 4-element system: Fire → Air → Earth → Water → Fire
   const controllingCycle: { [key in Element]: Element } = {
-    Wood: 'Earth',
+    Fire: 'Air',
+    Air: 'Earth', 
     Earth: 'Water',
     Water: 'Fire',
-    Fire: 'Metal',
-    Metal: 'Wood',
   };
 
   if (generatingCycle[element1] === element2) {
@@ -926,11 +925,10 @@ export function getBalancingElement(element) {
 export function getStrengtheningElement(element: Element): Element {
   // The element that generates the provided element will strengthen it
   const strengthMap: { [key in Element]: Element } = {
-    Wood: 'Water', // Water strengthens Wood
-    Fire: 'Wood', // Wood strengthens Fire
+    Fire: 'Air', // Air strengthens Fire
     Earth: 'Fire', // Fire strengthens Earth
-    Metal: 'Earth', // Earth strengthens Metal
-    Water: 'Metal', // Metal strengthens Water
+    Water: 'Earth', // Earth strengthens Water
+    Air: 'Water', // Water strengthens Air
   };
 
   return strengthMap[element];
@@ -966,7 +964,7 @@ export function enhanceVegetableTransformations(
       let highestValue = 0;
 
       for (const [element, value] of Object.entries(elementalProps)) {
-        if (value > highestValue) {
+        if (typeof value === 'number' && value > highestValue) {
           dominantElement = element;
           highestValue = value;
         }
