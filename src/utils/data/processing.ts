@@ -48,21 +48,24 @@ export function standardizeElementalAffinity(
 ): ElementalAffinity {
   if (typeof value === 'string') {
     return {
-      base: value?.toLowerCase() as any,
-      decanModifiers: {}
+      primary: value as 'Fire' | 'Water' | 'Earth' | 'Air',
+      strength: 1.0,
+      compatibility: { Fire: 0.7, Water: 0.7, Earth: 0.7, Air: 0.7 }
     };
   }
   
   if (value && typeof value === 'object' && 'base' in value) {
     return {
-      base: (value.base || 'Fire').toLowerCase() as any,
-      decanModifiers: value.decanModifiers || {}
+      primary: (value.base || 'Fire') as 'Fire' | 'Water' | 'Earth' | 'Air',
+      strength: 1.0,
+      compatibility: { Fire: 0.7, Water: 0.7, Earth: 0.7, Air: 0.7 }
     };
   }
   
   return {
-    base: 'Fire',
-    decanModifiers: {}
+    primary: 'Fire',
+    strength: 1.0,
+    compatibility: { Fire: 0.7, Water: 0.7, Earth: 0.7, Air: 0.7 }
   };
 }
 
@@ -116,8 +119,8 @@ export function standardizeRecipe(recipe: unknown): Recipe {
     cuisine: String(raw.cuisine || 'international'),
     mealType: Array.isArray(raw.mealType) ? raw?.mealType || [].map(String) : ['dinner'],
     servings: typeof raw.servings === 'number' ? raw.servings : 4,
-    prepTime: typeof raw.prepTime === 'number' ? raw.prepTime : 30,
-    cookTime: typeof raw.cookTime === 'number' ? raw.cookTime : 30,
+    prepTime: typeof raw.prepTime === 'number' ? `${raw.prepTime} minutes` : (typeof raw.prepTime === 'string' ? raw.prepTime : '30 minutes'),
+    cookTime: typeof raw.cookTime === 'number' ? `${raw.cookTime} minutes` : (typeof raw.cookTime === 'string' ? raw.cookTime : '30 minutes'),
     difficulty: validateDifficulty(raw.difficulty) ? raw.difficulty as Record<string, any> : 'medium',
     ingredients: standardizeRecipeIngredients(raw.ingredients),
     instructions: Array.isArray(raw.instructions) ? raw?.instructions || [].map(String) : [],
@@ -345,8 +348,8 @@ function createDefaultRecipe(id: string): Recipe {
     cuisine: 'international',
     mealType: ['dinner'],
     servings: 4,
-    prepTime: 30,
-    cookTime: 30,
+    prepTime: '30 minutes',
+    cookTime: '30 minutes',
     difficulty: 'medium',
     ingredients: [],
     instructions: [],
