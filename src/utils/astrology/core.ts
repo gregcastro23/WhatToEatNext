@@ -1,18 +1,16 @@
 import type { LunarPhase, 
   ZodiacSign, 
-  AstrologicalState, 
   DignityType,
   LowercaseElementalProperties,
   PlanetaryAspect as ImportedPlanetaryAspect,
   AspectType as ImportedAspectType,
-  PlanetName,
-  Element } from "@/types/alchemy";
-import type { TimeFactors } from "@/types/time";
+  PlanetName } from "@/types/alchemy";
+import type { TimeFactors, Season, TimeOfDay } from "@/types/time";
 import { getCurrentSeason, getTimeOfDay } from '../dateUtils';
 import { PlanetaryHourCalculator } from '../../lib/PlanetaryHourCalculator';
 import { ElementalCharacter } from '../../constants/planetaryElements';
 
-import { AstrologicalState } from "@/types/celestial";
+import { AstrologicalState, Element } from "@/types/celestial";
 import { ElementalProperties } from '@/types';
 import { PlanetaryPosition } from "@/types/celestial";
 import type { PlanetPosition } from '../types/celestial';
@@ -89,11 +87,11 @@ export const calculatePlanetaryAspects = safeCalculatePlanetaryAspects;
  */
 export function getLunarPhaseModifier(phase: LunarPhase): number {
   const modifiers: Record<LunarPhase, number> = {
-    'new Moon': 0.2,
+    'new moon': 0.2,
     'waxing crescent': 0.5,
     'first quarter': 0.7,
     'waxing gibbous': 0.9,
-    'full Moon': 1.0,
+    'full moon': 1.0,
     'waning gibbous': 0.8,
     'last quarter': 0.6,
     'waning crescent': 0.3
@@ -367,11 +365,19 @@ export async function getCurrentAstrologicalState(date: Date = new Date()): Prom
     const aspects = calculatePlanetaryAspects(positions);
     
     // Determine dominant element
+    const now = new Date();
+    const weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'] as const;
+    const weekDay = weekDays[now.getDay()];
+    
     const timeFactors: TimeFactors = {
-      season: getCurrentSeason(),
-      timeOfDay: getTimeOfDay(),
+      currentDate: now,
+      season: getCurrentSeason().charAt(0).toUpperCase() + getCurrentSeason().slice(1) as Season,
+      timeOfDay: getTimeOfDay().charAt(0).toUpperCase() + getTimeOfDay().slice(1) as TimeOfDay,
+      planetaryDay: { day: weekDay, planet: planetaryHour },
+      planetaryHour: { planet: planetaryHour, hourOfDay: now.getHours() },
+      weekDay,
       lunarPhase
-    };
+    } as TimeFactors;
     
     const elementalProfile = calculateElementalProfile(
       { sunSign, moonSign, lunarPhase, isDaytime, planetaryHour } as AstrologicalState, 
@@ -385,19 +391,18 @@ export async function getCurrentAstrologicalState(date: Date = new Date()): Prom
     
     // Build the astrological state object
     const astrologicalState: AstrologicalState = {
-      date,
+      currentZodiac: sunSign,
       sunSign,
       moonSign,
+      moonPhase: lunarPhase,
       lunarPhase,
-      timeOfDay: getTimeOfDay(),
       isDaytime,
       planetaryHour,
       activePlanets,
       aspects,
       dominantElement,
-      elementalProfile,
-      calculationError: false,
-      dominantPlanets: activePlanets
+      dominantPlanets: activePlanets,
+      planetaryPositions: positions as Record<string, any>
     };
     
     return astrologicalState;
@@ -438,6 +443,7 @@ export function getPlanetaryElementalInfluence(planet: PlanetName): Element {
  */
 export function getZodiacElementalInfluence(sign: ZodiacSign): Element {
   const element = getZodiacElement(sign);
+  // Convert ElementalCharacter to celestial Element type
   return element as Element;
 }
 
