@@ -147,7 +147,7 @@ export class ChakraAlchemyService {
       solarPlexus: 0.2,
       heart: 0.2,
       throat: 0.2,
-      brow: 0.2,
+      thirdEye: 0.2,
       crown: 0.2
     };
     
@@ -185,7 +185,7 @@ export class ChakraAlchemyService {
       solarPlexus: 0,
       heart: 0,
       throat: 0,
-      brow: 0,
+      thirdEye: 0,
       crown: 0
     };
     
@@ -309,7 +309,7 @@ export class ChakraAlchemyService {
       'solar plexus': 'solarPlexus',
       'heart': 'heart',
       'throat': 'throat',
-      'brow': 'brow',
+      'brow': 'thirdEye',
       'crown': 'crown'
     };
     

@@ -2,8 +2,6 @@
 import type { UnifiedIngredient } from '@/types/unified';
 import type { EnhancedCookingMethod } from '@/types/cooking';
 
-type Season = 'spring' | 'summer' | 'autumn' | 'winter';
-
 function createElementalProperties(props: { Fire: number; Water: number; Earth: number; Air: number } = { Fire: 0, Water: 0, Earth: 0, Air: 0 }): ElementalProperties {
   return {
     Fire: props.Fire || 0,
@@ -1695,7 +1693,7 @@ export class UnifiedCuisineIntegrationSystem {
     const planetaryHour = blendedMonica > 1.8 ? 'Jupiter': blendedMonica < 0.7 ? 'Saturn': undefined;
     
     // Optional lunar phase recommendation
-    const lunarPhase: LunarPhase = blendedMonica > 1.25 ? 'waxing crescent' : 'full Moon';
+    const lunarPhase: LunarPhase = blendedMonica > 1.25 ? 'waxing crescent' : 'full moon';
     
     return {
       temperature,

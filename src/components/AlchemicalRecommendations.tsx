@@ -516,7 +516,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
                       const modalityStr = modalityData?.toLowerCase ? modalityData.toLowerCase() : (modalityData || '').toString().toLowerCase();
                       return modalityStr;
                     })()}`}>
-                      {ingredient.modality}
+                      {(ingredient.modality as React.ReactNode) || 'Unknown'}
                     </span>
                   </div>
                 </li>
@@ -551,7 +551,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
                       const modalityStr = modalityData?.toLowerCase ? modalityData.toLowerCase() : (modalityData || '').toString().toLowerCase();
                       return modalityStr;
                     })()}`}>
-                      {method.modality}
+                      {(method.modality as React.ReactNode) || 'Unknown'}
                     </span>
                   </div>
                 </li>
@@ -586,7 +586,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
                       const modalityStr = modalityData?.toLowerCase ? modalityData.toLowerCase() : (modalityData || '').toString().toLowerCase();
                       return modalityStr;
                     })()}`}>
-                      {cuisine.modality}
+                      {(cuisine.modality as React.ReactNode) || 'Unknown'}
                     </span>
                   </div>
                 </li>

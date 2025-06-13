@@ -4,16 +4,29 @@ import type { CookingMethodData } from '@/types/cookingMethod';
  * Smoking: A preservation and flavoring technique that exposes food to smoke
  * from burning or smoldering material (usually wood)
  */
-export const smoking: CookingMethodData = {
+export const smoking = {
   name: 'Smoking',
   description: 'A cooking and preservation method that exposes food to smoke from burning wood, herbs, or other materials, imparting flavor and helping preserve the food.',
   history: 'Smoking has been used for thousands of years across many cultures as a way to preserve and flavor food, particularly meats and fish. It was an essential preservation technique before refrigeration.',
   science: 'Smoking preserves food through a combination of dehydration, low heat cooking, and the deposition of antimicrobial compounds found in the smoke. These compounds include phenols and aldehydes that inhibit bacterial growth while adding flavor.',
+  elementalEffect: {
+    Fire: 0.6,
+    Water: 0.2,
+    Earth: 0.3,
+    Air: 0.8
+  },
   alchemical_properties: {
     element: 'Air',
     planetary_influence: 'Mars',
     effect_on_ingredients: 'Increases Spirit and Matter, transforms Substance into Essence'
   },
+  benefits: [
+    'Adds complex smoky flavor',
+    'Preserves food naturally',
+    'Creates unique texture',
+    'Enhances protein structure',
+    'Provides antimicrobial properties'
+  ],
   suitable_for: [
     'Meats',
     'Fish',
@@ -22,12 +35,12 @@ export const smoking: CookingMethodData = {
     'Salt',
     'Spices'
   ],
-  variations: [
+  modernVariations: [
     'Hot smoking (higher temperatures, cooks and flavors)',
     'Cold smoking (lower temperatures, primarily for flavor and preservation)',
     'Liquid smoke (concentrated smoke flavor for adding to dishes)'
   ],
-  time_range: {
+  duration: {
     min: 30, // minutes
     max: 1440 // 24 hours
   },
@@ -41,7 +54,7 @@ export const smoking: CookingMethodData = {
       max: 120 // °C
     }
   },
-  tools: [
+  toolsRequired: [
     'Smoker',
     'Wood chips or pellets',
     'Thermometer',
@@ -63,4 +76,4 @@ export const smoking: CookingMethodData = {
     'High consumption of smoked foods has been linked to increased cancer risk',
     'Often high in sodium'
   ]
-}; 
+} as CookingMethodData; 

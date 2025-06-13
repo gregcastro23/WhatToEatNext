@@ -11,7 +11,7 @@ const ELEMENTAL_AFFINITIES: Record<Element, Element[]> = {
   Earth: ['Earth', 'Water'],
   Air: ['Air', 'Fire'],
   Water: ['Water', 'Earth'],
-  Aether: ['Fire', 'Earth', 'Air', 'Water', 'Aether']
+  // Note: Four element system only - no Aether
 };
 
 // Planetary affinities for cuisines
@@ -54,7 +54,7 @@ const WEEKDAY_CUISINE_AFFINITIES: Record<WeekDay, string[]> = {
 // Calculate elemental affinity score
 function calculateElementalScore(recipeElement: Element, userElement: Element): number {
   if (recipeElement === userElement) return 1;
-  if (userElement === 'Aether' || recipeElement === 'Aether') return 0.8;
+  // Four element system - no Aether handling needed
   if (ELEMENTAL_AFFINITIES[userElement].includes(recipeElement)) return 0.7;
   return 0.3;
 }

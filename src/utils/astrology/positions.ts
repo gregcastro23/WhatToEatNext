@@ -74,7 +74,7 @@ const RETROGRADE_STATUS = {
  * Type definition for cached positions
  */
 interface PositionsCache {
-  positions: { [key: string]: PlanetaryPosition };
+  positions: { [key: string]: PlanetPositionData };
   timestamp: number;
   date: Date;
 }
@@ -284,7 +284,13 @@ export function getAccuratePlanetaryPositions(date: Date): { [key: string]: Plan
         // Use fallback method for this planet
         const fallbackData = getFallbackPlanetaryPositions(date);
         if (fallbackData[planet]) {
-          positions[planet] = fallbackData[planet] as PlanetPositionData;
+          const fallback = fallbackData[planet];
+          positions[planet] = {
+            sign: (fallback.sign || 'aries') as ZodiacSign,
+            degree: fallback.degree || 0,
+            exactLongitude: fallback.exactLongitude || 0,
+            isRetrograde: fallback.isRetrograde || false
+          };
         }
       }
     }
@@ -314,8 +320,20 @@ export function getAccuratePlanetaryPositions(date: Date): { [key: string]: Plan
   } catch (error) {
     debugLog('Error in getAccuratePlanetaryPositions:', error instanceof Error ? error.message : String(error));
     
-    // Return fallback positions
-    return getFallbackPlanetaryPositions(date);
+    // Return fallback positions with proper type conversion
+    const fallbackData = getFallbackPlanetaryPositions(date);
+    const convertedPositions: { [key: string]: PlanetPositionData } = {};
+    
+    for (const [planet, data] of Object.entries(fallbackData)) {
+      convertedPositions[planet] = {
+        sign: (data.sign || 'aries') as ZodiacSign,
+        degree: data.degree || 0,
+        exactLongitude: data.exactLongitude || 0,
+        isRetrograde: data.isRetrograde || false
+      };
+    }
+    
+    return convertedPositions;
   }
 }
 
@@ -336,16 +354,11 @@ export function calculateLunarNodes(date: Date = new Date()): {
  * @param nodeLongitude Node longitude in degrees
  * @returns Node position data
  */
-export function getNodeInfo(nodeLongitude: number): {
-  sign: string;
-  degree: number;
-  exactLongitude: number;
-  isRetrograde: boolean;
-} {
+export function getNodeInfo(nodeLongitude: number): PlanetPositionData {
   const { sign, degree } = getSignFromLongitude(nodeLongitude);
   
   return {
-    sign: sign?.toLowerCase(),
+    sign: (sign?.toLowerCase() || 'aries') as ZodiacSign,
     degree,
     exactLongitude: nodeLongitude,
     isRetrograde: true // Lunar nodes are always retrograde

@@ -248,7 +248,10 @@ const transformCuisineData = async (): Promise<RecipeData[]> => {
                     servingSize: dishData?.servingSize || dishData?.numberOfServings || 4,
                     substitutions,
                     tools: Array.isArray(dishData?.tools) ? dishData.tools : [],
-                    spiceLevel: dishData?.spiceLevel || 1,
+                    spiceLevel: (typeof dishData?.spiceLevel === 'string' && 
+                      ['mild', 'medium', 'hot', 'very hot'].includes(dishData.spiceLevel)) 
+                      ? dishData.spiceLevel as 'mild' | 'medium' | 'hot' | 'very hot'
+                      : (typeof dishData?.spiceLevel === 'number' ? dishData.spiceLevel : 1),
                     nutrition: dishData?.nutrition,
                     preparationNotes: dishData?.preparationNotes,
                     technicalTips: Array.isArray(dishData?.technicalTips) ? dishData.technicalTips : [],
@@ -550,7 +553,7 @@ export const getBestRecipeMatches = async (
           elementalProperties: recipeData?.elementalProperties,
           energyProfile: {
             season: Array.isArray(recipeData?.season) ? recipeData.season as Season[] : 
-              typeof recipeData?.season === 'string' ? [recipeData.season as Season] : ['all'],
+              typeof recipeData?.season === 'string' ? [recipeData.season as Season] : ['spring'],
             zodiac: [],
             lunar: [],
             planetary: []
@@ -562,7 +565,7 @@ export const getBestRecipeMatches = async (
           timeToMake: recipeData?.timeToMake,
           // Use the matchScore or matchPercentage if provided, otherwise use a default score
           matchScore: recipeData?.matchScore || (recipeData?.matchPercentage ? recipeData.matchPercentage / 100 : 0.85)
-        };
+        } as RecipeData;
         });
         
         candidateRecipes = formattedRecipes;
@@ -617,7 +620,7 @@ export const getBestRecipeMatches = async (
             cuisine,
             energyProfile: {
               season: Array.isArray(season) ? season as Season[] : 
-                typeof season === 'string' ? [season as Season] : ['all'],
+                typeof season === 'string' ? [season as Season] : ['spring'],
               zodiac: [],
               lunar: [],
               planetary: []
@@ -629,7 +632,7 @@ export const getBestRecipeMatches = async (
             timeToMake,
             matchScore: 0.85, // Default high score for local recipes
             matchPercentage: 85 // For display purposes
-          };
+          } as RecipeData;
           });
           
           // Apply additional filters if needed
@@ -1072,5 +1075,5 @@ export const getAllRecipes = async (): Promise<Recipe[]> => {
     notes: (recipe as any)?.notes || '',
     preparation: (recipe as any)?.preparation || '',
     seasonalIngredients: (recipe as any)?.seasonalIngredients || []
-  }));
+  } as Recipe));
 };

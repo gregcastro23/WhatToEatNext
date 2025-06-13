@@ -7,6 +7,7 @@ import type {
   PlanetaryAlignment,
   AlchemicalValues,
   PlanetaryPosition,
+  CelestialPosition,
   LunarPhaseWithSpaces
 } from '@/types/alchemy';
 
@@ -73,25 +74,25 @@ export const DEFAULT_PLANETARY_ALIGNMENT: PlanetaryAlignment = {
 /**
  * Default planetary positions for Sun and Moon
  */
-export const DEFAULT_PLANETARY_POSITIONS: Record<string, PlanetaryPosition> = {
+export const DEFAULT_PLANETARY_POSITIONS: Record<string, CelestialPosition> = {
   sun: {
-    sign: 'aries' as ZodiacSign,
+    sign: 'aries',
     degree: 15,
     exactLongitude: 15.5,
     isRetrograde: false
   },
   moon: {
-    sign: 'taurus' as ZodiacSign,
+    sign: 'taurus',
     degree: 8,
     exactLongitude: 38.2,
     isRetrograde: false
   }
-};
+} as Record<string, CelestialPosition>;
 
 /**
  * Default astrological state with safe values for all required properties
  */
-export const DEFAULT_ASTROLOGICAL_STATE: AstrologicalState = {
+export const DEFAULT_ASTROLOGICAL_STATE = {
   sunSign: DEFAULT_SUN_SIGN,
   moonSign: DEFAULT_MOON_SIGN,
   lunarPhase: DEFAULT_LUNAR_PHASE,
@@ -121,7 +122,7 @@ export const DEFAULT_ASTROLOGICAL_STATE: AstrologicalState = {
   calculationError: false,
   elementalBalance: DEFAULT_ELEMENTAL_PROPERTIES,
   alchemicalValues: DEFAULT_ALCHEMICAL_VALUES
-};
+} as AstrologicalState;
 
 /**
  * Default zodiac energies

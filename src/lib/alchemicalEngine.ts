@@ -218,8 +218,8 @@ export class AlchemicalEngineBase {
   ): number {
     const astroModifiers = this.getAstrologicalModifiers(astrologicalState);
     const seasonModifiers = this.seasonalModifiers[season];
-    const harmonyScore = 0;
-    const totalFactors = 0;
+    let harmonyScore = 0;
+    let totalFactors = 0;
 
     Object.entries(recipeElements).forEach(([element, value]) => {
       if (userElements[element as keyof ElementalProperties]) {
@@ -264,7 +264,7 @@ export class AlchemicalEngineBase {
     const decanRuler =
       this.zodiacElements[recipeSunSign].decans[currentDecan]?.ruler || '';
 
-    const power = 0.2;
+    let power = 0.2;
 
     const recipeElement = this.zodiacElements[recipeSunSign].baseElement;
     const moonSignElementData = astrologicalState as any;
@@ -396,8 +396,8 @@ export class AlchemicalEngineBase {
     const synergies = [];
     const conflicts = [];
 
-    for (const i = 0; i < ingredients.length; i++) {
-      for (const j = i + 1; j < ingredients.length; j++) {
+    for (let i = 0; i < ingredients.length; i++) {
+      for (let j = i + 1; j < ingredients.length; j++) {
         const harmony = this.calculateHarmonyBetween(
           ingredients[i].elementalProperties,
           ingredients[j].elementalProperties
@@ -527,7 +527,7 @@ export class AlchemicalEngineBase {
       values.reduce((sum, val) => sum + Math.abs(val - avg), 0) / values.length;
 
     // Check for complementary elements
-    const complementaryBonus = 0;
+    let complementaryBonus = 0;
     if (elements.Fire > 0.2 && elements.Air > 0.2) complementaryBonus += 0.1;
     if (elements.Water > 0.2 && elements.Earth > 0.2) complementaryBonus += 0.1;
 

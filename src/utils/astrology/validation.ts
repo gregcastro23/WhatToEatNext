@@ -168,11 +168,11 @@ export function getLunarPhaseName(phase: number): string {
   const normalizedPhase = ((phase % 1) + 1) % 1;
   const phaseNormalized = normalizedPhase * 8;
   
-  if (phaseNormalized < 0.5 || phaseNormalized >= 7.5) return 'new Moon';
+  if (phaseNormalized < 0.5 || phaseNormalized >= 7.5) return 'new moon';
   if (phaseNormalized < 1.5) return 'waxing crescent';
   if (phaseNormalized < 2.5) return 'first quarter';
   if (phaseNormalized < 3.5) return 'waxing gibbous';
-  if (phaseNormalized < 4.5) return 'full Moon';
+  if (phaseNormalized < 4.5) return 'full moon';
   if (phaseNormalized < 5.5) return 'waning gibbous';
   if (phaseNormalized < 6.5) return 'last quarter';
   return 'waning crescent';
@@ -410,7 +410,7 @@ export function getCurrentAstrologicalState(): AstrologicalState {
       lunarPhase,
       activePlanets,
       dominantElement,
-      planetaryPositions: positions as Record<string, PlanetaryPosition>,
+      planetaryPositions: positions as Record<string, CelestialPosition>,
       isDaytime: new Date()?.getHours() > 6 && new Date()?.getHours() < 18,
     };
   } catch (error) {
@@ -420,12 +420,10 @@ export function getCurrentAstrologicalState(): AstrologicalState {
     return {
       sunSign: 'aries',
       moonSign: 'cancer',
-      lunarPhase: 'new Moon',
+      lunarPhase: 'new moon',
       activePlanets: ['Sun', 'Moon', 'Jupiter'],
       dominantElement: 'Fire',
       loading: false,
-      error: 'Error calculating astrological state',
-      calculationError: true,
     };
   }
 }

@@ -44,26 +44,23 @@ const alchemicalEngine = {
       
       // Return a fallback result
       return {
-        sunSign: 'aries',
-        dominantElement: 'Fire',
-        elementalBalance: {
+        elementalProperties: {
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,
           Air: 0.25
         },
-        alchemicalValues: {
-          Spirit: 0.25,
-          Essence: 0.25,
-          Matter: 0.25,
-          Substance: 0.25
-        },
-        calculationProps: {
+        thermodynamicProperties: {
           heat: 0.5,
           entropy: 0.5,
           reactivity: 0.5,
-          energy: 0
+          energy: 0.0
         },
+        kalchm: 1.0,
+        monica: 1.0,
+        score: 0.5,
+        normalized: true,
+        confidence: 0.5,
         metadata: {
           name: "Alchm NFT",
           description: "Fallback result due to error.",
@@ -129,8 +126,7 @@ const alchemicalEngine = {
         heart: 0.125,
         throat: 0.125,
         thirdEye: 0.125,
-        crown: 0.125,
-        brow: 0.125
+        crown: 0.125
       };
     }
   },
@@ -175,7 +171,7 @@ const alchemicalEngine = {
           Earth: 0.25,
           Air: 0.25
         }
-      };
+      } as AstrologicalState;
     } catch (error) {
       console.error('Error getting current astrological state:', error);
       return {
@@ -194,7 +190,7 @@ const alchemicalEngine = {
           Earth: 0.25,
           Air: 0.25
         }
-      };
+      } as AstrologicalState;
     }
   }
 };

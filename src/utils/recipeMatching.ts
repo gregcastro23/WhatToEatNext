@@ -247,8 +247,8 @@ export function findBestMatches(
         currentEnergy,
         {
           season: (matchFilters as any)?.season,
-          mealType: recipe.mealType || matchFilters.mealType,
-          cuisine: recipe.cuisine,
+          mealType: Array.isArray(recipe.mealType) ? recipe.mealType[0] : (recipe.mealType as string) || (Array.isArray(matchFilters.mealType) ? matchFilters.mealType[0] : matchFilters.mealType as string),
+          cuisine: (recipe.cuisine as string) || '',
           preferHigherContrast: matchFilters.preferHigherContrast,
         }
       );
@@ -445,24 +445,24 @@ let calculateEnergyMatch = (
   if (recipeEnergy.planetary && currentEnergy.planetaryEnergy) {
     // Sun influence bonus
     if (
-      recipeEnergy.planetary.includes('Sun') &&
-      currentEnergy.planetaryEnergy.includes('Sun')
+      (Array.isArray(recipeEnergy.planetary) ? recipeEnergy.planetary.includes('Sun') : recipeEnergy.planetary === 'Sun') &&
+      (Array.isArray(currentEnergy.planetaryEnergy) ? currentEnergy.planetaryEnergy.includes('Sun') : currentEnergy.planetaryEnergy === 'Sun')
     ) {
       score += 0.15;
     }
 
     // Moon influence bonus
     if (
-      recipeEnergy.planetary.includes('Moon') &&
-      currentEnergy.planetaryEnergy.includes('Moon')
+      (Array.isArray(recipeEnergy.planetary) ? recipeEnergy.planetary.includes('Moon') : recipeEnergy.planetary === 'Moon') &&
+      (Array.isArray(currentEnergy.planetaryEnergy) ? currentEnergy.planetaryEnergy.includes('Moon') : currentEnergy.planetaryEnergy === 'Moon')
     ) {
       score += 0.15;
     }
 
     // Mars influence bonus
     if (
-      recipeEnergy.planetary.includes('Mars') &&
-      currentEnergy.planetaryEnergy.includes('Mars')
+      (Array.isArray(recipeEnergy.planetary) ? recipeEnergy.planetary.includes('Mars') : recipeEnergy.planetary === 'Mars') &&
+      (Array.isArray(currentEnergy.planetaryEnergy) ? currentEnergy.planetaryEnergy.includes('Mars') : currentEnergy.planetaryEnergy === 'Mars')
     ) {
       // Higher bonus during Aries season
       score += isAriesSeason ? 0.25 : 0.15;

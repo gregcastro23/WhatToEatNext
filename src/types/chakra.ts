@@ -124,7 +124,7 @@ export const CHAKRAS: ChakraProperties = {
   throat: {
     name: 'Throat Chakra',
     sanskritName: 'Vishuddha',
-    element: 'Ether',
+    element: 'Air',
     color: 'Blue',
     description: 'Communication, expression, truth',
     governs: ['Communication', 'Self-expression', 'Truth'],

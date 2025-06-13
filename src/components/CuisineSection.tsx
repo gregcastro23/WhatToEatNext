@@ -216,7 +216,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
     <div className="flex flex-wrap gap-2 mt-2">
       {recipe.currentSeason && (
         <span className="text-sm px-2 py-1 bg-green-50 text-green-700 rounded">
-          {Array.isArray(recipe.currentSeason) ? recipe.currentSeason?.join(', ') : recipe.currentSeason}
+          {Array.isArray(recipe.currentSeason) ? recipe.currentSeason?.join(', ') : (recipe.currentSeason as string)}
         </span>
       )}
       {recipe.mealType && (
@@ -378,7 +378,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
         {/* Show regional cuisine if different from main cuisine */}
         {recipe.regionalCuisine && recipe.regionalCuisine !== recipe.cuisine && (
           <div className="text-xs text-gray-500 mb-2">
-            Regional style: <span className="font-medium">{recipe.regionalCuisine}</span>
+            Regional style: <span className="font-medium">{recipe.regionalCuisine as string}</span>
           </div>
         )}
         

@@ -2,47 +2,54 @@ import type { Element } from '@/types/alchemy';
 
 interface ElementCombinations {
   harmonious: [Element, Element][];
-  antagonistic: [Element, Element][];
+  compatible: [Element, Element][];
 }
 
 export const ELEMENT_COMBINATIONS: ElementCombinations = {
+  // Same elements have highest harmony (like reinforces like)
   harmonious: [
-    ['Fire', 'Air'],
-    ['Water', 'Earth']
+    ['Fire', 'Fire'],
+    ['Water', 'Water'],
+    ['Earth', 'Earth'], 
+    ['Air', 'Air']
   ],
-  antagonistic: [
+  // All different element combinations are compatible (good harmony)
+  compatible: [
     ['Fire', 'Water'],
-    ['Air', 'Earth']
+    ['Fire', 'Earth'],
+    ['Fire', 'Air'],
+    ['Water', 'Earth'],
+    ['Water', 'Air'],
+    ['Earth', 'Air']
   ]
-} as const;
+};
 
-// Helper constants
+// Element affinities - each element works best with itself
 export const ELEMENT_AFFINITIES: Record<Element, Element[]> = {
-  Fire: ['Air'],
-  Water: ['Earth'],
-  Air: ['Fire'],
-  Earth: ['Water']
-} as const;
+  Fire: ['Fire'], // Fire reinforces Fire
+  Water: ['Water'], // Water reinforces Water
+  Air: ['Air'], // Air reinforces Air
+  Earth: ['Earth'] // Earth reinforces Earth
+};
 
-// Element strength relationships
-export const ELEMENT_STRENGTHS: Record<Element, Element> = {
-  Fire: 'Air',
-  Air: 'Earth',
-  Earth: 'Water',
-  Water: 'Fire'
-} as const;
+// Element complementary relationships - elements complement themselves
+export const ELEMENT_COMPLEMENTS: Record<Element, Element> = {
+  Fire: 'Fire',
+  Air: 'Air', 
+  Earth: 'Earth',
+  Water: 'Water'
+};
 
-// Element weakness relationships
-export const ELEMENT_WEAKNESSES: Record<Element, Element> = {
-  Fire: 'Water',
-  Water: 'Earth',
-  Earth: 'Air',
-  Air: 'Fire'
-} as const;
+// Element compatibility scores
+export const ELEMENT_COMPATIBILITY: Record<Element, Record<Element, number>> = {
+  Fire: { Fire: 0.9, Water: 0.7, Earth: 0.7, Air: 0.7 },
+  Water: { Water: 0.9, Fire: 0.7, Earth: 0.7, Air: 0.7 },
+  Earth: { Earth: 0.9, Fire: 0.7, Water: 0.7, Air: 0.7 },
+  Air: { Air: 0.9, Fire: 0.7, Water: 0.7, Earth: 0.7 }
+};
 
 export const ELEMENTAL_THRESHOLDS = {
   LOW: 0.33,
   MEDIUM: 0.66,
   HIGH: 1.0,
-  // Add any other threshold values you need
 }; 

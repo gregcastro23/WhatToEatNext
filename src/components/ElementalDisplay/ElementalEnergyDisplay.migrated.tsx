@@ -165,12 +165,12 @@ function calculateElementalEnergies(
   }
 
   // Initialize energy values for each element
-  const energyValues: Record<ElementType, number> = { 
+  const energyValues = { 
     Fire: 0, 
     Water: 0, 
     Earth: 0, 
     Air: 0 
-  };
+  } as Record<ElementType, number>;
 
   // Define planetary influences (weights)
   const planetWeights: { [key: string]: number } = { Sun: 0.25,
@@ -256,12 +256,12 @@ function getPlanetaryInfluencers(
   planetaryPositions: { [key: string]: any },
   elementType: ElementType
 ): string[] { // Define which planets influence which elements
-  const elementInfluencers: Record<ElementType, string[]> = { 
+  const elementInfluencers = { 
     Fire: ['Sun', 'Mars', 'Jupiter'],
     Water: ['Moon', 'Venus', 'Neptune'],
     Earth: ['Venus', 'Saturn', 'Pluto'],
     Air: ['Mercury', 'Uranus', 'Jupiter']
-  };
+  } as Record<ElementType, string[]>;
 
   // Get the potential influencers for this element
   const potentialInfluencers = elementInfluencers[elementType] || [];
@@ -291,12 +291,12 @@ function capitalizeFirstLetter(string: string): string {
 }
 
 function getElementColor(elementType: ElementType, opacity: number = 1): string {
-  const colors: Record<ElementType, string> = { 
+  const colors = { 
     Fire: `rgba(255, 59, 48, ${opacity})`,
     Water: `rgba(0, 122, 255, ${opacity})`,
     Air: `rgba(255, 204, 0, ${opacity})`,
     Earth: `rgba(52, 199, 89, ${opacity})`
-  };
+  } as Record<ElementType, string>;
   
   return colors[elementType] || `rgba(155, 155, 155, ${opacity})`;
 }

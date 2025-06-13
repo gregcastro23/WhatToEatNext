@@ -168,7 +168,7 @@ export const ElementalEnergyDisplay: React.FC<ElementalEnergyDisplayProps> = ({ 
       case 'Water': return <Droplets className="w-4 h-4" />;
       case 'Earth': return <Mountain className="w-4 h-4" />;
       case 'Air': return <Wind className="w-4 h-4" />;
-      case 'Aether': return <Sparkles className="w-4 h-4" />;
+      // Four element system only - no Aether case
       default: return null;
     }
   };
@@ -179,7 +179,7 @@ export const ElementalEnergyDisplay: React.FC<ElementalEnergyDisplayProps> = ({ 
       case 'Water': return '#06b6d4';
       case 'Earth': return '#84cc16';
       case 'Air': return '#60a5fa';
-      case 'Aether': return '#8b5cf6';
+      // Four element system only - no Aether color
       default: return '#6b7280';
     }
   };

@@ -276,7 +276,11 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       // Convert season to string for the original function
       const seasonStr = String(season);
       
-      return getSeasonalNutritionalRecommendations(seasonStr);
+      const result = getSeasonalNutritionalRecommendations(seasonStr);
+      return {
+        ...result,
+        element: result.element as Element
+      };
     } catch (error) {
       // Use safe type casting for errorHandler service access
       const errorHandlerService = errorHandler as any;
@@ -286,7 +290,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
         season: String(season)
       });
       return {
-        element: '',
+        element: 'Fire' as Element,
         focusNutrients: [],
         seasonalFoods: []
       };

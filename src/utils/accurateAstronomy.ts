@@ -73,7 +73,7 @@ const RETROGRADE_STATUS = {
  * Type definition for cached positions
  */
 interface PositionsCache {
-  positions: Record<string, PlanetaryPosition>;
+  positions: Record<string, PlanetPositionData>;
   timestamp: number;
   date: Date;
 }
@@ -149,8 +149,8 @@ function calculateReferenceLongitude(planet: string): number {
 /**
  * Get planetary positions for a given date using fallback approach
  */
-export function getFallbackPlanetaryPositions(date: Date): Record<string, unknown> {
-  const positions: Record<string, unknown> = {};
+export function getFallbackPlanetaryPositions(date: Date): Record<string, PlanetPositionData> {
+  const positions: Record<string, PlanetPositionData> = {};
   
   // Calculate days difference from reference date
   const daysDiff = (date.getTime() - REFERENCE_DATE.getTime()) / (24 * 60 * 60 * 1000);
@@ -179,7 +179,7 @@ export function getFallbackPlanetaryPositions(date: Date): Record<string, unknow
     
     // Store both the raw longitude and the formatted data
     positions[planet] = {
-      sign: sign.toLowerCase(),
+      sign: sign.toLowerCase() as ZodiacSign,
       degree: parseFloat(degree.toFixed(2)),
       exactLongitude: newLongitude,
       isRetrograde
@@ -277,7 +277,7 @@ export async function getAccuratePlanetaryPositions(date: Date = new Date()): Pr
         // Use fallback for this specific planet
         const fallbackPositions = getFallbackPlanetaryPositions(date);
         if (fallbackPositions[planet]) {
-          positions[planet] = fallbackPositions[planet];
+          positions[planet] = fallbackPositions[planet] as PlanetPositionData;
         }
       }
     }

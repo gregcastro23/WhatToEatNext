@@ -1383,9 +1383,9 @@ export async function getCurrentAstrologicalState(date: Date = new Date()): Prom
     
     // Calculate the planetary hour, day, and minute
     const hourCalculator = new PlanetaryHourCalculator();
-    const planetaryHour = hourCalculator.calculatePlanetaryHour(date) as Planet;
-    const planetaryDay = hourCalculator.getPlanetaryDay(date) as Planet;
-    const planetaryMinute = hourCalculator.getPlanetaryMinute(date) as Planet;
+    const planetaryHour = hourCalculator.calculatePlanetaryHour(date) as unknown as Planet;
+    const planetaryDay = hourCalculator.getPlanetaryDay(date) as unknown as Planet;
+    const planetaryMinute = hourCalculator.getPlanetaryMinute(date) as unknown as Planet;
     
     // Convert planetary positions to the format needed for alignment
     const currentPlanetaryAlignment: Record<string, unknown> = {};
@@ -1430,10 +1430,7 @@ export async function getCurrentAstrologicalState(date: Date = new Date()): Prom
       currentPlanetaryAlignment,
       planetaryPositions,
       activePlanets,
-      planetaryHours: planetaryHour,
-      planetaryHour: planetaryHour,
-      planetaryDay: planetaryDay,
-      planetaryMinute: planetaryMinute,
+      planetaryHour: planetaryHour as any,
       aspects: aspects as any, // Type assertion to avoid compatibility issues
       tarotElementBoosts: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
       tarotPlanetaryBoosts: {}
@@ -1453,10 +1450,7 @@ export async function getCurrentAstrologicalState(date: Date = new Date()): Prom
       currentPlanetaryAlignment: {},
       planetaryPositions: defaultPositions,
       activePlanets: [],
-      planetaryHours: 'sun' as Planet,
-      planetaryHour: 'sun' as Planet,
-      planetaryDay: 'sun' as Planet,
-      planetaryMinute: 'sun' as Planet,
+      planetaryHour: 'sun' as any,
       aspects: [],
       tarotElementBoosts: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
       tarotPlanetaryBoosts: {}
@@ -1576,7 +1570,7 @@ export function getDefaultPlanetaryPositions(): Record<string, PlanetPosition> {
 export function getZodiacSign(longitude: number): string {
   const signs = [
     'aries', 'taurus', 'gemini', 'cancer', 
-    'leo', 'virgo', 'Libra', 'Scorpio',
+    'leo', 'virgo', 'libra', 'scorpio',
     'sagittarius', 'capricorn', 'aquarius', 'pisces'
   ];
   
@@ -2005,7 +1999,8 @@ export function getPlanetaryElementalInfluence(planet: PlanetName): Element {
     'Saturn': 'Earth',
     'Uranus': 'Air',
     'Neptune': 'Water',
-    'Pluto': 'Fire'
+    'Pluto': 'Fire',
+    'Ascendant': 'Earth'
   };
   
   return planetElementMap[planet] || 'Earth';

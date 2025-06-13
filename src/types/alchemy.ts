@@ -5,7 +5,7 @@ import { Planet, PlanetName, LunarPhase } from '@/types/celestial';
 
 // ========== CORE ELEMENTAL TYPES ==========
 
-export type Element = 'Fire' | 'Water' | 'Earth' | 'Air' | 'Aether';
+export type Element = 'Fire' | 'Water' | 'Earth' | 'Air';
 
 export interface ElementalProperties {
   Fire: number;

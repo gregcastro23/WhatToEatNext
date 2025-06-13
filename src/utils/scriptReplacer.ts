@@ -43,11 +43,15 @@ if (typeof window !== 'undefined') {
   // Ensure popup object exists
   if (!window.popup) {
     window.popup = {
-      create: function() {
+      create: function(options?: any) {
         return {
           show: function() { return this; },
           hide: function() { return this; },
-          update: function() { return this; }
+          update: function() { return this; },
+          on: function(event: string, callback?: any) {
+            return { off: function() {} };
+          },
+          trigger: function(event: string) { return this; }
         };
       },
       show: function() { return this; },
@@ -63,11 +67,14 @@ if (typeof window !== 'undefined') {
         console.log('[ScriptReplacer] Intercepted chrome.tabs.create call');
         return Promise.resolve({ id: 999 });
       },
-      query: function() {
-        return Promise.resolve([{ id: 1, active: true }]);
+      query: function(queryInfo: any, callback?: Function) {
+        const result = [{ id: 1, active: true }];
+        if (callback) callback(result);
+        return true;
       },
-      update: function() {
-        return Promise.resolve({});
+      update: function(tabId: number, properties: any, callback?: Function) {
+        if (callback) callback({});
+        return true;
       }
     };
   }

@@ -366,15 +366,22 @@ export function getDominantElement(elementalProperties: ElementalProperties): st
  */
 export function mapToIngredient(mapping: IngredientMapping): Ingredient {
   // Set default values for required properties
-  const ingredient: Ingredient = {
-    name: mapping.name,
+  const ingredient = {
+    name: (mapping.name as string) || '',
     category: (mapping.category as IngredientCategory) || 'culinary_herb',
-    elementalProperties: mapping.elementalProperties,
-    qualities: mapping.qualities || [],
-    storage: mapping.storage || {
+    elementalProperties: (mapping.elementalProperties as ElementalProperties) || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+    qualities: (mapping.qualities as string[]) || [],
+    storage: (mapping.storage as any) || {
       duration: 'unknown'
+    },
+    // Add missing required properties for Ingredient interface
+    amount: (mapping as any).amount || 1,
+    astrologicalProfile: (mapping as any).astrologicalProfile || {
+      elementalAffinity: { base: 'Earth' },
+      rulingPlanets: [],
+      zodiacAffinity: []
     }
-  };
+  } as Ingredient;
 
   // Add any additional properties from the mapping
   for (const key in mapping) {
@@ -398,12 +405,14 @@ export function ingredientToRecipeIngredient(
     name: ingredient.name,
     amount,
     unit,
-    category: ingredient.category,
-    subCategory: ingredient.subCategory,
-    elementalProperties: ingredient.elementalProperties,
-    // Include other relevant properties
-    // ...
-  };
+    category: (ingredient.category as string) || 'culinary_herb',
+    elementalProperties: ingredient.elementalProperties as any,
+    qualities: ingredient.qualities || [],
+    astrologicalProfile: ingredient.astrologicalProfile,
+    // Include other relevant properties that exist in RecipeIngredient
+    origin: (ingredient.origin as string) || undefined,
+    seasonality: ingredient.seasonality || undefined
+  } as RecipeIngredient;
 }
 
 /**

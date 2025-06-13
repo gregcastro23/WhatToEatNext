@@ -637,7 +637,7 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
       {/* Planetary Time Information */}
       <Card sx={{ mb: 3 }}>
         <CardContent>
-          <PlanetaryTimeDisplay timeFactors={timeFactors} />
+          <PlanetaryTimeDisplay {...{ timeFactors } as any} />
         </CardContent>
       </Card>
 
@@ -699,7 +699,7 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
                         : recipe.mealType
                         ? [recipe.mealType]
                         : []
-                    }}
+                    } as Dish}
                     elementalHighlight={dominantElement}
                     matchPercentage={compatibility * 100}
                   />

@@ -605,68 +605,30 @@ class CelestialCalculator {
     // Create more descriptive effects
     if (jupiterEffect === 'expansive') {
       jupiterEffect = 'expansive';
-      if (jupiterPos && jupiterPos.sign) {
-        // Add more context to the effect
-        jupiterEffect = `expansive (${jupiterDignityName} in ${jupiterPos.sign})`;
-        if (aspectType) {
-          jupiterEffect += ` with ${aspectType} to Saturn`;
-        }
-      }
+      // Keep the base effect as union type compliant - don't modify with template strings
     } else if (jupiterEffect === 'restricted') {
       jupiterEffect = 'restricted';
-      if (jupiterPos && jupiterPos.sign) {
-        // Add more context to the effect
-        jupiterEffect = `restricted (${jupiterDignityName} in ${jupiterPos.sign})`;
-        if (aspectType) {
-          jupiterEffect += ` with ${aspectType} to Saturn`;
-        }
-      }
+      // Keep the base effect as union type compliant - don't modify with template strings
     } else {
-      // Replace generic 'balanced' with more descriptive Jupiter-specific terminology
-      jupiterEffect = 'moderate growth';
-      if (jupiterPos && jupiterPos.sign) {
-        // Add more context to the effect
-        jupiterEffect = `moderate growth (in ${jupiterPos.sign})`;
-        if (aspectType) {
-          jupiterEffect += ` with ${aspectType} to Saturn`;
-        }
-      }
+      // Use valid union type value instead of 'moderate growth'
+      jupiterEffect = 'balanced';
     }
     
     if (saturnEffect === 'restrictive') {
       saturnEffect = 'restrictive';
-      if (saturnPos && saturnPos.sign) {
-        // Add more context to the effect
-        saturnEffect = `restrictive (${saturnDignityName} in ${saturnPos.sign})`;
-        if (aspectType) {
-          saturnEffect += ` with ${aspectType} to Jupiter`;
-        }
-      }
+      // Keep the base effect as union type compliant - don't modify with template strings
     } else if (saturnEffect === 'softened') {
       saturnEffect = 'softened';
-      if (saturnPos && saturnPos.sign) {
-        // Add more context to the effect
-        saturnEffect = `softened (${saturnDignityName} in ${saturnPos.sign})`;
-        if (aspectType) {
-          saturnEffect += ` with ${aspectType} to Jupiter`;
-        }
-      }
+      // Keep the base effect as union type compliant - don't modify with template strings
     } else {
-      // Replace generic 'balanced' with more descriptive Saturn-specific terminology
-      saturnEffect = 'structured';
-      if (saturnPos && saturnPos.sign) {
-        // Add more context to the effect
-        saturnEffect = `structured (in ${saturnPos.sign})`;
-        if (aspectType) {
-          saturnEffect += ` with ${aspectType} to Jupiter`;
-        }
-      }
+      // Use valid union type value instead of 'structured'
+      saturnEffect = 'balanced';
     }
     
-    // Additional adjustments for conjunction
+    // Additional adjustments for conjunction - keep union type compliance
     if (aspectType === 'conjunction') {
-      jupiterEffect = `expansive but tempered (in conjunction with Saturn in ${saturnPos?.sign || 'unknown'})`;
-      saturnEffect = `restrictive but softened (in conjunction with Jupiter in ${jupiterPos?.sign || 'unknown'})`;
+      jupiterEffect = 'balanced';  // Instead of template string
+      saturnEffect = 'balanced';   // Instead of template string
     }
     
     // Normalize influence values to be between 0.1 and 0.9
@@ -1337,7 +1299,7 @@ class CelestialCalculator {
       solarPlexus: 0.1, // Fire, Essence (upper)
       heart: 0.1,       // Air/Water balance
       throat: 0.1,      // Air, Substance
-      brow: 0.1,        // Water/Air, Essence/Substance
+      thirdEye: 0.1,    // Water/Air, Essence/Substance
       crown: 0.1        // Fire/Spirit
     };
     
@@ -1348,8 +1310,7 @@ class CelestialCalculator {
     chakraEnergies.heart += (alignment.elementalBalance.Air * 0.25) + (alignment.elementalBalance.Water * 0.25);
     chakraEnergies.throat += alignment.elementalBalance.Air * 0.4;
     // Apply safe type casting for chakra property access
-    const chakraData = chakraEnergies as any;
-    chakraData.brow += (alignment.elementalBalance.Water * 0.2) + (alignment.elementalBalance.Air * 0.2);
+    chakraEnergies.thirdEye += (alignment.elementalBalance.Water * 0.2) + (alignment.elementalBalance.Air * 0.2);
     chakraEnergies.crown += alignment.elementalBalance.Fire * 0.3;
     
     // Map energy states to chakras using the correct ESMS relationships
@@ -1367,11 +1328,9 @@ class CelestialCalculator {
     // Apply lunar phase influence
     switch (alignment.lunarPhase) {
       case 'new':
-        // New moon boosts crown and brow (Spirit/Substance)
+        // New moon boosts crown and thirdEye (Spirit/Substance)
         chakraEnergies.crown += 0.1;
-        // Apply safe type casting for chakra property access
-        const chakraNewMoon = chakraEnergies as any;
-        chakraNewMoon.brow += 0.1;
+        chakraEnergies.thirdEye += 0.1;
         break;
       case 'full':
         // Full moon boosts heart and sacral (Essence)

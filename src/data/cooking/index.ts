@@ -37,7 +37,7 @@ export const getAstrologicalEffect = (
   const methodData = allCookingMethods[method];
   if (!methodData || !methodData.astrologicalInfluences) return 0.5;
 
-  const effectScore = 0.5; // Neutral score as default
+  let effectScore = 0.5; // Neutral score as default
 
   // Check zodiac sign
   if (

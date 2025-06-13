@@ -503,8 +503,8 @@ export default function CuisineRecommenderDebug() {
                             {cuisineRecipes[cuisine.id].slice(0, 3).map((recipe, index) => (
                               <li key={`recipe-${index}`} className="p-2 bg-gray-100 dark:bg-gray-600 rounded">
                                 <div className="flex justify-between">
-                                  <span>{recipe.name}</span>
-                                  <span className="text-sm">{recipe.matchPercentage || 'N/A'}% match</span>
+                                  <span>{(recipe.name as React.ReactNode) || 'Unknown Recipe'}</span>
+                                  <span className="text-sm">{(recipe.matchPercentage as React.ReactNode) || 'N/A'}% match</span>
                                 </div>
                               </li>
                             ))}
@@ -528,25 +528,25 @@ export default function CuisineRecommenderDebug() {
                 {sauceRecommendations.map((sauce, index) => (
                   <div key={`sauce-${index}`} className="p-3 bg-gray-50 dark:bg-gray-700 rounded-md">
                     <div className="flex justify-between items-center">
-                      <h4 className="font-semibold">{sauce.name}</h4>
+                      <h4 className="font-semibold">{(sauce.name as React.ReactNode) || 'Unknown Sauce'}</h4>
                       <span className="px-2 py-1 text-xs rounded bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
-                        {sauce.matchPercentage}% match
+                        {(sauce.matchPercentage as React.ReactNode) || 'N/A'}% match
                       </span>
                     </div>
                     {sauce.description && (
-                      <p className="text-sm mt-1 text-gray-600 dark:text-gray-300">{sauce.description}</p>
+                      <p className="text-sm mt-1 text-gray-600 dark:text-gray-300">{(sauce.description as React.ReactNode) || ''}</p>
                     )}
                     {sauce.elementalMatchScore && (
                       <div className="mt-2 text-xs">
                         <div className="grid grid-cols-3 gap-1">
                           <div>
-                            <span className="text-gray-500 dark:text-gray-400">Elemental:</span> {sauce.elementalMatchScore}%
+                            <span className="text-gray-500 dark:text-gray-400">Elemental:</span> {(sauce.elementalMatchScore as React.ReactNode) || 'N/A'}%
                           </div>
                           <div>
-                            <span className="text-gray-500 dark:text-gray-400">Planetary:</span> {sauce.planetaryDayScore}%
+                            <span className="text-gray-500 dark:text-gray-400">Planetary:</span> {(sauce.planetaryDayScore as number) || 0}%
                           </div>
                           <div>
-                            <span className="text-gray-500 dark:text-gray-400">Flavor:</span> {sauce.planetaryHourScore}%
+                            <span className="text-gray-500 dark:text-gray-400">Flavor:</span> {(sauce.planetaryHourScore as number) || 0}%
                           </div>
                         </div>
                       </div>
@@ -563,7 +563,7 @@ export default function CuisineRecommenderDebug() {
       {selectedCuisine && cuisineRecommendations.length > 0 && (
         <div className="mt-8 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
           <h3 className="font-bold mb-4">Detailed Analysis: {
-            cuisineRecommendations.find(c => c.id === selectedCuisine)?.name
+            (cuisineRecommendations.find(c => c.id === selectedCuisine)?.name as React.ReactNode) || 'Unknown Cuisine'
           }</h3>
           
           {(() => {
@@ -596,11 +596,11 @@ export default function CuisineRecommenderDebug() {
                     <div className="space-y-3">
                       {cuisineRecipes[selectedCuisine].map((recipe, index) => (
                         <div key={`recipe-detail-${index}`} className="p-3 bg-gray-100 dark:bg-gray-600 rounded-md">
-                          <h5 className="font-medium">{recipe.name}</h5>
-                          <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">{recipe.description || 'No description available'}</p>
+                          <h5 className="font-medium">{(recipe.name as React.ReactNode) || 'Unknown Recipe'}</h5>
+                          <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">{(recipe.description as React.ReactNode) || 'No description available'}</p>
                           
                           <div className="mt-2">
-                            <MatchScoreBar score={recipe.matchScore || 0.5} label="Match Score" />
+                            <MatchScoreBar score={(recipe.matchScore as number) || 0.5} label="Match Score" />
                           </div>
                           
                           {recipe.elementalProperties && (
@@ -632,7 +632,7 @@ export default function CuisineRecommenderDebug() {
                               <summary className="cursor-pointer font-medium">Ingredients ({recipe.ingredients.length})</summary>
                               <ul className="mt-1 pl-4 list-disc">
                                 {recipe.ingredients.slice(0, 5).map((ingredient, i) => (
-                                  <li key={`ing-${i}`}>{typeof ingredient === 'string' ? ingredient : ingredient.name}</li>
+                                  <li key={`ing-${i}`}>{typeof ingredient === 'string' ? ingredient : (ingredient.name as React.ReactNode) || 'Unknown Ingredient'}</li>
                                 ))}
                                 {recipe.ingredients.length > 5 && <li className="italic">...and {recipe.ingredients.length - 5} more</li>}
                               </ul>
@@ -651,9 +651,9 @@ export default function CuisineRecommenderDebug() {
                       {sauceRecommendations.slice(0, 3).map((sauce, index) => (
                         <div key={`sauce-detail-${index}`} className="p-2 bg-gray-100 dark:bg-gray-600 rounded-md">
                           <div className="flex justify-between">
-                            <span className="font-medium">{sauce.name}</span>
+                            <span className="font-medium">{(sauce.name as React.ReactNode) || 'Unknown Sauce'}</span>
                             <span className="text-xs bg-blue-100 dark:bg-blue-800 px-1 rounded">
-                              {sauce.matchPercentage}% match
+                              {(sauce.matchPercentage as React.ReactNode) || 'N/A'}% match
                             </span>
                           </div>
                           

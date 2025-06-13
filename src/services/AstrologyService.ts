@@ -15,16 +15,16 @@ import {
 
 // Define and export the DEFAULT_PLANETARY_ALIGNMENT constant
 export const DEFAULT_PLANETARY_ALIGNMENT: PlanetaryAlignment = {
-  Sun: { sign: 'aries', degree: 0 },
+  sun: { sign: 'aries', degree: 0 },
   moon: { sign: 'taurus', degree: 0 },
-  Mercury: { sign: 'gemini', degree: 0 },
-  Venus: { sign: 'libra', degree: 0 },
-  Mars: { sign: 'aries', degree: 0 },
-  Jupiter: { sign: 'sagittarius', degree: 0 },
-  Saturn: { sign: 'capricorn', degree: 0 },
-  Uranus: { sign: 'aquarius', degree: 0 },
-  Neptune: { sign: 'pisces', degree: 0 },
-  Pluto: { sign: 'scorpio', degree: 0 }
+  mercury: { sign: 'gemini', degree: 0 },
+  venus: { sign: 'libra', degree: 0 },
+  mars: { sign: 'aries', degree: 0 },
+  jupiter: { sign: 'sagittarius', degree: 0 },
+  saturn: { sign: 'capricorn', degree: 0 },
+  uranus: { sign: 'aquarius', degree: 0 },
+  neptune: { sign: 'pisces', degree: 0 },
+  pluto: { sign: 'scorpio', degree: 0 }
 };
 
 /**
@@ -39,7 +39,7 @@ export class AstrologyService {
   
   private currentState: AstrologicalState = {
     currentZodiac: 'aries',
-    moonPhase: 'new',
+    moonPhase: 'new moon',
     currentPlanetaryAlignment: DEFAULT_PLANETARY_ALIGNMENT,
     loading: false,
     isReady: false
@@ -212,11 +212,11 @@ export class AstrologyService {
     // Very simplified calculation - in real implementation this would be more accurate
     const dayOfMonth = date.getDate();
     
-    if (dayOfMonth <= 3) return 'new';
+    if (dayOfMonth <= 3) return 'new moon';
     if (dayOfMonth <= 7) return 'waxing crescent';
     if (dayOfMonth <= 10) return 'first quarter';
     if (dayOfMonth <= 14) return 'waxing gibbous';
-    if (dayOfMonth <= 17) return 'full';
+    if (dayOfMonth <= 17) return 'full moon';
     if (dayOfMonth <= 21) return 'waning gibbous';
     if (dayOfMonth <= 24) return 'last quarter';
     return 'waning crescent';

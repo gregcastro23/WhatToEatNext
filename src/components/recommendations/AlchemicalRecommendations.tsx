@@ -255,7 +255,7 @@ export default function AlchemicalRecommendations({
     
     if (alchemicalContext.planetaryPositions) {
       const positions: Record<RulingPlanet, number> = {
-        Sun: 0, moon: 0, Mercury: 0, Venus: 0, Mars: 0,
+        Sun: 0, Moon: 0, Mercury: 0, Venus: 0, Mars: 0,
         Jupiter: 0, Saturn: 0, Uranus: 0, Neptune: 0, Pluto: 0
       };
       
@@ -269,7 +269,7 @@ export default function AlchemicalRecommendations({
     }
     
     return {
-      Sun: 0, moon: 0, Mercury: 0, Venus: 0, Mars: 0,
+      Sun: 0, Moon: 0, Mercury: 0, Venus: 0, Mars: 0,
       Jupiter: 0, Saturn: 0, Uranus: 0, Neptune: 0, Pluto: 0
     };
   }, [planetPositions, alchemicalContext.planetaryPositions]);
@@ -281,13 +281,13 @@ export default function AlchemicalRecommendations({
     (alchemicalContext.state?.astrologicalState?.lunarPhase as LunarPhaseWithSpaces) || 'new moon';
 
   // Create astrological state
-  const astrologicalState: AstrologicalState = useMemo(() => ({
+  const astrologicalState = useMemo(() => ({
     lunarPhase: resolvedLunarPhase,
     currentZodiacSign: resolvedCurrentZodiac,
     celestialEvents: [],
     aspects: aspects,
     retrograde: []
-  }), [resolvedLunarPhase, resolvedCurrentZodiac, aspects]);
+  } as AstrologicalState), [resolvedLunarPhase, resolvedCurrentZodiac, aspects]);
 
   // Recipe recommendations effect
   useEffect(() => {

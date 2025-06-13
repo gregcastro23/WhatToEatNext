@@ -131,17 +131,17 @@ export async function fetchPlanetaryPositions(
   const fallbackPositions = (): Record<string, PlanetPosition> => {
     console.log('Using fallback planetary positions due to API failure');
     return {
-      Sun: { sign: 'gemini', degree: 13, minutes: 54, exactLongitude: 73.9, isRetrograde: false },
-      moon: { sign: 'virgo', degree: 26, minutes: 31, exactLongitude: 176.52, isRetrograde: false },
-      Mercury: { sign: 'gemini', degree: 20, minutes: 11, exactLongitude: 80.18, isRetrograde: false },
-      Venus: { sign: 'aries', degree: 28, minutes: 6, exactLongitude: 28.1, isRetrograde: false },
-      Mars: { sign: 'leo', degree: 22, minutes: 48, exactLongitude: 142.8, isRetrograde: false },
-      Jupiter: { sign: 'gemini', degree: 28, minutes: 44, exactLongitude: 88.73, isRetrograde: false },
-      Saturn: { sign: 'aries', degree: 0, minutes: 41, exactLongitude: 0.68, isRetrograde: false },
-      Uranus: { sign: 'taurus', degree: 28, minutes: 17, exactLongitude: 58.28, isRetrograde: false },
-      Neptune: { sign: 'aries', degree: 1, minutes: 55, exactLongitude: 1.92, isRetrograde: false },
-      Pluto: { sign: 'aquarius', degree: 3, minutes: 36, exactLongitude: 303.6, isRetrograde: true },
-      Ascendant: { sign: 'aries', degree: 16, minutes: 16, exactLongitude: 16.27, isRetrograde: false }
+      Sun: { sign: 'gemini', degree: 13, minute: 54, exactLongitude: 73.9, isRetrograde: false },
+      moon: { sign: 'virgo', degree: 26, minute: 31, exactLongitude: 176.52, isRetrograde: false },
+      Mercury: { sign: 'gemini', degree: 20, minute: 11, exactLongitude: 80.18, isRetrograde: false },
+      Venus: { sign: 'aries', degree: 28, minute: 6, exactLongitude: 28.1, isRetrograde: false },
+      Mars: { sign: 'leo', degree: 22, minute: 48, exactLongitude: 142.8, isRetrograde: false },
+      Jupiter: { sign: 'gemini', degree: 28, minute: 44, exactLongitude: 88.73, isRetrograde: false },
+      Saturn: { sign: 'aries', degree: 0, minute: 41, exactLongitude: 0.68, isRetrograde: false },
+      Uranus: { sign: 'taurus', degree: 28, minute: 17, exactLongitude: 58.28, isRetrograde: false },
+      Neptune: { sign: 'aries', degree: 1, minute: 55, exactLongitude: 1.92, isRetrograde: false },
+      Pluto: { sign: 'aquarius', degree: 3, minute: 36, exactLongitude: 303.6, isRetrograde: true },
+      Ascendant: { sign: 'aries', degree: 16, minute: 16, exactLongitude: 16.27, isRetrograde: false }
     };
   };
 
@@ -226,7 +226,7 @@ export async function fetchPlanetaryPositions(
         positions[planetName] = {
           sign,
           degree: arcDegrees.degrees,
-          minutes: arcDegrees.minutes,
+          minute: arcDegrees.minutes,
           exactLongitude: calculateExactLongitude(decimalDegrees),
           isRetrograde: planetData.isRetrograde || false
         };
@@ -238,7 +238,7 @@ export async function fetchPlanetaryPositions(
     positions['Ascendant'] = {
       sign: 'aries',
       degree: 16,
-      minutes: 16,
+      minute: 16,
       exactLongitude: 16.27,
       isRetrograde: false
     };

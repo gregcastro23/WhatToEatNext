@@ -193,7 +193,7 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
           // Convert to the format expected by the component
           const simplePositions: Record<RulingPlanet, number> = {
             Sun: 0,
-            moon: 0,
+            Moon: 0,
             Mercury: 0,
             Venus: 0,
             Mars: 0,
@@ -753,7 +753,7 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
                       {item.modality && (
                         <div className="item-modality">
                           <span className={`modality-badge ${(item.modality as any)?.toLowerCase?.() || ''}`}>
-                            {item.modality}
+                            {item.modality as string}
                           </span>
                         </div>
                       )}
@@ -867,7 +867,7 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
                       {recipe.currentSeason && (
                         <Chip 
                           icon={<WbSunny />}
-                          label={Array.isArray(recipe.currentSeason) ? recipe?.currentSeason?.[0] : recipe.currentSeason}
+                          label={Array.isArray(recipe.currentSeason) ? recipe?.currentSeason?.[0] : (recipe.currentSeason as string)}
                           size="small"
                           sx={{ mr: 0.5, mb: 0.5 }}
                         />

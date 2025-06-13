@@ -920,7 +920,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
    */
   private isVegetarianProtein(ingredient: UnifiedIngredient): boolean {
     const nonVegetarianCategories = ['meat', 'poultry', 'seafood'];
-    return (Array.isArray(!nonVegetarianCategories) ? !nonVegetarianCategories.includes(ingredient.subcategory || '') : !nonVegetarianCategories === ingredient.subcategory || '');
+    return !nonVegetarianCategories.includes(ingredient.subcategory || '');
   }
   
   /**
@@ -928,7 +928,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
    */
   private isVeganProtein(ingredient: UnifiedIngredient): boolean {
     const nonVeganCategories = ['meat', 'poultry', 'seafood', 'dAiry', 'eggs'];
-    return (Array.isArray(!nonVeganCategories) ? !nonVeganCategories.includes(ingredient.subcategory || '') : !nonVeganCategories === ingredient.subcategory || '');
+    return !nonVeganCategories.includes(ingredient.subcategory || '');
   }
   
   /**

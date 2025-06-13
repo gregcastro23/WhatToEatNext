@@ -491,8 +491,8 @@ export const calculateCuisineFlavorMatch = (
     }
   }
 
-  const matchScore = 0;
-  const totalWeight = 0;
+  let matchScore = 0;
+  let totalWeight = 0;
 
   // Compare recipe flavors to cuisine's typical flavor profile - ensuring valid values
   for (const [flavor, recipeValue] of Object.entries(validatedRecipeProfile)) {
@@ -508,7 +508,7 @@ export const calculateCuisineFlavorMatch = (
     const similarity = Math.pow(1 - difference, 2.5);
 
     // More sophisticated weighting system based on cuisine's signature flavors
-    const weight = 1.0;
+    let weight = 1.0;
 
     // Higher weights for dominant flavors in the cuisine
     if (cuisineValue > 0.8) weight = 8.0;
@@ -622,7 +622,7 @@ export const getFusionSuggestions = (
   }
 
   // Calculate flavor profile compatibility
-  const flavorSimilarity = 0;
+  let flavorSimilarity = 0;
   Object.entries(profile1.flavorProfiles).forEach(([flavor, value1]) => {
     const value2 =
       profile2.flavorProfiles[flavor as keyof typeof profile2.flavorProfiles];
@@ -691,13 +691,13 @@ export function getCuisineMatchScore(
   if (!profile1 || !profile2) return 0;
 
   // Calculate similarity based on elemental properties
-  const similarityScore = 0;
-  const totalWeight = 0;
+  let similarityScore = 0;
+  let totalWeight = 0;
 
   // Compare elemental properties (most important)
   if (profile1.elementalProperties && profile2.elementalProperties) {
     const elements = ['Fire', 'Water', 'Earth', 'Air'];
-    const elementalSimilarity = 0;
+    let elementalSimilarity = 0;
 
     elements.forEach((element) => {
       const val1 = profile1.elementalProperties?.[element] || 0;
@@ -715,7 +715,7 @@ export function getCuisineMatchScore(
   // Compare flavor intensities (20%)
   if (profile1.flavorIntensities && profile2.flavorIntensities) {
     const flavors = ['sweet', 'salty', 'sour', 'bitter', 'umami', 'spicy'];
-    const flavorSimilarity = 0;
+    let flavorSimilarity = 0;
 
     flavors.forEach((flavor) => {
       const val1 = profile1.flavorIntensities?.[flavor] || 0;

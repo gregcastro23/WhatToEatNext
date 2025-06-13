@@ -222,7 +222,7 @@ export function identifyAspect(angleDiff: number): { type: AspectType, orb: numb
  * @returns Strength value (0-10)
  */
 export function calculateAspectStrength(type: AspectType, orb: number): number {
-  const baseStrengths: Record<AspectType, number> = {
+  const baseStrengths = {
     'conjunction': 10,
     'opposition': 10,
     'trine': 8,
@@ -234,7 +234,7 @@ export function calculateAspectStrength(type: AspectType, orb: number): number {
     'sesquisquare': 2,
     'quintile': 1,
     'biquintile': 1
-  };
+  } as Record<AspectType, number>;
   
   // Diminish strength based on orb
   const baseStrength = baseStrengths[type] || 0;
@@ -296,11 +296,7 @@ export function getCurrentAstrologicalState(): AstrologicalState {
     lunarPhase: phaseName as LunarPhase,
     activePlanets,
     dominantElement: dominantElementCapitalized,
-    dominantPlanets: activePlanets.map(name => ({ 
-      name: name as any, 
-      influence: 1,
-      position: positions[name.toLowerCase()]?.sign
-    }))
+    dominantPlanets: activePlanets as string[]
   };
   
   // Update cache

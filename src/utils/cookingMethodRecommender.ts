@@ -50,10 +50,10 @@ type CookingMethodDictionary = Record<string, CookingMethodData>;
 // Combine traditional and cultural cooking methods
 const allCookingMethodsCombined: CookingMethodDictionary = {
   // Convert allCookingMethods to our format
-  ...Object.entries(allCookingMethods).reduce((acc: CookingMethodDictionary, [id, method]) => {
+  ...(Object.entries(allCookingMethods || {}).reduce((acc: CookingMethodDictionary, [id, method]) => {
     acc[id] = {
       id,
-      ...method,
+      ...(method as any),
       elementalEffect: (method as any)?.elementalEffect || {
         Fire: 0,
         Water: 0,
@@ -65,7 +65,7 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
       variations: [] // Initialize empty variations array
     };
     return acc;
-  }, {}),
+  }, {})),
   
   // Add all cultural methods, making sure they don't override any existing methods
   // and properly organizing them into variations if they're related to main methods
@@ -92,12 +92,16 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
               toolsRequired: method.toolsRequired || [],
               bestFor: method.bestFor || [],
               culturalOrigin: method.culturalOrigin,
-              astrologicalInfluences: method.astrologicalInfluences,
+              astrologicalInfluences: {
+                favorableZodiac: (method.astrologicalInfluences?.favorableZodiac as ZodiacSign[]) || [],
+                unfavorableZodiac: (method.astrologicalInfluences?.unfavorableZodiac as ZodiacSign[]) || [],
+                dominantPlanets: method.astrologicalInfluences?.dominantPlanets || []
+              },
               duration: { min: 10, max: 30 },
               suitable_for: (method as any)?.bestFor || [],
               benefits: [],
               relatedToMainMethod: method.relatedToMainMethod
-            }
+            } as CookingMethodData
           ];
         }
         // Don't add as a standalone method
@@ -121,15 +125,15 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
         bestFor: method.bestFor || [],
         culturalOrigin: method.culturalOrigin,
         astrologicalInfluences: {
-          favorableZodiac: method.astrologicalInfluences?.favorableZodiac?.map(sign => sign as ZodiacSign) || [],
-          unfavorableZodiac: method.astrologicalInfluences?.unfavorableZodiac?.map(sign => sign as ZodiacSign) || [],
+          favorableZodiac: (method.astrologicalInfluences?.favorableZodiac as ZodiacSign[]) || [],
+          unfavorableZodiac: (method.astrologicalInfluences?.unfavorableZodiac as ZodiacSign[]) || [],
           dominantPlanets: method.astrologicalInfluences?.dominantPlanets || []
         },
         duration: { min: 10, max: 30 },
         suitable_for: (method as any)?.bestFor || [],
         benefits: [],
         variations: [] // Initialize empty variations array
-      };
+      } as CookingMethodData;
     }
     return methods;
   }, {})
@@ -151,6 +155,7 @@ function getMethodThermodynamics(method: CookingMethodProfile): BasicThermodynam
       heat: detailedMethodData.thermodynamicProperties.heat ?? 0.5,
       entropy: detailedMethodData.thermodynamicProperties.entropy ?? 0.5,
       reactivity: detailedMethodData.thermodynamicProperties.reactivity ?? 0.5,
+      gregsEnergy: (detailedMethodData.thermodynamicProperties as any).gregsEnergy ?? 0.5,
     };
   }
 
@@ -160,6 +165,7 @@ function getMethodThermodynamics(method: CookingMethodProfile): BasicThermodynam
       heat: method.thermodynamicProperties.heat ?? 0.5,
       entropy: method.thermodynamicProperties.entropy ?? 0.5,
       reactivity: method.thermodynamicProperties.reactivity ?? 0.5,
+      gregsEnergy: (method.thermodynamicProperties as any).gregsEnergy ?? 0.5,
     };
   }
   
@@ -173,34 +179,34 @@ function getMethodThermodynamics(method: CookingMethodProfile): BasicThermodynam
   if ((methodNameLower as any)?.includes?.('grill') || (methodNameLower as any)?.includes?.('roast') || 
       (methodNameLower as any)?.includes?.('fry') || (methodNameLower as any)?.includes?.('sear') || 
       (methodNameLower as any)?.includes?.('broil') || (methodNameLower as any)?.includes?.('char')) {
-    return { heat: 0.8, entropy: 0.6, reactivity: 0.7 }; // High heat methods
+    return { heat: 0.8, entropy: 0.6, reactivity: 0.7, gregsEnergy: 0.6 }; // High heat methods
   } else if ((methodNameLower as any)?.includes?.('bake')) {
-    return { heat: 0.7, entropy: 0.5, reactivity: 0.6 }; // Medium-high heat, dry
+    return { heat: 0.7, entropy: 0.5, reactivity: 0.6, gregsEnergy: 0.55 }; // Medium-high heat, dry
   } else if ((methodNameLower as any)?.includes?.('steam') || (methodNameLower as any)?.includes?.('simmer') || 
              (methodNameLower as any)?.includes?.('poach') || (methodNameLower as any)?.includes?.('boil')) {
-    return { heat: 0.4, entropy: 0.3, reactivity: 0.5 }; // Medium heat, lower entropy methods
+    return { heat: 0.4, entropy: 0.3, reactivity: 0.5, gregsEnergy: 0.4 }; // Medium heat, lower entropy methods
   } else if ((methodNameLower as any)?.includes?.('sous vide') || (methodNameLower as any)?.includes?.('sous_vide')) {
-    return { heat: 0.3, entropy: 0.35, reactivity: 0.2 }; // Low heat, low reactivity
+    return { heat: 0.3, entropy: 0.35, reactivity: 0.2, gregsEnergy: 0.25 }; // Low heat, low reactivity
   } else if ((methodNameLower as any)?.includes?.('raw') || (methodNameLower as any)?.includes?.('ceviche') || 
              (methodNameLower as any)?.includes?.('ferment') || (methodNameLower as any)?.includes?.('pickle') || 
              (methodNameLower as any)?.includes?.('cure') || (methodNameLower as any)?.includes?.('marinate')) {
-    return { heat: 0.1, entropy: 0.5, reactivity: 0.4 }; // No/low heat methods
+    return { heat: 0.1, entropy: 0.5, reactivity: 0.4, gregsEnergy: 0.3 }; // No/low heat methods
   } else if ((methodNameLower as any)?.includes?.('braise') || (methodNameLower as any)?.includes?.('stew')) {
-    return { heat: 0.55, entropy: 0.75, reactivity: 0.60 }; // Moderate heat, high entropy
+    return { heat: 0.55, entropy: 0.75, reactivity: 0.60, gregsEnergy: 0.5 }; // Moderate heat, high entropy
   } else if ((methodNameLower as any)?.includes?.('pressure')) {
-    return { heat: 0.7, entropy: 0.8, reactivity: 0.65 }; // High heat/pressure, rapid breakdown
+    return { heat: 0.7, entropy: 0.8, reactivity: 0.65, gregsEnergy: 0.6 }; // High heat/pressure, rapid breakdown
   } else if ((methodNameLower as any)?.includes?.('smoke') || (methodNameLower as any)?.includes?.('smok')) {
-    return { heat: 0.6, entropy: 0.4, reactivity: 0.75 }; // Moderate heat, high reactivity
+    return { heat: 0.6, entropy: 0.4, reactivity: 0.75, gregsEnergy: 0.65 }; // Moderate heat, high reactivity
   } else if ((methodNameLower as any)?.includes?.('confit') || (methodNameLower as any)?.includes?.('slow cook')) {
-    return { heat: 0.4, entropy: 0.6, reactivity: 0.45 }; // Low heat, gradual cooking
+    return { heat: 0.4, entropy: 0.6, reactivity: 0.45, gregsEnergy: 0.4 }; // Low heat, gradual cooking
   } else if ((methodNameLower as any)?.includes?.('dehydrat') || (methodNameLower as any)?.includes?.('dry')) {
-    return { heat: 0.3, entropy: 0.2, reactivity: 0.3 }; // Low heat, preservation
+    return { heat: 0.3, entropy: 0.2, reactivity: 0.3, gregsEnergy: 0.25 }; // Low heat, preservation
   } else if ((methodNameLower as any)?.includes?.('toast') || (methodNameLower as any)?.includes?.('brulee')) {
-    return { heat: 0.75, entropy: 0.5, reactivity: 0.8 }; // High reactivity surface treatments
+    return { heat: 0.75, entropy: 0.5, reactivity: 0.8, gregsEnergy: 0.7 }; // High reactivity surface treatments
   }
 
   // Default values if no match found in any source
-  return { heat: 0.5, entropy: 0.5, reactivity: 0.5 };
+  return { heat: 0.5, entropy: 0.5, reactivity: 0.5, gregsEnergy: 0.5 };
 }
 
 // Calculate base score based on thermodynamic properties

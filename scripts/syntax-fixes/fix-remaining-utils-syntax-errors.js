@@ -102,7 +102,7 @@ const fixes = [
       },
       {
         description: 'Fix malformed object property access',
-        pattern: /Fire: 'Fire', Earth: 'Earth', Air: 'Air',\s*Water: 'Water',\s*Aether: 'aether'/g,
+        pattern: /Fire: 'Fire', Earth: 'Earth', Air: 'Air',\s*Water: 'Water'/g,
         replacement: 'Fire: \'Fire\', Earth: \'Earth\', Air: \'Air\', Water: \'Water\''
       }
     ]

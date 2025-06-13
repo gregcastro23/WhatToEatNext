@@ -595,9 +595,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       heat: 0.5,
       entropy: 0.5,
       reactivity: 0.5,
-      gregsEnergy: 0.5,
-      kalchm: 1.0,
-      monica: 0.5
+      energy: 0.5
     };
   }
   
@@ -977,7 +975,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
    * Get the current season
    */
   private getCurrentSeason(): Season {
-    return getCurrentSeason();
+    return getCurrentSeason() as Season;
   }
   
   /**

@@ -7,7 +7,7 @@ import { Element , ElementalProperties ,
   alchemicalValues,
   LunarPhaseWithSpaces 
 } from "@/types/alchemy";
-import { PlanetaryAlignment , AstrologicalState , PlanetaryPosition } from "@/types/celestial";
+import { PlanetaryAlignment , AstrologicalState , PlanetaryPosition, CelestialPosition, AlchemicalProperties } from "@/types/celestial";
 import { CHAKRA_NUTRITIONAL_CORRELATIONS, CHAKRA_HERBS } from "@/constants/chakraSymbols";
 
 /**
@@ -52,22 +52,22 @@ export const DEFAULT_RISING_SIGN: ZodiacSign = 'leo';
  * NOTE: For type safety only. Do NOT use for live calculations or UI. Always use real planetary positions.
  */
 export const DEFAULT_PLANETARY_ALIGNMENT: PlanetaryAlignment = {
-  Sun: {},
-  moon: {},
-  Mercury: {},
-  Venus: {},
-  Mars: {},
-  Jupiter: {},
-  Saturn: {},
-  Uranus: {},
-  Neptune: {},
-  Pluto: { sign: 'scorpio', degree: 0  } as const
+  sun: { sign: 'aries', degree: 0 },
+  moon: { sign: 'taurus', degree: 0 },
+  mercury: { sign: 'gemini', degree: 0 },
+  venus: { sign: 'libra', degree: 0 },
+  mars: { sign: 'aries', degree: 0 },
+  jupiter: { sign: 'sagittarius', degree: 0 },
+  saturn: { sign: 'capricorn', degree: 0 },
+  uranus: { sign: 'aquarius', degree: 0 },
+  neptune: { sign: 'pisces', degree: 0 },
+  pluto: { sign: 'scorpio', degree: 0 }
 };
 
 /**
  * Default planetary positions for Sun and Moon
  */
-export const DEFAULT_PLANETARY_POSITIONS: { [key: string]: PlanetaryPosition } = {
+export const DEFAULT_PLANETARY_POSITIONS: Record<string, CelestialPosition> = {
   Sun: {
     sign: 'aries' as ZodiacSign,
     degree: 15,
@@ -141,9 +141,8 @@ export const DEFAULT_CHAKRA_ENERGIES: ChakraEnergies = {
   solarPlexus: 0.5,
   heart: 0.5,
   throat: 0.5,
-  brow: 0.5,
-  crown: 0.5,
-  thirdEye: 0.5
+  thirdEye: 0.5,
+  crown: 0.5
 };
 
 // ===== COMPREHENSIVE ASTROLOGICAL STATE =====
@@ -151,7 +150,7 @@ export const DEFAULT_CHAKRA_ENERGIES: ChakraEnergies = {
 /**
  * Default astrological state with safe values for all required properties
  */
-export const DEFAULT_ASTROLOGICAL_STATE: AstrologicalState = {
+export const DEFAULT_ASTROLOGICAL_STATE = {
   sunSign: DEFAULT_SUN_SIGN,
   moonSign: DEFAULT_moon_SIGN,
   lunarPhase: DEFAULT_LUNAR_PHASE,
@@ -168,14 +167,25 @@ export const DEFAULT_ASTROLOGICAL_STATE: AstrologicalState = {
   aspects: [],
   dominantElement: 'Fire',
   elementalProfile: DEFAULT_ELEMENTAL_PROPERTIES,
-  planetaryPositions: DEFAULT_PLANETARY_POSITIONS,
+  planetaryPositions: {
+    Sun: { sign: 'aries' as ZodiacSign, degree: 15 },
+    moon: { sign: 'taurus' as ZodiacSign, degree: 8 },
+    Mercury: { sign: 'gemini' as ZodiacSign, degree: 10 },
+    Venus: { sign: 'libra' as ZodiacSign, degree: 12 },
+    Mars: { sign: 'aries' as ZodiacSign, degree: 20 },
+    Jupiter: { sign: 'sagittarius' as ZodiacSign, degree: 5 },
+    Saturn: { sign: 'capricorn' as ZodiacSign, degree: 18 },
+    Uranus: { sign: 'aquarius' as ZodiacSign, degree: 25 },
+    Neptune: { sign: 'pisces' as ZodiacSign, degree: 14 },
+    Pluto: { sign: 'scorpio' as ZodiacSign, degree: 22 }
+  },
   isDaytime: true,
   activePlanets: ['Sun', 'Moon'],
   activeAspects: [],
   currentZodiacSign: DEFAULT_SUN_SIGN,
   calculationError: false,
-  alchemicalValues: DEFAULT_ALCHEMICAL_VALUES
-};
+  alchemicalValues: DEFAULT_ALCHEMICAL_VALUES as AlchemicalProperties
+} as AstrologicalState;
 
 // ===== ENERGY AND CALCULATION DEFAULTS =====
 
@@ -377,8 +387,8 @@ export function getDefaultAstrologicalState(): AstrologicalState {
 /**
  * Get default planetary positions
  */
-export function getDefaultPlanetaryPositions(): { [key: string]: PlanetaryPosition } {
-  return cloneDefault(DEFAULT_PLANETARY_POSITIONS);
+export function getDefaultPlanetaryPositions(): Record<string, CelestialPosition> {
+  return cloneDefault(DEFAULT_PLANETARY_POSITIONS) as Record<string, CelestialPosition>;
 }
 
 /**
@@ -408,7 +418,7 @@ export function mergeWithDefaults<T extends Record<string, any>>(
 /**
  * Validate values against defaults structure
  */
-export function validateAgainstDefaults<T>(
+export function validateAgainstDefaults<T extends object>(
   values: Partial<T>,
   defaults: T,
 ): { isValid: boolean; errors: string[] } {

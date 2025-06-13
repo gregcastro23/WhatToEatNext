@@ -253,8 +253,8 @@ export function getZodiacSignFoodRecommendations(zodiacSign: ZodiacSign): string
         cancer: 'Sacral',
         leo: 'Solar Plexus',
         virgo: 'Throat',
-        Libra: 'Heart',
-        Scorpio: 'Sacral',
+        libra: 'Heart',
+        scorpio: 'Sacral',
         sagittarius: 'Solar Plexus',
         capricorn: 'Root',
         aquarius: 'Crown',
@@ -291,8 +291,8 @@ export function getZodiacSignFoodRecommendations(zodiacSign: ZodiacSign): string
         const signElements: Record<ZodiacSign, string> = {
             aries: 'Fire', leo: 'Fire', sagittarius: 'Fire',
             taurus: 'Earth', virgo: 'Earth', capricorn: 'Earth',
-            gemini: 'Air', Libra: 'Air', aquarius: 'Air',
-            cancer: 'Water', Scorpio: 'Water', pisces: 'Water'
+            gemini: 'Air', libra: 'Air', aquarius: 'Air',
+            cancer: 'Water', scorpio: 'Water', pisces: 'Water'
         };
         
         result = elementalFoods[signElements[zodiacSign]] || ['Balanced Whole Foods'];

@@ -514,11 +514,12 @@ export default function CookingMethods() {
     const methodName = (method as any)?.(name as any)?.toLowerCase?.();
     
     // Check if the method has direct thermodynamic properties
-    if ('heat' in method && 'entropy' in method && 'reactivity' in method) {
+    if (method && typeof method === 'object' && 'heat' in method && 'entropy' in method && 'reactivity' in method) {
+      const methodObj = method as Record<string, unknown>;
       return {
-        heat: method.heat || 0.5,
-        entropy: method.entropy || 0.5,
-        reactivity: method.reactivity || 0.5
+        heat: (methodObj.heat as number) || 0.5,
+        entropy: (methodObj.entropy as number) || 0.5,
+        reactivity: (methodObj.reactivity as number) || 0.5
       };
     }
     

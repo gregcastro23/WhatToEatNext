@@ -2,9 +2,9 @@ import type {
   ElementalProperties, 
   CombinationEffect, 
   EffectType, 
-  Element,
   LunarPhase
 } from '@/types/alchemy';
+import type { Element } from '@/types/celestial';
 import { ingredientMappings } from '@/utils/elementalMappings/ingredients';
 import { ELEMENT_COMBINATIONS } from '@/utils/constants/elements';
 
@@ -38,14 +38,14 @@ interface CalculateEffectsParams {
 const COMBINATION_RULES: CombinationRule[] = [
   {
     ingredients: ['ginger', 'garlic'],
-    effect: 'enhance',
+    effect: 'amplify' as EffectType,
     modifier: 1.3,
     elements: { Fire: 0.2 },
     notes: 'Classic warming combination'
   },
   {
     ingredients: ['cinnamon', 'cardamom', 'clove'],
-    effect: 'enhance',
+    effect: 'amplify' as EffectType,
     modifier: 1.4,
     elements: { Fire: 0.3, Air: 0.1 },
     notes: 'Warming spice blend'
@@ -93,11 +93,10 @@ export function calculateCombinationEffects({
         }
 
         const effect: CombinationEffect = {
-          ingredients: rule.ingredients,
-          effect: rule.effect,
-          modifier: rule.modifier,
-          notes: rule.notes,
-          elements: rule.elements
+          type: rule.effect,
+          strength: rule.modifier,
+          description: rule.notes || '',
+          elements: rule.elements ? Object.keys(rule.elements) as Element[] : []
         };
 
         effects.push(effect);
@@ -140,18 +139,20 @@ const calculateElementalInteractions = (
     if (isHarmoniousCombination(elem1, elem2)) {
       effects.push({
         ingredients: [ing1, ing2],
-        effect: 'enhance',
-        modifier: 1.2,
-        notes: 'Harmonious elemental combination'
+        type: 'synergy' as EffectType,
+        strength: 1.2,
+        elements: ['Fire'] as Element[],
+        description: 'Harmonious elemental combination'
       });
     }
 
     if (isAntagonisticCombination(elem1, elem2)) {
       effects.push({
         ingredients: [ing1, ing2],
-        effect: 'diminish',
-        modifier: 0.8,
-        notes: 'Conflicting elemental combination'
+        type: 'conflict' as EffectType,
+        strength: 0.8,
+        elements: ['Water'] as Element[],
+        description: 'Conflicting elemental combination'
       });
     }
   });
@@ -260,14 +261,14 @@ const calculateLunarEffect = (
   lunarPhase: LunarPhase
 ): CombinationEffect | null => {
   const lunarModifiers = {
-    new_moon: { modifier: 0.9, effect: 'subtle' as EffectType },
-    full_moon: { modifier: 1.2, effect: 'enhance' as EffectType },
-    first_quarter: { modifier: 1.1, effect: 'balance' as EffectType },
-    last_quarter: { modifier: 1.1, effect: 'balance' as EffectType },
-    waxing_crescent: { modifier: 1.05, effect: 'enhance' as EffectType },
-    waning_crescent: { modifier: 0.95, effect: 'subtle' as EffectType },
-    waxing_gibbous: { modifier: 1.15, effect: 'enhance' as EffectType },
-    waning_gibbous: { modifier: 1.05, effect: 'balance' as EffectType }
+    new_moon: { modifier: 0.9, effect: 'neutralize' as EffectType },
+    full_moon: { modifier: 1.2, effect: 'amplify' as EffectType },
+    first_quarter: { modifier: 1.1, effect: 'synergy' as EffectType },
+    last_quarter: { modifier: 1.1, effect: 'synergy' as EffectType },
+    waxing_crescent: { modifier: 1.05, effect: 'amplify' as EffectType },
+    waning_crescent: { modifier: 0.95, effect: 'neutralize' as EffectType },
+    waxing_gibbous: { modifier: 1.15, effect: 'amplify' as EffectType },
+    waning_gibbous: { modifier: 1.05, effect: 'synergy' as EffectType }
   };
 
   // Use the normalized lunar phase for lookup
@@ -277,10 +278,9 @@ const calculateLunarEffect = (
   if (!modifier) return null;
 
   return {
-    ingredients,
-    effect: modifier.effect,
-    modifier: modifier.modifier,
-    notes: `Lunar phase (${lunarPhase}) influence`,
-    elements: undefined
+    type: 'amplify' as EffectType,
+    strength: modifier.modifier,
+    description: `Lunar phase (${lunarPhase}) influence`,
+    elements: ['Water'] as Element[]
   };
 };

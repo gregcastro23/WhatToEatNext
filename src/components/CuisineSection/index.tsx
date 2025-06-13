@@ -104,7 +104,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
         // If no recipes from getRecipesForCuisineMatch, try getBestRecipeMatches
         matchedRecipes = getBestRecipeMatches({
           cuisine: cuisine || '',
-          season: elementalState?.season || 'all',
+          season: (elementalState?.season as any) || 'all',
           mealType: elementalState?.timeOfDay || 'all'
         }, 8);
       } catch (error) {
@@ -296,7 +296,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
                     'bg-purple-100 text-purple-700'
                   }`}
                 >
-                  {element}: {value}
+                  {element}: {String(value)}
                 </span>
               ))}
             </div>

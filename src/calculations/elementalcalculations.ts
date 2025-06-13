@@ -287,7 +287,7 @@ export function calculateElementalEnergies(
   };
 
   // Calculate element values based on planetary positions
-  const totalWeight = 0;
+  let totalWeight = 0;
 
   for (const [planet, position] of Object.entries(planetaryPositions)) {
     const weight = planetWeights[planet.toLowerCase()] || 0.05;
