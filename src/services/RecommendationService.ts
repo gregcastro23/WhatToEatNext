@@ -591,12 +591,16 @@ export class RecommendationService {
       // Calculate advanced compatibility using the culinary recipe matching system
       let advancedScore = 0.5; // Default neutral score
       try {
-        advancedScore = calculateRecipeCompatibility(
+        const compatibilityResult = calculateRecipeCompatibility(
           recipe,
           astrologicalState,
           location.lat,
           location.lng
         );
+        // Extract numerical score from the result object
+        advancedScore = typeof compatibilityResult === 'number' 
+          ? compatibilityResult 
+          : (compatibilityResult as any)?.score || (compatibilityResult as any)?.compatibility || 0.5;
       } catch (error) {
         logger.warn('Advanced compatibility calculation failed, using basic elemental match:', error);
         advancedScore = elementalScore;
@@ -783,10 +787,38 @@ export class RecommendationService {
       name: 'Universal Balanced Meal',
       description: 'A well-balanced meal that works with any elemental influence.',
       ingredients: [
-        { name: 'Mixed vegetables', quantity: '2 cups' },
-        { name: 'Protein of choice', quantity: '4 oz' },
-        { name: 'Whole grains', quantity: '1/2 cup' },
-        { name: 'Healthy fats', quantity: '1 tbsp' }
+        { 
+          id: 'mixed-vegetables',
+          name: 'Mixed vegetables', 
+          amount: 2,
+          unit: 'cups',
+          category: 'vegetable',
+          elementalProperties: { Fire: 0.1, Water: 0.4, Earth: 0.4, Air: 0.1 }
+        },
+        { 
+          id: 'protein-choice',
+          name: 'Protein of choice', 
+          amount: 4,
+          unit: 'oz',
+          category: 'protein',
+          elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 }
+        },
+        { 
+          id: 'whole-grains',
+          name: 'Whole grains', 
+          amount: 0.5,
+          unit: 'cup',
+          category: 'grain',
+          elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.6, Air: 0.1 }
+        },
+        { 
+          id: 'healthy-fats',
+          name: 'Healthy fats', 
+          amount: 1,
+          unit: 'tbsp',
+          category: 'oil',
+          elementalProperties: { Fire: 0.2, Water: 0.1, Earth: 0.3, Air: 0.4 }
+        }
       ],
       instructions: [
         'Combine all ingredients in a balanced way.',
