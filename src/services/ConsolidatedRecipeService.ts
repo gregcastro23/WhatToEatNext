@@ -108,7 +108,7 @@ export class ConsolidatedRecipeService implements RecipeServiceInterface {
       const unifiedResults = await unifiedRecipeService.searchRecipes(criteria, options);
       
       // Extract just the Recipe objects from the results
-      return (unifiedResults || []).map(result => result.recipe);
+      return (unifiedResults || []).map((result: any) => result.recipe || result) as Recipe[];
     } catch (error) {
       errorHandler.logError(error, {
         context: 'ConsolidatedRecipeService',
@@ -141,7 +141,7 @@ export class ConsolidatedRecipeService implements RecipeServiceInterface {
   async getRecipesByZodiac(currentZodiacSign: ZodiacSign): Promise<Recipe[]> {
     try {
       const recipeData = await getRecipesForZodiac(currentZodiacSign);
-      return adaptAllRecipes(recipeData);
+      return adaptAllRecipes(recipeData) as Recipe[];
     } catch (error) {
       errorHandler.logError(error, {
         context: 'ConsolidatedRecipeService',
@@ -158,7 +158,7 @@ export class ConsolidatedRecipeService implements RecipeServiceInterface {
   async getRecipesBySeason(season: Season): Promise<Recipe[]> {
     try {
       const recipeData = await getRecipesForSeason(season);
-      return adaptAllRecipes(recipeData);
+      return adaptAllRecipes(recipeData) as Recipe[];
     } catch (error) {
       errorHandler.logError(error, {
         context: 'ConsolidatedRecipeService',
@@ -175,7 +175,7 @@ export class ConsolidatedRecipeService implements RecipeServiceInterface {
   async getRecipesByLunarPhase(lunarPhase: LunarPhase): Promise<Recipe[]> {
     try {
       const recipeData = await getRecipesForLunarPhase(lunarPhase);
-      return adaptAllRecipes(recipeData);
+      return adaptAllRecipes(recipeData) as Recipe[];
     } catch (error) {
       errorHandler.logError(error, {
         context: 'ConsolidatedRecipeService',
@@ -210,7 +210,7 @@ export class ConsolidatedRecipeService implements RecipeServiceInterface {
     minMatchScore: number = 0.6,
   ): Promise<Recipe[]> {
     try {
-      return await getRecipesForPlanetaryAlignment(planetaryInfluences, minMatchScore);
+      return await getRecipesForPlanetaryAlignment(planetaryInfluences, minMatchScore) as Recipe[];
     } catch (error) {
       errorHandler.logError(error, {
         context: 'ConsolidatedRecipeService',
@@ -228,7 +228,7 @@ export class ConsolidatedRecipeService implements RecipeServiceInterface {
     minMatchScore: number = 0.7,
   ): Promise<Recipe[]> {
     try {
-      return await getRecipesForFlavorProfile(flavorProfile, minMatchScore);
+      return await getRecipesForFlavorProfile(flavorProfile, minMatchScore) as Recipe[];
     } catch (error) {
       errorHandler.logError(error, {
         context: 'ConsolidatedRecipeService',
@@ -255,7 +255,7 @@ export class ConsolidatedRecipeService implements RecipeServiceInterface {
     limit: number = 10
   ): Promise<Recipe[]> {
     try {
-      return await getBestRecipeMatches(criteria, limit);
+      return await getBestRecipeMatches(criteria, limit) as Recipe[];
     } catch (error) {
       errorHandler.logError(error, {
         context: 'ConsolidatedRecipeService',
