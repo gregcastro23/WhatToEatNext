@@ -1,6 +1,7 @@
 import { cuisinesMap } from '@/data/cuisines';
 import type { Recipe } from '@/types/recipe';
 import type { Cuisine, SeasonalDishes } from '@/types/cuisine';
+import type { ZodiacSign, LunarPhase } from '@/types/alchemy';
 import { logger } from '@/utils/logger';
 
 // Define a more specific type for dish objects
@@ -157,10 +158,10 @@ export class LocalRecipeService {
           // Try importing the cuisine directly from its file using dynamic imports
           if (normalizedName === 'african') {
             const africanModule = await import('../data/cuisines/african');
-            directCuisine = africanModule.african;
+            directCuisine = africanModule.african as ExtendedCuisine;
           } else {
             const americanModule = await import('../data/cuisines/american');
-            directCuisine = americanModule.american;
+            directCuisine = americanModule.american as ExtendedCuisine;
           }
           
           console.log(`Direct import successful for ${normalizedName}`);
@@ -168,9 +169,9 @@ export class LocalRecipeService {
           console.error(`Error importing ${normalizedName} cuisine directly:`, error);
           
           // If direct import fails, try the cuisinesMap object (various cases)
-          directCuisine = cuisinesMap[normalizedName] || 
+          directCuisine = (cuisinesMap[normalizedName] || 
                          cuisinesMap[normalizedName.charAt(0).toUpperCase() + normalizedName.slice(1)] ||
-                         cuisinesMap[normalizedName.toUpperCase()];
+                         cuisinesMap[normalizedName.toUpperCase()]) as ExtendedCuisine;
         }
         
         if (directCuisine) {
@@ -209,14 +210,14 @@ export class LocalRecipeService {
         );
         
         if (byIdMatch && byIdMatch[1]) {
-          return await this.getRecipesFromCuisine(byIdMatch[1]);
+          return await this.getRecipesFromCuisine(byIdMatch[1] as ExtendedCuisine);
         }
         
         logger.info(`Cuisine not found: ${cuisineName}`);
         return [];
       }
       
-      return await this.getRecipesFromCuisine(cuisine);
+      return await this.getRecipesFromCuisine(cuisine as ExtendedCuisine);
     } catch (error) {
       logger.error(`Error getting recipes for cuisine ${cuisineName}:`, error);
       return [];
@@ -402,7 +403,10 @@ export class LocalRecipeService {
           category: ing.category || '',
           optional: ing.optional || false,
           notes: ing.notes || '',
-          substitutes: ing.swaps || ing.substitutes || []
+          substitutes: Array.isArray(ing.swaps) ? ing.swaps : 
+                      Array.isArray(ing.substitutes) ? ing.substitutes :
+                      typeof ing.swaps === 'string' ? [ing.swaps] :
+                      typeof ing.substitutes === 'string' ? [ing.substitutes] : []
         };
       });
       
@@ -493,18 +497,18 @@ export class LocalRecipeService {
         isDairyFree: dish.isDairyFree || dish.dietaryInfo?.includes('dairy-free') || false,
         nutrition: nutrition,
         astrologicalInfluences: Array.isArray(dish.astrologicalInfluences) ? dish.astrologicalInfluences : [],
-        zodiacInfluences: Array.isArray(dish.zodiacInfluences) ? dish.zodiacInfluences : [],
-        lunarPhaseInfluences: Array.isArray(dish.lunarPhaseInfluences) ? dish.lunarPhaseInfluences : [],
-        planetaryInfluences: dish.planetaryInfluences || {
-          favorable: [],
-          unfavorable: []
+        zodiacInfluences: Array.isArray(dish.zodiacInfluences) ? dish.zodiacInfluences as ZodiacSign[] : [],
+        lunarPhaseInfluences: Array.isArray(dish.lunarPhaseInfluences) ? dish.lunarPhaseInfluences as LunarPhase[] : [],
+        planetaryInfluences: {
+          favorable: dish.planetaryInfluences?.favorable || [],
+          unfavorable: dish.planetaryInfluences?.unfavorable || []
         },
         cookingMethods: Array.isArray(dish.cookingMethods) ? dish.cookingMethods : [],
         // New fields
         substitutions: substitutions,
         tools: Array.isArray(dish.tools) ? dish.tools : [],
         servingSize: typeof servingSize === 'number' ? servingSize : parseInt(servingSize) || 4, 
-        spiceLevel: dish.spiceLevel || 'mild',
+        spiceLevel: (dish.spiceLevel === 'hot' || dish.spiceLevel === 'mild' || dish.spiceLevel === 'medium' || dish.spiceLevel === 'very hot') ? dish.spiceLevel : 'mild',
         preparationNotes: dish.preparationNotes || dish.culturalNotes || '',
         technicalTips: Array.isArray(dish.technicalTips) ? dish.technicalTips : []
       };
