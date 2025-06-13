@@ -64,7 +64,7 @@ export class LegacyRecipeAdapter {
    */
   public async getAllRecipes(): Promise<Recipe[]> {
     try {
-      return await unifiedRecipeService.getAllRecipes();
+      return await unifiedRecipeService.getAllRecipes() as Recipe[];
     } catch (error) {
       logger.error('Error in getAllRecipes:', error);
       // Fall back to LocalRecipeService if needed
@@ -80,7 +80,7 @@ export class LegacyRecipeAdapter {
     options: RecipeRecommendationOptions = {}
   ): Promise<Recipe[]> {
     try {
-      return await unifiedRecipeService.searchRecipes(criteria, options);
+      return await unifiedRecipeService.searchRecipes(criteria, options) as Recipe[];
     } catch (error) {
       logger.error('Error in searchRecipes:', error);
       // Provide a simplified fallback
@@ -96,7 +96,7 @@ export class LegacyRecipeAdapter {
    */
   public async getRecipesByCuisine(cuisine: string): Promise<Recipe[]> {
     try {
-      return await unifiedRecipeService.getRecipesByCuisine(cuisine);
+      return await unifiedRecipeService.getRecipesByCuisine(cuisine) as Recipe[];
     } catch (error) {
       logger.error(`Error in getRecipesByCuisine for "${cuisine}":`, error);
       // Fall back to LocalRecipeService if needed
@@ -109,7 +109,7 @@ export class LegacyRecipeAdapter {
    */
   public async getRecipesByZodiac(zodiacSign: ZodiacSign): Promise<Recipe[]> {
     try {
-      return await unifiedRecipeService.getRecipesByZodiac(zodiacSign);
+      return await unifiedRecipeService.getRecipesByZodiac(zodiacSign) as Recipe[];
     } catch (error) {
       logger.error(`Error in getRecipesByZodiac for "${zodiacSign}":`, error);
       // Simple fallback - get all recipes and filter
@@ -133,7 +133,7 @@ export class LegacyRecipeAdapter {
         return await serviceData.getRecipesBySeason(season);
       }
       // Enhanced fallback to search with season criteria
-      return await unifiedRecipeService.searchRecipes({ season }, {});
+      return await unifiedRecipeService.searchRecipes({ season }, {}) as Recipe[];
     } catch (error) {
       logger.error(`Error in getRecipesBySeason for "${season}":`, error);
       // Fall back to LocalRecipeService if needed
@@ -152,7 +152,7 @@ export class LegacyRecipeAdapter {
         return await serviceData.getRecipesByLunarPhase(lunarPhase);
       }
       // Enhanced fallback to search with lunar phase criteria
-      return await unifiedRecipeService.searchRecipes({ lunarPhase }, {});
+      return await unifiedRecipeService.searchRecipes({ lunarPhase }, {}) as Recipe[];
     } catch (error) {
       logger.error(`Error in getRecipesByLunarPhase for "${lunarPhase}":`, error);
       // Simple fallback - get all recipes and filter
@@ -176,7 +176,7 @@ export class LegacyRecipeAdapter {
         return await serviceData.getRecipesByMealType(mealType);
       }
       // Enhanced fallback to search with meal type criteria
-      return await unifiedRecipeService.searchRecipes({ mealType }, {});
+      return await unifiedRecipeService.searchRecipes({ mealType }, {}) as Recipe[];
     } catch (error) {
       logger.error(`Error in getRecipesByMealType for "${mealType}":`, error);
       // Fall back to LocalRecipeService if needed
@@ -207,9 +207,9 @@ export class LegacyRecipeAdapter {
       // Minimal fallback
       const allRecipes = await LocalRecipeService.getAllRecipes();
       return (allRecipes || []).slice(0, limit).map(recipe => ({
-        recipe,
+        ...recipe,
         score: 0.5 // Default score
-      }));
+      } as ScoredRecipe));
     }
   }
   
@@ -224,7 +224,7 @@ export class LegacyRecipeAdapter {
         return await serviceData.generateRecipe(criteria);
       }
       // Enhanced fallback - create a basic recipe from search results
-      const searchResults = await unifiedRecipeService.searchRecipes(criteria, { limit: 1 });
+      const searchResults = await unifiedRecipeService.searchRecipes(criteria, { limit: 1 }) as Recipe[];
       if (searchResults.length > 0) {
         return searchResults[0];
       }
