@@ -147,7 +147,7 @@ const RecipeCard: React.FC<{
         {recipe.rating && (
           <Box display="flex" alignItems="center" gap={1} mb={2}>
             <Rating 
-              value={recipe.rating} 
+              value={recipe.rating as number} 
               precision={0.5} 
               size="small" 
               readOnly 

@@ -9,7 +9,7 @@ import {
   SpoonacularApiRecipe,
   SpoonacularSearchParams
 } from '../types/spoonacular';
-import { Recipe } from '../types/alchemy';
+import { Recipe } from '../types/recipe';
 import { SpoonacularElementalMapper } from './SpoonacularElementalMapper';
 import { LocalRecipeService } from './LocalRecipeService';
 
@@ -247,7 +247,22 @@ export class SpoonacularService {
         carbs: this.getNutrientValue(recipe.nutrition.nutrients, 'Carbohydrates'),
         fat: this.getNutrientValue(recipe.nutrition.nutrients, 'Fat'),
         fiber: this.getNutrientValue(recipe.nutrition.nutrients, 'Fiber'),
-        sugar: this.getNutrientValue(recipe.nutrition.nutrients, 'Sugar'),
+        macronutrients: {
+          protein: this.getNutrientValue(recipe.nutrition.nutrients, 'Protein'),
+          carbs: this.getNutrientValue(recipe.nutrition.nutrients, 'Carbohydrates'),
+          fat: this.getNutrientValue(recipe.nutrition.nutrients, 'Fat'),
+          fiber: this.getNutrientValue(recipe.nutrition.nutrients, 'Fiber')
+        },
+        micronutrients: {
+          vitamins: this.getVitamins(recipe.nutrition.nutrients).reduce((acc, vitamin) => {
+            acc[vitamin] = 1; // Default value since Spoonacular doesn't provide exact amounts in this context
+            return acc;
+          }, {} as Record<string, number>),
+          minerals: this.getMinerals(recipe.nutrition.nutrients).reduce((acc, mineral) => {
+            acc[mineral] = 1; // Default value since Spoonacular doesn't provide exact amounts in this context
+            return acc;
+          }, {} as Record<string, number>)
+        },
         vitamins: this.getVitamins(recipe.nutrition.nutrients),
         minerals: this.getMinerals(recipe.nutrition.nutrients)
       } : undefined
@@ -508,10 +523,25 @@ export class SpoonacularService {
       nutrition: {
         calories: getNutrientAmount('Calories'),
         protein: getNutrientAmount('Protein'),
-        fat: getNutrientAmount('Fat'),
         carbs: getNutrientAmount('Carbohydrates'),
+        fat: getNutrientAmount('Fat'),
         fiber: getNutrientAmount('Fiber'),
-        sugar: getNutrientAmount('Sugar'),
+        macronutrients: {
+          protein: getNutrientAmount('Protein'),
+          carbs: getNutrientAmount('Carbohydrates'),
+          fat: getNutrientAmount('Fat'),
+          fiber: getNutrientAmount('Fiber')
+        },
+        micronutrients: {
+          vitamins: this.extractVitamins(spoonacularRecipe.nutrition?.nutrients || []).reduce((acc, vitamin) => {
+            acc[vitamin] = 1; // Default value since Spoonacular doesn't provide exact amounts in this context
+            return acc;
+          }, {} as Record<string, number>),
+          minerals: this.extractMinerals(spoonacularRecipe.nutrition?.nutrients || []).reduce((acc, mineral) => {
+            acc[mineral] = 1; // Default value since Spoonacular doesn't provide exact amounts in this context
+            return acc;
+          }, {} as Record<string, number>)
+        },
         vitamins: this.extractVitamins(spoonacularRecipe.nutrition?.nutrients || []),
         minerals: this.extractMinerals(spoonacularRecipe.nutrition?.nutrients || [])
       }

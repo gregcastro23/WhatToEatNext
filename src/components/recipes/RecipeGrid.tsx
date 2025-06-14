@@ -174,7 +174,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
         {recipe.servings && (
           <div className="flex items-center">
             <Users className="h-4 w-4 mr-1" />
-            {recipe.servings} servings
+            {recipe.servings as number} servings
           </div>
         )}
         {recipe.cuisine && (

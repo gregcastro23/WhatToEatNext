@@ -16,11 +16,11 @@ import {
   ElementalProperties, 
   AstrologicalState, 
   ZodiacSign,
-  PlanetaryPosition 
+  CelestialPosition 
 } from './types/alchemy';
 
 // Test data - using the planetary positions from our previous conversation
-const testPlanetaryPositions: { [key: string]: PlanetaryPosition } = {
+const testPlanetaryPositions: { [key: string]: CelestialPosition } = {
   Sun: {},
   moon: {},
   Mercury: {},
@@ -31,12 +31,11 @@ const testPlanetaryPositions: { [key: string]: PlanetaryPosition } = {
   Uranus: {},
   Neptune: {},
   Pluto: { sign: 'aquarius', degree: 3.0 }
-} as Record<string, CelestialPosition>;
+};
 
 const testAstrologicalState: AstrologicalState = {
   sunSign: 'gemini',
   moonSign: 'taurus',
-  season: 'spring',
   lunarPhase: 'waxing gibbous',
   planetaryPositions: testPlanetaryPositions,
 };
