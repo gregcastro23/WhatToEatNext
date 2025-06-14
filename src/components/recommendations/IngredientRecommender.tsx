@@ -1,5 +1,5 @@
 import styles from './CookingMethods.module.css';
-import { useAstrologicalState } from '../../contexts/AlchemicalContext';
+import { useAstrologicalState } from '../../hooks/useAstrologicalState';
 import { useEffect, useState, useMemo, useCallback } from 'react';
 import { ElementalCalculator } from '../../services/ElementalCalculator';
 import type { 
@@ -15,12 +15,12 @@ import {
   getIngredientRecommendations, 
   IngredientRecommendation,
   EnhancedIngredientRecommendation 
-} from '../../utils/recommendation/ingredientRecommendation';
+} from '../../utils/ingredientRecommender';
 import { Flame, Droplets, Mountain, Wind, Info, Clock, Tag, Leaf, X, ChevronDown, ChevronUp, Beaker, Settings } from 'lucide-react';
-import { useAlchemicalRecommendations } from '../../hooks';
+import { useAlchemicalRecommendations } from '../../hooks/useAlchemicalRecommendations';
 import { normalizeChakraKey } from '../../constants/chakraSymbols';
 import { herbsCollection, oilsCollection, vinegarsCollection, grainsCollection } from '../../data/ingredients';
-import { enhancedRecommendationService, EnhancedRecommendationResult } from '../../services';
+import { enhancedRecommendationService, EnhancedRecommendationResult } from '../../services/EnhancedRecommendationService';
 import { ErrorBoundary } from 'react-error-boundary';
 // Import the useFlavorEngine hook from our new context
 import { useFlavorEngine } from '../../contexts/FlavorEngineContext';

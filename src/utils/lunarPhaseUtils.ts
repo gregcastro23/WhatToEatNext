@@ -347,28 +347,65 @@ export function getLunarPhaseElements(phase: LunarPhase): ElementalProperties {
 export function normalizeLunarPhase(phase: string | null | undefined): LunarPhase | undefined {
   if (!phase) return undefined;
   
-  const normalized = phase.toLowerCase().trim();
+  const cleanPhase = phase.toLowerCase().trim();
   
-  // Check if it's already a valid LunarPhase with spaces
-  if (Object.keys(LUNAR_PHASE_MAPPING).includes(normalized)) {
-    return normalized as LunarPhaseWithSpaces;
+  // Check if it's already a valid lunar phase with spaces
+  if (isValidSpacePhase(cleanPhase)) {
+    return cleanPhase as LunarPhase;
   }
   
-  // Check if it's a valid LunarPhase with underscores
-  if (Object.keys(LUNAR_PHASE_REVERSE_MAPPING).includes(normalized)) {
-    return LUNAR_PHASE_REVERSE_MAPPING[normalized as LunarPhaseWithUnderscores];
+  // Try to find a mapping from underscore format
+  const spacesFormat = REVERSE_LUNAR_PHASE_MAP[cleanPhase as LunarPhaseKey];
+  if (spacesFormat) {
+    return spacesFormat;
   }
   
-  // Try various patterns
-  if (normalized.includes('new')) return 'new moon';
-  if (normalized.includes('full')) return 'full moon';
-  if (normalized.includes('first') || normalized.includes('1st')) return 'first quarter';
-  if (normalized.includes('last')) return 'last quarter';
-  if (normalized.includes('waxing') && normalized.includes('crescent')) return 'waxing crescent';
-  if (normalized.includes('waxing')) return 'waxing gibbous';
-  if (normalized.includes('waning') && normalized.includes('crescent')) return 'waning crescent';
-  if (normalized.includes('waning')) return 'waning gibbous';
+  // Try partial matching
+  const phases = Object.keys(LUNAR_PHASE_MAP) as LunarPhase[];
+  const match = phases.find(p => 
+    p.includes(cleanPhase) || 
+    cleanPhase.includes(p.replace(' ', '')) ||
+    cleanPhase.includes(p.replace(' ', '_'))
+  );
   
-  // Default
+  return match;
+}
+
+// ========== MISSING FUNCTION FOR TS2305 FIXES ==========
+
+// convertToLunarPhase function (causing errors in AlchemicalService.ts and RecommendationService.ts)
+export function convertToLunarPhase(input: string | Date | number): LunarPhase {
+  // If it's already a string, try to normalize it
+  if (typeof input === 'string') {
+    const normalized = normalizeLunarPhase(input);
+    if (normalized) return normalized;
+    
+    // If normalization failed, default to new moon
+    return 'new moon';
+  }
+  
+  // If it's a Date, calculate the lunar phase
+  if (input instanceof Date) {
+    return getLunarPhaseFromDate(input);
+  }
+  
+  // If it's a number (assume it's a day of month or lunar cycle position)
+  if (typeof input === 'number') {
+    // Treat as day of month (0-29 for lunar cycle)
+    const normalizedDay = input % 29.5; // Approximate lunar cycle
+    
+    if (normalizedDay < 2) return 'new moon';
+    if (normalizedDay < 7) return 'waxing crescent';
+    if (normalizedDay < 9) return 'first quarter';
+    if (normalizedDay < 14) return 'waxing gibbous';
+    if (normalizedDay < 16) return 'full moon';
+    if (normalizedDay < 21) return 'waning gibbous';
+    if (normalizedDay < 23) return 'last quarter';
+    if (normalizedDay < 28) return 'waning crescent';
+    
+    return 'new moon'; // Default for edge cases
+  }
+  
+  // Default fallback
   return 'new moon';
 } 

@@ -479,3 +479,79 @@ export interface RecipeProps {
   elements?: ElementalProperties;
   dominantElements?: [string, number][];
 } 
+
+// ========== MISSING TYPES FOR TS2305 FIXES ==========
+
+// RecipeSearchCriteria (causing error in LegacyRecipeAdapter.ts)
+export interface RecipeSearchCriteria {
+  cuisine?: string[];
+  mealType?: string[];
+  season?: string[];
+  dietaryRestrictions?: string[];
+  cookingMethods?: string[];
+  prepTimeRange?: {
+    min?: number;
+    max?: number;
+  };
+  servings?: {
+    min?: number;
+    max?: number;
+  };
+  spiceLevel?: string[];
+  skillLevel?: string[];
+  elements?: ElementalProperties;
+  keywords?: string[];
+  tags?: string[];
+}
+
+// ingredient (lowercase - likely a simple ingredient type)
+export interface ingredient {
+  id: string;
+  name: string;
+  category: string;
+  nutritionalProfile?: unknown;
+  elementalProperties?: ElementalProperties;
+}
+
+// IngredientMapping (re-export from alchemy, likely needed here too)
+export interface IngredientMapping {
+  [key: string]: ingredient;
+}
+
+// nutritionInfo (causing error in recipeMatching.ts)
+export interface nutritionInfo {
+  calories?: number;
+  protein?: number;
+  carbs?: number;
+  fat?: number;
+  fiber?: number;
+  vitamins?: Record<string, number>;
+  minerals?: Record<string, number>;
+  servingSize?: string;
+  allergens?: string[];
+}
+
+// RecipeFilters (causing error in recipeFilters.ts)
+export interface RecipeFilters {
+  cuisine?: string[];
+  mealType?: string[];
+  season?: string[];
+  cookingMethod?: string[];
+  dietaryRestrictions?: string[];
+  spiceLevel?: string[];
+  prepTime?: {
+    min?: number;
+    max?: number;
+  };
+  difficulty?: string[];
+  elements?: {
+    Fire?: number;
+    Water?: number;
+    Earth?: number;
+    Air?: number;
+  };
+  includeIngredients?: string[];
+  excludeIngredients?: string[];
+  zodiacSigns?: string[];
+  lunarPhases?: string[];
+} 

@@ -472,10 +472,132 @@ export function getPlanetaryAlchemicalEffect(
  * @returns The alchemical effect of the tarot card or null if not recognized
  */
 export function getTarotCardAlchemicalEffect(cardName: string): Record<AlchemicalProperty, number> | null {
-  // Extract the suit from the card name
-  const suitMatch = cardName.match(/of\s+(\w+)/i);
-  if (!suitMatch) return null;
+  // Find the pillar with the tarot association
+  const pillar = ALCHEMICAL_PILLARS.find(p => 
+    p.tarotAssociations?.some(tarot => 
+      tarot.toLowerCase().includes(cardName.toLowerCase()) || 
+      cardName.toLowerCase().includes(tarot.toLowerCase())
+    )
+  );
   
-  const suit = suitMatch[1];
-  return TAROT_SUIT_ALCHEMICAL_MAPPING[suit] || null;
+  return pillar ? pillar.effects : null;
+}
+
+// ========== MISSING EXPORTS FOR TS2305 FIXES ==========
+
+// EnhancedCookingMethod type (causing error in recipeBuilding.ts)
+export interface EnhancedCookingMethod {
+  id: string;
+  name: string;
+  description: string;
+  category: 'dry' | 'wet' | 'combination' | 'molecular' | 'raw' | 'traditional' | 'transformation';
+  
+  // Core alchemical properties
+  alchemicalEffects: {
+    Spirit: number;
+    Essence: number;
+    Matter: number;
+    Substance: number;
+  };
+  
+  // Thermodynamic properties
+  thermodynamics: {
+    heat: number;
+    entropy: number;
+    reactivity: number;
+  };
+  
+  // Elemental influences
+  elementalInfluence: {
+    Fire: number;
+    Water: number;
+    Earth: number;
+    Air: number;
+  };
+  
+  // Monica compatibility metrics
+  monicaCompatibility: {
+    score: number;
+    factors: string[];
+    enhancedProperties: string[];
+  };
+  
+  // Additional properties
+  techniques: string[];
+  equipment: string[];
+  skillLevel: 'beginner' | 'intermediate' | 'advanced' | 'expert';
+  timeRange: {
+    min: number;
+    max: number;
+    unit: 'minutes' | 'hours';
+  };
+  
+  // Astrological associations
+  planetaryAssociations?: string[];
+  zodiacAffinity?: string[];
+  lunarPhaseOptimal?: string[];
+}
+
+// Sample enhanced cooking methods data
+const ENHANCED_COOKING_METHODS: EnhancedCookingMethod[] = [
+  {
+    id: 'roasting',
+    name: 'Roasting',
+    description: 'Dry heat cooking method that concentrates flavors through caramelization',
+    category: 'dry',
+    alchemicalEffects: { Spirit: 1, Essence: 0, Matter: -1, Substance: 1 },
+    thermodynamics: { heat: 0.8, entropy: 0.6, reactivity: 0.7 },
+    elementalInfluence: { Fire: 0.8, Water: 0.1, Earth: 0.3, Air: 0.4 },
+    monicaCompatibility: { score: 0.85, factors: ['high heat', 'flavor concentration'], enhancedProperties: ['caramelization', 'moisture reduction'] },
+    techniques: ['searing', 'browning', 'basting'],
+    equipment: ['oven', 'roasting pan'],
+    skillLevel: 'intermediate',
+    timeRange: { min: 30, max: 180, unit: 'minutes' },
+    planetaryAssociations: ['Mars', 'Sun'],
+    zodiacAffinity: ['Aries', 'Leo']
+  },
+  {
+    id: 'steaming',
+    name: 'Steaming',
+    description: 'Moist heat cooking using steam to preserve nutrients and delicate textures',
+    category: 'wet',
+    alchemicalEffects: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 },
+    thermodynamics: { heat: 0.5, entropy: 0.3, reactivity: 0.4 },
+    elementalInfluence: { Fire: 0.2, Water: 0.8, Earth: 0.2, Air: 0.6 },
+    monicaCompatibility: { score: 0.92, factors: ['gentle heat', 'nutrient preservation'], enhancedProperties: ['moisture retention', 'texture preservation'] },
+    techniques: ['indirect cooking', 'vapor cooking'],
+    equipment: ['steamer', 'steam basket'],
+    skillLevel: 'beginner',
+    timeRange: { min: 5, max: 45, unit: 'minutes' },
+    planetaryAssociations: ['Moon', 'Neptune'],
+    zodiacAffinity: ['Cancer', 'Pisces']
+  },
+  {
+    id: 'fermentation',
+    name: 'Fermentation',
+    description: 'Transformation through beneficial microorganisms',
+    category: 'transformation',
+    alchemicalEffects: { Spirit: 1, Essence: 1, Matter: 0, Substance: 1 },
+    thermodynamics: { heat: 0.2, entropy: 0.9, reactivity: 0.8 },
+    elementalInfluence: { Fire: 0.1, Water: 0.6, Earth: 0.7, Air: 0.3 },
+    monicaCompatibility: { score: 0.95, factors: ['living transformation', 'probiotic benefits'], enhancedProperties: ['bioavailability', 'flavor complexity'] },
+    techniques: ['lacto-fermentation', 'alcoholic fermentation'],
+    equipment: ['fermentation vessel', 'airlock'],
+    skillLevel: 'advanced',
+    timeRange: { min: 24, max: 720, unit: 'hours' },
+    planetaryAssociations: ['Pluto', 'Jupiter'],
+    zodiacAffinity: ['Scorpio', 'Sagittarius']
+  }
+];
+
+// getAllEnhancedCookingMethods function (causing errors in recipeBuilding.ts and seasonal.ts)
+export function getAllEnhancedCookingMethods(): EnhancedCookingMethod[] {
+  return [...ENHANCED_COOKING_METHODS];
+}
+
+// getMonicaCompatibleCookingMethods function (causing errors in recipeBuilding.ts and seasonal.ts)
+export function getMonicaCompatibleCookingMethods(minScore: number = 0.8): EnhancedCookingMethod[] {
+  return ENHANCED_COOKING_METHODS.filter(method => 
+    method.monicaCompatibility.score >= minScore
+  );
 } 

@@ -79,3 +79,49 @@ export interface Ingredient {
   // Allow additional properties for extensibility
   [key: string]: any;
 } 
+
+// ========== MISSING TYPE FOR TS2305 FIXES ==========
+
+// UnifiedIngredient (causing errors in recipeBuilding.ts and LegacyRecommendationAdapter.ts)
+export interface UnifiedIngredient extends Ingredient {
+  // Unified format combining all ingredient data sources
+  source: 'legacy' | 'unified' | 'external';
+  version: string;
+  compatibility: {
+    legacy: boolean;
+    modern: boolean;
+    enhanced: boolean;
+  };
+  
+  // Enhanced metadata
+  metadata: {
+    lastUpdated: string;
+    dataSource: string[];
+    quality: 'high' | 'medium' | 'low';
+    verified: boolean;
+  };
+  
+  // Unified pairing system
+  unifiedPairings?: {
+    ingredients: string[];
+    techniques: string[];
+    seasons: string[];
+    cuisines: string[];
+  };
+  
+  // Consolidated nutritional data
+  consolidatedNutrition?: {
+    macronutrients: {
+      protein: number;
+      carbohydrates: number;
+      fat: number;
+      fiber: number;
+    };
+    micronutrients: {
+      vitamins: Record<string, number>;
+      minerals: Record<string, number>;
+    };
+    calories: number;
+    servingSize: string;
+  };
+} 
