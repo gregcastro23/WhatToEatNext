@@ -918,14 +918,11 @@ export function validateAlgorithms(): {
   
   try {
     const mockResult: AlchemicalResult = {
-      elements: { Fire: 0.4, Water: 0.2, Earth: 0.2, Air: 0.2 },
-      modalities: { Cardinal: 0.5, Fixed: 0.3, Mutable: 0.2 },
-      qualities: { Hot: 0.6, Dry: 0.4, Cold: 0.2, Wet: 0.2 },
-      dominant: {
-        element: 'Fire',
-        modality: 'Cardinal',
-        quality: 'Hot'
-      }
+      elementalProperties: { Fire: 0.4, Water: 0.2, Earth: 0.2, Air: 0.2 },
+      thermodynamicProperties: { heat: 0.6, entropy: 0.4, reactivity: 0.5, energy: 0.5 },
+      kalchm: 1.2,
+      monica: 0.8,
+      score: 0.7
     };
     
     const recommendation = generateEnhancedRecommendation(mockResult, [], 'summer');

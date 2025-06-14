@@ -67,7 +67,7 @@ export class SpoonacularService {
    */
   static async searchRecipes(params: SpoonacularSearchParams): Promise<Recipe[]> {
     // First check if we have enough local recipes that match the criteria
-    const localRecipes = this.searchLocalRecipes(params);
+    const localRecipes = await this.searchLocalRecipes(params);
     console.log(`Found ${localRecipes.length} matching local recipes`);
     
     // If we have enough local recipes (5 or more), just return those
@@ -113,7 +113,7 @@ export class SpoonacularService {
   /**
    * Search local recipes based on the same parameters used for the API
    */
-  private static searchLocalRecipes(params: SpoonacularSearchParams): Recipe[] {
+  private static async searchLocalRecipes(params: SpoonacularSearchParams): Promise<Recipe[]> {
     const { cuisine, query, diet, intolerances, maxReadyTime, number = 10 } = params;
     
     // Search local recipes
@@ -122,10 +122,10 @@ export class SpoonacularService {
     try {
       // If cuisine is specified, filter by that first
       if (cuisine) {
-        localRecipes = LocalRecipeService.getRecipesByCuisine(cuisine);
+        localRecipes = await LocalRecipeService.getRecipesByCuisine(cuisine);
       } else {
         // Otherwise get all recipes
-        localRecipes = LocalRecipeService.getAllRecipes();
+        localRecipes = await LocalRecipeService.getAllRecipes();
       }
       
       // Apply filters similar to the API's parameters

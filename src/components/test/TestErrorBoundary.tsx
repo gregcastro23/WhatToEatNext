@@ -7,7 +7,7 @@ import { ErrorDisplay } from '@/components/errors/ErrorDisplay';
 export function TestErrorBoundary({ children }: { children: React.ReactNode }) {
   return (
     <ErrorBoundary
-      FallbackComponent={({ error, resetErrorBoundary }) => (
+      fallback={({ error, resetErrorBoundary }) => (
         <ErrorDisplay
           error={error}
           context="Test Environment"

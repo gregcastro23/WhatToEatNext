@@ -982,14 +982,27 @@ export function alchemize(planetaryPositions: Record<string, PlanetaryPosition>,
   };
   
   return {
-    spirit,
-    essence,
-    matter,
-    substance,
-    elementalBalance,
-    dominantElement,
-    recommendation,
-    'Total Effect Value': totalEffectValue
+    elementalProperties: totalEffectValue,
+    thermodynamicProperties: {
+      heat: spirit / (spirit + essence + matter + substance) || 0.25,
+      entropy: essence / (spirit + essence + matter + substance) || 0.25, 
+      reactivity: matter / (spirit + essence + matter + substance) || 0.25,
+      energy: substance / (spirit + essence + matter + substance) || 0.25
+    },
+    kalchm: (spirit + essence) / (matter + substance) || 1.0,
+    monica: Math.sqrt(spirit * essence * matter * substance) || 0.5,
+    score: (spirit + essence + matter + substance) / 4 || 0.5,
+    normalized: true,
+    confidence: 0.8,
+    metadata: {
+      spirit,
+      essence,
+      matter,
+      substance,
+      elementalBalance,
+      dominantElement,
+      recommendation
+    }
   };
 }
 

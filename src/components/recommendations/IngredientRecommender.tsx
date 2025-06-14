@@ -247,10 +247,14 @@ export default function IngredientRecommender() {
     if (!astroLoading && !astroError && showEnhancedFeatures) {
       try {
         const astrologicalState: AstrologicalState = {
-          chakraEnergies: contextChakraEnergies as ChakraEnergies,
-          planetaryPositions,
+          planetaryPositions: Object.fromEntries(
+            Object.entries(planetaryPositions || {}).map(([planet, position]) => [
+              planet,
+              typeof position === 'object' ? position : { sign: 'aries', degree: 0 }
+            ])
+          ),
           currentZodiac,
-          isLoading: false,
+          loading: false,
           sunSign: currentZodiac || 'aries', // Default fallback
           lunarPhase: 'new moon', // Default fallback
           activePlanets: [],

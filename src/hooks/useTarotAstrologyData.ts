@@ -194,7 +194,14 @@ export const useTarotAstrologyData = (): TarotAstrologyResult => {
       const cards = getTarotCardsForDate(currentDate, sunPosition);
       setTarotCards({
         minorCard: cards?.minorCard || null,
-        majorCard: cards?.majorCard || null
+        majorCard: cards?.majorCard ? {
+          name: cards.majorCard.name,
+          planet: cards.majorCard.planet,
+          element: cards.majorCard.element,
+          keywords: cards.majorCard.keywords,
+          suit: 'Major Arcana', // Major arcana cards don't have suits, so use a placeholder
+          number: 0 // Major arcana cards don't have numbers, so use 0
+        } as TarotCard : null
       });
       
     } catch (err) {

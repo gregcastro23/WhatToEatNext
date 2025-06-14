@@ -126,7 +126,7 @@ function CuisineSelectorMigrated({
         });
         
         // Transform to ElementalItem format for compatibility with existing component
-        const cuisines: ElementalItem[] = result?.items || [].map((cuisine, index) => {
+        const cuisines: ElementalItem[] = (result?.items || []).map((cuisine, index) => {
           // Extract elemental properties from context if available
           const elementalProps = result.context?.elementalState?.[cuisine] || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
           };

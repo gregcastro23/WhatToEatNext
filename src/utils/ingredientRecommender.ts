@@ -170,7 +170,7 @@ function getAllIngredients(): Ingredient[] {
 /**
  * Returns a list of ingredients that match the current astrological state
  */
-export function getRecommendedIngredients(astroState: AstrologicalState): Ingredient[] {
+export function getRecommendedIngredients(astroState: AstrologicalState): EnhancedIngredient[] {
   // Get the active planets from the astrological state
   const activePlanets = astroState.activePlanets || [];
   
@@ -261,7 +261,7 @@ export function getRecommendedIngredients(astroState: AstrologicalState): Ingred
     });
   }
   
-  return filteredIngredients as Ingredient[];
+  return filteredIngredients;
 }
 
 /**
