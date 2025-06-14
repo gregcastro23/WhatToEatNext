@@ -325,3 +325,168 @@ export { AstrologicalState } from "@/types/celestial";
 export { Planet, PlanetName, ZodiacSign, LunarPhase } from "@/types/celestial";
 
 export const COOKING_METHOD_THERMODYNAMICS = {};
+
+// ========== MISSING TYPES FOR TS2305 FIXES ==========
+
+// CookingMethod type (causing errors in CookingMethods.tsx)
+export interface CookingMethod {
+  id: string;
+  name: string;
+  category: string;
+  element: Element;
+  intensity: number;
+  description?: string;
+  thermodynamicEffect?: CookingMethodModifier;
+  techniques?: string[];
+  temperature?: {
+    min?: number;
+    max?: number;
+    unit?: 'F' | 'C';
+  };
+  duration?: {
+    min?: number;
+    max?: number;
+    unit?: 'minutes' | 'hours';
+  };
+}
+
+// ElementalItem type (causing errors in CuisineRecommender.tsx)
+export interface ElementalItem {
+  id: string;
+  name: string;
+  elementalProperties: ElementalProperties;
+  category?: string;
+  affinities?: ElementalAffinity[];
+  harmony?: number;
+}
+
+// AlchemicalItem type (causing errors in CuisineRecommender.tsx)
+export interface AlchemicalItem extends ElementalItem {
+  alchemicalProperties?: AlchemicalResult;
+  thermodynamicProperties?: ThermodynamicProperties;
+  transformations?: ElementalInteraction[];
+  seasonalResonance?: Season[];
+}
+
+// FilterOptions type (causing errors in FilterSection.tsx)
+export interface FilterOptions {
+  elements?: Element[];
+  seasons?: Season[];
+  mealTypes?: string[];
+  cookingMethods?: string[];
+  difficulty?: 'easy' | 'medium' | 'hard'[];
+  prepTime?: {
+    min?: number;
+    max?: number;
+  };
+  dietary?: string[];
+}
+
+// NutritionPreferences type (causing errors in FilterSection.tsx)
+export interface NutritionPreferences {
+  calories?: {
+    min?: number;
+    max?: number;
+  };
+  macros?: {
+    protein?: number;
+    carbs?: number;
+    fat?: number;
+  };
+  vitamins?: string[];
+  minerals?: string[];
+  allergens?: string[];
+  dietaryRestrictions?: string[];
+}
+
+// Ingredient type (causing errors in multiple files)
+export interface Ingredient {
+  id: string;
+  name: string;
+  category: string;
+  elementalProperties: ElementalProperties;
+  nutritionalProfile?: NutritionalProfile;
+  seasonality?: Season[];
+  affinities?: string[];
+  cookingMethods?: string[];
+  preparationNotes?: string;
+  planetaryRuler?: string;
+}
+
+// NutritionalProfile type (causing errors in multiple files)
+export interface NutritionalProfile {
+  calories?: number;
+  protein?: number;
+  carbohydrates?: number;
+  fat?: number;
+  fiber?: number;
+  sugar?: number;
+  sodium?: number;
+  vitamins?: Record<string, number>;
+  minerals?: Record<string, number>;
+  antioxidants?: string[];
+  phytonutrients?: string[];
+}
+
+// ElementalState type (causing errors in IngredientRecommendations.tsx)
+export interface ElementalState {
+  currentElements: ElementalProperties;
+  targetElements?: ElementalProperties;
+  balance: number;
+  recommendations?: string[];
+  harmony?: number;
+  dominantElement: Element;
+  deficientElements?: Element[];
+}
+
+// ========== ADDITIONAL MISSING TYPES FOR TS2305 FIXES ==========
+
+// CuisineType and DietaryRestriction (causing errors in Recipe components)
+export type CuisineType = 
+  | 'italian' | 'mexican' | 'asian' | 'indian' | 'mediterranean' 
+  | 'american' | 'french' | 'thai' | 'chinese' | 'japanese'
+  | 'greek' | 'spanish' | 'middle-eastern' | 'moroccan' | 'ethiopian'
+  | 'caribbean' | 'brazilian' | 'korean' | 'vietnamese' | 'fusion';
+
+export type DietaryRestriction = 
+  | 'vegetarian' | 'vegan' | 'gluten-free' | 'dairy-free' | 'nut-free'
+  | 'shellfish-free' | 'soy-free' | 'egg-free' | 'low-carb' | 'keto'
+  | 'paleo' | 'whole30' | 'low-sodium' | 'sugar-free' | 'raw'
+  | 'halal' | 'kosher' | 'pescatarian' | 'flexitarian';
+
+// TimeFactors type (causing errors in RecipeGrid.tsx)
+export interface TimeFactors {
+  prepTime?: number;
+  cookTime?: number;
+  totalTime?: number;
+  difficulty?: 'easy' | 'medium' | 'hard';
+  servings?: number;
+  yieldAmount?: string;
+  restTime?: number;
+  marinateTime?: number;
+}
+
+// AlchemicalValues type (causing errors in constants files)
+export interface AlchemicalValues {
+  Spirit: number;
+  Essence: number;  
+  Matter: number;
+  Substance: number;
+  defaultMultiplier?: number;
+  balanceThreshold?: number;
+  harmonyTarget?: number;
+}
+
+// Decan type (causing errors in elementalCore.ts)
+export interface Decan {
+  number: 1 | 2 | 3;
+  sign: ZodiacSign;
+  element: Element;
+  planetaryRuler: string;
+  degrees: {
+    start: number;
+    end: number;
+  };
+  characteristics: string[];
+  season?: Season;
+}
