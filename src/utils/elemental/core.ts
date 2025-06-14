@@ -319,7 +319,7 @@ export function calculateElementalState(recipe: Recipe | null | undefined): Elem
 
   // Use existing elemental properties if available
   if (recipe.elementalState && validateElementalProperties(recipe.elementalState)) {
-    return recipe.elementalState;
+    return recipe.elementalState as ElementalProperties;
   }
 
   // Calculate from ingredients if available

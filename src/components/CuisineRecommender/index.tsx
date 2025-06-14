@@ -213,7 +213,7 @@ export const CuisineRecommender: React.FC<CuisineRecommenderProps> = ({
                       {Object.entries(recipe?.elementalState || {}).map(([element, value]) => (
                         <div key={element} className="element-indicator">
                           <span className={`element-dot ${element?.toLowerCase()}`} />
-                                                      <span>{element}: {((value as number) * 100).toFixed(0)}%</span>
+                          <span>{element}: {(Number(value) * 100).toFixed(0)}%</span>
                         </div>
                       ))}
                     </div>

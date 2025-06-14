@@ -40,8 +40,8 @@ export class ErrorBoundary extends Component<Props, State> {
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     logger.error('ErrorBoundary caught an error:', error)
     ErrorHandler.log(error, {
-      context: 'ErrorBoundary',
-      data: { errorInfo }
+      component: 'ErrorBoundary',
+      context: { errorInfo }
     })
     this.props.onError?.(error, errorInfo)
   }

@@ -431,7 +431,7 @@ export class EnhancedRecommendationService {
       baseEnergy: 0.5,
       planetaryInfluence: 0.1,
       lunarInfluence: 0.1
-    }));
+    })) as SignEnergyState[];
   }
 
   /**

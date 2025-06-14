@@ -50,7 +50,7 @@ export function toZodiacSign(zodiac: string | null | undefined): ZodiacSign {
   ];
   
   const normalized = zodiac.toLowerCase();
-  return validSigns.find(sign => sign.toLowerCase() === normalized) || 'aries';
+  return (validSigns.find(sign => sign.toLowerCase() === normalized) || 'aries') as ZodiacSign;
 }
 
 /**

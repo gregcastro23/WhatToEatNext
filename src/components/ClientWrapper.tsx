@@ -13,7 +13,7 @@ import { ErrorFallback } from '@/components/errors/ErrorFallback';
 
 export default function ClientWrapper({ children }: { children: React.ReactNode }) {
   return (
-    <ErrorBoundary FallbackComponent={ErrorFallback}>
+    <ErrorBoundary fallback={ErrorFallback}>
       <ThemeProvider>
         <AlchemicalProvider>
           <CalculationErrors />

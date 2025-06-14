@@ -243,7 +243,7 @@ export class LegacyRecipeAdapter {
       // Apply safe type casting for service access
       const serviceData = unifiedRecipeService as any;
       if (serviceData?.calculateElementalProperties) {
-        return serviceData.calculateElementalProperties(recipe);
+        return serviceData.calculateElementalProperties(recipe) as ElementalProperties;
       }
       // Enhanced fallback - calculate based on available recipe data
       const defaultProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };

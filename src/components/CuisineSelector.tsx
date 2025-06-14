@@ -153,7 +153,7 @@ function CuisineSelector({
   // Function to determine cuisine modality
   const getCuisineModality = (cuisine: CuisineData): Modality => {
     // If cuisine already has modality defined, use it
-    if ((cuisine as CuisineData).modality) return (cuisine as CuisineData).modality;
+    if ((cuisine as CuisineData).modality) return (cuisine as CuisineData).modality as Modality;
     
     // Otherwise determine from elemental state
     return determineModalityFromElements((cuisine as CuisineData).elementalState || (cuisine as CuisineData).elementalProperties || {

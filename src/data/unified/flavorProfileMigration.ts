@@ -651,11 +651,11 @@ export class FlavorProfileMigration {
 
   private getDefaultSeasonalModifiers(): Record<Season, number> {
     return {
-      Spring: 1.0,
-      Summer: 1.0,
-      Fall: 1.0,
-      Winter: 1.0
-    };
+      spring: 1.0,
+      summer: 1.0,
+      fall: 1.0,
+      winter: 1.0
+    } as Record<Season, number>;
   }
 
   // ===== UTILITY METHODS =====

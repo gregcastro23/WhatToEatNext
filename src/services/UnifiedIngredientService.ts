@@ -596,7 +596,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       entropy: 0.5,
       reactivity: 0.5,
       energy: 0.5
-    };
+    } as ThermodynamicProperties;
   }
   
   /**

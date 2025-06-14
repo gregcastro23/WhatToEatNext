@@ -616,7 +616,7 @@ export async function getRecommendedIngredients(astroState: AstrologicalState): 
     });
   }
   
-  return filteredIngredients;
+  return filteredIngredients as Ingredient[];
 }
 
 export async function getIngredientRecommendations(

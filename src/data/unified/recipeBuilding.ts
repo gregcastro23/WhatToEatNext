@@ -603,9 +603,6 @@ export class UnifiedRecipeBuildingSystem {
    * Create a base recipe from criteria
    */
   private createBaseRecipe(criteria: RecipeBuildingCriteria): Partial<EnhancedRecipe> {
-    // This would integrate with existing recipe data or generate from scratch
-    // For now, creating a template that can be enhanced
-    
     const baseIngredients = this.selectIngredientsFromCriteria(criteria);
     const baseCookingMethods = this.selectCookingMethodsFromCriteria(criteria);
     const baseInstructions = this.generateBaseInstructions(baseIngredients, baseCookingMethods);
@@ -623,7 +620,7 @@ export class UnifiedRecipeBuildingSystem {
       prepTime: this.estimatePrepTime(baseIngredients, baseCookingMethods),
       cookTime: this.estimateCookTime(baseCookingMethods),
       elementalProperties: this.calculateBaseElementalProperties(baseIngredients)
-    };
+    } as Partial<EnhancedRecipe>;
   }
   
   /**

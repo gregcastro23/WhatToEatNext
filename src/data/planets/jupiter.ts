@@ -43,8 +43,8 @@ const jupiterData: PlanetData = {
     'AlchemicalName': 'Zeus',
     'BeneficType': 'Greater benefic',
     'DualDomicile': {
-      'Winter': 'Pisces (yin)',
-      'Summer': 'Sagittarius (yang)'
+      'Spring': 'Pisces (yin)',
+      'Autumn': 'Sagittarius (yang)'
     },
     'HouseJoy': 9,
     'CyclePeriod': {

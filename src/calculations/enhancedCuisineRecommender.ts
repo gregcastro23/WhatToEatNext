@@ -614,18 +614,18 @@ export class EnhancedCuisineRecommender {
 
     // Otherwise, calculate based on Sun sign
     const elementMap: Record<ZodiacSign, string> = {
-      Aries: 'Fire',
-      Taurus: 'Earth',
-      Gemini: 'Air',
-      Cancer: 'Water',
-      Leo: 'Fire',
-      Virgo: 'Earth',
-      Libra: 'Air',
-      Scorpio: 'Water',
-      Sagittarius: 'Fire',
-      Capricorn: 'Earth',
-      Aquarius: 'Air',
-      Pisces: 'Water',
+      aries: 'Fire',
+      taurus: 'Earth',
+      gemini: 'Air',
+      cancer: 'Water',
+      leo: 'Fire',
+      virgo: 'Earth',
+      libra: 'Air',
+      scorpio: 'Water',
+      sagittarius: 'Fire',
+      capricorn: 'Earth',
+      aquarius: 'Air',
+      pisces: 'Water',
     };
 
     return astroState.sunSign

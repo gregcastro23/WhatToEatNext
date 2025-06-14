@@ -43,8 +43,8 @@ const saturnData: PlanetData = {
     'AlchemicalName': 'Chronos',
     'MaleficType': 'Greater malefic',
     'DualDomicile': {
-      'Summer': 'Aquarius (yang)',
-      'Winter': 'Capricorn (yin)'
+      'Spring': 'Aquarius (yang)',
+      'Autumn': 'Capricorn (yin)'
     },
     'HouseJoy': 12,
     'CyclePeriod': {

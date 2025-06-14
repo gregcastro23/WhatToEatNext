@@ -1,9 +1,7 @@
 import type { 
-  CookingMethod, 
-  ElementalProperties, 
   ZodiacSign, 
   ThermodynamicProperties
-} from '@/types/alchemy';
+} from '@/types/shared';
 
 import type { CookingMethodData } from '@/types/cookingMethod';
 

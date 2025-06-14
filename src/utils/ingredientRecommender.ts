@@ -261,7 +261,7 @@ export function getRecommendedIngredients(astroState: AstrologicalState): Ingred
     });
   }
   
-  return filteredIngredients;
+  return filteredIngredients as Ingredient[];
 }
 
 /**

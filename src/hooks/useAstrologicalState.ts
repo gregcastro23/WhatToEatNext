@@ -12,17 +12,12 @@ import {
 } from '@/utils/astrologyUtils';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { PlanetaryHourCalculator } from '@/lib/PlanetaryHourCalculator';
-import { createLogger } from '@/utils/logger';
+import { logger } from '@/utils/logger';
 import {
   CelestialPosition,
-  PlanetaryAlignment,
-  ZodiacSign,
-  Planet,
   AstrologicalState
 } from '@/types/celestial';
-
-// Create a component-specific logger
-const logger = createLogger('AstroState');
+import { ZodiacSign, PlanetaryAlignment } from '@/types/common';
 
 // Interface for hook return value
 export interface AstrologyHookData {
@@ -269,8 +264,11 @@ export function useAstrologicalState(): AstrologyHookData {
   return {
     ...astroState,
     isReady,
-    isDaytime,
+    isDaytime: isDaytime as boolean,
     renderCount,
-    currentPlanetaryHour
-  };
+    currentPlanetaryHour: currentPlanetaryHour || 'sun',
+    currentZodiac: (astroState.currentZodiac || 'aries') as ZodiacSign,
+    currentPlanetaryAlignment: astroState.currentPlanetaryAlignment as PlanetaryAlignment,
+    lunarPhase: astroState.lunarPhase as LunarPhase
+  } as AstrologyHookData;
 } 

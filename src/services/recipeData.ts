@@ -71,7 +71,7 @@ function ensureRecipeProperties(recipe: Partial<Recipe>): Recipe {
     name: (recipe as any)?.name || 'Unnamed Recipe',
     description: (recipe as any)?.description || '',
     cuisine: (recipe as any)?.cuisine || '',
-    ingredients: validateAndNormalizeIngredients(recipe.ingredients || []),
+    ingredients: validateAndNormalizeIngredients(recipe.ingredients || []) as import('../types/recipe').RecipeIngredient[],
     instructions: validateAndNormalizeInstructions(recipe.instructions || []),
     timeToMake: validateAndNormalizeTime(recipe.timeToMake) || '30 minutes',
     numberOfServings: validateServings(recipe.numberOfServings) || 2,

@@ -12,7 +12,7 @@ const CuisineType = {
   MEXICAN: 'mexican'
 };
 
-export const seasonalUsage: Record<Season, any> = {
+export const seasonalUsage = {
   spring: {
     growing: ['basil', 'oregano', 'thyme'],
     cuisines: {
@@ -100,35 +100,6 @@ export const seasonalUsage: Record<Season, any> = {
     }
   },
   
-  fall: {
-    growing: ['sage', 'rosemary', 'thyme'],
-    cuisines: {
-      'greek': {
-        combinations: ['spinach + feta', 'lamb + herbs'],
-        dishes: ['moussaka', 'stuffed peppers', 'roasted lamb']
-      },
-      'french': {
-        combinations: ['mushroom + thyme', 'apple + cinnamon'],
-        dishes: ['ratatouille', 'mushroom soup', 'apple tart']
-      }
-    },
-    herbs: ['sage', 'rosemary', 'thyme', 'bay leaf'],
-    vegetables: ['pumpkin', 'squash', 'mushrooms', 'cauliflower'],
-    tarotAssociations: {
-      minorArcana: ['2 of Swords', '3 of Swords', '4 of Swords', '5 of Cups', '6 of Cups', '7 of Cups', '8 of Wands', '9 of Wands', '10 of Wands'],
-      majorArcana: ['Justice', 'The Hanged Man', 'Death'],
-      zodiacSigns: ['libra', 'scorpio', 'sagittarius'],
-      cookingRecommendations: [
-        'Balance Air elements (libra) with harmonious flavor combinations',
-        'Use Water elements (scorpio) for deep, transformative dishes with complex flavors',
-        'Incorporate Fire elements (sagittarius) for bold, exploratory cooking',
-        'Find equilibrium in dish components (2 of Swords)',
-        'Create nostalgic comfort food (6 of Cups)',
-        'Balance workload with efficient meal preparation (10 of Wands)'
-      ]
-    }
-  },
-  
   winter: {
     growing: ['rosemary', 'thyme', 'sage'],
     cuisines: {
@@ -185,7 +156,7 @@ export const seasonalUsage: Record<Season, any> = {
       ]
     }
   }
-};
+} as Record<Season, any>;
 
 // Helper functions if needed
 export function getSeasonalUsageData(ingredient: string, season: Season) {

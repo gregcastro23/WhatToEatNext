@@ -62,7 +62,7 @@ export function useCurrentChart() {
         
         // Set ascendant if available
         const newChartData: ChartData = {
-          planets,
+          planets: planets as Record<string, { sign: string; degree: number; isRetrograde?: boolean; exactLongitude?: number; }>,
         };
         
         if (planetaryPositions.ascendant) {

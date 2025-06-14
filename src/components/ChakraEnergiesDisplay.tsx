@@ -159,11 +159,11 @@ const ChakraEnergiesDisplay: React.FC<ChakraEnergiesDisplayProps> = ({ compact =
   };
 
   // Ensure all chakras have some energy value
-  const ensureChakraEnergies = (energies: unknown): unknown => {
-    if (!energies) return null;
+  const ensureChakraEnergies = (energies: unknown): Record<string, number> | null => {
+    if (!energies || typeof energies !== 'object') return null;
     
     // Create a new object with guaranteed values for all chakras
-    const ensuredEnergies = { ...energies };
+    const ensuredEnergies = { ...(energies as Record<string, number>) };
     
     // Make sure each chakra has at least a minimal value
     CHAKRA_ORDER.forEach(chakra => {

@@ -261,4 +261,4 @@ export const sousVide: CookingMethodData = {
       'Water displacement method as alternative to vacuum sealing'
     ]
   }
-}; 
+} as CookingMethodData; 

@@ -3,7 +3,7 @@ import type {
   ElementalProperties, 
   ZodiacSign, 
   ThermodynamicProperties 
-} from './alchemy';
+} from './shared';
 
 /**
  * Interface defining the structure of cooking method data
@@ -66,4 +66,8 @@ export interface CookingMethodData {
   timingConsiderations?: Record<string, string>;
   doneness_indicators?: Record<string, string>;
   ingredientInteractions?: Record<string, string>;
+  technicalNotes?: Record<string, any>;
+  
+  // Alchemical aspects for advanced cooking methods
+  alchemicalAspects?: Record<string, any>;
 } 

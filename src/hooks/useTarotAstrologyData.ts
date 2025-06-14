@@ -221,7 +221,7 @@ export const useTarotAstrologyData = (): TarotAstrologyResult => {
             cardMap[planetName] = {
               name: arcanaName,
               energy: calculatePlanetaryEnergy(planetName) // Now references the hoisted function
-            };
+            } as TarotCard;
           }
         });
       }

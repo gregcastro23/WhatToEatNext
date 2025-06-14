@@ -117,7 +117,7 @@ export class SpoonacularService {
     const { cuisine, query, diet, intolerances, maxReadyTime, number = 10 } = params;
     
     // Search local recipes
-    let localRecipes = [];
+    let localRecipes = [] as Recipe[];
     
     try {
       // If cuisine is specified, filter by that first

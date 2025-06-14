@@ -84,7 +84,7 @@ export function RecoveryProvider({ children }: { children: React.ReactNode }) {
   return (
     <RecoveryContext.Provider value={{ resetApp, isRecovering }}>
       <ErrorBoundary
-        FallbackComponent={ErrorFallback}
+        fallback={ErrorFallback}
         onError={(error) => {
           logger.error('App error caught:', error)
           setLastError(error)

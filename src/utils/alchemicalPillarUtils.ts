@@ -958,7 +958,7 @@ function getAllCookingMethodData(): Record<string, unknown> {
       .catch(error => {
         console.error("Error loading cooking method data:", error);
         return {};
-      });
+      }) as Record<string, unknown>;
   } catch (error) {
     console.error("Error loading cooking method data:", error);
     return {};

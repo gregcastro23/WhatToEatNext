@@ -208,12 +208,25 @@ export type ViewOption = 'grid' | 'list' | 'compact';
  */
 export type ElementalFilter = 'all' | 'Fire' | 'Water' | 'Air' | 'Earth';
 
+// ========== THERMODYNAMIC TYPES ==========
+
+/**
+ * Thermodynamic properties for cooking methods and ingredients
+ */
+export interface ThermodynamicProperties {
+  heat: number;
+  entropy: number;
+  reactivity: number;
+  energy: number;
+}
+
 // ========== COOKING TYPES ==========
 
 /**
- * Basic cooking methods
+ * Comprehensive cooking methods including traditional, modern, and molecular techniques
  */
 export type CookingMethod = 
+  // Basic/Traditional methods
   | 'baking' 
   | 'boiling' 
   | 'roasting' 
@@ -221,4 +234,18 @@ export type CookingMethod =
   | 'frying' 
   | 'grilling' 
   | 'sauteing' 
-  | 'raw'; 
+  | 'raw'
+  // Dry heat methods
+  | 'broiling'
+  // Wet methods  
+  | 'simmering'
+  // Specialized frying
+  | 'stir-frying'
+  // Traditional preservation/fermentation
+  | 'fermentation'
+  | 'pickling'
+  // Molecular gastronomy
+  | 'gelification'
+  | 'spherification'
+  // Template/placeholder
+  | 'method_name'; 

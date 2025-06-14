@@ -251,7 +251,7 @@ export class LegacyRecommendationAdapter {
         gregsEnergy: 0.5,
         kalchm: 1.0,
         monica: 1.0
-      };
+      } as ThermodynamicProperties;
       
       return {
         dominantElement: 'Fire' as keyof ElementalProperties,thermodynamics: defaultThermodynamics,

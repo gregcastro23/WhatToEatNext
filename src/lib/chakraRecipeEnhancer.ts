@@ -110,7 +110,12 @@ export class ChakraRecipeEnhancer {
     try {
       const hourInfo = this.planetaryCalculator.getCurrentPlanetaryHour();
       if (hourInfo && typeof hourInfo.planet === 'string') {
-        planetaryHour = hourInfo.planet.toLowerCase() as Planet;
+        const planetName = hourInfo.planet.toLowerCase();
+        // Ensure the planet name is a valid Planet type
+        const validPlanets = ['sun', 'moon', 'mars', 'mercury', 'jupiter', 'venus', 'saturn'];
+        if (validPlanets.includes(planetName)) {
+          planetaryHour = planetName as Planet;
+        }
       }
     } catch (error) {
       console.error('Error getting planetary hour:', error);

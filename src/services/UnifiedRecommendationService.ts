@@ -518,7 +518,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       gregsEnergy: 0.5,
       kalchm: 1.0,
       monica: 0.5
-    };
+    } as ThermodynamicProperties;
   }
 }
 

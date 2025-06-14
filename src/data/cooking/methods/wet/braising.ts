@@ -357,4 +357,4 @@ export const braising: CookingMethodData = {
       'Acid balance: Add acid elements later in cooking process to preserve brightness'
     ]
   }
-}; 
+} as CookingMethodData; 

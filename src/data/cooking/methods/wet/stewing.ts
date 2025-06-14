@@ -309,4 +309,4 @@ export const stewing: CookingMethodData = {
       'texture_spectrum': 'Strategic addition timing creates intentional texture gradient from soft to firm. Cellular structure transformation follows predictable timeline for each vegetable type. Perfect stewed vegetables maintain identity while integrating with surrounding flavors. Dense root vegetables develop external tenderness while maintaining slight firmness at center. Gradient cooking creates multiple texture experiences within single vegetable piece. Stewing creates tendency toward uniform texture unless strategically managed through addition timing.'
     }
   }
-}; 
+} as CookingMethodData; 

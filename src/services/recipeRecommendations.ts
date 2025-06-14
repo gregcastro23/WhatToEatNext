@@ -305,7 +305,7 @@ export class RecipeRecommender {
         cuisine: criteria.cuisine,
         diet: criteria.dietaryRestrictions?.join(','),
         maxReadyTime: 60
-      });
+      }) as Recipe[];
     } catch (error) {
       logger.error('Failed to fetch Spoonacular recommendations:', error);
       return [];

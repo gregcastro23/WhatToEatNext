@@ -7,6 +7,7 @@ import { allRecipes, getBestRecipeMatches } from '@/data/recipes';
 import { getRecipesForCuisineMatch } from '@/data/cuisineFlavorProfiles';
 import { getCurrentElementalState } from '@/utils/elementalUtils';
 import type { Recipe } from '@/types/recipe';
+import type { Season } from '@/types/common';
 
 const CuisineDetailsPage: NextPage = () => {
   const router = useRouter();
@@ -43,7 +44,7 @@ const CuisineDetailsPage: NextPage = () => {
     // 2. Get recipe matches based on current elemental state
     const elementalMatchedRecipes = getBestRecipeMatches({
       cuisine: cuisine.name,
-      season: elementalState.season,
+      season: elementalState.season as Season,
       mealType: elementalState.timeOfDay
     }, 20);
     

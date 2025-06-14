@@ -301,7 +301,7 @@ function convertLegacyToUnified(legacyProfile, id: string): UnifiedFlavorProfile
     description: legacyProfile.description || 'Legacy profile',
     tags: legacyProfile.tags || ['legacy'],
     lastUpdated: new Date()
-  };
+  } as UnifiedFlavorProfile;
 }
 
 function convertUnifiedToLegacy(unifiedResult: UnifiedFlavorCompatibility): LegacyFlavorCompatibilityResult {
@@ -367,7 +367,7 @@ function calculateIntensity(baseNotes: BaseFlavorNotes): number {
 }
 
 function calculateComplexity(baseNotes: BaseFlavorNotes): number {
-  const nonZeroFlavors = Object.values(baseNotes || {}).filter(val => val > 0.(1) || []).length;
+  const nonZeroFlavors = Object.values(baseNotes || {}).filter(val => val > 0.1).length;
   return Math.min(1, nonZeroFlavors / 6);
 }
 

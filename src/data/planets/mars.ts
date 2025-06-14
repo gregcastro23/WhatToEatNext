@@ -61,7 +61,7 @@ const marsData: PlanetData = {
     'BodyParts': ['Muscles', 'Head', 'Face', 'Blood', 'Adrenal glands', 'Sex organs'],
     'Animals': ['Wolf', 'Tiger', 'Scorpion', 'Ram'],
     'Stones': ['Ruby', 'Garnet', 'Bloodstone', 'Red Jasper']
-  },
+  } as any,
   'ElementalConnections': {
     'DayEmission': 'Essence - "that which an object cannot exist without"',
     'NightEmission': 'Matter - "that which is minimally reactive"',
