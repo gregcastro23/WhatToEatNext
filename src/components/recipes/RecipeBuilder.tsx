@@ -120,18 +120,18 @@ const getCurrentZodiacSign = (): ZodiacSign => {
 const getZodiacElementalInfluence = (zodiacSign: ZodiacSign): ElementalProperties => {
   // Simplified zodiac elemental influences
   const influences: Record<ZodiacSign, ElementalProperties> = {
-    Aries: { Fire: 1.2, Water: 0.8, Earth: 0.9, Air: 1.0 },
-    Taurus: { Fire: 0.8, Water: 1.0, Earth: 1.2, Air: 0.9 },
-    Gemini: { Fire: 1.0, Water: 0.9, Earth: 0.8, Air: 1.2 },
-    Cancer: { Fire: 0.9, Water: 1.2, Earth: 1.0, Air: 0.8 },
-    Leo: { Fire: 1.2, Water: 0.8, Earth: 0.9, Air: 1.0 },
-    Virgo: { Fire: 0.8, Water: 1.0, Earth: 1.2, Air: 0.9 },
-    Libra: { Fire: 1.0, Water: 0.9, Earth: 0.8, Air: 1.2 },
-    Scorpio: { Fire: 0.9, Water: 1.2, Earth: 1.0, Air: 0.8 },
-    Sagittarius: { Fire: 1.2, Water: 0.8, Earth: 0.9, Air: 1.0 },
-    Capricorn: { Fire: 0.8, Water: 1.0, Earth: 1.2, Air: 0.9 },
-    Aquarius: { Fire: 1.0, Water: 0.9, Earth: 0.8, Air: 1.2 },
-    Pisces: { Fire: 0.9, Water: 1.2, Earth: 1.0, Air: 0.8 }
+    aries: { Fire: 1.2, Water: 0.8, Earth: 0.9, Air: 1.0 },
+    taurus: { Fire: 0.8, Water: 1.0, Earth: 1.2, Air: 0.9 },
+    gemini: { Fire: 1.0, Water: 0.9, Earth: 0.8, Air: 1.2 },
+    cancer: { Fire: 0.9, Water: 1.2, Earth: 1.0, Air: 0.8 },
+    leo: { Fire: 1.2, Water: 0.8, Earth: 0.9, Air: 1.0 },
+    virgo: { Fire: 0.8, Water: 1.0, Earth: 1.2, Air: 0.9 },
+    libra: { Fire: 1.0, Water: 0.9, Earth: 0.8, Air: 1.2 },
+    scorpio: { Fire: 0.9, Water: 1.2, Earth: 1.0, Air: 0.8 },
+    sagittarius: { Fire: 1.2, Water: 0.8, Earth: 0.9, Air: 1.0 },
+    capricorn: { Fire: 0.8, Water: 1.0, Earth: 1.2, Air: 0.9 },
+    aquarius: { Fire: 1.0, Water: 0.9, Earth: 0.8, Air: 1.2 },
+    pisces: { Fire: 0.9, Water: 1.2, Earth: 1.0, Air: 0.8 }
   };
   
   return influences[zodiacSign] || { Fire: 1, Water: 1, Earth: 1, Air: 1 };

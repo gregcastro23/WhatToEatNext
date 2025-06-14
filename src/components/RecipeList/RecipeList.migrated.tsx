@@ -199,7 +199,7 @@ const RecipeCard: React.FC<{
                     </Typography>
                     <LinearProgress 
                       variant="determinate" 
-                      value={value * 100}
+                      value={(value as number) * 100}
                       sx={{ 
                         flexGrow: 1, 
                         height: 4, 

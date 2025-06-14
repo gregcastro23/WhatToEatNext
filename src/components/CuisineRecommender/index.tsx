@@ -1,8 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import DirectRecipeService from '@/services/DirectRecipeService';
 import { ScoredRecipe } from '@/types/recipe';
-import type { CelestialAlignment } from '@/types/alchemy';
 import { Element } from "@/types/alchemy";
+
+// Define CelestialAlignment locally since it doesn't exist in alchemy types
+interface CelestialAlignment {
+  date: string;
+  currentZodiacSign: string;
+  dominantPlanets: Array<{ name: string; influence: number }>;
+  lunarPhase: string;
+  aspectInfluences: any[];
+  astrologicalInfluences: string[];
+  energyStateBalance?: Record<string, number>;
+  elementalState?: Record<string, number>;
+}
 
 interface CuisineRecommenderProps {
   cuisine?: string;
@@ -213,7 +224,7 @@ export const CuisineRecommender: React.FC<CuisineRecommenderProps> = ({
                       {Object.entries(recipe?.elementalState || {}).map(([element, value]) => (
                         <div key={element} className="element-indicator">
                           <span className={`element-dot ${element?.toLowerCase()}`} />
-                          <span>{element}: {(Number(value) * 100).toFixed(0)}%</span>
+                          <span>{element}: {(Number(value as number) * 100).toFixed(0)}%</span>
                         </div>
                       ))}
                     </div>
