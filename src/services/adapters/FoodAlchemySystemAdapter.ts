@@ -9,7 +9,8 @@
 import type { ElementalProperties, Season, ZodiacSign, LunarPhase } from "@/types/alchemy";
 import { consolidatedRecipeService } from '../ConsolidatedRecipeService';
 
-import { FoodAlchemySystem, type FoodCompatibility, type SystemState } from '../FoodAlchemySystem';
+import { FoodAlchemySystem } from '../FoodAlchemySystem';
+import type { FoodCompatibility, SystemState } from '../../lib/FoodAlchemySystem';
 
 import { logger } from '../../utils/logger';
 

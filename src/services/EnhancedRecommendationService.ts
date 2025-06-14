@@ -4,7 +4,7 @@ import { getRecommendedIngredients } from '../utils/recommendation/foodRecommend
 
 import { SignEnergyState, ZodiacSign } from '../constants/signEnergyStates';
 import { CHAKRA_BALANCING_FOODS, calculateChakraEnergies } from '../constants/chakraMappings';
-import { EnhancedIngredient } from '../types/ingredient';
+import { EnhancedIngredient } from '../utils/recommendation/ingredientRecommendation';
 import { 
 // NEW: Phase 7 unified flavor system integration
   calculateFlavorCompatibility,
@@ -14,9 +14,8 @@ import {
 } from '../data/unified/unifiedFlavorEngine';
 import { getCurrentSeason } from '../utils/dateUtils';
 import { Element } from "@/types/alchemy";
-import { ChakraService } from '@/services/ChakraService';
+import { ChakraService, ChakraEnergyState } from '@/services/ChakraService';
 import { WiccanCorrespondenceService } from '@/services/WiccanCorrespondenceService';
-import { ChakraEnergyState } from '@/types/chakra';
 
 
 import { CHAKRA_NUTRITIONAL_CORRELATIONS, CHAKRA_HERBS } from "@/constants/chakraSymbols";

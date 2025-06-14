@@ -2,7 +2,9 @@
 import { celestialNumerology } from '../utils/numerology';
 import { logger } from '../utils/logger';
 import { cache } from '../utils/cache';
-import type { CelestialAlignment, ElementalProperties, CelestialBody, TarotCard, EnergyStateProperties, ChakraEnergies, ZodiacSign, AspectType, PlanetaryAspect } from '../types/alchemy';
+import type { CelestialAlignment, ElementalProperties, EnergyStateProperties, ChakraEnergies, ZodiacSign, AspectType, PlanetaryAspect } from '../types/alchemy';
+import type { CelestialBody } from '../calculations/alchemicalEngine';
+import type { TarotCard } from '../lib/tarotCalculations';
 import * as astronomiaCalculator from '../utils/astronomiaCalculator';
 
 // Tarot elemental correspondences

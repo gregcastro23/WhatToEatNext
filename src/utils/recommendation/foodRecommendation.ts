@@ -23,7 +23,6 @@ export {
   getRecommendedIngredients, 
   getTopIngredientMatches, 
   getIngredientRecommendations, 
-  getChakraBasedRecommendations, 
   recommendIngredients, 
   calculateElementalInfluences, 
   formatFactorName 

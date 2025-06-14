@@ -2,13 +2,10 @@ import {
   ElementalProperties,
   Recipe,
   Season,
-  TimeOfDay,
-  CombinationResult,
   Element,
   Ingredient,
   ZodiacSign,
   AstrologicalState,
-  ElementalSummary,
 } from '../types/alchemy';
 import { normalizeProperties } from '../utils/elementalUtils';
 import { DEFAULT_ELEMENTAL_PROPERTIES } from '../constants/elementalConstants';

@@ -19,7 +19,7 @@ import saturnData from '../../data/planets/saturn';
 import uranusData from '../../data/planets/uranus';
 import neptuneData from '../../data/planets/neptune';
 import plutoData from '../../data/planets/pluto';
-import { _calculateLunarSuitability } from '../lunarPhaseUtils';
+import { calculateLunarPhase } from '../astrologyUtils';
 import { 
   PlanetaryAspect, 
   LunarPhase, 
@@ -30,7 +30,6 @@ import {
   COOKING_METHOD_THERMODYNAMICS,
   ElementalProperties
 , Element } from "@/types/alchemy";
-import { calculateLunarPhase } from '../astrologyUtils';
 import { createElementalProperties, isElementalProperties } from '../elemental/elementalUtils';
 
 // Type guard for FlavorProperties

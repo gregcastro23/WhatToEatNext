@@ -37,9 +37,7 @@ import {
 
 // Data and Utils
 import { ingredientsMap } from '@/data/ingredients';
-import { ingredientUtils } from '@/utils/ingredientUtils';
 import { SIGN_ENERGY_STATES } from '@/constants/signEnergyStates';
-import { CHAKRA_MAPPINGS } from '@/constants/chakraMappings';
 import { SEASONAL_MODIFIERS } from '@/constants/seasonalCore';
 import { getCurrentSeason } from '@/data/integrations/seasonal';
 import { CHAKRA_NUTRITIONAL_CORRELATIONS, CHAKRA_HERBS } from '@/constants/chakraSymbols';

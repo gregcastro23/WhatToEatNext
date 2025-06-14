@@ -11,7 +11,6 @@ import type {
   ElementalProfile,
 } from '@/types/alchemy';
 import { ElementalCalculator } from '@/services/ElementalCalculator';
-import { validators } from '@/types/validators';
 import {
   elements,
   elementalInteractions,
@@ -26,7 +25,6 @@ import {
   LunarPhase,
   calculatePlanetaryBoost,
 } from '@/constants/planetaryFoodAssociations';
-import { DEFAULT_PROPERTIES } from '@/constants/defaults';
 import { 
   isElementalProperties, 
   isElementalPropertyKey, 
