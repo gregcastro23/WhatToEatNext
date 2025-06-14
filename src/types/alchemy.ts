@@ -490,3 +490,97 @@ export interface Decan {
   characteristics: string[];
   season?: Season;
 }
+
+// ========== PHASE 2 MISSING TYPES FOR TS2305 FIXES ==========
+
+// IngredientMapping type (causing 65 errors across ingredient data files)
+export interface IngredientMapping {
+  [key: string]: Ingredient;
+}
+
+// AstrologicalProfile type (causing 4 errors)
+export interface AstrologicalProfile {
+  birthChart?: HoroscopeData;
+  planetaryPositions?: PlanetaryAlignment;
+  dominantElements?: ElementalProperties;
+  lunarPhase?: LunarPhase;
+  seasonalAffinity?: Season[];
+  chakraAlignment?: ChakraEnergies;
+  personalPlanets?: Record<string, PlanetaryPosition>;
+}
+
+// FlavorProfile type (causing 3 errors)
+export interface FlavorProfile {
+  primary: string[];
+  secondary?: string[];
+  intensity: number; // 1-10 scale
+  complexity: number; // 1-10 scale
+  balance: {
+    sweet?: number;
+    sour?: number;
+    salty?: number;
+    bitter?: number;
+    umami?: number;
+    spicy?: number;
+  };
+  aromatics?: string[];
+  mouthfeel?: string[];
+}
+
+// MethodRecommendation and MethodRecommendationOptions (causing 2 errors each)
+export interface MethodRecommendationOptions {
+  elementalPreference?: Element[];
+  skillLevel?: 'beginner' | 'intermediate' | 'advanced';
+  timeConstraints?: {
+    maxPrepTime?: number;
+    maxCookTime?: number;
+  };
+  equipment?: string[];
+  dietaryRestrictions?: DietaryRestriction[];
+  flavorProfile?: FlavorProfile;
+}
+
+export interface MethodRecommendation {
+  method: CookingMethod;
+  compatibility: number; // 0-1 scale
+  reasoning: string[];
+  elementalAlignment: Element[];
+  estimatedTime: TimeFactors;
+  requiredSkills: string[];
+  alternatives?: CookingMethod[];
+}
+
+// Single-occurrence types (causing 1 error each)
+export type TarotSuit = 'cups' | 'wands' | 'swords' | 'pentacles';
+
+export interface IngredientSearchCriteria {
+  elements?: Element[];
+  seasons?: Season[];
+  categories?: string[];
+  nutritionalRequirements?: NutritionPreferences;
+  flavorProfile?: FlavorProfile;
+  cookingMethods?: string[];
+  availabilityFilter?: boolean;
+}
+
+export interface EnergyStateProperties {
+  vitality: number;
+  clarity: number;
+  stability: number;
+  creativity: number;
+  spirituality: number;
+  emotionalBalance: number;
+  physicalBalance: number;
+}
+
+export type ChakraPosition = 'root' | 'sacral' | 'solarPlexus' | 'heart' | 'throat' | 'thirdEye' | 'crown';
+
+export interface CelestialAlignment {
+  moment: Date;
+  planetaryPositions: PlanetaryAlignment;
+  lunarPhase: LunarPhase;
+  seasonalEnergy: Season;
+  elementalDominance: ElementalProperties;
+  aspectPatterns: PlanetaryAspect[];
+  energyFlow: number; // 0-1 scale
+}

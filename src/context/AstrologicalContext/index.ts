@@ -1,2 +1,2 @@
-
-export function useAstrologicalState() { return { currentZodiac: "aries", loading: false }; }
+// Re-export all AstrologicalContext functionality
+export { AstrologicalProvider, useAstrologicalState } from '../AstrologicalContext';

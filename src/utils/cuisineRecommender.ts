@@ -135,3 +135,131 @@ export function generateTopSauceRecommendations(currentElementalProfile = null, 
 export function calculateElementalProfileFromZodiac(zodiac: string) { return { Fire: 0.5, Water: 0.5, Earth: 0.5, Air: 0.5 }; }
 
 export function getMatchScoreClass(score: number): string { return score > 0.7 ? "high" : score > 0.4 ? "medium" : "low"; }
+
+// ========== MISSING FUNCTIONS FOR TS2305 FIXES ==========
+
+// getCuisineRecommendations function (causing errors in CuisineRecommender components)
+export function getCuisineRecommendations(
+  elementalState: ElementalProperties,
+  astrologicalState?: AstrologicalState,
+  options: { count?: number } = {}
+) {
+  const { count = 5 } = options;
+  
+  // Get all cuisines from flavor profiles
+  const cuisines = Object.keys(cuisineFlavorProfiles);
+  
+  const scoredCuisines = cuisines.map(cuisine => {
+    const flavorProfile = cuisineFlavorProfiles[cuisine];
+    const elementalMatch = calculateElementalMatch(
+      flavorProfile.elementalAffinity || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+      elementalState
+    );
+    
+    return {
+      name: cuisine,
+      matchPercentage: Math.round(elementalMatch * 100),
+      elementalMatch,
+      flavorProfile,
+      reasoning: [`${Math.round(elementalMatch * 100)}% elemental compatibility`]
+    };
+  });
+  
+  return scoredCuisines
+    .sort((a, b) => b.matchPercentage - a.matchPercentage)
+    .slice(0, count);
+}
+
+// calculateElementalMatch function (causing errors in multiple components)
+export function calculateElementalMatch(
+  profile1: ElementalProperties,
+  profile2: ElementalProperties
+): number {
+  let totalMatch = 0;
+  const elements = ['Fire', 'Water', 'Earth', 'Air'] as const;
+  
+  elements.forEach(element => {
+    const diff = Math.abs((profile1[element] || 0) - (profile2[element] || 0));
+    const elementMatch = 1 - diff;
+    totalMatch += elementMatch;
+  });
+  
+  return totalMatch / elements.length;
+}
+
+// renderScoreBadge function (causing error in CuisineRecommender.tsx)
+export function renderScoreBadge(score: number): string {
+  const scoreClass = getMatchScoreClass(score);
+  const percentage = Math.round(score * 100);
+  
+  return `<span class="score-badge ${scoreClass}">${percentage}%</span>`;
+}
+
+// calculateElementalContributionsFromPlanets function (causing errors in debug components)
+export function calculateElementalContributionsFromPlanets(
+  planetaryPositions: Record<string, any>
+): ElementalProperties {
+  const contributions: ElementalProperties = {
+    Fire: 0,
+    Water: 0,
+    Earth: 0,
+    Air: 0
+  };
+  
+  // Calculate contributions based on planetary positions
+  Object.entries(planetaryPositions).forEach(([planet, position]) => {
+    const planetData = getPlanetaryElementalContribution(planet);
+    const signData = getSignElementalContribution(position?.sign);
+    
+    // Add weighted contributions
+    contributions.Fire += (planetData.Fire + signData.Fire) * 0.5;
+    contributions.Water += (planetData.Water + signData.Water) * 0.5;
+    contributions.Earth += (planetData.Earth + signData.Earth) * 0.5;
+    contributions.Air += (planetData.Air + signData.Air) * 0.5;
+  });
+  
+  // Normalize to ensure total is reasonable
+  const total = contributions.Fire + contributions.Water + contributions.Earth + contributions.Air;
+  if (total > 0) {
+    contributions.Fire = contributions.Fire / total;
+    contributions.Water = contributions.Water / total;
+    contributions.Earth = contributions.Earth / total;
+    contributions.Air = contributions.Air / total;
+  }
+  
+  return contributions;
+}
+
+// Helper functions for planetary calculations
+function getPlanetaryElementalContribution(planet: string): ElementalProperties {
+  const planetaryElements: Record<string, ElementalProperties> = {
+    Sun: { Fire: 0.8, Water: 0.1, Earth: 0.05, Air: 0.05 },
+    Moon: { Fire: 0.1, Water: 0.8, Earth: 0.05, Air: 0.05 },
+    Mercury: { Fire: 0.2, Water: 0.1, Earth: 0.2, Air: 0.5 },
+    Venus: { Fire: 0.1, Water: 0.4, Earth: 0.4, Air: 0.1 },
+    Mars: { Fire: 0.7, Water: 0.2, Earth: 0.05, Air: 0.05 },
+    Jupiter: { Fire: 0.3, Water: 0.1, Earth: 0.1, Air: 0.5 },
+    Saturn: { Fire: 0.05, Water: 0.1, Earth: 0.7, Air: 0.15 }
+  };
+  
+  return planetaryElements[planet] || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+}
+
+function getSignElementalContribution(sign: string): ElementalProperties {
+  const signElements: Record<string, ElementalProperties> = {
+    Aries: { Fire: 1, Water: 0, Earth: 0, Air: 0 },
+    Taurus: { Fire: 0, Water: 0, Earth: 1, Air: 0 },
+    Gemini: { Fire: 0, Water: 0, Earth: 0, Air: 1 },
+    Cancer: { Fire: 0, Water: 1, Earth: 0, Air: 0 },
+    Leo: { Fire: 1, Water: 0, Earth: 0, Air: 0 },
+    Virgo: { Fire: 0, Water: 0, Earth: 1, Air: 0 },
+    Libra: { Fire: 0, Water: 0, Earth: 0, Air: 1 },
+    Scorpio: { Fire: 0, Water: 1, Earth: 0, Air: 0 },
+    Sagittarius: { Fire: 1, Water: 0, Earth: 0, Air: 0 },
+    Capricorn: { Fire: 0, Water: 0, Earth: 1, Air: 0 },
+    Aquarius: { Fire: 0, Water: 0, Earth: 0, Air: 1 },
+    Pisces: { Fire: 0, Water: 1, Earth: 0, Air: 0 }
+  };
+  
+  return signElements[sign] || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+}
