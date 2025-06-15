@@ -1,7 +1,7 @@
 import type { IngredientMapping } from '@/types/alchemy';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-const rawMeats: Record<string, Partial<IngredientMapping>> = {
+const rawMeats = {
   'beef': {
     name: 'Beef',
     description: 'Red meat from cattle, available in various cuts with different properties.',
