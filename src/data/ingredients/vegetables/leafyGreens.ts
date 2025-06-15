@@ -24,7 +24,7 @@ let generateVegetableAttributes = (vegData: {
   };
 };
 
-const rawLeafyGreens: Record<string, Partial<IngredientMapping>> = {
+const rawLeafyGreens = {
   'kale': {
     name: 'Kale',
     category: 'vegetable',

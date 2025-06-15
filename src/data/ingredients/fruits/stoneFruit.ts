@@ -1,7 +1,7 @@
 import type { IngredientMapping } from '@/types/alchemy';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-const rawStoneFruit: Record<string, Partial<IngredientMapping>> = {
+const rawStoneFruit = {
   'peach': {
     name: 'Peach',
     elementalProperties: { Water: 0.4, Fire: 0.2, Air: 0.2, Earth: 0.2 },
