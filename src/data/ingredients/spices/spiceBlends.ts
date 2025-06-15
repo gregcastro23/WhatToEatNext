@@ -2,7 +2,7 @@ import type { IngredientMapping } from '@/types/alchemy';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 import { CUISINE_TYPES } from '@/constants/cuisineTypes';
 
-const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
+const rawSpiceBlends = {
   'garam_masala': {
     name: 'Garam Masala',
     elementalProperties: { Fire: 0.5, Air: 0.2, Earth: 0.2, Water: 0.1 },
