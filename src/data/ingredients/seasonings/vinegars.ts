@@ -19,7 +19,7 @@ function createIngredientMapping(
   };
 }
 
-const rawVinegars: Record<string, Partial<IngredientMapping>> = {
+const rawVinegars = {
   'rice_vinegar': createIngredientMapping('rice_vinegar', {
     elementalProperties: {
       Water: 0.4,
