@@ -174,3 +174,51 @@ export interface MealRecommendation {
   propertyBalance: string[];
   culturalNotes?: string[];
 }
+
+// Export the main foodTypes object that components expect
+export const foodTypes = {
+  properties: [
+    'hot', 'cold', 'wet', 'dry', 'light', 'heavy', 'spicy', 'mild', 
+    'fresh', 'preserved', 'sweet', 'sour', 'bitter', 'umami', 'balanced',
+    'creamy', 'neutral', 'aromatic', 'crispy', 'grilled', 'layered', 
+    'comforting', 'savory', 'numbing', 'refreshing', 'hearty', 'tangy', 
+    'rich', 'complex', 'mild-spicy', 'earthy'
+  ] as FoodProperty[],
+  
+  mealTypes: [
+    'breakfast',
+    'lunch', 
+    'dinner',
+    'snack',
+    'dessert',
+    'appetizer',
+    'brunch'
+  ],
+  
+  dietaryRestrictions: [
+    'vegetarian',
+    'vegan',
+    'gluten-free',
+    'dairy-free',
+    'nut-free',
+    'shellfish-free',
+    'soy-free',
+    'egg-free',
+    'low-carb',
+    'keto',
+    'paleo',
+    'whole30',
+    'low-sodium',
+    'sugar-free',
+    'raw',
+    'halal',
+    'kosher',
+    'pescatarian',
+    'flexitarian'
+  ],
+  
+  nutritionTargets,
+  calculateNutritionalBalance,
+  analyzePropertyBalance,
+  findComplementaryDishes
+};

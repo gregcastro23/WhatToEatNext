@@ -113,4 +113,16 @@ export interface AstrologicalState {
   activePlanets: string[];
   isDaytime?: boolean;
   [key: string]: unknown;
+}
+
+/**
+ * Interface for thermodynamic metrics used in alchemical calculations
+ */
+export interface ThermodynamicMetrics {
+  heat: number;
+  entropy: number;
+  reactivity: number;
+  gregsEnergy: number;
+  kalchm: number;
+  monica: number;
 } 

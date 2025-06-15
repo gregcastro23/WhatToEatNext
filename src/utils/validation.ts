@@ -53,4 +53,30 @@ export function isElementalPropertyKey(key: any): key is keyof import('@/types/a
 // Logs unexpected values for debugging purposes
 export function logUnexpectedValue(context: string, details: any): void {
   console.warn(`Unexpected value in ${context}:`, details);
+}
+
+/**
+ * Validates and provides default values for any type
+ * @param value The value to validate
+ * @param defaultValue The default value to use if validation fails
+ * @param validator Optional validation function
+ * @returns The validated value or default
+ */
+export function validateOrDefault<T>(
+  value: unknown,
+  defaultValue: T,
+  validator?: (val: unknown) => val is T
+): T {
+  try {
+    // If no validator provided, just check if value is not null/undefined
+    if (!validator) {
+      return value !== null && value !== undefined ? (value as T) : defaultValue;
+    }
+    
+    // Use the provided validator
+    return validator(value) ? value : defaultValue;
+  } catch (error) {
+    logUnexpectedValue('validateOrDefault', { value, error });
+    return defaultValue;
+  }
 } 

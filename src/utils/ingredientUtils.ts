@@ -7,9 +7,9 @@ import type {
   Ingredient,
   RecipeIngredient, 
   SimpleIngredient, 
-  IngredientMapping,
-  IngredientCategory
+  IngredientMapping
 } from '@/types';
+import type { IngredientCategory } from '@/data/ingredients/types';
 
 /**
  * Calculate alchemical properties based on elemental properties

@@ -160,6 +160,30 @@ export interface CompatibilityScore {
     };
 }
 
+/**
+ * System state interface for tracking alchemical system status
+ */
+export interface SystemState {
+    isInitialized: boolean;
+    lastUpdated: Date;
+    activeChart?: BirthChart;
+    currentPlanetaryPositions?: Record<string, { sign: string; degree: number }>;
+    currentAspects?: Array<{ type: string; planets: [string, string] }>;
+    systemHealth: 'optimal' | 'degraded' | 'offline';
+    errorMessages: string[];
+    cacheStatus: {
+        size: number;
+        lastCleared: Date;
+        hitRate: number;
+    };
+    processingQueue: {
+        pending: number;
+        processing: number;
+        completed: number;
+        failed: number;
+    };
+}
+
 export class FoodAlchemySystem {
     private readonly TOKEN_WEIGHTS = {
         Spirit: 1.0,

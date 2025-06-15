@@ -1,5 +1,5 @@
 import { ZodiacSign, Planet, Element } from './celestial';
-import { TarotSuit, EnergyState } from './alchemy';
+import { TarotSuit } from './alchemy';
 
 // Define chakra positions
 export type ChakraPosition = 
@@ -238,7 +238,7 @@ export interface SuitChakraMapping {
   primaryChakra: ChakraPosition;
   secondaryChakra?: ChakraPosition;
   element: Element;
-  energyState: EnergyState;
+  energyState: AlchemicalEnergyState;
   description: string;
 }
 

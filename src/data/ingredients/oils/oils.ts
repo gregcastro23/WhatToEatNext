@@ -1,8 +1,8 @@
 import type { IngredientMapping } from '@/types/alchemy';
-import type { Season } from '@/types / (seasons || 1)';
+import type { Season } from '@/types/seasons';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-const rawOils: Record<string, Partial<IngredientMapping>> = {
+const rawOils = {
     'olive_oil': {
         name: 'Olive Oil',
         category: 'oil',

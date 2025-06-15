@@ -14,10 +14,10 @@ import { unifiedIngredientService } from '../UnifiedIngredientService';
 import { createLogger } from '../../utils/logger';
 import type { UnifiedIngredient, 
   ElementalProperties, 
-  ThermodynamicMetrics,
   Season,
   ZodiacSign,
   PlanetName } from '../../types';
+import type { ThermodynamicMetrics } from '@/types/alchemical';
 import type { Recipe } from "@/types/recipe";
 import type { IngredientFilter, IngredientRecommendationOptions } from '../interfaces/IngredientServiceInterface';
 

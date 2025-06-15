@@ -968,112 +968,32 @@ export const getFusionSuggestions = (cuisine1: string, cuisine2: string) => {
 
 // Create a mapped array of recipes with proper Recipe type
 export const getAllRecipes = async (): Promise<Recipe[]> => {
-  const recipes = await getRecipes();
-  return recipes.map(recipe => ({
-    id: recipe.id,
-    name: (recipe as any)?.name,
-    description: recipe.description,
-    cuisine: recipe.cuisine || '',
-    regionalCuisine: recipe.regionalCuisine,
-    ingredients: recipe.ingredients.map(ing => ({
-      name: (ing as any)?.name,
-      amount: ing.amount,
-      unit: ing.unit,
-      optional: ing.optional || false,
-      preparation: ing.preparation,
-      // Add other ingredient properties with defaults
-      category: '',
-      notes: '',
-      elementalProperties: {
-        Fire: 0.25,
-        Water: 0.25,
-        Earth: 0.25,
-        Air: 0.25
-      },
-      seasonality: []
-    })),
-    instructions: recipe.instructions, 
-    timeToMake: typeof recipe.timeToMake === 'number' 
-      ? `${recipe.timeToMake} minutes` 
-      : (recipe.timeToMake as any)?.toString() || '30 minutes',
-    numberOfServings: 4, // Default
-    elementalProperties: recipe.flavorProfile 
-      ? {
-          Fire: recipe.flavorProfile.spicy || 0,
-          Water: recipe.flavorProfile.sweet || 0,
-          Earth: recipe.flavorProfile.umami || 0,
-          Air: recipe.flavorProfile.sour || 0
-        }
-      : { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
-          season: (recipe.energyProfile as any)?.season || ['all'],
-    mealType: recipe.tags?.filter(tag => 
-      ['breakfast', 'lunch', 'dinner', 'dessert', 'snack'].includes(tag)
-    ) || ['any'],
+  try {
+    const recipeData = await transformCuisineData();
     
-    // UI-specific properties
-    isVegetarian: recipe.tags?.includes('vegetarian') || false,
-    isVegan: recipe.tags?.includes('vegan') || false,
-    isGlutenFree: recipe.tags?.includes('gluten-free') || false,
-    isDairyFree: recipe.tags?.includes('dairy-free') || false,
-    
-    // Enhanced astrological properties
-    astrologicalInfluences: recipe.energyProfile.planetary || [],
-    zodiacInfluences: recipe.energyProfile.zodiac || [],
-    lunarPhaseInfluences: recipe.energyProfile.lunar || [],
-    planetaryInfluences: {
-      favorable: recipe.planetaryInfluences ? 
-        Object.entries(recipe.planetaryInfluences)
-          .filter(([_, value]) => value >= 0.6)
-          .map(([planet]) => planet) : 
-        [],
-      unfavorable: recipe.planetaryInfluences ? 
-        Object.entries(recipe.planetaryInfluences)
-          .filter(([_, value]) => value <= 0.3)
-          .map(([planet]) => planet) : 
-        []
-    },
-    
-    // Nutrition data
-    nutrition: {
-      calories: recipe.nutrition?.calories || 0,
-      protein: recipe.nutrition?.protein || 0,
-      carbs: recipe.nutrition?.carbs || 0,
-      fat: recipe.nutrition?.fat || 0,
-      vitamins: recipe.nutrition?.vitamins || [],
-      minerals: recipe.nutrition?.minerals || []
-    },
-    
-    // Additional recipe properties with safe type casting
-    cookingMethod: recipe.cookingMethod || 'bake',
-    cookingTechniques: (recipe as any)?.cookingTechniques || [],
-    equipmentNeeded: (recipe as any)?.equipmentNeeded || [],
-    dishType: (recipe as any)?.dishType || [],
-    course: recipe.tags?.filter(tag => 
-      ['appetizer', 'main course', 'dessert', 'side dish', 'soup', 'salad'].includes(tag)
-    ) || [],
-    
-    // Timestamps with safe type casting
-    createdAt: (recipe as any)?.createdAt || new Date().toISOString(),
-    updatedAt: (recipe as any)?.updatedAt || new Date().toISOString(),
-    
-    // Add tags
-    tags: recipe.tags || [],
-    
-    // Match score
-    matchScore: recipe.matchScore || 0,
-    
-    // Alchemical scores
-    alchemicalScores: {
-      elementalScore: 0.5,
-      zodiacalScore: recipe.energyProfile.zodiac ? 0.7 : 0.3,
-      lunarScore: recipe.energyProfile.lunar ? 0.7 : 0.3,
-      planetaryScore: recipe.planetaryInfluences ? 0.7 : 0.3,
-      seasonalScore: (recipe.energyProfile as any)?.season ? 0.7 : 0.3
-    },
-    
-    // Additional fields with safe type casting
-    notes: (recipe as any)?.notes || '',
-    preparation: (recipe as any)?.preparation || '',
-    seasonalIngredients: (recipe as any)?.seasonalIngredients || []
-  } as Recipe));
+    // Transform RecipeData to Recipe format
+    return recipeData.map(recipe => ({
+      id: recipe.id,
+      name: recipe.name,
+      description: recipe.description,
+      ingredients: recipe.ingredients || [],
+      instructions: recipe.instructions || [],
+      cuisine: recipe.cuisine || 'unknown',
+      elementalProperties: recipe.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+      season: Array.isArray(recipe.season) ? recipe.season : [recipe.season as Season] || ['all'],
+      mealType: Array.isArray(recipe.mealType) ? recipe.mealType : [recipe.mealType] || ['dinner'],
+      matchPercentage: recipe.matchPercentage || 0,
+      timeToMake: recipe.timeToMake || 30,
+      nutrition: recipe.nutrition,
+      flavorProfile: recipe.flavorProfile,
+      currentSeason: recipe.season,
+      regionalCuisine: recipe.regionalCuisine
+    }));
+  } catch (error) {
+    console.error('Error in getAllRecipes:', error);
+    return [];
+  }
 };
+
+// Export recipes array for backward compatibility
+export const recipes = transformCuisineData();

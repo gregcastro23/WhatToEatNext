@@ -11,8 +11,6 @@ import saturnData from '@/data/planets/saturn';
 import uranusData from '@/data/planets/uranus';
 import neptuneData from '@/data/planets/neptune';
 import plutoData from '@/data/planets/pluto';
-// Import correct function name
-import { calculateLunarSuitability } from '@/utils/lunarUtils';
 import { PlanetaryAspect, LunarPhase, AstrologicalState, BasicThermodynamicProperties, CookingMethodProfile, MethodRecommendationOptions, MethodRecommendation, COOKING_METHOD_THERMODYNAMICS } from '@/types/alchemy';
 import { CookingMethod } from '@/types/cooking';
 import { calculateLunarPhase } from '@/utils/astrologyUtils';

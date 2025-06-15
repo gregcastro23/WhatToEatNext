@@ -1,7 +1,7 @@
 import type { IngredientMapping } from '@/types/alchemy';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-const rawSeafood: Record<string, Partial<IngredientMapping>> = {
+const rawSeafood = {
   'atlantic_salmon': {
     name: 'Salmon',
     category: 'protein',

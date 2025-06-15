@@ -12,8 +12,6 @@ import { Season } from './constants';
 // Import Element from constants.ts
 import { Element } from './constants';
 // Also use ElementEnum from elemental.ts for compatibility
-import { ElementEnum as ElementType } from './elemental';
-
 // Import ZodiacSign, PlanetName from constants.ts
 import { ZodiacSign, PlanetName, CookingMethod } from './constants';
 
@@ -71,7 +69,6 @@ export interface Ingredient {
 export {
   Season,
   Element,
-  ElementType,
   ZodiacSign,
   PlanetName,
   LunarPhase,

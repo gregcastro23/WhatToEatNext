@@ -9,7 +9,7 @@ import {
   Mountain,
   Beef,
   Carrot,
-  CookingPot,
+  ChefHat,
   Globe,
   Filter,
   RotateCcw,
@@ -263,7 +263,7 @@ export default function SauceExplorer() {
           {selectedCuisine && (
             <div className="mb-6">
               <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center">
-                <CookingPot className="w-4 h-4 mr-1" />
+                <ChefHat className="w-4 h-4 mr-1" />
                 Cooking Method
               </label>
               <select
@@ -432,7 +432,7 @@ export default function SauceExplorer() {
 
               {selectedCookingMethod && (
                 <span className="text-xs bg-orange-100 text-orange-700 px-2 py-1 rounded-full flex items-center">
-                  <CookingPot className="w-3 h-3 mr-1" />
+                  <ChefHat className="w-3 h-3 mr-1" />
                   Method: {selectedCookingMethod}
                 </span>
               )}

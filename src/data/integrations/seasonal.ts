@@ -75,3 +75,44 @@ export function isInSeason(ingredientName: string, threshold = 0.5): boolean {
   const score = getSeasonalScore(ingredientName);
   return score >= threshold;
 }
+
+/**
+ * Unified seasonal system that consolidates all seasonal functionality
+ */
+export const unifiedSeasonalSystem = {
+  // Core functions
+  getCurrentSeason,
+  getSeasonalScore,
+  getSeasonalData,
+  isInSeason,
+  
+  // Data access
+  seasonalPatterns,
+  seasonalUsage,
+  
+  // Utility functions
+  getSeasonalIngredients: (season: Season = getCurrentSeason(), minScore = 0.6) => {
+    const seasonData = seasonalPatterns[season] || {};
+    return Object.entries(seasonData)
+      .filter(([key, value]) => typeof value === 'number' && value >= minScore && key !== 'elementalInfluence')
+      .map(([name, score]) => ({ name, score: score as number }))
+      .sort((a, b) => b.score - a.score);
+  },
+  
+  getAllSeasons: () => ['spring', 'summer', 'fall', 'winter', 'all'] as Season[],
+  
+  getSeasonalRecommendations: (season: Season = getCurrentSeason()) => {
+    const ingredients = seasonalPatterns[season] || {};
+    const usage = seasonalUsage[season] || {};
+    
+    return {
+      topIngredients: Object.entries(ingredients)
+        .filter(([key, value]) => typeof value === 'number' && value > 0.7)
+        .sort(([, a], [, b]) => (b as number) - (a as number))
+        .slice(0, 10)
+        .map(([name, score]) => ({ name, score: score as number })),
+      traditionalUses: Object.keys(usage),
+      seasonalTips: `Best practices for ${season} cooking and ingredient selection.`
+    };
+  }
+};

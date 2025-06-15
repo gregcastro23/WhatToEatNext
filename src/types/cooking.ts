@@ -53,4 +53,37 @@ export interface CookingMethodData extends CookingMethod {
   };
 }
 
+// Enhanced cooking method with additional alchemical properties
+export interface EnhancedCookingMethod extends CookingMethod {
+  // Enhanced alchemical properties
+  alchemicalProperties?: {
+    transformationPotential: number;
+    elementalAmplification: ElementalProperties;
+    energeticSignature: string;
+    harmonyFactor: number;
+  };
+  
+  // Monica-compatible enhancements
+  thermodynamicEfficiency?: number;
+  kalchmResonance?: number;
+  monicaConstant?: number;
+  
+  // Enhanced metadata
+  complexity?: 'basic' | 'intermediate' | 'advanced' | 'master';
+  skillRequirements?: string[];
+  equipmentRequired?: string[];
+  safetyConsiderations?: string[];
+  
+  // Elemental transformation tracking
+  inputElementalProfile?: ElementalProperties;
+  outputElementalProfile?: ElementalProperties;
+  transformationMatrix?: number[][];
+  
+  // Advanced astrological integration
+  planetaryAlignment?: Record<string, number>;
+  lunarPhaseOptimal?: string[];
+  seasonalResonance?: Record<string, number>;
+  zodiacCompatibility?: Record<string, number>;
+}
+
 export { ElementalProperties, ZodiacSign } from './alchemy';
