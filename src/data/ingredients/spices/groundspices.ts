@@ -2,7 +2,7 @@ import type { IngredientMapping } from '@/types/alchemy';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 import { CUISINE_TYPES } from '@/constants/cuisineTypes';
 
-const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
+const rawGroundSpices = {
   'ground_cinnamon': {
     name: 'Ground Cinnamon',
     elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 },
