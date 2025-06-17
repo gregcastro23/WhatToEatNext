@@ -2,7 +2,9 @@ import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 import { CUISINE_TYPES } from '@/constants/cuisineTypes';
 
-const rawSpiceBlends = {
+// Pattern AA: Ingredient Interface Restructuring
+// Proper type annotation for raw ingredients to ensure IngredientMapping compatibility
+const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
   'garam_masala': {
     name: 'Garam Masala',
     elementalProperties: { Fire: 0.5, Air: 0.2, Earth: 0.2, Water: 0.1 },

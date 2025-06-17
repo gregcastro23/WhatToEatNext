@@ -1,7 +1,9 @@
 import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-const rawMeats = {
+// Pattern AA: Ingredient Interface Restructuring
+// Proper type annotation for raw ingredients to ensure IngredientMapping compatibility
+const rawMeats: Record<string, Partial<IngredientMapping>> = {
   'beef': {
     name: 'Beef',
     description: 'Red meat from cattle, available in various cuts with different properties.',

@@ -2,7 +2,9 @@ import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 import { CUISINE_TYPES } from '@/constants/cuisineTypes';
 
-const rawGroundSpices = {
+// Pattern AA: Ingredient Interface Restructuring
+// Proper type annotation for raw ingredients to ensure IngredientMapping compatibility
+const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
   'ground_cinnamon': {
     name: 'Ground Cinnamon',
     elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 },
