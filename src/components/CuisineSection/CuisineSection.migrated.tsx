@@ -1,5 +1,3 @@
-
-
 // Phase 10: Calculation Type Interfaces
 interface CalculationData {
   value: number;
@@ -180,7 +178,7 @@ export function CuisineSectionMigrated({
         if (recipe.cuisine?.toLowerCase() === cuisineLowerMatch) return true;
         
         // Regional cuisine match
-        if (recipe.regionalCuisine?.toLowerCase() === cuisineLowerMatch) return true;
+        if ((recipe.regionalCuisine as any)?.toLowerCase?.() === cuisineLowerMatch) return true;
         
         // High match score
         return (recipe.matchScore || 0) > 0.75;
@@ -195,7 +193,7 @@ export function CuisineSectionMigrated({
         // If match scores are equal, prioritize direct cuisine matches
         // Apply surgical type casting with variable extraction
         const cuisineStringSort = cuisine as any;
-        const cuisineLowerSort = cuisineStringSort?.toLowerCase?.();
+        const cuisineLowerSort = (cuisineStringSort as any)?.toLowerCase?.();
         
         const directMatchA = a.cuisine?.toLowerCase() === cuisineLowerSort;
         const directMatchB = b.cuisine?.toLowerCase() === cuisineLowerSort;
@@ -210,8 +208,8 @@ export function CuisineSectionMigrated({
   }, [recipes, cuisineRecipesFromService, cuisine, viewAllRecipes]);
 
   // Check for regional variations to add information about cuisine relationships
-  const isRegionalVariant = (cuisineRecipes || []).some(r => r.regionalCuisine?.toLowerCase() === cuisine?.toLowerCase());
-  const parentCuisineName = isRegionalVariant ? cuisineRecipes.find(r => r.regionalCuisine?.toLowerCase() === cuisine?.toLowerCase())?.cuisine : null;
+  const isRegionalVariant = (cuisineRecipes || []).some(r => (r.regionalCuisine as any)?.toLowerCase?.() === (cuisine as any)?.toLowerCase?.());
+  const parentCuisineName = isRegionalVariant ? cuisineRecipes.find(r => (r.regionalCuisine as any)?.toLowerCase?.() === (cuisine as any)?.toLowerCase?.())?.cuisine : null;
   
   // Check if this is a parent cuisine with regional variants shown
   const hasRegionalVariants = (cuisineRecipes || []).some(r => r.regionalCuisine && r.cuisine?.toLowerCase() === cuisine?.toLowerCase());
@@ -341,7 +339,7 @@ export function CuisineSectionMigrated({
         <div className="flex justify-between items-start mb-2">
           <h3 className="text-lg font-semibold">{recipe.name}</h3>
           {recipe.matchScore !== undefined && (
-            renderScoreBadge(recipe.matchScore, !!recipe.dualMatch)
+            renderScoreBadge(recipe.matchScore as any, !!recipe.dualMatch)
           )}
         </div>
         

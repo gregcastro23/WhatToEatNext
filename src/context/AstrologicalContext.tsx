@@ -43,8 +43,8 @@ export function AstrologicalProvider({ children }: { children: ReactNode }) {
     
     try {
       // Mock calculation - in real implementation this would use actual astrological calculations
-      const mockState: AstrologicalState = {
-        currentZodiac: zodiac,
+      const mockState = {
+        currentZodiac: zodiac as any,
         planetaryPositions: {
           sun: { sign: zodiac, degree: 15 },
           moon: { sign: zodiac, degree: 20 }
@@ -57,10 +57,10 @@ export function AstrologicalProvider({ children }: { children: ReactNode }) {
           Earth: zodiac === 'taurus' || zodiac === 'virgo' || zodiac === 'capricorn' ? 0.7 : 0.2,
           Air: zodiac === 'gemini' || zodiac === 'libra' || zodiac === 'aquarius' ? 0.7 : 0.2
         }
-      };
+      } as AstrologicalState;
 
       // Calculate chakra energies using alchemical engine
-      const chakraResult = alchemicalEngine.calculateChakraEnergies(mockState.elements);
+      const chakraResult = alchemicalEngine.calculateChakraEnergies((mockState as any)?.elements);
       
       if (isChakraEnergies(chakraResult)) {
         setChakraEnergies(chakraResult);

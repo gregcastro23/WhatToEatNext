@@ -144,13 +144,13 @@ export function findComplementaryDishes(
                 
                 // Score based on desired properties
                 targetProperties.forEach(prop => {
-                  if (dish.properties?.includes(prop)) {
+                  if (Array.isArray(dish.properties) && dish.properties.includes(prop)) {
                     score += 1;
                   }
                 });
                 
                 if (score > 0) {
-                  recommendations.push(dish);
+                  recommendations.push(dish as any);
                 }
               });
             }

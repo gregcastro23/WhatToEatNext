@@ -236,7 +236,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
               <ol className="list-decimal list-inside space-y-1 text-sm">
                 {recipe.instructions.map((instruction, index) => (
                   <li key={index}>
-                    {typeof instruction === 'string' ? instruction : instruction?.step || 'Unknown step'}
+                    {typeof instruction === 'string' ? instruction : (instruction as any)?.step || 'Unknown step'}
                   </li>
                 ))}
               </ol>
@@ -310,10 +310,11 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
           return;
         }
 
-        // Process each cuisine's dishes
-        if (cuisine.dishes) {
+        // Process each cuisine's dishes - Safe property access
+        const cuisineData = cuisine as any;
+        if (cuisineData.dishes) {
           let recipeIndex = 0;
-          Object.entries(cuisine.dishes).forEach(([mealTypeKey, mealTypeData]) => {
+          Object.entries(cuisineData.dishes).forEach(([mealTypeKey, mealTypeData]) => {
             if (!mealTypeData) return;
             
             Object.entries(mealTypeData).forEach(([season, seasonRecipes]) => {
@@ -328,7 +329,7 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
                   const baseName = recipe.name ? recipe.name.toLowerCase().replace(/\s+/g, '-') : 'unknown';
                   const uniqueId = `${cuisineId}-${baseName}-${recipeIndex}`;
                   
-                  // Extract and enrich recipe data
+                  // Extract and enrich recipe data - Safe property access
                   const enrichedRecipe: ScoredRecipe = {
                     ...enrichRecipeData({
                       ...recipe,
@@ -336,7 +337,7 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
                       cuisine: cuisineId,
                       mealType: mealTypeKey,
                       season: [season],
-                      elementalProperties: recipe.elementalState || cuisine.elementalState
+                      elementalProperties: recipe.elementalState || cuisineData.elementalState || recipe.elementalProperties
                     }),
                     score: 0.5,
                     matchPercentage: 50
@@ -861,7 +862,7 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
         {timeFactors && (
           <span className="flex items-center gap-1">
             <Sun className="h-4 w-4" />
-            Current season: {timeFactors.season}
+            Current season: {(timeFactors as any).season || getCurrentSeason()}
           </span>
         )}
       </div>

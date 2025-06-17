@@ -16,7 +16,9 @@ export default function KalchmRecommender({
   maxRecommendations = 12,
   showCategories = ['Vegetables', 'Fruits', 'Proteins', 'Grains', 'Herbs', 'Spices'] 
 }: KalchmRecommenderProps) {
-  const { planetaryPositions, elementalState } = useAlchemical();
+  const alchemicalContext = useAlchemical();
+  const planetaryPositions = alchemicalContext?.planetaryPositions;
+  const elementalState = (alchemicalContext as any)?.elementalState;
   const [recommendations, setRecommendations] = useState<Record<string, UnifiedIngredient[]>>({});
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

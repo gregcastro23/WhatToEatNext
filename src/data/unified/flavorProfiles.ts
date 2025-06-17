@@ -11,9 +11,8 @@ import type { // ===== UNIFIED FLAVOR PROFILE SYSTEM =====
   AlchemicalValues,
   ThermodynamicProperties } from "@/types/alchemy";
 import { createElementalProperties, calculateElementalCompatibility } from '../../utils/elemental/elementalUtils';
-// TODO: Fix import - add what to import from "./seasonal.ts"
-// TODO: Fix import - add what to import from "./cuisineIntegrations.ts"
-// TODO: Fix import - add what to import from "./ingredients.ts"
+import { unifiedSeasonalSystem } from './seasonal';
+import { unifiedCuisineIntegrationSystem } from './cuisineIntegrations';
 
 
 

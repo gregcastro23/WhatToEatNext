@@ -567,7 +567,7 @@ export class UnifiedCuisineIntegrationSystem {
   private cuisineCompatibilityCache: Map<string, Record<string, CuisineCompatibilityProfile>>;
   
   constructor() {
-    this.enhancedCookingMethods = [] // getAllEnhancedCookingMethods() not yet implemented;
+    this.enhancedCookingMethods = {} as { [key: string]: EnhancedCookingMethod }; // getAllEnhancedCookingMethods() not yet implemented;
     this.cuisineCompatibilityCache = new Map();
   }
 
@@ -1059,8 +1059,8 @@ export class UnifiedCuisineIntegrationSystem {
     );
     
     // Select ingredients based on blend ratio
-    const count1 = Math.floor(uniqueIngredients1  || [].length * blendRatio);
-    const count2 = Math.floor(uniqueIngredients2  || [].length * (1 - blendRatio));
+    const count1 = Math.floor((uniqueIngredients1 || []).length * blendRatio);
+    const count2 = Math.floor((uniqueIngredients2 || []).length * (1 - blendRatio));
     
     fusionIngredients?.push(...uniqueIngredients1?.slice(0, count1));
     fusionIngredients?.push(...uniqueIngredients2?.slice(0, count2));
@@ -1120,8 +1120,8 @@ export class UnifiedCuisineIntegrationSystem {
       .filter(method => (Array.isArray(!sharedMethods) ? !sharedMethods.includes(method) : !sharedMethods === method));
     
     // Select methods based on blend ratio
-    const count1 = Math.floor(uniqueMethods1  || [].length * blendRatio);
-    const count2 = Math.floor(uniqueMethods2  || [].length * (1 - blendRatio));
+    const count1 = Math.floor((uniqueMethods1 || []).length * blendRatio);
+    const count2 = Math.floor((uniqueMethods2 || []).length * (1 - blendRatio));
     
     for (const methodName of uniqueMethods1?.slice(0, count1)) {
       const method = this?.enhancedCookingMethods?.[methodName];

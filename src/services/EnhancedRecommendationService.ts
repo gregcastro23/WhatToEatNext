@@ -124,7 +124,7 @@ export class EnhancedRecommendationService {
       const enhancedRecommendations = await Promise.all(
         baseRecommendations.slice(0, 20).map(async (ingredient) => {
           return await this.enhanceRecommendation(
-            ingredient,
+            ingredient as any,
             chakraEnergyStates,
             tarotGuidance,
             astroState,
@@ -164,18 +164,18 @@ export class EnhancedRecommendationService {
     } catch (error) {
       console.error('Error in enhanced recommendations:', error);
       
-      // Fallback to base recommendations
+      // Fallback to base recommendations with interface compliance
       const baseRecommendations = await getRecommendedIngredients(astroState);
-      const fallbackRecommendations = baseRecommendations.slice(0, 10).map(ingredient => ({
+      const fallbackRecommendations: EnhancedRecommendation[] = baseRecommendations.slice(0, 10).map(ingredient => ({
         ingredient,
-        score: ingredient.score || 0.5,
+        score: (ingredient as any)?.score || 0.5,
         reasons: ['Base astrological alignment'],
         chakraAlignment: {
           dominantChakra: 'heart',
           energyLevel: 0.5,
           balanceState: 'balanced' as const
         }
-      }));
+      } as EnhancedRecommendation));
 
       return {
         recommendations: fallbackRecommendations,
@@ -412,7 +412,7 @@ export class EnhancedRecommendationService {
       zodiacEnergies['aquarius'] += Air * 0.3;
     }
 
-    return calculateChakraEnergies(zodiacEnergies);
+    return calculateChakraEnergies(zodiacEnergies as any);
   }
 
   /**

@@ -59,7 +59,12 @@ const ORDERED_CATEGORIES = [
 
 export default function IngredientRecommender() {
   // Use the context to get astrological data including chakra energies
-  const { chakraEnergies: contextChakraEnergies, planetaryPositions, isLoading: astroLoading, error: astroError, currentZodiac } = useAstrologicalState();
+  const astroState = useAstrologicalState();
+  const contextChakraEnergies = (astroState as any)?.chakraEnergies;
+  const planetaryPositions = (astroState as any)?.planetaryPositions;
+  const astroLoading = (astroState as any)?.isLoading || false;
+  const astroError = (astroState as any)?.error;
+  const currentZodiac = (astroState as any)?.currentZodiac;
   const [astroRecommendations, setAstroRecommendations] = useState<GroupedIngredientRecommendations>({});
   const [selectedIngredient, setSelectedIngredient] = useState<ExtendedIngredientRecommendation | null>(null);
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
@@ -123,7 +128,7 @@ export default function IngredientRecommender() {
   };
   
   // Handle ingredient selection to display details
-  const handleIngredientSelect = (item: IngredientRecommendation, e: React.MouseEvent) => {
+  const handleIngredientSelect = (item: any, e: React.MouseEvent) => {
     e.preventDefault(); // Prevent default behavior
     e.stopPropagation(); // Prevent event bubbling
     
@@ -179,7 +184,7 @@ export default function IngredientRecommender() {
   []);
   
   // Helper function to check if an ingredient is an oil
-  const isOil = (ingredient: IngredientRecommendation): boolean => {
+  const isOil = (ingredient: any): boolean => {
     const category = ingredient.category?.toLowerCase() || '';
     if (category === 'oil' || category === 'oils') return true;
     
@@ -289,7 +294,7 @@ export default function IngredientRecommender() {
   };
   
   // Improved: Ensure all ingredients are categorized properly
-  const categorizeIngredient = (ingredient: IngredientRecommendation): string => {
+  const categorizeIngredient = (ingredient: any): string => {
     // Normalize the name for consistent checking
     const name = ingredient.name.toLowerCase().trim();
     
@@ -490,7 +495,11 @@ export default function IngredientRecommender() {
       };
       
       // Get standard recommendations with all planets
-      const standardRecommendations = getIngredientRecommendations(astroState, { limit: 40 });
+      const standardRecommendations = getIngredientRecommendations({
+        ...astroState,
+        lunarPhase: 'new moon',
+        aspects: []
+      } as any, { limit: 40 });
       
       // Merge the recommendations, prioritizing chakra-based ones
       const mergedRecommendations: GroupedIngredientRecommendations = {};
@@ -734,7 +743,7 @@ export default function IngredientRecommender() {
         }
         // For other ingredients, use explicit category if available
         else {
-          const category = getNormalizedCategory(ingredient);
+          const category = getNormalizedCategory(ingredient as any);
           if (categories[category]) {
             categories[category].push({
               ...ingredient,
@@ -779,7 +788,7 @@ export default function IngredientRecommender() {
     // Now add the astrological recommendations
     Object.entries(astroRecommendations).forEach(([category, items]) => {
       items.forEach(item => {
-        const normalizedCategory = getNormalizedCategory(item);
+        const normalizedCategory = getNormalizedCategory(item as any);
         const targetCategory = normalizedCategory === 'other' ? determineCategory(item.name) : normalizedCategory;
         
         if (categories[targetCategory]) {
@@ -867,7 +876,7 @@ export default function IngredientRecommender() {
       
       // Then apply the unique filter if needed
       if (category === 'spices' || category === 'seasonings') {
-        categories[category] = getUniqueRecommendations(categories[category]);
+        categories[category] = getUniqueRecommendations(categories[category] as any);
       } else {
         // For other categories, filter duplicates by name
         const uniqueMap = new Map<string, any>();
@@ -891,7 +900,7 @@ export default function IngredientRecommender() {
   }, [foodRecommendations, astroRecommendations, herbNames, oilTypes, vinegarTypes]);
   
   // Render ingredient details when selected
-  const renderIngredientDetails = (item: IngredientRecommendation) => {
+  const renderIngredientDetails = (item: any) => {
     return (
       <div className={styles.ingredientDetails}>
         {/* Description if available */}
@@ -1125,7 +1134,7 @@ export default function IngredientRecommender() {
   };
   
   // Modified ingredient card rendering function to use in both views
-  const renderIngredientCard = (item: IngredientRecommendation) => {
+  const renderIngredientCard = (item: any) => {
     // Get dominant element for styling
     const dominantElement = Object.entries(item.elementalProperties || {})
       .sort(([, a], [, b]) => b - a)[0][0];

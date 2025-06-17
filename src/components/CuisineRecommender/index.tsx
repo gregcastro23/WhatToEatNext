@@ -183,7 +183,7 @@ export const CuisineRecommender: React.FC<CuisineRecommenderProps> = ({
                   <div className="meta-info">
                     <span className="cuisine">Cuisine: {recipe.cuisine}</span>
                     <span className="time">Time: {recipe.timeToMake}</span>
-                    <span className="servings">Serves: {recipe.servings}</span>
+                    <span className="servings">Serves: {recipe.servings as number}</span>
                   </div>
                 </div>
 

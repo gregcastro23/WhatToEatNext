@@ -24,9 +24,9 @@ interface UseAlchemicalRecommendationsProps {
 
 interface AlchemicalRecommendationResults {
   recommendations: AlchemicalRecommendations;
-  transformedIngredients: AlchemicalItem[];
-  transformedMethods: AlchemicalItem[];
-  transformedCuisines: AlchemicalItem[];
+  transformedIngredients: import('../calculations/alchemicalTransformation').AlchemicalItem[];
+  transformedMethods: import('../calculations/alchemicalTransformation').AlchemicalItem[];
+  transformedCuisines: import('../calculations/alchemicalTransformation').AlchemicalItem[];
   loading: boolean;
   error: Error | null;
   energeticProfile?: {
@@ -60,9 +60,9 @@ export const useAlchemicalRecommendations = ({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
   const [recommendations, setRecommendations] = useState<AlchemicalRecommendations | null>(null);
-  const [transformedIngredients, setTransformedIngredients] = useState<AlchemicalItem[]>([]);
-  const [transformedMethods, setTransformedMethods] = useState<AlchemicalItem[]>([]);
-  const [transformedCuisines, setTransformedCuisines] = useState<AlchemicalItem[]>([]);
+  const [transformedIngredients, setTransformedIngredients] = useState<import('../calculations/alchemicalTransformation').AlchemicalItem[]>([]);
+  const [transformedMethods, setTransformedMethods] = useState<import('../calculations/alchemicalTransformation').AlchemicalItem[]>([]);
+  const [transformedCuisines, setTransformedCuisines] = useState<import('../calculations/alchemicalTransformation').AlchemicalItem[]>([]);
   const [energeticProfile, setEnergeticProfile] = useState<AlchemicalRecommendationResults['energeticProfile']>();
   
   useEffect(() => {
@@ -79,7 +79,7 @@ export const useAlchemicalRecommendations = ({
 
         // Initialize with planetary data and context
         adapter.initialize(
-          planetPositions,
+          planetPositions as any,
           isDaytime,
           currentZodiac || null,
           lunarPhase || null,
@@ -101,16 +101,27 @@ export const useAlchemicalRecommendations = ({
           gregsEnergy: adapter.getGregsEnergyIndex() || 0.5
         };
 
-        // Store the recommendations
+        // Store the recommendations with unified type conversion for cross-import compatibility
         setRecommendations(recs);
-        setTransformedIngredients(adapter.getAllTransformedIngredients());
-        setTransformedMethods(adapter.getAllTransformedMethods());
-        setTransformedCuisines(adapter.getAllTransformedCuisines());
+        
+        // Apply deep type conversion to resolve cross-import conflicts
+        const convertToLocalAlchemicalItem = (items: any[]): import('../calculations/alchemicalTransformation').AlchemicalItem[] => {
+          return items.map(item => ({
+            ...item,
+            // Ensure all required AlchemicalItem properties are present
+            elementalProperties: item.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+            alchemicalProperties: item.alchemicalProperties || { Spirit: 0.25, Essence: 0.25, Matter: 0.25, Substance: 0.25 }
+          })) as import('../calculations/alchemicalTransformation').AlchemicalItem[];
+        };
+        
+        setTransformedIngredients(convertToLocalAlchemicalItem(adapter.getAllTransformedIngredients()));
+        setTransformedMethods(convertToLocalAlchemicalItem(adapter.getAllTransformedMethods()));
+        setTransformedCuisines(convertToLocalAlchemicalItem(adapter.getAllTransformedCuisines()));
 
         // Create an energetic profile for the current recommendations
         const profile = {
           dominantElement: recs.dominantElement,
-          dominantAlchemicalProperty: recs.dominantAlchemicalProperty,
+          dominantProperty: recs.dominantAlchemicalProperty,
           heat: recs.heat,
           entropy: recs.entropy,
           reactivity: recs.reactivity,

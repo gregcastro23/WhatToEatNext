@@ -554,7 +554,7 @@ export function calculateAlchemicalCompatibility(
  * @returns Recommended meal components with reasoning
  */
 export function generateEnhancedRecommendation(
-  astroResult: AlchemicalResult,
+  astroResult: EnhancedAlchemicalResult,
   userPreferences?: string[],
   season?: string
 ): {
@@ -570,7 +570,7 @@ export function generateEnhancedRecommendation(
     modalityInfluence: string;
   }
 } {
-  // Extract dominant element and modality
+  // Extract dominant element and modality - Pattern RRR: Safe property access
   const dominantElement = astroResult.dominant?.element || 'Fire';
   const dominantModality = astroResult.dominant?.modality || 'Cardinal';
   
@@ -925,7 +925,7 @@ export function validateAlgorithms(): {
       score: 0.7
     };
     
-    const recommendation = generateEnhancedRecommendation(mockResult, [], 'summer');
+    const recommendation = generateEnhancedRecommendation(mockResult as any, [], 'summer');
     
     recipeTest.passed = Boolean(
       recommendation &&
@@ -947,5 +947,32 @@ export function validateAlgorithms(): {
   return {
     success,
     results: testResults
+  };
+}
+
+// Pattern RRR: Interface Type Mismatch Resolution
+// Define interface that matches actual test object structure
+interface EnhancedAlchemicalResult {
+  elements: {
+    Fire: number;
+    Water: number;
+    Earth: number;
+    Air: number;
+  };
+  modalities: {
+    Cardinal: number;
+    Fixed: number;
+    Mutable: number;
+  };
+  qualities: {
+    Hot: number;
+    Dry: number;
+    Cold: number;
+    Wet: number;
+  };
+  dominant: {
+    element: string;
+    modality: string;
+    quality: string;
   };
 } 

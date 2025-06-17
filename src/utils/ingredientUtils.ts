@@ -407,11 +407,11 @@ export function ingredientToRecipeIngredient(
     unit,
     category: (ingredient.category as string) || 'culinary_herb',
     elementalProperties: ingredient.elementalProperties as any,
-    qualities: ingredient.qualities || [],
+    qualities: (ingredient as any)?.qualities || [],
     astrologicalProfile: ingredient.astrologicalProfile,
-    // Include other relevant properties that exist in RecipeIngredient
-    origin: (ingredient.origin as string) || undefined,
-    seasonality: ingredient.seasonality || undefined
+    // Include other relevant properties that exist in RecipeIngredient - safe property access
+    origin: (ingredient as any)?.origin || undefined,
+    seasonality: (ingredient as any)?.seasonality || undefined
   } as RecipeIngredient;
 }
 

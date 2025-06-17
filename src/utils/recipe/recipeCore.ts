@@ -1,4 +1,4 @@
-import type { ElementalProperties, ThermodynamicMetrics, AstrologicalState, timeFactors } from "@/types/alchemy";
+import type { ElementalProperties, ThermodynamicMetrics, AstrologicalState, timeFactors, TimeFactors } from "@/types/alchemy";
 import type { Recipe } from "@/types/recipe";
 
 import type { TimeOfDay } from "@/types/time";
@@ -94,7 +94,7 @@ export function calculateRecipeMatchScore(
   if (!isAppropriateForTimeOfDay(recipe, elementalState.timeOfDay)) return 0;
   
   try {
-    const baseScore = calculateElementalMatch(recipe.elementalState, elementalState);
+    const baseScore = calculateElementalMatch(recipe.elementalState as any, elementalState as any);
     let score = baseScore * 100;
     
     // Enhanced scoring factors
@@ -661,10 +661,13 @@ function calculatePlanetaryDayInfluence(
   // Check for cooking style matches
   let styleMatch = false;
   if (recipe.cookingMethod) {
-    for (const style of associations.styles) {
-      if (recipe.cookingMethod.toLowerCase().includes(style.toLowerCase())) {
-        styleMatch = true;
-        break;
+    const cookingMethodStr = (recipe.cookingMethod as any);
+    if (typeof cookingMethodStr === 'string') {
+      for (const style of associations.styles) {
+        if (cookingMethodStr.toLowerCase().includes(style.toLowerCase())) {
+          styleMatch = true;
+          break;
+        }
       }
     }
   }

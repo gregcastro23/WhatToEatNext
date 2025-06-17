@@ -23,7 +23,7 @@ const ChromeAPITest = () => {
               window.open(options?.url || 'about:blank', '_blank');
               return Promise.resolve({id: 999, url: options?.url});
             } catch (e) {
-              console.warn('Error opening URL:', e.message);
+              console.warn('Error opening URL:', (e as any)?.message);
               return Promise.reject(e);
             }
           }

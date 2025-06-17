@@ -1,5 +1,5 @@
 import type { CookingMethodData } from '@/types/cookingMethod';
-import type { CookingMethod } from '@/types/alchemy';
+import type { CookingMethod } from '@/types/shared';
 
 /**
  * Curing: A food preservation method that removes moisture and enhances flavor

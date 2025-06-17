@@ -1,5 +1,5 @@
 import type { CookingMethodData } from '@/types/cookingMethod';
-import type { CookingMethod } from '@/types/alchemy';
+import type { CookingMethod } from '@/types/shared';
 
 /**
  * Cryo-Cooking: A molecular gastronomy technique that uses extreme cold for cooking,

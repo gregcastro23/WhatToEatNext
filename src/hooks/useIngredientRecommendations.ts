@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
-// TODO: Fix import - add what to import from "./useAlchemical.ts"
-import { Element } from "@/types/alchemy";
+import { useAlchemical } from './useAlchemical';
+import { type IngredientRecommendation } from '@/types/ingredient';
+import { Element, type ElementalProperties } from '@/types/alchemy';
 
 export interface Ingredient {
   id: string;
@@ -22,8 +23,19 @@ export interface IngredientRecommendationsData {
   };
 }
 
-export function useIngredientRecommendations(initialFilters?: Partial<IngredientRecommendationsData['filters']>) {
-  const { planetaryPositions, isLoading: astroLoading } = useAlchemical();
+export interface RecommendationCriteria {
+  elements: ElementalProperties;
+  season?: string;
+  mealType?: string;
+  dietaryRestrictions?: string[];
+  servings?: number;
+}
+
+export function useIngredientRecommendations(criteria?: RecommendationCriteria) {
+  const [recommendations, setRecommendations] = useState<IngredientRecommendation[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const { planetaryPositions, isDaytime } = useAlchemical();
   
   const [state, setState] = useState<IngredientRecommendationsData>({
     ingredients: [],
@@ -31,7 +43,6 @@ export function useIngredientRecommendations(initialFilters?: Partial<Ingredient
     error: null,
     filters: {
       maxResults: 15,
-      ...initialFilters
     }
   });
 
@@ -50,7 +61,7 @@ export function useIngredientRecommendations(initialFilters?: Partial<Ingredient
     };
 
     Object.values(planetaryPositions || {}).forEach(position => {
-      const element = elementMap[position.sign as keyof typeof elementMap];
+      const element = elementMap[(position as any)?.sign as keyof typeof elementMap];
       if (element) {
         elementCounts[element as keyof typeof elementCounts]++;
       }
@@ -64,7 +75,7 @@ export function useIngredientRecommendations(initialFilters?: Partial<Ingredient
 
   useEffect(() => {
     async function fetchIngredients() {
-      if (astroLoading) return;
+      if (isLoading) return;
 
       setState(prev => ({ ...prev, isLoading: true, error: null }));
 
@@ -123,7 +134,7 @@ export function useIngredientRecommendations(initialFilters?: Partial<Ingredient
 
         // Calculate compatibility scores
         const ingredientsWithScores = (sampleIngredients || []).map(ingredient => {
-          const score = calculateElementalCompatibility(ingredient.elementalPropertiesProfile, currentElementalProfile);
+          const score = calculateElementalCompatibility((ingredient as any)?.elementalPropertiesProfile || ingredient.elementalProfile, currentElementalProfile);
           return { ...ingredient, score };
         });
 
@@ -154,7 +165,7 @@ export function useIngredientRecommendations(initialFilters?: Partial<Ingredient
     }
 
     fetchIngredients();
-  }, [astroLoading, currentElementalProfile, state.filters]);
+  }, [isLoading, currentElementalProfile, state.filters]);
 
   const updateFilters = (newFilters: Partial<IngredientRecommendationsData['filters']>) => {
     setState(prev => ({

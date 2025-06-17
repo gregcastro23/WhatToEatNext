@@ -10,6 +10,10 @@ import { availableCuisines } from '@/data/cuisines';
 import { CuisineType } from '@/types/cuisine';
 import { connectIngredientsToMappings } from './recipeMatching';
 
+// Add missing imports for TS2304 fixes
+import type { Cuisine } from '@/types/cuisine';
+import { cuisines } from '@/data/cuisines';
+
 interface FilterOptions {
   season?: string;
   mealType?: string[];
@@ -229,8 +233,8 @@ export class RecipeFilter {
 
   private parseTime(timeString: string): number {
     try {
-      let minutes = timeString.match(/(\d+)\s*min / (i || 1));
-      let hours = timeString.match(/(\d+)\s*h / (i || 1));
+      let minutes = timeString.match(/(\d+)\s*min/i);
+      let hours = timeString.match(/(\d+)\s*h/i);
       return (
         (hours ? parseInt(hours[1]) * 60 : 0) +
         (minutes ? parseInt(minutes[1]) : 0)
@@ -511,7 +515,7 @@ export class RecipeFilter {
         // Cooking method filter
         if (
           options.cookingMethod?.length &&
-          !options.cookingMethod.includes(recipe.cookingMethod)
+          !options.cookingMethod.includes(recipe.cookingMethod as any)
         ) {
           return false;
         }
@@ -689,7 +693,7 @@ export function filterRecipesByIngredientMappings(
   // Process each recipe
   let results = recipes.map((recipe) => {
     // Find ingredient mappings
-    const mappedIngredients = connectIngredientsToMappings(recipe);
+    const mappedIngredients = connectIngredientsToMappings(recipe as any);
 
     // Calculate base match score
     let score = 0.5; // Start with neutral score
@@ -725,6 +729,15 @@ export function filterRecipesByIngredientMappings(
         score: 0,
         matchQuality: 'no-match',
         matchedIngredients: mappedIngredients,
+      } as {
+        recipe: Recipe;
+        score: number;
+        matchQuality: string;
+        matchedIngredients: {
+          name: string;
+          matchedTo?: IngredientMapping;
+          confidence: number;
+        }[];
       };
     }
 
@@ -745,6 +758,15 @@ export function filterRecipesByIngredientMappings(
           score: 0,
           matchQuality: 'excluded',
           matchedIngredients: mappedIngredients,
+        } as {
+          recipe: Recipe;
+          score: number;
+          matchQuality: string;
+          matchedIngredients: {
+            name: string;
+            matchedTo?: IngredientMapping;
+            confidence: number;
+          }[];
         };
       }
     }
@@ -767,6 +789,15 @@ export function filterRecipesByIngredientMappings(
           score: 0,
           matchQuality: 'dietary-mismatch',
           matchedIngredients: mappedIngredients,
+        } as {
+          recipe: Recipe;
+          score: number;
+          matchQuality: string;
+          matchedIngredients: {
+            name: string;
+            matchedTo?: IngredientMapping;
+            confidence: number;
+          }[];
         };
       }
 
@@ -829,6 +860,15 @@ export function filterRecipesByIngredientMappings(
       score,
       matchQuality,
       matchedIngredients: mappedIngredients,
+    } as {
+      recipe: Recipe;
+      score: number;
+      matchQuality: string;
+      matchedIngredients: {
+        name: string;
+        matchedTo?: IngredientMapping;
+        confidence: number;
+      }[];
     };
   });
 

@@ -12,7 +12,7 @@ import type { ElementalProperties,
   LunarPhaseWithSpaces,
   ZodiacSign } from "@/types/alchemy";
 
-
+import { normalizeProperties, calculateDominantElement } from './core';
 
 import { AlchemicalProperties } from "@/types/alchemy";
 

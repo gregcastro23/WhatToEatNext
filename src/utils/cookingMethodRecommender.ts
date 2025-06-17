@@ -13,7 +13,7 @@ import neptuneData from '@/data/planets/neptune';
 import plutoData from '@/data/planets/pluto';
 import { PlanetaryAspect, LunarPhase, AstrologicalState, BasicThermodynamicProperties, CookingMethodProfile, MethodRecommendationOptions, MethodRecommendation, COOKING_METHOD_THERMODYNAMICS } from '@/types/alchemy';
 import { CookingMethod } from '@/types/cooking';
-import { calculateLunarPhase } from '@/utils/astrologyUtils';
+import { calculateLunarPhase, getLunarPhaseName } from '@/utils/astrologyUtils';
 
 // Define a proper interface for our cooking method objects
 interface CookingMethodData {
@@ -410,7 +410,7 @@ function isDaytime(date: Date = new Date()): boolean {
 }
 
 // Improved scoring algorithm for cooking method recommendations
-export function getRecommendedCookingMethods(
+export async function getRecommendedCookingMethods(
   elementalComposition: ElementalProperties,
   currentZodiac?: ZodiacSign,
   planets?: string[],
@@ -418,7 +418,7 @@ export function getRecommendedCookingMethods(
   culturalPreference?: string,
   dietaryPreferences?: string[],
   availableTools?: string[]
-) {
+): Promise<CookingMethodData[]> {
   // Convert cooking methods to array for easier processing
   const methodsArray = Object.entries(allCookingMethodsCombined)
     .map(([_id, method]) => ({
@@ -602,7 +602,8 @@ export function getRecommendedCookingMethods(
   }
   
   // Get the current lunar phase for additional scoring
-  const lunarPhase = calculateLunarPhase(new Date());
+  const lunarPhaseValue = await calculateLunarPhase(new Date());
+  const lunarPhase = getLunarPhaseName(lunarPhaseValue);
 
   // Track recommendations to prevent adding duplicates
   const recommendationsMap: Record<string, boolean> = {};
@@ -942,8 +943,8 @@ export function getRecommendedCookingMethods(
         // Check food focus alignment
         if (venusZodiacTransit.FoodFocus) {
           const transitFocus = (venusZodiacTransit.FoodFocus as any)?.toLowerCase?.();
-          const methodDesc = (method as any)?.(description as any)?.toLowerCase?.();
-          const methodName = (method as any)?.(name as any)?.toLowerCase?.();
+          const methodDesc = (method as any)?.description?.toLowerCase?.();
+          const methodName = (method as any)?.name?.toLowerCase?.();
           
           // Check for keyword matches
           const focusKeywords = transitFocus.split(/[\s,;]+/).filter(k => k.length > 3);
@@ -974,8 +975,8 @@ export function getRecommendedCookingMethods(
         
         if (foodFocus) {
           const retroFocus = foodFocus?.toLowerCase?.();
-          const methodName = (method as any)?.(name as any)?.toLowerCase?.();
-          const methodDesc = (method as any)?.(description as any)?.toLowerCase?.();
+          const methodName = (method as any)?.name?.toLowerCase?.();
+          const methodDesc = (method as any)?.description?.toLowerCase?.();
           
           if ((retroFocus as any)?.includes?.('traditional') && 
               ((methodName as any)?.includes?.('traditional') || (methodDesc as any)?.includes?.('classic') || 
@@ -1019,8 +1020,8 @@ export function getRecommendedCookingMethods(
       };
       
       for (const [methodName, boost] of Object.entries(venusMethodBoosts)) {
-        if ((method as any)?.(name as any)?.toLowerCase?.().includes(methodName) || 
-            (method as any)?.(description as any)?.toLowerCase?.().includes(methodName)) {
+        if ((method as any)?.name?.toLowerCase?.().includes(methodName) || 
+            (method as any)?.description?.toLowerCase?.().includes(methodName)) {
           venusScore *= boost;
           break; // Apply only one boost
         }
@@ -1071,11 +1072,11 @@ export function getRecommendedCookingMethods(
       score: Math.max(0, score), // Ensure score isn't negative
       description: (method as any)?.description,
       benefits: method.benefits,
-      lunarAffinity: calculateLunarMethodAffinity(method, lunarPhase),
+      lunarAffinity: calculateLunarMethodAffinity(method as any, lunarPhase),
       elementalAffinity: (method as any)?.elementalEffect?.[signElement] || 0,
       planetaryAffinity: planetaryAffinity,
       scoreDetails: scoreDetailsForUI // Include detailed scoring for UI display
-    });
+    } as any);
     
     // Mark this method as processed to avoid duplicates
     recommendationsMap[methodNameNorm] = true;
@@ -1142,7 +1143,7 @@ function _calculateAspectMethodAffinity(aspects: PlanetaryAspect[], method: Cook
 
   for (const aspect of aspects) {
     // Check if this aspect involves planets that influence this method
-    const planetaryInfluence = aspect.planets.some(planet => 
+    const planetaryInfluence = (aspect.planets as any[]).some(planet => 
       method.planetaryInfluences?.includes(planet)
     );
 
@@ -1291,8 +1292,8 @@ export function getCookingMethodRecommendations(
   astroState: AstrologicalState,
   options: MethodRecommendationOptions = {}
 ): MethodRecommendation[] {
-  // Create recommendations with the enhanced score
-  const recommendations = Object.entries(cookingMethods).map(([name, method]) => {
+  // Create recommendations with the enhanced score and interface compliance
+  const recommendations = Object.entries(allCookingMethodsCombined).map(([name, method]) => {
     // Use our enhanced calculation with multiplier
     const score = calculateMethodScore(method, astroState);
     
@@ -1301,13 +1302,13 @@ export function getCookingMethodRecommendations(
       score,
       elementalAlignment: (method as any)?.elementalProperties,
       description: (method as any)?.description
-    };
+    } as MethodRecommendation;
   })
   .filter(rec => rec.score > 0)
   .sort((a, b) => b.score - a.score);
   
   // Return top recommendations (limit if specified)
-  const limit = options.limit || 10;
+  const limit = (options as any)?.limit || 10;
   return recommendations.slice(0, limit);
 }
 

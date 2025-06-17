@@ -728,12 +728,8 @@ async function applyAdditionalFilters(
   
   if (candidateRecipes.length === 0) {
     console.log("No matching recipes found after all filtering");
-    // Return some static recipes as fallback
-    return staticRecipes.slice(0, limit).map(recipe => ({
-      ...recipe,
-      matchScore: 0.5, // Lower score to indicate these are fallbacks
-      matchPercentage: 50 // For display
-    }));
+    // Return empty array as fallback when no recipes match
+    return [];
   }
   
   // Calculate match scores for all candidate recipes if they don't already have scores
@@ -971,7 +967,7 @@ export const getAllRecipes = async (): Promise<Recipe[]> => {
   try {
     const recipeData = await transformCuisineData();
     
-    // Transform RecipeData to Recipe format
+    // Transform RecipeData to Recipe format with interface compliance
     return recipeData.map(recipe => ({
       id: recipe.id,
       name: recipe.name,
@@ -988,7 +984,7 @@ export const getAllRecipes = async (): Promise<Recipe[]> => {
       flavorProfile: recipe.flavorProfile,
       currentSeason: recipe.season,
       regionalCuisine: recipe.regionalCuisine
-    }));
+    } as Recipe));
   } catch (error) {
     console.error('Error in getAllRecipes:', error);
     return [];
@@ -996,4 +992,4 @@ export const getAllRecipes = async (): Promise<Recipe[]> => {
 };
 
 // Export recipes array for backward compatibility
-export const recipes = transformCuisineData();
+export const recipes = transformCuisineData() as Promise<RecipeData[]>;

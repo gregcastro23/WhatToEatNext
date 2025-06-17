@@ -1,4 +1,5 @@
 import type { ElementalProperties, ZodiacSign, LunarPhase, Season, Element, AstrologicalState } from '@/types';
+import type { Planet, Modality } from '@/types/celestial';
 import { spices } from '@/data/ingredients/spices';
 import { herbs } from '@/data/ingredients/herbs';
 import { fruits } from '@/data/ingredients/fruits';

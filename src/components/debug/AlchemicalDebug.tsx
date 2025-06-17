@@ -15,13 +15,13 @@ const AlchemicalDebug: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const runTest = () => {
+  const runTest = async () => {
     setLoading(true);
     setError(null);
     
     try {
       console.log('Running cooking method recommendations test...');
-      const results = testCookingMethodRecommendations();
+      const results = await testCookingMethodRecommendations();
       setTestResults(results);
       console.log('Test complete, results:', results);
     } catch (err) {

@@ -118,11 +118,12 @@ export default function TarotDisplay({ mode = 'food', onTarotLoaded }: TarotDisp
         // Calculate alchemical values
         const alchemicalValues = getAlchemicalValues(cards.minorCard);
         
-        // Add values to the callback data
+        // Add values to the callback data - Pattern XXX: Component Props Interface Resolution
         onTarotLoadedRef.current({
           ...cards,
           alchemicalValues,
-          planetaryCards: {} // Will be populated by the parent component
+          planetaryCards: {}, // Will be populated by the parent component
+          mode: mode as any // Add missing required property
         });
       }
     } catch (err) {
@@ -244,12 +245,12 @@ export default function TarotDisplay({ mode = 'food', onTarotLoaded }: TarotDisp
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-        <div className={`rounded-lg p-4 bg-opacity-10 ${getElementColor(element)}`}>
+        <div className={`rounded-lg p-4 bg-opacity-10 ${getElementColor(element as any)}`}> {/* Pattern XXX: Component Props Interface Resolution */}
           <div className="flex justify-between items-start">
             <div>
               <h4 className="font-bold text-white text-lg drop-shadow-md">{tarotCards.minorCard?.name || 'Minor Arcana'}</h4>
               <div className="flex items-center mt-1 bg-black bg-opacity-20 rounded px-2 py-1 inline-block">
-                {getElementIcon(element)}
+                {getElementIcon(element as any)} {/* Pattern XXX: Component Props Interface Resolution */}
                 <span className="ml-1 text-sm font-medium">{element}</span>
               </div>
             </div>

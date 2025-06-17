@@ -3,7 +3,7 @@ import { amaranth } from './amaranth';
 import { buckwheat } from './buckwheat';
 import { chia } from './chia';
 import { flaxseed } from './flaxseed';
-import type { IngredientMapping } from '@/types/alchemy';
+import type { IngredientMapping } from '@/data/ingredients/types';
 
 // Export all pseudo grains as a consolidated object
 export const pseudoGrains: Record<string, IngredientMapping> = {

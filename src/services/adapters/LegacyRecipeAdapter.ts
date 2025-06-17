@@ -83,9 +83,10 @@ export class LegacyRecipeAdapter {
       return await unifiedRecipeService.searchRecipes(criteria, options) as Recipe[];
     } catch (error) {
       logger.error('Error in searchRecipes:', error);
-      // Provide a simplified fallback
-      if (criteria.query) {
-        return await LocalRecipeService.searchRecipes(criteria.query);
+      // Provide a simplified fallback - safe property access
+      const queryValue = (criteria as any)?.query;
+      if (queryValue) {
+        return await LocalRecipeService.searchRecipes(queryValue);
       }
       return [];
     }
@@ -243,7 +244,7 @@ export class LegacyRecipeAdapter {
       // Apply safe type casting for service access
       const serviceData = unifiedRecipeService as any;
       if (serviceData?.calculateElementalProperties) {
-        return serviceData.calculateElementalProperties(recipe) as ElementalProperties;
+        return serviceData.calculateElementalProperties(recipe) as unknown as ElementalProperties;
       }
       // Enhanced fallback - calculate based on available recipe data
       const defaultProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };

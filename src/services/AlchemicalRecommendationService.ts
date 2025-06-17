@@ -54,7 +54,7 @@ export class AlchemicalRecommendationService {
     cookingMethods: CookingMethod[]
   ): AlchemicalRecommendation {
     // Calculate thermodynamic properties using the engine
-    const thermodynamics = this.engine.alchemize(planetaryPositions);
+    const thermodynamics = this.engine.alchemize(planetaryPositions as any);
     
     // Convert thermodynamic properties to elemental properties
     const elementalBalance = this.deriveElementalProperties(thermodynamics);
@@ -65,17 +65,20 @@ export class AlchemicalRecommendationService {
     // Filter ingredients by elemental compatibility
     const compatibleIngredients = this.findCompatibleIngredients(
       ingredients,
+      elementalBalance,
       thermodynamics
     );
     
     // Filter cooking methods by elemental compatibility
     const compatibleMethods = this.findCompatibleCookingMethods(
       cookingMethods,
+      elementalBalance,
       thermodynamics
     );
     
     // Generate specific recommendations
     const recommendations = this.generateTextRecommendations(
+      elementalBalance,
       thermodynamics,
       dominantElement
     );
@@ -106,7 +109,7 @@ export class AlchemicalRecommendationService {
         ingredient,
         score: this.engine.calculateElementalCompatibility(
           elementalProperties,
-          ingredient.elementalPropertiesState
+          ingredient.elementalPropertiesState as any
         )
       }))
       .filter(({ score }) => score > 0.7)
@@ -128,7 +131,7 @@ export class AlchemicalRecommendationService {
         method,
         score: this.engine.calculateElementalCompatibility(
           elementalProperties,
-          method.elementalState
+          (method as any)?.elementalState || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
         )
       }))
       .filter(({ score }) => score > 0.7)
@@ -282,19 +285,19 @@ export class AlchemicalRecommendationService {
     adjustments: string[];
   } {
     // Calculate thermodynamic properties using the engine
-    const thermodynamics = this.engine.alchemize(planetaryPositions);
+    const thermodynamics = this.engine.alchemize(planetaryPositions as any);
     
     // Convert thermodynamic properties to elemental properties
     const currentElementalProperties = this.deriveElementalProperties(thermodynamics);
     
     // Get recipe's elemental properties (or use default if not present)
-    const recipeElementalProperties = recipe.elementalState || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+    const recipeElementalProperties = (recipe.elementalState as any) || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
     };
     
     // Calculate compatibility
     const compatibility = this.engine.calculateElementalCompatibility(
-      currentElementalProperties,
-      recipeElementalProperties
+      currentElementalProperties as any,
+      recipeElementalProperties as any
     );
     
     // Generate suggestions based on compatibility

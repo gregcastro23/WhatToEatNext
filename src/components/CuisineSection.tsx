@@ -119,7 +119,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
         const cuisineString = cuisine as any;
         const cuisineLower = cuisineString?.toLowerCase?.();
         
-        if (recipe.regionalCuisine?.toLowerCase() === cuisineLower) return true;
+        if ((recipe.regionalCuisine as any)?.toLowerCase?.() === cuisineLower) return true;
         
         // Try to match related cuisines
         try {
@@ -130,7 +130,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
             const rcLower = rcData?.toLowerCase?.();
             return (
               recipe.cuisine?.toLowerCase() === rcLower ||
-              recipe.regionalCuisine?.toLowerCase() === rcLower
+              (recipe.regionalCuisine as any)?.toLowerCase?.() === rcLower
             );
           })) {
             return true;
@@ -371,7 +371,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
         <div className="flex justify-between items-start mb-2">
           <h3 className="text-lg font-semibold">{recipe.name}</h3>
           {recipe.matchScore !== undefined && (
-            renderScoreBadge(recipe.matchScore, !!recipe.dualMatch)
+            renderScoreBadge(recipe.matchScore as any, !!recipe.dualMatch)
           )}
         </div>
         

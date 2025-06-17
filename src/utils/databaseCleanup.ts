@@ -88,17 +88,17 @@ export function cleanupIngredientsDatabase() {
           ingredientWithAstrology.astrologicalProfile = {
             elementalAffinity: { base: dominantElement },
             rulingPlanets: []
-          };
+          } as AstrologicalProfile;
           fixedEntries++;
           logger.warn(`Added default astrological profile to ${data.name || name || 'unknown ingredient'}`);
-        } else if (!ingredientWithAstrology.astrologicalProfile.elementalAffinity) {
-          // Ensure elementalAffinity exists within the profile
+        } else if (!(ingredientWithAstrology.astrologicalProfile as any)?.elementalAffinity) {
+          // Ensure elementalAffinity exists within the profile - safe property access
           const currentElementalProps = data?.elementalProperties;
           const dominantElement = currentElementalProps ? 
             Object.entries(currentElementalProps)
               .reduce((a, b) => a[1] > b[1] ? a : b, ['Fire', 0])[0] : 'Fire';
               
-          ingredientWithAstrology.astrologicalProfile.elementalAffinity = { base: dominantElement };
+          (ingredientWithAstrology.astrologicalProfile as any).elementalAffinity = { base: dominantElement };
           fixedEntries++;
           logger.warn(`Added elementalAffinity to astrological profile for ${data.name || name || 'unknown ingredient'}`);
         }

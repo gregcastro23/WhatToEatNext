@@ -32,7 +32,7 @@ export const useFoodRecommendations = (options?: {
       aspects: state.astrologicalState?.aspects || [],
       tarotElementBoosts: state.astrologicalState?.tarotElementBoosts || {},
       tarotPlanetaryBoosts: state.astrologicalState?.tarotPlanetaryBoosts || {}
-    };
+    } as any;
   }, [
     state.astrologicalState?.zodiacSign, 
     state.astrologicalState?.lunarPhase,

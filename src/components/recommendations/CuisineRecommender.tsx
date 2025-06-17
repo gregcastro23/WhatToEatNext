@@ -269,8 +269,8 @@ export default function CuisineRecommender() {
   const astroStateRef = useRef({
     currentZodiacSign: currentZodiac,
     lunarPhase: lunarPhase,
-    elementalState: alchemicalContext?.state?.astrologicalState?.elementalState || 
-                   state.astrologicalState?.elementalState || 
+    elementalState: (alchemicalContext as any)?.state?.astrologicalState?.elementalState || 
+                   (state as any)?.astrologicalState?.elementalState || 
                    createDefaultElementalProperties()
   });
 
@@ -285,8 +285,8 @@ export default function CuisineRecommender() {
     astroStateRef.current = {
       currentZodiacSign: currentZodiac,
       lunarPhase: lunarPhase,
-      elementalState: alchemicalContext?.state?.astrologicalState?.elementalState ||
-                      state.astrologicalState?.elementalState ||
+      elementalState: (alchemicalContext as any)?.state?.astrologicalState?.elementalState ||
+                      (state as any)?.astrologicalState?.elementalState ||
                       createDefaultElementalProperties()
     };
   }, [alchemicalContext, state, currentZodiac, lunarPhase]);
@@ -317,8 +317,8 @@ export default function CuisineRecommender() {
   const [showCuisineSpecificDetails, setShowCuisineSpecificDetails] = useState(false);
   const [showPlanetaryInfluences, setShowPlanetaryInfluences] = useState(false);
   const [currentMomentElementalProfile, setCurrentMomentElementalProfile] = useState<ElementalProperties | undefined>(
-    alchemicalContext?.state?.astrologicalState?.elementalState ||
-    alchemicalContext?.state?.elementalState
+    (alchemicalContext as any)?.state?.astrologicalState?.elementalState ||
+    (alchemicalContext as any)?.state?.elementalState
   );
   const [matchingRecipes, setMatchingRecipes] = useState<any[]>([]);
   const [allRecipesData, setAllRecipesData] = useState<Recipe[]>([]);
@@ -326,12 +326,12 @@ export default function CuisineRecommender() {
   // Update current moment elemental profile when astrological state changes
   useEffect(() => {
     // Use a stable reference for comparisons by converting to a string
-    const elementalStateString = JSON.stringify(state?.astrologicalState?.elementalState || {});
+    const elementalStateString = JSON.stringify((state as any)?.astrologicalState?.elementalState || {});
     const currentProfileString = JSON.stringify(currentMomentElementalProfile || {});
     
     // Only update if the state has actually changed
     if (elementalStateString !== currentProfileString) {
-      const newElementalState = state?.astrologicalState?.elementalState;
+      const newElementalState = (state as any)?.astrologicalState?.elementalState;
       
       if (newElementalState) {
         setCurrentMomentElementalProfile({ ...newElementalState });
@@ -388,13 +388,13 @@ export default function CuisineRecommender() {
       setLoading(true);
       setError(null);
       
-      const elementalProperties = state.elementalState || state.astrologicalState?.elementalState || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+      const elementalProperties = (state as any)?.elementalState || (state as any)?.astrologicalState?.elementalState || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
        };
       
       // Use the recommendation service instead of direct utility function
       const result = await recommendationService.getRecommendedCuisines({
         elementalProperties: elementalProperties as ElementalProperties,
-        planetaryPositions: planetaryPositions,
+        planetaryPositions: planetaryPositions as Record<string, { sign: string; degree: number; }>,
         limit: 20
       });
       
@@ -474,7 +474,7 @@ export default function CuisineRecommender() {
         
         if ((recipesForCuisine || []).length > 0) {
           setMatchingRecipes((recipesForCuisine || []).map(recipe => 
-            buildCompleteRecipe(recipe, selectedCuisineData.name)
+            buildCompleteRecipe(recipe as any, selectedCuisineData.name)
           ));
         } else {
           setMatchingRecipes([]);

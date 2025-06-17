@@ -79,30 +79,30 @@ export default function NutritionalDisplay({
 
       {nutritionalData ? (
         <div>
-          <h3 className="text-lg font-semibold mb-2">{nutritionalData.name || selectedIngredient}</h3>
+          <h3 className="text-lg font-semibold mb-2">{(nutritionalData as any)?.name || selectedIngredient}</h3>
           
           {/* Macronutrients Section */}
           <div className="mb-4">
             <h4 className="font-medium text-gray-700">Macronutrients</h4>
             <div className="grid grid-cols-2 gap-2">
-              <div className="text-sm">Calories: {nutritionalData.calories}</div>
-              <div className="text-sm">Protein: {nutritionalData.macros.protein}g</div>
-              <div className="text-sm">Carbs: {nutritionalData.macros.carbs}g</div>
-              <div className="text-sm">Fat: {nutritionalData.macros.fat}g</div>
-              <div className="text-sm">Fiber: {nutritionalData.macros.fiber}g</div>
+              <div className="text-sm">Calories: {(nutritionalData as any)?.calories || 0}</div>
+              <div className="text-sm">Protein: {(nutritionalData as any)?.macros?.protein || 0}g</div>
+              <div className="text-sm">Carbs: {(nutritionalData as any)?.macros?.carbs || 0}g</div>
+              <div className="text-sm">Fat: {(nutritionalData as any)?.macros?.fat || 0}g</div>
+              <div className="text-sm">Fiber: {(nutritionalData as any)?.macros?.fiber || 0}g</div>
             </div>
           </div>
 
           {!compact && (
             <>
               {/* Vitamins Section */}
-              {nutritionalData.vitamins && Object.keys(nutritionalData.vitamins).length > 0 && (
+              {(nutritionalData as any)?.vitamins && Object.keys((nutritionalData as any)?.vitamins || {}).length > 0 && (
                 <div className="mb-4">
                   <h4 className="font-medium text-gray-700">Vitamins (% Daily Value)</h4>
                   <div className="grid grid-cols-3 gap-1">
-                    {Object.entries(nutritionalData.vitamins).map(([vitamin, value]) => (
+                    {Object.entries((nutritionalData as any)?.vitamins || {}).map(([vitamin, value]) => (
                       <div key={vitamin} className="text-sm">
-                        {vitamin}: {formatPercent(value)}
+                        {vitamin}: {formatPercent(value as number)}
                       </div>
                     ))}
                   </div>
@@ -110,13 +110,13 @@ export default function NutritionalDisplay({
               )}
 
               {/* Minerals Section */}
-              {nutritionalData.minerals && Object.keys(nutritionalData.minerals).length > 0 && (
+              {(nutritionalData as any)?.minerals && Object.keys((nutritionalData as any)?.minerals || {}).length > 0 && (
                 <div className="mb-4">
                   <h4 className="font-medium text-gray-700">Minerals (% Daily Value)</h4>
                   <div className="grid grid-cols-3 gap-1">
-                    {Object.entries(nutritionalData.minerals).map(([mineral, value]) => (
+                    {Object.entries((nutritionalData as any)?.minerals || {}).map(([mineral, value]) => (
                       <div key={mineral} className="text-sm">
-                        {mineral}: {formatPercent(value)}
+                        {mineral}: {formatPercent(value as number)}
                       </div>
                     ))}
                   </div>
@@ -124,10 +124,10 @@ export default function NutritionalDisplay({
               )}
 
               {/* Data Source */}
-              {nutritionalData.source && (
+              {(nutritionalData as any)?.source && (
                 <div className="text-xs text-gray-500 mt-2">
-                  Source: {nutritionalData.source} 
-                  {nutritionalData.fdcId ? ` (ID: ${nutritionalData.fdcId})` : ''}
+                  Source: {(nutritionalData as any)?.source} 
+                  {(nutritionalData as any)?.fdcId ? ` (ID: ${(nutritionalData as any)?.fdcId})` : ''}
                 </div>
               )}
             </>

@@ -11,7 +11,7 @@ import {
   deriveAlchemicalFromElemental
 } from './alchemicalCalculations';
 // Import needed from ./ingredients.js.ts
-// Import needed from ./recipes.ts
+import { RecipeEnhancer } from './recipes';
 
 import { Element } from "@/types/alchemy";
 import { AlchemicalProperties } from "@/types/alchemy";

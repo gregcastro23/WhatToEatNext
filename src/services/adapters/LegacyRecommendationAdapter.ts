@@ -92,7 +92,7 @@ export class LegacyRecommendationAdapter {
     criteria: IngredientRecommendationCriteria,
   ): Promise<RecommendationResult<UnifiedIngredient>> {
     try {
-      return await unifiedRecommendationService.getRecommendedIngredients(criteria);
+      return await unifiedRecommendationService.getRecommendedIngredients(criteria) as RecommendationResult<UnifiedIngredient>;
     } catch (error) {
       logger.error('Error in getRecommendedIngredients:', error);
       // Return minimal result
@@ -234,9 +234,9 @@ export class LegacyRecommendationAdapter {
   ) {
     try {
       return alchemicalRecommendationService.generateRecommendations(
-        planetaryPositions,
+        planetaryPositions as any,
         ingredients,
-        cookingMethods
+        cookingMethods as any
       );
     } catch (error) {
       logger.error('Error in generateAlchemicalRecommendations:', error);
@@ -272,7 +272,7 @@ export class LegacyRecommendationAdapter {
     try {
       return alchemicalRecommendationService.getRecipeRecommendations(
         recipe,
-        planetaryPositions
+        planetaryPositions as any
       );
     } catch (error) {
       logger.error(`Error in getRecipeRecommendations for recipe "${recipe.name}":`, error);

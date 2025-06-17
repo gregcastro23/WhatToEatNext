@@ -1,5 +1,5 @@
 import type { CookingMethodData } from '@/types/cookingMethod';
-import type { CookingMethod } from '@/types/alchemy';
+import type { CookingMethod } from '@/types/shared';
 
 /**
  * Marinating: A technique that soaks food in a flavorful liquid to enhance taste,

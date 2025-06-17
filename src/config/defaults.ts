@@ -8,7 +8,7 @@ export const DEFAULT_FILTERS: FilterOptions = {
   mealType: 'any',
   seasonality: null,
   difficulty: 'any'
-};
+} as FilterOptions;
 
 // Separate dietary preferences - these are no longer part of FilterOptions
 export const DEFAULT_DIETARY_PREFERENCES = {

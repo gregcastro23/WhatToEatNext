@@ -1,4 +1,4 @@
-// TODO: Fix import - add what to import from "./useServices.ts"
+import { useServices } from './useServices';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { useEffect, useState } from 'react';
 import { PlanetaryPosition } from "@/types/celestial";
@@ -63,7 +63,7 @@ export function useAlchemicalBridge() {
     servicePositions,
     
     // State information
-    isDaytime: daytime !== undefined ? daytime : contextState?.isDaytime,
+    isDaytime: daytime !== undefined ? daytime : (contextState as any)?.isDaytime,
     
     // Service references for direct access
     astrologyService,

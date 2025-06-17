@@ -113,7 +113,7 @@ export class LocalRecipeService {
       // Get recipes from all available cuisines
       for (const cuisine of Object.values(cuisinesMap)) {
         if (cuisine) {
-          const cuisineRecipes = await this.getRecipesFromCuisine(cuisine);
+          const cuisineRecipes = await this.getRecipesFromCuisine(cuisine as any);
           recipes.push(...cuisineRecipes);
         }
       }
@@ -210,7 +210,7 @@ export class LocalRecipeService {
         );
         
         if (byIdMatch && byIdMatch[1]) {
-          return await this.getRecipesFromCuisine(byIdMatch[1] as ExtendedCuisine);
+          return await this.getRecipesFromCuisine(byIdMatch[1] as any);
         }
         
         logger.info(`Cuisine not found: ${cuisineName}`);

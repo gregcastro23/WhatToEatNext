@@ -276,8 +276,8 @@ export class EnhancedIngredientsSystem {
     // Filter by seasonal alignment
     if (criteria.seasonalAlignment) {
       results = (results || []).filter(ingredient => 
-        ingredient.culinaryProperties?.seasonality && Array.isArray(ingredient.culinaryProperties.seasonality.peak) ? ingredient.culinaryProperties.seasonality.peak?.includes(season) : ingredient.culinaryProperties.seasonality.peak === season ||
-        ingredient.culinaryProperties?.seasonality && Array.isArray(ingredient.culinaryProperties.seasonality.optimal) ? ingredient.culinaryProperties.seasonality.optimal?.includes(season) : ingredient.culinaryProperties.seasonality.optimal === season
+        ingredient.culinaryProperties?.seasonality && Array.isArray(ingredient.culinaryProperties.seasonality.peak) ? ingredient.culinaryProperties.seasonality.peak?.includes(criteria.seasonalAlignment) : ingredient.culinaryProperties.seasonality.peak === criteria.seasonalAlignment ||
+        ingredient.culinaryProperties?.seasonality && Array.isArray(ingredient.culinaryProperties.seasonality.optimal) ? ingredient.culinaryProperties.seasonality.optimal?.includes(criteria.seasonalAlignment) : ingredient.culinaryProperties.seasonality.optimal === criteria.seasonalAlignment
       );
     }
 
@@ -720,18 +720,18 @@ export class EnhancedIngredientsSystem {
       const existingProfile = ingredient.nutritionalProfile;
       
       return {
-        serving_size: existingProfile.servingSize || '100g',
+        serving_size: (existingProfile as any)?.servingSize || '100g',
         calories: existingProfile.calories || 0,
         macros: {
-          protein: existingProfile.macros?.protein || 0,
-          carbs: existingProfile.macros?.carbs || 0,
-          fat: existingProfile.macros?.fat || 0,
-          fiber: existingProfile.macros?.fiber || 0
+          protein: (existingProfile as any)?.macros?.protein || 0,
+          carbs: (existingProfile as any)?.macros?.carbs || 0,
+          fat: (existingProfile as any)?.macros?.fat || 0,
+          fiber: (existingProfile as any)?.macros?.fiber || 0
         },
         vitamins: existingProfile.vitamins || {},
         minerals: existingProfile.minerals || {},
         benefits: ingredient.healthBenefits || [],
-        source: existingProfile.source || 'estimated'
+        source: (existingProfile as any)?.source || 'estimated'
       };
     }
     

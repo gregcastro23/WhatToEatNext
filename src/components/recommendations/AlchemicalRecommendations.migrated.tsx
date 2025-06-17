@@ -142,7 +142,7 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
   const [modalityFilter, setModalityFilter] = useState<'all' | Modality>('all');
   const [resolvedPlanetaryPositions, setResolvedPlanetaryPositions] = useState<Record<RulingPlanet, number>>({
     Sun: 0,
-    moon: 0,
+    Moon: 0,
     Mercury: 0,
     Venus: 0,
     Mars: 0,
@@ -485,7 +485,7 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
       const elementalProps = ingredient.elementalPropertiesState;
       const qualities = Array.isArray(ingredient.qualities) ? ingredient.qualities : [];
       const modality = ingredient.modality as Modality | undefined || 
-        determineIngredientModality(elementalProps as ElementalProperties, qualities);
+        determineIngredientModality(qualities as any, elementalProps as ElementalProperties);
       return modality === modalityFilter;
     });
   }, [ingredientsArray, modalityFilter]);

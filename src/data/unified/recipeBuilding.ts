@@ -12,7 +12,7 @@ import type { // ===== UNIFIED RECIPE BUILDING SYSTEM =====
   CookingMethod } from "@/types/alchemy";
 import type { Recipe } from "@/types/recipe";
 import { UnifiedIngredient } from '@/types/ingredient';
-import { SeasonalRecommendations } from '@/types/seasons';
+import { SeasonalRecommendations } from './seasonal';
 import { unifiedSeasonalSystem } from '@/data/integrations/seasonal';
 // TODO: Fix import - add what to import from "./ingredients.js.ts"
 // TODO: Fix import - add what to import from "./seasonal.js.ts"
@@ -230,7 +230,10 @@ export class UnifiedRecipeBuildingSystem {
   private recipeCache: Map<string, RecipeGenerationResult>;
   
   constructor() {
-    this.enhancedCookingMethods = getAllEnhancedCookingMethods();
+    const methodsArray = getAllEnhancedCookingMethods();
+    this.enhancedCookingMethods = Array.isArray(methodsArray) 
+      ? methodsArray.reduce((acc, method) => ({ ...acc, [method.id || method.name]: method }), {})
+      : methodsArray as { [key: string]: EnhancedCookingMethod };
     this.recipeCache = new Map();
   }
   
@@ -333,7 +336,7 @@ export class UnifiedRecipeBuildingSystem {
     season?: Season
   ): MonicaOptimizedRecipe['seasonalAdaptation'] {
     const currentSeason = season || this.seasonalSystem.getCurrentSeason();
-    const seasonalRecommendations = this.seasonalSystem.getSeasonalRecommendations(currentSeason);
+    const seasonalRecommendations = this.seasonalSystem.getSeasonalRecommendations(currentSeason) as SeasonalRecommendations;
     
     // Calculate seasonal score
     const seasonalScore = this.calculateSeasonalScore(recipe, currentSeason);
@@ -435,7 +438,7 @@ export class UnifiedRecipeBuildingSystem {
     const originalRecipe = recipe;
     
     // Get seasonal recommendations
-    const seasonalRecommendations = this.seasonalSystem.getSeasonalRecommendations(targetSeason);
+    const seasonalRecommendations = this.seasonalSystem.getSeasonalRecommendations(targetSeason) as SeasonalRecommendations;
     
     // Generate ingredient substitutions
     const ingredientSubstitutions = this.generateDetailedIngredientSubstitutions(
@@ -641,7 +644,9 @@ export class UnifiedRecipeBuildingSystem {
     const seasonCriteria = criteria.currentSeason || criteria.season;
     if (seasonCriteria) {
       const seasonalProfile = this.seasonalSystem.getSeasonalRecommendations(seasonCriteria);
-      optimalMonica *= seasonalProfile.monicaOptimization;
+      // Safe property access with fallback for monicaOptimization
+      const monicaOptimization = (seasonalProfile as any)?.monicaOptimization || 1.0;
+      optimalMonica *= monicaOptimization;
     }
     
     // Adjust for cuisine

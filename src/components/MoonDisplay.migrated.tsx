@@ -164,7 +164,7 @@ const MoonDisplayMigrated: React.FC = () => {
     if (!isLoading && !error && astrologyService) {
       const getLocation = async () => {
         try {
-          const location = await astrologyService.getUserLocation();
+          const location = await (astrologyService as any)?.getUserLocation?.();
           if (location) {
             setCoordinates({
               latitude: location.latitude,
@@ -185,7 +185,7 @@ const MoonDisplayMigrated: React.FC = () => {
     if (!isLoading && !error && astrologyService) {
       const calculateTimes = async () => {
         try {
-          const times = await astrologyService.getMoonTimes(new Date(), coordinates);
+          const times = await (astrologyService as any)?.getMoonTimes?.(new Date(), coordinates);
           
           if (times) {
             setMoonTimes({

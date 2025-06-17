@@ -8,6 +8,7 @@ import { getRecipesForCuisineMatch } from '@/data/cuisineFlavorProfiles';
 import { getCurrentElementalState } from '@/utils/elementalUtils';
 import type { Recipe } from '@/types/recipe';
 import type { Season } from '@/types/common';
+import type { Cuisine } from '@/types/alchemy';
 
 const CuisineDetailsPage: NextPage = () => {
   const router = useRouter();
@@ -28,31 +29,40 @@ const CuisineDetailsPage: NextPage = () => {
     setElementalState(currentState);
   }, []);
 
-  // Memoize the cuisine data
+  // Memoize the cuisine data with safe property access
   const cuisine = React.useMemo(() => {
     if (!id) return null;
-    return cuisines[id as string] || null;
+    const cuisineData = cuisines[id as string] as Cuisine;
+    return cuisineData || null;
   }, [id]);
 
   // Memoize the recipe calculation
   const combinedRecipes = React.useMemo<Recipe[]>(() => {
     if (!cuisine) return [];
 
+    // Safe property access for cuisine name
+    const cuisineName = cuisine.name || id as string;
+
     // 1. Get recipe matches based on cuisine flavor profiles
-    const cuisineMatchedRecipes = getRecipesForCuisineMatch(cuisine.name, allRecipes, 20);
+    const cuisineMatchedRecipes = getRecipesForCuisineMatch(cuisineName, allRecipes, 20);
   
-    // 2. Get recipe matches based on current elemental state
-    const elementalMatchedRecipes = getBestRecipeMatches({
-      cuisine: cuisine.name,
+    // 2. Get recipe matches based on current elemental state - Safe array access
+    const elementalMatchedRecipesResult = getBestRecipeMatches({
+      cuisine: cuisineName,
       season: elementalState.season as Season,
       mealType: elementalState.timeOfDay
     }, 20);
+    
+    // Ensure we have an array, not a Promise
+    const elementalMatchedRecipes = Array.isArray(elementalMatchedRecipesResult) 
+      ? elementalMatchedRecipesResult 
+      : [];
     
     // Combine and deduplicate recipes
     const recipeIds = new Set<string>();
     const combined: Recipe[] = [];
     
-    // Add recipes that match both criteria
+    // Add recipes that match both criteria - Safe array method access
     for (const recipe1 of cuisineMatchedRecipes) {
       const recipe1Data = recipe1 as any;
       const matchingRecipe = elementalMatchedRecipes.find((r: any) => r?.name === recipe1Data?.name);
@@ -132,19 +142,23 @@ const CuisineDetailsPage: NextPage = () => {
   
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8 capitalize">{cuisine.name} Cuisine</h1>
+      <h1 className="text-3xl font-bold mb-8 capitalize">
+        {cuisine?.name || id as string} Cuisine
+      </h1>
       
       <div className="mb-8">
-        <p className="text-lg text-gray-700 mb-4">{cuisine.description}</p>
+        {cuisine?.description && (
+          <p className="text-lg text-gray-700 mb-4">{cuisine.description}</p>
+        )}
         
-        {cuisine.history && (
+        {cuisine?.history && (
           <div className="bg-amber-50 p-4 rounded-lg mb-4">
             <h2 className="text-xl font-semibold mb-2">Historical Context</h2>
             <p className="text-gray-800">{cuisine.history}</p>
           </div>
         )}
         
-        {cuisine.culturalImportance && (
+        {cuisine?.culturalImportance && (
           <div className="bg-blue-50 p-4 rounded-lg mb-4">
             <h2 className="text-xl font-semibold mb-2">Cultural Significance</h2>
             <p className="text-gray-800">{cuisine.culturalImportance}</p>
@@ -153,7 +167,7 @@ const CuisineDetailsPage: NextPage = () => {
       </div>
       
       <CuisineSection 
-        cuisine={cuisine.name} 
+        cuisine={cuisine?.name || id as string} 
         recipes={combinedRecipes} // Pass the memoized recipes
         elementalState={elementalState}
       />

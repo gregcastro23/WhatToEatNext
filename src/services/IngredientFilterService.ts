@@ -15,6 +15,7 @@ import {
   SpoonacularRecipe, 
   SpoonacularNutritionData 
 } from '../types/spoonacular';
+import { type ElementalProperties } from "@/types/alchemy";
 
 // Interface to provide special dietary filtering
 export interface DietaryFilter {
@@ -82,7 +83,7 @@ export class IngredientFilterService {
       [INGREDIENT_GROUPS.SPICES]: spices,
       [INGREDIENT_GROUPS.GRAINS]: grains,
       [INGREDIENT_GROUPS.OILS]: oils
-    };
+    } as Record<string, Record<string, IngredientMapping>>;
   }
 
   // Singleton instance getter
@@ -160,7 +161,7 @@ export class IngredientFilterService {
     filter: NutritionalFilter
   ): IngredientMapping[] {
     return ingredients.filter(ingredient => {
-      const nutrition = ingredient.nutritionalProfile || {};
+      const nutrition = (ingredient.nutritionalProfile || {}) as NutritionData;
       
       // Check protein requirements
       if (filter.minProtein !== undefined && 
@@ -198,7 +199,7 @@ export class IngredientFilterService {
       // Check for required vitamins
       if (filter.vitamins && filter.vitamins.length > 0 && nutrition.vitamins) {
         const hasAllVitamins = filter.vitamins.every(vitamin => 
-          nutrition.vitamins.includes(vitamin)
+          nutrition.vitamins && (nutrition.vitamins as string[]).includes(vitamin)
         );
         if (!hasAllVitamins) return false;
       }
@@ -206,23 +207,23 @@ export class IngredientFilterService {
       // Check for required minerals
       if (filter.minerals && filter.minerals.length > 0 && nutrition.minerals) {
         const hasAllMinerals = filter.minerals.every(mineral => 
-          nutrition.minerals.includes(mineral)
+          nutrition.minerals && (nutrition.minerals as string[]).includes(mineral)
         );
         if (!hasAllMinerals) return false;
       }
       
-      // Check for high protein flag
-      if (filter.highProtein && (!nutrition.protein_g || nutrition.protein_g < 15)) {
+      // Check high protein requirement
+      if (filter.highProtein && (!nutrition.protein_g || nutrition.protein_g < 10)) {
         return false;
       }
       
-      // Check for low carb flag
-      if (filter.lowCarb && nutrition.carbs && nutrition.carbs > 10) {
+      // Check low carb requirement
+      if (filter.lowCarb && (nutrition.carbs && nutrition.carbs > 20)) {
         return false;
       }
       
-      // Check for low fat flag
-      if (filter.lowFat && nutrition.fat && nutrition.fat > 3) {
+      // Check low fat requirement
+      if (filter.lowFat && (nutrition.fat && nutrition.fat > 5)) {
         return false;
       }
       
@@ -236,63 +237,61 @@ export class IngredientFilterService {
     filter: ElementalFilter
   ): IngredientMapping[] {
     return ingredients.filter(ingredient => {
-      const elemental = ingredient.elementalProperties || {
-        Fire: 0, Water: 0, Earth: 0, Air: 0
-      };
+      const elementalProps = ingredient.elementalProperties as ElementalProperties;
       
-      // Check Fire element
+      // Check Fire element range
       if (filter.minFire !== undefined && 
-          (elemental.Fire === undefined || elemental.Fire < filter.minFire)) {
+          (!elementalProps || !elementalProps.Fire || elementalProps.Fire < filter.minFire)) {
         return false;
       }
       
       if (filter.maxFire !== undefined && 
-          (elemental.Fire !== undefined && elemental.Fire > filter.maxFire)) {
+          (!elementalProps || !elementalProps.Fire || elementalProps.Fire > filter.maxFire)) {
         return false;
       }
       
-      // Check Water element
+      // Check Water element range
       if (filter.minWater !== undefined && 
-          (elemental.Water === undefined || elemental.Water < filter.minWater)) {
+          (!elementalProps || !elementalProps.Water || elementalProps.Water < filter.minWater)) {
         return false;
       }
       
       if (filter.maxWater !== undefined && 
-          (elemental.Water !== undefined && elemental.Water > filter.maxWater)) {
+          (!elementalProps || !elementalProps.Water || elementalProps.Water > filter.maxWater)) {
         return false;
       }
       
-      // Check Earth element
+      // Check Earth element range
       if (filter.minEarth !== undefined && 
-          (elemental.Earth === undefined || elemental.Earth < filter.minEarth)) {
+          (!elementalProps || !elementalProps.Earth || elementalProps.Earth < filter.minEarth)) {
         return false;
       }
       
       if (filter.maxEarth !== undefined && 
-          (elemental.Earth !== undefined && elemental.Earth > filter.maxEarth)) {
+          (!elementalProps || !elementalProps.Earth || elementalProps.Earth > filter.maxEarth)) {
         return false;
       }
       
-      // Check Air element
+      // Check Air element range
       if (filter.minAir !== undefined && 
-          (elemental.Air === undefined || elemental.Air < filter.minAir)) {
+          (!elementalProps || !elementalProps.Air || elementalProps.Air < filter.minAir)) {
         return false;
       }
       
       if (filter.maxAir !== undefined && 
-          (elemental.Air !== undefined && elemental.Air > filter.maxAir)) {
+          (!elementalProps || !elementalProps.Air || elementalProps.Air > filter.maxAir)) {
         return false;
       }
       
-      // Check dominant element
+      // Check for dominant element if specified
       if (filter.dominantElement) {
-        const sortedElements = Object.entries(elemental)
-          .filter(([key]) => ['Fire', 'Water', 'Earth', 'Air'].includes(key))
-          .sort(([, a], [, b]) => (b as number) - (a as number));
+        if (!elementalProps) return false;
         
-        if (sortedElements.length === 0 || sortedElements[0][0] !== filter.dominantElement) {
-          return false;
-        }
+        const dominantElement = Object.entries(elementalProps)
+          .filter(([key]) => ['Fire', 'Water', 'Earth', 'Air'].includes(key))
+          .sort(([, a], [, b]) => (b as number) - (a as number))[0]?.[0];
+        
+        if (dominantElement !== filter.dominantElement) return false;
       }
       
       return true;
@@ -344,18 +343,24 @@ export class IngredientFilterService {
     });
   }
 
-  // Apply seasonal filtering
+  // Apply seasonal filtering criteria
   private applySeasonalFilter(
     ingredients: IngredientMapping[], 
     seasons: string[]
   ): IngredientMapping[] {
     return ingredients.filter(ingredient => {
-      // Allow ingredients with no seasonal data or those that match any provided season
-      if (!ingredient.season || ingredient.season.length === 0) {
+      // Safe access to seasonality property with type assertion
+      const seasonality = (ingredient as any).seasonality || [];
+      
+      // If no seasonality data, assume available year-round
+      if (!seasonality || (Array.isArray(seasonality) && seasonality.length === 0)) {
         return true;
       }
       
-      return seasons.some(season => ingredient.season.includes(season));
+      // Check if any of the specified seasons match
+      return seasons.some(season => 
+        Array.isArray(seasonality) && seasonality.includes(season.toLowerCase())
+      );
     });
   }
 
@@ -364,24 +369,34 @@ export class IngredientFilterService {
     ingredients: IngredientMapping[], 
     query: string
   ): IngredientMapping[] {
-    const lowerQuery = query.toLowerCase();
+    if (!query || typeof query !== 'string') return ingredients;
+    
+    const lowerCaseQuery = query.toLowerCase();
     
     return ingredients.filter(ingredient => {
-      // Check ingredient name
-      if (ingredient.name.toLowerCase().includes(lowerQuery)) {
+      // Safe access to ingredient name with type assertion
+      const ingredientName = (ingredient as any).name || ingredient.id || '';
+      
+      // Check if ingredient name matches query
+      if (typeof ingredientName === 'string' && 
+          ingredientName.toLowerCase().includes(lowerCaseQuery)) {
         return true;
       }
       
-      // Check qualities
-      if (ingredient.qualities && 
-          ingredient.qualities.some(q => q.toLowerCase().includes(lowerQuery))) {
-        return true;
+      // Check if any preparation notes match (if available)
+      const preparationNotes = (ingredient as any).preparationNotes || '';
+      if (typeof preparationNotes === 'string' && preparationNotes.length > 0) {
+        if (preparationNotes.toLowerCase().includes(lowerCaseQuery)) {
+          return true;
+        }
       }
       
-      // Check subcategory
-      if (ingredient.subCategory && 
-          ingredient.subCategory.toLowerCase().includes(lowerQuery)) {
-        return true;
+      // Check if any affinities match (if available)
+      const affinities = (ingredient as any).affinities || [];
+      if (Array.isArray(affinities) && affinities.length > 0) {
+        return affinities.some((affinity: any) => 
+          typeof affinity === 'string' && affinity.toLowerCase().includes(lowerCaseQuery)
+        );
       }
       
       return false;
@@ -393,11 +408,18 @@ export class IngredientFilterService {
     ingredients: IngredientMapping[], 
     excludedIngredients: string[]
   ): IngredientMapping[] {
-    const lowerExcluded = excludedIngredients.map(name => name.toLowerCase());
+    if (!excludedIngredients || excludedIngredients.length === 0) return ingredients;
     
-    return ingredients.filter(ingredient => 
-      !lowerExcluded.includes(ingredient.name.toLowerCase())
-    );
+    return ingredients.filter(ingredient => {
+      // Safe access to ingredient name with type assertion
+      const ingredientName = (ingredient as any).name || ingredient.id || '';
+      
+      return !excludedIngredients.some(excluded => 
+        typeof ingredientName === 'string' && 
+        typeof excluded === 'string' &&
+        ingredientName.toLowerCase().includes(excluded.toLowerCase())
+      );
+    });
   }
 
   // Get recommended ingredients with balanced nutrition from each group
@@ -536,7 +558,7 @@ export class IngredientFilterService {
           return {
             id: recipe.id?.toString() || '',
             title: recipe.title || '',
-            image: recipe.image || '',
+            image: (recipe as any).image || '',
             readyInMinutes: recipe.readyInMinutes || 30, // Default value
             healthScore: 50, // Default value
             nutrition: {

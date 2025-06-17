@@ -106,7 +106,7 @@ export function calculateCombinationEffects({
     // Check elemental interactions
     effects.push(...calculateElementalInteractions(ingredients));
 
-    return effects.sort((a, b) => b.modifier - a.modifier);
+    return effects.sort((a, b) => ((b as any)?.modifier || (b as any)?.strength || 0) - ((a as any)?.modifier || (a as any)?.strength || 0));
   } catch (error) {
     console.error('Error calculating combination effects:', error);
     return [];
@@ -143,7 +143,7 @@ const calculateElementalInteractions = (
         strength: 1.2,
         elements: ['Fire'] as Element[],
         description: 'Harmonious elemental combination'
-      });
+      } as any);
     }
 
     if (isAntagonisticCombination(elem1, elem2)) {
@@ -153,7 +153,7 @@ const calculateElementalInteractions = (
         strength: 0.8,
         elements: ['Water'] as Element[],
         description: 'Conflicting elemental combination'
-      });
+      } as any);
     }
   });
 
@@ -184,7 +184,8 @@ const isAntagonisticCombination = (
   elem1: ElementalProperties,
   elem2: ElementalProperties
 ): boolean => {
-  return ELEMENT_COMBINATIONS.antagonistic.some(([e1, e2]) =>
+  const antagonistic = (ELEMENT_COMBINATIONS as any)?.antagonistic || [];
+  return antagonistic.some(([e1, e2]: [any, any]) =>
     (getDominantElement(elem1) === e1 && getDominantElement(elem2) === e2) ||
     (getDominantElement(elem1) === e2 && getDominantElement(elem2) === e1)
   );
@@ -210,7 +211,8 @@ export const suggestComplementaryIngredients = (
     const ingDominant = getDominantElement(ingElements);
 
     if (isHarmoniousWith(dominantElement, ingDominant)) {
-      if (!season || mapping.season?.includes(season)) {
+      const seasonData = mapping.season;
+      if (!season || (Array.isArray(seasonData) && seasonData.includes(season))) {
         suggestions.push(ingredient);
       }
     }

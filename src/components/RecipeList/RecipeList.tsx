@@ -39,7 +39,7 @@ const mealTypes = foodTypes.mealTypes || [
 ];
 
 // Use dietary options from food types if available
-const dietaryOptions: DietaryRestriction[] = foodTypes.dietaryRestrictions as DietaryRestriction[] || [
+const dietaryOptions: DietaryRestriction[] = (foodTypes.dietaryRestrictions as DietaryRestriction[]) || ([
   'vegetarian',
   'vegan',
   'gluten-free',
@@ -48,7 +48,7 @@ const dietaryOptions: DietaryRestriction[] = foodTypes.dietaryRestrictions as Di
   'paleo',
   'low-carb',
   'low-fat'
-];
+] as DietaryRestriction[]);
 
 interface FilterState {
   search: string;

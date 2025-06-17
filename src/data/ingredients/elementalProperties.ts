@@ -251,7 +251,7 @@ export const getIngredientsByElement = (element: keyof ElementalProperties): Ing
     const dominantElement = Object.entries(properties)
       .reduce((max, [elem, value]) => value > max.value ? { element: elem, value } : max, { element: '', value: 0 });
     
-    return dominantElement.element === element.toLowerCase();
+    return dominantElement.element === (element as string).toLowerCase();
   });
 };
 

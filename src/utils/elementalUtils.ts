@@ -5,11 +5,11 @@ import type {
   ElementalProperties,
   Recipe,
   ElementalAffinity,
-  IngredientMapping,
   ElementalCharacteristics,
   Element,
   ElementalProfile,
 } from '@/types/alchemy';
+import type { IngredientMapping } from '@/data/ingredients/types';
 import { ElementalCalculator } from '@/services/ElementalCalculator';
 import {
   elements,
@@ -652,7 +652,7 @@ export function transformItemsWithPlanetaryPositions(
       planetaryBoost: planetaryInfluence,
       dominantPlanets,
       planetaryDignities,
-    };
+    } as AlchemicalItem;
   });
 }
 

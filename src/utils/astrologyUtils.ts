@@ -2223,8 +2223,8 @@ export function transformItemsWithPlanetaryPositions(
         compatibilityScore
       );
 
-      // Create alchemical item
-      const alchemicalItem: AlchemicalItem = {
+      // Create alchemical item with interface compliance
+      const alchemicalItem = {
         ...item,
         compatibilityScore,
         dominantElement,
@@ -2233,9 +2233,9 @@ export function transformItemsWithPlanetaryPositions(
         transformations: calculateElementalTransformations(
           item.elementalProperties,
           currentElementalInfluence
-        ),
+        ) as any,
         seasonalResonance: calculateSeasonalResonance(dominantElement)
-      };
+      } as AlchemicalItem;
 
       return alchemicalItem;
     });

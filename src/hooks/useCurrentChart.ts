@@ -66,7 +66,7 @@ export function useCurrentChart() {
         };
         
         if (planetaryPositions.ascendant) {
-          newChartData.ascendant = planetaryPositions.ascendant.sign;
+          newChartData.ascendant = (planetaryPositions.ascendant as any)?.sign;
         }
         
         setChartData(newChartData);

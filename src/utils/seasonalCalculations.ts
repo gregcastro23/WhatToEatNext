@@ -376,7 +376,7 @@ function calculateSeasonalScores(
 
     // Ingredient seasonality (20% of total)
     recipe.ingredients?.forEach(ingredient => {
-        if (ingredient.seasonality) {
+        if (ingredient.seasonality && Array.isArray(ingredient.seasonality)) {
             ingredient.seasonality.forEach(season => {
                 if (season in scores) {
                     scores[season as Season] += 20 / (recipe.ingredients?.length || 1);

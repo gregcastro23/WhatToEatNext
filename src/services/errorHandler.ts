@@ -205,7 +205,8 @@ export function safeValue<T>(
   variableName: string
 ): T {
   if (value === null || value === undefined) {
-    ErrorHandler.warnNullValue(variableName, context)
+    // Use standalone warnNullValue function since it's not a method on ErrorHandler
+    warnNullValue(variableName, context, value);
     return fallback
   }
   return value

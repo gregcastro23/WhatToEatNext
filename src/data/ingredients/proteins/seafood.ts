@@ -1,7 +1,9 @@
-import type { IngredientMapping } from '@/types/alchemy';
+import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-const rawSeafood = {
+// Pattern AA: Ingredient Interface Restructuring
+// Proper type annotation for raw ingredients to ensure IngredientMapping compatibility
+const rawSeafood: Record<string, Partial<IngredientMapping>> = {
   'atlantic_salmon': {
     name: 'Salmon',
     category: 'protein',

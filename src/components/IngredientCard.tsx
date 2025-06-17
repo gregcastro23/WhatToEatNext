@@ -14,9 +14,9 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
   onClick
 }) => {
   // Determine the dominant element to style the card
-  const dominantElement = getDominantElement(ingredient.elementalProperties || {
+  const dominantElement = getDominantElement((ingredient.elementalProperties || {
     Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-  });
+  }) as any);
 
   // Get class based on dominant element
   const elementClass = `element-${dominantElement.toLowerCase()}`;

@@ -107,8 +107,8 @@ export function calculateBasicPlanetaryPositions(date: Date = new Date()) {
     // If that fails, fall back to the simplified calculation
     try {
       const lunarNodes = astrologyUtils.calculateLunarNodes(date);
-      northNode = lunarNodes.northNode;
-      southNode = lunarNodes.southNode;
+      northNode = (lunarNodes as any)?.northNode;
+      southNode = (lunarNodes as any)?.southNode;
     } catch (fallbackError) {
       // Ultimate fallback with hardcoded values (current positions as of 2024)
       northNode = {

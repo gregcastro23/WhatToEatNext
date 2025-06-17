@@ -27,7 +27,7 @@ export function findMatchedItalianDinnerRecipes() {
   
   // Map all ingredients to our ingredient database
   const mappedRecipes = allDinnerRecipes.map(recipe => {
-    const mappedIngredients = connectIngredientsToMappings(recipe);
+    const mappedIngredients = connectIngredientsToMappings(recipe as any);
     
     // Calculate mapping score (percentage of ingredients with a mapping)
     // Apply surgical type casting with variable extraction
@@ -89,14 +89,14 @@ export function findRecipesMatchingElementalAndIngredientRequirements(
   
   // Use the new filtering function
   const matchedRecipes = filterRecipesByIngredientMappings(
-    allRecipes,
-    elementalTarget,
+    allRecipes as any,
+    elementalTarget as any,
     {
       required: requiredIngredients,
       excluded: excludedIngredients,
       dietaryRestrictions: dietaryRestrictions,
       emphasized: [] // Optional emphasized ingredients
-    }
+    } as any
   );
   
   return matchedRecipes;
@@ -111,7 +111,7 @@ export function suggestIngredientSubstitutions(
   ingredientToReplace: string
 ) {
   // Map all ingredients
-  const mappedIngredients = connectIngredientsToMappings(recipe);
+  const mappedIngredients = connectIngredientsToMappings(recipe as any);
   
   // Find the ingredient to replace
   const ingredientMapping = mappedIngredients.find(

@@ -1,5 +1,6 @@
 import { ZodiacSign, LunarPhase, Planet, Element, Modality, PlanetaryAlignment, CelestialPosition, PlanetaryAspect, AlchemicalProperties } from '@/types/celestial';
 import { Planet, PlanetName, LunarPhase } from '@/types/celestial';
+import { TarotCard } from '@/contexts/TarotContext/types';
 
 // src/types/alchemy.ts
 
@@ -406,6 +407,7 @@ export interface Ingredient {
   category: string;
   elementalProperties: ElementalProperties;
   nutritionalProfile?: NutritionalProfile;
+  alchemicalProperties?: AlchemicalResult;
   seasonality?: Season[];
   affinities?: string[];
   cookingMethods?: string[];
@@ -415,6 +417,12 @@ export interface Ingredient {
 
 // NutritionalProfile type (causing errors in multiple files)
 export interface NutritionalProfile {
+  // USDA-specific properties
+  name?: string;
+  fdcId?: number;
+  source?: string;
+  
+  // Basic nutritional values
   calories?: number;
   protein?: number;
   carbohydrates?: number;
@@ -422,10 +430,23 @@ export interface NutritionalProfile {
   fiber?: number;
   sugar?: number;
   sodium?: number;
+  
+  // Nested nutritional objects for USDA data
+  macros?: {
+    protein?: number;
+    carbs?: number;
+    fat?: number;
+    fiber?: number;
+    [key: string]: number | undefined;
+  };
+  
   vitamins?: Record<string, number>;
   minerals?: Record<string, number>;
   antioxidants?: string[];
   phytonutrients?: string[];
+  
+  // Allow additional properties for extensibility
+  [key: string]: unknown;
 }
 
 // ElementalState type (causing errors in IngredientRecommendations.tsx)
@@ -447,6 +468,23 @@ export type CuisineType =
   | 'american' | 'french' | 'thai' | 'chinese' | 'japanese'
   | 'greek' | 'spanish' | 'middle-eastern' | 'moroccan' | 'ethiopian'
   | 'caribbean' | 'brazilian' | 'korean' | 'vietnamese' | 'fusion';
+
+// Cuisine interface for cuisine objects with properties
+export interface Cuisine {
+  id?: string;
+  name: string;
+  description?: string;
+  history?: string;
+  culturalImportance?: string;
+  elementalState?: ElementalProperties;
+  elementalProperties?: ElementalProperties;
+  dishes?: {
+    [mealType: string]: {
+      [season: string]: Recipe[];
+    };
+  };
+  [key: string]: unknown;
+}
 
 export type DietaryRestriction = 
   | 'vegetarian' | 'vegan' | 'gluten-free' | 'dairy-free' | 'nut-free'
@@ -543,6 +581,7 @@ export interface MethodRecommendationOptions {
 export interface MethodRecommendation {
   method: CookingMethod;
   compatibility: number; // 0-1 scale
+  score: number; // Compatibility score for sorting recommendations
   reasoning: string[];
   elementalAlignment: Element[];
   estimatedTime: TimeFactors;
@@ -564,23 +603,53 @@ export interface IngredientSearchCriteria {
 }
 
 export interface EnergyStateProperties {
-  vitality: number;
-  clarity: number;
-  stability: number;
-  creativity: number;
-  spirituality: number;
-  emotionalBalance: number;
-  physicalBalance: number;
+  Spirit: number;
+  Essence: number;
+  Matter: number;
+  Substance: number;
 }
 
 export type ChakraPosition = 'root' | 'sacral' | 'solarPlexus' | 'heart' | 'throat' | 'thirdEye' | 'crown';
 
+// CelestialBody interface for astronomical calculations
+export interface CelestialBody {
+  name: string;
+  position?: PlanetaryPosition;
+  influence?: number; // 0-1 scale
+  element?: Element;
+  label?: string;
+  Sign?: {
+    label?: string;
+  };
+  [key: string]: unknown;
+}
+
 export interface CelestialAlignment {
   moment: Date;
+  date?: Date; // Optional date property for backward compatibility
   planetaryPositions: PlanetaryAlignment;
   lunarPhase: LunarPhase;
   seasonalEnergy: Season;
   elementalDominance: ElementalProperties;
+  elementalBalance?: ElementalProperties; // Additional elemental balance property
+  elementalState?: ElementalProperties; // Elemental state for alchemical calculations
   aspectPatterns: PlanetaryAspect[];
   energyFlow: number; // 0-1 scale
+  // Enhanced properties for celestialCalculations.ts compatibility
+  zodiacSign?: ZodiacSign; // Current dominant zodiac sign
+  dominantPlanets?: CelestialBody[]; // Array of dominant celestial bodies
+  astrologicalInfluences?: string[]; // Array of astrological influence strings
+  tarotInfluences?: TarotCard[]; // Tarot card influences
+  energyStates?: EnergyStateProperties; // ESMS energy states (Spirit, Essence, Matter, Substance)
+  chakraEnergies?: ChakraEnergies; // Chakra energy distribution
+  // Additional calculation properties
+  aspectInfluences?: Array<{type: AspectType, planets: string[], influence: number}>; // Detailed aspect influences
+  energyStateBalance?: EnergyStateProperties; // Energy state balance calculations
+  chakraEmphasis?: ChakraEnergies; // Chakra emphasis calculations
+  // Alchemizer engine integration properties
+  thermodynamicMetrics?: ThermodynamicMetrics; // Heat, entropy, reactivity, gregsEnergy, kalchm, monica
+  kalchm?: number; // Kalchm constant for alchemical calculations
+  monica?: number; // Monica constant for alchemical calculations
+  // Current celestial position properties
+  currentZodiacSign?: ZodiacSign; // Current zodiac sign for compatibility calculations
 }

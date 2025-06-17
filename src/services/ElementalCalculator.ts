@@ -12,6 +12,14 @@ import { DEFAULT_ELEMENTAL_PROPERTIES } from '../constants/elementalConstants';
 import { createLogger } from '@/utils/logger';
 import { planetInfo, signInfo, signs } from '../data/astrology';
 
+interface ElementalSummary {
+  totalFire: number;
+  totalWater: number;
+  totalEarth: number;
+  totalAir: number;
+  dominantElement: keyof ElementalProperties;
+}
+
 let logger = createLogger('ElementalCalculator');
 
 export class ElementalCalculator {

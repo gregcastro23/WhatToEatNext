@@ -114,9 +114,10 @@ export class RecipeElementalService {
     };
     
     try {
-      // Adjust based on cooking method
+      // Adjust based on cooking method - safe property access for string/string[]
       if (recipe.cookingMethod) {
-        const method = recipe.cookingMethod.toLowerCase();
+        const methodValue = Array.isArray(recipe.cookingMethod) ? recipe.cookingMethod[0] : recipe.cookingMethod;
+        const method = (methodValue || '').toString().toLowerCase();
         
         if (method.includes('roast') || method.includes('grill') || method.includes('bake')) {
           elementalProps.Fire += 0.2;

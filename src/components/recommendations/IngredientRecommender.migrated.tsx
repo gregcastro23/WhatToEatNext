@@ -559,7 +559,7 @@ const IngredientRecommenderMigrated: React.FC = () => {
                         key={element} 
                         className="flex items-center text-xs bg-gray-50 px-1.5 py-0.5 rounded"
                       >
-                        {getElementIcon(element?.toLowerCase())}
+                        {getElementIcon(element?.toLowerCase() as any)}
                         {Math.round(value * 100)}%
                       </span>
                     ))}

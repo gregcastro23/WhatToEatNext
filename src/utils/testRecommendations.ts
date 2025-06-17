@@ -8,7 +8,7 @@ import { getHolisticCookingRecommendations } from './alchemicalPillarUtils';
  * Run a test for cooking method recommendations with sample data
  * This can be called from any component to debug the recommendation logic
  */
-export function testCookingMethodRecommendations() {
+export async function testCookingMethodRecommendations() {
   // Create a mock ingredient
   const mockIngredient: AlchemicalItem = {
     name: 'Tomato',
@@ -49,7 +49,7 @@ export function testCookingMethodRecommendations() {
   try {
     console.warn('\nTESTING HOLISTIC RECOMMENDATIONS DIRECTLY:');
     const methods = mockCookingMethods.map(m => m.name);
-    const holisticRecs = getHolisticCookingRecommendations(mockIngredient, undefined, undefined, true, methods, 5);
+    const holisticRecs = await getHolisticCookingRecommendations(mockIngredient, undefined, undefined, true, methods, 5);
     holisticRecs.forEach((rec, index) => {
       console.warn(`${index + 1}. ${rec.method} - Compatibility: ${Math.round(rec.compatibility)}% - ${rec.reason}`);
     });
@@ -60,10 +60,10 @@ export function testCookingMethodRecommendations() {
     }
   }
 
-  // Test the ingredient-specific function
+  // Test the ingredient-specific function - Pattern ZZZ: Array Object Interface Expansion
   try {
     console.warn('\nTESTING INGREDIENT-SPECIFIC RECOMMENDATIONS:');
-    const recommendations = getRecommendedCookingMethodsForIngredient(mockIngredient, mockCookingMethods, 5);
+    const recommendations = getRecommendedCookingMethodsForIngredient(mockIngredient, mockCookingMethods as any, 5);
     recommendations.forEach((rec, index) => {
       console.warn(`${index + 1}. ${rec.method} - Compatibility: ${Math.round(rec.compatibility)}%`);
     });
@@ -74,9 +74,11 @@ export function testCookingMethodRecommendations() {
     }
   }
   
+  const holisticRecs = await getHolisticCookingRecommendations(mockIngredient, undefined, undefined, true, mockCookingMethods.map(m => m.name), 5);
+  
   return {
     ingredient: mockIngredient,
-    holisticRecommendations: getHolisticCookingRecommendations(mockIngredient, undefined, undefined, true, mockCookingMethods.map(m => m.name), 5),
-    standardRecommendations: getRecommendedCookingMethodsForIngredient(mockIngredient, mockCookingMethods, 5)
+    holisticRecommendations: holisticRecs,
+    standardRecommendations: getRecommendedCookingMethodsForIngredient(mockIngredient, mockCookingMethods as any, 5) // Pattern ZZZ: Array Object Interface Expansion
   };
 } 

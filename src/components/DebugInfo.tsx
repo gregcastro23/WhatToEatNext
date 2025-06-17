@@ -31,8 +31,8 @@ const DebugInfo = memo(function DebugInfo() {
       <div className="space-y-2 text-sm">
         <p>Mounted: {hasRenderedRef.current ? 'true' : 'false'}</p>
         <p>Renders: {renderCountRef.current}</p>
-        <p>Current Sign: {planetaryPositions?.sun?.sign || 'unknown'}</p>
-        <p>Planetary Hour: {state?.astrologicalState?.planetaryHour || 'Unknown'}</p>
+        <p>Current Sign: {(planetaryPositions?.sun as any)?.sign || 'unknown'}</p>
+        <p>Planetary Hour: {(state?.astrologicalState?.planetaryHour as string) || 'Unknown'}</p>
         <p>Lunar Phase: {state?.lunarPhase || 'Unknown'}</p>
         
         <h3 className="font-medium mt-3">Alchemical Tokens:</h3>

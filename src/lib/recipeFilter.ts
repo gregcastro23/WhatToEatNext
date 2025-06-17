@@ -57,11 +57,16 @@ export const recipeFilter = {
 
     // Apply dietary restrictions filter
     if (filters.dietaryRestrictions && filters.dietaryRestrictions.length > 0) {
-      filteredRecipes = filteredRecipes.filter(recipe =>
-        filters.dietaryRestrictions?.every(restriction =>
-          recipe.dietaryRestrictions?.includes(restriction) || false
-        )
-      );
+      filteredRecipes = filteredRecipes.filter(recipe => {
+        const recipeDietaryRestrictions = recipe.dietaryRestrictions;
+        // Safe array access with type checking
+        if (Array.isArray(recipeDietaryRestrictions)) {
+          return filters.dietaryRestrictions?.every(restriction =>
+            recipeDietaryRestrictions.includes(restriction)
+          );
+        }
+        return false;
+      });
     }
 
     // Apply prep time filter

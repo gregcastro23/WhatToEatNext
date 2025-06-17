@@ -2,9 +2,9 @@ import {
   ElementalProperties, 
   ZodiacSign, 
   Element,
-  Season,
-  IngredientMapping
+  Season
 } from '@/types/alchemy';
+import { IngredientMapping } from '@/data/ingredients/types';
 
 // Helper function to standardize ingredient mappings
 function createIngredientMapping(
@@ -20,10 +20,10 @@ function createIngredientMapping(
       Air: 0.25 
     },
     ...properties
-  };
+  } as IngredientMapping;
 }
 
-export const ingredientMappings: Record<string, IngredientMapping> = {
+export const ingredientMappings = {
   // Aromatics
   ginger: createIngredientMapping('ginger', {
     elementalProperties: {
@@ -396,7 +396,7 @@ export const getIngredientsByElement = (element: keyof ElementalProperties) => {
 // Helper function to get seasonal ingredients
 export const getSeasonalIngredients = (season: string) => {
   return Object.entries(ingredientMappings)
-    .filter(([_, mapping]) => mapping.season.includes(season as Season))
+    .filter(([_, mapping]) => (mapping.season as string[]).includes(season))
     .map(([name]) => name);
 };
 

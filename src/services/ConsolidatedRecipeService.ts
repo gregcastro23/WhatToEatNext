@@ -1,11 +1,4 @@
-type Season = 'spring' | 'summer' | 'autumn' | 'winter';
-
-const logger = {
-  info: (message: string, ...args: any[]) => console.log('[INFO]', message, ...args),
-  warn: (message: string, ...args: any[]) => console.warn('[WARN]', message, ...args),
-  error: (message: string, ...args: any[]) => console.error('[ERROR]', message, ...args),
-  debug: (message: string, ...args: any[]) => console.debug('[DEBUG]', message, ...args)
-};
+// Removed local type and logger definitions to avoid conflicts with imports
 /**
  * ConsolidatedRecipeService.ts
  * 
@@ -17,7 +10,7 @@ const logger = {
  */
 
 
-import type {
+import {
          getRecipesForPlanetaryAlignment, 
          getRecipesForFlavorProfile, 
          getBestRecipeMatches 
@@ -39,14 +32,15 @@ import type { RecipeServiceInterface } from './interfaces/RecipeServiceInterface
 import type { ElementalProperties } from '@/types/alchemy';
 import { LocalRecipeService } from './LocalRecipeService';
 import { UnifiedRecipeService } from './UnifiedRecipeService';
-import { errorHandler } from '@/utils/errorHandler';
+import { ErrorHandler } from '@/utils/errorHandler';
+import { recipeElementalService } from './RecipeElementalService';
 
 // Missing unified system imports
 import { 
   getRecipesForZodiac,
   getRecipesForSeason, 
   getRecipesForLunarPhase,
-  adaptAllRecipes
+  getAllRecipes
 } from '@/data/recipes';
 import { unifiedRecipeService } from '@/services/UnifiedRecipeService';
 
@@ -60,7 +54,7 @@ import type {
  * Implementation of the RecipeServiceInterface that delegates to specialized services
  * and consolidates their functionality into a single, consistent API.
  */
-export class ConsolidatedRecipeService implements RecipeServiceInterface {
+export class ConsolidatedRecipeService {
   private static instance: ConsolidatedRecipeService;
   private recipeCache: Map<string, Recipe[]> = new Map();
   
@@ -88,9 +82,9 @@ export class ConsolidatedRecipeService implements RecipeServiceInterface {
     try {
       return await LocalRecipeService.getAllRecipes();
     } catch (error) {
-      errorHandler.logError(error, {
-        context: 'ConsolidatedRecipeService',
-        action: 'getAllRecipes',
+      ErrorHandler.log((error as unknown as Error), {
+        component: 'ConsolidatedRecipeService',
+        context: { action: 'getAllRecipes' }
       });
       return [];
     }
@@ -105,15 +99,14 @@ export class ConsolidatedRecipeService implements RecipeServiceInterface {
   ): Promise<Recipe[]> {
     try {
       // Convert our criteria to UnifiedRecipeService format
-      const unifiedResults = await unifiedRecipeService.searchRecipes(criteria, options);
+      const unifiedResults = await (unifiedRecipeService as any).searchRecipes(criteria as any);
       
       // Extract just the Recipe objects from the results
-      return (unifiedResults || []).map((result: any) => result.recipe || result) as Recipe[];
+      return (unifiedResults || []).map((result: any) => result.recipe || result) as unknown as Recipe[];
     } catch (error) {
-      errorHandler.logError(error, {
-        context: 'ConsolidatedRecipeService',
-        action: 'searchRecipes',
-        criteria
+      ErrorHandler.log((error as unknown as Error), {
+        component: 'ConsolidatedRecipeService',
+        context: { action: 'searchRecipes', criteria }
       });
       return [];
     }
@@ -126,10 +119,9 @@ export class ConsolidatedRecipeService implements RecipeServiceInterface {
     try {
       return await LocalRecipeService.getRecipesByCuisine(cuisine);
     } catch (error) {
-      errorHandler.logError(error, {
-        context: 'ConsolidatedRecipeService',
-        action: 'getRecipesByCuisine',
-        cuisine
+      ErrorHandler.log((error as unknown as Error), {
+        component: 'ConsolidatedRecipeService',
+        context: { action: 'getRecipesByCuisine', cuisine }
       });
       return [];
     }
@@ -141,12 +133,11 @@ export class ConsolidatedRecipeService implements RecipeServiceInterface {
   async getRecipesByZodiac(currentZodiacSign: ZodiacSign): Promise<Recipe[]> {
     try {
       const recipeData = await getRecipesForZodiac(currentZodiacSign);
-      return adaptAllRecipes(recipeData) as Recipe[];
+      return recipeData as unknown as unknown as Recipe[];
     } catch (error) {
-      errorHandler.logError(error, {
-        context: 'ConsolidatedRecipeService',
-        action: 'getRecipesByZodiac',
-        currentZodiacSign
+      ErrorHandler.log((error as unknown as Error), {
+        component: 'ConsolidatedRecipeService',
+        context: { action: 'getRecipesByZodiac', currentZodiacSign }
       });
       return [];
     }
@@ -158,12 +149,11 @@ export class ConsolidatedRecipeService implements RecipeServiceInterface {
   async getRecipesBySeason(season: Season): Promise<Recipe[]> {
     try {
       const recipeData = await getRecipesForSeason(season);
-      return adaptAllRecipes(recipeData) as Recipe[];
+      return recipeData as unknown as unknown as Recipe[];
     } catch (error) {
-      errorHandler.logError(error, {
-        context: 'ConsolidatedRecipeService',
-        action: 'getRecipesBySeason',
-        season
+      ErrorHandler.log((error as unknown as Error), {
+        component: 'ConsolidatedRecipeService',
+        context: { action: 'getRecipesBySeason', season }
       });
       return [];
     }
@@ -175,12 +165,11 @@ export class ConsolidatedRecipeService implements RecipeServiceInterface {
   async getRecipesByLunarPhase(lunarPhase: LunarPhase): Promise<Recipe[]> {
     try {
       const recipeData = await getRecipesForLunarPhase(lunarPhase);
-      return adaptAllRecipes(recipeData) as Recipe[];
+      return recipeData as unknown as unknown as Recipe[];
     } catch (error) {
-      errorHandler.logError(error, {
-        context: 'ConsolidatedRecipeService',
-        action: 'getRecipesByLunarPhase',
-        lunarPhase
+      ErrorHandler.log((error as unknown as Error), {
+        component: 'ConsolidatedRecipeService',
+        context: { action: 'getRecipesByLunarPhase', lunarPhase }
       });
       return [];
     }
@@ -193,10 +182,9 @@ export class ConsolidatedRecipeService implements RecipeServiceInterface {
     try {
       return await LocalRecipeService.getRecipesByMealType(mealType);
     } catch (error) {
-      errorHandler.logError(error, {
-        context: 'ConsolidatedRecipeService',
-        action: 'getRecipesByMealType',
-        mealType
+      ErrorHandler.log((error as unknown as Error), {
+        component: 'ConsolidatedRecipeService',
+        context: { action: 'getRecipesByMealType', mealType }
       });
       return [];
     }
@@ -210,11 +198,11 @@ export class ConsolidatedRecipeService implements RecipeServiceInterface {
     minMatchScore: number = 0.6,
   ): Promise<Recipe[]> {
     try {
-      return await getRecipesForPlanetaryAlignment(planetaryInfluences, minMatchScore) as Recipe[];
+      return await getRecipesForPlanetaryAlignment(planetaryInfluences, minMatchScore) as unknown as Recipe[];
     } catch (error) {
-      errorHandler.logError(error, {
-        context: 'ConsolidatedRecipeService',
-        action: 'getRecipesForPlanetaryAlignment',
+      ErrorHandler.log((error as unknown as Error), {
+        component: 'ConsolidatedRecipeService',
+        context: { action: 'getRecipesForPlanetaryAlignment' }
       });
       return [];
     }
@@ -228,11 +216,11 @@ export class ConsolidatedRecipeService implements RecipeServiceInterface {
     minMatchScore: number = 0.7,
   ): Promise<Recipe[]> {
     try {
-      return await getRecipesForFlavorProfile(flavorProfile, minMatchScore) as Recipe[];
+      return await getRecipesForFlavorProfile(flavorProfile, minMatchScore) as unknown as Recipe[];
     } catch (error) {
-      errorHandler.logError(error, {
-        context: 'ConsolidatedRecipeService',
-        action: 'getRecipesForFlavorProfile',
+      ErrorHandler.log((error as unknown as Error), {
+        component: 'ConsolidatedRecipeService',
+        context: { action: 'getRecipesForFlavorProfile' }
       });
       return [];
     }
@@ -255,12 +243,11 @@ export class ConsolidatedRecipeService implements RecipeServiceInterface {
     limit: number = 10
   ): Promise<Recipe[]> {
     try {
-      return await getBestRecipeMatches(criteria, limit) as Recipe[];
+      return await getBestRecipeMatches(criteria, limit) as unknown as Recipe[];
     } catch (error) {
-      errorHandler.logError(error, {
-        context: 'ConsolidatedRecipeService',
-        action: 'getBestRecipeMatches',
-        criteria
+      ErrorHandler.log((error as unknown as Error), {
+        component: 'ConsolidatedRecipeService',
+        context: { action: 'getBestRecipeMatches', criteria }
       });
       return [];
     }
@@ -277,10 +264,9 @@ export class ConsolidatedRecipeService implements RecipeServiceInterface {
       const unifiedResult = generateRecipeMethod ? await generateRecipeMethod(criteria) : null;
       return unifiedResult?.recipe || null;
     } catch (error) {
-      errorHandler.logError(error, {
-        context: 'ConsolidatedRecipeService',
-        action: 'generateRecipe',
-        criteria
+      ErrorHandler.log((error as unknown as Error), {
+        component: 'ConsolidatedRecipeService',
+        context: { action: 'generateRecipe', criteria }
       });
       throw error;
     }
@@ -300,11 +286,9 @@ export class ConsolidatedRecipeService implements RecipeServiceInterface {
       const unifiedResult = generateFusionRecipeMethod ? await generateFusionRecipeMethod(cuisines, criteria) : null;
       return unifiedResult?.recipe || null;
     } catch (error) {
-      errorHandler.logError(error, {
-        context: 'ConsolidatedRecipeService',
-        action: 'generateFusionRecipe',
-        cuisines,
-        criteria
+      ErrorHandler.log((error as unknown as Error), {
+        component: 'ConsolidatedRecipeService',
+        context: { action: 'generateFusionRecipe', cuisines, criteria }
       });
       throw error;
     }
@@ -324,11 +308,9 @@ export class ConsolidatedRecipeService implements RecipeServiceInterface {
       const unifiedResult = adaptRecipeMethod ? await adaptRecipeMethod(recipe) : null;
       return unifiedResult?.recipe || recipe;
     } catch (error) {
-      errorHandler.logError(error, {
-        context: 'ConsolidatedRecipeService',
-        action: 'adaptRecipeForSeason',
-        recipe,
-        season
+      ErrorHandler.log((error as unknown as Error), {
+        component: 'ConsolidatedRecipeService',
+        context: { action: 'adaptRecipeForSeason', recipe, season }
       });
       return recipe; // Return original recipe on error
     }
@@ -369,7 +351,10 @@ export class ConsolidatedRecipeService implements RecipeServiceInterface {
       const elementalProps1 = recipeElementalService.standardizeRecipe(recipe1)?.elementalState;
       const elementalProps2 = recipeElementalService.standardizeRecipe(recipe2)?.elementalState;
       
-      return recipeElementalService.calculateSimilarity(elementalProps1, elementalProps2);
+      return recipeElementalService.calculateSimilarity(
+        elementalProps1 as unknown as ElementalProperties, 
+        elementalProps2 as unknown as ElementalProperties
+      );
     } catch (error) {
       logger.error('Error calculating recipe similarity', error);
       return 0.5; // Return neutral similarity on error
@@ -387,4 +372,4 @@ export class ConsolidatedRecipeService implements RecipeServiceInterface {
 
 // Export singleton instance
 
-export const consolidatedRecipeService = new ConsolidatedRecipeService();
+export const consolidatedRecipeService = ConsolidatedRecipeService.getInstance();

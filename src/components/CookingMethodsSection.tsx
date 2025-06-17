@@ -142,7 +142,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
           name: method.name,
           elementalProperties: methodElemental,
           category: 'cooking_method'
-        });
+        } as any);
         
         if (result.success) {
           compatibilityResults[method.id] = result.compatibility;
@@ -159,7 +159,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
                 name: variation.name,
                 elementalProperties: variationElemental,
                 category: 'cooking_method'
-              });
+              } as any);
               
               if (variationResult.success) {
                 compatibilityResults[variation.id] = variationResult.compatibility;

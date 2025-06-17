@@ -65,7 +65,7 @@ export default function AlchemicalDebugger() {
         <div>{stateChangeCount}</div>
         
         <div className="font-medium">Current zodiac:</div>
-        <div>{alchemicalContext.state?.astrologicalState?.currentZodiacSign || 'unknown'}</div>
+        <div>{(alchemicalContext.state?.astrologicalState?.currentZodiacSign as string) || 'unknown'}</div>
         
         <div className="font-medium">Is daytime:</div>
         <div>{alchemicalContext.isDaytime ? 'Yes' : 'No'}</div>

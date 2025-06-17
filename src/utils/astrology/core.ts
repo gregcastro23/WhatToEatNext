@@ -10,6 +10,11 @@ import { getCurrentSeason, getTimeOfDay } from '../dateUtils';
 import { PlanetaryHourCalculator } from '../../lib/PlanetaryHourCalculator';
 import { ElementalCharacter } from '../../constants/planetaryElements';
 
+// Add missing imports for TS2304 fixes
+import { calculatePlanetaryAspects as safeCalculatePlanetaryAspects } from '@/utils/safeAstrology';
+import { getAccuratePlanetaryPositions } from '@/utils/accurateAstronomy';
+import { getPlanetaryPositions } from '@/utils/astrologyDataProvider';
+
 import { AstrologicalState, Element } from "@/types/celestial";
 import { ElementalProperties } from '@/types';
 import { PlanetaryPosition } from "@/types/celestial";
@@ -79,6 +84,90 @@ const zodiacSigns: ZodiacSign[] = [
 
 // Export calculatePlanetaryAspects from validation module
 export const calculatePlanetaryAspects = safeCalculatePlanetaryAspects;
+
+/**
+ * Calculate active planets based on their positions and dignities
+ * @param positions Record of planetary positions
+ * @returns Array of active planet names
+ */
+export function calculateActivePlanets(positions: Record<string, any>): string[] {
+  if (!positions || typeof positions !== 'object') {
+    return [];
+  }
+  
+  // List of planets we want to check
+  const planetKeys = ['sun', 'moon', 'mercury', 'venus', 'mars', 'jupiter', 'saturn', 'uranus', 'neptune', 'pluto'];
+  const activePlanets: string[] = [];
+  
+  try {
+    // Add ruling planet of current sun sign
+    const sunSign = positions.sun?.sign?.toLowerCase() || positions.Sun?.sign?.toLowerCase();
+    if (sunSign) {
+      // Map signs to their ruling planets
+      const signRulers: Record<string, string> = {
+        'aries': 'mars',
+        'taurus': 'venus',
+        'gemini': 'mercury',
+        'cancer': 'moon',
+        'leo': 'sun',
+        'virgo': 'mercury',
+        'libra': 'venus',
+        'scorpio': 'mars',
+        'sagittarius': 'jupiter',
+        'capricorn': 'saturn',
+        'aquarius': 'saturn', // Traditional ruler
+        'pisces': 'jupiter'  // Traditional ruler
+      };
+      
+      // Add the ruler of the current sun sign
+      if (signRulers[sunSign] && !activePlanets.includes(signRulers[sunSign])) {
+        activePlanets.push(signRulers[sunSign]);
+      }
+    }
+    
+    Object.entries(positions).forEach(([planet, position]) => {
+      if (!planetKeys.includes(planet.toLowerCase()) || !position || !position.sign) {
+        return;
+      }
+      
+      const planetLower = planet.toLowerCase();
+      const signLower = position.sign.toLowerCase();
+      
+      // Simple planet-sign dignity mapping
+      const dignities: Record<string, string[]> = {
+        sun: ['leo', 'aries'],
+        moon: ['cancer', 'taurus'],
+        mercury: ['gemini', 'virgo'],
+        venus: ['taurus', 'libra', 'pisces'],
+        mars: ['aries', 'scorpio', 'capricorn'],
+        jupiter: ['sagittarius', 'pisces', 'cancer'],
+        saturn: ['capricorn', 'aquarius', 'libra'],
+        uranus: ['aquarius', 'scorpio'],
+        neptune: ['pisces', 'cancer'],
+        pluto: ['scorpio', 'leo']
+      };
+      
+      // Check if planet is in a powerful sign position
+      if (dignities[planetLower]?.includes(signLower)) {
+        activePlanets.push(planetLower);
+      }
+      
+      // Add special rulerships based on degree
+      const degree = position.degree || 0;
+      if (degree >= 0 && degree <= 15) {
+        // Planets in early degrees are more powerful
+        if (!activePlanets.includes(planetLower)) {
+          activePlanets.push(planetLower);
+        }
+      }
+    });
+  } catch (error) {
+    errorLog('Error calculating active planets', error);
+  }
+  
+  // Ensure uniqueness
+  return [...new Set(activePlanets)];
+}
 
 /**
  * Get the modifier value for a specific lunar phase
@@ -483,7 +572,7 @@ export function calculateDominantElement(
   // Count elements from planetary positions
   if (astroState.planetaryPositions) {
     Object.entries(astroState.planetaryPositions || []).forEach(([planet, position]) => {
-      const element = getZodiacElementalInfluence(position.sign);
+      const element = getZodiacElementalInfluence(position.sign as any);
       
       // Weight by planet importance
       let weight = 1;
@@ -528,7 +617,7 @@ export function calculateElementalProfile(
   // Count elements from planetary positions
   if (astroState.planetaryPositions) {
     Object.entries(astroState.planetaryPositions || []).forEach(([planet, position]) => {
-      const element = getZodiacElementalInfluence(position.sign);
+      const element = getZodiacElementalInfluence(position.sign as any);
       
       // Weight by planet importance
       let weight = 1;
@@ -635,8 +724,8 @@ export function calculateAspects(
           const strength = 1 - (orb / definition.orb);
           
           // Get element of the sign for each planet
-          const element1 = getZodiacElement(pos1.sign as ZodiacSign)?.toLowerCase();
-          const element2 = getZodiacElement(pos2.sign as ZodiacSign)?.toLowerCase();
+          const element1 = getZodiacElement(pos1.sign as any)?.toLowerCase();
+          const element2 = getZodiacElement(pos2.sign as any)?.toLowerCase();
           
           // Base multiplier from definition
           let multiplier = definition.significance;

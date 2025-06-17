@@ -4,6 +4,7 @@
 
 // Define or import ElementalCharacter and Planet types
 import { ElementalCharacter } from '../constants/planetaryElements';
+import { ZodiacSign, LunarPhase, Planet, PlanetName } from "@/types/alchemy";
 
 /**
  * Represents planets in astrology 
@@ -103,5 +104,5 @@ export type AstrologyLunarPhase =
   | 'last_quarter'
   | 'waning_crescent'; 
 
-// Re-export standard types from celestial
-export { Planet, PlanetName, ZodiacSign, LunarPhase } from "@/types/celestial";
+// Re-export types for convenience
+export type { ZodiacSign, LunarPhase, Planet, PlanetName } from "@/types/alchemy";

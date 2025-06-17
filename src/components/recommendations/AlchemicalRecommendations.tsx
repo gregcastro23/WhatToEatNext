@@ -347,8 +347,8 @@ export default function AlchemicalRecommendations({
       }
       
       const qualities = ingredient && typeof ingredient === 'object' && 'qualities' in ingredient ? 
-        (ingredient.qualities as string[] || []) : [];
-      const modality = determineIngredientModality(elementalProps, qualities);
+        (ingredient.qualities as any || []) : [];
+      const modality = determineIngredientModality(elementalProps as any, qualities);
       
       return {
         id: key,
@@ -617,7 +617,7 @@ export default function AlchemicalRecommendations({
                   </Grid>
                   <Grid item xs={6}>
                     <Typography variant="body2">
-                      <strong>Dominant Property:</strong> {energeticProfile.dominantAlchemicalProperty}
+                      <strong>Dominant Property:</strong> {(energeticProfile as any)?.dominantAlchemicalProperty}
                     </Typography>
                   </Grid>
                 </Grid>

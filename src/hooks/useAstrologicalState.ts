@@ -197,7 +197,7 @@ export function useAstrologicalState(): AstrologyHookData {
     try {
       if (Object.keys(memoizedPlanetaryPositions).length > 0) {
         const activePlanets = getActivePlanets(memoizedPlanetaryPositions);
-        const currentZodiac = (memoizedPlanetaryPositions.sun?.sign || '').toLowerCase();
+        const currentZodiac = ((memoizedPlanetaryPositions.sun as any)?.sign || '').toLowerCase();
         
         logger.debug('Updating astrological state:', {
           currentZodiac,

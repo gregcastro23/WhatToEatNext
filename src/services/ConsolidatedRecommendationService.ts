@@ -347,13 +347,17 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
         limit: criteria.limit
       });
       
-      // Transform to standardized result format
-      const items = (methodRecommendations || []).map(method => method.name as CookingMethod);
+      // Transform to standardized result format - safe property access
+      const items = (methodRecommendations || []).map(method => (method as any)?.name as any);
       
-      // Calculate scores
+      // Calculate scores - safe property access
       const scores: { [key: string]: number } = {};
       methodRecommendations.forEach(method => {
-        scores[method.name] = method.score;
+        const methodName = (method as any)?.name;
+        const methodScore = (method as any)?.score || 0.5;
+        if (methodName) {
+          scores[methodName] = methodScore;
+        }
       });
       
       // Filter out excluded methods

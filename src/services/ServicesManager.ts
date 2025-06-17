@@ -7,6 +7,7 @@ import { astrologyService } from '@/services/AstrologyService';
 import { unifiedIngredientService } from '@/services/UnifiedIngredientService';
 import { unifiedRecipeService } from '@/services/UnifiedRecipeService';
 import { unifiedRecommendationService } from '@/services/UnifiedRecommendationService';
+import { alchemicalRecommendationService } from '@/services/AlchemicalRecommendationService';
 
 // Initialize logger
 const logger = createLogger('ServicesManager');

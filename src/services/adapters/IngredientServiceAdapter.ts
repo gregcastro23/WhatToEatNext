@@ -64,8 +64,13 @@ export class EnhancedIngredientSystem {
     try {
       logger.info('Getting recommended ingredients', { state, options });
       
-      // Create elemental properties from the state
-      const elementalState = createElementalProperties({ Fire: state.elements.Fire, Water: state.elements.Water, Earth: state.elements.Earth, Air: state.elements.Air
+      // Create elemental properties from the state - safe property access
+      const elements = (state as any)?.elements || (state as any)?.elementalPreference || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+      const elementalState = createElementalProperties({ 
+        Fire: elements.Fire || 0.25, 
+        Water: elements.Water || 0.25, 
+        Earth: elements.Earth || 0.25, 
+        Air: elements.Air || 0.25
       });
       
       // Get recommended ingredients
@@ -74,7 +79,7 @@ export class EnhancedIngredientSystem {
         {
           optimizeForSeason: true,
           maxResults: options.maxResults || 10
-        }
+        } as any
       );
       
       // Apply additional filters

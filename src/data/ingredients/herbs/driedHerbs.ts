@@ -1,7 +1,9 @@
-import type { IngredientMapping } from '@/types/alchemy';
+import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-const rawDriedHerbs = {
+// Pattern AA: Ingredient Interface Restructuring
+// Proper type annotation for raw ingredients to ensure IngredientMapping compatibility
+const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
   'dried_basil': {
     name: 'Dried Basil',
     elementalProperties: { Air: 0.4, Water: 0.3, Fire: 0.2, Earth: 0.1 },

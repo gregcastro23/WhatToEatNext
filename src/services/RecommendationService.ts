@@ -345,8 +345,8 @@ export class RecommendationService {
   private getSortedItems(items: AlchemicalItem[], limit: number): AlchemicalItem[] {
     return [...items]
       .sort((a, b) => {
-        // Sort by compatibility score (higher is better)
-        return (b.compatibilityScore || 0) - (a.compatibilityScore || 0);
+        // Sort by compatibility score (higher is better) - safe property access
+        return ((b as any)?.compatibilityScore || 0) - ((a as any)?.compatibilityScore || 0);
       })
       .slice(0, limit);
   }
@@ -408,8 +408,10 @@ export class RecommendationService {
      };
     
     (topItems || []).forEach(item => {
-      if (item.dominantElement) {
-        elementCounts[item.dominantElement]++;
+      // Safe property access for dominantElement
+      const dominantElement = (item as any)?.dominantElement;
+      if (dominantElement && elementCounts[dominantElement as ElementalCharacter] !== undefined) {
+        elementCounts[dominantElement as ElementalCharacter]++;
       }
     });
     

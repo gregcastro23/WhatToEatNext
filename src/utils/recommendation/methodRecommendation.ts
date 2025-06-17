@@ -30,6 +30,7 @@ import {
   COOKING_METHOD_THERMODYNAMICS,
   ElementalProperties
 , Element } from "@/types/alchemy";
+import type { AstrologicalState } from "@/types/celestial";
 import { createElementalProperties, isElementalProperties } from '../elemental/elementalUtils';
 
 // Type guard for FlavorProperties
@@ -180,10 +181,10 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
  * Get thermodynamic properties for a cooking method
  */
 export function getMethodThermodynamics(method: CookingMethodProfile): BasicThermodynamicProperties {
-  const methodNameLower = ((method as unknown as Record<string, any>)).name?.toLowerCase() as CookingMethodEnum;
+  const methodNameLower = String(((method as unknown as Record<string, any>)).name?.toLowerCase() || '');
 
   // 1. Check the detailed data source first
-  const detailedMethodData = detailedCookingMethods[methodNameLower];
+  const detailedMethodData = detailedCookingMethods[methodNameLower as CookingMethodEnum];
   if (detailedMethodData && detailedMethodData.thermodynamicProperties) {
     return {
       heat: detailedMethodData.thermodynamicProperties?.heat ?? 0.5,
@@ -209,7 +210,7 @@ export function getMethodThermodynamics(method: CookingMethodProfile): BasicTher
     return constantThermoData;
   }
   
-  // 4. Fallback logic based on method name characteristics
+  // 4. Fallback logic based on method name characteristics - Safe string access
   if (methodNameLower.includes('grill') || methodNameLower.includes('roast') || 
       methodNameLower.includes('fry') || methodNameLower.includes('sear') || 
       methodNameLower.includes('broil') || methodNameLower.includes('char')) {
@@ -699,23 +700,23 @@ export function getHolisticCookingRecommendations(
       elementalProperties,
       undefined, // zodiac sign
       undefined, // planets
-      season
+      season as any
     );
     
     // Filter by available methods if provided
     const filteredRecs = (availableMethods || []).length > 0
       ? (recommendations || []).filter(rec => 
           (availableMethods || []).some(method => 
-            areSimilarMethods(rec.method, method)
+            areSimilarMethods((rec as any).method || (rec as any).name || (rec as any).id, method)
           )
         )
       : recommendations;
     
-    // Format the results
-    return filteredRecs.slice(0, (limit) || []).map(rec => ({
-      method: rec.name || rec.id,
-      compatibility: (Number(rec.score) || 0) * (Number(100) || 0),
-      reason: includeReasons ? rec.reasons[0] || `Good match for ${ingredient.name}` : undefined
+    // Format the results with safe property access
+    return filteredRecs.slice(0, limit || 5).map(rec => ({
+      method: (rec as any).method?.name || (rec as any).method?.id || (rec as any).name || (rec as any).id || 'unknown',
+      compatibility: (Number((rec as any).score) || 0) * (Number(100) || 0),
+      reason: includeReasons ? ((rec as any).reasons?.[0] || `Good match for ${ingredient.name}`) : undefined
     }));
   } catch (error) {
     console.error('Error in getHolisticCookingRecommendations:', error);

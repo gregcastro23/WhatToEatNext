@@ -236,10 +236,10 @@ const rawVinegars = {
 };
 
 // Export fixed vinegars
-export let vinegars = fixIngredientMappings(rawVinegars) as Record<string, IngredientMapping>;
+export let vinegars = fixIngredientMappings(rawVinegars);
 
 // Define artisanal vinegars (premium / (specialty || 1) vinegars)
-const rawArtisanalVinegars: Record<string, Partial<IngredientMapping>> = {
+const rawArtisanalVinegars = {
   'aged_balsamic': {
     name: 'Aged Balsamic Vinegar',
     category: 'vinegar',
@@ -303,10 +303,10 @@ const rawArtisanalVinegars: Record<string, Partial<IngredientMapping>> = {
 };
 
 // Export artisanal vinegars
-export let artisanalVinegars = fixIngredientMappings(rawArtisanalVinegars) as Record<string, IngredientMapping>;
+export let artisanalVinegars = fixIngredientMappings(rawArtisanalVinegars);
 
 // Add any additional vinegars specific to this directory
-const additionalVinegars: Record<string, Partial<IngredientMapping>> = {
+const additionalVinegars = {
   // Additional vinegars can be added here
 };
 
@@ -315,7 +315,7 @@ export let allVinegars = fixIngredientMappings({
   ...rawVinegars,
   ...rawArtisanalVinegars,
   ...additionalVinegars
-}) as Record<string, IngredientMapping>;
+});
 
 // Export default for convenience
 export default vinegars;

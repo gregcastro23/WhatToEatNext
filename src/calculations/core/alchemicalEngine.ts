@@ -190,4 +190,7 @@ function alchemize(planetaryPositions: { [planet: string]: string }): Thermodyna
 }
 
 // --- Export for use in other modules ---
+export { alchemize, signs, planetInfo, signInfo };
+
+// Also provide default export for backwards compatibility
 export default { alchemize, signs, planetInfo, signInfo }; 

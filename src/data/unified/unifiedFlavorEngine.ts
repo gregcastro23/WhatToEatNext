@@ -203,7 +203,7 @@ export class UnifiedFlavorEngine {
         
         // Log category stats
         const categoryStats = profiles.reduce((acc, profile: {}) => {
-          acc[profile.category] = (acc[profile.category] || 0) + 1;
+          acc[(profile as any)?.category] = (acc[(profile as any)?.category] || 0) + 1;
           return acc;
         }, {});
         

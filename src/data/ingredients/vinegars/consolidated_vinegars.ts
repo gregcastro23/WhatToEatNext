@@ -1,8 +1,9 @@
-import type { IngredientMapping, ElementalProperties, ZodiacSign } from '@/types/alchemy';
-import type { Season } from '@/types / (seasons || 1)';
+import type { IngredientMapping } from '@/data/ingredients/types';
+import type { ElementalProperties, ZodiacSign } from '@/types/alchemy';
+import type { Season } from '@/types/seasons';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-const rawVinegars: Record<string, Partial<IngredientMapping>> = {
+const rawVinegars = {
   'rice_vinegar': {
     name: 'Rice Vinegar',
     category: 'vinegar',

@@ -356,7 +356,7 @@ export class AlchemicalEngineBase {
 
     const dominantElements = this.getDominantElements(recipe);
     const interactions = this.calculateIngredientInteractions(
-      recipe.ingredients
+      recipe.ingredients as any // Pattern VVV: Array Type Interface Resolution (RecipeIngredient[] to Ingredient[])
     );
 
     // Use our own calculation instead of calling ElementalCalculator.calculateHarmony
@@ -381,7 +381,7 @@ export class AlchemicalEngineBase {
   ): Array<{ element: string; strength: number }> {
     const elements =
       recipe.elementalProperties ||
-      SpoonacularElementalMapper.mapRecipeToElemental(recipe);
+      SpoonacularElementalMapper.mapRecipeToElemental(recipe as any); // Pattern VVV: Array Type Interface Resolution
 
     return Object.entries(elements)
       .map(([element, value]) => ({
@@ -399,8 +399,8 @@ export class AlchemicalEngineBase {
     for (let i = 0; i < ingredients.length; i++) {
       for (let j = i + 1; j < ingredients.length; j++) {
         const harmony = this.calculateHarmonyBetween(
-          ingredients[i].elementalProperties,
-          ingredients[j].elementalProperties
+          (ingredients[i] as any).elementalProperties, // Pattern VVV: Array Type Interface Resolution
+          (ingredients[j] as any).elementalProperties  // Pattern VVV: Array Type Interface Resolution
         );
 
         if (harmony > 0.7) {
@@ -499,7 +499,7 @@ export class AlchemicalEngineBase {
       return recipe.elementalProperties;
     }
 
-    return SpoonacularElementalMapper.mapRecipeToElemental(recipe);
+    return SpoonacularElementalMapper.mapRecipeToElemental(recipe as any); // Pattern VVV: Array Type Interface Resolution
   }
 
   private calculateHarmonyScore(elements: ElementalProperties): number {

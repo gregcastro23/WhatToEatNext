@@ -7,7 +7,7 @@
  */
 
 import { ZodiacSign, PlanetaryAspect, CelestialPosition, AspectType } from '@/types/celestial';
-import { AstrologicalState } from '@/types/alchemy';
+import { AstrologicalState, type LunarPhase } from '@/types/alchemy';
 import { createLogger } from '@/utils/logger';
 
 // Create a component-specific logger
@@ -161,8 +161,8 @@ export function calculatePlanetaryAspects(positions: Record<string, CelestialPos
       const pos2Sign = positions[planet2].sign;
       
       // Calculate the angular difference between planets
-      const pos1 = getZodiacPositionInDegrees(pos1Sign, positions[planet1].degree);
-      const pos2 = getZodiacPositionInDegrees(pos2Sign, positions[planet2].degree);
+      const pos1 = getZodiacPositionInDegrees(pos1Sign as any, positions[planet1].degree);
+      const pos2 = getZodiacPositionInDegrees(pos2Sign as any, positions[planet2].degree);
       
       let diff = Math.abs(pos1 - pos2);
       if (diff > 180) diff = 360 - diff;
@@ -291,8 +291,8 @@ export function getCurrentAstrologicalState(): AstrologicalState {
   const dominantElementCapitalized = dominantElement.charAt(0).toUpperCase() + dominantElement.slice(1) as 'Fire' | 'Water' | 'Earth' | 'Air';
   
   const state: AstrologicalState = {
-    sunSign: toZodiacSign(positions.sun.sign),
-    moonSign: toZodiacSign(positions.moon.sign),
+    sunSign: toZodiacSign(positions.sun.sign as any),
+    moonSign: toZodiacSign(positions.moon.sign as any),
     lunarPhase: phaseName as LunarPhase,
     activePlanets,
     dominantElement: dominantElementCapitalized,

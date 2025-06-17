@@ -1,4 +1,5 @@
-import type { IngredientMapping, ElementalProperties } from '@/types/alchemy';
+import type { ElementalProperties } from '@/types/alchemy';
+import type { IngredientMapping } from '@/data/ingredients/types';
 import { spices } from '../spices';
 import { salts } from './salts';
 import { peppers } from './peppers';
@@ -83,8 +84,8 @@ export let getCompatibleSeasonings = (seasoningName: string): string[] => {
   return Object.entries(seasonings)
     .filter(([key, value]) => 
       key !== seasoningName && 
-      value.affinities?.some((affinity: string) => 
-        seasoning.affinities?.includes(affinity)
+      Array.isArray(value.affinities) && value.affinities.some((affinity: string) => 
+        Array.isArray(seasoning.affinities) && seasoning.affinities.includes(affinity)
       )
     )
     .map(([key, _]) => key);
@@ -95,7 +96,7 @@ export let getSeasoningsByTiming = (timing: CulinaryTiming): Record<string, Ingr
     .filter(([_, value]) => 
       value.culinaryApplications && 
       Object.values(value.culinaryApplications).some(app => 
-        app.timing === timing
+        (app as any)?.timing === timing
       )
     )
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
@@ -106,7 +107,7 @@ export let getTraditionalCombinations = (cuisine: string): Record<string, string
   
   Object.entries(seasonings)
     .forEach(([key, value]) => {
-      if (value.traditionalCombinations && value.traditionalCombinations.includes(cuisine)) {
+      if (Array.isArray(value.traditionalCombinations) && value.traditionalCombinations.includes(cuisine)) {
         if (!combinations[key]) {
           combinations[key] = [];
         }
@@ -128,7 +129,7 @@ export let getSeasoningsByElementalBoost = (element: string): Record<string, Ing
     .filter(([_, value]) => 
       value.astrologicalProfile?.lunarPhaseModifiers && 
       Object.values(value.astrologicalProfile.lunarPhaseModifiers)
-        .some(modifier => modifier.elementalBoost[element as keyof ElementalProperties])
+        .some(modifier => (modifier as any)?.elementalBoost?.[element as keyof ElementalProperties])
     )
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 };

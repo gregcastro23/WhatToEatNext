@@ -94,10 +94,10 @@ export function StateDebugger() {
   let substanceValue = 0
 
   if (state.astrologicalState?.alchemicalValues) {
-    spiritValue = state.astrologicalState.alchemicalValues.Spirit || 0
-    essenceValue = state.astrologicalState.alchemicalValues.Essence || 0
-    matterValue = state.astrologicalState.alchemicalValues.Matter || 0
-    substanceValue = state.astrologicalState.alchemicalValues.Substance || 0
+    spiritValue = (state.astrologicalState.alchemicalValues as any)?.Spirit || 0
+    essenceValue = (state.astrologicalState.alchemicalValues as any)?.Essence || 0
+    matterValue = (state.astrologicalState.alchemicalValues as any)?.Matter || 0
+    substanceValue = (state.astrologicalState.alchemicalValues as any)?.Substance || 0
   }
   
   // Token symbol for display

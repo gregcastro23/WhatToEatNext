@@ -316,7 +316,7 @@ const FoodRecommender: React.FC = () => {
                 
                 // Get the transformed ingredients
                 const transformedIngs = adapter.getRecommendedIngredients(12);
-                setTransformedIngredients(transformedIngs);
+                setTransformedIngredients(transformedIngs as any);
                 
             } catch (err: unknown) {
                 const errorData = err as any;

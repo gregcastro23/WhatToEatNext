@@ -270,15 +270,16 @@ const RecipeCard: React.FC<{
 
 const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ filters }) => {
   // Service hooks
+  const servicesData = useServices();
   const {
     isLoading: servicesLoading,
     error: servicesError,
     astrologyService,
     recommendationService,
     recipeService,
-    elementalCalculator,
     alchemicalRecommendationService
-  } = useServices();
+  } = servicesData;
+  const elementalCalculatorService = (servicesData as any)?.elementalCalculator;
 
   // State management with proper TypeScript types
   const [recipes, setRecipes] = useState<RecipeType[]>([]);
@@ -323,7 +324,7 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
   useEffect(() => {
     // Fix TS2339: Property 'elementalCalculator' does not exist on type
     const servicesData = useServices() as any;
-    const elementalCalculatorService = servicesData?.elementalCalculator;
+    const elementalCalculatorService = (servicesData as any)?.elementalCalculator;
     
     if (servicesLoading || !astrologyService || !elementalCalculatorService) {
       return;
@@ -374,7 +375,7 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
     };
     
     loadAstrologicalData();
-  }, [servicesLoading, astrologyService, elementalCalculator]);
+  }, [servicesLoading, astrologyService, elementalCalculatorService]);
 
   // Load cuisines data when services are available
   useEffect(() => {
@@ -423,11 +424,8 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
       setIsLoading(true);
       try {
         setError(null);
-        const recipesData = await recipeService.searchRecipes({
-          dietaryPreference: filters.dietaryPreference,
-          maxCookTime: parseInt(filters.cookingTime) || undefined
-        });
-        setRecipes(recipesData);
+        const recipesData = await recipeService.searchRecipes(filters.dietaryPreference as any);
+        setRecipes(recipesData as any);
       } catch (err) {
         const errorMessage = err instanceof Error ? err.message : 'Unknown error';
         setError(`Failed to fetch recipes: ${errorMessage}`);

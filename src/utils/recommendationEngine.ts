@@ -140,7 +140,7 @@ export function calculateRecommendationScore(
   
   // Elemental scores
   if (astrologicalState.dominantElement && recipe.element) {
-    score += calculateElementalScore(recipe.element, astrologicalState.dominantElement) * 2;
+    score += calculateElementalScore(recipe.element as any, astrologicalState.dominantElement as any) * 2;
     factors += 2;
   }
   
@@ -206,7 +206,7 @@ export function explainRecommendation(
   
   // Check elemental affinity
   if (astrologicalState.dominantElement && recipe.element) {
-    const elementalScore = calculateElementalScore(recipe.element, astrologicalState.dominantElement);
+    const elementalScore = calculateElementalScore(recipe.element as any, astrologicalState.dominantElement as any);
     if (elementalScore > 0.6) {
       reasons.push(`The ${recipe.element} energy of this dish harmonizes with your ${astrologicalState.dominantElement} elemental influence.`);
     }
@@ -246,12 +246,13 @@ export function explainRecommendation(
     }
   }
   
-  // If we have dominant planets
+  // If we have dominant planets - safe property access
   if (astrologicalState.dominantPlanets && astrologicalState.dominantPlanets.length > 0) {
     for (const dominantPlanet of astrologicalState.dominantPlanets) {
-      const planetScore = calculatePlanetaryScore(recipe, dominantPlanet.name);
+      const planetName = (dominantPlanet as any)?.name || dominantPlanet;
+      const planetScore = calculatePlanetaryScore(recipe, planetName);
       if (planetScore > 0.6) {
-        reasons.push(`The influence of ${dominantPlanet.name} in your chart is complemented by this recipe.`);
+        reasons.push(`The influence of ${planetName} in your chart is complemented by this recipe.`);
         break; // Just mention one planet to avoid repetition
       }
     }

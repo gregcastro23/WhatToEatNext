@@ -51,7 +51,7 @@ export function useAstrologize(options: AstrologizeOptions = {}): AstrologizeRes
     if (useCurrentLocation && !location) {
       const getLocation = async () => {
         try {
-          const coords = await AstrologicalService.requestLocation();
+          const coords = await (AstrologicalService as any)?.requestLocation?.();
           if (coords) {
             setLocation({
               latitude: coords.latitude,

@@ -27,7 +27,7 @@ export default function DebugPage() {
     try {
       console.log('Running cooking method recommendations test...');
       const results = testCookingMethodRecommendations();
-      setTestResults(results);
+      setTestResults(results as any);
       console.log('Test complete, results:', results);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error');

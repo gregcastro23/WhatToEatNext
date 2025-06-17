@@ -11,8 +11,9 @@
  * Updated for Phase 4 API standardization.
  */
 
-import type { ElementalProperties } from "@/types/alchemy";
+import type { ElementalProperties, Season } from "@/types/alchemy";
 import type { Recipe, ScoredRecipe } from "@/types/recipe";
+import type { PlanetName, LunarPhase, ZodiacSign } from "@/types/celestial";
 
 import { Element } from "@/types/alchemy";
 import { PlanetaryAlignment } from "@/types/celestial";

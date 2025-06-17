@@ -1,7 +1,7 @@
 import { wholeGrains } from './wholeGrains';
 import { refinedGrains } from './refinedGrains';
 import { pseudoGrains } from './pseudoGrains';
-import type { IngredientMapping } from '@/types/alchemy';
+import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 // Create a comprehensive collection of all grain types

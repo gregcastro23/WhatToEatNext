@@ -1,4 +1,4 @@
-import type { IngredientMapping } from '@/types/alchemy';
+import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 import { CUISINE_TYPES } from '@/constants/cuisineTypes';
 

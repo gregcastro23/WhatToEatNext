@@ -86,7 +86,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
    */
   async getNutritionalData(foodName: string): Promise<NutritionalProfile | null> {
     try {
-      return await fetchNutritionalData(foodName);
+      return await fetchNutritionalData(foodName) as import('@/types/alchemy').NutritionalProfile;
     } catch (error) {
       // Use safe type casting for errorHandler service access
       const errorHandlerService = errorHandler as any;
@@ -104,7 +104,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
    */
   calculateNutritionalBalance(ingredients: any[]): NutritionalProfile {
     try {
-      return calculateNutritionalBalance(ingredients);
+      return calculateNutritionalBalance(ingredients) as import('@/types/alchemy').NutritionalProfile;
     } catch (error) {
       // Use safe type casting for errorHandler service access
       const errorHandlerService = errorHandler as any;
@@ -120,7 +120,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
           fat: 0,
           fiber: 0
         }
-      };
+      } as import('@/types/alchemy').NutritionalProfile;
     }
   }
   
@@ -131,12 +131,15 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
     try {
       // The original function returns { Fire, Water, Earth, Air } with "Earth" capitalized
       // We need to convert it to proper ElementalProperties
-      const result = nutritionalToElemental(profile);
+      const result = nutritionalToElemental(profile as any);
       
       // Create a proper ElementalProperties object
-      return createElementalProperties({ Fire: result.Fire, Water: result.Water, Earth: result.Earth, // Correct the capitalization
+      return createElementalProperties({ 
+        Fire: result.Fire, 
+        Water: result.Water, 
+        Earth: result.Earth, 
         Air: result.Air
-      });
+      }) as ElementalProperties;
     } catch (error) {
       // Use safe type casting for errorHandler service access
       const errorHandlerService = errorHandler as any;
@@ -144,7 +147,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
         context: 'NutritionalDataAdapter',
         action: 'convertNutritionalToElemental'
       });
-      return createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0 });
+      return createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0 }) as ElementalProperties;
     }
   }
   
@@ -236,9 +239,12 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       const result = getEnhancedPlanetaryNutritionalRecommendations(dayStr, hourStr, currentTime);
       
       // Convert elements to proper ElementalProperties
-      const elements = createElementalProperties({ Fire: result.elements.Fire || 0, Water: result.elements.Water || 0, Earth: result.elements.Earth || 0, // Fix capitalization
+      const elements = createElementalProperties({ 
+        Fire: result.elements.Fire || 0, 
+        Water: result.elements.Water || 0, 
+        Earth: result.elements.Earth || 0, 
         Air: result.elements.Air || 0
-      });
+      }) as ElementalProperties;
       
       return {
         elements,
@@ -314,7 +320,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
         Air: targetElements.Air
       };
       
-      return evaluateNutritionalElementalBalance(profile, legacyTargetElements);
+      return evaluateNutritionalElementalBalance(profile as any, legacyTargetElements);
     } catch (error) {
       // Use safe type casting for errorHandler service access
       const errorHandlerService = errorHandler as any;

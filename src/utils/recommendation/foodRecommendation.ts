@@ -168,7 +168,8 @@ function calculateElementalScore(recipe: Recipe, userElement?: Element): number 
 function calculatePlanetaryScore(recipe: Recipe, planetName?: PlanetName): number {
   if (!recipe.astrologicalPropertiesInfluences || !planetName) return 0.5;
   
-  const planetaryMatch = safeSome(recipe.astrologicalPropertiesInfluences, influence => {
+  // Apply Pattern H: Safe unknown type array casting
+  const planetaryMatch = safeSome(recipe.astrologicalPropertiesInfluences as unknown[], influence => {
     // Apply surgical type casting with variable extraction
     const influenceData = influence as any;
     const influenceLower = influenceData?.toLowerCase?.();
@@ -182,7 +183,8 @@ function calculatePlanetaryScore(recipe: Recipe, planetName?: PlanetName): numbe
 function calculateSeasonalScore(recipe: Recipe, season: Season): number {
   if (!recipe.season) return 0.6;
   
-  const seasonMatch = safeSome(recipe.season, recipeSeason => 
+  // Apply Pattern I: Safe union type array casting
+  const seasonMatch = safeSome(Array.isArray(recipe.season) ? recipe.season : [recipe.season] as string[], recipeSeason => 
     recipeSeason?.toLowerCase() === season?.toLowerCase()
   );
   return seasonMatch ? 0.9 : 0.4;
@@ -204,7 +206,8 @@ function calculateWeekdayScore(recipe: Recipe, day: WeekDay): number {
   const recipeQualities = recipe.qualities || [];
   
   const matches = safeFilter(dayPreferences, pref => 
-    safeSome(recipeQualities, quality => 
+    // Apply Pattern H: Safe unknown type array casting
+    safeSome(recipeQualities as unknown[], quality => 
       String(quality).toLowerCase().includes(pref)
     )
   );
@@ -225,8 +228,9 @@ function calculateMealTypeScore(recipe: Recipe, mealType: MealType): number {
 function calculateZodiacScore(recipe: Recipe, sunSign: ZodiacSign): number {
   if (!recipe.astrologicalPropertiesInfluences) return 0.5;
   
+  // Apply Pattern H: Safe unknown type array casting
   // Check if recipe has zodiac-specific influences
-  const zodiacMatch = safeSome(recipe.astrologicalPropertiesInfluences, influence => {
+  const zodiacMatch = safeSome(recipe.astrologicalPropertiesInfluences as unknown[], influence => {
     // Apply surgical type casting with variable extraction
     const influenceDataZodiac = influence as any;
     const influenceLowerZodiac = influenceDataZodiac?.toLowerCase?.();
@@ -458,7 +462,16 @@ export function calculateRecipeMatchScore(
   
   // Elemental compatibility (60% weight)
   if (recipe.elementalState) {
-    const elementalMatch = calculateElementalMatch(recipe.elementalState, elementalState);
+    // Apply Pattern J: Safe interface property extraction for ElementalProperties compatibility
+    const userElementalProperties: ElementalProperties = {
+      Fire: elementalState.Fire,
+      Water: elementalState.Water,
+      Earth: elementalState.Earth,
+      Air: elementalState.Air
+    };
+    // Apply Pattern J: Safe type casting for recipe.elementalState
+    const recipeElementalProperties = recipe.elementalState as unknown as ElementalProperties;
+    const elementalMatch = calculateElementalMatch(recipeElementalProperties, userElementalProperties);
     score += elementalMatch * 0.6;
     factors += 0.6;
   }

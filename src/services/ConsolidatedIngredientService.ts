@@ -1074,7 +1074,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       
       // Check if the specified zodiac sign is in the affinity array
       return affinityArray.some(sign => 
-        typeof sign === 'string' && sign?.toLowerCase() === zodiacSign?.toLowerCase()
+        typeof sign === 'string' && sign?.toLowerCase() === currentZodiacSign?.toLowerCase()
       );
     });
   }

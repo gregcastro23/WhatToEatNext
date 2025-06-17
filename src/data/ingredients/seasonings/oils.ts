@@ -1,8 +1,10 @@
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 import type { Season } from '@/types/seasons';
-import type { IngredientMapping } from '@/types/alchemy';
+import type { IngredientMapping } from '@/data/ingredients/types';
 
-const rawOils = {
+// Pattern AA: Ingredient Interface Restructuring
+// Proper type annotation for raw ingredients to ensure IngredientMapping compatibility
+const rawOils: Record<string, Partial<IngredientMapping>> = {
     'olive_oil': {
         name: 'Olive Oil',
         category: 'oil',

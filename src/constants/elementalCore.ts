@@ -74,7 +74,7 @@ export const ZODIAC_ELEMENTS = {
 /**
  * Decan rulers for each zodiac sign
  */
-export const DECANS: Record<ZodiacSign, Decan[]> = {
+export const DECANS = {
   aries: [
     { ruler: 'Mars', element: 'Fire', degree: 0 },
     { ruler: 'Sun', element: 'Fire', degree: 10 },

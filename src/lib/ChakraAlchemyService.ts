@@ -34,7 +34,7 @@ export class ChakraAlchemyService {
       elements: ['Water', 'Fire'],
       properties: { heat: '-', entropy: '-', reactivity: '+' }
     },
-    'solar plexus': {
+    'solarPlexus': {
       energyState: 'Essence',
       elements: ['Fire', 'Water'],
       properties: { heat: '-', entropy: '-', reactivity: '+' }
@@ -49,7 +49,7 @@ export class ChakraAlchemyService {
       elements: ['Air', 'Earth'],
       properties: { heat: '-', entropy: '+', reactivity: '+' }
     },
-    'brow': {
+    'thirdEye': {
       energyState: 'Essence',
       elements: ['Water', 'Air', 'Fire'],
       properties: { heat: '-', entropy: '-', reactivity: '+' }
@@ -129,7 +129,7 @@ export class ChakraAlchemyService {
       }
     });
     
-    return chakras.length > 0 ? chakras : ['solar plexus']; // Default fallback
+    return chakras.length > 0 ? chakras : ['solarPlexus']; // Default fallback
   }
 
   /**
@@ -193,7 +193,7 @@ export class ChakraAlchemyService {
     Object.entries(CHAKRAS).forEach(([position, chakra]) => {
       const key = this.getChakraKey(position as ChakraPosition);
       if (key) {
-        chakraEnergies[key] = energyStates[chakra.primaryEnergyState] * 2; // Scale to make it more visible
+        chakraEnergies[key] = energyStates[(chakra as any)?.primaryEnergyState] * 2; // Scale to make it more visible
       }
     });
     
@@ -287,7 +287,7 @@ export class ChakraAlchemyService {
    * Helper method to get adjacent chakras for balancing
    */
   private getAdjacentChakras(chakra: ChakraPosition): ChakraPosition[] {
-    const chakraOrder: ChakraPosition[] = ['root', 'sacral', 'solar plexus', 'heart', 'throat', 'brow', 'crown'];
+    const chakraOrder: ChakraPosition[] = ['root', 'sacral', 'solarPlexus', 'heart', 'throat', 'thirdEye', 'crown'];
     const index = chakraOrder.indexOf(chakra);
     
     if (index === -1) return [];
@@ -306,10 +306,10 @@ export class ChakraAlchemyService {
     const mapping: Record<ChakraPosition, keyof ChakraEnergies> = {
       'root': 'root',
       'sacral': 'sacral',
-      'solar plexus': 'solarPlexus',
+      'solarPlexus': 'solarPlexus',
       'heart': 'heart',
       'throat': 'throat',
-      'brow': 'thirdEye',
+      'thirdEye': 'thirdEye',
       'crown': 'crown'
     };
     

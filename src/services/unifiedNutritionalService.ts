@@ -10,6 +10,7 @@ import type { // ===== UNIFIED NUTRITIONAL SERVICE =====
   Season,
   CookingMethod } from '@/types/alchemy';
 import type { NutritionalProfile, NutritionalFilter } from '../types/nutrition';
+import { NutritionService } from './NutritionService';
 import { 
   unifiedNutritionalSystem,
   type AlchemicalNutritionalProfile,
@@ -104,8 +105,22 @@ export class UnifiedNutritionalService {
       // Enhance with alchemical properties
       const enhanced = enhanceMethod ? enhanceMethod(nutritionalProfile, context) : nutritionalProfile;
       
-      this.cache.set(cacheKey, enhanced);
-      return enhanced;
+      // Convert to AlchemicalNutritionalProfile format to resolve import conflicts
+      const alchemicalProfile: AlchemicalNutritionalProfile = {
+        ...enhanced,
+        // Ensure all required AlchemicalNutritionalProfile properties
+        calories: enhanced.calories || 0,
+        macros: enhanced.macros || { protein: 0, carbs: 0, fat: 0, fiber: 0 },
+        vitamins: enhanced.vitamins || {},
+        minerals: enhanced.minerals || {},
+        alchemicalProperties: enhanced.alchemicalProperties || { Spirit: 0.25, Essence: 0.25, Matter: 0.25, Substance: 0.25 },
+        elementalProperties: enhanced.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+        kalchm: enhanced.kalchm || 0,
+        monica: enhanced.monica || 0
+      };
+      
+      this.cache.set(cacheKey, alchemicalProfile);
+      return alchemicalProfile;
       
     } catch (error) {
       logger.error('Error getting enhanced nutritional profile:', error);
@@ -145,7 +160,7 @@ export class UnifiedNutritionalService {
         }
       }
       
-      return unifiedNutritionalSystem.analyzeNutritionalCompatibility(profiles, context);
+      return unifiedNutritionalSystem.analyzeNutritionalCompatibility(profiles, context) as any;
       
     } catch (error) {
       logger.error('Error analyzing nutritional compatibility:', error);

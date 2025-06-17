@@ -99,8 +99,8 @@ function enhanceIngredient(ingredient: IngredientMapping, sourceCategory: string
                         ingredient.energyValues || 
                         { heat: 0.5, entropy: 0.5, reactivity: 0.5, energy: 0.5 };
   
-  // Calculate Monica value
-  const monica = calculateMonica(kalchm, thermodynamics);
+  // Apply Pattern D: Safe union type casting for thermodynamics parameter compatibility
+  const monica = calculateMonica(kalchm, thermodynamics as ThermodynamicProperties | ThermodynamicMetrics);
   
   // Create enhanced unified ingredient
   return {
@@ -142,16 +142,16 @@ function createUnifiedCollection(
   }, {} as Record<string, UnifiedIngredient>);
 }
 
-// Create enhanced unified collections
-export const unifiedFruits = createUnifiedCollection(fruits, 'fruits');
-export const unifiedVegetables = createUnifiedCollection(vegetables, 'vegetables');
-export const unifiedHerbs = createUnifiedCollection(herbs, 'herbs');
-export const unifiedSpices = createUnifiedCollection(spices, 'spices');
-export const unifiedGrains = createUnifiedCollection(grains, 'grains');
-export const unifiedOils = createUnifiedCollection(oils, 'oils');
-export const unifiedVinegars = createUnifiedCollection(vinegars, 'vinegars');
-export const unifiedSeasonings = createUnifiedCollection(seasonings, 'seasonings');
-export const unifiedProteins = createUnifiedCollection(proteins, 'proteins');
+// Apply Pattern E: Safe Record type casting for createUnifiedCollection compatibility
+export const unifiedFruits = createUnifiedCollection(fruits as { [key: string]: IngredientMapping }, 'fruits');
+export const unifiedVegetables = createUnifiedCollection(vegetables as { [key: string]: IngredientMapping }, 'vegetables');
+export const unifiedHerbs = createUnifiedCollection(herbs as { [key: string]: IngredientMapping }, 'herbs');
+export const unifiedSpices = createUnifiedCollection(spices as unknown as { [key: string]: IngredientMapping }, 'spices');
+export const unifiedGrains = createUnifiedCollection(grains as { [key: string]: IngredientMapping }, 'grains');
+export const unifiedOils = createUnifiedCollection(oils as { [key: string]: IngredientMapping }, 'oils');
+export const unifiedVinegars = createUnifiedCollection(vinegars as { [key: string]: IngredientMapping }, 'vinegars');
+export const unifiedSeasonings = createUnifiedCollection(seasonings as { [key: string]: IngredientMapping }, 'seasonings');
+export const unifiedProteins = createUnifiedCollection(proteins as { [key: string]: IngredientMapping }, 'proteins');
 
 // Combine all unified collections
 export const unifiedIngredients: { [key: string]: UnifiedIngredient } = {

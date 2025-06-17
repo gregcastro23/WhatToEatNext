@@ -96,13 +96,13 @@ export function UnifiedDebug({ mode = 'compact', showTabs = true }: UnifiedDebug
       currentEnergy: state.currentEnergy });
   }, [state]);
 
-  const runAlchemicalTest = () => {
+  const runAlchemicalTest = async () => {
     setLoading(true);
     setError(null);
     
     try {
       console.log('Running cooking method recommendations test...');
-      const results = testCookingMethodRecommendations();
+      const results = await testCookingMethodRecommendations();
       setTestResults(results);
       console.log('Test complete, results:', results);
     } catch (err) {
@@ -138,7 +138,7 @@ export function UnifiedDebug({ mode = 'compact', showTabs = true }: UnifiedDebug
       <div className="space-y-1">
         <p>Mounted: {String(mounted)}</p>
         <p>Renders: {renderCount}</p>
-        <p>Current Sign: {state.astrologicalState?.currentZodiacSign || state.astrologicalState?.sunSign || 'unknown'}</p>
+        <p>Current Sign: {(state.astrologicalState?.currentZodiacSign as string) || (state.astrologicalState?.sunSign as string) || 'unknown'}</p>
         <p>Planetary Hour: {planetaryHour}</p>
         <p>Lunar Phase: {lunarPhase}</p>
         <div>

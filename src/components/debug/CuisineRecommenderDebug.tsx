@@ -296,7 +296,7 @@ export default function CuisineRecommenderDebug() {
       // Step 4: Get cuisine recommendations
       let recs;
       try {
-        recs = getCuisineRecommendations(astroState);
+        recs = getCuisineRecommendations(astroState as any);
         updateStep(3, recs.slice(0, 5), true); // Show only first 5 for readability
       } catch (err) {
         console.error('Error getting cuisine recommendations:', err);
@@ -348,7 +348,7 @@ export default function CuisineRecommenderDebug() {
       // Step 7: Recipe matching
       try {
         const recipes = await getAllRecipes();
-        setAllRecipes(recipes);
+        setAllRecipes(recipes as any);
         
         const recipesResult: Record<string, any> = {};
         
@@ -363,7 +363,7 @@ export default function CuisineRecommenderDebug() {
             // Score recipes against user profile
             const scoredRecipes = matchedRecipes.map(recipe => {
               // Calculate match score if possible
-              const recipeElements = recipe.elementalProperties || cuisine.elementalProperties;
+              const recipeElements = (recipe as any)?.elementalProperties || cuisine.elementalProperties;
               const matchScore = calculateElementalMatch(recipeElements, combinedProfile);
               
               return {

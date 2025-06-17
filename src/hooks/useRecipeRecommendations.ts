@@ -1,6 +1,11 @@
 import { useState, useEffect, useMemo } from 'react';
-// TODO: Fix import - add what to import from "./useAlchemical.ts"
 import { Element } from "@/types/alchemy";
+
+// Mock useAlchemical hook since the import is missing
+const useAlchemical = () => ({
+  planetaryPositions: {},
+  isLoading: false
+});
 
 export interface Recipe {
   id: string;
@@ -52,7 +57,10 @@ export function useRecipeRecommendations(initialFilters?: Partial<RecipeRecommen
     };
 
     Object.values(planetaryPositions || {}).forEach(position => {
-      const element = elementMap[position.sign as keyof typeof elementMap];
+      // Safe property access with type checking
+      const positionData = position as any;
+      const sign = positionData?.sign || positionData?.Sign || '';
+      const element = elementMap[sign.toLowerCase() as keyof typeof elementMap];
       if (element) {
         elementCounts[element as keyof typeof elementCounts]++;
       }

@@ -82,7 +82,7 @@ export const transformItemWithPlanetaryPositions = (
 
     // Calculate alchemical properties based on planetary positions
     const alchemicalResults = calculateAlchemicalProperties(
-      planetPositions,
+      planetPositions as any,
       isDaytime
     );
     

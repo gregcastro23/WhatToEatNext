@@ -57,7 +57,7 @@ export const MINIMUM_THRESHOLD = 0.2;
 export const MAXIMUM_THRESHOLD = 0.3;
 export const IDEAL_PROPORTION = 0.25;
 
-export const DECANS: Record<ZodiacSign, Decan[]> = {
+export const DECANS = {
   aries: [
     { ruler: 'Mars', element: 'Fire', degree: 0 },
     { ruler: 'Sun', element: 'Fire', degree: 10 },

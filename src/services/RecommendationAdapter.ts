@@ -1,16 +1,18 @@
-import { ElementalItem, AlchemicalItem } from '../calculations/alchemicalTransformation';
+import { ElementalItem } from '../calculations/alchemicalTransformation';
+import { AlchemicalItem } from '@/types/alchemy';
 import { ElementalCharacter } from '../constants/planetaryElements';
 import { 
   LunarPhaseWithSpaces,
   PlanetaryAspect,
+  AlchemicalProperty,
 } from '../types/alchemy';
 import { transformItemsWithPlanetaryPositions } from '../utils/elementalUtils';
 import { calculatePlanetaryPositions, calculateLunarPhase } from '../utils/astrologyUtils';
 import { convertToLunarPhase } from '../utils/lunarUtils';
 import { logger } from '@/utils/logger';
-import { alchemize } from '@/calculations/core/alchemicalCalculations';
-import { planetInfo } from '@/data/planets/planetaryInfo';
-import { transformIngredients, transformCookingMethods, transformCuisines } from '@/utils/elementalUtils';
+import { alchemize } from '../calculations/core/alchemicalCalculations';
+import { planetInfo } from '../data/planets/planetaryInfo';
+import { transformIngredients, transformCookingMethods, transformCuisines } from '../utils/elementalUtils';
 
 // Define PlanetData interface to replace all 'any' types
 interface PlanetData {
@@ -139,7 +141,7 @@ export class RecommendationAdapter {
       const lunarPhase = await calculateLunarPhase(new Date());
       
       // Convert to format expected by adapter
-      const lunarPhaseFormatted = convertToLunarPhase(lunarPhase);
+      const lunarPhaseFormatted = convertToLunarPhase(lunarPhase as any);
       
       // Calculate if it's currently daytime
       const now = new Date();
@@ -155,7 +157,7 @@ export class RecommendationAdapter {
         positions,
         isDaytime,
         currentZodiac,
-        lunarPhaseFormatted
+        lunarPhaseFormatted as any
       );
       
       logger.info('Initialized adapter with current planetary positions');
@@ -414,8 +416,8 @@ export class RecommendationAdapter {
   private getSortedItems(items: AlchemicalItem[], limit: number): AlchemicalItem[] {
     return items.sort((a, b) => {
       // Use gregsEnergy as primary sort field, defaulting to 0 if undefined
-      const energyA = a.gregsEnergy || 0;
-      const energyB = b.gregsEnergy || 0;
+      const energyA = (a as any).gregsEnergy || 0;
+      const energyB = (b as any).gregsEnergy || 0;
       return energyB - energyA; // Descending sort (highest energy first)
     }).slice(0, limit);
   }
@@ -489,10 +491,10 @@ export class RecommendationAdapter {
     // - Essence is related to Water (fluidity)
     // - Matter is related to Earth (stability)
     // - Substance is related to Air (connection)
-    const calculatedSpirit = ingredient.spirit || (elementalProps.Fire * 0.6 + elementalProps.Air * 0.4);
-    const calculatedEssence = ingredient.essence || (elementalProps.Water * 0.6 + elementalProps.Fire * 0.4);
-    const calculatedMatter = ingredient.matter || (elementalProps.Earth * 0.7 + elementalProps.Water * 0.3);
-    const calculatedSubstance = ingredient.substance || (elementalProps.Air * 0.6 + elementalProps.Earth * 0.4);
+    const calculatedSpirit = (ingredient as any).spirit || (elementalProps.Fire * 0.6 + elementalProps.Air * 0.4);
+    const calculatedEssence = (ingredient as any).essence || (elementalProps.Water * 0.6 + elementalProps.Fire * 0.4);
+    const calculatedMatter = (ingredient as any).matter || (elementalProps.Earth * 0.7 + elementalProps.Water * 0.3);
+    const calculatedSubstance = (ingredient as any).substance || (elementalProps.Air * 0.6 + elementalProps.Earth * 0.4);
     
     // Apply tarot boosts to calculated values
     const boostedSpirit = Math.min(Math.max(calculatedSpirit * (tarotEnergyBoosts.Spirit || 1.0), 0.1), 1.0);
@@ -532,18 +534,20 @@ export class RecommendationAdapter {
     const scaledGregsEnergy = (rawGregsEnergy + 1) / 2; // Convert from range (-1,1) to (0,1)
     const gregsEnergy = Math.min(Math.max(scaledGregsEnergy, 0.1), 1.0);
     
-    // Create updated properties
+    // Create updated properties with type assertion for AlchemicalItem compatibility
     return {
         ...ingredient,
-        spirit: boostedSpirit,
-        essence: boostedEssence,
-        matter: boostedMatter,
-        substance: boostedSubstance,
-        heat,
-        entropy,
-        reactivity,
-        gregsEnergy
-    };
+        alchemicalProperties: {
+          spirit: boostedSpirit,
+          essence: boostedEssence,
+          matter: boostedMatter,
+          substance: boostedSubstance,
+          heat,
+          entropy,
+          reactivity,
+          gregsEnergy
+        }
+    } as AlchemicalItem;
   }
 
   /**
@@ -552,12 +556,12 @@ export class RecommendationAdapter {
   getDominantElement(): ElementalCharacter | null {
     if (!this.alchemicalResult) return null;
     
-    const elementName = this.alchemicalResult.dominantElement;
-    // Normalize to proper case for ElementalCharacter
-    if (elementName === 'fire') return 'Fire';
-    if (elementName === 'water') return 'Water';
-    if (elementName === 'earth') return 'Earth';
-    if (elementName === 'air') return 'Air';
+    const elementName = (this.alchemicalResult as any).dominantElement;
+    // Normalize to proper case for ElementalCharacter - ensure we're comparing strings
+    if (String(elementName) === 'fire') return 'Fire';
+    if (String(elementName) === 'water') return 'Water';
+    if (String(elementName) === 'earth') return 'Earth';
+    if (String(elementName) === 'air') return 'Air';
     
     return null;
   }

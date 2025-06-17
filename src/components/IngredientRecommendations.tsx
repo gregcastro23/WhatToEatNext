@@ -52,7 +52,7 @@ function getRecommendations(
   };
   
   // Use the proper utility function with the actual data
-  return getIngredientRecommendations(astroStateData, options);
+  return getIngredientRecommendations(astroStateData as any, options);
 }
 
 interface IngredientRecommendationsProps {
@@ -139,8 +139,8 @@ export default function IngredientRecommendations({
     };
     
     // Format the match percentage from score
-    const matchPercentage = ingredient.score !== undefined && !isNaN(ingredient.score) 
-      ? `${Math.round(ingredient.score * 100)}%`
+    const matchPercentage = (ingredient as any)?.score !== undefined && !isNaN((ingredient as any)?.score) 
+      ? `${Math.round((ingredient as any)?.score * 100)}%`
       : '50%';
     
     return (
@@ -148,7 +148,7 @@ export default function IngredientRecommendations({
         <div className={styles.header}>
           <h3 className={styles.ingredientName}>{ingredient.name}</h3>
           <div className={styles.category}>{ingredient.category}</div>
-          {ingredient.score && (
+          {(ingredient as any)?.score && (
             <div className={styles.matchScore}>
               Match: <span className={styles.scoreValue}>{matchPercentage}</span>
             </div>
@@ -205,9 +205,9 @@ export default function IngredientRecommendations({
         {/* Flavor Profile */}
         <div className="flavor-profile">
           <h4>Flavor Profile</h4>
-          {ingredient.sensoryProfile && (
+          {(ingredient as any)?.sensoryProfile && (
             <div className={styles.sensoryHighlights}>
-              {Object.entries(ingredient.sensoryProfile.taste)
+              {Object.entries((ingredient as any)?.sensoryProfile?.taste || {})
                 .filter(([_, value]) => (value as number) > 0.6)
                 .slice(0, 3)
                 .map(([type, value]) => (

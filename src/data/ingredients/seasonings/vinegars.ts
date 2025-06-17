@@ -1,4 +1,5 @@
-import type { IngredientMapping, ElementalProperties, ZodiacSign } from '@/types/alchemy';
+import type { IngredientMapping } from '@/data/ingredients/types';
+import type { ElementalProperties, ZodiacSign } from '@/types/alchemy';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 // Helper function to standardize ingredient mappings

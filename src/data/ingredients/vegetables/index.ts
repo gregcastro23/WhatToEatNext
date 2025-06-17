@@ -1,4 +1,4 @@
-import type { IngredientMapping } from '@/types/alchemy';
+import type { IngredientMapping } from '@/data/ingredients/types';
 import { leafyGreens } from './leafyGreens';
 import { roots } from './roots';
 import { cruciferous } from './cruciferous';
@@ -47,13 +47,13 @@ export let getVegetablesBySubCategory = (subCategory: string): Record<string, In
 
 export let getSeasonalVegetables = (season: string): Record<string, IngredientMapping> => {
   return Object.entries(vegetables)
-    .filter(([_, value]) => value.season?.includes?.(season))
+    .filter(([_, value]) => Array.isArray(value.season) && value.season.includes(season))
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 };
 
 export let getVegetablesByCookingMethod = (method: string): Record<string, IngredientMapping> => {
   return Object.entries(vegetables)
-    .filter(([_, value]) => value.cookingMethods?.includes?.(method))
+    .filter(([_, value]) => Array.isArray(value.cookingMethods) && value.cookingMethods.includes(method))
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 };
 

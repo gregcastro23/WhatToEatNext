@@ -110,12 +110,19 @@ export class ChakraRecipeEnhancer {
     try {
       const hourInfo = this.planetaryCalculator.getCurrentPlanetaryHour();
       if (hourInfo && typeof hourInfo.planet === 'string') {
-        const planetName = hourInfo.planet;
+        const planetName = hourInfo.planet as unknown as string;
         // Ensure the planet name is a valid Planet type (capitalize first letter)
         const capitalizedName = planetName.charAt(0).toUpperCase() + planetName.slice(1).toLowerCase();
-        const validPlanets = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
-        if (validPlanets.includes(capitalizedName)) {
-          planetaryHour = capitalizedName as Planet;
+        
+        // Create Planet type validation with enhanced safety
+        const planetValidator = (name: string): Planet | null => {
+          const validPlanets: string[] = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
+          return validPlanets.includes(name) ? (name as Planet) : null;
+        };
+        
+        const validatedPlanet = planetValidator(capitalizedName);
+        if (validatedPlanet) {
+          planetaryHour = validatedPlanet;
         }
       }
     } catch (error) {
@@ -146,11 +153,11 @@ export class ChakraRecipeEnhancer {
       const planets = astrologicalAffinities?.planets;
       
       if (planets) {
-        if (planets.includes(planetaryHour)) {
+        if ((planets as Planet[]).includes(planetaryHour)) {
           planetaryAlignment = 1.0;
         } else {
           const hourChakras = this.chakraService.getChakrasByPlanet(planetaryHour);
-          const recipeChakras = planets.flatMap(
+          const recipeChakras = (planets as Planet[]).flatMap(
             (planet: Planet) => this.chakraService.getChakrasByPlanet(planet)
           );
           

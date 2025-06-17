@@ -154,7 +154,7 @@ let processIngredientCollection = (
 ): Record<string, Ingredient> => {
   return Object.entries(collection).reduce((acc, [key, value]) => {
     try {
-      const processedIngredient = processIngredient(value, key);
+      const processedIngredient = processIngredient(value as any, key) as any;
 
       // Add alchemical and thermodynamic properties
       let alchemicalProps =
@@ -166,7 +166,7 @@ let processIngredientCollection = (
 
       // Determine modality
       let modality = determineIngredientModality(
-        processedIngredient.qualities || [],
+        (processedIngredient as any)?.qualities || [],
         processedIngredient.elementalProperties
       );
 
@@ -186,12 +186,12 @@ let processIngredientCollection = (
           elementalSignature.length > 0 ? elementalSignature : undefined,
         // Process other enhanced properties if they exist
         astrologicalCorrespondence:
-          processedIngredient.astrologicalCorrespondence || undefined,
+          (processedIngredient as any)?.astrologicalCorrespondence || undefined,
         pairingRecommendations:
-          processedIngredient.pairingRecommendations || undefined,
-        celestialBoost: processedIngredient.celestialBoost || undefined,
-        planetaryInfluence: processedIngredient.planetaryInfluence || undefined,
-      };
+          (processedIngredient as any)?.pairingRecommendations || undefined,
+        celestialBoost: (processedIngredient as any)?.celestialBoost || undefined,
+        planetaryInfluence: (processedIngredient as any)?.planetaryInfluence || undefined,
+      } as Ingredient;
     } catch (error) {
       console.warn(`Skipping invalid ingredient ${key}:`, error);
     }

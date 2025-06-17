@@ -545,7 +545,7 @@ export const getAllIngredients = async (): Promise<EnhancedIngredient[]> => {
   // Filter out ingredients without proper astrological profiles
   const validIngredients = allIngredients.filter(ing => 
     ing?.astrologicalProfile && 
-    ing.astrologicalProfile.elementalAffinity?.base && 
+    (ing.astrologicalProfile.elementalAffinity as any)?.base && 
     ing.astrologicalProfile.rulingPlanets
   );
   
@@ -967,7 +967,7 @@ export async function recommendIngredients(
     aspects: []
   };
   
-  const grouped = await getIngredientRecommendations(elementalProps, options);
+  const grouped = await getIngredientRecommendations(elementalProps as any, options);
   
   // Flatten grouped recommendations into a single array
   const allRecommendations: IngredientRecommendation[] = [];

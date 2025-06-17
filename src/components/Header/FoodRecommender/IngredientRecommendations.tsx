@@ -40,38 +40,40 @@ export const IngredientRecommendations: React.FC<IngredientRecommendationsProps>
                 
                         // Check element filter if present
                         if (elementFilter && ingredient.elementalProperties) {
-                            const elementValue = ingredient.elementalProperties[elementFilter];
+                            const elementValue = (ingredient.elementalProperties as any)?.[elementFilter];
                             if (!elementValue || elementValue <= 0.2) return false;
                         }
                         
                         // Calculate nutritional balance if available
                         if (ingredient.nutritionalProfile) {
                             const nutrition = ingredient.nutritionalProfile;
+                            const calories = (nutrition as any)?.calories || 0;
+                            const macros = (nutrition as any)?.macros || {};
                             
                             // Calculate protein density (protein per calorie)
-                            const proteinDensity = nutrition.calories > 0 ? 
-                                (nutrition.macros.protein / nutrition.calories) : 0;
+                            const proteinDensity = calories > 0 ? 
+                                ((macros.protein || 0) / calories) : 0;
                                 
                             // Calculate fiber density (fiber per calorie)
-                            const fiberDensity = nutrition.calories > 0 ? 
-                                (nutrition.macros.fiber / nutrition.calories) : 0;
+                            const fiberDensity = calories > 0 ? 
+                                ((macros.fiber || 0) / calories) : 0;
                                 
                             // Calculate vitamin/mineral richness
-                            const vitaminCount = Object.keys(nutrition.vitamins || {}).length;
-                            const mineralCount = Object.keys(nutrition.minerals || {}).length;
+                            const vitaminCount = Object.keys((nutrition as any)?.vitamins || {}).length;
+                            const mineralCount = Object.keys((nutrition as any)?.minerals || {}).length;
                             const micronutrientScore = (vitaminCount + mineralCount) / 20; // Normalized to ~0-1 range
                             
                             // Calculate phytonutrient score
-                            const phytonutrientScore = Object.keys(nutrition.phytonutrients || {}).length / 10; // Normalized to ~0-1 range
+                            const phytonutrientScore = Object.keys((nutrition as any)?.phytonutrients || {}).length / 10; // Normalized to ~0-1 range
                             
                             // Calculate macronutrient balance based on ratios
-                            const totalMacros = nutrition.macros.protein + nutrition.macros.carbs + nutrition.macros.fat;
+                            const totalMacros = (macros.protein || 0) + (macros.carbs || 0) + (macros.fat || 0);
                             let macroBalanceScore = 0.5;
                             
                             if (totalMacros > 0) {
-                                const proteinRatio = nutrition.macros.protein / totalMacros;
-                                const carbsRatio = nutrition.macros.carbs / totalMacros;
-                                const fatRatio = nutrition.macros.fat / totalMacros;
+                                const proteinRatio = (macros.protein || 0) / totalMacros;
+                                const carbsRatio = (macros.carbs || 0) / totalMacros;
+                                const fatRatio = (macros.fat || 0) / totalMacros;
                                 
                                 // Define ideal targets for ratios
                                 const idealProtein = 0.25; // 25%
@@ -140,31 +142,33 @@ export const IngredientRecommendations: React.FC<IngredientRecommendationsProps>
                             let nutritionalScore = 0;
                             if (ingredient.nutritionalProfile) {
                                 const nutrition = ingredient.nutritionalProfile;
+                                const calories = (nutrition as any)?.calories || 0;
+                                const macros = (nutrition as any)?.macros || {};
                                 
                                 // Calculate protein density (protein per calorie)
-                                const proteinDensity = nutrition.calories > 0 ? 
-                                    (nutrition.macros.protein / nutrition.calories) : 0;
+                                const proteinDensity = calories > 0 ? 
+                                    ((macros.protein || 0) / calories) : 0;
                                     
                                 // Calculate fiber density (fiber per calorie)
-                                const fiberDensity = nutrition.calories > 0 ? 
-                                    (nutrition.macros.fiber / nutrition.calories) : 0;
+                                const fiberDensity = calories > 0 ? 
+                                    ((macros.fiber || 0) / calories) : 0;
                                     
                                 // Calculate vitamin/mineral richness
-                                const vitaminCount = Object.keys(nutrition.vitamins || {}).length;
-                                const mineralCount = Object.keys(nutrition.minerals || {}).length;
+                                const vitaminCount = Object.keys((nutrition as any)?.vitamins || {}).length;
+                                const mineralCount = Object.keys((nutrition as any)?.minerals || {}).length;
                                 const micronutrientScore = (vitaminCount + mineralCount) / 20; // Normalized to ~0-1 range
                                 
                                 // Calculate phytonutrient score
-                                const phytonutrientScore = Object.keys(nutrition.phytonutrients || {}).length / 10; // Normalized to ~0-1 range
+                                const phytonutrientScore = Object.keys((nutrition as any)?.phytonutrients || {}).length / 10; // Normalized to ~0-1 range
                                 
                                 // Calculate macronutrient balance based on ratios
-                                const totalMacros = nutrition.macros.protein + nutrition.macros.carbs + nutrition.macros.fat;
+                                const totalMacros = (macros.protein || 0) + (macros.carbs || 0) + (macros.fat || 0);
                                 let macroBalanceScore = 0.5;
                                 
                                 if (totalMacros > 0) {
-                                    const proteinRatio = nutrition.macros.protein / totalMacros;
-                                    const carbsRatio = nutrition.macros.carbs / totalMacros;
-                                    const fatRatio = nutrition.macros.fat / totalMacros;
+                                    const proteinRatio = (macros.protein || 0) / totalMacros;
+                                    const carbsRatio = (macros.carbs || 0) / totalMacros;
+                                    const fatRatio = (macros.fat || 0) / totalMacros;
                                     
                                     // Define ideal targets for ratios
                                     const idealProtein = 0.25; // 25%
@@ -206,12 +210,12 @@ export const IngredientRecommendations: React.FC<IngredientRecommendationsProps>
                             >
                                 <h4>{ingredient.name}</h4>
                                 <div className="elemental-properties">
-                                    {Object.entries(ingredient.elementalProperties || {}).map(([element, value]) => (
+                                    {Object.entries((ingredient as any)?.elementalProperties || {}).map(([element, value]) => (
                                         <div 
                                             key={element}
                                             data-testid={`${element.toLowerCase()}-value`}
                                         >
-                                            {element}: {(value * 100).toFixed(0)}%
+                                            {element}: {((value as number) * 100).toFixed(0)}%
                                         </div>
                                     ))}
                                 </div>

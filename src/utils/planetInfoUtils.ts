@@ -129,7 +129,7 @@ export function getPlanetInfo(
     // Calculate aspects - handle special cases for lunar nodes
     let planetAspects = [];
     try {
-      const { aspects } = calculateAspects(planetaryPositions, 0);
+      const { aspects } = calculateAspects(planetaryPositions as any, 0);
       
       // Filter aspects for this planet
       planetAspects = aspects.filter(aspect => 

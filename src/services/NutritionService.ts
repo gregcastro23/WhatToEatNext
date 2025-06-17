@@ -5,26 +5,28 @@ export class NutritionService {
   async getNutritionalProfile(fdcId: string): Promise<NutritionalProfile> {
     const data = await FoodDataCentral.getFood(fdcId);
     
+    const foodData = data as unknown as FoodDataCentralFood;
+    
     return {
-      calories: data.foodNutrients.find(n => n.nutrientNumber === '208')?.value || 0,
+      calories: foodData.foodNutrients.find(n => n.nutrientNumber === '208')?.value || 0,
       macros: {
-        protein: this.getNutrientValue(data, '203'),
-        carbs: this.getNutrientValue(data, '205'),
-        fat: this.getNutrientValue(data, '204'),
-        fiber: this.getNutrientValue(data, '291'),
-        sugars: this.getNutrientValue(data, '269')
+        protein: this.getNutrientValue(foodData, '203'),
+        carbs: this.getNutrientValue(foodData, '205'),
+        fat: this.getNutrientValue(foodData, '204'),
+        fiber: this.getNutrientValue(foodData, '291'),
+        sugars: this.getNutrientValue(foodData, '269')
       },
       vitamins: {
-        vitaminC: this.getNutrientValue(data, '401'),
-        vitaminA: this.getNutrientValue(data, '318'),
-        vitaminD: this.getNutrientValue(data, '328')
+        vitaminC: this.getNutrientValue(foodData, '401'),
+        vitaminA: this.getNutrientValue(foodData, '318'),
+        vitaminD: this.getNutrientValue(foodData, '328')
       },
       minerals: {
-        iron: this.getNutrientValue(data, '303'),
-        calcium: this.getNutrientValue(data, '301'),
-        potassium: this.getNutrientValue(data, '306')
+        iron: this.getNutrientValue(foodData, '303'),
+        calcium: this.getNutrientValue(foodData, '301'),
+        potassium: this.getNutrientValue(foodData, '306')
       },
-      phytonutrients: this.extractPhytonutrients(data)
+      phytonutrients: this.extractPhytonutrients(foodData)
     };
   }
 

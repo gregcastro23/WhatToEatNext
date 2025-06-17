@@ -58,7 +58,7 @@ export function getNutritionalData(ingredientName: string): NutritionalProfile |
  */
 export function getAvailableNutritionalIngredients(): string[] {
   return Object.keys(usdaNutritionalData).map(key => 
-    usdaNutritionalData[key].name
+    (usdaNutritionalData[key] as any)?.name || key
   );
 }
 
@@ -89,13 +89,16 @@ export function compareNutritionalValues(
     };
   }
   
-  // Calculate differences in key metrics (percentage difference)
+  // Calculate differences in key metrics (percentage difference) - safe property access
+  const profile1Macros = (profile1 as any)?.macros || {};
+  const profile2Macros = (profile2 as any)?.macros || {};
+  
   const differences: Record<string, number> = {
     calories: ((profile2.calories - profile1.calories) / profile1.calories) * 100,
-    protein: ((profile2.macros.protein - profile1.macros.protein) / profile1.macros.protein) * 100,
-    carbs: ((profile2.macros.carbs - profile1.macros.carbs) / profile1.macros.carbs) * 100,
-    fat: ((profile2.macros.fat - profile1.macros.fat) / profile1.macros.fat) * 100,
-    fiber: ((profile2.macros.fiber - profile1.macros.fiber) / profile1.macros.fiber) * 100
+    protein: profile1Macros.protein ? ((profile2Macros.protein - profile1Macros.protein) / profile1Macros.protein) * 100 : 0,
+    carbs: profile1Macros.carbs ? ((profile2Macros.carbs - profile1Macros.carbs) / profile1Macros.carbs) * 100 : 0,
+    fat: profile1Macros.fat ? ((profile2Macros.fat - profile1Macros.fat) / profile1Macros.fat) * 100 : 0,
+    fiber: profile1Macros.fiber ? ((profile2Macros.fiber - profile1Macros.fiber) / profile1Macros.fiber) * 100 : 0
   };
   
   return { 

@@ -18,6 +18,9 @@ import {
 
 import { Element , ElementalProperties } from "@/types/alchemy";
 import { PlanetaryAlignment } from "@/types/celestial";
+import { unifiedIngredientService } from './UnifiedIngredientService';
+import alchemicalEngine from '@/calculations/core/alchemicalEngine';
+import { recipeDataService } from '@/services/recipeData';
 /**
  * UnifiedRecommendationService
  * 

@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
-// TODO: Fix import - add what to import from "./useAlchemical.ts"
-import { ElementalProperties } from '@/types';
+import { useAlchemical } from './useAlchemical';
+import { ElementalProperties } from '@/types/alchemy';
 
 export interface ElementalState { Fire: number; Water: number; Earth: number; Air: number; }
 export function useElementalState() {
@@ -25,7 +25,7 @@ export function useElementalState() {
     };
 
     Object.values(planetaryPositions || {}).forEach(position => {
-      const element = elementMap[position.sign as keyof typeof elementMap];
+      const element = elementMap[(position as any)?.sign as keyof typeof elementMap];
       if (element) {
         elementCounts[element as keyof typeof elementCounts]++;
       }

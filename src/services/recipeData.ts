@@ -71,7 +71,7 @@ function ensureRecipeProperties(recipe: Partial<Recipe>): Recipe {
     name: (recipe as any)?.name || 'Unnamed Recipe',
     description: (recipe as any)?.description || '',
     cuisine: (recipe as any)?.cuisine || '',
-    ingredients: validateAndNormalizeIngredients(recipe.ingredients || []) as import('../types/recipe').RecipeIngredient[],
+    ingredients: validateAndNormalizeIngredients(recipe.ingredients as any || []) as import('../types/recipe').RecipeIngredient[],
     instructions: validateAndNormalizeInstructions(recipe.instructions || []),
     timeToMake: validateAndNormalizeTime(recipe.timeToMake) || '30 minutes',
     numberOfServings: validateServings(recipe.numberOfServings) || 2,
@@ -490,7 +490,7 @@ class RecipeData {
       const lowercaseQuery = (query as any)?.toLowerCase?.();
       const recipes = await this.getAllRecipes();
       return recipes.filter(recipe => 
-        (recipe as any)?.(name as any)?.toLowerCase?.().includes(lowercaseQuery) ||
+        (recipe as any)?.name?.toLowerCase?.().includes(lowercaseQuery) ||
         (recipe as any)?.cuisine?.toLowerCase().includes(lowercaseQuery)
       );
     } catch (error) {
@@ -572,8 +572,8 @@ class RecipeData {
       const filteredRecipes = recipes.filter(recipe => {
         // Filter by cuisine
         if ((filters as any)?.cuisine && (recipe as any)?.cuisine) {
-          const recipeCuisine = (recipe as any)?.(cuisine as any)?.toLowerCase?.();
-          const targetCuisine = (filters as any)?.(cuisine as any)?.toLowerCase?.();
+          const recipeCuisine = (recipe as any)?.cuisine?.toLowerCase?.();
+          const targetCuisine = (filters as any)?.cuisine?.toLowerCase?.();
           
           if (!(recipeCuisine as any)?.includes?.(targetCuisine)) {
             return false;
@@ -584,7 +584,7 @@ class RecipeData {
         if ((filters as any)?.mealType && (filters as any)?.mealType.length > 0 && (recipe as any)?.mealType) {
           const mealTypes = Array.isArray((recipe as any)?.mealType) 
             ? (recipe as any)?.mealType.map(mt => (mt as any)?.toLowerCase?.())
-            : [(recipe as any)?.(mealType as any)?.toLowerCase?.()];
+            : [(recipe as any)?.mealType?.toLowerCase?.()];
           
           const targetMealTypes = (filters as any)?.mealType.map(mt => (mt as any)?.toLowerCase?.());
           
@@ -597,7 +597,7 @@ class RecipeData {
         if ((filters as any)?.season && (filters as any)?.season.length > 0 && (recipe as any)?.season) {
           const seasons = Array.isArray((recipe as any)?.season)
             ? (recipe as any)?.season.map(s => (s as any)?.toLowerCase?.())
-            : [(recipe as any)?.(season as any)?.toLowerCase?.()];
+            : [(recipe as any)?.season?.toLowerCase?.()];
           
           // Special case: if 'all' is included in recipe seasons, it matches any season
           if (!(seasons as any)?.includes?.('all')) {

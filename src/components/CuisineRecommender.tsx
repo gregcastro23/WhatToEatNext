@@ -147,7 +147,7 @@ interface CuisineStyles {
 // Add this helper function near the top of the file, outside any components
 let getSafeScore = (score: unknown): number => {
   // Convert to number if needed, default to 0.5 if NaN or undefined
-  const numScore = typeof score === 'number' ? score : parseFloat(score);
+  const numScore = typeof score === 'number' ? score : parseFloat(score as any);
   return !isNaN(numScore) ? numScore : 0.5;
 };
 
@@ -215,7 +215,7 @@ function calculateElementalMatch(
   for (const element of ['Fire', 'Water', 'Earth', 'Air'] as Array<keyof ElementalProperties>) {
     const recipeValue = recipeElements[element] || 0;
     const userValue = userElements[element] || 0;
-    const weight = recipeDominant.includes(element) ? 1.5 : 1;
+    const weight = recipeDominant.includes(element as string) ? 1.5 : 1;
     
     matchSum += (1 - Math.abs(recipeValue - userValue)) * weight;
     totalWeight += weight;
@@ -266,7 +266,7 @@ export default function CuisineRecommender() {
   const astroStateRef = useRef({
     zodiacSign: currentZodiac || 'aries',
     lunarPhase: lunarPhase || 'new moon',
-    elementalState: state.astrologicalState?.elementalState || state.elementalState || {
+    elementalState: (state as any)?.astrologicalState?.elementalState || (state as any)?.elementalState || {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
@@ -279,14 +279,14 @@ export default function CuisineRecommender() {
     astroStateRef.current = {
       zodiacSign: currentZodiac || 'aries',
       lunarPhase: lunarPhase || 'new moon',
-      elementalState: state.astrologicalState?.elementalState || state.elementalState || {
+      elementalState: (state as any)?.astrologicalState?.elementalState || (state as any)?.elementalState || {
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
         Air: 0.25,
       }
     };
-  }, [currentZodiac, lunarPhase, state.astrologicalState, state.elementalState]);
+  }, [currentZodiac, lunarPhase, state.astrologicalState, (state as any)?.elementalState]);
 
   const [selectedCuisine, setSelectedCuisine] = useState<string | null>(null);
   const [transformedCuisines, setTransformedCuisines] = useState<
@@ -310,8 +310,8 @@ export default function CuisineRecommender() {
   const [showCuisineDetails, setShowCuisineDetails] = useState<boolean>(false);
   const [currentMomentElementalProfile, setCurrentMomentElementalProfile] =
     useState<ElementalProperties>(
-      alchemicalContext?.state?.astrologicalState?.elementalState ||
-        alchemicalContext?.state?.elementalState || {
+              (alchemicalContext as any)?.state?.astrologicalState?.elementalState ||
+        (alchemicalContext as any)?.state?.elementalState || {
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,
@@ -324,11 +324,11 @@ export default function CuisineRecommender() {
   // Update current moment elemental profile when astrological state changes
   useEffect(() => {
     // Use type assertion to avoid type errors
-    let safeState = state?.astrologicalState || {};
-    if (safeState?.elementalState) {
+    let safeState = (state as any)?.astrologicalState || {};
+    if ((safeState as any)?.elementalState) {
       // Use type assertion to ensure type compatibility
       setCurrentMomentElementalProfile({
-        ...safeState.elementalState,
+        ...(safeState as any).elementalState,
       } as unknown as ElementalProperties);
     } else if (currentZodiac) {
       // If no elemental state but we have zodiac, calculate based on that
@@ -342,7 +342,7 @@ export default function CuisineRecommender() {
     // Generate top sauce recommendations when elemental profile changes
     try {
       const topSauces = generateTopSauceRecommendations(
-        safeState?.elementalState || currentMomentElementalProfile,
+        (safeState as any)?.elementalState || currentMomentElementalProfile,
         6
       );
       setSauceRecommendations(topSauces);

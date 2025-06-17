@@ -1,3 +1,4 @@
+import { type ZodiacSign } from "@/types/alchemy";
 
 // Enhanced interfaces for Phase 11 - Alchemical Pillar utilities
 interface AlchemicalPillarData {
@@ -518,14 +519,14 @@ const getMethodCompatibility = (
  * @param count Number of recommendations to return
  * @returns Array of recommended cooking methods with compatibility scores
  */
-export const getHolisticCookingRecommendations = (
+export const getHolisticCookingRecommendations = async (
   item: AlchemicalItem,
   planet?: string,
   tarotCard?: string,
   isDaytime = true,
   availableMethods: string[] = [],
   count = 5
-): Array<{ method: string, compatibility: number, reason: string }> => {
+): Promise<Array<{ method: string, compatibility: number, reason: string }>> => {
   console.log('\n--- HOLISTIC COOKING RECOMMENDATIONS ---');
   console.log(`Ingredient: ${(item as any)?.name}`);
   console.log(`Planet influence: ${planet || 'None'}`);
@@ -559,7 +560,7 @@ export const getHolisticCookingRecommendations = (
   }
 
   // Get cooking methods
-  const cookingMethods = getCookingMethods();
+  const cookingMethods = await getCookingMethods();
   console.log(`\nLoaded ${Object.keys(cookingMethods).length} cooking methods from database`);
   
   // Filter methods if specified
@@ -637,7 +638,7 @@ export const getHolisticCookingRecommendations = (
 async function getCookingMethods(): Promise<Record<string, number>> {
   // Import from constants to avoid circular reference
   const alchemicalPillars = await import('../constants/alchemicalPillars');
-  return alchemicalPillars.COOKING_METHOD_PILLAR_MAPPING;
+  return alchemicalPillars.COOKING_METHOD_PILLAR_MAPPING as Record<string, number>;
 }
 
 /**

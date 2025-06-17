@@ -81,12 +81,37 @@ export class RecipeEngine {
         return recipes
             .map(recipe => ({
                 ...recipe,
-                seasonalScore: ElementalCalculator.calculateSeasonalEffectiveness(
-                    recipe,
-                    season
-                )
+                seasonalScore: this.calculateSeasonalEffectivenessScore(recipe, season)
             }))
             .sort((a, b) => b.seasonalScore - a.seasonalScore);
+    }
+
+    /**
+     * Calculate seasonal effectiveness score for a recipe
+     * Fallback implementation since ElementalCalculator.calculateSeasonalEffectiveness doesn't exist
+     */
+    private calculateSeasonalEffectivenessScore(recipe: Recipe, season: string): number {
+        if (!recipe.elementalProperties) return 0.5;
+
+        // Season-element mapping for effectiveness calculation
+        const seasonalElements = {
+            'spring': { Air: 0.8, Water: 0.6, Fire: 0.4, Earth: 0.3 },
+            'summer': { Fire: 0.8, Air: 0.6, Earth: 0.4, Water: 0.3 },
+            'autumn': { Earth: 0.8, Water: 0.6, Air: 0.4, Fire: 0.3 },
+            'winter': { Water: 0.8, Earth: 0.6, Fire: 0.4, Air: 0.3 }
+        };
+
+        const seasonMultipliers = seasonalElements[season.toLowerCase() as keyof typeof seasonalElements] || 
+                                seasonalElements['spring'];
+
+        // Calculate weighted score based on recipe's elemental properties and seasonal effectiveness
+        let score = 0;
+        Object.entries(recipe.elementalProperties).forEach(([element, value]) => {
+            const multiplier = seasonMultipliers[element as keyof typeof seasonMultipliers] || 0.5;
+            score += value * multiplier;
+        });
+
+        return Math.max(0, Math.min(1, score));
     }
 
     private calculateHarmonyBetween(props1: ElementalProperties, props2: ElementalProperties): number {

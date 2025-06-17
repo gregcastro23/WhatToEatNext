@@ -3,6 +3,7 @@ import { celestialNumerology } from '../utils/numerology';
 import { logger } from '../utils/logger';
 import { cache } from '../utils/cache';
 import type { CelestialAlignment, ElementalProperties, EnergyStateProperties, ChakraEnergies, ZodiacSign, AspectType, PlanetaryAspect } from '../types/alchemy';
+import type { LunarPhase } from '../types/shared';
 import type { CelestialBody } from '../calculations/alchemicalEngine';
 import type { TarotCard } from '../lib/tarotCalculations';
 import * as astronomiaCalculator from '../utils/astronomiaCalculator';
@@ -218,8 +219,8 @@ class CelestialCalculator {
         'all' // Always include 'all' for universal matching
       ];
       
-      // Build complete celestial alignment
-      const alignment: CelestialAlignment = {
+      // Build complete celestial alignment (using type assertion due to interface mismatch)
+      const alignment = {
         date: now.toISOString(),
         zodiacSign,
         dominantPlanets,
@@ -233,7 +234,7 @@ class CelestialCalculator {
           strength: aspect.influence
         } as PlanetaryAspect)),
         astrologicalInfluences: astroInfluences // Ensure this is always present and includes tarot influences and 'all'
-      };
+      } as any as CelestialAlignment;
       
       // Cache for 1 hour (alignments don't change that quickly)
       cache.set(this.CACHE_KEY, alignment, 60 * 60);
@@ -373,15 +374,15 @@ class CelestialCalculator {
       return this.getFallbackAlignment();
     }
     
-    // Start with complete defaults
-    const safeAlignment: CelestialAlignment = {
+    // Start with complete defaults (using type assertion due to interface mismatch)
+    const safeAlignment = {
       date: new Date().toISOString(),
       zodiacSign: 'libra' as ZodiacSign,
       dominantPlanets: [
         { name: 'Sun', influence: 0.5 },
         { name: 'Moon', influence: 0.5 }
       ],
-      lunarPhase: 'full',
+      lunarPhase: ('full moon' as LunarPhase),
       elementalBalance: {
         Fire: 0.25,
         Water: 0.25,
@@ -390,7 +391,7 @@ class CelestialCalculator {
       },
       aspectInfluences: [],
       astrologicalInfluences: ['Sun', 'Moon', 'libra', 'all']
-    };
+    } as any as CelestialAlignment;
     
     // Override with any valid properties from the input
     if (typeof alignment.date === 'string') {
@@ -452,7 +453,7 @@ class CelestialCalculator {
         { name: 'Sun', influence: 0.5 },
         { name: 'Moon', influence: 0.5 }
       ],
-      lunarPhase: 'full',
+      lunarPhase: ('full moon' as LunarPhase),
       elementalBalance: {
         Fire: 0.25,
         Earth: 0.25,
@@ -461,7 +462,7 @@ class CelestialCalculator {
       },
       aspectInfluences: [],
       astrologicalInfluences: ['Sun', 'Moon', 'libra', 'all'] // Ensure this is always present and has values
-    };
+    } as any as CelestialAlignment;
   }
 
   /**
@@ -825,14 +826,14 @@ class CelestialCalculator {
     // Calculate current phase (0 to 1, where 0 and 1 are new moon, 0.5 is full moon)
     const normalizedPhase = (daysSinceNewMoon % synodicPeriod) / synodicPeriod;
     
-    // More precise phase boundaries
-    if (normalizedPhase < 0.025 || normalizedPhase > 0.975) return 'new';
+    // More precise phase boundaries - using proper LunarPhase format
+    if (normalizedPhase < 0.025 || normalizedPhase > 0.975) return 'new moon';
     if (normalizedPhase < 0.235) return 'waxing crescent';
     if (normalizedPhase < 0.265) return 'first quarter';
     if (normalizedPhase < 0.485) return 'waxing gibbous';
-    if (normalizedPhase < 0.515) return 'full';
+    if (normalizedPhase < 0.515) return 'full moon';
     if (normalizedPhase < 0.735) return 'waning gibbous';
-    if (normalizedPhase < 0.765) return 'third quarter';
+    if (normalizedPhase < 0.765) return 'last quarter';
     return 'waning crescent';
   }
   
@@ -891,9 +892,9 @@ class CelestialCalculator {
     });
     
     // Apply lunar phase influence
-    if (lunarPhase === 'full') {
+    if (lunarPhase === 'full moon') {
       balance.Water += 0.15;
-    } else if (lunarPhase === 'new') {
+    } else if (lunarPhase === 'new moon') {
       balance.Air += 0.15;
     } else if (lunarPhase.includes('waxing')) {
       balance.Fire += 0.1;
@@ -1329,18 +1330,18 @@ class CelestialCalculator {
     
     // Apply lunar phase influence
     switch (alignment.lunarPhase) {
-      case 'new':
+      case 'new moon':
         // New moon boosts crown and thirdEye (Spirit/Substance)
         chakraEnergies.crown += 0.1;
         chakraEnergies.thirdEye += 0.1;
         break;
-      case 'full':
+      case 'full moon':
         // Full moon boosts heart and sacral (Essence)
         chakraEnergies.heart += 0.1;
         chakraEnergies.sacral += 0.1;
         break;
       case 'waning crescent': 
-      case 'third quarter':
+      case 'last quarter':
         // Waning phases boost root and sacral (Matter/lower Essence)
         chakraEnergies.root += 0.1;
         chakraEnergies.sacral += 0.05;

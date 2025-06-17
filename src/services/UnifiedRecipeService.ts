@@ -4,6 +4,9 @@
  */
 
 import type { Recipe } from '@/types/alchemy';
+// Add missing imports for TS2304 fixes
+import { errorHandler } from '@/services/errorHandler';
+import type { ExtendedRecipe } from '@/types/ExtendedRecipe';
 // Using local error handler implementation
 
 export class UnifiedRecipeService {
@@ -62,9 +65,11 @@ export class UnifiedRecipeService {
   async getRecipesForCuisine(cuisine: string): Promise<ExtendedRecipe[]> {
     try {
       const allRecipes = await this.getAllRecipes();
-      return (allRecipes || []).filter(recipe => 
-        recipe.cuisine?.toLowerCase() === cuisine?.toLowerCase()
-      );
+      return (allRecipes || []).filter(recipe => {
+        const recipeCuisine = recipe.cuisine && typeof recipe.cuisine === 'string' ? recipe.cuisine.toLowerCase() : recipe.cuisine;
+        const targetCuisine = cuisine && typeof cuisine === 'string' ? cuisine.toLowerCase() : cuisine;
+        return recipeCuisine === targetCuisine;
+      });
     } catch (error) {
       console.error('Error getting recipes for cuisine:', error);
       return [];

@@ -1,5 +1,3 @@
-
-
 // Phase 10: Calculation Type Interfaces
 interface CalculationData {
   value: number;
@@ -253,8 +251,19 @@ export default function RecipeRecommendations() {
         
         setPlanetaryPositions(formattedPositions);
         
-        // Get seasonal recipes
-        const seasonalRecipes = await recipeService.getRecipesBySeason(currentSeason);
+        // Get seasonal recipes - Safe method access
+        let seasonalRecipes: Recipe[] = [];
+        if (recipeService && typeof (recipeService as any).getRecipesBySeason === 'function') {
+          seasonalRecipes = await (recipeService as any).getRecipesBySeason(currentSeason);
+        } else if (recipeService && typeof (recipeService as any).getAllRecipes === 'function') {
+          // Fallback to get all recipes and filter by season
+          const allRecipes = await (recipeService as any).getAllRecipes();
+          seasonalRecipes = (allRecipes || []).filter((recipe: any) => 
+            recipe.season?.includes(currentSeason) || 
+            recipe.seasonality?.includes(currentSeason) ||
+            !recipe.season // Include recipes with no season specified
+          );
+        }
         
         // Get recommendations
         const recommendations = await getRecommendedRecipes(seasonalRecipes, formattedPositions);
@@ -477,7 +486,7 @@ export default function RecipeRecommendations() {
                     <Box sx={{ mt: 2 }}>
                       <Divider sx={{ mb: 2 }} />
                       
-                      {recipe.ingredients && recipe.ingredients.length > 0 && (
+                      {recipe.ingredients && (Array.isArray(recipe.ingredients) ? recipe.ingredients.length > 0 : recipe.ingredients) && (
                         <Box sx={{ mb: 2 }}>
                           <Typography variant="subtitle2" gutterBottom>
                             Ingredients:
@@ -491,14 +500,14 @@ export default function RecipeRecommendations() {
                         </Box>
                       )}
                       
-                      {recipe.instructions && recipe.instructions.length > 0 && (
+                      {recipe.instructions && (Array.isArray(recipe.instructions) ? recipe.instructions.length > 0 : recipe.instructions) && (
                         <Box sx={{ mb: 2 }}>
                           <Typography variant="subtitle2" gutterBottom>
                             Instructions:
                           </Typography>
                           <Typography variant="body2">
                             {Array.isArray(recipe.instructions) 
-                              ? recipe.instructions[0]?.substring(0, 150) + '...'
+                              ? (recipe.instructions[0] as any)?.substring(0, 150) + '...'
                               : String(recipe.instructions).substring(0, 150) + '...'
                             }
                           </Typography>

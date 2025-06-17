@@ -1,4 +1,4 @@
-import type { IngredientMapping } from '@/types/alchemy';
+import type { IngredientMapping } from '@/data/ingredients/types';
 import { citrus } from './citrus';
 import { berries } from './berries';
 import { tropical } from './tropical';
@@ -35,7 +35,7 @@ export let getFruitsBySubCategory = (subCategory: string): Record<string, Ingred
 
 export let getSeasonalFruits = (season: string): Record<string, IngredientMapping> => {
   return Object.entries(fruits)
-    .filter(([_, value]) => value.season.includes(season))
+    .filter(([_, value]) => Array.isArray(value.season) && value.season.includes(season))
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 };
 

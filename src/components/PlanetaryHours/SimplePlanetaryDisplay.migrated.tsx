@@ -29,12 +29,12 @@ export default function SimplePlanetaryDisplayMigrated() {
         }
         
         // Get current planetary day
-        const dayPlanet = await astrologyService.getCurrentPlanetaryDay();
-        setCurrentDay(dayPlanet);
+        const dayPlanet = await (astrologyService as any)?.getCurrentPlanetaryDay?.();
+        setCurrentDay(dayPlanet || 'Unknown');
         
         // Get current planetary minute
-        const minutePlanet = await astrologyService.getCurrentPlanetaryMinute();
-        setCurrentMinute(minutePlanet);
+        const minutePlanet = await (astrologyService as any)?.getCurrentPlanetaryMinute?.();
+        setCurrentMinute(minutePlanet || 'Unknown');
         
         // Update time
         setCurrentTime(new Date());

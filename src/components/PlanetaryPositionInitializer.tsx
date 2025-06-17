@@ -70,8 +70,8 @@ const PlanetaryPositionInitializer: React.FC = () => {
         }
         
         logger.info('Successfully updated planetary positions', {
-          sunPosition: positions.sun?.sign,
-          moonPosition: positions.moon?.sign,
+          sunPosition: (positions.sun as any)?.sign,
+          moonPosition: (positions.moon as any)?.sign,
           timestamp: new Date().toISOString()
         });
         

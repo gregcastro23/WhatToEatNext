@@ -58,7 +58,7 @@ const ElementalRecommendationsMigrated: React.FC<ElementalRecommendationsProps> 
         setDominantElement(dominant);
         
         // Get recommendations based on elemental properties and optional target element
-        const elementalRecommendations = await recommendationService.getElementalRecommendations(
+        const elementalRecommendations = await (recommendationService as any)?.getElementalRecommendations?.(
           properties,
           targetElement
         );

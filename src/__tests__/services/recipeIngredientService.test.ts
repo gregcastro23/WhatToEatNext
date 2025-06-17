@@ -79,7 +79,7 @@ describe('Recipe Ingredient Processing', () => {
         }
       ],
       cuisine: 'Thai',
-      cookingMethod: 'frying'
+      cookingMethod: ['frying'] as string[]
     };
     
     const result = recipeElementalService.deriveElementalProperties(recipe);

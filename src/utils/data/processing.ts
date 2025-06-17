@@ -1,5 +1,5 @@
 import { RecipeIngredient , Recipe ,
-  ingredient, 
+  Ingredient, 
   IngredientMapping} from '@/types/recipe';
 import { Element , ElementalProperties ,
   ElementalAffinity,
@@ -233,7 +233,7 @@ export function validateRecipe(recipe: Partial<Recipe>): ValidationResult {
   
   // Elemental properties validation
   if (recipe.elementalState) {
-    const elementalValidation = validateElementalProperties(recipe.elementalState);
+    const elementalValidation = validateElementalProperties(recipe.elementalState as any);
     if (!elementalValidation.isValid) {
       warnings?.push(...elementalValidation.errors);
     }
@@ -386,19 +386,19 @@ function standardizeElementalProperties(properties: unknown): ElementalPropertie
 function standardizeAstrologicalProfile(profile: unknown): AstrologicalProfile {
   if (!profile || typeof profile !== 'object') {
     return {
-      elementalAffinity: {},
+      elementalAffinity: {} as ElementalAffinity,
       rulingPlanets: [],
       favorableZodiac: [],
-    };
+    } as AstrologicalProfile;
   }
   
   const prof = profile as Record<string, any>;
   
   return {
-    elementalAffinity: standardizeElementalAffinity(prof.elementalAffinity.base),
-    rulingPlanets: Array.isArray(prof.rulingPlanets) ? prof?.rulingPlanets || [].map(String) : [],
-    favorableZodiac: Array.isArray(prof.favorableZodiac) ? prof?.favorableZodiac || [].map(String) : [],
-  };
+    elementalAffinity: standardizeElementalAffinity(prof.elementalAffinity?.base),
+    rulingPlanets: Array.isArray(prof.rulingPlanets) ? (prof.rulingPlanets || []).map(String) : [],
+    favorableZodiac: Array.isArray(prof.favorableZodiac) ? (prof.favorableZodiac || []).map(String) : [],
+  } as AstrologicalProfile;
 }
 
 function standardizeFlavorProfile(profile: unknown): { [key: string]: number } {
@@ -527,11 +527,14 @@ function validateAstrologicalProfile(profile: AstrologicalProfile): ValidationRe
     return { isValid: false, errors };
   }
   
-  if (!profile.elementalAffinity.base) {
+  // Safe property access for AstrologicalProfile properties
+  const elementalAffinity = (profile as any)?.elementalAffinity;
+  if (!elementalAffinity?.base) {
     errors?.push('Elemental affinity is required');
   }
   
-  if (!Array.isArray(profile.rulingPlanets)) {
+  const rulingPlanets = (profile as any)?.rulingPlanets;
+  if (!Array.isArray(rulingPlanets)) {
     errors?.push('Ruling planets must be an array');
   }
   

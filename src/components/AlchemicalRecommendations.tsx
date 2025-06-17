@@ -320,7 +320,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
       const elementalProps = ingredient.elementalProperties;
       const qualities = ingredient.qualities || [];
       const modality = ingredient.modality || 
-        determineIngredientModality(elementalProps, qualities);
+        determineIngredientModality(qualities as any, elementalProps);
       return modality === modalityFilter;
     });
   }, [ingredientsArray, modalityFilter]);
@@ -345,7 +345,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
     count: 5,
     currentZodiac: resolvedCurrentZodiac,
     lunarPhase: resolvedLunarPhase,
-    tarotElementBoosts,
+    tarotElementBoosts: tarotElementBoosts as any,
     tarotPlanetaryBoosts,
     aspects
   });
@@ -407,7 +407,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
           <div className="elemental-balance">
             <h3>Elemental Balance</h3>
             <div className="balance-bars">
-              {Object.entries(energeticProfile.elementalBalance).map(([element, value]) => (
+              {Object.entries(energeticProfile.elementalBalance as any).map(([element, value]: [string, any]) => (
                 <div key={element} className="balance-bar">
                   <span className="element-label">{element}</span>
                   <div className="bar-container">

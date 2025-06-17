@@ -62,7 +62,12 @@ const CATEGORY_DISPLAY_COUNTS: Record<string, number> = {
 // Using inline styles to avoid CSS module conflicts
 export default function IngredientRecommender() {
   // Use the context to get astrological data including chakra energies
-  const { chakraEnergies: contextChakraEnergies, planetaryPositions, isLoading: astroLoading, error: astroError, currentZodiac } = useAstrologicalState();
+  const astroState = useAstrologicalState();
+  const contextChakraEnergies = (astroState as any)?.chakraEnergies;
+  const planetaryPositions = (astroState as any)?.planetaryPositions;
+  const astroLoading = (astroState as any)?.isLoading || false;
+  const astroError = (astroState as any)?.error;
+  const currentZodiac = (astroState as any)?.currentZodiac;
   const [astroRecommendations, setAstroRecommendations] = useState<GroupedIngredientRecommendations>({});
   // States for selected item and expansion
   const [selectedIngredient, setSelectedIngredient] = useState<IngredientRecommendation | null>(null);
@@ -98,7 +103,7 @@ export default function IngredientRecommender() {
   };
   
   // Handle ingredient selection to display details
-  const handleIngredientSelect = (item: IngredientRecommendation, e: React.MouseEvent) => {
+  const handleIngredientSelect = (item: any, e: React.MouseEvent) => {
     e.stopPropagation();
     
     // Toggle selected ingredient
@@ -166,7 +171,11 @@ export default function IngredientRecommender() {
       };
       
       // Get standard recommendations with all planets
-      const standardRecommendations = getIngredientRecommendations(astroState, { limit: 40 });
+      const standardRecommendations = getIngredientRecommendations({
+        ...astroState,
+        lunarPhase: 'new moon',
+        aspects: []
+      } as any, { limit: 40 });
       
       // Merge the recommendations, prioritizing chakra-based ones
       const mergedRecommendations: GroupedIngredientRecommendations = {};
@@ -226,7 +235,7 @@ export default function IngredientRecommender() {
   []);
   
   // Helper function to check if an ingredient is an oil
-  const isOil = (ingredient: IngredientRecommendation): boolean => {
+  const isOil = (ingredient: any): boolean => {
     const category = ingredient.category?.toLowerCase() || '';
     if (category === 'oil' || category === 'oils') return true;
     

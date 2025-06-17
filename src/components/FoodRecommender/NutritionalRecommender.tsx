@@ -453,16 +453,16 @@ const NutritionalRecommender: React.FC<NutritionalRecommenderProps> = ({
               <h3 className="text-lg font-medium mb-3">{category}</h3>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {recommendations[category].map(
-                  (ingredient: IngredientMapping) => {
+                {(recommendations[category] as any).map(
+                  (value: any, index: number, array: any[]): any => {
                     // Extract ingredient data with safe property access
-                    const ingredientData = ingredient as any;
+                    const ingredientData = value as any;
                     const ingredientName = ingredientData?.name || ingredientData?.ingredient || '';
                     
                     return (
                       <IngredientCard
                         key={ingredientName}
-                        ingredient={ingredient}
+                        ingredient={value}
                         isSelected={selectedIngredients.includes(ingredientName)}
                         onToggleSelection={toggleIngredientSelection}
                         enhancedData={enhancedNutritionData[ingredientName]}

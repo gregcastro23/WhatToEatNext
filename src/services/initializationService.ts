@@ -78,11 +78,18 @@ class InitializationService {
       // Convert celestial data to elemental properties format
       const elementalPreference = this.convertToElementalProperties(celestialData);
       
-      // Update the state with the elemental preference
-      await manager.updateState({
-        elementalPreference,
-        lastUpdated: new Date()
-      });
+      // Update the state with the elemental preference - safe method access
+      if (typeof (manager as any).updateState === 'function') {
+        await (manager as any).updateState({
+          elementalPreference,
+          lastUpdated: new Date()
+        });
+      } else if (typeof (manager as any).setState === 'function') {
+        await (manager as any).setState({
+          elementalPreference,
+          lastUpdated: new Date()
+        });
+      }
 
       // Validate final state - only using properties that exist in AlchemicalState
       const isValid = stateValidator.validateState({
@@ -111,7 +118,7 @@ class InitializationService {
         },
         lunarPhase: 'new moon',
         currentTime: new Date()
-      })
+      } as any)
 
       if (!isValid) {
         throw new Error('State validation failed after initialization')
@@ -177,7 +184,17 @@ class InitializationService {
 
   private async initializeCelestialData(): Promise<CelestialData> {
     try {
-      return celestialCalculator.calculateCurrentInfluences()
+      const alignment = celestialCalculator.calculateCurrentInfluences();
+      
+      // Convert CelestialAlignment to CelestialData format with safe property access
+      return {
+        sun: (alignment as any)?.sun || { sign: '', degree: 0, exactLongitude: 0 },
+        moon: (alignment as any)?.moon || { sign: '', degree: 0, exactLongitude: 0 },
+        Fire: (alignment as any)?.Fire || 0.25,
+        Water: (alignment as any)?.Water || 0.25,
+        Earth: (alignment as any)?.Earth || 0.25,
+        Air: (alignment as any)?.Air || 0.25
+      } as CelestialData;
     } catch (error) {
       logger.error('Failed to calculate celestial influences:', error)
       throw error

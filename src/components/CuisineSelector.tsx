@@ -156,7 +156,7 @@ function CuisineSelector({
     if ((cuisine as CuisineData).modality) return (cuisine as CuisineData).modality as Modality;
     
     // Otherwise determine from elemental state
-    return determineModalityFromElements((cuisine as CuisineData).elementalState || (cuisine as CuisineData).elementalProperties || {
+    return determineModalityFromElements((cuisine as CuisineData).elementalState as any || (cuisine as CuisineData).elementalProperties as any || {
       Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
     });
   };

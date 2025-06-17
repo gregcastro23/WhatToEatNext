@@ -1,6 +1,6 @@
 import type { IngredientMapping } from '@/types/alchemy';
 
-export const legumes: Record<string, IngredientMapping> = {
+export const legumes = {
   "black_beans": {
     name: "Black Beans",
     description: "Small, shiny black beans with a dense, meaty texture popular in Latin American cuisine.",

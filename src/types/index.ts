@@ -18,6 +18,7 @@ import {
   ThermodynamicProperties,
   PlanetaryAlignment
 } from './celestial';
+import { type Season } from "@/types/alchemy";
 
 // Export types properly for TypeScript isolatedModules
 export type { 

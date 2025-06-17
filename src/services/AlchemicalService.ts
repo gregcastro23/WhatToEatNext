@@ -404,7 +404,7 @@ export class AlchemicalService {
       flavorProfiles: profileData?.characteristics?.flavorProfiles || [],
       healthBenefits: profileData?.characteristics?.healthBenefits || [],
       timeOfDay: profileData?.characteristics?.timeOfDay || [],
-      seasonalBest: this.getSeasonalRecommendations(dominantElement),
+      seasonalBest: this.getSeasonalRecommendations(dominantElement as any),
       moodEffects: profileData?.characteristics?.moodEffects || [],
       culinaryHerbs: profileData?.characteristics?.culinaryHerbs || []
     };
@@ -467,8 +467,8 @@ export class AlchemicalService {
     ingredient2: IngredientMapping,
   ): number {
     return this.calculateElementalSimilarity(
-      ingredient1.elementalState || { Fire: 0, Water: 0, Earth: 0, Air: 0  },
-      ingredient2.elementalState || { Fire: 0, Water: 0, Earth: 0, Air: 0  }
+      ingredient1.elementalState as any || { Fire: 0, Water: 0, Earth: 0, Air: 0  },
+      ingredient2.elementalState as any || { Fire: 0, Water: 0, Earth: 0, Air: 0  }
     );
   }
   

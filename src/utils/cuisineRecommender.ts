@@ -152,7 +152,7 @@ export function getCuisineRecommendations(
   const scoredCuisines = cuisines.map(cuisine => {
     const flavorProfile = cuisineFlavorProfiles[cuisine];
     const elementalMatch = calculateElementalMatch(
-      flavorProfile.elementalAffinity || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+      (flavorProfile as any)?.elementalAffinity || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
       elementalState
     );
     

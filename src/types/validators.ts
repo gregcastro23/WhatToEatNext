@@ -57,11 +57,11 @@ export const validateIngredient = (ingredient: Ingredient | null | undefined): b
         return false;
     }
     
-    if (typeof ingredient.amount !== 'number' || ingredient.amount <= 0) {
+    if (typeof (ingredient as any)?.amount !== 'number' || (ingredient as any)?.amount <= 0) {
         return false;
     }
     
-    if (!ingredient.unit || !VALID_UNITS.includes(ingredient.unit.toLowerCase())) {
+    if (!(ingredient as any)?.unit || !VALID_UNITS.includes((ingredient as any)?.unit?.toLowerCase?.())) {
         return false;
     }
     

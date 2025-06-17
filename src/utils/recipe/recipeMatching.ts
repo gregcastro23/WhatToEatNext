@@ -4,6 +4,10 @@ import type { Recipe,
   Season,
   nutritionInfo } from "@/types/recipe";
 
+// Add missing imports for TS2304 fixes
+import { LocalRecipeService } from '@/services/LocalRecipeService';
+import { calculatePlanetaryAlignment } from '@/calculations/index';
+
 // Phase 10: Calculation Type Interfaces
 interface CalculationData {
   value: number;
@@ -411,8 +415,8 @@ function applyMatchFilters(recipes: Recipe[], filters: MatchFilters): Recipe[] {
 
     // Dietary restrictions filter
     if (filters.dietaryRestrictions && filters.dietaryRestrictions.length > 0) {
-      const hasIncompatibleRestriction = filters.dietaryRestrictions.some(restriction => !isRecipeDietaryCompatible(recipe, restriction)
-      );
+      // Pattern GG: Fix string vs string[] parameter mismatch for isRecipeDietaryCompatible
+      const hasIncompatibleRestriction = filters.dietaryRestrictions.some(restriction => !isRecipeDietaryCompatible(recipe, [restriction]));
       if (hasIncompatibleRestriction) return false;
     }
 
@@ -427,8 +431,9 @@ function applyMatchFilters(recipes: Recipe[], filters: MatchFilters): Recipe[] {
 
     // Excluded ingredients filter
     if (filters.excludeIngredients && filters.excludeIngredients.length > 0) {
+      // Pattern DD: Fix string vs string[] parameter mismatch for recipeHasIngredient
       const hasExcludedIngredient = (filters.excludeIngredients || []).some(excluded => 
-        recipeHasIngredient(recipe, excluded)
+        recipeHasIngredient(recipe, excluded as string)
       );
       if (hasExcludedIngredient) return false;
     }
@@ -596,6 +601,25 @@ function getCurrentSeason(timestamp: Date): string {
 }
 
 /**
+ * Get recipe planetary influence for a specific planet
+ */
+function getRecipePlanetaryInfluence(recipe: Recipe, planet: string): number {
+  // Simple implementation based on recipe elemental properties
+  const elements = getRecipeElementalProperties(recipe);
+  const elementMapper = new ElementMapper();
+  const planetElement = elementMapper.getPlanetaryElement(planet);
+  
+  // Return the elemental value corresponding to the planet's element
+  switch (planetElement.toLowerCase()) {
+    case 'fire': return elements.Fire || 0;
+    case 'water': return elements.Water || 0;
+    case 'air': return elements.Air || 0;
+    case 'earth': return elements.Earth || 0;
+    default: return 0.25; // Default neutral influence
+  }
+}
+
+/**
  * Enhanced astrological matching using cached planetary data
  */
 function calculateEnhancedAstrologicalMatch(
@@ -732,10 +756,12 @@ export const connectIngredientsToMappings = (
       if ((partialMatches || []).length > 0) {
         // Sort by string similarity
         const bestMatch = partialMatches.sort((a, b) => 
-          getStringSimilarity(b.name, ingredientName) - getStringSimilarity(a.name, ingredientName)
+          // Pattern EE: Ensure proper string casting for getStringSimilarity calls
+          getStringSimilarity(String(b.name || ''), String(ingredientName || '')) - getStringSimilarity(String(a.name || ''), String(ingredientName || ''))
         )[0];
         
-        const confidence = getStringSimilarity(bestMatch.name, ingredientName);
+        // Pattern FF: Ensure proper string casting for confidence calculation
+        const confidence = getStringSimilarity(String(bestMatch.name || ''), String(ingredientName || ''));
         
         return {
           name: ingredientName,
@@ -774,7 +800,7 @@ function simplifiedLevenshtein(str1: string, str2: string): number {
   const n = (str2 || []).length;
   
   // Create a matrix of size (m+1) x (n+1)
-  const dp: number[][] = Array(m + 1)?.(fill(null) || []).map(() => Array(n + 1)?.fill(0));
+  const dp: number[][] = Array(m + 1).fill(null).map(() => Array(n + 1).fill(0));
   
   // Initialize the matrix
   for (let i = 0; i <= m; i++) {

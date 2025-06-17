@@ -1,7 +1,7 @@
-import type { IngredientMapping } from '@/types/alchemy';
+import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-const rawRefinedGrains: Record<string, Partial<IngredientMapping>> = {
+const rawRefinedGrains = {
   'white_rice': {
     name: 'White Rice',
     elementalProperties: { Air: 0.4, Earth: 0.3, Water: 0.2, Fire: 0.1 },

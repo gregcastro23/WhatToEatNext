@@ -1,4 +1,4 @@
-import type { IngredientMapping } from '@/types/alchemy';
+import type { IngredientMapping } from '@/data/ingredients/types';
 import { meats } from './meat';
 import { seafood } from './seafood';
 import { poultry } from './poultry';
@@ -39,7 +39,7 @@ export type Doneness = 'rare' | 'medium_rare' | 'medium' | 'medium_well' | 'well
 // Implemented helper functions
 export let getProteinsBySeasonality = (season: string): Record<string, IngredientMapping> => {
   return Object.entries(proteins)
-    .filter(([_, value]) => value.season?.includes(season))
+    .filter(([_, value]) => Array.isArray(value.season) && value.season.includes(season))
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 };
 
@@ -51,7 +51,7 @@ export let getProteinsBySustainability = (minScore: number): Record<string, Ingr
 
 export let getProteinsByRegionalCuisine = (region: string): Record<string, IngredientMapping> => {
   return Object.entries(proteins)
-    .filter(([_, value]) => value.regionalOrigins?.includes(region))
+    .filter(([_, value]) => Array.isArray(value.regionalOrigins) && value.regionalOrigins.includes(region))
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 };
 
@@ -64,7 +64,7 @@ export let getProteinsByCategory = (category: ProteinCategory): Record<string, I
 
 export let getProteinsByCookingMethod = (method: string): Record<string, IngredientMapping> => {
   return Object.entries(proteins)
-    .filter(([_, value]) => value.cookingMethods?.includes?.(method))
+    .filter(([_, value]) => Array.isArray(value.cookingMethods) && value.cookingMethods.includes(method))
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 };
 
@@ -74,8 +74,8 @@ export let getProteinsByNutrition = (
 ): Record<string, IngredientMapping> => {
   return Object.entries(proteins)
     .filter(([_, value]) => {
-      const meetsProtein = value.nutritionalContent.protein >= minProtein;
-      let meetsFat = maxFat ? value.nutritionalContent.fat <= maxFat : true;
+      const meetsProtein = (value.nutritionalContent as any)?.protein >= minProtein;
+      let meetsFat = maxFat ? (value.nutritionalContent as any)?.fat <= maxFat : true;
       return meetsProtein && meetsFat;
     })
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
@@ -88,8 +88,9 @@ export let getCompatibleProteins = (proteinName: string): string[] => {
   return Object.entries(proteins)
     .filter(([key, value]) => 
       key !== proteinName && 
-      value.affinities?.some((affinity: string) => 
-        protein.affinities?.includes(affinity)
+      Array.isArray(value.affinities) && Array.isArray(protein.affinities) &&
+      value.affinities.some((affinity: string) => 
+        (protein.affinities as string[]).includes(affinity)
       )
     )
     .map(([key, _]) => key);
@@ -110,21 +111,21 @@ export let getProteinSubstitutes = (proteinName: string): Record<string, number>
           .filter(method => 
             protein.culinaryApplications && 
             Object.keys(protein.culinaryApplications).includes(method)
-          ).length / (Object || 1).keys(protein.culinaryApplications || {}).length : 
+          ).length / Object.keys(protein.culinaryApplications || {}).length : 
         0;
       
       let nutritionScore = Math.abs(
-        (value.nutritionalContent.protein - protein.nutritionalContent.protein) / 
-        protein.nutritionalContent.protein
+        ((value.nutritionalContent as any)?.protein - (protein.nutritionalContent as any)?.protein) / 
+        (protein.nutritionalContent as any)?.protein
       );
       
       // Using proper null check instead of non-null assertion
       let proteinQualities = protein.qualities || [];
       
-      let textureScore = value.qualities ?
+      let textureScore = Array.isArray(value.qualities) ?
         value.qualities
           .filter(q => proteinQualities.includes(q))
-          .length / (proteinQualities || 1).length : 
+          .length / (proteinQualities.length || 1) : 
         0;
       
       substitutes[key] = (methodScore + (1 - nutritionScore) + textureScore) / 3;
@@ -370,7 +371,7 @@ export let getProteinsBySubCategory = (subCategory: string): Record<string, Ingr
 
 export let getVeganProteins = (): Record<string, IngredientMapping> => {
   return Object.entries(proteins)
-    .filter(([_, value]) => value.dietaryInfo?.includes?.('vegan'))
+    .filter(([_, value]) => Array.isArray(value.dietaryInfo) && value.dietaryInfo.includes('vegan'))
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 };
 
