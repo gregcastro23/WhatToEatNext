@@ -25,7 +25,8 @@ export let recipeCalculations = {
       return sum + (value * cuisineElements[element as keyof ElementalProperties]);
     }, 0);
     
-    debugLog(`Cuisine alignment score for ${recipe.name}: ${alignmentScore.toFixed(2)}`);
+    const recipeData = recipe as any;
+    debugLog(`Cuisine alignment score for ${recipeData?.name || 'Unknown Recipe'}: ${alignmentScore.toFixed(2)}`);
     return alignmentScore;
   },
 
@@ -40,7 +41,8 @@ export let recipeCalculations = {
       ...recipe.cuisine.astrologicalProfile.aspectEnhancers
     ];
     
-    debugLog(`Optimal cooking windows for ${recipe.name}:`, optimalTimes);
+    const recipeWindowData = recipe as any;
+    debugLog(`Optimal cooking windows for ${recipeWindowData?.name || 'Unknown Recipe'}:`, optimalTimes);
     return optimalTimes;
   },
 
@@ -59,7 +61,8 @@ export let recipeCalculations = {
     // Calculate boost from the user's affinity with that element
     let boost = userElements[dominantElement] * 1.5;
     
-    debugLog(`Elemental boost for ${recipe.name}: ${boost.toFixed(2)} (dominant: ${dominantElement})`);
+    const recipeBoostData = recipe as any;
+    debugLog(`Elemental boost for ${recipeBoostData?.name || 'Unknown Recipe'}: ${boost.toFixed(2)} (dominant: ${dominantElement})`);
     return boost;
   }
 }; 

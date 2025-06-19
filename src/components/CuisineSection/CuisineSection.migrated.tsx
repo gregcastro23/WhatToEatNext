@@ -126,8 +126,12 @@ export function CuisineSectionMigrated({
         if (cuisine) {
           const response = await recipeService.getRecipesByCuisine(cuisine);
           
-          if (response.success && response.data) {
-            setCuisineRecipesFromService(response.data);
+          // Apply Pattern PP-3: Safe response handling for array or object response
+          const responseData = response as any;
+          if (responseData?.success && responseData?.data) {
+            setCuisineRecipesFromService(responseData.data);
+          } else if (Array.isArray(response)) {
+            setCuisineRecipesFromService(response);
           } else {
             setCuisineRecipesFromService([]);
           }

@@ -51,10 +51,12 @@ async function testStreamlinedSystem() {
     console.log(`  Dominant Property: ${result.kalchm.dominantProperty}\n`);
 
     console.log('🌟 ELEMENTAL PROPERTIES:');
-    console.log(`  Fire: ${(result.elementalState.Fire * 100)?.toFixed(1)}%`);
-    console.log(`  Water: ${(result.elementalState.Water * 100)?.toFixed(1)}%`);
-    console.log(`  Air: ${(result.elementalState.Air * 100)?.toFixed(1)}%`);
-    console.log(`  Earth: ${(result.elementalState.Earth * 100)?.toFixed(1)}%`);
+    const resultData = result as any;
+    const elementalState = resultData?.elementalState || resultData?.kalchm?.elementalProperties || { Fire: 0, Water: 0, Air: 0, Earth: 0 };
+    console.log(`  Fire: ${(elementalState.Fire * 100)?.toFixed(1)}%`);
+    console.log(`  Water: ${(elementalState.Water * 100)?.toFixed(1)}%`);
+    console.log(`  Air: ${(elementalState.Air * 100)?.toFixed(1)}%`);
+    console.log(`  Earth: ${(elementalState.Earth * 100)?.toFixed(1)}%`);
     console.log(`  Dominant Element: ${result.kalchm.dominantElement}\n`);
 
     console.log('🪐 PLANETARY INFLUENCES:');

@@ -13,13 +13,15 @@ import { PlanetaryPosition } from "@/types/celestial";
 export function useAlchemicalBridge() {
   // Get data from both legacy context and new services
   const { planetaryPositions: contextPositions, state: contextState } = useAlchemical();
+  const serviceData = useServices();
   const { 
     isLoading, 
     error, 
-    astrologyService, 
-    elementalCalculator,
-    chakraService
-  } = useServices();
+    astrologyService
+  } = serviceData;
+  
+  const elementalCalculator = (serviceData as any)?.elementalCalculator;
+  const chakraService = (serviceData as any)?.chakraService;
 
   // Create state for service-based data
   const [servicePositions, setServicePositions] = useState<Record<string, any>>({});
@@ -81,11 +83,13 @@ export function useAlchemicalBridge() {
  */
 export function useChakraBridge() {
   // Get services
+  const chakraServiceData = useServices();
   const { 
     isLoading, 
-    error, 
-    chakraService 
-  } = useServices();
+    error
+  } = chakraServiceData;
+  
+  const chakraService = (chakraServiceData as any)?.chakraService;
   
   // State for chakra data
   const [chakras, setChakras] = useState<Record<string, any>>({});
