@@ -308,7 +308,7 @@ export default function RecipeRecommendations() {
       }
 
       // Sort by score (descending)
-      return scoredRecipes.sort((a, b) => (a as ScoredItem).score - (b as ScoredItem).score).slice(0, 5);
+      return scoredRecipes.sort((a, b) => (a as unknown as ScoredItem).score - (b as unknown as ScoredItem).score).slice(0, 5);
     } catch (err) {
       console.error('Error calculating recipe recommendations:', err);
       return [];

@@ -7,7 +7,13 @@ import { AlchemicalState, AlchemicalContextType, PlanetaryPositionsType } from '
 export const defaultState: AlchemicalState = {
   currentSeason: 'spring',
   timeOfDay: 'morning',
-  astrologicalState: null,
+  astrologicalState: {
+    currentZodiac: 'aries',
+    sunSign: 'aries',
+    lunarPhase: 'new moon',
+    moonPhase: 'new moon',
+    activePlanets: ['sun', 'moon']
+  },
   currentEnergy: {
     zodiacEnergy: '',
     lunarEnergy: '',
@@ -49,7 +55,12 @@ export const defaultState: AlchemicalState = {
   },
   lunarPhase: 'new moon',
   currentTime: new Date(),
-  lastUpdated: new Date()
+  lastUpdated: new Date(),
+  planetaryPositions: {},
+  normalizedPositions: {},
+  dominantElement: 'Fire',
+  planetaryHour: 'Sun',
+  svgRepresentation: null
 };
 
 // Create the context with default values
@@ -62,4 +73,7 @@ export const AlchemicalContext = createContext<AlchemicalContextType>({
   refreshPlanetaryPositions: async () => ({}),
   setDaytime: () => {},
   updateState: () => {}
-}); 
+});
+
+// Export the AlchemicalContextType for direct imports
+export type { AlchemicalContextType } from './types'; 

@@ -122,8 +122,8 @@ export class CulinaryAstrologer {
     const idealMoonPhase = Object.entries(method.astrologicalInfluences?.lunarPhaseEffect || {})
       .sort(([,a], [,b]) => b - a)[0][0];
     
-    // Use the planetaryHours property from AstrologicalState
-    const currentPlanetaryHour = astroState.planetaryHours || 'Sun';
+    // Use the planetaryHour property from AstrologicalState
+    const currentPlanetaryHour = astroState.planetaryHour || 'Sun';
     const dominantPlanet = method.astrologicalInfluences?.dominantPlanets?.[0] || "the planets";
 
     return `Best during ${idealMoonPhase.replace('_', ' ')} moon when ${currentPlanetaryHour} or ${dominantPlanet} is dominant`;

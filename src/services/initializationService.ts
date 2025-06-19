@@ -210,11 +210,20 @@ class InitializationService {
 
   private calculateRecipeScore(recipe: Recipe, celestialData: CelestialData): number {
     // Implement your scoring logic here
+    // Pattern KK-9: Cross-Module Arithmetic Safety for service calculations
     const score = Object.entries(recipe.elementalProperties).reduce(
-      (acc, [element, value]) => acc + (value * (celestialData[element] || 0)),
+      (acc, [element, value]) => {
+        const numericAcc = Number(acc) || 0;
+        const numericValue = Number(value) || 0;
+        const celestialValue = Number(celestialData[element]) || 0;
+        return numericAcc + (numericValue * celestialValue);
+      },
       0
     )
-    return score / Object.keys(recipe.elementalProperties).length
+    const numericScore = Number(score) || 0;
+    const elementCount = Object.keys(recipe.elementalProperties).length;
+    const numericElementCount = Number(elementCount) || 1;
+    return numericScore / numericElementCount;
   }
 
   private getCurrentSeason(): string {

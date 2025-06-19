@@ -281,17 +281,22 @@ export function calculateThermodynamicProperties(
     // High Spirit and Essence values increase reactivity
     const reactivity = 0.5 * alchemicalProps.Spirit + 0.5 * alchemicalProps.Essence;
     
+    // Calculate Greg's Energy using the standard formula
+    const gregsEnergy = heat - (entropy * reactivity);
+    
     return {
       heat,
       entropy,
-      reactivity
+      reactivity,
+      gregsEnergy
     };
   } catch (error) {
     logger.error('Error calculating thermodynamic properties:', error);
     return {
       heat: 0.5,
       entropy: 0.5,
-      reactivity: 0.5
+      reactivity: 0.5,
+      gregsEnergy: 0.5 - (0.5 * 0.5) // Default Greg's Energy calculation
     };
   }
 } 

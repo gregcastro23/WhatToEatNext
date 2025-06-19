@@ -112,7 +112,7 @@ const validateElementalProperties = (props: any): ElementalProperties => {
 
 const getCurrentZodiacSign = (): ZodiacSign => {
   // Simplified - in real implementation, this would calculate based on current date
-  return 'Gemini';
+  return 'gemini';
 };
 
 const getZodiacElementalInfluence = (zodiacSign: ZodiacSign): ElementalProperties => {

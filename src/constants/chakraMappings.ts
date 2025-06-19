@@ -100,9 +100,9 @@ export const CHAKRA_PROPERTIES: Record<Chakra, ChakraProperties> = {
 // Chakra to Zodiac Sign mappings
 export const CHAKRA_ZODIAC_MAPPINGS: Record<Chakra, ZodiacSign[]> = {
     'Root': ['capricorn', 'taurus'],
-    'Sacral': ['cancer', 'Scorpio', 'pisces'],
+    'Sacral': ['cancer', 'scorpio', 'pisces'],
     'Solar Plexus': ['aries', 'leo', 'sagittarius'],
-    'Heart': ['Libra', 'taurus'],
+    'Heart': ['libra', 'taurus'],
     'Throat': ['gemini', 'virgo'],
     'Third Eye': ['pisces', 'sagittarius'],
     'Crown': ['aquarius', 'pisces']

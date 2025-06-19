@@ -4,18 +4,21 @@ import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import { useServices } from '@/hooks/useServices';
 import { Flame, Droplets, Mountain, Wind, Info, Clock, Tag, Leaf, X, ChevronDown, ChevronUp, Beaker, Settings } from 'lucide-react';
 import { normalizeChakraKey } from '@/constants/chakraSymbols';
-import type { ElementalProperties, 
+import type { 
+  ElementalProperties, 
   Element, 
   ChakraEnergies, 
-  AstrologicalState } from '@/types/alchemy';
-import type { GroupedIngredientRecommendations,
+  AstrologicalState 
+} from '@/types/alchemy';
+
+import type { 
+  GroupedIngredientRecommendations,
   IngredientRecommendation,
-  EnhancedIngredientRecommendation } from '@/utils/recommendation/ingredientRecommendation';
+  EnhancedIngredientRecommendation 
+} from '@/utils/recommendation/ingredientRecommendation';
+
 import { ErrorBoundary } from 'react-error-boundary';
 // TODO: Fix CSS module import - was: import from "./IngredientRecommender.module.css.ts"
-
-
-import { AstrologicalState } from "@/types/celestial";
 import { AlchemicalProperties } from "@/types/alchemy";
 
 import { PlanetaryPosition } from "@/types/celestial";
@@ -552,15 +555,24 @@ const IngredientRecommenderMigrated: React.FC = () => {
               {item.elementalState && (
                 <div className="flex flex-wrap gap-1 mt-1">
                   {Object.entries(item.elementalState)
-                    .filter(([_, value]) => value > 0.1)
-                    .sort(([_, a], [__, b]) => b - a)
+                    .filter(([_, value]) => {
+                      // Pattern KK-10: Final Arithmetic Elimination for filtering operations
+                      const numericValue = Number(value) || 0;
+                      return numericValue > 0.1;
+                    })
+                    .sort(([_, a], [__, b]) => {
+                      // Pattern KK-10: Final Arithmetic Elimination for sort operations
+                      const numericA = Number(a) || 0;
+                      const numericB = Number(b) || 0;
+                      return numericB - numericA;
+                    })
                     .map(([element, value]) => (
                       <span 
                         key={element} 
                         className="flex items-center text-xs bg-gray-50 px-1.5 py-0.5 rounded"
                       >
                         {getElementIcon(element?.toLowerCase() as any)}
-                        {Math.round(value * 100)}%
+                        {Math.round((Number(value) || 0) * 100)}%
                       </span>
                     ))}
                 </div>

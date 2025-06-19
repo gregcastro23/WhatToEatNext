@@ -509,6 +509,7 @@ export class SpoonacularService {
       description: spoonacularRecipe.summary || '',
       ingredients,
       elementalProperties,
+      instructions: spoonacularRecipe.analyzedInstructions?.[0]?.steps?.map((step) => step.step) || [], // ← Pattern GG-4: Added missing instructions property
       preparationTime: spoonacularRecipe.readyInMinutes || 30,
       methodsUsed,
       equipmentNeeded: Array.from(equipment),

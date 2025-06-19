@@ -277,20 +277,29 @@ export function applyPlanetaryInfluence(
   // These are more subtle than cooking method effects, using a 10% influence
   
   // Apply to spirit, essence, matter, substance if they exist in the item
+  // Pattern KK-2: Safe property arithmetic with type validation
   if ('spirit' in transformedItem) {
-    transformedItem.spirit = (transformedItem.spirit || 0) * (1 + 0.1 * planetaryEffects.Spirit);
+    const currentSpirit = typeof (transformedItem as any).spirit === 'number' ? (transformedItem as any).spirit : 0;
+    const effectMultiplier = typeof planetaryEffects.Spirit === 'number' ? planetaryEffects.Spirit : 0;
+    (transformedItem as any).spirit = currentSpirit * (1 + 0.1 * effectMultiplier);
   }
   
   if ('essence' in transformedItem) {
-    transformedItem.essence = (transformedItem.essence || 0) * (1 + 0.1 * planetaryEffects.Essence);
+    const currentEssence = typeof (transformedItem as any).essence === 'number' ? (transformedItem as any).essence : 0;
+    const effectMultiplier = typeof planetaryEffects.Essence === 'number' ? planetaryEffects.Essence : 0;
+    (transformedItem as any).essence = currentEssence * (1 + 0.1 * effectMultiplier);
   }
   
   if ('matter' in transformedItem) {
-    transformedItem.matter = (transformedItem.matter || 0) * (1 + 0.1 * planetaryEffects.Matter);
+    const currentMatter = typeof (transformedItem as any).matter === 'number' ? (transformedItem as any).matter : 0;
+    const effectMultiplier = typeof planetaryEffects.Matter === 'number' ? planetaryEffects.Matter : 0;
+    (transformedItem as any).matter = currentMatter * (1 + 0.1 * effectMultiplier);
   }
   
   if ('substance' in transformedItem) {
-    transformedItem.substance = (transformedItem.substance || 0) * (1 + 0.1 * planetaryEffects.Substance);
+    const currentSubstance = typeof (transformedItem as any).substance === 'number' ? (transformedItem as any).substance : 0;
+    const effectMultiplier = typeof planetaryEffects.Substance === 'number' ? planetaryEffects.Substance : 0;
+    (transformedItem as any).substance = currentSubstance * (1 + 0.1 * effectMultiplier);
   }
   
   // Ensure all values remain within reasonable bounds
@@ -326,20 +335,29 @@ export function applyTarotInfluence(
   // These are subtle influences, using a 15% effect
   
   // Apply to spirit, essence, matter, substance if they exist in the item
+  // Pattern KK-2: Safe property arithmetic with type validation
   if ('spirit' in transformedItem) {
-    transformedItem.spirit = (transformedItem.spirit || 0) * (1 + 0.15 * tarotEffects.Spirit);
+    const currentSpirit = typeof (transformedItem as any).spirit === 'number' ? (transformedItem as any).spirit : 0;
+    const effectMultiplier = typeof tarotEffects.Spirit === 'number' ? tarotEffects.Spirit : 0;
+    (transformedItem as any).spirit = currentSpirit * (1 + 0.15 * effectMultiplier);
   }
   
   if ('essence' in transformedItem) {
-    transformedItem.essence = (transformedItem.essence || 0) * (1 + 0.15 * tarotEffects.Essence);
+    const currentEssence = typeof (transformedItem as any).essence === 'number' ? (transformedItem as any).essence : 0;
+    const effectMultiplier = typeof tarotEffects.Essence === 'number' ? tarotEffects.Essence : 0;
+    (transformedItem as any).essence = currentEssence * (1 + 0.15 * effectMultiplier);
   }
   
   if ('matter' in transformedItem) {
-    transformedItem.matter = (transformedItem.matter || 0) * (1 + 0.15 * tarotEffects.Matter);
+    const currentMatter = typeof (transformedItem as any).matter === 'number' ? (transformedItem as any).matter : 0;
+    const effectMultiplier = typeof tarotEffects.Matter === 'number' ? tarotEffects.Matter : 0;
+    (transformedItem as any).matter = currentMatter * (1 + 0.15 * effectMultiplier);
   }
   
   if ('substance' in transformedItem) {
-    transformedItem.substance = (transformedItem.substance || 0) * (1 + 0.15 * tarotEffects.Substance);
+    const currentSubstance = typeof (transformedItem as any).substance === 'number' ? (transformedItem as any).substance : 0;
+    const effectMultiplier = typeof tarotEffects.Substance === 'number' ? tarotEffects.Substance : 0;
+    (transformedItem as any).substance = currentSubstance * (1 + 0.15 * effectMultiplier);
   }
   
   // Ensure all values remain within reasonable bounds
@@ -491,15 +509,24 @@ const getMethodCompatibility = (
   };
   
   // Find the strongest property in the ingredient
+  // Pattern KK-1: Safe comparison with type validation
   const maxProperty = Object.entries(itemProperties)
-    .reduce((max, [prop, value]) => value > max.value ? {prop, value} : max, {prop: '', value: 0});
+    .reduce((max, [prop, value]) => {
+      const numericValue = typeof value === 'number' ? value : 0;
+      const numericMaxValue = typeof max.value === 'number' ? max.value : 0;
+      return numericValue > numericMaxValue ? {prop, value: numericValue} : max;
+    }, {prop: '', value: 0});
   
   // Check if method enhances the strongest property
-  if (maxProperty.value > 0 && pillar.effects[maxProperty.prop as keyof typeof pillar.effects] > 0) {
+  const maxPropertyValue = typeof maxProperty.value === 'number' ? maxProperty.value : 0;
+  const effectValue = typeof pillar.effects[maxProperty.prop as keyof typeof pillar.effects] === 'number' 
+    ? pillar.effects[maxProperty.prop as keyof typeof pillar.effects] : 0;
+  
+  if (maxPropertyValue > 0 && effectValue > 0) {
     const bonus = 15;
     compatibility += bonus;
     console.log(`✓ Method enhances ingredient's strongest property (${maxProperty.prop}): +${bonus}% → ${compatibility}%`);
-  } else if (maxProperty.value > 0) {
+  } else if (maxPropertyValue > 0) {
     console.log(`✗ Method doesn't enhance ingredient's strongest property (${maxProperty.prop})`);
   }
   
@@ -959,7 +986,7 @@ function getAllCookingMethodData(): Record<string, unknown> {
       .catch(error => {
         console.error("Error loading cooking method data:", error);
         return {};
-      }) as Record<string, unknown>;
+      }) as unknown as Record<string, unknown>;
   } catch (error) {
     console.error("Error loading cooking method data:", error);
     return {};

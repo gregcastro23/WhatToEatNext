@@ -41,8 +41,8 @@ export const methodName: CookingMethodData = {
   ], // Advantages of this cooking method
   
   astrologicalInfluences: {
-    favorableZodiac: ['zodiac1', 'zodiac2', 'zodiac3'] as ZodiacSign[], // Zodiac signs that enhance this method
-    unfavorableZodiac: ['zodiac4', 'zodiac5', 'zodiac6'] as ZodiacSign[], // Zodiac signs that diminish this method
+    favorableZodiac: ['zodiac1', 'zodiac2', 'zodiac3'] as unknown as ZodiacSign[], // Zodiac signs that enhance this method
+    unfavorableZodiac: ['zodiac4', 'zodiac5', 'zodiac6'] as unknown as ZodiacSign[], // Zodiac signs that diminish this method
     dominantPlanets: ['Planet1', 'Planet2', 'Planet3'],
     lunarPhaseEffect: {
       'full_moon': 0.0, // Effect during full moon (multiplier)
@@ -140,7 +140,7 @@ export const methodName: CookingMethodData = {
     heat: 0.0,       // Heat level (0.0-1.0)
     entropy: 0.0,    // Entropy/chaos/transformation level (0.0-1.0)
     reactivity: 0.0, // Chemical reactivity level (0.0-1.0)
-    energy: 0.0      // Energy efficiency (0.0-1.0)
+    gregsEnergy: 0.0 // Greg's Energy (heat - entropy * reactivity)
   } as ThermodynamicProperties,
   
   // Additional metadata

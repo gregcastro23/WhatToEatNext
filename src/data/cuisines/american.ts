@@ -1782,42 +1782,48 @@ export const american: Cuisine = {
       description: "Slow cooking with smoke over indirect heat for extended periods",
       elementalProperties: { Fire: 0.6, Earth: 0.3, Air: 0.1, Water: 0.0 },
       toolsRequired: ["smoker", "wood chips", "temperature probe", "drip pan"],
-      bestFor: ["pork ribs", "brisket", "pork shoulder", "whole chicken", "beef ribs"]
+      bestFor: ["pork ribs", "brisket", "pork shoulder", "whole chicken", "beef ribs"],
+      difficulty: "hard"
     },
     {
       name: "Grilling",
       description: "Cooking over direct high heat for short periods, creating caramelization",
       elementalProperties: { Fire: 0.8, Earth: 0.1, Air: 0.1, Water: 0.0 },
       toolsRequired: ["grill", "tongs", "spatula", "brush", "thermometer"],
-      bestFor: ["steaks", "burgers", "hot dogs", "vegetables", "fish fillets"]
+      bestFor: ["steaks", "burgers", "hot dogs", "vegetables", "fish fillets"],
+      difficulty: "medium"
     },
     {
       name: "Deep Frying",
       description: "Submerging food in hot oil for crispy exterior and tender interior",
       elementalProperties: { Fire: 0.6, Earth: 0.0, Water: 0.0, Air: 0.4 },
       toolsRequired: ["deep fryer", "thermometer", "spider or slotted spoon", "paper towels"],
-      bestFor: ["chicken", "french fries", "donuts", "fish", "appetizers"]
+      bestFor: ["chicken", "french fries", "donuts", "fish", "appetizers"],
+      difficulty: "medium"
     },
     {
       name: "Casserole Baking",
       description: "Combining ingredients in a dish and baking with even, enclosed heat",
       elementalProperties: { Fire: 0.2, Earth: 0.5, Water: 0.3, Air: 0.0 },
       toolsRequired: ["casserole dish", "oven", "mixing bowls", "measuring cups"],
-      bestFor: ["mac and cheese", "green bean casserole", "tuna noodle casserole", "shepherd's pie"]
-    },
+      bestFor: ["mac and cheese", "green bean casserole", "tuna noodle casserole", "shepherd's pie"],
+      difficulty: "easy"
+     },
     {
       name: "Pie Making",
       description: "Creating flaky pastry crusts filled with sweet or savory fillings",
       elementalProperties: { Fire: 0.1, Earth: 0.6, Water: 0.1, Air: 0.2 },
       toolsRequired: ["rolling pin", "pie dish", "pastry cutter", "food processor"],
-      bestFor: ["fruit pies", "cream pies", "pot pies", "quiches", "tarts"]
+      bestFor: ["fruit pies", "cream pies", "pot pies", "quiches", "tarts"],
+      difficulty: "hard"
     },
     {
       name: "Slow Cooking",
       description: "Low-temperature cooking for extended periods, often in a covered pot",
       elementalProperties: { Fire: 0.2, Earth: 0.3, Water: 0.5, Air: 0.0 },
       toolsRequired: ["slow cooker", "dutch oven", "ladle", "timer"],
-      bestFor: ["stews", "chili", "pot roast", "pulled pork", "soups"]
+      bestFor: ["stews", "chili", "pot roast", "pulled pork", "soups"],
+      difficulty: "easy"
     }
   ],
   regionalCuisines: {

@@ -192,5 +192,36 @@ function alchemize(planetaryPositions: { [planet: string]: string }): Thermodyna
 // --- Export for use in other modules ---
 export { alchemize, signs, planetInfo, signInfo };
 
+// Pattern OO-4: Integration Import Resolution - AlchemicalEngine class for service compatibility
+export class AlchemicalEngine {
+  /**
+   * Calculate thermodynamic metrics from planetary positions
+   */
+  alchemize(planetaryPositions: { [planet: string]: string }): ThermodynamicMetrics {
+    return alchemize(planetaryPositions);
+  }
+  
+  /**
+   * Calculate elemental compatibility between two elemental property sets
+   */
+  calculateElementalCompatibility(
+    properties1: ElementalProperties,
+    properties2: ElementalProperties
+  ): number {
+    if (!properties1 || !properties2) return 0;
+    
+    // Calculate similarity based on euclidean distance
+    const distance = Math.sqrt(
+      Math.pow((properties1.Fire || 0) - (properties2.Fire || 0), 2) +
+      Math.pow((properties1.Water || 0) - (properties2.Water || 0), 2) +
+      Math.pow((properties1.Earth || 0) - (properties2.Earth || 0), 2) +
+      Math.pow((properties1.Air || 0) - (properties2.Air || 0), 2)
+    );
+    
+    // Convert distance to compatibility score (0-1)
+    return Math.max(0, 1 - distance / 2);
+  }
+}
+
 // Also provide default export for backwards compatibility
 export default { alchemize, signs, planetInfo, signInfo }; 

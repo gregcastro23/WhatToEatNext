@@ -831,7 +831,7 @@ export async function getRecommendedCookingMethods(
       const methodNameLower = (method as any)?.(name as any)?.toLowerCase?.();
       
       // New moon favors starting new methods, preparation methods
-      if (lunarPhase === 'New') {
+      if (lunarPhase === 'new moon') {
         if ((methodNameLower as any)?.includes?.('prep') || 
             (methodNameLower as any)?.includes?.('marinate') || 
             (methodNameLower as any)?.includes?.('ferment') || 
@@ -840,7 +840,7 @@ export async function getRecommendedCookingMethods(
         }
       }
       // Full moon favors completion methods, preservation methods
-      else if (lunarPhase === 'Full') {
+      else if (lunarPhase === 'full moon') {
         if ((methodNameLower as any)?.includes?.('preserve') || 
             (methodNameLower as any)?.includes?.('smoke') || 
             (methodNameLower as any)?.includes?.('dry') || 
@@ -850,7 +850,7 @@ export async function getRecommendedCookingMethods(
         }
       }
       // Waxing moon favors building methods, long-cooking methods
-      else if (lunarPhase === 'Waxing') {
+      else if (lunarPhase === 'waxing crescent' || lunarPhase === 'waxing gibbous') {
         if ((methodNameLower as any)?.includes?.('slow') || 
             (methodNameLower as any)?.includes?.('brais') || 
             (methodNameLower as any)?.includes?.('roast') || 
@@ -859,7 +859,7 @@ export async function getRecommendedCookingMethods(
         }
       }
       // Waning moon favors reduction methods, quick methods
-      else if (lunarPhase === 'Waning') {
+      else if (lunarPhase === 'waning gibbous' || lunarPhase === 'waning crescent') {
         if ((methodNameLower as any)?.includes?.('reduce') || 
             (methodNameLower as any)?.includes?.('quick') || 
             (methodNameLower as any)?.includes?.('flash') || 
@@ -1302,7 +1302,7 @@ export function getCookingMethodRecommendations(
       score,
       elementalAlignment: (method as any)?.elementalProperties,
       description: (method as any)?.description
-    } as MethodRecommendation;
+    } as unknown as MethodRecommendation;
   })
   .filter(rec => rec.score > 0)
   .sort((a, b) => b.score - a.score);

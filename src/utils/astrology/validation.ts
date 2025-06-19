@@ -1,15 +1,14 @@
-import type { ZodiacSign, 
+import type { 
+  ZodiacSign, 
   AstrologicalState, 
   PlanetaryAspect,
   AspectType,
   LunarPhase,
   Element,
   PlanetaryPosition,
-  PlanetName } from "@/types/alchemy";
+  PlanetName 
+} from "@/types/alchemy";
 
-import { Element } from "@/types/alchemy";
-import { AstrologicalState } from "@/types/celestial";
-import { PlanetaryPosition } from "@/types/celestial";
 import { CelestialPosition } from '@/types/celestial';
 /**
  * A utility function for logging debug information

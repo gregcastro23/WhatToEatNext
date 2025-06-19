@@ -204,7 +204,7 @@ export const gelification: CookingMethodData = {
     heat: 0.35,       // Low-moderate heat for hydration
     entropy: 0.55,    // Significant transformation of structure
     reactivity: 0.60, // Moderate-high chemical reactions
-    energy: 0.40      // Moderate energy efficiency
+    gregsEnergy: 0.35 - (0.55 * 0.60)      // Calculated using heat - (entropy * reactivity)
   } as ThermodynamicProperties,
   
   // Additional metadata

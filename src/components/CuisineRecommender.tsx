@@ -111,7 +111,10 @@ import {
   calculateElementalProfileFromZodiac,
   calculateElementalContributionsFromPlanets,
 } from '@/utils/cuisineRecommender';
-import { venusData, marsData, mercuryData, jupiterData } from '@/data/planets';
+import venusData from '@/data/planets/venus';
+import marsData from '@/data/planets/mars';
+import mercuryData from '@/data/planets/mercury';
+import jupiterData from '@/data/planets/jupiter';
 
 // Keep the interface exports for any code that depends on them
 export interface Cuisine {

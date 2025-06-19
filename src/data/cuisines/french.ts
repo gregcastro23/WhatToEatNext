@@ -24,7 +24,10 @@ export const french: Cuisine = {
       astrologicalInfluences: ["Moon", "Cancer", "Venus"],
       seasonality: "all",
       preparationNotes: "Heat should be gentle to prevent scorching. Whisk constantly when adding milk to prevent lumps.",
-      technicalTips: "For a smoother sauce, heat the milk before adding it to the roux."
+      technicalTips: "For a smoother sauce, heat the milk before adding it to the roux.",
+      difficulty: "medium",
+      storageInstructions: "Refrigerate up to 3 days, cover surface with plastic wrap to prevent skin formation",
+      yield: "2 cups"
     },
     veloute: {
       name: "Velouté",
@@ -43,7 +46,10 @@ export const french: Cuisine = {
       astrologicalInfluences: ["Jupiter", "Mercury", "Pisces"],
       seasonality: "all",
       preparationNotes: "The stock must be relatively clear and the roux cooked to a blonde stage.",
-      technicalTips: "Choose the stock type based on the protein it will accompany."
+      technicalTips: "Choose the stock type based on the protein it will accompany.",
+      difficulty: "medium",
+      storageInstructions: "Refrigerate up to 2 days, reheat gently while whisking",
+      yield: "2 cups"
     },
     espagnole: {
       name: "Espagnole (Brown Sauce)",
@@ -62,7 +68,10 @@ export const french: Cuisine = {
       astrologicalInfluences: ["Mars", "Saturn", "Scorpio"],
       seasonality: "autumn, winter",
       preparationNotes: "The roux must be browned correctly to develop the deep color and flavor.",
-      technicalTips: "Skim regularly during simmering to achieve clarity."
+      technicalTips: "Skim regularly during simmering to achieve clarity.",
+      difficulty: "hard",
+      storageInstructions: "Refrigerate up to 4 days, freeze up to 3 months",
+      yield: "3 cups"
     },
     hollandaise: {
       name: "Hollandaise",
@@ -81,7 +90,10 @@ export const french: Cuisine = {
       astrologicalInfluences: ["Sun", "Mercury", "Leo"],
       seasonality: "spring, summer",
       preparationNotes: "Temperature control is critical to prevent curdling or breaking.",
-      technicalTips: "Use a double boiler or bain-marie and add butter gradually."
+      technicalTips: "Use a double boiler or bain-marie and add butter gradually.",
+      difficulty: "hard",
+      storageInstructions: "Best served immediately, can hold warm for up to 1 hour in bain-marie",
+      yield: "1 cup"
     },
     tomato: {
       name: "Tomato Sauce",
@@ -100,7 +112,10 @@ export const french: Cuisine = {
       astrologicalInfluences: ["Mars", "Leo", "Aries"],
       seasonality: "summer, autumn",
       preparationNotes: "Can be smooth or chunky depending on the preparation method.",
-      technicalTips: "For a deeper flavor, roast the tomatoes beforehand."
+      technicalTips: "For a deeper flavor, roast the tomatoes beforehand.",
+      difficulty: "easy",
+      storageInstructions: "Refrigerate up to 5 days, freeze up to 6 months",
+      yield: "2.5 cups"
     }
   },
   sauceRecommender: {
@@ -1186,35 +1201,40 @@ export const french: Cuisine = {
       description: "Quick cooking in a small amount of fat over high heat",
       elementalProperties: { Fire: 0.7, Air: 0.2, Earth: 0.1, Water: 0 },
       toolsRequired: ["sauté pan", "wooden spoon", "tongs"],
-      bestFor: ["vegetables", "tender cuts of meat", "fish fillets"]
+      bestFor: ["vegetables", "tender cuts of meat", "fish fillets"],
+      difficulty: "easy"
     },
     {
       name: "Braise",
       description: "Slow cooking in liquid after browning, usually covered",
       elementalProperties: { Water: 0.5, Earth: 0.3, Fire: 0.2, Air: 0 },
       toolsRequired: ["Dutch oven", "tongs", "wooden spoon"],
-      bestFor: ["tough cuts of meat", "root vegetables", "legumes"]
+      bestFor: ["tough cuts of meat", "root vegetables", "legumes"],
+      difficulty: "medium"
     },
     {
       name: "Flambé",
       description: "Igniting food with alcohol for flavor and visual effect",
       elementalProperties: { Fire: 0.8, Air: 0.1, Earth: 0.1, Water: 0 },
       toolsRequired: ["skillet", "long match or lighter", "long-handled utensils"],
-      bestFor: ["desserts", "proteins", "sauces"]
+      bestFor: ["desserts", "proteins", "sauces"],
+      difficulty: "hard"
     },
     {
       name: "En Papillote",
       description: "Cooking in a sealed parchment paper packet",
       elementalProperties: { Water: 0.4, Air: 0.4, Earth: 0.1, Fire: 0.1 },
       toolsRequired: ["parchment paper", "baking sheet", "scissors"],
-      bestFor: ["fish", "vegetables", "delicate proteins"]
+      bestFor: ["fish", "vegetables", "delicate proteins"],
+      difficulty: "medium"
     },
     {
       name: "Sous Vide",
       description: "Cooking vacuum-sealed food in a temperature-controlled water bath",
       elementalProperties: { Water: 0.7, Air: 0.1, Earth: 0.1, Fire: 0.1 },
       toolsRequired: ["sous vide immersion circulator", "vacuum sealer", "container"],
-      bestFor: ["proteins", "eggs", "vegetables"]
+      bestFor: ["proteins", "eggs", "vegetables"],
+      difficulty: "hard"
     }
   ],
   regionalCuisines: {

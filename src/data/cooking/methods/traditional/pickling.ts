@@ -209,7 +209,7 @@ export const pickling: CookingMethodData = {
     heat: 0.25,       // Low heat, often ambient temperature
     entropy: 0.60,    // Moderate transformation through chemical or biological activity
     reactivity: 0.70, // Significant acid-base reactions and biochemical changes
-    energy: 0.80      // Efficient - acid or microbes do the work
+    gregsEnergy: 0.25 - (0.60 * 0.70)      // gregsEnergy = heat - (entropy * reactivity)
   } as ThermodynamicProperties,
   
   // Additional metadata

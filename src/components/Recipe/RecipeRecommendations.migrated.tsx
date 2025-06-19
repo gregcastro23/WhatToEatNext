@@ -14,7 +14,7 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import PeopleIcon from '@mui/icons-material/People';
 
 import { useServices } from '@/hooks/useServices';
-import { astrologize } from '@/utils/astrologize';
+import { fetchPlanetaryPositions } from '@/services/astrologizeApi';
 import PlanetaryTimeDisplay from '../PlanetaryTimeDisplay';
 import { getTimeFactors } from '@/utils/time';
 import { normalizeLunarPhase } from '@/utils/lunarPhaseUtils';

@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useAlchemical } from '@/hooks/useAlchemical';
 import { cuisines } from '@/data/cuisines';
 import { getCurrentElementalState } from '@/utils/elementalUtils';
-import { CuisineRecommender } from '@/components/CuisineRecommender';
+import CuisineRecommender from '@/components/CuisineRecommender';
 import { cuisineFlavorProfiles } from '@/data/cuisineFlavorProfiles';
 
 const CuisinesIndexPage = () => {

@@ -217,7 +217,7 @@ export interface ThermodynamicProperties {
   heat: number;
   entropy: number;
   reactivity: number;
-  energy: number;
+  gregsEnergy: number; // Using gregsEnergy as the single energy metric for this project
 }
 
 // ========== COOKING TYPES ==========

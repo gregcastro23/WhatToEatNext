@@ -1,4 +1,4 @@
-import type { ElementalProperties } from "@/types/alchemy";
+import type { ElementalProperties, Element, AlchemicalProperties, ThermodynamicMetrics } from "@/types/alchemy";
 import Recipe from "@/types/flavor";
 import { 
 // ===== UNIFIED CUISINE SYSTEM - PHASE 3 ENHANCEMENT =====
@@ -6,15 +6,10 @@ import {
 // Integrates with unified ingredients and recipe systems
 
   calculateKalchm, 
-  type AlchemicalProperties,
-  type ThermodynamicMetrics,
   deriveAlchemicalFromElemental
 } from './alchemicalCalculations';
 // Import needed from ./ingredients.js.ts
 import { RecipeEnhancer } from './recipes';
-
-import { Element } from "@/types/alchemy";
-import { AlchemicalProperties } from "@/types/alchemy";
 
 // Enhanced cuisine interface with Kalchm integration
 export interface EnhancedCuisine {

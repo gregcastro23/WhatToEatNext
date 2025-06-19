@@ -507,8 +507,8 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
       // Calculate planetary hour influence (20% weight)
       let planetaryHourScore = 0.5; // Default neutral score
       
-      if (astroState.planetaryHours) {
-        const hourPlanet = astroState.planetaryHours.toLowerCase();
+      if (astroState.planetaryHour) {
+        const hourPlanet = astroState.planetaryHour.toLowerCase();
         
         if (planetaryElements[hourPlanet]) {
           // For planetary hour, use diurnal element during day, nocturnal at night
@@ -801,25 +801,38 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
           });
           
           // Normalize taste score
-          const avgTaste = weightSum > 0 ? tasteScore / weightSum : 
-                         Object.values(sensory.taste).reduce((a: number, b: number) => a + b, 0) / 
-                         Object.values(sensory.taste).length;
+          // Pattern KK-9: Cross-Module Arithmetic Safety for utility calculations
+          const numericWeightSum = Number(weightSum) || 1;
+          const numericTasteScore = Number(tasteScore) || 0;
+          const avgTaste = numericWeightSum > 0 ? numericTasteScore / numericWeightSum : 
+                         // Pattern KK-9: Safe reduction for taste values
+                         (Object.values(sensory.taste).map(val => Number(val) || 0)
+                           .reduce((acc: number, val: number) => acc + val, 0) || 0) / 
+                         (Object.values(sensory.taste).length || 1);
           
           sensoryScore = (sensoryScore + avgTaste) / 2;
         }
         
         // Factor in aromatic qualities
         if (sensory?.aroma) {
-          const avgAroma = Object.values(sensory.aroma).reduce((a: number, b: number) => a + b, 0) / 
-                        Object.values(sensory.aroma).length;
-          sensoryScore = (sensoryScore + avgAroma) / 2;
+          // Pattern KK-9: Cross-Module Arithmetic Safety for aroma calculations
+          const avgAroma = (Object.values(sensory.aroma).map(val => Number(val) || 0)
+                           .reduce((acc: number, val: number) => acc + val, 0) || 0) / 
+                        (Object.values(sensory.aroma).length || 1);
+          const numericSensoryScore = Number(sensoryScore) || 0;
+          const numericAvgAroma = Number(avgAroma) || 0;
+          sensoryScore = (numericSensoryScore + numericAvgAroma) / 2;
         }
         
         // Texture is less significant but still a factor
         if (sensory?.texture) {
-          const avgTexture = Object.values(sensory.texture).reduce((a: number, b: number) => a + b, 0) / 
-                           Object.values(sensory.texture).length;
-          sensoryScore = (sensoryScore * 0.7) + (avgTexture * 0.3);
+          // Pattern KK-9: Cross-Module Arithmetic Safety for texture calculations
+          const avgTexture = (Object.values(sensory.texture).map(val => Number(val) || 0)
+                             .reduce((acc: number, val: number) => acc + val, 0) || 0) / 
+                           (Object.values(sensory.texture).length || 1);
+          const numericSensoryScore = Number(sensoryScore) || 0;
+          const numericAvgTexture = Number(avgTexture) || 0;
+          sensoryScore = (numericSensoryScore * 0.7) + (numericAvgTexture * 0.3);
         }
       }
       

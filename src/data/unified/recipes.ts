@@ -1,4 +1,4 @@
-import type { ElementalProperties } from "@/types/alchemy";
+import type { ElementalProperties, Element, AlchemicalProperties, ThermodynamicMetrics } from "@/types/alchemy";
 import { Recipe } from '@/types/recipe';
 import { 
 // ===== UNIFIED RECIPE SYSTEM - PHASE 3 =====
@@ -7,14 +7,9 @@ import {
 
   calculateKalchm, 
   calculateMonica, 
-  performAlchemicalAnalysis,
-  type AlchemicalProperties,
-  type ThermodynamicMetrics 
+  performAlchemicalAnalysis
 } from './alchemicalCalculations.js';
 import { unifiedIngredients, type UnifiedIngredient } from './ingredients';
-
-import { Element } from "@/types/alchemy";
-import { AlchemicalProperties } from "@/types/alchemy";
 
 // Enhanced recipe interface that extends existing recipe structure
 export interface EnhancedRecipe {

@@ -136,7 +136,7 @@ export default function RecipeFiltersMigrated({
           'paleo',
           'low-carb',
           'low-fat'
-        ] as DietaryRestriction[]);
+        ] as unknown as DietaryRestriction[]);
       } finally {
         setIsLoading(false);
       }

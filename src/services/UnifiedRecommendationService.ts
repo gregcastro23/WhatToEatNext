@@ -2,8 +2,10 @@ import {
   ElementalProperties, 
   Planet, 
   ZodiacSign, 
-  ThermodynamicProperties 
+  ThermodynamicProperties,
+  Element
 } from '../types';
+
 import { Recipe } from '../types/recipe';
 import { Ingredient } from '../types/ingredient';
 import { CookingMethod } from '../types/cookingMethod';
@@ -15,8 +17,6 @@ import {
   CookingMethodRecommendationCriteria,
   RecommendationResult
 } from './interfaces/RecommendationServiceInterface';
-
-import { Element , ElementalProperties } from "@/types/alchemy";
 import { PlanetaryAlignment } from "@/types/celestial";
 import { unifiedIngredientService } from './UnifiedIngredientService';
 import alchemicalEngine from '@/calculations/core/alchemicalEngine';
@@ -184,7 +184,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       // Check for planetary ruler match
       if (criteria.planetaryRuler && ingredient.astrologicalProperties?.planets) {
         const planets = ingredient.astrologicalProperties.planets;
-        const planetMatch = Array.isArray(planets) ? planets.includes(criteria.planetaryRuler as Record<string, any>) : planets === criteria.planetaryRuler as Record<string, any>;
+        const planetMatch = Array.isArray(planets) ? planets.includes(criteria.planetaryRuler as unknown as Record<string, any>) : planets === criteria.planetaryRuler as unknown as Record<string, any>;
         score += planetMatch ? 0.1 : 0;
       }
       

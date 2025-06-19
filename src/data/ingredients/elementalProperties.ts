@@ -20,7 +20,11 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
   {
     name: 'Chicken',
     category: 'protein',
-    elementalProperties: {Fire: 0.3,Water: 0.3,Earth: 0.3,Air: 0.1
+    elementalProperties: {
+      fire: 0.3,
+      water: 0.3,
+      earth: 0.3,
+      air: 0.1
     },
     seasonality: ['all'],
     cuisineAffinities: ['Mediterranean', 'Asian', 'American', 'Mexican', 'Indian'],
@@ -32,7 +36,11 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
   {
     name: 'Beef',
     category: 'protein',
-    elementalProperties: {Fire: 0.6,Water: 0.1,Earth: 0.3,Air: 0.0
+    elementalProperties: {
+      fire: 0.6,
+      water: 0.1,
+      earth: 0.3,
+      air: 0.0
     },
     seasonality: ['winter', 'fall'],
     cuisineAffinities: ['American', 'French', 'Italian', 'Korean', 'Argentinian'],
@@ -44,7 +52,11 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
   {
     name: 'Salmon',
     category: 'protein',
-    elementalProperties: {Fire: 0.2,Water: 0.6,Earth: 0.1,Air: 0.1
+    elementalProperties: {
+      fire: 0.2,
+      water: 0.6,
+      earth: 0.1,
+      air: 0.1
     },
     seasonality: ['summer', 'fall'],
     cuisineAffinities: ['Nordic', 'Japanese', 'Pacific Northwest', 'Mediterranean'],
@@ -57,7 +69,11 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
   {
     name: 'Spinach',
     category: 'vegetable',
-    elementalProperties: {Fire: 0.0,Water: 0.3,Earth: 0.5,Air: 0.2
+    elementalProperties: {
+      fire: 0.0,
+      water: 0.3,
+      earth: 0.5,
+      air: 0.2
     },
     seasonality: ['spring', 'fall'],
     cuisineAffinities: ['Mediterranean', 'Indian', 'Middle Eastern'],
@@ -69,7 +85,11 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
   {
     name: 'Tomato',
     category: 'vegetable',
-    elementalProperties: {Fire: 0.4,Water: 0.4,Earth: 0.1,Air: 0.1
+    elementalProperties: {
+      fire: 0.4,
+      water: 0.4,
+      earth: 0.1,
+      air: 0.1
     },
     seasonality: ['summer'],
     cuisineAffinities: ['Mediterranean', 'Italian', 'Mexican', 'Spanish'],
@@ -81,7 +101,11 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
   {
     name: 'Bell Pepper',
     category: 'vegetable',
-    elementalProperties: {Fire: 0.3,Water: 0.3,Earth: 0.1,Air: 0.3
+    elementalProperties: {
+      fire: 0.3,
+      water: 0.3,
+      earth: 0.1,
+      air: 0.3
     },
     seasonality: ['summer', 'fall'],
     cuisineAffinities: ['Mediterranean', 'Mexican', 'Chinese', 'Spanish'],
@@ -94,7 +118,11 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
   {
     name: 'Rice',
     category: 'grain',
-    elementalProperties: {Fire: 0.1,Water: 0.3,Earth: 0.5,Air: 0.1
+    elementalProperties: {
+      fire: 0.1,
+      water: 0.3,
+      earth: 0.5,
+      air: 0.1
     },
     seasonality: ['all'],
     cuisineAffinities: ['Asian', 'Indian', 'Middle Eastern', 'Spanish'],
@@ -106,7 +134,11 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
   {
     name: 'Quinoa',
     category: 'grain',
-    elementalProperties: {Fire: 0.1,Water: 0.2,Earth: 0.4,Air: 0.3
+    elementalProperties: {
+      fire: 0.1,
+      water: 0.2,
+      earth: 0.4,
+      air: 0.3
     },
     seasonality: ['all'],
     cuisineAffinities: ['South American', 'Mediterranean', 'Modern'],
@@ -119,7 +151,11 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
   {
     name: 'Basil',
     category: 'herb',
-    elementalProperties: {Fire: 0.2,Water: 0.1,Earth: 0.1,Air: 0.6
+    elementalProperties: {
+      fire: 0.2,
+      water: 0.1,
+      earth: 0.1,
+      air: 0.6
     },
     seasonality: ['summer'],
     cuisineAffinities: ['Italian', 'Thai', 'Mediterranean'],
@@ -131,7 +167,11 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
   {
     name: 'Turmeric',
     category: 'spice',
-    elementalProperties: {Fire: 0.5,Water: 0.0,Earth: 0.4,Air: 0.1
+    elementalProperties: {
+      fire: 0.5,
+      water: 0.0,
+      earth: 0.4,
+      air: 0.1
     },
     seasonality: ['all'],
     cuisineAffinities: ['Indian', 'Southeast Asian', 'Middle Eastern'],
@@ -143,7 +183,11 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
   {
     name: 'Cinnamon',
     category: 'spice',
-    elementalProperties: {Fire: 0.6,Water: 0.0,Earth: 0.2,Air: 0.2
+    elementalProperties: {
+      fire: 0.6,
+      water: 0.0,
+      earth: 0.2,
+      air: 0.2
     },
     seasonality: ['fall', 'winter'],
     cuisineAffinities: ['Middle Eastern', 'Indian', 'Mexican', 'Moroccan'],
@@ -156,7 +200,11 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
   {
     name: 'Apple',
     category: 'fruit',
-    elementalProperties: {Fire: 0.1,Water: 0.3,Earth: 0.3,Air: 0.3
+    elementalProperties: {
+      fire: 0.1,
+      water: 0.3,
+      earth: 0.3,
+      air: 0.3
     },
     seasonality: ['fall'],
     cuisineAffinities: ['American', 'French', 'British', 'Germanic'],
@@ -168,7 +216,11 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
   {
     name: 'Lemon',
     category: 'fruit',
-    elementalProperties: {Fire: 0.2,Water: 0.3,Earth: 0.1,Air: 0.4
+    elementalProperties: {
+      fire: 0.2,
+      water: 0.3,
+      earth: 0.1,
+      air: 0.4
     },
     seasonality: ['winter', 'spring'],
     cuisineAffinities: ['Mediterranean', 'Middle Eastern', 'North African'],
@@ -181,7 +233,11 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
   {
     name: 'Yogurt',
     category: 'dairy',
-    elementalProperties: {Fire: 0.0,Water: 0.4,Earth: 0.5,Air: 0.1
+    elementalProperties: {
+      fire: 0.0,
+      water: 0.4,
+      earth: 0.5,
+      air: 0.1
     },
     seasonality: ['all'],
     cuisineAffinities: ['Mediterranean', 'Middle Eastern', 'Indian', 'Eastern European'],
@@ -194,7 +250,11 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
   {
     name: 'Almonds',
     category: 'nut',
-    elementalProperties: {Fire: 0.2,Water: 0.0,Earth: 0.5,Air: 0.3
+    elementalProperties: {
+      fire: 0.2,
+      water: 0.0,
+      earth: 0.5,
+      air: 0.3
     },
     seasonality: ['fall'],
     cuisineAffinities: ['Mediterranean', 'Middle Eastern', 'Indian', 'French'],
@@ -207,7 +267,11 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
   {
     name: 'Olive Oil',
     category: 'oil',
-    elementalProperties: {Fire: 0.2,Water: 0.0,Earth: 0.3,Air: 0.5
+    elementalProperties: {
+      fire: 0.2,
+      water: 0.0,
+      earth: 0.3,
+      air: 0.5
     },
     seasonality: ['all'],
     cuisineAffinities: ['Mediterranean', 'Italian', 'Spanish', 'Greek'],
@@ -219,7 +283,11 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
   {
     name: 'Coconut Oil',
     category: 'oil',
-    elementalProperties: {Fire: 0.3,Water: 0.3,Earth: 0.3,Air: 0.1
+    elementalProperties: {
+      fire: 0.3,
+      water: 0.3,
+      earth: 0.3,
+      air: 0.1
     },
     seasonality: ['all'],
     cuisineAffinities: ['Southeast Asian', 'Caribbean', 'Indian', 'Pacific'],

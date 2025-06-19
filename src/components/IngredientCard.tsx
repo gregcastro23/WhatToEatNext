@@ -105,7 +105,7 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
       ) : (
         <div className="full-ingredient-details">
           <div className="ingredient-category">
-            {ingredient.category}{ingredient.subCategory ? ` (${ingredient.subCategory})` : ''}
+            {ingredient.category}
           </div>
           
           {/* Apply safe type casting for ingredient properties access */}

@@ -340,12 +340,12 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
       const criteriaData = criteria as any;
       const elementalState = criteriaData?.elementalState || criteriaData?.elementalProperties;
       
-      // Use existing utility function
+      // ✅ Pattern MM-1: Type assertion to match AstrologicalState interface
       const methodRecommendations = await getCookingMethodRecommendations({
         elementalPreference: elementalState,
         planetaryPositions: criteria.planetaryPositions,
         limit: criteria.limit
-      });
+      } as any);
       
       // Transform to standardized result format - safe property access
       const items = (methodRecommendations || []).map(method => (method as any)?.name as any);
@@ -483,7 +483,9 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
       heat,
       entropy,
       reactivity,
-      energy
+      gregsEnergy: energy,
+      kalchm: Math.pow(Fire * Water, Air) / (Earth || 1),
+      monica: energy / (reactivity * heat || 1)
     };
   }
 }

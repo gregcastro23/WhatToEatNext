@@ -1214,35 +1214,40 @@ export const russian: Cuisine = {
       description: "Traditional fermentation techniques for preserving vegetables, dairy, and grains",
       elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
       toolsRequired: ["clay pots", "wooden tools", "brine", "glass jars", "weights"],
-      bestFor: ["cabbage", "cucumbers", "beets", "milk", "bread starter"]
+      bestFor: ["cabbage", "cucumbers", "beets", "milk", "bread starter"],
+      difficulty: "medium"
     },
     {
       name: "Russian Oven Cooking",
       description: "Slow cooking in traditional masonry stove that retains heat for extended periods",
       elementalProperties: { Fire: 0.4, Earth: 0.3, Water: 0.2, Air: 0.1 },
       toolsRequired: ["pech (Russian oven)", "clay pots", "long wooden paddles", "cast iron pots"],
-      bestFor: ["stews", "porridges", "breads", "slow-roasted meats", "pies"]
+      bestFor: ["stews", "porridges", "breads", "slow-roasted meats", "pies"],
+      difficulty: "hard"
     },
     {
       name: "Solenije",
       description: "Salt preservation technique creating distinctive flavors different from fermentation",
       elementalProperties: { Earth: 0.5, Water: 0.3, Fire: 0.1, Air: 0.1 },
       toolsRequired: ["wooden barrels", "salt", "heavy weights", "herbs", "glass jars"],
-      bestFor: ["mushrooms", "vegetables", "fish", "pork fat", "herbs"]
+      bestFor: ["mushrooms", "vegetables", "fish", "pork fat", "herbs"],
+      difficulty: "easy"
     },
     {
       name: "Smokehouse Methods",
       description: "Cold and hot smoking techniques for preserving fish, meat, and cheeses",
       elementalProperties: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
       toolsRequired: ["smoke house", "wood chips", "hooks", "racks", "temperature control"],
-      bestFor: ["fish", "game", "sausages", "pork fat", "cheese"]
+      bestFor: ["fish", "game", "sausages", "pork fat", "cheese"],
+      difficulty: "hard"
     },
     {
       name: "Томление (Tomlenie)",
       description: "Ultra-slow cooking/simmering method in covered pots to develop deep flavors",
       elementalProperties: { Water: 0.4, Earth: 0.3, Fire: 0.2, Air: 0.1 },
       toolsRequired: ["cast iron pot", "heat diffuser", "slow heat source", "wooden spoon"],
-      bestFor: ["porridges", "milk dishes", "stews", "root vegetables", "grains"]
+      bestFor: ["porridges", "milk dishes", "stews", "root vegetables", "grains"],
+      difficulty: "medium"
     }
   ],
   regionalCuisines: {

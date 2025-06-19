@@ -616,7 +616,7 @@ export async function getRecommendedIngredients(astroState: AstrologicalState): 
     });
   }
   
-  return filteredIngredients as Ingredient[];
+  return filteredIngredients as unknown as Ingredient[];
 }
 
 export async function getIngredientRecommendations(
@@ -624,7 +624,7 @@ export async function getIngredientRecommendations(
     timestamp: Date;
     currentStability: number;
     planetaryAlignment: Record<string, { sign: string; degree: number }>;
-    currentZodiacSign: string;
+    currentZodiac: string;
     activePlanets: string[];
     lunarPhase: string;
     aspects: Array<{ aspectType: string; planet1: string; planet2: string }>;
@@ -760,8 +760,8 @@ export const getTopIngredientMatches = async (
     }
     
     // Zodiac compatibility
-    if (astroState.currentZodiacSign && ingredient.astrologicalProfile?.favorableZodiac) {
-      const zodiacMatch = ingredient.astrologicalProfile.favorableZodiac.includes(astroState.currentZodiacSign);
+      if (astroState.currentZodiac && ingredient.astrologicalProfile?.favorableZodiac) {
+    const zodiacMatch = ingredient.astrologicalProfile.favorableZodiac.includes(astroState.currentZodiac);
       if (zodiacMatch) score += 0.2;
     }
     
@@ -961,7 +961,7 @@ export async function recommendIngredients(
     timestamp: new Date(),
     currentStability: 0.5,
     planetaryAlignment: {},
-    currentZodiacSign: astroState.currentZodiacSign || 'aries',
+          currentZodiac: astroState.currentZodiac || 'aries',
     activePlanets: astroState.activePlanets || [],
     lunarPhase: astroState.lunarPhase || 'new',
     aspects: []

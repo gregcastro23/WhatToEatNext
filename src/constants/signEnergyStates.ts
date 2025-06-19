@@ -149,4 +149,7 @@ export function calculateSignEnergyStates(
             currentEnergy: Math.min(1.0, Math.max(0.1, currentEnergy))
         };
     });
-} 
+}
+
+// Export alias for compatibility
+export const SIGN_ENERGY_STATES = ENERGY_STATES; 

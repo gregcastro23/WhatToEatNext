@@ -45,7 +45,7 @@ export let getProteinsBySeasonality = (season: string): Record<string, Ingredien
 
 export let getProteinsBySustainability = (minScore: number): Record<string, IngredientMapping> => {
   return Object.entries(proteins)
-    .filter(([_, value]) => value.sustainabilityScore >= minScore)
+    .filter(([_, value]) => Number(value.sustainabilityScore) >= Number(minScore))
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 };
 

@@ -644,7 +644,8 @@ const rawWholeGrains = {
 };
 
 // Fix the ingredient mappings to ensure they have all required properties
-export const wholeGrains: Record<string, IngredientMapping> = fixIngredientMappings(rawWholeGrains);
+// ✅ Pattern MM-1: Type assertion for ZodiacSign[] compatibility
+export const wholeGrains: Record<string, IngredientMapping> = fixIngredientMappings(rawWholeGrains as Record<string, Partial<IngredientMapping>>);
 
 // Create a collection of all whole grains
 export let allWholeGrains = Object.values(wholeGrains);

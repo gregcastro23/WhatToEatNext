@@ -87,3 +87,6 @@ export interface EnhancedCookingMethod extends CookingMethod {
 }
 
 export { ElementalProperties, ZodiacSign } from './alchemy';
+
+// Add CookingMethodInfo alias for compatibility
+export type CookingMethodInfo = CookingMethod;

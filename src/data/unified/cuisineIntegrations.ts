@@ -1115,9 +1115,9 @@ export class UnifiedCuisineIntegrationSystem {
     
     // Add unique methods from each cuisine
     const uniqueMethods1 = Object.keys(monica1.cookingMethodOptimization)
-      .filter(method => (Array.isArray(!sharedMethods) ? !sharedMethods.includes(method) : !sharedMethods === method));
+      .filter(method => (Array.isArray(sharedMethods) ? !sharedMethods.includes(method) : sharedMethods !== method));
     const uniqueMethods2 = Object.keys(monica2.cookingMethodOptimization)
-      .filter(method => (Array.isArray(!sharedMethods) ? !sharedMethods.includes(method) : !sharedMethods === method));
+      .filter(method => (Array.isArray(sharedMethods) ? !sharedMethods.includes(method) : sharedMethods !== method));
     
     // Select methods based on blend ratio
     const count1 = Math.floor((uniqueMethods1 || []).length * blendRatio);

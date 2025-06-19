@@ -406,6 +406,7 @@ const rawLeafyGreens = {
   }
 };
 
-export let leafyGreens = fixIngredientMappings(rawLeafyGreens);
+// ✅ Pattern MM-1: Type assertion for ZodiacSign[] compatibility
+export let leafyGreens = fixIngredientMappings(rawLeafyGreens as Record<string, Partial<IngredientMapping>>);
 
 export default leafyGreens;

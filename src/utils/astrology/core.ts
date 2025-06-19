@@ -254,11 +254,11 @@ export function getLunarPhaseName(phase: number): LunarPhase {
   const phaseNormalized = normalizedPhase * 8;
   
   // Use proper type for return values
-  if (phaseNormalized < 0.5 || phaseNormalized >= 7.5) return 'new Moon';
+  if (phaseNormalized < 0.5 || phaseNormalized >= 7.5) return 'new moon';
   if (phaseNormalized < 1.5) return 'waxing crescent';
   if (phaseNormalized < 2.5) return 'first quarter';
   if (phaseNormalized < 3.5) return 'waxing gibbous';
-  if (phaseNormalized < 4.5) return 'full Moon';
+  if (phaseNormalized < 4.5) return 'full moon';
   if (phaseNormalized < 5.5) return 'waning gibbous';
   if (phaseNormalized < 6.5) return 'last quarter';
   return 'waning crescent';
@@ -444,8 +444,8 @@ export async function getCurrentAstrologicalState(date: Date = new Date()): Prom
     const planetaryHour = hourCalculator.calculatePlanetaryHour(date);
     
     // Get Sun and Moon signs
-    const sunSign = positions.Sun?.sign?.toLowerCase() || 'aries';
-    const moonSign = positions.moon?.sign?.toLowerCase() || 'taurus';
+    const sunSign = (positions.Sun?.sign?.toLowerCase() || 'aries') as unknown as ZodiacSign;
+    const moonSign = (positions.moon?.sign?.toLowerCase() || 'taurus') as unknown as ZodiacSign;
     
     // Get active planets
     const activePlanets = calculateActivePlanets(positions);
@@ -747,7 +747,7 @@ export function calculateAspects(
             applyingSeparating: orb <= 120 ? 'applying' : 'separating',
             significance: orb / 180,
             description: `Aspect between ${element1} and ${element2}`,
-            elementalInfluence: { Fire: 0, Earth: 0, Air: 0, Water: 0 }
+            elementalInfluence: { fire: 0, water: 0, earth: 0, air: 0 } as unknown as LowercaseElementalProperties
           });
           
           // Apply elemental effects

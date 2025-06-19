@@ -122,13 +122,9 @@ export function CuisineSectionMigrated({
       try {
         setIsLoading(true);
         
-        // Get recipes for this cuisine using the recipe service
+        // ✅ Pattern MM-1: getRecipesByCuisine expects string parameter, not object
         if (cuisine) {
-          const response = await recipeService.getRecipesByCuisine({
-            cuisine,
-            limit: 20,
-            offset: 0
-          });
+          const response = await recipeService.getRecipesByCuisine(cuisine);
           
           if (response.success && response.data) {
             setCuisineRecipesFromService(response.data);
@@ -181,12 +177,13 @@ export function CuisineSectionMigrated({
         if ((recipe.regionalCuisine as any)?.toLowerCase?.() === cuisineLowerMatch) return true;
         
         // High match score
-        return (recipe.matchScore || 0) > 0.75;
+        return (Number(recipe.matchScore) || 0) > 0.75;
       })
       .sort((a, b) => {
         // First sort by match score
-        const scoreA = a.matchScore || 0;
-        const scoreB = b.matchScore || 0;
+        // Apply Pattern KK-1: Explicit Type Assertion for arithmetic operations
+        const scoreA = Number(a.matchScore) || 0;
+        const scoreB = Number(b.matchScore) || 0;
         
         if (scoreB !== scoreA) return scoreB - scoreA;
         

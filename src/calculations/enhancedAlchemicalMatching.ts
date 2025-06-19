@@ -919,7 +919,7 @@ export function validateAlgorithms(): {
   try {
     const mockResult: AlchemicalResult = {
       elementalProperties: { Fire: 0.4, Water: 0.2, Earth: 0.2, Air: 0.2 },
-      thermodynamicProperties: { heat: 0.6, entropy: 0.4, reactivity: 0.5, energy: 0.5 },
+      thermodynamicProperties: { heat: 0.6, entropy: 0.4, reactivity: 0.5, gregsEnergy: 0.5 },
       kalchm: 1.2,
       monica: 0.8,
       score: 0.7

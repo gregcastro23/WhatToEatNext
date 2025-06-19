@@ -75,7 +75,7 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
       {/* Show category if available */}
       {ingredient.category && (
         <div className="mt-2 inline-block px-2 py-1 text-xs font-medium rounded-full bg-gray-100 text-gray-700">
-          {ingredient.category}{ingredient.subCategory ? ` • ${ingredient.subCategory}` : ''}
+          {ingredient.category}
         </div>
       )}
       

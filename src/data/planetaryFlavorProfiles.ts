@@ -354,7 +354,7 @@ export const calculatePlanetaryFlavorMatch = (
     // Check if any planets with strong influence emphasize this flavor
     Object.entries(planetaryInfluences).forEach(([planet, strength]) => {
       if (strength > 0.6 && planetaryFlavorProfiles[planet]) {
-        const planetaryEmphasis = planetaryFlavorProfiles[planet].flavorProfiles[flavor as keyof typeof planetaryFlavorProfiles[typeof planet]['flavorProfiles']];
+        const planetaryEmphasis = planetaryFlavorProfiles[planet].flavorProfiles[flavor as keyof typeof planetaryFlavorProfiles[typeof planet]['flavorProfiles']] as unknown as number;
         if (planetaryEmphasis && planetaryEmphasis > 0.6) {
           weight += strength * 0.5; // Add bonus based on planet strength
         }
@@ -371,7 +371,7 @@ export const calculatePlanetaryFlavorMatch = (
   
   // Get the recipe's elemental properties if available
   if (recipeFlavors.elementalProperties) {
-    const recipeElements = recipeFlavors.elementalProperties as Record<string, number>;
+    const recipeElements = recipeFlavors.elementalProperties as unknown as Record<string, number>;
     
     // Get the elemental profile from planetary influences
     const elementalProfile = {

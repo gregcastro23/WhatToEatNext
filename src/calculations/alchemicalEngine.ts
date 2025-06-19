@@ -310,7 +310,7 @@ export class AlchemicalEngineAdvanced {
           heat: totalScore * 0.1,
           entropy: 0.5,
           reactivity: 0.5,
-          energy: totalScore * 0.05
+          gregsEnergy: totalScore * 0.05
         },
         kalchm: 1.0,
         monica: 1.0,
@@ -1379,6 +1379,10 @@ export function alchemize(
     console.error('Error in alchemize function:', error);
     
     // Provide a properly structured fallback result that matches StandardizedAlchemicalResult
+    const heat = 0.5;
+    const entropy = 0.5;
+    const reactivity = 0.5;
+    
     return {
       elementalProperties: {
         Fire: 0.25,
@@ -1387,10 +1391,10 @@ export function alchemize(
         Air: 0.25
       },
       thermodynamicProperties: {
-        heat: 0.5,
-        entropy: 0.5,
-        reactivity: 0.5,
-        energy: 0.5
+        heat,
+        entropy,
+        reactivity,
+        gregsEnergy: heat - (entropy * reactivity) // ← Pattern HH-4: Using gregsEnergy instead of energy
       },
       kalchm: 1.0,
       monica: 1.0,
@@ -2153,7 +2157,7 @@ export default {
           'Total Matter': 0.25,
           'Total Substance': 0.25
         }
-      } as AlchemicalResult;
+      } as unknown as AlchemicalResult;
     }
   },
   calculateCurrentPlanetaryPositions,
@@ -2183,6 +2187,10 @@ function safeAlchemize(birthInfo: BirthInfo, horoscopeDict: HoroscopeData): Alch
     console.error('Error in safeAlchemize:', error);
     
     // Return fallback result
+    const heat = 0.5;
+    const entropy = 0.5;
+    const reactivity = 0.5;
+    
     return {
       elementalProperties: {
         Fire: 0.25,
@@ -2191,10 +2199,10 @@ function safeAlchemize(birthInfo: BirthInfo, horoscopeDict: HoroscopeData): Alch
         Air: 0.25
       },
       thermodynamicProperties: {
-        heat: 0.5,
-        entropy: 0.5,
-        reactivity: 0.5,
-        energy: 0.5
+        heat,
+        entropy,
+        reactivity,
+        gregsEnergy: heat - (entropy * reactivity) // ← Pattern HH-4: Using gregsEnergy instead of energy
       },
       kalchm: 1.0,
       monica: 1.0,
@@ -2239,6 +2247,10 @@ function alchemizeWithSafety(
     const sunSignData = sunData?.Sign;
     const sunSignLabel = sunSignData?.label || 'aries';
     
+    const heat = 0.5;
+    const entropy = 0.5;
+    const reactivity = 0.5;
+    
     return {
       elementalProperties: {
         Fire: 0.25,
@@ -2247,10 +2259,10 @@ function alchemizeWithSafety(
         Air: 0.25
       },
       thermodynamicProperties: {
-        heat: 0.5,
-        entropy: 0.5,
-        reactivity: 0.5,
-        energy: 0.5
+        heat,
+        entropy,
+        reactivity,
+        gregsEnergy: heat - (entropy * reactivity) // ← Pattern HH-4: Using gregsEnergy instead of energy
       },
       kalchm: 1.0,
       monica: 1.0,
@@ -2269,6 +2281,10 @@ function alchemizeWithSafety(
     console.error('Error in alchemizeWithSafety:', error);
     
     // Return fallback result
+    const heat = 0.5;
+    const entropy = 0.5;
+    const reactivity = 0.5;
+    
     return {
       elementalProperties: {
         Fire: 0.25,
@@ -2277,10 +2293,10 @@ function alchemizeWithSafety(
         Air: 0.25
       },
       thermodynamicProperties: {
-        heat: 0.5,
-        entropy: 0.5,
-        reactivity: 0.5,
-        energy: 0.5
+        heat,
+        entropy,
+        reactivity,
+        gregsEnergy: heat - (entropy * reactivity) // ← Pattern HH-4: Using gregsEnergy instead of energy
       },
       kalchm: 1.0,
       monica: 1.0,

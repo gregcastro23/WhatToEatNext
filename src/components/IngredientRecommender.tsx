@@ -829,8 +829,13 @@ export default function IngredientRecommender() {
                     };
                     
                     // Find dominant element
+                    // Apply Pattern KK-1: Explicit Type Assertion for arithmetic operations
                     const dominantElement = Object.entries(elementalProps)
-                      .sort((a, b) => b[1] - a[1])[0][0];
+                      .sort((a, b) => {
+                        const aValue = Number(a[1]) || 0;
+                        const bValue = Number(b[1]) || 0;
+                        return bValue - aValue;
+                      })[0][0];
                     
                     const elementColor = {
                       'Fire': 'border-red-400 bg-red-50/70 dark:bg-red-900/30',
@@ -1107,7 +1112,7 @@ export default function IngredientRecommender() {
                                   <span className="font-semibold">Properties:</span> {
                                     Object.entries(item.thermodynamicProperties)
                                       .filter(([key]) => ['heat', 'reactivity', 'energy'].includes(key))
-                                      .map(([key, value]) => `${key}: ${Math.round(value * 100)}%`)
+                                      .map(([key, value]) => `${key}: ${Math.round((Number(value) || 0) * 100)}%`)
                                       .join(', ')
                                   }
                                 </div>
@@ -1146,7 +1151,7 @@ export default function IngredientRecommender() {
                                     <div 
                                       className="h-full rounded-full"
                                       style={{ 
-                                        width: `${value * 100}%`,
+                                        width: `${(Number(value) || 0) * 100}%`,
                                         backgroundColor: 
                                           element === 'Fire' ? '#ff6b6b' : 
                                           element === 'Water' ? '#6bb5ff' :
@@ -1155,7 +1160,7 @@ export default function IngredientRecommender() {
                                       }}
                                     ></div>
                                   </div>
-                                  <span className="ml-1 w-7 text-right text-gray-600 dark:text-gray-400">{Math.round(value * 100)}%</span>
+                                  <span className="ml-1 w-7 text-right text-gray-600 dark:text-gray-400">{Math.round((Number(value) || 0) * 100)}%</span>
                                 </div>
                               ))}
                             </div>
@@ -1171,7 +1176,7 @@ export default function IngredientRecommender() {
                                     <div 
                                       className="h-full rounded-full"
                                       style={{ 
-                                        width: `${value * 100}%`,
+                                        width: `${(Number(value) || 0) * 100}%`,
                                         backgroundColor: 
                                           element === 'Fire' ? '#ff6b6b' : 
                                           element === 'Water' ? '#6bb5ff' :
@@ -1180,7 +1185,7 @@ export default function IngredientRecommender() {
                                       }}
                                     ></div>
                                   </div>
-                                  <span className="ml-1 w-7 text-right text-gray-600 dark:text-gray-400">{Math.round(value * 100)}%</span>
+                                  <span className="ml-1 w-7 text-right text-gray-600 dark:text-gray-400">{Math.round((Number(value) || 0) * 100)}%</span>
                                 </div>
                               ))}
                             </div>

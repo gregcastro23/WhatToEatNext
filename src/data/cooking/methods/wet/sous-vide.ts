@@ -155,8 +155,8 @@ export const sousVide: CookingMethodData = {
     heat: 0.30,       // Low, precise heat - controlled application
     entropy: 0.35,    // Slow, controlled breakdown of structures
     reactivity: 0.20, // Minimal reactivity (no Maillard)
-    energy: 0.80      // Highly efficient energy transfer through water
-  } as ThermodynamicProperties,
+    gregsEnergy: 0.30 - (0.35 * 0.20)  // Calculated gregsEnergy: heat - (entropy * reactivity)
+  } as unknown as ThermodynamicProperties,
   
   // Additional metadata
   history: 'Sous vide (French for "under vacuum") was developed in France in the 1970s by chef Georges Pralus to minimize shrinkage in foie gras. However, low-temperature cooking was first described by Benjamin Thompson (Count Rumford) in 1799. The modern technique was refined and popularized by Bruno Goussault, who established time-temperature guidelines for various foods. Sous vide remained primarily in professional kitchens until the 2010s, when affordable immersion circulators made the technique accessible to home cooks.',
@@ -261,4 +261,4 @@ export const sousVide: CookingMethodData = {
       'Water displacement method as alternative to vacuum sealing'
     ]
   }
-} as CookingMethodData; 
+} as unknown as CookingMethodData; 

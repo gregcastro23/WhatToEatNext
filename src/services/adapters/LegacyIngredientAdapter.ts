@@ -22,7 +22,7 @@ import type { ThermodynamicMetrics } from '@/types/alchemical';
 import type { Recipe } from "@/types/recipe";
 import type { IngredientFilter, IngredientRecommendationOptions } from '../interfaces/IngredientServiceInterface';
 
-import { Element , ElementalProperties } from "@/types/alchemy";
+
 // Initialize logger
 const logger = createLogger('LegacyIngredientAdapter');
 

@@ -231,8 +231,8 @@ const MoonDisplayMigrated: React.FC = () => {
     if (!isLoading && !error && astrologyService) {
       const getLunarPhaseData = async () => {
         try {
-          // Use the service to get lunar phase data
-          const phaseData = await astrologyService.getLunarPhaseData(new Date());
+          // ✅ Pattern MM-1: getLunarPhaseData expects boolean parameter, not Date
+          const phaseData = await astrologyService.getLunarPhaseData(false);
           
           if (phaseData) {
             setMoonPhase({

@@ -276,8 +276,8 @@ export class EnhancedIngredientsSystem {
     // Filter by seasonal alignment
     if (criteria.seasonalAlignment) {
       results = (results || []).filter(ingredient => 
-        ingredient.culinaryProperties?.seasonality && Array.isArray(ingredient.culinaryProperties.seasonality.peak) ? ingredient.culinaryProperties.seasonality.peak?.includes(criteria.seasonalAlignment) : ingredient.culinaryProperties.seasonality.peak === criteria.seasonalAlignment ||
-        ingredient.culinaryProperties?.seasonality && Array.isArray(ingredient.culinaryProperties.seasonality.optimal) ? ingredient.culinaryProperties.seasonality.optimal?.includes(criteria.seasonalAlignment) : ingredient.culinaryProperties.seasonality.optimal === criteria.seasonalAlignment
+        ingredient.culinaryProperties?.seasonality?.peak?.includes(criteria.seasonalAlignment) ||
+        ingredient.culinaryProperties?.seasonality?.optimal?.includes(criteria.seasonalAlignment)
       );
     }
 
@@ -481,9 +481,9 @@ export class EnhancedIngredientsSystem {
     // Fall back to direct filtering
     return Object.values(this.ingredients)
       .filter(ingredient => 
-        ingredient.culinaryProperties?.seasonality && Array.isArray(ingredient.culinaryProperties.seasonality.peak) ? ingredient.culinaryProperties.seasonality.peak?.includes(season) : ingredient.culinaryProperties.seasonality.peak === season ||
-        ingredient.culinaryProperties?.seasonality && Array.isArray(ingredient.culinaryProperties.seasonality.optimal) ? ingredient.culinaryProperties.seasonality.optimal?.includes(season) : ingredient.culinaryProperties.seasonality.optimal === season ||
-        ingredient.culinaryProperties?.seasonality && Array.isArray(ingredient.culinaryProperties.seasonality.available) ? ingredient.culinaryProperties.seasonality.available?.includes(season) : ingredient.culinaryProperties.seasonality.available === season
+        ingredient.culinaryProperties?.seasonality?.peak?.includes(season) ||
+        ingredient.culinaryProperties?.seasonality?.optimal?.includes(season) ||
+        ingredient.culinaryProperties?.seasonality?.available?.includes(season)
       );
   }
   
@@ -493,9 +493,9 @@ export class EnhancedIngredientsSystem {
   adaptIngredientsForSeason(ingredients: EnhancedIngredient[], season: string): EnhancedIngredient[] {
     // Filter to keep only seasonally appropriate ingredients
     const seasonal = (ingredients || []).filter(ingredient =>
-      ingredient.culinaryProperties?.seasonality && Array.isArray(ingredient.culinaryProperties.seasonality.peak) ? ingredient.culinaryProperties.seasonality.peak?.includes(season) : ingredient.culinaryProperties.seasonality.peak === season ||
-      ingredient.culinaryProperties?.seasonality && Array.isArray(ingredient.culinaryProperties.seasonality.optimal) ? ingredient.culinaryProperties.seasonality.optimal?.includes(season) : ingredient.culinaryProperties.seasonality.optimal === season ||
-      ingredient.culinaryProperties?.seasonality && Array.isArray(ingredient.culinaryProperties.seasonality.available) ? ingredient.culinaryProperties.seasonality.available?.includes(season) : ingredient.culinaryProperties.seasonality.available === season
+      ingredient.culinaryProperties?.seasonality?.peak?.includes(season) ||
+      ingredient.culinaryProperties?.seasonality?.optimal?.includes(season) ||
+      ingredient.culinaryProperties?.seasonality?.available?.includes(season)
     );
     
     // If we have enough seasonal ingredients, return them
@@ -760,7 +760,7 @@ export class EnhancedIngredientsSystem {
     }
     
     if (ingredient.alchemicalProperties &&
-        Object.values(ingredient.alchemicalProperties || {}).some(v => v > 0)) {
+        Object.values(ingredient.alchemicalProperties || {}).some(v => Number(v) > 0)) {
       qualityPoints += 1;
     }
     
@@ -803,7 +803,7 @@ export class EnhancedIngredientsSystem {
       const elementalProps = ingredient.elementalProperties;
       if (elementalProps) {
         const dominantElement = Object.entries(elementalProps)
-          .reduce((max, [element, value]) => value > max.value ? { element, value } : max, 
+          .reduce((max, [element, value]) => Number(value) > Number(max.value) ? { element, value } : max, 
                   { element: 'Fire', value: 0 })
           .element;
         

@@ -313,13 +313,39 @@ export class PerformanceMonitor {
     const current = this.metrics[this.metrics  || [].length - 1];
     
     // Calculate averages
+    // Pattern KK-1: Safe arithmetic with type validation
+    const metricsLength = this.metrics?.length || 1;
     const average: PerformanceMetrics = {
-      calculationTime: this?.metrics?.reduce((sum, m) => sum + m.calculationTime, 0) / this.metrics  || [].length,
-      cacheHitRate: this?.metrics?.reduce((sum, m) => sum + m.cacheHitRate, 0) / this.metrics  || [].length,
-      memoryUsage: this?.metrics?.reduce((sum, m) => sum + m.memoryUsage, 0) / this.metrics  || [].length,
-      recommendationCount: this?.metrics?.reduce((sum, m) => sum + m.recommendationCount, 0) / this.metrics  || [].length,
-      averageResponseTime: this?.metrics?.reduce((sum, m) => sum + m.averageResponseTime, 0) / this.metrics  || [].length,
-      peakMemoryUsage: this?.metrics?.reduce((sum, m) => sum + m.peakMemoryUsage, 0) / this.metrics  || [].length
+      calculationTime: (this?.metrics?.reduce((sum, m) => {
+        const numericSum = typeof sum === 'number' ? sum : 0;
+        const numericValue = typeof m?.calculationTime === 'number' ? m.calculationTime : 0;
+        return numericSum + numericValue;
+      }, 0) || 0) / metricsLength,
+      cacheHitRate: (this?.metrics?.reduce((sum, m) => {
+        const numericSum = typeof sum === 'number' ? sum : 0;
+        const numericValue = typeof m?.cacheHitRate === 'number' ? m.cacheHitRate : 0;
+        return numericSum + numericValue;
+      }, 0) || 0) / metricsLength,
+      memoryUsage: (this?.metrics?.reduce((sum, m) => {
+        const numericSum = typeof sum === 'number' ? sum : 0;
+        const numericValue = typeof m?.memoryUsage === 'number' ? m.memoryUsage : 0;
+        return numericSum + numericValue;
+      }, 0) || 0) / metricsLength,
+      recommendationCount: (this?.metrics?.reduce((sum, m) => {
+        const numericSum = typeof sum === 'number' ? sum : 0;
+        const numericValue = typeof m?.recommendationCount === 'number' ? m.recommendationCount : 0;
+        return numericSum + numericValue;
+      }, 0) || 0) / metricsLength,
+      averageResponseTime: (this?.metrics?.reduce((sum, m) => {
+        const numericSum = typeof sum === 'number' ? sum : 0;
+        const numericValue = typeof m?.averageResponseTime === 'number' ? m.averageResponseTime : 0;
+        return numericSum + numericValue;
+      }, 0) || 0) / metricsLength,
+      peakMemoryUsage: (this?.metrics?.reduce((sum, m) => {
+        const numericSum = typeof sum === 'number' ? sum : 0;
+        const numericValue = typeof m?.peakMemoryUsage === 'number' ? m.peakMemoryUsage : 0;
+        return numericSum + numericValue;
+      }, 0) || 0) / metricsLength
     };
     
     // Calculate peaks

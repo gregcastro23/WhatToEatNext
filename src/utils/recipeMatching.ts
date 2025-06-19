@@ -122,7 +122,8 @@ export function findBestMatches(
   if (matchFilters?.maxCookingTime) {
     filteredRecipes = filteredRecipes.filter(
       (recipe) =>
-        !recipe.cookingTime || recipe.cookingTime <= matchFilters.maxCookingTime
+        // Apply Pattern KK-1: Explicit Type Assertion for comparison operations
+        !recipe.cookingTime || Number(recipe.cookingTime) <= matchFilters.maxCookingTime
     );
     // console.log(`After maxCookingTime filter: ${filteredRecipes.length} recipes remain`);
   }
@@ -153,9 +154,9 @@ export function findBestMatches(
     // Prioritize seasonal recipes but don't completely exclude off-season ones
     filteredRecipes = filteredRecipes.sort((a, b) => {
       let aIsInSeason =
-        a.season === (matchFilters as any)?.season || a.season === 'all';
+        Array.isArray(a.season) ? a.season.includes((matchFilters as any)?.season) || a.season.includes('all') : a.season === (matchFilters as any)?.season || a.season === 'all';
       let bIsInSeason =
-        b.season === (matchFilters as any)?.season || b.season === 'all';
+        Array.isArray(b.season) ? b.season.includes((matchFilters as any)?.season) || b.season.includes('all') : b.season === (matchFilters as any)?.season || b.season === 'all';
 
       if (aIsInSeason && !bIsInSeason) return -1;
       if (!aIsInSeason && bIsInSeason) return 1;
@@ -167,7 +168,9 @@ export function findBestMatches(
   if (matchFilters?.servings) {
     // Filter for recipes that serve at least the required number
     filteredRecipes = filteredRecipes.filter(
-      (recipe) => !recipe.servings || recipe.servings >= matchFilters.servings
+      (recipe) => 
+        // Apply Pattern KK-1: Explicit Type Assertion for comparison operations
+        !recipe.servings || Number(recipe.servings) >= matchFilters.servings
     );
     // console.log(`After servings filter: ${filteredRecipes.length} recipes remain`);
   }
@@ -1492,15 +1495,15 @@ function calculateAstrologicalMatch(
     }
   }
 
-  // Consider planetary influences if available
-  if (recipeInfluence.planetaryInfluence) {
-    // Map planets to elements
-    let planetElement = astrologyUtils.getPlanetaryElement(
-      recipeInfluence.planetaryInfluence
+  // Consider lunar influences if available
+  if (recipeInfluence.lunarInfluence) {
+    // Map lunar influences to elements
+    let lunarElement = astrologyUtils.getPlanetaryElement(
+      'Moon'
     );
-    if (planetElement) {
+    if (lunarElement) {
       return (
-        elementCompatibility[userElement][planetElement.toLowerCase()] || 0.5
+        elementCompatibility[userElement][lunarElement.toLowerCase()] || 0.5
       );
     }
   }

@@ -11,12 +11,10 @@ import {
   calculatePlanetaryAspects,
 } from "@/utils/astrologyUtils";
 // Import the planet data
-import { 
-  venusData, 
-  marsData, 
-  mercuryData, 
-  jupiterData
-} from '@/data/planets';
+import venusData from '@/data/planets/venus';
+import marsData from '@/data/planets/mars';
+import mercuryData from '@/data/planets/mercury';
+import jupiterData from '@/data/planets/jupiter';
 
 // Mock planetary data for calculations
 const mockPlanetaryData = {
@@ -100,7 +98,10 @@ export function generateTopSauceRecommendations(currentElementalProfile = null, 
       
       Object.entries(currentFlavors).forEach(([flavor, strength]) => {
         if (flavorProfile[flavor]) {
-          flavorMatch += (1 - Math.abs(flavorProfile[flavor] - strength));
+          // Apply Pattern KK-1: Explicit Type Assertion for arithmetic operations
+          const flavorValue = Number(flavorProfile[flavor]) || 0;
+          const strengthValue = Number(strength) || 0;
+          flavorMatch += (1 - Math.abs(flavorValue - strengthValue));
           flavorCount++;
         }
       });

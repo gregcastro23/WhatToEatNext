@@ -166,10 +166,17 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         });
         
         // Normalize values
-        const total = Object.values(elementalProps).reduce((sum, val) => sum + val, 0);
-        if (total > 0) {
+        // Pattern KK-8: Advanced calculation safety for reduction and division operations
+        const total = Object.values(elementalProps).reduce((sum, val) => {
+          const numericSum = Number(sum) || 0;
+          const numericVal = Number(val) || 0;
+          return numericSum + numericVal;
+        }, 0);
+        const numericTotal = Number(total) || 0;
+        if (numericTotal > 0) {
           for (const element in elementalProps) {
-            elementalProps[element as keyof typeof elementalProps] /= total;
+            const currentValue = Number(elementalProps[element as keyof typeof elementalProps]) || 1;
+            elementalProps[element as keyof typeof elementalProps] = currentValue / numericTotal;
           }
         } else {
           // If nothing was calculated, use balanced elements
@@ -230,10 +237,17 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         }
         
         // Normalize values
-        const total = Object.values(elementalEffect).reduce((sum, val) => sum + val, 0);
-        if (total > 0) {
+        // Pattern KK-8: Advanced calculation safety for reduction and division operations
+        const total = Object.values(elementalEffect).reduce((sum, val) => {
+          const numericSum = Number(sum) || 0;
+          const numericVal = Number(val) || 0;
+          return numericSum + numericVal;
+        }, 0);
+        const numericTotal = Number(total) || 0;
+        if (numericTotal > 0) {
           for (const element in elementalEffect) {
-            elementalEffect[element as keyof typeof elementalEffect] /= total;
+            const currentValue = Number(elementalEffect[element as keyof typeof elementalEffect]) || 1;
+            elementalEffect[element as keyof typeof elementalEffect] = currentValue / numericTotal;
           }
         }
       }
@@ -296,10 +310,17 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         }
         
         // Normalize values
-        const total = Object.values(elementalState).reduce((sum, val) => sum + val, 0);
-        if (total > 0) {
+        // Pattern KK-8: Advanced calculation safety for reduction and division operations
+        const total = Object.values(elementalState).reduce((sum, val) => {
+          const numericSum = Number(sum) || 0;
+          const numericVal = Number(val) || 0;
+          return numericSum + numericVal;
+        }, 0);
+        const numericTotal = Number(total) || 0;
+        if (numericTotal > 0) {
           for (const element in elementalState) {
-            elementalState[element as keyof typeof elementalState] /= total;
+            const currentValue = Number(elementalState[element as keyof typeof elementalState]) || 1;
+            elementalState[element as keyof typeof elementalState] = currentValue / numericTotal;
           }
         }
       }

@@ -1,17 +1,5 @@
-import { PlanetaryAlignment , AstrologicalState , CelestialPosition } from "@/types/celestial";
+import { PlanetaryAlignment, AstrologicalState, CelestialPosition, ZodiacSign, Planet, LunarPhase } from "@/types/celestial";
 import { getCurrentPlanetaryPositions, getPlanetaryPositionsForDateTime } from '@/services/astrologizeApi';
-import { 
-
-
-
-
-  PlanetaryAlignment, 
-  CelestialPosition, 
-  ZodiacSign, 
-  Planet, 
-  LunarPhase,
-  AstrologicalState
-} from '../types';
 
 // Define and export the DEFAULT_PLANETARY_ALIGNMENT constant
 export const DEFAULT_PLANETARY_ALIGNMENT: PlanetaryAlignment = {
@@ -137,6 +125,65 @@ export class AstrologyService {
       await this.refreshAstrologicalState();
     }
     return this.currentState.planetaryHour;
+  }
+
+  /**
+   * Get the current planetary hour ruler (alias for compatibility)
+   */
+  async getCurrentPlanetaryHour(forceRefresh = false): Promise<Planet | undefined> {
+    return this.getPlanetaryHour(forceRefresh);
+  }
+
+  /**
+   * Get daily planetary hours for a specific date
+   */
+  async getDailyPlanetaryHours(date: Date): Promise<Planet[]> {
+    // Calculate all 24 planetary hours for the given date
+    const hours: Planet[] = [];
+    const dayOfWeek = date.getDay();
+    
+    // Planetary day rulers
+    const dayRulers: Planet[] = [
+      'Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'
+    ];
+    
+    // Planet order for hours
+    const hourRulers: Planet[] = [
+      'Sun', 'Venus', 'Mercury', 'Moon', 'Saturn', 'Jupiter', 'Mars'
+    ];
+    
+    const planetOfDay = dayRulers[dayOfWeek];
+    const startIndex = hourRulers.indexOf(planetOfDay);
+    
+    // Generate 24 hours
+    for (let hour = 0; hour < 24; hour++) {
+      const hourIndex = (startIndex + hour) % 7;
+      hours.push(hourRulers[hourIndex]);
+    }
+    
+    return hours;
+  }
+
+  /**
+   * Get the current planetary day ruler
+   */
+  async getCurrentPlanetaryDay(): Promise<Planet> {
+    const currentDate = new Date();
+    const dayOfWeek = currentDate.getDay();
+    
+    // Planetary day rulers
+    const dayRulers: Planet[] = [
+      'Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'
+    ];
+    
+    return dayRulers[dayOfWeek];
+  }
+
+  /**
+   * Get lunar phase data (alias for compatibility)
+   */
+  async getLunarPhaseData(forceRefresh = false): Promise<LunarPhase> {
+    return this.getLunarPhase(forceRefresh);
   }
 
   /**

@@ -65,15 +65,23 @@ export class UnifiedRecipeService {
   async getRecipesForCuisine(cuisine: string): Promise<ExtendedRecipe[]> {
     try {
       const allRecipes = await this.getAllRecipes();
-      return (allRecipes || []).filter(recipe => {
+      const filtered = (allRecipes || []).filter(recipe => {
         const recipeCuisine = recipe.cuisine && typeof recipe.cuisine === 'string' ? recipe.cuisine.toLowerCase() : recipe.cuisine;
         const targetCuisine = cuisine && typeof cuisine === 'string' ? cuisine.toLowerCase() : cuisine;
         return recipeCuisine === targetCuisine;
       });
+      return filtered as unknown as ExtendedRecipe[];
     } catch (error) {
       console.error('Error getting recipes for cuisine:', error);
       return [];
     }
+  }
+
+  /**
+   * Get recipes by cuisine (alias for compatibility)
+   */
+  async getRecipesByCuisine(cuisine: string): Promise<ExtendedRecipe[]> {
+    return this.getRecipesForCuisine(cuisine);
   }
 
   /**
@@ -83,7 +91,8 @@ export class UnifiedRecipeService {
     try {
       const allRecipes = await this.getAllRecipes();
       // Simple implementation for now
-      return allRecipes?.slice(0, 10);
+      const matches = allRecipes?.slice(0, 10);
+      return matches as unknown as ExtendedRecipe[];
     } catch (error) {
       console.error('Error getting best recipe matches:', error);
       return [];

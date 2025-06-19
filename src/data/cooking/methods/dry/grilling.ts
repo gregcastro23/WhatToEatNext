@@ -96,7 +96,7 @@ export const grilling: CookingMethodData = {
     heat: 0.90,       // Very high direct heat
     entropy: 0.65,    // Significant structural transformation
     reactivity: 0.85, // High chemical reactivity (Maillard, carbonization)
-    energy: 0.60      // Moderate efficiency with heat loss to environment
+    gregsEnergy: 0.90 - (0.65 * 0.85)      // Calculated using heat - (entropy * reactivity)
   } as ThermodynamicProperties,
   
   // Additional metadata

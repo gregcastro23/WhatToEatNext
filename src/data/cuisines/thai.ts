@@ -1737,35 +1737,40 @@ export const thai: Cuisine = {
       description: "Fast high-heat stir-frying that preserves texture and creates 'wok hei' or breath of the wok",
       elementalProperties: { Fire: 0.6, Air: 0.2, Earth: 0.1, Water: 0.1 },
       toolsRequired: ["wok", "wok spatula", "high BTU burner", "spider strainer", "cleaver"],
-      bestFor: ["stir-fries", "noodle dishes", "quick curries", "fried rice", "sautéed vegetables"]
+      bestFor: ["stir-fries", "noodle dishes", "quick curries", "fried rice", "sautéed vegetables"],
+      difficulty: "medium"
     },
     {
       name: "Pounding (Tam/Dtam)",
       description: "Using mortar and pestle to crush ingredients, releasing essential oils and combining flavors",
       elementalProperties: { Earth: 0.5, Fire: 0.2, Water: 0.2, Air: 0.1 },
       toolsRequired: ["clay or stone mortar", "wooden pestle", "preparation bowls", "strainer"],
-      bestFor: ["curry pastes", "som tam", "nam prik", "herb pastes", "spice blends"]
+      bestFor: ["curry pastes", "som tam", "nam prik", "herb pastes", "spice blends"],
+      difficulty: "medium"
     },
     {
       name: "Steaming (Neung)",
       description: "Gentle cooking with steam to preserve nutrients and delicate textures",
       elementalProperties: { Water: 0.5, Air: 0.3, Earth: 0.1, Fire: 0.1 },
       toolsRequired: ["bamboo steamer", "wok", "cheesecloth", "banana leaves", "steamer rack"],
-      bestFor: ["fish", "custards", "dumplings", "sticky rice", "certain vegetables"]
+      bestFor: ["fish", "custards", "dumplings", "sticky rice", "certain vegetables"],
+      difficulty: "easy"
     },
     {
       name: "Grilling (Yang)",
       description: "Direct heat cooking over charcoal for smoky flavor and caramelization",
       elementalProperties: { Fire: 0.7, Air: 0.2, Earth: 0.1, Water: 0.0 },
       toolsRequired: ["charcoal grill", "bamboo skewers", "banana leaf wrappers", "basting brush"],
-      bestFor: ["marinated meats", "fish", "skewered foods", "vegetables", "sticky rice in bamboo"]
+      bestFor: ["marinated meats", "fish", "skewered foods", "vegetables", "sticky rice in bamboo"],
+      difficulty: "medium"
     },
     {
       name: "Curry Making (Gaeng)",
       description: "Complex process of creating curry from scratch with paste-making and slow simmering",
       elementalProperties: { Water: 0.4, Fire: 0.3, Earth: 0.2, Air: 0.1 },
       toolsRequired: ["mortar and pestle", "heavy pot", "coconut press", "strainer", "wooden spoons"],
-      bestFor: ["coconut-based curries", "clear spicy soups", "braised dishes", "complex stews"]
+      bestFor: ["coconut-based curries", "clear spicy soups", "braised dishes", "complex stews"],
+      difficulty: "hard"
     }
   ],
   regionalCuisines: [

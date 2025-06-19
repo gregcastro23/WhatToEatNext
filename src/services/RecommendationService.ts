@@ -475,7 +475,7 @@ export class RecommendationService {
     
     // Calculate average elemental values
     const totalProperties = topIngredients.reduce((acc, ingredient) => {
-      const props = ingredient.elementalPropertiesState || { Fire: 0, Water: 0, Earth: 0, Air: 0  };
+      const props = ingredient.elementalProperties || { Fire: 0, Water: 0, Earth: 0, Air: 0  };
       return { Fire: acc.Fire + (props.Fire || 0), Water: acc.Water + (props.Water || 0), Earth: acc.Earth + (props.Earth || 0), Air: acc.Air + (props.Air || 0)
        };
     }, { Fire: 0, Water: 0, Earth: 0, Air: 0  });

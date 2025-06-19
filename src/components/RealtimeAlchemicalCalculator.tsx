@@ -221,7 +221,7 @@ export default function RealtimeAlchemicalCalculator() {
               <div className="font-semibold text-gray-800">{planet}</div>
               <div className="text-sm text-gray-600 capitalize">{position?.sign}</div>
               <div className="text-xs text-gray-500">
-                {position?.degree}°{position?.minutes || 0}'
+                {position?.degree}°{position?.minute || 0}'
               </div>
               {position?.isRetrograde && (
                 <div className="text-xs text-red-500">Retrograde</div>

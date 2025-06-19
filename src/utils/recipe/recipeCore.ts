@@ -1,7 +1,7 @@
-import type { ElementalProperties, ThermodynamicMetrics, AstrologicalState, timeFactors, TimeFactors } from "@/types/alchemy";
+import type { ElementalProperties, ThermodynamicMetrics, AstrologicalState, timeFactors, PlanetName } from "@/types/alchemy";
 import type { Recipe } from "@/types/recipe";
 
-import type { TimeOfDay } from "@/types/time";
+import type { TimeOfDay, TimeFactors, Season, WeekDay, PlanetaryDay, PlanetaryHour } from "@/types/time";
 import { createLogger } from '../logger';
 import { Element } from "@/types/alchemy";
 
@@ -819,13 +819,37 @@ function getTimeFactors(): TimeFactors {
   const hour = now.getHours();
   const dayOfWeek = now.getDay();
   
+  // Determine time of day
+  const timeOfDay: TimeOfDay = hour >= 5 && hour < 12 ? 'Morning' : 
+                               hour >= 12 && hour < 17 ? 'Afternoon' : 
+                               hour >= 17 && hour < 22 ? 'Evening' : 'Night';
+  
+  // Determine season
+  const season: Season = getCurrentSeason() as unknown as Season;
+  
+  // Determine weekday
+  const weekDays: WeekDay[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  const weekDay = weekDays[dayOfWeek];
+  
+  // Create planetary day object
+  const planetaryDay: PlanetaryDay = {
+    day: weekDay,
+    planet: getDayPlanet(dayOfWeek) as unknown as PlanetName
+  };
+  
+  // Create planetary hour object
+  const planetaryHour: PlanetaryHour = {
+    planet: getHourPlanet(hour) as unknown as PlanetName,
+    hourOfDay: hour
+  };
+  
   return {
-    timeOfDay: hour >= 5 && hour < 12 ? 'Morning' : 
-               hour >= 12 && hour < 17 ? 'Afternoon' : 
-               hour >= 17 && hour < 22 ? 'Evening' : 'Night',
-    season: getCurrentSeason(),
-    planetaryDay: { planet: getDayPlanet(dayOfWeek) },
-    planetaryHour: { planet: getHourPlanet(hour) }
+    currentDate: now,
+    season,
+    timeOfDay,
+    planetaryDay,
+    planetaryHour,
+    weekDay
   };
 }
 

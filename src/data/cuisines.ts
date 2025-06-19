@@ -30,6 +30,8 @@ const exampleRecipe: Recipe = {
   cookingMethod: "baking",
   timeToMake: 30, // minutes
   numberOfServings: 4,
+  elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }, // ← Pattern GG-4: Added missing elementalProperties
+  instructions: ["Prepare ingredients", "Follow cooking method"], // ← Pattern GG-4: Added missing instructions
   nutrition: {
     calories: 0,
     protein: 0,

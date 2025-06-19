@@ -269,7 +269,7 @@ export default function IngredientRecommender() {
           astrologicalState,
           {
             dietary: [],
-            taste: [],
+            taste: {},
             chakraFocus: []
           }
         );
@@ -313,21 +313,26 @@ export default function IngredientRecommender() {
       
       // Apply safe type conversion to resolve array vs object mismatch
       const astroRecommendationsData = combinedRecommendations || {};
-      const convertedRecommendations: { [key: string]: number; } = {};
       
-      // Convert any array data to object format with numeric scores
+      // Ensure the data matches GroupedIngredientRecommendations structure
+      const convertedRecommendations: GroupedIngredientRecommendations = {};
+      
+      // Convert data to proper GroupedIngredientRecommendations format
       Object.entries(astroRecommendationsData).forEach(([key, value]) => {
         if (Array.isArray(value)) {
-          // Convert array to score based on array length or other metric
-          convertedRecommendations[key] = value.length > 0 ? 0.8 : 0.3;
-        } else if (typeof value === 'number') {
-          convertedRecommendations[key] = value;
+          // Ensure each array item has the required IngredientRecommendation structure
+          convertedRecommendations[key] = value.map(item => ({
+            name: item?.name || 'Unknown',
+            type: item?.type || 'ingredient',
+            matchScore: item?.matchScore || 0.5,
+            ...item
+          })) as IngredientRecommendation[];
         } else {
-          convertedRecommendations[key] = 0.5; // Default score
+          convertedRecommendations[key] = [];
         }
       });
       
-      setAstroRecommendations(convertedRecommendations as any); // Pattern YYY: React Props and State Interface Resolution
+      setAstroRecommendations(convertedRecommendations as unknown as GroupedIngredientRecommendations); // Pattern HH-3: Safe type conversion
       
     } catch (error) {
       console.error('Error generating recommendations:', error);
@@ -470,13 +475,13 @@ export default function IngredientRecommender() {
           // Exclude common vegetable peppers
           (name?.includes?.('pepper') && 
            !name?.includes?.('bell pepper') && 
-           (Array.isArray(!name) ? !name.includes('sweet pepper') : !name === 'sweet pepper') && 
-           (Array.isArray(!name) ? !name.includes('jalapeno') : !name === 'jalapeno') && 
-           (Array.isArray(!name) ? !name.includes('poblano') : !name === 'poblano') && 
-           (Array.isArray(!name) ? !name.includes('anaheim') : !name === 'anaheim') && 
-           (Array.isArray(!name) ? !name.includes('banana pepper') : !name === 'banana pepper') && 
-           (Array.isArray(!name) ? !name.includes('chili pepper') : !name === 'chili pepper') && 
-           (Array.isArray(!name) ? !name.includes('paprika') : !name === 'paprika')) || 
+           (Array.isArray(name) ? !name.includes('sweet pepper') : name !== 'sweet pepper') && 
+           (Array.isArray(name) ? !name.includes('jalapeno') : name !== 'jalapeno') && 
+           (Array.isArray(name) ? !name.includes('poblano') : name !== 'poblano') && 
+           (Array.isArray(name) ? !name.includes('anaheim') : name !== 'anaheim') && 
+           (Array.isArray(name) ? !name.includes('banana pepper') : name !== 'banana pepper') && 
+           (Array.isArray(name) ? !name.includes('chili pepper') : name !== 'chili pepper') && 
+           (Array.isArray(name) ? !name.includes('paprika') : name !== 'paprika')) || 
           (Array.isArray(name) ? name.includes('cinnamon') : name === 'cinnamon') || 
           (Array.isArray(name) ? name.includes('nutmeg') : name === 'nutmeg') || 
           (Array.isArray(name) ? name.includes('cumin') : name === 'cumin') || 
@@ -691,14 +696,14 @@ export default function IngredientRecommender() {
     // Spices
     if (
       (lowercaseName.includes('pepper') && 
-       (Array.isArray(!lowercaseName) ? !lowercaseName.includes('bell pepper') : !lowercaseName === 'bell pepper') && 
-       (Array.isArray(!lowercaseName) ? !lowercaseName.includes('sweet pepper') : !lowercaseName === 'sweet pepper') && 
-       (Array.isArray(!lowercaseName) ? !lowercaseName.includes('jalapeno') : !lowercaseName === 'jalapeno') && 
-       (Array.isArray(!lowercaseName) ? !lowercaseName.includes('poblano') : !lowercaseName === 'poblano') && 
-       (Array.isArray(!lowercaseName) ? !lowercaseName.includes('anaheim') : !lowercaseName === 'anaheim') && 
-       (Array.isArray(!lowercaseName) ? !lowercaseName.includes('banana pepper') : !lowercaseName === 'banana pepper') && 
-       (Array.isArray(!lowercaseName) ? !lowercaseName.includes('chili pepper') : !lowercaseName === 'chili pepper') && 
-       (Array.isArray(!lowercaseName) ? !lowercaseName.includes('paprika') : !lowercaseName === 'paprika')) || 
+       (Array.isArray(lowercaseName) ? !lowercaseName.includes('bell pepper') : lowercaseName !== 'bell pepper') && 
+       (Array.isArray(lowercaseName) ? !lowercaseName.includes('sweet pepper') : lowercaseName !== 'sweet pepper') && 
+       (Array.isArray(lowercaseName) ? !lowercaseName.includes('jalapeno') : lowercaseName !== 'jalapeno') && 
+       (Array.isArray(lowercaseName) ? !lowercaseName.includes('poblano') : lowercaseName !== 'poblano') && 
+       (Array.isArray(lowercaseName) ? !lowercaseName.includes('anaheim') : lowercaseName !== 'anaheim') && 
+       (Array.isArray(lowercaseName) ? !lowercaseName.includes('banana pepper') : lowercaseName !== 'banana pepper') && 
+       (Array.isArray(lowercaseName) ? !lowercaseName.includes('chili pepper') : lowercaseName !== 'chili pepper') && 
+       (Array.isArray(lowercaseName) ? !lowercaseName.includes('paprika') : lowercaseName !== 'paprika')) || 
       (Array.isArray(lowercaseName) ? lowercaseName.includes('cinnamon') : lowercaseName === 'cinnamon') || 
       (Array.isArray(lowercaseName) ? lowercaseName.includes('nutmeg') : lowercaseName === 'nutmeg') || 
       (Array.isArray(lowercaseName) ? lowercaseName.includes('cumin') : lowercaseName === 'cumin') || 

@@ -156,7 +156,7 @@ export const seasonalUsage = {
       ]
     }
   }
-} as Record<Season, any>;
+} as unknown as Record<Season, any>;
 
 // Helper functions if needed
 export function getSeasonalUsageData(ingredient: string, season: Season) {

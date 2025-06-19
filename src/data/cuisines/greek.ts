@@ -1264,35 +1264,40 @@ export const greek: Cuisine = {
       description: "Greek-style grilling, often using olive oil, lemon, and herbs",
       elementalProperties: { Fire: 0.6, Air: 0.2, Earth: 0.1, Water: 0.1 },
       toolsRequired: ["charcoal grill", "skewers", "brush for oil", "tongs"],
-      bestFor: ["lamb", "pork", "chicken", "seafood", "vegetables"]
+      bestFor: ["lamb", "pork", "chicken", "seafood", "vegetables"],
+      difficulty: "easy"
     },
     {
       name: "Stifado",
       description: "Slow-cooked stew with pearl onions, wine, and tomatoes",
       elementalProperties: { Earth: 0.4, Water: 0.3, Fire: 0.2, Air: 0.1 },
       toolsRequired: ["heavy pot", "wooden spoon", "sharp knife", "measuring cups"],
-      bestFor: ["beef", "rabbit", "game meat", "octopus"]
+      bestFor: ["beef", "rabbit", "game meat", "octopus"],
+      difficulty: "medium"
     },
     {
       name: "Sotirito",
       description: "Shallow frying, often used for vegetables and fritters",
       elementalProperties: { Fire: 0.5, Air: 0.3, Earth: 0.1, Water: 0.1 },
       toolsRequired: ["heavy-bottomed pan", "slotted spoon", "paper towels", "thermometer"],
-      bestFor: ["zucchini fritters", "eggplant", "fish", "meatballs"]
+      bestFor: ["zucchini fritters", "eggplant", "fish", "meatballs"],
+      difficulty: "medium"
     },
     {
       name: "Yiachni",
       description: "Braising in tomato sauce with herbs and spices",
       elementalProperties: { Water: 0.4, Earth: 0.3, Fire: 0.2, Air: 0.1 },
       toolsRequired: ["Dutch oven", "wooden spoon", "sharp knife", "measuring spoons"],
-      bestFor: ["green beans", "okra", "rabbit", "beef"]
+      bestFor: ["green beans", "okra", "rabbit", "beef"],
+      difficulty: "easy"
     },
     {
       name: "Plasto",
       description: "Traditional pie-making technique with layered phyllo or other dough",
       elementalProperties: { Earth: 0.5, Air: 0.3, Water: 0.1, Fire: 0.1 },
       toolsRequired: ["baking pan", "pastry brush", "rolling pin", "sharp knife"],
-      bestFor: ["spinach pie", "cheese pie", "meat pie", "vegetable pie"]
+      bestFor: ["spinach pie", "cheese pie", "meat pie", "vegetable pie"],
+      difficulty: "hard"
     }
   ],
   regionalCuisines: {

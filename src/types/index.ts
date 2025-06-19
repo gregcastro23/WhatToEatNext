@@ -24,7 +24,6 @@ import { type Season } from "@/types/alchemy";
 export type { 
   CelestialPosition, 
   ZodiacSign, 
-  Element, 
   LunarPhase, 
   Planet, 
   AspectType, 
@@ -34,7 +33,7 @@ export type {
   AlchemicalProperties,
   ThermodynamicProperties,
   PlanetaryAlignment
-};
+} from './celestial';
 
 // Define zodiac signs as seasons
 export const ZODIAC_SEASONS: ZodiacSign[] = [
@@ -136,14 +135,11 @@ export type TimeOfDay = {
 // Use as type instead of enum to avoid merging issues
 export type CuisineTypeEnum = 'ITALIAN' | 'FRENCH' | 'CHINESE' | 'INDIAN' | 'MEXICAN';
 
-// Selectively export types from alchemy that don't conflict
+// Export Element from alchemy as the authoritative source
+export type { Element } from './alchemy';
+
+// Export unique types from alchemy
 export type {
-  Element,
-  LunarPhase,
-  Planet,
-  AspectType,
-  DignityType,
-  AstrologicalState,
   BasicThermodynamicProperties,
   ElementalCharacteristics,
   ElementalProfile

@@ -18,7 +18,7 @@ import {
 
 import { Recipe } from '@/types/recipe';
 import { useServices } from '@/hooks/useServices';
-import { astrologize } from '@/utils/astrologize';
+import { fetchPlanetaryPositions } from '@/services/astrologizeApi';
 import { logger } from '@/utils/logger';
 import type { CuisineType, DietaryRestriction, ElementalProperties } from '@/types/alchemy';
 
@@ -396,21 +396,24 @@ export default function RecipeListMigrated() {
         elemental: 50,
         planetary: 50,
         seasonal: 50,
-        popularity: recipe.rating ? recipe.rating * 20 : 50
+        popularity: recipe.rating ? Number(recipe.rating) * 20 : 50
       };
     }
 
     // Calculate elemental match
-    const elementalScore = calculateElementalMatch(recipe.elementalProperties, astroData.dominantElements) * 100;
+    // Pattern KK-10: Final Arithmetic Elimination for recipe calculations
+    const elementalMatch = calculateElementalMatch(recipe.elementalProperties, astroData.dominantElements) || 0;
+    const elementalScore = Number(elementalMatch) * 100;
     
     // Calculate planetary influence
-    const planetaryScore = calculatePlanetaryInfluence(recipe.tags || [], astroData.activePlanets) * 100;
+    const planetaryMatch = calculatePlanetaryInfluence(recipe.tags || [], astroData.activePlanets) || 0;
+    const planetaryScore = Number(planetaryMatch) * 100;
     
     // Calculate seasonal alignment
     const seasonalScore = calculateSeasonalAlignment(recipe.season, astroData.currentSeason) * 100;
     
     // Popularity score based on rating
-    const popularityScore = recipe.rating ? recipe.rating * 20 : 50;
+    const popularityScore = recipe.rating ? Number(recipe.rating) * 20 : 50;
     
     // Weighted total score
     const total = (
@@ -535,13 +538,22 @@ export default function RecipeListMigrated() {
       }
 
       // Max time filter
-      if (filters.maxTime && recipe.cookTime && recipe.cookTime > filters.maxTime) {
-        return false;
+      // Pattern KK-10: Final Arithmetic Elimination for comparison operations
+      if (filters.maxTime) {
+        const numericCookTime = Number(recipe.cookTime) || 0;
+        const numericMaxTime = Number(filters.maxTime) || 0;
+        if (numericCookTime > 0 && numericCookTime > numericMaxTime) {
+          return false;
+        }
       }
 
       // Rating filter
-      if (filters.minRating && (!recipe.rating || recipe.rating < filters.minRating)) {
-        return false;
+      if (filters.minRating) {
+        const numericRating = Number(recipe.rating) || 0;
+        const numericMinRating = Number(filters.minRating) || 0;
+        if (numericRating === 0 || numericRating < numericMinRating) {
+          return false;
+        }
       }
 
       return true;

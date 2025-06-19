@@ -219,15 +219,15 @@ export function validateRecipe(recipe: Partial<Recipe>): ValidationResult {
   }
   
   // Validate timing
-  if (recipe.preparationTime && recipe.preparationTime < 0) {
+  if (recipe.preparationTime && Number(recipe.preparationTime) < 0) {
     errors?.push('Prep time cannot be negative');
   }
   
-  if (recipe.cookingTime && recipe.cookingTime < 0) {
+  if (recipe.cookingTime && Number(recipe.cookingTime) < 0) {
     errors?.push('Cook time cannot be negative');
   }
   
-  if (recipe.servings && recipe.servings <= 0) {
+  if (recipe.servings && Number(recipe.servings) <= 0) {
     errors?.push('Servings must be greater than 0');
   }
   

@@ -99,8 +99,6 @@ import mercuryData from '../../data/planets/mercury';
 import jupiterData from '../../data/planets/jupiter';
 
 import { Element } from "@/types/alchemy";
-
-import { ElementalProperties } from "@/types/alchemy";
 import { PlanetaryPosition } from "@/types/celestial";
 
 // Define AlchemicalItem interface for cuisine recommendations
@@ -418,7 +416,7 @@ export default function CuisineRecommender() {
         };
       }).filter(Boolean);
       
-      setTransformedCuisines(cuisineList as AlchemicalItem[]);
+      setTransformedCuisines(cuisineList as unknown as AlchemicalItem[]);
       setLoading(false);
       
       // Track this event

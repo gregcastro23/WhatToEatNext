@@ -1,5 +1,4 @@
-import { ElementalItem } from '../calculations/alchemicalTransformation';
-import { AlchemicalItem } from '@/types/alchemy';
+import { ElementalItem, AlchemicalItem } from '../calculations/alchemicalTransformation';
 import { ElementalCharacter } from '../constants/planetaryElements';
 import { 
   LunarPhaseWithSpaces,
@@ -12,7 +11,7 @@ import { convertToLunarPhase } from '../utils/lunarUtils';
 import { logger } from '@/utils/logger';
 import { alchemize } from '../calculations/core/alchemicalCalculations';
 import { planetInfo } from '../data/planets/planetaryInfo';
-import { transformIngredients, transformCookingMethods, transformCuisines } from '../utils/elementalUtils';
+import { transformIngredients, transformCookingMethods, transformCuisines } from '../utils/alchemicalTransformationUtils';
 
 // Define PlanetData interface to replace all 'any' types
 interface PlanetData {
@@ -352,24 +351,27 @@ export class RecommendationAdapter {
       this.transformedIngredients = transformIngredients(
         this.ingredients, 
         elementalProperties, 
-        alchemicalProperties, 
-        this.currentZodiac
+        this.isDaytime,
+        this.currentZodiac,
+        this.lunarPhase
       );
       
       // Transform cooking methods
       this.transformedMethods = transformCookingMethods(
         this.methods, 
         elementalProperties, 
-        alchemicalProperties, 
-        this.currentZodiac
+        this.isDaytime,
+        this.currentZodiac,
+        this.lunarPhase
       );
       
       // Transform cuisines
       this.transformedCuisines = transformCuisines(
         this.cuisines, 
-        elementalProperties, 
-        alchemicalProperties, 
-        this.currentZodiac
+        elementalProperties,
+        this.isDaytime,
+        this.currentZodiac,
+        this.lunarPhase
       );
     } catch (error) {
       logger.error('Error transforming items:', error);
@@ -547,7 +549,7 @@ export class RecommendationAdapter {
           reactivity,
           gregsEnergy
         }
-    } as AlchemicalItem;
+    } as unknown as AlchemicalItem;
   }
 
   /**

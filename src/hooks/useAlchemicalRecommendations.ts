@@ -1,7 +1,8 @@
 import { useState, useEffect, useMemo } from 'react';
 import { RulingPlanet } from '../constants/planets';
 import { ElementalCharacter, AlchemicalProperty } from '../constants/planetaryElements';
-import { ElementalItem, AlchemicalItem } from '../calculations/alchemicalTransformation';
+import { ElementalItem } from '../calculations/alchemicalTransformation';
+import { AlchemicalItem } from '../types/alchemy';
 import { RecommendationAdapter } from '../services/RecommendationAdapter';
 import { AlchemicalRecommendations } from '../services/AlchemicalTransformationService';
 import { LunarPhase, LunarPhaseWithSpaces, ZodiacSign, PlanetaryAspect } from '../types/alchemy';
@@ -24,9 +25,9 @@ interface UseAlchemicalRecommendationsProps {
 
 interface AlchemicalRecommendationResults {
   recommendations: AlchemicalRecommendations;
-  transformedIngredients: import('../calculations/alchemicalTransformation').AlchemicalItem[];
-  transformedMethods: import('../calculations/alchemicalTransformation').AlchemicalItem[];
-  transformedCuisines: import('../calculations/alchemicalTransformation').AlchemicalItem[];
+  transformedIngredients: AlchemicalItem[];
+  transformedMethods: AlchemicalItem[];
+  transformedCuisines: AlchemicalItem[];
   loading: boolean;
   error: Error | null;
   energeticProfile?: {
@@ -60,9 +61,9 @@ export const useAlchemicalRecommendations = ({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
   const [recommendations, setRecommendations] = useState<AlchemicalRecommendations | null>(null);
-  const [transformedIngredients, setTransformedIngredients] = useState<import('../calculations/alchemicalTransformation').AlchemicalItem[]>([]);
-  const [transformedMethods, setTransformedMethods] = useState<import('../calculations/alchemicalTransformation').AlchemicalItem[]>([]);
-  const [transformedCuisines, setTransformedCuisines] = useState<import('../calculations/alchemicalTransformation').AlchemicalItem[]>([]);
+  const [transformedIngredients, setTransformedIngredients] = useState<AlchemicalItem[]>([]);
+  const [transformedMethods, setTransformedMethods] = useState<AlchemicalItem[]>([]);
+  const [transformedCuisines, setTransformedCuisines] = useState<AlchemicalItem[]>([]);
   const [energeticProfile, setEnergeticProfile] = useState<AlchemicalRecommendationResults['energeticProfile']>();
   
   useEffect(() => {
@@ -105,18 +106,38 @@ export const useAlchemicalRecommendations = ({
         setRecommendations(recs);
         
         // Apply deep type conversion to resolve cross-import conflicts
-        const convertToLocalAlchemicalItem = (items: any[]): import('../calculations/alchemicalTransformation').AlchemicalItem[] => {
-          return items.map(item => ({
-            ...item,
-            // Ensure all required AlchemicalItem properties are present
-            elementalProperties: item.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
-            alchemicalProperties: item.alchemicalProperties || { Spirit: 0.25, Essence: 0.25, Matter: 0.25, Substance: 0.25 }
-          })) as import('../calculations/alchemicalTransformation').AlchemicalItem[];
+        const convertToLocalAlchemicalItem = (items: any[]): AlchemicalItem[] => {
+          return items.map(item => {
+            // Create a new object that fully satisfies the alchemicalTransformation.AlchemicalItem interface
+            const convertedItem = {
+              ...item,
+              // Ensure all required AlchemicalItem properties are present
+              elementalProperties: item.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+              alchemicalProperties: item.alchemicalProperties || { Spirit: 0.25, Essence: 0.25, Matter: 0.25, Substance: 0.25 },
+              // Add required properties for alchemicalTransformation.AlchemicalItem
+              transformedElementalProperties: item.transformedElementalProperties || item.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+              heat: item.heat || 0.5,
+              entropy: item.entropy || 0.5,
+              reactivity: item.reactivity || 0.5,
+              gregsEnergy: item.gregsEnergy || item.energy || 0.5,
+              kalchm: item.kalchm || 1.0,
+              monica: item.monica || 0.5,
+              transformations: item.transformations || [],
+              seasonalResonance: item.seasonalResonance || [],
+              thermodynamicProperties: item.thermodynamicProperties || {
+                heat: item.heat || 0.5,
+                entropy: item.entropy || 0.5,
+                reactivity: item.reactivity || 0.5,
+                gregsEnergy: item.gregsEnergy || item.energy || 0.5
+              }
+            };
+            return convertedItem as AlchemicalItem;
+          });
         };
         
-        setTransformedIngredients(convertToLocalAlchemicalItem(adapter.getAllTransformedIngredients()));
-        setTransformedMethods(convertToLocalAlchemicalItem(adapter.getAllTransformedMethods()));
-        setTransformedCuisines(convertToLocalAlchemicalItem(adapter.getAllTransformedCuisines()));
+        setTransformedIngredients(adapter.getAllTransformedIngredients() as AlchemicalItem[]);
+        setTransformedMethods(adapter.getAllTransformedMethods() as AlchemicalItem[]);
+        setTransformedCuisines(adapter.getAllTransformedCuisines() as AlchemicalItem[]);
 
         // Create an energetic profile for the current recommendations
         const profile = {

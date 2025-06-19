@@ -71,3 +71,6 @@ export interface CookingMethodData {
   // Alchemical aspects for advanced cooking methods
   alchemicalAspects?: Record<string, any>;
 } 
+
+// Export alias for compatibility
+export type { CookingMethod } from './shared'; 

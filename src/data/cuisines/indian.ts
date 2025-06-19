@@ -1221,35 +1221,40 @@ export const indian: Cuisine = {
       description: "Tempering spices in hot oil or ghee to release flavors",
       elementalProperties: { Fire: 0.7, Air: 0.2, Earth: 0.1, Water: 0.0 },
       toolsRequired: ["small tadka pan", "spoon", "lid", "ladle"],
-      bestFor: ["dal preparations", "curries", "rice dishes", "yogurt preparations"]
+      bestFor: ["dal preparations", "curries", "rice dishes", "yogurt preparations"],
+      difficulty: "medium"
     },
     {
       name: "Dum",
       description: "Slow cooking in a sealed vessel to contain flavors and moisture",
       elementalProperties: { Earth: 0.4, Water: 0.3, Fire: 0.2, Air: 0.1 },
       toolsRequired: ["heavy-bottomed pot", "dough for sealing", "tongs", "weight"],
-      bestFor: ["biryani", "meat curries", "rich vegetable dishes", "kebabs"]
+      bestFor: ["biryani", "meat curries", "rich vegetable dishes", "kebabs"],
+      difficulty: "hard"
     },
     {
       name: "Bhunao",
       description: "Slow sautéing to caramelize and intensify flavors",
       elementalProperties: { Fire: 0.5, Earth: 0.3, Air: 0.1, Water: 0.1 },
       toolsRequired: ["heavy kadhai", "wooden spoon", "tongs", "timer"],
-      bestFor: ["onion-tomato masala", "meat preparations", "mixed vegetables", "keema"]
+      bestFor: ["onion-tomato masala", "meat preparations", "mixed vegetables", "keema"],
+      difficulty: "medium"
     },
     {
       name: "Tandoor",
       description: "High-heat clay oven cooking for char and smoky flavor",
       elementalProperties: { Fire: 0.8, Air: 0.1, Earth: 0.1, Water: 0.0 },
       toolsRequired: ["tandoor", "skewers", "brush", "tongs"],
-      bestFor: ["breads", "marinated meats", "kebabs", "vegetables"]
+      bestFor: ["breads", "marinated meats", "kebabs", "vegetables"],
+      difficulty: "hard"
     },
     {
       name: "Baghar",
       description: "Pouring hot spice-infused oil over finished dishes",
       elementalProperties: { Fire: 0.6, Air: 0.3, Earth: 0.1, Water: 0.0 },
       toolsRequired: ["small pan", "spoon", "heat-proof container", "strainer"],
-      bestFor: ["dals", "rice dishes", "raita", "curries"]
+      bestFor: ["dals", "rice dishes", "raita", "curries"],
+      difficulty: "easy"
     }
   ],
   regionalCuisines: {

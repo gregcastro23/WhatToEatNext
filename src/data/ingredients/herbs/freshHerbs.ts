@@ -266,6 +266,7 @@ const rawFreshHerbs = {
   // More herbs would be added here...
 };
 
-export let freshHerbs = fixIngredientMappings(rawFreshHerbs);
+// ✅ Pattern MM-1: Type assertion for ZodiacSign[] compatibility
+export let freshHerbs = fixIngredientMappings(rawFreshHerbs as Record<string, Partial<IngredientMapping>>);
 
 export default freshHerbs;

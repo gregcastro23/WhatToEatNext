@@ -248,7 +248,7 @@ export class LegacyRecommendationAdapter {
         heat: 0.5,
         entropy: 0.5,
         reactivity: 0.5,
-        energy: 0.5
+        gregsEnergy: 0.5 - (0.5 * 0.5)
       } as ThermodynamicProperties;
       
       return {
@@ -298,7 +298,7 @@ export class LegacyRecommendationAdapter {
         heat: 0.5,
         entropy: 0.5,
         reactivity: 0.5,
-        energy: 0.5
+        gregsEnergy: 0.5 - (0.5 * 0.5)
       };
     }
   }

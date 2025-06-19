@@ -3,7 +3,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Recipe } from '@/types/recipe';
 import { ElementalProperties, ThermodynamicMetrics, TimeFactors } from '@/types/alchemy';
-import { getTimeFactors } from '@/lib/astrologize';
+import { getTimeFactors } from '@/utils/time';
 
 import { seasonalData } from '../../data/seasons';
 import { cuisines } from '../../data/cuisines';
@@ -284,7 +284,8 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
     const loadTimeFactors = async () => {
       try {
         const factors = await getTimeFactors();
-        setTimeFactors(factors);
+        // ✅ Pattern MM-1: Type assertion to match TimeFactors interface
+        setTimeFactors(factors as unknown as TimeFactors);
       } catch (error) {
         logger.error('Error loading time factors:', error);
       }

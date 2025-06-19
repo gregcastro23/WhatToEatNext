@@ -23,15 +23,42 @@ import { staticAlchemize as alchemize } from '@/utils/alchemyInitializer';
 
 // Test data - using the planetary positions from our previous conversation
 const testPlanetaryPositions: { [key: string]: CelestialPosition } = {
-  Sun: {},
-  moon: {},
-  Mercury: {},
-  Venus: {},
-  Mars: {},
-  Jupiter: {},
-  Saturn: {},
-  Uranus: {},
-  Neptune: {},
+  Sun: { 
+    sign: 'gemini', 
+    degree: 25.0 
+  },
+  moon: { 
+    sign: 'taurus', 
+    degree: 15.5 
+  },
+  Mercury: { 
+    sign: 'gemini', 
+    degree: 20.3 
+  },
+  Venus: { 
+    sign: 'taurus', 
+    degree: 8.7 
+  },
+  Mars: { 
+    sign: 'aries', 
+    degree: 12.2 
+  },
+  Jupiter: { 
+    sign: 'pisces', 
+    degree: 28.9 
+  },
+  Saturn: { 
+    sign: 'aquarius', 
+    degree: 18.4 
+  },
+  Uranus: { 
+    sign: 'taurus', 
+    degree: 14.1 
+  },
+  Neptune: { 
+    sign: 'pisces', 
+    degree: 22.8 
+  },
   Pluto: { sign: 'aquarius', degree: 3.0 }
 };
 

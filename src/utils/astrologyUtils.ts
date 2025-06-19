@@ -19,6 +19,7 @@ import type {
   ElementalInteraction,
   Season
 } from '@/types/alchemy';
+import type { AlchemicalProperty } from '@/constants/planetaryElements';
 import type { TimeFactors } from '@/types/time';
 import { getCurrentSeason, getTimeOfDay } from '@/utils/dateUtils';
 import { PlanetaryHourCalculator } from '@/lib/PlanetaryHourCalculator';
@@ -2230,6 +2231,17 @@ export function transformItemsWithPlanetaryPositions(
         dominantElement,
         alchemicalProperties,
         thermodynamicProperties,
+        // Required AlchemicalItem properties
+        transformedElementalProperties: { ...item.elementalProperties } as Record<ElementalCharacter, number>,
+        heat: thermodynamicProperties.heat,
+        entropy: thermodynamicProperties.entropy,
+        reactivity: thermodynamicProperties.reactivity,
+        gregsEnergy: thermodynamicProperties.gregsEnergy,
+        dominantAlchemicalProperty: 'Essence' as AlchemicalProperty,
+        planetaryBoost: 1.0 + compatibilityScore * 0.5, // Calculate based on compatibility
+        dominantPlanets: [] as string[],
+        planetaryDignities: {} as Record<string, unknown>,
+        // Optional legacy properties
         transformations: calculateElementalTransformations(
           item.elementalProperties,
           currentElementalInfluence
@@ -2244,15 +2256,41 @@ export function transformItemsWithPlanetaryPositions(
     errorLog('Error in transformItemsWithPlanetaryPositions:', error instanceof Error ? error.message : String(error));
     
     // Return items with basic transformation if error occurs
-    return items.map(item => ({
-      ...item,
-      compatibilityScore: 0.5,
-      dominantElement: getDominantElementFromProperties(item.elementalProperties),
-      alchemicalProperties: undefined,
-      thermodynamicProperties: undefined,
-      transformations: undefined,
-      seasonalResonance: undefined
-    }));
+    return items.map(item => {
+      const dominantElement = getDominantElementFromProperties(item.elementalProperties);
+      
+      // Create AlchemicalItem-compliant object with all required properties
+      return {
+        ...item,
+        // Required AlchemicalItem properties
+        alchemicalProperties: {
+          Spirit: 0.25,
+          Essence: 0.25,
+          Matter: 0.25,
+          Substance: 0.25
+        } as Record<AlchemicalProperty, number>,
+        transformedElementalProperties: { ...item.elementalProperties } as Record<ElementalCharacter, number>,
+        heat: 0.5,
+        entropy: 0.5,
+        reactivity: 0.5,
+        gregsEnergy: 0.5,
+        dominantElement,
+        dominantAlchemicalProperty: 'Spirit' as AlchemicalProperty,
+        planetaryBoost: 1.0,
+        dominantPlanets: [] as string[],
+        planetaryDignities: {} as Record<string, unknown>,
+        
+        // Optional legacy properties for backward compatibility
+        thermodynamicProperties: {
+          heat: 0.5,
+          entropy: 0.5,
+          reactivity: 0.5,
+          gregsEnergy: 0.5
+        },
+        transformations: [],
+        seasonalResonance: []
+      } as AlchemicalItem;
+    });
   }
 }
 
@@ -2442,7 +2480,7 @@ function calculateAlchemicalProperties(
       heat,
       entropy, 
       reactivity,
-      energy: gregsEnergy
+      gregsEnergy
     };
 
     const score = calculateOverallAlchemicalScore(thermodynamicProperties, currentInfluence);
@@ -2459,7 +2497,7 @@ function calculateAlchemicalProperties(
     errorLog('Error calculating alchemical properties:', error instanceof Error ? error.message : String(error));
     return {
       elementalProperties: itemProperties,
-      thermodynamicProperties: { heat: 0, entropy: 0, reactivity: 0, energy: 0 },
+      thermodynamicProperties: { heat: 0, entropy: 0, reactivity: 0, gregsEnergy: 0 },
       kalchm: 1,
       monica: 0,
       score: 0.5
@@ -2476,11 +2514,16 @@ function calculateThermodynamicProperties(
 ): ThermodynamicProperties {
   const { Fire, Water, Earth, Air } = itemProperties;
   
+  const heat = (Fire + Air) * compatibilityScore;
+  const entropy = (Water + Earth) * (1 - compatibilityScore);
+  const reactivity = (Fire + Water) * compatibilityScore;
+  const gregsEnergy = compatibilityScore * (Fire + Water + Earth + Air);
+  
   return {
-    heat: (Fire + Air) * compatibilityScore,
-    entropy: (Water + Earth) * (1 - compatibilityScore),
-    reactivity: (Fire + Water) * compatibilityScore,
-    energy: compatibilityScore * (Fire + Water + Earth + Air)
+    heat,
+    entropy,
+    reactivity,
+    gregsEnergy
   };
 }
 
@@ -2578,17 +2621,17 @@ function calculateOverallAlchemicalScore(
   currentInfluence: ElementalProperties
 ): number {
   try {
-    const { heat, entropy, reactivity, energy } = thermodynamicProperties;
+    const { heat, entropy, reactivity, gregsEnergy } = thermodynamicProperties;
     
     // Balance of thermodynamic properties
-    const balance = 1 - Math.abs(heat - entropy) - Math.abs(reactivity - energy / 2);
+    const balance = 1 - Math.abs(heat - entropy) - Math.abs(reactivity - gregsEnergy / 2);
     
     // Current influence alignment
     const influenceSum = Object.values(currentInfluence).reduce((sum, val) => sum + val, 0);
     const influenceBalance = influenceSum > 0 ? Math.min(1, influenceSum) : 0.5;
     
     // Combine factors
-    const score = (balance * 0.6 + influenceBalance * 0.4 + energy * 0.1) / 1.1;
+    const score = (balance * 0.6 + influenceBalance * 0.4 + gregsEnergy * 0.1) / 1.1;
     
     return Math.max(0, Math.min(1, score));
   } catch (error) {

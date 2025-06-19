@@ -279,7 +279,7 @@ function calculateKalchmAlignment(
 /**
  * Calculate planetary alignment between recipe and current moment
  */
-function calculatePlanetaryAlignment(
+export function calculatePlanetaryAlignment(
   recipeProperties: ElementalProperties,
   currentMomentPlanetary: {
     alchemicalInfluences: { [key: string]: number };

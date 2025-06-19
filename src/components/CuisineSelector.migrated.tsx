@@ -74,7 +74,7 @@ function CuisineSelectorMigrated({
         // Apply safe type casting for astrology service access
         const serviceData = astrologyService as any;
         
-        setResolvedPlanetaryPositions(propPlanetaryPositions || await astrologyService.getPlanetaryPositions());
+        setResolvedPlanetaryPositions(propPlanetaryPositions || await astrologyService.getCurrentPlanetaryPositions());
         setResolvedIsDaytime(propIsDaytime !== undefined ? propIsDaytime : await astrologyService.isDaytime());
         setResolvedCurrentZodiac(propCurrentZodiac || await astrologyService.getCurrentZodiacSign());
         

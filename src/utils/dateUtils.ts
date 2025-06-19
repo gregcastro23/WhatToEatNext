@@ -120,7 +120,7 @@ const getAllDishesForCuisine = (cuisineId: string): Dish[] => {
       Object.keys(mealTimeDishes).forEach(season => {
         const seasonDishes = mealTimeDishes[season];
         if (Array.isArray(seasonDishes)) {
-          allDishes = [...allDishes, ...seasonDishes];
+          allDishes = [...allDishes, ...seasonDishes as unknown as Dish[]];
         }
       });
     }
@@ -164,7 +164,7 @@ export const getRecommendations = (mealTime: string, season: Season, cuisineId: 
     const combinedDishes = [...allSeasonDishes, ...seasonalDishes];
     debugLog(`Found ${combinedDishes.length} dishes for ${cuisineId}`);
     
-    return combinedDishes;
+    return combinedDishes as unknown as Dish[];
   } catch (error) {
     console.error(`Error getting recommendations for ${cuisineId}:`, error);
     return [];

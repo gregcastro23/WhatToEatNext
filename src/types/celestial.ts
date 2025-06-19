@@ -139,6 +139,7 @@ export interface ThermodynamicProperties {
   heat: number;
   entropy: number;
   reactivity: number;
+  gregsEnergy: number; // Using gregsEnergy as the single energy metric for this project
 }
 
 // =============== COMPLEX TYPES ===============

@@ -516,31 +516,39 @@ export default function CookingMethods() {
     // Check if the method has direct thermodynamic properties
     if (method && typeof method === 'object' && 'heat' in method && 'entropy' in method && 'reactivity' in method) {
       const methodObj = method as Record<string, unknown>;
+      const heat = (methodObj.heat as number) || 0.5;
+      const entropy = (methodObj.entropy as number) || 0.5;
+      const reactivity = (methodObj.reactivity as number) || 0.5;
       return {
-        heat: (methodObj.heat as number) || 0.5,
-        entropy: (methodObj.entropy as number) || 0.5,
-        reactivity: (methodObj.reactivity as number) || 0.5
+        heat,
+        entropy,
+        reactivity,
+        gregsEnergy: heat - (entropy * reactivity)
       };
     }
     
     // Look for the method in the COOKING_METHOD_THERMODYNAMICS constant
     for (const knownMethod of Object.keys(COOKING_METHOD_THERMODYNAMICS)) {
       if ((methodName as any)?.includes?.(knownMethod)) {
-        return COOKING_METHOD_THERMODYNAMICS[knownMethod as CookingMethod];
+        return COOKING_METHOD_THERMODYNAMICS[knownMethod as unknown as CookingMethod];
       }
     }
     
     // Fallback values based on method characteristics
     if ((methodName as any)?.includes?.('grill') || (methodName as any)?.includes?.('roast') || (methodName as any)?.includes?.('fry')) {
-      return { heat: 0.8, entropy: 0.6, reactivity: 0.7 }; // High heat methods
+      const heat = 0.8, entropy = 0.6, reactivity = 0.7;
+      return { heat, entropy, reactivity, gregsEnergy: heat - (entropy * reactivity) }; // High heat methods
     } else if ((methodName as any)?.includes?.('steam') || (methodName as any)?.includes?.('simmer') || (methodName as any)?.includes?.('poach')) {
-      return { heat: 0.4, entropy: 0.3, reactivity: 0.5 }; // Medium heat methods
+      const heat = 0.4, entropy = 0.3, reactivity = 0.5;
+      return { heat, entropy, reactivity, gregsEnergy: heat - (entropy * reactivity) }; // Medium heat methods
     } else if ((methodName as any)?.includes?.('raw') || (methodName as any)?.includes?.('ferment') || (methodName as any)?.includes?.('pickle')) {
-      return { heat: 0.1, entropy: 0.5, reactivity: 0.4 }; // No/low heat methods
+      const heat = 0.1, entropy = 0.5, reactivity = 0.4;
+      return { heat, entropy, reactivity, gregsEnergy: heat - (entropy * reactivity) }; // No/low heat methods
     }
     
     // Default values
-    return { heat: 0.5, entropy: 0.5, reactivity: 0.5 };
+    const heat = 0.5, entropy = 0.5, reactivity = 0.5;
+    return { heat, entropy, reactivity, gregsEnergy: heat - (entropy * reactivity) };
   };
 
   const [loading, setLoading] = useState(true);
@@ -832,8 +840,8 @@ export default function CookingMethods() {
         key => (key as any)?.toLowerCase?.().includes(methodName.split(' ')[0].toLowerCase())
       );
       
-      if (molecularKey && molecularCookingMethods[molecularKey as CookingMethod]) {
-        const sourceData = molecularCookingMethods[molecularKey as CookingMethod];
+      if (molecularKey && molecularCookingMethods[molecularKey as unknown as CookingMethod]) {
+        const sourceData = molecularCookingMethods[molecularKey as unknown as CookingMethod];
         // Extract data with safe property access
         const sourceDataObj = sourceData as any;
         
@@ -1466,7 +1474,7 @@ export default function CookingMethods() {
     
     // If the method already has valid elemental properties, use those
     if ((method as any)?.elementalProperties && 
-        Object.values((method as any)?.elementalProperties).some(val => val > 0)) {
+        Object.values((method as any)?.elementalProperties).some(val => Number(val) > 0)) {
       return (method as any)?.elementalProperties;
     }
     

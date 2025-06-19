@@ -140,12 +140,13 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
         }
         
         // If no match but has high match score, include it
-        return (recipe.matchScore || 0) > 0.75;
+        return (Number(recipe.matchScore) || 0) > 0.75;
       })
       .sort((a, b) => {
         // First sort by match score
-        const scoreA = a.matchScore || 0;
-        const scoreB = b.matchScore || 0;
+        // Apply Pattern KK-1: Explicit Type Assertion for arithmetic operations  
+        const scoreA = Number(a.matchScore) || 0;
+        const scoreB = Number(b.matchScore) || 0;
         
         if (scoreB !== scoreA) return scoreB - scoreA;
         

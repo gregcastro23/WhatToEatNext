@@ -1,24 +1,26 @@
-import type { // ===== UNIFIED RECIPE BUILDING SYSTEM =====
+// ===== UNIFIED RECIPE BUILDING SYSTEM =====
 // Phase 3 Step 3 of WhatToEatNext Data Consolidation
 // Enhances recipe building with Monica/Kalchm optimization, seasonal adaptation,
 // cuisine integration, and enhanced recipe intelligence
 
+import type { 
   Season, 
   Element, 
   ElementalProperties, 
   ZodiacSign, 
   PlanetName,
   LunarPhase,
-  CookingMethod } from "@/types/alchemy";
+  CookingMethod,
+  AlchemicalProperties
+} from "@/types/alchemy";
+
 import type { Recipe } from "@/types/recipe";
 import { UnifiedIngredient } from '@/types/ingredient';
 import { SeasonalRecommendations } from './seasonal';
 import { unifiedSeasonalSystem } from '@/data/integrations/seasonal';
+import { PlanetaryAlignment } from "@/types/celestial";
 // TODO: Fix import - add what to import from "./ingredients.js.ts"
 // TODO: Fix import - add what to import from "./seasonal.js.ts"
-import { Element } from "@/types/alchemy";
-import { PlanetaryAlignment } from "@/types/celestial";
-import { AlchemicalProperties } from "@/types/alchemy";
 
 import { 
   unifiedCuisineIntegrationSystem, 
@@ -34,9 +36,7 @@ import {
 import { 
   calculateKalchm, 
   calculateMonica, 
-  performAlchemicalAnalysis,
-  type AlchemicalProperties,
-  type ThermodynamicMetrics 
+  performAlchemicalAnalysis
 } from './alchemicalCalculations';
 import { 
   getAllEnhancedCookingMethods, 
@@ -336,7 +336,7 @@ export class UnifiedRecipeBuildingSystem {
     season?: Season
   ): MonicaOptimizedRecipe['seasonalAdaptation'] {
     const currentSeason = season || this.seasonalSystem.getCurrentSeason();
-    const seasonalRecommendations = this.seasonalSystem.getSeasonalRecommendations(currentSeason) as SeasonalRecommendations;
+    const seasonalRecommendations = this.seasonalSystem.getSeasonalRecommendations(currentSeason) as unknown as SeasonalRecommendations;
     
     // Calculate seasonal score
     const seasonalScore = this.calculateSeasonalScore(recipe, currentSeason);
@@ -438,7 +438,7 @@ export class UnifiedRecipeBuildingSystem {
     const originalRecipe = recipe;
     
     // Get seasonal recommendations
-    const seasonalRecommendations = this.seasonalSystem.getSeasonalRecommendations(targetSeason) as SeasonalRecommendations;
+    const seasonalRecommendations = this.seasonalSystem.getSeasonalRecommendations(targetSeason) as unknown as SeasonalRecommendations;
     
     // Generate ingredient substitutions
     const ingredientSubstitutions = this.generateDetailedIngredientSubstitutions(

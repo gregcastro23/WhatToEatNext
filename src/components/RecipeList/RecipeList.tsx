@@ -48,7 +48,7 @@ const dietaryOptions: DietaryRestriction[] = (foodTypes.dietaryRestrictions as D
   'paleo',
   'low-carb',
   'low-fat'
-] as DietaryRestriction[]);
+] as unknown as DietaryRestriction[]);
 
 interface FilterState {
   search: string;

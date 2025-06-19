@@ -61,12 +61,19 @@ export function cleanupIngredientsDatabase() {
           
           // Normalize to ensure sum = 1
           const currentElementalProps = data?.elementalProperties;
-          const sum = Object.values(currentElementalProps ?? {}).reduce((acc, val) => acc + (val || 0), 0);
-          if (Math.abs(sum - 1) > 0.01) {
+          // Apply Pattern KK-1: Explicit Type Assertion for arithmetic operations
+          const sum = Object.values(currentElementalProps ?? {}).reduce((acc, val) => {
+            const accValue = Number(acc) || 0;
+            const valValue = Number(val) || 0;
+            return accValue + valValue;
+          }, 0);
+          if (Math.abs(Number(sum) - 1) > 0.01) {
             elements.forEach(element => {
               const props = data?.elementalProperties;
               if (props) {
-                props[element] = props[element] / sum;
+                const currentValue = Number(props[element]) || 0;
+                const sumValue = Number(sum) || 1;
+                props[element] = currentValue / sumValue;
               }
             });
             modified = true;

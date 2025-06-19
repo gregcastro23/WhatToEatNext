@@ -30,16 +30,21 @@ const IngredientRecommendations: React.FC<IngredientRecommendationsProps> = ({
             {ingredient.elementalProperties && (
               <div className={styles.elementalProperties}>
                 {Object.entries(ingredient.elementalProperties)
-                  .sort(([_keyA, a], [_keyB, b]) => b - a)
+                  .sort(([_keyA, a], [_keyB, b]) => {
+                    // Apply Pattern KK-1: Explicit Type Assertion for arithmetic operations
+                    const valueA = Number(a) || 0;
+                    const valueB = Number(b) || 0;
+                    return valueB - valueA;
+                  })
                   .map(([element, value]) => (
                     <div key={element} className={styles.elementalProperty}>
                       <span className={styles.elementName}>{element}</span>
                       <div 
                         className={styles.elementBar}
-                        style={{ width: `${Math.round(value * 100)}%` }}
+                        style={{ width: `${Math.round((Number(value) || 0) * 100)}%` }}
                       />
                       <span className={styles.elementValue}>
-                        {Math.round(value * 100)}%
+                        {Math.round((Number(value) || 0) * 100)}%
                       </span>
                     </div>
                   ))}
@@ -51,18 +56,18 @@ const IngredientRecommendations: React.FC<IngredientRecommendationsProps> = ({
               <div className={styles.energyMetrics}>
                 <div className={styles.metric}>
                   <span className={styles.metricLabel}>Heat:</span>
-                  <span className={styles.metricValue}>{Math.round(ingredient.heat * 100)}%</span>
+                  <span className={styles.metricValue}>{Math.round((Number(ingredient.heat) || 0) * 100)}%</span>
                 </div>
                 {ingredient.entropy !== undefined && (
                   <div className={styles.metric}>
                     <span className={styles.metricLabel}>Entropy:</span>
-                    <span className={styles.metricValue}>{Math.round(ingredient.entropy * 100)}%</span>
+                    <span className={styles.metricValue}>{Math.round((Number(ingredient.entropy) || 0) * 100)}%</span>
                   </div>
                 )}
                 {ingredient.reactivity !== undefined && (
                   <div className={styles.metric}>
                     <span className={styles.metricLabel}>Reactivity:</span>
-                    <span className={styles.metricValue}>{Math.round(ingredient.reactivity * 100)}%</span>
+                    <span className={styles.metricValue}>{Math.round((Number(ingredient.reactivity) || 0) * 100)}%</span>
                   </div>
                 )}
               </div>

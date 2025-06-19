@@ -3,13 +3,13 @@
  */
 
 export type ElementType = 
-  | 'fire' 
-  | 'water' 
-  | 'air' 
-  | 'earth' 
-  | 'metal' 
-  | 'wood' 
-  | 'void';
+  | 'Fire' 
+  | 'Water' 
+  | 'Air' 
+  | 'Earth' 
+  | 'Metal' 
+  | 'Wood' 
+  | 'Void';
 
 export interface ElementalEnergy {
   type: ElementType;

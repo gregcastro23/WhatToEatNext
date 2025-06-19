@@ -795,35 +795,40 @@ export const vietnamese: Cuisine = {
       description: "Slow caramelization and braising in a clay pot with fish sauce and caramel",
       elementalProperties: { Water: 0.4, Earth: 0.3, Fire: 0.2, Air: 0.1 },
       toolsRequired: ["clay pot", "wooden spoon", "caramel sauce", "long cooking time"],
-      bestFor: ["fish", "pork", "chicken", "tofu", "eggs"]
+      bestFor: ["fish", "pork", "chicken", "tofu", "eggs"],
+      difficulty: "medium"
     },
     {
       name: "Nướng (Grilling)",
       description: "Aromatic grilling over charcoal, often with lemongrass marinades",
       elementalProperties: { Fire: 0.6, Air: 0.2, Earth: 0.1, Water: 0.1 },
       toolsRequired: ["charcoal grill", "bamboo skewers", "banana leaf wrapping", "marinade brush"],
-      bestFor: ["pork", "beef", "seafood", "chicken", "meatballs"]
+      bestFor: ["pork", "beef", "seafood", "chicken", "meatballs"],
+      difficulty: "medium"
     },
     {
       name: "Xào (Stir-frying)",
       description: "Quick high-heat cooking that preserves fresh flavors and textures",
       elementalProperties: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
       toolsRequired: ["wok", "high heat source", "spatula", "prep bowls"],
-      bestFor: ["vegetables", "rice noodles", "quick meat dishes", "tofu", "morning glory"]
+      bestFor: ["vegetables", "rice noodles", "quick meat dishes", "tofu", "morning glory"],
+      difficulty: "medium"
     },
     {
       name: "Hấp (Steaming)",
       description: "Gentle cooking that preserves natural flavors and nutritional content",
       elementalProperties: { Water: 0.5, Air: 0.3, Earth: 0.1, Fire: 0.1 },
       toolsRequired: ["steamer basket", "banana leaves", "parchment paper", "pot"],
-      bestFor: ["fish", "rice cakes", "dumplings", "custards", "fresh vegetables"]
+      bestFor: ["fish", "rice cakes", "dumplings", "custards", "fresh vegetables"],
+      difficulty: "easy"
     },
     {
       name: "Cuốn (Rolling/Wrapping)",
       description: "Creating fresh rolls with rice paper or lettuce, emphasizing contrast and freshness",
       elementalProperties: { Water: 0.3, Earth: 0.3, Air: 0.3, Fire: 0.1 },
       toolsRequired: ["rice paper", "bowl of warm water", "clean work surface", "sharp knife"],
-      bestFor: ["spring rolls", "summer rolls", "lettuce wraps", "beef in betel leaf", "rice noodle rolls"]
+      bestFor: ["spring rolls", "summer rolls", "lettuce wraps", "beef in betel leaf", "rice noodle rolls"],
+      difficulty: "easy"
     }
   ],
   regionalCuisines: [

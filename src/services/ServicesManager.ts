@@ -335,7 +335,7 @@ export class ServicesManager {
       logger.info('Initializing AlchemicalRecommendationService...');
       
       // Ensure the service is initialized
-      // Just verify with a simple test operation
+      // ✅ Pattern MM-1: Type assertion for Record<Planet, ZodiacSign> compatibility  
       const dummyPositions = {
         Sun: 'aries',
         moon: 'taurus',
@@ -348,11 +348,18 @@ export class ServicesManager {
         Neptune: 'sagittarius',
         Pluto: 'capricorn',
         Ascendant: 'aquarius'
-      };
+      } as any;
       
-      // If service is working, this won't throw an error
+      // ✅ Pattern MM-1: Provide complete Recipe object with type assertion
+      const testRecipe = { 
+        id: 'test', 
+        name: 'Test Recipe', 
+        ingredients: [], 
+        instructions: [],
+        elementalState: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
+      } as any;
       const recipeRecommendations = alchemicalRecommendationService.getRecipeRecommendations(
-        { id: 'test', name: 'Test Recipe', ingredients: [], instructions: [] },
+        testRecipe,
         dummyPositions
       );
       

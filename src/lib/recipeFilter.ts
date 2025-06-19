@@ -101,14 +101,20 @@ export const recipeFilter = {
             filters.elementalState
           ).elementalHarmony
         };
-      }).sort((a, b) => (b.matchScore || 0) - (a.matchScore || 0));
+              }).sort((a, b) => {
+          // Apply Pattern KK-1: Explicit Type Assertion for arithmetic operations
+          const scoreA = Number(a.matchScore) || 0;
+          const scoreB = Number(b.matchScore) || 0;
+          return scoreB - scoreA;
+        });
     }
 
     // Apply sorting
     if (sortOptions.by === 'relevance') {
       filteredRecipes.sort((a, b) => {
-        const scoreA = a.matchScore || 0;
-        const scoreB = b.matchScore || 0;
+        // Apply Pattern KK-1: Explicit Type Assertion for arithmetic operations
+        const scoreA = Number(a.matchScore) || 0;
+        const scoreB = Number(b.matchScore) || 0;
         return sortOptions.direction === 'desc' ? scoreB - scoreA : scoreA - scoreB;
       });
     }

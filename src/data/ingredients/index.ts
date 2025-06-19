@@ -174,8 +174,13 @@ let processIngredientCollection = (
       let elementalSignature = Object.entries(
         processedIngredient.elementalProperties
       )
-        .sort((a, b) => b[1] - a[1])
-        .map(([element, value]) => [element, value] as [string, number]);
+        .sort((a, b) => {
+          // Pattern KK-10: Final Arithmetic Elimination for data processing
+          const numericA = Number(a[1]) || 0;
+          const numericB = Number(b[1]) || 0;
+          return numericB - numericA;
+        })
+        .map(([element, value]) => [element, Number(value) || 0] as [string, number]);
 
       acc[key] = {
         ...processedIngredient,
@@ -312,12 +317,8 @@ export function getAllGrains(): Ingredient[] {
   return getAllIngredientsByCategory('grain');
 }
 
-// Function to get ingredients by subcategory
-export function getIngredientsBySubCategory(subCategory: string): Ingredient[] {
-  return Object.values(allIngredients).filter(
-    (ingredient) => ingredient.subCategory === subCategory
-  );
-}
+// Function to get ingredients by category (subcategory functionality removed - use category instead)
+// Note: subCategory property does not exist on Ingredient type
 
 // Export the functions to make them available
 export default {
@@ -330,7 +331,6 @@ export default {
   getAllHerbs,
   getAllSpices,
   getAllGrains,
-  getIngredientsBySubCategory,
   normalizeElementalProperties,
   DEFAULT_ELEMENTAL_PROPERTIES,
   ingredientsMap,

@@ -18,8 +18,8 @@ import {
 } from './elementalMappings';
 import {
   ElementalItem,
-  AlchemicalItem,
 } from '@/types/alchemy';
+import { AlchemicalItem } from '@/calculations/alchemicalTransformation';
 import { ElementalCharacter, AlchemicalProperty } from '@/constants/planetaryElements';
 import {
   LunarPhase,
@@ -343,7 +343,7 @@ export let elementalUtils = {
    * @returns The elemental characteristics
    */
   getElementalCharacteristics(element: Element): ElementalCharacteristics {
-    return ELEMENTAL_CHARACTERISTICS[element] as ElementalCharacteristics;
+    return ELEMENTAL_CHARACTERISTICS[element] as unknown as ElementalCharacteristics;
   },
 
   /**
@@ -456,6 +456,36 @@ export let elementalUtils = {
   // Get the default elemental properties
   getDefaultElementalProperties(): ElementalProperties {
     return DEFAULT_ELEMENTAL_PROPERTIES;
+  },
+
+  // Export the default elemental properties constant for direct access
+  DEFAULT_ELEMENTAL_PROPERTIES,
+
+  /**
+   * Gets the current elemental state from the ElementalCalculator service
+   * Pattern OO-3: Utility Import Alignment - Standalone export for TS2614 compatibility
+   */
+  getCurrentElementalState(): ElementalProperties {
+    return ElementalCalculator.getCurrentElementalState();
+  },
+
+  /**
+   * Pattern OO-3: Utility Import Alignment - Format consistency helper
+   * Ensures elemental property keys are in lowercase format
+   */
+  ensureLowercaseFormat(properties: any): any {
+    if (!properties || typeof properties !== 'object') {
+      return properties;
+    }
+    
+    const lowercaseProps: any = {};
+    for (const [key, value] of Object.entries(properties)) {
+      // Convert capitalized element names to lowercase
+      const lowerKey = key.toLowerCase();
+      lowercaseProps[lowerKey] = value;
+    }
+    
+    return lowercaseProps;
   },
 };
 
@@ -652,7 +682,7 @@ export function transformItemsWithPlanetaryPositions(
       planetaryBoost: planetaryInfluence,
       dominantPlanets,
       planetaryDignities,
-    } as AlchemicalItem;
+    } as unknown as AlchemicalItem;
   });
 }
 
@@ -1013,7 +1043,12 @@ export function enhanceVegetableTransformations(
     // Add elementalSignature if it doesn't exist
     if (!enhanced.elementalSignature && enhanced.elementalProperties) {
       enhanced.elementalSignature = Object.entries(enhanced.elementalProperties)
-        .sort((a, b) => b[1] - a[1])
+        .sort((a, b) => {
+          // Apply Pattern KK-1: Explicit Type Assertion for arithmetic operations
+          const valueA = Number(a[1]) || 0;
+          const valueB = Number(b[1]) || 0;
+          return valueB - valueA;
+        })
         .map(([element, value]) => [element, Number(value)]);
     }
 
@@ -1501,4 +1536,30 @@ export function enhanceOilProperties(
     acc[key] = enhancedOil;
     return acc;
   }, {});
+}
+
+/**
+ * Pattern OO-3: Utility Import Alignment - Standalone exports for TS2614 compatibility
+ */
+export function getCurrentElementalState(): ElementalProperties {
+  return ElementalCalculator.getCurrentElementalState();
+}
+
+export function getDefaultElementalProperties(): ElementalProperties {
+  return DEFAULT_ELEMENTAL_PROPERTIES;
+}
+
+export function ensureLowercaseFormat(properties: any): any {
+  if (!properties || typeof properties !== 'object') {
+    return properties;
+  }
+  
+  const lowercaseProps: any = {};
+  for (const [key, value] of Object.entries(properties)) {
+    // Convert capitalized element names to lowercase
+    const lowerKey = key.toLowerCase();
+    lowercaseProps[lowerKey] = value;
+  }
+  
+  return lowercaseProps;
 }

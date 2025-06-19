@@ -210,8 +210,8 @@ const calculateEnergyMatch = (
   // Calculate kalchm alignment if available
   let kalchmScore = 0.7; // Default score
   try {
-    const recipeKalchm = kalchmEngine.calculateKalchm(recipeEnergy);
-    const currentKalchm = kalchmEngine.calculateKalchm(currentEnergy);
+    const recipeKalchm = kalchmEngine.calculateKAlchm(recipeEnergy);
+    const currentKalchm = kalchmEngine.calculateKAlchm(currentEnergy);
     
     if (recipeKalchm.kalchm > 0 && currentKalchm.kalchm > 0) {
       const kalchmRatio = Math.min(recipeKalchm.kalchm, currentKalchm.kalchm) / 
@@ -426,7 +426,10 @@ function applyMatchFilters(recipes: Recipe[], filters: MatchFilters): Recipe[] {
     // Servings filter
     if (filters.servings) {
       const recipeServings = recipe.servings || recipe.numberOfServings;
-      if (recipeServings && recipeServings < filters.servings) return false;
+      // Pattern KK-9: Cross-Module Arithmetic Safety for comparison operations
+      const numericRecipeServings = Number(recipeServings) || 0;
+      const numericFilterServings = Number(filters.servings) || 0;
+      if (numericRecipeServings > 0 && numericRecipeServings < numericFilterServings) return false;
     }
 
     // Excluded ingredients filter
@@ -912,6 +915,9 @@ function calculateModalityScore(recipeModality: string, userModality: string): n
   
   return compatibilityMatrix[recipeModality]?.[userModality] || 0.3;
 }
+
+// Re-export calculateMatchScore for other modules
+export { calculateMatchScore };
 
 // Export all the main functions and utilities
 export { 

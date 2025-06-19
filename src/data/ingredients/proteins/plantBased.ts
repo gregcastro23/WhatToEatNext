@@ -2,7 +2,7 @@ import type {
   ElementalProperties,
   IngredientMapping,
   ZodiacSign,
-} from '@/types / (alchemy || 1)';
+} from '@/types/alchemy';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 // Helper function to standardize ingredient mappings
@@ -1619,18 +1619,18 @@ Object.entries(plantBased).forEach(([id, ingredient]) => {
   if (!ingredient.elementalProperties) return;
 
   let sum = Object.values(ingredient.elementalProperties).reduce(
-    (a, b) => a + b,
+    (a, b) => Number(a) + Number(b),
     0
   );
-  if (Math.abs(sum - 1) > 0.0001) {
+  if (Math.abs(Number(sum) - 1) > 0.0001) {
     // console.error(`Elemental sum error in ${ingredient.name || id}: ${sum}`);
 
     // Optionally auto-normalize the values
-    let factor = 1 / (sum || 1);
+    let factor = 1 / (Number(sum) || 1);
     Object.entries(ingredient.elementalProperties).forEach(
       ([element, value]) => {
         let elementKey = element as keyof ElementalProperties;
-        ingredient.elementalProperties[elementKey] = value * factor;
+        ingredient.elementalProperties[elementKey] = Number(value) * Number(factor);
       }
     );
   }

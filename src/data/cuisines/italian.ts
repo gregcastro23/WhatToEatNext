@@ -1177,35 +1177,40 @@ export const italian: Cuisine = {
       description: "Cooking pasta until firm to the bite, not soft",
       elementalProperties: { Water: 0.4, Fire: 0.3, Earth: 0.2, Air: 0.1 },
       toolsRequired: ["large pot", "timer", "colander"],
-      bestFor: ["pasta", "risotto rice", "vegetables"]
+      bestFor: ["pasta", "risotto rice", "vegetables"],
+      difficulty: "easy"
     },
     {
       name: "Soffritto",
       description: "Slow-cooking aromatic base of finely chopped vegetables in fat",
       elementalProperties: { Fire: 0.4, Earth: 0.4, Air: 0.1, Water: 0.1 },
       toolsRequired: ["heavy-bottomed pan", "wooden spoon", "sharp knife"],
-      bestFor: ["sauce base", "soup base", "risotto", "stews"]
+      bestFor: ["sauce base", "soup base", "risotto", "stews"],
+      difficulty: "medium"
     },
     {
       name: "Mantecatura",
       description: "Final whisking of cold butter or cheese into hot dishes to create a creamy emulsion",
       elementalProperties: { Water: 0.4, Air: 0.3, Earth: 0.2, Fire: 0.1 },
       toolsRequired: ["wooden spoon", "grater", "ladle"],
-      bestFor: ["risotto", "pasta sauces", "polenta", "gnocchi"]
+      bestFor: ["risotto", "pasta sauces", "polenta", "gnocchi"],
+      difficulty: "hard"
     },
     {
       name: "Sfumato",
       description: "Deglazing with wine to lift flavor compounds and create depth",
       elementalProperties: { Air: 0.4, Fire: 0.3, Water: 0.2, Earth: 0.1 },
       toolsRequired: ["heavy pan", "wooden spoon"],
-      bestFor: ["risotto", "sauces", "braises", "stews"]
+      bestFor: ["risotto", "sauces", "braises", "stews"],
+      difficulty: "medium"
     },
     {
       name: "Battuto",
       description: "Finely chopped raw aromatic ingredients that form the base of many dishes",
       elementalProperties: { Earth: 0.5, Air: 0.3, Water: 0.1, Fire: 0.1 },
       toolsRequired: ["chef's knife", "cutting board", "mezzaluna"],
-      bestFor: ["sauce preparation", "flavor base", "soup starters", "stuffings"]
+      bestFor: ["sauce preparation", "flavor base", "soup starters", "stuffings"],
+      difficulty: "easy"
     }
   ],
   regionalCuisines: {

@@ -94,7 +94,7 @@ export const stirFrying: CookingMethodData = {
     heat: 0.90,       // Very high heat application
     entropy: 0.55,    // Moderate structural breakdown
     reactivity: 0.85, // High reactivity (Maillard, caramelization)
-    energy: 0.70      // Good energy transfer through conduction
+    gregsEnergy: 0.90 - (0.55 * 0.85)      // Calculated using heat - (entropy * reactivity)
   } as ThermodynamicProperties,
   
   // Additional metadata

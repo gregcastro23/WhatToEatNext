@@ -1152,35 +1152,40 @@ export const middleEastern: Cuisine = {
       description: "Art of creating balanced small dishes that complement each other in flavor, texture, and temperature",
       elementalProperties: { Earth: 0.3, Water: 0.3, Fire: 0.2, Air: 0.2 },
       toolsRequired: ["various serving dishes", "mortar and pestle", "fine grater", "sharp knife"],
-      bestFor: ["entertaining", "appetizers", "communal dining", "showcasing seasonal produce"]
+      bestFor: ["entertaining", "appetizers", "communal dining", "showcasing seasonal produce"],
+      difficulty: "medium"
     },
     {
       name: "Tagine Cooking",
       description: "Slow cooking in a conical earthenware pot that traps steam to create tender, aromatic dishes",
       elementalProperties: { Earth: 0.4, Water: 0.3, Fire: 0.2, Air: 0.1 },
       toolsRequired: ["tagine pot", "diffuser", "long wooden spoon", "steady heat source"],
-      bestFor: ["tough cuts of meat", "whole vegetables", "fruit-meat combinations", "aromatic dishes"]
+      bestFor: ["tough cuts of meat", "whole vegetables", "fruit-meat combinations", "aromatic dishes"],
+      difficulty: "medium"
     },
     {
       name: "Bread Baking",
       description: "Traditional flatbread preparation using high heat and minimal leavening",
       elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 },
       toolsRequired: ["tanoor/taboon oven", "baking stone", "cushion for shaping", "long wooden peel"],
-      bestFor: ["pita", "lavash", "taboon bread", "saj bread", "communion bread"]
+      bestFor: ["pita", "lavash", "taboon bread", "saj bread", "communion bread"],
+      difficulty: "hard"
     },
     {
       name: "Charcoal Grilling",
       description: "Open-fire cooking over aromatic woods to impart smoky flavor to proteins and vegetables",
       elementalProperties: { Fire: 0.6, Air: 0.2, Earth: 0.1, Water: 0.1 },
       toolsRequired: ["mangal grill", "metal skewers", "long tongs", "brushes for basting"],
-      bestFor: ["kebabs", "kofta", "whole fish", "vegetables", "bread"]
+      bestFor: ["kebabs", "kofta", "whole fish", "vegetables", "bread"],
+      difficulty: "medium"
     },
     {
       name: "Preserving",
       description: "Ancient techniques for extending shelf life through fermentation, pickling, and drying",
       elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },
       toolsRequired: ["clay pots", "glass jars", "cheesecloth", "sun-drying racks", "weights"],
-      bestFor: ["vegetables", "fruits", "herbs", "dairy products", "fish"]
+      bestFor: ["vegetables", "fruits", "herbs", "dairy products", "fish"],
+      difficulty: "hard"
     }
   ],
   regionalCuisines: {

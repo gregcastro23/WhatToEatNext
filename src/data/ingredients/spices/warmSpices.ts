@@ -4,7 +4,7 @@ import { fixIngredientMappings } from '@/utils/elementalUtils';
 const rawWarmSpices: Record<string, Partial<IngredientMapping>> = {
   'cinnamon': {
     name: 'Cinnamon',
-    elementalProperties: { Fire: 0.7, Earth: 0.2, Air: 0.1 },
+    elementalProperties: { Fire: 0.7, Water: 0.0, Earth: 0.2, Air: 0.1 }, // ← Pattern GG-5: Added missing Water property
     astrologicalProfile: {
       planetaryRuler: 'Sun',
       zodiacRuler: 'Leo',

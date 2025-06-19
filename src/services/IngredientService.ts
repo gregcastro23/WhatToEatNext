@@ -1656,7 +1656,6 @@ export class IngredientService implements IngredientServiceInterface {
         heat: Math.max(0, Math.min(1, heat)),
         entropy: Math.max(0, Math.min(1, entropy)),
         reactivity: Math.max(0, Math.min(1, reactivity)),
-        energy: Math.max(0, Math.min(1, energy)),
         gregsEnergy,
         kalchm,
         monica
@@ -1668,7 +1667,6 @@ export class IngredientService implements IngredientServiceInterface {
         heat: 0.5,
         entropy: 0.5,
         reactivity: 0.5,
-        energy: 0.5,
         gregsEnergy: 0.0,
         kalchm: 1.0,
         monica: NaN

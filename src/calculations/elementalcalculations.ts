@@ -223,15 +223,16 @@ function getPlanetaryInfluencers(
   planetaryPositions: Record<string, unknown>,
   elementType: ElementType
 ): string[] {
-  // Define which planets influence which elements
+  // Define which planets influence which elements - Pattern JJ-1: ElementType System Unification
   const elementInfluencers: Record<ElementType, string[]> = {
-    fire: ['sun', 'mars', 'jupiter'],
-    water: ['moon', 'venus', 'neptune'],
-    earth: ['venus', 'saturn', 'pluto'],
-    air: ['mercury', 'uranus', 'jupiter'],
-    metal: ['venus', 'mercury'],
-    wood: ['jupiter', 'neptune'],
-    void: ['pluto', 'uranus'],
+    Fire: ['sun', 'mars', 'jupiter'],
+    Water: ['moon', 'venus', 'neptune'],
+    Earth: ['venus', 'saturn', 'pluto'],
+    Air: ['mercury', 'uranus', 'jupiter'],
+    // Added extended elements mapped to core planetary influences
+    Metal: ['venus', 'saturn', 'mercury'], // Structure, clarity, precision - maps to Earth/Air qualities
+    Wood: ['sun', 'mars', 'jupiter'],      // Growth, flexibility, expansion - maps to Fire qualities  
+    Void: ['mercury', 'uranus', 'neptune'] // Space, potential, emptiness - maps to Air/Water qualities
   };
 
   // Get the potential influencers for this element
@@ -263,13 +264,14 @@ export function calculateElementalEnergies(
 
   // Initialize energy values for each element
   const energyValues: Record<ElementType, number> = {
-    fire: 0,
-    water: 0,
-    earth: 0,
-    air: 0,
-    metal: 0,
-    wood: 0,
-    void: 0,
+    Fire: 0,
+    Water: 0,
+    Earth: 0,
+    Air: 0,
+    // Pattern JJ-1: ElementType System Unification - Add extended elements with base element mapping
+    Metal: 0, // Maps to Earth-like properties
+    Wood: 0,  // Maps to Fire-like properties
+    Void: 0   // Maps to Air-like properties
   };
 
   // Define planetary influences (weights)
@@ -308,11 +310,11 @@ export function calculateElementalEnergies(
 
   // Apply day/night modifiers
   if (isDaytime) {
-    energyValues.fire *= 1.2;
-    energyValues.air *= 1.1;
+    energyValues.Fire *= 1.2;
+    energyValues.Air *= 1.1;
   } else {
-    energyValues.water *= 1.2;
-    energyValues.earth *= 1.1;
+    energyValues.Water *= 1.2;
+    energyValues.Earth *= 1.1;
   }
 
   // Normalize values to ensure they sum to 1

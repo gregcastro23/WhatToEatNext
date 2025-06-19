@@ -226,7 +226,7 @@ export const fermentation: CookingMethodData = {
     heat: 0.20,       // Low heat, often ambient temperature
     entropy: 0.70,    // High transformation through biological activity
     reactivity: 0.65, // Significant biochemical reactions
-    energy: 0.85      // Very efficient - microbes do the work
+    gregsEnergy: 0.20 - (0.70 * 0.65)      // Calculated using heat - (entropy * reactivity)
   } as ThermodynamicProperties,
   
   // Additional metadata

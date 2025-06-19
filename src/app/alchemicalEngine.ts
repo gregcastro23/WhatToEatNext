@@ -54,7 +54,7 @@ const alchemicalEngine = {
           heat: 0.5,
           entropy: 0.5,
           reactivity: 0.5,
-          energy: 0.0
+          gregsEnergy: 0.0
         },
         kalchm: 1.0,
         monica: 1.0,

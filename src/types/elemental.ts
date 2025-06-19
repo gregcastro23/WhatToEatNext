@@ -79,3 +79,13 @@ export const DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {
   Earth: 0.25,
   Air: 0.25
 };
+
+// Type guard function for ElementalProperties
+export function isElementalProperties(obj: any): obj is ElementalProperties {
+  return obj && 
+    typeof obj === 'object' &&
+    typeof obj.Fire === 'number' &&
+    typeof obj.Water === 'number' &&
+    typeof obj.Earth === 'number' &&
+    typeof obj.Air === 'number';
+}

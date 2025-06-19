@@ -110,7 +110,7 @@ export class IngredientFilterService {
 
       // Convert object to array of ingredients with names
       const categoryIngredients = Object.entries(this.allIngredients[category]).map(
-        ([name, data]) => ({ name, ...data } as IngredientMapping)
+        ([name, data]) => ({ name, ...data } as unknown as IngredientMapping)
       );
       
       // Apply all filters sequentially
@@ -223,7 +223,7 @@ export class IngredientFilterService {
       }
       
       // Check low fat requirement
-      if (filter.lowFat && (nutrition.fat && nutrition.fat > 5)) {
+      if (filter.lowFat && (nutrition.fats && nutrition.fats > 5)) {
         return false;
       }
       
@@ -237,7 +237,7 @@ export class IngredientFilterService {
     filter: ElementalFilter
   ): IngredientMapping[] {
     return ingredients.filter(ingredient => {
-      const elementalProps = ingredient.elementalProperties as ElementalProperties;
+      const elementalProps = ingredient.elementalProperties as unknown as ElementalProperties;
       
       // Check Fire element range
       if (filter.minFire !== undefined && 
@@ -305,37 +305,37 @@ export class IngredientFilterService {
   ): IngredientMapping[] {
     return ingredients.filter(ingredient => {
       // Check for vegetarian
-      if (filter.isVegetarian && ingredient.isVegetarian === false) {
+      if (filter.isVegetarian && !(ingredient as any).isVegetarian) {
         return false;
       }
       
       // Check for vegan
-      if (filter.isVegan && ingredient.isVegan === false) {
+      if (filter.isVegan && !(ingredient as any).isVegan) {
         return false;
       }
       
       // Check for gluten-free
-      if (filter.isGlutenFree && ingredient.isGlutenFree === false) {
+      if (filter.isGlutenFree && !(ingredient as any).isGlutenFree) {
         return false;
       }
       
       // Check for dairy-free
-      if (filter.isDairyFree && ingredient.isDairyFree === false) {
+      if (filter.isDairyFree && !(ingredient as any).isDairyFree) {
         return false;
       }
       
       // Check for nut-free
-      if (filter.isNutFree && ingredient.isNutFree === false) {
+      if (filter.isNutFree && !(ingredient as any).isNutFree) {
         return false;
       }
       
       // Check for low sodium
-      if (filter.isLowSodium && ingredient.isLowSodium === false) {
+      if (filter.isLowSodium && !(ingredient as any).isLowSodium) {
         return false;
       }
       
       // Check for low sugar
-      if (filter.isLowSugar && ingredient.isLowSugar === false) {
+      if (filter.isLowSugar && !(ingredient as any).isLowSugar) {
         return false;
       }
       

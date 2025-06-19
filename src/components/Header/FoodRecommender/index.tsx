@@ -267,12 +267,18 @@ const FoodRecommender: React.FC = () => {
                                     }
                                     
                                     // Normalize
-                                    const total = Object.values(elementalProps).reduce((sum: number, val: any) => sum + (Number(val) || 0), 0);
-                                    if (total > 0) {
+                                    // Pattern KK-8: Advanced calculation safety for reduction and division operations
+                                    const total = Object.values(elementalProps).reduce((sum: number, val: any) => {
+                                        const numericSum = Number(sum) || 0;
+                                        const numericVal = Number(val) || 0;
+                                        return numericSum + numericVal;
+                                    }, 0);
+                                    const numericTotal = Number(total) || 0;
+                                    if (numericTotal > 0) {
                                         Object.keys(elementalProps).forEach(element => {
                                             if (elementalProps[element as ElementalCharacter] !== undefined) {
-                                                elementalProps[element as ElementalCharacter] = 
-                                                    elementalProps[element as ElementalCharacter] / total;
+                                                const currentValue = Number(elementalProps[element as ElementalCharacter]) || 0;
+                                                elementalProps[element as ElementalCharacter] = currentValue / numericTotal;
                                             }
                                         });
                                     }
@@ -717,16 +723,28 @@ const FoodRecommender: React.FC = () => {
                                     {/* Elemental Properties visualization */}
                                     <div className="mt-2 space-y-2">
                                         {Object.entries(ingredient.transformedElementalProperties || {})
-                                            .sort(([_, a], [__, b]) => b - a) // Sort by value, highest first
+                                            .sort(([_, a], [__, b]) => {
+                                                // Pattern KK-9: Cross-Module Arithmetic Safety for sort operations
+                                                const numericA = Number(a) || 0;
+                                                const numericB = Number(b) || 0;
+                                                return numericB - numericA; // Sort by value, highest first
+                                            })
                                             .map(([element, value]) => {
                                                 // Convert raw values to a more meaningful representation
                                                 // Instead of showing as percentages, represent as normalized strength (max 100%)
+                                                // Pattern KK-8: Advanced calculation safety for reduction and division operations
                                                 const totalElements = Object.values(ingredient.transformedElementalProperties || {})
-                                                    .reduce((sum, val) => sum + val, 0);
+                                                    .reduce((sum, val) => {
+                                                        const sumValue = Number(sum) || 0;
+                                                        const valValue = Number(val) || 0;
+                                                        return sumValue + valValue;
+                                                    }, 0);
                                                 
                                                 // Calculate the relative strength (normalized to max 100%)
-                                                const normalizedValue = totalElements > 0 
-                                                    ? value / totalElements 
+                                                const numericTotalElements = Number(totalElements) || 0;
+                                                const numericValue = Number(value) || 0;
+                                                const normalizedValue = numericTotalElements > 0 
+                                                    ? numericValue / numericTotalElements
                                                     : 0;
                                                 
                                                 // Generate width based on normalized value for visual bar

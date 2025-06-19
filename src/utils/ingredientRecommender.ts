@@ -1272,7 +1272,7 @@ function calculateVenusInfluence(
     const categories = (ingredient as any)?.categories;
     if (
       (preservationMethods && preservationMethods.includes('dried')) || 
-      ingredient.category === 'herb' ||
+      (ingredient as any).category === 'herb' ||
       (categories && categories.includes('preserved'))
     ) {
       score *= 1.5;
@@ -2447,3 +2447,6 @@ function generateRecommendationsForIngredient(
 }
 
 // ... existing code ...
+
+// At the top of the file, add the re-export
+export type { EnhancedIngredientRecommendation } from './recommendation/ingredientRecommendation';

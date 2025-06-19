@@ -630,35 +630,40 @@ export const african: Cuisine = {
       description: "Long, gentle cooking of stews and sauces to develop deep flavors",
       elementalProperties: { Water: 0.5, Earth: 0.3, Fire: 0.2, Air: 0.0 },
       toolsRequired: ["heavy-bottomed pot", "wooden spoon", "heat diffuser"],
-      bestFor: ["stews", "sauces", "tough cuts of meat", "legumes"]
+      bestFor: ["stews", "sauces", "tough cuts of meat", "legumes"],
+      difficulty: "easy"
     },
     {
       name: "Hand Pounding",
       description: "Traditional technique using mortar and pestle to create pastes and spice blends",
       elementalProperties: { Earth: 0.6, Fire: 0.2, Water: 0.1, Air: 0.1 },
       toolsRequired: ["mortar and pestle", "sieve"],
-      bestFor: ["spice blends", "sauces", "pounded yam", "fufu"]
+      bestFor: ["spice blends", "sauces", "pounded yam", "fufu"],
+      difficulty: "medium"
     },
     {
       name: "Clay Pot Cooking",
       description: "Slow cooking in unglazed clay pots that enhance flavors and maintain moisture",
       elementalProperties: { Earth: 0.5, Fire: 0.3, Water: 0.2, Air: 0.0 },
       toolsRequired: ["clay pot", "heat diffuser", "wooden spoon"],
-      bestFor: ["stews", "tagines", "rice dishes", "beans"]
+      bestFor: ["stews", "tagines", "rice dishes", "beans"],
+      difficulty: "medium"
     },
     {
       name: "Charcoal Grilling",
       description: "Direct heat cooking over open charcoal for smoky flavor",
       elementalProperties: { Fire: 0.7, Air: 0.2, Earth: 0.1, Water: 0.0 },
       toolsRequired: ["charcoal grill", "skewers", "tongs"],
-      bestFor: ["suya", "kebabs", "whole fish", "vegetables"]
+      bestFor: ["suya", "kebabs", "whole fish", "vegetables"],
+      difficulty: "easy"
     },
     {
       name: "Fermentation",
       description: "Traditional preservation technique that develops complex flavors and probiotics",
       elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
       toolsRequired: ["clay pots", "wooden tools", "weights"],
-      bestFor: ["injera", "ogi", "garri", "fermented locust beans"]
+      bestFor: ["injera", "ogi", "garri", "fermented locust beans"],
+      difficulty: "hard"
     }
   ],
   regionalCuisines: {

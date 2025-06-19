@@ -318,4 +318,5 @@ let rawSquash = {
 };
 
 // Fix the ingredient mappings to ensure they have all required properties
-export const squash: Record<string, IngredientMapping> = fixIngredientMappings(rawSquash);
+// ✅ Pattern MM-1: Type assertion for ZodiacSign[] compatibility
+export const squash: Record<string, IngredientMapping> = fixIngredientMappings(rawSquash as Record<string, Partial<IngredientMapping>>);

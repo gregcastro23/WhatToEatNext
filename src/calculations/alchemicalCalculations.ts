@@ -946,7 +946,9 @@ export function alchemize(planetaryPositions: Record<string, PlanetaryPosition>,
         Object.entries(transitData.Elements).forEach(([elemKey, value]) => {
           const elem = elemKey.toLowerCase();
           if (elem && (elem === 'fire' || elem === 'earth' || elem === 'air' || elem === 'water')) {
-            elementalBalance[elem as keyof typeof elementalBalance] += value * 0.5;
+            // Pattern KK-1: Safe arithmetic with type validation
+            const numericValue = typeof value === 'number' ? value : 0;
+            elementalBalance[elem as keyof typeof elementalBalance] += numericValue * 0.5;
           }
         });
       }
@@ -987,7 +989,7 @@ export function alchemize(planetaryPositions: Record<string, PlanetaryPosition>,
       heat: spirit / (spirit + essence + matter + substance) || 0.25,
       entropy: essence / (spirit + essence + matter + substance) || 0.25, 
       reactivity: matter / (spirit + essence + matter + substance) || 0.25,
-      energy: substance / (spirit + essence + matter + substance) || 0.25
+      gregsEnergy: substance / (spirit + essence + matter + substance) || 0.25
     },
     kalchm: (spirit + essence) / (matter + substance) || 1.0,
     monica: Math.sqrt(spirit * essence * matter * substance) || 0.5,

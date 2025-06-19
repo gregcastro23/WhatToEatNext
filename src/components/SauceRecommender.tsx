@@ -750,7 +750,12 @@ export default function SauceRecommender({
             // Determine styling based on dominant element
             const elementalProps = sauce.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
             const dominant = Object.entries(elementalProps)
-              .sort(([, a], [, b]) => b - a)[0][0];
+              .sort(([, a], [, b]) => {
+                // Pattern KK-10: Final Arithmetic Elimination continuation
+                const numericA = Number(a) || 0;
+                const numericB = Number(b) || 0;
+                return numericB - numericA;
+              })[0][0];
             const elementClass = dominant.toLowerCase();
             
             return (

@@ -1,5 +1,6 @@
 import { cuisines } from './cuisines';
 import { allCookingMethods, cookingMethods } from './cooking';
+import { allRecipes, getAllRecipes, getBestRecipeMatches } from './recipes/index';
 import { 
   seasonalPatterns,
   flavorProfiles,
@@ -22,6 +23,10 @@ export const FoodData = {
   cuisines,
   cooking: {
     methods: allCookingMethods
+  },
+  recipes: {
+    all: allRecipes,
+    getAll: getAllRecipes
   },
   patterns: {
     seasonal: seasonalPatterns,
@@ -56,6 +61,9 @@ export {
   cuisines,
   cookingMethods,
   allCookingMethods,
+  allRecipes,
+  getAllRecipes,
+  getBestRecipeMatches,
   seasonalPatterns,
   flavorProfiles,
   textureProfiles,

@@ -97,7 +97,8 @@ export function useChakraBridge() {
       const fetchChakraData = async () => {
         try {
           const allChakras = await chakraService.getAllChakras();
-          setChakras(allChakras);
+          // ✅ Pattern MM-1: Ensure object type for setChakras state setter
+          setChakras(typeof allChakras === 'object' && allChakras !== null ? allChakras : {});
           
           const active = await chakraService.getActiveChakra();
           setActiveChakra(active);
@@ -141,13 +142,26 @@ export function usePlanetaryHoursBridge() {
       const fetchPlanetaryHoursData = async () => {
         try {
           const hourInfo = await astrologyService.getCurrentPlanetaryHour();
-          setCurrentHour(hourInfo);
+          // ✅ Pattern MM-1: Ensure object type for setCurrentHour state setter
+          setCurrentHour(typeof hourInfo === 'object' && hourInfo !== null ? hourInfo : { value: hourInfo });
           
           const dayPlanet = await astrologyService.getCurrentPlanetaryDay();
-          setCurrentDay(dayPlanet);
+          // ✅ Pattern MM-1: Ensure string type for setCurrentDay
+          setCurrentDay(typeof dayPlanet === 'string' ? dayPlanet : String(dayPlanet));
           
           const hours = await astrologyService.getDailyPlanetaryHours(new Date());
-          setDailyHours(hours);
+          // ✅ Pattern MM-1: Convert Planet[] to Map<number, string> for setDailyHours
+          if (Array.isArray(hours)) {
+            const hoursMap = new Map<number, string>();
+            hours.forEach((planet, index) => {
+              hoursMap.set(index, typeof planet === 'string' ? planet : String(planet));
+            });
+            setDailyHours(hoursMap);
+          } else if (hours instanceof Map) {
+            setDailyHours(hours);
+          } else {
+            setDailyHours(new Map());
+          }
         } catch (err) {
           console.error('Error in usePlanetaryHoursBridge:', err);
         }

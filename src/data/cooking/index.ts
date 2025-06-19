@@ -210,7 +210,13 @@ export function getCookingMethodsByTemperature(
       if (!methodData?.optimalTemperatures) return false;
 
       return Object.values(methodData.optimalTemperatures).some(
-        (temp) => temp >= minTemp && temp <= maxTemp
+        (temp) => {
+          // Pattern KK-10: Final Arithmetic Elimination for data layer operations
+          const numericTemp = Number(temp) || 0;
+          const numericMinTemp = Number(minTemp) || 0;
+          const numericMaxTemp = Number(maxTemp) || 999;
+          return numericTemp >= numericMinTemp && numericTemp <= numericMaxTemp;
+        }
       );
     })
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});

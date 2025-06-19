@@ -423,6 +423,7 @@ export function getRecipeFiltersFromTarot(tarotCards: { minorCard: TarotCard, ma
  * @returns Object with food recommendations and insights
  */
 export const getTarotFoodRecommendations = (date: Date): {
+  dailyCard: string; // ← Pattern GG-6: Added missing dailyCard property
   element: string;
   foodElement: string;
   recommendedRecipes: string[];
@@ -477,6 +478,7 @@ export const getTarotFoodRecommendations = (date: Date): {
   const insights = `The ${tarotCards.minorCard.name} suggests a ${element.toLowerCase()} energy today, complemented by ${foodElement.toLowerCase()} foods. ${tarotCards.majorCard.name} adds ${planetaryInfluence} energy, best expressed through ${cookingApproach} cooking.`;
   
   return {
+    dailyCard: tarotCards.minorCard.name, // ← Pattern GG-6: Added dailyCard property with minor card name
     element,
     foodElement,
     recommendedRecipes,

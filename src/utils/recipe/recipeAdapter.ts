@@ -26,7 +26,14 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
   const recipe: Recipe = {
     id: recipeData.id || `recipe-${Date.now()}`, 
     name: recipeData.name || 'Unnamed Recipe',
-    ingredients
+    ingredients,
+    instructions: recipeData.instructions || ['Combine ingredients and cook as desired.'],
+    elementalProperties: (recipeData as any)?.elementalState || {
+      Fire: 0.25,
+      Water: 0.25,
+      Earth: 0.25,
+      Air: 0.25
+    }
   };
 
   // Add optional properties if they exist
@@ -43,41 +50,45 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
   }
 
   // Handle time-related properties
-  if (recipeData.timeToMake !== undefined) {
-    recipe.timeToMake = recipeData.timeToMake;
+  const recipeDataAny = recipeData as any;
+  if (recipeDataAny?.timeToMake !== undefined) {
+    recipe.timeToMake = recipeDataAny.timeToMake;
   }
 
   // Handle serving-related properties
-  if (recipeData.servingSize !== undefined) {
-    recipe.servings = recipeData.servingSize;
+  if (recipeDataAny?.servingSize !== undefined) {
+    recipe.servings = recipeDataAny.servingSize;
   }
 
   // Handle elemental properties
-  if (recipeData.elementalState) {
-    recipe.elementalState = recipeData.elementalState;
+  if (recipeDataAny?.elementalState) {
+    recipe.elementalState = recipeDataAny.elementalState;
   } else {
     // Create default elemental properties
     recipe.elementalState = createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0 });
   }
 
   // Handle season
-  if (recipeData.energyProfile?.season) {
-    recipe.currentSeason = recipeData.energyProfile.currentSeason;
+  const energyProfile = recipeDataAny?.energyProfile;
+  if (energyProfile?.season) {
+    recipe.currentSeason = energyProfile.currentSeason;
   }
 
   // Handle astrological properties
-  if (recipeData.energyProfile) {
-    if (recipeData.energyProfile.zodiac) {
-      recipe.zodiacInfluences = recipeData.energyProfile.zodiac;
+  if (energyProfile) {
+    if (energyProfile.zodiac) {
+      recipe.zodiacInfluences = energyProfile.zodiac;
     }
     
-    if (recipeData.energyProfile.lunar) {
-      recipe.lunarPhaseInfluences = recipeData.energyProfile.lunar;
+    if (energyProfile.lunar) {
+      recipe.lunarPhaseInfluences = energyProfile.lunar;
     }
     
-    if (recipeData.energyProfile.planetary) {
+    if (energyProfile.planetary) {
       recipe.planetaryInfluences = {
-        favorable: recipeData.energyProfile.planetary };
+        favorable: energyProfile.planetary,
+        unfavorable: [] // ← Pattern GG-6: Added missing unfavorable property
+      };
     }
   }
 
@@ -121,13 +132,14 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
 
   // Handle nutrition information
   if (recipeData.nutrition) {
+    const nutritionData = recipeData.nutrition as any;
     recipe.nutrition = {
-      calories: recipeData.nutrition.calories, 
-      protein: recipeData.nutrition.protein, 
-      carbs: recipeData.nutrition.carbs, 
-      fat: recipeData.nutrition.fat, 
-      vitamins: recipeData.nutrition.vitamins, 
-      minerals: recipeData.nutrition.minerals 
+      calories: nutritionData?.calories || 0, 
+      protein: nutritionData?.protein || nutritionData?.macronutrients?.protein || 0, 
+      carbs: nutritionData?.carbs || nutritionData?.macronutrients?.carbs || 0, 
+      fat: nutritionData?.fat || nutritionData?.macronutrients?.fat || 0, 
+      vitamins: nutritionData?.vitamins || nutritionData?.micronutrients?.vitamins || {}, 
+      minerals: nutritionData?.minerals || nutritionData?.micronutrients?.minerals || {} 
     };
   }
 
@@ -255,8 +267,9 @@ export function adaptAllRecipes(recipeDataArray: RecipeData[]): Recipe[] {
  * @returns ElementalProperties object
  */
 export function extractElementalProperties(recipeData: RecipeData): ElementalProperties {
-  if (recipeData.elementalState) {
-    return recipeData.elementalState;
+  const recipeDataAny = recipeData as any;
+  if (recipeDataAny?.elementalState) {
+    return recipeDataAny.elementalState;
   }
   
   return createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0 });
@@ -278,11 +291,11 @@ export function getCookingMethodsFromRecipe(recipeData: RecipeData): string[] {
       'deep-frying', 'blanching', 'curing', 'pickling', 'fermenting', 'dehydrating'
     ];
     
-    const methods = recipeData?.tags || [].filter(tag => 
-      (cookingMethodKeywords || []).some(method => tag?.toLowerCase()?.includes(method))
+    const methods = (recipeData?.tags || []).filter(tag => 
+      cookingMethodKeywords.some(method => tag?.toLowerCase()?.includes(method))
     );
     
-    if ((methods || []).length > 0) {
+    if (methods.length > 0) {
       return methods;
     }
   }
@@ -296,6 +309,9 @@ export function getCookingMethodsFromRecipe(recipeData: RecipeData): string[] {
 export function createMinimalRecipe(name: string): Recipe {
   return {
     id: `minimal-recipe-${Date.now()}`,
-    name, ingredients: [], elementalProperties: createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0 })
+    name, 
+    ingredients: [], 
+    elementalProperties: createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0 }),
+    instructions: [] // ← Pattern GG-4: Added missing instructions property
   };
 } 

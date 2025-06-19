@@ -89,7 +89,7 @@ export default function SauceExplorer() {
       mexican: mexicanCuisine,
     };
 
-    setAllCuisines(cuisines as CuisineRecord);
+    setAllCuisines(cuisines as unknown as CuisineRecord);
   }, []);
 
   // Handle elemental profile change

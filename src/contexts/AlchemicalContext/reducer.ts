@@ -1,6 +1,6 @@
 'use client';
 
-import { AlchemicalState } from './types';
+import { AlchemicalState, AstrologicalState } from './types';
 
 // Define action types
 export type AlchemicalAction = 
@@ -83,7 +83,14 @@ export const alchemicalReducer = (state: AlchemicalState, action: AlchemicalActi
     case 'SET_ASTROLOGICAL_STATE':
       return {
         ...state,
-        astrologicalState: action.payload,
+        astrologicalState: {
+          currentZodiac: 'aries',
+          sunSign: 'aries',
+          lunarPhase: 'new moon',
+          moonPhase: 'new moon',
+          activePlanets: ['sun', 'moon'],
+          ...action.payload
+        } as AstrologicalState,
         lastUpdated: new Date()
       };
       

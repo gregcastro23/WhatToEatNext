@@ -144,10 +144,10 @@ const calculateRecommendationScore = (
   
   // Current elemental profile based on time factors
   const currentProfile = {
-    Fire: 0.25 + (timeFactors.season === 'summer' ? 0.2 : 0),
-    Water: 0.25 + (timeFactors.season === 'winter' ? 0.2 : 0),
-    Earth: 0.25 + (timeFactors.season === 'autumn' ? 0.2 : 0),
-    Air: 0.25 + (timeFactors.season === 'spring' ? 0.2 : 0)
+    Fire: 0.25 + (timeFactors.season === 'Summer' ? 0.2 : 0),
+    Water: 0.25 + (timeFactors.season === 'Winter' ? 0.2 : 0),
+    Earth: 0.25 + (timeFactors.season === 'Fall' ? 0.2 : 0),
+    Air: 0.25 + (timeFactors.season === 'Spring' ? 0.2 : 0)
   };
   
   const elementalMatch = calculateElementalSimilarity(recipeElements, currentProfile);

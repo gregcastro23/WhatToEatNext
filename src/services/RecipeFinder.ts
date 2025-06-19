@@ -66,7 +66,7 @@ export class RecipeFinder implements RecipeServiceInterface {
     try {
       return await this.recipeService.getAllRecipes();
     } catch (error) {
-      errorHandler.logError(error, {
+      errorHandler.log(error, {
         context: 'RecipeFinder',
         action: 'getAllRecipes',
       });
@@ -84,7 +84,7 @@ export class RecipeFinder implements RecipeServiceInterface {
     try {
       return await this.recipeService.searchRecipes(criteria, options);
     } catch (error) {
-      errorHandler.logError(error, {
+      errorHandler.log(error, {
         context: 'RecipeFinder',
         action: 'searchRecipes',
         data: criteria,
@@ -100,7 +100,7 @@ export class RecipeFinder implements RecipeServiceInterface {
     try {
       return await this.recipeService.getRecipesByCuisine(cuisine);
     } catch (error) {
-      errorHandler.logError(error, {
+      errorHandler.log(error, {
         context: 'RecipeFinder',
         action: 'getRecipesByCuisine',
         data: cuisine,
@@ -116,7 +116,7 @@ export class RecipeFinder implements RecipeServiceInterface {
     try {
       return await this.recipeService.getRecipesByZodiac(currentZodiacSign);
     } catch (error) {
-      errorHandler.logError(error, {
+      errorHandler.log(error, {
         context: 'RecipeFinder',
         action: 'getRecipesByZodiac',
         data: currentZodiacSign,
@@ -132,7 +132,7 @@ export class RecipeFinder implements RecipeServiceInterface {
     try {
       return await this.recipeService.getRecipesBySeason(season);
     } catch (error) {
-      errorHandler.logError(error, {
+      errorHandler.log(error, {
         context: 'RecipeFinder',
         action: 'getRecipesBySeason',
         data: season,
@@ -148,7 +148,7 @@ export class RecipeFinder implements RecipeServiceInterface {
     try {
       return await this.recipeService.getRecipesByLunarPhase(lunarPhase);
     } catch (error) {
-      errorHandler.logError(error, {
+      errorHandler.log(error, {
         context: 'RecipeFinder',
         action: 'getRecipesByLunarPhase',
         data: lunarPhase,
@@ -164,7 +164,7 @@ export class RecipeFinder implements RecipeServiceInterface {
     try {
       return await this.recipeService.getRecipesByMealType(mealType);
     } catch (error) {
-      errorHandler.logError(error, {
+      errorHandler.log(error, {
         context: 'RecipeFinder',
         action: 'getRecipesByMealType',
         data: mealType,
@@ -186,7 +186,7 @@ export class RecipeFinder implements RecipeServiceInterface {
         minMatchScore
       );
     } catch (error) {
-      errorHandler.logError(error, {
+      errorHandler.log(error, {
         context: 'RecipeFinder',
         action: 'getRecipesForPlanetaryAlignment',
         data: { planetaryInfluences, minMatchScore }
@@ -208,7 +208,7 @@ export class RecipeFinder implements RecipeServiceInterface {
         minMatchScore
       );
     } catch (error) {
-      errorHandler.logError(error, {
+      errorHandler.log(error, {
         context: 'RecipeFinder',
         action: 'getRecipesForFlavorProfile',
         data: { flavorProfile, minMatchScore }
@@ -235,7 +235,7 @@ export class RecipeFinder implements RecipeServiceInterface {
     try {
       return await this.recipeService.getBestRecipeMatches(criteria, criteria.maxResults || 10);
     } catch (error) {
-      errorHandler.logError(error, {
+      errorHandler.log(error, {
         context: 'RecipeFinder',
         action: 'getBestRecipeMatches',
         data: { criteria }
@@ -251,7 +251,7 @@ export class RecipeFinder implements RecipeServiceInterface {
     try {
       return await this.recipeService.generateRecipe(criteria);
     } catch (error) {
-      errorHandler.logError(error, {
+      errorHandler.log(error, {
         context: 'RecipeFinder',
         action: 'generateRecipe',
         data: criteria,
@@ -278,7 +278,7 @@ export class RecipeFinder implements RecipeServiceInterface {
     try {
       return await this.recipeService.generateFusionRecipe(cuisines, criteria);
     } catch (error) {
-      errorHandler.logError(error, {
+      errorHandler.log(error, {
         context: 'RecipeFinder',
         action: 'generateFusionRecipe',
         data: { cuisines, criteria }
@@ -305,7 +305,7 @@ export class RecipeFinder implements RecipeServiceInterface {
     try {
       return await this.recipeService.adaptRecipeForSeason(recipe, season);
     } catch (error) {
-      errorHandler.logError(error, {
+      errorHandler.log(error, {
         context: 'RecipeFinder',
         action: 'adaptRecipeForSeason',
         data: { recipeId: recipe?.id || 'unknown', season }
@@ -322,7 +322,7 @@ export class RecipeFinder implements RecipeServiceInterface {
     try {
       return this.recipeService.calculateElementalProperties(recipe);
     } catch (error) {
-      errorHandler.logError(error, {
+      errorHandler.log(error, {
         context: 'RecipeFinder',
         action: 'calculateElementalProperties',
         data: { recipeId: recipe?.id || 'unknown' }
@@ -339,7 +339,7 @@ export class RecipeFinder implements RecipeServiceInterface {
     try {
       return this.recipeService.getDominantElement(recipe);
     } catch (error) {
-      errorHandler.logError(error, {
+      errorHandler.log(error, {
         context: 'RecipeFinder',
         action: 'getDominantElement',
         data: { recipeId: recipe?.id || 'unknown' }
@@ -356,7 +356,7 @@ export class RecipeFinder implements RecipeServiceInterface {
     try {
       return this.recipeService.calculateSimilarity(recipe1, recipe2);
     } catch (error) {
-      errorHandler.logError(error, {
+      errorHandler.log(error, {
         context: 'RecipeFinder',
         action: 'calculateSimilarity',
         data: { recipe1Id: recipe1?.id || 'unknown', recipe2Id: recipe2?.id || 'unknown' }
@@ -373,10 +373,15 @@ export class RecipeFinder implements RecipeServiceInterface {
     try {
       this.recipeService.clearCache();
     } catch (error) {
-      errorHandler.logError(error, {
+      errorHandler.log(error, {
         context: 'RecipeFinder',
         action: 'clearCache',
       });
     }
   }
-} 
+}
+
+// Export standalone function for compatibility
+export const getAllRecipes = async (): Promise<Recipe[]> => {
+  return await RecipeFinder.getInstance().getAllRecipes();
+}; 

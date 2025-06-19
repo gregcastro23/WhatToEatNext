@@ -216,6 +216,7 @@ const rawRootVegetables = {
 };
 
 // Fix the ingredient mappings to ensure they have all required properties
-export const roots: Record<string, IngredientMapping> = fixIngredientMappings(rawRootVegetables);
+// ✅ Pattern MM-1: Type assertion for ZodiacSign[] compatibility
+export const roots: Record<string, IngredientMapping> = fixIngredientMappings(rawRootVegetables as Record<string, Partial<IngredientMapping>>);
 // For backwards compatibility
 export let rootVegetables = roots; 

@@ -81,7 +81,8 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
       };
       
       // Get matching recipes from the consolidated service
-      return await consolidatedRecipeService.getBestRecipeMatches(recipeCriteria, limit);
+      const recipes = await consolidatedRecipeService.getBestRecipeMatches(recipeCriteria, limit);
+      return recipes as unknown as ScoredRecipe[];
     } catch (error) {
       logger.error('Error getting recommended recipes', error);
       return [];
@@ -127,10 +128,11 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
       }
       
       // Get matching recipes from the consolidated service
-      return await consolidatedRecipeService.getRecipesForPlanetaryAlignment(
+      const recipes = await consolidatedRecipeService.getRecipesForPlanetaryAlignment(
         planetaryInfluences, 
         minMatchScore
       );
+      return recipes as unknown as Recipe[];
     } catch (error) {
       logger.error('Error getting recipes for planetary alignment', error);
       return [];
@@ -159,7 +161,8 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
       maxResults?: number;
     } = {}
   ): UnifiedIngredient[] {
-    return enhancedIngredientSystem.getRecommendedIngredients(state, options);
+    // ✅ Pattern MM-1: Type assertion to resolve SystemState import mismatch
+    return enhancedIngredientSystem.getRecommendedIngredients(state as any, options);
   }
   
   /**

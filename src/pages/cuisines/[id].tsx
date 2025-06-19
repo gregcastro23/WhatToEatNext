@@ -68,8 +68,8 @@ const CuisineDetailsPage: NextPage = () => {
       const matchingRecipe = elementalMatchedRecipes.find((r: any) => r?.name === recipe1Data?.name);
       if (matchingRecipe) {
         const matchingRecipeData = matchingRecipe as any;
-        const baseScore = Math.max(recipe1Data?.matchScore || 0, matchingRecipeData?.matchScore || 0);
-        const secondScore = Math.min(recipe1Data?.matchScore || 0, matchingRecipeData?.matchScore || 0);
+        const baseScore = Math.max(Number(recipe1Data?.matchScore) || 0, Number(matchingRecipeData?.matchScore) || 0);
+        const secondScore = Math.min(Number(recipe1Data?.matchScore) || 0, Number(matchingRecipeData?.matchScore) || 0);
         const randomFactor = 0.95 + (Math.random() * 0.1);
         const enhancedScore = Math.min(1.0, (baseScore * 0.7 + secondScore * 0.5 + 0.15) * randomFactor);
         
@@ -120,7 +120,7 @@ const CuisineDetailsPage: NextPage = () => {
     }
     
     // Sort by match score
-    combined.sort((a, b) => (b.matchScore || 0) - (a.matchScore || 0));
+    combined.sort((a, b) => (Number(b.matchScore) || 0) - (Number(a.matchScore) || 0));
     
     return combined;
 

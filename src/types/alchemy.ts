@@ -1,6 +1,6 @@
-import { ZodiacSign, LunarPhase, Planet, Element, Modality, PlanetaryAlignment, CelestialPosition, PlanetaryAspect, AlchemicalProperties } from '@/types/celestial';
-import { Planet, PlanetName, LunarPhase } from '@/types/celestial';
+import { ZodiacSign, LunarPhase, Planet, Modality, PlanetaryAlignment, CelestialPosition, PlanetaryAspect, AlchemicalProperties, PlanetName } from '@/types/celestial';
 import { TarotCard } from '@/contexts/TarotContext/types';
+import { AlchemicalProperty, ElementalCharacter } from '@/constants/planetaryElements';
 
 // src/types/alchemy.ts
 
@@ -68,7 +68,7 @@ export interface ThermodynamicProperties {
   heat: number;
   entropy: number;
   reactivity: number;
-  energy: number;
+  gregsEnergy: number; // Using gregsEnergy as the single energy metric for this project
 }
 
 export interface BasicThermodynamicProperties {
@@ -79,7 +79,6 @@ export interface BasicThermodynamicProperties {
 }
 
 export interface ThermodynamicMetrics extends ThermodynamicProperties {
-  gregsEnergy: number;
   kalchm: number;
   monica: number;
 }
@@ -363,7 +362,22 @@ export interface ElementalItem {
 
 // AlchemicalItem type (causing errors in CuisineRecommender.tsx)
 export interface AlchemicalItem extends ElementalItem {
-  alchemicalProperties?: AlchemicalResult;
+  // Core alchemical properties (required)
+  alchemicalProperties: Record<AlchemicalProperty, number>;
+  transformedElementalProperties: Record<ElementalCharacter, number>;
+  heat: number;
+  entropy: number;
+  reactivity: number;
+  gregsEnergy: number;
+  dominantElement: ElementalCharacter;
+  dominantAlchemicalProperty: AlchemicalProperty;
+  
+  // Planetary influence properties (required)
+  planetaryBoost: number;
+  dominantPlanets: string[];
+  planetaryDignities: Record<string, unknown>;
+  
+  // Optional legacy properties for backward compatibility
   thermodynamicProperties?: ThermodynamicProperties;
   transformations?: ElementalInteraction[];
   seasonalResonance?: Season[];
@@ -464,10 +478,10 @@ export interface ElementalState {
 
 // CuisineType and DietaryRestriction (causing errors in Recipe components)
 export type CuisineType = 
-  | 'italian' | 'mexican' | 'asian' | 'indian' | 'mediterranean' 
-  | 'american' | 'french' | 'thai' | 'chinese' | 'japanese'
-  | 'greek' | 'spanish' | 'middle-eastern' | 'moroccan' | 'ethiopian'
-  | 'caribbean' | 'brazilian' | 'korean' | 'vietnamese' | 'fusion';
+  | 'Italian' | 'Mexican' | 'Asian' | 'Indian' | 'Mediterranean' 
+  | 'American' | 'French' | 'Thai' | 'Chinese' | 'Japanese'
+  | 'Greek' | 'Spanish' | 'Middle-Eastern' | 'Moroccan' | 'Ethiopian'
+  | 'Caribbean' | 'Brazilian' | 'Korean' | 'Vietnamese' | 'Fusion';
 
 // Cuisine interface for cuisine objects with properties
 export interface Cuisine {
@@ -487,10 +501,10 @@ export interface Cuisine {
 }
 
 export type DietaryRestriction = 
-  | 'vegetarian' | 'vegan' | 'gluten-free' | 'dairy-free' | 'nut-free'
-  | 'shellfish-free' | 'soy-free' | 'egg-free' | 'low-carb' | 'keto'
-  | 'paleo' | 'whole30' | 'low-sodium' | 'sugar-free' | 'raw'
-  | 'halal' | 'kosher' | 'pescatarian' | 'flexitarian';
+  | 'Vegetarian' | 'Vegan' | 'Gluten-Free' | 'Dairy-Free' | 'Nut-Free'
+  | 'Shellfish-Free' | 'Soy-Free' | 'Egg-Free' | 'Low-Carb' | 'Keto'
+  | 'Paleo' | 'Whole30' | 'Low-Sodium' | 'Sugar-Free' | 'Raw'
+  | 'Halal' | 'Kosher' | 'Pescatarian' | 'Flexitarian';
 
 // TimeFactors type (causing errors in RecipeGrid.tsx)
 export interface TimeFactors {
@@ -653,3 +667,22 @@ export interface CelestialAlignment {
   // Current celestial position properties
   currentZodiacSign?: ZodiacSign; // Current zodiac sign for compatibility calculations
 }
+
+// Re-export important types from celestial that are commonly used
+export type { AlchemicalProperties, Modality } from '@/types/celestial';
+
+// Export ElementalCharacter from constants
+export type { ElementalCharacter } from '@/constants/planetaryElements';
+
+// Add missing type aliases for compatibility
+export type AstrologicalInfluence = _AstrologicalInfluence;
+export type PlanetaryPositionsType = Record<string, PlanetaryPosition>;
+export type AlchemicalState = AstrologicalProfile; // Using existing similar interface
+export type CookingMethodProfile = CookingMethodModifier; // Alias for compatibility
+export type timeFactors = TimeFactors; // Lowercase version
+export type alchemicalValues = AlchemicalValues; // Lowercase version
+
+// Additional missing type exports
+export type BaseIngredient = Ingredient; // Alias for compatibility
+export type RecipeData = Recipe; // Alias for compatibility
+export type AlchemicalProperty = keyof AlchemicalProperties; // Type for individual properties

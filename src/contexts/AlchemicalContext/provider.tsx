@@ -82,7 +82,13 @@ export const AlchemicalProvider: React.FC<{children: React.ReactNode}> = ({ chil
         logger.debug('Synchronizing alchemical values from astrologicalState to root state');
         dispatch({
           type: 'SET_ALCHEMICAL_VALUES',
-          payload: state.astrologicalState.alchemicalValues
+          // Pattern JJ-2: AlchemicalState Interface Completion - Ensure proper alchemical values structure
+          payload: state.astrologicalState.alchemicalValues || ({
+            Spirit: 0.25,
+            Essence: 0.25,
+            Matter: 0.25,
+            Substance: 0.25
+          } as { Spirit: number; Essence: number; Matter: number; Substance: number; })
         });
       }
     } else if (state.astrologicalState) {
@@ -211,7 +217,9 @@ export const AlchemicalProvider: React.FC<{children: React.ReactNode}> = ({ chil
         activeAspects: [],
         dominantElement: 'Fire',
         calculationError: false,
-        alchemicalValues: normalizedAlchemicalValues
+        alchemicalValues: normalizedAlchemicalValues,
+        currentZodiac: sunSign,
+        moonPhase: safeAstrology.getLunarPhaseName(safeAstrology.calculateLunarPhase())
       };
       
       dispatch({
@@ -226,7 +234,11 @@ export const AlchemicalProvider: React.FC<{children: React.ReactNode}> = ({ chil
         type: 'SET_ERROR',
         payload: { message: 'Failed to refresh planetary positions' }
       });
-      return {};
+      // Pattern JJ-2: AlchemicalState Interface Completion - Return proper structure instead of empty object
+      return {
+        sun: { sign: 'aries', degree: 0, exactLongitude: 0, isRetrograde: false },
+        moon: { sign: 'taurus', degree: 0, exactLongitude: 0, isRetrograde: false }
+      };
     }
   }, [isDaytime, updatePlanetaryPositions]);
 

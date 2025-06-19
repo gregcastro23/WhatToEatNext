@@ -86,8 +86,8 @@ export class AstrologicalService {
   }
 }
 
-// Re-export types from centralized location
-export { Planet, ZodiacSign, LunarPhase, CelestialPosition, PlanetaryAlignment } from '@/types/celestial';
+// Re-export types from centralized location - using the imported types instead of re-exporting
+export type { Planet, ZodiacSign, LunarPhase, CelestialPosition, PlanetaryAlignment };
 
 // Interface for legacy code support - use the centralized CelestialPosition type internally
 export interface PlanetPosition {

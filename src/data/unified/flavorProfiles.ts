@@ -262,10 +262,10 @@ export class UnifiedFlavorProfileSystem {
     const monicaOptimization = (profile1.monicaOptimization + profile2.monicaOptimization) / 2;
     
     // Calculate seasonal alignment
-    const seasonalOverlap = profile1?.seasonalPeak || [].filter(season => (Array.isArray(profile2.seasonalPeak) ? profile2.seasonalPeak.includes(season) : profile2.seasonalPeak === season)
-    || []).length;
-    const seasonalAlignment = seasonalOverlap > 0 
-      ? seasonalOverlap / Math.max((profile1.seasonalPeak  || []).length, (profile2.seasonalPeak  || []).length)
+    const seasonalOverlap = (profile1?.seasonalPeak || []).filter(season => (Array.isArray(profile2.seasonalPeak) ? profile2.seasonalPeak.includes(season) : profile2.seasonalPeak === season)
+    ).length;
+    const seasonalAlignment = Number(seasonalOverlap) > 0 
+      ? Number(seasonalOverlap) / Math.max(Number((profile1.seasonalPeak  || []).length), Number((profile2.seasonalPeak  || []).length))
       : 0.5; // Default moderate alignment if no overlap
     
     // Calculate overall compatibility with weighted factors

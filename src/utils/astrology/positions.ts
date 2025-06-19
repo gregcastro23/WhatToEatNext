@@ -92,7 +92,7 @@ interface PlanetPositionData {
 // Map our planet names to astronomy-engine bodies
 const PLANET_MAPPING: Record<string, Astronomy.Body> = {
   Sun: Astronomy.Body.Sun,
-  moon: Astronomy.Body.moon,
+  moon: Astronomy.Body.Moon,
   Mercury: Astronomy.Body.Mercury,
   Venus: Astronomy.Body.Venus,
   Mars: Astronomy.Body.Mars,
@@ -465,7 +465,7 @@ export function getLongitudeToZodiacPosition(longitude: number): { sign: string,
 function isPlanetRetrograde(body: Astronomy.Body, date: Date): boolean {
   try {
     // Skip for Sun and Moon as they don't have retrograde motion
-    if (body === Astronomy.Body.Sun || body === Astronomy.Body.moon) {
+    if (body === Astronomy.Body.Sun || body === Astronomy.Body.Moon) {
       return false;
     }
     

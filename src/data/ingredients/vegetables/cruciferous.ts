@@ -668,4 +668,5 @@ const rawCruciferous = {
 };
 
 // Fix the ingredient mappings to ensure they have all required properties
-export const cruciferous: Record<string, IngredientMapping> = fixIngredientMappings(rawCruciferous);
+// ✅ Pattern MM-1: Type assertion for ZodiacSign[] compatibility
+export const cruciferous: Record<string, IngredientMapping> = fixIngredientMappings(rawCruciferous as Record<string, Partial<IngredientMapping>>);

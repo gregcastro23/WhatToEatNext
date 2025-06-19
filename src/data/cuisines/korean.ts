@@ -1137,35 +1137,40 @@ export const korean: Cuisine = {
       description: "Steaming or braising technique that creates tender, juicy results",
       elementalProperties: { Water: 0.5, Earth: 0.3, Fire: 0.1, Air: 0.1 },
       toolsRequired: ["stone pot", "steamer", "heavy pot with lid"],
-      bestFor: ["meats", "whole fish", "root vegetables", "egg dishes"]
+      bestFor: ["meats", "whole fish", "root vegetables", "egg dishes"],
+      difficulty: "medium"
     },
     {
       name: "Gui (구이)",
       description: "Grilling methods, especially for meats like samgyeopsal and bulgogi",
       elementalProperties: { Fire: 0.7, Earth: 0.2, Air: 0.1, Water: 0.0 },
       toolsRequired: ["tabletop grill", "charcoal", "tongs", "scissors"],
-      bestFor: ["marinated meats", "fresh pork belly", "vegetables", "mushrooms"]
+      bestFor: ["marinated meats", "fresh pork belly", "vegetables", "mushrooms"],
+      difficulty: "easy"
     },
     {
       name: "Jjigae (찌개)",
       description: "Stew-making technique with rich, spicy broths",
       elementalProperties: { Water: 0.4, Fire: 0.3, Earth: 0.2, Air: 0.1 },
       toolsRequired: ["earthenware pot", "ladle", "heavy-bottomed pot"],
-      bestFor: ["kimchi stews", "tofu dishes", "seafood", "vegetable medleys"]
+      bestFor: ["kimchi stews", "tofu dishes", "seafood", "vegetable medleys"],
+      difficulty: "easy"
     },
     {
       name: "Namul (나물)",
       description: "Technique for seasoning and preparing vegetables to preserve nutrients",
       elementalProperties: { Earth: 0.5, Water: 0.2, Air: 0.2, Fire: 0.1 },
       toolsRequired: ["blanching pot", "mixing bowls", "dipping basket"],
-      bestFor: ["wild greens", "sprouts", "seaweed", "root vegetables"]
+      bestFor: ["wild greens", "sprouts", "seaweed", "root vegetables"],
+      difficulty: "easy"
     },
     {
       name: "Jeongol (전골)",
       description: "Hot pot technique featuring communal cooking at the table",
       elementalProperties: { Water: 0.4, Fire: 0.3, Earth: 0.2, Air: 0.1 },
       toolsRequired: ["jeongol pot", "portable burner", "ladle", "chopsticks"],
-      bestFor: ["thinly sliced meats", "seafood", "tofu", "vegetables"]
+      bestFor: ["thinly sliced meats", "seafood", "tofu", "vegetables"],
+      difficulty: "medium"
     }
   ],
   regionalCuisines: {

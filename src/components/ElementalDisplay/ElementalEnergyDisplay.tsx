@@ -137,14 +137,11 @@ function capitalizeFirstLetter(string: string): string {
 
 function getElementColor(elementType: ElementType, opacity: number = 1): string {
   const colors: Record<ElementType, string> = {
-    fire: `rgba(255, 59, 48, ${opacity})`,
-    water: `rgba(0, 122, 255, ${opacity})`,
-    air: `rgba(255, 204, 0, ${opacity})`,
-    earth: `rgba(52, 199, 89, ${opacity})`,
-    metal: `rgba(191, 191, 191, ${opacity})`,
-    wood: `rgba(90, 200, 90, ${opacity})`,
-    void: `rgba(88, 86, 214, ${opacity})`
-  };
+    Fire: `rgba(255, 59, 48, ${opacity})`,
+    Water: `rgba(0, 122, 255, ${opacity})`,
+    Air: `rgba(255, 204, 0, ${opacity})`,
+    Earth: `rgba(52, 199, 89, ${opacity})`
+  } as unknown as Record<ElementType, string>;
   
   return colors[elementType] || `rgba(155, 155, 155, ${opacity})`;
 }

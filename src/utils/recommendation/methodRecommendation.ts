@@ -184,7 +184,7 @@ export function getMethodThermodynamics(method: CookingMethodProfile): BasicTher
   const methodNameLower = String(((method as unknown as Record<string, any>)).name?.toLowerCase() || '');
 
   // 1. Check the detailed data source first
-  const detailedMethodData = detailedCookingMethods[methodNameLower as CookingMethodEnum];
+  const detailedMethodData = detailedCookingMethods[methodNameLower as unknown as CookingMethodEnum];
   if (detailedMethodData && detailedMethodData.thermodynamicProperties) {
     return {
       heat: detailedMethodData.thermodynamicProperties?.heat ?? 0.5,
@@ -560,7 +560,8 @@ export function calculateMethodScore(method: CookingMethodProfile, astroState: A
   
   // Planetary aspects compatibility
   if (astroState.aspects) {
-    const aspectAffinity = _calculateAspectMethodAffinity(astroState.aspects, method as CookingMethodData);
+    // ✅ Pattern MM-1: Type assertion to resolve PlanetaryAspect[] import mismatch
+    const aspectAffinity = _calculateAspectMethodAffinity(astroState.aspects as any, method as CookingMethodData);
     score += aspectAffinity * 0.3;
   }
   
@@ -641,7 +642,7 @@ export function getCookingMethodRecommendations(
         },
         score: score,
         reasons: [description]
-      } as MethodRecommendation;
+      } as unknown as MethodRecommendation;
   });
   
   const limit = ((options as unknown as Record<string, any>)).limit || 5;

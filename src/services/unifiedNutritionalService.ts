@@ -25,7 +25,7 @@ import { unifiedSeasonalSystem } from '../data/unified/seasonal.js';
 import { logger } from '../utils/logger';
 import { allIngredients } from '../data/ingredients';
 
-import { Element } from "@/types/alchemy";
+
 
 // ===== UNIFIED NUTRITIONAL SERVICE CLASS =====
 
@@ -81,7 +81,7 @@ export class UnifiedNutritionalService {
           // Fallback to regular ingredients
           const regularIngredient = allIngredients[ingredient];
           if (regularIngredient?.nutritionalProfile) {
-            nutritionalProfile = regularIngredient.nutritionalProfile;
+            nutritionalProfile = regularIngredient.nutritionalProfile as unknown as NutritionalProfile;
           }
           
           if (!nutritionalProfile) {
@@ -103,7 +103,7 @@ export class UnifiedNutritionalService {
       const enhanceMethod = systemData?.enhanceNutritionalProfile;
       
       // Enhance with alchemical properties
-      const enhanced = enhanceMethod ? enhanceMethod(nutritionalProfile, context) : nutritionalProfile;
+      const enhanced = enhanceMethod ? enhanceMethod(nutritionalProfile, context) as unknown as AlchemicalNutritionalProfile : nutritionalProfile as unknown as AlchemicalNutritionalProfile;
       
       // Convert to AlchemicalNutritionalProfile format to resolve import conflicts
       const alchemicalProfile: AlchemicalNutritionalProfile = {
@@ -438,7 +438,12 @@ export class UnifiedNutritionalService {
       if (!enhanced) {
         return {
           kalchm: 0,
-          elementalBreakdown: {},
+          elementalBreakdown: {
+            Fire: 0,
+            Water: 0,
+            Earth: 0,
+            Air: 0
+          },
           seasonalAlignment: 0,
           planetaryResonance: 0,
           healthBenefits: [],
@@ -484,7 +489,12 @@ export class UnifiedNutritionalService {
       logger.error('Error getting nutritional insights:', error);
       return {
         kalchm: 0,
-        elementalBreakdown: {},
+        elementalBreakdown: {
+          Fire: 0,
+          Water: 0,
+          Earth: 0,
+          Air: 0
+        },
         seasonalAlignment: 0,
         planetaryResonance: 0,
         healthBenefits: [],

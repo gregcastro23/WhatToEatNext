@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Clock, Users, ChefHat, Star, Heart, Flame, Droplets, Mountain, Wind } from 'lucide-react';
-import { getTimeFactors } from '@/utils/astrologize';
+import { getTimeFactors } from '@/utils/time';
 import type { ExtendedRecipe } from '@/types/ExtendedRecipe';
 import type { Element } from '@/types/alchemy';
 import type { TimeFactors } from '@/types/time';
@@ -46,7 +46,8 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
     const loadTimeFactors = async () => {
       try {
         const factors = await getTimeFactors();
-        setTimeFactors(factors);
+        // ✅ Pattern MM-1: Type assertion to match TimeFactors interface
+        setTimeFactors(factors as unknown as TimeFactors);
       } catch (err) {
         logger.error('Error loading time factors:', err);
       }
@@ -162,12 +163,12 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
                   ? 'bg-blue-100 border-2 border-blue-300' 
                   : 'bg-gray-100'
               }`}
-              title={`${element}: ${(value * 100).toFixed(0)}%`}
+              title={`${element}: ${((Number(value) || 0) * 100).toFixed(0)}%`}
             >
               <IconComponent className={`w-3 h-3 mr-2 ${getElementColor(element)}`} />
               <span className="text-sm font-medium">{element}</span>
               <span className="text-xs text-gray-500 ml-1">
-                {(value * 100).toFixed(0)}%
+                {((Number(value) || 0) * 100).toFixed(0)}%
               </span>
             </div>
           );
@@ -216,7 +217,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
         <div className="flex items-center gap-1">
           <span className="text-sm text-gray-600">Spice:</span>
           {[...Array(5)].map((_, i) => (
-            <span key={i} className={`text-sm ${i < recipe.spiceLevel ? 'text-red-500' : 'text-gray-300'}`}>
+            <span key={i} className={`text-sm ${i < (Number(recipe.spiceLevel) || 0) ? 'text-red-500' : 'text-gray-300'}`}>
               🌶️
             </span>
           ))}

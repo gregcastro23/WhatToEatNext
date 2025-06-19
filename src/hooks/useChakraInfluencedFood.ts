@@ -57,7 +57,7 @@ export const useChakraInfluencedFood = (options?: {
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [planetaryHour, setPlanetaryHour] = useState<Planet>('sun' as Planet);
+  const [planetaryHour, setPlanetaryHour] = useState<Planet>('sun' as unknown as Planet);
   
   // Create service instances using useMemo
   const chakraService = useMemo(() => new ChakraAlchemyService(), []);

@@ -634,7 +634,10 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
           heat,
           entropy,
           reactivity,
-          energy: gregsEnergy // Map gregsEnergy to energy
+          gregsEnergy, // Correctly map to gregsEnergy property
+          // Pattern JJ-5: ThermodynamicMetrics Completion - Add missing alchemical properties
+          kalchm: 1.0, // Default kalchm value
+          monica: 0.5  // Default monica constant
         };
       }
       
@@ -643,7 +646,9 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         heat: 0.5,
         entropy: 0.5,
         reactivity: 0.5,
-        energy: 0.5
+        gregsEnergy: 0.5,
+        kalchm: 1.0,
+        monica: 0.5
       };
     } catch (error) {
       errorHandler.logError(error, {
@@ -656,7 +661,9 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         heat: 0.5,
         entropy: 0.5,
         reactivity: 0.5,
-        energy: 0.5
+        gregsEnergy: 0.5,
+        kalchm: 1.0,
+        monica: 0.5
       };
     }
   }

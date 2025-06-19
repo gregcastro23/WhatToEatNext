@@ -168,8 +168,8 @@ export const stewing: CookingMethodData = {
     heat: 0.35,      // Low to moderate heat
     entropy: 0.60,   // Significant transformation over time
     reactivity: 0.45, // Moderate chemical reactions
-    energy: 0.75     // Efficient energy utilization
-  } as ThermodynamicProperties,
+    gregsEnergy: 0.35 - (0.60 * 0.45)   // Calculated gregsEnergy: heat - (entropy * reactivity)
+  } as unknown as ThermodynamicProperties,
   
   // Additional metadata
   history: 'Stewing has ancient origins dating back to the earliest pottery, approximately 10,000 BCE, when humans first could sustain long cooking periods in liquid. Archaeological evidence shows stewing was common in Mesopotamian, Egyptian, Roman, and Chinese ancient cuisines. Medieval European peasant cooking relied heavily on stewing to tenderize tough meats and extend limited resources. Indigenous cultures worldwide developed stewing techniques using available materials—from earth ovens to clay pots. During the 18th century, advances in cookware and controlled heating improved stewing precision. The industrial revolution introduced dedicated stewing and slow-cooking appliances. In the 20th century, the development of electric slow cookers revolutionized stewing for busy households. Throughout history, stewing has remained a fundamental technique for resource maximization and flavor development, with regional variations reflecting local ingredients and cultural preferences.',
@@ -309,4 +309,4 @@ export const stewing: CookingMethodData = {
       'texture_spectrum': 'Strategic addition timing creates intentional texture gradient from soft to firm. Cellular structure transformation follows predictable timeline for each vegetable type. Perfect stewed vegetables maintain identity while integrating with surrounding flavors. Dense root vegetables develop external tenderness while maintaining slight firmness at center. Gradient cooking creates multiple texture experiences within single vegetable piece. Stewing creates tendency toward uniform texture unless strategically managed through addition timing.'
     }
   }
-} as CookingMethodData; 
+} as unknown as CookingMethodData; 

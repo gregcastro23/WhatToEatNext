@@ -448,8 +448,13 @@ export default function IngredientRecommender() {
     
     // Default category based on dominant element if available
     if (ingredient.elementalProperties) {
+      // Pattern KK-1: Safe arithmetic comparison with type validation
       const dominantElement = Object.entries(ingredient.elementalProperties)
-        .sort(([, a], [, b]) => b - a)[0][0];
+        .sort(([, a], [, b]) => {
+          const numericA = typeof a === 'number' ? a : 0;
+          const numericB = typeof b === 'number' ? b : 0;
+          return numericB - numericA;
+        })[0][0];
         
       switch (dominantElement) {
         case 'Fire': return 'spices';
@@ -928,10 +933,17 @@ export default function IngredientRecommender() {
             </h4>
             <div className={styles.elementPropertiesGrid}>
               {Object.entries(item.elementalProperties)
-                .sort(([, a], [, b]) => b - a)
+                .sort(([, a], [, b]) => {
+                  // Pattern KK-1: Safe arithmetic comparison with type validation
+                  const numericA = typeof a === 'number' ? a : 0;
+                  const numericB = typeof b === 'number' ? b : 0;
+                  return numericB - numericA;
+                })
                 .map(([element, value]) => {
                   // Calculate width for progress bar (25% minimum width)
-                  const barWidth = Math.max(25, Math.round(value * 100));
+                  // Pattern KK-9: Cross-Module Arithmetic Safety for UI calculations
+                  const numericValue = Number(value) || 0;
+                  const barWidth = Math.max(25, Math.round(numericValue * 100));
                   return (
                     <div 
                       key={element} 
@@ -954,7 +966,7 @@ export default function IngredientRecommender() {
                         />
                       </div>
                       <div className={styles.progressValue}>
-                        {Math.round(value * 100)}%
+                        {Math.round(numericValue * 100)}%
                       </div>
                     </div>
                   );
@@ -1136,8 +1148,13 @@ export default function IngredientRecommender() {
   // Modified ingredient card rendering function to use in both views
   const renderIngredientCard = (item: any) => {
     // Get dominant element for styling
+    // Pattern KK-9: Cross-Module Arithmetic Safety for sort operations
     const dominantElement = Object.entries(item.elementalProperties || {})
-      .sort(([, a], [, b]) => b - a)[0][0];
+      .sort(([, a], [, b]) => {
+        const numericA = Number(a) || 0;
+        const numericB = Number(b) || 0;
+        return numericB - numericA;
+      })[0][0];
     
     // Check if this card is selected
     const isSelected = selectedIngredient?.name === item.name;
@@ -1163,7 +1180,7 @@ export default function IngredientRecommender() {
           </div>
           
           <div className={styles.matchScore}>
-            Match: {Math.round(item.matchScore * 100)}%
+            Match: {Math.round((Number(item.matchScore) || 0) * 100)}%
           </div>
           
           {item.qualities && item.qualities.length > 0 && (

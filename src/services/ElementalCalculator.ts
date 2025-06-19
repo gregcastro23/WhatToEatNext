@@ -10,7 +10,7 @@ import {
 import { normalizeProperties } from '../utils/elementalUtils';
 import { DEFAULT_ELEMENTAL_PROPERTIES } from '../constants/elementalConstants';
 import { createLogger } from '@/utils/logger';
-import { planetInfo, signInfo, signs } from '../data/astrology';
+import { planetInfo, signInfo } from '../data/astrology';
 
 interface ElementalSummary {
   totalFire: number;

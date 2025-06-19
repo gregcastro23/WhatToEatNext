@@ -27,7 +27,8 @@ export class ElementalRecommendationService {
       elementalBalance: properties,
       dominantElement,
       cookingTechniques: elementalUtils.getSuggestedCookingTechniques(properties),
-      complementaryIngredients: elementalUtils.getComplementaryIngredients(properties),
+      // ✅ Pattern MM-1: getComplementaryElement expects element key, not ElementalProperties object
+      complementaryIngredients: elementalUtils.getComplementaryElement(dominantElement),
       flavorProfiles: utilsService?.getFlavorProfileRecommendations?.(properties) || [],
       healthBenefits: utilsService?.getHealthBenefits?.(properties) || [],
       timeOfDay: elementalUtils.getRecommendedTimeOfDay(properties),

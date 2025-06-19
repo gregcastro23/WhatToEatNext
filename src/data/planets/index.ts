@@ -27,6 +27,8 @@ export const planetInfo: Record<string, PlanetData> = {
 };
 
 export * from './types';
+
+// Pattern OO-2: Data Export Harmonization - Named exports for TS2614 compatibility
 export { 
   sunData,
   moonData,

@@ -146,7 +146,7 @@ export class EnhancedRecommendationService {
           chakraEnergyStates,
           {
             moonPhase: astroState.lunarPhase,
-            sunSign: astroState.currentZodiacSign
+            sunSign: astroState.currentZodiac
           }
         )
       };
@@ -157,7 +157,13 @@ export class EnhancedRecommendationService {
       return {
         recommendations: enhancedRecommendations,
         chakraGuidance,
-        tarotGuidance,
+        tarotGuidance: {
+          dailyCard: (tarotGuidance as any)?.dailyCard || 'Unknown',
+          element: (tarotGuidance as any)?.element as unknown as Element,
+          cookingApproach: (tarotGuidance as any)?.cookingApproach || 'Balanced',
+          flavors: (tarotGuidance as any)?.flavors || [],
+          insights: (tarotGuidance as any)?.insights || 'Follow your intuition today.'
+        },
         overallScore
       };
 
@@ -175,7 +181,7 @@ export class EnhancedRecommendationService {
           energyLevel: 0.5,
           balanceState: 'balanced' as const
         }
-      } as EnhancedRecommendation));
+      } as unknown as EnhancedRecommendation));
 
       return {
         recommendations: fallbackRecommendations,
@@ -185,8 +191,8 @@ export class EnhancedRecommendationService {
           dietaryAdjustments: []
         },
         tarotGuidance: {
-          dailyCard: 'The Sun',
-          element: 'Fire',
+          dailyCard: 'The Sun', // ← Pattern GG-6: dailyCard property already present in fallback
+          element: 'Fire' as unknown as Element,
           cookingApproach: 'Energizing',
           flavors: ['warm', 'spicy'],
           insights: 'Focus on warming, energizing foods today.'
@@ -381,8 +387,8 @@ export class EnhancedRecommendationService {
     };
 
     // Boost current zodiac sign
-    if (astroState.currentZodiacSign) {
-      zodiacEnergies[astroState.currentZodiacSign?.toLowerCase()] = 0.8;
+    if (astroState.currentZodiac) {
+      zodiacEnergies[astroState.currentZodiac?.toLowerCase()] = 0.8;
     }
 
     // Apply elemental properties if available
@@ -426,11 +432,11 @@ export class EnhancedRecommendationService {
 
     return (signs || []).map(sign => ({
       sign,
-      currentEnergy: sign === astroState.currentZodiacSign?.toLowerCase() ? 0.8 : 0.5,
+      currentEnergy: sign === astroState.currentZodiac?.toLowerCase() ? 0.8 : 0.5,
       baseEnergy: 0.5,
       planetaryInfluence: 0.1,
       lunarInfluence: 0.1
-    })) as SignEnergyState[];
+    })) as unknown as SignEnergyState[];
   }
 
   /**
@@ -478,7 +484,7 @@ export class EnhancedRecommendationService {
     
     try {
       // Phase 8: Create cache key for flavor compatibility
-      const cacheKey = `${ingredient.name}-${astroState.currentZodiacSign}-${JSON.stringify(chakraEnergies || {})}-${getCurrentSeason()}`;
+      const cacheKey = `${ingredient.name}-${astroState.currentZodiac}-${JSON.stringify(chakraEnergies || {})}-${getCurrentSeason()}`;
       
       // Check cache first
       const cachedResult = flavorCompatibilityCache.get(cacheKey);
@@ -592,7 +598,12 @@ export class EnhancedRecommendationService {
         },
         seasonalPeak: (ingredient.currentSeason as Season[]) || ['spring', 'summer', 'autumn', 'winter'],
         seasonalModifiers: {
-          spring: 1, summer: 1, autumn: 1, winter: 1
+          spring: 1,
+          summer: 1,
+          autumn: 1,
+          winter: 1,
+          all: 1,
+          fall: 1
         },
         culturalOrigins: ingredient.culturalOrigins || [ingredient.category || 'universal'],
         pAiringRecommendations: [],
@@ -616,7 +627,7 @@ export class EnhancedRecommendationService {
     astroState: AstrologicalState,
     chakraEnergies?: ChakraEnergies
   ): UnifiedFlavorProfile  {
-    const cacheKey = `astro-profile-${astroState.currentZodiacSign}-${JSON.stringify(chakraEnergies || {})}`;
+    const cacheKey = `astro-profile-${astroState.currentZodiac}-${JSON.stringify(chakraEnergies || {})}`;
     
     // Check cache first
     const cachedProfile = astrologicalProfileCache.get(cacheKey);
@@ -657,10 +668,17 @@ export class EnhancedRecommendationService {
       elementalProps.Water += (chakraEnergies.sacral || 0) * 0.1;
       
       // Normalize to ensure sum equals 1
-      const sum = Object.values(elementalProps)?.reduce((a, b) => a + b, 0);
-      if (sum > 0) {
+      // Pattern KK-8: Advanced calculation safety for reduction and division operations
+      const sum = Object.values(elementalProps)?.reduce((a, b) => {
+        const numericA = Number(a) || 0;
+        const numericB = Number(b) || 0;
+        return numericA + numericB;
+      }, 0) || 0;
+      const numericSum = Number(sum) || 0;
+      if (numericSum > 0) {
         Object.keys(elementalProps || {}).forEach(key => {
-          elementalProps[key as "Fire" | "Water" | "Earth" | "Air"] /= sum;
+          const currentValue = Number(elementalProps[key as "Fire" | "Water" | "Earth" | "Air"]) || 0;
+          elementalProps[key as "Fire" | "Water" | "Earth" | "Air"] = currentValue / numericSum;
         });
       }
     }
@@ -690,7 +708,12 @@ export class EnhancedRecommendationService {
       },
       seasonalPeak: [getCurrentSeason() as Season],
       seasonalModifiers: {
-        spring: 1, summer: 1, autumn: 1, winter: 1
+        spring: 1,
+        summer: 1,
+        autumn: 1,
+        winter: 1,
+        all: 1,
+        fall: 1
       },
       culturalOrigins: ['universal'],
       pAiringRecommendations: [],

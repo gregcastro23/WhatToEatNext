@@ -478,4 +478,5 @@ const rawAromaticHerbs = {
 };
 
 // Fix the ingredient mappings to ensure they have all required properties
-export const aromaticHerbs: Record<string, IngredientMapping> = fixIngredientMappings(rawAromaticHerbs); 
+// ✅ Pattern MM-1: Type assertion for ZodiacSign[] compatibility
+export const aromaticHerbs: Record<string, IngredientMapping> = fixIngredientMappings(rawAromaticHerbs as Record<string, Partial<IngredientMapping>>); 

@@ -430,8 +430,11 @@ const getDominantElement = (
     let dominantElement: ElementalCharacter = 'Fire'; // Default
     
     (Object.entries(transformedProperties) as [ElementalCharacter, number][]).forEach(([element, value]) => {
-      if (value > maxValue) {
-        maxValue = value;
+      // Pattern KK-8: Advanced calculation safety for comparison operations
+      const numericValue = Number(value) || 0;
+      const numericMaxValue = Number(maxValue) || -Infinity;
+      if (numericValue > numericMaxValue) {
+        maxValue = numericValue;
         dominantElement = element;
       }
     });
@@ -454,8 +457,11 @@ const getDominantAlchemicalProperty = (
     let dominantProperty: AlchemicalProperty = 'Spirit'; // Default
     
     (Object.entries(alchemicalCounts) as [AlchemicalProperty, number][]).forEach(([property, value]) => {
-      if (value > maxValue) {
-        maxValue = value;
+      // Pattern KK-8: Advanced calculation safety for comparison operations
+      const numericValue = Number(value) || 0;
+      const numericMaxValue = Number(maxValue) || -Infinity;
+      if (numericValue > numericMaxValue) {
+        maxValue = numericValue;
         dominantProperty = property;
       }
     });
@@ -472,10 +478,17 @@ const getDominantAlchemicalProperty = (
  */
 const normalizeValues = <T extends string>(record: Record<T, number>): void => {
   try {
-    const sum = Object.values(record).reduce((acc, val) => acc + val, 0);
-    if (sum > 0) {
+    // Pattern KK-8: Advanced calculation safety for reduction and division
+    const sum = Object.values(record).reduce((acc, val) => {
+      const numericAcc = Number(acc) || 0;
+      const numericVal = Number(val) || 0;
+      return numericAcc + numericVal;
+    }, 0);
+    const numericSum = Number(sum) || 0;
+    if (numericSum > 0) {
       Object.keys(record).forEach(key => {
-        record[key as T] = record[key as T] / sum;
+        const currentValue = Number(record[key as T]) || 0;
+        record[key as T] = currentValue / numericSum;
       });
     }
   } catch (error) {

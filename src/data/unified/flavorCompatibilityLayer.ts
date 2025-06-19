@@ -221,7 +221,7 @@ export function getCuisineProfile(cuisineName: string): LegacyCuisineProfile | n
         spicy: cuisineProfile.baseNotes.spicy
       },
       elementalProperties: cuisineProfile.elementalFlavors,
-      signatureIngredients: cuisineProfile.pAiringRecommendations,
+      signatureIngredients: cuisineProfile.pairingRecommendations,
       signatureTechniques: cuisineProfile.preparationMethods,
       description: cuisineProfile.description
     };
@@ -292,7 +292,7 @@ function convertLegacyToUnified(legacyProfile, id: string): UnifiedFlavorProfile
       spring: 0.5, summer: 0.5, autumn: 0.5, winter: 0.5
     },
     culturalOrigins: legacyProfile.culturalOrigins || ['Universal'],
-    pAiringRecommendations: legacyProfile.pAiringRecommendations || [],
+    pairingRecommendations: legacyProfile.pairingRecommendations || [],
     
     preparationMethods: legacyProfile.preparationMethods || [],
     nutritionalSynergy: legacyProfile.nutritionalSynergy || 0.7,
@@ -301,7 +301,7 @@ function convertLegacyToUnified(legacyProfile, id: string): UnifiedFlavorProfile
     description: legacyProfile.description || 'Legacy profile',
     tags: legacyProfile.tags || ['legacy'],
     lastUpdated: new Date()
-  } as UnifiedFlavorProfile;
+  } as unknown as UnifiedFlavorProfile;
 }
 
 function convertUnifiedToLegacy(unifiedResult: UnifiedFlavorCompatibility): LegacyFlavorCompatibilityResult {
@@ -344,7 +344,7 @@ function createMinimalProfile(id: string, elementalProperties: ElementalProperti
     seasonalPeak: ['spring', 'summer', 'autumn', 'winter'],
     seasonalModifiers: {},
     culturalOrigins: ['Universal'],
-    pAiringRecommendations: [],
+    pairingRecommendations: [],
     
     preparationMethods: [],
     nutritionalSynergy: 0.7,

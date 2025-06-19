@@ -984,7 +984,7 @@ export const getAllRecipes = async (): Promise<Recipe[]> => {
       flavorProfile: recipe.flavorProfile,
       currentSeason: recipe.season,
       regionalCuisine: recipe.regionalCuisine
-    } as Recipe));
+    } as unknown as Recipe));
   } catch (error) {
     console.error('Error in getAllRecipes:', error);
     return [];
@@ -993,3 +993,6 @@ export const getAllRecipes = async (): Promise<Recipe[]> => {
 
 // Export recipes array for backward compatibility
 export const recipes = transformCuisineData() as Promise<RecipeData[]>;
+
+// At the end of the file, add the re-exports
+export { allRecipes } from './recipes/index';

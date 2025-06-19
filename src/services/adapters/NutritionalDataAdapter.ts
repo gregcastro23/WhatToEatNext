@@ -86,7 +86,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
    */
   async getNutritionalData(foodName: string): Promise<NutritionalProfile | null> {
     try {
-      return await fetchNutritionalData(foodName) as import('@/types/alchemy').NutritionalProfile;
+      return await fetchNutritionalData(foodName) as unknown as import('@/types/alchemy').NutritionalProfile;
     } catch (error) {
       // Use safe type casting for errorHandler service access
       const errorHandlerService = errorHandler as any;
@@ -104,7 +104,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
    */
   calculateNutritionalBalance(ingredients: any[]): NutritionalProfile {
     try {
-      return calculateNutritionalBalance(ingredients) as import('@/types/alchemy').NutritionalProfile;
+      return calculateNutritionalBalance(ingredients) as unknown as import('@/types/alchemy').NutritionalProfile;
     } catch (error) {
       // Use safe type casting for errorHandler service access
       const errorHandlerService = errorHandler as any;

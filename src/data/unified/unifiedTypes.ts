@@ -1,21 +1,21 @@
-import { Element , AlchemicalProperties } from "@/types/alchemy";
-
-import type { // ===== UNIFIED TYPES SYSTEM =====
+// ===== UNIFIED TYPES SYSTEM =====
 // This file defines type interfaces for the unified data system
 // with compatibility for existing type systems
 
+import type { 
+  Element,
+  AlchemicalProperties,
   IngredientMapping, 
   ElementalProperties, 
   NutritionalProfile, 
   Season, 
-  Element,
   PlanetName,
   ZodiacSign,
   ThermodynamicMetrics,
   ThermodynamicProperties,
-  AlchemicalProperties,
   FlavorProfile,
-  CookingMethod } from "@/types/alchemy";
+  CookingMethod 
+} from "@/types/alchemy";
 
 /**
  * UnifiedIngredient interface combines properties from multiple Ingredient interfaces

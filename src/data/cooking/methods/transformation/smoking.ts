@@ -76,4 +76,4 @@ export const smoking = {
     'High consumption of smoked foods has been linked to increased cancer risk',
     'Often high in sodium'
   ]
-} as CookingMethodData; 
+} as unknown as CookingMethodData; 

@@ -235,7 +235,9 @@ const calculateCombinedElements = (
     const elements = ingredientMappings[ing]?.elementalProperties;
     if (elements) {
       Object.entries(elements).forEach(([element, value]) => {
-        combined[element as keyof ElementalProperties] += value;
+        // Pattern KK-1: Safe arithmetic with type validation
+        const numericValue = typeof value === 'number' ? value : 0;
+        combined[element as keyof ElementalProperties] += numericValue;
       });
     }
   });

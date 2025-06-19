@@ -21,12 +21,16 @@ export * from './seasonal';
 // Export the cuisine integration system
 export * from './cuisineIntegrations';
 
-// Re-export key types and utilities
+// Pattern OO-4: Integration Import Resolution - Fix type imports to use correct sources
 export type { 
-  UnifiedIngredient,
+  UnifiedIngredient
+} from './ingredients';
+
+// Import types from their actual sources
+export type {
   AlchemicalProperties,
   ThermodynamicMetrics
-} from './ingredients';
+} from '@/types/alchemy';
 
 export type {
   EnhancedRecipe
@@ -47,10 +51,7 @@ export {
 } from './cuisines';
 
 // Export singleton instances
-// TODO: Fix import - add what to import from "./seasonal.ts"
 import { Recipe } from '@/types/recipe';
-// TODO: Fix import - add what to import from "./cuisineIntegrations.ts"
-
 import { Element , AlchemicalProperties } from "@/types/alchemy";
 
 // Placeholder classes until imports are fixed
@@ -60,13 +61,12 @@ class UnifiedCuisineIntegrationSystem {}
 export const unifiedSeasonalSystem = new UnifiedSeasonalSystem();
 export const unifiedCuisineIntegrationSystem = new UnifiedCuisineIntegrationSystem();
 
-// Export ingredient utility functions with correct names
+// Pattern OO-4: Integration Import Resolution - Export only existing functions
 export {
   getIngredientById,
   getIngredientsByCategory,
   getIngredientsBySubcategory,
   getIngredientsByKalchmRange,
   getIngredientsByElement,
-  getIngredientsBySeason,
   unifiedIngredients
 } from './ingredients';

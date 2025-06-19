@@ -17,7 +17,7 @@ const lunarInfluences: Record<LunarPhaseWithUnderscores, { strength: number, ele
   'WANING_GIBBOUS': { strength: 0.4, elements: { 'Water': 0.3, 'Earth': 0.2, 'Fire': 0.0, 'Air': 0.0 } },
   'LAST_QUARTER': { strength: 0.3, elements: { 'Water': 0.2, 'Earth': 0.1, 'Fire': 0.0, 'Air': 0.0 } },
   'WANING_CRESCENT': { strength: 0.2, elements: { 'Water': 0.1, 'Earth': 0.1, 'Fire': 0.0, 'Air': 0.0 } }
-} as Record<LunarPhaseWithUnderscores, { strength: number, elements: Record<string, number> }>;
+} as unknown as Record<LunarPhaseWithUnderscores, { strength: number, elements: Record<string, number> }>;
 
 // Element modifiers for each lunar phase
 const elementalModifiers = {

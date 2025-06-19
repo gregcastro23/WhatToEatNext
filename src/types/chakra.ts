@@ -37,8 +37,7 @@ export interface ChakraProperty {
 // Define chakra properties by position
 export type ChakraProperties = Record<ChakraPosition, ChakraProperty>;
 
-// Define a type for chakra energies
-export type ChakraEnergies = Record<ChakraPosition, number>;
+// Define a type for chakra energies (defined as interface below)
 
 // Define chakra mapping for tarot/major arcana
 export interface KeyCardChakraMapping {
@@ -203,31 +202,31 @@ export const MAJOR_ARCANA_CHAKRAS: MajorArcanaChakra[] = [
   {
     cardName: 'The Magician',
     chakraPosition: 'throat',
-    planet: 'mercury',
+    planet: 'Mercury',
     description: 'Represents communication, expression, and manifestation, fitting the Throat Chakra\'s focus on voice and truth.'
   },
   {
     cardName: 'The High Priestess',
     chakraPosition: 'brow',
-    planet: 'moon',
+    planet: 'Moon',
     description: 'Symbolizes intuition, mystery, and inner wisdom, matching the Third Eye\'s focus on insight.'
   },
   {
     cardName: 'The Hanged Man',
     chakraPosition: 'brow',
-    planet: 'neptune',
+    planet: 'Neptune',
     description: 'Represents surrender, new perspective, and spiritual insight, aligning with the Third Eye Chakra.'
   },
   {
     cardName: 'The World',
     chakraPosition: 'crown',
-    planet: 'saturn',
+    planet: 'Saturn',
     description: 'Represents completion, wholeness, and spiritual mastery, aligning with the Crown Chakra\'s connection to higher consciousness.'
   },
   {
     cardName: 'Judgement',
     chakraPosition: 'crown',
-    planet: 'pluto',
+    planet: 'Pluto',
     description: 'Symbolizes rebirth, spiritual awakening, and transcendence, connecting to the Crown Chakra\'s theme of spiritual enlightenment.'
   }
 ];
@@ -282,133 +281,133 @@ export const KEY_CARD_CHAKRA_MAPPINGS: KeyCardChakraMapping[] = [
   {
     cardName: 'The Fool',
     chakraPosition: 'crown',
-    planet: 'uranus',
+    planet: 'Uranus',
     description: 'Represents new beginnings, innocence, and spontaneity, connecting to the Crown Chakra\'s spiritual openness.'
   },
   {
     cardName: 'The Magician',
     chakraPosition: 'throat',
-    planet: 'mercury',
+    planet: 'Mercury',
     description: 'Represents communication, manifestation, and creative expression, aligning with the Throat Chakra.'
   },
   {
     cardName: 'The High Priestess',
     chakraPosition: 'brow',
-    planet: 'moon',
+    planet: 'Moon',
     description: 'Symbolizes intuition, mystery, and inner wisdom, matching the Third Eye\'s focus on insight.'
   },
   {
     cardName: 'The Empress',
     chakraPosition: 'sacral',
-    planet: 'venus',
+    planet: 'Venus',
     description: 'Symbolizes nurturing, creativity, and sensuality, perfectly matching the Sacral Chakra\'s themes.'
   },
   {
     cardName: 'The Emperor',
     chakraPosition: 'root',
-    planet: 'mars',
+    planet: 'Mars',
     description: 'Represents structure, authority, and stability, which align with the Root Chakra\'s focus on security and foundation.'
   },
   {
     cardName: 'The Hierophant',
     chakraPosition: 'throat',
-    planet: 'jupiter',
+    planet: 'Jupiter',
     description: 'Represents spiritual wisdom, tradition, and teaching, connecting to the Throat Chakra\'s expression of truth.'
   },
   {
     cardName: 'The Lovers',
     chakraPosition: 'heart',
-    planet: 'venus',
+    planet: 'Venus',
     description: 'Represent relationships and harmony, aligning with the Heart Chakra\'s focus on love and connection.'
   },
   {
     cardName: 'The Chariot',
     chakraPosition: 'solarPlexus',
-    planet: 'moon',
+    planet: 'Moon',
     description: 'Represents willpower, determination, and victory through effort, aligning with the Solar Plexus\'s focus on personal power.'
   },
   {
     cardName: 'Strength',
     chakraPosition: 'solarPlexus',
-    planet: 'sun',
+    planet: 'Sun',
     description: 'Symbolizes courage, inner strength, and mastery of emotions, connecting to the Solar Plexus\'s themes of personal power.'
   },
   {
     cardName: 'The Hermit',
     chakraPosition: 'brow',
-    planet: 'mercury',
+    planet: 'Mercury',
     description: 'Represents introspection, inner guidance, and solitude, aligning with the Third Eye Chakra\'s themes of insight and wisdom.'
   },
   {
     cardName: 'Wheel of Fortune',
     chakraPosition: 'crown',
-    planet: 'jupiter',
+    planet: 'Jupiter',
     description: 'Symbolizes cycles, destiny, and cosmic order, connecting to the Crown Chakra\'s universal consciousness.'
   },
   {
     cardName: 'Justice',
     chakraPosition: 'heart',
-    planet: 'saturn',
+    planet: 'Saturn',
     description: 'Represents fairness, truth, and karmic balance, which relate to the Heart Chakra\'s themes of harmony and balance.'
   },
   {
     cardName: 'The Hanged Man',
     chakraPosition: 'brow',
-    planet: 'neptune',
+    planet: 'Neptune',
     description: 'Represents surrender, new perspective, and spiritual insight, aligning with the Third Eye Chakra.'
   },
   {
     cardName: 'Death',
     chakraPosition: 'root',
-    planet: 'pluto',
+    planet: 'Pluto',
     description: 'Symbolizes transformation, endings, and rebirth, connecting to the Root Chakra\'s themes of survival and fundamental change.'
   },
   {
     cardName: 'Temperance',
     chakraPosition: 'heart',
-    planet: 'jupiter',
+    planet: 'Jupiter',
     description: 'Represents balance, moderation, and harmony, aligning with the Heart Chakra\'s integrative nature.'
   },
   {
     cardName: 'The Devil',
     chakraPosition: 'root',
-    planet: 'saturn',
+    planet: 'Saturn',
     description: 'Symbolizes materialism, bondage, and shadow aspects, relating to the Root Chakra\'s concerns with basic instincts and security.'
   },
   {
     cardName: 'The Tower',
     chakraPosition: 'root',
-    planet: 'mars',
+    planet: 'Mars',
     description: 'Represents sudden upheaval, revelation, and destruction of false structures, connecting to the Root Chakra\'s foundations.'
   },
   {
     cardName: 'The Star',
     chakraPosition: 'heart',
-    planet: 'venus',
+    planet: 'Venus',
     description: 'Symbolizes hope, inspiration, and divine connection, aligning with the Heart Chakra\'s themes of love and healing.'
   },
   {
     cardName: 'The Moon',
     chakraPosition: 'brow',
-    planet: 'moon',
+    planet: 'Moon',
     description: 'Represents intuition, illusion, and the subconscious mind, connecting to the Third Eye Chakra\'s psychic perception.'
   },
   {
     cardName: 'The Sun',
     chakraPosition: 'solarPlexus',
-    planet: 'sun',
+    planet: 'Sun',
     description: 'Symbolizes joy, success, and vitality, aligning with the Solar Plexus Chakra\'s themes of personal power and confidence.'
   },
   {
     cardName: 'Judgement',
     chakraPosition: 'crown',
-    planet: 'pluto',
+    planet: 'Pluto',
     description: 'Represents rebirth, awakening, and transcendence, connecting to the Crown Chakra\'s spiritual enlightenment.'
   },
   {
     cardName: 'The World',
     chakraPosition: 'crown',
-    planet: 'saturn',
+    planet: 'Saturn',
     description: 'Symbolizes completion, fulfillment, and integration of all elements, connecting to the Crown Chakra\'s wholeness.'
   }
 ];
@@ -469,3 +468,6 @@ export interface ChakraEnergies {
   crown: number;
   brow: number;
 }
+
+// Export alias for compatibility
+export type Chakra = ChakraProperty;

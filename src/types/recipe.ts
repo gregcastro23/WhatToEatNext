@@ -555,3 +555,7 @@ export interface RecipeFilters {
   zodiacSigns?: string[];
   lunarPhases?: string[];
 } 
+
+// Export aliases for compatibility
+export type Ingredient = ingredient; // Capitalized version
+export type RecipeData = RecipeDetail; // Alias for compatibility 

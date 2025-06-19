@@ -299,7 +299,7 @@ export class FoodAlchemySystem {
     ): FoodCompatibility {
         const planetaryCalculator = new PlanetaryHourCalculator();
         const rawPlanetaryHour = planetaryCalculator.calculatePlanetaryHour(time);
-        const rawPlanetaryDay = planetaryCalculator.calculatePlanetaryDay(time);
+        const rawPlanetaryDay = planetaryCalculator.calculatePlanetaryHour(time);
         
         // Convert the planet names to the uppercase format used in this module
         const planetaryHour = rawPlanetaryHour.charAt(0).toUpperCase() + rawPlanetaryHour.slice(1) as Planet;

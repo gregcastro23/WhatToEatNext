@@ -56,7 +56,14 @@ if (typeof window !== 'undefined') {
       },
       show: function() { return this; },
       hide: function() { return this; },
-      update: function() { return this; }
+      update: function() { return this; },
+      on: function(event: string, callback?: any) {
+        return { 
+          off: function() {},
+          trigger: function(event: string) { return this; }
+        };
+      },
+      trigger: function(event: string) { return this; }
     };
   }
 

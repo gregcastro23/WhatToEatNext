@@ -298,4 +298,5 @@ const rawPeppers = {
 };
 
 // Fix the ingredient mappings to ensure they have all required properties
-export const peppers: Record<string, IngredientMapping> = fixIngredientMappings(rawPeppers); 
+// ✅ Pattern MM-1: Type assertion for ZodiacSign[] compatibility
+export const peppers: Record<string, IngredientMapping> = fixIngredientMappings(rawPeppers as Record<string, Partial<IngredientMapping>>); 

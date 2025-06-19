@@ -106,7 +106,7 @@ export class ChakraRecipeEnhancer {
     dominantPlanets: Planet[] = []
   ): ChakraRecipeRecommendation[] {
     // Get current planetary hour
-    let planetaryHour: Planet = 'Sun';
+    let planetaryHour: Planet = 'Sun' as unknown as Planet;
     try {
       const hourInfo = this.planetaryCalculator.getCurrentPlanetaryHour();
       if (hourInfo && typeof hourInfo.planet === 'string') {
@@ -117,12 +117,12 @@ export class ChakraRecipeEnhancer {
         // Create Planet type validation with enhanced safety
         const planetValidator = (name: string): Planet | null => {
           const validPlanets: string[] = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
-          return validPlanets.includes(name) ? (name as Planet) : null;
+          return validPlanets.includes(name) ? (name as unknown as Planet) : null;
         };
         
         const validatedPlanet = planetValidator(capitalizedName);
         if (validatedPlanet) {
-          planetaryHour = validatedPlanet;
+          planetaryHour = validatedPlanet as unknown as Planet;
         }
       }
     } catch (error) {

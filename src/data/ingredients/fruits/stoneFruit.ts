@@ -246,4 +246,5 @@ const rawStoneFruit = {
 };
 
 // Fix the ingredient mappings to ensure they have all required properties
-export const stoneFruit: Record<string, IngredientMapping> = fixIngredientMappings(rawStoneFruit);
+// ✅ Pattern MM-1: Type assertion for ZodiacSign[] compatibility
+export const stoneFruit: Record<string, IngredientMapping> = fixIngredientMappings(rawStoneFruit as Record<string, Partial<IngredientMapping>>);

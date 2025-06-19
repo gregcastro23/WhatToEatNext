@@ -626,12 +626,16 @@ export class FlavorProfileMigration {
   private calculateIngredientIntensity(flavorData: any): number {
     const baseNotes = this.extractIngredientBaseNotes(flavorData);
     const values = Object.values(baseNotes);
-    return values.reduce((sum, val) => sum + val, 0) / (values || []).length;
+    // Apply Pattern KK-1: Explicit Type Assertion for arithmetic operations
+    const numericValues = values.map(val => Number(val) || 0);
+    const sum = numericValues.reduce((acc: number, val: number) => acc + val, 0);
+    return sum / Math.max(numericValues.length, 1);
   }
 
   private calculateIngredientComplexity(flavorData: any): number {
     const baseNotes = this.extractIngredientBaseNotes(flavorData);
-    const nonZeroFlavors = Object.values(baseNotes || {}).filter(val => val > 0.1).length;
+    // Apply Pattern KK-1: Explicit Type Assertion for comparison operations
+    const nonZeroFlavors = Object.values(baseNotes || {}).filter(val => Number(val) > 0.1).length;
     return Math.min(1, nonZeroFlavors / 6);
   }
 
@@ -727,7 +731,9 @@ export class FlavorProfileMigration {
     // Estimate Monica optimization based on profile characteristics
     const intensityFactor = 1 - Math.abs(profile.intensity - 0.7); // Optimal around 0.7
     const complexityFactor = profile.complexity; // Higher complexity is better
-    const elementalBalance = Object.values(profile.elementalFlavors).reduce((a, b) => a + b, 0) / 4;
+    // Apply Pattern KK-1: Explicit Type Assertion for arithmetic operations
+    const elementalValues = Object.values(profile.elementalFlavors).map(val => Number(val) || 0);
+    const elementalBalance = elementalValues.reduce((acc: number, val: number) => acc + val, 0) / 4;
     return (intensityFactor + complexityFactor + elementalBalance) / 3;
   }
 

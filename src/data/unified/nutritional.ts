@@ -1,15 +1,18 @@
-import type { // ===== UNIFIED NUTRITIONAL SYSTEM =====
+// ===== UNIFIED NUTRITIONAL SYSTEM =====
 // Phase 3 Step 4 of WhatToEatNext Data Consolidation
 // Enhances nutritional data with alchemical principles and Monica/Kalchm integration
 // Integrates with unified seasonal, cuisine, ingredients, and recipe systems
 
+import type { 
   Element, 
   ElementalProperties, 
   PlanetName,
   AlchemicalProperties,
   ThermodynamicMetrics,
   CookingMethod,
-  LunarPhase } from "@/types/alchemy";
+  LunarPhase
+} from "@/types/alchemy";
+
 import type { ZodiacSign } from "@/types/zodiac";
 import type { Season } from "@/types/seasons";
 import type { NutritionalProfile } from "@/types/nutrition";
@@ -21,8 +24,6 @@ import {
   performAlchemicalAnalysis
 } from './alchemicalCalculations';
 import { createElementalProperties } from '../../utils/elemental/elementalUtils';
-
-import { AlchemicalProperties } from "@/types/alchemy";
 
 // ===== ENHANCED NUTRITIONAL INTERFACES =====
 
@@ -494,8 +495,8 @@ export class UnifiedNutritionalSystem {
       },
       astrologicalProfile: {
         rulingPlanets: ['Sun'] as PlanetName[],
-        favorableZodiac: ['Leo'] as ZodiacSign[],
-        seasonalPeak: ['Summer'] as Season[],
+        favorableZodiac: ['Leo'] as unknown as ZodiacSign[],
+        seasonalPeak: ['Summer'] as unknown as Season[],
         elementalAffinity: createElementalProperties(0.25, 0.25, 0.25, 0.25)
       },
       metadata: {

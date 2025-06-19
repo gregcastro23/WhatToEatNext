@@ -97,7 +97,7 @@ function enhanceIngredient(ingredient: IngredientMapping, sourceCategory: string
   // Get or create thermodynamic properties
   const thermodynamics = ingredient.thermodynamicProperties || 
                         ingredient.energyValues || 
-                        { heat: 0.5, entropy: 0.5, reactivity: 0.5, energy: 0.5 };
+                        { heat: 0.5, entropy: 0.5, reactivity: 0.5, gregsEnergy: 0.5 - (0.5 * 0.5) };
   
   // Apply Pattern D: Safe union type casting for thermodynamics parameter compatibility
   const monica = calculateMonica(kalchm, thermodynamics as ThermodynamicProperties | ThermodynamicMetrics);
@@ -294,6 +294,9 @@ export function findComplementaryIngredients(
     .slice(0, maxResults)
     .map(result => result.ingredient);
 }
+
+// Re-export UnifiedIngredient type for direct imports
+export type { UnifiedIngredient } from "@/types/unified";
 
 // Export default
 export default unifiedIngredients; 

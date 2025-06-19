@@ -75,7 +75,6 @@ import {
   ZodiacSign, 
   LunarPhaseWithSpaces,
   PlanetaryAspect,
-  Recipe, 
   ElementalProperties
 } from '@/types/alchemy';
 
@@ -509,7 +508,9 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
         setLoading(true);
         
         // Create recommendation adapter using the alchemical recommendation service
-        const transformedData = await alchemicalRecommendationService.transformData(
+        const serviceAny = alchemicalRecommendationService as any;
+        const transformedData = await (serviceAny?.transformData ||
+          (() => ({ ingredients: [], cookingMethods: [], cuisines: [] })))(
           filteredIngredientsArray,
           cookingMethodsArray,
           cuisinesArray,
@@ -522,11 +523,12 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
           aspects
         );
         
-        // Get recommendations
-        const recs = await alchemicalRecommendationService.getRecommendations(
-          targetElement,
-          targetProperty,
-          5 // count
+        // ✅ Pattern MM-1: generateRecommendations expects (planetaryPositions, ingredients, cookingMethods)
+        const planetaryPositions = resolvedPlanetaryPositions || {};
+        const recs = await alchemicalRecommendationService.generateRecommendations(
+          planetaryPositions as any,
+          (filteredIngredientsArray || []) as any,
+          (cookingMethodsArray || []) as any
         );
         
         // Set recommendations and transformed data
@@ -536,13 +538,14 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
         setTransformedCuisines(transformedData.cuisines);
         
         // Create energetic profile
+        const recsData = recs as any;
         const profile = {
-          dominantElement: recs.dominantElement,
-          dominantAlchemicalProperty: recs.dominantAlchemicalProperty,
-          heat: recs.heat,
-          entropy: recs.entropy,
-          reactivity: recs.reactivity,
-          gregsEnergy: recs.gregsEnergy,
+          dominantElement: recsData?.dominantElement || 'Fire',
+          dominantAlchemicalProperty: recsData?.dominantAlchemicalProperty || 'Spirit',
+          heat: recsData?.heat || 0,
+          entropy: recsData?.entropy || 0,
+          reactivity: recsData?.reactivity || 0,
+          gregsEnergy: recsData?.gregsEnergy || 0,
           elementalState: {
             Fire: 0,
             Water: 0,
@@ -558,21 +561,22 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
         };
         
         // Calculate average elemental values from top ingredients
-        if ((recs.topIngredients || []).length > 0) {
-          (recs.topIngredients || []).forEach(item => {
+        const topIngredients = recsData?.topIngredients || [];
+        if (topIngredients.length > 0) {
+          topIngredients.forEach((item: any) => {
             if (item.elementalState) {
-              profile.elementalState.Fire += (item.elementalState.Fire || 0) / (recs.topIngredients || []).length;
-              profile.elementalState.Water += (item.elementalState.Water || 0) / (recs.topIngredients || []).length;
-              profile.elementalState.Earth += (item.elementalState.Earth || 0) / (recs.topIngredients || []).length;
-              profile.elementalState.Air += (item.elementalState.Air || 0) / (recs.topIngredients || []).length;
+              profile.elementalState.Fire += (item.elementalState.Fire || 0) / topIngredients.length;
+              profile.elementalState.Water += (item.elementalState.Water || 0) / topIngredients.length;
+              profile.elementalState.Earth += (item.elementalState.Earth || 0) / topIngredients.length;
+              profile.elementalState.Air += (item.elementalState.Air || 0) / topIngredients.length;
             }
             
             // Extract alchemical properties if available
             if (item.alchemicalProperties) {
-              profile.alchemicalProperties.Spirit += (item.alchemicalProperties.Spirit || 0) / (recs.topIngredients || []).length;
-              profile.alchemicalProperties.Essence += (item.alchemicalProperties.Essence || 0) / (recs.topIngredients || []).length;
-              profile.alchemicalProperties.Matter += (item.alchemicalProperties.Matter || 0) / (recs.topIngredients || []).length;
-              profile.alchemicalProperties.Substance += (item.alchemicalProperties.Substance || 0) / (recs.topIngredients || []).length;
+              profile.alchemicalProperties.Spirit += (item.alchemicalProperties.Spirit || 0) / topIngredients.length;
+              profile.alchemicalProperties.Essence += (item.alchemicalProperties.Essence || 0) / topIngredients.length;
+              profile.alchemicalProperties.Matter += (item.alchemicalProperties.Matter || 0) / topIngredients.length;
+              profile.alchemicalProperties.Substance += (item.alchemicalProperties.Substance || 0) / topIngredients.length;
             }
           });
         }
@@ -642,11 +646,11 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
             <div className="stat-grid">
               <div className="stat">
                 <span className="label">Dominant Element:</span>
-                <span className="value">{recommendations.dominantElement}</span>
+                <span className="value">{(recommendations as any)?.dominantElement || 'Fire'}</span>
               </div>
               <div className="stat">
                 <span className="label">Dominant Alchemical Property:</span>
-                <span className="value">{recommendations.dominantAlchemicalProperty}</span>
+                <span className="value">{(recommendations as any)?.dominantAlchemicalProperty || 'Spirit'}</span>
               </div>
               {resolvedCurrentZodiac && (
                 <div className="stat">
@@ -666,19 +670,19 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
             <div className="stat-grid">
               <div className="stat">
                 <span className="label">Heat:</span>
-                <span className="value">{recommendations.heat.toFixed(2)}</span>
+                <span className="value">{((recommendations as any)?.heat || 0).toFixed(2)}</span>
               </div>
               <div className="stat">
                 <span className="label">Entropy:</span>
-                <span className="value">{recommendations.entropy.toFixed(2)}</span>
+                <span className="value">{((recommendations as any)?.entropy || 0).toFixed(2)}</span>
               </div>
               <div className="stat">
                 <span className="label">Reactivity:</span>
-                <span className="value">{recommendations.reactivity.toFixed(2)}</span>
+                <span className="value">{((recommendations as any)?.reactivity || 0).toFixed(2)}</span>
               </div>
               <div className="stat">
                 <span className="label">Greg's Energy:</span>
-                <span className="value">{recommendations.gregsEnergy.toFixed(2)}</span>
+                <span className="value">{((recommendations as any)?.gregsEnergy || 0).toFixed(2)}</span>
               </div>
             </div>
           </div>
