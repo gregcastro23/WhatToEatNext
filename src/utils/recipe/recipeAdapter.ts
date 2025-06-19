@@ -144,33 +144,33 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
   }
 
   // Handle substitutions
-  if (recipeData.substitutions && Array.isArray(recipeData.substitutions)) {
-    recipe.substitutions = recipeData.substitutions;
+  if (recipeDataAny?.substitutions && Array.isArray(recipeDataAny.substitutions)) {
+    recipe.substitutions = recipeDataAny.substitutions;
   }
 
   // Handle tools
-  if (recipeData.tools && Array.isArray(recipeData.tools)) {
-    recipe.tools = recipeData.tools;
+  if (recipeDataAny?.tools && Array.isArray(recipeDataAny.tools)) {
+    recipe.tools = recipeDataAny.tools;
   }
 
   // Handle spice level
-  if (recipeData.spiceLevel !== undefined) {
-    recipe.spiceLevel = recipeData.spiceLevel;
+  if (recipeDataAny?.spiceLevel !== undefined) {
+    recipe.spiceLevel = recipeDataAny.spiceLevel;
   }
 
   // Handle preparation notes
-  if (recipeData.preparationNotes) {
-    recipe.preparationNotes = recipeData.preparationNotes;
+  if (recipeDataAny?.preparationNotes) {
+    recipe.preparationNotes = recipeDataAny.preparationNotes;
   }
 
   // Handle technical tips
-  if (recipeData.technicalTips && Array.isArray(recipeData.technicalTips)) {
-    recipe.technicalTips = recipeData.technicalTips;
+  if (recipeDataAny?.technicalTips && Array.isArray(recipeDataAny.technicalTips)) {
+    recipe.technicalTips = recipeDataAny.technicalTips;
   }
 
   // Handle flavor profile
-  if (recipeData.flavorProfile) {
-    recipe.flavorProfile = recipeData.flavorProfile;
+  if (recipeDataAny?.flavorProfile) {
+    recipe.flavorProfile = recipeDataAny.flavorProfile;
   }
 
   return recipe;

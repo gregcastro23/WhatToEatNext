@@ -258,13 +258,14 @@ async function runComprehensiveTests() {
     console.log('🔮 Test 7: Enhanced Legacy Alchemize Function');
     const legacyResult = await alchemize(testBirthInfo, testHoroscopeData);
     
+    const legacyResultData = legacyResult as any;
     console.log('Legacy Alchemize Results:', {
-      Spirit: legacyResult.Spirit.toFixed(4),
-      Essence: legacyResult.Essence.toFixed(4),
-      Matter: legacyResult.Matter.toFixed(4),
-      Substance: legacyResult.Substance.toFixed(4),
-      dominantElement: legacyResult.dominantElement,
-      recommendation: legacyResult.recommendation,
+      Spirit: (legacyResultData?.Spirit || 0).toFixed(4),
+      Essence: (legacyResultData?.Essence || 0).toFixed(4),
+      Matter: (legacyResultData?.Matter || 0).toFixed(4),
+      Substance: (legacyResultData?.Substance || 0).toFixed(4),
+      dominantElement: legacyResultData?.dominantElement || 'Fire',
+      recommendation: legacyResultData?.recommendation || 'No recommendation available',
     });
     
     // Check for enhanced properties
@@ -279,8 +280,12 @@ async function runComprehensiveTests() {
       });
     }
     
-    console.log('Elemental Balance:', { Fire: legacyResult?.elementalState?.Fire?.toFixed(4), Water: legacyResult?.elementalState?.Water?.toFixed(4), Air: legacyResult?.elementalState?.Air?.toFixed(4),
-      Earth: legacyResult?.elementalState?.Earth?.toFixed(4),
+    const elementalState = legacyResultData?.elementalState;
+    console.log('Elemental Balance:', { 
+      Fire: (elementalState?.Fire || 0).toFixed(4), 
+      Water: (elementalState?.Water || 0).toFixed(4), 
+      Air: (elementalState?.Air || 0).toFixed(4),
+      Earth: (elementalState?.Earth || 0).toFixed(4),
     });
     console.log('✅ Legacy alchemize test completed\n');
 

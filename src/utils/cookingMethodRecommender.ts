@@ -158,12 +158,13 @@ function getMethodThermodynamics(method: CookingMethodProfile): BasicThermodynam
   }
 
   // 2. Check if the method object itself has thermodynamic properties defined (might be passed dynamically)
-  if (method.thermodynamicProperties) {
+  const methodData = method as any;
+  if (methodData?.thermodynamicProperties) {
     return {
-      heat: method.thermodynamicProperties.heat ?? 0.5,
-      entropy: method.thermodynamicProperties.entropy ?? 0.5,
-      reactivity: method.thermodynamicProperties.reactivity ?? 0.5,
-      gregsEnergy: (method.thermodynamicProperties as any).gregsEnergy ?? 0.5,
+      heat: methodData.thermodynamicProperties.heat ?? 0.5,
+      entropy: methodData.thermodynamicProperties.entropy ?? 0.5,
+      reactivity: methodData.thermodynamicProperties.reactivity ?? 0.5,
+      gregsEnergy: (methodData.thermodynamicProperties as any).gregsEnergy ?? 0.5,
     };
   }
   

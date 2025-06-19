@@ -48,7 +48,8 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
   async getRecommendedRecipes(
     criteria: RecipeRecommendationCriteria
   ): Promise<RecommendationResult<Recipe>> {
-    const allRecipes = recipeDataService.getAllRecipes();
+    const allRecipesResult = recipeDataService.getAllRecipes();
+    const allRecipes = Array.isArray(allRecipesResult) ? allRecipesResult : await Promise.resolve(allRecipesResult);
     
     // Score recipes based on criteria
     const scoredRecipes = (allRecipes || []).map(recipe => {
@@ -385,9 +386,10 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     let availableMethods = cookingMethods;
     if (criteria.excludeMethods && (criteria.excludeMethods || []).length > 0) {
       const excludedSet = new Set((criteria?.excludeMethods || []).map(m => m?.toLowerCase()));
-      availableMethods = (cookingMethods || []).filter(method => 
-        !excludedSet.has(method.name?.toLowerCase())
-      );
+      availableMethods = (cookingMethods || []).filter(method => {
+        const methodData = method as any;
+        return !excludedSet.has(methodData?.name?.toLowerCase() || '');
+      });
     }
     
     // Score methods based on criteria
@@ -399,10 +401,11 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       const elementalState = criteriaData?.elementalState || criteriaData?.elementalProperties;
       
       // Calculate elemental compatibility if criteria includes elemental properties
-      if (elementalState && method.elementalProperties) {
+      const methodData = method as any;
+      if (elementalState && methodData?.elementalProperties) {
         const elementalScore = this.calculateElementalCompatibility(
           elementalState,
-          method.elementalProperties
+          methodData.elementalProperties
         );
         
         score = elementalScore; // Base score on elemental compatibility
