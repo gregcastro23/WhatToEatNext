@@ -210,12 +210,19 @@ const calculateEnergyMatch = (
   // Calculate kalchm alignment if available
   let kalchmScore = 0.7; // Default score
   try {
-    const recipeKalchm = kalchmEngine.calculateKAlchm(recipeEnergy);
-    const currentKalchm = kalchmEngine.calculateKAlchm(currentEnergy);
+    const recipeKalchmResult = kalchmEngine.calculateKAlchm(recipeEnergy);
+    const currentKalchmResult = kalchmEngine.calculateKAlchm(currentEnergy);
     
-    if (recipeKalchm.kalchm > 0 && currentKalchm.kalchm > 0) {
-      const kalchmRatio = Math.min(recipeKalchm.kalchm, currentKalchm.kalchm) / 
-                         Math.max(recipeKalchm.kalchm, currentKalchm.kalchm);
+    // Apply safe casting for kalchm property access
+    const recipeKalchmData = typeof recipeKalchmResult === 'object' ? recipeKalchmResult as any : { kalchm: recipeKalchmResult };
+    const currentKalchmData = typeof currentKalchmResult === 'object' ? currentKalchmResult as any : { kalchm: currentKalchmResult };
+    
+    const recipeKalchmValue = recipeKalchmData?.kalchm ?? recipeKalchmResult ?? 0;
+    const currentKalchmValue = currentKalchmData?.kalchm ?? currentKalchmResult ?? 0;
+    
+    if (recipeKalchmValue > 0 && currentKalchmValue > 0) {
+      const kalchmRatio = Math.min(recipeKalchmValue, currentKalchmValue) / 
+                         Math.max(recipeKalchmValue, currentKalchmValue);
       kalchmScore = 0.7 + (kalchmRatio * 0.3); // 0.7-1.0 range
     }
   } catch (error) {

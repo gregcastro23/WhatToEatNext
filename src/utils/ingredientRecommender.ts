@@ -453,21 +453,22 @@ export function getIngredientRecommendations(
     
     if (categoryCounts[category] < categoryMaxItems) {
       // Apply Pattern L: Interface property mapping for IngredientRecommendation compatibility
+      const ingredientData = ingredient as any;
       const ingredientRecommendation: IngredientRecommendation = {
         name: ingredient.name || '',
-        type: ingredient.type || '',
+        type: ingredientData?.type || ingredientData?.category || 'ingredient',
         category: ingredient.category,
         elementalProperties: ingredient.elementalProperties,
         qualities: ingredient.qualities,
         matchScore: ingredient.score || 0,
         modality: ingredient.modality,
-        recommendations: ingredient.recommendations,
-        description: ingredient.description,
-        totalScore: ingredient.totalScore,
+        recommendations: ingredientData?.recommendations || [],
+        description: ingredientData?.description || `Recommended ${ingredient.name}`,
+        totalScore: ingredientData?.totalScore || ingredient.score || 0,
         elementalScore: ingredient.elementalScore,
-        astrologicalScore: ingredient.astrologicalScore,
+        astrologicalScore: ingredientData?.astrologicalScore || 0,
         seasonalScore: ingredient.seasonalScore,
-        dietary: ingredient.dietary
+        dietary: ingredientData?.dietary || []
       };
       groupedRecommendations[category].push(ingredientRecommendation);
       categoryCounts[category]++;

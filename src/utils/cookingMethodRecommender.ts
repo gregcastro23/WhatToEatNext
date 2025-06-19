@@ -359,7 +359,8 @@ function calculatePlanetaryDayInfluence(
   let elementalScore = (diurnalMatch + nocturnalMatch) / 2;
   
   // If the method has a direct planetary affinity, give bonus points
-  if (method.astrologicalInfluences?.dominantPlanets?.includes(planetaryDay)) {
+  const methodData = method as any;
+  if (methodData?.astrologicalInfluences?.dominantPlanets?.includes(planetaryDay)) {
     elementalScore = Math.min(1.0, elementalScore + 0.3);
   }
   
@@ -395,7 +396,8 @@ function calculatePlanetaryHourInfluence(
   let elementalScore = elementalMatch;
   
   // If the method has a direct planetary affinity, give bonus points
-  if (method.astrologicalInfluences?.dominantPlanets?.includes(planetaryHour)) {
+  const methodHourData = method as any;
+  if (methodHourData?.astrologicalInfluences?.dominantPlanets?.includes(planetaryHour)) {
     elementalScore = Math.min(1.0, elementalScore + 0.3);
   }
   
@@ -1193,12 +1195,13 @@ export function calculateMethodScore(method: CookingMethodProfile, astroState: A
   let bonusScore = 0;
   
   // Add zodiac alignment bonus
-  if (method.astrologicalInfluences?.favorableZodiac?.includes(astroState.zodiacSign)) {
+  const methodAstroData = method as any;
+  if (methodAstroData?.astrologicalInfluences?.favorableZodiac?.includes(astroState.zodiacSign)) {
     bonusScore += 0.15;  // Reduced bonus for zodiac alignment
   }
   
   // Add lunar phase bonus
-  if (astroState.lunarPhase && method.astrologicalInfluences?.lunarPhaseEffect?.[astroState.lunarPhase] > 0) {
+  if (astroState.lunarPhase && methodAstroData?.astrologicalInfluences?.lunarPhaseEffect?.[astroState.lunarPhase] > 0) {
     bonusScore += 0.12;  // Reduced bonus for positive lunar phase effect
   }
   
