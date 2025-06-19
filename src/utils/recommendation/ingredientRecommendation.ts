@@ -228,7 +228,7 @@ export interface IngredientRecommendation {
   pairingRecommendations?: {
     complementary: string[];
     contrasting: string[];
-    toAvoid: string[];
+    toAvoid?: string[];
   };
   element?: Element;
   astrologicalProfile?: {

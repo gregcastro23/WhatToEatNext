@@ -90,7 +90,7 @@ export class AlchemicalRecommendationService {
       dominantElement,
       thermodynamics,
       recommendedIngredients: (compatibleIngredients || []).map(i => i.name),
-      recommendedCookingMethods: (compatibleMethods || []).map(m => m.name),
+      recommendedCookingMethods: (compatibleMethods || []),
       recommendations,
       warnings
     };

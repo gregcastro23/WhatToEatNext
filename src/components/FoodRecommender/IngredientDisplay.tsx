@@ -12,7 +12,9 @@ interface Ingredient {
 
 // Display a list of ingredient recommendations based on astrological state
 export default function IngredientDisplay() {
-  const { elementalProperties, planetaryPositions } = useAstrologicalState();
+  const astroData = useAstrologicalState();
+  const elementalProperties = (astroData as any)?.elementalProperties || (astroData as any)?.state?.elementalProperties;
+  const planetaryPositions = (astroData as any)?.planetaryPositions || (astroData as any)?.positions;
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 

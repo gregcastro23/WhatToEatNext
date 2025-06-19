@@ -340,7 +340,7 @@ function createMinimalProfile(id: string, elementalProperties: ElementalProperti
     
     kalchm: 1.0,
     monicaOptimization: 1.0,
-    alchemicalProperties: {},
+    alchemicalProperties: { Spirit: 0.25, Essence: 0.25, Matter: 0.25, Substance: 0.25 },
     seasonalPeak: ['spring', 'summer', 'autumn', 'winter'],
     seasonalModifiers: {},
     culturalOrigins: ['Universal'],

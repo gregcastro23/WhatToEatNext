@@ -427,6 +427,7 @@ export interface Ingredient {
   cookingMethods?: string[];
   preparationNotes?: string;
   planetaryRuler?: string;
+  astrologicalProfile?: AstrologicalProfile; // Astrological profile with ruling planets and zodiac info
 }
 
 // NutritionalProfile type (causing errors in multiple files)
@@ -546,9 +547,8 @@ export interface Decan {
 // ========== PHASE 2 MISSING TYPES FOR TS2305 FIXES ==========
 
 // IngredientMapping type (causing 65 errors across ingredient data files)
-export interface IngredientMapping {
-  [key: string]: Ingredient;
-}
+// IngredientMapping should be an alias for a Record of Ingredients, not an interface
+export type IngredientMapping = Record<string, Ingredient>;
 
 // AstrologicalProfile type (causing 4 errors)
 export interface AstrologicalProfile {
@@ -559,6 +559,24 @@ export interface AstrologicalProfile {
   seasonalAffinity?: Season[];
   chakraAlignment?: ChakraEnergies;
   personalPlanets?: Record<string, PlanetaryPosition>;
+  rulingPlanets?: string[]; // Array of ruling planet names
+  favorableZodiac?: ZodiacSign[]; // Array of favorable zodiac signs  
+  elementalAffinity?: {
+    base?: Element;
+    [key: string]: unknown;
+  }; // Elemental affinity configuration
+  lunarPhaseModifiers?: {
+    [phase: string]: {
+      elementalBoost?: ElementalProperties;
+      preparationTips?: string[];
+      thermodynamicEffects?: {
+        heat?: number;
+        entropy?: number;
+        reactivity?: number;
+        energy?: number;
+      };
+    };
+  }; // Lunar phase modifiers for ingredient properties
 }
 
 // FlavorProfile type (causing 3 errors)

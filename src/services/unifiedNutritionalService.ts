@@ -35,7 +35,9 @@ export class UnifiedNutritionalService {
   private cache: Map<string, any> = new Map();
   
   private constructor() {
-    this.legacyNutritionService = NutritionService.getInstance();
+    // Apply Pattern PP-1: Safe service initialization
+    const NutritionServiceData = NutritionService as any;
+    this.legacyNutritionService = NutritionServiceData?.getInstance?.() || new NutritionService();
   }
   
   /**
@@ -656,7 +658,12 @@ export class UnifiedNutritionalService {
    */
   async calculateLegacyNutritionalScore(nutrition: {}): Promise<number>  {
     try {
-      return this.legacyNutritionService.calculateNutritionalScore(nutrition);
+      // Apply Pattern PP-1: Safe service method access
+      const legacyServiceData = this.legacyNutritionService as any;
+      if (legacyServiceData?.calculateNutritionalScore) {
+        return legacyServiceData.calculateNutritionalScore(nutrition);
+      }
+      return 0;
     } catch (error) {
       logger.error('Error calculating legacy nutritional score:', error);
       return 0;

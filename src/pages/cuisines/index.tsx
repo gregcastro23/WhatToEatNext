@@ -6,9 +6,15 @@ import { cuisines } from '@/data/cuisines';
 import { getCurrentElementalState } from '@/utils/elementalUtils';
 import CuisineRecommender from '@/components/CuisineRecommender';
 import { cuisineFlavorProfiles } from '@/data/cuisineFlavorProfiles';
+import { ElementalProperties } from '@/types/alchemy';
+
+interface ExtendedElementalState extends ElementalProperties {
+  season: string;
+  timeOfDay: string;
+}
 
 const CuisinesIndexPage = () => {
-  const [elementalState, setElementalState] = React.useState({
+  const [elementalState, setElementalState] = React.useState<ExtendedElementalState>({
     Fire: 0.25,
     Water: 0.25,
     Earth: 0.25,
@@ -20,7 +26,11 @@ const CuisinesIndexPage = () => {
   React.useEffect(() => {
     // Get current elemental state based on time/date
     const currentState = getCurrentElementalState();
-    setElementalState(currentState);
+    setElementalState({
+      ...currentState,
+      season: 'spring', // Default value since getCurrentElementalState doesn't provide season
+      timeOfDay: 'lunch' // Default value since getCurrentElementalState doesn't provide timeOfDay
+    });
   }, []);
 
   // Get all cuisines
@@ -49,7 +59,7 @@ const CuisinesIndexPage = () => {
           Let us recommend cuisines based on current elemental influences and your preferences
         </p>
 
-        <CuisineRecommender elementalState={elementalState} />
+        <CuisineRecommender />
       </section>
 
       {/* All Cuisines Grid */}

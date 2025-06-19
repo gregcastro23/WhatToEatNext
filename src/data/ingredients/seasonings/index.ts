@@ -1,4 +1,4 @@
-import type { ElementalProperties } from '@/types/alchemy';
+import type { ElementalProperties, Ingredient } from '@/types/alchemy';
 import type { IngredientMapping } from '@/data/ingredients/types';
 import { spices } from '../spices';
 import { salts } from './salts';
@@ -7,13 +7,13 @@ import { herbs } from '../herbs';
 import { aromatics } from './aromatics';
 
 // Combine all seasoning categories, but exclude oils and vinegars
-export const seasonings: Record<string, IngredientMapping> = {
+export const seasonings: IngredientMapping = {
   ...spices,
   ...salts,
   ...peppers,
   ...herbs,
   ...aromatics
-};
+} as IngredientMapping;
 
 // Export individual categories, excluding oils and vinegars
 export {
@@ -49,8 +49,8 @@ export type SeasoningAstrologicalProfile = {
 };
 
 // Update salts category to be 'seasoning' with subCategory 'salt'
-let updateSaltCategory = (salts: Record<string, IngredientMapping>): Record<string, IngredientMapping> => {
-  return Object.entries(salts)
+let updateSaltCategory = (salts: IngredientMapping): IngredientMapping => {
+  return (Object.entries(salts) as [string, IngredientMapping][])
     .reduce((acc, [key, value]) => {
       acc[key] = {
         ...value,
@@ -58,30 +58,30 @@ let updateSaltCategory = (salts: Record<string, IngredientMapping>): Record<stri
         subCategory: 'salt'
       };
       return acc;
-    }, {} as Record<string, IngredientMapping>);
+    }, {} as IngredientMapping);
 };
 
 // Export updated salts
 export let categorizedSalts = updateSaltCategory(salts);
 
 // Helper functions
-export let getSeasoningsByCategory = (category: SeasoningCategory): Record<string, IngredientMapping> => {
-  return Object.entries(seasonings)
+export let getSeasoningsByCategory = (category: SeasoningCategory): IngredientMapping => {
+  return (Object.entries(seasonings) as [string, IngredientMapping][])
     .filter(([_, value]) => value.category === category)
-    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {} as IngredientMapping);
 };
 
-export let getSeasoningsByIntensity = (intensity: SeasoningIntensity): Record<string, IngredientMapping> => {
-  return Object.entries(seasonings)
+export let getSeasoningsByIntensity = (intensity: SeasoningIntensity): IngredientMapping => {
+  return (Object.entries(seasonings) as [string, IngredientMapping][])
     .filter(([_, value]) => value.qualities?.includes(intensity))
-    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {} as IngredientMapping);
 };
 
 export let getCompatibleSeasonings = (seasoningName: string): string[] => {
-  const seasoning = seasonings[seasoningName];
+  const seasoning = seasonings[seasoningName] as Ingredient;
   if (!seasoning) return [];
   
-  return Object.entries(seasonings)
+  return (Object.entries(seasonings) as [string, IngredientMapping][])
     .filter(([key, value]) => 
       key !== seasoningName && 
       Array.isArray(value.affinities) && value.affinities.some((affinity: string) => 
@@ -91,21 +91,21 @@ export let getCompatibleSeasonings = (seasoningName: string): string[] => {
     .map(([key, _]) => key);
 };
 
-export let getSeasoningsByTiming = (timing: CulinaryTiming): Record<string, IngredientMapping> => {
-  return Object.entries(seasonings)
+export let getSeasoningsByTiming = (timing: CulinaryTiming): IngredientMapping => {
+  return (Object.entries(seasonings) as [string, IngredientMapping][])
     .filter(([_, value]) => 
       value.culinaryApplications && 
       Object.values(value.culinaryApplications).some(app => 
         (app as any)?.timing === timing
       )
     )
-    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {} as IngredientMapping);
 };
 
 export let getTraditionalCombinations = (cuisine: string): Record<string, string[]> => {
   const combinations: Record<string, string[]> = {};
   
-  Object.entries(seasonings)
+  (Object.entries(seasonings) as [string, IngredientMapping][])
     .forEach(([key, value]) => {
       if (Array.isArray(value.traditionalCombinations) && value.traditionalCombinations.includes(cuisine)) {
         if (!combinations[key]) {
@@ -118,18 +118,18 @@ export let getTraditionalCombinations = (cuisine: string): Record<string, string
   return combinations;
 };
 
-export let getSeasoningsByLunarPhase = (phase: string): Record<string, IngredientMapping> => {
-  return Object.entries(seasonings)
+export let getSeasoningsByLunarPhase = (phase: string): IngredientMapping => {
+  return (Object.entries(seasonings) as [string, IngredientMapping][])
     .filter(([_, value]) => value.astrologicalProfile?.lunarPhaseModifiers?.[phase])
-    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {} as IngredientMapping);
 };
 
-export let getSeasoningsByElementalBoost = (element: string): Record<string, IngredientMapping> => {
-  return Object.entries(seasonings)
+export let getSeasoningsByElementalBoost = (element: string): IngredientMapping => {
+  return (Object.entries(seasonings) as [string, IngredientMapping][])
     .filter(([_, value]) => 
       value.astrologicalProfile?.lunarPhaseModifiers && 
       Object.values(value.astrologicalProfile.lunarPhaseModifiers)
         .some(modifier => (modifier as any)?.elementalBoost?.[element as keyof ElementalProperties])
     )
-    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {} as IngredientMapping);
 };

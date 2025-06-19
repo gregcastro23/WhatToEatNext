@@ -12,11 +12,11 @@ import { proteins, meats, poultry, seafood, legumes, plantBased } from '@/data/i
 import { getCurrentSeason } from '@/data/integrations/seasonal';
 
 // Create eggs and dairy from proteins by filtering category
-const eggs = Object.entries(proteins)
+const eggs = (Object.entries(proteins) as [string, IngredientMapping][])
   .filter(([_, value]) => value.category === 'egg')
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
-const dairy = Object.entries(proteins)
+const dairy = (Object.entries(proteins) as [string, IngredientMapping][])
   .filter(([_, value]) => value.category === 'dairy')
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 

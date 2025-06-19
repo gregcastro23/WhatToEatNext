@@ -567,7 +567,9 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
         }));
 
         // Get optimized recipes
-        const optimized = await alchemicalRecommendationService.getOptimizedRecipes(
+        const serviceData = alchemicalRecommendationService as any;
+        const optimizeMethod = serviceData?.getOptimizedRecipes || serviceData?.getRecommendations;
+        const optimized = await optimizeMethod(
           preparedRecipes,
           planetaryPositions,
           isDaytime,

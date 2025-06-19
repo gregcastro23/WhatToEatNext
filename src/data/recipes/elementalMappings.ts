@@ -3,15 +3,17 @@ import { cookingMethods } from '@/data/cooking';
 import { culinaryTraditions } from '@/data/cuisines/culinaryTraditions';
 import { ELEMENTAL_CHARACTERISTICS } from '@/constants/elementalConstants';
 import { ElementalRecommendationService } from '@/services/ElementalRecommendationService';
-import { AstrologicalInfluence } from '@/types/alchemy';
+import { AstrologicalInfluence, ZodiacSign, Element } from '@/types/alchemy';
 
 export { ELEMENTAL_CHARACTERISTICS };
 
 // Default astrologicalInfluence for when none is specified
 const defaultAstrologicalInfluence: AstrologicalInfluence = {
-  name: "Universal",
-  description: "Applies to all astrological conditions",
-  strength: 1.0
+  planet: "Universal",
+  sign: "aries",
+  element: "Fire",
+  strength: 1.0,
+  aspects: []
 };
 
 // Helper function to safely access astrologicalInfluences

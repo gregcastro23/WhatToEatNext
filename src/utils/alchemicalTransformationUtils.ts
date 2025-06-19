@@ -220,11 +220,11 @@ export const getTopCompatibleItems = (
  * @param count Number of recommendations to return
  * @returns Array of recommended cooking methods with compatibility scores
  */
-export const getRecommendedCookingMethodsForIngredient = (
+export const getRecommendedCookingMethodsForIngredient = async (
   ingredient: AlchemicalItem,
   cookingMethods: AlchemicalItem[],
   count = 5
-): Array<{ method: string, compatibility: number }> => {
+): Promise<Array<{ method: string, compatibility: number }>> => {
   // For each method, calculate how well it transforms the ingredient using enhanced algorithm
   // that takes into account elemental character associations
   
@@ -243,7 +243,7 @@ export const getRecommendedCookingMethodsForIngredient = (
   
   // Use our enhanced holistic recommendations that include elemental character
   console.log('\nEvaluating methods with holistic cooking recommendations algorithm...');
-  const holisticRecommendations = getHolisticCookingRecommendations(
+  const holisticRecommendations = await getHolisticCookingRecommendations(
     ingredient,
     undefined, // No specific planet influence
     undefined, // No specific tarot card influence

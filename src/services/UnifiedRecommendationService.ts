@@ -8,7 +8,7 @@ import {
 
 import { Recipe } from '../types/recipe';
 import { Ingredient } from '../types/ingredient';
-import { CookingMethod } from '../types/cookingMethod';
+import { CookingMethod, CookingMethodData } from '../types/cookingMethod';
 import { 
   RecommendationServiceInterface, 
   RecipeRecommendationCriteria, 
@@ -344,41 +344,46 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
   ): Promise<RecommendationResult<CookingMethod>> {
     // This is a simplified implementation
     // In a real implementation, we would have a comprehensive cooking method database
-    const cookingMethods: CookingMethod[] = [
+    const cookingMethods: CookingMethodData[] = [
       {
-        id: 'roasting',
-        name: 'Roasting',
+        name: 'roasting',
         description: 'Cooking with dry heat in an oven',
-        category: 'dry',
-        elementalProperties: { Fire: 0.6, Water: 0.0, Earth: 0.3, Air: 0.1 }
+        elementalEffect: { Fire: 0.6, Water: 0.0, Earth: 0.3, Air: 0.1 },
+        duration: { min: 30, max: 180 },
+        suitable_for: ['meat', 'vegetables', 'poultry'],
+        benefits: ['even cooking', 'browning', 'flavor development']
       },
       {
-        id: 'boiling',
-        name: 'Boiling',
+        name: 'boiling',
         description: 'Cooking in bubbling liquid',
-        category: 'wet',
-        elementalProperties: { Fire: 0.3, Water: 0.7, Earth: 0.0, Air: 0.0 }
+        elementalEffect: { Fire: 0.3, Water: 0.7, Earth: 0.0, Air: 0.0 },
+        duration: { min: 5, max: 60 },
+        suitable_for: ['pasta', 'vegetables', 'eggs'],
+        benefits: ['quick cooking', 'nutrient retention', 'simplicity']
       },
       {
-        id: 'steaming',
-        name: 'Steaming',
+        name: 'steaming',
         description: 'Cooking with hot steam',
-        category: 'wet',
-        elementalProperties: { Fire: 0.2, Water: 0.5, Earth: 0.0, Air: 0.3 }
+        elementalEffect: { Fire: 0.2, Water: 0.5, Earth: 0.0, Air: 0.3 },
+        duration: { min: 10, max: 45 },
+        suitable_for: ['vegetables', 'fish', 'dumplings'],
+        benefits: ['nutrient preservation', 'gentle cooking', 'no added fats']
       },
       {
-        id: 'frying',
-        name: 'Frying',
+        name: 'frying',
         description: 'Cooking in hot oil',
-        category: 'dry',
-        elementalProperties: { Fire: 0.7, Water: 0.0, Earth: 0.2, Air: 0.1 }
+        elementalEffect: { Fire: 0.7, Water: 0.0, Earth: 0.2, Air: 0.1 },
+        duration: { min: 2, max: 15 },
+        suitable_for: ['meat', 'vegetables', 'batter foods'],
+        benefits: ['crispy texture', 'quick cooking', 'flavor enhancement']
       },
       {
-        id: 'baking',
-        name: 'Baking',
+        name: 'baking',
         description: 'Cooking in an enclosed space with dry heat',
-        category: 'dry',
-        elementalProperties: { Fire: 0.4, Water: 0.0, Earth: 0.4, Air: 0.2 }
+        elementalEffect: { Fire: 0.4, Water: 0.0, Earth: 0.4, Air: 0.2 },
+        duration: { min: 15, max: 240 },
+        suitable_for: ['bread', 'cakes', 'casseroles'],
+        benefits: ['even heating', 'controlled environment', 'browning']
       }
     ];
     
@@ -402,10 +407,10 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       
       // Calculate elemental compatibility if criteria includes elemental properties
       const methodData = method as any;
-      if (elementalState && methodData?.elementalProperties) {
+      if (elementalState && methodData?.elementalEffect) {
         const elementalScore = this.calculateElementalCompatibility(
           elementalState,
-          methodData.elementalProperties
+          methodData.elementalEffect
         );
         
         score = elementalScore; // Base score on elemental compatibility
@@ -431,7 +436,9 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     // Build scores record
     const scores: { [key: string]: number } = {};
     (limitedMethods || []).forEach(item => {
-      scores[item.method.id] = item.score;
+      const methodData = item.method as any;
+      const methodId = methodData?.name || 'unknown';
+      scores[methodId] = item.score;
     });
     
     return {
@@ -452,7 +459,20 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     source: ElementalProperties, 
     target: ElementalProperties
   ): number {
-    return alchemicalEngine.calculateElementalCompatibility(source, target);
+    // Apply Pattern PP-1: Safe service method access
+    const alchemicalEngineData = alchemicalEngine as any;
+    if (alchemicalEngineData?.calculateElementalCompatibility) {
+      return alchemicalEngineData.calculateElementalCompatibility(source, target);
+    }
+    
+    // Fallback calculation
+    const elements = ['Fire', 'Water', 'Earth', 'Air'] as const;
+    let compatibilityScore = 0;
+    elements.forEach(element => {
+      const diff = Math.abs(source[element] - target[element]);
+      compatibilityScore += (1 - diff);
+    });
+    return compatibilityScore / elements.length;
   }
   
   /**

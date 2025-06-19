@@ -283,8 +283,12 @@ export class LegacyRecipeAdapter {
       const defaultProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
       
       // Basic calculation based on recipe properties if available
-      if (recipe.elementalState) {
-        return recipe.elementalState;
+      if (recipe.elementalState && typeof recipe.elementalState === 'object') {
+        // Ensure it has all required properties
+        const state = recipe.elementalState as any;
+        if (state.Fire !== undefined && state.Water !== undefined && state.Earth !== undefined && state.Air !== undefined) {
+          return recipe.elementalState as ElementalProperties;
+        }
       }
       
       return defaultProperties;

@@ -606,7 +606,7 @@ export class EnhancedRecommendationService {
           fall: 1
         },
         culturalOrigins: ingredient.culturalOrigins || [ingredient.category || 'universal'],
-        pAiringRecommendations: [],
+        pairingRecommendations: [],
         preparationMethods: ['raw', 'cooked'],
         nutritionalSynergy: 0.7,
         temperatureOptimal: 20,
@@ -716,7 +716,7 @@ export class EnhancedRecommendationService {
         fall: 1
       },
       culturalOrigins: ['universal'],
-      pAiringRecommendations: [],
+      pairingRecommendations: [],
       preparationMethods: ['balanced'],
       nutritionalSynergy: 0.7,
       temperatureOptimal: 20,

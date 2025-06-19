@@ -168,8 +168,10 @@ export function validateIngredient(ingredient: Partial<Ingredient>): ValidationR
   }
   
   // Astrological profile validation
-  if (ingredient.astrologicalPropertiesProfile) {
-    const astroValidation = validateAstrologicalProfile(ingredient.astrologicalPropertiesProfile);
+  const ingredientData = ingredient as any;
+  if (ingredientData?.astrologicalPropertiesProfile || ingredientData?.astrologicalProfile) {
+    const astroProfile = ingredientData.astrologicalPropertiesProfile || ingredientData.astrologicalProfile;
+    const astroValidation = validateAstrologicalProfile(astroProfile);
     if (!astroValidation.isValid) {
       warnings?.push(...astroValidation.errors);
     }

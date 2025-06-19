@@ -24,8 +24,11 @@ export default function SimplePlanetaryDisplayMigrated() {
       try {
         // Get current planetary hour
         const hourInfo = await astrologyService.getCurrentPlanetaryHour();
-        if (hourInfo && typeof hourInfo.planet === 'string') {
-          setCurrentHour(hourInfo.planet);
+        const hourInfoData = hourInfo as any;
+        if (hourInfo && typeof hourInfoData?.planet === 'string') {
+          setCurrentHour(hourInfoData.planet);
+        } else if (typeof hourInfo === 'string') {
+          setCurrentHour(hourInfo);
         }
         
         // Get current planetary day

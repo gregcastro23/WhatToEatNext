@@ -428,7 +428,10 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     
     // Score ingredients based on elemental compatibility
     const scoredIngredients = (candidates || []).map(ingredient => {
-      const compatibility = alchemicalEngine.calculateElementalCompatibility(
+      // Apply Pattern PP-1: Safe service method access
+      const alchemicalEngineData = alchemicalEngine as any;
+      const compatibilityMethod = alchemicalEngineData?.calculateElementalCompatibility || this.fallbackElementalCompatibility;
+      const compatibility = compatibilityMethod(
         elementalState,
         ingredient.elementalPropertiesState
       );
@@ -479,7 +482,9 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     }
     
     // Calculate elemental compatibility
-    const elementalCompatibility = alchemicalEngine.calculateElementalCompatibility(
+    const alchemicalEngineData2 = alchemicalEngine as any;
+    const compatibilityMethod2 = alchemicalEngineData2?.calculateElementalCompatibility || this.fallbackElementalCompatibility;
+    const elementalCompatibility = compatibilityMethod2(
       ing1.elementalState,
       ing2.elementalState
     );
@@ -617,6 +622,23 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
   }
   
   // Private helper methods
+  
+  /**
+   * Fallback elemental compatibility calculation
+   */
+  private fallbackElementalCompatibility = (
+    elem1: ElementalProperties, 
+    elem2: ElementalProperties
+  ): number => {
+    if (!elem1 || !elem2) return 0.5;
+    const elements = ['Fire', 'Water', 'Earth', 'Air'] as const;
+    let compatibility = 0;
+    elements.forEach(element => {
+      const diff = Math.abs(elem1[element] - elem2[element]);
+      compatibility += (1 - diff);
+    });
+    return compatibility / elements.length;
+  };
   
   /**
    * Apply nutritional filter

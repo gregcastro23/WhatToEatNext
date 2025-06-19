@@ -269,7 +269,7 @@ export function filterByAlchemicalCompatibility(
   return (items || []).filter(item => {
     if (targetElement) {
       const dominantElement = calculateDominantElement(item.elementalState);
-      if (dominantElement?.toLowerCase() !== targetElement?.toLowerCase()) {
+      if (String(dominantElement)?.toLowerCase() !== targetElement?.toLowerCase()) {
         return false;
       }
     }

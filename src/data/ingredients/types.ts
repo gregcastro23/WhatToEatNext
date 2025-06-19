@@ -22,7 +22,7 @@ export interface SensoryProfile {
         bitter: number;
         umami: number;
         spicy: number;
-    };
+    } | Record<string, number>;
     aroma: {
         floral: number;
         fruity: number;
@@ -30,7 +30,7 @@ export interface SensoryProfile {
         spicy: number;
         earthy: number;
         woody: number;
-    };
+    } | Record<string, number>;
     texture: {
         crisp: number;
         tender: number;
@@ -38,7 +38,7 @@ export interface SensoryProfile {
         chewy: number;
         crunchy: number;
         silky: number;
-    };
+    } | Record<string, number>;
 }
 
 // New interface for cooking methods
@@ -48,7 +48,7 @@ export interface CookingMethod {
     cookingTime: {
         min: number;
         max: number;
-        unit: 'seconds' | 'minutes' | 'hours';
+        unit: 'seconds' | 'minutes' | 'hours' | string;
     };
     temperatures?: {
         min: number;
@@ -127,7 +127,7 @@ export interface Ingredient extends BaseIngredient {
     pairingRecommendations?: {
         complementary: string[];
         contrasting: string[];
-        toAvoid: string[];
+        toAvoid?: string[];
     };
     // New property for elemental transformation
     elementalTransformation?: {

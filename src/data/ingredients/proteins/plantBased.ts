@@ -1,6 +1,6 @@
 import type {
   ElementalProperties,
-  IngredientMapping,
+  Ingredient,
   ZodiacSign,
 } from '@/types/alchemy';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
@@ -8,9 +8,10 @@ import { fixIngredientMappings } from '@/utils/elementalUtils';
 // Helper function to standardize ingredient mappings
 function createIngredientMapping(
   id: string,
-  properties: Partial<IngredientMapping>
-): IngredientMapping {
+  properties: Partial<Ingredient>
+): Ingredient {
   return {
+    id: id,
     name: id,
     elementalProperties: properties.elementalProperties || {
       Earth: 0.25,
@@ -20,10 +21,10 @@ function createIngredientMapping(
     },
     category: properties.category || '',
     ...properties,
-  };
+  } as Ingredient;
 }
 
-const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
+const rawPlantBased: Record<string, Ingredient> = {
   tempeh: createIngredientMapping('tempeh', {
     elementalProperties: { Earth: 0.4, Water: 0.3, Fire: 0.2, Air: 0.1 },
     astrologicalProfile: {
@@ -39,11 +40,11 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
       },
       lunarPhaseModifiers: {
         waxingGibbous: {
-          elementalBoost: { Earth: 0.1, Fire: 0.1 },
+          elementalBoost: { Earth: 0.1, Fire: 0.1, Water: 0.0, Air: 0.0 },
           preparationTips: ['Best for grilling'],
         },
         fullMoon: {
-          elementalBoost: { Fire: 0.2 },
+          elementalBoost: { Fire: 0.2, Water: 0.0, Earth: 0.0, Air: 0.0 },
           preparationTips: ['Ideal for frying'],
         },
       },
@@ -213,8 +214,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
     },
   }),
 
-  seitan: {
-    name: 'seitan',
+  seitan: createIngredientMapping('seitan', {
     elementalProperties: { Fire: 0.4, Earth: 0.4, Air: 0.1, Water: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Mars', 'Saturn'],
@@ -229,11 +229,11 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
       },
       lunarPhaseModifiers: {
         waxingGibbous: {
-          elementalBoost: { Earth: 0.1, Fire: 0.1 },
+          elementalBoost: { Earth: 0.1, Fire: 0.1, Water: 0.0, Air: 0.0 },
           preparationTips: ['Best for grilling'],
         },
         fullMoon: {
-          elementalBoost: { Fire: 0.2 },
+          elementalBoost: { Fire: 0.2, Water: 0.0, Earth: 0.0, Air: 0.0 },
           preparationTips: ['Ideal for frying'],
         },
       },
@@ -355,7 +355,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         accompaniments: ['roasted roots', 'hearty grains'],
       },
     },
-  },
+  }),
 
   tofu_varieties: createIngredientMapping('tofu_varieties', {
     elementalProperties: { Water: 0.5, Earth: 0.3, Air: 0.1, Fire: 0.1 },
@@ -372,11 +372,11 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
       },
       lunarPhaseModifiers: {
         newMoon: {
-          elementalBoost: { Earth: 0.1, Water: 0.1 },
+          elementalBoost: { Earth: 0.1, Water: 0.1, Fire: 0.0, Air: 0.0 },
           preparationTips: ['Best for marinating'],
         },
         fullMoon: {
-          elementalBoost: { Water: 0.2 },
+          elementalBoost: { Water: 0.2, Fire: 0.0, Earth: 0.0, Air: 0.0 },
           preparationTips: ['Ideal for baking'],
         },
       },
@@ -548,11 +548,11 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
       },
       lunarPhaseModifiers: {
         newMoon: {
-          elementalBoost: { Earth: 0.1, Water: 0.1 },
+          elementalBoost: { Earth: 0.1, Water: 0.1, Fire: 0.0, Air: 0.0 },
           preparationTips: ['Best for marinating'],
         },
         fullMoon: {
-          elementalBoost: { Water: 0.2 },
+          elementalBoost: { Water: 0.2, Fire: 0.0, Earth: 0.0, Air: 0.0 },
           preparationTips: ['Ideal for baking'],
         },
       },
@@ -825,11 +825,11 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         },
         lunarPhaseModifiers: {
           newMoon: {
-            elementalBoost: { Earth: 0.1, Water: 0.1 },
+            elementalBoost: { Earth: 0.1, Water: 0.1, Fire: 0.0, Air: 0.0 },
             preparationTips: ['Best for marinating'],
           },
           fullMoon: {
-            elementalBoost: { Water: 0.2 },
+            elementalBoost: { Water: 0.2, Fire: 0.0, Earth: 0.0, Air: 0.0 },
             preparationTips: ['Ideal for baking'],
           },
         },
@@ -922,11 +922,11 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
       },
       lunarPhaseModifiers: {
         newMoon: {
-          elementalBoost: { Earth: 0.1, Water: 0.1 },
+          elementalBoost: { Earth: 0.1, Water: 0.1, Fire: 0.0, Air: 0.0 },
           preparationTips: ['Best for marinating'],
         },
         fullMoon: {
-          elementalBoost: { Water: 0.2 },
+          elementalBoost: { Water: 0.2, Fire: 0.0, Earth: 0.0, Air: 0.0 },
           preparationTips: ['Ideal for baking'],
         },
       },
@@ -1040,11 +1040,11 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
       },
       lunarPhaseModifiers: {
         newMoon: {
-          elementalBoost: { Earth: 0.1, Water: 0.1 },
+          elementalBoost: { Earth: 0.1, Water: 0.1, Fire: 0.0, Air: 0.0 },
           preparationTips: ['Best for marinating'],
         },
         fullMoon: {
-          elementalBoost: { Water: 0.2 },
+          elementalBoost: { Water: 0.2, Fire: 0.0, Earth: 0.0, Air: 0.0 },
           preparationTips: ['Ideal for baking'],
         },
       },
@@ -1170,11 +1170,11 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
       },
       lunarPhaseModifiers: {
         newMoon: {
-          elementalBoost: { Earth: 0.1, Water: 0.1 },
+          elementalBoost: { Earth: 0.1, Water: 0.1, Fire: 0.0, Air: 0.0 },
           preparationTips: ['Best for marinating'],
         },
         fullMoon: {
-          elementalBoost: { Water: 0.2 },
+          elementalBoost: { Water: 0.2, Fire: 0.0, Earth: 0.0, Air: 0.0 },
           preparationTips: ['Ideal for baking'],
         },
       },
@@ -1265,11 +1265,11 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
       },
       lunarPhaseModifiers: {
         newMoon: {
-          elementalBoost: { Earth: 0.1, Water: 0.1 },
+          elementalBoost: { Earth: 0.1, Water: 0.1, Fire: 0.0, Air: 0.0 },
           preparationTips: ['Best for marinating'],
         },
         fullMoon: {
-          elementalBoost: { Water: 0.2 },
+          elementalBoost: { Water: 0.2, Fire: 0.0, Earth: 0.0, Air: 0.0 },
           preparationTips: ['Ideal for baking'],
         },
       },
@@ -1355,11 +1355,11 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
       },
       lunarPhaseModifiers: {
         newMoon: {
-          elementalBoost: { Earth: 0.1, Water: 0.1 },
+          elementalBoost: { Earth: 0.1, Water: 0.1, Fire: 0.0, Air: 0.0 },
           preparationTips: ['Best for marinating'],
         },
         fullMoon: {
-          elementalBoost: { Water: 0.2 },
+          elementalBoost: { Water: 0.2, Fire: 0.0, Earth: 0.0, Air: 0.0 },
           preparationTips: ['Ideal for baking'],
         },
       },
@@ -1440,11 +1440,11 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
       },
       lunarPhaseModifiers: {
         newMoon: {
-          elementalBoost: { Earth: 0.1, Water: 0.1 },
+          elementalBoost: { Earth: 0.1, Water: 0.1, Fire: 0.0, Air: 0.0 },
           preparationTips: ['Best for marinating'],
         },
         fullMoon: {
-          elementalBoost: { Water: 0.2 },
+          elementalBoost: { Water: 0.2, Fire: 0.0, Earth: 0.0, Air: 0.0 },
           preparationTips: ['Ideal for baking'],
         },
       },
@@ -1538,11 +1538,11 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
       },
       lunarPhaseModifiers: {
         newMoon: {
-          elementalBoost: { Earth: 0.1, Water: 0.1 },
+          elementalBoost: { Earth: 0.1, Water: 0.1, Fire: 0.0, Air: 0.0 },
           preparationTips: ['Best for marinating'],
         },
         fullMoon: {
-          elementalBoost: { Water: 0.2 },
+          elementalBoost: { Water: 0.2, Fire: 0.0, Earth: 0.0, Air: 0.0 },
           preparationTips: ['Ideal for baking'],
         },
       },
@@ -1611,11 +1611,11 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
 };
 
 // Fix the ingredient mappings to ensure they have all required properties
-export const plantBased: Record<string, IngredientMapping> =
+export const plantBased: IngredientMapping =
   fixIngredientMappings(rawPlantBased);
 
 // Add validation for elemental sums
-Object.entries(plantBased).forEach(([id, ingredient]) => {
+(Object.entries(plantBased) as [string, IngredientMapping][]).forEach(([id, ingredient]) => {
   if (!ingredient.elementalProperties) return;
 
   let sum = Object.values(ingredient.elementalProperties).reduce(
