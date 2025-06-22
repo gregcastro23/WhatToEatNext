@@ -119,7 +119,7 @@ const DefaultFallback: React.FC<ErrorFallbackProps> = ({
   isRetrying,
   errorType = 'default',
 }) => {
-  let errorClassName = errorType === 'default'
+  const errorClassName = errorType === 'default'
     ? "error-boundary-fallback"
     : `error-boundary-fallback ${errorType}-error`;
     

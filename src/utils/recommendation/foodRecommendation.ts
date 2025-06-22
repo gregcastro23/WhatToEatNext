@@ -69,8 +69,16 @@ export function calculateRecommendationScore(
   totalScore += elementalScore * elementalWeight;
   weightSum += elementalWeight;
   
-  // Planetary compatibility (25% weight)
-  const planetaryWeight = 0.25;
+  // Zodiac compatibility (20% weight) - NOW INTEGRATED
+  if (astrologicalState.sunSign) {
+    const zodiacWeight = 0.2;
+    const zodiacScore = calculateZodiacScore(recipe, astrologicalState.sunSign);
+    totalScore += zodiacScore * zodiacWeight;
+    weightSum += zodiacWeight;
+  }
+
+  // Planetary compatibility (20% weight)
+  const planetaryWeight = 0.2;
   const planetaryScore = calculatePlanetaryScore(recipe, astrologicalState.activePlanets?.[0] as PlanetName);
   totalScore += planetaryScore * planetaryWeight;
   weightSum += planetaryWeight;

@@ -377,18 +377,13 @@ export class RecipeFilter {
     const recipeData = recipe as any;
     
     switch (restriction) {
-      case 'vegetarian':
-        return recipeData?.isVegetarian || recipeData?.tags?.includes('vegetarian') || false;
-      case 'vegan':
-        return recipeData?.isVegan || recipeData?.tags?.includes('vegan') || false;
-      case 'gluten-free':
-        return recipeData?.isGlutenFree || recipeData?.tags?.includes('gluten-free') || false;
-      case 'dairy-free':
-        return recipeData?.isDairyFree || recipeData?.tags?.includes('dairy-free') || false;
-      case 'keto':
-        return this.hasKetoAttributes(recipe);
-      case 'paleo':
-        return this.hasPaleoAttributes(recipe);
+      case 'Vegetarian':
+      case 'Vegan':
+      case 'Gluten-Free':
+      case 'Dairy-Free':
+      case 'Keto':
+      case 'Paleo':
+        return recipeData?.tags?.includes(restriction.toLowerCase()) || false;
       default:
         return true;
     }

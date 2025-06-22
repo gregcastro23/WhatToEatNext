@@ -2,6 +2,7 @@
 import type { UnifiedIngredient } from '@/types/unified';
 import type { EnhancedCookingMethod } from '@/types/cooking';
 
+// Local utility function for cuisine integration - using local implementation to avoid import conflicts
 function createElementalProperties(props: { Fire: number; Water: number; Earth: number; Air: number } = { Fire: 0, Water: 0, Earth: 0, Air: 0 }): ElementalProperties {
   return {
     Fire: props.Fire || 0,
@@ -27,7 +28,7 @@ import type { ZodiacSign } from "@/types/zodiac";
 // TODO: Fix import - add what to import from './seasonal'
 // Import removed - function not yet implemented
 import { FlavorProfileType } from "@/types/flavor";
-import { createElementalProperties } from '../../utils/elemental/elementalUtils';
+// Removed import to avoid conflict with local function
 import { cache } from '../utils/cache';
 
 // Import shared utility functions

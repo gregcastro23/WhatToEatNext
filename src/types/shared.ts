@@ -224,6 +224,7 @@ export interface ThermodynamicProperties {
 
 /**
  * Comprehensive cooking methods including traditional, modern, and molecular techniques
+ * Using string literal union for index type compatibility
  */
 export type CookingMethod = 
   // Basic/Traditional methods
@@ -247,5 +248,29 @@ export type CookingMethod =
   // Molecular gastronomy
   | 'gelification'
   | 'spherification'
-  // Template/placeholder
-  | 'method_name'; 
+  // Additional common methods
+  | 'braising'
+  | 'poaching'
+  | 'smoking'
+  | 'curing'
+  | 'pressure_cooking'
+  | 'slow_cooking'
+  | 'dehydrating'
+  | 'blanching'
+  | 'stewing'
+  | 'sous_vide'
+  | 'deep_frying'
+  | 'marinating'
+  | 'confit'
+  | 'tempering'
+  | 'caramelizing'
+  | 'reduction'
+  | 'emulsification'
+  | 'infusing'
+  | 'toasting'
+  | 'grinding'
+  | 'drying'
+  | 'fermenting';
+
+// Helper type for cooking method data records
+export type CookingMethodRecord<T> = Record<CookingMethod, T>; 

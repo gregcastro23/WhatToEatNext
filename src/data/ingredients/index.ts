@@ -3,9 +3,9 @@ import { refinedGrains } from './grains/refinedGrains';
 import { allGrains, grainNames } from './grains';
 import { medicinalHerbs } from './herbs/medicinalHerbs';
 import type { Ingredient } from '@/types/alchemy';
-import { seafood } from './proteins/seafood';
-import { poultry } from './proteins/poultry';
-import { plantBased } from './proteins/plantBased';
+import { seafood , seafood as seafoodData } from './proteins/seafood';
+import { poultry , poultry as poultryData } from './proteins/poultry';
+import { plantBased , plantBased as plantBasedData } from './proteins/plantBased';
 import { meats } from './proteins/meat';
 import { herbs, allHerbs } from './herbs';
 import { processedOils, allOils } from './oils';
@@ -24,7 +24,6 @@ import {
 import { fruits } from './fruits';
 import { enhancedVegetables, standardizedVegetables } from './vegetables';
 import { seasonings } from './seasonings';
-import { standardizeIngredient } from '@/utils/dataStandardization';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 // Add explicit exports needed by imports elsewhere in the codebase
@@ -40,9 +39,6 @@ export { meats, poultry, seafood, plantBased } from './proteins/index';
 
 // Create a combined proteins object for easier imports
 import { meats as meatsData } from './proteins/meat';
-import { poultry as poultryData } from './proteins/poultry';
-import { seafood as seafoodData } from './proteins/seafood';
-import { plantBased as plantBasedData } from './proteins/plantBased';
 
 export const proteins = {
   ...meatsData,
@@ -52,17 +48,17 @@ export const proteins = {
 };
 
 // Create comprehensive collections that combine all available sources
-export let herbsCollection = allHerbs;
-export let oilsCollection = allOils;
-export let vinegarsCollection = allVinegars;
-export let grainsCollection = allGrains;
-export let spicesCollection = {
+export const herbsCollection = allHerbs;
+export const oilsCollection = allOils;
+export const vinegarsCollection = allVinegars;
+export const grainsCollection = allGrains;
+export const spicesCollection = {
   ...spices,
   ...warmSpices,
 };
-export let vegetablesCollection = enhancedVegetables;
+export const vegetablesCollection = enhancedVegetables;
 
-export let VALID_CATEGORIES = [
+export const VALID_CATEGORIES = [
   'culinary_herb',
   'spice',
   'protein',
@@ -76,7 +72,7 @@ export let VALID_CATEGORIES = [
 ] as const;
 
 // Default elemental properties
-export let DEFAULT_ELEMENTAL_PROPERTIES = {
+export const DEFAULT_ELEMENTAL_PROPERTIES = {
   Fire: 0.25,
   Water: 0.25,
   Earth: 0.25,
@@ -84,14 +80,14 @@ export let DEFAULT_ELEMENTAL_PROPERTIES = {
 };
 
 // Normalize elemental properties to sum to 1
-let normalizeElementalProperties = (
+const normalizeElementalProperties = (
   properties: Record<string, number>
 ): Record<string, number> => {
   if (!properties || Object.keys(properties).length === 0) {
     return { ...DEFAULT_ELEMENTAL_PROPERTIES };
   }
 
-  let sum = Object.values(properties).reduce(
+  const sum = Object.values(properties).reduce(
     (acc, val) => acc + (val || 0),
     0
   );
@@ -108,13 +104,13 @@ let normalizeElementalProperties = (
 };
 
 // Process and validate a single ingredient
-let processIngredient = (ingredient: unknown, name: string): Ingredient => {
+const processIngredient = (ingredient: unknown, name: string): Ingredient => {
   if (!ingredient) {
     throw new Error(`Invalid ingredient data for ${name}`);
   }
 
   // Create default lunar phase modifiers if none exist
-  let defaultLunarPhaseModifiers = {
+  const defaultLunarPhaseModifiers = {
     newMoon: {
       elementalBoost: { Earth: 0.05, Water: 0.05 },
       preparationTips: ['Best for subtle preparation methods'],
@@ -129,7 +125,7 @@ let processIngredient = (ingredient: unknown, name: string): Ingredient => {
 
   // Apply uniform standardization to the ingredient
   const ingredientData = ingredient as any;
-  let standardized = standardizeIngredient({
+  const standardized = {
     name: name,
     category: ingredientData?.category || 'culinary_herb',
     elementalProperties: normalizeElementalProperties(
@@ -143,13 +139,13 @@ let processIngredient = (ingredient: unknown, name: string): Ingredient => {
       whenCooked: { Fire: 0.1, Air: 0.05 },
     },
     ...ingredientData,
-  });
+  };
 
   return standardized as Ingredient;
 };
 
 // Process a collection of ingredients with the new properties
-let processIngredientCollection = (
+const processIngredientCollection = (
   collection: Record<string, unknown>
 ): Record<string, Ingredient> => {
   return Object.entries(collection).reduce((acc, [key, value]) => {
@@ -157,21 +153,21 @@ let processIngredientCollection = (
       const processedIngredient = processIngredient(value as any, key) as any;
 
       // Add alchemical and thermodynamic properties
-      let alchemicalProps =
+      const alchemicalProps =
         calculateAlchemicalProperties(processedIngredient);
-      let thermodynamicProps = calculateThermodynamicProperties(
+      const thermodynamicProps = calculateThermodynamicProperties(
         alchemicalProps,
         processedIngredient.elementalProperties
       );
 
       // Determine modality
-      let modality = determineIngredientModality(
+      const modality = determineIngredientModality(
         (processedIngredient as any)?.qualities || [],
         processedIngredient.elementalProperties
       );
 
       // Create elementalSignature (dominant elements in order)
-      let elementalSignature = Object.entries(
+      const elementalSignature = Object.entries(
         processedIngredient.elementalProperties
       )
         .sort((a, b) => {
@@ -206,26 +202,26 @@ let processIngredientCollection = (
 
 // Compile all ingredients into a single collection with deduplication
 // Order matters - later sources overwrite earlier ones
-export let allIngredients = (() => {
+export const allIngredients = (() => {
   // First process all collections separately
   const processedSeasonings = processIngredientCollection(seasonings);
-  let processedVegetables = processIngredientCollection(enhancedVegetables);
-  let processedFruits = processIngredientCollection(fruits);
-  let processedGrains = processIngredientCollection(grainsCollection);
-  let processedVinegars = processIngredientCollection(vinegarsCollection);
-  let processedOils = processIngredientCollection(oilsCollection);
-  let processedPlantBased = processIngredientCollection(plantBased);
-  let processedMeats = processIngredientCollection(meats);
-  let processedPoultry = processIngredientCollection(poultry);
-  let processedSeafood = processIngredientCollection(seafood);
-  let processedHerbs = processIngredientCollection(herbsCollection);
-  let processedSpices = processIngredientCollection(spicesCollection);
+  const processedVegetables = processIngredientCollection(enhancedVegetables);
+  const processedFruits = processIngredientCollection(fruits);
+  const processedGrains = processIngredientCollection(grainsCollection);
+  const processedVinegars = processIngredientCollection(vinegarsCollection);
+  const processedOils = processIngredientCollection(oilsCollection);
+  const processedPlantBased = processIngredientCollection(plantBased);
+  const processedMeats = processIngredientCollection(meats);
+  const processedPoultry = processIngredientCollection(poultry);
+  const processedSeafood = processIngredientCollection(seafood);
+  const processedHerbs = processIngredientCollection(herbsCollection);
+  const processedSpices = processIngredientCollection(spicesCollection);
   
   // Create a map to deduplicate by normalized name
   const result: Record<string, Ingredient> = {};
   
   // Helper function to normalize ingredient name for comparison
-  let normalizeIngredientName = (name: string): string => {
+  const normalizeIngredientName = (name: string): string => {
     return name.toLowerCase()
       .trim()
       .replace(/\s+/g, '_')
@@ -233,7 +229,7 @@ export let allIngredients = (() => {
   };
   
   // Build a list of collections in priority order (lowest to highest)
-  let collectionsList = [
+  const collectionsList = [
     { source: processedSeasonings, priority: 1 },
     { source: processedVegetables, priority: 2 },
     { source: processedFruits, priority: 3 },
@@ -260,7 +256,7 @@ export let allIngredients = (() => {
       result[key] = ingredient;
       
       // Also index by normalized name if it differs from the key
-      let normalizedKey = normalizeIngredientName(ingredient.name || key);
+      const normalizedKey = normalizeIngredientName(ingredient.name || key);
       if (normalizedKey !== key.toLowerCase().replace(/\s+/g, '_')) {
         // Add "name_" prefix to avoid collisions with original keys
         result[`name_${normalizedKey}`] = ingredient;
@@ -280,10 +276,10 @@ export let allIngredients = (() => {
 })();
 
 // Get a complete list of all ingredient names
-export let allIngredientNames = Object.keys(allIngredients);
+export const allIngredientNames = Object.keys(allIngredients);
 
 // Create a map of ingredients for easy lookup by name - defining AFTER allIngredients is initialized
-export let ingredientsMap = { ...allIngredients };
+export const ingredientsMap = { ...allIngredients };
 
 // Function to get all ingredients of a specific category
 export function getAllIngredientsByCategory(category: string): Ingredient[] {

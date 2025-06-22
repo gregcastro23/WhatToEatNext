@@ -74,6 +74,8 @@ export interface SimpleIngredient {
   name: string;
   amount: number;
   unit: string;
+  category?: string;
+  elementalProperties?: ElementalProperties;
 }
 
 /**

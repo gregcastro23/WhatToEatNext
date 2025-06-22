@@ -17,6 +17,9 @@ import {
   ThermodynamicProperties,
   CookingMethod
 } from './alchemy';
+
+// Re-export commonly used types for convenience
+export type { Season, ZodiacSign, LunarPhase, ThermodynamicProperties, CookingMethod } from './alchemy';
 import type { RecipeIngredient as ImportedRecipeIngredient } from './recipeIngredient';
 
 // Primary elemental properties interface - used throughout the application

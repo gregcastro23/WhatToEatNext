@@ -18,7 +18,7 @@ import { logger } from '../../utils/logger';
 import type { ScoredRecipe } from '@/types/recipe';
 import { enhancedIngredientSystem } from '@/services/adapters/IngredientServiceAdapter';
 
-import type { UnifiedIngredient } from '../../data/unified/unifiedTypes';
+import type { UnifiedIngredient } from '@/types/unified';
 
 import { Element } from "@/types/alchemy";
 import { PlanetaryAlignment } from "@/types/celestial";

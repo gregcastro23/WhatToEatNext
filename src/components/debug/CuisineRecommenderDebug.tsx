@@ -8,17 +8,15 @@ import {
   calculateElementalMatch, 
   calculateElementalProfileFromZodiac,
   calculateElementalContributionsFromPlanets
-} from '@/utils/cuisineRecommender';
-import { cuisines } from '@/data/cuisines';
-import { 
+, 
   generateTopSauceRecommendations 
 } from '@/utils/cuisineRecommender';
-import { getRecipesForCuisineMatch } from '@/data/cuisineFlavorProfiles';
+import { cuisines } from '@/data/cuisines';
+import { getRecipesForCuisineMatch , cuisineFlavorProfiles } from '@/data/cuisineFlavorProfiles';
 import { getAllRecipes } from '@/data/recipes';
 import { Recipe, ElementalProperties, ZodiacSign, LunarPhaseWithSpaces } from '@/types/alchemy';
 import { Loader2, ChevronDown, ChevronUp, Info, Flame, Droplets, Wind, Mountain } from 'lucide-react';
 import { transformCuisines, sortByAlchemicalCompatibility } from '@/utils/alchemicalTransformationUtils';
-import { cuisineFlavorProfiles } from '@/data/cuisineFlavorProfiles';
 
 type DebugStep = {
   name: string;
@@ -260,8 +258,7 @@ export default function CuisineRecommenderDebug() {
       
       // Step 2: Calculate elemental profile
       const elementalProfile = calculateElementalProfileFromZodiac(
-        astroState.zodiacSign || 'aries',
-        astroState.lunarPhase
+        String(astroState.zodiacSign) || 'aries'
       );
       
       updateStep(1, elementalProfile, true);
@@ -286,7 +283,7 @@ export default function CuisineRecommenderDebug() {
       }
       
       // Normalize
-      let total = Object.values(combinedProfile).reduce((sum, val) => sum + val, 0);
+      const total = Object.values(combinedProfile).reduce((sum, val) => sum + val, 0);
       for (const element in combinedProfile) {
         combinedProfile[element] = combinedProfile[element] / total;
       }
@@ -296,7 +293,7 @@ export default function CuisineRecommenderDebug() {
       // Step 4: Get cuisine recommendations
       let recs;
       try {
-        recs = getCuisineRecommendations(astroState as any);
+        recs = getCuisineRecommendations(combinedProfile, astroState as any);
         updateStep(3, recs.slice(0, 5), true); // Show only first 5 for readability
       } catch (err) {
         console.error('Error getting cuisine recommendations:', err);
@@ -307,7 +304,7 @@ export default function CuisineRecommenderDebug() {
       // Step 5: Transform cuisines
       let transformedCuisines;
       try {
-        transformedCuisines = transformCuisines(recs);
+        transformedCuisines = (transformCuisines as any)(recs, 'default', true, {}, 10);
         updateStep(4, transformedCuisines.slice(0, 3), true); // Show only first 3
       } catch (err) {
         console.error('Error transforming cuisines:', err);
@@ -318,9 +315,12 @@ export default function CuisineRecommenderDebug() {
       // Step 6: Sort by alchemical compatibility
       let sortedCuisines;
       try {
-        sortedCuisines = sortByAlchemicalCompatibility(
+        sortedCuisines = (sortByAlchemicalCompatibility as any)(
           transformedCuisines,
-          combinedProfile
+          combinedProfile,
+          'default',
+          true,
+          {}
         );
         
         // Add match scores
@@ -341,7 +341,7 @@ export default function CuisineRecommenderDebug() {
         setCuisineRecommendations(sortedCuisines);
       } catch (err) {
         console.error('Error sorting cuisines:', err);
-        updateStep(5, null, true, err instanceof Error ? err.message : 'Unknown error');
+        updateStep(5, null, true, err instanceof Error ? err.message : String(err) || 'Unknown error');
         sortedCuisines = transformedCuisines;
       }
       
@@ -393,7 +393,7 @@ export default function CuisineRecommenderDebug() {
       
       // Step 8: Sauce recommendations
       try {
-        const sauces = generateTopSauceRecommendations(combinedProfile, 5);
+        const sauces = (generateTopSauceRecommendations as any)(combinedProfile, 5, 'default', true, {});
         setSauceRecommendations(sauces);
         updateStep(7, sauces.slice(0, 3), true);
       } catch (err) {

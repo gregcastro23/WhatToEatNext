@@ -100,18 +100,18 @@ export class ChakraAlchemyService {
    * Get all chakras influenced by a specific planet based on alchemical energy states
    */
   public getChakrasByPlanet(planet: Planet): ChakraPosition[] {
-    // Planet to energy state mappings based on alchemical principles
+    // Planet to energy state mappings based on alchemical principles - FIXED: Capitalized planet names for type consistency
     const planetEnergyStates: Record<Planet, string[]> = {
-      'sun': ['Spirit'],
-      'moon': ['Essence', 'Matter'],
-      'mercury': ['Spirit', 'Substance'],
-      'venus': ['Essence', 'Matter'],
-      'mars': ['Essence', 'Matter'],
-      'jupiter': ['Spirit', 'Essence'],
-      'saturn': ['Spirit', 'Matter'],
-      'uranus': ['Matter'],
-      'neptune': ['Essence', 'Substance'],
-      'pluto': ['Matter']
+      'Sun': ['Spirit'],
+      'Moon': ['Essence', 'Matter'],
+      'Mercury': ['Spirit', 'Substance'],
+      'Venus': ['Essence', 'Matter'],
+      'Mars': ['Essence', 'Matter'],
+      'Jupiter': ['Spirit', 'Essence'],
+      'Saturn': ['Spirit', 'Matter'],
+      'Uranus': ['Matter'],
+      'Neptune': ['Essence', 'Substance'],
+      'Pluto': ['Matter']
     };
     
     // Get the energy states for this planet

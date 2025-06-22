@@ -48,165 +48,879 @@
   border-left: 3px solid rgba(217, 179, 255, 0.6);
 }
 
-/* Hover effects */
+/* ========== ENHANCED INGREDIENT CARD STYLES ========== */
+
+/* Base card styling */
 .ingredientCard {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border: 1px solid #e9ecef;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  cursor: pointer;
   position: relative;
   overflow: hidden;
-  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
 .ingredientCard:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  border-color: #007bff;
 }
 
-/* Section headers */
-.sectionHeader {
+.ingredientCard.expanded {
+  transform: none;
+  cursor: default;
+  max-width: none;
+  padding: 20px;
+}
+
+/* Card Header */
+.cardHeader {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  font-size: 0.875rem;
+  margin-bottom: 12px;
+}
+
+.ingredientName {
+  font-size: 1.25rem;
   font-weight: 600;
-  color: #4f46e5;
-  margin-bottom: 0.5rem;
-  padding-bottom: 0.25rem;
-  border-bottom: 1px solid rgba(79, 70, 229, 0.2);
+  color: #2c3e50;
+  margin: 0;
+  text-transform: capitalize;
 }
 
-.sectionHeader svg {
-  margin-right: 0.5rem;
+.basicTags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
-/* Tags and badges */
+.categoryTag, .subCategoryTag {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.categoryTag {
+  background-color: #e3f2fd;
+  color: #1976d2;
+}
+
+.subCategoryTag {
+  background-color: #f3e5f5;
+  color: #7b1fa2;
+}
+
+/* Expanded Content */
+.expandedContent {
+  margin-top: 20px;
+  border-top: 1px solid #e9ecef;
+  padding-top: 16px;
+}
+
+/* Tab Navigation */
+.tabNavigation {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #e9ecef;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+
+.tabButton {
+  padding: 8px 16px;
+  border: none;
+  background: transparent;
+  border-radius: 6px 6px 0 0;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #6c757d;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.tabButton:hover {
+  background-color: #f8f9fa;
+  color: #495057;
+}
+
+.tabButton.active {
+  background-color: #007bff;
+  color: white;
+  border-bottom: 2px solid #007bff;
+}
+
+/* Tab Content */
+.tabContentContainer {
+  min-height: 200px;
+}
+
+.tabContent {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Overview Tab */
+.basicInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.description {
+  font-size: 0.875rem;
+  color: #6c757d;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.infoItem {
+  font-size: 0.875rem;
+}
+
+.infoItem strong {
+  color: #495057;
+}
+
+/* Elemental Properties */
+.elementalProperties {
+  margin-top: 16px;
+}
+
+.elementalProperties h4 {
+  margin: 0 0 12px 0;
+  font-size: 1rem;
+  color: #495057;
+}
+
+.elementalGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 12px;
+}
+
+.elementalItem {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px;
+  border-radius: 6px;
+  background-color: #f8f9fa;
+}
+
+.elementName {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.elementBar {
+  width: 100%;
+  height: 6px;
+  background-color: #e9ecef;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.elementFill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.elementValue {
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+/* Element-specific colors */
+.fire .elementFill { background-color: #dc3545; }
+.fire .elementName { color: #dc3545; }
+
+.water .elementFill { background-color: #007bff; }
+.water .elementName { color: #007bff; }
+
+.earth .elementFill { background-color: #28a745; }
+.earth .elementName { color: #28a745; }
+
+.air .elementFill { background-color: #ffc107; }
+.air .elementName { color: #856404; }
+
+/* Pairings */
+.pairings {
+  margin-top: 16px;
+}
+
+.pairings h4 {
+  margin: 0 0 8px 0;
+  font-size: 1rem;
+  color: #495057;
+}
+
+.tagList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
 .tag {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.25rem 0.5rem;
-  border-radius: 9999px;
-  font-size: 0.7rem;
+  padding: 4px 8px;
+  background-color: #e9ecef;
+  color: #495057;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+/* Nutrition Tab */
+.nutritionInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.servingSize {
+  font-size: 0.875rem;
+  color: #6c757d;
+  padding: 8px 12px;
+  background-color: #f8f9fa;
+  border-radius: 6px;
+}
+
+.macronutrients h4,
+.vitamins h4,
+.minerals h4,
+.antioxidants h4 {
+  margin: 0 0 12px 0;
+  font-size: 1rem;
+  color: #495057;
+}
+
+.nutrientGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 8px;
+}
+
+.nutrientItem {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background-color: #f8f9fa;
+  border-radius: 6px;
+  font-size: 0.875rem;
+}
+
+.nutrientLabel {
+  font-weight: 500;
+  color: #495057;
+}
+
+.nutrientValue {
+  font-weight: 600;
+  color: #007bff;
+}
+
+.micronutrientList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.micronutrient {
+  padding: 4px 8px;
+  background-color: #e3f2fd;
+  color: #1976d2;
+  border-radius: 12px;
+  font-size: 0.75rem;
   font-weight: 500;
 }
 
-.tagComplementary {
-  background-color: rgba(16, 185, 129, 0.1);
-  color: rgb(16, 185, 129);
+.nutritionNotes {
+  margin-top: 16px;
+  padding: 12px;
+  background-color: #fff3cd;
+  border-radius: 6px;
+  color: #856404;
+  font-size: 0.875rem;
 }
 
-.tagAvoid {
-  background-color: rgba(239, 68, 68, 0.1);
-  color: rgb(239, 68, 68);
-}
-
-.tagCooking {
-  background-color: rgba(219, 39, 119, 0.1);
-  color: rgb(219, 39, 119);
-}
-
-.tagDish {
-  background-color: rgba(79, 70, 229, 0.1);
-  color: rgb(79, 70, 229);
-}
-
-.tagContrasting {
-  background-color: rgba(245, 158, 11, 0.1);
-  color: rgb(245, 158, 11);
-}
-
-.tagOrigin {
-  background-color: rgba(67, 56, 202, 0.1);
-  color: rgb(67, 56, 202);
-}
-
-.tagSeason {
-  background-color: rgba(5, 150, 105, 0.1);
-  color: rgb(5, 150, 105);
-}
-
-.tagQuality {
-  background-color: rgba(124, 58, 237, 0.1);
-  color: rgb(124, 58, 237);
-}
-
-.tagModality {
-  background-color: rgba(37, 99, 235, 0.1);
-  color: rgb(37, 99, 235);
-  font-weight: 600;
-  padding: 0.25rem 0.75rem;
-}
-
-.tagMethod {
-  background-color: rgba(14, 165, 233, 0.1);
-  color: rgb(14, 165, 233);
-}
-
-.sensoryTag {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.15rem 0.4rem;
-  border-radius: 4px;
-  font-size: 0.7rem;
-  background-color: rgba(139, 92, 246, 0.1);
-  color: rgb(139, 92, 246);
-}
-
-/* Nutritional info */
-.nutritionGrid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0.5rem;
-  font-size: 0.75rem;
-}
-
-/* Sensory profile */
-.sensoryGrid {
-  display: grid;
-  gap: 0.5rem;
-}
-
-/* Culinary applications */
-.culinarySection {
-  font-size: 0.75rem;
+/* Culinary Tab */
+.culinaryInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .culinaryMethod {
-  margin-bottom: 0.5rem;
+  padding: 16px;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  background-color: #fafafa;
 }
 
-.culinaryNotes {
-  font-style: italic;
-  margin-top: 0.25rem;
-  color: #6b7280;
+.culinaryMethod h4 {
+  margin: 0 0 12px 0;
+  font-size: 1rem;
+  color: #495057;
+  text-transform: capitalize;
 }
 
-/* Recipe-specific styles */
-.recipeDetails {
-  margin-top: 1rem;
-  padding-top: 0.5rem;
-  border-top: 1px dashed rgba(107, 114, 128, 0.3);
+.methodNotes ul,
+.techniques ul {
+  margin: 8px 0;
+  padding-left: 20px;
 }
 
-.optionalBadge {
-  display: inline-block;
-  padding: 0.25rem 0.5rem;
-  background-color: rgba(156, 163, 175, 0.2);
-  border-radius: 9999px;
-  color: #6b7280;
-  font-size: 0.7rem;
-  margin-top: 0.5rem;
+.methodNotes li,
+.techniques li {
+  font-size: 0.875rem;
+  margin-bottom: 4px;
 }
 
-/* Dark mode adjustments */
-@media (prefers-color-scheme: dark) {
-  .sectionHeader {
-    color: #818cf8;
-    border-bottom-color: rgba(129, 140, 248, 0.2);
+.techniques {
+  margin-top: 12px;
+}
+
+.dishes {
+  margin-top: 12px;
+}
+
+.dishes strong {
+  color: #495057;
+  font-size: 0.875rem;
+}
+
+.smokePoint {
+  padding: 12px;
+  background-color: #fff3cd;
+  border-radius: 6px;
+  color: #856404;
+}
+
+.smokePoint h4 {
+  margin: 0 0 8px 0;
+  color: #856404;
+}
+
+.seasonings {
+  margin-top: 16px;
+}
+
+.seasonings h4 {
+  margin: 0 0 12px 0;
+  color: #495057;
+}
+
+.seasoningCategory {
+  margin-bottom: 12px;
+}
+
+.seasoningCategory strong {
+  color: #495057;
+  font-size: 0.875rem;
+}
+
+/* Varieties Tab */
+.varietiesInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.varietyItem {
+  padding: 16px;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  background-color: #fafafa;
+}
+
+.varietyItem h4 {
+  margin: 0 0 8px 0;
+  color: #495057;
+}
+
+.varietyDescription {
+  font-size: 0.875rem;
+  color: #6c757d;
+  margin: 0 0 12px 0;
+}
+
+.varietyDetails {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 8px;
+}
+
+.characteristic {
+  font-size: 0.875rem;
+}
+
+.characteristic strong {
+  color: #495057;
+}
+
+/* Storage Tab */
+.storageInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.storageMethod {
+  padding: 16px;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  background-color: #fafafa;
+}
+
+.storageMethod h4 {
+  margin: 0 0 12px 0;
+  color: #495057;
+}
+
+.storageDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.storageDetails div {
+  font-size: 0.875rem;
+}
+
+.storageDetails strong {
+  color: #495057;
+}
+
+/* Astrological Tab */
+.astrologicalInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.astroSection {
+  padding: 16px;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  background-color: #fafafa;
+}
+
+.astroSection h4 {
+  margin: 0 0 12px 0;
+  color: #495057;
+}
+
+.elementalAffinity {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.baseElement,
+.secondaryElement {
+  font-size: 0.875rem;
+}
+
+.baseElement strong,
+.secondaryElement strong {
+  color: #495057;
+}
+
+/* Properties Tab */
+.propertiesInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.propertySection {
+  padding: 16px;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  background-color: #fafafa;
+}
+
+.propertySection h4 {
+  margin: 0 0 12px 0;
+  color: #495057;
+}
+
+.benefitsList,
+.cautionsList,
+.magicalUsesList {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.benefitsList li {
+  color: #28a745;
+  font-size: 0.875rem;
+  margin-bottom: 6px;
+}
+
+.cautionsList li {
+  color: #dc3545;
+  font-size: 0.875rem;
+  margin-bottom: 6px;
+}
+
+.magicalUsesList li {
+  color: #6f42c1;
+  font-size: 0.875rem;
+  margin-bottom: 6px;
+}
+
+/* Cultural Tab */
+.culturalInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.culturalSection {
+  padding: 16px;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  background-color: #fafafa;
+}
+
+.culturalSection h4 {
+  margin: 0 0 12px 0;
+  color: #495057;
+}
+
+.regionalGrid,
+.significanceGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.regionalItem,
+.significanceItem {
+  font-size: 0.875rem;
+  padding: 8px;
+  background-color: white;
+  border-radius: 4px;
+}
+
+.regionalItem strong,
+.significanceItem strong {
+  color: #495057;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .ingredientCard {
+    padding: 12px;
   }
   
-  .culinaryNotes {
+  .tabNavigation {
+    overflow-x: scroll;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .infoGrid,
+  .elementalGrid,
+  .nutrientGrid,
+  .varietyDetails {
+    grid-template-columns: 1fr;
+  }
+  
+  .tagList {
+    justify-content: flex-start;
+  }
+}
+
+/* Card hover effects for non-expanded state */
+.ingredientCard:not(.expanded):hover {
+  border-color: #007bff;
+}
+
+.ingredientCard:not(.expanded):hover .ingredientName {
+  color: #007bff;
+}
+
+/* Loading states */
+.tabContent:empty::before {
+  content: "Loading...";
+  display: block;
+  text-align: center;
+  color: #6c757d;
+  font-style: italic;
+  padding: 40px 0;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .ingredientCard {
+    background: #1f2937;
+    border-color: rgba(75, 85, 99, 0.3);
+  }
+  
+  .ingredientName {
+    color: #f9fafb;
+  }
+  
+  .tabNavigation {
+    background-color: #374151;
+  }
+  
+  .tabButton {
     color: #9ca3af;
   }
   
-  .optionalBadge {
-    background-color: rgba(75, 85, 99, 0.3);
+  .tabButton:hover {
+    color: #818cf8;
+    background-color: rgba(129, 140, 248, 0.1);
+  }
+  
+  .tabButton.active {
+    color: #818cf8;
+    background-color: #1f2937;
+  }
+  
+  .sectionTitle {
+    color: #f3f4f6;
+  }
+  
+  .sectionIcon {
+    color: #818cf8;
+  }
+  
+  .descriptionText {
     color: #d1d5db;
   }
+  
+  .nutritionItem,
+  .elementalItem,
+  .culinaryMethod,
+  .varietyCard,
+  .storageItem {
+    background-color: #374151;
+    border-color: rgba(75, 85, 99, 0.3);
+  }
+  
+  .nutritionLabel,
+  .elementName,
+  .storageLabel {
+    color: #9ca3af;
+  }
+  
+  .nutritionValue,
+  .elementValue,
+  .storageValue {
+    color: #f3f4f6;
+  }
+}
+
+/* Enhanced tab content styles */
+.elemental-nutrition {
+  margin-top: 12px;
+}
+
+.elemental-nutrition-item {
+  background: #f8fafc;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 8px;
+  border-left: 4px solid #e2e8f0;
+}
+
+.element-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.element-name {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.element-percentage {
+  font-weight: 500;
+  color: #64748b;
+  font-size: 0.85rem;
+}
+
+.element-benefit {
+  font-size: 0.8rem;
+  color: #64748b;
+  line-height: 1.4;
+}
+
+.elemental-item-detailed {
+  background: #f8fafc;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 8px;
+  border-left: 4px solid #e2e8f0;
+}
+
+.element-description {
+  font-size: 0.8rem;
+  color: #64748b;
+  margin-top: 4px;
+  line-height: 1.4;
+}
+
+.general-astrology {
+  background: #fefce8;
+  border-radius: 8px;
+  padding: 16px;
+  border: 1px solid #fef3c7;
+}
+
+.astro-category {
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+.seasonal-note {
+  font-size: 0.9rem;
+  color: #92400e;
+}
+
+.general-storage {
+  background: #f0f9ff;
+  border-radius: 8px;
+  padding: 16px;
+  border: 1px solid #bae6fd;
+}
+
+.category-storage {
+  margin-bottom: 16px;
+  line-height: 1.5;
+  padding: 12px;
+  background: white;
+  border-radius: 6px;
+  border-left: 4px solid #3b82f6;
+}
+
+.storage-tips h5 {
+  margin: 16px 0 8px 0;
+  color: #1e40af;
+  font-weight: 600;
+}
+
+.tip-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.storage-tip {
+  font-size: 0.85rem;
+  color: #1e40af;
+  line-height: 1.4;
+  padding: 4px 0;
+}
+
+.nutrition-general {
+  background: #f0fdf4;
+  border-radius: 8px;
+  padding: 16px;
+  border: 1px solid #bbf7d0;
+}
+
+.general-benefit {
+  line-height: 1.5;
+  color: #166534;
+}
+
+/* Improve existing styles */
+.quality-tag,
+.pairing-badge,
+.correspondence-tag {
+  display: inline-block;
+  background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+  color: #475569;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  margin: 2px;
+  border: 1px solid #e2e8f0;
+}
+
+.heat-level-display {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.heat-dots {
+  display: flex;
+  gap: 2px;
+}
+
+.heat-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #e2e8f0;
+}
+
+.heat-dot.active {
+  background: #ef4444;
+}
+
+.heat-value {
+  font-size: 0.8rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.culinary-detail,
+.fact-item {
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+
+.fact-label {
+  font-weight: 600;
+  color: #374151; /* Darker for better readability */
+  margin-right: 8px;
+}
+
+.fact-value {
+  color: #1f2937; /* Much darker for better contrast */
+  font-weight: 500;
+}
+
+.astrology-note {
+  margin-top: 12px;
+  padding: 12px;
+  background: #fef7ff;
+  border-radius: 6px;
+  border-left: 4px solid #a855f7;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: #1f2937; /* Darker for better readability */
+  margin-bottom: 8px;
 } 

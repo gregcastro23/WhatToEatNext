@@ -12,12 +12,12 @@ import { IngredientService } from '../IngredientService';
 import { RecipeIngredient } from '@/types/recipe';
 import { unifiedIngredientService } from '../UnifiedIngredientService';
 import { createLogger } from '../../utils/logger';
-import type { UnifiedIngredient } from '@/data/unified/unifiedTypes';
+import type { UnifiedIngredient } from '@/types/unified';
 import type { 
-  ElementalProperties, 
   Season,
   ZodiacSign,
   PlanetName } from '@/types/ingredient';
+import type { ElementalProperties } from '@/types/celestial';
 import type { ThermodynamicMetrics } from '@/types/alchemical';
 import type { Recipe } from "@/types/recipe";
 import type { IngredientFilter, IngredientRecommendationOptions } from '../interfaces/IngredientServiceInterface';
@@ -157,9 +157,10 @@ export class LegacyIngredientAdapter extends IngredientService {
   /**
    * Override calculateElementalProperties to use modern service
    */
-  public override calculateElementalProperties(ingredient: Partial<UnifiedIngredient>): ElementalProperties {
+  public calculateElementalProperties(ingredient: any): ElementalProperties {
     try {
-      return unifiedIngredientService.calculateElementalProperties(ingredient as any); // Pattern UUU: Import Path Interface Resolution
+      const result = unifiedIngredientService.calculateElementalProperties(ingredient as any); // Pattern UUU: Import Path Interface Resolution
+      return result as any; // Pattern TS2345-I: Import Path Type Conflicts
     } catch (error) {
       logger.error(`Error in calculateElementalProperties for "${ingredient.name || 'unknown'}":`, error);
       // Fall back to original implementation if needed
@@ -180,7 +181,7 @@ export class LegacyIngredientAdapter extends IngredientService {
     } catch (error) {
       logger.error('Error in getRecommendedIngredients:', error);
       // Fall back to original implementation if needed
-      return super.getRecommendedIngredients(elementalState, options);
+      return super.getRecommendedIngredients(elementalState as any, options);
     }
   }
   

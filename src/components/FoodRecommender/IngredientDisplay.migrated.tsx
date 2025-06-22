@@ -3,8 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { useServices } from '@/hooks/useServices';
 
-import { Element } from "@/types/alchemy";
-import { ElementalProperties } from "@/types/alchemy";
+import { Element , ElementalProperties } from "@/types/alchemy";
 import { PlanetaryPosition } from "@/types/celestial";
 // Basic types for ingredients
 interface Ingredient {

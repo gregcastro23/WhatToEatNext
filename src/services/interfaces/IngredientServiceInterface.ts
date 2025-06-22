@@ -19,7 +19,7 @@ import type { ElementalProperties,
   Season,
   PlanetName,
   ZodiacSign } from "@/types/alchemy";
-import type { UnifiedIngredient } from '../../data/unified/unifiedTypes';
+import type { UnifiedIngredient } from '@/types/unified';
 import type { Recipe } from "@/types/recipe";
 
 /**

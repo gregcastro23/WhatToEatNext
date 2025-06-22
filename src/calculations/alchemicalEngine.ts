@@ -431,16 +431,18 @@ export class AlchemicalEngineAdvanced {
       
       const affinity = this.getElementalAffinity(recipeElement, userElement);
       
-      // Convert affinity to a power score (0.5-0.9)
-      switch (affinity) {
-        case 'strong':
-          return 0.8;
-        case 'moderate':
-          return 0.7;
-        case 'weak':
-          return 0.6;
-        default:
-          return 0.5;
+      // Convert affinity strength to a power score (0.5-0.9)
+      const strength = affinity.strength;
+      if (strength >= 0.8) {
+        return 0.9;
+      } else if (strength >= 0.6) {
+        return 0.8;
+      } else if (strength >= 0.4) {
+        return 0.7;
+      } else if (strength >= 0.2) {
+        return 0.6;
+      } else {
+        return 0.5;
       }
     } catch (error) {
       ErrorHandler.log(error, {
@@ -847,7 +849,7 @@ function getElementRanking(
     }
     
     // Create a new object for the results, not a reference to the parameter
-    let rankingObject: Record<number, string> = {};
+    const rankingObject: Record<number, string> = {};
     
     // Get values safely with defaults
     const fireValue = elementObject.Fire || 0;
@@ -951,7 +953,7 @@ export function alchemize(
     }
     
     // Use let for all variables that might be reassigned
-    let horoscope = horoscopeDict.tropical;
+    const horoscope = horoscopeDict.tropical;
     const silent_mode = false;
     
     // Validate horoscope has required data
@@ -978,7 +980,7 @@ export function alchemize(
     };
     
     // Initialize alchemical info with default values - use let since it's modified later
-    let alchmInfo = {
+    const alchmInfo = {
       'Sun Sign': '',
       'Major Arcana': {
         'Sun': "",
@@ -1059,7 +1061,7 @@ export function alchemize(
       
       // SAFELY update planetInfo with correct typing
       if (typeof planetInfo === 'object' && planetInfo && 'Ascendant' in planetInfo) {
-        let ascendantInfo = planetInfo['Ascendant'] as any;
+        const ascendantInfo = planetInfo['Ascendant'] as any;
         if (typeof ascendantInfo === 'object') {
           ascendantInfo['Diurnal Element'] = signInfo[rising_sign]?.element || 'Air';
           ascendantInfo['Nocturnal Element'] = signInfo[rising_sign]?.element || 'Air';
@@ -1228,7 +1230,7 @@ export function alchemize(
             
             // Process dignity effect
             try {
-              let dignity_effect = createElementObject();
+              const dignity_effect = createElementObject();
               
               if (planetInfo[planet] && planetInfo[planet]["Dignity Effect"] && 
                   planetInfo[planet]["Dignity Effect"][sign]) {
@@ -1914,17 +1916,17 @@ function calculateChakraEnergies(
 
     // Define mapping from zodiac signs to chakras
     const zodiacToChakraMap: Record<string, ChakraPosition[]> = {
-      // Root chakra is associated with earth signs
+      // Root chakra is associated with earth and stability
       taurus: ['root'],
-      virgo: ['root'],
       capricorn: ['root'],
+      virgo: ['throat', 'root'], // Virgo influences multiple chakras
 
-      // Sacral chakra is associated with water signs
+      // Sacral chakra is associated with water and emotions
       cancer: ['sacral'],
-      scorpio: ['sacral'],
-      pisces: ['sacral'],
+      scorpio: ['brow', 'sacral'], // Use 'brow' instead of 'thirdEye' for consistency
+      pisces: ['heart', 'sacral'], // Pisces influences multiple chakras
 
-      // Solar plexus is associated with fire signs
+      // Solar plexus is associated with fire and willpower
       aries: ['solarPlexus'],
       leo: ['solarPlexus'],
       sagittarius: ['solarPlexus'],
@@ -1932,14 +1934,9 @@ function calculateChakraEnergies(
       // Heart chakra is associated with air and water
       libra: ['heart'],
       aquarius: ['heart'],
-      pisces: ['heart', 'sacral'], // Pisces influences multiple chakras
 
       // Throat chakra is associated with communication
       gemini: ['throat'],
-      virgo: ['throat', 'root'], // Virgo influences multiple chakras
-
-      // Brow/third eye is associated with intuition
-      scorpio: ['brow', 'sacral'], // Use 'brow' instead of 'thirdEye' for consistency
     };
 
     // Reset chakra energies to 0 before calculating (keeps default values for missing ones)
@@ -2023,7 +2020,6 @@ function calculateChakraEnergies(
       throat: 0.125,
       thirdEye: 0.125,
       crown: 0.125,
-      brow: 0.125,
     } as ChakraEnergies;
     
     return defaultEnergies;
@@ -2088,7 +2084,6 @@ async function getCurrentAstrologicalState(): Promise<AstrologicalState> {
     return {
       currentZodiac: sunSign,
       sunSign,
-      moonPhase: lunarPhase,
       lunarPhase,
       activePlanets,
       elementalProperties,
@@ -2107,7 +2102,6 @@ async function getCurrentAstrologicalState(): Promise<AstrologicalState> {
     return {
       currentZodiac: 'aries',
       sunSign: 'aries',
-      moonPhase: 'full moon',
       lunarPhase: 'full moon',
       activePlanets: ['sun', 'moon'],
       elementalProperties: {

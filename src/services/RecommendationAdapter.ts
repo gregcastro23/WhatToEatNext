@@ -208,13 +208,13 @@ export class RecommendationAdapter {
     try {
       // Get alchemical results from the positions
       const result = alchemize(
-        this.convertedPositions, 
+        this.convertedPositions as any, 
         this.isDaytime,
         this.lunarPhase || undefined,
         this.retrogradeStatus
       );
       
-      this.alchemicalResult = result;
+      this.alchemicalResult = result as Record<string, number>;
       
       // Prepare alchemical properties
       const alchemicalProperties = {
@@ -388,7 +388,7 @@ export class RecommendationAdapter {
    */
   private getPlanetData(planet: string): Record<string, unknown> {
     const planetKey = planet.charAt(0).toUpperCase() + planet.slice(1).toLowerCase();
-    return planetInfo[planetKey as keyof typeof planetInfo] || {};
+    return (planetInfo[planetKey as keyof typeof planetInfo] || {}) as Record<string, unknown>;
   }
   
   /**

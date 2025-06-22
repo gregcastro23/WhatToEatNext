@@ -4,11 +4,10 @@ import { useState, useEffect } from 'react';
 import { ElementalCalculator } from '@/services/ElementalCalculator';
 import { getIngredientRecommendations, IngredientRecommendation, RecommendationOptions, GroupedIngredientRecommendations } from '@/utils/ingredientRecommender';
 import styles from './IngredientRecommendations.module.css';
-import type { ElementalProperties, ZodiacSign, Season, ElementalState } from '@/types/alchemy';
+import type { ElementalProperties, ZodiacSign, Season, ElementalState , Ingredient } from '@/types/alchemy';
 import { useAstrologicalState } from '@/hooks/useAstrologicalState';
 import { Flame, Droplets, Mountain, Wind } from 'lucide-react';
 import { toZodiacSign } from '@/utils/zodiacUtils';
-import type { Ingredient } from '@/types/alchemy';
 import { calculateAlchemicalProperties, calculateThermodynamicProperties, determineIngredientModality } from '@/utils/ingredientUtils';
 import type { Modality } from '@/data/ingredients/types';
 

@@ -285,14 +285,14 @@ export class UnifiedNutritionalService {
       
       // Check protein range
       if (filter.minProtein !== undefined || filter.maxProtein !== undefined) {
-        const protein = nutritionalProfile.protein || nutritionalProfile.macros?.protein || 0;
+        const protein = (nutritionalProfile as any).protein || (nutritionalProfile as any).macros?.protein || 0;
         if (filter.minProtein !== undefined && protein < filter.minProtein) return false;
         if (filter.maxProtein !== undefined && protein > filter.maxProtein) return false;
       }
       
       // Check fiber range
       if (filter.minFiber !== undefined || filter.maxFiber !== undefined) {
-        const fiber = nutritionalProfile.fiber || nutritionalProfile.macros?.fiber || 0;
+        const fiber = (nutritionalProfile as any).fiber || (nutritionalProfile as any).macros?.fiber || 0;
         if (filter.minFiber !== undefined && fiber < filter.minFiber) return false;
         if (filter.maxFiber !== undefined && fiber > filter.maxFiber) return false;
       }
@@ -306,14 +306,14 @@ export class UnifiedNutritionalService {
       
       // Check carb range
       if (filter.minCarbs !== undefined || filter.maxCarbs !== undefined) {
-        const carbs = nutritionalProfile.carbs || nutritionalProfile.macros?.carbs || 0;
+        const carbs = (nutritionalProfile as any).carbs || (nutritionalProfile as any).macros?.carbs || 0;
         if (filter.minCarbs !== undefined && carbs < filter.minCarbs) return false;
         if (filter.maxCarbs !== undefined && carbs > filter.maxCarbs) return false;
       }
       
       // Check fat range
       if (filter.minFat !== undefined || filter.maxFat !== undefined) {
-        const fat = nutritionalProfile.fat || nutritionalProfile.macros?.fat || 0;
+        const fat = (nutritionalProfile as any).fat || (nutritionalProfile as any).macros?.fat || 0;
         if (filter.minFat !== undefined && fat < filter.minFat) return false;
         if (filter.maxFat !== undefined && fat > filter.maxFat) return false;
       }
@@ -346,19 +346,19 @@ export class UnifiedNutritionalService {
       
       // Check high protein flag
       if (filter.highProtein) {
-        const protein = nutritionalProfile.protein || nutritionalProfile.macros?.protein || 0;
+        const protein = (nutritionalProfile as any).protein || (nutritionalProfile as any).macros?.protein || 0;
         if (protein < 10) return false; // Threshold for high protein
       }
       
       // Check low carb flag
       if (filter.lowCarb) {
-        const carbs = nutritionalProfile.carbs || nutritionalProfile.macros?.carbs || 0;
+        const carbs = (nutritionalProfile as any).carbs || (nutritionalProfile as any).macros?.carbs || 0;
         if (carbs > 20) return false; // Threshold for low carb
       }
       
       // Check low fat flag
       if (filter.lowFat) {
-        const fat = nutritionalProfile.fat || nutritionalProfile.macros?.fat || 0;
+        const fat = (nutritionalProfile as any).fat || (nutritionalProfile as any).macros?.fat || 0;
         if (fat > 10) return false; // Threshold for low fat
       }
       

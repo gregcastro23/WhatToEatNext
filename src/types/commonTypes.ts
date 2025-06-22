@@ -66,7 +66,7 @@ export interface Ingredient {
 }
 
 // Re-export all types
-export {
+export type {
   Season,
   Element,
   ZodiacSign,

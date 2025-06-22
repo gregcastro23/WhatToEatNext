@@ -34,7 +34,7 @@ export const getAstrologicalEffect = (
   method: CookingMethod,
   astroState: AstrologicalState
 ): number => {
-  const methodData = allCookingMethods[method];
+  const methodData = allCookingMethods[method as unknown as keyof typeof allCookingMethods];
   if (!methodData || !methodData.astrologicalInfluences) return 0.5;
 
   let effectScore = 0.5; // Neutral score as default
@@ -79,7 +79,7 @@ export const calculateModifiedElementalEffect = (
   temperature?: number,
   currentSeason?: Season
 ): ElementalProperties => {
-  const methodData = allCookingMethods[method];
+  const methodData = allCookingMethods[method as unknown as keyof typeof allCookingMethods];
   if (!methodData || !methodData.elementalEffect) {
     return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
   }
@@ -135,12 +135,39 @@ export {
 };
 
 /**
- * Get a specific cooking method by name
+ * Get cooking method data with proper type safety
+ * @param method The cooking method to look up
+ * @returns The cooking method data or undefined if not found
+ */
+export function getCookingMethodData(method: CookingMethod): CookingMethodData | undefined {
+  const methodData = allCookingMethods[method as unknown as keyof typeof allCookingMethods];
+  return methodData;
+}
+
+/**
+ * Get cooking method data by string name with safe fallback
+ * @param method The cooking method name as string
+ * @returns The cooking method data or undefined if not found
+ */
+export function getCookingMethodByName(method: string): CookingMethodData | undefined {
+  // First try direct lookup
+  const directLookup = allCookingMethods[method as unknown as keyof typeof allCookingMethods];
+  if (directLookup) return directLookup;
+  
+  // Try lowercase lookup
+  const lowercaseLookup = allCookingMethods[method.toLowerCase() as unknown as keyof typeof allCookingMethods];
+  if (lowercaseLookup) return lowercaseLookup;
+  
+  return undefined;
+}
+
+/**
+ * Get a specific cooking method by name (legacy function)
  * @param name The name of the cooking method to retrieve
  * @returns The cooking method data or undefined if not found
  */
 export function getCookingMethod(name: string): CookingMethodData | undefined {
-  return allCookingMethods[name] || allCookingMethods[name.toLowerCase()];
+  return getCookingMethodByName(name);
 }
 
 /**

@@ -51,4 +51,4 @@ const rawAmaranth = {
   }
 };
 
-export let amaranth = fixIngredientMappings(rawAmaranth); 
+export const amaranth = fixIngredientMappings(rawAmaranth); 

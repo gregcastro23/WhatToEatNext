@@ -4,6 +4,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { calculatePlanetaryPositions, calculateAspects, longitudeToZodiacPosition, getPlanetaryDignity } from '@/utils/astrologyUtils';
 import { getCurrentSeason } from '@/data/integrations/seasonal';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import { PlanetaryAspect } from '@/types/celestial';
 
 // Default placeholder for planetary positions
 const getDefaultPlanetaryPositions = () => {
@@ -32,13 +33,7 @@ const getDefaultPlanetaryPositions = () => {
   };
 };
 
-interface PlanetaryAspect {
-  planet1: string;
-  planet2: string;
-  type: string;
-  orb: number;
-  strength: number;
-}
+// Removed local PlanetaryAspect interface - now using authoritative definition from @/types/celestial
 
 export interface ChartData {
   planetaryPositions: Record<string, unknown>;

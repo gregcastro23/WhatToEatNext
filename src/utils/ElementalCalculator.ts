@@ -20,7 +20,7 @@ export function calculateMatchScore(
   }
 
   // Ensure each elemental property is a valid number
-  let validatedProperties = {
+  const validatedProperties = {
     Fire:
       typeof elementalProperties.Fire === 'number' &&
       !isNaN(elementalProperties.Fire)
@@ -54,7 +54,7 @@ export function calculateMatchScore(
   }
 
   // Validate elementalState to avoid NaN results
-  let validatedState = {
+  const validatedState = {
     Fire:
       typeof elementalState.Fire === 'number' && !isNaN(elementalState.Fire)
         ? elementalState.Fire
@@ -80,8 +80,8 @@ export function calculateMatchScore(
   // Process each element (Fire, Water, Earth, Air)
   for (const element of ['Fire', 'Water', 'Earth', 'Air']) {
     // Get values, defaulting to 0 if undefined
-    let ingredientValue = validatedProperties[element] || 0;
-    let stateValue = validatedState[element] || 0;
+    const ingredientValue = validatedProperties[element] || 0;
+    const stateValue = validatedState[element] || 0;
 
     // Calculate the element-specific match using a more nuanced formula
     // Higher values in both ingredient and state = better match
@@ -100,7 +100,7 @@ export function calculateMatchScore(
 
     if (options?.season) {
       // Adjust weight based on season
-      let season = options.season.toLowerCase();
+      const season = options.season.toLowerCase();
       if (season === 'winter' && element === 'Fire') elementWeight = 1.5;
       if (season === 'spring' && element === 'Air') elementWeight = 1.5;
       if (season === 'summer' && element === 'Fire') elementWeight = 1.5;
@@ -115,7 +115,7 @@ export function calculateMatchScore(
 
     // Apply meal type weight adjustments
     if (options?.mealType) {
-      let mealType = options.mealType.toLowerCase();
+      const mealType = options.mealType.toLowerCase();
       // Breakfast emphasizes Fire and Air (energy for the day)
       if (mealType === 'breakfast') {
         if (element === 'Fire' || element === 'Air') elementWeight *= 1.3;
@@ -142,11 +142,11 @@ export function calculateMatchScore(
         import('../data/cuisineFlavorProfiles')
           .then((module) => {
             const { getCuisineProfile } = module;
-            let cuisineProfile = getCuisineProfile(options.cuisine);
+            const cuisineProfile = getCuisineProfile(options.cuisine);
 
             if (cuisineProfile?.elementalAlignment) {
               // If cuisine heavily emphasizes this element, weight it higher
-              let cuisineElementValue =
+              const cuisineElementValue =
                 cuisineProfile.elementalAlignment[element] || 0;
               if (cuisineElementValue > 0.5) {
                 elementWeight *= 1 + (cuisineElementValue - 0.5); // Up to 1.5x for element value of 1.0
@@ -167,7 +167,7 @@ export function calculateMatchScore(
   }
 
   // Calculate final score (normalize by total weight)
-  let rawScore = totalWeight > 0 ? similarityScore / (totalWeight || 1) : 0.5;
+  const rawScore = totalWeight > 0 ? similarityScore / (totalWeight || 1) : 0.5;
 
   // Apply non-linear transformation to enhance differences
   // This makes high matches more distinguishable from medium matches

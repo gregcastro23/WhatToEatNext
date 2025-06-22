@@ -1,5 +1,4 @@
-import type { ElementalProperties } from '@/types/alchemy';
-import type { ZodiacSign } from '@/types/alchemy';
+import type { ElementalProperties , ZodiacSign } from '@/types/alchemy';
 
 export type IngredientCategory = 
     | 'culinary_herb' 

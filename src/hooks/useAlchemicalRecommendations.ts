@@ -2,10 +2,9 @@ import { useState, useEffect, useMemo } from 'react';
 import { RulingPlanet } from '../constants/planets';
 import { ElementalCharacter, AlchemicalProperty } from '../constants/planetaryElements';
 import { ElementalItem } from '../calculations/alchemicalTransformation';
-import { AlchemicalItem } from '../types/alchemy';
+import { AlchemicalItem , LunarPhase, LunarPhaseWithSpaces, ZodiacSign, PlanetaryAspect } from '../types/alchemy';
 import { RecommendationAdapter } from '../services/RecommendationAdapter';
 import { AlchemicalRecommendations } from '../services/AlchemicalTransformationService';
-import { LunarPhase, LunarPhaseWithSpaces, ZodiacSign, PlanetaryAspect } from '../types/alchemy';
 
 interface UseAlchemicalRecommendationsProps {
   ingredients: ElementalItem[];

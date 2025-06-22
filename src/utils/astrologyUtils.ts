@@ -2247,7 +2247,7 @@ export function transformItemsWithPlanetaryPositions(
           currentElementalInfluence
         ) as any,
         seasonalResonance: calculateSeasonalResonance(dominantElement)
-      } as AlchemicalItem;
+      } as unknown as AlchemicalItem;
 
       return alchemicalItem;
     });
@@ -2289,7 +2289,7 @@ export function transformItemsWithPlanetaryPositions(
         },
         transformations: [],
         seasonalResonance: []
-      } as AlchemicalItem;
+      } as unknown as AlchemicalItem;
     });
   }
 }

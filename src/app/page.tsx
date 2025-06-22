@@ -81,15 +81,21 @@ export default function Home() {
           </ClientOnly>
         </header>
         
-        {/* Navigation Jump Links */}
-        <nav className="flex flex-wrap justify-center gap-4 mb-8 bg-white rounded-lg shadow-md p-4 sticky top-2 z-10">
-          <a href="#cuisine" className="text-indigo-600 hover:text-indigo-800 font-medium">
-            Cuisine Recommendations
-          </a>
-          <a href="#ingredients" className="text-indigo-600 hover:text-indigo-800 font-medium">
-            Ingredient Recommendations
-          </a>
-        </nav>
+        {/* Mission Statement */}
+        <div className="mb-8 bg-gradient-to-r from-indigo-100 via-purple-100 to-indigo-100 rounded-lg shadow-md p-6 text-center">
+          <h2 className="text-2xl font-bold mb-4 text-indigo-900">Our Mission</h2>
+          <p className="text-lg text-indigo-700 leading-relaxed max-w-4xl mx-auto mb-4">
+            Culinary knowledge is humanity's most precious inheritance—a bridge between science, culture, and the cosmos. 
+            Through decades of studying science, astrology, and culinary arts, combined with the power of AI, 
+            I've unlocked a wealth of knowledge that should belong to everyone. This platform represents the fusion 
+            of ancient wisdom with modern technology, making the art of cooking accessible to all who seek to 
+            nourish both body and soul.
+          </p>
+          <p className="text-md text-indigo-600 italic max-w-3xl mx-auto">
+            Whether you're planning your next home-cooked masterpiece or just trying to figure out which cuisine to order 
+            when you don't feel like cooking, we've got you covered with celestial guidance for every culinary decision.
+          </p>
+        </div>
         
         <div className="flex flex-col gap-6 max-w-6xl mx-auto">
           <div id="cuisine" className="bg-white rounded-lg shadow-md p-5 w-full">

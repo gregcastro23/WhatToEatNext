@@ -24,7 +24,7 @@ export function enrichIngredientsWithFlavorProfiles(
 
 // Mapping of common ingredient names to their flavor profiles
 // Values should be between 0-1, where 0 is none of that flavor and 1 is maximum intensity
-const ingredientFlavorMap: Record<string, IngredientFlavorProfile> = {
+export const ingredientFlavorMap: Record<string, IngredientFlavorProfile> = {
   // Vegetables
   "onion": { spicy: 0.4, sweet: 0.3, sour: 0.1, bitter: 0.1, salty: 0.1, umami: 0.4 },
   
@@ -101,7 +101,7 @@ export function getFlavorProfileForIngredient(ingredientName: string): Ingredien
   }
   
   // Try to find partial matches
-  let nameLower = ingredientName.toLowerCase();
+  const nameLower = ingredientName.toLowerCase();
   for (const [key, profile] of Object.entries(ingredientFlavorMap)) {
     if (
       nameLower.includes(key.toLowerCase()) || 

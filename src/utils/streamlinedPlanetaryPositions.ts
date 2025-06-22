@@ -9,13 +9,13 @@
 import { CelestialPosition , PlanetaryPosition } from '../types/celestial';
 import { ZodiacSign } from '../types';
 
-import { logger } from './logger';
 import { validatePlanetaryPositions } from './validatePlanetaryPositions';
 
 import { cache } from '../utils/cache';
 import { createLogger } from '../utils/logger';
 import { getCurrentTransitSign } from '../utils/astrology';
 
+// Create local logger instance - removed conflicting import
 const logger = createLogger('StreamlinedPlanetaryPositions');
 
 // Cache system to avoid redundant calculations

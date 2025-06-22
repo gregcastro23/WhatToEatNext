@@ -413,8 +413,8 @@ export const getIngredientsFromCategories = async (
 };
 
 // Phase 8: Cached ingredient data for performance
-let cachedAllIngredientsData: any[] | null = null;
-let cacheTimestamp: number = 0;
+const cachedAllIngredientsData: any[] | null = null;
+const cacheTimestamp: number = 0;
 const CACHE_TTL = 300000; // 5 minutes
 
 export const getAllIngredientsData = async (): Promise<any[]> => {

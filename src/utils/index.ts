@@ -1,5 +1,5 @@
 /**
- * Utilities index file for easier imports
+ * Utilities index file for easier imports - Fixed for TS2308 conflicts
  */
 
 // Export all validation utilities
@@ -11,9 +11,16 @@ export * from './safeAccess';
 // Export logger
 export { logger, createLogger } from './logger';
 
-// Export existing utilities - re-export as needed
+// Export existing utilities with explicit re-exports to avoid conflicts
 export * from './elementalUtils';
-export * from './astrologyUtils';
+
+// Explicit re-exports from astrologyUtils to avoid conflicts
+export { 
+  getSignFromLongitude,
+  getZodiacElementalInfluence,
+  getZodiacSign
+} from './astrologyUtils';
+
 export * from './zodiacUtils';
 
 // Named exports for specific utilities

@@ -71,7 +71,7 @@ export default function KalchmRecommender({
           ) : [];
         
         // Group by category
-        const groupedRecommendations = recommendedIngredients.reduce<Record<string, UnifiedIngredient[]>>(
+        const groupedRecommendations = recommendedIngredients.reduce<Record<string, any[]>>(
           (groups, ingredient) => {
             const category = ingredient.category;
             if (!groups[category]) {
@@ -80,7 +80,7 @@ export default function KalchmRecommender({
             
             // Only add if we haven't reached the limit for this category
             if (groups[category].length < Math.ceil(maxRecommendations / showCategories.length)) {
-              groups[category].push(ingredient);
+              groups[category].push(ingredient as any);
             }
             
             return groups;

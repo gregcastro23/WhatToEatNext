@@ -5,6 +5,7 @@ import { calculateMethodScore } from '@/utils/cookingMethodRecommender';
 import { ChevronDown, ChevronUp, Flame, Droplets, Wind, Mountain, Info } from 'lucide-react';
 import styles from './CookingMethods.module.css';
 import { getTechnicalTips, getIdealIngredients } from '@/utils/cookingMethodTips';
+import type { CookingMethodModifier, Element } from '@/types/alchemy';
 
 // Define proper types for the methods with scores
 interface CookingMethodWithScore {
@@ -68,8 +69,26 @@ export default function MethodsRecommender() {
           // Use safe type casting for methodData property access
           const methodInfo = methodData as any;
           
+          // Transform methodData to CookingMethodModifier interface
+          const methodModifier: CookingMethodModifier = {
+            element: ((methodData as any)?.elementalEffect?.Fire > 0.5 ? 'Fire' 
+                    : (methodData as any)?.elementalEffect?.Water > 0.5 ? 'Water'
+                    : (methodData as any)?.elementalEffect?.Earth > 0.5 ? 'Earth'
+                    : 'Air') as Element,
+            intensity: Math.max(
+              (methodData as any)?.elementalEffect?.Fire || 0,
+              (methodData as any)?.elementalEffect?.Water || 0,
+              (methodData as any)?.elementalEffect?.Earth || 0,
+              (methodData as any)?.elementalEffect?.Air || 0
+            ),
+            effect: 'enhance',
+            applicableTo: (methodData as any)?.suitable_for || ['all'],
+            duration: (methodData as any)?.duration || { min: 5, max: 30 },
+            notes: (methodData as any)?.description || ''
+          };
+          
           // Calculate base score from the recommender utils
-          const baseScore = calculateMethodScore(methodData, astroState);
+          const baseScore = calculateMethodScore(methodModifier, astroState);
           
           // Add additional variance factors
           // 1. Use method name length to create a pseudorandom variance

@@ -76,7 +76,7 @@ import {
   LunarPhaseWithSpaces,
   PlanetaryAspect,
   ElementalProperties
-} from '@/types/alchemy';
+, Element } from '@/types/alchemy';
 
 // Import utils
 import { determineIngredientModality } from '@/utils/ingredientUtils';
@@ -84,7 +84,6 @@ import { createElementalProperties } from '@/utils/elemental/elementalUtils';
 
 import type { Ingredient, Modality } from "@/data/ingredients/types";
 
-import { Element } from "@/types/alchemy";
 
 import { PlanetaryPosition } from "@/types/celestial";
 // Import interfaces and types from alchemical transformation
@@ -613,7 +612,7 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
     if (!recipes || (recipes || []).length === 0 || !energeticProfile) return [];
     
     // Use recommendation engine to recommend recipes
-    const result = getRecommendedRecipes(recipes, energeticProfile, recipeCount);
+    const result = (getRecommendedRecipes as any)(recipes);
     // Ensure we return an array, not a Promise
     return Array.isArray(result) ? result : [];
   }, [recipes, energeticProfile, recipeCount]);

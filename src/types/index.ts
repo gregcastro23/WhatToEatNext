@@ -168,46 +168,58 @@ export type DietaryRestriction =
 // Export ZodiacAffinity types
 export * from './zodiacAffinity';
 
-// Re-export all relevant types from their modules
-// Remove duplicate exports to avoid conflicts
+// Re-export all relevant types from their modules with explicit exports to avoid conflicts
 export * from './elemental';
 export * from './nutrition';
 export * from './spoonacular';
-export * from './recipe';
+
+// Explicit re-exports from recipe module to avoid conflicts
+export type { 
+  Recipe,
+  RecipeIngredient,
+  ElementalProperties as RecipeElementalProperties,
+  validateRecipe,
+  validateIngredient,
+  IngredientMapping
+} from './recipe';
+
 export * from './zodiac';
-export * from './time';
-export * from './seasons';
-export * from './seasonal';
-export * from './cuisine';
-export * from './chakra';
-export * from './astrology';
-export * from './astrological';
-export * from './lunar';
+
+// Explicit re-exports from time module to avoid conflicts
+export type { 
+  WeekDay,
+  TimeOfDay,
+  PlanetaryDay,
+  PlanetaryHour,
+  MealType,
+  TimeFactors,
+  getTimeFactors
+} from './time';
+
+// Explicit re-exports from seasons module to avoid conflicts
+export type { Season, SeasonalProfile, SeasonalAdjustment, SeasonalRecommendations, recipe as SeasonalRecipe } from './seasons';
+
+// Explicit re-exports from zodiacAffinity module to avoid conflicts
+export type { Modality, ZodiacAffinity } from './zodiacAffinity';
+
+// Explicit re-exports from lunar module to avoid conflicts
+export type { 
+  LunarPhaseModifier 
+} from './lunar';
+
 export * from './food';
 export * from './ingredient';
-export * from './cookingMethod';
+
+// Explicit re-exports from cookingMethod module to avoid conflicts
+export type { 
+  CookingMethodData
+} from './cookingMethod';
+
 export * from './recipeIngredient';
 export * from './recipes';
 export * from './ingredient-compatibility';
 export * from './utils';
 export * from './validation';
-
-// Remove these duplicate imports - they're already being exported above
-// import { 
-//   Ingredient,
-//   BaseIngredient,
-//   IngredientCategory,
-//   SensoryProfile,
-//   CookingMethod,
-//   AlchemicalProperties,
-//   ThermodynamicProperties,
-//   ElementalTransformation,
-//   LunarPhaseModifier,
-//   IngredientMapping,
-//   RecipeIngredient,
-//   SimpleIngredient,
-//   Modality
-// } from './ingredients';
 
 // Define core app state types
 export interface AppState {

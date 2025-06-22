@@ -13,7 +13,7 @@ import type { CookingMethodData } from '@/types/cookingMethod';
  */
 
 export const methodName: CookingMethodData = {
-  name: 'method_name', // Use snake_case for the name property
+  name: 'method_name' as CookingMethod, // Use snake_case for the name property
   description: 'Description of the cooking method and how it works, including key characteristics and effects on food',
   elementalEffect: {
     Fire: 0.0, // Fire element (0.0-1.0)

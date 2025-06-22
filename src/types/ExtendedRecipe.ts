@@ -1,5 +1,7 @@
-import { Element } from "@/types/alchemy";
-import { ElementalProperties } from "@/types/alchemy";
+import { Element , ElementalProperties , 
+  ZodiacSign, 
+  LunarPhase 
+} from "@/types/alchemy";
 
 
 /**
@@ -15,10 +17,6 @@ import {
   ElementalProperties as RecipeElementalProperties
 } from './recipe';
 
-import { 
-  ZodiacSign, 
-  LunarPhase 
-} from './alchemy';
 
 /**
  * Extended Recipe Ingredient with all accessed properties

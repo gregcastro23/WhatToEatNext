@@ -5,17 +5,19 @@ import { proteins } from '../data/ingredients/proteins';
 import { grains } from '../data/ingredients/grains';
 import { oils } from '../data/ingredients/oils';
 import { fruits } from '../data/ingredients/fruits';
-import type { IngredientMapping } from '../types/alchemy';
+import type { IngredientMapping , type ElementalProperties } from '../types/alchemy';
 import { ElementalFilter } from '../types/elemental';
 import { 
   NutritionalFilter, 
   NutritionData 
 } from '../types/nutrition';
+
+// Re-export NutritionalFilter for components
+export type { NutritionalFilter };
 import { 
   SpoonacularRecipe, 
   SpoonacularNutritionData 
 } from '../types/spoonacular';
-import { type ElementalProperties } from "@/types/alchemy";
 
 // Interface to provide special dietary filtering
 export interface DietaryFilter {

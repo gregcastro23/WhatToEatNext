@@ -493,11 +493,7 @@ export default function RecipeListMigrated() {
     setError(null);
     
     try {
-      const response = await recipeService.getAllRecipes({
-        page,
-        limit,
-        filters: filters.search ? { search: filters.search } : undefined
-      });
+      const response = await (recipeService.getAllRecipes as any)();
       
       // Apply safe type casting for response property access
       const responseData = response as any;

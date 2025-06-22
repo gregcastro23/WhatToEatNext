@@ -1,4 +1,3 @@
-
 // Enhanced interfaces for Phase 11 - CookingMethods component
 interface CookingMethodComponentProps {
   method?: {
@@ -437,9 +436,44 @@ function getIdealIngredients(method: any): string[] {
   return method?.idealIngredients || [];
 }
 
-function determineMatchReason(ingredient: any, method: any): string {
-  // Placeholder implementation
-  return "Compatible elemental properties";
+function determineMatchReason(method: any, zodiacSign?: any, lunarPhase?: any): string {
+  // Enhanced match reason based on method properties and astrological factors
+  const methodName = method?.name || 'Unknown method';
+  const reasons = [];
+  
+  // Check elemental properties
+  if (method?.elementalEffect) {
+    const dominantElement = Object.entries(method.elementalEffect)
+      .reduce((max, [element, value]) => 
+        (value as number) > (max.value as number) ? { element, value } : max, 
+        { element: 'Fire', value: 0 }
+      ).element;
+    reasons.push(`Strong ${dominantElement} element alignment`);
+  }
+  
+  // Check astrological factors
+  if (zodiacSign && method?.astrologicalInfluences?.favorableZodiac?.includes(zodiacSign)) {
+    reasons.push(`Favorable for ${zodiacSign}`);
+  }
+  
+  if (lunarPhase && method?.astrologicalInfluences?.lunarPhaseEffect?.[lunarPhase]) {
+    const effect = method.astrologicalInfluences.lunarPhaseEffect[lunarPhase];
+    if (effect > 1) {
+      reasons.push(`Enhanced by ${lunarPhase} moon`);
+    }
+  }
+  
+  // Check thermodynamic properties
+  if (method?.thermodynamicProperties) {
+    const { heat, entropy, reactivity } = method.thermodynamicProperties;
+    if (heat > 0.7) reasons.push('High energy transformation');
+    if (entropy < 0.3) reasons.push('Stable cooking process');
+    if (reactivity > 0.6) reasons.push('Dynamic flavor development');
+  }
+  
+  return reasons.length > 0 
+    ? reasons.join(', ')
+    : `Compatible with ${methodName} technique`;
 }
 
 // Missing variable declarations
@@ -530,7 +564,7 @@ export default function CookingMethods() {
     // Look for the method in the COOKING_METHOD_THERMODYNAMICS constant
     for (const knownMethod of Object.keys(COOKING_METHOD_THERMODYNAMICS)) {
       if ((methodName as any)?.includes?.(knownMethod)) {
-        return COOKING_METHOD_THERMODYNAMICS[knownMethod as unknown as CookingMethod];
+        return COOKING_METHOD_THERMODYNAMICS[knownMethod as keyof typeof COOKING_METHOD_THERMODYNAMICS];
       }
     }
     
@@ -720,9 +754,9 @@ export default function CookingMethods() {
     }
     
     // Check COOKING_METHOD_THERMODYNAMICS constant
-    const methodName = (method as any)?.(name as any)?.toLowerCase?.() as CookingMethod;
-    if (COOKING_METHOD_THERMODYNAMICS && COOKING_METHOD_THERMODYNAMICS[methodName]) {
-      return COOKING_METHOD_THERMODYNAMICS[methodName][property as keyof BasicThermodynamicProperties] || 0;
+    const methodName = (method as any)?.name?.toLowerCase?.();
+    if (COOKING_METHOD_THERMODYNAMICS && methodName && COOKING_METHOD_THERMODYNAMICS[methodName as keyof typeof COOKING_METHOD_THERMODYNAMICS]) {
+      return COOKING_METHOD_THERMODYNAMICS[methodName as keyof typeof COOKING_METHOD_THERMODYNAMICS][property as keyof BasicThermodynamicProperties] || 0;
     }
     
     // Generate values based on method name keywords if no explicit values found
@@ -814,21 +848,21 @@ export default function CookingMethods() {
 
   // Add this function to extract additional properties from source data
   const getMethodSpecificData = (method: ExtendedAlchemicalItem) => {
-    if ((method as any)?.id && cookingMethods[(method as any)?.id as CookingMethod]) {
-      const sourceData = cookingMethods[(method as any)?.id as CookingMethod];
+    if ((method as any)?.id && cookingMethods[(method as any)?.id as keyof typeof cookingMethods]) {
+      const sourceData = cookingMethods[(method as any)?.id as keyof typeof cookingMethods];
       
       return {
         benefits: sourceData?.benefits || [],
-        chemicalChanges: sourceData?.chemicalChanges || {},
-        safetyFeatures: sourceData?.safetyFeatures || [],
-        nutrientRetention: sourceData?.nutrientRetention || {},
-        regionalVariations: sourceData?.regionalVariations || {},
+        chemicalChanges: (sourceData as any)?.chemicalChanges || {},
+        safetyFeatures: (sourceData as any)?.safetyFeatures || [],
+        nutrientRetention: (sourceData as any)?.nutrientRetention || {},
+        regionalVariations: (sourceData as any)?.regionalVariations || {},
         astrologicalInfluences: sourceData?.astrologicalInfluences || {}
       };
     }
     
     // Check if it's a molecular method
-    const methodName = (method as any)?.(name as any)?.toLowerCase?.();
+    const methodName = (method as any)?.name?.toLowerCase?.();
     if (
       (methodName as any)?.includes?.('spher') || 
       (methodName as any)?.includes?.('gel') || 
@@ -840,8 +874,8 @@ export default function CookingMethods() {
         key => (key as any)?.toLowerCase?.().includes(methodName.split(' ')[0].toLowerCase())
       );
       
-      if (molecularKey && molecularCookingMethods[molecularKey as unknown as CookingMethod]) {
-        const sourceData = molecularCookingMethods[molecularKey as unknown as CookingMethod];
+      if (molecularKey && molecularCookingMethods[molecularKey as keyof typeof molecularCookingMethods]) {
+        const sourceData = molecularCookingMethods[molecularKey as keyof typeof molecularCookingMethods];
         // Extract data with safe property access
         const sourceDataObj = sourceData as any;
         
@@ -859,21 +893,20 @@ export default function CookingMethods() {
 
   // First, add this new helper function to get detailed examples for each cooking method
   const getMethodDetails = (method: ExtendedAlchemicalItem): { examples: string[], fullDefinition: string } => {
-    const methodName = (method as any)?.(name as any)?.toLowerCase?.();
+    const methodName = (method as any)?.name?.toLowerCase?.();
 
-  // Missing description variable for cooking methods
-  const description = method?.description || method?.name || "No description available";
+    // Missing description variable for cooking methods
+    const description = method?.description || method?.name || "No description available";
 
-    
     // Default values
     let examples: string[] = [];
     let fullDefinition = (method as any)?.description || "";
     
     // Check if we have data from the source first
-    if ((method as any)?.id && cookingMethods[(method as any)?.id as CookingMethod]) {
-      const sourceMethod = cookingMethods[(method as any)?.id as CookingMethod];
+    if ((method as any)?.id && cookingMethods[(method as any)?.id as keyof typeof cookingMethods]) {
+      const sourceMethod = cookingMethods[(method as any)?.id as keyof typeof cookingMethods];
       // Expand definition if needed
-      if (sourceMethod?.description && (sourceMethod as any)?.(description as any)?.length > (method as any)?.description?.length) {
+      if ((sourceMethod as any)?.description && (sourceMethod as any)?.description?.length > (method as any)?.description?.length) {
         fullDefinition = (sourceMethod as any)?.description;
       }
       

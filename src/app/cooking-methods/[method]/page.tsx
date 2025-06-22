@@ -28,7 +28,7 @@ export default function CookingMethodPage() {
       
       Object.entries(allCookingMethods).forEach(([key, data]) => {
         if (key.toLowerCase() === methodId.toLowerCase()) {
-          foundMethod = data as CookingMethodInfo;
+          foundMethod = data as unknown as CookingMethodInfo;
           foundKey = key;
         }
       });
@@ -196,15 +196,15 @@ export default function CookingMethodPage() {
                 </>
               )}
               
-              {method.pairingSuggestions && (
+              {method.pAiringSuggestions && (
                 <>
                   <Divider sx={{ my: 3 }} />
                   <Typography variant="h5" gutterBottom>
                     Pairing Suggestions
                   </Typography>
-                  {Array.isArray(method.pairingSuggestions) ? (
+                  {Array.isArray(method.pAiringSuggestions) ? (
                     <List>
-                      {method.pairingSuggestions.map((suggestion, index) => (
+                      {method.pAiringSuggestions.map((suggestion, index) => (
                         <ListItem key={index}>
                           <ListItemText primary={suggestion} />
                         </ListItem>
@@ -212,7 +212,7 @@ export default function CookingMethodPage() {
                     </List>
                   ) : (
                     <Typography variant="body1" paragraph>
-                      {method.pairingSuggestions}
+                      {method.pAiringSuggestions}
                     </Typography>
                   )}
                 </>

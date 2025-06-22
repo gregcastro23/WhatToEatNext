@@ -20,17 +20,24 @@ export default function DebugPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const runTest = () => {
+  const runTest = async () => {
     setLoading(true);
     setError(null);
     
     try {
       console.log('Running cooking method recommendations test...');
-      const results = testCookingMethodRecommendations();
+      const results = await testCookingMethodRecommendations();
+      
+      // Validate the results structure
+      if (!results || !results.ingredient) {
+        throw new Error('Invalid test results structure');
+      }
+      
       setTestResults(results as any);
       console.log('Test complete, results:', results);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Unknown error');
+      const errorMessage = err instanceof Error ? err.message : 'Unknown error';
+      setError(errorMessage);
       console.error('Test failed:', err);
     } finally {
       setLoading(false);
@@ -61,7 +68,7 @@ export default function DebugPage() {
           </div>
         )}
         
-        {testResults && (
+        {testResults && testResults.ingredient && (
           <div className="mt-4">
             <h3 className="text-lg font-bold mb-2">Test Results</h3>
             
@@ -74,22 +81,22 @@ export default function DebugPage() {
             <div className="mb-4">
               <h4 className="font-bold">Holistic Recommendations:</h4>
               <ul className="list-disc list-inside">
-                {testResults.holisticRecommendations.map((rec, index) => (
+                {testResults.holisticRecommendations?.map((rec, index) => (
                   <li key={`holistic-${index}`}>
                     {rec.method} - {Math.round(rec.compatibility)}% - {rec.reason}
                   </li>
-                ))}
+                )) || <li>No holistic recommendations available</li>}
               </ul>
             </div>
             
             <div className="mb-4">
               <h4 className="font-bold">Standard Recommendations:</h4>
               <ul className="list-disc list-inside">
-                {testResults.standardRecommendations.map((rec, index) => (
+                {testResults.standardRecommendations?.map((rec, index) => (
                   <li key={`standard-${index}`}>
                     {rec.method} - {Math.round(rec.compatibility)}%
                   </li>
-                ))}
+                )) || <li>No standard recommendations available</li>}
               </ul>
             </div>
           </div>

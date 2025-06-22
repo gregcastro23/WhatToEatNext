@@ -15,10 +15,9 @@ import { calculatePlanetaryAspects as safeCalculatePlanetaryAspects } from '@/ut
 import { getAccuratePlanetaryPositions } from '@/utils/accurateAstronomy';
 import { getPlanetaryPositions } from '@/utils/astrologyDataProvider';
 
-import { AstrologicalState, Element } from "@/types/celestial";
+import { AstrologicalState, Element , PlanetaryPosition } from "@/types/celestial";
 import { ElementalProperties } from '@/types';
-import { PlanetaryPosition } from "@/types/celestial";
-import type { PlanetPosition } from '../types/celestial';
+import type { PlanetPosition } from '../../types/celestial';
 
 /**
  * A utility function for logging debug information

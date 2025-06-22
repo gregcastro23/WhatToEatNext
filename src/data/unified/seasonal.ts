@@ -946,7 +946,7 @@ export class UnifiedSeasonalSystem {
       const inRange = ingredient.kalchm >= kalchmRange.min && ingredient.kalchm <= kalchmRange.max;
       
       if (kalchmCompatibility >= 0.7 || inRange) {
-        compatibleIngredients?.push(ingredient);
+        compatibleIngredients?.push(ingredient as any);
       }
     }
     

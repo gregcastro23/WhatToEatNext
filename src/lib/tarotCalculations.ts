@@ -267,7 +267,7 @@ interface TarotCardBase {
 }
 
 // Update the TarotCard interface to extend TarotCardBase
-interface TarotCard extends TarotCardBase {
+export interface TarotCard extends TarotCardBase {
     suit: string;
     number: number;
 }

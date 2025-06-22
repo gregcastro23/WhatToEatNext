@@ -15,7 +15,7 @@ import { createLogger } from '../../utils/logger';
 import { Element , ElementalProperties } from "@/types/alchemy";
 import { PlanetaryAlignment } from "@/types/celestial";
 import { UnifiedIngredient } from '@/types/ingredient';
-import { CookingMethod } from '@/types/cooking';
+import { CookingMethod } from '@/types/shared';
 
 import type {
   ScoredRecipe 

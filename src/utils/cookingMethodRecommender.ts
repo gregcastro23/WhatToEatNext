@@ -675,7 +675,15 @@ export async function getRecommendedCookingMethods(
         
         const planetaryDay = dayRulers[weekDays[dayOfWeek]];
         if (planetaryDay) {
-          planetaryDayScore = calculatePlanetaryDayInfluence(method, planetaryDay);
+          // Transform CookingMethodData to CookingMethodProfile interface
+          const methodProfile: CookingMethodProfile = {
+            name: method.name,
+            elementalProperties: method.elementalEffect || method.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+            elementalEffect: method.elementalEffect || method.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+            astrologicalInfluences: method.astrologicalInfluences || {}
+          } as unknown as CookingMethodProfile;
+          
+          planetaryDayScore = calculatePlanetaryDayInfluence(methodProfile, planetaryDay);
         }
       }
       
@@ -709,7 +717,15 @@ export async function getRecommendedCookingMethods(
         const planetaryHour = planetaryOrder[hourPosition7];
         
         if (planetaryHour) {
-          planetaryHourScore = calculatePlanetaryHourInfluence(method, planetaryHour, daytime);
+          // Transform CookingMethodData to CookingMethodProfile interface
+          const methodProfileHour: CookingMethodProfile = {
+            name: method.name,
+            elementalProperties: method.elementalEffect || method.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+            elementalEffect: method.elementalEffect || method.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+            astrologicalInfluences: method.astrologicalInfluences || {}
+          } as unknown as CookingMethodProfile;
+          
+          planetaryHourScore = calculatePlanetaryHourInfluence(methodProfileHour, planetaryHour, daytime);
         }
       }
       
@@ -1098,37 +1114,37 @@ function calculateLunarMethodAffinity(method: CookingMethod, phase: LunarPhase):
   const element = methodData?.element;
 
   switch (phase) {
-    case 'New Moon':
+    case 'new moon':
       // New Moon favors gentle, water-based methods
       if (properties?.includes('gentle')) affinity += 0.5;
       if (element === 'water') affinity += 0.5;
       break;
-    case 'Waxing Crescent':
+    case 'waxing crescent':
       // Waxing Crescent favors methods that build flavor
       if (properties?.includes('builds flavor')) affinity += 0.7;
       break;
-    case 'First Quarter':
+    case 'first quarter':
       // First Quarter favors methods that transform 
       if (properties?.includes('transformative')) affinity += 0.7;
       break;
-    case 'Waxing Gibbous':
+    case 'waxing gibbous':
       // Waxing Gibbous favors methods that intensify
       if (properties?.includes('intensifies flavor')) affinity += 0.8;
       break;
-    case 'Full Moon':
+    case 'full moon':
       // Full Moon favors methods that fully express flavor
       if (properties?.includes('maximizes flavor')) affinity += 1.0;
       if (element === 'fire') affinity += 0.5;
       break;
-    case 'Waning Gibbous':
+    case 'waning gibbous':
       // Waning Gibbous favors methods that preserve
       if (properties?.includes('preserves nutrients')) affinity += 0.8;
       break;
-    case 'Last Quarter':
+    case 'last quarter':
       // Last Quarter favors methods that reduce and concentrate
       if (properties?.includes('concentrates')) affinity += 0.7;
       break;
-    case 'Waning Crescent':
+    case 'waning crescent':
       // Waning Crescent favors subtle, gentle methods
       if (properties?.includes('subtle')) affinity += 0.7;
       if (element === 'water') affinity += 0.3;
@@ -1298,8 +1314,16 @@ export function getCookingMethodRecommendations(
 ): MethodRecommendation[] {
   // Create recommendations with the enhanced score and interface compliance
   const recommendations = Object.entries(allCookingMethodsCombined).map(([name, method]) => {
+    // Transform CookingMethodData to CookingMethodProfile interface
+    const methodProfileScore: CookingMethodProfile = {
+      name: method.name,
+      elementalProperties: method.elementalEffect || method.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+      elementalEffect: method.elementalEffect || method.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+      astrologicalInfluences: method.astrologicalInfluences || {}
+    } as unknown as CookingMethodProfile;
+    
     // Use our enhanced calculation with multiplier
-    const score = calculateMethodScore(method, astroState);
+    const score = calculateMethodScore(methodProfileScore, astroState);
     
     return {
       name,

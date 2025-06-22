@@ -55,4 +55,4 @@ const rawQuinoa = {
   }
 };
 
-export let quinoa = fixIngredientMappings(rawQuinoa); 
+export const quinoa = fixIngredientMappings(rawQuinoa); 

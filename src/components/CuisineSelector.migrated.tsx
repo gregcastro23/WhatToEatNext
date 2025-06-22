@@ -4,12 +4,11 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { useServices } from '@/hooks/useServices';
 import type { Recipe } from '@/types/recipe';
 import type { Ingredient, Modality } from "@/data/ingredients/types";
-import { ZodiacSign, LunarPhase, LunarPhaseWithSpaces } from '@/types/alchemy';
+import { ZodiacSign, LunarPhase, LunarPhaseWithSpaces , Element } from '@/types/alchemy';
 import { determineModalityFromElements } from '@/utils/cuisineUtils';
 import { ElementalItem } from '@/calculations/alchemicalTransformation';
 import { PlanetaryDignityDetails } from '@/constants/planetaryFoodAssociations';
 
-import { Element } from "@/types/alchemy";
 import { PlanetaryPosition } from "@/types/celestial";
 interface CuisineSelectorProps {
   onRecipesChange: (recipes: Recipe[]) => void;

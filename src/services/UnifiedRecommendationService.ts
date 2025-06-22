@@ -2,13 +2,13 @@ import {
   ElementalProperties, 
   Planet, 
   ZodiacSign, 
-  ThermodynamicProperties,
+  ThermodynamicMetrics,
   Element
 } from '../types';
 
 import { Recipe } from '../types/recipe';
 import { Ingredient } from '../types/ingredient';
-import { CookingMethod, CookingMethodData } from '../types/cookingMethod';
+import { CookingMethod } from '@/types/cooking';
 import { 
   RecommendationServiceInterface, 
   RecipeRecommendationCriteria, 
@@ -344,8 +344,9 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
   ): Promise<RecommendationResult<CookingMethod>> {
     // This is a simplified implementation
     // In a real implementation, we would have a comprehensive cooking method database
-    const cookingMethods: CookingMethodData[] = [
+    const cookingMethods: CookingMethod[] = [
       {
+        id: 'roasting',
         name: 'roasting',
         description: 'Cooking with dry heat in an oven',
         elementalEffect: { Fire: 0.6, Water: 0.0, Earth: 0.3, Air: 0.1 },
@@ -354,6 +355,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
         benefits: ['even cooking', 'browning', 'flavor development']
       },
       {
+        id: 'boiling',
         name: 'boiling',
         description: 'Cooking in bubbling liquid',
         elementalEffect: { Fire: 0.3, Water: 0.7, Earth: 0.0, Air: 0.0 },
@@ -362,6 +364,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
         benefits: ['quick cooking', 'nutrient retention', 'simplicity']
       },
       {
+        id: 'steaming',
         name: 'steaming',
         description: 'Cooking with hot steam',
         elementalEffect: { Fire: 0.2, Water: 0.5, Earth: 0.0, Air: 0.3 },
@@ -370,6 +373,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
         benefits: ['nutrient preservation', 'gentle cooking', 'no added fats']
       },
       {
+        id: 'frying',
         name: 'frying',
         description: 'Cooking in hot oil',
         elementalEffect: { Fire: 0.7, Water: 0.0, Earth: 0.2, Air: 0.1 },
@@ -378,6 +382,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
         benefits: ['crispy texture', 'quick cooking', 'flavor enhancement']
       },
       {
+        id: 'baking',
         name: 'baking',
         description: 'Cooking in an enclosed space with dry heat',
         elementalEffect: { Fire: 0.4, Water: 0.0, Earth: 0.4, Air: 0.2 },
@@ -392,8 +397,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     if (criteria.excludeMethods && (criteria.excludeMethods || []).length > 0) {
       const excludedSet = new Set((criteria?.excludeMethods || []).map(m => m?.toLowerCase()));
       availableMethods = (cookingMethods || []).filter(method => {
-        const methodData = method as any;
-        return !excludedSet.has(methodData?.name?.toLowerCase() || '');
+        return !excludedSet.has(method?.name?.toLowerCase() || '');
       });
     }
     
@@ -406,11 +410,10 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       const elementalState = criteriaData?.elementalState || criteriaData?.elementalProperties;
       
       // Calculate elemental compatibility if criteria includes elemental properties
-      const methodData = method as any;
-      if (elementalState && methodData?.elementalEffect) {
+      if (elementalState && method?.elementalEffect) {
         const elementalScore = this.calculateElementalCompatibility(
           elementalState,
-          methodData.elementalEffect
+          method.elementalEffect
         );
         
         score = elementalScore; // Base score on elemental compatibility
@@ -436,8 +439,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     // Build scores record
     const scores: { [key: string]: number } = {};
     (limitedMethods || []).forEach(item => {
-      const methodData = item.method as any;
-      const methodId = methodData?.name || 'unknown';
+      const methodId = item.method?.id || 'unknown';
       scores[methodId] = item.score;
     });
     
@@ -535,16 +537,48 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
   /**
    * Calculate thermodynamic metrics based on elemental properties
    */
-  calculateThermodynamics(elementalProperties: ElementalProperties): ThermodynamicProperties {
+  calculateThermodynamics(elementalProperties: ElementalProperties): ThermodynamicMetrics {
     // Use the AlchemicalEngine to calculate thermodynamic metrics
+    const alchemicalEngineData = alchemicalEngine as any;
+    if (alchemicalEngineData?.calculateThermodynamics) {
+      return alchemicalEngineData.calculateThermodynamics(elementalProperties);
+    }
+    
+    // Fallback calculation
+    const { Fire, Water, Earth, Air } = elementalProperties;
+    
+    // Calculate heat (active energy)
+    const heat = (Math.pow(Fire, 2) + Math.pow(Water, 2)) / Math.pow(Fire + Water + Earth + Air, 2);
+    
+    // Calculate entropy (disorder)
+    const entropy = (Math.pow(Fire, 2) + Math.pow(Air, 2)) / Math.pow(Water + Earth, 2);
+    
+    // Calculate reactivity (potential for change)
+    const reactivity = (Math.pow(Fire, 2) + Math.pow(Air, 2) + Math.pow(Water, 2)) / Math.pow(Earth, 2);
+    
+    // Calculate Greg's energy
+    const gregsEnergy = heat - (entropy * reactivity);
+    
+    // Calculate Kalchm constant
+    const kalchm = Math.pow(Fire, Fire) * Math.pow(Water, Water) / (Math.pow(Earth, Earth) * Math.pow(Air, Air));
+    
+    // Calculate Monica constant
+    let monica = NaN;
+    if (kalchm > 0) {
+      const lnK = Math.log(kalchm);
+      if (lnK !== 0) {
+        monica = -gregsEnergy / (reactivity * lnK);
+      }
+    }
+    
     return {
-      heat: 0.5,
-      entropy: 0.5,
-      reactivity: 0.5,
-      gregsEnergy: 0.5,
-      kalchm: 1.0,
-      monica: 0.5
-    } as ThermodynamicProperties;
+      heat,
+      entropy,
+      reactivity,
+      gregsEnergy,
+      kalchm,
+      monica
+    };
   }
 }
 

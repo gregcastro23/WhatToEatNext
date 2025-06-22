@@ -1,4 +1,4 @@
-import type { ElementalProperties, 
+import type { 
   ThermodynamicProperties,
   Planet,
   ZodiacSign,
@@ -9,7 +9,7 @@ import type { ElementalProperties,
   ElementalProfile } from '../types';
 import { getCurrentSeason , recipe} from '@/types/seasons';
 
-import { Element } from "@/types/alchemy";
+import { Element, ElementalProperties } from "@/types/alchemy";
 import alchemicalEngine, { AlchemicalEngine } from '@/calculations/core/alchemicalEngine';
 
 /**
@@ -90,7 +90,7 @@ export class AlchemicalRecommendationService {
       dominantElement,
       thermodynamics,
       recommendedIngredients: (compatibleIngredients || []).map(i => i.name),
-      recommendedCookingMethods: (compatibleMethods || []),
+      recommendedCookingMethods: (compatibleMethods || []).map(method => method.toString()),
       recommendations,
       warnings
     };

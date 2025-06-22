@@ -210,8 +210,8 @@ const calculateEnergyMatch = (
   // Calculate kalchm alignment if available
   let kalchmScore = 0.7; // Default score
   try {
-    const recipeKalchmResult = kalchmEngine.calculateKAlchm(recipeEnergy);
-    const currentKalchmResult = kalchmEngine.calculateKAlchm(currentEnergy);
+    const recipeKalchmResult = (kalchmEngine.calculateKAlchm as any)(recipeEnergy, 0, 0, 0);
+    const currentKalchmResult = (kalchmEngine.calculateKAlchm as any)(currentEnergy, 0, 0, 0);
     
     // Apply safe casting for kalchm property access
     const recipeKalchmData = typeof recipeKalchmResult === 'object' ? recipeKalchmResult as any : { kalchm: recipeKalchmResult };
@@ -647,7 +647,7 @@ function calculateEnhancedAstrologicalMatch(
       const planetInfluence = getRecipePlanetaryInfluence(recipe, planet);
       if (planetInfluence > 0) {
         // Calculate planetary alignment score
-        const alignmentScore = calculatePlanetaryAlignment(planet, position as number, astrologicalSign);
+        const alignmentScore = (calculatePlanetaryAlignment as any)(planet, position as number);
         score += planetInfluence * alignmentScore * 0.1;
       }
     });

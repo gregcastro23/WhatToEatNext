@@ -5,9 +5,7 @@ import {
   SpoonacularNutrient, 
   SpoonacularNutrition, 
   SpoonacularIngredient,
-  SpoonacularRecipe,
-  SpoonacularApiRecipe,
-  SpoonacularSearchParams
+  SpoonacularRecipe
 } from '../types/spoonacular';
 import { Recipe } from '../types/recipe';
 import { SpoonacularElementalMapper } from './SpoonacularElementalMapper';
@@ -17,6 +15,7 @@ const API_KEY = 'c91fb9d66d284351929fff78e51cedf0';
 const BASE_URL = 'https://api.spoonacular.com/recipes';
 const INGREDIENTS_URL = 'https://api.spoonacular.com/food/ingredients';
 
+// Local interface definitions - removed from import to avoid conflicts
 export interface SpoonacularSearchParams {
   cuisine?: string;
   query?: string;
@@ -30,7 +29,9 @@ export interface SpoonacularSearchParams {
   intolerances?: string | string[];
 }
 
+// Local extension interface - removed from import to avoid conflicts
 export interface SpoonacularApiRecipe extends SpoonacularRecipe {
+  cuisines?: string[];
   dishTypes?: string[];
   diets?: string[];
   occasions?: string[];

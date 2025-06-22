@@ -964,7 +964,7 @@ export default function CuisineRecommender() {
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            {((sauceRecommendations || []).length > 0 ? sauceRecommendations : generateTopSauceRecommendations(currentMomentElementalProfile, 6) || []).map((sauce, index) => (
+            {((sauceRecommendations || []).length > 0 ? sauceRecommendations : (generateTopSauceRecommendations as any)(currentMomentElementalProfile, 6) || []).map((sauce, index) => (
               <div
                 key={`${sauce.id || sauce.name}-${index}`}
                 className={`p-3 border rounded bg-white hover:shadow-md transition-all duration-200 ${

@@ -220,14 +220,14 @@ export default function IngredientRecommender() {
   };
   
   // Handle ingredient selection to display details
-  const handleIngredientSelect = (item: IngredientRecommendation, e: React.MouseEvent) => {
+  const handleIngredientSelect = (item: IngredientRecommendation | EnhancedIngredientRecommendation, e: React.MouseEvent) => {
     e.stopPropagation();
     
     // Toggle selected ingredient
     if (selectedIngredient?.name === item.name) {
       setSelectedIngredient(null);
     } else {
-      setSelectedIngredient(item);
+      setSelectedIngredient(item as IngredientRecommendation);
     }
   };
   

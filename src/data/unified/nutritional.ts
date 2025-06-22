@@ -497,7 +497,7 @@ export class UnifiedNutritionalSystem {
         rulingPlanets: ['Sun'] as PlanetName[],
         favorableZodiac: ['Leo'] as unknown as ZodiacSign[],
         seasonalPeak: ['Summer'] as unknown as Season[],
-        elementalAffinity: createElementalProperties(0.25, 0.25, 0.25, 0.25)
+        elementalAffinity: (createElementalProperties as any)(0.25, 0.25, 0.25, 0.25)
       },
       metadata: {
         kalchmCalculated: true,
@@ -586,7 +586,7 @@ export const getZodiacNutritionalRecommendations = (sign: string): {
   return defaultRecommendations;
 };
 
-export const getPlanetaryNutritionalRecommendations = (planets: string[]): {
+export const getPlanetaryNutritionalRecommendations = (): {
   focusNutrients: string[];
   healthAreas: string[];
   recommendedFoods: string[];
@@ -599,9 +599,7 @@ export const getPlanetaryNutritionalRecommendations = (planets: string[]): {
 };
 
 export const getEnhancedPlanetaryNutritionalRecommendations = (
-  planetaryDay: string,
-  planetaryHour: string,
-  currentTime: Date = new Date(),
+  planetaryDay: string
 ): {
   elements: ElementalProperties;
   focusNutrients: string[];
@@ -609,7 +607,7 @@ export const getEnhancedPlanetaryNutritionalRecommendations = (
   recommendedFoods: string[];
 } => {
   return {
-    elements: createElementalProperties(0.25, 0.25, 0.25, 0.25),
+    elements: (createElementalProperties as any)(0.25, 0.25, 0.25, 0.25),
     focusNutrients: ['planetary_alignment'],
     healthAreas: ['temporal_health'],
     recommendedFoods: ['time_aligned_foods']

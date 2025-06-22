@@ -34,7 +34,7 @@
   }
   
   // Define a list of essential popup methods with safe implementations
-  let essentialMethods = {
+  const essentialMethods = {
     show: function() { return window.popup; },
     hide: function() { return window.popup; },
     update: function() { return window.popup; },
@@ -58,16 +58,16 @@
   });
   
   // Add a backdoor to the original methods if they exist later
-  let originalMethods = {};
+  const originalMethods = {};
   window.popup.__getOriginal = function(methodName) {
     return originalMethods[methodName] || null;
   };
   
   // Watch for popup methods being added later and store original references
   Object.keys(essentialMethods).forEach(method => {
-    let descriptor = Object.getOwnPropertyDescriptor(window.popup, method);
+    const descriptor = Object.getOwnPropertyDescriptor(window.popup, method);
     if (descriptor && descriptor.configurable) {
-      let originalMethod = window.popup[method];
+      const originalMethod = window.popup[method];
       Object.defineProperty(window.popup, method, {
         get: function() {
           return originalMethod;
@@ -75,7 +75,6 @@
         set: function(newMethod) {
           console.log(`[PopupSafety] Method replaced: popup.${method}`);
           originalMethods[method] = newMethod;
-          return newMethod;
         },
         configurable: true
       });
@@ -91,7 +90,7 @@
 })();
 
 // Export for direct import if needed
-export let safePopup = {
+export const safePopup = {
   create: function() {
     return {
       show: function() { return this; },

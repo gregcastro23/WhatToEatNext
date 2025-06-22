@@ -1,15 +1,26 @@
-import { ElementalProperties, ThermodynamicMetrics, Planet, CookingMethod } from '@/types/alchemy';
 import { 
-  RecommendationServiceInterface,
-  RecipeRecommendationCriteria,
+  ElementalProperties, 
+  Planet, 
+  ZodiacSign, 
+  ThermodynamicProperties,
+  Element
+} from '../types';
+
+import { Recipe } from '../types/recipe';
+import { Ingredient } from '../types/ingredient';
+import { CookingMethod } from '@/types/cooking';
+import { 
+  RecommendationServiceInterface, 
+  RecipeRecommendationCriteria, 
   IngredientRecommendationCriteria,
   CuisineRecommendationCriteria,
   CookingMethodRecommendationCriteria,
   RecommendationResult
 } from './interfaces/RecommendationServiceInterface';
-
-import { Recipe } from '../types/recipe';
-import { Ingredient } from '../types/ingredient';
+import { PlanetaryAlignment } from "@/types/celestial";
+import { unifiedIngredientService } from './UnifiedIngredientService';
+import alchemicalEngine from '@/calculations/core/alchemicalEngine';
+import { recipeDataService } from '@/services/recipeData';
 
 // Import utility functions
 import { calculateElementalCompatibility } from '../utils/elemental/elementalUtils';
@@ -20,9 +31,6 @@ import { getCookingMethodRecommendations } from '../utils/recommendation/methodR
 // Import consolidated services
 import { ConsolidatedRecipeService } from './ConsolidatedRecipeService';
 import { ConsolidatedIngredientService } from './ConsolidatedIngredientService';
-
-import { Element } from "@/types/alchemy";
-import { PlanetaryAlignment } from "@/types/celestial";
 
 /**
  * Consolidated Recommendation Service 
@@ -347,13 +355,21 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
         limit: criteria.limit
       } as any);
       
-      // Transform to standardized result format - safe property access
-      const items = (methodRecommendations || []).map(method => (method as any)?.name as any);
+      // Transform to standardized result format - return CookingMethod objects
+      const items: CookingMethod[] = (methodRecommendations || []).map(method => ({
+        id: (method as any)?.id || (method as any)?.name || 'unknown',
+        name: (method as any)?.name || 'Unknown Method',
+        description: (method as any)?.description || '',
+        elementalProperties: (method as any)?.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+        difficulty: (method as any)?.difficulty || 'medium',
+        timeRequired: (method as any)?.timeRequired || 30,
+        equipment: (method as any)?.equipment || []
+      }));
       
       // Calculate scores - safe property access
       const scores: { [key: string]: number } = {};
-      methodRecommendations.forEach(method => {
-        const methodName = (method as any)?.name;
+      methodRecommendations.forEach((method, index) => {
+        const methodName = (method as any)?.name || items[index]?.name;
         const methodScore = (method as any)?.score || 0.5;
         if (methodName) {
           scores[methodName] = methodScore;
@@ -364,7 +380,7 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
       let filteredItems = items;
       if (criteria.excludeMethods && criteria.excludeMethods.length > 0) {
         filteredItems = items.filter(method => 
-          !criteria.excludeMethods!.includes(method)
+          !criteria.excludeMethods!.includes(method.name)
         );
       }
       
@@ -394,7 +410,7 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
    * Calculate compatibility score between elemental properties
    */
   calculateElementalCompatibility(source: ElementalProperties, target: ElementalProperties): number {
-    return calculateElementalCompatibility(source, target);
+    return calculateElementalCompatibility(source as any, target as any);
   }
 
   /**

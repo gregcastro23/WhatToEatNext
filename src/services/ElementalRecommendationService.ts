@@ -28,7 +28,7 @@ export class ElementalRecommendationService {
       dominantElement,
       cookingTechniques: elementalUtils.getSuggestedCookingTechniques(properties),
       // ✅ Pattern MM-1: getComplementaryElement expects element key, not ElementalProperties object
-      complementaryIngredients: elementalUtils.getComplementaryElement(dominantElement),
+      complementaryIngredients: [elementalUtils.getComplementaryElement(dominantElement)],
       flavorProfiles: utilsService?.getFlavorProfileRecommendations?.(properties) || [],
       healthBenefits: utilsService?.getHealthBenefits?.(properties) || [],
       timeOfDay: elementalUtils.getRecommendedTimeOfDay(properties),
@@ -105,11 +105,11 @@ export class ElementalRecommendationService {
    * @param properties The elemental properties
    * @returns The dominant element
    */
-  private static getDominantElement(properties: ElementalProperties): string {
+  private static getDominantElement(properties: ElementalProperties): keyof ElementalProperties {
     return Object.entries(properties)
       .reduce((max, [element, value]) => 
-        value > max.value ? { element, value } : max, 
-        { element: '', value: 0 }
+        value > max.value ? { element: element as keyof ElementalProperties, value } : max, 
+        { element: 'Fire' as keyof ElementalProperties, value: 0 }
       ).element;
   }
 
@@ -118,8 +118,8 @@ export class ElementalRecommendationService {
    * @param element The dominant element
    * @returns Array of seasonal recommendations
    */
-  private static getSeasonalRecommendations(element: string): string[] {
-    const seasonalMap: Record<string, string[]> = {
+  private static getSeasonalRecommendations(element: keyof ElementalProperties): string[] {
+    const seasonalMap: Record<keyof ElementalProperties, string[]> = {
       'Fire': ['Summer', 'Late Spring'],
       'Water': ['Winter', 'Late Autumn'],
       'Earth': ['Autumn', 'Late Summer'],
@@ -135,7 +135,7 @@ export class ElementalRecommendationService {
  */
 export interface ElementalRecommendation {
   elementalBalance: ElementalProperties;
-  dominantElement: string;
+  dominantElement: keyof ElementalProperties;
   cookingTechniques: string[];
   complementaryIngredients: string[];
   flavorProfiles: string[];

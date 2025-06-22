@@ -317,9 +317,8 @@ export default function RecipeList() {
               {groupedRecipes.recommended.map(recipe => (
                 <Recipe
                   key={recipe.id}
-                  recipe={recipe}
-                  isExpanded={expandedRecipeId === recipe.id}
-                  onToggle={() => handleRecipeToggle(recipe.id)}
+                  recipe={recipe as any}
+                  showDetails={expandedRecipeId === recipe.id}
                 />
               ))}
             </div>
@@ -334,9 +333,8 @@ export default function RecipeList() {
               {groupedRecipes.favorites.map(recipe => (
                 <Recipe
                   key={recipe.id}
-                  recipe={recipe}
-                  isExpanded={expandedRecipeId === recipe.id}
-                  onToggle={() => handleRecipeToggle(recipe.id)}
+                  recipe={recipe as any}
+                  showDetails={expandedRecipeId === recipe.id}
                 />
               ))}
             </div>
@@ -351,9 +349,8 @@ export default function RecipeList() {
               {groupedRecipes.other.map(recipe => (
                 <Recipe
                   key={recipe.id}
-                  recipe={recipe}
-                  isExpanded={expandedRecipeId === recipe.id}
-                  onToggle={() => handleRecipeToggle(recipe.id)}
+                  recipe={recipe as any}
+                  showDetails={expandedRecipeId === recipe.id}
                 />
               ))}
             </div>

@@ -124,7 +124,7 @@
       try {
         if (!obj || typeof obj !== 'object') return 0;
         
-        const sum = 0;
+        let sum = 0;
         sum += parseFloat(obj.Fire || 0);
         sum += parseFloat(obj.Water || 0);
         sum += parseFloat(obj.Air || 0);

@@ -361,6 +361,6 @@ const rawMedicinalHerbs = {
 export const medicinalHerbs: Record<string, IngredientMapping> = fixIngredientMappings(rawMedicinalHerbs);
 
 // Create a collection of all medicinal herbs
-export let allMedicinalHerbs = Object.values(medicinalHerbs);
+export const allMedicinalHerbs = Object.values(medicinalHerbs);
 
 export default medicinalHerbs;

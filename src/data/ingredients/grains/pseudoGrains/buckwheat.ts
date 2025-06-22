@@ -53,4 +53,4 @@ const rawBuckwheat = {
   }
 };
 
-export let buckwheat = fixIngredientMappings(rawBuckwheat); 
+export const buckwheat = fixIngredientMappings(rawBuckwheat); 

@@ -12,8 +12,7 @@ import { FoodAlchemySystem, type SystemState } from '../FoodAlchemySystem';
 import { createElementalProperties } from '../../utils/elemental/elementalUtils';
 import { logger } from '../../utils/logger';
 
-
-import type { UnifiedIngredient } from '../../data/unified/unifiedTypes';
+import type { UnifiedIngredient } from '@/types/unified';
 import type { IngredientFilter } from '../interfaces/IngredientServiceInterface';
 
 import { Element } from "@/types/alchemy";
@@ -90,7 +89,7 @@ export class EnhancedIngredientSystem {
       const currentSeason = optionsData?.currentSeason;
       if (currentSeason) {
         filtered = filtered.filter(ingredient => {
-          const seasons = ingredient.seasonality || ingredient.currentSeason || [];
+          const seasons = (ingredient as any).season || (ingredient as any).seasonality || [];
           const seasonArray = Array.isArray(seasons) ? seasons : [seasons];
           return seasonArray.some(s => typeof s === 'string' && 
                                        s?.toLowerCase() === currentSeason?.toLowerCase());
@@ -100,8 +99,8 @@ export class EnhancedIngredientSystem {
       // Filter by zodiac sign if specified
       if (options.currentZodiacSign) {
         filtered = filtered.filter(ingredient => {
-          const zodiac = ingredient.astrologicalPropertiesProfile?.zodiacAffinity || 
-                        ingredient.astrologicalPropertiesProfile?.favorableZodiac || [];
+          const zodiac = (ingredient as any).astrologicalPropertiesProfile?.zodiacAffinity || 
+                        (ingredient as any).astrologicalPropertiesProfile?.favorableZodiac || [];
           const zodiacArray = Array.isArray(zodiac) ? zodiac : [zodiac];
           return zodiacArray.some(z => typeof z === 'string' && 
                                        z?.toLowerCase() === options.currentZodiacSign?.toLowerCase());

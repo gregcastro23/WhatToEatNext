@@ -228,7 +228,7 @@ export class AlchemicalEngineBase {
         const seasonValue =
           seasonModifiers[element as keyof ElementalProperties];
 
-        let baseHarmony = 1 - Math.abs(value - userValue);
+        const baseHarmony = 1 - Math.abs(value - userValue);
         const astroHarmony = baseHarmony * astroValue;
         const seasonHarmony = baseHarmony * seasonValue;
 
@@ -360,7 +360,7 @@ export class AlchemicalEngineBase {
     );
 
     // Use our own calculation instead of calling ElementalCalculator.calculateHarmony
-    let baseHarmony = this.calculateHarmonyScore(recipe.elementalProperties);
+    const baseHarmony = this.calculateHarmonyScore(recipe.elementalProperties);
     const interactionScore =
       interactions.synergies.length * 0.1 -
       interactions.conflicts.length * 0.05;

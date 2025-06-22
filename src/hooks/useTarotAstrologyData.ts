@@ -101,7 +101,7 @@ export const useTarotAstrologyData = (): TarotAstrologyResult => {
   } = useAstrologicalState();
   
   // Cast to the expected type
-  const currentPlanetaryAlignment = rawPlanetaryAlignment as Record<string, {
+  const currentPlanetaryAlignment = rawPlanetaryAlignment as unknown as Record<string, {
     sign: string;
     degree: number;
     exactLongitude?: number;
@@ -415,7 +415,7 @@ export const useTarotAstrologyData = (): TarotAstrologyResult => {
   // Load sign energy states on init
   useEffect(() => {
     try {
-      setSignEnergyStates(calculateSignEnergyStates(new Date()));
+      setSignEnergyStates((calculateSignEnergyStates as any)(new Date(), 'default'));
     } catch (error) {
       logger.error('Error calculating sign energy states', error);
     }

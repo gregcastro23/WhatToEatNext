@@ -142,7 +142,7 @@ class StateManager {
   // Add helper to validate the state structure
   private isValidAppState(obj: unknown): obj is AppState {
     // Fix TS2339: Property does not exist on type 'object'
-    const data = obj as any;
+    const data = obj as unknown as Record<string, unknown>;
     return obj 
       && typeof obj === 'object'
       && data?.recipes 

@@ -10,6 +10,7 @@ import Clock from '@/components/Clock';
 import ClientProviders from '@/components/providers/ClientProviders';
 import { ErrorBoundary } from '@/components/errors/ErrorBoundary';
 import { ErrorFallback } from '@/components/errors/ErrorFallback';
+import Navigation from '@/components/Navigation';
 
 export default function ClientWrapper({ children }: { children: React.ReactNode }) {
   return (
@@ -59,6 +60,10 @@ export default function ClientWrapper({ children }: { children: React.ReactNode 
                   </div>
                 </div>
               </header>
+              
+              {/* Navigation */}
+              <Navigation />
+              
               <main>{children}</main>
             </ClientProviders>
           </ChartProvider>

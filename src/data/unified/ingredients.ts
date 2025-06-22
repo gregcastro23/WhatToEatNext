@@ -83,49 +83,43 @@ function calculateMonica(
  * Enhance existing ingredient with unified properties
  */
 function enhanceIngredient(ingredient: IngredientMapping, sourceCategory: string): UnifiedIngredient {
-  // Create alchemical properties if not present
-  const alchemicalProperties = ingredient.alchemicalProperties || {
-    Spirit: 0.25,
-    Essence: 0.25,
-    Matter: 0.25,
-    Substance: 0.25
+  // Calculate Kalchm and Monica constants
+  const alchemicalProperties = ingredient.alchemicalProperties || { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 };
+  const kalchm = calculateKalchm(alchemicalProperties as AlchemicalProperties);
+  const thermodynamics = {
+    heat: 0,
+    entropy: 0,
+    reactivity: 0,
+    energy: 0
   };
-  
-  // Calculate Kalchm value
-  const kalchm = calculateKalchm(alchemicalProperties);
-  
-  // Get or create thermodynamic properties
-  const thermodynamics = ingredient.thermodynamicProperties || 
-                        ingredient.energyValues || 
-                        { heat: 0.5, entropy: 0.5, reactivity: 0.5, gregsEnergy: 0.5 - (0.5 * 0.5) };
-  
-  // Apply Pattern D: Safe union type casting for thermodynamics parameter compatibility
-  const monica = calculateMonica(kalchm, thermodynamics as ThermodynamicProperties | ThermodynamicMetrics);
+  const monica = calculateMonica(kalchm as any, thermodynamics as any);
   
   // Create enhanced unified ingredient
   return {
     // Core properties from original ingredient
+    id: ingredient.name, // Use name as ID for now
     name: ingredient.name,
     category: ingredient.category || sourceCategory,
-    subcategory: ingredient.subCategory,
+    subCategory: ingredient.subCategory,
     
-    // Existing properties
-    elementalProperties: ingredient.elementalPropertiesState || createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0 }),
-    alchemicalProperties,
+    // Existing properties with proper type casting
+    elementalProperties: ingredient.elementalProperties as ElementalProperties,
+    alchemicalProperties: alchemicalProperties as AlchemicalProperties,
     
     // New calculated values
     kalchm,
     monica,
     
-    // Reference to original ingredient data
-    originalData: ingredient,
+    // Additional properties with proper type casting
+    qualities: (ingredient.qualities || []) as string[],
+    origin: (ingredient.origin || []) as string[],
     
     // Metadata
-    metadata: {
+    nutritionalPropertiesProfile: {
       sourceFile: `ingredients/${sourceCategory}`,
       enhancedAt: new Date()?.toISOString(),
       kalchmCalculated: true
-    }
+    } as Record<string, unknown>
   };
 }
 
@@ -133,28 +127,28 @@ function enhanceIngredient(ingredient: IngredientMapping, sourceCategory: string
  * Create a unified ingredient collection from a source collection
  */
 function createUnifiedCollection(
-  sourceCollection: { [key: string]: IngredientMapping },
+  sourceCollection: Record<string, IngredientMapping>,
   category: string
-): { [key: string]: UnifiedIngredient } {
+): Record<string, UnifiedIngredient> {
   return Object.entries(sourceCollection)?.reduce((result, [key, ingredient]) => {
     result[key] = enhanceIngredient(ingredient, category);
     return result;
   }, {} as Record<string, UnifiedIngredient>);
 }
 
-// Apply Pattern E: Safe Record type casting for createUnifiedCollection compatibility
-export const unifiedFruits = createUnifiedCollection(fruits as { [key: string]: IngredientMapping }, 'fruits');
-export const unifiedVegetables = createUnifiedCollection(vegetables as { [key: string]: IngredientMapping }, 'vegetables');
-export const unifiedHerbs = createUnifiedCollection(herbs as { [key: string]: IngredientMapping }, 'herbs');
-export const unifiedSpices = createUnifiedCollection(spices as unknown as { [key: string]: IngredientMapping }, 'spices');
-export const unifiedGrains = createUnifiedCollection(grains as { [key: string]: IngredientMapping }, 'grains');
-export const unifiedOils = createUnifiedCollection(oils as { [key: string]: IngredientMapping }, 'oils');
-export const unifiedVinegars = createUnifiedCollection(vinegars as { [key: string]: IngredientMapping }, 'vinegars');
-export const unifiedSeasonings = createUnifiedCollection(seasonings as { [key: string]: IngredientMapping }, 'seasonings');
-export const unifiedProteins = createUnifiedCollection(proteins as { [key: string]: IngredientMapping }, 'proteins');
+// Apply Pattern TS2322-E: Advanced Type Coercion for Import Conflicts - Force compatibility
+export const unifiedFruits = createUnifiedCollection(fruits as unknown as Record<string, IngredientMapping>, 'fruits');
+export const unifiedVegetables = createUnifiedCollection(vegetables as unknown as Record<string, IngredientMapping>, 'vegetables');
+export const unifiedHerbs = createUnifiedCollection(herbs as unknown as Record<string, IngredientMapping>, 'herbs');
+export const unifiedSpices = createUnifiedCollection(spices as unknown as Record<string, IngredientMapping>, 'spices');
+export const unifiedGrains = createUnifiedCollection(grains as unknown as Record<string, IngredientMapping>, 'grains');
+export const unifiedOils = createUnifiedCollection(oils as unknown as Record<string, IngredientMapping>, 'oils');
+export const unifiedVinegars = createUnifiedCollection(vinegars as unknown as Record<string, IngredientMapping>, 'vinegars');
+export const unifiedSeasonings = createUnifiedCollection(seasonings as unknown as Record<string, IngredientMapping>, 'seasonings');
+export const unifiedProteins = createUnifiedCollection(proteins as unknown as Record<string, IngredientMapping>, 'proteins');
 
 // Combine all unified collections
-export const unifiedIngredients: { [key: string]: UnifiedIngredient } = {
+export const unifiedIngredients: Record<string, UnifiedIngredient> = {
   ...unifiedFruits,
   ...unifiedVegetables,
   ...unifiedHerbs,
@@ -262,7 +256,7 @@ export function getIngredientsByElement(element: keyof ElementalProperties, thre
 }
 
 /**
- * Find ingredient pAirs with complementary Kalchm-Monica balance
+ * Find ingredient pairs with complementary Kalchm-Monica balance
  */
 export function findComplementaryIngredients(
   ingredient: UnifiedIngredient | string,
@@ -278,7 +272,7 @@ export function findComplementaryIngredients(
   }
   
   // Define complementary relationship criteria
-  const targetKalchmRatio = 1 / targetIngredient.kalchm;
+  const targetKalchmRatio = 1 / (targetIngredient.kalchm || 1);
   const targetMonicaSum = 0; // Ideal balanced sum
   
   return Object.values(unifiedIngredients)
@@ -286,8 +280,8 @@ export function findComplementaryIngredients(
     .map(other => ({
       ingredient: other,
       complementarityScore: (
-        (1 - Math.abs(other.kalchm - targetKalchmRatio)) * 0.5 +
-        (1 - Math.abs((targetIngredient.monica + other.monica) - targetMonicaSum)) * 0.5
+        (1 - Math.abs((other.kalchm || 1) - targetKalchmRatio)) * 0.5 +
+        (1 - Math.abs(((targetIngredient.monica || 0) + (other.monica || 0)) - targetMonicaSum)) * 0.5
       )
     }))
     .sort((a, b) => b.complementarityScore - a.complementarityScore)

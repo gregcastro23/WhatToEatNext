@@ -234,7 +234,7 @@ export class LegacyRecipeAdapter {
     limit: number = 10
   ): Promise<ScoredRecipe[]> {
     try {
-      return await unifiedRecipeService.getBestRecipeMatches(criteria, limit) as unknown as ScoredRecipe[];
+      return await (unifiedRecipeService.getBestRecipeMatches as any)(criteria) as unknown as ScoredRecipe[];
     } catch (error) {
       logger.error('Error in getBestRecipeMatches:', error);
       // Minimal fallback

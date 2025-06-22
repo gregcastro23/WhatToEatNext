@@ -39,11 +39,13 @@ export const DEFAULT_TEMPERATURE_PREFERENCES = {
 };
 
 export const DEFAULT_NUTRITION_PREFS: NutritionPreferences = {
-  calories: 2000,
-  protein: 50,
-  carbs: 250,
-  fat: 70,
-  priority: 'balanced'
+  calories: { min: 1800, max: 2200 },
+  macros: {
+    protein: 50,
+    carbs: 250,
+    fat: 70
+  },
+  dietaryRestrictions: ['balanced']
 };
 
 export const TIME_RANGES = {

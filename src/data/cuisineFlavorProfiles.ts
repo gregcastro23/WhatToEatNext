@@ -1119,7 +1119,7 @@ export function getRecipesForCuisineMatch(
     console.log(`Found ${scoredOtherRecipes.length} scored other recipes for ${cuisineName}`);
 
     // Combine all matches, prioritizing direct matches, then regional, then others
-    let allMatches = [
+    const allMatches = [
       ...exactCuisineMatches.map((recipe) => ({
         ...recipe,
         matchScore: 0.9 + Math.random() * 0.1, // 90-100% match
@@ -1283,7 +1283,7 @@ export const findRelatedRecipes = (
   const scoredRecipes = recipes
     .map((recipe) => {
       const scoreComponents = [];
-      let totalWeight = 0;
+      const totalWeight = 0;
       
       // ... existing code ...
     });
@@ -1293,8 +1293,8 @@ export const calculateSimilarityScore = (
   elementalProps1: ElementalProperties,
   elementalProps2: ElementalProperties
 ): number => {
-  let similarity = 0;
-  let count = 0;
+  const similarity = 0;
+  const count = 0;
   
   // ... existing code ...
 };

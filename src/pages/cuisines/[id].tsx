@@ -26,7 +26,7 @@ const CuisineDetailsPage: NextPage = () => {
   React.useEffect(() => {
     // Get current elemental state based on time, date, etc.
     const currentState = getCurrentElementalState();
-    setElementalState(currentState);
+    setElementalState(currentState as any);
   }, []);
 
   // Memoize the cuisine data with safe property access

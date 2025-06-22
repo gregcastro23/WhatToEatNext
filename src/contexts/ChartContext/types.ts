@@ -1,12 +1,8 @@
 'use client';
 
-interface PlanetaryAspect {
-  planet1: string;
-  planet2: string;
-  type: string;
-  orb: number;
-  strength: number;
-}
+import { PlanetaryAspect } from '@/types/celestial';
+
+// Removed local PlanetaryAspect interface - now using authoritative definition from @/types/celestial
 
 export interface ChartData {
   planetaryPositions: Record<string, unknown>;

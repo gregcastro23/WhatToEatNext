@@ -1,6 +1,6 @@
 // Create or update a utility function to calculate proper alchemical properties
 
-import type { AlchemicalProperties, ThermodynamicProperties, Modality } from '@/data/ingredients/types';
+import type { AlchemicalProperties, ThermodynamicProperties, Modality , IngredientCategory } from '@/data/ingredients/types';
 import type { ElementalProperties } from '@/types/alchemy';
 import { FlavorProfile } from '@/types/alchemy';
 import type { 
@@ -9,7 +9,6 @@ import type {
   SimpleIngredient, 
   IngredientMapping
 } from '@/types';
-import type { IngredientCategory } from '@/data/ingredients/types';
 
 /**
  * Calculate alchemical properties based on elemental properties
@@ -26,11 +25,26 @@ export function calculateAlchemicalProperties(ingredient: Ingredient): Alchemica
   
   // Base values derived from planetary influences in the alchemizer
   // Sun (Spirit), Moon/Venus (Essence), Saturn/Mars (Matter), Mercury/Neptune (Substance)
-  // The ratios below approximate the original alchemizer calculations
-  const spirit = (elementals.Fire * 0.7) + (elementals.Air * 0.3);
-  const essence = (elementals.Water * 0.6) + (elementals.Fire * 0.2) + (elementals.Air * 0.2);
-  const matter = (elementals.Earth * 0.7) + (elementals.Water * 0.3);
-  const substance = (elementals.Earth * 0.5) + (elementals.Water * 0.3) + (elementals.Air * 0.2);
+  let spirit = (elementals.Fire * 0.7) + (elementals.Air * 0.3);
+  let essence = (elementals.Water * 0.6) + (elementals.Fire * 0.2) + (elementals.Air * 0.2);
+  let matter = (elementals.Earth * 0.7) + (elementals.Water * 0.3);
+  let substance = (elementals.Earth * 0.5) + (elementals.Water * 0.3) + (elementals.Air * 0.2);
+  
+  // Enhance with flavor profile if available
+  if (ingredient.flavorProfile) {
+    // Convert numeric flavor profile to FlavorProfile interface
+    const flavorProfile = ingredient.flavorProfile as any as FlavorProfile;
+    const flavorSpirit = calculateSpiritValue(flavorProfile);
+    const flavorEssence = calculateEssenceValue(flavorProfile);
+    const flavorMatter = calculateMatterValue(flavorProfile);
+    const flavorSubstance = calculateSubstanceValue(flavorProfile);
+    
+    // Blend elemental and flavor-based calculations (70% elemental, 30% flavor)
+    spirit = (spirit * 0.7) + (flavorSpirit * 0.3);
+    essence = (essence * 0.7) + (flavorEssence * 0.3);
+    matter = (matter * 0.7) + (flavorMatter * 0.3);
+    substance = (substance * 0.7) + (flavorSubstance * 0.3);
+  }
   
   return {
     spirit,
@@ -86,9 +100,44 @@ export function calculateThermodynamicProperties(
 
 // Helper functions to calculate individual properties
 function calculateSpiritValue(flavorProfile: FlavorProfile): number {
-  // Implement logic based on flavor profile attributes
-  // Example: spirit might be higher for aromatic, fragrant ingredients
-  return flavorProfile.intensity || 0.5; // Default to 0.5 if intensity not provided
+  // Spirit represents the fiery, transformative essence of ingredients
+  // Higher for aromatic, spicy, and stimulating ingredients
+  const intensity = flavorProfile.intensity || 0.5;
+  const spiciness = flavorProfile.spice || 0;
+  const aromatic = flavorProfile.aromatic || 0;
+  
+  // Calculate spirit based on transformative qualities
+  return Math.min(1, (intensity * 0.4) + (spiciness * 0.4) + (aromatic * 0.2));
+}
+
+function calculateEssenceValue(flavorProfile: FlavorProfile): number {
+  // Essence represents the fluid, emotional qualities
+  // Higher for sweet, umami, and harmonizing ingredients  
+  const sweetness = flavorProfile.sweet || 0;
+  const umami = flavorProfile.umami || 0;
+  const richness = flavorProfile.richness || 0;
+  
+  return Math.min(1, (sweetness * 0.4) + (umami * 0.3) + (richness * 0.3));
+}
+
+function calculateMatterValue(flavorProfile: FlavorProfile): number {
+  // Matter represents grounding, substantial qualities
+  // Higher for bitter, earthy, and foundational ingredients
+  const bitterness = flavorProfile.bitter || 0;
+  const earthiness = flavorProfile.earthy || 0;
+  const density = flavorProfile.density || 0.5;
+  
+  return Math.min(1, (bitterness * 0.4) + (earthiness * 0.3) + (density * 0.3));
+}
+
+function calculateSubstanceValue(flavorProfile: FlavorProfile): number {
+  // Substance represents the airy, mental, transformative qualities
+  // Higher for sour, astringent, and clarifying ingredients
+  const sourness = flavorProfile.sour || 0;
+  const astringent = flavorProfile.astringent || 0;
+  const clarity = flavorProfile.clarity || 0.5;
+  
+  return Math.min(1, (sourness * 0.4) + (astringent * 0.3) + (clarity * 0.3));
 }
 
 // Implement similar helper functions for essence, matter, and substance 
@@ -193,7 +242,7 @@ export function determineIngredientModality(
  * Type guard to check if an object is a RecipeIngredient
  */
 export function isRecipeIngredient(ingredient: unknown): ingredient is RecipeIngredient {
-  const ingredientData = ingredient as any;
+  const ingredientData = ingredient as unknown as Record<string, unknown>;
   return (
     ingredient &&
     typeof ingredientData?.name === 'string' &&
@@ -433,4 +482,93 @@ export function normalizeElementalProperties(properties: ElementalProperties): E
     Earth: Earth / sum,
     Air: Air / sum
   };
+}
+
+/**
+ * Creates a SimpleIngredient from a full Ingredient for lightweight operations
+ */
+export function toSimpleIngredient(ingredient: Ingredient): SimpleIngredient {
+  return {
+    name: ingredient.name,
+    category: ingredient.category as string,
+    elementalProperties: ingredient.elementalProperties
+  };
+}
+
+/**
+ * Creates multiple SimpleIngredients from an array of full Ingredients
+ */
+export function toSimpleIngredients(ingredients: Ingredient[]): SimpleIngredient[] {
+  return ingredients.map(toSimpleIngredient);
+}
+
+/**
+ * Checks if an object is a SimpleIngredient
+ */
+export function isSimpleIngredient(obj: unknown): obj is SimpleIngredient {
+  const ingredient = obj as Record<string, unknown>;
+  return (
+    obj &&
+    typeof obj === 'object' &&
+    typeof ingredient.name === 'string' &&
+    typeof ingredient.category === 'string' &&
+    ingredient.elementalProperties &&
+    typeof ingredient.elementalProperties === 'object'
+  );
+}
+
+/**
+ * Converts a SimpleIngredient back to a full Ingredient with default values
+ */
+export function fromSimpleIngredient(simple: SimpleIngredient): Ingredient {
+  return {
+    name: simple.name,
+    category: simple.category as IngredientCategory,
+    elementalProperties: simple.elementalProperties,
+    qualities: [],
+    storage: { duration: 'unknown' },
+    amount: 1,
+    astrologicalProfile: {
+      elementalAffinity: { base: getDominantElement(simple.elementalProperties as any as ElementalProperties) as Element },
+      rulingPlanets: [],
+      zodiacAffinity: []
+    } as any
+  };
+}
+
+/**
+ * Performs lightweight elemental compatibility check between SimpleIngredients
+ */
+export function calculateSimpleCompatibility(
+  ingredient1: SimpleIngredient,
+  ingredient2: SimpleIngredient
+): number {
+  const props1 = ingredient1.elementalProperties as any as ElementalProperties;
+  const props2 = ingredient2.elementalProperties as any as ElementalProperties;
+  
+  // Calculate elemental similarity (dot product normalized)
+  const similarity = 
+    (props1.Fire * props2.Fire) +
+    (props1.Water * props2.Water) +
+    (props1.Earth * props2.Earth) +
+    (props1.Air * props2.Air);
+  
+  return Math.min(1, Math.max(0, similarity));
+}
+
+/**
+ * Finds the most compatible SimpleIngredients from a list
+ */
+export function findCompatibleSimpleIngredients(
+  target: SimpleIngredient,
+  candidates: SimpleIngredient[],
+  limit = 5
+): Array<{ ingredient: SimpleIngredient; compatibility: number }> {
+  return candidates
+    .map(candidate => ({
+      ingredient: candidate,
+      compatibility: calculateSimpleCompatibility(target, candidate)
+    }))
+    .sort((a, b) => b.compatibility - a.compatibility)
+    .slice(0, limit);
 } 

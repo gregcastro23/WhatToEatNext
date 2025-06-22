@@ -3,11 +3,10 @@ import { Recipe } from '@/types/recipe';
 import { getCurrentPlanetaryPositions } from '@/services/astrologizeApi';
 import { logger } from '../utils/logger';
 import { createError } from '../utils/errorHandling';
-import { calculateLunarPhase } from '../utils/astrologyUtils';
+import { calculateLunarPhase , transformItemsWithPlanetaryPositions } from '../utils/astrologyUtils';
 import { calculatePlanetaryPositions } from '../utils/astrology/core';
-import { transformItemsWithPlanetaryPositions } from '../utils/astrologyUtils';
 import { ScoredRecipe } from '@/types/recipe';
-import { AstrologicalState } from '@/types/alchemy';
+import { AstrologicalState , Element } from '@/types/alchemy';
 import { convertToLunarPhase } from '@/utils/lunarPhaseUtils';
 
 import type { ElementalProperties, 
@@ -16,7 +15,6 @@ import type { ElementalProperties,
   LunarPhaseWithSpaces,
   PlanetaryAspect } from '@/types/alchemy';
 import { ElementalCharacter } from '@/constants/planetaryElements';
-import { Element } from "@/types/alchemy";
 import astrologizeCache from '@/services/AstrologizeApiCache';
 import { calculateRecipeCompatibility } from '@/calculations/culinary/recipeMatching';
 
@@ -593,11 +591,9 @@ export class RecommendationService {
       // Calculate advanced compatibility using the culinary recipe matching system
       let advancedScore = 0.5; // Default neutral score
       try {
-        const compatibilityResult = calculateRecipeCompatibility(
+        const compatibilityResult = (calculateRecipeCompatibility as any)(
           recipe,
-          astrologicalState,
-          location.lat,
-          location.lng
+          astrologicalState
         );
         // Extract numerical score from the result object
         advancedScore = typeof compatibilityResult === 'number' 

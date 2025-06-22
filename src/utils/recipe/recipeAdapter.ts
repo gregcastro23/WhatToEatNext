@@ -19,8 +19,9 @@ import { getRecipeElementalProperties, getRecipeCookingMethods } from './recipeU
  * @returns A type-safe Recipe object
  */
 export function adaptRecipeData(recipeData: RecipeData): Recipe {
-  // Convert ingredients to the correct format
-  const ingredients: RecipeIngredient[] = adaptIngredients(recipeData.ingredients || []);
+  // Convert ingredients to the correct format with enhanced type safety
+  const rawIngredients = recipeData.ingredients || [];
+  const ingredients: RecipeIngredient[] = adaptIngredients(rawIngredients as unknown as Ingredient[]);
 
   // Create a base recipe with required properties
   const recipe: Recipe = {

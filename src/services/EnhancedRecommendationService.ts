@@ -1,4 +1,4 @@
-import { AstrologicalState, ElementalProperties, ChakraEnergies, Season } from '@/types/alchemy';
+import { AstrologicalState, ElementalProperties, ChakraEnergies, Season , Element } from '@/types/alchemy';
 import { getTarotCardsForDate, getTarotFoodRecommendations } from '../lib/tarotCalculations';
 import { getRecommendedIngredients } from '../utils/recommendation/foodRecommendation';
 
@@ -13,7 +13,6 @@ import {
   unifiedFlavorEngine
 } from '../data/unified/unifiedFlavorEngine';
 import { getCurrentSeason } from '../utils/dateUtils';
-import { Element } from "@/types/alchemy";
 import { ChakraService, ChakraEnergyState } from '@/services/ChakraService';
 import { WiccanCorrespondenceService } from '@/services/WiccanCorrespondenceService';
 

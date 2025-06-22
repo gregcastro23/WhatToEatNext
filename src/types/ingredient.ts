@@ -9,6 +9,10 @@ import type {
 import type { ElementalProperties } from './alchemy';
 import type { ZodiacSign, LunarPhase, PlanetaryAlignment } from './astrology';
 
+// Re-export commonly used types for convenience
+export type { ElementalProperties } from './alchemy';
+export type { ZodiacSign, LunarPhase, PlanetaryAlignment } from './astrology';
+
 export interface Ingredient {
   id?: string;
   name: string;

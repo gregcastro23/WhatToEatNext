@@ -391,7 +391,7 @@ function standardizeAstrologicalProfile(profile: unknown): AstrologicalProfile {
       elementalAffinity: {} as ElementalAffinity,
       rulingPlanets: [],
       favorableZodiac: [],
-    } as AstrologicalProfile;
+    } as unknown as AstrologicalProfile;
   }
   
   const prof = profile as Record<string, any>;
@@ -400,7 +400,7 @@ function standardizeAstrologicalProfile(profile: unknown): AstrologicalProfile {
     elementalAffinity: standardizeElementalAffinity(prof.elementalAffinity?.base),
     rulingPlanets: Array.isArray(prof.rulingPlanets) ? (prof.rulingPlanets || []).map(String) : [],
     favorableZodiac: Array.isArray(prof.favorableZodiac) ? (prof.favorableZodiac || []).map(String) : [],
-  } as AstrologicalProfile;
+  } as unknown as AstrologicalProfile;
 }
 
 function standardizeFlavorProfile(profile: unknown): { [key: string]: number } {

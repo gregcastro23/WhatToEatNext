@@ -91,7 +91,7 @@ export function safeNumber(
     return defaultValue;
   }
   
-  let num = Number(value);
+  const num = Number(value);
   
   return !isNaN(num) ? num : defaultValue;
 }
@@ -180,7 +180,7 @@ export function safeProperty<T>(
     return defaultValue;
   }
   
-  let value = (obj as Record<string, unknown>)[key];
+  const value = (obj as Record<string, unknown>)[key];
   
   if (value === undefined || value === null) {
     return defaultValue;

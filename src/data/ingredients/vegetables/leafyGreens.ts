@@ -2,7 +2,7 @@ import type { IngredientMapping } from '@/types/alchemy';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 // Helper function for generating consistent numeric values
-let generateVegetableAttributes = (vegData: {
+const generateVegetableAttributes = (vegData: {
   water: number; // water content percentage (0-100)
   fiber: number; // fiber content (0-10 scale)
   bitterness: number; // bitterness level (0-10 scale)
@@ -407,6 +407,6 @@ const rawLeafyGreens = {
 };
 
 // ✅ Pattern MM-1: Type assertion for ZodiacSign[] compatibility
-export let leafyGreens = fixIngredientMappings(rawLeafyGreens as Record<string, Partial<IngredientMapping>>);
+export const leafyGreens = fixIngredientMappings(rawLeafyGreens as unknown as Record<string, Partial<IngredientMapping>>);
 
 export default leafyGreens;
