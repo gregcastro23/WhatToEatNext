@@ -1,5 +1,7 @@
 # WhatToEatNext
 
+> 🐛 **BugBot Test**: This is a test change to trigger BugBot's automated code review system.
+
 A sophisticated culinary recommendation system that uses alchemical principles, astrological data, and elemental harmony to suggest personalized recipes, ingredients, and cooking methods tailored to your cosmic alignment and preferences.
 
 ## Core Philosophy
