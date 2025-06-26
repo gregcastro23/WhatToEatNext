@@ -1,5 +1,5 @@
 import { _cache } from './cache';
-import { logger } from ./logger';
+import { logger } from './logger';
 import { themeManager } from './theme';
 import { celestialCalculator } from '@/services/celestialCalculations';
 import type { Recipe } from '@/types/recipe';

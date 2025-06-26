@@ -1,5 +1,5 @@
 // User feedback collection utility
-import { logger } from ./logger';
+import { logger } from './logger';
 
 // Interface for feedback data structure
 export interface FeedbackData {

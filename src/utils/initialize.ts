@@ -1,6 +1,6 @@
 import { setupGlobalErrorHandlers } from './globalErrorHandler';
 import { validateEnv } from './env';
-import { logger } from ./logger';
+import { logger } from './logger';
 import { Cache } from './cache';
 import { initializeDatabaseIntegrity } from './databaseCleanup';
 

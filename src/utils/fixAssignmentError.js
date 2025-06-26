@@ -99,7 +99,7 @@ export function calculateElementalScore(element_object) {
   if (!element_object) return 0;
   
   // Calculate total value
-  const total = 0;
+  let total = 0;
   for (const element in element_object) {
     total += element_object[element] || 0;
   }
@@ -108,7 +108,7 @@ export function calculateElementalScore(element_object) {
   const count = Object.keys(element_object).length || 1;
   const idealValue = total / (count || 1);
   
-  const variance = 0;
+  let variance = 0;
   for (const element in element_object) {
     variance += Math.abs((element_object[element] || 0) - idealValue);
   }
@@ -150,7 +150,7 @@ export function combineElementObjects(element_object_1, element_object_2) {
 export function getAbsoluteElementValue(element_object) {
   if (!element_object) return 0;
   
-  const absolute_value = 0;
+  let absolute_value = 0;
   absolute_value += element_object.Fire || 0;
   absolute_value += element_object.Water || 0;
   absolute_value += element_object.Air || 0;

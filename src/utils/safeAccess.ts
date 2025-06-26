@@ -2,7 +2,7 @@
  * Utility functions for safely accessing nested properties and handling undefined values
  */
 
-import { logger } from ./logger';
+import { logger } from './logger';
 
 /**
  * Safely get a value from a nested object structure with a default fallback

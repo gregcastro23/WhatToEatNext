@@ -661,13 +661,7 @@ export function calculateElementalInfluences(
     'sagittarius': 'Fire',
     'capricorn': 'Earth',
     'aquarius': 'Air',
-    'pisces': 'Water',
-    // Support for case variations
-    'aries': 'Fire',
-    'leo': 'Fire',
-    'libra': 'Air',
-    'scorpio': 'Water',
-    'cancer': 'Water'
+    'pisces': 'Water'
   };
 
   // Define planet weights

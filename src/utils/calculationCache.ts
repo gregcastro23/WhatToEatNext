@@ -48,33 +48,28 @@ export function getCachedCalculation<T>(
   // Log cache miss
   // console.log(`⚡ Cache miss for ${cacheKey}, calculating...`);
   
-  try {
-    // Perform the calculation
-    const resultOrPromise = calculationFn();
-    
-    // Handle both synchronous and asynchronous calculations
-    if (resultOrPromise instanceof Promise) {
-      // For async functions, return a promise that caches when resolved
-      return resultOrPromise.then(asyncResult => {
-        calculationCache[cacheKey] = {
-          value: asyncResult,
-          timestamp: Date.now(), // Use current time (not 'now') for actual caching
-          input: inputHash
-        };
-        return asyncResult;
-      });
-    } else {
-      // For synchronous functions, cache immediately
+  // Perform the calculation
+  const resultOrPromise = calculationFn();
+  
+  // Handle both synchronous and asynchronous calculations
+  if (resultOrPromise instanceof Promise) {
+    // For async functions, return a promise that caches when resolved
+    return resultOrPromise.then(asyncResult => {
       calculationCache[cacheKey] = {
-        value: resultOrPromise,
-        timestamp: now,
+        value: asyncResult,
+        timestamp: Date.now(), // Use current time (not 'now') for actual caching
         input: inputHash
       };
-      return resultOrPromise;
-    }
-  } catch (error) {
-    // console.error(`Error in cached calculation ${cacheKey}:`, error);
-    throw error; // Re-throw to let caller handle errors
+      return asyncResult;
+    });
+  } else {
+    // For synchronous functions, cache immediately
+    calculationCache[cacheKey] = {
+      value: resultOrPromise,
+      timestamp: now,
+      input: inputHash
+    };
+    return resultOrPromise;
   }
 }
 

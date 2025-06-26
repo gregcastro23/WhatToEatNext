@@ -1,5 +1,5 @@
 // Performance optimization utilities
-import { logger } from ./logger';
+import { logger } from './logger';
 
 /**
  * Interface for performance metrics collection
