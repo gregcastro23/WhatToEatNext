@@ -209,7 +209,7 @@ function getMethodThermodynamics(method: CookingMethodProfile): BasicThermodynam
 }
 
 // Enhanced base score calculation using Monica constants
-function calculateEnhancedThermodynamicScore(method: CookingMethodProfile): number {
+export function calculateEnhancedThermodynamicScore(method: CookingMethodProfile): number {
   const enhancedProps = getEnhancedMethodThermodynamics(method);
   
   // Calculate base thermodynamic score
@@ -1487,7 +1487,7 @@ interface EnhancedThermodynamicProperties extends BasicThermodynamicProperties {
   efficiency: number;
 }
 
-function getEnhancedMethodThermodynamics(method: CookingMethodProfile): EnhancedThermodynamicProperties {
+export function getEnhancedMethodThermodynamics(method: CookingMethodProfile): EnhancedThermodynamicProperties {
   const methodNameLower = (method as unknown)?.(name as unknown)?.toLowerCase?.() as CookingMethodEnum;
 
   // Get basic thermodynamic properties

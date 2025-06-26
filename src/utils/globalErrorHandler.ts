@@ -1,10 +1,10 @@
-import { logger } from ./logger';
+import { logger } from './logger';
 
 export function setupGlobalErrorHandlers() {
   if (typeof window !== 'undefined') {
     window.onerror = (message, source, lineno, colno, error) => {
       logger.error('Global error:', {
-        _message,
+        message,
         source,
         lineno,
         colno,

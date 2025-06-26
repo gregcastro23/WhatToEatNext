@@ -1,5 +1,5 @@
 import { _cache } from '../cache';
-import { logger } from ../logger';
+import { logger } from '../logger';
 import { z } from 'zod';
 import { _Element } from "@/types/alchemy";
 // ===== THEME MANAGEMENT =====
