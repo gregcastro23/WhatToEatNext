@@ -1,0 +1,59 @@
+{
+  "name": "Alchm Kitchen",
+  "version": "1.0.0",
+  "description": "Astrological Food Recommendation System with Alchemical Integration",
+  "type": "module",
+  "integration": {
+    "type": "iframe-tab",
+    "url": "https://v0-alchm-kitchen.vercel.app/",
+    "localDevUrl": "http://localhost:3003",
+    "port": 3003,
+    "iframeSettings": {
+      "width": "100%",
+      "height": "100vh",
+      "allowFullscreen": true,
+      "sandbox": "allow-same-origin allow-scripts allow-forms allow-popups"
+    }
+  },
+  "features": {
+    "cuisineRecommendations": true,
+    "astrologicalCalculations": true,
+    "elementalMatching": true,
+    "monicaKalchmIntegration": true,
+    "recipeSuggestions": true,
+    "saucePairings": true,
+    "planetaryInfluences": true
+  },
+  "api": {
+    "endpoints": {
+      "astrologize": "/api/astrologize",
+      "nutrition": "/api/nutrition",
+      "planetaryPositions": "/api/planetary-positions",
+      "recipes": "/api/recipes"
+    },
+    "baseUrl": "https://v0-alchm-kitchen.vercel.app"
+  },
+  "development": {
+    "startCommand": "yarn dev",
+    "buildCommand": "yarn build",
+    "installCommand": "yarn install",
+    "nodeVersion": ">=20.18.0",
+    "yarnVersion": ">=1.22.0"
+  },
+  "dependencies": {
+    "required": [
+      "next",
+      "react",
+      "react-dom",
+      "astronomia",
+      "astronomy-engine",
+      "lucide-react"
+    ]
+  },
+  "environment": {
+    "variables": {
+      "NODE_ENV": "production",
+      "NEXT_PUBLIC_APP_URL": "https://v0-alchm-kitchen.vercel.app"
+    }
+  }
+} 
