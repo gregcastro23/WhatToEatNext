@@ -9,7 +9,7 @@
   // Only run in browser environment
   if (typeof window === 'undefined') return;
   
-  console.log('[GlobalInitializer] Starting early initialization');
+  // console.log('[GlobalInitializer] Starting early initialization');
   
   // Store original values of methods that might be affected by lockdown
   const safeObjectDefineProperty = Object.defineProperty;
@@ -22,7 +22,7 @@
   const createSafePopup = () => {
     const popupMethods = {
       create: function() {
-        console.log('[SafePopup] create() called');
+        // console.log('[SafePopup] create() called');
         return {
           show: function() { console.log('[SafePopup] show() called'); return this; },
           hide: function() { console.log('[SafePopup] hide() called'); return this; },
@@ -47,7 +47,7 @@
   // Check if popup object already exists and preserve its methods
   const existingPopupMethods = {};
   if (window.popup) {
-    console.log('[GlobalInitializer] Preserving existing popup methods');
+    // console.log('[GlobalInitializer] Preserving existing popup methods');
     const methods = ['create', 'show', 'hide', 'update'];
     methods.forEach(method => {
       if (typeof window.popup[method] === 'function') {
@@ -89,7 +89,7 @@
         
         return result;
       } catch (error) {
-        console.error('[SafeElemental] getElementRanking error:', error);
+        // console.error('[SafeElemental] getElementRanking error:', error);
         return { 1: 'Fire', 2: 'Water', 3: 'Earth', 4: 'Air' };
       }
     },
@@ -116,7 +116,7 @@
         
         return result;
       } catch (error) {
-        console.error('[SafeElemental] combineElementObjects error:', error);
+        // console.error('[SafeElemental] combineElementObjects error:', error);
         return { 'Fire': 0, 'Water': 0, 'Air': 0, 'Earth': 0 };
       }
     },
@@ -131,7 +131,7 @@
         sum += parseFloat(obj.Earth || 0);
         return sum;
       } catch (error) {
-        console.error('[SafeElemental] getAbsoluteElementValue error:', error);
+        // console.error('[SafeElemental] getAbsoluteElementValue error:', error);
         return 0;
       }
     },
@@ -197,11 +197,11 @@
       event.message.includes('Assignment to constant variable') ||
       event.message.includes('Cannot read properties of undefined')
     )) {
-      console.warn('[GlobalInitializer] Intercepted error:', event.message);
+      // console.warn('[GlobalInitializer] Intercepted error:', event.message);
       
       // Reinitialize popup if needed
       if (event.message.includes('popup')) {
-        console.log('[GlobalInitializer] Reinitializing popup object');
+        // console.log('[GlobalInitializer] Reinitializing popup object');
         // Force a get on popup to trigger our getter
         const _ = window.popup;
       }
@@ -212,7 +212,7 @@
     return false;
   }, true);
   
-  console.log('[GlobalInitializer] Initialization complete');
+  // console.log('[GlobalInitializer] Initialization complete');
 })();
 
 export default {}; 

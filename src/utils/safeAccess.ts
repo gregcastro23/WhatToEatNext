@@ -2,7 +2,7 @@
  * Utility functions for safely accessing nested properties and handling undefined values
  */
 
-import { logger } from './logger';
+import { logger } from ./logger';
 
 /**
  * Safely get a value from a nested object structure with a default fallback
@@ -26,7 +26,7 @@ export function safeGet<T>(
       return defaultValue;
     }
     
-    let current: any = obj;
+    let current: Record<string, unknown> = obj;
     
     for (const key of path) {
       if (current === null || current === undefined || typeof current !== 'object') {

@@ -1,5 +1,5 @@
-import { cache } from './cache';
-import { logger } from './logger';
+import { _cache } from './cache';
+import { logger } from ./logger';
 import { themeManager } from './theme';
 import { celestialCalculator } from '@/services/celestialCalculations';
 import type { Recipe } from '@/types/recipe';
@@ -229,7 +229,7 @@ class StateManager {
 
       this.saveState();
     } catch (error) {
-      console.error('Error initializing state:', error);
+      // console.error('Error initializing state:', error);
     }
   }
 

@@ -81,7 +81,7 @@ export const DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {
 };
 
 // Type guard function for ElementalProperties
-export function isElementalProperties(obj: any): obj is ElementalProperties {
+export function isElementalProperties(obj: Record<string, unknown>): obj is ElementalProperties {
   return obj && 
     typeof obj === 'object' &&
     typeof obj.Fire === 'number' &&

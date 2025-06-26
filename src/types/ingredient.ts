@@ -81,7 +81,7 @@ export interface Ingredient {
   varieties?: Record<string, any>;
   
   // Allow additional properties for extensibility
-  [key: string]: any;
+  [key: string]: Record<string, unknown>;
 } 
 
 // ========== MISSING TYPE FOR TS2305 FIXES ==========

@@ -22,7 +22,7 @@ const ElementalEnergyDisplay: React.FC<ElementalEnergyDisplayProps> = ({ showDeb
   useEffect(() => {
     // Only increment on component mount, not on every render
     if (showDebug) {
-      console.log(`ElementalEnergyDisplay initial render`);
+      // console.log(`ElementalEnergyDisplay initial render`);
     }
     // Empty dependency array ensures this runs only once on mount
   }, []);
@@ -31,14 +31,14 @@ const ElementalEnergyDisplay: React.FC<ElementalEnergyDisplayProps> = ({ showDeb
   useEffect(() => {
     if (showDebug) {
       setRenderCount(prev => prev + 1);
-      console.log(`ElementalEnergyDisplay rendered ${renderCount} times`);
+      // console.log(`ElementalEnergyDisplay rendered ${renderCount} times`);
     }
   }, [planetaryPositions, isDaytime, showDebug]); // Only update when these dependencies change
 
   // Memoize the calculation to avoid recalculating unnecessarily
   const calculateEnergies = useCallback(() => {
     if (!planetaryPositions || Object.keys(planetaryPositions).length === 0) {
-      console.log('No planetary positions available');
+      // console.log('No planetary positions available');
       return [];
     }
 
@@ -51,13 +51,13 @@ const ElementalEnergyDisplay: React.FC<ElementalEnergyDisplayProps> = ({ showDeb
       );
 
       if (!result || !Array.isArray(result)) {
-        console.error('Invalid calculation result:', result);
+        // console.error('Invalid calculation result:', result);
         return [];
       }
 
       return result;
     } catch (error) {
-      console.error('Error calculating elemental energies:', error);
+      // console.error('Error calculating elemental energies:', error);
       return [];
     }
   }, [planetaryPositions, isDaytime]);

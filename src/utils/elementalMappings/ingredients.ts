@@ -1,10 +1,10 @@
 import { 
-  ElementalProperties, 
+  _ElementalProperties, 
   ZodiacSign, 
-  Element,
+  _Element,
   Season
 } from '@/types/alchemy';
-import { IngredientMapping } from '@/data/ingredients/types';
+import { _IngredientMapping } from '@/data/ingredients/types';
 
 // Helper function to standardize ingredient mappings
 function createIngredientMapping(

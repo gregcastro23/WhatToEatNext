@@ -276,7 +276,7 @@ async function getCurrentAstrologicalState(date = new Date()) {
         const sunSign = calculateSunSign(date) || 'aries';
         // Get lunar phase
         const lunarPhaseValue = await calculateLunarPhase(date);
-        const lunarPhase = getLunarPhaseName(lunarPhaseValue);
+        const _lunarPhase = getLunarPhaseName(lunarPhaseValue);
         // Get Moon sign (can be async)
         const moonSign = await calculatemoonSign(date);
         // Get planetary positions

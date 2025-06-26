@@ -64,7 +64,7 @@ function calculatePlanetaryScore(recipe, planetName) {
     return 0.3;
 }
 // Calculate seasonal affinity score
-function calculateSeasonalScore(recipe, season) {
+function calculateSeasonalScore(recipe, _season) {
     const seasonalAffinity = SEASONAL_CUISINE_AFFINITIES[season];
     if (!seasonalAffinity)
         return 0.5; // Return default if not found

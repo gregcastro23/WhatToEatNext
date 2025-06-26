@@ -17,8 +17,8 @@ declare global {
     __alchemicalEnginePatchApplied?: boolean;
     lockdown?: Function;
     harden?: Function;
-    popup?: any;
-    chrome?: any;
+    popup?: Record<string, unknown>;
+    chrome?: Record<string, unknown>;
     getElementRanking?: Function;
     createElementObject?: Function;
     combineElementObjects?: Function;
@@ -29,7 +29,7 @@ declare global {
 
 export default function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
-    console.log('[App] Initializing with Chrome API protection');
+    // console.log('[App] Initializing with Chrome API protection');
     
     // Setup global error handler for Chrome Extension API and lockdown errors
     const errorHandler = function(event: ErrorEvent) {
@@ -44,7 +44,7 @@ export default function App({ Component, pageProps }: AppProps) {
         event.message.includes('viewer.js') ||
         event.message.includes('Assignment to constant variable')
       )) {
-        console.warn('[App] Intercepted API/lockdown error:', event.message);
+        // console.warn('[App] Intercepted API/lockdown error:', event.message);
         
         // Load scripts for handling these specific errors if not loaded yet
         loadErrorHandlingScripts();
@@ -69,7 +69,7 @@ export default function App({ Component, pageProps }: AppProps) {
       // Force load the dummy-popup.js script
       if (!window.__reloadedDummyPopup) {
         window.__reloadedDummyPopup = true;
-        console.log('[App] Loading dummy-popup.js for Chrome API mocking');
+        // console.log('[App] Loading dummy-popup.js for Chrome API mocking');
         
         const script = document.createElement('script');
         script.src = '/dummy-popup.js';
@@ -98,7 +98,7 @@ export default function App({ Component, pageProps }: AppProps) {
             initializeChromeApis();
             window.__chromeAPIsInitialized = true;
           } catch (e) {
-            console.warn('[App] Error initializing Chrome APIs:', e);
+            // console.warn('[App] Error initializing Chrome APIs:', e);
           }
         }
       }
@@ -112,13 +112,13 @@ export default function App({ Component, pageProps }: AppProps) {
       // Pre-emptively load error handling scripts
       loadErrorHandlingScripts();
     } catch (e) {
-      console.warn('[App] Error during initial Chrome API initialization:', e);
+      // console.warn('[App] Error during initial Chrome API initialization:', e);
     }
     
     window.addEventListener('error', errorHandler, true);
     
     return () => {
-      console.log('[App] Removing Chrome API error handler');
+      // console.log('[App] Removing Chrome API error handler');
       window.removeEventListener('error', errorHandler, true);
     };
   }, []);

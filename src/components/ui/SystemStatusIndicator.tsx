@@ -10,7 +10,7 @@ import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 export const SystemStatusIndicator: React.FC = () => {
   const alchemicalData = useAlchemical();
   const planetaryPositions = alchemicalData.planetaryPositions;
-  const isLoading = (alchemicalData as any)?.isLoading || false;
+  const isLoading = (alchemicalData as unknown)?.isLoading || false;
   const state = alchemicalData.state;
   const [dataSource, setDataSource] = useState<string>('unknown');
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
@@ -30,7 +30,7 @@ export const SystemStatusIndicator: React.FC = () => {
     // Check if data is from API, cached, or fallback
     // This is a simple heuristic - in a real implementation we would get this from telemetry
     const sunPosition = planetaryPositions.Sun;
-    if (sunPosition && (sunPosition as any)?.sign === 'aries' && (sunPosition as any)?.degree === 8.63) {
+    if (sunPosition && (sunPosition as unknown)?.sign === 'aries' && (sunPosition as unknown)?.degree === 8.63) {
       setDataSource('hardcoded');
     } else {
       setDataSource('api');

@@ -183,7 +183,7 @@ export interface StandardizedCulinaryApplications {
   }>;
   
   // Flexible extension for category-specific methods
-  [methodName: string]: any;
+  [methodName: string]: Record<string, unknown>;
 }
 
 // Standardized variety information
@@ -405,7 +405,7 @@ export interface StandardizedIngredient {
   };
   
   // Flexible extension for future properties
-  [key: string]: any;
+  [key: string]: Record<string, unknown>;
 }
 
 // Type guards for safe data access

@@ -53,7 +53,7 @@ exports.getSeasonForDate = getSeasonForDate;
 /**
  * Check if a date is in a specific season
  */
-function isInSeason(date, season) {
+function isInSeason(date, _season) {
     return getSeasonForDate(date) === season;
 }
 exports.isInSeason = isInSeason;
@@ -195,7 +195,7 @@ const getAllDishesForCuisine = (cuisineId) => {
  * @param cuisineId Cuisine ID
  * @returns Array of dishes
  */
-const getRecommendations = (mealTime, season, cuisineId) => {
+const getRecommendations = (mealTime, _season, cuisineId) => {
     try {
         debugLog(`Getting recommendations for: ${cuisineId}, ${mealTime}, ${season}`);
         const cuisine = cuisines_1.cuisines[cuisineId];
@@ -220,7 +220,7 @@ const getRecommendations = (mealTime, season, cuisineId) => {
         return combinedDishes;
     }
     catch (error) {
-        console.error(`Error getting recommendations for ${cuisineId}:`, error);
+        // console.error(`Error getting recommendations for ${cuisineId}:`, error);
         return [];
     }
 };

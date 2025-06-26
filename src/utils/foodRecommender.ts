@@ -9,7 +9,7 @@ import { oils } from '@/data/ingredients/oils';
 import { vinegars } from '@/data/ingredients/vinegars';
 import { seasonings } from '@/data/ingredients/seasonings';
 import { proteins, meats, poultry, seafood, legumes, plantBased } from '@/data/ingredients/proteins';
-import { getCurrentSeason } from '@/data/integrations/seasonal';
+import { getCurrentSeason } from '@/utils/dateUtils';
 
 // Create eggs and dairy from proteins by filtering category
 const eggs = (Object.entries(proteins) as [string, IngredientMapping][])
@@ -60,12 +60,12 @@ export const getAllIngredients = (): EnhancedIngredient[] => {
   const allIngredients: EnhancedIngredient[] = [];
   
   // Debug logs
-  console.log('Vegetables data:', Object.keys(vegetables).length, 'items');
-  console.log('Vegetable names:', Object.keys(vegetables));
-  console.log('Grains data:', Object.keys(grains).length, 'items');
-  console.log('Grain names:', Object.keys(grains));
-  console.log('Herbs data:', Object.keys(herbs).length, 'items');
-  console.log('Herbs names:', Object.keys(herbs));
+  // console.log('Vegetables data:', Object.keys(vegetables).length, 'items');
+  // console.log('Vegetable names:', Object.keys(vegetables));
+  // console.log('Grains data:', Object.keys(grains).length, 'items');
+  // console.log('Grain names:', Object.keys(grains));
+  // console.log('Herbs data:', Object.keys(herbs).length, 'items');
+  // console.log('Herbs names:', Object.keys(herbs));
   
   // Define all categories
   const categories = [
@@ -93,12 +93,12 @@ export const getAllIngredients = (): EnhancedIngredient[] => {
   // Process each category
   categories.forEach(category => {
     if (!category.data) {
-      console.warn(`No data for category: ${category.name}`);
+      // console.warn(`No data for category: ${category.name}`);
       return;
     }
     
     // Count the entries in this category
-    console.log(`${category.name} category has ${Object.keys(category.data).length} items`);
+    // console.log(`${category.name} category has ${Object.keys(category.data).length} items`);
     
     Object.entries(category.data).forEach(([name, data]) => {
       // Make sure we add the name to the ingredient
@@ -143,7 +143,7 @@ export const getAllIngredients = (): EnhancedIngredient[] => {
     });
   });
   
-  console.log(`Added ${grainCount} grain ingredients and ${herbCount} herb ingredients`);
+  // console.log(`Added ${grainCount} grain ingredients and ${herbCount} herb ingredients`);
   
   // Filter out ingredients without proper astrological profiles
   const validIngredients = allIngredients.filter(ing => 
@@ -152,14 +152,13 @@ export const getAllIngredients = (): EnhancedIngredient[] => {
     ing.astrologicalProfile.rulingPlanets
   );
   
-  console.log(`Total ingredients: ${allIngredients.length}, Valid ingredients: ${validIngredients.length}`);
+  // console.log(`Total ingredients: ${allIngredients.length}, Valid ingredients: ${validIngredients.length}`);
   if (validIngredients.length < allIngredients.length) {
     const filteredOut = allIngredients.filter(ing => 
       !(ing.astrologicalProfile && ing.astrologicalProfile.elementalAffinity && ing.astrologicalProfile.rulingPlanets)
     );
-    console.log('Filtered out:', filteredOut.length, 'ingredients');
-    console.log('Categories of filtered ingredients:', 
-      [...new Set(filteredOut.map(ing => ing.category))].join(', '));
+    // console.log('Filtered out:', filteredOut.length, 'ingredients');
+    // console.log('Categories of filtered ingredients:', [...new Set(filteredOut.map(ing => ing.category))].join(', '));
   }
   
   // At the end of the getAllIngredients function, add standardization
@@ -385,7 +384,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
   const ingredients = getAllIngredients();
   
   if (!astroState) {
-    console.warn('Astrological state not provided for recommendations');
+    // console.warn('Astrological state not provided for recommendations');
     return [];
   }
   
@@ -669,7 +668,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
       let aspectScore = 0.5; // Default neutral score
       if (astroState.aspects && astroState.aspects.length > 0) {
         // Check for specific aspect enhancers in the ingredient data
-        const profileData = profile as any;
+        const profileData = profile as unknown;
         if (profileData?.aspectEnhancers && profileData.aspectEnhancers.length > 0) {
           const relevantAspects = astroState.aspects.filter(aspect => {
             // Check if this aspect type is specifically listed as an enhancer
@@ -773,7 +772,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
       
       // Get user preferences from the state manager if available
       // instead of using a placeholder assumption
-      const astroStateData = astroState as any;
+      const astroStateData = astroState as unknown;
       const userPreferences = astroStateData?.userPreferences || {};
       const tastePreferences = userPreferences.taste || {
         sweet: 0.5,
@@ -785,7 +784,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
       };
       
       if (standardized.sensoryProfile) {
-        const sensory = standardized.sensoryProfile as any;
+        const sensory = standardized.sensoryProfile as unknown;
         
         // Calculate weighted scores based on user preferences
         if (sensory?.taste) {

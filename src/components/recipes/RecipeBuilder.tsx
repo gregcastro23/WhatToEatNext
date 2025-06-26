@@ -39,7 +39,7 @@ import {
 import { ingredientsMap } from '@/data/ingredients';
 import { SIGN_ENERGY_STATES } from '@/constants/signEnergyStates';
 import { SEASONAL_MODIFIERS } from '@/constants/seasonalCore';
-import { getCurrentSeason } from '@/data/integrations/seasonal';
+import { getCurrentSeason } from '@/utils/dateUtils';
 import { CHAKRA_NUTRITIONAL_CORRELATIONS, CHAKRA_HERBS } from '@/constants/chakraSymbols';
 
 // Types
@@ -81,7 +81,7 @@ interface CalculationResult {
   alchemicalRecommendations: string[];
   season: string;
   zodiacSign?: ZodiacSign;
-  seasonalModifiers: any;
+  seasonalModifiers: Record<string, unknown>;
 }
 
 // Constants
@@ -97,7 +97,7 @@ const createElementalProperties = (props: Partial<ElementalProperties>): Element
   Air: props.Air || 0
 });
 
-const validateElementalProperties = (props: any): ElementalProperties => {
+const validateElementalProperties = (props: Record<string, unknown>): ElementalProperties => {
   const defaultProps = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
   
   if (!props || typeof props !== 'object') return defaultProps;
@@ -173,7 +173,7 @@ export default function RecipeBuilder() {
         const factors = await getTimeFactors();
         setTimeFactors(factors);
       } catch (err) {
-        console.error('Failed to load time factors:', err);
+        // console.error('Failed to load time factors:', err);
       }
     };
     loadTimeFactors();
@@ -255,7 +255,7 @@ export default function RecipeBuilder() {
     const season = getCurrentSeason();
     const currentZodiacSign = getCurrentZodiacSign();
 
-    const seasonalElements = applySeasonalInfluence(elements, season);
+    const seasonalElements = applySeasonalInfluence(elements, _season);
     const astrologicalElements = getZodiacElementalInfluence(currentZodiacSign);
 
     const finalElements = {

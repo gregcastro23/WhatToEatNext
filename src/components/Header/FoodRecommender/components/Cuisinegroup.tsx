@@ -7,7 +7,7 @@ import type { Recipe } from '@/types/recipe';
 import { ElementalCalculator } from '@/services/ElementalCalculator';
 import { CUISINE_TYPES } from '@/constants/cuisineTypes';
 import styles from './CuisineGroup.module.css';
-import { logger } from '@/utils/logger';
+import { logger } from @/utils/logger';
 
 interface Props {
     recipes: Recipe[];
@@ -165,7 +165,7 @@ const CuisineGroup: React.FC<Props> = ({ recipes, elementalState }) => {
             // Normalize score between 60 and 100
             return Math.min(100, Math.max(60, Math.round(score)));
         } catch (error) {
-            console.error(`Error scoring ${recipe.name}:`, error);
+            // console.error(`Error scoring ${recipe.name}:`, error);
             return 0;
         }
     }, [elementalState, isAppropriateForTimeOfDay]);

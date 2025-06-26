@@ -5,8 +5,8 @@ import {
 // Phase 5 of WhatToEatNext Data Consolidation
 // Integrates with unified flavor profile system and adds comprehensive functionality
 
-  createElementalProperties, 
-  isElementalProperties, 
+  _createElementalProperties, 
+  _isElementalProperties, 
   calculateElementalCompatibility 
 } from '../../utils/elemental/elementalUtils';
 import type { ElementalProperties, 
@@ -112,7 +112,7 @@ export interface EnhancedIngredient {
   };
   
   // Allow additional properties from UnifiedIngredient
-  [key: string]: any;
+  [key: string]: Record<string, unknown>;
 }
 
 // Ingredient search criteria
@@ -720,18 +720,18 @@ export class EnhancedIngredientsSystem {
       const existingProfile = ingredient.nutritionalProfile;
       
       return {
-        serving_size: (existingProfile as any)?.servingSize || '100g',
+        serving_size: (existingProfile as unknown)?.servingSize || '100g',
         calories: existingProfile.calories || 0,
         macros: {
-          protein: (existingProfile as any)?.macros?.protein || 0,
-          carbs: (existingProfile as any)?.macros?.carbs || 0,
-          fat: (existingProfile as any)?.macros?.fat || 0,
-          fiber: (existingProfile as any)?.macros?.fiber || 0
+          protein: (existingProfile as unknown)?.macros?.protein || 0,
+          carbs: (existingProfile as unknown)?.macros?.carbs || 0,
+          fat: (existingProfile as unknown)?.macros?.fat || 0,
+          fiber: (existingProfile as unknown)?.macros?.fiber || 0
         },
         vitamins: existingProfile.vitamins || {},
         minerals: existingProfile.minerals || {},
         benefits: ingredient.healthBenefits || [],
-        source: (existingProfile as any)?.source || 'estimated'
+        source: (existingProfile as unknown)?.source || 'estimated'
       };
     }
     

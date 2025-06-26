@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { useAlchemical } from './useAlchemical';
 // TODO: Fix import - add what to import from "./useAlchemical.ts"
 import { getCurrentAstrologicalState } from '@/utils/astrologyUtils';
-import { Element } from "@/types/alchemy";
+import { _Element } from "@/types/alchemy";
 import { AstrologicalState } from "@/types/celestial";
 
 export interface AstrologicalInfluence {
@@ -24,7 +24,7 @@ export function useAstrologicalInfluence() {
         const state = await getCurrentAstrologicalState();
         setAstrologicalState(state);
       } catch (error) {
-        console.error('Failed to get astrological state:', error);
+        // console.error('Failed to get astrological state:', error);
       }
     }
     
@@ -53,7 +53,7 @@ export function useAstrologicalInfluence() {
     };
 
     Object.values(planetaryPositions || {}).forEach(position => {
-      const element = elementMap[(position as any)?.sign as keyof typeof elementMap];
+      const element = elementMap[(position as unknown)?.sign as keyof typeof elementMap];
       if (element) {
         elementCounts[element as keyof typeof elementCounts]++;
       }

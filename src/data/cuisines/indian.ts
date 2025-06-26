@@ -1214,7 +1214,7 @@ export const indian: Cuisine = {
       sweet: ["kashmiri gravy", "date chutney", "shahi sauce", "malai curry", "coconut chutney"],
       aromatic: ["biryani masala", "garam masala oil", "pulao spice mix", "kewra water", "rose essence sauce"]
     }
-  } as any,
+  } as unknown,
   cookingTechniques: [
     {
       name: "Tadka",

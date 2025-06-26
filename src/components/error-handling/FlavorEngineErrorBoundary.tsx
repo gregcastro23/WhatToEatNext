@@ -47,7 +47,7 @@ export class FlavorEngineErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
-    console.error('FlavorEngineErrorBoundary caught an error:', error, errorInfo);
+    // console.error('FlavorEngineErrorBoundary caught an error:', error, errorInfo);
     
     // Check time elapsed since last error
     const now = Date.now();
@@ -65,7 +65,7 @@ export class FlavorEngineErrorBoundary extends Component<Props, State> {
     
     // Log specifically for render loop issues
     if (probableRenderLoop) {
-      console.error('Potential infinite render loop detected in flavor engine!', {
+      // console.error('Potential infinite render loop detected in flavor engine!', {
         timeBetweenErrors: timeSinceLastError + 'ms',
         error
       });

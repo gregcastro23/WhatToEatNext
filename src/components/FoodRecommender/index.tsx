@@ -38,21 +38,21 @@ if (typeof window !== 'undefined') {
   // Override the ElementalCalculator methods if they exist
   if (window.ElementalCalculator) {
     window.ElementalCalculator.calculateElementalBalance = 
-      (props: any) => calculateElementalScore(props) * 100; // Convert to 0-100 scale
+      (props: Record<string, unknown>) => calculateElementalScore(props) * 100; // Convert to 0-100 scale
   }
   
   // Log that our component is initializing correctly
-  console.log('[FoodRecommender] Component loaded with fixes applied');
+  // console.log('[FoodRecommender] Component loaded with fixes applied');
 }
 
 // Create wrapper component to combine both implementations
 const FoodRecommender = () => {
   const astroState = useAstrologicalState();
-  const planetaryPositions = (astroState as any)?.planetaryPositions;
-  const elementalProperties = (astroState as any)?.elementalProperties;
-  const activePlanets = (astroState as any)?.activePlanets;
-  const zodiacSign = (astroState as any)?.zodiacSign;
-  const lunarPhase = (astroState as any)?.lunarPhase;
+  const planetaryPositions = (astroState as unknown)?.planetaryPositions;
+  const elementalProperties = (astroState as unknown)?.elementalProperties;
+  const activePlanets = (astroState as unknown)?.activePlanets;
+  const _zodiacSign = (astroState as unknown)?.zodiacSign;
+  const _lunarPhase = (astroState as unknown)?.lunarPhase;
   
   // Create a full astrological state object to pass to components
   const astrologicalState = useMemo(() => ({

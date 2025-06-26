@@ -11,15 +11,15 @@
   try {
     // Don't re-apply patches
     if (window.__alchemicalEnginePatchApplied) {
-      console.log('[PatchAlchemicalEngine] Patches already applied');
+      // console.log('[PatchAlchemicalEngine] Patches already applied');
       return;
     }
 
-    console.log('[PatchAlchemicalEngine] Applying patches...');
+    // console.log('[PatchAlchemicalEngine] Applying patches...');
 
     // PATCH 1: Fix the getElementRanking function
     // This function has an issue where it tries to reassign const variables
-    window.getElementRanking = function(element_object, rank) {
+    window.getElementRanking = function(element_object, _rank) {
       try {
         // Use let instead of const for variables that will be reassigned
         const element_rank_dict = {1: '', 2: '', 3: '', 4: ''};
@@ -35,7 +35,7 @@
 
         return element_rank_dict;
       } catch (error) {
-        console.warn('[PatchAlchemicalEngine] Error in getElementRanking:', error);
+        // console.warn('[PatchAlchemicalEngine] Error in getElementRanking:', error);
         // Provide a safe fallback
         return {1: 'Fire', 2: '', 3: '', 4: ''};
       }
@@ -74,8 +74,8 @@
     // Mark that patches have been applied
     window.__alchemicalEnginePatchApplied = true;
     
-    console.log('[PatchAlchemicalEngine] Successfully applied all patches');
+    // console.log('[PatchAlchemicalEngine] Successfully applied all patches');
   } catch (error) {
-    console.error('[PatchAlchemicalEngine] Failed to apply patches:', error);
+    // console.error('[PatchAlchemicalEngine] Failed to apply patches:', error);
   }
 })(); 

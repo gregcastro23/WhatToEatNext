@@ -8,7 +8,7 @@
 (function() {
   if (typeof window === 'undefined') return;
 
-  console.log('[PopupInterceptor] Installing popup.js interceptor');
+  // console.log('[PopupInterceptor] Installing popup.js interceptor');
 
   // Create a failsafe popup object that will survive lockdown
   const failsafePopup = {
@@ -41,7 +41,7 @@
   // Monitor for popup integrity issues
   const checkPopupIntegrity = () => {
     if (!window.popup || !window.popup.create) {
-      console.warn('[PopupInterceptor] Popup object is missing, restoring!');
+      // console.warn('[PopupInterceptor] Popup object is missing, restoring!');
       window.popup = window.__popup_backup;
     }
   };
@@ -63,14 +63,14 @@
       const originalSetAttribute = element.setAttribute;
       element.setAttribute = function(name, value) {
         if (name === 'src' && (value.includes('popup.js') || value.includes('lockdown'))) {
-          console.warn(`[PopupInterceptor] Intercepted ${value}`);
+          // console.warn(`[PopupInterceptor] Intercepted ${value}`);
           
           // Force our popup implementation first
           checkPopupIntegrity();
           
           // For lockdown scripts, add a pre-hook
           if (value.includes('lockdown')) {
-            console.warn('[PopupInterceptor] Preparing for lockdown script');
+            // console.warn('[PopupInterceptor] Preparing for lockdown script');
             // Strengthen popup object before lockdown runs
             Object.defineProperty(window, 'popup', {
               value: failsafePopup,
@@ -86,7 +86,7 @@
     return element;
   };
 
-  console.log('[PopupInterceptor] Script interception active');
+  // console.log('[PopupInterceptor] Script interception active');
 })();
 
 export default {}; 

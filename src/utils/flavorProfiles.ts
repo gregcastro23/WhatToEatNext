@@ -8,7 +8,7 @@ import type { ElementalProperties } from '../types/alchemy';
  */
 export function getDetailedFlavorProfile(cuisine: unknown): string {
   // Use safe type casting for cuisine property access
-  const cuisineData = cuisine as any;
+  const cuisineData = cuisine as unknown;
   const cuisineId = (cuisineData?.id || cuisineData?.name || '').toLowerCase();
   
   // Get flavor profile from static mapping
@@ -60,7 +60,7 @@ function getAstrologicallyInformedFlavorProfile(
     return generateFlavorProfileFromElements(elementalProps);
   }
   
-  const primaryElement = Object.entries(elementalProps)
+  const _primaryElement = Object.entries(elementalProps)
     .sort((a, b) => b[1] - a[1])[0][0];
   
   return `${flavorAttributes.join(', ')} flavors with ${getElementalDescription(primaryElement)} characteristics`;
@@ -84,7 +84,7 @@ function generateFlavorProfileFromElements(elementalProps: ElementalProperties):
     Air: ['light and ethereal', 'fragrant and uplifting', 'zesty and refreshing', 'bright and crisp']
   };
   
-  const primaryElement = elements[0][0] as keyof typeof elementalFlavors;
+  const _primaryElement = elements[0][0] as keyof typeof elementalFlavors;
   const secondaryElement = elements[1][0] as keyof typeof elementalFlavors;
   
   if (!elementalFlavors[primaryElement] || !elementalFlavors[secondaryElement]) {

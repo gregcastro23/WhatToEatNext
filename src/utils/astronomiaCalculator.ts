@@ -113,7 +113,7 @@ export function calculatePlanetaryPositions(date: Date = new Date()): Record<str
     }
     
   } catch (error) {
-    console.error('Error calculating planetary positions:', error);
+    // console.error('Error calculating planetary positions:', error);
     
     // If anything fails, just return the current positions
     return { ...CURRENT_POSITIONS };

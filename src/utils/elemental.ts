@@ -1,4 +1,4 @@
-import { ElementalProperties } from '@/types/zodiac';
+import { _ElementalProperties } from '@/types/zodiac';
 
 export type ElementalColor = {
   primary: string;

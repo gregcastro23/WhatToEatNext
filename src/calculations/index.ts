@@ -44,7 +44,7 @@ import planetaryInfluences, {
 // TODO: Fix import - add what to import from "./culinary/cuisineRecommendations.ts"
 // TODO: Fix import - add what to import from "./culinary/seasonalAdjustments.ts"
 
-import { Element } from "@/types/alchemy";
+import { _Element } from "@/types/alchemy";
 import { PlanetaryAlignment } from "@/types/celestial";
 
 // Import the missing function
@@ -108,9 +108,9 @@ export async function calculateComprehensiveAlchemicalResult(
   const {
     planetaryPositions,
     season = 'spring',
-    lunarPhase = 'full moon',
-    isDaytime = true,
-    currentDate = new Date(),
+    _lunarPhase = 'full moon',
+    _isDaytime = true,
+    _currentDate = new Date(),
     currentZodiacSign
   } = input;
 
@@ -124,13 +124,13 @@ export async function calculateComprehensiveAlchemicalResult(
     // 2. Calculate comprehensive elemental properties
     let elementalProperties = calculateComprehensiveElementalProperties(
       planetaryPositions,
-      season,
+      _season,
       lunarPhase,
       isDaytime
     );
 
     // Apply seasonal and lunar adjustments
-    elementalProperties = applySeasonalAdjustments(elementalProperties, season);
+    elementalProperties = applySeasonalAdjustments(elementalProperties, _season);
     if (lunarPhase) {
       elementalProperties = applyLunarPhaseAdjustments(elementalProperties, lunarPhase);
     }
@@ -139,7 +139,7 @@ export async function calculateComprehensiveAlchemicalResult(
     const planetaryInfluencesResult = calculatePlanetaryInfluences(
       planetaryPositions,
       isDaytime,
-      currentDate
+      _currentDate
     );
 
     // 4. Generate elemental recommendations
@@ -173,7 +173,7 @@ export async function calculateComprehensiveAlchemicalResult(
     return result;
 
   } catch (error) {
-    console.error('Error in comprehensive alchemical calculation:', error);
+    // console.error('Error in comprehensive alchemical calculation:', error);
     
     // Return fallback result
     return await getFallbackResult(input, cacheKey);
@@ -233,7 +233,7 @@ export function calculateRecipeCompatibility(
     };
 
   } catch (error) {
-    console.error('Error calculating recipe compatibility:', error);
+    // console.error('Error calculating recipe compatibility:', error);
     return {
       compatibilityScore: 0.7,
       kalchmAlignment: 0.7,
@@ -353,7 +353,7 @@ async function getFallbackResult(input: CalculationInput, cacheKey: string): Pro
 
     const realPositions = await getCurrentPlanetaryPositions();
     
-    console.log('🌟 Using astrologize API for fallback calculations');
+    // console.log('🌟 Using astrologize API for fallback calculations');
     
     // Create a new input with real positions
     const enhancedInput: CalculationInput = {
@@ -365,7 +365,7 @@ async function getFallbackResult(input: CalculationInput, cacheKey: string): Pro
     return await calculateComprehensiveAlchemicalResult(enhancedInput);
     
   } catch (astrologizeError) {
-    console.warn('Astrologize API also failed in fallback, using static fallback:', astrologizeError);
+    // console.warn('Astrologize API also failed in fallback, using static fallback:', astrologizeError);
     
     // Only use static fallback as last resort
     const fallbackElemental: ElementalProperties = { 
@@ -478,7 +478,7 @@ function applyLunarPhaseAdjustments(elementalProperties: ElementalProperties, lu
   return adjustedProps;
 }
 
-function generateCuisineRecommendations(dominantPlanets: any[], elementalProperties: ElementalProperties): string[] {
+function generateCuisineRecommendations(dominantPlanets: unknown[], elementalProperties: ElementalProperties): string[] {
   // Simple cuisine recommendations based on dominant elements
   const dominantElement = getDominantElement(elementalProperties);
   

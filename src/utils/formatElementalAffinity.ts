@@ -13,14 +13,14 @@ export function formatElementalAffinity(input: unknown): ElementalAffinity {
   // If it's a string, create a simple object with primary
   if (typeof input === 'string') {
     return { 
-      primary: input as any,
+      primary: input as unknown,
       strength: 0.5,
       compatibility: { Fire: 1, Water: 0.3, Earth: 0.7, Air: 0.6 }
     };
   }
   
   // Apply safe type casting for property access
-  const inputData = input as any;
+  const inputData = input as unknown;
   
   // Ensure the primary property exists
   if (!inputData?.primary && inputData?.element) {

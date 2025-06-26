@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { fetchNutritionalData, nutritionalToElemental, zodiacNutritionalNeeds } from '@/data/nutritional';
-import { NutritionalProfile, Element, ZodiacSign } from '@/types/alchemy';
+import { NutritionalProfile, _Element, ZodiacSign } from '@/types/alchemy';
 
 // Loading spinner component
 function LoadingSpinner() {
@@ -107,11 +107,11 @@ export default function NutritionalDataFetcher() {
         return;
       }
       
-      setNutritionalData(data as any);
+      setNutritionalData(data as unknown);
       const elemental = nutritionalToElemental(data);
       setElementalData(elemental);
     } catch (err) {
-      console.error('Error in nutritional search:', err);
+      // console.error('Error in nutritional search:', err);
       setError('Error fetching nutritional data. Please try again or try a different food name.');
       setNutritionalData(null);
       setElementalData(null);
@@ -156,17 +156,17 @@ export default function NutritionalDataFetcher() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="p-4 border rounded bg-white shadow">
             <h2 className="text-xl font-semibold mb-2">Nutritional Profile</h2>
-            {(nutritionalData as any)?.name && (
-              <p className="text-lg font-medium mb-2">{(nutritionalData as any)?.name}</p>
+            {(nutritionalData as unknown)?.name && (
+              <p className="text-lg font-medium mb-2">{(nutritionalData as unknown)?.name}</p>
             )}
             <p><strong>Calories:</strong> {nutritionalData.calories.toFixed(1)}</p>
             
             <h3 className="text-lg font-semibold mt-4 mb-2">Macronutrients</h3>
             <ul className="pl-5 list-disc">
-              <li>Protein: {((nutritionalData as any)?.macros?.protein || 0).toFixed(1)}g</li>
-              <li>Carbohydrates: {((nutritionalData as any)?.macros?.carbs || 0).toFixed(1)}g</li>
-              <li>Fat: {((nutritionalData as any)?.macros?.fat || 0).toFixed(1)}g</li>
-              <li>Fiber: {((nutritionalData as any)?.macros?.fiber || 0).toFixed(1)}g</li>
+              <li>Protein: {((nutritionalData as unknown)?.macros?.protein || 0).toFixed(1)}g</li>
+              <li>Carbohydrates: {((nutritionalData as unknown)?.macros?.carbs || 0).toFixed(1)}g</li>
+              <li>Fat: {((nutritionalData as unknown)?.macros?.fat || 0).toFixed(1)}g</li>
+              <li>Fiber: {((nutritionalData as unknown)?.macros?.fiber || 0).toFixed(1)}g</li>
             </ul>
             
             {nutritionalData.vitamins && Object.keys(nutritionalData.vitamins).length > 0 && (

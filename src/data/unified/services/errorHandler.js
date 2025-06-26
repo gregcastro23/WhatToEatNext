@@ -7,13 +7,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.logTypeError = exports.trackExecution = exports.safeExecuteWithContext = exports.safePropertyAccess = exports.safeValue = exports.errorHandler = exports.ErrorHandler = exports.ErrorSeverity = exports.ErrorType = void 0;
 // Simple logger functionality
 const logError = (message, data) => {
-    console.error(`[ERROR] ${message}`, data);
+    // console.error(`[ERROR] ${message}`, data);
 };
 const logWarning = (message, data) => {
-    console.warn(`[WARNING] ${message}`, data);
+    // console.warn(`[WARNING] ${message}`, data);
 };
 const logInfo = (message, data) => {
-    console.info(`[INFO] ${message}`, data);
+    // console.info(`[INFO] ${message}`, data);
 };
 // Error types
 let ErrorType;
@@ -39,14 +39,14 @@ class ErrorHandlerService {
      * Handle an error with additional context (alias for log method)
      */
     handleError(error, options = {}) {
-        return this.log(error, options);
+        return this.log(error, _options);
     }
     /**
      * Log an error with additional context
      */
     log(error, options = {}) {
         const { type = ErrorType.UNKNOWN, severity = ErrorSeverity.ERROR, component = 'unknown', context = {}, data = {}, isFatal = false, silent = false } = options;
-        const errorDetails = this.prepareErrorDetails(error, options);
+        const errorDetails = this.prepareErrorDetails(error, _options);
         // Log to console based on severity
         if (!silent) {
             switch (severity) {
@@ -113,7 +113,7 @@ class ErrorHandlerService {
     /**
      * Prepare standardized error details object
      */
-    prepareErrorDetails(error, options) {
+    prepareErrorDetails(error, _options) {
         let message = 'Unknown error';
         let stack;
         let errorType = 'unknown';

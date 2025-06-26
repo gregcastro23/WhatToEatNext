@@ -3,7 +3,7 @@
  * This file contains all interfaces for the Spoonacular API data structures
  */
 
-import { ElementalProperties } from './elemental';
+import { _ElementalProperties } from './elemental';
 
 /**
  * Represents a nutrient returned by the Spoonacular API

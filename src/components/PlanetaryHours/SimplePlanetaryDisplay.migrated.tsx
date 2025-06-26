@@ -24,7 +24,7 @@ export default function SimplePlanetaryDisplayMigrated() {
       try {
         // Get current planetary hour
         const hourInfo = await astrologyService.getCurrentPlanetaryHour();
-        const hourInfoData = hourInfo as any;
+        const hourInfoData = hourInfo as unknown;
         if (hourInfo && typeof hourInfoData?.planet === 'string') {
           setCurrentHour(hourInfoData.planet);
         } else if (typeof hourInfo === 'string') {
@@ -32,11 +32,11 @@ export default function SimplePlanetaryDisplayMigrated() {
         }
         
         // Get current planetary day
-        const dayPlanet = await (astrologyService as any)?.getCurrentPlanetaryDay?.();
+        const dayPlanet = await (astrologyService as unknown)?.getCurrentPlanetaryDay?.();
         setCurrentDay(dayPlanet || 'Unknown');
         
         // Get current planetary minute
-        const minutePlanet = await (astrologyService as any)?.getCurrentPlanetaryMinute?.();
+        const minutePlanet = await (astrologyService as unknown)?.getCurrentPlanetaryMinute?.();
         setCurrentMinute(minutePlanet || 'Unknown');
         
         // Update time
@@ -45,7 +45,7 @@ export default function SimplePlanetaryDisplayMigrated() {
       } catch (err) {
         const errorMessage = err instanceof Error ? err.message : 'Unknown error';
         setError(`Error updating planetary info: ${errorMessage}`);
-        console.error('Error updating planetary info:', err);
+        // console.error('Error updating planetary info:', err);
       }
     };
     

@@ -10,7 +10,7 @@ let GlobalPopup = () => {
   
   // Early return if popup context is not available
   if (!popup || !popup.showPopup) {
-    console.warn('Popup context not available');
+    // console.warn('Popup context not available');
     return null;
   }
   
@@ -96,8 +96,8 @@ export let useGlobalPopups = () => {
       window.showPopup = popup.showPopup;
     } else {
       // Provide a fallback function to prevent errors
-      window.showPopup = (message, options) => {
-        console.warn('Popup system not initialized yet, message:', message);
+      window.showPopup = (message, _options) => {
+        // console.warn('Popup system not initialized yet, message:', _message);
       };
     }
   }
@@ -106,22 +106,22 @@ export let useGlobalPopups = () => {
   if (!popup) {
     // Return a fallback object with noop functions to prevent errors
     return {
-      show: (message) => console.warn('Popup not available:', message),
-      success: (message) => console.warn('Popup not available:', message),
-      error: (message) => console.warn('Popup not available:', message),
-      warning: (message) => console.warn('Popup not available:', message),
-      info: (message) => console.warn('Popup not available:', message),
-      elemental: (message) => console.warn('Popup not available:', message)
+      show: (message) => console.warn('Popup not available:', _message),
+      success: (message) => console.warn('Popup not available:', _message),
+      error: (message) => console.warn('Popup not available:', _message),
+      warning: (message) => console.warn('Popup not available:', _message),
+      info: (message) => console.warn('Popup not available:', _message),
+      elemental: (message) => console.warn('Popup not available:', _message)
     };
   }
   
   return {
     show: popup.showPopup,
-    success: (message, options) => popup.showPopup(message, { ...options, type: 'success' }),
-    error: (message, options) => popup.showPopup(message, { ...options, type: 'error' }),
-    warning: (message, options) => popup.showPopup(message, { ...options, type: 'warning' }),
-    info: (message, options) => popup.showPopup(message, { ...options, type: 'info' }),
-    elemental: (message, options) => popup.showPopup(message, { ...options, type: 'elemental' })
+    success: (message, _options) => popup.showPopup(message, { ...options, type: 'success' }),
+    error: (message, _options) => popup.showPopup(message, { ...options, type: 'error' }),
+    warning: (message, _options) => popup.showPopup(message, { ...options, type: 'warning' }),
+    info: (message, _options) => popup.showPopup(message, { ...options, type: 'info' }),
+    elemental: (message, _options) => popup.showPopup(message, { ...options, type: 'elemental' })
   };
 };
 

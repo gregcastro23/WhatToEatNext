@@ -113,7 +113,7 @@ const MoonDisplay: React.FC = () => {
     
     // Try both possible property names
     const node = planetaryPositions?.northnode || planetaryPositions?.northNode;
-    const nodeData = node as any;
+    const nodeData = node as unknown;
     
     // Ensure all required properties are present
     return {
@@ -132,7 +132,7 @@ const MoonDisplay: React.FC = () => {
     
     // Try both possible property names
     const node = planetaryPositions?.southnode || planetaryPositions?.southNode;
-    const nodeData = node as any;
+    const nodeData = node as unknown;
     
     // Ensure all required properties are present
     return {
@@ -148,8 +148,8 @@ const MoonDisplay: React.FC = () => {
     const getLocation = async () => {
       try {
         // Use safe method call checking if requestLocation exists
-        if (typeof (AstrologicalService as any).requestLocation === 'function') {
-          const coords = await (AstrologicalService as any).requestLocation();
+        if (typeof (AstrologicalService as unknown).requestLocation === 'function') {
+          const coords = await (AstrologicalService as unknown).requestLocation();
           if (coords) {
             setCoordinates({
               latitude: coords.latitude,
@@ -249,7 +249,7 @@ const MoonDisplay: React.FC = () => {
           const illuminationPct = await getIllumination(new Date());
           
           debugLog('Lunar phase calculation:', {
-            phaseValue: currentPhase,
+            phaseValue: _currentPhase,
             phaseName,
             illuminationPct
           });
@@ -264,7 +264,7 @@ const MoonDisplay: React.FC = () => {
           // Update state with phase data
           setMoonPhase({
             phase: phaseName,
-            phaseValue: currentPhase,
+            phaseValue: _currentPhase,
             description: getLunarPhaseDescription(phaseName),
             illumination: correctedIllumination
           });
@@ -327,7 +327,7 @@ const MoonDisplay: React.FC = () => {
     });
     
     // If the moon position is available and has proper sign information
-    const moonData = planetaryPositions.moon as any;
+    const moonData = planetaryPositions.moon as unknown;
     if (planetaryPositions.moon && moonData?.sign) {
       // No need for additional calculations - the context already has the sign and degree
       debugLog('Moon position available from planetary alignment:', planetaryPositions.moon);
@@ -345,15 +345,15 @@ const MoonDisplay: React.FC = () => {
     
     // Check for north node data only once when positions are available
     const northNodeMissing = !planetaryPositions.northNode && !planetaryPositions.northnode;
-    const moonData = planetaryPositions.moon as any;
-    const northNodeData = (planetaryPositions.northNode || planetaryPositions.northnode) as any;
+    const moonData = planetaryPositions.moon as unknown;
+    const northNodeData = (planetaryPositions.northNode || planetaryPositions.northnode) as unknown;
     const northNodeIncomplete = 
       (planetaryPositions.northNode && !northNodeData?.sign) || 
       (planetaryPositions.northnode && !northNodeData?.sign);
       
     if (northNodeMissing || northNodeIncomplete) {
       // Log only once
-      console.warn('North Node data missing or incomplete:', {
+      // console.warn('North Node data missing or incomplete:', {
         northNodeData: planetaryPositions.northNode || planetaryPositions.northnode || 'undefined',
         availableKeys: Object.keys(planetaryPositions)
       });
@@ -383,13 +383,13 @@ const MoonDisplay: React.FC = () => {
           <p className="font-medium capitalize">{moonPhase.phase.replace(/_/g, ' ')}</p>
           <p className="text-sm text-gray-300">
             {(() => {
-              const moonData = moon as any;
+              const moonData = moon as unknown;
               return moonData?.sign 
                 ? `Moon in ${capitalizeFirstLetter(moonData.sign)} ${formatDegree(moonData.degree)}` 
                 : 'Loading...';
             })()}
             {(() => {
-              const moonData = moon as any;
+              const moonData = moon as unknown;
               return moonData?.isRetrograde ? ' ℞' : '';
             })()}
           </p>

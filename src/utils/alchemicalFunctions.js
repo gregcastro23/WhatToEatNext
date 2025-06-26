@@ -35,7 +35,7 @@ function calculateElementalScore(element_object) {
  * @param {number} rank - Which rank to return (1 for highest, etc.)
  * @returns {Object} - Object with ranks as keys and element names as values
  */
-function getElementRanking(element_object, rank) {
+function getElementRanking(element_object, _rank) {
     // Use let instead of var or const to allow reassignment
     const element_rank_dict = {
         1: '',

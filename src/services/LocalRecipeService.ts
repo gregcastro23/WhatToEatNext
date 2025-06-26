@@ -113,19 +113,19 @@ export class LocalRecipeService {
       // Get recipes from all available cuisines
       for (const cuisine of Object.values(cuisinesMap)) {
         if (cuisine) {
-          const cuisineRecipes = await this.getRecipesFromCuisine(cuisine as any);
+          const cuisineRecipes = await this.getRecipesFromCuisine(cuisine as unknown);
           recipes.push(...cuisineRecipes);
         }
       }
       
-      console.log(`Loaded ${recipes.length} total recipes`);
+      // console.log(`Loaded ${recipes.length} total recipes`);
       
       // Cache the recipes for future use
       this._allRecipes = recipes;
       
       return recipes;
     } catch (error) {
-      console.error("Error getting all recipes:", error);
+      // console.error("Error getting all recipes:", error);
       return [];
     }
   }
@@ -142,14 +142,14 @@ export class LocalRecipeService {
     }
     
     try {
-      console.log(`Getting recipes for cuisine: ${cuisineName}`);
+      // console.log(`Getting recipes for cuisine: ${cuisineName}`);
       
       // Normalize cuisine name for comparison
       const normalizedName = cuisineName.toLowerCase().trim();
       
       // Handle special cases for African and American cuisines
       if (normalizedName === 'african' || normalizedName === 'american') {
-        console.log(`Special handling for: ${normalizedName}`);
+        // console.log(`Special handling for: ${normalizedName}`);
         
         // Try different ways to access the cuisine data
         let directCuisine: ExtendedCuisine | null = null;
@@ -164,9 +164,9 @@ export class LocalRecipeService {
             directCuisine = americanModule.american as ExtendedCuisine;
           }
           
-          console.log(`Direct import successful for ${normalizedName}`);
+          // console.log(`Direct import successful for ${normalizedName}`);
         } catch (error) {
-          console.error(`Error importing ${normalizedName} cuisine directly:`, error);
+          // console.error(`Error importing ${normalizedName} cuisine directly:`, error);
           
           // If direct import fails, try the cuisinesMap object (various cases)
           directCuisine = (cuisinesMap[normalizedName] || 
@@ -175,23 +175,23 @@ export class LocalRecipeService {
         }
         
         if (directCuisine) {
-          console.log(`Found ${normalizedName} cuisine data`);
+          // console.log(`Found ${normalizedName} cuisine data`);
           
           // Additional debug information to help diagnose issues
-          console.log(`Cuisine structure: ${JSON.stringify({
+          /* console.log(`Cuisine structure: ${JSON.stringify({
             id: directCuisine.id,
             name: directCuisine.name,
             hasDishes: !!directCuisine.dishes,
             dishTypes: directCuisine.dishes ? Object.keys(directCuisine.dishes).join(', ') : 'none',
-            breakfast: ((directCuisine.dishes as any)?.breakfast?.all?.length || (directCuisine.dishes as any)?.dishes?.breakfast?.all?.length) || 0,
-            lunch: ((directCuisine.dishes as any)?.lunch?.all?.length || (directCuisine.dishes as any)?.dishes?.lunch?.all?.length) || 0,
-            dinner: ((directCuisine.dishes as any)?.dinner?.all?.length || (directCuisine.dishes as any)?.dishes?.dinner?.all?.length) || 0,
-            dessert: ((directCuisine.dishes as any)?.dessert?.all?.length || (directCuisine.dishes as any)?.dishes?.dessert?.all?.length) || 0
-          })}`);
+            breakfast: ((directCuisine.dishes as unknown)?.breakfast?.all?.length || (directCuisine.dishes as unknown)?.dishes?.breakfast?.all?.length) || 0,
+            lunch: ((directCuisine.dishes as unknown)?.lunch?.all?.length || (directCuisine.dishes as unknown)?.dishes?.lunch?.all?.length) || 0,
+            dinner: ((directCuisine.dishes as unknown)?.dinner?.all?.length || (directCuisine.dishes as unknown)?.dishes?.dinner?.all?.length) || 0,
+            dessert: ((directCuisine.dishes as unknown)?.dessert?.all?.length || (directCuisine.dishes as unknown)?.dishes?.dessert?.all?.length) || 0
+          })}`); */
           
           return await this.getRecipesFromCuisine(directCuisine);
         } else {
-          console.warn(`Could not find ${normalizedName} in cuisinesMap keys:`, Object.keys(cuisinesMap));
+          // console.warn(`Could not find ${normalizedName} in cuisinesMap keys:`, Object.keys(cuisinesMap));
         }
       }
       
@@ -210,7 +210,7 @@ export class LocalRecipeService {
         );
         
         if (byIdMatch && byIdMatch[1]) {
-          return await this.getRecipesFromCuisine(byIdMatch[1] as any);
+          return await this.getRecipesFromCuisine(byIdMatch[1] as unknown);
         }
         
         logger.info(`Cuisine not found: ${cuisineName}`);
@@ -236,44 +236,44 @@ export class LocalRecipeService {
     const mealTypes = ['breakfast', 'lunch', 'dinner', 'dessert', 'snacks'];
     
     try {
-      console.log(`Extracting recipes from cuisine: ${cuisine.name}`);
+      // console.log(`Extracting recipes from cuisine: ${cuisine.name}`);
       
       // Special handling for American and African cuisines
       const isSpecialCase = cuisine.name.toLowerCase() === 'american' || cuisine.name.toLowerCase() === 'african';
       
       // Log specific debug info for African cuisine
       if (cuisine.name.toLowerCase() === 'african') {
-        console.log('AFRICAN CUISINE DETAILED DEBUG INFO:');
-        console.log('Full cuisine structure:', JSON.stringify({
+        // console.log('AFRICAN CUISINE DETAILED DEBUG INFO:');
+        /* console.log('Full cuisine structure:', JSON.stringify({
           id: cuisine.id,
           name: cuisine.name,
           dishesKeys: Object.keys(cuisine.dishes || {}),
-          breakfastAllLength: ((cuisine.dishes as any)?.breakfast?.all?.length || (cuisine.dishes as any)?.dishes?.breakfast?.all?.length) || 0,
-          lunchAllLength: ((cuisine.dishes as any)?.lunch?.all?.length || (cuisine.dishes as any)?.dishes?.lunch?.all?.length) || 0,
-          dinnerAllLength: ((cuisine.dishes as any)?.dinner?.all?.length || (cuisine.dishes as any)?.dishes?.dinner?.all?.length) || 0,
-          dessertAllLength: ((cuisine.dishes as any)?.dessert?.all?.length || (cuisine.dishes as any)?.dishes?.dessert?.all?.length) || 0,
-        }));
+          breakfastAllLength: ((cuisine.dishes as unknown)?.breakfast?.all?.length || (cuisine.dishes as unknown)?.dishes?.breakfast?.all?.length) || 0,
+          lunchAllLength: ((cuisine.dishes as unknown)?.lunch?.all?.length || (cuisine.dishes as unknown)?.dishes?.lunch?.all?.length) || 0,
+          dinnerAllLength: ((cuisine.dishes as unknown)?.dinner?.all?.length || (cuisine.dishes as unknown)?.dishes?.dinner?.all?.length) || 0,
+          dessertAllLength: ((cuisine.dishes as unknown)?.dessert?.all?.length || (cuisine.dishes as unknown)?.dishes?.dessert?.all?.length) || 0,
+        })); */
         
         // Check if "all" arrays actually contain recipes with safe type casting
-        const dishesData = cuisine.dishes as any;
+        const dishesData = cuisine.dishes as unknown;
         const breakfastAll = dishesData?.breakfast?.all || dishesData?.dishes?.breakfast?.all;
         if (breakfastAll?.length > 0) {
-          console.log('Sample breakfast recipe:', JSON.stringify(breakfastAll[0]));
+          // console.log('Sample breakfast recipe:', JSON.stringify(breakfastAll[0]));
         }
       }
       
       // Check if dishes structure exists
       if (!cuisine.dishes) {
-        console.log(`No dishes found for cuisine: ${cuisine.name}`);
+        // console.log(`No dishes found for cuisine: ${cuisine.name}`);
         
         if (isSpecialCase) {
-          console.warn(`Special case (${cuisine.name}) has no dishes property:`, cuisine);
+          // console.warn(`Special case (${cuisine.name}) has no dishes property:`, cuisine);
         }
         
         return [];
       }
       
-      console.log(`Dishes structure:`, Object.keys(cuisine.dishes || {}));
+      // console.log(`Dishes structure:`, Object.keys(cuisine.dishes || {}));
       
       // Quick check for all season recipes in each meal type
       mealTypes.forEach(mealType => {
@@ -281,12 +281,12 @@ export class LocalRecipeService {
             typeof cuisine.dishes[mealType] === 'object' && 
             cuisine.dishes[mealType].all && 
             Array.isArray(cuisine.dishes[mealType].all)) {
-          console.log(`Found ${cuisine.dishes[mealType].all.length} ${mealType} recipes in 'all' season for ${cuisine.name}`);
+          // console.log(`Found ${cuisine.dishes[mealType].all.length} ${mealType} recipes in 'all' season for ${cuisine.name}`);
         } else if (isSpecialCase) {
           // Debug problematic cuisine
-          console.warn(`No '${mealType}.all' array found for ${cuisine.name}`);
+          // console.warn(`No '${mealType}.all' array found for ${cuisine.name}`);
           if (cuisine.dishes && cuisine.dishes[mealType]) {
-            console.log(`Structure of ${mealType}:`, Object.keys(cuisine.dishes[mealType]));
+            // console.log(`Structure of ${mealType}:`, Object.keys(cuisine.dishes[mealType]));
           }
         }
       });
@@ -294,12 +294,12 @@ export class LocalRecipeService {
       // Loop through each meal type
       mealTypes.forEach(mealType => {
         if (!cuisine.dishes || !cuisine.dishes[mealType]) {
-          console.log(`No dishes for meal type: ${mealType}`);
+          // console.log(`No dishes for meal type: ${mealType}`);
           return;
         }
         
         const seasonalDishes = cuisine.dishes[mealType] as SeasonalDishCollection;
-        console.log(`Meal type ${mealType} structure:`, JSON.stringify(Object.keys(seasonalDishes || {})));
+        // console.log(`Meal type ${mealType} structure:`, JSON.stringify(Object.keys(seasonalDishes || {})));
         
         // Process seasonal recipes (spring, summer, autumn, winter)
         const seasons = ['spring', 'summer', 'autumn', 'winter'];
@@ -316,7 +316,7 @@ export class LocalRecipeService {
           }
           
           if (seasonRecipes.length > 0) {
-            console.log(`Found ${seasonRecipes.length} dishes for ${season} in ${mealType}`);
+            // console.log(`Found ${seasonRecipes.length} dishes for ${season} in ${mealType}`);
             // Add only unique recipes based on name to avoid duplicates from 'all' merging
             seasonRecipes.forEach(dish => {
               if (dish && dish.name && !recipes.some(r => r.name === dish.name)) {
@@ -324,16 +324,16 @@ export class LocalRecipeService {
               }
             });
           } else if (isSpecialCase) {
-            console.warn(`No recipes found for ${season} in ${mealType} for ${cuisine.name}`);
+            // console.warn(`No recipes found for ${season} in ${mealType} for ${cuisine.name}`);
           }
         });
       });
       
-      console.log(`Extracted ${recipes.length} total recipes from ${cuisine.name} cuisine`);
+      // console.log(`Extracted ${recipes.length} total recipes from ${cuisine.name} cuisine`);
       
       // If no recipes were found, log cuisine structure to help debug
       if (recipes.length === 0) {
-        console.warn(`No recipes extracted for ${cuisine.name}. Cuisine structure:`, 
+        /* console.warn(`No recipes extracted for ${cuisine.name}. Cuisine structure:`, 
           JSON.stringify({
             id: cuisine.id,
             name: cuisine.name,
@@ -348,11 +348,11 @@ export class LocalRecipeService {
               allLength: value && value.all && Array.isArray(value.all) ? value.all.length : 0
             }))
           }, null, 2)
-        );
+        ); */
         
         // Check if the dishes property might be nested incorrectly
         if (cuisine.dishes && typeof cuisine.dishes.dishes === 'object') {
-          console.log('Found nested dishes property, trying to extract from there instead');
+          // console.log('Found nested dishes property, trying to extract from there instead');
           return this.getRecipesFromCuisine({...cuisine, dishes: cuisine.dishes.dishes as any});
         }
       }
@@ -360,7 +360,7 @@ export class LocalRecipeService {
       return recipes;
     } catch (error) {
       logger.error(`Error extracting recipes from cuisine ${cuisine.name}:`, error);
-      console.error(`Error extracting recipes from cuisine ${cuisine.name}:`, error);
+      // console.error(`Error extracting recipes from cuisine ${cuisine.name}:`, error);
       return [];
     }
   }
@@ -513,7 +513,7 @@ export class LocalRecipeService {
         technicalTips: Array.isArray(dish.technicalTips) ? dish.technicalTips : []
       };
     } catch (error) {
-      console.error('Error standardizing recipe:', error);
+      // console.error('Error standardizing recipe:', error);
       return {
         id: `error-${Math.random().toString(36).substring(2, 11)}`,
         name: dish?.name || 'Unknown Recipe',
@@ -572,7 +572,7 @@ export class LocalRecipeService {
         return false;
       });
     } catch (error) {
-      console.error(`Error searching recipes for query "${query}":`, error);
+      // console.error(`Error searching recipes for query "${query}":`, error);
       return [];
     }
   }
@@ -596,7 +596,7 @@ export class LocalRecipeService {
           : recipe.mealType.toLowerCase() === normalizedMealType)
       );
     } catch (error) {
-      console.error(`Error getting recipes for meal type "${mealType}":`, error);
+      // console.error(`Error getting recipes for meal type "${mealType}":`, error);
       return [];
     }
   }
@@ -620,7 +620,7 @@ export class LocalRecipeService {
           : recipe.season.toLowerCase() === normalizedSeason)
       );
     } catch (error) {
-      console.error(`Error getting recipes for season "${season}":`, error);
+      // console.error(`Error getting recipes for season "${season}":`, error);
       return [];
     }
   }

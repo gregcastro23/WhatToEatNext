@@ -2,10 +2,10 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 interface InfiniteLoopDetectorProps {
-  threshold?: any;
-  timeWindow?: any;
-  reportOnly?: any;
-  children: any;
+  threshold?: Record<string, unknown>;
+  timeWindow?: Record<string, unknown>;
+  reportOnly?: Record<string, unknown>;
+  children: Record<string, unknown>;
 }
 
 

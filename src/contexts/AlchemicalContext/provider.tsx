@@ -154,9 +154,9 @@ export const AlchemicalProvider: React.FC<{children: React.ReactNode}> = ({ chil
       } = await import('@/utils/alchemicalCalculations');
       
       // Calculate elemental and alchemical values - Pattern WWW: Context Type Import Path Resolution
-      const elementalValues = calculateElementalValues(normalizedPositions as any);
-      const planetaryValues = calculatePlanetaryAlchemicalValues(normalizedPositions as any);
-      const elementalBalance = calculateElementalBalance(normalizedPositions as any);
+      const elementalValues = calculateElementalValues(normalizedPositions as unknown);
+      const planetaryValues = calculatePlanetaryAlchemicalValues(normalizedPositions as unknown);
+      const elementalBalance = calculateElementalBalance(normalizedPositions as unknown);
       
       // Combine elemental and planetary influences (weighted average)
       const combinedAlchemicalValues = {

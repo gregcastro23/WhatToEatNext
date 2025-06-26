@@ -11,14 +11,14 @@ import {
 } from './alchemicalCalculations';
 import {
   calculatePlanetaryBoost,
-  Planet,
+  _Planet,
   PlanetaryDignity,
   PlanetaryDignityDetails
 } from '../constants/planetaryFoodAssociations';
 import { ZodiacSign } from '../constants/zodiac';
 import { LunarPhaseWithSpaces } from '../types/alchemy';
 import { createLogger } from '@/utils/logger';
-import { CelestialPosition } from '@/types/celestial';
+import { _CelestialPosition } from '@/types/celestial';
 
 // Create a component-specific logger
 const logger = createLogger('AlchemicalTransformation');
@@ -82,7 +82,7 @@ export const transformItemWithPlanetaryPositions = (
 
     // Calculate alchemical properties based on planetary positions
     const alchemicalResults = calculateAlchemicalProperties(
-      planetPositions as any,
+      planetPositions as unknown,
       isDaytime
     );
     
@@ -153,7 +153,7 @@ export const transformItemWithPlanetaryPositions = (
     // Apply zodiac influence if available with stronger effect
     let zodiacModifier = 0;
     if (currentZodiac?.toLowerCase() as ZodiacSign) {
-      const zodiacSign = currentZodiac.toLowerCase() as ZodiacSign;
+      const _zodiacSign = currentZodiac.toLowerCase() as ZodiacSign;
       const zodiacElementMap: Record<ZodiacSign, ElementalCharacter> = {
         aries: 'Fire', leo: 'Fire', sagittarius: 'Fire',
         taurus: 'Earth', virgo: 'Earth', capricorn: 'Earth',

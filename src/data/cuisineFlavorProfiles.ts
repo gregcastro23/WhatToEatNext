@@ -769,18 +769,18 @@ export function getRecipesForCuisineMatch(
   limit = 8
 ): unknown[] {
   if (!cuisineName) {
-    console.warn('getRecipesForCuisineMatch called with empty cuisineName');
+    // console.warn('getRecipesForCuisineMatch called with empty cuisineName');
     return [];
   }
 
-  console.log(`getRecipesForCuisineMatch called for "${cuisineName}" with ${recipes?.length || 0} recipes`);
+  // console.log(`getRecipesForCuisineMatch called for "${cuisineName}" with ${recipes?.length || 0} recipes`);
 
   // Normalize the cuisine name to ensure case-insensitive matching
   const normalizedCuisineName = cuisineName.toLowerCase().trim();
 
   // Create a mock recipe generator for fallback if needed
   const createMockRecipes = (count = 3) => {
-    console.log(`Creating ${count} mock recipes for "${cuisineName}"`);
+    // console.log(`Creating ${count} mock recipes for "${cuisineName}"`);
     const mockRecipes = [];
     
     // Common dishes by cuisine - add more as needed
@@ -840,7 +840,7 @@ export function getRecipesForCuisineMatch(
       normalizedCuisineName === 'american' ||
       normalizedCuisineName === 'african'
     ) {
-      console.log(`Using specialized handling for ${cuisineName}`);
+      // console.log(`Using specialized handling for ${cuisineName}`);
       try {
         // First, try LocalRecipeService
         const { LocalRecipeService } = require('../services/LocalRecipeService');
@@ -848,7 +848,7 @@ export function getRecipesForCuisineMatch(
         // Clear cache to ensure fresh data
         LocalRecipeService.clearCache();
         const localRecipes = LocalRecipeService.getRecipesByCuisine(cuisineName);
-        console.log(`LocalRecipeService returned ${localRecipes?.length || 0} recipes for ${cuisineName}`);
+        // console.log(`LocalRecipeService returned ${localRecipes?.length || 0} recipes for ${cuisineName}`);
 
         if (localRecipes && localRecipes.length > 0) {
           // Apply high match scores to local recipes
@@ -872,11 +872,11 @@ export function getRecipesForCuisineMatch(
             cuisine = african;
           }
         } catch (importError) {
-          console.error(`Error importing special cuisine data for ${cuisineName}:`, importError);
+          // console.error(`Error importing special cuisine data for ${cuisineName}:`, importError);
         }
 
         if (cuisine && cuisine.dishes) {
-          console.log(`Direct import successful for ${cuisineName}, extracting recipes from dishes`);
+          // console.log(`Direct import successful for ${cuisineName}, extracting recipes from dishes`);
 
           // Extract recipes from all meal types
           const allRecipes = [];
@@ -887,7 +887,7 @@ export function getRecipesForCuisineMatch(
               cuisine.dishes[mealType]?.all &&
               Array.isArray(cuisine.dishes[mealType].all)
             ) {
-              console.log(`Found ${cuisine.dishes[mealType].all.length} ${mealType} recipes for ${cuisineName}`);
+              // console.log(`Found ${cuisine.dishes[mealType].all.length} ${mealType} recipes for ${cuisineName}`);
 
               const mealRecipes = cuisine.dishes[mealType].all.map(
                 (recipe: unknown) => ({
@@ -909,7 +909,7 @@ export function getRecipesForCuisineMatch(
                 cuisine.dishes[mealType]?.[season] &&
                 Array.isArray(cuisine.dishes[mealType][season])
               ) {
-                console.log(`Found ${cuisine.dishes[mealType][season].length} ${season} ${mealType} recipes for ${cuisineName}`);
+                // console.log(`Found ${cuisine.dishes[mealType][season].length} ${season} ${mealType} recipes for ${cuisineName}`);
 
                 const seasonalRecipes = cuisine.dishes[mealType][season].map(
                   (recipe: unknown) => ({
@@ -934,12 +934,12 @@ export function getRecipesForCuisineMatch(
           );
 
           if (uniqueRecipes.length > 0) {
-            console.log(`Returning ${uniqueRecipes.length} unique recipes for ${cuisineName}`);
+            // console.log(`Returning ${uniqueRecipes.length} unique recipes for ${cuisineName}`);
             return uniqueRecipes.slice(0, limit);
           }
         }
       } catch (error) {
-        console.error(`Error in special handling for ${cuisineName}:`, error);
+        // console.error(`Error in special handling for ${cuisineName}:`, error);
       }
     }
 
@@ -949,10 +949,10 @@ export function getRecipesForCuisineMatch(
     // If no recipes are provided or empty array, try to fetch from LocalRecipeService
     if (!Array.isArray(recipes) || recipes.length === 0) {
       try {
-        console.log(`No recipes array provided, trying LocalRecipeService for ${cuisineName}`);
+        // console.log(`No recipes array provided, trying LocalRecipeService for ${cuisineName}`);
         const { LocalRecipeService } = require('../services/LocalRecipeService');
         const localRecipes = LocalRecipeService.getRecipesByCuisine(cuisineName);
-        console.log(`Fetched ${localRecipes?.length || 0} recipes directly from LocalRecipeService for ${cuisineName}`);
+        // console.log(`Fetched ${localRecipes?.length || 0} recipes directly from LocalRecipeService for ${cuisineName}`);
 
         if (localRecipes && localRecipes.length > 0) {
           // Apply high match scores to local recipes
@@ -964,11 +964,11 @@ export function getRecipesForCuisineMatch(
             }))
             .slice(0, limit);
         } else {
-          console.log(`LocalRecipeService returned no recipes for ${cuisineName}, using mock data`);
+          // console.log(`LocalRecipeService returned no recipes for ${cuisineName}, using mock data`);
           return createMockRecipes(limit);
         }
       } catch (error) {
-        console.error(`Error fetching recipes from LocalRecipeService for ${cuisineName}:`, error);
+        // console.error(`Error fetching recipes from LocalRecipeService for ${cuisineName}:`, error);
         return createMockRecipes(limit);
       }
     }
@@ -976,7 +976,7 @@ export function getRecipesForCuisineMatch(
     // Get the cuisine profile
     const cuisineProfile = getCuisineProfile(cuisineName);
     if (!cuisineProfile) {
-      console.warn(`No cuisine profile found for ${cuisineName}, using direct matches only`);
+      // console.warn(`No cuisine profile found for ${cuisineName}, using direct matches only`);
       // Even without a profile, we can still try direct matches
     }
 
@@ -985,19 +985,19 @@ export function getRecipesForCuisineMatch(
     // Direct exact cuisine matches (highest priority)
     const exactCuisineMatches = recipes.filter(
       (recipe) => {
-        const recipeData = recipe as any;
+        const recipeData = recipe as unknown;
         return recipeData?.cuisine?.toLowerCase() === normalizedCuisineName ||
                recipeData?.cuisine?.toLowerCase()?.includes(normalizedCuisineName) ||
                normalizedCuisineName.includes(recipeData?.cuisine?.toLowerCase());
       }
     );
 
-    console.log(`Found ${exactCuisineMatches.length} exact cuisine matches for ${cuisineName}`);
+    // console.log(`Found ${exactCuisineMatches.length} exact cuisine matches for ${cuisineName}`);
 
     // Regional variant matches
     const regionalMatches = recipes.filter(
       (recipe) => {
-        const recipeData = recipe as any;
+        const recipeData = recipe as unknown;
         return !exactCuisineMatches.includes(recipe) && (
                  recipeData?.regionalCuisine?.toLowerCase() === normalizedCuisineName ||
                  recipeData?.regionalCuisine?.toLowerCase()?.includes(normalizedCuisineName) ||
@@ -1006,7 +1006,7 @@ export function getRecipesForCuisineMatch(
       }
     );
 
-    console.log(`Found ${regionalMatches.length} regional matches for ${cuisineName}`);
+    // console.log(`Found ${regionalMatches.length} regional matches for ${cuisineName}`);
 
     // Calculate match scores for all other recipes
     const otherRecipes = recipes.filter(
@@ -1021,7 +1021,7 @@ export function getRecipesForCuisineMatch(
       scoredOtherRecipes = otherRecipes
         .map((recipe) => {
           try {
-            const recipeData = recipe as any;
+            const recipeData = recipe as unknown;
             const scoreComponents = [];
             let totalWeight = 0;
 
@@ -1038,7 +1038,7 @@ export function getRecipesForCuisineMatch(
             // Ingredient similarity (weight: 0.3)
             if (cuisineProfile.signatureIngredients && recipeData?.ingredients) {
               const recipeIngredientNames = recipeData.ingredients.map((ing: unknown) => {
-                const ingData = ing as any;
+                const ingData = ing as unknown;
                 return typeof ing === 'string' ? ing.toLowerCase() : ingData?.name?.toLowerCase() || '';
               });
 
@@ -1104,7 +1104,7 @@ export function getRecipesForCuisineMatch(
               matchPercentage: Math.round(finalScore * 100),
             };
           } catch (scoreError) {
-            console.error(`Error scoring recipe match for ${cuisineName}:`, scoreError);
+            // console.error(`Error scoring recipe match for ${cuisineName}:`, scoreError);
             return {
               ...recipe,
               matchScore: 0.5,
@@ -1112,11 +1112,11 @@ export function getRecipesForCuisineMatch(
             };
           }
         })
-        .filter((recipe) => (recipe as any)?.matchScore >= 0.5) // Only include reasonably good matches
-        .sort((a, b) => (b as any).matchScore - (a as any).matchScore); // Sort by score (high to low)
+        .filter((recipe) => (recipe as unknown)?.matchScore >= 0.5) // Only include reasonably good matches
+        .sort((a, b) => (b as unknown).matchScore - (a as unknown).matchScore); // Sort by score (high to low)
     }
 
-    console.log(`Found ${scoredOtherRecipes.length} scored other recipes for ${cuisineName}`);
+    // console.log(`Found ${scoredOtherRecipes.length} scored other recipes for ${cuisineName}`);
 
     // Combine all matches, prioritizing direct matches, then regional, then others
     const allMatches = [
@@ -1136,15 +1136,15 @@ export function getRecipesForCuisineMatch(
     // Remove duplicates by name
     const uniqueMatches = allMatches.filter(
       (recipe, index, self) => {
-        const recipeData = recipe as any;
-        return index === self.findIndex((r) => (r as any)?.name === recipeData?.name);
+        const recipeData = recipe as unknown;
+        return index === self.findIndex((r) => (r as unknown)?.name === recipeData?.name);
       }
     );
 
     // Sort by match score
-    const sortedMatches = uniqueMatches.sort((a, b) => (b as any).matchScore - (a as any).matchScore);
+    const sortedMatches = uniqueMatches.sort((a, b) => (b as unknown).matchScore - (a as unknown).matchScore);
     
-    console.log(`Returning ${sortedMatches.length} sorted matches for ${cuisineName}`);
+    // console.log(`Returning ${sortedMatches.length} sorted matches for ${cuisineName}`);
     
     // Use mock data if we didn't find enough recipes
     if (sortedMatches.length < Math.min(3, limit)) {
@@ -1154,7 +1154,7 @@ export function getRecipesForCuisineMatch(
     
     return sortedMatches.slice(0, limit);
   } catch (error) {
-    console.error(`Error in getRecipesForCuisineMatch for ${cuisineName}:`, error);
+    // console.error(`Error in getRecipesForCuisineMatch for ${cuisineName}:`, error);
     return createMockRecipes(limit);
   }
 }
@@ -1167,8 +1167,8 @@ function calculateFlavorProfileMatch(
   let similarity = 0;
   let count = 0;
 
-  const recipeData = recipeProfile as any;
-  const cuisineData = cuisineProfile as any;
+  const recipeData = recipeProfile as unknown;
+  const cuisineData = cuisineProfile as unknown;
 
   // Compare common flavor dimensions
   const flavors = ['spicy', 'sweet', 'sour', 'bitter', 'salty', 'umami'];
@@ -1277,9 +1277,9 @@ export const calculateCuisineSimilarity = (
 
 export const findRelatedRecipes = (
   recipeName: string,
-  recipes: any[],
+  recipes: unknown[],
   count = 3
-): any[] => {
+): unknown[] => {
   const scoredRecipes = recipes
     .map((recipe) => {
       const scoreComponents = [];

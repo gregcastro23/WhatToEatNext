@@ -11,7 +11,7 @@ if (typeof window !== 'undefined') {
       // Create safe versions of all the functions that might interact with planetInfo
       const safeFunctions = {
         // CRUCIAL FIX: Safely implement getElementRanking with no assignments to constants
-        getElementRanking: function(element_object, rank) {
+        getElementRanking: function(element_object, _rank) {
           if (!element_object) {
             return { 1: 'Fire' };
           }
@@ -81,7 +81,7 @@ if (typeof window !== 'undefined') {
       
       // Attempt to fix any existing usages in the planetInfo object
       if (window.planetInfo) {
-        console.log('[PlanetInfoPatcher] Found planetInfo object, applying fixes...');
+        // console.log('[PlanetInfoPatcher] Found planetInfo object, applying fixes...');
         
         // Create a proxy around planetInfo to intercept problematic operations
         const originalPlanetInfo = window.planetInfo;
@@ -96,9 +96,9 @@ if (typeof window !== 'undefined') {
         });
       }
       
-      console.log('[PlanetInfoPatcher] Successfully applied planetInfo patches');
+      // console.log('[PlanetInfoPatcher] Successfully applied planetInfo patches');
     } catch (e) {
-      console.error('[PlanetInfoPatcher] Error applying patches:', e);
+      // console.error('[PlanetInfoPatcher] Error applying patches:', e);
     }
   });
 } 

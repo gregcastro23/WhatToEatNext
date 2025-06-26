@@ -5,15 +5,15 @@ export type MealTime = typeof MEAL_TIMES[number];
 // Import fundamental types
 import { Recipe as AlchemyRecipe } from './alchemy';
 import { 
-  CelestialPosition, 
+  _CelestialPosition, 
   ZodiacSign, 
-  Element, 
-  LunarPhase, 
-  Planet, 
+  _Element, 
+  _LunarPhase, 
+  _Planet, 
   AspectType, 
   DignityType,
   AstrologicalState,
-  ElementalProperties,
+  _ElementalProperties,
   AlchemicalProperties,
   ThermodynamicProperties,
   PlanetaryAlignment

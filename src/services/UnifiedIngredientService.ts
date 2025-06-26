@@ -1,17 +1,17 @@
 import { 
-  ElementalProperties, 
+  _ElementalProperties, 
   ThermodynamicProperties,
   Season,
-  PlanetName,
+  _PlanetName,
   ZodiacSign,
-  Element,
+  _Element,
   RecipeIngredient
 } from '../types';
 
 import { UnifiedIngredient } from '../types/ingredient';
 import { Recipe } from '../types/recipe';
 // Fix import - getCurrentSeason is likely in a different location
-import { getCurrentSeason } from '@/data/integrations/seasonal';
+import { getCurrentSeason as getSeasonFromUtils } from '@/utils/dateUtils';
 import { alchemicalEngine } from '@/utils/alchemyInitializer';
 
 /**
@@ -212,7 +212,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     if (filter.currentSeason) {
       filteredIngredients = this.applySeasonalFilter(
         filteredIngredients,
-        filter.currentSeason as any
+        filter.currentSeason as unknown
       );
     }
     
@@ -277,7 +277,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     return (allIngredients || []).filter(ingredient => {
       const metrics = this.calculateThermodynamicMetrics(ingredient);
       // Extract thermodynamic metrics with safe property access
-      const metricsData = metrics as any;
+      const metricsData = metrics as unknown;
       const kalchmValue = metricsData?.kalchm || 0;
       return kalchmValue > threshold;
     });
@@ -378,8 +378,8 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       
       const planets = ingredient?.astrologicalPropertiesProperties?.planets;
       return Array.isArray(planets) 
-        ? planets.includes(planet as unknown as any) // ← Pattern HH-1: Safe conversion via unknown
-        : planets === (planet as unknown as any); // ← Pattern HH-1: Safe conversion via unknown
+        ? planets.includes(planet as unknown as unknown) // ← Pattern HH-1: Safe conversion via unknown
+        : planets === (planet as unknown as unknown); // ← Pattern HH-1: Safe conversion via unknown
     });
   }
   
@@ -394,8 +394,8 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       
       const signs = ingredient?.astrologicalPropertiesProperties?.signs;
       return Array.isArray(signs) 
-        ? signs.includes(sign as unknown as any) // ← Pattern HH-1: Safe conversion via unknown
-        : signs === (sign as unknown as any); // ← Pattern HH-1: Safe conversion via unknown
+        ? signs.includes(sign as unknown as unknown) // ← Pattern HH-1: Safe conversion via unknown
+        : signs === (sign as unknown as unknown); // ← Pattern HH-1: Safe conversion via unknown
     });
   }
   
@@ -408,7 +408,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
   ): UnifiedIngredient[] {
     const allIngredients = this.getAllIngredientsFlat();
     // Extract options with safe property access for missing properties
-    const optionsData = options as any;
+    const optionsData = options as unknown;
     const maxResults = optionsData?.maxResults || 10;
     const optimizeForSeason = optionsData?.optimizeForSeason !== undefined ? optionsData.optimizeForSeason : true;
     const includeExotic = optionsData?.includeExotic !== undefined ? optionsData.includeExotic : false;
@@ -429,7 +429,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     // Score ingredients based on elemental compatibility
     const scoredIngredients = (candidates || []).map(ingredient => {
       // Apply Pattern PP-1: Safe service method access
-      const alchemicalEngineData = alchemicalEngine as any;
+      const alchemicalEngineData = alchemicalEngine as unknown;
       const compatibilityMethod = alchemicalEngineData?.calculateElementalCompatibility || this.fallbackElementalCompatibility;
       const compatibility = compatibilityMethod(
         elementalState,
@@ -482,7 +482,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     }
     
     // Calculate elemental compatibility
-    const alchemicalEngineData2 = alchemicalEngine as any;
+    const alchemicalEngineData2 = alchemicalEngine as unknown;
     const compatibilityMethod2 = alchemicalEngineData2?.calculateElementalCompatibility || this.fallbackElementalCompatibility;
     const elementalCompatibility = compatibilityMethod2(
       ing1.elementalState,
@@ -669,7 +669,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       }
       
       // Extract filter data with safe property access for maxFiber
-      const filterData = filter as any;
+      const filterData = filter as unknown;
       const maxFiber = filterData?.maxFiber;
       
       if (maxFiber !== undefined && 
@@ -764,7 +764,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       if (!elemental) return true; // Skip if no elemental data
       
       // Extract filter data with safe property access for elemental properties
-      const filterData = filter as any;
+      const filterData = filter as unknown;
       const minfire = filterData?.minfire;
       const maxfire = filterData?.maxfire;
       const minwater = filterData?.minwater;
@@ -834,7 +834,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       if (!dietary) return true; // Skip if no dietary data
       
       // Extract filter data with safe property access for dietary properties
-      const filterData = filter as any;
+      const filterData = filter as unknown;
       const isVegetarian = filterData?.isVegetarian;
       const isVegan = filterData?.isVegan;
       const isGlutenFree = filterData?.isGlutenFree;
@@ -1002,7 +1002,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
    * Get the current season
    */
   private getCurrentSeason(): Season {
-    return getCurrentSeason() as Season;
+    return getSeasonFromUtils() as Season;
   }
   
   /**
@@ -1129,7 +1129,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     // Sum up elemental properties
     let Fire = 0;
     let Water = 0;
-    let Earth = 0;
+    let _Earth = 0;
     let Air = 0;
     
     for (const ingredient of ingredients) {

@@ -13,7 +13,7 @@ const { execSync } = require('child_process');
 // Get the file path from command line arguments
 const args = process.argv.slice(2);
 if (args.length === 0) {
-  console.error('Please provide a file path');
+  // console.error('Please provide a file path');
   process.exit(1);
 }
 
@@ -22,7 +22,7 @@ const absolutePath = path.resolve(process.cwd(), filePath);
 
 // Check if file exists
 if (!fs.existsSync(absolutePath)) {
-  console.error(`File not found: ${absolutePath}`);
+  // console.error(`File not found: ${absolutePath}`);
   process.exit(1);
 }
 
@@ -30,9 +30,9 @@ if (!fs.existsSync(absolutePath)) {
 const backupPath = `${absolutePath}.bak`;
 try {
   fs.copyFileSync(absolutePath, backupPath);
-  console.log(`Created backup at ${backupPath}`);
+  // console.log(`Created backup at ${backupPath}`);
 } catch (error) {
-  console.error(`Failed to create backup: ${error.message}`);
+  // console.error(`Failed to create backup: ${error.message}`);
   process.exit(1);
 }
 
@@ -57,13 +57,13 @@ try {
   }
   
   if (constAssignErrors.length === 0) {
-    console.log('No no-const-assign errors found');
+    // console.log('No no-const-assign errors found');
     // Clean up backup
     fs.unlinkSync(backupPath);
     process.exit(0);
   }
   
-  console.log(`Found ${constAssignErrors.length} no-const-assign errors`);
+  // console.log(`Found ${constAssignErrors.length} no-const-assign errors`);
   
   // Read the file content
   const fileContent = fs.readFileSync(absolutePath, 'utf8');
@@ -85,14 +85,14 @@ try {
   
   // Write the updated content back to the file
   fs.writeFileSync(absolutePath, updatedContent, 'utf8');
-  console.log(`Updated ${absolutePath}`);
+  // console.log(`Updated ${absolutePath}`);
   
   // Run prettier to format the file
   try {
     execSync(`npx prettier --write "${absolutePath}"`, { stdio: 'ignore' });
-    console.log('Formatted file with prettier');
+    // console.log('Formatted file with prettier');
   } catch (error) {
-    console.log(`Note: Could not format file with prettier: ${error.message}`);
+    // console.log(`Note: Could not format file with prettier: ${error.message}`);
   }
   
   // Verify the fix worked
@@ -103,25 +103,25 @@ try {
     const remainingErrors = verifyResult[0].messages.filter(m => m.ruleId === 'no-const-assign').length;
     
     if (remainingErrors === 0) {
-      console.log('Successfully fixed all no-const-assign errors!');
+      // console.log('Successfully fixed all no-const-assign errors!');
       // Clean up backup
       fs.unlinkSync(backupPath);
     } else {
-      console.log(`There are still ${remainingErrors} no-const-assign errors remaining.`);
-      console.log('You may need to run the script again or fix them manually.');
+      // console.log(`There are still ${remainingErrors} no-const-assign errors remaining.`);
+      // console.log('You may need to run the script again or fix them manually.');
     }
   } catch (error) {
-    console.error(`Error verifying fix: ${error.message}`);
+    // console.error(`Error verifying fix: ${error.message}`);
   }
   
 } catch (error) {
-  console.error(`Error: ${error.message}`);
+  // console.error(`Error: ${error.message}`);
   // Restore from backup
   try {
     fs.copyFileSync(backupPath, absolutePath);
-    console.log(`Restored from backup due to error`);
+    // console.log(`Restored from backup due to error`);
   } catch (restoreError) {
-    console.error(`Failed to restore from backup: ${restoreError.message}`);
+    // console.error(`Failed to restore from backup: ${restoreError.message}`);
   }
   process.exit(1);
 } 

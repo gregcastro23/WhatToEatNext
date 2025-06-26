@@ -44,7 +44,7 @@ const RecipesPage: NextPage = () => {
     setElementalState(prev => ({
       ...prev,
       ...currentState,
-      season,
+      _season,
       timeOfDay
     }));
   }, []);

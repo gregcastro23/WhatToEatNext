@@ -4,7 +4,7 @@
 
 // Define or import ElementalCharacter and Planet types
 import { ElementalCharacter } from '../constants/planetaryElements';
-import { ZodiacSign, LunarPhase, Planet, PlanetName } from "@/types/alchemy";
+import { ZodiacSign, _LunarPhase, _Planet, _PlanetName } from "@/types/alchemy";
 
 /**
  * Represents planets in astrology 
@@ -82,7 +82,7 @@ export interface AstrologicalAspect {
 /* Example code - commented out to avoid type errors
 import { FoodAlchemySystem } from '@/services/FoodAlchemySystem';
 import { thermodynamicCalculator } from '@/calculations/gregsEnergy';
-import { Planet, PlanetName, ZodiacSign, LunarPhase } from '@/types/celestial';
+import { _Planet, _PlanetName, ZodiacSign, _LunarPhase } from '@/types/celestial';
 
 // Example usage
 const foodSystem = new FoodAlchemySystem();

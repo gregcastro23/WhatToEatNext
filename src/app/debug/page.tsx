@@ -33,7 +33,7 @@ export default function DebugPage() {
         throw new Error('Invalid test results structure');
       }
       
-      setTestResults(results as any);
+      setTestResults(results as unknown);
       console.log('Test complete, results:', results);
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Unknown error';

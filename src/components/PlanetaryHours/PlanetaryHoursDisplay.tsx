@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { PlanetaryHourCalculator } from '@/lib/PlanetaryHourCalculator';
 import { ChakraAlchemyService } from '@/lib/ChakraAlchemyService';
-import { Planet as AlchemyPlanet } from '@/types/alchemy';
+import { _Planet as AlchemyPlanet } from '@/types/alchemy';
 import { Clock, Sun, Moon, Star, Calendar, Timer, ChevronDown, ChevronUp } from 'lucide-react';
 import { 
   planetElementMap, 
@@ -53,7 +53,7 @@ const PlanetaryHoursDisplay: React.FC<PlanetaryHoursDisplayProps> = ({ compact =
   const [showDetails, setShowDetails] = useState(false);
 
   // Determine if it's daytime based on the current hour (between 6am and 6pm)
-  const isDaytime = () => {
+  const _isDaytime = () => {
     const hour = new Date().getHours();
     return hour >= 6 && hour < 18;
   };
@@ -132,7 +132,7 @@ const PlanetaryHoursDisplay: React.FC<PlanetaryHoursDisplayProps> = ({ compact =
       
       setAllHours(typedHours);
     } catch (error) {
-      console.error('Error calculating planetary information:', error);
+      // console.error('Error calculating planetary information:', error);
     }
   };
   

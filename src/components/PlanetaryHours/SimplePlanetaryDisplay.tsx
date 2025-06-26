@@ -40,7 +40,7 @@ export default function SimplePlanetaryDisplay() {
           setUpdateCount(prev => prev + 1);
         } catch (err) {
           setError(`Error updating planetary info: ${err instanceof Error ? err.message : String(err)}`);
-          console.error('Error updating planetary info:', err);
+          // console.error('Error updating planetary info:', err);
         }
       };
       
@@ -54,7 +54,7 @@ export default function SimplePlanetaryDisplay() {
       return () => clearInterval(intervalId);
     } catch (err) {
       setError(`Error initializing calculator: ${err instanceof Error ? err.message : String(err)}`);
-      console.error('Error initializing calculator:', err);
+      // console.error('Error initializing calculator:', err);
     }
   }, []); // Empty dependency array - only run on mount
 

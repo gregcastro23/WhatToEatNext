@@ -1,5 +1,5 @@
 import type { AlchemicalState } from '@/contexts/alchemicalTypes'
-import { logger } from '@/utils/logger'
+import { logger } from @/utils/logger';
 import { errorHandler } from '@/services/errorHandler'
 
 // Define type for recipe objects

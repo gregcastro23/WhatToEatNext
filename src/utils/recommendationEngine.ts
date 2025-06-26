@@ -1,4 +1,4 @@
-import { AstrologicalState, Element, PlanetName, ZodiacSign, Planet } from '../types/alchemy';
+import { AstrologicalState, _Element, _PlanetName, ZodiacSign, _Planet } from '../types/alchemy';
 import { Season, TimeFactors, WeekDay, getTimeFactors } from '../types/time';
 import { Recipe } from '../types/recipe';
 
@@ -140,7 +140,7 @@ export function calculateRecommendationScore(
   
   // Elemental scores
   if (astrologicalState.dominantElement && recipe.element) {
-    score += calculateElementalScore(recipe.element as any, astrologicalState.dominantElement as any) * 2;
+    score += calculateElementalScore(recipe.element as unknown, astrologicalState.dominantElement as unknown) * 2;
     factors += 2;
   }
   
@@ -206,7 +206,7 @@ export function explainRecommendation(
   
   // Check elemental affinity
   if (astrologicalState.dominantElement && recipe.element) {
-    const elementalScore = calculateElementalScore(recipe.element as any, astrologicalState.dominantElement as any);
+    const elementalScore = calculateElementalScore(recipe.element as unknown, astrologicalState.dominantElement as unknown);
     if (elementalScore > 0.6) {
       reasons.push(`The ${recipe.element} energy of this dish harmonizes with your ${astrologicalState.dominantElement} elemental influence.`);
     }
@@ -223,8 +223,8 @@ export function explainRecommendation(
     const mealScore = calculateMealTypeScore(recipe, timeFactors.mealType);
     if (mealScore > 0.6) {
       // Apply surgical type casting with variable extraction
-      const mealTypeData = timeFactors.mealType as any;
-      const timeOfDayData = timeFactors.timeOfDay as any;
+      const mealTypeData = timeFactors.mealType as unknown;
+      const timeOfDayData = timeFactors.timeOfDay as unknown;
       const mealTypeLower = mealTypeData?.toLowerCase?.() || timeFactors.mealType;
       const timeOfDayLower = timeOfDayData?.toLowerCase?.() || timeFactors.timeOfDay;
       
@@ -249,7 +249,7 @@ export function explainRecommendation(
   // If we have dominant planets - safe property access
   if (astrologicalState.dominantPlanets && astrologicalState.dominantPlanets.length > 0) {
     for (const dominantPlanet of astrologicalState.dominantPlanets) {
-      const planetName = (dominantPlanet as any)?.name || dominantPlanet;
+      const planetName = (dominantPlanet as unknown)?.name || dominantPlanet;
       const planetScore = calculatePlanetaryScore(recipe, planetName);
       if (planetScore > 0.6) {
         reasons.push(`The influence of ${planetName} in your chart is complemented by this recipe.`);

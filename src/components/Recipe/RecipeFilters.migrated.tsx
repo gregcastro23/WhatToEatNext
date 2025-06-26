@@ -72,7 +72,7 @@ export default function RecipeFiltersMigrated({
     updateFilters({ search: value });
   };
 
-  // Load reference data (cuisines, meal types, dietary options) from services
+  // Load reference data (cuisines, meal types, dietary _options) from services
   useEffect(() => {
     if (servicesLoading || !recipeService) {
       return;
@@ -82,7 +82,7 @@ export default function RecipeFiltersMigrated({
       setIsLoading(true);
       try {
         // Apply surgical type casting with variable extraction
-        const serviceData = recipeService as any;
+        const serviceData = recipeService as unknown;
         
         // Get all cuisines
         const getCuisineTypesMethod = serviceData?.getCuisineTypes;

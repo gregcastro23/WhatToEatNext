@@ -3,7 +3,7 @@ import { cookingMethods } from '@/data/cooking';
 import { culinaryTraditions } from '@/data/cuisines/culinaryTraditions';
 import { ELEMENTAL_CHARACTERISTICS } from '@/constants/elementalConstants';
 import { ElementalRecommendationService } from '@/services/ElementalRecommendationService';
-import { AstrologicalInfluence, ZodiacSign, Element } from '@/types/alchemy';
+import { AstrologicalInfluence, ZodiacSign, _Element } from '@/types/alchemy';
 
 export { ELEMENTAL_CHARACTERISTICS };
 
@@ -21,7 +21,7 @@ const safeGetAstrologicalInfluences = (method: unknown): AstrologicalInfluence[]
   if (!method) return [defaultAstrologicalInfluence];
   
   // Fix TS2339: Property 'astrologicalInfluences' does not exist on type 'unknown'
-  const methodData = method as any;
+  const methodData = method as unknown;
   if (!methodData?.astrologicalInfluences) return [defaultAstrologicalInfluence];
   if (Array.isArray(methodData.astrologicalInfluences)) {
     return methodData.astrologicalInfluences as AstrologicalInfluence[];

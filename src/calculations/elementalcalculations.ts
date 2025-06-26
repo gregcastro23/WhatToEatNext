@@ -55,7 +55,7 @@ export class ElementalCalculator {
     recipe: unknown,
     season: string
   ): number {
-    const recipeData = recipe as any;
+    const recipeData = recipe as unknown;
     if (!recipeData?.elementalProperties) return 0;
 
     const seasonalModifiers = this.getSeasonalModifiers(season as Season);
@@ -255,7 +255,7 @@ function getPlanetaryInfluencers(
  */
 export function calculateElementalEnergies(
   planetaryPositions: Record<string, unknown>,
-  isDaytime = true
+  _isDaytime = true
 ): ElementalEnergy[] {
   if (!planetaryPositions || Object.keys(planetaryPositions).length === 0) {
     // console.warn('No planetary positions provided for elemental calculation');
@@ -295,7 +295,7 @@ export function calculateElementalEnergies(
     const weight = planetWeights[planet.toLowerCase()] || 0.05;
 
     // Skip if position doesn't have a sign
-    const positionData = position as any;
+    const positionData = position as unknown;
     if (!positionData?.sign) continue;
 
     // Convert the sign to lowercase to ensure matching

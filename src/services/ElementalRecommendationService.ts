@@ -4,7 +4,7 @@ import type {
   ZodiacSign,
   LunarPhase
 } from '@/types/alchemy';
-import { elementalUtils } from '@/utils/elementalUtils';
+import { _elementalUtils } from '@/utils/elementalUtils';
 import { ZODIAC_ELEMENTS } from '@/constants/elementalConstants';
 
 /**
@@ -21,7 +21,7 @@ export class ElementalRecommendationService {
     const dominantElement = this.getDominantElement(properties);
 
     // Fix TS2339: Property access on service object using safe type casting
-    const utilsService = elementalUtils as any;
+    const utilsService = elementalUtils as unknown;
 
     return {
       elementalBalance: properties,
@@ -35,11 +35,11 @@ export class ElementalRecommendationService {
       seasonalBest: this.getSeasonalRecommendations(dominantElement),
       // Fix TS2339: Property access on array type using safe type casting
       moodEffects: (() => {
-        const characteristics = profile.characteristics as any;
+        const characteristics = profile.characteristics as unknown;
         return characteristics?.moodEffects || [];
       })(),
       culinaryHerbs: (() => {
-        const characteristics = profile.characteristics as any;
+        const characteristics = profile.characteristics as unknown;
         return characteristics?.culinaryHerbs || [];
       })()
     };

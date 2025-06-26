@@ -1,7 +1,7 @@
 import type { Recipe } from "@/types/recipe";
-import { calculatePlanetaryPositions } from '../astrologyUtils';
+import { _calculatePlanetaryPositions } from '../astrologyUtils';
 import { createLogger } from '../logger';
-import { Element , ElementalProperties } from "@/types/alchemy";
+import { _Element , _ElementalProperties } from "@/types/alchemy";
 
 const logger = createLogger('RecipeEnrichment');
 
@@ -125,7 +125,7 @@ function deriveElementalProperties(recipe: Recipe): ElementalProperties {
   
   // Cooking method influences
   if (recipe.cookingMethods) {
-    const methodStr = (recipe.cookingMethods as any)?.toLowerCase?.() || '';
+    const methodStr = (recipe.cookingMethods as unknown)?.toLowerCase?.() || '';
     if (methodStr?.includes('grill') || methodStr?.includes('roast') || methodStr?.includes('bake') || methodStr?.includes('fry')) {
       elementalProps.Fire += 0.3;
     } else if (methodStr?.includes('steam') || methodStr?.includes('boil') || methodStr?.includes('poach')) {
@@ -213,7 +213,7 @@ function deriveCelestialTiming(recipe: Recipe): {
   
   // Determine optimal Moon phase based on recipe characteristics
   if (recipe.cookingMethods) {
-    const methodStr = (recipe.cookingMethods as any)?.toLowerCase?.() || '';
+    const methodStr = (recipe.cookingMethods as unknown)?.toLowerCase?.() || '';
     if (methodStr?.includes('ferment') || methodStr?.includes('rise') || methodStr?.includes('proof')) {
       timing.optimalMoonPhase = 'waxing'; // Growing energy for fermentation
     } else if (methodStr?.includes('preserve') || methodStr?.includes('cure') || methodStr?.includes('age')) {
@@ -241,7 +241,7 @@ export function calculateRecipeComplexity(recipe: Recipe): number {
   
   // Cooking method complexity
   if (recipe.cookingMethods) {
-    const methodStr = (recipe.cookingMethods as any)?.toLowerCase?.() || '';
+    const methodStr = (recipe.cookingMethods as unknown)?.toLowerCase?.() || '';
     if (methodStr?.includes('sous vide') || methodStr?.includes('molecular') || methodStr?.includes('smoking')) {
       complexity += 3;
     } else if (methodStr?.includes('braise') || methodStr?.includes('confit') || methodStr?.includes('ferment')) {

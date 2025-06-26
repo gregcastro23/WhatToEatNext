@@ -12,7 +12,7 @@ import {
   filterByAlchemicalCompatibility,
   getTopCompatibleItems
 } from '../utils/alchemicalTransformationUtils';
-import { ZodiacSign, LunarPhase, PlanetaryAspect, LunarPhaseWithSpaces } from '../types/alchemy';
+import { ZodiacSign, _LunarPhase, PlanetaryAspect, LunarPhaseWithSpaces } from '../types/alchemy';
 import type { Recipe } from '../types/recipe';
 
 /**
@@ -65,7 +65,7 @@ export class AlchemicalTransformationService {
     'Neptune': 0,
     'Pluto': 0
   };
-  private isDaytime = true;
+  private _isDaytime = true;
   private currentZodiac: ZodiacSign | null = null;
   private lunarPhase: LunarPhase | null = null;
   private tarotElementBoosts?: Record<ElementalCharacter, number>;
@@ -293,7 +293,7 @@ export class AlchemicalTransformationService {
       let methodMatch = 0;
       let methodCount = 0;
       
-      const recipeData = recipe as any;
+      const recipeData = recipe as unknown;
       recipeData?.cookingMethods?.forEach((method: string) => {
         const methodName = method.toLowerCase();
         const alchemicalMethod = methodMap.get(methodName);
@@ -459,7 +459,7 @@ export class AlchemicalTransformationService {
   
   // Helper method to calculate lunar phase score for a recipe
   private calculateLunarPhaseScore(recipe: Recipe): number {
-    const recipeData = recipe as any;
+    const recipeData = recipe as unknown;
     if (!recipeData?.astrologicalAffinities?.lunarPhases || 
         recipeData.astrologicalAffinities.lunarPhases.length === 0 || 
         !this.lunarPhase) {
@@ -482,7 +482,7 @@ export class AlchemicalTransformationService {
   
   // Helper method to calculate zodiac score for a recipe
   private calculateZodiacScore(recipe: Recipe): number {
-    const recipeData = recipe as any;
+    const recipeData = recipe as unknown;
     if (!recipeData?.astrologicalAffinities?.signs || 
         recipeData.astrologicalAffinities.signs.length === 0 || 
         !this.currentZodiac) {

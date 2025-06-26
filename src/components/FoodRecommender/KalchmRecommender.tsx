@@ -5,7 +5,7 @@ import { useAlchemical } from '@/contexts/AlchemicalContext';
 import { calculateKalchmResults } from '@/calculations/core/kalchmEngine';
 import { IngredientService } from '@/services/IngredientService';
 import { UnifiedIngredient } from '@/data/unified/unifiedTypes';
-import { ElementalProperties } from '@/types/alchemy';
+import { _ElementalProperties } from '@/types/alchemy';
 
 interface KalchmRecommenderProps {
   maxRecommendations?: number;
@@ -18,7 +18,7 @@ export default function KalchmRecommender({
 }: KalchmRecommenderProps) {
   const alchemicalContext = useAlchemical();
   const planetaryPositions = alchemicalContext?.planetaryPositions;
-  const elementalState = (alchemicalContext as any)?.elementalState;
+  const elementalState = (alchemicalContext as unknown)?.elementalState;
   const [recommendations, setRecommendations] = useState<Record<string, UnifiedIngredient[]>>({});
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -32,7 +32,7 @@ export default function KalchmRecommender({
       const convertedPositions: { [key: string]: any } = {};
       Object.entries(planetaryPositions).forEach(([planet, position]) => {
         // Apply safe type casting for position property access
-        const positionData = position as any;
+        const positionData = position as unknown;
         convertedPositions[planet] = {
           sign: positionData?.sign || 'Aries',
           degree: positionData?.degree || 0,
@@ -44,7 +44,7 @@ export default function KalchmRecommender({
       const kalchmResults = calculateKalchmResults(convertedPositions);
       return kalchmResults.thermodynamics;
     } catch (err) {
-      console.error('Error calculating kalchm results:', err);
+      // console.error('Error calculating kalchm results:', err);
       return null;
     }
   }, [planetaryPositions]);
@@ -80,7 +80,7 @@ export default function KalchmRecommender({
             
             // Only add if we haven't reached the limit for this category
             if (groups[category].length < Math.ceil(maxRecommendations / showCategories.length)) {
-              groups[category].push(ingredient as any);
+              groups[category].push(ingredient as unknown);
             }
             
             return groups;
@@ -90,7 +90,7 @@ export default function KalchmRecommender({
         
         setRecommendations(groupedRecommendations);
       } catch (err) {
-        console.error('Error getting recommendations:', err);
+        // console.error('Error getting recommendations:', err);
         setError('Failed to load ingredient recommendations');
       } finally {
         setIsLoading(false);

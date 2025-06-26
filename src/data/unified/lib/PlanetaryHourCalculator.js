@@ -92,12 +92,12 @@ class PlanetaryHourCalculator {
         const sunrise = times.sunrise;
         const sunset = times.sunset;
         if (!sunrise || !sunset) {
-            console.warn('Could not calculate sunrise or sunset times');
+            // console.warn('Could not calculate sunrise or sunset times');
             // Fallback to approximate calculation
             return this.getFallbackPlanetaryHour(date);
         }
         // Check if it's day or night
-        const isDaytime = date >= sunrise && date <= sunset;
+        const _isDaytime = date >= sunrise && date <= sunset;
         // Calculate length of day and night in milliseconds
         const dayLength = sunset.getTime() - sunrise.getTime();
         const nightLength = (sunrise.getTime() + 24 * 60 * 60 * 1000) - sunset.getTime();

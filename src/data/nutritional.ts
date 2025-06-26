@@ -1,4 +1,4 @@
-import { Element, ZodiacSign, Planet } from '@/types/alchemy';
+import { _Element, ZodiacSign, _Planet } from '@/types/alchemy';
 
 // Define NutritionalProfile locally
 interface NutritionalProfile {
@@ -425,14 +425,14 @@ export async function fetchNutritionalData(foodName: string): Promise<Nutritiona
     const data = await response.json();
     
     if (!data.foods || !data.foods.length) {
-      console.log(`No results found for: ${foodName}`);
+      // console.log(`No results found for: ${foodName}`);
       return null;
     }
     
     // Use the first result (most relevant match)
     return transformUSDADataToNutritionalProfile(data.foods[0]);
   } catch (error) {
-    console.error('Error fetching nutritional data:', error);
+    // console.error('Error fetching nutritional data:', error);
     return null;
   }
 }
@@ -474,7 +474,7 @@ function transformUSDADataToNutritionalProfile(food: USDAFoodData): NutritionalP
     };
   }
   
-  console.log(`Transforming food data: ${(food as any)?.description || food.foodClass || 'Unknown'} [${food.dataType || 'Unknown type'}]`);
+  // console.log(`Transforming food data: ${(food as unknown)?.description || food.foodClass || 'Unknown'} [${food.dataType || 'Unknown type'}]`);
   
   // Initialize nutrition values
   const nutrients: Record<string, number> = {};
@@ -498,7 +498,7 @@ function transformUSDADataToNutritionalProfile(food: USDAFoodData): NutritionalP
     
     // Debug output for vitamins
     if (typeof name === 'string' && name.toLowerCase().includes('vitamin')) {
-      console.log(`Found vitamin: ${name}, ID: ${id || legacyId}, Value: ${value}`);
+      // console.log(`Found vitamin: ${name}, ID: ${id || legacyId}, Value: ${value}`);
     }
   });
   
@@ -603,7 +603,7 @@ function transformUSDADataToNutritionalProfile(food: USDAFoodData): NutritionalP
   // Log the total number of vitamins and minerals found
   const vitaminCount = Object.values(vitamins).filter(v => v > 0).length;
   const mineralCount = Object.values(minerals).filter(m => m > 0).length;
-  console.log(`Found ${vitaminCount} vitamins and ${mineralCount} minerals with non-zero values`);
+  // console.log(`Found ${vitaminCount} vitamins and ${mineralCount} minerals with non-zero values`);
   
   // Construct final nutritional profile
   const profile: NutritionalProfile = {
@@ -620,11 +620,11 @@ function transformUSDADataToNutritionalProfile(food: USDAFoodData): NutritionalP
   };
   
   // Apply surgical type casting with variable extraction for additional properties
-  const profileData = profile as any;
+  const profileData = profile as unknown;
   
   // Add food metadata if available
-  if ((food as any)?.description) {
-    profileData.name = (food as any)?.description;
+  if ((food as unknown)?.description) {
+    profileData.name = (food as unknown)?.description;
   }
   
   if (food.fdcId) {
@@ -771,8 +771,8 @@ export function getZodiacNutritionalRecommendations(sign: string): {
   const signData = zodiacNutritionalNeeds[sign];
   
   return {
-    elementalBalance: (signData as any)?.elementalNeeds,
-    focusNutrients: (signData as any)?.nutritionalFocus,
+    elementalBalance: (signData as unknown)?.elementalNeeds,
+    focusNutrients: (signData as unknown)?.nutritionalFocus,
     recommendedFoods: signData.beneficialFoods,
     avoidFoods: signData.challengeFoods
   };
@@ -820,8 +820,8 @@ export function getEnhancedPlanetaryNutritionalRecommendations(
   recommendedFoods: string[]
 } {
   // Normalize planet names to lowercase
-  const dayPlanet = (planetaryDay as any)?.toLowerCase?.();
-  const hourPlanet = (planetaryHour as any)?.toLowerCase?.();
+  const dayPlanet = (planetaryDay as unknown)?.toLowerCase?.();
+  const hourPlanet = (planetaryHour as unknown)?.toLowerCase?.();
   
   // Initialize results
   const focusNutrients: string[] = [];
@@ -930,7 +930,7 @@ export function getSeasonalNutritionalRecommendations(season: string): {
   seasonalFoods: string[]
 } {
   // Normalize season name
-  const normalizedSeason = (season as any)?.toLowerCase?.();
+  const normalizedSeason = (season as unknown)?.toLowerCase?.();
   
   // Handle both "autumn" and "fall"
   const seasonKey = (normalizedSeason === 'fall' || normalizedSeason === 'autumn') 
@@ -940,8 +940,8 @@ export function getSeasonalNutritionalRecommendations(season: string): {
   const seasonData = seasonalNutritionFocus[seasonKey] || seasonalNutritionFocus['spring'];
   
   return {
-    element: (seasonData as any)?.elementalEmphasis,
-    focusNutrients: (seasonData as any)?.nutritionalFocus,
+    element: (seasonData as unknown)?.elementalEmphasis,
+    focusNutrients: (seasonData as unknown)?.nutritionalFocus,
     seasonalFoods: seasonData.recommendedFoods
   };
 }

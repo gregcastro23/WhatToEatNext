@@ -55,7 +55,7 @@ const SaucesPage: NextPage = () => {
     setElementalState(prev => ({
       ...prev,
       ...currentState,
-      season,
+      _season,
       timeOfDay
     }));
   }, []);
@@ -65,16 +65,16 @@ const SaucesPage: NextPage = () => {
     const sauces: SauceItem[] = [];
     
     Object.entries(cuisinesMap).forEach(([cuisineId, cuisineData]) => {
-      if ((cuisineData as any).traditionalSauces) {
-        Object.entries((cuisineData as any).traditionalSauces).forEach(([sauceId, sauceData]) => {
+      if ((cuisineData as unknown).traditionalSauces) {
+        Object.entries((cuisineData as unknown).traditionalSauces).forEach(([sauceId, sauceData]) => {
           // Apply safe type casting for sauce data property access
-          const sauceInfo = sauceData as any;
+          const sauceInfo = sauceData as unknown;
           sauces.push({
             id: sauceId,
             name: sauceInfo?.name || sauceId,
             description: sauceInfo?.description,
             base: sauceInfo?.base,
-            cuisine: (cuisineData as any).name,
+            cuisine: (cuisineData as unknown).name,
             cuisineId: cuisineId,
             seasonality: sauceInfo?.seasonality,
             elementalProperties: sauceInfo?.elementalProperties

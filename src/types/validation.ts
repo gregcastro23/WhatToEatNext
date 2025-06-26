@@ -24,7 +24,7 @@ export function validateRecipe(recipe: Recipe): boolean {
 
 export function validateIngredient(ingredient: Ingredient): boolean {
     // Validate basic ingredient properties
-    if (!ingredient.name || typeof (ingredient as any)?.amount !== 'number') {
+    if (!ingredient.name || typeof (ingredient as unknown)?.amount !== 'number') {
         return false;
     }
 

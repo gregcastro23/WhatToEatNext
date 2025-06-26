@@ -18,7 +18,7 @@ export function initializeChromeApis(): void {
         e.message.includes('extension') ||
         e.message.includes('Cannot read properties of undefined (reading')
       )) {
-        console.warn('[ChromeAPI] Safely suppressed error:', e.message);
+        // console.warn('[ChromeAPI] Safely suppressed error:', e.message);
         return true; // Prevent default error handling
       }
       return false; // Let other errors propagate normally
@@ -26,14 +26,14 @@ export function initializeChromeApis(): void {
 
     // Initialize chrome object if it doesn't exist
     if (!window.chrome) {
-      (window as any).chrome = {};
+      (window as unknown).chrome = {};
     }
 
     // Initialize tabs API with safe methods
-    if (!(window as any).chrome.tabs) {
-      (window as any).chrome.tabs = {
+    if (!(window as unknown).chrome.tabs) {
+      (window as unknown).chrome.tabs = {
         create: function(options: { url?: string }) {
-          console.log('[ChromeAPI] Mocked chrome.tabs.create called with:', options);
+          // console.log('[ChromeAPI] Mocked chrome.tabs.create called with:', _options);
           
           // Safely handle URL opening
           if (options && options.url) {
@@ -42,11 +42,11 @@ export function initializeChromeApis(): void {
               setTimeout(() => {
                 const newTab = window.open(options.url, '_blank');
                 if (!newTab) {
-                  console.warn('[ChromeAPI] Popup may have been blocked');
+                  // console.warn('[ChromeAPI] Popup may have been blocked');
                 }
               }, 10);
             } catch (e) {
-              console.warn('[ChromeAPI] Error opening URL:', e);
+              // console.warn('[ChromeAPI] Error opening URL:', e);
             }
           }
           
@@ -62,14 +62,14 @@ export function initializeChromeApis(): void {
     }
 
     // Initialize runtime API
-    if (!(window as any).chrome.runtime) {
-      (window as any).chrome.runtime = {
+    if (!(window as unknown).chrome.runtime) {
+      (window as unknown).chrome.runtime = {
         lastError: null,
         getURL: function(path: string) {
           return window.location.origin + '/' + path;
         },
-        sendMessage: function(message: any) {
-          console.log('[ChromeAPI] Mocked chrome.runtime.sendMessage called:', message);
+        sendMessage: function(message: Record<string, unknown>) {
+          // console.log('[ChromeAPI] Mocked chrome.runtime.sendMessage called:', _message);
           return Promise.resolve({ success: true });
         },
         onMessage: {
@@ -80,8 +80,8 @@ export function initializeChromeApis(): void {
     }
 
     // Initialize extension API
-    if (!(window as any).chrome.extension) {
-      (window as any).chrome.extension = {
+    if (!(window as unknown).chrome.extension) {
+      (window as unknown).chrome.extension = {
         getURL: function(path: string) {
           return window.location.origin + '/' + path;
         },
@@ -92,10 +92,10 @@ export function initializeChromeApis(): void {
     }
 
     // Initialize storage API
-    if (!(window as any).chrome.storage) {
+    if (!(window as unknown).chrome.storage) {
       const mockStorage: Record<string, any> = {};
       
-      (window as any).chrome.storage = {
+      (window as unknown).chrome.storage = {
         local: {
           get: function(keys: string | string[] | null, callback?: (items: Record<string, any>) => void) {
             let result: Record<string, any> = {};
@@ -139,11 +139,11 @@ export function initializeChromeApis(): void {
           }
         },
         sync: {
-          get: function(keys: any, callback?: Function) {
+          get: function(keys: Record<string, unknown>, callback?: Function) {
             if (callback) setTimeout(() => callback({}), 0);
             return Promise.resolve({});
           },
-          set: function(items: any, callback?: Function) {
+          set: function(items: Record<string, unknown>, callback?: Function) {
             if (callback) setTimeout(callback, 0);
             return Promise.resolve();
           }
@@ -151,16 +151,16 @@ export function initializeChromeApis(): void {
       };
     }
 
-    console.log('[ChromeAPI] Successfully initialized Chrome extension API mocks');
+    // console.log('[ChromeAPI] Successfully initialized Chrome extension API mocks');
   } catch (error) {
-    console.warn('[ChromeAPI] Error initializing Chrome APIs:', error);
+    // console.warn('[ChromeAPI] Error initializing Chrome APIs:', error);
   }
 }
 
 // Define types for Window with chrome property
 declare global {
   interface Window {
-    chrome?: any;
+    chrome?: Record<string, unknown>;
   }
 }
 

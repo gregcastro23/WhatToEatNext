@@ -10,7 +10,7 @@ export async function getCuisineRecommendations(): Promise<Cuisine[]> {
     try {
         // Convert culinary traditions to Cuisine format
         const recommendations: Cuisine[] = Object.entries(culinaryTraditions).map(([id, tradition]) => {
-            const traditionData = tradition as any;
+            const traditionData = tradition as unknown;
             
             return {
                 id,
@@ -34,14 +34,14 @@ export async function getCuisineRecommendations(): Promise<Cuisine[]> {
 
         return recommendations;
     } catch (error) {
-        console.error('Error getting cuisine recommendations:', error);
+        // console.error('Error getting cuisine recommendations:', error);
         return [];
     }
 }
 
 // Helper function to derive meaningful astrological influences from regional cuisines
 function deriveAstrologicalInfluences(tradition: unknown): string[] {
-    const traditionData = tradition as any;
+    const traditionData = tradition as unknown;
     
     // If the tradition explicitly has astrological influences, use those
     const astroProfile = traditionData?.astrologicalProfile;
@@ -63,7 +63,7 @@ function deriveAstrologicalInfluences(tradition: unknown): string[] {
     const regionalCuisines = traditionData?.regionalCuisines;
     if (regionalCuisines) {
         Object.values(regionalCuisines).forEach((region: unknown) => {
-            const regionData = region as any;
+            const regionData = region as unknown;
             const regionInfluences = regionData?.astrologicalInfluences;
             
             if (regionInfluences && Array.isArray(regionInfluences)) {

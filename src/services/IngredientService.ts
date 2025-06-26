@@ -78,10 +78,10 @@ import {
   IngredientFilter, 
   IngredientRecommendationOptions 
 } from './interfaces/IngredientServiceInterface';
-import { createElementalProperties, isElementalProperties, mergeElementalProperties } from '../utils/elemental/elementalUtils';
-import { isArray, isNonEmptyArray, safeSome, safeFilter, safeMap, toArray } from '../utils/common/arrayUtils';
+import { _createElementalProperties, _isElementalProperties, mergeElementalProperties } from '../utils/elemental/elementalUtils';
+import { isArray, _isNonEmptyArray, _safeSome, _safeFilter, safeMap, _toArray } from '../utils/common/arrayUtils';
 
-import { Element } from "@/types/alchemy";
+import { _Element } from "@/types/alchemy";
 
 // Structure for recipe recommendations
 export interface RecipeRecommendation {
@@ -171,10 +171,10 @@ export class IngredientService implements IngredientServiceInterface {
               Fire: 0, Water: 0, Earth: 0, Air: 0 
             })) as ElementalProperties,
             alchemicalProperties: {
-              Spirit: (data as any)?.alchemicalProperties?.Spirit || (data as any)?.Spirit || 0,
-              Essence: (data as any)?.alchemicalProperties?.Essence || (data as any)?.Essence || 0,
-              Matter: (data as any)?.alchemicalProperties?.Matter || (data as any)?.Matter || 0,
-              Substance: (data as any)?.alchemicalProperties?.Substance || (data as any)?.Substance || 0
+              Spirit: (data as unknown)?.alchemicalProperties?.Spirit || (data as unknown)?.Spirit || 0,
+              Essence: (data as unknown)?.alchemicalProperties?.Essence || (data as unknown)?.Essence || 0,
+              Matter: (data as unknown)?.alchemicalProperties?.Matter || (data as unknown)?.Matter || 0,
+              Substance: (data as unknown)?.alchemicalProperties?.Substance || (data as unknown)?.Substance || 0
             }
           });
         });
@@ -309,7 +309,7 @@ export class IngredientService implements IngredientServiceInterface {
         // Apply elemental filter if specified
         if (filter.elemental) {
           // Apply Pattern A: Safe type casting for elemental filter parameter compatibility
-          filtered = this.applyElementalFilterUnified(filtered, filter.elemental as any);
+          filtered = this.applyElementalFilterUnified(filtered, filter.elemental as unknown);
         }
 
         // Apply dietary filter if specified
@@ -318,7 +318,7 @@ export class IngredientService implements IngredientServiceInterface {
         }
 
         // Apply seasonal filter if specified
-        const filterData = filter as any;
+        const filterData = filter as unknown;
         if (isNonEmptyArray(filterData?.currentSeason)) {
           filtered = this.applySeasonalFilterUnified(filtered, filterData.currentSeason);
         }
@@ -371,7 +371,7 @@ export class IngredientService implements IngredientServiceInterface {
         if (!profile) return false;
         
         // Apply safe type casting for profile access
-        const profileData = profile as any;
+        const profileData = profile as unknown;
         
         // Check protein constraints
         if (filter.minProtein !== undefined && (profileData.macros?.protein || 0) < filter.minProtein) {
@@ -916,7 +916,7 @@ export class IngredientService implements IngredientServiceInterface {
       
       // Define which seasons to include
       // Apply safe type casting for options property access
-      const optionsData = options as any;
+      const optionsData = options as unknown;
       const seasons = optionsData?.currentSeason
         ? [optionsData.currentSeason as 'spring' | 'summer' | 'autumn' | 'winter']
         : ['spring', 'summer', 'autumn', 'winter'];
@@ -1202,7 +1202,7 @@ export class IngredientService implements IngredientServiceInterface {
         // Calculate average for each element
         const count = (elementalPropertiesList || []).length;
         // Apply safe type casting for result property access
-        const resultData = result as any;
+        const resultData = result as unknown;
         resultData.elementalProperties = { 
           Fire: summedProperties.Fire / count, 
           Water: summedProperties.Water / count, 
@@ -1726,7 +1726,7 @@ export class IngredientService implements IngredientServiceInterface {
         // Apply seasonal bonus if enabled
         let seasonalScore = 1;
         if (currentSeason && ingredient.season) {
-          const isInSeason = ingredient.season.includes(currentSeason as any);
+          const isInSeason = ingredient.season.includes(currentSeason as unknown);
           seasonalScore = isInSeason ? 1.5 : 0.8;
         }
         

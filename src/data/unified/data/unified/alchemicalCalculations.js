@@ -21,7 +21,7 @@ exports.calculateKalchm = calculateKalchm;
 /**
  * Calculate thermodynamic metrics including heat, entropy, reactivity, and Greg's Energy
  */
-function calculateThermodynamics(alchemicalProps, elementalProps) {
+function calculateThermodynamics(alchemicalProps, _elementalProps) {
     const { Spirit, Essence, Matter, Substance } = alchemicalProps;
     const { Fire, Water, Air, Earth } = elementalProps;
     // Heat calculation
@@ -58,11 +58,11 @@ exports.calculateMonica = calculateMonica;
 /**
  * Complete alchemical analysis for an ingredient or cuisine
  */
-function performAlchemicalAnalysis(alchemicalProps, elementalProps) {
+function performAlchemicalAnalysis(alchemicalProps, _elementalProps) {
     // Calculate Kalchm
     const kalchm = calculateKalchm(alchemicalProps);
     // Calculate thermodynamic metrics
-    const thermodynamics = calculateThermodynamics(alchemicalProps, elementalProps);
+    const thermodynamics = calculateThermodynamics(alchemicalProps, _elementalProps);
     // Calculate Monica constant
     const monica = calculateMonica(thermodynamics.gregsEnergy, thermodynamics.reactivity, kalchm);
     return {
@@ -97,7 +97,7 @@ exports.deriveAlchemicalFromElemental = deriveAlchemicalFromElemental;
  */
 function enhanceIngredientWithAlchemy(ingredient) {
     // Derive alchemical properties from elemental properties
-    const alchemicalProperties = deriveAlchemicalFromElemental(ingredient.elementalProperties);
+    const _alchemicalProperties = deriveAlchemicalFromElemental(ingredient.elementalProperties);
     // Calculate Kalchm
     const kalchm = calculateKalchm(alchemicalProperties);
     return {

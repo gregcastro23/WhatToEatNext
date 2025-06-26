@@ -17,8 +17,8 @@ import { createLogger } from '@/utils/logger';
 import * as safeAstrology from '@/utils/safeAstrology';
 
 
-import { Element } from "@/types/alchemy";
-import { PlanetaryPosition } from "@/types/celestial";
+import { _Element } from "@/types/alchemy";
+import { _PlanetaryPosition } from "@/types/celestial";
 
 // Create a component-specific logger
 const logger = createLogger('AstrologyDataProvider');
@@ -152,7 +152,7 @@ export async function getPlanetaryPositions(): Promise<Record<string, CelestialP
 export async function getDominantElement(): Promise<string> {
   const positions = await getPlanetaryPositions();
   // Apply surgical type casting with variable extraction
-  const safeAstrologyData = safeAstrology as any;
+  const safeAstrologyData = safeAstrology as unknown;
   const getDominantElementMethod = safeAstrologyData?.getDominantElement;
   const countElementsMethod = safeAstrologyData?.countElements;
   

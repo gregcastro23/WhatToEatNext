@@ -11,7 +11,7 @@ import { getTimeFactors } from '@/utils/time';
 import type { ExtendedRecipe } from '@/types/ExtendedRecipe';
 import type { Element } from '@/types/alchemy';
 import type { TimeFactors } from '@/types/time';
-import { logger } from '@/utils/logger';
+import { logger } from @/utils/logger';
 import styles from './RecipeCard.module.css';
 
 type ViewOption = 'grid' | 'list' | 'compact';
@@ -408,7 +408,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
                     
                     {/* Apply safe type casting for macronutrients access */}
                     {(() => {
-                      const nutritionData = recipe.nutrition as any;
+                      const nutritionData = recipe.nutrition as unknown;
                       const protein = nutritionData?.protein || nutritionData?.macronutrients?.protein;
                       const carbs = nutritionData?.carbs || nutritionData?.macronutrients?.carbs;
                       const fat = nutritionData?.fat || nutritionData?.macronutrients?.fat;

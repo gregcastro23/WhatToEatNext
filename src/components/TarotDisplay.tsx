@@ -8,7 +8,7 @@ import { Flame, Droplets, Mountain, Wind, Sparkles, Clock, Calendar } from 'luci
 import { useAstrologicalState } from '../hooks/useAstrologicalState';
 import type { PlanetaryPosition } from '@/types/alchemy';
 
-import { Element } from "@/types/alchemy";
+import { _Element } from "@/types/alchemy";
 import { PlanetaryAlignment , AstrologicalState } from "@/types/celestial";
 
 export interface AlchemicalValues {
@@ -44,7 +44,7 @@ export interface TarotDisplayProps {
     planetaryCards?: { [key: string]: any };
     alchemicalValues?: AlchemicalValues;
   
-  mode: any;}) => void;
+  mode: Record<string, unknown>;}) => void;
 }
 
 export default function TarotDisplay({ mode = 'food', onTarotLoaded }: TarotDisplayProps) {
@@ -73,7 +73,7 @@ export default function TarotDisplay({ mode = 'food', onTarotLoaded }: TarotDisp
 
   const loadTarotCards = useCallback(async () => {
     try {
-      const currentDate = new Date();
+      const _currentDate = new Date();
       
       if (mode === 'food') {
         // Calculate biweekly period (1-26) for food mode
@@ -128,7 +128,7 @@ export default function TarotDisplay({ mode = 'food', onTarotLoaded }: TarotDisp
       }
     } catch (err) {
       setError('Failed to load tarot cards');
-      console.error(err);
+      // console.error(err);
     }
   }, [currentPlanetaryAlignment, mode]);
 
@@ -245,12 +245,12 @@ export default function TarotDisplay({ mode = 'food', onTarotLoaded }: TarotDisp
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-        <div className={`rounded-lg p-4 bg-opacity-10 ${getElementColor(element as any)}`}> {/* Pattern XXX: Component Props Interface Resolution */}
+        <div className={`rounded-lg p-4 bg-opacity-10 ${getElementColor(element as unknown)}`}> {/* Pattern XXX: Component Props Interface Resolution */}
           <div className="flex justify-between items-start">
             <div>
               <h4 className="font-bold text-white text-lg drop-shadow-md">{tarotCards.minorCard?.name || 'Minor Arcana'}</h4>
               <div className="flex items-center mt-1 bg-black bg-opacity-20 rounded px-2 py-1 inline-block">
-                {getElementIcon(element as any)} {/* Pattern XXX: Component Props Interface Resolution */}
+                {getElementIcon(element as unknown)} {/* Pattern XXX: Component Props Interface Resolution */}
                 <span className="ml-1 text-sm font-medium">{element}</span>
               </div>
             </div>

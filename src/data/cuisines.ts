@@ -46,7 +46,7 @@ const exampleRecipe: Recipe = {
 
 // Helper function to adapt ElementalProperties from cuisine.ts to alchemy.ts format
 function adaptElementalProperties(props: unknown): ElementalProperties {
-  const propsData = props as any;
+  const propsData = props as unknown;
   // If it already has the index signature, return as is
   if (propsData && typeof propsData === 'object' && propsData.hasOwnProperty('Fire')) {
     return propsData as ElementalProperties;
@@ -63,16 +63,16 @@ function adaptElementalProperties(props: unknown): ElementalProperties {
 
 // Helper function to adapt cuisines to the local cuisine interface format
 function adaptCuisine(cuisine: unknown): LocalCuisineType {
-  const cuisineData = cuisine as any;
+  const cuisineData = cuisine as unknown;
   return {
     ...cuisineData,
     // Convert elementalProperties if present - apply safe type casting
-    elementalProperties: (cuisineData as any)?.elementalProperties ? 
-      adaptElementalProperties((cuisineData as any).elementalProperties) : undefined,
+    elementalProperties: (cuisineData as unknown)?.elementalProperties ? 
+      adaptElementalProperties((cuisineData as unknown).elementalProperties) : undefined,
     
     // Convert elementalState if present - apply safe type casting
-    elementalState: (cuisineData as any)?.elementalState ? 
-      adaptElementalProperties((cuisineData as any).elementalState) : undefined
+    elementalState: (cuisineData as unknown)?.elementalState ? 
+      adaptElementalProperties((cuisineData as unknown).elementalState) : undefined
   };
 }
 
@@ -105,7 +105,7 @@ export const getCuisineByName = (name: string): LocalCuisineType | undefined =>
 
 export const getCuisinesByElement = (element: keyof ElementalProperties): LocalCuisineType[] => 
   Object.values(cuisines).filter(cuisine => {
-    const cuisineData = cuisine as any;
+    const cuisineData = cuisine as unknown;
     const elementalState = cuisineData?.elementalState as ElementalProperties | undefined;
     const elementalProperties = cuisineData?.elementalProperties as ElementalProperties | undefined;
     

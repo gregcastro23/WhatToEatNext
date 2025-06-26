@@ -3,8 +3,8 @@
 import React, { useEffect, useState } from 'react';
 import { useServices } from '@/hooks/useServices';
 
-import { Element , ElementalProperties } from "@/types/alchemy";
-import { PlanetaryPosition } from "@/types/celestial";
+import { _Element , _ElementalProperties } from "@/types/alchemy";
+import { _PlanetaryPosition } from "@/types/celestial";
 // Basic types for ingredients
 interface Ingredient {
   name: string;
@@ -49,7 +49,7 @@ export default function IngredientDisplayMigrated() {
         const planetaryPositions = await astrologyService.getCurrentPlanetaryPositions();
         
         // Get whether it's daytime
-        const isDaytime = await astrologyService.isDaytime();
+        const _isDaytime = await astrologyService.isDaytime();
         
         // Calculate elemental properties (simplified for now)
         const elementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
@@ -64,7 +64,7 @@ export default function IngredientDisplayMigrated() {
         });
         
         // Transform to expected format
-        const transformedIngredients: Ingredient[] = (recommendations?.items || []).map((item: any) => ({
+        const transformedIngredients: Ingredient[] = (recommendations?.items || []).map((item: Record<string, unknown>) => ({
           name: item.name,
           category: item.category || 'Uncategorized',
           element: item.elementalState ? 
@@ -79,7 +79,7 @@ export default function IngredientDisplayMigrated() {
         
         setIngredients(transformedIngredients);
       } catch (err) {
-        console.error('Error loading ingredients:', err);
+        // console.error('Error loading ingredients:', err);
         setError(err instanceof Error ? err : new Error('Error loading ingredients'));
       } finally {
         setIsLoading(false);

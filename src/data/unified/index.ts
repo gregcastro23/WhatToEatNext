@@ -52,7 +52,7 @@ export {
 
 // Export singleton instances
 import { Recipe } from '@/types/recipe';
-import { Element , AlchemicalProperties } from "@/types/alchemy";
+import { _Element , AlchemicalProperties } from "@/types/alchemy";
 
 // Placeholder classes until imports are fixed
 class UnifiedSeasonalSystem {}

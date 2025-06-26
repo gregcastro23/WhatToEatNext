@@ -1,5 +1,5 @@
-import { ElementalProperties , Element } from "@/types/alchemy";
-// DUPLICATE: import { ElementalProperties } from "@/types/alchemy";
+import { _ElementalProperties , _Element } from "@/types/alchemy";
+// DUPLICATE: import { _ElementalProperties } from "@/types/alchemy";
 
 /**
  * Creates a properly initialized ElementalProperties object with default values
@@ -12,7 +12,7 @@ export function createElementalProperties(
 /**
  * Type guard to check if an object is a valid ElementalProperties object
  */
-export function isElementalProperties(obj: any): obj is ElementalProperties {
+export function isElementalProperties(obj: Record<string, unknown>): obj is ElementalProperties {
   if (!obj || typeof obj !== 'object') return false;
   
   return (

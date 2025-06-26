@@ -1,13 +1,13 @@
 import { AstrologicalState } from '@/types/celestial';
 
-import { LunarPhase, ZodiacSign, PlanetaryAspect, ElementalProperties } from '@/types/alchemy';
+import { _LunarPhase, ZodiacSign, PlanetaryAspect, _ElementalProperties } from '@/types/alchemy';
 import { LUNAR_PHASES } from '@/constants/lunar';
 import { cuisineFlavorProfiles } from '@/data/cuisineFlavorProfiles';
 import { planetaryFlavorProfiles } from '@/data/planetaryFlavorProfiles';
 import { allIngredients } from '@/data/ingredients';
 import {
-  calculateLunarPhase,
-  calculatePlanetaryPositions,
+  _calculateLunarPhase,
+  _calculatePlanetaryPositions,
   calculatePlanetaryAspects,
 } from "@/utils/astrologyUtils";
 // Import the planet data
@@ -57,7 +57,7 @@ export function generateTopSauceRecommendations(currentElementalProfile = null, 
   // Map all sauces with scores
   const scoredSauces = saucesArray.map(sauce => {
     // Use safe type casting for unknown property access
-    const sauceData = sauce as any;
+    const sauceData = sauce as unknown;
     const elementalProperties = sauceData?.elementalProperties;
     const planetaryInfluences = sauceData?.planetaryInfluences;
     const flavorProfile = sauceData?.flavorProfile;
@@ -153,7 +153,7 @@ export function getCuisineRecommendations(
   const scoredCuisines = cuisines.map(cuisine => {
     const flavorProfile = cuisineFlavorProfiles[cuisine];
     const elementalMatch = calculateElementalMatch(
-      (flavorProfile as any)?.elementalAffinity || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+      (flavorProfile as unknown)?.elementalAffinity || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
       elementalState
     );
     

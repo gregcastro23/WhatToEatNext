@@ -6,14 +6,14 @@ import type {
 import { 
   validateRecipe as validateAlchemyRecipe, 
   validateIngredient as validateAlchemyIngredient, 
-  validateElementalProperties as validateAlchemyElementalProps 
+  _validateElementalProperties as validateAlchemyElementalProps 
 } from './validators';
 import { VALID_SEASONS } from '@/constants/seasonalConstants';
 import type { Recipe as IndexRecipe, Ingredient as IndexIngredient } from './index';
 import { 
   Season, 
   ZodiacSign,
-  LunarPhase,
+  _LunarPhase,
   ThermodynamicProperties,
   CookingMethod
 } from './alchemy';

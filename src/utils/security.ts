@@ -1,5 +1,5 @@
 // Security enhancement utilities for the application
-import { logger } from './logger';
+import { logger } from ./logger';
 
 /**
  * Enhance application security with various protections

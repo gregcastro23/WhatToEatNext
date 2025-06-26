@@ -2,8 +2,8 @@ import { useState, useEffect, useMemo } from 'react';
 import { useAstrologicalState } from './useAstrologicalState';
 import { getTarotCardsForDate } from '@/lib/tarotCalculations';
 import { ElementalCharacter } from '@/constants/planetaryElements';
-import { LunarPhase as AlchemyLunarPhase, PlanetaryAspect, LunarPhaseWithSpaces } from '@/types/alchemy';
-import { LunarPhase as FoodAssociationsLunarPhase } from '@/constants/planetaryFoodAssociations';
+import { _LunarPhase as AlchemyLunarPhase, PlanetaryAspect, LunarPhaseWithSpaces } from '@/types/alchemy';
+import { _LunarPhase as FoodAssociationsLunarPhase } from '@/constants/planetaryFoodAssociations';
 import { PLANET_TO_MAJOR_ARCANA } from '@/constants/tarotCards';
 import { calculateSignEnergyStates, SignEnergyState } from '@/constants/signEnergyStates';
 import { calculateAspects } from '@/utils/astrologyUtils';
@@ -108,11 +108,11 @@ export const useTarotAstrologyData = (): TarotAstrologyResult => {
   }>;
   
   // Convert the lunarPhase to the alchemy format
-  const lunarPhase = useMemo(() => {
+  const _lunarPhase = useMemo(() => {
     try {
       // Cast the string to FoodAssociationsLunarPhase since it matches the expected format
       return foodAssociationsLunarPhase ? 
-        adaptLunarPhase(foodAssociationsLunarPhase as any) : 
+        adaptLunarPhase(foodAssociationsLunarPhase as unknown) : 
         null;
     } catch (error) {
       logger.error('Error converting lunar phase', error);
@@ -179,7 +179,7 @@ export const useTarotAstrologyData = (): TarotAstrologyResult => {
   // Get Tarot cards for current date - only recalculate when the date changes
   useEffect(() => {
     try {
-      const currentDate = new Date();
+      const _currentDate = new Date();
       
       // Get sun position from planetary alignment if available
       const sunPosition = currentPlanetaryAlignment?.sun ? {
@@ -415,7 +415,7 @@ export const useTarotAstrologyData = (): TarotAstrologyResult => {
   // Load sign energy states on init
   useEffect(() => {
     try {
-      setSignEnergyStates((calculateSignEnergyStates as any)(new Date(), 'default'));
+      setSignEnergyStates((calculateSignEnergyStates as unknown)(new Date(), 'default'));
     } catch (error) {
       logger.error('Error calculating sign energy states', error);
     }

@@ -77,7 +77,7 @@ const processCuisineRecipes = (cuisine: Partial<Cuisine>): Cuisine => {
     if (!mealType) return { spring: [], summer: [], autumn: [], winter: [] };
     
     // Use safe type casting for mealType property access
-    const mealData = mealType as any;
+    const mealData = mealType as unknown;
     
     // Extract the "all" recipes that should be added to each season
     // Make sure "all" is an array even if it's not defined
@@ -118,7 +118,7 @@ const processCuisineRecipes = (cuisine: Partial<Cuisine>): Cuisine => {
     cookingTechniques: Array.isArray(cuisine.cookingTechniques) ? cuisine.cookingTechniques : [],
     regionalCuisines: cuisine.regionalCuisines || {},
     elementalProperties: cuisine.elementalProperties || 
-                       (cuisine as any).elementalState || // For backward compatibility
+                       (cuisine as unknown).elementalState || // For backward compatibility
                        { ...baseCuisine.elementalProperties },
     regionalVarieties: cuisine.regionalCuisines ? Object.keys(cuisine.regionalCuisines).length : 0,
     astrologicalInfluences: Array.isArray(cuisine.astrologicalInfluences) ? cuisine.astrologicalInfluences : []
@@ -127,23 +127,23 @@ const processCuisineRecipes = (cuisine: Partial<Cuisine>): Cuisine => {
 
 // Create and export the cuisines map with validated structures
 export const cuisinesMap = {
-    African: processCuisineRecipes(african as any),
-    American: processCuisineRecipes(american as any),
-    Chinese: processCuisineRecipes(chinese as any),
-    French: processCuisineRecipes(french as any),
-    Greek: processCuisineRecipes(greek as any),
-    Indian: processCuisineRecipes(indian as any),
-    Italian: processCuisineRecipes(italian as any),
-    Japanese: processCuisineRecipes(japanese as any),
-    Korean: processCuisineRecipes(korean as any),
-    Mexican: processCuisineRecipes(mexican as any),
-    'Middle Eastern': processCuisineRecipes(middleEastern as any),
-    Russian: processCuisineRecipes(russian as any),
-    Thai: processCuisineRecipes(thai as any),
-    Vietnamese: processCuisineRecipes(vietnamese as any),
+    African: processCuisineRecipes(african as unknown),
+    American: processCuisineRecipes(american as unknown),
+    Chinese: processCuisineRecipes(chinese as unknown),
+    French: processCuisineRecipes(french as unknown),
+    Greek: processCuisineRecipes(greek as unknown),
+    Indian: processCuisineRecipes(indian as unknown),
+    Italian: processCuisineRecipes(italian as unknown),
+    Japanese: processCuisineRecipes(japanese as unknown),
+    Korean: processCuisineRecipes(korean as unknown),
+    Mexican: processCuisineRecipes(mexican as unknown),
+    'Middle Eastern': processCuisineRecipes(middleEastern as unknown),
+    Russian: processCuisineRecipes(russian as unknown),
+    Thai: processCuisineRecipes(thai as unknown),
+    Vietnamese: processCuisineRecipes(vietnamese as unknown),
     // Add lowercase variants for problematic cuisines
-    african: processCuisineRecipes(african as any),
-    american: processCuisineRecipes(american as any)
+    african: processCuisineRecipes(african as unknown),
+    american: processCuisineRecipes(american as unknown)
 } as const;
 
 export type CuisineName = keyof typeof cuisinesMap;

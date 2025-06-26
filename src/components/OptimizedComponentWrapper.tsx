@@ -18,7 +18,7 @@ const OptimizedComponentWrapper: React.FC<WrapperProps> = ({ children, name }) =
     
     setRenderCount(prev => {
       const newCount = prev + 1;
-      console.log(`${name} wrapper rendered ${newCount} times`);
+      // console.log(`${name} wrapper rendered ${newCount} times`);
       return newCount;
     });
     

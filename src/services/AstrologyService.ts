@@ -1,4 +1,4 @@
-import { PlanetaryAlignment, AstrologicalState, CelestialPosition, ZodiacSign, Planet, LunarPhase } from "@/types/celestial";
+import { PlanetaryAlignment, AstrologicalState, _CelestialPosition, ZodiacSign, _Planet, _LunarPhase } from "@/types/celestial";
 import { getCurrentPlanetaryPositions, getPlanetaryPositionsForDateTime } from '@/services/astrologizeApi';
 
 // Define and export the DEFAULT_PLANETARY_ALIGNMENT constant
@@ -69,7 +69,7 @@ export class AstrologyService {
       
       return celestialPositions;
     } catch (error) {
-      console.warn('Astrologize API failed, using cached data:', error);
+      // console.warn('Astrologize API failed, using cached data:', error);
       if (forceRefresh || !this.currentState.isReady) {
         await this.refreshAstrologicalState();
       }
@@ -168,7 +168,7 @@ export class AstrologyService {
    * Get the current planetary day ruler
    */
   async getCurrentPlanetaryDay(): Promise<Planet> {
-    const currentDate = new Date();
+    const _currentDate = new Date();
     const dayOfWeek = currentDate.getDay();
     
     // Planetary day rulers
@@ -193,7 +193,7 @@ export class AstrologyService {
     this.currentState.loading = true;
     
     try {
-      const currentDate = new Date();
+      const _currentDate = new Date();
       
       // Try to get real planetary positions from astrologize API
       let planetaryAlignment: PlanetaryAlignment;
@@ -209,9 +209,9 @@ export class AstrologyService {
           };
         });
         
-        console.log('🌟 Using real astrologize API data for astrological state');
+        // console.log('🌟 Using real astrologize API data for astrological state');
       } catch (apiError) {
-        console.warn('Astrologize API failed, using fallback calculations:', apiError);
+        // console.warn('Astrologize API failed, using fallback calculations:', apiError);
         planetaryAlignment = this.calculatePlanetaryPositions(currentDate);
       }
       
@@ -228,7 +228,7 @@ export class AstrologyService {
       
       this.currentState = state;
     } catch (error) {
-      console.error("Failed to refresh astrological state", error);
+      // console.error("Failed to refresh astrological state", error);
     } finally {
       this.currentState.loading = false;
       this.currentState.isReady = true;

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Sauce } from '@/data/sauces';
-import { ElementalProperties } from '@/types/alchemy';
+import { _ElementalProperties } from '@/types/alchemy';
 import { ChevronDown, ChevronUp, Info, Check, Droplet, Flame, Wind, Mountain } from 'lucide-react';
 
 interface SauceRecommenderProps {
@@ -46,7 +46,7 @@ export default function SauceRecommender({
         const recommendations = await generateSauceRecommendations();
         setSauceRecommendations(recommendations);
       } catch (error) {
-        console.error("Error generating sauce recommendations:", error);
+        // console.error("Error generating sauce recommendations:", error);
       } finally {
         setLoading(false);
       }
@@ -91,7 +91,7 @@ export default function SauceRecommender({
   };
 
   // Helper function to determine if it's currently daytime (6am-6pm)
-  const isDaytime = (date: Date = new Date()): boolean => {
+  const _isDaytime = (date: Date = new Date()): boolean => {
     const hour = date.getHours();
     return hour >= 6 && hour < 18;
   };
@@ -577,11 +577,11 @@ export default function SauceRecommender({
     
     // Remove duplicates and sort by match score
     const uniqueResults = results.filter((sauce, index, self) =>
-      index === self.findIndex((s) => (s as any)?.name === (sauce as any)?.name)
+      index === self.findIndex((s) => (s as unknown)?.name === (sauce as unknown)?.name)
     );
     
     return uniqueResults
-      .sort((a, b) => ((b as any)?.matchScore || 0) - ((a as any)?.matchScore || 0))
+      .sort((a, b) => ((b as unknown)?.matchScore || 0) - ((a as unknown)?.matchScore || 0))
       .slice(0, maxResults);
   };
 

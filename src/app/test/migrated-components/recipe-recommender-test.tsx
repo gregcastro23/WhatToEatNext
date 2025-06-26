@@ -6,7 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import RecipeRecommendations from '@/components/Recipe/RecipeRecommendations';
 import RecipeRecommendationsMigrated from '@/components/Recipe/RecipeRecommendations.migrated';
 
-import { Element } from "@/types/alchemy";
+import { _Element } from "@/types/alchemy";
 export default function RecipeRecommendationsTestPage() {
   const [filters, setFilters] = useState({
     servingSize: '4',

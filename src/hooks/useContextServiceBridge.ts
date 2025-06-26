@@ -1,7 +1,7 @@
 import { useServices } from './useServices';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { useEffect, useState } from 'react';
-import { PlanetaryPosition } from "@/types/celestial";
+import { _PlanetaryPosition } from "@/types/celestial";
 
 /**
  * A bridge hook that allows components to work with both legacy AlchemicalContext 
@@ -20,8 +20,8 @@ export function useAlchemicalBridge() {
     astrologyService
   } = serviceData;
   
-  const elementalCalculator = (serviceData as any)?.elementalCalculator;
-  const chakraService = (serviceData as any)?.chakraService;
+  const elementalCalculator = (serviceData as unknown)?.elementalCalculator;
+  const chakraService = (serviceData as unknown)?.chakraService;
 
   // Create state for service-based data
   const [servicePositions, setServicePositions] = useState<Record<string, any>>({});
@@ -37,10 +37,10 @@ export function useAlchemicalBridge() {
           setServicePositions(positions);
           
           // Get daytime information
-          const isDaytime = await astrologyService.isDaytime();
+          const _isDaytime = await astrologyService.isDaytime();
           setDaytime(isDaytime);
         } catch (err) {
-          console.error('Error in useAlchemicalBridge:', err);
+          // console.error('Error in useAlchemicalBridge:', err);
         }
       };
       
@@ -65,7 +65,7 @@ export function useAlchemicalBridge() {
     servicePositions,
     
     // State information
-    isDaytime: daytime !== undefined ? daytime : (contextState as any)?.isDaytime,
+    isDaytime: daytime !== undefined ? daytime : (contextState as unknown)?.isDaytime,
     
     // Service references for direct access
     astrologyService,
@@ -89,7 +89,7 @@ export function useChakraBridge() {
     error
   } = chakraServiceData;
   
-  const chakraService = (chakraServiceData as any)?.chakraService;
+  const chakraService = (chakraServiceData as unknown)?.chakraService;
   
   // State for chakra data
   const [chakras, setChakras] = useState<Record<string, any>>({});
@@ -107,7 +107,7 @@ export function useChakraBridge() {
           const active = await chakraService.getActiveChakra();
           setActiveChakra(active);
         } catch (err) {
-          console.error('Error in useChakraBridge:', err);
+          // console.error('Error in useChakraBridge:', err);
         }
       };
       
@@ -167,7 +167,7 @@ export function usePlanetaryHoursBridge() {
             setDailyHours(new Map());
           }
         } catch (err) {
-          console.error('Error in usePlanetaryHoursBridge:', err);
+          // console.error('Error in usePlanetaryHoursBridge:', err);
         }
       };
       
@@ -215,7 +215,7 @@ export function createServiceBridge<T, S>(
             const result = await fetchFunction(service);
             setData(result);
           } catch (err) {
-            console.error(`Error in custom bridge for ${serviceName}:`, err);
+            // console.error(`Error in custom bridge for ${serviceName}:`, err);
             setFetchError(err instanceof Error ? err : new Error(String(err)));
           }
         };

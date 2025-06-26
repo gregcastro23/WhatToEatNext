@@ -142,7 +142,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
           name: method.name,
           elementalProperties: methodElemental,
           category: 'cooking_method'
-        } as any);
+        } as unknown);
         
         if (result.success) {
           compatibilityResults[method.id] = result.compatibility;
@@ -159,7 +159,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
                 name: variation.name,
                 elementalProperties: variationElemental,
                 category: 'cooking_method'
-              } as any);
+              } as unknown);
               
               if (variationResult.success) {
                 compatibilityResults[variation.id] = variationResult.compatibility;
@@ -281,13 +281,86 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
     return { label: 'Incompatible', className: 'compatibility-bad' };
   };
 
-  // Get score class for styling
+  // Get score class for styling - updated ranges for Monica-enhanced scoring
   const getScoreClass = (score: number): string => {
-    if (score >= 0.8) return styles['score-excellent'];
-    if (score >= 0.6) return styles['score-good'];
-    if (score >= 0.4) return styles['score-fair'];
-    if (score >= 0.2) return styles['score-poor'];
+    if (score >= 0.85) return styles['score-excellent'];
+    if (score >= 0.70) return styles['score-good'];
+    if (score >= 0.55) return styles['score-fair'];
+    if (score >= 0.35) return styles['score-poor'];
     return styles['score-bad'];
+  };
+
+  // Format Monica constant for display
+  const formatMonicaConstant = (monicaConstant: number): string => {
+    if (isNaN(monicaConstant) || !isFinite(monicaConstant)) {
+      return 'Stable';
+    }
+    if (Math.abs(monicaConstant) < 0.001) {
+      return '~0';
+    }
+    return monicaConstant.toFixed(3);
+  };
+
+  // Get enhanced method information including Monica properties
+  const getEnhancedMethodInfo = (method: CookingMethod) => {
+    // This would ideally call the enhanced thermodynamics function
+    // For now, we'll create a simplified version based on available data
+    const alchemicalProps = method.alchemicalProperties || {
+      Spirit: 0.5,
+      Essence: 0.5, 
+      Matter: 0.5,
+      Substance: 0.5
+    };
+    
+    const elementalProps = method.elementalEffect || {
+      Fire: 0.25,
+      Water: 0.25,
+      Earth: 0.25,
+      Air: 0.25
+    };
+
+    // Use the same formulas as in the user's notepad and test endpoint
+    const heat = (Math.pow(alchemicalProps.Spirit, 2) + Math.pow(elementalProps.Fire, 2)) /
+                 Math.pow(alchemicalProps.Substance + alchemicalProps.Essence + alchemicalProps.Matter + 
+                         elementalProps.Water + elementalProps.Air + elementalProps.Earth, 2);
+    
+    const entropy = (Math.pow(alchemicalProps.Spirit, 2) + Math.pow(alchemicalProps.Substance, 2) + 
+                    Math.pow(elementalProps.Fire, 2) + Math.pow(elementalProps.Air, 2)) /
+                    Math.pow(alchemicalProps.Essence + alchemicalProps.Matter + elementalProps.Earth + elementalProps.Water, 2);
+    
+    const reactivity = (Math.pow(alchemicalProps.Spirit, 2) + Math.pow(alchemicalProps.Substance, 2) + 
+                       Math.pow(alchemicalProps.Essence, 2) + Math.pow(elementalProps.Fire, 2) + 
+                       Math.pow(elementalProps.Air, 2) + Math.pow(elementalProps.Water, 2)) /
+                       Math.pow(alchemicalProps.Matter + elementalProps.Earth, 2);
+    
+    const gregsEnergy = heat - (entropy * reactivity);
+    
+    // Simplified Kalchm calculation for display with safe values
+    const kalchm = (Math.pow(Math.max(0.001, alchemicalProps.Spirit), alchemicalProps.Spirit) * 
+                    Math.pow(Math.max(0.001, alchemicalProps.Essence), alchemicalProps.Essence)) /
+                   (Math.pow(Math.max(0.001, alchemicalProps.Matter), alchemicalProps.Matter) * 
+                    Math.pow(Math.max(0.001, alchemicalProps.Substance), alchemicalProps.Substance));
+
+    // Monica constant using the exact formula from user's notepad
+    const monicaConstant = kalchm > 0 && reactivity !== 0 && Math.log(kalchm) !== 0 ? 
+                          -gregsEnergy / (reactivity * Math.log(kalchm)) : 0;
+
+    let monicaClassification = 'Stable';
+    if (!isNaN(monicaConstant) && isFinite(monicaConstant)) {
+      if (Math.abs(monicaConstant) > 10) monicaClassification = 'Highly Transformative';
+      else if (Math.abs(monicaConstant) > 5) monicaClassification = 'Transformative';
+      else if (Math.abs(monicaConstant) > 1) monicaClassification = 'Moderately Active';
+    }
+
+    return {
+      kalchm,
+      monicaConstant,
+      monicaClassification,
+      heat,
+      entropy,
+      reactivity,
+      gregsEnergy
+    };
   };
   
   return (
@@ -456,7 +529,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
                   </div>
                 </div>
                 
-                {/* Display alchemical properties if available */}
+                {/* Display alchemical properties with Monica constants */}
                 {method.alchemicalProperties && (
                   <div className={styles['alchemical-properties']}>
                     <div className={styles['alchemy-header']}>
@@ -471,6 +544,39 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
                         )}
                       </div>
                     )}
+                    
+                    {/* Monica Constant Display */}
+                    {(() => {
+                      const enhancedInfo = getEnhancedMethodInfo(method);
+                      return (
+                        <div className={styles['monica-properties']}>
+                          <div className={styles['monica-header']}>
+                            <Sparkles size={12} className={styles['monica-icon']} />
+                            <span>Monica Analysis</span>
+                          </div>
+                          <div className={styles['monica-details']}>
+                            <div className={styles['monica-item']}>
+                              <span className={styles['monica-label']}>Constant:</span>
+                              <span className={styles['monica-value']}>
+                                {formatMonicaConstant(enhancedInfo.monicaConstant)}
+                              </span>
+                            </div>
+                            <div className={styles['monica-item']}>
+                              <span className={styles['monica-label']}>Class:</span>
+                              <span className={`${styles['monica-value']} ${styles[enhancedInfo.monicaClassification.toLowerCase().replace(/\s+/g, '-')]}`}>
+                                {enhancedInfo.monicaClassification}
+                              </span>
+                            </div>
+                            <div className={styles['monica-item']}>
+                              <span className={styles['monica-label']}>Kalchm:</span>
+                              <span className={styles['monica-value']}>
+                                {enhancedInfo.kalchm.toFixed(3)}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })()}
                   </div>
                 )}
                 

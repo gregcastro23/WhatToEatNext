@@ -1,7 +1,7 @@
 import { Recipe } from '@/types/recipe';
 import { createLogger } from '../utils/logger';
-import { Element } from "@/types/alchemy";
-import { PlanetaryPosition } from "@/types/celestial";
+import { _Element } from "@/types/alchemy";
+import { _PlanetaryPosition } from "@/types/celestial";
 import alchemicalEngine from '@/calculations/core/alchemicalEngine';
 import { astrologyService } from '@/services/AstrologyService';
 import { unifiedIngredientService } from '@/services/UnifiedIngredientService';
@@ -348,7 +348,7 @@ export class ServicesManager {
         Neptune: 'sagittarius',
         Pluto: 'capricorn',
         Ascendant: 'aquarius'
-      } as any;
+      } as unknown;
       
       // ✅ Pattern MM-1: Provide complete Recipe object with type assertion
       const testRecipe = { 
@@ -357,7 +357,7 @@ export class ServicesManager {
         ingredients: [], 
         instructions: [],
         elementalState: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
-      } as any;
+      } as unknown;
       const recipeRecommendations = alchemicalRecommendationService.getRecipeRecommendations(
         testRecipe,
         dummyPositions

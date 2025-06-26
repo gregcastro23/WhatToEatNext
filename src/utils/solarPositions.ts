@@ -41,7 +41,7 @@ export function getSunPosition(
       rightAscension
     };
   } catch (error) {
-    console.error('Error calculating sun position:', error);
+    // console.error('Error calculating sun position:', error);
     return {
       azimuth: 0,
       altitude: 0,

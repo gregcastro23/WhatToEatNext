@@ -1,5 +1,5 @@
 // Type declarations to help with compatibility issues
-import { LunarPhase, LunarPhaseWithSpaces } from './alchemy';
+import { _LunarPhase, LunarPhaseWithSpaces } from './alchemy';
 
 // Declare that LunarPhaseWithSpaces can be used as LunarPhase
 declare global {

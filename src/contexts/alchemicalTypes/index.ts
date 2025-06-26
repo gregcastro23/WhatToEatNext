@@ -1,6 +1,6 @@
 
 import type { ElementalProperties } from '@/types/alchemy';
-import { Element , AlchemicalProperties } from "@/types/alchemy";
+import { _Element , AlchemicalProperties } from "@/types/alchemy";
 
 
 export interface AlchemicalState {

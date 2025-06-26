@@ -1,4 +1,4 @@
-import { ZodiacSign, LunarPhase, Modality, AlchemicalProperties, PlanetName, Planet, PlanetaryAlignment, CelestialPosition, PlanetaryAspect } from '@/types/celestial';
+import { ZodiacSign, _LunarPhase, _Modality, AlchemicalProperties, _PlanetName, _Planet, PlanetaryAlignment, _CelestialPosition, PlanetaryAspect } from '@/types/celestial';
 import { TarotCard } from '@/contexts/TarotContext/types';
 import { ElementalCharacter } from '@/constants/planetaryElements';
 

@@ -3,13 +3,13 @@ import type { Recipe,
   ScoredRecipe,
   ElementalProperties } from "@/types/recipe";
 
-import { createElementalProperties } from '../elemental/elementalUtils';
-import { toArray } from '../common/arrayUtils';
-import { Element } from "@/types/alchemy";
+import { _createElementalProperties } from '../elemental/elementalUtils';
+import { _toArray } from '../common/arrayUtils';
+import { _Element } from "@/types/alchemy";
 import { RecipeData } from '@/types/recipe';
 import { Ingredient } from '@/types/ingredient';
 
-import { getRecipeElementalProperties, getRecipeCookingMethods } from './recipeUtils';
+import { _getRecipeElementalProperties, _getRecipeCookingMethods } from './recipeUtils';
 
 /**
  * Safely converts a RecipeData object from data/recipes.ts to a type-safe Recipe object
@@ -29,7 +29,7 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
     name: recipeData.name || 'Unnamed Recipe',
     ingredients,
     instructions: recipeData.instructions || ['Combine ingredients and cook as desired.'],
-    elementalProperties: (recipeData as any)?.elementalState || {
+    elementalProperties: (recipeData as unknown)?.elementalState || {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
@@ -51,7 +51,7 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
   }
 
   // Handle time-related properties
-  const recipeDataAny = recipeData as any;
+  const recipeDataAny = recipeData as unknown;
   if (recipeDataAny?.timeToMake !== undefined) {
     recipe.timeToMake = recipeDataAny.timeToMake;
   }
@@ -133,7 +133,7 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
 
   // Handle nutrition information
   if (recipeData.nutrition) {
-    const nutritionData = recipeData.nutrition as any;
+    const nutritionData = recipeData.nutrition as unknown;
     recipe.nutrition = {
       calories: nutritionData?.calories || 0, 
       protein: nutritionData?.protein || nutritionData?.macronutrients?.protein || 0, 
@@ -268,7 +268,7 @@ export function adaptAllRecipes(recipeDataArray: RecipeData[]): Recipe[] {
  * @returns ElementalProperties object
  */
 export function extractElementalProperties(recipeData: RecipeData): ElementalProperties {
-  const recipeDataAny = recipeData as any;
+  const recipeDataAny = recipeData as unknown;
   if (recipeDataAny?.elementalState) {
     return recipeDataAny.elementalState;
   }

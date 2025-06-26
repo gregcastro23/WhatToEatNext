@@ -1,5 +1,5 @@
 import type { ElementalProperties } from '@/types/alchemy';
-import { elementalUtils } from './elementalUtils';
+import { _elementalUtils } from './elementalUtils';
 
 export const calculationUtils = {
   calculateTemperatureEffect(temp: number): ElementalProperties {

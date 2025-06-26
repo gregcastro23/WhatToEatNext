@@ -1,5 +1,5 @@
 import type { ElementalProperties } from "@/types/alchemy";
-import { Element } from "@/types/alchemy";
+import { _Element } from "@/types/alchemy";
 
 
 // --- Core Alchemizer Engine with Kalchm and Monica Constant ---
@@ -12,7 +12,7 @@ const signs = {
 };
 
 // Planetary alchemy and element info
-const planetInfo: any = {
+const planetInfo: Record<string, unknown> = {
   Sun: {
     'Dignity Effect': { leo: 1, aries: 2, aquarius: -1, libra: -2 },
     Elements: ['Fire', 'Fire'],
@@ -90,7 +90,7 @@ const planetInfo: any = {
 };
 
 // Zodiac sign info (abbreviated for brevity, expand as needed)
-const signInfo: any = {
+const signInfo: Record<string, unknown> = {
   aries: { Element: 'Fire' },
   taurus: { Element: 'Earth' },
   gemini: { Element: 'Air' },

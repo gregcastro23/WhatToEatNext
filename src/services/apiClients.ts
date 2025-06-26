@@ -33,7 +33,7 @@ export class FoodDataCentral {
       
       return response.data;
     } catch (error) {
-      console.error('Error fetching food data:', error);
+      // console.error('Error fetching food data:', error);
       // Return a minimal valid structure if the API call fails
       return {
         fdcId,
@@ -60,7 +60,7 @@ export class FoodDataCentral {
       
       return response.data.foods || [];
     } catch (error) {
-      console.error('Error searching foods:', error);
+      // console.error('Error searching foods:', error);
       return [];
     }
   }

@@ -41,7 +41,7 @@ export default function TarotCardDisplay() {
 
     useEffect(() => {
         try {
-            const currentDate = new Date();
+            const _currentDate = new Date();
             const cards = getTarotCardsForDate(currentDate);
             setTarotCards(cards as unknown as TarotCards);
             
@@ -66,7 +66,7 @@ export default function TarotCardDisplay() {
             }
         } catch (err) {
             setError('Failed to load tarot cards');
-            console.error(err);
+            // console.error(err);
         }
     }, []);
 

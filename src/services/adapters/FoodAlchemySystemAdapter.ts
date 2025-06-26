@@ -12,7 +12,7 @@ import { consolidatedRecipeService } from '../ConsolidatedRecipeService';
 import { FoodAlchemySystem } from '../FoodAlchemySystem';
 import type { FoodCompatibility, SystemState } from '../../lib/FoodAlchemySystem';
 
-import { logger } from '../../utils/logger';
+import { logger } from ../../utils/logger';
 
 // Add missing imports for TS2304 fixes
 import type { ScoredRecipe } from '@/types/recipe';
@@ -20,7 +20,7 @@ import { enhancedIngredientSystem } from '@/services/adapters/IngredientServiceA
 
 import type { UnifiedIngredient } from '@/types/unified';
 
-import { Element } from "@/types/alchemy";
+import { _Element } from "@/types/alchemy";
 import { PlanetaryAlignment } from "@/types/celestial";
 
 /**
@@ -110,7 +110,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
       
       for (const [planet, position] of Object.entries(state.planetaryPositions)) {
         // Apply surgical type casting with variable extraction
-        const positionData = position as any;
+        const positionData = position as unknown;
         const sign = positionData?.sign;
         
         // Skip non-standard planets or positions
@@ -162,7 +162,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
     } = {}
   ): UnifiedIngredient[] {
     // ✅ Pattern MM-1: Type assertion to resolve SystemState import mismatch
-    return enhancedIngredientSystem.getRecommendedIngredients(state as any, options);
+    return enhancedIngredientSystem.getRecommendedIngredients(state as unknown, _options);
   }
   
   /**

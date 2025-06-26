@@ -725,7 +725,7 @@ export class FoodAlchemySystem {
         const currentPlanetaryHour = planetaryHours[hourOfDay];
         
         // Determine if it's daytime or nighttime
-        const isDaytime = time.getHours() >= 6 && time.getHours() < 18;
+        const _isDaytime = time.getHours() >= 6 && time.getHours() < 18;
         
         // Filter methods compatible with the food and current time
         return this.preparationMethods.filter(method => 

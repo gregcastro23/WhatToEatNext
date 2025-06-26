@@ -9,7 +9,7 @@ import {
   SuitChakraMapping,
   KeyCardChakraMapping
 } from '@/types/chakra';
-import { Planet, ZodiacSign, Element, TarotSuit, ChakraPosition, ChakraEnergies, EnergyStateProperties } from '@/types/alchemy';
+import { _Planet, ZodiacSign, _Element, TarotSuit, ChakraPosition, _ChakraEnergies, EnergyStateProperties } from '@/types/alchemy';
 
 /**
  * ChakraAlchemyService provides utilities for working with chakra-tarot associations
@@ -193,7 +193,7 @@ export class ChakraAlchemyService {
     Object.entries(CHAKRAS).forEach(([position, chakra]) => {
       const key = this.getChakraKey(position as ChakraPosition);
       if (key) {
-        chakraEnergies[key] = energyStates[(chakra as any)?.primaryEnergyState] * 2; // Scale to make it more visible
+        chakraEnergies[key] = energyStates[(chakra as unknown)?.primaryEnergyState] * 2; // Scale to make it more visible
       }
     });
     

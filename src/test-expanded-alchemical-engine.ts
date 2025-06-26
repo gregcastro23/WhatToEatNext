@@ -13,10 +13,10 @@
 
 import { alchemicalEngine } from './calculations/core/alchemicalEngine';
 import { 
-  ElementalProperties, 
+  _ElementalProperties, 
   AstrologicalState, 
   ZodiacSign,
-  CelestialPosition 
+  _CelestialPosition 
 } from './types/alchemy';
 import { AlchemicalEngineAdvanced } from './calculations/alchemicalEngine';
 import { staticAlchemize as alchemize } from '@/utils/alchemyInitializer';
@@ -258,7 +258,7 @@ async function runComprehensiveTests() {
     console.log('🔮 Test 7: Enhanced Legacy Alchemize Function');
     const legacyResult = await alchemize(testBirthInfo, testHoroscopeData);
     
-    const legacyResultData = legacyResult as any;
+    const legacyResultData = legacyResult as unknown;
     console.log('Legacy Alchemize Results:', {
       Spirit: (legacyResultData?.Spirit || 0).toFixed(4),
       Essence: (legacyResultData?.Essence || 0).toFixed(4),

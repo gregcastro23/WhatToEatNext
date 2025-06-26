@@ -301,7 +301,7 @@ exports.getSeasonForZodiacSign = getSeasonForZodiacSign;
 /**
  * Apply seasonal modifier to elemental properties
  */
-function applySeasonalModifier(baseProperties, season, strength = 0.5) {
+function applySeasonalModifier(baseProperties, _season, strength = 0.5) {
     const modifier = getSeasonalModifier(season);
     return { Fire: baseProperties.Fire * (1 - strength) + modifier.Fire * strength, Water: baseProperties.Water * (1 - strength) + modifier.Water * strength, Earth: baseProperties.Earth * (1 - strength) + modifier.Earth * strength, Air: baseProperties.Air * (1 - strength) + modifier.Air * strength
     };

@@ -62,7 +62,7 @@ export default function Header({ setNumberOfPeople }: HeaderProps) {
           lastUpdated: new Date(data.timestamp).toLocaleTimeString()
         });
       } catch (error) {
-        console.error('Error fetching astro data:', error);
+        // console.error('Error fetching astro data:', error);
       } finally {
         setIsLoading(false);
       }

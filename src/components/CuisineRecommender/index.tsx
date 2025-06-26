@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import DirectRecipeService from '@/services/DirectRecipeService';
 import { ScoredRecipe } from '@/types/recipe';
-import { Element } from "@/types/alchemy";
+import { _Element } from "@/types/alchemy";
 
 // Enhanced type definitions - replacing any with proper interfaces
 interface PlanetaryInfluence {
@@ -53,7 +53,7 @@ interface CuisineRecommenderProps {
 export const CuisineRecommender: React.FC<CuisineRecommenderProps> = ({
   cuisine,
   mealType,
-  season,
+  _season,
   limit = 10
 }) => {
   const [recommendations, setRecommendations] = useState<ScoredRecipe[]>([]);
@@ -127,7 +127,7 @@ export const CuisineRecommender: React.FC<CuisineRecommenderProps> = ({
 
       setRecommendations(results);
     } catch (err) {
-      console.error('Error loading recommendations:', err);
+      // console.error('Error loading recommendations:', err);
       setError('Failed to load recipe recommendations');
     } finally {
       setLoading(false);

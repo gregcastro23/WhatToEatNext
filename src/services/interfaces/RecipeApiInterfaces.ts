@@ -7,7 +7,7 @@ import { Recipe } from '@/types/recipe';
  * Following Phase 4 API standardization guidelines
  */
 
-import { Element, Season, ZodiacSign, LunarPhase, PlanetName , ElementalProperties } from "@/types/alchemy";
+import { _Element, Season, ZodiacSign, _LunarPhase, _PlanetName , _ElementalProperties } from "@/types/alchemy";
 import { PlanetaryAlignment } from "@/types/celestial";
 
 /**

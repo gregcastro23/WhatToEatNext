@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import SauceRecommender from '@/components/SauceRecommender';
-import { ElementalProperties } from '@/types/alchemy';
+import { _ElementalProperties } from '@/types/alchemy';
 import {
   Utensils,
   Droplet,

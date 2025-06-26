@@ -106,7 +106,7 @@ export class RecipeEnhancer {
   /**
    * Calculate recipe Kalchm from ingredients using unified ingredients database
    */
-  static calculateRecipeKalchm(ingredients: any[]): {
+  static calculateRecipeKalchm(ingredients: unknown[]): {
     totalKalchm: number;
     breakdown: Array<{
       name: string;
@@ -126,7 +126,7 @@ export class RecipeEnhancer {
     
     let totalKalchm = 0;
     let matchedIngredients = 0;
-    const breakdown: any[] = [];
+    const breakdown: unknown[] = [];
     
     for (const ingredient of ingredients) {
       const ingredientName = ingredient.name?.toLowerCase();
@@ -216,7 +216,7 @@ export class RecipeEnhancer {
   /**
    * Calculate elemental balance from ingredient breakdown
    */
-  static calculateElementalBalance(breakdown: any[]): ElementalProperties {
+  static calculateElementalBalance(breakdown: unknown[]): ElementalProperties {
     if (!breakdown || breakdown.length === 0) {
       return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     }
@@ -299,7 +299,7 @@ export class RecipeEnhancer {
    */
   static calculateOptimalTemperature(thermodynamics: {}): number {
     // Use safe type casting for thermodynamics property access
-    const thermoData = thermodynamics as any;
+    const thermoData = thermodynamics as unknown;
     const { heat = 0.5, reactivity = 0.5 } = thermoData || {};
     // Base temperature (350°F) adjusted by thermodynamic properties
     return Math.round(350 + (heat * 50) - (reactivity * 25));
@@ -323,7 +323,7 @@ export class RecipeEnhancer {
    * Generate thermodynamic recommendations
    */
   static generateThermodynamicRecommendations(
-    thermodynamics: any,
+    thermodynamics: Record<string, unknown>,
     elementalBalance: ElementalProperties,
     monica: number | null
   ): string[] {
@@ -404,7 +404,7 @@ export class RecipeEnhancer {
    */
   static calculatePlanetaryTiming(recipe: {}): string | null {
     // Use safe type casting for recipe property access
-    const recipeData = recipe as any;
+    const recipeData = recipe as unknown;
     
     // Use existing astrological data if available
     if (recipeData?.astrologicalAffinities?.planets && recipeData.astrologicalAffinities.planets.length > 0) {
@@ -537,7 +537,7 @@ export class RecipeAnalyzer {
   ): EnhancedRecipe[] {
     return recipes.filter(recipe => {
       // Use safe type casting for alchemical properties access
-      const alchemicalData = recipe.alchemicalProperties as any;
+      const alchemicalData = recipe.alchemicalProperties as unknown;
       const elementalBalance = alchemicalData?.elementalBalance;
       return elementalBalance && elementalBalance[element] >= threshold;
     });

@@ -352,7 +352,7 @@ function getCurrentAstrologicalState() {
         const moonSign = positions.Moon?.sign || 'cancer';
         // Calculate lunar phase
         const lunarPhaseValue = calculateLunarPhase();
-        const lunarPhase = getLunarPhaseName(lunarPhaseValue);
+        const _lunarPhase = getLunarPhaseName(lunarPhaseValue);
         // Calculate aspects
         const aspects = calculatePlanetaryAspects(positions);
         // Calculate elemental balance

@@ -1,6 +1,6 @@
 import { PlanetPosition } from '@/utils/astrologyUtils';
 import type { ZodiacSign } from '@/types/alchemy';
-import { PlanetaryPosition } from "@/types/celestial";
+import { _PlanetaryPosition } from "@/types/celestial";
 import { astrologizeApiCircuitBreaker } from '@/utils/apiCircuitBreaker';
 
 // Use local API endpoint instead of external
@@ -129,7 +129,7 @@ export async function fetchPlanetaryPositions(
 ): Promise<Record<string, PlanetPosition>> {
   
   const fallbackPositions = (): Record<string, PlanetPosition> => {
-    console.log('Using fallback planetary positions due to API failure');
+    // console.log('Using fallback planetary positions due to API failure');
     return {
       Sun: { sign: 'gemini', degree: 13, minute: 54, exactLongitude: 73.9, isRetrograde: false },
       moon: { sign: 'virgo', degree: 26, minute: 31, exactLongitude: 176.52, isRetrograde: false },
@@ -153,7 +153,7 @@ export async function fetchPlanetaryPositions(
       ...customDateTime
     };
 
-    console.log('Calling local astrologize API with:', requestData);
+    // console.log('Calling local astrologize API with:', requestData);
 
     // Determine if we should use GET or POST
     const isCurrentTime = !customDateTime || Object.keys(customDateTime).length === 0;
@@ -243,8 +243,8 @@ export async function fetchPlanetaryPositions(
       isRetrograde: false
     };
 
-    console.log('Successfully fetched planetary positions from local API:', Object.keys(positions));
-    console.log('🌟 Using', data.birth_info?.ayanamsa || 'TROPICAL', 'zodiac system');
+    // console.log('Successfully fetched planetary positions from local API:', Object.keys(positions));
+    // console.log('🌟 Using', data.birth_info?.ayanamsa || 'TROPICAL', 'zodiac system');
     return positions;
 
   }, fallbackPositions);
@@ -290,7 +290,7 @@ export async function testAstrologizeApi(): Promise<boolean> {
     const positions = await fetchPlanetaryPositions();
     return Object.keys(positions || {}).length > 0;
   } catch (error) {
-    console.error('Astrologize API test failed:', error);
+    // console.error('Astrologize API test failed:', error);
     return false;
   }
 } 

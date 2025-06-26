@@ -1,4 +1,4 @@
-import { ElementalProperties } from '@/types/alchemy';
+import { _ElementalProperties } from '@/types/alchemy';
 
 export const getElementalAlignmentFromTarot = (tarot: {
   majorArcana: string[];

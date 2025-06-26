@@ -72,7 +72,7 @@ export class UnifiedRecipeService {
       });
       return filtered as unknown as ExtendedRecipe[];
     } catch (error) {
-      console.error('Error getting recipes for cuisine:', error);
+      // console.error('Error getting recipes for cuisine:', error);
       return [];
     }
   }
@@ -87,14 +87,14 @@ export class UnifiedRecipeService {
   /**
    * Get best recipe matches (Phase 11 addition)
    */
-  async getBestRecipeMatches(criteria: any): Promise<ExtendedRecipe[]> {
+  async getBestRecipeMatches(criteria: Record<string, unknown>): Promise<ExtendedRecipe[]> {
     try {
       const allRecipes = await this.getAllRecipes();
       // Simple implementation for now
       const matches = allRecipes?.slice(0, 10);
       return matches as unknown as ExtendedRecipe[];
     } catch (error) {
-      console.error('Error getting best recipe matches:', error);
+      // console.error('Error getting best recipe matches:', error);
       return [];
     }
   }

@@ -27,7 +27,7 @@ export function validateIngredientData(
   });
   
   if (missingElementals.length > 0) {
-    console.warn(`Found ${missingElementals.length} ingredients with missing elemental properties:`, missingElementals);
+    // console.warn(`Found ${missingElementals.length} ingredients with missing elemental properties:`, missingElementals);
   }
   
   return missingElementals.length === 0;

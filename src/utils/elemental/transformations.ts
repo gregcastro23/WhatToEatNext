@@ -166,7 +166,7 @@ export function transformSingleItem(
   );
   
   // Calculate alchemical properties
-  const alchemicalProperties = calculateAlchemicalProperties(
+  const _alchemicalProperties = calculateAlchemicalProperties(
     transformedElemental,
     planetaryInfluences,
     context.tarotPlanetaryBoosts
@@ -197,7 +197,7 @@ export function transformSingleItem(
 export function applyPlanetaryInfluence(
   item: AlchemicalItem,
   planet: string,
-  isDaytime = true
+  _isDaytime = true
 ): AlchemicalItem {
   const planetElement = PLANETARY_ELEMENTS[planet?.toLowerCase()];
   const planetProperties = PLANETARY_ALCHEMICAL_PROPERTIES[planet?.toLowerCase()];

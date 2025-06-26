@@ -20,9 +20,9 @@ export function initializeAlchemicalEngine() {
   try {
     // Assign the core alchemize function to the window object
     window.alchemize = alchemicalEngine.alchemize;
-    console.log("Alchemical engine initialized successfully");
+    // console.log("Alchemical engine initialized successfully");
   } catch (error) {
-    console.error("Failed to initialize alchemize function:", error);
+    // console.error("Failed to initialize alchemize function:", error);
   }
 }
 
@@ -31,7 +31,7 @@ export function initializeAlchemicalEngine() {
  * This wraps the core engine's implementation
  */
 export const staticAlchemize = (birthInfo: unknown, horoscopeDict: unknown): AlchemicalResult => {
-  return alchemicalEngine.alchemize(birthInfo as any, horoscopeDict as any);
+  return alchemicalEngine.alchemize(birthInfo as unknown, horoscopeDict as unknown);
 };
 
 // Re-export the core functionality

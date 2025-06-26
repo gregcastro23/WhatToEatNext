@@ -1,4 +1,4 @@
-import { cache } from './cache';
+import { _cache } from './cache';
 import { logger } from './logger';
 
 export interface ThemeData {

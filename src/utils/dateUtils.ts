@@ -12,18 +12,28 @@ const debugLog = (message: string, ...args: unknown[]): void => {
 };
 
 /**
- * Get the current season based on the month
- * @returns Season as a lowercase string ('spring', 'summer', 'fall', or 'winter')
+ * Get the current season based on the current date
+ * Uses astronomical seasons based on equinoxes and solstices
  */
-export function getCurrentSeason(): 'spring' | 'summer' | 'fall' | 'winter' {
-  const now = new Date();
-  const month = now.getMonth();
+export function getCurrentSeason(date: Date = new Date()): Season {
+  const month = date.getMonth(); // 0-11
+  const day = date.getDate();
   
-  // Astronomical seasons (approximate dates)
-  if (month >= 2 && month <= 4) return 'spring';  // March 20 - June 20
-  if (month >= 5 && month <= 7) return 'summer';  // June 21 - September 21
-  if (month >= 8 && month <= 10) return 'fall';   // September 22 - December 20
-  return 'winter';                                // December 21 - March 19
+  // Approximate astronomical seasons for Northern Hemisphere
+  // Spring: March 20 - June 20
+  // Summer: June 21 - September 22
+  // Fall/Autumn: September 23 - December 20
+  // Winter: December 21 - March 19
+  
+  if ((month === 2 && day >= 20) || (month >= 3 && month <= 5) || (month === 5 && day <= 20)) {
+    return 'spring';
+  } else if ((month === 5 && day >= 21) || (month >= 6 && month <= 8) || (month === 8 && day <= 22)) {
+    return 'summer';
+  } else if ((month === 8 && day >= 23) || (month >= 9 && month <= 11) || (month === 11 && day <= 20)) {
+    return 'fall';
+  } else {
+    return 'winter';
+  }
 }
 
 /**
@@ -39,27 +49,37 @@ export const getSeason = (month: number): Season => {
 };
 
 /**
- * Calculate the day of year (1-366)
- * @param date Date to calculate day of year for
- * @returns Day of year (1-366)
+ * Get time of day classification
  */
-export function getDayOfYear(date: Date): number {
-  const start = new Date(date.getFullYear(), 0, 0);
-  const diff = date.getTime() - start.getTime();
-  return Math.floor(diff / (1000 * 60 * 60 * 24));
+export function getTimeOfDay(date: Date = new Date()): 'morning' | 'afternoon' | 'evening' | 'night' {
+  const hour = date.getHours();
+  
+  if (hour >= 6 && hour < 12) {
+    return 'morning';
+  } else if (hour >= 12 && hour < 17) {
+    return 'afternoon';
+  } else if (hour >= 17 && hour < 21) {
+    return 'evening';
+  } else {
+    return 'night';
+  }
 }
 
 /**
- * Get the current time of day
- * @returns Time of day ('morning', 'afternoon', 'evening', or 'night')
+ * Check if it's currently daytime
  */
-export function getTimeOfDay(): 'morning' | 'afternoon' | 'evening' | 'night' {
-  const hour = new Date().getHours();
-  
-  if (hour >= 5 && hour < 12) return 'morning';
-  if (hour >= 12 && hour < 17) return 'afternoon';
-  if (hour >= 17 && hour < 22) return 'evening';
-  return 'night';
+export function isDaytime(date: Date = new Date()): boolean {
+  const hour = date.getHours();
+  return hour >= 6 && hour < 18;
+}
+
+/**
+ * Get day of year (1-366)
+ */
+export function getDayOfYear(date: Date = new Date()): number {
+  const start = new Date(date.getFullYear(), 0, 0);
+  const diff = date.getTime() - start.getTime();
+  return Math.floor(diff / (1000 * 60 * 60 * 24));
 }
 
 /**
@@ -75,31 +95,25 @@ export const getMealPeriod = (hour: number): string => {
 };
 
 /**
- * Get the current moon phase using a simplified calculation
- * @returns Moon phase as a string with spaces
+ * Simple moon phase calculation (approximate)
  */
-export function getMoonPhase(): LunarPhaseWithSpaces {
-  // Calculate moon age (in days) from the latest known new moon
-  // April 2024 new moon was on April 8, 2024
-  const LATEST_NEW_MOON = new Date(2024, 3, 8).getTime(); // April 8, 2024
-  const LUNAR_MONTH = 29.53059; // days
+export function getMoonPhase(date: Date = new Date()): 'new' | 'waxing_crescent' | 'first_quarter' | 'waxing_gibbous' | 'full' | 'waning_gibbous' | 'last_quarter' | 'waning_crescent' {
+  // Simplified moon phase calculation
+  // This is approximate and should be replaced with a proper astronomical calculation
+  const knownNewMoon = new Date('2024-01-11'); // Known new moon date
+  const lunarCycle = 29.53059; // Average lunar cycle in days
   
-  const now = new Date().getTime();
-  const daysSinceNewMoon = (now - LATEST_NEW_MOON) / (1000 * 60 * 60 * 24);
-  const lunarAge = daysSinceNewMoon % LUNAR_MONTH;
+  const daysSinceNewMoon = (date.getTime() - knownNewMoon.getTime()) / (1000 * 60 * 60 * 24);
+  const phase = ((daysSinceNewMoon % lunarCycle) + lunarCycle) % lunarCycle;
   
-  debugLog(`Calculated lunar age: ${lunarAge.toFixed(2)} days`);
-  
-  // Determine phase based on lunar age
-  if (lunarAge < 1.84) return 'new moon';
-  if (lunarAge < 7.38) return 'waxing crescent';
-  if (lunarAge < 10.35) return 'first quarter';
-  if (lunarAge < 13.69) return 'waxing gibbous';
-  if (lunarAge < 16.69) return 'full moon'; 
-  if (lunarAge < 20.03) return 'waning gibbous';
-  if (lunarAge < 23.01) return 'last quarter';
-  if (lunarAge < 28.53) return 'waning crescent';
-  return 'new moon';
+  if (phase < 1) return 'new';
+  if (phase < 7.38) return 'waxing_crescent';
+  if (phase < 8.38) return 'first_quarter';
+  if (phase < 14.77) return 'waxing_gibbous';
+  if (phase < 15.77) return 'full';
+  if (phase < 22.15) return 'waning_gibbous';
+  if (phase < 23.15) return 'last_quarter';
+  return 'waning_crescent';
 }
 
 // Helper function to get all dishes for a cuisine
@@ -166,7 +180,16 @@ export const getRecommendations = (mealTime: string, season: Season, cuisineId: 
     
     return combinedDishes as unknown as Dish[];
   } catch (error) {
-    console.error(`Error getting recommendations for ${cuisineId}:`, error);
+    // console.error(`Error getting recommendations for ${cuisineId}:`, error);
     return [];
   }
+};
+
+// Export all functions as a default object as well
+export default {
+  getCurrentSeason,
+  getTimeOfDay,
+  isDaytime,
+  getDayOfYear,
+  getMoonPhase
 }; 

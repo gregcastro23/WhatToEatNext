@@ -33,7 +33,7 @@ const isTestMode = args.includes('--test');
 
 // Safe logging
 function log(message) {
-  console.log(message);
+  // console.log(message);
   fs.appendFileSync(LOG_FILE, message + '\n');
 }
 

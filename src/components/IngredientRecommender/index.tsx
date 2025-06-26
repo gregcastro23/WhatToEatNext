@@ -1,7 +1,7 @@
 import { useAstrologicalState } from '@/context/AstrologicalContext';
 import { useEffect, useState, useMemo } from 'react';
 import { ElementalCalculator } from '@/services/ElementalCalculator';
-import { ElementalProperties } from '@/types/alchemy';
+import { _ElementalProperties } from '@/types/alchemy';
 import { getChakraBasedRecommendations, GroupedIngredientRecommendations, getIngredientRecommendations, IngredientRecommendation } from '@/utils/ingredientRecommender';
 import { Flame, Droplets, Mountain, Wind, Info, Clock, Tag, Leaf, X, ChevronDown, ChevronUp, Beaker } from 'lucide-react';
 import { useChakraInfluencedFood } from '@/hooks/useChakraInfluencedFood';
@@ -60,11 +60,11 @@ const ORDERED_CATEGORIES = [
 export default function IngredientRecommender() {
   // Use the context to get astrological data including chakra energies
   const astroState = useAstrologicalState();
-  const contextChakraEnergies = (astroState as any)?.chakraEnergies;
-  const planetaryPositions = (astroState as any)?.planetaryPositions;
-  const astroLoading = (astroState as any)?.isLoading || false;
-  const astroError = (astroState as any)?.error;
-  const currentZodiac = (astroState as any)?.currentZodiac;
+  const contextChakraEnergies = (astroState as unknown)?.chakraEnergies;
+  const planetaryPositions = (astroState as unknown)?.planetaryPositions;
+  const astroLoading = (astroState as unknown)?.isLoading || false;
+  const astroError = (astroState as unknown)?.error;
+  const currentZodiac = (astroState as unknown)?.currentZodiac;
   const [astroRecommendations, setAstroRecommendations] = useState<GroupedIngredientRecommendations>({});
   const [selectedIngredient, setSelectedIngredient] = useState<ExtendedIngredientRecommendation | null>(null);
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
@@ -128,7 +128,7 @@ export default function IngredientRecommender() {
   };
   
   // Handle ingredient selection to display details
-  const handleIngredientSelect = (item: any, e: React.MouseEvent) => {
+  const handleIngredientSelect = (item: Record<string, unknown>, e: React.MouseEvent) => {
     e.preventDefault(); // Prevent default behavior
     e.stopPropagation(); // Prevent event bubbling
     
@@ -184,7 +184,7 @@ export default function IngredientRecommender() {
   []);
   
   // Helper function to check if an ingredient is an oil
-  const isOil = (ingredient: any): boolean => {
+  const isOil = (ingredient: Record<string, unknown>): boolean => {
     const category = ingredient.category?.toLowerCase() || '';
     if (category === 'oil' || category === 'oils') return true;
     
@@ -193,7 +193,7 @@ export default function IngredientRecommender() {
   };
   
   // Helper function to check if an ingredient is a vinegar
-  const isVinegar = (ingredient: any): boolean => {
+  const isVinegar = (ingredient: Record<string, unknown>): boolean => {
     const category = ingredient.category?.toLowerCase() || '';
     if (category === 'vinegar' || category === 'vinegars') return true;
     
@@ -202,7 +202,7 @@ export default function IngredientRecommender() {
   };
   
   // Helper function to get normalized category
-  const getNormalizedCategory = (ingredient: any): string => {
+  const getNormalizedCategory = (ingredient: Record<string, unknown>): string => {
     if (!ingredient.category) return 'other';
     
     const category = ingredient.category.toLowerCase();
@@ -294,7 +294,7 @@ export default function IngredientRecommender() {
   };
   
   // Improved: Ensure all ingredients are categorized properly
-  const categorizeIngredient = (ingredient: any): string => {
+  const categorizeIngredient = (ingredient: Record<string, unknown>): string => {
     // Normalize the name for consistent checking
     const name = ingredient.name.toLowerCase().trim();
     
@@ -504,7 +504,7 @@ export default function IngredientRecommender() {
         ...astroState,
         lunarPhase: 'new moon',
         aspects: []
-      } as any, { limit: 40 });
+      } as unknown, { limit: 40 });
       
       // Merge the recommendations, prioritizing chakra-based ones
       const mergedRecommendations: GroupedIngredientRecommendations = {};
@@ -748,7 +748,7 @@ export default function IngredientRecommender() {
         }
         // For other ingredients, use explicit category if available
         else {
-          const category = getNormalizedCategory(ingredient as any);
+          const category = getNormalizedCategory(ingredient as unknown);
           if (categories[category]) {
             categories[category].push({
               ...ingredient,
@@ -793,7 +793,7 @@ export default function IngredientRecommender() {
     // Now add the astrological recommendations
     Object.entries(astroRecommendations).forEach(([category, items]) => {
       items.forEach(item => {
-        const normalizedCategory = getNormalizedCategory(item as any);
+        const normalizedCategory = getNormalizedCategory(item as unknown);
         const targetCategory = normalizedCategory === 'other' ? determineCategory(item.name) : normalizedCategory;
         
         if (categories[targetCategory]) {
@@ -881,7 +881,7 @@ export default function IngredientRecommender() {
       
       // Then apply the unique filter if needed
       if (category === 'spices' || category === 'seasonings') {
-        categories[category] = getUniqueRecommendations(categories[category] as any);
+        categories[category] = getUniqueRecommendations(categories[category] as unknown);
       } else {
         // For other categories, filter duplicates by name
         const uniqueMap = new Map<string, any>();
@@ -905,7 +905,7 @@ export default function IngredientRecommender() {
   }, [foodRecommendations, astroRecommendations, herbNames, oilTypes, vinegarTypes]);
   
   // Render ingredient details when selected
-  const renderIngredientDetails = (item: any) => {
+  const renderIngredientDetails = (item: Record<string, unknown>) => {
     return (
       <div className={styles.ingredientDetails}>
         {/* Description if available */}
@@ -987,7 +987,7 @@ export default function IngredientRecommender() {
               gap: '0.75rem'
             }}>
               {Object.entries((item as ExtendedIngredientRecommendation).culinaryApplications || {}).map(([method, details]) => {
-                const detailsData = details as any;
+                const detailsData = details as unknown;
                 return (
                   <div key={method} style={{
                     border: '1px solid rgba(229, 231, 235, 0.8)',
@@ -1146,7 +1146,7 @@ export default function IngredientRecommender() {
   };
   
   // Modified ingredient card rendering function to use in both views
-  const renderIngredientCard = (item: any) => {
+  const renderIngredientCard = (item: Record<string, unknown>) => {
     // Get dominant element for styling
     // Pattern KK-9: Cross-Module Arithmetic Safety for sort operations
     const dominantElement = Object.entries(item.elementalProperties || {})

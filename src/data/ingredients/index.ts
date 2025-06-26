@@ -124,7 +124,7 @@ const processIngredient = (ingredient: unknown, name: string): Ingredient => {
   };
 
   // Apply uniform standardization to the ingredient
-  const ingredientData = ingredient as any;
+  const ingredientData = ingredient as unknown;
   const standardized = {
     name: name,
     category: ingredientData?.category || 'culinary_herb',
@@ -150,7 +150,7 @@ const processIngredientCollection = (
 ): Record<string, Ingredient> => {
   return Object.entries(collection).reduce((acc, [key, value]) => {
     try {
-      const processedIngredient = processIngredient(value as any, key) as any;
+      const processedIngredient = processIngredient(value as unknown, key) as unknown;
 
       // Add alchemical and thermodynamic properties
       const alchemicalProps =
@@ -162,7 +162,7 @@ const processIngredientCollection = (
 
       // Determine modality
       const modality = determineIngredientModality(
-        (processedIngredient as any)?.qualities || [],
+        (processedIngredient as unknown)?.qualities || [],
         processedIngredient.elementalProperties
       );
 
@@ -187,14 +187,14 @@ const processIngredientCollection = (
           elementalSignature.length > 0 ? elementalSignature : undefined,
         // Process other enhanced properties if they exist
         astrologicalCorrespondence:
-          (processedIngredient as any)?.astrologicalCorrespondence || undefined,
+          (processedIngredient as unknown)?.astrologicalCorrespondence || undefined,
         pairingRecommendations:
-          (processedIngredient as any)?.pairingRecommendations || undefined,
-        celestialBoost: (processedIngredient as any)?.celestialBoost || undefined,
-        planetaryInfluence: (processedIngredient as any)?.planetaryInfluence || undefined,
+          (processedIngredient as unknown)?.pairingRecommendations || undefined,
+        celestialBoost: (processedIngredient as unknown)?.celestialBoost || undefined,
+        planetaryInfluence: (processedIngredient as unknown)?.planetaryInfluence || undefined,
       } as Ingredient;
     } catch (error) {
-      console.warn(`Skipping invalid ingredient ${key}:`, error);
+      // console.warn(`Skipping invalid ingredient ${key}:`, error);
     }
     return acc;
   }, {} as Record<string, Ingredient>);

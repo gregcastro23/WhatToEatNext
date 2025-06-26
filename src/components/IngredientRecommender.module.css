@@ -122,9 +122,12 @@
 
 .ingredientCard.selected {
   border-color: #6b46c1;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  min-height: 200px;
-  grid-column: span 2;
+  box-shadow: 0 8px 16px rgba(107, 70, 193, 0.15);
+  min-height: 400px;
+  grid-column: 1 / -1; /* Take full width for expanded view */
+  max-width: none;
+  z-index: 10;
+  position: relative;
 }
 
 .ingredientName {
@@ -398,9 +401,14 @@
 }
 
 .expandedView {
-  margin-top: 0.5rem;
-  padding-top: 0.25rem;
+  margin-top: 1rem;
+  padding: 0;
   animation: fadeIn 0.3s ease-in-out;
+  background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 @keyframes fadeIn {

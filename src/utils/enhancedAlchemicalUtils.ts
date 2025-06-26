@@ -4,7 +4,7 @@ import {
   generateEnhancedRecommendation,
   validateAlgorithms
 } from '../calculations/enhancedAlchemicalMatching';
-import { AlchemicalResult, ElementalProperties, ZodiacSign } from '@/types/alchemy';
+import { AlchemicalResult, _ElementalProperties, ZodiacSign } from '@/types/alchemy';
 import { getZodiacElementalInfluence } from './zodiacUtils';
 
 /**
@@ -26,7 +26,7 @@ export function getEnhancedFoodRecommendation(
   // Recipe generation functionality is deactivated
   // Return a placeholder with the dominant element information
   // Apply surgical type casting with variable extraction
-  const resultData = alchemicalResult as any;
+  const resultData = alchemicalResult as unknown;
   const dominant = resultData?.dominant;
   const dominantElement = dominant?.element || 'balanced';
   
@@ -41,7 +41,7 @@ export function getEnhancedFoodRecommendation(
   };
   
   // Original implementation commented out
-  // return generateEnhancedRecommendation(alchemicalResult, userPreferences, season);
+  // return generateEnhancedRecommendation(alchemicalResult, userPreferences, _season);
 }
 
 /**
@@ -122,7 +122,7 @@ export function generatePersonalizedMealPlan(
   userPreferences?: string[]
 ) {
   // Apply surgical type casting with variable extraction
-  const alchemicalResultData = alchemicalResult as any;
+  const alchemicalResultData = alchemicalResult as unknown;
   const dominant = alchemicalResultData?.dominant;
   
   // Recipe generation functionality is deactivated
@@ -137,7 +137,7 @@ export function generatePersonalizedMealPlan(
   const baseRecommendation = generateEnhancedRecommendation(
     alchemicalResult,
     userPreferences,
-    season
+    _season
   );
   
   // Define meal structure
@@ -262,7 +262,7 @@ export function enhanceAlchemicalCalculations(
   const basicRecommendation = getEnhancedFoodRecommendation(
     alchemicalResult,
     userPreferences,
-    season
+    _season
   );
   
   // Return basic recommendation for all cases while recipe generation is disabled

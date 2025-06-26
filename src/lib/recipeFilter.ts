@@ -1,5 +1,5 @@
 import type { Recipe, ElementalProperties } from '@/types/recipe';
-import { elementalUtils } from '@/utils/elementalUtils';
+import { _elementalUtils } from '@/utils/elementalUtils';
 
 // Calculate elemental harmony between two sets of elemental properties
 const calculateElementalHarmony = (

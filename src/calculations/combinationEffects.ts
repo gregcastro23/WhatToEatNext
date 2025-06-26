@@ -63,7 +63,7 @@ export function calculateCombinationEffects({
   ingredients,
   elementalProperties,
   cookingMethod,
-  season,
+  _season,
   temperature,
   lunarPhase
 }: CalculateEffectsParams): CombinationEffect[] {
@@ -106,9 +106,9 @@ export function calculateCombinationEffects({
     // Check elemental interactions
     effects.push(...calculateElementalInteractions(ingredients));
 
-    return effects.sort((a, b) => ((b as any)?.modifier || (b as any)?.strength || 0) - ((a as any)?.modifier || (a as any)?.strength || 0));
+    return effects.sort((a, b) => ((b as unknown)?.modifier || (b as unknown)?.strength || 0) - ((a as unknown)?.modifier || (a as unknown)?.strength || 0));
   } catch (error) {
-    console.error('Error calculating combination effects:', error);
+    // console.error('Error calculating combination effects:', error);
     return [];
   }
 }
@@ -143,7 +143,7 @@ const calculateElementalInteractions = (
         strength: 1.2,
         elements: ['Fire'] as Element[],
         description: 'Harmonious elemental combination'
-      } as any);
+      } as unknown);
     }
 
     if (isAntagonisticCombination(elem1, elem2)) {
@@ -153,7 +153,7 @@ const calculateElementalInteractions = (
         strength: 0.8,
         elements: ['Water'] as Element[],
         description: 'Conflicting elemental combination'
-      } as any);
+      } as unknown);
     }
   });
 
@@ -184,7 +184,7 @@ const isAntagonisticCombination = (
   elem1: ElementalProperties,
   elem2: ElementalProperties
 ): boolean => {
-  const antagonistic = (ELEMENT_COMBINATIONS as any)?.antagonistic || [];
+  const antagonistic = (ELEMENT_COMBINATIONS as unknown)?.antagonistic || [];
   return antagonistic.some(([e1, e2]: [any, any]) =>
     (getDominantElement(elem1) === e1 && getDominantElement(elem2) === e2) ||
     (getDominantElement(elem1) === e2 && getDominantElement(elem2) === e1)

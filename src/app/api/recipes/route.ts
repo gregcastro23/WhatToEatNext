@@ -68,7 +68,7 @@ export async function GET() {
       }
     });
   } catch (error) {
-    console.error('Recipe API Error:', error);
+    // console.error('Recipe API Error:', error);
     return NextResponse.json(
       { error: 'Failed to fetch recipes' },
       { status: 400 }
@@ -115,7 +115,7 @@ export async function POST(request: Request) {
     });
 
   } catch (error) {
-    console.error('Recipe submission error:', error);
+    // console.error('Recipe submission error:', error);
     return NextResponse.json(
       { error: 'Failed to process recipe' },
       { status: 500 }

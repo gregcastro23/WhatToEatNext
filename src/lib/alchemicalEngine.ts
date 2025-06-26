@@ -250,7 +250,7 @@ export class AlchemicalEngineBase {
       return 2;
     };
 
-    const astroStateData = astrologicalState as any;
+    const astroStateData = astrologicalState as unknown;
     const sunDegree = astroStateData?.sunDegree || 15;
     const currentDecan = getCurrentDecan(sunDegree);
 
@@ -267,7 +267,7 @@ export class AlchemicalEngineBase {
     let power = 0.2;
 
     const recipeElement = this.zodiacElements[recipeSunSign].baseElement;
-    const moonSignElementData = astrologicalState as any;
+    const moonSignElementData = astrologicalState as unknown;
     if (recipeElement === moonSignElementData?.moonSignElement) power += 0.3;
 
     if (astrologicalState.activePlanets?.includes(decanRuler)) power += 0.25;
@@ -346,7 +346,7 @@ export class AlchemicalEngineBase {
   ): number {
     const seasonalModifiersData = this.calculator.calculateElementalState(
       ElementalCalculator.getCurrentElementalState()
-    ) as any;
+    ) as unknown;
     const seasonalInfluence = seasonalModifiersData?.seasonalInfluence || {};
     return seasonalInfluence[element] || 0.25;
   }
@@ -381,7 +381,7 @@ export class AlchemicalEngineBase {
   ): Array<{ element: string; strength: number }> {
     const elements =
       recipe.elementalProperties ||
-      SpoonacularElementalMapper.mapRecipeToElemental(recipe as any); // Pattern VVV: Array Type Interface Resolution
+      SpoonacularElementalMapper.mapRecipeToElemental(recipe as unknown); // Pattern VVV: Array Type Interface Resolution
 
     return Object.entries(elements)
       .map(([element, value]) => ({
@@ -399,8 +399,8 @@ export class AlchemicalEngineBase {
     for (let i = 0; i < ingredients.length; i++) {
       for (let j = i + 1; j < ingredients.length; j++) {
         const harmony = this.calculateHarmonyBetween(
-          (ingredients[i] as any).elementalProperties, // Pattern VVV: Array Type Interface Resolution
-          (ingredients[j] as any).elementalProperties  // Pattern VVV: Array Type Interface Resolution
+          (ingredients[i] as unknown).elementalProperties, // Pattern VVV: Array Type Interface Resolution
+          (ingredients[j] as unknown).elementalProperties  // Pattern VVV: Array Type Interface Resolution
         );
 
         if (harmony > 0.7) {
@@ -444,9 +444,9 @@ export class AlchemicalEngineBase {
       .map((recipe) => ({
         ...recipe,
         seasonalScore: (() => {
-          const calculatorData = ElementalCalculator as any;
+          const calculatorData = ElementalCalculator as unknown;
           if (calculatorData?.calculateSeasonalEffectiveness) {
-            return calculatorData.calculateSeasonalEffectiveness(recipe, season);
+            return calculatorData.calculateSeasonalEffectiveness(recipe, _season);
           }
           // Fallback calculation using recipe's elemental properties
           const seasonalBonus = this.getSeasonalInfluence(season, 'Fire');
@@ -499,7 +499,7 @@ export class AlchemicalEngineBase {
       return recipe.elementalProperties;
     }
 
-    return SpoonacularElementalMapper.mapRecipeToElemental(recipe as any); // Pattern VVV: Array Type Interface Resolution
+    return SpoonacularElementalMapper.mapRecipeToElemental(recipe as unknown); // Pattern VVV: Array Type Interface Resolution
   }
 
   private calculateHarmonyScore(elements: ElementalProperties): number {

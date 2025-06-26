@@ -17,7 +17,7 @@ interface AstrologizeOptions {
 interface AstrologizeResult {
   loading: boolean;
   error: Error | null;
-  data: any;
+  data: Record<string, unknown>;
   refetch: () => Promise<void>;
 }
 
@@ -51,7 +51,7 @@ export function useAstrologize(options: AstrologizeOptions = {}): AstrologizeRes
     if (useCurrentLocation && !location) {
       const getLocation = async () => {
         try {
-          const coords = await (AstrologicalService as any)?.requestLocation?.();
+          const coords = await (AstrologicalService as unknown)?.requestLocation?.();
           if (coords) {
             setLocation({
               latitude: coords.latitude,
@@ -59,7 +59,7 @@ export function useAstrologize(options: AstrologizeOptions = {}): AstrologizeRes
             });
           }
         } catch (locationError) {
-          console.warn('Failed to get location, using default:', locationError);
+          // console.warn('Failed to get location, using default:', locationError);
           // Use default location (coordinates will be provided by the API)
           setLocation(null);
         }
@@ -109,7 +109,7 @@ export function useAstrologize(options: AstrologizeOptions = {}): AstrologizeRes
         }
       }
       
-      console.log(`🌟 Making ${method} request to astrologize API:`, { url, body: body ? JSON.parse(body) : 'GET params' });
+      // console.log(`🌟 Making ${method} request to astrologize API:`, { url, body: body ? JSON.parse(body) : 'GET params' });
       
       // Make the API request
       const response = await fetch(url, {
@@ -125,10 +125,10 @@ export function useAstrologize(options: AstrologizeOptions = {}): AstrologizeRes
       }
       
       const result = await response.json();
-      console.log('✅ Astrologize API response received:', result._celestialBodies ? 'Valid celestial data' : 'Unknown format');
+      // console.log('✅ Astrologize API response received:', result._celestialBodies ? 'Valid celestial data' : 'Unknown format');
       setData(result);
     } catch (fetchError) {
-      console.error('Error fetching from Astrologize API:', fetchError);
+      // console.error('Error fetching from Astrologize API:', fetchError);
       setError(fetchError instanceof Error ? fetchError : new Error('Unknown error'));
     } finally {
       setLoading(false);

@@ -44,7 +44,7 @@ import React, { useMemo } from 'react';
 import { getTopIngredientMatches } from '../../utils/recommendation/foodRecommendation';
 
 
-import { Element } from "@/types/alchemy";
+import { _Element } from "@/types/alchemy";
 
 
 interface IngredientRecommendationsProps {
@@ -64,7 +64,7 @@ export const IngredientRecommendations: React.FC<IngredientRecommendationsProps>
         const result = await getTopIngredientMatches(astrologicalState, 5);
         setRecommendedIngredients(Array.isArray(result) ? result : []);
       } catch (error) {
-        console.error('Error fetching recommendations:', error);
+        // console.error('Error fetching recommendations:', error);
         setRecommendedIngredients([]);
       } finally {
         setIsLoading(false);

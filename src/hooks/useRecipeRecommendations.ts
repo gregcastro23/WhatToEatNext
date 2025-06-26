@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
-import { Element } from "@/types/alchemy";
+import { _Element } from "@/types/alchemy";
 
 // Mock useAlchemical hook since the import is missing
 const useAlchemical = () => ({
@@ -58,7 +58,7 @@ export function useRecipeRecommendations(initialFilters?: Partial<RecipeRecommen
 
     Object.values(planetaryPositions || {}).forEach(position => {
       // Safe property access with type checking
-      const positionData = position as any;
+      const positionData = position as unknown;
       const sign = positionData?.sign || positionData?.Sign || '';
       const element = elementMap[sign.toLowerCase() as keyof typeof elementMap];
       if (element) {

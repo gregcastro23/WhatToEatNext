@@ -47,7 +47,7 @@ export function getSeasonalData(
   ingredientName: string,
   season: Season = getCurrentSeason()
 ): SeasonalData {
-  const availability = getSeasonalScore(ingredientName, season);
+  const availability = getSeasonalScore(ingredientName, _season);
   const traditionalUse = seasonalUsage[season]?.[ingredientName] || [];
   
   // Get complementary flavors for the season

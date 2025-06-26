@@ -1,13 +1,13 @@
 import { Recipe } from '@/types/recipe';
-import { Element , ElementalProperties ,
+import { _Element , _ElementalProperties ,
   AlchemicalValues,
-  ChakraEnergies,
-  LunarPhase,
+  _ChakraEnergies,
+  _LunarPhase,
   ZodiacSign,
   alchemicalValues,
   LunarPhaseWithSpaces 
 } from "@/types/alchemy";
-import { PlanetaryAlignment , AstrologicalState , PlanetaryPosition, CelestialPosition, AlchemicalProperties } from "@/types/celestial";
+import { PlanetaryAlignment , AstrologicalState , _PlanetaryPosition, _CelestialPosition, AlchemicalProperties } from "@/types/celestial";
 import { CHAKRA_NUTRITIONAL_CORRELATIONS, CHAKRA_HERBS } from "@/constants/chakraSymbols";
 
 /**

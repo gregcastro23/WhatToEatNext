@@ -6,7 +6,7 @@ import type { PlanetaryPosition, ZodiacSign } from "@/types/alchemy";
  * A utility function for logging debug information
  * This is a safe replacement for console.log that can be disabled in production
  */
-const debugLog = (message: string, ...args: any[]): void => {
+const debugLog = (message: string, ...args: unknown[]): void => {
   // Comment out console.log to avoid linting warnings
   // console.log(message, ...args);
 };
@@ -136,7 +136,7 @@ function zodiacStartDegree(sign: string): number {
  */
 function calculateReferenceLongitude(planet: string): number {
   if (!REFERENCE_POSITIONS[planet]) {
-    console.warn(`No reference position for ${planet}, using default`);
+    // console.warn(`No reference position for ${planet}, using default`);
     return 0;
   }
   

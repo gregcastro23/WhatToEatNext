@@ -12,7 +12,7 @@ import { unifiedRecommendationService } from '../UnifiedRecommendationService';
 import { Recipe } from '@/types/recipe';
 import { alchemicalRecommendationService } from '../AlchemicalRecommendationService';
 import { createLogger } from '../../utils/logger';
-import { Element , ElementalProperties } from "@/types/alchemy";
+import { _Element , _ElementalProperties } from "@/types/alchemy";
 import { PlanetaryAlignment } from "@/types/celestial";
 import { UnifiedIngredient } from '@/types/ingredient';
 import { CookingMethod } from '@/types/shared';
@@ -234,9 +234,9 @@ export class LegacyRecommendationAdapter {
   ) {
     try {
       return alchemicalRecommendationService.generateRecommendations(
-        planetaryPositions as any,
+        planetaryPositions as unknown,
         ingredients,
-        cookingMethods as any
+        cookingMethods as unknown
       );
     } catch (error) {
       logger.error('Error in generateAlchemicalRecommendations:', error);
@@ -272,7 +272,7 @@ export class LegacyRecommendationAdapter {
     try {
       return alchemicalRecommendationService.getRecipeRecommendations(
         recipe,
-        planetaryPositions as any
+        planetaryPositions as unknown
       );
     } catch (error) {
       logger.error(`Error in getRecipeRecommendations for recipe "${recipe.name}":`, error);

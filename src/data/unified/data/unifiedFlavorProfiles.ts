@@ -1,4 +1,4 @@
-import { ElementalProperties } from '../../../types/common';
+import { _ElementalProperties } from '../../../types/common';
 
 export interface UnifiedFlavorProfile {
   id: string;

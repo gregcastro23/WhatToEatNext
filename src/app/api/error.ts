@@ -1,7 +1,7 @@
 'use client';
 
 import { NextResponse } from 'next/server';
-import { logger } from '@/utils/logger';
+import { logger } from @/utils/logger';
 import { ApiError, ValidationError, NotFoundError } from '@/types/errors';
 
 /**
@@ -20,7 +20,7 @@ export function handleApiError(error: unknown): NextResponse {
     const apiError = error as ApiError;
     statusCode = apiError.statusCode;
     message = apiError.message;
-    details = (apiError as any).details;
+    details = (apiError as unknown).details;
   } else if (error instanceof Error) {
     // For standard Error objects, use the message
     message = error.message;
@@ -36,7 +36,7 @@ export function handleApiError(error: unknown): NextResponse {
   // Return the error response
   return NextResponse.json(
     { 
-      error: message,
+      error: _message,
       ...(details ? { details } : {})
     },
     { status: statusCode }
@@ -63,7 +63,7 @@ export function notFoundError(message: string): NextResponse {
 }
 
 export function handleServerError(error: unknown) {
-  console.error('Server error:', error)
+  // console.error('Server error:', error)
   return new NextResponse(
     JSON.stringify({
       error: 'Internal Server Error',

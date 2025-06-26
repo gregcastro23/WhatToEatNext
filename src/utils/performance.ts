@@ -1,5 +1,5 @@
 // Performance optimization utilities
-import { logger } from './logger';
+import { logger } from ./logger';
 
 /**
  * Interface for performance metrics collection
@@ -114,7 +114,7 @@ export function collectPerformanceMetrics(): PerformanceMetrics {
       }
       
       // Memory metrics (Chrome only)
-      const memory = (perf as any).memory;
+      const memory = (perf as unknown).memory;
       if (memory) {
         metrics.memoryUsage = {
           jsHeapSizeLimit: memory.jsHeapSizeLimit,

@@ -1,5 +1,5 @@
 import React from 'react';
-import { PlanetaryPosition } from "@/types/celestial";
+import { _PlanetaryPosition } from "@/types/celestial";
 
 interface PlanetaryPositionDisplayProps {
   planet: string;

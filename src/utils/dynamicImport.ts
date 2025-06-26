@@ -104,7 +104,7 @@ export async function safeImportAndExecuteKnown<R, A extends any[] = any[]>(
     const moduleExports = await MODULE_MAP[path]();
     
     // Type assertion to allow indexing with string
-    const func = (moduleExports as any)[functionName];
+    const func = (moduleExports as unknown)[functionName];
     
     if (typeof func !== 'function') {
       errorLog(`Function ${functionName} not found in module ${path}`);
@@ -134,7 +134,7 @@ export async function safeImportFunctionKnown<T extends (...args: unknown[]) => 
     const moduleExports = await MODULE_MAP[path]();
     
     // Type assertion to allow indexing with string
-    const func = (moduleExports as any)[functionName];
+    const func = (moduleExports as unknown)[functionName];
     
     if (typeof func !== 'function') {
       errorLog(`Function ${functionName} not found in module ${path}`);
@@ -197,7 +197,7 @@ export async function safeImportAndExecute<R, A extends any[] = any[]>(
           return null;
         }
         
-        const subModule = (astronomiaModule as any)[functionName];
+        const subModule = (astronomiaModule as unknown)[functionName];
         if (typeof subModule === 'undefined') {
           errorLog(`Astronomia submodule ${functionName} not found`);
           return null;
@@ -261,7 +261,7 @@ export async function safeImportAndExecute<R, A extends any[] = any[]>(
       const calculatedResults = {} as R;
       
       // Fix TS2339: Property does not exist on type 'R'
-      const resultData = calculatedResults as any;
+      const resultData = calculatedResults as unknown;
       
       // Add fallbacks for missing calculations
       if (!resultData.elementalCounts) {
@@ -313,7 +313,7 @@ export async function safeImportFunction<T extends (...args: unknown[]) => any>(
         }
         
         // Return the submodule from the dynamic import
-        const subModule = (astronomiaModule as any)[functionName];
+        const subModule = (astronomiaModule as unknown)[functionName];
         if (typeof subModule === 'undefined') {
           errorLog(`Astronomia submodule ${functionName} not found`);
           return null;
@@ -367,5 +367,5 @@ export async function dynamicImportAndExecute<R, A extends any[] = any[], F = R>
   fallbackFn: ((...args: A) => F) | null = null
 ): Promise<R | F | null> {
   debugLog('dynamicImportAndExecute is deprecated, use safeImportAndExecute instead');
-  return safeImportAndExecute<R, A>(path, functionName, args);
+  return safeImportAndExecute<R, A>(path, functionName, _args);
 } 

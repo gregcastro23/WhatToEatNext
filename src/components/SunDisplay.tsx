@@ -34,7 +34,7 @@ const SunDisplay: React.FC = () => {
   useEffect(() => {
     const getLocation = async () => {
       try {
-        const coords = await (AstrologicalService as any)?.requestLocation?.();
+        const coords = await (AstrologicalService as unknown)?.requestLocation?.();
         if (coords) {
           setCoordinates({
             latitude: coords.latitude,
@@ -42,7 +42,7 @@ const SunDisplay: React.FC = () => {
           });
         }
       } catch (error) {
-        console.error('Failed to get location, using default:', error);
+        // console.error('Failed to get location, using default:', error);
       }
     };
     
@@ -74,7 +74,7 @@ const SunDisplay: React.FC = () => {
             calculating: false
           });
         } else {
-          console.warn('Failed to calculate sun times, using defaults');
+          // console.warn('Failed to calculate sun times, using defaults');
           setSunTimes(prev => ({ ...prev, calculating: false }));
         }
         
@@ -94,10 +94,10 @@ const SunDisplay: React.FC = () => {
             altitude: position.altitude
           });
         } else {
-          console.warn('Failed to calculate sun position');
+          // console.warn('Failed to calculate sun position');
         }
       } catch (error) {
-        console.error('Error calculating sun data:', error);
+        // console.error('Error calculating sun data:', error);
         setSunTimes(prev => ({
           ...prev,
           calculating: false
@@ -157,9 +157,9 @@ const SunDisplay: React.FC = () => {
         <div className="flex items-center">
           <span className="text-3xl mr-3">☉</span>
           <div>
-            <p className="font-medium">{(sun as any)?.sign || 'Unknown'}</p>
+            <p className="font-medium">{(sun as unknown)?.sign || 'Unknown'}</p>
             <p className="text-sm text-amber-200">
-              {sun && (sun as any)?.degree !== undefined ? formatDegree((sun as any)?.degree) : ''}
+              {sun && (sun as unknown)?.degree !== undefined ? formatDegree((sun as unknown)?.degree) : ''}
             </p>
           </div>
         </div>
@@ -179,7 +179,7 @@ const SunDisplay: React.FC = () => {
       {expanded && (
         <div className="mt-4 border-t border-amber-700 pt-4">
           <p className="text-sm text-amber-200 mb-3">
-            The Sun in {(sun as any)?.sign} brings energy of confidence, vitality, and creative expression.
+            The Sun in {(sun as unknown)?.sign} brings energy of confidence, vitality, and creative expression.
           </p>
           
           <div className="bg-amber-800 rounded p-3 mt-2">

@@ -15,9 +15,9 @@ import {
   thermodynamicCalculator,
   convertToElementalState
 } from './gregsEnergy';
-import { Planet } from '../constants/planetaryFoodAssociations';
+import { _Planet } from '../constants/planetaryFoodAssociations';
 import { signs, planetInfo } from '../data/astroData';
-import { StandardizedAlchemicalResult, ElementalProperties, PlanetaryPosition } from '@/types/alchemy';
+import { StandardizedAlchemicalResult, _ElementalProperties, _PlanetaryPosition } from '@/types/alchemy';
 
 /**
  * Calculate elemental balance based on properties
@@ -825,7 +825,7 @@ export type AlchemicalResult = StandardizedAlchemicalResult;
 /**
  * Main function to calculate alchemical properties based on planetary positions
  */
-export function alchemize(planetaryPositions: Record<string, PlanetaryPosition>, isDaytime = true, lunarPhase?: string, retrogrades?: Record<string, boolean>): AlchemicalResult {
+export function alchemize(planetaryPositions: Record<string, PlanetaryPosition>, _isDaytime = true, lunarPhase?: string, retrogrades?: Record<string, boolean>): AlchemicalResult {
   // Initialize alchemical properties
   let spirit = 0;
   let essence = 0;
@@ -849,7 +849,7 @@ export function alchemize(planetaryPositions: Record<string, PlanetaryPosition>,
     if (!planetInfo[planetKey as keyof typeof planetInfo]) continue;
     
     // Get the sign the planet is in
-    const sign = (position as any).sign?.toLowerCase() || '';
+    const sign = (position as unknown).sign?.toLowerCase() || '';
     
     // Get the planet's alchemical properties
     const planetData = planetInfo[planetKey as keyof typeof planetInfo];
@@ -908,7 +908,7 @@ export function alchemize(planetaryPositions: Record<string, PlanetaryPosition>,
     }
     
     // Special handling for specific planets
-    const planetDataObj = planetData as any;
+    const planetDataObj = planetData as unknown;
     if (planetKey === 'Moon' && lunarPhase && planetDataObj.PlanetSpecific?.Lunar?.Phases) {
       const lunarData = planetDataObj.PlanetSpecific.Lunar;
       const phaseData = lunarData.Phases[lunarPhase];

@@ -115,7 +115,7 @@ export function FlavorEngineProvider({ children }: { children: ReactNode }) {
           }
         } catch (err) {
           const error = err instanceof Error ? err : new Error('Unknown error initializing flavor engine');
-          console.error('Failed to initialize flavor engine:', err);
+          // console.error('Failed to initialize flavor engine:', err);
           
           // Update global state
           globalInitState.error = error;

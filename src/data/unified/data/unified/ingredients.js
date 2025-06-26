@@ -59,7 +59,7 @@ function calculateMonica(kalchm, thermodynamics) {
  */
 function enhanceIngredient(ingredient, sourceCategory) {
     // Create alchemical properties if not present
-    const alchemicalProperties = ingredient.alchemicalProperties || {
+    const _alchemicalProperties = ingredient.alchemicalProperties || {
         Spirit: 0.25,
         Essence: 0.25,
         Matter: 0.25,

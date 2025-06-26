@@ -76,7 +76,7 @@ export function validatePlanetaryPositions(positions?: Record<string, unknown>):
       }
       
       // Safe access to calculated properties
-      const calculatedData = calculated as any;
+      const calculatedData = calculated as unknown;
       
       // Convert our formatting to match reference format
       const formattedCalculated: PlanetaryPosition = {
@@ -119,7 +119,7 @@ export function validatePlanetaryPositions(positions?: Record<string, unknown>):
       differences: diff
     };
   } catch (error) {
-    console.error("Error validating planetary positions:", error);
+    // console.error("Error validating planetary positions:", error);
     return {
       accurate: false,
       differences: { error: String(error) }
@@ -143,7 +143,7 @@ export function getValidationSummary(): string {
   summary += `Overall Accuracy: ${accurate ? 'PASSED ✓' : 'FAILED ✗'}\n\n`;
   
   Object.entries(differences).forEach(([planet, data]) => {
-    const planetData = data as any;
+    const planetData = data as unknown;
     
     if (planetData?.status === 'missing') {
       summary += `${planet}: MISSING\n`;
@@ -183,10 +183,10 @@ export async function fetchLatestPositions(): Promise<Record<string, unknown>> {
     }
     
     const data = await response.json();
-    const responseData = data as any;
+    const responseData = data as unknown;
     return responseData?.calculatedPositions || {};
   } catch (error) {
-    console.error('Error fetching latest positions:', error);
+    // console.error('Error fetching latest positions:', error);
     return {};
   }
 }
@@ -207,7 +207,7 @@ export async function validateAgainstAPI(): Promise<{ accurate: boolean, differe
   
   // Compare each planet
   Object.entries(REFERENCE_POSITIONS).forEach(([planet, refPosition]) => {
-    const calculatedPosition = (calculatedPositions as any)?.[planet];
+    const calculatedPosition = (calculatedPositions as unknown)?.[planet];
     
     if (!calculatedPosition) {
       differences[planet] = { status: 'missing' };
@@ -216,7 +216,7 @@ export async function validateAgainstAPI(): Promise<{ accurate: boolean, differe
     }
     
     // Safe access to calculated position data
-    const positionData = calculatedPosition as any;
+    const positionData = calculatedPosition as unknown;
     
     const formattedCalculated: PlanetaryPosition = {
       sign: (positionData?.sign || '').toLowerCase(),
@@ -262,7 +262,7 @@ export function validatePlanetaryPositionsStructure(positions: Record<string, un
   return requiredPlanets.every(planet => {
     const p = positions[planet];
     // Apply safe type casting for property access
-    const planetData = p as any;
+    const planetData = p as unknown;
     return planetData && 
       typeof planetData?.longitude === 'number' &&
       planetData.longitude >= 0 && planetData.longitude < 360 &&

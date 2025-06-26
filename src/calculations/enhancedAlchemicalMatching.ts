@@ -1,8 +1,8 @@
 import { 
-  ElementalProperties, 
+  _ElementalProperties, 
   ZodiacSign, 
   AlchemicalResult,
-  PlanetaryPosition,
+  _PlanetaryPosition,
   StandardizedAlchemicalResult
 } from '@/types/alchemy';
 import { planetInfo, signs } from '../data/astroData';
@@ -925,7 +925,7 @@ export function validateAlgorithms(): {
       score: 0.7
     };
     
-    const recommendation = generateEnhancedRecommendation(mockResult as any, [], 'summer');
+    const recommendation = generateEnhancedRecommendation(mockResult as unknown, [], 'summer');
     
     recipeTest.passed = Boolean(
       recommendation &&

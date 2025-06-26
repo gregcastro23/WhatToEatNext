@@ -75,7 +75,7 @@ export async function GET(request: Request) {
     let targetFoodId = foodId;
     
     if (!targetFoodId && query) {
-      console.log(`Searching for: ${query}`);
+      // console.log(`Searching for: ${query}`);
       const searchResponse = await fetch(
         `${USDA_API_BASE}/foods/search?query=${encodeURIComponent(query)}&pageSize=10&dataType=SR%20Legacy,Foundation,Survey%20(FNDDS)&sortBy=dataType.keyword&sortOrder=asc&api_key=${USDA_API_KEY}`,
         { cache: 'no-store' }
@@ -101,7 +101,7 @@ export async function GET(request: Request) {
       }
       
       targetFoodId = bestMatch.fdcId;
-      console.log(`Found food: ${bestMatch.description} (${targetFoodId}) [${bestMatch.dataType}]`);
+      // console.log(`Found food: ${bestMatch.description} (${targetFoodId}) [${bestMatch.dataType}]`);
     }
     
     // Step 2: Fetch detailed nutritional data using all available endpoints
@@ -190,7 +190,7 @@ export async function GET(request: Request) {
     });
     
   } catch (error) {
-    console.error('Error fetching from USDA API:', error);
+    // console.error('Error fetching from USDA API:', error);
     return NextResponse.json(
       { error: 'Failed to fetch data from USDA API' },
       { status: 500 }
@@ -201,7 +201,7 @@ export async function GET(request: Request) {
 // Count the number of vitamin entries in a foodNutrients array
 function countVitamins(nutrients: NutrientData[]): number {
   return nutrients.filter(n => {
-    const name = ((n as any).nutrient?.name || (n as any).nutrientName || (n as any).name || '').toLowerCase();
+    const name = ((n as unknown).nutrient?.name || (n as unknown).nutrientName || (n as unknown).name || '').toLowerCase();
     return name.includes('vitamin');
   }).length;
 }
@@ -212,8 +212,8 @@ function getBestEndpoint(results: Record<string, unknown>): string {
   let maxVitamins = 0;
   
   for (const [endpoint, data] of Object.entries(results)) {
-    if ((data as any).vitaminCount && (data as any).vitaminCount > maxVitamins) {
-      maxVitamins = (data as any).vitaminCount;
+    if ((data as unknown).vitaminCount && (data as unknown).vitaminCount > maxVitamins) {
+      maxVitamins = (data as unknown).vitaminCount;
       bestEndpoint = endpoint;
     }
   }
@@ -226,11 +226,11 @@ function getTotalVitaminsFound(results: Record<string, unknown>): number {
   const vitamins = new Set<string>();
   
   for (const data of Object.values(results)) {
-    if ((data as any).data) {
-      const nutrients = Array.isArray((data as any).data) ? (data as any).data[0]?.foodNutrients : (data as any).data.foodNutrients;
+    if ((data as unknown).data) {
+      const nutrients = Array.isArray((data as unknown).data) ? (data as unknown).data[0]?.foodNutrients : (data as unknown).data.foodNutrients;
       if (nutrients) {
         nutrients.forEach((n: unknown) => {
-          const name = ((n as any).nutrient?.name || (n as any).nutrientName || (n as any).name || '').toLowerCase();
+          const name = ((n as unknown).nutrient?.name || (n as unknown).nutrientName || (n as unknown).name || '').toLowerCase();
           if (name.includes('vitamin')) {
             vitamins.add(name);
           }

@@ -2,8 +2,8 @@
 import { Recipe } from '@/types/recipe';
 import { calculateComprehensiveAlchemicalResult } from './calculations/index';
 // TODO: Fix import - add what to import from "./types/alchemy.ts"
-import { Element } from "@/types/alchemy";
-import { PlanetaryPosition } from "@/types/celestial";
+import { _Element } from "@/types/alchemy";
+import { _PlanetaryPosition } from "@/types/celestial";
 // Comprehensive test for the streamlined alchemical calculation system
 
 
@@ -51,7 +51,7 @@ async function testStreamlinedSystem() {
     console.log(`  Dominant Property: ${result.kalchm.dominantProperty}\n`);
 
     console.log('🌟 ELEMENTAL PROPERTIES:');
-    const resultData = result as any;
+    const resultData = result as unknown;
     const elementalState = resultData?.elementalState || resultData?.kalchm?.elementalProperties || { Fire: 0, Water: 0, Air: 0, Earth: 0 };
     console.log(`  Fire: ${(elementalState.Fire * 100)?.toFixed(1)}%`);
     console.log(`  Water: ${(elementalState.Water * 100)?.toFixed(1)}%`);

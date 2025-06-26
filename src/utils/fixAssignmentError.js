@@ -4,7 +4,7 @@
  */
 
 // Fix for getElementRanking that uses let properly
-export function getElementRanking(element_object, rank) {
+export function getElementRanking(element_object, _rank) {
   if (!element_object) {
     return { 1: 'Fire' };
   }
@@ -192,7 +192,7 @@ export function safeAlchemize(birthInfo, horoscopeDict) {
       }
     };
   } catch (error) {
-    console.error('[safeAlchemize] Error:', error);
+    // console.error('[safeAlchemize] Error:', error);
     return {
       sunSign: 'aries',
       dominantElement: 'Fire',
@@ -274,7 +274,7 @@ if (typeof window !== 'undefined') {
             const safeFn = window.__safetyPatches[methodName === 'alchemize' ? 'safeAlchemize' : methodName];
             if (safeFn) {
               obj[methodName] = safeFn;
-              console.log(`[FixAssignmentError] Patched ${objName}.${methodName}`);
+              // console.log(`[FixAssignmentError] Patched ${objName}.${methodName}`);
             }
           }
         });
@@ -283,14 +283,14 @@ if (typeof window !== 'undefined') {
         if (obj.default && typeof obj.default === 'object') {
           if (typeof obj.default.alchemize === 'function') {
             obj.default.alchemize = safeAlchemize;
-            console.log(`[FixAssignmentError] Patched ${objName}.default.alchemize`);
+            // console.log(`[FixAssignmentError] Patched ${objName}.default.alchemize`);
           }
         }
       }
     } catch (e) {
-      console.error(`[FixAssignmentError] Error patching ${objName}:`, e);
+      // console.error(`[FixAssignmentError] Error patching ${objName}:`, e);
     }
   });
   
-  console.log('[FixAssignmentError] Successfully patched problematic functions');
+  // console.log('[FixAssignmentError] Successfully patched problematic functions');
 } 

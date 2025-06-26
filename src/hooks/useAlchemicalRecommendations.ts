@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { RulingPlanet } from '../constants/planets';
 import { ElementalCharacter, AlchemicalProperty } from '../constants/planetaryElements';
 import { ElementalItem } from '../calculations/alchemicalTransformation';
-import { AlchemicalItem , LunarPhase, LunarPhaseWithSpaces, ZodiacSign, PlanetaryAspect } from '../types/alchemy';
+import { AlchemicalItem , _LunarPhase, LunarPhaseWithSpaces, ZodiacSign, PlanetaryAspect } from '../types/alchemy';
 import { RecommendationAdapter } from '../services/RecommendationAdapter';
 import { AlchemicalRecommendations } from '../services/AlchemicalTransformationService';
 
@@ -79,7 +79,7 @@ export const useAlchemicalRecommendations = ({
 
         // Initialize with planetary data and context
         adapter.initialize(
-          planetPositions as any,
+          planetPositions as unknown,
           isDaytime,
           currentZodiac || null,
           lunarPhase || null,
@@ -105,7 +105,7 @@ export const useAlchemicalRecommendations = ({
         setRecommendations(recs);
         
         // Apply deep type conversion to resolve cross-import conflicts
-        const convertToLocalAlchemicalItem = (items: any[]): AlchemicalItem[] => {
+        const convertToLocalAlchemicalItem = (items: unknown[]): AlchemicalItem[] => {
           return items.map(item => {
             // Create a new object that fully satisfies the alchemicalTransformation.AlchemicalItem interface
             const convertedItem = {

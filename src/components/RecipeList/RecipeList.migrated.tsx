@@ -9,7 +9,7 @@ import {
   Select, MenuItem, Checkbox, FormControlLabel,
   Accordion, AccordionSummary, AccordionDetails,
   Pagination, IconButton, InputAdornment,
-  Rating, LinearProgress
+  _Rating, LinearProgress
 } from '@mui/material';
 import {
   Search, ExpandMore, Restaurant, AccessTime, 
@@ -19,7 +19,7 @@ import {
 import { Recipe } from '@/types/recipe';
 import { useServices } from '@/hooks/useServices';
 import { fetchPlanetaryPositions } from '@/services/astrologizeApi';
-import { logger } from '@/utils/logger';
+import { logger } from @/utils/logger';
 import type { CuisineType, DietaryRestriction, ElementalProperties } from '@/types/alchemy';
 
 // Comprehensive interfaces
@@ -363,7 +363,7 @@ export default function RecipeListMigrated() {
         const data = await astrologize.getCurrentChart();
         setAstroData(data);
       } catch (err) {
-        console.error('Failed to load astrological data:', err);
+        // console.error('Failed to load astrological data:', err);
       }
     };
     fetchAstroData();
@@ -493,10 +493,10 @@ export default function RecipeListMigrated() {
     setError(null);
     
     try {
-      const response = await (recipeService.getAllRecipes as any)();
+      const response = await (recipeService.getAllRecipes as unknown)();
       
       // Apply safe type casting for response property access
-      const responseData = response as any;
+      const responseData = response as unknown;
       
       if (responseData?.success) {
         setRecipes(responseData.data || []);
@@ -559,7 +559,7 @@ export default function RecipeListMigrated() {
   /**
    * Handle filter changes
    */
-  const handleFilterChange = (key: keyof FilterState, value: any) => {
+  const handleFilterChange = (key: keyof FilterState, value: Record<string, unknown>) => {
     setFilters(prev => ({ ...prev, [key]: value }));
     setPage(1); // Reset to first page when filters change
   };

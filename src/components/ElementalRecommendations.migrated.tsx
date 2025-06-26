@@ -1,13 +1,13 @@
 'use client';
 
-import { ElementalProperties } from '@/types';
-import { Element } from '@/types/elemental';
+import { _ElementalProperties } from '@/types';
+import { _Element } from '@/types/elemental';
 import React, { useState, useEffect, useMemo } from 'react';
 import { useServices } from '@/hooks/useServices';
 
 
 
-import { PlanetaryPosition } from "@/types/celestial";
+import { _PlanetaryPosition } from "@/types/celestial";
 interface ElementalRecommendation {
   element: Element;
   recommendation: string;
@@ -47,7 +47,7 @@ const ElementalRecommendationsMigrated: React.FC<ElementalRecommendationsProps> 
         const positions = await astrologyService.getCurrentPlanetaryPositions();
         
         // Get daytime status
-        const isDaytime = await astrologyService.isDaytime();
+        const _isDaytime = await astrologyService.isDaytime();
         
         // Calculate elemental properties - using a simplified approach
         const properties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
@@ -58,14 +58,14 @@ const ElementalRecommendationsMigrated: React.FC<ElementalRecommendationsProps> 
         setDominantElement(dominant);
         
         // Get recommendations based on elemental properties and optional target element
-        const elementalRecommendations = await (recommendationService as any)?.getElementalRecommendations?.(
+        const elementalRecommendations = await (recommendationService as unknown)?.getElementalRecommendations?.(
           properties,
           targetElement
         );
         
         setRecommendations(elementalRecommendations);
       } catch (err) {
-        console.error('Error loading elemental data:', err);
+        // console.error('Error loading elemental data:', err);
       }
     };
     

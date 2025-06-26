@@ -7,7 +7,7 @@
 
 
 import type { ElementalProperties } from "@/types/alchemy";
-import { Element } from "@/types/alchemy";
+import { _Element } from "@/types/alchemy";
 
 /**
  * Cuisine recommendation result

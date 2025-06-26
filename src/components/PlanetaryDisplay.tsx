@@ -1,6 +1,6 @@
 import React, { useMemo, useCallback } from 'react';
 import { getTimeFactors, TimeFactors } from '@/types/time';
-import { PlanetaryPosition } from '@/types/celestial';
+import { _PlanetaryPosition } from '@/types/celestial';
 
 // Planet symbols lookup
 const PLANET_SYMBOLS: { [key: string]: string } = {
@@ -98,7 +98,7 @@ const PlanetaryTimeDisplay: React.FC<PlanetaryTimeDisplayProps> = ({
     try {
       return getTimeFactors();
     } catch (error) {
-      console.error("Failed to get time factors:", error);
+      // console.error("Failed to get time factors:", error);
       // Return default values if there's an error
       return {
         currentDate: new Date(),
@@ -164,7 +164,7 @@ const PlanetaryDisplay: React.FC<PlanetaryDisplayProps> = ({
     try {
       return getTimeFactors();
     } catch (error) {
-      console.error("Failed to get time factors:", error);
+      // console.error("Failed to get time factors:", error);
       // Return default values if there's an error
       return {
         currentDate: new Date(),

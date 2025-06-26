@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { stateManager } from '@/utils/stateManager';
 import { themeManager } from '@/utils/theme';
-import { logger } from '@/utils/logger';
+import { logger } from @/utils/logger';
 import { 
   Settings as SettingsIcon,
   Moon,
@@ -189,7 +189,7 @@ export default function Settings() {
               animations: settings.appearance.animations,
             },
             dietary: {
-              restrictions: settings.dietary.restrictions as any,
+              restrictions: settings.dietary.restrictions as unknown,
               favorites: settings.dietary.favorites,
               excluded: settings.dietary.excluded,
               spiciness: settings.dietary.spiciness,

@@ -63,7 +63,7 @@ export default function Navigation() {
           setNotifications(state.ui.notifications);
         });
       } catch (error) {
-        console.error('Failed to initialize state manager:', error);
+        // console.error('Failed to initialize state manager:', error);
       }
     };
     

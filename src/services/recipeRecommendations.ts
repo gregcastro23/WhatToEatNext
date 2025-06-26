@@ -1,5 +1,5 @@
 import { celestialCalculator } from './celestialCalculations';
-import { logger } from '../utils/logger';
+import { logger } from ../utils/logger';
 import { createError } from '../utils/errorHandling';
 import type { Recipe, ScoredRecipe } from '../types/recipe';
 import type { ElementalProperties, Ingredient } from '../types/alchemy';
@@ -182,7 +182,7 @@ export class RecipeRecommender {
     const recipeElements = this.aggregateIngredients(recipe.ingredients);
     
     // Get current date and check if we're in Aries season (roughly March 21 - April 19)
-    const currentDate = new Date();
+    const _currentDate = new Date();
     const month = currentDate.getMonth(); // 0-indexed (0 = January)
     const day = currentDate.getDate();
     const isAriesSeason = (month === 2 && day >= 21) || (month === 3 && day <= 19); // March 21 - April 19

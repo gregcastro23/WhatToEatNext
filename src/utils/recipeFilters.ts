@@ -1,5 +1,5 @@
 import { logger } from './logger';
-import { Recipe, RecipeFilters } from '@/types/recipe';
+import { Recipe, _RecipeFilters } from '@/types/recipe';
 import type { ScoredRecipe } from '@/types/recipe';
 import type {
   ElementalProperties,
@@ -516,7 +516,7 @@ export class RecipeFilter {
         // Cooking method filter
         if (
           options.cookingMethod?.length &&
-          !options.cookingMethod.includes(recipe.cookingMethod as any)
+          !options.cookingMethod.includes(recipe.cookingMethod as unknown)
         ) {
           return false;
         }
@@ -694,7 +694,7 @@ export function filterRecipesByIngredientMappings(
   // Process each recipe
   const results = recipes.map((recipe) => {
     // Find ingredient mappings
-    const mappedIngredients = connectIngredientsToMappings(recipe as any);
+    const mappedIngredients = connectIngredientsToMappings(recipe as unknown);
 
     // Calculate base match score
     let score = 0.5; // Start with neutral score
@@ -783,7 +783,7 @@ export function filterRecipesByIngredientMappings(
         ingredientRequirements.dietaryRestrictions.every((restriction) =>
           Array.isArray(recipe.dietaryInfo) 
             ? recipe.dietaryInfo.includes(restriction)
-            : (recipe.dietaryInfo as any)?.includes?.(restriction) || false
+            : (recipe.dietaryInfo as unknown)?.includes?.(restriction) || false
         );
 
       if (!meetsRestrictions) {

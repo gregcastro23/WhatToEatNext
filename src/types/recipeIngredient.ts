@@ -1,4 +1,4 @@
-import { Ingredient, ElementalProperties } from './index';
+import { Ingredient, _ElementalProperties } from './index';
 
 /**
  * Recipe ingredient interface that extends the base Ingredient 
@@ -81,7 +81,7 @@ export interface SimpleIngredient {
 /**
  * Validates that an object conforms to the RecipeIngredient interface
  */
-export function validateIngredient(obj: any): obj is RecipeIngredient {
+export function validateIngredient(obj: Record<string, unknown>): obj is RecipeIngredient {
   return obj && 
          typeof obj.name === 'string' && 
          typeof obj.amount === 'number' && 

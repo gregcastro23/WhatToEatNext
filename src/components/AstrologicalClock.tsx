@@ -5,7 +5,7 @@ import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { useCurrentChart } from '@/hooks/useCurrentChart';
 import { Clock, Sun, Moon, Star, Loader2, Info } from 'lucide-react';
 import type { ZodiacSign, PlanetaryAlignment } from '@/types/alchemy';
-import { calculatePlanetaryPositions, longitudeToZodiacPosition, getPlanetaryDignity } from '@/utils/astrologyUtils';
+import { _calculatePlanetaryPositions, longitudeToZodiacPosition, getPlanetaryDignity } from '@/utils/astrologyUtils';
 import PlanetaryPositionValidation from './PlanetaryPositionValidation';
 import { PlanetInfoModal } from './PlanetInfoModal';
 
@@ -45,7 +45,7 @@ const ZODIAC_SYMBOLS: Record<string, string> = {
 // Use the imported PlanetaryPosition type directly
 function isValidPosition(pos: unknown): boolean {
   // Apply surgical type casting with variable extraction
-  const posData = pos as any;
+  const posData = pos as unknown;
   const sign = posData?.sign;
   const degree = posData?.degree;
   
@@ -179,7 +179,7 @@ const AstrologicalClock: React.FC = () => {
               <tbody>
                 {Object.entries(chartData.planets).map(([planet, data]) => {
                   // Apply surgical type casting with variable extraction
-                  const planetData = data as any;
+                  const planetData = data as unknown;
                   const sign = planetData?.sign;
                   const degree = planetData?.degree;
                   const isRetrograde = planetData?.isRetrograde;

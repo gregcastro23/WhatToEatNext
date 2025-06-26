@@ -249,7 +249,7 @@ export interface PlanetaryPosition {
  */
 export function alchemize(
   planetaryPositions: Record<string, PlanetaryPosition>,
-  isDaytime = true,
+  _isDaytime = true,
   lunarPhase?: string,
   retrogrades?: Record<string, boolean>
 ): AlchemicalResult {

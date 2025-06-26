@@ -18,12 +18,12 @@ const ChromeAPITest = () => {
       if (!window.chrome.tabs) {
         window.chrome.tabs = {
           create: function(options) {
-            console.log('Mock chrome.tabs.create called with:', options);
+            console.log('Mock chrome.tabs.create called with:', _options);
             try {
               window.open(options?.url || 'about:blank', '_blank');
               return Promise.resolve({id: 999, url: options?.url});
             } catch (e) {
-              console.warn('Error opening URL:', (e as any)?.message);
+              console.warn('Error opening URL:', (e as unknown)?.message);
               return Promise.reject(e);
             }
           }

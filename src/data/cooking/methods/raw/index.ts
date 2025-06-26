@@ -5,7 +5,7 @@ import type { CookingMethodData } from '@/types/cookingMethod';
  */
 export const rawCookingMethods: Record<string, CookingMethodData> = {
   raw: {
-    name: 'raw' as any,
+    name: 'raw' as unknown,
     description: 'Serving food without applying heat, preserving natural nutrients and enzymes',
     elementalEffect: { Fire: 0.1, Water: 0.4, Earth: 0.2, Air: 0.3 },
     duration: { min: 0, max: 30 },
@@ -14,7 +14,7 @@ export const rawCookingMethods: Record<string, CookingMethodData> = {
   },
   
   marinating: {
-    name: 'marinating' as any,
+    name: 'marinating' as unknown,
     description: 'Soaking food in acidic or enzymatic solutions to tenderize and flavor',
     elementalEffect: { Fire: 0.1, Water: 0.5, Earth: 0.2, Air: 0.2 },
     duration: { min: 30, max: 1440 }, // 30 minutes to 24 hours
@@ -23,7 +23,7 @@ export const rawCookingMethods: Record<string, CookingMethodData> = {
   },
   
   curing: {
-    name: 'curing' as any,
+    name: 'curing' as unknown,
     description: 'Preserving food with salt, sugar, or other curing agents',
     elementalEffect: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     duration: { min: 60, max: 10080 }, // 1 hour to 1 week
@@ -32,7 +32,7 @@ export const rawCookingMethods: Record<string, CookingMethodData> = {
   },
   
   pickling: {
-    name: 'pickling' as any,
+    name: 'pickling' as unknown,
     description: 'Preserving in acidic solutions like vinegar or brine',
     elementalEffect: { Fire: 0.1, Water: 0.4, Earth: 0.3, Air: 0.2 },
     duration: { min: 60, max: 2160 }, // 1 hour to 1.5 days

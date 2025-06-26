@@ -5,7 +5,7 @@
  * with robust fallback mechanisms when API calls fail.
  */
 
-import { CelestialPosition } from '@/types/celestial';
+import { _CelestialPosition } from '@/types/celestial';
 
 // Cache system to avoid frequent API calls
 interface PositionsCache {
@@ -29,13 +29,13 @@ export async function getReliablePlanetaryPositions(date: Date = new Date()): Pr
     if (positionsCache && 
         positionsCache.date === dateString && 
         (Date.now() - positionsCache.timestamp) < CACHE_DURATION) {
-      console.log('Using cached planetary positions');
+      // console.log('Using cached planetary positions');
       return positionsCache.positions;
     }
     
     // Primary: Call NASA JPL Horizons API for each planet
     try {
-      console.log('Fetching planetary positions from NASA JPL Horizons API');
+      // console.log('Fetching planetary positions from NASA JPL Horizons API');
       const positions = await fetchHorizonsData(date);
       
       if (positions && Object.keys(positions).length > 0) {
@@ -49,13 +49,13 @@ export async function getReliablePlanetaryPositions(date: Date = new Date()): Pr
         return positions;
       }
     } catch (error) {
-      console.error('Error fetching from NASA JPL Horizons:', error);
+      // console.error('Error fetching from NASA JPL Horizons:', error);
       // Continue to secondary API
     }
     
     // Secondary: Try public API
     try {
-      console.log('Fetching planetary positions from public astronomy API');
+      // console.log('Fetching planetary positions from public astronomy API');
       const positions = await fetchPublicApiData(date);
       
       if (positions && Object.keys(positions).length > 0) {
@@ -69,14 +69,14 @@ export async function getReliablePlanetaryPositions(date: Date = new Date()): Pr
         return positions;
       }
     } catch (error) {
-      console.error('Error fetching from public API:', error);
+      // console.error('Error fetching from public API:', error);
       // Continue to third API
     }
     
     // Tertiary: Try TimeAndDate.com API if credentials are available
     if (process.env.TIMEANDDATE_API_KEY && process.env.TIMEANDDATE_API_SECRET) {
       try {
-        console.log('Fetching planetary positions from TimeAndDate.com API');
+        // console.log('Fetching planetary positions from TimeAndDate.com API');
         const positions = await fetchTimeAndDateData(date);
         
         if (positions && Object.keys(positions).length > 0) {
@@ -90,7 +90,7 @@ export async function getReliablePlanetaryPositions(date: Date = new Date()): Pr
           return positions;
         }
       } catch (error) {
-        console.error('Error fetching from TimeAndDate.com API:', error);
+        // console.error('Error fetching from TimeAndDate.com API:', error);
         // Continue to fallback
       }
     }
@@ -98,10 +98,10 @@ export async function getReliablePlanetaryPositions(date: Date = new Date()): Pr
     // All APIs failed, use fallback
     throw new Error('All API sources failed');
   } catch (error) {
-    console.error('Error fetching planetary positions:', error);
+    // console.error('Error fetching planetary positions:', error);
     
     // Use the updated positions
-    console.log('Using hardcoded accurate planetary positions for March 2025');
+    // console.log('Using hardcoded accurate planetary positions for March 2025');
     return getMarch2025Positions(date);
   }
 }
@@ -159,7 +159,7 @@ async function fetchHorizonsData(date: Date): Promise<Record<string, unknown>> {
           }
         }
       } catch (error) {
-        console.error(`Error fetching ${planet.name} position:`, error);
+        // console.error(`Error fetching ${planet.name} position:`, error);
         // Individual planet fetch failures don't fail the whole batch
       }
     });
@@ -178,7 +178,7 @@ async function fetchHorizonsData(date: Date): Promise<Record<string, unknown>> {
     
     return positions;
   } catch (error) {
-    console.error('Error in batch planet fetching:', error);
+    // console.error('Error in batch planet fetching:', error);
     throw error;
   }
 }
@@ -221,7 +221,7 @@ function processHorizonsResponse(result: string, planetName: string): unknown {
       isRetrograde
     };
   } catch (error) {
-    console.error(`Error processing ${planetName} data:`, error);
+    // console.error(`Error processing ${planetName} data:`, error);
     return null;
   }
 }
@@ -277,7 +277,7 @@ function calculateLunarNode(date: Date, nodeType: 'northNode' | 'southNode'): un
       isRetrograde: true // Both nodes are always retrograde
     };
   } catch (error) {
-    console.error(`Error calculating ${nodeType}:`, error);
+    // console.error(`Error calculating ${nodeType}:`, error);
     
     // Return fixed values from March 2025
     if (nodeType === 'northNode') {
@@ -302,7 +302,7 @@ function dateToJulian(date: Date): number {
  */
 function getMarch2025Positions(date: Date | any = new Date()): Record<string, unknown> {
   // Ensure date is a valid Date object
-  const validDate = date instanceof Date && !isNaN(date.getTime()) 
+  const _validDate = date instanceof Date && !isNaN(date.getTime()) 
     ? date 
     : new Date();
   
@@ -383,7 +383,7 @@ async function fetchPublicApiData(date: Date): Promise<Record<string, unknown>> 
       // Process each planet
       if (data && Array.isArray(data)) {
         data.forEach((planet: unknown) => {
-          const planetData = planet as any;
+          const planetData = planet as unknown;
           if (planetData?.name && planetData?.longitude !== undefined && planetNameMap[planetData.name.toLowerCase()]) {
             const standardName = planetNameMap[planetData.name.toLowerCase()];
             const exactLongitude = parseFloat(planetData.longitude);
@@ -416,7 +416,7 @@ async function fetchPublicApiData(date: Date): Promise<Record<string, unknown>> 
       
       // If too many planets are missing, the data might be unreliable
       if (missingCount > 3) {
-        console.warn(`Too many planets missing (${missingCount}), using fallback data`);
+        // console.warn(`Too many planets missing (${missingCount}), using fallback data`);
         return getMarch2025Positions(date);
       }
       
@@ -425,12 +425,12 @@ async function fetchPublicApiData(date: Date): Promise<Record<string, unknown>> 
       // Clear the timeout to avoid memory leaks
       clearTimeout(timeoutId);
       
-      console.error('Fetch operation failed:', fetchError);
+      // console.error('Fetch operation failed:', fetchError);
       // Let the outer try/catch handle this
       throw fetchError;
     }
   } catch (error) {
-    console.error('Error in fetchPublicApiData:', error);
+    // console.error('Error in fetchPublicApiData:', error);
     // Instead of propagating the error, return the fallback positions
     return getMarch2025Positions(date);
   }
@@ -446,7 +446,7 @@ async function fetchTimeAndDateData(date: Date): Promise<Record<string, unknown>
     const apiSecret = process.env.TIMEANDDATE_API_SECRET;
     
     if (!apiKey || !apiSecret) {
-      console.warn('TimeAndDate API credentials not found');
+      // console.warn('TimeAndDate API credentials not found');
       return getMarch2025Positions(date);
     }
     
@@ -488,7 +488,7 @@ async function fetchTimeAndDateData(date: Date): Promise<Record<string, unknown>
       
       if (data && data.objects && Array.isArray(data.objects)) {
         data.objects.forEach((obj: unknown) => {
-          const objData = obj as any;
+          const objData = obj as unknown;
           if (objData?.name && objData?.position && typeof objData.position?.eclipticLongitude === 'number') {
             const planetName = objData.name.charAt(0).toUpperCase() + objData.name.slice(1);
             const { sign, degree } = getLongitudeToZodiacSign(objData.position.eclipticLongitude);
@@ -520,7 +520,7 @@ async function fetchTimeAndDateData(date: Date): Promise<Record<string, unknown>
       
       // If too many planets are missing, the data might be unreliable
       if (missingCount > 3) {
-        console.warn(`Too many planets missing (${missingCount}), using fallback data`);
+        // console.warn(`Too many planets missing (${missingCount}), using fallback data`);
         return getMarch2025Positions(date);
       }
       
@@ -529,7 +529,7 @@ async function fetchTimeAndDateData(date: Date): Promise<Record<string, unknown>
         positions.northNode = calculateLunarNode(date, 'northNode');
         positions.southNode = calculateLunarNode(date, 'southNode');
       } catch (nodeError) {
-        console.warn('Error calculating lunar nodes:', nodeError);
+        // console.warn('Error calculating lunar nodes:', nodeError);
         // Use fallback data for nodes
         const fallback = getMarch2025Positions();
         positions.northNode = fallback.northNode;
@@ -541,12 +541,12 @@ async function fetchTimeAndDateData(date: Date): Promise<Record<string, unknown>
       // Clear the timeout to avoid memory leaks
       clearTimeout(timeoutId);
       
-      console.error('Fetch operation failed:', fetchError);
+      // console.error('Fetch operation failed:', fetchError);
       // Let the outer try/catch handle this
       throw fetchError;
     }
   } catch (error) {
-    console.error('Error in TimeAndDate API:', error);
+    // console.error('Error in TimeAndDate API:', error);
     // Instead of propagating the error, return fallback positions
     return getMarch2025Positions(date);
   }

@@ -1,5 +1,5 @@
 // Item types for the application
-import { ElementalProperties } from './common';
+import { _ElementalProperties } from './common';
 import { AlchemicalProperties } from './alchemy';
 
 export interface BaseItem {

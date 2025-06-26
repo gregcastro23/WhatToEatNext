@@ -78,9 +78,9 @@ class RecipeEnhancer {
      */
     static elementToElementalProperties(element) {
         const elementMap = {
-            'Fire': any,
-            'Water': any,
-            'Earth': any,
+            'Fire': Record<string, unknown>,
+            'Water': Record<string, unknown>,
+            'Earth': Record<string, unknown>,
             'Air': { Fire: 0.05, Water: 0.05, Earth: 0.1, Air: 0.8 }
         };
         return elementMap[element?.toLowerCase()] || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };

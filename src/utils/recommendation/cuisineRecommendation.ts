@@ -1,4 +1,4 @@
-import { ElementalProperties } from '../../types/common';
+import { _ElementalProperties } from '../../types/common';
 import { CuisineType } from '../../types/recipe';
 
 export interface CuisineRecommendation {

@@ -17,11 +17,11 @@ export default function ScriptLoader() {
             script.src = src;
             script.async = false;
             script.onload = () => {
-              console.log(`[ScriptLoader] Loaded: ${src}`);
+              // console.log(`[ScriptLoader] Loaded: ${src}`);
               resolve();
             };
             script.onerror = (error) => {
-              console.error(`[ScriptLoader] Failed to load: ${src}`, error);
+              // console.error(`[ScriptLoader] Failed to load: ${src}`, error);
               reject(error);
             };
             document.head.appendChild(script);
@@ -44,11 +44,11 @@ export default function ScriptLoader() {
         setTimeout(() => {
           if (window.ClickFix && typeof window.ClickFix.fixAllComponents === 'function') {
             window.ClickFix.fixAllComponents();
-            console.log('[ScriptLoader] Applied component fixes');
+            // console.log('[ScriptLoader] Applied component fixes');
           }
         }, 500);
       } catch (error) {
-        console.error('[ScriptLoader] Error loading scripts:', error);
+        // console.error('[ScriptLoader] Error loading scripts:', error);
       }
     };
 

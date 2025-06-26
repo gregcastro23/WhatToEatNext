@@ -4,19 +4,19 @@ import type { ElementalProperties } from '@/types/alchemy';
 // Define FoodRecommendationsProps interface
 interface FoodRecommendationsProps {
   elementalProfile?: ElementalProperties;
-  onRecommendationSelect?: (recommendation: any) => void;
+  onRecommendationSelect?: (recommendation: Record<string, unknown>) => void;
   maxRecommendations?: number;
 }
 
 import { testCookingMethodRecommendations } from '../utils/testRecommendations';
 
 const FoodRecommendations = (props: FoodRecommendationsProps) => {
-  const ingredient = (props as any)?.ingredient;
-  const options = (props as any)?.options || {};
+  const ingredient = (props as unknown)?.ingredient;
+  const options = (props as unknown)?.options || {};
   const [showDebug, setShowDebug] = useState(false);
   
   const runDebugTest = () => {
-    console.log("Running cooking method recommendations test...");
+    // console.log("Running cooking method recommendations test...");
     testCookingMethodRecommendations();
   };
   

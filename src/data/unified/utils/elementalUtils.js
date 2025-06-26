@@ -335,7 +335,7 @@ function calculateUniqueness(elements, planetaryInfluence) {
     // Boost uniqueness with planetary influence
     return Math.min(1, uniqueness * (1 + planetaryInfluence * 0.3));
 }
-function transformItemsWithPlanetaryPositions(items, planetaryPositions, isDaytime = true, currentZodiac, lunarPhase, tarotElementBoosts, tarotPlanetaryBoosts) {
+function transformItemsWithPlanetaryPositions(items, planetaryPositions, _isDaytime = true, currentZodiac, lunarPhase, tarotElementBoosts, tarotPlanetaryBoosts) {
     // Validate inputs
     if (!items || !Array.isArray(items) || items.length === 0) {
         return [];

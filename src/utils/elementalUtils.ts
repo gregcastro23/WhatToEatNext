@@ -22,11 +22,11 @@ import {
 import { AlchemicalItem } from '@/calculations/alchemicalTransformation';
 import { ElementalCharacter } from '@/constants/planetaryElements';
 import {
-  LunarPhase,
+  _LunarPhase,
   calculatePlanetaryBoost,
 } from '@/constants/planetaryFoodAssociations';
 import { 
-  isElementalProperties, 
+  _isElementalProperties, 
   isElementalPropertyKey, 
   logUnexpectedValue 
 } from '@/utils/validation';
@@ -75,7 +75,7 @@ export const validateElementalProperties = (
 ): boolean => {
   // If properties is null or undefined, return false immediately
   if (!properties) {
-    console.warn('Warning: properties is null or undefined in validateElementalProperties');
+    // console.warn('Warning: properties is null or undefined in validateElementalProperties');
     return false;
   }
 
@@ -83,7 +83,7 @@ export const validateElementalProperties = (
   const requiredElements = ['Fire', 'Water', 'Earth', 'Air'];
   for (const element of requiredElements) {
     if (typeof properties[element] !== 'number') {
-      console.warn(`Warning: properties.${element} is not a number in validateElementalProperties`);
+      // console.warn(`Warning: properties.${element} is not a number in validateElementalProperties`);
       return false;
     }
 
@@ -123,7 +123,7 @@ export const normalizeProperties = (
 ): ElementalProperties => {
   // Handle null or undefined
   if (!properties) {
-    console.warn('Warning: properties is null or undefined in normalizeProperties');
+    // console.warn('Warning: properties is null or undefined in normalizeProperties');
     return { ...DEFAULT_ELEMENTAL_PROPERTIES };
   }
 
@@ -139,7 +139,7 @@ export const normalizeProperties = (
 
   if (sum === 0) {
     // If sum is 0, return balanced default
-    console.warn('Warning: properties sum is 0 in normalizeProperties');
+    // console.warn('Warning: properties sum is 0 in normalizeProperties');
     return { ...DEFAULT_ELEMENTAL_PROPERTIES };
   }
 
@@ -149,7 +149,7 @@ export const normalizeProperties = (
       acc[key] = value /sum;
     } else {
       // This shouldn't happen with the type-safety above, but just in case
-      console.warn(`Warning: invalid key ${key} in normalizeProperties`);
+      // console.warn(`Warning: invalid key ${key} in normalizeProperties`);
     }
     return acc;
   }, { ...DEFAULT_ELEMENTAL_PROPERTIES });
@@ -168,7 +168,7 @@ export const standardizeRecipeElements = <
 ): T & { elementalProperties: ElementalProperties } => {
   // Handle null /undefined recipe
   if (!recipe) {
-    console.warn('Warning: recipe is null or undefined in standardizeRecipeElements');
+    // console.warn('Warning: recipe is null or undefined in standardizeRecipeElements');
     return {
       elementalProperties: { ...DEFAULT_ELEMENTAL_PROPERTIES }
     } as T & { elementalProperties: ElementalProperties };
@@ -209,7 +209,7 @@ export const getMissingElements = (
 
   // Check for null /undefined
   if (!properties) {
-    console.warn('Warning: properties is null or undefined in getMissingElements');
+    // console.warn('Warning: properties is null or undefined in getMissingElements');
     return ['Fire', 'Water', 'Earth', 'Air']; // Return all elements as missing
   }
 
@@ -474,12 +474,12 @@ export const elementalUtils = {
    * Pattern OO-3: Utility Import Alignment - Format consistency helper
    * Ensures elemental property keys are in lowercase format
    */
-  ensureLowercaseFormat(properties: any): any {
+  ensureLowercaseFormat(properties: Record<string, unknown>): any {
     if (!properties || typeof properties !== 'object') {
       return properties;
     }
     
-    const lowercaseProps: any = {};
+    const lowercaseProps: Record<string, unknown> = {};
     for (const [key, value] of Object.entries(properties)) {
       // Convert capitalized element names to lowercase
       const lowerKey = key.toLowerCase();
@@ -533,7 +533,7 @@ function calculateUniqueness(
 export function transformItemsWithPlanetaryPositions(
   items: ElementalItem[],
   planetaryPositions: Record<string, unknown>,
-  isDaytime = true,
+  _isDaytime = true,
   currentZodiac?: string,
   lunarPhase?: LunarPhase,
   tarotElementBoosts?: Record<ElementalCharacter, number>,
@@ -616,7 +616,7 @@ export function transformItemsWithPlanetaryPositions(
     )[0][0] as ElementalCharacter;
 
     // Calculate dominant alchemical property
-    const alchemicalProperties = {
+    const _alchemicalProperties = {
       Spirit: boostedSpirit,
       Essence: boostedEssence,
       Matter: boostedMatter,
@@ -641,8 +641,8 @@ export function transformItemsWithPlanetaryPositions(
         .sort(([_, valA], [__, valB]) => {
           // Sort by strength /dignity if available
           if (typeof valA === 'object' && typeof valB === 'object') {
-            const dataA = valA as any;
-            const dataB = valB as any;
+            const dataA = valA as unknown;
+            const dataB = valB as unknown;
             const strengthA = dataA?.strength || 0;
             const strengthB = dataB?.strength || 0;
             return strengthB - strengthA;
@@ -734,7 +734,7 @@ export function normalizeElementalValues(
 export function getPrimaryElement(
   elementalAffinity: ElementalAffinity
 ): string {
-  const affinityData = elementalAffinity as any;
+  const affinityData = elementalAffinity as unknown;
   return (
     affinityData?.base || affinityData?.element || 'Fire'
   );
@@ -744,7 +744,7 @@ export function getPrimaryElement(
 export function getElementStrength(
   elementalAffinity: ElementalAffinity
 ): number {
-  const affinityData = elementalAffinity as any;
+  const affinityData = elementalAffinity as unknown;
   return affinityData?.strength || 1;
 }
 
@@ -823,7 +823,7 @@ export function fixRawIngredientMappings(
     // Skip null or undefined values
     if (!value) return acc;
 
-    const valueData = value as any;
+    const valueData = value as unknown;
     // Ensure elemental properties are normalized
     const elementalProperties = normalizeProperties(
       valueData?.elementalProperties || {}
@@ -1376,7 +1376,7 @@ export function enhanceOilProperties(
       Object.entries(enhancedOil.culinaryApplications).forEach(
         ([appType, application]) => {
           if (application && typeof application === 'object') {
-            const appData = application as any;
+            const appData = application as unknown;
             enhancedOil.culinaryApplications[appType] = {
               ...application,
               elementalEffect: appData?.elementalEffect || {
@@ -1550,12 +1550,12 @@ export function getDefaultElementalProperties(): ElementalProperties {
   return DEFAULT_ELEMENTAL_PROPERTIES;
 }
 
-export function ensureLowercaseFormat(properties: any): any {
+export function ensureLowercaseFormat(properties: Record<string, unknown>): any {
   if (!properties || typeof properties !== 'object') {
     return properties;
   }
   
-  const lowercaseProps: any = {};
+  const lowercaseProps: Record<string, unknown> = {};
   for (const [key, value] of Object.entries(properties)) {
     // Convert capitalized element names to lowercase
     const lowerKey = key.toLowerCase();

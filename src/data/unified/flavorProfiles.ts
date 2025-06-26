@@ -10,7 +10,7 @@ import type { // ===== UNIFIED FLAVOR PROFILE SYSTEM =====
   CookingMethod,
   AlchemicalValues,
   ThermodynamicProperties } from "@/types/alchemy";
-import { createElementalProperties, calculateElementalCompatibility } from '../../utils/elemental/elementalUtils';
+import { _createElementalProperties, calculateElementalCompatibility } from '../../utils/elemental/elementalUtils';
 import { unifiedSeasonalSystem } from './seasonal';
 import { unifiedCuisineIntegrationSystem } from './cuisineIntegrations';
 

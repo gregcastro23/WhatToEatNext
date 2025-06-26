@@ -1,6 +1,6 @@
-import { Element , ElementalProperties , 
+import { _Element , _ElementalProperties , 
   ZodiacSign, 
-  LunarPhase 
+  _LunarPhase 
 } from "@/types/alchemy";
 
 
@@ -14,7 +14,7 @@ import { Element , ElementalProperties ,
 import { 
   Recipe, 
   RecipeIngredient, 
-  ElementalProperties as RecipeElementalProperties
+  _ElementalProperties as RecipeElementalProperties
 } from './recipe';
 
 
@@ -122,7 +122,7 @@ export interface ExtendedRecipe extends Recipe {
   keywords?: string[];
   
   // Allow additional dynamic properties - this ensures compatibility
-  [key: string]: any;
+  [key: string]: Record<string, unknown>;
 }
 
 /**

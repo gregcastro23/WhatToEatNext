@@ -1,7 +1,7 @@
 // import { celestialBodies } from '../data/celestial/bodies';
 import { celestialNumerology } from '../utils/numerology';
-import { logger } from '../utils/logger';
-import { cache } from '../utils/cache';
+import { logger } from ../utils/logger';
+import { _cache } from '../utils/cache';
 import type { CelestialAlignment, ElementalProperties, EnergyStateProperties, ChakraEnergies, ZodiacSign, AspectType, PlanetaryAspect, CelestialBody } from '../types/alchemy';
 import type { LunarPhase } from '../types/shared';
 import type { TarotCard } from '../lib/tarotCalculations';
@@ -175,7 +175,7 @@ class CelestialCalculator {
       const hour = now.getHours();
       
       // Determine current zodiac sign
-      const zodiacSign = this.determineZodiacSign(month, day);
+      const _zodiacSign = this.determineZodiacSign(month, day);
       
       // Get current planetary positions
       let planetaryPositions: PlanetaryPositionRecord = {};
@@ -201,7 +201,7 @@ class CelestialCalculator {
       const dominantPlanets = this.determineDominantPlanets(now.getDay(), hour, planetaryPositions);
       
       // Calculate lunar phase
-      const lunarPhase = this.calculateLunarPhase(now);
+      const _lunarPhase = this.calculateLunarPhase(now);
       
       // Calculate elemental balance
       const elementalBalance = this.calculateElementalBalance(zodiacSign, dominantPlanets, lunarPhase);
@@ -700,7 +700,7 @@ class CelestialCalculator {
     
     // If it's a full moon, add lunar influence
     const now = new Date();
-    const lunarPhase = this.calculateLunarPhase(now);
+    const _lunarPhase = this.calculateLunarPhase(now);
     if (lunarPhase === 'full') {
       dominantPlanets.push({ name: 'Moon', influence: 0.6 });
     }
@@ -802,14 +802,14 @@ class CelestialCalculator {
     // Try to use the astronomy calculator if available
     try {
       // Apply safe type casting for module property access
-      const calculator = astronomiaCalculator as any;
+      const calculator = astronomiaCalculator as unknown;
       if (typeof calculator !== 'undefined' && 
           typeof calculator?.calculateLunarPhase === 'function') {
-        const lunarPhase = calculator.calculateLunarPhase(date);
+        const _lunarPhase = calculator.calculateLunarPhase(date);
         if (lunarPhase) return lunarPhase;
       }
     } catch (error) {
-      console.warn('Failed to use astronomy calculator for lunar phase:', error);
+      // console.warn('Failed to use astronomy calculator for lunar phase:', error);
     }
     
     // More accurate calculation using precise synodic period and reference date
@@ -1229,7 +1229,7 @@ class CelestialCalculator {
       const jupiterPlanet = alignment.dominantPlanets.find(p => p.name === 'Jupiter');
       if (jupiterPlanet) {
         const jupiterInfluence = jupiterPlanet.influence;
-        const jupiterEffect = (jupiterPlanet as any).effect as 'expansive' | 'balanced' | 'restricted';
+        const jupiterEffect = (jupiterPlanet as unknown).effect as 'expansive' | 'balanced' | 'restricted';
         
         // Apply effects based on Jupiter's condition
         if (jupiterEffect === 'expansive') {
@@ -1257,7 +1257,7 @@ class CelestialCalculator {
       const saturnPlanet = alignment.dominantPlanets.find(p => p.name === 'Saturn');
       if (saturnPlanet) {
         const saturnInfluence = saturnPlanet.influence;
-        const saturnEffect = (saturnPlanet as any).effect as 'restrictive' | 'balanced' | 'softened';
+        const saturnEffect = (saturnPlanet as unknown).effect as 'restrictive' | 'balanced' | 'softened';
         
         // Apply effects based on Saturn's condition
         if (saturnEffect === 'restrictive') {
@@ -1423,11 +1423,11 @@ class CelestialCalculator {
         const value = valueMap[cardName.split('_')[0]] || 0;
         
         // Get elemental association
-        const affinityData = MINOR_ARCANA_ELEMENTAL_AFFINITIES[suit as keyof typeof MINOR_ARCANA_ELEMENTAL_AFFINITIES] as any;
+        const affinityData = MINOR_ARCANA_ELEMENTAL_AFFINITIES[suit as keyof typeof MINOR_ARCANA_ELEMENTAL_AFFINITIES] as unknown;
         const { element, _energyState } = affinityData;
         
         // Determine the zodiac sign based on the date
-        const zodiacSign = this.determineZodiacSign(month, day);
+        const _zodiacSign = this.determineZodiacSign(month, day);
         
         // Create and return the minor arcana card
         const displayName = cardName.split('_').map(word => 

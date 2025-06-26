@@ -1,4 +1,4 @@
-import { ZodiacSign, ElementalProperties } from '@/types/alchemy';
+import { ZodiacSign, _ElementalProperties } from '@/types/alchemy';
 import { zodiacSeasons } from '@/data/zodiacSeasons';
 
 // Create element modifiers based on zodiac sign's element

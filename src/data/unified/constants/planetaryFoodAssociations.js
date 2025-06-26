@@ -260,13 +260,13 @@ const getLunarPhaseBoost = (lunarPhase) => {
     // Different lunar phases enhance different elemental and alchemical properties
     // Map lunar phases to elemental and alchemical influences
     const lunarInfluences = {
-        'new moon': any,
-        'waxing crescent': any,
-        'first quarter': any,
-        'waxing gibbous': any,
-        'full moon': any,
-        'waning gibbous': any,
-        'last quarter': any,
+        'new moon': Record<string, unknown>,
+        'waxing crescent': Record<string, unknown>,
+        'first quarter': Record<string, unknown>,
+        'waxing gibbous': Record<string, unknown>,
+        'full moon': Record<string, unknown>,
+        'waning gibbous': Record<string, unknown>,
+        'last quarter': Record<string, unknown>,
         'waning crescent': { element: 'Earth', alchemical: 'Matter', intensity: 0.7 }
     };
     // Get lunar influence data or provide fallback

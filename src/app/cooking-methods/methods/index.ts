@@ -38,7 +38,7 @@ export interface CookingMethodInfo {
     max: number;
     unit?: string;
   };
-  alchemical_properties?: any;
+  alchemical_properties?: Record<string, unknown>;
   tools?: string[] | string;
   famous_dishes?: string[] | string;
   health_benefits?: string[] | string;

@@ -1,4 +1,4 @@
-import { ElementalProperties } from '../types/elemental';
+import { _ElementalProperties } from '../types/elemental';
 import { 
   SpoonacularNutrient, 
   SpoonacularNutrition, 

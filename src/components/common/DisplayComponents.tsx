@@ -80,7 +80,7 @@ export const AlchemicalPropertiesDisplay: React.FC<AlchemicalPropertiesDisplayPr
 // Chakra Energies Display Component
 export const ChakraEnergiesDisplay: React.FC<ChakraEnergiesDisplayProps> = ({ compact = false }) => {
   const { state } = useAlchemical();
-  const chakraEnergies = (state as any)?.chakraEnergies || null;
+  const chakraEnergies = (state as unknown)?.chakraEnergies || null;
 
   const getColorIntensity = (energy: number): number => {
     return Math.min(Math.max(energy * 100, 10), 100);
@@ -200,7 +200,7 @@ export const ElementalEnergyDisplay: React.FC<ElementalEnergyDisplayProps> = ({ 
   }
 
   const { elementalState, alchemicalValues } = state;
-  const thermodynamicMetrics = (state as any)?.thermodynamicMetrics || null;
+  const thermodynamicMetrics = (state as unknown)?.thermodynamicMetrics || null;
 
   return (
     <div className={styles.container}>

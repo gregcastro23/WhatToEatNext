@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server';
-import { calculatePlanetaryPositions, calculateAspects, getDefaultPlanetaryPositions } from '@/utils/astrologyUtils';
+import { _calculatePlanetaryPositions, calculateAspects, getDefaultPlanetaryPositions } from '@/utils/astrologyUtils';
 import { getAccuratePlanetaryPositions } from '@/utils/accurateAstronomy';
-import { cache } from '@/utils/cache';
+import { _cache } from '@/utils/cache';
 
 const CACHE_KEY = 'planetary-positions';
-const CACHE_TTL = 1 * 60; // 1 minute cache timeout
+const _CACHE_TTL = 1 * 60; // 1 minute cache timeout
 
 // GET endpoint returns default positions
 export async function GET() {
@@ -25,7 +25,7 @@ export async function GET() {
       source: 'default-positions'
     });
   } catch (error) {
-    console.error('API Error:', error);
+    // console.error('API Error:', error);
     return NextResponse.json(
       { error: 'Failed to calculate positions', fallback: true },
       { status: 500 }
@@ -53,7 +53,7 @@ export async function POST(request: Request) {
     );
     
     if (!hasValidPositions) {
-      console.warn("Some planetary positions are invalid or incomplete");
+      // console.warn("Some planetary positions are invalid or incomplete");
     }
     
     const aspects = calculateAspects(positions);
@@ -64,7 +64,7 @@ export async function POST(request: Request) {
       timestamp: new Date().toISOString()
     });
   } catch (error) {
-    console.error('Error calculating planetary positions:', error);
+    // console.error('Error calculating planetary positions:', error);
     return NextResponse.json({ 
       message: 'Error calculating planetary positions',
       error: error instanceof Error ? error.message : 'Unknown error'

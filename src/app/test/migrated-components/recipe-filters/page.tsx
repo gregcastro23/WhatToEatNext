@@ -93,7 +93,7 @@ export default function RecipeFiltersTestPage() {
         <ul className="list-disc pl-6 space-y-2">
           <li>The original filtering functionality was embedded within the RecipeList component</li>
           <li>We've extracted this into a separate RecipeFilters component following the service-based architecture pattern</li>
-          <li>The migrated component uses the useServices hook to fetch reference data (cuisines, meal types, dietary options)</li>
+          <li>The migrated component uses the useServices hook to fetch reference data (cuisines, meal types, dietary _options)</li>
           <li>Proper loading, error, and empty states have been implemented</li>
           <li>The component maintains all original filtering functionality</li>
           <li>Added improved TypeScript typing with proper interfaces</li>

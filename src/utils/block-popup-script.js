@@ -7,12 +7,12 @@
 (function() {
   if (typeof window === 'undefined') return;
 
-  console.log('[BlockPopupScript] Installing popup.js blocking');
+  // console.log('[BlockPopupScript] Installing popup.js blocking');
 
   // Create a robust popup implementation upfront
   window.popup = window.popup || {
     create: function() {
-      console.log('[BlockedPopup] Using safe create');
+      // console.log('[BlockedPopup] Using safe create');
       return {
         show: function() { console.log('[BlockedPopup] show called'); return this; },
         hide: function() { console.log('[BlockedPopup] hide called'); return this; },
@@ -34,7 +34,7 @@
     if (arguments[1] && typeof arguments[1] === 'string') {
       // If this is trying to load popup.js, log it and continue without actually loading
       if (arguments[1].includes('popup.js')) {
-        console.warn('[BlockPopupScript] Blocked XHR request to popup.js');
+        // console.warn('[BlockPopupScript] Blocked XHR request to popup.js');
         // Use a different URL to avoid loading the actual popup.js
         arguments[1] = 'data:text / (javascript || 1),console.log("[BlockPopupScript] Dummy popup.js loaded");';
       }
@@ -50,17 +50,17 @@
           if (node.tagName === 'SCRIPT') {
             const src = node.src || '';
             if (src.includes('popup.js')) {
-              console.warn('[BlockPopupScript] Blocking script load:', src);
+              // console.warn('[BlockPopupScript] Blocking script load:', src);
               
               // Prevent the real script from loading
               node.setAttribute('src', 'data:text / (javascript || 1),console.log("[BlockPopupScript] Dummy popup.js loaded");');
               
               // Ensure our popup implementation is active
               if (!window.popup || !window.popup.create) {
-                console.warn('[BlockPopupScript] Restoring popup object');
+                // console.warn('[BlockPopupScript] Restoring popup object');
                 window.popup = {
                   create: function() {
-                    console.log('[BlockedPopup] Using safe create');
+                    // console.log('[BlockedPopup] Using safe create');
                     return {
                       show: function() { return this; },
                       hide: function() { return this; },
@@ -86,7 +86,7 @@
   // Make sure popup doesn't get removed or modified
   function ensurePopup() {
     if (!window.popup || typeof window.popup !== 'object') {
-      console.warn('[BlockPopupScript] Popup object is missing or invalid, restoring');
+      // console.warn('[BlockPopupScript] Popup object is missing or invalid, restoring');
       window.popup = {
         create: function() {
           return {
@@ -103,7 +103,7 @@
     }
     
     if (!window.popup.create) {
-      console.warn('[BlockPopupScript] popup.create is missing, restoring');
+      // console.warn('[BlockPopupScript] popup.create is missing, restoring');
       window.popup.create = function() {
         return {
           show: function() { return this; },
@@ -119,7 +119,7 @@
   ensurePopup();
   setInterval(ensurePopup, 100);
 
-  console.log('[BlockPopupScript] Successfully installed popup.js blocking');
+  // console.log('[BlockPopupScript] Successfully installed popup.js blocking');
 })();
 
 export default {}; 

@@ -9,13 +9,13 @@
 import type { ElementalProperties, Season, ZodiacSign, PlanetName } from "@/types/alchemy";
 import { consolidatedIngredientService } from '../ConsolidatedIngredientService';
 import { FoodAlchemySystem, type SystemState } from '../FoodAlchemySystem';
-import { createElementalProperties } from '../../utils/elemental/elementalUtils';
-import { logger } from '../../utils/logger';
+import { _createElementalProperties } from '../../utils/elemental/elementalUtils';
+import { logger } from ../../utils/logger';
 
 import type { UnifiedIngredient } from '@/types/unified';
 import type { IngredientFilter } from '../interfaces/IngredientServiceInterface';
 
-import { Element } from "@/types/alchemy";
+import { _Element } from "@/types/alchemy";
 
 /**
  * Enhanced food alchemy system that uses modern ingredient service
@@ -64,7 +64,7 @@ export class EnhancedIngredientSystem {
       logger.info('Getting recommended ingredients', { state, options });
       
       // Create elemental properties from the state - safe property access
-      const elements = (state as any)?.elements || (state as any)?.elementalPreference || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+      const elements = (state as unknown)?.elements || (state as unknown)?.elementalPreference || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
       const elementalState = createElementalProperties({ 
         Fire: elements.Fire || 0.25, 
         Water: elements.Water || 0.25, 
@@ -78,18 +78,18 @@ export class EnhancedIngredientSystem {
         {
           optimizeForSeason: true,
           maxResults: options.maxResults || 10
-        } as any
+        } as unknown
       );
       
       // Apply additional filters
       let filtered = recommended;
       
       // Filter by season if specified - apply surgical type casting
-      const optionsData = options as any;
+      const optionsData = options as unknown;
       const currentSeason = optionsData?.currentSeason;
       if (currentSeason) {
         filtered = filtered.filter(ingredient => {
-          const seasons = (ingredient as any).season || (ingredient as any).seasonality || [];
+          const seasons = (ingredient as unknown).season || (ingredient as unknown).seasonality || [];
           const seasonArray = Array.isArray(seasons) ? seasons : [seasons];
           return seasonArray.some(s => typeof s === 'string' && 
                                        s?.toLowerCase() === currentSeason?.toLowerCase());
@@ -99,8 +99,8 @@ export class EnhancedIngredientSystem {
       // Filter by zodiac sign if specified
       if (options.currentZodiacSign) {
         filtered = filtered.filter(ingredient => {
-          const zodiac = (ingredient as any).astrologicalPropertiesProfile?.zodiacAffinity || 
-                        (ingredient as any).astrologicalPropertiesProfile?.favorableZodiac || [];
+          const zodiac = (ingredient as unknown).astrologicalPropertiesProfile?.zodiacAffinity || 
+                        (ingredient as unknown).astrologicalPropertiesProfile?.favorableZodiac || [];
           const zodiacArray = Array.isArray(zodiac) ? zodiac : [zodiac];
           return zodiacArray.some(z => typeof z === 'string' && 
                                        z?.toLowerCase() === options.currentZodiacSign?.toLowerCase());

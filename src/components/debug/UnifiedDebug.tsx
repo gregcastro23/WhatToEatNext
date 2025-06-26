@@ -2,12 +2,12 @@
 
 import React, { useEffect, useState } from 'react';
 import { useAlchemical } from '../../contexts/AlchemicalContext/hooks';
-import { logger } from '../../utils/logger';
+import { logger } from ../../utils/logger';
 import { PlanetaryHourCalculator } from '../../lib/PlanetaryHourCalculator';
-import { calculateLunarPhase, getLunarPhaseName } from '../../utils/astrology/core';
+import { _calculateLunarPhase, getLunarPhaseName } from '../../utils/astrology/core';
 import { testCookingMethodRecommendations } from '../../utils/testRecommendations';
 
-import { Element } from "@/types/alchemy";
+import { _Element } from "@/types/alchemy";
 interface TestResult {
   ingredient: { name: string; dominantElement?: string; [key: string]: any };
   holisticRecommendations: Array<{ method: string, compatibility: number, reason?: string }>;

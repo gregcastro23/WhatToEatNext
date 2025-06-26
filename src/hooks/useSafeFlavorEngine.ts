@@ -31,13 +31,13 @@ export function useSafeFlavorEngine() {
   
   // Add circuit breaker to prevent infinite update loops
   if (renderCountRef.current > 100) {
-    console.error(
+    // console.error(
       'Potential infinite loop in useSafeFlavorEngine detected - render count exceeded 100'
     );
     
     // If we're entering an infinite loop, use the most recent valid state
     if (!isReady && globalInitState.initialized) {
-      console.warn('Using globally initialized state to break potential loop');
+      // console.warn('Using globally initialized state to break potential loop');
       return {
         isReady: true,
         error: null,
@@ -61,7 +61,7 @@ export function useSafeFlavorEngine() {
     // Circuit breaker: prevent checking more than once every 100ms globally
     const now = Date.now();
     if (now - globalInitState.lastCheckTime < 100) {
-      console.warn('Throttling flavor engine initialization checks');
+      // console.warn('Throttling flavor engine initialization checks');
       return;
     }
     globalInitState.lastCheckTime = now;
@@ -110,19 +110,19 @@ export function useSafeFlavorEngine() {
     try {
       return flavorEngine.getProfile(id);
     } catch (err) {
-      console.error('Error getting flavor profile:', err);
+      // console.error('Error getting flavor profile:', err);
       return undefined;
     }
   }, [isReady, flavorEngine]);
   
   // Safe search profiles function with error handling
-  const searchProfiles = useCallback((criteria: any): UnifiedFlavorProfile[] => {
+  const searchProfiles = useCallback((criteria: Record<string, unknown>): UnifiedFlavorProfile[] => {
     if (!isReady) return [];
     
     try {
       return flavorEngine.searchProfiles(criteria);
     } catch (err) {
-      console.error('Error searching flavor profiles:', err);
+      // console.error('Error searching flavor profiles:', err);
       return [];
     }
   }, [isReady, flavorEngine]);
@@ -134,7 +134,7 @@ export function useSafeFlavorEngine() {
     try {
       return flavorEngine.calculateCompatibility(profile1, profile2);
     } catch (err) {
-      console.error('Error calculating compatibility:', err);
+      // console.error('Error calculating compatibility:', err);
       return null;
     }
   }, [isReady, flavorEngine]);

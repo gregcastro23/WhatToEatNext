@@ -130,7 +130,7 @@ exports.isZodiacEnergies = isZodiacEnergies;
  * @param details Details about the unexpected value
  */
 function logUnexpectedValue(context, details) {
-    console.warn(`Unexpected value in ${context}:`, details);
+    // console.warn(`Unexpected value in ${context}:`, details);
 }
 exports.logUnexpectedValue = logUnexpectedValue;
 /**

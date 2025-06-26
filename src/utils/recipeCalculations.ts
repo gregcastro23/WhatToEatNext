@@ -1,4 +1,4 @@
-import { ElementalProperties } from '@/types/alchemy';
+import { _ElementalProperties } from '@/types/alchemy';
 import { Recipe, RecipeElementalMapping } from '@/types/recipes';
 
 /**
@@ -25,7 +25,7 @@ export const recipeCalculations = {
       return sum + (value * cuisineElements[element as keyof ElementalProperties]);
     }, 0);
     
-    const recipeData = recipe as any;
+    const recipeData = recipe as unknown;
     debugLog(`Cuisine alignment score for ${recipeData?.name || 'Unknown Recipe'}: ${alignmentScore.toFixed(2)}`);
     return alignmentScore;
   },
@@ -41,7 +41,7 @@ export const recipeCalculations = {
       ...recipe.cuisine.astrologicalProfile.aspectEnhancers
     ];
     
-    const recipeWindowData = recipe as any;
+    const recipeWindowData = recipe as unknown;
     debugLog(`Optimal cooking windows for ${recipeWindowData?.name || 'Unknown Recipe'}:`, optimalTimes);
     return optimalTimes;
   },
@@ -61,7 +61,7 @@ export const recipeCalculations = {
     // Calculate boost from the user's affinity with that element
     const boost = userElements[dominantElement] * 1.5;
     
-    const recipeBoostData = recipe as any;
+    const recipeBoostData = recipe as unknown;
     debugLog(`Elemental boost for ${recipeBoostData?.name || 'Unknown Recipe'}: ${boost.toFixed(2)} (dominant: ${dominantElement})`);
     return boost;
   }
@@ -85,7 +85,7 @@ export const recipeAnalysis = {
     const elements = recipe.elementalProperties;
     
     // Safe type casting for nutrition properties
-    const nutritionData = nutrition as any;
+    const nutritionData = nutrition as unknown;
     
     // Fire correlates with protein and spices (energy-giving)
     const fireCorrelation = (nutritionData?.protein || 0) * 0.4 + (nutritionData?.spiciness || 0) * 0.6;

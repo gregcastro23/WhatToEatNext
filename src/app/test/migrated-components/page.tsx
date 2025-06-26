@@ -9,7 +9,7 @@ import dynamic from 'next/dynamic';
 import ElementalRecommendations from '@/components/ElementalDisplay/ElementalEnergyDisplay';
 import ElementalRecommendationsMigrated from '@/components/ElementalRecommendations.migrated';
 import Link from 'next/link';
-import { Element } from "@/types/alchemy";
+import { _Element } from "@/types/alchemy";
 
 const AstrologyChart = dynamic(
   () => import('@/components/AstrologyChart/AstrologyChart.migrated')?.then(mod => {

@@ -1,4 +1,4 @@
-import { AstrologicalState, ElementalProperties, ChakraEnergies, Season , Element } from '@/types/alchemy';
+import { AstrologicalState, _ElementalProperties, _ChakraEnergies, Season , _Element } from '@/types/alchemy';
 import { getTarotCardsForDate, getTarotFoodRecommendations } from '../lib/tarotCalculations';
 import { getRecommendedIngredients } from '../utils/recommendation/foodRecommendation';
 
@@ -123,7 +123,7 @@ export class EnhancedRecommendationService {
       const enhancedRecommendations = await Promise.all(
         baseRecommendations.slice(0, 20).map(async (ingredient) => {
           return await this.enhanceRecommendation(
-            ingredient as any,
+            ingredient as unknown,
             chakraEnergyStates,
             tarotGuidance,
             astroState,
@@ -157,23 +157,23 @@ export class EnhancedRecommendationService {
         recommendations: enhancedRecommendations,
         chakraGuidance,
         tarotGuidance: {
-          dailyCard: (tarotGuidance as any)?.dailyCard || 'Unknown',
-          element: (tarotGuidance as any)?.element as unknown as Element,
-          cookingApproach: (tarotGuidance as any)?.cookingApproach || 'Balanced',
-          flavors: (tarotGuidance as any)?.flavors || [],
-          insights: (tarotGuidance as any)?.insights || 'Follow your intuition today.'
+          dailyCard: (tarotGuidance as unknown)?.dailyCard || 'Unknown',
+          element: (tarotGuidance as unknown)?.element as unknown as Element,
+          cookingApproach: (tarotGuidance as unknown)?.cookingApproach || 'Balanced',
+          flavors: (tarotGuidance as unknown)?.flavors || [],
+          insights: (tarotGuidance as unknown)?.insights || 'Follow your intuition today.'
         },
         overallScore
       };
 
     } catch (error) {
-      console.error('Error in enhanced recommendations:', error);
+      // console.error('Error in enhanced recommendations:', error);
       
       // Fallback to base recommendations with interface compliance
       const baseRecommendations = await getRecommendedIngredients(astroState);
       const fallbackRecommendations: EnhancedRecommendation[] = baseRecommendations.slice(0, 10).map(ingredient => ({
         ingredient,
-        score: (ingredient as any)?.score || 0.5,
+        score: (ingredient as unknown)?.score || 0.5,
         reasons: ['Base astrological alignment'],
         chakraAlignment: {
           dominantChakra: 'heart',
@@ -327,7 +327,7 @@ export class EnhancedRecommendationService {
     if (!tarotGuidance || !ingredient.elementalPropertiesState) return undefined;
 
     // Use safe type casting for tarot guidance property access
-    const tarotData = tarotGuidance as any;
+    const tarotData = tarotGuidance as unknown;
     
     const dominantElement = this.getDominantElement(ingredient.elementalPropertiesState);
     
@@ -392,7 +392,7 @@ export class EnhancedRecommendationService {
 
     // Apply elemental properties if available
     // Use safe type casting for astroState property access
-    const astroData = astroState as any;
+    const astroData = astroState as unknown;
     if (astroData?.elementalState) {
       const { Fire, Water, Earth, Air } = astroData.elementalState;
       
@@ -417,7 +417,7 @@ export class EnhancedRecommendationService {
       zodiacEnergies['aquarius'] += Air * 0.3;
     }
 
-    return calculateChakraEnergies(zodiacEnergies as any);
+    return calculateChakraEnergies(zodiacEnergies as unknown);
   }
 
   /**
@@ -537,7 +537,7 @@ export class EnhancedRecommendationService {
       endTiming();
       return result;
     } catch (error) {
-      console.warn('Error calculating unified flavor compatibility:', error);
+      // console.warn('Error calculating unified flavor compatibility:', error);
       endTiming();
       return null;
     }
@@ -614,7 +614,7 @@ export class EnhancedRecommendationService {
         lastUpdated: new Date()
       };
     } catch (error) {
-      console.warn('Error converting ingredient to flavor profile:', error);
+      // console.warn('Error converting ingredient to flavor profile:', error);
       return null;
     }
   }
@@ -651,7 +651,7 @@ export class EnhancedRecommendationService {
   ): UnifiedFlavorProfile  {
     // Calculate elemental properties from astrological state
     // Use safe type casting for astroState property access
-    const astroData = astroState as any;
+    const astroData = astroState as unknown;
     const elementalProps = astroData?.elementalState || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
     };
     

@@ -169,7 +169,7 @@ export class UnifiedFlavorEngine {
     
     // Only initialize once
     if (!globalState.initializing && !globalState.initialized) {
-      console.log('Creating new UnifiedFlavorEngine instance');
+      // console.log('Creating new UnifiedFlavorEngine instance');
       
       // Initialize profiles synchronously using require instead of import
       try {
@@ -179,7 +179,7 @@ export class UnifiedFlavorEngine {
         // Setup cache cleanup interval
         setInterval(() => this.cleanupCaches(), 300000); // Every 5 minutes
       } catch (error) {
-        console.error('Error during synchronous initialization:', error);
+        // console.error('Error during synchronous initialization:', error);
       }
     }
   }
@@ -199,24 +199,24 @@ export class UnifiedFlavorEngine {
         }
         
         // Log successful initialization
-        console.log('🚀 Unified Flavor Engine initialized with', (profiles || []).length, 'profiles');
+        // console.log('🚀 Unified Flavor Engine initialized with', (profiles || []).length, 'profiles');
         
         // Log category stats
         const categoryStats = profiles.reduce((acc, profile: {}) => {
-          acc[(profile as any)?.category] = (acc[(profile as any)?.category] || 0) + 1;
+          acc[(profile as unknown)?.category] = (acc[(profile as unknown)?.category] || 0) + 1;
           return acc;
         }, {});
         
-        console.log('📊 Categories:', JSON.stringify(categoryStats));
+        // console.log('📊 Categories:', JSON.stringify(categoryStats));
         
         // Mark as initialized
         setGlobalState(this, false, true);
       }).catch((error: Error) => {
-        console.error('Failed to initialize profiles:', error);
+        // console.error('Failed to initialize profiles:', error);
         setGlobalState(this, false, false);
       });
     } catch (error) {
-      console.error('Error during synchronous initialization:', error);
+      // console.error('Error during synchronous initialization:', error);
       setGlobalState(this, false, false);
     }
   }
@@ -550,7 +550,7 @@ export class UnifiedFlavorEngine {
     elements2: ElementalProperties
   ): Record<keyof ElementalProperties, number> {
     const elements: (keyof ElementalProperties)[] = ['Fire', 'Water', 'Earth', 'Air'];
-    const breakdown: Record<keyof ElementalProperties, number> = {} as any;
+    const breakdown: Record<keyof ElementalProperties, number> = {} as unknown;
     
     for (const element of elements) {
       const strength1 = elements1[element] || 0;
@@ -575,7 +575,7 @@ export class UnifiedFlavorEngine {
     notes2: BaseFlavorNotes
   ): Record<keyof BaseFlavorNotes, number> {
     const flavors: (keyof BaseFlavorNotes)[] = ['sweet', 'sour', 'salty', 'bitter', 'umami', 'spicy'];
-    const breakdown: Record<keyof BaseFlavorNotes, number> = {} as any;
+    const breakdown: Record<keyof BaseFlavorNotes, number> = {} as unknown;
     
     for (const flavor of flavors) {
       const value1 = notes1[flavor];
@@ -591,7 +591,7 @@ export class UnifiedFlavorEngine {
     profile2: UnifiedFlavorProfile
   ): Record<Season, number> {
     const seasons: Season[] = ['spring', 'summer', 'autumn', 'winter'];
-    const breakdown: Record<Season, number> = {} as any;
+    const breakdown: Record<Season, number> = {} as unknown;
     
     for (const season of seasons) {
       const modifier1 = profile1?.seasonalModifiers?.[season] || 0.5;
@@ -618,7 +618,7 @@ export class UnifiedFlavorEngine {
     scores: Omit<UnifiedFlavorCompatibility, 'breakdown' | 'recommendations' | 'warnings' | 'optimizations'>,
     profile1: UnifiedFlavorProfile,
     profile2: UnifiedFlavorProfile,
-    context?: any
+    context?: Record<string, unknown>
   ): { recommendations: string[]; warnings: string[]; optimizations: string[] } {
     const recommendations: string[] = [];
     const warnings: string[] = [];
@@ -903,7 +903,7 @@ export class UnifiedFlavorEngine {
    * Warm up cache with common profile combinations
    */
   public async warmupCache(): Promise<void> {
-    console.log('🔥 Warming up UnifiedFlavorEngine cache...');
+    // console.log('🔥 Warming up UnifiedFlavorEngine cache...');
     
     const profiles = Array.from(this.profiles.values());
     const commonProfiles = profiles?.slice(0, Math.min(20, (profiles || []).length));
@@ -915,7 +915,7 @@ export class UnifiedFlavorEngine {
       }
     }
     
-    console.log(`✅ Cache warmed with ${this.compatibilityCache.size} pre-calculated combinations`);
+    // console.log(`✅ Cache warmed with ${this.compatibilityCache.size} pre-calculated combinations`);
   }
 }
 

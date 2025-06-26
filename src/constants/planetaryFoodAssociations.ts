@@ -279,7 +279,7 @@ export const getZodiacBoost = (zodiacSign: string, item: unknown): number => {
   const zodiacElement = zodiacElements[normalizedSign as keyof typeof zodiacElements] || 'Fire';
   
   // Check if item has elemental properties
-  const itemData = item as any;
+  const itemData = item as unknown;
   if (!itemData.elementalProperties) {
     return 0.1; // Minimum boost if no elemental data
   }
@@ -343,7 +343,7 @@ const calculateSeasonalAlignment = (zodiacSign: string, item: unknown): number =
   
   // Calculate alignment based on the cuisine's elemental properties
   // Higher value if the cuisine aligns with the season's element
-  const itemData = item as any;
+  const itemData = item as unknown;
   return itemData.elementalProperties?.[seasonalElement] || 0.1;
 };
 
@@ -389,7 +389,7 @@ export const getFlavorBoost = (
   planet: Planet,
   ingredient: unknown
 ): number => {
-  const ingredientData = ingredient as any;
+  const ingredientData = ingredient as unknown;
   const elementBoost = planetaryFoodAssociations[planet].elementalBoost || {};
   return Object.entries(elementBoost).reduce((acc, [element, boost]) => {
     return acc + (ingredientData.elementalProperties?.[element] || 0) * (boost || 0);

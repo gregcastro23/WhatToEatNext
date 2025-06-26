@@ -9,7 +9,7 @@ import { fixIngredientMappings } from '@/utils/elementalUtils';
 // Helper function to standardize ingredient mappings
 function createIngredientMapping(
   id: string,
-  properties: any
+  properties: Record<string, unknown>
 ): Ingredient {
   return {
     id: id,

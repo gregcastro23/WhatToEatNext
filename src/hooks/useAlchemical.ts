@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { PlanetPosition } from '@/utils/astrologyUtils';
-import { PlanetaryPosition } from "@/types/celestial";
+import { _PlanetaryPosition } from "@/types/celestial";
 
 export interface AlchemicalState {
   planetaryPositions: { [key: string]: PlanetPosition };
@@ -31,7 +31,7 @@ export function useAlchemical() {
       // Determine if it's daytime (simplified - you might want to use more sophisticated logic)
       const now = new Date();
       const hour = now.getHours();
-      const isDaytime = hour >= 6 && hour < 18;
+      const _isDaytime = hour >= 6 && hour < 18;
       
       setState({
         planetaryPositions: data.positions || {},

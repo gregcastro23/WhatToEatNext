@@ -13,7 +13,7 @@ import {
 } from '../core/kalchmEngine';
 import astrologizeCache from '@/services/AstrologizeApiCache';
 
-import { Element } from "@/types/alchemy";
+import { _Element } from "@/types/alchemy";
 
 /**
  * Recipe compatibility result

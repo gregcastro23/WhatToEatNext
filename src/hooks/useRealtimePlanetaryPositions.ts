@@ -52,9 +52,9 @@ export function useRealtimePlanetaryPositions(
 
       try {
         positions = await getCurrentPlanetaryPositions(location, zodiacSystem);
-        console.log('🌟 Successfully fetched real-time positions from astrologize API using', zodiacSystem, 'zodiac');
+        // console.log('🌟 Successfully fetched real-time positions from astrologize API using', zodiacSystem, 'zodiac');
       } catch (astrologizeError) {
-        console.warn('Astrologize API failed, falling back to API endpoint:', astrologizeError);
+        // console.warn('Astrologize API failed, falling back to API endpoint:', astrologizeError);
         
         // Fallback to our API endpoint
         const params = new URLSearchParams();
@@ -81,14 +81,14 @@ export function useRealtimePlanetaryPositions(
         source
       });
 
-      console.log('🌟 Updated planetary positions from:', source);
+      // console.log('🌟 Updated planetary positions from:', source);
     } catch (error) {
       setState(prev => ({
         ...prev,
         loading: false,
         error: error instanceof Error ? error.message : 'Unknown error'
       }));
-      console.error('Failed to fetch planetary positions:', error);
+      // console.error('Failed to fetch planetary positions:', error);
     }
   }, [location, zodiacSystem]);
 
@@ -143,12 +143,12 @@ export function usePlanetaryPositionsForDate(
 
       try {
         positions = await getPlanetaryPositionsForDateTime(date, location, zodiacSystem);
-        console.log('🌟 Successfully fetched positions for specific date from astrologize API using', zodiacSystem, 'zodiac');
+        // console.log('🌟 Successfully fetched positions for specific date from astrologize API using', zodiacSystem, 'zodiac');
       } catch (astrologizeError) {
-        console.warn('Astrologize API failed for custom date, falling back to API endpoint:', astrologizeError);
+        // console.warn('Astrologize API failed for custom date, falling back to API endpoint:', astrologizeError);
         
         // Fallback to our API endpoint
-        const body: any = { date: date.toISOString() };
+        const body: Record<string, unknown> = { date: date.toISOString() };
         if (location) {
           body.latitude = location.latitude;
           body.longitude = location.longitude;

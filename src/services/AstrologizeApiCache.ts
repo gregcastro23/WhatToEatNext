@@ -1,4 +1,4 @@
-import { AstrologicalState, PlanetaryPosition, StandardizedAlchemicalResult } from '@/types/alchemy';
+import { AstrologicalState, _PlanetaryPosition, StandardizedAlchemicalResult } from '@/types/alchemy';
 
 /**
  * Astrologize API Cache Service
@@ -70,9 +70,9 @@ class AstrologizeApiCache {
    * Calculate elemental absolute and relative values
    */
   private calculateElementalValues(alchemicalResult: StandardizedAlchemicalResult) {
-    const resultData = alchemicalResult as any;
+    const resultData = alchemicalResult as unknown;
     const elementalBalance = resultData?.elementalBalance || {};
-    const { Fire = 0, Water = 0, Earth = 0, Air = 0 } = elementalBalance;
+    const { Fire = 0, Water = 0, _Earth = 0, Air = 0 } = elementalBalance;
 
     // Absolute values (direct from alchemical result)
     const elementalAbsolutes = {
@@ -109,7 +109,7 @@ class AstrologizeApiCache {
     const { elementalAbsolutes, elementalRelatives } = this.calculateElementalValues(alchemicalResult);
     
     // Safe access to alchemical result properties
-    const resultData = alchemicalResult as any;
+    const resultData = alchemicalResult as unknown;
     
     const cachedData: CachedAstrologicalData = {
       timestamp: Date.now(),
@@ -211,7 +211,7 @@ class AstrologizeApiCache {
     
     // For each planet, predict its position
     for (const [planet, position] of Object.entries(baseData.planetaryPositions)) {
-      const planetData = position as any;
+      const planetData = position as unknown;
       predictedPositions[planet] = {
         sign: planetData?.sign || '',
         degree: planetData?.degree || 0,
@@ -271,7 +271,7 @@ class AstrologizeApiCache {
    */
   private assessDataQuality(result: StandardizedAlchemicalResult): 'high' | 'medium' | 'low' {
     // Use safe type casting for result property access
-    const resultData = result as any;
+    const resultData = result as unknown;
     
     // Assess based on completeness and reasonableness of data
     const hasAllElements = resultData?.elementalBalance && 
@@ -326,7 +326,7 @@ class AstrologizeApiCache {
       const data = Array.from(this.cache.entries());
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(data));
     } catch (error) {
-      console.warn('Failed to save astrologize cache to localStorage:', error);
+      // console.warn('Failed to save astrologize cache to localStorage:', error);
     }
   }
 
@@ -338,7 +338,7 @@ class AstrologizeApiCache {
         this.cache = new Map(data);
       }
     } catch (error) {
-      console.warn('Failed to load astrologize cache from localStorage:', error);
+      // console.warn('Failed to load astrologize cache from localStorage:', error);
     }
   }
 

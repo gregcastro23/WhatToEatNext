@@ -1,6 +1,6 @@
-import { elementalUtils } from '../utils/elementalUtils';
+import { _elementalUtils } from '../utils/elementalUtils';
 import { AstrologicalService } from './AstrologicalService';
-import { calculatePlanetaryPositions, calculateSunSign, calculateLunarPhase } from '../utils/astrologyUtils';
+import { _calculatePlanetaryPositions, calculateSunSign, _calculateLunarPhase } from '../utils/astrologyUtils';
 
 type CelestialPosition = {
     sunSign: string;
@@ -31,7 +31,7 @@ export const getCurrentCelestialPositions = async (): Promise<CelestialPosition>
     try {
         return await getCachedCelestialPositions();
     } catch (error) {
-        console.error('Error fetching celestial positions:', error);
+        // console.error('Error fetching celestial positions:', error);
         return getFallbackPositions();
     }
 };
@@ -42,7 +42,7 @@ export const getCelestialPositionsForDate = async (date: Date): Promise<Celestia
         // Use our local calculation functions
         const positions = await calculatePlanetaryPositions(date);
         const sunSign = calculateSunSign(date);
-        const lunarPhase = await calculateLunarPhase(date);
+        const _lunarPhase = await calculateLunarPhase(date);
         
         // Map positions to planetary alignment structure
         const planetaryPositions: Record<string, unknown> = {};
@@ -50,7 +50,7 @@ export const getCelestialPositionsForDate = async (date: Date): Promise<Celestia
             // Handle numeric positions
             const degreeValue = typeof position === 'number' 
                 ? position 
-                : (position as any)?.degree || 0;
+                : (position as unknown)?.degree || 0;
                 
             const sign = getSignFromDegree(degreeValue);
             planetaryPositions[planet.toLowerCase()] = {
@@ -71,7 +71,7 @@ export const getCelestialPositionsForDate = async (date: Date): Promise<Celestia
             timestamp: date.getTime()
         };
     } catch (error) {
-        console.error('Error calculating positions for date:', error);
+        // console.error('Error calculating positions for date:', error);
         return getFallbackPositions(date);
     }
 };
@@ -86,9 +86,9 @@ const getCachedCelestialPositions = async (): Promise<CelestialPosition> => {
 
     try {
         // Use AstrologicalService to get accurate positions for current date
-        const currentDate = new Date();
+        const _currentDate = new Date();
         // Apply safe type casting for service method access
-        const astroService = AstrologicalService as any;
+        const astroService = AstrologicalService as unknown;
         const astroState = await (astroService?.getStateForDate ? 
             astroService.getStateForDate(currentDate) : 
             astroService.getCurrentState?.(currentDate));
@@ -107,7 +107,7 @@ const getCachedCelestialPositions = async (): Promise<CelestialPosition> => {
 
         return cachedPositions;
     } catch (error) {
-        console.error('Error calling AstrologicalService:', error);
+        // console.error('Error calling AstrologicalService:', error);
         return getFallbackPositions();
     }
 };
@@ -118,7 +118,7 @@ const getFallbackPositions = (date: Date = new Date()): CelestialPosition => {
     // Get fallback data from AstrologicalService for the specified date
     try {
         // Apply safe type casting for service method access
-        const astroService = AstrologicalService as any;
+        const astroService = AstrologicalService as unknown;
         const fallbackStatePromise = astroService?.getStateForDate ? 
             astroService.getStateForDate(date) : 
             astroService.getCurrentState?.(date);
@@ -135,7 +135,7 @@ const getFallbackPositions = (date: Date = new Date()): CelestialPosition => {
             timestamp: timestamp
         };
     } catch (error) {
-        console.error('Error getting fallback positions:', error);
+        // console.error('Error getting fallback positions:', error);
         
         // Ultimate fallback - use static calculations
         return {
@@ -190,7 +190,7 @@ export const getElementalInfluence = async (): Promise<typeof elementalUtils.DEF
     // Use the zodiac to element mapping if available
     try {
         // Apply safe type casting for service method access
-        const astroService = AstrologicalService as any;
+        const astroService = AstrologicalService as unknown;
         const astroState = await (astroService?.getCurrentState ? 
             astroService.getCurrentState() : 
             astroService.getStateForDate?.(new Date()));
@@ -250,7 +250,7 @@ export const getElementalInfluence = async (): Promise<typeof elementalUtils.DEF
             return elementalState;
         }
     } catch (error) {
-        console.error('Error getting elemental influence:', error);
+        // console.error('Error getting elemental influence:', error);
     }
     
     // Fallback to default
@@ -322,7 +322,7 @@ export function calculateElementalBalanceFromPositions(positions: Record<string,
     // Calculate elemental influence from each planet's position
     Object.entries(positions).forEach(([planet, data]) => {
         // Apply safe type casting for data property access
-        const planetData = data as any;
+        const planetData = data as unknown;
         if (!planetData?.sign) return;
         
         const planetKey = planet.toLowerCase();

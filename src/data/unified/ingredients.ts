@@ -14,7 +14,7 @@ import type {
   UnifiedIngredient 
 } from "@/types/unified";
 // TODO: Fix import - add what to import from "./unifiedTypes.ts"
-import { createElementalProperties } from '../../utils/elemental/elementalUtils';
+import { _createElementalProperties } from '../../utils/elemental/elementalUtils';
 
 // Simple alchemical properties interface for this module
 // Import ingredient data from their original sources
@@ -92,7 +92,7 @@ function enhanceIngredient(ingredient: IngredientMapping, sourceCategory: string
     reactivity: 0,
     energy: 0
   };
-  const monica = calculateMonica(kalchm as any, thermodynamics as any);
+  const monica = calculateMonica(kalchm as unknown, thermodynamics as unknown);
   
   // Create enhanced unified ingredient
   return {

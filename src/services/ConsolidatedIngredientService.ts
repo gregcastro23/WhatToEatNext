@@ -63,10 +63,10 @@ import type { StandardizedAlchemicalResult , ElementalProperties,
   PlanetName,
   Element } from '@/types/alchemy';
 import { unifiedIngredients } from '@/data/unified/ingredients';
-import { createElementalProperties, calculateElementalCompatibility } from '../utils/elemental/elementalUtils';
-import { isNonEmptyArray, safeSome } from '../utils/common/arrayUtils';
-import { logger } from '../utils/logger';
-import { cache } from '../utils/cache';
+import { _createElementalProperties, calculateElementalCompatibility } from '../utils/elemental/elementalUtils';
+import { _isNonEmptyArray, _safeSome } from '../utils/common/arrayUtils';
+import { logger } from ../utils/logger';
+import { _cache } from '../utils/cache';
 
 import type { Recipe } from '../types/recipe';
 import type { Season } from '@/types/seasons';
@@ -92,8 +92,8 @@ enum ErrorSeverity {
 
 // Placeholder error handler
 const errorHandler = {
-  logError: (error: any, context: any) => {
-    console.error('Error:', error, 'Context:', context);
+  logError: (error: Record<string, unknown>, context: Record<string, unknown>) => {
+    // console.error('Error:', error, 'Context:', context);
   }
 };
 
@@ -115,7 +115,7 @@ class IngredientFilterService {
  * and consolidates their functionality into a single, consistent API.
  */
 export class ConsolidatedIngredientService implements IngredientServiceInterface {
-  validateIngredient(ingredient: any): boolean {
+  validateIngredient(ingredient: Record<string, unknown>): boolean {
     return typeof ingredient === 'object' && ingredient !== null;
   }
 
@@ -288,7 +288,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         }
         
         // Apply seasonal filter if specified with safe type casting
-        const filterData = filter as any;
+        const filterData = filter as unknown;
         const currentSeason = filterData?.currentSeason || filterData?.season;
         if (currentSeason) {
           filtered = this.applySeasonalFilter(filtered, currentSeason);
@@ -423,7 +423,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       }
       
       // Create basic elemental properties from the ingredient's element if available
-      const ingredientData = ingredient as any;
+      const ingredientData = ingredient as unknown;
       if (ingredientData.element) {
         const basicProps = createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0 });
         const elementKey = ingredientData.element?.toLowerCase() as keyof ElementalProperties;
@@ -537,7 +537,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
   ): UnifiedIngredient[] {
     try {
       // Default options with safe type casting
-      const optionsData = options as any;
+      const optionsData = options as unknown;
       const {
         includeAlternatives = optionsData?.includeAlternatives ?? true,
         optimizeForSeason = optionsData?.optimizeForSeason ?? true,
@@ -563,7 +563,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         
         // Apply seasonal bonus if relevant with safe type casting
         let seasonalBonus = 0;
-        const ingredientData = ingredient as any;
+        const ingredientData = ingredient as unknown;
         if (optimizeForSeason && ingredientData.currentSeason) {
           const currentSeason = this.getCurrentSeason();
           const seasonArray = Array.isArray(ingredientData.currentSeason) ? ingredientData.currentSeason : [ingredientData.currentSeason];
@@ -625,10 +625,10 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
    */
   calculateThermodynamicMetrics(ingredient: UnifiedIngredient): ThermodynamicMetrics {
     try {
-      const ingredientData = ingredient as any;
+      const ingredientData = ingredient as unknown;
       if (ingredientData.energyValues) {
         // Convert energyValues to ThermodynamicMetrics format with safe property access
-        const energyData = ingredientData.energyValues as any;
+        const energyData = ingredientData.energyValues as unknown;
         const { heat, entropy, reactivity } = energyData;
         const gregsEnergy = energyData?.gregsEnergy || energyData?.energy || 0;
         
@@ -696,7 +696,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       }
       
       const nutritional = ingredient.nutritionalPropertiesProfile;
-      const macros = (nutritional.macros || {}) as any;
+      const macros = (nutritional.macros || {}) as unknown;
       
       // Check protein range if specified
       if (filter.minProtein !== undefined) {
@@ -907,7 +907,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       // Check low-sodium constraint
       if (filter.isLowSodium) {
         if (!ingredient.nutritionalPropertiesProfile?.minerals) return false;
-        const minerals = ingredient.nutritionalPropertiesProfile.minerals as any;
+        const minerals = ingredient.nutritionalPropertiesProfile.minerals as unknown;
         const sodium = minerals.sodium || 0;
         if (sodium > 140) return false; // 140mg is the FDA threshold for "low sodium"
       }
@@ -916,9 +916,9 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       if (filter.isLowSugar) {
         if (!ingredient.nutritionalPropertiesProfile?.macros) return false;
         // Sugar might be a direct property or included in macros
-        const macros = ingredient.nutritionalPropertiesProfile.macros as any;
+        const macros = ingredient.nutritionalPropertiesProfile.macros as unknown;
         const sugar = macros.sugar || 
-                     (ingredient.nutritionalPropertiesProfile as any).sugar || 0;
+                     (ingredient.nutritionalPropertiesProfile as unknown).sugar || 0;
         if (sugar > 5) return false; // 5g is a common threshold for "low sugar"
       }
       

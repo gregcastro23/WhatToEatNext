@@ -7,32 +7,32 @@ declare global {
     // Chrome extension API mock
     chrome?: {
       tabs?: {
-        create?: (options: any) => Promise<{id: number}>;
-        query?: (queryInfo: any, callback?: Function) => boolean;
-        update?: (tabId: number, properties: any, callback?: Function) => boolean;
-        sendMessage?: (tabId: number, message: any, options?: any, callback?: Function) => boolean;
+        create?: (options: Record<string, unknown>) => Promise<{id: number}>;
+        query?: (queryInfo: Record<string, unknown>, callback?: Function) => boolean;
+        update?: (tabId: number, properties: Record<string, unknown>, callback?: Function) => boolean;
+        sendMessage?: (tabId: number, message: Record<string, unknown>, options?: Record<string, unknown>, callback?: Function) => boolean;
       };
       runtime?: {
-        lastError?: any;
+        lastError?: Record<string, unknown>;
         getURL?: (path: string) => string;
-        sendMessage?: (message: any) => void;
+        sendMessage?: (message: Record<string, unknown>) => void;
         onMessage?: {
-          addListener: (callback: (message: any) => void) => void;
-          removeListener: (callback: (message: any) => void) => void;
+          addListener: (callback: (message: Record<string, unknown>) => void) => void;
+          removeListener: (callback: (message: Record<string, unknown>) => void) => void;
         };
       };
       storage?: {
         local?: {
-          get?: (keys: any, callback?: Function) => boolean;
-          set?: (items: any, callback?: Function) => boolean;
+          get?: (keys: Record<string, unknown>, callback?: Function) => boolean;
+          set?: (items: Record<string, unknown>, callback?: Function) => boolean;
         };
         sync?: {
-          get?: (keys: any, callback?: Function) => boolean;
-          set?: (items: any, callback?: Function) => boolean;
+          get?: (keys: Record<string, unknown>, callback?: Function) => boolean;
+          set?: (items: Record<string, unknown>, callback?: Function) => boolean;
         };
       };
       i18n?: {
-        getMessage?: (messageName: string, substitutions?: any) => string;
+        getMessage?: (messageName: string, substitutions?: Record<string, unknown>) => string;
       };
       extension?: {
         getURL?: (path: string) => string;
@@ -41,17 +41,17 @@ declare global {
     
     // Popup.js mock replacement
     popup?: {
-      create: (options?: any) => {
+      create: (options?: Record<string, unknown>) => {
         show: () => any;
         hide: () => any;
         update: () => any;
-        on: (event: string, callback?: any) => { off: () => void };
+        on: (event: string, callback?: Record<string, unknown>) => { off: () => void };
         trigger: (event: string) => any;
       };
       show: () => any;
       hide: () => any;
       update: () => any;
-      on: (event: string, callback?: any) => { off: () => void };
+      on: (event: string, callback?: Record<string, unknown>) => { off: () => void };
       trigger: (event: string) => any;
     };
     
@@ -64,22 +64,22 @@ declare global {
     _chromeMessageListeners?: Function[];
     
     // Alchemical functions used by FoodRecommender
-    getElementRanking?: (element_object: any, rank?: number) => { [key: number]: string };
+    getElementRanking?: (element_object: Record<string, unknown>, rank?: number) => { [key: number]: string };
     createElementObject?: () => { Fire: number; Water: number; Air: number; Earth: number };
-    combineElementObjects?: (obj1: any, obj2: any) => { Fire: number; Water: number; Air: number; Earth: number };
-    getAbsoluteElementValue?: (obj: any) => number;
-    calculateElementalScore?: (obj: any) => number;
-    getDominantElement?: (obj: any) => string;
-    alchemize?: (birth_info: any, horoscope_dict: any) => any;
+    combineElementObjects?: (obj1: Record<string, unknown>, obj2: Record<string, unknown>) => { Fire: number; Water: number; Air: number; Earth: number };
+    getAbsoluteElementValue?: (obj: Record<string, unknown>) => number;
+    calculateElementalScore?: (obj: Record<string, unknown>) => number;
+    getDominantElement?: (obj: Record<string, unknown>) => string;
+    alchemize?: (birth_info: Record<string, unknown>, horoscope_dict: Record<string, unknown>) => any;
     capitalize?: (str: string) => string;
     
     // Service objects
-    ingredientFilterService?: any;
-    ElementalCalculator?: any;
+    ingredientFilterService?: Record<string, unknown>;
+    ElementalCalculator?: Record<string, unknown>;
     
     // Utility functions
     fixAssignmentErrors?: <T>(obj: T) => T;
-    safelyAccess?: <T = any>(obj: any, path: string, defaultValue?: T) => T;
+    safelyAccess?: <T = any>(obj: Record<string, unknown>, path: string, defaultValue?: T) => T;
     
     // Initialization flags
     __popupInitialized?: boolean;

@@ -61,7 +61,7 @@ const SauceDetailsPage: NextPage = () => {
     setElementalState(prev => ({
       ...prev,
       ...currentState,
-      season,
+      _season,
       timeOfDay
     }));
   }, []);

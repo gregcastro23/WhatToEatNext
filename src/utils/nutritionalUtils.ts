@@ -58,7 +58,7 @@ export function getNutritionalData(ingredientName: string): NutritionalProfile |
  */
 export function getAvailableNutritionalIngredients(): string[] {
   return Object.keys(usdaNutritionalData).map(key => 
-    (usdaNutritionalData[key] as any)?.name || key
+    (usdaNutritionalData[key] as unknown)?.name || key
   );
 }
 
@@ -90,8 +90,8 @@ export function compareNutritionalValues(
   }
   
   // Calculate differences in key metrics (percentage difference) - safe property access
-  const profile1Macros = (profile1 as any)?.macros || {};
-  const profile2Macros = (profile2 as any)?.macros || {};
+  const profile1Macros = (profile1 as unknown)?.macros || {};
+  const profile2Macros = (profile2 as unknown)?.macros || {};
   
   const differences: Record<string, number> = {
     calories: ((profile2.calories - profile1.calories) / profile1.calories) * 100,

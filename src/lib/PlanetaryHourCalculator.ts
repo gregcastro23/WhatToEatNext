@@ -1,4 +1,4 @@
-import { Planet } from '@/types/celestial';
+import { _Planet } from '@/types/celestial';
 import SunCalc from 'suncalc';
 
 export class PlanetaryHourCalculator {
@@ -134,23 +134,23 @@ export class PlanetaryHourCalculator {
         const sunset = times.sunset;
         
         if (!sunrise || !sunset) {
-            console.warn('Could not calculate sunrise or sunset times');
+            // console.warn('Could not calculate sunrise or sunset times');
             // Fallback to approximate calculation
             return this.getFallbackPlanetaryHour(date);
         }
         
         // Check if it's day or night
-        const isDaytime = date >= sunrise && date <= sunset;
+        const _isDaytime = date >= sunrise && date <= sunset;
         
         // Calculate length of day and night in milliseconds
         const dayLength = sunset.getTime() - sunrise.getTime();
         const nightLength = (sunrise.getTime() + 24 * 60 * 60 * 1000) - sunset.getTime();
         
         // Length of each hour (day and night hours have different lengths)
-        const hourLength = isDaytime ? dayLength / 12 : nightLength / 12;
+        const hourLength = _isDaytime ? dayLength / 12 : nightLength / 12;
         
         // Time since start of day/night period
-        const timeSinceStart = isDaytime
+        const timeSinceStart = _isDaytime
             ? date.getTime() - sunrise.getTime()
             : date.getTime() - sunset.getTime();
         
@@ -174,7 +174,7 @@ export class PlanetaryHourCalculator {
         return {
             planet: PlanetaryHourCalculator.planetaryHours[PlanetaryHourCalculator.dayNames[dayOfWeek]][dayRulerIndex],
             hourNumber: hourIndex,
-            isDaytime
+            isDaytime: _isDaytime
         };
     }
     

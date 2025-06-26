@@ -26,7 +26,7 @@ const CuisineSpecificRecommendations: React.FC<CuisineSpecificRecommendationsPro
   
   // Get current astrological state from a custom hook
   // Apply safe type casting for astrology hook data access
-  const astroHookData = useAstrologicalState() as any;
+  const astroHookData = useAstrologicalState() as unknown;
   const { astroState, loading: astroLoading, error: astroError } = {
     astroState: astroHookData?.astroState,
     loading: astroHookData?.loading || false,
@@ -79,7 +79,7 @@ const CuisineSpecificRecommendations: React.FC<CuisineSpecificRecommendationsPro
   // Function to determine if a planet is favorable/unfavorable for a recipe
   const getPlanetaryAlignment = (recipe: unknown, planetName: string) => {
     // Apply safe type casting for recipe property access
-    const recipeData = recipe as any;
+    const recipeData = recipe as unknown;
     if ((recipeData?.planetaryDayScore || 0) >= 0.7) return 'favorable';
     if ((recipeData?.planetaryDayScore || 0) <= 0.3) return 'unfavorable';
     return 'neutral';
@@ -165,7 +165,7 @@ const CuisineSpecificRecommendations: React.FC<CuisineSpecificRecommendationsPro
               <div className="flex flex-wrap gap-1">
                 {recipe.ingredients && recipe.ingredients.slice(0, 3).map((ingredient: unknown, idx: number) => {
                   // Apply safe type casting for ingredient property access
-                  const ingredientData = ingredient as any;
+                  const ingredientData = ingredient as unknown;
                   return (
                     <span 
                       key={idx} 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRealtimePlanetaryPositions } from '@/hooks/useRealtimePlanetaryPositions';
-import { Element } from "@/types/alchemy";
+import { _Element } from "@/types/alchemy";
 import type { PlanetPosition } from '@/utils/astrologyUtils';
 
 // Alchemical calculation functions (based on your notepad)
@@ -105,7 +105,7 @@ function planetaryPositionsToAlchemicalValues(positions: { [key: string]: any })
   const Fire = elementCounts.Fire / totalPlanets;
   const Water = elementCounts.Water / totalPlanets;
   const Air = elementCounts.Air / totalPlanets;
-  const Earth = elementCounts.Earth / totalPlanets;
+  const _Earth = elementCounts.Earth / totalPlanets;
 
   return { Spirit, Essence, Matter, Substance, Fire, Water, Air, Earth };
 }

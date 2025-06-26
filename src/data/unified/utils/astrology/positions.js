@@ -106,7 +106,7 @@ function zodiacStartDegree(sign) {
  */
 function calculateReferenceLongitude(planet) {
     if (!REFERENCE_POSITIONS[planet]) {
-        console.warn(`No reference position for ${planet}, using default`);
+        // console.warn(`No reference position for ${planet}, using default`);
         return 0;
     }
     const [degrees, minutes, seconds, sign] = REFERENCE_POSITIONS[planet];

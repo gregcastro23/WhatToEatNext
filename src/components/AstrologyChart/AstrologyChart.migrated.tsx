@@ -4,8 +4,8 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useServices } from '@/hooks/useServices';
 // TODO: Fix CSS module import - was: import from "./AstrologyChart.module.css.ts"
 
-import { Element } from "@/types/alchemy";
-import { PlanetaryPosition } from "@/types/celestial";
+import { _Element } from "@/types/alchemy";
+import { _PlanetaryPosition } from "@/types/celestial";
 
 interface AstrologyChartProps {
   size?: number;
@@ -112,7 +112,7 @@ const AstrologyChartMigrated: React.FC<AstrologyChartProps> = ({
         setRisingDegree(15);
         setIsDaytime(new Date().getHours() >= 6 && new Date().getHours() < 18);
       } catch (err) {
-        console.error('Error loading astrological data:', err);
+        // console.error('Error loading astrological data:', err);
       }
     };
 
@@ -129,7 +129,7 @@ const AstrologyChartMigrated: React.FC<AstrologyChartProps> = ({
         Air: 25
       };
     } catch (err) {
-      console.error('Error calculating elemental balance:', err);
+      // console.error('Error calculating elemental balance:', err);
       return { Fire: 25, Earth: 25, Air: 25, Water: 25 };
     }
   }, [planetaryPositions, isDaytime]);

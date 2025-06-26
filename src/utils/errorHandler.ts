@@ -23,7 +23,7 @@ export enum ErrorSeverity {
 }
 
 interface ErrorContext {
-  [key: string]: any;
+  [key: string]: Record<string, unknown>;
 }
 
 interface ErrorOptions {

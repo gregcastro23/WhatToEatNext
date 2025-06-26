@@ -63,7 +63,7 @@ export async function testCookingMethodRecommendations() {
   // Test the ingredient-specific function - Pattern ZZZ: Array Object Interface Expansion
   try {
     console.warn('\nTESTING INGREDIENT-SPECIFIC RECOMMENDATIONS:');
-    const recommendations = await getRecommendedCookingMethodsForIngredient(mockIngredient, mockCookingMethods as any, 5);
+    const recommendations = await getRecommendedCookingMethodsForIngredient(mockIngredient, mockCookingMethods as unknown, 5);
     recommendations.forEach((rec, index) => {
       console.warn(`${index + 1}. ${rec.method} - Compatibility: ${Math.round(rec.compatibility)}%`);
     });
@@ -75,7 +75,7 @@ export async function testCookingMethodRecommendations() {
   }
   
   const holisticRecs = await getHolisticCookingRecommendations(mockIngredient, undefined, undefined, true, mockCookingMethods.map(m => m.name), 5);
-  const standardRecs = await getRecommendedCookingMethodsForIngredient(mockIngredient, mockCookingMethods as any, 5); // Pattern ZZZ: Array Object Interface Expansion
+  const standardRecs = await getRecommendedCookingMethodsForIngredient(mockIngredient, mockCookingMethods as unknown, 5); // Pattern ZZZ: Array Object Interface Expansion
   
   return {
     ingredient: mockIngredient,

@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Ingredient, RecipeIngredient } from '@/types/alchemy';
-import { ChefHat, Info, Clock, Heart, Star, Thermometer, Flame, Droplets, Mountain, Wind, ChevronDown, ChevronUp, Utensils, Globe, Award, Zap, Leaf, Beaker, Sun, Moon, Archive, Sparkles } from 'lucide-react';
+import { ChefHat, Info, Clock, Heart, Star, Thermometer, Flame, Droplets, Mountain, Wind, ChevronDown, ChevronUp, Utensils, Globe, Award, Zap, Leaf, Beaker, Sun, Moon, Archive, Sparkles, BookOpen, Scissors } from 'lucide-react';
 import { allIngredients } from '@/data/ingredients/index';
 import { 
   normalizeIngredientData, 
@@ -19,10 +19,12 @@ interface IngredientCardProps {
   ingredient: Ingredient | RecipeIngredient;
   showAmount?: boolean;
   onClick?: (ingredient: Ingredient | RecipeIngredient) => void;
+  initiallyExpanded?: boolean;
+  emphasizeCulinary?: boolean;
 }
 
 // Enhanced tab types showcasing wealth of culinary database information
-type TabType = 'overview' | 'culinary' | 'preparation' | 'nutrition' | 'astrology' | 'varieties' | 'storage';
+type TabType = 'overview' | 'culinary-methods' | 'culinary-traditions' | 'flavors-pairing' | 'preparation' | 'nutrition' | 'astrology' | 'varieties' | 'storage';
 
 // Helper function to check if ingredient is a recipe ingredient
 const isRecipeIngredient = (ingredient: Ingredient | RecipeIngredient): ingredient is RecipeIngredient => {
@@ -32,10 +34,20 @@ const isRecipeIngredient = (ingredient: Ingredient | RecipeIngredient): ingredie
 export const IngredientCard: React.FC<IngredientCardProps> = ({ 
   ingredient, 
   showAmount = false,
-  onClick
+  onClick,
+  initiallyExpanded = false,
+  emphasizeCulinary = false
 }) => {
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [activeTab, setActiveTab] = useState<TabType>('overview');
+  const [isExpanded, setIsExpanded] = useState(initiallyExpanded);
+  const [activeTab, setActiveTab] = useState<TabType>(emphasizeCulinary ? 'culinary-methods' : 'overview');
+
+  // Update expansion state when initiallyExpanded prop changes
+  useEffect(() => {
+    setIsExpanded(initiallyExpanded);
+    if (initiallyExpanded && emphasizeCulinary) {
+      setActiveTab('culinary-methods');
+    }
+  }, [initiallyExpanded, emphasizeCulinary]);
 
   // Helper functions for better match score color contrast
   const getMatchScoreBackground = (score: number): string => {
@@ -52,8 +64,10 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
   };
 
   const handleClick = () => {
-    // Toggle expansion on card click
-    setIsExpanded(!isExpanded);
+    // Toggle expansion on card click (unless initially expanded from parent)
+    if (!initiallyExpanded) {
+      setIsExpanded(!isExpanded);
+    }
     
     // Still call the optional onClick prop if provided
     if (onClick) {
@@ -87,25 +101,17 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
     ...ingredient,
     ...(databaseIngredient || {}),
     // Keep the match score and other dynamic properties from the passed ingredient
-    matchScore: (ingredient as any).matchScore,
+    matchScore: (ingredient as unknown).matchScore,
     elementalProperties: ingredient.elementalProperties || databaseIngredient?.elementalProperties
   };
 
-  // Determine available tabs - show most tabs by default to showcase rich data
+  // Determine available tabs - emphasize culinary tabs when requested
   const availableTabs: TabType[] = ['overview'];
   
-  // Show culinary tab for most ingredients (very permissive)
-  const extendedIngredient = ingredientData as any;
-  if (extendedIngredient?.culinaryApplications || 
-      extendedIngredient?.culinaryUses || 
-      extendedIngredient?.pairings?.length > 0 || 
-      extendedIngredient?.smokePoint ||
-      extendedIngredient?.regionalUses ||
-      extendedIngredient?.idealSeasonings ||
-      extendedIngredient?.culinary_traditions ||
-      extendedIngredient?.category) {
-    availableTabs.push('culinary');
-  }
+  // Always show enhanced culinary tabs for richer experience
+  availableTabs.push('culinary-methods', 'culinary-traditions', 'flavors-pairing');
+  
+  const extendedIngredient = ingredientData as unknown;
   
   // Show preparation tab if there's any preparation-related data
   if (extendedIngredient?.preparation || 
@@ -146,28 +152,6 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
       extendedIngredient?.duration) {
     availableTabs.push('storage');
   }
-
-  // Ensure we always show at least culinary and nutrition tabs for a richer experience
-  if (!availableTabs.includes('culinary')) {
-    availableTabs.push('culinary');
-  }
-  if (!availableTabs.includes('nutrition')) {
-    availableTabs.push('nutrition');
-  }
-
-  // Debug: Log available data to help understand what's in the ingredient
-  console.log('Ingredient lookup for', ingredient.name, ':', {
-    lookupKey,
-    foundInDatabase: !!databaseIngredient,
-    databaseIngredientName: databaseIngredient?.name,
-    culinaryApplications: !!extendedIngredient?.culinaryApplications,
-    pairings: extendedIngredient?.pairings?.length || 0,
-    astrologicalProfile: !!extendedIngredient?.astrologicalProfile,
-    varieties: Object.keys(extendedIngredient?.varieties || {}).length,
-    storage: !!extendedIngredient?.storage,
-    nutritionalProfile: !!extendedIngredient?.nutritionalProfile,
-    availableTabs: availableTabs
-  });
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -284,7 +268,7 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
           </div>
         );
 
-      case 'culinary':
+      case 'culinary-methods':
         return (
           <div className="tab-content">
             {/* Enhanced culinary applications */}
@@ -292,7 +276,7 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
               <div className="info-section">
                 <h4 className="section-title">
                   <ChefHat className="section-icon" />
-                  Culinary Uses
+                  Cooking Methods & Applications
                 </h4>
                 <div className="culinary-methods">
                   {Object.entries(extendedIngredient.culinaryApplications).map(([method, data]: [string, any]) => (
@@ -300,16 +284,37 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
                       <h5 className="method-name">{method.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}</h5>
                       {data.notes && (
                         <div className="method-notes">
-                          {Array.isArray(data.notes) ? data.notes.slice(0, 2).map((note: string, index: number) => (
+                          {Array.isArray(data.notes) ? data.notes.slice(0, 3).map((note: string, index: number) => (
                             <p key={index} className="note">• {note}</p>
                           )) : <p className="note">• {data.notes}</p>}
                         </div>
                       )}
                       {data.dishes && (
                         <div className="method-dishes">
-                          {Array.isArray(data.dishes) ? data.dishes.slice(0, 3).map((dish: string, index: number) => (
-                            <span key={index} className="dish-tag">{dish}</span>
-                          )) : <span className="dish-tag">{data.dishes}</span>}
+                          <strong>Perfect for:</strong>
+                          <div className="dishes-grid">
+                            {Array.isArray(data.dishes) ? data.dishes.slice(0, 4).map((dish: string, index: number) => (
+                              <span key={index} className="dish-tag">{dish}</span>
+                            )) : <span className="dish-tag">{data.dishes}</span>}
+                          </div>
+                        </div>
+                      )}
+                      {data.temperature && (
+                        <div className="method-temp">
+                          <strong>Temperature:</strong> {
+                            typeof data.temperature === 'object' && data.temperature?.fahrenheit && data.temperature?.celsius
+                              ? `${data.temperature.fahrenheit}°F (${data.temperature.celsius}°C)`
+                              : data.temperature
+                          }
+                        </div>
+                      )}
+                      {data.timing && (
+                        <div className="method-timing">
+                          <strong>Timing:</strong> {
+                            typeof data.timing === 'object' && data.timing !== null
+                              ? JSON.stringify(data.timing)
+                              : data.timing
+                          }
                         </div>
                       )}
                     </div>
@@ -318,66 +323,33 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
               </div>
             )}
 
-            {/* Basic culinary info - always show */}
-            <div className="info-section">
-              <h4 className="section-title">
-                <ChefHat className="section-icon" />
-                {extendedIngredient?.culinaryApplications ? 'Additional Info' : 'Culinary Information'}
-              </h4>
-              <div className="basic-culinary-info">
-                {extendedIngredient?.category && (
-                  <div className="culinary-detail">
-                    <strong>Category:</strong> {extendedIngredient.category}
-                  </div>
-                )}
-                {extendedIngredient?.subCategory && (
-                  <div className="culinary-detail">
-                    <strong>Type:</strong> {extendedIngredient.subCategory}
-                  </div>
-                )}
-                {extendedIngredient?.qualities && extendedIngredient.qualities.length > 0 && (
-                  <div className="culinary-detail">
-                    <strong>Qualities:</strong> {extendedIngredient.qualities.join(', ')}
-                  </div>
-                )}
-                {!extendedIngredient?.category && !extendedIngredient?.subCategory && !extendedIngredient?.qualities && (
+            {/* Basic culinary info - always show if no detailed applications */}
+            {!extendedIngredient?.culinaryApplications && (
+              <div className="info-section">
+                <h4 className="section-title">
+                  <ChefHat className="section-icon" />
+                  Culinary Information
+                </h4>
+                <div className="basic-culinary-info">
+                  {extendedIngredient?.category && (
+                    <div className="culinary-detail">
+                      <strong>Category:</strong> {extendedIngredient.category}
+                    </div>
+                  )}
+                  {extendedIngredient?.subCategory && (
+                    <div className="culinary-detail">
+                      <strong>Type:</strong> {extendedIngredient.subCategory}
+                    </div>
+                  )}
+                  {extendedIngredient?.qualities && extendedIngredient.qualities.length > 0 && (
+                    <div className="culinary-detail">
+                      <strong>Qualities:</strong> {extendedIngredient.qualities.join(', ')}
+                    </div>
+                  )}
                   <div className="culinary-detail">
                     <strong>Usage:</strong> This ingredient can be used in a variety of culinary applications. 
-                    Check the other tabs for more specific information about preparation and nutrition.
+                    Experiment with different cooking methods to discover its full potential.
                   </div>
-                )}
-              </div>
-            </div>
-
-            {/* Enhanced pairings */}
-            {extendedIngredient?.pairings && extendedIngredient.pairings.length > 0 && (
-              <div className="info-section">
-                <h4 className="section-title">
-                  <Heart className="section-icon" />
-                  Perfect Pairings
-                </h4>
-                <div className="pairings-grid">
-                  {extendedIngredient.pairings.slice(0, 8).map((pairing: string, index: number) => (
-                    <span key={index} className="pairing-badge">{pairing.replace(/_/g, ' ')}</span>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Regional uses */}
-            {extendedIngredient?.regionalUses && (
-              <div className="info-section">
-                <h4 className="section-title">
-                  <Globe className="section-icon" />
-                  Regional Traditions
-                </h4>
-                <div className="regional-uses">
-                  {Object.entries(extendedIngredient.regionalUses).slice(0, 3).map(([region, use]: [string, any]) => (
-                    <div key={region} className="regional-card">
-                      <h5 className="region-name">{region}</h5>
-                      <p className="region-use">{use}</p>
-                    </div>
-                  ))}
                 </div>
               </div>
             )}
@@ -387,7 +359,7 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
               <div className="info-section">
                 <h4 className="section-title">
                   <Flame className="section-icon" />
-                  Smoke Point
+                  Smoke Point & Cooking Guidelines
                 </h4>
                 <div className="smoke-point-display">
                   <div className="temperature-reading">
@@ -395,9 +367,222 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
                     <span className="temp-celsius">({extendedIngredient.smokePoint.celsius}°C)</span>
                   </div>
                   <p className="smoke-point-note">Best for cooking methods below this temperature</p>
+                  <div className="cooking-recommendations">
+                    <div className="cooking-method-rec">
+                      <strong>Suitable:</strong> Sautéing, light frying, baking
+                    </div>
+                    <div className="cooking-method-rec">
+                      <strong>Avoid:</strong> High-heat deep frying if temperature exceeds smoke point
+                    </div>
+                  </div>
                 </div>
               </div>
             )}
+
+            {/* Preparation techniques */}
+            <div className="info-section">
+              <h4 className="section-title">
+                <Scissors className="section-icon" />
+                Preparation Techniques
+              </h4>
+              <div className="prep-techniques">
+                <div className="prep-method">
+                  <strong>Fresh:</strong> Use immediately for best flavor and nutritional value
+                </div>
+                <div className="prep-method">
+                  <strong>Chopping:</strong> Cut to desired size based on cooking method and dish requirements
+                </div>
+                <div className="prep-method">
+                  <strong>Storage prep:</strong> Clean and dry thoroughly before storing
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'culinary-traditions':
+        return (
+          <div className="tab-content">
+            {/* Regional uses */}
+            {extendedIngredient?.regionalUses && (
+              <div className="info-section">
+                <h4 className="section-title">
+                  <Globe className="section-icon" />
+                  Regional Culinary Traditions
+                </h4>
+                <div className="regional-uses">
+                  {Object.entries(extendedIngredient.regionalUses).map(([region, use]: [string, any]) => (
+                    <div key={region} className="regional-card">
+                      <h5 className="region-name">{region}</h5>
+                      <p className="region-use">{use}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Cultural significance */}
+            <div className="info-section">
+              <h4 className="section-title">
+                <BookOpen className="section-icon" />
+                Cultural & Historical Uses
+              </h4>
+              <div className="cultural-info">
+                {extendedIngredient?.origin && (
+                  <div className="cultural-section">
+                    <h5>Historical Origins</h5>
+                    <p>Originally cultivated in {Array.isArray(extendedIngredient.origin) ? 
+                      extendedIngredient.origin.join(' and ') : extendedIngredient.origin}, 
+                      this ingredient has been prized for centuries for its unique properties.</p>
+                  </div>
+                )}
+                
+                <div className="cultural-section">
+                  <h5>Traditional Applications</h5>
+                  <div className="traditional-uses">
+                    <div className="tradition-item">🍽️ Culinary traditions across different cultures</div>
+                    <div className="tradition-item">🌿 Traditional medicine and wellness practices</div>
+                    <div className="tradition-item">🎭 Ceremonial and festive preparations</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Seasonal and festival uses */}
+            <div className="info-section">
+              <h4 className="section-title">
+                <Star className="section-icon" />
+                Seasonal & Festival Cooking
+              </h4>
+              <div className="seasonal-cooking">
+                {extendedIngredient?.seasonality && (
+                  <div className="seasonal-info">
+                    <h5>Peak Season</h5>
+                    <p>Best enjoyed during {Array.isArray(extendedIngredient.seasonality) ? 
+                      extendedIngredient.seasonality.join(', ') : extendedIngredient.seasonality} 
+                      when flavors are at their most vibrant.</p>
+                  </div>
+                )}
+                
+                <div className="festival-uses">
+                  <h5>Festival & Holiday Traditions</h5>
+                  <div className="festival-list">
+                    <div className="festival-item">🎃 Harvest celebrations and autumn dishes</div>
+                    <div className="festival-item">🎄 Winter solstice and warming preparations</div>
+                    <div className="festival-item">🌸 Spring festivals and renewal cuisines</div>
+                    <div className="festival-item">☀️ Summer gatherings and cooling preparations</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'flavors-pairing':
+        return (
+          <div className="tab-content">
+            {/* Enhanced pairings */}
+            {extendedIngredient?.pairings && extendedIngredient.pairings.length > 0 && (
+              <div className="info-section">
+                <h4 className="section-title">
+                  <Heart className="section-icon" />
+                  Perfect Flavor Pairings
+                </h4>
+                <div className="pairings-grid">
+                  {extendedIngredient.pairings.map((pairing: string, index: number) => (
+                    <span key={index} className="pairing-badge">{pairing.replace(/_/g, ' ')}</span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Flavor profile analysis */}
+            <div className="info-section">
+              <h4 className="section-title">
+                <Beaker className="section-icon" />
+                Flavor Profile Analysis
+              </h4>
+              <div className="flavor-analysis">
+                {extendedIngredient?.flavorProfile ? (
+                  <div className="flavor-wheel">
+                    {Object.entries(extendedIngredient.flavorProfile).map(([flavor, intensity]: [string, any]) => (
+                      <div key={flavor} className="flavor-component">
+                        <span className="flavor-name">{flavor.charAt(0).toUpperCase() + flavor.slice(1)}</span>
+                        <div className="flavor-bar">
+                          <div 
+                            className="flavor-fill"
+                            style={{ width: `${Math.min(100, Number(intensity) * 100)}%` }}
+                          />
+                        </div>
+                        <span className="flavor-value">{Math.round(Number(intensity) * 100)}%</span>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="default-flavor-info">
+                    <p>This ingredient contributes unique flavors and aromas to dishes. The flavor profile varies based on preparation method, freshness, and cooking technique.</p>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Complementary ingredients by category */}
+            <div className="info-section">
+              <h4 className="section-title">
+                <Utensils className="section-icon" />
+                Ingredient Harmony Guide
+              </h4>
+              <div className="harmony-guide">
+                <div className="harmony-category">
+                  <h5>🌿 Herbs & Aromatics</h5>
+                  <p>Pairs beautifully with fresh herbs that complement its natural character</p>
+                </div>
+                <div className="harmony-category">
+                  <h5>🥄 Spices & Seasonings</h5>
+                  <p>Enhanced by warm spices and carefully balanced seasonings</p>
+                </div>
+                <div className="harmony-category">
+                  <h5>🍋 Acids & Brightness</h5>
+                  <p>Benefits from acidic ingredients that brighten and balance flavors</p>
+                </div>
+                <div className="harmony-category">
+                  <h5>🧈 Fats & Richness</h5>
+                  <p>Combines well with oils and fats that carry and enhance flavors</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Elemental flavor connections */}
+            <div className="info-section">
+              <h4 className="section-title">
+                <Wind className="section-icon" />
+                Elemental Flavor Connections
+              </h4>
+              <div className="elemental-flavors">
+                {Object.entries(ingredient.elementalProperties || {}).map(([element, value]) => {
+                  const flavorNotes = {
+                    Fire: "Warming, stimulating, energizing - brings heat and intensity",
+                    Water: "Cooling, soothing, flowing - provides moisture and gentle flavors", 
+                    Earth: "Grounding, nourishing, substantial - offers depth and richness",
+                    Air: "Light, aromatic, uplifting - contributes bright and fresh notes"
+                  };
+                  
+                  return (
+                    <div key={element} className="elemental-flavor">
+                      <div className="element-header">
+                        {element === 'Fire' && <Flame className="element-icon" />}
+                        {element === 'Water' && <Droplets className="element-icon" />}
+                        {element === 'Earth' && <Mountain className="element-icon" />}
+                        {element === 'Air' && <Wind className="element-icon" />}
+                        <span className="element-name">{element}</span>
+                        <span className="element-percentage">{Math.round(Number(value) * 100)}%</span>
+                      </div>
+                      <p className="element-flavor-note">{flavorNotes[element as keyof typeof flavorNotes]}</p>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
           </div>
         );
 
@@ -916,7 +1101,11 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
                           <div className="storage-details">
                             {data.temperature && (
                               <div className="storage-detail">
-                                <strong>Temperature:</strong> {data.temperature}
+                                <strong>Temperature:</strong> {
+                                  typeof data.temperature === 'object' && data.temperature?.fahrenheit && data.temperature?.celsius
+                                    ? `${data.temperature.fahrenheit}°F (${data.temperature.celsius}°C)`
+                                    : data.temperature
+                                }
                               </div>
                             )}
                             {data.duration && (
@@ -1171,13 +1360,15 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
                 }}
               >
                 {tab === 'overview' && <Info size={14} className={styles.sectionIcon} />}
-                {tab === 'culinary' && <ChefHat size={14} className={styles.sectionIcon} />}
+                {tab === 'culinary-methods' && <ChefHat size={14} className={styles.sectionIcon} />}
+                {tab === 'culinary-traditions' && <BookOpen size={14} className={styles.sectionIcon} />}
+                {tab === 'flavors-pairing' && <Heart size={14} className={styles.sectionIcon} />}
                 {tab === 'preparation' && <Clock size={14} className={styles.sectionIcon} />}
                 {tab === 'nutrition' && <Heart size={14} className={styles.sectionIcon} />}
                 {tab === 'astrology' && <Sparkles size={14} className={styles.sectionIcon} />}
                 {tab === 'varieties' && <Leaf size={14} className={styles.sectionIcon} />}
-                {tab === 'storage' && <Archive size={14} className={styles.sectionIcon} />}
-                <span>{tab.charAt(0).toUpperCase() + tab.slice(1)}</span>
+                {tab === 'storage' && <Thermometer size={14} className={styles.sectionIcon} />}
+                <span>{tab.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}</span>
               </button>
             ))}
           </div>

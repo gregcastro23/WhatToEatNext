@@ -1,4 +1,4 @@
-import { AstrologicalState, ElementalProperties, ChakraEnergies, AstrologicalProfile, ElementalAffinity, PlanetName, Element } from "@/types/alchemy";
+import { AstrologicalState, _ElementalProperties, _ChakraEnergies, _AstrologicalProfile, ElementalAffinity, _PlanetName, _Element } from "@/types/alchemy";
 import type { Modality, Ingredient, SensoryProfile, CookingMethod } from '../../data/ingredients/types';
 
 
@@ -69,7 +69,7 @@ const loadVegetables = async (): Promise<Record<string, any>> => {
       const module = await import('../../data/ingredients/vegetables');
       vegetables = module.vegetables;
     } catch (error) {
-      console.error('Error loading vegetables:', error);
+      // console.error('Error loading vegetables:', error);
     }
   }
   return vegetables;
@@ -81,7 +81,7 @@ const loadFruits = async (): Promise<Record<string, any>> => {
       const module = await import('../../data/ingredients/fruits');
       fruits = module.fruits;
     } catch (error) {
-      console.error('Error loading fruits:', error);
+      // console.error('Error loading fruits:', error);
     }
   }
   return fruits;
@@ -93,7 +93,7 @@ const loadHerbs = async (): Promise<Record<string, any>> => {
       const module = await import('../../data/ingredients/herbs');
       herbs = module.herbs;
     } catch (error) {
-      console.error('Error loading herbs:', error);
+      // console.error('Error loading herbs:', error);
     }
   }
   return herbs;
@@ -105,7 +105,7 @@ const loadSpices = async (): Promise<Record<string, any>> => {
       const module = await import('../../data/ingredients/spices');
       spices = module.spices;
     } catch (error) {
-      console.error('Error loading spices:', error);
+      // console.error('Error loading spices:', error);
     }
   }
   return spices;
@@ -117,7 +117,7 @@ const loadProteins = async (): Promise<Record<string, any>> => {
       const module = await import('../../data/ingredients/proteins');
       proteins = module.proteins;
     } catch (error) {
-      console.error('Error loading proteins:', error);
+      // console.error('Error loading proteins:', error);
     }
   }
   return proteins;
@@ -129,7 +129,7 @@ const loadGrains = async (): Promise<Record<string, any>> => {
       const module = await import('../../data/ingredients/grains');
       grains = module.grains;
     } catch (error) {
-      console.error('Error loading grains:', error);
+      // console.error('Error loading grains:', error);
     }
   }
   return grains;
@@ -141,7 +141,7 @@ const loadSeasonings = async (): Promise<Record<string, any>> => {
       const module = await import('../../data/ingredients/seasonings');
       seasonings = module.seasonings;
     } catch (error) {
-      console.error('Error loading seasonings:', error);
+      // console.error('Error loading seasonings:', error);
     }
   }
   return seasonings;
@@ -153,7 +153,7 @@ const loadOils = async (): Promise<Record<string, any>> => {
       const module = await import('../../data/ingredients/oils');
       oils = module.oils;
     } catch (error) {
-      console.error('Error loading oils:', error);
+      // console.error('Error loading oils:', error);
     }
   }
   return oils;
@@ -165,7 +165,7 @@ const loadVinegars = async (): Promise<Record<string, any>> => {
       const module = await import('../../data/ingredients/vinegars');
       vinegars = module.vinegars;
     } catch (error) {
-      console.error('Error loading vinegars:', error);
+      // console.error('Error loading vinegars:', error);
     }
   }
   return vinegars;
@@ -240,7 +240,7 @@ export interface IngredientRecommendation {
   flavorProfile?: { [key: string]: number };
   season?: string[];
   subCategory?: string;
-  [key: string]: any;
+  [key: string]: Record<string, unknown>;
 }
 
 export interface GroupedIngredientRecommendations {
@@ -304,7 +304,7 @@ export interface EnhancedIngredient {
   sensoryProfile?: SensoryProfile;
   recommendedCookingMethods?: CookingMethod[];
   culturalOrigins?: string[];
-  [key: string]: any;
+  [key: string]: Record<string, unknown>;
 }
 
 export interface EnhancedIngredientRecommendation extends IngredientRecommendation {
@@ -381,7 +381,7 @@ export const loadIngredientCategories = async (categories: string[]): Promise<Re
       result.vinegars = await loadVinegars();
     }
   } catch (error) {
-    console.error('Error loading ingredient categories:', error);
+    // console.error('Error loading ingredient categories:', error);
   }
   return result;
 };
@@ -413,12 +413,12 @@ export const getIngredientsFromCategories = async (
 };
 
 // Phase 8: Cached ingredient data for performance
-const cachedAllIngredientsData: any[] | null = null;
+const cachedAllIngredientsData: unknown[] | null = null;
 const cacheTimestamp: number = 0;
-const CACHE_TTL = 300000; // 5 minutes
+const _CACHE_TTL = 300000; // 5 minutes
 
 export const getAllIngredientsData = async (): Promise<any[]> => {
-  const allData: any[] = [];
+  const allData: unknown[] = [];
   try {
     // Collect data from each category
     const vegData = await loadVegetables();
@@ -444,7 +444,7 @@ export const getAllIngredientsData = async (): Promise<any[]> => {
 
     return allData;
   } catch (error) {
-    console.error('Error loading all ingredient data:', error);
+    // console.error('Error loading all ingredient data:', error);
     return [];
   }
 };
@@ -479,11 +479,11 @@ export const getAllIngredients = async (): Promise<EnhancedIngredient[]> => {
   
   // Create eggs and dairy from proteins by filtering category
   const eggs = Object.entries(proteinsData || {})
-    .filter(([_, value]) => (value as any).category === 'egg')
+    .filter(([_, value]) => (value as unknown).category === 'egg')
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
   
   const dairy = Object.entries(proteinsData || {})
-    .filter(([_, value]) => (value as any).category === 'dairy')
+    .filter(([_, value]) => (value as unknown).category === 'dairy')
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
   
   // Define all categories with loaded data
@@ -503,7 +503,7 @@ export const getAllIngredients = async (): Promise<EnhancedIngredient[]> => {
   // Process each category
   categories.forEach(category => {
     if (!category.data) {
-      console.warn(`No data for category: ${category.name}`);
+      // console.warn(`No data for category: ${category.name}`);
       return;
     }
     
@@ -545,7 +545,7 @@ export const getAllIngredients = async (): Promise<EnhancedIngredient[]> => {
   // Filter out ingredients without proper astrological profiles
   const validIngredients = allIngredients.filter(ing => 
     ing?.astrologicalProfile && 
-    (ing.astrologicalProfile.elementalAffinity as any)?.base && 
+    (ing.astrologicalProfile.elementalAffinity as unknown)?.base && 
     ing.astrologicalProfile.rulingPlanets
   );
   
@@ -665,7 +665,7 @@ export async function getIngredientRecommendations(
       const modalityScore = await calculateModalityScore(ingredient.qualities || [], options.modalityPreference);
       
       // NEW: Unified flavor compatibility scoring
-      const flavorScore = calculateUnifiedFlavorScore(ingredient, elementalProps, options);
+      const flavorScore = calculateUnifiedFlavorScore(ingredient, elementalProps, _options);
       
       // NEW: Kalchm resonance scoring
       const kalchmScore = calculateKalchmResonance(ingredient, elementalProps);
@@ -674,7 +674,7 @@ export async function getIngredientRecommendations(
       const monicaScore = calculateMonicaOptimization(ingredient, elementalProps);
       
       // NEW: Cultural context scoring
-      const culturalScore = calculateCulturalContextScore(ingredient, options);
+      const culturalScore = calculateCulturalContextScore(ingredient, _options);
       
       // Enhanced weighted calculation
       const totalScore = (
@@ -700,7 +700,7 @@ export async function getIngredientRecommendations(
         totalScore
       } as IngredientRecommendation;
     } catch (error) {
-      console.error('Error calculating scores for ingredient:', ingredient.name, error);
+      // console.error('Error calculating scores for ingredient:', ingredient.name, error);
       // Return ingredient with default scores in case of error
       return {
         ...ingredient,
@@ -807,7 +807,7 @@ function calculateElementalScore(
   return totalWeight > 0 ? score / totalWeight : 0.5;
 }
 
-async function calculateSeasonalScore(ingredient: any, date: Date): Promise<number> {
+async function calculateSeasonalScore(ingredient: Record<string, unknown>, date: Date): Promise<number> {
   // Simple seasonal scoring - could be enhanced
   const month = date.getMonth();
   const season = month >= 2 && month <= 4 ? 'spring' :
@@ -862,7 +862,7 @@ function calculateUnifiedFlavorScore(
     
     return Math.min(1, score);
   } catch (error) {
-    console.warn('Error calculating unified flavor score:', error);
+    // console.warn('Error calculating unified flavor score:', error);
     return 0.5;
   }
 }
@@ -882,7 +882,7 @@ function calculateKalchmResonance(
     const kalchm = numerator / denominator;
     return Math.max(0.1, Math.min(1, kalchm / 2));
   } catch (error) {
-    console.warn('Error calculating kalchm resonance:', error);
+    // console.warn('Error calculating kalchm resonance:', error);
     return 0.5;
   }
 }
@@ -905,7 +905,7 @@ function calculateMonicaOptimization(
     
     return Math.max(0.1, Math.min(1, monica));
   } catch (error) {
-    console.warn('Error calculating monica optimization:', error);
+    // console.warn('Error calculating monica optimization:', error);
     return 0.5;
   }
 }
@@ -922,12 +922,12 @@ function calculateCulturalContextScore(
     }
     return 0.6; // Default neutral score
   } catch (error) {
-    console.warn('Error calculating cultural context score:', error);
+    // console.warn('Error calculating cultural context score:', error);
     return 0.5;
   }
 }
 
-function isElementalProperties(obj: any): obj is ElementalProperties {
+function isElementalProperties(obj: Record<string, unknown>): obj is ElementalProperties {
   return obj && 
     typeof obj === 'object' &&
     typeof obj.Fire === 'number' &&
@@ -967,7 +967,7 @@ export async function recommendIngredients(
     aspects: []
   };
   
-  const grouped = await getIngredientRecommendations(elementalProps as any, options);
+  const grouped = await getIngredientRecommendations(elementalProps as unknown, _options);
   
   // Flatten grouped recommendations into a single array
   const allRecommendations: IngredientRecommendation[] = [];

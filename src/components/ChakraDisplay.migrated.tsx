@@ -110,7 +110,7 @@ const ChakraDisplayMigrated: React.FC<ChakraDisplayProps> = ({ compact = false }
         };
         setChakraRecommendations(recommendations);
       } catch (err) {
-        console.error('Error loading chakra data:', err);
+        // console.error('Error loading chakra data:', err);
       }
     };
     

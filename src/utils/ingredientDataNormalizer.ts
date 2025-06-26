@@ -6,7 +6,7 @@ import type { IngredientMapping } from '@/types/alchemy';
  * Normalize vitamin data to a consistent format
  * Handles both array format ['c', 'k'] and object format {B12: 0.85, niacin: 0.43}
  */
-export function normalizeVitamins(vitamins: any): Array<{ name: string; value?: number; unit?: string }> {
+export function normalizeVitamins(vitamins: Record<string, unknown>): Array<{ name: string; value?: number; unit?: string }> {
   if (!vitamins) return [];
 
   // If it's already an array of strings
@@ -33,7 +33,7 @@ export function normalizeVitamins(vitamins: any): Array<{ name: string; value?: 
 /**
  * Normalize mineral data to a consistent format
  */
-export function normalizeMinerals(minerals: any): Array<{ name: string; value?: number; unit?: string }> {
+export function normalizeMinerals(minerals: Record<string, unknown>): Array<{ name: string; value?: number; unit?: string }> {
   if (!minerals) return [];
 
   // If it's already an array of strings
@@ -121,7 +121,7 @@ export function formatMineralName(name: string): string {
 /**
  * Normalize antioxidant data
  */
-export function normalizeAntioxidants(antioxidants: any): string[] {
+export function normalizeAntioxidants(antioxidants: Record<string, unknown>): string[] {
   if (!antioxidants) return [];
   
   if (Array.isArray(antioxidants)) {
@@ -152,7 +152,7 @@ function formatAntioxidantName(name: string): string {
 /**
  * Normalize culinary applications data
  */
-export function normalizeCulinaryApplications(applications: any): Record<string, any> {
+export function normalizeCulinaryApplications(applications: Record<string, unknown>): Record<string, any> {
   if (!applications || typeof applications !== 'object') return {};
   
   const normalized: Record<string, any> = {};
@@ -178,7 +178,7 @@ function formatCulinaryMethod(method: string): string {
 /**
  * Normalize individual culinary method data
  */
-function normalizeCulinaryMethod(data: any): any {
+function normalizeCulinaryMethod(data: Record<string, unknown>): any {
   if (!data) return {};
   
   return {
@@ -192,7 +192,7 @@ function normalizeCulinaryMethod(data: any): any {
 /**
  * Normalize varieties data
  */
-export function normalizeVarieties(varieties: any): Record<string, any> {
+export function normalizeVarieties(varieties: Record<string, unknown>): Record<string, any> {
   if (!varieties || typeof varieties !== 'object') return {};
   
   const normalized: Record<string, any> = {};
@@ -218,7 +218,7 @@ function formatVarietyName(name: string): string {
 /**
  * Normalize variety data
  */
-function normalizeVarietyData(data: any): any {
+function normalizeVarietyData(data: Record<string, unknown>): any {
   if (!data || typeof data !== 'object') return {};
   
   return {
@@ -238,7 +238,7 @@ function normalizeVarietyData(data: any): any {
 /**
  * Normalize storage information
  */
-export function normalizeStorage(storage: any): any {
+export function normalizeStorage(storage: Record<string, unknown>): any {
   if (!storage) return {};
   
   if (typeof storage === 'string') {
@@ -260,7 +260,7 @@ export function normalizeStorage(storage: any): any {
 /**
  * Normalize preparation information
  */
-export function normalizePreparation(preparation: any): any {
+export function normalizePreparation(preparation: Record<string, unknown>): any {
   if (!preparation) return {};
   
   if (typeof preparation === 'string') {
@@ -281,7 +281,7 @@ export function normalizePreparation(preparation: any): any {
 /**
  * Main ingredient normalization function
  */
-export function normalizeIngredientData(ingredient: any): any {
+export function normalizeIngredientData(ingredient: Record<string, unknown>): any {
   if (!ingredient) return null;
   
   const normalized = {
@@ -304,11 +304,11 @@ export function normalizeIngredientData(ingredient: any): any {
 /**
  * Safe getter for nutritional data
  */
-export function safeGetNutritionalData(ingredient: any, field: string): any {
+export function safeGetNutritionalData(ingredient: Record<string, unknown>, field: string): any {
   try {
     return ingredient?.nutritionalProfile?.[field] || null;
   } catch (error) {
-    console.warn(`Error accessing nutritional field ${field}:`, error);
+    // console.warn(`Error accessing nutritional field ${field}:`, error);
     return null;
   }
 }
@@ -316,7 +316,7 @@ export function safeGetNutritionalData(ingredient: any, field: string): any {
 /**
  * Check if ingredient has rich nutritional data
  */
-export function hasRichNutritionalData(ingredient: any): boolean {
+export function hasRichNutritionalData(ingredient: Record<string, unknown>): boolean {
   const profile = ingredient?.nutritionalProfile;
   if (!profile) return false;
   

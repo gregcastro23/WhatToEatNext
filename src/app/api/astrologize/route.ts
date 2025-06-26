@@ -55,7 +55,7 @@ export async function POST(request: Request) {
       ayanamsa: zodiacSystem.toUpperCase() === 'TROPICAL' ? 'TROPICAL' : 'LAHIRI' // Default to Lahiri for sidereal
     };
 
-    console.log('Making API call to astrologize with payload:', apiPayload);
+    // console.log('Making API call to astrologize with payload:', apiPayload);
 
     // Make the API call
     const response = await fetch(ASTROLOGIZE_API_URL, {
@@ -74,7 +74,7 @@ export async function POST(request: Request) {
     return NextResponse.json(data);
 
   } catch (error) {
-    console.error('Error calling astrologize API:', error);
+    // console.error('Error calling astrologize API:', error);
     return NextResponse.json(
       { error: 'Failed to get astrological data' },
       { status: 500 }

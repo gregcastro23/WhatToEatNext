@@ -16,7 +16,7 @@ import {
 
 
 
-import { Element } from "@/types/alchemy";
+import { _Element } from "@/types/alchemy";
 
 // ===== LEGACY INTERFACES (for backward compatibility) =====
 
@@ -68,7 +68,7 @@ export function calculateFlavorCompatibility(
     // Convert back to legacy format
     return convertUnifiedToLegacy(result);
   } catch (error) {
-    console.warn('Legacy compatibility layer error:', error);
+    // console.warn('Legacy compatibility layer error:', error);
     // Fallback to simple calculation
     return {
       compatibility: 0.7,
@@ -107,7 +107,7 @@ export function calculateCuisineFlavorMatch(
     const cuisineProfile = unifiedFlavorEngine.getProfile(`cuisine-${cuisineName?.toLowerCase()?.replace(/\s+/g, '-')}`);
     
     if (!cuisineProfile) {
-      console.warn(`Cuisine profile not found: ${cuisineName}`);
+      // console.warn(`Cuisine profile not found: ${cuisineName}`);
       return 0.5; // Neutral compatibility
     }
     
@@ -119,7 +119,7 @@ export function calculateCuisineFlavorMatch(
     
     return compatibility.overall;
   } catch (error) {
-    console.warn('Legacy cuisine flavor match error:', error);
+    // console.warn('Legacy cuisine flavor match error:', error);
     return 0.5;
   }
 }
@@ -145,7 +145,7 @@ export function calculatePlanetaryFlavorMatch(
     const planetProfile = unifiedFlavorEngine.getProfile(`planetary-${strongestPlanet[0].toLowerCase()}`);
     
     if (!planetProfile) {
-      console.warn(`Planetary profile not found: ${strongestPlanet[0]}`);
+      // console.warn(`Planetary profile not found: ${strongestPlanet[0]}`);
       return 0.5;
     }
     
@@ -154,7 +154,7 @@ export function calculatePlanetaryFlavorMatch(
     
     return compatibility.overall;
   } catch (error) {
-    console.warn('Legacy planetary flavor match error:', error);
+    // console.warn('Legacy planetary flavor match error:', error);
     return 0.5;
   }
 }
@@ -174,7 +174,7 @@ export function getFlavorProfileForIngredient(ingredientName: string): LegacyFla
     // Fallback to default profile
     return { spicy: 0.0, sweet: 0.2, sour: 0.0, bitter: 0.0, salty: 0.1, umami: 0.1 };
   } catch (error) {
-    console.warn('Legacy ingredient profile error:', error);
+    // console.warn('Legacy ingredient profile error:', error);
     return { spicy: 0.0, sweet: 0.2, sour: 0.0, bitter: 0.0, salty: 0.1, umami: 0.1 };
   }
 }
@@ -186,7 +186,7 @@ export function getFlavorProfileForIngredient(ingredientName: string): LegacyFla
 export function findCompatibleProfiles(
   targetProfile,
   minCompatibility = 0.7
-): Array<{ profile: any; compatibility: number }> {
+): Array<{ profile: Record<string, unknown>; compatibility: number }> {
   try {
     const unifiedTarget = convertLegacyToUnified(targetProfile, 'target-legacy');
     const results = newFindCompatibleProfiles(unifiedTarget, minCompatibility);
@@ -196,7 +196,7 @@ export function findCompatibleProfiles(
       compatibility: result.compatibility.overall
     }));
   } catch (error) {
-    console.warn('Legacy compatible profiles error:', error);
+    // console.warn('Legacy compatible profiles error:', error);
     return [];
   }
 }
@@ -226,7 +226,7 @@ export function getCuisineProfile(cuisineName: string): LegacyCuisineProfile | n
       description: cuisineProfile.description
     };
   } catch (error) {
-    console.warn('Legacy cuisine profile error:', error);
+    // console.warn('Legacy cuisine profile error:', error);
     return null;
   }
 }
@@ -248,7 +248,7 @@ export function calculateElementalCompatibility(
     
     return compatibility.elemental;
   } catch (error) {
-    console.warn('Legacy elemental compatibility error:', error);
+    // console.warn('Legacy elemental compatibility error:', error);
     return 0.7; // Default good compatibility
   }
 }

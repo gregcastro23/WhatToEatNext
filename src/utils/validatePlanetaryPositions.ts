@@ -92,7 +92,7 @@ export function validatePlanetaryPositions(
 
     // If the calculated sign doesn't match the transit sign, update it
     if (position.sign !== transitSign) {
-      console.log(`Correcting ${planet} sign from ${position.sign} to ${transitSign}`);
+      // console.log(`Correcting ${planet} sign from ${position.sign} to ${transitSign}`);
       
       // Keep the original degree but update the sign and recalculate longitude
       validatedPositions[planet] = {
@@ -125,7 +125,7 @@ function getBaseSignLongitude(sign: ZodiacSign): number {
  * This is a more reliable fallback than fixed positions when astronomy calculations fail
  */
 export function getCurrentTransitPositions(): Record<string, PlanetPosition> {
-  const currentDate = new Date();
+  const _currentDate = new Date();
   const positions: Record<string, PlanetPosition> = {};
 
   // Current planetary positions (May 16, 2024) from user input

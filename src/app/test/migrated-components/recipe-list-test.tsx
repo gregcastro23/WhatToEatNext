@@ -43,7 +43,7 @@ export default function RecipeListTestPage() {
           <li>Used service interfaces for API calls instead of direct imports</li>
           <li>Added fallback values for when service data is not available</li>
           <li>Implemented dependency checks before using services</li>
-          <li>Fetch reference data (cuisines, meal types, dietary options) from services</li>
+          <li>Fetch reference data (cuisines, meal types, dietary _options) from services</li>
           <li>Added consistent error handling throughout component</li>
         </ul>
       </div>

@@ -6,7 +6,7 @@ import { ElementType, ElementalEnergy } from '@/types/elements';
 import { getCachedCalculation } from '@/utils/calculationCache';
 import { isEqual } from 'lodash';
 
-import { PlanetaryPosition } from "@/types/celestial";
+import { _PlanetaryPosition } from "@/types/celestial";
 interface ElementalEnergyDisplayProps {
   showDebug?: boolean;
 }
@@ -27,7 +27,7 @@ const ElementalEnergyDisplayMigrated: React.FC<ElementalEnergyDisplayProps> = ({
   useEffect(() => {
     // Only increment on component mount, not on every render
     if (showDebug) {
-      console.log(`ElementalEnergyDisplay initial render`);
+      // console.log(`ElementalEnergyDisplay initial render`);
     }
     // Empty dependency array ensures this runs only once on mount
   }, []);
@@ -36,7 +36,7 @@ const ElementalEnergyDisplayMigrated: React.FC<ElementalEnergyDisplayProps> = ({
   useEffect(() => {
     if (showDebug) {
       setRenderCount(prev => prev + 1);
-      console.log(`ElementalEnergyDisplay rendered ${renderCount} times`);
+      // console.log(`ElementalEnergyDisplay rendered ${renderCount} times`);
     }
   }, [showDebug]); // Only update when showDebug changes
 
@@ -52,7 +52,7 @@ const ElementalEnergyDisplayMigrated: React.FC<ElementalEnergyDisplayProps> = ({
         const positions = await astrologyService.getCurrentPlanetaryPositions();
         
         // Check if daytime
-        const isDaytime = await astrologyService.isDaytime();
+        const _isDaytime = await astrologyService.isDaytime();
         
         // Skip calculation if positions haven't changed
         if (isEqual(lastPositions, positions)) {
@@ -68,7 +68,7 @@ const ElementalEnergyDisplayMigrated: React.FC<ElementalEnergyDisplayProps> = ({
         );
         
         if (!result || !Array.isArray(result)) {
-          console.error('Invalid calculation result:', result);
+          // console.error('Invalid calculation result:', result);
           return;
         }
         
@@ -80,7 +80,7 @@ const ElementalEnergyDisplayMigrated: React.FC<ElementalEnergyDisplayProps> = ({
         
         setLastPositions(positions);
       } catch (err) {
-        console.error('Error loading planetary data:', err);
+        // console.error('Error loading planetary data:', err);
       }
     };
 

@@ -96,10 +96,10 @@ export class ConsolidatedRecipeService {
   ): Promise<Recipe[]> {
     try {
       // Convert our criteria to UnifiedRecipeService format
-      const unifiedResults = await (unifiedRecipeService as any).searchRecipes(criteria as any);
+      const unifiedResults = await (unifiedRecipeService as unknown).searchRecipes(criteria as unknown);
       
       // Extract just the Recipe objects from the results
-      return (unifiedResults || []).map((result: any) => result.recipe || result) as unknown as Recipe[];
+      return (unifiedResults || []).map((result: Record<string, unknown>) => result.recipe || result) as unknown as Recipe[];
     } catch (error) {
       ErrorHandler.log((error as unknown as Error), {
         component: 'ConsolidatedRecipeService',
@@ -256,7 +256,7 @@ export class ConsolidatedRecipeService {
   async generateRecipe(criteria: RecipeSearchCriteria): Promise<Recipe> {
     try {
       // Apply surgical type casting with variable extraction
-      const serviceData = unifiedRecipeService as any;
+      const serviceData = unifiedRecipeService as unknown;
       const generateRecipeMethod = serviceData?.generateRecipe;
       const unifiedResult = generateRecipeMethod ? await generateRecipeMethod(criteria) : null;
       return unifiedResult?.recipe || null;
@@ -278,7 +278,7 @@ export class ConsolidatedRecipeService {
   ): Promise<Recipe> {
     try {
       // Apply surgical type casting with variable extraction
-      const serviceData = unifiedRecipeService as any;
+      const serviceData = unifiedRecipeService as unknown;
       const generateFusionRecipeMethod = serviceData?.generateFusionRecipe;
       const unifiedResult = generateFusionRecipeMethod ? await generateFusionRecipeMethod(cuisines, criteria) : null;
       return unifiedResult?.recipe || null;
@@ -300,7 +300,7 @@ export class ConsolidatedRecipeService {
   ): Promise<Recipe> {
     try {
       // Apply surgical type casting with variable extraction
-      const serviceData = unifiedRecipeService as any;
+      const serviceData = unifiedRecipeService as unknown;
       const adaptRecipeMethod = serviceData?.adaptRecipeForCurrentSeason;
       const unifiedResult = adaptRecipeMethod ? await adaptRecipeMethod(recipe) : null;
       return unifiedResult?.recipe || recipe;

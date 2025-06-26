@@ -41,7 +41,7 @@ export default function AlchmKitchen() {
     // Planetary hour from astrologicalState
     const planetaryHour = astrologicalState?.planetaryHour || 'Unknown';
     // Lunar phase from astrologicalState
-    const lunarPhase = astrologicalState?.lunarPhase || 'Unknown';
+    const _lunarPhase = astrologicalState?.lunarPhase || 'Unknown';
 
     useEffect(() => {
         setMounted(true);
@@ -55,10 +55,10 @@ export default function AlchmKitchen() {
                 logger.debug('Fetching tarot data for recipes', { currentSign, planetaryHour });
                 
                 // Get current tarot cards
-                const currentDate = new Date();
+                const _currentDate = new Date();
                 const cards = getTarotCardsForDate(currentDate, planetaryPositions.sun && {
-                    sign: (planetaryPositions.sun as any)?.sign || 'aries',
-                    degree: (planetaryPositions.sun as any)?.degree || 0
+                    sign: (planetaryPositions.sun as unknown)?.sign || 'aries',
+                    degree: (planetaryPositions.sun as unknown)?.degree || 0
                 });
                 
                 // Get recipes based on tarot cards

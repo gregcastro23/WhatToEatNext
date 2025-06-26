@@ -164,11 +164,11 @@ export function enhanceIngredientWithAlchemy(
     category: string;
     subcategory?: string;
     elementalProperties: ElementalProperties;
-    [key: string]: any;
+    [key: string]: Record<string, unknown>;
   }
 ): AlchemicalIngredient {
   // Derive alchemical properties from elemental properties
-  const alchemicalProperties = deriveAlchemicalFromElemental(ingredient.elementalPropertiesState);
+  const _alchemicalProperties = deriveAlchemicalFromElemental(ingredient.elementalPropertiesState);
   
   // Calculate Kalchm
   const kalchm = calculateKalchm(alchemicalProperties);

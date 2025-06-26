@@ -6,7 +6,7 @@ import {
   type IngredientFilter,
   type RecipeRecommendation,
 } from '@/services/IngredientFilterService';
-import { ElementalProperties } from '@/types/alchemy';
+import { _ElementalProperties } from '@/types/alchemy';
 
 // Define IngredientMapping interface for nutritional recommendations
 interface IngredientMapping {
@@ -453,10 +453,10 @@ const NutritionalRecommender: React.FC<NutritionalRecommenderProps> = ({
               <h3 className="text-lg font-medium mb-3">{category}</h3>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {(recommendations[category] as any).map(
-                  (value: any, index: number, array: any[]): any => {
+                {(recommendations[category] as unknown).map(
+                  (value: Record<string, unknown>, index: number, array: unknown[]): Record<string, unknown> => {
                     // Extract ingredient data with safe property access
-                    const ingredientData = value as any;
+                    const ingredientData = value as unknown;
                     const ingredientName = ingredientData?.name || ingredientData?.ingredient || '';
                     
                     return (
@@ -625,7 +625,7 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
   onToggleExpand,
 }) => {
   // Extract ingredient data with safe property access
-  const ingredientData = ingredient as any;
+  const ingredientData = ingredient as unknown;
   const nutritionalProfile = ingredientData?.nutritionalProfile || {};
   const ingredientName = ingredientData?.name || ingredientData?.ingredient || '';
   const qualities = ingredientData?.qualities;
@@ -768,7 +768,7 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
             <div className="space-y-2">
               {/* Display enhanced nutrition data with safe property access */}
               {(() => {
-                const enhancedDataObj = enhancedData as any;
+                const enhancedDataObj = enhancedData as unknown;
                 const nutrition = enhancedDataObj?.nutrition;
                 const nutrients = nutrition?.nutrients;
                 
@@ -777,7 +777,7 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
                     {nutrients
                       .slice(0, 8)
                       .map((nutrient: unknown) => {
-                        const nutrientData = nutrient as any;
+                        const nutrientData = nutrient as unknown;
                         const name = nutrientData?.name || '';
                         const amount = nutrientData?.amount || 0;
                         const unit = nutrientData?.unit || '';
@@ -797,7 +797,7 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
 
               {/* Additional properties with safe access */}
               {(() => {
-                const enhancedDataObj = enhancedData as any;
+                const enhancedDataObj = enhancedData as unknown;
                 const categoryPath = enhancedDataObj?.categoryPath;
                 
                 return categoryPath && (
@@ -810,7 +810,7 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
 
               {/* Possible substitutes with safe access */}
               {(() => {
-                const enhancedDataObj = enhancedData as any;
+                const enhancedDataObj = enhancedData as unknown;
                 const possibleSubstitutes = enhancedDataObj?.possibleSubstitutes;
                 
                 return possibleSubstitutes && (

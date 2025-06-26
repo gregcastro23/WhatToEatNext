@@ -44,7 +44,7 @@ const AstrologizeDemo: React.FC = () => {
         },
         // Error callback
         (error) => {
-          console.log('Geolocation error:', error.message);
+          // console.log('Geolocation error:', error.message);
           setLocationDetectionStatus('error');
         },
         // Options
@@ -59,7 +59,7 @@ const AstrologizeDemo: React.FC = () => {
   const getCustomOptions = () => {
     if (!useCustom && !useCustomLocation && zodiacSystem === 'tropical') return {};
     
-    const options: any = {
+    const options: Record<string, unknown> = {
       zodiacSystem
     };
     

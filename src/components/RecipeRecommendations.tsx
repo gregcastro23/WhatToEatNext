@@ -103,7 +103,7 @@ interface RecommendationExplanation {
 }
 
 // Helper Functions
-const validateElementalProperties = (props: any): ElementalProperties => {
+const validateElementalProperties = (props: Record<string, unknown>): ElementalProperties => {
   const defaultProps = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
   
   if (!props || typeof props !== 'object') return defaultProps;
@@ -179,7 +179,7 @@ const explainRecommendation = (
   season: Season,
   timeFactors: TimeFactors | null
 ): string => {
-  const explanation = calculateRecommendationScore(recipe, season, timeFactors);
+  const explanation = calculateRecommendationScore(recipe, _season, timeFactors);
   const topReason = Object.entries(explanation.breakdown)
     .sort(([,a], [,b]) => b.score - a.score)[0];
   
@@ -253,12 +253,12 @@ export default function RecipeRecommendations() {
         
         // Get seasonal recipes - Safe method access
         let seasonalRecipes: Recipe[] = [];
-        if (recipeService && typeof (recipeService as any).getRecipesBySeason === 'function') {
-          seasonalRecipes = await (recipeService as any).getRecipesBySeason(currentSeason);
-        } else if (recipeService && typeof (recipeService as any).getAllRecipes === 'function') {
+        if (recipeService && typeof (recipeService as unknown).getRecipesBySeason === 'function') {
+          seasonalRecipes = await (recipeService as unknown).getRecipesBySeason(currentSeason);
+        } else if (recipeService && typeof (recipeService as unknown).getAllRecipes === 'function') {
           // Fallback to get all recipes and filter by season
-          const allRecipes = await (recipeService as any).getAllRecipes();
-          seasonalRecipes = (allRecipes || []).filter((recipe: any) => 
+          const allRecipes = await (recipeService as unknown).getAllRecipes();
+          seasonalRecipes = (allRecipes || []).filter((recipe: Record<string, unknown>) => 
             recipe.season?.includes(currentSeason) || 
             recipe.seasonality?.includes(currentSeason) ||
             !recipe.season // Include recipes with no season specified
@@ -269,7 +269,7 @@ export default function RecipeRecommendations() {
         const recommendations = await getRecommendedRecipes(seasonalRecipes, formattedPositions);
         setRecipes(recommendations);
       } catch (err) {
-        console.error('Error loading recipe recommendations:', err);
+        // console.error('Error loading recipe recommendations:', err);
         setError('Failed to load recipe recommendations');
       } finally {
         setIsLoadingRecipes(false);
@@ -310,7 +310,7 @@ export default function RecipeRecommendations() {
       // Sort by score (descending)
       return scoredRecipes.sort((a, b) => (a as unknown as ScoredItem).score - (b as unknown as ScoredItem).score).slice(0, 5);
     } catch (err) {
-      console.error('Error calculating recipe recommendations:', err);
+      // console.error('Error calculating recipe recommendations:', err);
       return [];
     }
   };
@@ -507,7 +507,7 @@ export default function RecipeRecommendations() {
                           </Typography>
                           <Typography variant="body2">
                             {Array.isArray(recipe.instructions) 
-                              ? (recipe.instructions[0] as any)?.substring(0, 150) + '...'
+                              ? (recipe.instructions[0] as unknown)?.substring(0, 150) + '...'
                               : String(recipe.instructions).substring(0, 150) + '...'
                             }
                           </Typography>

@@ -6,7 +6,7 @@ import { cuisines } from '@/data/cuisines';
 import { getCurrentElementalState } from '@/utils/elementalUtils';
 import CuisineRecommender from '@/components/CuisineRecommender';
 import { cuisineFlavorProfiles } from '@/data/cuisineFlavorProfiles';
-import { ElementalProperties } from '@/types/alchemy';
+import { _ElementalProperties } from '@/types/alchemy';
 
 interface ExtendedElementalState extends ElementalProperties {
   season: string;
@@ -49,7 +49,7 @@ const CuisinesIndexPage = () => {
     setElementalState(prev => ({
       ...prev,
       ...currentState,
-      season,
+      _season,
       timeOfDay
     } as ExtendedElementalState));
   }, []);

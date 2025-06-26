@@ -48,8 +48,8 @@ export default function MethodsRecommender() {
     if (!loading && currentPlanetaryAlignment) {
       // Convert currentPlanetaryAlignment to AstrologicalState format
       // Use safe type casting for celestial position access
-      const moonData = currentPlanetaryAlignment.moon as any;
-      const sunData = currentPlanetaryAlignment.sun as any;
+      const moonData = currentPlanetaryAlignment.moon as unknown;
+      const sunData = currentPlanetaryAlignment.sun as unknown;
       
       const astroState = {
         zodiacSign: sunData?.sign || 'Aries',
@@ -67,24 +67,24 @@ export default function MethodsRecommender() {
       const methodsWithScores: CookingMethodWithScore[] = Object.entries(allCookingMethods)
         .map(([methodName, methodData]) => {
           // Use safe type casting for methodData property access
-          const methodInfo = methodData as any;
+          const methodInfo = methodData as unknown;
           
           // Transform methodData to CookingMethodModifier interface
           const methodModifier: CookingMethodModifier = {
-            element: ((methodData as any)?.elementalEffect?.Fire > 0.5 ? 'Fire' 
-                    : (methodData as any)?.elementalEffect?.Water > 0.5 ? 'Water'
-                    : (methodData as any)?.elementalEffect?.Earth > 0.5 ? 'Earth'
+            element: ((methodData as unknown)?.elementalEffect?.Fire > 0.5 ? 'Fire' 
+                    : (methodData as unknown)?.elementalEffect?.Water > 0.5 ? 'Water'
+                    : (methodData as unknown)?.elementalEffect?.Earth > 0.5 ? 'Earth'
                     : 'Air') as Element,
             intensity: Math.max(
-              (methodData as any)?.elementalEffect?.Fire || 0,
-              (methodData as any)?.elementalEffect?.Water || 0,
-              (methodData as any)?.elementalEffect?.Earth || 0,
-              (methodData as any)?.elementalEffect?.Air || 0
+              (methodData as unknown)?.elementalEffect?.Fire || 0,
+              (methodData as unknown)?.elementalEffect?.Water || 0,
+              (methodData as unknown)?.elementalEffect?.Earth || 0,
+              (methodData as unknown)?.elementalEffect?.Air || 0
             ),
             effect: 'enhance',
-            applicableTo: (methodData as any)?.suitable_for || ['all'],
-            duration: (methodData as any)?.duration || { min: 5, max: 30 },
-            notes: (methodData as any)?.description || ''
+            applicableTo: (methodData as unknown)?.suitable_for || ['all'],
+            duration: (methodData as unknown)?.duration || { min: 5, max: 30 },
+            notes: (methodData as unknown)?.description || ''
           };
           
           // Calculate base score from the recommender utils

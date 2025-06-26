@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.errorLog = exports.warnLog = exports.infoLog = exports.debugLog = exports.createLogger = exports.logger = void 0;
 // Get environment
 const isDev = process.env.NODE_ENV !== 'production';
-const isBrowser = typeof window !== 'undefined';
+const _isBrowser = typeof window !== 'undefined';
 /**
  * Logger class providing centralized logging capabilities
  */
@@ -47,7 +47,7 @@ class Logger {
         if (this.shouldLog('debug')) {
             const options = this.extractOptions(args);
             const component = options.component ? `[${options.component}]` : '';
-            console.debug(`[DEBUG]${component} ${message}`, ...options.rest);
+            // console.debug(`[DEBUG]${component} ${message}`, ...options.rest);
         }
     }
     /**
@@ -57,7 +57,7 @@ class Logger {
         if (this.shouldLog('info')) {
             const options = this.extractOptions(args);
             const component = options.component ? `[${options.component}]` : '';
-            console.info(`[INFO]${component} ${message}`, ...options.rest);
+            // console.info(`[INFO]${component} ${message}`, ...options.rest);
         }
     }
     /**
@@ -67,7 +67,7 @@ class Logger {
         if (this.shouldLog('warn')) {
             const options = this.extractOptions(args);
             const component = options.component ? `[${options.component}]` : '';
-            console.warn(`[WARN]${component} ${message}`, ...options.rest);
+            // console.warn(`[WARN]${component} ${message}`, ...options.rest);
         }
     }
     /**
@@ -77,7 +77,7 @@ class Logger {
         if (this.shouldLog('error')) {
             const options = this.extractOptions(args);
             const component = options.component ? `[${options.component}]` : '';
-            console.error(`[ERROR]${component} ${message}`, ...options.rest);
+            // console.error(`[ERROR]${component} ${message}`, ...options.rest);
             // Store error for summary
             this.storeError(message, options.component);
         }
@@ -100,7 +100,7 @@ class Logger {
      */
     storeError(message, component) {
         this.recentErrors.unshift({
-            message,
+            _message,
             timestamp: Date.now(),
             component
         });

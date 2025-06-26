@@ -96,7 +96,7 @@ export const getSeasoningsByTiming = (timing: CulinaryTiming): Record<string, In
     .filter(([_, value]) => 
       value.culinaryApplications && 
       Object.values(value.culinaryApplications).some(app => 
-        (app as any)?.timing === timing
+        (app as unknown)?.timing === timing
       )
     )
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {} as Record<string, IngredientMapping>);
@@ -129,7 +129,7 @@ export const getSeasoningsByElementalBoost = (element: string): Record<string, I
     .filter(([_, value]) => 
       value.astrologicalProfile?.lunarPhaseModifiers && 
       Object.values(value.astrologicalProfile.lunarPhaseModifiers)
-        .some(modifier => (modifier as any)?.elementalBoost?.[element as keyof ElementalProperties])
+        .some(modifier => (modifier as unknown)?.elementalBoost?.[element as keyof ElementalProperties])
     )
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {} as Record<string, IngredientMapping>);
 };

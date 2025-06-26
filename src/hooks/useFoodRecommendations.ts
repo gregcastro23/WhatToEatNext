@@ -32,7 +32,7 @@ export const useFoodRecommendations = (options?: {
       aspects: state.astrologicalState?.aspects || [],
       tarotElementBoosts: state.astrologicalState?.tarotElementBoosts || {},
       tarotPlanetaryBoosts: state.astrologicalState?.tarotPlanetaryBoosts || {}
-    } as any;
+    } as unknown;
   }, [
     state.astrologicalState?.zodiacSign, 
     state.astrologicalState?.lunarPhase,
@@ -66,7 +66,7 @@ export const useFoodRecommendations = (options?: {
         
         setRecommendations(limitedResults);
       } catch (err) {
-        console.error('Error fetching ingredient recommendations:', err);
+        // console.error('Error fetching ingredient recommendations:', err);
         setError(err instanceof Error ? err.message : 'Unknown error occurred');
         setRecommendations([]);
       } finally {
@@ -109,7 +109,7 @@ export const useFoodRecommendations = (options?: {
       setRecommendations(limitedResults);
       setError(null);
     } catch (err) {
-      console.error('Error refreshing ingredient recommendations:', err);
+      // console.error('Error refreshing ingredient recommendations:', err);
       setError(err instanceof Error ? err.message : 'Unknown error occurred');
     } finally {
       setLoading(false);

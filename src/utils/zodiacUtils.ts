@@ -1,6 +1,6 @@
 import type { ZodiacSign } from '@/types/alchemy';
 import { ZodiacAffinity, DEFAULT_ZODIAC_AFFINITY } from '@/types/zodiacAffinity';
-import { ElementalProperties } from '@/types/alchemy';
+import { _ElementalProperties } from '@/types/alchemy';
 
 /**
  * A utility function for logging debug information

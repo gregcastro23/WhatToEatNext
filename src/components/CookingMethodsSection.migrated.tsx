@@ -7,7 +7,7 @@ import { useServices } from '@/hooks/useServices';
 // TODO: Fix CSS module import - was: import from "./CookingMethods.module.css.ts"
 import { logger } from '@/utils/logger';
 
-import { Element } from "@/types/alchemy";
+import { _Element } from "@/types/alchemy";
 // Define proper types for the methods
 interface CookingMethod {
   id: string;

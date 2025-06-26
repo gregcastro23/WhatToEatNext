@@ -4,12 +4,12 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { useServices } from '@/hooks/useServices';
 import type { Recipe } from '@/types/recipe';
 import type { Ingredient, Modality } from "@/data/ingredients/types";
-import { ZodiacSign, LunarPhase, LunarPhaseWithSpaces , Element } from '@/types/alchemy';
+import { ZodiacSign, _LunarPhase, LunarPhaseWithSpaces , _Element } from '@/types/alchemy';
 import { determineModalityFromElements } from '@/utils/cuisineUtils';
 import { ElementalItem } from '@/calculations/alchemicalTransformation';
 import { PlanetaryDignityDetails } from '@/constants/planetaryFoodAssociations';
 
-import { PlanetaryPosition } from "@/types/celestial";
+import { _PlanetaryPosition } from "@/types/celestial";
 interface CuisineSelectorProps {
   onRecipesChange: (recipes: Recipe[]) => void;
   selectedCuisine: string | null;
@@ -71,18 +71,18 @@ function CuisineSelectorMigrated({
     const loadAstrologyData = async () => {
       try {
         // Apply safe type casting for astrology service access
-        const serviceData = astrologyService as any;
+        const serviceData = astrologyService as unknown;
         
         setResolvedPlanetaryPositions(propPlanetaryPositions || await astrologyService.getCurrentPlanetaryPositions());
         setResolvedIsDaytime(propIsDaytime !== undefined ? propIsDaytime : await astrologyService.isDaytime());
         setResolvedCurrentZodiac(propCurrentZodiac || await astrologyService.getCurrentZodiacSign());
         
         // Use safe method access for lunar phase
-        const lunarPhase = propCurrentLunarPhase || 
+        const _lunarPhase = propCurrentLunarPhase || 
           (serviceData?.getCurrentLunarPhase ? await serviceData.getCurrentLunarPhase() : 'full moon');
         setResolvedLunarPhase(lunarPhase);
       } catch (err) {
-        console.error('Error loading astrological data:', err);
+        // console.error('Error loading astrological data:', err);
         setError(err instanceof Error ? err : new Error('Error loading astrological data'));
       }
     };
@@ -111,8 +111,8 @@ function CuisineSelectorMigrated({
         const result = await recommendationService.getRecommendedCuisines({
           planetaryPositions: Object.entries(resolvedPlanetaryPositions)?.reduce((acc, [planet, degree]) => {
             // Apply safe type casting for astrology service access
-            const serviceData = astrologyService as any;
-            const zodiacSign = serviceData?.getZodiacSignForDegree ? 
+            const serviceData = astrologyService as unknown;
+            const _zodiacSign = serviceData?.getZodiacSignForDegree ? 
               serviceData.getZodiacSignForDegree(Number(degree)) : 'aries';
             
             acc[planet] = { 
@@ -149,7 +149,7 @@ function CuisineSelectorMigrated({
         
         setCuisineList(cuisines);
       } catch (err) {
-        console.error('Error loading cuisines:', err);
+        // console.error('Error loading cuisines:', err);
         setError(err instanceof Error ? err : new Error('Error loading cuisines'));
       } finally {
         setLoading(false);
@@ -180,7 +180,7 @@ function CuisineSelectorMigrated({
   }, [cuisineList, sortBy, resolvedPlanetaryPositions]);
   
   // Function to determine cuisine modality
-  const getCuisineModality = (cuisine: any): Modality => {
+  const getCuisineModality = (cuisine: Record<string, unknown>): Modality => {
     // If cuisine already has modality defined, use it
     if (cuisine.modality) return cuisine.modality;
     
@@ -201,7 +201,7 @@ function CuisineSelectorMigrated({
       if (zodiacFilter !== 'all') {
         // Check if cuisine has zodiac influences and includes the selected zodiac
         // Apply safe type casting for zodiac influences access
-        const zodiacInfluencesData = cuisine.zodiacInfluences as any;
+        const zodiacInfluencesData = cuisine.zodiacInfluences as unknown;
         const zodiacInfluences = Array.isArray(zodiacInfluencesData) ? zodiacInfluencesData : [];
         
         if (zodiacFilter !== 'all' && !zodiacInfluences.includes(zodiacFilter)) {
@@ -238,7 +238,7 @@ function CuisineSelectorMigrated({
         onRecipesChange(recipes);
       }
     } catch (err) {
-      console.error('Error fetching recipes for cuisine:', err);
+      // console.error('Error fetching recipes for cuisine:', err);
       // Still update the selected cuisine even if recipe fetch fails
       onRecipesChange([]);
     }
@@ -437,7 +437,7 @@ function CuisineSelectorMigrated({
               {/* Display zodiac influences if available */}
               {cuisine.zodiacInfluences && (() => {
                 // Apply safe type casting for zodiac influences access
-                const zodiacInfluencesData = cuisine.zodiacInfluences as any;
+                const zodiacInfluencesData = cuisine.zodiacInfluences as unknown;
                 const zodiacInfluences = Array.isArray(zodiacInfluencesData) ? zodiacInfluencesData : [];
                 
                 return zodiacInfluences.length > 0 && (

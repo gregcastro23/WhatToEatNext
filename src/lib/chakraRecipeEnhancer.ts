@@ -1,6 +1,6 @@
 import { ChakraAlchemyService } from './ChakraAlchemyService';
 import { Recipe } from '@/types/recipe';
-import { ChakraEnergies, ElementalProperties, Planet, ZodiacSign } from '@/types/alchemy';
+import { _ChakraEnergies, _ElementalProperties, _Planet, ZodiacSign } from '@/types/alchemy';
 import { KeyCardChakraMapping } from '@/types/chakra';
 import { PlanetaryHourCalculator } from './PlanetaryHourCalculator';
 
@@ -126,7 +126,7 @@ export class ChakraRecipeEnhancer {
         }
       }
     } catch (error) {
-      console.error('Error getting planetary hour:', error);
+      // console.error('Error getting planetary hour:', error);
     }
     
     // Calculate current chakra energies
@@ -149,7 +149,7 @@ export class ChakraRecipeEnhancer {
       // Calculate planetary alignment
       let planetaryAlignment = 0;
       // Apply surgical type casting with variable extraction
-      const astrologicalAffinities = recipe.astrologicalAffinities as any;
+      const astrologicalAffinities = recipe.astrologicalAffinities as unknown;
       const planets = astrologicalAffinities?.planets;
       
       if (planets) {
@@ -182,7 +182,7 @@ export class ChakraRecipeEnhancer {
       
       // Get tarot recommendations for the dominant chakra
       const recommendations = this.chakraService.getTarotRecommendationsForChakra(
-        dominantChakra === 'solarPlexus' ? 'solar plexus' : dominantChakra as any,
+        dominantChakra === 'solarPlexus' ? 'solar plexus' : dominantChakra as unknown,
         chakraEnergies[dominantChakra]
       );
       

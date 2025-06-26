@@ -6,7 +6,7 @@
 (function() {
   if (typeof window === 'undefined') return;
 
-  console.log('[LockdownMitigation] Installing lockdown mitigation');
+  // console.log('[LockdownMitigation] Installing lockdown mitigation');
 
   // Store original methods that might be affected by lockdown
   const originals = {
@@ -94,7 +94,7 @@
     const overrideLockers = () => {
       // Try to detect lockdown and override its attempts to remove functions
       if (window.Compartment || window.lockdown || window.harden) {
-        console.warn('[LockdownMitigation] Lockdown detected, enhancing protection');
+        // console.warn('[LockdownMitigation] Lockdown detected, enhancing protection');
         
         // Override Object.freeze to preserve our objects
         const originalFreeze = Object.freeze;
@@ -105,7 +105,7 @@
               obj === window.createElementObject ||
               obj === window.combineElementObjects ||
               obj === window.getAbsoluteElementValue) {
-            console.warn(`[LockdownMitigation] Prevented freezing of critical object`);
+            // console.warn(`[LockdownMitigation] Prevented freezing of critical object`);
             return obj; // Return unfrozen
           }
           return originalFreeze(obj);
@@ -128,7 +128,7 @@
 
       requiredObjects.forEach(obj => {
         if (!window[obj.name]) {
-          console.warn(`[LockdownMitigation] Restoring missing object: ${obj.name}`);
+          // console.warn(`[LockdownMitigation] Restoring missing object: ${obj.name}`);
           try {
             // Try using defineProperty first
             originals.defineProperty(window, obj.name, {
@@ -146,7 +146,7 @@
 
       // Special handling for popup.create
       if (window.popup && !window.popup.create) {
-        console.warn('[LockdownMitigation] Restoring popup.create');
+        // console.warn('[LockdownMitigation] Restoring popup.create');
         window.popup.create = window[SECRET_KEY].popup.create;
       }
     };
@@ -161,9 +161,9 @@
       clearInterval(recoveryInterval);
     };
 
-    console.log('[LockdownMitigation] Successfully installed lockdown mitigations');
+    // console.log('[LockdownMitigation] Successfully installed lockdown mitigations');
   } catch (e) {
-    console.error('[LockdownMitigation] Error installing mitigations:', e);
+    // console.error('[LockdownMitigation] Error installing mitigations:', e);
   }
 })();
 

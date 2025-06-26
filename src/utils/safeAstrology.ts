@@ -6,8 +6,8 @@
  * complex API calls and calculations that might fail.
  */
 
-import { ZodiacSign, PlanetaryAspect, CelestialPosition, AspectType } from '@/types/celestial';
-import { AstrologicalState, type LunarPhase } from '@/types/alchemy';
+import { ZodiacSign, PlanetaryAspect, _CelestialPosition, AspectType } from '@/types/celestial';
+import { AstrologicalState, type _LunarPhase } from '@/types/alchemy';
 import { createLogger } from '@/utils/logger';
 
 // Create a component-specific logger
@@ -161,8 +161,8 @@ export function calculatePlanetaryAspects(positions: Record<string, CelestialPos
       const pos2Sign = positions[planet2].sign;
       
       // Calculate the angular difference between planets
-      const pos1 = getZodiacPositionInDegrees(pos1Sign as any, positions[planet1].degree);
-      const pos2 = getZodiacPositionInDegrees(pos2Sign as any, positions[planet2].degree);
+      const pos1 = getZodiacPositionInDegrees(pos1Sign as unknown, positions[planet1].degree);
+      const pos2 = getZodiacPositionInDegrees(pos2Sign as unknown, positions[planet2].degree);
       
       let diff = Math.abs(pos1 - pos2);
       if (diff > 180) diff = 360 - diff;
@@ -260,7 +260,7 @@ export function getCurrentAstrologicalState(): AstrologicalState {
   
   const now = new Date();
   const positions = getReliablePlanetaryPositions();
-  const lunarPhase = calculateLunarPhase();
+  const _lunarPhase = calculateLunarPhase();
   const phaseName = getLunarPhaseName(lunarPhase);
   
   // Determine dominant element based on positions
@@ -272,7 +272,7 @@ export function getCurrentAstrologicalState(): AstrologicalState {
   
   // Determine if it's daytime (between 6 AM and 6 PM)
   const hours = now.getHours();
-  const isDaytime = hours >= 6 && hours < 18;
+  const _isDaytime = hours >= 6 && hours < 18;
   
   // Calculate active planets (sun, moon + any in major aspect)
   const activePlanets = ["Sun", "Moon"];
@@ -291,8 +291,8 @@ export function getCurrentAstrologicalState(): AstrologicalState {
   const dominantElementCapitalized = dominantElement.charAt(0).toUpperCase() + dominantElement.slice(1) as 'Fire' | 'Water' | 'Earth' | 'Air';
   
   const state: AstrologicalState = {
-    sunSign: toZodiacSign(positions.sun.sign as any),
-    moonSign: toZodiacSign(positions.moon.sign as any),
+    sunSign: toZodiacSign(positions.sun.sign as unknown),
+    moonSign: toZodiacSign(positions.moon.sign as unknown),
     lunarPhase: phaseName as LunarPhase,
     activePlanets,
     dominantElement: dominantElementCapitalized,

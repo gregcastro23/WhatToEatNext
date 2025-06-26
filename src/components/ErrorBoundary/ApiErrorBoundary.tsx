@@ -92,7 +92,7 @@ export class ApiErrorBoundary extends Component<ApiErrorBoundaryProps, ApiErrorB
    * Log error information and call the onError callback if provided
    */
   componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
-    console.error('API Error Boundary caught an error:', error, errorInfo);
+    // console.error('API Error Boundary caught an error:', error, errorInfo);
     
     // Call the onError callback if provided
     if (this.props.onError) {

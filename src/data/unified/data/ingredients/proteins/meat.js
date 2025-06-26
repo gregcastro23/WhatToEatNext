@@ -221,9 +221,9 @@ const rawMeats = {
                     'well_done': '8-9 minutes per side'
                 },
                 internalTemp: {
-                    'rare': any,
-                    'medium_rare': any,
-                    'medium_well': any,
+                    'rare': Record<string, unknown>,
+                    'medium_rare': Record<string, unknown>,
+                    'medium_well': Record<string, unknown>,
                     'well_done': { name: 'Well Done', fahrenheit: 160, celsius: 71 }
                 },
                 techniques: {
@@ -300,7 +300,7 @@ const rawMeats = {
                 name: 'Sous Vide',
                 method: 'vacuum sealed, water bath',
                 temperature: {
-                    'rare': any,
+                    'rare': Record<string, unknown>,
                     'medium_rare': { name: 'Medium Rare', fahrenheit: 131, celsius: 55 }
                 },
                 timing: {
@@ -953,7 +953,7 @@ const rawMeats = {
                     'sear': '1-2 minutes per side'
                 },
                 internalTemp: {
-                    'rare': any,
+                    'rare': Record<string, unknown>,
                     'medium_rare': { name: 'Medium Rare', fahrenheit: 130, celsius: 54 }
                 },
                 benefits: [
@@ -967,7 +967,7 @@ const rawMeats = {
                 name: 'Sous Vide',
                 method: 'vacuum sealed, water bath',
                 temperature: {
-                    'rare': any,
+                    'rare': Record<string, unknown>,
                     'medium_rare': { name: 'Medium Rare', fahrenheit: 131, celsius: 55 }
                 },
                 timing: {

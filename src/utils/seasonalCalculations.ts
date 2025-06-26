@@ -9,8 +9,8 @@ import type {
 } from '@/types/alchemy';
 // import { SEASONAL_PROPERTIES } from '@/constants/seasons'; // Commented out as unused
 import { DEFAULT_ELEMENTAL_PROPERTIES } from '@/constants/elementalConstants';
-import { elementalUtils } from './elementalUtils';
-import { validateElementalProperties, normalizeElementalProperties } from '@/types/validators';
+import { _elementalUtils } from './elementalUtils';
+import { _validateElementalProperties, _normalizeElementalProperties } from '@/types/validators';
 
 type Rating = 'optimal' | 'favorable' | 'neutral' | 'suboptimal';
 type Element = 'Fire' | 'Water' | 'Earth' | 'Air';
@@ -136,9 +136,9 @@ export const getSeasonalEffectiveness = (
         };
     }
 
-    const elementalAlignment = calculateRecipeSeasonalAlignment(recipe, season);
-    const ingredientSuitability = calculateIngredientSuitability(recipe, season);
-    const seasonalBonus = calculateSeasonalBonus(recipe, season);
+    const elementalAlignment = calculateRecipeSeasonalAlignment(recipe, _season);
+    const ingredientSuitability = calculateIngredientSuitability(recipe, _season);
+    const seasonalBonus = calculateSeasonalBonus(recipe, _season);
     
     // Calculate zodiacal alignment if current zodiac is provided
     const zodiacAlignment = currentZodiac ? 
@@ -150,7 +150,7 @@ export const getSeasonalEffectiveness = (
 
     const totalScore = elementalAlignment + ingredientSuitability + 
                       seasonalBonus + zodiacAlignment + lunarPhaseAlignment;
-    const elementalBreakdown = calculateElementalBreakdown(recipe, season);
+    const elementalBreakdown = calculateElementalBreakdown(recipe, _season);
 
     return {
         rating: getRating(totalScore),
@@ -774,7 +774,7 @@ export function getEnhancedElementalBreakdown(
     return cached;
   }
 
-  const baseElements = calculateElementalBreakdown(recipe, season);
+  const baseElements = calculateElementalBreakdown(recipe, _season);
   const seasonalModifiers = getSeasonalElementalInfluence(season);
   
   // Calculate final elemental values with seasonal influence

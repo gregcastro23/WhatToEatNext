@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useAlchemical } from './useAlchemical';
 import { type IngredientRecommendation } from '@/types/ingredient';
-import { Element, type ElementalProperties } from '@/types/alchemy';
+import { _Element, type _ElementalProperties } from '@/types/alchemy';
 
 export interface Ingredient {
   id: string;
@@ -61,7 +61,7 @@ export function useIngredientRecommendations(criteria?: RecommendationCriteria) 
     };
 
     Object.values(planetaryPositions || {}).forEach(position => {
-      const element = elementMap[(position as any)?.sign as keyof typeof elementMap];
+      const element = elementMap[(position as unknown)?.sign as keyof typeof elementMap];
       if (element) {
         elementCounts[element as keyof typeof elementCounts]++;
       }
@@ -134,7 +134,7 @@ export function useIngredientRecommendations(criteria?: RecommendationCriteria) 
 
         // Calculate compatibility scores
         const ingredientsWithScores = (sampleIngredients || []).map(ingredient => {
-          const score = calculateElementalCompatibility((ingredient as any)?.elementalPropertiesProfile || ingredient.elementalProfile, currentElementalProfile);
+          const score = calculateElementalCompatibility((ingredient as unknown)?.elementalPropertiesProfile || ingredient.elementalProfile, currentElementalProfile);
           return { ...ingredient, score };
         });
 

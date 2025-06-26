@@ -26,7 +26,7 @@ const CuisineDetailsPage: NextPage = () => {
   React.useEffect(() => {
     // Get current elemental state based on time, date, etc.
     const currentState = getCurrentElementalState();
-    setElementalState(currentState as any);
+    setElementalState(currentState as unknown);
   }, []);
 
   // Memoize the cuisine data with safe property access
@@ -64,10 +64,10 @@ const CuisineDetailsPage: NextPage = () => {
     
     // Add recipes that match both criteria - Safe array method access
     for (const recipe1 of cuisineMatchedRecipes) {
-      const recipe1Data = recipe1 as any;
-      const matchingRecipe = elementalMatchedRecipes.find((r: any) => r?.name === recipe1Data?.name);
+      const recipe1Data = recipe1 as unknown;
+      const matchingRecipe = elementalMatchedRecipes.find((r: Record<string, unknown>) => r?.name === recipe1Data?.name);
       if (matchingRecipe) {
-        const matchingRecipeData = matchingRecipe as any;
+        const matchingRecipeData = matchingRecipe as unknown;
         const baseScore = Math.max(Number(recipe1Data?.matchScore) || 0, Number(matchingRecipeData?.matchScore) || 0);
         const secondScore = Math.min(Number(recipe1Data?.matchScore) || 0, Number(matchingRecipeData?.matchScore) || 0);
         const randomFactor = 0.95 + (Math.random() * 0.1);
@@ -84,7 +84,7 @@ const CuisineDetailsPage: NextPage = () => {
     
     // Add remaining cuisine-matched recipes
     for (const recipe of cuisineMatchedRecipes) {
-      const recipeData = recipe as any;
+      const recipeData = recipe as unknown;
       if (!recipeIds.has(recipeData?.name)) {
         const baseScore = Math.pow(recipeData?.matchScore || 0, 0.8);
         const randomFactor = 0.9 + (Math.random() * 0.2);
@@ -101,7 +101,7 @@ const CuisineDetailsPage: NextPage = () => {
     
     // Add remaining elemental-matched recipes
     for (const recipe of elementalMatchedRecipes) {
-      const recipeData = recipe as any;
+      const recipeData = recipe as unknown;
       if (!recipeIds.has(recipeData?.name)) {
         const baseScore = recipeData?.matchScore || 0;
         const sigmoidScore = baseScore < 0.5 

@@ -9,15 +9,15 @@
 (function() {
   if (typeof window === 'undefined') return;
   
-  console.log('[FoodRecommenderFix] Initializing fixes for FoodRecommender component');
+  // console.log('[FoodRecommenderFix] Initializing fixes for FoodRecommender component');
 
   // Make sure Chrome API is properly mocked
   if (typeof window.chrome === 'undefined' || !window.chrome.tabs) {
-    console.log('[FoodRecommenderFix] Setting up Chrome API');
+    // console.log('[FoodRecommenderFix] Setting up Chrome API');
     window.chrome = window.chrome || {};
     window.chrome.tabs = window.chrome.tabs || {
       create: (options) => {
-        console.log('[FoodRecommenderFix] chrome.tabs.create intercepted:', options);
+        // console.log('[FoodRecommenderFix] chrome.tabs.create intercepted:', _options);
         return Promise.resolve({id: 999, url: options?.url || 'about:blank'});
       }
     };
@@ -25,7 +25,7 @@
 
   // Fix elemental functions to use let instead of const
   const fixedFunctions = {
-    getElementRanking: function(element_object, rank) {
+    getElementRanking: function(element_object, _rank) {
       // Use let for variables that will be reassigned
       const element_rank_dict = {1: '', 2: '', 3: '', 4: ''};
       let largest_element_value = 0;
@@ -99,7 +99,7 @@
           }
         };
       } catch (e) {
-        console.error('[FoodRecommenderFix] Error in safeAlchemize:', e);
+        // console.error('[FoodRecommenderFix] Error in safeAlchemize:', e);
         return {
           'Sun Sign': 'Aries',
           'Dominant Element': 'Fire', 
@@ -127,7 +127,7 @@
   
   // Fix IngredientFilterService if needed
   if (window.ingredientFilterService) {
-    console.log('[FoodRecommenderFix] Patching IngredientFilterService');
+    // console.log('[FoodRecommenderFix] Patching IngredientFilterService');
     
     // Create safe wrappers for key methods that might fail
     const originalMethods = {
@@ -137,9 +137,9 @@
     // Add error recovery for the key methods
     window.ingredientFilterService.getBalancedRecommendations = function(...args) {
       try {
-        return originalMethods.getBalancedRecommendations.apply(window.ingredientFilterService, args);
+        return originalMethods.getBalancedRecommendations.apply(window.ingredientFilterService, _args);
       } catch (e) {
-        console.error('[FoodRecommenderFix] Error in getBalancedRecommendations:', e);
+        // console.error('[FoodRecommenderFix] Error in getBalancedRecommendations:', e);
         // Return empty but valid result
         return {};
       }
@@ -154,7 +154,7 @@
   // This flag helps the component know our fixes are applied
   window.__foodRecommenderFixApplied = true;
   
-  console.log('[FoodRecommenderFix] Fixes applied successfully');
+  // console.log('[FoodRecommenderFix] Fixes applied successfully');
 })();
 
 export default {}; 

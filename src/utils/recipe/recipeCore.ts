@@ -3,10 +3,10 @@ import type { Recipe } from "@/types/recipe";
 
 import type { TimeOfDay, TimeFactors, Season, WeekDay, PlanetaryDay, PlanetaryHour } from "@/types/time";
 import { createLogger } from '../logger';
-import { Element } from "@/types/alchemy";
+import { _Element } from "@/types/alchemy";
 
 
-import { getPlanetaryElementalInfluence, getZodiacElementalInfluence, calculateElementalCompatibility, calculateDominantElement, calculateElementalProfile } from "../astrologyUtils";
+import { _getPlanetaryElementalInfluence, getZodiacElementalInfluence, calculateElementalCompatibility, calculateDominantElement, calculateElementalProfile } from "../astrologyUtils";
 
 const logger = createLogger('RecipeCore');
 
@@ -94,7 +94,7 @@ export function calculateRecipeMatchScore(
   if (!isAppropriateForTimeOfDay(recipe, elementalState.timeOfDay)) return 0;
   
   try {
-    const baseScore = calculateElementalMatch(recipe.elementalState as any, elementalState as any);
+    const baseScore = calculateElementalMatch(recipe.elementalState as unknown, elementalState as unknown);
     let score = baseScore * 100;
     
     // Enhanced scoring factors
@@ -423,7 +423,7 @@ function scoreRecipe(
 
   // Zodiac influences from Sun sign
   // Apply safe type casting for astrological state access
-  const astrologicalData = astrologicalState as any;
+  const astrologicalData = astrologicalState as unknown;
   const sunSign = astrologicalData?.sign || astrologicalData?.sunSign;
   
   if (
@@ -661,7 +661,7 @@ function calculatePlanetaryDayInfluence(
   // Check for cooking style matches
   let styleMatch = false;
   if (recipe.cookingMethod) {
-    const cookingMethodStr = (recipe.cookingMethod as any);
+    const cookingMethodStr = (recipe.cookingMethod as unknown);
     if (typeof cookingMethodStr === 'string') {
       for (const style of associations.styles) {
         if (cookingMethodStr.toLowerCase().includes(style.toLowerCase())) {
@@ -676,7 +676,7 @@ function calculatePlanetaryDayInfluence(
   let ingredientMatch = false;
   if (recipe.ingredients) {
     // Apply safe type casting for ingredients access
-    const ingredientsData = recipe.ingredients as any;
+    const ingredientsData = recipe.ingredients as unknown;
     let ingredientText = '';
     
     if (Array.isArray(ingredientsData)) {

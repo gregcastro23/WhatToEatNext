@@ -43,7 +43,7 @@ export function applySeasonalTransition(
 ): ElementalState {
   if (!currentPhase) return defaultBalance;
   
-  const progress = calculateProgressInPhase(currentDate, currentPhase);
+  const progress = calculateProgressInPhase(currentDate, _currentPhase);
   const strength = calculateSeasonalStrength(progress);
   
   return {

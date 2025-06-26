@@ -8,8 +8,8 @@ import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { useServices } from '@/hooks/useServices';
 import { logger } from '@/utils/logger';
 
-import { Element } from "@/types/alchemy";
-// DUPLICATE: import { Element } from "@/types/alchemy";
+import { _Element } from "@/types/alchemy";
+// DUPLICATE: import { _Element } from "@/types/alchemy";
 export default function CuisineSectionTestPage() {
   // Sample cuisine and elemental state for testing
   const [selectedCuisine, setSelectedCuisine] = useState<string>('Italian');

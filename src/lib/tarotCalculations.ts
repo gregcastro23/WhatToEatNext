@@ -5,7 +5,7 @@ import {
   PLANET_TO_MAJOR_ARCANA,
   DECAN_RULERS 
 } from '@/constants/tarotCards';
-import { ZodiacSign, Decan, Element } from '@/types/alchemy';
+import { ZodiacSign, Decan, _Element } from '@/types/alchemy';
 import { DECANS } from '@/constants/elementalConstants';
 import { 
   tarotCardQuantumValues, 
@@ -77,7 +77,7 @@ export function getTarotCardForDate(date: Date) {
 export function getRecipesForTarotCard(card: unknown): string[] {
   if (!card) return [];
   // Apply safe type casting for card access
-  const cardData = card as any;
+  const cardData = card as unknown;
   return cardData?.associatedRecipes || [];
 }
 
@@ -292,11 +292,11 @@ export const getTarotCardsForDate = (date: Date, sunPosition?: { sign: string, d
   const minorArcanaKey = DECAN_TO_TAROT[decan] as TarotCardKey;
   
   if (!minorArcanaKey) {
-    console.warn(`No tarot card found for decan ${decan}, using default`);
+    // console.warn(`No tarot card found for decan ${decan}, using default`);
   }
   
   // Log the decan, sun position, and selected card for debugging
-  console.log(`Tarot Card Debug - Decan: ${decan}, Sun Position:`, sunPosition, `Selected Card: ${minorArcanaKey || '10_of_cups'}`);
+  // console.log(`Tarot Card Debug - Decan: ${decan}, Sun Position:`, sunPosition, `Selected Card: ${minorArcanaKey || '10_of_cups'}`);
   
   // Get the minor arcana card details
   const cardKey = minorArcanaKey || '10_of_cups' as TarotCardKey; // Default if not found
@@ -353,7 +353,7 @@ export const getTarotCardsForDate = (date: Date, sunPosition?: { sign: string, d
 
 export function getQuantumValueForCard(card: unknown): number {
   // Apply safe type casting for card access
-  const cardData = card as any;
+  const cardData = card as unknown;
   const quantum = cardData?.quantum;
   
   if (typeof quantum === 'number') {
@@ -375,7 +375,7 @@ export function getElementalQuantum(card: unknown) {
   if (!card) return { Fire: 0, Water: 0, Earth: 0, Air: 0 };
   
   // Apply safe type casting for card access
-  const cardData = card as any;
+  const cardData = card as unknown;
   const element = cardData?.element || 'Fire';
   const quantum = cardData?.quantum || 1;
   

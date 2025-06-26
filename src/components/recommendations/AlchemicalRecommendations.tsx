@@ -52,7 +52,7 @@ import { cuisines } from '@/data/cuisines';
 
 // Utils
 import { determineIngredientModality } from '@/utils/ingredientUtils';
-import { createElementalProperties } from '@/utils/elemental/elementalUtils';
+import { _createElementalProperties } from '@/utils/elemental/elementalUtils';
 
 // Transformation Types
 import { ElementalItem, AlchemicalItem } from '@/calculations/alchemicalTransformation';
@@ -85,7 +85,7 @@ interface RecommendationExplanation {
 }
 
 // Helper Functions
-const validateElementalProperties = (props: any): ElementalProperties => {
+const validateElementalProperties = (props: Record<string, unknown>): ElementalProperties => {
   const defaultProps = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
   
   if (!props || typeof props !== 'object') return defaultProps;
@@ -208,7 +208,7 @@ const explainRecommendation = (
 
 export default function AlchemicalRecommendations({
   planetPositions,
-  isDaytime = true,
+  _isDaytime = true,
   currentZodiac,
   lunarPhase,
   tarotElementBoosts,
@@ -261,7 +261,7 @@ export default function AlchemicalRecommendations({
       
       Object.entries(alchemicalContext.planetaryPositions || {}).forEach(([planet, data]) => {
         if (planet in positions && data && typeof data === 'object' && 'degree' in data) {
-          positions[planet as RulingPlanet] = (data as any).degree || 0;
+          positions[planet as RulingPlanet] = (data as unknown).degree || 0;
         }
       });
       
@@ -348,7 +348,7 @@ export default function AlchemicalRecommendations({
       
       const qualities = ingredient && typeof ingredient === 'object' && 'qualities' in ingredient ? 
         (ingredient.qualities as any || []) : [];
-      const modality = determineIngredientModality(elementalProps as any, qualities);
+      const modality = determineIngredientModality(elementalProps as unknown, qualities);
       
       return {
         id: key,
@@ -534,7 +534,7 @@ export default function AlchemicalRecommendations({
   }
 
   // Render expandable card helper
-  const renderExpandableCard = (item: any, index: number, type: 'ingredient' | 'method' | 'cuisine') => (
+  const renderExpandableCard = (item: Record<string, unknown>, index: number, type: 'ingredient' | 'method' | 'cuisine') => (
     <Card 
       key={item.id || index}
       sx={{ 
@@ -617,7 +617,7 @@ export default function AlchemicalRecommendations({
                   </Grid>
                   <Grid item xs={6}>
                     <Typography variant="body2">
-                      <strong>Dominant Property:</strong> {(energeticProfile as any)?.dominantAlchemicalProperty}
+                      <strong>Dominant Property:</strong> {(energeticProfile as unknown)?.dominantAlchemicalProperty}
                     </Typography>
                   </Grid>
                 </Grid>

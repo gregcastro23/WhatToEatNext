@@ -391,7 +391,7 @@ function getCookingMethodThermodynamics(cookingMethod) {
     const pillar = getCookingMethodPillar(cookingMethod);
     if (!pillar || !pillar.elementalAssociations)
         return null;
-    const primaryElement = pillar.elementalAssociations.primary;
+    const _primaryElement = pillar.elementalAssociations.primary;
     const secondaryElement = pillar.elementalAssociations.secondary;
     const primaryProps = exports.ELEMENTAL_THERMODYNAMIC_PROPERTIES[primaryElement];
     // If no secondary element, return primary properties
@@ -412,7 +412,7 @@ exports.getCookingMethodThermodynamics = getCookingMethodThermodynamics;
  * @param isDaytime Whether it is day (true) or night (false)
  * @returns The alchemical effect of the planet
  */
-function getPlanetaryAlchemicalEffect(planet, isDaytime = true) {
+function getPlanetaryAlchemicalEffect(planet, _isDaytime = true) {
     const planetEffects = exports.PLANETARY_ALCHEMICAL_EFFECTS[planet];
     if (!planetEffects)
         return null;

@@ -22,19 +22,19 @@ export function PlanetInfoModal({ planetName, isOpen, onClose }: PlanetInfoModal
       setError(null);
       
       try {
-        console.log(`Processing planet info for ${planetName}:`, planetaryPositions[planetName.toLowerCase()]);
+        // console.log(`Processing planet info for ${planetName}:`, planetaryPositions[planetName.toLowerCase()]);
         const info = getPlanetInfo(planetName, planetaryPositions);
         
         if (!info) {
           setError(`Could not retrieve information for ${planetName}`);
-          console.error(`Failed to get planet info for ${planetName}`);
+          // console.error(`Failed to get planet info for ${planetName}`);
         } else {
-          console.log(`Successfully processed info for ${planetName}:`, info);
+          // console.log(`Successfully processed info for ${planetName}:`, info);
         }
         
         setPlanetInfo(info);
       } catch (err) {
-        console.error(`Error in PlanetInfoModal for ${planetName}:`, err);
+        // console.error(`Error in PlanetInfoModal for ${planetName}:`, err);
         setError(`Error loading planet information: ${err instanceof Error ? err.message : String(err)}`);
       } finally {
         setLoading(false);

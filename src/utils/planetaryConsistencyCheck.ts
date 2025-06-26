@@ -54,9 +54,9 @@ export function logPlanetaryConsistencyCheck(): void {
   const issues = validatePlanetaryModifiers();
   
   if (issues.length === 0) {
-    console.log('✅ Planetary modifiers are consistent');
+    // console.log('✅ Planetary modifiers are consistent');
   } else {
-    console.error('❌ Planetary modifier consistency issues found:');
+    // console.error('❌ Planetary modifier consistency issues found:');
     issues.forEach(issue => console.error(`- ${issue}`));
   }
 } 

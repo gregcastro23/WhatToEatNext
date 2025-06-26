@@ -1,4 +1,4 @@
-import { ZodiacAffinity, createZodiacAffinity, ZODIAC_MODALITIES, Modality } from '@/types/zodiacAffinity';
+import { ZodiacAffinity, createZodiacAffinity, ZODIAC_MODALITIES, _Modality } from '@/types/zodiacAffinity';
 import { ZodiacSign } from '@/types/zodiac';
 
 export type { ZodiacAffinity };

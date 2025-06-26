@@ -27,11 +27,11 @@ export function findMatchedItalianDinnerRecipes() {
   
   // Map all ingredients to our ingredient database
   const mappedRecipes = allDinnerRecipes.map(recipe => {
-    const mappedIngredients = connectIngredientsToMappings(recipe as any);
+    const mappedIngredients = connectIngredientsToMappings(recipe as unknown);
     
     // Calculate mapping score (percentage of ingredients with a mapping)
     // Apply surgical type casting with variable extraction
-    const recipeData = recipe as any;
+    const recipeData = recipe as unknown;
     const ingredients = recipeData?.ingredients || [];
     
     const mappingScore = mappedIngredients.filter(i => i.matchedTo).length / 
@@ -89,14 +89,14 @@ export function findRecipesMatchingElementalAndIngredientRequirements(
   
   // Use the new filtering function
   const matchedRecipes = filterRecipesByIngredientMappings(
-    allRecipes as any,
-    elementalTarget as any,
+    allRecipes as unknown,
+    elementalTarget as unknown,
     {
       required: requiredIngredients,
       excluded: excludedIngredients,
       dietaryRestrictions: dietaryRestrictions,
       emphasized: [] // Optional emphasized ingredients
-    } as any
+    } as unknown
   );
   
   return matchedRecipes;
@@ -111,7 +111,7 @@ export function suggestIngredientSubstitutions(
   ingredientToReplace: string
 ) {
   // Map all ingredients
-  const mappedIngredients = connectIngredientsToMappings(recipe as any);
+  const mappedIngredients = connectIngredientsToMappings(recipe as unknown);
   
   // Find the ingredient to replace
   const ingredientMapping = mappedIngredients.find(
@@ -128,9 +128,9 @@ export function suggestIngredientSubstitutions(
   
   // Get the elemental properties of the ingredient
   // Apply surgical type casting with variable extraction
-  const matchedToData = ingredientMapping.matchedTo as any;
+  const matchedToData = ingredientMapping.matchedTo as unknown;
   const elementalProperties = matchedToData?.elementalProperties;
-  const alchemicalProperties = matchedToData?.alchemicalProperties;
+  const _alchemicalProperties = matchedToData?.alchemicalProperties;
   
   // Find other ingredients with similar elemental properties
   // This is a simplified version that could be enhanced further

@@ -1,9 +1,9 @@
 import { 
-  ElementalProperties, 
-  Planet, 
+  _ElementalProperties, 
+  _Planet, 
   ZodiacSign, 
-  ThermodynamicMetrics,
-  Element
+  _ThermodynamicMetrics,
+  _Element
 } from '../types';
 
 import { Recipe } from '../types/recipe';
@@ -56,7 +56,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       let score = 0;
       
       // Use safe type casting for criteria access
-      const criteriaData = criteria as any;
+      const criteriaData = criteria as unknown;
       const elementalState = criteriaData?.elementalState || criteriaData?.elementalProperties;
       
       // Calculate elemental compatibility if criteria includes elemental properties
@@ -160,7 +160,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       let score = 0;
       
       // Use safe type casting for criteria access
-      const criteriaData = criteria as any;
+      const criteriaData = criteria as unknown;
       const elementalState = criteriaData?.elementalState || criteriaData?.elementalProperties;
       
       // Calculate elemental compatibility if criteria includes elemental properties
@@ -289,7 +289,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       let score = 0.5; // Start with a neutral score
       
       // Use safe type casting for criteria access
-      const criteriaData = criteria as any;
+      const criteriaData = criteria as unknown;
       const elementalState = criteriaData?.elementalState || criteriaData?.elementalProperties;
       
       // Calculate elemental compatibility if criteria includes elemental properties
@@ -406,7 +406,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       let score = 0.5; // Start with a neutral score
       
       // Use safe type casting for criteria access
-      const criteriaData = criteria as any;
+      const criteriaData = criteria as unknown;
       const elementalState = criteriaData?.elementalState || criteriaData?.elementalProperties;
       
       // Calculate elemental compatibility if criteria includes elemental properties
@@ -462,7 +462,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     target: ElementalProperties
   ): number {
     // Apply Pattern PP-1: Safe service method access
-    const alchemicalEngineData = alchemicalEngine as any;
+    const alchemicalEngineData = alchemicalEngine as unknown;
     if (alchemicalEngineData?.calculateElementalCompatibility) {
       return alchemicalEngineData.calculateElementalCompatibility(source, target);
     }
@@ -539,7 +539,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
    */
   calculateThermodynamics(elementalProperties: ElementalProperties): ThermodynamicMetrics {
     // Use the AlchemicalEngine to calculate thermodynamic metrics
-    const alchemicalEngineData = alchemicalEngine as any;
+    const alchemicalEngineData = alchemicalEngine as unknown;
     if (alchemicalEngineData?.calculateThermodynamics) {
       return alchemicalEngineData.calculateThermodynamics(elementalProperties);
     }

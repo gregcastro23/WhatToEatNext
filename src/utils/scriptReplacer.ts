@@ -14,7 +14,7 @@ if (typeof window !== 'undefined') {
       event.filename.includes('lockdown') ||
       event.filename.includes('viewer.js')
     )) {
-      console.warn('[ScriptReplacer] Blocked error from:', event.filename);
+      // console.warn('[ScriptReplacer] Blocked error from:', event.filename);
       event.preventDefault();
       return true;
     }
@@ -24,7 +24,7 @@ if (typeof window !== 'undefined') {
   // Setup global properties for lockdown
   if (!window.lockdown) {
     window.lockdown = function() {
-      console.log('[ScriptReplacer] Safely intercepted lockdown() call');
+      // console.log('[ScriptReplacer] Safely intercepted lockdown() call');
       return true;
     };
   }
@@ -43,12 +43,12 @@ if (typeof window !== 'undefined') {
   // Ensure popup object exists
   if (!window.popup) {
     window.popup = {
-      create: function(options?: any) {
+      create: function(options?: Record<string, unknown>) {
         return {
           show: function() { return this; },
           hide: function() { return this; },
           update: function() { return this; },
-          on: function(event: string, callback?: any) {
+          on: function(event: string, callback?: Record<string, unknown>) {
             return { off: function() {} };
           },
           trigger: function(event: string) { return this; }
@@ -57,7 +57,7 @@ if (typeof window !== 'undefined') {
       show: function() { return this; },
       hide: function() { return this; },
       update: function() { return this; },
-      on: function(event: string, callback?: any) {
+      on: function(event: string, callback?: Record<string, unknown>) {
         return { 
           off: function() {},
           trigger: function(event: string) { return this; }
@@ -71,22 +71,22 @@ if (typeof window !== 'undefined') {
   if (!window.chrome.tabs) {
     window.chrome.tabs = {
       create: function() {
-        console.log('[ScriptReplacer] Intercepted chrome.tabs.create call');
+        // console.log('[ScriptReplacer] Intercepted chrome.tabs.create call');
         return Promise.resolve({ id: 999 });
       },
-      query: function(queryInfo: any, callback?: Function) {
+      query: function(queryInfo: Record<string, unknown>, callback?: Function) {
         const result = [{ id: 1, active: true }];
         if (callback) callback(result);
         return true;
       },
-      update: function(tabId: number, properties: any, callback?: Function) {
+      update: function(tabId: number, properties: Record<string, unknown>, callback?: Function) {
         if (callback) callback({});
         return true;
       }
     };
   }
 
-  console.log('[ScriptReplacer] Successfully initialized environment protection');
+  // console.log('[ScriptReplacer] Successfully initialized environment protection');
 }
 
 export default {}; 

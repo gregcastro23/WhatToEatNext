@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ElementalProperties } from '../types/elemental';
+import { _ElementalProperties } from '../types/elemental';
 import { NutritionalProfile } from '../types/nutrition';
 import { 
   SpoonacularNutrient, 
@@ -69,11 +69,11 @@ export class SpoonacularService {
   static async searchRecipes(params: SpoonacularSearchParams): Promise<Recipe[]> {
     // First check if we have enough local recipes that match the criteria
     const localRecipes = await this.searchLocalRecipes(params);
-    console.log(`Found ${localRecipes.length} matching local recipes`);
+    // console.log(`Found ${localRecipes.length} matching local recipes`);
     
     // If we have enough local recipes (5 or more), just return those
     if (localRecipes.length >= 5) {
-      console.log('Using only local recipes - no API call needed');
+      // console.log('Using only local recipes - no API call needed');
       return localRecipes;
     }
     
@@ -95,7 +95,7 @@ export class SpoonacularService {
       }
       
       // Make API request
-      console.log(`Making API request for ${numberToRequest} additional recipes`);
+      // console.log(`Making API request for ${numberToRequest} additional recipes`);
       const response = await axios.get(`${this.API_BASE_URL}/recipes/complexSearch?${queryParams.toString()}`);
       const apiRecipes = response.data.results as SpoonacularApiRecipe[];
       
@@ -105,7 +105,7 @@ export class SpoonacularService {
       // Combine local and API recipes
       return [...localRecipes, ...processedApiRecipes];
     } catch (error) {
-      console.error('Error fetching recipes from Spoonacular API:', error);
+      // console.error('Error fetching recipes from Spoonacular API:', error);
       // In case of API error, return any local recipes we found
       return localRecipes;
     }
@@ -203,7 +203,7 @@ export class SpoonacularService {
       // Limit the number of results
       return localRecipes.slice(0, number);
     } catch (error) {
-      console.error('Error searching local recipes:', error);
+      // console.error('Error searching local recipes:', error);
       return [];
     }
   }
@@ -313,7 +313,7 @@ export class SpoonacularService {
       });
       return response.data || [];
     } catch (error) {
-      console.error('Error fetching bulk recipe information:', error);
+      // console.error('Error fetching bulk recipe information:', error);
       return [];
     }
   }
@@ -330,7 +330,7 @@ export class SpoonacularService {
       });
 
       if (!searchResponse.data.results || searchResponse.data.results.length === 0) {
-        console.warn(`No results found for vegetable: ${searchVegetableName}`);
+        // console.warn(`No results found for vegetable: ${searchVegetableName}`);
         return {};
       }
 
@@ -405,7 +405,7 @@ export class SpoonacularService {
         qualities: ['nutritious']
       };
     } catch (error) {
-      console.error(`Error fetching data for vegetable ${searchVegetableName}:`, error);
+      // console.error(`Error fetching data for vegetable ${searchVegetableName}:`, error);
       return {};
     }
   }
@@ -599,7 +599,7 @@ export class SpoonacularService {
       
       return nutritionalProfile;
     } catch (error) {
-      console.error('Error getting recipe nutrition by ingredients:', error);
+      // console.error('Error getting recipe nutrition by ingredients:', error);
       return { nutrients: [] };
     }
   }

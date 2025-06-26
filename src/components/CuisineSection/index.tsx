@@ -55,7 +55,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
         );
         
         if (cuisineKey && cuisinesMap[cuisineKey]) {
-          const cuisineData = cuisinesMap[cuisineKey] as any;
+          const cuisineData = cuisinesMap[cuisineKey] as unknown;
           const saucesData = cuisineData?.traditionalSauces;
           
           if (saucesData) {
@@ -104,7 +104,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
         // If no recipes from getRecipesForCuisineMatch, try getBestRecipeMatches
         matchedRecipes = getBestRecipeMatches({
           cuisine: cuisine || '',
-          season: (elementalState?.season as any) || 'all',
+          season: (elementalState?.season as unknown) || 'all',
           mealType: elementalState?.timeOfDay || 'all'
         }, 8);
       } catch (error) {
@@ -122,7 +122,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
       .filter(recipe => {
         if (!recipe) return false;
         
-        const recipeData = recipe as any;
+        const recipeData = recipe as unknown;
         
         // Match main cuisine
         if (recipeData?.cuisine?.toLowerCase() === cuisine?.toLowerCase()) return true;
@@ -147,8 +147,8 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
         return (recipeData?.matchScore || 0) > 0.75;
       })
       .sort((a, b) => {
-        const recipeA = a as any;
-        const recipeB = b as any;
+        const recipeA = a as unknown;
+        const recipeB = b as unknown;
         
         // First sort by match score
         const scoreA = recipeA?.matchScore || 0;
@@ -181,14 +181,14 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
                               cuisinesMap[cuisine?.charAt(0)?.toUpperCase() + cuisine?.slice(1)?.toLowerCase()];
                               
         if (importedCuisine) {
-          const cuisineData = importedCuisine as any;
+          const cuisineData = importedCuisine as unknown;
           
           if (cuisineData?.dishes) {
             const specialRecipes = [];
             
             // Try to extract some recipes directly
             Object.entries(cuisineData.dishes).forEach(([mealType, seasonalDishes]) => {
-              const dishesData = seasonalDishes as any;
+              const dishesData = seasonalDishes as unknown;
               if (dishesData && dishesData.all && Array.isArray(dishesData.all)) {
                 specialRecipes.push(...dishesData.all.slice(0, 4));
               }
@@ -201,7 +201,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
                   <h2 className="text-2xl font-bold capitalize mb-4">{cuisine.replace('_', ' ')} Cuisine</h2>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {specialRecipes.map((recipe, i) => {
-                      const recipeData = recipe as any;
+                      const recipeData = recipe as unknown;
                       return (
                         <div key={i} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
                           <h3 className="text-lg font-medium">{recipeData?.name}</h3>
@@ -229,7 +229,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
   }
 
   const renderSeasonalInfo = (recipe: Recipe) => {
-    const recipeData = recipe as any;
+    const recipeData = recipe as unknown;
     
     return (
       <div className="text-xs text-gray-500 flex flex-wrap gap-2 mt-2">
@@ -278,7 +278,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
   };
 
   const renderSauceCard = (sauce: SauceInfo, index: number) => {
-    const sauceData = sauce as any;
+    const sauceData = sauce as unknown;
     
     return (
       <div key={index} className="bg-white rounded-lg border shadow-sm p-4 hover:shadow-md transition-shadow">
@@ -335,7 +335,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
   };
 
   const renderRecipeCard = (recipe: Recipe, index: number) => {
-    const recipeData = recipe as any;
+    const recipeData = recipe as unknown;
     const hasDualMatch = recipeData?.cuisine?.toLowerCase() === cuisine?.toLowerCase() && 
                         recipeData?.regionalCuisine?.toLowerCase() === cuisine?.toLowerCase();
     
@@ -377,7 +377,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
             <div className="mt-3 pt-3 border-t border-gray-100">
               <span className="text-xs font-medium text-gray-700">Key Ingredients:</span>
               <div className="flex flex-wrap gap-1 mt-1">
-                {recipeData.ingredients.slice(0, 3).map((ingredient: any, i: number) => (
+                {recipeData.ingredients.slice(0, 3).map((ingredient: Record<string, unknown>, i: number) => (
                   <span key={i} className="bg-gray-100 text-gray-600 px-2 py-1 rounded text-xs">
                     {ingredient?.name || ingredient}
                   </span>

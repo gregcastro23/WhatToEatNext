@@ -8,7 +8,7 @@
 import type { PlanetaryPosition, ElementalProperties } from "@/types/alchemy";
 import { getCachedCalculation } from '../../utils/calculationCache';
 
-import { Element } from "@/types/alchemy";
+import { _Element } from "@/types/alchemy";
 /**
  * Planetary alchemical property mappings
  * Based on traditional alchemical correspondences
