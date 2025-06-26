@@ -1,6 +1,6 @@
 import type { ElementalProperties } from '../types/alchemy';
 import type { Recipe } from '../types/recipe';
-import { _elementalUtils as elementalUtils } from '../utils/elementalUtils';
+import { standardizeRecipeElements, combineProperties, normalizeProperties } from '../utils/elementalUtils';
 import { ElementalCalculator } from './ElementalCalculator';
 import { logger } from '../utils/logger';
 
@@ -31,7 +31,7 @@ export class RecipeElementalService {
    */
   public standardizeRecipe<T extends Partial<Recipe>>(recipe: T): T & { elementalProperties: ElementalProperties } {
     try {
-      return elementalUtils.standardizeRecipeElements(recipe);
+      return standardizeRecipeElements(recipe);
     } catch (error) {
       logger.error('Error standardizing recipe elements:', error);
       // Return recipe with current elemental state if there's an error
@@ -203,7 +203,7 @@ export class RecipeElementalService {
           ingredientProps.Air /= ingredientCount;
           
           // Blend with method/cuisine derived properties
-          return elementalUtils.combineProperties(elementalProps, ingredientProps, 0.7);
+          return combineProperties(elementalProps, ingredientProps, 0.7);
         }
       }
     } catch (error) {
@@ -211,7 +211,7 @@ export class RecipeElementalService {
     }
     
     // Normalize to ensure values sum to 1
-    return elementalUtils.normalizeProperties(elementalProps);
+    return normalizeProperties(elementalProps);
   }
 }
 

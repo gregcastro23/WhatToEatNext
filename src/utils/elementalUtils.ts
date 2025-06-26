@@ -464,7 +464,7 @@ export const elementalUtils = {
 
   /**
    * Gets the current elemental state from the ElementalCalculator service
-   * Pattern OO-3: Utility Import Alignment - Standalone export for TS2614 compatibility
+   * Pattern OO-3: Utility Import Alignment - Standalone exports for TS2614 compatibility
    */
   getCurrentElementalState(): ElementalProperties {
     return ElementalCalculator.getCurrentElementalState();
