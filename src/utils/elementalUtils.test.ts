@@ -1,6 +1,6 @@
 // src/__tests__/utils/elementalUtils.test.ts
 
-import { _elementalUtils } from '@/utils/elementalUtils';
+import { _elementalUtils as elementalUtils } from '@/utils/elementalUtils';
 import type { ElementalProperties } from '@/types/alchemy';
 
 describe('elementalUtils', () => {

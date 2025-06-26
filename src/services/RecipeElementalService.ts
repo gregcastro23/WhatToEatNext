@@ -1,6 +1,6 @@
 import type { ElementalProperties } from '../types/alchemy';
 import type { Recipe } from '../types/recipe';
-import { _elementalUtils } from '../utils/elementalUtils';
+import { _elementalUtils as elementalUtils } from '../utils/elementalUtils';
 import { ElementalCalculator } from './ElementalCalculator';
 import { logger } from '../utils/logger';
 
