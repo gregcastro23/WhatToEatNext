@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo, useEffect } from 'react';
 import { Recipe } from '@/types/recipe';
-import { _ElementalProperties, _ThermodynamicMetrics, TimeFactors } from '@/types/alchemy';
+import { ElementalProperties, ThermodynamicMetrics, TimeFactors } from '@/types/alchemy';
 import { getTimeFactors } from '@/utils/time';
 
 import { seasonalData } from '../../data/seasons';
@@ -38,7 +38,7 @@ import {
 
 import { useAlchemical } from '../../contexts/AlchemicalContext';
 import { RecipeElementalService } from '../../services/RecipeElementalService';
-import { logger } from ../../utils/logger';
+import { logger } from '../../utils/logger';
 import { zodiacSeasons } from '../../data/zodiacSeasons';
 
 // Enhanced interfaces

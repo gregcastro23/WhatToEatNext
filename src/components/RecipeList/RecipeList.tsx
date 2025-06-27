@@ -4,7 +4,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { stateManager } from '@/utils/stateManager';
 import { recipeFilter } from '@/utils/recipeFilters';
-import { logger } from @/utils/logger';
+import { logger } from '@/utils/logger';
 import Recipe from '@/components/Recipe/Recipe';
 import { Filter, Search, SlidersHorizontal, X } from 'lucide-react';
 import type { ScoredRecipe, Recipe as RecipeType } from '@/types/recipe';

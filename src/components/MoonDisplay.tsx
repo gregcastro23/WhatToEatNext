@@ -354,9 +354,9 @@ const MoonDisplay: React.FC = () => {
     if (northNodeMissing || northNodeIncomplete) {
       // Log only once
       // console.warn('North Node data missing or incomplete:', {
-        northNodeData: planetaryPositions.northNode || planetaryPositions.northnode || 'undefined',
-        availableKeys: Object.keys(planetaryPositions)
-      });
+      //   northNodeData: planetaryPositions.northNode || planetaryPositions.northnode || 'undefined',
+      //   availableKeys: Object.keys(planetaryPositions)
+      // });
     }
   }, [planetaryPositions.northNode, planetaryPositions.northnode]); // Only depend on the north node data
 

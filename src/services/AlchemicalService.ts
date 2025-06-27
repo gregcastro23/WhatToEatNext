@@ -16,7 +16,7 @@ import {
 import { _elementalUtils } from '../utils/elementalUtils';
 import { _calculateLunarPhase , _calculatePlanetaryPositions } from '../utils/astrologyUtils';
 import { convertToLunarPhase } from '@/utils/lunarPhaseUtils';
-import { logger } from ../utils/logger';
+import { logger } from '../utils/logger';
 import type {
   ScoredRecipe
 } from '../types/recipe';

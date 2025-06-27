@@ -32,8 +32,8 @@ export function useSafeFlavorEngine() {
   // Add circuit breaker to prevent infinite update loops
   if (renderCountRef.current > 100) {
     // console.error(
-      'Potential infinite loop in useSafeFlavorEngine detected - render count exceeded 100'
-    );
+    //   'Potential infinite loop in useSafeFlavorEngine detected - render count exceeded 100'
+    // );
     
     // If we're entering an infinite loop, use the most recent valid state
     if (!isReady && globalInitState.initialized) {
