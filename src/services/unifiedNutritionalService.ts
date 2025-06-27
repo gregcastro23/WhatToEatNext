@@ -22,7 +22,7 @@ import {
 } from '../data/unified/nutritional';
 import { unifiedIngredients, type UnifiedIngredient } from '@/data/unified/ingredients';
 import { unifiedSeasonalSystem } from '../data/unified/seasonal.js';
-import { logger } from ../utils/logger';
+import { logger } from '../utils/logger';
 import { allIngredients } from '../data/ingredients';
 
 

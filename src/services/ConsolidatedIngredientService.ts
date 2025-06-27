@@ -65,7 +65,7 @@ import type { StandardizedAlchemicalResult , ElementalProperties,
 import { unifiedIngredients } from '@/data/unified/ingredients';
 import { _createElementalProperties, calculateElementalCompatibility } from '../utils/elemental/elementalUtils';
 import { _isNonEmptyArray, _safeSome } from '../utils/common/arrayUtils';
-import { logger } from ../utils/logger';
+import { logger } from '../utils/logger';
 import { _cache } from '../utils/cache';
 
 import type { Recipe } from '../types/recipe';

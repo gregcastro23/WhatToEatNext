@@ -1,7 +1,7 @@
 // Celestial calculations service not yet implemented
 import { Recipe } from '@/types/recipe';
 import { getCurrentPlanetaryPositions } from '@/services/astrologizeApi';
-import { logger } from ../utils/logger';
+import { logger } from '../utils/logger';
 import { createError } from '../utils/errorHandling';
 import { _calculateLunarPhase , transformItemsWithPlanetaryPositions } from '../utils/astrologyUtils';
 import { _calculatePlanetaryPositions } from '../utils/astrology/core';

@@ -3,7 +3,7 @@ import { stateManager } from '../utils/stateManager'
 import { stateValidator } from '../utils/stateValidator'
 import { celestialCalculator } from './celestialCalculations'
 import { errorHandler } from './errorHandler'
-import { logger } from ../utils/logger';
+import { logger } from '../utils/logger';
 import type { Recipe, ScoredRecipe } from '../types/recipe'
 import { _ElementalProperties } from '../types/alchemy'
 

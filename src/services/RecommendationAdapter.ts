@@ -8,7 +8,7 @@ import {
 import { transformItemsWithPlanetaryPositions } from '../utils/elementalUtils';
 import { _calculatePlanetaryPositions, _calculateLunarPhase } from '../utils/astrologyUtils';
 import { convertToLunarPhase } from '../utils/lunarUtils';
-import { logger } from @/utils/logger';
+import { logger } from '@/utils/logger';
 import { alchemize } from '../calculations/core/alchemicalCalculations';
 import { planetInfo } from '../data/planets/planetaryInfo';
 import { transformIngredients, transformCookingMethods, transformCuisines } from '../utils/alchemicalTransformationUtils';

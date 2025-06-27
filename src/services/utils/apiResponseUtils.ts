@@ -6,7 +6,7 @@
 
 import { ApiResponse, RecipeErrorCode } from '../interfaces/RecipeApiInterfaces';
 import { Recipe } from '@/types/recipe';
-import { logger } from ../../utils/logger';
+import { logger } from '../../utils/logger';
 
 /**
  * API version to include in response metadata
