@@ -1,5 +1,5 @@
 import { ElementalCharacter, AlchemicalProperty } from '../constants/planetaryElements';
-import { _calculatePlanetaryPositions } from '../utils/astrologyUtils';
+import { calculatePlanetaryPositions } from '../utils/astrologyUtils';
 import { calculateSignEnergyStates } from '@/constants/signEnergyStates';
 
 /**

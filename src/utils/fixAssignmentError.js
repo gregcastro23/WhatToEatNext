@@ -4,7 +4,7 @@
  */
 
 // Fix for getElementRanking that uses let properly
-export function getElementRanking(element_object, _rank) {
+export function getElementRanking(element_object, rank) {
   if (!element_object) {
     return { 1: 'Fire' };
   }
@@ -99,7 +99,7 @@ export function calculateElementalScore(element_object) {
   if (!element_object) return 0;
   
   // Calculate total value
-  let total = 0;
+  const total = 0;
   for (const element in element_object) {
     total += element_object[element] || 0;
   }
@@ -108,7 +108,7 @@ export function calculateElementalScore(element_object) {
   const count = Object.keys(element_object).length || 1;
   const idealValue = total / (count || 1);
   
-  let variance = 0;
+  const variance = 0;
   for (const element in element_object) {
     variance += Math.abs((element_object[element] || 0) - idealValue);
   }
@@ -150,7 +150,7 @@ export function combineElementObjects(element_object_1, element_object_2) {
 export function getAbsoluteElementValue(element_object) {
   if (!element_object) return 0;
   
-  let absolute_value = 0;
+  const absolute_value = 0;
   absolute_value += element_object.Fire || 0;
   absolute_value += element_object.Water || 0;
   absolute_value += element_object.Air || 0;
@@ -192,7 +192,7 @@ export function safeAlchemize(birthInfo, horoscopeDict) {
       }
     };
   } catch (error) {
-    // console.error('[safeAlchemize] Error:', error);
+    console.error('[safeAlchemize] Error:', error);
     return {
       sunSign: 'aries',
       dominantElement: 'Fire',
@@ -274,7 +274,7 @@ if (typeof window !== 'undefined') {
             const safeFn = window.__safetyPatches[methodName === 'alchemize' ? 'safeAlchemize' : methodName];
             if (safeFn) {
               obj[methodName] = safeFn;
-              // console.log(`[FixAssignmentError] Patched ${objName}.${methodName}`);
+              console.log(`[FixAssignmentError] Patched ${objName}.${methodName}`);
             }
           }
         });
@@ -283,14 +283,14 @@ if (typeof window !== 'undefined') {
         if (obj.default && typeof obj.default === 'object') {
           if (typeof obj.default.alchemize === 'function') {
             obj.default.alchemize = safeAlchemize;
-            // console.log(`[FixAssignmentError] Patched ${objName}.default.alchemize`);
+            console.log(`[FixAssignmentError] Patched ${objName}.default.alchemize`);
           }
         }
       }
     } catch (e) {
-      // console.error(`[FixAssignmentError] Error patching ${objName}:`, e);
+      console.error(`[FixAssignmentError] Error patching ${objName}:`, e);
     }
   });
   
-  // console.log('[FixAssignmentError] Successfully patched problematic functions');
+  console.log('[FixAssignmentError] Successfully patched problematic functions');
 } 

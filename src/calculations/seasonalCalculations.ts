@@ -132,7 +132,7 @@ function getCurrentZodiacSeason(): ZodiacSign {
 
 // For backward compatibility
 function getCurrentSeason(): Season {
-  const _zodiacSign = getCurrentZodiacSeason();
+  const zodiacSign = getCurrentZodiacSeason();
   // Map zodiac sign to a season
   if (['aries', 'taurus', 'gemini'].includes(zodiacSign)) {
     return 'spring';

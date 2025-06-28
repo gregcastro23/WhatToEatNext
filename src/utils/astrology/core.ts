@@ -15,15 +15,16 @@ import { calculatePlanetaryAspects as safeCalculatePlanetaryAspects } from '@/ut
 import { getAccuratePlanetaryPositions } from '@/utils/accurateAstronomy';
 import { getPlanetaryPositions } from '@/utils/astrologyDataProvider';
 
-import { AstrologicalState, _Element , _PlanetaryPosition } from "@/types/celestial";
-import { _ElementalProperties } from '@/types';
-import type { PlanetPosition } from '../../types/celestial';
+import { AstrologicalState, Element } from "@/types/celestial";
+import { ElementalProperties } from '@/types';
+import { PlanetaryPosition } from "@/types/celestial";
+import type { PlanetPosition } from '../types/celestial';
 
 /**
  * A utility function for logging debug information
  * This is a safe replacement for console.log that can be disabled in production
  */
-const debugLog = (message: string, ...args: unknown[]): void => {
+const debugLog = (message: string, ...args: any[]): void => {
   // Comment out console.log to avoid linting warnings
   // console.log(message, ...args);
 };
@@ -32,7 +33,7 @@ const debugLog = (message: string, ...args: unknown[]): void => {
  * A utility function for logging errors
  * This is a safe replacement for console.error that can be disabled in production
  */
-const errorLog = (message: string, ...args: unknown[]): void => {
+const errorLog = (message: string, ...args: any[]): void => {
   // Comment out console.error to avoid linting warnings
   // console.error(message, ...args);
 };
@@ -351,7 +352,7 @@ export async function calculatePlanetaryPositions(date: Date = new Date()): Prom
     // Transform each position to ensure consistent format
     for (const [planet, position] of Object.entries(accuratePositions)) {
       // Apply safe type casting for position property access
-      const positionData = position as unknown;
+      const positionData = position as any;
       positions[planet] = {
         sign: positionData?.sign,
         degree: positionData?.degree,
@@ -432,11 +433,11 @@ export async function getCurrentAstrologicalState(date: Date = new Date()): Prom
     
     // Calculate lunar phase
     const lunarPhaseValue = await calculateLunarPhase(date);
-    const _lunarPhase = getLunarPhaseName(lunarPhaseValue);
+    const lunarPhase = getLunarPhaseName(lunarPhaseValue);
     
     // Determine if it's daytime (between 6 AM and 6 PM)
     const hours = date.getHours();
-    const _isDaytime = hours >= 6 && hours < 18;
+    const isDaytime = hours >= 6 && hours < 18;
     
     // Calculate planetary hour
     const hourCalculator = new PlanetaryHourCalculator();
@@ -571,7 +572,7 @@ export function calculateDominantElement(
   // Count elements from planetary positions
   if (astroState.planetaryPositions) {
     Object.entries(astroState.planetaryPositions || []).forEach(([planet, position]) => {
-      const element = getZodiacElementalInfluence(position.sign as unknown);
+      const element = getZodiacElementalInfluence(position.sign as any);
       
       // Weight by planet importance
       let weight = 1;
@@ -616,7 +617,7 @@ export function calculateElementalProfile(
   // Count elements from planetary positions
   if (astroState.planetaryPositions) {
     Object.entries(astroState.planetaryPositions || []).forEach(([planet, position]) => {
-      const element = getZodiacElementalInfluence(position.sign as unknown);
+      const element = getZodiacElementalInfluence(position.sign as any);
       
       // Weight by planet importance
       let weight = 1;
@@ -723,8 +724,8 @@ export function calculateAspects(
           const strength = 1 - (orb / definition.orb);
           
           // Get element of the sign for each planet
-          const element1 = getZodiacElement(pos1.sign as unknown)?.toLowerCase();
-          const element2 = getZodiacElement(pos2.sign as unknown)?.toLowerCase();
+          const element1 = getZodiacElement(pos1.sign as any)?.toLowerCase();
+          const element2 = getZodiacElement(pos2.sign as any)?.toLowerCase();
           
           // Base multiplier from definition
           let multiplier = definition.significance;

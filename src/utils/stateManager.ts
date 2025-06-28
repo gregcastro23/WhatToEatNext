@@ -1,4 +1,4 @@
-import { _cache } from './cache';
+import { cache } from './cache';
 import { logger } from './logger';
 import { themeManager } from './theme';
 import { celestialCalculator } from '@/services/celestialCalculations';
@@ -142,7 +142,7 @@ class StateManager {
   // Add helper to validate the state structure
   private isValidAppState(obj: unknown): obj is AppState {
     // Fix TS2339: Property does not exist on type 'object'
-    const data = obj as unknown as Record<string, unknown>;
+    const data = obj as any;
     return obj 
       && typeof obj === 'object'
       && data?.recipes 
@@ -229,7 +229,7 @@ class StateManager {
 
       this.saveState();
     } catch (error) {
-      // console.error('Error initializing state:', error);
+      console.error('Error initializing state:', error);
     }
   }
 

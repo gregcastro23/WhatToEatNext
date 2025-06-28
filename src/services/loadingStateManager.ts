@@ -1,4 +1,4 @@
-import { logger } from '../utils/logger';
+import { logger } from '../utils/logger'
 
 type LoadingState = {
   isLoading: boolean
@@ -57,10 +57,10 @@ class LoadingStateManager {
   }
 
   setError(message: string) {
-    logger.error('Loading error:', _message)
+    logger.error('Loading error:', message)
     this.updateState({
       isLoading: false,
-      _message,
+      message,
       stage: 'error'
     })
   }

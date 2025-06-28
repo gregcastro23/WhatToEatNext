@@ -3,10 +3,11 @@ import { Recipe } from '@/types/recipe';
 import { getCurrentPlanetaryPositions } from '@/services/astrologizeApi';
 import { logger } from '../utils/logger';
 import { createError } from '../utils/errorHandling';
-import { _calculateLunarPhase , transformItemsWithPlanetaryPositions } from '../utils/astrologyUtils';
-import { _calculatePlanetaryPositions } from '../utils/astrology/core';
+import { calculateLunarPhase } from '../utils/astrologyUtils';
+import { calculatePlanetaryPositions } from '../utils/astrology/core';
+import { transformItemsWithPlanetaryPositions } from '../utils/astrologyUtils';
 import { ScoredRecipe } from '@/types/recipe';
-import { AstrologicalState , _Element } from '@/types/alchemy';
+import { AstrologicalState } from '@/types/alchemy';
 import { convertToLunarPhase } from '@/utils/lunarPhaseUtils';
 
 import type { ElementalProperties, 
@@ -15,6 +16,7 @@ import type { ElementalProperties,
   LunarPhaseWithSpaces,
   PlanetaryAspect } from '@/types/alchemy';
 import { ElementalCharacter } from '@/constants/planetaryElements';
+import { Element } from "@/types/alchemy";
 import astrologizeCache from '@/services/AstrologizeApiCache';
 import { calculateRecipeCompatibility } from '@/calculations/culinary/recipeMatching';
 
@@ -173,7 +175,7 @@ export class RecommendationService {
       const positions = await calculatePlanetaryPositions();
       
       // Calculate current lunar phase
-      const _lunarPhase = await calculateLunarPhase(new Date());
+      const lunarPhase = await calculateLunarPhase(new Date());
       
       // Convert to format expected by adapter
       const lunarPhaseFormatted = convertToLunarPhase(lunarPhase);
@@ -181,7 +183,7 @@ export class RecommendationService {
       // Calculate if it's currently daytime
       const now = new Date();
       const hours = now.getHours();
-      const _isDaytime = hours >= 6 && hours < 18;
+      const isDaytime = hours >= 6 && hours < 18;
       
       // Get current Sun sign as current zodiac
       const sunPosition = positions['Sun'];
@@ -344,7 +346,7 @@ export class RecommendationService {
     return [...items]
       .sort((a, b) => {
         // Sort by compatibility score (higher is better) - safe property access
-        return ((b as unknown)?.compatibilityScore || 0) - ((a as unknown)?.compatibilityScore || 0);
+        return ((b as any)?.compatibilityScore || 0) - ((a as any)?.compatibilityScore || 0);
       })
       .slice(0, limit);
   }
@@ -407,7 +409,7 @@ export class RecommendationService {
     
     (topItems || []).forEach(item => {
       // Safe property access for dominantElement
-      const dominantElement = (item as unknown)?.dominantElement;
+      const dominantElement = (item as any)?.dominantElement;
       if (dominantElement && elementCounts[dominantElement as ElementalCharacter] !== undefined) {
         elementCounts[dominantElement as ElementalCharacter]++;
       }
@@ -581,7 +583,7 @@ export class RecommendationService {
       };
       
       // Get current moment's elemental influence
-      const astroStateData = astrologicalState as unknown;
+      const astroStateData = astrologicalState as any;
       const currentMomentElements: ElementalProperties = astroStateData?.elementalProperties || 
         astroStateData?.elementalState || this.getCurrentElementalInfluence();
       
@@ -591,14 +593,16 @@ export class RecommendationService {
       // Calculate advanced compatibility using the culinary recipe matching system
       let advancedScore = 0.5; // Default neutral score
       try {
-        const compatibilityResult = (calculateRecipeCompatibility as unknown)(
+        const compatibilityResult = calculateRecipeCompatibility(
           recipe,
-          astrologicalState
+          astrologicalState,
+          location.lat,
+          location.lng
         );
         // Extract numerical score from the result object
         advancedScore = typeof compatibilityResult === 'number' 
           ? compatibilityResult 
-          : (compatibilityResult as unknown)?.score || (compatibilityResult as unknown)?.compatibility || 0.5;
+          : (compatibilityResult as any)?.score || (compatibilityResult as any)?.compatibility || 0.5;
       } catch (error) {
         logger.warn('Advanced compatibility calculation failed, using basic elemental match:', error);
         advancedScore = elementalScore;
@@ -759,7 +763,7 @@ export class RecommendationService {
     lat: number,
     lng: number,
     astrologicalState: AstrologicalState,
-    alchemicalResult: Record<string, unknown>,
+    alchemicalResult: any,
     planetaryPositions: Record<string, any>
   ): void {
     try {

@@ -77,15 +77,15 @@ export function withRenderTracking<P extends object>(
             getPropInfo(key, value)
           );
           
-          // console.warn(`🔍 ${componentName} rendered ${newCount} times`);
-          // console.warn('Props:', propDetails);
+          console.warn(`🔍 ${componentName} rendered ${newCount} times`);
+          console.warn('Props:', propDetails);
           
           if (firstRender) {
             setFirstRender(false);
           }
         } else {
           // Simple log for most renders
-          // console.warn(`📊 ${componentName} render #${newCount}`);
+          console.warn(`📊 ${componentName} render #${newCount}`);
         }
         
         return newCount;

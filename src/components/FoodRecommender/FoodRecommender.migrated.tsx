@@ -12,7 +12,7 @@ import {
 } from '@/utils/alchemicalFunctions';
 // TODO: Fix import - add what to import from "./IngredientDisplay.migrated.ts"
 
-import { _Element } from "@/types/alchemy";
+import { Element } from "@/types/alchemy";
 /**
  * FoodRecommender Component - Migrated Version
  * 

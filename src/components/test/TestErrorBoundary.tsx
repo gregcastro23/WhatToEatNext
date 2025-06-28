@@ -10,8 +10,8 @@ export function TestErrorBoundary({ children }: { children: React.ReactNode }) {
       fallback={({ error, resetErrorBoundary }) => (
         <ErrorDisplay
           error={error}
-          title="Test Environment Error"
-          showDetails={true}
+          context="Test Environment"
+          retry={resetErrorBoundary}
         />
       )}
       onError={(error) => {

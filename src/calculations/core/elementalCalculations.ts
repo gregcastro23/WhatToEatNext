@@ -9,7 +9,7 @@
 import type { ElementalProperties, PlanetaryPosition, ZodiacSign, LunarPhase } from "@/types/alchemy";
 import { getCachedCalculation } from '../../utils/calculationCache';
 
-import { _Element } from "@/types/alchemy";
+import { Element } from "@/types/alchemy";
 
 /**
  * Seasonal modifiers for elemental properties
@@ -226,14 +226,14 @@ export function calculateComprehensiveElementalProperties(
   
   return getCachedCalculation(
     cacheKey,
-    { positions: planetaryPositions, _season, lunarPhase, isDaytime },
+    { positions: planetaryPositions, season, lunarPhase, isDaytime },
     () => {
       // Calculate base properties
       let properties = calculateBaseElementalProperties(planetaryPositions);
 
       // Apply seasonal adjustments
       if (season) {
-        properties = applySeasonalAdjustments(properties, _season);
+        properties = applySeasonalAdjustments(properties, season);
       }
 
       // Apply lunar phase adjustments

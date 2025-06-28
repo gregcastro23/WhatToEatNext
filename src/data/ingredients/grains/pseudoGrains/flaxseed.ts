@@ -58,4 +58,4 @@ const rawFlaxseed = {
   }
 };
 
-export const flaxseed = fixIngredientMappings(rawFlaxseed); 
+export let flaxseed = fixIngredientMappings(rawFlaxseed); 

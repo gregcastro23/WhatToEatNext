@@ -6,7 +6,7 @@ import { cuisines } from '@/data/cuisines';
 import { getCurrentElementalState } from '@/utils/elementalUtils';
 import CuisineRecommender from '@/components/CuisineRecommender';
 import { cuisineFlavorProfiles } from '@/data/cuisineFlavorProfiles';
-import { _ElementalProperties } from '@/types/alchemy';
+import { ElementalProperties } from '@/types/alchemy';
 
 interface ExtendedElementalState extends ElementalProperties {
   season: string;
@@ -21,37 +21,16 @@ const CuisinesIndexPage = () => {
     Air: 0.25,
     season: 'spring',
     timeOfDay: 'lunch',
-  } as ExtendedElementalState);
+  });
 
   React.useEffect(() => {
     // Get current elemental state based on time/date
     const currentState = getCurrentElementalState();
-    
-    // Dynamically determine season and time of day
-    const now = new Date();
-    const hour = now.getHours();
-    const month = now.getMonth(); // 0-11
-    
-    // Determine time of day based on actual time
-    const timeOfDay = hour < 6 ? 'midnight' 
-                    : hour < 11 ? 'morning'
-                    : hour < 15 ? 'lunch'
-                    : hour < 18 ? 'afternoon'
-                    : hour < 21 ? 'evening'
-                    : 'night';
-    
-    // Determine season based on actual month (Northern Hemisphere)
-    const season = month < 3 || month === 11 ? 'winter'
-                 : month < 6 ? 'spring'
-                 : month < 9 ? 'summer'
-                 : 'autumn';
-    
-    setElementalState(prev => ({
-      ...prev,
+    setElementalState({
       ...currentState,
-      _season,
-      timeOfDay
-    } as ExtendedElementalState));
+      season: 'spring', // Default value since getCurrentElementalState doesn't provide season
+      timeOfDay: 'lunch' // Default value since getCurrentElementalState doesn't provide timeOfDay
+    });
   }, []);
 
   // Get all cuisines

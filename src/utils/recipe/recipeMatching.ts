@@ -57,25 +57,25 @@ interface MatchingResult {
 }
 
 
-import { _elementalUtils } from '../elementalUtils';
+import { elementalUtils } from '../elementalUtils';
 import { allIngredients } from '../../data/ingredients';
 import { calculateMatchScore } from '../ElementalCalculator';
 
-import { _isNonEmptyArray, _safeFilter, _safeSome, _toArray } from '../common/arrayUtils';
-import { _createElementalProperties, _getElementalProperty } from '../elemental/elementalUtils';
-import { _Element } from "@/types/alchemy";
+import { isNonEmptyArray, safeFilter, safeSome, toArray } from '../common/arrayUtils';
+import { createElementalProperties, getElementalProperty } from '../elemental/elementalUtils';
+import { Element } from "@/types/alchemy";
 
 
 
-// DUPLICATE: import { _Element } from "@/types/alchemy";
+// DUPLICATE: import { Element } from "@/types/alchemy";
 import { 
-  _getRecipeElementalProperties,
-  _getRecipeCookingMethods, 
+  getRecipeElementalProperties,
+  getRecipeCookingMethods, 
   getRecipeAstrologicalInfluences,
   getRecipeCookingTime,
   getRecipeMealTypes,
   getRecipeSeasons,
-  _recipeHasTag,
+  recipeHasTag,
   isRecipeDietaryCompatible,
   recipeHasIngredient
 } from './recipeUtils';
@@ -123,7 +123,7 @@ interface CacheEntry<T> {
 }
 
 const matchCache = new Map<string, CacheEntry<MatchResult[]>>();
-const _CACHE_TTL = 5 * 60 * 1000; // 5 minutes in milliseconds
+const CACHE_TTL = 5 * 60 * 1000; // 5 minutes in milliseconds
 
 /**
  * Generate cache key for recipe matching
@@ -210,8 +210,8 @@ const calculateEnergyMatch = (
   // Calculate kalchm alignment if available
   let kalchmScore = 0.7; // Default score
   try {
-    const recipeKalchmResult = (kalchmEngine.calculateKAlchm as unknown)(recipeEnergy, 0, 0, 0);
-    const currentKalchmResult = (kalchmEngine.calculateKAlchm as unknown)(currentEnergy, 0, 0, 0);
+    const recipeKalchmResult = kalchmEngine.calculateKAlchm(recipeEnergy);
+    const currentKalchmResult = kalchmEngine.calculateKAlchm(currentEnergy);
     
     // Apply safe casting for kalchm property access
     const recipeKalchmData = typeof recipeKalchmResult === 'object' ? recipeKalchmResult as any : { kalchm: recipeKalchmResult };
@@ -226,7 +226,7 @@ const calculateEnergyMatch = (
       kalchmScore = 0.7 + (kalchmRatio * 0.3); // 0.7-1.0 range
     }
   } catch (error) {
-    // console.warn('Kalchm calculation failed:', error);
+    console.warn('Kalchm calculation failed:', error);
   }
 
   // Combine scores with enhanced weighting
@@ -250,7 +250,7 @@ export function findBestMatches(
 ): MatchResult[] {
   // Check for cached astrological data to enhance matching
   // Apply safe type casting for cache method access
-  const cacheData = astrologizeCache as unknown;
+  const cacheData = astrologizeCache as any;
   const cachedData = cacheData?.getLatestCachedData ? cacheData.getLatestCachedData() : null;
   
   // Use enhanced energy if available from cache
@@ -338,7 +338,7 @@ export function findBestMatches(
       const influences = getRecipeAstrologicalInfluences(recipe);
       // Boost score if recipe has astrological influence matching current Sun sign
       // Apply safe type casting for astrological state access
-      const astroData = currentEnergy as unknown;
+      const astroData = currentEnergy as any;
       const currentSign = astroData?.sign || astroData?.zodiacSign;
       if (currentSign && (influences || []).some(influence => influence?.toLowerCase()?.includes(currentSign?.toLowerCase())
       )) {
@@ -506,7 +506,7 @@ function calculateElementalAlignment(
   
   // Boost score if recipe has astrological influence matching current Sun sign
   // Apply safe type casting for astrological state access
-  const astroData = currentEnergy as unknown;
+  const astroData = currentEnergy as any;
   const currentSign = astroData?.sign || astroData?.zodiacSign;
   if (currentSign && (recipeInfluences || []).some(influence => influence?.toLowerCase()?.includes(currentSign?.toLowerCase())
   )) {
@@ -635,7 +635,7 @@ function getRecipePlanetaryInfluence(recipe: Recipe, planet: string): number {
 function calculateEnhancedAstrologicalMatch(
   recipe: Recipe,
   astrologicalSign: string,
-  cachedData: Record<string, unknown>
+  cachedData: any
 ): number {
   let score = 0;
   
@@ -647,7 +647,7 @@ function calculateEnhancedAstrologicalMatch(
       const planetInfluence = getRecipePlanetaryInfluence(recipe, planet);
       if (planetInfluence > 0) {
         // Calculate planetary alignment score
-        const alignmentScore = (calculatePlanetaryAlignment as unknown)(planet, position as number);
+        const alignmentScore = calculatePlanetaryAlignment(planet, position as number, astrologicalSign);
         score += planetInfluence * alignmentScore * 0.1;
       }
     });
@@ -666,7 +666,7 @@ function calculateMonicaCompatibility(recipe: Recipe, monicaConstant: number): n
   
   // Recipes with transformation-heavy cooking methods benefit from higher monica values
   const transformationMethods = ['fermentation', 'curing', 'smoking', 'aging', 'reduction'];
-  const cookingMethod = (recipe as unknown).cookingMethod?.toLowerCase() || '';
+  const cookingMethod = (recipe as any).cookingMethod?.toLowerCase() || '';
   
   const isTransformational = transformationMethods.some(method => 
     cookingMethod.includes(method)

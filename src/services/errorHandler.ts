@@ -4,16 +4,16 @@
  */
 
 // Simple logger functionality
-const logError = (message: string, data?: Record<string, unknown>) => {
-  // console.error(`[ERROR] ${message}`, data);
+const logError = (message: string, data?: any) => {
+  console.error(`[ERROR] ${message}`, data);
 };
 
-const logWarning = (message: string, data?: Record<string, unknown>) => {
-  // console.warn(`[WARNING] ${message}`, data);
+const logWarning = (message: string, data?: any) => {
+  console.warn(`[WARNING] ${message}`, data);
 };
 
-const logInfo = (message: string, data?: Record<string, unknown>) => {
-  // console.info(`[INFO] ${message}`, data);
+const logInfo = (message: string, data?: any) => {
+  console.info(`[INFO] ${message}`, data);
 };
 
 // Error types
@@ -41,7 +41,7 @@ export interface ErrorOptions {
   severity?: ErrorSeverity;
   component?: string;
   context?: string;
-  data?: Record<string, unknown>;
+  data?: any;
   isFatal?: boolean;
   silent?: boolean;
 }
@@ -60,7 +60,7 @@ class ErrorHandlerService {
   /**
    * Log an error with additional context
    */
-  log(error: Record<string, unknown>, options: ErrorOptions = {}) {
+  log(error: any, options: ErrorOptions = {}) {
     const {
       type = ErrorType.UNKNOWN,
       severity = ErrorSeverity.ERROR,
@@ -143,7 +143,7 @@ class ErrorHandlerService {
   /**
    * Legacy handleError method for backward compatibility
    */
-  handleError(error: Record<string, unknown>, context?: Record<string, unknown>): void {
+  handleError(error: any, context?: any): void {
     // Delegate to the main log method with proper options
     this.log(error, {
       context: context || 'unknown',
@@ -179,7 +179,7 @@ class ErrorHandlerService {
       data: options.data,
       timestamp: new Date().toISOString(),
       errorType,
-      componentStack: (error as unknown)?.componentStack,
+      componentStack: (error as any)?.componentStack,
     };
   }
 }
@@ -231,7 +231,7 @@ export function safePropertyAccess<T>(
   }
 
   try {
-    let current: Record<string, unknown> = obj;
+    let current: any = obj;
     for (const prop of properties) {
       if (current === null || current === undefined) {
         warnNullValue(`${properties.join('.')}.${prop}`, context);

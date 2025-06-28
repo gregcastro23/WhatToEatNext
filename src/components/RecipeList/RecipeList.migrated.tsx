@@ -9,7 +9,7 @@ import {
   Select, MenuItem, Checkbox, FormControlLabel,
   Accordion, AccordionSummary, AccordionDetails,
   Pagination, IconButton, InputAdornment,
-  _Rating, LinearProgress
+  Rating, LinearProgress
 } from '@mui/material';
 import {
   Search, ExpandMore, Restaurant, AccessTime, 
@@ -363,7 +363,7 @@ export default function RecipeListMigrated() {
         const data = await astrologize.getCurrentChart();
         setAstroData(data);
       } catch (err) {
-        // console.error('Failed to load astrological data:', err);
+        console.error('Failed to load astrological data:', err);
       }
     };
     fetchAstroData();
@@ -493,10 +493,14 @@ export default function RecipeListMigrated() {
     setError(null);
     
     try {
-      const response = await (recipeService.getAllRecipes as unknown)();
+      const response = await recipeService.getAllRecipes({
+        page,
+        limit,
+        filters: filters.search ? { search: filters.search } : undefined
+      });
       
       // Apply safe type casting for response property access
-      const responseData = response as unknown;
+      const responseData = response as any;
       
       if (responseData?.success) {
         setRecipes(responseData.data || []);
@@ -559,7 +563,7 @@ export default function RecipeListMigrated() {
   /**
    * Handle filter changes
    */
-  const handleFilterChange = (key: keyof FilterState, value: Record<string, unknown>) => {
+  const handleFilterChange = (key: keyof FilterState, value: any) => {
     setFilters(prev => ({ ...prev, [key]: value }));
     setPage(1); // Reset to first page when filters change
   };

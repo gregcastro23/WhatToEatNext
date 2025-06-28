@@ -2,8 +2,8 @@ import { useState, useEffect, useMemo } from 'react';
 import { useAstrologicalState } from './useAstrologicalState';
 import { getTarotCardsForDate } from '@/lib/tarotCalculations';
 import { ElementalCharacter } from '@/constants/planetaryElements';
-import { _LunarPhase as AlchemyLunarPhase, PlanetaryAspect, LunarPhaseWithSpaces } from '@/types/alchemy';
-import { _LunarPhase as FoodAssociationsLunarPhase } from '@/constants/planetaryFoodAssociations';
+import { LunarPhase as AlchemyLunarPhase, PlanetaryAspect, LunarPhaseWithSpaces } from '@/types/alchemy';
+import { LunarPhase as FoodAssociationsLunarPhase } from '@/constants/planetaryFoodAssociations';
 import { PLANET_TO_MAJOR_ARCANA } from '@/constants/tarotCards';
 import { calculateSignEnergyStates, SignEnergyState } from '@/constants/signEnergyStates';
 import { calculateAspects } from '@/utils/astrologyUtils';
@@ -101,18 +101,18 @@ export const useTarotAstrologyData = (): TarotAstrologyResult => {
   } = useAstrologicalState();
   
   // Cast to the expected type
-  const currentPlanetaryAlignment = rawPlanetaryAlignment as unknown as Record<string, {
+  const currentPlanetaryAlignment = rawPlanetaryAlignment as Record<string, {
     sign: string;
     degree: number;
     exactLongitude?: number;
   }>;
   
   // Convert the lunarPhase to the alchemy format
-  const _lunarPhase = useMemo(() => {
+  const lunarPhase = useMemo(() => {
     try {
       // Cast the string to FoodAssociationsLunarPhase since it matches the expected format
       return foodAssociationsLunarPhase ? 
-        adaptLunarPhase(foodAssociationsLunarPhase as unknown) : 
+        adaptLunarPhase(foodAssociationsLunarPhase as any) : 
         null;
     } catch (error) {
       logger.error('Error converting lunar phase', error);
@@ -179,7 +179,7 @@ export const useTarotAstrologyData = (): TarotAstrologyResult => {
   // Get Tarot cards for current date - only recalculate when the date changes
   useEffect(() => {
     try {
-      const _currentDate = new Date();
+      const currentDate = new Date();
       
       // Get sun position from planetary alignment if available
       const sunPosition = currentPlanetaryAlignment?.sun ? {
@@ -415,7 +415,7 @@ export const useTarotAstrologyData = (): TarotAstrologyResult => {
   // Load sign energy states on init
   useEffect(() => {
     try {
-      setSignEnergyStates((calculateSignEnergyStates as unknown)(new Date(), 'default'));
+      setSignEnergyStates(calculateSignEnergyStates(new Date()));
     } catch (error) {
       logger.error('Error calculating sign energy states', error);
     }

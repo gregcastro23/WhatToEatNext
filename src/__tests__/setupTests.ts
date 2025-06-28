@@ -2,12 +2,7 @@ import '@testing-library/jest-dom';
 import { ElementalCalculator } from '@/services/ElementalCalculator';
 
 // Setup test environment
-if (typeof process.env.NODE_ENV === 'undefined') {
-  Object.defineProperty(process.env, 'NODE_ENV', {
-    value: 'test',
-    configurable: true
-  });
-}
+process.env.NODE_ENV = 'test';
 process.env.NEXT_PUBLIC_ENABLE_ASTRO_DEBUG = 'false';
 
 // Suppress console output during tests to reduce noise in CI

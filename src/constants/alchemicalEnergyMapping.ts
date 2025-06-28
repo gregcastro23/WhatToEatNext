@@ -1,7 +1,7 @@
 import type { ElementalProperties } from '@/types/alchemy';
 import { createLogger } from '@/utils/logger';
 import { 
-  _CelestialPosition, 
+  CelestialPosition, 
   AlchemicalProperties, 
   ThermodynamicProperties 
 } from '@/types/celestial';

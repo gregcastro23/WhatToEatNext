@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { getRecipesForCuisine } from '@/utils/recipeFilters';
 import type { Recipe } from '@/types/recipe';
 import type { Modality } from '@/data/ingredients/types';
-import { ZodiacSign, _LunarPhase, LunarPhaseWithSpaces } from '@/types/alchemy';
+import { ZodiacSign, LunarPhase, LunarPhaseWithSpaces } from '@/types/alchemy';
 import { determineModalityFromElements } from '@/utils/cuisineUtils';
 import { transformCuisines } from '@/utils/alchemicalTransformationUtils';
 import { ElementalItem } from '@/calculations/alchemicalTransformation';
@@ -74,7 +74,7 @@ function CuisineSelector({
   selectedCuisine, 
   onCuisineChange,
   planetaryPositions = {},
-  _isDaytime = true,
+  isDaytime = true,
   currentZodiac = null,
   currentLunarPhase = null
 }: CuisineSelectorProps) {

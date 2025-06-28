@@ -14,7 +14,7 @@ const rawWarmSpices: Record<string, Partial<IngredientMapping>> = {
         northern: [9, 10, 11, 12, 1, 2],
         southern: [3, 4, 5, 6, 7, 8],
       }
-    } as unknown,
+    } as any,
     qualities: ['warming', 'sweet', 'pungent', 'aromatic', 'drying', 'carminative'],
     origin: ['Sri Lanka', 'India', 'Southeast Asia'],
     category: 'spice',
@@ -60,6 +60,6 @@ const rawWarmSpices: Record<string, Partial<IngredientMapping>> = {
 export const warmSpices: Record<string, IngredientMapping> = fixIngredientMappings(rawWarmSpices);
 
 // Create a collection of all warm spices
-export const allWarmSpices = Object.values(warmSpices);
+export let allWarmSpices = Object.values(warmSpices);
 
 export default warmSpices; 

@@ -1,9 +1,9 @@
 import { RecipeIngredient , Recipe ,
   Ingredient, 
   IngredientMapping} from '@/types/recipe';
-import { _Element , _ElementalProperties ,
+import { Element , ElementalProperties ,
   ElementalAffinity,
-  _AstrologicalProfile } from "@/types/alchemy";
+  AstrologicalProfile } from "@/types/alchemy";
 
 /**
  * Data Processing Module
@@ -168,7 +168,7 @@ export function validateIngredient(ingredient: Partial<Ingredient>): ValidationR
   }
   
   // Astrological profile validation
-  const ingredientData = ingredient as unknown;
+  const ingredientData = ingredient as any;
   if (ingredientData?.astrologicalPropertiesProfile || ingredientData?.astrologicalProfile) {
     const astroProfile = ingredientData.astrologicalPropertiesProfile || ingredientData.astrologicalProfile;
     const astroValidation = validateAstrologicalProfile(astroProfile);
@@ -235,7 +235,7 @@ export function validateRecipe(recipe: Partial<Recipe>): ValidationResult {
   
   // Elemental properties validation
   if (recipe.elementalState) {
-    const elementalValidation = validateElementalProperties(recipe.elementalState as unknown);
+    const elementalValidation = validateElementalProperties(recipe.elementalState as any);
     if (!elementalValidation.isValid) {
       warnings?.push(...elementalValidation.errors);
     }
@@ -257,7 +257,7 @@ export function validateRecipe(recipe: Partial<Recipe>): ValidationResult {
  * @returns Cleanup result
  */
 export function cleanupIngredientsDatabase(
-  ingredients: unknown[],
+  ingredients: any[],
   options: StandardizationOptions = {}
 ): DataCleanupResult {
   const result: DataCleanupResult = {
@@ -372,7 +372,7 @@ function standardizeElementalProperties(properties: unknown): ElementalPropertie
   const props = properties as Record<string, any>;
   const Fire = typeof props.Fire === 'number' ? props.Fire : 0.25;
   const Water = typeof props.Water === 'number' ? props.Water : 0.25;
-  const _Earth = typeof props.Earth === 'number' ? props.Earth : 0.25;
+  const Earth = typeof props.Earth === 'number' ? props.Earth : 0.25;
   const Air = typeof props.Air === 'number' ? props.Air : 0.25;
   
   // Normalize
@@ -391,7 +391,7 @@ function standardizeAstrologicalProfile(profile: unknown): AstrologicalProfile {
       elementalAffinity: {} as ElementalAffinity,
       rulingPlanets: [],
       favorableZodiac: [],
-    } as unknown as AstrologicalProfile;
+    } as AstrologicalProfile;
   }
   
   const prof = profile as Record<string, any>;
@@ -400,7 +400,7 @@ function standardizeAstrologicalProfile(profile: unknown): AstrologicalProfile {
     elementalAffinity: standardizeElementalAffinity(prof.elementalAffinity?.base),
     rulingPlanets: Array.isArray(prof.rulingPlanets) ? (prof.rulingPlanets || []).map(String) : [],
     favorableZodiac: Array.isArray(prof.favorableZodiac) ? (prof.favorableZodiac || []).map(String) : [],
-  } as unknown as AstrologicalProfile;
+  } as AstrologicalProfile;
 }
 
 function standardizeFlavorProfile(profile: unknown): { [key: string]: number } {
@@ -530,12 +530,12 @@ function validateAstrologicalProfile(profile: AstrologicalProfile): ValidationRe
   }
   
   // Safe property access for AstrologicalProfile properties
-  const elementalAffinity = (profile as unknown)?.elementalAffinity;
+  const elementalAffinity = (profile as any)?.elementalAffinity;
   if (!elementalAffinity?.base) {
     errors?.push('Elemental affinity is required');
   }
   
-  const rulingPlanets = (profile as unknown)?.rulingPlanets;
+  const rulingPlanets = (profile as any)?.rulingPlanets;
   if (!Array.isArray(rulingPlanets)) {
     errors?.push('Ruling planets must be an array');
   }

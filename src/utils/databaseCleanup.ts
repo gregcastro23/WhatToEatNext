@@ -28,7 +28,7 @@ export function cleanupIngredientsDatabase() {
         const ingredientWithAstrology = ingredient as unknown as IngredientWithAstrology;
         
         // Safe property access using type assertion
-        const data = ingredientWithAstrology as unknown;
+        const data = ingredientWithAstrology as any;
         const name = data?.name;
         
         // Ensure ingredient has a name
@@ -98,14 +98,14 @@ export function cleanupIngredientsDatabase() {
           } as AstrologicalProfile;
           fixedEntries++;
           logger.warn(`Added default astrological profile to ${data.name || name || 'unknown ingredient'}`);
-        } else if (!(ingredientWithAstrology.astrologicalProfile as unknown)?.elementalAffinity) {
+        } else if (!(ingredientWithAstrology.astrologicalProfile as any)?.elementalAffinity) {
           // Ensure elementalAffinity exists within the profile - safe property access
           const currentElementalProps = data?.elementalProperties;
           const dominantElement = currentElementalProps ? 
             Object.entries(currentElementalProps)
               .reduce((a, b) => a[1] > b[1] ? a : b, ['Fire', 0])[0] : 'Fire';
               
-          (ingredientWithAstrology.astrologicalProfile as unknown).elementalAffinity = { base: dominantElement };
+          (ingredientWithAstrology.astrologicalProfile as any).elementalAffinity = { base: dominantElement };
           fixedEntries++;
           logger.warn(`Added elementalAffinity to astrological profile for ${data.name || name || 'unknown ingredient'}`);
         }

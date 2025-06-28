@@ -15,7 +15,7 @@ import type { ElementalProperties, Season } from "@/types/alchemy";
 import type { Recipe, ScoredRecipe } from "@/types/recipe";
 import type { PlanetName, LunarPhase, ZodiacSign } from "@/types/celestial";
 
-import { _Element } from "@/types/alchemy";
+import { Element } from "@/types/alchemy";
 import { PlanetaryAlignment } from "@/types/celestial";
 
 import { 

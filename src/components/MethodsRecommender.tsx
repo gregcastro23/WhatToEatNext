@@ -5,7 +5,6 @@ import { calculateMethodScore } from '@/utils/cookingMethodRecommender';
 import { ChevronDown, ChevronUp, Flame, Droplets, Wind, Mountain, Info } from 'lucide-react';
 import styles from './CookingMethods.module.css';
 import { getTechnicalTips, getIdealIngredients } from '@/utils/cookingMethodTips';
-import type { CookingMethodModifier, Element } from '@/types/alchemy';
 
 // Define proper types for the methods with scores
 interface CookingMethodWithScore {
@@ -48,8 +47,8 @@ export default function MethodsRecommender() {
     if (!loading && currentPlanetaryAlignment) {
       // Convert currentPlanetaryAlignment to AstrologicalState format
       // Use safe type casting for celestial position access
-      const moonData = currentPlanetaryAlignment.moon as unknown;
-      const sunData = currentPlanetaryAlignment.sun as unknown;
+      const moonData = currentPlanetaryAlignment.moon as any;
+      const sunData = currentPlanetaryAlignment.sun as any;
       
       const astroState = {
         zodiacSign: sunData?.sign || 'Aries',
@@ -67,28 +66,10 @@ export default function MethodsRecommender() {
       const methodsWithScores: CookingMethodWithScore[] = Object.entries(allCookingMethods)
         .map(([methodName, methodData]) => {
           // Use safe type casting for methodData property access
-          const methodInfo = methodData as unknown;
-          
-          // Transform methodData to CookingMethodModifier interface
-          const methodModifier: CookingMethodModifier = {
-            element: ((methodData as unknown)?.elementalEffect?.Fire > 0.5 ? 'Fire' 
-                    : (methodData as unknown)?.elementalEffect?.Water > 0.5 ? 'Water'
-                    : (methodData as unknown)?.elementalEffect?.Earth > 0.5 ? 'Earth'
-                    : 'Air') as Element,
-            intensity: Math.max(
-              (methodData as unknown)?.elementalEffect?.Fire || 0,
-              (methodData as unknown)?.elementalEffect?.Water || 0,
-              (methodData as unknown)?.elementalEffect?.Earth || 0,
-              (methodData as unknown)?.elementalEffect?.Air || 0
-            ),
-            effect: 'enhance',
-            applicableTo: (methodData as unknown)?.suitable_for || ['all'],
-            duration: (methodData as unknown)?.duration || { min: 5, max: 30 },
-            notes: (methodData as unknown)?.description || ''
-          };
+          const methodInfo = methodData as any;
           
           // Calculate base score from the recommender utils
-          const baseScore = calculateMethodScore(methodModifier, astroState);
+          const baseScore = calculateMethodScore(methodData, astroState);
           
           // Add additional variance factors
           // 1. Use method name length to create a pseudorandom variance

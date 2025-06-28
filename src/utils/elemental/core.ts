@@ -246,7 +246,7 @@ export function calculateDetailedElementalCompatibility(
   const userDominant = calculateDominantElement(userElemental);
   
   // Calculate base compatibility
-  const baseCompatibility = calculateElementalCompatibility(recipeDominant as unknown, userDominant as unknown);
+  const baseCompatibility = calculateElementalCompatibility(recipeDominant as any, userDominant as any);
   
   // Calculate complementary score (how well elements work together)
   const complementaryScore = calculateComplementaryScore(recipeDominant, userDominant);
@@ -318,7 +318,7 @@ export function calculateElementalState(recipe: Recipe | null | undefined): Elem
   }
 
   // Use existing elemental properties if available
-  if (recipe.elementalState && validateElementalProperties(recipe.elementalState as unknown)) {
+  if (recipe.elementalState && validateElementalProperties(recipe.elementalState as any)) {
     return recipe.elementalState as ElementalProperties;
   }
 
@@ -510,7 +510,7 @@ export function standardizeRecipeElements<T>(
   }
 
   // Use safe type casting for property access
-  const recipeData = recipe as unknown;
+  const recipeData = recipe as any;
   const elementalProperties = recipeData?.elementalState 
     ? normalizeProperties(recipeData.elementalState)
     : DEFAULT_ELEMENTAL_PROPERTIES;

@@ -21,32 +21,7 @@ const RecipesPage: NextPage = () => {
   React.useEffect(() => {
     // Get current elemental state based on time, date, etc.
     const currentState = getCurrentElementalState();
-    
-    // Dynamically determine season and time of day
-    const now = new Date();
-    const hour = now.getHours();
-    const month = now.getMonth(); // 0-11
-    
-    // Determine time of day based on actual time
-    const timeOfDay = hour < 6 ? 'midnight' 
-                    : hour < 11 ? 'morning'
-                    : hour < 15 ? 'lunch'
-                    : hour < 18 ? 'afternoon'
-                    : hour < 21 ? 'evening'
-                    : 'night';
-    
-    // Determine season based on actual month (Northern Hemisphere)
-    const season = month < 3 || month === 11 ? 'winter'
-                 : month < 6 ? 'spring'
-                 : month < 9 ? 'summer'
-                 : 'autumn';
-    
-    setElementalState(prev => ({
-      ...prev,
-      ...currentState,
-      _season,
-      timeOfDay
-    }));
+    setElementalState(currentState);
   }, []);
 
   // Get all available cuisines from the recipes
@@ -57,7 +32,7 @@ const RecipesPage: NextPage = () => {
       if (recipe.cuisine) {
         cuisineSet.add(recipe.cuisine);
       }
-      if (recipe.regionalCuisine && typeof recipe.regionalCuisine === 'string') {
+      if (recipe.regionalCuisine) {
         cuisineSet.add(recipe.regionalCuisine);
       }
     });

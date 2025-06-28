@@ -6,20 +6,17 @@ import type {
 import { 
   validateRecipe as validateAlchemyRecipe, 
   validateIngredient as validateAlchemyIngredient, 
-  _validateElementalProperties as validateAlchemyElementalProps 
+  validateElementalProperties as validateAlchemyElementalProps 
 } from './validators';
 import { VALID_SEASONS } from '@/constants/seasonalConstants';
 import type { Recipe as IndexRecipe, Ingredient as IndexIngredient } from './index';
 import { 
   Season, 
   ZodiacSign,
-  _LunarPhase,
+  LunarPhase,
   ThermodynamicProperties,
   CookingMethod
 } from './alchemy';
-
-// Re-export commonly used types for convenience
-export type { Season, ZodiacSign, LunarPhase, ThermodynamicProperties, CookingMethod } from './alchemy';
 import type { RecipeIngredient as ImportedRecipeIngredient } from './recipeIngredient';
 
 // Primary elemental properties interface - used throughout the application

@@ -7,7 +7,7 @@ type LogLevel = 'debug' | 'info' | 'warn' | 'error';
 
 // Get environment
 const isDev = process.env.NODE_ENV !== 'production';
-const _isBrowser = typeof window !== 'undefined';
+const isBrowser = typeof window !== 'undefined';
 
 /**
  * Logger class providing centralized logging capabilities

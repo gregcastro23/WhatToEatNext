@@ -200,7 +200,7 @@ export class PerformanceCache<T> {
   /**
    * Estimate object size in bytes (rough calculation)
    */
-  private estimateObjectSize(obj: Record<string, unknown>): number {
+  private estimateObjectSize(obj: any): number {
     if (obj === null || obj === undefined) return 0;
     
     if (typeof obj === 'string') return (obj || []).length * 2;
@@ -383,12 +383,12 @@ export const performanceMonitor = new PerformanceMonitor();
  * Warm up caches with common calculations
  */
 export async function warmupCaches(): Promise<void> {
-  // console.log('🔥 Warming up caches for optimal performance...');
+  console.log('🔥 Warming up caches for optimal performance...');
   
   // This will be implemented with actual data warming
   // For now, just log the warming process
   
-  // console.log('✅ Cache warmup complete');
+  console.log('✅ Cache warmup complete');
 }
 
 /**
@@ -416,5 +416,5 @@ export function clearAllCaches(): void {
   astrologicalProfileCache.clear();
   ingredientProfileCache.clear();
   performanceMonitor.clear();
-  // console.log('🧹 All caches cleared');
+  console.log('🧹 All caches cleared');
 } 

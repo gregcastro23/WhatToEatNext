@@ -6,16 +6,16 @@
  * current accurate positions with fallback mechanisms.
  */
 
-import { _CelestialPosition , _PlanetaryPosition } from '../types/celestial';
+import { CelestialPosition , PlanetaryPosition } from '../types/celestial';
 import { ZodiacSign } from '../types';
 
-import { _validatePlanetaryPositions } from './validatePlanetaryPositions';
+import { logger } from './logger';
+import { validatePlanetaryPositions } from './validatePlanetaryPositions';
 
-import { _cache } from '../utils/cache';
+import { cache } from '../utils/cache';
 import { createLogger } from '../utils/logger';
 import { getCurrentTransitSign } from '../utils/astrology';
 
-// Create local logger instance - removed conflicting import
 const logger = createLogger('StreamlinedPlanetaryPositions');
 
 // Cache system to avoid redundant calculations
@@ -79,7 +79,7 @@ export function getCurrentPlanetaryPositions(): { [key: string]: CelestialPositi
  */
 function validatePositionsWithTransitDates(positions: { [key: string]: CelestialPosition }): { [key: string]: CelestialPosition } {
   const validatedPositions = { ...positions };
-  const _currentDate = new Date();
+  const currentDate = new Date();
 
   // Check each planet against its transit dates
   for (const [planetKey, position] of Object.entries(validatedPositions)) {
@@ -92,7 +92,7 @@ function validatePositionsWithTransitDates(positions: { [key: string]: Celestial
     }
 
     try {
-      const transitSign = getCurrentTransitSign(planetName, _currentDate);
+      const transitSign = getCurrentTransitSign(planetName, currentDate);
       
       if (transitSign && transitSign !== position.sign) {
         // Log the discrepancy but prioritize user's accurate positions

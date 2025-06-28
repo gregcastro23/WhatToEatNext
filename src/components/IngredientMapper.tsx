@@ -121,12 +121,12 @@ export default function IngredientMapper() {
                       {result.matchedIngredients
                         .filter((ing: unknown) => {
                           // Apply surgical type casting with variable extraction
-                          const ingData = ing as unknown;
+                          const ingData = ing as any;
                           return ingData?.matchedTo;
                         })
                         .map((ing: unknown, i: number) => {
                           // Apply surgical type casting with variable extraction
-                          const ingData = ing as unknown;
+                          const ingData = ing as any;
                           const name = ingData?.name;
                           const confidence = ingData?.confidence;
                           

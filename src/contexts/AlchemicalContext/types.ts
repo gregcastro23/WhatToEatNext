@@ -1,12 +1,12 @@
 'use client';
 
 import { 
-  _ElementalProperties,
+  ElementalProperties,
   AlchemicalProperties,
-  _CelestialPosition,
+  CelestialPosition,
   ZodiacSign,
-  _LunarPhase,
-  _Planet,
+  LunarPhase,
+  Planet,
   PlanetaryAlignment
 } from '@/types/celestial';
 

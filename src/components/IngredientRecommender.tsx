@@ -1,15 +1,12 @@
 import { useAstrologicalState } from '@/context/AstrologicalContext';
 import { useEffect, useState, useMemo } from 'react';
 import { ElementalCalculator } from '@/services/ElementalCalculator';
-import { _ElementalProperties } from '@/types/alchemy';
+import { ElementalProperties } from '@/types/alchemy';
 import { getChakraBasedRecommendations, GroupedIngredientRecommendations, getIngredientRecommendations, IngredientRecommendation } from '@/utils/ingredientRecommender';
-import { Flame, Droplets, Mountain, Wind, Info, Clock, Tag, Leaf, ChevronDown, ChevronUp, Beaker, Search, X } from 'lucide-react';
+import { Flame, Droplets, Mountain, Wind, Info, Clock, Tag, Leaf, X, ChevronDown, ChevronUp, Beaker } from 'lucide-react';
 import { useChakraInfluencedFood } from '@/hooks/useChakraInfluencedFood';
 import { normalizeChakraKey } from '@/constants/chakraSymbols';
 import { herbsCollection, oilsCollection, vinegarsCollection, grainsCollection } from '@/data/ingredients';
-import { IngredientCard } from './IngredientCard';
-import { unifiedIngredients } from '@/data/unified/ingredients';
-import styles from './IngredientRecommender.module.css';
 
 /**
  * Maps planets to their elemental influences (diurnal and nocturnal elements)
@@ -66,21 +63,16 @@ const CATEGORY_DISPLAY_COUNTS: Record<string, number> = {
 export default function IngredientRecommender() {
   // Use the context to get astrological data including chakra energies
   const astroState = useAstrologicalState();
-  const contextChakraEnergies = (astroState as unknown)?.chakraEnergies;
-  const planetaryPositions = (astroState as unknown)?.planetaryPositions;
-  const astroLoading = (astroState as unknown)?.isLoading || false;
-  const astroError = (astroState as unknown)?.error;
-  const currentZodiac = (astroState as unknown)?.currentZodiac;
+  const contextChakraEnergies = (astroState as any)?.chakraEnergies;
+  const planetaryPositions = (astroState as any)?.planetaryPositions;
+  const astroLoading = (astroState as any)?.isLoading || false;
+  const astroError = (astroState as any)?.error;
+  const currentZodiac = (astroState as any)?.currentZodiac;
   const [astroRecommendations, setAstroRecommendations] = useState<GroupedIngredientRecommendations>({});
   // States for selected item and expansion
   const [selectedIngredient, setSelectedIngredient] = useState<IngredientRecommendation | null>(null);
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [activeCategory, setActiveCategory] = useState<string>('proteins');
-  
-  // Search functionality states
-  const [searchQuery, setSearchQuery] = useState<string>('');
-  const [searchResults, setSearchResults] = useState<IngredientRecommendation[]>([]);
-  const [showSearchResults, setShowSearchResults] = useState<boolean>(false);
   
   // Use the custom hook for food recommendations
   const { 
@@ -111,7 +103,7 @@ export default function IngredientRecommender() {
   };
   
   // Handle ingredient selection to display details
-  const handleIngredientSelect = (item: Record<string, unknown>, e: React.MouseEvent) => {
+  const handleIngredientSelect = (item: any, e: React.MouseEvent) => {
     e.stopPropagation();
     
     // Toggle selected ingredient
@@ -130,73 +122,6 @@ export default function IngredientRecommender() {
       ...prev,
       [category]: !prev[category]
     }));
-  };
-
-  // Search functionality
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const query = e.target.value;
-    setSearchQuery(query);
-    
-    if (query.trim().length > 0) {
-      performSearch(query.trim());
-      setShowSearchResults(true);
-    } else {
-      setSearchResults([]);
-      setShowSearchResults(false);
-    }
-  };
-
-  const performSearch = (query: string) => {
-    const normalizedQuery = query.toLowerCase();
-    const results: IngredientRecommendation[] = [];
-    
-    // Search through unified ingredients database
-    Object.values(unifiedIngredients).forEach(ingredient => {
-      const name = ingredient.name?.toLowerCase() || '';
-      const category = ingredient.category?.toLowerCase() || '';
-      const qualities = ingredient.qualities?.join(' ').toLowerCase() || '';
-      
-      // Check if search matches name, category, or qualities
-      if (name.includes(normalizedQuery) || 
-          category.includes(normalizedQuery) || 
-          qualities.includes(normalizedQuery)) {
-        
-        // Convert to IngredientRecommendation format
-        results.push({
-          name: ingredient.name,
-          type: ingredient.category || 'ingredient',
-          category: ingredient.category,
-          elementalProperties: ingredient.elementalProperties,
-          qualities: ingredient.qualities || [],
-          matchScore: 1.0, // Perfect match for search results
-          description: `${ingredient.name} - Rich culinary ingredient with detailed information`,
-          // Add additional properties for compatibility
-          modality: ingredient.modality || 'Mutable',
-          recommendations: [`Perfect match for "${query}"`],
-          totalScore: 1.0,
-          elementalScore: 0.8,
-          astrologicalScore: 0.8,
-          seasonalScore: 0.8
-        });
-      }
-    });
-    
-    // Limit results and sort by relevance (exact name matches first)
-    const sortedResults = results
-      .sort((a, b) => {
-        const aExact = a.name.toLowerCase().startsWith(normalizedQuery) ? 1 : 0;
-        const bExact = b.name.toLowerCase().startsWith(normalizedQuery) ? 1 : 0;
-        return bExact - aExact;
-      })
-      .slice(0, 50); // Limit to 50 results
-    
-    setSearchResults(sortedResults);
-  };
-
-  const clearSearch = () => {
-    setSearchQuery('');
-    setSearchResults([]);
-    setShowSearchResults(false);
   };
   
   // Reset selected ingredient when recommendations change
@@ -222,7 +147,7 @@ export default function IngredientRecommender() {
       // Extract planetary day and hour from context if available
       const planetaryDay = planetaryPositions?.planetaryDay?.planet || 'Sun';
       const planetaryHour = planetaryPositions?.planetaryHour?.planet || 'Sun';
-      const _isDaytime = now.getHours() >= 6 && now.getHours() < 18;
+      const isDaytime = now.getHours() >= 6 && now.getHours() < 18;
       
       // Create an object with astrological state data
       const astroState = {
@@ -242,7 +167,7 @@ export default function IngredientRecommender() {
         // Add standardized planetary day and hour information
         planetaryDay: planetaryDay,
         planetaryHour: planetaryHour,
-        isDaytime: _isDaytime
+        isDaytime: isDaytime
       };
       
       // Get standard recommendations with all planets
@@ -250,7 +175,7 @@ export default function IngredientRecommender() {
         ...astroState,
         lunarPhase: 'new moon',
         aspects: []
-      } as unknown, { limit: 40 });
+      } as any, { limit: 40 });
       
       // Merge the recommendations, prioritizing chakra-based ones
       const mergedRecommendations: GroupedIngredientRecommendations = {};
@@ -310,7 +235,7 @@ export default function IngredientRecommender() {
   []);
   
   // Helper function to check if an ingredient is an oil
-  const isOil = (ingredient: Record<string, unknown>): boolean => {
+  const isOil = (ingredient: any): boolean => {
     const category = ingredient.category?.toLowerCase() || '';
     if (category === 'oil' || category === 'oils') return true;
     
@@ -321,7 +246,7 @@ export default function IngredientRecommender() {
   // Helper function to check if an ingredient is a vinegar
   const isVinegar = (ingredient: unknown): boolean => {
     // Extract ingredient data with safe property access
-    const ingredientData = ingredient as unknown;
+    const ingredientData = ingredient as any;
     const category = ingredientData?.category?.toLowerCase() || '';
     if (category === 'vinegar' || category === 'vinegars') return true;
     
@@ -332,7 +257,7 @@ export default function IngredientRecommender() {
   // Helper function to get normalized category
   const getNormalizedCategory = (ingredient: unknown): string => {
     // Extract ingredient data with safe property access
-    const ingredientData = ingredient as unknown;
+    const ingredientData = ingredient as any;
     const categoryProperty = ingredientData?.category;
     
     if (!categoryProperty) return 'other';
@@ -809,9 +734,9 @@ export default function IngredientRecommender() {
   
   // Display the recommendations
   return (
-    <div className={styles.container}>
-      <div className={styles.header}>
-        <h2>Celestial Ingredient Recommendations</h2>
+    <div className="mt-6 w-full max-w-none">
+      <div className="bg-gradient-to-r from-indigo-800/10 via-purple-800/10 to-indigo-800/10 p-4 rounded-xl backdrop-blur-sm border border-indigo-100 dark:border-indigo-950 mb-6">
+        <h2 className="text-2xl font-bold text-indigo-900 dark:text-indigo-300">Celestial Ingredient Recommendations</h2>
         <p className="text-indigo-700 dark:text-indigo-400 text-sm">
           Ingredients aligned with your current celestial influences for optimal alchemical harmony.
         </p>
@@ -819,197 +744,50 @@ export default function IngredientRecommender() {
           Click on any ingredient card to view detailed information.
         </p>
         
-        {/* Ingredient Search */}
-        <div className="mt-4 mb-4">
-          <div className="relative max-w-md mx-auto">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Search className="h-4 w-4 text-gray-400" />
-            </div>
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={handleSearchChange}
-              placeholder="Search ingredients... (e.g., 'basil', 'protein', 'spicy')"
-              className="block w-full pl-10 pr-10 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white/90 dark:bg-gray-800/90 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm"
-            />
-            {searchQuery && (
-              <button
-                onClick={clearSearch}
-                className="absolute inset-y-0 right-0 pr-3 flex items-center"
-              >
-                <X className="h-4 w-4 text-gray-400 hover:text-gray-600" />
-              </button>
-            )}
-          </div>
-          
-          {/* Search Results */}
-          {showSearchResults && searchResults.length > 0 && (
-            <div className="mt-4 bg-white/95 dark:bg-gray-800/95 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 max-h-96 overflow-y-auto">
-              <div className="p-3 border-b border-gray-200 dark:border-gray-700">
-                <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100">
-                  Search Results ({searchResults.length})
-                </h4>
-              </div>
-              <div className="p-3">
-                <div className={styles.ingredientsGrid}>
-                  {searchResults.map((item, index) => {
-                    const elementalProps = item.elementalProperties || {
-                      Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-                    };
-                    
-                    const dominantElement = Object.entries(elementalProps)
-                      .sort((a, b) => {
-                        const aValue = Number(a[1]) || 0;
-                        const bValue = Number(b[1]) || 0;
-                        return bValue - aValue;
-                      })[0][0];
-                    
-                    const elementColor = {
-                      'Fire': 'border-red-400 bg-red-50/70 dark:bg-red-900/30',
-                      'Water': 'border-blue-400 bg-blue-50/70 dark:bg-blue-900/30',
-                      'Earth': 'border-green-400 bg-green-50/70 dark:bg-green-900/30',
-                      'Air': 'border-purple-400 bg-purple-50/70 dark:bg-purple-900/30'
-                    }[dominantElement] || 'border-gray-400 bg-gray-50/70 dark:bg-gray-900/30';
-                    
-                    const isSelected = selectedIngredient?.name === item.name;
-                    const matchScoreClass = getMatchScoreClass(item.matchScore);
-                    
-                    return (
-                      <div 
-                        key={`search-${item.name}-${index}`}
-                        className={`${styles.ingredientCard} ${isSelected ? styles.selected : ''} ${elementColor}`}
-                        onClick={(e) => handleIngredientSelect(item, e)}
-                      >
-                        <div className="flex justify-between items-start">
-                          <h4 className={styles.ingredientName}>{item.name}</h4>
-                          <span className={`${styles.matchScore} ${matchScoreClass}`}>
-                            {formatMatchScore(item.matchScore)}
-                          </span>
-                        </div>
-                        
-                        <div className="flex items-center text-xs text-gray-600 dark:text-gray-400 mt-1 gap-2">
-                          {item.category && (
-                            <span className="flex items-center">
-                              <Tag size={10} className="mr-0.5" />
-                              {item.category}
-                            </span>
-                          )}
-                        </div>
-                        
-                        {/* Use comprehensive IngredientCard for expanded view */}
-                        {isSelected && (
-                          <div className={styles.expandedView}>
-                            <IngredientCard 
-                              ingredient={item}
-                              initiallyExpanded={true}
-                              emphasizeCulinary={true}
-                              onClick={() => {}}
-                            />
-                          </div>
-                        )}
-                        
-                        {/* Elemental properties in collapsed view */}
-                        {!isSelected && (
-                          <div className={styles.elementalProperties}>
-                            {Object.entries(elementalProps).map(([element, value]) => (
-                              <div key={element} className={styles.elementalBar}>
-                                {getElementIcon(element)}
-                                <div className={styles.elementalBarContainer}>
-                                  <div 
-                                    className={styles.elementalBarFill}
-                                    style={{ 
-                                      width: `${(Number(value) || 0) * 100}%`,
-                                      backgroundColor: 
-                                        element === 'Fire' ? '#ff6b6b' : 
-                                        element === 'Water' ? '#6bb5ff' :
-                                        element === 'Earth' ? '#6bff8e' :
-                                        '#d9b3ff'
-                                    }}
-                                  ></div>
-                                </div>
-                                <span className={styles.elementalValue}>{Math.round((Number(value) || 0) * 100)}%</span>
-                              </div>
-                            ))}
-                          </div>
-                        )}
-                        
-                        {!isSelected && item.qualities && item.qualities.length > 0 && (
-                          <div className={styles.qualitiesTags}>
-                            {item.qualities.slice(0, 2).map(quality => (
-                              <span key={quality} className={styles.qualityTag}>
-                                {quality}
-                              </span>
-                            ))}
-                            {item.qualities.length > 2 && (
-                              <span className={styles.qualityTag}>
-                                +{item.qualities.length - 2} more
-                              </span>
-                            )}
-                          </div>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
-          )}
-          
-          {showSearchResults && searchResults.length === 0 && searchQuery && (
-            <div className="mt-4 p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg border border-yellow-200 dark:border-yellow-800">
-              <p className="text-yellow-800 dark:text-yellow-200 text-sm">
-                No ingredients found for "{searchQuery}". Try different keywords like ingredient names, categories, or qualities.
-              </p>
-            </div>
-          )}
-        </div>
-
         {/* Category navigation links */}
-        {!showSearchResults && (
-          <div className="flex flex-wrap justify-center gap-2 mt-4 bg-white/70 dark:bg-gray-800/70 p-2 rounded-lg shadow-sm">
-            {Object.entries(combinedCategorizedRecommendations).map(([category]) => {
-              const displayName = CATEGORY_DISPLAY_NAMES[category] || (category.charAt(0).toUpperCase() + category.slice(1));
-              const isActive = category === activeCategory;
-              
-              // Define icons for each category
-              let icon;
-              if (category === 'proteins') icon = <Tag className="mr-1 text-rose-500" size={14} />;
-              else if (category === 'vegetables') icon = <Leaf className="mr-1 text-emerald-500" size={14} />;
-              else if (category === 'grains') icon = <Wind className="mr-1 text-amber-500" size={14} />;
-              else if (category === 'herbs') icon = <Leaf className="mr-1 text-green-500" size={14} />;
-              else if (category === 'spices') icon = <Flame className="mr-1 text-orange-500" size={14} />;
-              else if (category === 'fruits') icon = <Droplets className="mr-1 text-cyan-500" size={14} />;
-              else if (category === 'oils') icon = <Droplets className="mr-1 text-yellow-500" size={14} />;
-              else if (category === 'vinegars') icon = <Beaker className="mr-1 text-purple-500" size={14} />;
-              
-              return (
-                <a 
-                  key={`nav-${category}`}
-                  href={`#${category}`}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    const element = document.getElementById(category);
-                    if (element) {
-                      element.scrollIntoView({ behavior: 'smooth' });
-                      setActiveCategory(category);
-                    }
-                  }}
-                  className={`px-3 py-1.5 rounded-full text-xs font-medium flex items-center shadow-sm transition-colors duration-200 ${
-                    isActive 
-                      ? 'bg-indigo-500 text-white' 
-                      : 'bg-white/90 dark:bg-gray-700/90 text-gray-700 dark:text-gray-300 hover:bg-indigo-100 dark:hover:bg-indigo-900/40 hover:text-indigo-600 dark:hover:text-indigo-300'
-                  }`}
-                >
-                  {icon}
-                  {displayName}
-                </a>
-              );
-            })}
-          </div>
-        )}
+        <div className="flex flex-wrap justify-center gap-2 mt-4 bg-white/70 dark:bg-gray-800/70 p-2 rounded-lg shadow-sm">
+          {Object.entries(combinedCategorizedRecommendations).map(([category]) => {
+            const displayName = CATEGORY_DISPLAY_NAMES[category] || (category.charAt(0).toUpperCase() + category.slice(1));
+            const isActive = category === activeCategory;
+            
+            // Define icons for each category
+            let icon;
+            if (category === 'proteins') icon = <Tag className="mr-1 text-rose-500" size={14} />;
+            else if (category === 'vegetables') icon = <Leaf className="mr-1 text-emerald-500" size={14} />;
+            else if (category === 'grains') icon = <Wind className="mr-1 text-amber-500" size={14} />;
+            else if (category === 'herbs') icon = <Leaf className="mr-1 text-green-500" size={14} />;
+            else if (category === 'spices') icon = <Flame className="mr-1 text-orange-500" size={14} />;
+            else if (category === 'fruits') icon = <Droplets className="mr-1 text-cyan-500" size={14} />;
+            else if (category === 'oils') icon = <Droplets className="mr-1 text-yellow-500" size={14} />;
+            else if (category === 'vinegars') icon = <Beaker className="mr-1 text-purple-500" size={14} />;
+            
+            return (
+              <a 
+                key={`nav-${category}`}
+                href={`#${category}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  const element = document.getElementById(category);
+                  if (element) {
+                    element.scrollIntoView({ behavior: 'smooth' });
+                    setActiveCategory(category);
+                  }
+                }}
+                className={`px-3 py-1.5 rounded-full text-xs font-medium flex items-center shadow-sm transition-colors duration-200 ${
+                  isActive 
+                    ? 'bg-indigo-500 text-white' 
+                    : 'bg-white/90 dark:bg-gray-700/90 text-gray-700 dark:text-gray-300 hover:bg-indigo-100 dark:hover:bg-indigo-900/40 hover:text-indigo-600 dark:hover:text-indigo-300'
+                }`}
+              >
+                {icon}
+                {displayName}
+              </a>
+            );
+          })}
+        </div>
       </div>
       
-      {!showSearchResults && Object.keys(combinedCategorizedRecommendations).length > 0 ? (
+      {Object.keys(combinedCategorizedRecommendations).length > 0 ? (
         <div className="space-y-6">
           {Object.entries(combinedCategorizedRecommendations).map(([category, items]) => {
             const displayName = CATEGORY_DISPLAY_NAMES[category] || (category.charAt(0).toUpperCase() + category.slice(1));
@@ -1043,7 +821,7 @@ export default function IngredientRecommender() {
                   </button>
                 </div>
                 
-                <div className={styles.ingredientsGrid}>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-3">
                   {itemsToShow.map((item) => {
                     // Get element color class
                     const elementalProps = item.elementalProperties || {
@@ -1099,12 +877,12 @@ export default function IngredientRecommender() {
                     return (
                       <div 
                         key={`${item.name}-${category}-${item.subCategory || ''}-${Math.random().toString(36).substr(2, 5)}`} 
-                        className={`${styles.ingredientCard} ${isSelected ? styles.selected : ''} ${elementColor}`}
+                        className={`p-3 rounded-lg border-l-4 ${elementColor} hover:shadow-md transition-all flex flex-col ${isSelected ? 'ring-2 ring-indigo-500 shadow-md min-h-[200px] sm:col-span-2 md:col-span-2 lg:col-span-2' : 'h-full'} cursor-pointer`}
                         onClick={(e) => handleIngredientSelect(item, e)}
                       >
                         <div className="flex justify-between items-start">
-                          <h4 className={styles.ingredientName}>{item.name}</h4>
-                          <span className={`${styles.matchScore} ${matchScoreClass}`}>
+                          <h4 className="font-medium text-sm text-gray-800 dark:text-gray-200">{item.name}</h4>
+                          <span className={`ml-1 text-xs px-1.5 py-0.5 rounded-sm ${matchScoreClass}`}>
                             {formatMatchScore(item.matchScore)}
                           </span>
                         </div>
@@ -1126,61 +904,345 @@ export default function IngredientRecommender() {
                           )}
                         </div>
                         
-                        {/* Use the comprehensive IngredientCard component for expanded view */}
-                        {isSelected && (
-                          <div className={styles.expandedView}>
-                            <IngredientCard 
-                              ingredient={item}
-                              initiallyExpanded={true}
-                              emphasizeCulinary={true}
-                              onClick={() => {}} // Prevent re-triggering selection
-                            />
-                          </div>
-                        )}
-                        
-                        {/* Elemental properties in collapsed view */}
-                        {!isSelected && (
-                          <div className={styles.elementalProperties}>
-                            {Object.entries(elementalProps).map(([element, value]) => (
-                              <div key={element} className={styles.elementalBar}>
-                                {getElementIcon(element)}
-                                <div className={styles.elementalBarContainer}>
-                                  <div 
-                                    className={styles.elementalBarFill}
-                                    style={{ 
-                                      width: `${(Number(value) || 0) * 100}%`,
-                                      backgroundColor: 
-                                        element === 'Fire' ? '#ff6b6b' : 
-                                        element === 'Water' ? '#6bb5ff' :
-                                        element === 'Earth' ? '#6bff8e' :
-                                        '#d9b3ff' // Air
-                                    }}
-                                  ></div>
+                        {/* Expanded view */}
+                        {isSelected ? (
+                          <div className="mt-2 pt-1" style={{ animation: 'fadeIn 0.3s ease-in-out' }}>
+                            {/* Close button */}
+                            <div className="flex justify-end">
+                              <button 
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setSelectedIngredient(null);
+                                }}
+                                className="text-gray-400 hover:text-gray-600 p-1 rounded-full hover:bg-gray-200/50 dark:hover:bg-gray-700/50"
+                                aria-label="Close details"
+                              >
+                                <X size={14} />
+                              </button>
+                            </div>
+                            
+                            {/* More detailed information */}
+                            <div className="mt-1 space-y-2 text-xs text-gray-700 dark:text-gray-300">
+                              {item.description && (
+                                <p>{item.description}</p>
+                              )}
+                              
+                              {item.qualities && item.qualities.length > 0 && (
+                                <div>
+                                  <span className="font-semibold">Qualities:</span> {item.qualities.join(', ')}
                                 </div>
-                                <span className={styles.elementalValue}>{Math.round((Number(value) || 0) * 100)}%</span>
+                              )}
+                              
+                              {/* Show culinary applications */}
+                              {item.culinaryApplications && (
+                                <div>
+                                  <span className="font-semibold">Culinary Applications:</span>{' '}
+                                  {Object.keys(item.culinaryApplications).slice(0, 3).join(', ')}
+                                </div>
+                              )}
+
+                              {/* Show varieties if available */}
+                              {item.varieties && Object.keys(item.varieties).length > 0 && (
+                                <div>
+                                  <span className="font-semibold">Varieties:</span>{' '}
+                                  {Object.keys(item.varieties).slice(0, 3).join(', ')}
+                                </div>
+                              )}
+
+                              {/* Show storage information */}
+                              {item.storage && (
+                                <div>
+                                  <span className="font-semibold">Storage:</span>{' '}
+                                  {item.storage.duration}
+                                  {item.storage.temperature && typeof item.storage.temperature === 'object' && 
+                                   ` at ${item.storage.temperature.fahrenheit}°F`}
+                                </div>
+                              )}
+                              
+                              {/* Show smoke point for oils */}
+                              {category === 'oils' && item.smokePoint && (
+                                <div>
+                                  <span className="font-semibold">Smoke Point:</span> {item.smokePoint.fahrenheit}°F / {item.smokePoint.celsius}°C
+                                </div>
+                              )}
+                              
+                              {/* Show recommended culinary applications for oils */}
+                              {category === 'oils' && item.culinaryApplications && (
+                                <div>
+                                  <span className="font-semibold">Best for:</span> {
+                                    Object.entries(item.culinaryApplications)
+                                      .map(([type, data]) => {
+                                        if (typeof data === 'object') {
+                                          // Extract data with safe property access
+                                          const culinaryData = data as any;
+                                          const techniques = culinaryData?.techniques;
+                                          if (Array.isArray(techniques)) {
+                                            return techniques.slice(0, 2).join(', ');
+                                          }
+                                        }
+                                        return type;
+                                      })
+                                      .filter(Boolean)
+                                      .join(', ')
+                                  }
+                                </div>
+                              )}
+                              
+                              {/* Show seasonal adjustments */}
+                              {item.seasonalAdjustments && (
+                                <div>
+                                  <span className="font-semibold">Seasonal Preparations:</span>{' '}
+                                  {Object.keys(item.seasonalAdjustments).join(', ')}
+                                </div>
+                              )}
+
+                              {/* Show cooking time/methods for proteins */}
+                              {category === 'proteins' && item.culinaryApplications && (
+                                <div>
+                                  <span className="font-semibold">Cooking Times:</span>{' '}
+                                  {Object.entries(item.culinaryApplications).map(([method, details], index) => {
+                                    let cookingTime = '';
+                                    
+                                    // Handle different data formats for cooking time
+                                    // Extract details data with safe property access
+                                    const detailsData = details as any;
+                                    const timing = detailsData?.timing;
+                                    
+                                    if (timing) {
+                                      if (typeof timing === 'string') {
+                                        cookingTime = timing;
+                                      } else if (typeof timing === 'object') {
+                                        // Extract timing properties with safe access
+                                        const timingData = timing as any;
+                                        const minimum = timingData?.minimum;
+                                        const maximum = timingData?.maximum;
+                                        const optimal = timingData?.optimal;
+                                        
+                                        if (minimum && maximum) {
+                                          cookingTime = `${minimum}-${maximum}`;
+                                        } else if (optimal) {
+                                          cookingTime = optimal;
+                                        } else {
+                                          const times = Object.values(timing).filter(t => typeof t === 'string');
+                                          if (times.length) cookingTime = times.join('-');
+                                        }
+                                      }
+                                    }
+                                    
+                                    return cookingTime ? (
+                                      <span key={method}>
+                                        {index > 0 ? ', ' : ''}
+                                        {method.replace(/_/g, ' ')}: {cookingTime}
+                                      </span>
+                                    ) : null;
+                                  }).filter(Boolean)}
+                                </div>
+                              )}
+
+                              {/* Show temperature recommendations for proteins */}
+                              {category === 'proteins' && item.culinaryApplications && (
+                                <div>
+                                  <span className="font-semibold">Cooking Temperatures:</span>{' '}
+                                  {Object.entries(item.culinaryApplications).map(([method, details], index) => {
+                                    let temp = '';
+                                    
+                                    // Handle different data formats for temperature
+                                    // Extract details data with safe property access
+                                    const tempDetailsData = details as any;
+                                    const temperature = tempDetailsData?.temperature;
+                                    
+                                    if (temperature) {
+                                      if (typeof temperature === 'string') {
+                                        temp = temperature;
+                                      } else if (typeof temperature === 'object') {
+                                        // Extract temperature properties with safe access
+                                        const temperatureData = temperature as any;
+                                        const fahrenheit = temperatureData?.fahrenheit;
+                                        const min = temperatureData?.min;
+                                        const max = temperatureData?.max;
+                                        const unit = temperatureData?.unit;
+                                        
+                                        if (fahrenheit) {
+                                          temp = `${fahrenheit}°F`;
+                                        } else if (min && max) {
+                                          temp = `${min}-${max}°${unit === 'celsius' ? 'C' : 'F'}`;
+                                        }
+                                      }
+                                    }
+                                    
+                                    return temp ? (
+                                      <span key={method}>
+                                        {index > 0 ? ', ' : ''}
+                                        {method.replace(/_/g, ' ')}: {temp}
+                                      </span>
+                                    ) : null;
+                                  }).filter(Boolean)}
+                                </div>
+                              )}
+
+                              {/* Show cuts for seafood and proteins */}
+                              {item.cuts && Object.keys(item.cuts).length > 0 && (
+                                <div>
+                                  <span className="font-semibold">Available Cuts:</span>{' '}
+                                  {Object.values(item.cuts).map(cut => {
+                                    if (typeof cut === 'object') {
+                                      // Extract cut data with safe property access
+                                      const cutData = cut as any;
+                                      const name = cutData?.name;
+                                      return name ? name : '';
+                                    }
+                                    return '';
+                                  }).filter(Boolean).join(', ')}
+                                </div>
+                              )}
+
+                              {/* Show health benefits */}
+                              {item.healthBenefits && item.healthBenefits.length > 0 && (
+                                <div>
+                                  <span className="font-semibold">Health Benefits:</span>{' '}
+                                  {Array.isArray(item.healthBenefits) 
+                                    ? item.healthBenefits.slice(0, 2).join(', ')
+                                    : typeof item.healthBenefits === 'string' ? item.healthBenefits : ''}
+                                </div>
+                              )}
+                              
+                              {/* Show thermodynamic properties for oils and other ingredients */}
+                              {item.thermodynamicProperties && (
+                                <div>
+                                  <span className="font-semibold">Properties:</span> {
+                                    Object.entries(item.thermodynamicProperties)
+                                      .filter(([key]) => ['heat', 'reactivity', 'energy'].includes(key))
+                                      .map(([key, value]) => `${key}: ${Math.round((Number(value) || 0) * 100)}%`)
+                                      .join(', ')
+                                  }
+                                </div>
+                              )}
+                              
+                              {item.culinaryUses && item.culinaryUses.length > 0 && (
+                                <div>
+                                  <span className="font-semibold">Uses:</span> {item.culinaryUses.join(', ')}
+                                </div>
+                              )}
+
+                              {/* Show nutritional highlights if available */}
+                              {item.nutritionalProfile && (
+                                <div>
+                                  <span className="font-semibold">Nutrition:</span>{' '}
+                                  {item.nutritionalProfile.calories && `${item.nutritionalProfile.calories} cal`}
+                                  {item.nutritionalProfile.macros && item.nutritionalProfile.macros.protein && 
+                                   `, ${item.nutritionalProfile.macros.protein}g protein`}
+                                </div>
+                              )}
+                              
+                              {item.astrologicalProfile && item.astrologicalProfile.rulingPlanets && (
+                                <div>
+                                  <span className="font-semibold">Planets:</span> {item.astrologicalProfile.rulingPlanets.join(', ')}
+                                </div>
+                              )}
+                            </div>
+                            
+                            {/* Elemental properties - show in expanded view */}
+                            <div className="mt-2 pt-1 space-y-1">
+                              <div className="font-semibold text-xs text-gray-700 dark:text-gray-300">Elemental Balance:</div>
+                              {Object.entries(elementalProps).map(([element, value]) => (
+                                <div key={element} className="flex items-center text-xs">
+                                  {getElementIcon(element)}
+                                  <div className="flex-grow ml-1 bg-gray-200 dark:bg-gray-700 h-1.5 rounded-full overflow-hidden">
+                                    <div 
+                                      className="h-full rounded-full"
+                                      style={{ 
+                                        width: `${(Number(value) || 0) * 100}%`,
+                                        backgroundColor: 
+                                          element === 'Fire' ? '#ff6b6b' : 
+                                          element === 'Water' ? '#6bb5ff' :
+                                          element === 'Earth' ? '#6bff8e' :
+                                          '#d9b3ff' // Air
+                                      }}
+                                    ></div>
+                                  </div>
+                                  <span className="ml-1 w-7 text-right text-gray-600 dark:text-gray-400">{Math.round((Number(value) || 0) * 100)}%</span>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        ) : (
+                          <>
+                            {/* Elemental properties in collapsed view */}
+                            <div className="mt-2 pt-1 space-y-1">
+                              {Object.entries(elementalProps).map(([element, value]) => (
+                                <div key={element} className="flex items-center text-xs">
+                                  {getElementIcon(element)}
+                                  <div className="flex-grow ml-1 bg-gray-200 dark:bg-gray-700 h-1.5 rounded-full overflow-hidden">
+                                    <div 
+                                      className="h-full rounded-full"
+                                      style={{ 
+                                        width: `${(Number(value) || 0) * 100}%`,
+                                        backgroundColor: 
+                                          element === 'Fire' ? '#ff6b6b' : 
+                                          element === 'Water' ? '#6bb5ff' :
+                                          element === 'Earth' ? '#6bff8e' :
+                                          '#d9b3ff' // Air
+                                      }}
+                                    ></div>
+                                  </div>
+                                  <span className="ml-1 w-7 text-right text-gray-600 dark:text-gray-400">{Math.round((Number(value) || 0) * 100)}%</span>
+                                </div>
+                              ))}
+                            </div>
+                            
+                            {/* Qualities tags if space allows */}
+                            {qualities.length > 0 && (
+                              <div className="flex flex-wrap gap-1 mt-2">
+                                {qualities.slice(0, 2).map(quality => (
+                                  <span key={quality} className="text-xs bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-1 py-0.5 rounded text-[10px]">
+                                    {quality}
+                                  </span>
+                                ))}
                               </div>
-                            ))}
-                          </div>
-                        )}
-                        
-                        {/* Qualities tags if space allows */}
-                        {!isSelected && qualities.length > 0 && (
-                          <div className={styles.qualitiesTags}>
-                            {qualities.slice(0, 2).map(quality => (
-                              <span key={quality} className={styles.qualityTag}>
-                                {quality}
-                              </span>
-                            ))}
-                            {qualities.length > 2 && (
-                              <span className={styles.qualityTag}>
-                                +{qualities.length - 2} more
-                              </span>
                             )}
-                          </div>
+                            
+                            {/* Compact smoke point display for oils */}
+                            {category === 'oils' && item.smokePoint && (
+                              <div className="mt-1 text-[10px] text-gray-600 dark:text-gray-400">
+                                <span className="font-medium">Smoke Point:</span> {item.smokePoint.fahrenheit}°F
+                              </div>
+                            )}
+
+                            {/* Compact cooking methods for proteins */}
+                            {category === 'proteins' && item.culinaryApplications && (
+                              <div className="mt-1 text-[10px] text-gray-600 dark:text-gray-400">
+                                <span className="font-medium">Cook:</span>{' '}
+                                {Object.keys(item.culinaryApplications).slice(0, 2).map((method, idx) => (
+                                  <span key={method}>
+                                    {idx > 0 && ', '}
+                                    {method.replace(/_/g, ' ')}
+                                  </span>
+                                ))}
+                              </div>
+                            )}
+                          </>
                         )}
                       </div>
                     );
                   })}
+                  
+                  {/* Show more/less button */}
+                  {items.length > displayCount && (
+                    <div 
+                      className="col-span-full flex justify-center mt-2"
+                    >
+                      <button 
+                        onClick={(e) => toggleCategoryExpansion(category, e)}
+                        className="text-indigo-600 dark:text-indigo-400 text-sm font-medium hover:text-indigo-800 dark:hover:text-indigo-300 transition-colors py-1 px-3 rounded-full border border-indigo-200 dark:border-indigo-700/50 hover:bg-indigo-50 dark:hover:bg-indigo-900/30"
+                      >
+                        {isExpanded ? (
+                          <span className="flex items-center">Show Less <ChevronUp size={14} className="ml-1" /></span>
+                        ) : (
+                          <span className="flex items-center">Show {items.length - displayCount} More <ChevronDown size={14} className="ml-1" /></span>
+                        )}
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
             );

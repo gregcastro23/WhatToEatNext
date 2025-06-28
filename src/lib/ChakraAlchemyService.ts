@@ -9,7 +9,7 @@ import {
   SuitChakraMapping,
   KeyCardChakraMapping
 } from '@/types/chakra';
-import { _Planet, ZodiacSign, _Element, TarotSuit, ChakraPosition, _ChakraEnergies, EnergyStateProperties } from '@/types/alchemy';
+import { Planet, ZodiacSign, Element, TarotSuit, ChakraPosition, ChakraEnergies, EnergyStateProperties } from '@/types/alchemy';
 
 /**
  * ChakraAlchemyService provides utilities for working with chakra-tarot associations
@@ -100,18 +100,18 @@ export class ChakraAlchemyService {
    * Get all chakras influenced by a specific planet based on alchemical energy states
    */
   public getChakrasByPlanet(planet: Planet): ChakraPosition[] {
-    // Planet to energy state mappings based on alchemical principles - FIXED: Capitalized planet names for type consistency
+    // Planet to energy state mappings based on alchemical principles
     const planetEnergyStates: Record<Planet, string[]> = {
-      'Sun': ['Spirit'],
-      'Moon': ['Essence', 'Matter'],
-      'Mercury': ['Spirit', 'Substance'],
-      'Venus': ['Essence', 'Matter'],
-      'Mars': ['Essence', 'Matter'],
-      'Jupiter': ['Spirit', 'Essence'],
-      'Saturn': ['Spirit', 'Matter'],
-      'Uranus': ['Matter'],
-      'Neptune': ['Essence', 'Substance'],
-      'Pluto': ['Matter']
+      'sun': ['Spirit'],
+      'moon': ['Essence', 'Matter'],
+      'mercury': ['Spirit', 'Substance'],
+      'venus': ['Essence', 'Matter'],
+      'mars': ['Essence', 'Matter'],
+      'jupiter': ['Spirit', 'Essence'],
+      'saturn': ['Spirit', 'Matter'],
+      'uranus': ['Matter'],
+      'neptune': ['Essence', 'Substance'],
+      'pluto': ['Matter']
     };
     
     // Get the energy states for this planet
@@ -193,7 +193,7 @@ export class ChakraAlchemyService {
     Object.entries(CHAKRAS).forEach(([position, chakra]) => {
       const key = this.getChakraKey(position as ChakraPosition);
       if (key) {
-        chakraEnergies[key] = energyStates[(chakra as unknown)?.primaryEnergyState] * 2; // Scale to make it more visible
+        chakraEnergies[key] = energyStates[(chakra as any)?.primaryEnergyState] * 2; // Scale to make it more visible
       }
     });
     

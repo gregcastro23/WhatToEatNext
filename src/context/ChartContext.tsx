@@ -4,10 +4,10 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 import { AstrologicalState } from '@/types/alchemy';
 
 interface ChartContextType {
-  currentChart: Record<string, unknown>;
+  currentChart: any;
   isLoading: boolean;
   error: string | null;
-  updateChart: (data: Record<string, unknown>) => void;
+  updateChart: (data: any) => void;
 }
 
 const defaultContextValue: ChartContextType = {
@@ -24,7 +24,7 @@ export function ChartProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const updateChart = (data: Record<string, unknown>) => {
+  const updateChart = (data: any) => {
     try {
       setCurrentChart(data);
     } catch (err) {

@@ -1,5 +1,6 @@
 
-import { _ElementalProperties, Season, ZodiacSign , _Element } from '@/types/alchemy';
+import { ElementalProperties, Season, ZodiacSign } from '@/types/alchemy';
+import { Element } from "@/types/alchemy";
 
 
 

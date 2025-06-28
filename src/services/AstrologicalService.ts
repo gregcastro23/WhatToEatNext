@@ -26,11 +26,11 @@ import { dynamicImportAndExecute, dynamicImportFunction } from '../utils/dynamic
 import { createLogger } from '../utils/logger';
 // Import centralized types
 import {
-  _CelestialPosition,
+  CelestialPosition,
   PlanetaryAlignment,
   ZodiacSign,
-  _Planet,
-  _LunarPhase,
+  Planet,
+  LunarPhase,
   AstrologicalState as CentralizedAstrologicalState
 } from '@/types/celestial';
 
@@ -67,21 +67,21 @@ export class AstrologicalService {
   }
 
   // Missing methods for AstrologicalService
-  static testCalculations(testData?: Record<string, unknown>): any {
+  static testCalculations(testData?: any): any {
     // Placeholder implementation for test calculations
-    // console.log("Testing astrological calculations...");
+    console.log("Testing astrological calculations...");
     return { success: true, data: testData || {} };
   }
 
-  static verifyPlanetaryPositions(positions?: Record<string, unknown>): boolean {
+  static verifyPlanetaryPositions(positions?: any): boolean {
     // Placeholder implementation for planetary position verification
-    // console.log("Verifying planetary positions...");
+    console.log("Verifying planetary positions...");
     return positions ? Object.keys(positions).length > 0 : false;
   }
 
   static testAPIs(apiEndpoints?: string[]): Promise<any> {
     // Placeholder implementation for API testing
-    // console.log("Testing astrological APIs...");
+    console.log("Testing astrological APIs...");
     return Promise.resolve({ success: true, endpoints: apiEndpoints || [] });
   }
 }

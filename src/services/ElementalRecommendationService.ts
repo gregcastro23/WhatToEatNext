@@ -4,7 +4,7 @@ import type {
   ZodiacSign,
   LunarPhase
 } from '@/types/alchemy';
-import { _elementalUtils } from '@/utils/elementalUtils';
+import { elementalUtils } from '@/utils/elementalUtils';
 import { ZODIAC_ELEMENTS } from '@/constants/elementalConstants';
 
 /**
@@ -21,25 +21,25 @@ export class ElementalRecommendationService {
     const dominantElement = this.getDominantElement(properties);
 
     // Fix TS2339: Property access on service object using safe type casting
-    const utilsService = elementalUtils as unknown;
+    const utilsService = elementalUtils as any;
 
     return {
       elementalBalance: properties,
       dominantElement,
       cookingTechniques: elementalUtils.getSuggestedCookingTechniques(properties),
       // ✅ Pattern MM-1: getComplementaryElement expects element key, not ElementalProperties object
-      complementaryIngredients: [elementalUtils.getComplementaryElement(dominantElement)],
+      complementaryIngredients: elementalUtils.getComplementaryElement(dominantElement),
       flavorProfiles: utilsService?.getFlavorProfileRecommendations?.(properties) || [],
       healthBenefits: utilsService?.getHealthBenefits?.(properties) || [],
       timeOfDay: elementalUtils.getRecommendedTimeOfDay(properties),
       seasonalBest: this.getSeasonalRecommendations(dominantElement),
       // Fix TS2339: Property access on array type using safe type casting
       moodEffects: (() => {
-        const characteristics = profile.characteristics as unknown;
+        const characteristics = profile.characteristics as any;
         return characteristics?.moodEffects || [];
       })(),
       culinaryHerbs: (() => {
-        const characteristics = profile.characteristics as unknown;
+        const characteristics = profile.characteristics as any;
         return characteristics?.culinaryHerbs || [];
       })()
     };
@@ -105,11 +105,11 @@ export class ElementalRecommendationService {
    * @param properties The elemental properties
    * @returns The dominant element
    */
-  private static getDominantElement(properties: ElementalProperties): keyof ElementalProperties {
+  private static getDominantElement(properties: ElementalProperties): string {
     return Object.entries(properties)
       .reduce((max, [element, value]) => 
-        value > max.value ? { element: element as keyof ElementalProperties, value } : max, 
-        { element: 'Fire' as keyof ElementalProperties, value: 0 }
+        value > max.value ? { element, value } : max, 
+        { element: '', value: 0 }
       ).element;
   }
 
@@ -118,8 +118,8 @@ export class ElementalRecommendationService {
    * @param element The dominant element
    * @returns Array of seasonal recommendations
    */
-  private static getSeasonalRecommendations(element: keyof ElementalProperties): string[] {
-    const seasonalMap: Record<keyof ElementalProperties, string[]> = {
+  private static getSeasonalRecommendations(element: string): string[] {
+    const seasonalMap: Record<string, string[]> = {
       'Fire': ['Summer', 'Late Spring'],
       'Water': ['Winter', 'Late Autumn'],
       'Earth': ['Autumn', 'Late Summer'],
@@ -135,7 +135,7 @@ export class ElementalRecommendationService {
  */
 export interface ElementalRecommendation {
   elementalBalance: ElementalProperties;
-  dominantElement: keyof ElementalProperties;
+  dominantElement: string;
   cookingTechniques: string[];
   complementaryIngredients: string[];
   flavorProfiles: string[];

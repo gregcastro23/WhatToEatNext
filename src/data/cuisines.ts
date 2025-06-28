@@ -15,8 +15,8 @@ import { thai } from './cuisines/thai';
 import { vietnamese } from './cuisines/vietnamese';
 import { russian } from './cuisines/russian';
 
-// Import types - removed Cuisine to avoid conflict with local type declaration
-import type { Recipe, ElementalProperties, CuisineType } from '@/types/alchemy';
+// Import types
+import type { Recipe, ElementalProperties, CuisineType, Cuisine } from '@/types/alchemy';
 
 // Example recipe type for reference
 const exampleRecipe: Recipe = {
@@ -46,7 +46,7 @@ const exampleRecipe: Recipe = {
 
 // Helper function to adapt ElementalProperties from cuisine.ts to alchemy.ts format
 function adaptElementalProperties(props: unknown): ElementalProperties {
-  const propsData = props as unknown;
+  const propsData = props as any;
   // If it already has the index signature, return as is
   if (propsData && typeof propsData === 'object' && propsData.hasOwnProperty('Fire')) {
     return propsData as ElementalProperties;
@@ -61,23 +61,23 @@ function adaptElementalProperties(props: unknown): ElementalProperties {
   };
 }
 
-// Helper function to adapt cuisines to the local cuisine interface format
-function adaptCuisine(cuisine: unknown): LocalCuisineType {
-  const cuisineData = cuisine as unknown;
+// Helper function to adapt cuisines to the Cuisine interface format
+function adaptCuisine(cuisine: unknown): Cuisine {
+  const cuisineData = cuisine as any;
   return {
     ...cuisineData,
-    // Convert elementalProperties if present - apply safe type casting
-    elementalProperties: (cuisineData as unknown)?.elementalProperties ? 
-      adaptElementalProperties((cuisineData as unknown).elementalProperties) : undefined,
+    // Convert elementalProperties if present
+    elementalProperties: cuisineData.elementalProperties ? 
+      adaptElementalProperties(cuisineData.elementalProperties) : undefined,
     
-    // Convert elementalState if present - apply safe type casting
-    elementalState: (cuisineData as unknown)?.elementalState ? 
-      adaptElementalProperties((cuisineData as unknown).elementalState) : undefined
+    // Convert elementalState if present
+    elementalState: cuisineData.elementalState ? 
+      adaptElementalProperties(cuisineData.elementalState) : undefined
   };
 }
 
 // Combine all cuisines
-export const cuisines: Record<string, LocalCuisineType> = {
+export const cuisines: Record<string, Cuisine> = {
   american: adaptCuisine(american),
   chinese: adaptCuisine(chinese),
   french: adaptCuisine(french),
@@ -96,21 +96,16 @@ export const cuisines: Record<string, LocalCuisineType> = {
 
 // Type exports
 export type { CuisineType };
-// Local type definition - renamed to avoid conflict with imported Cuisine type
-export type LocalCuisineType = typeof cuisines[keyof typeof cuisines];
+export type Cuisine = typeof cuisines[keyof typeof cuisines];
 
 // Helper functions for accessing cuisine properties
-export const getCuisineByName = (name: string): LocalCuisineType | undefined => 
+export const getCuisineByName = (name: string): Cuisine | undefined => 
   cuisines[name.toLowerCase()];
 
-export const getCuisinesByElement = (element: keyof ElementalProperties): LocalCuisineType[] => 
-  Object.values(cuisines).filter(cuisine => {
-    const cuisineData = cuisine as unknown;
-    const elementalState = cuisineData?.elementalState as ElementalProperties | undefined;
-    const elementalProperties = cuisineData?.elementalProperties as ElementalProperties | undefined;
-    
-    return (elementalState?.[element] ?? 0) >= 0.3 || (elementalProperties?.[element] ?? 0) >= 0.3;
-  });
+export const getCuisinesByElement = (element: keyof ElementalProperties): Cuisine[] => 
+  Object.values(cuisines).filter(cuisine => 
+    (cuisine.elementalState?.[element] ?? 0) >= 0.3 || (cuisine.elementalProperties?.[element] ?? 0) >= 0.3
+  );
 
 // Re-export the cuisinesMap from the imported one
 export const cuisinesMap = importedCuisinesMap;

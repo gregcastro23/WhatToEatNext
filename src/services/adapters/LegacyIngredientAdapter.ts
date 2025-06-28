@@ -12,12 +12,12 @@ import { IngredientService } from '../IngredientService';
 import { RecipeIngredient } from '@/types/recipe';
 import { unifiedIngredientService } from '../UnifiedIngredientService';
 import { createLogger } from '../../utils/logger';
-import type { UnifiedIngredient } from '@/types/unified';
+import type { UnifiedIngredient } from '@/data/unified/unifiedTypes';
 import type { 
+  ElementalProperties, 
   Season,
   ZodiacSign,
   PlanetName } from '@/types/ingredient';
-import type { ElementalProperties } from '@/types/celestial';
 import type { ThermodynamicMetrics } from '@/types/alchemical';
 import type { Recipe } from "@/types/recipe";
 import type { IngredientFilter, IngredientRecommendationOptions } from '../interfaces/IngredientServiceInterface';
@@ -58,7 +58,7 @@ export class LegacyIngredientAdapter extends IngredientService {
    */
   public override getAllIngredients(): Record<string, UnifiedIngredient[]> {
     try {
-      const result: Record<string, unknown> = unifiedIngredientService.getAllIngredients();
+      const result: any = unifiedIngredientService.getAllIngredients();
       return result as Record<string, UnifiedIngredient[]>;
     } catch (error) {
       logger.error('Error in getAllIngredients:', error);
@@ -72,7 +72,7 @@ export class LegacyIngredientAdapter extends IngredientService {
    */
   public override getAllIngredientsFlat(): UnifiedIngredient[] {
     try {
-      const result: Record<string, unknown> = unifiedIngredientService.getAllIngredientsFlat();
+      const result: any = unifiedIngredientService.getAllIngredientsFlat();
       return result as UnifiedIngredient[];
     } catch (error) {
       logger.error('Error in getAllIngredientsFlat:', error);
@@ -86,7 +86,7 @@ export class LegacyIngredientAdapter extends IngredientService {
    */
   public override getIngredientByName(name: string): UnifiedIngredient | undefined {
     try {
-      const result: Record<string, unknown> = unifiedIngredientService.getIngredientByName(name);
+      const result: any = unifiedIngredientService.getIngredientByName(name);
       return result as UnifiedIngredient | undefined;
     } catch (error) {
       logger.error(`Error in getIngredientByName for "${name}":`, error);
@@ -100,7 +100,7 @@ export class LegacyIngredientAdapter extends IngredientService {
    */
   public override getIngredientsByCategory(category: string): UnifiedIngredient[] {
     try {
-      const result: Record<string, unknown> = unifiedIngredientService.getIngredientsByCategory(category);
+      const result: any = unifiedIngredientService.getIngredientsByCategory(category);
       return result as UnifiedIngredient[];
     } catch (error) {
       logger.error(`Error in getIngredientsByCategory for "${category}":`, error);
@@ -114,7 +114,7 @@ export class LegacyIngredientAdapter extends IngredientService {
    */
   public override filterIngredients(filter: IngredientFilter = {}): Record<string, UnifiedIngredient[]> {
     try {
-      const result: Record<string, unknown> = unifiedIngredientService.filterIngredients(filter as unknown); // Pattern UUU: Import Path Interface Resolution
+      const result: any = unifiedIngredientService.filterIngredients(filter as any); // Pattern UUU: Import Path Interface Resolution
       return result as Record<string, UnifiedIngredient[]>;
     } catch (error) {
       logger.error('Error in filterIngredients:', error);
@@ -126,9 +126,9 @@ export class LegacyIngredientAdapter extends IngredientService {
   /**
    * Override getIngredientsByElement to use modern service
    */
-  public override getIngredientsByElement(elementalFilter: Record<string, unknown>): UnifiedIngredient[] {
+  public override getIngredientsByElement(elementalFilter: any): UnifiedIngredient[] {
     try {
-      const result: Record<string, unknown> = unifiedIngredientService.getIngredientsByElement(elementalFilter);
+      const result: any = unifiedIngredientService.getIngredientsByElement(elementalFilter);
       return result as UnifiedIngredient[];
     } catch (error) {
       logger.error('Error in getIngredientsByElement:', error);
@@ -145,7 +145,7 @@ export class LegacyIngredientAdapter extends IngredientService {
     maxResults: number = 5
   ): UnifiedIngredient[] {
     try {
-      const result: Record<string, unknown> = unifiedIngredientService.findComplementaryIngredients(ingredient as unknown, maxResults); // Pattern UUU: Import Path Interface Resolution
+      const result: any = unifiedIngredientService.findComplementaryIngredients(ingredient as any, maxResults); // Pattern UUU: Import Path Interface Resolution
       return result as UnifiedIngredient[];
     } catch (error) {
       logger.error(`Error in findComplementaryIngredients for "${typeof ingredient === 'string' ? ingredient : ingredient.name}":`, error);
@@ -157,10 +157,9 @@ export class LegacyIngredientAdapter extends IngredientService {
   /**
    * Override calculateElementalProperties to use modern service
    */
-  public calculateElementalProperties(ingredient: Record<string, unknown>): ElementalProperties {
+  public override calculateElementalProperties(ingredient: Partial<UnifiedIngredient>): ElementalProperties {
     try {
-      const result = unifiedIngredientService.calculateElementalProperties(ingredient as unknown); // Pattern UUU: Import Path Interface Resolution
-      return result as unknown; // Pattern TS2345-I: Import Path Type Conflicts
+      return unifiedIngredientService.calculateElementalProperties(ingredient as any); // Pattern UUU: Import Path Interface Resolution
     } catch (error) {
       logger.error(`Error in calculateElementalProperties for "${ingredient.name || 'unknown'}":`, error);
       // Fall back to original implementation if needed
@@ -176,12 +175,12 @@ export class LegacyIngredientAdapter extends IngredientService {
     options: IngredientRecommendationOptions = {}
   ): UnifiedIngredient[] {
     try {
-      const result: Record<string, unknown> = unifiedIngredientService.getRecommendedIngredients(elementalState, _options);
+      const result: any = unifiedIngredientService.getRecommendedIngredients(elementalState, options);
       return result as UnifiedIngredient[];
     } catch (error) {
       logger.error('Error in getRecommendedIngredients:', error);
       // Fall back to original implementation if needed
-      return super.getRecommendedIngredients(elementalState as unknown, _options);
+      return super.getRecommendedIngredients(elementalState, options);
     }
   }
   

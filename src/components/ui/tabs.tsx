@@ -5,7 +5,7 @@ import * as TabsPrimitive from "@radix-ui/react-tabs";
 
 import { cn } from "@/utils/common/styleUtils";
 
-import { _Element } from "@/types/alchemy";
+import { Element } from "@/types/alchemy";
 const Tabs = TabsPrimitive.Root;
 
 const TabsList = React.forwardRef<

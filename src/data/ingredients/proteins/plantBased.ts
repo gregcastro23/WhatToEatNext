@@ -3,13 +3,12 @@ import type {
   Ingredient,
   ZodiacSign,
 } from '@/types/alchemy';
-import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 // Helper function to standardize ingredient mappings
 function createIngredientMapping(
   id: string,
-  properties: Record<string, unknown>
+  properties: Partial<Ingredient>
 ): Ingredient {
   return {
     id: id,
@@ -1611,15 +1610,15 @@ const rawPlantBased: Record<string, Ingredient> = {
   }),
 };
 
-// ARCHITECTURAL FIX: Unified ingredient collection structure with rest of codebase
-export const plantBased: Record<string, IngredientMapping> =
-  fixIngredientMappings(rawPlantBased as unknown as Record<string, Partial<IngredientMapping>>);
+// Fix the ingredient mappings to ensure they have all required properties
+export const plantBased: IngredientMapping =
+  fixIngredientMappings(rawPlantBased);
 
-// Add validation for elemental sums  
+// Add validation for elemental sums
 (Object.entries(plantBased) as [string, IngredientMapping][]).forEach(([id, ingredient]) => {
   if (!ingredient.elementalProperties) return;
 
-  const sum = Object.values(ingredient.elementalProperties).reduce(
+  let sum = Object.values(ingredient.elementalProperties).reduce(
     (a, b) => Number(a) + Number(b),
     0
   );
@@ -1627,10 +1626,10 @@ export const plantBased: Record<string, IngredientMapping> =
     // console.error(`Elemental sum error in ${ingredient.name || id}: ${sum}`);
 
     // Optionally auto-normalize the values
-    const factor = 1 / (Number(sum) || 1);
+    let factor = 1 / (Number(sum) || 1);
     Object.entries(ingredient.elementalProperties).forEach(
       ([element, value]) => {
-        const elementKey = element as keyof ElementalProperties;
+        let elementKey = element as keyof ElementalProperties;
         ingredient.elementalProperties[elementKey] = Number(value) * Number(factor);
       }
     );
@@ -1638,6 +1637,6 @@ export const plantBased: Record<string, IngredientMapping> =
 });
 
 // Create a collection of all plant-based proteins
-export const allPlantBased = Object.values(plantBased);
+export let allPlantBased = Object.values(plantBased);
 
 export default plantBased;

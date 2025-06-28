@@ -1,4 +1,4 @@
-import type { 
+import type { ElementalProperties, 
   ThermodynamicProperties,
   Planet,
   ZodiacSign,
@@ -7,10 +7,9 @@ import type {
   UnifiedIngredient,
   CookingMethod,
   ElementalProfile } from '../types';
-import { getCurrentSeason } from '@/utils/dateUtils';
-import { recipe } from '@/types/seasons';
+import { getCurrentSeason , recipe} from '@/types/seasons';
 
-import { _Element, _ElementalProperties } from "@/types/alchemy";
+import { Element } from "@/types/alchemy";
 import alchemicalEngine, { AlchemicalEngine } from '@/calculations/core/alchemicalEngine';
 
 /**
@@ -55,7 +54,7 @@ export class AlchemicalRecommendationService {
     cookingMethods: CookingMethod[]
   ): AlchemicalRecommendation {
     // Calculate thermodynamic properties using the engine
-    const thermodynamics = this.engine.alchemize(planetaryPositions as unknown);
+    const thermodynamics = this.engine.alchemize(planetaryPositions as any);
     
     // Convert thermodynamic properties to elemental properties
     const elementalBalance = this.deriveElementalProperties(thermodynamics);
@@ -91,7 +90,7 @@ export class AlchemicalRecommendationService {
       dominantElement,
       thermodynamics,
       recommendedIngredients: (compatibleIngredients || []).map(i => i.name),
-      recommendedCookingMethods: (compatibleMethods || []).map(method => method.toString()),
+      recommendedCookingMethods: (compatibleMethods || []),
       recommendations,
       warnings
     };
@@ -110,7 +109,7 @@ export class AlchemicalRecommendationService {
         ingredient,
         score: this.engine.calculateElementalCompatibility(
           elementalProperties,
-          ingredient.elementalPropertiesState as unknown
+          ingredient.elementalPropertiesState as any
         )
       }))
       .filter(({ score }) => score > 0.7)
@@ -132,7 +131,7 @@ export class AlchemicalRecommendationService {
         method,
         score: this.engine.calculateElementalCompatibility(
           elementalProperties,
-          (method as unknown)?.elementalState || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
+          (method as any)?.elementalState || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
         )
       }))
       .filter(({ score }) => score > 0.7)
@@ -181,7 +180,7 @@ export class AlchemicalRecommendationService {
     }
     
     // Fix TS2339: Property 'kalchm' does not exist on type 'ThermodynamicProperties'
-    const thermodynamicsData = thermodynamics as unknown;
+    const thermodynamicsData = thermodynamics as any;
     if (thermodynamicsData?.kalchm > 2.0) {
       recommendations?.push('Exceptional transformation potential - fermentation and aging processes are enhanced.');
     }
@@ -208,7 +207,7 @@ export class AlchemicalRecommendationService {
     }
     
     // Fix TS2339: Property 'kalchm' does not exist on type 'ThermodynamicProperties'
-    const warningsThermodynamicsData = thermodynamics as unknown;
+    const warningsThermodynamicsData = thermodynamics as any;
     if (warningsThermodynamicsData?.kalchm < 0.5) {
       warnings?.push('Low kalchm levels indicate poor transformation potential - avoid fermentation or chemical leavening.');
     }
@@ -259,12 +258,12 @@ export class AlchemicalRecommendationService {
    */
   private deriveElementalProperties(thermodynamics: ThermodynamicProperties): ElementalProperties {
     // Fix TS2339: Property 'monica' and 'kalchm' do not exist on type 'ThermodynamicProperties'
-    const derivedThermodynamicsData = thermodynamics as unknown;
+    const derivedThermodynamicsData = thermodynamics as any;
     
     // Simplified mapping from thermodynamics to elemental properties
     const Fire = thermodynamics.heat * 0.7 + thermodynamics.reactivity * 0.3;
     const Water = (derivedThermodynamicsData?.monica || 0) * 0.6 + (1 - thermodynamics.heat) * 0.4;
-    const _Earth = (derivedThermodynamicsData?.kalchm || 0) * 0.5 + (1 - thermodynamics.entropy) * 0.5;
+    const Earth = (derivedThermodynamicsData?.kalchm || 0) * 0.5 + (1 - thermodynamics.entropy) * 0.5;
     const Air = thermodynamics.entropy * 0.8 + thermodynamics.reactivity * 0.2;
     
     // Normalize to ensure values sum to 1
@@ -286,19 +285,19 @@ export class AlchemicalRecommendationService {
     adjustments: string[];
   } {
     // Calculate thermodynamic properties using the engine
-    const thermodynamics = this.engine.alchemize(planetaryPositions as unknown);
+    const thermodynamics = this.engine.alchemize(planetaryPositions as any);
     
     // Convert thermodynamic properties to elemental properties
     const currentElementalProperties = this.deriveElementalProperties(thermodynamics);
     
     // Get recipe's elemental properties (or use default if not present)
-    const recipeElementalProperties = (recipe.elementalState as unknown) || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+    const recipeElementalProperties = (recipe.elementalState as any) || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
     };
     
     // Calculate compatibility
     const compatibility = this.engine.calculateElementalCompatibility(
-      currentElementalProperties as unknown,
-      recipeElementalProperties as unknown
+      currentElementalProperties as any,
+      recipeElementalProperties as any
     );
     
     // Generate suggestions based on compatibility

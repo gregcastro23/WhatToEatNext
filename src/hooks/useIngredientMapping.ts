@@ -63,7 +63,7 @@ export function useIngredientMapping() {
     try {
       setIsLoading(true);
       setError(null);
-      const result = ingredientMappingService.suggestAlternativeIngredients(ingredientName, _options);
+      const result = ingredientMappingService.suggestAlternativeIngredients(ingredientName, options);
       return result;
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred';

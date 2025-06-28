@@ -1,46 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import DirectRecipeService from '@/services/DirectRecipeService';
 import { ScoredRecipe } from '@/types/recipe';
-import { _Element } from "@/types/alchemy";
+import { Element } from "@/types/alchemy";
 
-// Enhanced type definitions - replacing any with proper interfaces
-interface PlanetaryInfluence {
-  name: string;
-  influence: number;
-  position?: string;
-  dignity?: 'exalted' | 'domicile' | 'detriment' | 'fall' | 'neutral';
-}
-
-interface AspectInfluence {
-  planets: [string, string];
-  aspectType: 'conjunction' | 'opposition' | 'trine' | 'square' | 'sextile';
-  strength: number;
-  orb: number;
-}
-
-interface ElementalState {
-  Fire: number;
-  Water: number;
-  Earth: number;
-  Air: number;
-}
-
-interface EnergyStateBalance {
-  Spirit: number;
-  Essence: number;
-  Matter: number;
-  Substance: number;
-}
-
+// Define CelestialAlignment locally since it doesn't exist in alchemy types
 interface CelestialAlignment {
   date: string;
   currentZodiacSign: string;
-  dominantPlanets: PlanetaryInfluence[];
+  dominantPlanets: Array<{ name: string; influence: number }>;
   lunarPhase: string;
-  aspectInfluences: AspectInfluence[];
+  aspectInfluences: any[];
   astrologicalInfluences: string[];
-  energyStateBalance?: EnergyStateBalance;
-  elementalState?: ElementalState;
+  energyStateBalance?: Record<string, number>;
+  elementalState?: Record<string, number>;
 }
 
 interface CuisineRecommenderProps {
@@ -53,7 +25,7 @@ interface CuisineRecommenderProps {
 export const CuisineRecommender: React.FC<CuisineRecommenderProps> = ({
   cuisine,
   mealType,
-  _season,
+  season,
   limit = 10
 }) => {
   const [recommendations, setRecommendations] = useState<ScoredRecipe[]>([]);
@@ -72,36 +44,17 @@ export const CuisineRecommender: React.FC<CuisineRecommenderProps> = ({
 
       const recipeService = DirectRecipeService.getInstance();
       
-      // Get current celestial influence data with enhanced type safety
+      // Get current celestial influence data (placeholder for now)
       const celestialInfluence: CelestialAlignment = {
         date: new Date().toISOString(),
         currentZodiacSign: 'leo',
         dominantPlanets: [
-          { name: 'Sun', influence: 0.8, position: '15° Leo', dignity: 'domicile' },
-          { name: 'Moon', influence: 0.6, position: '28° Cancer', dignity: 'exalted' }
+          { name: 'Sun', influence: 0.8 },
+          { name: 'Moon', influence: 0.6 }
         ],
         lunarPhase: 'full moon',
-        aspectInfluences: [
-          {
-            planets: ['Sun', 'Moon'],
-            aspectType: 'trine',
-            strength: 0.7,
-            orb: 3.2
-          }
-        ],
-        astrologicalInfluences: ['Fire dominant', 'High energy', 'Creative potential'],
-        elementalState: {
-          Fire: 0.45,
-          Water: 0.25,
-          Earth: 0.15,
-          Air: 0.15
-        },
-        energyStateBalance: {
-          Spirit: 0.4,
-          Essence: 0.3,
-          Matter: 0.2,
-          Substance: 0.1
-        }
+        aspectInfluences: [],
+        astrologicalInfluences: ['Fire dominant', 'High energy']
       };
       setCelestialData(celestialInfluence);
 
@@ -127,7 +80,7 @@ export const CuisineRecommender: React.FC<CuisineRecommenderProps> = ({
 
       setRecommendations(results);
     } catch (err) {
-      // console.error('Error loading recommendations:', err);
+      console.error('Error loading recommendations:', err);
       setError('Failed to load recipe recommendations');
     } finally {
       setLoading(false);
@@ -173,27 +126,24 @@ export const CuisineRecommender: React.FC<CuisineRecommenderProps> = ({
             <div className="dominant-planets">
               <strong>Dominant Planets:</strong>
               {(celestialData?.dominantPlanets || []).map(planet => (
-                <span key={planet.name} className="planet-tag">
-                  {planet.name} ({(planet.influence * 100).toFixed(0)}%)
-                  {planet.dignity && (
-                    <span className={`dignity ${planet.dignity}`}>({planet.dignity})</span>
-                  )}
+                <span key={(planet as any).name} className="planet-tag">
+                  {(planet as any).name} ({((planet as any).influence * 100)?.toFixed(0)}%)
                 </span>
               ))}
             </div>
             <div className="elemental-balance">
               <strong>Elemental Balance:</strong>
               <div className="elements">
-                {celestialData?.elementalState && Object.entries(celestialData.elementalState).map(([element, value]) => (
+                {Object.entries((celestialData as any)?.elementalState || {}).map(([element, value]) => (
                   <div key={element} className="element-bar">
                     <span className="element-name">{element}:</span>
                     <div className="bar">
                       <div 
-                        className={`fill ${element.toLowerCase()}`}
-                        style={{ width: `${value * 100}%` }}
+                        className={`fill ${element?.toLowerCase()}`}
+                        style={{ width: `${(value as number) * 100}%` }}
                       />
                     </div>
-                    <span className="percentage">{(value * 100).toFixed(1)}%</span>
+                    <span className="percentage">{((value as number) * 100).toFixed(1)}%</span>
                   </div>
                 ))}
               </div>

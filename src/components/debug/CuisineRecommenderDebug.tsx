@@ -8,20 +8,22 @@ import {
   calculateElementalMatch, 
   calculateElementalProfileFromZodiac,
   calculateElementalContributionsFromPlanets
-, 
-  generateTopSauceRecommendations 
 } from '@/utils/cuisineRecommender';
 import { cuisines } from '@/data/cuisines';
-import { getRecipesForCuisineMatch , cuisineFlavorProfiles } from '@/data/cuisineFlavorProfiles';
+import { 
+  generateTopSauceRecommendations 
+} from '@/utils/cuisineRecommender';
+import { getRecipesForCuisineMatch } from '@/data/cuisineFlavorProfiles';
 import { getAllRecipes } from '@/data/recipes';
-import { Recipe, _ElementalProperties, ZodiacSign, LunarPhaseWithSpaces } from '@/types/alchemy';
+import { Recipe, ElementalProperties, ZodiacSign, LunarPhaseWithSpaces } from '@/types/alchemy';
 import { Loader2, ChevronDown, ChevronUp, Info, Flame, Droplets, Wind, Mountain } from 'lucide-react';
 import { transformCuisines, sortByAlchemicalCompatibility } from '@/utils/alchemicalTransformationUtils';
+import { cuisineFlavorProfiles } from '@/data/cuisineFlavorProfiles';
 
 type DebugStep = {
   name: string;
   description: string;
-  data: Record<string, unknown>;
+  data: any;
   completed: boolean;
   error?: string;
 };
@@ -127,7 +129,7 @@ export default function CuisineRecommenderDebug() {
   const alchemicalContext = useAlchemical();
   
   // Extract relevant state from context
-  const _isDaytime = alchemicalContext?.isDaytime ?? true;
+  const isDaytime = alchemicalContext?.isDaytime ?? true;
   const planetaryPositions = alchemicalContext?.planetaryPositions ?? {};
   const state = alchemicalContext?.state ?? {
     astrologicalState: {
@@ -228,7 +230,7 @@ export default function CuisineRecommenderDebug() {
   };
   
   // Update step data and status
-  const updateStep = (index: number, data: Record<string, unknown>, completed: boolean, error?: string) => {
+  const updateStep = (index: number, data: any, completed: boolean, error?: string) => {
     setSteps(prevSteps => {
       const newSteps = [...prevSteps];
       newSteps[index] = {
@@ -258,7 +260,8 @@ export default function CuisineRecommenderDebug() {
       
       // Step 2: Calculate elemental profile
       const elementalProfile = calculateElementalProfileFromZodiac(
-        String(astroState.zodiacSign) || 'aries'
+        astroState.zodiacSign || 'aries',
+        astroState.lunarPhase
       );
       
       updateStep(1, elementalProfile, true);
@@ -283,7 +286,7 @@ export default function CuisineRecommenderDebug() {
       }
       
       // Normalize
-      const total = Object.values(combinedProfile).reduce((sum, val) => sum + val, 0);
+      let total = Object.values(combinedProfile).reduce((sum, val) => sum + val, 0);
       for (const element in combinedProfile) {
         combinedProfile[element] = combinedProfile[element] / total;
       }
@@ -293,7 +296,7 @@ export default function CuisineRecommenderDebug() {
       // Step 4: Get cuisine recommendations
       let recs;
       try {
-        recs = getCuisineRecommendations(combinedProfile, astroState as unknown);
+        recs = getCuisineRecommendations(astroState as any);
         updateStep(3, recs.slice(0, 5), true); // Show only first 5 for readability
       } catch (err) {
         console.error('Error getting cuisine recommendations:', err);
@@ -304,7 +307,7 @@ export default function CuisineRecommenderDebug() {
       // Step 5: Transform cuisines
       let transformedCuisines;
       try {
-        transformedCuisines = (transformCuisines as unknown)(recs, 'default', true, {}, 10);
+        transformedCuisines = transformCuisines(recs);
         updateStep(4, transformedCuisines.slice(0, 3), true); // Show only first 3
       } catch (err) {
         console.error('Error transforming cuisines:', err);
@@ -315,12 +318,9 @@ export default function CuisineRecommenderDebug() {
       // Step 6: Sort by alchemical compatibility
       let sortedCuisines;
       try {
-        sortedCuisines = (sortByAlchemicalCompatibility as unknown)(
+        sortedCuisines = sortByAlchemicalCompatibility(
           transformedCuisines,
-          combinedProfile,
-          'default',
-          true,
-          {}
+          combinedProfile
         );
         
         // Add match scores
@@ -341,14 +341,14 @@ export default function CuisineRecommenderDebug() {
         setCuisineRecommendations(sortedCuisines);
       } catch (err) {
         console.error('Error sorting cuisines:', err);
-        updateStep(5, null, true, err instanceof Error ? err.message : String(err) || 'Unknown error');
+        updateStep(5, null, true, err instanceof Error ? err.message : 'Unknown error');
         sortedCuisines = transformedCuisines;
       }
       
       // Step 7: Recipe matching
       try {
         const recipes = await getAllRecipes();
-        setAllRecipes(recipes as unknown);
+        setAllRecipes(recipes as any);
         
         const recipesResult: Record<string, any> = {};
         
@@ -363,7 +363,7 @@ export default function CuisineRecommenderDebug() {
             // Score recipes against user profile
             const scoredRecipes = matchedRecipes.map(recipe => {
               // Calculate match score if possible
-              const recipeElements = (recipe as unknown)?.elementalProperties || cuisine.elementalProperties;
+              const recipeElements = (recipe as any)?.elementalProperties || cuisine.elementalProperties;
               const matchScore = calculateElementalMatch(recipeElements, combinedProfile);
               
               return {
@@ -393,7 +393,7 @@ export default function CuisineRecommenderDebug() {
       
       // Step 8: Sauce recommendations
       try {
-        const sauces = (generateTopSauceRecommendations as unknown)(combinedProfile, 5, 'default', true, {});
+        const sauces = generateTopSauceRecommendations(combinedProfile, 5);
         setSauceRecommendations(sauces);
         updateStep(7, sauces.slice(0, 3), true);
       } catch (err) {

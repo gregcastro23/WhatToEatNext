@@ -1,20 +1,18 @@
 // Import needed from ./unifiedFlavorEngine.ts
 
 // Import needed from ./flavorProfiles.ts
-import type { ElementalProperties, AlchemicalProperties, Season, PlanetName, CookingMethod } from "@/types/alchemy";
+import type { ElementalProperties, AlchemicalProperties, Season } from "@/types/alchemy";
 import { cuisineFlavorProfiles } from '../cuisineFlavorProfiles';
 import { planetaryFlavorProfiles } from '../planetaryFlavorProfiles';
 import { flavorProfiles as integrationFlavorProfiles } from '../integrations/flavorProfiles';
 import { ingredientFlavorMap } from '../ingredients/flavorProfiles';
-import { _Element } from "@/types/alchemy";
+import { Element } from "@/types/alchemy";
 
-// Import unified system types
+// Missing unified system type imports
 import type { 
-  UnifiedFlavorProfile,
-  BaseFlavorNotes,
-  PlanetaryFlavorInfluence,
-  CuisineFlavorCompatibility
-} from './flavorProfiles';
+  UnifiedFlavorProfile, 
+  BaseFlavorNotes 
+} from '@/types/unified';
 
 // Missing unified data imports
 import { unifiedFlavorProfiles } from './data/unifiedFlavorProfiles';
@@ -39,7 +37,7 @@ interface MigrationStats {
 interface LegacyProfile {
   id?: string;
   name?: string;
-  [key: string]: Record<string, unknown>;
+  [key: string]: any;
 }
 
 // Singleton management
@@ -97,7 +95,7 @@ export class FlavorProfileMigration {
     
     const startTime = Date.now();
     
-    // console.log('🔄 Starting Phase 4 flavor profile migration...');
+    console.log('🔄 Starting Phase 4 flavor profile migration...');
 
     try {
       // 1. Migrate unified flavor profiles (main system)
@@ -132,8 +130,8 @@ export class FlavorProfileMigration {
       _cachedProfiles = new Map(this.migratedProfiles);
       _isMigrationCompleted = true;
 
-      // console.log('✅ Migration completed successfully!');
-      // console.log(`📊 Migrated ${_cachedMigrationStats.totalProfiles} profiles in ${migrationTime}ms`);
+      console.log('✅ Migration completed successfully!');
+      console.log(`📊 Migrated ${_cachedMigrationStats.totalProfiles} profiles in ${migrationTime}ms`);
       
       // Reset migration flag
       _isMigrationRunning = false;
@@ -150,21 +148,21 @@ export class FlavorProfileMigration {
   // ===== UNIFIED FLAVOR PROFILES MIGRATION =====
   
   private async migrateUnifiedFlavorProfiles(): Promise<void> {
-    // console.log('📦 Migrating unified flavor profiles...');
+    console.log('📦 Migrating unified flavor profiles...');
     
     for (const [id, profile] of Object.entries(unifiedFlavorProfiles)) {
       try {
         const migratedProfile = this.convertUnifiedProfile(id, profile);
-        this.migratedProfiles.set(migratedProfile.id, migratedProfile as UnifiedFlavorProfile);
+        this.migratedProfiles.set(migratedProfile.id, migratedProfile);
       } catch (error) {
         this.migrationErrors?.push(`Failed to migrate unified profile ${id}: ${error}`);
       }
     }
     
-    // console.log(`✅ Migrated ${Object.keys(unifiedFlavorProfiles || {}).length} unified profiles`);
+    console.log(`✅ Migrated ${Object.keys(unifiedFlavorProfiles || {}).length} unified profiles`);
   }
 
-  private convertUnifiedProfile(id: string, profile: Record<string, unknown>): UnifiedFlavorProfile {
+  private convertUnifiedProfile(id: string, profile: any): UnifiedFlavorProfile {
     return {
       id: profile.id || id,
       name: profile.name || id,
@@ -186,30 +184,23 @@ export class FlavorProfileMigration {
       
       preparationMethods: this.extractPreparationMethods(profile),
       nutritionalSynergy: profile.nutritionalSynergy || 0.7,
-      
-      // Required interface properties
-      planetaryResonance: this.getDefaultPlanetaryResonance(),
-      cuisineCompatibility: this.getDefaultCuisineCompatibility(),
-      cookingMethodAffinity: this.getDefaultCookingMethodAffinity(),
-      temperatureRange: { min: profile.temperatureOptimal || 20 - 5, max: profile.temperatureOptimal || 20 + 5 },
-      pairingRecommendations: this.extractPairingRecommendations(profile),
-      avoidCombinations: profile.avoidCombinations || [],
+      temperatureOptimal: profile.temperatureOptimal || 20,
       
       description: profile.description || `${profile.name || id} flavor profile`,
       tags: this.extractTags(profile),
       lastUpdated: new Date()
-    } as UnifiedFlavorProfile;
+    };
   }
 
   // ===== CUISINE FLAVOR PROFILES MIGRATION =====
   
   private async migrateCuisineFlavorProfiles(): Promise<void> {
-    // console.log('🍽️ Migrating cuisine flavor profiles...');
+    console.log('🍽️ Migrating cuisine flavor profiles...');
     
     // Check if cuisineFlavorProfiles is available
     if (!cuisineFlavorProfiles || typeof cuisineFlavorProfiles !== 'object') {
       this.migrationWarnings?.push('cuisineFlavorProfiles is not available - skipping cuisine migration');
-      // console.log('⚠️ Skipping cuisine migration - cuisineFlavorProfiles not available');
+      console.log('⚠️ Skipping cuisine migration - cuisineFlavorProfiles not available');
       return;
     }
     
@@ -219,7 +210,7 @@ export class FlavorProfileMigration {
         
         // Avoid duplicates - check if already exists from unified system
         if (!this.migratedProfiles.has(migratedProfile.id)) {
-          this.migratedProfiles.set(migratedProfile.id, migratedProfile as UnifiedFlavorProfile);
+          this.migratedProfiles.set(migratedProfile.id, migratedProfile);
         } else {
           // Merge additional data from cuisine profile
           this.mergeCuisineData(migratedProfile.id, cuisineData);
@@ -229,10 +220,10 @@ export class FlavorProfileMigration {
       }
     }
     
-    // console.log(`✅ Migrated ${Object.keys(cuisineFlavorProfiles || {}).length} cuisine profiles`);
+    console.log(`✅ Migrated ${Object.keys(cuisineFlavorProfiles || {}).length} cuisine profiles`);
   }
 
-  private convertCuisineProfile(cuisineName: string, cuisineData: Record<string, unknown>): UnifiedFlavorProfile {
+  private convertCuisineProfile(cuisineName: string, cuisineData: any): UnifiedFlavorProfile {
     const id = `cuisine-${cuisineName?.toLowerCase()?.replace(/\s+/g, '-')}`;
     
     return {
@@ -256,46 +247,39 @@ export class FlavorProfileMigration {
       
       preparationMethods: cuisineData.signatureTechniques || [],
       nutritionalSynergy: 0.7,
-      
-      // Required interface properties
-      planetaryResonance: this.getDefaultPlanetaryResonance(),
-      cuisineCompatibility: this.getDefaultCuisineCompatibility(),
-      cookingMethodAffinity: this.getDefaultCookingMethodAffinity(),
-      temperatureRange: { min: 15, max: 25 },
-      pairingRecommendations: cuisineData.signatureIngredients || [],
-      avoidCombinations: [],
+      temperatureOptimal: 20,
       
       description: cuisineData.description || `${cuisineName} cuisine flavor profile`,
       tags: ['cuisine', cuisineName?.toLowerCase()],
       lastUpdated: new Date()
-    } as UnifiedFlavorProfile;
+    };
   }
 
   // ===== PLANETARY FLAVOR PROFILES MIGRATION =====
   
   private async migratePlanetaryFlavorProfiles(): Promise<void> {
-    // console.log('🪐 Migrating planetary flavor profiles...');
+    console.log('🪐 Migrating planetary flavor profiles...');
     
     // Check if planetaryFlavorProfiles is available
     if (!planetaryFlavorProfiles || typeof planetaryFlavorProfiles !== 'object') {
       this.migrationWarnings?.push('planetaryFlavorProfiles is not available - skipping planetary migration');
-      // console.log('⚠️ Skipping planetary migration - planetaryFlavorProfiles not available');
+      console.log('⚠️ Skipping planetary migration - planetaryFlavorProfiles not available');
       return;
     }
     
     for (const [planetName, planetData] of Object.entries(planetaryFlavorProfiles)) {
       try {
         const migratedProfile = this.convertPlanetaryProfile(planetName, planetData);
-        this.migratedProfiles.set(migratedProfile.id, migratedProfile as UnifiedFlavorProfile);
+        this.migratedProfiles.set(migratedProfile.id, migratedProfile);
       } catch (error) {
         this.migrationErrors?.push(`Failed to migrate planetary profile ${planetName}: ${error}`);
       }
     }
     
-    // console.log(`✅ Migrated ${Object.keys(planetaryFlavorProfiles || {}).length} planetary profiles`);
+    console.log(`✅ Migrated ${Object.keys(planetaryFlavorProfiles || {}).length} planetary profiles`);
   }
 
-  private convertPlanetaryProfile(planetName: string, planetData: Record<string, unknown>): UnifiedFlavorProfile {
+  private convertPlanetaryProfile(planetName: string, planetData: any): UnifiedFlavorProfile {
     const id = `planetary-${planetName?.toLowerCase()}`;
     
     return {
@@ -319,46 +303,39 @@ export class FlavorProfileMigration {
       
       preparationMethods: [],
       nutritionalSynergy: 0.7,
-      
-      // Required interface properties
-      planetaryResonance: this.getDefaultPlanetaryResonance(),
-      cuisineCompatibility: this.getDefaultCuisineCompatibility(),
-      cookingMethodAffinity: this.getDefaultCookingMethodAffinity(),
-      temperatureRange: { min: 15, max: 25 },
-      pairingRecommendations: [],
-      avoidCombinations: [],
+      temperatureOptimal: 20,
       
       description: planetData.description || `${planetName} planetary influence on flavor`,
       tags: ['planetary', planetName?.toLowerCase()],
       lastUpdated: new Date()
-    } as UnifiedFlavorProfile;
+    };
   }
 
   // ===== INTEGRATION FLAVOR PROFILES MIGRATION =====
   
   private async migrateIntegrationFlavorProfiles(): Promise<void> {
-    // console.log('🔗 Migrating integration flavor profiles...');
+    console.log('🔗 Migrating integration flavor profiles...');
     
     // Check if integrationFlavorProfiles is available
     if (!integrationFlavorProfiles || typeof integrationFlavorProfiles !== 'object') {
       this.migrationWarnings?.push('integrationFlavorProfiles is not available - skipping integration migration');
-      // console.log('⚠️ Skipping integration migration - integrationFlavorProfiles not available');
+      console.log('⚠️ Skipping integration migration - integrationFlavorProfiles not available');
       return;
     }
     
     for (const [flavorName, flavorData] of Object.entries(integrationFlavorProfiles)) {
       try {
         const migratedProfile = this.convertIntegrationProfile(flavorName, flavorData);
-        this.migratedProfiles.set(migratedProfile.id, migratedProfile as UnifiedFlavorProfile);
+        this.migratedProfiles.set(migratedProfile.id, migratedProfile);
       } catch (error) {
         this.migrationErrors?.push(`Failed to migrate integration profile ${flavorName}: ${error}`);
       }
     }
     
-    // console.log(`✅ Migrated ${Object.keys(integrationFlavorProfiles || {}).length} integration profiles`);
+    console.log(`✅ Migrated ${Object.keys(integrationFlavorProfiles || {}).length} integration profiles`);
   }
 
-  private convertIntegrationProfile(flavorName: string, flavorData: Record<string, unknown>): UnifiedFlavorProfile {
+  private convertIntegrationProfile(flavorName: string, flavorData: any): UnifiedFlavorProfile {
     const id = `elemental-${flavorName?.toLowerCase()}`;
     
     return {
@@ -382,46 +359,39 @@ export class FlavorProfileMigration {
       
       preparationMethods: [],
       nutritionalSynergy: 0.7,
-      
-      // Required interface properties
-      planetaryResonance: this.getDefaultPlanetaryResonance(),
-      cuisineCompatibility: this.getDefaultCuisineCompatibility(),
-      cookingMethodAffinity: this.getDefaultCookingMethodAffinity(),
-      temperatureRange: { min: 15, max: 25 },
-      pairingRecommendations: flavorData.pairings || [],
-      avoidCombinations: [],
+      temperatureOptimal: 20,
       
       description: flavorData.description || `${flavorName} elemental flavor profile`,
       tags: ['elemental', flavorName?.toLowerCase()],
       lastUpdated: new Date()
-    } as UnifiedFlavorProfile;
+    };
   }
 
   // ===== INGREDIENT FLAVOR PROFILES MIGRATION =====
   
   private async migrateIngredientFlavorProfiles(): Promise<void> {
-    // console.log('🥬 Migrating ingredient flavor profiles...');
+    console.log('🥬 Migrating ingredient flavor profiles...');
     
     // Check if ingredientFlavorMap is available
     if (!ingredientFlavorMap || typeof ingredientFlavorMap !== 'object') {
       this.migrationWarnings?.push('ingredientFlavorMap is not available - skipping ingredient migration');
-      // console.log('⚠️ Skipping ingredient migration - ingredientFlavorMap not available');
+      console.log('⚠️ Skipping ingredient migration - ingredientFlavorMap not available');
       return;
     }
     
     for (const [ingredientName, flavorData] of Object.entries(ingredientFlavorMap)) {
       try {
         const migratedProfile = this.convertIngredientProfile(ingredientName, flavorData);
-        this.migratedProfiles.set(migratedProfile.id, migratedProfile as UnifiedFlavorProfile);
+        this.migratedProfiles.set(migratedProfile.id, migratedProfile);
       } catch (error) {
         this.migrationErrors?.push(`Failed to migrate ingredient profile ${ingredientName}: ${error}`);
       }
     }
     
-    // console.log(`✅ Migrated ${Object.keys(ingredientFlavorMap || {}).length} ingredient profiles`);
+    console.log(`✅ Migrated ${Object.keys(ingredientFlavorMap || {}).length} ingredient profiles`);
   }
 
-  private convertIngredientProfile(ingredientName: string, flavorData: Record<string, unknown>): UnifiedFlavorProfile {
+  private convertIngredientProfile(ingredientName: string, flavorData: any): UnifiedFlavorProfile {
     const id = `ingredient-${ingredientName?.toLowerCase()?.replace(/\s+/g, '-')}`;
     
     return {
@@ -445,24 +415,17 @@ export class FlavorProfileMigration {
       
       preparationMethods: [],
       nutritionalSynergy: 0.7,
-      
-      // Required interface properties
-      planetaryResonance: this.getDefaultPlanetaryResonance(),
-      cuisineCompatibility: this.getDefaultCuisineCompatibility(),
-      cookingMethodAffinity: this.getDefaultCookingMethodAffinity(),
-      temperatureRange: { min: 15, max: 25 },
-      pairingRecommendations: [],
-      avoidCombinations: [],
+      temperatureOptimal: 20,
       
       description: `${ingredientName} ingredient flavor profile`,
       tags: ['ingredient', ingredientName?.toLowerCase()],
       lastUpdated: new Date()
-    } as UnifiedFlavorProfile;
+    };
   }
 
   // ===== DATA EXTRACTION HELPERS =====
   
-  private extractBaseNotes(profile: Record<string, unknown>): BaseFlavorNotes {
+  private extractBaseNotes(profile: any): BaseFlavorNotes {
     if (profile.baseNotes) return profile.baseNotes;
     
     // Try to extract from various formats
@@ -478,51 +441,51 @@ export class FlavorProfileMigration {
     return baseNotes;
   }
 
-  private extractElementalFlavors(profile: Record<string, unknown>): ElementalProperties {
+  private extractElementalFlavors(profile: any): ElementalProperties {
     if (profile.elementalFlavors) return profile.elementalFlavors;
     if (profile.elementalState) return profile.elementalState;
     
     return this.getDefaultElementalProperties();
   }
 
-  private extractAlchemicalProperties(profile: Record<string, unknown>): AlchemicalProperties {
+  private extractAlchemicalProperties(profile: any): AlchemicalProperties {
     if (profile.alchemicalProperties) return profile.alchemicalProperties;
     
     return this.getDefaultAlchemicalProperties();
   }
 
-  private extractSeasonalPeak(profile: Record<string, unknown>): Season[] {
+  private extractSeasonalPeak(profile: any): Season[] {
     if (profile.seasonalPeak) return profile.seasonalPeak;
     
     return ['spring', 'summer', 'autumn', 'winter'];
   }
 
-  private extractSeasonalModifiers(profile: Record<string, unknown>): Record<Season, number> {
+  private extractSeasonalModifiers(profile: any): Record<Season, number> {
     return profile.seasonalModifiers || this.getDefaultSeasonalModifiers();
   }
 
-  private extractCulturalOrigins(profile: Record<string, unknown>): string[] {
+  private extractCulturalOrigins(profile: any): string[] {
     if (profile.culturalOrigins) return profile.culturalOrigins;
     if (profile.origins) return profile.origins;
     
     return ['Universal'];
   }
 
-  private extractPairingRecommendations(profile: Record<string, unknown>): string[] {
+  private extractPairingRecommendations(profile: any): string[] {
     if (profile.pairingRecommendations) return profile.pairingRecommendations;
     if (profile.pairings) return profile.pairings;
     
     return [];
   }
 
-  private extractPreparationMethods(profile: Record<string, unknown>): string[] {
+  private extractPreparationMethods(profile: any): string[] {
     if (profile.preparationMethods) return profile.preparationMethods;
     if (profile.cookingMethods) return profile.cookingMethods;
     
     return [];
   }
 
-  private extractTags(profile: Record<string, unknown>): string[] {
+  private extractTags(profile: any): string[] {
     if (profile.tags) return profile.tags;
     
     const tags: string[] = [];
@@ -534,7 +497,7 @@ export class FlavorProfileMigration {
 
   // ===== CUISINE-SPECIFIC HELPERS =====
   
-  private extractCuisineBaseNotes(cuisineData: Record<string, unknown>): BaseFlavorNotes {
+  private extractCuisineBaseNotes(cuisineData: any): BaseFlavorNotes {
     if (cuisineData.flavorProfiles) {
       return {
         sweet: cuisineData.flavorProfiles.sweet || 0,
@@ -560,7 +523,7 @@ export class FlavorProfileMigration {
     return this.getDefaultBaseNotes();
   }
 
-  private calculateCuisineIntensity(cuisineData: Record<string, unknown>): number {
+  private calculateCuisineIntensity(cuisineData: any): number {
     if (cuisineData.intensity) return cuisineData.intensity;
     
     // Calculate from flavor intensities
@@ -572,7 +535,7 @@ export class FlavorProfileMigration {
     return 0.5;
   }
 
-  private calculateCuisineComplexity(cuisineData: Record<string, unknown>): number {
+  private calculateCuisineComplexity(cuisineData: any): number {
     if (cuisineData.complexity) return cuisineData.complexity;
     
     // Estimate based on number of signature ingredients and techniques
@@ -582,7 +545,7 @@ export class FlavorProfileMigration {
     return Math.min(1, (ingredientCount + techniqueCount) / 20);
   }
 
-  private extractCuisineSeasonalPeak(cuisineData: Record<string, unknown>): Season[] {
+  private extractCuisineSeasonalPeak(cuisineData: any): Season[] {
     if (cuisineData.seasonalPeak) return cuisineData.seasonalPeak;
     
     // Default based on cuisine characteristics
@@ -591,7 +554,7 @@ export class FlavorProfileMigration {
 
   // ===== PLANETARY-SPECIFIC HELPERS =====
   
-  private extractPlanetaryBaseNotes(planetData: Record<string, unknown>): BaseFlavorNotes {
+  private extractPlanetaryBaseNotes(planetData: any): BaseFlavorNotes {
     if (planetData.flavorProfiles) {
       return {
         sweet: planetData.flavorProfiles.sweet || 0,
@@ -606,7 +569,7 @@ export class FlavorProfileMigration {
     return this.getDefaultBaseNotes();
   }
 
-  private extractPlanetarySeasonalPeak(planetData: Record<string, unknown>): Season[] {
+  private extractPlanetarySeasonalPeak(planetData: any): Season[] {
     if (planetData.seasonalPeak) return planetData.seasonalPeak;
     
     return ['spring', 'summer', 'autumn', 'winter'];
@@ -614,7 +577,7 @@ export class FlavorProfileMigration {
 
   // ===== INTEGRATION-SPECIFIC HELPERS =====
   
-  private extractIntegrationBaseNotes(flavorName: string, flavorData: Record<string, unknown>): BaseFlavorNotes {
+  private extractIntegrationBaseNotes(flavorName: string, flavorData: any): BaseFlavorNotes {
     const baseNotes = this.getDefaultBaseNotes();
     
     // Map flavor name to base note
@@ -637,7 +600,7 @@ export class FlavorProfileMigration {
 
   // ===== INGREDIENT-SPECIFIC HELPERS =====
   
-  private extractIngredientBaseNotes(flavorData: Record<string, unknown>): BaseFlavorNotes {
+  private extractIngredientBaseNotes(flavorData: any): BaseFlavorNotes {
     return {
       sweet: flavorData.sweet || 0,
       sour: flavorData.sour || 0,
@@ -648,7 +611,7 @@ export class FlavorProfileMigration {
     };
   }
 
-  private estimateIngredientElementalFlavors(flavorData: Record<string, unknown>): ElementalProperties {
+  private estimateIngredientElementalFlavors(flavorData: any): ElementalProperties {
     // Estimate elemental properties based on flavor profile
     const baseNotes = this.extractIngredientBaseNotes(flavorData);
     
@@ -660,7 +623,7 @@ export class FlavorProfileMigration {
     };
   }
 
-  private calculateIngredientIntensity(flavorData: Record<string, unknown>): number {
+  private calculateIngredientIntensity(flavorData: any): number {
     const baseNotes = this.extractIngredientBaseNotes(flavorData);
     const values = Object.values(baseNotes);
     // Apply Pattern KK-1: Explicit Type Assertion for arithmetic operations
@@ -669,7 +632,7 @@ export class FlavorProfileMigration {
     return sum / Math.max(numericValues.length, 1);
   }
 
-  private calculateIngredientComplexity(flavorData: Record<string, unknown>): number {
+  private calculateIngredientComplexity(flavorData: any): number {
     const baseNotes = this.extractIngredientBaseNotes(flavorData);
     // Apply Pattern KK-1: Explicit Type Assertion for comparison operations
     const nonZeroFlavors = Object.values(baseNotes || {}).filter(val => Number(val) > 0.1).length;
@@ -699,21 +662,6 @@ export class FlavorProfileMigration {
     } as Record<Season, number>;
   }
 
-  private getDefaultPlanetaryResonance(): Record<PlanetName, PlanetaryFlavorInfluence> {
-    // Return minimal planetary resonance for migration compatibility
-    return {} as Record<PlanetName, PlanetaryFlavorInfluence>;
-  }
-
-  private getDefaultCuisineCompatibility(): { [key: string]: CuisineFlavorCompatibility } {
-    // Return minimal cuisine compatibility for migration compatibility  
-    return {};
-  }
-
-  private getDefaultCookingMethodAffinity(): Record<CookingMethod, number> {
-    // Return minimal cooking method affinity for migration compatibility
-    return {} as Record<CookingMethod, number>;
-  }
-
   // ===== UTILITY METHODS =====
   
   private mapCategory(category: string): UnifiedFlavorProfile['category'] {
@@ -722,14 +670,13 @@ export class FlavorProfileMigration {
       'planetary': 'planetary',
       'elemental': 'elemental',
       'ingredient': 'ingredient',
-      'cooking-method': 'fusion',  // Map cooking-method to fusion since it's not in the allowed types
-      'fusion': 'fusion'
+      'cooking-method': 'cooking-method'
     };
     
     return categoryMap[category] || 'elemental';
   }
 
-  private mergeCuisineData(profileId: string, cuisineData: Record<string, unknown>): void {
+  private mergeCuisineData(profileId: string, cuisineData: any): void {
     const existingProfile = this.migratedProfiles.get(profileId);
     if (!existingProfile) return;
     
@@ -741,8 +688,8 @@ export class FlavorProfileMigration {
     }
     
     if (cuisineData.signatureTechniques) {
-      (existingProfile as unknown).preparationMethods = [
-        ...new Set([...(existingProfile as unknown).preparationMethods, ...cuisineData.signatureTechniques])
+      existingProfile.preparationMethods = [
+        ...new Set([...existingProfile.preparationMethods, ...cuisineData.signatureTechniques])
       ];
     }
     
@@ -750,7 +697,7 @@ export class FlavorProfileMigration {
   }
 
   private async generateMissingData(): Promise<void> {
-    // console.log('🔧 Generating missing data and optimizing profiles...');
+    console.log('🔧 Generating missing data and optimizing profiles...');
     
     for (const [id, profile] of this.migratedProfiles) {
       // Calculate Kalchm values if missing
@@ -767,7 +714,7 @@ export class FlavorProfileMigration {
       this.migratedProfiles.set(id, profile);
     }
     
-    // console.log('✅ Generated missing data for all profiles');
+    console.log('✅ Generated missing data for all profiles');
   }
 
   private calculateKalchm(profile: UnifiedFlavorProfile): number {

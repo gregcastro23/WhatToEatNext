@@ -316,7 +316,7 @@ export function calculateKalchmResults(
     { positions: planetaryPositions },
     () => {
       // Calculate alchemical properties
-      const _alchemicalProperties = calculateAlchemicalProperties(planetaryPositions);
+      const alchemicalProperties = calculateAlchemicalProperties(planetaryPositions);
       
       // Calculate elemental values
       const elementalValues = calculateElementalValues(planetaryPositions);

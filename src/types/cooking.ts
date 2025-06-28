@@ -1,4 +1,4 @@
-import { _Element , _ElementalProperties, ZodiacSign } from "@/types/alchemy";
+import { Element , ElementalProperties, ZodiacSign } from "@/types/alchemy";
 
 
 export interface CookingMethod {
@@ -35,7 +35,7 @@ export interface CookingMethod {
     max: number;
     unit?: string;
   };
-  alchemical_properties?: Record<string, unknown>;
+  alchemical_properties?: any;
   tools?: string[] | string;
   famous_dishes?: string[] | string;
   health_benefits?: string[] | string;
@@ -86,7 +86,7 @@ export interface EnhancedCookingMethod extends CookingMethod {
   zodiacCompatibility?: Record<string, number>;
 }
 
-export type { ElementalProperties, ZodiacSign } from './alchemy';
+export { ElementalProperties, ZodiacSign } from './alchemy';
 
 // Add CookingMethodInfo alias for compatibility
 export type CookingMethodInfo = CookingMethod;

@@ -5,16 +5,16 @@ import { getBestRecipeMatches as getBestRecipeMatchesFromMain } from '../recipes
 export { Recipes };
 
 // Create flattened list of all recipes from all cuisines
-const flattenCuisineRecipes = (cuisines: Record<string, unknown>) => {
+const flattenCuisineRecipes = (cuisines: any) => {
   const allRecipes: Recipe[] = [];
   
   // Iterate through all cuisines
-  Object.values(cuisines).forEach((cuisine: Record<string, unknown>) => {
+  Object.values(cuisines).forEach((cuisine: any) => {
     if (cuisine.dishes) {
       // Iterate through meal types
-      Object.values(cuisine.dishes).forEach((mealType: Record<string, unknown>) => {
+      Object.values(cuisine.dishes).forEach((mealType: any) => {
         // Iterate through seasons
-        Object.values(mealType).forEach((recipes: Record<string, unknown>) => {
+        Object.values(mealType).forEach((recipes: any) => {
           if (Array.isArray(recipes)) {
             allRecipes.push(...recipes);
           }

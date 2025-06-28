@@ -41,35 +41,40 @@ export function getCachedCalculation<T>(
   if (cached && 
       cached.input === inputHash && 
       (now - cached.timestamp) < ttl) {
-    // console.log(`🔄 Cache hit for ${cacheKey} (age: ${Math.round((now - cached.timestamp)/1000)}s)`);
+    console.log(`🔄 Cache hit for ${cacheKey} (age: ${Math.round((now - cached.timestamp)/1000)}s)`);
     return cached.value;
   }
   
   // Log cache miss
-  // console.log(`⚡ Cache miss for ${cacheKey}, calculating...`);
+  console.log(`⚡ Cache miss for ${cacheKey}, calculating...`);
   
-  // Perform the calculation
-  const resultOrPromise = calculationFn();
-  
-  // Handle both synchronous and asynchronous calculations
-  if (resultOrPromise instanceof Promise) {
-    // For async functions, return a promise that caches when resolved
-    return resultOrPromise.then(asyncResult => {
+  try {
+    // Perform the calculation
+    const resultOrPromise = calculationFn();
+    
+    // Handle both synchronous and asynchronous calculations
+    if (resultOrPromise instanceof Promise) {
+      // For async functions, return a promise that caches when resolved
+      return resultOrPromise.then(asyncResult => {
+        calculationCache[cacheKey] = {
+          value: asyncResult,
+          timestamp: Date.now(), // Use current time (not 'now') for actual caching
+          input: inputHash
+        };
+        return asyncResult;
+      });
+    } else {
+      // For synchronous functions, cache immediately
       calculationCache[cacheKey] = {
-        value: asyncResult,
-        timestamp: Date.now(), // Use current time (not 'now') for actual caching
+        value: resultOrPromise,
+        timestamp: now,
         input: inputHash
       };
-      return asyncResult;
-    });
-  } else {
-    // For synchronous functions, cache immediately
-    calculationCache[cacheKey] = {
-      value: resultOrPromise,
-      timestamp: now,
-      input: inputHash
-    };
-    return resultOrPromise;
+      return resultOrPromise;
+    }
+  } catch (error) {
+    console.error(`Error in cached calculation ${cacheKey}:`, error);
+    throw error; // Re-throw to let caller handle errors
   }
 }
 
@@ -80,13 +85,13 @@ export function getCachedCalculation<T>(
 export function clearCalculationCache(cacheKey?: string): void {
   if (cacheKey) {
     delete calculationCache[cacheKey];
-    // console.log(`Cache cleared for: ${cacheKey}`);
+    console.log(`Cache cleared for: ${cacheKey}`);
   } else {
     // Clear all cache entries
     Object.keys(calculationCache).forEach(key => {
       delete calculationCache[key];
     });
-    // console.log('All calculation cache entries cleared');
+    console.log('All calculation cache entries cleared');
   }
 }
 

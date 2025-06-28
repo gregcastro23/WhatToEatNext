@@ -20,7 +20,7 @@ export function handleApiError(error: unknown): NextResponse {
     const apiError = error as ApiError;
     statusCode = apiError.statusCode;
     message = apiError.message;
-    details = (apiError as unknown).details;
+    details = (apiError as any).details;
   } else if (error instanceof Error) {
     // For standard Error objects, use the message
     message = error.message;
@@ -63,7 +63,7 @@ export function notFoundError(message: string): NextResponse {
 }
 
 export function handleServerError(error: unknown) {
-  // console.error('Server error:', error)
+  console.error('Server error:', error)
   return new NextResponse(
     JSON.stringify({
       error: 'Internal Server Error',

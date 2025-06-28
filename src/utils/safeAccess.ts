@@ -26,7 +26,7 @@ export function safeGet<T>(
       return defaultValue;
     }
     
-    let current: Record<string, unknown> = obj;
+    let current: any = obj;
     
     for (const key of path) {
       if (current === null || current === undefined || typeof current !== 'object') {
@@ -91,7 +91,7 @@ export function safeNumber(
     return defaultValue;
   }
   
-  const num = Number(value);
+  let num = Number(value);
   
   return !isNaN(num) ? num : defaultValue;
 }
@@ -180,7 +180,7 @@ export function safeProperty<T>(
     return defaultValue;
   }
   
-  const value = (obj as Record<string, unknown>)[key];
+  let value = (obj as Record<string, unknown>)[key];
   
   if (value === undefined || value === null) {
     return defaultValue;

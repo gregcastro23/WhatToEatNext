@@ -1,4 +1,4 @@
-import { ZodiacSign, _Planet, _Element } from './celestial';
+import { ZodiacSign, Planet, Element } from './celestial';
 import { TarotSuit } from './alchemy';
 
 // Define chakra positions

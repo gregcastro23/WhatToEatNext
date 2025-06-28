@@ -13,7 +13,7 @@ interface RecipeData {
   id?: string;
   tags?: string[];
   description?: string;
-  ingredients?: unknown[];
+  ingredients?: any[];
   season?: string[];
   mealType?: string[];
   dietaryInfo?: string[];
@@ -344,7 +344,7 @@ export class EnhancedCuisineRecommender {
     astroState: AstrologicalState
   ): number {
     const { planetaryDay, currentDate } = timeFactors;
-    const _isDaytime = this.isDaytime(currentDate);
+    const isDaytime = this.isDaytime(currentDate);
 
     // If recipe has no elemental properties, give it a neutral score
     if (!recipe.elementalProperties) {
@@ -411,7 +411,7 @@ export class EnhancedCuisineRecommender {
     astroState: AstrologicalState
   ): number {
     const { planetaryHour, currentDate } = timeFactors;
-    const _isDaytime = this.isDaytime(currentDate);
+    const isDaytime = this.isDaytime(currentDate);
 
     // If recipe has no elemental properties, give it a neutral score
     if (!recipe.elementalProperties) {

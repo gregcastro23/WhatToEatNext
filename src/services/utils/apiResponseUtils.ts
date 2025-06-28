@@ -121,7 +121,7 @@ export function createInvalidParamsResponse<T>(
 ): ApiResponse<T> {
   return createErrorResponse(
     RecipeErrorCode.INVALID_PARAMETERS,
-    _message
+    message
   );
 }
 

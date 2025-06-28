@@ -36,7 +36,7 @@ export class UnifiedNutritionalService {
   
   private constructor() {
     // Apply Pattern PP-1: Safe service initialization
-    const NutritionServiceData = NutritionService as unknown;
+    const NutritionServiceData = NutritionService as any;
     this.legacyNutritionService = NutritionServiceData?.getInstance?.() || new NutritionService();
   }
   
@@ -101,7 +101,7 @@ export class UnifiedNutritionalService {
       }
       
       // Apply surgical type casting with variable extraction
-      const systemData = unifiedNutritionalSystem as unknown;
+      const systemData = unifiedNutritionalSystem as any;
       const enhanceMethod = systemData?.enhanceNutritionalProfile;
       
       // Enhance with alchemical properties
@@ -135,7 +135,7 @@ export class UnifiedNutritionalService {
    */
   calculateNutritionalKalchm(profile: NutritionalProfile): number {
     // Apply surgical type casting with variable extraction
-    const systemData = unifiedNutritionalSystem as unknown;
+    const systemData = unifiedNutritionalSystem as any;
     const calculateKalchmMethod = systemData?.calculateNutritionalKalchm;
     
     return calculateKalchmMethod ? calculateKalchmMethod(profile) : 0;
@@ -162,7 +162,7 @@ export class UnifiedNutritionalService {
         }
       }
       
-      return unifiedNutritionalSystem.analyzeNutritionalCompatibility(profiles, context) as unknown;
+      return unifiedNutritionalSystem.analyzeNutritionalCompatibility(profiles, context) as any;
       
     } catch (error) {
       logger.error('Error analyzing nutritional compatibility:', error);
@@ -285,14 +285,14 @@ export class UnifiedNutritionalService {
       
       // Check protein range
       if (filter.minProtein !== undefined || filter.maxProtein !== undefined) {
-        const protein = (nutritionalProfile as unknown).protein || (nutritionalProfile as unknown).macros?.protein || 0;
+        const protein = nutritionalProfile.protein || nutritionalProfile.macros?.protein || 0;
         if (filter.minProtein !== undefined && protein < filter.minProtein) return false;
         if (filter.maxProtein !== undefined && protein > filter.maxProtein) return false;
       }
       
       // Check fiber range
       if (filter.minFiber !== undefined || filter.maxFiber !== undefined) {
-        const fiber = (nutritionalProfile as unknown).fiber || (nutritionalProfile as unknown).macros?.fiber || 0;
+        const fiber = nutritionalProfile.fiber || nutritionalProfile.macros?.fiber || 0;
         if (filter.minFiber !== undefined && fiber < filter.minFiber) return false;
         if (filter.maxFiber !== undefined && fiber > filter.maxFiber) return false;
       }
@@ -306,14 +306,14 @@ export class UnifiedNutritionalService {
       
       // Check carb range
       if (filter.minCarbs !== undefined || filter.maxCarbs !== undefined) {
-        const carbs = (nutritionalProfile as unknown).carbs || (nutritionalProfile as unknown).macros?.carbs || 0;
+        const carbs = nutritionalProfile.carbs || nutritionalProfile.macros?.carbs || 0;
         if (filter.minCarbs !== undefined && carbs < filter.minCarbs) return false;
         if (filter.maxCarbs !== undefined && carbs > filter.maxCarbs) return false;
       }
       
       // Check fat range
       if (filter.minFat !== undefined || filter.maxFat !== undefined) {
-        const fat = (nutritionalProfile as unknown).fat || (nutritionalProfile as unknown).macros?.fat || 0;
+        const fat = nutritionalProfile.fat || nutritionalProfile.macros?.fat || 0;
         if (filter.minFat !== undefined && fat < filter.minFat) return false;
         if (filter.maxFat !== undefined && fat > filter.maxFat) return false;
       }
@@ -346,19 +346,19 @@ export class UnifiedNutritionalService {
       
       // Check high protein flag
       if (filter.highProtein) {
-        const protein = (nutritionalProfile as unknown).protein || (nutritionalProfile as unknown).macros?.protein || 0;
+        const protein = nutritionalProfile.protein || nutritionalProfile.macros?.protein || 0;
         if (protein < 10) return false; // Threshold for high protein
       }
       
       // Check low carb flag
       if (filter.lowCarb) {
-        const carbs = (nutritionalProfile as unknown).carbs || (nutritionalProfile as unknown).macros?.carbs || 0;
+        const carbs = nutritionalProfile.carbs || nutritionalProfile.macros?.carbs || 0;
         if (carbs > 20) return false; // Threshold for low carb
       }
       
       // Check low fat flag
       if (filter.lowFat) {
-        const fat = (nutritionalProfile as unknown).fat || (nutritionalProfile as unknown).macros?.fat || 0;
+        const fat = nutritionalProfile.fat || nutritionalProfile.macros?.fat || 0;
         if (fat > 10) return false; // Threshold for low fat
       }
       
@@ -608,7 +608,7 @@ export class UnifiedNutritionalService {
   /**
    * Legacy nutritional balance calculation (backward compatibility)
    */
-  async calculateNutritionalBalance(ingredients: unknown[]): Promise<NutritionalProfile> {
+  async calculateNutritionalBalance(ingredients: any[]): Promise<NutritionalProfile> {
     try {
               if ((ingredients || []).length === 0) {
         return {
@@ -659,7 +659,7 @@ export class UnifiedNutritionalService {
   async calculateLegacyNutritionalScore(nutrition: {}): Promise<number>  {
     try {
       // Apply Pattern PP-1: Safe service method access
-      const legacyServiceData = this.legacyNutritionService as unknown;
+      const legacyServiceData = this.legacyNutritionService as any;
       if (legacyServiceData?.calculateNutritionalScore) {
         return legacyServiceData.calculateNutritionalScore(nutrition);
       }

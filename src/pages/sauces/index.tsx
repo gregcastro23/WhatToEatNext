@@ -32,32 +32,7 @@ const SaucesPage: NextPage = () => {
   React.useEffect(() => {
     // Get current elemental state based on time, date, etc.
     const currentState = getCurrentElementalState();
-    
-    // Dynamically determine season and time of day
-    const now = new Date();
-    const hour = now.getHours();
-    const month = now.getMonth(); // 0-11
-    
-    // Determine time of day based on actual time
-    const timeOfDay = hour < 6 ? 'midnight' 
-                    : hour < 11 ? 'morning'
-                    : hour < 15 ? 'lunch'
-                    : hour < 18 ? 'afternoon'
-                    : hour < 21 ? 'evening'
-                    : 'night';
-    
-    // Determine season based on actual month (Northern Hemisphere)      
-    const season = month < 3 || month === 11 ? 'winter'
-                 : month < 6 ? 'spring'
-                 : month < 9 ? 'summer'
-                 : 'autumn';
-    
-    setElementalState(prev => ({
-      ...prev,
-      ...currentState,
-      _season,
-      timeOfDay
-    }));
+    setElementalState(currentState);
   }, []);
 
   // Collect all sauces from all cuisines
@@ -65,16 +40,16 @@ const SaucesPage: NextPage = () => {
     const sauces: SauceItem[] = [];
     
     Object.entries(cuisinesMap).forEach(([cuisineId, cuisineData]) => {
-      if ((cuisineData as unknown).traditionalSauces) {
-        Object.entries((cuisineData as unknown).traditionalSauces).forEach(([sauceId, sauceData]) => {
+      if (cuisineData.traditionalSauces) {
+        Object.entries(cuisineData.traditionalSauces).forEach(([sauceId, sauceData]) => {
           // Apply safe type casting for sauce data property access
-          const sauceInfo = sauceData as unknown;
+          const sauceInfo = sauceData as any;
           sauces.push({
             id: sauceId,
             name: sauceInfo?.name || sauceId,
             description: sauceInfo?.description,
             base: sauceInfo?.base,
-            cuisine: (cuisineData as unknown).name,
+            cuisine: cuisineData.name,
             cuisineId: cuisineId,
             seasonality: sauceInfo?.seasonality,
             elementalProperties: sauceInfo?.elementalProperties

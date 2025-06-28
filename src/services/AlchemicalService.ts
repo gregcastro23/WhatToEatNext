@@ -13,8 +13,8 @@ import {
   filterByAlchemicalCompatibility,
   getTopCompatibleItems
 } from '../utils/alchemicalTransformationUtils';
-import { _elementalUtils } from '../utils/elementalUtils';
-import { _calculateLunarPhase , _calculatePlanetaryPositions } from '../utils/astrologyUtils';
+import { elementalUtils } from '../utils/elementalUtils';
+import { calculateLunarPhase , calculatePlanetaryPositions } from '../utils/astrologyUtils';
 import { convertToLunarPhase } from '@/utils/lunarPhaseUtils';
 import { logger } from '../utils/logger';
 import type {
@@ -173,7 +173,7 @@ export class AlchemicalService {
       const positions = await calculatePlanetaryPositions();
       
       // Calculate current lunar phase
-      const _lunarPhase = await calculateLunarPhase(new Date());
+      const lunarPhase = await calculateLunarPhase(new Date());
       
       // Convert to format expected by adapter
       const lunarPhaseFormatted = convertToLunarPhase(lunarPhase as unknown as string) as LunarPhaseWithSpaces;
@@ -181,7 +181,7 @@ export class AlchemicalService {
       // Calculate if it's currently daytime
       const now = new Date();
       const hours = now.getHours();
-      const _isDaytime = hours >= 6 && hours < 18;
+      const isDaytime = hours >= 6 && hours < 18;
       
       // Get current Sun sign as current zodiac
       const sunPosition = positions['Sun'];
@@ -396,7 +396,7 @@ export class AlchemicalService {
     const dominantElement = this.getDominantElement(properties);
     
     // Apply safe type casting for profile property access
-    const profileData = profile as unknown;
+    const profileData = profile as any;
 
     return {dominantElement,
       cookingTechniques: [], // elementalUtils.getSuggestedCookingTechniques(properties),
@@ -404,7 +404,7 @@ export class AlchemicalService {
       flavorProfiles: profileData?.characteristics?.flavorProfiles || [],
       healthBenefits: profileData?.characteristics?.healthBenefits || [],
       timeOfDay: profileData?.characteristics?.timeOfDay || [],
-      seasonalBest: this.getSeasonalRecommendations(dominantElement as unknown),
+      seasonalBest: this.getSeasonalRecommendations(dominantElement as any),
       moodEffects: profileData?.characteristics?.moodEffects || [],
       culinaryHerbs: profileData?.characteristics?.culinaryHerbs || []
     };

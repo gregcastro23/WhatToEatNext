@@ -24,16 +24,14 @@ import type {
   ZodiacSign, 
   LunarPhase, 
   PlanetName 
-, ElementalProperties } from '@/types/alchemy';
+} from '@/types/alchemy';
 
 // Missing service and interface imports
 import type { Recipe } from '@/types/recipe';
-import type { RecipeServiceInterface ,
-  RecipeSearchCriteria, 
-  RecipeRecommendationOptions 
-} from './interfaces/RecipeServiceInterface';
+import type { RecipeServiceInterface } from './interfaces/RecipeServiceInterface';
+import type { ElementalProperties } from '@/types/alchemy';
 import { LocalRecipeService } from './LocalRecipeService';
-import { UnifiedRecipeService , unifiedRecipeService } from './UnifiedRecipeService';
+import { UnifiedRecipeService } from './UnifiedRecipeService';
 import { ErrorHandler } from '@/utils/errorHandler';
 import { recipeElementalService } from './RecipeElementalService';
 
@@ -44,8 +42,13 @@ import {
   getRecipesForLunarPhase,
   getAllRecipes
 } from '@/data/recipes';
+import { unifiedRecipeService } from '@/services/UnifiedRecipeService';
 
 
+import type {
+  RecipeSearchCriteria, 
+  RecipeRecommendationOptions 
+} from './interfaces/RecipeServiceInterface';
 
 /**
  * Implementation of the RecipeServiceInterface that delegates to specialized services
@@ -96,10 +99,10 @@ export class ConsolidatedRecipeService {
   ): Promise<Recipe[]> {
     try {
       // Convert our criteria to UnifiedRecipeService format
-      const unifiedResults = await (unifiedRecipeService as unknown).searchRecipes(criteria as unknown);
+      const unifiedResults = await (unifiedRecipeService as any).searchRecipes(criteria as any);
       
       // Extract just the Recipe objects from the results
-      return (unifiedResults || []).map((result: Record<string, unknown>) => result.recipe || result) as unknown as Recipe[];
+      return (unifiedResults || []).map((result: any) => result.recipe || result) as unknown as Recipe[];
     } catch (error) {
       ErrorHandler.log((error as unknown as Error), {
         component: 'ConsolidatedRecipeService',
@@ -256,7 +259,7 @@ export class ConsolidatedRecipeService {
   async generateRecipe(criteria: RecipeSearchCriteria): Promise<Recipe> {
     try {
       // Apply surgical type casting with variable extraction
-      const serviceData = unifiedRecipeService as unknown;
+      const serviceData = unifiedRecipeService as any;
       const generateRecipeMethod = serviceData?.generateRecipe;
       const unifiedResult = generateRecipeMethod ? await generateRecipeMethod(criteria) : null;
       return unifiedResult?.recipe || null;
@@ -278,7 +281,7 @@ export class ConsolidatedRecipeService {
   ): Promise<Recipe> {
     try {
       // Apply surgical type casting with variable extraction
-      const serviceData = unifiedRecipeService as unknown;
+      const serviceData = unifiedRecipeService as any;
       const generateFusionRecipeMethod = serviceData?.generateFusionRecipe;
       const unifiedResult = generateFusionRecipeMethod ? await generateFusionRecipeMethod(cuisines, criteria) : null;
       return unifiedResult?.recipe || null;
@@ -300,7 +303,7 @@ export class ConsolidatedRecipeService {
   ): Promise<Recipe> {
     try {
       // Apply surgical type casting with variable extraction
-      const serviceData = unifiedRecipeService as unknown;
+      const serviceData = unifiedRecipeService as any;
       const adaptRecipeMethod = serviceData?.adaptRecipeForCurrentSeason;
       const unifiedResult = adaptRecipeMethod ? await adaptRecipeMethod(recipe) : null;
       return unifiedResult?.recipe || recipe;

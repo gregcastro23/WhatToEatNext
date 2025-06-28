@@ -17,7 +17,7 @@ export interface EnhancedCuisine {
   id: string;
   name: string;
   description: string;
-  dishes?: Record<string, unknown>; // Preserve existing dish structure
+  dishes?: any; // Preserve existing dish structure
   elementalProperties?: ElementalProperties;
   elementalState?: ElementalProperties;
   
@@ -72,8 +72,8 @@ export class CuisineEnhancer {
   static calculateCuisineKalchm(cuisine: {}): {
     totalKalchm: number;
     averageRecipeKalchm: number;
-    ingredientKalchmProfile: Record<string, unknown>;
-    cookingMethodInfluence: Record<string, unknown>;
+    ingredientKalchmProfile: any;
+    cookingMethodInfluence: any;
     recipesAnalyzed: number;
     ingredientsAnalyzed: number;
   } {
@@ -146,11 +146,11 @@ export class CuisineEnhancer {
   /**
    * Extract recipes from cuisine structure
    */
-  static extractRecipesFromCuisine(cuisine: {}): unknown[] {
-    const recipes: unknown[] = [];
+  static extractRecipesFromCuisine(cuisine: {}): any[] {
+    const recipes: any[] = [];
     
     // Use safe type casting for cuisine property access
-    const cuisineData = cuisine as unknown;
+    const cuisineData = cuisine as any;
     if (!cuisineData?.dishes || typeof cuisineData.dishes !== 'object') {
       return recipes;
     }
@@ -169,7 +169,7 @@ export class CuisineEnhancer {
             recipes?.push({
               ...dish,
               mealType,
-              _season,
+              season,
               cuisine: cuisineData?.name || 'Unknown'
             });
           }
@@ -282,7 +282,7 @@ export class CuisineEnhancer {
    */
   static calculateCuisineElementalBalance(cuisine: {}): ElementalProperties {
     // Use safe type casting for cuisine property access
-    const cuisineData = cuisine as unknown;
+    const cuisineData = cuisine as any;
     
     // Use existing elemental properties if available
     if (cuisineData?.elementalState) {
@@ -353,7 +353,7 @@ export class CuisineEnhancer {
    * Calculate cuisine optimization data
    */
   static calculateCuisineOptimization(
-    cuisine: Record<string, unknown>,
+    cuisine: any,
     kalchm: number,
     elementalBalance: ElementalProperties
   ): any {
@@ -406,7 +406,7 @@ export class CuisineEnhancer {
   /**
    * Enhance a cuisine with alchemical properties (ADDITIVE - preserves all existing data)
    */
-  static enhanceCuisine(cuisine: Record<string, unknown>, sourceFile: string = 'unknown'): EnhancedCuisine {
+  static enhanceCuisine(cuisine: any, sourceFile: string = 'unknown'): EnhancedCuisine {
     // Calculate cuisine Kalchm and analysis
     const kalchmAnalysis = this.calculateCuisineKalchm(cuisine);
     
@@ -500,7 +500,7 @@ export class CuisineAnalyzer {
   ): EnhancedCuisine[] {
     return cuisines.filter(cuisine => {
       // Use safe type casting for alchemicalProperties access
-      const alchemicalData = cuisine.alchemicalProperties as unknown;
+      const alchemicalData = cuisine.alchemicalProperties as any;
       const elementalBalance = alchemicalData?.elementalBalance;
       return elementalBalance && elementalBalance[element] >= threshold;
     });
@@ -547,7 +547,7 @@ export class CuisineAnalyzer {
     
     enhanced.forEach(cuisine => {
       // Analyze elemental dominance with safe type casting
-      const alchemicalData = cuisine.alchemicalProperties as unknown;
+      const alchemicalData = cuisine.alchemicalProperties as any;
       const elementalBalance = alchemicalData?.elementalBalance;
       if (elementalBalance) {
         const dominant = Object.entries(elementalBalance)

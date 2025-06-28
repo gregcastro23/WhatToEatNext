@@ -1,4 +1,5 @@
-import { AlchemicalProperty , _Element } from '../types/celestial';
+import { AlchemicalProperty } from '../types/celestial';
+import { Element } from '../types/celestial';
 
 /**
  * Interface representing an Alchemical Pillar
@@ -432,7 +433,7 @@ export function getCookingMethodThermodynamics(cookingMethod: string): {
   const pillar = getCookingMethodPillar(cookingMethod);
   if (!pillar || !pillar.elementalAssociations) return null;
   
-  const _primaryElement = pillar.elementalAssociations.primary;
+  const primaryElement = pillar.elementalAssociations.primary;
   const secondaryElement = pillar.elementalAssociations.secondary;
   
   const primaryProps = ELEMENTAL_THERMODYNAMIC_PROPERTIES[primaryElement];

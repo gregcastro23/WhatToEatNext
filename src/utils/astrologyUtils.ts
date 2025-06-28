@@ -1073,7 +1073,7 @@ export function calculateCompleteAstrologicalEffects(
   const stelliumEffects = calculateEnhancedStelliumEffects(planetPositions, risingDegree);
   
   // Calculate house effects
-  const houseEffects = calculateAllHouseEffects(planetPositions as unknown, {}); // Use type assertion
+  const houseEffects = calculateAllHouseEffects(planetPositions as any, {}); // Use type assertion
   
   // Calculate joy effects
   const joyEffects = calculateJoyEffects(planetPositions, risingDegree);
@@ -1378,7 +1378,7 @@ export async function getCurrentAstrologicalState(date: Date = new Date()): Prom
       calculatePlanetaryPositions(date)
     ]);
     
-    const _lunarPhase = getLunarPhaseName(lunarPhaseValue);
+    const lunarPhase = getLunarPhaseName(lunarPhaseValue);
     const sunSign = calculateSunSign(date);
     const moonSign = moonSignValue;
     const planetaryPositions = planetaryPositionsValue;
@@ -1432,8 +1432,8 @@ export async function getCurrentAstrologicalState(date: Date = new Date()): Prom
       currentPlanetaryAlignment,
       planetaryPositions,
       activePlanets,
-      planetaryHour: planetaryHour as unknown,
-      aspects: aspects as unknown, // Type assertion to avoid compatibility issues
+      planetaryHour: planetaryHour as any,
+      aspects: aspects as any, // Type assertion to avoid compatibility issues
       tarotElementBoosts: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
       tarotPlanetaryBoosts: {}
     };
@@ -1452,7 +1452,7 @@ export async function getCurrentAstrologicalState(date: Date = new Date()): Prom
       currentPlanetaryAlignment: {},
       planetaryPositions: defaultPositions,
       activePlanets: [],
-      planetaryHour: 'sun' as unknown,
+      planetaryHour: 'sun' as any,
       aspects: [],
       tarotElementBoosts: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
       tarotPlanetaryBoosts: {}
@@ -1878,7 +1878,7 @@ export const elementToZodiac: Record<string, string[]> = {
 export const parseAstroChartData = (astroChartData: unknown): Record<string, number> => {
   try {
     const result: Record<string, number> = {};
-    const data = astroChartData as unknown;
+    const data = astroChartData as any;
     
     // Process planetary positions
     if (data?.planets) {
@@ -1918,7 +1918,7 @@ export const parseAstroChartData = (astroChartData: unknown): Record<string, num
     
     return result;
   } catch (error) {
-    // console.error('Error parsing AstroCharts data:', error);
+    console.error('Error parsing AstroCharts data:', error);
     return {};
   }
 };
@@ -1944,7 +1944,7 @@ export const parseAstroChartAspects = (astroChartData: unknown): Array<{
       applying: boolean;
     }> = [];
     
-    const data = astroChartData as unknown;
+    const data = astroChartData as any;
     
     if (data?.aspects && Array.isArray(data.aspects)) {
       // Map aspect types to internal format
@@ -1964,7 +1964,7 @@ export const parseAstroChartAspects = (astroChartData: unknown): Array<{
       
       // Process each aspect
       data.aspects.forEach((aspect: unknown) => {
-        const aspectData = aspect as unknown;
+        const aspectData = aspect as any;
         if (aspectData?.aspectType && aspectData?.planet1 && aspectData?.planet2) {
           aspects.push({
             type: aspectTypeMapping[aspectData.aspectType] || aspectData.aspectType,
@@ -1979,7 +1979,7 @@ export const parseAstroChartAspects = (astroChartData: unknown): Array<{
     
     return aspects;
   } catch (error) {
-    // console.error('Error parsing AstroCharts aspects:', error);
+    console.error('Error parsing AstroCharts aspects:', error);
     return [];
   }
 };
@@ -2212,7 +2212,7 @@ export function transformItemsWithPlanetaryPositions(
       const dominantElement = getDominantElementFromProperties(item.elementalProperties);
 
       // Calculate alchemical properties based on planetary influence
-      const _alchemicalProperties = calculateAlchemicalProperties(
+      const alchemicalProperties = calculateAlchemicalProperties(
         item.elementalProperties,
         planetaryPositions,
         currentElementalInfluence
@@ -2245,9 +2245,9 @@ export function transformItemsWithPlanetaryPositions(
         transformations: calculateElementalTransformations(
           item.elementalProperties,
           currentElementalInfluence
-        ) as unknown,
+        ) as any,
         seasonalResonance: calculateSeasonalResonance(dominantElement)
-      } as unknown as AlchemicalItem;
+      } as AlchemicalItem;
 
       return alchemicalItem;
     });
@@ -2289,7 +2289,7 @@ export function transformItemsWithPlanetaryPositions(
         },
         transformations: [],
         seasonalResonance: []
-      } as unknown as AlchemicalItem;
+      } as AlchemicalItem;
     });
   }
 }

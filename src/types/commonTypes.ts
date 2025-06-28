@@ -10,13 +10,13 @@
 import { Season } from './constants';
 
 // Import Element from constants.ts
-import { _Element } from './constants';
+import { Element } from './constants';
 // Also use ElementEnum from elemental.ts for compatibility
 // Import ZodiacSign, PlanetName from constants.ts
-import { ZodiacSign, _PlanetName, CookingMethod } from './constants';
+import { ZodiacSign, PlanetName, CookingMethod } from './constants';
 
 // Import LUNAR_PHASE_MAP from lunar.ts
-import { LUNAR_PHASE_MAP as _LunarPhase } from './lunar';
+import { LUNAR_PHASE_MAP as LunarPhase } from './lunar';
 
 // Define necessary types directly if they're not available for import
 // Define a simplified AstrologicalState type
@@ -66,7 +66,7 @@ export interface Ingredient {
 }
 
 // Re-export all types
-export type {
+export {
   Season,
   Element,
   ZodiacSign,

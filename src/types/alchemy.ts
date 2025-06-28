@@ -1,13 +1,6 @@
-import { ZodiacSign, _LunarPhase, _Modality, AlchemicalProperties, _PlanetName, _Planet, PlanetaryAlignment, _CelestialPosition, PlanetaryAspect } from '@/types/celestial';
+import { ZodiacSign, LunarPhase, Planet, Modality, PlanetaryAlignment, CelestialPosition, PlanetaryAspect, AlchemicalProperties, PlanetName } from '@/types/celestial';
 import { TarotCard } from '@/contexts/TarotContext/types';
-import { ElementalCharacter } from '@/constants/planetaryElements';
-
-// Import AlchemicalProperty as a type from celestial.ts
-import type { AlchemicalProperty } from '@/types/celestial';
-
-// CRITICAL: Re-export all imported types to maintain API compatibility
-export type { ZodiacSign, LunarPhase, Modality, AlchemicalProperties, PlanetName, Planet, PlanetaryAlignment, CelestialPosition, PlanetaryAspect };
-export type { AlchemicalProperty };
+import { AlchemicalProperty, ElementalCharacter } from '@/constants/planetaryElements';
 
 // src/types/alchemy.ts
 
@@ -62,18 +55,6 @@ export interface StandardizedAlchemicalResult extends AlchemicalResult {
   normalized: boolean;
   confidence: number;
   metadata?: Record<string, unknown>;
-  
-  // Additional properties for alchemical calculations
-  spirit?: number;
-  essence?: number;
-  matter?: number;
-  substance?: number;
-  elementalBalance?: {
-    fire?: number;
-    earth?: number;
-    air?: number;
-    water?: number;
-  };
 }
 
 export interface AlchemicalCalculationResult {
@@ -258,8 +239,11 @@ export const LUNAR_PHASE_REVERSE_MAPPING: Record<LunarPhaseWithUnderscores, Luna
   'waning_crescent': 'waning crescent'
 };
 
-// Removed conflicting local definitions - now imported from @/types/celestial
-// Planet, PlanetaryAlignment, CelestialPosition, PlanetaryAspect are now imported
+export interface Planet {
+  name: PlanetName;
+  influence: number; // 0-1 scale indicating strength of influence
+  position?: string; // Optional zodiac position
+}
 
 export interface PlanetaryPosition {
   sign: ZodiacSign;
@@ -268,6 +252,20 @@ export interface PlanetaryPosition {
   element?: string;
   dignity?: string;
   isRetrograde?: boolean;
+}
+
+export interface PlanetaryAlignment {
+  sun: PlanetaryPosition;
+  moon: PlanetaryPosition;
+  mercury: PlanetaryPosition;
+  venus: PlanetaryPosition;
+  mars: PlanetaryPosition;
+  jupiter: PlanetaryPosition;
+  saturn: PlanetaryPosition;
+  uranus: PlanetaryPosition;
+  neptune: PlanetaryPosition;
+  pluto: PlanetaryPosition;
+  [key: string]: PlanetaryPosition; // Allow indexing with string
 }
 
 export interface PlanetaryHarmony {
@@ -295,10 +293,36 @@ export type AspectType =
   | 'quintile'
   | 'biquintile';
 
-// Removed conflicting PlanetaryAspect, DignityType, and CelestialPosition - now imported from @/types/celestial
+// Define PlanetaryAspect
+export interface PlanetaryAspect {
+  planet1: string;
+  planet2: string;
+  type: AspectType;
+  orb: number;
+  strength: number;
+  planets?: string[];
+  influence?: number;
+  additionalInfo?: Record<string, unknown>;
+}
+
+// Define Dignity type
+export type DignityType = 'Domicile' | 'Exaltation' | 'Detriment' | 'Fall' | 'Neutral';
+
+export interface CelestialPosition {
+  sign: ZodiacSign;
+  degree: number;
+  minute?: number;
+  position?: number;
+  retrograde?: boolean;
+  element?: Element;
+  dignity?: DignityType;
+}
 
 // Re-export AstrologicalState from celestial types
-export type { AstrologicalState } from "@/types/celestial";
+export { AstrologicalState } from "@/types/celestial";
+
+// Re-export standard types from celestial
+export { Planet, PlanetName, ZodiacSign, LunarPhase } from "@/types/celestial";
 
 export const COOKING_METHOD_THERMODYNAMICS = {};
 
@@ -479,7 +503,7 @@ export interface Cuisine {
 
 export type DietaryRestriction = 
   | 'Vegetarian' | 'Vegan' | 'Gluten-Free' | 'Dairy-Free' | 'Nut-Free'
-  | 'Shellfish-Free' | 'Soy-Free' | 'Egg-Free' | 'Low-Carb' | 'Low-Fat' | 'Keto'
+  | 'Shellfish-Free' | 'Soy-Free' | 'Egg-Free' | 'Low-Carb' | 'Keto'
   | 'Paleo' | 'Whole30' | 'Low-Sodium' | 'Sugar-Free' | 'Raw'
   | 'Halal' | 'Kosher' | 'Pescatarian' | 'Flexitarian';
 
@@ -559,9 +583,9 @@ export interface AstrologicalProfile {
 export interface FlavorProfile {
   primary: string[];
   secondary?: string[];
-  intensity?: number; // 1-10 scale, made optional to match usage
-  complexity?: number; // 1-10 scale
-  balance?: {
+  intensity: number; // 1-10 scale
+  complexity: number; // 1-10 scale
+  balance: {
     sweet?: number;
     sour?: number;
     salty?: number;
@@ -571,21 +595,6 @@ export interface FlavorProfile {
   };
   aromatics?: string[];
   mouthfeel?: string[];
-  
-  // Enhanced properties for ingredientUtils.ts support
-  spice?: number;
-  sweet?: number;
-  richness?: number;
-  earthy?: number;
-  aromatic?: number;
-  density?: number;
-  astringent?: number;
-  clarity?: number;
-  
-  // Additional properties from balance (no duplicates)
-  umami?: number;
-  bitter?: number;
-  sour?: number;
 }
 
 // MethodRecommendation and MethodRecommendationOptions (causing 2 errors each)
@@ -694,4 +703,4 @@ export type alchemicalValues = AlchemicalValues; // Lowercase version
 // Additional missing type exports
 export type BaseIngredient = Ingredient; // Alias for compatibility
 export type RecipeData = Recipe; // Alias for compatibility
-// Removed local AlchemicalProperty definition - now imported from @/types/celestial
+export type AlchemicalProperty = keyof AlchemicalProperties; // Type for individual properties

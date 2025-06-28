@@ -1,10 +1,9 @@
 "use client"
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { _calculatePlanetaryPositions, calculateAspects, longitudeToZodiacPosition, getPlanetaryDignity } from '@/utils/astrologyUtils';
-import { getCurrentSeason } from '@/utils/dateUtils';
+import { calculatePlanetaryPositions, calculateAspects, longitudeToZodiacPosition, getPlanetaryDignity } from '@/utils/astrologyUtils';
+import { getCurrentSeason } from '@/data/integrations/seasonal';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-import { PlanetaryAspect } from '@/types/celestial';
 
 // Default placeholder for planetary positions
 const getDefaultPlanetaryPositions = () => {
@@ -17,7 +16,7 @@ const getDefaultPlanetaryPositions = () => {
       return positions;
     }
   } catch (error) {
-    // console.error('Error getting reliable positions, using fallback:', error);
+    console.error('Error getting reliable positions, using fallback:', error);
   }
   
   // Fallback to hardcoded values if reliable calculation fails
@@ -33,7 +32,13 @@ const getDefaultPlanetaryPositions = () => {
   };
 };
 
-// Removed local PlanetaryAspect interface - now using authoritative definition from @/types/celestial
+interface PlanetaryAspect {
+  planet1: string;
+  planet2: string;
+  type: string;
+  orb: number;
+  strength: number;
+}
 
 export interface ChartData {
   planetaryPositions: Record<string, unknown>;
@@ -91,7 +96,7 @@ export const CurrentChartProvider: React.FC<{children: React.ReactNode}> = ({ ch
   const calculateStelliums = (positions: Record<string, unknown>): Record<string, string[]> => {
     const signGroups: Record<string, string[]> = {};
     Object.entries(positions).forEach(([planet, data]) => {
-      const planetData = data as unknown;
+      const planetData = data as any;
       if (planet === 'ascendant' || !data || !planetData?.sign) return;
       
       const sign = planetData.sign;
@@ -120,7 +125,7 @@ export const CurrentChartProvider: React.FC<{children: React.ReactNode}> = ({ ch
     };
 
     Object.entries(positions).forEach(([planet, data]) => {
-      const planetData = data as unknown;
+      const planetData = data as any;
       if (planet === 'ascendant' || !data || !planetData?.sign) return;
       
       const sign = planetData.sign;
@@ -169,19 +174,19 @@ export const CurrentChartProvider: React.FC<{children: React.ReactNode}> = ({ ch
     setError(null);
     
     try {
-      // console.log('Refreshing chart...');
+      console.log('Refreshing chart...');
       
       // Use alchemicalPositions if available, otherwise calculate new positions
       let positions = {};
       if (alchemicalPositions && Object.keys(alchemicalPositions).length > 0) {
         positions = alchemicalPositions;
-        // console.log('Using positions from AlchemicalContext');
+        console.log('Using positions from AlchemicalContext');
       } else {
         try {
           positions = await calculatePlanetaryPositions();
-          // console.log('Successfully calculated planetary positions');
+          console.log('Successfully calculated planetary positions');
         } catch (posError) {
-          // console.error('Error calculating planetary positions:', posError);
+          console.error('Error calculating planetary positions:', posError);
           // Use default positions as fallback
           positions = getDefaultPlanetaryPositions();
         }
@@ -202,14 +207,14 @@ export const CurrentChartProvider: React.FC<{children: React.ReactNode}> = ({ ch
         planetaryPositions: positions,
         aspects,
         elementalEffects,
-        currentSeason: _season,
+        currentSeason: season,
         lastUpdated: new Date(),
         stelliums,
         houseEffects
       });
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to update chart');
-      // console.error('Error updating chart:', err);
+      console.error('Error updating chart:', err);
     } finally {
       setLoading(false);
     }
@@ -221,7 +226,7 @@ export const CurrentChartProvider: React.FC<{children: React.ReactNode}> = ({ ch
     Object.entries(chart.planetaryPositions).forEach(([key, data]) => {
       if (key === 'ascendant') return;
       
-      const planetData = data as unknown;
+      const planetData = data as any;
       const planetName = key.charAt(0).toUpperCase() + key.slice(1);
       formattedPlanets[planetName] = {
         sign: planetData?.sign || 'Unknown',
@@ -232,7 +237,7 @@ export const CurrentChartProvider: React.FC<{children: React.ReactNode}> = ({ ch
     });
     
     // Create a basic SVG representation
-    const ascendantData = chart.planetaryPositions.ascendant as unknown;
+    const ascendantData = chart.planetaryPositions.ascendant as any;
     return {
       planetPositions: formattedPlanets,
       ascendantSign: ascendantData?.sign || 'Libra',
@@ -240,7 +245,7 @@ export const CurrentChartProvider: React.FC<{children: React.ReactNode}> = ({ ch
         <circle cx="150" cy="150" r="140" fill="none" stroke="#333" stroke-width="1"/>
         <text x="150" y="20" text-anchor="middle">Current Chart</text>
         ${Object.entries(formattedPlanets).map(([planet, data], index) => {
-          const planetInfo = data as unknown;
+          const planetInfo = data as any;
           const angle = (index * 30) % 360;
           const x = 150 + 120 * Math.cos(angle * Math.PI / 180);
           const y = 150 + 120 * Math.sin(angle * Math.PI / 180);
@@ -268,12 +273,12 @@ export const useCurrentChart = () => {
   }
   
   // Return the same interface that standalone hook would return for compatibility
-  const ascendantData = context.chart.planetaryPositions.ascendant as unknown;
+  const ascendantData = context.chart.planetaryPositions.ascendant as any;
   return {
     chartData: {
       planets: Object.entries(context.chart.planetaryPositions).reduce((acc, [key, data]) => {
         if (key === 'ascendant') return acc;
-        const planetData = data as unknown;
+        const planetData = data as any;
         const planetName = key.charAt(0).toUpperCase() + key.slice(1);
         acc[planetName] = {
           sign: planetData?.sign || 'Unknown',

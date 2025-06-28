@@ -69,16 +69,8 @@ export function calculateRecommendationScore(
   totalScore += elementalScore * elementalWeight;
   weightSum += elementalWeight;
   
-  // Zodiac compatibility (20% weight) - NOW INTEGRATED
-  if (astrologicalState.sunSign) {
-    const zodiacWeight = 0.2;
-    const zodiacScore = calculateZodiacScore(recipe, astrologicalState.sunSign);
-    totalScore += zodiacScore * zodiacWeight;
-    weightSum += zodiacWeight;
-  }
-
-  // Planetary compatibility (20% weight)
-  const planetaryWeight = 0.2;
+  // Planetary compatibility (25% weight)
+  const planetaryWeight = 0.25;
   const planetaryScore = calculatePlanetaryScore(recipe, astrologicalState.activePlanets?.[0] as PlanetName);
   totalScore += planetaryScore * planetaryWeight;
   weightSum += planetaryWeight;
@@ -179,7 +171,7 @@ function calculatePlanetaryScore(recipe: Recipe, planetName?: PlanetName): numbe
   // Apply Pattern H: Safe unknown type array casting
   const planetaryMatch = safeSome(recipe.astrologicalPropertiesInfluences as unknown[], influence => {
     // Apply surgical type casting with variable extraction
-    const influenceData = influence as unknown;
+    const influenceData = influence as any;
     const influenceLower = influenceData?.toLowerCase?.();
     const planetNameLower = planetName?.toLowerCase();
     
@@ -240,7 +232,7 @@ function calculateZodiacScore(recipe: Recipe, sunSign: ZodiacSign): number {
   // Check if recipe has zodiac-specific influences
   const zodiacMatch = safeSome(recipe.astrologicalPropertiesInfluences as unknown[], influence => {
     // Apply surgical type casting with variable extraction
-    const influenceDataZodiac = influence as unknown;
+    const influenceDataZodiac = influence as any;
     const influenceLowerZodiac = influenceDataZodiac?.toLowerCase?.();
     const sunSignLower = sunSign?.toLowerCase();
     

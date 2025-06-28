@@ -5,12 +5,12 @@ import { Moon, ArrowDown, Sunrise, Sunset, Navigation } from 'lucide-react';
 import { useServices } from '@/hooks/useServices';
 import { getCachedCalculation } from '@/utils/calculationCache';
 
-import { _PlanetaryPosition } from "@/types/celestial";
+import { PlanetaryPosition } from "@/types/celestial";
 /**
  * A utility function for logging debug information
  * This is a safe replacement for console.log that can be disabled in production
  */
-const debugLog = (message: string, ...args: unknown[]): void => {
+const debugLog = (message: string, ...args: any[]): void => {
   // Comment out console.log to avoid linting warnings
   // console.log(message, ...args);
 };
@@ -19,7 +19,7 @@ const debugLog = (message: string, ...args: unknown[]): void => {
  * A utility function for logging errors
  * This is a safe replacement for console.error that can be disabled in production
  */
-const errorLog = (message: string, ...args: unknown[]): void => {
+const errorLog = (message: string, ...args: any[]): void => {
   // Comment out console.error to avoid linting warnings
   // console.error(message, ...args);
 };
@@ -164,7 +164,7 @@ const MoonDisplayMigrated: React.FC = () => {
     if (!isLoading && !error && astrologyService) {
       const getLocation = async () => {
         try {
-          const location = await (astrologyService as unknown)?.getUserLocation?.();
+          const location = await (astrologyService as any)?.getUserLocation?.();
           if (location) {
             setCoordinates({
               latitude: location.latitude,
@@ -185,7 +185,7 @@ const MoonDisplayMigrated: React.FC = () => {
     if (!isLoading && !error && astrologyService) {
       const calculateTimes = async () => {
         try {
-          const times = await (astrologyService as unknown)?.getMoonTimes?.(new Date(), coordinates);
+          const times = await (astrologyService as any)?.getMoonTimes?.(new Date(), coordinates);
           
           if (times) {
             setMoonTimes({
@@ -235,7 +235,7 @@ const MoonDisplayMigrated: React.FC = () => {
           const phaseData = await astrologyService.getLunarPhaseData(false);
           
           if (phaseData) {
-            const phaseDataObj = phaseData as unknown;
+            const phaseDataObj = phaseData as any;
             setMoonPhase({
               phase: phaseDataObj?.phaseName || phaseDataObj?.phase || 'new_moon',
               phaseValue: phaseDataObj?.phaseValue || 0,

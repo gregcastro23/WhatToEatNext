@@ -9,12 +9,12 @@ import type {
   PlanetName 
 } from "@/types/alchemy";
 
-import { _CelestialPosition } from '@/types/celestial';
+import { CelestialPosition } from '@/types/celestial';
 /**
  * A utility function for logging debug information
  * This is a safe replacement for console.log that can be disabled in production
  */
-const debugLog = (message: string, ...args: unknown[]): void => {
+const debugLog = (message: string, ...args: any[]): void => {
   // Comment out console.log to avoid linting warnings
   // console.log(message, ...args);
 };
@@ -23,7 +23,7 @@ const debugLog = (message: string, ...args: unknown[]): void => {
  * A utility function for logging errors
  * This is a safe replacement for console.error that can be disabled in production
  */
-const errorLog = (message: string, ...args: unknown[]): void => {
+const errorLog = (message: string, ...args: any[]): void => {
   // Comment out console.error to avoid linting warnings
   // console.error(message, ...args);
 };
@@ -396,7 +396,7 @@ export function getCurrentAstrologicalState(): AstrologicalState {
     
     // Format lunar phase
     const phase = calculateLunarPhase();
-    const _lunarPhase = getLunarPhaseName(phase) as LunarPhase;
+    const lunarPhase = getLunarPhaseName(phase) as LunarPhase;
     
     // Provide Sun and Moon signs
     const sunSign = positions.Sun?.sign as ZodiacSign || 'aries';

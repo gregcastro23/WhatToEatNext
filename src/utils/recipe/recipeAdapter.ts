@@ -3,13 +3,13 @@ import type { Recipe,
   ScoredRecipe,
   ElementalProperties } from "@/types/recipe";
 
-import { _createElementalProperties } from '../elemental/elementalUtils';
-import { _toArray } from '../common/arrayUtils';
-import { _Element } from "@/types/alchemy";
+import { createElementalProperties } from '../elemental/elementalUtils';
+import { toArray } from '../common/arrayUtils';
+import { Element } from "@/types/alchemy";
 import { RecipeData } from '@/types/recipe';
 import { Ingredient } from '@/types/ingredient';
 
-import { _getRecipeElementalProperties, _getRecipeCookingMethods } from './recipeUtils';
+import { getRecipeElementalProperties, getRecipeCookingMethods } from './recipeUtils';
 
 /**
  * Safely converts a RecipeData object from data/recipes.ts to a type-safe Recipe object
@@ -19,9 +19,8 @@ import { _getRecipeElementalProperties, _getRecipeCookingMethods } from './recip
  * @returns A type-safe Recipe object
  */
 export function adaptRecipeData(recipeData: RecipeData): Recipe {
-  // Convert ingredients to the correct format with enhanced type safety
-  const rawIngredients = recipeData.ingredients || [];
-  const ingredients: RecipeIngredient[] = adaptIngredients(rawIngredients as unknown as Ingredient[]);
+  // Convert ingredients to the correct format
+  const ingredients: RecipeIngredient[] = adaptIngredients(recipeData.ingredients || []);
 
   // Create a base recipe with required properties
   const recipe: Recipe = {
@@ -29,7 +28,7 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
     name: recipeData.name || 'Unnamed Recipe',
     ingredients,
     instructions: recipeData.instructions || ['Combine ingredients and cook as desired.'],
-    elementalProperties: (recipeData as unknown)?.elementalState || {
+    elementalProperties: (recipeData as any)?.elementalState || {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
@@ -51,7 +50,7 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
   }
 
   // Handle time-related properties
-  const recipeDataAny = recipeData as unknown;
+  const recipeDataAny = recipeData as any;
   if (recipeDataAny?.timeToMake !== undefined) {
     recipe.timeToMake = recipeDataAny.timeToMake;
   }
@@ -133,7 +132,7 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
 
   // Handle nutrition information
   if (recipeData.nutrition) {
-    const nutritionData = recipeData.nutrition as unknown;
+    const nutritionData = recipeData.nutrition as any;
     recipe.nutrition = {
       calories: nutritionData?.calories || 0, 
       protein: nutritionData?.protein || nutritionData?.macronutrients?.protein || 0, 
@@ -268,7 +267,7 @@ export function adaptAllRecipes(recipeDataArray: RecipeData[]): Recipe[] {
  * @returns ElementalProperties object
  */
 export function extractElementalProperties(recipeData: RecipeData): ElementalProperties {
-  const recipeDataAny = recipeData as unknown;
+  const recipeDataAny = recipeData as any;
   if (recipeDataAny?.elementalState) {
     return recipeDataAny.elementalState;
   }

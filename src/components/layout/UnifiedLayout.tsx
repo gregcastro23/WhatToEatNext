@@ -5,7 +5,7 @@ import { ErrorBoundary } from '../error-handling/ErrorBoundary';
 import { StateDebugger } from '../debug/StateDebugger';
 import { Filter } from 'lucide-react';
 
-import { _Element } from "@/types/alchemy";
+import { Element } from "@/types/alchemy";
 interface UnifiedLayoutProps {
   children: React.ReactNode;
   mode?: 'full' | 'simple' | 'sidebar';

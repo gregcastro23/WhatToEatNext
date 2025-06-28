@@ -4,10 +4,11 @@ import { useState, useEffect } from 'react';
 import { ElementalCalculator } from '@/services/ElementalCalculator';
 import { getIngredientRecommendations, IngredientRecommendation, RecommendationOptions, GroupedIngredientRecommendations } from '@/utils/ingredientRecommender';
 import styles from './IngredientRecommendations.module.css';
-import type { ElementalProperties, ZodiacSign, Season, ElementalState , Ingredient } from '@/types/alchemy';
+import type { ElementalProperties, ZodiacSign, Season, ElementalState } from '@/types/alchemy';
 import { useAstrologicalState } from '@/hooks/useAstrologicalState';
 import { Flame, Droplets, Mountain, Wind } from 'lucide-react';
 import { toZodiacSign } from '@/utils/zodiacUtils';
+import type { Ingredient } from '@/types/alchemy';
 import { calculateAlchemicalProperties, calculateThermodynamicProperties, determineIngredientModality } from '@/utils/ingredientUtils';
 import type { Modality } from '@/data/ingredients/types';
 
@@ -19,7 +20,7 @@ function getRecommendations(
   const astroData = useAstrologicalState();
   
   // Apply safe type casting for astrological data access
-  const astroState = astroData as unknown;
+  const astroState = astroData as any;
   const planetaryPositions = astroState?.planetaryPositions;
   const moonPhase = astroState?.moonPhase;
   const aspects = astroState?.aspects;
@@ -51,7 +52,7 @@ function getRecommendations(
   };
   
   // Use the proper utility function with the actual data
-  return getIngredientRecommendations(astroStateData as unknown, _options);
+  return getIngredientRecommendations(astroStateData as any, options);
 }
 
 interface IngredientRecommendationsProps {
@@ -64,7 +65,7 @@ export default function IngredientRecommendations({
   const { currentZodiac } = useAstrologicalState();
   
   // Use the helper function to ensure valid ZodiacSign
-  const _zodiacSign = toZodiacSign(currentZodiac);
+  const zodiacSign = toZodiacSign(currentZodiac);
   
   const [recommendations, setRecommendations] = useState<GroupedIngredientRecommendations>({});
   const [loading, setLoading] = useState(true);
@@ -89,7 +90,7 @@ export default function IngredientRecommendations({
     };
     
     // Use our adapter function with modality filtering
-    const recommendedIngredients = getRecommendations(targetElements, _options);
+    const recommendedIngredients = getRecommendations(targetElements, options);
     
     setRecommendations(recommendedIngredients);
     setLoading(false);
@@ -138,8 +139,8 @@ export default function IngredientRecommendations({
     };
     
     // Format the match percentage from score
-    const matchPercentage = (ingredient as unknown)?.score !== undefined && !isNaN((ingredient as unknown)?.score) 
-      ? `${Math.round((ingredient as unknown)?.score * 100)}%`
+    const matchPercentage = (ingredient as any)?.score !== undefined && !isNaN((ingredient as any)?.score) 
+      ? `${Math.round((ingredient as any)?.score * 100)}%`
       : '50%';
     
     return (
@@ -147,7 +148,7 @@ export default function IngredientRecommendations({
         <div className={styles.header}>
           <h3 className={styles.ingredientName}>{ingredient.name}</h3>
           <div className={styles.category}>{ingredient.category}</div>
-          {(ingredient as unknown)?.score && (
+          {(ingredient as any)?.score && (
             <div className={styles.matchScore}>
               Match: <span className={styles.scoreValue}>{matchPercentage}</span>
             </div>
@@ -204,9 +205,9 @@ export default function IngredientRecommendations({
         {/* Flavor Profile */}
         <div className="flavor-profile">
           <h4>Flavor Profile</h4>
-          {(ingredient as unknown)?.sensoryProfile && (
+          {(ingredient as any)?.sensoryProfile && (
             <div className={styles.sensoryHighlights}>
-              {Object.entries((ingredient as unknown)?.sensoryProfile?.taste || {})
+              {Object.entries((ingredient as any)?.sensoryProfile?.taste || {})
                 .filter(([_, value]) => (value as number) > 0.6)
                 .slice(0, 3)
                 .map(([type, value]) => (
@@ -272,7 +273,7 @@ export default function IngredientRecommendations({
   // Display a compact ingredient card
   const renderCompactIngredientCard = (ingredient: IngredientRecommendation) => {
     // Apply safe type casting for ingredient access
-    const ingredientData = ingredient as unknown;
+    const ingredientData = ingredient as any;
     const score = ingredientData?.score;
     
     // Get elemental properties
@@ -403,7 +404,7 @@ export default function IngredientRecommendations({
             className={`${styles.select} ${styles.modalitySelect}`}
             value={modalityFilter}
             onChange={(e) => {
-              // console.log("Setting modality filter to:", e.target.value);
+              console.log("Setting modality filter to:", e.target.value);
               setModalityFilter(e.target.value);
             }}
           >

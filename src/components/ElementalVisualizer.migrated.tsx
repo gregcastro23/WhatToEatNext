@@ -1,5 +1,5 @@
 'use client';
-import { _ElementalProperties } from '@/types';
+import { ElementalProperties } from '@/types';
 import React, { useMemo, useState, useCallback, useRef } from 'react';
 import { useServices } from '@/hooks/useServices';
 
@@ -52,7 +52,7 @@ function generateCacheKey(elementalProps: ElementalProperties, userProps?: Eleme
 }
 
 // Helper function to manage cache size
-function addToCache(key: string, value: Record<string, unknown>): void {
+function addToCache(key: string, value: any): void {
   if (calculationCache.size >= MAX_CACHE_SIZE) {
     // Remove the oldest entry (first inserted)
     const firstKey = calculationCache.keys()?.next().value;

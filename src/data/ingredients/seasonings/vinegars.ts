@@ -5,7 +5,7 @@ import { fixIngredientMappings } from '@/utils/elementalUtils';
 // Helper function to standardize ingredient mappings
 function createIngredientMapping(
   id: string,
-  properties: Record<string, unknown>
+  properties: any
 ) {
   return {
     name: id, // Add the required name property

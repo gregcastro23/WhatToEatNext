@@ -1,4 +1,4 @@
-import { _Element } from "@/types/alchemy";
+import { Element } from "@/types/alchemy";
 
 /**
  * Element Compatibility Module

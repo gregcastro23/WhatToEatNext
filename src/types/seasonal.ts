@@ -1,4 +1,4 @@
-import { _ElementalProperties } from './alchemy';
+import { ElementalProperties } from './alchemy';
 
 export type Season = 'spring' | 'summer' | 'fall' | 'winter';
 

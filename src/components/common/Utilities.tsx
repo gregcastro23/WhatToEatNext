@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Script from 'next/script';
 
-import { _Element } from "@/types/alchemy";
+import { Element } from "@/types/alchemy";
 // Clock Component
 interface ClockProps {
   format?: '12h' | '24h';

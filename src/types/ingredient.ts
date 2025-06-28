@@ -9,10 +9,6 @@ import type {
 import type { ElementalProperties } from './alchemy';
 import type { ZodiacSign, LunarPhase, PlanetaryAlignment } from './astrology';
 
-// Re-export commonly used types for convenience
-export type { ElementalProperties } from './alchemy';
-export type { ZodiacSign, LunarPhase, PlanetaryAlignment } from './astrology';
-
 export interface Ingredient {
   id?: string;
   name: string;
@@ -81,7 +77,7 @@ export interface Ingredient {
   varieties?: Record<string, any>;
   
   // Allow additional properties for extensibility
-  [key: string]: Record<string, unknown>;
+  [key: string]: any;
 } 
 
 // ========== MISSING TYPE FOR TS2305 FIXES ==========

@@ -1,5 +1,5 @@
 import { Recipe } from '@/types/recipe';
-import { _Element , _ElementalProperties } from "@/types/alchemy";
+import { Element , ElementalProperties } from "@/types/alchemy";
 
 /**
  * Data Utils Index

@@ -1,5 +1,5 @@
 import type { AlchemicalState } from '@/contexts/alchemicalTypes'
-import { logger } from '@/utils/logger';
+import { logger } from '@/utils/logger'
 import { errorHandler } from '@/services/errorHandler'
 
 // Define type for recipe objects
@@ -52,7 +52,7 @@ class StateValidator {
 
       // Validate celestial positions
       // Apply surgical type casting with variable extraction
-      const stateData = state as unknown as Record<string, unknown>;
+      const stateData = state as any;
       const celestialPositions = stateData?.celestialPositions;
       
       if (!celestialPositions || typeof celestialPositions !== 'object') {
