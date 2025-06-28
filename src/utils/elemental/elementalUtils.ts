@@ -1,5 +1,4 @@
 import { ElementalProperties , Element } from "@/types/alchemy";
-// DUPLICATE: import { ElementalProperties } from "@/types/alchemy";
 
 /**
  * Creates a properly initialized ElementalProperties object with default values

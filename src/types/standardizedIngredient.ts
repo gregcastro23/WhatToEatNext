@@ -405,7 +405,7 @@ export interface StandardizedIngredient {
   };
   
   // Flexible extension for future properties
-  [key: string]: Record<string, unknown>;
+  [key: string]: unknown;
 }
 
 // Type guards for safe data access

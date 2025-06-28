@@ -195,7 +195,7 @@ function buildCompleteRecipe(recipe: any, cuisineName: string): any {
 }
 
 // Add this function before the component export
-function calculateElementalMatch(
+function calculateLocalElementalMatch(
   recipeElements: ElementalProperties,
   userElements: ElementalProperties
 ): number {
@@ -336,8 +336,7 @@ export default function CuisineRecommender() {
     } else if (currentZodiac) {
       // If no elemental state but we have zodiac, calculate based on that
       let zodiacElements = calculateElementalProfileFromZodiac(
-        currentZodiac as ZodiacSign,
-        lunarPhase as LunarPhase
+        currentZodiac as ZodiacSign
       );
       setCurrentMomentElementalProfile(zodiacElements);
     }
@@ -591,10 +590,10 @@ export default function CuisineRecommender() {
         };
         
         // Calculate cuisine-sauce elemental match
-        const cuisineMatchScore = calculateElementalMatch(sauceElements, cuisineElements);
+        const cuisineMatchScore = calculateLocalElementalMatch(sauceElements, cuisineElements);
         
         // Calculate match with current celestial alignment
-        const userMatchScore = calculateElementalMatch(sauceElements, userElements);
+        const userMatchScore = calculateLocalElementalMatch(sauceElements, userElements);
         
         // Calculate combined match score (weighted toward cuisine match)
         const combinedScore = (cuisineMatchScore * 0.7) + (userMatchScore * 0.3);
@@ -645,7 +644,7 @@ export default function CuisineRecommender() {
         const sauceName = sauceData?.name;
         
         return {
-          ...sauce,
+          ...(sauce && typeof sauce === 'object' ? sauce : {}),
           id: sauceId || sauceName?.replace(/\s+/g, '-').toLowerCase(),
           matchPercentage,
           elementalMatchScore: Math.round(cuisineMatchScore * 100),
@@ -704,7 +703,7 @@ export default function CuisineRecommender() {
       // Calculate better score if we have astrological data
       if (astroState && astroState.elementalState) {
         // Match cuisine elemental properties with current elemental state
-        score = calculateElementalMatch(
+        score = calculateLocalElementalMatch(
           cuisine.elementalAlignment || cuisine.elementalProperties || {
             Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
           },

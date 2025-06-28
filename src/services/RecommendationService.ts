@@ -393,35 +393,6 @@ export class RecommendationService {
     return this.cuisines.find(item => item.id === id);
   }
 
-  /**
-   * Get dominant element based on transformed ingredients
-   */
-  getDominantElement(): ElementalCharacter | null {
-    if (this.transformedIngredients  || [].length === 0) return null;
-    
-    // Get top ingredient and return its dominant element
-    const topItems = this.getSortedItems(this.transformedIngredients, 3);
-    if ((topItems || []).length === 0) return null;
-    
-    // Use the most common dominant element among top items
-    const elementCounts: Record<ElementalCharacter, number> = { Fire: 0, Water: 0, Earth: 0, Air: 0
-     };
-    
-    (topItems || []).forEach(item => {
-      // Safe property access for dominantElement
-      const dominantElement = (item as any)?.dominantElement;
-      if (dominantElement && elementCounts[dominantElement as ElementalCharacter] !== undefined) {
-        elementCounts[dominantElement as ElementalCharacter]++;
-      }
-    });
-    
-    // Find the element with the highest count
-    return Object.entries(elementCounts)
-      .reduce((max, [element, count]) => 
-        count > max.count ? { element: element as ElementalCharacter, count } : max, 
-        { element: 'Fire' as ElementalCharacter, count: 0 }
-      ).element;
-  }
 
   /**
    * Recommend recipes based on current planetary and elemental influences
@@ -595,9 +566,7 @@ export class RecommendationService {
       try {
         const compatibilityResult = calculateRecipeCompatibility(
           recipe,
-          astrologicalState,
-          location.lat,
-          location.lng
+          astrologicalState
         );
         // Extract numerical score from the result object
         advancedScore = typeof compatibilityResult === 'number' 

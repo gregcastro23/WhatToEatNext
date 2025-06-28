@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ElementalProperties } from '../types/elemental';
+import { ElementalProperties } from '@/types/alchemy';
 import { NutritionalProfile } from '../types/nutrition';
 import { 
   SpoonacularNutrient, 

@@ -239,7 +239,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
    */
   getIngredientsBySubcategory(subcategory: string): UnifiedIngredient[] {
     try {
-      return Object.values(unifiedIngredients || {}).filter(ingredient => ingredient.subcategory?.toLowerCase() === subcategory?.toLowerCase()
+      return Object.values(unifiedIngredients || {}).filter(ingredient => ingredient.subCategory?.toLowerCase() === subcategory?.toLowerCase()
       );
     } catch (error) {
       errorHandler.logError(error, {
@@ -927,7 +927,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
    */
   private isVegetarianProtein(ingredient: UnifiedIngredient): boolean {
     const nonVegetarianCategories = ['meat', 'poultry', 'seafood'];
-    return !nonVegetarianCategories.includes(ingredient.subcategory || '');
+    return !nonVegetarianCategories.includes(ingredient.subCategory || '');
   }
   
   /**
@@ -935,7 +935,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
    */
   private isVeganProtein(ingredient: UnifiedIngredient): boolean {
     const nonVeganCategories = ['meat', 'poultry', 'seafood', 'dAiry', 'eggs'];
-    return !nonVeganCategories.includes(ingredient.subcategory || '');
+    return !nonVeganCategories.includes(ingredient.subCategory || '');
   }
   
   /**
@@ -1018,7 +1018,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       }
       
       // Check subcategory
-      if (ingredient.subcategory?.toLowerCase()?.includes(normalizedQuery)) {
+      if (ingredient.subCategory?.toLowerCase()?.includes(normalizedQuery)) {
         return true;
       }
       

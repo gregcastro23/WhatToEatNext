@@ -3,7 +3,7 @@ import React from 'react';
 interface FoodBalanceTrackerProps {
   showCuisineSelection?: boolean;
   showElementalFeatures?: boolean;
-  [key: string]: Record<string, unknown>;
+  [key: string]: unknown;
 }
 
 const FoodBalanceTracker: React.FC<FoodBalanceTrackerProps> = ({

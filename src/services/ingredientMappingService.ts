@@ -208,8 +208,8 @@ class IngredientMappingService {
       'spice': ['protein', 'vegetable', 'fruit']
     };
     
-    const category1 = mapping1.category;
-    const category2 = mapping2.category;
+    const category1 = mapping1.category as string;
+    const category2 = mapping2.category as string;
     
     if (category1 && category2) {
       // Same category usually works well together

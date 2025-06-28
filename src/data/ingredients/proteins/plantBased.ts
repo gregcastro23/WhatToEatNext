@@ -4,11 +4,12 @@ import type {
   ZodiacSign,
 } from '@/types/alchemy';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
+import type { IngredientMapping } from '@/data/ingredients/types';
 
 // Helper function to standardize ingredient mappings
 function createIngredientMapping(
   id: string,
-  properties: Partial<Ingredient>
+  properties: Partial<Ingredient> & Record<string, any>
 ): Ingredient {
   return {
     id: id,
@@ -1611,11 +1612,13 @@ const rawPlantBased: Record<string, Ingredient> = {
 };
 
 // Fix the ingredient mappings to ensure they have all required properties
-export const plantBased: IngredientMapping =
-  fixIngredientMappings(rawPlantBased);
+import type { IngredientMapping } from '@/data/ingredients/types';
+// Type fix: ensure output is IngredientMapping, then cast for compatibility
+const mappedPlantBased: IngredientMapping = fixIngredientMappings(rawPlantBased as Record<string, IngredientMapping>);
+export const plantBased: Record<string, Ingredient> = mappedPlantBased as Record<string, Ingredient>;
 
 // Add validation for elemental sums
-(Object.entries(plantBased) as [string, IngredientMapping][]).forEach(([id, ingredient]) => {
+(Object.entries(plantBased) as [string, Ingredient][]).forEach(([id, ingredient]) => {
   if (!ingredient.elementalProperties) return;
 
   let sum = Object.values(ingredient.elementalProperties).reduce(

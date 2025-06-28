@@ -1,4 +1,4 @@
-import type { Recipe } from '@/types/recipe';
+import type { Recipe, ScoredRecipe } from '@/types/recipe';
 import type { ElementalProperties } from '@/types/alchemy';
 
 /**
@@ -25,11 +25,28 @@ import type {
 
 import type {
   RecipeSearchCriteria, 
-  RecipeRecommendationOptions 
+  RecipeRecommendationOptions,
+  RecipeServiceInterface
 } from './interfaces/RecipeServiceInterface';
 
+import type {
+  ApiResponse,
+  GetRecipeByIdParams,
+  GetRecipesByCuisineParams,
+  GetRecipesByZodiacParams,
+  GetRecipesBySeasonParams,
+  GetRecipesByLunarPhaseParams,
+  GetRecipesByMealTypeParams,
+  GetRecipesForPlanetaryAlignmentParams,
+  GetRecipesForFlavorProfileParams,
+  GetBestRecipeMatchesParams,
+  SearchRecipesParams,
+  GenerateRecipeParams,
+  GenerateFusionRecipeParams,
+  AdaptRecipeForSeasonParams
+} from './interfaces/RecipeApiInterfaces';
+
 // Missing service imports
-import type { RecipeServiceInterface } from './interfaces/RecipeServiceInterface';
 import { ConsolidatedRecipeService } from './ConsolidatedRecipeService';
 import { errorHandler } from '@/utils/errorHandler';
 
@@ -62,208 +79,367 @@ export class RecipeFinder implements RecipeServiceInterface {
   /**
    * Get all available recipes
    */
-  async getAllRecipes(): Promise<Recipe[]> {
+  async getAllRecipes(): Promise<ApiResponse<Recipe[]>> {
     try {
-      return await this.recipeService.getAllRecipes();
+      const recipes = await this.recipeService.getAllRecipes();
+      return {
+        success: true,
+        data: recipes,
+        metadata: {
+          timestamp: Date.now(),
+          version: '1.0.0',
+          count: recipes.length
+        }
+      };
     } catch (error) {
-      errorHandler.log(error, {
-        context: 'RecipeFinder',
-        action: 'getAllRecipes',
-      });
-      return [];
+      errorHandler.log(error instanceof Error ? error : new Error(String(error)), { context: { service: 'RecipeFinder', action: 'getAllRecipes', data: {} } });
+      return {
+        success: false,
+        error: {
+          code: 'DATA_SOURCE_ERROR',
+          message: 'Failed to retrieve recipes',
+          details: error instanceof Error ? error.message : 'Unknown error'
+        }
+      };
     }
   }
   
   /**
    * Search for recipes based on criteria
    */
-  async searchRecipes(
-    criteria: RecipeSearchCriteria, 
-    options: RecipeRecommendationOptions = {}
-  ): Promise<Recipe[]> {
+  async searchRecipes(params: SearchRecipesParams): Promise<ApiResponse<Recipe[]>> {
     try {
-      return await this.recipeService.searchRecipes(criteria, options);
+      const recipes = await this.recipeService.searchRecipes(params.criteria, params.options);
+      return {
+        success: true,
+        data: recipes,
+        metadata: {
+          timestamp: Date.now(),
+          version: '1.0.0',
+          count: recipes.length
+        }
+      };
     } catch (error) {
-      errorHandler.log(error, {
-        context: 'RecipeFinder',
-        action: 'searchRecipes',
-        data: criteria,
-      });
-      return [];
+      errorHandler.log(error instanceof Error ? error : new Error(String(error)), { context: { service: 'RecipeFinder', action: 'searchRecipes', data: params.criteria } });
+      return {
+        success: false,
+        error: {
+          code: 'PROCESSING_ERROR',
+          message: 'Failed to search recipes',
+          details: error instanceof Error ? error.message : 'Unknown error'
+        }
+      };
     }
   }
   
   /**
    * Get recipes by cuisine
    */
-  async getRecipesByCuisine(cuisine: string): Promise<Recipe[]> {
+  async getRecipesByCuisine(params: GetRecipesByCuisineParams): Promise<ApiResponse<Recipe[]>> {
     try {
-      return await this.recipeService.getRecipesByCuisine(cuisine);
+      const recipes = await this.recipeService.getRecipesByCuisine(params.cuisine);
+      return {
+        success: true,
+        data: recipes,
+        metadata: {
+          timestamp: Date.now(),
+          version: '1.0.0',
+          count: recipes.length
+        }
+      };
     } catch (error) {
-      errorHandler.log(error, {
-        context: 'RecipeFinder',
-        action: 'getRecipesByCuisine',
-        data: cuisine,
-      });
-      return [];
+      errorHandler.log(error instanceof Error ? error : new Error(String(error)), { context: { service: 'RecipeFinder', action: 'getRecipesByCuisine', data: params.cuisine } });
+      return {
+        success: false,
+        error: {
+          code: 'DATA_SOURCE_ERROR',
+          message: 'Failed to retrieve cuisine recipes',
+          details: error instanceof Error ? error.message : 'Unknown error'
+        }
+      };
     }
   }
   
   /**
    * Get recipes by zodiac sign
    */
-  async getRecipesByZodiac(currentZodiacSign: ZodiacSign): Promise<Recipe[]> {
+  async getRecipesByZodiac(params: GetRecipesByZodiacParams): Promise<ApiResponse<Recipe[]>> {
     try {
-      return await this.recipeService.getRecipesByZodiac(currentZodiacSign);
+      const recipes = await this.recipeService.getRecipesByZodiac(params.currentZodiacSign);
+      return {
+        success: true,
+        data: recipes,
+        metadata: {
+          timestamp: Date.now(),
+          version: '1.0.0',
+          count: recipes.length
+        }
+      };
     } catch (error) {
-      errorHandler.log(error, {
-        context: 'RecipeFinder',
-        action: 'getRecipesByZodiac',
-        data: currentZodiacSign,
-      });
-      return [];
+      errorHandler.log(error instanceof Error ? error : new Error(String(error)), { context: { service: 'RecipeFinder', action: 'getRecipesByZodiac', data: params.currentZodiacSign } });
+      return {
+        success: false,
+        error: {
+          code: 'DATA_SOURCE_ERROR',
+          message: 'Failed to retrieve zodiac recipes',
+          details: error instanceof Error ? error.message : 'Unknown error'
+        }
+      };
     }
   }
   
   /**
    * Get recipes by season
    */
-  async getRecipesBySeason(season: Season): Promise<Recipe[]> {
+  async getRecipesBySeason(params: GetRecipesBySeasonParams): Promise<ApiResponse<Recipe[]>> {
     try {
-      return await this.recipeService.getRecipesBySeason(season);
+      const recipes = await this.recipeService.getRecipesBySeason(params.season);
+      return {
+        success: true,
+        data: recipes,
+        metadata: {
+          timestamp: Date.now(),
+          version: '1.0.0',
+          count: recipes.length
+        }
+      };
     } catch (error) {
-      errorHandler.log(error, {
-        context: 'RecipeFinder',
-        action: 'getRecipesBySeason',
-        data: season,
-      });
-      return [];
+      errorHandler.log(error instanceof Error ? error : new Error(String(error)), { context: { service: 'RecipeFinder', action: 'getRecipesBySeason', data: params.season } });
+      return {
+        success: false,
+        error: {
+          code: 'DATA_SOURCE_ERROR',
+          message: 'Failed to retrieve seasonal recipes',
+          details: error instanceof Error ? error.message : 'Unknown error'
+        }
+      };
     }
   }
   
   /**
    * Get recipes by lunar phase
    */
-  async getRecipesByLunarPhase(lunarPhase: LunarPhase): Promise<Recipe[]> {
+  async getRecipesByLunarPhase(params: GetRecipesByLunarPhaseParams): Promise<ApiResponse<Recipe[]>> {
     try {
-      return await this.recipeService.getRecipesByLunarPhase(lunarPhase);
+      const recipes = await this.recipeService.getRecipesByLunarPhase(params.lunarPhase);
+      return {
+        success: true,
+        data: recipes,
+        metadata: {
+          timestamp: Date.now(),
+          version: '1.0.0',
+          count: recipes.length
+        }
+      };
     } catch (error) {
-      errorHandler.log(error, {
-        context: 'RecipeFinder',
-        action: 'getRecipesByLunarPhase',
-        data: lunarPhase,
-      });
-      return [];
+      errorHandler.log(error instanceof Error ? error : new Error(String(error)), { context: { service: 'RecipeFinder', action: 'getRecipesByLunarPhase', data: params.lunarPhase } });
+      return {
+        success: false,
+        error: {
+          code: 'DATA_SOURCE_ERROR',
+          message: 'Failed to retrieve lunar phase recipes',
+          details: error instanceof Error ? error.message : 'Unknown error'
+        }
+      };
     }
   }
   
   /**
    * Get recipes by meal type
    */
-  async getRecipesByMealType(mealType: string): Promise<Recipe[]> {
+  async getRecipesByMealType(params: GetRecipesByMealTypeParams): Promise<ApiResponse<Recipe[]>> {
     try {
-      return await this.recipeService.getRecipesByMealType(mealType);
+      const recipes = await this.recipeService.getRecipesByMealType(params.mealType);
+      return {
+        success: true,
+        data: recipes,
+        metadata: {
+          timestamp: Date.now(),
+          version: '1.0.0',
+          count: recipes.length
+        }
+      };
     } catch (error) {
-      errorHandler.log(error, {
-        context: 'RecipeFinder',
-        action: 'getRecipesByMealType',
-        data: mealType,
-      });
-      return [];
+      errorHandler.log(error instanceof Error ? error : new Error(String(error)), { context: { service: 'RecipeFinder', action: 'getRecipesByMealType', data: params.mealType } });
+      return {
+        success: false,
+        error: {
+          code: 'DATA_SOURCE_ERROR',
+          message: 'Failed to retrieve meal type recipes',
+          details: error instanceof Error ? error.message : 'Unknown error'
+        }
+      };
     }
   }
   
   /**
    * Get recipes that match current planetary alignments
    */
-  async getRecipesForPlanetaryAlignment(
-    planetaryInfluences: { [key: string]: number },
-    minMatchScore: number = 0.6,
-  ): Promise<Recipe[]> {
+  async getRecipesForPlanetaryAlignment(params: GetRecipesForPlanetaryAlignmentParams): Promise<ApiResponse<Recipe[]>> {
     try {
-      return await this.recipeService.getRecipesForPlanetaryAlignment(
-        planetaryInfluences,
-        minMatchScore
+      const recipes = await this.recipeService.getRecipesForPlanetaryAlignment(
+        params.planetaryInfluences,
+        params.minMatchScore
       );
+      return {
+        success: true,
+        data: recipes,
+        metadata: {
+          timestamp: Date.now(),
+          version: '1.0.0',
+          count: recipes.length
+        }
+      };
     } catch (error) {
-      errorHandler.log(error, {
-        context: 'RecipeFinder',
-        action: 'getRecipesForPlanetaryAlignment',
-        data: { planetaryInfluences, minMatchScore }
-      });
-      return [];
+      errorHandler.log(error instanceof Error ? error : new Error(String(error)), { context: { service: 'RecipeFinder', action: 'getRecipesForPlanetaryAlignment', data: { planetaryInfluences: params.planetaryInfluences, minMatchScore: params.minMatchScore } } });
+      return {
+        success: false,
+        error: {
+          code: 'PROCESSING_ERROR',
+          message: 'Failed to retrieve planetary alignment recipes',
+          details: error instanceof Error ? error.message : 'Unknown error'
+        }
+      };
     }
   }
   
   /**
    * Get recipes that match a given flavor profile
    */
-  async getRecipesForFlavorProfile(
-    flavorProfile: { [key: string]: number },
-    minMatchScore: number = 0.7,
-  ): Promise<Recipe[]> {
+  async getRecipesForFlavorProfile(params: GetRecipesForFlavorProfileParams): Promise<ApiResponse<Recipe[]>> {
     try {
-      return await this.recipeService.getRecipesForFlavorProfile(
-        flavorProfile,
-        minMatchScore
+      const recipes = await this.recipeService.getRecipesForFlavorProfile(
+        params.flavorProfile,
+        params.minMatchScore
       );
+      return {
+        success: true,
+        data: recipes,
+        metadata: {
+          timestamp: Date.now(),
+          version: '1.0.0',
+          count: recipes.length
+        }
+      };
     } catch (error) {
-      errorHandler.log(error, {
-        context: 'RecipeFinder',
-        action: 'getRecipesForFlavorProfile',
-        data: { flavorProfile, minMatchScore }
-      });
-      return [];
+      errorHandler.log(error instanceof Error ? error : new Error(String(error)), { context: { service: 'RecipeFinder', action: 'getRecipesForFlavorProfile', data: { flavorProfile: params.flavorProfile, minMatchScore: params.minMatchScore } } });
+      return {
+        success: false,
+        error: {
+          code: 'PROCESSING_ERROR',
+          message: 'Failed to retrieve flavor profile recipes',
+          details: error instanceof Error ? error.message : 'Unknown error'
+        }
+      };
     }
   }
   
   /**
    * Get best recipe matches based on multiple criteria
    */
-  async getBestRecipeMatches(
-    criteria: {
-      cuisine?: string;
-      flavorProfile?: { [key: string]: number };
-      season?: Season;
-      zodiacSign?: ZodiacSign;
-      lunarPhase?: LunarPhase;
-      planetName?: PlanetName;
-      elementalFocus?: Element;
-      maxResults?: number;
-    }
-  ): Promise<Recipe[]> {
+  async getBestRecipeMatches(params: GetBestRecipeMatchesParams): Promise<ApiResponse<ScoredRecipe[]>> {
     try {
-      return await this.recipeService.getBestRecipeMatches(criteria, criteria.maxResults || 10);
+      const recipes = await this.recipeService.getBestRecipeMatches(params.criteria, 10);
+      // Convert recipes to scored recipes if they don't already have scores
+      const scoredRecipes: ScoredRecipe[] = recipes.map((recipe, index) => ({
+        ...recipe,
+        score: recipe.score ?? (1 - index * 0.1) // Assign decreasing scores if not present
+      }));
+      
+      return {
+        success: true,
+        data: scoredRecipes,
+        metadata: {
+          timestamp: Date.now(),
+          version: '1.0.0',
+          count: scoredRecipes.length
+        }
+      };
     } catch (error) {
-      errorHandler.log(error, {
-        context: 'RecipeFinder',
-        action: 'getBestRecipeMatches',
-        data: { criteria }
-      });
-      return [];
+      errorHandler.log(error instanceof Error ? error : new Error(String(error)), { context: { service: 'RecipeFinder', action: 'getBestRecipeMatches', data: { criteria: params.criteria } } });
+      return {
+        success: false,
+        error: {
+          code: 'PROCESSING_ERROR',
+          message: 'Failed to get best recipe matches',
+          details: error instanceof Error ? error.message : 'Unknown error'
+        }
+      };
+    }
+  }
+  
+  /**
+   * Get a recipe by its ID
+   */
+  async getRecipeById(params: GetRecipeByIdParams): Promise<ApiResponse<Recipe>> {
+    try {
+      // Since ConsolidatedRecipeService doesn't have getRecipeById, we'll search for it
+      const allRecipes = await this.recipeService.getAllRecipes();
+      const recipe = allRecipes.find(r => r.id === params.id);
+      
+      if (!recipe) {
+        return {
+          success: false,
+          error: {
+            code: 'RECIPE_NOT_FOUND',
+            message: `Recipe with ID ${params.id} not found`,
+            details: 'The requested recipe does not exist in the database'
+          }
+        };
+      }
+      
+      return {
+        success: true,
+        data: recipe,
+        metadata: {
+          timestamp: Date.now(),
+          version: '1.0.0'
+        }
+      };
+    } catch (error) {
+      errorHandler.log(error instanceof Error ? error : new Error(String(error)), { context: { service: 'RecipeFinder', action: 'getRecipeById', data: { id: params.id } } });
+      return {
+        success: false,
+        error: {
+          code: 'RECIPE_NOT_FOUND',
+          message: 'Failed to retrieve recipe',
+          details: error instanceof Error ? error.message : 'Unknown error'
+        }
+      };
     }
   }
   
   /**
    * Generate a recipe based on criteria
    */
-  async generateRecipe(criteria: RecipeSearchCriteria): Promise<Recipe> {
+  async generateRecipe(params: GenerateRecipeParams): Promise<ApiResponse<Recipe>> {
     try {
-      return await this.recipeService.generateRecipe(criteria);
-    } catch (error) {
-      errorHandler.log(error, {
-        context: 'RecipeFinder',
-        action: 'generateRecipe',
-        data: criteria,
-      });
-      // Return an empty recipe on error
+      const recipe = await this.recipeService.generateRecipe(params.criteria);
       return {
-        id: 'error',
-        name: 'Error generating recipe',
-        ingredients: [],
-        instructions: [],
-        cuisine: 'Unknown',
-        elementalProperties: { Fire: 0, Water: 0, Earth: 0, Air: 0 }
+        success: true,
+        data: recipe,
+        metadata: {
+          timestamp: Date.now(),
+          version: '1.0.0'
+        }
+      };
+    } catch (error) {
+      errorHandler.log(error instanceof Error ? error : new Error(String(error)), { context: { service: 'RecipeFinder', action: 'generateRecipe', data: params.criteria } });
+      return {
+        success: false,
+        data: {
+          id: 'error',
+          name: 'Error generating recipe',
+          ingredients: [],
+          instructions: [],
+          cuisine: 'Unknown',
+          elementalProperties: { Fire: 0, Water: 0, Earth: 0, Air: 0 }
+        },
+        error: {
+          code: 'PROCESSING_ERROR',
+          message: 'Failed to generate recipe',
+          details: error instanceof Error ? error.message : 'Unknown error'
+        }
       };
     }
   }
@@ -271,26 +447,34 @@ export class RecipeFinder implements RecipeServiceInterface {
   /**
    * Generate a fusion recipe combining multiple cuisines
    */
-  async generateFusionRecipe(
-    cuisines: string[],
-    criteria: RecipeSearchCriteria,
-  ): Promise<Recipe> {
+  async generateFusionRecipe(params: GenerateFusionRecipeParams): Promise<ApiResponse<Recipe>> {
     try {
-      return await this.recipeService.generateFusionRecipe(cuisines, criteria);
-    } catch (error) {
-      errorHandler.log(error, {
-        context: 'RecipeFinder',
-        action: 'generateFusionRecipe',
-        data: { cuisines, criteria }
-      });
-      // Return an empty recipe on error
+      const recipe = await this.recipeService.generateFusionRecipe(params.cuisines, params.criteria);
       return {
-        id: 'error',
-        name: 'Error generating fusion recipe',
-        ingredients: [],
-        instructions: [],
-        cuisine: cuisines?.join('-'),
-        elementalProperties: { Fire: 0, Water: 0, Earth: 0, Air: 0 }
+        success: true,
+        data: recipe,
+        metadata: {
+          timestamp: Date.now(),
+          version: '1.0.0'
+        }
+      };
+    } catch (error) {
+      errorHandler.log(error instanceof Error ? error : new Error(String(error)), { context: { service: 'RecipeFinder', action: 'generateFusionRecipe', data: { cuisines: params.cuisines, criteria: params.criteria } } });
+      return {
+        success: false,
+        data: {
+          id: 'error',
+          name: 'Error generating fusion recipe',
+          ingredients: [],
+          instructions: [],
+          cuisine: params.cuisines?.join('-'),
+          elementalProperties: { Fire: 0, Water: 0, Earth: 0, Air: 0 }
+        },
+        error: {
+          code: 'PROCESSING_ERROR',
+          message: 'Failed to generate fusion recipe',
+          details: error instanceof Error ? error.message : 'Unknown error'
+        }
       };
     }
   }
@@ -298,20 +482,27 @@ export class RecipeFinder implements RecipeServiceInterface {
   /**
    * Adapt a recipe for the current season
    */
-  async adaptRecipeForSeason(
-    recipe: Recipe,
-    season?: Season
-  ): Promise<Recipe> {
+  async adaptRecipeForSeason(params: AdaptRecipeForSeasonParams): Promise<ApiResponse<Recipe>> {
     try {
-      return await this.recipeService.adaptRecipeForSeason(recipe, season);
+      const recipe = await this.recipeService.adaptRecipeForSeason({ id: params.recipeId } as Recipe, params.season);
+      return {
+        success: true,
+        data: recipe,
+        metadata: {
+          timestamp: Date.now(),
+          version: '1.0.0'
+        }
+      };
     } catch (error) {
-      errorHandler.log(error, {
-        context: 'RecipeFinder',
-        action: 'adaptRecipeForSeason',
-        data: { recipeId: recipe?.id || 'unknown', season }
-      });
-      // Return the original recipe on error
-      return recipe;
+      errorHandler.log(error instanceof Error ? error : new Error(String(error)), { context: { service: 'RecipeFinder', action: 'adaptRecipeForSeason', data: { recipeId: params.recipeId, season: params.season } } });
+      return {
+        success: false,
+        error: {
+          code: 'PROCESSING_ERROR',
+          message: 'Failed to adapt recipe',
+          details: error instanceof Error ? error.message : 'Unknown error'
+        }
+      };
     }
   }
   
@@ -322,11 +513,7 @@ export class RecipeFinder implements RecipeServiceInterface {
     try {
       return this.recipeService.calculateElementalProperties(recipe);
     } catch (error) {
-      errorHandler.log(error, {
-        context: 'RecipeFinder',
-        action: 'calculateElementalProperties',
-        data: { recipeId: recipe?.id || 'unknown' }
-      });
+      errorHandler.log(error instanceof Error ? error : new Error(String(error)), { context: { service: 'RecipeFinder', action: 'calculateElementalProperties', data: { recipeId: recipe?.id || 'unknown' } } });
       // Return balanced elemental properties on error
       return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     }
@@ -339,11 +526,7 @@ export class RecipeFinder implements RecipeServiceInterface {
     try {
       return this.recipeService.getDominantElement(recipe);
     } catch (error) {
-      errorHandler.log(error, {
-        context: 'RecipeFinder',
-        action: 'getDominantElement',
-        data: { recipeId: recipe?.id || 'unknown' }
-      });
+      errorHandler.log(error instanceof Error ? error : new Error(String(error)), { context: { service: 'RecipeFinder', action: 'getDominantElement', data: { recipeId: recipe?.id || 'unknown' } } });
       // Return a default element on error
       return { element: 'Fire', value: 0 };
     }
@@ -356,11 +539,7 @@ export class RecipeFinder implements RecipeServiceInterface {
     try {
       return this.recipeService.calculateSimilarity(recipe1, recipe2);
     } catch (error) {
-      errorHandler.log(error, {
-        context: 'RecipeFinder',
-        action: 'calculateSimilarity',
-        data: { recipe1Id: recipe1?.id || 'unknown', recipe2Id: recipe2?.id || 'unknown' }
-      });
+      errorHandler.log(error instanceof Error ? error : new Error(String(error)), { context: { service: 'RecipeFinder', action: 'calculateSimilarity', data: { recipe1Id: recipe1?.id || 'unknown', recipe2Id: recipe2?.id || 'unknown' } } });
       // Return zero similarity on error
       return 0;
     }
@@ -373,15 +552,13 @@ export class RecipeFinder implements RecipeServiceInterface {
     try {
       this.recipeService.clearCache();
     } catch (error) {
-      errorHandler.log(error, {
-        context: 'RecipeFinder',
-        action: 'clearCache',
-      });
+      errorHandler.log(error instanceof Error ? error : new Error(String(error)), { context: { service: 'RecipeFinder', action: 'clearCache' } });
     }
   }
 }
 
 // Export standalone function for compatibility
 export const getAllRecipes = async (): Promise<Recipe[]> => {
-  return await RecipeFinder.getInstance().getAllRecipes();
+  const response = await RecipeFinder.getInstance().getAllRecipes();
+  return response.success ? response.data : [];
 }; 

@@ -545,17 +545,17 @@ const FoodRecommender: React.FC = () => {
                 <>
                     <div className="mb-6">
                         <div className="flex flex-wrap gap-2 mb-4">
-                            {currentPlanetaryAlignment?.sun && (
+                            {currentPlanetaryAlignment?.Sun && (
                                 <div className="bg-yellow-900 bg-opacity-30 px-3 py-1 rounded-full text-xs flex items-center">
                                     <span className="text-yellow-400 mr-1">☉</span> 
-                                    <span className="text-yellow-100">Sun in {currentPlanetaryAlignment.sun.sign}</span>
+                                    <span className="text-yellow-100">Sun in {currentPlanetaryAlignment.Sun.sign}</span>
                                 </div>
                             )}
                             
-                            {currentPlanetaryAlignment?.moon && (
+                            {currentPlanetaryAlignment?.Moon && (
                                 <div className="bg-blue-900 bg-opacity-30 px-3 py-1 rounded-full text-xs flex items-center">
                                     <span className="text-blue-400 mr-1">☽</span> 
-                                    <span className="text-blue-100">Moon in {currentPlanetaryAlignment.moon.sign}</span>
+                                    <span className="text-blue-100">Moon in {currentPlanetaryAlignment.Moon.sign}</span>
                                 </div>
                             )}
                             

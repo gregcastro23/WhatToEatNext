@@ -1,4 +1,5 @@
-import { ElementalProperties, ThermodynamicMetrics, Planet, CookingMethod } from '@/types/alchemy';
+import { ElementalProperties, ThermodynamicMetrics, Planet } from '@/types/alchemy';
+import type { CookingMethod } from '@/types/cooking';
 import { 
   RecommendationServiceInterface,
   RecipeRecommendationCriteria,
@@ -13,9 +14,9 @@ import { Ingredient } from '../types/ingredient';
 
 // Import utility functions
 import { calculateElementalCompatibility } from '../utils/elemental/elementalUtils';
-import { getCuisineRecommendations } from '../utils/recommendation/cuisineRecommendation';
 import { getIngredientRecommendations } from '../utils/recommendation/foodRecommendation';
 import { getCookingMethodRecommendations } from '../utils/recommendation/methodRecommendation';
+import { getCuisineRecommendations } from '../utils/cuisineRecommender';
 
 // Import consolidated services
 import { ConsolidatedRecipeService } from './ConsolidatedRecipeService';
@@ -178,23 +179,30 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
       // Get all ingredients
       const allIngredients = await this.ingredientService.getAllIngredients();
       
-      // Apply elemental filtering
-      let filteredIngredients = allIngredients;
+      // Ensure allIngredients is always an array of Ingredient
+      let filteredIngredients: Ingredient[];
+      if (Array.isArray(allIngredients)) {
+        filteredIngredients = allIngredients;
+      } else {
+        // If it's an object, convert to array and map to Ingredient
+        filteredIngredients = Object.values(allIngredients).flat().map((item: any) => {
+          // Extract only Ingredient properties (id, name, category, etc.)
+          const { id, name, category, elementalProperties, ...rest } = item;
+          return { id, name, category, elementalProperties, ...rest } as Ingredient;
+        });
+        // Note: This assumes all values are arrays of UnifiedIngredient
+      }
       
-      // Use safe type casting for criteria access
-      const criteriaData = criteria as any;
-      const elementalState = criteriaData?.elementalState || criteriaData?.elementalProperties;
-      
+      // Use correct property from criteria
+      const elementalState = criteria.elementalProperties;
       if (elementalState) {
-        filteredIngredients = (allIngredients || []).filter(ingredient => {
+        filteredIngredients = filteredIngredients.filter(ingredient => {
           const ingredientData = ingredient as any;
           if (!ingredientData?.elementalPropertiesState) return false;
-          
           const compatibilityScore = this.calculateElementalCompatibility(
             elementalState,
             ingredientData.elementalPropertiesState
           );
-          
           return compatibilityScore >= (criteria.minCompatibility || 0.6);
         });
       }
@@ -207,8 +215,8 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
         });
       }
       
-      // Apply season filter with safe type casting
-      const currentSeason = criteriaData?.currentSeason || criteriaData?.season;
+      // Use correct property from criteria
+      const currentSeason = criteria.season;
       if (currentSeason) {
         filteredIngredients = filteredIngredients.filter(ingredient => {
           const ingredientData = ingredient as any;
@@ -238,9 +246,9 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
       
       (filteredIngredients || []).forEach(ingredient => {
         const ingredientData = ingredient as any;
-        if (ingredientData?.elementalPropertiesState && elementalState) {
+        if (ingredientData?.elementalPropertiesState && criteria.elementalProperties) {
           scores[ingredientData.id] = this.calculateElementalCompatibility(
-            elementalState,
+            criteria.elementalProperties,
             ingredientData.elementalPropertiesState
           );
         } else {
@@ -257,7 +265,7 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
       
       // Apply limit if specified
       if (criteria.limit && criteria.limit > 0) {
-        filteredIngredients = filteredIngredients?.slice(0, criteria.limit);
+        filteredIngredients = filteredIngredients.slice(0, criteria.limit);
       }
       
       return {
@@ -290,16 +298,11 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
       const criteriaData = criteria as any;
       const elementalState = criteriaData?.elementalState || criteriaData?.elementalProperties;
       
-      // Use existing utility function
-      const cuisineRecommendations = await getCuisineRecommendations({
-        elements: elementalState,
-        planetaryPositions: criteria.planetaryPositions,
-        limit: criteria.limit
-      });
-      
+      // Use existing utility function (sync)
+      const cuisineRecommendations = getCuisineRecommendations(elementalState, undefined, { count: criteria.limit });
       // Transform to standardized result format
-      const items = cuisineRecommendations.recommendations;
-      const scores = cuisineRecommendations.scores || {};
+      const items = cuisineRecommendations.map((rec: any) => rec.name);
+      const scores = Object.fromEntries(cuisineRecommendations.map((rec: any) => [rec.name, rec.matchPercentage]));
       
       // Filter out excluded cuisines
       let filteredItems = items;
@@ -316,7 +319,7 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
           criteria,
           totalCuisines: items.length,
           filteredCount: filteredItems.length,
-          details: cuisineRecommendations.details
+          details: cuisineRecommendations
         }
       };
     } catch (error) {
@@ -347,8 +350,14 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
         limit: criteria.limit
       } as any);
       
-      // Transform to standardized result format - safe property access
-      const items = (methodRecommendations || []).map(method => (method as any)?.name as any);
+      // Transform to standardized result format - ensure CookingMethod type
+      // TODO: Enhance getCookingMethodRecommendations to return CookingMethod[]
+      const items: CookingMethod[] = (methodRecommendations || []).map((method: any) => ({
+        id: method.id || method.name,
+        name: method.name,
+        description: method.description || '',
+        ...method
+      }));
       
       // Calculate scores - safe property access
       const scores: { [key: string]: number } = {};

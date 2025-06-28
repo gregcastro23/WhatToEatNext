@@ -431,16 +431,15 @@ export class AlchemicalEngineAdvanced {
       
       const affinity = this.getElementalAffinity(recipeElement, userElement);
       
-      // Convert affinity to a power score (0.5-0.9)
-      switch (affinity) {
-        case 'strong':
-          return 0.8;
-        case 'moderate':
-          return 0.7;
-        case 'weak':
-          return 0.6;
-        default:
-          return 0.5;
+      // Convert affinity strength to a power score (0.5-0.9)
+      if (affinity.strength >= 0.8) {
+        return 0.8; // strong affinity
+      } else if (affinity.strength >= 0.6) {
+        return 0.7; // moderate affinity
+      } else if (affinity.strength >= 0.3) {
+        return 0.6; // weak affinity
+      } else {
+        return 0.5; // no affinity
       }
     } catch (error) {
       ErrorHandler.log(error, {
@@ -1916,13 +1915,13 @@ function calculateChakraEnergies(
     const zodiacToChakraMap: Record<string, ChakraPosition[]> = {
       // Root chakra is associated with earth signs
       taurus: ['root'],
-      virgo: ['root'],
+      virgo: ['root', 'throat'], // Virgo influences multiple chakras
       capricorn: ['root'],
 
       // Sacral chakra is associated with water signs
       cancer: ['sacral'],
-      scorpio: ['sacral'],
-      pisces: ['sacral'],
+      scorpio: ['sacral', 'brow'], // Scorpio influences sacral and brow chakras
+      pisces: ['sacral', 'heart'], // Pisces influences multiple chakras
 
       // Solar plexus is associated with fire signs
       aries: ['solarPlexus'],
@@ -1932,14 +1931,9 @@ function calculateChakraEnergies(
       // Heart chakra is associated with air and water
       libra: ['heart'],
       aquarius: ['heart'],
-      pisces: ['heart', 'sacral'], // Pisces influences multiple chakras
 
       // Throat chakra is associated with communication
       gemini: ['throat'],
-      virgo: ['throat', 'root'], // Virgo influences multiple chakras
-
-      // Brow/third eye is associated with intuition
-      scorpio: ['brow', 'sacral'], // Use 'brow' instead of 'thirdEye' for consistency
     };
 
     // Reset chakra energies to 0 before calculating (keeps default values for missing ones)

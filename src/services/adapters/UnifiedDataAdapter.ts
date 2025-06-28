@@ -9,7 +9,7 @@
 import type { ElementalProperties, Season, PlanetName, IngredientSearchCriteria } from "@/types/alchemy";
 import { EnhancedIngredient, getEnhancedIngredient, searchIngredients, getIngredientsByCategory, generateIngredientRecommendations } from '../../data/unified/enhancedIngredients';
 import { UnifiedFlavorProfile, unifiedFlavorProfileSystem, getFlavorProfile } from '../../data/unified/flavorProfiles';
-import { UnifiedIngredient } from '../../data/unified/unifiedTypes';
+import { UnifiedIngredient } from '@/data/unified/unifiedTypes';
 
 import { createElementalProperties, calculateElementalCompatibility } from '../../utils/elemental/elementalUtils';
 

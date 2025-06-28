@@ -47,8 +47,8 @@ export default function MethodsRecommender() {
     if (!loading && currentPlanetaryAlignment) {
       // Convert currentPlanetaryAlignment to AstrologicalState format
       // Use safe type casting for celestial position access
-      const moonData = currentPlanetaryAlignment.moon as any;
-      const sunData = currentPlanetaryAlignment.sun as any;
+      const moonData = currentPlanetaryAlignment.Moon as any;
+      const sunData = currentPlanetaryAlignment.Sun as any;
       
       const astroState = {
         zodiacSign: sunData?.sign || 'Aries',
@@ -69,7 +69,20 @@ export default function MethodsRecommender() {
           const methodInfo = methodData as any;
           
           // Calculate base score from the recommender utils
-          const baseScore = calculateMethodScore(methodData, astroState);
+          // Safe type cast for methodData to CookingMethodModifier with defaults
+          const safeMethodData = (methodData && typeof methodData === 'object') ? {
+            element: (methodData as any)?.element || 'Fire',
+            intensity: (methodData as any)?.intensity || 0.5,
+            effect: (methodData as any)?.effect || 'enhance',
+            applicableTo: (methodData as any)?.applicableTo || ['all'],
+            ...(methodData as any)
+          } : {
+            element: 'Fire' as const,
+            intensity: 0.5,
+            effect: 'enhance' as const,
+            applicableTo: ['all']
+          };
+          const baseScore = calculateMethodScore(safeMethodData, astroState);
           
           // Add additional variance factors
           // 1. Use method name length to create a pseudorandom variance

@@ -2,46 +2,8 @@
 import type { ElementalProperties, AlchemicalProperties } from './alchemy';
 import type { Season, Element } from './shared';
 
-export interface UnifiedIngredient {
-  id: string;
-  name: string;
-  category: string;
-  subCategory?: string;
-  elementalProperties: ElementalProperties;
-  alchemicalProperties?: AlchemicalProperties;
-  
-  // Kalchm and Monica properties for alchemical calculations
-  kalchm?: number;      // K_alchm = (Spirit^Spirit * Essence^Essence) / (Matter^Matter * Substance^Substance)
-  monica?: number;      // Monica constant for ingredient optimization
-  elementalState?: ElementalProperties; // Additional elemental state property
-  nutritionalPropertiesProfile?: Record<string, unknown>; // Enhanced nutritional properties
-  
-  nutritionalProfile?: {
-    calories: number;
-    protein: number;
-    carbs: number;
-    fat: number;
-    fiber?: number;
-    vitamins?: Record<string, number>;
-    minerals?: Record<string, number>;
-  };
-  season?: Season[];
-  qualities?: string[];
-  description?: string;
-  cookingMethods?: string[];
-  flavorProfile?: {
-    sweet?: number;
-    sour?: number;
-    salty?: number;
-    bitter?: number;
-    umami?: number;
-    spicy?: number;
-  };
-  origin?: string[];
-  sustainabilityScore?: number;
-  storageInstructions?: string;
-  preparationTips?: string[];
-}
+// UnifiedIngredient is now defined in '@/data/unified/unifiedTypes'.
+// Please import from there instead of this file.
 
 export interface UnifiedRecipe {
   id: string;
@@ -67,5 +29,3 @@ export interface UnifiedRecipe {
   };
   tags?: string[];
 }
-
-export type { UnifiedIngredient as default };

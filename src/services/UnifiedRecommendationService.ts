@@ -21,6 +21,7 @@ import { PlanetaryAlignment } from "@/types/celestial";
 import { unifiedIngredientService } from './UnifiedIngredientService';
 import alchemicalEngine from '@/calculations/core/alchemicalEngine';
 import { recipeDataService } from '@/services/recipeData';
+import { ElementalProperties as AlchemyElementalProperties } from '@/types/alchemy';
 /**
  * UnifiedRecommendationService
  * 
@@ -257,7 +258,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     ];
     
     // Map cuisines to elemental properties (simplified)
-    const cuisineElements: { [key: string]: ElementalProperties } = {
+    const cuisineElements: { [key: string]: AlchemyElementalProperties } = {
       'Italian': { Fire: 0.3, Water: 0.2, Earth: 0.3, Air: 0.2 },
       'Chinese': { Fire: 0.4, Water: 0.2, Earth: 0.1, Air: 0.3 },
       'Mexican': { Fire: 0.5, Water: 0.1, Earth: 0.3, Air: 0.1 },
@@ -456,8 +457,8 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
    * Calculate elemental compatibility between two elemental properties
    */
   calculateElementalCompatibility(
-    source: ElementalProperties, 
-    target: ElementalProperties
+    source: AlchemyElementalProperties, 
+    target: AlchemyElementalProperties
   ): number {
     // Apply Pattern PP-1: Safe service method access
     const alchemicalEngineData = alchemicalEngine as any;
@@ -479,7 +480,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
    * Get recommendations based on elemental properties
    */
   async getRecommendationsForElements(
-    elementalProperties: ElementalProperties,
+    elementalProperties: AlchemyElementalProperties,
     type: 'recipe' | 'ingredient' | 'cuisine' | 'cookingMethod',
     limit?: number
   ): Promise<RecommendationResult<any>> {
@@ -523,7 +524,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
   ): Promise<RecommendationResult<any>> {
     // Convert planetary positions to elemental properties
     // This is a simplified implementation
-    const elementalProperties: ElementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+    const elementalProperties: AlchemyElementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     
     // In a real implementation, we would use the AlchemicalEngine to calculate
     // elemental properties based on planetary positions
@@ -535,7 +536,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
   /**
    * Calculate thermodynamic metrics based on elemental properties
    */
-  calculateThermodynamics(elementalProperties: ElementalProperties): ThermodynamicProperties {
+  calculateThermodynamics(elementalProperties: AlchemyElementalProperties): ThermodynamicProperties {
     // Use the AlchemicalEngine to calculate thermodynamic metrics
     return {
       heat: 0.5,

@@ -147,7 +147,7 @@ function getMethodThermodynamics(method: CookingMethodProfile): BasicThermodynam
   const methodNameLower = (method as any)?.(name as any)?.toLowerCase?.() as CookingMethodEnum; // Ensure correct type for lookup
 
   // 1. Check the detailed data source first
-  const detailedMethodData = detailedCookingMethods[methodNameLower];
+  const detailedMethodData = detailedCookingMethods[methodNameLower as unknown as keyof typeof detailedCookingMethods];
   if (detailedMethodData && detailedMethodData.thermodynamicProperties) {
     return {
       heat: detailedMethodData.thermodynamicProperties.heat ?? 0.5,
@@ -675,7 +675,7 @@ export async function getRecommendedCookingMethods(
         
         const planetaryDay = dayRulers[weekDays[dayOfWeek]];
         if (planetaryDay) {
-          planetaryDayScore = calculatePlanetaryDayInfluence(method, planetaryDay);
+          planetaryDayScore = calculatePlanetaryDayInfluence(method as unknown as CookingMethodProfile, planetaryDay);
         }
       }
       
@@ -709,7 +709,7 @@ export async function getRecommendedCookingMethods(
         const planetaryHour = planetaryOrder[hourPosition7];
         
         if (planetaryHour) {
-          planetaryHourScore = calculatePlanetaryHourInfluence(method, planetaryHour, daytime);
+          planetaryHourScore = calculatePlanetaryHourInfluence(method as unknown as CookingMethodProfile, planetaryHour, daytime);
         }
       }
       
@@ -1098,37 +1098,37 @@ function calculateLunarMethodAffinity(method: CookingMethod, phase: LunarPhase):
   const element = methodData?.element;
 
   switch (phase) {
-    case 'New Moon':
+    case 'new moon':
       // New Moon favors gentle, water-based methods
       if (properties?.includes('gentle')) affinity += 0.5;
       if (element === 'water') affinity += 0.5;
       break;
-    case 'Waxing Crescent':
+    case 'waxing crescent':
       // Waxing Crescent favors methods that build flavor
       if (properties?.includes('builds flavor')) affinity += 0.7;
       break;
-    case 'First Quarter':
+    case 'first quarter':
       // First Quarter favors methods that transform 
       if (properties?.includes('transformative')) affinity += 0.7;
       break;
-    case 'Waxing Gibbous':
+    case 'waxing gibbous':
       // Waxing Gibbous favors methods that intensify
       if (properties?.includes('intensifies flavor')) affinity += 0.8;
       break;
-    case 'Full Moon':
+    case 'full moon':
       // Full Moon favors methods that fully express flavor
       if (properties?.includes('maximizes flavor')) affinity += 1.0;
       if (element === 'fire') affinity += 0.5;
       break;
-    case 'Waning Gibbous':
+    case 'waning gibbous':
       // Waning Gibbous favors methods that preserve
       if (properties?.includes('preserves nutrients')) affinity += 0.8;
       break;
-    case 'Last Quarter':
+    case 'last quarter':
       // Last Quarter favors methods that reduce and concentrate
       if (properties?.includes('concentrates')) affinity += 0.7;
       break;
-    case 'Waning Crescent':
+    case 'waning crescent':
       // Waning Crescent favors subtle, gentle methods
       if (properties?.includes('subtle')) affinity += 0.7;
       if (element === 'water') affinity += 0.3;
@@ -1299,7 +1299,7 @@ export function getCookingMethodRecommendations(
   // Create recommendations with the enhanced score and interface compliance
   const recommendations = Object.entries(allCookingMethodsCombined).map(([name, method]) => {
     // Use our enhanced calculation with multiplier
-    const score = calculateMethodScore(method, astroState);
+    const score = calculateMethodScore(method as unknown as CookingMethodProfile, astroState);
     
     return {
       name,

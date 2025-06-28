@@ -110,8 +110,8 @@ function App() {
   return (
     <GlobalErrorBoundary
       context="AppRoot"
-      fallback={(error, reset) => (
-        <ErrorFallback error={error} resetErrorBoundary={reset} context="AppRoot" />
+      fallback={({ error, resetErrorBoundary, context }) => (
+        <ErrorFallback error={error} resetErrorBoundary={resetErrorBoundary} context={context || "AppRoot"} />
       )}
     >
       <AlchemicalProvider>

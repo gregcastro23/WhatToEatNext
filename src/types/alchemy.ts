@@ -1,6 +1,6 @@
-import { ZodiacSign, LunarPhase, Planet, Modality, PlanetaryAlignment, CelestialPosition, PlanetaryAspect, AlchemicalProperties, PlanetName } from '@/types/celestial';
+import { ZodiacSign, LunarPhase, Modality, AlchemicalProperties, PlanetName } from '@/types/celestial';
 import { TarotCard } from '@/contexts/TarotContext/types';
-import { AlchemicalProperty, ElementalCharacter } from '@/constants/planetaryElements';
+import { ElementalCharacter } from '@/constants/planetaryElements';
 
 // src/types/alchemy.ts
 
@@ -255,17 +255,17 @@ export interface PlanetaryPosition {
 }
 
 export interface PlanetaryAlignment {
-  sun: PlanetaryPosition;
-  moon: PlanetaryPosition;
-  mercury: PlanetaryPosition;
-  venus: PlanetaryPosition;
-  mars: PlanetaryPosition;
-  jupiter: PlanetaryPosition;
-  saturn: PlanetaryPosition;
-  uranus: PlanetaryPosition;
-  neptune: PlanetaryPosition;
-  pluto: PlanetaryPosition;
-  [key: string]: PlanetaryPosition; // Allow indexing with string
+  Sun: PlanetaryPosition;
+  Moon: PlanetaryPosition;
+  Mercury: PlanetaryPosition;
+  Venus: PlanetaryPosition;
+  Mars: PlanetaryPosition;
+  Jupiter: PlanetaryPosition;
+  Saturn: PlanetaryPosition;
+  Uranus: PlanetaryPosition;
+  Neptune: PlanetaryPosition;
+  Pluto: PlanetaryPosition;
+  [key: string]: PlanetaryPosition | CelestialPosition; // Allow indexing with string and support both position types
 }
 
 export interface PlanetaryHarmony {
@@ -319,10 +319,10 @@ export interface CelestialPosition {
 }
 
 // Re-export AstrologicalState from celestial types
-export { AstrologicalState } from "@/types/celestial";
+export type { AstrologicalState } from "@/types/celestial";
 
 // Re-export standard types from celestial
-export { Planet, PlanetName, ZodiacSign, LunarPhase } from "@/types/celestial";
+export type { PlanetName, ZodiacSign, LunarPhase } from "@/types/celestial";
 
 export const COOKING_METHOD_THERMODYNAMICS = {};
 

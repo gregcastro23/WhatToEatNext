@@ -1,7 +1,7 @@
 import { cuisinesMap } from '@/data/cuisines';
 import type { Recipe } from '@/types/recipe';
 import type { Cuisine, SeasonalDishes } from '@/types/cuisine';
-import type { ZodiacSign, LunarPhase } from '@/types/alchemy';
+import type { ZodiacSign, LunarPhase, ElementalProperties } from '@/types/alchemy';
 import { logger } from '@/utils/logger';
 
 // Define a more specific type for dish objects
@@ -83,7 +83,7 @@ interface MealCollection {
 }
 
 // Add dishes property to Cuisine
-interface ExtendedCuisine extends Cuisine {
+interface ExtendedCuisine extends Omit<Cuisine, 'dishes'> {
   dishes?: MealCollection | {
     dishes?: MealCollection;
   };
@@ -411,7 +411,7 @@ export class LocalRecipeService {
       });
       
       // Ensure elementalProperties exist - checking all possible property names
-      let elementalProperties = dish.elementalProperties || dish.elementalState || {
+      let elementalProperties: ElementalProperties = dish.elementalProperties || dish.elementalState || {
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,

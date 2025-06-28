@@ -530,7 +530,7 @@ export default function CookingMethods() {
     // Look for the method in the COOKING_METHOD_THERMODYNAMICS constant
     for (const knownMethod of Object.keys(COOKING_METHOD_THERMODYNAMICS)) {
       if ((methodName as any)?.includes?.(knownMethod)) {
-        return COOKING_METHOD_THERMODYNAMICS[knownMethod as unknown as CookingMethod];
+        return (COOKING_METHOD_THERMODYNAMICS as Record<string, any>)[knownMethod];
       }
     }
     
@@ -720,9 +720,9 @@ export default function CookingMethods() {
     }
     
     // Check COOKING_METHOD_THERMODYNAMICS constant
-    const methodName = (method as any)?.(name as any)?.toLowerCase?.() as CookingMethod;
-    if (COOKING_METHOD_THERMODYNAMICS && COOKING_METHOD_THERMODYNAMICS[methodName]) {
-      return COOKING_METHOD_THERMODYNAMICS[methodName][property as keyof BasicThermodynamicProperties] || 0;
+    const methodName = (method as any)?.name?.toLowerCase?.();
+    if (COOKING_METHOD_THERMODYNAMICS && (COOKING_METHOD_THERMODYNAMICS as Record<string, any>)[methodName]) {
+      return (COOKING_METHOD_THERMODYNAMICS as Record<string, any>)[methodName][property as keyof BasicThermodynamicProperties] || 0;
     }
     
     // Generate values based on method name keywords if no explicit values found
@@ -814,8 +814,8 @@ export default function CookingMethods() {
 
   // Add this function to extract additional properties from source data
   const getMethodSpecificData = (method: ExtendedAlchemicalItem) => {
-    if ((method as any)?.id && cookingMethods[(method as any)?.id as CookingMethod]) {
-      const sourceData = cookingMethods[(method as any)?.id as CookingMethod];
+    if ((method as any)?.id && (cookingMethods as Record<string, any>)[(method as any)?.id]) {
+      const sourceData = (cookingMethods as Record<string, any>)[(method as any)?.id];
       
       return {
         benefits: sourceData?.benefits || [],
@@ -840,8 +840,8 @@ export default function CookingMethods() {
         key => (key as any)?.toLowerCase?.().includes(methodName.split(' ')[0].toLowerCase())
       );
       
-      if (molecularKey && molecularCookingMethods[molecularKey as unknown as CookingMethod]) {
-        const sourceData = molecularCookingMethods[molecularKey as unknown as CookingMethod];
+      if (molecularKey && (molecularCookingMethods as Record<string, any>)[molecularKey]) {
+        const sourceData = (molecularCookingMethods as Record<string, any>)[molecularKey];
         // Extract data with safe property access
         const sourceDataObj = sourceData as any;
         
@@ -870,8 +870,8 @@ export default function CookingMethods() {
     let fullDefinition = (method as any)?.description || "";
     
     // Check if we have data from the source first
-    if ((method as any)?.id && cookingMethods[(method as any)?.id as CookingMethod]) {
-      const sourceMethod = cookingMethods[(method as any)?.id as CookingMethod];
+    if ((method as any)?.id && (cookingMethods as Record<string, any>)[(method as any)?.id]) {
+      const sourceMethod = (cookingMethods as Record<string, any>)[(method as any)?.id];
       // Expand definition if needed
       if (sourceMethod?.description && (sourceMethod as any)?.(description as any)?.length > (method as any)?.description?.length) {
         fullDefinition = (sourceMethod as any)?.description;
@@ -1620,7 +1620,7 @@ export default function CookingMethods() {
             const finalScore = Math.min(1.0, Math.max(0.1, adjustedScore));
             
             // Generate a reason for the match
-            const matchReason = determineMatchReason(methodWithThermodynamics, (astroState as any)?.zodiacSign, (astroState as any)?.lunarPhase);
+            const matchReason = determineMatchReason(methodWithThermodynamics, astroState);
             
             return {
               ...methodWithThermodynamics,

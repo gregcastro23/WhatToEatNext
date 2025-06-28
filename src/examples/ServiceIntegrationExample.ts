@@ -1,4 +1,5 @@
-import { ElementalProperties , Recipe} from '../types';
+import { ElementalProperties } from '@/types/alchemy';
+import { Recipe } from '../types';
 import { servicesManager } from '../services';
 
 import { Element } from "@/types/alchemy";

@@ -9,7 +9,8 @@ import {
   calculateMonica, 
   performAlchemicalAnalysis
 } from './alchemicalCalculations.js';
-import { unifiedIngredients, type UnifiedIngredient } from './ingredients';
+import { unifiedIngredients } from './ingredients';
+import { UnifiedIngredient } from '@/data/unified/unifiedTypes';
 
 // Enhanced recipe interface that extends existing recipe structure
 export interface EnhancedRecipe {

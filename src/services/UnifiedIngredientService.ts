@@ -8,7 +8,7 @@ import {
   RecipeIngredient
 } from '../types';
 
-import { UnifiedIngredient } from '../types/ingredient';
+import { UnifiedIngredient } from '@/data/unified/unifiedTypes';
 import { Recipe } from '../types/recipe';
 // Fix import - getCurrentSeason is likely in a different location
 import { getCurrentSeason } from '@/data/integrations/seasonal';
@@ -167,12 +167,12 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
   /**
    * Get ingredients by subcategory
    */
-  getIngredientsBySubcategory(subcategory: string): UnifiedIngredient[] {
-    const normalizedSubcategory = subcategory?.toLowerCase()?.trim();
+  getIngredientsBySubCategory(subCategory: string): UnifiedIngredient[] {
+    const normalizedSubCategory = subCategory?.toLowerCase()?.trim();
     const result: UnifiedIngredient[] = [];
     
     for (const ingredients of this.ingredientCache.values()) {
-      const matching = (ingredients || []).filter(ing => ing.subcategory?.toLowerCase() === normalizedSubcategory
+      const matching = (ingredients || []).filter(ing => ing.subCategory?.toLowerCase() === normalizedSubCategory
       );
       
       result?.push(...matching);
@@ -928,7 +928,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       }
       
       // Check subcategory
-      if (ingredient.subcategory?.toLowerCase()?.includes(normalizedQuery)) {
+      if (ingredient.subCategory?.toLowerCase()?.includes(normalizedQuery)) {
         return true;
       }
       

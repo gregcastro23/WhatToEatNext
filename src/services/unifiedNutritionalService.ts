@@ -20,7 +20,8 @@ import {
   type PlanetaryNutritionalProfile,
   type ZodiacNutritionalProfile
 } from '../data/unified/nutritional';
-import { unifiedIngredients, type UnifiedIngredient } from '@/data/unified/ingredients';
+import { unifiedIngredients } from '@/data/unified/ingredients';
+import { UnifiedIngredient } from '@/data/unified/unifiedTypes';
 import { unifiedSeasonalSystem } from '../data/unified/seasonal.js';
 import { logger } from '../utils/logger';
 import { allIngredients } from '../data/ingredients';
@@ -285,35 +286,40 @@ export class UnifiedNutritionalService {
       
       // Check protein range
       if (filter.minProtein !== undefined || filter.maxProtein !== undefined) {
-        const protein = nutritionalProfile.protein || nutritionalProfile.macros?.protein || 0;
+        const profileData = nutritionalProfile as any;
+        const protein = profileData.protein || profileData.macros?.protein || 0;
         if (filter.minProtein !== undefined && protein < filter.minProtein) return false;
         if (filter.maxProtein !== undefined && protein > filter.maxProtein) return false;
       }
       
       // Check fiber range
       if (filter.minFiber !== undefined || filter.maxFiber !== undefined) {
-        const fiber = nutritionalProfile.fiber || nutritionalProfile.macros?.fiber || 0;
+        const profileData = nutritionalProfile as any;
+        const fiber = profileData.fiber || profileData.macros?.fiber || 0;
         if (filter.minFiber !== undefined && fiber < filter.minFiber) return false;
         if (filter.maxFiber !== undefined && fiber > filter.maxFiber) return false;
       }
       
       // Check calorie range
       if (filter.minCalories !== undefined || filter.maxCalories !== undefined) {
-        const calories = nutritionalProfile.calories || 0;
+        const profileData = nutritionalProfile as any;
+        const calories = profileData.calories || 0;
         if (filter.minCalories !== undefined && calories < filter.minCalories) return false;
         if (filter.maxCalories !== undefined && calories > filter.maxCalories) return false;
       }
       
       // Check carb range
       if (filter.minCarbs !== undefined || filter.maxCarbs !== undefined) {
-        const carbs = nutritionalProfile.carbs || nutritionalProfile.macros?.carbs || 0;
+        const profileData = nutritionalProfile as any;
+        const carbs = profileData.carbs || profileData.macros?.carbs || 0;
         if (filter.minCarbs !== undefined && carbs < filter.minCarbs) return false;
         if (filter.maxCarbs !== undefined && carbs > filter.maxCarbs) return false;
       }
       
       // Check fat range
       if (filter.minFat !== undefined || filter.maxFat !== undefined) {
-        const fat = nutritionalProfile.fat || nutritionalProfile.macros?.fat || 0;
+        const profileData = nutritionalProfile as any;
+        const fat = profileData.fat || profileData.macros?.fat || 0;
         if (filter.minFat !== undefined && fat < filter.minFat) return false;
         if (filter.maxFat !== undefined && fat > filter.maxFat) return false;
       }
@@ -346,19 +352,22 @@ export class UnifiedNutritionalService {
       
       // Check high protein flag
       if (filter.highProtein) {
-        const protein = nutritionalProfile.protein || nutritionalProfile.macros?.protein || 0;
+        const profileData = nutritionalProfile as any;
+        const protein = profileData.protein || profileData.macros?.protein || 0;
         if (protein < 10) return false; // Threshold for high protein
       }
       
       // Check low carb flag
       if (filter.lowCarb) {
-        const carbs = nutritionalProfile.carbs || nutritionalProfile.macros?.carbs || 0;
+        const profileData = nutritionalProfile as any;
+        const carbs = profileData.carbs || profileData.macros?.carbs || 0;
         if (carbs > 20) return false; // Threshold for low carb
       }
       
       // Check low fat flag
       if (filter.lowFat) {
-        const fat = nutritionalProfile.fat || nutritionalProfile.macros?.fat || 0;
+        const profileData = nutritionalProfile as any;
+        const fat = profileData.fat || profileData.macros?.fat || 0;
         if (fat > 10) return false; // Threshold for low fat
       }
       
@@ -388,7 +397,7 @@ export class UnifiedNutritionalService {
     minValue: number = 0.5
   ): UnifiedIngredient[] {
     return (ingredients || []).filter(ingredient => 
-      ingredient?.elementalPropertiesState?.[element] >= minValue
+      ingredient?.elementalProperties?.[element] >= minValue
     );
   }
   

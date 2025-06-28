@@ -5,7 +5,7 @@ import { celestialCalculator } from './celestialCalculations'
 import { errorHandler } from './errorHandler'
 import { logger } from '../utils/logger'
 import type { Recipe, ScoredRecipe } from '../types/recipe'
-import { ElementalProperties } from '../types/alchemy'
+import { ElementalProperties } from '@/types/alchemy'
 
 // Interface for celestial data
 export interface CelestialData {

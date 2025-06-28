@@ -37,8 +37,8 @@ const calculateActivePlanets = (positions: PlanetaryPositionsType): string[] => 
   const activePlanets: string[] = [];
   
   try {
-    // Add main planets
-    const mainPlanets = ['sun', 'moon', 'mercury', 'venus', 'mars', 'jupiter', 'saturn'];
+    // Add main planets (using capitalized names to match proven working implementation)
+    const mainPlanets = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn'];
     mainPlanets.forEach(planet => {
       if (positions[planet]) {
         activePlanets.push(planet);
@@ -46,12 +46,12 @@ const calculateActivePlanets = (positions: PlanetaryPositionsType): string[] => 
     });
     
     // Always include luminaries (Sun and Moon) as they're constantly active
-    if (!activePlanets.includes('sun')) activePlanets.push('sun');
-    if (!activePlanets.includes('moon')) activePlanets.push('moon');
+    if (!activePlanets.includes('Sun')) activePlanets.push('Sun');
+    if (!activePlanets.includes('Moon')) activePlanets.push('Moon');
   } catch (error) {
     logger.error('Error calculating active planets:', error);
-    // Return at least the sun and moon as fallback
-    return ['sun', 'moon'];
+    // Return at least the sun and moon as fallback (capitalized)
+    return ['Sun', 'Moon'];
   }
   
   return activePlanets;
@@ -115,8 +115,8 @@ export const AlchemicalProvider: React.FC<{children: React.ReactNode}> = ({ chil
       }
       
       logger.info('Updating planetary positions', {
-        sun: positions.sun?.sign,
-        moon: positions.moon?.sign,
+        sun: positions.Sun?.sign,
+        moon: positions.Moon?.sign,
         timestamp: new Date().toISOString()
       });
       return positions;
@@ -130,12 +130,12 @@ export const AlchemicalProvider: React.FC<{children: React.ReactNode}> = ({ chil
       // Use reliable hardcoded positions
       const positions = safeAstrology.getReliablePlanetaryPositions();
       
-      // Normalize keys to lowercase for consistency
+      // Normalize keys to capitalized format for consistency with proven working implementation
       const normalizedPositions: PlanetaryPositionsType = {};
       Object.entries(positions).forEach(([key, data]) => {
         if (!data || typeof data !== 'object') return;
         
-        const planet = key.toLowerCase();
+        const planet = key.charAt(0).toUpperCase() + key.slice(1).toLowerCase();
         normalizedPositions[planet] = {
           sign: data.sign?.toLowerCase() || 'unknown',
           degree: typeof data.degree === 'number' ? data.degree : 0,
@@ -181,8 +181,8 @@ export const AlchemicalProvider: React.FC<{children: React.ReactNode}> = ({ chil
       
       // Update state with calculated values
       const activePlanets = calculateActivePlanets(normalizedPositions);
-      const sunSign = normalizedPositions.sun?.sign || 'aries';
-      const moonSign = normalizedPositions.moon?.sign || 'taurus';
+      const sunSign = normalizedPositions.Sun?.sign || 'aries';
+      const moonSign = normalizedPositions.Moon?.sign || 'taurus';
       
       // First update the alchemical values at the root of the state
       dispatch({
@@ -236,8 +236,8 @@ export const AlchemicalProvider: React.FC<{children: React.ReactNode}> = ({ chil
       });
       // Pattern JJ-2: AlchemicalState Interface Completion - Return proper structure instead of empty object
       return {
-        sun: { sign: 'aries', degree: 0, exactLongitude: 0, isRetrograde: false },
-        moon: { sign: 'taurus', degree: 0, exactLongitude: 0, isRetrograde: false }
+        Sun: { sign: 'aries', degree: 0, exactLongitude: 0, isRetrograde: false },
+        Moon: { sign: 'taurus', degree: 0, exactLongitude: 0, isRetrograde: false }
       };
     }
   }, [isDaytime, updatePlanetaryPositions]);

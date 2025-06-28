@@ -11,6 +11,9 @@ import {
   NutritionalFilter, 
   NutritionData 
 } from '../types/nutrition';
+
+// Re-export types for external use
+export type { NutritionalFilter } from '../types/nutrition';
 import { 
   SpoonacularRecipe, 
   SpoonacularNutritionData 

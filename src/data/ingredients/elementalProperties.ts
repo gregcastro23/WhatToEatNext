@@ -1,4 +1,4 @@
-import { ElementalProperties, LowercaseElementalProperties } from '../../types/elemental';
+import { ElementalProperties } from '@/types/alchemy';
 import { ensureLowercaseFormat } from '../../utils/elementalUtils';
 
 /** * Comprehensive database of ingredient elemental properties * These values are used to calculate food recommendations based on a users elemental profile */

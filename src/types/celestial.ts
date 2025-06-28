@@ -103,19 +103,19 @@ export interface PlanetaryAlignment {
   dominantPlanets?: string[];
   stabilityIndex?: number;
   // Planetary positions
-  sun?: CelestialPosition;
-  moon?: CelestialPosition;
-  mercury?: CelestialPosition;
-  venus?: CelestialPosition;
-  mars?: CelestialPosition;
-  jupiter?: CelestialPosition;
-  saturn?: CelestialPosition;
-  uranus?: CelestialPosition;
-  neptune?: CelestialPosition;
-  pluto?: CelestialPosition;
+  Sun?: CelestialPosition;
+  Moon?: CelestialPosition;
+  Mercury?: CelestialPosition;
+  Venus?: CelestialPosition;
+  Mars?: CelestialPosition;
+  Jupiter?: CelestialPosition;
+  Saturn?: CelestialPosition;
+  Uranus?: CelestialPosition;
+  Neptune?: CelestialPosition;
+  Pluto?: CelestialPosition;
   northNode?: CelestialPosition;
   southNode?: CelestialPosition;
-  ascendant?: CelestialPosition;
+  Ascendant?: CelestialPosition;
 }
 
 // Elemental properties

@@ -15,7 +15,7 @@ import type {
 } from "@/types/alchemy";
 
 import type { Recipe } from "@/types/recipe";
-import { UnifiedIngredient } from '@/types/ingredient';
+import { UnifiedIngredient } from '@/data/unified/unifiedTypes';
 import { SeasonalRecommendations } from './seasonal';
 import { unifiedSeasonalSystem } from '@/data/integrations/seasonal';
 import { PlanetaryAlignment } from "@/types/celestial";

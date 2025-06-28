@@ -263,7 +263,9 @@ export class PerformanceMonitor {
    * Record a metric value
    */
   recordMetric(metric: keyof PerformanceMetrics, value: number): void {
-    this?.currentMetrics?.[metric] = value;
+    if (this.currentMetrics) {
+      this.currentMetrics[metric] = value;
+    }
   }
 
   /**
@@ -310,7 +312,7 @@ export class PerformanceMonitor {
       return { current: empty, average: empty, peak: empty, history: [] };
     }
     
-    const current = this.metrics[this.metrics  || [].length - 1];
+    const current = this.metrics[(this.metrics || []).length - 1];
     
     // Calculate averages
     // Pattern KK-1: Safe arithmetic with type validation

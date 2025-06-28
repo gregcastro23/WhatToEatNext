@@ -34,19 +34,19 @@ describe('getRecommendedIngredients', () => {
       currentZodiac: 'leo',
       moonPhase: 'full moon',
       currentPlanetaryAlignment: {
-        sun: { sign: 'leo', degree: 15 },
-        moon: { sign: 'cancer', degree: 5 }
+        Sun: { sign: 'leo', degree: 15 },
+        Moon: { sign: 'cancer', degree: 5 }
       },
       activePlanets: ['sun', 'moon'],
       planetaryPositions: {
-        sun: { sign: 'leo', degree: 15 },
-        moon: { sign: 'cancer', degree: 5 }
+        Sun: { sign: 'leo', degree: 15 },
+        Moon: { sign: 'cancer', degree: 5 }
       },
       lunarPhase: 'full moon',
       planetaryHour: 'Sun',
       planetaryAlignment: {
-        sun: { sign: 'leo', degree: 15 },
-        moon: { sign: 'cancer', degree: 5 }
+        Sun: { sign: 'leo', degree: 15 },
+        Moon: { sign: 'cancer', degree: 5 }
       },
       aspects: [],
       tarotElementBoosts: { Fire: 0.2, Water: 0.1, Air: 0, Earth: 0 },

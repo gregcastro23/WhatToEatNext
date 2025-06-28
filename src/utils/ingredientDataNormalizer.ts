@@ -283,22 +283,32 @@ export function normalizePreparation(preparation: Record<string, unknown>): any 
  */
 export function normalizeIngredientData(ingredient: Record<string, unknown>): any {
   if (!ingredient) return null;
-  
+
   // Safe type casting for nutritional profile
-  const nutritionalProfile = ingredient.nutritionalProfile as unknown as Record<string, unknown>;
-  
+  const nutritionalProfile = (typeof ingredient.nutritionalProfile === 'object' && ingredient.nutritionalProfile !== null)
+    ? (ingredient.nutritionalProfile as unknown as Record<string, unknown>)
+    : {};
+
   const normalized = {
     ...ingredient,
-    nutritionalProfile: ingredient.nutritionalProfile ? {
+    nutritionalProfile: (typeof ingredient.nutritionalProfile === 'object' && ingredient.nutritionalProfile !== null) ? {
       ...(nutritionalProfile || {}),
-      vitamins: normalizeVitamins((nutritionalProfile?.vitamins as unknown as Record<string, unknown>) || {}),
-      minerals: normalizeMinerals((nutritionalProfile?.minerals as unknown as Record<string, unknown>) || {}),
-      antioxidants: normalizeAntioxidants((nutritionalProfile?.antioxidants as unknown as Record<string, unknown>) || {})
+      vitamins: normalizeVitamins((typeof nutritionalProfile.vitamins === 'object' || Array.isArray(nutritionalProfile.vitamins)) ? nutritionalProfile.vitamins as Record<string, unknown> : {}),
+      minerals: normalizeMinerals((typeof nutritionalProfile.minerals === 'object' || Array.isArray(nutritionalProfile.minerals)) ? nutritionalProfile.minerals as Record<string, unknown> : {}),
+      antioxidants: normalizeAntioxidants((typeof nutritionalProfile.antioxidants === 'object' || Array.isArray(nutritionalProfile.antioxidants)) ? nutritionalProfile.antioxidants as Record<string, unknown> : {})
     } : undefined,
-    culinaryApplications: normalizeCulinaryApplications((ingredient.culinaryApplications as unknown as Record<string, unknown>) || {}),
-    varieties: normalizeVarieties((ingredient.varieties as unknown as Record<string, unknown>) || {}),
-    storage: normalizeStorage((ingredient.storage as unknown as Record<string, unknown>) || {}),
-    preparation: normalizePreparation((ingredient.preparation as unknown as Record<string, unknown>) || {})
+    culinaryApplications: (typeof ingredient.culinaryApplications === 'object' && ingredient.culinaryApplications !== null)
+      ? normalizeCulinaryApplications(ingredient.culinaryApplications as Record<string, unknown>)
+      : {},
+    varieties: (typeof ingredient.varieties === 'object' && ingredient.varieties !== null)
+      ? normalizeVarieties(ingredient.varieties as Record<string, unknown>)
+      : {},
+    storage: (typeof ingredient.storage === 'object' && ingredient.storage !== null)
+      ? normalizeStorage(ingredient.storage as Record<string, unknown>)
+      : {},
+    preparation: (typeof ingredient.preparation === 'object' && ingredient.preparation !== null)
+      ? normalizePreparation(ingredient.preparation as Record<string, unknown>)
+      : {}
   };
   
   return normalized;

@@ -1,5 +1,6 @@
 import { _ElementalProperties } from '../../types/common';
 import { CuisineType } from '../../types/recipe';
+import { ElementalProperties } from '@/types/alchemy';
 
 export interface CuisineRecommendation {
   cuisine: CuisineType;

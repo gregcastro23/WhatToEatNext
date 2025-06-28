@@ -123,7 +123,7 @@ export class EnhancedIngredientSystem {
           filtered = filtered.filter(ingredient => {
             if (ingredient.category !== 'proteins') return true;
             const nonVegetarianCategories = ['meat', 'poultry', 'seafood'];
-            return !nonVegetarianCategories.includes(ingredient.subcategory || '');
+            return !nonVegetarianCategories.includes(ingredient.subCategory || '');
           });
         }
         
@@ -131,7 +131,7 @@ export class EnhancedIngredientSystem {
           filtered = filtered.filter(ingredient => {
             if (ingredient.category !== 'proteins') return true;
             const nonVeganCategories = ['meat', 'poultry', 'seafood', 'dAiry', 'eggs'];
-            return !nonVeganCategories.includes(ingredient.subcategory || '');
+            return !nonVeganCategories.includes(ingredient.subCategory || '');
           });
         }
         
@@ -145,7 +145,7 @@ export class EnhancedIngredientSystem {
         
         if (dietaryFilter.isDAiryFree) {
           filtered = filtered.filter(ingredient => 
-            ingredient.subcategory !== 'dAiry'
+            ingredient.subCategory !== 'dAiry'
           );
         }
       }

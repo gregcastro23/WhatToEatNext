@@ -255,10 +255,10 @@ export function getIngredientsByMonicaRange(min: number, max: number): UnifiedIn
 export function getIngredientsByElement(element: keyof ElementalProperties, threshold = 0.6): UnifiedIngredient[] {
   return Object.values(unifiedIngredients)
     .filter(ingredient => {
-      const props = ingredient.elementalPropertiesState;
+      const props = ingredient.elementalProperties;
       return props && props[element] >= threshold;
     })
-    .sort((a, b) => b?.elementalState?.[element] - a?.elementalState?.[element]);
+    .sort((a, b) => (b?.elementalProperties?.[element] || 0) - (a?.elementalProperties?.[element] || 0));
 }
 
 /**

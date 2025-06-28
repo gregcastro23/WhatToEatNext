@@ -165,32 +165,28 @@ export type DietaryRestriction =
   | 'low-carb' 
   | 'low-fat';
 
-// Export ZodiacAffinity types
-export * from './zodiacAffinity';
+// Export ZodiacAffinity types (removed to avoid Modality conflict)
+// export * from './zodiacAffinity';
 
 // Re-export all relevant types from their modules
 // Remove duplicate exports to avoid conflicts
 export * from './elemental';
 export * from './nutrition';
 export * from './spoonacular';
-export * from './recipe';
+// Note: Removing './recipe', './time', './lunar', './cookingMethod', './validation' to avoid conflicts
+// Note: Removing './seasons' and './zodiacAffinity' to avoid conflicts
 export * from './zodiac';
-export * from './time';
-export * from './seasons';
 export * from './seasonal';
 export * from './cuisine';
 export * from './chakra';
 export * from './astrology';
 export * from './astrological';
-export * from './lunar';
 export * from './food';
 export * from './ingredient';
-export * from './cookingMethod';
 export * from './recipeIngredient';
 export * from './recipes';
 export * from './ingredient-compatibility';
 export * from './utils';
-export * from './validation';
 
 // Remove these duplicate imports - they're already being exported above
 // import { 

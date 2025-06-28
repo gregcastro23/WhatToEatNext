@@ -1,5 +1,4 @@
-
-import { ElementalProperties, Planet, ZodiacSign , PlanetaryAlignment } from "@/types/celestial";
+import { ElementalProperties, Planet, ZodiacSign , PlanetaryAlignment } from "@/types/alchemy";
 import { Recipe } from "@/types/recipe";
 import { Ingredient } from "@/types/ingredient";
 import { CookingMethod } from "@/types/cooking";

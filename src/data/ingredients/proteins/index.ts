@@ -6,13 +6,14 @@ import { eggs } from './eggs';
 import { legumes } from './legumes';
 import { dairy } from './dairy';
 import { plantBased } from './plantBased';
+import type { Ingredient } from '@/types/alchemy';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 // Combine all protein categories
 export const proteins: IngredientMapping = {
   ...seafood,
   ...poultry,
-  ...plantBased,
+  ...(plantBased as IngredientMapping),
   ...meats,
   ...legumes,
   ...eggs,

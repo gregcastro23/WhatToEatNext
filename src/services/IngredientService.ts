@@ -70,7 +70,7 @@ import type { ZodiacSign } from '../types/zodiac';
 import type { ElementalFilter } from '../types/elemental';
 import type { NutritionalFilter, NutritionData } from '../types/nutrition';
 import type { SpoonacularRecipe, SpoonacularNutritionData } from '../types/spoonacular';
-import { UnifiedIngredient, createUnifiedIngredient, isUnifiedIngredient } from '../data/unified/unifiedTypes';
+import { UnifiedIngredient, createUnifiedIngredient, isUnifiedIngredient } from '@/data/unified/unifiedTypes';
 import { 
   IngredientServiceInterface,
   DietaryFilter, 
@@ -260,17 +260,17 @@ export class IngredientService implements IngredientServiceInterface {
   
   /**
    * Get ingredients by subcategory
-   * @param subcategory The subcategory name
+   * @param subCategory The subcategory name
    * @returns An array of ingredients in that subcategory
    */
-  public getIngredientsBySubcategory(subcategory: string): UnifiedIngredient[] {
-    if (!subcategory) return [];
+  public getIngredientsBySubCategory(subCategory: string): UnifiedIngredient[] {
+    if (!subCategory) return [];
     
     try {
-      return (this?.unifiedIngredientsFlat || []).filter(ingredient => ingredient.subcategory?.toLowerCase() === subcategory?.toLowerCase()
+      return (this?.unifiedIngredientsFlat || []).filter(ingredient => ingredient.subCategory?.toLowerCase() === subCategory?.toLowerCase()
       );
     } catch (error) {
-      logger.error(`Error getting ingredients by subcategory ${subcategory}:`, error);
+      logger.error(`Error getting ingredients by subCategory ${subCategory}:`, error);
       return [];
     }
   }

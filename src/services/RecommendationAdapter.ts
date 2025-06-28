@@ -12,6 +12,7 @@ import { logger } from '@/utils/logger';
 import { alchemize } from '../calculations/core/alchemicalCalculations';
 import { planetInfo } from '../data/planets/planetaryInfo';
 import { transformIngredients, transformCookingMethods, transformCuisines } from '../utils/alchemicalTransformationUtils';
+import type { RecommendationResult } from './interfaces/RecommendationServiceInterface';
 
 // Define PlanetData interface to replace all 'any' types
 interface PlanetData {
@@ -398,22 +399,29 @@ export class RecommendationAdapter {
   /**
    * Get recommended ingredients based on current planetary alignments
    */
-  getRecommendedIngredients(limit = 10): AlchemicalItem[] {
-    return this.getSortedItems(this.transformedIngredients, limit);
+  getRecommendedIngredients(limit = 10): RecommendationResult<AlchemicalItem> {
+    const items = this.getSortedItems(this.transformedIngredients, limit);
+    // Compatibility scores: use gregsEnergy or 1.0 as fallback
+    const scores = Object.fromEntries(items.map(item => [item.id, (item as any).gregsEnergy ?? 1.0]));
+    return { items, scores, context: { source: 'RecommendationAdapter' } };
   }
   
   /**
    * Get recommended cooking methods based on current planetary alignments
    */
-  getRecommendedCookingMethods(limit = 5): AlchemicalItem[] {
-    return this.getSortedItems(this.transformedMethods, limit);
+  getRecommendedCookingMethods(limit = 5): RecommendationResult<AlchemicalItem> {
+    const items = this.getSortedItems(this.transformedMethods, limit);
+    const scores = Object.fromEntries(items.map(item => [item.id, (item as any).gregsEnergy ?? 1.0]));
+    return { items, scores, context: { source: 'RecommendationAdapter' } };
   }
   
   /**
    * Get recommended cuisines based on current planetary alignments
    */
-  getRecommendedCuisines(limit = 5): AlchemicalItem[] {
-    return this.getSortedItems(this.transformedCuisines, limit);
+  getRecommendedCuisines(limit = 5): RecommendationResult<AlchemicalItem> {
+    const items = this.getSortedItems(this.transformedCuisines, limit);
+    const scores = Object.fromEntries(items.map(item => [item.id, (item as any).gregsEnergy ?? 1.0]));
+    return { items, scores, context: { source: 'RecommendationAdapter' } };
   }
   
   /**

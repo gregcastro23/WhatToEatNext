@@ -19,6 +19,7 @@ import {
 import { Recipe } from '@/types/recipe';
 import { useServices } from '@/hooks/useServices';
 import { fetchPlanetaryPositions } from '@/services/astrologizeApi';
+import * as astrologize from '@/services/astrologizeApi';
 import { logger } from '@/utils/logger';
 import type { CuisineType, DietaryRestriction, ElementalProperties } from '@/types/alchemy';
 
@@ -50,7 +51,7 @@ interface RecipeScore {
   popularity: number;
 }
 
-interface EnhancedRecipe extends Recipe {
+interface EnhancedRecipe extends Omit<Recipe, 'score'> {
   score?: RecipeScore;
   matchPercentage?: number;
 }

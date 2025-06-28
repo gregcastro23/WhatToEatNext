@@ -90,15 +90,19 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
     if (!Array.isArray(recipes) || recipes.length === 0) {
       // If no recipes provided, try to find some using the cuisine name directly
       try {
-        // First try using getRecipesForCuisineMatch
+        // First try using getRecipesForCuisineMatch - handle potential async
         const matchedCuisineRecipes = getRecipesForCuisineMatch(
           cuisine || '', 
           [], // Pass empty array to trigger service use
           8
         );
         
-        if (matchedCuisineRecipes && matchedCuisineRecipes.length > 0) {
-          return matchedCuisineRecipes;
+        // If it's a Promise, we can't handle it in useMemo - skip to next approach
+        if (matchedCuisineRecipes && 
+            !('then' in (matchedCuisineRecipes as any)) && 
+            Array.isArray(matchedCuisineRecipes) && 
+            matchedCuisineRecipes.length > 0) {
+          return matchedCuisineRecipes as Recipe[];
         }
         
         // If no recipes from getRecipesForCuisineMatch, try getBestRecipeMatches

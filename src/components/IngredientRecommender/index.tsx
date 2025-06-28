@@ -70,7 +70,7 @@ export default function IngredientRecommender() {
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [activeCategory, setActiveCategory] = useState<string>('proteins');
   const [showAll, setShowAll] = useState<boolean>(false);
-  const [combinedCategorizedRecommendations, setCombinedCategorizedRecommendations] = useState<Record<string, IngredientRecommendation[]>>({});
+  const [combinedCategorizedState, setCombinedCategorizedState] = useState<Record<string, IngredientRecommendation[]>>({});
   
   // Use the custom hook for food recommendations
   const { 
