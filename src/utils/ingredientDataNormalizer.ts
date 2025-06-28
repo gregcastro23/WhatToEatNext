@@ -158,7 +158,7 @@ export function normalizeCulinaryApplications(applications: Record<string, unkno
   const normalized: Record<string, any> = {};
   
   Object.entries(applications).forEach(([method, data]) => {
-    normalized[formatCulinaryMethod(method)] = normalizeCulinaryMethod(data);
+    normalized[formatCulinaryMethod(method)] = normalizeCulinaryMethod(data as unknown as Record<string, unknown>);
   });
   
   return normalized;
@@ -198,7 +198,7 @@ export function normalizeVarieties(varieties: Record<string, unknown>): Record<s
   const normalized: Record<string, any> = {};
   
   Object.entries(varieties).forEach(([variety, data]) => {
-    normalized[formatVarietyName(variety)] = normalizeVarietyData(data);
+    normalized[formatVarietyName(variety)] = normalizeVarietyData(data as unknown as Record<string, unknown>);
   });
   
   return normalized;
@@ -284,18 +284,21 @@ export function normalizePreparation(preparation: Record<string, unknown>): any 
 export function normalizeIngredientData(ingredient: Record<string, unknown>): any {
   if (!ingredient) return null;
   
+  // Safe type casting for nutritional profile
+  const nutritionalProfile = ingredient.nutritionalProfile as unknown as Record<string, unknown>;
+  
   const normalized = {
     ...ingredient,
     nutritionalProfile: ingredient.nutritionalProfile ? {
-      ...ingredient.nutritionalProfile,
-      vitamins: normalizeVitamins(ingredient.nutritionalProfile.vitamins),
-      minerals: normalizeMinerals(ingredient.nutritionalProfile.minerals),
-      antioxidants: normalizeAntioxidants(ingredient.nutritionalProfile.antioxidants)
+      ...(nutritionalProfile || {}),
+      vitamins: normalizeVitamins((nutritionalProfile?.vitamins as unknown as Record<string, unknown>) || {}),
+      minerals: normalizeMinerals((nutritionalProfile?.minerals as unknown as Record<string, unknown>) || {}),
+      antioxidants: normalizeAntioxidants((nutritionalProfile?.antioxidants as unknown as Record<string, unknown>) || {})
     } : undefined,
-    culinaryApplications: normalizeCulinaryApplications(ingredient.culinaryApplications),
-    varieties: normalizeVarieties(ingredient.varieties),
-    storage: normalizeStorage(ingredient.storage),
-    preparation: normalizePreparation(ingredient.preparation)
+    culinaryApplications: normalizeCulinaryApplications((ingredient.culinaryApplications as unknown as Record<string, unknown>) || {}),
+    varieties: normalizeVarieties((ingredient.varieties as unknown as Record<string, unknown>) || {}),
+    storage: normalizeStorage((ingredient.storage as unknown as Record<string, unknown>) || {}),
+    preparation: normalizePreparation((ingredient.preparation as unknown as Record<string, unknown>) || {})
   };
   
   return normalized;
@@ -306,7 +309,8 @@ export function normalizeIngredientData(ingredient: Record<string, unknown>): an
  */
 export function safeGetNutritionalData(ingredient: Record<string, unknown>, field: string): any {
   try {
-    return ingredient?.nutritionalProfile?.[field] || null;
+    const profile = ingredient?.nutritionalProfile as unknown as Record<string, unknown>;
+    return profile?.[field] || null;
   } catch (error) {
     // console.warn(`Error accessing nutritional field ${field}:`, error);
     return null;
@@ -317,22 +321,25 @@ export function safeGetNutritionalData(ingredient: Record<string, unknown>, fiel
  * Check if ingredient has rich nutritional data
  */
 export function hasRichNutritionalData(ingredient: Record<string, unknown>): boolean {
-  const profile = ingredient?.nutritionalProfile;
+  const profile = ingredient?.nutritionalProfile as unknown as Record<string, unknown>;
   if (!profile) return false;
   
-  const hasVitamins = profile.vitamins && (
-    Array.isArray(profile.vitamins) ? profile.vitamins.length > 0 :
-    Object.keys(profile.vitamins).length > 0
+  const vitamins = profile.vitamins as unknown as Record<string, unknown> | unknown[];
+  const hasVitamins = vitamins && (
+    Array.isArray(vitamins) ? vitamins.length > 0 :
+    Object.keys(vitamins as Record<string, unknown>).length > 0
   );
   
-  const hasMinerals = profile.minerals && (
-    Array.isArray(profile.minerals) ? profile.minerals.length > 0 :
-    Object.keys(profile.minerals).length > 0
+  const minerals = profile.minerals as unknown as Record<string, unknown> | unknown[];
+  const hasMinerals = minerals && (
+    Array.isArray(minerals) ? minerals.length > 0 :
+    Object.keys(minerals as Record<string, unknown>).length > 0
   );
   
-  const hasAntioxidants = profile.antioxidants && (
-    Array.isArray(profile.antioxidants) ? profile.antioxidants.length > 0 :
-    Object.keys(profile.antioxidants).length > 0
+  const antioxidants = profile.antioxidants as unknown as Record<string, unknown> | unknown[];
+  const hasAntioxidants = antioxidants && (
+    Array.isArray(antioxidants) ? antioxidants.length > 0 :
+    Object.keys(antioxidants as Record<string, unknown>).length > 0
   );
   
   return hasVitamins || hasMinerals || hasAntioxidants;
