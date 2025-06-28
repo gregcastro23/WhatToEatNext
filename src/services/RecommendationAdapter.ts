@@ -208,28 +208,32 @@ export class RecommendationAdapter {
     try {
       // Get alchemical results from the positions
       const result = alchemize(
-        this.convertedPositions, 
+        this.convertedPositions as unknown as Record<string, any>, 
         this.isDaytime,
         this.lunarPhase || undefined,
         this.retrogradeStatus
       );
       
-      this.alchemicalResult = result;
+      this.alchemicalResult = result as unknown as Record<string, number>;
+      
+      // Safe type casting for result properties
+      const resultData = result as unknown as any;
       
       // Prepare alchemical properties
       const alchemicalProperties = {
-        Spirit: result.spirit,
-        Essence: result.essence,
-        Matter: result.matter,
-        Substance: result.substance
+        Spirit: resultData.spirit || 0,
+        Essence: resultData.essence || 0,
+        Matter: resultData.matter || 0,
+        Substance: resultData.substance || 0
       };
       
       // Prepare elemental properties, converting to uppercase keys
+      const elementalBalance = resultData.elementalBalance || {};
       const elementalProperties = {
-        Fire: result.elementalBalance.Fire || result.elementalBalance.fire || 0,
-        Earth: result.elementalBalance.Earth || result.elementalBalance.earth || 0,
-        Air: result.elementalBalance.Air || result.elementalBalance.air || 0,
-        Water: result.elementalBalance.Water || result.elementalBalance.water || 0
+        Fire: elementalBalance.Fire || elementalBalance.fire || 0,
+        Earth: elementalBalance.Earth || elementalBalance.earth || 0,
+        Air: elementalBalance.Air || elementalBalance.air || 0,
+        Water: elementalBalance.Water || elementalBalance.water || 0
       };
       
       // Apply tarot element boosts if available
@@ -388,7 +392,7 @@ export class RecommendationAdapter {
    */
   private getPlanetData(planet: string): Record<string, unknown> {
     const planetKey = planet.charAt(0).toUpperCase() + planet.slice(1).toLowerCase();
-    return planetInfo[planetKey as keyof typeof planetInfo] || {};
+    return (planetInfo[planetKey as keyof typeof planetInfo] || {}) as unknown as Record<string, unknown>;
   }
   
   /**
