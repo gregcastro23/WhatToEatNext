@@ -9,12 +9,11 @@
 import { CelestialPosition , PlanetaryPosition } from '../types/celestial';
 import { ZodiacSign } from '../types';
 
-import { logger } from './logger';
 import { validatePlanetaryPositions } from './validatePlanetaryPositions';
+import { getCurrentTransitSign } from './astrology/validation';
 
 import { cache } from '../utils/cache';
 import { createLogger } from '../utils/logger';
-import { getCurrentTransitSign } from '../utils/astrology';
 
 const logger = createLogger('StreamlinedPlanetaryPositions');
 

@@ -31,7 +31,7 @@ import {
   ElementalProperties
 , Element } from "@/types/alchemy";
 import type { AstrologicalState } from "@/types/celestial";
-import { createElementalProperties, isElementalProperties } from '../elemental/elementalUtils';
+import { createElementalProperties as createElementalPropertiesFromUtils, isElementalProperties } from '../elemental/elementalUtils';
 
 // Type guard for FlavorProperties
 interface FlavorProperties {
@@ -184,7 +184,7 @@ export function getMethodThermodynamics(method: CookingMethodProfile): BasicTher
   const methodNameLower = String(((method as unknown as Record<string, any>)).name?.toLowerCase() || '');
 
   // 1. Check the detailed data source first
-  const detailedMethodData = detailedCookingMethods[methodNameLower as unknown as CookingMethodEnum];
+  const detailedMethodData = detailedCookingMethods[methodNameLower as keyof typeof detailedCookingMethods];
   if (detailedMethodData && detailedMethodData.thermodynamicProperties) {
     return {
       heat: detailedMethodData.thermodynamicProperties?.heat ?? 0.5,
@@ -455,7 +455,7 @@ export function getRecommendedCookingMethods(
     }
     
     // Get thermodynamic properties
-    const thermodynamics = getMethodThermodynamics(method as CookingMethodProfile);
+    const thermodynamics = getMethodThermodynamics(method as unknown as CookingMethodProfile);
     
     recommendations?.push({
       method,
@@ -554,14 +554,14 @@ export function calculateMethodScore(method: CookingMethodProfile, astroState: A
   
   // Lunar phase compatibility
   if (astroState.lunarPhase) {
-    const lunarAffinity = calculateLunarMethodAffinity(method as CookingMethodData, astroState.lunarPhase);
+    const lunarAffinity = calculateLunarMethodAffinity(method as unknown as CookingMethodData, astroState.lunarPhase);
     score += lunarAffinity * 0.3;
   }
   
   // Planetary aspects compatibility
   if (astroState.aspects) {
     // ✅ Pattern MM-1: Type assertion to resolve PlanetaryAspect[] import mismatch
-    const aspectAffinity = _calculateAspectMethodAffinity(astroState.aspects as any, method as CookingMethodData);
+    const aspectAffinity = _calculateAspectMethodAffinity(astroState.aspects as any, method as unknown as CookingMethodData);
     score += aspectAffinity * 0.3;
   }
   
@@ -623,7 +623,7 @@ export function getCookingMethodRecommendations(
   const methods = Object.values(allCookingMethodsCombined);
   
   const scoredMethods = (methods || []).map(method => {
-    const score = calculateMethodScore(method as CookingMethodProfile, astroState);
+    const score = calculateMethodScore(method as unknown as CookingMethodProfile, astroState);
     
     // Apply surgical type casting with variable extraction
     const methodData = method as any;

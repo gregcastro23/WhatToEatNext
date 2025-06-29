@@ -11,17 +11,35 @@ import { getHolisticCookingRecommendations } from './alchemicalPillarUtils';
 export async function testCookingMethodRecommendations() {
   // Create a mock ingredient
   const mockIngredient: AlchemicalItem = {
+    id: 'tomato',
     name: 'Tomato',
-    element: 'Water',
-    elementalCharacter: 'Substance',
-    spirit: 0.4,
-    essence: 0.3,
-    matter: 0.6,
-    substance: 0.7,
-    water: 0.7,
-    fire: 0.3,
-    earth: 0.4,
-    air: 0.2
+    elementalProperties: {
+      Fire: 0.3,
+      Water: 0.7,
+      Earth: 0.4,
+      Air: 0.2
+    },
+    alchemicalProperties: {
+      Spirit: 0.4,
+      Essence: 0.3,
+      Matter: 0.6,
+      Substance: 0.7
+    },
+    transformedElementalProperties: {
+      Fire: 0.3,
+      Water: 0.7,
+      Earth: 0.4,
+      Air: 0.2
+    },
+    heat: 0.3,
+    entropy: 0.4,
+    reactivity: 0.3,
+    gregsEnergy: 0.4,
+    dominantElement: 'Water',
+    dominantAlchemicalProperty: 'Substance',
+    planetaryBoost: 1.0,
+    dominantPlanets: ['Venus'],
+    planetaryDignities: {}
   };
 
   // Create mock cooking methods
