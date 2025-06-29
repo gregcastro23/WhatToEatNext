@@ -5,14 +5,15 @@ import type { ElementalProperties, AlchemicalProperties, Season } from "@/types/
 import { cuisineFlavorProfiles } from '../cuisineFlavorProfiles';
 import { planetaryFlavorProfiles } from '../planetaryFlavorProfiles';
 import { flavorProfiles as integrationFlavorProfiles } from '../integrations/flavorProfiles';
-import { ingredientFlavorMap } from '../ingredients/flavorProfiles';
+// ingredientFlavorMap import disabled - not exported
+// import { ingredientFlavorMap } from '../ingredients/flavorProfiles';
 import { Element } from "@/types/alchemy";
 
 // Missing unified system type imports
 import type { 
   UnifiedFlavorProfile, 
   BaseFlavorNotes 
-} from '@/types/unified';
+} from '@/types';
 
 // Missing unified data imports
 import { unifiedFlavorProfiles } from './data/unifiedFlavorProfiles';

@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useAlchemical } from './useAlchemical';
-import { type IngredientRecommendation } from '@/types/ingredient';
+import { type IngredientRecommendation } from '@/types';
 import { Element, type ElementalProperties } from '@/types/alchemy';
 
 export interface Ingredient {

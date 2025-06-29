@@ -1,5 +1,5 @@
 // Import unified types for cuisine integrations
-import type { UnifiedIngredient } from '@/types/unified';
+import type { UnifiedIngredient } from '@/types';
 import type { EnhancedCookingMethod } from '@/types/cooking';
 
 function createElementalProperties(props: { Fire: number; Water: number; Earth: number; Air: number } = { Fire: 0, Water: 0, Earth: 0, Air: 0 }): ElementalProperties {
@@ -28,7 +28,8 @@ import type { ZodiacSign } from "@/types/zodiac";
 // Import removed - function not yet implemented
 import { FlavorProfileType } from "@/types/flavor";
 import { createElementalProperties } from '../../utils/elemental/elementalUtils';
-import { cache } from '../utils/cache';
+// Cache import removed - not available
+// import { cache } from '../utils/cache';
 
 // Import shared utility functions
 import { 

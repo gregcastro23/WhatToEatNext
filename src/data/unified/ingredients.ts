@@ -12,7 +12,7 @@ import type {
 
 import type { 
   UnifiedIngredient 
-} from "@/types/unified";
+} from "@/types";
 // TODO: Fix import - add what to import from "./unifiedTypes.ts"
 import { createElementalProperties } from '../../utils/elemental/elementalUtils';
 
