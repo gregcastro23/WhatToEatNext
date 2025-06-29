@@ -105,12 +105,10 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
           return matchedCuisineRecipes as Recipe[];
         }
         
-        // If no recipes from getRecipesForCuisineMatch, try getBestRecipeMatches
-        matchedRecipes = getBestRecipeMatches({
-          cuisine: cuisine || '',
-          season: (elementalState?.season as any) || 'all',
-          mealType: elementalState?.timeOfDay || 'all'
-        }, 8);
+        // If no recipes from getRecipesForCuisineMatch, getBestRecipeMatches returns a Promise
+        // We can't handle Promises in useMemo, so return empty array and handle async separately
+        // TODO: Consider using useEffect for async recipe loading
+        matchedRecipes = [];
       } catch (error) {
         // Error handled silently
       }

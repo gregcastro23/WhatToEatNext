@@ -361,7 +361,7 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
         
         // Use our new alchemical energy mapping functions
         // Calculate alchemical distribution from planetary positions
-        const alchemicalDistribution = calculateAlchemicalDistribution(currentPlanetaryAlignment, isDaytime);
+        const alchemicalDistribution = calculateAlchemicalDistribution(currentPlanetaryAlignment as unknown as Record<string, CelestialPosition>, isDaytime);
         
         // Convert alchemical distribution to elemental properties
         const elementalProps = convertToElementalProperties(alchemicalDistribution);

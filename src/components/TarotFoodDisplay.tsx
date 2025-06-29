@@ -69,7 +69,7 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
       
       // Get sun position from planetary alignment if available
       let sunPosition;
-      if (hasSunPosition(currentPlanetaryAlignment)) {
+      if (hasSunPosition(currentPlanetaryAlignment as unknown as Record<string, unknown>)) {
         const sunData = currentPlanetaryAlignment.Sun as any;
         sunPosition = {
           sign: sunData?.sign || '',
@@ -177,7 +177,7 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
         <span>Biweekly Period: {currentPeriod}</span>
         <Clock className="w-3 h-3 ml-3 mr-1" />
         <span>Updated daily with planetary positions</span>
-        {hasSunPosition(currentPlanetaryAlignment) && (
+        {hasSunPosition(currentPlanetaryAlignment as unknown as Record<string, unknown>) && (
           <span className="ml-3">
             • Sun: {(currentPlanetaryAlignment.Sun as any)?.sign} {Math.floor((currentPlanetaryAlignment.Sun as any)?.degree || 0)}°
           </span>

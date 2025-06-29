@@ -1,12 +1,14 @@
 import React from 'react';
-import type { Recipe } from '@/types/recipe';
+import type { Recipe, ScoredRecipe } from '@/types/recipe';
 
 interface RecipeComponentProps {
-  recipe: Recipe;
+  recipe: Recipe | ScoredRecipe;
   showDetails?: boolean;
+  isExpanded?: boolean;
+  onToggle?: () => void;
 }
 
-export default function RecipeComponent({ recipe, showDetails = true }: RecipeComponentProps) {
+export default function RecipeComponent({ recipe, showDetails = true, isExpanded, onToggle }: RecipeComponentProps) {
   return (
     <div className="recipe-component">
       <h2>{recipe.name}</h2>
