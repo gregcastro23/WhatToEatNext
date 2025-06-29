@@ -296,7 +296,7 @@ export function findComplementaryIngredients(
 }
 
 // Re-export UnifiedIngredient type for direct imports
-export type { UnifiedIngredient } from "@/types/unified";
+export type { UnifiedIngredient } from './unifiedTypes';
 
 // Export default
 export default unifiedIngredients; 

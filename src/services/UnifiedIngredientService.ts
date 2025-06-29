@@ -1,18 +1,20 @@
 import { 
   ElementalProperties, 
+  AlchemicalProperties, 
   ThermodynamicProperties,
   Season,
   PlanetName,
   ZodiacSign,
   Element,
   RecipeIngredient
-} from '../types';
+} from '@/types/alchemy';
 
 import { UnifiedIngredient } from '@/data/unified/unifiedTypes';
 import { Recipe } from '../types/recipe';
 // Fix import - getCurrentSeason is likely in a different location
 import { getCurrentSeason } from '@/data/integrations/seasonal';
 import { alchemicalEngine } from '@/utils/alchemyInitializer';
+import type { IngredientRecommendationOptions } from '@/services/interfaces/IngredientServiceInterface';
 
 /**
  * UnifiedIngredientService
@@ -61,13 +63,6 @@ interface DietaryFilter {
   restrictions: string[];
   preferences: string[];
   allergies?: string[];
-}
-
-interface IngredientRecommendationOptions {
-  maxResults?: number;
-  includeAlternatives?: boolean;
-  seasonalPreference?: boolean;
-  elementalBalance?: boolean;
 }
 
 export class UnifiedIngredientService implements IngredientServiceInterface {

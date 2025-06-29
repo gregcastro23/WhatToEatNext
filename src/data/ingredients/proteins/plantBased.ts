@@ -9,8 +9,8 @@ import type { IngredientMapping } from '@/data/ingredients/types';
 // Helper function to standardize ingredient mappings
 function createIngredientMapping(
   id: string,
-  properties: Partial<Ingredient> & Record<string, any>
-): Ingredient {
+  properties: Partial<IngredientMapping> & Record<string, any>
+): Partial<IngredientMapping> {
   return {
     id: id,
     name: id,
@@ -22,10 +22,10 @@ function createIngredientMapping(
     },
     category: properties.category || '',
     ...properties,
-  } as Ingredient;
+  };
 }
 
-const rawPlantBased: Record<string, Ingredient> = {
+const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
   tempeh: createIngredientMapping('tempeh', {
     elementalProperties: { Earth: 0.4, Water: 0.3, Fire: 0.2, Air: 0.1 },
     astrologicalProfile: {
@@ -1612,13 +1612,11 @@ const rawPlantBased: Record<string, Ingredient> = {
 };
 
 // Fix the ingredient mappings to ensure they have all required properties
-import type { IngredientMapping } from '@/data/ingredients/types';
-// Type fix: ensure output is IngredientMapping, then cast for compatibility
-const mappedPlantBased: IngredientMapping = fixIngredientMappings(rawPlantBased as Record<string, IngredientMapping>);
-export const plantBased: Record<string, Ingredient> = mappedPlantBased as Record<string, Ingredient>;
+const mappedPlantBased: Record<string, IngredientMapping> = fixIngredientMappings(rawPlantBased);
+export const plantBased: Record<string, IngredientMapping> = mappedPlantBased;
 
 // Add validation for elemental sums
-(Object.entries(plantBased) as [string, Ingredient][]).forEach(([id, ingredient]) => {
+(Object.entries(plantBased) as [string, IngredientMapping][]).forEach(([id, ingredient]) => {
   if (!ingredient.elementalProperties) return;
 
   let sum = Object.values(ingredient.elementalProperties).reduce(

@@ -1,10 +1,9 @@
 import { 
-  ElementalProperties, 
   Planet, 
   ZodiacSign, 
   ThermodynamicProperties,
   Element
-} from '../types';
+} from '@/types/alchemy';
 
 import { Recipe } from '../types/recipe';
 import { Ingredient } from '../types/ingredient';
@@ -22,6 +21,8 @@ import { unifiedIngredientService } from './UnifiedIngredientService';
 import alchemicalEngine from '@/calculations/core/alchemicalEngine';
 import { recipeDataService } from '@/services/recipeData';
 import { ElementalProperties as AlchemyElementalProperties } from '@/types/alchemy';
+import { UnifiedIngredient } from '@/types/ingredient';
+import { CookingMethod } from '@/types/cooking';
 /**
  * UnifiedRecommendationService
  * 

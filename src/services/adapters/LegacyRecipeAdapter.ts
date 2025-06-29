@@ -234,15 +234,13 @@ export class LegacyRecipeAdapter {
     limit: number = 10
   ): Promise<ScoredRecipe[]> {
     try {
-      return await unifiedRecipeService.getBestRecipeMatches(criteria, limit) as unknown as ScoredRecipe[];
+      // Add limit to criteria if needed
+      const criteriaWithLimit = { ...criteria, maxResults: limit };
+      const matches = await unifiedRecipeService.getBestRecipeMatches(criteriaWithLimit);
+      return matches as unknown as ScoredRecipe[];
     } catch (error) {
       logger.error('Error in getBestRecipeMatches:', error);
-      // Minimal fallback
-      const allRecipes = await LocalRecipeService.getAllRecipes();
-      return (allRecipes || []).slice(0, limit).map(recipe => ({
-        ...recipe,
-        score: 0.5 // Default score
-      } as ScoredRecipe));
+      return [];
     }
   }
   

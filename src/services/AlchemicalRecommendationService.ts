@@ -4,13 +4,13 @@ import type { ElementalProperties,
   ZodiacSign,
   Season,
   Recipe,
-  UnifiedIngredient,
   CookingMethod,
-  ElementalProfile } from '../types';
+  ElementalProfile } from '@/types/alchemy';
+import type { UnifiedIngredient } from '@/types/ingredient';
 import { getCurrentSeason , recipe} from '@/types/seasons';
 
-import { Element } from "@/types/alchemy";
-import alchemicalEngine, { AlchemicalEngine } from '@/calculations/core/alchemicalEngine';
+import { AlchemicalEngine } from '@/calculations/core/alchemicalEngine';
+import { Element } from '@/types/alchemy';
 
 /**
  * AlchemicalRecommendation interface for providing structured recommendations
@@ -18,7 +18,7 @@ import alchemicalEngine, { AlchemicalEngine } from '@/calculations/core/alchemic
 export interface AlchemicalRecommendation {
   dominantElement: keyof ElementalProperties;thermodynamics: ThermodynamicProperties;
   recommendedIngredients: string[];
-  recommendedCookingMethods: string[];
+  recommendedCookingMethods: CookingMethod[];
   recommendations: string[];
   warnings: string[];
 }
@@ -32,7 +32,7 @@ export class AlchemicalRecommendationService {
   private engine: AlchemicalEngine;
   
   private constructor() {
-    this.engine = alchemicalEngine;
+    this.engine = new AlchemicalEngine();
   }
   
   /**
@@ -49,7 +49,7 @@ export class AlchemicalRecommendationService {
    * Generate recommendations based on planetary positions
    */
   public generateRecommendations(
-    planetaryPositions: Record<Planet, ZodiacSign>,
+    planetaryPositions: Record<string, ZodiacSign>,
     ingredients: UnifiedIngredient[],
     cookingMethods: CookingMethod[]
   ): AlchemicalRecommendation {
@@ -109,7 +109,7 @@ export class AlchemicalRecommendationService {
         ingredient,
         score: this.engine.calculateElementalCompatibility(
           elementalProperties,
-          ingredient.elementalPropertiesState as any
+          ingredient.elementalProperties
         )
       }))
       .filter(({ score }) => score > 0.7)
@@ -278,7 +278,7 @@ export class AlchemicalRecommendationService {
    */
   public getRecipeRecommendations(
     recipe: Recipe,
-    planetaryPositions: Record<Planet, ZodiacSign>
+    planetaryPositions: Record<string, ZodiacSign>
   ): {
     compatibility: number;
     suggestions: string[];

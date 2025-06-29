@@ -3,37 +3,7 @@ export const MEAL_TIMES = ['breakfast', 'lunch', 'snack', 'dinner'] as const;
 export type MealTime = typeof MEAL_TIMES[number];
 
 // Import fundamental types
-import { Recipe as AlchemyRecipe } from './alchemy';
-import { 
-  CelestialPosition, 
-  ZodiacSign, 
-  Element, 
-  LunarPhase, 
-  Planet, 
-  AspectType, 
-  DignityType,
-  AstrologicalState,
-  ElementalProperties,
-  AlchemicalProperties,
-  ThermodynamicProperties,
-  PlanetaryAlignment
-} from './celestial';
-import { type Season } from "@/types/alchemy";
-
-// Export types properly for TypeScript isolatedModules
-export type { 
-  CelestialPosition, 
-  ZodiacSign, 
-  LunarPhase, 
-  Planet, 
-  AspectType, 
-  DignityType,
-  AstrologicalState,
-  ElementalProperties,
-  AlchemicalProperties,
-  ThermodynamicProperties,
-  PlanetaryAlignment
-} from './celestial';
+import { Recipe as AlchemyRecipe, ZodiacSign, Season, ElementalProperties } from './alchemy';
 
 // Define zodiac signs as seasons
 export const ZODIAC_SEASONS: ZodiacSign[] = [
@@ -135,16 +105,6 @@ export type TimeOfDay = {
 // Use as type instead of enum to avoid merging issues
 export type CuisineTypeEnum = 'ITALIAN' | 'FRENCH' | 'CHINESE' | 'INDIAN' | 'MEXICAN';
 
-// Export Element from alchemy as the authoritative source
-export type { Element } from './alchemy';
-
-// Export unique types from alchemy
-export type {
-  BasicThermodynamicProperties,
-  ElementalCharacteristics,
-  ElementalProfile
-} from './alchemy';
-
 // Export essential utils
 export * from './utils';
 export * from './cuisine';
@@ -170,40 +130,17 @@ export type DietaryRestriction =
 
 // Re-export all relevant types from their modules
 // Remove duplicate exports to avoid conflicts
-export * from './elemental';
 export * from './nutrition';
 export * from './spoonacular';
 // Note: Removing './recipe', './time', './lunar', './cookingMethod', './validation' to avoid conflicts
 // Note: Removing './seasons' and './zodiacAffinity' to avoid conflicts
-export * from './zodiac';
 export * from './seasonal';
 export * from './cuisine';
 export * from './chakra';
 export * from './astrology';
 export * from './astrological';
-export * from './food';
-export * from './ingredient';
-export * from './recipeIngredient';
-export * from './recipes';
 export * from './ingredient-compatibility';
 export * from './utils';
-
-// Remove these duplicate imports - they're already being exported above
-// import { 
-//   Ingredient,
-//   BaseIngredient,
-//   IngredientCategory,
-//   SensoryProfile,
-//   CookingMethod,
-//   AlchemicalProperties,
-//   ThermodynamicProperties,
-//   ElementalTransformation,
-//   LunarPhaseModifier,
-//   IngredientMapping,
-//   RecipeIngredient,
-//   SimpleIngredient,
-//   Modality
-// } from './ingredients';
 
 // Define core app state types
 export interface AppState {
@@ -215,3 +152,24 @@ export interface AppState {
     favoriteIngredients: string[];
   };
 }
+
+// Instead, import and export only from './alchemy' for these types:
+import { 
+  AlchemicalProperties, 
+  ThermodynamicProperties, 
+  Element, 
+  PlanetName, 
+  LunarPhase, 
+  PlanetaryAlignment 
+} from './alchemy';
+
+export type { 
+  AlchemicalProperties, 
+  ThermodynamicProperties, 
+  Season, 
+  Element, 
+  PlanetName, 
+  ZodiacSign, 
+  LunarPhase, 
+  PlanetaryAlignment 
+} from './alchemy';

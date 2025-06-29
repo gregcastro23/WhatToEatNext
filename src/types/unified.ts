@@ -2,8 +2,7 @@
 import type { ElementalProperties, AlchemicalProperties } from './alchemy';
 import type { Season, Element } from './shared';
 
-// UnifiedIngredient is now defined in '@/data/unified/unifiedTypes'.
-// Please import from there instead of this file.
+// NOTE: UnifiedIngredient is defined in '@/data/unified/unifiedTypes'. Import from there.
 
 export interface UnifiedRecipe {
   id: string;
