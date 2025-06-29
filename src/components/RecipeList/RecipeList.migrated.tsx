@@ -103,7 +103,7 @@ const RecipeCard: React.FC<{
       <CardContent sx={{ flexGrow: 1 }}>
         <Box display="flex" justifyContent="space-between" alignItems="flex-start" mb={2}>
           <Typography variant="h6" component="h3" gutterBottom>
-            {recipe.name}
+            {recipe.name as string}
           </Typography>
           {recipe.matchPercentage && (
             <Chip 
@@ -115,14 +115,14 @@ const RecipeCard: React.FC<{
         </Box>
 
         <Typography variant="body2" color="text.secondary" paragraph>
-          {recipe.description}
+          {recipe.description as string}
         </Typography>
 
         <Box display="flex" gap={1} flexWrap="wrap" mb={2}>
           {recipe.cuisine && (
             <Chip 
               icon={<Restaurant />}
-              label={recipe.cuisine}
+              label={recipe.cuisine as string}
               size="small"
               variant="outlined"
             />
@@ -154,7 +154,7 @@ const RecipeCard: React.FC<{
               readOnly 
             />
             <Typography variant="caption">
-              {recipe.rating}/5
+              {recipe.rating as number}/5
             </Typography>
           </Box>
         )}
@@ -361,7 +361,7 @@ export default function RecipeListMigrated() {
   useEffect(() => {
     const fetchAstroData = async () => {
       try {
-        const data = await astrologize.getCurrentChart();
+        const data = await (astrologize as any).getCurrentChart();
         setAstroData(data);
       } catch (err) {
         console.error('Failed to load astrological data:', err);
@@ -494,11 +494,7 @@ export default function RecipeListMigrated() {
     setError(null);
     
     try {
-      const response = await recipeService.getAllRecipes({
-        page,
-        limit,
-        filters: filters.search ? { search: filters.search } : undefined
-      });
+      const response = await recipeService.getAllRecipes();
       
       // Apply safe type casting for response property access
       const responseData = response as any;
@@ -527,9 +523,10 @@ export default function RecipeListMigrated() {
    */
   const filteredRecipes = useMemo(() => {
     return enhancedRecipes.filter(recipe => {
-      // Search filter
-      if (filters.search && !recipe.name.toLowerCase().includes(filters.search.toLowerCase()) &&
-          !recipe.description?.toLowerCase().includes(filters.search.toLowerCase())) {
+      // Search filter with safe property access
+      if (filters.search && typeof recipe.name === 'string' && 
+          !recipe.name.toLowerCase().includes(filters.search.toLowerCase()) &&
+          !(typeof recipe.description === 'string' && recipe.description.toLowerCase().includes(filters.search.toLowerCase()))) {
         return false;
       }
 
@@ -737,11 +734,11 @@ export default function RecipeListMigrated() {
         <>
           <Grid container spacing={3}>
             {filteredRecipes.map((recipe) => (
-              <Grid item xs={12} md={6} lg={4} key={recipe.id}>
+              <Grid item xs={12} md={6} lg={4} key={recipe.id as string}>
                 <RecipeCard
                   recipe={recipe}
                   isExpanded={expandedRecipeId === recipe.id}
-                  onToggle={() => toggleRecipe(recipe.id)}
+                  onToggle={() => toggleRecipe(recipe.id as string)}
                 />
               </Grid>
             ))}
