@@ -251,7 +251,6 @@ export class ElementalCalculator {
   // Add methods to process different types of planetary position data
   private processPlanetsObject(planets: any, elementalValues: ElementalProperties): void {
     if (!planets) return;
-    if (!planets) return;
     
     // Handle both array and object formats of planets
     if (Array.isArray(planets)) {
@@ -270,7 +269,6 @@ export class ElementalCalculator {
   }
 
   private processCelestialBodies(bodies: any, elementalValues: ElementalProperties): void {
-    if (!bodies) return;
     if (!bodies) return;
     
     // Handle CelestialBodies format from API
@@ -305,7 +303,6 @@ export class ElementalCalculator {
   }
 
   private processPlanetKeys(data: any, elementalValues: ElementalProperties): void {
-    if (!data) return;
     if (!data) return;
     
     // Try to find planets in a generic object structure
@@ -703,7 +700,7 @@ export class ElementalCalculator {
   }
 
   // Method to process planet object and extract elemental properties
-  processPlanetsObject(planet: any, sign: string): Record<string, number> {
+  processPlanetElementalEffect(planet: any, sign: string): Record<string, number> {
     if (!planet || !sign) {
       return { Fire: 0, Water: 0, Earth: 0, Air: 0 };
     }
@@ -733,7 +730,7 @@ export class ElementalCalculator {
   }
 
   // Method to process celestial bodies data
-  processCelestialBodies(celestialData: any): Record<string, number> {
+  processCelestialBodiesData(celestialData: any): Record<string, number> {
     if (!celestialData) {
       return { Fire: 0, Water: 0, Earth: 0, Air: 0 };
     }
@@ -747,7 +744,7 @@ export class ElementalCalculator {
         let sign = celestialData[planetKey.toLowerCase()]?.Sign?.label;
         
         if (sign) {
-          let planetEffect = this.processPlanetsObject(planet, sign);
+          let planetEffect = this.processPlanetElementalEffect(planet, sign);
           
           // Combine effects
           for (const element of Object.keys(totalElementalEffect)) {
@@ -761,7 +758,7 @@ export class ElementalCalculator {
   }
 
   // Process planet keys to get element effects
-  processPlanetKeys(planets: any): Record<string, number> {
+  processPlanetKeysData(planets: any): Record<string, number> {
     if (!planets) {
       return { Fire: 0, Water: 0, Earth: 0, Air: 0 };
     }
@@ -778,7 +775,7 @@ export class ElementalCalculator {
     for (const planet of planetKeys) {
       if (planets[planet]?.Sign) {
         let sign = planets[planet].Sign;
-        let planetEffect = this.processPlanetsObject(planet, sign);
+        let planetEffect = this.processPlanetElementalEffect(planet, sign);
         
         // Combine effects
         for (const element of Object.keys(elementalEffect)) {
@@ -791,7 +788,7 @@ export class ElementalCalculator {
   }
 
   // Get dominant element from elemental effects
-  getDominantElement(elementalEffects: Record<string, number>): string {
+  getDominantElementFromEffects(elementalEffects: Record<string, number>): string {
     if (!elementalEffects) {
       return 'Fire';
     }
