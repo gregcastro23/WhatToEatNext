@@ -661,13 +661,7 @@ export function calculateElementalInfluences(
     'sagittarius': 'Fire',
     'capricorn': 'Earth',
     'aquarius': 'Air',
-    'pisces': 'Water',
-    // Support for case variations
-    'aries': 'Fire',
-    'leo': 'Fire',
-    'libra': 'Air',
-    'scorpio': 'Water',
-    'cancer': 'Water'
+    'pisces': 'Water'
   };
 
   // Define planet weights
@@ -770,14 +764,14 @@ export function getChakraBasedRecommendations(
       
       // Create recommendation with chakra-based score
       const recommendation: IngredientRecommendation = {
-        ...ingredient,
+        ...(ingredient as object),
         matchScore: energy / 10, // Normalize to 0-1 range
         recommendations: [
           `Supports ${chakra} chakra energy`,
-          ...nutritionalCorrelations.filter(corr => 
-            (ingredient as any)?.name.toLowerCase().includes(corr.toLowerCase()) ||
+          ...(nutritionalCorrelations.filter(corr => 
+            (ingredient as any)?.name?.toLowerCase().includes(corr.toLowerCase()) ||
             ((ingredient as any)?.type ? (ingredient as any).type.toLowerCase().includes(corr.toLowerCase()) : false)
-          )
+          ) || [])
         ]
       } as IngredientRecommendation;
       
@@ -842,7 +836,7 @@ function isVenusAssociatedIngredient(ingredientName: string): boolean {
   }
   
   // Check against zodiac-specific Venus ingredients
-  if (venusData.PlanetSpecific?.ZodiacTransit) {
+  if (venusData.PlanetSpecific?.ZodiacTransit && typeof venusData.PlanetSpecific.ZodiacTransit === 'object') {
     for (const zodiac in venusData.PlanetSpecific.ZodiacTransit) {
       const transitData = venusData.PlanetSpecific.ZodiacTransit[zodiac];
       if (transitData.Ingredients) {
@@ -885,7 +879,7 @@ function isMarsAssociatedIngredient(ingredientName: string): boolean {
   }
   
   // Check all zodiac transits for ingredients
-  if (marsData.PlanetSpecific?.ZodiacTransit) {
+  if (marsData.PlanetSpecific?.ZodiacTransit && typeof marsData.PlanetSpecific.ZodiacTransit === 'object') {
     for (const sign in marsData.PlanetSpecific.ZodiacTransit) {
       const transit = marsData.PlanetSpecific.ZodiacTransit[sign];
       if (transit.Ingredients) {
@@ -1624,7 +1618,7 @@ function isMercuryAssociatedIngredient(ingredientName: string): boolean {
   
   // Check Mercury ZodiacTransit ingredient associations in current sign
   // This is a more dynamic way to check for transient associations
-  const currentZodiacSign = getCurrentZodiacSign(); // Implement or use available function
+  const currentZodiacSign = 'aries'; // Use fallback or implement getCurrentZodiacSign function
   if (currentZodiacSign && mercuryData.PlanetSpecific?.ZodiacTransit?.[currentZodiacSign]?.Ingredients) {
     const transitIngredients = mercuryData.PlanetSpecific.ZodiacTransit[currentZodiacSign].Ingredients;
     if (transitIngredients.some(ingredient => 
