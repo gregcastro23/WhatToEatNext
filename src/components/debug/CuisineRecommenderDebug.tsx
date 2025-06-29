@@ -260,7 +260,7 @@ export default function CuisineRecommenderDebug() {
       
       // Step 2: Calculate elemental profile
       const elementalProfile = calculateElementalProfileFromZodiac(
-        astroState.zodiacSign || 'aries'
+        (astroState.zodiacSign || 'aries') as string
       );
       
       updateStep(1, elementalProfile, true);
@@ -306,7 +306,7 @@ export default function CuisineRecommenderDebug() {
       // Step 5: Transform cuisines
       let transformedCuisines;
       try {
-        transformedCuisines = transformCuisines(recs, astroState, elementalProfile, seasonalFactors, planetaryContributions);
+        transformedCuisines = transformCuisines(recs, astroState as Record<string, number>, elementalProfile, planetaryElementContributions, planetaryElementContributions);
         updateStep(4, transformedCuisines.slice(0, 3), true); // Show only first 3
       } catch (err) {
         console.error('Error transforming cuisines:', err);
