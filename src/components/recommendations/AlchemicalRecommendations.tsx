@@ -563,7 +563,7 @@ export default function AlchemicalRecommendations({
                 <Chip 
                   label={`${element}: ${Math.round((value as number) * 100)}%`}
                   size="small"
-                  color={element.toLowerCase() as any}
+                  color="primary"
                   variant="outlined"
                 />
               </Grid>
@@ -665,23 +665,22 @@ export default function AlchemicalRecommendations({
                     <CardMedia
                       component="img"
                       height="140"
-                      image={recipe.image}
-                      alt={recipe.name}
+                      image={String(recipe.image)}
+                      alt={String(recipe.name)}
                     />
                   )}
                   <CardContent>
                     <Typography variant="h6" component="div">
-                      {recipe.name}
+                      {String(recipe.name)}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-                      {recipe.cuisine}
+                      {String(recipe.cuisine)}
                     </Typography>
                     
                     <Box sx={{ mb: 1 }}>
                       {recipe.mealType && (
                         <Chip 
-                          icon={<Restaurant />}
-                          label={Array.isArray(recipe.mealType) ? recipe.mealType[0] : recipe.mealType}
+                          label={Array.isArray(recipe.mealType) ? recipe.mealType[0] : String(recipe.mealType)}
                           size="small"
                           sx={{ mr: 0.5, mb: 0.5 }}
                         />
@@ -689,7 +688,6 @@ export default function AlchemicalRecommendations({
                       
                       {recipe.cookTime && (
                         <Chip 
-                          icon={<AccessTime />}
                           label={`${recipe.cookTime} min`}
                           size="small"
                           sx={{ mr: 0.5, mb: 0.5 }}

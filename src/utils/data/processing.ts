@@ -85,9 +85,8 @@ export function standardizeIngredient(ingredient: unknown): Ingredient {
     id: String(raw.id || 'unknown'),
     name: String(raw.name || 'Unknown Ingredient'),
     category: String(raw.category || 'other'),
-    subCategory: raw.subCategory ? String(raw.subCategory) : undefined,
+    subcategory: raw.subCategory ? String(raw.subCategory) : undefined,
     elementalProperties: standardizeElementalProperties(raw.elementalState),
-    astrologicalProfile: standardizeAstrologicalProfile(raw.astrologicalProfile),
     flavorProfile: standardizeFlavorProfile(raw.flavorProfile),
     nutritionalProfile: standardizeNutritionalProfile(raw.nutritionalProfile),
     season: standardizeSeasons(raw.currentSeason),
@@ -97,7 +96,7 @@ export function standardizeIngredient(ingredient: unknown): Ingredient {
     pAirings: Array.isArray(raw.pAirings) ? raw?.pAirings || [].map(String) : [],
     storage: raw.storage ? String(raw.storage) : undefined,
     preparationTips: Array.isArray(raw.preparationTips) ? raw?.preparationTips || [].map(String) : [],
-  };
+  } as Ingredient;
 }
 
 /**
@@ -158,8 +157,8 @@ export function validateIngredient(ingredient: Partial<Ingredient>): ValidationR
   }
   
   // Elemental properties validation
-  if (ingredient.elementalPropertiesState) {
-    const elementalValidation = validateElementalProperties(ingredient.elementalPropertiesState);
+  if (ingredient.elementalProperties) {
+    const elementalValidation = validateElementalProperties(ingredient.elementalProperties);
     if (!elementalValidation.isValid) {
       errors?.push(...elementalValidation.errors);
     }
@@ -329,18 +328,13 @@ function createDefaultIngredient(id: string): Ingredient {
     name: 'Unknown Ingredient',
     category: 'other',
     elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
-    astrologicalProfile: {
-      elementalAffinity: { base: 'Fire', decanModifiers: {} },
-      rulingPlanets: [],
-      favorableZodiac: [],
-    },
     flavorProfile: { sweet: 0, sour: 0, salty: 0, bitter: 0, umami: 0, spicy: 0 },
     season: [],
     qualities: [],
     cookingMethods: [],
     pAirings: [],
     preparationTips: [],
-  };
+  } as Ingredient;
 }
 
 function createDefaultRecipe(id: string): Recipe {
@@ -391,16 +385,14 @@ function standardizeAstrologicalProfile(profile: unknown): AstrologicalProfile {
       elementalAffinity: {} as ElementalAffinity,
       rulingPlanets: [],
       favorableZodiac: [],
-    } as AstrologicalProfile;
+    } as unknown as AstrologicalProfile;
   }
-  
   const prof = profile as Record<string, any>;
-  
   return {
     elementalAffinity: standardizeElementalAffinity(prof.elementalAffinity?.base),
     rulingPlanets: Array.isArray(prof.rulingPlanets) ? (prof.rulingPlanets || []).map(String) : [],
     favorableZodiac: Array.isArray(prof.favorableZodiac) ? (prof.favorableZodiac || []).map(String) : [],
-  } as AstrologicalProfile;
+  } as unknown as AstrologicalProfile;
 }
 
 function standardizeFlavorProfile(profile: unknown): { [key: string]: number } {

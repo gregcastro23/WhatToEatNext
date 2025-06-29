@@ -373,7 +373,7 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
       let filteredItems = items;
       if (criteria.excludeMethods && criteria.excludeMethods.length > 0) {
         filteredItems = items.filter(method => 
-          !criteria.excludeMethods!.includes(method)
+          !criteria.excludeMethods!.includes(method.name)
         );
       }
       

@@ -1,5 +1,6 @@
 import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
+import type { ZodiacSign } from '@/types/celestial';
 
 const rawWholeGrains = {
   'brown_rice': {
@@ -7,7 +8,7 @@ const rawWholeGrains = {
     elementalProperties: { Earth: 0.5, Water: 0.3, Air: 0.1, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Venus'],
-      favorableZodiac: ['cancer', 'capricorn', 'taurus'],
+      favorableZodiac: ['cancer', 'capricorn', 'taurus'] as ZodiacSign[],
       elementalAffinity: {
         base: 'Earth',
         secondary: 'Water',
@@ -295,7 +296,7 @@ const rawWholeGrains = {
     elementalProperties: { Earth: 0.4, Air: 0.4, Water: 0.2, Fire: 0 },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Mercury'],
-      favorableZodiac: ['cancer', 'gemini'],
+      favorableZodiac: ['cancer', 'gemini'] as ZodiacSign[],
       elementalAffinity: {
         base: 'Air',
         decanModifiers: {
@@ -557,7 +558,7 @@ const rawWholeGrains = {
     elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Venus'],
-      favorableZodiac: ['cancer', 'taurus'],
+      favorableZodiac: ['cancer', 'taurus'] as ZodiacSign[],
       elementalAffinity: {
         base: 'Earth',
         decanModifiers: {
@@ -603,7 +604,7 @@ const rawWholeGrains = {
     name: 'Barley',
     astrologicalProfile: {
       rulingPlanets: ['Venus', 'Moon'],
-      favorableZodiac: ['cancer', 'taurus']
+      favorableZodiac: ['cancer', 'taurus'] as ZodiacSign[],
     },
     elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },
     qualities: ['nutty', 'chewy', 'wholesome'],
@@ -645,7 +646,7 @@ const rawWholeGrains = {
 
 // Fix the ingredient mappings to ensure they have all required properties
 // ✅ Pattern MM-1: Type assertion for ZodiacSign[] compatibility
-export const wholeGrains: Record<string, IngredientMapping> = fixIngredientMappings(rawWholeGrains as Record<string, Partial<IngredientMapping>>);
+export const wholeGrains: Record<string, IngredientMapping> = fixIngredientMappings(rawWholeGrains);
 
 // Create a collection of all whole grains
 export let allWholeGrains = Object.values(wholeGrains);

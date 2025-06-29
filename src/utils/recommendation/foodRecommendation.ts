@@ -5,8 +5,7 @@ import type {
   Season, 
   Element, 
   AstrologicalState,
-  PlanetName,
-  WeekDay 
+  PlanetName
 } from '../../types';
 import type { Recipe } from "@/types/recipe";
 
@@ -31,6 +30,8 @@ export {
 // ===== TYPES AND INTERFACES =====
 
 type MealType = 'Breakfast' | 'Lunch' | 'Dinner' | 'Snack' | 'Anytime';
+
+type WeekDay = 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday';
 
 interface TimeFactors {
   season: Season;

@@ -2,6 +2,7 @@ import { ElementalCharacter } from '../constants/planetaryElements';
 import { RulingPlanet } from '../constants/planets';
 import type { ThermodynamicMetrics } from '../calculations/gregsEnergy';
 import type { BirthChart } from '../types/astrology';
+import { normalizePlanetaryPositions } from '@/utils/astrology/core';
 
 /**
  * Maps planets to their elemental influences (diurnal and nocturnal elements)
@@ -221,16 +222,19 @@ export class FoodAlchemySystem {
         planetaryPositions?: Record<string, { sign: string; degree: number }>,
         aspects?: Array<{ type: string; planets: [string, string] }>
     ): CompatibilityScore {
+        // Normalize planetary positions for robust, type-safe access
+        const normalizedPositions = normalizePlanetaryPositions(planetaryPositions || {});
+        // Use normalizedPositions in all downstream logic
         // Calculate elemental match (45% weight)
         const elementalMatch = this.calculateElementalMatch(chart, food);
         
         // Calculate planetary day influence with enhanced dignity and decan effects (35% weight)
         const { score: planetaryDayMatch, dignityBonus: dayDignityBonus, decanBonus: dayDecanBonus } = 
-            this.calculatePlanetaryDayInfluence(food, planetaryDay, planetaryPositions);
+            this.calculatePlanetaryDayInfluence(food, planetaryDay, normalizedPositions);
         
         // Calculate planetary hour influence with enhanced dignity and aspect effects (20% weight) 
         const { score: planetaryHourMatch, dignityBonus: hourDignityBonus, aspectBonus } = 
-            this.calculatePlanetaryHourInfluence(food, planetaryHour, isDaytime, planetaryPositions, aspects);
+            this.calculatePlanetaryHourInfluence(food, planetaryHour, isDaytime, normalizedPositions, aspects);
         
         // Apply standardized weighting
         let compatibility = (
@@ -248,8 +252,8 @@ export class FoodAlchemySystem {
         
         return {
             compatibility,
-            recommendations: this.generateRecommendations(food, chart, planetaryDay, planetaryHour, isDaytime, planetaryPositions, aspects),
-            warnings: this.identifyConflicts(food, chart, planetaryPositions),
+            recommendations: this.generateRecommendations(food, chart, planetaryDay, planetaryHour, isDaytime, normalizedPositions, aspects),
+            warnings: this.identifyConflicts(food, chart, normalizedPositions),
             scoreDetails: {
                 elementalMatch: elementalMatch * 0.45,
                 planetaryDayMatch: planetaryDayMatch * 0.35,
@@ -281,6 +285,7 @@ export class FoodAlchemySystem {
         planetaryDay: string,
         planetaryPositions?: Record<string, { sign: string; degree: number }>
     ): { score: number; dignityBonus?: number; decanBonus?: number } {
+        const normalizedPositions = normalizePlanetaryPositions(planetaryPositions || {});
         // Get the elements associated with the current planetary day
         const dayElements = planetaryElements[planetaryDay];
         if (!dayElements) return { score: 0.5 }; // Unknown planet
@@ -299,9 +304,9 @@ export class FoodAlchemySystem {
         let decanBonus = 0;
         
         // Apply dignity effects if we have planet positions
-        if (planetaryPositions && planetaryPositions[planetaryDay]) {
-            const planetSign = planetaryPositions[planetaryDay].sign;
-            const planetDegree = planetaryPositions[planetaryDay].degree;
+        if (normalizedPositions && normalizedPositions[planetaryDay]) {
+            const planetSign = normalizedPositions[planetaryDay].sign;
+            const planetDegree = normalizedPositions[planetaryDay].degree;
             
             // Dignity effect bonus/penalty
             if (dayElements.dignityEffect && dayElements.dignityEffect[planetSign]) {

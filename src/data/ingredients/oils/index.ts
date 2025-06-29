@@ -1,10 +1,11 @@
+import type { IngredientMapping } from '@/data/ingredients/types';
 import { oils } from './oils';
-import { enhanceOilProperties } from '@/utils/elementalUtils';
+import { enhanceOilProperties, fixIngredientMappings } from '@/utils/elementalUtils';
 
 export { oils };
 
 // Process oils to add enhanced properties
-export let processedOils = enhanceOilProperties(oils);
+export let processedOils: Record<string, IngredientMapping> = fixIngredientMappings(oils);
 
 // Export enhanced oils as default
 export default processedOils;
@@ -34,31 +35,31 @@ export let specialtyOils = Object.entries(processedOils)
 export let fireOils = Object.entries(processedOils)
   .filter(([_, value]) => 
     value.elementalProperties.Fire >= 0.4 || 
-    value.astrologicalProfile?.elementalAffinity?.base === 'Fire')
+    (typeof value.astrologicalProfile?.elementalAffinity === 'object' && value.astrologicalProfile.elementalAffinity?.base === 'Fire'))
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
 export let waterOils = Object.entries(processedOils)
   .filter(([_, value]) => 
     value.elementalProperties.Water >= 0.4 || 
-    value.astrologicalProfile?.elementalAffinity?.base === 'Water')
+    (typeof value.astrologicalProfile?.elementalAffinity === 'object' && value.astrologicalProfile.elementalAffinity?.base === 'Water'))
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
 export let earthOils = Object.entries(processedOils)
   .filter(([_, value]) => 
     value.elementalProperties.Earth >= 0.4 || 
-    value.astrologicalProfile?.elementalAffinity?.base === 'Earth')
+    (typeof value.astrologicalProfile?.elementalAffinity === 'object' && value.astrologicalProfile.elementalAffinity?.base === 'Earth'))
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
 export let airOils = Object.entries(processedOils)
   .filter(([_, value]) => 
     value.elementalProperties.Air >= 0.4 || 
-    value.astrologicalProfile?.elementalAffinity?.base === 'Air')
+    (typeof value.astrologicalProfile?.elementalAffinity === 'object' && value.astrologicalProfile.elementalAffinity?.base === 'Air'))
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
 // Export by culinary applications
 export let highHeatOils = Object.entries(processedOils)
   .filter(([_, value]) => 
-    (value.smokePoint?.fahrenheit >= 400) || 
+    (typeof value.smokePoint === 'object' && value.smokePoint !== null && 'fahrenheit' in value.smokePoint && (value.smokePoint as any).fahrenheit >= 400) || 
     (value.culinaryApplications?.frying || value.culinaryApplications?.deepfrying))
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
@@ -79,4 +80,4 @@ export let nutOils = Object.entries(processedOils)
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
 // For backward compatibility
-export let allOils = processedOils; 
+export let allOils: Record<string, IngredientMapping> = processedOils; 

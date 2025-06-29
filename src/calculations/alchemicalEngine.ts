@@ -846,7 +846,7 @@ function getElementRanking(
     }
     
     // Create a new object for the results, not a reference to the parameter
-    let rankingObject: Record<number, string> = {};
+    const rankingObject: Record<number, string> = {};
     
     // Get values safely with defaults
     const fireValue = elementObject.Fire || 0;
@@ -950,7 +950,7 @@ export function alchemize(
     }
     
     // Use let for all variables that might be reassigned
-    let horoscope = horoscopeDict.tropical;
+    const horoscope = horoscopeDict.tropical;
     const silent_mode = false;
     
     // Validate horoscope has required data
@@ -977,7 +977,7 @@ export function alchemize(
     };
     
     // Initialize alchemical info with default values - use let since it's modified later
-    let alchmInfo = {
+    const alchmInfo = {
       'Sun Sign': '',
       'Major Arcana': {
         'Sun': "",
@@ -1058,7 +1058,7 @@ export function alchemize(
       
       // SAFELY update planetInfo with correct typing
       if (typeof planetInfo === 'object' && planetInfo && 'Ascendant' in planetInfo) {
-        let ascendantInfo = planetInfo['Ascendant'] as any;
+        const ascendantInfo = planetInfo['Ascendant'] as any;
         if (typeof ascendantInfo === 'object') {
           ascendantInfo['Diurnal Element'] = signInfo[rising_sign]?.element || 'Air';
           ascendantInfo['Nocturnal Element'] = signInfo[rising_sign]?.element || 'Air';
@@ -1227,7 +1227,7 @@ export function alchemize(
             
             // Process dignity effect
             try {
-              let dignity_effect = createElementObject();
+              const dignity_effect = createElementObject();
               
               if (planetInfo[planet] && planetInfo[planet]["Dignity Effect"] && 
                   planetInfo[planet]["Dignity Effect"][sign]) {

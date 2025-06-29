@@ -60,6 +60,6 @@ const rawWarmSpices: Record<string, Partial<IngredientMapping>> = {
 export const warmSpices: Record<string, IngredientMapping> = fixIngredientMappings(rawWarmSpices);
 
 // Create a collection of all warm spices
-export let allWarmSpices = Object.values(warmSpices);
+export const allWarmSpices = Object.values(warmSpices);
 
 export default warmSpices; 

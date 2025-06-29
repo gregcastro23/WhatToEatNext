@@ -16,11 +16,11 @@ import { normalizeProperties, calculateDominantElement } from './core';
 
 import { AlchemicalProperties } from "@/types/alchemy";
 
-// Missing elemental and alchemical item types
+// Import elemental and alchemical item types from correct location
 import type { 
   ElementalItem,
   AlchemicalItem 
-} from '@/types/items';
+} from '@/types/alchemy';
 
 
 // --- Types ---
@@ -158,7 +158,7 @@ export function transformSingleItem(
   
   // Transform elemental properties
   const transformedElemental = applyElementalTransformations(
-    item.elementalState,
+    (item as any).elementalProperties || item.elementalProperties,
     planetaryInfluences,
     lunarModifiers,
     zodiacElement,
@@ -179,12 +179,12 @@ export function transformSingleItem(
     ...item,
     elementalProperties: transformedElemental,
     alchemicalProperties,
-    uniqueness,
-    planetaryInfluences: Object.keys(planetaryInfluences),
+    uniqueness: (item as any).uniqueness || uniqueness,
+    planetaryInfluences: (item as any).planetaryInfluences || Object.keys(planetaryInfluences),
     lunarPhaseEffect: context.lunarPhase || 'new Moon',
     zodiacInfluence: context.currentZodiac || 'aries',
     transformationScore: calculateTransformationScore(alchemicalProperties, uniqueness)
-  };
+  } as unknown as AlchemicalItem;
 }
 
 /**
@@ -213,7 +213,7 @@ export function applyPlanetaryInfluence(
   const elementalBoost = { Fire: planetElement === 'Fire' ? planetaryStrength : 0, Water: planetElement === 'Water' ? planetaryStrength : 0, Earth: planetElement === 'Earth' ? planetaryStrength : 0, Air: planetElement === 'Air' ? planetaryStrength : 0
    };
   
-  const transformedElemental = normalizeProperties({ Fire: item.elementalState.Fire + elementalBoost.Fire, Water: item.elementalState.Water + elementalBoost.Water, Earth: item.elementalState.Earth + elementalBoost.Earth, Air: item.elementalState.Air + elementalBoost.Air
+  const transformedElemental = normalizeProperties({ Fire: item.elementalProperties.Fire + elementalBoost.Fire, Water: item.elementalProperties.Water + elementalBoost.Water, Earth: item.elementalProperties.Earth + elementalBoost.Earth, Air: item.elementalProperties.Air + elementalBoost.Air
    });
   
   // Apply alchemical boost
@@ -228,9 +228,9 @@ export function applyPlanetaryInfluence(
     ...item,
     elementalProperties: transformedElemental,
     alchemicalProperties: alchemicalBoost,
-    planetaryInfluences: [...(item.planetaryInfluences || []), planet],
-    transformationScore: calculateTransformationScore(alchemicalBoost, item.uniqueness || 0.5)
-  };
+    planetaryInfluences: [...((item as any).planetaryInfluences || []), planet],
+    transformationScore: calculateTransformationScore(alchemicalBoost, (item as any).uniqueness || 0.5)
+  } as unknown as AlchemicalItem;
 }
 
 /**
@@ -244,7 +244,7 @@ export function sortByAlchemicalCompatibility(
   targetElementalProperties?: { [key: string]: number }
 ): AlchemicalItem[] {
   if (!targetElementalProperties) {
-    return items.sort((a, b) => (b.transformationScore || 0) - (a.transformationScore || 0));
+    return items.sort((a, b) => ((b as any)?.transformations?.score || 0) - ((a as any)?.transformations?.score || 0));
   }
   
   return items.sort((a, b) => {
@@ -268,7 +268,7 @@ export function filterByAlchemicalCompatibility(
 ): AlchemicalItem[] {
   return (items || []).filter(item => {
     if (targetElement) {
-      const dominantElement = calculateDominantElement(item.elementalState);
+      const dominantElement = calculateDominantElement(item.elementalProperties);
       if (String(dominantElement)?.toLowerCase() !== targetElement?.toLowerCase()) {
         return false;
       }
@@ -496,14 +496,14 @@ function calculateCompatibilityScore(
   
   // Elemental compatibility
   Object.entries(targetProperties || {}).forEach(([element, targetValue]) => {
-    const itemValue = item.elementalState[element as "Fire" | "Water" | "Earth" | "Air"] || 0;
+    const itemValue = item.elementalProperties[element as "Fire" | "Water" | "Earth" | "Air"] || 0;
     const compatibility = 1 - Math.abs(targetValue - itemValue);
     score += compatibility * 0.6;
     totalWeight += 0.6;
   });
   
   // Transformation score
-  score += (item.transformationScore || 0.5) * 0.4;
+  score += ((item as any)?.transformations?.score || 0.5) * 0.4;
   totalWeight += 0.4;
   
   return totalWeight > 0 ? score / totalWeight : 0;

@@ -21,7 +21,5 @@ export * from './positions';
 
 // Re-export validation functions
 export {
-  validatePlanetaryPositions,
-  validateAstrologicalData,
-  safeCalculatePlanetaryAspects
+  validatePlanetaryPositions
 } from './validation'; 

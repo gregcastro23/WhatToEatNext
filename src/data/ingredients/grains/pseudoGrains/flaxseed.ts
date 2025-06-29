@@ -1,4 +1,4 @@
-import type { IngredientMapping } from '@/types/alchemy';
+import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 const rawFlaxseed = {
@@ -58,4 +58,4 @@ const rawFlaxseed = {
   }
 };
 
-export let flaxseed = fixIngredientMappings(rawFlaxseed); 
+export const flaxseed: Record<string, IngredientMapping> = fixIngredientMappings(rawFlaxseed); 

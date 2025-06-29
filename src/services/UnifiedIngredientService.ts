@@ -3,7 +3,7 @@ import {
   AlchemicalProperties, 
   ThermodynamicProperties,
   Season,
-  PlanetName,
+  Planet,
   ZodiacSign,
   Element,
   RecipeIngredient
@@ -39,7 +39,7 @@ interface IngredientFilter {
   searchQuery?: string;
   excludeIngredients?: string[];
   currentZodiacSign?: ZodiacSign;
-  planetaryInfluence?: PlanetName;
+  planetaryInfluence?: Planet;
 }
 
 interface ElementalFilter {
@@ -117,11 +117,9 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
    */
   getAllIngredientsFlat(): UnifiedIngredient[] {
     const allIngredients: UnifiedIngredient[] = [];
-    
     for (const ingredients of this.ingredientCache.values()) {
-      allIngredients?.push(...ingredients);
+      allIngredients.push(...ingredients);
     }
-    
     return allIngredients;
   }
   
@@ -162,17 +160,13 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
   /**
    * Get ingredients by subcategory
    */
-  getIngredientsBySubCategory(subCategory: string): UnifiedIngredient[] {
-    const normalizedSubCategory = subCategory?.toLowerCase()?.trim();
+  getIngredientsBySubcategory(subcategory: string): UnifiedIngredient[] {
+    const normalizedSubCategory = subcategory?.toLowerCase()?.trim();
     const result: UnifiedIngredient[] = [];
-    
     for (const ingredients of this.ingredientCache.values()) {
-      const matching = (ingredients || []).filter(ing => ing.subCategory?.toLowerCase() === normalizedSubCategory
-      );
-      
-      result?.push(...matching);
+      const matching = (ingredients || []).filter(ing => ing.subCategory?.toLowerCase() === normalizedSubCategory);
+      result.push(...matching);
     }
-    
     return result;
   }
   
@@ -267,15 +261,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
    * Get high kalchm ingredients
    */
   getHighKalchmIngredients(threshold: number = 1.5): UnifiedIngredient[] {
-    const allIngredients = this.getAllIngredientsFlat();
-    
-    return (allIngredients || []).filter(ingredient => {
-      const metrics = this.calculateThermodynamicMetrics(ingredient);
-      // Extract thermodynamic metrics with safe property access
-      const metricsData = metrics as any;
-      const kalchmValue = metricsData?.kalchm || 0;
-      return kalchmValue > threshold;
-    });
+    return this.getAllIngredientsFlat().filter(ing => (ing.kalchm ?? 0) >= threshold);
   }
   
   /**
@@ -313,14 +299,9 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
    * Calculate elemental properties
    */
   calculateElementalProperties(ingredient: Partial<UnifiedIngredient>): ElementalProperties {
-    // If ingredient already has elemental properties, return them
-    if (ingredient.elementalPropertiesState) {
-      return ingredient.elementalPropertiesState;
-    }
-    
-    // Otherwise, use our engine to calculate based on other properties
-    // This is a simplified implementation
-    return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+    if (ingredient.elementalProperties) return ingredient.elementalProperties;
+    // Default: all zeros
+    return { Fire: 0, Water: 0, Earth: 0, Air: 0 };
   }
   
   /**
@@ -356,8 +337,8 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       
       return (seasons || []).some(s => 
         Array.isArray(ingredient.seasonality) 
-          ? ingredient.seasonality.includes(s as string) 
-          : ingredient.seasonality === s as string
+          ? ingredient.seasonality.includes(s as any) 
+          : ingredient.seasonality === s as any
       );
     });
   }
@@ -365,7 +346,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
   /**
    * Get ingredients by planet
    */
-  getIngredientsByPlanet(planet: PlanetName): UnifiedIngredient[] {
+  getIngredientsByPlanet(planet: Planet): UnifiedIngredient[] {
     const allIngredients = this.getAllIngredientsFlat();
     
     return (allIngredients || []).filter(ingredient => {
@@ -588,32 +569,15 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
    * Calculate thermodynamic metrics
    */
   calculateThermodynamicMetrics(ingredient: UnifiedIngredient): ThermodynamicProperties {
-    // Use our engine to calculate thermodynamic metrics
-    // This is a simplified implementation, in a real implementation
-    // we would use the alchemical engine to calculate this
-    
-    const heat = 0.5;
-    const entropy = 0.5;
-    const reactivity = 0.5;
-    
-    return {
-      heat,
-      entropy,
-      reactivity,
-      gregsEnergy: heat - (entropy * reactivity) // ← Pattern HH-4: Using gregsEnergy instead of energy
-    } as ThermodynamicProperties;
+    // TODO: Implement actual calculation or import from utility
+    return { heat: 0, entropy: 0, reactivity: 0, gregsEnergy: 0 };
   }
   
   /**
    * Clear the ingredient cache
    */
   clearCache(): void {
-    for (const category of this.ingredientCache.keys()) {
-      this.ingredientCache.set(category, []);
-    }
-    
-    // Reload ingredients
-    this.loadIngredients();
+    this.ingredientCache.clear();
   }
   
   // Private helper methods
@@ -891,8 +855,8 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       
       return (seasons || []).some(season => 
         Array.isArray(ingredient.seasonality) 
-          ? ingredient.seasonality.includes(season as string) 
-          : ingredient.seasonality === season as string
+          ? ingredient.seasonality.includes(season as any) 
+          : ingredient.seasonality === season as any
       );
     });
   }
@@ -979,7 +943,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
    */
   private applyPlanetaryFilter(
     ingredients: UnifiedIngredient[],
-    planet: PlanetName
+    planet: Planet
   ): UnifiedIngredient[] {
     return (ingredients || []).filter(ingredient => {
       if (!ingredient.astrologicalProperties?.planets) {

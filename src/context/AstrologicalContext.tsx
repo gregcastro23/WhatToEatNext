@@ -22,8 +22,12 @@ interface AstrologicalContextType {
 // Create the context
 const AstrologicalContext = createContext<AstrologicalContextType | undefined>(undefined);
 
-// AstrologicalProvider component (missing export causing TS2305 errors)
-export function AstrologicalProvider({ children }: { children: ReactNode }) {
+// AstrologicalProvider component
+interface AstrologicalProviderProps {
+  children: ReactNode;
+}
+
+export function AstrologicalProvider({ children }: AstrologicalProviderProps) {
   const [currentZodiac, setCurrentZodiac] = useState<string>('aries');
   const [astrologicalState, setAstrologicalState] = useState<AstrologicalState | null>(null);
   const [chakraEnergies, setChakraEnergies] = useState<ChakraEnergies | null>(null);

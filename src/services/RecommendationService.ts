@@ -3,11 +3,10 @@ import { Recipe } from '@/types/recipe';
 import { getCurrentPlanetaryPositions } from '@/services/astrologizeApi';
 import { logger } from '../utils/logger';
 import { createError } from '../utils/errorHandling';
-import { calculateLunarPhase } from '../utils/astrologyUtils';
-import { calculatePlanetaryPositions } from '../utils/astrology/core';
-import { transformItemsWithPlanetaryPositions } from '../utils/astrologyUtils';
+import { calculateLunarPhase , transformItemsWithPlanetaryPositions } from '../utils/astrologyUtils';
+import { calculatePlanetaryPositions , normalizePlanetaryPositions } from '../utils/astrology/core';
 import { ScoredRecipe } from '@/types/recipe';
-import { AstrologicalState } from '@/types/alchemy';
+import { AstrologicalState , Element } from '@/types/alchemy';
 import { convertToLunarPhase } from '@/utils/lunarPhaseUtils';
 
 import type { ElementalProperties, 
@@ -16,7 +15,6 @@ import type { ElementalProperties,
   LunarPhaseWithSpaces,
   PlanetaryAspect } from '@/types/alchemy';
 import { ElementalCharacter } from '@/constants/planetaryElements';
-import { Element } from "@/types/alchemy";
 import astrologizeCache from '@/services/AstrologizeApiCache';
 import { calculateRecipeCompatibility } from '@/calculations/culinary/recipeMatching';
 
@@ -124,27 +122,26 @@ export class RecommendationService {
     tarotPlanetaryBoosts?: { [key: string]: number },
     aspects: PlanetaryAspect[] = []
   ): RecommendationService {
-    this.planetaryPositions = planetaryPositions;
+    // Normalize planetary positions for robust, type-safe access
+    this.planetaryPositions = normalizePlanetaryPositions(planetaryPositions);
     this.isDaytime = isDaytime;
     this.currentZodiac = currentZodiac;
     this.lunarPhase = lunarPhase;
     this.tarotElementBoosts = tarotElementBoosts;
     this.tarotPlanetaryBoosts = tarotPlanetaryBoosts;
     this.aspects = aspects;
-    
     // Track retrograde planets
-    if (planetaryPositions) {
-      Object.entries(planetaryPositions || {}).forEach(([planet, data]) => {
+    if (this.planetaryPositions) {
+      Object.entries(this.planetaryPositions || {}).forEach(([planet, data]) => {
         if (typeof data === 'object' && data !== null && 'isRetrograde' in data) {
           this.retrogradeStatus[planet] = !!data.isRetrograde;
         }
       });
     }
-    
     // Convert planetary positions to the format expected by the alchemical engine
     this.convertedPositions = {};
-    if (planetaryPositions) {
-      Object.entries(planetaryPositions || {}).forEach(([planet, data]) => {
+    if (this.planetaryPositions) {
+      Object.entries(this.planetaryPositions || {}).forEach(([planet, data]) => {
         if (typeof data === 'object' && data !== null) {
           this.convertedPositions[planet] = {
             sign: data.sign || '',
@@ -158,10 +155,8 @@ export class RecommendationService {
         }
       });
     }
-    
     // Transform ingredients, methods, and cuisines
     this.transformItems();
-    
     return this;
   }
 
@@ -172,23 +167,19 @@ export class RecommendationService {
   async initializeFromCurrentPositions(): Promise<RecommendationService> {
     try {
       // Calculate real-time planetary positions
-      const positions = await calculatePlanetaryPositions();
-      
+      const rawPositions = await calculatePlanetaryPositions();
+      const positions = normalizePlanetaryPositions(rawPositions);
       // Calculate current lunar phase
       const lunarPhase = await calculateLunarPhase(new Date());
-      
       // Convert to format expected by adapter
       const lunarPhaseFormatted = convertToLunarPhase(lunarPhase);
-      
       // Calculate if it's currently daytime
       const now = new Date();
       const hours = now.getHours();
       const isDaytime = hours >= 6 && hours < 18;
-      
       // Get current Sun sign as current zodiac
       const sunPosition = positions['Sun'];
       const currentZodiac = sunPosition?.sign || null;
-      
       // Initialize with calculated values
       this.initialize(
         positions,
@@ -196,13 +187,12 @@ export class RecommendationService {
         currentZodiac,
         lunarPhaseFormatted
       );
-      
       logger.info('Initialized service with current planetary positions');
+      return this;
     } catch (error) {
-      logger.error('Error initializing from current positions:', error);
+      logger.error('Failed to initialize from current positions', error);
+      throw error;
     }
-    
-    return this;
   }
 
   /**
@@ -564,9 +554,26 @@ export class RecommendationService {
       // Calculate advanced compatibility using the culinary recipe matching system
       let advancedScore = 0.5; // Default neutral score
       try {
+        // Create a mock KalchmResult from AstrologicalState for compatibility
+        const mockKalchmResult = {
+          alchemicalProperties: { 
+            totalKalchm: 1.0, 
+            gregsEnergy: 1.0, 
+            monica: 1.0,
+            Spirit: 0.25,
+            Essence: 0.25,
+            Matter: 0.25,
+            Substance: 0.25
+          },
+          elementalValues: currentMomentElements,
+          thermodynamics: { heat: 0.5, entropy: 0.5, reactivity: 0.5, gregsEnergy: 0.5, kalchm: 1.0, monicaConstant: 1.0 },
+          dominantElement: 'Fire' as const,
+          dominantProperty: 'Spirit' as const,
+          timestamp: Date.now().toString()
+        };
         const compatibilityResult = calculateRecipeCompatibility(
-          recipe,
-          astrologicalState
+          recipeElements,
+          mockKalchmResult
         );
         // Extract numerical score from the result object
         advancedScore = typeof compatibilityResult === 'number' 

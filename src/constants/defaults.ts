@@ -10,6 +10,7 @@ import type {
   CelestialPosition,
   LunarPhaseWithSpaces
 } from '@/types/alchemy';
+import { getLatestAstrologicalState } from '@/constants/systemDefaults';
 
 /**
  * Default elemental properties with balanced values

@@ -1,4 +1,5 @@
-import type { ElementalProperties, Recipe, Ingredient, Season } from './alchemy';
+import type { ElementalProperties, Recipe as AlchemyRecipe, Ingredient, Season } from './alchemy';
+import type { Recipe, RecipeIngredient } from './recipe';
 import { VALID_SEASONS } from '@/constants/seasonalConstants';
 import { ELEMENTS } from '@/constants/elementalConstants';
 import { VALID_UNITS } from '@/constants/unitConstants';
@@ -49,7 +50,7 @@ export const validateElementalProperties = (properties: ElementalProperties): bo
     return Math.abs(sum - 1) < 0.01;
 };
 
-export const validateIngredient = (ingredient: Ingredient | null | undefined): boolean => {
+export const validateIngredient = (ingredient: RecipeIngredient | null | undefined): boolean => {
     if (!ingredient) return false;
     
     // Basic property validation
@@ -66,7 +67,7 @@ export const validateIngredient = (ingredient: Ingredient | null | undefined): b
     }
     
     // Category validation
-    if (!ingredient.category || typeof ingredient.category !== 'string') {
+    if (ingredient.category && typeof ingredient.category !== 'string') {
         return false;
     }
     

@@ -2,7 +2,7 @@ import { ElementalProperties, ZodiacSign, AstrologicalInfluence } from '@/types/
 import { CuisineProfile } from '@/data/cuisines/culinaryTraditions';
 
 // Re-export Recipe from recipe.ts to fix TS2305 error in recipeCalculations.ts
-export { Recipe } from './recipe';
+export type { Recipe } from './recipe';
 
 export interface RecipeElementalMapping {
   elementalProperties: ElementalProperties;

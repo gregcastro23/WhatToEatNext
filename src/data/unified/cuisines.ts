@@ -640,8 +640,7 @@ export class CuisineAnalyzer {
   }
 }
 
-// Export types only - no duplicate exports for CuisineEnhancer and CuisineAnalyzer
-export type { EnhancedCuisine };
+// Removed duplicate export - EnhancedCuisine interface already exported at line 15
 
 // Default export
 export default {

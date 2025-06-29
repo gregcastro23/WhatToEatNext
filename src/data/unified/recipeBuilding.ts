@@ -224,8 +224,8 @@ export interface PlanetaryRecipeRecommendation {
 // ===== UNIFIED RECIPE BUILDING SYSTEM =====
 
 export class UnifiedRecipeBuildingSystem {
-  private seasonalSystem = unifiedSeasonalSystem;
-  private cuisineSystem = unifiedCuisineIntegrationSystem;
+  public seasonalSystem = unifiedSeasonalSystem;
+  public cuisineSystem = unifiedCuisineIntegrationSystem;
   private enhancedCookingMethods: { [key: string]: EnhancedCookingMethod };
   private recipeCache: Map<string, RecipeGenerationResult>;
   

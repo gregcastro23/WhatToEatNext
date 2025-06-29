@@ -9,8 +9,9 @@ import type {
 } from '@/types/alchemy';
 // import { SEASONAL_PROPERTIES } from '@/constants/seasons'; // Commented out as unused
 import { DEFAULT_ELEMENTAL_PROPERTIES } from '@/constants/elementalConstants';
-import { elementalUtils } from './elementalUtils';
+import { elementalUtils , getCurrentElementalState } from './elementalUtils';
 import { validateElementalProperties, normalizeElementalProperties } from '@/types/validators';
+import { getLatestAstrologicalState } from '@/services/AstrologicalService';
 
 type Rating = 'optimal' | 'favorable' | 'neutral' | 'suboptimal';
 type Element = 'Fire' | 'Water' | 'Earth' | 'Air';
@@ -117,17 +118,17 @@ export const SEASONAL_MODIFIERS = {
     }
 };
 
-export const getSeasonalEffectiveness = (
+export const getSeasonalEffectiveness = async (
     recipe: Recipe, 
     season: Season,
     currentZodiac?: ZodiacSign | null,
     currentLunarPhase?: LunarPhase | null
-): SeasonalEffectiveness => {
+): Promise<SeasonalEffectiveness> => {
     if (!recipe || !season) {
         return {
             rating: 'poor',
             score: 0,
-            elementalBreakdown: DEFAULT_ELEMENTAL_PROPERTIES,
+            elementalBreakdown: getCurrentElementalState(),
             breakdown: {
                 elementalAlignment: 0,
                 ingredientSuitability: 0,
@@ -136,21 +137,21 @@ export const getSeasonalEffectiveness = (
         };
     }
 
-    const elementalAlignment = calculateRecipeSeasonalAlignment(recipe, season);
-    const ingredientSuitability = calculateIngredientSuitability(recipe, season);
-    const seasonalBonus = calculateSeasonalBonus(recipe, season);
+    const elementalAlignment = await calculateRecipeSeasonalAlignment(recipe, season);
+    const ingredientSuitability = await calculateIngredientSuitability(recipe, season);
+    const seasonalBonus = await calculateSeasonalBonus(recipe, season);
     
     // Calculate zodiacal alignment if current zodiac is provided
     const zodiacAlignment = currentZodiac ? 
-        calculateZodiacAlignment(recipe, currentZodiac) : 0;
+        await calculateZodiacAlignment(recipe, currentZodiac) : 0;
     
     // Calculate lunar phase alignment if lunar phase is provided
     const lunarPhaseAlignment = currentLunarPhase ? 
-        calculateLunarPhaseAlignment(recipe, currentLunarPhase) : 0;
+        await calculateLunarPhaseAlignment(recipe, currentLunarPhase) : 0;
 
     const totalScore = elementalAlignment + ingredientSuitability + 
                       seasonalBonus + zodiacAlignment + lunarPhaseAlignment;
-    const elementalBreakdown = calculateElementalBreakdown(recipe, season);
+    const elementalBreakdown = await calculateElementalBreakdown(recipe, season);
 
     return {
         rating: getRating(totalScore),
@@ -166,7 +167,7 @@ export const getSeasonalEffectiveness = (
     };
 };
 
-export const calculateRecipeSeasonalAlignment = (recipeElements, seasonalModifier) => {
+export const calculateRecipeSeasonalAlignment = async (recipeElements, seasonalModifier) => {
     if (!recipeElements || !seasonalModifier) return 0;
     let alignmentScore = 0;
     
@@ -178,7 +179,7 @@ export const calculateRecipeSeasonalAlignment = (recipeElements, seasonalModifie
     return Math.round(alignmentScore * 100);
 };
 
-const calculateIngredientSuitability = (recipe: Recipe, season: Season): number => {
+const calculateIngredientSuitability = async (recipe: Recipe, season: Season): Promise<number> => {
     // Implementation based on test requirements in:
     // src/utils/__tests__/seasonalCalculations.test.ts lines 47-51
     
@@ -206,7 +207,7 @@ const calculateIngredientSuitability = (recipe: Recipe, season: Season): number 
     return suitabilityScore;
 };
 
-const calculateSeasonalBonus = (recipe: Recipe, season: Season): number => {
+const calculateSeasonalBonus = async (recipe: Recipe, season: Season): Promise<number> => {
     // Check if recipe has an explicit seasonal recommendation
     let bonus = 15; // Base bonus
     
@@ -223,7 +224,7 @@ const calculateSeasonalBonus = (recipe: Recipe, season: Season): number => {
 };
 
 // New function to calculate zodiac alignment
-const calculateZodiacAlignment = (recipe: Recipe, currentZodiac: ZodiacSign): number => {
+const calculateZodiacAlignment = async (recipe: Recipe, currentZodiac: ZodiacSign): Promise<number> => {
     if (!recipe || !currentZodiac) return 0;
     
     let alignmentScore = 0;

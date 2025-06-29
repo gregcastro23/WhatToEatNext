@@ -603,9 +603,7 @@ export class RecipeAnalyzer {
   }
 }
 
-// Export types and utilities
-export type { EnhancedRecipe };
-// RecipeEnhancer and RecipeAnalyzer are already exported as classes above
+// Removed duplicate export - EnhancedRecipe interface already exported at line 16
 
 // Default export
 export default {

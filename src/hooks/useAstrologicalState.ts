@@ -268,7 +268,7 @@ export function useAstrologicalState(): AstrologyHookData {
     renderCount,
     currentPlanetaryHour: currentPlanetaryHour || 'sun',
     currentZodiac: (astroState.currentZodiac || 'aries') as ZodiacSign,
-    currentPlanetaryAlignment: astroState.currentPlanetaryAlignment as PlanetaryAlignment,
+    currentPlanetaryAlignment: astroState.currentPlanetaryAlignment as unknown as PlanetaryAlignment,
     lunarPhase: astroState.lunarPhase as LunarPhase
   } as AstrologyHookData;
 } 

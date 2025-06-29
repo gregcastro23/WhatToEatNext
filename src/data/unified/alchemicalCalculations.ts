@@ -1,6 +1,5 @@
-
 import type { ElementalProperties } from "@/types/alchemy";
-import { AlchemicalProperties } from '@/types';
+import type { AlchemicalProperties } from '@/types/celestial';
 
 // ===== ALCHEMICAL CALCULATION SYSTEM =====
 // Implements Kalchm (K_alchm) and Monica constant calculations
@@ -287,9 +286,7 @@ export function getDefaultAlchemicalProperties(): AlchemicalProperties {
 // ===== EXPORT TYPES AND CONSTANTS =====
 
 export type {
-  AlchemicalProperties,
-  ThermodynamicMetrics,
-  AlchemicalIngredient
+  AlchemicalProperties
 };
 
 // Default Kalchm value for unknown ingredients

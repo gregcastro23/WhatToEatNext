@@ -79,12 +79,28 @@ export class UnifiedNutritionalService {
         // Try unified ingredients first, but fallback to regular ingredients
         const unifiedIngredient = unifiedIngredients[ingredient];
         if (unifiedIngredient?.nutritionalProfile) {
-          nutritionalProfile = unifiedIngredient.nutritionalProfile;
+          // Convert unified nutritionalProfile if needed
+          const unifiedProfile = unifiedIngredient.nutritionalProfile;
+          nutritionalProfile = {
+            ...unifiedProfile,
+            // Convert phytonutrients from string[] to Record<string, number> if needed
+            phytonutrients: Array.isArray(unifiedProfile.phytonutrients) 
+              ? unifiedProfile.phytonutrients.reduce((acc, nutrient) => ({ ...acc, [nutrient]: 1.0 }), {})
+              : unifiedProfile.phytonutrients || {}
+          } as unknown as NutritionalProfile;
         } else {
           // Fallback to regular ingredients
           const regularIngredient = allIngredients[ingredient];
           if (regularIngredient?.nutritionalProfile) {
-            nutritionalProfile = regularIngredient.nutritionalProfile as unknown as NutritionalProfile;
+            // Convert alchemy.NutritionalProfile to nutrition.NutritionalProfile
+          const alchemyProfile = regularIngredient.nutritionalProfile;
+          nutritionalProfile = {
+            ...alchemyProfile,
+            // Convert phytonutrients from string[] to Record<string, number>
+            phytonutrients: Array.isArray(alchemyProfile.phytonutrients) 
+              ? alchemyProfile.phytonutrients.reduce((acc, nutrient) => ({ ...acc, [nutrient]: 1.0 }), {})
+              : alchemyProfile.phytonutrients || {}
+          } as unknown as NutritionalProfile;
           }
           
           if (!nutritionalProfile) {

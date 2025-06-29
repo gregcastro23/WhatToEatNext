@@ -5,16 +5,17 @@ import { tropical } from './tropical';
 import { stoneFruit } from './stoneFruit';
 import { pome } from './pome';
 import { melons } from './melons';
+import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 // Combine all fruit categories
-export const fruits: Record<string, IngredientMapping> = {
+export const fruits: Record<string, IngredientMapping> = fixIngredientMappings({
   ...citrus,
   ...berries,
   ...tropical,
   ...stoneFruit,
   ...pome,
   ...melons
-};
+});
 
 // Export individual categories
 export {
@@ -48,7 +49,7 @@ export let getFruitsByPreparation = (method: string): Record<string, IngredientM
 export let findCompatibleFruits = (ingredientName: string): string[] => {
   const fruit = fruits[ingredientName];
   if (!fruit) return [];
-  return fruit.affinities || [];
+  return (fruit.affinities && Array.isArray(fruit.affinities)) ? fruit.affinities : [];
 };
 
 // Types

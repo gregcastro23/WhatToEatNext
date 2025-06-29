@@ -277,7 +277,7 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
   const [minRating, setMinRating] = useState<number>(0);
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
 
-  const recipeElementalService = new RecipeElementalService();
+  const recipeElementalService = RecipeElementalService.getInstance();
 
   // Load time factors
   useEffect(() => {

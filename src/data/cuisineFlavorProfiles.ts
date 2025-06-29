@@ -1099,14 +1099,14 @@ export function getRecipesForCuisineMatch(
             }
 
             return {
-              ...recipe,
+              ...(recipe as any),
               matchScore: finalScore,
               matchPercentage: Math.round(finalScore * 100),
             };
           } catch (scoreError) {
             console.error(`Error scoring recipe match for ${cuisineName}:`, scoreError);
             return {
-              ...recipe,
+              ...(recipe as any),
               matchScore: 0.5,
               matchPercentage: 50,
             };
@@ -1121,12 +1121,12 @@ export function getRecipesForCuisineMatch(
     // Combine all matches, prioritizing direct matches, then regional, then others
     let allMatches = [
       ...exactCuisineMatches.map((recipe) => ({
-        ...recipe,
+        ...(recipe as any),
         matchScore: 0.9 + Math.random() * 0.1, // 90-100% match
         matchPercentage: Math.round((0.9 + Math.random() * 0.1) * 100),
       })),
       ...regionalMatches.map((recipe) => ({
-        ...recipe,
+        ...(recipe as any),
         matchScore: 0.8 + Math.random() * 0.1, // 80-90% match
         matchPercentage: Math.round((0.8 + Math.random() * 0.1) * 100),
       })),
@@ -1285,8 +1285,19 @@ export const findRelatedRecipes = (
       const scoreComponents = [];
       let totalWeight = 0;
       
-      // ... existing code ...
-    });
+      // Simple name similarity scoring
+      const nameSimilarity = recipe.name && recipeName ? 
+        (recipe.name.toLowerCase().includes(recipeName.toLowerCase()) ? 0.8 : 0.2) : 0.2;
+      
+      return {
+        ...recipe,
+        score: nameSimilarity
+      };
+    })
+    .sort((a, b) => b.score - a.score)
+    .slice(0, count);
+    
+  return scoredRecipes;
 };
 
 export const calculateSimilarityScore = (
@@ -1296,5 +1307,15 @@ export const calculateSimilarityScore = (
   let similarity = 0;
   let count = 0;
   
-  // ... existing code ...
+  // Compare elemental properties
+  const elements: (keyof ElementalProperties)[] = ['Fire', 'Water', 'Earth', 'Air'];
+  
+  elements.forEach(element => {
+    const val1 = elementalProps1[element] || 0;
+    const val2 = elementalProps2[element] || 0;
+    similarity += 1 - Math.abs(val1 - val2);
+    count++;
+  });
+  
+  return count > 0 ? similarity / count : 0.5;
 };

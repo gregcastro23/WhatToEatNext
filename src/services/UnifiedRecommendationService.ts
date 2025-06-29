@@ -2,12 +2,14 @@ import {
   Planet, 
   ZodiacSign, 
   ThermodynamicProperties,
-  Element
+  ThermodynamicMetrics,
+  Element,
+  ElementalProperties
 } from '@/types/alchemy';
 
 import { Recipe } from '../types/recipe';
-import { Ingredient } from '../types/ingredient';
-import { CookingMethod, CookingMethodData } from '../types/cookingMethod';
+import { Ingredient , UnifiedIngredient } from '../types/ingredient';
+import { CookingMethod } from '../types/cooking';
 import { 
   RecommendationServiceInterface, 
   RecipeRecommendationCriteria, 
@@ -20,9 +22,6 @@ import { PlanetaryAlignment } from "@/types/celestial";
 import { unifiedIngredientService } from './UnifiedIngredientService';
 import alchemicalEngine from '@/calculations/core/alchemicalEngine';
 import { recipeDataService } from '@/services/recipeData';
-import { ElementalProperties as AlchemyElementalProperties } from '@/types/alchemy';
-import { UnifiedIngredient } from '@/types/ingredient';
-import { CookingMethod } from '@/types/cooking';
 /**
  * UnifiedRecommendationService
  * 
@@ -234,7 +233,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     });
     
     return {
-      items: (limitedIngredients || []).map(item => item.ingredient),
+      items: (limitedIngredients || []).map(item => item.ingredient) as unknown as Ingredient[], // TODO: Review this cast for type safety
       scores,
       context: {
         criteriaUsed: Object.keys(criteria || {}).filter(key => criteria[key] !== undefined),
@@ -259,7 +258,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     ];
     
     // Map cuisines to elemental properties (simplified)
-    const cuisineElements: { [key: string]: AlchemyElementalProperties } = {
+    const cuisineElements: { [key: string]: ElementalProperties } = {
       'Italian': { Fire: 0.3, Water: 0.2, Earth: 0.3, Air: 0.2 },
       'Chinese': { Fire: 0.4, Water: 0.2, Earth: 0.1, Air: 0.3 },
       'Mexican': { Fire: 0.5, Water: 0.1, Earth: 0.3, Air: 0.1 },
@@ -346,8 +345,9 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
   ): Promise<RecommendationResult<CookingMethod>> {
     // This is a simplified implementation
     // In a real implementation, we would have a comprehensive cooking method database
-    const cookingMethods: CookingMethodData[] = [
+    const cookingMethods: CookingMethod[] = [
       {
+        id: 'roasting',
         name: 'roasting',
         description: 'Cooking with dry heat in an oven',
         elementalEffect: { Fire: 0.6, Water: 0.0, Earth: 0.3, Air: 0.1 },
@@ -356,6 +356,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
         benefits: ['even cooking', 'browning', 'flavor development']
       },
       {
+        id: 'boiling',
         name: 'boiling',
         description: 'Cooking in bubbling liquid',
         elementalEffect: { Fire: 0.3, Water: 0.7, Earth: 0.0, Air: 0.0 },
@@ -364,6 +365,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
         benefits: ['quick cooking', 'nutrient retention', 'simplicity']
       },
       {
+        id: 'steaming',
         name: 'steaming',
         description: 'Cooking with hot steam',
         elementalEffect: { Fire: 0.2, Water: 0.5, Earth: 0.0, Air: 0.3 },
@@ -372,6 +374,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
         benefits: ['nutrient preservation', 'gentle cooking', 'no added fats']
       },
       {
+        id: 'frying',
         name: 'frying',
         description: 'Cooking in hot oil',
         elementalEffect: { Fire: 0.7, Water: 0.0, Earth: 0.2, Air: 0.1 },
@@ -380,6 +383,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
         benefits: ['crispy texture', 'quick cooking', 'flavor enhancement']
       },
       {
+        id: 'baking',
         name: 'baking',
         description: 'Cooking in an enclosed space with dry heat',
         elementalEffect: { Fire: 0.4, Water: 0.0, Earth: 0.4, Air: 0.2 },
@@ -458,8 +462,8 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
    * Calculate elemental compatibility between two elemental properties
    */
   calculateElementalCompatibility(
-    source: AlchemyElementalProperties, 
-    target: AlchemyElementalProperties
+    source: ElementalProperties, 
+    target: ElementalProperties
   ): number {
     // Apply Pattern PP-1: Safe service method access
     const alchemicalEngineData = alchemicalEngine as any;
@@ -481,7 +485,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
    * Get recommendations based on elemental properties
    */
   async getRecommendationsForElements(
-    elementalProperties: AlchemyElementalProperties,
+    elementalProperties: ElementalProperties,
     type: 'recipe' | 'ingredient' | 'cuisine' | 'cookingMethod',
     limit?: number
   ): Promise<RecommendationResult<any>> {
@@ -525,7 +529,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
   ): Promise<RecommendationResult<any>> {
     // Convert planetary positions to elemental properties
     // This is a simplified implementation
-    const elementalProperties: AlchemyElementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+    const elementalProperties: ElementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     
     // In a real implementation, we would use the AlchemicalEngine to calculate
     // elemental properties based on planetary positions
@@ -537,7 +541,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
   /**
    * Calculate thermodynamic metrics based on elemental properties
    */
-  calculateThermodynamics(elementalProperties: AlchemyElementalProperties): ThermodynamicProperties {
+  calculateThermodynamics(elementalProperties: ElementalProperties): ThermodynamicMetrics {
     // Use the AlchemicalEngine to calculate thermodynamic metrics
     return {
       heat: 0.5,
@@ -545,8 +549,8 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       reactivity: 0.5,
       gregsEnergy: 0.5,
       kalchm: 1.0,
-      monica: 0.5
-    } as ThermodynamicProperties;
+      monica: 1.0
+    };
   }
 }
 

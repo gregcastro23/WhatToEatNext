@@ -1,4 +1,4 @@
-import { ElementalProperties } from '@/types/alchemy';
+import { ElementalProperties, LowercaseElementalProperties } from '@/types/elemental';
 import { ensureLowercaseFormat } from '../../utils/elementalUtils';
 
 /** * Comprehensive database of ingredient elemental properties * These values are used to calculate food recommendations based on a users elemental profile */
@@ -317,7 +317,7 @@ export const getIngredientsByElement = (element: keyof ElementalProperties): Ing
   return ingredientElementalDatabase.filter(ingredient => {
     const properties = ingredient.elementalProperties;
     const dominantElement = Object.entries(properties)
-      .reduce((max, [elem, value]) => value > max.value ? { element: elem, value } : max, { element: '', value: 0 });
+      .reduce((max, [elem, value]) => (Number(value) || 0) > max.value ? { element: elem, value: Number(value) || 0 } : max, { element: '', value: 0 });
     
     return dominantElement.element === (element as string).toLowerCase();
   });

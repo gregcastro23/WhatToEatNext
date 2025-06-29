@@ -161,7 +161,7 @@ export function usePlanetaryHoursBridge() {
               hoursMap.set(index, typeof planet === 'string' ? planet : String(planet));
             });
             setDailyHours(hoursMap);
-          } else if (hours instanceof Map) {
+          } else if (Array.isArray(hours)) {
             setDailyHours(hours);
           } else {
             setDailyHours(new Map());

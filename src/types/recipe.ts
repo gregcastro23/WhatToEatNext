@@ -9,7 +9,6 @@ import {
   validateElementalProperties as validateAlchemyElementalProps 
 } from './validators';
 import { VALID_SEASONS } from '@/constants/seasonalConstants';
-import type { Recipe as IndexRecipe, Ingredient as IndexIngredient } from './index';
 import { 
   Season, 
   ZodiacSign,

@@ -2,14 +2,6 @@
 import type { UnifiedIngredient } from '@/types';
 import type { EnhancedCookingMethod } from '@/types/cooking';
 
-function createElementalProperties(props: { Fire: number; Water: number; Earth: number; Air: number } = { Fire: 0, Water: 0, Earth: 0, Air: 0 }): ElementalProperties {
-  return {
-    Fire: props.Fire || 0,
-    Water: props.Water || 0,
-    Earth: props.Earth || 0,
-    Air: props.Air || 0
-  };
-}
 import type { // ===== UNIFIED CUISINE INTEGRATION SYSTEM =====
 // Phase 3 Step 2 of WhatToEatNext Data Consolidation
 // Consolidates cuisineMatrix.ts and related files with Monica/Kalchm integration
@@ -27,6 +19,7 @@ import type { ZodiacSign } from "@/types/zodiac";
 // TODO: Fix import - add what to import from './seasonal'
 // Import removed - function not yet implemented
 import { FlavorProfileType } from "@/types/flavor";
+// Fixed import path
 import { createElementalProperties } from '../../utils/elemental/elementalUtils';
 // Cache import removed - not available
 // import { cache } from '../utils/cache';
@@ -1053,10 +1046,10 @@ export class UnifiedCuisineIntegrationSystem {
     
     // Add unique ingredients from each cuisine based on blend ratio
     const uniqueIngredients1 = (ingredients1 || []).filter(ing => 
-      (Array.isArray(!sharedIngredients) ? !sharedIngredients.includes(ing.name) : !sharedIngredients === ing.name)
+      !sharedIngredients.includes(ing.name)
     );
     const uniqueIngredients2 = (ingredients2 || []).filter(ing => 
-      (Array.isArray(!sharedIngredients) ? !sharedIngredients.includes(ing.name) : !sharedIngredients === ing.name)
+      !sharedIngredients.includes(ing.name)
     );
     
     // Select ingredients based on blend ratio

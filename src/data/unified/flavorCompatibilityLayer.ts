@@ -12,7 +12,7 @@ import {
   type UnifiedFlavorProfile,
   type UnifiedFlavorCompatibility,
   type BaseFlavorNotes
-} from './unifiedFlavorEngine.ts';
+} from './unifiedFlavorEngine';
 
 
 
@@ -333,7 +333,14 @@ function createMinimalProfile(id: string, elementalProperties: ElementalProperti
     name: id,
     category: 'elemental',
     
-    baseNotes: {},
+    baseNotes: {
+      sweet: 0.25,
+      sour: 0.25,
+      salty: 0.25,
+      bitter: 0.25,
+      umami: 0.25,
+      spicy: 0.25
+    },
     elementalFlavors: elementalProperties,
     intensity: 0.5,
     complexity: 0.5,
@@ -342,7 +349,14 @@ function createMinimalProfile(id: string, elementalProperties: ElementalProperti
     monicaOptimization: 1.0,
     alchemicalProperties: { Spirit: 0.25, Essence: 0.25, Matter: 0.25, Substance: 0.25 },
     seasonalPeak: ['spring', 'summer', 'autumn', 'winter'],
-    seasonalModifiers: {},
+    seasonalModifiers: {
+      spring: 0.5,
+      summer: 0.5,
+      autumn: 0.5,
+      fall: 0.5,
+      winter: 0.5,
+      all: 0.5
+    },
     culturalOrigins: ['Universal'],
     pairingRecommendations: [],
     

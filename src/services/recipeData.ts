@@ -658,5 +658,8 @@ class RecipeData {
   }
 }
 
-export const recipeData = new RecipeData();
-export const recipeDataService = recipeData; 
+// Export the singleton instance
+export const recipeDataService = new RecipeData(); 
+
+// Export alias for compatibility
+export const recipeData = recipeDataService; 

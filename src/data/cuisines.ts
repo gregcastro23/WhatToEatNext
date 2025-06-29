@@ -16,7 +16,7 @@ import { vietnamese } from './cuisines/vietnamese';
 import { russian } from './cuisines/russian';
 
 // Import types
-import type { Recipe, ElementalProperties, CuisineType, Cuisine } from '@/types/alchemy';
+import type { Recipe, ElementalProperties, CuisineType, Cuisine as AlchemyCuisine } from '@/types/alchemy';
 
 // Example recipe type for reference
 const exampleRecipe: Recipe = {
@@ -62,7 +62,7 @@ function adaptElementalProperties(props: unknown): ElementalProperties {
 }
 
 // Helper function to adapt cuisines to the Cuisine interface format
-function adaptCuisine(cuisine: unknown): Cuisine {
+function adaptCuisine(cuisine: unknown): AlchemyCuisine {
   const cuisineData = cuisine as any;
   return {
     ...cuisineData,
@@ -77,7 +77,7 @@ function adaptCuisine(cuisine: unknown): Cuisine {
 }
 
 // Combine all cuisines
-export const cuisines: Record<string, Cuisine> = {
+export const cuisines: Record<string, AlchemyCuisine> = {
   american: adaptCuisine(american),
   chinese: adaptCuisine(chinese),
   french: adaptCuisine(french),
@@ -99,10 +99,10 @@ export type { CuisineType };
 export type Cuisine = typeof cuisines[keyof typeof cuisines];
 
 // Helper functions for accessing cuisine properties
-export const getCuisineByName = (name: string): Cuisine | undefined => 
+export const getCuisineByName = (name: string): AlchemyCuisine | undefined => 
   cuisines[name.toLowerCase()];
 
-export const getCuisinesByElement = (element: keyof ElementalProperties): Cuisine[] => 
+export const getCuisinesByElement = (element: keyof ElementalProperties): AlchemyCuisine[] => 
   Object.values(cuisines).filter(cuisine => 
     (cuisine.elementalState?.[element] ?? 0) >= 0.3 || (cuisine.elementalProperties?.[element] ?? 0) >= 0.3
   );

@@ -1,19 +1,6 @@
 import { PlanetaryAlignment, AstrologicalState, CelestialPosition, ZodiacSign, Planet, LunarPhase } from "@/types/celestial";
 import { getCurrentPlanetaryPositions, getPlanetaryPositionsForDateTime } from '@/services/astrologizeApi';
-
-// Define and export the DEFAULT_PLANETARY_ALIGNMENT constant
-export const DEFAULT_PLANETARY_ALIGNMENT: PlanetaryAlignment = {
-  sun: { sign: 'aries', degree: 0 },
-  moon: { sign: 'taurus', degree: 0 },
-  mercury: { sign: 'gemini', degree: 0 },
-  venus: { sign: 'libra', degree: 0 },
-  mars: { sign: 'aries', degree: 0 },
-  jupiter: { sign: 'sagittarius', degree: 0 },
-  saturn: { sign: 'capricorn', degree: 0 },
-  uranus: { sign: 'aquarius', degree: 0 },
-  neptune: { sign: 'pisces', degree: 0 },
-  pluto: { sign: 'scorpio', degree: 0 }
-};
+import { normalizePlanetaryPositions } from '@/utils/astrology/core';
 
 /**
  * AstrologyService
@@ -28,7 +15,7 @@ export class AstrologyService {
   private currentState: AstrologicalState = {
     currentZodiac: 'aries',
     moonPhase: 'new moon',
-    currentPlanetaryAlignment: DEFAULT_PLANETARY_ALIGNMENT,
+    currentPlanetaryAlignment: {},
     loading: false,
     isReady: false
   };
@@ -51,10 +38,11 @@ export class AstrologyService {
   async getCurrentPlanetaryPositions(forceRefresh = false): Promise<Record<Planet, CelestialPosition>> {
     try {
       // Use astrologize API for real planetary positions
-      const positions = await getCurrentPlanetaryPositions();
+      const rawPositions = await getCurrentPlanetaryPositions();
+      const positions = normalizePlanetaryPositions(rawPositions);
       
       // Convert to CelestialPosition format
-      const celestialPositions: Record<Planet, CelestialPosition> = {};
+      const celestialPositions = {} as Record<Planet, CelestialPosition>;
       
       Object.entries(positions).forEach(([planet, position]) => {
         celestialPositions[planet as Planet] = {
@@ -73,7 +61,7 @@ export class AstrologyService {
       if (forceRefresh || !this.currentState.isReady) {
         await this.refreshAstrologicalState();
       }
-      return this.currentState.currentPlanetaryAlignment;
+      return this.currentState.currentPlanetaryAlignment as Record<Planet, CelestialPosition>;
     }
   }
 
@@ -198,7 +186,8 @@ export class AstrologyService {
       // Try to get real planetary positions from astrologize API
       let planetaryAlignment: PlanetaryAlignment;
       try {
-        const positions = await getCurrentPlanetaryPositions();
+        const rawPositions = await getCurrentPlanetaryPositions();
+        const positions = normalizePlanetaryPositions(rawPositions);
         
         // Convert to our format
         planetaryAlignment = {};
@@ -272,7 +261,7 @@ export class AstrologyService {
   private calculatePlanetaryPositions(date: Date): PlanetaryAlignment {
     // This would contain complex astronomical calculations in a real implementation
     // For now, return default positions
-    return DEFAULT_PLANETARY_ALIGNMENT;
+    return {};
   }
 
   private calculateIsDaytime(date: Date): boolean {

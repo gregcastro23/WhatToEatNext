@@ -1,4 +1,4 @@
-import type { IngredientMapping } from '@/types/alchemy';
+import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 const rawQuinoa = {
@@ -55,4 +55,4 @@ const rawQuinoa = {
   }
 };
 
-export let quinoa = fixIngredientMappings(rawQuinoa); 
+export const quinoa: Record<string, IngredientMapping> = fixIngredientMappings(rawQuinoa); 

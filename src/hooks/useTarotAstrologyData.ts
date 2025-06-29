@@ -100,8 +100,8 @@ export const useTarotAstrologyData = (): TarotAstrologyResult => {
     loading
   } = useAstrologicalState();
   
-  // Cast to the expected type
-  const currentPlanetaryAlignment = rawPlanetaryAlignment as Record<string, {
+  // Safe type conversion using unknown pattern
+  const currentPlanetaryAlignment = rawPlanetaryAlignment as unknown as Record<string, {
     sign: string;
     degree: number;
     exactLongitude?: number;
@@ -112,7 +112,7 @@ export const useTarotAstrologyData = (): TarotAstrologyResult => {
     try {
       // Cast the string to FoodAssociationsLunarPhase since it matches the expected format
       return foodAssociationsLunarPhase ? 
-        adaptLunarPhase(foodAssociationsLunarPhase as any) : 
+        adaptLunarPhase(foodAssociationsLunarPhase as unknown as FoodAssociationsLunarPhase) : 
         null;
     } catch (error) {
       logger.error('Error converting lunar phase', error);
@@ -415,7 +415,7 @@ export const useTarotAstrologyData = (): TarotAstrologyResult => {
   // Load sign energy states on init
   useEffect(() => {
     try {
-      setSignEnergyStates(calculateSignEnergyStates(new Date()));
+      setSignEnergyStates(calculateSignEnergyStates({}, []));
     } catch (error) {
       logger.error('Error calculating sign energy states', error);
     }

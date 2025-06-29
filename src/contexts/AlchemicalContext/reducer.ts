@@ -89,7 +89,7 @@ export const alchemicalReducer = (state: AlchemicalState, action: AlchemicalActi
           lunarPhase: 'new moon',
           moonPhase: 'new moon',
           activePlanets: ['sun', 'moon'],
-          ...action.payload
+          ...(action.payload && typeof action.payload === 'object' ? action.payload : {})
         } as AstrologicalState,
         lastUpdated: new Date()
       };

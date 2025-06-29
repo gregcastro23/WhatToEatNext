@@ -1,5 +1,7 @@
 import type { ElementalProperties, Element, ElementalCharacter } from "@/types/alchemy";
 import { Recipe } from '@/types/recipe';
+import { getLatestAstrologicalState } from '@/services/AstrologicalService';
+import { getCurrentElementalState } from '@/utils/elementalUtils';
 
 /**
  * Elemental Core Module
@@ -57,9 +59,6 @@ export interface ElementalProfile {
 }
 
 // --- Constants ---
-
-export const DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-};
 
 export const ELEMENTAL_COLORS: Record<keyof ElementalProperties, ElementalColor> = { Fire: {
     primary: '#FF6B35',
@@ -137,7 +136,7 @@ export function normalizeProperties(properties: Partial<ElementalProperties>): E
   const total = normalized.Fire + normalized.Water + normalized.Earth + normalized.Air;
   
   if (total === 0) {
-    return DEFAULT_ELEMENTAL_PROPERTIES;
+    return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }; // Default balanced state
   }
 
   return { Fire: normalized.Fire / total, Water: normalized.Water / total, Earth: normalized.Earth / total, Air: normalized.Air / total
@@ -238,12 +237,13 @@ export function calculateElementalCompatibility(element1: Element, element2: Ele
  * @param userElemental User elemental properties
  * @returns Detailed compatibility analysis
  */
-export function calculateDetailedElementalCompatibility(
+export async function calculateDetailedElementalCompatibility(
   recipeElemental: ElementalProperties,
-  userElemental: ElementalProperties = DEFAULT_ELEMENTAL_PROPERTIES,
-): ElementalCompatibility {
+  userElemental?: ElementalProperties,
+): Promise<ElementalCompatibility> {
+  const userProps = userElemental || getCurrentElementalState();
   const recipeDominant = calculateDominantElement(recipeElemental);
-  const userDominant = calculateDominantElement(userElemental);
+  const userDominant = calculateDominantElement(userProps);
   
   // Calculate base compatibility
   const baseCompatibility = calculateElementalCompatibility(recipeDominant as any, userDominant as any);
@@ -252,7 +252,7 @@ export function calculateDetailedElementalCompatibility(
   const complementaryScore = calculateComplementaryScore(recipeDominant, userDominant);
   
   // Calculate balance score (overall harmony)
-  const balanceScore = calculateBalanceScore(recipeElemental, userElemental);
+  const balanceScore = calculateBalanceScore(recipeElemental, userProps);
   
   // Overall compatibility is weighted average
   const compatibility = (baseCompatibility * 0.4) + (complementaryScore * 0.3) + (balanceScore * 0.3);
@@ -314,7 +314,7 @@ export function combineElementalProperties(
  */
 export function calculateElementalState(recipe: Recipe | null | undefined): ElementalProperties {
   if (!recipe) {
-    return DEFAULT_ELEMENTAL_PROPERTIES;
+    return getCurrentElementalState();
   }
 
   // Use existing elemental properties if available
@@ -328,7 +328,7 @@ export function calculateElementalState(recipe: Recipe | null | undefined): Elem
   }
 
   // Default fallback
-  return DEFAULT_ELEMENTAL_PROPERTIES;
+  return getCurrentElementalState();
 }
 
 /**
@@ -491,8 +491,8 @@ function generateCompatibilityRecommendation(
  * Get default elemental properties
  * @returns Default balanced elemental properties
  */
-export function getDefaultElementalProperties(): ElementalProperties {
-  return { ...DEFAULT_ELEMENTAL_PROPERTIES };
+export async function getDefaultElementalProperties(): Promise<ElementalProperties> {
+  return getCurrentElementalState();
 }
 
 /**
@@ -500,12 +500,12 @@ export function getDefaultElementalProperties(): ElementalProperties {
  * @param recipe Recipe to standardize
  * @returns Recipe with standardized elemental properties
  */
-export function standardizeRecipeElements<T>(
+export async function standardizeRecipeElements<T>(
   recipe: T | null | undefined,
-): T & { elementalProperties: ElementalProperties } {
+): Promise<T & { elementalProperties: ElementalProperties }> {
   if (!recipe) {
     return {
-      elementalProperties: DEFAULT_ELEMENTAL_PROPERTIES,
+      elementalProperties: getCurrentElementalState(),
     } as T & { elementalProperties: ElementalProperties };
   }
 
@@ -513,7 +513,7 @@ export function standardizeRecipeElements<T>(
   const recipeData = recipe as any;
   const elementalProperties = recipeData?.elementalState 
     ? normalizeProperties(recipeData.elementalState)
-    : DEFAULT_ELEMENTAL_PROPERTIES;
+    : getCurrentElementalState();
 
   return {
     ...recipe,
@@ -538,7 +538,6 @@ export default {
   getElementalCharacteristics,
   getDefaultElementalProperties,
   standardizeRecipeElements,
-  DEFAULT_ELEMENTAL_PROPERTIES,
   ELEMENTAL_COLORS,
   ELEMENTAL_SYMBOLS,
   ELEMENTAL_DESCRIPTIONS

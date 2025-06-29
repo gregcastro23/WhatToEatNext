@@ -10,14 +10,8 @@ import { ElementalCalculator } from "@/services/ElementalCalculator";
 import { SpoonacularElementalMapper } from "@/services/SpoonacularElementalMapper";
 import { proteins } from "@/data/ingredients";
 import { getAccuratePlanetaryPositions } from "@/utils/accurateAstronomy";
-
-// Default balanced elemental properties
-export const DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {
-  Fire: 0.25,
-  Water: 0.25,
-  Earth: 0.25,
-  Air: 0.25,
-};
+import { getLatestAstrologicalState } from '@/services/AstrologicalService';
+import { getCurrentElementalState } from '@/utils/elementalUtils';
 
 /**
  * Validates that elemental properties are properly structured and normalized
@@ -228,7 +222,7 @@ export class AlchemicalEngineBase {
         const seasonValue =
           seasonModifiers[element as keyof ElementalProperties];
 
-        let baseHarmony = 1 - Math.abs(value - userValue);
+        const baseHarmony = 1 - Math.abs(value - userValue);
         const astroHarmony = baseHarmony * astroValue;
         const seasonHarmony = baseHarmony * seasonValue;
 
@@ -360,7 +354,7 @@ export class AlchemicalEngineBase {
     );
 
     // Use our own calculation instead of calling ElementalCalculator.calculateHarmony
-    let baseHarmony = this.calculateHarmonyScore(recipe.elementalProperties);
+    const baseHarmony = this.calculateHarmonyScore(recipe.elementalProperties);
     const interactionScore =
       interactions.synergies.length * 0.1 -
       interactions.conflicts.length * 0.05;
@@ -474,7 +468,7 @@ export class AlchemicalEngineBase {
     properties: ElementalProperties
   ): ElementalProperties {
     if (!validateElementalProperties(properties)) {
-      return DEFAULT_ELEMENTAL_PROPERTIES;
+      return getCurrentElementalState();
     }
 
     return Object.entries(properties).reduce(

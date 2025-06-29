@@ -935,8 +935,7 @@ export const french: Cuisine = {
             lunarPhases: ["First Quarter", "Full Moon"]
           },
           lunarPhaseInfluences: ["First Quarter", "Full Moon"],
-          zodiacInfluences: ["Capricorn", "Scorpio"],
-          numberOfServings: 6
+          zodiacInfluences: ["Capricorn", "Scorpio"]
         }
       ]
     },
@@ -1026,8 +1025,7 @@ export const french: Cuisine = {
             "Sprinkle thin layer of sugar on top",
             "Caramelize with torch or under broiler",
             "Let caramel harden before serving"
-          ],
-          numberOfServings: 6
+          ]
         },
         {
           id: "tarte-tatin",
@@ -1108,7 +1106,6 @@ export const french: Cuisine = {
             "Bake until golden brown",
             "Cool slightly and invert onto plate"
           ],
-          numberOfServings: 8,
           timeToMake: "90 minutes"
         },
         {

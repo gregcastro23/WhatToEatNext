@@ -548,7 +548,7 @@ export class AlchemicalService {
       'Air': ['spring', 'Early Summer']
     };
 
-    return seasonalMap[element] || ['Any season'];
+    return seasonalMap[element as unknown as string] || ['Any season'];
   }
 }
 

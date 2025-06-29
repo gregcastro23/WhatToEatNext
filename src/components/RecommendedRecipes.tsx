@@ -71,7 +71,7 @@ const RecommendedRecipes: React.FC<RecommendedRecipesProps> = ({
                 <CardMedia
                   component="img"
                   height="140"
-                  image={recipe.image}
+                  image={String(recipe.image || '')}
                   alt={recipe.name}
                 />
               )}

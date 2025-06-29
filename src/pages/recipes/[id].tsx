@@ -39,7 +39,11 @@ const RecipeDetailsPage: NextPage = () => {
   React.useEffect(() => {
     // Get current elemental state based on time, date, etc.
     const currentState = getCurrentElementalState();
-    setElementalState(currentState);
+    setElementalState({
+      ...currentState,
+      season: 'spring', // Default value since getCurrentElementalState doesn't provide season
+      timeOfDay: 'lunch' // Default value since getCurrentElementalState doesn't provide timeOfDay
+    });
   }, []);
 
   React.useEffect(() => {
@@ -187,7 +191,7 @@ const RecipeDetailsPage: NextPage = () => {
                     <span>{typeof ingredient === 'string' ? ingredient : ingredient.name}</span>
                     {typeof ingredient !== 'string' && (
                       <span className="text-gray-600">
-                        {ingredient.amount * servingsMultiplier} {ingredient.unit}
+                        {(Number(ingredient.amount) || 0) * servingsMultiplier} {ingredient.unit || ''}
                       </span>
                     )}
                   </li>

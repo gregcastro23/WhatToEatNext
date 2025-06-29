@@ -26,7 +26,11 @@ const CuisineDetailsPage: NextPage = () => {
   React.useEffect(() => {
     // Get current elemental state based on time, date, etc.
     const currentState = getCurrentElementalState();
-    setElementalState(currentState);
+    setElementalState({
+      ...currentState,
+      season: 'spring', // Default value since getCurrentElementalState doesn't provide season
+      timeOfDay: 'lunch' // Default value since getCurrentElementalState doesn't provide timeOfDay
+    });
   }, []);
 
   // Memoize the cuisine data with safe property access
@@ -86,7 +90,7 @@ const CuisineDetailsPage: NextPage = () => {
     for (const recipe of cuisineMatchedRecipes) {
       const recipeData = recipe as any;
       if (!recipeIds.has(recipeData?.name)) {
-        const baseScore = Math.pow(recipeData?.matchScore || 0, 0.8);
+        const baseScore = Math.pow(Number(recipeData?.matchScore) || 0, 0.8);
         const randomFactor = 0.9 + (Math.random() * 0.2);
         const finalScore = Math.max(baseScore * randomFactor, 0.35);
         
@@ -103,7 +107,7 @@ const CuisineDetailsPage: NextPage = () => {
     for (const recipe of elementalMatchedRecipes) {
       const recipeData = recipe as any;
       if (!recipeIds.has(recipeData?.name)) {
-        const baseScore = recipeData?.matchScore || 0;
+        const baseScore = Number(recipeData?.matchScore) || 0;
         const sigmoidScore = baseScore < 0.5 
           ? baseScore * 1.4 
           : 0.7 + (baseScore - 0.5) * 0.6;

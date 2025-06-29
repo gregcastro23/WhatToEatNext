@@ -83,16 +83,16 @@ function calculateMonica(
  * Enhance existing ingredient with unified properties
  */
 function enhanceIngredient(ingredient: IngredientMapping, sourceCategory: string): UnifiedIngredient {
-  // Create alchemical properties if not present
-  const alchemicalProperties = ingredient.alchemicalProperties || {
-    Spirit: 0.25,
-    Essence: 0.25,
-    Matter: 0.25,
-    Substance: 0.25
+  // Create alchemical properties if not present - ensure it's the correct type
+  const alchemicalProperties: AlchemicalProperties = {
+    Spirit: (ingredient.alchemicalProperties as any)?.Spirit ?? 0.25,
+    Essence: (ingredient.alchemicalProperties as any)?.Essence ?? 0.25,
+    Matter: (ingredient.alchemicalProperties as any)?.Matter ?? 0.25,
+    Substance: (ingredient.alchemicalProperties as any)?.Substance ?? 0.25
   };
   
   // Calculate Kalchm value
-  const kalchm = calculateKalchm(alchemicalProperties as AlchemicalProperties);
+  const kalchm = calculateKalchm(alchemicalProperties);
   
   // Get or create thermodynamic properties
   const thermodynamics = ingredient.thermodynamicProperties || 

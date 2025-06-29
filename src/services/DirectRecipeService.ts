@@ -151,7 +151,7 @@ export class DirectRecipeService {
           lastUpdated: new Date().toISOString()
         };
         
-        this.currentCelestialAlignment = enhancedAlignment as CelestialAlignment;
+        this.currentCelestialAlignment = enhancedAlignment as unknown as CelestialAlignment;
       } else {
         // Fall back to calculated alignment
         this.currentCelestialAlignment = alignment;

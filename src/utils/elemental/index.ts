@@ -31,9 +31,7 @@ export {
   combineElementalProperties,
   calculateElementalState,
   getElementalCharacteristics,
-  getDefaultElementalProperties,
   standardizeRecipeElements,
-  DEFAULT_ELEMENTAL_PROPERTIES,
   ELEMENTAL_COLORS,
   ELEMENTAL_SYMBOLS,
   ELEMENTAL_DESCRIPTIONS

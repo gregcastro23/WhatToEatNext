@@ -24,14 +24,16 @@ import type {
   ZodiacSign, 
   LunarPhase, 
   PlanetName 
-} from '@/types/alchemy';
+, ElementalProperties } from '@/types/alchemy';
 
 // Missing service and interface imports
 import type { Recipe } from '@/types/recipe';
-import type { RecipeServiceInterface } from './interfaces/RecipeServiceInterface';
-import type { ElementalProperties } from '@/types/alchemy';
+import type { RecipeServiceInterface ,
+  RecipeSearchCriteria, 
+  RecipeRecommendationOptions 
+} from './interfaces/RecipeServiceInterface';
 import { LocalRecipeService } from './LocalRecipeService';
-import { UnifiedRecipeService } from './UnifiedRecipeService';
+import { UnifiedRecipeService , unifiedRecipeService } from './UnifiedRecipeService';
 import { ErrorHandler } from '@/utils/errorHandler';
 import { recipeElementalService } from './RecipeElementalService';
 
@@ -42,13 +44,8 @@ import {
   getRecipesForLunarPhase,
   getAllRecipes
 } from '@/data/recipes';
-import { unifiedRecipeService } from '@/services/UnifiedRecipeService';
 
 
-import type {
-  RecipeSearchCriteria, 
-  RecipeRecommendationOptions 
-} from './interfaces/RecipeServiceInterface';
 
 /**
  * Implementation of the RecipeServiceInterface that delegates to specialized services

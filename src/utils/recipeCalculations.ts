@@ -5,7 +5,7 @@ import { Recipe, RecipeElementalMapping } from '@/types/recipes';
  * A utility function for logging debug information
  * This is a safe replacement for console.log that can be disabled in production
  */
-let debugLog = (message: string, ...args: unknown[]): void => {
+const debugLog = (message: string, ...args: unknown[]): void => {
   // Comment out console.log to avoid linting warnings
   // console.log(message, ...args);
 };
@@ -13,7 +13,7 @@ let debugLog = (message: string, ...args: unknown[]): void => {
 /**
  * Utility functions for recipe calculations and alignments
  */
-export let recipeCalculations = {
+export const recipeCalculations = {
   /**
    * Calculate how well a recipe aligns with its cuisine's elemental properties
    * @param recipe Recipe with elemental properties and cuisine data
@@ -21,7 +21,7 @@ export let recipeCalculations = {
    */
   calculateCuisineAlignment(recipe: RecipeElementalMapping): number {
     const cuisineElements = recipe.cuisine.elementalAlignment;
-    let alignmentScore = Object.entries(recipe.elementalProperties).reduce((sum, [element, value]) => {
+    const alignmentScore = Object.entries(recipe.elementalProperties).reduce((sum, [element, value]) => {
       return sum + (value * cuisineElements[element as keyof ElementalProperties]);
     }, 0);
     
@@ -36,7 +36,7 @@ export let recipeCalculations = {
    * @returns Array of optimal times / (conditions || 1) for cooking
    */
   getOptimalCookingWindow(recipe: RecipeElementalMapping): string[] {
-    let optimalTimes = [
+    const optimalTimes = [
       ...recipe.astrologicalProfile.rulingPlanets.map(p => `${p} dominant hours`),
       ...recipe.cuisine.astrologicalProfile.aspectEnhancers
     ];
@@ -55,11 +55,11 @@ export let recipeCalculations = {
    */
   determineElementalBoost(recipe: RecipeElementalMapping, userElements: ElementalProperties): number {
     // Find the dominant element in the recipe
-    let dominantElement = Object.entries(recipe.elementalProperties)
+    const dominantElement = Object.entries(recipe.elementalProperties)
       .sort(([,a], [,b]) => b - a)[0][0];
     
     // Calculate boost from the user's affinity with that element
-    let boost = userElements[dominantElement] * 1.5;
+    const boost = userElements[dominantElement] * 1.5;
     
     const recipeBoostData = recipe as any;
     debugLog(`Elemental boost for ${recipeBoostData?.name || 'Unknown Recipe'}: ${boost.toFixed(2)} (dominant: ${dominantElement})`);

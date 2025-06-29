@@ -102,3 +102,31 @@ export type MoonPhase = 'new' | 'waxing crescent' | 'first quarter' | 'waxing gi
                        'full' | 'waning gibbous' | 'last quarter' | 'waning crescent';
 
 // AstrologicalState for service interface - we'll map this to the centralized one internally
+
+// Canonical async function to get the latest astrological state
+export async function getLatestAstrologicalState(): Promise<CentralizedAstrologicalState> {
+  // TODO: Integrate with actual astrologize/alchemize API result cache or state management
+  // For now, return a minimal valid state as a placeholder
+  return {
+    currentZodiac: 'aries',
+    zodiacSign: 'aries',
+    lunarPhase: 'new moon',
+    moonPhase: 'new moon',
+    currentPlanetaryAlignment: {},
+    planetaryPositions: {},
+    activePlanets: [],
+    planetaryHour: 'sun' as any,
+    aspects: [],
+    tarotElementBoosts: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
+    tarotPlanetaryBoosts: {},
+    isDaytime: true,
+    dominantElement: 'Fire',
+    dominantPlanets: [],
+    sunSign: 'aries',
+    moonSign: 'cancer',
+    alchemicalValues: { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 },
+    loading: false,
+    isReady: true,
+    renderCount: 0
+  };
+}

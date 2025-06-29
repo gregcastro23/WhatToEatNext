@@ -1,6 +1,5 @@
 import { Recipe } from '@/types/recipe';
-import { RecipeIngredient } from '@/types/recipeIngredient';
-import { validateIngredient } from '@/types/recipeIngredient';
+import { RecipeIngredient , validateIngredient } from '@/types/recipeIngredient';
 // Removed duplicate: // Removed duplicate: // Removed duplicate: import type { RecipeIngredient } from '@/types/recipeIngredient';
 
 describe('Ingredient Data Structure', () => {

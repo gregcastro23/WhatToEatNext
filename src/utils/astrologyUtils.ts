@@ -9,7 +9,6 @@ import type {
   BasicThermodynamicProperties,
   PlanetaryAspect as ImportedPlanetaryAspect,
   AspectType as ImportedAspectType,
-  PlanetName,
   Element,
   ElementalProperties as ImportedElementalProperties,
   ElementalItem,
@@ -1990,8 +1989,8 @@ export const parseAstroChartAspects = (astroChartData: unknown): Array<{
  * @param planet The planet name
  * @returns The elemental association
  */
-export function getPlanetaryElementalInfluence(planet: PlanetName): Element {
-  const planetElementMap: Record<PlanetName, Element> = {
+export function getPlanetaryElementalInfluence(planet: string): Element {
+  const planetElementMap: Record<string, Element> = {
     'Sun': 'Fire',
     'Moon': 'Water',
     'Mercury': 'Air',
@@ -2247,7 +2246,7 @@ export function transformItemsWithPlanetaryPositions(
           currentElementalInfluence
         ) as any,
         seasonalResonance: calculateSeasonalResonance(dominantElement)
-      } as AlchemicalItem;
+      } as unknown as AlchemicalItem;
 
       return alchemicalItem;
     });

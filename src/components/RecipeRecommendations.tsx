@@ -403,13 +403,13 @@ export default function RecipeRecommendations() {
                   
                   {recipe.cuisine && (
                     <Typography variant="body2" color="text.secondary" gutterBottom>
-                      Cuisine: {recipe.cuisine}
+                      Cuisine: {String(recipe.cuisine || 'Unknown')}
                     </Typography>
                   )}
                   
                   {recipe.description && (
                     <Typography variant="body2" sx={{ mb: 2 }}>
-                      {recipe.description}
+                      {String(recipe.description || '')}
                     </Typography>
                   )}
                   

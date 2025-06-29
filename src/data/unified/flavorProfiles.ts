@@ -105,7 +105,7 @@ export interface UnifiedFlavorProfile {
   nutritionalSynergy: number;
   
   // Integration properties
-  cookingMethodAffinity: Record<CookingMethod, number>;
+  cookingMethodAffinity: Record<string, number>;
   temperatureRange: { min: number; max: number };
   pAiringRecommendations: string[];
   avoidCombinations: string[];

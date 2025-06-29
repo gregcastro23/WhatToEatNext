@@ -37,7 +37,7 @@ export class RecipeElementalService {
       // Return recipe with current elemental state if there's an error
       return {
         ...recipe,
-        elementalProperties: ElementalCalculator.getCurrentElementalState()
+        elementalProperties: elementalUtils.getCurrentElementalState()
       } as T & { elementalProperties: ElementalProperties };
     }
   }

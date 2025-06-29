@@ -1,15 +1,14 @@
 // Create or update a utility function to calculate proper alchemical properties
 
-import type { AlchemicalProperties, ThermodynamicProperties, Modality } from '@/data/ingredients/types';
+import type { AlchemicalProperties, ThermodynamicProperties, Modality , IngredientCategory } from '@/data/ingredients/types';
 import type { ElementalProperties } from '@/types/alchemy';
 import { FlavorProfile } from '@/types/alchemy';
 import type { 
   Ingredient,
   RecipeIngredient, 
-  SimpleIngredient, 
   IngredientMapping
 } from '@/types';
-import type { IngredientCategory } from '@/data/ingredients/types';
+import type { SimpleIngredient } from '@/types/recipeIngredient';
 
 /**
  * Calculate alchemical properties based on elemental properties

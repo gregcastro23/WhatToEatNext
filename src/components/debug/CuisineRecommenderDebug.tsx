@@ -8,17 +8,15 @@ import {
   calculateElementalMatch, 
   calculateElementalProfileFromZodiac,
   calculateElementalContributionsFromPlanets
-} from '@/utils/cuisineRecommender';
-import { cuisines } from '@/data/cuisines';
-import { 
+, 
   generateTopSauceRecommendations 
 } from '@/utils/cuisineRecommender';
-import { getRecipesForCuisineMatch } from '@/data/cuisineFlavorProfiles';
+import { cuisines } from '@/data/cuisines';
+import { getRecipesForCuisineMatch , cuisineFlavorProfiles } from '@/data/cuisineFlavorProfiles';
 import { getAllRecipes } from '@/data/recipes';
 import { Recipe, ElementalProperties, ZodiacSign, LunarPhaseWithSpaces } from '@/types/alchemy';
 import { Loader2, ChevronDown, ChevronUp, Info, Flame, Droplets, Wind, Mountain } from 'lucide-react';
 import { transformCuisines, sortByAlchemicalCompatibility } from '@/utils/alchemicalTransformationUtils';
-import { cuisineFlavorProfiles } from '@/data/cuisineFlavorProfiles';
 
 type DebugStep = {
   name: string;
@@ -285,7 +283,7 @@ export default function CuisineRecommenderDebug() {
       }
       
       // Normalize
-      let total = Object.values(combinedProfile).reduce((sum, val) => sum + val, 0);
+      const total = Object.values(combinedProfile).reduce((sum, val) => sum + val, 0);
       for (const element in combinedProfile) {
         combinedProfile[element] = combinedProfile[element] / total;
       }
@@ -306,7 +304,13 @@ export default function CuisineRecommenderDebug() {
       // Step 5: Transform cuisines
       let transformedCuisines;
       try {
-        transformedCuisines = transformCuisines(recs, astroState as Record<string, number>, elementalProfile, planetaryElementContributions, planetaryElementContributions);
+        transformedCuisines = transformCuisines(
+          recs,
+          astroState as Record<string, number>,
+          isDaytime,
+          (state.astrologicalState?.zodiacSign as string) || null,
+          (state.astrologicalState?.lunarPhase as LunarPhaseWithSpaces) || null
+        );
         updateStep(4, transformedCuisines.slice(0, 3), true); // Show only first 3
       } catch (err) {
         console.error('Error transforming cuisines:', err);

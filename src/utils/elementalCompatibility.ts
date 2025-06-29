@@ -1,6 +1,8 @@
 import type { ElementalProperties } from '@/types/alchemy';
 import { recipeElementalService } from '@/services/RecipeElementalService';
 import { DEFAULT_ELEMENTAL_PROPERTIES, ELEMENTS } from '@/constants/elementalConstants';
+import { getLatestAstrologicalState } from '@/services/AstrologicalService';
+import { getCurrentElementalState } from '@/utils/elementalUtils';
 
 /**
  * Interface for elemental compatibility results
@@ -19,10 +21,10 @@ export interface ElementalCompatibility {
 /**
  * Calculate the elemental compatibility between a recipe and user's preference
  */
-export function calculateElementalCompatibility(
+export async function calculateElementalCompatibility(
   recipeElemental: ElementalProperties,
-  userElemental: ElementalProperties = DEFAULT_ELEMENTAL_PROPERTIES
-): ElementalCompatibility {
+  userElemental: ElementalProperties = getCurrentElementalState()
+): Promise<ElementalCompatibility> {
   // Ensure properties are standardized
   const recipe = recipeElementalService.standardizeRecipe({ elementalProperties: recipeElemental });
   const user = recipeElementalService.standardizeRecipe({ elementalProperties: userElemental });

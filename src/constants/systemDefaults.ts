@@ -52,16 +52,16 @@ export const DEFAULT_RISING_SIGN: ZodiacSign = 'leo';
  * NOTE: For type safety only. Do NOT use for live calculations or UI. Always use real planetary positions.
  */
 export const DEFAULT_PLANETARY_ALIGNMENT: PlanetaryAlignment = {
-  sun: { sign: 'aries', degree: 0 },
-  moon: { sign: 'taurus', degree: 0 },
-  mercury: { sign: 'gemini', degree: 0 },
-  venus: { sign: 'libra', degree: 0 },
-  mars: { sign: 'aries', degree: 0 },
-  jupiter: { sign: 'sagittarius', degree: 0 },
-  saturn: { sign: 'capricorn', degree: 0 },
-  uranus: { sign: 'aquarius', degree: 0 },
-  neptune: { sign: 'pisces', degree: 0 },
-  pluto: { sign: 'scorpio', degree: 0 }
+  Sun: { sign: 'aries', degree: 0 },
+  Moon: { sign: 'taurus', degree: 0 },
+  Mercury: { sign: 'gemini', degree: 0 },
+  Venus: { sign: 'libra', degree: 0 },
+  Mars: { sign: 'aries', degree: 0 },
+  Jupiter: { sign: 'sagittarius', degree: 0 },
+  Saturn: { sign: 'capricorn', degree: 0 },
+  Uranus: { sign: 'aquarius', degree: 0 },
+  Neptune: { sign: 'pisces', degree: 0 },
+  Pluto: { sign: 'scorpio', degree: 0 }
 };
 
 /**
@@ -74,7 +74,7 @@ export const DEFAULT_PLANETARY_POSITIONS: Record<string, CelestialPosition> = {
     exactLongitude: 15.5,
     isRetrograde: false
   },
-  moon: {
+  Moon: {
     sign: 'taurus' as ZodiacSign,
     degree: 8,
     exactLongitude: 38.2,
@@ -169,7 +169,7 @@ export const DEFAULT_ASTROLOGICAL_STATE = {
   elementalProfile: DEFAULT_ELEMENTAL_PROPERTIES,
   planetaryPositions: {
     Sun: { sign: 'aries' as ZodiacSign, degree: 15 },
-    moon: { sign: 'taurus' as ZodiacSign, degree: 8 },
+    Moon: { sign: 'taurus' as ZodiacSign, degree: 8 },
     Mercury: { sign: 'gemini' as ZodiacSign, degree: 10 },
     Venus: { sign: 'libra' as ZodiacSign, degree: 12 },
     Mars: { sign: 'aries' as ZodiacSign, degree: 20 },
@@ -449,6 +449,14 @@ export function validateAgainstDefaults<T extends object>(
   };
 }
 
+/**
+ * DEPRECATED: Use getLatestAstrologicalState from '@/services/AstrologicalService' instead.
+ * This placeholder will throw if called.
+ */
+export function getLatestAstrologicalState() {
+  throw new Error('getLatestAstrologicalState is deprecated in systemDefaults.ts. Import from \'@/services/AstrologicalService\' instead.');
+}
+
 export default {
   // Core defaults
   DEFAULT_ELEMENTAL_PROPERTIES,
@@ -488,5 +496,6 @@ export default {
   getDefaultAstrologicalState,
   getDefaultPlanetaryPositions,
   mergeWithDefaults,
-  validateAgainstDefaults
+  validateAgainstDefaults,
+  getLatestAstrologicalState
 }; 

@@ -22,6 +22,8 @@ type CuisineFlavorCompatibility = any;
 
 // Missing unified data imports
 import { unifiedFlavorProfiles } from './data/unifiedFlavorProfiles';
+import { getLatestAstrologicalState } from '@/services/AstrologicalService';
+import { getCurrentElementalState } from '@/utils/elementalUtils';
 
 
 // ===== FLAVOR PROFILE MIGRATION UTILITY - PHASE 4 =====
@@ -241,7 +243,7 @@ export class FlavorProfileMigration {
       category: 'cuisine',
       
       baseNotes: this.extractCuisineBaseNotes(cuisineData),
-      elementalFlavors: cuisineData.elementalState || this.getDefaultElementalProperties(),
+      elementalFlavors: cuisineData.elementalState || getCurrentElementalState(),
       intensity: this.calculateCuisineIntensity(cuisineData),
       complexity: this.calculateCuisineComplexity(cuisineData),
       
@@ -300,7 +302,7 @@ export class FlavorProfileMigration {
       category: 'planetary',
       
       baseNotes: this.extractPlanetaryBaseNotes(planetData),
-      elementalFlavors: planetData.elementalInfluence || this.getDefaultElementalProperties(),
+      elementalFlavors: planetData.elementalInfluence || getCurrentElementalState(),
       intensity: planetData.intensity || 0.5,
       complexity: planetData.complexity || 0.5,
       
@@ -359,7 +361,7 @@ export class FlavorProfileMigration {
       category: 'elemental',
       
       baseNotes: this.extractIntegrationBaseNotes(flavorName, flavorData),
-      elementalFlavors: flavorData.elementalState || this.getDefaultElementalProperties(),
+      elementalFlavors: flavorData.elementalState || getCurrentElementalState(),
       intensity: flavorData.intensity || 0.5,
       complexity: 0.5,
       
@@ -419,7 +421,7 @@ export class FlavorProfileMigration {
       category: 'ingredient',
       
       baseNotes: this.extractIngredientBaseNotes(flavorData),
-      elementalFlavors: this.estimateIngredientElementalFlavors(flavorData),
+      elementalFlavors: getCurrentElementalState(),
       intensity: this.calculateIngredientIntensity(flavorData),
       complexity: this.calculateIngredientComplexity(flavorData),
       
@@ -467,7 +469,7 @@ export class FlavorProfileMigration {
     if (profile.elementalFlavors) return profile.elementalFlavors;
     if (profile.elementalState) return profile.elementalState;
     
-    return this.getDefaultElementalProperties();
+    return getCurrentElementalState();
   }
 
   private extractAlchemicalProperties(profile: any): AlchemicalProperties {
@@ -617,18 +619,6 @@ export class FlavorProfileMigration {
     };
   }
 
-  private estimateIngredientElementalFlavors(flavorData: any): ElementalProperties {
-    // Estimate elemental properties based on flavor profile
-    const baseNotes = this.extractIngredientBaseNotes(flavorData);
-    
-    return { 
-      Fire: (baseNotes.spicy + baseNotes.bitter) / 2, 
-      Water: (baseNotes.sour + baseNotes.umami) / 2, 
-      Earth: (baseNotes.sweet + baseNotes.umami) / 2, 
-      Air: (baseNotes.bitter + baseNotes.sour) / 2
-    };
-  }
-
   private calculateIngredientIntensity(flavorData: any): number {
     const baseNotes = this.extractIngredientBaseNotes(flavorData);
     const values = Object.values(baseNotes);
@@ -647,10 +637,6 @@ export class FlavorProfileMigration {
 
   // ===== DEFAULT VALUES =====
   
-  private getDefaultElementalProperties(): ElementalProperties {
-    return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
-  }
-
   private getDefaultAlchemicalProperties(): AlchemicalValues {
     return { Spirit: 0.25, Essence: 0.25, Matter: 0.25, Substance: 0.25 };
   }

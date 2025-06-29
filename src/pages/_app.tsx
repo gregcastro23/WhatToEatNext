@@ -7,23 +7,13 @@ import { useEffect } from 'react';
 import Head from 'next/head';
 import { initializeChromeApis } from '@/utils/chromeApiInitializer';
 
-// Declare global window type extension
+// Extend Window interface to include custom properties
 declare global {
   interface Window {
     __reloadedDummyPopup?: boolean;
-    __chromeAPIsInitialized?: boolean;
     __lockdownHandled?: boolean;
-    __extensionErrorHandlerInstalled?: boolean;
     __alchemicalEnginePatchApplied?: boolean;
-    lockdown?: Function;
-    harden?: Function;
-    popup?: any;
-    chrome?: any;
-    getElementRanking?: Function;
-    createElementObject?: Function;
-    combineElementObjects?: Function;
-    getAbsoluteElementValue?: Function;
-    capitalize?: Function;
+    __chromeAPIsInitialized?: boolean;
   }
 }
 

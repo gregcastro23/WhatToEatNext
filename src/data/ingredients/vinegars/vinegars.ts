@@ -236,7 +236,7 @@ const rawVinegars = {
 };
 
 // Export fixed vinegars
-export let vinegars = fixIngredientMappings(rawVinegars);
+export const vinegars = fixIngredientMappings(rawVinegars);
 
 // Define artisanal vinegars (premium / (specialty || 1) vinegars)
 const rawArtisanalVinegars = {
@@ -303,7 +303,7 @@ const rawArtisanalVinegars = {
 };
 
 // Export artisanal vinegars
-export let artisanalVinegars = fixIngredientMappings(rawArtisanalVinegars);
+export const artisanalVinegars = fixIngredientMappings(rawArtisanalVinegars);
 
 // Add any additional vinegars specific to this directory
 const additionalVinegars = {
@@ -311,7 +311,7 @@ const additionalVinegars = {
 };
 
 // Merge with any additional vinegars and artisanal vinegars
-export let allVinegars = fixIngredientMappings({
+export const allVinegars = fixIngredientMappings({
   ...rawVinegars,
   ...rawArtisanalVinegars,
   ...additionalVinegars

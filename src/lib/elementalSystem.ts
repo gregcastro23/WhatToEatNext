@@ -15,6 +15,7 @@ import {
     AstrologicalState,
     Season
   } from '@/types/alchemy';
+  import { getLatestAstrologicalState } from '@/services/AstrologicalService';
   
   class ElementalSystem {
     calculateBalance(properties: ElementalProperties): number {
@@ -83,7 +84,7 @@ import {
   
     calculateAstrologicalInfluence(state: AstrologicalState): ElementalProperties {
       const zodiacElement = ZODIAC_ELEMENTS[state.currentZodiac?.toLowerCase()];
-      const moonSignValue = state.currentPlanetaryAlignment?.moon?.sign || '';
+      const moonSignValue = state.currentPlanetaryAlignment?.Moon?.sign || '';
       const moonSign = typeof moonSignValue === 'string' ? moonSignValue.toLowerCase() : '';
       const moonElement = moonSign ? ZODIAC_ELEMENTS[moonSign] : 'Water';
       

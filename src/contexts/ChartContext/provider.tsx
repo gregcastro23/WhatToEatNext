@@ -6,18 +6,7 @@ import { CurrentChart } from './types';
 import { calculatePlanetaryPositions, calculateAspects } from '@/utils/astrologyUtils';
 import { getCurrentSeason } from '@/data/integrations/seasonal';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-
-// Default placeholder for planetary positions
-const getDefaultPlanetaryPositions = () => ({
-  sun: { sign: 'aries', degree: 0, exactLongitude: 0 },
-  moon: { sign: 'taurus', degree: 5, exactLongitude: 35 },
-  mercury: { sign: 'pisces', degree: 15, exactLongitude: 345 },
-  venus: { sign: 'aquarius', degree: 10, exactLongitude: 310 },
-  mars: { sign: 'capricorn', degree: 20, exactLongitude: 290 },
-  jupiter: { sign: 'sagittarius', degree: 25, exactLongitude: 265 },
-  saturn: { sign: 'Libra', degree: 15, exactLongitude: 195 },
-  ascendant: { sign: 'Libra', degree: 0, exactLongitude: 180 }
-});
+import { getLatestAstrologicalState } from '@/services/AstrologicalService';
 
 export const ChartProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
   const { planetaryPositions: alchemicalPositions } = useAlchemical();
@@ -110,12 +99,12 @@ export const ChartProvider: React.FC<{children: React.ReactNode}> = ({ children 
         console.log('Using positions from AlchemicalContext');
       } else {
         try {
-          positions = await calculatePlanetaryPositions();
+          positions = (await getLatestAstrologicalState()).planetaryPositions;
           console.log('Successfully calculated planetary positions');
         } catch (posError) {
           console.error('Error calculating planetary positions:', posError);
-          // Use default positions as fallback
-          positions = getDefaultPlanetaryPositions();
+          // Use alchemicalPositions from context as fallback, or empty object if not available
+          positions = alchemicalPositions || {};
         }
       }
       

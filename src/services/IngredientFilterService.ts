@@ -5,7 +5,7 @@ import { proteins } from '../data/ingredients/proteins';
 import { grains } from '../data/ingredients/grains';
 import { oils } from '../data/ingredients/oils';
 import { fruits } from '../data/ingredients/fruits';
-import type { IngredientMapping } from '../types/alchemy';
+import type { IngredientMapping, ElementalProperties } from '../types/alchemy';
 import { ElementalFilter } from '../types/elemental';
 import { 
   NutritionalFilter, 
@@ -18,7 +18,6 @@ import {
   SpoonacularRecipe, 
   SpoonacularNutritionData 
 } from '../types/spoonacular';
-import { type ElementalProperties } from "@/types/alchemy";
 
 // Interface to provide special dietary filtering
 export interface DietaryFilter {
@@ -79,14 +78,14 @@ export class IngredientFilterService {
   private constructor() {
     // Initialize with all available ingredient data
     this.allIngredients = {
-      [INGREDIENT_GROUPS.PROTEINS]: proteins,
-      [INGREDIENT_GROUPS.VEGETABLES]: vegetables,
-      [INGREDIENT_GROUPS.FRUITS]: fruits,
-      [INGREDIENT_GROUPS.HERBS]: herbs,
-      [INGREDIENT_GROUPS.SPICES]: spices,
-      [INGREDIENT_GROUPS.GRAINS]: grains,
-      [INGREDIENT_GROUPS.OILS]: oils
-    } as Record<string, Record<string, IngredientMapping>>;
+      [INGREDIENT_GROUPS.PROTEINS]: proteins as Record<string, IngredientMapping>,
+      [INGREDIENT_GROUPS.VEGETABLES]: vegetables as Record<string, IngredientMapping>,
+      [INGREDIENT_GROUPS.FRUITS]: fruits as Record<string, IngredientMapping>,
+      [INGREDIENT_GROUPS.HERBS]: herbs as Record<string, IngredientMapping>,
+      [INGREDIENT_GROUPS.SPICES]: spices as Record<string, IngredientMapping>,
+      [INGREDIENT_GROUPS.GRAINS]: grains as Record<string, IngredientMapping>,
+      [INGREDIENT_GROUPS.OILS]: oils as Record<string, IngredientMapping>
+    };
   }
 
   // Singleton instance getter

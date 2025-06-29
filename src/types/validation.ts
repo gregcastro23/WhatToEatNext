@@ -1,4 +1,4 @@
-import type { Recipe, Ingredient } from '@/types/alchemy';
+import type { Recipe, RecipeIngredient } from '@/types/recipe';
 import { VALID_SEASONS } from '@/constants/seasonalConstants';
 
 export function validateRecipe(recipe: Recipe): boolean {
@@ -19,10 +19,10 @@ export function validateRecipe(recipe: Recipe): boolean {
     }
 
     // Validate ingredients
-    return recipe.ingredients.every((ing: Ingredient) => validateIngredient(ing));
+    return recipe.ingredients.every((ing: RecipeIngredient) => validateIngredient(ing));
 }
 
-export function validateIngredient(ingredient: Ingredient): boolean {
+export function validateIngredient(ingredient: RecipeIngredient): boolean {
     // Validate basic ingredient properties
     if (!ingredient.name || typeof (ingredient as any)?.amount !== 'number') {
         return false;

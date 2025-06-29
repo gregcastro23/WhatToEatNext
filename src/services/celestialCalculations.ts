@@ -4,7 +4,7 @@ import { logger } from '../utils/logger';
 import { cache } from '../utils/cache';
 import type { CelestialAlignment, ElementalProperties, EnergyStateProperties, ChakraEnergies, ZodiacSign, AspectType, PlanetaryAspect, CelestialBody } from '../types/alchemy';
 import type { LunarPhase } from '../types/shared';
-import type { TarotCard } from '../lib/tarotCalculations';
+import type { TarotCard } from '../contexts/TarotContext/types';
 import * as astronomiaCalculator from '../utils/astronomiaCalculator';
 
 // Tarot elemental correspondences
@@ -353,15 +353,8 @@ class CelestialCalculator {
     return {
       name,
       suit,
-      value: 0, // Placeholder
       description: `Tarot card associated with ${zodiacAssociation || planetaryAssociation || 'universal forces'}`,
-      meaning: {
-        upright: ['Connection', 'Harmony', 'Balance'],
-        reversed: ['Disconnection', 'Disharmony', 'Imbalance']
-      },
-      elementalAssociation,
-      zodiacAssociation: zodiacAssociation as ZodiacSign | undefined,
-      planetaryAssociation
+      planetaryInfluences: planetaryAssociation ? { [planetaryAssociation]: 1.0 } : undefined
     };
   }
   
@@ -1105,26 +1098,26 @@ class CelestialCalculator {
         // For each card suit, adjust elements and energy states
         let suitAdjustment = 0.02;
         
-        // Give more weight to minor arcana cards (value 1-10)
-        if (card.value > 0) {
+        // Give more weight to minor arcana cards
+        if (!card.majorArcana) {
           suitAdjustment = 0.04; // Double the influence for minor arcana
         }
         
         if (card.suit === 'wands') {
           balance.Fire += suitAdjustment;
-          energyStateBalance.Spirit += 0.03 * (card.value > 0 ? 1.5 : 1);
+          energyStateBalance.Spirit += 0.03 * (!card.majorArcana ? 1.5 : 1);
         }
         if (card.suit === 'cups') {
           balance.Water += suitAdjustment;
-          energyStateBalance.Essence += 0.03 * (card.value > 0 ? 1.5 : 1);
+          energyStateBalance.Essence += 0.03 * (!card.majorArcana ? 1.5 : 1);
         }
         if (card.suit === 'swords') {
           balance.Air += suitAdjustment;
-          energyStateBalance.Substance += 0.03 * (card.value > 0 ? 1.5 : 1);
+          energyStateBalance.Substance += 0.03 * (!card.majorArcana ? 1.5 : 1);
         }
         if (card.suit === 'pentacles') {
           balance.Earth += suitAdjustment;
-          energyStateBalance.Matter += 0.03 * (card.value > 0 ? 1.5 : 1);
+          energyStateBalance.Matter += 0.03 * (!card.majorArcana ? 1.5 : 1);
         }
       });
       
@@ -1437,15 +1430,8 @@ class CelestialCalculator {
         return {
           name: displayName,
           suit: suit as 'wands' | 'cups' | 'swords' | 'pentacles',
-          value,
           description: `Minor Arcana card for ${zodiacSign}, representing the current period`,
-          meaning: {
-            upright: this.getMeaningForMinorArcana(suit, value, true),
-            reversed: this.getMeaningForMinorArcana(suit, value, false)
-          },
-          elementalAssociation: element as 'Fire' | 'Water' | 'Earth' | 'Air',
-          zodiacAssociation: zodiacSign,
-          planetaryAssociation: undefined // Minor arcana are more linked to decans than planets
+          planetaryInfluences: {} // Minor arcana are more linked to decans than planets
         };
       }
     }

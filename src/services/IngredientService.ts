@@ -260,17 +260,16 @@ export class IngredientService implements IngredientServiceInterface {
   
   /**
    * Get ingredients by subcategory
-   * @param subCategory The subcategory name
+   * @param subcategory The subcategory name
    * @returns An array of ingredients in that subcategory
    */
-  public getIngredientsBySubCategory(subCategory: string): UnifiedIngredient[] {
-    if (!subCategory) return [];
+  public getIngredientsBySubcategory(subcategory: string): UnifiedIngredient[] {
+    if (!subcategory) return [];
     
     try {
-      return (this?.unifiedIngredientsFlat || []).filter(ingredient => ingredient.subCategory?.toLowerCase() === subCategory?.toLowerCase()
-      );
+      return (this?.unifiedIngredientsFlat || []).filter(ingredient => ingredient.subCategory?.toLowerCase() === subcategory?.toLowerCase());
     } catch (error) {
-      logger.error(`Error getting ingredients by subCategory ${subCategory}:`, error);
+      logger.error(`Error getting ingredients by subCategory ${subcategory}:`, error);
       return [];
     }
   }

@@ -447,7 +447,7 @@ export class RecipeFilter {
   /**
    * Calculate elemental compatibility score
    */
-  private calculateElementalScore(
+  public calculateElementalScore(
     recipeElements?: ElementalProperties,
     targetElements?: ElementalProperties
   ): number {

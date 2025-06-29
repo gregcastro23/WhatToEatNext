@@ -1,5 +1,6 @@
 import type { Recipe, ElementalProperties } from '@/types/recipe';
-import { elementalUtils } from '@/utils/elementalUtils';
+import { elementalUtils , getCurrentElementalState } from '@/utils/elementalUtils';
+import { getLatestAstrologicalState } from '@/services/AstrologicalService';
 
 // Calculate elemental harmony between two sets of elemental properties
 const calculateElementalHarmony = (
@@ -13,7 +14,7 @@ const calculateElementalHarmony = (
 };
 
 export const recipeFilter = {
-  filterAndSortRecipes(
+  async filterAndSortRecipes(
     recipes: Recipe[],
     filters: {
       searchQuery?: string;
@@ -26,7 +27,7 @@ export const recipeFilter = {
       elementalState?: ElementalProperties;
     },
     sortOptions: { by: string; direction: 'asc' | 'desc' }
-  ): Recipe[] {
+  ): Promise<Recipe[]> {
     let filteredRecipes = [...recipes];
 
     // Apply search filter
@@ -92,8 +93,8 @@ export const recipeFilter = {
 
     // Apply elemental balance filter
     if (filters.elementalState) {
-      filteredRecipes = filteredRecipes.map(recipe => {
-        const recipeElementalProps = recipe.elementalProperties || elementalUtils.DEFAULT_ELEMENTAL_PROPERTIES;
+      const recipesWithScores = await Promise.all(filteredRecipes.map(async recipe => {
+        const recipeElementalProps = recipe.elementalProperties || getCurrentElementalState();
         return {
           ...recipe,
           matchScore: calculateElementalHarmony(
@@ -101,12 +102,14 @@ export const recipeFilter = {
             filters.elementalState
           ).elementalHarmony
         };
-              }).sort((a, b) => {
-          // Apply Pattern KK-1: Explicit Type Assertion for arithmetic operations
-          const scoreA = Number(a.matchScore) || 0;
-          const scoreB = Number(b.matchScore) || 0;
-          return scoreB - scoreA;
-        });
+      }));
+      
+      filteredRecipes = recipesWithScores.sort((a, b) => {
+        // Apply Pattern KK-1: Explicit Type Assertion for arithmetic operations
+        const scoreA = Number(a.matchScore) || 0;
+        const scoreB = Number(b.matchScore) || 0;
+        return scoreB - scoreA;
+      });
     }
 
     // Apply sorting

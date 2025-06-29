@@ -101,7 +101,7 @@ export function getFlavorProfileForIngredient(ingredientName: string): Ingredien
   }
   
   // Try to find partial matches
-  let nameLower = ingredientName.toLowerCase();
+  const nameLower = ingredientName.toLowerCase();
   for (const [key, profile] of Object.entries(ingredientFlavorMap)) {
     if (
       nameLower.includes(key.toLowerCase()) || 

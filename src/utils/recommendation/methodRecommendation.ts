@@ -190,7 +190,7 @@ export function getMethodThermodynamics(method: CookingMethodProfile): BasicTher
       heat: detailedMethodData.thermodynamicProperties?.heat ?? 0.5,
       entropy: detailedMethodData.thermodynamicProperties?.entropy ?? 0.5,
       reactivity: detailedMethodData.thermodynamicProperties?.reactivity ?? 0.5,
-      gregsEnergy: detailedMethodData.thermodynamicProperties?.energy ?? 0.5,
+      gregsEnergy: detailedMethodData.thermodynamicProperties?.gregsEnergy ?? 0.5,
     };
   }
 
@@ -200,7 +200,7 @@ export function getMethodThermodynamics(method: CookingMethodProfile): BasicTher
       heat: ((method as unknown as Record<string, any>)).thermodynamicProperties?.heat ?? 0.5,
       entropy: ((method as unknown as Record<string, any>)).thermodynamicProperties?.entropy ?? 0.5,
       reactivity: ((method as unknown as Record<string, any>)).thermodynamicProperties?.reactivity ?? 0.5,
-      gregsEnergy: ((method as unknown as Record<string, any>)).thermodynamicProperties?.energy ?? 0.5
+      gregsEnergy: ((method as unknown as Record<string, any>)).thermodynamicProperties?.gregsEnergy ?? 0.5
     };
   }
   

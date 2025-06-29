@@ -34,7 +34,7 @@ export const getAstrologicalEffect = (
   method: CookingMethod,
   astroState: AstrologicalState
 ): number => {
-  const methodData = allCookingMethods[method];
+  const methodData = allCookingMethods[method as unknown as keyof typeof allCookingMethods];
   if (!methodData || !methodData.astrologicalInfluences) return 0.5;
 
   let effectScore = 0.5; // Neutral score as default
@@ -79,7 +79,7 @@ export const calculateModifiedElementalEffect = (
   temperature?: number,
   currentSeason?: Season
 ): ElementalProperties => {
-  const methodData = allCookingMethods[method];
+  const methodData = allCookingMethods[method as unknown as keyof typeof allCookingMethods];
   if (!methodData || !methodData.elementalEffect) {
     return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
   }

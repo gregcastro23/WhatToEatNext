@@ -19,8 +19,8 @@ import { getRecipeElementalProperties, getRecipeCookingMethods } from './recipeU
  * @returns A type-safe Recipe object
  */
 export function adaptRecipeData(recipeData: RecipeData): Recipe {
-  // Convert ingredients to the correct format
-  const ingredients: RecipeIngredient[] = adaptIngredients(recipeData.ingredients || []);
+  // Convert ingredients to the correct format with type safety
+  const ingredients: RecipeIngredient[] = adaptIngredients((recipeData.ingredients || []) as any[]);
 
   // Create a base recipe with required properties
   const recipe: Recipe = {
@@ -182,7 +182,7 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
  * @param ingredients Array of Ingredient objects from data/recipes.ts
  * @returns Array of type-safe RecipeIngredient objects
  */
-function adaptIngredients(ingredients: Ingredient[]): RecipeIngredient[] {
+function adaptIngredients(ingredients: any[]): RecipeIngredient[] {
   return (ingredients || []).map(ingredient => {
     const recipeIngredient: RecipeIngredient = {
       name: ingredient.name || 'Unknown Ingredient', 

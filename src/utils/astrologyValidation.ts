@@ -1,4 +1,4 @@
-import { getDefaultPlanetaryPositions } from './astrologyUtils';
+import { getLatestAstrologicalState } from '@/services/AstrologicalService';
 import type { PlanetPosition } from './astrologyUtils';
 
 // Add a more specific interface for the reference positions
@@ -53,7 +53,7 @@ function calculatePositionDifference(pos1: PlanetaryPosition, pos2: PlanetaryPos
 }
 
 // Main validation function
-export function validatePlanetaryPositions(positions?: Record<string, unknown>): { accurate: boolean, differences: Record<string, unknown> } | boolean {
+export async function validatePlanetaryPositions(positions?: Record<string, unknown>): Promise<{ accurate: boolean, differences: Record<string, unknown> } | boolean> {
   // If positions are provided, perform basic validation on the object structure
   if (positions) {
     return validatePlanetaryPositionsStructure(positions);
@@ -65,9 +65,10 @@ export function validatePlanetaryPositions(positions?: Record<string, unknown>):
     let totalAccuracy = true;
     
     // Check each planet in the reference data
+    const astrologicalState = await getLatestAstrologicalState();
     Object.entries(REFERENCE_POSITIONS).forEach(([planet, refPosition]) => {
       // Get the calculated position for this planet
-      const calculated = getDefaultPlanetaryPositions()[planet];
+      const calculated = astrologicalState.planetaryPositions[planet];
       
       if (!calculated) {
         diff[planet] = { status: 'missing' };
@@ -128,8 +129,8 @@ export function validatePlanetaryPositions(positions?: Record<string, unknown>):
 }
 
 // Export a debug component function to display validation results
-export function getValidationSummary(): string {
-  const result = validatePlanetaryPositions();
+export async function getValidationSummary(): Promise<string> {
+  const result = await validatePlanetaryPositions();
   
   // Handle the case where result is a boolean
   if (typeof result === 'boolean') {
@@ -137,7 +138,7 @@ export function getValidationSummary(): string {
   }
   
   // Now we know result is an object with accurate and differences
-  const { accurate, differences } = result;
+  const { accurate, differences } = result as { accurate: boolean; differences: Record<string, unknown> };
   
   let summary = `Planetary Positions Validation (Reference: Jessica Adams):\n`;
   summary += `Overall Accuracy: ${accurate ? 'PASSED ✓' : 'FAILED ✗'}\n\n`;

@@ -24,8 +24,8 @@ function isCapitalizedPlanet(value: unknown): value is CapitalizedPlanet {
     ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn'].includes(value);
 }
 
-// Type guard for checking if a string can be converted to AlchemyPlanet
-function isValidAlchemyPlanet(value: string): value is AlchemyPlanet {
+// Type guard for checking if a string is a valid planet name
+function isValidPlanetName(value: string): boolean {
   return ['sun', 'moon', 'mercury', 'venus', 'mars', 'jupiter', 'saturn', 
          'uranus', 'neptune', 'pluto'].includes(value.toLowerCase());
 }
@@ -85,7 +85,7 @@ const PlanetaryHoursDisplay: React.FC<PlanetaryHoursDisplayProps> = ({ compact =
           
           // Safely convert to AlchemyPlanet (lowercase)
           const planetLowerCase = hourInfo.planet.toLowerCase();
-          if (isValidAlchemyPlanet(planetLowerCase)) {
+          if (isValidPlanetName(planetLowerCase)) {
             // Get associated chakras from the planet's alchemical property
             const property = planetPropertyMap(isDay)[planetLowerCase as keyof ReturnType<typeof planetPropertyMap>];
             setAlchemicalProperty(property);
@@ -102,7 +102,12 @@ const PlanetaryHoursDisplay: React.FC<PlanetaryHoursDisplayProps> = ({ compact =
               setAssociatedChakras(chakraNames);
             } else {
               // Fallback to the service method if no mapping is found
-              const chakras = chakraService.getChakrasByPlanet(planetLowerCase as AlchemyPlanet);
+              const planetObject: AlchemyPlanet = {
+                name: planetLowerCase as any, // PlanetName from celestial types
+                influence: 1.0,
+                position: undefined
+              };
+              const chakras = chakraService.getChakrasByPlanet(planetObject);
               setAssociatedChakras(chakras.map(c => {
                 const chakraInfo = chakraService.getChakraInfo(c);
                 return chakraInfo.name;

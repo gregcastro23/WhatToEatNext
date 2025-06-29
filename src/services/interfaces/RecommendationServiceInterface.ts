@@ -1,9 +1,8 @@
-import { ElementalProperties, Planet, ZodiacSign , PlanetaryAlignment } from "@/types/alchemy";
+import { ElementalProperties, Planet, ZodiacSign , PlanetaryAlignment , Element } from "@/types/alchemy";
 import { Recipe } from "@/types/recipe";
 import { Ingredient } from "@/types/ingredient";
 import { CookingMethod } from "@/types/cooking";
 import { ThermodynamicMetrics } from "@/types/alchemical";
-import { Element } from "@/types/alchemy";
 
 
 /**

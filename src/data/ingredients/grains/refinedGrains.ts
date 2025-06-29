@@ -1,5 +1,6 @@
 import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
+import type { ZodiacSign } from '@/types/celestial';
 
 const rawRefinedGrains = {
   'white_rice': {
@@ -7,7 +8,7 @@ const rawRefinedGrains = {
     elementalProperties: { Air: 0.4, Earth: 0.3, Water: 0.2, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Mercury'],
-      favorableZodiac: ['cancer', 'virgo'],
+      favorableZodiac: ['cancer', 'virgo'] as ZodiacSign[],
       elementalAffinity: {
         base: 'Air',
         secondary: 'Earth'
@@ -77,7 +78,7 @@ const rawRefinedGrains = {
     elementalProperties: { Earth: 0.4, Air: 0.4, Fire: 0.2, Water: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Mercury', 'Saturn'],
-      favorableZodiac: ['virgo', 'capricorn'],
+      favorableZodiac: ['virgo', 'capricorn'] as ZodiacSign[],
       elementalAffinity: {
         base: 'Earth',
         secondary: 'Air'
@@ -142,7 +143,7 @@ const rawRefinedGrains = {
     elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Saturn'],
-      favorableZodiac: ['cancer', 'capricorn'],
+      favorableZodiac: ['cancer', 'capricorn'] as ZodiacSign[],
       elementalAffinity: {
         base: 'Earth',
         decanModifiers: {
@@ -208,7 +209,7 @@ const rawRefinedGrains = {
     elementalProperties: { Earth: 0.4, Air: 0.3, Fire: 0.2, Water: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Saturn', 'Mercury'],
-      favorableZodiac: ['capricorn', 'virgo'],
+      favorableZodiac: ['capricorn', 'virgo'] as ZodiacSign[],
       elementalAffinity: {
         base: 'Earth',
         secondary: 'Air'
@@ -271,7 +272,7 @@ const rawRefinedGrains = {
     elementalProperties: { Earth: 0.4, Fire: 0.3, Air: 0.2, Water: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Sun', 'Jupiter'],
-      favorableZodiac: ['leo', 'sagittarius'],
+      favorableZodiac: ['leo', 'sagittarius'] as ZodiacSign[],
       elementalAffinity: {
         base: 'Earth',
         secondary: 'Fire'
@@ -336,7 +337,7 @@ const rawRefinedGrains = {
     elementalProperties: { Earth: 0.4, Air: 0.4, Water: 0.1, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Mercury', 'Venus'],
-      favorableZodiac: ['virgo', 'libra'],
+      favorableZodiac: ['virgo', 'libra'] as ZodiacSign[],
       elementalAffinity: {
         base: 'Earth',
         secondary: 'Air'
@@ -408,6 +409,6 @@ const rawRefinedGrains = {
 
 // Fix the ingredient mappings to ensure they have all required properties
 // ✅ Pattern MM-1: Type assertion for ZodiacSign[] compatibility
-export const refinedGrains: Record<string, IngredientMapping> = fixIngredientMappings(rawRefinedGrains as Record<string, Partial<IngredientMapping>>);
+export const refinedGrains: Record<string, IngredientMapping> = fixIngredientMappings(rawRefinedGrains);
 
 export default refinedGrains;

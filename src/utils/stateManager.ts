@@ -100,6 +100,10 @@ interface AppState {
   };
 }
 
+/**
+ * StateManager is an async singleton. Use 'await stateManager' to get the instance.
+ * The exported 'stateManager' is a Promise<StateManager>.
+ */
 class StateManager {
   private static instance: StateManager;
   private state: AppState;
@@ -126,13 +130,29 @@ class StateManager {
       // Fix: Remove type parameter since cache.get doesn't accept it
       const cached = cache.get(this.STORAGE_KEY);
       // Add type guard to ensure cached data has the right shape
-      if (cached && this.isValidAppState(cached)) return cached as AppState;
+      if (cached && this.isValidAppState(cached)) {
+        // Ensure activeFilters is a Set after deserialization
+        if (cached.ui && Array.isArray((cached.ui as any).activeFilters)) {
+          cached.ui.activeFilters = new Set((cached.ui as any).activeFilters);
+        }
+        return cached as AppState;
+      }
 
       const stored = typeof window !== 'undefined' 
         ? localStorage.getItem(this.STORAGE_KEY)
         : null;
 
-      return stored ? JSON.parse(stored) : this.getDefaultState();
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        // Ensure activeFilters is a Set after deserialization
+        if (parsed.ui && Array.isArray(parsed.ui.activeFilters)) {
+          parsed.ui.activeFilters = new Set(parsed.ui.activeFilters);
+        }
+        if (this.isValidAppState(parsed)) {
+          return parsed as AppState;
+        }
+      }
+      return this.getDefaultState();
     } catch (error) {
       logger.error('Error loading state:', error);
       return this.getDefaultState();
@@ -268,6 +288,7 @@ class StateManager {
         ...this.state,
         ui: {
           ...this.state.ui,
+          // Convert Set to array for serialization
           activeFilters: Array.from(this.state.ui.activeFilters)
         }
       };
@@ -407,4 +428,5 @@ class StateManager {
   }
 }
 
+/** @see StateManager for usage */
 export const stateManager = StateManager.getInstance(); 

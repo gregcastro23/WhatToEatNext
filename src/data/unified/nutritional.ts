@@ -497,7 +497,7 @@ export class UnifiedNutritionalSystem {
         rulingPlanets: ['Sun'] as PlanetName[],
         favorableZodiac: ['Leo'] as unknown as ZodiacSign[],
         seasonalPeak: ['Summer'] as unknown as Season[],
-        elementalAffinity: createElementalProperties(0.25, 0.25, 0.25, 0.25)
+        elementalAffinity: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 })
       },
       metadata: {
         kalchmCalculated: true,
@@ -609,7 +609,7 @@ export const getEnhancedPlanetaryNutritionalRecommendations = (
   recommendedFoods: string[];
 } => {
   return {
-    elements: createElementalProperties(0.25, 0.25, 0.25, 0.25),
+    elements: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }),
     focusNutrients: ['planetary_alignment'],
     healthAreas: ['temporal_health'],
     recommendedFoods: ['time_aligned_foods']

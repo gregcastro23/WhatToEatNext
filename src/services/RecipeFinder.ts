@@ -1,5 +1,11 @@
 import type { Recipe, ScoredRecipe } from '@/types/recipe';
-import type { ElementalProperties } from '@/types/alchemy';
+import type { ElementalProperties , 
+  Element, 
+  Season, 
+  ZodiacSign, 
+  LunarPhase, 
+  PlanetName 
+} from '@/types/alchemy';
 
 /**
  * RecipeFinder.ts
@@ -15,13 +21,6 @@ import type { ElementalProperties } from '@/types/alchemy';
 // Using local error handler implementation
 
 
-import type { 
-  Element, 
-  Season, 
-  ZodiacSign, 
-  LunarPhase, 
-  PlanetName 
-} from '@/types/alchemy';
 
 import type {
   RecipeSearchCriteria, 

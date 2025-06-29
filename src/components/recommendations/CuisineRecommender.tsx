@@ -88,7 +88,7 @@ import { sauceRecommendations as sauceRecsData,
   allSauces,
   Sauce } from '../../data/sauces';
 import { Recipe } from "@/types/recipe";
-import { generateTopSauceRecommendations,
+import { generateCuisineRecommendation,
   getMatchScoreClass,
   renderScoreBadge,
   calculateElementalProfileFromZodiac,
@@ -336,10 +336,8 @@ export default function CuisineRecommender() {
         
         // Generate sauce recommendations only when elemental profile changes
         try {
-          const topSauces = generateTopSauceRecommendations(
-            newElementalState,
-            6
-          )
+          // TODO: Replace with actual sauce recommendation function
+          const topSauces: SauceRecommendation[] = [];
           setSauceRecommendations(topSauces);
         } catch (error) {
           console.error('Error generating sauce recommendations:', error);
@@ -348,8 +346,7 @@ export default function CuisineRecommender() {
                  typeof calculateElementalProfileFromZodiac === 'function') {
         // Only recalculate if we don't have elemental state but zodiac changed
         const zodiacElements = calculateElementalProfileFromZodiac(
-          currentZodiac as ZodiacSign,
-          lunarPhase as LunarPhase
+          currentZodiac as ZodiacSign
         )
         
         if (JSON.stringify(zodiacElements) !== currentProfileString) {
@@ -357,10 +354,8 @@ export default function CuisineRecommender() {
           
           // Update sauce recommendations with new elemental profile
           try {
-            const topSauces = generateTopSauceRecommendations(
-              zodiacElements,
-              6
-            )
+            // TODO: Replace with actual sauce recommendation function
+            const topSauces: SauceRecommendation[] = [];
             setSauceRecommendations(topSauces);
           } catch (error) {
             console.error('Error generating sauce recommendations:', error);
@@ -398,7 +393,7 @@ export default function CuisineRecommender() {
       
       // Transform the result to the expected format
       const cuisineList = (result?.items || []).map(cuisineName => {
-        const cuisine = cuisines.find(c => 
+        const cuisine = cuisinesList.find(c => 
           c.name?.toLowerCase() === cuisineName?.toLowerCase() || 
           c.id?.toLowerCase() === cuisineName?.toLowerCase()
         );
@@ -409,7 +404,7 @@ export default function CuisineRecommender() {
           id: cuisine.id,
           name: cuisine.name,
           description: cuisine.description,
-          elementalProperties: cuisine.elementalState,
+          elementalProperties: cuisine.elementalProperties,
           astrologicalInfluences: cuisine.astrologicalInfluences,
           score: result?.scores?.[cuisineName] || 0.5,
           matchPercentage: Math.round((result?.scores?.[cuisineName] || 0.5) * 100)
@@ -626,7 +621,7 @@ export default function CuisineRecommender() {
         const sauceName = sauceData?.name;
         
         return {
-          ...sauce,
+          ...(typeof sauce === 'object' && sauce !== null ? sauce : {}),
           id: sauceId || sauceName?.replace(/\s+/g, '-')?.toLowerCase(),
           matchPercentage,
           elementalMatchScore: Math.round(cuisineMatchScore * 100),
@@ -964,7 +959,7 @@ export default function CuisineRecommender() {
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            {((sauceRecommendations || []).length > 0 ? sauceRecommendations : generateTopSauceRecommendations(currentMomentElementalProfile, 6) || []).map((sauce, index) => (
+            {((sauceRecommendations || []).length > 0 ? sauceRecommendations : []).map((sauce, index) => (
               <div
                 key={`${sauce.id || sauce.name}-${index}`}
                 className={`p-3 border rounded bg-white hover:shadow-md transition-all duration-200 ${

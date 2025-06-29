@@ -508,6 +508,7 @@ export default function IngredientRecommender() {
         const displayName = vinegarData.name || key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
         return {
           name: displayName,
+          type: 'vinegars',
           category: 'vinegars',
           matchScore: 0.6,
           elementalProperties: vinegarData.elementalProperties || { 
@@ -516,9 +517,9 @@ export default function IngredientRecommender() {
             Air: 0.2, 
             Fire: 0.1 
           },
-          qualities: vinegarData.qualities || ['acidic', 'tangy', 'flavorful'],
+          qualities: (vinegarData as any).qualities || ['acidic', 'tangy', 'flavorful'],
           description: `${displayName} - A versatile acidic component for your culinary creations.`
-        };
+        } as IngredientRecommendation;
       });
     }
     
@@ -533,6 +534,7 @@ export default function IngredientRecommender() {
         .map(([key, oilData]) => {
           return {
             name: oilData.name || key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
+            type: 'oils',
             category: 'oils',
             matchScore: 0.6,
             elementalProperties: oilData.elementalProperties || { 
@@ -541,13 +543,9 @@ export default function IngredientRecommender() {
               Earth: 0.3, 
               Air: 0.2 
             },
-            qualities: oilData.qualities || ['cooking', 'flavoring'],
-            smokePoint: oilData.smokePoint || { celsius: 210, fahrenheit: 410 },
-            culinaryApplications: oilData.culinaryApplications || {},
-            thermodynamicProperties: oilData.thermodynamicProperties || {},
-            sensoryProfile: oilData.sensoryProfile || {},
-            description: `${oilData.name || key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())} - ${oilData.description || "A versatile cooking oil with various applications."}`
-          };
+            qualities: (oilData as any).qualities || ['cooking', 'flavoring'],
+            description: `${oilData.name || key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())} - ${(oilData as any).description || "A versatile cooking oil with various applications."}`
+          } as IngredientRecommendation;
         });
       
       categories.oils = [...(categories.oils || []), ...additionalOils]

@@ -1,4 +1,4 @@
-import type { IngredientMapping } from '@/types/alchemy';
+import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 const rawAmaranth = {
@@ -51,4 +51,4 @@ const rawAmaranth = {
   }
 };
 
-export let amaranth = fixIngredientMappings(rawAmaranth); 
+export const amaranth: Record<string, IngredientMapping> = fixIngredientMappings(rawAmaranth); 

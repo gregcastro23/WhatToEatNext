@@ -1,5 +1,6 @@
-import type { ElementalProperties } from "@/types/alchemy";
+import type { ElementalProperties , AstrologicalState, ZodiacSign } from "@/types/alchemy";
 import { Element } from "@/types/alchemy";
+import { AlchemicalEngineAdvanced } from '../alchemicalEngine';
 
 
 // --- Core Alchemizer Engine with Kalchm and Monica Constant ---
@@ -194,6 +195,12 @@ export { alchemize, signs, planetInfo, signInfo };
 
 // Pattern OO-4: Integration Import Resolution - AlchemicalEngine class for service compatibility
 export class AlchemicalEngine {
+  private advanced: AlchemicalEngineAdvanced;
+
+  constructor() {
+    this.advanced = new AlchemicalEngineAdvanced();
+  }
+
   /**
    * Calculate thermodynamic metrics from planetary positions
    */
@@ -203,23 +210,72 @@ export class AlchemicalEngine {
   
   /**
    * Calculate elemental compatibility between two elemental property sets
+   * Uses getElementalAffinity instead of private calculateElementCompatibility
    */
   calculateElementalCompatibility(
     properties1: ElementalProperties,
     properties2: ElementalProperties
   ): number {
-    if (!properties1 || !properties2) return 0;
-    
-    // Calculate similarity based on euclidean distance
-    const distance = Math.sqrt(
-      Math.pow((properties1.Fire || 0) - (properties2.Fire || 0), 2) +
-      Math.pow((properties1.Water || 0) - (properties2.Water || 0), 2) +
-      Math.pow((properties1.Earth || 0) - (properties2.Earth || 0), 2) +
-      Math.pow((properties1.Air || 0) - (properties2.Air || 0), 2)
-    );
-    
-    // Convert distance to compatibility score (0-1)
-    return Math.max(0, 1 - distance / 2);
+    // Use getElementalAffinity which returns ElementalAffinity object, extract compatibility score
+    // Determine dominant element from properties1
+    const dominantElement = (Object.entries(properties1).sort(([, a], [, b]) => b - a)[0]?.[0] as Element) || 'Fire';
+    const affinity = this.advanced.getElementalAffinity(dominantElement, dominantElement); // Use dominant element for both
+    // Extract the compatibility score for the dominant element
+    return typeof affinity.compatibility[dominantElement] === 'number' ? affinity.compatibility[dominantElement] : 0.5;
+  }
+
+  // Proxy legacy/advanced methods for compatibility
+  calculateAstroCuisineMatch(
+    recipeElements?: ElementalProperties,
+    astrologicalState?: AstrologicalState,
+    season?: string,
+    cuisine?: string
+  ) {
+    return this.advanced.calculateAstroCuisineMatch(recipeElements, astrologicalState, season, cuisine);
+  }
+
+  // Proxy: calculateAdvancedRecipeHarmony → calculateRecipeHarmony
+  calculateAdvancedRecipeHarmony(
+    recipeName: string,
+    userElements: ElementalProperties,
+    astroState: AstrologicalState,
+    birthInfo?: any // optional, legacy signature
+  ) {
+    return this.advanced.calculateRecipeHarmony(recipeName, userElements, astroState);
+  }
+
+  calculateAstrologicalPower(recipeSunSign: ZodiacSign, astrologicalState: AstrologicalState) {
+    return this.advanced.calculateAstrologicalPower(recipeSunSign, astrologicalState);
+  }
+
+  getElementalAffinity(element1: keyof ElementalProperties, element2: keyof ElementalProperties) {
+    return this.advanced.getElementalAffinity(element1, element2);
+  }
+
+  calculateNaturalInfluences(params: any) {
+    return this.advanced.calculateNaturalInfluences(params);
+  }
+
+  getElementRanking(elementObject: Record<string, number>) {
+    return this.advanced.getElementRanking(elementObject);
+  }
+
+  combineElementObjects(
+    elementObject1: ElementalProperties,
+    elementObject2: ElementalProperties,
+    weight1?: number,
+    weight2?: number
+  ) {
+    // If weights are provided, combine with weights; else, sum
+    if (typeof weight1 === 'number' && typeof weight2 === 'number') {
+      return {
+        Fire: elementObject1.Fire * weight1 + elementObject2.Fire * weight2,
+        Water: elementObject1.Water * weight1 + elementObject2.Water * weight2,
+        Air: elementObject1.Air * weight1 + elementObject2.Air * weight2,
+        Earth: elementObject1.Earth * weight1 + elementObject2.Earth * weight2,
+      };
+    }
+    return this.advanced.combineElementObjects(elementObject1, elementObject2);
   }
 }
 

@@ -1,6 +1,7 @@
-import { elementalUtils } from '../utils/elementalUtils';
-import { AstrologicalService } from './AstrologicalService';
+import { elementalUtils , getCurrentElementalState } from '../utils/elementalUtils';
+import { AstrologicalService , getLatestAstrologicalState } from './AstrologicalService';
 import { calculatePlanetaryPositions, calculateSunSign, calculateLunarPhase } from '../utils/astrologyUtils';
+import type { ElementalProperties } from '@/types/alchemy';
 
 type CelestialPosition = {
     sunSign: string;
@@ -186,7 +187,7 @@ function getSunSignFromDate(date: Date): string {
     return 'capricorn';
 }
 
-export const getElementalInfluence = async (): Promise<typeof elementalUtils.DEFAULT_ELEMENTAL_PROPERTIES> => {
+export const getElementalInfluence = async (): Promise<ElementalProperties> => {
     // Use the zodiac to element mapping if available
     try {
         // Apply safe type casting for service method access
@@ -254,7 +255,7 @@ export const getElementalInfluence = async (): Promise<typeof elementalUtils.DEF
     }
     
     // Fallback to default
-    return elementalUtils.DEFAULT_ELEMENTAL_PROPERTIES;
+    return getCurrentElementalState();
 };
 
 // Helper function to get element from zodiac sign
@@ -293,7 +294,7 @@ function getZodiacElement(sign: string): string {
 }
 
 // New function to calculate elemental balance based on all available planetary positions
-export function calculateElementalBalanceFromPositions(positions: Record<string, unknown>): typeof elementalUtils.DEFAULT_ELEMENTAL_PROPERTIES {
+export function calculateElementalBalanceFromPositions(positions: Record<string, unknown>): ElementalProperties {
     // Start with empty values
     const elementalBalance = {
         Fire: 0,
@@ -340,7 +341,7 @@ export function calculateElementalBalanceFromPositions(positions: Record<string,
         });
     } else {
         // If no influence, use balanced distribution
-        return elementalUtils.DEFAULT_ELEMENTAL_PROPERTIES;
+        return getCurrentElementalState();
     }
     
     return elementalBalance;

@@ -293,4 +293,14 @@ export async function testAstrologizeApi(): Promise<boolean> {
     console.error('Astrologize API test failed:', error);
     return false;
   }
+}
+
+/**
+ * Get current chart data (alias for getCurrentPlanetaryPositions)
+ */
+export async function getCurrentChart(
+  location?: { latitude: number; longitude: number },
+  zodiacSystem: 'tropical' | 'sidereal' = 'tropical'
+): Promise<Record<string, PlanetPosition>> {
+  return await getCurrentPlanetaryPositions(location, zodiacSystem);
 } 

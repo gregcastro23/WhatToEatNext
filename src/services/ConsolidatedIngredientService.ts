@@ -58,7 +58,10 @@ interface MatchingResult {
  */
 
 import { RecipeIngredient } from '@/types/recipe';
-import type { StandardizedAlchemicalResult } from '@/types/alchemy';
+import type { StandardizedAlchemicalResult , ElementalProperties, 
+  ThermodynamicMetrics,
+  PlanetName,
+  Element } from '@/types/alchemy';
 import { unifiedIngredients } from '@/data/unified/ingredients';
 import { createElementalProperties, calculateElementalCompatibility } from '../utils/elemental/elementalUtils';
 import { isNonEmptyArray, safeSome } from '../utils/common/arrayUtils';
@@ -66,10 +69,6 @@ import { logger } from '../utils/logger';
 import { cache } from '../utils/cache';
 
 import type { Recipe } from '../types/recipe';
-import type { ElementalProperties, 
-  ThermodynamicMetrics,
-  PlanetName,
-  Element } from '@/types/alchemy';
 import type { Season } from '@/types/seasons';
 import type { ZodiacSign } from '../types/zodiac';
 import type { IngredientServiceInterface, 

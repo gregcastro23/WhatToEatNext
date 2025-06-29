@@ -1,4 +1,4 @@
-import { AstrologicalState, ElementalProperties, ChakraEnergies, Season } from '@/types/alchemy';
+import { AstrologicalState, ElementalProperties, ChakraEnergies, Season , Element } from '@/types/alchemy';
 import { getTarotCardsForDate, getTarotFoodRecommendations } from '../lib/tarotCalculations';
 import { getRecommendedIngredients } from '../utils/recommendation/foodRecommendation';
 
@@ -13,7 +13,6 @@ import {
   unifiedFlavorEngine
 } from '../data/unified/unifiedFlavorEngine';
 import { getCurrentSeason } from '../utils/dateUtils';
-import { Element } from "@/types/alchemy";
 import { ChakraService, ChakraEnergyState } from '@/services/ChakraService';
 import { WiccanCorrespondenceService } from '@/services/WiccanCorrespondenceService';
 
@@ -418,7 +417,17 @@ export class EnhancedRecommendationService {
       zodiacEnergies['aquarius'] += Air * 0.3;
     }
 
-    return calculateChakraEnergies(zodiacEnergies as any);
+    const chakraRecord = calculateChakraEnergies(zodiacEnergies as any);
+    // Map from Record<Chakra, number> to ChakraEnergies interface
+    return {
+      root: chakraRecord['Root'] || 0.14,
+      sacral: chakraRecord['Sacral'] || 0.14,
+      solarPlexus: chakraRecord['Solar Plexus'] || 0.14,
+      heart: chakraRecord['Heart'] || 0.14,
+      throat: chakraRecord['Throat'] || 0.14,
+      thirdEye: chakraRecord['Third Eye'] || 0.14,
+      crown: chakraRecord['Crown'] || 0.14
+    };
   }
 
   /**

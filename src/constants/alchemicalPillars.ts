@@ -1,5 +1,4 @@
-import { AlchemicalProperty } from '../types/celestial';
-import { Element } from '../types/celestial';
+import { AlchemicalProperty , Element } from '../types/celestial';
 
 /**
  * Interface representing an Alchemical Pillar

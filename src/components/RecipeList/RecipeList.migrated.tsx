@@ -35,6 +35,17 @@ interface FilterState {
   minRating: number;
 }
 
+const initialFilters: FilterState = {
+  search: '',
+  cuisineTypes: [],
+  mealType: [],
+  dietary: [],
+  maxTime: undefined,
+  spiciness: null,
+  complexity: null,
+  minRating: 0
+};
+
 interface AstrologicalData {
   planetaryPositions: { [planet: string]: { sign: string; degree: number } };
   lunarPhase: string;
@@ -56,23 +67,14 @@ interface EnhancedRecipe extends Omit<Recipe, 'score'> {
   matchPercentage?: number;
 }
 
-const initialFilters: FilterState = {
-  search: '',
-  cuisineTypes: [],
-  mealType: [],
-  dietary: [],
-  maxTime: undefined,
-  spiciness: null,
-  complexity: null,
-  minRating: 0
-};
-
 // RecipeCard component with Material UI
-const RecipeCard: React.FC<{
+interface RecipeCardProps {
   recipe: EnhancedRecipe;
   isExpanded: boolean;
   onToggle: () => void;
-}> = ({ recipe, isExpanded, onToggle }) => {
+}
+
+const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, isExpanded, onToggle }) => {
   const getElementColor = (element: string): string => {
     switch (element?.toLowerCase()) {
       case 'fire': return '#ef4444';

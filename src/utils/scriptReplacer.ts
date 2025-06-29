@@ -22,15 +22,15 @@ if (typeof window !== 'undefined') {
   }, true);
 
   // Setup global properties for lockdown
-  if (!window.lockdown) {
-    window.lockdown = function() {
+  if (!(window as any).lockdown) {
+    (window as any).lockdown = function() {
       console.log('[ScriptReplacer] Safely intercepted lockdown() call');
       return true;
     };
   }
 
-  if (!window.harden) {
-    window.harden = function(obj) {
+  if (!(window as any).harden) {
+    (window as any).harden = function(obj) {
       return obj;
     };
   }

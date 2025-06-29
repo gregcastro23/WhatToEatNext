@@ -411,12 +411,26 @@ export class LocalRecipeService {
       });
       
       // Ensure elementalProperties exist - checking all possible property names
-      let elementalProperties: ElementalProperties = dish.elementalProperties || dish.elementalState || {
-        Fire: 0.25,
-        Water: 0.25,
-        Earth: 0.25,
-        Air: 0.25
-      };
+      let elementalProperties: ElementalProperties;
+      if (dish.elementalProperties) {
+        elementalProperties = dish.elementalProperties as ElementalProperties;
+      } else if (dish.elementalState && typeof dish.elementalState === 'object') {
+        // Convert Record<string, number> to ElementalProperties
+        const state = dish.elementalState as Record<string, number>;
+        elementalProperties = {
+          Fire: state.Fire || state.fire || 0.25,
+          Water: state.Water || state.water || 0.25,
+          Earth: state.Earth || state.earth || 0.25,
+          Air: state.Air || state.air || 0.25
+        };
+      } else {
+        elementalProperties = {
+          Fire: 0.25,
+          Water: 0.25,
+          Earth: 0.25,
+          Air: 0.25
+        };
+      }
       
       // Make sure all elemental properties are numbers
       elementalProperties = {

@@ -1,5 +1,6 @@
 import type { ElementalProperties } from '@/types/alchemy';
 import type { Modality } from '@/data/ingredients/types';
+import { getDominantElement } from '@/utils/elemental/elementalUtils';
 
 /**
  * Determines the modality of a cuisine based on its elemental properties

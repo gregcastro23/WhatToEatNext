@@ -309,7 +309,14 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
       try {
         setIsLoading(true);
         const data = await astrologize.getCurrentChart();
-        setAstroData(data);
+        const astroData: AstrologicalData = {
+          planetaryPositions: data as { [planet: string]: { sign: string; degree: number } },
+          lunarPhase: 'new moon',
+          currentSeason: 'spring',
+          dominantElements: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+          activePlanets: Object.keys(data)
+        };
+        setAstroData(astroData);
       } catch (err) {
         const errorMessage = err instanceof Error ? err.message : 'Unknown error';
         setError(`Failed to load astrological data: ${errorMessage}`);

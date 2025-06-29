@@ -6,17 +6,14 @@
  * individual type definition files to avoid type mismatches.
  */
 
-// Import Season from constants.ts (the authoritative source)
-import { Season } from './constants';
+// Import Season, ZodiacSign, CookingMethod as types from constants.ts
+import type { Season, ZodiacSign, CookingMethod, ElementType, Planet } from './constants';
+// Import LunarPhase as type from constants.ts
+import type { LunarPhase } from './constants';
 
-// Import Element from constants.ts
-import { Element } from './constants';
-// Also use ElementEnum from elemental.ts for compatibility
-// Import ZodiacSign, PlanetName from constants.ts
-import { ZodiacSign, PlanetName, CookingMethod } from './constants';
-
-// Import LUNAR_PHASE_MAP from lunar.ts
-import { LUNAR_PHASE_MAP as LunarPhase } from './lunar';
+// Define types directly since they're not exported from constants
+type Element = 'Fire' | 'Water' | 'Earth' | 'Air';
+type PlanetName = 'Sun' | 'Moon' | 'Mercury' | 'Venus' | 'Mars' | 'Jupiter' | 'Saturn';
 
 // Define necessary types directly if they're not available for import
 // Define a simplified AstrologicalState type
@@ -66,13 +63,13 @@ export interface Ingredient {
 }
 
 // Re-export all types
-export {
+export type {
   Season,
-  Element,
   ZodiacSign,
-  PlanetName,
   LunarPhase,
   CookingMethod,
+  ElementType as Element,
+  Planet as PlanetName,
 };
 
 // Type conversion utilities

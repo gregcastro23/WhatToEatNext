@@ -23,7 +23,11 @@ interface ElementalProperties {
 interface ValidatableState extends Partial<AlchemicalState> {
   recipes?: Recipe[];
   filteredRecipes?: Recipe[];
-  favorites?: Recipe[];
+  /**
+   * NOTE: In most app states, 'favorites' is an array of IDs (string[]), not Recipe[].
+   * Adjust here if needed for consistency with the rest of the app.
+   */
+  favorites?: Recipe[]; // or string[]
   season?: string;
 }
 
@@ -92,6 +96,12 @@ class StateValidator {
     if (!props || typeof props !== 'object') return false
     
     const requiredElements = ['Fire', 'Earth', 'Air', 'Water']
+    // Type guard: ensure all required keys exist and are numbers
+    for (const element of requiredElements) {
+      if (!(element in props) || typeof props[element] !== 'number') {
+        return false;
+      }
+    }
     return requiredElements.every(element => 
       typeof props[element] === 'number' &&
       props[element] >= 0 &&
@@ -110,7 +120,16 @@ class StateValidator {
       
       if (!hasRequiredFields) return false
       
-      return this.validateElementalProperties(recipe.elementalProperties as ElementalProperties)
+      // Runtime type guard for elementalProperties
+      const elemProps = recipe.elementalProperties;
+      if (!elemProps || typeof elemProps !== 'object') return false;
+      const requiredElements = ['Fire', 'Earth', 'Air', 'Water'];
+      for (const element of requiredElements) {
+        if (!(element in elemProps) || typeof elemProps[element] !== 'number') {
+          return false;
+        }
+      }
+      return this.validateElementalProperties(elemProps as ElementalProperties)
     } catch (error) {
       errorHandler.handleError(error, {
         context: 'StateValidator',

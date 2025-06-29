@@ -8,7 +8,11 @@ import CuisineRecommender from '@/components/CuisineRecommender';
 import { cuisineFlavorProfiles } from '@/data/cuisineFlavorProfiles';
 import { ElementalProperties } from '@/types/alchemy';
 
-interface ExtendedElementalState extends ElementalProperties {
+interface ExtendedElementalState {
+  Fire: number;
+  Water: number;
+  Earth: number;
+  Air: number;
   season: string;
   timeOfDay: string;
 }

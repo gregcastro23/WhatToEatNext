@@ -101,6 +101,6 @@ const rawEggs = {
   }
 };
 
-export let eggs = fixIngredientMappings(rawEggs) as Record<string, IngredientMapping>;
+export const eggs = fixIngredientMappings(rawEggs) as Record<string, IngredientMapping>;
 
 export default eggs; 

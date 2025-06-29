@@ -101,7 +101,7 @@ export class ChakraAlchemyService {
    */
   public getChakrasByPlanet(planet: Planet): ChakraPosition[] {
     // Planet to energy state mappings based on alchemical principles
-    const planetEnergyStates: Record<Planet, string[]> = {
+    const planetEnergyStates: Record<string, string[]> = {
       'sun': ['Spirit'],
       'moon': ['Essence', 'Matter'],
       'mercury': ['Spirit', 'Substance'],
@@ -115,7 +115,7 @@ export class ChakraAlchemyService {
     };
     
     // Get the energy states for this planet
-    const energyStates = planetEnergyStates[planet] || [];
+    const energyStates = planetEnergyStates[planet as unknown as keyof typeof planetEnergyStates] || [];
     
     // Map energy states to chakras
     const chakras: ChakraPosition[] = [];
@@ -193,7 +193,10 @@ export class ChakraAlchemyService {
     Object.entries(CHAKRAS).forEach(([position, chakra]) => {
       const key = this.getChakraKey(position as ChakraPosition);
       if (key) {
-        chakraEnergies[key] = energyStates[(chakra as any)?.primaryEnergyState] * 2; // Scale to make it more visible
+        const primaryEnergyState = (chakra as any)?.primaryEnergyState as keyof EnergyStateProperties;
+        if (primaryEnergyState && primaryEnergyState in energyStates) {
+          chakraEnergies[key] = energyStates[primaryEnergyState] * 2; // Scale to make it more visible
+        }
       }
     });
     

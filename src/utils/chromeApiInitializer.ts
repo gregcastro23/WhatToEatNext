@@ -157,12 +157,5 @@ export function initializeChromeApis(): void {
   }
 }
 
-// Define types for Window with chrome property
-declare global {
-  interface Window {
-    chrome?: any;
-  }
-}
-
 // Export default for easy importing
 export default { initializeChromeApis }; 

@@ -1,9 +1,10 @@
-import { _ElementalProperties } from '../../types/common';
-import { CuisineType } from '../../types/recipe';
+// Removed invalid imports - using available types instead
+// import { _ElementalProperties } from '../../types/common';
+// import { string } from '../../types/recipe';
 import { ElementalProperties } from '@/types/alchemy';
 
 export interface CuisineRecommendation {
-  cuisine: CuisineType;
+  cuisine: string; // Using string instead of missing string
   score: number;
   reasoning: string;
   elementalMatch: number;
@@ -26,7 +27,7 @@ export function generateCuisineRecommendation(
   // Fire-based cuisines
   if (elementalProperties.Fire > 0.6) {
     recommendations.push({
-      cuisine: 'Mexican' as CuisineType,
+      cuisine: 'Mexican' as string,
       score: elementalProperties.Fire * 0.9,
       reasoning: 'High Fire element matches spicy Mexican cuisine',
       elementalMatch: elementalProperties.Fire
@@ -36,7 +37,7 @@ export function generateCuisineRecommendation(
   // Water-based cuisines
   if (elementalProperties.Water > 0.6) {
     recommendations.push({
-      cuisine: 'Mediterranean' as CuisineType,
+      cuisine: 'Mediterranean' as string,
       score: elementalProperties.Water * 0.8,
       reasoning: 'High Water element matches Mediterranean freshness',
       elementalMatch: elementalProperties.Water
@@ -46,7 +47,7 @@ export function generateCuisineRecommendation(
   // Earth-based cuisines
   if (elementalProperties.Earth > 0.6) {
     recommendations.push({
-      cuisine: 'Italian' as CuisineType,
+      cuisine: 'Italian' as string,
       score: elementalProperties.Earth * 0.85,
       reasoning: 'High Earth element matches hearty Italian cuisine',
       elementalMatch: elementalProperties.Earth
@@ -56,7 +57,7 @@ export function generateCuisineRecommendation(
   // Air-based cuisines
   if (elementalProperties.Air > 0.6) {
     recommendations.push({
-      cuisine: 'Asian' as CuisineType,
+      cuisine: 'Asian' as string,
       score: elementalProperties.Air * 0.8,
       reasoning: 'High Air element matches light Asian cuisine',
       elementalMatch: elementalProperties.Air
@@ -66,7 +67,7 @@ export function generateCuisineRecommendation(
   return recommendations.sort((a, b) => b.score - a.score);
 }
 
-export function getCuisineElementalProfile(cuisine: CuisineType): ElementalProperties {
+export function getCuisineElementalProfile(cuisine: string): ElementalProperties {
   const profiles: Record<string, ElementalProperties> = {
     'Mexican': { Fire: 0.8, Water: 0.3, Earth: 0.5, Air: 0.4 },
     'Italian': { Fire: 0.4, Water: 0.4, Earth: 0.8, Air: 0.4 },

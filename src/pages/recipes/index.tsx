@@ -21,7 +21,11 @@ const RecipesPage: NextPage = () => {
   React.useEffect(() => {
     // Get current elemental state based on time, date, etc.
     const currentState = getCurrentElementalState();
-    setElementalState(currentState);
+    setElementalState({
+      ...currentState,
+      season: 'spring', // Default value since getCurrentElementalState doesn't provide season
+      timeOfDay: 'lunch' // Default value since getCurrentElementalState doesn't provide timeOfDay
+    });
   }, []);
 
   // Get all available cuisines from the recipes
@@ -33,7 +37,7 @@ const RecipesPage: NextPage = () => {
         cuisineSet.add(recipe.cuisine);
       }
       if (recipe.regionalCuisine) {
-        cuisineSet.add(recipe.regionalCuisine);
+        cuisineSet.add(recipe.regionalCuisine as string);
       }
     });
     

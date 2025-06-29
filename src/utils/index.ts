@@ -13,8 +13,14 @@ export { logger, createLogger } from './logger';
 
 // Export existing utilities - re-export as needed
 export * from './elementalUtils';
-export * from './astrologyUtils';
-export * from './zodiacUtils';
+export { 
+  transformItemsWithPlanetaryPositions as astrologyUtilsTransformItems
+} from './astrologyUtils';
+export { 
+  getZodiacSign as zodiacUtilsGetZodiacSign,
+  getSignFromLongitude as zodiacUtilsGetSignFromLongitude,
+  getZodiacElementalInfluence as zodiacUtilsGetZodiacElementalInfluence
+} from './zodiacUtils';
 
 // Named exports for specific utilities
 export { default as ErrorHandler } from '../services/errorHandler'; 

@@ -1,4 +1,5 @@
 import type { IngredientMapping } from '@/data/ingredients/types';
+import type { ZodiacSign } from '@/types/celestial';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 const rawRootVegetables = {
@@ -219,4 +220,4 @@ const rawRootVegetables = {
 // ✅ Pattern MM-1: Type assertion for ZodiacSign[] compatibility
 export const roots: Record<string, IngredientMapping> = fixIngredientMappings(rawRootVegetables as Record<string, Partial<IngredientMapping>>);
 // For backwards compatibility
-export let rootVegetables = roots; 
+export const rootVegetables = roots; 

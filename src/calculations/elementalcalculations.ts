@@ -4,6 +4,7 @@ import type {
   ElementalProperties as ElementProps,
   Season,
 } from '@/types/alchemy';
+import { getLatestAstrologicalState } from '@/services/AstrologicalService';
 
 // Define the types needed for ElementalCalculator
 interface ElementalProperties {

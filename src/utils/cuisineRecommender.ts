@@ -117,7 +117,7 @@ export function generateTopSauceRecommendations(currentElementalProfile = null, 
     );
     
     return {
-      ...sauce,
+      ...(sauce as any),
       id: sauceId || sauceName?.replace(/\s+/g, '-').toLowerCase(),
       matchPercentage,
       elementalMatchScore: Math.round(elementalMatchScore * 100),

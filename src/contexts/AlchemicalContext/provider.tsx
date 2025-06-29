@@ -82,20 +82,18 @@ export const AlchemicalProvider: React.FC<{children: React.ReactNode}> = ({ chil
         logger.debug('Synchronizing alchemical values from astrologicalState to root state');
         dispatch({
           type: 'SET_ALCHEMICAL_VALUES',
-          // Pattern JJ-2: AlchemicalState Interface Completion - Ensure proper alchemical values structure
-          payload: state.astrologicalState.alchemicalValues || ({
-            Spirit: 0.25,
-            Essence: 0.25,
-            Matter: 0.25,
-            Substance: 0.25
-          } as { Spirit: number; Essence: number; Matter: number; Substance: number; })
+          payload: (state.astrologicalState.alchemicalValues && Object.keys(state.astrologicalState.alchemicalValues).length === 4)
+            ? state.astrologicalState.alchemicalValues as { Spirit: number; Essence: number; Matter: number; Substance: number }
+            : { Spirit: 0.25, Essence: 0.25, Matter: 0.25, Substance: 0.25 }
         });
       }
     } else if (state.astrologicalState) {
       // If astrologicalState exists but doesn't have alchemicalValues, add them from root state
       const updatedAstroState = {
         ...state.astrologicalState,
-        alchemicalValues: state.alchemicalValues
+        alchemicalValues: (state.alchemicalValues && Object.keys(state.alchemicalValues).length === 4)
+          ? state.alchemicalValues
+          : { Spirit: 0.25, Essence: 0.25, Matter: 0.25, Substance: 0.25 }
       };
       
       dispatch({
@@ -271,10 +269,10 @@ export const AlchemicalProvider: React.FC<{children: React.ReactNode}> = ({ chil
       value={{ 
         state, 
         dispatch, 
-        planetaryPositions, 
+        planetaryPositions: planetaryPositions as Record<string, unknown>,
         isDaytime, 
-        updatePlanetaryPositions, 
-        refreshPlanetaryPositions,
+        updatePlanetaryPositions: updatePlanetaryPositions as (positions: Record<string, unknown>) => void,
+        refreshPlanetaryPositions: refreshPlanetaryPositions as () => Promise<Record<string, unknown>>,
         setDaytime,
         updateState
       }}

@@ -1,6 +1,7 @@
-import type { IngredientMapping } from '@/types/alchemy';
+import type { IngredientMapping } from '@/data/ingredients/types';
+import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-export const legumes = {
+const rawLegumes = {
   "black_beans": {
     name: "Black Beans",
     description: "Small, shiny black beans with a dense, meaty texture popular in Latin American cuisine.",
@@ -297,5 +298,7 @@ export const legumes = {
     affinities: ["asian_aromatics", "umami_flavors"]
   }
 };
+
+export const legumes: Record<string, IngredientMapping> = fixIngredientMappings(rawLegumes as any);
 
 export default legumes; 

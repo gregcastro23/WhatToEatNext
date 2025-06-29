@@ -1,8 +1,7 @@
 import type { Recipe } from "@/types/recipe";
 import { calculatePlanetaryPositions } from '../astrologyUtils';
 import { createLogger } from '../logger';
-import { Element } from "@/types/alchemy";
-import { ElementalProperties } from "@/types/alchemy";
+import { Element , ElementalProperties } from "@/types/alchemy";
 
 const logger = createLogger('RecipeEnrichment');
 

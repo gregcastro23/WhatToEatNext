@@ -1,4 +1,5 @@
 import type { IngredientMapping } from '@/data/ingredients/types';
+import type { ZodiacSign } from '@/types/celestial';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 const rawCruciferous = {

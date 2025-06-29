@@ -28,7 +28,7 @@ export default function CookingMethodPage() {
       
       Object.entries(allCookingMethods).forEach(([key, data]) => {
         if (key.toLowerCase() === methodId.toLowerCase()) {
-          foundMethod = data as CookingMethodInfo;
+          foundMethod = data as unknown as CookingMethodInfo;
           foundKey = key;
         }
       });
