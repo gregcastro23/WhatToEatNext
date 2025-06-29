@@ -891,7 +891,7 @@ export function getRecipesForCuisineMatch(
 
               const mealRecipes = cuisine.dishes[mealType].all.map(
                 (recipe: unknown) => ({
-                  ...recipe,
+                  ...(recipe as object),
                   cuisine: cuisineName,
                   matchScore: 0.9,
                   matchPercentage: 90,
@@ -913,7 +913,7 @@ export function getRecipesForCuisineMatch(
 
                 const seasonalRecipes = cuisine.dishes[mealType][season].map(
                   (recipe: unknown) => ({
-                    ...recipe,
+                    ...(recipe as object),
                     cuisine: cuisineName,
                     matchScore: 0.85,
                     matchPercentage: 85,

@@ -92,7 +92,7 @@ function enhanceIngredient(ingredient: IngredientMapping, sourceCategory: string
   };
   
   // Calculate Kalchm value
-  const kalchm = calculateKalchm(alchemicalProperties);
+  const kalchm = calculateKalchm(alchemicalProperties as AlchemicalProperties);
   
   // Get or create thermodynamic properties
   const thermodynamics = ingredient.thermodynamicProperties || 
@@ -105,12 +105,12 @@ function enhanceIngredient(ingredient: IngredientMapping, sourceCategory: string
   // Create enhanced unified ingredient
   return {
     // Core properties from original ingredient
-    name: ingredient.name,
-    category: ingredient.category || sourceCategory,
-    subcategory: ingredient.subCategory,
+    name: (ingredient as any).name,
+    category: (ingredient as any).category || sourceCategory,
+    subcategory: (ingredient as any).subCategory,
     
     // Existing properties
-    elementalProperties: ingredient.elementalPropertiesState || createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0 }),
+    elementalProperties: (ingredient as any).elementalPropertiesState || createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0 }),
     alchemicalProperties,
     
     // New calculated values
