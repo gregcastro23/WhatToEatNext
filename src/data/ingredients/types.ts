@@ -1,6 +1,9 @@
 import type { ElementalProperties } from '@/types/alchemy';
 import type { ZodiacSign } from '@/types/alchemy';
 
+// Re-export ElementalProperties to fix TS2459 errors
+export type { ElementalProperties };
+
 export type IngredientCategory = 
     | 'culinary_herb' 
     | 'spice' 
