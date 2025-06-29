@@ -376,7 +376,7 @@ export class RecipeFilter {
   ): boolean {
     const recipeData = recipe as any;
     
-    switch (restriction) {
+    switch (restriction as string) {
       case 'vegetarian':
         return recipeData?.isVegetarian || recipeData?.tags?.includes('vegetarian') || false;
       case 'vegan':

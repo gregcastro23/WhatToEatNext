@@ -1,8 +1,8 @@
 import type { AstrologicalState , IngredientMapping } from "@/types/alchemy";
 import type { Recipe,
   ElementalProperties,
-  Season,
   nutritionInfo } from "@/types/recipe";
+import type { Season } from "@/types/alchemy";
 
 // Add missing imports for TS2304 fixes
 import { LocalRecipeService } from '@/services/LocalRecipeService';
