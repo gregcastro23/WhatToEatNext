@@ -799,26 +799,26 @@ export class UnifiedRecipeBuildingSystem {
   }
   
   // Additional placeholder methods for comprehensive functionality...
-  private selectIngredientsFromCriteria(criteria: RecipeBuildingCriteria): any[] { return []; }
-  private selectCookingMethodsFromCriteria(criteria: RecipeBuildingCriteria): string[] { return []; }
-  private generateBaseInstructions(ingredients: any[], methods: string[]): string[] { return []; }
-  private generateRecipeName(criteria: RecipeBuildingCriteria): string { return 'Generated Recipe'; }
-  private generateRecipeDescription(criteria: RecipeBuildingCriteria): string { return 'A delicious recipe'; }
-  private estimatePrepTime(ingredients: any[], methods: string[]): string { return '15 minutes'; }
-  private estimateCookTime(methods: string[]): string { return '30 minutes'; }
-  private calculateBaseElementalProperties(ingredients: any[]): ElementalProperties { 
+  private selectIngredientsFromCriteria(_criteria: RecipeBuildingCriteria): any[] { return []; }
+  private selectCookingMethodsFromCriteria(_criteria: RecipeBuildingCriteria): string[] { return []; }
+  private generateBaseInstructions(_ingredients: any[], _methods: string[]): string[] { return []; }
+  private generateRecipeName(_criteria: RecipeBuildingCriteria): string { return 'Generated Recipe'; }
+  private generateRecipeDescription(_criteria: RecipeBuildingCriteria): string { return 'A delicious recipe'; }
+  private estimatePrepTime(_ingredients: any[], _methods: string[]): string { return '15 minutes'; }
+  private estimateCookTime(_methods: string[]): string { return '30 minutes'; }
+  private calculateBaseElementalProperties(_ingredients: any[]): ElementalProperties { 
     return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }; 
   }
-  private calculateCookingMethodMonicaModifier(methods: string[]): number { return 1.0; }
+  private calculateCookingMethodMonicaModifier(_methods: string[]): number { return 1.0; }
   
   // Seasonal adaptation methods
-  private generateDetailedIngredientSubstitutions(recipe: EnhancedRecipe, season: Season, recommendations: SeasonalRecommendations): any[] { return []; }
-  private generateDetailedCookingMethodAdjustments(recipe: EnhancedRecipe, season: Season, recommendations: SeasonalRecommendations): any[] { return []; }
-  private generateSeasonalTimingAdjustments(recipe: EnhancedRecipe, season: Season): any { return {}; }
-  private generateSeasonalTemperatureAdjustments(recipe: EnhancedRecipe, season: Season): any { return {}; }
-  private applyAdaptationsToRecipe(recipe: EnhancedRecipe, ...adaptations: any[]): MonicaOptimizedRecipe { return recipe as MonicaOptimizedRecipe; }
-  private calculateKalchmImprovement(original: EnhancedRecipe, adapted: MonicaOptimizedRecipe): number { return 0.1; }
-  private calculateMonicaImprovement(original: EnhancedRecipe, adapted: MonicaOptimizedRecipe): number { return 0.1; }
+  private generateDetailedIngredientSubstitutions(_recipe: EnhancedRecipe, _season: Season, _recommendations: SeasonalRecommendations): any[] { return []; }
+  private generateDetailedCookingMethodAdjustments(_recipe: EnhancedRecipe, _season: Season, _recommendations: SeasonalRecommendations): any[] { return []; }
+  private generateSeasonalTimingAdjustments(_recipe: EnhancedRecipe, _season: Season): any { return {}; }
+  private generateSeasonalTemperatureAdjustments(_recipe: EnhancedRecipe, _season: Season): any { return {}; }
+  private applyAdaptationsToRecipe(recipe: EnhancedRecipe, ..._adaptations: any[]): MonicaOptimizedRecipe { return recipe as MonicaOptimizedRecipe; }
+  private calculateKalchmImprovement(_original: EnhancedRecipe, _adapted: MonicaOptimizedRecipe): number { return 0.1; }
+  private calculateMonicaImprovement(_original: EnhancedRecipe, _adapted: MonicaOptimizedRecipe): number { return 0.1; }
   
   // Fusion recipe methods
   private generateMultiCuisineFusion(cuisines: string[]): FusionCuisineProfile { return {} as FusionCuisineProfile; }

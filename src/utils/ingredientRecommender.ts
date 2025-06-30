@@ -1,3 +1,16 @@
+// Base ingredient interface for safe type access
+interface BaseIngredient {
+  name?: string;
+  type?: string;
+  category?: string;
+  elementalProperties?: ElementalProperties;
+  astrologicalProfile?: {
+    rulingPlanets?: string[];
+    signAffinities?: string[];
+  };
+  [key: string]: unknown; // For dynamic properties
+}
+
 // Enhanced Ingredient interface for Phase 11
 interface EnhancedIngredient {
   name: string;
@@ -19,8 +32,8 @@ interface EnhancedIngredient {
   qualities?: string[];
   mealType?: string;
   matchScore?: number;
-  timing?: any;
-  duration?: any;
+  timing?: unknown;
+  duration?: unknown;
 }
 import { AstrologicalState } from '@/types';
 import { ElementalProperties, ChakraEnergies, Season, ZodiacSign } from '@/types/alchemy';
@@ -156,11 +169,15 @@ function getAllIngredients(): Ingredient[] {
   // Process each category in ingredientCategories
   Object.entries(ingredientCategories).forEach(([category, ingredientsMap]) => {
     Object.entries(ingredientsMap).forEach(([name, data]) => {
+      const ingredientData = data as unknown as BaseIngredient;
       allIngredients.push({
         name,
         type: category.endsWith('s') ? category.slice(0, -1) : category,
-        ...data as any
-      });
+        category,
+        elementalProperties: ingredientData.elementalProperties,
+        astrologicalProfile: ingredientData.astrologicalProfile,
+        ...ingredientData
+      } as unknown as Ingredient);
     });
   });
   
@@ -183,7 +200,8 @@ export function getRecommendedIngredients(astroState: AstrologicalState): Enhanc
   // Apply Pattern K: Safe unknown-first casting for mixed ingredient array
   let filteredIngredients = (allIngredients as unknown as EnhancedIngredient[]).filter(ingredient => {
     // Check if any of the ingredient's ruling planets are active
-    return (ingredient as any)?.astrologicalProfile?.rulingPlanets?.some(
+    const baseIngredient = ingredient as unknown as BaseIngredient;
+    return baseIngredient?.astrologicalProfile?.rulingPlanets?.some(
       planet => planetsToUse.includes(planet)
     );
   });
@@ -217,8 +235,10 @@ export function getRecommendedIngredients(astroState: AstrologicalState): Enhanc
   // If we have a dominant element from the astro state, prioritize ingredients of that element
   if (astroState.dominantElement) {
     filteredIngredients.sort((a, b) => {
-      const aValue = (a as any)?.elementalProperties?.[astroState.dominantElement as keyof ElementalProperties] || 0;
-      const bValue = (b as any)?.elementalProperties?.[astroState.dominantElement as keyof ElementalProperties] || 0;
+      const ingredientA = a as unknown as BaseIngredient;
+      const ingredientB = b as unknown as BaseIngredient;
+      const aValue = ingredientA?.elementalProperties?.[astroState.dominantElement as keyof ElementalProperties] || 0;
+      const bValue = ingredientB?.elementalProperties?.[astroState.dominantElement as keyof ElementalProperties] || 0;
       return bValue - aValue;
     });
   }
@@ -240,25 +260,28 @@ export function getRecommendedIngredients(astroState: AstrologicalState): Enhanc
         mercuryData.PlanetSpecific?.ZodiacTransit?.[astroState.zodiacSign] ? 2 : 0;
     
     filteredIngredients.sort((a, b) => {
-      let aHasAffinity = (a as any)?.astrologicalProfile?.signAffinities?.includes(zodiacSign) ? 1 : 0;
-      let bHasAffinity = (b as any)?.astrologicalProfile?.signAffinities?.includes(zodiacSign) ? 1 : 0;
+      const ingredientA = a as unknown as BaseIngredient;
+      const ingredientB = b as unknown as BaseIngredient;
+      
+      let aHasAffinity = ingredientA?.astrologicalProfile?.signAffinities?.includes(zodiacSign) ? 1 : 0;
+      let bHasAffinity = ingredientB?.astrologicalProfile?.signAffinities?.includes(zodiacSign) ? 1 : 0;
       
       // Boost ingredients with Venus associations when Venus is active
       if (planetsToUse.includes('Venus')) {
-        if (isVenusAssociatedIngredient((a as any)?.name)) aHasAffinity += venusBoost;
-        if (isVenusAssociatedIngredient((b as any)?.name)) bHasAffinity += venusBoost;
+        if (isVenusAssociatedIngredient(ingredientA?.name || '')) aHasAffinity += venusBoost;
+        if (isVenusAssociatedIngredient(ingredientB?.name || '')) bHasAffinity += venusBoost;
       }
       
       // Boost ingredients with Mars associations when Mars is active
       if (planetsToUse.includes('Mars')) {
-        if (isMarsAssociatedIngredient((a as any)?.name)) aHasAffinity += marsBoost;
-        if (isMarsAssociatedIngredient((b as any)?.name)) bHasAffinity += marsBoost;
+        if (isMarsAssociatedIngredient(ingredientA?.name || '')) aHasAffinity += marsBoost;
+        if (isMarsAssociatedIngredient(ingredientB?.name || '')) bHasAffinity += marsBoost;
       }
       
       // Boost ingredients with Mercury associations when Mercury is active
       if (planetsToUse.includes('Mercury')) {
-        if (isMercuryAssociatedIngredient((a as any)?.name)) aHasAffinity += mercuryBoost;
-        if (isMercuryAssociatedIngredient((b as any)?.name)) bHasAffinity += mercuryBoost;
+        if (isMercuryAssociatedIngredient(ingredientA?.name || '')) aHasAffinity += mercuryBoost;
+        if (isMercuryAssociatedIngredient(ingredientB?.name || '')) bHasAffinity += mercuryBoost;
       }
       
       return bHasAffinity - aHasAffinity;
