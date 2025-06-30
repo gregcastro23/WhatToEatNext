@@ -6,7 +6,7 @@ import { AlchemicalProvider } from '@/contexts/AlchemicalContext/provider';
 import { ChartProvider } from '@/contexts/ChartContext/provider';
 import AstrologyWarning from '@/components/AstrologyWarning';
 import CalculationErrors from '@/components/CalculationErrors';
-import Clock from '@/components/Clock';
+import Clock from './Clock';
 import ClientProviders from '@/components/providers/ClientProviders';
 import { ErrorBoundary } from '@/components/errors/ErrorBoundary';
 import { ErrorFallback } from '@/components/errors/ErrorFallback';
