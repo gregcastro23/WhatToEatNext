@@ -1,10 +1,10 @@
 {
-  "totalRuns": 22,
-  "successfulRuns": 13,
-  "filesProcessed": 181,
+  "totalRuns": 23,
+  "successfulRuns": 14,
+  "filesProcessed": 193,
   "errorsEncountered": 45,
-  "averageBatchSize": 8.68181818181818,
+  "averageBatchSize": 8.826086956521737,
   "maxSafeBatchSize": 15,
-  "lastRunTime": "2025-06-30T10:19:04.966Z",
+  "lastRunTime": "2025-06-30T10:19:50.891Z",
   "safetyScore": 0.6438726790450928
 }
