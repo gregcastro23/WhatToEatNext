@@ -626,31 +626,64 @@ function isImportInFile(file, varName) {
   }
 }
 
-// Enhanced fuzzy search (unchanged from v2.0)
+// Enhanced fuzzy search with aggressive matching for import fixing
 function findWorkingImport(varName, codebaseFiles) {
   const candidates = [];
   
   log(`🔍 Searching codebase for '${varName}'...`, 'blue');
   
-  for (const file of codebaseFiles.slice(0, 100)) {
+  for (const file of codebaseFiles.slice(0, 200)) { // Search more files
     try {
       const content = fs.readFileSync(file, 'utf8');
       
       const patterns = [
-        new RegExp(`(export\\s+)?(function|const|let|var|class|type|interface|enum)\\s+${varName}\\b`),
+        // Exact export matches (highest priority)
         new RegExp(`export\\s+default\\s+${varName}\\b`),
-        new RegExp(`export\\s+\\{[^}]*${varName}[^}]*\\}`),
-        new RegExp(`(export\\s+)?(function|const|let|var|class|type|interface)\\s+\\w*${varName.toLowerCase()}\\w*\\b`, 'i')
+        new RegExp(`export\\s+\\{[^}]*\\b${varName}\\b[^}]*\\}`),
+        new RegExp(`export\\s+(function|const|let|var|class|type|interface|enum)\\s+${varName}\\b`),
+        
+        // Declaration matches  
+        new RegExp(`(function|const|let|var|class|type|interface|enum)\\s+${varName}\\b`),
+        
+        // Component file matches (for React components)
+        new RegExp(`(function|const)\\s+${varName}\\s*[=:]`, 'i'),
+        
+        // Partial matches (lower priority)
+        new RegExp(`(export\\s+)?(function|const|let|var|class|type|interface)\\s+\\w*${varName.toLowerCase()}\\w*\\b`, 'i'),
+        new RegExp(`\\w*${varName}\\w*\\s*[:=]`, 'i')
       ];
       
       for (let i = 0; i < patterns.length; i++) {
         const pattern = patterns[i];
         if (pattern.test(content)) {
-          const similarity = i === 3 ? 0.7 : 1.0;
+          let similarity;
+          let exact;
+          
+          if (i < 3) {
+            similarity = 1.0;
+            exact = true;
+          } else if (i < 5) {
+            similarity = 0.9;
+            exact = true;
+          } else {
+            similarity = Math.max(0.7, 1 - (i - 5) * 0.1);
+            exact = false;
+          }
+          
+          // Boost score for files in similar directories
+          const fileDir = path.dirname(file);
+          if (fileDir.includes('components') && varName.match(/^[A-Z]/)) {
+            similarity += 0.1; // Boost for component-like names in components dir
+          }
+          if (fileDir.includes('utils') && varName.match(/^[a-z]/)) {
+            similarity += 0.1; // Boost for utility-like names in utils dir
+          }
+          
           candidates.push({
             file,
-            similarity,
-            exact: i < 3
+            similarity: Math.min(1.0, similarity),
+            exact,
+            matchType: i < 3 ? 'export' : i < 5 ? 'declaration' : 'partial'
           });
           break;
         }
@@ -660,15 +693,20 @@ function findWorkingImport(varName, codebaseFiles) {
     }
   }
   
+  // Enhanced sorting: prioritize exports, then exact matches, then similarity
   candidates.sort((a, b) => {
+    if (a.matchType === 'export' && b.matchType !== 'export') return -1;
+    if (b.matchType === 'export' && a.matchType !== 'export') return 1;
     if (a.exact && !b.exact) return -1;
     if (!a.exact && b.exact) return 1;
     return b.similarity - a.similarity;
   });
   
   if (candidates.length > 0) {
+    const topCandidate = candidates[0];
     log(`✅ Found ${candidates.length} potential matches`, 'green');
-    return candidates[0];
+    log(`   Top match: ${topCandidate.file} (${topCandidate.matchType}, ${(topCandidate.similarity * 100).toFixed(0)}%)`, 'cyan');
+    return topCandidate;
   }
   
   return null;
@@ -787,37 +825,74 @@ async function processImports(unusedImports, codebaseFiles, summary) {
   return { stashName, success: globalSuccess, batchSize: files.length };
 }
 
-// Enhanced import change processing (simplified for space, key logic unchanged)
+// Enhanced import change processing - prioritize fixing over removal
 async function processImportChange(file, fileContent, importDecl, imp, codebaseFiles) {
   const foundCandidate = findWorkingImport(imp.varName, codebaseFiles);
   
+  // PRIORITY 1: Try to fix the import by finding a working replacement
   if (foundCandidate && foundCandidate.exact) {
     const relativePath = path.relative(path.dirname(file), foundCandidate.file);
-    const suggestedImport = relativePath.startsWith('.') ? relativePath : `./${relativePath}`;
+    let suggestedImport = relativePath.startsWith('.') ? relativePath : `./${relativePath}`;
+    
+    // Remove .ts/.tsx extension and add proper extension
+    suggestedImport = suggestedImport.replace(/\.(ts|tsx)$/, '');
     
     log(`    💡 Found exact match in: ${foundCandidate.file}`, 'green');
     log(`    💡 Suggested import: from '${suggestedImport}'`, 'green');
     
+    const shouldReplace = AUTO_FIX || DRY_RUN || await askForImportReplacement(imp, suggestedImport);
+    
+    if (shouldReplace) {
+      const replacementResult = replaceImportSource(fileContent, importDecl, suggestedImport);
+      return {
+        changed: true,
+        newContent: replacementResult.content,
+        action: `fixed import source for '${imp.varName}' from '${suggestedImport}'`,
+        change: { type: 'replace', varName: imp.varName, newSource: suggestedImport },
+        summaryItem: {
+          file,
+          action: 'replace',
+          varName: imp.varName,
+          foundFile: foundCandidate.file,
+          from: importDecl.source,
+          to: suggestedImport
+        }
+      };
+    }
+  }
+  
+  // PRIORITY 2: Check for similar matches that might work
+  if (foundCandidate && !foundCandidate.exact && foundCandidate.similarity > 0.7) {
+    log(`    🔍 Found similar match (${(foundCandidate.similarity * 100).toFixed(0)}%): ${foundCandidate.file}`, 'yellow');
+    
     if (INTERACTIVE) {
-      const answer = await ask(`    Replace with suggested import? [y/N] `);
+      const answer = await ask(`    Try this similar match? [y/N] `);
       if (answer.toLowerCase() === 'y') {
+        const relativePath = path.relative(path.dirname(file), foundCandidate.file);
+        let suggestedImport = relativePath.startsWith('.') ? relativePath : `./${relativePath}`;
+        suggestedImport = suggestedImport.replace(/\.(ts|tsx)$/, '');
+        
+        const replacementResult = replaceImportSource(fileContent, importDecl, suggestedImport);
         return {
           changed: true,
-          newContent: fileContent,
-          action: `replaced import source for '${imp.varName}'`,
-          change: { type: 'replace', varName: imp.varName },
+          newContent: replacementResult.content,
+          action: `fixed import source for '${imp.varName}' from '${suggestedImport}' (similar match)`,
+          change: { type: 'replace', varName: imp.varName, newSource: suggestedImport },
           summaryItem: {
             file,
             action: 'replace',
             varName: imp.varName,
-            foundFile: foundCandidate.file
+            foundFile: foundCandidate.file,
+            from: importDecl.source,
+            to: suggestedImport
           }
         };
       }
     }
   }
   
-  const shouldRemove = AUTO_FIX || DRY_RUN || await askForRemoval(imp, foundCandidate);
+  // PRIORITY 3: Only remove if no fixes are possible and user confirms
+  const shouldRemove = (AUTO_FIX && !foundCandidate) || DRY_RUN || await askForRemoval(imp, foundCandidate);
   
   if (shouldRemove) {
     const removalResult = removeImportSpecifier(fileContent, importDecl, imp);
@@ -966,18 +1041,59 @@ function findImportLineIndex(lines, importDecl) {
   return -1;
 }
 
+async function askForImportReplacement(imp, suggestedImport) {
+  if (!INTERACTIVE) return true; // Auto-fix exact matches
+  
+  log(`    🔧 Fix import '${imp.varName}' by updating import path?`, 'green');
+  log(`    📁 New path: from '${suggestedImport}'`, 'cyan');
+  
+  const answer = await ask(`    Fix this import path? [Y/n] `);
+  return answer.toLowerCase() !== 'n';
+}
+
 async function askForRemoval(imp, foundCandidate) {
   if (!INTERACTIVE) return false;
   
   log(`    🗑️  Unused import '${imp.varName}'`, 'yellow');
   if (foundCandidate && !foundCandidate.exact) {
     log(`    💡 Similar match found: ${foundCandidate.file}`, 'cyan');
+    log(`    ⚠️  Consider fixing the import path instead of removing`, 'yellow');
   } else if (!foundCandidate) {
     log(`    ❌ No replacement found in codebase`, 'red');
   }
   
   const answer = await ask(`    Remove this unused import? [y/N] `);
   return answer.toLowerCase() === 'y';
+}
+
+// Function to replace the import source path
+function replaceImportSource(fileContent, importDecl, newSource) {
+  const lines = fileContent.split('\n');
+  let updatedContent = fileContent;
+  
+  // Find lines containing this import
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    if (line.includes('import') && line.includes(importDecl.source)) {
+      // Replace the import source in this line
+      const oldSourcePattern = new RegExp(`(['"\`])${importDecl.source.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\1`, 'g');
+      const newLine = line.replace(oldSourcePattern, `$1${newSource}$1`);
+      
+      if (newLine !== line) {
+        lines[i] = newLine;
+        log(`    🔄 Updated import path: ${importDecl.source} → ${newSource}`, 'green');
+        break;
+      }
+    }
+  }
+  
+  updatedContent = lines.join('\n');
+  
+  return {
+    content: updatedContent,
+    originalSource: importDecl.source,
+    newSource: newSource
+  };
 }
 
 // Enhanced diff display (respects verbosity settings)
