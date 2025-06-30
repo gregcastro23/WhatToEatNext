@@ -1,15 +1,11 @@
 import { cookingMethods } from '@/data/cooking/cookingMethods';
-import { seasonalPatterns } from '@/data/integrations/seasonalPatterns';
-import { celestialCalculator } from '@/services/celestialCalculations';
 import { meats } from '@/data/ingredients/proteins/meat';
 import { culinaryTraditions } from '@/data/cuisines/culinaryTraditions';
 import { recipeElementalMappings } from '@/data/recipes/elementalMappings';
 import { AstrologicalState, Season, ElementalProperties, Element } from '@/types/alchemy';
 import type { RecipeElementalMapping } from '@/types/recipes';
 
-// Define the missing interface
-interface AstrologicalCulinaryGuidance {
-  dominantElement: string;
+// Define the missing interologicalCulinaryGuid  dominantElement: string;
   technique: {
     name: string;
     rationale: string;
@@ -150,8 +146,7 @@ export class CulinaryAstrologer {
     return {
       element: dominantElement,
       examples: matchingIngredients.slice(0, 3).map(([name]) => name),
-      pairingTip: `Combine with ${this.getComplementaryElement(dominantElement)}-dominant preparations`,
-    };
+      pairingTip: `Combine with ${this.getComplementaryElement(dominantElement)}-dominant preparations`};
   }
 
   private getComplementaryElement(element: string): string {

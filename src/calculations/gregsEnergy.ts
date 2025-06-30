@@ -1,6 +1,4 @@
 import { ElementalCharacter, AlchemicalProperty } from '../constants/planetaryElements';
-import { calculatePlanetaryPositions } from '../utils/astrologyUtils';
-import { calculateSignEnergyStates } from '@/constants/signEnergyStates';
 
 /**
  * A utility function for logging debug information

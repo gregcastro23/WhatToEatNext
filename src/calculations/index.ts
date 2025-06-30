@@ -1,4 +1,3 @@
-import { Recipe } from '@/types/recipe';
 
 /**
  * Streamlined Alchemical Calculations Engine
@@ -16,7 +15,7 @@ import type { ElementalProperties,
   ZodiacSign, 
   LunarPhase } from '@/types/alchemy';
 
-// Core calculation modules
+// lation modules
 import kalchmEngine, { 
   type KalchmResult, 
   type AlchemicalProperties, 
@@ -45,7 +44,6 @@ import planetaryInfluences, {
 // TODO: Fix import - add what to import from "./culinary/seasonalAdjustments.ts"
 
 import { Element } from "@/types/alchemy";
-import { PlanetaryAlignment } from "@/types/celestial";
 
 // Import the missing function
 import { getCurrentPlanetaryPositions } from '@/services/astrologizeApi';

@@ -2,9 +2,7 @@ import type { Cuisine } from '@/types/cuisine';
 import type {
   AstrologicalState,
   ElementalProperties,
-  LunarPhase,
-  ZodiacSign,
-} from '@/types/alchemy';
+  ZodiacSign} from '@/types/alchemy';
 import { cuisinesMap } from '@/data/cuisines';
 
 // Recipe interface for internal use in enhanced recommender
@@ -189,8 +187,7 @@ export class EnhancedCuisineRecommender {
         description: recipe.description || '',
         ingredients: recipe.ingredients || [],
         season: recipe.season || [],
-        mealType: recipe.mealType || [],
-      };
+        mealType: recipe.mealType || []};
     });
 
     // Sort by match percentage and return top count
@@ -257,8 +254,7 @@ export class EnhancedCuisineRecommender {
       planetaryHour,
       timeOfDay,
       currentSeason,
-      currentDate: now,
-    };
+      currentDate: now};
   }
 
   /**
@@ -365,8 +361,7 @@ export class EnhancedCuisineRecommender {
       Saturn: { diurnal: 'Air', nocturnal: 'Earth' },
       Uranus: { diurnal: 'Water', nocturnal: 'Air' },
       Neptune: { diurnal: 'Water', nocturnal: 'Water' },
-      Pluto: { diurnal: 'Earth', nocturnal: 'Water' },
-    };
+      Pluto: { diurnal: 'Earth', nocturnal: 'Water' }};
 
     // Get the elements associated with the current planetary day
     const dayElements = planetaryElements[planetaryDay];
@@ -432,8 +427,7 @@ export class EnhancedCuisineRecommender {
       Saturn: { diurnal: 'Air', nocturnal: 'Earth' },
       Uranus: { diurnal: 'Water', nocturnal: 'Air' },
       Neptune: { diurnal: 'Water', nocturnal: 'Water' },
-      Pluto: { diurnal: 'Earth', nocturnal: 'Water' },
-    };
+      Pluto: { diurnal: 'Earth', nocturnal: 'Water' }};
 
     // Get the elements associated with the current planetary hour
     const hourElements = planetaryElements[planetaryHour];
@@ -549,8 +543,7 @@ export class EnhancedCuisineRecommender {
       lunch: ['afternoon'],
       dinner: ['evening'],
       dessert: ['afternoon', 'evening'],
-      snack: ['morning', 'afternoon', 'evening'],
-    };
+      snack: ['morning', 'afternoon', 'evening']};
 
     // If recipe has no meal type, give it a neutral score
     if (!recipe.mealType || recipe.mealType.length === 0) {
@@ -625,8 +618,7 @@ export class EnhancedCuisineRecommender {
       sagittarius: 'Fire',
       capricorn: 'Earth',
       aquarius: 'Air',
-      pisces: 'Water',
-    };
+      pisces: 'Water'};
 
     return astroState.sunSign
       ? elementMap[astroState.sunSign as ZodiacSign] || 'Fire'
@@ -657,8 +649,7 @@ export class EnhancedCuisineRecommender {
         ],
         'gluten-free': ['gluten', 'wheat'],
         'dairy-free': ['dairy', 'milk', 'cream', 'cheese'],
-        'nut-free': ['nuts', 'peanuts', 'almonds', 'walnuts'],
-      };
+        'nut-free': ['nuts', 'peanuts', 'almonds', 'walnuts']};
 
       const restrictedItems = restrictionMap[restriction.toLowerCase()];
       if (restrictedItems) {

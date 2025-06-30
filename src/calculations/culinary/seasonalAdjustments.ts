@@ -7,7 +7,6 @@
 
 
 
-import type { ElementalProperties } from "@/types/alchemy";
 import { Element } from "@/types/alchemy";
 
 /**

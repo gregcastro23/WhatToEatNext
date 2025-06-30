@@ -1,10 +1,7 @@
 import { ElementalEnergy, ElementType, signElementMap } from '@/types/elements';
 import { DEFAULT_ELEMENTAL_PROPERTIES } from '@/constants/elementalConstants';
 import type {
-  ElementalProperties as ElementProps,
-  Season,
-} from '@/types/alchemy';
-import { getLatestAstrologicalState } from '@/services/AstrologicalService';
+  Season} from '@/types/alchemy';
 
 // Define the types needed for ElementalCalculator
 interface ElementalProperties {
@@ -183,8 +180,7 @@ export class ElementalCalculator {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
-      Air: 0.25,
-    };
+      Air: 0.25};
 
     // Apply time-based modifiers
     if (time === 'day') {
@@ -209,8 +205,7 @@ export class ElementalCalculator {
 
     return {
       properties,
-      seasonalInfluence,
-    };
+      seasonalInfluence};
   }
 }
 
@@ -286,8 +281,7 @@ export function calculateElementalEnergies(
     saturn: 0.1,
     uranus: 0.05,
     neptune: 0.05,
-    pluto: 0.05,
-  };
+    pluto: 0.05};
 
   // Calculate element values based on planetary positions
   let totalWeight = 0;
@@ -339,8 +333,7 @@ export function calculateElementalEnergies(
       influence: getPlanetaryInfluencers(
         planetaryPositions,
         type as ElementType
-      ),
-    }));
+      )}));
 
   return energies;
 }

@@ -5,15 +5,12 @@
  */
 
 
-import type { ElementalProperties, StandardizedAlchemicalResult, ThermodynamicMetrics } from '@/types/alchemy';
-import { 
+import type { ElementalProperties, ThermodynamicMetrics } from '@ort { 
   KalchmResult, 
   ThermodynamicResults, 
   toElementalProperties 
 } from '../core/kalchmEngine';
-import astrologizeCache from '@/services/AstrologizeApiCache';
 
-import { Element } from "@/types/alchemy";
 
 /**
  * Recipe compatibility result

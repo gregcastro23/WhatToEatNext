@@ -6,7 +6,7 @@
  */
 
 
-import type { ElementalProperties, PlanetaryPosition, ZodiacSign, LunarPhase } from "@/types/alchemy";
+import type { ElementalProperties, PlanetaryPosition, ZodiacSign} from "@/types/alchemy";
 import { getCachedCalculation } from '../../utils/calculationCache';
 
 import { Element } from "@/types/alchemy";

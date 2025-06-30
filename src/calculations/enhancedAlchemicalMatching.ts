@@ -2,14 +2,12 @@ import {
   ElementalProperties, 
   ZodiacSign, 
   AlchemicalResult,
-  PlanetaryPosition,
-  StandardizedAlchemicalResult
-} from '@/types/alchemy';
-import { planetInfo, signs } from '../data/astroData';
-import { dignityStrengthModifiers, DignityType } from './alchemicalCalculations';
+  PlanetaryPosition} from '@/types/alchemy';
+import { planetInfo, signs } from '../data';
+import { dignityStrengthModifiers, DignityType } froons';
 
 /**
- * Enhanced matching algorithm to calculate astrological affinity between two signs
+ * Enhanced matithm to calculate astrological affinity between two signs
  * This integrates multiple data sources including:
  * 1. Decanic compatibility
  * 2. Degree-specific planetary influences
