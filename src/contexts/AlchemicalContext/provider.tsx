@@ -7,6 +7,18 @@ import { PlanetaryPositionsType, AstrologicalState, AlchemicalState } from './ty
 import * as safeAstrology from '@/utils/safeAstrology';
 import { createLogger } from '@/utils/logger';
 
+// Phase 5: Type-safe conversion interfaces for alchemical calculations
+interface CalculationCompatiblePosition {
+  sign?: string;
+  degree?: number;
+  isRetrograde?: boolean;
+  [key: string]: unknown;
+}
+
+interface CalculationCompatiblePositions {
+  [key: string]: CalculationCompatiblePosition;
+}
+
 // Create a component-specific logger
 const logger = createLogger('AlchemicalProvider');
 
@@ -55,6 +67,25 @@ const calculateActivePlanets = (positions: PlanetaryPositionsType): string[] => 
   }
   
   return activePlanets;
+};
+
+// Safe type conversion function to replace 'as any' casts
+const convertToCalculationFormat = (positions: PlanetaryPositionsType): CalculationCompatiblePositions => {
+  const converted: CalculationCompatiblePositions = {};
+  
+  Object.entries(positions).forEach(([planet, position]) => {
+    if (position && typeof position === 'object') {
+      converted[planet] = {
+        sign: position.sign,
+        degree: position.degree,
+        isRetrograde: position.isRetrograde,
+        // Preserve any additional properties safely
+        ...position
+      };
+    }
+  });
+  
+  return converted;
 };
 
 // Export the provider component
@@ -151,10 +182,11 @@ export const AlchemicalProvider: React.FC<{children: React.ReactNode}> = ({ chil
         calculateElementalBalance 
       } = await import('@/utils/alchemicalCalculations');
       
-      // Calculate elemental and alchemical values - Pattern WWW: Context Type Import Path Resolution
-      const elementalValues = calculateElementalValues(normalizedPositions as any);
-      const planetaryValues = calculatePlanetaryAlchemicalValues(normalizedPositions as any);
-      const elementalBalance = calculateElementalBalance(normalizedPositions as any);
+      // Calculate elemental and alchemical values using type-safe conversion
+      const compatiblePositions = convertToCalculationFormat(normalizedPositions);
+      const elementalValues = calculateElementalValues(compatiblePositions);
+      const planetaryValues = calculatePlanetaryAlchemicalValues(compatiblePositions);
+      const elementalBalance = calculateElementalBalance(compatiblePositions);
       
       // Combine elemental and planetary influences (weighted average)
       const combinedAlchemicalValues = {
