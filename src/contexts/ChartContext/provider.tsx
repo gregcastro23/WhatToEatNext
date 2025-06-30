@@ -8,6 +8,19 @@ import { getCurrentSeason } from '@/data/integrations/seasonal';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { getLatestAstrologicalState } from '@/services/AstrologicalService';
 
+// Phase 5: Type-safe interfaces for planetary data access
+interface SafePlanetaryData {
+  sign?: string;
+  degree?: number;
+  isRetrograde?: boolean;
+  exactLongitude?: number;
+  [key: string]: unknown;
+}
+
+interface SafePlanetaryPositions {
+  [key: string]: SafePlanetaryData;
+}
+
 export const ChartProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
   const { planetaryPositions: alchemicalPositions } = useAlchemical();
   const [chart, setChart] = useState<CurrentChart>({
@@ -21,13 +34,21 @@ export const ChartProvider: React.FC<{children: React.ReactNode}> = ({ children 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  // Safe helper function for planetary data access
+  const getSafePlanetaryData = (data: unknown): SafePlanetaryData => {
+    if (!data || typeof data !== 'object') {
+      return {};
+    }
+    return data as SafePlanetaryData;
+  };
+
   const calculateStelliums = (positions: Record<string, unknown>): Record<string, string[]> => {
     const signGroups: Record<string, string[]> = {};
     Object.entries(positions).forEach(([planet, data]) => {
       if (planet === 'ascendant' || !data) return;
       
       // Use safe type casting for planetary data access
-      const planetData = data as any;
+      const planetData = getSafePlanetaryData(data);
       if (!planetData?.sign) return;
       
       const sign = planetData.sign;
@@ -59,7 +80,7 @@ export const ChartProvider: React.FC<{children: React.ReactNode}> = ({ children 
       if (planet === 'ascendant' || !data) return;
       
       // Use safe type casting for planetary data access  
-      const planetData = data as any;
+      const planetData = getSafePlanetaryData(data);
       if (!planetData?.sign) return;
       
       const sign = planetData.sign;
@@ -138,12 +159,12 @@ export const ChartProvider: React.FC<{children: React.ReactNode}> = ({ children 
 
   const createChartSvg = () => {
     // Convert chart data to the format expected by components
-    const formattedPlanets: Record<string, unknown> = {};
+    const formattedPlanets: Record<string, SafePlanetaryData> = {};
     Object.entries(chart.planetaryPositions).forEach(([key, data]) => {
       if (key === 'ascendant') return;
       
       // Use safe type casting for planetary data access
-      const planetData = data as any;
+      const planetData = getSafePlanetaryData(data);
       
       const planetName = key.charAt(0).toUpperCase() + key.slice(1);
       formattedPlanets[planetName] = {
@@ -154,18 +175,20 @@ export const ChartProvider: React.FC<{children: React.ReactNode}> = ({ children 
       };
     });
     
+    // Get ascendant data safely
+    const ascendantData = getSafePlanetaryData(chart.planetaryPositions.ascendant);
+    
     // Create a basic SVG representation  
     return {
       planetPositions: formattedPlanets,
-      ascendantSign: (chart.planetaryPositions.ascendant as any)?.sign || 'Libra',
+      ascendantSign: ascendantData?.sign || 'Libra',
       svgContent: `<svg width="300" height="300" viewBox="0 0 300 300">
         <circle cx="150" cy="150" r="140" fill="none" stroke="#333" stroke-width="1"/>
         <text x="150" y="20" text-anchor="middle">Current Chart</text>
-        ${Object.entries(formattedPlanets).map(([planet, data], index) => {
+        ${Object.entries(formattedPlanets).map(([planet, planetInfo], index) => {
           const angle = (index * 30) % 360;
           const x = 150 + 120 * Math.cos(angle * Math.PI / 180);
           const y = 150 + 120 * Math.sin(angle * Math.PI / 180);
-          const planetInfo = data as any;
           return `<text x="${x}" y="${y}" text-anchor="middle">${planet}: ${planetInfo?.sign}</text>`;
         }).join('')}
       </svg>`
