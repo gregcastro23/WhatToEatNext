@@ -55,7 +55,10 @@ export async function POST(request: Request) {
       ayanamsa: zodiacSystem.toUpperCase() === 'TROPICAL' ? 'TROPICAL' : 'LAHIRI' // Default to Lahiri for sidereal
     };
 
-    console.log('Making API call to astrologize with payload:', apiPayload);
+    // Development logging for API payload
+    if (process.env.NODE_ENV === 'development') {
+      console.log('Making API call to astrologize with payload:', apiPayload);
+    }
 
     // Make the API call
     const response = await fetch(ASTROLOGIZE_API_URL, {

@@ -80,6 +80,24 @@ export interface Cuisine {
   lunarPhaseInfluences?: LunarPhase[];
 }
 
+// Enhanced interface for cuisine with scoring and additional properties
+interface CuisineWithScore {
+  id: string;
+  name: string;
+  description?: string;
+  elementalState: ElementalProperties;
+  elementalProperties?: ElementalProperties;
+  matchPercentage?: number;
+  compatibilityScore?: number;
+  score?: number;
+  parentCuisine?: string;
+  regionalVariants?: string[];
+  signatureDishes?: string[];
+  zodiacInfluences?: ZodiacSign[];
+  recipes?: RecipeData[];
+  [key: string]: unknown;
+}
+
 // Add this helper function near the top of the file, outside any components
 const getSafeScore = (score: unknown): number => {
   // Convert to number if needed, default to 0.5 if NaN or undefined
@@ -379,22 +397,26 @@ export default function CuisineRecommender() {
     setShowAllSauces(false);
 
     // Find selected cuisine from the cuisineRecommendations list
-    const selectedCuisineData = cuisineRecommendations.find((c) => c.id === cuisineId || c.name === cuisineId);
+    const selectedCuisineData = cuisineRecommendations.find((c) => {
+      const cuisine = c as CuisineWithScore;
+      return cuisine.id === cuisineId || cuisine.name === cuisineId;
+    });
     if (selectedCuisineData) {
-      // console.log(`Found cuisine data for: ${selectedCuisineData.name}`);
-      trackEvent('cuisine_select', selectedCuisineData.name);
+      const cuisine = selectedCuisineData as CuisineWithScore;
+      // console.log(`Found cuisine data for: ${cuisine.name}`);
+      trackEvent('cuisine_select', cuisine.name);
       
       // Update matchingRecipes state with the selected cuisine's recipes
       // This will trigger the useEffect that updates cuisineRecipes
-      if (selectedCuisineData.recipes && (selectedCuisineData.recipes || []).length > 0) {
-        setMatchingRecipes(selectedCuisineData.recipes);
+      if (cuisine.recipes && (cuisine.recipes || []).length > 0) {
+        setMatchingRecipes(cuisine.recipes);
       } else {
         // If no recipes are directly attached to the cuisine, try to find matching recipes
         const recipesForCuisine = (allRecipesData || []).filter(recipe => 
           recipe.cuisine && 
-          (recipe.cuisine?.toLowerCase() === selectedCuisineData.name?.toLowerCase() ||
-           (selectedCuisineData.regionalVariants && 
-            (selectedCuisineData.regionalVariants || []).some(variant => 
+          (recipe.cuisine?.toLowerCase() === cuisine.name?.toLowerCase() ||
+           (cuisine.regionalVariants && 
+            (cuisine.regionalVariants || []).some(variant => 
               recipe.cuisine?.toLowerCase() === variant?.toLowerCase())
            )
           )
@@ -402,7 +424,7 @@ export default function CuisineRecommender() {
         
         if ((recipesForCuisine || []).length > 0) {
           setMatchingRecipes((recipesForCuisine || []).map(recipe => 
-            buildCompleteRecipe(recipe as unknown as RecipeData, selectedCuisineData.name)
+            buildCompleteRecipe(recipe as unknown as RecipeData, cuisine.name)
           ));
         } else {
           setMatchingRecipes([]);
@@ -438,7 +460,8 @@ export default function CuisineRecommender() {
       // });
       
       // Log the event
-      trackEvent('recipe_expand', cuisineRecipes[index].name);
+      const recipe = cuisineRecipes[index] as CuisineWithScore;
+      trackEvent('recipe_expand', recipe.name);
     }
     
     // Update state
@@ -466,10 +489,13 @@ export default function CuisineRecommender() {
       const timeFactors = getTimeFactors();
       
       // Get the cuisine's elemental profile
-      const cuisine = cuisineRecommendations.find(c => 
-        c.name?.toLowerCase() === cuisineName?.toLowerCase());
+      const cuisine = cuisineRecommendations.find(c => {
+        const cuisineData = c as CuisineWithScore;
+        return cuisineData.name?.toLowerCase() === cuisineName?.toLowerCase();
+      });
       
-      if (!cuisine || !cuisine.elementalState) {
+      const cuisineData = cuisine as CuisineWithScore;
+      if (!cuisine || !cuisineData.elementalState) {
         // console.log(`No valid cuisine data found for "${cuisineName}" to generate sauce recommendations`);
         return [];
       }
@@ -485,7 +511,7 @@ export default function CuisineRecommender() {
       // console.log(`Generating sauce recommendations for ${cuisineName} with ${saucesArray.length} available sauces`);
       
       // Calculate elemental properties for cuisine
-      const cuisineElements = cuisine.elementalState;
+      const cuisineElements = cuisineData.elementalState;
       
       // Get elemental profile from current celestial alignment
       const currentMomentElements = currentMomentElementalProfile || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
@@ -727,7 +753,10 @@ export default function CuisineRecommender() {
 
   // Get the currently selected cuisine data
   const selectedCuisineData = cuisineRecommendations.find(
-    (c) => c.id === selectedCuisine || c.name === selectedCuisine
+    (c) => {
+      const cuisine = c as CuisineWithScore;
+      return cuisine.id === selectedCuisine || cuisine.name === selectedCuisine;
+    }
   );
 
   return (
@@ -770,7 +799,8 @@ export default function CuisineRecommender() {
 
       {/* Group cuisine cards in a better grid layout */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mb-4">
-        {(cuisineRecommendations || []).map((cuisine) => {
+        {(cuisineRecommendations || []).map((cuisineItem) => {
+          const cuisine = cuisineItem as CuisineWithScore;
           // Calculate match percentage
           const matchPercentage = cuisine.matchPercentage || 
             (cuisine.compatibilityScore ? Math.round(cuisine.compatibilityScore * 100) : 50);

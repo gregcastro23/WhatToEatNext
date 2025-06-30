@@ -9,7 +9,7 @@ const logger = createLogger('AlchmKitchenPage');
 
 export default function AlchmKitchenPage() {
   const [mounted, setMounted] = useState(false);
-  const alchemicalContext = useAlchemical();
+  const _alchemicalContext = useAlchemical();
   
   // Ensure component mounts after client-side hydration
   useEffect(() => {

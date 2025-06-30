@@ -512,18 +512,24 @@ export default function RecipeListMigrated() {
         error?: { message?: string };
       }
 
-      // In fetchRecipes
-      const responseData: RecipeServiceResponse = response;
-      
-      if (responseData?.success) {
-        setRecipes(responseData.data || []);
-        
-        if (responseData?.metadata) {
-          setTotalPages(responseData.metadata.totalPages || 1);
-        }
+      // Check if response is a direct array or a service response object
+      if (Array.isArray(response)) {
+        // Direct array response
+        setRecipes(response);
+        setTotalPages(1);
       } else {
-        setError(responseData?.error?.message || 'Failed to fetch recipes');
-        setRecipes([]);
+        // Service response object
+        const responseData = response as RecipeServiceResponse;
+        if (responseData?.success) {
+          setRecipes(responseData.data || []);
+          
+          if (responseData?.metadata) {
+            setTotalPages(responseData.metadata.totalPages || 1);
+          }
+        } else {
+          setError(responseData?.error?.message || 'Failed to fetch recipes');
+          setRecipes([]);
+        }
       }
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Unknown error';
