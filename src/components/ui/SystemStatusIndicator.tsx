@@ -7,10 +7,10 @@ import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
  * SystemStatusIndicator component displays the current status of astrological data sources
  * and shows which source is currently being used.
  */
-export const SystemStatusIndicator: React.FC = () => {
+export const SystemStatusIndicator: React.FC = React.memo(() => {
   const alchemicalData = useAlchemical();
   const planetaryPositions = alchemicalData.planetaryPositions;
-  const isLoading = (alchemicalData as any)?.isLoading || false;
+  const isLoading = (alchemicalData as { isLoading?: boolean })?.isLoading || false;
   const state = alchemicalData.state;
   const [dataSource, setDataSource] = useState<string>('unknown');
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
@@ -98,6 +98,8 @@ export const SystemStatusIndicator: React.FC = () => {
       </div>
     </div>
   );
-};
+});
+
+SystemStatusIndicator.displayName = 'SystemStatusIndicator';
 
 export default SystemStatusIndicator; 
