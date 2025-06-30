@@ -48,17 +48,12 @@ interface MatchingResult {
   [key: string]: unknown;
 }
 
-import { useState, useEffect, useMemo, useRef } from 'react';
-import { useAstrologicalState } from '@/hooks/useAstrologicalState';
+import { useState, useEffect, useRef } from 'react';
 import {
   Flame,
   Droplets,
   Wind,
   Mountain,
-  Info,
-  Clock,
-  Tag,
-  Leaf,
   X,
   ChevronDown,
   ChevronUp,
