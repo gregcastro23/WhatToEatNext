@@ -11,6 +11,18 @@ node scripts/syntax-fixes/fix-remaining-syntax-errors.js --dry-run
 node scripts/typescript-fixes/fix-duplicate-identifiers-systematic.js --dry-run
 ```
 
+### Import/Export Issues
+```bash
+# Clean unused imports (SAFE, AST-based)
+yarn clean-imports:dry
+
+# Fix ingredient imports
+node scripts/ingredient-scripts/fix-all-ingredient-imports.js --dry-run
+
+# Fix API usage issues
+node scripts/typescript-fixes/fix-astrologize-api-usage.js --dry-run
+```
+
 ### Elemental Logic Issues (CRITICAL)
 ```bash
 # Fix elemental logic violations (elements treated as opposites)
@@ -20,18 +32,10 @@ node scripts/elemental-fixes/fix-elemental-logic.js --dry-run
 node scripts/elemental-fixes/fix-casing-conventions.js --dry-run
 ```
 
-### Import/Export Issues
-```bash
-# Fix ingredient imports
-node scripts/ingredient-scripts/fix-all-ingredient-imports.js --dry-run
-
-# Fix API usage issues
-node scripts/typescript-fixes/fix-astrologize-api-usage.js --dry-run
-```
-
 ## 📂 Script Categories
 
 ### TypeScript Fixes
+- **clean-imports.sh** - AST-based unused import cleaner (SAFE, production-ready)
 - **fix-ingredient-type.ts** - Fix ingredient type definitions
 - **fix-planetary-types.ts** - Fix planetary type definitions  
 - **fix-promise-awaits.ts** - Fix async/await patterns
