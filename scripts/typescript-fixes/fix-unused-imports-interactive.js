@@ -518,8 +518,8 @@ function parseImportsRegex(fileContent) {
                 type: 'named',
                 imported,
                 local,
-                start: 0,
-                end: item.length
+                start: null, // Mark as invalid for safety check
+                end: null
               });
             } else {
               const cleanItem = item.trim();
@@ -528,8 +528,8 @@ function parseImportsRegex(fileContent) {
                   type: 'named',
                   imported: cleanItem,
                   local: cleanItem,
-                  start: 0,
-                  end: cleanItem.length
+                  start: null, // Mark as invalid for safety check
+                  end: null
                 });
               }
             }
@@ -877,6 +877,12 @@ function removeImportSpecifier(fileContent, importDecl, imp) {
 }
 
 function removeSpecifierFromImport(content, importDecl, targetSpec) {
+  // Safety check: if start/end positions seem invalid, use safer line-based approach
+  if (!targetSpec.start || !targetSpec.end || targetSpec.start < 0 || targetSpec.end <= targetSpec.start) {
+    log(`⚠️  Invalid character positions detected, using line-based removal for safety`, 'yellow');
+    return removeSpecifierFromImportSafe(content, importDecl, targetSpec);
+  }
+  
   const beforeSpecifier = content.substring(0, targetSpec.start);
   const afterSpecifier = content.substring(targetSpec.end);
   
@@ -887,6 +893,53 @@ function removeSpecifierFromImport(content, importDecl, targetSpec) {
   updatedContent = updatedContent.replace(/,\s*}/g, '}');
   
   return updatedContent;
+}
+
+// Safer line-based removal for when character positions are unreliable
+function removeSpecifierFromImportSafe(content, importDecl, targetSpec) {
+  const lines = content.split('\n');
+  
+  // Find the import line(s)
+  const importLineIndex = findImportLineIndex(lines, importDecl);
+  if (importLineIndex === -1) {
+    log(`Could not find import line for ${importDecl.source}`, 'red');
+    return content; // Return unchanged if we can't find the import
+  }
+  
+  let importLine = lines[importLineIndex];
+  const originalLine = importLine;
+  
+  // If it's a simple single-line import, try to remove just the specifier
+  if (importLine.includes('{') && importLine.includes('}')) {
+    // Extract the part between { and }
+    const braceStart = importLine.indexOf('{');
+    const braceEnd = importLine.indexOf('}');
+    const importList = importLine.substring(braceStart + 1, braceEnd);
+    
+    // Split by comma and remove the target specifier
+    const specifiers = importList.split(',').map(s => s.trim()).filter(s => s);
+    const filteredSpecifiers = specifiers.filter(spec => {
+      // Remove the target specifier (handle aliases too)
+      const cleanSpec = spec.replace(/\s+as\s+\w+/, '');
+      return cleanSpec !== targetSpec.local && cleanSpec !== targetSpec.imported;
+    });
+    
+    if (filteredSpecifiers.length === 0) {
+      // Remove the entire import
+      lines.splice(importLineIndex, 1);
+    } else {
+      // Rebuild the import line
+      const before = importLine.substring(0, braceStart + 1);
+      const after = importLine.substring(braceEnd);
+      lines[importLineIndex] = before + ' ' + filteredSpecifiers.join(', ') + ' ' + after;
+    }
+  } else {
+    // For multi-line imports or complex cases, skip to avoid corruption
+    log(`Skipping complex import structure for safety: ${targetSpec.local}`, 'yellow');
+    return content;
+  }
+  
+  return lines.join('\n');
 }
 
 function findImportLineIndex(lines, importDecl) {
