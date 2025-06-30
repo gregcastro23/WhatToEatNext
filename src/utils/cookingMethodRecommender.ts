@@ -1,3 +1,39 @@
+// Phase 4: Enhanced interfaces for cookingMethodRecommender type safety
+interface MethodWithElementalProperties {
+  name?: string;
+  elementalProperties?: ElementalProperties;
+  elementalEffect?: ElementalProperties;
+  preferences?: {
+    seasonalPreference?: string[];
+  };
+  [key: string]: unknown;
+}
+
+interface PlanetaryTemperamentData {
+  EarthVenus?: unknown;
+  AirVenus?: unknown;
+  WaterVenus?: unknown;
+  FireVenus?: unknown;
+  FireMars?: unknown;
+  WaterMars?: unknown;
+  AirMercury?: unknown;
+  EarthMercury?: unknown;
+  FireJupiter?: unknown;
+  AirJupiter?: unknown;
+  EarthSaturn?: unknown;
+  AirSaturn?: unknown;
+}
+
+interface PlanetaryDataStructure {
+  PlanetSpecific?: {
+    CulinaryTemperament?: PlanetaryTemperamentData;
+  };
+}
+
+interface SignArrays {
+  includes?: (sign: string) => boolean;
+}
+
 import { allCookingMethods, cookingMethods as detailedCookingMethods } from '@/data/cooking';
 import { culturalCookingMethods, getCulturalVariations } from '@/utils/culturalMethodsAggregator';
 import type { ZodiacSign, ElementalProperties } from '@/types';
@@ -404,7 +440,8 @@ function calculatePlanetaryDayInfluence(
   const nocturnalElement = dayElements.nocturnal;
   
   // Calculate how much of each planetary element is present in the method
-  const methodElementals = (method as any)?.elementalProperties || (method as any)?.elementalEffect || {};
+  const methodWithProps = method as unknown as MethodWithElementalProperties;
+  const methodElementals = methodWithProps?.elementalProperties || methodWithProps?.elementalEffect || {};
   const diurnalMatch = methodElementals[diurnalElement] || 0;
   const nocturnalMatch = methodElementals[nocturnalElement] || 0;
   
@@ -412,7 +449,7 @@ function calculatePlanetaryDayInfluence(
   let elementalScore = (diurnalMatch + nocturnalMatch) / 2;
   
   // If the method has a direct planetary affinity, give bonus points
-  const methodData = method as any;
+  const methodData = method as unknown as MethodWithElementalProperties;
   if (methodData?.astrologicalInfluences?.dominantPlanets?.includes(planetaryDay)) {
     elementalScore = Math.min(1.0, elementalScore + 0.3);
   }
@@ -442,14 +479,15 @@ function calculatePlanetaryHourInfluence(
   const relevantElement = isDaytime ? hourElements.diurnal : hourElements.nocturnal;
   
   // Calculate how much of the relevant planetary element is present in the method
-  const methodElementals = (method as any)?.elementalProperties || (method as any)?.elementalEffect || {};
+  const methodWithProps = method as unknown as MethodWithElementalProperties;
+  const methodElementals = methodWithProps?.elementalProperties || methodWithProps?.elementalEffect || {};
   const elementalMatch = methodElementals[relevantElement] || 0;
   
   // Calculate score based on how well the method matches the planetary hour's element
   let elementalScore = elementalMatch;
   
   // If the method has a direct planetary affinity, give bonus points
-  const methodHourData = method as any;
+  const methodHourData = method as unknown as MethodWithElementalProperties;
   if (methodHourData?.astrologicalInfluences?.dominantPlanets?.includes(planetaryHour)) {
     elementalScore = Math.min(1.0, elementalScore + 0.3);
   }
@@ -584,76 +622,91 @@ export async function getRecommendedCookingMethods(
   // Get Venus sign-based temperament for current zodiac
   let venusTemperament = null;
   if (currentZodiac && isVenusActive) {
-    const lowerSign = (currentZodiac as any)?.toLowerCase?.();
+    const lowerSign = currentZodiac.toLowerCase();
     const earthSigns = ['taurus', 'virgo', 'capricorn'];
     const airSigns = ['gemini', 'libra', 'aquarius'];
     const waterSigns = ['cancer', 'scorpio', 'pisces'];
     const fireSigns = ['aries', 'leo', 'sagittarius'];
     
-    if ((earthSigns as any)?.includes?.(lowerSign) && (venusData.PlanetSpecific?.CulinaryTemperament as any)?.EarthVenus) {
-      venusTemperament = (venusData.PlanetSpecific.CulinaryTemperament as any).EarthVenus;
-    } else if ((airSigns as any)?.includes?.(lowerSign) && (venusData.PlanetSpecific?.CulinaryTemperament as any)?.AirVenus) {
-      venusTemperament = (venusData.PlanetSpecific.CulinaryTemperament as any).AirVenus;
-    } else if ((waterSigns as any)?.includes?.(lowerSign) && (venusData.PlanetSpecific?.CulinaryTemperament as any)?.WaterVenus) {
-      venusTemperament = (venusData.PlanetSpecific.CulinaryTemperament as any).WaterVenus;
-    } else if ((fireSigns as any)?.includes?.(lowerSign) && (venusData.PlanetSpecific?.CulinaryTemperament as any)?.FireVenus) {
-      venusTemperament = (venusData.PlanetSpecific.CulinaryTemperament as any).FireVenus;
+    const venusDataTyped = venusData as unknown as PlanetaryDataStructure;
+    const temperamentData = venusDataTyped.PlanetSpecific?.CulinaryTemperament;
+    
+    if (earthSigns.includes(lowerSign) && temperamentData?.EarthVenus) {
+      venusTemperament = temperamentData.EarthVenus;
+    } else if (airSigns.includes(lowerSign) && temperamentData?.AirVenus) {
+      venusTemperament = temperamentData.AirVenus;
+    } else if (waterSigns.includes(lowerSign) && temperamentData?.WaterVenus) {
+      venusTemperament = temperamentData.WaterVenus;
+    } else if (fireSigns.includes(lowerSign) && temperamentData?.FireVenus) {
+      venusTemperament = temperamentData.FireVenus;
     }
   }
   
   // Get Mars sign-based temperament for current zodiac
   let _marsTemperament = null;
   if (currentZodiac && isMarsActive) {
-    const lowerSign = (currentZodiac as any)?.toLowerCase?.();
+    const lowerSign = currentZodiac.toLowerCase();
     const fireSigns = ['aries', 'leo', 'sagittarius'];
     const waterSigns = ['cancer', 'scorpio', 'pisces'];
     
-    if ((fireSigns as any)?.includes?.(lowerSign) && (marsData.PlanetSpecific?.CulinaryTemperament as any)?.FireMars) {
-      _marsTemperament = (marsData.PlanetSpecific.CulinaryTemperament as any).FireMars;
-    } else if ((waterSigns as any)?.includes?.(lowerSign) && (marsData.PlanetSpecific?.CulinaryTemperament as any)?.WaterMars) {
-      _marsTemperament = (marsData.PlanetSpecific.CulinaryTemperament as any).WaterMars;
+    const marsDataTyped = marsData as unknown as PlanetaryDataStructure;
+    const temperamentData = marsDataTyped.PlanetSpecific?.CulinaryTemperament;
+    
+    if (fireSigns.includes(lowerSign) && temperamentData?.FireMars) {
+      _marsTemperament = temperamentData.FireMars;
+    } else if (waterSigns.includes(lowerSign) && temperamentData?.WaterMars) {
+      _marsTemperament = temperamentData.WaterMars;
     }
   }
   
   // Get Mercury sign-based temperament for current zodiac
   let mercuryTemperament = null;
   if (currentZodiac && isMercuryActive) {
-    const lowerSign = (currentZodiac as any)?.toLowerCase?.();
+    const lowerSign = currentZodiac.toLowerCase();
     const airSigns = ['gemini', 'libra', 'aquarius'];
     const earthSigns = ['taurus', 'virgo', 'capricorn'];
     
-    if ((airSigns as any)?.includes?.(lowerSign) && (mercuryData.PlanetSpecific?.CulinaryTemperament as any)?.AirMercury) {
-      mercuryTemperament = (mercuryData.PlanetSpecific.CulinaryTemperament as any).AirMercury;
-    } else if ((earthSigns as any)?.includes?.(lowerSign) && (mercuryData.PlanetSpecific?.CulinaryTemperament as any)?.EarthMercury) {
-      mercuryTemperament = (mercuryData.PlanetSpecific.CulinaryTemperament as any).EarthMercury;
+    const mercuryDataTyped = mercuryData as unknown as PlanetaryDataStructure;
+    const temperamentData = mercuryDataTyped.PlanetSpecific?.CulinaryTemperament;
+    
+    if (airSigns.includes(lowerSign) && temperamentData?.AirMercury) {
+      mercuryTemperament = temperamentData.AirMercury;
+    } else if (earthSigns.includes(lowerSign) && temperamentData?.EarthMercury) {
+      mercuryTemperament = temperamentData.EarthMercury;
     }
   }
   
   // Get Jupiter sign-based temperament for current zodiac
   let jupiterTemperament = null;
   if (currentZodiac && isJupiterActive) {
-    const lowerSign = (currentZodiac as any)?.toLowerCase?.();
+    const lowerSign = currentZodiac.toLowerCase();
     const fireSigns = ['aries', 'leo', 'sagittarius'];
     const airSigns = ['gemini', 'libra', 'aquarius'];
     
-    if ((fireSigns as any)?.includes?.(lowerSign) && (jupiterData.PlanetSpecific?.CulinaryTemperament as any)?.FireJupiter) {
-      jupiterTemperament = (jupiterData.PlanetSpecific.CulinaryTemperament as any).FireJupiter;
-    } else if ((airSigns as any)?.includes?.(lowerSign) && (jupiterData.PlanetSpecific?.CulinaryTemperament as any)?.AirJupiter) {
-      jupiterTemperament = (jupiterData.PlanetSpecific.CulinaryTemperament as any).AirJupiter;
+    const jupiterDataTyped = jupiterData as unknown as PlanetaryDataStructure;
+    const temperamentData = jupiterDataTyped.PlanetSpecific?.CulinaryTemperament;
+    
+    if (fireSigns.includes(lowerSign) && temperamentData?.FireJupiter) {
+      jupiterTemperament = temperamentData.FireJupiter;
+    } else if (airSigns.includes(lowerSign) && temperamentData?.AirJupiter) {
+      jupiterTemperament = temperamentData.AirJupiter;
     }
   }
   
   // Get Saturn sign-based temperament for current zodiac
   let _saturnTemperament = null;
   if (currentZodiac && isSaturnActive) {
-    const lowerSign = (currentZodiac as any)?.toLowerCase?.();
+    const lowerSign = currentZodiac.toLowerCase();
     const earthSigns = ['taurus', 'virgo', 'capricorn'];
     const airSigns = ['gemini', 'libra', 'aquarius'];
     
-    if ((earthSigns as any)?.includes?.(lowerSign) && (saturnData.PlanetSpecific?.CulinaryTemperament as any)?.EarthSaturn) {
-      _saturnTemperament = (saturnData.PlanetSpecific.CulinaryTemperament as any).EarthSaturn;
-    } else if ((airSigns as any)?.includes?.(lowerSign) && (saturnData.PlanetSpecific?.CulinaryTemperament as any)?.AirSaturn) {
-      _saturnTemperament = (saturnData.PlanetSpecific.CulinaryTemperament as any).AirSaturn;
+    const saturnDataTyped = saturnData as unknown as PlanetaryDataStructure;
+    const temperamentData = saturnDataTyped.PlanetSpecific?.CulinaryTemperament;
+    
+    if (earthSigns.includes(lowerSign) && temperamentData?.EarthSaturn) {
+      _saturnTemperament = temperamentData.EarthSaturn;
+    } else if (airSigns.includes(lowerSign) && temperamentData?.AirSaturn) {
+      _saturnTemperament = temperamentData.AirSaturn;
     }
   }
   
@@ -663,12 +716,13 @@ export async function getRecommendedCookingMethods(
 
   // Track recommendations to prevent adding duplicates
   const recommendationsMap: Record<string, boolean> = {};
-  const recommendations: any[] = [];
+  const recommendations: CookingMethodData[] = [];
   
   // Score each method based on multiple criteria
   filteredMethods.forEach(method => {
     // Skip if we already have a similar method
-    const methodNameNorm = normalizeMethodName((method as any)?.name);
+    const methodWithProps = method as unknown as MethodWithElementalProperties;
+    const methodNameNorm = normalizeMethodName(methodWithProps?.name || '');
     if (Object.keys(recommendationsMap).some(existingMethod => 
       areSimilarMethods(existingMethod, methodNameNorm)
     )) {
@@ -690,8 +744,8 @@ export async function getRecommendedCookingMethods(
     const signElement = currentZodiac ? getElementForSign(currentZodiac) : null;
     
     // Enhanced Elemental compatibility calculation (40% of score)
-    if ((method as any)?.elementalEffect || (method as any)?.elementalProperties) {
-      const elementalProps = (method as any)?.elementalEffect || (method as any)?.elementalProperties || {};
+    if (methodWithProps?.elementalEffect || methodWithProps?.elementalProperties) {
+      const elementalProps = methodWithProps?.elementalEffect || methodWithProps?.elementalProperties || {};
       
       // Use enhanced calculation that considers element combinations
       elementalScore = calculateEnhancedElementalCompatibility(elementalProps, elementalComposition);
@@ -779,36 +833,37 @@ export async function getRecommendedCookingMethods(
     }
     
     // Seasonal bonus (15% of score) - enhanced with more seasonal associations
-    if ((method as any)?.preferences?.seasonalPreference && (method as any)?.preferences?.seasonalPreference?.includes?.(season)) {
+    if (methodWithProps?.preferences?.seasonalPreference && methodWithProps?.preferences?.seasonalPreference?.includes(season)) {
       seasonalScore += 0.15;
     } else {
       // Enhanced default seasonal preferences
+      const methodName = methodWithProps?.name?.toLowerCase() || '';
       if (season === 'winter') {
-        if ((method as any)?.(name as any)?.toLowerCase?.().includes('brais') || 
-            (method as any)?.(name as any)?.toLowerCase?.().includes('roast') ||
-            (method as any)?.(name as any)?.toLowerCase?.().includes('stew') ||
-            (method as any)?.(name as any)?.toLowerCase?.().includes('bake')) {
+        if (methodName.includes('brais') || 
+            methodName.includes('roast') ||
+            methodName.includes('stew') ||
+            methodName.includes('bake')) {
           seasonalScore += 0.12;
         }
       } else if (season === 'summer') {
-        if ((method as any)?.(name as any)?.toLowerCase?.().includes('grill') || 
-            (method as any)?.(name as any)?.toLowerCase?.().includes('raw') ||
-            (method as any)?.(name as any)?.toLowerCase?.().includes('ceviche') ||
-            (method as any)?.(name as any)?.toLowerCase?.().includes('cold')) {
+        if (methodName.includes('grill') || 
+            methodName.includes('raw') ||
+            methodName.includes('ceviche') ||
+            methodName.includes('cold')) {
           seasonalScore += 0.12;
         }
       } else if (season === 'spring') {
-        if ((method as any)?.(name as any)?.toLowerCase?.().includes('steam') || 
-            (method as any)?.(name as any)?.toLowerCase?.().includes('stir') ||
-            (method as any)?.(name as any)?.toLowerCase?.().includes('blanch') ||
-            (method as any)?.(name as any)?.toLowerCase?.().includes('quick')) {
+        if (methodName.includes('steam') || 
+            methodName.includes('stir') ||
+            methodName.includes('blanch') ||
+            methodName.includes('quick')) {
           seasonalScore += 0.12;
         }
       } else if (season === 'fall' || season === 'autumn') {
-        if ((method as any)?.(name as any)?.toLowerCase?.().includes('smoke') || 
-            (method as any)?.(name as any)?.toLowerCase?.().includes('brais') ||
-            (method as any)?.(name as any)?.toLowerCase?.().includes('slow') ||
-            (method as any)?.(name as any)?.toLowerCase?.().includes('roast')) {
+        if (methodName.includes('smoke') || 
+            methodName.includes('brais') ||
+            methodName.includes('slow') ||
+            methodName.includes('roast')) {
           seasonalScore += 0.12;
         }
       }
@@ -818,22 +873,22 @@ export async function getRecommendedCookingMethods(
     if (availableTools && method.toolsRequired) {
       const requiredTools = method.toolsRequired;
       const availableRequiredTools = requiredTools.filter(tool => 
-        availableTools.some(available => (available as any)?.toLowerCase?.().includes((tool as any)?.toLowerCase?.()))
+        availableTools.some(available => available.toLowerCase().includes(tool.toLowerCase()))
       );
       
       toolScore = (availableRequiredTools.length / requiredTools.length) * 0.1;
     } else {
       // Enhanced assumptions about basic tools availability
-      const methodName = (method as any)?.(name as any)?.toLowerCase?.();
-      if ((methodName as any)?.includes?.('sous_vide') || (methodName as any)?.includes?.('sous vide')) {
+      const methodName = methodWithProps?.name?.toLowerCase() || '';
+      if (methodName.includes('sous_vide') || methodName.includes('sous vide')) {
         toolScore = 0.01; // Specialized equipment
-      } else if ((methodName as any)?.includes?.('pressure') || (methodName as any)?.includes?.('instant pot')) {
+      } else if (methodName.includes('pressure') || methodName.includes('instant pot')) {
         toolScore = 0.03; // Somewhat specialized
-      } else if ((methodName as any)?.includes?.('smoker') || (methodName as any)?.includes?.('smoke') || 
-                 (methodName as any)?.includes?.('molecular') || (methodName as any)?.includes?.('spherification') ||
-                 (methodName as any)?.includes?.('thermal immersion') || (methodName as any)?.includes?.('liquid nitrogen')) {
+      } else if (methodName.includes('smoker') || methodName.includes('smoke') || 
+                 methodName.includes('molecular') || methodName.includes('spherification') ||
+                 methodName.includes('thermal immersion') || methodName.includes('liquid nitrogen')) {
         toolScore = 0.02; // Quite specialized
-      } else if ((methodName as any)?.includes?.('grill') && !(methodName as any)?.includes?.('stove top')) {
+      } else if (methodName.includes('grill') && !methodName.includes('stove top')) {
         toolScore = 0.05; // Common but not universal
       } else {
         toolScore = 0.08; // Most common methods
