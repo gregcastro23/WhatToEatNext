@@ -32,13 +32,10 @@ interface CookingMethodData {
 import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { useAstrologicalState } from '@/hooks/useAstrologicalState';
 import { 
-  Flame, Droplets, Mountain, Wind, Sparkles, Globe, Clock, 
-  Thermometer, Timer, AlertCircle, CheckCircle2, ChevronDown, ChevronUp, Info
+  ChevronDown, ChevronUp
 } from 'lucide-react';
 import styles from './CookingMethods.module.css';
-import { RecommendationAdapter } from '@/services/RecommendationAdapter';
-import { ElementalItem, AlchemicalItem } from '@/calculations/alchemicalTransformation';
-import { AlchemicalProperty, ElementalCharacter } from '@/constants/planetaryElements';
+import { AlchemicalItem } from '@/calculations/alchemicalTransformation';
 import { planetaryFoodAssociations, Planet } from '@/constants/planetaryFoodAssociations';
 import type { LunarPhase } from '@/constants/lunarPhases';
 import type { ElementalProperties, ZodiacSign, CookingMethod, BasicThermodynamicProperties } from '@/types/alchemy';
