@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
-import FoodRecommender from '@/components/FoodRecommender';
 import IngredientRecommender from '@/components/IngredientRecommender';
 
 // Use dynamic import with SSR disabled for components that use client-side only features

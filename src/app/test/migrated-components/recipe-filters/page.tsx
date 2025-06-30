@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Recipe } from '@/types/recipe';
 import RecipeFiltersMigrated, { FilterState, initialFilters } from '@/components/Recipe/RecipeFilters.migrated';
 import { logger } from '@/utils/logger';
 
