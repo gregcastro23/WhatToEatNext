@@ -1,11 +1,9 @@
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
-import { Moon, ArrowDown, Sunrise, Sunset, Navigation } from 'lucide-react';
+import { ArrowDown, Sunrise, Sunset, Navigation } from 'lucide-react';
 import { useServices } from '@/hooks/useServices';
-import { getCachedCalculation } from '@/utils/calculationCache';
 
-import { PlanetaryPosition } from "@/types/celestial";
 /**
  * A utility function for logging debug information
  * This is a safe replacement for console.log that can be disabled in production

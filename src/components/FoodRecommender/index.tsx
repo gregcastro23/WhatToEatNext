@@ -14,16 +14,9 @@ import {
   getAbsoluteElementValue 
 } from '../../utils/alchemicalFunctions';
 import { useAstrologicalState } from '@/context/AstrologicalContext';
-import { useState, useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 // Import getAllIngredients from our utils
-import { getAllIngredients } from '@/utils/foodRecommender';
 // Import ingredient data types
-import { vegetables } from '@/data/ingredients/vegetables';
-import { fruits } from '@/data/ingredients/fruits';
-import { herbs } from '@/data/ingredients/herbs';
-import { spices } from '@/data/ingredients/spices';
-import { proteins } from '@/data/ingredients/proteins';
-import { grains } from '@/data/ingredients/grains';
 
 // Make the fixed functions available globally to ensure they're used instead of any problematic ones
 if (typeof window !== 'undefined') {

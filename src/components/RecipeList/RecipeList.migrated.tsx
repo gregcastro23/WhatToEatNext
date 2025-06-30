@@ -6,21 +6,19 @@ import {
   Typography, Button, Chip, Grid,
   CircularProgress, Alert, Box,
   TextField, FormControl, InputLabel,
-  Select, MenuItem, Checkbox, FormControlLabel,
+  Select, MenuItem, Checkbox,
   Accordion, AccordionSummary, AccordionDetails,
   Pagination, IconButton, InputAdornment,
   Rating, LinearProgress
 } from '@mui/material';
 import {
   Search, ExpandMore, Restaurant, AccessTime, 
-  People, Star, FilterList, Clear
+  People, FilterList, Clear
 } from '@mui/icons-material';
 
 import { Recipe } from '@/types/recipe';
 import { useServices } from '@/hooks/useServices';
-import { fetchPlanetaryPositions } from '@/services/astrologizeApi';
 import * as astrologize from '@/services/astrologizeApi';
-import { logger } from '@/utils/logger';
 import type { CuisineType, DietaryRestriction, ElementalProperties } from '@/types/alchemy';
 
 // Comprehensive interfaces

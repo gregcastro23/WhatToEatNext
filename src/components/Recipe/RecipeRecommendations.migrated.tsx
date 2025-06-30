@@ -14,7 +14,6 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import PeopleIcon from '@mui/icons-material/People';
 
 import { useServices } from '@/hooks/useServices';
-import { fetchPlanetaryPositions } from '@/services/astrologizeApi';
 import * as astrologize from '@/services/astrologizeApi';
 import PlanetaryTimeDisplay from '../PlanetaryTimeDisplay';
 import { getTimeFactors } from '@/utils/time';
@@ -28,7 +27,6 @@ import type {
 import type { Recipe as RecipeType } from '@/types/recipe';
 import type { ElementalItem } from '@/calculations/alchemicalTransformation';
 import type { OptimizedRecipeResult } from '@/services/AlchemicalTransformationService';
-import type { PlanetaryPosition } from "@/types/celestial";
 
 // Comprehensive interfaces following TypeScript standards
 interface Dish {

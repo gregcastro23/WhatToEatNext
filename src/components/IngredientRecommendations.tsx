@@ -1,14 +1,12 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { ElementalCalculator } from '@/services/ElementalCalculator';
 import { getIngredientRecommendations, IngredientRecommendation, RecommendationOptions, GroupedIngredientRecommendations } from '@/utils/ingredientRecommender';
 import styles from './IngredientRecommendations.module.css';
-import type { ElementalProperties, ZodiacSign, Season, ElementalState , Ingredient } from '@/types/alchemy';
+import type { ElementalProperties, Season, Ingredient } from '@/types/alchemy';
 import { useAstrologicalState } from '@/hooks/useAstrologicalState';
 import { Flame, Droplets, Mountain, Wind } from 'lucide-react';
 import { toZodiacSign } from '@/utils/zodiacUtils';
-import { calculateAlchemicalProperties, calculateThermodynamicProperties, determineIngredientModality } from '@/utils/ingredientUtils';
 import type { Modality } from '@/data/ingredients/types';
 
 // Helper function to adapt the elemental properties for the recommender system
