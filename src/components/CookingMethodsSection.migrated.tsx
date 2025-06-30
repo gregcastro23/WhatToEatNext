@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import styles from './CookingMethods.module.css';
-import { ChevronDown, ChevronUp, Globe, Flame, Droplets, Wind, Mountain, Search, ArrowUp, ArrowDown, Zap, Sparkles, Minus, Info, List, ThumbsUp, Clock } from 'lucide-react';
+import { ChevronDown, ChevronUp, Globe, Flame, Droplets, Wind, Mountain, Search, ArrowUp, ArrowDown, Zap, Sparkles, Minus, Info, ThumbsUp, Clock } from 'lucide-react';
 import { useServices } from '@/hooks/useServices';
 // TODO: Fix CSS module import - was: import from "./CookingMethods.module.css.ts"
 import { logger } from '@/utils/logger';

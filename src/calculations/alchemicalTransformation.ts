@@ -1,12 +1,8 @@
-import { RulingPlanet } from '../constants/planets';
 import { 
   ElementalCharacter, 
   AlchemicalProperty,
   getPlanetaryElement,
-  getPlanetaryAlchemicalProperty
-} from '../constants/planetaryElements';
-import {
-  calculateAlchemicalProperties,
+  getPlanetaryAlchemicalProperties,
   AlchemicalResults
 } from './alchemicalCalculations';
 import {

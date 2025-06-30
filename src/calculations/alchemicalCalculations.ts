@@ -1,25 +1,19 @@
 import { RulingPlanet } from '../constants/planets';
 import { 
   getPlanetaryElement, 
-  getPlanetaryAlchemicalProperty, 
   ElementalCharacter,
   AlchemicalProperty
 } from '../constants/planetaryElements';
 import {
   ElementalAlchemicalCounts,
-  calculateHeat,
-  calculateEntropy,
+  calculpy,
   calculateReactivity,
   calculateGregsEnergy,
   countElementalAlchemicalProperties,
-  thermodynamicCalculator,
-  convertToElementalState
-} from './gregsEnergy';
-import { Planet } from '../constants/planetaryFoodAssociations';
-import { signs, planetInfo } from '../data/astroData';
-import { StandardizedAlchemicalResult, ElementalProperties, PlanetaryPosition } from '@/types/alchemy';
-
-/**
+  thermodynamicCalculatom './gregsEnergy';
+import { Planet } ftaryFoodAssociations';
+impo} from '../data/astroData';
+import { StandardizedAlchemiclt, ElementalProperties, PlanetaryPosition } from '@/types/alchem/**
  * Calculate elemental balance based on properties
  * @param properties Record of elemental properties
  * @returns Balance score (lower is more balanced)

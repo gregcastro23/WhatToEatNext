@@ -10,8 +10,7 @@ import type {
   Season,
   RecipeHarmonyResult,
   LunarPhaseWithSpaces,
-  StandardizedAlchemicalResult,
-} from '@/types/alchemy';
+  StandardizedAlchemicalResult} from '@/types/alchemy';
 // Import ChakraEnergies from the more complete chakra.ts that includes 'brow'
 import type { ChakraEnergies, ChakraPosition } from '@/types/chakra';
 // Import Element from celestial for consistency (4 elements, no Aether)
@@ -23,7 +22,7 @@ import { getZodiacElementalInfluence } from '@/utils/zodiacUtils';
 import { recipeCalculations } from '@/utils/recipeCalculations';
 import { getAccuratePlanetaryPositions } from '@/utils/accurateAstronomy';
 import { logger } from '@/utils/logger';
-import { isElementalProperties, validateOrDefault } from '@/utils/validation';
+import { validateOrDefault } from '@/utils/validation';
 import { DEFAULT_ELEMENTAL_PROPERTIES } from '@/constants/defaults';
 import ErrorHandler from '@/services/errorHandler';
 
@@ -131,15 +130,13 @@ export class AlchemicalEngineAdvanced {
     Fire: ['Air'],
     Air: ['Water'],
     Water: ['Earth'],
-    Earth: ['Fire'],
-  };
+    Earth: ['Fire']};
 
   private readonly elementalStrengths: Record<string, number> = {
     Fire: 1,
     Air: 1,
     Water: 1,
-    Earth: 1,
-  };
+    Earth: 1};
 
   private readonly zodiacElements: Record<
     ZodiacSign,
@@ -156,8 +153,7 @@ export class AlchemicalEngineAdvanced {
     aquarius: 'Air',
     cancer: 'Water',
     scorpio: 'Water',
-    pisces: 'Water',
-  };
+    pisces: 'Water'};
 
   private readonly lunarPhaseModifiers: Record<
     LunarPhase,
@@ -170,16 +166,14 @@ export class AlchemicalEngineAdvanced {
     'full moon': { Fire: 0.4, Water: 0.1, Air: 0.4, Earth: 0.1 },
     'waning gibbous': { Fire: 0.3, Water: 0.2, Air: 0.3, Earth: 0.2 },
     'last quarter': { Fire: 0.2, Water: 0.3, Air: 0.2, Earth: 0.3 },
-    'waning crescent': { Fire: 0.1, Water: 0.4, Air: 0.2, Earth: 0.3 },
-  };
+    'waning crescent': { Fire: 0.1, Water: 0.4, Air: 0.2, Earth: 0.3 }};
 
   private readonly seasonalModifiers: Record<string, ElementalProperties> = {
     spring: { Fire: 0.3, Water: 0.3, Air: 0.3, Earth: 0.1 },
     summer: { Fire: 0.4, Water: 0.2, Air: 0.3, Earth: 0.1 },
     autumn: { Fire: 0.2, Water: 0.2, Air: 0.3, Earth: 0.3 },
     fall: { Fire: 0.2, Water: 0.2, Air: 0.3, Earth: 0.3 }, // Alias for autumn to maintain backward compatibility
-    winter: { Fire: 0.1, Water: 0.4, Air: 0.2, Earth: 0.3 },
-  };
+    winter: { Fire: 0.1, Water: 0.4, Air: 0.2, Earth: 0.3 }};
 
   private readonly decans: Record<ZodiacSign, Decan[]> = {
     aries: [
@@ -241,8 +235,7 @@ export class AlchemicalEngineAdvanced {
       { ruler: 'Neptune', element: 'Water', degree: 0 },
       { ruler: 'Moon', element: 'Water', degree: 10 },
       { ruler: 'Pluto', element: 'Water', degree: 20 },
-    ],
-  };
+    ]};
 
   private readonly decanModifiers = PLANETARY_MODIFIERS;
 
@@ -488,8 +481,7 @@ export class AlchemicalEngineAdvanced {
       planet: 'Sun', // Default to Sun as primary influence
       sign: astrologicalState.currentZodiac,
       element: element as Element,
-      strength: this.seasonalModifiers[season]?.[element] || 0.5,
-    };
+      strength: this.seasonalModifiers[season]?.[element] || 0.5};
   }
 
   /**
@@ -553,8 +545,7 @@ export class AlchemicalEngineAdvanced {
       Fire: 0.25,
       Water: 0.25,
       Air: 0.25,
-      Earth: 0.25,
-    };
+      Earth: 0.25};
 
     Object.keys(result).forEach((element) => {
       const key = element as keyof ElementalProperties;
@@ -649,8 +640,7 @@ export class AlchemicalEngineAdvanced {
       Fire: (sunInfluence.Fire + moonInfluence.Fire) / 2,
       Water: (sunInfluence.Water + moonInfluence.Water) / 2,
       Earth: (sunInfluence.Earth + moonInfluence.Earth) / 2,
-      Air: (sunInfluence.Air + moonInfluence.Air) / 2,
-    };
+      Air: (sunInfluence.Air + moonInfluence.Air) / 2};
   }
 
   /**
@@ -664,8 +654,7 @@ export class AlchemicalEngineAdvanced {
         Fire: 0.25,
         Water: 0.25,
         Air: 0.25,
-        Earth: 0.25,
-      };
+        Earth: 0.25};
     }
 
     const currentZodiacElement =
@@ -678,15 +667,13 @@ export class AlchemicalEngineAdvanced {
       Fire: 0.25,
       Water: 0.25,
       Air: 0.25,
-      Earth: 0.25,
-    };
+      Earth: 0.25};
 
     const baseModifiers: ElementalProperties = {
       Fire: 0.25,
       Water: 0.25,
       Air: 0.25,
-      Earth: 0.25,
-    };
+      Earth: 0.25};
 
     baseModifiers[currentZodiacElement] += 0.2;
     baseModifiers[moonSignElement] += 0.1;
@@ -741,8 +728,7 @@ export class AlchemicalEngineAdvanced {
       Fire: elementObject1.Fire + elementObject2.Fire,
       Water: elementObject1.Water + elementObject2.Water,
       Air: elementObject1.Air + elementObject2.Air,
-      Earth: elementObject1.Earth + elementObject2.Earth,
-    };
+      Earth: elementObject1.Earth + elementObject2.Earth};
   }
 
   /**
@@ -921,8 +907,7 @@ function combineElementObjects(
       Fire: (obj1.Fire || 0) + (obj2.Fire || 0),
       Water: (obj1.Water || 0) + (obj2.Water || 0),
       Air: (obj1.Air || 0) + (obj2.Air || 0),
-      Earth: (obj1.Earth || 0) + (obj2.Earth || 0),
-    };
+      Earth: (obj1.Earth || 0) + (obj2.Earth || 0)};
   } catch (error) {
     console.error('Error in combineElementObjects:', error);
     return createElementObject();
@@ -1558,8 +1543,7 @@ async function calculateCurrentPlanetaryPositions(): Promise<
         error: astrologizeError instanceof Error ? astrologizeError.message : 'Unknown error' 
       });
       ErrorHandler.log(astrologizeError, {
-        context: 'alchemicalEngine:calculateCurrentPlanetaryPositions:astrologize',
-      });
+        context: 'alchemicalEngine:calculateCurrentPlanetaryPositions:astrologize'});
     }
     
     // SECONDARY: Try to use the accurate astronomy utility
@@ -1581,8 +1565,7 @@ async function calculateCurrentPlanetaryPositions(): Promise<
         error: accurateError instanceof Error ? accurateError.message : 'Unknown error' 
       });
       ErrorHandler.log(accurateError, {
-        context: 'alchemicalEngine:calculateCurrentPlanetaryPositions:accurate',
-      });
+        context: 'alchemicalEngine:calculateCurrentPlanetaryPositions:accurate'});
     }
 
     // If the above fails or returns empty, try to use the astronomia library
@@ -1609,8 +1592,7 @@ async function calculateCurrentPlanetaryPositions(): Promise<
         error: astronomiaError instanceof Error ? astronomiaError.message : 'Unknown error' 
       });
       ErrorHandler.log(astronomiaError, {
-        context: 'alchemicalEngine:calculateCurrentPlanetaryPositions:astronomia',
-      });
+        context: 'alchemicalEngine:calculateCurrentPlanetaryPositions:astronomia'});
     }
 
     // If both methods fail, use the fallback positions
@@ -1673,11 +1655,8 @@ async function calculateCurrentPlanetaryPositions(): Promise<
           Degree: degree,
           ChartPosition: {
             Ecliptic: {
-              ArcDegreesInSign: degree,
-            },
-          },
-          exactLongitude: exactLongitude,
-        };
+              ArcDegreesInSign: degree}},
+          exactLongitude: exactLongitude};
       });
 
       // Verify that at least the sun and moon positions are present
@@ -1692,8 +1671,7 @@ async function calculateCurrentPlanetaryPositions(): Promise<
         error: fallbackError instanceof Error ? fallbackError.message : 'Unknown error' 
       });
       ErrorHandler.log(fallbackError, {
-        context: 'alchemicalEngine:calculateCurrentPlanetaryPositions:fallback',
-      });
+        context: 'alchemicalEngine:calculateCurrentPlanetaryPositions:fallback'});
     }
 
     // Last resort - return hardcoded minimal positions
@@ -1704,45 +1682,37 @@ async function calculateCurrentPlanetaryPositions(): Promise<
         Sign: { label: 'Aries' },
         Degree: 15,
         ChartPosition: { Ecliptic: { ArcDegreesInSign: 15 } },
-        exactLongitude: 15,
-      },
+        exactLongitude: 15},
       Moon: {
         Sign: { label: 'Cancer' },
         Degree: 10,
         ChartPosition: { Ecliptic: { ArcDegreesInSign: 10 } },
-        exactLongitude: 100,
-      },
+        exactLongitude: 100},
       Mercury: {
         Sign: { label: 'Taurus' },
         Degree: 5,
         ChartPosition: { Ecliptic: { ArcDegreesInSign: 5 } },
-        exactLongitude: 35,
-      },
+        exactLongitude: 35},
       Venus: {
         Sign: { label: 'Gemini' },
         Degree: 12,
         ChartPosition: { Ecliptic: { ArcDegreesInSign: 12 } },
-        exactLongitude: 72,
-      },
+        exactLongitude: 72},
       Mars: {
         Sign: { label: 'Leo' },
         Degree: 8,
         ChartPosition: { Ecliptic: { ArcDegreesInSign: 8 } },
-        exactLongitude: 128,
-      },
+        exactLongitude: 128},
       Jupiter: {
         Sign: { label: 'Libra' },
         Degree: 20,
         ChartPosition: { Ecliptic: { ArcDegreesInSign: 20 } },
-        exactLongitude: 200,
-      },
+        exactLongitude: 200},
       Saturn: {
         Sign: { label: 'Capricorn' },
         Degree: 15,
         ChartPosition: { Ecliptic: { ArcDegreesInSign: 15 } },
-        exactLongitude: 285,
-      },
-    };
+        exactLongitude: 285}};
   } catch (error) {
     logger.error('Critical error calculating planetary positions', { 
       error: error instanceof Error ? error.message : 'Unknown error' 
@@ -1750,22 +1720,18 @@ async function calculateCurrentPlanetaryPositions(): Promise<
     
     ErrorHandler.log(error, {
       context: 'alchemicalEngine:calculateCurrentPlanetaryPositions',
-      isFatal: true,
-    });
+      isFatal: true});
     
     // Return minimal fallback as last resort
     return {
       Sun: {
         Sign: { label: 'Aries' },
         Degree: 15,
-        ChartPosition: { Ecliptic: { ArcDegreesInSign: 15 } },
-      },
+        ChartPosition: { Ecliptic: { ArcDegreesInSign: 15 } }},
       Moon: {
         Sign: { label: 'Cancer' },
         Degree: 10,
-        ChartPosition: { Ecliptic: { ArcDegreesInSign: 10 } },
-      },
-    };
+        ChartPosition: { Ecliptic: { ArcDegreesInSign: 10 } }}};
   }
 }
 
@@ -1790,8 +1756,7 @@ function calculateZodiacEnergies(
     sagittarius: 0,
     capricorn: 0,
     aquarius: 0,
-    pisces: 0,
-  };
+    pisces: 0};
 
   // Guard against undefined or null positions
   if (!positions || typeof positions !== 'object') {
@@ -1810,8 +1775,7 @@ function calculateZodiacEnergies(
     Saturn: 0.1,
     Uranus: 0.05,
     Neptune: 0.05,
-    Pluto: 0.05,
-  };
+    Pluto: 0.05};
 
   try {
     // For each planet in the positions
@@ -1871,8 +1835,7 @@ function calculateZodiacEnergies(
     });
     
     ErrorHandler.log(error, {
-      context: 'alchemicalEngine:calculateZodiacEnergies',
-    });
+      context: 'alchemicalEngine:calculateZodiacEnergies'});
     
     // Return equal distribution on error
     const equalValue = 1 / Object.keys(zodiacEnergies).length;
@@ -1933,8 +1896,7 @@ function calculateChakraEnergies(
       aquarius: ['heart'],
 
       // Throat chakra is associated with communication
-      gemini: ['throat'],
-    };
+      gemini: ['throat']};
 
     // Reset chakra energies to 0 before calculating (keeps default values for missing ones)
     Object.keys(chakraEnergies).forEach((chakra) => {
@@ -2005,8 +1967,7 @@ function calculateChakraEnergies(
     });
     
     ErrorHandler.log(error, {
-      context: 'alchemicalEngine:calculateChakraEnergies',
-    });
+      context: 'alchemicalEngine:calculateChakraEnergies'});
     
     // Return equal distribution on error
     const defaultEnergies = {
@@ -2017,8 +1978,7 @@ function calculateChakraEnergies(
       throat: 0.125,
       thirdEye: 0.125,
       crown: 0.125,
-      brow: 0.125,
-    } as ChakraEnergies;
+      brow: 0.125} as ChakraEnergies;
     
     return defaultEnergies;
   }
