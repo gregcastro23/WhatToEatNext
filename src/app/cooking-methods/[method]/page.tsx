@@ -9,7 +9,6 @@ import { AccessTime, ThermostatAuto, LocalFireDepartment, Science, Warning, Kitc
 import { ZodiacSign } from '@/components/ZodiacSign';
 import MethodImage from '@/components/MethodImage';
 import Link from 'next/link';
-import getMethodData from '@/app/cooking-methods/methods';
 
 export default function CookingMethodPage() {
   const params = useParams();

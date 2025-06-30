@@ -12,7 +12,6 @@ import type {
   ElementalProperties,
   BirthInfo,
   HoroscopeData,
-  ZodiacSign,
   ChakraEnergies
 } from '@/types/alchemy';
 

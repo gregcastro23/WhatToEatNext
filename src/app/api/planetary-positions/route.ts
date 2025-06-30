@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 import { calculatePlanetaryPositions, calculateAspects } from '@/utils/astrologyUtils';
-import { getAccuratePlanetaryPositions } from '@/utils/accurateAstronomy';
 import { cache } from '@/utils/cache';
 import { getLatestAstrologicalState } from '@/services/AstrologicalService';
 
