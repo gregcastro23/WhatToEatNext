@@ -10,7 +10,7 @@ import {
   normalizeChakraKey,
   getChakraDisplayName,
   CHAKRA_ORDER
-, CHAKRA_HERBS } from '@/constants/chakraSymbols';
+ } from '@/constants/chakraSymbols';
 import { isChakraKey } from '@/utils/typeGuards';
 
 // Enhanced chakra symbols with more recognizable unicode characters

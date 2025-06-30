@@ -1,8 +1,7 @@
 'use client';
 
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState } from 'react';
 import Loading from '@/components/ui/Loading';
-import { useAstrologicalState } from '@/hooks/useAstrologicalState';
 import CookingMethods from '@/components/CookingMethods';
 import CuisineRecommender from '@/components/CuisineRecommender';
 import ElementalEnergyDisplay from '@/components/ElementalEnergyDisplay';
