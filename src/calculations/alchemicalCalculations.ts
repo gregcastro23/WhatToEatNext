@@ -3,7 +3,8 @@ import {
   AlchemicalProperty, 
   StandardizedAlchemicalResult,
   PlanetaryPosition,
-  ElementalProperties
+  ElementalProperties,
+  ZodiacSign
 } from '@/types/alchemy';
 import {
   calculateHeat, 
@@ -12,7 +13,9 @@ import {
   calculateGregsEnergy
 } from './gregsEnergy';
 import { Planet } from '../constants/planetaryFoodAssociations';
-import { ZodiacSign } from '../data/astroData';
+import { planetInfo } from '../data/astroData';
+import { RulingPlanet } from '../constants/planets';
+import { getPlanetaryElement } from '../constants/planetaryElements';
 
 /**
  * Calculate elemental balance based on properties
@@ -817,7 +820,7 @@ const getAspectType = (angle: number): string | null => {
 /**
  * Main function to calculate alchemical properties based on planetary positions
  */
-export function alchemize(planetaryPositions: Record<string, PlanetaryPosition>, isDaytime = true, lunarPhase?: string, retrogrades?: Record<string, boolean>): AlchemicalResult {
+export function alchemize(planetaryPositions: Record<string, PlanetaryPosition>, isDaytime = true, lunarPhase?: string, retrogrades?: Record<string, boolean>): StandardizedAlchemicalResult {
   // Initialize alchemical properties
   let spirit = 0;
   let essence = 0;

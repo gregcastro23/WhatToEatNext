@@ -5,8 +5,7 @@
  * Repurposed from existing seasonalCalculations.ts
  */
 
-
-
+import { ElementalProperties } from '@/types/alchemy';
 
 /**
  * Seasonal modifiers for elemental properties

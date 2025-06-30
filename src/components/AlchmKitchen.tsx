@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { getTarotCardsForDate } from '@/lib/tarotCalculations';
+import { getRecipesForTarotCard } from '@/lib/recipeCalculations';
 import styles from './AlchmKitchen.module.css';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { createLogger } from '@/utils/logger';

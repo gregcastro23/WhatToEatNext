@@ -3,7 +3,7 @@ import {
   ZodiacSign, 
   AlchemicalResult,
   PlanetaryPosition} from '@/types/alchemy';
-import { planetInfo, signs } from '../data';
+import { planetInfo, signs } from '../data/astroData';
 import { dignityStrengthModifiers, DignityType } from './alchemicalCalculations';
 
 /**

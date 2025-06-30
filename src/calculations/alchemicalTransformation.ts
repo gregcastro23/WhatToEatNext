@@ -1,16 +1,16 @@
 import { 
   ElementalCharacter, 
   AlchemicalProperty,
-  AlchemicalResults
-} from './alchemicalCalculations';
+  ZodiacSign,
+  LunarPhaseWithSpaces
+} from '@/types/alchemy';
+import { AlchemicalResults, calculateAlchemicalProperties } from './alchemicalCalculations';
 import {
   calculatePlanetaryBoost,
   Planet,
   PlanetaryDignity,
   PlanetaryDignityDetails
 } from '../constants/planetaryFoodAssociations';
-import { ZodiacSign } from '../constants/zodiac';
-import { LunarPhaseWithSpaces } from '../types/alchemy';
 import { createLogger } from '@/utils/logger';
 import { CelestialPosition } from '@/types/celestial';
 
