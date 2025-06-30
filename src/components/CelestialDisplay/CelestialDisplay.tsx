@@ -4,7 +4,7 @@ import React, { useEffect, useRef } from 'react';
 import { useAstrologicalState } from '@/hooks/useAstrologicalState';
 import { CelestialPosition, PlanetaryAlignment } from '@/types/celestial';
 
-import { Sun, Moon, Star, Wind, Droplets, Flame, Mountain, Info } from 'lucide-react';
+import { Star, Wind, Droplets, Flame, Mountain } from 'lucide-react';
 import { logger } from '@/utils/logger';
 import PlanetaryHoursDisplay from '@/components/PlanetaryHours';
 
