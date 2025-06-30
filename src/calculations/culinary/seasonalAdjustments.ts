@@ -7,7 +7,6 @@
 
 
 
-import { Element } from "@/types/alchemy";
 
 /**
  * Seasonal modifiers for elemental properties

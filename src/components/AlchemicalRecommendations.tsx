@@ -4,7 +4,7 @@ import { ElementalCharacter, AlchemicalProperty } from '@/constants/planetaryEle
 import { useAlchemicalRecommendations } from '@/hooks/useAlchemicalRecommendations';
 import { ElementalItem } from '@/calculations/alchemicalTransformation';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-import { LunarPhase, LunarPhaseWithSpaces, ZodiacSign, PlanetaryAspect } from '@/types/alchemy';
+import { LunarPhaseWithSpaces, ZodiacSign, PlanetaryAspect } from '@/types/alchemy';
 
 // Import the correct data sources
 import allIngredients from '@/data/ingredients';
