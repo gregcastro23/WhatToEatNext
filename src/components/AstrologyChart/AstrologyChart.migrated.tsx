@@ -4,8 +4,6 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useServices } from '@/hooks/useServices';
 // TODO: Fix CSS module import - was: import from "./AstrologyChart.module.css.ts"
 
-import { Element } from "@/types/alchemy";
-import { PlanetaryPosition } from "@/types/celestial";
 
 interface AstrologyChartProps {
   size?: number;

@@ -3,9 +3,7 @@ import {
   ZodiacSign, 
   AlchemicalResult,
   PlanetaryPosition} from '@/types/alchemy';
-import { planetInfo, signs } from '../data/astroData';
-import { dignityStrengthModifiers, DignityType } from './alchemicalCalculations';
-
+import { signs } from '../data/astroData';
 /**
  * Enhanced matithm to calculate astrological affinity between two signs
  * This integrates multiple data sources including:

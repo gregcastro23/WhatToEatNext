@@ -7,8 +7,6 @@ import {
 import { AlchemicalResults, calculateAlchemicalProperties } from './alchemicalCalculations';
 import {
   calculatePlanetaryBoost,
-  Planet,
-  PlanetaryDignity,
   PlanetaryDignityDetails
 } from '../constants/planetaryFoodAssociations';
 import { createLogger } from '@/utils/logger';

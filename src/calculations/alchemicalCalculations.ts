@@ -3,16 +3,13 @@ import {
   AlchemicalProperty, 
   StandardizedAlchemicalResult,
   PlanetaryPosition,
-  ElementalProperties,
-  ZodiacSign
-} from '@/types/alchemy';
+  ElementalProperties} from '@/types/alchemy';
 import {
   calculateHeat, 
   calculateEntropy, 
   calculateReactivity,
   calculateGregsEnergy
 } from './gregsEnergy';
-import { Planet } from '../constants/planetaryFoodAssociations';
 import { planetInfo } from '../data/astroData';
 import { RulingPlanet } from '../constants/planets';
 import { getPlanetaryElement } from '../constants/planetaryElements';

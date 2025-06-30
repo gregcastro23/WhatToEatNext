@@ -3,10 +3,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { useCurrentChart } from '@/hooks/useCurrentChart';
-import { Clock, Loader2, Info } from 'lucide-react';
-import type { ZodiacSign, PlanetaryAlignment } from '@/types/alchemy';
-import { calculatePlanetaryPositions, getPlanetaryDignity } from '@/utils/astrologyUtils';
-import { PlanetInfoModal } from './PlanetInfoModal';
+import { Loader2, Info } from 'lucide-react';
+import type { ZodiacSign } from '@/types/alchemy';
+import { getPlanetaryDignity } from '@/utils/astrologyUtils';
 
 // Define planet and zodiac symbols for the legend
 const PLANET_SYMBOLS: Record<string, string> = {

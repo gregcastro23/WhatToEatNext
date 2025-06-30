@@ -5,7 +5,7 @@
  */
 
 
-import type { ElementalProperties, ThermodynamicMetrics } from '@/types/alchemy';
+import type { ElementalProperties} from '@/types/alchemy';
 import { 
   KalchmResult, 
   ThermodynamicResults, 
