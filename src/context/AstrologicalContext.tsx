@@ -1,6 +1,7 @@
 'use client';
 
 import { AstrologicalState } from '@/types/celestial';
+import { ZodiacSign } from '@/types/alchemy';
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { ChakraEnergies } from '@/types/alchemy';
@@ -8,6 +9,19 @@ import alchemicalEngine from '@/calculations/alchemicalEngine';
 import { isChakraEnergies } from '@/utils/typeGuards';
 
 // ========== COMPLETE ASTROLOGICAL CONTEXT IMPLEMENTATION ==========
+
+// Phase 5: Type-safe interfaces for astrological context
+interface SafeElementalProperties {
+  Fire: number;
+  Water: number;
+  Earth: number;
+  Air: number;
+}
+
+interface SafeMockState {
+  elements?: SafeElementalProperties;
+  [key: string]: unknown;
+}
 
 // Define the context type
 interface AstrologicalContextType {
@@ -47,24 +61,26 @@ export function AstrologicalProvider({ children }: AstrologicalProviderProps) {
     
     try {
       // Mock calculation - in real implementation this would use actual astrological calculations
+      const elementalProperties: SafeElementalProperties = {
+        Fire: zodiac === 'aries' || zodiac === 'leo' || zodiac === 'sagittarius' ? 0.7 : 0.2,
+        Water: zodiac === 'cancer' || zodiac === 'scorpio' || zodiac === 'pisces' ? 0.7 : 0.2,
+        Earth: zodiac === 'taurus' || zodiac === 'virgo' || zodiac === 'capricorn' ? 0.7 : 0.2,
+        Air: zodiac === 'gemini' || zodiac === 'libra' || zodiac === 'aquarius' ? 0.7 : 0.2
+      };
+      
       const mockState = {
-        currentZodiac: zodiac as any,
+        currentZodiac: zodiac as ZodiacSign,
         planetaryPositions: {
           sun: { sign: zodiac, degree: 15 },
           moon: { sign: zodiac, degree: 20 }
         },
         lunarPhase: 'full moon',
         currentSeason: 'spring',
-        elements: {
-          Fire: zodiac === 'aries' || zodiac === 'leo' || zodiac === 'sagittarius' ? 0.7 : 0.2,
-          Water: zodiac === 'cancer' || zodiac === 'scorpio' || zodiac === 'pisces' ? 0.7 : 0.2,
-          Earth: zodiac === 'taurus' || zodiac === 'virgo' || zodiac === 'capricorn' ? 0.7 : 0.2,
-          Air: zodiac === 'gemini' || zodiac === 'libra' || zodiac === 'aquarius' ? 0.7 : 0.2
-        }
+        elements: elementalProperties
       } as AstrologicalState;
 
-      // Calculate chakra energies using alchemical engine
-      const chakraResult = alchemicalEngine.calculateChakraEnergies((mockState as any)?.elements);
+      // Calculate chakra energies using alchemical engine with safe property access
+      const chakraResult = alchemicalEngine.calculateChakraEnergies(elementalProperties);
       
       if (isChakraEnergies(chakraResult)) {
         setChakraEnergies(chakraResult);
