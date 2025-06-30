@@ -1,5 +1,5 @@
 import type { ElementalProperties, Element, AlchemicalProperties, ThermodynamicMetrics } from "@/types/alchemy";
-import Recipe from "@/types/flavor";
+import { FlavorProfileType } from "@/types/flavor";
 import { 
 // ===== UNIFIED CUISINE SYSTEM - PHASE 3 ENHANCEMENT =====
 // Adds Kalchm values to cuisines based on ingredient compositions and cooking methods

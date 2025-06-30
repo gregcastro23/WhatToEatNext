@@ -17,10 +17,8 @@ export enum FlavorProfileType {
   COOL = 'COOL',
   COMPLEX = 'COMPLEX',
   REFRESHING = 'REFRESHING',
-  earthY = 'earthY',
+  EARTHY = 'EARTHY',
   AROMATIC = 'AROMATIC',
   TANGY = 'TANGY',
   RICH = 'RICH'
-}
-
-export default FlavorProfileType; 
+} 
