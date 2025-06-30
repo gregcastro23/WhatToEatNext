@@ -5,7 +5,7 @@ import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { ElementalCharacter } from '@/constants/planetaryElements';
 import { useAstrologicalState } from '@/hooks/useAstrologicalState';
 import styles from './ElementalEnergyDisplay.module.css';
-import { Flame, Droplets, Mountain, Wind, Shield, CornerUpRight, Shuffle, Sparkles, Anchor } from 'lucide-react';
+import { Flame, Droplets, Mountain, Wind, Shield, CornerUpRight, Shuffle } from 'lucide-react';
 import { ElementalCalculator } from '@/services/ElementalCalculator';
 import { safeImportAndExecute } from '@/utils/dynamicImport';
 import { getCachedCalculation } from '@/utils/calculationCache';

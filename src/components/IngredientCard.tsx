@@ -1,5 +1,5 @@
 import React from 'react';
-import { Ingredient, RecipeIngredient, ElementalProperties } from '@/types';
+import { Ingredient, RecipeIngredient } from '@/types';
 import { isRecipeIngredient, getDominantElement } from '@/utils/ingredientUtils';
 
 interface IngredientCardProps {
