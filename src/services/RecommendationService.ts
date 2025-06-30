@@ -336,7 +336,7 @@ export class RecommendationService {
     return [...items]
       .sort((a, b) => {
         // Sort by compatibility score (higher is better) - safe property access
-        return ((b as any)?.compatibilityScore || 0) - ((a as any)?.compatibilityScore || 0);
+        return ((b as { compatibilityScore?: number })?.compatibilityScore || 0) - ((a as { compatibilityScore?: number })?.compatibilityScore || 0);
       })
       .slice(0, limit);
   }
@@ -544,7 +544,12 @@ export class RecommendationService {
       };
       
       // Get current moment's elemental influence
-      const astroStateData = astrologicalState as any;
+      const astroStateData = astrologicalState as { 
+        currentZodiac?: string; 
+        lunarPhase?: string; 
+        activePlanets?: string[]; 
+        [key: string]: unknown 
+      };
       const currentMomentElements: ElementalProperties = astroStateData?.elementalProperties || 
         astroStateData?.elementalState || this.getCurrentElementalInfluence();
       
@@ -578,7 +583,8 @@ export class RecommendationService {
         // Extract numerical score from the result object
         advancedScore = typeof compatibilityResult === 'number' 
           ? compatibilityResult 
-          : (compatibilityResult as any)?.score || (compatibilityResult as any)?.compatibility || 0.5;
+          : (compatibilityResult as { score?: number; compatibility?: number })?.score || 
+            (compatibilityResult as { score?: number; compatibility?: number })?.compatibility || 0.5;
       } catch (error) {
         logger.warn('Advanced compatibility calculation failed, using basic elemental match:', error);
         advancedScore = elementalScore;
@@ -739,8 +745,11 @@ export class RecommendationService {
     lat: number,
     lng: number,
     astrologicalState: AstrologicalState,
-    alchemicalResult: any,
-    planetaryPositions: Record<string, any>
+    alchemicalResult: { 
+      elementalProperties?: ElementalProperties; 
+      [key: string]: unknown 
+    },
+    planetaryPositions: Record<string, unknown>
   ): void {
     try {
       astrologizeCache.store(

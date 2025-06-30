@@ -17,6 +17,7 @@ import {
 } from '@mui/icons-material';
 
 import { Recipe } from '@/types/recipe';
+import { Recipe as AlchemyRecipe } from '@/types/alchemy';
 import { useServices } from '@/hooks/useServices';
 import * as astrologize from '@/services/astrologizeApi';
 import type { CuisineType, DietaryRestriction, ElementalProperties } from '@/types/alchemy';
@@ -514,8 +515,13 @@ export default function RecipeListMigrated() {
 
       // Check if response is a direct array or a service response object
       if (Array.isArray(response)) {
-        // Direct array response
-        setRecipes(response);
+        // Direct array response - convert from AlchemyRecipe to Recipe format
+        const convertedRecipes: Recipe[] = (response as AlchemyRecipe[]).map(alchemyRecipe => ({
+          ...alchemyRecipe,
+          instructions: alchemyRecipe.instructions || [], // Ensure instructions exist
+          // Add any other required fields that might be missing
+        }));
+        setRecipes(convertedRecipes);
         setTotalPages(1);
       } else {
         // Service response object

@@ -123,7 +123,7 @@ export class EnhancedRecommendationService {
       const enhancedRecommendations = await Promise.all(
         baseRecommendations.slice(0, 20).map(async (ingredient) => {
           return await this.enhanceRecommendation(
-            ingredient as any,
+            ingredient as { name?: string; astrologicalProfile?: unknown; [key: string]: unknown },
             chakraEnergyStates,
             tarotGuidance,
             astroState,
@@ -157,11 +157,11 @@ export class EnhancedRecommendationService {
         recommendations: enhancedRecommendations,
         chakraGuidance,
         tarotGuidance: {
-          dailyCard: (tarotGuidance as any)?.dailyCard || 'Unknown',
-          element: (tarotGuidance as any)?.element as unknown as Element,
-          cookingApproach: (tarotGuidance as any)?.cookingApproach || 'Balanced',
-          flavors: (tarotGuidance as any)?.flavors || [],
-          insights: (tarotGuidance as any)?.insights || 'Follow your intuition today.'
+          dailyCard: (tarotGuidance as { dailyCard?: string })?.dailyCard || 'Unknown',
+          element: (tarotGuidance as { element?: Element })?.element || 'Air',
+          cookingApproach: (tarotGuidance as { cookingApproach?: string })?.cookingApproach || 'Balanced',
+          flavors: (tarotGuidance as { flavors?: string[] })?.flavors || [],
+          insights: (tarotGuidance as { insights?: string })?.insights || 'Follow your intuition today.'
         },
         overallScore
       };

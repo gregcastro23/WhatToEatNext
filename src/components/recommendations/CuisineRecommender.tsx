@@ -98,6 +98,40 @@ interface CuisineWithScore {
   [key: string]: unknown;
 }
 
+// Enhanced interface for sauce recommendations
+interface SauceWithScore {
+  id: string;
+  name: string;
+  description?: string;
+  elementalState?: ElementalProperties;
+  matchPercentage?: number;
+  ingredients?: string[];
+  elementalMatchScore?: number;
+  currentMomentMatchScore?: number;
+  planetaryDayScore?: number;
+  planetaryHourScore?: number;
+  preparationSteps?: string[] | string;
+  procedure?: string[] | string;
+  instructions?: string[] | string;
+  [key: string]: unknown;
+}
+
+// Enhanced interface for recipe with scoring
+interface RecipeWithScore {
+  id: string;
+  name: string;
+  description?: string;
+  ingredients?: Array<{ name: string; [key: string]: unknown }>;
+  preparationSteps?: string[];
+  procedure?: string[];
+  instructions?: string[];
+  elementalMatchScore?: number;
+  currentMomentMatchScore?: number;
+  planetaryDayScore?: number;
+  planetaryHourScore?: number;
+  [key: string]: unknown;
+}
+
 // Add this helper function near the top of the file, outside any components
 const getSafeScore = (score: unknown): number => {
   // Convert to number if needed, default to 0.5 if NaN or undefined
@@ -924,30 +958,32 @@ export default function CuisineRecommender() {
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            {((sauceRecommendations || []).length > 0 ? sauceRecommendations : []).map((sauce, index) => (
-              <div
-                key={`${sauce.id || sauce.name}-${index}`}
-                className={`p-3 border rounded bg-white hover:shadow-md transition-all duration-200 ${
-                  expandedSauceCards[`${sauce.id || sauce.name}-${index}`] ? 'shadow-md' : ''
-                }`}
-                onClick={() => toggleSauceCard(`${sauce.id || sauce.name}-${index}`)}
-              >
-                <div className="flex justify-between items-start mb-2">
-                  <h5 className="font-medium text-sm leading-tight mr-1">{sauce.name}</h5>
-                  <span
-                    className={`text-xs px-1.5 py-0.5 rounded ${getMatchScoreClass(
-                      sauce.matchPercentage / 100
-                    )}`}
-                  >
-                    {sauce.matchPercentage}%
-                  </span>
-                </div>
-                <p
-                  className="text-xs leading-relaxed text-gray-600 line-clamp-3 grow"
-                  title={sauce.description}
+            {((sauceRecommendations || []).length > 0 ? sauceRecommendations : []).map((sauceItem, index) => {
+              const sauce = sauceItem as SauceWithScore;
+              return (
+                <div
+                  key={`${sauce.id || sauce.name}-${index}`}
+                  className={`p-3 border rounded bg-white hover:shadow-md transition-all duration-200 ${
+                    expandedSauceCards[`${sauce.id || sauce.name}-${index}`] ? 'shadow-md' : ''
+                  }`}
+                  onClick={() => toggleSauceCard(`${sauce.id || sauce.name}-${index}`)}
                 >
-                  {sauce.description}
-                </p>
+                  <div className="flex justify-between items-start mb-2">
+                    <h5 className="font-medium text-sm leading-tight mr-1">{sauce.name}</h5>
+                    <span
+                      className={`text-xs px-1.5 py-0.5 rounded ${getMatchScoreClass(
+                        (sauce.matchPercentage || 0) / 100
+                      )}`}
+                    >
+                      {sauce.matchPercentage || 0}%
+                    </span>
+                  </div>
+                  <p
+                    className="text-xs leading-relaxed text-gray-600 line-clamp-3 grow"
+                    title={sauce.description}
+                  >
+                    {sauce.description}
+                  </p>
                 
                 {/* Show elemental properties */}
                 <div className="flex space-x-1 mt-2">
@@ -995,55 +1031,54 @@ export default function CuisineRecommender() {
                         <span>Elemental Match:</span>
                         <span
                           className={`text-xs px-1.5 py-0.5 rounded ${getMatchScoreClass(
-                            sauce.elementalMatchScore / 100
+                            (sauce.elementalMatchScore || 0) / 100
                           )}`}
                         >
-                          {sauce.elementalMatchScore}%
+                          {sauce.elementalMatchScore || 0}%
                         </span>
                       </div>
                       <div className="flex justify-between items-center text-gray-600">
                         <span>Celestial Alignment:</span>
                         <span
                           className={`text-xs px-1.5 py-0.5 rounded ${getMatchScoreClass(
-                            sauce.currentMomentMatchScore / 100
+                            (sauce.currentMomentMatchScore || 0) / 100
                           )}`}
                         >
-                          {sauce.currentMomentMatchScore}%
+                          {sauce.currentMomentMatchScore || 0}%
                         </span>
                       </div>
                       <div className="flex justify-between items-center text-gray-600">
                         <span>Planetary Day Match:</span>
                         <span
                           className={`text-xs px-1.5 py-0.5 rounded ${getMatchScoreClass(
-                            sauce.planetaryDayScore / 100
+                            (sauce.planetaryDayScore || 0) / 100
                           )}`}
                         >
-                          {sauce.planetaryDayScore}%
+                          {sauce.planetaryDayScore || 0}%
                         </span>
                       </div>
                       <div className="flex justify-between items-center text-gray-600">
                         <span>Planetary Hour Match:</span>
                         <span
                           className={`text-xs px-1.5 py-0.5 rounded ${getMatchScoreClass(
-                            sauce.planetaryHourScore / 100
+                            (sauce.planetaryHourScore || 0) / 100
                           )}`}
                         >
-                          {sauce.planetaryHourScore}%
+                          {sauce.planetaryHourScore || 0}%
                         </span>
                       </div>
                     </div>
 
                     {/* Show all ingredients */}
-                    {sauce.ingredients && sauce.ingredients  || [].length > 0 && (
+                    {sauce.ingredients && (sauce.ingredients || []).length > 0 && (
                       <div className="mt-1">
                         <h6 className="font-medium mb-1">Ingredients:</h6>
                         <div className="flex flex-wrap gap-1">
-                          {sauce?.ingredients || [].map((ingredient: string, i: number) => (
+                          {(sauce?.ingredients || []).map((ingredient: string, i: number) => (
                               <span key={i} className="inline-block px-1.5 py-0.5 bg-gray-100 rounded">
                                 {ingredient}
                               </span>
-                            )
-                          )}
+                            ))}
                         </div>
                       </div>
                     )}
@@ -1080,7 +1115,8 @@ export default function CuisineRecommender() {
                   </div>
                 )}
               </div>
-            ))}
+              );
+            })}
           </div>
         )}
         </div>

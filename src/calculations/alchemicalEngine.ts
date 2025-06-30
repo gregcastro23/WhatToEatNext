@@ -58,11 +58,8 @@ interface PlanetaryInfluence {
   strength: number;
 }
 
-// Interface for birth information passed to alchemize
-interface BirthInfo {
-  hour: number;
-  [key: string]: unknown;
-}
+// Use the unified BirthInfo from types/alchemy.ts
+import type { BirthInfo as UnifiedBirthInfo } from '@/types/alchemy';
 
 // Interface for horoscope data passed to alchemize
 interface HoroscopeData {
@@ -920,7 +917,7 @@ function combineElementObjects(
  * @returns Alchemical result
  */
 export function alchemize(
-  birthInfo: BirthInfo,
+  birthInfo: UnifiedBirthInfo,
   horoscopeDict: HoroscopeData
 ): AlchemicalResult {
   try {
@@ -947,10 +944,9 @@ export function alchemize(
     
     // Determine if it's day or night based on birth hour
     let diurnal_or_nocturnal = 'Diurnal';
-    if (typeof birthInfo.hour === 'number') {
-      if (birthInfo.hour < 5 || birthInfo.hour > 17) {
-        diurnal_or_nocturnal = 'Nocturnal';
-      }
+    const birthHour = birthInfo.date.getHours();
+    if (birthHour < 5 || birthHour > 17) {
+      diurnal_or_nocturnal = 'Nocturnal';
     }
     
     // Initialize metadata and result object
@@ -2080,7 +2076,7 @@ async function getCurrentAstrologicalState(): Promise<AstrologicalState> {
 
 // Default export that includes both the class and the alchemize function
 export default {
-  alchemize: function(birthInfo: BirthInfo, horoscopeDict: HoroscopeData): AlchemicalResult {
+  alchemize: function(birthInfo: UnifiedBirthInfo, horoscopeDict: HoroscopeData): AlchemicalResult {
     try {
       try {
         // First try the regular alchemize function
@@ -2123,7 +2119,7 @@ export default {
  * Safe version of alchemize that makes deep copies of all referenced constants
  * to prevent "Assignment to constant variable" errors
  */
-function safeAlchemize(birthInfo: BirthInfo, horoscopeDict: HoroscopeData): AlchemicalResult {
+function safeAlchemize(birthInfo: UnifiedBirthInfo, horoscopeDict: HoroscopeData): AlchemicalResult {
   try {
     // Create a deep copy of the actual planetary information
     // JSON.parse/stringify is used for deep cloning, though it has limitations
@@ -2175,7 +2171,7 @@ function safeAlchemize(birthInfo: BirthInfo, horoscopeDict: HoroscopeData): Alch
  * Version of alchemize that uses safely cloned references
  */
 function alchemizeWithSafety(
-  birthInfo: BirthInfo, 
+  birthInfo: UnifiedBirthInfo, 
   horoscopeDict: HoroscopeData,
   safetyWrapper: {
     planetInfo: typeof planetInfo,
