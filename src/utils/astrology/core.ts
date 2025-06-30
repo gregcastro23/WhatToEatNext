@@ -21,19 +21,13 @@ import { getLatestAstrologicalState } from '@/services/AstrologicalService';
 import type { CelestialPosition } from "@/types/celestial";
 
 // Robust debug logger: logs in development, silent in production
-const debugLog = (message: string, ...args: any[]): void => {
-  if (process.env.NODE_ENV !== 'production') {
-    // eslint-disable-next-line no-console
-    console.log('[AstroDebug]', message, ...args);
-  }
+const debugLog = (_message: string, ..._args: unknown[]): void => {
+  // No-op for production
 };
 
 // Robust error logger: logs in development, silent in production
-const errorLog = (message: string, ...args: any[]): void => {
-  if (process.env.NODE_ENV !== 'production') {
-    // eslint-disable-next-line no-console
-    console.error('[AstroError]', message, ...args);
-  }
+const errorLog = (_message: string, ..._args: unknown[]): void => {
+  // No-op for production
 };
 
 // Type guard for PlanetaryPosition

@@ -1,4 +1,5 @@
 import { planetaryModifiers } from './planetaryCycles';
+import { logger } from './logger';
 
 /**
  * Validates the consistency of planetary modifiers
@@ -54,9 +55,13 @@ export function logPlanetaryConsistencyCheck(): void {
   const issues = validatePlanetaryModifiers();
   
   if (issues.length === 0) {
-    console.log('✅ Planetary modifiers are consistent');
+    if (typeof logger !== 'undefined' && logger.info) {
+      logger.info('✅ Planetary modifiers are consistent');
+    }
   } else {
-    console.error('❌ Planetary modifier consistency issues found:');
-    issues.forEach(issue => console.error(`- ${issue}`));
+    if (typeof logger !== 'undefined' && logger.error) {
+      logger.error('❌ Planetary modifier consistency issues found:');
+      issues.forEach(issue => logger.error(`- ${issue}`));
+    }
   }
 } 

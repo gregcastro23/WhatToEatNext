@@ -14,18 +14,16 @@ import { CelestialPosition } from '@/types/celestial';
  * A utility function for logging debug information
  * This is a safe replacement for console.log that can be disabled in production
  */
-const debugLog = (message: string, ...args: any[]): void => {
-  // Comment out console.log to avoid linting warnings
-  // console.log(message, ...args);
+const debugLog = (_message: string, ..._args: unknown[]): void => {
+  // No-op for production
 };
 
 /**
  * A utility function for logging errors
  * This is a safe replacement for console.error that can be disabled in production
  */
-const errorLog = (message: string, ...args: any[]): void => {
-  // Comment out console.error to avoid linting warnings
-  // console.error(message, ...args);
+const errorLog = (_message: string, ..._args: unknown[]): void => {
+  // No-op for production
 };
 
 // Interface for celestial position

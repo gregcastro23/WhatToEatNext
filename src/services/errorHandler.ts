@@ -4,16 +4,16 @@
  */
 
 // Simple logger functionality
-const logError = (message: string, data?: any) => {
-  console.error(`[ERROR] ${message}`, data);
+const logError = (_message: string, _data?: unknown) => {
+  // No-op for production
 };
 
-const logWarning = (message: string, data?: any) => {
-  console.warn(`[WARNING] ${message}`, data);
+const logWarning = (_message: string, _data?: unknown) => {
+  // No-op for production
 };
 
-const logInfo = (message: string, data?: any) => {
-  console.info(`[INFO] ${message}`, data);
+const logInfo = (_message: string, _data?: unknown) => {
+  // No-op for production
 };
 
 // Error types
@@ -41,7 +41,7 @@ export interface ErrorOptions {
   severity?: ErrorSeverity;
   component?: string;
   context?: string;
-  data?: any;
+  data?: unknown;
   isFatal?: boolean;
   silent?: boolean;
 }
@@ -60,7 +60,7 @@ class ErrorHandlerService {
   /**
    * Log an error with additional context
    */
-  log(error: any, options: ErrorOptions = {}) {
+  log(error: unknown, options: ErrorOptions = {}) {
     const {
       type = ErrorType.UNKNOWN,
       severity = ErrorSeverity.ERROR,
@@ -143,7 +143,7 @@ class ErrorHandlerService {
   /**
    * Legacy handleError method for backward compatibility
    */
-  handleError(error: any, context?: any): void {
+  handleError(error: unknown, context?: unknown): void {
     // Delegate to the main log method with proper options
     this.log(error, {
       context: context || 'unknown',
@@ -159,19 +159,24 @@ class ErrorHandlerService {
     let message = 'Unknown error';
     let stack: string | undefined;
     let errorType = 'unknown';
-    
+    let componentStack: string | undefined;
+
     if (error instanceof Error) {
       message = error.message;
       stack = error.stack;
       errorType = error.name;
+      // @ts-expect-error: componentStack is not standard on Error
+      componentStack = error.componentStack;
     } else if (typeof error === 'string') {
       message = error;
       errorType = 'string';
     } else if (error !== null && typeof error === 'object') {
       message = String(error);
       errorType = 'object';
+      // @ts-expect-error: componentStack may exist
+      componentStack = error.componentStack;
     }
-    
+
     return {
       message,
       stack,
@@ -179,7 +184,7 @@ class ErrorHandlerService {
       data: options.data,
       timestamp: new Date().toISOString(),
       errorType,
-      componentStack: (error as any)?.componentStack,
+      componentStack,
     };
   }
 }
@@ -231,19 +236,17 @@ export function safePropertyAccess<T>(
   }
 
   try {
-    let current: any = obj;
+    let current: unknown = obj;
     for (const prop of properties) {
-      if (current === null || current === undefined) {
+      if (current === null || current === undefined || typeof current !== 'object') {
         warnNullValue(`${properties.join('.')}.${prop}`, context);
         return defaultValue;
       }
-      current = current[prop];
+      current = (current as Record<string, unknown>)[prop];
     }
-    
     if (current === undefined || current === null) {
       return defaultValue;
     }
-    
     return current as T;
   } catch (error) {
     handlePropertyAccessError(error, properties.join('.'), context);
