@@ -1,8 +1,6 @@
 import { 
   ElementalCharacter, 
   AlchemicalProperty,
-  getPlanetaryElement,
-  getPlanetaryAlchemicalProperties,
   AlchemicalResults
 } from './alchemicalCalculations';
 import {
