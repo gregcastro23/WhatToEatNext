@@ -38,10 +38,10 @@ jest.mock('@/services/ElementalCalculator', () => ({
       Earth: 0.25,
       Air: 0.25,
     }),
-    initialize: jest.fn((initialState) => {
+    initialize: jest.fn((_initialState) => {
       // console.log('Mock initialize called', initialState);
     }),
-    updateElementalState: jest.fn((newState) => {
+    updateElementalState: jest.fn((_newState) => {
       // console.log('Mock updateElementalState called', newState);
     }),
     getInstance: jest.fn().mockReturnValue({
@@ -57,8 +57,8 @@ jest.mock('@/services/ElementalCalculator', () => ({
 }));
 
 // Add platform-specific mocks
-const isMacOS = process.platform === 'darwin';
-const isWindows = process.platform === 'win32';
+const _isMacOS = process.platform === 'darwin';
+const _isWindows = process.platform === 'win32';
 const isLinux = process.platform === 'linux';
 
 // Add platform-specific configuration if needed

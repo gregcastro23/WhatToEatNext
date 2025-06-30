@@ -118,14 +118,14 @@ export class LocalRecipeService {
         }
       }
       
-      console.log(`Loaded ${recipes.length} total recipes`);
+      logger.debug(`Loaded ${recipes.length} total recipes`);
       
       // Cache the recipes for future use
       this._allRecipes = recipes;
       
       return recipes;
     } catch (error) {
-      console.error("Error getting all recipes:", error);
+      logger.error("Error getting all recipes:", error);
       return [];
     }
   }
@@ -142,14 +142,14 @@ export class LocalRecipeService {
     }
     
     try {
-      console.log(`Getting recipes for cuisine: ${cuisineName}`);
+      logger.debug(`Getting recipes for cuisine: ${cuisineName}`);
       
       // Normalize cuisine name for comparison
       const normalizedName = cuisineName.toLowerCase().trim();
       
       // Handle special cases for African and American cuisines
       if (normalizedName === 'african' || normalizedName === 'american') {
-        console.log(`Special handling for: ${normalizedName}`);
+        logger.debug(`Special handling for: ${normalizedName}`);
         
         // Try different ways to access the cuisine data
         let directCuisine: ExtendedCuisine | null = null;
@@ -164,9 +164,9 @@ export class LocalRecipeService {
             directCuisine = americanModule.american as ExtendedCuisine;
           }
           
-          console.log(`Direct import successful for ${normalizedName}`);
+          logger.debug(`Direct import successful for ${normalizedName}`);
         } catch (error) {
-          console.error(`Error importing ${normalizedName} cuisine directly:`, error);
+          logger.error(`Error importing ${normalizedName} cuisine directly:`, error);
           
           // If direct import fails, try the cuisinesMap object (various cases)
           directCuisine = (cuisinesMap[normalizedName] || 
@@ -175,10 +175,10 @@ export class LocalRecipeService {
         }
         
         if (directCuisine) {
-          console.log(`Found ${normalizedName} cuisine data`);
+          logger.debug(`Found ${normalizedName} cuisine data`);
           
           // Additional debug information to help diagnose issues
-          console.log(`Cuisine structure: ${JSON.stringify({
+          logger.debug(`Cuisine structure: ${JSON.stringify({
             id: directCuisine.id,
             name: directCuisine.name,
             hasDishes: !!directCuisine.dishes,
@@ -236,15 +236,15 @@ export class LocalRecipeService {
     const mealTypes = ['breakfast', 'lunch', 'dinner', 'dessert', 'snacks'];
     
     try {
-      console.log(`Extracting recipes from cuisine: ${cuisine.name}`);
+      logger.debug(`Extracting recipes from cuisine: ${cuisine.name}`);
       
       // Special handling for American and African cuisines
       const isSpecialCase = cuisine.name.toLowerCase() === 'american' || cuisine.name.toLowerCase() === 'african';
       
       // Log specific debug info for African cuisine
       if (cuisine.name.toLowerCase() === 'african') {
-        console.log('AFRICAN CUISINE DETAILED DEBUG INFO:');
-        console.log('Full cuisine structure:', JSON.stringify({
+        logger.debug('AFRICAN CUISINE DETAILED DEBUG INFO:');
+        logger.debug('Full cuisine structure:', JSON.stringify({
           id: cuisine.id,
           name: cuisine.name,
           dishesKeys: Object.keys(cuisine.dishes || {}),
@@ -258,13 +258,13 @@ export class LocalRecipeService {
         const dishesData = cuisine.dishes as any;
         const breakfastAll = dishesData?.breakfast?.all || dishesData?.dishes?.breakfast?.all;
         if (breakfastAll?.length > 0) {
-          console.log('Sample breakfast recipe:', JSON.stringify(breakfastAll[0]));
+          logger.debug('Sample breakfast recipe:', JSON.stringify(breakfastAll[0]));
         }
       }
       
       // Check if dishes structure exists
       if (!cuisine.dishes) {
-        console.log(`No dishes found for cuisine: ${cuisine.name}`);
+        logger.debug(`No dishes found for cuisine: ${cuisine.name}`);
         
         if (isSpecialCase) {
           console.warn(`Special case (${cuisine.name}) has no dishes property:`, cuisine);
@@ -273,7 +273,7 @@ export class LocalRecipeService {
         return [];
       }
       
-      console.log(`Dishes structure:`, Object.keys(cuisine.dishes || {}));
+      logger.debug(`Dishes structure:`, Object.keys(cuisine.dishes || {}));
       
       // Quick check for all season recipes in each meal type
       mealTypes.forEach(mealType => {
@@ -281,12 +281,12 @@ export class LocalRecipeService {
             typeof cuisine.dishes[mealType] === 'object' && 
             cuisine.dishes[mealType].all && 
             Array.isArray(cuisine.dishes[mealType].all)) {
-          console.log(`Found ${cuisine.dishes[mealType].all.length} ${mealType} recipes in 'all' season for ${cuisine.name}`);
+          logger.debug(`Found ${cuisine.dishes[mealType].all.length} ${mealType} recipes in 'all' season for ${cuisine.name}`);
         } else if (isSpecialCase) {
           // Debug problematic cuisine
           console.warn(`No '${mealType}.all' array found for ${cuisine.name}`);
           if (cuisine.dishes && cuisine.dishes[mealType]) {
-            console.log(`Structure of ${mealType}:`, Object.keys(cuisine.dishes[mealType]));
+            logger.debug(`Structure of ${mealType}:`, Object.keys(cuisine.dishes[mealType]));
           }
         }
       });
@@ -294,12 +294,12 @@ export class LocalRecipeService {
       // Loop through each meal type
       mealTypes.forEach(mealType => {
         if (!cuisine.dishes || !cuisine.dishes[mealType]) {
-          console.log(`No dishes for meal type: ${mealType}`);
+          logger.debug(`No dishes for meal type: ${mealType}`);
           return;
         }
         
         const seasonalDishes = cuisine.dishes[mealType] as SeasonalDishCollection;
-        console.log(`Meal type ${mealType} structure:`, JSON.stringify(Object.keys(seasonalDishes || {})));
+        logger.debug(`Meal type ${mealType} structure:`, JSON.stringify(Object.keys(seasonalDishes || {})));
         
         // Process seasonal recipes (spring, summer, autumn, winter)
         const seasons = ['spring', 'summer', 'autumn', 'winter'];
@@ -316,7 +316,7 @@ export class LocalRecipeService {
           }
           
           if (seasonRecipes.length > 0) {
-            console.log(`Found ${seasonRecipes.length} dishes for ${season} in ${mealType}`);
+            logger.debug(`Found ${seasonRecipes.length} dishes for ${season} in ${mealType}`);
             // Add only unique recipes based on name to avoid duplicates from 'all' merging
             seasonRecipes.forEach(dish => {
               if (dish && dish.name && !recipes.some(r => r.name === dish.name)) {
@@ -329,7 +329,7 @@ export class LocalRecipeService {
         });
       });
       
-      console.log(`Extracted ${recipes.length} total recipes from ${cuisine.name} cuisine`);
+      logger.debug(`Extracted ${recipes.length} total recipes from ${cuisine.name} cuisine`);
       
       // If no recipes were found, log cuisine structure to help debug
       if (recipes.length === 0) {
@@ -352,7 +352,7 @@ export class LocalRecipeService {
         
         // Check if the dishes property might be nested incorrectly
         if (cuisine.dishes && typeof cuisine.dishes.dishes === 'object') {
-          console.log('Found nested dishes property, trying to extract from there instead');
+          logger.debug('Found nested dishes property, trying to extract from there instead');
           return this.getRecipesFromCuisine({...cuisine, dishes: cuisine.dishes.dishes as any});
         }
       }
@@ -360,7 +360,7 @@ export class LocalRecipeService {
       return recipes;
     } catch (error) {
       logger.error(`Error extracting recipes from cuisine ${cuisine.name}:`, error);
-      console.error(`Error extracting recipes from cuisine ${cuisine.name}:`, error);
+      logger.error(`Error extracting recipes from cuisine ${cuisine.name}:`, error);
       return [];
     }
   }
@@ -527,7 +527,7 @@ export class LocalRecipeService {
         technicalTips: Array.isArray(dish.technicalTips) ? dish.technicalTips : []
       };
     } catch (error) {
-      console.error('Error standardizing recipe:', error);
+      logger.error('Error standardizing recipe:', error);
       return {
         id: `error-${Math.random().toString(36).substring(2, 11)}`,
         name: dish?.name || 'Unknown Recipe',
@@ -586,7 +586,7 @@ export class LocalRecipeService {
         return false;
       });
     } catch (error) {
-      console.error(`Error searching recipes for query "${query}":`, error);
+      logger.error(`Error searching recipes for query "${query}":`, error);
       return [];
     }
   }
@@ -610,7 +610,7 @@ export class LocalRecipeService {
           : recipe.mealType.toLowerCase() === normalizedMealType)
       );
     } catch (error) {
-      console.error(`Error getting recipes for meal type "${mealType}":`, error);
+      logger.error(`Error getting recipes for meal type "${mealType}":`, error);
       return [];
     }
   }
@@ -634,7 +634,7 @@ export class LocalRecipeService {
           : recipe.season.toLowerCase() === normalizedSeason)
       );
     } catch (error) {
-      console.error(`Error getting recipes for season "${season}":`, error);
+      logger.error(`Error getting recipes for season "${season}":`, error);
       return [];
     }
   }

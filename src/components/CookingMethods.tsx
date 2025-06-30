@@ -91,15 +91,15 @@ const alchemize = async (
     };
 
     // If astroState contains planetary positions, add them to the horoscope
-    if (astroState && (astroState as any)?.planetaryPositions) {
+    if (astroState && (astroState as { planetaryPositions?: Record<string, unknown> })?.planetaryPositions) {
       // Convert astroState planetary positions to the format expected by the alchemizer
-      Object.entries((astroState as any)?.planetaryPositions).forEach(([planet, position]: [string, any]) => {
-        if (position && position.sign) {
+      Object.entries((astroState as { planetaryPositions?: Record<string, unknown> })?.planetaryPositions || {}).forEach(([planet, position]: [string, unknown]) => {
+        if (position && (position as { sign?: string }).sign) {
           horoscopeDict.tropical.CelestialBodies[planet] = {
-            Sign: { label: position.sign },
+            Sign: { label: (position as { sign: string }).sign },
             ChartPosition: {
               Ecliptic: {
-                ArcDegreesInSign: position.degree || 0
+                ArcDegreesInSign: (position as { degree?: number }).degree || 0
               }
             }
           };
@@ -115,16 +115,16 @@ const alchemize = async (
       ...alchemicalResult,
       elementalProperties: elements,
       transformedElementalProperties: {
-        Fire: (alchemicalResult as any)?.elementalBalance?.fire || 0,
-        Water: (alchemicalResult as any)?.elementalBalance?.water || 0,
-        Earth: (alchemicalResult as any)?.elementalBalance?.earth || 0,
-        Air: (alchemicalResult as any)?.elementalBalance?.air || 0
+        Fire: (alchemicalResult as { elementalBalance?: { fire?: number; water?: number; earth?: number; air?: number } })?.elementalBalance?.fire || 0,
+        Water: (alchemicalResult as { elementalBalance?: { fire?: number; water?: number; earth?: number; air?: number } })?.elementalBalance?.water || 0,
+        Earth: (alchemicalResult as { elementalBalance?: { fire?: number; water?: number; earth?: number; air?: number } })?.elementalBalance?.earth || 0,
+        Air: (alchemicalResult as { elementalBalance?: { fire?: number; water?: number; earth?: number; air?: number } })?.elementalBalance?.air || 0
       },
       // Extract thermodynamic properties with safe property access
-      heat: (thermodynamics as any)?.heat || (alchemicalResult as any)?.heat || 0.5,
-      entropy: (thermodynamics as any)?.entropy || (alchemicalResult as any)?.entropy || 0.5,
-      reactivity: (thermodynamics as any)?.reactivity || (alchemicalResult as any)?.reactivity || 0.5,
-      energy: (thermodynamics as any)?.energy || (alchemicalResult as any)?.energy || 0.5
+      heat: (thermodynamics as { heat?: number })?.heat || (alchemicalResult as { heat?: number })?.heat || 0.5,
+      entropy: (thermodynamics as { entropy?: number })?.entropy || (alchemicalResult as { entropy?: number })?.entropy || 0.5,
+      reactivity: (thermodynamics as { reactivity?: number })?.reactivity || (alchemicalResult as { reactivity?: number })?.reactivity || 0.5,
+      energy: (thermodynamics as { energy?: number })?.energy || (alchemicalResult as { energy?: number })?.energy || 0.5
     };
   } catch (error) {
     console.error('Error in alchemize function:', error);
@@ -467,8 +467,8 @@ export default function CookingMethods() {
     isMountedRef.current = true;
     setIsMounted(true);
     
-    // Fetch methods when component mounts
-    fetchMethods();
+    isMountedRef.current = true;
+    setIsMounted(true);
     
     return () => {
       isMountedRef.current = false;
@@ -560,6 +560,8 @@ export default function CookingMethods() {
 
   // Add this simple fallback 
   const [tarotData] = useState(DEFAULT_TAROT_DATA);
+  // Add a new state to control the display of score details
+  const [showScoreDetails, setShowScoreDetails] = useState<Record<string, boolean>>({});
   const { tarotCard, tarotElementalInfluences } = useTarotContext();
 
   // Add state for modality filtering
@@ -1548,7 +1550,7 @@ export default function CookingMethods() {
   }, []);
   
   // Update the fetchMethods function to use isMountedRef
-  const fetchMethods = async () => {
+  const fetchMethods = useCallback(async () => {
     try {
       setLoading(true);
       
@@ -1685,7 +1687,12 @@ export default function CookingMethods() {
         setLoading(false);
       }
     }
-  };
+  }, [isMountedRef, selectedCulture]);
+
+  // Fetch methods when component mounts or fetchMethods changes
+  useEffect(() => {
+    fetchMethods();
+  }, [fetchMethods]);
 
   if (loading) {
     return (
@@ -1738,9 +1745,6 @@ export default function CookingMethods() {
     // Refetch methods with the new culture filter
     fetchMethods();
   };
-  
-  // Add a new state to control the display of score details
-  const [showScoreDetails, setShowScoreDetails] = useState<Record<string, boolean>>({});
 
   // Enhance the renderMethodCard function to display score details
   const renderMethodCard = (method: ExtendedAlchemicalItem) => {

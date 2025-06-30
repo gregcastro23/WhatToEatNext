@@ -71,8 +71,8 @@ describe('Astrologize API Integration', () => {
         console.log('Timestamp:', new Date()?.toISOString());
         console.log('--------------------------------');
         
-        Object.entries(positions || []).forEach(([planet, position]) => {
-          console.log(`${planet.padEnd(10)}: ${position.sign?.toUpperCase()?.padEnd(12)} ${(position as { degree: number }).degree.toFixed(2)?.padStart(5)}° (${(position as { exactLongitude?: number }).exactLongitude.toFixed(2)?.padStart(6)}°)`);
+        Object.entries(positions || []).forEach(([_planet, position]) => {
+          console.log(`${_planet.padEnd(10)}: ${(position as { sign?: string }).sign?.toUpperCase()?.padEnd(12)} ${(position as { degree: number }).degree.toFixed(2)?.padStart(5)}° (${(position as { exactLongitude?: number }).exactLongitude.toFixed(2)?.padStart(6)}°)`);
         });
         
         console.log('================================\n');
@@ -137,9 +137,9 @@ describe('Astrologize API Integration', () => {
         console.log('Location: NYC (40.7498, -73.7976)');
         console.log('----------------------------------');
         
-        Object.entries(positions || []).forEach(([planet, position]) => {
+        Object.entries(positions || []).forEach(([_planet, position]) => {
           const retrograde = (position as { isRetrograde?: boolean }).isRetrograde ? ' (R)' : '';
-          console.log(`${planet.padEnd(10)}: ${position.sign?.toUpperCase()?.padEnd(12)} ${(position as { degree: number }).degree.toFixed(2)?.padStart(5)}°${retrograde}`);
+          console.log(`${_planet.padEnd(10)}: ${(position as { sign?: string }).sign?.toUpperCase()?.padEnd(12)} ${(position as { degree: number }).degree.toFixed(2)?.padStart(5)}°${retrograde}`);
         });
         
         console.log('==================================\n');
@@ -174,7 +174,7 @@ describe('Astrologize API Integration', () => {
         const positions = await getCurrentPlanetaryPositions();
         
         // Test that all position objects have required properties
-        Object.entries(positions || []).forEach(([planet, position]) => {
+        Object.entries(positions || []).forEach(([_planet, position]) => {
           expect(position)?.toHaveProperty('sign');
           expect(position)?.toHaveProperty('degree');
           expect(position)?.toHaveProperty('exactLongitude');

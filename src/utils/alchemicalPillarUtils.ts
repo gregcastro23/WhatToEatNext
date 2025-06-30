@@ -436,25 +436,25 @@ const getMethodCompatibility = (
   }
   
   logger.debug(`Method: ${methodName}`);
-  console.log(`- Associated Pillar: ${(pillar as any)?.name} (ID: ${(pillar as any)?.id})`);
+  logger.debug(`- Associated Pillar: ${(pillar as any)?.name} (ID: ${(pillar as any)?.id})`);
   
   if ((pillar as any)?.elementalAssociations) {
-    console.log(`- Primary Element: ${(pillar as any)?.elementalAssociations.primary}`);
+    logger.debug(`- Primary Element: ${(pillar as any)?.elementalAssociations.primary}`);
     if ((pillar as any)?.elementalAssociations.secondary) {
-      console.log(`- Secondary Element: ${(pillar as any)?.elementalAssociations.secondary}`);
+      logger.debug(`- Secondary Element: ${(pillar as any)?.elementalAssociations.secondary}`);
     }
   }
   
-  console.log(`- Alchemical Effects: Spirit:${pillar.effects.Spirit}, Essence:${pillar.effects.Essence}, Matter:${pillar.effects.Matter}, Substance:${pillar.effects.Substance}`);
+  logger.debug(`- Alchemical Effects: Spirit:${pillar.effects.Spirit}, Essence:${pillar.effects.Essence}, Matter:${pillar.effects.Matter}, Substance:${pillar.effects.Substance}`);
   
-  console.log(`\nIngredient Details:`)
-  console.log(`- Element: ${(transformedItem as any)?.element || 'Not specified'}`);
-  console.log(`- Elemental Character: ${(transformedItem as any)?.elementalCharacter || 'Not specified'}`);
-  console.log(`- Spirit: ${transformedItem.spirit || 0}, Essence: ${transformedItem.essence || 0}, Matter: ${transformedItem.matter || 0}, Substance: ${transformedItem.substance || 0}`);
+  logger.debug(`\nIngredient Details:`)
+  logger.debug(`- Element: ${(transformedItem as any)?.element || 'Not specified'}`);
+  logger.debug(`- Elemental Character: ${(transformedItem as any)?.elementalCharacter || 'Not specified'}`);
+  logger.debug(`- Spirit: ${transformedItem.spirit || 0}, Essence: ${transformedItem.essence || 0}, Matter: ${transformedItem.matter || 0}, Substance: ${transformedItem.substance || 0}`);
 
   // Base compatibility from element matching
   let compatibility = 50;
-  console.log(`\nStarting with base compatibility: ${compatibility}%`);
+  logger.debug(`\nStarting with base compatibility: ${compatibility}%`);
   
   // Element match - if both the transformed item and pillar have elemental associations
   if ((transformedItem as any)?.element && (pillar as any)?.elementalAssociations) {
@@ -464,9 +464,9 @@ const getMethodCompatibility = (
           if ((primaryElement as any)?.toLowerCase?.() === (transformedItem as any)?.element?.toLowerCase?.()) {
       const bonus = 20;
       compatibility += bonus;
-      console.log(`✓ Primary element match (${primaryElement}): +${bonus}% → ${compatibility}%`);
+      logger.debug(`✓ Primary element match (${primaryElement}): +${bonus}% → ${compatibility}%`);
     } else {
-      console.log(`✗ No primary element match (${primaryElement} vs ${(transformedItem as any)?.element})`);
+      logger.debug(`✗ No primary element match (${primaryElement} vs ${(transformedItem as any)?.element})`);
     }
     
     // Secondary element match (if defined)
@@ -474,9 +474,9 @@ const getMethodCompatibility = (
         (pillar as any)?.elementalAssociations.secondary?.toLowerCase?.() === (transformedItem as any)?.element?.toLowerCase?.()) {
       const bonus = 10;
       compatibility += bonus;
-      console.log(`✓ Secondary element match (${(pillar as any)?.elementalAssociations.secondary}): +${bonus}% → ${compatibility}%`);
+      logger.debug(`✓ Secondary element match (${(pillar as any)?.elementalAssociations.secondary}): +${bonus}% → ${compatibility}%`);
     } else if ((pillar as any)?.elementalAssociations.secondary) {
-      console.log(`✗ No secondary element match (${(pillar as any)?.elementalAssociations.secondary} vs ${(transformedItem as any)?.element})`);
+      logger.debug(`✗ No secondary element match (${(pillar as any)?.elementalAssociations.secondary} vs ${(transformedItem as any)?.element})`);
     }
   }
   
@@ -494,9 +494,9 @@ const getMethodCompatibility = (
           if (complementaryPairs[(transformedItem as any)?.element?.toLowerCase?.()]?.includes(primaryElement)) {
       const bonus = 10;
       compatibility += bonus;
-      console.log(`✓ Complementary elements (${(transformedItem as any)?.element} - ${primaryElement}): +${bonus}% → ${compatibility}%`);
+      logger.debug(`✓ Complementary elements (${(transformedItem as any)?.element} - ${primaryElement}): +${bonus}% → ${compatibility}%`);
     } else {
-      console.log(`✗ No complementary elements relationship detected`);
+      logger.debug(`✗ No complementary elements relationship detected`);
     }
   }
   
@@ -526,12 +526,12 @@ const getMethodCompatibility = (
   if (maxPropertyValue > 0 && effectValue > 0) {
     const bonus = 15;
     compatibility += bonus;
-    console.log(`✓ Method enhances ingredient's strongest property (${maxProperty.prop}): +${bonus}% → ${compatibility}%`);
+    logger.debug(`✓ Method enhances ingredient's strongest property (${maxProperty.prop}): +${bonus}% → ${compatibility}%`);
   } else if (maxPropertyValue > 0) {
-    console.log(`✗ Method doesn't enhance ingredient's strongest property (${maxProperty.prop})`);
+    logger.debug(`✗ Method doesn't enhance ingredient's strongest property (${maxProperty.prop})`);
   }
   
-  console.log(`\nFinal compatibility score: ${compatibility}%`);
+  logger.debug(`\nFinal compatibility score: ${compatibility}%`);
   return compatibility;
 };
 
@@ -555,20 +555,20 @@ export const getHolisticCookingRecommendations = async (
   availableMethods: string[] = [],
   count = 5
 ): Promise<Array<{ method: string, compatibility: number, reason: string }>> => {
-  console.log('\n--- HOLISTIC COOKING RECOMMENDATIONS ---');
-  console.log(`Ingredient: ${(item as any)?.name}`);
-  console.log(`Planet influence: ${planet || 'None'}`);
-  console.log(`Tarot influence: ${tarotCard || 'None'}`);
-  console.log(`Time of day: ${isDaytime ? 'Daytime' : 'Nighttime'}`);
-  console.log(`Available methods count: ${(availableMethods as any)?.length}`);
-  console.log(`Requesting top ${count} recommendations`);
+  logger.debug('\n--- HOLISTIC COOKING RECOMMENDATIONS ---');
+  logger.debug(`Ingredient: ${(item as any)?.name}`);
+  logger.debug(`Planet influence: ${planet || 'None'}`);
+  logger.debug(`Tarot influence: ${tarotCard || 'None'}`);
+  logger.debug(`Time of day: ${isDaytime ? 'Daytime' : 'Nighttime'}`);
+  logger.debug(`Available methods count: ${(availableMethods as any)?.length}`);
+  logger.debug(`Requesting top ${count} recommendations`);
 
   // Transform ingredient based on planetary and tarot influences
-  console.log('\nTransforming ingredient based on influences...');
+  logger.debug('\nTransforming ingredient based on influences...');
   const transformedItem = transformIngredient(item, planet, tarotCard, isDaytime);
   
   if (planet || tarotCard) {
-    console.log('Original item:', {
+    logger.debug('Original item:', {
       element: (item as any)?.element,
       spirit: item.spirit || 0,
       essence: item.essence || 0,
@@ -576,7 +576,7 @@ export const getHolisticCookingRecommendations = async (
       substance: item.substance || 0
     });
   
-    console.log('Transformed item:', {
+    logger.debug('Transformed item:', {
       element: (transformedItem as any)?.element,
       spirit: transformedItem.spirit || 0,
       essence: transformedItem.essence || 0,
@@ -584,28 +584,28 @@ export const getHolisticCookingRecommendations = async (
       substance: transformedItem.substance || 0
     });
   } else {
-    console.log('No planetary or tarot influences to apply.');
+    logger.debug('No planetary or tarot influences to apply.');
   }
 
   // Get cooking methods
   const cookingMethods = await getCookingMethods();
-  console.log(`\nLoaded ${Object.keys(cookingMethods).length} cooking methods from database`);
+  logger.debug(`\nLoaded ${Object.keys(cookingMethods).length} cooking methods from database`);
   
   // Filter methods if specified
   const methods = (availableMethods as any)?.length > 0
     ? availableMethods
     : Object.keys(cookingMethods);
   
-  console.log(`Evaluating ${(methods as any)?.length} cooking methods: ${(methods as any)?.length <= 10 ? methods.join(', ') : (methods as any)?.length + ' methods (too many to display)'}`);
+  logger.debug(`Evaluating ${(methods as any)?.length} cooking methods: ${(methods as any)?.length <= 10 ? methods.join(', ') : (methods as any)?.length + ' methods (too many to display)'}`);
 
   // Calculate compatibility for each method
   const compatibility: Array<{ method: string, compatibility: number, reason: string }> = [];
   
-  console.log('\nCALCULATING METHOD COMPATIBILITY:');
-  console.log('--------------------------------');
+  logger.debug('\nCALCULATING METHOD COMPATIBILITY:');
+  logger.debug('--------------------------------');
   
   methods.forEach(method => {
-    console.log(`\nEvaluating compatibility for method: ${method}`);
+    logger.debug(`\nEvaluating compatibility for method: ${method}`);
     const compatibilityScore = getMethodCompatibility(transformedItem, method.toString(), cookingMethods);
     
     // Get the pillar for this method for the reason
@@ -648,12 +648,12 @@ export const getHolisticCookingRecommendations = async (
   // Sort by compatibility (descending)
   const sortedResults = [...compatibility].sort((a, b) => b.compatibility - a.compatibility);
   
-  console.log('\nSORTED RECOMMENDATIONS:');
-  console.log('--------------------------------');
+  logger.debug('\nSORTED RECOMMENDATIONS:');
+  logger.debug('--------------------------------');
   sortedResults.slice(0, count).forEach((rec, index) => {
-    console.log(`${index + 1}. ${(rec as any)?.method} - Compatibility: ${Math.round(rec.compatibility)}% - ${rec.reason}`);
+    logger.debug(`${index + 1}. ${(rec as any)?.method} - Compatibility: ${Math.round(rec.compatibility)}% - ${rec.reason}`);
   });
-  console.log('--------------------------------\n');
+  logger.debug('--------------------------------\n');
   
   // Return top count results
   return sortedResults.slice(0, count);
@@ -985,11 +985,11 @@ function getAllCookingMethodData(): Record<string, unknown> {
         ...traditional
       }))
       .catch(error => {
-        console.error("Error loading cooking method data:", error);
+        logger.error("Error loading cooking method data:", error);
         return {};
       }) as unknown as Record<string, unknown>;
   } catch (error) {
-    console.error("Error loading cooking method data:", error);
+    logger.error("Error loading cooking method data:", error);
     return {};
   }
 } 
