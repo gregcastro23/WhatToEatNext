@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * fix-unused-variables-interactive.js (Enhanced v1.0)
+ * fix-unused-variables-interactive.js (Enhanced v2.1)
  *
  * Enhanced Systematic Unused Variable Cleaner with Scalable Safety Validation
  * 
@@ -421,45 +421,135 @@ function parseVariablesAST(fileContent, filePath) {
     
     const variables = [];
     
+    function getLineFromPosition(start) {
+      if (!start) return 1;
+      let lineNum = 1;
+      let charCount = 0;
+      const lines = fileContent.split('\n');
+      for (let i = 0; i < lines.length; i++) {
+        charCount += lines[i].length + 1; // +1 for newline
+        if (charCount > start) {
+          return i + 1;
+        }
+      }
+      return lineNum;
+    }
+    
     function walkNode(node) {
-      // Variable declarations
+      // Variable declarations (const, let, var)
       if (node.type === 'VariableDeclaration') {
         node.declarations.forEach(decl => {
-          if (decl.id && decl.id.name) {
-            variables.push({
-              name: decl.id.name,
-              type: 'variable',
-              kind: node.kind, // const, let, var
-              start: decl.start,
-              end: decl.end,
-              line: decl.loc?.start?.line
-            });
+          if (decl.id) {
+            if (decl.id.type === 'Identifier') {
+              variables.push({
+                name: decl.id.name,
+                type: 'variable',
+                kind: node.kind, // const, let, var
+                start: decl.start,
+                end: decl.end,
+                line: decl.loc?.start?.line || getLineFromPosition(decl.start)
+              });
+            } else if (decl.id.type === 'ObjectPattern') {
+              // Destructuring assignment: const { a, b } = obj
+              decl.id.properties.forEach(prop => {
+                if (prop.type === 'Property' && prop.value.type === 'Identifier') {
+                  variables.push({
+                    name: prop.value.name,
+                    type: 'variable',
+                    kind: node.kind + '_destructured',
+                    start: prop.start,
+                    end: prop.end,
+                    line: prop.loc?.start?.line || getLineFromPosition(prop.start)
+                  });
+                }
+              });
+            } else if (decl.id.type === 'ArrayPattern') {
+              // Array destructuring: const [a, b] = arr
+              decl.id.elements.forEach(element => {
+                if (element && element.type === 'Identifier') {
+                  variables.push({
+                    name: element.name,
+                    type: 'variable',
+                    kind: node.kind + '_destructured',
+                    start: element.start,
+                    end: element.end,
+                    line: element.loc?.start?.line || getLineFromPosition(element.start)
+                  });
+                }
+              });
+            }
           }
         });
       }
       
-      // Function parameters
-      if (node.type === 'FunctionDeclaration' || node.type === 'FunctionExpression' || 
-          node.type === 'ArrowFunctionExpression') {
-        if (node.params) {
-          node.params.forEach(param => {
-            if (param.name) {
-              variables.push({
-                name: param.name,
-                type: 'parameter',
-                kind: 'parameter',
-                start: param.start,
-                end: param.end,
-                line: param.loc?.start?.line
-              });
-            }
-          });
-        }
+      // Function declarations
+      if (node.type === 'FunctionDeclaration' && node.id) {
+        variables.push({
+          name: node.id.name,
+          type: 'function',
+          kind: 'function',
+          start: node.start,
+          end: node.end,
+          line: node.loc?.start?.line || getLineFromPosition(node.start)
+        });
       }
       
-      // Destructuring patterns
-      if (node.type === 'ObjectPattern' || node.type === 'ArrayPattern') {
-        // Handle destructuring - this is complex, so we'll use regex fallback
+      // Class declarations
+      if (node.type === 'ClassDeclaration' && node.id) {
+        variables.push({
+          name: node.id.name,
+          type: 'class',
+          kind: 'class',
+          start: node.start,
+          end: node.end,
+          line: node.loc?.start?.line || getLineFromPosition(node.start)
+        });
+      }
+      
+      // Function parameters
+      if ((node.type === 'FunctionDeclaration' || 
+           node.type === 'FunctionExpression' || 
+           node.type === 'ArrowFunctionExpression') && node.params) {
+        node.params.forEach(param => {
+          if (param.type === 'Identifier') {
+            variables.push({
+              name: param.name,
+              type: 'parameter',
+              kind: 'parameter',
+              start: param.start,
+              end: param.end,
+              line: param.loc?.start?.line || getLineFromPosition(param.start)
+            });
+          } else if (param.type === 'ObjectPattern') {
+            // Destructured parameters: function fn({ a, b }) {}
+            param.properties.forEach(prop => {
+              if (prop.type === 'Property' && prop.value.type === 'Identifier') {
+                variables.push({
+                  name: prop.value.name,
+                  type: 'parameter',
+                  kind: 'parameter_destructured',
+                  start: prop.start,
+                  end: prop.end,
+                  line: prop.loc?.start?.line || getLineFromPosition(prop.start)
+                });
+              }
+            });
+          } else if (param.type === 'ArrayPattern') {
+            // Array destructured parameters: function fn([a, b]) {}
+            param.elements.forEach(element => {
+              if (element && element.type === 'Identifier') {
+                variables.push({
+                  name: element.name,
+                  type: 'parameter',
+                  kind: 'parameter_destructured',
+                  start: element.start,
+                  end: element.end,
+                  line: element.loc?.start?.line || getLineFromPosition(element.start)
+                });
+              }
+            });
+          }
+        });
       }
       
       for (const key in node) {
@@ -587,14 +677,175 @@ function isVariableInFile(file, varName) {
   
   try {
     const content = fs.readFileSync(file, 'utf8');
-    const variables = parseVariablesAST(content, file);
     
+    // First check if it's actually an import (skip if it is)
+    const imports = parseImportsAST ? parseImportsAST(content, file) : [];
+    const isImport = imports.some(importDecl => 
+      importDecl.specifiers.some(spec => 
+        spec.local === varName || spec.imported === varName
+      )
+    );
+    
+    if (isImport) {
+      log(`    💡 '${varName}' appears to be an import, not a variable`, 'cyan');
+      return false;
+    }
+    
+    const variables = parseVariablesAST(content, file);
     return variables.some(variable => variable.name === varName);
   } catch (error) {
     log(`⚠️  Error checking variables in ${file}: ${error.message}`, 'yellow');
     safetyValidator.recordError();
     return false;
   }
+}
+
+// Import parsing function for variable verification (simplified version)
+function parseImportsAST(fileContent, filePath) {
+  if (!parser) {
+    return parseImportsRegex(fileContent);
+  }
+  
+  try {
+    const ast = parser.parse(fileContent, {
+      sourceType: 'module',
+      plugins: ['typescript', 'jsx', 'decorators-legacy'],
+      errorRecovery: true
+    });
+    
+    const imports = [];
+    
+    function walkNode(node) {
+      if (node.type === 'ImportDeclaration') {
+        const importInfo = {
+          source: node.source.value,
+          specifiers: []
+        };
+        
+        node.specifiers.forEach(spec => {
+          if (spec.type === 'ImportDefaultSpecifier') {
+            importInfo.specifiers.push({
+              type: 'default',
+              imported: 'default',
+              local: spec.local.name
+            });
+          } else if (spec.type === 'ImportSpecifier') {
+            importInfo.specifiers.push({
+              type: 'named',
+              imported: spec.imported.name,
+              local: spec.local.name
+            });
+          } else if (spec.type === 'ImportNamespaceSpecifier') {
+            importInfo.specifiers.push({
+              type: 'namespace',
+              imported: '*',
+              local: spec.local.name
+            });
+          }
+        });
+        
+        imports.push(importInfo);
+      }
+      
+      for (const key in node) {
+        const child = node[key];
+        if (Array.isArray(child)) {
+          child.forEach(item => {
+            if (item && typeof item === 'object' && item.type) {
+              walkNode(item);
+            }
+          });
+        } else if (child && typeof child === 'object' && child.type) {
+          walkNode(child);
+        }
+      }
+    }
+    
+    walkNode(ast);
+    return imports;
+    
+  } catch (error) {
+    return [];
+  }
+}
+
+// Simple regex-based import parsing fallback
+function parseImportsRegex(fileContent) {
+  const imports = [];
+  const lines = fileContent.split('\n');
+  
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    const importMatch = line.match(/^\s*import\s+(.+)\s+from\s+['"`]([^'"`]+)['"`]/);
+    
+    if (importMatch) {
+      const [, importClause, source] = importMatch;
+      const importInfo = {
+        source,
+        specifiers: []
+      };
+      
+      if (importClause.includes('{')) {
+        const namedMatch = importClause.match(/\{([^}]+)\}/);
+        if (namedMatch) {
+          const namedImports = namedMatch[1].split(',').map(item => item.trim());
+          namedImports.forEach(item => {
+            const cleanItem = item.trim();
+            if (cleanItem) {
+              importInfo.specifiers.push({
+                type: 'named',
+                imported: cleanItem,
+                local: cleanItem
+              });
+            }
+          });
+        }
+      }
+      
+      imports.push(importInfo);
+    }
+  }
+  
+  return imports;
+}
+
+// Enhanced codebase file collection
+function getAllCodebaseFiles() {
+  const extensions = ['.ts', '.tsx', '.js', '.jsx'];
+  const excludePaths = ['node_modules', '.next', 'dist', 'build', '.git'];
+  
+  const walk = dir => {
+    try {
+      return fs.readdirSync(dir).flatMap(f => {
+        const fullPath = path.join(dir, f);
+        
+        if (excludePaths.some(exclude => fullPath.includes(exclude))) {
+          return [];
+        }
+        
+        try {
+          if (fs.statSync(fullPath).isDirectory()) {
+            return walk(fullPath);
+          }
+          
+          if (extensions.some(ext => fullPath.endsWith(ext))) {
+            return [fullPath];
+          }
+        } catch (error) {
+          return [];
+        }
+        
+        return [];
+      });
+    } catch (error) {
+      log(`⚠️  Could not read directory ${dir}: ${error.message}`, 'yellow');
+      return [];
+    }
+  };
+  
+  const files = walk('src');
+  log(`📊 Found ${files.length} source files in codebase`, 'blue');
+  return files;
 }
 
 // Enhanced file processing with scalable batch support
@@ -1036,7 +1287,7 @@ async function main() {
   
   try {
     if (!DEFAULT_CONFIG.silentMode) {
-      log('🚀 Enhanced Unused Variable Cleaner v1.0', 'bright');
+      log('🚀 Enhanced Unused Variable Cleaner v2.1', 'bright');
       log('==========================================', 'bright');
     }
     
@@ -1091,6 +1342,7 @@ async function main() {
     const validation = safetyValidator.validateSafety();
     log(`🛡️  Safety Score: ${(validation.safetyScore * 100).toFixed(1)}% | Recommended Batch Size: ${validation.recommendedBatchSize}`, 'cyan');
     
+    const codebaseFiles = getAllCodebaseFiles();
     const summary = [];
     
     const candidates = getUnusedVariableCandidatesFromMakeLint();
