@@ -5,7 +5,9 @@ import { recipeElementalMappings } from '@/data/recipes/elementalMappings';
 import { AstrologicalState, Season, ElementalProperties, Element } from '@/types/alchemy';
 import type { RecipeElementalMapping } from '@/types/recipes';
 
-// Define the missing interologicalCulinaryGuid  dominantElement: string;
+// Define the missing interface
+interface AstrologicalCulinaryGuidance {
+  dominantElement: string;
   technique: {
     name: string;
     rationale: string;

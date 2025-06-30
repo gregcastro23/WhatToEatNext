@@ -1,19 +1,20 @@
-import { RulingPlanet } from '../constants/planets';
 import { 
-  getPlanetaryElement, 
-  ElementalCharacter,
-  AlchemicalProperty
-} from '../constants/planetaryElements';
+  ElementalCharacter, 
+  AlchemicalProperty, 
+  StandardizedAlchemicalResult,
+  PlanetaryPosition,
+  ElementalProperties
+} from '@/types/alchemy';
 import {
-  ElementalAlchemicalCounts,
-  calculpy,
+  calculateHeat, 
+  calculateEntropy, 
   calculateReactivity,
-  calculateGregsEnergy,
-  countElementalAlchemicalProperties,
-  thermodynamicCalculatom './gregsEnergy';
-import { Planet } ftaryFoodAssociations';
-impo} from '../data/astroData';
-import { StandardizedAlchemiclt, ElementalProperties, PlanetaryPosition } from '@/types/alchem/**
+  calculateGregsEnergy
+} from './gregsEnergy';
+import { Planet } from '../constants/planetaryFoodAssociations';
+import { ZodiacSign } from '../data/astroData';
+
+/**
  * Calculate elemental balance based on properties
  * @param properties Record of elemental properties
  * @returns Balance score (lower is more balanced)
@@ -812,9 +813,6 @@ const getAspectType = (angle: number): string | null => {
 };
 
 // Alchemical Calculations Module
-
-// Replace the existing AlchemicalResult interface with an import of StandardizedAlchemicalResult
-export type AlchemicalResult = StandardizedAlchemicalResult;
 
 /**
  * Main function to calculate alchemical properties based on planetary positions

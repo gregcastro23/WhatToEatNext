@@ -5,7 +5,8 @@
  */
 
 
-import type { ElementalProperties, ThermodynamicMetrics } from '@ort { 
+import type { ElementalProperties, ThermodynamicMetrics } from '@/types/alchemy';
+import { 
   KalchmResult, 
   ThermodynamicResults, 
   toElementalProperties 

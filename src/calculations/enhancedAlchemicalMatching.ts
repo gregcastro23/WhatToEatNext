@@ -4,7 +4,7 @@ import {
   AlchemicalResult,
   PlanetaryPosition} from '@/types/alchemy';
 import { planetInfo, signs } from '../data';
-import { dignityStrengthModifiers, DignityType } froons';
+import { dignityStrengthModifiers, DignityType } from './alchemicalCalculations';
 
 /**
  * Enhanced matithm to calculate astrological affinity between two signs
