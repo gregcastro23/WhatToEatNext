@@ -1,30 +1,7 @@
-import { AstrologicalState } from '@/types/celestial';
-
-// Add these constants if they don't exist elsewhere in the file
-const PROKERALA_API_URL = 'https://api.prokerala.com';
-const PROKERALA_CLIENT_ID = process.env.NEXT_PUBLIC_PROKERALA_CLIENT_ID || '';
-const PROKERALA_CLIENT_SECRET = process.env.NEXT_PUBLIC_PROKERALA_CLIENT_SECRET || '';
-const NASA_HORIZONS_API = 'https://ssd.jpl.nasa.gov/api/horizons.api';
-const NASA_DEFAULT_PARAMS = {
-  format: 'json',
-  OBJ_DATA: 'YES',
-};
-
-// Add these constants at the top of the file
-const ASTRONOMY_API_URL = 'https://api.astronomyapi.com/api/v2';
-const ASTRONOMY_API_APP_ID = process.env.NEXT_PUBLIC_ASTRONOMY_API_APP_ID || '';
-const ASTRONOMY_API_APP_SECRET = process.env.NEXT_PUBLIC_ASTRONOMY_API_APP_SECRET || '';
-
-// Remove the astronomia import
-// import { solar, planetposition, julian, moonphase, moon } from 'astronomia';
 import * as path from 'path';
 import * as fs from 'fs';
-import { PlanetaryHourCalculator } from '../lib/PlanetaryHourCalculator';
 
-// Add import for dynamic import utility at top of file
-import { dynamicImportAndExecute, dynamicImportFunction } from '../utils/dynamicImport';
 import { createLogger } from '../utils/logger';
-// Import centralized types
 import {
   CelestialPosition,
   PlanetaryAlignment,

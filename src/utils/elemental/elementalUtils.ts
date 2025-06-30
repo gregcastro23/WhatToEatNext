@@ -1,4 +1,4 @@
-import { ElementalProperties , Element } from "@/types/alchemy";
+import { ElementalProperties } from "@/types/alchemy";
 
 /**
  * Creates a properly initialized ElementalProperties object with default values

@@ -1,16 +1,12 @@
 import type { ElementalProperties, 
   ThermodynamicProperties,
-  Planet,
-  ZodiacSign,
-  Season,
-  Recipe,
   CookingMethod,
-  ElementalProfile } from '@/types/alchemy';
+  ZodiacSign,
+  Recipe } from '@/types/alchemy';
 import type { UnifiedIngredient } from '@/types/ingredient';
-import { getCurrentSeason , recipe} from '@/types/seasons';
+import { getCurrentSeason } from '@/types/seasons';
 
 import { AlchemicalEngine } from '@/calculations/core/alchemicalEngine';
-import { Element } from '@/types/alchemy';
 
 /**
  * AlchemicalRecommendation interface for providing structured recommendations

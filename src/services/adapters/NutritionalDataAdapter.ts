@@ -17,7 +17,6 @@ import {
 } from '../../data/nutritional';
 import { errorHandler } from '../errorHandler';
 import { createElementalProperties } from '../../utils/elemental/elementalUtils';
-import { toZodiacSign } from '../../utils/zodiacUtils';
 
 import { Element } from "@/types/alchemy";
 

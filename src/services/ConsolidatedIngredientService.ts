@@ -57,11 +57,9 @@ interface MatchingResult {
  * in the WhatToEatNext application.
  */
 
-import { RecipeIngredient } from '@/types/recipe';
-import type { StandardizedAlchemicalResult , ElementalProperties, 
+import type { ElementalProperties, 
   ThermodynamicMetrics,
-  PlanetName,
-  Element } from '@/types/alchemy';
+  PlanetName } from '@/types/alchemy';
 import { unifiedIngredients } from '@/data/unified/ingredients';
 import { createElementalProperties, calculateElementalCompatibility } from '../utils/elemental/elementalUtils';
 import { isNonEmptyArray, safeSome } from '../utils/common/arrayUtils';
