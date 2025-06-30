@@ -30,8 +30,10 @@ export function ClientPage() {
   const [renderCount, setRenderCount] = useState(0);
   
   useEffect(() => {
-    setRenderCount(prev => prev + 1);
-    console.log(`ClientPage rendered ${renderCount + 1} times`);
+    setRenderCount(prev => {
+      console.log(`ClientPage rendered ${prev + 1} times`);
+      return prev + 1;
+    });
   }, []);
   
   return (

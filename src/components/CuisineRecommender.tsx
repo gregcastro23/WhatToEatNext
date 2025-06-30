@@ -48,7 +48,8 @@ interface MatchingResult {
   [key: string]: unknown;
 }
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
+import { logger } from '@/utils/logger';
 import {
   Flame,
   Droplets,
@@ -163,24 +164,38 @@ function buildCompleteRecipe(recipe: any, cuisineName: string): any {
     c.id?.toLowerCase() === cuisineName?.toLowerCase()
   );
 
+  // Safely handle matchScore calculation
+  const matchScore = typeof recipe.matchScore === 'number' ? recipe.matchScore : 0.85;
+  const matchPercentage = recipe.matchPercentage || Math.round(matchScore * 100);
+
+  // Safely handle elemental properties
+  const elementalProperties = recipe.elementalProperties || 
+    (cuisineProfile?.elementalAlignment || cuisineProfile?.elementalProperties || defaultElementalProperties);
+
+  // Safely handle instructions
+  const instructions = Array.isArray(recipe.instructions) ? recipe.instructions :
+    Array.isArray(recipe.preparationSteps) ? recipe.preparationSteps :
+    Array.isArray(recipe.procedure) ? recipe.procedure : [];
+
   // Complete recipe with fallbacks
   return {
     id: recipe.id || `recipe-${Math.random().toString(36).substring(2, 9)}`,
     name: recipe.name || `${cuisineName} Recipe`,
     description: recipe.description || `A traditional recipe from ${cuisineName} cuisine.`,
     cuisine: recipe.cuisine || cuisineName,
-    matchPercentage: recipe.matchPercentage || 
-      (recipe.matchScore ? Math.round(recipe.matchScore * 100) : 85),
-    matchScore: recipe.matchScore || 0.85,
-    elementalProperties: recipe.elementalProperties || 
-      (cuisineProfile?.elementalAlignment || cuisineProfile?.elementalProperties || defaultElementalProperties),
-    ingredients: recipe.ingredients || [],
-    instructions: recipe.instructions || recipe.preparationSteps || recipe.procedure || [],
-    cookTime: recipe.cookTime || recipe.cooking_time || recipe.cook_time || "30 minutes",
-    prepTime: recipe.prepTime || recipe.preparation_time || recipe.prep_time || "15 minutes",
-    servingSize: recipe.servingSize || recipe.servings || recipe.yield || "4 servings",
-    difficulty: recipe.difficulty || recipe.skill_level || "Medium",
-    dietaryInfo: recipe.dietaryInfo || recipe.dietary_restrictions || [],
+    matchPercentage,
+    matchScore,
+    elementalProperties,
+    ingredients: Array.isArray(recipe.ingredients) ? recipe.ingredients : [],
+    instructions,
+    cookTime: String(recipe.cookTime || recipe.cooking_time || recipe.cook_time || "30 minutes"),
+    prepTime: String(recipe.prepTime || recipe.preparation_time || recipe.prep_time || "15 minutes"),
+    servingSize: typeof recipe.servingSize === 'number' ? recipe.servingSize : 
+      (typeof recipe.servings === 'number' ? recipe.servings : 
+      (typeof recipe.yield === 'number' ? recipe.yield : 4)),
+    difficulty: String(recipe.difficulty || recipe.skill_level || "Medium"),
+    dietaryInfo: Array.isArray(recipe.dietaryInfo) ? recipe.dietaryInfo :
+      Array.isArray(recipe.dietary_restrictions) ? recipe.dietary_restrictions : [],
     // Add any custom properties from the original recipe
     ...recipe
   };
@@ -256,6 +271,7 @@ export default function CuisineRecommender() {
   };
   const currentZodiac = state.astrologicalState?.zodiacSign;
   const lunarPhase = state.astrologicalState?.lunarPhase;
+  const elementalState = (state as any)?.elementalState;
 
   // Create a ref to store astrological state
   const astroStateRef = useRef({
@@ -281,7 +297,7 @@ export default function CuisineRecommender() {
         Air: 0.25,
       }
     };
-  }, [currentZodiac, lunarPhase, state.astrologicalState, (state as any)?.elementalState]);
+  }, [currentZodiac, lunarPhase, state.astrologicalState, elementalState]);
 
   const [selectedCuisine, setSelectedCuisine] = useState<string | null>(null);
   const [transformedCuisines, setTransformedCuisines] = useState<
@@ -341,7 +357,7 @@ export default function CuisineRecommender() {
       );
       setSauceRecommendations(topSauces);
     } catch (error) {
-      console.error('Error generating sauce recommendations:', error);
+      logger.error('Error generating sauce recommendations:', error);
     }
   }, [state.astrologicalState, currentZodiac, lunarPhase]);
 
@@ -355,8 +371,8 @@ export default function CuisineRecommender() {
     loadCuisines();
   }, [currentMomentElementalProfile, currentZodiac, lunarPhase]);
 
-  // Move the async function outside the useEffect
-  async function loadCuisines() {
+  // Move the async function outside the useEffect and wrap in useCallback
+  const loadCuisines = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -409,7 +425,7 @@ export default function CuisineRecommender() {
           setCuisineRecommendations(cuisinesWithRecipes);
           setCuisines(cuisinesWithRecipes);
         } catch (error) {
-          console.error('Error loading recipes:', error);
+          logger.error('Error loading recipes:', error);
           // Continue without recipes if there was an error
         }
       };
@@ -422,14 +438,14 @@ export default function CuisineRecommender() {
       setLoadingStep('Complete!');
       setLoading(false);
     } catch (error) {
-      console.error('Error loading cuisines:', error);
+      logger.error('Error loading cuisines:', error);
       // Apply safe type casting for error access
-      const errorData = error as any;
+      const errorData = error as { message?: string };
       const errorMessage = errorData?.message;
       setError(`Failed to load cuisines: ${errorMessage}`);
       setLoading(false);
     }
-  }
+  }, [currentMomentElementalProfile, astroStateRef]);
 
   const handleCuisineSelect = (cuisineId: string) => {
     // console.log(`Cuisine selected: ${cuisineId}`);

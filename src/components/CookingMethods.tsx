@@ -497,7 +497,7 @@ export default function CookingMethods() {
   ], []);
   
   // Helper functions for the component
-  const normalizeAstroState = () => {
+  const normalizeAstroState = useCallback(() => {
     return {
       currentZodiac,
       lunarPhase,
@@ -505,7 +505,7 @@ export default function CookingMethods() {
       isDaytime,
       currentPlanetaryAlignment
     };
-  };
+  }, [currentZodiac, lunarPhase, activePlanets, isDaytime, currentPlanetaryAlignment]);
   
   const methodToThermodynamics = (method: unknown): BasicThermodynamicProperties => {
     const methodName = (method as any)?.(name as any)?.toLowerCase?.();
@@ -1687,7 +1687,7 @@ export default function CookingMethods() {
         setLoading(false);
       }
     }
-  }, [isMountedRef, selectedCulture]);
+  }, [isMountedRef, selectedCulture, normalizeAstroState]);
 
   // Fetch methods when component mounts or fetchMethods changes
   useEffect(() => {
