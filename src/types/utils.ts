@@ -1,7 +1,7 @@
 /**
  * A type that allows any string-keyed object
  */
-export type StringIndexed<T = any> = {
+export type StringIndexed<T = unknown> = {
   [key: string]: T;
 };
 

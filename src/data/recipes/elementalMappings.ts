@@ -19,14 +19,12 @@ const defaultAstrologicalInfluence: AstrologicalInfluence = {
 // Helper function to safely access astrologicalInfluences
 const safeGetAstrologicalInfluences = (method: unknown): AstrologicalInfluence[] => {
   if (!method) return [defaultAstrologicalInfluence];
-  
-  // Fix TS2339: Property 'astrologicalInfluences' does not exist on type 'unknown'
-  const methodData = method as any;
+  const methodData = method as { astrologicalInfluences?: AstrologicalInfluence | AstrologicalInfluence[] };
   if (!methodData?.astrologicalInfluences) return [defaultAstrologicalInfluence];
   if (Array.isArray(methodData.astrologicalInfluences)) {
-    return methodData.astrologicalInfluences as AstrologicalInfluence[];
+    return methodData.astrologicalInfluences;
   }
-  return [methodData.astrologicalInfluences as AstrologicalInfluence];
+  return [methodData.astrologicalInfluences];
 };
 
 /**

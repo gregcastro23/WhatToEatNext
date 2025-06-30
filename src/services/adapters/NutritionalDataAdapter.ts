@@ -289,7 +289,8 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       };
     } catch (error) {
       // Use safe type casting for errorHandler service access
-      const errorHandlerService = errorHandler as any;
+      type ErrorHandlerWithLogError = typeof errorHandler & { logError?: (error: unknown, context: unknown) => void };
+      const errorHandlerService = errorHandler as ErrorHandlerWithLogError;
       errorHandlerService?.logError?.(error, {
         context: 'NutritionalDataAdapter',
         action: 'getSeasonalNutritionalRecommendations',

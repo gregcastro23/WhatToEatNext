@@ -197,21 +197,18 @@ export class AlchemicalRecommendationService {
    */
   private generateWarnings(thermodynamics: ThermodynamicProperties): string[] {
     const warnings: string[] = [];
-    
     if (thermodynamics.entropy > 0.9) {
-      warnings?.push('High entropy may lead to unpredictable cooking results - measure ingredients precisely.');
+      warnings.push('High entropy may lead to unpredictable cooking results - measure ingredients precisely.');
     }
-    
     if (thermodynamics.reactivity > 0.8) {
-      warnings?.push('Heightened reactivity may cause flavor clashes - simplify ingredient combinations.');
+      warnings.push('Heightened reactivity may cause flavor clashes - simplify ingredient combinations.');
     }
-    
-    // Fix TS2339: Property 'kalchm' does not exist on type 'ThermodynamicProperties'
-    const warningsThermodynamicsData = thermodynamics as any;
-    if (warningsThermodynamicsData?.kalchm < 0.5) {
-      warnings?.push('Low kalchm levels indicate poor transformation potential - avoid fermentation or chemical leavening.');
+    // Use a type with optional kalchm property
+    type WithKalchm = ThermodynamicProperties & { kalchm?: number };
+    const t = thermodynamics as WithKalchm;
+    if (typeof t.kalchm === 'number' && t.kalchm < 0.5) {
+      warnings.push('Low kalchm levels indicate poor transformation potential - avoid fermentation or chemical leavening.');
     }
-    
     return warnings;
   }
   
@@ -257,20 +254,16 @@ export class AlchemicalRecommendationService {
    * Derive elemental properties from thermodynamic properties
    */
   private deriveElementalProperties(thermodynamics: ThermodynamicProperties): ElementalProperties {
-    // Fix TS2339: Property 'monica' and 'kalchm' do not exist on type 'ThermodynamicProperties'
-    const derivedThermodynamicsData = thermodynamics as any;
-    
+    type WithMonicaKalchm = ThermodynamicProperties & { monica?: number; kalchm?: number };
+    const t = thermodynamics as WithMonicaKalchm;
     // Simplified mapping from thermodynamics to elemental properties
     const Fire = thermodynamics.heat * 0.7 + thermodynamics.reactivity * 0.3;
-    const Water = (derivedThermodynamicsData?.monica || 0) * 0.6 + (1 - thermodynamics.heat) * 0.4;
-    const Earth = (derivedThermodynamicsData?.kalchm || 0) * 0.5 + (1 - thermodynamics.entropy) * 0.5;
+    const Water = (t.monica || 0) * 0.6 + (1 - thermodynamics.heat) * 0.4;
+    const Earth = (t.kalchm || 0) * 0.5 + (1 - thermodynamics.entropy) * 0.5;
     const Air = thermodynamics.entropy * 0.8 + thermodynamics.reactivity * 0.2;
-    
     // Normalize to ensure values sum to 1
     const total = Fire + Water + Earth + Air;
-    
-    return { Fire: Fire / total, Water: Water / total, Earth: Earth / total, Air: Air / total
-    };
+    return { Fire: Fire / total, Water: Water / total, Earth: Earth / total, Air: Air / total };
   }
   
   /**

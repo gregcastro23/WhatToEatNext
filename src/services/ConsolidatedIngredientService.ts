@@ -944,16 +944,14 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
     // Check for explicit gluten-free property
     if (ingredient.isGlutenFree === true) return true;
     if (ingredient.isGlutenFree === false) return false;
-    
     // Check dietary properties with safe type casting
-    const dietaryData = ingredient.dietaryProperties as any;
+    type WithIsGlutenFree = { isGlutenFree?: boolean };
+    const dietaryData = ingredient.dietaryProperties as WithIsGlutenFree;
     if (dietaryData?.isGlutenFree === true) return true;
     if (dietaryData?.isGlutenFree === false) return false;
-    
     // Check if ingredient has gluten content (unsafe method check)
     const hasGlutenArray = Array.isArray(ingredient.glutenContent) ? ingredient.glutenContent : [ingredient.glutenContent];
     if (hasGlutenArray.some(item => item === true)) return false;
-    
     return true;
   }
   

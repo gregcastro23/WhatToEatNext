@@ -11,14 +11,13 @@ export function createElementalProperties(
 /**
  * Type guard to check if an object is a valid ElementalProperties object
  */
-export function isElementalProperties(obj: any): obj is ElementalProperties {
+export function isElementalProperties(obj: unknown): obj is ElementalProperties {
   if (!obj || typeof obj !== 'object') return false;
-  
   return (
-    typeof obj.Fire === 'number' &&
-    typeof obj.Water === 'number' &&
-    typeof obj.Earth === 'number' &&
-    typeof obj.Air === 'number'
+    typeof (obj as ElementalProperties).Fire === 'number' &&
+    typeof (obj as ElementalProperties).Water === 'number' &&
+    typeof (obj as ElementalProperties).Earth === 'number' &&
+    typeof (obj as ElementalProperties).Air === 'number'
   );
 }
 
