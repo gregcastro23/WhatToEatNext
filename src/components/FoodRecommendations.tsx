@@ -3,6 +3,8 @@ import type { ElementalProperties } from '@/types/alchemy';
 
 // Define FoodRecommendationsProps interface
 interface FoodRecommendationsProps {
+  ingredient?: string;
+  options?: Record<string, unknown>;
   elementalProfile?: ElementalProperties;
   onRecommendationSelect?: (recommendation: any) => void;
   maxRecommendations?: number;
@@ -11,8 +13,7 @@ interface FoodRecommendationsProps {
 import { testCookingMethodRecommendations } from '../utils/testRecommendations';
 
 const FoodRecommendations = (props: FoodRecommendationsProps) => {
-  const ingredient = (props as any)?.ingredient;
-  const options = (props as any)?.options || {};
+  const { ingredient, options = {} } = props;
   const [showDebug, setShowDebug] = useState(false);
   
   const runDebugTest = () => {

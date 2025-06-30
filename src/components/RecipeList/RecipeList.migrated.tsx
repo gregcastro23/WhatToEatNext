@@ -331,6 +331,11 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, isExpanded, onToggle })
   );
 };
 
+// Add at the top, after imports
+interface AstrologizeAPI {
+  getCurrentChart: () => Promise<AstrologicalData>;
+}
+
 /**
  * RecipeList Component - Enhanced with Material UI and Astrological Integration
  */
@@ -357,11 +362,14 @@ export default function RecipeListMigrated() {
   const availableMealTypes = ['Breakfast', 'Lunch', 'Dinner', 'Snack', 'Dessert'];
   const availableDietary: DietaryRestriction[] = ['Vegetarian', 'Vegan', 'Gluten-Free', 'Dairy-Free', 'Keto', 'Paleo'];
 
+  // In the component, before useEffect
+  const astrologize: AstrologizeAPI = (window as any).astrologize;
+
   // Astrologize API integration
   useEffect(() => {
     const fetchAstroData = async () => {
       try {
-        const data = await (astrologize as any).getCurrentChart();
+        const data = await astrologize.getCurrentChart();
         setAstroData(data);
       } catch (err) {
         console.error('Failed to load astrological data:', err);
@@ -496,8 +504,16 @@ export default function RecipeListMigrated() {
     try {
       const response = await recipeService.getAllRecipes();
       
-      // Apply safe type casting for response property access
-      const responseData = response as any;
+      // For responseData, define a type
+      interface RecipeServiceResponse {
+        success?: boolean;
+        data?: Recipe[];
+        metadata?: { totalPages?: number };
+        error?: { message?: string };
+      }
+
+      // In fetchRecipes
+      const responseData: RecipeServiceResponse = response;
       
       if (responseData?.success) {
         setRecipes(responseData.data || []);
