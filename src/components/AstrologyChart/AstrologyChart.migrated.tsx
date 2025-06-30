@@ -130,7 +130,7 @@ const AstrologyChartMigrated: React.FC<AstrologyChartProps> = ({
       console.error('Error calculating elemental balance:', err);
       return { Fire: 25, Earth: 25, Air: 25, Water: 25 };
     }
-  }, [planetaryPositions, isDaytime]);
+  }, []);
 
   // Calculate alchemical principles
   const alchemicalPrinciples = useMemo(() => {

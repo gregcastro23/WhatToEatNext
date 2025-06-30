@@ -187,7 +187,7 @@ export default function Settings() {
               animations: settings.appearance.animations,
             },
             dietary: {
-              restrictions: settings.dietary.restrictions as string[],
+              restrictions: settings.dietary.restrictions as DietaryRestriction[],
               favorites: settings.dietary.favorites,
               excluded: settings.dietary.excluded,
               spiciness: settings.dietary.spiciness,

@@ -1,55 +1,6 @@
-// Phase 10: Calculation Type Interfaces
-interface CalculationData {
-  value: number;
-  weight?: number;
-  score?: number;
-}
-
-interface ScoredItem {
-  score: number;
-  [key: string]: unknown;
-}
-
-interface ElementalData {
-  Fire: number;
-  Water: number;
-  Earth: number;
-  Air: number;
-  [key: string]: unknown;
-}
-
-interface CuisineData {
-  id: string;
-  name: string;
-  zodiacInfluences?: string[];
-  planetaryDignities?: Record<string, unknown>;
-  elementalState?: ElementalData;
-  elementalProperties?: ElementalData;
-  modality?: string;
-  gregsEnergy?: number;
-  [key: string]: unknown;
-}
-
-interface NutrientData {
-  nutrient?: { name?: string };
-  nutrientName?: string;
-  name?: string;
-  vitaminCount?: number;
-  data?: unknown;
-  [key: string]: unknown;
-}
-
-interface MatchingResult {
-  score: number;
-  elements: ElementalData;
-  recipe?: unknown;
-  [key: string]: unknown;
-}
-
 'use client';
 
-import { useState, useEffect, useMemo, useRef } from 'react';
-import { useAstrologicalState } from '../../hooks/useAstrologicalState';
+import { useState, useEffect, useRef } from 'react';
 import { Flame,
   Droplets,
   Wind,
@@ -67,7 +18,6 @@ import { Flame,
   Search } from 'lucide-react';
 import { cuisines } from '../../data/cuisines';
 import { recommendationService } from '../../services/ConsolidatedRecommendationService';
-// TODO: Fix CSS module import - was: import from "./CuisineRecommender.module.css.ts"
 import {
   ElementalProperties,
   AstrologicalState,
@@ -107,13 +57,18 @@ interface AlchemicalItem {
   name: string;
   type: 'recipe' | 'ingredient' | 'cuisine';
   elementalProperties: ElementalProperties;
+  score?: number;
+}
+
+// Define ScoredItem interface for sorting
+interface ScoredItem {
+  score: number;
+  [key: string]: unknown;
   astrologicalAffinity?: number;
   seasonalRelevance?: string[];
   description?: string;
 }
 
-
-// DUPLICATE: import { Element } from "@/types/alchemy";
 // Keep the interface exports for any code that depends on them
 export interface Cuisine {
   id: string;
@@ -123,26 +78,6 @@ export interface Cuisine {
   astrologicalInfluences: string[];
   zodiacInfluences?: ZodiacSign[];
   lunarPhaseInfluences?: LunarPhase[];
-}
-
-interface CuisineStyles {
-  container: string;
-  title: string;
-  cuisineList: string;
-  cuisineCard: string;
-  cuisineName: string;
-  description: string;
-  alchemicalProperties: string;
-  subtitle: string;
-  propertyList: string;
-  property: string;
-  propertyName: string;
-  propertyValue: string;
-  astrologicalInfluences: string;
-  influenceList: string;
-  influence: string;
-  loading: string;
-  error: string;
 }
 
 // Add this helper function near the top of the file, outside any components
@@ -168,10 +103,10 @@ interface RecipeData {
   matchPercentage?: number;
   matchScore?: number;
   elementalProperties?: ElementalProperties;
-  ingredients?: any[];
-  instructions?: any[];
-  preparationSteps?: any[];
-  procedure?: any[];
+  ingredients?: unknown[];
+  instructions?: unknown[];
+  preparationSteps?: unknown[];
+  procedure?: unknown[];
   cookTime?: string;
   cooking_time?: string;
   cook_time?: string;
@@ -185,7 +120,7 @@ interface RecipeData {
   skill_level?: string;
   dietaryInfo?: string[];
   dietary_restrictions?: string[];
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 // Helper function to ensure consistent recipe structure
@@ -201,7 +136,7 @@ function buildCompleteRecipe(recipe: RecipeData, cuisineName: string): RecipeDat
   );
 
   // Apply safe type casting for cuisineProfile access
-  const cuisineProfileData = cuisineProfile as any;
+  const cuisineProfileData = cuisineProfile as unknown as { elementalAlignment?: ElementalProperties; elementalState?: ElementalProperties };
   const elementalAlignment = cuisineProfileData?.elementalAlignment;
   const elementalState = cuisineProfileData?.elementalState;
 
@@ -214,12 +149,12 @@ function buildCompleteRecipe(recipe: RecipeData, cuisineName: string): RecipeDat
     matchPercentage: recipe.matchPercentage || 
       (recipe.matchScore ? Math.round(recipe.matchScore * 100) : 85),
     matchScore: recipe.matchScore || 0.85,
-    elementalProperties: recipe.elementalState || 
+    elementalProperties: (recipe.elementalState as ElementalProperties) || 
       (elementalAlignment || elementalState || defaultElementalProperties),
     ingredients: recipe.ingredients || [],
     instructions: recipe.instructions || recipe.preparationSteps || recipe.procedure || [],
-    cookTime: recipe.cookingTime || recipe.cooking_time || recipe.cook_time || "30 minutes",
-    prepTime: recipe.preparationTime || recipe.preparation_time || recipe.prep_time || "15 minutes",
+    cookTime: String(recipe.cookingTime || recipe.cooking_time || recipe.cook_time || "30 minutes"),
+    prepTime: String(recipe.preparationTime || recipe.preparation_time || recipe.prep_time || "15 minutes"),
     servingSize: recipe.servings || recipe.servings || recipe.yield || "4 servings",
     difficulty: recipe.difficulty || recipe.skill_level || "Medium",
     dietaryInfo: recipe.dietaryInfo || recipe.dietary_restrictions || [],
@@ -267,8 +202,8 @@ export default function CuisineRecommender() {
   const astroStateRef = useRef({
     currentZodiacSign: currentZodiac,
     lunarPhase: lunarPhase,
-    elementalState: (alchemicalContext as any)?.state?.astrologicalState?.elementalState || 
-                   (state as any)?.astrologicalState?.elementalState || 
+    elementalState: (alchemicalContext as unknown as { state?: { astrologicalState?: { elementalState?: ElementalProperties } } })?.state?.astrologicalState?.elementalState || 
+                   (state as unknown as { astrologicalState?: { elementalState?: ElementalProperties } })?.astrologicalState?.elementalState || 
                    createDefaultElementalProperties()
   });
 
@@ -283,8 +218,8 @@ export default function CuisineRecommender() {
     astroStateRef.current = {
       currentZodiacSign: currentZodiac,
       lunarPhase: lunarPhase,
-      elementalState: (alchemicalContext as any)?.state?.astrologicalState?.elementalState ||
-                      (state as any)?.astrologicalState?.elementalState ||
+      elementalState: (alchemicalContext as unknown as { state?: { astrologicalState?: { elementalState?: ElementalProperties } } })?.state?.astrologicalState?.elementalState ||
+                      (state as unknown as { astrologicalState?: { elementalState?: ElementalProperties } })?.astrologicalState?.elementalState ||
                       createDefaultElementalProperties()
     };
   }, [alchemicalContext, state, currentZodiac, lunarPhase]);
@@ -295,12 +230,12 @@ export default function CuisineRecommender() {
   >([]);
   const [error, setError] = useState<string | null>(null);
   const [cuisinesList, setCuisines] = useState<Cuisine[]>([]);
-  const [cuisineRecommendations, setCuisineRecommendations] = useState<any[]>([]);
+  const [cuisineRecommendations, setCuisineRecommendations] = useState<unknown[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [loadingStep, setLoadingStep] = useState<string>('Initializing...');
   const [filter, setFilter] = useState<string>('all');
-  const [cuisineRecipes, setCuisineRecipes] = useState<any[]>([]);
-  const [sauceRecommendations, setSauceRecommendations] = useState<any[]>([]);
+  const [cuisineRecipes, setCuisineRecipes] = useState<unknown[]>([]);
+  const [sauceRecommendations, setSauceRecommendations] = useState<unknown[]>([]);
   const [showAllRecipes, setShowAllRecipes] = useState<boolean>(false);
   const [showAllSauces, setShowAllSauces] = useState<boolean>(false);
   const [expandedRecipes, setExpandedRecipes] = useState<ExpandedState>({});
@@ -315,21 +250,21 @@ export default function CuisineRecommender() {
   const [showCuisineSpecificDetails, setShowCuisineSpecificDetails] = useState(false);
   const [showPlanetaryInfluences, setShowPlanetaryInfluences] = useState(false);
   const [currentMomentElementalProfile, setCurrentMomentElementalProfile] = useState<ElementalProperties | undefined>(
-    (alchemicalContext as any)?.state?.astrologicalState?.elementalState ||
-    (alchemicalContext as any)?.state?.elementalState
+    (alchemicalContext as unknown as { state?: { astrologicalState?: { elementalState?: ElementalProperties } } })?.state?.astrologicalState?.elementalState ||
+    (alchemicalContext as unknown as { state?: { elementalState?: ElementalProperties } })?.state?.elementalState
   );
-  const [matchingRecipes, setMatchingRecipes] = useState<any[]>([]);
+  const [matchingRecipes, setMatchingRecipes] = useState<unknown[]>([]);
   const [allRecipesData, setAllRecipesData] = useState<Recipe[]>([]);
 
   // Update current moment elemental profile when astrological state changes
   useEffect(() => {
     // Use a stable reference for comparisons by converting to a string
-    const elementalStateString = JSON.stringify((state as any)?.astrologicalState?.elementalState || {});
+    const elementalStateString = JSON.stringify((state as unknown as { astrologicalState?: { elementalState?: ElementalProperties } })?.astrologicalState?.elementalState || {});
     const currentProfileString = JSON.stringify(currentMomentElementalProfile || {});
     
     // Only update if the state has actually changed
     if (elementalStateString !== currentProfileString) {
-      const newElementalState = (state as any)?.astrologicalState?.elementalState;
+      const newElementalState = (state as unknown as { astrologicalState?: { elementalState?: ElementalProperties } })?.astrologicalState?.elementalState;
       
       if (newElementalState) {
         setCurrentMomentElementalProfile({ ...newElementalState });
@@ -381,7 +316,7 @@ export default function CuisineRecommender() {
       setLoading(true);
       setError(null);
       
-      const elementalProperties = (state as any)?.elementalState || (state as any)?.astrologicalState?.elementalState || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+      const elementalProperties = (state as unknown as { elementalState?: ElementalProperties })?.elementalState || (state as unknown as { astrologicalState?: { elementalState?: ElementalProperties } })?.astrologicalState?.elementalState || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
        };
       
       // Use the recommendation service instead of direct utility function
@@ -467,7 +402,7 @@ export default function CuisineRecommender() {
         
         if ((recipesForCuisine || []).length > 0) {
           setMatchingRecipes((recipesForCuisine || []).map(recipe => 
-            buildCompleteRecipe(recipe as any, selectedCuisineData.name)
+            buildCompleteRecipe(recipe as unknown as RecipeData, selectedCuisineData.name)
           ));
         } else {
           setMatchingRecipes([]);
@@ -477,7 +412,7 @@ export default function CuisineRecommender() {
   };
 
   // Helper function to log cuisine actions with timestamps
-  const logCuisineAction = (step: string, details?: any) => {
+  const logCuisineAction = (step: string, details?: unknown) => {
     if (selectedCuisineData) {
       const timestamp = new Date()?.toISOString();
       // console.log(`[${timestamp}] ${step} - ${selectedCuisineData.name}: ${details ? JSON.stringify(details) : ''}`);
@@ -559,7 +494,7 @@ export default function CuisineRecommender() {
       // Map sauces with match calculations
       const saucesWithMatches = saucesArray.map(sauce => {
         // Apply safe type casting for sauce access
-        const sauceData = sauce as any;
+        const sauceData = sauce as unknown as { id?: string; name?: string; elementalState?: ElementalProperties; flavorProfile?: Record<string, number> };
         const sauceElementalState = sauceData?.elementalState;
         
         // Make sure sauce has elemental properties
@@ -580,7 +515,7 @@ export default function CuisineRecommender() {
         
         // Apply safe type casting for flavor profile access
         const sauceFlavorProfile = sauceData?.flavorProfile;
-        const cuisineData = cuisine as any;
+        const cuisineData = cuisine as unknown as { flavorProfile?: Record<string, number> };
         const cuisineFlavorProfile = cuisineData?.flavorProfile;
         
         if (sauceFlavorProfile && cuisineFlavorProfile) {
@@ -645,7 +580,7 @@ export default function CuisineRecommender() {
   }
 
   // Add this function inside the CuisineRecommender component or before it
-  function getCuisineRecommendations(astroState) {
+  function getCuisineRecommendations(astroState: { currentZodiacSign?: string; lunarPhase?: string; elementalState?: ElementalProperties }) {
     // Start with all cuisines
     const availableCuisines = Object.values(cuisineFlavorProfiles);
     
@@ -671,7 +606,7 @@ export default function CuisineRecommender() {
     });
     
     // Transform cuisines into the format expected by the UI
-    const transformedCuisines = [];
+    const transformedCuisines: unknown[] = [];
     
     (cuisineMap || []).forEach(({ cuisine, regionalVariants }, cuisineId) => {
       // Calculate a score based on astroState
@@ -770,7 +705,7 @@ export default function CuisineRecommender() {
 
     // Sort cuisines by score and return more recommendations to fill the page
     return transformedCuisines
-      .sort((a, b) => (a as ScoredItem).score - (b as ScoredItem).score)
+      .sort((a, b) => ((a as ScoredItem).score || 0) - ((b as ScoredItem).score || 0))
       .slice(0, 18); // Increased from 10 to 18
   }
 

@@ -5,42 +5,25 @@
 
 import type { 
   Season, 
-  Element, 
   ElementalProperties, 
   ZodiacSign, 
   PlanetName,
-  LunarPhase,
-  CookingMethod,
-  AlchemicalProperties
+  LunarPhase
 } from "@/types/alchemy";
 
-import type { Recipe } from "@/types/recipe";
 import { UnifiedIngredient } from '@/data/unified/unifiedTypes';
 import { SeasonalRecommendations } from './seasonal';
 import { unifiedSeasonalSystem } from '@/data/integrations/seasonal';
-import { PlanetaryAlignment } from "@/types/celestial";
-// TODO: Fix import - add what to import from "./ingredients.js.ts"
-// TODO: Fix import - add what to import from "./seasonal.js.ts"
-
 import { 
   unifiedCuisineIntegrationSystem, 
-  type CuisineSeasonalAdaptation,
-  type FusionCuisineProfile,
   type CuisineIngredientAnalysis
 } from './cuisineIntegrations.js';
 import { 
   RecipeEnhancer, 
-  RecipeAnalyzer,
   type EnhancedRecipe 
 } from './recipes';
 import { 
-  calculateKalchm, 
-  calculateMonica, 
-  performAlchemicalAnalysis
-} from './alchemicalCalculations';
-import { 
   getAllEnhancedCookingMethods, 
-  getMonicaCompatibleCookingMethods,
   type EnhancedCookingMethod 
 } from '../../constants/alchemicalPillars';
 
@@ -799,7 +782,7 @@ export class UnifiedRecipeBuildingSystem {
   }
   
   // Additional placeholder methods for comprehensive functionality...
-  private selectIngredientsFromCriteria(_criteria: RecipeBuildingCriteria): any[] { return []; }
+  private selectIngredientsFromCriteria(_criteria: RecipeBuildingCriteria): unknown[] { return []; } // TODO: Implement
   private selectCookingMethodsFromCriteria(_criteria: RecipeBuildingCriteria): string[] { return []; }
   private generateBaseInstructions(_ingredients: any[], _methods: string[]): string[] { return []; }
   private generateRecipeName(_criteria: RecipeBuildingCriteria): string { return 'Generated Recipe'; }

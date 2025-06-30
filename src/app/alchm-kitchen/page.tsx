@@ -10,10 +10,6 @@ const logger = createLogger('AlchmKitchenPage');
 export default function AlchmKitchenPage() {
   const [mounted, setMounted] = useState(false);
   const alchemicalContext = useAlchemical();
-  const planetaryPositions = alchemicalContext?.planetaryPositions;
-  const elementalState = (alchemicalContext as any)?.elementalState;
-  const alchemicalValues = (alchemicalContext as any)?.alchemicalValues;
-  const astrologicalState = (alchemicalContext as any)?.astrologicalState;
   
   // Ensure component mounts after client-side hydration
   useEffect(() => {

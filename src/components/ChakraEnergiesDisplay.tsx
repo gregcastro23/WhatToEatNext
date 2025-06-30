@@ -21,7 +21,7 @@ interface ChakraEnergiesDisplayProps {
 const ChakraEnergiesDisplay: React.FC<ChakraEnergiesDisplayProps> = ({ compact = false }) => {
   const astroState = useAstrologicalState();
   const contextChakraEnergies = astroState.chakraEnergies;
-  const contextLoading = astroState.isLoading || false;
+  const contextLoading = astroState.loading || false;
   const contextError = astroState.error;
   const { chakraEnergies: foodChakraEnergies, loading: foodLoading, error: foodError, chakraRecommendations } = useChakraInfluencedFood({ limit: 50 });
   const { isDaytime } = useAlchemical();

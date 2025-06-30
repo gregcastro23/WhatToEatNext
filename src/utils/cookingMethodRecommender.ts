@@ -6,6 +6,10 @@ interface MethodWithElementalProperties {
   preferences?: {
     seasonalPreference?: string[];
   };
+  astrologicalInfluences?: {
+    dominantPlanets?: string[];
+    [key: string]: unknown;
+  };
   [key: string]: unknown;
 }
 
@@ -745,7 +749,12 @@ export async function getRecommendedCookingMethods(
     
     // Enhanced Elemental compatibility calculation (40% of score)
     if (methodWithProps?.elementalEffect || methodWithProps?.elementalProperties) {
-      const elementalProps = methodWithProps?.elementalEffect || methodWithProps?.elementalProperties || {};
+      const elementalProps = methodWithProps?.elementalEffect || methodWithProps?.elementalProperties || {
+        Fire: 0,
+        Water: 0,
+        Earth: 0,
+        Air: 0
+      };
       
       // Use enhanced calculation that considers element combinations
       elementalScore = calculateEnhancedElementalCompatibility(elementalProps, elementalComposition);

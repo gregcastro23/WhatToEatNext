@@ -1687,7 +1687,7 @@ export default function CookingMethods() {
         setLoading(false);
       }
     }
-  }, [isMountedRef, selectedCulture, normalizeAstroState]);
+  }, [isMountedRef, normalizeAstroState]);
 
   // Fetch methods when component mounts or fetchMethods changes
   useEffect(() => {
