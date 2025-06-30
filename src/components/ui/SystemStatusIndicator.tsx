@@ -30,7 +30,9 @@ export const SystemStatusIndicator: React.FC = React.memo(() => {
     // Check if data is from API, cached, or fallback
     // This is a simple heuristic - in a real implementation we would get this from telemetry
     const sunPosition = planetaryPositions.Sun;
-    if (sunPosition && (sunPosition as any)?.sign === 'aries' && (sunPosition as any)?.degree === 8.63) {
+    if (sunPosition && 
+        (sunPosition as { sign?: string; degree?: number })?.sign === 'aries' && 
+        (sunPosition as { sign?: string; degree?: number })?.degree === 8.63) {
       setDataSource('hardcoded');
     } else {
       setDataSource('api');

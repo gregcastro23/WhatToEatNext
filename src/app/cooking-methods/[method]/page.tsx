@@ -386,17 +386,17 @@ export default function CookingMethodPage() {
                   </Typography>
                   {method.alchemical_properties.element && (
                     <Typography variant="body2" paragraph>
-                      <strong>Element:</strong> {method.alchemical_properties.element}
+                      <strong>Element:</strong> {String(method.alchemical_properties.element)}
                     </Typography>
                   )}
                   {method.alchemical_properties.planetary_influence && (
                     <Typography variant="body2" paragraph>
-                      <strong>Planetary Influence:</strong> {method.alchemical_properties.planetary_influence}
+                      <strong>Planetary Influence:</strong> {String(method.alchemical_properties.planetary_influence)}
                     </Typography>
                   )}
                   {method.alchemical_properties.effect_on_ingredients && (
                     <Typography variant="body2" paragraph>
-                      <strong>Effect on Ingredients:</strong> {method.alchemical_properties.effect_on_ingredients}
+                      <strong>Effect on Ingredients:</strong> {String(method.alchemical_properties.effect_on_ingredients)}
                     </Typography>
                   )}
                 </>

@@ -1,4 +1,5 @@
 import { type ZodiacSign } from "@/types/alchemy";
+import { logger } from '@/utils/logger';
 
 // Enhanced interfaces for Phase 11 - Alchemical Pillar utilities
 interface AlchemicalPillarData {
@@ -418,23 +419,23 @@ const getMethodCompatibility = (
   methodName: string,
   cookingMethods: Record<string, number>
 ): number => {
-  console.log(`==== COMPATIBILITY CALCULATION FOR ${methodName.toUpperCase()} ====`);
-  console.log(`Ingredient: ${(transformedItem as any)?.name} (Element: ${(transformedItem as any)?.element})`);
+  logger.debug(`==== COMPATIBILITY CALCULATION FOR ${methodName.toUpperCase()} ====`);
+  logger.debug(`Ingredient: ${(transformedItem as any)?.name} (Element: ${(transformedItem as any)?.element})`);
   
   // In case the method isn't found in our cooking methods
   if (!cookingMethods[methodName]) {
-    console.error(`Method "${methodName}" not found in cooking methods mapping`);
+    logger.error(`Method "${methodName}" not found in cooking methods mapping`);
     return 50; // Base compatibility
   }
 
   // Get the pillar for this method
   const pillar = getCookingMethodPillar(methodName);
   if (!pillar) {
-    console.error(`No alchemical pillar found for method: ${methodName}`);
+    logger.error(`No alchemical pillar found for method: ${methodName}`);
     return 50; // Base compatibility if no pillar is found
   }
   
-  console.log(`Method: ${methodName}`);
+  logger.debug(`Method: ${methodName}`);
   console.log(`- Associated Pillar: ${(pillar as any)?.name} (ID: ${(pillar as any)?.id})`);
   
   if ((pillar as any)?.elementalAssociations) {

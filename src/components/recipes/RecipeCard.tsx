@@ -39,7 +39,10 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
   onToggleExpanded
 }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [servings, setServings] = useState(recipe.numberOfServings || recipe.servings || 2);
+  const [servings, setServings] = useState<number>(
+    typeof recipe.numberOfServings === 'number' ? recipe.numberOfServings :
+    typeof recipe.servings === 'number' ? recipe.servings : 2
+  );
   const [timeFactors, setTimeFactors] = useState<TimeFactors | null>(null);
 
   useEffect(() => {
@@ -121,7 +124,9 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
   };
 
   const calculateAdjustedAmount = (amount: number) => {
-    const ratio = servings / (recipe.numberOfServings || recipe.servings || 2);
+    const numberOfServings = typeof recipe.numberOfServings === 'number' ? recipe.numberOfServings : 
+                            typeof recipe.servings === 'number' ? recipe.servings : 2;
+    const ratio = servings / numberOfServings;
     return (amount * ratio).toFixed(1).replace(/\.0$/, '');
   };
 
@@ -200,11 +205,11 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
           <Star 
             key={i} 
             className={`h-4 w-4 ${
-              i < recipe.rating ? 'text-yellow-400 fill-current' : 'text-gray-300'
+              i < (typeof recipe.rating === 'number' ? recipe.rating : 0) ? 'text-yellow-400 fill-current' : 'text-gray-300'
             }`} 
           />
         ))}
-        <span className="text-sm text-gray-600 ml-1">({recipe.rating})</span>
+        <span className="text-sm text-gray-600 ml-1">({typeof recipe.rating === 'number' ? recipe.rating : 0})</span>
       </div>
     );
   };
@@ -282,12 +287,12 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
             </div>
             <div className="flex items-center">
               <ChefHat className="h-4 w-4 mr-1" />
-              <span>{recipe.cuisine}</span>
+              <span>{typeof recipe.cuisine === 'string' ? recipe.cuisine : 'Unknown'}</span>
             </div>
             {recipe.difficulty && (
               <div className="flex items-center">
                 <span className="text-sm text-gray-600">
-                  Difficulty: {recipe.difficulty}/5
+                  Difficulty: {typeof recipe.difficulty === 'number' ? recipe.difficulty : 'Unknown'}/5
                 </span>
               </div>
             )}
@@ -404,7 +409,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
                 <div>
                   <h4 className="font-medium text-sm mb-2">Nutrition (per serving):</h4>
                   <div className="text-sm grid grid-cols-2 gap-2">
-                    {recipe.nutrition.calories && <span>Calories: {Math.round(recipe.nutrition.calories * servings / (recipe.numberOfServings || servings))}</span>}
+                    {recipe.nutrition.calories && <span>Calories: {Math.round(recipe.nutrition.calories * servings / (typeof recipe.numberOfServings === 'number' ? recipe.numberOfServings : servings))}</span>}
                     
                     {/* Apply safe type casting for macronutrients access */}
                     {(() => {
@@ -415,9 +420,9 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
                       
                       return (
                         <>
-                          {protein && <span>Protein: {(protein * servings / (recipe.numberOfServings || servings)).toFixed(1)}g</span>}
-                          {carbs && <span>Carbs: {(carbs * servings / (recipe.numberOfServings || servings)).toFixed(1)}g</span>}
-                          {fat && <span>Fat: {(fat * servings / (recipe.numberOfServings || servings)).toFixed(1)}g</span>}
+                          {protein && <span>Protein: {(protein * servings / (typeof recipe.numberOfServings === 'number' ? recipe.numberOfServings : servings)).toFixed(1)}g</span>}
+                          {carbs && <span>Carbs: {(carbs * servings / (typeof recipe.numberOfServings === 'number' ? recipe.numberOfServings : servings)).toFixed(1)}g</span>}
+                          {fat && <span>Fat: {(fat * servings / (typeof recipe.numberOfServings === 'number' ? recipe.numberOfServings : servings)).toFixed(1)}g</span>}
                         </>
                       );
                     })()}

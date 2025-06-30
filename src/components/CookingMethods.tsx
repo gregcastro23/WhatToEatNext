@@ -6,7 +6,7 @@ interface CookingMethodComponentProps {
     description?: string;
     element?: string;
     season?: string | string[];
-    astrologicalProfile?: Record<string, any>;
+    astrologicalProfile?: Record<string, unknown>;
     elementalProperties?: {
       Fire?: number;
       Water?: number;
@@ -14,7 +14,7 @@ interface CookingMethodComponentProps {
       Air?: number;
     };
   };
-  onMethodSelect?: (method: any) => void;
+  onMethodSelect?: (method: CookingMethodData) => void;
   selectedMethod?: string;
 }
 

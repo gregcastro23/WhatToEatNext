@@ -150,7 +150,7 @@ export class CuisineEnhancer {
     const recipes: any[] = [];
     
     // Use safe type casting for cuisine property access
-    const cuisineData = cuisine as any;
+    const cuisineData = cuisine as Record<string, unknown>;
     if (!cuisineData?.dishes || typeof cuisineData.dishes !== 'object') {
       return recipes;
     }
@@ -282,15 +282,15 @@ export class CuisineEnhancer {
    */
   static calculateCuisineElementalBalance(cuisine: {}): ElementalProperties {
     // Use safe type casting for cuisine property access
-    const cuisineData = cuisine as any;
+    const cuisineData = cuisine as Record<string, unknown>;
     
     // Use existing elemental properties if available
     if (cuisineData?.elementalState) {
-      return cuisineData.elementalState;
+      return cuisineData.elementalState as ElementalProperties;
     }
     
-    if (cuisineData?.elementalState) {
-      return cuisineData.elementalState;
+    if (cuisineData?.elementalProperties) {
+      return cuisineData.elementalProperties as ElementalProperties;
     }
     
     // Calculate from recipes
@@ -500,7 +500,7 @@ export class CuisineAnalyzer {
   ): EnhancedCuisine[] {
     return cuisines.filter(cuisine => {
       // Use safe type casting for alchemicalProperties access
-      const alchemicalData = cuisine.alchemicalProperties as any;
+      const alchemicalData = cuisine.alchemicalProperties as Record<string, unknown>;
       const elementalBalance = alchemicalData?.elementalBalance;
       return elementalBalance && elementalBalance[element] >= threshold;
     });
@@ -547,7 +547,7 @@ export class CuisineAnalyzer {
     
     enhanced.forEach(cuisine => {
       // Analyze elemental dominance with safe type casting
-      const alchemicalData = cuisine.alchemicalProperties as any;
+      const alchemicalData = cuisine.alchemicalProperties as Record<string, unknown>;
       const elementalBalance = alchemicalData?.elementalBalance;
       if (elementalBalance) {
         const dominant = Object.entries(elementalBalance)
