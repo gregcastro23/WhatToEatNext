@@ -4,9 +4,8 @@ import { useEffect, useState } from 'react';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { initializeAlchemicalEngine } from '@/utils/alchemyInitializer';
 import { AlertTriangle, RefreshCw } from 'lucide-react';
-import { getLongitudeToZodiacPosition } from '@/utils/accurateAstronomy';
 import { createLogger } from '@/utils/logger';
-import { CelestialPosition, ZodiacSign } from '@/types/celestial';
+import { CelestialPosition } from '@/types/celestial';
 
 // Create a component-specific logger
 const logger = createLogger('PlanetaryPositions');
