@@ -13,7 +13,7 @@ export interface IngredientItem extends BaseItem {
   type: 'ingredient';
   category: string;
   subcategory?: string;
-  nutritionalInfo?: Record<string, any>;
+  nutritionalInfo?: Record<string, string | number>;
   flavorProfile?: string[];
   cookingMethods?: string[];
   seasonality?: string[];

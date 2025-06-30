@@ -74,10 +74,10 @@ export interface Ingredient {
   origin?: string[];
   subCategory?: string;
   seasonality?: string[];
-  varieties?: Record<string, any>;
+  varieties?: Record<string, unknown>;
   
   // Allow additional properties for extensibility
-  [key: string]: any;
+  [key: string]: unknown;
 } 
 
 // ========== TYPE RE-EXPORTS FOR DOWNSTREAM COMPATIBILITY ========== 

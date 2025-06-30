@@ -74,7 +74,6 @@ export default function CookingMethodsDemoPage() {
 
   const handleSelectMethod = (method: unknown) => {
     setSelectedMethod(method);
-    console.log('Selected method:', method);
   };
 
   return (

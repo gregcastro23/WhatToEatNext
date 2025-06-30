@@ -122,7 +122,7 @@ export interface ExtendedRecipe extends Recipe {
   keywords?: string[];
   
   // Allow additional dynamic properties - this ensures compatibility
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 /**
@@ -162,13 +162,16 @@ export function toExtendedRecipe(recipe: Recipe): ExtendedRecipe {
     notes: recipe.notes || '',
     preparation: recipe.preparation || '',
     preparationNotes: recipe.preparationNotes || '',
-    ingredients: (recipe.ingredients || []).map(ingredient => ({
-      ...ingredient,
-      id: (ingredient as Record<string, any>)?.id || 'ingredient-' + Date.now(),
-      preparation: (ingredient as Record<string, any>).preparation || '',
-      optional: (ingredient as Record<string, any>).optional || false,
-      notes: (ingredient as Record<string, any>).notes || ''
-    }))
+    ingredients: (recipe.ingredients || []).map(ingredient => {
+      const extendedIngredient = (ingredient as unknown) as Record<string, unknown>;
+      return {
+        ...ingredient,
+        id: typeof extendedIngredient?.id === 'string' ? extendedIngredient.id : 'ingredient-' + Date.now(),
+        preparation: typeof extendedIngredient.preparation === 'string' ? extendedIngredient.preparation : '',
+        optional: typeof extendedIngredient.optional === 'boolean' ? extendedIngredient.optional : false,
+        notes: typeof extendedIngredient.notes === 'string' ? extendedIngredient.notes : ''
+      };
+    })
   } as ExtendedRecipe;
 }
 
