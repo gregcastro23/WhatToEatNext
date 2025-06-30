@@ -877,9 +877,16 @@ function removeImportSpecifier(fileContent, importDecl, imp) {
 }
 
 function removeSpecifierFromImport(content, importDecl, targetSpec) {
-  // Safety check: if start/end positions seem invalid, use safer line-based approach
-  if (!targetSpec.start || !targetSpec.end || targetSpec.start < 0 || targetSpec.end <= targetSpec.start) {
-    log(`⚠️  Invalid character positions detected, using line-based removal for safety`, 'yellow');
+  // Safety check: if start/end positions seem invalid or from regex, use safer line-based approach
+  if (!targetSpec.start || !targetSpec.end || targetSpec.start < 0 || targetSpec.end <= targetSpec.start || 
+      targetSpec.start === null || targetSpec.end === null) {
+    log(`⚠️  Invalid or missing character positions detected, using line-based removal for safety`, 'yellow');
+    return removeSpecifierFromImportSafe(content, importDecl, targetSpec);
+  }
+  
+  // Additional safety: check if positions are reasonable
+  if (targetSpec.start >= content.length || targetSpec.end > content.length) {
+    log(`⚠️  Character positions out of bounds, using line-based removal for safety`, 'yellow');
     return removeSpecifierFromImportSafe(content, importDecl, targetSpec);
   }
   
@@ -888,9 +895,11 @@ function removeSpecifierFromImport(content, importDecl, targetSpec) {
   
   let updatedContent = beforeSpecifier + afterSpecifier;
   
+  // Clean up any malformed import syntax
   updatedContent = updatedContent.replace(/,\s*,/g, ',');
   updatedContent = updatedContent.replace(/{\s*,/g, '{');
   updatedContent = updatedContent.replace(/,\s*}/g, '}');
+  updatedContent = updatedContent.replace(/{\s*}/g, '{}'); // Handle empty braces
   
   return updatedContent;
 }
@@ -920,8 +929,14 @@ function removeSpecifierFromImportSafe(content, importDecl, targetSpec) {
     const specifiers = importList.split(',').map(s => s.trim()).filter(s => s);
     const filteredSpecifiers = specifiers.filter(spec => {
       // Remove the target specifier (handle aliases too)
-      const cleanSpec = spec.replace(/\s+as\s+\w+/, '');
-      return cleanSpec !== targetSpec.local && cleanSpec !== targetSpec.imported;
+      const cleanSpec = spec.replace(/\s+as\s+\w+/, '').trim();
+      const specName = spec.includes(' as ') ? spec.split(' as ')[0].trim() : spec.trim();
+      
+      // Check against both local name and imported name
+      return cleanSpec !== targetSpec.local && 
+             cleanSpec !== targetSpec.imported &&
+             specName !== targetSpec.local &&
+             specName !== targetSpec.imported;
     });
     
     if (filteredSpecifiers.length === 0) {
