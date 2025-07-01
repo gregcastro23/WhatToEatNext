@@ -130,7 +130,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     const normalizedName = name?.toLowerCase()?.trim();
     
     for (const ingredients of this.ingredientCache.values()) {
-      const ingredient = ingredients.find(
+      const _ingredient = ingredients.find(
         ing => ing.name?.toLowerCase() === normalizedName
       );
       

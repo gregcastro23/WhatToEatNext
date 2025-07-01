@@ -106,7 +106,7 @@ const getProteinSubstitutes = (_proteinName) => {
 };
 exports.getProteinSubstitutes = getProteinSubstitutes;
 // Helper functions for calculateCookingTime
-const getBaseTime = (protein, method, weight, thickness) => {
+const getBaseTime = (protein, _method, weight, thickness) => {
     // Simple stub implementation - in a real app, this would have actual logic
     // based on the protein type, cooking method, weight and thickness
     const baseTimes = {
@@ -143,7 +143,7 @@ const calculateAltitudeAdjustment = (altitude) => {
     // Stub implementation - cooking takes longer at higher altitudes
     return 1 + (altitude / (1000 || 1)) * 0.05;
 };
-const calculateAdjustedTemperature = (protein, method, environmentalFactors) => {
+const calculateAdjustedTemperature = (protein, _method, environmentalFactors) => {
     // Stub implementation
     const baseTemp = {
         grill: {},
@@ -164,7 +164,7 @@ const calculateAdjustedTemperature = (protein, method, environmentalFactors) => 
         celsius: temp.celsius + (altitudeAdjustment / 1.8)
     };
 };
-const generateCookingNotes = (protein, method, environmentalFactors) => {
+const generateCookingNotes = (protein, _method, environmentalFactors) => {
     // Stub implementation
     const notes = [`${protein.name} is best cooked using ${method} method`];
     if (environmentalFactors.humidity > 70) {
@@ -175,7 +175,7 @@ const generateCookingNotes = (protein, method, environmentalFactors) => {
     }
     return notes;
 };
-const calculateCookingTime = (proteinName, method, weight, thickness, doneness, environmentalFactors) => {
+const calculateCookingTime = (_proteinName, method, weight, thickness, doneness, environmentalFactors) => {
     const protein = exports.proteins[proteinName];
     if (!protein)
         throw new Error('Protein not found');
@@ -196,7 +196,7 @@ const validateProteinCombination = (_proteins) => {
     return true; // Placeholder
 };
 exports.validateProteinCombination = validateProteinCombination;
-const validateCookingMethod = (proteinName, method, _cut) => {
+const validateCookingMethod = (_proteinName, method, _cut) => {
     // Implementation for validating if cooking method is appropriate
     return true; // Placeholder
 };

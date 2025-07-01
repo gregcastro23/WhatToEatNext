@@ -283,12 +283,12 @@ export class UnifiedRecipeBuildingSystem {
     recipe: EnhancedRecipe, 
     criteria: RecipeBuildingCriteria
   ): MonicaOptimizedRecipe['monicaOptimization'] {
-    const originalMonica = recipe.alchemicalProperties?.monicaConstant || null;
-    const targetMonica = criteria.targetMonica || this.calculateOptimalMonica(recipe, criteria);
+    const _originalMonica = recipe.alchemicalProperties?.monicaConstant || null;
+    const _targetMonica = criteria._targetMonica || this.calculateOptimalMonica(recipe, criteria);
     
     // Calculate optimization adjustments
-    const temperatureAdjustments = this.calculateTemperatureAdjustments(originalMonica, targetMonica);
-    const timingAdjustments = this.calculateTimingAdjustments(originalMonica, targetMonica);
+    const _temperatureAdjustments = this.calculateTemperatureAdjustments(originalMonica, targetMonica);
+    const _timingAdjustments = this.calculateTimingAdjustments(originalMonica, targetMonica);
     const intensityModifications = this.calculateIntensityModifications(originalMonica, targetMonica);
     const planetaryTimingRecommendations = this.calculatePlanetaryTiming(targetMonica, criteria);
     
@@ -319,7 +319,7 @@ export class UnifiedRecipeBuildingSystem {
     season?: Season
   ): MonicaOptimizedRecipe['seasonalAdaptation'] {
     const currentSeason = season || this.seasonalSystem.getCurrentSeason();
-    const seasonalRecommendations = this.seasonalSystem.getSeasonalRecommendations(currentSeason) as unknown as SeasonalRecommendations;
+    const _seasonalRecommendations = this.seasonalSystem.getSeasonalRecommendations(currentSeason) as unknown as SeasonalRecommendations;
     
     // Calculate seasonal score
     const seasonalScore = this.calculateSeasonalScore(recipe, currentSeason);
@@ -364,7 +364,7 @@ export class UnifiedRecipeBuildingSystem {
     }
     
     // Analyze cuisine ingredients
-    const cuisineAnalysis = this.cuisineSystem.analyzeCuisineIngredients(cuisine);
+    const _cuisineAnalysis = this.cuisineSystem.analyzeCuisineIngredients(cuisine);
     
     // Calculate authenticity
     const authenticity = this.calculateCuisineAuthenticity(recipe, cuisine, cuisineAnalysis);
@@ -421,7 +421,7 @@ export class UnifiedRecipeBuildingSystem {
     const originalRecipe = recipe;
     
     // Get seasonal recommendations
-    const seasonalRecommendations = this.seasonalSystem.getSeasonalRecommendations(targetSeason) as unknown as SeasonalRecommendations;
+    const _seasonalRecommendations = this.seasonalSystem.getSeasonalRecommendations(targetSeason) as unknown as SeasonalRecommendations;
     
     // Generate ingredient substitutions
     const ingredientSubstitutions = this.generateDetailedIngredientSubstitutions(
@@ -438,10 +438,10 @@ export class UnifiedRecipeBuildingSystem {
     );
     
     // Generate timing adjustments
-    const timingAdjustments = this.generateSeasonalTimingAdjustments(recipe, targetSeason);
+    const _timingAdjustments = this.generateSeasonalTimingAdjustments(recipe, targetSeason);
     
     // Generate temperature adjustments
-    const temperatureAdjustments = this.generateSeasonalTemperatureAdjustments(recipe, targetSeason);
+    const _temperatureAdjustments = this.generateSeasonalTemperatureAdjustments(recipe, targetSeason);
     
     // Apply all adaptations to create adapted recipe
     const adaptedRecipe = this.applyAdaptationsToRecipe(

@@ -409,7 +409,7 @@ exports.calculateDominantElement = calculateDominantElement;
  * @param timeFactors Time factors
  * @returns Elemental profile
  */
-function calculateElementalProfile(astroState, timeFactors) {
+function calculateElementalProfile(astroState, _timeFactors) {
     const elementCounts = {
         'Fire': 0,
         'Earth': 0,

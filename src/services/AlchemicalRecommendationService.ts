@@ -50,7 +50,7 @@ export class AlchemicalRecommendationService {
     cookingMethods: CookingMethod[]
   ): AlchemicalRecommendation {
     // Calculate thermodynamic properties using the engine
-    const thermodynamics = this.engine.alchemize(planetaryPositions as any);
+    const _thermodynamics = this.engine.alchemize(planetaryPositions as any);
     
     // Convert thermodynamic properties to elemental properties
     const elementalBalance = this.deriveElementalProperties(thermodynamics);
@@ -274,7 +274,7 @@ export class AlchemicalRecommendationService {
     adjustments: string[];
   } {
     // Calculate thermodynamic properties using the engine
-    const thermodynamics = this.engine.alchemize(planetaryPositions as any);
+    const _thermodynamics = this.engine.alchemize(planetaryPositions as any);
     
     // Convert thermodynamic properties to elemental properties
     const currentElementalProperties = this.deriveElementalProperties(thermodynamics);

@@ -247,7 +247,7 @@ export default function IngredientRecommender() {
   const isVinegar = (ingredient: unknown): boolean => {
     // Extract ingredient data with safe property access
     const ingredientData = ingredient as any;
-    const category = ingredientData?.category?.toLowerCase() || '';
+    const _category = ingredientData?.category?.toLowerCase() || '';
     if (category === 'vinegar' || category === 'vinegars') return true;
     
     const name = ingredientData?.name?.toLowerCase() || '';
@@ -262,7 +262,7 @@ export default function IngredientRecommender() {
     
     if (!categoryProperty) return 'other';
     
-    const category = categoryProperty.toLowerCase();
+    const _category = categoryProperty.toLowerCase();
     
     // Map categories to our standard ones
     if (['vegetable', 'vegetables'].includes(category)) return 'vegetables';
@@ -429,7 +429,7 @@ export default function IngredientRecommender() {
         }
         // For other ingredients, use explicit category if available
         else {
-          const category = getNormalizedCategory(ingredient);
+          const _category = getNormalizedCategory(ingredient);
           if (categories[category]) {
             categories[category].push({
               ...ingredient,
@@ -472,7 +472,7 @@ export default function IngredientRecommender() {
     }
     
     // Now add the astrological recommendations
-    Object.entries(astroRecommendations).forEach(([category, items]) => {
+    Object.entries(astroRecommendations).forEach(([_category, items]) => {
       items.forEach(item => {
         const normalizedCategory = getNormalizedCategory(item);
         const targetCategory = normalizedCategory === 'other' ? determineCategory(item.name) : normalizedCategory;

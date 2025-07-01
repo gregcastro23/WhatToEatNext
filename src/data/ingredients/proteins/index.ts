@@ -138,7 +138,7 @@ export const getProteinSubstitutes = (_proteinName: string): Record<string, numb
 // Helper functions for calculateCookingTime
 const getBaseTime = (
   protein: Ingredient, 
-  method: CookingMethod, 
+  _method: CookingMethod, 
   weight: number, 
   thickness: number
 ): number => {
@@ -197,7 +197,7 @@ const calculateAltitudeAdjustment = (altitude: number): number => {
 
 const calculateAdjustedTemperature = (
   protein: Ingredient, 
-  method: CookingMethod, 
+  _method: CookingMethod, 
   environmentalFactors: {
     season: 'summer' | 'winter';
     humidity: number;
@@ -230,7 +230,7 @@ const calculateAdjustedTemperature = (
 
 const generateCookingNotes = (
   protein: Ingredient, 
-  method: CookingMethod, 
+  _method: CookingMethod, 
   environmentalFactors: {
     season: 'summer' | 'winter';
     humidity: number;
@@ -252,8 +252,8 @@ const generateCookingNotes = (
 };
 
 export const calculateCookingTime = (
-  proteinName: string,
-  method: CookingMethod,
+  _proteinName: string,
+  _method: CookingMethod,
   weight: number,
   thickness: number,
   doneness: Doneness,
@@ -289,7 +289,7 @@ export const validateProteinCombination = (proteins: string[]): boolean => {
 };
 
 export const validateCookingMethod = (
-  proteinName: string,
+  _proteinName: string,
   method: CookingMethod,
   _cut: ProteinCut
 ): boolean => {

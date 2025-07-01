@@ -293,7 +293,7 @@ exports.getFlavorBoost = getFlavorBoost;
 /**
  * Get nutritional synergy between ingredient and planet
  */
-const getNutritionalSynergy = (planet, _ingredient) => {
+const getNutritionalSynergy = (_planet, _ingredient) => {
     // Implementation depends on your nutritional data
     return [];
 };

@@ -194,7 +194,7 @@ export const calculatePlanetaryBoost = (
   const dignities: Record<string, PlanetaryDignityDetails> = {};
 
   // Planetary position calculations
-  Object.entries(planetPositions).forEach(([planet, _position]) => {
+  Object.entries(planetPositions).forEach(([_planet, _position]) => {
     const planetInfo = planetaryFoodAssociations[planet as Planet];
     if (!planetInfo) return;
 
@@ -386,7 +386,7 @@ export const getLunarPhaseBoost = (lunarPhase: LunarPhase): number => {
  * Get flavor boost from planetary associations
  */
 export const getFlavorBoost = (
-  planet: Planet,
+  _planet: Planet,
   ingredient: unknown
 ): number => {
   const ingredientData = ingredient as any;
@@ -400,7 +400,7 @@ export const getFlavorBoost = (
  * Get nutritional synergy between ingredient and planet
  */
 export const getNutritionalSynergy = (
-  planet: Planet,
+  _planet: Planet,
   _ingredient: unknown
 ): string[] => {
   // Implementation depends on your nutritional data

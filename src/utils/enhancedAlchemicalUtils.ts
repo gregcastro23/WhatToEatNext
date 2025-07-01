@@ -73,7 +73,7 @@ export function getIngredientCompatibility(
  * @returns Compatibility score between 0-1
  */
 export function getUserFoodCompatibility(
-  userSign: ZodiacSign,
+  _userSign: ZodiacSign,
   foodElement: string,
   foodElementalProps: ElementalProperties
 ) {
@@ -118,8 +118,8 @@ export function getUserFoodCompatibility(
 export function generatePersonalizedMealPlan(
   alchemicalResult: AlchemicalResult,
   userSign: ZodiacSign,
-  season: string,
-  userPreferences?: string[]
+  _season: string,
+  _userPreferences?: string[]
 ) {
   // Apply surgical type casting with variable extraction
   const alchemicalResultData = alchemicalResult as any;

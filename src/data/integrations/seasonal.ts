@@ -107,7 +107,7 @@ export const unifiedSeasonalSystem = {
     
     return {
       topIngredients: Object.entries(ingredients)
-        .filter(([key, value]) => typeof value === 'number' && value > 0.7)
+        .filter(([_key, value]) => typeof value === 'number' && value > 0.7)
         .sort(([, a], [, b]) => (b as number) - (a as number))
         .slice(0, 10)
         .map(([name, score]) => ({ name, score: score as number })),

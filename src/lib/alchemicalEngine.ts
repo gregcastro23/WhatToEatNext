@@ -435,7 +435,7 @@ export class AlchemicalEngineBase {
 
   rankBySeasonalEffectiveness(recipes: Recipe[], season: string) {
     return recipes
-      .map((recipe) => ({
+      .map((_recipe) => ({
         ...recipe,
         seasonalScore: (() => {
           const calculatorData = ElementalCalculator as any;
@@ -482,7 +482,7 @@ export class AlchemicalEngineBase {
 
   setAvailableRecipes(recipes: Recipe[]) {
     this.availableRecipes = recipes.filter(
-      (recipe) =>
+      (_recipe) =>
         recipe?.elementalProperties &&
         validateElementalProperties(recipe.elementalProperties)
     );

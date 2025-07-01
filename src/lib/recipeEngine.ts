@@ -39,7 +39,7 @@ export class RecipeEngine {
 
         return Object.entries(elementalProps)
             .sort(([, a], [, b]) => b - a)
-            .map(([element, value]) => ({ element, value }));
+            .map(([_element, value]) => ({ element, value }));
     }
 
     calculateIngredientProportions(recipe: Recipe): ElementalProperties {
@@ -50,7 +50,7 @@ export class RecipeEngine {
         const total = recipe.ingredients.reduce((sum, ing) => sum + ing.amount, 0);
         const unnormalized = recipe.ingredients.reduce((props, ing) => {
             if (ing.elementalProperties) {
-                Object.entries(ing.elementalProperties).forEach(([element, value]) => {
+                Object.entries(ing.elementalProperties).forEach(([_element, value]) => {
                     props[element] = (props[element] || 0) + (value * ing.amount / total);
                 });
             }

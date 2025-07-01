@@ -12,7 +12,7 @@ const fetchPlanetaryPositions = async (_params: any) => {
 
 const calculateKalchm = (_properties: any) => 1.0;
 const calculateMonica = (_kalchm: number, _alignment: any, _recipe: any) => 1.0;
-const performAlchemicalAnalysis = (recipe: any, alignment: any) => ({
+const performAlchemicalAnalysis = (_recipe: any, _alignment: any) => ({
   thermodynamics: {
     heat: 0,
     entropy: 0,
@@ -139,7 +139,7 @@ export class DirectRecipeService {
       });
 
       // Calculate celestial alignment using our celestial calculator
-      const alignment = celestialCalculator.calculateCurrentInfluences();
+      const _alignment = celestialCalculator.calculateCurrentInfluences();
       
       // Update with real planetary data if available
       if (planetaryPositions && Object.keys(planetaryPositions || {}).length > 0) {
