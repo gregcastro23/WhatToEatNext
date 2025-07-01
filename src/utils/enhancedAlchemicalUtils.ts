@@ -73,11 +73,11 @@ export function getIngredientCompatibility(
  * @returns Compatibility score between 0-1
  */
 export function getUserFoodCompatibility(
-  _userSign: ZodiacSign,
+  userSign: ZodiacSign,
   foodElement: string,
   foodElementalProps: ElementalProperties
 ) {
-  // Convert food element to its corresponding sign for better matching
+  // Map food elements to zodiac signs for compatibility calculation
   const foodSignMap: Record<string, ZodiacSign> = {
     Fire: 'aries' as ZodiacSign, // Could also use leo or sagittarius
     Water: 'cancer' as ZodiacSign, // Could also use scorpio or pisces

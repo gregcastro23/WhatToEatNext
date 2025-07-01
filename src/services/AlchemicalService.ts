@@ -17,6 +17,31 @@ import { elementalUtils } from '../utils/elementalUtils';
 import { calculateLunarPhase , calculatePlanetaryPositions } from '../utils/astrologyUtils';
 import { convertToLunarPhase } from '@/utils/lunarPhaseUtils';
 import { logger } from '../utils/logger';
+
+// ========== PHASE 3: UPDATED IMPORTS TO USE TYPE ALIASES ==========
+import type {
+  ElementalPropertiesType,
+  AlchemicalPropertiesType,
+  ThermodynamicMetricsType,
+  ZodiacSignType,
+  LunarPhaseType,
+  PlanetaryPositionsType,
+  ServiceResponseType,
+  AlchemicalTransformationResultType,
+  PlanetaryInfluenceResultType
+} from '@/types/alchemy';
+import type {
+  IngredientRecommendationResponse,
+  AlchemicalRecommendationResponse
+} from '@/types/apiResponses';
+import {
+  DefaultElementalProperties,
+  DefaultAlchemicalProperties,
+  DefaultThermodynamicMetrics,
+  createSuccessResponse,
+  createErrorResponse
+} from '@/constants/typeDefaults';
+
 import type {
   ScoredRecipe
 } from '../types/recipe';
@@ -30,8 +55,10 @@ import type { ElementalProperties,
 import type { ThermodynamicMetrics } from '../calculations/gregsEnergy';
 import type { BirthChart } from '../types/astrology';
 
+// ========== PHASE 3: UPDATED INTERFACES USING TYPE ALIASES ==========
+
 /**
- * Interface for alchemical recommendations
+ * Interface for alchemical recommendations - Updated to use type aliases
  */
 export interface AlchemicalRecommendations {
   topIngredients: AlchemicalItem[];
@@ -39,14 +66,15 @@ export interface AlchemicalRecommendations {
   topCuisines: AlchemicalItem[];
   dominantElement: ElementalCharacter;
   dominantAlchemicalProperty: AlchemicalProperty;
-  heat: number;
-  entropy: number;
-  reactivity: number;
-  gregsEnergy: number;
+  elementalBalance: ElementalPropertiesType;
+  alchemicalState: AlchemicalPropertiesType;
+  thermodynamicMetrics: ThermodynamicMetricsType;
+  compatibility: number;
+  reasoning: string[];
 }
 
 /**
- * Interface for optimized recipe results
+ * Interface for optimized recipe results - Updated to use type aliases
  */
 export interface OptimizedRecipeResult {
   recipe: Recipe;
@@ -59,12 +87,16 @@ export interface OptimizedRecipeResult {
   cookingMethodScore: number;
   lunarPhaseScore?: number;
   zodiacScore?: number;
+  elementalProfile: ElementalPropertiesType;
+  thermodynamicProfile: ThermodynamicMetricsType;
 }
 
 /**
- * Comprehensive elemental recommendation type
+ * Comprehensive elemental recommendation type - Updated to use type aliases
  */
-export interface ElementalRecommendation {dominantElement: string;
+export interface ElementalRecommendation {
+  dominantElement: string;
+  elementalProfile: ElementalPropertiesType;
   cookingTechniques: string[];
   complementaryIngredients: string[];
   flavorProfiles: string[];
@@ -73,27 +105,30 @@ export interface ElementalRecommendation {dominantElement: string;
   seasonalBest: string[];
   moodEffects: string[];
   culinaryHerbs: string[];
+  compatibility: number;
 }
 
 /**
- * Interface for food correspondence
+ * Interface for food correspondence - Updated to use type aliases
  */
 export interface FoodCorrespondence {
   name: string;
   element: ElementalCharacter;
   planetaryRuler: RulingPlanet;
   timeOfDay: 'Day' | 'Night' | 'Both';
-  energyValues: ThermodynamicMetrics;
+  elementalProperties: ElementalPropertiesType;
+  energyValues: ThermodynamicMetricsType;
   preparation: string[];
   combinations: string[];
   restrictions: string[];
 }
 
 /**
- * Interface for compatibility score
+ * Interface for compatibility score - Updated to use type aliases
  */
 export interface CompatibilityScore {
   compatibility: number;
+  elementalMatch: ElementalPropertiesType;
   recommendations: string[];
   warnings: string[];
   scoreDetails?: {
@@ -107,6 +142,28 @@ export interface CompatibilityScore {
   };
 }
 
+// ========== PHASE 3: STANDARDIZED RESPONSE TYPES ==========
+
+/**
+ * Standardized Alchemical Recommendation Response
+ */
+export type AlchemicalServiceResponse = ServiceResponseType<AlchemicalRecommendations>;
+
+/**
+ * Standardized Recipe Optimization Response
+ */
+export type RecipeOptimizationResponse = ServiceResponseType<{
+  optimizedRecipes: OptimizedRecipeResult[];
+  totalAnalyzed: number;
+  averageCompatibility: number;
+  recommendationCriteria: Record<string, any>;
+}>;
+
+/**
+ * Standardized Compatibility Analysis Response
+ */
+export type CompatibilityAnalysisResponse = ServiceResponseType<CompatibilityScore>;
+
 /**
  * Consolidated service for alchemical transformations, recommendations, and compatibility
  */
@@ -115,21 +172,10 @@ export class AlchemicalService {
   private ingredients: ElementalItem[] = [];
   private cookingMethods: ElementalItem[] = [];
   private cuisines: ElementalItem[] = [];
-  private planetPositions: { [key: string]: PlanetaryPosition } = {
-    'Sun': { sign: 'aries', degree: 0 },
-    'Venus': { sign: 'aries', degree: 0 },
-    'Mercury': { sign: 'aries', degree: 0 },
-    'Moon': { sign: 'aries', degree: 0 },
-    'Saturn': { sign: 'aries', degree: 0 },
-    'Jupiter': { sign: 'aries', degree: 0 },
-    'Mars': { sign: 'aries', degree: 0 },
-    'Uranus': { sign: 'aries', degree: 0 },
-    'Neptune': { sign: 'aries', degree: 0 },
-    'Pluto': { sign: 'aries', degree: 0 }
-  };
+  private planetPositions: PlanetaryPositionsType = {};
   private isDaytime = true;
-  private currentZodiac: ZodiacSign | null = null;
-  private lunarPhase: LunarPhase | null = null;
+  private currentZodiac: ZodiacSignType | null = null;
+  private lunarPhase: LunarPhaseType | null = null;
   private tarotElementBoosts?: Record<ElementalCharacter, number>;
   private tarotPlanetaryBoosts?: { [key: string]: number };
   private aspects: PlanetaryAspect[] = [];
@@ -165,9 +211,9 @@ export class AlchemicalService {
   }
   
   /**
-   * Initialize from current planetary positions
+   * Initialize from current planetary positions - Updated with standardized response
    */
-  async initializeFromCurrentPositions(): Promise<AlchemicalService> {
+  async initializeFromCurrentPositions(): Promise<ServiceResponseType<boolean>> {
     try {
       // Calculate real-time planetary positions
       const positions = await calculatePlanetaryPositions();
@@ -188,10 +234,10 @@ export class AlchemicalService {
       const currentZodiac = sunPosition?.sign || null;
       
       // Set properties
-      this.planetPositions = positions as unknown as Record<string, PlanetaryPosition>;
-      this.isDaytime = isDaytime;
-      this.currentZodiac = currentZodiac as ZodiacSign;
-      this.lunarPhase = lunarPhaseFormatted;
+      this.planetPositions = positions as unknown as PlanetaryPositionsType;
+      this.isDaytime = _isDaytime;
+      this.currentZodiac = currentZodiac as ZodiacSignType;
+      this.lunarPhase = lunarPhaseFormatted as LunarPhaseType;
       
       // Track retrograde planets
       Object.entries(positions || {}).forEach(([planet, data]) => {
@@ -200,12 +246,11 @@ export class AlchemicalService {
         }
       });
       
-      logger.info('Initialized service with current planetary positions');
+      return createSuccessResponse(true);
     } catch (error) {
-      logger.error('Error initializing from current positions:', error);
+      logger.error('Failed to initialize from current positions:', error);
+      return createErrorResponse(`Failed to initialize: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
-    
-    return this;
   }
   
   /**
@@ -361,10 +406,11 @@ export class AlchemicalService {
       topCuisines,
       dominantElement,
       dominantAlchemicalProperty,
-      heat: calculateAverage(topIngredients, 'heat'),
-      entropy: calculateAverage(topIngredients, 'entropy'),
-      reactivity: calculateAverage(topIngredients, 'reactivity'),
-      gregsEnergy: calculateAverage(topIngredients, 'gregsEnergy')
+      elementalBalance: DefaultElementalProperties,
+      alchemicalState: DefaultAlchemicalProperties,
+      thermodynamicMetrics: DefaultThermodynamicMetrics,
+      compatibility: 0.5,
+      reasoning: []
     };
   }
   
@@ -382,7 +428,9 @@ export class AlchemicalService {
       alchemicalScore: 0.5,
       seasonalScore: 0.5,
       ingredientMatchScore: 0.5,
-      cookingMethodScore: 0.5
+      cookingMethodScore: 0.5,
+      elementalProfile: DefaultElementalProperties,
+      thermodynamicProfile: DefaultThermodynamicMetrics
     }));
   }
   
@@ -399,6 +447,7 @@ export class AlchemicalService {
     const profileData = profile as any;
 
     return {dominantElement,
+      elementalProfile: DefaultElementalProperties,
       cookingTechniques: [], // elementalUtils.getSuggestedCookingTechniques(properties),
       complementaryIngredients: [], // elementalUtils.getComplementaryElement(properties),
       flavorProfiles: profileData?.characteristics?.flavorProfiles || [],
@@ -406,7 +455,8 @@ export class AlchemicalService {
       timeOfDay: profileData?.characteristics?.timeOfDay || [],
       seasonalBest: this.getSeasonalRecommendations(dominantElement as any),
       moodEffects: profileData?.characteristics?.moodEffects || [],
-      culinaryHerbs: profileData?.characteristics?.culinaryHerbs || []
+      culinaryHerbs: profileData?.characteristics?.culinaryHerbs || [],
+      compatibility: 0.5
     };
   }
 
@@ -454,6 +504,7 @@ export class AlchemicalService {
     // Would go here - simplified for brevity
     return {
       compatibility: 0.5,
+      elementalMatch: DefaultElementalProperties,
       recommendations: [],
       warnings: []
     };

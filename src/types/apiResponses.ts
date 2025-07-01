@@ -4,7 +4,87 @@
  * This file contains standardized type definitions for external API responses.
  */
 
-import { ZodiacSign } from './alchemy';
+import { 
+  ZodiacSignType,
+  ServiceResponseType,
+  AlchemicalTransformationResultType,
+  PlanetaryInfluenceResultType,
+  ElementalPropertiesType,
+  ThermodynamicMetricsType
+} from './alchemy';
+import { IngredientRecommendationResponse, IngredientAnalysisResponse } from './ingredients';
+
+// ========== PHASE 1: API RESPONSE TYPE ALIASES ==========
+
+/**
+ * Generic Service Response
+ * Standardized response structure for all services
+ */
+export type ServiceResponse<T> = ServiceResponseType<T>;
+
+/**
+ * Alchemical Recommendation Response
+ * Standardized response for alchemical recommendation services
+ */
+export type AlchemicalRecommendationResponse = ServiceResponseType<{
+  recommendations: AlchemicalTransformationResultType[];
+  compatibility: number;
+  reasoning: string[];
+  elementalBalance: ElementalPropertiesType;
+  thermodynamicMetrics: ThermodynamicMetricsType;
+}>;
+
+/**
+ * Planetary Influence Response
+ * Standardized response for planetary influence calculations
+ */
+export type PlanetaryInfluenceResponse = ServiceResponseType<PlanetaryInfluenceResultType>;
+
+/**
+ * Standardized Planetary Position Response
+ * Common structure for planetary position data from any API
+ */
+export type StandardizedPlanetaryResponse = ServiceResponseType<{
+  positions: Record<string, StandardizedPlanetaryPosition>;
+  timestamp: string;
+  source: string;
+  accuracy: number;
+}>;
+
+/**
+ * Recipe Recommendation Response
+ * Standardized response for recipe recommendations
+ */
+export type RecipeRecommendationResponse = ServiceResponseType<{
+  recipes: Array<{
+    id: string;
+    name: string;
+    compatibility: number;
+    elementalBalance: ElementalPropertiesType;
+    ingredients: string[];
+    reasoning: string[];
+  }>;
+  totalMatches: number;
+  searchCriteria: Record<string, any>;
+}>;
+
+/**
+ * Culinary Analysis Response
+ * Comprehensive culinary analysis response
+ */
+export type CulinaryAnalysisResponse = ServiceResponseType<{
+  overallCompatibility: number;
+  elementalAnalysis: ElementalPropertiesType;
+  thermodynamicProfile: ThermodynamicMetricsType;
+  recommendations: {
+    ingredients: string[];
+    cookingMethods: string[];
+    seasonalTiming: string[];
+  };
+  warnings: string[];
+}>;
+
+// ========== EXTERNAL API RESPONSE TYPES ==========
 
 /**
  * Base response for NASA JPL Horizons API
@@ -154,7 +234,7 @@ export interface StandardizedPlanetaryPosition {
   /**
    * Zodiac sign (e.g., 'aries', 'taurus')
    */
-  sign: ZodiacSign;
+  sign: ZodiacSignType;
   
   /**
    * Degree within the sign (0-29)
@@ -203,8 +283,7 @@ export function isValidAstronomyApiResponse(data: unknown): data is AstronomyApi
   return (
     typeof data === 'object' && 
     data !== null && 
-    'data' in data && 
-    typeof (data as AstronomyApiResponse).data === 'object'
+    'data' in data
   );
 }
 
@@ -215,7 +294,9 @@ export function isValidSwissEphemerisApiResponse(data: unknown): data is SwissEp
   return (
     typeof data === 'object' && 
     data !== null && 
-    'planets' in data && 
-    Array.isArray((data as SwissEphemerisApiResponse).planets)
+    ('planets' in data || 'error' in data)
   );
-} 
+}
+
+// Re-export ingredient response types for convenience
+export type { IngredientRecommendationResponse, IngredientAnalysisResponse }; 

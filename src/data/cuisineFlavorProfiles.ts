@@ -558,7 +558,7 @@ export const getRecommendedCuisines = (
   const results = Object.entries(cuisineFlavorProfiles)
     .map(([cuisineName, _profile]) => {
       // Skip child cuisines that have a parent - will handle them separately
-      if (profile.parentCuisine) return null;
+      if (_profile.parentCuisine) return null;
 
       const matchScore = calculateCuisineFlavorMatch(
         recipeFlavorProfile,
@@ -567,7 +567,7 @@ export const getRecommendedCuisines = (
       return {
         cuisine: cuisineName,
         matchScore,
-        isParent: !!profile.regionalVariants?.length,
+        isParent: !!_profile.regionalVariants?.length,
       };
     })
     .filter((result) => result !== null && result.matchScore > 0.6) as {
@@ -584,8 +584,8 @@ export const getRecommendedCuisines = (
   }[] = [];
 
   Object.entries(cuisineFlavorProfiles)
-    .filter(([_, _profile]) => profile.parentCuisine)
-    .forEach(([cuisineName, profile]) => {
+    .filter(([_, _profile]) => _profile.parentCuisine)
+    .forEach(([cuisineName, _profile]) => {
       const matchScore = calculateCuisineFlavorMatch(
         recipeFlavorProfile,
         cuisineName

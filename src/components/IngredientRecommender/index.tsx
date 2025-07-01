@@ -82,7 +82,7 @@ export default function IngredientRecommender() {
   } = useChakraInfluencedFood({ limit: 300 }); // Increased from 200 to 300 to ensure all categories have plenty of items
 
   // Handle category filter
-  const handleCategoryFilter = (_category: string) => {
+  const handleCategoryFilter = (category: string) => {
     setActiveCategory(category);
   };
   
@@ -143,7 +143,7 @@ export default function IngredientRecommender() {
   };
   
   // Toggle expansion for a category
-  const toggleCategoryExpansion = (_category: string, e: React.MouseEvent) => {
+  const toggleCategoryExpansion = (category: string, e: React.MouseEvent) => {
     e.stopPropagation();
     
     setExpanded(prev => ({
@@ -185,7 +185,7 @@ export default function IngredientRecommender() {
   
   // Helper function to check if an ingredient is an oil
   const isOil = (ingredient: any): boolean => {
-    const _category = ingredient.category?.toLowerCase() || '';
+    const category = ingredient.category?.toLowerCase() || '';
     if (category === 'oil' || category === 'oils') return true;
     
     const name = ingredient.name.toLowerCase();

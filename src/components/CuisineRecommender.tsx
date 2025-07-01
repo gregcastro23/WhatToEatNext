@@ -447,7 +447,7 @@ export default function CuisineRecommender() {
     }
   }, [currentMomentElementalProfile, astroStateRef]);
 
-  const handleCuisineSelect = (_cuisineId: string) => {
+  const handleCuisineSelect = (cuisineId: string) => {
     // console.log(`Cuisine selected: ${cuisineId}`);
     
     if (selectedCuisine === cuisineId) {

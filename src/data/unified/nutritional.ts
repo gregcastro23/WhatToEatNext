@@ -511,7 +511,7 @@ export class UnifiedNutritionalSystem {
 
 // ===== EXPORTED UTILITY FUNCTIONS =====
 
-export const calculateNutritionalBalance = (_ingredients: any[]): NutritionalProfile => {
+export const calculateNutritionalBalance = (ingredients: any[]): NutritionalProfile => {
   if (!ingredients || ingredients.length === 0) {
     return {
       calories: 0,

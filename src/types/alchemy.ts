@@ -4,6 +4,153 @@ import { ElementalCharacter } from '@/constants/planetaryElements';
 
 // src/types/alchemy.ts
 
+// ========== PHASE 1: CORE TYPE ALIASES ==========
+
+/**
+ * Core Alchemical Properties (ESMS System)
+ * These are the four fundamental alchemical energy states
+ */
+export type AlchemicalPropertiesType = {
+  Spirit: number;
+  Essence: number;
+  Matter: number;
+  Substance: number;
+};
+
+/**
+ * Core Elemental Properties (Classical Elements)
+ * These are the four classical elements used throughout the system
+ */
+export type ElementalPropertiesType = {
+  Fire: number;
+  Water: number;
+  Earth: number;
+  Air: number;
+};
+
+/**
+ * Thermodynamic Metrics for alchemical calculations
+ * Core metrics used in Greg's Energy and other thermodynamic calculations
+ */
+export type ThermodynamicMetricsType = {
+  heat: number;
+  entropy: number;
+  reactivity: number;
+  gregsEnergy: number;
+  kalchm: number;
+  monica: number;
+};
+
+/**
+ * Combined Alchemical State
+ * Represents the complete alchemical state combining elemental and energy properties
+ */
+export type AlchemicalStateType = AlchemicalPropertiesType & ElementalPropertiesType;
+
+/**
+ * Complete Alchemical Result
+ * Full result including alchemical properties, elemental properties, and thermodynamic metrics
+ */
+export type CompleteAlchemicalResultType = AlchemicalStateType & ThermodynamicMetricsType;
+
+/**
+ * Planetary Positions Map
+ * Standard type for planetary position data
+ */
+export type PlanetaryPositionsType = Record<string, string>;
+
+/**
+ * Zodiac Sign Union Type
+ * All twelve zodiac signs in lowercase (project standard)
+ */
+export type ZodiacSignType = 'aries' | 'taurus' | 'gemini' | 'cancer' | 'leo' | 'virgo' | 
+                             'libra' | 'scorpio' | 'sagittarius' | 'capricorn' | 'aquarius' | 'pisces';
+
+/**
+ * Lunar Phase Type
+ * Standard lunar phases with spaces (project standard)
+ */
+export type LunarPhaseType = 'new moon' | 'waxing crescent' | 'first quarter' | 'waxing gibbous' | 
+                             'full moon' | 'waning gibbous' | 'last quarter' | 'waning crescent';
+
+/**
+ * Nutritional Content Type
+ * Standard nutritional information structure
+ */
+export type NutritionalContentType = {
+  calories: number;
+  protein: number;
+  fat: number;
+  carbohydrates: number;
+  fiber: number;
+  vitamins?: Record<string, number>;
+  minerals?: Record<string, number>;
+};
+
+/**
+ * Ingredient Mapping Type
+ * Standard structure for ingredient data
+ */
+export type IngredientMappingType = {
+  name: string;
+  category: string;
+  season: string[];
+  regionalOrigins: string[];
+  nutritionalContent: NutritionalContentType;
+  elementalProperties: ElementalPropertiesType;
+  cookingMethods: string[];
+  affinities: string[];
+  sustainabilityScore: number;
+  qualities: string[];
+  culinaryApplications?: Record<string, any>;
+};
+
+/**
+ * Service Response Type
+ * Generic standardized response type for services
+ */
+export type ServiceResponseType<T> = {
+  success: boolean;
+  data?: T;
+  error?: string;
+  timestamp: string;
+};
+
+/**
+ * Alchemical Transformation Result
+ * Result of alchemical transformation operations
+ */
+export type AlchemicalTransformationResultType = {
+  originalProperties: AlchemicalPropertiesType;
+  transformedProperties: AlchemicalPropertiesType;
+  elementalShift: ElementalPropertiesType;
+  transformationScore: number;
+  dominantElement: 'Fire' | 'Water' | 'Earth' | 'Air';
+  dominantProperty: keyof AlchemicalPropertiesType;
+};
+
+/**
+ * Planetary Influence Result
+ * Result of planetary influence calculations
+ */
+export type PlanetaryInfluenceResultType = {
+  planetaryPositions: PlanetaryPositionsType;
+  elementalBoost: ElementalPropertiesType;
+  alchemicalModifier: AlchemicalPropertiesType;
+  compatibilityScore: number;
+};
+
+/**
+ * Astrological State Type
+ * Complete astrological state including planetary positions and influences
+ */
+export type AstrologicalStateType = {
+  planetaryPositions: PlanetaryPositionsType;
+  currentZodiac: ZodiacSignType;
+  lunarPhase: LunarPhaseType;
+  elementalInfluence: ElementalPropertiesType;
+};
+
 // ========== CORE ELEMENTAL TYPES ==========
 
 export type Element = 'Fire' | 'Water' | 'Earth' | 'Air';
@@ -694,7 +841,7 @@ export type { ElementalCharacter } from '@/constants/planetaryElements';
 
 // Add missing type aliases for compatibility
 export type AstrologicalInfluence = _AstrologicalInfluence;
-export type PlanetaryPositionsType = Record<string, PlanetaryPosition>;
+// Removed duplicate PlanetaryPositionsType - using the standardized one from Phase 1
 export type AlchemicalState = AstrologicalProfile; // Using existing similar interface
 export type CookingMethodProfile = CookingMethodModifier; // Alias for compatibility
 export type timeFactors = TimeFactors; // Lowercase version

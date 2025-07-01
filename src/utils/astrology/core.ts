@@ -398,7 +398,7 @@ export async function getCurrentAstrologicalState(date: Date = new Date()): Prom
     const weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'] as const;
     const weekDay = weekDays[now.getDay()];
     
-    const _timeFactors: TimeFactors = {
+    const timeFactors: TimeFactors = {
       currentDate: now,
       season: getCurrentSeason().charAt(0).toUpperCase() + getCurrentSeason().slice(1) as Season,
       timeOfDay: getTimeOfDay().charAt(0).toUpperCase() + getTimeOfDay().slice(1) as TimeOfDay,

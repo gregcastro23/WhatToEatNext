@@ -13,7 +13,9 @@ import type { ElementalProperties,
   ElementalItem, 
   AlchemicalItem,
   LunarPhaseWithSpaces,
-  PlanetaryAspect } from '@/types/alchemy';
+  PlanetaryAspect,
+  StandardizedAlchemicalResult,
+  PlanetaryPosition } from '@/types/alchemy';
 import { ElementalCharacter } from '@/constants/planetaryElements';
 import astrologizeCache from '@/services/AstrologizeApiCache';
 import { calculateRecipeCompatibility } from '@/calculations/culinary/recipeMatching';
@@ -426,25 +428,8 @@ export class RecommendationService {
    * Calculate current elemental influence from planetary positions
    */
   private getCurrentElementalInfluence(): ElementalProperties {
-    // Calculate elemental influence based on transformed ingredients
-    const topIngredients = this.getRecommendedIngredients(5);
-    
-    // If no transformed ingredients, use default balanced values
-    if ((topIngredients || []).length === 0) {
-      return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25  };
-    }
-    
-    // Calculate average elemental values
-    const totalProperties = topIngredients.reduce((acc, ingredient) => {
-      const props = ingredient.elementalProperties || { Fire: 0, Water: 0, Earth: 0, Air: 0  };
-      return { Fire: acc.Fire + (props.Fire || 0), Water: acc.Water + (props.Water || 0), Earth: acc.Earth + (props.Earth || 0), Air: acc.Air + (props.Air || 0)
-       };
-    }, { Fire: 0, Water: 0, Earth: 0, Air: 0  });
-    
-    // Calculate averages
-    const count = (topIngredients || []).length;
-    return { Fire: totalProperties.Fire / count, Water: totalProperties.Water / count, Earth: totalProperties.Earth / count, Air: totalProperties.Air / count
-     };
+    // Always return a full ElementalProperties object
+    return { Fire: 0, Water: 0, Earth: 0, Air: 0 };
   }
 
   /**
@@ -551,7 +536,7 @@ export class RecommendationService {
         [key: string]: unknown 
       };
       const currentMomentElements: ElementalProperties = astroStateData?.elementalProperties || 
-        astroStateData?.elementalState || this.getCurrentElementalInfluence();
+        astroStateData?.elementalState || { Fire: 0, Water: 0, Earth: 0, Air: 0 };
       
       // Calculate elemental compatibility
       const elementalScore = this.calculateElementalMatch(recipeElements, currentMomentElements);
@@ -745,11 +730,8 @@ export class RecommendationService {
     lat: number,
     lng: number,
     astrologicalState: AstrologicalState,
-    alchemicalResult: { 
-      elementalProperties?: ElementalProperties; 
-      [key: string]: unknown 
-    },
-    planetaryPositions: Record<string, unknown>
+    alchemicalResult: StandardizedAlchemicalResult,
+    planetaryPositions: Record<string, PlanetaryPosition>
   ): void {
     try {
       astrologizeCache.store(

@@ -47,7 +47,7 @@ export let getFruitsByPreparation = (method: string): Record<string, IngredientM
 };
 
 export let findCompatibleFruits = (ingredientName: string): string[] => {
-  const _fruit = fruits[ingredientName];
+  const fruit = fruits[ingredientName];
   if (!fruit) return [];
   return (fruit.affinities && Array.isArray(fruit.affinities)) ? fruit.affinities : [];
 };

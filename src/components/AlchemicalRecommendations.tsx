@@ -15,15 +15,38 @@ import { cuisines } from '@/data/cuisines';
 import type { Modality } from '@/data/ingredients/types';
 import { determineIngredientModality } from '@/utils/ingredientUtils';
 
+// ========== PHASE 4: UPDATED IMPORTS TO USE TYPE ALIASES ==========
+import type {
+  ElementalPropertiesType,
+  AlchemicalPropertiesType,
+  ZodiacSignType,
+  LunarPhaseType,
+  PlanetaryPositionsType
+} from '@/types/alchemy';
+import type {
+  AlchemicalServiceResponse,
+  AlchemicalRecommendations,
+  ElementalRecommendation
+} from '@/services/AlchemicalService';
+import {
+  BalancedElementalProperties,
+  DefaultAlchemicalProperties,
+  createSafeElementalProperties
+} from '@/constants/typeDefaults';
+
 interface AlchemicalRecommendationsProps {
-  // If these aren't passed, the component will use current astronomical conditions
-  planetPositions?: Record<RulingPlanet, number>;
+  // Updated to use standardized type aliases
+  planetPositions?: PlanetaryPositionsType;
   isDaytime?: boolean;
-  currentZodiac?: ZodiacSign | null;
-  lunarPhase?: LunarPhaseWithSpaces;
+  currentZodiac?: ZodiacSignType | null;
+  lunarPhase?: LunarPhaseType;
   tarotElementBoosts?: Record<ElementalCharacter, number>;
   tarotPlanetaryBoosts?: Record<string, number>;
   aspects?: PlanetaryAspect[];
+  targetElementalProfile?: ElementalPropertiesType;
+  targetAlchemicalProfile?: AlchemicalPropertiesType;
+  maxRecommendations?: number;
+  includeDetailedAnalysis?: boolean;
 }
 
 const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = ({
@@ -33,155 +56,137 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
   lunarPhase,
   tarotElementBoosts,
   tarotPlanetaryBoosts,
-  aspects = []
+  aspects = [],
+  targetElementalProfile,
+  targetAlchemicalProfile,
+  maxRecommendations = 5,
+  includeDetailedAnalysis = false
 }) => {
   // Use AlchemicalContext to get current astronomical state if not provided
   const alchemicalContext = useAlchemical();
   
   // Use context values as fallbacks if props aren't provided
-  const resolvedPlanetaryPositions = useMemo(() => {
+  const resolvedPlanetaryPositions = useMemo((): PlanetaryPositionsType => {
     if (planetPositions) {
       return planetPositions;
     }
     
-    // Convert from PlanetaryPositionsType to Record<RulingPlanet, number>
+    // Convert from context planetary positions to standardized format
     if (alchemicalContext.planetaryPositions) {
-      const positions: Record<RulingPlanet, number> = {
-        Sun: 0,
-        Moon: 0,
-        Mercury: 0,
-        Venus: 0,
-        Mars: 0,
-        Jupiter: 0,
-        Saturn: 0,
-        Uranus: 0,
-        Neptune: 0,
-        Pluto: 0
-      };
+      const positions: PlanetaryPositionsType = {};
       
-      // Extract degrees from the planetary positions
+      // Extract zodiac signs from the planetary positions
       Object.entries(alchemicalContext.planetaryPositions).forEach(([planet, data]) => {
-        if (planet in positions) {
-          // Fix TS2339: Property 'degree' does not exist on type 'unknown'
-          const planetData = data as any;
-          const degree = planetData?.degree;
-          positions[planet as RulingPlanet] = degree || 0;
+        const planetData = data as any;
+        const sign = planetData?.sign;
+        if (sign) {
+          positions[planet] = sign;
         }
       });
       
       return positions;
     }
     
-    // Default fallback
+    // Default fallback using standardized defaults
     return {
-      Sun: 0,
-      Moon: 0,
-      Mercury: 0,
-      Venus: 0,
-      Mars: 0,
-      Jupiter: 0,
-      Saturn: 0,
-      Uranus: 0,
-      Neptune: 0,
-      Pluto: 0
+      Sun: 'aries',
+      Moon: 'cancer',
+      Mercury: 'gemini',
+      Venus: 'taurus',
+      Mars: 'aries',
+      Jupiter: 'sagittarius',
+      Saturn: 'capricorn',
+      Uranus: 'aquarius',
+      Neptune: 'pisces',
+      Pluto: 'scorpio'
     };
   }, [planetPositions, alchemicalContext.planetaryPositions]);
   
   const resolvedIsDaytime = isDaytime !== undefined ? isDaytime : alchemicalContext.isDaytime;
-  const resolvedCurrentZodiac = currentZodiac || 
-    (alchemicalContext.state?.astrologicalState?.zodiacSign as ZodiacSign) || null;
+  const resolvedCurrentZodiac: ZodiacSignType | null = currentZodiac || 
+    (alchemicalContext.state?.astrologicalState?.zodiacSign as ZodiacSignType) || null;
   
   // Fix the lunar phase type resolution
-  const resolvedLunarPhase: LunarPhaseWithSpaces = lunarPhase || 
-    (alchemicalContext.state?.astrologicalState?.lunarPhase as LunarPhaseWithSpaces) || 
+  const resolvedLunarPhase: LunarPhaseType = lunarPhase || 
+    (alchemicalContext.state?.astrologicalState?.lunarPhase as LunarPhaseType) || 
     'new moon';
   
-  // State for targeting specific elements or properties
+  // State for targeting specific elements or properties using type aliases
   const [targetElement, setTargetElement] = useState<ElementalCharacter | undefined>(undefined);
   const [targetProperty, setTargetProperty] = useState<AlchemicalProperty | undefined>(undefined);
-  
-  // Add state for modality filtering
   const [modalityFilter, setModalityFilter] = useState<Modality | 'all'>('all');
   
-  // Convert ingredients object to an array of ElementalItem objects
+  // State for displaying recommendations using standardized types
+  const [recommendations, setRecommendations] = useState<AlchemicalRecommendations | null>(null);
+  const [elementalRecommendation, setElementalRecommendation] = useState<ElementalRecommendation | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  
+  // Convert ingredients object to an array of ElementalItem objects using safe type creation
   const ingredientsArray = useMemo(() => {
     return Object.entries(allIngredients).map(([key, ingredient]) => {
       // Get ingredient elemental properties or calculate them
-      let elementalProps;
+      let elementalProps: ElementalPropertiesType;
+      
       if ((ingredient as any).elementalProperties) {
-        elementalProps = (ingredient as any).elementalProperties;
+        elementalProps = createSafeElementalProperties((ingredient as any).elementalProperties);
       } else {
         // Calculate based on ingredient category and attributes
         const category = (ingredient as any).category || '';
         const rulingPlanets = (ingredient as any).astrologicalProfile?.rulingPlanets || [];
         
-        // Start with empty properties
-        elementalProps = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
+        // Start with balanced properties
+        let tempProps = { ...BalancedElementalProperties };
         
         // Adjust by category
         if (category.toLowerCase().includes('vegetable')) {
-          elementalProps.Earth += 0.5;
-          elementalProps.Water += 0.3;
+          tempProps.Earth += 0.5;
+          tempProps.Water += 0.3;
         } else if (category.toLowerCase().includes('fruit')) {
-          elementalProps.Water += 0.4;
-          elementalProps.Air += 0.3;
+          tempProps.Water += 0.4;
+          tempProps.Air += 0.3;
         } else if (category.toLowerCase().includes('protein') || category.toLowerCase().includes('meat')) {
-          elementalProps.Fire += 0.4;
-          elementalProps.Earth += 0.3;
+          tempProps.Fire += 0.4;
+          tempProps.Earth += 0.3;
         } else if (category.toLowerCase().includes('grain')) {
-          elementalProps.Earth += 0.5;
-          elementalProps.Air += 0.2;
+          tempProps.Earth += 0.5;
+          tempProps.Air += 0.2;
         } else if (category.toLowerCase().includes('herb') || category.toLowerCase().includes('spice')) {
-          elementalProps.Fire += 0.3;
-          elementalProps.Air += 0.4;
+          tempProps.Fire += 0.3;
+          tempProps.Air += 0.4;
         }
         
         // Adjust by ruling planets
         rulingPlanets.forEach((planet: string) => {
           switch (planet.toLowerCase()) {
             case 'sun':
-              elementalProps.Fire += 0.2;
+              tempProps.Fire += 0.2;
               break;
             case 'moon':
-              elementalProps.Water += 0.2;
+              tempProps.Water += 0.2;
               break;
             case 'mercury':
-              elementalProps.Air += 0.2;
+              tempProps.Air += 0.2;
               break;
             case 'venus':
-              elementalProps.Earth += 0.1;
-              elementalProps.Water += 0.1;
+              tempProps.Earth += 0.1;
+              tempProps.Water += 0.1;
               break;
             case 'mars':
-              elementalProps.Fire += 0.2;
+              tempProps.Fire += 0.2;
               break;
             case 'jupiter':
-              elementalProps.Air += 0.1;
-              elementalProps.Fire += 0.1;
+              tempProps.Air += 0.1;
+              tempProps.Fire += 0.1;
               break;
             case 'saturn':
-              elementalProps.Earth += 0.2;
+              tempProps.Earth += 0.2;
               break;
           }
         });
         
-        // Normalize values
-        // Pattern KK-8: Advanced calculation safety for reduction and division operations
-        const total = Object.values(elementalProps).reduce((sum, val) => {
-          const numericSum = Number(sum) || 0;
-          const numericVal = Number(val) || 0;
-          return numericSum + numericVal;
-        }, 0);
-        const numericTotal = Number(total) || 0;
-        if (numericTotal > 0) {
-          for (const element in elementalProps) {
-            const currentValue = Number(elementalProps[element as keyof typeof elementalProps]) || 1;
-            elementalProps[element as keyof typeof elementalProps] = currentValue / numericTotal;
-          }
-        } else {
-          // If nothing was calculated, use balanced elements
-          elementalProps = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
-        }
+        // Use safe creation to normalize values
+        elementalProps = createSafeElementalProperties(tempProps);
       }
       
       return {
@@ -198,7 +203,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
   const cookingMethodsArray = useMemo(() => {
     return Object.entries(cookingMethods).map(([key, method]) => {
       // Get cooking method elemental effect or calculate it
-      let elementalEffect;
+      let elementalEffect: ElementalPropertiesType;
       if ((method as any).elementalEffect) {
         elementalEffect = (method as any).elementalEffect;
       } else {
@@ -264,7 +269,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
   const cuisinesArray = useMemo(() => {
     return Object.entries(cuisines).map(([key, cuisine]) => {
       // Get cuisine elemental state or calculate it
-      let elementalState;
+      let elementalState: ElementalPropertiesType;
       if ((cuisine as any).elementalState) {
         elementalState = (cuisine as any).elementalState;
       } else {
@@ -348,12 +353,12 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
   
   // Get recommendations using our hook
   const {
-    recommendations,
+    recommendations: alchemicalRecommendations,
     transformedIngredients,
     transformedMethods,
     transformedCuisines,
     loading,
-    error,
+    error: alchemicalError,
     energeticProfile
   } = useAlchemicalRecommendations({
     ingredients: filteredIngredientsArray,
@@ -363,7 +368,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
     isDaytime: resolvedIsDaytime,
     targetElement,
     targetAlchemicalProperty: targetProperty,
-    count: 5,
+    count: maxRecommendations,
     currentZodiac: resolvedCurrentZodiac,
     lunarPhase: resolvedLunarPhase,
     tarotElementBoosts: tarotElementBoosts as any,
@@ -372,7 +377,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
   });
   
   if (loading) return <div>Loading alchemical recommendations...</div>;
-  if (error) return <div>Error: {error.message}</div>;
+  if (alchemicalError) return <div>Error: {alchemicalError.message}</div>;
   
   return (
     <div className="alchemical-recommendations">
@@ -383,11 +388,11 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         <div className="stat-grid">
           <div className="stat">
             <span className="label">Dominant Element:</span>
-            <span className="value">{recommendations.dominantElement}</span>
+            <span className="value">{alchemicalRecommendations.dominantElement}</span>
           </div>
           <div className="stat">
             <span className="label">Dominant Alchemical Property:</span>
-            <span className="value">{recommendations.dominantAlchemicalProperty}</span>
+            <span className="value">{alchemicalRecommendations.dominantAlchemicalProperty}</span>
           </div>
           {resolvedCurrentZodiac && (
             <div className="stat">
@@ -407,19 +412,19 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         <div className="stat-grid">
           <div className="stat">
             <span className="label">Heat:</span>
-            <span className="value">{recommendations.heat.toFixed(2)}</span>
+            <span className="value">{alchemicalRecommendations.heat.toFixed(2)}</span>
           </div>
           <div className="stat">
             <span className="label">Entropy:</span>
-            <span className="value">{recommendations.entropy.toFixed(2)}</span>
+            <span className="value">{alchemicalRecommendations.entropy.toFixed(2)}</span>
           </div>
           <div className="stat">
             <span className="label">Reactivity:</span>
-            <span className="value">{recommendations.reactivity.toFixed(2)}</span>
+            <span className="value">{alchemicalRecommendations.reactivity.toFixed(2)}</span>
           </div>
           <div className="stat">
             <span className="label">Greg's Energy:</span>
-            <span className="value">{recommendations.gregsEnergy.toFixed(2)}</span>
+            <span className="value">{alchemicalRecommendations.gregsEnergy.toFixed(2)}</span>
           </div>
         </div>
         
@@ -512,9 +517,9 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         {/* Recommended Ingredients */}
         <div className="recommendation-section">
           <h3>Recommended Ingredients</h3>
-          {recommendations.topIngredients.length > 0 ? (
+          {alchemicalRecommendations.topIngredients.length > 0 ? (
             <ul className="recommendation-list">
-              {recommendations.topIngredients.map(ingredient => (
+              {alchemicalRecommendations.topIngredients.map(ingredient => (
                 <li key={ingredient.id} className="recommendation-item">
                   <h4>{ingredient.name}</h4>
                   <div className="item-details">
@@ -551,9 +556,9 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         {/* Recommended Cooking Methods */}
         <div className="recommendation-section">
           <h3>Recommended Cooking Methods</h3>
-          {recommendations.topMethods.length > 0 ? (
+          {alchemicalRecommendations.topMethods.length > 0 ? (
             <ul className="recommendation-list">
-              {recommendations.topMethods.map(method => (
+              {alchemicalRecommendations.topMethods.map(method => (
                 <li key={method.id} className="recommendation-item">
                   <h4>{method.name}</h4>
                   <div className="item-details">
@@ -586,9 +591,9 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         {/* Recommended Cuisines */}
         <div className="recommendation-section">
           <h3>Recommended Cuisines</h3>
-          {recommendations.topCuisines.length > 0 ? (
+          {alchemicalRecommendations.topCuisines.length > 0 ? (
             <ul className="recommendation-list">
-              {recommendations.topCuisines.map(cuisine => (
+              {alchemicalRecommendations.topCuisines.map(cuisine => (
                 <li key={cuisine.id} className="recommendation-item">
                   <h4>{cuisine.name}</h4>
                   <div className="item-details">

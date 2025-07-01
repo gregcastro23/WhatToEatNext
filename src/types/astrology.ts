@@ -2,36 +2,113 @@
  * Types related to astrological concepts
  */
 
-// Define or import ElementalCharacter and Planet types
+// Import standardized types from alchemy
+import { 
+  PlanetaryPositionsType, 
+  ZodiacSignType, 
+  LunarPhaseType, 
+  ElementalPropertiesType,
+  AstrologicalStateType
+} from './alchemy';
 import { ElementalCharacter } from '../constants/planetaryElements';
 import { ZodiacSign, LunarPhase, Planet, PlanetName } from "@/types/alchemy";
 
-/**
- * Represents planets in astrology 
- */
-
+// ========== PHASE 1: ASTROLOGICAL TYPE ALIASES ==========
 
 /**
- * Represents the zodiac signs in astrology
+ * Planetary Positions Type
+ * Standardized type for planetary position data across the system
  */
-
+export type PlanetaryPositions = PlanetaryPositionsType;
 
 /**
- * Represents the phases of the moon
+ * Standardized Zodiac Sign Type
+ * Using the project standard lowercase zodiac signs
  */
+export type StandardZodiacSign = ZodiacSignType;
 
+/**
+ * Standardized Lunar Phase Type
+ * Using the project standard lunar phases with spaces
+ */
+export type StandardLunarPhase = LunarPhaseType;
+
+/**
+ * Complete Astrological State
+ * Standardized astrological state combining all astrological factors
+ */
+export type CompleteAstrologicalState = AstrologicalStateType;
+
+/**
+ * Planetary Position Details
+ * Enhanced planetary position with detailed information
+ */
+export type PlanetaryPositionDetails = {
+  planet: string;
+  sign: string;
+  degree: number;
+  minute?: number;
+  isRetrograde?: boolean;
+  element?: string;
+  dignity?: string;
+};
+
+/**
+ * Astrological Aspect Types
+ * Standard astrological aspects between planets
+ */
+export type AspectType = 
+  | 'conjunction' 
+  | 'sextile' 
+  | 'square' 
+  | 'trine' 
+  | 'opposition' 
+  | 'quincunx' 
+  | 'semisextile';
+
+/**
+ * Planetary Aspect Details
+ * Complete information about planetary aspects
+ */
+export type PlanetaryAspectDetails = {
+  planetA: string;
+  planetB: string;
+  aspect: AspectType;
+  orb: number;
+  influence: 'harmonious' | 'challenging' | 'neutral';
+  strength: number;
+};
+
+/**
+ * Birth Chart Data
+ * Standardized birth chart information
+ */
+export type BirthChartData = {
+  elementalState: Record<ElementalCharacter, number>;
+  planetaryPositions: Record<string, number>;
+  ascendant: string;
+  lunarPhase: string;
+  aspects: PlanetaryAspectDetails[];
+};
+
+/**
+ * Astrological Profile Type
+ * Complete astrological profile for ingredients or individuals
+ */
+export type AstrologicalProfileType = {
+  zodiac?: StandardZodiacSign[];
+  lunar?: StandardLunarPhase[];
+  planetary?: PlanetaryPositionDetails[];
+  aspects?: PlanetaryAspectDetails[];
+  elementalInfluence?: ElementalPropertiesType;
+};
+
+// ========== EXISTING TYPES (Updated to use new aliases) ==========
 
 /**
  * Represents planetary alignments in astrology
  */
-export type PlanetaryAlignment = 
-  | 'conjunction'
-  | 'sextile'
-  | 'square'
-  | 'trine'
-  | 'opposition'
-  | 'quincunx'
-  | 'semisextile';
+export type PlanetaryAlignment = AspectType;
 
 /**
  * Represents a planetary position with key details

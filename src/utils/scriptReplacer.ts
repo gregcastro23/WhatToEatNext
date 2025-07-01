@@ -8,7 +8,7 @@
 // Only run in browser context
 if (typeof window !== 'undefined') {
   // Global script error handler - must be first
-  window.addEventListener('error', function(_event) {
+  window.addEventListener('error', function(event) {
     if (event.filename && (
       event.filename.includes('popup.js') ||
       event.filename.includes('lockdown') ||
