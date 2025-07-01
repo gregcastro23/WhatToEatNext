@@ -155,7 +155,7 @@ export async function calculateComprehensiveAlchemicalResult(
 
     // 6. Combine all results
     const result: ComprehensiveAlchemicalResult = {
-      kalchm,
+      kalchm: _kalchm,
       elementalProperties,
       planetaryInfluences: planetaryInfluencesResult,
       recommendations: {

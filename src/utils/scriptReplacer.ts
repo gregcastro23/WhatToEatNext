@@ -63,7 +63,7 @@ if (typeof window !== 'undefined') {
           trigger: function(_event: string) { return this; }
         };
       },
-      trigger: function(event: string) { return this; }
+      trigger: function(_event: string) { return this; }
     };
   }
 

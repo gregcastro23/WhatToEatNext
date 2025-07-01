@@ -243,7 +243,7 @@ export default function RecipeRecommendations() {
         
         // Convert positions to the format needed by recommendation services
         const formattedPositions: { [key: string]: string } = {};
-        Object.entries(positions || {}).forEach(([planet, data]) => {
+        Object.entries(_positions || {}).forEach(([planet, data]) => {
           if (data && typeof data === 'object' && 'sign' in data) {
             formattedPositions[planet] = String(data.sign);
           }

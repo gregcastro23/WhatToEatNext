@@ -748,9 +748,9 @@ export default function IngredientRecommender() {
         }
         // For other ingredients, use explicit category if available
         else {
-          const category = getNormalizedCategory(ingredient as any);
-          if (categories[category]) {
-            categories[category].push({
+          const _category = getNormalizedCategory(ingredient as any);
+          if (categories[_category]) {
+            categories[_category].push({
               ...ingredient,
               matchScore: ingredient.score || 0.5
             });

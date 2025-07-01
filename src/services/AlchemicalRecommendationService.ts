@@ -44,11 +44,11 @@ export class AlchemicalRecommendationService {
   /**
    * Generate recommendations based on planetary positions
    */
-  public generateRecommendations(
+  public async generateRecommendations(
     planetaryPositions: Record<string, ZodiacSign>,
     ingredients: UnifiedIngredient[],
     cookingMethods: CookingMethod[]
-  ): AlchemicalRecommendation {
+  ): Promise<AlchemicalRecommendation> {
     // Calculate thermodynamic properties using the engine
     const _thermodynamics = this.engine.alchemize(planetaryPositions as any);
     
@@ -58,8 +58,8 @@ export class AlchemicalRecommendationService {
     // Determine dominant element
     const dominantElement = this.getDominantElement(elementalBalance);
     
-    // Filter ingredients by elemental compatibility
-    const compatibleIngredients = this.findCompatibleIngredients(
+    // Filter ingredients by elemental compatibility using unified scoring
+    const compatibleIngredients = await this.findCompatibleIngredients(
       ingredients,
       elementalBalance,
       _thermodynamics
@@ -93,22 +93,57 @@ export class AlchemicalRecommendationService {
   }
   
   /**
-   * Find compatible ingredients based on elemental properties
+   * Find compatible ingredients based on comprehensive scoring
+   * Now uses the UnifiedScoringService for more accurate recommendations
    */
-  private findCompatibleIngredients(
+  private async findCompatibleIngredients(
     ingredients: UnifiedIngredient[],
     elementalProperties: ElementalProperties,
     thermodynamics: ThermodynamicProperties
-  ): UnifiedIngredient[] {
-    return ingredients
-      .map(ingredient => ({
-        ingredient,
-        score: this.engine.calculateElementalCompatibility(
-          elementalProperties,
-          ingredient.elementalProperties
-        )
-      }))
-      .filter(({ score }) => score > 0.7)
+  ): Promise<UnifiedIngredient[]> {
+    // Import the unified scoring service
+    const { scoreRecommendation } = await import('./UnifiedScoringService');
+    
+    const scoredIngredients = await Promise.all(
+      ingredients.map(async (ingredient) => {
+        try {
+          const context = {
+            dateTime: new Date(),
+            item: {
+              name: ingredient.name,
+              type: 'ingredient' as const,
+              elementalProperties: ingredient.elementalProperties,
+              seasonality: ingredient.seasonality || [],
+              planetaryRulers: ingredient.astrologicalProfile?.rulingPlanets || [],
+              flavorProfile: ingredient.flavorProfile || {},
+              culturalOrigins: ingredient.culturalOrigins || []
+            }
+          };
+          
+          const result = await scoreRecommendation(context);
+          return {
+            ingredient,
+            score: result.score,
+            confidence: result.confidence,
+            dominantEffects: result.metadata.dominantEffects
+          };
+        } catch (error) {
+          // Fallback to basic elemental compatibility
+          return {
+            ingredient,
+            score: this.engine.calculateElementalCompatibility(
+              elementalProperties,
+              ingredient.elementalProperties
+            ),
+            confidence: 0.5,
+            dominantEffects: ['fallback']
+          };
+        }
+      })
+    );
+    
+    return scoredIngredients
+      .filter(({ score }) => score > 0.6) // Slightly lower threshold for unified scoring
       .sort((a, b) => b.score - a.score)
       .slice(0, 10)
       .map(({ ingredient }) => ingredient);

@@ -122,7 +122,7 @@ const getRecommendedRecipes = (
   if (!recipes?.length || !timeFactors) return [];
   
   const scoredRecipes = recipes.map(recipe => {
-    const explanation = calculateRecommendationScore(recipe, timeFactors, astroState);
+    const explanation = calculateRecommendationScore(recipe, timeFactors, _astroState);
     return {
       ...recipe,
       matchScore: explanation.totalScore,
@@ -199,7 +199,7 @@ const explainRecommendation = (
 ): string => {
   if (!timeFactors) return 'Recommended based on alchemical properties.';
   
-  const explanation = calculateRecommendationScore(recipe, timeFactors, astroState);
+  const explanation = calculateRecommendationScore(recipe, timeFactors, _astroState);
   const topReason = Object.entries(explanation.breakdown)
     .sort(([,a], [,b]) => b.score - a.score)[0];
   

@@ -403,7 +403,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     }
     
     // Score ingredients based on elemental compatibility
-    const scoredIngredients = (candidates || []).map(ingredient => {
+    const scoredIngredients = (candidates || []).map(_ingredient => {
       // Apply Pattern PP-1: Safe service method access
       const alchemicalEngineData = alchemicalEngine as any;
       const compatibilityMethod = alchemicalEngineData?.calculateElementalCompatibility || this.fallbackElementalCompatibility;

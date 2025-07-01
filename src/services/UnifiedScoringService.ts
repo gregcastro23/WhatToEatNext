@@ -12,7 +12,7 @@
  */
 
 import { GeographicCoordinates, PlanetaryLocationService } from '../data/planets/locationService';
-import { RealAlchemizeService } from './RealAlchemizeService';
+import RealAlchemizeService from './RealAlchemizeService';
 import type { ElementalProperties, ZodiacSign } from '../types/alchemy';
 
 // ==================== INTERFACES ====================
@@ -126,13 +126,13 @@ export interface AstrologicalData {
  */
 export function calculateTransitEffect(
   astroData: AstrologicalData,
-  context: ScoringContext
+  _context: ScoringContext
 ): number {
   let score = 0;
   const transits = astroData.transits.active;
   
   // Check if item has planetary rulers that are being transited
-  const itemRulers = context.item.planetaryRulers || [];
+  const itemRulers = _context.item.planetaryRulers || [];
   
   for (const transit of transits) {
     if (itemRulers.includes(transit.natalPlanet)) {
@@ -601,7 +601,10 @@ export class UnifiedScoringService {
   private async getFallbackAstrologicalData(context: ScoringContext): Promise<Partial<AstrologicalData>> {
     return {
       planetaryPositions: context.planetaryPositions || {},
-      aspects: context.aspects || [],
+      aspects: (context.aspects || []).map(aspect => ({
+        ...aspect,
+        strength: 0.5 // Default strength for fallback data
+      })),
       transits: { active: [], seasonal: {} },
       lunarPhase: { name: 'Unknown', illumination: 0.5, effect: 'Neutral' },
       dignity: {}
@@ -759,20 +762,4 @@ export class UnifiedScoringService {
 // Export convenience function
 export const scoreRecommendation = (context: ScoringContext): Promise<ScoringResult> => {
   return UnifiedScoringService.getInstance().scoreRecommendation(context);
-};
-
-// Export all scoring modules for external use
-export {
-  calculateTransitEffect,
-  calculateDignityEffect,
-  calculateTarotEffect,
-  calculateSeasonalEffect,
-  calculateLocationEffect,
-  calculateLunarPhaseEffect,
-  calculateAspectEffect,
-  calculateElementalCompatibility,
-  calculateThermodynamicEffect,
-  calculateKalchmResonance,
-  calculateMonicaOptimization,
-  calculateRetrogradeEffect
 }; 
