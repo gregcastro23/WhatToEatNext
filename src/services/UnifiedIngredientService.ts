@@ -349,7 +349,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
   getIngredientsByPlanet(planet: Planet): UnifiedIngredient[] {
     const allIngredients = this.getAllIngredientsFlat();
     
-    return (allIngredients || []).filter(ingredient => {
+    return (allIngredients || []).filter(_ingredient => {
       if (!ingredient.astrologicalProperties?.planets) return false;
       
       const planets = ingredient?.astrologicalPropertiesProperties?.planets;

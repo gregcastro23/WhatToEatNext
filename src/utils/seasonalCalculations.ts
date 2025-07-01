@@ -282,7 +282,7 @@ const calculateLunarPhaseAlignment = (recipe: Recipe, lunarPhase: LunarPhase): n
     return alignmentScore;
 };
 
-const getSeasonalModifier = (season: string, element: string): number => {
+const getSeasonalModifier = (_season: string, element: string): number => {
     const modifiers: Record<string, Record<string, number>> = {
         spring: { Fire: 0.3, Water: 0.3, Air: 0.3, Earth: 0.1 },
         summer: { Fire: 0.4, Water: 0.2, Air: 0.3, Earth: 0.1 },

@@ -300,7 +300,7 @@ export default function IngredientRecommender() {
     
     // First check for explicit category
     if (ingredient.category) {
-      const category = ingredient.category.toLowerCase();
+      const _category = ingredient.category.toLowerCase();
       
       // Handle specific category mappings
       if (['protein', 'meat', 'egg', 'dairy', 'plant_based', 'seafood', 'poultry'].includes(category)) {

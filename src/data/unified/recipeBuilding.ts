@@ -284,28 +284,28 @@ export class UnifiedRecipeBuildingSystem {
     criteria: RecipeBuildingCriteria
   ): MonicaOptimizedRecipe['monicaOptimization'] {
     const _originalMonica = recipe.alchemicalProperties?.monicaConstant || null;
-    const _targetMonica = criteria._targetMonica || this.calculateOptimalMonica(recipe, criteria);
+    const _targetMonica = criteria.targetMonica || this.calculateOptimalMonica(recipe, criteria);
     
     // Calculate optimization adjustments
-    const _temperatureAdjustments = this.calculateTemperatureAdjustments(originalMonica, targetMonica);
-    const _timingAdjustments = this.calculateTimingAdjustments(originalMonica, targetMonica);
-    const intensityModifications = this.calculateIntensityModifications(originalMonica, targetMonica);
-    const planetaryTimingRecommendations = this.calculatePlanetaryTiming(targetMonica, criteria);
+    const _temperatureAdjustments = this.calculateTemperatureAdjustments(_originalMonica, _targetMonica);
+    const _timingAdjustments = this.calculateTimingAdjustments(_originalMonica, _targetMonica);
+    const intensityModifications = this.calculateIntensityModifications(_originalMonica, _targetMonica);
+    const planetaryTimingRecommendations = this.calculatePlanetaryTiming(_targetMonica, criteria);
     
     // Calculate optimization score
     const optimizationScore = this.calculateOptimizationScore(
-      originalMonica, 
-      targetMonica, 
-      temperatureAdjustments,
-      timingAdjustments
+      _originalMonica, 
+      _targetMonica, 
+      _temperatureAdjustments,
+      _timingAdjustments
     );
     
     return {
-      originalMonica,
-      optimizedMonica: targetMonica,
+      originalMonica: _originalMonica,
+      optimizedMonica: _targetMonica,
       optimizationScore,
-      temperatureAdjustments,
-      timingAdjustments,
+      temperatureAdjustments: _temperatureAdjustments,
+      timingAdjustments: _timingAdjustments,
       intensityModifications,
       planetaryTimingRecommendations
     };
@@ -869,7 +869,7 @@ export function generatePlanetaryRecipeRecommendation(
 // ===== BACKWARD COMPATIBILITY =====
 
 // Maintain compatibility with existing recipe building functions
-export function buildRecipe(criteria: RecipeBuildingCriteria): any {
+export function buildRecipe(_criteria: RecipeBuildingCriteria): any {
   return unifiedRecipeBuildingSystem.generateMonicaOptimizedRecipe(criteria);
 }
 
