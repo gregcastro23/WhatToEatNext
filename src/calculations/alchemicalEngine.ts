@@ -2131,7 +2131,7 @@ function safeAlchemize(birthInfo: UnifiedBirthInfo, horoscopeDict: HoroscopeData
     };
     
     // Call the original alchemize with safety wrapper
-    return alchemizeWithSafety(birthInfo, horoscopeDict, safetyWrapper);
+    return alchemizeWithSafety(birthInfo, horoscopeDict, _safetyWrapper);
   } catch (error) {
     console.error('Error in safeAlchemize:', error);
     

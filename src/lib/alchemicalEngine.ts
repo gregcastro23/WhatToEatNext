@@ -546,7 +546,7 @@ export class AlchemicalEngineBase {
     }
 
     // Simple implementation - return recipes with default scores
-    return recipes.slice(0, 3).map((recipe) => ({
+    return recipes.slice(0, 3).map((_recipe) => ({
       recipe,
       score: 80, // Default score
       elements: {

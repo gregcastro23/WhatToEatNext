@@ -236,7 +236,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     // Group by category
     const result: Record<string, UnifiedIngredient[]> = {};
     
-    for (const ingredient of filteredIngredients) {
+    for (const _ingredient of filteredIngredients) {
       const category = ingredient.category || 'other';
       
       if (!result[category]) {

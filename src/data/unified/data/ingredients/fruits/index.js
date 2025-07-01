@@ -101,11 +101,11 @@ const isValidFruit = (ingredient) => {
 };
 exports.isValidFruit = isValidFruit;
 // Before
-Object.entries(exports.fruits).forEach(([_id, fruit]) => {
+Object.entries(exports.fruits).forEach(([_id, _fruit]) => {
     // Validation logic can be added here if needed
 });
 // After
-Object.entries(exports.fruits).forEach(([id, fruit]) => {
+Object.entries(exports.fruits).forEach(([_id, fruit]) => {
     // Properly implement validation
     if (!fruit.elementalProperties) {
         // Use type-safe logging instead of console.log

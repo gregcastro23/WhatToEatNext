@@ -248,7 +248,7 @@ export default function IngredientRecommender() {
     // Extract ingredient data with safe property access
     const ingredientData = ingredient as any;
     const _category = ingredientData?.category?.toLowerCase() || '';
-    if (category === 'vinegar' || category === 'vinegars') return true;
+    if (_category === 'vinegar' || _category === 'vinegars') return true;
     
     const name = ingredientData?.name?.toLowerCase() || '';
     return vinegarTypes.some(vinegar => name.includes(vinegar.toLowerCase()));
@@ -265,14 +265,14 @@ export default function IngredientRecommender() {
     const _category = categoryProperty.toLowerCase();
     
     // Map categories to our standard ones
-    if (['vegetable', 'vegetables'].includes(category)) return 'vegetables';
-    if (['protein', 'meat', 'seafood', 'fish', 'poultry'].includes(category)) return 'proteins';
-    if (['herb', 'herbs', 'culinary_herb', 'medicinal_herb'].includes(category)) return 'herbs';
-    if (['spice', 'spices', 'seasoning', 'seasonings'].includes(category)) return 'spices';
-    if (['grain', 'grains', 'pasta', 'rice', 'cereal'].includes(category)) return 'grains';
-    if (['fruit', 'fruits', 'berry', 'berries'].includes(category)) return 'fruits';
-    if (['oil', 'oils', 'fat', 'fats'].includes(category)) return 'oils';
-    if (['vinegar', 'vinegars', 'acid', 'acids'].includes(category)) return 'vinegars';
+    if (['vegetable', 'vegetables'].includes(_category)) return 'vegetables';
+    if (['protein', 'meat', 'seafood', 'fish', 'poultry'].includes(_category)) return 'proteins';
+    if (['herb', 'herbs', 'culinary_herb', 'medicinal_herb'].includes(_category)) return 'herbs';
+    if (['spice', 'spices', 'seasoning', 'seasonings'].includes(_category)) return 'spices';
+    if (['grain', 'grains', 'pasta', 'rice', 'cereal'].includes(_category)) return 'grains';
+    if (['fruit', 'fruits', 'berry', 'berries'].includes(_category)) return 'fruits';
+    if (['oil', 'oils', 'fat', 'fats'].includes(_category)) return 'oils';
+    if (['vinegar', 'vinegars', 'acid', 'acids'].includes(_category)) return 'vinegars';
     
     return 'other';
   };
@@ -430,8 +430,8 @@ export default function IngredientRecommender() {
         // For other ingredients, use explicit category if available
         else {
           const _category = getNormalizedCategory(ingredient);
-          if (categories[category]) {
-            categories[category].push({
+          if (categories[_category]) {
+            categories[_category].push({
               ...ingredient,
               matchScore: ingredient.score || 0.5
             });

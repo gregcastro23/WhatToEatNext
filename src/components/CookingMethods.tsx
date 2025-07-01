@@ -431,7 +431,7 @@ const adaptLunarPhase = (phase: LunarPhase | undefined): unknown => {
 // Missing function definitions for CookingMethods component
 function getIdealIngredients(_method: any): string[] {
   // Placeholder implementation
-  return method?.idealIngredients || [];
+  return _method?.idealIngredients || [];
 }
 
 function determineMatchReason(_ingredient: any, _method: any): string {

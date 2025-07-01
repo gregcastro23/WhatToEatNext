@@ -1604,7 +1604,7 @@ const rawPlantBased = {
 // Fix the ingredient mappings to ensure they have all required properties
 exports.plantBased = (0, elementalUtils_1.fixIngredientMappings)(rawPlantBased);
 // Add validation for elemental sums
-Object.entries(exports.plantBased).forEach(([id, ingredient]) => {
+Object.entries(exports.plantBased).forEach(([_id, ingredient]) => {
     if (!ingredient.elementalProperties)
         return;
     const sum = Object.values(ingredient.elementalProperties).reduce((a, b) => a + b, 0);

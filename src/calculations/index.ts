@@ -330,7 +330,7 @@ function generateCompatibilityRecommendations(
     recommendations?.push('Consider adding ingredients that complement your dominant element');
   }
 
-  if (kalchm < 0.5) {
+  if (_kalchm < 0.5) {
     recommendations?.push('The alchemical properties may not align - try adjusting cooking methods');
   }
 

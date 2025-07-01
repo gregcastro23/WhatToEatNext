@@ -120,7 +120,7 @@ export const SEASONAL_MODIFIERS = {
 
 export const getSeasonalEffectiveness = async (
     recipe: Recipe, 
-    season: Season,
+    _season: Season,
     currentZodiac?: ZodiacSign | null,
     currentLunarPhase?: LunarPhase | null
 ): Promise<SeasonalEffectiveness> => {

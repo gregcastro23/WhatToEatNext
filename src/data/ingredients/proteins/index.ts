@@ -10,7 +10,7 @@ import type { Ingredient } from '@/types/alchemy';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 // Combine all protein categories and ensure type safety
-export const proteins: Record<string, IngredientMapping> = fixIngredientMappings({
+export const _proteins: Record<string, IngredientMapping> = fixIngredientMappings({
   ...seafood,
   ...poultry,
   ...(plantBased as Record<string, IngredientMapping>),
@@ -290,7 +290,7 @@ export const validateProteinCombination = (proteins: string[]): boolean => {
 
 export const validateCookingMethod = (
   _proteinName: string,
-  method: CookingMethod,
+  _method: CookingMethod,
   _cut: ProteinCut
 ): boolean => {
   // Implementation for validating if cooking method is appropriate

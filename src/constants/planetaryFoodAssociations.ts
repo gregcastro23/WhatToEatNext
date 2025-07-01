@@ -387,7 +387,7 @@ export const getLunarPhaseBoost = (lunarPhase: LunarPhase): number => {
  */
 export const getFlavorBoost = (
   _planet: Planet,
-  ingredient: unknown
+  _ingredient: unknown
 ): number => {
   const ingredientData = ingredient as any;
   const elementBoost = planetaryFoodAssociations[planet].elementalBoost || {};

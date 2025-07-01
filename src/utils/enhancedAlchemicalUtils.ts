@@ -117,7 +117,7 @@ export function getUserFoodCompatibility(
  */
 export function generatePersonalizedMealPlan(
   alchemicalResult: AlchemicalResult,
-  userSign: ZodiacSign,
+  _userSign: ZodiacSign,
   _season: string,
   _userPreferences?: string[]
 ) {

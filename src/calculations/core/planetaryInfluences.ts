@@ -298,13 +298,13 @@ export function calculatePlanetaryInfluences(
 
           // Get elemental influence
           const _element = getPlanetaryElementalInfluence(planet, isDaytime);
-          elementalInfluences[element] += strength;
+          elementalInfluences[_element] += strength;
 
           // Add to dominant planets list
           dominantPlanets?.push({
             planet,
             strength,
-            element: element as Element
+            element: _element as Element
           });
         }
       });

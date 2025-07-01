@@ -59,7 +59,7 @@ export class RecipeEngine {
 
         // Normalize the result
         const sum = Object.values(unnormalized).reduce((acc, val) => acc + val, 0);
-        return Object.entries(unnormalized).reduce((normalized, [element, value]) => {
+        return Object.entries(unnormalized).reduce((normalized, [_element, value]) => {
             normalized[element] = value / sum;
             return normalized;
         }, {} as ElementalProperties);

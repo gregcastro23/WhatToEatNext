@@ -840,11 +840,11 @@ export const unifiedRecipeBuildingSystem = new UnifiedRecipeBuildingSystem();
 
 // ===== CONVENIENCE EXPORTS =====
 
-export function generateMonicaOptimizedRecipe(criteria: RecipeBuildingCriteria): RecipeGenerationResult {
+export function generateMonicaOptimizedRecipe(_criteria: RecipeBuildingCriteria): RecipeGenerationResult {
   return unifiedRecipeBuildingSystem.generateMonicaOptimizedRecipe(criteria);
 }
 
-export function adaptRecipeForSeason(recipe: EnhancedRecipe, season: Season): SeasonalRecipeAdaptation {
+export function adaptRecipeForSeason(_recipe: EnhancedRecipe, _season: Season): SeasonalRecipeAdaptation {
   return unifiedRecipeBuildingSystem.adaptRecipeForSeason(recipe, season);
 }
 
@@ -852,7 +852,7 @@ export function adaptRecipeForSeasonExport(recipe: EnhancedRecipe, season: Seaso
   return unifiedRecipeBuildingSystem.adaptRecipeForSeason(recipe, season);
 }
 
-export function generateFusionRecipe(cuisines: string[], criteria: RecipeBuildingCriteria): any {
+export function generateFusionRecipe(_cuisines: string[], criteria: RecipeBuildingCriteria): any {
   return unifiedRecipeBuildingSystem.generateFusionRecipe(cuisines, criteria);
 }
 
@@ -877,6 +877,6 @@ export function getSeasonalRecipeRecommendations(season: Season): any {
   return unifiedRecipeBuildingSystem.seasonalSystem.getSeasonalRecommendations(season);
 }
 
-export function getCuisineRecipeRecommendations(cuisine: string): any {
+export function getCuisineRecipeRecommendations(_cuisine: string): any {
   return unifiedRecipeBuildingSystem.cuisineSystem.analyzeCuisineIngredients(cuisine);
 } 

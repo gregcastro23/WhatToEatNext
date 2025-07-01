@@ -76,7 +76,7 @@ export class ChakraService {
             // Find related signs (signs that influence this chakra)
             const relatedSigns = signEnergyStates
                 .filter(_state => chakraEnergies[chakra] > 0)
-                .map(state => state.sign)
+                .map(_state => state.sign)
                 .slice(0, 3); // Limit to top 3 related signs
             
             return {

@@ -189,7 +189,7 @@ export class DirectRecipeService {
       seasonalScore: number;
     };
   }> {
-    const alignment = await this.getCurrentCelestialAlignment();
+    const _alignment = await this.getCurrentCelestialAlignment();
     
     // Calculate recipe's Kalchm value from ingredients
     const recipeKalchm = this.calculateRecipeKalchm(recipe);

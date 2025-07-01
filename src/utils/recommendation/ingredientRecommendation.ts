@@ -632,7 +632,7 @@ export async function getIngredientRecommendations(
   _options: RecommendationOptions
 ): Promise<GroupedIngredientRecommendations> {
   const _elementalProps = _elementalProps;
-  const options = _options;
+  const _options = _options;
   const allIngredients = await getAllIngredients();
   const recommendations: GroupedIngredientRecommendations = {};
   

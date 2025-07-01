@@ -194,7 +194,7 @@ const calculateRecommendationScore = (
 
 const explainRecommendation = (
   recipe: Recipe,
-  astroState: AstrologicalState,
+  _astroState: AstrologicalState,
   timeFactors: TimeFactors | null
 ): string => {
   if (!timeFactors) return 'Recommended based on alchemical properties.';

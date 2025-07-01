@@ -498,7 +498,7 @@ export function calculateElementalCompatibility(element1: Element, element2: Ele
  */
 export async function calculateDominantElement(
   astroState: AstrologicalState, 
-  timeFactors: TimeFactors
+  _timeFactors: TimeFactors
 ): Promise<Element> {
   const elementCounts: Record<Element, number> = {
     'Fire': 0,

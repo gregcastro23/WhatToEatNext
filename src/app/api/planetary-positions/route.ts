@@ -14,7 +14,8 @@ export async function GET() {
     if (cached) return NextResponse.json(cached);
 
     // Instead of calculating positions, use the default positions that we've corrected
-    const positions = (await getLatestAstrologicalState()).planetaryPositions;
+    const response = await getLatestAstrologicalState();
+    const positions = response.data?.planetaryPositions || {};
     
     // Cache with TTL
     cache.set(CACHE_KEY, positions, CACHE_TTL);

@@ -95,7 +95,7 @@ const ChakraEnergiesDisplay: React.FC<ChakraEnergiesDisplayProps> = ({ compact =
   // Function to get a color intensity based on the chakra energy level
   const getColorIntensity = (_energy: number): number => {
     // Ensure energy is within expected range (0-10)
-    const safeEnergy = Math.max(0, Math.min(10, energy));
+    const safeEnergy = Math.max(0, Math.min(10, _energy));
     // Map energy to an intensity between 30 and 100 in a consistent way
     return Math.min(100, Math.max(30, Math.round(safeEnergy * 7 + 30)));
   };

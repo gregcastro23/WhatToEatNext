@@ -128,7 +128,7 @@ export const getElementalEffect = (temp: number): ElementalProperties => {
   return temperatureEffects[range].elementalEffect;
 };
 
-export function getTemperatureEffect(ingredient: string, temperature?: number) {
+export function getTemperatureEffect(ingredient: string, _temperature?: number) {
   // Map of ingredient temperature effects
   const effectMap: Record<string, string> = {
     'ginger': 'warming',
