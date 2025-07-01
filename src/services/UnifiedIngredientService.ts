@@ -771,7 +771,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       
       // Check dominant element
       if (filter.dominantElement) {
-        const dominant = this.getDominantElement(ingredient);
+        const dominant = this.getDominantElement(_ingredient);
         if (dominant !== filter.dominantElement) {
           return false;
         }
@@ -789,7 +789,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     filter: DietaryFilter
   ): UnifiedIngredient[] {
     return (ingredients || []).filter(_ingredient => {
-      const dietary = ingredient.dietaryFlags;
+      const dietary = _ingredient.dietaryFlags;
       if (!dietary) return true; // Skip if no dietary data
       
       // Extract filter data with safe property access for dietary properties
@@ -849,14 +849,14 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     seasons: string[] | Season[]
   ): UnifiedIngredient[] {
     return (ingredients || []).filter(_ingredient => {
-      if (!ingredient.seasonality || ingredient.seasonality  || [].length === 0) {
+      if (!_ingredient.seasonality || _ingredient.seasonality  || [].length === 0) {
         return true; // Include ingredients with no seasonality data
       }
       
       return (seasons || []).some(season => 
-        Array.isArray(ingredient.seasonality) 
-          ? ingredient.seasonality.includes(season as any) 
-          : ingredient.seasonality === season as any
+        Array.isArray(_ingredient.seasonality) 
+          ? _ingredient.seasonality.includes(season as any) 
+          : _ingredient.seasonality === season as any
       );
     });
   }
@@ -872,27 +872,27 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     
     return (ingredients || []).filter(_ingredient => {
       // Check name
-      if (ingredient.name?.toLowerCase()?.includes(normalizedQuery)) {
+      if (_ingredient.name?.toLowerCase()?.includes(normalizedQuery)) {
         return true;
       }
       
       // Check description
-      if (ingredient.description?.toLowerCase()?.includes(normalizedQuery)) {
+      if (_ingredient.description?.toLowerCase()?.includes(normalizedQuery)) {
         return true;
       }
       
       // Check category
-      if (ingredient.category?.toLowerCase()?.includes(normalizedQuery)) {
+      if (_ingredient.category?.toLowerCase()?.includes(normalizedQuery)) {
         return true;
       }
       
       // Check subcategory
-      if (ingredient.subCategory?.toLowerCase()?.includes(normalizedQuery)) {
+      if (_ingredient.subCategory?.toLowerCase()?.includes(normalizedQuery)) {
         return true;
       }
       
       // Check tags
-      if ((ingredient.$2 || []).some(tag => 
+      if ((_ingredient.$2 || []).some(tag => 
         tag?.toLowerCase()?.includes(normalizedQuery)
       )) {
         return true;

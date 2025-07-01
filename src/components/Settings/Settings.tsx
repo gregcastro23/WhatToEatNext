@@ -6,6 +6,7 @@ import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { stateManager } from '@/utils/stateManager';
 import { themeManager } from '@/utils/theme';
 import { logger } from '@/utils/logger';
+import { DietaryRestriction } from '@/types/constants';
 import { 
   Settings as SettingsIcon,
   Moon,
@@ -187,7 +188,7 @@ export default function Settings() {
               animations: settings.appearance.animations,
             },
             dietary: {
-              restrictions: settings.dietary.restrictions as DietaryRestriction[],
+              restrictions: settings.dietary.restrictions as any,
               favorites: settings.dietary.favorites,
               excluded: settings.dietary.excluded,
               spiciness: settings.dietary.spiciness,
