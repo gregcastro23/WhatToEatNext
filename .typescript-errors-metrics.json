@@ -1,0 +1,19 @@
+{
+  "totalRuns": 1,
+  "successfulRuns": 0,
+  "filesProcessed": 0,
+  "errorsFixed": 0,
+  "errorsEncountered": 0,
+  "corruptionDetected": 5,
+  "buildFailures": 0,
+  "averageBatchSize": 5,
+  "maxSafeBatchSize": 5,
+  "lastRunTime": "2025-07-01T23:16:26.728Z",
+  "safetyScore": 0,
+  "errorTypeSuccess": {},
+  "patternEffectiveness": {},
+  "performanceMetrics": {
+    "averageFileTime": null,
+    "totalProcessingTime": 7
+  }
+}
