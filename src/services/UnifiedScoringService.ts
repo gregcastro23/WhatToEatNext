@@ -218,7 +218,7 @@ export function calculateSeasonalEffect(
  */
 export function calculateLocationEffect(
   _astroData: AstrologicalData,
-  context: ScoringContext
+  _context: ScoringContext
 ): number {
   if (!context.location) return 0;
   

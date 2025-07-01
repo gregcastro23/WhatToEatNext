@@ -848,7 +848,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     ingredients: UnifiedIngredient[], 
     seasons: string[] | Season[]
   ): UnifiedIngredient[] {
-    return (ingredients || []).filter(ingredient => {
+    return (ingredients || []).filter(_ingredient => {
       if (!ingredient.seasonality || ingredient.seasonality  || [].length === 0) {
         return true; // Include ingredients with no seasonality data
       }
