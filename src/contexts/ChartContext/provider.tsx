@@ -120,8 +120,14 @@ export const ChartProvider: React.FC<{children: React.ReactNode}> = ({ children 
         console.log('Using positions from AlchemicalContext');
       } else {
         try {
-          positions = (await getLatestAstrologicalState()).planetaryPositions;
-          console.log('Successfully calculated planetary positions');
+          const astroResponse = await getLatestAstrologicalState();
+          if (astroResponse.success && astroResponse.data) {
+            positions = astroResponse.data.planetaryPositions;
+            console.log('Successfully calculated planetary positions');
+          } else {
+            console.error('Astrological service returned error:', astroResponse.error);
+            positions = alchemicalPositions || {};
+          }
         } catch (posError) {
           console.error('Error calculating planetary positions:', posError);
           // Use alchemicalPositions from context as fallback, or empty object if not available

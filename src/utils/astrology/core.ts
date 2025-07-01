@@ -410,12 +410,12 @@ export async function getCurrentAstrologicalState(date: Date = new Date()): Prom
     
     const elementalProfile = await calculateElementalProfile(
       { sunSign, moonSign, lunarPhase, isDaytime, planetaryHour } as AstrologicalState, 
-      timeFactors
+      _timeFactors
     );
     
     const dominantElement = await calculateDominantElement(
       { sunSign, moonSign, lunarPhase, isDaytime, planetaryHour } as AstrologicalState, 
-      timeFactors
+      _timeFactors
     );
     
     // Build the astrological state object
@@ -493,7 +493,7 @@ export function calculateElementalCompatibility(element1: Element, element2: Ele
 /**
  * Calculate dominant element from astrological state
  * @param astroState Astrological state
- * @param timeFactors Time factors
+ * @param _timeFactors Time factors
  * @returns Dominant element
  */
 export async function calculateDominantElement(
@@ -538,7 +538,7 @@ export async function calculateDominantElement(
 /**
  * Calculate elemental profile from astrological state
  * @param astroState Astrological state
- * @param timeFactors Time factors
+ * @param _timeFactors Time factors
  * @returns Elemental profile
  */
 export async function calculateElementalProfile(

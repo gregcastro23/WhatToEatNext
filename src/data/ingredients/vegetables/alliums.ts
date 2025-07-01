@@ -812,9 +812,39 @@ const rawAlliums = {
   },
 
   'special_applications': {
-    "Indian": ["curries", "side dishes", "raitas"],
-    "French": ["soups", "stews", "gratins"],
-    "American": ["loaded potatoes", "dips", "garnish"]
+    name: 'Special Applications',
+    elementalProperties: { Fire: 0.3, Earth: 0.3, Air: 0.2, Water: 0.2 },
+    astrologicalProfile: {
+      rulingPlanets: ['Mercury', 'Venus'],
+      favorableZodiac: ['gemini', 'libra'],
+      elementalAffinity: {
+        base: 'Fire',
+        secondary: 'Earth'
+      }
+    },
+    qualities: ['versatile', 'traditional', 'regional'],
+    season: ['all'],
+    category: 'application',
+    subCategory: 'special',
+    affinities: ['regional cuisines', 'traditional methods'],
+    cookingMethods: ['regional-specific'],
+    nutritionalProfile: {
+      vitamins: ['varies'],
+      minerals: ['varies'],
+      calories: 0,
+      carbs_g: 0,
+      fiber_g: 0
+    },
+    preparation: {
+      washing: 'as needed',
+      cutting: 'as specified',
+      notes: 'Regional preparation methods vary'
+    },
+    regionalUses: {
+      "Indian": ["curries", "side dishes", "raitas"],
+      "French": ["soups", "stews", "gratins"],
+      "American": ["loaded potatoes", "dips", "garnish"]
+    }
   }
 };
 
