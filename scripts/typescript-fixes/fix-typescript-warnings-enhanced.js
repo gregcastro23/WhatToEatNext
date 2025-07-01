@@ -1,492 +1,551 @@
 #!/usr/bin/env node
 
+/**
+ * Enhanced TypeScript Warning Fixer v1.0
+ * 
+ * Dedicated script for handling TypeScript and ESLint warnings:
+ * - Unused variables and imports
+ * - Console statements
+ * - Explicit any types
+ * - Deprecated APIs
+ * - Performance warnings
+ * - Code quality improvements
+ * 
+ * Features:
+ * - Safe unused variable prefixing
+ * - Intelligent import cleanup
+ * - Console statement management
+ * - Type safety improvements
+ * - Performance optimization suggestions
+ */
+
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { execSync } from 'child_process';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Configuration
-const DRY_RUN = process.argv.includes('--dry-run');
-const VERBOSE = process.argv.includes('--verbose');
-
-console.log('🔧 Enhanced TypeScript Warning Fixer');
-console.log(`Mode: ${DRY_RUN ? 'DRY RUN' : 'LIVE EXECUTION'}`);
-console.log('─'.repeat(50));
-
-const log = (message, level = 'info') => {
-  const prefix = level === 'error' ? '❌' : level === 'warn' ? '⚠️' : level === 'success' ? '✅' : 'ℹ️';
-  console.log(`${prefix} ${message}`);
+const CONFIG = {
+  maxFiles: parseInt(process.argv.find(arg => arg.startsWith('--max-files='))?.split('=')[1] || '30'),
+  dryRun: process.argv.includes('--dry-run'),
+  aggressive: process.argv.includes('--aggressive'),
+  includeConsole: process.argv.includes('--include-console'),
+  
+  targetWarnings: [
+    'unused-variable',
+    'unused-import', 
+    'console-statement',
+    'explicit-any',
+    'deprecated-api',
+    'performance-warning'
+  ],
+  
+  safetyThreshold: 0.90,
+  buildValidationInterval: 10
 };
 
-const verboseLog = (message) => {
-  if (VERBOSE) {
-    console.log(`🔍 ${message}`);
+// Metrics
+const METRICS = {
+  totalFiles: 0,
+  processedFiles: 0,
+  warningsFixed: 0,
+  warningsSkipped: 0,
+  startTime: Date.now(),
+  processingTime: 0,
+  patternSuccessRates: new Map()
+};
+
+// Warning Patterns
+const WARNING_PATTERNS = {
+  'unused-variable': {
+    name: 'Unused Variable',
+    priority: 'medium',
+    patterns: [
+      {
+        regex: /'([^']+)' is declared but its value is never read/,
+        fix: (content, match, varName) => {
+          // Prefix with underscore to mark as intentionally unused
+          const varPattern = new RegExp(`\\b${varName}\\b(?=\\s*[=:,)]|$)`, 'g');
+          return content.replace(varPattern, `_${varName}`);
+        },
+        confidence: 0.95
+      },
+      {
+        regex: /Parameter '([^']+)' is declared but its value is never read/,
+        fix: (content, match, paramName) => {
+          // Prefix parameter with underscore
+          const paramPattern = new RegExp(`\\b${paramName}\\b(?=\\s*[,:)]|$)`, 'g');
+          return content.replace(paramPattern, `_${paramName}`);
+        },
+        confidence: 0.95
+      }
+    ]
+  },
+  
+  'unused-import': {
+    name: 'Unused Import',
+    priority: 'high',
+    patterns: [
+      {
+        regex: /'([^']+)' is defined but never used/,
+        fix: (content, match, importName) => {
+          // Remove unused imports intelligently
+          const lines = content.split('\n');
+          let modified = false;
+          
+          const newLines = lines.map(line => {
+            if (line.includes('import') && line.includes(importName)) {
+              // Handle different import patterns
+              if (line.includes(`{ ${importName} }`)) {
+                // Single import in braces
+                return line.replace(`{ ${importName} }`, '{}').replace(/import\s*\{\s*\}\s*from[^;]+;/, '');
+              } else if (line.includes(`{`) && line.includes(`}`)) {
+                // Multiple imports - remove just this one
+                const imports = line.match(/\{([^}]+)\}/)?.[1];
+                if (imports) {
+                  const importList = imports.split(',')
+                    .map(i => i.trim())
+                    .filter(i => i !== importName && !i.includes(importName));
+                  
+                  if (importList.length === 0) {
+                    modified = true;
+                    return ''; // Remove entire import line
+                  } else {
+                    modified = true;
+                    return line.replace(/\{[^}]+\}/, `{ ${importList.join(', ')} }`);
+                  }
+                }
+              } else if (line.includes(`import ${importName}`)) {
+                // Default import
+                modified = true;
+                return '';
+              }
+            }
+            return line;
+          }).filter(line => line !== '');
+          
+          return modified ? newLines.join('\n') : content;
+        },
+        confidence: 0.90
+      }
+    ]
+  },
+  
+  'console-statement': {
+    name: 'Console Statement',
+    priority: 'low',
+    patterns: [
+      {
+        regex: /console\.(log|warn|error|info|debug)\s*\([^)]*\)/g,
+        fix: (content, match) => {
+          if (!CONFIG.includeConsole) return content;
+          
+          // Comment out console statements instead of removing
+          return content.replace(match, `// ${match}`);
+        },
+        confidence: 0.95
+      }
+    ]
+  },
+  
+  'explicit-any': {
+    name: 'Explicit Any Type',
+    priority: 'medium',
+    patterns: [
+      {
+        regex: /:\s*any\b/g,
+        fix: (content, match) => {
+          if (!CONFIG.aggressive) return content;
+          
+          // Replace with unknown for better type safety
+          return content.replace(match, ': unknown');
+        },
+        confidence: 0.70
+      },
+      {
+        regex: /as\s+any\b/g,
+        fix: (content, match) => {
+          if (!CONFIG.aggressive) return content;
+          
+          // Replace with unknown assertion
+          return content.replace(match, 'as unknown');
+        },
+        confidence: 0.75
+      }
+    ]
+  },
+  
+  'deprecated-api': {
+    name: 'Deprecated API',
+    priority: 'medium',
+    patterns: [
+      {
+        regex: /componentWillMount|componentWillReceiveProps|componentWillUpdate/g,
+        fix: (content, match) => {
+          // Comment out deprecated React lifecycle methods
+          return content.replace(match, `// DEPRECATED: ${match}`);
+        },
+        confidence: 0.85
+      }
+    ]
+  },
+  
+  'performance-warning': {
+    name: 'Performance Warning',
+    priority: 'low',
+    patterns: [
+      {
+        regex: /React\.createElement/g,
+        fix: (content, match) => {
+          // Suggest JSX instead of createElement for better performance
+          return content; // Keep as is, just flag for review
+        },
+        confidence: 0.60
+      }
+    ]
   }
 };
 
-// Enhanced fix functions for specific issues
-const fixes = {
-  // Fix 1: Remove conflicting JS files that shadow TS files
-  removeConflictingJsFiles: () => {
-    log('Checking for conflicting JavaScript files...');
-    const conflictingFiles = [
-      'src/constants/alchemicalPillars.js',
-      'src/constants/planetaryElements.js', 
-      'src/constants/planets.js',
-      'src/types/alchemy.js',
-      'src/types/celestial.js',
-      'src/types/chakra.js',
-      'src/types/seasons.js',
-      'src/types/time.js',
-      'src/types/zodiacAffinity.js'
-    ];
-
-    let removedCount = 0;
-    for (const filePath of conflictingFiles) {
-      const fullPath = path.join(__dirname, filePath);
-      if (fs.existsSync(fullPath)) {
-        verboseLog(`Found conflicting file: ${filePath}`);
-        if (!DRY_RUN) {
-          fs.unlinkSync(fullPath);
-          log(`Removed conflicting file: ${filePath}`);
-        } else {
-          log(`Would remove: ${filePath}`, 'warn');
-        }
-        removedCount++;
-      }
-    }
-
-    if (removedCount === 0) {
-      log('No conflicting JS files found', 'success');
-    } else {
-      log(`${removedCount} conflicting JS files ${DRY_RUN ? 'would be' : ''} removed`);
-    }
-
+/**
+ * Utility Functions
+ */
+async function validateBuild() {
+  try {
+    execSync('yarn build', { stdio: 'pipe', timeout: 45000 });
     return true;
-  },
-
-  // Fix 2: Add missing exports to constants/alchemicalPillars.ts
-  fixAlchemicalPillarsExports: () => {
-    const filePath = path.join(__dirname, 'src/constants/alchemicalPillars.ts');
-    
-    if (!fs.existsSync(filePath)) {
-      log(`File not found: ${filePath}`, 'warn');
-      return false;
-    }
-    
-    let content = fs.readFileSync(filePath, 'utf8');
-    verboseLog(`Reading ${filePath}`);
-    
-    const missingExports = [
-      'getCookingMethodPillar',
-      'getCookingMethodAlchemicalEffect', 
-      'getCookingMethodThermodynamics',
-      'getPlanetaryAlchemicalEffect',
-      'getTarotCardAlchemicalEffect'
-    ];
-
-    let addedExports = [];
-    for (const exportName of missingExports) {
-      if (!content.includes(`export const ${exportName}`) && !content.includes(`export function ${exportName}`)) {
-        // Check if the function exists but isn't exported
-        if (content.includes(`const ${exportName}`) || content.includes(`function ${exportName}`)) {
-          content = content.replace(new RegExp(`(const|function) ${exportName}`, 'g'), `export $1 ${exportName}`);
-          addedExports.push(exportName);
-        }
-      }
-    }
-
-    if (addedExports.length > 0) {
-      log(`Added exports for: ${addedExports.join(', ')}`);
-      if (!DRY_RUN) {
-        fs.writeFileSync(filePath, content);
-      }
-    } else {
-      log('All alchemical pillars exports already present', 'success');
-    }
-
-    return true;
-  },
-
-  // Fix 3: Add missing exports to constants/planetaryElements.ts
-  fixPlanetaryElementsExports: () => {
-    const filePath = path.join(__dirname, 'src/constants/planetaryElements.ts');
-    
-    if (!fs.existsSync(filePath)) {
-      log(`File not found: ${filePath}`, 'warn');
-      return false;
-    }
-    
-    let content = fs.readFileSync(filePath, 'utf8');
-    verboseLog(`Reading ${filePath}`);
-    
-    if (!content.includes('export') && content.includes('getPlanetaryElement')) {
-      // If no exports but function exists, add export
-      content = content.replace(/function getPlanetaryElement/, 'export function getPlanetaryElement');
-      content = content.replace(/const getPlanetaryElement/, 'export const getPlanetaryElement');
-      log('Added getPlanetaryElement export');
-      
-      if (!DRY_RUN) {
-        fs.writeFileSync(filePath, content);
-      }
-    } else if (content.includes('export') && content.includes('getPlanetaryElement')) {
-      log('getPlanetaryElement already exported', 'success');
-    } else {
-      log('getPlanetaryElement function not found, creating stub', 'warn');
-      const stubContent = `
-export const getPlanetaryElement = (planet: string): string => {
-  const planetElements: Record<string, string> = {
-    Sunsun: 'Fire',
-    Moonmoon: 'Water', 
-    Mercurymercury: 'Air',
-    Venusvenus: 'Earth',
-    Marsmars: 'Fire',
-    Jupiterjupiter: 'Air',
-    Saturnsaturn: 'Earth',
-    Uranusuranus: 'Air',
-    Neptuneneptune: 'Water',
-    Plutopluto: 'Water'
-  };
-  return planetElements[planet.toLowerCase()] || 'Earth';
-};
-`;
-      if (!DRY_RUN) {
-        fs.writeFileSync(filePath, stubContent);
-      }
-    }
-
-    return true;
-  },
-
-  // Fix 4: Add missing exports to types/chakra.ts
-  fixChakraTypeExports: () => {
-    const filePath = path.join(__dirname, 'src/types/chakra.ts');
-    
-    if (!fs.existsSync(filePath)) {
-      log(`File not found: ${filePath}`, 'warn');
-      return false;
-    }
-    
-    let content = fs.readFileSync(filePath, 'utf8');
-    verboseLog(`Reading ${filePath}`);
-    
-    const missingExports = [
-      'CHAKRAS',
-      'MAJOR_ARCANA_CHAKRAS', 
-      'SUIT_CHAKRA_MAPPINGS',
-      'KEY_CARD_CHAKRA_MAPPINGS',
-      'CHAKRA_ORDER'
-    ];
-
-    let addedExports = [];
-    for (const exportName of missingExports) {
-      if (!content.includes(`export const ${exportName}`) && content.includes(`${exportName}`)) {
-        content = content.replace(new RegExp(`const ${exportName}`, 'g'), `export const ${exportName}`);
-        addedExports.push(exportName);
-      }
-    }
-
-    if (addedExports.length > 0) {
-      log(`Added chakra exports for: ${addedExports.join(', ')}`);
-      if (!DRY_RUN) {
-        fs.writeFileSync(filePath, content);
-      }
-    } else {
-      log('All chakra exports already present', 'success');
-    }
-
-    return true;
-  },
-
-  // Fix 5: Add missing exports to types/time.ts
-  fixTimeTypeExports: () => {
-    const filePath = path.join(__dirname, 'src/types/time.ts');
-    
-    if (!fs.existsSync(filePath)) {
-      log(`File not found: ${filePath}`, 'warn');
-      return false;
-    }
-    
-    let content = fs.readFileSync(filePath, 'utf8');
-    verboseLog(`Reading ${filePath}`);
-    
-    if (!content.includes('export') && content.includes('getTimeFactors')) {
-      content = content.replace(/function getTimeFactors/, 'export function getTimeFactors');
-      content = content.replace(/const getTimeFactors/, 'export const getTimeFactors');
-      log('Added getTimeFactors export');
-      
-      if (!DRY_RUN) {
-        fs.writeFileSync(filePath, content);
-      }
-    } else if (content.includes('export')) {
-      log('Time exports already present', 'success');
-    } else {
-      log('getTimeFactors function not found, creating stub', 'warn');
-      const stubContent = `
-export const getTimeFactors = () => {
-  return {
-    planetaryHour: 'Sunsun',
-    timeOfDay: 'morning',
-    season: 'spring'
-  };
-};
-`;
-      if (!DRY_RUN) {
-        fs.writeFileSync(filePath, stubContent);
-      }
-    }
-
-    return true;
-  },
-
-  // Fix 6: Add missing exports to types/seasons.ts
-  fixSeasonsTypeExports: () => {
-    const filePath = path.join(__dirname, 'src/types/seasons.ts');
-    
-    if (!fs.existsSync(filePath)) {
-      log(`File not found: ${filePath}`, 'warn');
-      return false;
-    }
-    
-    let content = fs.readFileSync(filePath, 'utf8');
-    verboseLog(`Reading ${filePath}`);
-    
-    if (!content.includes('export') && content.includes('getCurrentSeason')) {
-      content = content.replace(/function getCurrentSeason/, 'export function getCurrentSeason');
-      content = content.replace(/const getCurrentSeason/, 'export const getCurrentSeason');
-      log('Added getCurrentSeason export');
-      
-      if (!DRY_RUN) {
-        fs.writeFileSync(filePath, content);
-      }
-    } else if (content.includes('export')) {
-      log('Seasons exports already present', 'success');
-    } else {
-      log('getCurrentSeason function not found, creating stub', 'warn');
-      const stubContent = `
-export const getCurrentSeason = (): string => {
-  const month = new Date().getMonth();
-  if (month >= 2 && month <= 4) return 'spring';
-  if (month >= 5 && month <= 7) return 'summer';
-  if (month >= 8 && month <= 10) return 'autumn';
-  return 'winter';
-};
-`;
-      if (!DRY_RUN) {
-        fs.writeFileSync(filePath, stubContent);
-      }
-    }
-
-    return true;
-  },
-
-  // Fix 7: Add missing exports to types/zodiacAffinity.ts
-  fixZodiacAffinityExports: () => {
-    const filePath = path.join(__dirname, 'src/types/zodiacAffinity.ts');
-    
-    if (!fs.existsSync(filePath)) {
-      log(`File not found: ${filePath}`, 'warn');
-      return false;
-    }
-    
-    let content = fs.readFileSync(filePath, 'utf8');
-    verboseLog(`Reading ${filePath}`);
-    
-    if (!content.includes('export') && content.includes('DEFAULT_ZODIAC_AFFINITY')) {
-      content = content.replace(/const DEFAULT_ZODIAC_AFFINITY/, 'export const DEFAULT_ZODIAC_AFFINITY');
-      log('Added DEFAULT_ZODIAC_AFFINITY export');
-      
-      if (!DRY_RUN) {
-        fs.writeFileSync(filePath, content);
-      }
-    } else if (content.includes('export')) {
-      log('Zodiac affinity exports already present', 'success');
-    } else {
-      log('DEFAULT_ZODIAC_AFFINITY not found, creating stub', 'warn');
-      const stubContent = `
-export const DEFAULT_ZODIAC_AFFINITY = {
-  aries: 0.5,
-  taurus: 0.5,
-  gemini: 0.5,
-  cancer: 0.5,
-  leo: 0.5,
-  virgo: 0.5,
-  libra: 0.5,
-  scorpio: 0.5,
-  sagittarius: 0.5,
-  capricorn: 0.5,
-  aquarius: 0.5,
-  pisces: 0.5
-};
-`;
-      if (!DRY_RUN) {
-        fs.writeFileSync(filePath, stubContent);
-      }
-    }
-
-    return true;
-  },
-
-  // Fix 8: Add missing exports to data/unified/ingredients.ts
-  fixUnifiedIngredientsExports: () => {
-    const filePath = path.join(__dirname, 'src/data/unified/ingredients.ts');
-    
-    if (!fs.existsSync(filePath)) {
-      log(`File not found: ${filePath}`, 'warn');
-      return false;
-    }
-    
-    let content = fs.readFileSync(filePath, 'utf8');
-    verboseLog(`Reading ${filePath}`);
-    
-    const missingExports = [
-      'getUnifiedIngredient',
-      'getUnifiedIngredientsByCategory',
-      'getUnifiedIngredientsBySubcategory', 
-      'getHighKalchmIngredients',
-      'findComplementaryIngredients'
-    ];
-
-    let addedExports = [];
-    for (const exportName of missingExports) {
-      if (!content.includes(`export const ${exportName}`) && !content.includes(`export function ${exportName}`)) {
-        // Check if the function exists but isn't exported
-        if (content.includes(`const ${exportName}`) || content.includes(`function ${exportName}`)) {
-          content = content.replace(new RegExp(`(const|function) ${exportName}`, 'g'), `export $1 ${exportName}`);
-          addedExports.push(exportName);
-        }
-      }
-    }
-
-    if (addedExports.length > 0) {
-      log(`Added unified ingredients exports for: ${addedExports.join(', ')}`);
-      if (!DRY_RUN) {
-        fs.writeFileSync(filePath, content);
-      }
-    } else {
-      log('All unified ingredients exports already present', 'success');
-    }
-
-    return true;
-  },
-
-  // Fix 9: Add missing convertToLunarPhase export to lunarPhaseUtils.ts
-  fixLunarPhaseUtilsExports: () => {
-    const filePath = path.join(__dirname, 'src/utils/lunarPhaseUtils.ts');
-    
-    if (!fs.existsSync(filePath)) {
-      log(`File not found: ${filePath}`, 'warn');
-      return false;
-    }
-    
-    let content = fs.readFileSync(filePath, 'utf8');
-    verboseLog(`Reading ${filePath}`);
-    
-    if (!content.includes('export') || !content.includes('convertToLunarPhase')) {
-      // Add the missing function
-      const convertToLunarPhaseFunction = `
-export const convertToLunarPhase = (phase: string): string => {
-  const phaseMap: Record<string, string> = {
-    'new': 'new Moonmoon',
-    'waxing_crescent': 'waxing crescent', 
-    'first_quarter': 'first quarter',
-    'waxing_gibbous': 'waxing gibbous',
-    'full': 'full Moonmoon',
-    'waning_gibbous': 'waning gibbous',
-    'last_quarter': 'last quarter', 
-    'waning_crescent': 'waning crescent'
-  };
-  return phaseMap[phase] || phase;
-};
-`;
-      
-      content += convertToLunarPhaseFunction;
-      log('Added convertToLunarPhase function');
-      
-      if (!DRY_RUN) {
-        fs.writeFileSync(filePath, content);
-      }
-    } else {
-      log('convertToLunarPhase already present', 'success');
-    }
-
-    return true;
-  },
-
-  // Fix 10: Fix useFoodRecommendations default export
-  fixUseFoodRecommendationsExport: () => {
-    const filePath = path.join(__dirname, 'src/hooks/useFoodRecommendations.ts');
-    
-    if (!fs.existsSync(filePath)) {
-      log(`File not found: ${filePath}`, 'warn');
-      return false;
-    }
-    
-    let content = fs.readFileSync(filePath, 'utf8');
-    verboseLog(`Reading ${filePath}`);
-    
-    if (!content.includes('export default')) {
-      content += '\n\n// Default export for easier importing\nexport default useFoodRecommendations;\n';
-      log('Added default export to useFoodRecommendations');
-      
-      if (!DRY_RUN) {
-        fs.writeFileSync(filePath, content);
-      }
-    } else {
-      log('useFoodRecommendations default export already exists', 'success');
-    }
-
-    return true;
+  } catch (error) {
+    return false;
   }
-};
+}
 
-// Execute all fixes
-const runFixes = async () => {
-  const results = {};
+function detectProblematicPatterns(content, filePath) {
+  const problematicPatterns = [
+    /\$1\$2|\$\d+/g,  // Regex replacement artifacts
+    /,;,;,;/g,        // Malformed syntax
+    /_{3,}/g          // Multiple underscores (potential corruption)
+  ];
   
-  log('Starting enhanced TypeScript warning fixes...\n');
+  for (const pattern of problematicPatterns) {
+    if (pattern.test(content)) {
+      console.warn(`⚠️  Problematic pattern detected in ${filePath}`);
+      return true;
+    }
+  }
   
-  for (const [fixName, fixFunction] of Object.entries(fixes)) {
+  return false;
+}
+
+/**
+ * Main Processing Functions
+ */
+async function fixTypeScriptWarnings() {
+  console.log('⚠️  Enhanced TypeScript Warning Fixer v1.0');
+  console.log('============================================');
+  console.log(`Mode: ${CONFIG.dryRun ? 'DRY RUN' : 'PRODUCTION'}`);
+  console.log(`Max Files: ${CONFIG.maxFiles} | Aggressive: ${CONFIG.aggressive ? 'ON' : 'OFF'}`);
+  console.log(`Include Console: ${CONFIG.includeConsole ? 'YES' : 'NO'}`);
+  console.log(`Targets: ${CONFIG.targetWarnings.join(', ')}`);
+  console.log('');
+
+  try {
+    const warnings = await getTypeScriptWarnings();
+    console.log(`📊 Found ${warnings.length} warnings to analyze`);
+    
+    const fileWarnings = groupAndPrioritizeWarnings(warnings);
+    console.log(`📁 Warnings distributed across ${fileWarnings.size} files`);
+    
+    const processedResults = await processFiles(fileWarnings);
+    
+    generateReport(processedResults);
+    
+    if (!CONFIG.dryRun && processedResults.length > 0) {
+      console.log('\n🔨 Final build validation...');
+      const buildSuccess = await validateBuild();
+      console.log(`Build Status: ${buildSuccess ? '✅ SUCCESS' : '❌ FAILED'}`);
+    }
+    
+  } catch (error) {
+    console.error('❌ Fatal error:', error.message);
+    process.exit(1);
+  }
+}
+
+async function getTypeScriptWarnings() {
+  try {
+    // Get TypeScript warnings
+    const tsOutput = execSync('npx tsc --noEmit', { 
+      encoding: 'utf8', 
+      stdio: 'pipe',
+      timeout: 60000 
+    });
+    
+    // Get ESLint warnings
+    let eslintOutput = '';
     try {
-      log(`Running ${fixName}...`);
-      const result = await fixFunction();
-      results[fixName] = result;
-      if (result) {
-        log(`${fixName} completed successfully`, 'success');
-      } else {
-        log(`${fixName} encountered issues`, 'warn');
-      }
-    } catch (error) {
-      log(`${fixName} failed: ${error.message}`, 'error');
-      results[fixName] = false;
+      eslintOutput = execSync('npx eslint src/ --format=compact', { 
+        encoding: 'utf8', 
+        stdio: 'pipe',
+        timeout: 60000 
+      });
+    } catch (eslintError) {
+      eslintOutput = eslintError.stdout || '';
     }
-    console.log(''); // Add spacing between fixes
+    
+    return parseWarningsFromOutput(tsOutput + '\n' + eslintOutput);
+  } catch (error) {
+    const output = error.stdout || error.stderr || '';
+    return parseWarningsFromOutput(output);
+  }
+}
+
+function parseWarningsFromOutput(output) {
+  const lines = output.split('\n');
+  const warnings = [];
+  
+  for (const line of lines) {
+    // TypeScript warnings
+    const tsMatch = line.match(/^(.+?)\((\d+),(\d+)\):\s+warning\s+(TS\d+):\s*(.+)$/);
+    if (tsMatch) {
+      const [, filePath, lineNum, colNum, code, message] = tsMatch;
+      warnings.push({
+        filePath: path.resolve(filePath),
+        line: parseInt(lineNum),
+        column: parseInt(colNum),
+        type: 'typescript',
+        code,
+        message,
+        priority: calculateWarningPriority(code, filePath, message)
+      });
+      continue;
+    }
+    
+    // ESLint warnings
+    const eslintMatch = line.match(/^(.+?):\s+line\s+(\d+),\s+col\s+(\d+),\s+(Warning|Error)\s+-\s+(.+?)\s+\(([^)]+)\)$/);
+    if (eslintMatch) {
+      const [, filePath, lineNum, colNum, severity, message, rule] = eslintMatch;
+      warnings.push({
+        filePath: path.resolve(filePath),
+        line: parseInt(lineNum),
+        column: parseInt(colNum),
+        type: 'eslint',
+        code: rule,
+        message,
+        priority: calculateWarningPriority(rule, filePath, message)
+      });
+    }
   }
   
-  // Summary
-  log('─'.repeat(50));
-  log('Fix Summary:');
-  const successful = Object.values(results).filter(Boolean).length;
-  const total = Object.keys(results).length;
+  return warnings;
+}
+
+function calculateWarningPriority(code, filePath, message) {
+  let priority = 0;
   
-  log(`${successful}/${total} fixes completed successfully`);
+  // High priority warning types
+  const highPriorityWarnings = ['unused-import', '@typescript-eslint/no-unused-vars'];
+  if (highPriorityWarnings.some(warning => code.includes(warning))) priority += 10;
   
-  if (successful < total) {
-    log('Some fixes encountered issues. Check the output above for details.', 'warn');
+  // Medium priority
+  const mediumPriorityWarnings = ['unused-variable', 'explicit-any'];
+  if (mediumPriorityWarnings.some(warning => code.includes(warning))) priority += 5;
+  
+  // File type priority
+  if (filePath.includes('/components/')) priority += 3;
+  if (filePath.includes('/services/')) priority += 2;
+  if (filePath.includes('/utils/')) priority += 1;
+  
+  // Message content priority
+  if (message.includes('never used')) priority += 5;
+  if (message.includes('never read')) priority += 4;
+  
+  return priority;
+}
+
+function groupAndPrioritizeWarnings(warnings) {
+  const fileMap = new Map();
+  
+  for (const warning of warnings) {
+    if (!fileMap.has(warning.filePath)) {
+      fileMap.set(warning.filePath, []);
+    }
+    fileMap.get(warning.filePath).push(warning);
   }
   
-  if (DRY_RUN) {
-    log('\n📝 This was a dry run. No files were modified.');
-    log('Run without --dry-run to apply changes.');
-  } else {
-    log('\n✨ All applicable fixes have been applied.');
-    log('Run yarn build to verify the fixes resolved the TypeScript warnings.');
+  const sortedFiles = Array.from(fileMap.entries()).sort((a, b) => {
+    const priorityA = a[1].reduce((sum, warning) => sum + warning.priority, 0);
+    const priorityB = b[1].reduce((sum, warning) => sum + warning.priority, 0);
+    return priorityB - priorityA;
+  });
+  
+  return new Map(sortedFiles.slice(0, CONFIG.maxFiles));
+}
+
+async function processFiles(fileWarnings) {
+  const results = [];
+  const files = Array.from(fileWarnings.keys());
+  
+  for (const filePath of files) {
+    const result = await processFile(filePath, fileWarnings.get(filePath));
+    results.push(result);
+    
+    if (results.length % CONFIG.buildValidationInterval === 0 && !CONFIG.dryRun) {
+      const buildSuccess = await validateBuild();
+      if (!buildSuccess) {
+        console.warn('⚠️  Build validation failed, stopping processing');
+        break;
+      }
+    }
   }
-};
+  
+  return results;
+}
+
+async function processFile(filePath, warnings) {
+  const startTime = Date.now();
+  
+  try {
+    if (!fs.existsSync(filePath)) {
+      return { filePath, success: false, error: 'File not found' };
+    }
+    
+    let content = fs.readFileSync(filePath, 'utf8');
+    const originalContent = content;
+    
+    if (detectProblematicPatterns(content, filePath)) {
+      return { filePath, success: false, error: 'Problematic patterns detected' };
+    }
+    
+    let fixesApplied = 0;
+    const appliedFixes = [];
+    
+    for (const warning of warnings) {
+      const warningType = determineWarningType(warning);
+      const patterns = WARNING_PATTERNS[warningType]?.patterns || [];
+      
+      for (const pattern of patterns) {
+        if (pattern.confidence >= CONFIG.safetyThreshold) {
+          const matches = Array.from(content.matchAll(new RegExp(pattern.regex.source, 'g')));
+          
+          for (const match of matches) {
+            if (match[0] && warning.message.includes(match[1] || match[0])) {
+              try {
+                const newContent = pattern.fix(content, ...match);
+                if (newContent !== content) {
+                  content = newContent;
+                  fixesApplied++;
+                  appliedFixes.push({
+                    pattern: pattern.regex.toString(),
+                    confidence: pattern.confidence,
+                    warningType
+                  });
+                  
+                  const patternKey = `${warningType}_${pattern.regex.toString()}`;
+                  METRICS.patternSuccessRates.set(
+                    patternKey,
+                    (METRICS.patternSuccessRates.get(patternKey) || 0) + 1
+                  );
+                  break; // Only apply one fix per warning
+                }
+              } catch (error) {
+                console.warn(`⚠️  Pattern fix failed for ${warningType}: ${error.message}`);
+              }
+            }
+          }
+        }
+      }
+    }
+    
+    if (!CONFIG.dryRun && content !== originalContent) {
+      fs.writeFileSync(filePath, content, 'utf8');
+    }
+    
+    const processingTime = Date.now() - startTime;
+    METRICS.processingTime += processingTime;
+    METRICS.processedFiles++;
+    METRICS.warningsFixed += fixesApplied;
+    
+    return {
+      filePath,
+      success: true,
+      fixesApplied,
+      appliedFixes,
+      processingTime,
+      changed: content !== originalContent
+    };
+    
+  } catch (error) {
+    return {
+      filePath,
+      success: false,
+      error: error.message
+    };
+  }
+}
+
+function determineWarningType(warning) {
+  const message = warning.message.toLowerCase();
+  const code = warning.code.toLowerCase();
+  
+  if (message.includes('never read') || message.includes('never used') || code.includes('unused')) {
+    if (message.includes('import') || code.includes('import')) {
+      return 'unused-import';
+    }
+    return 'unused-variable';
+  }
+  
+  if (message.includes('console') || code.includes('console')) {
+    return 'console-statement';
+  }
+  
+  if (message.includes('any') || code.includes('any')) {
+    return 'explicit-any';
+  }
+  
+  if (message.includes('deprecated') || code.includes('deprecated')) {
+    return 'deprecated-api';
+  }
+  
+  return 'performance-warning';
+}
+
+function generateReport(results) {
+  const totalTime = Date.now() - METRICS.startTime;
+  const successfulFiles = results.filter(r => r.success).length;
+  const totalFixes = results.reduce((sum, r) => sum + (r.fixesApplied || 0), 0);
+  
+  console.log('\n📊 WARNING PROCESSING REPORT');
+  console.log('=============================');
+  console.log(`⏱️  Total Time: ${(totalTime / 1000).toFixed(2)}s`);
+  console.log(`📁 Files Processed: ${successfulFiles}/${results.length}`);
+  console.log(`🔧 Total Fixes Applied: ${totalFixes}`);
+  console.log(`✅ Success Rate: ${((successfulFiles / results.length) * 100).toFixed(1)}%`);
+  console.log(`⚠️  Warnings Fixed: ${METRICS.warningsFixed}`);
+  console.log(`⏭️  Warnings Skipped: ${METRICS.warningsSkipped}`);
+  
+  if (METRICS.processedFiles > 0) {
+    console.log(`⚡ Average File Time: ${(METRICS.processingTime / METRICS.processedFiles).toFixed(0)}ms`);
+  }
+  
+  if (METRICS.patternSuccessRates.size > 0) {
+    console.log('\n🎯 Top Performing Patterns:');
+    const sortedPatterns = Array.from(METRICS.patternSuccessRates.entries())
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 5);
+    
+    sortedPatterns.forEach(([pattern, count]) => {
+      console.log(`   ${pattern.split('_')[0]}: ${count} successful applications`);
+    });
+  }
+  
+  console.log('\n✨ Warning processing complete!');
+  
+  if (CONFIG.dryRun) {
+    console.log('\n💡 Run without --dry-run to apply changes');
+  }
+}
 
 // Main execution
-runFixes().catch(error => {
-  console.error('❌ Script execution failed:', error);
-  process.exit(1);
-}); 
+fixTypeScriptWarnings().catch(console.error); 

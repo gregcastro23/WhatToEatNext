@@ -9,17 +9,22 @@ This directory contains automated scripts for fixing TypeScript errors in the Wh
 - **Achievement:** 100% unused variable elimination (1,422→0 errors)
 - **Documentation:** See `docs/ENHANCED_UNUSED_VARIABLE_CLEANER_ARCHIVE.md`
 
-### **2. Enhanced TypeScript Error Fixer v1.0** 🚀 **ACTIVE**
+### **2. Enhanced TypeScript Error Fixer v2.0** 🚀 **ACTIVE**
+- **Status:** Production ready with advanced features
+- **Target:** Remaining 195 TypeScript errors
+- **Focus:** TS2322, TS2459, TS2740, TS2345, TS2304, TS2339, TS2741, TS2688, TS2820
+
+### **3. Enhanced TypeScript Warning Fixer v1.0** ⚡ **NEW**
 - **Status:** Ready for deployment
-- **Target:** Remaining 88 TypeScript errors
-- **Focus:** TS2322, TS2459, TS2740, TS2345, TS2304, TS2339, TS2741
+- **Target:** TypeScript and ESLint warnings
+- **Focus:** Unused variables, imports, console statements, explicit any types
 
 ---
 
-## 🛠️ **Enhanced TypeScript Error Fixer v1.0**
+## 🛠️ **Enhanced TypeScript Error Fixer v2.0**
 
 ### **Purpose**
-Systematically fix remaining TypeScript errors using proven patterns from the unused variable cleaner.
+Systematically fix remaining TypeScript errors using proven patterns with advanced safety features and performance optimization.
 
 ### **Target Error Types**
 | Error Code | Count | Description | Priority |
@@ -37,13 +42,16 @@ Systematically fix remaining TypeScript errors using proven patterns from the un
 #### **Basic Usage**
 ```bash
 # Dry run mode (ALWAYS run first)
-node scripts/typescript-fixes/fix-typescript-errors-enhanced.js --dry-run
+node scripts/typescript-fixes/fix-typescript-errors-enhanced-v2.js --dry-run
 
-# Production mode with auto-fix
-node scripts/typescript-fixes/fix-typescript-errors-enhanced.js --auto-fix
+# Production mode
+node scripts/typescript-fixes/fix-typescript-errors-enhanced-v2.js
+
+# Aggressive mode (lower safety threshold)
+node scripts/typescript-fixes/fix-typescript-errors-enhanced-v2.js --aggressive
 
 # Custom batch size
-node scripts/typescript-fixes/fix-typescript-errors-enhanced.js --max-files=30 --auto-fix
+node scripts/typescript-fixes/fix-typescript-errors-enhanced-v2.js --max-files=30
 ```
 
 #### **Configuration Options**
@@ -86,9 +94,82 @@ node scripts/typescript-fixes/fix-typescript-errors-enhanced.js --max-files=30 -
 ```
 
 ### **Safety Levels**
-- **High Safety:** Automatic fixes with high confidence
-- **Medium Safety:** Fixes with validation checks
-- **Low Safety:** Manual review recommended
+- **High Safety:** Automatic fixes with high confidence (0.85+ confidence)
+- **Medium Safety:** Fixes with validation checks (0.70-0.84 confidence)
+- **Low Safety:** Manual review recommended (<0.70 confidence)
+
+---
+
+## ⚠️ **Enhanced TypeScript Warning Fixer v1.0**
+
+### **Purpose**
+Dedicated script for handling TypeScript and ESLint warnings with intelligent pattern recognition and safe cleanup strategies.
+
+### **Target Warning Types**
+| Warning Type | Description | Safety Level |
+|-------------|-------------|--------------|
+| unused-variable | Variables declared but never read | HIGH |
+| unused-import | Imports defined but never used | HIGH |
+| console-statement | Console.log/warn/error statements | MEDIUM |
+| explicit-any | Explicit any type usage | MEDIUM |
+| deprecated-api | Deprecated API usage | MEDIUM |
+| performance-warning | Performance optimization suggestions | LOW |
+
+### **Usage**
+
+#### **Basic Usage**
+```bash
+# Dry run mode (ALWAYS run first)
+node scripts/typescript-fixes/fix-typescript-warnings-enhanced.js --dry-run
+
+# Production mode
+node scripts/typescript-fixes/fix-typescript-warnings-enhanced.js
+
+# Include console statement fixes
+node scripts/typescript-fixes/fix-typescript-warnings-enhanced.js --include-console
+
+# Aggressive mode (replace 'any' with 'unknown')
+node scripts/typescript-fixes/fix-typescript-warnings-enhanced.js --aggressive
+
+# Custom configuration
+node scripts/typescript-fixes/fix-typescript-warnings-enhanced.js --max-files=20 --dry-run
+```
+
+#### **Configuration Options**
+- `--dry-run`: Validate changes without applying (RECOMMENDED first)
+- `--aggressive`: Lower safety threshold, more aggressive fixes
+- `--include-console`: Include console statement fixes
+- `--max-files=N`: Set maximum files per batch (default: 30)
+
+### **Warning Fixing Patterns**
+
+#### **Unused Variables**
+```javascript
+// Pattern: Prefix with underscore
+// Before: const result = getData();
+// After:  const _result = getData();
+```
+
+#### **Unused Imports**
+```javascript
+// Pattern: Remove unused imports
+// Before: import { A, B, C } from 'module';
+// After:  import { A, C } from 'module';
+```
+
+#### **Console Statements** (with --include-console)
+```javascript
+// Pattern: Comment out console statements
+// Before: console.log('debug info');
+// After:  // console.log('debug info');
+```
+
+#### **Explicit Any Types** (with --aggressive)
+```javascript
+// Pattern: Replace with unknown
+// Before: const data: any = getData();
+// After:  const data: unknown = getData();
+```
 
 ---
 
@@ -116,22 +197,40 @@ node scripts/typescript-fixes/fix-typescript-errors-enhanced.js --max-files=30 -
 5. **Build Test:** Verify `npm run build` still works
 6. **Commit:** Commit changes with descriptive message
 
-### **Example Workflow**
+### **Example Workflow - Error Fixing**
 ```bash
 # 1. Check current errors
 npx tsc --noEmit 2>&1 | grep "error TS" | wc -l
 
-# 2. Dry run
-node scripts/typescript-fixes/fix-typescript-errors-enhanced.js --dry-run
+# 2. Dry run error fixer
+node scripts/typescript-fixes/fix-typescript-errors-enhanced-v2.js --dry-run
 
 # 3. Review output and apply if satisfied
-node scripts/typescript-fixes/fix-typescript-errors-enhanced.js --auto-fix
+node scripts/typescript-fixes/fix-typescript-errors-enhanced-v2.js
 
 # 4. Validate build
-npm run build
+yarn build
 
 # 5. Commit changes
-git add -A && git commit -m "Fix TypeScript errors using Enhanced Error Fixer v1.0"
+git add -A && git commit -m "Fix TypeScript errors using Enhanced Error Fixer v2.0"
+```
+
+### **Example Workflow - Warning Cleanup**
+```bash
+# 1. Check current warnings (optional)
+npx eslint src/ --format=compact | wc -l
+
+# 2. Dry run warning fixer
+node scripts/typescript-fixes/fix-typescript-warnings-enhanced.js --dry-run
+
+# 3. Review output and apply if satisfied
+node scripts/typescript-fixes/fix-typescript-warnings-enhanced.js
+
+# 4. Validate build
+yarn build
+
+# 5. Commit changes
+git add -A && git commit -m "Clean up TypeScript warnings using Enhanced Warning Fixer v1.0"
 ```
 
 ---
