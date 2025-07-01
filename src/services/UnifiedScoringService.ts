@@ -13,7 +13,22 @@
 
 import { GeographicCoordinates, PlanetaryLocationService } from '../data/planets/locationService';
 import { getCurrentAlchemicalState } from './RealAlchemizeService';
-import type { ElementalProperties, ZodiacSign } from '../types/alchemy';
+import type { 
+  ElementalProperties, 
+  ZodiacSign, 
+  AlchemicalProperties,
+  ThermodynamicMetrics,
+  Season,
+  CuisineType,
+  DietaryRestriction
+} from '../types/alchemy';
+import type { 
+  Planet, 
+  LunarPhase, 
+  AspectType,
+  PlanetaryPosition,
+  PlanetaryAspect
+} from '../types/celestial';
 
 // ==================== INTERFACES ====================
 
@@ -63,18 +78,18 @@ export interface ScoringContext {
   location?: GeographicCoordinates;
   
   // Astrological data
-  planetaryPositions?: Record<string, { sign: ZodiacSign; degree: number }>;
+  planetaryPositions?: Record<Planet, PlanetaryPosition>;
   currentTransits?: any;
-  aspects?: Array<{ type: string; planet1: string; planet2: string; orb: number }>;
-  lunarPhase?: string;
+  aspects?: PlanetaryAspect[];
+  lunarPhase?: LunarPhase;
   
   // Target item data
   item: {
     name: string;
     type: 'ingredient' | 'recipe' | 'cuisine' | 'cooking_method';
     elementalProperties?: ElementalProperties;
-    seasonality?: string[];
-    planetaryRulers?: string[];
+    seasonality?: Season[];
+    planetaryRulers?: Planet[];
     flavorProfile?: Record<string, number>;
     culturalOrigins?: string[];
     [key: string]: any;
@@ -82,8 +97,8 @@ export interface ScoringContext {
   
   // User preferences
   preferences?: {
-    dietaryRestrictions?: string[];
-    culturalPreferences?: string[];
+    dietaryRestrictions?: DietaryRestriction[];
+    culturalPreferences?: CuisineType[];
     intensityPreference?: 'mild' | 'moderate' | 'intense';
     complexityPreference?: 'simple' | 'moderate' | 'complex';
     [key: string]: any;
@@ -102,18 +117,18 @@ export interface ScoringContext {
  * Astrological data from various sources
  */
 export interface AstrologicalData {
-  planetaryPositions: Record<string, { sign: ZodiacSign; degree: number; isRetrograde?: boolean }>;
-  aspects: Array<{ type: string; planet1: string; planet2: string; orb: number; strength: number }>;
+  planetaryPositions: Record<Planet, PlanetaryPosition>;
+  aspects: PlanetaryAspect[];
   transits: {
-    active: Array<{ transitingPlanet: string; natalPlanet: string; aspect: string; strength: number }>;
+    active: Array<{ transitingPlanet: Planet; natalPlanet: Planet; aspect: AspectType; strength: number }>;
     seasonal: any;
   };
   lunarPhase: {
-    name: string;
+    name: LunarPhase;
     illumination: number;
     effect: string;
   };
-  dignity: Record<string, number>;
+  dignity: Record<Planet, number>;
   houses?: Record<string, number>;
   source: 'astrologize' | 'swiss_ephemeris' | 'fallback';
   confidence: number;

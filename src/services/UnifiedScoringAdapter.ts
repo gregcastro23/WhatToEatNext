@@ -7,7 +7,13 @@
  */
 
 import { scoreRecommendation, ScoringContext, ScoringResult } from './UnifiedScoringService';
-import type { ElementalProperties } from '../types/alchemy';
+import type { 
+  ElementalProperties, 
+  Season, 
+  CuisineType, 
+  DietaryRestriction 
+} from '../types/alchemy';
+import type { Planet } from '../types/celestial';
 import type { UnifiedIngredient } from '../types/ingredient';
 import type { Recipe } from '../types/recipe';
 import type { CookingMethod } from '../types/cooking';
@@ -69,7 +75,7 @@ export class UnifiedScoringAdapter {
         type: 'ingredient',
         elementalProperties: ingredient.elementalProperties || ingredient.elementalPropertiesState,
         seasonality: ingredient.seasonality || [],
-        planetaryRulers: ingredient.astrologicalProfile?.rulingPlanets || [],
+        planetaryRulers: (ingredient.astrologicalProfile?.rulingPlanets || []) as Planet[],
         flavorProfile: ingredient.flavorProfile || {},
         culturalOrigins: ingredient.culturalOrigins || []
       },
@@ -132,7 +138,7 @@ export class UnifiedScoringAdapter {
           Air: 0.25
         },
         seasonality: recipe.seasonality || [],
-        planetaryRulers: recipe.planetaryRulers || [],
+        planetaryRulers: (recipe.planetaryRulers || []) as Planet[],
         flavorProfile: recipe.flavorProfile || {},
         culturalOrigins: recipe.culturalOrigins || [recipe.cuisine].filter(Boolean)
       },
@@ -180,7 +186,7 @@ export class UnifiedScoringAdapter {
           Air: 0.25
         },
         seasonality: method.seasonality || [],
-        planetaryRulers: method.planetaryRulers || [],
+        planetaryRulers: (method.planetaryRulers || []) as Planet[],
         flavorProfile: method.flavorProfile || {},
         culturalOrigins: method.culturalOrigins || []
       },
@@ -223,8 +229,8 @@ export class UnifiedScoringAdapter {
         name: cuisineName,
         type: 'cuisine',
         elementalProperties: cuisineElementalProperties,
-        seasonality: [],
-        planetaryRulers: [],
+        seasonality: [] as Season[],
+        planetaryRulers: [] as Planet[],
         flavorProfile: {},
         culturalOrigins: [cuisineName]
       },

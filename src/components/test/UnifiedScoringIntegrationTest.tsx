@@ -3,15 +3,17 @@
 import React, { useState, useEffect } from 'react';
 import { getRecommendedIngredients, ScoredItem } from '@/services/UnifiedScoringAdapter';
 import type { UnifiedIngredient } from '@/types/ingredient';
+import type { Season } from '@/types/alchemy';
+import type { Planet } from '@/types/celestial';
 
 // Sample ingredients for testing
 const SAMPLE_INGREDIENTS: UnifiedIngredient[] = [
   {
     name: 'Basil',
     elementalProperties: { Fire: 0.3, Water: 0.1, Earth: 0.2, Air: 0.4 },
-    seasonality: ['summer', 'spring'],
+    seasonality: ['summer', 'spring'] as Season[],
     astrologicalProfile: {
-      rulingPlanets: ['Mercury', 'Mars']
+      rulingPlanets: ['Mercury', 'Mars'] as Planet[]
     },
     category: 'herbs',
     flavorProfile: { sweet: 0.2, bitter: 0.1, spicy: 0.3, aromatic: 0.8 },
@@ -20,9 +22,9 @@ const SAMPLE_INGREDIENTS: UnifiedIngredient[] = [
   {
     name: 'Garlic',
     elementalProperties: { Fire: 0.6, Water: 0.1, Earth: 0.1, Air: 0.2 },
-    seasonality: ['all'],
+    seasonality: ['all'] as Season[],
     astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Pluto']
+      rulingPlanets: ['Mars', 'Pluto'] as Planet[]
     },
     category: 'vegetables',
     flavorProfile: { pungent: 0.9, spicy: 0.7, savory: 0.8 },
@@ -31,9 +33,9 @@ const SAMPLE_INGREDIENTS: UnifiedIngredient[] = [
   {
     name: 'Ginger',
     elementalProperties: { Fire: 0.7, Water: 0.1, Earth: 0.1, Air: 0.1 },
-    seasonality: ['all'],
+    seasonality: ['all'] as Season[],
     astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Sun']
+      rulingPlanets: ['Mars', 'Sun'] as Planet[]
     },
     category: 'spices',
     flavorProfile: { spicy: 0.8, sweet: 0.3, pungent: 0.6 },
