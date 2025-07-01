@@ -244,7 +244,7 @@ export function calculateLocationEffect(
  */
 export function calculateLunarPhaseEffect(
   astroData: AstrologicalData,
-  context: ScoringContext
+  _context: ScoringContext
 ): number {
   const lunarPhase = astroData.lunarPhase;
   const itemType = context.item.type;

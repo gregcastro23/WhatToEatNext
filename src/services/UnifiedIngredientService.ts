@@ -870,7 +870,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
   ): UnifiedIngredient[] {
     const normalizedQuery = query?.toLowerCase()?.trim();
     
-    return (ingredients || []).filter(ingredient => {
+    return (ingredients || []).filter(_ingredient => {
       // Check name
       if (ingredient.name?.toLowerCase()?.includes(normalizedQuery)) {
         return true;
