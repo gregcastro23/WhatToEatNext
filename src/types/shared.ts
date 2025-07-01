@@ -10,13 +10,14 @@ import {
   isElementalProperties,
   DEFAULT_ELEMENTAL_PROPERTIES
 } from './elemental';
+import { Element, ZodiacSign, Planet } from '@/types/celestial';
 
 // ========== ELEMENTAL TYPES ==========
 
 /**
  * The four primary elements in our system
  */
-export type Element = 'Fire' | 'Water' | 'Air' | 'Earth';
+// Element type imported from @/types/celestial
 
 // Re-export the elemental properties types
 export type {
@@ -52,12 +53,12 @@ export type DignityType = 'Domicile' | 'Exaltation' | 'Detriment' | 'Fall' | 'Ne
 /**
  * Zodiac signs
  */
-export type ZodiacSign = 'aries' | 'taurus' | 'gemini' | 'cancer' | 'leo' | 'virgo' | 'libra' | 'scorpio' | 'sagittarius' | 'capricorn' | 'aquarius' | 'pisces';
+// ZodiacSign type imported from @/types/celestial
 
 /**
  * Planet names - all lowercase as per project requirements
  */
-export type Planet = 'sun' | 'moon' | 'mercury' | 'venus' | 'mars' | 'jupiter' | 'saturn' | 'uranus' | 'neptune' | 'pluto';
+// Planet type imported from @/types/celestial
 
 // ========== LUNAR TYPES ==========
 

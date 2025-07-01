@@ -512,7 +512,7 @@ export class UnifiedNutritionalSystem {
 // ===== EXPORTED UTILITY FUNCTIONS =====
 
 export const calculateNutritionalBalance = (_ingredients: any[]): NutritionalProfile => {
-  if (!ingredients || ingredients.length === 0) {
+  if (!_ingredients || _ingredients.length === 0) {
     return {
       calories: 0,
       protein: 0,
@@ -525,7 +525,7 @@ export const calculateNutritionalBalance = (_ingredients: any[]): NutritionalPro
   }
   
   // Aggregate nutritional values from ingredients
-  const totals = ingredients.reduce((acc, ingredient) => {
+  const totals = _ingredients.reduce((acc, ingredient) => {
     const ingredientData = ingredient as any;
     const nutrition = ingredientData?.nutrition || {};
     

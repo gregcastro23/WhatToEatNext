@@ -56,7 +56,7 @@ export function getSeasonalData(
   const complementaryFlavors = Object.entries(seasonalData)
     .filter(([_key, value]) => {
       // Only include ingredient entries (skip metadata like elementalInfluence)
-      return typeof value === 'number' && value > 0.7 && key !== 'elementalInfluence';
+      return typeof value === 'number' && value > 0.7 && _key !== 'elementalInfluence';
     })
     .map(([name, _]) => name)
     .slice(0, 5); // Top 5
@@ -94,7 +94,7 @@ export const unifiedSeasonalSystem = {
   getSeasonalIngredients: (season: Season = getCurrentSeason(), minScore = 0.6) => {
     const seasonData = seasonalPatterns[season] || {};
     return Object.entries(seasonData)
-      .filter(([_key, value]) => typeof value === 'number' && value >= minScore && key !== 'elementalInfluence')
+      .filter(([_key, value]) => typeof value === 'number' && value >= minScore && _key !== 'elementalInfluence')
       .map(([name, score]) => ({ name, score: score as number }))
       .sort((a, b) => b.score - a.score);
   },

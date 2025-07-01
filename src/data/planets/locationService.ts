@@ -114,29 +114,29 @@ export class AstronomicalCalculations {
     let phaseName: string;
     let culinaryEffect: string;
     
-    if (phase < 1) {
-      phaseName = 'New Moon';
+    if (phase < 0.125) {
+      phaseName = 'new moon';
       culinaryEffect = 'New beginnings in cooking, seed sprouting, minimal preserving';
-    } else if (phase < 7.4) {
-      phaseName = 'Waxing Crescent';
+    } else if (phase < 0.25) {
+      phaseName = 'waxing crescent';
       culinaryEffect = 'Growth energy, ideal for bread rising, fermentation starts';
-    } else if (phase < 8.4) {
-      phaseName = 'First Quarter';
+    } else if (phase < 0.375) {
+      phaseName = 'first quarter';
       culinaryEffect = 'Action-oriented cooking, quick preparations, energizing foods';
-    } else if (phase < 14.8) {
-      phaseName = 'Waxing Gibbous';
+    } else if (phase < 0.5) {
+      phaseName = 'waxing gibbous';
       culinaryEffect = 'Building flavors, slow cooking, ingredient absorption';
-    } else if (phase < 15.8) {
-      phaseName = 'Full Moon';
+    } else if (phase < 0.625) {
+      phaseName = 'full moon';
       culinaryEffect = 'Peak harvest, maximum flavor intensity, completion of preserving';
-    } else if (phase < 22.1) {
-      phaseName = 'Waning Gibbous';
+    } else if (phase < 0.75) {
+      phaseName = 'waning gibbous';
       culinaryEffect = 'Sharing abundance, community cooking, thanksgiving meals';
-    } else if (phase < 23.1) {
-      phaseName = 'Last Quarter';
+    } else if (phase < 0.875) {
+      phaseName = 'last quarter';
       culinaryEffect = 'Release and cleansing foods, detox preparations, clearing';
     } else {
-      phaseName = 'Waning Crescent';
+      phaseName = 'waning crescent';
       culinaryEffect = 'Rest and reflection, simple foods, preparation for new cycle';
     }
     

@@ -1,4 +1,4 @@
-export type Element = 'Fire' | 'Water' | 'Air' | 'Earth';
+import { Element } from '@/types/celestial';
 
 export interface ElementalProperties {
   [key: string]: number;  // Element: strength (0-1)

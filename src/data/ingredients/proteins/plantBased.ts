@@ -12,8 +12,8 @@ function createIngredientMapping(
   properties: Partial<IngredientMapping> & Record<string, any>
 ): Partial<IngredientMapping> {
   return {
-    id: id,
-    name: id,
+    id: _id,
+    name: _id,
     elementalProperties: properties.elementalProperties || {
       Earth: 0.25,
       Water: 0.25,

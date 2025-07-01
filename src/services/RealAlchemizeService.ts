@@ -6,22 +6,14 @@
  */
 
 import fs from 'fs';
+import { ZodiacSign, Element, ElementalProperties } from '@/types/celestial';
 
 // Types
-export type ZodiacSign = 'aries' | 'taurus' | 'gemini' | 'cancer' | 'leo' | 'virgo' | 'libra' | 'scorpio' | 'sagittarius' | 'capricorn' | 'aquarius' | 'pisces';
-
 export type PlanetaryPosition = {
   sign: ZodiacSign;
   degree: number;
   minute: number;
   isRetrograde: boolean;
-};
-
-export type ElementalProperties = {
-  Fire: number;
-  Water: number;
-  Earth: number;
-  Air: number;
 };
 
 export type ThermodynamicProperties = {

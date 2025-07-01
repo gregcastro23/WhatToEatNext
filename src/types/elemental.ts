@@ -3,8 +3,9 @@
  * This file contains all elemental-related type definitions
  */
 
+import { Element } from '@/types/celestial';
+
 // The four basic elements
-export type Element = 'Fire' | 'Water' | 'Air' | 'Earth';
 export type LowercaseElement = 'fire' | 'water' | 'air' | 'earth';
 
 // Interface for elemental properties with standard case (uppercase first letter)

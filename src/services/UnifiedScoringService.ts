@@ -262,21 +262,21 @@ export function calculateLunarPhaseEffect(
   _context: ScoringContext
 ): number {
   const lunarPhase = astroData.lunarPhase;
-  const itemType = context.item.type;
+  const itemType = _context.item.type;
   
-  // Different item types respond differently to lunar phases
-  const phaseEffects: Record<string, Record<string, number>> = {
-    'New Moon': { ingredient: 0.1, recipe: 0.05, cuisine: 0, cooking_method: 0.1 },
-    'Waxing Crescent': { ingredient: 0.15, recipe: 0.1, cuisine: 0.05, cooking_method: 0.1 },
-    'First Quarter': { ingredient: 0.1, recipe: 0.15, cuisine: 0.1, cooking_method: 0.15 },
-    'Waxing Gibbous': { ingredient: 0.05, recipe: 0.2, cuisine: 0.15, cooking_method: 0.1 },
-    'Full Moon': { ingredient: 0.2, recipe: 0.25, cuisine: 0.2, cooking_method: 0.05 },
-    'Waning Gibbous': { ingredient: 0.1, recipe: 0.15, cuisine: 0.25, cooking_method: 0 },
-    'Last Quarter': { ingredient: 0, recipe: 0.05, cuisine: 0.1, cooking_method: -0.05 },
-    'Waning Crescent': { ingredient: -0.05, recipe: 0, cuisine: 0.05, cooking_method: 0.1 }
+  // Lunar phase modifiers (using standard lowercase format)
+  const LUNAR_PHASE_MODIFIERS: Record<LunarPhase, ScoringWeights> = {
+    'new moon': { ingredient: 0.1, recipe: 0.05, cuisine: 0.1, cooking_method: 0.15 },
+    'waxing crescent': { ingredient: 0.15, recipe: 0.1, cuisine: 0.05, cooking_method: 0.1 },
+    'first quarter': { ingredient: 0.1, recipe: 0.15, cuisine: 0.1, cooking_method: 0.15 },
+    'waxing gibbous': { ingredient: 0.05, recipe: 0.2, cuisine: 0.15, cooking_method: 0.1 },
+    'full moon': { ingredient: 0.2, recipe: 0.25, cuisine: 0.2, cooking_method: 0.05 },
+    'waning gibbous': { ingredient: 0.1, recipe: 0.15, cuisine: 0.25, cooking_method: 0 },
+    'last quarter': { ingredient: 0, recipe: 0.05, cuisine: 0.1, cooking_method: -0.05 },
+    'waning crescent': { ingredient: -0.05, recipe: 0, cuisine: 0.05, cooking_method: 0.1 }
   };
   
-  return phaseEffects[lunarPhase.name]?.[itemType] || 0;
+  return LUNAR_PHASE_MODIFIERS[lunarPhase.name]?.[itemType] || 0;
 }
 
 /**

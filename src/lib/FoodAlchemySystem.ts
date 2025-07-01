@@ -1,9 +1,6 @@
 import { PlanetaryHourCalculator } from './PlanetaryHourCalculator';
 import { ThermodynamicCalculator } from './ThermodynamicCalculator';
-import type { ElementalProperties, ZodiacSign, Planet } from '@/types/celestial';
-
-// Define types needed for the Food Alchemy System
-export type Element = 'Fire' | 'Water' | 'Air' | 'Earth';
+import type { ElementalProperties, ZodiacSign, Planet, Element } from '@/types/celestial';
 
 /**
  * Maps planets to their elemental influences (diurnal and nocturnal elements)
