@@ -12,7 +12,7 @@
  */
 
 import { GeographicCoordinates, PlanetaryLocationService } from '../data/planets/locationService';
-import RealAlchemizeService from './RealAlchemizeService';
+import { getCurrentAlchemicalState } from './RealAlchemizeService';
 import type { ElementalProperties, ZodiacSign } from '../types/alchemy';
 
 // ==================== INTERFACES ====================
@@ -174,11 +174,11 @@ export function calculateDignityEffect(
  */
 export function calculateTarotEffect(
   _astroData: AstrologicalData,
-  context: ScoringContext
+  _context: ScoringContext
 ): number {
   // Future integration with tarot system
   // For now, return neutral effect
-  const itemType = context.item.type;
+  const itemType = _context.item.type;
   
   // Different item types have different tarot affinities
   const tarotAffinities = {
@@ -311,7 +311,7 @@ export function calculateElementalCompatibility(
   if (!context.item.elementalProperties) return 0;
   
   // Get current elemental state from alchemical calculations
-  const currentState = RealAlchemizeService.getCurrentAlchemicalState();
+  const currentState = getCurrentAlchemicalState();
   const currentElemental = currentState.elementalProperties;
   const itemElemental = context.item.elementalProperties;
   
@@ -335,7 +335,7 @@ export function calculateThermodynamicEffect(
   _astroData: AstrologicalData,
   context: ScoringContext
 ): number {
-  const currentState = RealAlchemizeService.getCurrentAlchemicalState();
+  const currentState = getCurrentAlchemicalState();
   const thermo = currentState.thermodynamicProperties;
   
   let score = 0;
@@ -368,7 +368,7 @@ export function calculateKalchmResonance(
   _astroData: AstrologicalData,
   _context: ScoringContext
 ): number {
-  const currentState = RealAlchemizeService.getCurrentAlchemicalState();
+  const currentState = getCurrentAlchemicalState();
   const kalchm = currentState.kalchm;
   
   // Higher Kalchm values favor transformation and fermentation
@@ -388,7 +388,7 @@ export function calculateMonicaOptimization(
   _astroData: AstrologicalData,
   _context: ScoringContext
 ): number {
-  const currentState = RealAlchemizeService.getCurrentAlchemicalState();
+  const currentState = getCurrentAlchemicalState();
   const monica = currentState.monica;
   
   // Monica constant affects optimization and efficiency

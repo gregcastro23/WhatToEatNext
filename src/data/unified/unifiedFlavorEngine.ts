@@ -228,12 +228,12 @@ export class UnifiedFlavorEngine {
    * Implements unified algorithm with 30-40% accuracy improvement
    */
   calculateCompatibility(
-    profile1: UnifiedFlavorProfile, 
-    profile2: UnifiedFlavorProfile,
-    context?: { season?: Season; culturalPreference?: string; preparationMethod?: string }
+    _profile1: UnifiedFlavorProfile, 
+    _profile2: UnifiedFlavorProfile,
+    _context?: { season?: Season; culturalPreference?: string; preparationMethod?: string }
   ): UnifiedFlavorCompatibility {
     const startTime = performance.now();
-    const cacheKey = `${profile1.id}-${profile2.id}-${JSON.stringify(context || {})}`;
+    const cacheKey = `${_profile1.id}-${_profile2.id}-${JSON.stringify(_context || {})}`;
     
     // Phase 8: Enhanced cache checking with performance tracking
     if (this.compatibilityCache.has(cacheKey)) {
@@ -248,28 +248,28 @@ export class UnifiedFlavorEngine {
     }
 
     // 1. Elemental Harmony (Self-Reinforcement Compliant) - Phase 8 Optimized
-    const elemental = this.calculateElementalHarmonyOptimized(profile1.elementalFlavors, profile2.elementalFlavors);
+    const elemental = this.calculateElementalHarmonyOptimized(_profile1.elementalFlavors, _profile2.elementalFlavors);
     
     // 2. Kalchm Resonance
-    const kalchm = this.calculateKalchmResonance(profile1.kalchm, profile2.kalchm);
+    const kalchm = this.calculateKalchmResonance(_profile1.kalchm, _profile2.kalchm);
     
     // 3. Monica Optimization
-    const monica = this.calculateMonicaOptimization(profile1.monicaOptimization, profile2.monicaOptimization);
+    const monica = this.calculateMonicaOptimization(_profile1.monicaOptimization, _profile2.monicaOptimization);
     
     // 4. Seasonal Alignment
-    const seasonal = this.calculateSeasonalAlignment(profile1, profile2, context?.season);
+    const seasonal = this.calculateSeasonalAlignment(_profile1, _profile2, _context?.season);
     
     // 5. Cultural Compatibility
-    const cultural = this.calculateCulturalCompatibility(profile1, profile2, context?.culturalPreference);
+    const cultural = this.calculateCulturalCompatibility(_profile1, _profile2, _context?.culturalPreference);
     
     // 6. Nutritional Synergy
-    const nutritional = this.calculateNutritionalSynergy(profile1, profile2);
+    const nutritional = this.calculateNutritionalSynergy(_profile1, _profile2);
     
     // 7. Preparation Method Compatibility
-    const preparation = this.calculatePreparationCompatibility(profile1, profile2, context?.preparationMethod);
+    const preparation = this.calculatePreparationCompatibility(_profile1, _profile2, _context?.preparationMethod);
     
     // 8. Base Flavor Harmony
-    const flavorHarmony = this.calculateFlavorHarmony(profile1.baseNotes, profile2.baseNotes);
+    const flavorHarmony = this.calculateFlavorHarmony(_profile1.baseNotes, _profile2.baseNotes);
     
     // Advanced weighted calculation for overall score
     const weights = {
@@ -294,18 +294,18 @@ export class UnifiedFlavorEngine {
 
     // Generate detailed breakdown
     const breakdown = {
-      elementalDetails: this.getElementalBreakdown(profile1.elementalFlavors, profile2.elementalFlavors),
-      flavorHarmony: this.getFlavorHarmonyBreakdown(profile1.baseNotes, profile2.baseNotes),
-      seasonalAlignment: this.getSeasonalBreakdown(profile1, profile2),
-      culturalResonance: this.getCulturalResonance(profile1, profile2)
+      elementalDetails: this.getElementalBreakdown(_profile1.elementalFlavors, _profile2.elementalFlavors),
+      flavorHarmony: this.getFlavorHarmonyBreakdown(_profile1.baseNotes, _profile2.baseNotes),
+      seasonalAlignment: this.getSeasonalBreakdown(_profile1, _profile2),
+      culturalResonance: this.getCulturalResonance(_profile1, _profile2)
     };
 
     // Generate recommendations and warnings
     const { recommendations, warnings, optimizations } = this.generateAdvice(
       { overall, elemental, kalchm, monica, seasonal, cultural, nutritional, preparation },
-      profile1,
-      profile2,
-      context
+      _profile1,
+      _profile2,
+      _context
     );
 
     const result: UnifiedFlavorCompatibility = {
@@ -418,21 +418,21 @@ export class UnifiedFlavorEngine {
   // ===== SEASONAL ALIGNMENT =====
   
   private calculateSeasonalAlignment(
-    profile1: UnifiedFlavorProfile, 
-    profile2: UnifiedFlavorProfile, 
-    contextSeason?: Season
+    _profile1: UnifiedFlavorProfile, 
+    _profile2: UnifiedFlavorProfile, 
+    _contextSeason?: Season
   ): number {
     // Base seasonal compatibility
-    const commonSeasons = (profile1?.seasonalPeak || []).filter(season => 
-      (profile2?.seasonalPeak || []).includes(season)
+    const commonSeasons = (_profile1?.seasonalPeak || []).filter(season => 
+      (_profile2?.seasonalPeak || []).includes(season)
     );
     const baseAlignment = commonSeasons.length / 
-      Math.max((profile1.seasonalPeak || []).length, (profile2.seasonalPeak || []).length, 1);
+      Math.max((_profile1.seasonalPeak || []).length, (_profile2.seasonalPeak || []).length, 1);
     
     // Context-aware enhancement
-    if (contextSeason) {
-      const modifier1 = profile1?.seasonalModifiers?.[contextSeason] || 0.5;
-      const modifier2 = profile2?.seasonalModifiers?.[contextSeason] || 0.5;
+    if (_contextSeason) {
+      const modifier1 = _profile1?.seasonalModifiers?.[_contextSeason] || 0.5;
+      const modifier2 = _profile2?.seasonalModifiers?.[_contextSeason] || 0.5;
       const contextAlignment = (modifier1 + modifier2) / 2;
       
       // Weight context more heavily if both profiles have strong seasonal presence
@@ -446,12 +446,12 @@ export class UnifiedFlavorEngine {
   // ===== CULTURAL COMPATIBILITY =====
   
   private calculateCulturalCompatibility(
-    profile1: UnifiedFlavorProfile, 
-    profile2: UnifiedFlavorProfile,
-    culturalPreference?: string
+    _profile1: UnifiedFlavorProfile, 
+    _profile2: UnifiedFlavorProfile,
+    _culturalPreference?: string
   ): number {
-    const origins1 = new Set(profile1?.culturalOrigins || [].map(o => o?.toLowerCase()));
-    const origins2 = new Set(profile2?.culturalOrigins || [].map(o => o?.toLowerCase()));
+    const origins1 = new Set(_profile1?.culturalOrigins || [].map(o => o?.toLowerCase()));
+    const origins2 = new Set(_profile2?.culturalOrigins || [].map(o => o?.toLowerCase()));
     
     // Calculate overlap
     const intersection = new Set([...origins1].filter(x => origins2.has(x)));
@@ -460,8 +460,8 @@ export class UnifiedFlavorEngine {
     const baseCompatibility = intersection.size / Math.max(union.size, 1);
     
     // Enhance based on cultural preference
-    if (culturalPreference) {
-      const prefLower = culturalPreference?.toLowerCase();
+    if (_culturalPreference) {
+      const prefLower = _culturalPreference?.toLowerCase();
       const pref1Match = origins1.has(prefLower) ? 1 : 0;
       const pref2Match = origins2.has(prefLower) ? 1 : 0;
       const preferenceAlignment = (pref1Match + pref2Match) / 2;
@@ -476,21 +476,21 @@ export class UnifiedFlavorEngine {
   // ===== NUTRITIONAL SYNERGY =====
   
   private calculateNutritionalSynergy(
-    profile1: UnifiedFlavorProfile, 
-    profile2: UnifiedFlavorProfile
+    _profile1: UnifiedFlavorProfile, 
+    _profile2: UnifiedFlavorProfile
   ): number {
     // Use existing nutritional synergy values or calculate based on elemental properties
-    const synergy1 = profile1.nutritionalSynergy || this.estimateNutritionalSynergy(profile1);
-    const synergy2 = profile2.nutritionalSynergy || this.estimateNutritionalSynergy(profile2);
+    const synergy1 = _profile1.nutritionalSynergy || this.estimateNutritionalSynergy(_profile1);
+    const synergy2 = _profile2.nutritionalSynergy || this.estimateNutritionalSynergy(_profile2);
     
     // Higher synergy values indicate better nutritional compatibility
     return (synergy1 + synergy2) / 2;
   }
 
-  private estimateNutritionalSynergy(profile: UnifiedFlavorProfile): number {
+  private estimateNutritionalSynergy(_profile: UnifiedFlavorProfile): number {
     // Estimate based on elemental balance and complexity
-    const elementalBalance = Object.values(profile.elementalFlavors).reduce((a, b) => a + b, 0) / 4;
-    const complexityBonus = profile.complexity * 0.2;
+    const elementalBalance = Object.values(_profile.elementalFlavors).reduce((a, b) => a + b, 0) / 4;
+    const complexityBonus = _profile.complexity * 0.2;
     
     return Math.min(1, elementalBalance + complexityBonus);
   }
@@ -498,12 +498,12 @@ export class UnifiedFlavorEngine {
   // ===== PREPARATION METHOD COMPATIBILITY =====
   
   private calculatePreparationCompatibility(
-    profile1: UnifiedFlavorProfile, 
-    profile2: UnifiedFlavorProfile,
-    contextMethod?: string
+    _profile1: UnifiedFlavorProfile, 
+    _profile2: UnifiedFlavorProfile,
+    _contextMethod?: string
   ): number {
-    const methods1 = new Set(profile1?.preparationMethods || [].map(m => m?.toLowerCase()));
-    const methods2 = new Set(profile2?.preparationMethods || [].map(m => m?.toLowerCase()));
+    const methods1 = new Set(_profile1?.preparationMethods || [].map(m => m?.toLowerCase()));
+    const methods2 = new Set(_profile2?.preparationMethods || [].map(m => m?.toLowerCase()));
     
     // Calculate method overlap
     const intersection = new Set([...methods1].filter(x => methods2.has(x)));
@@ -512,8 +512,8 @@ export class UnifiedFlavorEngine {
     const baseCompatibility = intersection.size / Math.max(union.size, 1);
     
     // Context enhancement
-    if (contextMethod) {
-      const methodLower = contextMethod?.toLowerCase();
+    if (_contextMethod) {
+      const methodLower = _contextMethod?.toLowerCase();
       const method1Match = methods1.has(methodLower) ? 1 : 0;
       const method2Match = methods2.has(methodLower) ? 1 : 0;
       const methodAlignment = (method1Match + method2Match) / 2;
@@ -587,15 +587,15 @@ export class UnifiedFlavorEngine {
   }
 
   private getSeasonalBreakdown(
-    profile1: UnifiedFlavorProfile, 
-    profile2: UnifiedFlavorProfile
+    _profile1: UnifiedFlavorProfile, 
+    _profile2: UnifiedFlavorProfile
   ): Record<Season, number> {
     const seasons: Season[] = ['spring', 'summer', 'autumn', 'winter'];
     const breakdown: Record<Season, number> = {} as any;
     
     for (const season of seasons) {
-      const modifier1 = profile1?.seasonalModifiers?.[season] || 0.5;
-      const modifier2 = profile2?.seasonalModifiers?.[season] || 0.5;
+      const modifier1 = _profile1?.seasonalModifiers?.[season] || 0.5;
+      const modifier2 = _profile2?.seasonalModifiers?.[season] || 0.5;
       breakdown[season] = (modifier1 + modifier2) / 2;
     }
     
@@ -603,11 +603,11 @@ export class UnifiedFlavorEngine {
   }
 
   private getCulturalResonance(
-    profile1: UnifiedFlavorProfile, 
-    profile2: UnifiedFlavorProfile
+    _profile1: UnifiedFlavorProfile, 
+    _profile2: UnifiedFlavorProfile
   ): string[] {
-    const origins1 = new Set(profile1?.culturalOrigins || [].map(o => o?.toLowerCase()));
-    const origins2 = new Set(profile2?.culturalOrigins || [].map(o => o?.toLowerCase()));
+    const origins1 = new Set(_profile1?.culturalOrigins || [].map(o => o?.toLowerCase()));
+    const origins2 = new Set(_profile2?.culturalOrigins || [].map(o => o?.toLowerCase()));
     
     return [...new Set([...origins1].filter(x => origins2.has(x)))];
   }
@@ -616,9 +616,9 @@ export class UnifiedFlavorEngine {
   
   private generateAdvice(
     scores: Omit<UnifiedFlavorCompatibility, 'breakdown' | 'recommendations' | 'warnings' | 'optimizations'>,
-    profile1: UnifiedFlavorProfile,
-    profile2: UnifiedFlavorProfile,
-    context?: any
+    _profile1: UnifiedFlavorProfile,
+    _profile2: UnifiedFlavorProfile,
+    _context?: any
   ): { recommendations: string[]; warnings: string[]; optimizations: string[] } {
     const recommendations: string[] = [];
     const warnings: string[] = [];
@@ -933,7 +933,7 @@ export function calculateFlavorCompatibility(
   _profile2: UnifiedFlavorProfile,
   _context?: { season?: Season; culturalPreference?: string; preparationMethod?: string }
 ): UnifiedFlavorCompatibility {
-  return unifiedFlavorEngine.calculateCompatibility(profile1, profile2, context);
+  return unifiedFlavorEngine.calculateCompatibility(_profile1, _profile2, _context);
 }
 
 /**
@@ -950,7 +950,7 @@ export function findCompatibleProfiles(
   for (const profile of allProfiles) {
     if (profile.id === targetProfile.id) continue;
 
-    const compatibility = unifiedFlavorEngine.calculateCompatibility(targetProfile, profile, context);
+    const compatibility = unifiedFlavorEngine.calculateCompatibility(targetProfile, profile, _context);
     if (compatibility.overall >= minCompatibility) {
       results?.push({ profile, compatibility });
     }

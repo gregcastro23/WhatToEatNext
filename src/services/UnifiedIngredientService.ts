@@ -718,8 +718,8 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     ingredients: UnifiedIngredient[], 
     filter: ElementalFilter
   ): UnifiedIngredient[] {
-    return (ingredients || []).filter(ingredient => {
-      const elemental = ingredient.elementalPropertiesState;
+    return (ingredients || []).filter(_ingredient => {
+      const elemental = _ingredient.elementalPropertiesState;
       if (!elemental) return true; // Skip if no elemental data
       
       // Extract filter data with safe property access for elemental properties
