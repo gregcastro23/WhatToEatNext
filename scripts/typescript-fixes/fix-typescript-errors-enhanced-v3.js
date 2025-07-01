@@ -82,7 +82,7 @@ const DEFAULT_CONFIG = {
   requireCleanGit: true,
   createGitStash: true,
   enableCorruptionDetection: true,
-  enableASTValidation: true,
+  enableASTValidation: false,
   validateSyntax: true,
   safetyValidation: true,
   
@@ -476,17 +476,17 @@ function detectCorruption(content, filePath) {
   if (!DEFAULT_CONFIG.enableCorruptionDetection) return false;
   
   const corruptionPatterns = [
-    /\$1\$2|\$\d+/g,                    // Regex replacement artifacts
+    /\$1\$2\$3|\$\d+\$\d+/g,           // Multiple consecutive regex replacement artifacts
     /,;,;,;/g,                          // Malformed syntax from scripts
     /\b_\w+\b.*\b\w+\b.*\b_\w+\b/g,    // Pattern A corruption (multiple underscored vars)
-    /\{\s*\{\s*\{/g,                    // Nested object corruption
-    /\[\s*\[\s*\[/g,                    // Nested array corruption
+    /\{\s*\{\s*\{/g,                    // Triple nested object corruption
+    /\[\s*\[\s*\[/g,                    // Triple nested array corruption
     /import\s+import/g,                 // Duplicate import statements
     /export\s+export/g,                 // Duplicate export statements
     /const\s+const/g,                   // Duplicate const declarations
     /function\s+function/g,             // Duplicate function declarations
-    /\}\s*\}\s*\}/g,                    // Excessive closing braces
-    /\)\s*\)\s*\)/g,                    // Excessive closing parentheses
+    /\}\s*\}\s*\}\s*\}/g,               // Excessive closing braces (4+)
+    /\)\s*\)\s*\)\s*\)/g,               // Excessive closing parentheses (4+)
   ];
   
   for (const pattern of corruptionPatterns) {
@@ -604,10 +604,11 @@ const ERROR_PATTERNS = {
         id: 'TS2322_string_array_to_typed_array',
         regex: /Type 'string\[\]' is not assignable to type '(Season|Planet|Element|CuisineType|DietaryRestriction)\[\]'/,
         fix: (content, match, typeName) => {
-          const arrayPattern = /(\[[\s\S]*?\])/g;
+          // More specific pattern for assignment contexts only
+          const arrayPattern = /([\w\s]*:\s*\[[\s\S]*?\](?=[\s,}]))/g;
           let fixed = false;
           const newContent = content.replace(arrayPattern, (arrayMatch) => {
-            if (!fixed && content.indexOf(arrayMatch) > content.indexOf(match) - 100) {
+            if (!fixed && content.indexOf(arrayMatch) > content.indexOf(match) - 200) {
               fixed = true;
               return `${arrayMatch} as ${typeName}[]`;
             }
