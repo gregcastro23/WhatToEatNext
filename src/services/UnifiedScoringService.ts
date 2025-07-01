@@ -196,7 +196,7 @@ export function calculateTarotEffect(
  */
 export function calculateSeasonalEffect(
   _astroData: AstrologicalData,
-  context: ScoringContext
+  _context: ScoringContext
 ): number {
   const month = context.dateTime.getMonth();
   const season = ['winter', 'winter', 'spring', 'spring', 'spring', 'summer', 

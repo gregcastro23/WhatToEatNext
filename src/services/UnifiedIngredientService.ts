@@ -788,7 +788,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     ingredients: UnifiedIngredient[], 
     filter: DietaryFilter
   ): UnifiedIngredient[] {
-    return (ingredients || []).filter(ingredient => {
+    return (ingredients || []).filter(_ingredient => {
       const dietary = ingredient.dietaryFlags;
       if (!dietary) return true; // Skip if no dietary data
       

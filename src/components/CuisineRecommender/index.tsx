@@ -417,11 +417,59 @@ export const CuisineRecommender: React.FC<CuisineRecommenderProps> = ({
         }
 
         .alchemical-breakdown h5,
+        .unified-scoring-breakdown h5,
         .elemental-properties h5,
         .ingredients-preview h5 {
           margin: 15px 0 8px 0;
           color: #444;
           font-size: 1em;
+        }
+
+        .unified-scoring-breakdown {
+          margin-top: 15px;
+          padding: 15px;
+          background: #f8fafc;
+          border-radius: 8px;
+          border-left: 4px solid #3b82f6;
+        }
+
+        .unified-scoring-breakdown h5 {
+          margin: 0 0 10px 0;
+          color: #1e40af;
+          font-size: 0.9em;
+          font-weight: 600;
+        }
+
+        .scoring-notes, .scoring-warnings {
+          margin-top: 10px;
+          padding: 8px;
+          border-radius: 4px;
+        }
+
+        .scoring-notes {
+          background: #dbeafe;
+          border-left: 3px solid #3b82f6;
+        }
+
+        .scoring-warnings {
+          background: #fef3c7;
+          border-left: 3px solid #f59e0b;
+        }
+
+        .scoring-notes h6, .scoring-warnings h6 {
+          margin: 0 0 5px 0;
+          font-size: 0.8em;
+          font-weight: 600;
+        }
+
+        .scoring-notes ul, .scoring-warnings ul {
+          margin: 0;
+          padding-left: 15px;
+          font-size: 0.8em;
+        }
+
+        .scoring-notes li, .scoring-warnings li {
+          margin: 2px 0;
         }
 
         .score-details {
