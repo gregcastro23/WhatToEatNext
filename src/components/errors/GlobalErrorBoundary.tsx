@@ -33,7 +33,7 @@ export function GlobalErrorBoundary({
   return (
     <ErrorBoundary
       FallbackComponent={CustomFallback}
-      onError={(error, errorInfo) => {
+      onError={(_error, _errorInfo) => {
         // console.error(`Global error in ${context}:`, error, errorInfo);
       }}
     >

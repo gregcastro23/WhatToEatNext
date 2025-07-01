@@ -6,7 +6,7 @@ import type { ZodiacSign } from '@/types/alchemy';
  * A utility function for logging debug information
  * This is a safe replacement for console.log that can be disabled in production
  */
-const debugLog = (message: string, ...args: unknown[]): void => {
+const debugLog = (_message: string, ...args: unknown[]): void => {
   // Comment out console.log to avoid linting warnings
   // console.log(message, ...args);
 };
@@ -221,7 +221,7 @@ export function calculateHouseEffect(
  */
 export function calculateAllHouseEffects(
   planetPositions: Record<string, { sign: ZodiacSign, house?: number }>,
-  houses: Record<number, ZodiacSign>
+  _houses: Record<number, ZodiacSign>
 ): Record<ElementalCharacter, number> {
   const totalEffects: Record<ElementalCharacter, number> = {
     Fire: 0,

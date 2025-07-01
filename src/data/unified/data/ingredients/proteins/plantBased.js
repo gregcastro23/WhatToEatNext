@@ -4,7 +4,7 @@ exports.allPlantBased = exports.plantBased = void 0;
 const elementalUtils_1 = require("../../../utils/elementalUtils");
 const elementalUtils_2 = require("../../../utils/elemental/elementalUtils");
 // Helper function to standardize ingredient mappings
-function createIngredientMapping(id, properties) {
+function createIngredientMapping(_id, properties) {
     return {
         name: id,
         elementalProperties: properties.elementalProperties || {

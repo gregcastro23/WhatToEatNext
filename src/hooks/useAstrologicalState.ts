@@ -34,7 +34,7 @@ export interface AstrologyHookData {
 }
 
 // Helper function to create a celestial position with defaults
-function createCelestialPosition(sign: ZodiacSign, longOffset = 0, options?: { planetName?: string }): CelestialPosition {
+function _createCelestialPosition(sign: ZodiacSign, longOffset = 0, options?: { planetName?: string }): CelestialPosition {
   // Calculate a reasonable longitude based on the zodiac sign
   const signIndex = [
     'aries', 'taurus', 'gemini', 'cancer', 

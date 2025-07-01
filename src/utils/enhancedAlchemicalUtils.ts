@@ -20,8 +20,8 @@ import { getZodiacElementalInfluence } from './zodiacUtils';
  */
 export function getEnhancedFoodRecommendation(
   alchemicalResult: AlchemicalResult,
-  userPreferences?: string[],
-  season?: string
+  _userPreferences?: string[],
+  _season?: string
 ) {
   // Recipe generation functionality is deactivated
   // Return a placeholder with the dominant element information
@@ -73,7 +73,7 @@ export function getIngredientCompatibility(
  * @returns Compatibility score between 0-1
  */
 export function getUserFoodCompatibility(
-  userSign: ZodiacSign,
+  _userSign: ZodiacSign,
   foodElement: string,
   foodElementalProps: ElementalProperties
 ) {
@@ -225,7 +225,7 @@ export function generatePersonalizedMealPlan(
  * @param element The primary element to consider
  * @returns The same element, as elements work best with themselves
  */
-function getBalancingElement(element) {
+function _getBalancingElement(element) {
   // Elements work best with themselves - reinforcing the current energy
   return element;
 }

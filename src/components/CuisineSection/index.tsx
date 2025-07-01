@@ -189,7 +189,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
             const specialRecipes = [];
             
             // Try to extract some recipes directly
-            Object.entries(cuisineData.dishes).forEach(([mealType, seasonalDishes]) => {
+            Object.entries(cuisineData.dishes).forEach(([_mealType, seasonalDishes]) => {
               const dishesData = seasonalDishes as any;
               if (dishesData && dishesData.all && Array.isArray(dishesData.all)) {
                 specialRecipes.push(...dishesData.all.slice(0, 4));

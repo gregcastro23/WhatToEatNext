@@ -25,7 +25,7 @@ const REFERENCE_POSITIONS: Record<string, PlanetaryPosition> = {
 };
 
 // Calculate the difference between two positions in minutes
-function calculatePositionDifference(pos1: PlanetaryPosition, pos2: PlanetaryPosition): number {
+function _calculatePositionDifference(pos1: PlanetaryPosition, pos2: PlanetaryPosition): number {
   if (pos1.sign !== pos2.sign) {
     // Different signs - more complex calculation needed
     const signs = ['aries', 'taurus', 'gemini', 'cancer', 'leo', 'virgo', 

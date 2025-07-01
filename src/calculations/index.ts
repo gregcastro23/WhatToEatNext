@@ -116,7 +116,7 @@ export async function calculateComprehensiveAlchemicalResult(
 
   try {
     // 1. Calculate Kalchm and Monica constants
-    const kalchm = calculateKalchmResults(planetaryPositions);
+    const _kalchm = calculateKalchmResults(planetaryPositions);
 
     // 2. Calculate comprehensive elemental properties
     let elementalProperties = calculateComprehensiveElementalProperties(
@@ -244,7 +244,7 @@ export function calculateRecipeCompatibility(
 /**
  * Calculate Kalchm alignment between recipe and user
  */
-function calculateKalchmAlignment(
+function _calculateKalchmAlignment(
   recipeProperties: ElementalProperties,
   currentMomentKalchm: KalchmResult
 ): number {
@@ -311,7 +311,7 @@ export function calculatePlanetaryAlignment(
 function generateCompatibilityRecommendations(
   overall: number,
   elemental: number,
-  kalchm: number,
+  _kalchm: number,
   planetary: number
 ): string[] {
   const recommendations: string[] = [];
@@ -495,7 +495,7 @@ function generateCuisineRecommendations(dominantPlanets: any[], elementalPropert
 
 // Simplified recipe matching object for compatibility
 const recipeMatching = {
-  calculateRecipeCompatibility: (recipeProps: ElementalProperties, kalchm: KalchmResult) => ({
+  calculateRecipeCompatibility: (_recipeProps: ElementalProperties, _kalchm: KalchmResult) => ({
     elementalAlignment: 0.7,
     alchemicalAlignment: 0.7,
     recommendations: ['Recipe compatibility calculated with simplified system']

@@ -95,24 +95,24 @@ function FoodRecommenderWrapper() {
     if (!window.popup) {
       console.log('[FoodRecommenderWrapper] Ensuring popup object is available');
       window.popup = {
-        create: function(options?: any) {
+        create: function(_options?: any) {
           return {
             show: function() { return this; },
             hide: function() { return this; },
             update: function() { return this; },
-            on: function(event: string, callback?: any) { 
+            on: function(_event: string, _callback?: any) { 
               return { 
                 off: function() {},
-                trigger: function(event: string) { return this; }
+                trigger: function(_event: string) { return this; }
               }; 
             },
-            trigger: function(event: string) { return this; }
+            trigger: function(_event: string) { return this; }
           };
         },
         show: function() { return this; },
         hide: function() { return this; },
         update: function() { return this; },
-        on: function(event: string, callback?: any) { 
+        on: function(event: string, _callback?: any) { 
           return { 
             off: function() {},
             trigger: function(event: string) { return this; }

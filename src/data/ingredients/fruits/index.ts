@@ -47,7 +47,7 @@ export let getFruitsByPreparation = (method: string): Record<string, IngredientM
 };
 
 export let findCompatibleFruits = (ingredientName: string): string[] => {
-  const fruit = fruits[ingredientName];
+  const _fruit = fruits[ingredientName];
   if (!fruit) return [];
   return (fruit.affinities && Array.isArray(fruit.affinities)) ? fruit.affinities : [];
 };
@@ -141,12 +141,12 @@ export let isValidFruit = (ingredient: unknown): ingredient is IngredientMapping
 };
 
 // Before
-Object.entries(fruits).forEach(([id, fruit]) => {
+Object.entries(fruits).forEach(([_id, _fruit]) => {
   // Validation logic can be added here if needed
 });
 
 // After
-Object.entries(fruits).forEach(([id, fruit]) => {
+Object.entries(fruits).forEach(([_id, fruit]) => {
   // Properly implement validation
   if (!fruit.elementalProperties) {
     // Use type-safe logging instead of console.log

@@ -447,7 +447,7 @@ export default function CuisineRecommender() {
     }
   }, [currentMomentElementalProfile, astroStateRef]);
 
-  const handleCuisineSelect = (cuisineId: string) => {
+  const handleCuisineSelect = (_cuisineId: string) => {
     // console.log(`Cuisine selected: ${cuisineId}`);
     
     if (selectedCuisine === cuisineId) {
@@ -501,14 +501,14 @@ export default function CuisineRecommender() {
   };
 
   // Helper function to log cuisine actions with timestamps
-  const logCuisineAction = (step: string, details?: any) => {
+  const logCuisineAction = (_step: string, _details?: any) => {
     if (selectedCuisineData) {
       const timestamp = new Date().toISOString();
       // console.log(`[${timestamp}] ${step} - ${selectedCuisineData.name}: ${details ? JSON.stringify(details) : ''}`);
     }
   };
 
-  const toggleRecipeExpansion = (index: number, event: React.MouseEvent) => {
+  const toggleRecipeExpansion = (index: number, _event: React.MouseEvent) => {
     // console.log(`Toggling recipe expansion for index ${index}`);
     
     // Create a copy of the current state
@@ -552,7 +552,7 @@ export default function CuisineRecommender() {
   };
 
   // Create a simplified local implementation for generateSauceRecommendations
-  function generateSauceRecommendationsForCuisine(cuisineName: string) {
+  function _generateSauceRecommendationsForCuisine(cuisineName: string) {
     try {
       const { allSauces } = require('@/data/sauces');
       const { getTimeFactors } = require('@/types/time');
@@ -704,7 +704,7 @@ export default function CuisineRecommender() {
     // Transform cuisines into the format expected by the UI
     const transformedCuisines = [];
     
-    cuisineMap.forEach(({ cuisine, regionalVariants }, cuisineId) => {
+    cuisineMap.forEach(({ cuisine, regionalVariants }, _cuisineId) => {
       // Calculate a score based on astroState
       let score = 0.5; // Default score
       

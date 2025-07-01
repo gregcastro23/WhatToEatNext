@@ -200,7 +200,7 @@ export const culinaryTraditions: Record<string, CuisineProfile> = {
 };
 
 // Add validation to ensure all elementalAlignments sum to 1.0
-Object.entries(culinaryTraditions).forEach(([cuisine, profile]) => {
+Object.entries(culinaryTraditions).forEach(([_cuisine, profile]) => {
   const sum = Object.values(profile.elementalAlignment).reduce(
     (a, b) => a + b,
     0

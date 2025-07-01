@@ -593,7 +593,7 @@ function getDayOfYear(date: Date): number {
  * @param dayOfYear Day of year (1-366)
  * @returns Zodiac sign
  */
-function calculateApproximateSunSign(dayOfYear: number): ZodiacSign {
+function _calculateApproximateSunSign(dayOfYear: number): ZodiacSign {
   // Simple approximation of Sun sign based on day of year
   if (dayOfYear >= 80 && dayOfYear < 110) return 'aries';
   if (dayOfYear >= 110 && dayOfYear < 141) return 'taurus';
@@ -693,7 +693,7 @@ function getDominantElement(elements: { [key: string]: number }): string {
  * @param date Reference date
  * @returns Number of days
  */
-function getDaysSinceDate(date: Date): number {
+function _getDaysSinceDate(date: Date): number {
   const now = new Date();
   const diff = now.getTime() - date.getTime();
   return Math.floor(diff / (1000 * 60 * 60 * 24));
@@ -704,6 +704,6 @@ function getDaysSinceDate(date: Date): number {
  * @param sign String to convert
  * @returns Zodiac sign
  */
-function toZodiacSign(sign: string): ZodiacSign {
+function _toZodiacSign(sign: string): ZodiacSign {
   return normalizeZodiacSign(sign);
 } 

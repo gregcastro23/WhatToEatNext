@@ -19,7 +19,7 @@
 
     // PATCH 1: Fix the getElementRanking function
     // This function has an issue where it tries to reassign const variables
-    window.getElementRanking = function(element_object, rank) {
+    window.getElementRanking = function(element_object, _rank) {
       try {
         // Use let instead of const for variables that will be reassigned
         const element_rank_dict = {1: '', 2: '', 3: '', 4: ''};

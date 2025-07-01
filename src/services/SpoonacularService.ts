@@ -1,7 +1,7 @@
 // Mock axios for TypeScript compatibility - returns any to satisfy existing usage
 const axios = {
-  get: async (url: string, config?: any) => ({ data: {} as any }),
-  post: async (url: string, data?: any, config?: any) => ({ data: {} as any })
+  get: async (_url: string, _config?: any) => ({ data: {} as any }),
+  post: async (url: string, _data?: any, config?: any) => ({ data: {} as any })
 };
 import type { ElementalProperties } from '@/types/alchemy';
 import type { NutritionalProfile } from '../types/nutrition';

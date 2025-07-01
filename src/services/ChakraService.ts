@@ -44,7 +44,7 @@ export class ChakraService {
             'pisces': 0
         };
         
-        signEnergyStates.forEach(state => {
+        signEnergyStates.forEach(_state => {
             if (state.sign && state.sign in signEnergyRecord) {
                 signEnergyRecord[state.sign] = state.currentEnergy;
             }

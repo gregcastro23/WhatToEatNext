@@ -621,7 +621,7 @@ function calculateComplexityMatch(
   return 1 - Math.min(1, difference / 5); // Assuming complexity is on a 1-5 scale
 }
 
-function getCurrentSeason(timestamp: Date): string {
+function _getCurrentSeason(timestamp: Date): string {
   const month = timestamp.getMonth();
   
   if (month >= 2 && month <= 4) return 'spring';

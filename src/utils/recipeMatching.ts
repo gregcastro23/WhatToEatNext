@@ -480,7 +480,7 @@ const calculateDominantElements = (
     .map(([element, value]) => [element, value || 0]);
 };
 
-async function calculateRecipeEnergyMatch(
+async function _calculateRecipeEnergyMatch(
   recipe: Recipe,
   currentEnergy: AstrologicalState
 ): Promise<number> {

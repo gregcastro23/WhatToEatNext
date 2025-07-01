@@ -325,7 +325,7 @@ exports.elementalUtils = {
  * @param planetaryInfluence Planetary influence factor
  * @returns Uniqueness score between 0 and 1
  */
-function calculateUniqueness(elements, planetaryInfluence) {
+function _calculateUniqueness(elements, planetaryInfluence) {
     // Calculate variance of elemental distribution
     const values = Object.values(elements);
     const mean = values.reduce((sum, val) => sum + val, 0) / values.length;
@@ -431,7 +431,7 @@ function transformItemsWithPlanetaryPositions(items, planetaryPositions, isDayti
         return Math.max(val, 0.01);
     }
     // Ensure number is safe for calculations
-    function ensureSafeNumber(val) {
+    function _ensureSafeNumber(val) {
         if (isNaN(val) || !isFinite(val)) {
             return 0.1; // Default safe value
         }

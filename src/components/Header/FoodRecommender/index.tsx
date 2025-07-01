@@ -398,7 +398,7 @@ const FoodRecommender: React.FC = () => {
         return <ThermometerSun className="w-4 h-4 text-gray-400" />;
     };
 
-    const getAlchemicalPropertyIcon = (property: AlchemicalProperty) => {
+    const getAlchemicalPropertyIcon = (_property: AlchemicalProperty) => {
         return <Sparkles className="w-4 h-4 text-yellow-400" />;
     };
     

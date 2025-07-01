@@ -120,7 +120,7 @@ planetPositions, currentZodiac, lunarPhase) => {
     const dominantPlanets = [];
     const dignities = {};
     // Planetary position calculations
-    Object.entries(planetPositions).forEach(([planet, position]) => {
+    Object.entries(planetPositions).forEach(([_planet, _position]) => {
         const planetInfo = exports.planetaryFoodAssociations[planet];
         if (!planetInfo)
             return;
@@ -154,7 +154,7 @@ planetPositions, currentZodiac, lunarPhase) => {
 };
 exports.calculatePlanetaryBoost = calculatePlanetaryBoost;
 // Helper functions for calculations
-const getTriplicityRulers = (zodiacSign) => {
+const getTriplicityRulers = (_zodiacSign) => {
     // Implementation depends on your zodiac mappings
     return ['Sun', 'Mars', 'Jupiter'];
 };
@@ -283,7 +283,7 @@ exports.getLunarPhaseBoost = getLunarPhaseBoost;
 /**
  * Get flavor boost from planetary associations
  */
-const getFlavorBoost = (planet, ingredient) => {
+const getFlavorBoost = (_planet, _ingredient) => {
     const elementBoost = exports.planetaryFoodAssociations[planet].elementalBoost || {};
     return Object.entries(elementBoost).reduce((acc, [element, boost]) => {
         return acc + (ingredient.elementalProperties?.[element] || 0) * (boost || 0);
@@ -293,7 +293,7 @@ exports.getFlavorBoost = getFlavorBoost;
 /**
  * Get nutritional synergy between ingredient and planet
  */
-const getNutritionalSynergy = (planet, ingredient) => {
+const getNutritionalSynergy = (planet, _ingredient) => {
     // Implementation depends on your nutritional data
     return [];
 };

@@ -351,7 +351,7 @@ function getDefaultElementalEnergies(): ElementalEnergy[] {
 }
 
 // Process a zodiac sign and its relevant position to update energy values
-function processZodiacInfluence(sign: string, weight: number, energyValues: ElementalProperties): void {
+function _processZodiacInfluence(sign: string, weight: number, energyValues: ElementalProperties): void {
   const element = signElementMap[sign];
 
   if (element) {

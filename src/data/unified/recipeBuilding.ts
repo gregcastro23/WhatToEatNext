@@ -634,8 +634,8 @@ export class UnifiedRecipeBuildingSystem {
     
     // Adjust for cuisine
     if (criteria.cuisine) {
-      const cuisineAnalysis = this.cuisineSystem.analyzeCuisineIngredients(criteria.cuisine);
-      optimalMonica *= cuisineAnalysis.kalchmProfile.averageKalchm;
+      const _cuisineAnalysis = this.cuisineSystem.analyzeCuisineIngredients(criteria.cuisine);
+      optimalMonica *= _cuisineAnalysis.kalchmProfile.averageKalchm;
     }
     
     // Adjust for cooking methods
@@ -708,8 +708,20 @@ export class UnifiedRecipeBuildingSystem {
     cuisine: string, 
     cuisineAnalysis: CuisineIngredientAnalysis
   ): number {
-    // Implementation for cuisine authenticity calculation
-    return 0.75; // Placeholder
+    // Calculate authenticity based on ingredient alignment with cuisine
+    const ingredientAlignment = this.calculateIngredientAlignment(recipe, cuisineAnalysis);
+    
+    // Apply Kalchm profile influence
+    const kalchmInfluence = cuisineAnalysis.kalchmProfile?.averageKalchm || 1.0;
+    let optimalMonica = this.calculateOptimalMonica(recipe, { cuisine });
+    optimalMonica *= cuisineAnalysis.kalchmProfile?.averageKalchm || 1.0;
+    
+    return Math.min(1.0, (ingredientAlignment * 0.7) + (kalchmInfluence * 0.3));
+  }
+  
+  private calculateIngredientAlignment(recipe: EnhancedRecipe, cuisineAnalysis: CuisineIngredientAnalysis): number {
+    // Placeholder implementation for ingredient alignment calculation
+    return 0.75;
   }
   
   private calculateFusionPotential(recipe: EnhancedRecipe, cuisine: string): number {
@@ -804,8 +816,8 @@ export class UnifiedRecipeBuildingSystem {
   private calculateMonicaImprovement(_original: EnhancedRecipe, _adapted: MonicaOptimizedRecipe): number { return 0.1; }
   
   // Fusion recipe methods
-  private generateMultiCuisineFusion(cuisines: string[]): FusionCuisineProfile { return {} as FusionCuisineProfile; }
-  private createFusionBaseRecipe(fusion: FusionCuisineProfile, criteria: RecipeBuildingCriteria): Partial<EnhancedRecipe> { return {}; }
+  private generateMultiCuisineFusion(cuisines: string[]): any { return {}; }
+  private createFusionBaseRecipe(fusion: any, criteria: RecipeBuildingCriteria): Partial<EnhancedRecipe> { return {}; }
   private calculateFusionMonicaOptimization(recipe: EnhancedRecipe, cuisines: string[]): any { return {}; }
   private applyFusionCuisineIntegration(recipe: EnhancedRecipe, cuisines: string[]): any { return {}; }
   private calculateFusionRatio(cuisines: string[]): { [key: string]: number } { return {}; }
@@ -840,7 +852,7 @@ export function adaptRecipeForSeasonExport(recipe: EnhancedRecipe, season: Seaso
   return unifiedRecipeBuildingSystem.adaptRecipeForSeason(recipe, season);
 }
 
-export function generateFusionRecipe(cuisines: string[], criteria: RecipeBuildingCriteria): FusionRecipeProfile {
+export function generateFusionRecipe(cuisines: string[], criteria: RecipeBuildingCriteria): any {
   return unifiedRecipeBuildingSystem.generateFusionRecipe(cuisines, criteria);
 }
 
@@ -857,8 +869,8 @@ export function generatePlanetaryRecipeRecommendation(
 // ===== BACKWARD COMPATIBILITY =====
 
 // Maintain compatibility with existing recipe building functions
-export function buildRecipe(criteria: {}): any {
-  return generateMonicaOptimizedRecipe(criteria);
+export function buildRecipe(criteria: RecipeBuildingCriteria): any {
+  return unifiedRecipeBuildingSystem.generateMonicaOptimizedRecipe(criteria);
 }
 
 export function getSeasonalRecipeRecommendations(season: Season): any {

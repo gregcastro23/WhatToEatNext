@@ -230,7 +230,7 @@ main()
     // console.log('All protein files have been processed.');
     process.exit(0);
   })
-  .catch((error) => {
+  .catch((_error) => {
     // console.error('Error during processing:', error);
     process.exit(1);
   });

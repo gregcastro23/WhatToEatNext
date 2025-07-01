@@ -8,7 +8,7 @@
 // Only run in browser context
 if (typeof window !== 'undefined') {
   // Global script error handler - must be first
-  window.addEventListener('error', function(event) {
+  window.addEventListener('error', function(_event) {
     if (event.filename && (
       event.filename.includes('popup.js') ||
       event.filename.includes('lockdown') ||
@@ -43,12 +43,12 @@ if (typeof window !== 'undefined') {
   // Ensure popup object exists
   if (!window.popup) {
     window.popup = {
-      create: function(options?: any) {
+      create: function(_options?: any) {
         return {
           show: function() { return this; },
           hide: function() { return this; },
           update: function() { return this; },
-          on: function(event: string, callback?: any) {
+          on: function(event: string, _callback?: any) {
             return { off: function() {} };
           },
           trigger: function(event: string) { return this; }

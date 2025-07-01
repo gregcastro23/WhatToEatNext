@@ -454,7 +454,7 @@ const NutritionalRecommender: React.FC<NutritionalRecommenderProps> = ({
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {(recommendations[category] as any).map(
-                  (value: any, index: number, array: any[]): any => {
+                  (value: any, _index: number, _array: any[]): any => {
                     // Extract ingredient data with safe property access
                     const ingredientData = value as any;
                     const ingredientName = ingredientData?.name || ingredientData?.ingredient || '';

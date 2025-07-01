@@ -168,7 +168,7 @@ export const CuisineRecommender: React.FC<CuisineRecommenderProps> = ({
           <p>No recipes found matching your criteria and current celestial influences.</p>
         ) : (
           <div className="recipe-list">
-            {(recommendations || []).map((recipe, index) => (
+            {(recommendations || []).map((recipe, _index) => (
               <div key={recipe.id} className="recipe-card">
                 <div className="recipe-header">
                   <h4>{recipe.name}</h4>

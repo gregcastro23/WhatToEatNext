@@ -829,48 +829,48 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
         <div className="recipe-recommendations">
           <h3>Recommended Recipes</h3>
           <Grid container spacing={3}>
-            {(recommendedRecipes || []).map((recipe, index) => (
+            {(recommendedRecipes || []).map((_recipe, index) => (
               <Grid item xs={12} sm={6} md={4} key={`recipe-${index}`}>
                 <Card className="recipe-card">
-                  {recipe.image && (
+                  {_recipe.image && (
                     <CardMedia
                       component="img"
                       height="140"
-                      image={recipe.image}
-                      alt={recipe.name}
+                      image={_recipe.image}
+                      alt={_recipe.name}
                     />
                   )}
                   <CardContent>
                     <Typography variant="h6" component="div">
-                      {recipe.name}
+                      {_recipe.name}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-                      {recipe.cuisine}
+                      {_recipe.cuisine}
                     </Typography>
                     
                     <div className="recipe-tags">
-                      {recipe.mealType && (
+                      {_recipe.mealType && (
                         <Chip 
                           icon={<Restaurant />}
-                          label={Array.isArray(recipe.mealType) ? recipe?.mealType?.[0] : recipe.mealType}
+                          label={Array.isArray(_recipe.mealType) ? _recipe?.mealType?.[0] : _recipe.mealType}
                           size="small"
                           sx={{ mr: 0.5, mb: 0.5 }}
                         />
                       )}
                       
-                      {recipe.timeRequired && (
+                      {_recipe.timeRequired && (
                         <Chip 
                           icon={<AccessTime />}
-                          label={`${recipe.timeRequired} min`}
+                          label={`${_recipe.timeRequired} min`}
                           size="small"
                           sx={{ mr: 0.5, mb: 0.5 }}
                         />
                       )}
                       
-                      {recipe.currentSeason && (
+                      {_recipe.currentSeason && (
                         <Chip 
                           icon={<WbSunny />}
-                          label={Array.isArray(recipe.currentSeason) ? recipe?.currentSeason?.[0] : (recipe.currentSeason as string)}
+                          label={Array.isArray(_recipe.currentSeason) ? _recipe?.currentSeason?.[0] : (_recipe.currentSeason as string)}
                           size="small"
                           sx={{ mr: 0.5, mb: 0.5 }}
                         />
@@ -880,7 +880,7 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
                     <Divider sx={{ my: 1 }} />
                     
                     <Typography variant="body2">
-                      {explainRecommendation(recipe, energeticProfile)}
+                      {explainRecommendation(_recipe, energeticProfile)}
                     </Typography>
                   </CardContent>
                 </Card>
@@ -1030,12 +1030,12 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
 
 
 // Missing function definitions for AlchemicalRecommendations
-function getRecommendedRecipes(criteria: any): Promise<any[]> {
+function getRecommendedRecipes(_criteria: any): Promise<any[]> {
   // Placeholder implementation
   return Promise.resolve([]);
 }
 
-function explainRecommendation(recipe: any, userData: any): string {
+function explainRecommendation(_recipe: any, _userData: any): string {
   // Placeholder implementation
   return `This recipe aligns with your current astrological profile.`;
 }

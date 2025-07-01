@@ -9,7 +9,7 @@ const validation_1 = require("./validation");
  * A utility function for logging debug information
  * This is a safe replacement for console.log that can be disabled in production
  */
-const debugLog = (message, ...args) => {
+const debugLog = (_message, ...args) => {
     // Comment out console.log to avoid linting warnings
     // console.log(message, ...args);
 };
@@ -17,7 +17,7 @@ const debugLog = (message, ...args) => {
  * A utility function for logging errors
  * This is a safe replacement for console.error that can be disabled in production
  */
-const errorLog = (message, ...args) => {
+const errorLog = (_message, ...args) => {
     // Comment out console.error to avoid linting warnings
     // console.error(message, ...args);
 };
@@ -282,7 +282,7 @@ async function getCurrentAstrologicalState(date = new Date()) {
         // Get planetary positions
         const planetaryPositions = await calculatePlanetaryPositions(date);
         // Calculate dominant element
-        const timeFactors = {
+        const _timeFactors = {
             season: (0, dateUtils_1.getCurrentSeason)(date),
             timeOfDay: (0, dateUtils_1.getTimeOfDay)(date),
             hourPlanet: new PlanetaryHourCalculator_1.PlanetaryHourCalculator().getPlanetaryHour(date).planet,
@@ -371,7 +371,7 @@ exports.calculateElementalCompatibility = calculateElementalCompatibility;
  * @param timeFactors Time factors
  * @returns Dominant element
  */
-function calculateDominantElement(astroState, timeFactors) {
+function calculateDominantElement(astroState, _timeFactors) {
     const elementCounts = {
         'Fire': 0,
         'Earth': 0,

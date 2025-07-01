@@ -41,7 +41,7 @@ const ZODIAC_SYMBOLS: Record<string, string> = {
 };
 
 // Use the imported PlanetaryPosition type directly
-function isValidPosition(pos: unknown): boolean {
+function _isValidPosition(pos: unknown): boolean {
   // Apply surgical type casting with variable extraction
   const posData = pos as any;
   const sign = posData?.sign;

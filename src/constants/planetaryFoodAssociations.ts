@@ -194,7 +194,7 @@ export const calculatePlanetaryBoost = (
   const dignities: Record<string, PlanetaryDignityDetails> = {};
 
   // Planetary position calculations
-  Object.entries(planetPositions).forEach(([planet, position]) => {
+  Object.entries(planetPositions).forEach(([planet, _position]) => {
     const planetInfo = planetaryFoodAssociations[planet as Planet];
     if (!planetInfo) return;
 
@@ -233,7 +233,7 @@ export const calculatePlanetaryBoost = (
 };
 
 // Helper functions for calculations
-const getTriplicityRulers = (zodiacSign?: string | null): Planet[] => {
+const getTriplicityRulers = (_zodiacSign?: string | null): Planet[] => {
   // Implementation depends on your zodiac mappings
   return ['Sun', 'Mars', 'Jupiter'] as Planet[];
 };
@@ -392,7 +392,7 @@ export const getFlavorBoost = (
   const ingredientData = ingredient as any;
   const elementBoost = planetaryFoodAssociations[planet].elementalBoost || {};
   return Object.entries(elementBoost).reduce((acc, [element, boost]) => {
-    return acc + (ingredientData.elementalProperties?.[element] || 0) * (boost || 0);
+    return acc + (ingredientData.elementalProperties?.[element] || 0) * (boost as number || 0);
   }, 0);
 };
 
@@ -401,7 +401,7 @@ export const getFlavorBoost = (
  */
 export const getNutritionalSynergy = (
   planet: Planet,
-  ingredient: unknown
+  _ingredient: unknown
 ): string[] => {
   // Implementation depends on your nutritional data
   return [];

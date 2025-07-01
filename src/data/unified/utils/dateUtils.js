@@ -6,7 +6,7 @@ const cuisines_1 = require("../data/cuisines");
  * A utility function for logging debug information
  * This is a safe replacement for console.log that can be disabled in production
  */
-const debugLog = (message, ...args) => {
+const debugLog = (_message, ...args) => {
     // Comment out console.log to avoid linting warnings
     // console.log(message, ...args);
 };

@@ -1138,7 +1138,7 @@ export const formatFactorName = (factor: string): string => {
 };
 
 // Ensure you don't need to check the type anymore when using elementalAffinity
-function getElementalAffinity(ingredient: EnhancedIngredient): string {
+function _getElementalAffinity(ingredient: EnhancedIngredient): string {
   // Now can directly access .base without type checking
   return ingredient.astrologicalProfile.elementalAffinity.base;
 }
@@ -1171,7 +1171,7 @@ function getSeasonElement(season: string): keyof ElementalProperties | null {
   return null;
 }
 
-function getPlanetaryElement(planet: string): keyof ElementalProperties | null {
+function _getPlanetaryElement(planet: string): keyof ElementalProperties | null {
   planet = planet.toLowerCase();
   
   // Basic planetary elemental associations

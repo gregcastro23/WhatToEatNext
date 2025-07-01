@@ -284,7 +284,7 @@ function fixDuplicateImports(content) {
   
   // Second pass to remove duplicates
   let updatedContent = content;
-  uniqueImports.forEach((lines, source) => {
+  uniqueImports.forEach((lines, _source) => {
     if (lines.length > 1) {
       // Keep only the first import line
       for (const i = 1; i < lines.length; i++) {

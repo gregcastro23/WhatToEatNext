@@ -226,7 +226,7 @@ function calculateMealTypeScore(recipe: Recipe, mealType: MealType): number {
   return mealTypeMatch ? 0.9 : 0.3;
 }
 
-function calculateZodiacScore(recipe: Recipe, sunSign: ZodiacSign): number {
+function _calculateZodiacScore(recipe: Recipe, sunSign: ZodiacSign): number {
   if (!recipe.astrologicalPropertiesInfluences) return 0.5;
   
   // Apply Pattern H: Safe unknown type array casting

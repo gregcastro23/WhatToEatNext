@@ -35,7 +35,7 @@ import SunCalc from 'suncalc';
  * A utility function for logging debug information
  * This is a safe replacement for console.log that can be disabled in production
  */
-const debugLog = (message: string, ...args: unknown[]): void => {
+const debugLog = (_message: string, ...args: unknown[]): void => {
   // Comment out console.log to avoid linting warnings
   // console.log(message, ...args);
 };
@@ -435,7 +435,7 @@ function _validatePlanetaryPositions(positions: Record<string, number>): boolean
   return validation;
 }
 
-function calculatePlanetPosition(jd: number, planet: string): { sign: string, degree: number, minute: number } {
+function _calculatePlanetPosition(jd: number, planet: string): { sign: string, degree: number, minute: number } {
   const longitude = calculatePlanetLongitude(jd, planet);
   const position = longitudeToZodiacPosition(longitude);
   

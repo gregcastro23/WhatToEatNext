@@ -93,7 +93,7 @@ const ChakraEnergiesDisplay: React.FC<ChakraEnergiesDisplayProps> = ({ compact =
   const CHAKRA_ORDER = ['crown', 'brow', 'throat', 'heart', 'solarPlexus', 'sacral', 'root'];
 
   // Function to get a color intensity based on the chakra energy level
-  const getColorIntensity = (energy: number): number => {
+  const getColorIntensity = (_energy: number): number => {
     // Ensure energy is within expected range (0-10)
     const safeEnergy = Math.max(0, Math.min(10, energy));
     // Map energy to an intensity between 30 and 100 in a consistent way
@@ -101,7 +101,7 @@ const ChakraEnergiesDisplay: React.FC<ChakraEnergiesDisplayProps> = ({ compact =
   };
 
   // Get chakra color classes
-  const getChakraColor = (chakra: string, energy: number): string => {
+  const getChakraColor = (chakra: string, _energy: number): string => {
     const normalizedKey = normalizeChakraKey(chakra);
     if (!normalizedKey) return 'bg-gray-200'; // Fallback color
     

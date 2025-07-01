@@ -8,7 +8,7 @@ import { useServices } from '@/hooks/useServices';
  * A utility function for logging debug information
  * This is a safe replacement for console.log that can be disabled in production
  */
-const debugLog = (message: string, ...args: any[]): void => {
+const debugLog = (_message: string, ...args: any[]): void => {
   // Comment out console.log to avoid linting warnings
   // console.log(message, ...args);
 };
@@ -17,7 +17,7 @@ const debugLog = (message: string, ...args: any[]): void => {
  * A utility function for logging errors
  * This is a safe replacement for console.error that can be disabled in production
  */
-const errorLog = (message: string, ...args: any[]): void => {
+const errorLog = (_message: string, ...args: any[]): void => {
   // Comment out console.error to avoid linting warnings
   // console.error(message, ...args);
 };

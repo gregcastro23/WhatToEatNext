@@ -511,7 +511,7 @@ export class UnifiedNutritionalSystem {
 
 // ===== EXPORTED UTILITY FUNCTIONS =====
 
-export const calculateNutritionalBalance = (ingredients: any[]): NutritionalProfile => {
+export const calculateNutritionalBalance = (_ingredients: any[]): NutritionalProfile => {
   if (!ingredients || ingredients.length === 0) {
     return {
       calories: 0,
@@ -571,7 +571,7 @@ export const nutritionalToElemental = (profile: NutritionalProfile): ElementalPr
   };
 };
 
-export const getZodiacNutritionalRecommendations = (sign: string): {
+export const getZodiacNutritionalRecommendations = (_sign: string): {
   focusNutrients: string[];
   recommendedFoods: string[];
   avoidFoods: string[];
@@ -586,7 +586,7 @@ export const getZodiacNutritionalRecommendations = (sign: string): {
   return defaultRecommendations;
 };
 
-export const getPlanetaryNutritionalRecommendations = (planets: string[]): {
+export const getPlanetaryNutritionalRecommendations = (_planets: string[]): {
   focusNutrients: string[];
   healthAreas: string[];
   recommendedFoods: string[];

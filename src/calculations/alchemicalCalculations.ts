@@ -148,7 +148,7 @@ const elementToAlchemicalProperty = (element: ElementalCharacter): AlchemicalPro
 };
 
 // Replace console.log with commented code for production
-const debugLog = (message: string, ...args: unknown[]): void => {
+const debugLog = (_message: string, ...args: unknown[]): void => {
   // Comment out console.log to avoid linting warnings
   // console.log(message, ...args);
 };
@@ -825,7 +825,7 @@ export function alchemize(planetaryPositions: Record<string, PlanetaryPosition>,
   let substance = 0;
   
   // Initialize elemental balance
-  const elementalBalance = {
+  const _elementalBalance = {
     fire: 0,
     earth: 0,
     air: 0,
@@ -871,7 +871,7 @@ export function alchemize(planetaryPositions: Record<string, PlanetaryPosition>,
     const element = planetData[elementKey]?.toLowerCase() || '';
     
     if (element && (element === 'fire' || element === 'earth' || element === 'air' || element === 'water')) {
-      elementalBalance[element as keyof typeof elementalBalance] += 1;
+      _elementalBalance[element as keyof typeof _elementalBalance] += 1;
     }
     
     // Apply dignity effects if planet is in a sign with dignity effect
@@ -887,7 +887,7 @@ export function alchemize(planetaryPositions: Record<string, PlanetaryPosition>,
         
         // Also boost the element
         if (element) {
-          elementalBalance[element as keyof typeof elementalBalance] += dignityEffect * 0.5;
+          _elementalBalance[element as keyof typeof _elementalBalance] += dignityEffect * 0.5;
         }
       } else if (dignityEffect < 0) {
         // Negative dignity reduces the planet's influence
@@ -919,11 +919,11 @@ export function alchemize(planetaryPositions: Record<string, PlanetaryPosition>,
         const southNodeElement = lunarData.Nodes.South.Element.toLowerCase();
         
         if (northNodeElement && (northNodeElement === 'fire' || northNodeElement === 'earth' || northNodeElement === 'air' || northNodeElement === 'water')) {
-          elementalBalance[northNodeElement as keyof typeof elementalBalance] += 0.5;
+          _elementalBalance[northNodeElement as keyof typeof _elementalBalance] += 0.5;
         }
         
         if (southNodeElement && (southNodeElement === 'fire' || southNodeElement === 'earth' || southNodeElement === 'air' || southNodeElement === 'water')) {
-          elementalBalance[southNodeElement as keyof typeof elementalBalance] += 0.3;
+          _elementalBalance[southNodeElement as keyof typeof _elementalBalance] += 0.3;
         }
       }
     }
@@ -940,7 +940,7 @@ export function alchemize(planetaryPositions: Record<string, PlanetaryPosition>,
           if (elem && (elem === 'fire' || elem === 'earth' || elem === 'air' || elem === 'water')) {
             // Pattern KK-1: Safe arithmetic with type validation
             const numericValue = typeof value === 'number' ? value : 0;
-            elementalBalance[elem as keyof typeof elementalBalance] += numericValue * 0.5;
+            _elementalBalance[elem as keyof typeof _elementalBalance] += numericValue * 0.5;
           }
         });
       }
@@ -957,7 +957,7 @@ export function alchemize(planetaryPositions: Record<string, PlanetaryPosition>,
   let dominantElement = 'balanced';
   let maxValue = 0;
   
-  for (const [element, value] of Object.entries(elementalBalance)) {
+  for (const [element, value] of Object.entries(_elementalBalance)) {
     if (value > maxValue) {
       maxValue = value;
       dominantElement = element;
@@ -965,14 +965,14 @@ export function alchemize(planetaryPositions: Record<string, PlanetaryPosition>,
   }
   
   // Generate a basic recommendation
-  const recommendation = generateRecommendation(dominantElement, elementalBalance);
+  const recommendation = generateRecommendation(dominantElement, _elementalBalance);
   
   // Convert to upper case for ElementalProperties
   const totalEffectValue: ElementalProperties = {
-    Fire: elementalBalance.fire,
-    Earth: elementalBalance.earth,
-    Air: elementalBalance.air,
-    Water: elementalBalance.water
+    Fire: _elementalBalance.fire,
+    Earth: _elementalBalance.earth,
+    Air: _elementalBalance.air,
+    Water: _elementalBalance.water
   };
   
   return {
@@ -993,7 +993,7 @@ export function alchemize(planetaryPositions: Record<string, PlanetaryPosition>,
       essence,
       matter,
       substance,
-      elementalBalance,
+      elementalBalance: _elementalBalance,
       dominantElement,
       recommendation
     }
@@ -1003,7 +1003,7 @@ export function alchemize(planetaryPositions: Record<string, PlanetaryPosition>,
 /**
  * Generate food recommendations based on elemental balance
  */
-function generateRecommendation(dominantElement: string, elementalBalance: Record<string, number>): string {
+function generateRecommendation(dominantElement: string, _elementalBalance: Record<string, number>): string {
   switch (dominantElement) {
     case 'fire':
       return "Foods that cool and ground: fresh vegetables, fruits, and cooling herbs like mint.";

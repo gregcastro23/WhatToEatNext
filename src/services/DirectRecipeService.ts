@@ -6,12 +6,12 @@ import { calculateElementalCompatibility } from '@/utils/elemental/elementalUtil
 import { celestialCalculator } from '@/services/celestialCalculations';
 
 // Temporary mock implementations for missing functions
-const fetchPlanetaryPositions = async (params: any) => {
+const fetchPlanetaryPositions = async (_params: any) => {
   return {};
 };
 
-const calculateKalchm = (properties: any) => 1.0;
-const calculateMonica = (kalchm: number, alignment: any, recipe: any) => 1.0;
+const calculateKalchm = (_properties: any) => 1.0;
+const calculateMonica = (_kalchm: number, _alignment: any, _recipe: any) => 1.0;
 const performAlchemicalAnalysis = (recipe: any, alignment: any) => ({
   thermodynamics: {
     heat: 0,

@@ -49,8 +49,8 @@ const unifiedSeasonalProfiles = {
 const unifiedIngredients = {
   // Placeholder for unified ingredient system
   getAllIngredients: () => [],
-  getIngredientsByCategory: (category: string) => [],
-  getIngredientProperties: (ingredient: string) => ({})
+  getIngredientsByCategory: (_category: string) => [],
+  getIngredientProperties: (_ingredient: string) => ({})
 };
 
 // Import existing cuisine data

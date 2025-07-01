@@ -134,7 +134,7 @@ class ElementalCalculator {
         // Normalize values to sum to 1.0
         const total = Object.values(elementalValues).reduce((a, b) => a + b, 0);
         if (total > 0) {
-            Object.keys(elementalValues).forEach(key => {
+            Object.keys(elementalValues).forEach(_key => {
                 const elementKey = key;
                 elementalValues[elementKey] = elementalValues[elementKey] / total;
             });
@@ -162,7 +162,7 @@ class ElementalCalculator {
         }
         // Handle object format
         else if (typeof planets === 'object') {
-            Object.entries(planets).forEach(([key, planetData]) => {
+            Object.entries(planets).forEach(([_key, planetData]) => {
                 if (typeof planetData === 'object' && planetData !== null) {
                     this.processPlanetData(planetData, elementalValues);
                 }

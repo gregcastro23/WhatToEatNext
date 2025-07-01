@@ -76,8 +76,8 @@ export const calculateModifiedElementalEffect = (
   method: CookingMethod,
   astroState: AstrologicalState,
   duration: number,
-  temperature?: number,
-  currentSeason?: Season
+  _temperature?: number,
+  _currentSeason?: Season
 ): ElementalProperties => {
   const methodData = allCookingMethods[method as unknown as keyof typeof allCookingMethods];
   if (!methodData || !methodData.elementalEffect) {

@@ -84,7 +84,7 @@ export function calculateThermodynamicProperties(
 }
 
 // Helper functions to calculate individual properties
-function calculateSpiritValue(flavorProfile: FlavorProfile): number {
+function _calculateSpiritValue(flavorProfile: FlavorProfile): number {
   // Implement logic based on flavor profile attributes
   // Example: spirit might be higher for aromatic, fragrant ingredients
   return flavorProfile.intensity || 0.5; // Default to 0.5 if intensity not provided

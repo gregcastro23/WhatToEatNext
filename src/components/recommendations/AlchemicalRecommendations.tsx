@@ -115,7 +115,7 @@ const calculateElementalSimilarity = (
 
 const getRecommendedRecipes = (
   recipes: Recipe[],
-  astroState: AstrologicalState,
+  _astroState: AstrologicalState,
   count: number,
   timeFactors: TimeFactors | null
 ): Recipe[] => {
@@ -138,7 +138,7 @@ const getRecommendedRecipes = (
 const calculateRecommendationScore = (
   recipe: Recipe,
   timeFactors: TimeFactors,
-  astroState: AstrologicalState
+  _astroState: AstrologicalState
 ): RecommendationExplanation => {
   const recipeElements = validateElementalProperties(recipe.elementalProperties);
   
@@ -534,7 +534,7 @@ export default function AlchemicalRecommendations({
   }
 
   // Render expandable card helper
-  const renderExpandableCard = (item: any, index: number, type: 'ingredient' | 'method' | 'cuisine') => (
+  const renderExpandableCard = (item: any, index: number, _type: 'ingredient' | 'method' | 'cuisine') => (
     <Card 
       key={item.id || index}
       sx={{ 

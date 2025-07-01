@@ -180,7 +180,7 @@
           return this;
         },
         
-        on: function(event, handler) {
+        on: function(event, _handler) {
           console.log('[SafePopupImpl] Adding event listener:', event);
           // Return an object with off method
           return {

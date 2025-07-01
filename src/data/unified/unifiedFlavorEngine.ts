@@ -190,7 +190,7 @@ export class UnifiedFlavorEngine {
       const flavorProfileMigration = require('./flavorProfileMigration');
       
       // Run the migration but don't wait for it - it will cache its results
-      flavorProfileMigration.runFlavorProfileMigration()?.then((stats: {}) => {
+      flavorProfileMigration.runFlavorProfileMigration()?.then((_stats: {}) => {
         const profiles = flavorProfileMigration.getMigratedFlavorProfiles();
         
         // Add profiles to our map
@@ -929,9 +929,9 @@ export const unifiedFlavorEngine = new UnifiedFlavorEngine();
  * Calculate compatibility between two flavor profiles
  */
 export function calculateFlavorCompatibility(
-  profile1: UnifiedFlavorProfile,
-  profile2: UnifiedFlavorProfile,
-  context?: { season?: Season; culturalPreference?: string; preparationMethod?: string }
+  _profile1: UnifiedFlavorProfile,
+  _profile2: UnifiedFlavorProfile,
+  _context?: { season?: Season; culturalPreference?: string; preparationMethod?: string }
 ): UnifiedFlavorCompatibility {
   return unifiedFlavorEngine.calculateCompatibility(profile1, profile2, context);
 }
@@ -942,7 +942,7 @@ export function calculateFlavorCompatibility(
 export function findCompatibleProfiles(
   targetProfile: UnifiedFlavorProfile,
   minCompatibility = 0.7,
-  context?: { season?: Season; culturalPreference?: string; preparationMethod?: string }
+  _context?: { season?: Season; culturalPreference?: string; preparationMethod?: string }
 ): Array<{ profile: UnifiedFlavorProfile; compatibility: UnifiedFlavorCompatibility }> {
   const allProfiles = unifiedFlavorEngine.getAllProfiles();
   const results: Array<{ profile: UnifiedFlavorProfile; compatibility: UnifiedFlavorCompatibility }> = [];

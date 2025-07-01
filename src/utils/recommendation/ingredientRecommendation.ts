@@ -115,7 +115,7 @@ const loadProteins = async (): Promise<Record<string, any>> => {
   if (Object.keys(proteins).length === 0) {
     try {
       const module = await import('../../data/ingredients/proteins');
-      proteins = module.proteins;
+      proteins = module._proteins;
     } catch (error) {
       console.error('Error loading proteins:', error);
     }
@@ -197,7 +197,7 @@ function hasFlavorProperties(obj: unknown): obj is FlavorProperties {
 }
 
 // Safe access to flavor properties
-function getFlavorProperty(obj: unknown, property: keyof FlavorProperties): number {
+function _getFlavorProperty(obj: unknown, property: keyof FlavorProperties): number {
   if (hasFlavorProperties(obj) && typeof obj[property] === 'number') {
     return obj[property] as number;
   }
@@ -620,7 +620,7 @@ export async function getRecommendedIngredients(astroState: AstrologicalState): 
 }
 
 export async function getIngredientRecommendations(
-  elementalProps: ElementalProperties & {
+  _elementalProps: ElementalProperties & {
     timestamp: Date;
     currentStability: number;
     planetaryAlignment: Record<string, { sign: string; degree: number }>;
@@ -629,8 +629,10 @@ export async function getIngredientRecommendations(
     lunarPhase: string;
     aspects: Array<{ aspectType: string; planet1: string; planet2: string }>;
   }, 
-  options: RecommendationOptions
+  _options: RecommendationOptions
 ): Promise<GroupedIngredientRecommendations> {
+  const elementalProps = _elementalProps;
+  const options = _options;
   const allIngredients = await getAllIngredients();
   const recommendations: GroupedIngredientRecommendations = {};
   
@@ -927,7 +929,7 @@ function calculateCulturalContextScore(
   }
 }
 
-function isElementalProperties(obj: any): obj is ElementalProperties {
+function _isElementalProperties(obj: any): obj is ElementalProperties {
   return obj && 
     typeof obj === 'object' &&
     typeof obj.Fire === 'number' &&

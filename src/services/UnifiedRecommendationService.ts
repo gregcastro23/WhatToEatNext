@@ -529,7 +529,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
   ): Promise<RecommendationResult<any>> {
     // Convert planetary positions to elemental properties
     // This is a simplified implementation
-    const elementalProperties: ElementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+    const _elementalProperties: ElementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     
     // In a real implementation, we would use the AlchemicalEngine to calculate
     // elemental properties based on planetary positions

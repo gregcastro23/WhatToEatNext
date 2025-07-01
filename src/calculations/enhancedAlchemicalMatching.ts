@@ -20,7 +20,7 @@ import { signs } from '../data/astroData';
 export function calculateAstrologicalAffinity(
   signA: ZodiacSign,
   signB: ZodiacSign, 
-  planets?: Record<string, PlanetaryPosition>
+  _planets?: Record<string, PlanetaryPosition>
 ): number {
   // Base elemental compatibility
   const elementA = signs[signA]?.Element;

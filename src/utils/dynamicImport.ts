@@ -7,7 +7,7 @@
  * A utility function for logging debug information
  * This is a safe replacement for console.log that can be disabled in production
  */
-const debugLog = (message: string, ...args: unknown[]): void => {
+const debugLog = (_message: string, ...args: unknown[]): void => {
   // Comment out console.log to avoid linting warnings
   // console.log(message, ...args);
 };
@@ -93,7 +93,7 @@ type KnownModulePath = keyof typeof MODULE_MAP;
 export async function safeImportAndExecuteKnown<R, A extends any[] = any[]>(
   path: KnownModulePath,
   functionName: string,
-  args: A
+  _args: A
 ): Promise<R | null> {
   try {
     if (!MODULE_MAP[path]) {

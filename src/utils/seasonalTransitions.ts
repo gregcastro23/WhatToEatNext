@@ -26,7 +26,7 @@ const baseElements: ElementalState = {
 };
 
 // Functions to calculate phase progression
-function calculateProgressInPhase(currentDate: Date, currentPhase: { name: string }): number {
+function calculateProgressInPhase(_currentDate: Date, _currentPhase: { name: string }): number {
   // Simple implementation - can be replaced with more accurate calculations
   return 0.5; // Midpoint of phase
 }

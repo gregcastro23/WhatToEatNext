@@ -5,7 +5,7 @@ exports.getCurrentTransitPositions = exports.getBaseSignLongitude = exports.vali
  * A utility function for logging debug information
  * This is a safe replacement for console.log that can be disabled in production
  */
-const debugLog = (message, ...args) => {
+const debugLog = (_message, ...args) => {
     // Comment out console.log to avoid linting warnings
     // console.log(message, ...args);
 };
@@ -13,7 +13,7 @@ const debugLog = (message, ...args) => {
  * A utility function for logging errors
  * This is a safe replacement for console.error that can be disabled in production
  */
-const errorLog = (message, ...args) => {
+const errorLog = (_message, ...args) => {
     // Comment out console.error to avoid linting warnings
     // console.error(message, ...args);
 };
@@ -532,7 +532,7 @@ function getDayOfYear(date) {
  * @param dayOfYear Day of year (1-366)
  * @returns Zodiac sign
  */
-function calculateApproximateSunSign(dayOfYear) {
+function _calculateApproximateSunSign(dayOfYear) {
     // Simple approximation of Sun sign based on day of year
     if (dayOfYear >= 80 && dayOfYear < 110)
         return 'aries';
@@ -637,7 +637,7 @@ function getDominantElement(elements) {
  * @param date Reference date
  * @returns Number of days
  */
-function getDaysSinceDate(date) {
+function _getDaysSinceDate(date) {
     const now = new Date();
     const diff = now.getTime() - date.getTime();
     return Math.floor(diff / (1000 * 60 * 60 * 24));
@@ -647,6 +647,6 @@ function getDaysSinceDate(date) {
  * @param sign String to convert
  * @returns Zodiac sign
  */
-function toZodiacSign(sign) {
+function _toZodiacSign(sign) {
     return (0, exports.normalizeZodiacSign)(sign);
 }

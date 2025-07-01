@@ -276,7 +276,7 @@ export const getRecommendedCookingMethodsForIngredient = async (
  * @param item The AlchemicalItem to score
  * @returns Score from 0-1 representing alchemical quality
  */
-function calculateAlchemicalScore(item: AlchemicalItem): number {
+function _calculateAlchemicalScore(item: AlchemicalItem): number {
   let score = 0;
   let count = 0;
   

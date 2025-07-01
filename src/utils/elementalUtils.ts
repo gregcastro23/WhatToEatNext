@@ -509,7 +509,7 @@ const ELEMENT_WEIGHTS = {
 };
 
 // Add this function if uniqueness score is needed
-function calculateUniqueness(
+function _calculateUniqueness(
   elements: Record<ElementalCharacter, number>,
   planetaryInfluence: number
 ): number {

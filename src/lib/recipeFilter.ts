@@ -4,8 +4,8 @@ import { getLatestAstrologicalState } from '@/services/AstrologicalService';
 
 // Calculate elemental harmony between two sets of elemental properties
 const calculateElementalHarmony = (
-  recipeProperties: ElementalProperties,
-  targetProperties: ElementalProperties
+  _recipeProperties: ElementalProperties,
+  _targetProperties: ElementalProperties
 ): { elementalHarmony: number } => {
   // Simple implementation - can be replaced with the actual alchemical engine later
   return {

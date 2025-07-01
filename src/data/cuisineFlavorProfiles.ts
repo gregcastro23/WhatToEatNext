@@ -556,7 +556,7 @@ export const getRecommendedCuisines = (
   recipeFlavorProfile: Record<string, number>
 ): { cuisine: string; matchScore: number }[] => {
   const results = Object.entries(cuisineFlavorProfiles)
-    .map(([cuisineName, profile]) => {
+    .map(([cuisineName, _profile]) => {
       // Skip child cuisines that have a parent - will handle them separately
       if (profile.parentCuisine) return null;
 
@@ -584,7 +584,7 @@ export const getRecommendedCuisines = (
   }[] = [];
 
   Object.entries(cuisineFlavorProfiles)
-    .filter(([_, profile]) => profile.parentCuisine)
+    .filter(([_, _profile]) => profile.parentCuisine)
     .forEach(([cuisineName, profile]) => {
       const matchScore = calculateCuisineFlavorMatch(
         recipeFlavorProfile,

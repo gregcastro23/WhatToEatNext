@@ -297,7 +297,7 @@ export function calculatePlanetaryInfluences(
           alchemicalInfluences.Substance += mapping.Substance * strength;
 
           // Get elemental influence
-          const element = getPlanetaryElementalInfluence(planet, isDaytime);
+          const _element = getPlanetaryElementalInfluence(planet, isDaytime);
           elementalInfluences[element] += strength;
 
           // Add to dominant planets list

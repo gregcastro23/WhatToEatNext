@@ -10,7 +10,7 @@
   console.log('[ElementRankingPatch] Installing global protection for element_rank_dict');
 
   // The most important function to patch
-  window.getElementRanking = function(element_object, rank) {
+  window.getElementRanking = function(element_object, _rank) {
     try {
       // Create a completely new result object, never try to modify an existing one
       const result = {

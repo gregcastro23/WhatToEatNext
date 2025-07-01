@@ -115,12 +115,12 @@ export default function IngredientRecommender() {
   };
   
   // Toggle expansion for a category
-  const toggleCategoryExpansion = (category: string, e: React.MouseEvent) => {
+  const toggleCategoryExpansion = (_category: string, e: React.MouseEvent) => {
     e.stopPropagation();
     
     setExpanded(prev => ({
       ...prev,
-      [category]: !prev[category]
+      [_category]: !prev[_category]
     }));
   };
   
@@ -186,9 +186,9 @@ export default function IngredientRecommender() {
         ...Object.keys(standardRecommendations)
       ]);
       
-      allCategories.forEach(category => {
-        const chakraItems = chakraRecommendations[category] || [];
-        const standardItems = standardRecommendations[category] || [];
+      allCategories.forEach(_category => {
+        const chakraItems = chakraRecommendations[_category] || [];
+        const standardItems = standardRecommendations[_category] || [];
         
         // Create a unique set of items using name as the key
         const uniqueItems = new Map();
@@ -206,7 +206,7 @@ export default function IngredientRecommender() {
         });
         
         // Convert back to array and limit to prevent overwhelming the user
-        mergedRecommendations[category] = Array.from(uniqueItems.values()).slice(0, 32);
+        mergedRecommendations[_category] = Array.from(uniqueItems.values()).slice(0, 32);
       });
       
       setAstroRecommendations(mergedRecommendations);
@@ -236,8 +236,8 @@ export default function IngredientRecommender() {
   
   // Helper function to check if an ingredient is an oil
   const isOil = (ingredient: any): boolean => {
-    const category = ingredient.category?.toLowerCase() || '';
-    if (category === 'oil' || category === 'oils') return true;
+    const _category = ingredient.category?.toLowerCase() || '';
+    if (_category === 'oil' || _category === 'oils') return true;
     
     const name = ingredient.name.toLowerCase();
     return oilTypes.some(oil => name.includes(oil.toLowerCase()));

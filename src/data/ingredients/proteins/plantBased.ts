@@ -8,7 +8,7 @@ import type { IngredientMapping } from '@/data/ingredients/types';
 
 // Helper function to standardize ingredient mappings
 function createIngredientMapping(
-  id: string,
+  _id: string,
   properties: Partial<IngredientMapping> & Record<string, any>
 ): Partial<IngredientMapping> {
   return {
@@ -1616,7 +1616,7 @@ const mappedPlantBased: Record<string, IngredientMapping> = fixIngredientMapping
 export const plantBased: Record<string, IngredientMapping> = mappedPlantBased;
 
 // Add validation for elemental sums
-(Object.entries(plantBased) as [string, IngredientMapping][]).forEach(([id, ingredient]) => {
+(Object.entries(plantBased) as [string, IngredientMapping][]).forEach(([_id, ingredient]) => {
   if (!ingredient.elementalProperties) return;
 
   const sum = Object.values(ingredient.elementalProperties).reduce(

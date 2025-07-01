@@ -77,7 +77,7 @@ const CuisineSpecificRecommendations: React.FC<CuisineSpecificRecommendationsPro
   };
 
   // Function to determine if a planet is favorable/unfavorable for a recipe
-  const getPlanetaryAlignment = (recipe: unknown, planetName: string) => {
+  const getPlanetaryAlignment = (recipe: unknown, _planetName: string) => {
     // Apply safe type casting for recipe property access
     const recipeData = recipe as any;
     if ((recipeData?.planetaryDayScore || 0) >= 0.7) return 'favorable';

@@ -43,7 +43,7 @@ interface FlavorProperties {
   [key: string]: number | undefined;
 }
 
-function hasFlavorProperties(obj: any): obj is FlavorProperties {
+function _hasFlavorProperties(obj: any): obj is FlavorProperties {
   if (!obj || typeof obj !== 'object') return false;
   
   return (
@@ -56,7 +56,7 @@ function hasFlavorProperties(obj: any): obj is FlavorProperties {
 }
 
 // Safe access to elemental properties
-function getElementalProperty(obj: any, property: keyof ElementalProperties): number {
+function _getElementalProperty(obj: any, property: keyof ElementalProperties): number {
   if (isElementalProperties(obj) && typeof obj[property] === 'number') {
     return obj[property];
   }

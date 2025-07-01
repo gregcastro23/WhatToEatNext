@@ -46,7 +46,7 @@ const DAILY_MOVEMENT = {
 /**
  * Conversion helpers
  */
-function signToLongitude(sign: string): number {
+function _signToLongitude(sign: string): number {
   const signIndex = ZODIAC_SIGNS.indexOf(sign.toLowerCase());
   return signIndex >= 0 ? signIndex * 30 : 0;
 }

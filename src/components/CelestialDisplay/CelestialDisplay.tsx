@@ -101,7 +101,7 @@ export default function CelestialDisplay() {
         });
 
       // Draw celestial bodies at different distances from center to avoid crowding
-      planets.forEach(([planet, position], index) => {
+      planets.forEach(([planet, position], _index) => {
         // Use proper typing instead of type assertions
         const pos = position as CelestialPosition;
         if (!pos || typeof pos.exactLongitude !== 'number') return;

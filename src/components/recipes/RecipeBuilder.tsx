@@ -137,7 +137,7 @@ const getZodiacElementalInfluence = (zodiacSign: ZodiacSign): ElementalPropertie
 
 const determineIngredientModality = (
   elementalProps: ElementalProperties,
-  qualities: string[]
+  _qualities: string[]
 ): Modality => {
   // Simplified modality determination
   const dominant = Object.entries(elementalProps)
@@ -359,7 +359,7 @@ export default function RecipeBuilder() {
   // Get chakra food recommendations
   const getChakraFoodRecommendations = (
     chakra: Chakra,
-    energyInfluence: {
+    _energyInfluence: {
       Spirit: number;
       Essence: number;
       Matter: number;

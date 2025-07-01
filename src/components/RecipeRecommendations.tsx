@@ -145,7 +145,7 @@ const getSeasonalElementalProfile = (season: Season): ElementalProperties => {
 const calculateRecommendationScore = (
   recipe: Recipe,
   season: Season,
-  timeFactors: TimeFactors | null
+  _timeFactors: TimeFactors | null
 ): RecommendationExplanation => {
   const recipeElements = validateElementalProperties(recipe.elementalProperties || recipe.elementalState);
   const seasonalProfile = getSeasonalElementalProfile(season);
@@ -239,7 +239,7 @@ export default function RecipeRecommendations() {
         setError(null);
         
         // Get current planetary positions
-        const positions = await astrologyService.getCurrentPlanetaryPositions();
+        const _positions = await astrologyService.getCurrentPlanetaryPositions();
         
         // Convert positions to the format needed by recommendation services
         const formattedPositions: { [key: string]: string } = {};
@@ -284,7 +284,7 @@ export default function RecipeRecommendations() {
    */
   const getRecommendedRecipes = async (
     availableRecipes: Recipe[],
-    positions: { [key: string]: string }
+    _positions: { [key: string]: string }
   ): Promise<ScoredRecipe[]> => {
     if (!recommendationService || !alchemicalRecommendationService || !availableRecipes?.length) {
       return [];

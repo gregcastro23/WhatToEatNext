@@ -181,7 +181,7 @@ export class AlchemicalService {
       // Calculate if it's currently daytime
       const now = new Date();
       const hours = now.getHours();
-      const isDaytime = hours >= 6 && hours < 18;
+      const _isDaytime = hours >= 6 && hours < 18;
       
       // Get current Sun sign as current zodiac
       const sunPosition = positions['Sun'];

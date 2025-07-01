@@ -51,7 +51,7 @@ const getProteinsByCategory = (category) => {
         .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 };
 exports.getProteinsByCategory = getProteinsByCategory;
-const getProteinsByCookingMethod = (method) => {
+const getProteinsByCookingMethod = (_method) => {
     return Object.entries(exports.proteins)
         .filter(([_, value]) => value.cookingMethods?.includes?.(method))
         .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
@@ -67,7 +67,7 @@ const getProteinsByNutrition = (minProtein = 0, maxFat) => {
         .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 };
 exports.getProteinsByNutrition = getProteinsByNutrition;
-const getCompatibleProteins = (proteinName) => {
+const getCompatibleProteins = (_proteinName) => {
     const protein = exports.proteins[proteinName];
     if (!protein)
         return [];
@@ -77,7 +77,7 @@ const getCompatibleProteins = (proteinName) => {
         .map(([key, _]) => key);
 };
 exports.getCompatibleProteins = getCompatibleProteins;
-const getProteinSubstitutes = (proteinName) => {
+const getProteinSubstitutes = (_proteinName) => {
     const protein = exports.proteins[proteinName];
     if (!protein || !protein.qualities)
         return {};
@@ -88,7 +88,7 @@ const getProteinSubstitutes = (proteinName) => {
         // Calculate similarity score based on cooking methods, nutrition, and texture
         const methodScore = value.culinaryApplications ?
             Object.keys(value.culinaryApplications)
-                .filter(method => protein.culinaryApplications &&
+                .filter(_method => protein.culinaryApplications &&
                 Object.keys(protein.culinaryApplications).includes(method)).length / (Object || 1).keys(protein.culinaryApplications || {}).length :
             0;
         const nutritionScore = Math.abs((value.nutritionalContent.protein - protein.nutritionalContent.protein) /
@@ -191,12 +191,12 @@ const calculateCookingTime = (proteinName, method, weight, thickness, doneness, 
 };
 exports.calculateCookingTime = calculateCookingTime;
 // Validation functions
-const validateProteinCombination = (proteins) => {
+const validateProteinCombination = (_proteins) => {
     // Implementation for validating if proteins work well together
     return true; // Placeholder
 };
 exports.validateProteinCombination = validateProteinCombination;
-const validateCookingMethod = (proteinName, method, cut) => {
+const validateCookingMethod = (proteinName, method, _cut) => {
     // Implementation for validating if cooking method is appropriate
     return true; // Placeholder
 };

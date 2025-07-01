@@ -31,7 +31,7 @@ export interface RecommendationCriteria {
   servings?: number;
 }
 
-export function useIngredientRecommendations(criteria?: RecommendationCriteria) {
+export function useIngredientRecommendations(_criteria?: RecommendationCriteria) {
   const [recommendations, setRecommendations] = useState<IngredientRecommendation[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);

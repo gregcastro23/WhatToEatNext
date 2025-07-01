@@ -314,7 +314,7 @@ interface AstrologicalProperties {
     neutral: string[];
 }
 
-function getElementalBreakdown(season: Season): Record<Season, ElementalProperties> {
+function _getElementalBreakdown(season: Season): Record<Season, ElementalProperties> {
     const baseElements = getDefaultElementalProps();
 
     const seasonalModifiers: Record<Season, ElementalProperties> = {
@@ -336,7 +336,7 @@ function getElementalBreakdown(season: Season): Record<Season, ElementalProperti
     };
 }
 
-function calculateSeasonalScores(
+function _calculateSeasonalScores(
     recipe: Recipe,
     currentZodiac?: ZodiacSign | null,
     lunarPhase?: LunarPhase | null
@@ -449,7 +449,7 @@ function calculateSeasonalScores(
     };
 }
 
-function isComplementaryElement(element1: Element, element2: Element): boolean {
+function _isComplementaryElement(element1: Element, element2: Element): boolean {
     const complementaryPairs: [Element, Element][] = [
         ['Fire', 'Air'],
         ['Water', 'Earth']

@@ -1360,7 +1360,7 @@ function calculateVenusInfluence(
 }
 
 // Enhance ingredient scoring with Venus influence
-function enhanceVenusIngredientScoring(
+function _enhanceVenusIngredientScoring(
   ingredient: Ingredient,
   astroState: AstrologicalState,
   score: number

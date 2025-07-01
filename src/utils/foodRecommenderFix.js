@@ -25,7 +25,7 @@
 
   // Fix elemental functions to use let instead of const
   const fixedFunctions = {
-    getElementRanking: function(element_object, rank) {
+    getElementRanking: function(element_object, _rank) {
       // Use let for variables that will be reassigned
       const element_rank_dict = {1: '', 2: '', 3: '', 4: ''};
       let largest_element_value = 0;

@@ -31,7 +31,7 @@ import { planetInfo, signInfo, signs } from '@/calculations/core/alchemicalEngin
  * A utility function for logging debug information
  * This is a safe replacement for console.log that can be disabled in production
  */
-const debugLog = (message: string, ...args: unknown[]): void => {
+const debugLog = (_message: string, ...args: unknown[]): void => {
   // Comment out console.log to avoid linting warnings
   // console.log(message, ...args);
 };
@@ -1427,7 +1427,7 @@ function getSeasonFromSunSign(sunSign: ZodiacSign): Season {
  * @param dominantElement Dominant element
  * @returns Recommendation string
  */
-function generateRecommendation(dominantElement: string): string {
+function _generateRecommendation(dominantElement: string): string {
   switch (dominantElement) {
     case 'fire':
       return 'Foods that cool and ground: fresh vegetables, fruits, and cooling herbs like mint.';
@@ -1447,7 +1447,7 @@ function generateRecommendation(dominantElement: string): string {
  * @param season Season
  * @returns Element
  */
-function getSeasonsPrimaryElement(season: string): keyof ElementalProperties {
+function _getSeasonsPrimaryElement(season: string): keyof ElementalProperties {
   switch (season.toLowerCase()) {
     case 'spring':
       return 'Air';
@@ -2124,7 +2124,7 @@ function safeAlchemize(birthInfo: UnifiedBirthInfo, horoscopeDict: HoroscopeData
     // Create a deep copy of the actual planetary information
     // JSON.parse/stringify is used for deep cloning, though it has limitations
     // It's the safest way to ensure we don't modify any constants
-    const safetyWrapper = {
+    const _safetyWrapper = {
       planetInfo: JSON.parse(JSON.stringify(planetInfo)),
       signInfo: JSON.parse(JSON.stringify(signInfo)),
       signs: JSON.parse(JSON.stringify(signs))
@@ -2173,7 +2173,7 @@ function safeAlchemize(birthInfo: UnifiedBirthInfo, horoscopeDict: HoroscopeData
 function alchemizeWithSafety(
   birthInfo: UnifiedBirthInfo, 
   horoscopeDict: HoroscopeData,
-  safetyWrapper: {
+  _safetyWrapper: {
     planetInfo: typeof planetInfo,
     signInfo: typeof signInfo,
     signs: typeof signs

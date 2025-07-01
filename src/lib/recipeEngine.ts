@@ -30,7 +30,7 @@ export class RecipeEngine {
         
         const elementalProps = recipe.ingredients.reduce((acc, ingredient) => {
             if (ingredient.elementalProperties) {
-                Object.entries(ingredient.elementalProperties).forEach(([element, value]) => {
+                Object.entries(ingredient.elementalProperties).forEach(([_element, value]) => {
                     acc[element] = (acc[element] || 0) + value;
                 });
             }

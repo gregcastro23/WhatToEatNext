@@ -42,7 +42,7 @@ const getFruitsByPreparation = (method) => {
 };
 exports.getFruitsByPreparation = getFruitsByPreparation;
 const findCompatibleFruits = (ingredientName) => {
-    const fruit = exports.fruits[ingredientName];
+    const _fruit = exports.fruits[ingredientName];
     if (!fruit)
         return [];
     return fruit.affinities || [];
@@ -101,7 +101,7 @@ const isValidFruit = (ingredient) => {
 };
 exports.isValidFruit = isValidFruit;
 // Before
-Object.entries(exports.fruits).forEach(([id, fruit]) => {
+Object.entries(exports.fruits).forEach(([_id, fruit]) => {
     // Validation logic can be added here if needed
 });
 // After

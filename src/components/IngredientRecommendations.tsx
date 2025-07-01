@@ -455,7 +455,7 @@ export default function IngredientRecommendations({
           {categoryFilter === 'all' ? (
             // Render all categories
             Object.entries(recommendations)
-              .filter(([category, items]) => items && items.length > 0)
+              .filter(([_category, items]) => items && items.length > 0)
               .map(([category, items]) => (
                 <div key={category} className={styles.categorySection} data-category={category}>
                   <h3 className={styles.categoryTitle}>{category}</h3>

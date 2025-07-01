@@ -5,7 +5,7 @@ import type { PlanetaryPosition, ZodiacSign } from '@/types/alchemy';
  * A utility function for logging debug information
  * This is a safe replacement for console.log that can be disabled in production
  */
-const debugLog = (message: string, ...args: unknown[]): void => {
+const debugLog = (_message: string, ...args: unknown[]): void => {
   // Comment out console.log to avoid linting warnings
   // console.log(message, ...args);
 };
@@ -408,7 +408,7 @@ function calculateSunPosition(date: Date): number {
  * @param date Date to calculate for
  * @returns Approximate ecliptic longitude in degrees (0-360)
  */
-function calculateMoonPosition(date: Date): number {
+function _calculateMoonPosition(date: Date): number {
   // Very simple approximation
   const sunPosition = calculateSunPosition(date);
   
