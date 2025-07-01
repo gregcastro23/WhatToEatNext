@@ -155,10 +155,10 @@ export function calculateTransitEffect(
  */
 export function calculateDignityEffect(
   astroData: AstrologicalData,
-  context: ScoringContext
+  _context: ScoringContext
 ): number {
   let score = 0;
-  const itemRulers = context.item.planetaryRulers || [];
+  const itemRulers = _context.item.planetaryRulers || [];
   
   for (const planet of itemRulers) {
     const dignity = astroData.dignity[planet] || 0;

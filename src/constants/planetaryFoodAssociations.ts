@@ -195,7 +195,7 @@ export const calculatePlanetaryBoost = (
 
   // Planetary position calculations
   Object.entries(planetPositions).forEach(([_planet, _position]) => {
-    const planetInfo = planetaryFoodAssociations[planet as Planet];
+    const planetInfo = planetaryFoodAssociations[_planet as Planet];
     if (!planetInfo) return;
 
     // Basic planetary boost
@@ -204,10 +204,10 @@ export const calculatePlanetaryBoost = (
 
     // Add planet to dominant list if significant
     if (baseBoost > 0.2) {
-      dominantPlanets.push(planet);
+      dominantPlanets.push(_planet);
       
       // Add dignity information for dominant planets
-      dignities[planet] = {
+      dignities[_planet] = {
         type: 'Neutral' as PlanetaryDignity,
         strength: baseBoost,
         favorableZodiacSigns: currentZodiac ? [currentZodiac] : [],
@@ -389,8 +389,8 @@ export const getFlavorBoost = (
   _planet: Planet,
   _ingredient: unknown
 ): number => {
-  const ingredientData = ingredient as any;
-  const elementBoost = planetaryFoodAssociations[planet].elementalBoost || {};
+  const ingredientData = _ingredient as any;
+  const elementBoost = planetaryFoodAssociations[_planet].elementalBoost || {};
   return Object.entries(elementBoost).reduce((acc, [element, boost]) => {
     return acc + (ingredientData.elementalProperties?.[element] || 0) * (boost as number || 0);
   }, 0);

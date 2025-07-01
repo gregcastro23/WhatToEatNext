@@ -409,11 +409,11 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       const compatibilityMethod = alchemicalEngineData?.calculateElementalCompatibility || this.fallbackElementalCompatibility;
       const compatibility = compatibilityMethod(
         elementalState,
-        ingredient.elementalPropertiesState
+        _ingredient.elementalPropertiesState
       );
       
       return {
-        ingredient,
+        ingredient: _ingredient,
         score: compatibility
       };
     });
@@ -606,8 +606,8 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     ingredients: UnifiedIngredient[], 
     filter: NutritionalFilter
   ): UnifiedIngredient[] {
-    return (ingredients || []).filter(ingredient => {
-      const nutrition = ingredient.nutrition;
+    return (ingredients || []).filter(_ingredient => {
+      const nutrition = _ingredient.nutrition;
       if (!nutrition) return true; // Skip if no nutrition data
       
       // Check protein
