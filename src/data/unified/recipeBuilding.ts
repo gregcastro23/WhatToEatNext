@@ -328,14 +328,14 @@ export class UnifiedRecipeBuildingSystem {
     const seasonalIngredientSubstitutions = this.generateSeasonalIngredientSubstitutions(
       recipe, 
       currentSeason, 
-      seasonalRecommendations
+      _seasonalRecommendations
     );
     
     // Generate cooking method adjustments
     const seasonalCookingMethodAdjustments = this.generateSeasonalCookingMethodAdjustments(
       recipe, 
       currentSeason, 
-      seasonalRecommendations
+      _seasonalRecommendations
     );
     
     return {
@@ -367,7 +367,7 @@ export class UnifiedRecipeBuildingSystem {
     const _cuisineAnalysis = this.cuisineSystem.analyzeCuisineIngredients(cuisine);
     
     // Calculate authenticity
-    const authenticity = this.calculateCuisineAuthenticity(recipe, cuisine, cuisineAnalysis);
+    const authenticity = this.calculateCuisineAuthenticity(recipe, cuisine, _cuisineAnalysis);
     
     // Calculate fusion potential
     const fusionPotential = this.calculateFusionPotential(recipe, cuisine);
@@ -427,14 +427,14 @@ export class UnifiedRecipeBuildingSystem {
     const ingredientSubstitutions = this.generateDetailedIngredientSubstitutions(
       recipe, 
       targetSeason, 
-      seasonalRecommendations
+      _seasonalRecommendations
     );
     
     // Generate cooking method adjustments
     const cookingMethodAdjustments = this.generateDetailedCookingMethodAdjustments(
       recipe, 
       targetSeason, 
-      seasonalRecommendations
+      _seasonalRecommendations
     );
     
     // Generate timing adjustments
@@ -448,8 +448,8 @@ export class UnifiedRecipeBuildingSystem {
       recipe, 
       ingredientSubstitutions,
       cookingMethodAdjustments,
-      timingAdjustments,
-      temperatureAdjustments,
+      _timingAdjustments,
+      _temperatureAdjustments,
       targetSeason
     );
     
@@ -464,8 +464,8 @@ export class UnifiedRecipeBuildingSystem {
       adaptationChanges: {
         ingredientSubstitutions,
         cookingMethodAdjustments,
-        timingAdjustments,
-        temperatureAdjustments
+        timingAdjustments: _timingAdjustments,
+        temperatureAdjustments: _temperatureAdjustments
       },
       seasonalScore,
       kalchmImprovement,

@@ -314,7 +314,7 @@ interface AstrologicalProperties {
     neutral: string[];
 }
 
-function _getElementalBreakdown(season: Season): Record<Season, ElementalProperties> {
+function _getElementalBreakdown(_season: Season): Record<Season, ElementalProperties> {
     const baseElements = getDefaultElementalProps();
 
     const seasonalModifiers: Record<Season, ElementalProperties> = {

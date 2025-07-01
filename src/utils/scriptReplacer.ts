@@ -60,7 +60,7 @@ if (typeof window !== 'undefined') {
       on: function(_event: string, _callback?: any) {
         return { 
           off: function() {},
-          trigger: function(event: string) { return this; }
+          trigger: function(_event: string) { return this; }
         };
       },
       trigger: function(event: string) { return this; }

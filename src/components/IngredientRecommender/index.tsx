@@ -515,7 +515,7 @@ export default function IngredientRecommender() {
         ...Object.keys(standardRecommendations)
       ]);
       
-      allCategories.forEach(category => {
+      allCategories.forEach(_category => {
         const chakraItems = chakraRecommendations[category] || [];
         const standardItems = standardRecommendations[category] || [];
         

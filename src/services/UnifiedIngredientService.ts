@@ -365,7 +365,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
   getIngredientsByZodiacSign(sign: ZodiacSign): UnifiedIngredient[] {
     const allIngredients = this.getAllIngredientsFlat();
     
-    return (allIngredients || []).filter(ingredient => {
+    return (allIngredients || []).filter(_ingredient => {
       if (!ingredient.astrologicalProperties?.signs) return false;
       
       const signs = ingredient?.astrologicalPropertiesProperties?.signs;
