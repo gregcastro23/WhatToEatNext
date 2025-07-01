@@ -332,7 +332,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     const allIngredients = this.getAllIngredientsFlat();
     const seasons = Array.isArray(season) ? season : [season];
     
-    return (allIngredients || []).filter(ingredient => {
+    return (allIngredients || []).filter(_ingredient => {
       if (!ingredient.seasonality) return false;
       
       return (seasons || []).some(s => 

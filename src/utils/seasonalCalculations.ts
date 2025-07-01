@@ -207,7 +207,7 @@ const calculateIngredientSuitability = async (recipe: Recipe, _season: Season): 
     return suitabilityScore;
 };
 
-const calculateSeasonalBonus = async (recipe: Recipe, season: Season): Promise<number> => {
+const calculateSeasonalBonus = async (recipe: Recipe, _season: Season): Promise<number> => {
     // Check if recipe has an explicit seasonal recommendation
     let bonus = 15; // Base bonus
     

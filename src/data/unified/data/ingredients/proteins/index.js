@@ -196,7 +196,7 @@ const validateProteinCombination = (_proteins) => {
     return true; // Placeholder
 };
 exports.validateProteinCombination = validateProteinCombination;
-const validateCookingMethod = (_proteinName, method, _cut) => {
+const validateCookingMethod = (_proteinName, _method, _cut) => {
     // Implementation for validating if cooking method is appropriate
     return true; // Placeholder
 };

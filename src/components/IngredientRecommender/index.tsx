@@ -236,7 +236,7 @@ export default function IngredientRecommender() {
     
     // First pass - identify spices/seasonings and group them by base name
     recommendations.forEach(item => {
-      const category = categorizeIngredient(item);
+      const _category = categorizeIngredient(item);
       const normalizedName = item.name.toLowerCase().trim();
       
       // Special handling for spices and seasonings

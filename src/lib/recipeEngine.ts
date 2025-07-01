@@ -118,7 +118,7 @@ export class RecipeEngine {
         if (!props1 || !props2) return 0;
         
         try {
-            return 1 - Object.entries(props1).reduce((diff, [element, value]) => {
+            return 1 - Object.entries(props1).reduce((diff, [_element, value]) => {
                 return diff + Math.abs(value - (props2[element] || 0)) / 2;
             }, 0);
         } catch (error) {

@@ -857,7 +857,7 @@ export function generateFusionRecipe(_cuisines: string[], _criteria: RecipeBuild
 }
 
 export function generatePlanetaryRecipeRecommendation(
-  criteria: RecipeBuildingCriteria & {
+  _criteria: RecipeBuildingCriteria & {
     currentPlanetaryHour: PlanetName;
     lunarPhase: LunarPhase;
     currentZodiacSign?: ZodiacSign;
@@ -873,7 +873,7 @@ export function buildRecipe(criteria: RecipeBuildingCriteria): any {
   return unifiedRecipeBuildingSystem.generateMonicaOptimizedRecipe(criteria);
 }
 
-export function getSeasonalRecipeRecommendations(season: Season): any {
+export function getSeasonalRecipeRecommendations(_season: Season): any {
   return unifiedRecipeBuildingSystem.seasonalSystem.getSeasonalRecommendations(season);
 }
 
