@@ -111,7 +111,7 @@ export async function safeImportAndExecuteKnown<R, A extends any[] = any[]>(
       return null;
     }
     
-    return func(...args) as R;
+    return func(..._args) as R;
   } catch (error) {
     errorLog(`Import and execute failed for ${functionName} from ${path}:`, error);
     return null;
@@ -204,20 +204,20 @@ export async function safeImportAndExecute<R, A extends any[] = any[]>(
         }
         
         // Return the function result directly since we're executing specific methods
-        if (args.length === 1 && functionName === 'solar' && 
+        if (_args.length === 1 && functionName === 'solar' && 
             typeof subModule.apparentLongitude === 'function') {
-          return subModule.apparentLongitude(args[0]) as R;
-        } else if (args.length === 1 && functionName === 'moon' && 
+          return subModule.apparentLongitude(_args[0]) as R;
+        } else if (_args.length === 1 && functionName === 'moon' && 
                   typeof subModule.position === 'function') {
-          return subModule.position(args[0]) as R;
-        } else if (args.length === 1 && functionName === 'julian' && 
+          return subModule.position(_args[0]) as R;
+        } else if (_args.length === 1 && functionName === 'julian' && 
                   typeof subModule.fromDate === 'function') {
-          return subModule.fromDate(args[0]) as R;
+          return subModule.fromDate(_args[0]) as R;
         } else {
           // Generic case - try to execute the function
           try {
             if (typeof subModule === 'function') {
-              return subModule(...args) as R;
+              return subModule(..._args) as R;
             } else {
               errorLog(`Submodule ${functionName} is not a function`);
               return null;
@@ -252,7 +252,7 @@ export async function safeImportAndExecute<R, A extends any[] = any[]>(
       return null;
     }
     
-    return importedModule[functionName](...args) as R;
+    return importedModule[functionName](..._args) as R;
   } catch (error) {
     errorLog(`Safe import and execute failed for ${functionName} from ${path}:`, error);
     
@@ -367,5 +367,5 @@ export async function dynamicImportAndExecute<R, A extends any[] = any[], F = R>
   fallbackFn: ((...args: A) => F) | null = null
 ): Promise<R | F | null> {
   debugLog('dynamicImportAndExecute is deprecated, use safeImportAndExecute instead');
-  return safeImportAndExecute<R, A>(path, functionName, args);
+  return safeImportAndExecute<R, A>(path, functionName, _args);
 } 

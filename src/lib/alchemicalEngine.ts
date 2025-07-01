@@ -436,15 +436,15 @@ export class AlchemicalEngineBase {
   rankBySeasonalEffectiveness(recipes: Recipe[], season: string) {
     return recipes
       .map((_recipe) => ({
-        ...recipe,
+        ..._recipe,
         seasonalScore: (() => {
           const calculatorData = ElementalCalculator as any;
           if (calculatorData?.calculateSeasonalEffectiveness) {
-            return calculatorData.calculateSeasonalEffectiveness(recipe, season);
+            return calculatorData.calculateSeasonalEffectiveness(_recipe, season);
           }
           // Fallback calculation using recipe's elemental properties
           const seasonalBonus = this.getSeasonalInfluence(season, 'Fire');
-          return (recipe.elementalProperties?.Fire || 0.25) * seasonalBonus;
+          return (_recipe.elementalProperties?.Fire || 0.25) * seasonalBonus;
         })(),
       }))
       .sort((a, b) => b.seasonalScore - a.seasonalScore);
@@ -483,8 +483,8 @@ export class AlchemicalEngineBase {
   setAvailableRecipes(recipes: Recipe[]) {
     this.availableRecipes = recipes.filter(
       (_recipe) =>
-        recipe?.elementalProperties &&
-        validateElementalProperties(recipe.elementalProperties)
+        _recipe?.elementalProperties &&
+        validateElementalProperties(_recipe.elementalProperties)
     );
   }
 
@@ -547,7 +547,7 @@ export class AlchemicalEngineBase {
 
     // Simple implementation - return recipes with default scores
     return recipes.slice(0, 3).map((_recipe) => ({
-      recipe,
+      recipe: _recipe,
       score: 80, // Default score
       elements: {
         Fire: 0.25,

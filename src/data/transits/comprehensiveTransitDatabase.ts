@@ -8,7 +8,7 @@
  * - Elemental dominance patterns
  */
 
-import { ZodiacSign, CelestialPosition, PlanetaryAspect } from '@/types/celestial';
+import { ZodiacSign, CelestialPosition, PlanetaryAspect, AspectType } from '@/types/celestial';
 
 export interface TransitSeason {
   id: string;
@@ -53,19 +53,19 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
           {
             planet1: 'Sun',
             planet2: 'Mars',
-            aspectType: 'conjunction',
+            aspectType: 'conjunction' as AspectType,
             orb: 2.5,
             influence: 0.9,
             description: 'Dynamic fire energy, perfect for bold culinary experiments'
-          },
+          } as PlanetaryAspect,
           {
             planet1: 'Mercury',
             planet2: 'Venus',
-            aspectType: 'conjunction',
+            aspectType: 'conjunction' as AspectType,
             orb: 1.8,
             influence: 0.8,
             description: 'Harmonious communication between air and earth elements'
-          }
+          } as PlanetaryAspect
         ],
         planetaryPlacements: {
           Sun: { sign: 'aries', degree: 15, exactLongitude: 15, isRetrograde: false },
@@ -97,19 +97,19 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
           {
             planet1: 'Venus',
             planet2: 'Jupiter',
-            aspectType: 'trine',
+            aspectType: 'trine' as AspectType,
             orb: 1.2,
             influence: 0.8,
             description: 'Harmonious earth energy, ideal for grounding comfort foods'
-          },
+          } as PlanetaryAspect,
           {
             planet1: 'Sun',
             planet2: 'Uranus',
-            aspectType: 'conjunction',
+            aspectType: 'conjunction' as AspectType,
             orb: 3.1,
             influence: 0.7,
             description: 'Innovative earth energy, perfect for experimental comfort cooking'
-          }
+          } as PlanetaryAspect
         ],
         planetaryPlacements: {
           Sun: { sign: 'taurus', degree: 12, exactLongitude: 42, isRetrograde: false },
@@ -141,19 +141,19 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
           {
             planet1: 'Mercury',
             planet2: 'Jupiter',
-            aspectType: 'conjunction',
+            aspectType: 'conjunction' as AspectType,
             orb: 2.8,
             influence: 0.85,
             description: 'Intellectual air energy, perfect for experimental and varied cuisine'
-          },
+          } as PlanetaryAspect,
           {
             planet1: 'Sun',
             planet2: 'Venus',
-            aspectType: 'trine',
+            aspectType: 'trine' as AspectType,
             orb: 1.5,
             influence: 0.75,
             description: 'Harmonious communication between fire and earth elements'
-          }
+          } as PlanetaryAspect
         ],
         planetaryPlacements: {
           Sun: { sign: 'gemini', degree: 8, exactLongitude: 68, isRetrograde: false },
@@ -179,11 +179,11 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
       {
         planet1: 'Saturn',
         planet2: 'Neptune',
-        aspectType: 'square',
+        aspectType: 'square' as AspectType,
         orb: 1.8,
         influence: 0.9,
         description: 'Major structural changes in spiritual and material realms'
-      }
+      } as PlanetaryAspect
     ],
     eclipseSeasons: [
       new Date('2024-04-08'), // Solar Eclipse
@@ -217,27 +217,27 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
           {
             planet1: 'Mercury',
             planet2: 'Jupiter',
-            aspectType: 'conjunction',
+            aspectType: 'conjunction' as AspectType,
             orb: 3.1,
             influence: 0.85,
             description: 'Intellectual air energy, perfect for experimental and varied cuisine'
-          },
+          } as PlanetaryAspect,
           {
             planet1: 'Sun',
             planet2: 'Venus',
-            aspectType: 'trine',
+            aspectType: 'trine' as AspectType,
             orb: 2.8,
             influence: 0.75,
             description: 'Harmonious communication between fire and earth elements'
-          },
+          } as PlanetaryAspect,
           {
             planet1: 'Mars',
             planet2: 'Jupiter',
-            aspectType: 'conjunction',
+            aspectType: 'conjunction' as AspectType,
             orb: 1.2,
             influence: 0.9,
             description: 'Dynamic fire expansion, ideal for bold culinary experiments'
-          }
+          } as PlanetaryAspect
         ],
         planetaryPlacements: {
           Sun: { sign: 'gemini', degree: 15, exactLongitude: 75, isRetrograde: false },
@@ -269,19 +269,19 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
           {
             planet1: 'Moon',
             planet2: 'Neptune',
-            aspectType: 'trine',
+            aspectType: 'trine' as AspectType,
             orb: 2.1,
             influence: 0.8,
             description: 'Intuitive water energy, perfect for nurturing comfort foods'
-          },
+          } as PlanetaryAspect,
           {
             planet1: 'Sun',
             planet2: 'Saturn',
-            aspectType: 'opposition',
+            aspectType: 'opposition' as AspectType,
             orb: 1.8,
             influence: 0.7,
             description: 'Balancing structure with emotional nourishment'
-          }
+          } as PlanetaryAspect
         ],
         planetaryPlacements: {
           Sun: { sign: 'cancer', degree: 8, exactLongitude: 98, isRetrograde: false },
@@ -311,7 +311,7 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
         orb: 2.1,
         influence: 0.8,
         description: 'Expansion meets structure in food and culture'
-      }
+      } as PlanetaryAspect
     ],
     eclipseSeasons: [
       new Date('2025-03-29'), // Solar Eclipse

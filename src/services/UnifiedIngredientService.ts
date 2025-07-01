@@ -134,8 +134,8 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
         ing => ing.name?.toLowerCase() === normalizedName
       );
       
-      if (ingredient) {
-        return ingredient;
+      if (_ingredient) {
+        return _ingredient;
       }
     }
     
@@ -237,13 +237,13 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     const result: Record<string, UnifiedIngredient[]> = {};
     
     for (const _ingredient of filteredIngredients) {
-      const category = ingredient.category || 'other';
+      const category = _ingredient.category || 'other';
       
       if (!result[category]) {
         result[category] = [];
       }
       
-      result[category].push(ingredient);
+      result[category].push(_ingredient);
     }
     
     return result;
@@ -314,11 +314,11 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     const allIngredients = this.getAllIngredientsFlat();
     
     return (allIngredients || []).filter(_ingredient => {
-      if (!ingredient.flavorProfile) return false;
+      if (!_ingredient.flavorProfile) return false;
       
       const similarity = this.calculateFlavorSimilarity(
         flavorProfile,
-        ingredient.flavorProfile
+        _ingredient.flavorProfile
       );
       
       return similarity >= minMatchScore;
@@ -333,12 +333,12 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     const seasons = Array.isArray(season) ? season : [season];
     
     return (allIngredients || []).filter(_ingredient => {
-      if (!ingredient.seasonality) return false;
+      if (!_ingredient.seasonality) return false;
       
       return (seasons || []).some(s => 
-        Array.isArray(ingredient.seasonality) 
-          ? ingredient.seasonality.includes(s as any) 
-          : ingredient.seasonality === s as any
+        Array.isArray(_ingredient.seasonality) 
+          ? _ingredient.seasonality.includes(s as any) 
+          : _ingredient.seasonality === s as any
       );
     });
   }
@@ -350,9 +350,9 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     const allIngredients = this.getAllIngredientsFlat();
     
     return (allIngredients || []).filter(_ingredient => {
-      if (!ingredient.astrologicalProperties?.planets) return false;
+      if (!_ingredient.astrologicalProperties?.planets) return false;
       
-      const planets = ingredient?.astrologicalPropertiesProperties?.planets;
+      const planets = _ingredient?.astrologicalProperties?.planets;
       return Array.isArray(planets) 
         ? planets.includes(planet as unknown as any) // ← Pattern HH-1: Safe conversion via unknown
         : planets === (planet as unknown as any); // ← Pattern HH-1: Safe conversion via unknown
@@ -366,9 +366,9 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     const allIngredients = this.getAllIngredientsFlat();
     
     return (allIngredients || []).filter(_ingredient => {
-      if (!ingredient.astrologicalProperties?.signs) return false;
+      if (!_ingredient.astrologicalProperties?.signs) return false;
       
-      const signs = ingredient?.astrologicalPropertiesProperties?.signs;
+      const signs = _ingredient?.astrologicalProperties?.signs;
       return Array.isArray(signs) 
         ? signs.includes(sign as unknown as any) // ← Pattern HH-1: Safe conversion via unknown
         : signs === (sign as unknown as any); // ← Pattern HH-1: Safe conversion via unknown

@@ -124,7 +124,7 @@ export const getSeasonalEffectiveness = async (
     currentZodiac?: ZodiacSign | null,
     currentLunarPhase?: LunarPhase | null
 ): Promise<SeasonalEffectiveness> => {
-    if (!recipe || !season) {
+    if (!recipe || !_season) {
         return {
             rating: 'poor',
             score: 0,
@@ -137,9 +137,9 @@ export const getSeasonalEffectiveness = async (
         };
     }
 
-    const elementalAlignment = await calculateRecipeSeasonalAlignment(recipe, season);
-    const ingredientSuitability = await calculateIngredientSuitability(recipe, season);
-    const seasonalBonus = await calculateSeasonalBonus(recipe, season);
+    const elementalAlignment = await calculateRecipeSeasonalAlignment(recipe, _season);
+    const ingredientSuitability = await calculateIngredientSuitability(recipe, _season);
+    const seasonalBonus = await calculateSeasonalBonus(recipe, _season);
     
     // Calculate zodiacal alignment if current zodiac is provided
     const zodiacAlignment = currentZodiac ? 
@@ -151,7 +151,7 @@ export const getSeasonalEffectiveness = async (
 
     const totalScore = elementalAlignment + ingredientSuitability + 
                       seasonalBonus + zodiacAlignment + lunarPhaseAlignment;
-    const elementalBreakdown = await calculateElementalBreakdown(recipe, season);
+    const elementalBreakdown = await calculateElementalBreakdown(recipe, _season);
 
     return {
         rating: getRating(totalScore),
@@ -192,7 +192,7 @@ const calculateIngredientSuitability = async (recipe: Recipe, _season: Season): 
         recipe.ingredients.forEach(ingredient => {
             if (ingredient.seasonality && 
                 Array.isArray(ingredient.seasonality) && 
-                ingredient.seasonality.includes(season)) {
+                ingredient.seasonality.includes(_season)) {
                 seasonalIngredientCount++;
             }
         });
@@ -215,7 +215,7 @@ const calculateSeasonalBonus = async (recipe: Recipe, _season: Season): Promise<
         const recipeSeasons = Array.isArray(recipe.season) ? 
             recipe.season : [recipe.season];
             
-        if (recipeSeasons.some(s => s.toLowerCase() === season.toLowerCase())) {
+        if (recipeSeasons.some(s => s.toLowerCase() === _season.toLowerCase())) {
             bonus += 15; // Additional bonus for explicitly seasonal recipes
         }
     }
@@ -290,7 +290,7 @@ const getSeasonalModifier = (_season: string, element: string): number => {
         winter: { Fire: 0.1, Water: 0.4, Air: 0.2, Earth: 0.3 }
     };
 
-    return modifiers[season.toLowerCase()]?.[element] || 0.25;
+    return modifiers[_season.toLowerCase()]?.[element] || 0.25;
 };
 
 const getRating = (score: number): SeasonalEffectiveness['rating'] => {

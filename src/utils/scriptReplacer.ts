@@ -9,13 +9,13 @@
 if (typeof window !== 'undefined') {
   // Global script error handler - must be first
   window.addEventListener('error', function(_event) {
-    if (event.filename && (
-      event.filename.includes('popup.js') ||
-      event.filename.includes('lockdown') ||
-      event.filename.includes('viewer.js')
+    if (_event.filename && (
+      _event.filename.includes('popup.js') ||
+      _event.filename.includes('lockdown') ||
+      _event.filename.includes('viewer.js')
     )) {
-      console.warn('[ScriptReplacer] Blocked error from:', event.filename);
-      event.preventDefault();
+      console.warn('[ScriptReplacer] Blocked error from:', _event.filename);
+      _event.preventDefault();
       return true;
     }
     return false;

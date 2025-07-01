@@ -145,7 +145,7 @@ export class DirectRecipeService {
       if (planetaryPositions && Object.keys(planetaryPositions || {}).length > 0) {
         // Convert astrologize API format to our internal format
         const enhancedAlignment = {
-          ...alignment,
+          ..._alignment,
           planetaryPositions: planetaryPositions,
           realTimeData: true,
           lastUpdated: new Date().toISOString()
@@ -154,7 +154,7 @@ export class DirectRecipeService {
         this.currentCelestialAlignment = enhancedAlignment as unknown as CelestialAlignment;
       } else {
         // Fall back to calculated alignment
-        this.currentCelestialAlignment = alignment;
+        this.currentCelestialAlignment = _alignment;
       }
       
       this.lastAlignmentUpdate = now;
@@ -197,23 +197,23 @@ export class DirectRecipeService {
     // Calculate Monica constant
     const monica = calculateMonica(
       recipeKalchm,
-      alignment.elementalState || alignment.elementalDominance || alignment.elementalBalance,
+      _alignment.elementalState || _alignment.elementalDominance || _alignment.elementalBalance,
       (recipe as any).elementalState || recipe.elementalProperties
     );
     
     // Perform full alchemical analysis
     const alchemicalAnalysis = performAlchemicalAnalysis(
       (recipe as any).elementalState || recipe.elementalProperties,
-      alignment.elementalState || alignment.elementalDominance || alignment.elementalBalance
+      _alignment.elementalState || _alignment.elementalDominance || _alignment.elementalBalance
     );
     
     // Calculate individual component scores
     const breakdown = {
-      elementalScore: this.calculateElementalScore(recipe, alignment),
-      zodiacalScore: this.calculateZodiacalScore(recipe, alignment),
-      lunarScore: this.calculateLunarScore(recipe, alignment),
-      planetaryScore: this.calculatePlanetaryScore(recipe, alignment),
-      seasonalScore: this.calculateSeasonalScore(recipe, alignment)
+      elementalScore: this.calculateElementalScore(recipe, _alignment),
+      zodiacalScore: this.calculateZodiacalScore(recipe, _alignment),
+      lunarScore: this.calculateLunarScore(recipe, _alignment),
+      planetaryScore: this.calculatePlanetaryScore(recipe, _alignment),
+      seasonalScore: this.calculateSeasonalScore(recipe, _alignment)
     };
     
     // Calculate overall compatibility score

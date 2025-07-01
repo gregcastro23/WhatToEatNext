@@ -83,7 +83,7 @@ export default function IngredientRecommender() {
 
   // Handle category filter
   const handleCategoryFilter = (_category: string) => {
-    setActiveCategory(category);
+    setActiveCategory(_category);
   };
   
   // Helper function to get element icon
@@ -148,7 +148,7 @@ export default function IngredientRecommender() {
     
     setExpanded(prev => ({
       ...prev,
-      [category]: !prev[category]
+      [_category]: !prev[_category]
     }));
   };
   
@@ -186,7 +186,7 @@ export default function IngredientRecommender() {
   // Helper function to check if an ingredient is an oil
   const isOil = (ingredient: any): boolean => {
     const _category = ingredient.category?.toLowerCase() || '';
-    if (category === 'oil' || category === 'oils') return true;
+    if (_category === 'oil' || _category === 'oils') return true;
     
     const name = ingredient.name.toLowerCase();
     return oilTypes.some(oil => name.includes(oil.toLowerCase()));
@@ -195,7 +195,7 @@ export default function IngredientRecommender() {
   // Helper function to check if an ingredient is a vinegar
   const isVinegar = (ingredient: any): boolean => {
     const _category = ingredient.category?.toLowerCase() || '';
-    if (category === 'vinegar' || category === 'vinegars') return true;
+    if (_category === 'vinegar' || _category === 'vinegars') return true;
     
     const name = ingredient.name.toLowerCase();
     return vinegarTypes.some(vinegar => name.includes(vinegar.toLowerCase()));
@@ -208,14 +208,14 @@ export default function IngredientRecommender() {
     const _category = ingredient.category.toLowerCase();
     
     // Map categories to our standard ones
-    if (['vegetable', 'vegetables'].includes(category)) return 'vegetables';
-    if (['protein', 'meat', 'seafood', 'fish', 'poultry'].includes(category)) return 'proteins';
-    if (['herb', 'herbs', 'culinary_herb', 'medicinal_herb'].includes(category)) return 'herbs';
-    if (['spice', 'spices', 'seasoning', 'seasonings'].includes(category)) return 'spices';
-    if (['grain', 'grains', 'pasta', 'rice', 'cereal'].includes(category)) return 'grains';
-    if (['fruit', 'fruits', 'berry', 'berries'].includes(category)) return 'fruits';
-    if (['oil', 'oils', 'fat', 'fats'].includes(category)) return 'oils';
-    if (['vinegar', 'vinegars', 'acid', 'acids'].includes(category)) return 'vinegars';
+    if (['vegetable', 'vegetables'].includes(_category)) return 'vegetables';
+    if (['protein', 'meat', 'seafood', 'fish', 'poultry'].includes(_category)) return 'proteins';
+    if (['herb', 'herbs', 'culinary_herb', 'medicinal_herb'].includes(_category)) return 'herbs';
+    if (['spice', 'spices', 'seasoning', 'seasonings'].includes(_category)) return 'spices';
+    if (['grain', 'grains', 'pasta', 'rice', 'cereal'].includes(_category)) return 'grains';
+    if (['fruit', 'fruits', 'berry', 'berries'].includes(_category)) return 'fruits';
+    if (['oil', 'oils', 'fat', 'fats'].includes(_category)) return 'oils';
+    if (['vinegar', 'vinegars', 'acid', 'acids'].includes(_category)) return 'vinegars';
     
     return 'other';
   };
@@ -240,7 +240,7 @@ export default function IngredientRecommender() {
       const normalizedName = item.name.toLowerCase().trim();
       
       // Special handling for spices and seasonings
-      if (category === 'spices' || category === 'seasonings') {
+      if (_category === 'spices' || _category === 'seasonings') {
         // Try to find a base spice name that matches this item
         let baseNameFound = false;
         
@@ -303,39 +303,39 @@ export default function IngredientRecommender() {
       const _category = ingredient.category.toLowerCase();
       
       // Handle specific category mappings
-      if (['protein', 'meat', 'egg', 'dairy', 'plant_based', 'seafood', 'poultry'].includes(category)) {
+      if (['protein', 'meat', 'egg', 'dairy', 'plant_based', 'seafood', 'poultry'].includes(_category)) {
         return 'proteins';
       }
       
-      if (['culinary_herb', 'medicinal_herb', 'herb', 'herbs'].includes(category)) {
+      if (['culinary_herb', 'medicinal_herb', 'herb', 'herbs'].includes(_category)) {
         return 'herbs';
       }
       
-      if (['spice', 'spices'].includes(category)) {
+      if (['spice', 'spices'].includes(_category)) {
         return 'spices';
       }
       
-      if (['seasoning', 'seasonings'].includes(category)) {
+      if (['seasoning', 'seasonings'].includes(_category)) {
         return 'seasonings';
       }
       
-      if (['vegetable', 'vegetables'].includes(category)) {
+      if (['vegetable', 'vegetables'].includes(_category)) {
         return 'vegetables';
       }
       
-      if (['fruit', 'fruits'].includes(category)) {
+      if (['fruit', 'fruits'].includes(_category)) {
         return 'fruits';
       }
       
-      if (['grain', 'grains', 'cereal', 'cereals', 'pasta', 'rice'].includes(category)) {
+      if (['grain', 'grains', 'cereal', 'cereals', 'pasta', 'rice'].includes(_category)) {
         return 'grains';
       }
       
-      if (['oil', 'oils', 'fat', 'fats'].includes(category)) {
+      if (['oil', 'oils', 'fat', 'fats'].includes(_category)) {
         return 'oils';
       }
       
-      if (['vinegar', 'vinegars', 'acid', 'acids'].includes(category)) {
+      if (['vinegar', 'vinegars', 'acid', 'acids'].includes(_category)) {
         return 'vinegars';
       }
     }
@@ -516,8 +516,8 @@ export default function IngredientRecommender() {
       ]);
       
       allCategories.forEach(_category => {
-        const chakraItems = chakraRecommendations[category] || [];
-        const standardItems = standardRecommendations[category] || [];
+        const chakraItems = chakraRecommendations[_category] || [];
+        const standardItems = standardRecommendations[_category] || [];
         
         // Create a unique set of items using name as the key
         const uniqueItems = new Map();
@@ -535,7 +535,7 @@ export default function IngredientRecommender() {
         });
         
         // Convert back to array and limit to prevent overwhelming the user
-        mergedRecommendations[category] = Array.from(uniqueItems.values()).slice(0, 32);
+        mergedRecommendations[_category] = Array.from(uniqueItems.values()).slice(0, 32);
       });
       
       setAstroRecommendations(mergedRecommendations);

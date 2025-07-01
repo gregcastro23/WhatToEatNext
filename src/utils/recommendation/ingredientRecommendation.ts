@@ -631,30 +631,28 @@ export async function getIngredientRecommendations(
   }, 
   _options: RecommendationOptions
 ): Promise<GroupedIngredientRecommendations> {
-  const _elementalProps = _elementalProps;
-  const _options = _options;
   const allIngredients = await getAllIngredients();
   const recommendations: GroupedIngredientRecommendations = {};
   
   // Filter by category if specified
   let filteredIngredients = allIngredients;
-  if (options.category) {
+  if (_options.category) {
     filteredIngredients = allIngredients.filter(ing => 
-      ing.category?.toLowerCase() === options.category?.toLowerCase()
+      ing.category?.toLowerCase() === _options.category?.toLowerCase()
     );
   }
   
   // Filter by excluded ingredients
-  if (options.excludeIngredients && options.excludeIngredients.length > 0) {
+  if (_options.excludeIngredients && _options.excludeIngredients.length > 0) {
     filteredIngredients = filteredIngredients.filter(ing => 
-      !options.excludeIngredients!.includes(ing.name)
+      !_options.excludeIngredients!.includes(ing.name)
     );
   }
   
   // Filter by included ingredients only
-  if (options.includeOnly && options.includeOnly.length > 0) {
+  if (_options.includeOnly && _options.includeOnly.length > 0) {
     filteredIngredients = filteredIngredients.filter(ing => 
-      options.includeOnly!.includes(ing.name)
+      _options.includeOnly!.includes(ing.name)
     );
   }
   
@@ -662,21 +660,21 @@ export async function getIngredientRecommendations(
   const scoredIngredients = await Promise.all(filteredIngredients.map(async (ingredient) => {
     try {
       // Traditional scoring factors
-      const elementalScore = calculateElementalScore(ingredient.elementalProperties, elementalProps);
-      const seasonalScore = await calculateSeasonalScore(ingredient, elementalProps.timestamp);
-      const modalityScore = await calculateModalityScore(ingredient.qualities || [], options.modalityPreference);
+      const elementalScore = calculateElementalScore(ingredient.elementalProperties, _elementalProps);
+      const seasonalScore = await calculateSeasonalScore(ingredient, _elementalProps.timestamp);
+      const modalityScore = await calculateModalityScore(ingredient.qualities || [], _options.modalityPreference);
       
       // NEW: Unified flavor compatibility scoring
-      const flavorScore = calculateUnifiedFlavorScore(ingredient, elementalProps, options);
+      const flavorScore = calculateUnifiedFlavorScore(ingredient, _elementalProps, _options);
       
       // NEW: Kalchm resonance scoring
-      const kalchmScore = calculateKalchmResonance(ingredient, elementalProps);
+      const kalchmScore = calculateKalchmResonance(ingredient, _elementalProps);
       
       // NEW: Monica optimization scoring
-      const monicaScore = calculateMonicaOptimization(ingredient, elementalProps);
+      const monicaScore = calculateMonicaOptimization(ingredient, _elementalProps);
       
       // NEW: Cultural context scoring
-      const culturalScore = calculateCulturalContextScore(ingredient, options);
+      const culturalScore = calculateCulturalContextScore(ingredient, _options);
       
       // Enhanced weighted calculation
       const totalScore = (
@@ -723,7 +721,7 @@ export async function getIngredientRecommendations(
   scoredIngredients.sort((a, b) => (b.totalScore || 0) - (a.totalScore || 0));
   
   // Group by category with improved distribution
-  const limit = options.limit || 10;
+  const limit = _options.limit || 10;
   scoredIngredients.slice(0, limit * 2).forEach(ingredient => {
     const category = ingredient.category || 'other';
     if (!recommendations[category]) {

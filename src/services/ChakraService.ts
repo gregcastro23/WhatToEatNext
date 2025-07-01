@@ -45,8 +45,8 @@ export class ChakraService {
         };
         
         signEnergyStates.forEach(_state => {
-            if (state.sign && state.sign in signEnergyRecord) {
-                signEnergyRecord[state.sign] = state.currentEnergy;
+            if (_state.sign && _state.sign in signEnergyRecord) {
+                signEnergyRecord[_state.sign] = _state.currentEnergy;
             }
         });
         
@@ -76,7 +76,7 @@ export class ChakraService {
             // Find related signs (signs that influence this chakra)
             const relatedSigns = signEnergyStates
                 .filter(_state => chakraEnergies[chakra] > 0)
-                .map(_state => state.sign)
+                .map(_state => _state.sign)
                 .slice(0, 3); // Limit to top 3 related signs
             
             return {

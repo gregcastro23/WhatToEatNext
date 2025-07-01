@@ -31,7 +31,7 @@ export class RecipeEngine {
         const elementalProps = recipe.ingredients.reduce((acc, ingredient) => {
             if (ingredient.elementalProperties) {
                 Object.entries(ingredient.elementalProperties).forEach(([_element, value]) => {
-                    acc[element] = (acc[element] || 0) + value;
+                    acc[_element] = (acc[_element] || 0) + value;
                 });
             }
             return acc;
@@ -39,7 +39,7 @@ export class RecipeEngine {
 
         return Object.entries(elementalProps)
             .sort(([, a], [, b]) => b - a)
-            .map(([_element, value]) => ({ element, value }));
+            .map(([_element, value]) => ({ _element, value }));
     }
 
     calculateIngredientProportions(recipe: Recipe): ElementalProperties {
@@ -51,7 +51,7 @@ export class RecipeEngine {
         const unnormalized = recipe.ingredients.reduce((props, ing) => {
             if (ing.elementalProperties) {
                 Object.entries(ing.elementalProperties).forEach(([_element, value]) => {
-                    props[element] = (props[element] || 0) + (value * ing.amount / total);
+                    props[_element] = (props[_element] || 0) + (value * ing.amount / total);
                 });
             }
             return props;
@@ -60,7 +60,7 @@ export class RecipeEngine {
         // Normalize the result
         const sum = Object.values(unnormalized).reduce((acc, val) => acc + val, 0);
         return Object.entries(unnormalized).reduce((normalized, [_element, value]) => {
-            normalized[element] = value / sum;
+            normalized[_element] = value / sum;
             return normalized;
         }, {} as ElementalProperties);
     }
@@ -107,7 +107,7 @@ export class RecipeEngine {
         // Calculate weighted score based on recipe's elemental properties and seasonal effectiveness
         let score = 0;
         Object.entries(recipe.elementalProperties).forEach(([_element, value]) => {
-            const multiplier = seasonMultipliers[element as keyof typeof seasonMultipliers] || 0.5;
+            const multiplier = seasonMultipliers[_element as keyof typeof seasonMultipliers] || 0.5;
             score += value * multiplier;
         });
 
@@ -119,7 +119,7 @@ export class RecipeEngine {
         
         try {
             return 1 - Object.entries(props1).reduce((diff, [_element, value]) => {
-                return diff + Math.abs(value - (props2[element] || 0)) / 2;
+                return diff + Math.abs(value - (props2[_element] || 0)) / 2;
             }, 0);
         } catch (error) {
             return 0;

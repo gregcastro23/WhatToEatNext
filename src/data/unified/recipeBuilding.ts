@@ -841,19 +841,19 @@ export const unifiedRecipeBuildingSystem = new UnifiedRecipeBuildingSystem();
 // ===== CONVENIENCE EXPORTS =====
 
 export function generateMonicaOptimizedRecipe(_criteria: RecipeBuildingCriteria): RecipeGenerationResult {
-  return unifiedRecipeBuildingSystem.generateMonicaOptimizedRecipe(criteria);
+  return unifiedRecipeBuildingSystem.generateMonicaOptimizedRecipe(_criteria);
 }
 
 export function adaptRecipeForSeason(_recipe: EnhancedRecipe, _season: Season): SeasonalRecipeAdaptation {
-  return unifiedRecipeBuildingSystem.adaptRecipeForSeason(recipe, season);
+  return unifiedRecipeBuildingSystem.adaptRecipeForSeason(_recipe, _season);
 }
 
 export function adaptRecipeForSeasonExport(_recipe: EnhancedRecipe, _season: Season): SeasonalRecipeAdaptation {
-  return unifiedRecipeBuildingSystem.adaptRecipeForSeason(recipe, season);
+  return unifiedRecipeBuildingSystem.adaptRecipeForSeason(_recipe, _season);
 }
 
 export function generateFusionRecipe(_cuisines: string[], _criteria: RecipeBuildingCriteria): any {
-  return unifiedRecipeBuildingSystem.generateFusionRecipe(cuisines, criteria);
+  return unifiedRecipeBuildingSystem.generateFusionRecipe(_cuisines, _criteria);
 }
 
 export function generatePlanetaryRecipeRecommendation(
@@ -863,20 +863,20 @@ export function generatePlanetaryRecipeRecommendation(
     currentZodiacSign?: ZodiacSign;
   }
 ): PlanetaryRecipeRecommendation {
-  return unifiedRecipeBuildingSystem.generatePlanetaryRecipeRecommendation(criteria);
+  return unifiedRecipeBuildingSystem.generatePlanetaryRecipeRecommendation(_criteria);
 }
 
 // ===== BACKWARD COMPATIBILITY =====
 
 // Maintain compatibility with existing recipe building functions
 export function buildRecipe(_criteria: RecipeBuildingCriteria): any {
-  return unifiedRecipeBuildingSystem.generateMonicaOptimizedRecipe(criteria);
+  return unifiedRecipeBuildingSystem.generateMonicaOptimizedRecipe(_criteria);
 }
 
 export function getSeasonalRecipeRecommendations(_season: Season): any {
-  return unifiedRecipeBuildingSystem.seasonalSystem.getSeasonalRecommendations(season);
+  return unifiedRecipeBuildingSystem.seasonalSystem.getSeasonalRecommendations(_season);
 }
 
 export function getCuisineRecipeRecommendations(_cuisine: string): any {
-  return unifiedRecipeBuildingSystem.cuisineSystem.analyzeCuisineIngredients(cuisine);
+  return unifiedRecipeBuildingSystem.cuisineSystem.analyzeCuisineIngredients(_cuisine);
 } 

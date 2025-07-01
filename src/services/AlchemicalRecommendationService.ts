@@ -53,7 +53,7 @@ export class AlchemicalRecommendationService {
     const _thermodynamics = this.engine.alchemize(planetaryPositions as any);
     
     // Convert thermodynamic properties to elemental properties
-    const elementalBalance = this.deriveElementalProperties(thermodynamics);
+    const elementalBalance = this.deriveElementalProperties(_thermodynamics);
     
     // Determine dominant element
     const dominantElement = this.getDominantElement(elementalBalance);
@@ -62,29 +62,29 @@ export class AlchemicalRecommendationService {
     const compatibleIngredients = this.findCompatibleIngredients(
       ingredients,
       elementalBalance,
-      thermodynamics
+      _thermodynamics
     );
     
     // Filter cooking methods by elemental compatibility
     const compatibleMethods = this.findCompatibleCookingMethods(
       cookingMethods,
       elementalBalance,
-      thermodynamics
+      _thermodynamics
     );
     
     // Generate specific recommendations
     const recommendations = this.generateTextRecommendations(
       elementalBalance,
-      thermodynamics,
+      _thermodynamics,
       dominantElement
     );
     
     // Generate any warnings if needed
-    const warnings = this.generateWarnings(thermodynamics);
+    const warnings = this.generateWarnings(_thermodynamics);
     
     return {
       dominantElement,
-      thermodynamics,
+      thermodynamics: _thermodynamics,
       recommendedIngredients: (compatibleIngredients || []).map(i => i.name),
       recommendedCookingMethods: (compatibleMethods || []),
       recommendations,
@@ -277,7 +277,7 @@ export class AlchemicalRecommendationService {
     const _thermodynamics = this.engine.alchemize(planetaryPositions as any);
     
     // Convert thermodynamic properties to elemental properties
-    const currentElementalProperties = this.deriveElementalProperties(thermodynamics);
+    const currentElementalProperties = this.deriveElementalProperties(_thermodynamics);
     
     // Get recipe's elemental properties (or use default if not present)
     const recipeElementalProperties = (recipe.elementalState as any) || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
