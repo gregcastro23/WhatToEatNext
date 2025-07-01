@@ -313,7 +313,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
   ): UnifiedIngredient[] {
     const allIngredients = this.getAllIngredientsFlat();
     
-    return (allIngredients || []).filter(ingredient => {
+    return (allIngredients || []).filter(_ingredient => {
       if (!ingredient.flavorProfile) return false;
       
       const similarity = this.calculateFlavorSimilarity(

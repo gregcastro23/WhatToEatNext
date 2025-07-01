@@ -543,7 +543,7 @@ export async function calculateDominantElement(
  */
 export async function calculateElementalProfile(
   astroState: AstrologicalState,
-  timeFactors: TimeFactors
+  _timeFactors: TimeFactors
 ): Promise<Record<Element, number>> {
   const elementCounts: Record<Element, number> = {
     'Fire': 0,

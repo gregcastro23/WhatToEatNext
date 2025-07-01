@@ -205,7 +205,7 @@ export default function IngredientRecommender() {
   const getNormalizedCategory = (ingredient: any): string => {
     if (!ingredient.category) return 'other';
     
-    const category = ingredient.category.toLowerCase();
+    const _category = ingredient.category.toLowerCase();
     
     // Map categories to our standard ones
     if (['vegetable', 'vegetables'].includes(category)) return 'vegetables';

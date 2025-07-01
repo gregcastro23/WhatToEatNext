@@ -106,7 +106,7 @@ export class RecipeEngine {
 
         // Calculate weighted score based on recipe's elemental properties and seasonal effectiveness
         let score = 0;
-        Object.entries(recipe.elementalProperties).forEach(([element, value]) => {
+        Object.entries(recipe.elementalProperties).forEach(([_element, value]) => {
             const multiplier = seasonMultipliers[element as keyof typeof seasonMultipliers] || 0.5;
             score += value * multiplier;
         });

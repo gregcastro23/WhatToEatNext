@@ -484,7 +484,7 @@ export class DirectRecipeService {
     const { criteria, limit = 10, offset = 0 } = options;
     
     // Get current celestial alignment (this will use real astrologize API data)
-    const alignment = await this.getCurrentCelestialAlignment();
+    const _alignment = await this.getCurrentCelestialAlignment();
     
     // Start with all recipes
     let candidateRecipes = [...this.allRecipes];

@@ -48,7 +48,7 @@ if (typeof window !== 'undefined') {
           show: function() { return this; },
           hide: function() { return this; },
           update: function() { return this; },
-          on: function(event: string, _callback?: any) {
+          on: function(_event: string, _callback?: any) {
             return { off: function() {} };
           },
           trigger: function(event: string) { return this; }

@@ -414,7 +414,7 @@ export class EnhancedAstrologyService {
 export const enhancedAstrologyService = new EnhancedAstrologyService();
 
 // Export convenience functions
-export const getEnhancedPlanetaryPositions = (date?: Date) => enhancedAstrologyService.getEnhancedPlanetaryPositions(date);
+export const getEnhancedPlanetaryPositions = (_date?: Date) => enhancedAstrologyService.getEnhancedPlanetaryPositions(date);
 export const getTransitAnalysis = (date?: Date) => enhancedAstrologyService.getTransitAnalysis(date);
 export const getSeasonalRecommendations = (date?: Date) => enhancedAstrologyService.getSeasonalRecommendations(date);
 export const getDataSourceInfo = () => enhancedAstrologyService.getDataSourceInfo();

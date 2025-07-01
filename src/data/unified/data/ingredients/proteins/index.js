@@ -175,7 +175,7 @@ const generateCookingNotes = (protein, _method, environmentalFactors) => {
     }
     return notes;
 };
-const calculateCookingTime = (_proteinName, method, weight, thickness, doneness, environmentalFactors) => {
+const calculateCookingTime = (_proteinName, _method, weight, thickness, doneness, environmentalFactors) => {
     const protein = exports.proteins[proteinName];
     if (!protein)
         throw new Error('Protein not found');

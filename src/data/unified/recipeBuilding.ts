@@ -848,11 +848,11 @@ export function adaptRecipeForSeason(_recipe: EnhancedRecipe, _season: Season): 
   return unifiedRecipeBuildingSystem.adaptRecipeForSeason(recipe, season);
 }
 
-export function adaptRecipeForSeasonExport(recipe: EnhancedRecipe, season: Season): SeasonalRecipeAdaptation {
+export function adaptRecipeForSeasonExport(_recipe: EnhancedRecipe, _season: Season): SeasonalRecipeAdaptation {
   return unifiedRecipeBuildingSystem.adaptRecipeForSeason(recipe, season);
 }
 
-export function generateFusionRecipe(_cuisines: string[], criteria: RecipeBuildingCriteria): any {
+export function generateFusionRecipe(_cuisines: string[], _criteria: RecipeBuildingCriteria): any {
   return unifiedRecipeBuildingSystem.generateFusionRecipe(cuisines, criteria);
 }
 

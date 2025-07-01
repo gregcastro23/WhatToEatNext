@@ -848,8 +848,8 @@ async function calculateModalityScore(qualities: string[], preferredModality?: M
 
 function calculateUnifiedFlavorScore(
   ingredient: Partial<EnhancedIngredient> | Ingredient, 
-  elementalProps: ElementalProperties, 
-  options: RecommendationOptions
+  _elementalProps: ElementalProperties, 
+  _options: RecommendationOptions
 ): number {
   // Simple flavor scoring implementation
   try {

@@ -179,7 +179,7 @@ export const calculateRecipeSeasonalAlignment = async (recipeElements, seasonalM
     return Math.round(alignmentScore * 100);
 };
 
-const calculateIngredientSuitability = async (recipe: Recipe, season: Season): Promise<number> => {
+const calculateIngredientSuitability = async (recipe: Recipe, _season: Season): Promise<number> => {
     // Implementation based on test requirements in:
     // src/utils/__tests__/seasonalCalculations.test.ts lines 47-51
     
