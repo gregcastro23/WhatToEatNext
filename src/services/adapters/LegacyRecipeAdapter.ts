@@ -85,13 +85,13 @@ export class LegacyRecipeAdapter {
   ): Promise<Recipe[]> {
     try {
       // ✅ Pattern MM-1: Convert criteria object to string for searchRecipes
-      const searchQuery = (criteria as any)?.query || JSON.stringify(criteria);
+      const searchQuery = (criteria as Record<string, unknown>)?.query || JSON.stringify(criteria);
       const recipes = await unifiedRecipeService.searchRecipes(searchQuery);
       return recipes as unknown as Recipe[];
     } catch (error) {
       logger.error('Error in searchRecipes:', error);
       // ✅ Pattern MM-1: Safe argument type conversion for string parameter
-      const queryValue = (criteria as any)?.query;
+      const queryValue = (criteria as Record<string, unknown>)?.query;
       if (queryValue && typeof queryValue === 'string') {
         const recipes = await LocalRecipeService.searchRecipes(queryValue);
         return recipes as unknown as Recipe[];
@@ -149,7 +149,7 @@ export class LegacyRecipeAdapter {
   public async getRecipesBySeason(season: Season): Promise<Recipe[]> {
     try {
       // Apply safe type casting for service access
-      const serviceData = unifiedRecipeService as any;
+      const serviceData = unifiedRecipeService as Record<string, unknown>;
       if (serviceData?.getRecipesBySeason) {
         const recipes = await serviceData.getRecipesBySeason(season);
         return recipes as unknown as Recipe[];
@@ -172,7 +172,7 @@ export class LegacyRecipeAdapter {
   public async getRecipesByLunarPhase(lunarPhase: LunarPhase): Promise<Recipe[]> {
     try {
       // Apply safe type casting for service access
-      const serviceData = unifiedRecipeService as any;
+      const serviceData = unifiedRecipeService as LunarPhase;
       if (serviceData?.getRecipesByLunarPhase) {
         const recipes = await serviceData.getRecipesByLunarPhase(lunarPhase);
         return recipes as unknown as Recipe[];
@@ -200,7 +200,7 @@ export class LegacyRecipeAdapter {
   public async getRecipesByMealType(mealType: string): Promise<Recipe[]> {
     try {
       // Apply safe type casting for service access
-      const serviceData = unifiedRecipeService as any;
+      const serviceData = unifiedRecipeService as Record<string, unknown>;
       if (serviceData?.getRecipesByMealType) {
         const recipes = await serviceData.getRecipesByMealType(mealType);
         return recipes as unknown as Recipe[];
@@ -250,12 +250,12 @@ export class LegacyRecipeAdapter {
   public async generateRecipe(criteria: RecipeSearchCriteria): Promise<Recipe> {
     try {
       // Apply safe type casting for service access
-      const serviceData = unifiedRecipeService as any;
+      const serviceData = unifiedRecipeService as Record<string, unknown>;
       if (serviceData?.generateRecipe) {
         return await serviceData.generateRecipe(criteria);
       }
       // ✅ Pattern MM-1: Convert criteria object to string for searchRecipes  
-      const searchQuery = (criteria as any)?.query || JSON.stringify(criteria);
+      const searchQuery = (criteria as Record<string, unknown>)?.query || JSON.stringify(criteria);
       const searchResults = await unifiedRecipeService.searchRecipes(searchQuery) as Recipe[];
       if (searchResults.length > 0) {
         return searchResults[0];
@@ -273,7 +273,7 @@ export class LegacyRecipeAdapter {
   public calculateElementalProperties(recipe: Partial<Recipe>): ElementalProperties {
     try {
       // Apply safe type casting for service access
-      const serviceData = unifiedRecipeService as any;
+      const serviceData = unifiedRecipeService as Record<string, unknown>;
       if (serviceData?.calculateElementalProperties) {
         return serviceData.calculateElementalProperties(recipe) as unknown as ElementalProperties;
       }
@@ -283,7 +283,7 @@ export class LegacyRecipeAdapter {
       // Basic calculation based on recipe properties if available
       if (recipe.elementalState && typeof recipe.elementalState === 'object') {
         // Ensure it has all required properties
-        const state = recipe.elementalState as any;
+        const state = recipe.elementalState as Record<string, unknown>;
         if (state.Fire !== undefined && state.Water !== undefined && state.Earth !== undefined && state.Air !== undefined) {
           return recipe.elementalState as ElementalProperties;
         }
@@ -303,7 +303,7 @@ export class LegacyRecipeAdapter {
   public clearCache(): void {
     try {
       // Apply safe type casting for service access
-      const serviceData = unifiedRecipeService as any;
+      const serviceData = unifiedRecipeService as Record<string, unknown>;
       if (serviceData?.clearCache) {
         serviceData.clearCache();
       }

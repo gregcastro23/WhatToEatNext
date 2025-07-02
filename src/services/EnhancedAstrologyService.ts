@@ -23,7 +23,7 @@ export interface EnhancedAstrologicalData {
   confidence: number;
   siderealTime?: string;
   seasonalTransit?: any;
-  keyAspects: any[];
+  keyAspects: Planet[];
   dominantElements: Record<string, number>;
   retrogradePlanets: string[];
   specialEvents: string[];
@@ -31,13 +31,13 @@ export interface EnhancedAstrologicalData {
 }
 
 export interface TransitAnalysis {
-  currentSeason: any;
-  upcomingTransits: any[];
+  currentSeason: Season;
+  upcomingTransits: Element[];
   dominantElements: Record<string, number>;
-  keyAspects: any[];
+  keyAspects: Planet[];
   retrogradePlanets: string[];
   eclipseSeasons: Date[];
-  majorTransits: any[];
+  majorTransits: Season[];
 }
 
 /**

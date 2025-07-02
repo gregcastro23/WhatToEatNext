@@ -985,7 +985,7 @@ export function getRecipesForCuisineMatch(
     // Direct exact cuisine matches (highest priority)
     const exactCuisineMatches = recipes.filter(
       (recipe) => {
-        const recipeData = recipe as any;
+        const recipeData = recipe as Record<string, unknown>;
         return recipeData?.cuisine?.toLowerCase() === normalizedCuisineName ||
                recipeData?.cuisine?.toLowerCase()?.includes(normalizedCuisineName) ||
                normalizedCuisineName.includes(recipeData?.cuisine?.toLowerCase());
@@ -997,7 +997,7 @@ export function getRecipesForCuisineMatch(
     // Regional variant matches
     const regionalMatches = recipes.filter(
       (recipe) => {
-        const recipeData = recipe as any;
+        const recipeData = recipe as Record<string, unknown>;
         return !exactCuisineMatches.includes(recipe) && (
                  recipeData?.regionalCuisine?.toLowerCase() === normalizedCuisineName ||
                  recipeData?.regionalCuisine?.toLowerCase()?.includes(normalizedCuisineName) ||
@@ -1021,7 +1021,7 @@ export function getRecipesForCuisineMatch(
       scoredOtherRecipes = otherRecipes
         .map((recipe) => {
           try {
-            const recipeData = recipe as any;
+            const recipeData = recipe as Record<string, unknown>;
             const scoreComponents = [];
             let totalWeight = 0;
 
@@ -1038,7 +1038,7 @@ export function getRecipesForCuisineMatch(
             // Ingredient similarity (weight: 0.3)
             if (cuisineProfile.signatureIngredients && recipeData?.ingredients) {
               const recipeIngredientNames = recipeData.ingredients.map((ing: unknown) => {
-                const ingData = ing as any;
+                const ingData = ing as Record<string, unknown>;
                 return typeof ing === 'string' ? ing.toLowerCase() : ingData?.name?.toLowerCase() || '';
               });
 
@@ -1099,21 +1099,21 @@ export function getRecipesForCuisineMatch(
             }
 
             return {
-              ...(recipe as any),
+              ...(recipe as Record<string, unknown>),
               matchScore: finalScore,
               matchPercentage: Math.round(finalScore * 100),
             };
           } catch (scoreError) {
             console.error(`Error scoring recipe match for ${cuisineName}:`, scoreError);
             return {
-              ...(recipe as any),
+              ...(recipe as Record<string, unknown>),
               matchScore: 0.5,
               matchPercentage: 50,
             };
           }
         })
-        .filter((recipe) => (recipe as any)?.matchScore >= 0.5) // Only include reasonably good matches
-        .sort((a, b) => (b as any).matchScore - (a as any).matchScore); // Sort by score (high to low)
+        .filter((recipe) => (recipe as Recipe[])?.matchScore >= 0.5) // Only include reasonably good matches
+        .sort((a, b) => (b as Record<string, unknown>).matchScore - (a as Record<string, unknown>).matchScore); // Sort by score (high to low)
     }
 
     console.log(`Found ${scoredOtherRecipes.length} scored other recipes for ${cuisineName}`);
@@ -1121,12 +1121,12 @@ export function getRecipesForCuisineMatch(
     // Combine all matches, prioritizing direct matches, then regional, then others
     const allMatches = [
       ...exactCuisineMatches.map((recipe) => ({
-        ...(recipe as any),
+        ...(recipe as Record<string, unknown>),
         matchScore: 0.9 + Math.random() * 0.1, // 90-100% match
         matchPercentage: Math.round((0.9 + Math.random() * 0.1) * 100),
       })),
       ...regionalMatches.map((recipe) => ({
-        ...(recipe as any),
+        ...(recipe as Record<string, unknown>),
         matchScore: 0.8 + Math.random() * 0.1, // 80-90% match
         matchPercentage: Math.round((0.8 + Math.random() * 0.1) * 100),
       })),
@@ -1136,13 +1136,13 @@ export function getRecipesForCuisineMatch(
     // Remove duplicates by name
     const uniqueMatches = allMatches.filter(
       (recipe, index, self) => {
-        const recipeData = recipe as any;
-        return index === self.findIndex((r) => (r as any)?.name === recipeData?.name);
+        const recipeData = recipe as Record<string, unknown>;
+        return index === self.findIndex((r) => (r as Record<string, unknown>)?.name === recipeData?.name);
       }
     );
 
     // Sort by match score
-    const sortedMatches = uniqueMatches.sort((a, b) => (b as any).matchScore - (a as any).matchScore);
+    const sortedMatches = uniqueMatches.sort((a, b) => (b as Record<string, unknown>).matchScore - (a as Record<string, unknown>).matchScore);
     
     console.log(`Returning ${sortedMatches.length} sorted matches for ${cuisineName}`);
     
@@ -1167,8 +1167,8 @@ function calculateFlavorProfileMatch(
   let similarity = 0;
   let count = 0;
 
-  const recipeData = recipeProfile as any;
-  const cuisineData = cuisineProfile as any;
+  const recipeData = recipeProfile as Record<string, unknown>;
+  const cuisineData = cuisineProfile as Record<string, unknown>;
 
   // Compare common flavor dimensions
   const flavors = ['spicy', 'sweet', 'sour', 'bitter', 'salty', 'umami'];
@@ -1277,9 +1277,9 @@ export const calculateCuisineSimilarity = (
 
 export const findRelatedRecipes = (
   recipeName: string,
-  recipes: any[],
+  recipes: Recipe[],
   count = 3
-): any[] => {
+): Recipe[] => {
   const scoredRecipes = recipes
     .map((recipe) => {
       const scoreComponents = [];

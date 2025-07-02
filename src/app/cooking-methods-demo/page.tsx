@@ -41,21 +41,21 @@ export default function CookingMethodsDemoPage() {
       return {
         id: `${prefix}_${key}`,
         name,
-        description: (method as any).description || '',
-        elementalEffect: (method as any).elementalEffect || (method as any).elementalProperties || {
+        description: (method as Record<string, unknown>).description || '',
+        elementalEffect: (method as Record<string, unknown>).elementalEffect || (method as Record<string, unknown>).elementalProperties || {
           Fire: Math.random(),
           Water: Math.random(),
           Earth: Math.random(),
           Air: Math.random()
         },
         score,
-        duration: (method as any).time_range || (method as any).duration || { min: 10, max: 30 },
-        suitable_for: (method as any).suitable_for || [],
-        benefits: (method as any).benefits || [],
+        duration: (method as Record<string, unknown>).time_range || (method as Record<string, unknown>).duration || { min: 10, max: 30 },
+        suitable_for: (method as Record<string, unknown>).suitable_for || [],
+        benefits: (method as Record<string, unknown>).benefits || [],
         // Create variations if they exist
-        variations: (method as any).variations ? 
-          (Array.isArray((method as any).variations) ? 
-            (method as any).variations.map((v: string, i: number) => ({
+        variations: (method as Record<string, unknown>).variations ? 
+          (Array.isArray((method as Record<string, unknown>).variations) ? 
+            (method as CookingMethod[]).variations.map((v: string, i: number) => ({
               id: `${prefix}_${key}_var_${i}`,
               name: v,
               description: `A variation of ${name} with different characteristics.`,
@@ -91,7 +91,7 @@ export default function CookingMethodsDemoPage() {
           <CookingMethodsSection 
             methods={methods} 
             onSelectMethod={handleSelectMethod}
-            selectedMethodId={(selectedMethod as any)?.id || null}
+            selectedMethodId={(selectedMethod as Record<string, unknown>)?.id || null}
             initiallyExpanded={true}
           />
         </Box>
@@ -102,10 +102,10 @@ export default function CookingMethodsDemoPage() {
       {selectedMethod && (
         <Box sx={{ mt: 4, p: 3, bgcolor: 'background.paper', borderRadius: 2, boxShadow: 2 }}>
           <Typography variant="h5" gutterBottom>
-            Selected Method: {(selectedMethod as any).name}
+            Selected Method: {(selectedMethod as Record<string, unknown>).name}
           </Typography>
           <Typography variant="body1" paragraph>
-            {(selectedMethod as any).description}
+            {(selectedMethod as Record<string, unknown>).description}
           </Typography>
           <Box component="pre" sx={{ 
             p: 2, 

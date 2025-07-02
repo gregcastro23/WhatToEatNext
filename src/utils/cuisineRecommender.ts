@@ -172,8 +172,8 @@ export function getCuisineRecommendations(
   const scoredCuisines = cuisines.map(cuisine => {
     // Elemental Match Score (40% weight) - use default values if properties don't exist
     const elementalMatch = calculateElementalMatch(
-      (cuisine as any).elementalAlignment || 
-      (cuisine as any).elementalProperties || 
+      (cuisine as Record<string, unknown>).elementalAlignment || 
+      (cuisine as Record<string, unknown>).elementalProperties || 
       { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
       elementalState
     );
@@ -183,24 +183,24 @@ export function getCuisineRecommendations(
     
     if (astrologicalState) {
       // Zodiac Match Score (30% weight) - safe property access
-      const zodiacInfluences = (cuisine as any).zodiacInfluences;
-      if (astrologicalState.zodiacSign && zodiacInfluences?.includes(astrologicalState.zodiacSign as any)) {
+      const zodiacInfluences = (cuisine as Record<string, unknown>).zodiacInfluences;
+      if (astrologicalState.zodiacSign && zodiacInfluences?.includes(astrologicalState.zodiacSign as string)) {
         score += 0.3;
         reasoning.push(`Favorable for ${astrologicalState.zodiacSign}`);
       }
       
       // Lunar Phase Match Score (20% weight) - safe property access
-      const lunarPhaseInfluences = (cuisine as any).lunarPhaseInfluences;
-      if (astrologicalState.lunarPhase && lunarPhaseInfluences?.includes(astrologicalState.lunarPhase as any)) {
+      const lunarPhaseInfluences = (cuisine as Record<string, unknown>).lunarPhaseInfluences;
+      if (astrologicalState.lunarPhase && lunarPhaseInfluences?.includes(astrologicalState.lunarPhase as string)) {
         score += 0.2;
         reasoning.push(`Harmonizes with the ${astrologicalState.lunarPhase}`);
       }
       
       // Planetary Influence Score (10% weight) - safe property access
-      const planetaryRulers = (cuisine as any).planetaryRulers;
+      const planetaryRulers = (cuisine as Record<string, unknown>).planetaryRulers;
       if (planetaryRulers && astrologicalState.planetaryPositions) {
         const planetScore = Object.entries(astrologicalState.planetaryPositions).reduce((acc, [planet, position]) => {
-          if (planetaryRulers?.includes(planet as any)) {
+          if (planetaryRulers?.includes(planet as string)) {
             return acc + 0.05; // Small bonus for each ruling planet present
           }
           return acc;
@@ -226,7 +226,7 @@ export function getCuisineRecommendations(
   // Filter out regional variants if not requested - safe property access
   const filteredCuisines = includeRegional 
     ? scoredCuisines 
-    : scoredCuisines.filter(c => !(c as any).parentCuisine);
+    : scoredCuisines.filter(c => !(c as unknown[]).parentCuisine);
 
   return filteredCuisines
     .sort((a, b) => b.score - a.score)

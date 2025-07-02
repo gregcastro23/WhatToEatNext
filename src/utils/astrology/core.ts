@@ -31,7 +31,7 @@ const errorLog = (_message: string, ..._args: unknown[]): void => {
 };
 
 // Type guard for PlanetaryPosition
-export function isPlanetaryPosition(obj: any): obj is PlanetaryPosition {
+export function isPlanetaryPosition(obj: unknown): obj is PlanetaryPosition {
   return obj && typeof obj === 'object' &&
     typeof obj.sign === 'string' &&
     typeof obj.degree === 'number' &&
@@ -512,7 +512,7 @@ export async function calculateDominantElement(
   // Count elements from planetary positions
   if (astroState.planetaryPositions) {
     Object.entries(astroState.planetaryPositions || []).forEach(([planet, position]) => {
-      const element = getZodiacElementalInfluence(position.sign as any);
+      const element = getZodiacElementalInfluence(position.sign as Record<string, unknown>);
       
       // Weight by planet importance
       let weight = 1;
@@ -557,7 +557,7 @@ export async function calculateElementalProfile(
   // Count elements from planetary positions
   if (astroState.planetaryPositions) {
     Object.entries(astroState.planetaryPositions || []).forEach(([planet, position]) => {
-      const element = getZodiacElementalInfluence(position.sign as any);
+      const element = getZodiacElementalInfluence(position.sign as Record<string, unknown>);
       
       // Weight by planet importance
       let weight = 1;
@@ -664,8 +664,8 @@ export async function calculateAspects(
           const strength = 1 - (orb / definition.orb);
           
           // Get element of the sign for each planet
-          const element1 = getZodiacElement(pos1.sign as any)?.toLowerCase();
-          const element2 = getZodiacElement(pos2.sign as any)?.toLowerCase();
+          const element1 = getZodiacElement(pos1.sign as string)?.toLowerCase();
+          const element2 = getZodiacElement(pos2.sign as string)?.toLowerCase();
           
           // Base multiplier from definition
           let multiplier = definition.significance;

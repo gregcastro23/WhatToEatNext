@@ -177,7 +177,7 @@ export class LegacyRecommendationAdapter {
     elementalProperties: ElementalProperties,
     type: 'recipe' | 'ingredient' | 'cuisine' | 'cookingMethod',
     limit?: number
-  ): Promise<RecommendationResult<any>> {
+  ): Promise<RecommendationResult<unknown>> {
     try {
       return await unifiedRecommendationService.getRecommendationsForElements(
         elementalProperties,
@@ -204,7 +204,7 @@ export class LegacyRecommendationAdapter {
     planetaryPositions: Record<string, { sign: string; degree: number }>,
     type: 'recipe' | 'ingredient' | 'cuisine' | 'cookingMethod',
     limit?: number
-  ): Promise<RecommendationResult<any>> {
+  ): Promise<RecommendationResult<unknown>> {
     try {
       return await unifiedRecommendationService.getRecommendationsForPlanetaryAlignment(
         planetaryPositions,
@@ -234,9 +234,9 @@ export class LegacyRecommendationAdapter {
   ) {
     try {
       return alchemicalRecommendationService.generateRecommendations(
-        planetaryPositions as any,
+        planetaryPositions as unknown,
         ingredients,
-        cookingMethods as any
+        cookingMethods as unknown
       );
     } catch (error) {
       logger.error('Error in generateAlchemicalRecommendations:', error);
@@ -271,8 +271,8 @@ export class LegacyRecommendationAdapter {
   ) {
     try {
       return alchemicalRecommendationService.getRecipeRecommendations(
-        recipe as any,
-        planetaryPositions as any
+        recipe as unknown,
+        planetaryPositions as unknown
       );
     } catch (error) {
       logger.error(`Error in getRecipeRecommendations for recipe "${recipe.name}":`, error);

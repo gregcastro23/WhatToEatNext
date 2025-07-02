@@ -1072,7 +1072,7 @@ export function calculateCompleteAstrologicalEffects(
   const stelliumEffects = calculateEnhancedStelliumEffects(planetPositions, risingDegree);
   
   // Calculate house effects
-  const houseEffects = calculateAllHouseEffects(planetPositions as any, {}); // Use type assertion
+  const houseEffects = calculateAllHouseEffects(planetPositions as Record<string, unknown>, {}); // Use type assertion
   
   // Calculate joy effects
   const joyEffects = calculateJoyEffects(planetPositions, risingDegree);
@@ -1431,8 +1431,8 @@ export async function getCurrentAstrologicalState(date: Date = new Date()): Prom
       currentPlanetaryAlignment,
       planetaryPositions,
       activePlanets,
-      planetaryHour: planetaryHour as any,
-      aspects: aspects as any, // Type assertion to avoid compatibility issues
+      planetaryHour: planetaryHour as unknown,
+      aspects: aspects as unknown, // Type assertion to avoid compatibility issues
       tarotElementBoosts: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
       tarotPlanetaryBoosts: {}
     };
@@ -1451,7 +1451,7 @@ export async function getCurrentAstrologicalState(date: Date = new Date()): Prom
       currentPlanetaryAlignment: {},
       planetaryPositions: defaultPositions,
       activePlanets: [],
-      planetaryHour: 'sun' as any,
+      planetaryHour: 'sun' as unknown,
       aspects: [],
       tarotElementBoosts: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
       tarotPlanetaryBoosts: {}
@@ -1877,7 +1877,7 @@ export const elementToZodiac: Record<string, string[]> = {
 export const parseAstroChartData = (astroChartData: unknown): Record<string, number> => {
   try {
     const result: Record<string, number> = {};
-    const data = astroChartData as any;
+    const data = astroChartData as Record<string, unknown>;
     
     // Process planetary positions
     if (data?.planets) {
@@ -1943,7 +1943,7 @@ export const parseAstroChartAspects = (astroChartData: unknown): Array<{
       applying: boolean;
     }> = [];
     
-    const data = astroChartData as any;
+    const data = astroChartData as Record<string, unknown>;
     
     if (data?.aspects && Array.isArray(data.aspects)) {
       // Map aspect types to internal format
@@ -1963,7 +1963,7 @@ export const parseAstroChartAspects = (astroChartData: unknown): Array<{
       
       // Process each aspect
       data.aspects.forEach((aspect: unknown) => {
-        const aspectData = aspect as any;
+        const aspectData = aspect as Record<string, unknown>;
         if (aspectData?.aspectType && aspectData?.planet1 && aspectData?.planet2) {
           aspects.push({
             type: aspectTypeMapping[aspectData.aspectType] || aspectData.aspectType,

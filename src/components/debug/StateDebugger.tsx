@@ -28,7 +28,7 @@ export function StateDebugger() {
     astrologicalStateExists: false,
     alchemicalValuesPath: 'none',
     elementalStatePath: 'none',
-    rawState: null as any
+    rawState: null as unknown
   })
 
   useEffect(() => {
@@ -74,7 +74,7 @@ export function StateDebugger() {
       alchemicalValuesPath = 'alchemicalContext.state.alchemicalValues'
     } else if (alchemicalContext?.state?.astrologicalState?.alchemicalValues) {
       alchemicalValuesPath = 'alchemicalContext.state.astrologicalState.alchemicalValues'
-    } else if ((astroState as any)?.alchemicalValues) {
+    } else if ((astroState as Record<string, unknown>)?.alchemicalValues) {
       alchemicalValuesPath = 'astroState.alchemicalValues'
     }
     
@@ -82,7 +82,7 @@ export function StateDebugger() {
       elementalStatePath = 'alchemicalContext.state.elementalState'
     } else if (alchemicalContext?.state?.elementalPreference) {
       elementalStatePath = 'alchemicalContext.state.elementalPreference'
-    } else if ((astroState as any)?.elementalProperties) {
+    } else if ((astroState as Record<string, unknown>)?.elementalProperties) {
       elementalStatePath = 'astroState.elementalProperties'
     }
     
@@ -176,7 +176,7 @@ export function StateDebugger() {
 
   // Try from alchemical context state first (most reliable)
   if (alchemicalContext?.state?.alchemicalValues) {
-    const values = alchemicalContext.state.alchemicalValues as any
+    const values = alchemicalContext.state.alchemicalValues as Record<string, unknown>
     spiritValue = (values?.Spirit) || 0
     essenceValue = (values?.Essence) || 0
     matterValue = (values?.Matter) || 0
@@ -185,7 +185,7 @@ export function StateDebugger() {
   }
   // Try from nested astrological state
   else if (alchemicalContext?.state?.astrologicalState?.alchemicalValues) {
-    const values = alchemicalContext.state.astrologicalState.alchemicalValues as any
+    const values = alchemicalContext.state.astrologicalState.alchemicalValues as Record<string, unknown>
     spiritValue = (values?.Spirit) || 0
     essenceValue = (values?.Essence) || 0
     matterValue = (values?.Matter) || 0
@@ -193,8 +193,8 @@ export function StateDebugger() {
     valuesSource = 'astro-nested'
   }
   // Fall back to astrological state directly
-  else if ((astroState as any)?.alchemicalValues) {
-    const values = (astroState as any).alchemicalValues
+  else if ((astroState as Record<string, unknown>)?.alchemicalValues) {
+    const values = (astroState as Record<string, unknown>).alchemicalValues
     spiritValue = (values?.Spirit) || 0
     essenceValue = (values?.Essence) || 0
     matterValue = (values?.Matter) || 0
@@ -206,8 +206,8 @@ export function StateDebugger() {
   const currentSign = 
     alchemicalContext?.state?.astrologicalState?.sunSign ||
     alchemicalContext?.state?.astrologicalState?.currentZodiac ||
-    (astroState as any)?.sunSign ||
-    (astroState as any)?.currentZodiac ||
+    (astroState as Record<string, unknown>)?.sunSign ||
+    (astroState as Record<string, unknown>)?.currentZodiac ||
     'aries'
 
   // Get elemental preferences with better source tracking
@@ -220,8 +220,8 @@ export function StateDebugger() {
   } else if (alchemicalContext?.state?.elementalPreference) {
     elementalPreference = alchemicalContext.state.elementalPreference
     elementalSource = 'elemental-preference'
-  } else if ((astroState as any)?.elementalProperties) {
-    elementalPreference = (astroState as any).elementalProperties
+  } else if ((astroState as Record<string, unknown>)?.elementalProperties) {
+    elementalPreference = (astroState as Record<string, unknown>).elementalProperties
     elementalSource = 'astro-elemental'
   } else {
     elementalPreference = { Fire: 0, Water: 0, Earth: 0, Air: 0 }

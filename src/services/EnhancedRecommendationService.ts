@@ -125,13 +125,13 @@ export class EnhancedRecommendationService {
           // Create a proper EnhancedIngredient from the base recommendation
           const enhancedIngredient: EnhancedIngredient = {
             name: ingredient.name || 'Unknown',
-            astrologicalProfile: (ingredient as any)?.astrologicalProfile || {},
+            astrologicalProfile: (ingredient as Record<string, unknown>)?.astrologicalProfile || {},
             elementalPropertiesState: ingredient.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
-            score: (ingredient as any)?.score || 0.5,
+            score: (ingredient as Record<string, unknown>)?.score || 0.5,
             // Add missing required properties for EnhancedIngredient
-            amount: (ingredient as any)?.amount || 1,
-            unit: (ingredient as any)?.unit || 'serving',
-            element: (ingredient as any)?.element || 'Air',
+            amount: (ingredient as Record<string, unknown>)?.amount || 1,
+            unit: (ingredient as Record<string, unknown>)?.unit || 'serving',
+            element: (ingredient as Record<string, unknown>)?.element || 'Air',
             ...ingredient
           };
           
@@ -186,7 +186,7 @@ export class EnhancedRecommendationService {
       const baseRecommendations = await getRecommendedIngredients(astroState);
       const fallbackRecommendations: EnhancedRecommendation[] = baseRecommendations.slice(0, 10).map(ingredient => ({
         ingredient,
-        score: (ingredient as any)?.score || 0.5,
+        score: (ingredient as Record<string, unknown>)?.score || 0.5,
         reasons: ['Base astrological alignment'],
         chakraAlignment: {
           dominantChakra: 'heart',
@@ -340,7 +340,7 @@ export class EnhancedRecommendationService {
     if (!tarotGuidance || !ingredient.elementalPropertiesState) return undefined;
 
     // Use safe type casting for tarot guidance property access
-    const tarotData = tarotGuidance as any;
+    const tarotData = tarotGuidance as Record<string, unknown>;
     
     const dominantElement = this.getDominantElement(ingredient.elementalPropertiesState);
     
@@ -405,7 +405,7 @@ export class EnhancedRecommendationService {
 
     // Apply elemental properties if available
     // Use safe type casting for astroState property access
-    const astroData = astroState as any;
+    const astroData = astroState as Record<string, unknown>;
     if (astroData?.elementalState) {
       const { Fire, Water, Earth, Air } = astroData.elementalState;
       
@@ -430,7 +430,7 @@ export class EnhancedRecommendationService {
       zodiacEnergies['aquarius'] += Air * 0.3;
     }
 
-    const chakraRecord = calculateChakraEnergies(zodiacEnergies as any);
+    const chakraRecord = calculateChakraEnergies(zodiacEnergies as Record<string, unknown>);
     // Map from Record<Chakra, number> to ChakraEnergies interface
     return {
       root: chakraRecord['Root'] || 0.14,
@@ -674,7 +674,7 @@ export class EnhancedRecommendationService {
   ): UnifiedFlavorProfile  {
     // Calculate elemental properties from astrological state
     // Use safe type casting for astroState property access
-    const astroData = astroState as any;
+    const astroData = astroState as Record<string, unknown>;
     const elementalProps = astroData?.elementalState || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
     };
     

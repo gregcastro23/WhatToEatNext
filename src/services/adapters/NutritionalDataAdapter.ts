@@ -32,7 +32,7 @@ import type { NutritionalProfile,
 export interface NutritionalDataAdapterInterface {
   // Core nutritional data operations
   getNutritionalData(foodName: string): Promise<NutritionalProfile | null>;
-  calculateNutritionalBalance(ingredients: any[]): NutritionalProfile;
+  calculateNutritionalBalance(ingredients: ElementalProperties[]): NutritionalProfile;
   convertNutritionalToElemental(profile: NutritionalProfile): ElementalProperties;
   
   // Astrological nutrition recommendations
@@ -88,7 +88,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       return await fetchNutritionalData(foodName) as unknown as import('@/types/alchemy').NutritionalProfile;
     } catch (error) {
       // Use safe type casting for errorHandler service access
-      const errorHandlerService = errorHandler as any;
+      const errorHandlerService = errorHandler as Record<string, unknown>;
       errorHandlerService?.logError?.(error, {
         context: 'NutritionalDataAdapter',
         action: 'getNutritionalData',
@@ -101,12 +101,12 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
   /**
    * Calculate nutritional balance from ingredients
    */
-  calculateNutritionalBalance(ingredients: any[]): NutritionalProfile {
+  calculateNutritionalBalance(ingredients: unknown[]): NutritionalProfile {
     try {
       return calculateNutritionalBalance(ingredients) as unknown as import('@/types/alchemy').NutritionalProfile;
     } catch (error) {
       // Use safe type casting for errorHandler service access
-      const errorHandlerService = errorHandler as any;
+      const errorHandlerService = errorHandler as Record<string, unknown>;
       errorHandlerService?.logError?.(error, {
         context: 'NutritionalDataAdapter',
         action: 'calculateNutritionalBalance'
@@ -130,7 +130,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
     try {
       // The original function returns { Fire, Water, Earth, Air } with "Earth" capitalized
       // We need to convert it to proper ElementalProperties
-      const result = nutritionalToElemental(profile as any);
+      const result = nutritionalToElemental(profile as Record<string, unknown>);
       
       // Create a proper ElementalProperties object
       return createElementalProperties({ 
@@ -141,7 +141,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       }) as ElementalProperties;
     } catch (error) {
       // Use safe type casting for errorHandler service access
-      const errorHandlerService = errorHandler as any;
+      const errorHandlerService = errorHandler as Record<string, unknown>;
       errorHandlerService?.logError?.(error, {
         context: 'NutritionalDataAdapter',
         action: 'convertNutritionalToElemental'
@@ -160,7 +160,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
   } {
     try {
       // Convert sign to string for the original function with safe type casting
-      const signData = sign as any;
+      const signData = sign as Record<string, unknown>;
       const signStr = typeof sign === 'string' ? signData?.toLowerCase() : String(signData)?.toLowerCase();
       
       // Get recommendations
@@ -174,7 +174,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       };
     } catch (error) {
       // Use safe type casting for errorHandler service access
-      const errorHandlerService = errorHandler as any;
+      const errorHandlerService = errorHandler as Record<string, unknown>;
       errorHandlerService?.logError?.(error, {
         context: 'NutritionalDataAdapter',
         action: 'getZodiacNutritionalRecommendations',
@@ -203,7 +203,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       return getPlanetaryNutritionalRecommendations(planetStrings);
     } catch (error) {
       // Use safe type casting for errorHandler service access
-      const errorHandlerService = errorHandler as any;
+      const errorHandlerService = errorHandler as Record<string, unknown>;
       errorHandlerService?.logError?.(error, {
         context: 'NutritionalDataAdapter',
         action: 'getPlanetaryNutritionalRecommendations'
@@ -253,7 +253,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       };
     } catch (error) {
       // Use safe type casting for errorHandler service access
-      const errorHandlerService = errorHandler as any;
+      const errorHandlerService = errorHandler as Record<string, unknown>;
       errorHandlerService?.logError?.(error, {
         context: 'NutritionalDataAdapter',
         action: 'getEnhancedPlanetaryNutritionalRecommendations',
@@ -320,10 +320,10 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
         Air: targetElements.Air
       };
       
-      return evaluateNutritionalElementalBalance(profile as any, legacyTargetElements);
+      return evaluateNutritionalElementalBalance(profile as unknown, legacyTargetElements);
     } catch (error) {
       // Use safe type casting for errorHandler service access
-      const errorHandlerService = errorHandler as any;
+      const errorHandlerService = errorHandler as Record<string, unknown>;
       errorHandlerService?.logError?.(error, {
         context: 'NutritionalDataAdapter',
         action: 'evaluateNutritionalElementalBalance'
