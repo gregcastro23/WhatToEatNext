@@ -1,4 +1,4 @@
-function getAstrologicalElementalProfile(astroState: any): ElementalProperties {
+function getAstrologicalElementalProfile(astroState: unknown): ElementalProperties {
   return astroState.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25  };
 }
 
@@ -43,7 +43,7 @@ interface FlavorProperties {
   [key: string]: number | undefined;
 }
 
-function _hasFlavorProperties(obj: any): obj is FlavorProperties {
+function _hasFlavorProperties(obj: unknown): obj is FlavorProperties {
   if (!obj || typeof obj !== 'object') return false;
   
   return (
@@ -56,7 +56,7 @@ function _hasFlavorProperties(obj: any): obj is FlavorProperties {
 }
 
 // Safe access to elemental properties
-function _getElementalProperty(obj: any, property: keyof ElementalProperties): number {
+function _getElementalProperty(obj: unknown, property: keyof ElementalProperties): number {
   if (isElementalProperties(obj) && typeof obj[property] === 'number') {
     return obj[property];
   }
@@ -561,7 +561,7 @@ export function calculateMethodScore(method: CookingMethodProfile, astroState: A
   // Planetary aspects compatibility
   if (astroState.aspects) {
     // ✅ Pattern MM-1: Type assertion to resolve PlanetaryAspect[] import mismatch
-    const aspectAffinity = _calculateAspectMethodAffinity(astroState.aspects as any, method as unknown as CookingMethodData);
+    const aspectAffinity = _calculateAspectMethodAffinity(astroState.aspects as Record<string, unknown>, method as unknown as CookingMethodData);
     score += aspectAffinity * 0.3;
   }
   
@@ -626,7 +626,7 @@ export function getCookingMethodRecommendations(
     const score = calculateMethodScore(method as unknown as CookingMethodProfile, astroState);
     
     // Apply surgical type casting with variable extraction
-    const methodData = method as any;
+    const methodData = method as CookingMethod;
     const methodId = methodData?.id || methodData?.name || 'unknown';
     const methodName = methodData?.name || 'Unknown Method';
     const elementalEffect = methodData?.elementalEffect || createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0  });
@@ -684,7 +684,7 @@ export { allCookingMethodsCombined as getAllCookingMethods };
  * This function combines various factors for a more comprehensive recommendation
  */
 export function getHolisticCookingRecommendations(
-  ingredient: any,
+  ingredient: Ingredient | UnifiedIngredient,
   astroState?: any,
   season?: string,
   includeReasons = false,
@@ -701,23 +701,23 @@ export function getHolisticCookingRecommendations(
       elementalProperties,
       undefined, // zodiac sign
       undefined, // planets
-      season as any
+      season as unknown
     );
     
     // Filter by available methods if provided
     const filteredRecs = (availableMethods || []).length > 0
       ? (recommendations || []).filter(rec => 
           (availableMethods || []).some(method => 
-            areSimilarMethods((rec as any).method || (rec as any).name || (rec as any).id, method)
+            areSimilarMethods((rec as Record<string, unknown>).method || (rec as Record<string, unknown>).name || (rec as Record<string, unknown>).id, method)
           )
         )
       : recommendations;
     
     // Format the results with safe property access
     return filteredRecs.slice(0, limit || 5).map(rec => ({
-      method: (rec as any).method?.name || (rec as any).method?.id || (rec as any).name || (rec as any).id || 'unknown',
-      compatibility: (Number((rec as any).score) || 0) * (Number(100) || 0),
-      reason: includeReasons ? ((rec as any).reasons?.[0] || `Good match for ${ingredient.name}`) : undefined
+      method: (rec as Record<string, unknown>).method?.name || (rec as Record<string, unknown>).method?.id || (rec as Record<string, unknown>).name || (rec as Record<string, unknown>).id || 'unknown',
+      compatibility: (Number((rec as Record<string, unknown>).score) || 0) * (Number(100) || 0),
+      reason: includeReasons ? ((rec as Record<string, unknown>).reasons?.[0] || `Good match for ${ingredient.name}`) : undefined
     }));
   } catch (error) {
     console.error('Error in getHolisticCookingRecommendations:', error);
@@ -731,8 +731,8 @@ export function getHolisticCookingRecommendations(
  * This function focuses on elemental compatibility
  */
 export function getRecommendedCookingMethodsForIngredient(
-  ingredient: any,
-  cookingMethods: any[],
+  ingredient: Ingredient | UnifiedIngredient,
+  cookingMethods: Ingredient | UnifiedIngredient[],
   limit = 5
 ): { method: string; compatibility: number }[] {
   try {
