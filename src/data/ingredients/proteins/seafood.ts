@@ -731,8 +731,6 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       'Heart health (omega-3 fatty acids)',
       'Low in calories, high in protein'
     ],
-    category: 'protein',
-    subCategory: 'shellfish',
     varieties: {
       'Blue Point': {
         name: 'Blue Point',

@@ -76,7 +76,7 @@ export const CUISINE_ALIASES: Record<string, PrimaryCuisineType> = {
   // Thai Regional Cuisines
   'bangkok': 'Thai',
   'chiangmai': 'Thai',
-  'southern': 'Thai',
+  'southernthai': 'Thai',
   'northeastern': 'Thai',
   
   // Vietnamese Regional Cuisines
@@ -140,13 +140,8 @@ export const CUISINE_ALIASES: Record<string, PrimaryCuisineType> = {
   'iraqi': 'Middle-Eastern',
   'iranian': 'Middle-Eastern',
   'turkish': 'Middle-Eastern',
-  'egyptian': 'Middle-Eastern',
-  'moroccan': 'Middle-Eastern',
-  'tunisian': 'Middle-Eastern',
-  'algerian': 'Middle-Eastern',
-  'libyan': 'Middle-Eastern',
   
-  // African Regional Cuisines
+  // African Regional Cuisines (North African primarily assigned to African)
   'ethiopian': 'African',
   'nigerian': 'African',
   'ghanaian': 'African',
@@ -158,15 +153,10 @@ export const CUISINE_ALIASES: Record<string, PrimaryCuisineType> = {
   'algerian': 'African',
   'libyan': 'African',
   
-  // Mediterranean Regional Cuisines
+  // Mediterranean Regional Cuisines (European Mediterranean focus)
   'greek': 'Mediterranean',
-  'turkish': 'Mediterranean',
   'cypriot': 'Mediterranean',
   'maltese': 'Mediterranean',
-  'lebanese': 'Mediterranean',
-  'syrian': 'Mediterranean',
-  'jordanian': 'Mediterranean',
-  'palestinian': 'Mediterranean',
   
   // Russian Regional Cuisines
   'moscow': 'Russian',

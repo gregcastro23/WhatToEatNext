@@ -123,7 +123,7 @@ export type RegionalCuisineType =
   // Indian Regional
   | 'Punjabi' | 'Bengali' | 'Gujarati' | 'Marathi' | 'Tamil' | 'Telugu' | 'Kannada' | 'Malayalam' | 'Kashmiri' | 'Rajasthani' | 'Hyderabadi' | 'Lucknowi'
   // Thai Regional
-  | 'Bangkok' | 'Chiangmai' | 'Southern' | 'Northeastern'
+  | 'Bangkok' | 'Chiangmai' | 'SouthernThai' | 'Northeastern'
   // Vietnamese Regional
   | 'Hanoi' | 'Saigon' | 'Hue'
   // Italian Regional
@@ -255,11 +255,7 @@ export const CUISINE_CATEGORY_MAP: Record<CompleteCuisineType, string> = {
   // Continental Types
   'Asian': 'Asian',
   'European': 'European',
-  'African': 'African',
-  'American': 'American',
   'Oceanic': 'Oceanic',
-  'Middle-Eastern': 'Middle-Eastern',
-  'Mediterranean': 'Mediterranean',
   
   // Regional Types (mapped to their primary cuisines)
   'Sichuan': 'Chinese',
@@ -288,7 +284,7 @@ export const CUISINE_CATEGORY_MAP: Record<CompleteCuisineType, string> = {
   'Lucknowi': 'Indian',
   'Bangkok': 'Thai',
   'Chiangmai': 'Thai',
-  'Southern': 'Thai',
+  'SouthernThai': 'Thai',
   'Northeastern': 'Thai',
   'Hanoi': 'Vietnamese',
   'Saigon': 'Vietnamese',
@@ -348,7 +344,6 @@ export const CUISINE_CATEGORY_MAP: Record<CompleteCuisineType, string> = {
   'Ghanaian': 'African',
   'Kenyan': 'African',
   'SouthAfrican': 'African',
-  'Greek': 'Mediterranean',
   'Cypriot': 'Mediterranean',
   'Maltese': 'Mediterranean',
   'Moscow': 'Russian',

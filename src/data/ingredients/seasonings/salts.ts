@@ -206,7 +206,19 @@ const rawSalts = {
                 "secondary": [
                       "versatile"
                 ],
-                "notes": "Versatile flavorprofile for various uses"
+                "notes": "Versatile flavorprofile for various uses",
+    storage:     {
+          "temperature": "cool, dry place",
+          "duration": "6-12 months",
+          "container": "airtight container",
+          "notes": "Store in optimal conditions",
+    storage:     {
+          "temperature": "cool, dry place",
+          "duration": "6-12 months",
+          "container": "airtight container",
+          "notes": "Store in optimal conditions"
+    },
+    },
           },
           "cookingMethods": [
                 "sautéing",

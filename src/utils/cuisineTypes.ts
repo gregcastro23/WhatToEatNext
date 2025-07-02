@@ -52,7 +52,7 @@ export function isRegionalCuisine(cuisine: CompleteCuisineType): cuisine is Regi
     // Indian Regional
     'Punjabi', 'Bengali', 'Gujarati', 'Marathi', 'Tamil', 'Telugu', 'Kannada', 'Malayalam', 'Kashmiri', 'Rajasthani', 'Hyderabadi', 'Lucknowi',
     // Thai Regional
-    'Bangkok', 'Chiangmai', 'Southern', 'Northeastern',
+    'Bangkok', 'Chiangmai', 'SouthernThai', 'Northeastern',
     // Vietnamese Regional
     'Hanoi', 'Saigon', 'Hue',
     // Italian Regional
@@ -187,7 +187,7 @@ export function getPrimaryCuisineFromRegional(regional: RegionalCuisineType): Pr
     // Indian Regional
     'Punjabi': 'Indian', 'Bengali': 'Indian', 'Gujarati': 'Indian', 'Marathi': 'Indian', 'Tamil': 'Indian', 'Telugu': 'Indian', 'Kannada': 'Indian', 'Malayalam': 'Indian', 'Kashmiri': 'Indian', 'Rajasthani': 'Indian', 'Hyderabadi': 'Indian', 'Lucknowi': 'Indian',
     // Thai Regional
-    'Bangkok': 'Thai', 'Chiangmai': 'Thai', 'Southern': 'Thai', 'Northeastern': 'Thai',
+    'Bangkok': 'Thai', 'Chiangmai': 'Thai', 'SouthernThai': 'Thai', 'Northeastern': 'Thai',
     // Vietnamese Regional
     'Hanoi': 'Vietnamese', 'Saigon': 'Vietnamese', 'Hue': 'Vietnamese',
     // Italian Regional
@@ -222,7 +222,7 @@ export function getRegionalCuisinesForPrimary(primary: PrimaryCuisineType): Regi
     'Japanese': ['Tokyo', 'Osaka', 'Kyoto', 'Hokkaido'],
     'Korean': ['Seoul', 'Busan', 'Jeju'],
     'Indian': ['Punjabi', 'Bengali', 'Gujarati', 'Marathi', 'Tamil', 'Telugu', 'Kannada', 'Malayalam', 'Kashmiri', 'Rajasthani', 'Hyderabadi', 'Lucknowi'],
-    'Thai': ['Bangkok', 'Chiangmai', 'Southern', 'Northeastern'],
+    'Thai': ['Bangkok', 'Chiangmai', 'SouthernThai', 'Northeastern'],
     'Vietnamese': ['Hanoi', 'Saigon', 'Hue'],
     'Italian': ['Tuscan', 'Sicilian', 'Lombard', 'Venetian', 'Roman', 'Neapolitan', 'Piedmontese', 'Ligurian', 'Emilian', 'Sardinian'],
     'French': ['Provencal', 'Norman', 'Alsatian', 'Lyonnais', 'Bordeaux', 'Burgundian', 'Breton'],
