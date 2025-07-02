@@ -518,7 +518,11 @@ export default function RecipeListMigrated() {
         // Direct array response - convert from AlchemyRecipe to Recipe format
         const convertedRecipes: Recipe[] = (response as AlchemyRecipe[]).map(alchemyRecipe => ({
           ...alchemyRecipe,
-          instructions: alchemyRecipe.instructions || [], // Ensure instructions exist
+          instructions: Array.isArray(alchemyRecipe.instructions) 
+            ? alchemyRecipe.instructions as string[]
+            : typeof alchemyRecipe.instructions === 'string'
+            ? [alchemyRecipe.instructions]
+            : [], // Ensure instructions is string[]
           // Add any other required fields that might be missing
         }));
         setRecipes(convertedRecipes);

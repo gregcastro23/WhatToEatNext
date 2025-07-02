@@ -138,9 +138,9 @@ export * from './seasonal';
 export * from './cuisine';
 export * from './chakra';
 export * from './astrology';
-// Explicitly re-export PlanetaryPositions from astrological to resolve ambiguity
-export { PlanetaryPositions as AstrologicalPlanetaryPositions } from './astrological';
-export * from './astrological';
+// Explicitly re-export PlanetaryPositions from astrological to resolve ambiguity  
+export type { PlanetaryPositions as AstrologicalPlanetaryPositions } from './astrological';
+// Note: Removing wildcard export from './astrological' to avoid PlanetaryPositions conflict
 export * from './ingredient-compatibility';
 export * from './utils';
 

@@ -131,7 +131,7 @@ export class UnifiedScoringAdapter {
       item: {
         name: recipe.name,
         type: 'recipe',
-        elementalProperties: recipe.elementalState || recipe.elementalProperties || {
+        elementalProperties: (recipe.elementalState as ElementalProperties) || recipe.elementalProperties || {
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,

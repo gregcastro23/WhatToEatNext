@@ -65,7 +65,7 @@ if (typeof window !== 'undefined') {
           if (!element_object) return 0;
           
           // Calculate total value
-          const total = 0;
+          let total = 0;
           Object.keys(element_object).forEach(function(element) {
             total += element_object[element] || 0;
           });

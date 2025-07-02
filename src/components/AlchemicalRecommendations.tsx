@@ -66,40 +66,64 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
   const alchemicalContext = useAlchemical();
   
   // Use context values as fallbacks if props aren't provided
-  const resolvedPlanetaryPositions = useMemo((): PlanetaryPositionsType => {
-    if (planetPositions) {
-      return planetPositions;
-    }
-    
-    // Convert from context planetary positions to standardized format
-    if (alchemicalContext.planetaryPositions) {
-      const positions: PlanetaryPositionsType = {};
+  const resolvedPlanetaryPositions = useMemo(() => {
+    // Convert planetary positions to the format expected by the hook: Record<RulingPlanet, number>
+    const convertToHookFormat = (positions: any): Record<RulingPlanet, number> => {
+      // Default base positions (in degrees)
+      const defaultPositions: Record<RulingPlanet, number> = {
+        Sun: 0,        // Aries 0°
+        Moon: 90,      // Cancer 0°
+        Mercury: 60,   // Gemini 0°
+        Venus: 30,     // Taurus 0°
+        Mars: 0,       // Aries 0°
+        Jupiter: 240,  // Sagittarius 0°
+        Saturn: 270,   // Capricorn 0°
+        Uranus: 300,   // Aquarius 0°
+        Neptune: 330,  // Pisces 0°
+        Pluto: 210     // Scorpio 0°
+      };
       
-      // Extract zodiac signs from the planetary positions
-      Object.entries(alchemicalContext.planetaryPositions).forEach(([planet, data]) => {
-        const planetData = data as any;
-        const sign = planetData?.sign;
-        if (sign) {
-          positions[planet] = sign;
+      if (!positions) return defaultPositions;
+      
+      // Convert zodiac signs to approximate degrees
+      const zodiacToDegrees = (sign: string): number => {
+        const signMapping: Record<string, number> = {
+          'aries': 0, 'taurus': 30, 'gemini': 60, 'cancer': 90,
+          'leo': 120, 'virgo': 150, 'libra': 180, 'scorpio': 210,
+          'sagittarius': 240, 'capricorn': 270, 'aquarius': 300, 'pisces': 330
+        };
+        return signMapping[sign?.toLowerCase()] || 0;
+      };
+      
+      const result: Record<RulingPlanet, number> = { ...defaultPositions };
+      
+      // Convert each position
+      Object.entries(positions).forEach(([planet, value]) => {
+        if (planet in result) {
+          if (typeof value === 'string') {
+            result[planet as RulingPlanet] = zodiacToDegrees(value);
+          } else if (typeof value === 'number') {
+            result[planet as RulingPlanet] = value;
+          } else if (value && typeof value === 'object' && (value as any).sign) {
+            result[planet as RulingPlanet] = zodiacToDegrees((value as any).sign);
+          }
         }
       });
       
-      return positions;
+      return result;
+    };
+    
+    if (planetPositions) {
+      return convertToHookFormat(planetPositions);
     }
     
-    // Default fallback using standardized defaults
-    return {
-      Sun: 'aries',
-      Moon: 'cancer',
-      Mercury: 'gemini',
-      Venus: 'taurus',
-      Mars: 'aries',
-      Jupiter: 'sagittarius',
-      Saturn: 'capricorn',
-      Uranus: 'aquarius',
-      Neptune: 'pisces',
-      Pluto: 'scorpio'
-    };
+    // Convert from context planetary positions
+    if (alchemicalContext.planetaryPositions) {
+      return convertToHookFormat(alchemicalContext.planetaryPositions);
+    }
+    
+    // Return default positions
+    return convertToHookFormat(null);
   }, [planetPositions, alchemicalContext.planetaryPositions]);
   
   const resolvedIsDaytime = isDaytime !== undefined ? isDaytime : alchemicalContext.isDaytime;
@@ -136,7 +160,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         const rulingPlanets = (ingredient as any).astrologicalProfile?.rulingPlanets || [];
         
         // Start with balanced properties
-        let tempProps = { ...BalancedElementalProperties };
+        const tempProps = { ...BalancedElementalProperties };
         
         // Adjust by category
         if (category.toLowerCase().includes('vegetable')) {

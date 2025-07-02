@@ -225,9 +225,9 @@ export interface IngredientMapping {
       base: string;
       secondary?: string;
       decanModifiers?: {
-        first?: { element: string; planet: string };
-        second?: { element: string; planet: string };
-        third?: { element: string; planet: string };
+        first?: { element: string; planet: string; influence?: number };
+        second?: { element: string; planet: string; influence?: number };
+        third?: { element: string; planet: string; influence?: number };
       };
     };
     lunarPhaseModifiers?: Record<string, unknown>;

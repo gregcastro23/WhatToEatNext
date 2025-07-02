@@ -1,4 +1,4 @@
-import { ElementalProperties, ThermodynamicMetrics, Planet } from '@/types/alchemy';
+import { ElementalProperties, ThermodynamicMetrics, Planet , Element } from '@/types/alchemy';
 import type { CookingMethod } from '@/types/cooking';
 import { 
   RecommendationServiceInterface,
@@ -22,7 +22,6 @@ import { getCuisineRecommendations } from '../utils/cuisineRecommender';
 import { ConsolidatedRecipeService } from './ConsolidatedRecipeService';
 import { ConsolidatedIngredientService } from './ConsolidatedIngredientService';
 
-import { Element } from "@/types/alchemy";
 import { PlanetaryAlignment } from "@/types/celestial";
 
 /**

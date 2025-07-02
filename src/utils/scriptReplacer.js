@@ -96,7 +96,7 @@
             value = '/dummy-popup.js';
           }
         }
-        return originalDescriptor.set.call(this, value);
+        originalDescriptor.set.call(this, value);
       },
       get: originalDescriptor.get,
       configurable: true

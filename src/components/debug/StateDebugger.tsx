@@ -22,11 +22,20 @@ export function StateDebugger() {
     errors: [] as string[]
   })
 
+  // Add detailed debug state
+  const [debugInfo, setDebugInfo] = useState({
+    alchemicalStateExists: false,
+    astrologicalStateExists: false,
+    alchemicalValuesPath: 'none',
+    elementalStatePath: 'none',
+    rawState: null as any
+  })
+
   useEffect(() => {
     setMounted(true)
     logger.info('StateDebugger mounted')
     
-    // Check context availability
+    // Check context availability and debug their structure
     const errors: string[] = []
     const status = {
       alchemical: !!alchemicalContext,
@@ -36,12 +45,54 @@ export function StateDebugger() {
 
     if (!alchemicalContext) {
       errors.push('AlchemicalContext not available')
+    } else {
+      logger.info('AlchemicalContext structure:', {
+        hasState: !!alchemicalContext.state,
+        stateKeys: alchemicalContext.state ? Object.keys(alchemicalContext.state) : [],
+        alchemicalValues: alchemicalContext.state?.alchemicalValues,
+        elementalState: alchemicalContext.state?.elementalState,
+        astrologicalState: alchemicalContext.state?.astrologicalState
+      })
     }
+    
     if (!astroState) {
       errors.push('AstrologicalContext not available') 
+    } else {
+      logger.info('AstrologicalState structure:', {
+        keys: Object.keys(astroState || {}),
+        astroState
+      })
     }
 
     setContextStatus(status)
+    
+    // Set debug info about data paths
+    let alchemicalValuesPath = 'none'
+    let elementalStatePath = 'none'
+    
+    if (alchemicalContext?.state?.alchemicalValues) {
+      alchemicalValuesPath = 'alchemicalContext.state.alchemicalValues'
+    } else if (alchemicalContext?.state?.astrologicalState?.alchemicalValues) {
+      alchemicalValuesPath = 'alchemicalContext.state.astrologicalState.alchemicalValues'
+    } else if ((astroState as any)?.alchemicalValues) {
+      alchemicalValuesPath = 'astroState.alchemicalValues'
+    }
+    
+    if (alchemicalContext?.state?.elementalState) {
+      elementalStatePath = 'alchemicalContext.state.elementalState'
+    } else if (alchemicalContext?.state?.elementalPreference) {
+      elementalStatePath = 'alchemicalContext.state.elementalPreference'
+    } else if ((astroState as any)?.elementalProperties) {
+      elementalStatePath = 'astroState.elementalProperties'
+    }
+    
+    setDebugInfo({
+      alchemicalStateExists: !!alchemicalContext?.state,
+      astrologicalStateExists: !!astroState,
+      alchemicalValuesPath,
+      elementalStatePath,
+      rawState: alchemicalContext?.state
+    })
     
     // Calculate current planetary hour
     try {
@@ -101,11 +152,12 @@ export function StateDebugger() {
     }
 
     setContextStatus({ ...status, errors })
-  }, [])
+  }, [alchemicalContext, astroState])
 
   useEffect(() => {
     setRenderCount(prev => prev + 1)
-    logger.info('State updated:', {
+    logger.info('StateDebugger updated:', {
+      renderCount: renderCount + 1,
       alchemicalState: alchemicalContext?.state,
       astrologicalState: astroState,
     })
@@ -115,47 +167,74 @@ export function StateDebugger() {
     return null
   }
 
-  // Try to get alchemical values from multiple sources
+  // Try to get alchemical values from multiple sources with better debugging
   let spiritValue = 0
   let essenceValue = 0
   let matterValue = 0
   let substanceValue = 0
+  let valuesSource = 'fallback'
 
-  // Try from alchemical context first
+  // Try from alchemical context state first (most reliable)
   if (alchemicalContext?.state?.alchemicalValues) {
-    spiritValue = alchemicalContext.state.alchemicalValues.Spirit || 0
-    essenceValue = alchemicalContext.state.alchemicalValues.Essence || 0
-    matterValue = alchemicalContext.state.alchemicalValues.Matter || 0
-    substanceValue = alchemicalContext.state.alchemicalValues.Substance || 0
+    const values = alchemicalContext.state.alchemicalValues as any
+    spiritValue = (values?.Spirit) || 0
+    essenceValue = (values?.Essence) || 0
+    matterValue = (values?.Matter) || 0
+    substanceValue = (values?.Substance) || 0
+    valuesSource = 'alchemical-state'
   }
-  // Fall back to astrological state
+  // Try from nested astrological state
+  else if (alchemicalContext?.state?.astrologicalState?.alchemicalValues) {
+    const values = alchemicalContext.state.astrologicalState.alchemicalValues as any
+    spiritValue = (values?.Spirit) || 0
+    essenceValue = (values?.Essence) || 0
+    matterValue = (values?.Matter) || 0
+    substanceValue = (values?.Substance) || 0
+    valuesSource = 'astro-nested'
+  }
+  // Fall back to astrological state directly
   else if ((astroState as any)?.alchemicalValues) {
-    spiritValue = (astroState as any).alchemicalValues.Spirit || 0
-    essenceValue = (astroState as any).alchemicalValues.Essence || 0
-    matterValue = (astroState as any).alchemicalValues.Matter || 0
-    substanceValue = (astroState as any).alchemicalValues.Substance || 0
+    const values = (astroState as any).alchemicalValues
+    spiritValue = (values?.Spirit) || 0
+    essenceValue = (values?.Essence) || 0
+    matterValue = (values?.Matter) || 0
+    substanceValue = (values?.Substance) || 0
+    valuesSource = 'astro-direct'
   }
 
   // Get current zodiac sign from multiple sources
   const currentSign = 
     alchemicalContext?.state?.astrologicalState?.sunSign ||
+    alchemicalContext?.state?.astrologicalState?.currentZodiac ||
     (astroState as any)?.sunSign ||
     (astroState as any)?.currentZodiac ||
     'aries'
 
-  // Get elemental preferences
-  const elementalPreference = 
-    alchemicalContext?.state?.elementalPreference ||
-    alchemicalContext?.state?.elementalState ||
-    (astroState as any)?.elementalProperties ||
-    { Fire: 0.32, Water: 0.28, Earth: 0.18, Air: 0.22 }
+  // Get elemental preferences with better source tracking
+  let elementalPreference = null
+  let elementalSource = 'fallback'
+  
+  if (alchemicalContext?.state?.elementalState) {
+    elementalPreference = alchemicalContext.state.elementalState
+    elementalSource = 'elemental-state'
+  } else if (alchemicalContext?.state?.elementalPreference) {
+    elementalPreference = alchemicalContext.state.elementalPreference
+    elementalSource = 'elemental-preference'
+  } else if ((astroState as any)?.elementalProperties) {
+    elementalPreference = (astroState as any).elementalProperties
+    elementalSource = 'astro-elemental'
+  } else {
+    elementalPreference = { Fire: 0, Water: 0, Earth: 0, Air: 0 }
+    elementalSource = 'no-data'
+  }
   
   // Token symbol for display
   const tokenSymbol = '⦿'
 
-  // Get status color based on context availability
+  // Get status color based on context availability and data source
   const getStatusColor = () => {
     if (contextStatus.errors.length > 0) return 'bg-red-800/90'
+    if (valuesSource === 'fallback' || elementalSource === 'hardcoded-fallback') return 'bg-orange-800/90'
     if (contextStatus.alchemical && contextStatus.astrological) return 'bg-green-800/90'
     if (contextStatus.alchemical || contextStatus.astrological) return 'bg-yellow-800/90'
     return 'bg-gray-800/90'
@@ -188,6 +267,7 @@ export function StateDebugger() {
         
         <div className="mt-3 pt-2 border-t border-white/20">
           <p className="font-bold text-yellow-200 mb-1">Alchemical Tokens:</p>
+          <div className="text-xs text-gray-300 mb-1">Source: {valuesSource}</div>
           <div className="space-y-1 pl-2">
             <div className="flex justify-between">
               <span>{tokenSymbol} Spirit:</span>
@@ -210,6 +290,7 @@ export function StateDebugger() {
         
         <div className="mt-3 pt-2 border-t border-white/20">
           <p className="font-bold text-yellow-200 mb-1">Elemental Balance:</p>
+          <div className="text-xs text-gray-300 mb-1">Source: {elementalSource}</div>
           <div className="space-y-1 pl-2">
             {Object.entries(elementalPreference || {}).map(([element, value]) => (
               <div key={element} className="flex justify-between">
@@ -239,6 +320,14 @@ export function StateDebugger() {
             </span>
           </div>
         </div>
+
+        <div className="mt-2 pt-2 border-t border-blue-400/40">
+          <p className="font-bold text-blue-300 text-xs mb-1">Debug Paths:</p>
+          <div className="text-xs space-y-1">
+            <p className="text-blue-200">Values: {debugInfo.alchemicalValuesPath}</p>
+            <p className="text-blue-200">Elements: {debugInfo.elementalStatePath}</p>
+          </div>
+        </div>
         
         {contextStatus.errors.length > 0 && (
           <div className="mt-2 pt-2 border-t border-red-400/40">
@@ -251,4 +340,4 @@ export function StateDebugger() {
       </div>
     </div>
   )
-} 
+}

@@ -75,7 +75,6 @@
         set: function(newMethod) {
           console.log(`[PopupSafety] Method replaced: popup.${method}`);
           originalMethods[method] = newMethod;
-          return newMethod;
         },
         configurable: true
       });

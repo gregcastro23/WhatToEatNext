@@ -1,15 +1,28 @@
-import { Cuisine } from '@/types/culinary';
+import { Cuisine } from '@/types/cuisine';
 import { culinaryTraditions } from '@/data/cuisines/culinaryTraditions';
 
-export interface CuisineRecommendation extends Cuisine {
+export interface CuisineRecommendation {
+    id: string;
+    name: string;
+    description?: string;
+    alchemicalProperties?: Record<string, number>;
+    astrologicalInfluences?: string[];
+    elementalProperties: ElementalProperties;
     compatibilityScore: number;
     elementalAlignment: Record<string, number>;
 }
 
-export async function getCuisineRecommendations(): Promise<Cuisine[]> {
+interface ElementalProperties {
+    Fire: number;
+    Water: number;
+    Earth: number;
+    Air: number;
+}
+
+export async function getCuisineRecommendations(): Promise<CuisineRecommendation[]> {
     try {
-        // Convert culinary traditions to Cuisine format
-        const recommendations: Cuisine[] = Object.entries(culinaryTraditions).map(([id, tradition]) => {
+        // Convert culinary traditions to CuisineRecommendation format
+        const recommendations: CuisineRecommendation[] = Object.entries(culinaryTraditions).map(([id, tradition]) => {
             const traditionData = tradition as any;
             
             return {
@@ -28,7 +41,14 @@ export async function getCuisineRecommendations(): Promise<Cuisine[]> {
                     Earth: 0.25,
                     Air: 0.25
                 },
-                astrologicalInfluences: deriveAstrologicalInfluences(tradition)
+                astrologicalInfluences: deriveAstrologicalInfluences(tradition),
+                compatibilityScore: 0.8, // Default compatibility score
+                elementalAlignment: traditionData?.elementalAlignment || {
+                    Fire: 0.25,
+                    Water: 0.25,
+                    Earth: 0.25,
+                    Air: 0.25
+                }
             };
         });
 

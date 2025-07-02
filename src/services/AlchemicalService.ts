@@ -257,7 +257,12 @@ export class AlchemicalService {
    * Set planetary positions
    */
   setPlanetaryPositions(positions: { [key: string]: PlanetaryPosition }): AlchemicalService {
-    this.planetPositions = positions;
+    // Convert PlanetaryPosition objects to strings for PlanetaryPositionsType
+    const convertedPositions: PlanetaryPositionsType = {};
+    Object.entries(positions).forEach(([planet, position]) => {
+      convertedPositions[planet] = `${position.sign}:${position.degree}`;
+    });
+    this.planetPositions = convertedPositions;
     return this;
   }
   

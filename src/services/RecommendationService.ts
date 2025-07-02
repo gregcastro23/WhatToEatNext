@@ -535,8 +535,12 @@ export class RecommendationService {
         activePlanets?: string[]; 
         [key: string]: unknown 
       };
-      const currentMomentElements: ElementalProperties = astroStateData?.elementalProperties || 
-        astroStateData?.elementalState || { Fire: 0, Water: 0, Earth: 0, Air: 0 };
+      const currentMomentElements: ElementalProperties = 
+        (astroStateData?.elementalProperties && Object.keys(astroStateData.elementalProperties).length > 0 
+          ? astroStateData.elementalProperties 
+          : astroStateData?.elementalState && Object.keys(astroStateData.elementalState).length > 0
+          ? astroStateData.elementalState 
+          : { Fire: 0, Water: 0, Earth: 0, Air: 0 }) as ElementalProperties;
       
       // Calculate elemental compatibility
       const elementalScore = this.calculateElementalMatch(recipeElements, currentMomentElements);

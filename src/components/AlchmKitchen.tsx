@@ -102,7 +102,7 @@ export default function AlchmKitchen() {
         Water: Math.round(elementalState.Water * 100),
         Earth: Math.round(elementalState.Earth * 100),
         Air: Math.round(elementalState.Air * 100)
-    } : { Fire: 32, Water: 28, Earth: 18, Air: 22 }; // Use default values if no state
+    } : { Fire: 0, Water: 0, Earth: 0, Air: 0 }; // Use zero values if no state
 
     return (
         <div className={styles.container}>

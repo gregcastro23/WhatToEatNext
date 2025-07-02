@@ -3,6 +3,7 @@ import type { ElementalProperties,
   CookingMethod,
   ZodiacSign,
   Recipe } from '@/types/alchemy';
+import type { Planet } from '@/types/celestial';
 import type { UnifiedIngredient } from '@/types/ingredient';
 import { getCurrentSeason } from '@/types/seasons';
 
@@ -109,9 +110,9 @@ export class AlchemicalRecommendationService {
         try {
           const context = {
             dateTime: new Date(),
-            data: {
+            item: {
               name: ingredient.name,
-              type: "ingredient" as const,
+              type: 'ingredient' as const,
               elementalProperties: ingredient.elementalProperties,
               seasonality: ingredient.season || [],
               planetaryRulers: ingredient.astrologicalProfile?.rulingPlanets || [],

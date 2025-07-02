@@ -116,7 +116,7 @@ function getPlanetaryDignity(planet: string, sign: string): number {
  */
 export function alchemize(planetaryPositions: Record<string, PlanetaryPosition>): StandardizedAlchemicalResult {
   // Initialize totals
-  let totals = {
+  const totals = {
     Spirit: 0, Essence: 0, Matter: 0, Substance: 0,
     Fire: 0, Water: 0, Air: 0, Earth: 0
   };

@@ -53,19 +53,19 @@
       console.warn('[ElementRankingPatch] Using fallback alchemize function');
       return {
         'Dominant Element': 'Fire',
-        'Total Effect Value': { 'Fire': 32, 'Water': 28, 'Earth': 18, 'Air': 22 },
+        'Total Effect Value': { 'Fire': 0, 'Water': 0, 'Earth': 0, 'Air': 0 },
         'Alchemy Effects': {
-          'Total Spirit': 5,
-          'Total Essence': 4,
-          'Total Matter': 3,
-          'Total Substance': 2
+          'Total Spirit': 0,
+          'Total Essence': 0,
+          'Total Matter': 0,
+          'Total Substance': 0
         }
       };
     } catch (error) {
       console.error('[ElementRankingPatch] Safely handled error in alchemize:', error);
       return {
         'Dominant Element': 'Fire',
-        'Total Effect Value': { 'Fire': 32, 'Water': 28, 'Earth': 18, 'Air': 22 }
+        'Total Effect Value': { 'Fire': 0, 'Water': 0, 'Earth': 0, 'Air': 0 }
       };
     }
   };
