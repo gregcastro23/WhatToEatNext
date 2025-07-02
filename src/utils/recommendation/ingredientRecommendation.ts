@@ -413,12 +413,12 @@ export const getIngredientsFromCategories = async (
 };
 
 // Phase 8: Cached ingredient data for performance
-const cachedAllIngredientsData: any[] | null = null;
+const cachedAllIngredientsData: Ingredient | UnifiedIngredient[] | null = null;
 const cacheTimestamp: number = 0;
 const CACHE_TTL = 300000; // 5 minutes
 
 export const getAllIngredientsData = async (): Promise<any[]> => {
-  const allData: any[] = [];
+  const allData: Ingredient | UnifiedIngredient[] = [];
   try {
     // Collect data from each category
     const vegData = await loadVegetables();
@@ -479,11 +479,11 @@ export const getAllIngredients = async (): Promise<EnhancedIngredient[]> => {
   
   // Create eggs and dairy from proteins by filtering category
   const eggs = Object.entries(proteinsData || {})
-    .filter(([_, value]) => (value as any).category === 'egg')
+    .filter(([_, value]) => (value as unknown[]).category === 'egg')
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
   
   const dairy = Object.entries(proteinsData || {})
-    .filter(([_, value]) => (value as any).category === 'dairy')
+    .filter(([_, value]) => (value as unknown[]).category === 'dairy')
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
   
   // Define all categories with loaded data
@@ -545,7 +545,7 @@ export const getAllIngredients = async (): Promise<EnhancedIngredient[]> => {
   // Filter out ingredients without proper astrological profiles
   const validIngredients = allIngredients.filter(ing => 
     ing?.astrologicalProfile && 
-    (ing.astrologicalProfile.elementalAffinity as any)?.base && 
+    (ing.astrologicalProfile.elementalAffinity as Record<string, unknown>)?.base && 
     ing.astrologicalProfile.rulingPlanets
   );
   
@@ -807,7 +807,7 @@ function calculateElementalScore(
   return totalWeight > 0 ? score / totalWeight : 0.5;
 }
 
-async function calculateSeasonalScore(ingredient: any, date: Date): Promise<number> {
+async function calculateSeasonalScore(ingredient: Ingredient | UnifiedIngredient, date: Date): Promise<number> {
   // Simple seasonal scoring - could be enhanced
   const month = date.getMonth();
   const season = month >= 2 && month <= 4 ? 'spring' :
@@ -927,7 +927,7 @@ function calculateCulturalContextScore(
   }
 }
 
-function _isElementalProperties(obj: any): obj is ElementalProperties {
+function _isElementalProperties(obj: unknown): obj is ElementalProperties {
   return obj && 
     typeof obj === 'object' &&
     typeof obj.Fire === 'number' &&
@@ -967,7 +967,7 @@ export async function recommendIngredients(
     aspects: []
   };
   
-  const grouped = await getIngredientRecommendations(elementalProps as any, options);
+  const grouped = await getIngredientRecommendations(elementalProps as Record<string, unknown>, options);
   
   // Flatten grouped recommendations into a single array
   const allRecommendations: IngredientRecommendation[] = [];

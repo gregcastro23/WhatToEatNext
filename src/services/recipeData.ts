@@ -67,11 +67,11 @@ function ensureRecipeProperties(recipe: Partial<Recipe>): Recipe {
 
   // Core required properties with enhanced validation
   const safeRecipe: Recipe = {
-    id: (recipe as any)?.id || `recipe-${Date.now()}`,
-    name: (recipe as any)?.name || 'Unnamed Recipe',
-    description: (recipe as any)?.description || '',
-    cuisine: (recipe as any)?.cuisine || '',
-    ingredients: validateAndNormalizeIngredients(recipe.ingredients as any || []) as unknown as import('../types/recipe').RecipeIngredient[],
+    id: (recipe as Record<string, unknown>)?.id || `recipe-${Date.now()}`,
+    name: (recipe as Record<string, unknown>)?.name || 'Unnamed Recipe',
+    description: (recipe as Record<string, unknown>)?.description || '',
+    cuisine: (recipe as Record<string, unknown>)?.cuisine || '',
+    ingredients: validateAndNormalizeIngredients(recipe.ingredients as Record<string, unknown> || []) as unknown as import('../types/recipe').RecipeIngredient[],
     instructions: validateAndNormalizeInstructions(recipe.instructions || []),
     timeToMake: validateAndNormalizeTime(recipe.timeToMake) || '30 minutes',
     numberOfServings: validateServings(recipe.numberOfServings) || 2,
@@ -80,11 +80,11 @@ function ensureRecipeProperties(recipe: Partial<Recipe>): Recipe {
   };
 
   // Optional properties with validation
-  if ((recipe as any)?.mealType) {
-    safeRecipe.mealType = validateMealType((recipe as any)?.mealType);
+  if ((recipe as Record<string, unknown>)?.mealType) {
+    safeRecipe.mealType = validateMealType((recipe as Record<string, unknown>)?.mealType);
   }
-  if ((recipe as any)?.season) {
-    safeRecipe.season = validateSeason((recipe as any)?.season);
+  if ((recipe as Record<string, unknown>)?.season) {
+    safeRecipe.season = validateSeason((recipe as Record<string, unknown>)?.season);
   }
   
   // Boolean properties
@@ -97,8 +97,8 @@ function ensureRecipeProperties(recipe: Partial<Recipe>): Recipe {
   if (recipe.astrologicalInfluences) {
     safeRecipe.astrologicalInfluences = validateAstrologicalInfluences(recipe.astrologicalInfluences);
   }
-  if ((recipe as any)?.nutrition) {
-    safeRecipe.nutrition = validateAndNormalizeNutrition((recipe as any)?.nutrition);
+  if ((recipe as Record<string, unknown>)?.nutrition) {
+    safeRecipe.nutrition = validateAndNormalizeNutrition((recipe as Record<string, unknown>)?.nutrition);
   }
 
   // Timestamp handling
@@ -119,7 +119,7 @@ function validateAndNormalizeIngredients(ingredients: Array<Partial<RecipeIngred
   }
 
   return ingredients.map(ing => ({
-    name: (ing as any)?.name || 'Unknown Ingredient',
+    name: (ing as Record<string, unknown>)?.name || 'Unknown Ingredient',
     amount: typeof ing.amount === 'number' ? ing.amount : 1,
     unit: ing.unit || 'piece',
     category: ing.category || 'other',
@@ -127,7 +127,7 @@ function validateAndNormalizeIngredients(ingredients: Array<Partial<RecipeIngred
     preparation: ing.preparation || '',
     notes: ing.notes || '',
     // Standardize ingredient elemental properties too
-    elementalProperties: (ing as any)?.elementalProperties ? recipeElementalService.standardizeRecipe({elementalProperties: (ing as any)?.elementalProperties}).elementalProperties : undefined
+    elementalProperties: (ing as Record<string, unknown>)?.elementalProperties ? recipeElementalService.standardizeRecipe({elementalProperties: (ing as Record<string, unknown>)?.elementalProperties}).elementalProperties : undefined
   }));
 }
 
@@ -187,8 +187,8 @@ function validateMealType(mealType: string | string[] | unknown): string[] {
   const validMealTypes = ['breakfast', 'lunch', 'dinner', 'snack', 'dessert', 'drink', 'appetizer', 'side'];
   
   if (typeof mealType === 'string') {
-    if ((validMealTypes as any)?.includes?.((mealType as any)?.toLowerCase?.())) {
-      return [(mealType as any)?.toLowerCase?.()];
+    if ((validMealTypes as string)?.includes?.((mealType as string)?.toLowerCase?.())) {
+      return [(mealType as string)?.toLowerCase?.()];
     }
     return ['dinner'];
   }
@@ -196,8 +196,8 @@ function validateMealType(mealType: string | string[] | unknown): string[] {
   if (Array.isArray(mealType)) {
     const validEntries = mealType
       .filter(type => typeof type === 'string')
-      .map(type => (type as any)?.toLowerCase?.())
-      .filter(type => (validMealTypes as any)?.includes?.(type));
+      .map(type => (type as string)?.toLowerCase?.())
+      .filter(type => (validMealTypes as string)?.includes?.(type));
     
     return validEntries.length > 0 ? validEntries : ['dinner'];
   }
@@ -209,8 +209,8 @@ function validateSeason(season: string | string[] | unknown): string[] {
   const validSeasons = ['spring', 'summer', 'fall', 'winter', 'all'];
   
   if (typeof season === 'string') {
-    if ((validSeasons as any)?.includes?.((season as any)?.toLowerCase?.())) {
-      return [(season as any)?.toLowerCase?.()];
+    if ((validSeasons as string)?.includes?.((season as string)?.toLowerCase?.())) {
+      return [(season as string)?.toLowerCase?.()];
     }
     return ['all'];
   }
@@ -218,8 +218,8 @@ function validateSeason(season: string | string[] | unknown): string[] {
   if (Array.isArray(season)) {
     const validEntries = season
       .filter(s => typeof s === 'string')
-      .map(s => (s as any)?.toLowerCase?.())
-      .filter(s => (validSeasons as any)?.includes?.(s));
+      .map(s => (s as string)?.toLowerCase?.())
+      .filter(s => (validSeasons as string)?.includes?.(s));
     
     return validEntries.length > 0 ? validEntries : ['all'];
   }
@@ -304,11 +304,11 @@ class RecipeData {
           }));
       
       this.recipes = mappingsEntries.map((mapping: unknown) => {
-        let elementalProps = (mapping as any)?.elementalProperties || (mapping as any)?.elementalProfile;
+        let elementalProps = (mapping as Record<string, unknown>)?.elementalProperties || (mapping as Record<string, unknown>)?.elementalProfile;
         
         // If no elemental properties, derive them from cuisine or other attributes
         if (!elementalProps) {
-          const mappingData = mapping as any;
+          const mappingData = mapping as Record<string, unknown>;
           elementalProps = recipeElementalService.deriveElementalProperties({
             cuisine: mappingData?.cuisine?.name || mappingData?.cuisine,
             cookingMethod: mappingData?.cookingMethod
@@ -316,7 +316,7 @@ class RecipeData {
         }
         
         // Create a partial recipe object with safe defaults
-        const mappingData = mapping as any;
+        const mappingData = mapping as Record<string, unknown>;
         const partialRecipe: Partial<Recipe> = {
           id: mappingData?.id || `recipe-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
           name: mappingData?.name || mappingData?.id || 'Unknown Recipe',
@@ -325,7 +325,7 @@ class RecipeData {
           elementalProperties: elementalProps,
           ingredients: Array.isArray(mappingData?.ingredients) 
             ? mappingData.ingredients.map((ing: unknown) => {
-                const ingData = ing as any;
+                const ingData = ing as Record<string, unknown>;
                 return {
                   name: ingData?.name || 'Unknown Ingredient',
                   amount: typeof ingData?.amount === 'number' ? ingData.amount : 1,
@@ -382,7 +382,7 @@ class RecipeData {
       // Then ensure all other properties are valid
       return ensureRecipeProperties({
         ...recipe,
-        elementalProperties: (withElementalProps as any)?.elementalProperties
+        elementalProperties: (withElementalProps as Record<string, unknown>)?.elementalProperties
       });
     });
   }
@@ -487,10 +487,10 @@ class RecipeData {
       if (this.initPromise) {
         await this.initPromise;
       }
-      const lowercaseQuery = (query as any)?.toLowerCase?.();
+      const lowercaseQuery = (query as string)?.toLowerCase?.();
       const recipes = await this.getAllRecipes();
       return recipes.filter(recipe => 
-        (recipe as any)?.name?.toLowerCase?.().includes(lowercaseQuery) ||
+        (recipe as string)?.name?.toLowerCase?.().includes(lowercaseQuery) ||
         (recipe as any)?.cuisine?.toLowerCase().includes(lowercaseQuery)
       );
     } catch (error) {
@@ -571,39 +571,39 @@ class RecipeData {
       
       const filteredRecipes = recipes.filter(recipe => {
         // Filter by cuisine
-        if ((filters as any)?.cuisine && (recipe as any)?.cuisine) {
-          const recipeCuisine = (recipe as any)?.cuisine?.toLowerCase?.();
-          const targetCuisine = (filters as any)?.cuisine?.toLowerCase?.();
+        if ((filters as Record<string, unknown>)?.cuisine && (recipe as Record<string, unknown>)?.cuisine) {
+          const recipeCuisine = (recipe as string)?.cuisine?.toLowerCase?.();
+          const targetCuisine = (filters as string)?.cuisine?.toLowerCase?.();
           
-          if (!(recipeCuisine as any)?.includes?.(targetCuisine)) {
+          if (!(recipeCuisine as string)?.includes?.(targetCuisine)) {
             return false;
           }
         }
         
         // Filter by meal type
-        if ((filters as any)?.mealType && (filters as any)?.mealType.length > 0 && (recipe as any)?.mealType) {
-          const mealTypes = Array.isArray((recipe as any)?.mealType) 
-            ? (recipe as any)?.mealType.map(mt => (mt as any)?.toLowerCase?.())
-            : [(recipe as any)?.mealType?.toLowerCase?.()];
+        if ((filters as Recipe[])?.mealType && (filters as Recipe[])?.mealType.length > 0 && (recipe as Recipe[])?.mealType) {
+          const mealTypes = Array.isArray((recipe as Record<string, unknown>)?.mealType) 
+            ? (recipe as string)?.mealType.map(mt => (mt as string)?.toLowerCase?.())
+            : [(recipe as string)?.mealType?.toLowerCase?.()];
           
-          const targetMealTypes = (filters as any)?.mealType.map(mt => (mt as any)?.toLowerCase?.());
+          const targetMealTypes = (filters as string)?.mealType.map(mt => (mt as string)?.toLowerCase?.());
           
-          if (!targetMealTypes.some(target => (mealTypes as any)?.includes?.(target))) {
+          if (!targetMealTypes.some(target => (mealTypes as string)?.includes?.(target))) {
             return false;
           }
         }
         
         // Filter by season
-        if ((filters as any)?.season && (filters as any)?.season.length > 0 && (recipe as any)?.season) {
-          const seasons = Array.isArray((recipe as any)?.season)
-            ? (recipe as any)?.season.map(s => (s as any)?.toLowerCase?.())
-            : [(recipe as any)?.season?.toLowerCase?.()];
+        if ((filters as Recipe[])?.season && (filters as Recipe[])?.season.length > 0 && (recipe as Recipe[])?.season) {
+          const seasons = Array.isArray((recipe as Record<string, unknown>)?.season)
+            ? (recipe as string)?.season.map(s => (s as string)?.toLowerCase?.())
+            : [(recipe as string)?.season?.toLowerCase?.()];
           
           // Special case: if 'all' is included in recipe seasons, it matches any season
-          if (!(seasons as any)?.includes?.('all')) {
-            const targetSeasons = (filters as any)?.season.map(s => (s as any)?.toLowerCase?.());
+          if (!(seasons as string)?.includes?.('all')) {
+            const targetSeasons = (filters as string)?.season.map(s => (s as string)?.toLowerCase?.());
             
-            if (!targetSeasons.some(target => (seasons as any)?.includes?.(target))) {
+            if (!targetSeasons.some(target => (seasons as string)?.includes?.(target))) {
               return false;
             }
           }
@@ -614,10 +614,10 @@ class RecipeData {
           const influences = recipe.astrologicalInfluences || [];
           
           // Special case: if 'all' is included, it matches any influence
-          if (!(influences as any)?.includes?.('all')) {
+          if (!(influences as string)?.includes?.('all')) {
             const hasMatch = filters.astrologicalInfluences.some(influence => 
               influences.some(recipeInfluence => 
-                (recipeInfluence as any)?.toLowerCase?.() === (influence as any)?.toLowerCase?.()
+                (recipeInfluence as string)?.toLowerCase?.() === (influence as string)?.toLowerCase?.()
               )
             );
             

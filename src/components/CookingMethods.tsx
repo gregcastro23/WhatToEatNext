@@ -1031,7 +1031,7 @@ export default function CookingMethods() {
         break;
         
       case 'solenije':
-        fullDefinition = "Solenije (солéнье) is a traditional Eastern European preservation technique that uses salt brine fermentation to preserve vegetables. Unlike Western pickling methods that rely heavily on vinegar, solenije uses a natural fermentation process where lactobacillus bacteria converts sugars to lactic acid, creating a tangy flavor and preservative environment. The term comes from the Russian word for salt - 'sol'.";
+        fullDefinition = "Solenije (соленье) is a traditional Eastern European preservation technique that uses salt brine fermentation to preserve vegetables. Unlike Western pickling methods that rely heavily on vinegar, solenije uses a natural fermentation process where lactobacillus bacteria converts sugars to lactic acid, creating a tangy flavor and preservative environment. The term comes from the Russian word for salt - 'sol'.";
         examples = [
           "Sauerkraut (fermented cabbage with salt)",
           "Pickled cucumbers (salt-brined with dill and garlic)",
@@ -1670,11 +1670,11 @@ export default function CookingMethods() {
         setPlanetaryCookingMethods(planetaryCookingMethodsMap);
         
         // Store the initial scores in our state AFTER sorting the methods
-        // Use (method as any)?.id or name as a more reliable key instead of index
+        // Use method.id or name as a more reliable key instead of index
         const scoreMap: Record<string, number> = {};
         sortedMethods.forEach((method) => {
-          const scoreKey = (method as any)?.id || (method as any)?.name;
-          scoreMap[scoreKey] = method.gregsEnergy || 0.5;
+          const scoreKey = method?.id || method?.name || 'unknown';
+          scoreMap[String(scoreKey)] = method.gregsEnergy || 0.5;
         });
         setMethodScores(scoreMap);
         
@@ -1740,7 +1740,7 @@ export default function CookingMethods() {
   
   // Update the culture selector handler
   const handleCultureChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const newCulture = (e as any)?.target?.value;
+    const newCulture = e?.target?.value;
     setSelectedCulture(newCulture);
     // Refetch methods with the new culture filter
     fetchMethods();
@@ -1761,122 +1761,122 @@ export default function CookingMethods() {
     // Add this inside the method card JSX, before the closing div
     return (
       <div 
-        className={`${(styles as any)?.methodCard} ${isExpanded[(method as any)?.name] ? styles.expanded : ''}`}
-        onClick={() => toggleMethodExpansion((method as any)?.name)}
+        className={`${(styles as any)?.methodCard} ${isExpanded[method?.name || ''] ? styles.expanded : ''}`}
+        onClick={() => toggleMethodExpansion(method?.name || '')}
       >
         {/* Existing card content */}
         {/* ... */}
         
         {/* Add this new section for score details */}
         <div className={styles.scoreSection}>
-          <div className={styles.scoreHeader} onClick={(e) => toggleScoreDetails(e, (method as any)?.name)}>
-            <span>Match Score: {(method.score * 100).toFixed(0)}%</span>
+          <div className={styles.scoreHeader} onClick={(e) => toggleScoreDetails(e, method?.name || '')}>
+            <span>Match Score: {((method.score || 0) * 100).toFixed(0)}%</span>
             <button 
               className={styles.scoreDetailsButton}
               aria-label="Toggle score details"
             >
-              {showScoreDetails[(method as any)?.name] ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+              {showScoreDetails[method?.name || ''] ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
             </button>
           </div>
           
-          {showScoreDetails[(method as any)?.name] && method.scoreDetails && (
+          {showScoreDetails[method?.name || ''] && method.scoreDetails && (
             <div className={styles.scoreDetails}>
               <h4>Score Breakdown:</h4>
               <ul className={styles.scoreDetailsList}>
-                {(method.scoreDetails as any)?.elemental !== undefined && (
+                {method.scoreDetails?.elemental !== undefined && (
                   <li>
                     <span>Elemental:</span> 
                     <div className={styles.scoreBar}>
                       <div 
                         className={styles.scoreBarFill} 
-                        style={{width: `${Math.min(100, (method.scoreDetails as any)?.elemental * 100)}%`}}
+                        style={{width: `${Math.min(100, (method.scoreDetails.elemental || 0) * 100)}%`}}
                       />
                     </div>
-                    <span>{((method.scoreDetails as any)?.elemental * 100).toFixed(0)}%</span>
+                    <span>{((method.scoreDetails.elemental || 0) * 100).toFixed(0)}%</span>
                   </li>
                 )}
-                {method.scoreDetails.astrological !== undefined && (
+                {method.scoreDetails?.astrological !== undefined && (
                   <li>
                     <span>Astrological:</span>
                     <div className={styles.scoreBar}>
                       <div 
                         className={styles.scoreBarFill} 
-                        style={{width: `${Math.min(100, method.scoreDetails.astrological * 100)}%`}}
+                        style={{width: `${Math.min(100, (method.scoreDetails.astrological || 0) * 100)}%`}}
                       />
                     </div>
-                    <span>{(method.scoreDetails.astrological * 100).toFixed(0)}%</span>
+                    <span>{((method.scoreDetails.astrological || 0) * 100).toFixed(0)}%</span>
                   </li>
                 )}
-                {(method.scoreDetails as any)?.seasonal !== undefined && (
+                {method.scoreDetails?.seasonal !== undefined && (
                   <li>
                     <span>Seasonal:</span>
                     <div className={styles.scoreBar}>
                       <div 
                         className={styles.scoreBarFill} 
-                        style={{width: `${Math.min(100, (method.scoreDetails as any)?.seasonal * 100)}%`}}
+                        style={{width: `${Math.min(100, (method.scoreDetails.seasonal || 0) * 100)}%`}}
                       />
                     </div>
-                    <span>{((method.scoreDetails as any)?.seasonal * 100).toFixed(0)}%</span>
+                    <span>{((method.scoreDetails.seasonal || 0) * 100).toFixed(0)}%</span>
                   </li>
                 )}
-                {method.scoreDetails.tools !== undefined && (
+                {method.scoreDetails?.tools !== undefined && (
                   <li>
                     <span>Tools:</span>
                     <div className={styles.scoreBar}>
                       <div 
                         className={styles.scoreBarFill} 
-                        style={{width: `${Math.min(100, method.scoreDetails.tools * 100)}%`}}
+                        style={{width: `${Math.min(100, (method.scoreDetails.tools || 0) * 100)}%`}}
                       />
                     </div>
-                    <span>{(method.scoreDetails.tools * 100).toFixed(0)}%</span>
+                    <span>{((method.scoreDetails.tools || 0) * 100).toFixed(0)}%</span>
                   </li>
                 )}
-                {method.scoreDetails.dietary !== undefined && (
+                {method.scoreDetails?.dietary !== undefined && (
                   <li>
                     <span>Dietary:</span>
                     <div className={styles.scoreBar}>
                       <div 
                         className={styles.scoreBarFill} 
-                        style={{width: `${Math.min(100, method.scoreDetails.dietary * 100)}%`}}
+                        style={{width: `${Math.min(100, (method.scoreDetails.dietary || 0) * 100)}%`}}
                       />
                     </div>
-                    <span>{(method.scoreDetails.dietary * 100).toFixed(0)}%</span>
+                    <span>{((method.scoreDetails.dietary || 0) * 100).toFixed(0)}%</span>
                   </li>
                 )}
-                {method.scoreDetails.cultural !== undefined && method.scoreDetails.cultural > 0 && (
+                {method.scoreDetails?.cultural !== undefined && (method.scoreDetails.cultural || 0) > 0 && (
                   <li>
                     <span>Cultural:</span>
                     <div className={styles.scoreBar}>
                       <div 
                         className={styles.scoreBarFill} 
-                        style={{width: `${Math.min(100, method.scoreDetails.cultural * 100)}%`}}
+                        style={{width: `${Math.min(100, (method.scoreDetails.cultural || 0) * 100)}%`}}
                       />
                     </div>
-                    <span>{(method.scoreDetails.cultural * 100).toFixed(0)}%</span>
+                    <span>{((method.scoreDetails.cultural || 0) * 100).toFixed(0)}%</span>
                   </li>
                 )}
-                {method.scoreDetails.lunar !== undefined && method.scoreDetails.lunar > 0 && (
+                {method.scoreDetails?.lunar !== undefined && (method.scoreDetails.lunar || 0) > 0 && (
                   <li>
                     <span>Lunar:</span>
                     <div className={styles.scoreBar}>
                       <div 
                         className={styles.scoreBarFill} 
-                        style={{width: `${Math.min(100, method.scoreDetails.lunar * 100)}%`}}
+                        style={{width: `${Math.min(100, (method.scoreDetails.lunar || 0) * 100)}%`}}
                       />
                     </div>
-                    <span>{(method.scoreDetails.lunar * 100).toFixed(0)}%</span>
+                    <span>{((method.scoreDetails.lunar || 0) * 100).toFixed(0)}%</span>
                   </li>
                 )}
-                {method.scoreDetails.venus !== undefined && method.scoreDetails.venus > 0 && (
+                {method.scoreDetails?.venus !== undefined && (method.scoreDetails.venus || 0) > 0 && (
                   <li>
                     <span>Venus:</span>
                     <div className={styles.scoreBar}>
                       <div 
                         className={styles.scoreBarFill} 
-                        style={{width: `${Math.min(100, method.scoreDetails.venus * 100)}%`}}
+                        style={{width: `${Math.min(100, (method.scoreDetails.venus || 0) * 100)}%`}}
                       />
                     </div>
-                    <span>{(method.scoreDetails.venus * 100).toFixed(0)}%</span>
+                    <span>{((method.scoreDetails.venus || 0) * 100).toFixed(0)}%</span>
                   </li>
                 )}
               </ul>
