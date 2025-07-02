@@ -109,7 +109,279 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
                 "Smooth",
                 "Appealing"
           ],
-          "notes": "Characteristic flavorprofile profile"
+          "notes": "Characteristic flavorprofile profile",
+    culinaryProfile:     {
+          "flavorProfile": {
+                "primary": [
+                      "balanced"
+                ],
+                "secondary": [
+                      "versatile"
+                ],
+                "notes": "Versatile flavorprofile for various uses",
+    culinaryProfile:     {
+          "flavorProfile": {
+                "primary": [
+                      "balanced"
+                ],
+                "secondary": [
+                      "versatile"
+                ],
+                "notes": "Versatile flavorprofile for various uses",
+    culinaryProfile:     {
+          "flavorProfile": {
+                "primary": [
+                      "balanced"
+                ],
+                "secondary": [
+                      "versatile"
+                ],
+                "notes": "Versatile flavorprofile for various uses",
+    culinaryProfile:     {
+          "flavorProfile": {
+                "primary": [
+                      "balanced"
+                ],
+                "secondary": [
+                      "versatile"
+                ],
+                "notes": "Versatile flavorprofile for various uses",
+    culinaryProfile:     {
+          "flavorProfile": {
+                "primary": [
+                      "balanced"
+                ],
+                "secondary": [
+                      "versatile"
+                ],
+                "notes": "Versatile flavorprofile for various uses",
+    culinaryProfile:     {
+          "flavorProfile": {
+                "primary": [
+                      "balanced"
+                ],
+                "secondary": [
+                      "versatile"
+                ],
+                "notes": "Versatile flavorprofile for various uses",
+    culinaryProfile:     {
+          "flavorProfile": {
+                "primary": [
+                      "balanced"
+                ],
+                "secondary": [
+                      "versatile"
+                ],
+                "notes": "Versatile flavorprofile for various uses",
+    culinaryProfile:     {
+          "flavorProfile": {
+                "primary": [
+                      "balanced"
+                ],
+                "secondary": [
+                      "versatile"
+                ],
+                "notes": "Versatile flavorprofile for various uses"
+          },
+          "cookingMethods": [
+                "sautéing",
+                "steaming",
+                "roasting"
+          ],
+          "cuisineAffinity": [
+                "Global",
+                "International"
+          ],
+          "preparationTips": [
+                "Use as needed",
+                "Season to taste"
+          ]
+    },
+    season:     [
+          "year-round"
+    ],
+    preparation:     {
+          "methods": [
+                "standard preparation"
+          ],
+          "timing": "as needed",
+          "notes": "Standard preparation for flavorprofile"
+    },
+          },
+          "cookingMethods": [
+                "sautéing",
+                "steaming",
+                "roasting"
+          ],
+          "cuisineAffinity": [
+                "Global",
+                "International"
+          ],
+          "preparationTips": [
+                "Use as needed",
+                "Season to taste"
+          ]
+    },
+    season:     [
+          "year-round"
+    ],
+    preparation:     {
+          "methods": [
+                "standard preparation"
+          ],
+          "timing": "as needed",
+          "notes": "Standard preparation for flavorprofile"
+    },
+          },
+          "cookingMethods": [
+                "sautéing",
+                "steaming",
+                "roasting"
+          ],
+          "cuisineAffinity": [
+                "Global",
+                "International"
+          ],
+          "preparationTips": [
+                "Use as needed",
+                "Season to taste"
+          ]
+    },
+    season:     [
+          "year-round"
+    ],
+    preparation:     {
+          "methods": [
+                "standard preparation"
+          ],
+          "timing": "as needed",
+          "notes": "Standard preparation for flavorprofile"
+    },
+          },
+          "cookingMethods": [
+                "sautéing",
+                "steaming",
+                "roasting"
+          ],
+          "cuisineAffinity": [
+                "Global",
+                "International"
+          ],
+          "preparationTips": [
+                "Use as needed",
+                "Season to taste"
+          ]
+    },
+    season:     [
+          "year-round"
+    ],
+    preparation:     {
+          "methods": [
+                "standard preparation"
+          ],
+          "timing": "as needed",
+          "notes": "Standard preparation for flavorprofile"
+    },
+          },
+          "cookingMethods": [
+                "sautéing",
+                "steaming",
+                "roasting"
+          ],
+          "cuisineAffinity": [
+                "Global",
+                "International"
+          ],
+          "preparationTips": [
+                "Use as needed",
+                "Season to taste"
+          ]
+    },
+    season:     [
+          "year-round"
+    ],
+    preparation:     {
+          "methods": [
+                "standard preparation"
+          ],
+          "timing": "as needed",
+          "notes": "Standard preparation for flavorprofile"
+    },
+          },
+          "cookingMethods": [
+                "sautéing",
+                "steaming",
+                "roasting"
+          ],
+          "cuisineAffinity": [
+                "Global",
+                "International"
+          ],
+          "preparationTips": [
+                "Use as needed",
+                "Season to taste"
+          ]
+    },
+    season:     [
+          "year-round"
+    ],
+    preparation:     {
+          "methods": [
+                "standard preparation"
+          ],
+          "timing": "as needed",
+          "notes": "Standard preparation for flavorprofile"
+    },
+          },
+          "cookingMethods": [
+                "sautéing",
+                "steaming",
+                "roasting"
+          ],
+          "cuisineAffinity": [
+                "Global",
+                "International"
+          ],
+          "preparationTips": [
+                "Use as needed",
+                "Season to taste"
+          ]
+    },
+    season:     [
+          "year-round"
+    ],
+    preparation:     {
+          "methods": [
+                "standard preparation"
+          ],
+          "timing": "as needed",
+          "notes": "Standard preparation for flavorprofile"
+    },
+          },
+          "cookingMethods": [
+                "sautéing",
+                "steaming",
+                "roasting"
+          ],
+          "cuisineAffinity": [
+                "Global",
+                "International"
+          ],
+          "preparationTips": [
+                "Use as needed",
+                "Season to taste"
+          ]
+    },
+    season:     [
+          "year-round"
+    ],
+    preparation:     {
+          "methods": [
+                "standard preparation"
+          ],
+          "timing": "as needed",
+          "notes": "Standard preparation for flavorprofile"
+    },
     },
     culinaryProfile:     {
           "flavorProfile": {
@@ -321,7 +593,23 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
                 "secondary": [
                       "versatile"
                 ],
-                "notes": "Versatile waning for various uses"
+                "notes": "Versatile waning for various uses",
+    season:     [
+          "year-round"
+    ],
+    preparation:     {
+          "methods": [
+                "standard preparation"
+          ],
+          "timing": "as needed",
+          "notes": "Standard preparation for waning"
+    },
+    storage:     {
+          "temperature": "cool, dry place",
+          "duration": "6-12 months",
+          "container": "airtight container",
+          "notes": "Store in optimal conditions"
+    },
           },
           "cookingMethods": [
                 "sautéing",

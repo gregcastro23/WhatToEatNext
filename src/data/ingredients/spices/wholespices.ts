@@ -197,7 +197,39 @@ const rawWholeSpices = {
                 "secondary": [
                       "versatile"
                 ],
-                "notes": "Versatile flavorprofile for various uses"
+                "notes": "Versatile flavorprofile for various uses",
+    season:     [
+          "year-round"
+    ],
+    preparation:     {
+          "methods": [
+                "standard preparation"
+          ],
+          "timing": "as needed",
+          "notes": "Standard preparation for flavorprofile",
+    season:     [
+          "year-round"
+    ],
+    preparation:     {
+          "methods": [
+                "standard preparation"
+          ],
+          "timing": "as needed",
+          "notes": "Standard preparation for flavorprofile"
+    },
+    storage:     {
+          "temperature": "cool, dry place",
+          "duration": "6-12 months",
+          "container": "airtight container",
+          "notes": "Store in optimal conditions"
+    },
+    },
+    storage:     {
+          "temperature": "cool, dry place",
+          "duration": "6-12 months",
+          "container": "airtight container",
+          "notes": "Store in optimal conditions"
+    },
           },
           "cookingMethods": [
                 "sautéing",
