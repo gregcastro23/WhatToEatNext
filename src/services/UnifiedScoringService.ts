@@ -219,7 +219,7 @@ export function calculateSeasonalEffect(
   
   const itemSeasonality = context.item.seasonality || [];
   
-  if (itemSeasonality.includes(season)) {
+  if (itemSeasonality.includes(season as Season)) {
     return 0.2; // Boost for seasonal items
   } else if (itemSeasonality.length > 0) {
     return -0.1; // Slight penalty for out-of-season items
@@ -246,7 +246,7 @@ export function calculateLocationEffect(
   let score = 0;
   
   for (const influence of locationInfluences) {
-    if (itemRulers.includes(influence.planet)) {
+    if (itemRulers.includes(influence.planet as Planet)) {
       score += (influence.finalInfluence - 1) * 0.1;
     }
   }
@@ -290,7 +290,7 @@ export function calculateAspectEffect(
   const itemRulers = context.item.planetaryRulers || [];
   
   for (const aspect of astroData.aspects) {
-    if (itemRulers.includes(aspect.planet1) || itemRulers.includes(aspect.planet2)) {
+    if (itemRulers.includes(aspect.planet1 as Planet) || itemRulers.includes(aspect.planet2 as Planet)) {
       const aspectStrength = aspect.strength;
       
       switch (aspect.type) {

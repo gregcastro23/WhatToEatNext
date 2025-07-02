@@ -20,7 +20,7 @@ interface ScoringTestItem {
 
 const TEST_ITEMS: ScoringTestItem[] = [
   {
-    name: 'Basil',
+    locality: 'Basil',
     type: 'ingredient',
     elementalProperties: { Fire: 0.3, Water: 0.1, Earth: 0.2, Air: 0.4 },
     seasonality: ['summer', 'spring'],
@@ -28,7 +28,7 @@ const TEST_ITEMS: ScoringTestItem[] = [
     description: 'Fresh herb with Mercury/Mars ruling and strong Air element'
   },
   {
-    name: 'Grilling',
+    locality: 'Grilling',
     type: 'cooking_method',
     elementalProperties: { Fire: 0.8, Water: 0.05, Earth: 0.1, Air: 0.05 },
     seasonality: ['summer'],
@@ -36,7 +36,7 @@ const TEST_ITEMS: ScoringTestItem[] = [
     description: 'High-heat cooking method ruled by Mars and Sun'
   },
   {
-    name: 'Mushroom Risotto',
+    locality: 'Mushroom Risotto',
     type: 'recipe',
     elementalProperties: { Fire: 0.2, Water: 0.3, Earth: 0.4, Air: 0.1 },
     seasonality: ['autumn', 'winter'],
@@ -44,7 +44,7 @@ const TEST_ITEMS: ScoringTestItem[] = [
     description: 'Earthy comfort food with lunar and saturnine influences'
   },
   {
-    name: 'Japanese Cuisine',
+    locality: 'Japanese Cuisine',
     type: 'cuisine',
     elementalProperties: { Fire: 0.15, Water: 0.4, Earth: 0.25, Air: 0.2 },
     seasonality: ['spring', 'summer', 'autumn', 'winter'],
@@ -59,7 +59,7 @@ export default function UnifiedScoringDemo() {
   const [selectedLocation, setSelectedLocation] = useState({
     latitude: 40.7128,
     longitude: -74.0060,
-    name: 'New York City'
+    locality: 'New York City'
   });
   const [debugMode, setDebugMode] = useState(false);
 
@@ -148,10 +148,10 @@ export default function UnifiedScoringDemo() {
               value={selectedLocation.name}
               onChange={(e) => {
                 const locations = {
-                  'New York City': { latitude: 40.7128, longitude: -74.0060, name: 'New York City' },
-                  'Los Angeles': { latitude: 34.0522, longitude: -118.2437, name: 'Los Angeles' },
-                  'Tokyo': { latitude: 35.6762, longitude: 139.6503, name: 'Tokyo' },
-                  'London': { latitude: 51.5074, longitude: -0.1278, name: 'London' }
+                  'New York City': { latitude: 40.7128, longitude: -74.0060, locality: 'New York City' },
+                  'Los Angeles': { latitude: 34.0522, longitude: -118.2437, locality: 'Los Angeles' },
+                  'Tokyo': { latitude: 35.6762, longitude: 139.6503, locality: 'Tokyo' },
+                  'London': { latitude: 51.5074, longitude: -0.1278, locality: 'London' }
                 };
                 setSelectedLocation(locations[e.target.value as keyof typeof locations]);
               }}

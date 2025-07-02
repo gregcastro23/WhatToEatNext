@@ -1,43 +1,43 @@
 {
-  "totalRuns": 17,
+  "totalRuns": 18,
   "successfulRuns": 2,
-  "filesProcessed": 24,
-  "errorsFixed": 66,
+  "filesProcessed": 27,
+  "errorsFixed": 70,
   "errorsEncountered": 0,
-  "corruptionDetected": 10,
+  "corruptionDetected": 11,
   "buildFailures": 8,
-  "averageBatchSize": 15.882352941176471,
+  "averageBatchSize": 15.444444444444445,
   "maxSafeBatchSize": 5,
-  "lastRunTime": "2025-07-02T07:27:11.031Z",
+  "lastRunTime": "2025-07-02T07:30:06.325Z",
   "safetyScore": 0,
   "errorTypeSuccess": {
     "TS2304": {
       "fixed": 4,
-      "attempted": 45
+      "attempted": 46
     },
     "TS2345": {
-      "fixed": 2,
-      "attempted": 42
+      "fixed": 4,
+      "attempted": 47
     },
     "TS2322": {
-      "fixed": 60,
-      "attempted": 293
+      "fixed": 62,
+      "attempted": 343
     },
     "TS2740": {
       "fixed": 0,
-      "attempted": 77
+      "attempted": 82
     },
     "TS2339": {
       "fixed": 0,
-      "attempted": 73
+      "attempted": 77
     },
     "TS2820": {
       "fixed": 0,
-      "attempted": 15
+      "attempted": 16
     },
     "TS2741": {
       "fixed": 0,
-      "attempted": 37
+      "attempted": 40
     },
     "TS2459": {
       "fixed": 0,
@@ -45,7 +45,7 @@
     },
     "TS2352": {
       "fixed": 0,
-      "attempted": 8
+      "attempted": 9
     },
     "TS1005": {
       "fixed": 0,
@@ -73,7 +73,7 @@
     },
     "TS2739": {
       "fixed": 0,
-      "attempted": 2
+      "attempted": 3
     }
   },
   "patternEffectiveness": {
@@ -90,20 +90,20 @@
       "attempts": 32
     },
     "TS2345_string_to_season_type_assertion": {
-      "successes": 1,
-      "attempts": 1
-    },
-    "TS2345_string_to_planet_type_assertion": {
-      "successes": 1,
-      "attempts": 1
-    },
-    "TS2322_geographic_coordinates_name_to_locality": {
       "successes": 2,
       "attempts": 2
+    },
+    "TS2345_string_to_planet_type_assertion": {
+      "successes": 2,
+      "attempts": 2
+    },
+    "TS2322_geographic_coordinates_name_to_locality": {
+      "successes": 4,
+      "attempts": 4
     }
   },
   "performanceMetrics": {
-    "averageFileTime": 19326.333333333332,
-    "totalProcessingTime": 463832
+    "averageFileTime": 18064.555555555555,
+    "totalProcessingTime": 487743
   }
 }

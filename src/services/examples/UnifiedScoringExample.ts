@@ -22,10 +22,10 @@ export class UnifiedScoringExample {
         latitude: 40.7128,
         longitude: -74.0060,
         timezone: 'America/New_York',
-        name: 'New York City'
+        locality: 'New York City'
       },
       item: {
-        name: 'Basil',
+        locality: 'Basil',
         type: 'ingredient',
         elementalProperties: {
           Fire: 0.3,
@@ -70,10 +70,10 @@ export class UnifiedScoringExample {
         latitude: 34.0522,
         longitude: -118.2437,
         timezone: 'America/Los_Angeles',
-        name: 'Los Angeles'
+        locality: 'Los Angeles'
       },
       item: {
-        name: 'Grilling',
+        locality: 'Grilling',
         type: 'cooking_method',
         elementalProperties: {
           Fire: 0.8,
@@ -108,7 +108,7 @@ export class UnifiedScoringExample {
     const context: ScoringContext = {
       dateTime: new Date(),
       item: {
-        name: 'Mushroom Risotto',
+        locality: 'Mushroom Risotto',
         type: 'recipe',
         elementalProperties: {
           Fire: 0.2,
@@ -153,10 +153,10 @@ export class UnifiedScoringExample {
         latitude: 35.6762,
         longitude: 139.6503,
         timezone: 'Asia/Tokyo',
-        name: 'Tokyo'
+        locality: 'Tokyo'
       },
       item: {
-        name: 'Japanese',
+        locality: 'Japanese',
         type: 'cuisine',
         elementalProperties: {
           Fire: 0.15,
@@ -248,7 +248,7 @@ export class UnifiedScoringExample {
     const context: ScoringContext = {
       dateTime: new Date(),
       item: {
-        name: 'Sage',
+        locality: 'Sage',
         type: 'ingredient',
         elementalProperties: { Fire: 0.2, Water: 0.1, Earth: 0.4, Air: 0.3 },
         planetaryRulers: ['Jupiter'],
@@ -274,21 +274,21 @@ export class UnifiedScoringExample {
 
     const items = [
       {
-        name: 'Rosemary',
+        locality: 'Rosemary',
         type: 'ingredient' as const,
         elementalProperties: { Fire: 0.4, Water: 0.1, Earth: 0.3, Air: 0.2 },
         planetaryRulers: ['Sun'],
         seasonality: ['winter']
       },
       {
-        name: 'Thyme',
+        locality: 'Thyme',
         type: 'ingredient' as const,
         elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.2, Air: 0.3 },
         planetaryRulers: ['Venus'],
         seasonality: ['spring', 'summer']
       },
       {
-        name: 'Oregano',
+        locality: 'Oregano',
         type: 'ingredient' as const,
         elementalProperties: { Fire: 0.5, Water: 0.1, Earth: 0.2, Air: 0.2 },
         planetaryRulers: ['Mercury'],
