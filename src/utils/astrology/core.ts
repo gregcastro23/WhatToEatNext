@@ -356,7 +356,9 @@ export async function calculatePlanetaryPositions(date: Date = new Date()): Prom
     return positions;
   } catch (error) {
     errorLog('Error calculating planetary positions:', error instanceof Error ? error.message : String(error));
-    return (await getLatestAstrologicalState()).planetaryPositions as Record<string, PlanetaryPosition> || {};
+    const response = await getLatestAstrologicalState();
+    const fallbackPositions = response.data?.planetaryPositions || {};
+    return normalizePlanetaryPositions(fallbackPositions);
   }
 }
 

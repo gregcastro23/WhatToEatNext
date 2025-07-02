@@ -68,7 +68,7 @@ export async function validatePlanetaryPositions(positions?: Record<string, unkn
     const astrologicalState = await getLatestAstrologicalState();
     Object.entries(REFERENCE_POSITIONS).forEach(([planet, refPosition]) => {
       // Get the calculated position for this planet
-      const calculated = astrologicalState.planetaryPositions[planet];
+      const calculated = astrologicalState.data?.planetaryPositions[planet];
       
       if (!calculated) {
         diff[planet] = { status: 'missing' };

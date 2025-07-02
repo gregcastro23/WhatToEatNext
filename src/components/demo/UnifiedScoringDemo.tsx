@@ -20,7 +20,7 @@ interface ScoringTestItem {
 
 const TEST_ITEMS: ScoringTestItem[] = [
   {
-    locality: 'Basil',
+    name: 'Basil',
     type: 'ingredient',
     elementalProperties: { Fire: 0.3, Water: 0.1, Earth: 0.2, Air: 0.4 },
     seasonality: ['summer', 'spring'],
@@ -28,7 +28,7 @@ const TEST_ITEMS: ScoringTestItem[] = [
     description: 'Fresh herb with Mercury/Mars ruling and strong Air element'
   },
   {
-    locality: 'Grilling',
+    name: 'Grilling',
     type: 'cooking_method',
     elementalProperties: { Fire: 0.8, Water: 0.05, Earth: 0.1, Air: 0.05 },
     seasonality: ['summer'],
@@ -36,7 +36,7 @@ const TEST_ITEMS: ScoringTestItem[] = [
     description: 'High-heat cooking method ruled by Mars and Sun'
   },
   {
-    locality: 'Mushroom Risotto',
+    name: 'Mushroom Risotto',
     type: 'recipe',
     elementalProperties: { Fire: 0.2, Water: 0.3, Earth: 0.4, Air: 0.1 },
     seasonality: ['autumn', 'winter'],
@@ -44,7 +44,7 @@ const TEST_ITEMS: ScoringTestItem[] = [
     description: 'Earthy comfort food with lunar and saturnine influences'
   },
   {
-    locality: 'Japanese Cuisine',
+    name: 'Japanese Cuisine',
     type: 'cuisine',
     elementalProperties: { Fire: 0.15, Water: 0.4, Earth: 0.25, Air: 0.2 },
     seasonality: ['spring', 'summer', 'autumn', 'winter'],
@@ -75,8 +75,7 @@ export default function UnifiedScoringDemo() {
             location: {
               latitude: selectedLocation.latitude,
               longitude: selectedLocation.longitude,
-              timezone: 'America/New_York',
-              name: selectedLocation.name
+              timezone: 'America/New_York'
             },
             item: {
               name: item.name,
@@ -145,7 +144,7 @@ export default function UnifiedScoringDemo() {
           <div className="flex items-center gap-2">
             <label className="text-sm font-medium">Location:</label>
             <select
-              value={selectedLocation.name}
+              value={selectedLocation.locality}
               onChange={(e) => {
                 const locations = {
                   'New York City': { latitude: 40.7128, longitude: -74.0060, locality: 'New York City' },

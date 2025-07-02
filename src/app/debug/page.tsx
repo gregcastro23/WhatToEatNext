@@ -1,7 +1,13 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { AlchemicalProvider } from '@/contexts/AlchemicalContext/provider';
+import { AstrologicalProvider } from '@/context/AstrologicalContext';
 import { testCookingMethodRecommendations } from '../../utils/testRecommendations';
+
+// Import debug components
+import { StateInspector } from '@/components/debug/StateInspector';
+import { DebugHub } from '@/components/debug/DebugHub';
 
 interface TestIngredient {
   name: string;
@@ -15,7 +21,25 @@ interface TestResult {
   standardRecommendations: Array<{ method: string, compatibility: number }>;
 }
 
-export default function DebugPage() {
+function ClientOnly({ children }: { children: React.ReactNode }) {
+  const [hasMounted, setHasMounted] = useState(false);
+  
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
+  
+  if (!hasMounted) {
+    return (
+      <div className="text-center p-4">
+        <p>Loading debug tools...</p>
+      </div>
+    );
+  }
+  
+  return <>{children}</>;
+}
+
+function DebugContent() {
   const [testResults, setTestResults] = useState<TestResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -38,11 +62,22 @@ export default function DebugPage() {
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-6">Debug Tools</h1>
+    <div className="container mx-auto p-4 space-y-6">
+      <h1 className="text-3xl font-bold mb-6">Debug Tools</h1>
       
+      {/* State Inspector */}
+      <div className="mb-6">
+        <StateInspector />
+      </div>
+      
+      {/* Comprehensive Debug Hub */}
+      <div className="mb-6">
+        <DebugHub />
+      </div>
+      
+      {/* Legacy Debug Tools */}
       <div className="p-4 bg-white dark:bg-gray-800 rounded shadow">
-        <h2 className="text-xl font-bold mb-4">Alchemical Debug Tools</h2>
+        <h2 className="text-xl font-bold mb-4">Legacy Debug Tools</h2>
         
         <div className="mb-4">
           <button 
@@ -96,5 +131,17 @@ export default function DebugPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function DebugPage() {
+  return (
+    <AlchemicalProvider>
+      <AstrologicalProvider>
+        <ClientOnly>
+          <DebugContent />
+        </ClientOnly>
+      </AstrologicalProvider>
+    </AlchemicalProvider>
   );
 } 

@@ -157,7 +157,8 @@ export const CurrentChartProvider: React.FC<{children: React.ReactNode}> = ({ ch
         console.log('Using positions from AlchemicalContext');
       } else {
         try {
-          positions = (await getLatestAstrologicalState()).planetaryPositions;
+          const response = await getLatestAstrologicalState();
+          positions = response.data?.planetaryPositions || {};
           console.log('Successfully calculated planetary positions');
         } catch (posError) {
           console.error('Error calculating planetary positions:', posError);

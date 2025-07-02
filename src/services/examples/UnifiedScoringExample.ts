@@ -25,7 +25,7 @@ export class UnifiedScoringExample {
         locality: 'New York City'
       },
       item: {
-        locality: 'Basil',
+        name: 'Basil',
         type: 'ingredient',
         elementalProperties: {
           Fire: 0.3,
@@ -73,7 +73,7 @@ export class UnifiedScoringExample {
         locality: 'Los Angeles'
       },
       item: {
-        locality: 'Grilling',
+        name: 'Grilling',
         type: 'cooking_method',
         elementalProperties: {
           Fire: 0.8,
@@ -108,7 +108,7 @@ export class UnifiedScoringExample {
     const context: ScoringContext = {
       dateTime: new Date(),
       item: {
-        locality: 'Mushroom Risotto',
+        name: 'Mushroom Risotto',
         type: 'recipe',
         elementalProperties: {
           Fire: 0.2,
@@ -127,8 +127,8 @@ export class UnifiedScoringExample {
         culturalOrigins: ['Italian']
       },
       preferences: {
-        dietaryRestrictions: ['vegetarian'],
-        culturalPreferences: ['Italian', 'European'],
+        dietaryRestrictions: ['Vegetarian'],
+        culturalPreferences: ['Italian', 'Mediterranean'],
         intensityPreference: 'moderate',
         complexityPreference: 'complex'
       },
@@ -156,7 +156,7 @@ export class UnifiedScoringExample {
         locality: 'Tokyo'
       },
       item: {
-        locality: 'Japanese',
+        name: 'Japanese',
         type: 'cuisine',
         elementalProperties: {
           Fire: 0.15,
@@ -248,7 +248,7 @@ export class UnifiedScoringExample {
     const context: ScoringContext = {
       dateTime: new Date(),
       item: {
-        locality: 'Sage',
+        name: 'Sage',
         type: 'ingredient',
         elementalProperties: { Fire: 0.2, Water: 0.1, Earth: 0.4, Air: 0.3 },
         planetaryRulers: ['Jupiter'],
@@ -274,21 +274,21 @@ export class UnifiedScoringExample {
 
     const items = [
       {
-        locality: 'Rosemary',
+        name: 'Rosemary',
         type: 'ingredient' as const,
         elementalProperties: { Fire: 0.4, Water: 0.1, Earth: 0.3, Air: 0.2 },
         planetaryRulers: ['Sun'],
         seasonality: ['winter']
       },
       {
-        locality: 'Thyme',
+        name: 'Thyme',
         type: 'ingredient' as const,
         elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.2, Air: 0.3 },
         planetaryRulers: ['Venus'],
         seasonality: ['spring', 'summer']
       },
       {
-        locality: 'Oregano',
+        name: 'Oregano',
         type: 'ingredient' as const,
         elementalProperties: { Fire: 0.5, Water: 0.1, Earth: 0.2, Air: 0.2 },
         planetaryRulers: ['Mercury'],
@@ -301,7 +301,7 @@ export class UnifiedScoringExample {
     for (const item of items) {
       const context: ScoringContext = {
         ...baseContext,
-        item
+        item: item as any
       };
       
       const result = await scoreRecommendation(context);

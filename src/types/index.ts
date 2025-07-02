@@ -138,6 +138,8 @@ export * from './seasonal';
 export * from './cuisine';
 export * from './chakra';
 export * from './astrology';
+// Explicitly re-export PlanetaryPositions from astrological to resolve ambiguity
+export { PlanetaryPositions as AstrologicalPlanetaryPositions } from './astrological';
 export * from './astrological';
 export * from './ingredient-compatibility';
 export * from './utils';

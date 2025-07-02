@@ -109,14 +109,14 @@ export class AlchemicalRecommendationService {
         try {
           const context = {
             dateTime: new Date(),
-            item: {
+            data: {
               name: ingredient.name,
-              type: 'ingredient' as const,
+              type: "ingredient" as const,
               elementalProperties: ingredient.elementalProperties,
-              seasonality: ingredient.seasonality || [],
+              seasonality: ingredient.season || [],
               planetaryRulers: ingredient.astrologicalProfile?.rulingPlanets || [],
-              flavorProfile: ingredient.flavorProfile || {},
-              culturalOrigins: ingredient.culturalOrigins || []
+              flavorProfile: ingredient.culinaryProfile?.flavorProfile || {},
+              culturalOrigins: ingredient.origin || []
             }
           };
           

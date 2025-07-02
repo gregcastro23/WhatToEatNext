@@ -266,4 +266,11 @@ export type AllCuisineTypes = PrimaryCuisineType | keyof typeof CUISINE_ALIASES;
 /**
  * Type for cuisine alias mapping
  */
-export type CuisineAliasMap = typeof CUISINE_ALIASES; 
+export type CuisineAliasMap = typeof CUISINE_ALIASES;
+
+// ========== TYPE ALIASES FOR BACKWARDS COMPATIBILITY ==========
+
+/**
+ * CuisineType alias for backwards compatibility
+ */
+export type CuisineType = PrimaryCuisineType; 

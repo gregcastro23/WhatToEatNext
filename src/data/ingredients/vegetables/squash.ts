@@ -105,6 +105,7 @@ const rawSquash = {
       "Earth": 0.032703628178985034,
       "Air": 0.034665845869724134
     },
+    "astrologicalProfile": {},
     "category": "vegetable",
     "subCategory": "squash",
     "nutritionalProfile": {
@@ -193,6 +194,33 @@ const rawSquash = {
       "Fire": 0.2,
       "Air": 0.1
     },
+    "astrologicalProfile": {
+      "rulingPlanets": [
+        "Venus",
+        "Moon"
+      ],
+      "favorableZodiac": [
+        "taurus",
+        "cancer"
+      ],
+      "elementalAffinity": {
+        "base": "Earth",
+        "decanModifiers": {
+          "first": {
+            "element": "Earth",
+            "planet": "Venus"
+          },
+          "second": {
+            "element": "Water",
+            "planet": "Moon"
+          },
+          "third": {
+            "element": "Fire",
+            "planet": "Sun"
+          }
+        }
+      }
+    },
     "qualities": [
       "warming",
       "grounding",
@@ -260,6 +288,33 @@ const rawSquash = {
       "Water": 0.3,
       "Fire": 0.2,
       "Air": 0.1
+    },
+    "astrologicalProfile": {
+      "rulingPlanets": [
+        "Saturn",
+        "Venus"
+      ],
+      "favorableZodiac": [
+        "capricorn",
+        "taurus"
+      ],
+      "elementalAffinity": {
+        "base": "Earth",
+        "decanModifiers": {
+          "first": {
+            "element": "Earth",
+            "planet": "Saturn"
+          },
+          "second": {
+            "element": "Water",
+            "planet": "Venus"
+          },
+          "third": {
+            "element": "Fire",
+            "planet": "Mars"
+          }
+        }
+      }
     },
     "qualities": [
       "warming",

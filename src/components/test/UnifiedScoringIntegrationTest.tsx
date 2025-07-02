@@ -11,6 +11,7 @@ const SAMPLE_INGREDIENTS: UnifiedIngredient[] = [
   {
     name: 'Basil',
     elementalProperties: { Fire: 0.3, Water: 0.1, Earth: 0.2, Air: 0.4 },
+    alchemicalProperties: { Spirit: 0.3, Essence: 0.4, Matter: 0.2, Substance: 0.1 },
     seasonality: ['summer', 'spring'] as Season[],
     astrologicalProfile: {
       rulingPlanets: ['Mercury', 'Mars'] as Planet[]
@@ -22,6 +23,7 @@ const SAMPLE_INGREDIENTS: UnifiedIngredient[] = [
   {
     name: 'Garlic',
     elementalProperties: { Fire: 0.6, Water: 0.1, Earth: 0.1, Air: 0.2 },
+    alchemicalProperties: { Spirit: 0.6, Essence: 0.1, Matter: 0.1, Substance: 0.2 },
     seasonality: ['all'] as Season[],
     astrologicalProfile: {
       rulingPlanets: ['Mars', 'Pluto'] as Planet[]
@@ -33,6 +35,7 @@ const SAMPLE_INGREDIENTS: UnifiedIngredient[] = [
   {
     name: 'Ginger',
     elementalProperties: { Fire: 0.7, Water: 0.1, Earth: 0.1, Air: 0.1 },
+    alchemicalProperties: { Spirit: 0.7, Essence: 0.1, Matter: 0.1, Substance: 0.1 },
     seasonality: ['all'] as Season[],
     astrologicalProfile: {
       rulingPlanets: ['Mars', 'Sun'] as Planet[]

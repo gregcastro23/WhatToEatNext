@@ -35,17 +35,22 @@ export default function AlchmKitchen() {
     const { elementalState, alchemicalValues, astrologicalState } = state;
 
     // Current Sun sign from astrologicalState
-    const currentSign = astrologicalState?.sunSign || 'unknown';
+    const currentSign = astrologicalState?.sunSign || astrologicalState?.currentZodiac || 'unknown';
     // Planetary hour from astrologicalState
     const planetaryHour = astrologicalState?.planetaryHour || 'Unknown';
     // Lunar phase from astrologicalState
     const lunarPhase = astrologicalState?.lunarPhase || 'Unknown';
 
+    // Mount effect - runs only once
     useEffect(() => {
         setMounted(true);
-        if (renderCount === 0) {
-            setRenderCount(prev => prev + 1);
-        }
+        setRenderCount(1);
+        logger.debug('AlchmKitchen component mounted');
+    }, []); // Empty deps array - runs only once
+
+    // Data fetching effect - depends on planetary positions
+    useEffect(() => {
+        if (!mounted) return; // Don't fetch until mounted
         
         const fetchData = async () => {
             try {
@@ -54,9 +59,9 @@ export default function AlchmKitchen() {
                 
                 // Get current tarot cards
                 const currentDate = new Date();
-                const cards = getTarotCardsForDate(currentDate, planetaryPositions.sun && {
-                    sign: (planetaryPositions.sun as any)?.sign || 'aries',
-                    degree: (planetaryPositions.sun as any)?.degree || 0
+                const cards = getTarotCardsForDate(currentDate, planetaryPositions.Sun && {
+                    sign: (planetaryPositions.Sun as any)?.sign || 'aries',
+                    degree: (planetaryPositions.Sun as any)?.degree || 0
                 });
                 
                 // Get recipes based on tarot cards
@@ -85,11 +90,7 @@ export default function AlchmKitchen() {
         };
 
         fetchData();
-        
-        return () => {
-            logger.debug('AlchmKitchen component unmounting');
-        };
-    }, [planetaryPositions.sun, currentSign, planetaryHour, renderCount]);
+    }, [mounted, planetaryPositions.Sun, currentSign]); // Removed renderCount from deps
 
     if (error) {
         return <div className={styles.error}>Error: {error}</div>;
@@ -101,7 +102,7 @@ export default function AlchmKitchen() {
         Water: Math.round(elementalState.Water * 100),
         Earth: Math.round(elementalState.Earth * 100),
         Air: Math.round(elementalState.Air * 100)
-    } : { Fire: 0, Water: 0, Earth: 0, Air: 0 };
+    } : { Fire: 32, Water: 28, Earth: 18, Air: 22 }; // Use default values if no state
 
     return (
         <div className={styles.container}>
@@ -139,10 +140,10 @@ export default function AlchmKitchen() {
                 <div>Planetary Hour: {planetaryHour as string}</div>
                 <div>Lunar Phase: {lunarPhase}</div>
                 <h4>Alchemical Tokens:</h4>
-                <div>⦿ Spirit: {alchemicalValues?.Spirit.toFixed(4) || '0.0000'}</div>
-                <div>⦿ Essence: {alchemicalValues?.Essence.toFixed(4) || '0.0000'}</div>
-                <div>⦿ Matter: {alchemicalValues?.Matter.toFixed(4) || '0.0000'}</div>
-                <div>⦿ Substance: {alchemicalValues?.Substance.toFixed(4) || '0.0000'}</div>
+                <div>⦿ Spirit: {alchemicalValues?.Spirit?.toFixed(4) || '0.0000'}</div>
+                <div>⦿ Essence: {alchemicalValues?.Essence?.toFixed(4) || '0.0000'}</div>
+                <div>⦿ Matter: {alchemicalValues?.Matter?.toFixed(4) || '0.0000'}</div>
+                <div>⦿ Substance: {alchemicalValues?.Substance?.toFixed(4) || '0.0000'}</div>
                 <h4>Elemental Balance:</h4>
                 <div>Fire: {elementalBalance.Fire}%</div>
                 <div>Water: {elementalBalance.Water}%</div>

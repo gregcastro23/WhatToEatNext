@@ -24,7 +24,7 @@ export function enrichIngredientsWithFlavorProfiles(
 
 // Mapping of common ingredient names to their flavor profiles
 // Values should be between 0-1, where 0 is none of that flavor and 1 is maximum intensity
-const ingredientFlavorMap: Record<string, IngredientFlavorProfile> = {
+const ingredientFlavorMap: Record<string, IngredientFlavorProfile & Record<string, any>> = {
   // Vegetables
   "onion": {
     spicy: 0.4,
@@ -2554,7 +2554,16 @@ export function getFlavorProfileForIngredient(ingredientName: string): Ingredien
   
   // Check for exact match
   if (ingredientFlavorMap[ingredientName.toLowerCase()]) {
-    return ingredientFlavorMap[ingredientName.toLowerCase()];
+    const fullIngredient = ingredientFlavorMap[ingredientName.toLowerCase()];
+    // Extract only the flavor profile properties to match IngredientFlavorProfile interface
+    return {
+      spicy: fullIngredient.spicy,
+      sweet: fullIngredient.sweet,
+      sour: fullIngredient.sour,
+      bitter: fullIngredient.bitter,
+      salty: fullIngredient.salty,
+      umami: fullIngredient.umami
+    };
   }
   
   // Try to find partial matches
@@ -2564,7 +2573,15 @@ export function getFlavorProfileForIngredient(ingredientName: string): Ingredien
       nameLower.includes(key.toLowerCase()) || 
       key.toLowerCase().includes(nameLower)
     ) {
-      return profile;
+      // Extract only the flavor profile properties to match IngredientFlavorProfile interface
+      return {
+        spicy: profile.spicy,
+        sweet: profile.sweet,
+        sour: profile.sour,
+        bitter: profile.bitter,
+        salty: profile.salty,
+        umami: profile.umami
+      };
     }
   }
   

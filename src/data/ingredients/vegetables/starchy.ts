@@ -10,6 +10,37 @@ const rawStarchyVegetables = {
       "Fire": 0.1,
       "Air": 0.05
     },
+    "astrologicalProfile": {
+      "rulingPlanets": [
+        "Saturn",
+        "Moon"
+      ],
+      "favorableZodiac": [
+        "taurus",
+        "capricorn",
+        "cancer"
+      ],
+      "elementalAffinity": {
+        "base": "Earth",
+        "decanModifiers": {
+          "first": {
+            "element": "Earth",
+            "planet": "Saturn",
+            "influence": 0.7
+          },
+          "second": {
+            "element": "Water",
+            "planet": "Moon",
+            "influence": 0.5
+          },
+          "third": {
+            "element": "Earth",
+            "planet": "Saturn",
+            "influence": 0.6
+          }
+        }
+      }
+    },
     "category": "vegetable",
     "subCategory": "starchy",
     "qualities": ["filling", "versatile", "hearty", "comforting"],
@@ -48,6 +79,37 @@ const rawStarchyVegetables = {
       "Fire": 0.3,
       "Water": 0.15,
       "Air": 0.05
+    },
+    "astrologicalProfile": {
+      "rulingPlanets": [
+        "Jupiter",
+        "Sun"
+      ],
+      "favorableZodiac": [
+        "sagittarius",
+        "leo",
+        "taurus"
+      ],
+      "elementalAffinity": {
+        "base": "Earth",
+        "decanModifiers": {
+          "first": {
+            "element": "Fire",
+            "planet": "Sun",
+            "influence": 0.6
+          },
+          "second": {
+            "element": "Earth",
+            "planet": "Jupiter",
+            "influence": 0.7
+          },
+          "third": {
+            "element": "Fire",
+            "planet": "Sun",
+            "influence": 0.5
+          }
+        }
+      }
     },
     "category": "vegetable",
     "subCategory": "starchy",
@@ -88,6 +150,37 @@ const rawStarchyVegetables = {
       "Earth": 0.025780554575838496,
       "Air": 0.03369946759375892
     },
+    "astrologicalProfile": {
+      "rulingPlanets": [
+        "Venus",
+        "Mercury"
+      ],
+      "favorableZodiac": [
+        "gemini",
+        "libra",
+        "taurus"
+      ],
+      "elementalAffinity": {
+        "base": "Fire",
+        "decanModifiers": {
+          "first": {
+            "element": "Fire",
+            "planet": "Venus",
+            "influence": 0.7
+          },
+          "second": {
+            "element": "Air",
+            "planet": "Mercury",
+            "influence": 0.6
+          },
+          "third": {
+            "element": "Fire",
+            "planet": "Venus",
+            "influence": 0.6
+          }
+        }
+      }
+    },
     "category": "vegetable",
     "subCategory": "starchy",
     "nutritionalProfile": {
@@ -122,4 +215,4 @@ const rawStarchyVegetables = {
 };
 
 // Fix the ingredient mappings to ensure they have all required properties
-export const starchyVegetables: Record<string, IngredientMapping> = fixIngredientMappings(rawStarchyVegetables); 
+export const starchyVegetables: Record<string, IngredientMapping> = fixIngredientMappings(rawStarchyVegetables as unknown as Record<string, Partial<IngredientMapping>>); 

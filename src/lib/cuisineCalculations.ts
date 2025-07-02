@@ -1,4 +1,4 @@
-import { Cuisine } from '@/components/CuisineRecommender';
+import { Cuisine } from '@/types/culinary';
 import { culinaryTraditions } from '@/data/cuisines/culinaryTraditions';
 
 export interface CuisineRecommendation extends Cuisine {

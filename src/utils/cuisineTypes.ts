@@ -70,7 +70,7 @@ export function isRegionalCuisine(cuisine: CompleteCuisineType): cuisine is Regi
     // African Regional
     'Ethiopian', 'Nigerian', 'Ghanaian', 'Kenyan', 'SouthAfrican',
     // Mediterranean Regional
-    'Greek', 'Cypriot', 'Maltese',
+    'Cypriot', 'Maltese',
     // Russian Regional
     'Moscow', 'StPetersburg', 'Siberian', 'Caucasian', 'CentralAsian'
   ];
@@ -205,7 +205,7 @@ export function getPrimaryCuisineFromRegional(regional: RegionalCuisineType): Pr
     // African Regional
     'Ethiopian': 'African', 'Nigerian': 'African', 'Ghanaian': 'African', 'Kenyan': 'African', 'SouthAfrican': 'African',
     // Mediterranean Regional
-    'Greek': 'Mediterranean', 'Cypriot': 'Mediterranean', 'Maltese': 'Mediterranean',
+    'Cypriot': 'Mediterranean', 'Maltese': 'Mediterranean',
     // Russian Regional
     'Moscow': 'Russian', 'StPetersburg': 'Russian', 'Siberian': 'Russian', 'Caucasian': 'Russian', 'CentralAsian': 'Russian'
   };
@@ -226,12 +226,13 @@ export function getRegionalCuisinesForPrimary(primary: PrimaryCuisineType): Regi
     'Vietnamese': ['Hanoi', 'Saigon', 'Hue'],
     'Italian': ['Tuscan', 'Sicilian', 'Lombard', 'Venetian', 'Roman', 'Neapolitan', 'Piedmontese', 'Ligurian', 'Emilian', 'Sardinian'],
     'French': ['Provencal', 'Norman', 'Alsatian', 'Lyonnais', 'Bordeaux', 'Burgundian', 'Breton'],
+    'Greek': [],
     'Spanish': ['Catalan', 'Andalusian', 'Basque', 'Galician', 'Valencian', 'Castilian'],
     'Mexican': ['Yucatecan', 'Oaxacan', 'Poblano', 'Veracruzano', 'Jaliscan', 'Sonoran'],
     'American': ['Southern', 'NewEngland', 'Californian', 'TexMex', 'Cajun', 'Creole', 'Southwestern', 'Midwestern', 'PacificNorthwest'],
     'Middle-Eastern': ['Lebanese', 'Syrian', 'Jordanian', 'Palestinian', 'Iraqi', 'Iranian', 'Turkish', 'Egyptian', 'Moroccan', 'Tunisian', 'Algerian', 'Libyan'],
     'African': ['Ethiopian', 'Nigerian', 'Ghanaian', 'Kenyan', 'SouthAfrican'],
-    'Mediterranean': ['Greek', 'Cypriot', 'Maltese'],
+    'Mediterranean': ['Cypriot', 'Maltese'],
     'Russian': ['Moscow', 'StPetersburg', 'Siberian', 'Caucasian', 'CentralAsian'],
     'Fusion': []
   };

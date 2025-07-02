@@ -122,8 +122,21 @@ export class EnhancedRecommendationService {
       // Enhance each recommendation with additional data including unified flavor system
       const enhancedRecommendations = await Promise.all(
         baseRecommendations.slice(0, 20).map(async (ingredient) => {
+          // Create a proper EnhancedIngredient from the base recommendation
+          const enhancedIngredient: EnhancedIngredient = {
+            name: ingredient.name || 'Unknown',
+            astrologicalProfile: (ingredient as any)?.astrologicalProfile || {},
+            elementalPropertiesState: ingredient.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+            score: (ingredient as any)?.score || 0.5,
+            // Add missing required properties for EnhancedIngredient
+            amount: (ingredient as any)?.amount || 1,
+            unit: (ingredient as any)?.unit || 'serving',
+            element: (ingredient as any)?.element || 'Air',
+            ...ingredient
+          };
+          
           return await this.enhanceRecommendation(
-            ingredient as { name?: string; astrologicalProfile?: unknown; [key: string]: unknown },
+            enhancedIngredient,
             chakraEnergyStates,
             tarotGuidance,
             astroState,

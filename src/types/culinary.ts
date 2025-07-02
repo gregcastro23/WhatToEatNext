@@ -141,7 +141,7 @@ export type RegionalCuisineType =
   // African Regional
   | 'Ethiopian' | 'Nigerian' | 'Ghanaian' | 'Kenyan' | 'SouthAfrican'
   // Mediterranean Regional
-  | 'Greek' | 'Cypriot' | 'Maltese'
+  | 'Cypriot' | 'Maltese'
   // Russian Regional
   | 'Moscow' | 'StPetersburg' | 'Siberian' | 'Caucasian' | 'CentralAsian';
 
@@ -555,4 +555,75 @@ export interface CuisinePairing {
   commonIngredients: string[];
   fusionOpportunities: string[];
   culturalNotes: string;
-} 
+}
+
+// ========== MISSING TYPE EXPORTS ==========
+
+/**
+ * Cuisine Type - Primary Export
+ * Used by components for cuisine selection and filtering
+ */
+export type Cuisine = CompleteCuisineType;
+
+/**
+ * Cooking Method Types
+ * Comprehensive cooking methods for recipe classification
+ */
+export type CookingMethodType = 
+  | 'grilling' | 'roasting' | 'baking' | 'braising' | 'steaming' 
+  | 'sautéing' | 'frying' | 'poaching' | 'stewing' | 'smoking'
+  | 'sous-vide' | 'blanching' | 'broiling' | 'slow-cooking'
+  | 'pressure-cooking' | 'fermenting' | 'curing' | 'pickling'
+  | 'dehydrating' | 'caramelizing' | 'flambéing' | 'confit'
+  | 'emulsifying' | 'tempering' | 'marinating' | 'brining';
+
+/**
+ * Flavor Intensity Levels
+ * Used for matching flavors to user preferences
+ */
+export type FlavorIntensity = 'mild' | 'moderate' | 'strong' | 'intense';
+
+/**
+ * Dietary Classification Types
+ * Used for dietary restriction filtering
+ */
+export type DietaryClassification = 
+  | 'omnivore' | 'vegetarian' | 'vegan' | 'pescatarian' | 'flexitarian'
+  | 'gluten-free' | 'dairy-free' | 'nut-free' | 'low-carb' | 'keto'
+  | 'paleo' | 'whole30' | 'raw-food' | 'halal' | 'kosher';
+
+/**
+ * Recipe Difficulty Levels
+ * Used for skill-based recipe filtering
+ */
+export type RecipeDifficulty = 'beginner' | 'intermediate' | 'advanced' | 'expert';
+
+/**
+ * Meal Type Categories
+ * Used for time-based recipe recommendations
+ */
+export type MealType = 
+  | 'breakfast' | 'brunch' | 'lunch' | 'dinner' | 'snack' 
+  | 'appetizer' | 'dessert' | 'beverage' | 'late-night';
+
+/**
+ * Course Type Categories
+ * Used for menu planning and recipe organization
+ */
+export type CourseType = 
+  | 'amuse-bouche' | 'appetizer' | 'soup' | 'salad' | 'main-course'
+  | 'side-dish' | 'palate-cleanser' | 'dessert' | 'mignardises'
+  | 'cheese-course' | 'digestif';
+
+/**
+ * Dish Type Categories
+ * Used for recipe classification and searching
+ */
+export type DishType = 
+  | 'soup' | 'salad' | 'sandwich' | 'pasta' | 'pizza' | 'stir-fry'
+  | 'casserole' | 'curry' | 'stew' | 'roast' | 'grill' | 'bake'
+  | 'noodles' | 'rice-dish' | 'bread' | 'cake' | 'pie' | 'smoothie'
+  | 'cocktail' | 'marinade' | 'sauce' | 'dressing' | 'dip';
+
+// Re-export CuisineType from cuisineAliases for backwards compatibility
+export type { PrimaryCuisineType as CuisineType } from './cuisineAliases'; 

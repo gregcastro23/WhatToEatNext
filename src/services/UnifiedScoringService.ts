@@ -32,6 +32,13 @@ import type {
 
 // ==================== INTERFACES ====================
 
+export interface ScoringWeights {
+  ingredient: number;
+  recipe: number;
+  cuisine: number;
+  cooking_method: number;
+}
+
 /**
  * Breakdown of all scoring factors
  */
@@ -614,15 +621,43 @@ export class UnifiedScoringService {
    * Get fallback astrological data
    */
   private async getFallbackAstrologicalData(context: ScoringContext): Promise<Partial<AstrologicalData>> {
+    // Current planetary positions for July 2, 2025 (from alchemizer API)
+    const defaultPlanetaryPositions: Record<Planet, PlanetaryPosition> = {
+      Sun: { sign: 'cancer', degree: 11 },
+      Moon: { sign: 'libra', degree: 9 },
+      Mercury: { sign: 'leo', degree: 6 },
+      Venus: { sign: 'taurus', degree: 27 },
+      Mars: { sign: 'virgo', degree: 8 },
+      Jupiter: { sign: 'cancer', degree: 5 },
+      Saturn: { sign: 'aries', degree: 1 },
+      Uranus: { sign: 'taurus', degree: 29 },
+      Neptune: { sign: 'aries', degree: 2 },
+      Pluto: { sign: 'aquarius', degree: 3 },
+      Ascendant: { sign: 'libra', degree: 15 } // Placeholder ascendant
+    };
+
+    const defaultDignity: Record<Planet, number> = {
+      Sun: 0.5,
+      Moon: 0.5,
+      Mercury: 0.5,
+      Venus: 0.5,
+      Mars: 0.5,
+      Jupiter: 0.5,
+      Saturn: 0.5,
+      Uranus: 0.5,
+      Neptune: 0.5,
+      Pluto: 0.5,
+      Ascendant: 0.5
+    };
+
     return {
-      planetaryPositions: context.planetaryPositions || {},
-      aspects: (context.aspects || []).map(aspect => ({
-        ...aspect,
-        strength: 0.5 // Default strength for fallback data
-      })),
+      planetaryPositions: defaultPlanetaryPositions,
+      dignity: defaultDignity,
+      lunarPhase: { name: 'new moon', illumination: 0.1, effect: 'New Beginnings' },
+      aspects: [],
       transits: { active: [], seasonal: {} },
-      lunarPhase: { name: 'Unknown', illumination: 0.5, effect: 'Neutral' },
-      dignity: {}
+      source: 'fallback',
+      confidence: 0.2
     };
   }
   
@@ -630,13 +665,42 @@ export class UnifiedScoringService {
    * Get minimal fallback data when all else fails
    */
   private getMinimalFallbackData(context: ScoringContext): AstrologicalData {
+    // Current planetary positions for July 2, 2025 (from alchemizer API)
+    const defaultPlanetaryPositions: Record<Planet, PlanetaryPosition> = {
+      Sun: { sign: 'cancer', degree: 11 },
+      Moon: { sign: 'libra', degree: 9 },
+      Mercury: { sign: 'leo', degree: 6 },
+      Venus: { sign: 'taurus', degree: 27 },
+      Mars: { sign: 'virgo', degree: 8 },
+      Jupiter: { sign: 'cancer', degree: 5 },
+      Saturn: { sign: 'aries', degree: 1 },
+      Uranus: { sign: 'taurus', degree: 29 },
+      Neptune: { sign: 'aries', degree: 2 },
+      Pluto: { sign: 'aquarius', degree: 3 },
+      Ascendant: { sign: 'libra', degree: 15 } // Placeholder ascendant
+    };
+
+    const defaultDignity: Record<Planet, number> = {
+      Sun: 0.5,
+      Moon: 0.5,
+      Mercury: 0.5,
+      Venus: 0.5,
+      Mars: 0.5,
+      Jupiter: 0.5,
+      Saturn: 0.5,
+      Uranus: 0.5,
+      Neptune: 0.5,
+      Pluto: 0.5,
+      Ascendant: 0.5
+    };
+
     return {
-      planetaryPositions: {},
+      planetaryPositions: defaultPlanetaryPositions,
+      dignity: defaultDignity,
+      lunarPhase: { name: 'new moon', illumination: 0.1, effect: 'New Beginnings' },
       aspects: [],
       transits: { active: [], seasonal: {} },
-      lunarPhase: { name: 'Unknown', illumination: 0.5, effect: 'Neutral' },
-      dignity: {},
-      source: 'fallback' as const,
+      source: 'fallback',
       confidence: 0.1
     };
   }

@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import IngredientRecommender from '@/components/IngredientRecommender';
+import { AstrologicalProvider } from '@/context/AstrologicalContext';
 
 // Use dynamic import with SSR disabled for components that use client-side only features
 const DynamicCuisineRecommender = dynamic(
@@ -24,7 +25,11 @@ function ClientOnly({ children }: { children: React.ReactNode }) {
   }, []);
   
   if (!hasMounted) {
-    return null;
+    return (
+      <div className="text-center p-4">
+        <p>Loading application...</p>
+      </div>
+    );
   }
   
   return <>{children}</>;
@@ -61,50 +66,52 @@ function PayPalButton() {
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-gradient-to-b from-indigo-50 via-blue-50 to-gray-100 text-gray-800">
-      <div className="container mx-auto px-4 py-8">
-        <header className="mb-8 text-center">
-          <h1 className="text-3xl md:text-4xl font-bold mb-2 text-indigo-900">What to Eat Next</h1>
-          <p className="text-indigo-600 mb-4">
-            Food recommendations based on the current celestial energies
-          </p>
+    <AstrologicalProvider>
+      <main className="min-h-screen bg-gradient-to-b from-indigo-50 via-blue-50 to-gray-100 text-gray-800">
+        <div className="container mx-auto px-4 py-8">
+          <header className="mb-8 text-center">
+            <h1 className="text-3xl md:text-4xl font-bold mb-2 text-indigo-900">What to Eat Next</h1>
+            <p className="text-indigo-600 mb-4">
+              Food recommendations based on the current celestial energies
+            </p>
+            
+            {/* Display planetary day and hour information */}
+            <ClientOnly>
+              <div className="inline-block bg-white px-4 py-2 rounded-lg shadow-sm">
+                <DynamicPlanetaryTimeDisplay compact={true} />
+              </div>
+            </ClientOnly>
+          </header>
           
-          {/* Display planetary day and hour information */}
-          <ClientOnly>
-            <div className="inline-block bg-white px-4 py-2 rounded-lg shadow-sm">
-              <DynamicPlanetaryTimeDisplay compact={true} />
+          {/* Navigation Jump Links */}
+          <nav className="flex flex-wrap justify-center gap-4 mb-8 bg-white rounded-lg shadow-md p-4 sticky top-2 z-10">
+            <a href="#cuisine" className="text-indigo-600 hover:text-indigo-800 font-medium">
+              Cuisine Recommendations
+            </a>
+            <a href="#ingredients" className="text-indigo-600 hover:text-indigo-800 font-medium">
+              Ingredient Recommendations
+            </a>
+          </nav>
+          
+          <div className="flex flex-col gap-6 max-w-6xl mx-auto">
+            <div id="cuisine" className="bg-white rounded-lg shadow-md p-5 w-full">
+              <ClientOnly>
+                <DynamicCuisineRecommender />
+              </ClientOnly>
             </div>
-          </ClientOnly>
-        </header>
-        
-        {/* Navigation Jump Links */}
-        <nav className="flex flex-wrap justify-center gap-4 mb-8 bg-white rounded-lg shadow-md p-4 sticky top-2 z-10">
-          <a href="#cuisine" className="text-indigo-600 hover:text-indigo-800 font-medium">
-            Cuisine Recommendations
-          </a>
-          <a href="#ingredients" className="text-indigo-600 hover:text-indigo-800 font-medium">
-            Ingredient Recommendations
-          </a>
-        </nav>
-        
-        <div className="flex flex-col gap-6 max-w-6xl mx-auto">
-          <div id="cuisine" className="bg-white rounded-lg shadow-md p-5 w-full">
-            <ClientOnly>
-              <DynamicCuisineRecommender />
-            </ClientOnly>
+            
+            <div id="ingredients" className="bg-white rounded-lg shadow-md p-5 w-full">
+              <ClientOnly>
+                <IngredientRecommender />
+              </ClientOnly>
+            </div>
           </div>
           
-          <div id="ingredients" className="bg-white rounded-lg shadow-md p-5 w-full">
-            <ClientOnly>
-              <IngredientRecommender />
-            </ClientOnly>
-          </div>
+          <footer className="mt-12 text-center">
+            <PayPalButton />
+          </footer>
         </div>
-        
-        <footer className="mt-12 text-center">
-          <PayPalButton />
-        </footer>
-      </div>
-    </main>
+      </main>
+    </AstrologicalProvider>
   );
 }

@@ -2,22 +2,21 @@
 
 import { useState, useEffect } from 'react';
 import AlchmKitchen from '@/components/AlchmKitchen';
-import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import { AlchemicalProvider } from '@/contexts/AlchemicalContext/provider';
+import { AstrologicalProvider } from '@/context/AstrologicalContext';
 import { createLogger } from '@/utils/logger';
 
 const logger = createLogger('AlchmKitchenPage');
 
-export default function AlchmKitchenPage() {
-  const [mounted, setMounted] = useState(false);
-  const _alchemicalContext = useAlchemical();
+function ClientOnly({ children }: { children: React.ReactNode }) {
+  const [hasMounted, setHasMounted] = useState(false);
   
-  // Ensure component mounts after client-side hydration
   useEffect(() => {
-    setMounted(true);
-    logger.debug('AlchmKitchen page mounted');
+    setHasMounted(true);
+    logger.debug('AlchmKitchen page client-side mount complete');
   }, []);
-
-  if (!mounted) {
+  
+  if (!hasMounted) {
     return (
       <div className="min-h-screen flex items-center justify-center flex-col space-y-4">
         <p>Loading Alchm Kitchen...</p>
@@ -29,10 +28,20 @@ export default function AlchmKitchenPage() {
       </div>
     );
   }
+  
+  return <>{children}</>;
+}
 
+export default function AlchmKitchenPage() {
   return (
-    <main className="min-h-screen p-4 md:p-8">
-      <AlchmKitchen />
-    </main>
+    <AlchemicalProvider>
+      <AstrologicalProvider>
+        <main className="min-h-screen p-4 md:p-8">
+          <ClientOnly>
+            <AlchmKitchen />
+          </ClientOnly>
+        </main>
+      </AstrologicalProvider>
+    </AlchemicalProvider>
   );
 } 
