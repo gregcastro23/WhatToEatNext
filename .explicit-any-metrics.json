@@ -1,47 +1,47 @@
 {
-  "totalRuns": 37,
+  "totalRuns": 38,
   "successfulRuns": 1,
-  "filesProcessed": 307,
-  "anysReplaced": 6290,
+  "filesProcessed": 320,
+  "anysReplaced": 6341,
   "errorsEncountered": 0,
-  "corruptionDetected": 202,
+  "corruptionDetected": 211,
   "buildFailures": 0,
-  "averageBatchSize": 23.054054054054053,
+  "averageBatchSize": 23.763157894736842,
   "maxSafeBatchSize": 5,
-  "lastRunTime": "2025-07-02T22:54:06.364Z",
+  "lastRunTime": "2025-07-02T22:54:54.755Z",
   "safetyScore": 0,
   "replacementTypeSuccess": {
     "conservative_generic_fallback": {
-      "successes": 41,
-      "attempts": 249
+      "successes": 45,
+      "attempts": 253
     },
     "conservative_assertion_fallback": {
-      "successes": 528,
-      "attempts": 707
+      "successes": 529,
+      "attempts": 718
     },
     "conservative_parameter_fallback": {
       "successes": 285,
-      "attempts": 322
+      "attempts": 323
     },
     "project_specific_inference": {
       "successes": 309,
-      "attempts": 490
+      "attempts": 497
     },
     "error_handling_preserved": {
       "successes": 0,
       "attempts": 177
     },
     "conservative_array_fallback": {
-      "successes": 24,
-      "attempts": 228
+      "successes": 25,
+      "attempts": 237
     },
     "thermodynamic_property_access": {
       "successes": 208,
       "attempts": 208
     },
     "elemental_data_assignment": {
-      "successes": 21,
-      "attempts": 21
+      "successes": 23,
+      "attempts": 23
     },
     "cooking_method_assignment": {
       "successes": 64,
@@ -53,15 +53,15 @@
     },
     "safe_property_access": {
       "successes": 0,
-      "attempts": 626
+      "attempts": 631
     },
     "object_property_access": {
-      "successes": 2334,
-      "attempts": 2339
+      "successes": 2363,
+      "attempts": 2368
     },
     "data_assignment_context": {
-      "successes": 1025,
-      "attempts": 1025
+      "successes": 1036,
+      "attempts": 1036
     },
     "array_operation_detected": {
       "successes": 167,
@@ -69,7 +69,7 @@
     },
     "conservative_property_fallback": {
       "successes": 7,
-      "attempts": 218
+      "attempts": 231
     },
     "lunar_phase_assignment": {
       "successes": 24,
@@ -77,11 +77,11 @@
     },
     "configuration_preserved": {
       "successes": 0,
-      "attempts": 142
+      "attempts": 148
     },
     "callback_function_detected": {
       "successes": 0,
-      "attempts": 60
+      "attempts": 62
     },
     "method_parameter_detected": {
       "successes": 17,
@@ -92,8 +92,8 @@
       "attempts": 103
     },
     "recipe_array_detected": {
-      "successes": 17,
-      "attempts": 17
+      "successes": 19,
+      "attempts": 19
     },
     "ingredient_array_detected": {
       "successes": 7,
@@ -101,11 +101,11 @@
     },
     "array_element_inference": {
       "successes": 67,
-      "attempts": 171
+      "attempts": 179
     },
     "element_array_detected": {
-      "successes": 4,
-      "attempts": 4
+      "successes": 5,
+      "attempts": 5
     },
     "conservative_variable_fallback": {
       "successes": 4,
@@ -121,7 +121,7 @@
     },
     "generic_map_fallback": {
       "successes": 0,
-      "attempts": 1044
+      "attempts": 1102
     },
     "safe_thermodynamic_access": {
       "successes": 0,
@@ -133,11 +133,11 @@
     },
     "generic_ingredient_detected": {
       "successes": 0,
-      "attempts": 25
+      "attempts": 26
     },
     "generic_array_fallback": {
       "successes": 2,
-      "attempts": 8
+      "attempts": 10
     },
     "safe_recipe_access": {
       "successes": 0,
@@ -146,7 +146,7 @@
   },
   "patternEffectiveness": {},
   "performanceMetrics": {
-    "averageFileTime": 4145.7557003257325,
-    "totalProcessingTime": 1272747
+    "averageFileTime": 3979.38125,
+    "totalProcessingTime": 1273402
   }
 }
