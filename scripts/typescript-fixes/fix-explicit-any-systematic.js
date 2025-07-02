@@ -1276,8 +1276,14 @@ function getGenericReplacement(fileContent, line) {
     return { type: 'unknown', reason: 'generic_array_fallback' };
   }
   
-  // Pattern: Map<string, any> or Record<string, any>
-  if (currentLine.includes('Map<') || currentLine.includes('Record<')) {
+  // Enhanced pattern detection for Map and Record generics
+  if (currentLine.includes('Map<') && /Map<\w+,\s*any>/i.test(currentLine)) {
+    // For Map<string, any> → Map<string, unknown>
+    return { type: 'unknown', reason: 'generic_map_fallback' };
+  }
+  
+  if (currentLine.includes('Record<') && /Record<\w+,\s*any>/i.test(currentLine)) {
+    // For Record<string, any> → Record<string, unknown> 
     return { type: 'unknown', reason: 'generic_map_fallback' };
   }
   
@@ -1542,7 +1548,15 @@ function replaceAnyUsage(content, anyUsage, newType) {
       break;
     
     case 'parameter_type':
-      line = line.replace(/(\w+)\s*:\s*any\b/, `$1: ${newType}`);
+      // Enhanced parameter type replacement for callbacks and complex function types
+      if (newType.includes('=>')) {
+        // Handle function/callback parameter types with proper escaping
+        const escapedType = newType.replace(/[()]/g, '\\$&');
+        line = line.replace(new RegExp(`(\\w+)\\s*:\\s*any\\b`, 'g'), `$1: ${newType}`);
+      } else {
+        // Standard parameter type replacement
+        line = line.replace(/(\w+)\s*:\s*any\b/, `$1: ${newType}`);
+      }
       break;
     
     case 'return_type':
@@ -1558,46 +1572,40 @@ function replaceAnyUsage(content, anyUsage, newType) {
       break;
     
     case 'type_assertion':
-      // Enhanced type assertion replacement with corruption prevention
-      if (line.includes('as any') && line.includes('.')) {
-        // CORRUPTION PREVENTION: Check for existing type assertions to prevent chaining
-        if (line.includes(`as ${newType}`)) {
-          // Don't create redundant type assertions like "as unknown as unknown"
-          log(`    ⚠️  Preventing redundant type assertion for ${newType}`, 'yellow');
-          break;
-        }
+      // Simplified and more effective type assertion replacement
+      // Skip if type already exists to prevent redundant assertions
+      if (line.includes(`as ${newType}`) && !line.includes('as any')) {
+        log(`    ⚠️  Preventing redundant type assertion for ${newType}`, 'yellow');
+        break;
+      }
+      
+      // Replace 'as any' patterns with improved safety
+      if (line.includes('as any')) {
+        // Pattern 1: (expr as any) → (expr as NewType)
+        line = line.replace(/\(\s*([^)]+?)\s+as\s+any\s*\)/g, `($1 as ${newType})`);
         
-        // Pattern: (obj as any).property → (obj as NewType).property  
-        // SAFE: Only replace parenthesized expressions to avoid corruption
-        const parenthesizedPattern = /\(\s*([^)]+?)\s+as\s+any\s*\)/g;
-        if (parenthesizedPattern.test(line)) {
-          line = line.replace(parenthesizedPattern, `($1 as ${newType})`);
-        }
-        
-        // Pattern: obj as any → obj as NewType (simple cases)
-        else if (line === originalLine) {
-          // SAFE: Only match word boundaries to avoid partial matches
-          line = line.replace(/(\w+)\s+as\s+any\b/g, `$1 as ${newType}`);
-        }
-        
-        // Pattern: (expr as any) → (expr as NewType) - Last resort
-        else if (line === originalLine) {
+        // Pattern 2: expr as any → expr as NewType (if no parentheses pattern matched)
+        if (line.includes('as any')) {
           line = line.replace(/\bas\s+any\b/g, `as ${newType}`);
         }
       } else {
-        // CORRUPTION PREVENTION: Check for existing assertions
-        if (line.includes(`as ${newType}`) && !line.includes('as any')) {
-          log(`    ⚠️  Skipping - type ${newType} already present`, 'yellow');
-          break;
-        }
-        
         // Standard type assertion replacement - SAFE pattern
         line = line.replace(/\bas\s+any\b/, `as ${newType}`);
       }
       break;
     
     case 'generic_type':
+      // Enhanced generic type replacement for complex patterns
       line = line.replace(/<any>/g, `<${newType}>`);
+      
+      // Handle Map<string, any> and Record<string, any> patterns
+      line = line.replace(/Map<(\w+),\s*any>/g, `Map<$1, ${newType}>`);
+      line = line.replace(/Record<(\w+),\s*any>/g, `Record<$1, ${newType}>`);
+      
+      // Handle other common generic patterns
+      line = line.replace(/Array<any>/g, `Array<${newType}>`);
+      line = line.replace(/Promise<any>/g, `Promise<${newType}>`);
+      line = line.replace(/Set<any>/g, `Set<${newType}>`);
       break;
     
     default:
