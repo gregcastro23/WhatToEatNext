@@ -141,11 +141,11 @@ interface EnhancedGroupedRecommendations {
 export default function IngredientRecommender() {
   // Use the context to get astrological data including chakra energies
   const astroState = useAstrologicalState();
-  const contextChakraEnergies = (astroState as any)?.chakraEnergies;
-  const planetaryPositions = (astroState as any)?.planetaryPositions;
-  const astroLoading = (astroState as any)?.isLoading || false;
-  const astroError = (astroState as any)?.error;
-  const currentZodiac = (astroState as any)?.currentZodiac;
+  const contextChakraEnergies = (astroState as Record<string, unknown>)?.chakraEnergies;
+  const planetaryPositions = (astroState as Record<string, unknown>)?.planetaryPositions;
+  const astroLoading = (astroState as Record<string, unknown>)?.isLoading || false;
+  const astroError = (astroState as Record<string, unknown>)?.error;
+  const currentZodiac = (astroState as Record<string, unknown>)?.currentZodiac;
   // Add flavor engine context
   const { calculateCompatibility } = useFlavorEngine();
   const [astroRecommendations, setAstroRecommendations] = useState<GroupedIngredientRecommendations>({});
@@ -174,11 +174,11 @@ export default function IngredientRecommender() {
     mode: 'standard',
     limit: 300 
   } as any);
-  const foodRecommendations = (alchemicalHookResult as any)?.enhancedRecommendations;
-  const chakraEnergies = (alchemicalHookResult as any)?.chakraEnergies;
-  const foodLoading = (alchemicalHookResult as any)?.loading || false;
-  const foodError = (alchemicalHookResult as any)?.error;
-  const refreshRecommendations = (alchemicalHookResult as any)?.refreshRecommendations;
+  const foodRecommendations = (alchemicalHookResult as Record<string, unknown>)?.enhancedRecommendations;
+  const chakraEnergies = (alchemicalHookResult as Record<string, unknown>)?.chakraEnergies;
+  const foodLoading = (alchemicalHookResult as Record<string, unknown>)?.loading || false;
+  const foodError = (alchemicalHookResult as Record<string, unknown>)?.error;
+  const refreshRecommendations = (alchemicalHookResult as Record<string, unknown>)?.refreshRecommendations;
 
   // Add timeout for loading state
   useEffect(() => {
@@ -349,10 +349,10 @@ export default function IngredientRecommender() {
     return Array.isArray(herbsCollection) ? 
       (herbsCollection || []).map((herb: unknown) => {
         // Apply surgical type casting with variable extraction
-        const herbData = herb as any;
+        const herbData = herb as Record<string, unknown>;
         return herbData?.name;
       }) : 
-      Object.values(herbsCollection || {}).map((herb: any) => herb.name);
+      Object.values(herbsCollection || {}).map((herb: unknown) => herb.name);
   }, []);
 
   // Define oil types array for checking oil categories
@@ -360,10 +360,10 @@ export default function IngredientRecommender() {
     return Array.isArray(oilsCollection) ? 
       (oilsCollection || []).map((oil: unknown) => {
         // Apply surgical type casting with variable extraction
-        const oilData = oil as any;
+        const oilData = oil as Record<string, unknown>;
         return oilData?.name?.toLowerCase();
       }) : 
-      Object.values(oilsCollection || {}).map((oil: any) => oil.name?.toLowerCase());
+      Object.values(oilsCollection || {}).map((oil: unknown) => oil.name?.toLowerCase());
   }, []);
 
   // Define vinegar types array for checking vinegar categories
@@ -371,10 +371,10 @@ export default function IngredientRecommender() {
     return Array.isArray(vinegarsCollection) ? 
       (vinegarsCollection || []).map((vinegar: unknown) => {
         // Apply surgical type casting with variable extraction
-        const vinegarData = vinegar as any;
+        const vinegarData = vinegar as Record<string, unknown>;
         return vinegarData?.name?.toLowerCase();
       }) : 
-      Object.values(vinegarsCollection || {}).map((vinegar: any) => vinegar.name?.toLowerCase());
+      Object.values(vinegarsCollection || {}).map((vinegar: unknown) => vinegar.name?.toLowerCase());
   }, []);
   
   // Helper function to check if an ingredient is an oil
@@ -622,7 +622,7 @@ export default function IngredientRecommender() {
             Air: 0.2, 
             Fire: 0.1 
           },
-          qualities: (vinegarData as any).qualities || ['acidic', 'tangy', 'flavorful'],
+          qualities: (vinegarData as Record<string, unknown>).qualities || ['acidic', 'tangy', 'flavorful'],
           description: `${displayName} - A versatile acidic component for your culinary creations.`
         } as IngredientRecommendation;
       });
@@ -644,8 +644,8 @@ export default function IngredientRecommender() {
             matchScore: 0.6,
             elementalProperties: oilData.elementalProperties || { Fire: 0.3, Water: 0.2, Earth: 0.3, Air: 0.2 
              },
-            qualities: (oilData as any).qualities || ['cooking', 'flavoring'],
-            description: `${oilData.name || key.replace(/_/g, ' ')?.replace(/\b\w/g, l => l?.toUpperCase())} - ${(oilData as any).description || "A versatile cooking oil with various applications."}`
+            qualities: (oilData as Record<string, unknown>).qualities || ['cooking', 'flavoring'],
+            description: `${oilData.name || key.replace(/_/g, ' ')?.replace(/\b\w/g, l => l?.toUpperCase())} - ${(oilData as string).description || "A versatile cooking oil with various applications."}`
           } as IngredientRecommendation;
         });
       
@@ -810,7 +810,7 @@ export default function IngredientRecommender() {
     // Use flavor engine context for comparison if available
     if (calculateCompatibility) {
       try {
-        return calculateCompatibility(ingredient1 as any, ingredient2 as any); // Pattern YYY: React Props and State Interface Resolution
+        return calculateCompatibility(ingredient1 as unknown, ingredient2 as unknown); // Pattern YYY: React Props and State Interface Resolution
       } catch (error) {
         console.error('Error calculating compatibility:', error);
         return 0.5; // Default compatibility

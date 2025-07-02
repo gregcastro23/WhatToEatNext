@@ -332,7 +332,7 @@ export class AlchemicalEngineAdvanced {
       let compatibilityScore = 0.5; // Start with neutral
 
       // Season compatibility - safe property access
-      const seasonalVariations = (cuisineData as any)?.seasonalVariations;
+      const seasonalVariations = (cuisineData as Record<string, unknown>)?.seasonalVariations;
       if (season && seasonalVariations) {
         const seasonalData = seasonalVariations[season as keyof typeof seasonalVariations];
         if (seasonalData) {
@@ -341,7 +341,7 @@ export class AlchemicalEngineAdvanced {
       }
 
       // Astrological compatibility - safe property access
-      const elementalProperties = (cuisineData as any)?.elementalProperties;
+      const elementalProperties = (cuisineData as Record<string, unknown>)?.elementalProperties;
       if (astroState && elementalProperties) {
         const astroElements = this.calculateAstrologicalInfluence(astroState);
         const elementCompatibility = this.calculateElementCompatibility(
@@ -1032,13 +1032,13 @@ export function alchemize(
     // CRITICAL: Safely get the Ascendant sign
     try {
       // Use safe type casting for unknown property access
-      const ascendantData = horoscope.Ascendant as any;
+      const ascendantData = horoscope.Ascendant as Record<string, unknown>;
       const signData = ascendantData?.Sign;
       const rising_sign = signData?.label || "Aries";
       
       // SAFELY update planetInfo with correct typing
       if (typeof planetInfo === 'object' && planetInfo && 'Ascendant' in planetInfo) {
-        const ascendantInfo = planetInfo['Ascendant'] as any;
+        const ascendantInfo = planetInfo['Ascendant'] as Record<string, unknown>;
         if (typeof ascendantInfo === 'object') {
           ascendantInfo['Diurnal Element'] = signInfo[rising_sign]?.element || 'Air';
           ascendantInfo['Nocturnal Element'] = signInfo[rising_sign]?.element || 'Air';
@@ -1061,7 +1061,7 @@ export function alchemize(
       // Use while loop to ensure proper iteration
       while (celestial_bodies_index < 11) {
         let planet = '';
-        let entry: any = {};
+        let entry: unknown = {};
         
         // SAFELY get planet and entry
         try {
@@ -1069,10 +1069,10 @@ export function alchemize(
             entry = horoscope.Ascendant || {};
             planet = "Ascendant";
           } else {
-            const celestialArray = celestialBodies['all'] as Array<any> || [];
+            const celestialArray = celestialBodies['all'] as Array<unknown> || [];
             entry = celestialArray[celestial_bodies_index] || {};
             // Use safe type casting for entry property access
-            const entryData = entry as any;
+            const entryData = entry as Record<string, unknown>;
             planet = entryData?.label || '';
           }
         } catch (error) {
@@ -1510,7 +1510,7 @@ async function calculateCurrentPlanetaryPositions(): Promise<
         const convertedPositions: Record<string, unknown> = {};
         
         Object.entries(astrologizePositions).forEach(([planet, position]) => {
-          const pos = position as any;
+          const pos = position as Record<string, unknown>;
           convertedPositions[planet] = {
             Sign: { label: pos.sign },
             Degree: pos.degree,
@@ -1594,7 +1594,7 @@ async function calculateCurrentPlanetaryPositions(): Promise<
     // Import the fallback calculator dynamically
     try {
       const astrologyUtils = await import('@/utils/astrologyUtils');
-      const fallbackCalculator = astrologyUtils as any;
+      const fallbackCalculator = astrologyUtils as Record<string, unknown>;
       const _calculateFallbackPositions = fallbackCalculator?._calculateFallbackPositions;
       
       // Generate current date to pass to the fallback calculator
@@ -1626,7 +1626,7 @@ async function calculateCurrentPlanetaryPositions(): Promise<
       // Safe iteration through fallback positions
       Object.entries(formattedPositions).forEach(([planet, data]) => {
         // Use safe type casting for unknown data access
-        const dataObject = data as any;
+        const dataObject = data as Record<string, unknown>;
         const exactLongitude = dataObject?.exactLongitude;
         
         // Validate longitude is a number
@@ -1926,11 +1926,11 @@ function calculateChakraEnergies(
 
     // Sync thirdEye and brow for compatibility
     // Use safe type casting for chakraEnergies access
-    const chakraData = chakraEnergies as any;
-    if (affectedChakras.has('brow') && !affectedChakras.has('thirdEye' as any)) {
+    const chakraData = chakraEnergies as Record<string, unknown>;
+    if (affectedChakras.has('brow') && !affectedChakras.has('thirdEye' as Record<string, unknown>)) {
       chakraData.thirdEye = chakraEnergies.brow;
-      affectedChakras.add('thirdEye' as any);
-    } else if (affectedChakras.has('thirdEye' as any) && !affectedChakras.has('brow')) {
+      affectedChakras.add('thirdEye' as Record<string, unknown>);
+    } else if (affectedChakras.has('thirdEye' as Record<string, unknown>) && !affectedChakras.has('brow')) {
       chakraEnergies.brow = chakraData?.thirdEye || 0;
       affectedChakras.add('brow');
     }
@@ -1991,16 +1991,16 @@ async function getCurrentAstrologicalState(): Promise<AstrologicalState> {
     const positions = await calculateCurrentPlanetaryPositions();
     
     // Extract zodiac sign from planetary positions (sun sign)
-    const sunSign = (positions.sun as any)?.sign?.toLowerCase() as ZodiacSign || 'aries';
+    const sunSign = (positions.sun as string)?.sign?.toLowerCase() as ZodiacSign || 'aries';
     
     // Extract moon sign from planetary positions
-    const moonSign = (positions.moon as any)?.sign?.toLowerCase() as ZodiacSign || 'taurus';
+    const moonSign = (positions.moon as string)?.sign?.toLowerCase() as ZodiacSign || 'taurus';
     
     // Calculate dominant element based on zodiac sign
     const dominantElement = (getElementFromSign(sunSign) as Element) || 'Fire';
     
     // Determine current lunar phase
-    const lunarPhase = (positions.moon as any)?.phase?.toLowerCase() as LunarPhase || 'full moon';
+    const lunarPhase = (positions.moon as string)?.phase?.toLowerCase() as LunarPhase || 'full moon';
     
     // Get current season based on sun sign
     const season = getSeasonFromSunSign(sunSign);
@@ -2010,7 +2010,7 @@ async function getCurrentAstrologicalState(): Promise<AstrologicalState> {
       .filter(([planet, data]) => {
         if (planet === 'sun' || planet === 'moon') return true;
         // Consider a planet active if it has a position and is not retrograde
-        return (data as any)?.sign && !(data as any)?.isRetrograde;
+        return (data as Record<string, unknown>)?.sign && !(data as Record<string, unknown>)?.isRetrograde;
       })
       .map(([planet]) => planet);
     
@@ -2190,7 +2190,7 @@ function alchemizeWithSafety(
     console.log('Using safe alchemize with cloned constants');
     
     // Return simplified, but useful result that won't cause errors
-    const horoscopeData = horoscopeDict as any;
+    const horoscopeData = horoscopeDict as Record<string, unknown>;
     const celestialBodies = horoscopeData?.tropical?.CelestialBodies;
     const sunData = celestialBodies?.sun;
     const sunSignData = sunData?.Sign;

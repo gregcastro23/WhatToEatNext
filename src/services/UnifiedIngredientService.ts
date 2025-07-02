@@ -201,7 +201,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     if (filter.currentSeason) {
       filteredIngredients = this.applySeasonalFilter(
         filteredIngredients,
-        filter.currentSeason as any
+        filter.currentSeason as Record<string, unknown>
       );
     }
     
@@ -337,8 +337,8 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       
       return (seasons || []).some(s => 
         Array.isArray(_ingredient.seasonality) 
-          ? _ingredient.seasonality.includes(s as any) 
-          : _ingredient.seasonality === s as any
+          ? _ingredient.seasonality.includes(s as string) 
+          : _ingredient.seasonality === s as Record<string, unknown>
       );
     });
   }
@@ -354,8 +354,8 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       
       const planets = _ingredient?.astrologicalProperties?.planets;
       return Array.isArray(planets) 
-        ? planets.includes(planet as unknown as any) // ← Pattern HH-1: Safe conversion via unknown
-        : planets === (planet as unknown as any); // ← Pattern HH-1: Safe conversion via unknown
+        ? planets.includes(planet as unknown as string) // ← Pattern HH-1: Safe conversion via unknown
+        : planets === (planet as unknown as Record<string, unknown>); // ← Pattern HH-1: Safe conversion via unknown
     });
   }
   
@@ -370,8 +370,8 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       
       const signs = _ingredient?.astrologicalProperties?.signs;
       return Array.isArray(signs) 
-        ? signs.includes(sign as unknown as any) // ← Pattern HH-1: Safe conversion via unknown
-        : signs === (sign as unknown as any); // ← Pattern HH-1: Safe conversion via unknown
+        ? signs.includes(sign as unknown as string) // ← Pattern HH-1: Safe conversion via unknown
+        : signs === (sign as unknown as Record<string, unknown>); // ← Pattern HH-1: Safe conversion via unknown
     });
   }
   
@@ -384,7 +384,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
   ): UnifiedIngredient[] {
     const allIngredients = this.getAllIngredientsFlat();
     // Extract options with safe property access for missing properties
-    const optionsData = options as any;
+    const optionsData = options as Record<string, unknown>;
     const maxResults = optionsData?.maxResults || 10;
     const optimizeForSeason = optionsData?.optimizeForSeason !== undefined ? optionsData.optimizeForSeason : true;
     const includeExotic = optionsData?.includeExotic !== undefined ? optionsData.includeExotic : false;
@@ -405,7 +405,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     // Score ingredients based on elemental compatibility
     const scoredIngredients = (candidates || []).map(_ingredient => {
       // Apply Pattern PP-1: Safe service method access
-      const alchemicalEngineData = alchemicalEngine as any;
+      const alchemicalEngineData = alchemicalEngine as CookingMethod;
       const compatibilityMethod = alchemicalEngineData?.calculateElementalCompatibility || this.fallbackElementalCompatibility;
       const compatibility = compatibilityMethod(
         elementalState,
@@ -458,7 +458,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     }
     
     // Calculate elemental compatibility
-    const alchemicalEngineData2 = alchemicalEngine as any;
+    const alchemicalEngineData2 = alchemicalEngine as Record<string, unknown>;
     const compatibilityMethod2 = alchemicalEngineData2?.calculateElementalCompatibility || this.fallbackElementalCompatibility;
     const elementalCompatibility = compatibilityMethod2(
       ing1.elementalState,
@@ -628,7 +628,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       }
       
       // Extract filter data with safe property access for maxFiber
-      const filterData = filter as any;
+      const filterData = filter as Record<string, unknown>;
       const maxFiber = filterData?.maxFiber;
       
       if (maxFiber !== undefined && 
@@ -723,7 +723,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       if (!elemental) return true; // Skip if no elemental data
       
       // Extract filter data with safe property access for elemental properties
-      const filterData = filter as any;
+      const filterData = filter as Record<string, unknown>;
       const minfire = filterData?.minfire;
       const maxfire = filterData?.maxfire;
       const minwater = filterData?.minwater;
@@ -793,7 +793,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       if (!dietary) return true; // Skip if no dietary data
       
       // Extract filter data with safe property access for dietary properties
-      const filterData = filter as any;
+      const filterData = filter as Record<string, unknown>;
       const isVegetarian = filterData?.isVegetarian;
       const isVegan = filterData?.isVegan;
       const isGlutenFree = filterData?.isGlutenFree;
@@ -855,8 +855,8 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       
       return (seasons || []).some(season => 
         Array.isArray(_ingredient.seasonality) 
-          ? _ingredient.seasonality.includes(season as any) 
-          : _ingredient.seasonality === season as any
+          ? _ingredient.seasonality.includes(season as string) 
+          : _ingredient.seasonality === season as Record<string, unknown>
       );
     });
   }

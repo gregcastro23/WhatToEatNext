@@ -167,7 +167,7 @@ export function validateIngredient(ingredient: Partial<Ingredient>): ValidationR
   }
   
   // Astrological profile validation
-  const ingredientData = ingredient as any;
+  const ingredientData = ingredient as Record<string, unknown>;
   if (ingredientData?.astrologicalPropertiesProfile || ingredientData?.astrologicalProfile) {
     const astroProfile = ingredientData.astrologicalPropertiesProfile || ingredientData.astrologicalProfile;
     const astroValidation = validateAstrologicalProfile(astroProfile);
@@ -234,7 +234,7 @@ export function validateRecipe(recipe: Partial<Recipe>): ValidationResult {
   
   // Elemental properties validation
   if (recipe.elementalState) {
-    const elementalValidation = validateElementalProperties(recipe.elementalState as any);
+    const elementalValidation = validateElementalProperties(recipe.elementalState as Record<string, unknown>);
     if (!elementalValidation.isValid) {
       warnings?.push(...elementalValidation.errors);
     }
@@ -256,7 +256,7 @@ export function validateRecipe(recipe: Partial<Recipe>): ValidationResult {
  * @returns Cleanup result
  */
 export function cleanupIngredientsDatabase(
-  ingredients: any[],
+  ingredients: Ingredient | UnifiedIngredient[],
   options: StandardizationOptions = {}
 ): DataCleanupResult {
   const result: DataCleanupResult = {
@@ -522,12 +522,12 @@ function validateAstrologicalProfile(profile: AstrologicalProfile): ValidationRe
   }
   
   // Safe property access for AstrologicalProfile properties
-  const elementalAffinity = (profile as any)?.elementalAffinity;
+  const elementalAffinity = (profile as Record<string, unknown>)?.elementalAffinity;
   if (!elementalAffinity?.base) {
     errors?.push('Elemental affinity is required');
   }
   
-  const rulingPlanets = (profile as any)?.rulingPlanets;
+  const rulingPlanets = (profile as Record<string, unknown>)?.rulingPlanets;
   if (!Array.isArray(rulingPlanets)) {
     errors?.push('Ruling planets must be an array');
   }

@@ -63,11 +63,11 @@ const CATEGORY_DISPLAY_COUNTS: Record<string, number> = {
 export default function IngredientRecommender() {
   // Use the context to get astrological data including chakra energies
   const astroState = useAstrologicalState();
-  const contextChakraEnergies = (astroState as any)?.chakraEnergies;
-  const planetaryPositions = (astroState as any)?.planetaryPositions;
-  const astroLoading = (astroState as any)?.isLoading || false;
-  const astroError = (astroState as any)?.error;
-  const currentZodiac = (astroState as any)?.currentZodiac;
+  const contextChakraEnergies = (astroState as Record<string, unknown>)?.chakraEnergies;
+  const planetaryPositions = (astroState as Record<string, unknown>)?.planetaryPositions;
+  const astroLoading = (astroState as Record<string, unknown>)?.isLoading || false;
+  const astroError = (astroState as Record<string, unknown>)?.error;
+  const currentZodiac = (astroState as Record<string, unknown>)?.currentZodiac;
   const [astroRecommendations, setAstroRecommendations] = useState<GroupedIngredientRecommendations>({});
   // States for selected item and expansion
   const [selectedIngredient, setSelectedIngredient] = useState<IngredientRecommendation | null>(null);
@@ -103,7 +103,7 @@ export default function IngredientRecommender() {
   };
   
   // Handle ingredient selection to display details
-  const handleIngredientSelect = (item: any, e: React.MouseEvent) => {
+  const handleIngredientSelect = (item: unknown, e: React.MouseEvent) => {
     e.stopPropagation();
     
     // Toggle selected ingredient
@@ -235,7 +235,7 @@ export default function IngredientRecommender() {
   []);
   
   // Helper function to check if an ingredient is an oil
-  const isOil = (ingredient: any): boolean => {
+  const isOil = (ingredient: Ingredient | UnifiedIngredient): boolean => {
     const _category = ingredient.category?.toLowerCase() || '';
     if (_category === 'oil' || _category === 'oils') return true;
     
@@ -246,7 +246,7 @@ export default function IngredientRecommender() {
   // Helper function to check if an ingredient is a vinegar
   const isVinegar = (ingredient: unknown): boolean => {
     // Extract ingredient data with safe property access
-    const ingredientData = ingredient as any;
+    const ingredientData = ingredient as Record<string, unknown>;
     const _category = ingredientData?.category?.toLowerCase() || '';
     if (_category === 'vinegar' || _category === 'vinegars') return true;
     
@@ -257,7 +257,7 @@ export default function IngredientRecommender() {
   // Helper function to get normalized category
   const getNormalizedCategory = (ingredient: unknown): string => {
     // Extract ingredient data with safe property access
-    const ingredientData = ingredient as any;
+    const ingredientData = ingredient as Record<string, unknown>;
     const categoryProperty = ingredientData?.category;
     
     if (!categoryProperty) return 'other';
@@ -517,7 +517,7 @@ export default function IngredientRecommender() {
             Air: 0.2, 
             Fire: 0.1 
           },
-          qualities: (vinegarData as any).qualities || ['acidic', 'tangy', 'flavorful'],
+          qualities: (vinegarData as Record<string, unknown>).qualities || ['acidic', 'tangy', 'flavorful'],
           description: `${displayName} - A versatile acidic component for your culinary creations.`
         } as IngredientRecommendation;
       });
@@ -543,8 +543,8 @@ export default function IngredientRecommender() {
               Earth: 0.3, 
               Air: 0.2 
             },
-            qualities: (oilData as any).qualities || ['cooking', 'flavoring'],
-            description: `${oilData.name || key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())} - ${(oilData as any).description || "A versatile cooking oil with various applications."}`
+            qualities: (oilData as Record<string, unknown>).qualities || ['cooking', 'flavoring'],
+            description: `${oilData.name || key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())} - ${(oilData as string).description || "A versatile cooking oil with various applications."}`
           } as IngredientRecommendation;
         });
       
@@ -972,7 +972,7 @@ export default function IngredientRecommender() {
                                       .map(([type, data]) => {
                                         if (typeof data === 'object') {
                                           // Extract data with safe property access
-                                          const culinaryData = data as any;
+                                          const culinaryData = data as Record<string, unknown>;
                                           const techniques = culinaryData?.techniques;
                                           if (Array.isArray(techniques)) {
                                             return techniques.slice(0, 2).join(', ');
@@ -1003,7 +1003,7 @@ export default function IngredientRecommender() {
                                     
                                     // Handle different data formats for cooking time
                                     // Extract details data with safe property access
-                                    const detailsData = details as any;
+                                    const detailsData = details as Record<string, unknown>;
                                     const timing = detailsData?.timing;
                                     
                                     if (timing) {
@@ -1011,7 +1011,7 @@ export default function IngredientRecommender() {
                                         cookingTime = timing;
                                       } else if (typeof timing === 'object') {
                                         // Extract timing properties with safe access
-                                        const timingData = timing as any;
+                                        const timingData = timing as Record<string, unknown>;
                                         const minimum = timingData?.minimum;
                                         const maximum = timingData?.maximum;
                                         const optimal = timingData?.optimal;
@@ -1046,7 +1046,7 @@ export default function IngredientRecommender() {
                                     
                                     // Handle different data formats for temperature
                                     // Extract details data with safe property access
-                                    const tempDetailsData = details as any;
+                                    const tempDetailsData = details as Record<string, unknown>;
                                     const temperature = tempDetailsData?.temperature;
                                     
                                     if (temperature) {
@@ -1054,7 +1054,7 @@ export default function IngredientRecommender() {
                                         temp = temperature;
                                       } else if (typeof temperature === 'object') {
                                         // Extract temperature properties with safe access
-                                        const temperatureData = temperature as any;
+                                        const temperatureData = temperature as Record<string, unknown>;
                                         const fahrenheit = temperatureData?.fahrenheit;
                                         const min = temperatureData?.min;
                                         const max = temperatureData?.max;
@@ -1085,7 +1085,7 @@ export default function IngredientRecommender() {
                                   {Object.values(item.cuts).map(cut => {
                                     if (typeof cut === 'object') {
                                       // Extract cut data with safe property access
-                                      const cutData = cut as any;
+                                      const cutData = cut as Record<string, unknown>;
                                       const name = cutData?.name;
                                       return name ? name : '';
                                     }

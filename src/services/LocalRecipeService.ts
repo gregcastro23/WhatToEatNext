@@ -113,7 +113,7 @@ export class LocalRecipeService {
       // Get recipes from all available cuisines
       for (const cuisine of Object.values(cuisinesMap)) {
         if (cuisine) {
-          const cuisineRecipes = await this.getRecipesFromCuisine(cuisine as any);
+          const cuisineRecipes = await this.getRecipesFromCuisine(cuisine as Record<string, unknown>);
           recipes.push(...cuisineRecipes);
         }
       }
@@ -183,10 +183,10 @@ export class LocalRecipeService {
             name: directCuisine.name,
             hasDishes: !!directCuisine.dishes,
             dishTypes: directCuisine.dishes ? Object.keys(directCuisine.dishes).join(', ') : 'none',
-            breakfast: ((directCuisine.dishes as any)?.breakfast?.all?.length || (directCuisine.dishes as any)?.dishes?.breakfast?.all?.length) || 0,
-            lunch: ((directCuisine.dishes as any)?.lunch?.all?.length || (directCuisine.dishes as any)?.dishes?.lunch?.all?.length) || 0,
-            dinner: ((directCuisine.dishes as any)?.dinner?.all?.length || (directCuisine.dishes as any)?.dishes?.dinner?.all?.length) || 0,
-            dessert: ((directCuisine.dishes as any)?.dessert?.all?.length || (directCuisine.dishes as any)?.dishes?.dessert?.all?.length) || 0
+            breakfast: ((directCuisine.dishes as unknown[])?.breakfast?.all?.length || (directCuisine.dishes as unknown[])?.dishes?.breakfast?.all?.length) || 0,
+            lunch: ((directCuisine.dishes as unknown[])?.lunch?.all?.length || (directCuisine.dishes as unknown[])?.dishes?.lunch?.all?.length) || 0,
+            dinner: ((directCuisine.dishes as unknown[])?.dinner?.all?.length || (directCuisine.dishes as unknown[])?.dishes?.dinner?.all?.length) || 0,
+            dessert: ((directCuisine.dishes as unknown[])?.dessert?.all?.length || (directCuisine.dishes as unknown[])?.dishes?.dessert?.all?.length) || 0
           })}`);
           
           return await this.getRecipesFromCuisine(directCuisine);
@@ -210,7 +210,7 @@ export class LocalRecipeService {
         );
         
         if (byIdMatch && byIdMatch[1]) {
-          return await this.getRecipesFromCuisine(byIdMatch[1] as any);
+          return await this.getRecipesFromCuisine(byIdMatch[1] as Record<string, unknown>);
         }
         
         logger.info(`Cuisine not found: ${cuisineName}`);
@@ -248,14 +248,14 @@ export class LocalRecipeService {
           id: cuisine.id,
           name: cuisine.name,
           dishesKeys: Object.keys(cuisine.dishes || {}),
-          breakfastAllLength: ((cuisine.dishes as any)?.breakfast?.all?.length || (cuisine.dishes as any)?.dishes?.breakfast?.all?.length) || 0,
-          lunchAllLength: ((cuisine.dishes as any)?.lunch?.all?.length || (cuisine.dishes as any)?.dishes?.lunch?.all?.length) || 0,
-          dinnerAllLength: ((cuisine.dishes as any)?.dinner?.all?.length || (cuisine.dishes as any)?.dishes?.dinner?.all?.length) || 0,
-          dessertAllLength: ((cuisine.dishes as any)?.dessert?.all?.length || (cuisine.dishes as any)?.dishes?.dessert?.all?.length) || 0,
+          breakfastAllLength: ((cuisine.dishes as unknown[])?.breakfast?.all?.length || (cuisine.dishes as unknown[])?.dishes?.breakfast?.all?.length) || 0,
+          lunchAllLength: ((cuisine.dishes as unknown[])?.lunch?.all?.length || (cuisine.dishes as unknown[])?.dishes?.lunch?.all?.length) || 0,
+          dinnerAllLength: ((cuisine.dishes as unknown[])?.dinner?.all?.length || (cuisine.dishes as unknown[])?.dishes?.dinner?.all?.length) || 0,
+          dessertAllLength: ((cuisine.dishes as unknown[])?.dessert?.all?.length || (cuisine.dishes as unknown[])?.dishes?.dessert?.all?.length) || 0,
         }));
         
         // Check if "all" arrays actually contain recipes with safe type casting
-        const dishesData = cuisine.dishes as any;
+        const dishesData = cuisine.dishes as Record<string, unknown>;
         const breakfastAll = dishesData?.breakfast?.all || dishesData?.dishes?.breakfast?.all;
         if (breakfastAll?.length > 0) {
           logger.debug('Sample breakfast recipe:', JSON.stringify(breakfastAll[0]));
@@ -353,7 +353,7 @@ export class LocalRecipeService {
         // Check if the dishes property might be nested incorrectly
         if (cuisine.dishes && typeof cuisine.dishes.dishes === 'object') {
           logger.debug('Found nested dishes property, trying to extract from there instead');
-          return this.getRecipesFromCuisine({...cuisine, dishes: cuisine.dishes.dishes as any});
+          return this.getRecipesFromCuisine({...cuisine, dishes: cuisine.dishes.dishes as Record<string, unknown>});
         }
       }
       
