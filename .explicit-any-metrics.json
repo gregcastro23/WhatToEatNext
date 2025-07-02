@@ -1,39 +1,39 @@
 {
-  "totalRuns": 30,
+  "totalRuns": 31,
   "successfulRuns": 1,
-  "filesProcessed": 254,
-  "anysReplaced": 6090,
+  "filesProcessed": 265,
+  "anysReplaced": 6129,
   "errorsEncountered": 0,
-  "corruptionDetected": 139,
+  "corruptionDetected": 148,
   "buildFailures": 0,
-  "averageBatchSize": 19.433333333333334,
+  "averageBatchSize": 20.096774193548388,
   "maxSafeBatchSize": 5,
-  "lastRunTime": "2025-07-02T22:39:36.432Z",
+  "lastRunTime": "2025-07-02T22:40:30.887Z",
   "safetyScore": 0,
   "replacementTypeSuccess": {
     "conservative_generic_fallback": {
-      "successes": 31,
-      "attempts": 239
+      "successes": 34,
+      "attempts": 242
     },
     "conservative_assertion_fallback": {
       "successes": 526,
-      "attempts": 666
+      "attempts": 670
     },
     "conservative_parameter_fallback": {
-      "successes": 276,
-      "attempts": 306
+      "successes": 279,
+      "attempts": 310
     },
     "project_specific_inference": {
-      "successes": 299,
-      "attempts": 432
+      "successes": 301,
+      "attempts": 441
     },
     "error_handling_preserved": {
       "successes": 0,
       "attempts": 177
     },
     "conservative_array_fallback": {
-      "successes": 10,
-      "attempts": 164
+      "successes": 13,
+      "attempts": 174
     },
     "thermodynamic_property_access": {
       "successes": 208,
@@ -56,32 +56,32 @@
       "attempts": 621
     },
     "object_property_access": {
-      "successes": 2258,
-      "attempts": 2260
+      "successes": 2272,
+      "attempts": 2275
     },
     "data_assignment_context": {
-      "successes": 965,
-      "attempts": 965
+      "successes": 975,
+      "attempts": 975
     },
     "array_operation_detected": {
       "successes": 167,
       "attempts": 167
     },
     "conservative_property_fallback": {
-      "successes": 4,
-      "attempts": 140
+      "successes": 5,
+      "attempts": 154
     },
     "lunar_phase_assignment": {
-      "successes": 21,
-      "attempts": 21
+      "successes": 22,
+      "attempts": 22
     },
     "configuration_preserved": {
       "successes": 0,
-      "attempts": 100
+      "attempts": 106
     },
     "callback_function_detected": {
       "successes": 0,
-      "attempts": 46
+      "attempts": 48
     },
     "method_parameter_detected": {
       "successes": 17,
@@ -101,7 +101,7 @@
     },
     "array_element_inference": {
       "successes": 65,
-      "attempts": 138
+      "attempts": 141
     },
     "element_array_detected": {
       "successes": 3,
@@ -116,12 +116,12 @@
       "attempts": 12
     },
     "generic_promise_fallback": {
-      "successes": 12,
-      "attempts": 12
+      "successes": 14,
+      "attempts": 14
     },
     "generic_map_fallback": {
       "successes": 0,
-      "attempts": 705
+      "attempts": 754
     },
     "safe_thermodynamic_access": {
       "successes": 0,
@@ -133,7 +133,7 @@
     },
     "generic_ingredient_detected": {
       "successes": 0,
-      "attempts": 18
+      "attempts": 19
     },
     "generic_array_fallback": {
       "successes": 2,
@@ -146,7 +146,7 @@
   },
   "patternEffectiveness": {},
   "performanceMetrics": {
-    "averageFileTime": 3497.3267716535433,
-    "totalProcessingTime": 888321
+    "averageFileTime": 3354.4264150943395,
+    "totalProcessingTime": 888923
   }
 }
