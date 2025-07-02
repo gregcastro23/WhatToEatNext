@@ -115,7 +115,7 @@ export class AlchemicalRecommendationService {
               type: 'ingredient' as const,
               elementalProperties: ingredient.elementalProperties,
               seasonality: ingredient.season || [],
-              planetaryRulers: ingredient.astrologicalProfile?.rulingPlanets || [],
+              planetaryRulers: (ingredient.astrologicalProfile?.rulingPlanets || []) as Planet[],
               flavorProfile: ingredient.culinaryProfile?.flavorProfile || {},
               culturalOrigins: ingredient.origin || []
             }
