@@ -72,8 +72,8 @@ export class CuisineEnhancer {
   static calculateCuisineKalchm(cuisine: {}): {
     totalKalchm: number;
     averageRecipeKalchm: number;
-    ingredientKalchmProfile: any;
-    cookingMethodInfluence: any;
+    ingredientKalchmProfile: Ingredient | UnifiedIngredient;
+    cookingMethodInfluence: unknown;
     recipesAnalyzed: number;
     ingredientsAnalyzed: number;
   } {
@@ -146,8 +146,8 @@ export class CuisineEnhancer {
   /**
    * Extract recipes from cuisine structure
    */
-  static extractRecipesFromCuisine(cuisine: {}): any[] {
-    const recipes: any[] = [];
+  static extractRecipesFromCuisine(cuisine: {}): Recipe[] {
+    const recipes: Recipe[] = [];
     
     // Use safe type casting for cuisine property access
     const cuisineData = cuisine as Record<string, unknown>;
@@ -353,7 +353,7 @@ export class CuisineEnhancer {
    * Calculate cuisine optimization data
    */
   static calculateCuisineOptimization(
-    cuisine: any,
+    cuisine: CuisineType,
     kalchm: number,
     elementalBalance: ElementalProperties
   ): any {
@@ -406,7 +406,7 @@ export class CuisineEnhancer {
   /**
    * Enhance a cuisine with alchemical properties (ADDITIVE - preserves all existing data)
    */
-  static enhanceCuisine(cuisine: any, sourceFile: string = 'unknown'): EnhancedCuisine {
+  static enhanceCuisine(cuisine: CuisineType, sourceFile: string = 'unknown'): EnhancedCuisine {
     // Calculate cuisine Kalchm and analysis
     const kalchmAnalysis = this.calculateCuisineKalchm(cuisine);
     

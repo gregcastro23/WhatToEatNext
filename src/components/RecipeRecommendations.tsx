@@ -103,7 +103,7 @@ interface RecommendationExplanation {
 }
 
 // Helper Functions
-const validateElementalProperties = (props: any): ElementalProperties => {
+const validateElementalProperties = (props: Record<string, unknown>): ElementalProperties => {
   const defaultProps = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
   
   if (!props || typeof props !== 'object') return defaultProps;
@@ -253,12 +253,12 @@ export default function RecipeRecommendations() {
         
         // Get seasonal recipes - Safe method access
         let seasonalRecipes: Recipe[] = [];
-        if (recipeService && typeof (recipeService as any).getRecipesBySeason === 'function') {
-          seasonalRecipes = await (recipeService as any).getRecipesBySeason(currentSeason);
-        } else if (recipeService && typeof (recipeService as any).getAllRecipes === 'function') {
+        if (recipeService && typeof (recipeService as Record<string, unknown>).getRecipesBySeason === 'function') {
+          seasonalRecipes = await (recipeService as Record<string, unknown>).getRecipesBySeason(currentSeason);
+        } else if (recipeService && typeof (recipeService as Record<string, unknown>).getAllRecipes === 'function') {
           // Fallback to get all recipes and filter by season
-          const allRecipes = await (recipeService as any).getAllRecipes();
-          seasonalRecipes = (allRecipes || []).filter((recipe: any) => 
+          const allRecipes = await (recipeService as Record<string, unknown>).getAllRecipes();
+          seasonalRecipes = (allRecipes || []).filter((recipe: Recipe) => 
             recipe.season?.includes(currentSeason) || 
             recipe.seasonality?.includes(currentSeason) ||
             !recipe.season // Include recipes with no season specified
@@ -507,7 +507,7 @@ export default function RecipeRecommendations() {
                           </Typography>
                           <Typography variant="body2">
                             {Array.isArray(recipe.instructions) 
-                              ? (recipe.instructions[0] as any)?.substring(0, 150) + '...'
+                              ? (recipe.instructions[0] as Record<string, unknown>)?.substring(0, 150) + '...'
                               : String(recipe.instructions).substring(0, 150) + '...'
                             }
                           </Typography>

@@ -293,7 +293,7 @@ export class AlchemicalTransformationService {
       let methodMatch = 0;
       let methodCount = 0;
       
-      const recipeData = recipe as any;
+      const recipeData = recipe as CookingMethod;
       recipeData?.cookingMethods?.forEach((method: string) => {
         const methodName = method.toLowerCase();
         const alchemicalMethod = methodMap.get(methodName);
@@ -459,7 +459,7 @@ export class AlchemicalTransformationService {
   
   // Helper method to calculate lunar phase score for a recipe
   private calculateLunarPhaseScore(recipe: Recipe): number {
-    const recipeData = recipe as any;
+    const recipeData = recipe as LunarPhase;
     if (!recipeData?.astrologicalAffinities?.lunarPhases || 
         recipeData.astrologicalAffinities.lunarPhases.length === 0 || 
         !this.lunarPhase) {
@@ -482,7 +482,7 @@ export class AlchemicalTransformationService {
   
   // Helper method to calculate zodiac score for a recipe
   private calculateZodiacScore(recipe: Recipe): number {
-    const recipeData = recipe as any;
+    const recipeData = recipe as Record<string, unknown>;
     if (!recipeData?.astrologicalAffinities?.signs || 
         recipeData.astrologicalAffinities.signs.length === 0 || 
         !this.currentZodiac) {

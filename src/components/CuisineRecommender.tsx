@@ -127,13 +127,13 @@ interface CuisineStyles {
 // Add this helper function near the top of the file, outside any components
 const getSafeScore = (score: unknown): number => {
   // Convert to number if needed, default to 0.5 if NaN or undefined
-  const numScore = typeof score === 'number' ? score : parseFloat(score as any);
+  const numScore = typeof score === 'number' ? score : parseFloat(score as Record<string, unknown>);
   return !isNaN(numScore) ? numScore : 0.5;
 };
 
 // Add this helper function just before the CuisineRecommender component definition
 // Helper function to ensure consistent recipe structure
-function buildCompleteRecipe(recipe: any, cuisineName: string): any {
+function buildCompleteRecipe(recipe: Recipe, cuisineName: string): any {
   const defaultElementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
   const cuisineProfile = Object.values(cuisineFlavorProfiles).find(c => c.name?.toLowerCase() === cuisineName?.toLowerCase());
   const matchScore = typeof recipe.matchScore === 'number' ? recipe.matchScore : 0.85;
@@ -208,7 +208,7 @@ export default function CuisineRecommender() {
   const { isDaytime = true, planetaryPositions = {}, state } = alchemicalContext ?? {};
   const { astrologicalState = { zodiacSign: 'aries', lunarPhase: 'new moon' } } = state ?? {};
   const { zodiacSign: currentZodiac, lunarPhase } = astrologicalState;
-  const elementalState = (state as any)?.elementalState;
+  const elementalState = (state as Record<string, unknown>)?.elementalState;
 
   const [selectedCuisine, setSelectedCuisine] = useState<string | null>(null);
   const [cuisineRecommendations, setCuisineRecommendations] = useState<any[]>([]);

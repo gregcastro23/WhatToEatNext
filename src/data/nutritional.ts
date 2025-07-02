@@ -474,7 +474,7 @@ function transformUSDADataToNutritionalProfile(food: USDAFoodData): NutritionalP
     };
   }
   
-  console.log(`Transforming food data: ${(food as any)?.description || food.foodClass || 'Unknown'} [${food.dataType || 'Unknown type'}]`);
+  console.log(`Transforming food data: ${(food as Record<string, unknown>)?.description || food.foodClass || 'Unknown'} [${food.dataType || 'Unknown type'}]`);
   
   // Initialize nutrition values
   const nutrients: Record<string, number> = {};
@@ -620,11 +620,11 @@ function transformUSDADataToNutritionalProfile(food: USDAFoodData): NutritionalP
   };
   
   // Apply surgical type casting with variable extraction for additional properties
-  const profileData = profile as any;
+  const profileData = profile as Record<string, unknown>;
   
   // Add food metadata if available
-  if ((food as any)?.description) {
-    profileData.name = (food as any)?.description;
+  if ((food as Record<string, unknown>)?.description) {
+    profileData.name = (food as Record<string, unknown>)?.description;
   }
   
   if (food.fdcId) {
@@ -771,8 +771,8 @@ export function getZodiacNutritionalRecommendations(sign: string): {
   const signData = zodiacNutritionalNeeds[sign];
   
   return {
-    elementalBalance: (signData as any)?.elementalNeeds,
-    focusNutrients: (signData as any)?.nutritionalFocus,
+    elementalBalance: (signData as Record<string, unknown>)?.elementalNeeds,
+    focusNutrients: (signData as Record<string, unknown>)?.nutritionalFocus,
     recommendedFoods: signData.beneficialFoods,
     avoidFoods: signData.challengeFoods
   };
@@ -820,8 +820,8 @@ export function getEnhancedPlanetaryNutritionalRecommendations(
   recommendedFoods: string[]
 } {
   // Normalize planet names to lowercase
-  const dayPlanet = (planetaryDay as any)?.toLowerCase?.();
-  const hourPlanet = (planetaryHour as any)?.toLowerCase?.();
+  const dayPlanet = (planetaryDay as string)?.toLowerCase?.();
+  const hourPlanet = (planetaryHour as string)?.toLowerCase?.();
   
   // Initialize results
   const focusNutrients: string[] = [];
@@ -930,7 +930,7 @@ export function getSeasonalNutritionalRecommendations(season: string): {
   seasonalFoods: string[]
 } {
   // Normalize season name
-  const normalizedSeason = (season as any)?.toLowerCase?.();
+  const normalizedSeason = (season as string)?.toLowerCase?.();
   
   // Handle both "autumn" and "fall"
   const seasonKey = (normalizedSeason === 'fall' || normalizedSeason === 'autumn') 
@@ -940,8 +940,8 @@ export function getSeasonalNutritionalRecommendations(season: string): {
   const seasonData = seasonalNutritionFocus[seasonKey] || seasonalNutritionFocus['spring'];
   
   return {
-    element: (seasonData as any)?.elementalEmphasis,
-    focusNutrients: (seasonData as any)?.nutritionalFocus,
+    element: (seasonData as Record<string, unknown>)?.elementalEmphasis,
+    focusNutrients: (seasonData as Record<string, unknown>)?.nutritionalFocus,
     seasonalFoods: seasonData.recommendedFoods
   };
 }

@@ -28,7 +28,7 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
     name: recipeData.name || 'Unnamed Recipe',
     ingredients,
     instructions: recipeData.instructions || ['Combine ingredients and cook as desired.'],
-    elementalProperties: (recipeData as any)?.elementalState || {
+    elementalProperties: (recipeData as Record<string, unknown>)?.elementalState || {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
@@ -50,7 +50,7 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
   }
 
   // Handle time-related properties
-  const recipeDataAny = recipeData as any;
+  const recipeDataAny = recipeData as Record<string, unknown>;
   if (recipeDataAny?.timeToMake !== undefined) {
     recipe.timeToMake = recipeDataAny.timeToMake;
   }
@@ -132,7 +132,7 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
 
   // Handle nutrition information
   if (recipeData.nutrition) {
-    const nutritionData = recipeData.nutrition as any;
+    const nutritionData = recipeData.nutrition as Record<string, unknown>;
     recipe.nutrition = {
       calories: nutritionData?.calories || 0, 
       protein: nutritionData?.protein || nutritionData?.macronutrients?.protein || 0, 
@@ -182,7 +182,7 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
  * @param ingredients Array of Ingredient objects from data/recipes.ts
  * @returns Array of type-safe RecipeIngredient objects
  */
-function adaptIngredients(ingredients: any[]): RecipeIngredient[] {
+function adaptIngredients(ingredients: Recipe[]): RecipeIngredient[] {
   return (ingredients || []).map(ingredient => {
     const recipeIngredient: RecipeIngredient = {
       name: ingredient.name || 'Unknown Ingredient', 
@@ -267,7 +267,7 @@ export function adaptAllRecipes(recipeDataArray: RecipeData[]): Recipe[] {
  * @returns ElementalProperties object
  */
 export function extractElementalProperties(recipeData: RecipeData): ElementalProperties {
-  const recipeDataAny = recipeData as any;
+  const recipeDataAny = recipeData as Record<string, unknown>;
   if (recipeDataAny?.elementalState) {
     return recipeDataAny.elementalState;
   }
