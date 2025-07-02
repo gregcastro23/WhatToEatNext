@@ -240,7 +240,7 @@ export class EnhancedTransitAnalysisService {
     dignity: { type: string; modifier: number },
     strength: number,
     locationInfluence: LocationPlanetaryInfluence | undefined,
-    planetData: any
+    planetData: Planet
   ): string[] {
     const recommendations: string[] = [];
     
@@ -314,7 +314,7 @@ export class EnhancedTransitAnalysisService {
    */
   private static generateLocationSpecificRecommendations(
     enhancedPositions: EnhancedPlanetaryPosition[],
-    aspectInfluences: any[],
+    aspectInfluences: PlanetaryPosition[],
     season: TransitSeason,
     location: GeographicCoordinates,
     date: Date
@@ -387,7 +387,7 @@ export class EnhancedTransitAnalysisService {
    */
   private static calculateDominantInfluences(
     enhancedPositions: EnhancedPlanetaryPosition[],
-    aspectInfluences: any[],
+    aspectInfluences: PlanetaryPosition[],
     season: TransitSeason,
     location: GeographicCoordinates,
     date: Date

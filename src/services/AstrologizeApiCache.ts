@@ -70,7 +70,7 @@ class AstrologizeApiCache {
    * Calculate elemental absolute and relative values
    */
   private calculateElementalValues(alchemicalResult: StandardizedAlchemicalResult) {
-    const resultData = alchemicalResult as any;
+    const resultData = alchemicalResult as Record<string, unknown>;
     const elementalBalance = resultData?.elementalBalance || {};
     const { Fire = 0, Water = 0, Earth = 0, Air = 0 } = elementalBalance;
 
@@ -109,7 +109,7 @@ class AstrologizeApiCache {
     const { elementalAbsolutes, elementalRelatives } = this.calculateElementalValues(alchemicalResult);
     
     // Safe access to alchemical result properties
-    const resultData = alchemicalResult as any;
+    const resultData = alchemicalResult as Record<string, unknown>;
     
     const cachedData: CachedAstrologicalData = {
       timestamp: Date.now(),
@@ -211,7 +211,7 @@ class AstrologizeApiCache {
     
     // For each planet, predict its position
     for (const [planet, position] of Object.entries(baseData.planetaryPositions)) {
-      const planetData = position as any;
+      const planetData = position as Record<string, unknown>;
       predictedPositions[planet] = {
         sign: planetData?.sign || '',
         degree: planetData?.degree || 0,
