@@ -127,7 +127,7 @@ export interface RecommendationServiceInterface {
     elementalProperties: ElementalProperties,
     type: 'recipe' | 'ingredient' | 'cuisine' | 'cookingMethod',
     limit?: number
-  ): Promise<RecommendationResult<any>>;
+  ): Promise<RecommendationResult<unknown>>;
 
   /**
    * Get recommendations based on planetary alignment
@@ -136,7 +136,7 @@ export interface RecommendationServiceInterface {
     planetaryPositions: Record<string, { sign: string; degree: number }>,
     type: 'recipe' | 'ingredient' | 'cuisine' | 'cookingMethod',
     limit?: number
-  ): Promise<RecommendationResult<any>>;
+  ): Promise<RecommendationResult<unknown>>;
 
   /**
    * Calculate thermodynamic metrics based on elemental properties
