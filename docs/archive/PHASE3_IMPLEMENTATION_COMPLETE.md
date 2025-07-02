@@ -138,7 +138,7 @@ water: 40.0%
 earth: 40.0%
 Air: 10.0%
 
-👨‍🍳 Cooking Optimization:
+🍳 Cooking Optimization:
 Optimal Temperature: 353°F
 Planetary Timing: moon hour
 Elemental Method: balanced

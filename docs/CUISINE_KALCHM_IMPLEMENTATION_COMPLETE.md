@@ -62,7 +62,7 @@ Most Common Ingredients:
 4. eggs: 1.0500 (used 1 times)
 5. maple syrup: 1.1000 (used 1 times)
 
-👨‍🍳 Cooking Method Influence:
+🍳 Cooking Method Influence:
 Primary Methods: pan-frying, flipping, baking, simmering, grilling
 Method Kalchm Modifiers:
   pan-frying: 0.6008

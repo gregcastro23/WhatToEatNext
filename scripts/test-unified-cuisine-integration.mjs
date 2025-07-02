@@ -260,7 +260,7 @@ try {
     }
   }
   
-  console.log(`👨‍🍳 Cooking Methods: ${cookingMethodPassed}/${cookingMethodChecks.length} methods covered`);
+  console.log(`🍳 Cooking Methods: ${cookingMethodPassed}/${cookingMethodChecks.length} methods covered`);
   
   // Overall assessment
   console.log(`\n📈 Overall Success Rate: ${successRate.toFixed(1)}%`);
@@ -502,7 +502,7 @@ try {
   console.log(`🧪 Functionality Tests: ${functionalitySuccessRate.toFixed(1)}%`);
   console.log(`🍽️  Cuisine Coverage: ${cuisineCoveragePassed}/${cuisineCoverageChecks.length} cuisines`);
   console.log(`🥘 Ingredient Categories: ${ingredientCategoryPassed}/${ingredientCategoryChecks.length} categories`);
-  console.log(`👨‍🍳 Cooking Methods: ${cookingMethodPassed}/${cookingMethodChecks.length} methods`);
+  console.log(`🍳 Cooking Methods: ${cookingMethodPassed}/${cookingMethodChecks.length} methods`);
   
   process.exit(overallSuccess ? 0 : 1);
   

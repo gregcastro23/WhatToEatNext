@@ -142,7 +142,7 @@ async function testBasicFlavorEngine() {
     console.log(`🌞 Seasonal alignment: ${(compatibility.seasonal * 100).toFixed(1)}%`);
     console.log(`🌍 Cultural compatibility: ${(compatibility.cultural * 100).toFixed(1)}%`);
     console.log(`🥗 Nutritional synergy: ${(compatibility.nutritional * 100).toFixed(1)}%`);
-    console.log(`👨‍🍳 Preparation compatibility: ${(compatibility.preparation * 100).toFixed(1)}%`);
+    console.log(`🍳 Preparation compatibility: ${(compatibility.preparation * 100).toFixed(1)}%`);
 
     // Test 5: Detailed Breakdown
     console.log('\n📈 Testing Detailed Breakdown...');

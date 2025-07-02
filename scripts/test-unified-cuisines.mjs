@@ -1691,7 +1691,7 @@ async function testUnifiedCuisineSystem() {
     });
     
     // Cooking Method Influence
-    console.log('\n👨‍🍳 Cooking Method Influence:');
+    console.log('\n🍳 Cooking Method Influence:');
     const cookingInfluence = enhancedCuisine.alchemicalProperties.cookingMethodInfluence;
     console.log(`Primary Methods: ${cookingInfluence.primaryMethods.join(', ')}`);
     console.log('Method Kalchm Modifiers:');
@@ -1970,7 +1970,7 @@ async function testUnifiedCuisineSystem() {
     });
     
     // Cooking Method Influence
-    console.log('\n👨‍🍳 Cooking Method Influence:');
+    console.log('\n🍳 Cooking Method Influence:');
     const cookingInfluence = enhancedCuisine.alchemicalProperties.cookingMethodInfluence;
     console.log(`Primary Methods: ${cookingInfluence.primaryMethods.join(', ')}`);
     console.log('Method Kalchm Modifiers:');
@@ -2248,7 +2248,7 @@ async function testUnifiedCuisineSystem() {
     });
     
     // Cooking Method Influence
-    console.log('\n👨‍🍳 Cooking Method Influence:');
+    console.log('\n🍳 Cooking Method Influence:');
     const cookingInfluence = enhancedCuisine.alchemicalProperties.cookingMethodInfluence;
     console.log(`Primary Methods: ${cookingInfluence.primaryMethods.join(', ')}`);
     console.log('Method Kalchm Modifiers:');
@@ -3282,7 +3282,7 @@ async function testUnifiedCuisineSystem() {
     });
     
     // Cooking Method Influence
-    console.log('\n👨‍🍳 Cooking Method Influence:');
+    console.log('\n🍳 Cooking Method Influence:');
     const cookingInfluence = enhancedCuisine.alchemicalProperties.cookingMethodInfluence;
     console.log(`Primary Methods: ${cookingInfluence.primaryMethods.join(', ')}`);
     console.log('Method Kalchm Modifiers:');
@@ -3561,7 +3561,7 @@ async function testUnifiedCuisineSystem() {
     });
     
     // Cooking Method Influence
-    console.log('\n👨‍🍳 Cooking Method Influence:');
+    console.log('\n🍳 Cooking Method Influence:');
     const cookingInfluence = enhancedCuisine.alchemicalProperties.cookingMethodInfluence;
     console.log(`Primary Methods: ${cookingInfluence.primaryMethods.join(', ')}`);
     console.log('Method Kalchm Modifiers:');
@@ -3839,7 +3839,7 @@ async function testUnifiedCuisineSystem() {
     });
     
     // Cooking Method Influence
-    console.log('\n👨‍🍳 Cooking Method Influence:');
+    console.log('\n🍳 Cooking Method Influence:');
     const cookingInfluence = enhancedCuisine.alchemicalProperties.cookingMethodInfluence;
     console.log(`Primary Methods: ${cookingInfluence.primaryMethods.join(', ')}`);
     console.log('Method Kalchm Modifiers:');

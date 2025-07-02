@@ -426,7 +426,7 @@ async function testUnifiedRecipeSystem() {
     });
     
     // Cooking Optimization
-    console.log('\n👨‍🍳 Cooking Optimization:');
+    console.log('\n🍳 Cooking Optimization:');
     const cooking = enhancedRecipe.cookingOptimization;
     console.log(`Optimal Temperature: ${cooking.optimalTemperature}°F`);
     console.log(`Planetary Timing: ${cooking.planetaryTiming || 'None specified'}`);

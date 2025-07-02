@@ -197,7 +197,7 @@ async function testUnifiedFlavorEngine() {
       console.log(`✅ Contextual compatibility: ${(contextualCompatibility.overall * 100).toFixed(1)}%`);
       console.log(`🌞 Seasonal alignment: ${(contextualCompatibility.seasonal * 100).toFixed(1)}%`);
       console.log(`🌍 Cultural compatibility: ${(contextualCompatibility.cultural * 100).toFixed(1)}%`);
-      console.log(`👨‍🍳 Preparation compatibility: ${(contextualCompatibility.preparation * 100).toFixed(1)}%`);
+      console.log(`🍳 Preparation compatibility: ${(contextualCompatibility.preparation * 100).toFixed(1)}%`);
     }
 
     // Test 10: Error Handling
