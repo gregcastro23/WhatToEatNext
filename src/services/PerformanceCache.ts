@@ -200,7 +200,7 @@ export class PerformanceCache<T> {
   /**
    * Estimate object size in bytes (rough calculation)
    */
-  private estimateObjectSize(obj: any): number {
+  private estimateObjectSize(obj: unknown): number {
     if (obj === null || obj === undefined) return 0;
     
     if (typeof obj === 'string') return (obj || []).length * 2;
@@ -374,9 +374,9 @@ export class PerformanceMonitor {
 
 // ===== GLOBAL CACHE INSTANCES =====
 
-export const flavorCompatibilityCache = new PerformanceCache<any>(2000, 600000); // 10 minutes TTL
-export const astrologicalProfileCache = new PerformanceCache<any>(500, 300000); // 5 minutes TTL
-export const ingredientProfileCache = new PerformanceCache<any>(1500, 1800000); // 30 minutes TTL
+export const flavorCompatibilityCache = new PerformanceCache<unknown>(2000, 600000); // 10 minutes TTL
+export const astrologicalProfileCache = new PerformanceCache<unknown>(500, 300000); // 5 minutes TTL
+export const ingredientProfileCache = new PerformanceCache<unknown>(1500, 1800000); // 30 minutes TTL
 export const performanceMonitor = new PerformanceMonitor();
 
 // ===== CACHE WARMING FUNCTIONS =====

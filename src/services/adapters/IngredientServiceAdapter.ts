@@ -65,7 +65,7 @@ export class EnhancedIngredientSystem {
       logger.info('Getting recommended ingredients', { state, options });
       
       // Create elemental properties from the state - safe property access
-      const elements = (state as any)?.elements || (state as any)?.elementalPreference || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+      const elements = (state as Record<string, unknown>)?.elements || (state as Record<string, unknown>)?.elementalPreference || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
       const elementalState = createElementalProperties({ 
         Fire: elements.Fire || 0.25, 
         Water: elements.Water || 0.25, 
@@ -86,7 +86,7 @@ export class EnhancedIngredientSystem {
       let filtered = recommended;
       
       // Filter by season if specified - apply surgical type casting
-      const optionsData = options as any;
+      const optionsData = options as Record<string, unknown>;
       const currentSeason = optionsData?.currentSeason;
       if (currentSeason) {
         filtered = filtered.filter(ingredient => {

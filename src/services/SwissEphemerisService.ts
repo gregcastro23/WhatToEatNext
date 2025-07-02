@@ -507,10 +507,10 @@ export class SwissEphemerisService {
         let newLongitude = currentLongitude + (motion * daysDiff);
         newLongitude = ((newLongitude % 360) + 360) % 360;
         
-        (approximatedEntry as any)[planetCode] = newLongitude;
+        (approximatedEntry as Record<string, unknown>)[planetCode] = newLongitude;
         
         const { sign } = this.longitudeToSignAndDegree(newLongitude);
-        (approximatedEntry as any)[`${planetCode}_sign`] = sign;
+        (approximatedEntry as Record<string, unknown>)[`${planetCode}_sign`] = sign;
       }
     });
 
