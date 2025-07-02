@@ -1,14 +1,14 @@
 {
-  "totalRuns": 38,
+  "totalRuns": 39,
   "successfulRuns": 1,
   "filesProcessed": 320,
   "anysReplaced": 6341,
   "errorsEncountered": 0,
-  "corruptionDetected": 211,
+  "corruptionDetected": 216,
   "buildFailures": 0,
-  "averageBatchSize": 23.763157894736842,
+  "averageBatchSize": 23.41025641025641,
   "maxSafeBatchSize": 5,
-  "lastRunTime": "2025-07-02T22:54:54.755Z",
+  "lastRunTime": "2025-07-02T23:13:51.440Z",
   "safetyScore": 0,
   "replacementTypeSuccess": {
     "conservative_generic_fallback": {
@@ -21,11 +21,11 @@
     },
     "conservative_parameter_fallback": {
       "successes": 285,
-      "attempts": 323
+      "attempts": 324
     },
     "project_specific_inference": {
       "successes": 309,
-      "attempts": 497
+      "attempts": 500
     },
     "error_handling_preserved": {
       "successes": 0,
@@ -33,7 +33,7 @@
     },
     "conservative_array_fallback": {
       "successes": 25,
-      "attempts": 237
+      "attempts": 243
     },
     "thermodynamic_property_access": {
       "successes": 208,
@@ -77,11 +77,11 @@
     },
     "configuration_preserved": {
       "successes": 0,
-      "attempts": 148
+      "attempts": 152
     },
     "callback_function_detected": {
       "successes": 0,
-      "attempts": 62
+      "attempts": 64
     },
     "method_parameter_detected": {
       "successes": 17,
@@ -101,7 +101,7 @@
     },
     "array_element_inference": {
       "successes": 67,
-      "attempts": 179
+      "attempts": 181
     },
     "element_array_detected": {
       "successes": 5,
@@ -121,7 +121,7 @@
     },
     "generic_map_fallback": {
       "successes": 0,
-      "attempts": 1102
+      "attempts": 1128
     },
     "safe_thermodynamic_access": {
       "successes": 0,
@@ -133,7 +133,7 @@
     },
     "generic_ingredient_detected": {
       "successes": 0,
-      "attempts": 26
+      "attempts": 27
     },
     "generic_array_fallback": {
       "successes": 2,
@@ -146,7 +146,7 @@
   },
   "patternEffectiveness": {},
   "performanceMetrics": {
-    "averageFileTime": 3979.38125,
-    "totalProcessingTime": 1273402
+    "averageFileTime": 3979.953125,
+    "totalProcessingTime": 1273585
   }
 }
