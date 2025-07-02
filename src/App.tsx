@@ -12,6 +12,7 @@ import { initializeAlchemicalEngine } from '@/utils/alchemyInitializer';
 import GlobalErrorBoundary from '@/components/errors/GlobalErrorBoundary';
 import ErrorFallback from '@/components/errors/ErrorFallback';
 import ErrorHandler from '@/services/errorHandler';
+import { ElementalCalculator } from '@/services/ElementalCalculator';
 import './styles/expandable.css';  // Import our expandable component styles
 
 // Dynamically import FoodRecommender with loading state
