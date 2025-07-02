@@ -5,7 +5,7 @@ interface InfiniteLoopDetectorProps {
   threshold?: any;
   timeWindow?: any;
   reportOnly?: any;
-  children: any;
+  children: unknown;
 }
 
 

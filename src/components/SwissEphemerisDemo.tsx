@@ -16,9 +16,9 @@ interface SwissEphemerisDemoProps {
 }
 
 export default function SwissEphemerisDemo({ className = '' }: SwissEphemerisDemoProps) {
-  const [enhancedData, setEnhancedData] = useState<any>(null);
-  const [seasonalRecs, setSeasonalRecs] = useState<any>(null);
-  const [transitAnalysis, setTransitAnalysis] = useState<any>(null);
+  const [enhancedData, setEnhancedData] = useState<unknown>(null);
+  const [seasonalRecs, setSeasonalRecs] = useState<unknown>(null);
+  const [transitAnalysis, setTransitAnalysis] = useState<unknown>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -60,7 +60,7 @@ export default function SwissEphemerisDemo({ className = '' }: SwissEphemerisDem
     });
   };
 
-  const formatPosition = (position: any) => {
+  const formatPosition = (position: unknown) => {
     if (!position) return 'N/A';
     return `${position.sign} ${position.degree?.toFixed(1)}° (${position.exactLongitude?.toFixed(1)}°)${position.isRetrograde ? ' R' : ''}`;
   };
@@ -255,7 +255,7 @@ export default function SwissEphemerisDemo({ className = '' }: SwissEphemerisDem
               <div>
                 <h4 className="font-medium text-gray-700 mb-2">Key Aspects:</h4>
                 <div className="space-y-2">
-                  {transitAnalysis.keyAspects.slice(0, 3).map((aspect: any, index: number) => (
+                  {transitAnalysis.keyAspects.slice(0, 3).map((aspect: unknown, index: number) => (
                     <div key={index} className="p-2 bg-yellow-50 rounded text-sm">
                       <div className="font-medium">
                         {aspect.planet1} {aspect.aspectType} {aspect.planet2}
