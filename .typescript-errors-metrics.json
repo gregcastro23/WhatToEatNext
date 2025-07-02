@@ -1,43 +1,43 @@
 {
-  "totalRuns": 14,
-  "successfulRuns": 1,
-  "filesProcessed": 21,
-  "errorsFixed": 62,
+  "totalRuns": 17,
+  "successfulRuns": 2,
+  "filesProcessed": 24,
+  "errorsFixed": 66,
   "errorsEncountered": 0,
-  "corruptionDetected": 6,
+  "corruptionDetected": 10,
   "buildFailures": 8,
-  "averageBatchSize": 17.285714285714285,
+  "averageBatchSize": 15.882352941176471,
   "maxSafeBatchSize": 5,
-  "lastRunTime": "2025-07-02T06:10:22.290Z",
+  "lastRunTime": "2025-07-02T07:27:11.031Z",
   "safetyScore": 0,
   "errorTypeSuccess": {
     "TS2304": {
       "fixed": 4,
-      "attempted": 43
+      "attempted": 45
     },
     "TS2345": {
-      "fixed": 0,
-      "attempted": 32
+      "fixed": 2,
+      "attempted": 42
     },
     "TS2322": {
-      "fixed": 58,
-      "attempted": 191
+      "fixed": 60,
+      "attempted": 293
     },
     "TS2740": {
       "fixed": 0,
-      "attempted": 65
+      "attempted": 77
     },
     "TS2339": {
       "fixed": 0,
-      "attempted": 62
+      "attempted": 73
     },
     "TS2820": {
       "fixed": 0,
-      "attempted": 13
+      "attempted": 15
     },
     "TS2741": {
       "fixed": 0,
-      "attempted": 24
+      "attempted": 37
     },
     "TS2459": {
       "fixed": 0,
@@ -45,7 +45,7 @@
     },
     "TS2352": {
       "fixed": 0,
-      "attempted": 6
+      "attempted": 8
     },
     "TS1005": {
       "fixed": 0,
@@ -66,6 +66,14 @@
     "TS2305": {
       "fixed": 0,
       "attempted": 4
+    },
+    "TS1185": {
+      "fixed": 0,
+      "attempted": 3
+    },
+    "TS2739": {
+      "fixed": 0,
+      "attempted": 2
     }
   },
   "patternEffectiveness": {
@@ -80,10 +88,22 @@
     "TS2322_object_to_interface": {
       "successes": 32,
       "attempts": 32
+    },
+    "TS2345_string_to_season_type_assertion": {
+      "successes": 1,
+      "attempts": 1
+    },
+    "TS2345_string_to_planet_type_assertion": {
+      "successes": 1,
+      "attempts": 1
+    },
+    "TS2322_geographic_coordinates_name_to_locality": {
+      "successes": 2,
+      "attempts": 2
     }
   },
   "performanceMetrics": {
-    "averageFileTime": 16445.095238095237,
-    "totalProcessingTime": 345347
+    "averageFileTime": 19326.333333333332,
+    "totalProcessingTime": 463832
   }
 }
