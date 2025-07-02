@@ -283,7 +283,7 @@ async function main() {
   console.log(`Files already consistent: ${totalProcessed - totalModified}`);
   
   if (isDryRun) {
-    console.log('\n🏃‍♂️ DRY RUN COMPLETED - No files were actually modified');
+    console.log('\n🏃 DRY RUN COMPLETED - No files were actually modified');
     console.log('Run without --dry-run to apply changes');
   } else {
     console.log('\n✨ Data harmonization completed!');

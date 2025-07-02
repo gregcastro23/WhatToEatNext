@@ -161,7 +161,7 @@ async function main() {
     }
     
     if (isDryRun) {
-      console.log(`🏃‍♂️ Would remove: ${path.relative(ROOT_DIR, file)}`);
+      console.log(`🏃 Would remove: ${path.relative(ROOT_DIR, file)}`);
       removed++;
     } else {
       const success = removeCorruptedItem(file);
@@ -181,7 +181,7 @@ async function main() {
   }
   
   if (isDryRun) {
-    console.log('\n🏃‍♂️ DRY RUN COMPLETED - No files were actually removed');
+    console.log('\n🏃 DRY RUN COMPLETED - No files were actually removed');
     console.log('Run without --dry-run to apply cleanup');
   } else {
     console.log('\n✨ Cleanup completed!');
