@@ -59,8 +59,8 @@ function ensureRecipeProperties(recipe: Partial<Recipe>): Recipe {
   }
 
   // Validate name format
-  if ((recipe as any)?.name) {
-    if ((recipe as any)?.name.length < 3 || (recipe as any)?.name.length > 100) {
+  if ((recipe as Record<string, unknown>)?.name) {
+    if ((recipe as Recipe[])?.name.length < 3 || (recipe as Recipe[])?.name.length > 100) {
       throw new Error('Recipe name must be between 3 and 100 characters');
     }
   }
@@ -470,7 +470,7 @@ class RecipeData {
       
       const allRecipes = await this.getAllRecipes();
       return allRecipes.filter(recipe => 
-        (recipe as any)?.cuisine?.toLowerCase() === (cuisine as any)?.toLowerCase?.()
+        (recipe as string)?.cuisine?.toLowerCase() === (cuisine as string)?.toLowerCase?.()
       );
     } catch (error) {
       errorHandler.handleError(error, {
@@ -491,7 +491,7 @@ class RecipeData {
       const recipes = await this.getAllRecipes();
       return recipes.filter(recipe => 
         (recipe as string)?.name?.toLowerCase?.().includes(lowercaseQuery) ||
-        (recipe as any)?.cuisine?.toLowerCase().includes(lowercaseQuery)
+        (recipe as string)?.cuisine?.toLowerCase().includes(lowercaseQuery)
       );
     } catch (error) {
       errorHandler.handleError(error, {

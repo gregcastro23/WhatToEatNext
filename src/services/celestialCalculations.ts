@@ -795,7 +795,7 @@ class CelestialCalculator {
     // Try to use the astronomy calculator if available
     try {
       // Apply safe type casting for module property access
-      const calculator = astronomiaCalculator as any;
+      const calculator = astronomiaCalculator as Record<string, unknown>;
       if (typeof calculator !== 'undefined' && 
           typeof calculator?.calculateLunarPhase === 'function') {
         const lunarPhase = calculator.calculateLunarPhase(date);
@@ -1222,7 +1222,7 @@ class CelestialCalculator {
       const jupiterPlanet = alignment.dominantPlanets.find(p => p.name === 'Jupiter');
       if (jupiterPlanet) {
         const jupiterInfluence = jupiterPlanet.influence;
-        const jupiterEffect = (jupiterPlanet as any).effect as 'expansive' | 'balanced' | 'restricted';
+        const jupiterEffect = (jupiterPlanet as Record<string, unknown>).effect as 'expansive' | 'balanced' | 'restricted';
         
         // Apply effects based on Jupiter's condition
         if (jupiterEffect === 'expansive') {
@@ -1250,7 +1250,7 @@ class CelestialCalculator {
       const saturnPlanet = alignment.dominantPlanets.find(p => p.name === 'Saturn');
       if (saturnPlanet) {
         const saturnInfluence = saturnPlanet.influence;
-        const saturnEffect = (saturnPlanet as any).effect as 'restrictive' | 'balanced' | 'softened';
+        const saturnEffect = (saturnPlanet as Record<string, unknown>).effect as 'restrictive' | 'balanced' | 'softened';
         
         // Apply effects based on Saturn's condition
         if (saturnEffect === 'restrictive') {
@@ -1416,7 +1416,7 @@ class CelestialCalculator {
         const value = valueMap[cardName.split('_')[0]] || 0;
         
         // Get elemental association
-        const affinityData = MINOR_ARCANA_ELEMENTAL_AFFINITIES[suit as keyof typeof MINOR_ARCANA_ELEMENTAL_AFFINITIES] as any;
+        const affinityData = MINOR_ARCANA_ELEMENTAL_AFFINITIES[suit as keyof typeof MINOR_ARCANA_ELEMENTAL_AFFINITIES] as Record<string, unknown>;
         const { element, _energyState } = affinityData;
         
         // Determine the zodiac sign based on the date
