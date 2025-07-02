@@ -545,6 +545,19 @@ function detectCorruption(content, filePath) {
     /ElementalProperties\s+ElementalProperties/g,
     /as\s+BasicThermodynamicProperties\s+as/g,  // Double type assertions
     /as\s+string\s+as/g,                    // Chained type assertions
+    
+    // NEW: Additional corruption patterns based on analysis
+    /as\s+Record<string,\s*unknown>\s+as/g,  // Double Record assertions
+    /as\s+unknown\s+as\s+unknown/g,         // Triple unknown assertions
+    /Record<string,\s*unknown>\s+as\s+unknown/g, // Mixed Record/unknown assertions
+    
+    // NEW: Parentheses corruption patterns (causing ((( issues)
+    /\(\s*\(\s*\(\s*[a-zA-Z_$][a-zA-Z0-9_$]*\s+as\s+any/g, // Triple opening with as any
+    /as\s+any\s*\)\s*\)\s*\)\s*\??\./g,      // Triple closing after as any
+    
+    // NEW: Method call corruptions
+    /\?\.\s*includes\?\s*\?\./g,            // Malformed optional chaining in includes
+    /includes\?\.\s*\(/g,                   // Wrong optional chaining on includes
   ];
   
   for (const pattern of corruptionPatterns) {
@@ -1530,22 +1543,40 @@ function replaceAnyUsage(content, anyUsage, newType) {
       break;
     
     case 'type_assertion':
-      // Enhanced type assertion replacement with pattern recognition
+      // Enhanced type assertion replacement with corruption prevention
       if (line.includes('as any') && line.includes('.')) {
-        // Pattern: (obj as any).property → (obj as NewType).property
-        line = line.replace(/\(\s*([^)]+)\s+as\s+any\s*\)/g, `($1 as ${newType})`);
+        // CORRUPTION PREVENTION: Check for existing type assertions to prevent chaining
+        if (line.includes(`as ${newType}`)) {
+          // Don't create redundant type assertions like "as unknown as unknown"
+          log(`    ⚠️  Preventing redundant type assertion for ${newType}`, 'yellow');
+          break;
+        }
+        
+        // Pattern: (obj as any).property → (obj as NewType).property  
+        // SAFE: Only replace parenthesized expressions to avoid corruption
+        const parenthesizedPattern = /\(\s*([^)]+?)\s+as\s+any\s*\)/g;
+        if (parenthesizedPattern.test(line)) {
+          line = line.replace(parenthesizedPattern, `($1 as ${newType})`);
+        }
         
         // Pattern: obj as any → obj as NewType (simple cases)
-        if (line === originalLine) {
+        else if (line === originalLine) {
+          // SAFE: Only match word boundaries to avoid partial matches
           line = line.replace(/(\w+)\s+as\s+any\b/g, `$1 as ${newType}`);
         }
         
-        // Pattern: (expr as any) → (expr as NewType)
-        if (line === originalLine) {
+        // Pattern: (expr as any) → (expr as NewType) - Last resort
+        else if (line === originalLine) {
           line = line.replace(/\bas\s+any\b/g, `as ${newType}`);
         }
       } else {
-        // Standard type assertion replacement
+        // CORRUPTION PREVENTION: Check for existing assertions
+        if (line.includes(`as ${newType}`) && !line.includes('as any')) {
+          log(`    ⚠️  Skipping - type ${newType} already present`, 'yellow');
+          break;
+        }
+        
+        // Standard type assertion replacement - SAFE pattern
         line = line.replace(/\bas\s+any\b/, `as ${newType}`);
       }
       break;
@@ -1555,16 +1586,39 @@ function replaceAnyUsage(content, anyUsage, newType) {
       break;
     
     default:
-      // Enhanced fallback with pattern recognition
+      // Enhanced fallback with corruption prevention
       if (line.includes('as any')) {
-        // Handle complex type assertion patterns
+        // CORRUPTION PREVENTION: Check for existing type before replacing
+        if (line.includes(`as ${newType}`) && !line.includes('as any')) {
+          log(`    ⚠️  Skipping - ${newType} assertion already present`, 'yellow');
+          break;
+        }
+        
+        // Handle complex type assertion patterns - SAFE replacement
         line = line.replace(/\bas\s+any\b/g, `as ${newType}`);
       } else if (line.includes(': any')) {
-        // Handle type annotation patterns
+        // CORRUPTION PREVENTION: Check for existing type annotation
+        if (line.includes(`: ${newType}`) && !line.includes(': any')) {
+          log(`    ⚠️  Skipping - ${newType} annotation already present`, 'yellow');
+          break;
+        }
+        
+        // Handle type annotation patterns - SAFE replacement
         line = line.replace(/:\s*any\b/g, `: ${newType}`);
       } else {
-        // Last resort - replace any occurrence of 'any' as a type
-        line = line.replace(/\bany\b/g, newType);
+        // CORRUPTION PREVENTION: Only replace if it's a clear type context
+        if (line.includes(`${newType}`)) {
+          log(`    ⚠️  Skipping - ${newType} already present in line`, 'yellow');
+          break;
+        }
+        
+        // Last resort - replace any occurrence of 'any' as a type - SAFE pattern
+        // Only if it's clearly in a type context (after : or as)
+        if (line.match(/[:=]\s*any\b|as\s+any\b|<any>/)) {
+          line = line.replace(/\bany\b/g, newType);
+        } else {
+          log(`    ⚠️  Skipping unclear context replacement for safety`, 'yellow');
+        }
       }
       break;
   }
