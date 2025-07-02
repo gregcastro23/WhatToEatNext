@@ -26,12 +26,12 @@ export function initializeChromeApis(): void {
 
     // Initialize chrome object if it doesn't exist
     if (!window.chrome) {
-      (window as any).chrome = {};
+      (window as Record<string, unknown>).chrome = {};
     }
 
     // Initialize tabs API with safe methods
-    if (!(window as any).chrome.tabs) {
-      (window as any).chrome.tabs = {
+    if (!(window as Record<string, unknown>).chrome.tabs) {
+      (window as Record<string, unknown>).chrome.tabs = {
         create: function(options: { url?: string }) {
           console.log('[ChromeAPI] Mocked chrome.tabs.create called with:', options);
           
@@ -62,13 +62,13 @@ export function initializeChromeApis(): void {
     }
 
     // Initialize runtime API
-    if (!(window as any).chrome.runtime) {
-      (window as any).chrome.runtime = {
+    if (!(window as Record<string, unknown>).chrome.runtime) {
+      (window as Record<string, unknown>).chrome.runtime = {
         lastError: null,
         getURL: function(path: string) {
           return window.location.origin + '/' + path;
         },
-        sendMessage: function(message: any) {
+        sendMessage: function(message: unknown) {
           console.log('[ChromeAPI] Mocked chrome.runtime.sendMessage called:', message);
           return Promise.resolve({ success: true });
         },
@@ -80,8 +80,8 @@ export function initializeChromeApis(): void {
     }
 
     // Initialize extension API
-    if (!(window as any).chrome.extension) {
-      (window as any).chrome.extension = {
+    if (!(window as Record<string, unknown>).chrome.extension) {
+      (window as Record<string, unknown>).chrome.extension = {
         getURL: function(path: string) {
           return window.location.origin + '/' + path;
         },
@@ -92,10 +92,10 @@ export function initializeChromeApis(): void {
     }
 
     // Initialize storage API
-    if (!(window as any).chrome.storage) {
+    if (!(window as Record<string, unknown>).chrome.storage) {
       const mockStorage: Record<string, any> = {};
       
-      (window as any).chrome.storage = {
+      (window as Record<string, unknown>).chrome.storage = {
         local: {
           get: function(keys: string | string[] | null, callback?: (items: Record<string, any>) => void) {
             let result: Record<string, any> = {};
@@ -139,11 +139,11 @@ export function initializeChromeApis(): void {
           }
         },
         sync: {
-          get: function(keys: any, callback?: Function) {
+          get: function(keys: unknown, callback?: Function) {
             if (callback) setTimeout(() => callback({}), 0);
             return Promise.resolve({});
           },
-          set: function(items: any, callback?: Function) {
+          set: function(items: unknown, callback?: Function) {
             if (callback) setTimeout(callback, 0);
             return Promise.resolve();
           }

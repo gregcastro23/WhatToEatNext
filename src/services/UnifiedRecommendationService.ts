@@ -57,7 +57,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       let score = 0;
       
       // Use safe type casting for criteria access
-      const criteriaData = criteria as any;
+      const criteriaData = criteria as Record<string, unknown>;
       const elementalState = criteriaData?.elementalState || criteriaData?.elementalProperties;
       
       // Calculate elemental compatibility if criteria includes elemental properties
@@ -161,7 +161,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       let score = 0;
       
       // Use safe type casting for criteria access
-      const criteriaData = criteria as any;
+      const criteriaData = criteria as Record<string, unknown>;
       const elementalState = criteriaData?.elementalState || criteriaData?.elementalProperties;
       
       // Calculate elemental compatibility if criteria includes elemental properties
@@ -290,7 +290,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       let score = 0.5; // Start with a neutral score
       
       // Use safe type casting for criteria access
-      const criteriaData = criteria as any;
+      const criteriaData = criteria as Record<string, unknown>;
       const elementalState = criteriaData?.elementalState || criteriaData?.elementalProperties;
       
       // Calculate elemental compatibility if criteria includes elemental properties
@@ -398,7 +398,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     if (criteria.excludeMethods && (criteria.excludeMethods || []).length > 0) {
       const excludedSet = new Set((criteria?.excludeMethods || []).map(m => m?.toLowerCase()));
       availableMethods = (cookingMethods || []).filter(method => {
-        const methodData = method as any;
+        const methodData = method as CookingMethod;
         return !excludedSet.has(methodData?.name?.toLowerCase() || '');
       });
     }
@@ -408,11 +408,11 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       let score = 0.5; // Start with a neutral score
       
       // Use safe type casting for criteria access
-      const criteriaData = criteria as any;
+      const criteriaData = criteria as Record<string, unknown>;
       const elementalState = criteriaData?.elementalState || criteriaData?.elementalProperties;
       
       // Calculate elemental compatibility if criteria includes elemental properties
-      const methodData = method as any;
+      const methodData = method as CookingMethod;
       if (elementalState && methodData?.elementalEffect) {
         const elementalScore = this.calculateElementalCompatibility(
           elementalState,
@@ -442,7 +442,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     // Build scores record
     const scores: { [key: string]: number } = {};
     (limitedMethods || []).forEach(item => {
-      const methodData = item.method as any;
+      const methodData = item.method as Record<string, unknown>;
       const methodId = methodData?.name || 'unknown';
       scores[methodId] = item.score;
     });
@@ -466,7 +466,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     target: ElementalProperties
   ): number {
     // Apply Pattern PP-1: Safe service method access
-    const alchemicalEngineData = alchemicalEngine as any;
+    const alchemicalEngineData = alchemicalEngine as CookingMethod;
     if (alchemicalEngineData?.calculateElementalCompatibility) {
       return alchemicalEngineData.calculateElementalCompatibility(source, target);
     }
@@ -488,7 +488,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     elementalProperties: ElementalProperties,
     type: 'recipe' | 'ingredient' | 'cuisine' | 'cookingMethod',
     limit?: number
-  ): Promise<RecommendationResult<any>> {
+  ): Promise<RecommendationResult<unknown>> {
     switch (type) {
       case 'recipe':
         return this.getRecommendedRecipes({
@@ -526,7 +526,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     planetaryPositions: Record<string, { sign: string; degree: number }>,
     type: 'recipe' | 'ingredient' | 'cuisine' | 'cookingMethod',
     limit?: number
-  ): Promise<RecommendationResult<any>> {
+  ): Promise<RecommendationResult<unknown>> {
     // Convert planetary positions to elemental properties
     // This is a simplified implementation
     const elementalProperties: ElementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };

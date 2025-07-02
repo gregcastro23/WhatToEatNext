@@ -37,7 +37,7 @@ export class UnifiedNutritionalService {
   
   private constructor() {
     // Apply Pattern PP-1: Safe service initialization
-    const NutritionServiceData = NutritionService as any;
+    const NutritionServiceData = NutritionService as Record<string, unknown>;
     this.legacyNutritionService = NutritionServiceData?.getInstance?.() || new NutritionService();
   }
   
@@ -118,7 +118,7 @@ export class UnifiedNutritionalService {
       }
       
       // Apply surgical type casting with variable extraction
-      const systemData = unifiedNutritionalSystem as any;
+      const systemData = unifiedNutritionalSystem as Record<string, unknown>;
       const enhanceMethod = systemData?.enhanceNutritionalProfile;
       
       // Enhance with alchemical properties
@@ -152,7 +152,7 @@ export class UnifiedNutritionalService {
    */
   calculateNutritionalKalchm(profile: NutritionalProfile): number {
     // Apply surgical type casting with variable extraction
-    const systemData = unifiedNutritionalSystem as any;
+    const systemData = unifiedNutritionalSystem as Record<string, unknown>;
     const calculateKalchmMethod = systemData?.calculateNutritionalKalchm;
     
     return calculateKalchmMethod ? calculateKalchmMethod(profile) : 0;
@@ -179,7 +179,7 @@ export class UnifiedNutritionalService {
         }
       }
       
-      return unifiedNutritionalSystem.analyzeNutritionalCompatibility(profiles, context) as any;
+      return unifiedNutritionalSystem.analyzeNutritionalCompatibility(profiles, context) as Record<string, unknown>;
       
     } catch (error) {
       logger.error('Error analyzing nutritional compatibility:', error);
@@ -302,7 +302,7 @@ export class UnifiedNutritionalService {
       
       // Check protein range
       if (filter.minProtein !== undefined || filter.maxProtein !== undefined) {
-        const profileData = nutritionalProfile as any;
+        const profileData = nutritionalProfile as Record<string, unknown>;
         const protein = profileData.protein || profileData.macros?.protein || 0;
         if (filter.minProtein !== undefined && protein < filter.minProtein) return false;
         if (filter.maxProtein !== undefined && protein > filter.maxProtein) return false;
@@ -310,7 +310,7 @@ export class UnifiedNutritionalService {
       
       // Check fiber range
       if (filter.minFiber !== undefined || filter.maxFiber !== undefined) {
-        const profileData = nutritionalProfile as any;
+        const profileData = nutritionalProfile as Record<string, unknown>;
         const fiber = profileData.fiber || profileData.macros?.fiber || 0;
         if (filter.minFiber !== undefined && fiber < filter.minFiber) return false;
         if (filter.maxFiber !== undefined && fiber > filter.maxFiber) return false;
@@ -318,7 +318,7 @@ export class UnifiedNutritionalService {
       
       // Check calorie range
       if (filter.minCalories !== undefined || filter.maxCalories !== undefined) {
-        const profileData = nutritionalProfile as any;
+        const profileData = nutritionalProfile as Record<string, unknown>;
         const calories = profileData.calories || 0;
         if (filter.minCalories !== undefined && calories < filter.minCalories) return false;
         if (filter.maxCalories !== undefined && calories > filter.maxCalories) return false;
@@ -326,7 +326,7 @@ export class UnifiedNutritionalService {
       
       // Check carb range
       if (filter.minCarbs !== undefined || filter.maxCarbs !== undefined) {
-        const profileData = nutritionalProfile as any;
+        const profileData = nutritionalProfile as Record<string, unknown>;
         const carbs = profileData.carbs || profileData.macros?.carbs || 0;
         if (filter.minCarbs !== undefined && carbs < filter.minCarbs) return false;
         if (filter.maxCarbs !== undefined && carbs > filter.maxCarbs) return false;
@@ -334,7 +334,7 @@ export class UnifiedNutritionalService {
       
       // Check fat range
       if (filter.minFat !== undefined || filter.maxFat !== undefined) {
-        const profileData = nutritionalProfile as any;
+        const profileData = nutritionalProfile as Record<string, unknown>;
         const fat = profileData.fat || profileData.macros?.fat || 0;
         if (filter.minFat !== undefined && fat < filter.minFat) return false;
         if (filter.maxFat !== undefined && fat > filter.maxFat) return false;
@@ -368,21 +368,21 @@ export class UnifiedNutritionalService {
       
       // Check high protein flag
       if (filter.highProtein) {
-        const profileData = nutritionalProfile as any;
+        const profileData = nutritionalProfile as Record<string, unknown>;
         const protein = profileData.protein || profileData.macros?.protein || 0;
         if (protein < 10) return false; // Threshold for high protein
       }
       
       // Check low carb flag
       if (filter.lowCarb) {
-        const profileData = nutritionalProfile as any;
+        const profileData = nutritionalProfile as Record<string, unknown>;
         const carbs = profileData.carbs || profileData.macros?.carbs || 0;
         if (carbs > 20) return false; // Threshold for low carb
       }
       
       // Check low fat flag
       if (filter.lowFat) {
-        const profileData = nutritionalProfile as any;
+        const profileData = nutritionalProfile as Record<string, unknown>;
         const fat = profileData.fat || profileData.macros?.fat || 0;
         if (fat > 10) return false; // Threshold for low fat
       }
@@ -633,7 +633,7 @@ export class UnifiedNutritionalService {
   /**
    * Legacy nutritional balance calculation (backward compatibility)
    */
-  async calculateNutritionalBalance(ingredients: any[]): Promise<NutritionalProfile> {
+  async calculateNutritionalBalance(ingredients: unknown[]): Promise<NutritionalProfile> {
     try {
               if ((ingredients || []).length === 0) {
         return {
@@ -684,7 +684,7 @@ export class UnifiedNutritionalService {
   async calculateLegacyNutritionalScore(nutrition: {}): Promise<number>  {
     try {
       // Apply Pattern PP-1: Safe service method access
-      const legacyServiceData = this.legacyNutritionService as any;
+      const legacyServiceData = this.legacyNutritionService as Record<string, unknown>;
       if (legacyServiceData?.calculateNutritionalScore) {
         return legacyServiceData.calculateNutritionalScore(nutrition);
       }

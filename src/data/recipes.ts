@@ -32,7 +32,7 @@ export interface Ingredient {
 interface DishData {
   name?: string;
   description?: string;
-  ingredients?: any[];
+  ingredients?: unknown[];
   preparationSteps?: string[];
   instructions?: string[];
   planetary?: string[];
@@ -126,7 +126,7 @@ const transformCuisineData = async (): Promise<RecipeData[]> => {
       
       // Map planetary influences based on cuisine's flavor profile
       Object.entries(planetaryFlavorProfiles).forEach(([planet, profile]) => {
-        const profileData = profile as any;
+        const profileData = profile as Record<string, unknown>;
         const culinaryAffinity = profileData?.culinaryAffinity || [];
         
         if (culinaryAffinity.includes(cuisineName.toLowerCase())) {
@@ -142,12 +142,12 @@ const transformCuisineData = async (): Promise<RecipeData[]> => {
       });
       
       // Get flavor profile from cuisine definitions or calculate from planetary influences
-      const cuisineProfileData = cuisineProfile as any;
+      const cuisineProfileData = cuisineProfile as Record<string, unknown>;
       const cuisineFlavorProfile = cuisineProfileData?.flavorProfiles;
       const defaultFlavorProfile = cuisineFlavorProfile || calculateFlavorProfile(primaryPlanetaryInfluences);
       
       // Handle dishes
-      const cuisineDataObj = cuisineData as any;
+      const cuisineDataObj = cuisineData as Record<string, unknown>;
       if (cuisineDataObj && cuisineDataObj.dishes && typeof cuisineDataObj.dishes === 'object') {
         // Log the dishes structure to debug
         logger.debug(`${cuisineName} dishes:`, Object.keys(cuisineDataObj.dishes));
@@ -175,7 +175,7 @@ const transformCuisineData = async (): Promise<RecipeData[]> => {
                 logger.debug(`Found ${dishes.length} dishes for ${cuisineName} - ${mealType} - ${season}`);
                 
                 // Process individual dishes
-                dishes.forEach((dish: any) => {
+                dishes.forEach((dish: unknown) => {
                   const dishData = dish as DishData;
                   
                   if (!dishData || !dishData?.name) {
@@ -211,8 +211,8 @@ const transformCuisineData = async (): Promise<RecipeData[]> => {
                     name: dishData?.name || '',
                     description: dishData?.description || `A traditional ${cuisineName} dish`,
                     ingredients: Array.isArray(dishData?.ingredients) ? 
-                      dishData.ingredients.map((ingredient: any) => {
-                        const ingredientData = ingredient as any;
+                      dishData.ingredients.map((ingredient: Ingredient | UnifiedIngredient) => {
+                        const ingredientData = ingredient as Record<string, unknown>;
                         return {
                           name: ingredientData?.name || ingredientData?.ingredient || 'Unknown ingredient',
                           amount: ingredientData?.amount || ingredientData?.quantity || 1,
@@ -297,7 +297,7 @@ export const getRecipes = async (): Promise<RecipeData[]> => {
 export const getRecipesForZodiac = async (zodiac: ZodiacSign): Promise<RecipeData[]> => {
   const recipes = await getRecipes();
   return recipes.filter(recipe => {
-    const recipeData = recipe as any;
+    const recipeData = recipe as Record<string, unknown>;
     const energyProfile = recipeData?.energyProfile;
     return energyProfile?.zodiac?.includes(zodiac);
   });
@@ -306,7 +306,7 @@ export const getRecipesForZodiac = async (zodiac: ZodiacSign): Promise<RecipeDat
 export const getRecipesForSeason = async (season: Season): Promise<RecipeData[]> => {
   const recipes = await getRecipes();
   return recipes.filter(recipe => {
-    const recipeData = recipe as any;
+    const recipeData = recipe as Record<string, unknown>;
     const energyProfile = recipeData?.energyProfile;
     return energyProfile?.season?.includes(season) || recipeData?.season === season;
   });
@@ -315,7 +315,7 @@ export const getRecipesForSeason = async (season: Season): Promise<RecipeData[]>
 export const getRecipesForLunarPhase = async (lunarPhase: LunarPhase): Promise<RecipeData[]> => {
   const recipes = await getRecipes();
   return recipes.filter(recipe => {
-    const recipeData = recipe as any;
+    const recipeData = recipe as LunarPhase;
     const energyProfile = recipeData?.energyProfile;
     return energyProfile?.lunar?.includes(lunarPhase);
   });
@@ -324,7 +324,7 @@ export const getRecipesForLunarPhase = async (lunarPhase: LunarPhase): Promise<R
 export const getRecipesForCuisine = async (cuisine: string): Promise<RecipeData[]> => {
   const recipes = await getRecipes();
   return recipes.filter(recipe => {
-    const recipeData = recipe as any;
+    const recipeData = recipe as Record<string, unknown>;
     return recipeData?.cuisine?.toLowerCase() === cuisine.toLowerCase() ||
            recipeData?.regionalCuisine?.toLowerCase() === cuisine.toLowerCase();
   });
@@ -518,7 +518,7 @@ export const getBestRecipeMatches = async (
       if (matchedCuisineRecipes && matchedCuisineRecipes.length > 0) {
         // Convert the recipes to ensure they match RecipeData format
         const formattedRecipes = matchedCuisineRecipes.map(recipe => {
-          const recipeData = recipe as any;
+          const recipeData = recipe as Record<string, unknown>;
           const name = recipeData?.name || '';
           const description = recipeData?.description || `A ${criteria.cuisine} recipe`;
           const ingredients = Array.isArray(recipeData?.ingredients) ? recipeData.ingredients : [];
@@ -540,7 +540,7 @@ export const getBestRecipeMatches = async (
           id: recipeData?.id || `${name.toLowerCase().replace(/\s+/g, '-')}`,
           name,
           description,
-          ingredients: ingredients.map((ing: any) => ({
+          ingredients: ingredients.map((ing: unknown) => ({
               name: ing?.name || '',
               amount: typeof ing?.amount === 'number' ? ing.amount : parseFloat(ing?.amount) || 1,
               unit: ing?.unit || '',
@@ -597,7 +597,7 @@ export const getBestRecipeMatches = async (
         if (localRecipes.length > 0) {
           // Convert the recipes to RecipeData format
           candidateRecipes = localRecipes.map(recipe => {
-            const recipeData = recipe as any;
+            const recipeData = recipe as Record<string, unknown>;
             const name = recipeData?.name || '';
             const description = recipeData?.description || '';
             const ingredients = Array.isArray(recipeData?.ingredients) ? recipeData.ingredients : [];
@@ -611,7 +611,7 @@ export const getBestRecipeMatches = async (
             id: recipeData?.id || `${name.toLowerCase().replace(/\s+/g, '-')}`,
             name,
             description,
-            ingredients: ingredients.map((ing: any) => ({
+            ingredients: ingredients.map((ing: unknown) => ({
               name: ing?.name || '',
               amount: typeof ing?.amount === 'number' ? ing.amount : parseFloat(ing?.amount) || 1,
               unit: ing?.unit || '',
@@ -897,8 +897,8 @@ export const getRecommendedCuisines = (profile: CuisineRecommendationProfile) =>
       }
       
       // Season matching
-      if (profile.season && (cuisineProfile as any)?.seasonalPreference) {
-        const seasonMatch = (cuisineProfile as any)?.seasonalPreference.includes(profile.season);
+      if (profile.season && (cuisineProfile as Record<string, unknown>)?.seasonalPreference) {
+        const seasonMatch = (cuisineProfile as string)?.seasonalPreference.includes(profile.season);
         if (seasonMatch) {
           matchScore += 1;
           totalFactors += 1;
@@ -917,7 +917,7 @@ export const getRecommendedCuisines = (profile: CuisineRecommendationProfile) =>
       
       return {
         id: cuisineName,
-        name: (cuisineProfile as any)?.name,
+        name: (cuisineProfile as Record<string, unknown>)?.name,
         score: finalScore
       };
     })

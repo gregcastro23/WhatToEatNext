@@ -170,7 +170,7 @@ export class ElementalCalculator {
     return baseModifiers;
   }
 
-  calculateElementalState(positions: any): {
+  calculateElementalState(positions: unknown): {
     Fire: number;
     Water: number;
     Earth: number;
@@ -245,12 +245,12 @@ export class ElementalCalculator {
   }
 
   // Fix method naming conflict - rename the second implementation to avoid duplicate method name
-  calculatePlanetaryElementalState(positions: any): ElementalProperties {
+  calculatePlanetaryElementalState(positions: unknown): ElementalProperties {
     return this.calculateElementalState(positions);
   }
 
   // Add methods to process different types of planetary position data
-  private processPlanetsObject(planets: any, elementalValues: ElementalProperties): void {
+  private processPlanetsObject(planets: Planet, elementalValues: ElementalProperties): void {
     if (!planets) return;
     
     // Handle both array and object formats of planets
@@ -262,19 +262,19 @@ export class ElementalCalculator {
       // Process object format where keys are planet names
       Object.entries(planets).forEach(([name, data]) => {
         if (data) {
-          const planetData = { ...data as any, name, label: name };
+          const planetData = { ...data as Record<string, unknown>, name, label: name };
           this.processPlanetData(planetData, elementalValues);
         }
       });
     }
   }
 
-  private processCelestialBodies(bodies: any, elementalValues: ElementalProperties): void {
+  private processCelestialBodies(bodies: unknown, elementalValues: ElementalProperties): void {
     if (!bodies) return;
     
     // Handle CelestialBodies format from API
     if (Array.isArray(bodies.all)) {
-      bodies.all.forEach((body: any) => {
+      bodies.all.forEach((body: unknown) => {
         if (body) this.processPlanetData(body, elementalValues);
       });
     } else {
@@ -303,7 +303,7 @@ export class ElementalCalculator {
     }
   }
 
-  private processPlanetKeys(data: any, elementalValues: ElementalProperties): void {
+  private processPlanetKeys(data: Record<string, unknown>, elementalValues: ElementalProperties): void {
     if (!data) return;
     
     // Try to find planets in a generic object structure
@@ -319,7 +319,7 @@ export class ElementalCalculator {
     }
   }
 
-  private findPlanetsRecursively(obj: any, planetNames: string[], elementalValues: ElementalProperties, depth = 0): void {
+  private findPlanetsRecursively(obj: unknown, planetNames: string[], elementalValues: ElementalProperties, depth = 0): void {
     if (!obj || typeof obj !== 'object' || depth > 5) return; // Limit recursion depth
     
     // Check if this object looks like a planet
@@ -351,7 +351,7 @@ export class ElementalCalculator {
     }
   }
 
-  private objectLooksPlanetLike(obj: any, planetNames: string[]): boolean {
+  private objectLooksPlanetLike(obj: unknown, planetNames: string[]): boolean {
     // Check for typical planet properties
     if (!obj) return false;
     
@@ -365,7 +365,7 @@ export class ElementalCalculator {
     return false;
   }
 
-  private processPlanetData(planet: any, elementalValues: ElementalProperties): void {
+  private processPlanetData(planet: Planet, elementalValues: ElementalProperties): void {
     if (!planet) return;
     
     try {
@@ -394,7 +394,7 @@ export class ElementalCalculator {
     }
   }
 
-  private processAscendantData(ascendant: any, elementalValues: ElementalProperties): void {
+  private processAscendantData(ascendant: unknown, elementalValues: ElementalProperties): void {
     try {
       const ascendantSign = typeof ascendant === 'string' 
         ? ascendant 
@@ -505,7 +505,7 @@ export class ElementalCalculator {
 
   public static calculateIngredientMatch(ingredient: unknown): number {
     // Apply surgical type casting with variable extraction
-    const ingredientData = ingredient as any;
+    const ingredientData = ingredient as Record<string, unknown>;
     const elementalProperties = ingredientData?.elementalProperties;
     
     // If the ingredient has elementalProperties, use those
@@ -701,7 +701,7 @@ export class ElementalCalculator {
   }
 
   // Method to process planet object and extract elemental properties
-  processPlanetElementalEffect(planet: any, sign: string): Record<string, number> {
+  processPlanetElementalEffect(planet: Planet, sign: string): Record<string, number> {
     if (!planet || !sign) {
       return { Fire: 0, Water: 0, Earth: 0, Air: 0 };
     }
@@ -731,7 +731,7 @@ export class ElementalCalculator {
   }
 
   // Method to process celestial bodies data
-  processCelestialBodiesData(celestialData: any): Record<string, number> {
+  processCelestialBodiesData(celestialData: Record<string, unknown>): Record<string, number> {
     if (!celestialData) {
       return { Fire: 0, Water: 0, Earth: 0, Air: 0 };
     }
@@ -759,7 +759,7 @@ export class ElementalCalculator {
   }
 
   // Process planet keys to get element effects
-  processPlanetKeysData(planets: any): Record<string, number> {
+  processPlanetKeysData(planets: Planet): Record<string, number> {
     if (!planets) {
       return { Fire: 0, Water: 0, Earth: 0, Air: 0 };
     }

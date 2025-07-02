@@ -278,7 +278,7 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
     recipeService,
     alchemicalRecommendationService
   } = servicesData;
-  const elementalCalculatorService = (servicesData as any)?.elementalCalculator;
+  const elementalCalculatorService = (servicesData as Record<string, unknown>)?.elementalCalculator;
 
   // State management with proper TypeScript types
   const [recipes, setRecipes] = useState<RecipeType[]>([]);
@@ -329,8 +329,8 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
   // Load astrological data when services are available
   useEffect(() => {
     // Fix TS2339: Property 'elementalCalculator' does not exist on type
-    const servicesData = useServices() as any;
-    const elementalCalculatorService = (servicesData as any)?.elementalCalculator;
+    const servicesData = useServices() as Record<string, unknown>;
+    const elementalCalculatorService = (servicesData as Record<string, unknown>)?.elementalCalculator;
     
     if (servicesLoading || !astrologyService || !elementalCalculatorService) {
       return;
@@ -347,7 +347,7 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
         // Convert positions to degree values with proper error handling
         Object.entries(positions || {}).forEach(([planet, data]) => {
           if (typeof data === 'object' && data !== null && 'exactLongitude' in data) {
-            formattedPositions[planet] = (data as any).exactLongitude;
+            formattedPositions[planet] = (data as Record<string, unknown>).exactLongitude;
           }
         });
         
@@ -359,7 +359,7 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
         
         // Get zodiac sign
         // Fix TS2339: Property 'getChartData' does not exist on type 'AstrologyService'
-        const astrologyServiceData = astrologyService as any;
+        const astrologyServiceData = astrologyService as Record<string, unknown>;
         const chartData = await astrologyServiceData?.getChartData?.();
         if (chartData && chartData.Sun && chartData.Sun.sign) {
           setZodiacSign(chartData.Sun.sign as ZodiacSign);
@@ -393,7 +393,7 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
       try {
         setError(null);
         // Fix TS2339: Property 'getAllCuisines' does not exist on type 'UnifiedRecipeService'
-        const recipeServiceData = recipeService as any;
+        const recipeServiceData = recipeService as Record<string, unknown>;
         const cuisinesData = await recipeServiceData?.getAllCuisines?.() || {};
         setCuisines(cuisinesData);
       } catch (err) {
@@ -430,8 +430,8 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
       setIsLoading(true);
       try {
         setError(null);
-        const recipesData = await recipeService.searchRecipes(filters.dietaryPreference as any);
-        setRecipes(recipesData as any);
+        const recipesData = await recipeService.searchRecipes(filters.dietaryPreference as Record<string, unknown>);
+        setRecipes(recipesData as unknown);
       } catch (err) {
         const errorMessage = err instanceof Error ? err.message : 'Unknown error';
         setError(`Failed to fetch recipes: ${errorMessage}`);
@@ -481,7 +481,7 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
   }, [allRecipes, filters]);
 
   // Multi-factor scoring system
-  const calculateRecommendationScore = (item: any, astroData: any): RecommendationScore => {
+  const calculateRecommendationScore = (item: unknown, astroData: Record<string, unknown>): RecommendationScore => {
     const elementalMatch = calculateElementalMatch(item.elementalProperties, astroData?.dominantElements) * 0.4;
     const planetaryInfluence = calculatePlanetaryInfluence(item.planetaryRulers, astroData?.activePlanets) * 0.3;
     const seasonalAlignment = calculateSeasonalAlignment(item.seasonality, astroData?.currentSeason) * 0.2;
@@ -573,7 +573,7 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
         }));
 
         // Get optimized recipes
-        const serviceData = alchemicalRecommendationService as any;
+        const serviceData = alchemicalRecommendationService as Record<string, unknown>;
         const optimizeMethod = serviceData?.getOptimizedRecipes || serviceData?.getRecommendations;
         const optimized = await optimizeMethod(
           preparedRecipes,
@@ -643,7 +643,7 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
       {/* Planetary Time Information */}
       <Card sx={{ mb: 3 }}>
         <CardContent>
-          <PlanetaryTimeDisplay {...{ timeFactors } as any} />
+          <PlanetaryTimeDisplay {...{ timeFactors } as Record<string, unknown>} />
         </CardContent>
       </Card>
 

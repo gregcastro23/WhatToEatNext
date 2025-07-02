@@ -469,12 +469,12 @@ export const elementalUtils = {
    * Pattern OO-3: Utility Import Alignment - Format consistency helper
    * Ensures elemental property keys are in lowercase format
    */
-  ensureLowercaseFormat(properties: any): any {
+  ensureLowercaseFormat(properties: unknown): any {
     if (!properties || typeof properties !== 'object') {
       return properties;
     }
     
-    const lowercaseProps: any = {};
+    const lowercaseProps: Record<string, unknown> = {};
     for (const [key, value] of Object.entries(properties)) {
       // Convert capitalized element names to lowercase
       const lowerKey = key.toLowerCase();
@@ -636,8 +636,8 @@ export function transformItemsWithPlanetaryPositions(
         .sort(([_, valA], [__, valB]) => {
           // Sort by strength /dignity if available
           if (typeof valA === 'object' && typeof valB === 'object') {
-            const dataA = valA as any;
-            const dataB = valB as any;
+            const dataA = valA as Record<string, unknown>;
+            const dataB = valB as Record<string, unknown>;
             const strengthA = dataA?.strength || 0;
             const strengthB = dataB?.strength || 0;
             return strengthB - strengthA;
@@ -729,7 +729,7 @@ export function normalizeElementalValues(
 export function getPrimaryElement(
   elementalAffinity: ElementalAffinity
 ): string {
-  const affinityData = elementalAffinity as any;
+  const affinityData = elementalAffinity as Record<string, unknown>;
   return (
     affinityData?.base || affinityData?.element || 'Fire'
   );
@@ -739,7 +739,7 @@ export function getPrimaryElement(
 export function getElementStrength(
   elementalAffinity: ElementalAffinity
 ): number {
-  const affinityData = elementalAffinity as any;
+  const affinityData = elementalAffinity as Record<string, unknown>;
   return affinityData?.strength || 1;
 }
 
@@ -1236,7 +1236,7 @@ export function enhanceOilProperties(
       Object.entries(enhancedOil.culinaryApplications).forEach(
         ([appType, application]) => {
           if (application && typeof application === 'object') {
-            const appData = application as any;
+            const appData = application as Record<string, unknown>;
             enhancedOil.culinaryApplications[appType] = {
               ...application,
               elementalEffect: appData?.elementalEffect || {
@@ -1410,12 +1410,12 @@ export function getDefaultElementalProperties(): ElementalProperties {
   return DEFAULT_ELEMENTAL_PROPERTIES;
 }
 
-export function ensureLowercaseFormat(properties: any): any {
+export function ensureLowercaseFormat(properties: unknown): any {
   if (!properties || typeof properties !== 'object') {
     return properties;
   }
   
-  const lowercaseProps: any = {};
+  const lowercaseProps: Record<string, unknown> = {};
   for (const [key, value] of Object.entries(properties)) {
     // Convert capitalized element names to lowercase
     const lowerKey = key.toLowerCase();
@@ -1486,7 +1486,7 @@ export function fixRawIngredientMappings(
     // Skip null or undefined values
     if (!value) return acc;
 
-    const valueData = value as any;
+    const valueData = value as Record<string, unknown>;
     // Ensure elemental properties are normalized
     const elementalProperties = normalizeProperties(
       valueData?.elementalProperties || {}
@@ -1507,7 +1507,7 @@ export function fixRawIngredientMappings(
     }
 
     acc[key] = {
-      ...(value as any),
+      ...(value as Record<string, unknown>),
       name: valueData?.name || key.replace(/_/g, ' '),
       category: valueData?.category || 'ingredient',
       elementalProperties,

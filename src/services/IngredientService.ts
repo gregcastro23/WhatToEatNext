@@ -170,10 +170,10 @@ export class IngredientService implements IngredientServiceInterface {
               Fire: 0, Water: 0, Earth: 0, Air: 0 
             })) as ElementalProperties,
             alchemicalProperties: {
-              Spirit: (data as any)?.alchemicalProperties?.Spirit || (data as any)?.Spirit || 0,
-              Essence: (data as any)?.alchemicalProperties?.Essence || (data as any)?.Essence || 0,
-              Matter: (data as any)?.alchemicalProperties?.Matter || (data as any)?.Matter || 0,
-              Substance: (data as any)?.alchemicalProperties?.Substance || (data as any)?.Substance || 0
+              Spirit: (data as Record<string, unknown>)?.alchemicalProperties?.Spirit || (data as Record<string, unknown>)?.Spirit || 0,
+              Essence: (data as Record<string, unknown>)?.alchemicalProperties?.Essence || (data as Record<string, unknown>)?.Essence || 0,
+              Matter: (data as Record<string, unknown>)?.alchemicalProperties?.Matter || (data as Record<string, unknown>)?.Matter || 0,
+              Substance: (data as Record<string, unknown>)?.alchemicalProperties?.Substance || (data as Record<string, unknown>)?.Substance || 0
             }
           });
         });
@@ -307,7 +307,7 @@ export class IngredientService implements IngredientServiceInterface {
         // Apply elemental filter if specified
         if (filter.elemental) {
           // Apply Pattern A: Safe type casting for elemental filter parameter compatibility
-          filtered = this.applyElementalFilterUnified(filtered, filter.elemental as any);
+          filtered = this.applyElementalFilterUnified(filtered, filter.elemental as Record<string, unknown>);
         }
 
         // Apply dietary filter if specified
@@ -316,7 +316,7 @@ export class IngredientService implements IngredientServiceInterface {
         }
 
         // Apply seasonal filter if specified
-        const filterData = filter as any;
+        const filterData = filter as Record<string, unknown>;
         if (isNonEmptyArray(filterData?.currentSeason)) {
           filtered = this.applySeasonalFilterUnified(filtered, filterData.currentSeason);
         }
@@ -972,7 +972,7 @@ export class IngredientService implements IngredientServiceInterface {
       
       // Define which seasons to include
       // Apply safe type casting for options property access
-      const optionsData = options as any;
+      const optionsData = options as Record<string, unknown>;
       const seasons = optionsData?.currentSeason
         ? [optionsData.currentSeason as 'spring' | 'summer' | 'autumn' | 'winter']
         : ['spring', 'summer', 'autumn', 'winter'];
@@ -1261,7 +1261,7 @@ export class IngredientService implements IngredientServiceInterface {
         // Calculate average for each element
         const count = (elementalPropertiesList || []).length;
         // Apply safe type casting for result property access
-        const resultData = result as any;
+        const resultData = result as Record<string, unknown>;
         resultData.elementalState = { 
           Fire: summedProperties.Fire / count, 
           Water: summedProperties.Water / count, 
