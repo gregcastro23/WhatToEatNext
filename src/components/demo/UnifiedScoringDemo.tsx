@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { scoreRecommendation, ScoringContext, ScoringResult } from '../../services/UnifiedScoringService';
+import type { Season, Planet } from '@/types/shared';
 
 interface ScoringTestItem {
   name: string;
@@ -81,8 +82,8 @@ export default function UnifiedScoringDemo() {
               name: item.name,
               type: item.type,
               elementalProperties: item.elementalProperties,
-              seasonality: item.seasonality || [],
-              planetaryRulers: item.planetaryRulers || [],
+              seasonality: (item.seasonality || []) as Season[],
+              planetaryRulers: (item.planetaryRulers || []) as Planet[],
               flavorProfile: {},
               culturalOrigins: []
             },

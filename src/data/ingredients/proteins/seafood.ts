@@ -486,6 +486,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
   'lobster_maine': {
     name: 'lobster_maine',
     elementalProperties: { Water: 0.6, Earth: 0.3, Fire: 0.1 , Air: 0.1},
+
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Neptune'],
       favorableZodiac: ['cancer', 'scorpio', 'pisces'],
@@ -508,10 +509,12 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         }
       }
     },
+
     qualities: ['sweet', 'rich', 'luxurious'],
     origin: ['North Atlantic', 'Maine Coast'],
     category: 'protein',
     subCategory: 'shellfish',
+
     varieties: {
       'Hard Shell': {
     name: 'Hard Shell',
@@ -528,6 +531,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         notes: 'ideal for grilling'
       }
     },
+
     culinaryApplications: {
       'boil': {
     name: 'Boil',
@@ -541,6 +545,58 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         timing: '5-7 minutes',
         seasoning: ['butter', 'garlic', 'parsley']
       }
+    },
+
+    sensoryProfile: {
+      taste: ['Mild', 'Balanced', 'Natural'],
+      aroma: ['Fresh', 'Clean', 'Subtle'],
+      texture: ['Pleasant', 'Smooth', 'Appealing'],
+      notes: 'Characteristic lobster maine profile'
+    },
+
+    culinaryProfile: {
+      flavorProfile: {
+        primary: ['balanced'],
+        secondary: ['versatile'],
+        notes: 'Versatile lobster maine for various uses'
+      },
+
+      cookingMethods: ['sautéing', 'steaming', 'roasting'],
+      cuisineAffinity: ['Global', 'International'],
+      preparationTips: ['Use as needed', 'Season to taste']
+    },
+
+    season: ['year-round'],
+
+    preparation: {
+      methods: ['standard preparation'],
+      timing: 'as needed',
+      notes: 'Standard preparation for lobster maine'
+    },
+
+    nutritionalProfile: {
+      macronutrients: {
+        protein: 5,
+        carbohydrates: 10,
+        fat: 2,
+        fiber: 3
+      },
+
+      micronutrients: {
+        vitamin_C: 15,
+        iron: 5,
+        calcium: 50
+      },
+
+      healthBenefits: ['nutritious', 'natural goodness'],
+      caloriesPerServing: 80
+    },
+
+    storage: {
+      temperature: 'cool, dry place',
+      duration: '6-12 months',
+      container: 'airtight container',
+      notes: 'Store in optimal conditions'
     }
   },
   'mussels_blue': {
@@ -1108,6 +1164,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
   'cod_atlantic': {
     name: 'Cod Atlantic',
     elementalProperties: { Water: 0.7, Earth: 0.15, Air: 0.15 , Fire: 0.1},
+
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Neptune'],
       favorableZodiac: ['cancer', 'scorpio', 'pisces'],
@@ -1130,10 +1187,12 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         }
       }
     },
+
     qualities: ['mild', 'flaky', 'lean'],
     origin: ['North Atlantic', 'Baltic Sea'],
     category: 'seafood',
     subCategory: 'white_fish',
+
     varieties: {
       'Atlantic': {
     name: 'Atlantic',
@@ -1148,6 +1207,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         notes: 'more sustainable option'
       }
 },
+
     culinaryApplications: {
       'traditional': {
     name: 'Traditional',
@@ -1203,6 +1263,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         }
       }
     },
+
     regionalPreparations: {
       'british': {
     name: 'British'
@@ -1235,6 +1296,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         }
       }
     },
+
     saucePairings: {
       'classic': {
     name: 'Classic',
@@ -1266,6 +1328,58 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
           application: 'drizzle'
         }
       }
+    },
+
+    sensoryProfile: {
+      taste: ['Mild', 'Balanced', 'Natural'],
+      aroma: ['Fresh', 'Clean', 'Subtle'],
+      texture: ['Pleasant', 'Smooth', 'Appealing'],
+      notes: 'Characteristic cod atlantic profile'
+    },
+
+    culinaryProfile: {
+      flavorProfile: {
+        primary: ['balanced'],
+        secondary: ['versatile'],
+        notes: 'Versatile cod atlantic for various uses'
+      },
+
+      cookingMethods: ['sautéing', 'steaming', 'roasting'],
+      cuisineAffinity: ['Global', 'International'],
+      preparationTips: ['Use as needed', 'Season to taste']
+    },
+
+    season: ['year-round'],
+
+    preparation: {
+      methods: ['standard preparation'],
+      timing: 'as needed',
+      notes: 'Standard preparation for cod atlantic'
+    },
+
+    nutritionalProfile: {
+      macronutrients: {
+        protein: 5,
+        carbohydrates: 10,
+        fat: 2,
+        fiber: 3
+      },
+
+      micronutrients: {
+        vitamin_C: 15,
+        iron: 5,
+        calcium: 50
+      },
+
+      healthBenefits: ['nutritious', 'natural goodness'],
+      caloriesPerServing: 80
+    },
+
+    storage: {
+      temperature: 'cool, dry place',
+      duration: '6-12 months',
+      container: 'airtight container',
+      notes: 'Store in optimal conditions'
     }
   },
   'sole_dover': {

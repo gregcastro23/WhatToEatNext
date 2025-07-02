@@ -3,6 +3,9 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import recast from 'recast';
+import { builders as b, visit } from 'ast-types';
+import { parse as tsParser } from 'recast/parsers/typescript.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -171,36 +174,130 @@ class SafetyScorer {
   }
 }
 
-// ENHANCED INGREDIENT DETECTION
-function findIngredientsWithContext(content) {
-  const ingredients = [];
-  const patterns = [
-    /['"`]([a-zA-Z_][a-zA-Z0-9_]*?)['"`]\s*:\s*\{/g,
-    /(\w+):\s*\{[^}]*name\s*:/g,
-  ];
+// AST-based enhancement logic
+const ASTProcessor = {
+  parse(content) {
+    try {
+      return recast.parse(content, { parser: { parse: tsParser } });
+    } catch (e) {
+      console.error('AST parsing failed:', e.message);
+      if (e.stack) {
+          console.error(e.stack);
+      }
+      return null;
+    }
+  },
+
+  findTopLevelObject(ast) {
+    let topLevelObject = null;
+    let maxProperties = 0;
+
+    visit(ast, {
+      visitVariableDeclaration(path) {
+        const declaration = path.node.declarations[0];
+        if (declaration && declaration.init && declaration.init.type === 'ObjectExpression') {
+          const numProperties = declaration.init.properties.length;
+          if (numProperties > maxProperties) {
+            maxProperties = numProperties;
+            topLevelObject = declaration.init;
+          }
+        }
+        return false; // only check top-level variables
+      }
+    });
+
+    return topLevelObject;
+  },
+
+  analyzeIngredient(ingredientNode) {
+    const properties = new Set(ingredientNode.properties.map(p => p.key.name || p.key.value));
+    const missingRequired = REQUIRED_FIELDS.filter(f => !properties.has(f));
+    const present = properties.size;
+    const total = REQUIRED_FIELDS.length;
+    return { present, total, missingRequired };
+  },
+
+  enhanceIngredient(ingredientNode, missingFields, ingredientName) {
+    missingFields.forEach(field => {
+      if (SAFE_ENHANCEMENT_TEMPLATES[field]) {
+        const template = SAFE_ENHANCEMENT_TEMPLATES[field](ingredientName);
+        const newProperty = this.buildAstNode(template);
+        if (newProperty) {
+            const property = b.property('init', b.identifier(field), newProperty);
+            ingredientNode.properties.push(property);
+        }
+      }
+    });
+  },
   
-  patterns.forEach(pattern => {
-    let match;
-    while ((match = pattern.exec(content)) !== null) {
-      const ingredient = match[1];
-      if (ingredient && ingredient.length > 1 && !ingredient.startsWith('_')) {
-        // Get context around the ingredient
-        const start = Math.max(0, match.index - 100);
-        const end = Math.min(content.length, match.index + 500);
-        const context = content.slice(start, end);
-        
-        ingredients.push({
-          name: ingredient,
-          index: match.index,
-          context,
-          fullMatch: match[0]
-        });
+  buildAstNode(value) {
+    if (Array.isArray(value)) {
+      return b.arrayExpression(value.map(v => this.buildAstNode(v)));
+    } else if (typeof value === 'object' && value !== null) {
+      const properties = Object.entries(value).map(([key, val]) =>
+        b.property('init', b.identifier(key), this.buildAstNode(val))
+      );
+      return b.objectExpression(properties);
+    } else if (typeof value === 'string') {
+      return b.literal(value);
+    } else if (typeof value === 'number') {
+      return b.literal(value);
+    } else if (typeof value === 'boolean') {
+      return b.literal(value);
+    }
+    return b.literal(null); // Default case for safety
+  }
+};
+
+async function enhanceFileWithAST(filePath, dryRun = false) {
+  const content = fs.readFileSync(filePath, 'utf-8');
+  const ast = await ASTProcessor.parse(content);
+  if (!ast) {
+    console.error(`❌ Could not parse AST for ${filePath}. Skipping.`);
+    return;
+  }
+
+  const topLevelObject = ASTProcessor.findTopLevelObject(ast);
+  if (!topLevelObject) {
+    console.warn(`⚠️  No top-level object export found in ${filePath}. Cannot enhance.`);
+    return;
+  }
+
+  let ingredientsEnhanced = 0;
+  topLevelObject.properties.forEach(prop => {
+    if (prop.value.type === 'ObjectExpression') {
+      const ingredientName = prop.key.name || prop.key.value;
+      const analysis = ASTProcessor.analyzeIngredient(prop.value);
+
+      // Simple complexity check: if it has most of its fields, skip it
+      if ((analysis.total - analysis.present) < 3) {
+          return;
+      }
+      
+      const { score, safe } = SafetyScorer.calculateEnhancementSafety(ingredientName, analysis.missingRequired, content);
+
+      console.log(`  🛡️  ${ingredientName}: Safety ${score}/100 (${analysis.missingRequired.length} missing fields)`);
+      if (safe && analysis.missingRequired.length > 0) {
+        ASTProcessor.enhanceIngredient(prop.value, analysis.missingRequired, ingredientName);
+        console.log(`    ✅ Enhanced ${ingredientName}: +${analysis.missingRequired.length} critical fields`);
+        ingredientsEnhanced++;
+      } else if (!safe) {
+        console.log(`    ⚠️  Enhancement unsafe for ${ingredientName}`);
       }
     }
   });
-  
-  return ingredients;
+
+  if (ingredientsEnhanced > 0) {
+    if (!dryRun) {
+      const newCode = recast.print(ast, { tabWidth: 2, quote: 'single' }).code;
+      fs.writeFileSync(filePath, newCode, 'utf-8');
+      console.log(`💾 Saved ${ingredientsEnhanced} enhancements to file`);
+    } else {
+      console.log(`✅ Dry Run: Would have enhanced ${ingredientsEnhanced} ingredients`);
+    }
+  }
 }
+
 
 // SAFE COVERAGE ANALYSIS
 function analyzeIngredientCoverage(content, ingredient) {
@@ -477,78 +574,30 @@ async function analyzeDirectory() {
 // MAIN EXECUTION
 async function main() {
   const args = process.argv.slice(2);
-  const isEnhance = args.includes('--enhance');
-  const forceRun = args.includes('--force');
-  const isDryRun = args.includes('--dry-run') || (SAFETY_CONFIG.DRY_RUN_REQUIRED && !forceRun);
-  const targetFiles = args.filter(arg => !arg.startsWith('--') && arg.endsWith('.ts'));
-  
-  if (isEnhance) {
-    console.log('🚀 SAFE MASS INGREDIENT ENHANCEMENT MODE');
+  const enhanceMode = args.includes('--enhance');
+  const dryRun = args.includes('--dry-run') || !args.includes('--force');
+  const specificFiles = args.filter(arg => arg.endsWith('.ts') || arg.endsWith('.js'));
+
+  if (enhanceMode) {
+    console.log('\n🚀 SAFE MASS INGREDIENT ENHANCEMENT MODE');
     console.log('========================================\n');
-    
-    if (isDryRun) {
+    if (dryRun) {
       console.log('🔍 DRY RUN MODE - No files will be modified\n');
     }
-    
-    if (!forceRun && !isDryRun) {
-      console.log('❌ For safety, --force flag required for actual modifications');
-      console.log('💡 Use: --enhance --dry-run to preview changes');
-      console.log('💡 Use: --enhance --force to apply changes');
-      return;
+    const filesToEnhance = specificFiles.length > 0 ? specificFiles : await findSafeFilesToEnhance();
+    console.log(`🎯 Enhancing ${filesToEnhance.length} specific files:\n`);
+    for (const file of filesToEnhance) {
+      console.log(`\n📁 Processing: ${file}`);
+      const filePath = path.join(__dirname, '..', file);
+      await enhanceFileWithAST(filePath, dryRun);
     }
-    
-    const results = await analyzeDirectory();
-    
-    // Filter to safe, high-impact files
-    const safeHighImpactFiles = results
-      .filter(r => r.safe && r.totalMissing >= 10)
-      .slice(0, SAFETY_CONFIG.MAX_FILES_PER_RUN);
-    
-    if (targetFiles.length > 0) {
-      console.log(`🎯 Enhancing ${targetFiles.length} specific files:\n`);
-      
-      for (const file of targetFiles) {
-        const fullPath = path.join(__dirname, '..', file);
-        if (fs.existsSync(fullPath)) {
-          const result = safeEnhanceFile(fullPath, null, isDryRun);
-          if (result.success) {
-            console.log(`✅ Enhanced ${result.enhanced} ingredients`);
-          } else {
-            console.log(`❌ Failed: ${result.error}`);
-          }
-        } else {
-          console.log(`❌ File not found: ${file}`);
-        }
-      }
-    } else {
-      console.log(`🎯 Enhancing ${safeHighImpactFiles.length} highest-impact safe files:\n`);
-      
-      let totalEnhanced = 0;
-      for (const fileInfo of safeHighImpactFiles) {
-        const fullPath = path.join(__dirname, '..', fileInfo.file);
-        console.log(`\n📊 Priority: ${fileInfo.priority} | Safety: ${fileInfo.safetyScore}/100 | Missing: ${fileInfo.totalMissing}`);
-        
-        const result = safeEnhanceFile(fullPath, null, isDryRun);
-        if (result.success) {
-          totalEnhanced += result.enhanced;
-        } else {
-          console.log(`❌ Failed: ${result.error}`);
-        }
-      }
-      
-      console.log(`\n🎉 SAFE ENHANCEMENT COMPLETE`);
-      console.log(`✅ ${totalEnhanced} ingredients enhanced across ${safeHighImpactFiles.length} files`);
-      console.log(`🛡️  All operations completed within safety parameters`);
-    }
-    
     return;
   }
-  
-  // Regular analysis mode
-  console.log('📊 ANALYZING INGREDIENT COVERAGE WITH SAFETY ASSESSMENT\n');
-  
-  const results = await analyzeDirectory();
-  
+
+  const directoryPath = path.join(__dirname, '..', 'src/data/ingredients');
+  const allFiles = getAllFiles(directoryPath);
+  const results = await analyzeFiles(allFiles);
+
   // Show top files that need enhancement (safe ones first)
   const safeFiles = results.filter(r => r.safe);
   const unsafeFiles = results.filter(r => !r.safe);
