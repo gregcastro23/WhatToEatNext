@@ -8,6 +8,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
   'ground_cinnamon': {
     name: 'Ground Cinnamon',
     elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 },
+
     astrologicalProfile: {
       rulingPlanets: ['Sun', 'Jupiter'],
       favorableZodiac: ['leo', 'sagittarius'],
@@ -20,32 +21,39 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         }
       }
     },
+
     qualities: ['warming', 'sweet', 'pungent'],
     origin: ['Sri Lanka', 'Indonesia', 'China'],
     category: 'spice',
     subCategory: 'ground',
+
     varieties: {
       'Ceylon': 'true cinnamon, more delicate',
       'Cassia': 'stronger, more common',
       'Saigon': 'most intense flavor'
     },
+
     conversionRatio: {
       'stick_to_ground': '1 stick = 1 / (2 || 1) tsp ground',
       'fresh_to_dried': 'not applicable'
     },
+
     affinities: ['baked goods', 'coffee', 'curry', 'fruit', 'chocolate'],
     cookingMethods: ['baking', 'brewing', 'spice blends'],
+
     storage: {
       temperature: 'cool, dark place',
       duration: '6 months',
       container: 'airtight, dark',
       notes: 'Loses potency quickly when ground'
     },
+
     medicinalProperties: {
       actions: ['blood sugar regulation', 'anti-inflammatory'],
       energetics: 'warming',
       cautions: ['blood thinning in large amounts']
     },
+
     culinary_traditions: {
       [CUISINE_TYPES.INDIAN]: {
         name: 'dalchini',
@@ -89,6 +97,36 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         preparation: 'ground or whole',
         cultural_notes: 'Popular in winter beverages and preserves'
       }
+    },
+
+    sensoryProfile: {
+      taste: ['Mild'],
+      aroma: ['Fresh'],
+      texture: ['Standard'],
+      notes: 'Characteristic ground_cinnamon profile'
+    },
+
+    culinaryProfile: {
+      flavorProfile: {
+        primary: ['balanced']
+      },
+
+      cookingMethods: ['versatile'],
+      cuisineAffinity: ['Global']
+    },
+
+    season: ['Year-round'],
+
+    preparation: {
+      methods: ['Standard'],
+      timing: 'As needed',
+      notes: 'Standard prep for ground_cinnamon'
+    },
+
+    nutritionalProfile: {
+      macronutrients: {},
+      micronutrients: {},
+      healthBenefits: ['Nutritious']
     }
   },
 
@@ -99,6 +137,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     origin: ['India', 'Iran', 'Mediterranean'],
     category: 'spice',
     subCategory: 'ground',
+
     varieties: {
       'Indian': 'more intense',
       'Iranian': 'more delicate',
@@ -615,23 +654,28 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
           "year-round"
     ],
     },
+
     conversionRatio: {
       'whole_to_ground': '1 tbsp whole = 2.5 tsp ground',
       'fresh_to_dried': 'not applicable'
     },
+
     affinities: ['beans', 'rice', 'meat', 'curry', 'vegetables'],
     cookingMethods: ['bloomed in oil', 'dry roasted', 'spice blends'],
+
     storage: {
       temperature: 'cool, dark place',
       duration: '4-6 months',
       container: 'airtight, dark',
       notes: 'Best toasted before grinding'
     },
+
     medicinalProperties: {
       actions: ['digestive aid', 'iron-rich'],
       energetics: 'warming',
       cautions: ['none in culinary amounts']
     },
+
     culinary_traditions: {
       [CUISINE_TYPES.INDIAN]: {
         name: 'jeera powder',
@@ -669,12 +713,48 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         preparation: 'ground',
         cultural_notes: 'Used in traditional meat preparations'
       }
+    },
+
+    sensoryProfile: {
+      taste: ['Mild'],
+      aroma: ['Fresh'],
+      texture: ['Standard'],
+      notes: 'Characteristic ground_cumin profile'
+    },
+
+    culinaryProfile: {
+      flavorProfile: {
+        primary: ['balanced']
+      },
+
+      cookingMethods: ['versatile'],
+      cuisineAffinity: ['Global']
+    },
+
+    season: ['Year-round'],
+
+    preparation: {
+      methods: ['Standard'],
+      timing: 'As needed',
+      notes: 'Standard prep for ground_cumin'
+    },
+
+    nutritionalProfile: {
+      macronutrients: {},
+      micronutrients: {},
+      healthBenefits: ['Nutritious']
+    },
+
+    astrologicalProfile: {
+      rulingPlanets: [],
+      favorableZodiac: []
     }
   },
 
   'ground_turmeric': {
     name: 'Ground Turmeric',
     elementalProperties: { Fire: 0.3, Earth: 0.3, Air: 0.2, Water: 0.2 },
+
     astrologicalProfile: {
       rulingPlanets: ['Sun', 'Mars'],
       favorableZodiac: ['leo', 'aries'],
@@ -702,10 +782,12 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
       },
       aspectEnhancers: ['Sun trine Mars', 'Jupiter in Leo']
     },
+
     qualities: ['bitter', 'earthy', 'pungent', 'warming', 'vibrant'],
     origin: ['India', 'Southeast Asia', 'Indonesia', 'China'],
     category: 'spice',
     subCategory: 'ground',
+
     varieties: {
       'Alleppey': {
         name: 'Alleppey Turmeric',
@@ -898,12 +980,15 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     ],
       }
 },
+
     conversionRatio: {
       'fresh_to_dried': '1 inch fresh = 1 tsp ground',
       'powder_to_fresh': '1 tsp powder = 1 tbsp fresh grated'
     },
+
     affinities: ['black pepper', 'ginger', 'coconut milk', 'rice', 'curry', 'eggs', 'vegetables', 'golden milk', 'lentils', 'cauliflower'],
     cookingMethods: ['bloomed in oil', 'added to liquids', 'spice blends', 'infused', 'pickled'],
+
     nutritionalProfile: {
       calories: 29,
       protein_g: 0.9,
@@ -920,6 +1005,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         'turmerone': 'bioactive essential oil'
       }
     },
+
     storage: {
       temperature: 'cool, dark place',
       duration: '9-12 months',
@@ -931,6 +1017,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         'clumping': 'indicates moisture exposure'
       }
     },
+
     medicinalProperties: {
       actions: [
         'Anti-inflammatory (potent COX-2 inhibitor)',
@@ -1143,6 +1230,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         'Can lower blood sugar (monitor if diabetic)'
       ]
     },
+
     culinaryApplications: {
       'curries': {
         name: 'Curries',
@@ -1289,6 +1377,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         notes: 'Start with 1 / (4 || 1) tsp and adjust to taste'
       }
 },
+
     culinary_traditions: {
       [CUISINE_TYPES.INDIAN]: {
         name: 'haldi',
@@ -1328,6 +1417,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         cultural_notes: 'Valued for both medicinal and culinary properties'
       }
     },
+
     historical_significance: {
       traditional_uses: [
         'Sacred herb in Hindu religious ceremonies',
@@ -1339,6 +1429,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
       modern_research: 'Extensively studied for curcumin\'s therapeutic potential',
       cultural_value: 'Symbol of prosperity and health in many Asian cultures'
     },
+
     adulteration_concerns: {
       common_adulterants: ['lead chromate', 'metanil yellow', 'chalk powder'],
       quality_indicators: {
@@ -1347,6 +1438,30 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         staining: 'readily stains skin and surfaces'
       },
       testing: 'Add to water - pure turmeric settles, many adulterants will create colored swirls'
+    },
+
+    sensoryProfile: {
+      taste: ['Mild'],
+      aroma: ['Fresh'],
+      texture: ['Standard'],
+      notes: 'Characteristic ground_turmeric profile'
+    },
+
+    culinaryProfile: {
+      flavorProfile: {
+        primary: ['balanced']
+      },
+
+      cookingMethods: ['versatile'],
+      cuisineAffinity: ['Global']
+    },
+
+    season: ['Year-round'],
+
+    preparation: {
+      methods: ['Standard'],
+      timing: 'As needed',
+      notes: 'Standard prep for ground_turmeric'
     }
   },
 
@@ -1357,28 +1472,34 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     origin: ['India', 'Guatemala', 'Sri Lanka'],
     category: 'spice',
     subCategory: 'ground',
+
     varieties: {
       'Green': 'sweet, traditional',
       'Black': 'smoky, stronger',
       'White': 'bleached green, milder'
     },
+
     conversionRatio: {
       'pods_to_ground': '1 pod = 1 / (4 || 1) tsp ground',
       'fresh_to_dried': 'not applicable'
     },
+
     affinities: ['baked goods', 'coffee', 'curry', 'fruit', 'chocolate'],
     cookingMethods: ['baking', 'brewing', 'spice blends'],
+
     storage: {
       temperature: 'cool, dark place',
       duration: '6 months',
       container: 'airtight, dark',
       notes: 'Loses potency quickly when ground'
     },
+
     medicinalProperties: {
       actions: ['blood sugar regulation', 'anti-inflammatory'],
       energetics: 'warming',
       cautions: ['blood thinning in large amounts']
     },
+
     culinary_traditions: {
       [CUISINE_TYPES.INDIAN]: {
         name: 'elaichi powder',
@@ -1410,6 +1531,41 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         preparation: 'ground',
         cultural_notes: 'Popular in sweet baked goods and tea'
       }
+    },
+
+    sensoryProfile: {
+      taste: ['Mild'],
+      aroma: ['Fresh'],
+      texture: ['Standard'],
+      notes: 'Characteristic ground_cardamom profile'
+    },
+
+    culinaryProfile: {
+      flavorProfile: {
+        primary: ['balanced']
+      },
+
+      cookingMethods: ['versatile'],
+      cuisineAffinity: ['Global']
+    },
+
+    season: ['Year-round'],
+
+    preparation: {
+      methods: ['Standard'],
+      timing: 'As needed',
+      notes: 'Standard prep for ground_cardamom'
+    },
+
+    nutritionalProfile: {
+      macronutrients: {},
+      micronutrients: {},
+      healthBenefits: ['Nutritious']
+    },
+
+    astrologicalProfile: {
+      rulingPlanets: [],
+      favorableZodiac: []
     }
   },
 
@@ -1420,16 +1576,20 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     origin: ['Indonesia', 'Madagascar', 'Tanzania'],
     category: 'spice',
     subCategory: 'ground',
+
     varieties: {
       'Indonesian': 'highest oil content',
       'Madagascar': 'more subtle',
       'Zanzibar': 'traditional grade'
     },
+
     conversionRatio: {
       'whole_to_ground': '1 tsp whole = 3 / (4 || 1) tsp ground',
       'strength_ratio': 'use 1 / (4 || 1) amount of other sweet spices'
     },
+
     affinities: ['ham', 'baked goods', 'curry', 'mulled beverages', 'pickles'],
+
     culinaryApplications: {
       
       'ham_glazes': {
@@ -1455,12 +1615,14 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         notes: 'Remove after steeping to prevent bitterness'
       }
     },
+
     storage: {
       temperature: 'cool, dark place',
       duration: 'whole: 1 year, ground: 3 months',
       container: 'airtight, dark',
       notes: 'Loses potency quickly when ground'
     },
+
     culinary_traditions: {
       [CUISINE_TYPES.INDIAN]: {
         name: 'laung powder',
@@ -1477,6 +1639,41 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         usage: ['mulled wine', 'marinades'],
         preparation: 'ground'
       }
+    },
+
+    sensoryProfile: {
+      taste: ['Mild'],
+      aroma: ['Fresh'],
+      texture: ['Standard'],
+      notes: 'Characteristic ground_cloves profile'
+    },
+
+    culinaryProfile: {
+      flavorProfile: {
+        primary: ['balanced']
+      },
+
+      cookingMethods: ['versatile'],
+      cuisineAffinity: ['Global']
+    },
+
+    season: ['Year-round'],
+
+    preparation: {
+      methods: ['Standard'],
+      timing: 'As needed',
+      notes: 'Standard prep for ground_cloves'
+    },
+
+    nutritionalProfile: {
+      macronutrients: {},
+      micronutrients: {},
+      healthBenefits: ['Nutritious']
+    },
+
+    astrologicalProfile: {
+      rulingPlanets: [],
+      favorableZodiac: []
     }
   },
 
@@ -1487,28 +1684,34 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     origin: ['Hungary', 'Spain', 'United States'],
     category: 'spice',
     subCategory: 'ground',
+
     varieties: {
       'Hungarian': 'more intense',
       'Spanish': 'more delicate',
       'American': 'balanced flavor'
     },
+
     conversionRatio: {
       'whole_to_ground': '1 tbsp whole = 2.5 tsp ground',
       'fresh_to_dried': 'not applicable'
     },
+
     affinities: ['beans', 'rice', 'meat', 'curry', 'vegetables'],
     cookingMethods: ['bloomed in oil', 'dry roasted', 'spice blends'],
+
     storage: {
       temperature: 'cool, dark place',
       duration: '4-6 months',
       container: 'airtight, dark',
       notes: 'Best toasted before grinding'
     },
+
     medicinalProperties: {
       actions: ['digestive aid', 'iron-rich'],
       energetics: 'warming',
       cautions: ['none in culinary amounts']
     },
+
     culinary_traditions: {
       [CUISINE_TYPES.HUNGARIAN]: {
         name: 'édesnemes paprika',
@@ -1549,6 +1752,41 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         preparation: 'ground',
         cultural_notes: 'Used for color and mild pepper flavor'
       }
+    },
+
+    sensoryProfile: {
+      taste: ['Mild'],
+      aroma: ['Fresh'],
+      texture: ['Standard'],
+      notes: 'Characteristic ground_paprika profile'
+    },
+
+    culinaryProfile: {
+      flavorProfile: {
+        primary: ['balanced']
+      },
+
+      cookingMethods: ['versatile'],
+      cuisineAffinity: ['Global']
+    },
+
+    season: ['Year-round'],
+
+    preparation: {
+      methods: ['Standard'],
+      timing: 'As needed',
+      notes: 'Standard prep for ground_paprika'
+    },
+
+    nutritionalProfile: {
+      macronutrients: {},
+      micronutrients: {},
+      healthBenefits: ['Nutritious']
+    },
+
+    astrologicalProfile: {
+      rulingPlanets: [],
+      favorableZodiac: []
     }
   },
 
@@ -1559,16 +1797,20 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     origin: ['Canada', 'India', 'United Kingdom'],
     category: 'spice',
     subCategory: 'ground',
+
     varieties: {
       'Yellow': 'mild, American style',
       'Brown': 'spicier, Indian style',
       'Black': 'most pungent, European style'
     },
+
     conversionRatio: {
       'whole_to_ground': '1 tbsp whole = 2.5 tsp ground',
       'powder_to_prepared': '1 tsp powder = 1 tbsp prepared mustard'
     },
+
     affinities: ['pork', 'sausages', 'dressings', 'pickles', 'cheese dishes'],
+
     culinaryApplications: {
       
       'spice_rubs': {
@@ -1578,12 +1820,14 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         ratios: '1:2:1 (mustard:paprika:other spices)'
       }
     },
+
     storage: {
       temperature: 'cool, dark place',
       duration: '6 months',
       container: 'airtight',
       notes: 'Needs liquid to activate flavor'
     },
+
     culinary_traditions: {
       [CUISINE_TYPES.INDIAN]: {
         name: 'sarson powder',
@@ -1600,6 +1844,41 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         usage: ['wurst', 'sauces'],
         preparation: 'mixed with liquid'
       }
+    },
+
+    sensoryProfile: {
+      taste: ['Mild'],
+      aroma: ['Fresh'],
+      texture: ['Standard'],
+      notes: 'Characteristic ground_mustard profile'
+    },
+
+    culinaryProfile: {
+      flavorProfile: {
+        primary: ['balanced']
+      },
+
+      cookingMethods: ['versatile'],
+      cuisineAffinity: ['Global']
+    },
+
+    season: ['Year-round'],
+
+    preparation: {
+      methods: ['Standard'],
+      timing: 'As needed',
+      notes: 'Standard prep for ground_mustard'
+    },
+
+    nutritionalProfile: {
+      macronutrients: {},
+      micronutrients: {},
+      healthBenefits: ['Nutritious']
+    },
+
+    astrologicalProfile: {
+      rulingPlanets: [],
+      favorableZodiac: []
     }
   },
 
@@ -1610,16 +1889,20 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     origin: ['India', 'Mediterranean', 'China'],
     category: 'spice',
     subCategory: 'ground',
+
     varieties: {
       'Indian': 'more aromatic',
       'Mediterranean': 'sweeter notes',
       'Chinese': 'more medicinal'
     },
+
     conversionRatio: {
       'whole_to_ground': '1 tbsp whole = 2.5 tsp ground',
       'fresh_to_dried': '3:1 ratio'
     },
+
     affinities: ['fish', 'pork', 'sausages', 'bread', 'tomato sauces'],
+
     culinaryApplications: {
       'seafood': {
     name: 'Seafood',
@@ -1652,12 +1935,14 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         ratios: '1:1:1 (fennel:cumin:garlic)'
       }
     },
+
     storage: {
       temperature: 'cool, dark place',
       duration: '6 months',
       container: 'airtight',
       notes: 'Needs liquid to activate flavor'
     },
+
     culinary_traditions: {
       [CUISINE_TYPES.INDIAN]: {
         name: 'saunf powder',
@@ -1674,6 +1959,41 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         usage: ['sausages', 'pasta sauces'],
         preparation: 'ground'
       }
+    },
+
+    sensoryProfile: {
+      taste: ['Mild'],
+      aroma: ['Fresh'],
+      texture: ['Standard'],
+      notes: 'Characteristic ground_fennel profile'
+    },
+
+    culinaryProfile: {
+      flavorProfile: {
+        primary: ['balanced']
+      },
+
+      cookingMethods: ['versatile'],
+      cuisineAffinity: ['Global']
+    },
+
+    season: ['Year-round'],
+
+    preparation: {
+      methods: ['Standard'],
+      timing: 'As needed',
+      notes: 'Standard prep for ground_fennel'
+    },
+
+    nutritionalProfile: {
+      macronutrients: {},
+      micronutrients: {},
+      healthBenefits: ['Nutritious']
+    },
+
+    astrologicalProfile: {
+      rulingPlanets: [],
+      favorableZodiac: []
     }
   },
 
@@ -1681,6 +2001,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     name: 'Ground Ginger',
     elementalProperties: { Fire: 0.5, Earth: 0.3, Air: 0.2 , Water: 0.1},
     qualities: ['warming', 'pungent', 'aromatic'],
+
     culinary_traditions: {
       [CUISINE_TYPES.CHINESE]: {
         name: 'gan jiang fen',
@@ -1712,6 +2033,53 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         preparation: 'ground',
         cultural_notes: 'Important in traditional medicine'
       }
+    },
+
+    category: 'Uncategorized',
+    subCategory: 'Uncategorized',
+
+    sensoryProfile: {
+      taste: ['Mild'],
+      aroma: ['Fresh'],
+      texture: ['Standard'],
+      notes: 'Characteristic ground_ginger profile'
+    },
+
+    culinaryProfile: {
+      flavorProfile: {
+        primary: ['balanced']
+      },
+
+      cookingMethods: ['versatile'],
+      cuisineAffinity: ['Global']
+    },
+
+    origin: ['Unknown'],
+    season: ['Year-round'],
+
+    preparation: {
+      methods: ['Standard'],
+      timing: 'As needed',
+      notes: 'Standard prep for ground_ginger'
+    },
+
+    nutritionalProfile: {
+      macronutrients: {},
+      micronutrients: {},
+      healthBenefits: ['Nutritious']
+    },
+
+    storage: {
+      temperature: 'Cool, dry place',
+      duration: '6-12 months',
+      container: 'Airtight'
+    },
+
+    varieties: {},
+
+    astrologicalProfile: {
+      rulingPlanets: [],
+      favorableZodiac: []
     }
   },
 
@@ -1719,6 +2087,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     name: 'Ground Coriander',
     elementalProperties: { Air: 0.4, Earth: 0.3, Water: 0.2, Fire: 0.1 },
     qualities: ['citrusy', 'warm', 'nutty'],
+
     culinary_traditions: {
       [CUISINE_TYPES.INDIAN]: {
         name: 'dhania powder',
@@ -1744,6 +2113,53 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         preparation: 'ground seeds',
         cultural_notes: 'Used in traditional Mexican spice blends'
       }
+    },
+
+    category: 'Uncategorized',
+    subCategory: 'Uncategorized',
+
+    sensoryProfile: {
+      taste: ['Mild'],
+      aroma: ['Fresh'],
+      texture: ['Standard'],
+      notes: 'Characteristic ground_coriander profile'
+    },
+
+    culinaryProfile: {
+      flavorProfile: {
+        primary: ['balanced']
+      },
+
+      cookingMethods: ['versatile'],
+      cuisineAffinity: ['Global']
+    },
+
+    origin: ['Unknown'],
+    season: ['Year-round'],
+
+    preparation: {
+      methods: ['Standard'],
+      timing: 'As needed',
+      notes: 'Standard prep for ground_coriander'
+    },
+
+    nutritionalProfile: {
+      macronutrients: {},
+      micronutrients: {},
+      healthBenefits: ['Nutritious']
+    },
+
+    storage: {
+      temperature: 'Cool, dry place',
+      duration: '6-12 months',
+      container: 'Airtight'
+    },
+
+    varieties: {},
+
+    astrologicalProfile: {
+      rulingPlanets: [],
+      favorableZodiac: []
     }
   },
 
@@ -1751,6 +2167,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     name: 'Ground Star Anise',
     elementalProperties: { Fire: 0.3, Air: 0.4, Water: 0.2, Earth: 0.1 },
     qualities: ['sweet', 'licorice-like', 'warming'],
+
     culinary_traditions: {
       [CUISINE_TYPES.CHINESE]: {
         name: 'ba jiao fen',
@@ -1770,6 +2187,53 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         preparation: 'ground',
         cultural_notes: 'Used in traditional braised dishes'
       }
+    },
+
+    category: 'Uncategorized',
+    subCategory: 'Uncategorized',
+
+    sensoryProfile: {
+      taste: ['Mild'],
+      aroma: ['Fresh'],
+      texture: ['Standard'],
+      notes: 'Characteristic ground_star_anise profile'
+    },
+
+    culinaryProfile: {
+      flavorProfile: {
+        primary: ['balanced']
+      },
+
+      cookingMethods: ['versatile'],
+      cuisineAffinity: ['Global']
+    },
+
+    origin: ['Unknown'],
+    season: ['Year-round'],
+
+    preparation: {
+      methods: ['Standard'],
+      timing: 'As needed',
+      notes: 'Standard prep for ground_star_anise'
+    },
+
+    nutritionalProfile: {
+      macronutrients: {},
+      micronutrients: {},
+      healthBenefits: ['Nutritious']
+    },
+
+    storage: {
+      temperature: 'Cool, dry place',
+      duration: '6-12 months',
+      container: 'Airtight'
+    },
+
+    varieties: {},
+
+    astrologicalProfile: {
+      rulingPlanets: [],
+      favorableZodiac: []
     }
   }
 }
