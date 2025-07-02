@@ -153,7 +153,52 @@ const rawVinegars = {
         uses: 'dressings, marinades, everyday cooking',
         aging: '2 months to 3 years',
         processing: 'mix of wine vinegar and grape must, may contain caramel color',
-        certification: 'IGP (Protected Geographical Indication)'
+        certification: 'IGP (Protected Geographical Indication)',
+    sensoryProfile:     {
+          "taste": [
+                "Mild",
+                "Balanced",
+                "Natural"
+          ],
+          "aroma": [
+                "Fresh",
+                "Clean",
+                "Subtle"
+          ],
+          "texture": [
+                "Pleasant",
+                "Smooth",
+                "Appealing"
+          ],
+          "notes": "Characteristic commercial profile"
+    },
+    culinaryProfile:     {
+          "flavorProfile": {
+                "primary": [
+                      "balanced"
+                ],
+                "secondary": [
+                      "versatile"
+                ],
+                "notes": "Versatile commercial for various uses"
+          },
+          "cookingMethods": [
+                "sautéing",
+                "steaming",
+                "roasting"
+          ],
+          "cuisineAffinity": [
+                "Global",
+                "International"
+          ],
+          "preparationTips": [
+                "Use as needed",
+                "Season to taste"
+          ]
+    },
+    season:     [
+          "year-round"
+    ],
       }
 },
     culinaryApplications: {
@@ -166,7 +211,52 @@ const rawVinegars = {
         applications: {
           'brushing': 'brush onto proteins while cooking',
           'drizzling': 'apply after cooking as finishing touch',
-          'dessert': 'drizzle over fruits, ice cream, panna cotta'
+          'dessert': 'drizzle over fruits, ice cream, panna cotta',
+    sensoryProfile:     {
+          "taste": [
+                "Mild",
+                "Balanced",
+                "Natural"
+          ],
+          "aroma": [
+                "Fresh",
+                "Clean",
+                "Subtle"
+          ],
+          "texture": [
+                "Pleasant",
+                "Smooth",
+                "Appealing"
+          ],
+          "notes": "Characteristic glazes profile"
+    },
+    culinaryProfile:     {
+          "flavorProfile": {
+                "primary": [
+                      "balanced"
+                ],
+                "secondary": [
+                      "versatile"
+                ],
+                "notes": "Versatile glazes for various uses"
+          },
+          "cookingMethods": [
+                "sautéing",
+                "steaming",
+                "roasting"
+          ],
+          "cuisineAffinity": [
+                "Global",
+                "International"
+          ],
+          "preparationTips": [
+                "Use as needed",
+                "Season to taste"
+          ]
+    },
+    season:     [
+          "year-round"
+    ],
         },
         pairings: {
           'savory': ['strawberries', 'peaches', 'melon'],
@@ -201,7 +291,52 @@ const rawVinegars = {
         appearance: 'dark amber',
         flavor: 'complex, nutty',
         aging: '2+ years',
-        uses: 'finishing, dressings'
+        uses: 'finishing, dressings',
+    sensoryProfile:     {
+          "taste": [
+                "Mild",
+                "Balanced",
+                "Natural"
+          ],
+          "aroma": [
+                "Fresh",
+                "Clean",
+                "Subtle"
+          ],
+          "texture": [
+                "Pleasant",
+                "Smooth",
+                "Appealing"
+          ],
+          "notes": "Characteristic reserva profile"
+    },
+    culinaryProfile:     {
+          "flavorProfile": {
+                "primary": [
+                      "balanced"
+                ],
+                "secondary": [
+                      "versatile"
+                ],
+                "notes": "Versatile reserva for various uses"
+          },
+          "cookingMethods": [
+                "sautéing",
+                "steaming",
+                "roasting"
+          ],
+          "cuisineAffinity": [
+                "Global",
+                "International"
+          ],
+          "preparationTips": [
+                "Use as needed",
+                "Season to taste"
+          ]
+    },
+    season:     [
+          "year-round"
+    ],
       },
       'Gran Reserva': {
     name: 'Gran Reserva',
@@ -217,7 +352,97 @@ const rawVinegars = {
         method: 'whisk with oil',
         ratios: {
           'classic': '1:3 (vinegar:oil)',
-          'bold': '1:2 (vinegar:oil)'
+          'bold': '1:2 (vinegar:oil)',
+    sensoryProfile:     {
+          "taste": [
+                "Mild",
+                "Balanced",
+                "Natural"
+          ],
+          "aroma": [
+                "Fresh",
+                "Clean",
+                "Subtle"
+          ],
+          "texture": [
+                "Pleasant",
+                "Smooth",
+                "Appealing"
+          ],
+          "notes": "Characteristic vinaigrettes profile",
+    sensoryProfile:     {
+          "taste": [
+                "Mild",
+                "Balanced",
+                "Natural"
+          ],
+          "aroma": [
+                "Fresh",
+                "Clean",
+                "Subtle"
+          ],
+          "texture": [
+                "Pleasant",
+                "Smooth",
+                "Appealing"
+          ],
+          "notes": "Characteristic vinaigrettes profile"
+    },
+    culinaryProfile:     {
+          "flavorProfile": {
+                "primary": [
+                      "balanced"
+                ],
+                "secondary": [
+                      "versatile"
+                ],
+                "notes": "Versatile vinaigrettes for various uses"
+          },
+          "cookingMethods": [
+                "sautéing",
+                "steaming",
+                "roasting"
+          ],
+          "cuisineAffinity": [
+                "Global",
+                "International"
+          ],
+          "preparationTips": [
+                "Use as needed",
+                "Season to taste"
+          ]
+    },
+    season:     [
+          "year-round"
+    ],
+    },
+    culinaryProfile:     {
+          "flavorProfile": {
+                "primary": [
+                      "balanced"
+                ],
+                "secondary": [
+                      "versatile"
+                ],
+                "notes": "Versatile vinaigrettes for various uses"
+          },
+          "cookingMethods": [
+                "sautéing",
+                "steaming",
+                "roasting"
+          ],
+          "cuisineAffinity": [
+                "Global",
+                "International"
+          ],
+          "preparationTips": [
+                "Use as needed",
+                "Season to taste"
+          ]
+    },
+    season:     [
+          "year-round"
+    ],
         },
         pairings: ['olive oil', 'mustard', 'shallots']
       },
@@ -226,7 +451,52 @@ const rawVinegars = {
         method: 'deglaze pan',
         timing: 'after searing',
         ratios: '2-3 tbsp per cup of stock',
-        pairings: ['stock', 'herbs', 'butter']
+        pairings: ['stock', 'herbs', 'butter'],
+    sensoryProfile:     {
+          "taste": [
+                "Mild",
+                "Balanced",
+                "Natural"
+          ],
+          "aroma": [
+                "Fresh",
+                "Clean",
+                "Subtle"
+          ],
+          "texture": [
+                "Pleasant",
+                "Smooth",
+                "Appealing"
+          ],
+          "notes": "Characteristic pan sauces profile"
+    },
+    culinaryProfile:     {
+          "flavorProfile": {
+                "primary": [
+                      "balanced"
+                ],
+                "secondary": [
+                      "versatile"
+                ],
+                "notes": "Versatile pan sauces for various uses"
+          },
+          "cookingMethods": [
+                "sautéing",
+                "steaming",
+                "roasting"
+          ],
+          "cuisineAffinity": [
+                "Global",
+                "International"
+          ],
+          "preparationTips": [
+                "Use as needed",
+                "Season to taste"
+          ]
+    },
+    season:     [
+          "year-round"
+    ],
       }
     },
     storage: {
@@ -301,7 +571,52 @@ const rawVinegars = {
         ratios: {
           'daily': '1-2 tbsp in 8oz water',
           'intensive': '1:8 (vinegar:water)',
-          'fire_cider': 'steep with garlic, onion, ginger, horseradish, and citrus'
+          'fire_cider': 'steep with garlic, onion, ginger, horseradish, and citrus',
+    sensoryProfile:     {
+          "taste": [
+                "Mild",
+                "Balanced",
+                "Natural"
+          ],
+          "aroma": [
+                "Fresh",
+                "Clean",
+                "Subtle"
+          ],
+          "texture": [
+                "Pleasant",
+                "Smooth",
+                "Appealing"
+          ],
+          "notes": "Characteristic health tonics profile"
+    },
+    culinaryProfile:     {
+          "flavorProfile": {
+                "primary": [
+                      "balanced"
+                ],
+                "secondary": [
+                      "versatile"
+                ],
+                "notes": "Versatile health tonics for various uses"
+          },
+          "cookingMethods": [
+                "sautéing",
+                "steaming",
+                "roasting"
+          ],
+          "cuisineAffinity": [
+                "Global",
+                "International"
+          ],
+          "preparationTips": [
+                "Use as needed",
+                "Season to taste"
+          ]
+    },
+    season:     [
+          "year-round"
+    ],
         },
         timing: {
           'daily_use': 'morning or before meals',
@@ -336,7 +651,52 @@ const rawVinegars = {
     name: 'Young',
         appearance: 'bright red',
         flavor: 'sharp, fruity',
-        uses: 'cooking, marinades'
+        uses: 'cooking, marinades',
+    sensoryProfile:     {
+          "taste": [
+                "Mild",
+                "Balanced",
+                "Natural"
+          ],
+          "aroma": [
+                "Fresh",
+                "Clean",
+                "Subtle"
+          ],
+          "texture": [
+                "Pleasant",
+                "Smooth",
+                "Appealing"
+          ],
+          "notes": "Characteristic young profile"
+    },
+    culinaryProfile:     {
+          "flavorProfile": {
+                "primary": [
+                      "balanced"
+                ],
+                "secondary": [
+                      "versatile"
+                ],
+                "notes": "Versatile young for various uses"
+          },
+          "cookingMethods": [
+                "sautéing",
+                "steaming",
+                "roasting"
+          ],
+          "cuisineAffinity": [
+                "Global",
+                "International"
+          ],
+          "preparationTips": [
+                "Use as needed",
+                "Season to taste"
+          ]
+    },
+    season:     [
+          "year-round"
+    ],
       }
     },
     culinaryApplications: {
@@ -353,12 +713,102 @@ const rawVinegars = {
           'emulsified': {
     name: 'Emulsified',
             method: 'add mustard',
-            ratio: '1 tsp mustard per cup dressing'
+            ratio: '1 tsp mustard per cup dressing',
+    sensoryProfile:     {
+          "taste": [
+                "Mild",
+                "Balanced",
+                "Natural"
+          ],
+          "aroma": [
+                "Fresh",
+                "Clean",
+                "Subtle"
+          ],
+          "texture": [
+                "Pleasant",
+                "Smooth",
+                "Appealing"
+          ],
+          "notes": "Characteristic emulsified profile"
+    },
+    culinaryProfile:     {
+          "flavorProfile": {
+                "primary": [
+                      "balanced"
+                ],
+                "secondary": [
+                      "versatile"
+                ],
+                "notes": "Versatile emulsified for various uses"
+          },
+          "cookingMethods": [
+                "sautéing",
+                "steaming",
+                "roasting"
+          ],
+          "cuisineAffinity": [
+                "Global",
+                "International"
+          ],
+          "preparationTips": [
+                "Use as needed",
+                "Season to taste"
+          ]
+    },
+    season:     [
+          "year-round"
+    ],
           },
           'herb_infused': {
     name: 'Herb Infused',
             method: 'steep herbs in vinegar',
-            timing: '24 hours before use'
+            timing: '24 hours before use',
+    sensoryProfile:     {
+          "taste": [
+                "Mild",
+                "Balanced",
+                "Natural"
+          ],
+          "aroma": [
+                "Fresh",
+                "Clean",
+                "Subtle"
+          ],
+          "texture": [
+                "Pleasant",
+                "Smooth",
+                "Appealing"
+          ],
+          "notes": "Characteristic herb infused profile"
+    },
+    culinaryProfile:     {
+          "flavorProfile": {
+                "primary": [
+                      "balanced"
+                ],
+                "secondary": [
+                      "versatile"
+                ],
+                "notes": "Versatile herb infused for various uses"
+          },
+          "cookingMethods": [
+                "sautéing",
+                "steaming",
+                "roasting"
+          ],
+          "cuisineAffinity": [
+                "Global",
+                "International"
+          ],
+          "preparationTips": [
+                "Use as needed",
+                "Season to taste"
+          ]
+    },
+    season:     [
+          "year-round"
+    ],
           },
           'shallot_based': {
     name: 'Shallot Based',

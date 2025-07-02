@@ -29,6 +29,9 @@ export {
   DEFAULT_ELEMENTAL_PROPERTIES
 };
 
+// Re-export celestial types that are commonly needed
+export type { Element, ZodiacSign, Planet };
+
 // ========== CELESTIAL TYPES ==========
 
 /**

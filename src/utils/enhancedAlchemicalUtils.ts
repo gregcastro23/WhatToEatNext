@@ -73,7 +73,7 @@ export function getIngredientCompatibility(
  * @returns Compatibility score between 0-1
  */
 export function getUserFoodCompatibility(
-  _userSign: ZodiacSign,
+  userSign: ZodiacSign,
   foodElement: string,
   foodElementalProps: ElementalProperties
 ) {

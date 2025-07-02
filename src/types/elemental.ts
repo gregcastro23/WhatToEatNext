@@ -5,6 +5,9 @@
 
 import { Element } from '@/types/celestial';
 
+// Re-export Element for convenience
+export type { Element };
+
 // The four basic elements
 export type LowercaseElement = 'fire' | 'water' | 'air' | 'earth';
 
