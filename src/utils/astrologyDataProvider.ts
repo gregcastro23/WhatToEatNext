@@ -152,7 +152,7 @@ export async function getPlanetaryPositions(): Promise<Record<string, CelestialP
 export async function getDominantElement(): Promise<string> {
   const positions = await getPlanetaryPositions();
   // Apply surgical type casting with variable extraction
-  const safeAstrologyData = safeAstrology as any;
+  const safeAstrologyData = safeAstrology as Record<string, unknown>;
   const getDominantElementMethod = safeAstrologyData?.getDominantElement;
   const countElementsMethod = safeAstrologyData?.countElements;
   

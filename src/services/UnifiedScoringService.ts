@@ -128,7 +128,7 @@ export interface AstrologicalData {
   aspects: PlanetaryAspect[];
   transits: {
     active: Array<{ transitingPlanet: Planet; natalPlanet: Planet; aspect: AspectType; strength: number }>;
-    seasonal: any;
+    seasonal: Season;
   };
   lunarPhase: {
     name: LunarPhase;
@@ -708,7 +708,7 @@ export class UnifiedScoringService {
   /**
    * Transform Astrologize API response to our format
    */
-  private transformAstrologizeResponse(data: any): Partial<AstrologicalData> {
+  private transformAstrologizeResponse(data: Record<string, unknown>): Partial<AstrologicalData> {
     // This would transform the actual API response
     // The exact structure depends on what the Astrologize API returns
     return {
