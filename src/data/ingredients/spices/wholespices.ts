@@ -31,7 +31,266 @@ const rawWholeSpices = {
                 "Smooth",
                 "Appealing"
           ],
-          "notes": "Characteristic star anise profile"
+          "notes": "Characteristic star anise profile",
+    culinaryProfile:     {
+          "flavorProfile": {
+                "primary": [
+                      "balanced"
+                ],
+                "secondary": [
+                      "versatile"
+                ],
+                "notes": "Versatile star anise for various uses",
+    sensoryProfile:     {
+          "taste": [
+                "Mild",
+                "Balanced",
+                "Natural"
+          ],
+          "aroma": [
+                "Fresh",
+                "Clean",
+                "Subtle"
+          ],
+          "texture": [
+                "Pleasant",
+                "Smooth",
+                "Appealing"
+          ],
+          "notes": "Characteristic flavorprofile profile",
+    sensoryProfile:     {
+          "taste": [
+                "Mild",
+                "Balanced",
+                "Natural"
+          ],
+          "aroma": [
+                "Fresh",
+                "Clean",
+                "Subtle"
+          ],
+          "texture": [
+                "Pleasant",
+                "Smooth",
+                "Appealing"
+          ],
+          "notes": "Characteristic flavorprofile profile",
+    sensoryProfile:     {
+          "taste": [
+                "Mild",
+                "Balanced",
+                "Natural"
+          ],
+          "aroma": [
+                "Fresh",
+                "Clean",
+                "Subtle"
+          ],
+          "texture": [
+                "Pleasant",
+                "Smooth",
+                "Appealing"
+          ],
+          "notes": "Characteristic flavorprofile profile",
+    sensoryProfile:     {
+          "taste": [
+                "Mild",
+                "Balanced",
+                "Natural"
+          ],
+          "aroma": [
+                "Fresh",
+                "Clean",
+                "Subtle"
+          ],
+          "texture": [
+                "Pleasant",
+                "Smooth",
+                "Appealing"
+          ],
+          "notes": "Characteristic flavorprofile profile",
+    sensoryProfile:     {
+          "taste": [
+                "Mild",
+                "Balanced",
+                "Natural"
+          ],
+          "aroma": [
+                "Fresh",
+                "Clean",
+                "Subtle"
+          ],
+          "texture": [
+                "Pleasant",
+                "Smooth",
+                "Appealing"
+          ],
+          "notes": "Characteristic flavorprofile profile"
+    },
+    culinaryProfile:     {
+          "flavorProfile": {
+                "primary": [
+                      "balanced"
+                ],
+                "secondary": [
+                      "versatile"
+                ],
+                "notes": "Versatile flavorprofile for various uses"
+          },
+          "cookingMethods": [
+                "sautéing",
+                "steaming",
+                "roasting"
+          ],
+          "cuisineAffinity": [
+                "Global",
+                "International"
+          ],
+          "preparationTips": [
+                "Use as needed",
+                "Season to taste"
+          ]
+    },
+    season:     [
+          "year-round"
+    ],
+    },
+    culinaryProfile:     {
+          "flavorProfile": {
+                "primary": [
+                      "balanced"
+                ],
+                "secondary": [
+                      "versatile"
+                ],
+                "notes": "Versatile flavorprofile for various uses"
+          },
+          "cookingMethods": [
+                "sautéing",
+                "steaming",
+                "roasting"
+          ],
+          "cuisineAffinity": [
+                "Global",
+                "International"
+          ],
+          "preparationTips": [
+                "Use as needed",
+                "Season to taste"
+          ]
+    },
+    season:     [
+          "year-round"
+    ],
+    },
+    culinaryProfile:     {
+          "flavorProfile": {
+                "primary": [
+                      "balanced"
+                ],
+                "secondary": [
+                      "versatile"
+                ],
+                "notes": "Versatile flavorprofile for various uses"
+          },
+          "cookingMethods": [
+                "sautéing",
+                "steaming",
+                "roasting"
+          ],
+          "cuisineAffinity": [
+                "Global",
+                "International"
+          ],
+          "preparationTips": [
+                "Use as needed",
+                "Season to taste"
+          ]
+    },
+    season:     [
+          "year-round"
+    ],
+    },
+    culinaryProfile:     {
+          "flavorProfile": {
+                "primary": [
+                      "balanced"
+                ],
+                "secondary": [
+                      "versatile"
+                ],
+                "notes": "Versatile flavorprofile for various uses"
+          },
+          "cookingMethods": [
+                "sautéing",
+                "steaming",
+                "roasting"
+          ],
+          "cuisineAffinity": [
+                "Global",
+                "International"
+          ],
+          "preparationTips": [
+                "Use as needed",
+                "Season to taste"
+          ]
+    },
+    season:     [
+          "year-round"
+    ],
+    },
+    culinaryProfile:     {
+          "flavorProfile": {
+                "primary": [
+                      "balanced"
+                ],
+                "secondary": [
+                      "versatile"
+                ],
+                "notes": "Versatile flavorprofile for various uses"
+          },
+          "cookingMethods": [
+                "sautéing",
+                "steaming",
+                "roasting"
+          ],
+          "cuisineAffinity": [
+                "Global",
+                "International"
+          ],
+          "preparationTips": [
+                "Use as needed",
+                "Season to taste"
+          ]
+    },
+    season:     [
+          "year-round"
+    ],
+          },
+          "cookingMethods": [
+                "sautéing",
+                "steaming",
+                "roasting"
+          ],
+          "cuisineAffinity": [
+                "Global",
+                "International"
+          ],
+          "preparationTips": [
+                "Use as needed",
+                "Season to taste"
+          ]
+    },
+    season:     [
+          "year-round"
+    ],
+    preparation:     {
+          "methods": [
+                "standard preparation"
+          ],
+          "timing": "as needed",
+          "notes": "Standard preparation for star anise"
+    },
     },
     culinaryProfile:     {
           "flavorProfile": {
@@ -97,7 +356,41 @@ const rawWholeSpices = {
                 "Smooth",
                 "Appealing"
           ],
-          "notes": "Characteristic broths profile"
+          "notes": "Characteristic broths profile",
+    culinaryProfile:     {
+          "flavorProfile": {
+                "primary": [
+                      "balanced"
+                ],
+                "secondary": [
+                      "versatile"
+                ],
+                "notes": "Versatile broths for various uses"
+          },
+          "cookingMethods": [
+                "sautéing",
+                "steaming",
+                "roasting"
+          ],
+          "cuisineAffinity": [
+                "Global",
+                "International"
+          ],
+          "preparationTips": [
+                "Use as needed",
+                "Season to taste"
+          ]
+    },
+    season:     [
+          "year-round"
+    ],
+    preparation:     {
+          "methods": [
+                "standard preparation"
+          ],
+          "timing": "as needed",
+          "notes": "Standard preparation for broths"
+    },
     },
     culinaryProfile:     {
           "flavorProfile": {
@@ -166,7 +459,41 @@ const rawWholeSpices = {
                 "Smooth",
                 "Appealing"
           ],
-          "notes": "Characteristic tea blends profile"
+          "notes": "Characteristic tea blends profile",
+    culinaryProfile:     {
+          "flavorProfile": {
+                "primary": [
+                      "balanced"
+                ],
+                "secondary": [
+                      "versatile"
+                ],
+                "notes": "Versatile tea blends for various uses"
+          },
+          "cookingMethods": [
+                "sautéing",
+                "steaming",
+                "roasting"
+          ],
+          "cuisineAffinity": [
+                "Global",
+                "International"
+          ],
+          "preparationTips": [
+                "Use as needed",
+                "Season to taste"
+          ]
+    },
+    season:     [
+          "year-round"
+    ],
+    preparation:     {
+          "methods": [
+                "standard preparation"
+          ],
+          "timing": "as needed",
+          "notes": "Standard preparation for tea blends"
+    },
     },
     culinaryProfile:     {
           "flavorProfile": {
@@ -294,7 +621,41 @@ const rawWholeSpices = {
                 "Smooth",
                 "Appealing"
           ],
-          "notes": "Characteristic rice dishes profile"
+          "notes": "Characteristic rice dishes profile",
+    culinaryProfile:     {
+          "flavorProfile": {
+                "primary": [
+                      "balanced"
+                ],
+                "secondary": [
+                      "versatile"
+                ],
+                "notes": "Versatile rice dishes for various uses"
+          },
+          "cookingMethods": [
+                "sautéing",
+                "steaming",
+                "roasting"
+          ],
+          "cuisineAffinity": [
+                "Global",
+                "International"
+          ],
+          "preparationTips": [
+                "Use as needed",
+                "Season to taste"
+          ]
+    },
+    season:     [
+          "year-round"
+    ],
+    preparation:     {
+          "methods": [
+                "standard preparation"
+          ],
+          "timing": "as needed",
+          "notes": "Standard preparation for rice dishes"
+    },
     },
     culinaryProfile:     {
           "flavorProfile": {

@@ -1,47 +1,47 @@
 {
-  "totalRuns": 7,
+  "totalRuns": 10,
   "successfulRuns": 1,
-  "filesProcessed": 10,
-  "errorsFixed": 30,
+  "filesProcessed": 15,
+  "errorsFixed": 44,
   "errorsEncountered": 0,
-  "corruptionDetected": 3,
-  "buildFailures": 4,
-  "averageBatchSize": 21,
+  "corruptionDetected": 4,
+  "buildFailures": 6,
+  "averageBatchSize": 20.7,
   "maxSafeBatchSize": 5,
-  "lastRunTime": "2025-07-02T05:21:25.271Z",
+  "lastRunTime": "2025-07-02T05:47:31.017Z",
   "safetyScore": 0,
   "errorTypeSuccess": {
     "TS2304": {
       "fixed": 2,
-      "attempted": 34
+      "attempted": 37
     },
     "TS2345": {
       "fixed": 0,
-      "attempted": 18
+      "attempted": 24
     },
     "TS2322": {
-      "fixed": 28,
-      "attempted": 93
+      "fixed": 42,
+      "attempted": 135
     },
     "TS2740": {
       "fixed": 0,
-      "attempted": 30
+      "attempted": 45
     },
     "TS2339": {
       "fixed": 0,
-      "attempted": 34
+      "attempted": 46
     },
     "TS2820": {
       "fixed": 0,
-      "attempted": 6
+      "attempted": 9
     },
     "TS2741": {
       "fixed": 0,
-      "attempted": 15
+      "attempted": 18
     },
     "TS2459": {
       "fixed": 0,
-      "attempted": 11
+      "attempted": 13
     },
     "TS2352": {
       "fixed": 0,
@@ -53,7 +53,7 @@
     },
     "TS2552": {
       "fixed": 0,
-      "attempted": 12
+      "attempted": 30
     },
     "TS2420": {
       "fixed": 0,
@@ -61,11 +61,11 @@
     },
     "TS1117": {
       "fixed": 0,
-      "attempted": 28
+      "attempted": 67
     },
     "TS2305": {
       "fixed": 0,
-      "attempted": 1
+      "attempted": 2
     }
   },
   "patternEffectiveness": {
@@ -74,16 +74,16 @@
       "attempts": 2
     },
     "TS2322_string_array_to_typed_array": {
-      "successes": 12,
-      "attempts": 12
+      "successes": 18,
+      "attempts": 18
     },
     "TS2322_object_to_interface": {
-      "successes": 16,
-      "attempts": 16
+      "successes": 24,
+      "attempts": 24
     }
   },
   "performanceMetrics": {
-    "averageFileTime": 18912.3,
-    "totalProcessingTime": 189123
+    "averageFileTime": 16871.533333333333,
+    "totalProcessingTime": 253073
   }
 }

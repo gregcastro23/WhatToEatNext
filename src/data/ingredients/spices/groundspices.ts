@@ -119,7 +119,221 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
                 "Smooth",
                 "Appealing"
           ],
-          "notes": "Characteristic ground cumin profile"
+          "notes": "Characteristic ground cumin profile",
+    culinaryProfile:     {
+          "flavorProfile": {
+                "primary": [
+                      "balanced"
+                ],
+                "secondary": [
+                      "versatile"
+                ],
+                "notes": "Versatile ground cumin for various uses",
+    sensoryProfile:     {
+          "taste": [
+                "Mild",
+                "Balanced",
+                "Natural"
+          ],
+          "aroma": [
+                "Fresh",
+                "Clean",
+                "Subtle"
+          ],
+          "texture": [
+                "Pleasant",
+                "Smooth",
+                "Appealing"
+          ],
+          "notes": "Characteristic flavorprofile profile",
+    sensoryProfile:     {
+          "taste": [
+                "Mild",
+                "Balanced",
+                "Natural"
+          ],
+          "aroma": [
+                "Fresh",
+                "Clean",
+                "Subtle"
+          ],
+          "texture": [
+                "Pleasant",
+                "Smooth",
+                "Appealing"
+          ],
+          "notes": "Characteristic flavorprofile profile",
+    sensoryProfile:     {
+          "taste": [
+                "Mild",
+                "Balanced",
+                "Natural"
+          ],
+          "aroma": [
+                "Fresh",
+                "Clean",
+                "Subtle"
+          ],
+          "texture": [
+                "Pleasant",
+                "Smooth",
+                "Appealing"
+          ],
+          "notes": "Characteristic flavorprofile profile",
+    sensoryProfile:     {
+          "taste": [
+                "Mild",
+                "Balanced",
+                "Natural"
+          ],
+          "aroma": [
+                "Fresh",
+                "Clean",
+                "Subtle"
+          ],
+          "texture": [
+                "Pleasant",
+                "Smooth",
+                "Appealing"
+          ],
+          "notes": "Characteristic flavorprofile profile"
+    },
+    culinaryProfile:     {
+          "flavorProfile": {
+                "primary": [
+                      "balanced"
+                ],
+                "secondary": [
+                      "versatile"
+                ],
+                "notes": "Versatile flavorprofile for various uses"
+          },
+          "cookingMethods": [
+                "sautéing",
+                "steaming",
+                "roasting"
+          ],
+          "cuisineAffinity": [
+                "Global",
+                "International"
+          ],
+          "preparationTips": [
+                "Use as needed",
+                "Season to taste"
+          ]
+    },
+    season:     [
+          "year-round"
+    ],
+    },
+    culinaryProfile:     {
+          "flavorProfile": {
+                "primary": [
+                      "balanced"
+                ],
+                "secondary": [
+                      "versatile"
+                ],
+                "notes": "Versatile flavorprofile for various uses"
+          },
+          "cookingMethods": [
+                "sautéing",
+                "steaming",
+                "roasting"
+          ],
+          "cuisineAffinity": [
+                "Global",
+                "International"
+          ],
+          "preparationTips": [
+                "Use as needed",
+                "Season to taste"
+          ]
+    },
+    season:     [
+          "year-round"
+    ],
+    },
+    culinaryProfile:     {
+          "flavorProfile": {
+                "primary": [
+                      "balanced"
+                ],
+                "secondary": [
+                      "versatile"
+                ],
+                "notes": "Versatile flavorprofile for various uses"
+          },
+          "cookingMethods": [
+                "sautéing",
+                "steaming",
+                "roasting"
+          ],
+          "cuisineAffinity": [
+                "Global",
+                "International"
+          ],
+          "preparationTips": [
+                "Use as needed",
+                "Season to taste"
+          ]
+    },
+    season:     [
+          "year-round"
+    ],
+    },
+    culinaryProfile:     {
+          "flavorProfile": {
+                "primary": [
+                      "balanced"
+                ],
+                "secondary": [
+                      "versatile"
+                ],
+                "notes": "Versatile flavorprofile for various uses"
+          },
+          "cookingMethods": [
+                "sautéing",
+                "steaming",
+                "roasting"
+          ],
+          "cuisineAffinity": [
+                "Global",
+                "International"
+          ],
+          "preparationTips": [
+                "Use as needed",
+                "Season to taste"
+          ]
+    },
+    season:     [
+          "year-round"
+    ],
+          },
+          "cookingMethods": [
+                "sautéing",
+                "steaming",
+                "roasting"
+          ],
+          "cuisineAffinity": [
+                "Global",
+                "International"
+          ],
+          "preparationTips": [
+                "Use as needed",
+                "Season to taste"
+          ]
+    },
+    season:     [
+          "year-round"
+    ],
+    preparation:     {
+          "methods": [
+                "standard preparation"
+          ],
+          "timing": "as needed",
+          "notes": "Standard preparation for ground cumin"
+    },
     },
     culinaryProfile:     {
           "flavorProfile": {
@@ -264,7 +478,41 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
                 "Smooth",
                 "Appealing"
           ],
-          "notes": "Characteristic alleppey profile"
+          "notes": "Characteristic alleppey profile",
+    culinaryProfile:     {
+          "flavorProfile": {
+                "primary": [
+                      "balanced"
+                ],
+                "secondary": [
+                      "versatile"
+                ],
+                "notes": "Versatile alleppey for various uses"
+          },
+          "cookingMethods": [
+                "sautéing",
+                "steaming",
+                "roasting"
+          ],
+          "cuisineAffinity": [
+                "Global",
+                "International"
+          ],
+          "preparationTips": [
+                "Use as needed",
+                "Season to taste"
+          ]
+    },
+    season:     [
+          "year-round"
+    ],
+    preparation:     {
+          "methods": [
+                "standard preparation"
+          ],
+          "timing": "as needed",
+          "notes": "Standard preparation for alleppey"
+    },
     },
     culinaryProfile:     {
           "flavorProfile": {
@@ -317,7 +565,41 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
                 "Smooth",
                 "Appealing"
           ],
-          "notes": "Characteristic madras profile"
+          "notes": "Characteristic madras profile",
+    culinaryProfile:     {
+          "flavorProfile": {
+                "primary": [
+                      "balanced"
+                ],
+                "secondary": [
+                      "versatile"
+                ],
+                "notes": "Versatile madras for various uses"
+          },
+          "cookingMethods": [
+                "sautéing",
+                "steaming",
+                "roasting"
+          ],
+          "cuisineAffinity": [
+                "Global",
+                "International"
+          ],
+          "preparationTips": [
+                "Use as needed",
+                "Season to taste"
+          ]
+    },
+    season:     [
+          "year-round"
+    ],
+    preparation:     {
+          "methods": [
+                "standard preparation"
+          ],
+          "timing": "as needed",
+          "notes": "Standard preparation for madras"
+    },
     },
     culinaryProfile:     {
           "flavorProfile": {
@@ -415,7 +697,41 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
                 "Smooth",
                 "Appealing"
           ],
-          "notes": "Characteristic ayurveda profile"
+          "notes": "Characteristic ayurveda profile",
+    culinaryProfile:     {
+          "flavorProfile": {
+                "primary": [
+                      "balanced"
+                ],
+                "secondary": [
+                      "versatile"
+                ],
+                "notes": "Versatile ayurveda for various uses"
+          },
+          "cookingMethods": [
+                "sautéing",
+                "steaming",
+                "roasting"
+          ],
+          "cuisineAffinity": [
+                "Global",
+                "International"
+          ],
+          "preparationTips": [
+                "Use as needed",
+                "Season to taste"
+          ]
+    },
+    season:     [
+          "year-round"
+    ],
+    preparation:     {
+          "methods": [
+                "standard preparation"
+          ],
+          "timing": "as needed",
+          "notes": "Standard preparation for ayurveda"
+    },
     },
     culinaryProfile:     {
           "flavorProfile": {
