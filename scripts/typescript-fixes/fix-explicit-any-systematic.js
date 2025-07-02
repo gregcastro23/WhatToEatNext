@@ -922,18 +922,16 @@ function isErrorHandlingContext(fileContent, line) {
   const contextLines = lines.slice(Math.max(0, line - 3), line + 2);
   const context = contextLines.join(' ').toLowerCase();
   
-  // More specific error handling detection
+  // Less aggressive error preservation - only preserve in actual error handling
   const errorPatterns = [
-    /catch\s*\(/,
-    /throw\s+/,
-    /\.reject\(/,
-    /error\s*:/,
-    /\berror\b.*=.*any/,
-    /try\s*{[\s\S]*}.*catch/
+    /catch\s*\(\s*\w+\s*:\s*any\s*\)/,  // Only preserve catch(error: any)
+    /throw\s+new\s+Error/,              // Only preserve throw new Error cases
+    /\.catch\(\s*\w+\s*:\s*any\s*\)/,   // Only preserve .catch(error: any)
   ];
   
-  return errorPatterns.some(pattern => pattern.test(context)) ||
-         currentLine.toLowerCase().includes('error') && currentLine.includes('any');
+  // More restrictive - only preserve any in very specific error contexts
+  return errorPatterns.some(pattern => pattern.test(currentLine)) ||
+         (currentLine.includes('catch') && currentLine.includes(': any') && currentLine.includes('error'));
 }
 
 function isConfigurationContext(fileContent, line, name) {
@@ -1037,23 +1035,43 @@ function getParameterReplacement(name, fileContent, line) {
     return { type: 'Event', reason: 'event_handler_detected' };
   }
   
-  // Callback parameters
-  if (name === 'callback' || name === 'cb' || name === 'fn') {
-    return { type: '() => void', reason: 'callback_function_detected' };
+  // Callback parameters with context awareness
+  if (name === 'callback' || name === 'cb' || name === 'fn' || name === 'handler') {
+    // Check if this is actually a function context
+    if (context.includes('function') || context.includes('=>') || context.includes('()')) {
+      return { type: '(...args: unknown[]) => unknown', reason: 'callback_function_detected' };
+    }
+    // If not clearly a function, treat as unknown
+    return { type: 'unknown', reason: 'callback_name_conservative' };
   }
   
   // Data parameters with context inference
   if (name === 'data' || name === 'response' || name === 'result') {
     // API response context
-    if (context.includes('fetch') || context.includes('api') || context.includes('request')) {
-      return { type: 'ApiResponse<unknown>', reason: 'api_response_detected' };
+    if (context.includes('fetch') || context.includes('api') || context.includes('request') || context.includes('await')) {
+      return { type: 'Record<string, unknown>', reason: 'api_response_detected' };
+    }
+    // JSON data context
+    if (context.includes('json') || context.includes('JSON')) {
+      return { type: 'Record<string, unknown>', reason: 'json_data_detected' };
     }
     return { type: 'Record<string, unknown>', reason: 'data_parameter_detected' };
   }
   
   // Props parameters in React components
-  if (name === 'props' && (context.includes('React') || context.includes('Component'))) {
+  if (name === 'props' && (context.includes('React') || context.includes('Component') || context.includes('FC') || context.includes('function'))) {
     return { type: 'Record<string, unknown>', reason: 'react_props_detected' };
+  }
+  
+  // Event parameters in React
+  if ((name === 'event' || name === 'e') && (context.includes('React') || context.includes('onChange') || context.includes('onClick'))) {
+    if (context.includes('change') || context.includes('Change')) {
+      return { type: 'ChangeEvent<HTMLElement>', reason: 'react_change_event_detected' };
+    }
+    if (context.includes('click') || context.includes('Click')) {
+      return { type: 'MouseEvent<HTMLElement>', reason: 'react_click_event_detected' };
+    }
+    return { type: 'SyntheticEvent<HTMLElement>', reason: 'react_event_detected' };
   }
   
   // State parameters
@@ -1184,7 +1202,24 @@ function getAssertionReplacement(fileContent, line) {
   
   // Pattern 3: Conditional access patterns - (obj as any)?.property
   if (currentLine.includes('?.')) {
-    // Safe property access
+    // Context-aware safe property access
+    if (context.includes('thermodynamics') || context.includes('entropy') || context.includes('heat')) {
+      return { type: 'BasicThermodynamicProperties', reason: 'safe_thermodynamic_access' };
+    }
+    
+    if (context.includes('recipe') || context.includes('Recipe')) {
+      return { type: 'Recipe', reason: 'safe_recipe_access' };
+    }
+    
+    if (context.includes('ingredient') || context.includes('Ingredient')) {
+      return { type: 'Ingredient', reason: 'safe_ingredient_access' };
+    }
+    
+    if (context.includes('element') || context.includes('Element')) {
+      return { type: 'ElementalProperties', reason: 'safe_element_access' };
+    }
+    
+    // Safe property access with better typing
     return { type: 'Record<string, unknown>', reason: 'safe_property_access' };
   }
   
@@ -1193,6 +1228,36 @@ function getAssertionReplacement(fileContent, line) {
 }
 
 function getGenericReplacement(fileContent, line) {
+  const lines = fileContent.split('\n');
+  const currentLine = lines[line - 1] || '';
+  const context = lines.slice(Math.max(0, line - 2), line + 2).join(' ');
+  
+  // Enhanced generic type inference
+  // Pattern: Array<any> or Map<string, any>, etc.
+  if (currentLine.includes('Array<') || currentLine.includes('[]')) {
+    // Try to infer array element type
+    if (context.includes('recipe') || context.includes('Recipe')) {
+      return { type: 'Recipe', reason: 'generic_recipe_detected' };
+    }
+    if (context.includes('ingredient') || context.includes('Ingredient')) {
+      return { type: 'Ingredient', reason: 'generic_ingredient_detected' };
+    }
+    if (context.includes('element') || context.includes('Element')) {
+      return { type: 'Element', reason: 'generic_element_detected' };
+    }
+    return { type: 'unknown', reason: 'generic_array_fallback' };
+  }
+  
+  // Pattern: Map<string, any> or Record<string, any>
+  if (currentLine.includes('Map<') || currentLine.includes('Record<')) {
+    return { type: 'unknown', reason: 'generic_map_fallback' };
+  }
+  
+  // Pattern: Promise<any>
+  if (currentLine.includes('Promise<')) {
+    return { type: 'unknown', reason: 'generic_promise_fallback' };
+  }
+  
   return { type: 'unknown', reason: 'conservative_generic_fallback' };
 }
 
