@@ -71,7 +71,7 @@ function CuisineSelectorMigrated({
     const loadAstrologyData = async () => {
       try {
         // Apply safe type casting for astrology service access
-        const serviceData = astrologyService as any;
+        const serviceData = astrologyService as Record<string, unknown>;
         
         setResolvedPlanetaryPositions(propPlanetaryPositions || await astrologyService.getCurrentPlanetaryPositions());
         setResolvedIsDaytime(propIsDaytime !== undefined ? propIsDaytime : await astrologyService.isDaytime());
@@ -111,7 +111,7 @@ function CuisineSelectorMigrated({
         const result = await recommendationService.getRecommendedCuisines({
           planetaryPositions: Object.entries(resolvedPlanetaryPositions)?.reduce((acc, [planet, degree]) => {
             // Apply safe type casting for astrology service access
-            const serviceData = astrologyService as any;
+            const serviceData = astrologyService as Record<string, unknown>;
             const zodiacSign = serviceData?.getZodiacSignForDegree ? 
               serviceData.getZodiacSignForDegree(Number(degree)) : 'aries';
             
@@ -180,7 +180,7 @@ function CuisineSelectorMigrated({
   }, [cuisineList, sortBy, resolvedPlanetaryPositions]);
   
   // Function to determine cuisine modality
-  const getCuisineModality = (cuisine: any): Modality => {
+  const getCuisineModality = (cuisine: CuisineType): Modality => {
     // If cuisine already has modality defined, use it
     if (cuisine.modality) return cuisine.modality;
     
@@ -201,7 +201,7 @@ function CuisineSelectorMigrated({
       if (zodiacFilter !== 'all') {
         // Check if cuisine has zodiac influences and includes the selected zodiac
         // Apply safe type casting for zodiac influences access
-        const zodiacInfluencesData = cuisine.zodiacInfluences as any;
+        const zodiacInfluencesData = cuisine.zodiacInfluences as Record<string, unknown>;
         const zodiacInfluences = Array.isArray(zodiacInfluencesData) ? zodiacInfluencesData : [];
         
         if (zodiacFilter !== 'all' && !zodiacInfluences.includes(zodiacFilter)) {
@@ -437,7 +437,7 @@ function CuisineSelectorMigrated({
               {/* Display zodiac influences if available */}
               {cuisine.zodiacInfluences && (() => {
                 // Apply safe type casting for zodiac influences access
-                const zodiacInfluencesData = cuisine.zodiacInfluences as any;
+                const zodiacInfluencesData = cuisine.zodiacInfluences as Record<string, unknown>;
                 const zodiacInfluences = Array.isArray(zodiacInfluencesData) ? zodiacInfluencesData : [];
                 
                 return zodiacInfluences.length > 0 && (
