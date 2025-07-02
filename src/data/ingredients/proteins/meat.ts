@@ -15,7 +15,56 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
       Fire: 0.7,
       Water: 0.1,
       Earth: 0.2,
-      Air: 0.0
+      Air: 0.0,
+    sensoryProfile:     {
+          "taste": [
+                "Mild",
+                "Balanced",
+                "Natural"
+          ],
+          "aroma": [
+                "Fresh",
+                "Clean",
+                "Subtle"
+          ],
+          "texture": [
+                "Pleasant",
+                "Smooth",
+                "Appealing"
+          ],
+          "notes": "Characteristic beef profile"
+    },
+    culinaryProfile:     {
+          "flavorProfile": {
+                "primary": [
+                      "balanced"
+                ],
+                "secondary": [
+                      "versatile"
+                ],
+                "notes": "Versatile beef for various uses"
+          },
+          "cookingMethods": [
+                "sautéing",
+                "steaming",
+                "roasting"
+          ],
+          "cuisineAffinity": [
+                "Global",
+                "International"
+          ],
+          "preparationTips": [
+                "Use as needed",
+                "Season to taste"
+          ]
+    },
+    preparation:     {
+          "methods": [
+                "standard preparation"
+          ],
+          "timing": "as needed",
+          "notes": "Standard preparation for beef"
+    },
     },
     astrologicalProfile: {
       rulingPlanets: ['Mars'],
@@ -29,7 +78,52 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
         
         'waning': {
           elementalBoost: { Water: 0.05 },
-          preparationTip: 'Braise with bone broth for restoration'
+          preparationTip: 'Braise with bone broth for restoration',
+    sensoryProfile:     {
+          "taste": [
+                "Mild",
+                "Balanced",
+                "Natural"
+          ],
+          "aroma": [
+                "Fresh",
+                "Clean",
+                "Subtle"
+          ],
+          "texture": [
+                "Pleasant",
+                "Smooth",
+                "Appealing"
+          ],
+          "notes": "Characteristic waning profile"
+    },
+    culinaryProfile:     {
+          "flavorProfile": {
+                "primary": [
+                      "balanced"
+                ],
+                "secondary": [
+                      "versatile"
+                ],
+                "notes": "Versatile waning for various uses"
+          },
+          "cookingMethods": [
+                "sautéing",
+                "steaming",
+                "roasting"
+          ],
+          "cuisineAffinity": [
+                "Global",
+                "International"
+          ],
+          "preparationTips": [
+                "Use as needed",
+                "Season to taste"
+          ]
+    },
+    season:     [
+          "year-round"
+    ],
         }
       }
     },
@@ -145,28 +239,208 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
         marbling: 'abundant',
         color: 'bright red',
         texture: 'firm, fine-grained',
-        uses: 'high-end steakhouse, special occasions'
+        uses: 'high-end steakhouse, special occasions',
+    sensoryProfile:     {
+          "taste": [
+                "Mild",
+                "Balanced",
+                "Natural"
+          ],
+          "aroma": [
+                "Fresh",
+                "Clean",
+                "Subtle"
+          ],
+          "texture": [
+                "Pleasant",
+                "Smooth",
+                "Appealing"
+          ],
+          "notes": "Characteristic prime profile"
+    },
+    culinaryProfile:     {
+          "flavorProfile": {
+                "primary": [
+                      "balanced"
+                ],
+                "secondary": [
+                      "versatile"
+                ],
+                "notes": "Versatile prime for various uses"
+          },
+          "cookingMethods": [
+                "sautéing",
+                "steaming",
+                "roasting"
+          ],
+          "cuisineAffinity": [
+                "Global",
+                "International"
+          ],
+          "preparationTips": [
+                "Use as needed",
+                "Season to taste"
+          ]
+    },
+    season:     [
+          "year-round"
+    ],
       },
       'Choice': {
         name: 'Choice',
         marbling: 'moderate to modest',
         color: 'red',
         texture: 'firm',
-        uses: 'home cooking, restaurants'
+        uses: 'home cooking, restaurants',
+    sensoryProfile:     {
+          "taste": [
+                "Mild",
+                "Balanced",
+                "Natural"
+          ],
+          "aroma": [
+                "Fresh",
+                "Clean",
+                "Subtle"
+          ],
+          "texture": [
+                "Pleasant",
+                "Smooth",
+                "Appealing"
+          ],
+          "notes": "Characteristic choice profile"
+    },
+    culinaryProfile:     {
+          "flavorProfile": {
+                "primary": [
+                      "balanced"
+                ],
+                "secondary": [
+                      "versatile"
+                ],
+                "notes": "Versatile choice for various uses"
+          },
+          "cookingMethods": [
+                "sautéing",
+                "steaming",
+                "roasting"
+          ],
+          "cuisineAffinity": [
+                "Global",
+                "International"
+          ],
+          "preparationTips": [
+                "Use as needed",
+                "Season to taste"
+          ]
+    },
+    season:     [
+          "year-round"
+    ],
       },
       'Select': {
         name: 'Select',
         marbling: 'slight',
         color: 'red',
         texture: 'lean',
-        uses: 'general purpose'
+        uses: 'general purpose',
+    sensoryProfile:     {
+          "taste": [
+                "Mild",
+                "Balanced",
+                "Natural"
+          ],
+          "aroma": [
+                "Fresh",
+                "Clean",
+                "Subtle"
+          ],
+          "texture": [
+                "Pleasant",
+                "Smooth",
+                "Appealing"
+          ],
+          "notes": "Characteristic select profile"
+    },
+    culinaryProfile:     {
+          "flavorProfile": {
+                "primary": [
+                      "balanced"
+                ],
+                "secondary": [
+                      "versatile"
+                ],
+                "notes": "Versatile select for various uses"
+          },
+          "cookingMethods": [
+                "sautéing",
+                "steaming",
+                "roasting"
+          ],
+          "cuisineAffinity": [
+                "Global",
+                "International"
+          ],
+          "preparationTips": [
+                "Use as needed",
+                "Season to taste"
+          ]
+    },
+    season:     [
+          "year-round"
+    ],
       },
       'Wagyu': {
         name: 'Wagyu',
         marbling: 'exceptional',
         color: 'pink to red',
         texture: 'buttery',
-        uses: 'luxury dining, special celebrations'
+        uses: 'luxury dining, special celebrations',
+    sensoryProfile:     {
+          "taste": [
+                "Mild",
+                "Balanced",
+                "Natural"
+          ],
+          "aroma": [
+                "Fresh",
+                "Clean",
+                "Subtle"
+          ],
+          "texture": [
+                "Pleasant",
+                "Smooth",
+                "Appealing"
+          ],
+          "notes": "Characteristic wagyu profile"
+    },
+    culinaryProfile:     {
+          "flavorProfile": {
+                "primary": [
+                      "balanced"
+                ],
+                "secondary": [
+                      "versatile"
+                ],
+                "notes": "Versatile wagyu for various uses"
+          },
+          "cookingMethods": [
+                "sautéing",
+                "steaming",
+                "roasting"
+          ],
+          "cuisineAffinity": [
+                "Global",
+                "International"
+          ],
+          "preparationTips": [
+                "Use as needed",
+                "Season to taste"
+          ]
+    },
+    season:     [
+          "year-round"
+    ],
       }
     },
     aging: {
@@ -174,14 +448,104 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
         name: 'Wet',
         duration: '14-28 days',
         process: 'vacuum-sealed',
-        results: 'tender, mild flavor'
+        results: 'tender, mild flavor',
+    sensoryProfile:     {
+          "taste": [
+                "Mild",
+                "Balanced",
+                "Natural"
+          ],
+          "aroma": [
+                "Fresh",
+                "Clean",
+                "Subtle"
+          ],
+          "texture": [
+                "Pleasant",
+                "Smooth",
+                "Appealing"
+          ],
+          "notes": "Characteristic wet profile"
+    },
+    culinaryProfile:     {
+          "flavorProfile": {
+                "primary": [
+                      "balanced"
+                ],
+                "secondary": [
+                      "versatile"
+                ],
+                "notes": "Versatile wet for various uses"
+          },
+          "cookingMethods": [
+                "sautéing",
+                "steaming",
+                "roasting"
+          ],
+          "cuisineAffinity": [
+                "Global",
+                "International"
+          ],
+          "preparationTips": [
+                "Use as needed",
+                "Season to taste"
+          ]
+    },
+    season:     [
+          "year-round"
+    ],
       },
       'dry': {
         name: 'Dry',
         duration: '28-45 days',
         process: 'controlled environment',
         results: 'concentrated flavor, tender',
-        notes: 'Develops nutty, umami-rich flavor profile'
+        notes: 'Develops nutty, umami-rich flavor profile',
+    sensoryProfile:     {
+          "taste": [
+                "Mild",
+                "Balanced",
+                "Natural"
+          ],
+          "aroma": [
+                "Fresh",
+                "Clean",
+                "Subtle"
+          ],
+          "texture": [
+                "Pleasant",
+                "Smooth",
+                "Appealing"
+          ],
+          "notes": "Characteristic dry profile"
+    },
+    culinaryProfile:     {
+          "flavorProfile": {
+                "primary": [
+                      "balanced"
+                ],
+                "secondary": [
+                      "versatile"
+                ],
+                "notes": "Versatile dry for various uses"
+          },
+          "cookingMethods": [
+                "sautéing",
+                "steaming",
+                "roasting"
+          ],
+          "cuisineAffinity": [
+                "Global",
+                "International"
+          ],
+          "preparationTips": [
+                "Use as needed",
+                "Season to taste"
+          ]
+    },
+    season:     [
+          "year-round"
+    ],
       }
     },
     cuts: {
@@ -191,7 +555,52 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
         thickness: '1.5-2 inches',
         cooking: 'slower, more flavor',
         appearance: 'distinctive "eye" with fat cap',
-        texture: 'juicy, rich mouthfeel'
+        texture: 'juicy, rich mouthfeel',
+    sensoryProfile:     {
+          "taste": [
+                "Mild",
+                "Balanced",
+                "Natural"
+          ],
+          "aroma": [
+                "Fresh",
+                "Clean",
+                "Subtle"
+          ],
+          "texture": [
+                "Pleasant",
+                "Smooth",
+                "Appealing"
+          ],
+          "notes": "Characteristic bone in profile"
+    },
+    culinaryProfile:     {
+          "flavorProfile": {
+                "primary": [
+                      "balanced"
+                ],
+                "secondary": [
+                      "versatile"
+                ],
+                "notes": "Versatile bone in for various uses"
+          },
+          "cookingMethods": [
+                "sautéing",
+                "steaming",
+                "roasting"
+          ],
+          "cuisineAffinity": [
+                "Global",
+                "International"
+          ],
+          "preparationTips": [
+                "Use as needed",
+                "Season to taste"
+          ]
+    },
+    season:     [
+          "year-round"
+    ],
       },
       'boneless': {
         name: 'Boneless',

@@ -58,13 +58,160 @@ const rawCruciferous = {
         characteristics: 'lime green, fractal pattern, nutty flavor',
         uses: 'showcase dishes, roasting',
         best_cooking_methods: ['light steaming', 'roasting'],
-        season: 'fall and early winter'
+        season: 'fall and early winter',
+    sensoryProfile:     {
+          "taste": [
+                "Mild",
+                "Balanced",
+                "Natural"
+          ],
+          "aroma": [
+                "Fresh",
+                "Clean",
+                "Subtle"
+          ],
+          "texture": [
+                "Pleasant",
+                "Smooth",
+                "Appealing"
+          ],
+          "notes": "Characteristic romanesco profile"
+    },
+    culinaryProfile:     {
+          "flavorProfile": {
+                "primary": [
+                      "balanced"
+                ],
+                "secondary": [
+                      "versatile"
+                ],
+                "notes": "Versatile romanesco for various uses"
+          },
+          "cookingMethods": [
+                "sautéing",
+                "steaming",
+                "roasting"
+          ],
+          "cuisineAffinity": [
+                "Global",
+                "International"
+          ],
+          "preparationTips": [
+                "Use as needed",
+                "Season to taste"
+          ]
+    },
+    preparation:     {
+          "methods": [
+                "standard preparation"
+          ],
+          "timing": "as needed",
+          "notes": "Standard preparation for romanesco"
+    },
       },
       'purple': {
         characteristics: 'vibrant purple head, turns blue-green when cooked',
         uses: 'raw applications, visual appeal',
         best_cooking_methods: ['light steaming', 'raw'],
-        season: 'summer and fall'
+        season: 'summer and fall',
+    sensoryProfile:     {
+          "taste": [
+                "Mild",
+                "Balanced",
+                "Natural"
+          ],
+          "aroma": [
+                "Fresh",
+                "Clean",
+                "Subtle"
+          ],
+          "texture": [
+                "Pleasant",
+                "Smooth",
+                "Appealing"
+          ],
+          "notes": "Characteristic purple profile",
+    sensoryProfile:     {
+          "taste": [
+                "Mild",
+                "Balanced",
+                "Natural"
+          ],
+          "aroma": [
+                "Fresh",
+                "Clean",
+                "Subtle"
+          ],
+          "texture": [
+                "Pleasant",
+                "Smooth",
+                "Appealing"
+          ],
+          "notes": "Characteristic purple profile"
+    },
+    culinaryProfile:     {
+          "flavorProfile": {
+                "primary": [
+                      "balanced"
+                ],
+                "secondary": [
+                      "versatile"
+                ],
+                "notes": "Versatile purple for various uses"
+          },
+          "cookingMethods": [
+                "sautéing",
+                "steaming",
+                "roasting"
+          ],
+          "cuisineAffinity": [
+                "Global",
+                "International"
+          ],
+          "preparationTips": [
+                "Use as needed",
+                "Season to taste"
+          ]
+    },
+    preparation:     {
+          "methods": [
+                "standard preparation"
+          ],
+          "timing": "as needed",
+          "notes": "Standard preparation for purple"
+    },
+    },
+    culinaryProfile:     {
+          "flavorProfile": {
+                "primary": [
+                      "balanced"
+                ],
+                "secondary": [
+                      "versatile"
+                ],
+                "notes": "Versatile purple for various uses"
+          },
+          "cookingMethods": [
+                "sautéing",
+                "steaming",
+                "roasting"
+          ],
+          "cuisineAffinity": [
+                "Global",
+                "International"
+          ],
+          "preparationTips": [
+                "Use as needed",
+                "Season to taste"
+          ]
+    },
+    preparation:     {
+          "methods": [
+                "standard preparation"
+          ],
+          "timing": "as needed",
+          "notes": "Standard preparation for purple"
+    },
       }
 },
     culinaryApplications: {
@@ -72,19 +219,154 @@ const rawCruciferous = {
         method: 'pulse in food processor until rice-sized',
         cooking: 'sauté 5-7 minutes or use raw',
         substitution: 'use instead of rice, couscous, or other grains',
-        flavor_pairings: ['herbs', 'olive oil', 'lemon zest']
+        flavor_pairings: ['herbs', 'olive oil', 'lemon zest'],
+    sensoryProfile:     {
+          "taste": [
+                "Mild",
+                "Balanced",
+                "Natural"
+          ],
+          "aroma": [
+                "Fresh",
+                "Clean",
+                "Subtle"
+          ],
+          "texture": [
+                "Pleasant",
+                "Smooth",
+                "Appealing"
+          ],
+          "notes": "Characteristic cauliflower rice profile"
+    },
+    culinaryProfile:     {
+          "flavorProfile": {
+                "primary": [
+                      "balanced"
+                ],
+                "secondary": [
+                      "versatile"
+                ],
+                "notes": "Versatile cauliflower rice for various uses"
+          },
+          "cookingMethods": [
+                "sautéing",
+                "steaming",
+                "roasting"
+          ],
+          "cuisineAffinity": [
+                "Global",
+                "International"
+          ],
+          "preparationTips": [
+                "Use as needed",
+                "Season to taste"
+          ]
+    },
+    season:     [
+          "year-round"
+    ],
       },
       'cauliflower_mash': {
         method: 'steam and blend until smooth',
         additions: ['roasted garlic', 'butter', 'nutritional yeast', 'herbs'],
         technique: 'drain well before mashing for best texture',
-        pairings: 'serves similar role to mashed potatoes'
+        pairings: 'serves similar role to mashed potatoes',
+    sensoryProfile:     {
+          "taste": [
+                "Mild",
+                "Balanced",
+                "Natural"
+          ],
+          "aroma": [
+                "Fresh",
+                "Clean",
+                "Subtle"
+          ],
+          "texture": [
+                "Pleasant",
+                "Smooth",
+                "Appealing"
+          ],
+          "notes": "Characteristic cauliflower mash profile"
+    },
+    culinaryProfile:     {
+          "flavorProfile": {
+                "primary": [
+                      "balanced"
+                ],
+                "secondary": [
+                      "versatile"
+                ],
+                "notes": "Versatile cauliflower mash for various uses"
+          },
+          "cookingMethods": [
+                "sautéing",
+                "steaming",
+                "roasting"
+          ],
+          "cuisineAffinity": [
+                "Global",
+                "International"
+          ],
+          "preparationTips": [
+                "Use as needed",
+                "Season to taste"
+          ]
+    },
+    season:     [
+          "year-round"
+    ],
       },
       'roasted_cauliflower': {
         method: 'high heat (425°F / (220 || 1)°C) until caramelized',
         timing: '25-30 minutes, stirring halfway through',
         seasonings: ['curry powder', 'smoked paprika', 'za\'atar', 'parmesan'],
-        oil_requirements: 'generous coating for best browning'
+        oil_requirements: 'generous coating for best browning',
+    sensoryProfile:     {
+          "taste": [
+                "Mild",
+                "Balanced",
+                "Natural"
+          ],
+          "aroma": [
+                "Fresh",
+                "Clean",
+                "Subtle"
+          ],
+          "texture": [
+                "Pleasant",
+                "Smooth",
+                "Appealing"
+          ],
+          "notes": "Characteristic roasted cauliflower profile"
+    },
+    culinaryProfile:     {
+          "flavorProfile": {
+                "primary": [
+                      "balanced"
+                ],
+                "secondary": [
+                      "versatile"
+                ],
+                "notes": "Versatile roasted cauliflower for various uses"
+          },
+          "cookingMethods": [
+                "sautéing",
+                "steaming",
+                "roasting"
+          ],
+          "cuisineAffinity": [
+                "Global",
+                "International"
+          ],
+          "preparationTips": [
+                "Use as needed",
+                "Season to taste"
+          ]
+    },
+    season:     [
+          "year-round"
+    ],
       }
     },
     storage: {
@@ -155,13 +437,103 @@ const rawCruciferous = {
         characteristics: 'common green variety with large heads',
         uses: 'all-purpose cooking',
         best_cooking_methods: ['steaming', 'stir-frying', 'roasting'],
-        notes: 'most widely available variety'
+        notes: 'most widely available variety',
+    sensoryProfile:     {
+          "taste": [
+                "Mild",
+                "Balanced",
+                "Natural"
+          ],
+          "aroma": [
+                "Fresh",
+                "Clean",
+                "Subtle"
+          ],
+          "texture": [
+                "Pleasant",
+                "Smooth",
+                "Appealing"
+          ],
+          "notes": "Characteristic calabrese profile"
+    },
+    culinaryProfile:     {
+          "flavorProfile": {
+                "primary": [
+                      "balanced"
+                ],
+                "secondary": [
+                      "versatile"
+                ],
+                "notes": "Versatile calabrese for various uses"
+          },
+          "cookingMethods": [
+                "sautéing",
+                "steaming",
+                "roasting"
+          ],
+          "cuisineAffinity": [
+                "Global",
+                "International"
+          ],
+          "preparationTips": [
+                "Use as needed",
+                "Season to taste"
+          ]
+    },
+    season:     [
+          "year-round"
+    ],
       },
       'broccolini': {
         characteristics: 'thin stalks, small florets, sweeter flavor',
         uses: 'elegant side dishes, minimal cooking',
         best_cooking_methods: ['blanching', 'quick sauté', 'grilling'],
-        notes: 'cross between broccoli and Chinese broccoli'
+        notes: 'cross between broccoli and Chinese broccoli',
+    sensoryProfile:     {
+          "taste": [
+                "Mild",
+                "Balanced",
+                "Natural"
+          ],
+          "aroma": [
+                "Fresh",
+                "Clean",
+                "Subtle"
+          ],
+          "texture": [
+                "Pleasant",
+                "Smooth",
+                "Appealing"
+          ],
+          "notes": "Characteristic broccolini profile"
+    },
+    culinaryProfile:     {
+          "flavorProfile": {
+                "primary": [
+                      "balanced"
+                ],
+                "secondary": [
+                      "versatile"
+                ],
+                "notes": "Versatile broccolini for various uses"
+          },
+          "cookingMethods": [
+                "sautéing",
+                "steaming",
+                "roasting"
+          ],
+          "cuisineAffinity": [
+                "Global",
+                "International"
+          ],
+          "preparationTips": [
+                "Use as needed",
+                "Season to taste"
+          ]
+    },
+    season:     [
+          "year-round"
+    ],
       },
       'purple': {
         characteristics: 'purple florets, sweeter than green varieties',

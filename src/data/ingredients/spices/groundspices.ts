@@ -102,7 +102,52 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     varieties: {
       'Indian': 'more intense',
       'Iranian': 'more delicate',
-      'Mediterranean': 'balanced flavor'
+      'Mediterranean': 'balanced flavor',
+    sensoryProfile:     {
+          "taste": [
+                "Mild",
+                "Balanced",
+                "Natural"
+          ],
+          "aroma": [
+                "Fresh",
+                "Clean",
+                "Subtle"
+          ],
+          "texture": [
+                "Pleasant",
+                "Smooth",
+                "Appealing"
+          ],
+          "notes": "Characteristic ground cumin profile"
+    },
+    culinaryProfile:     {
+          "flavorProfile": {
+                "primary": [
+                      "balanced"
+                ],
+                "secondary": [
+                      "versatile"
+                ],
+                "notes": "Versatile ground cumin for various uses"
+          },
+          "cookingMethods": [
+                "sautéing",
+                "steaming",
+                "roasting"
+          ],
+          "cuisineAffinity": [
+                "Global",
+                "International"
+          ],
+          "preparationTips": [
+                "Use as needed",
+                "Season to taste"
+          ]
+    },
+    season:     [
+          "year-round"
+    ],
     },
     conversionRatio: {
       'whole_to_ground': '1 tbsp whole = 2.5 tsp ground',
@@ -202,7 +247,52 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         characteristics: 'high curcumin content (5-6.5%)',
         color: 'deep orange-yellow',
         potency: 'very high',
-        uses: 'medicinal preparations, curry powders'
+        uses: 'medicinal preparations, curry powders',
+    sensoryProfile:     {
+          "taste": [
+                "Mild",
+                "Balanced",
+                "Natural"
+          ],
+          "aroma": [
+                "Fresh",
+                "Clean",
+                "Subtle"
+          ],
+          "texture": [
+                "Pleasant",
+                "Smooth",
+                "Appealing"
+          ],
+          "notes": "Characteristic alleppey profile"
+    },
+    culinaryProfile:     {
+          "flavorProfile": {
+                "primary": [
+                      "balanced"
+                ],
+                "secondary": [
+                      "versatile"
+                ],
+                "notes": "Versatile alleppey for various uses"
+          },
+          "cookingMethods": [
+                "sautéing",
+                "steaming",
+                "roasting"
+          ],
+          "cuisineAffinity": [
+                "Global",
+                "International"
+          ],
+          "preparationTips": [
+                "Use as needed",
+                "Season to taste"
+          ]
+    },
+    season:     [
+          "year-round"
+    ],
       },
       'Madras': {
         name: 'Madras Turmeric',
@@ -210,7 +300,52 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         characteristics: 'medium curcumin content (3-4%)',
         color: 'bright yellow',
         potency: 'medium',
-        uses: 'all-purpose culinary'
+        uses: 'all-purpose culinary',
+    sensoryProfile:     {
+          "taste": [
+                "Mild",
+                "Balanced",
+                "Natural"
+          ],
+          "aroma": [
+                "Fresh",
+                "Clean",
+                "Subtle"
+          ],
+          "texture": [
+                "Pleasant",
+                "Smooth",
+                "Appealing"
+          ],
+          "notes": "Characteristic madras profile"
+    },
+    culinaryProfile:     {
+          "flavorProfile": {
+                "primary": [
+                      "balanced"
+                ],
+                "secondary": [
+                      "versatile"
+                ],
+                "notes": "Versatile madras for various uses"
+          },
+          "cookingMethods": [
+                "sautéing",
+                "steaming",
+                "roasting"
+          ],
+          "cuisineAffinity": [
+                "Global",
+                "International"
+          ],
+          "preparationTips": [
+                "Use as needed",
+                "Season to taste"
+          ]
+    },
+    season:     [
+          "year-round"
+    ],
       }
 },
     conversionRatio: {
@@ -263,18 +398,153 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
           name: 'Ayurvedic Medicine',
           categorization: 'balances all three doshas (vata, pitta, kapha)',
           applications: ['blood purifier', 'digestive aid', 'anti-inflammatory'],
-          preparations: ['golden milk', 'medicated ghee', 'poultices']
+          preparations: ['golden milk', 'medicated ghee', 'poultices'],
+    sensoryProfile:     {
+          "taste": [
+                "Mild",
+                "Balanced",
+                "Natural"
+          ],
+          "aroma": [
+                "Fresh",
+                "Clean",
+                "Subtle"
+          ],
+          "texture": [
+                "Pleasant",
+                "Smooth",
+                "Appealing"
+          ],
+          "notes": "Characteristic ayurveda profile"
+    },
+    culinaryProfile:     {
+          "flavorProfile": {
+                "primary": [
+                      "balanced"
+                ],
+                "secondary": [
+                      "versatile"
+                ],
+                "notes": "Versatile ayurveda for various uses"
+          },
+          "cookingMethods": [
+                "sautéing",
+                "steaming",
+                "roasting"
+          ],
+          "cuisineAffinity": [
+                "Global",
+                "International"
+          ],
+          "preparationTips": [
+                "Use as needed",
+                "Season to taste"
+          ]
+    },
+    season:     [
+          "year-round"
+    ],
         },
         'tcm': {
           name: 'Traditional Chinese Medicine',
           categorization: 'invigorates blood, resolves stagnation',
           applications: ['menstrual issues', 'abdominal pain', 'trauma'],
-          preparations: ['decoctions', 'poultices', 'medicinal wines']
+          preparations: ['decoctions', 'poultices', 'medicinal wines'],
+    sensoryProfile:     {
+          "taste": [
+                "Mild",
+                "Balanced",
+                "Natural"
+          ],
+          "aroma": [
+                "Fresh",
+                "Clean",
+                "Subtle"
+          ],
+          "texture": [
+                "Pleasant",
+                "Smooth",
+                "Appealing"
+          ],
+          "notes": "Characteristic tcm profile"
+    },
+    culinaryProfile:     {
+          "flavorProfile": {
+                "primary": [
+                      "balanced"
+                ],
+                "secondary": [
+                      "versatile"
+                ],
+                "notes": "Versatile tcm for various uses"
+          },
+          "cookingMethods": [
+                "sautéing",
+                "steaming",
+                "roasting"
+          ],
+          "cuisineAffinity": [
+                "Global",
+                "International"
+          ],
+          "preparationTips": [
+                "Use as needed",
+                "Season to taste"
+          ]
+    },
+    season:     [
+          "year-round"
+    ],
         },
         'western_herbalism': {
           name: 'Western Herbalism',
           applications: ['digestive support', 'liver health', 'inflammation'],
-          preparations: ['tinctures', 'capsules', 'teas']
+          preparations: ['tinctures', 'capsules', 'teas'],
+    sensoryProfile:     {
+          "taste": [
+                "Mild",
+                "Balanced",
+                "Natural"
+          ],
+          "aroma": [
+                "Fresh",
+                "Clean",
+                "Subtle"
+          ],
+          "texture": [
+                "Pleasant",
+                "Smooth",
+                "Appealing"
+          ],
+          "notes": "Characteristic western herbalism profile"
+    },
+    culinaryProfile:     {
+          "flavorProfile": {
+                "primary": [
+                      "balanced"
+                ],
+                "secondary": [
+                      "versatile"
+                ],
+                "notes": "Versatile western herbalism for various uses"
+          },
+          "cookingMethods": [
+                "sautéing",
+                "steaming",
+                "roasting"
+          ],
+          "cuisineAffinity": [
+                "Global",
+                "International"
+          ],
+          "preparationTips": [
+                "Use as needed",
+                "Season to taste"
+          ]
+    },
+    season:     [
+          "year-round"
+    ],
         }
       },
       bioavailability: {
@@ -297,7 +567,52 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         regional_variations: {
           'indian': 'foundation of most curry powders',
           'thai': 'component in yellow curry paste',
-          'indonesian': 'key in rendang and yellow rice'
+          'indonesian': 'key in rendang and yellow rice',
+    sensoryProfile:     {
+          "taste": [
+                "Mild",
+                "Balanced",
+                "Natural"
+          ],
+          "aroma": [
+                "Fresh",
+                "Clean",
+                "Subtle"
+          ],
+          "texture": [
+                "Pleasant",
+                "Smooth",
+                "Appealing"
+          ],
+          "notes": "Characteristic curries profile"
+    },
+    culinaryProfile:     {
+          "flavorProfile": {
+                "primary": [
+                      "balanced"
+                ],
+                "secondary": [
+                      "versatile"
+                ],
+                "notes": "Versatile curries for various uses"
+          },
+          "cookingMethods": [
+                "sautéing",
+                "steaming",
+                "roasting"
+          ],
+          "cuisineAffinity": [
+                "Global",
+                "International"
+          ],
+          "preparationTips": [
+                "Use as needed",
+                "Season to taste"
+          ]
+    },
+    season:     [
+          "year-round"
+    ],
         },
         techniques: 'bloom in hot oil to release flavor and reduce raw taste',
         notes: 'Start with small amounts to avoid overwhelming'
@@ -307,7 +622,52 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         method: 'simmered in milk with spices',
         ingredients: ['milk', 'turmeric', 'black pepper', 'honey', 'cinnamon', 'ginger'],
         timing: 'simmer 10-15 minutes',
-        notes: 'Traditional Ayurvedic tonic, modern popularity for anti-inflammatory benefits'
+        notes: 'Traditional Ayurvedic tonic, modern popularity for anti-inflammatory benefits',
+    sensoryProfile:     {
+          "taste": [
+                "Mild",
+                "Balanced",
+                "Natural"
+          ],
+          "aroma": [
+                "Fresh",
+                "Clean",
+                "Subtle"
+          ],
+          "texture": [
+                "Pleasant",
+                "Smooth",
+                "Appealing"
+          ],
+          "notes": "Characteristic golden milk profile"
+    },
+    culinaryProfile:     {
+          "flavorProfile": {
+                "primary": [
+                      "balanced"
+                ],
+                "secondary": [
+                      "versatile"
+                ],
+                "notes": "Versatile golden milk for various uses"
+          },
+          "cookingMethods": [
+                "sautéing",
+                "steaming",
+                "roasting"
+          ],
+          "cuisineAffinity": [
+                "Global",
+                "International"
+          ],
+          "preparationTips": [
+                "Use as needed",
+                "Season to taste"
+          ]
+    },
+    season:     [
+          "year-round"
+    ],
       },
       'rice_dishes': {
         name: 'Rice Dishes',

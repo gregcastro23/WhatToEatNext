@@ -272,11 +272,62 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
   },
   'shrimp_jumbo': {
     name: 'Shrimp Jumbo',
+    category: 'protein',
+    subCategory: 'seafood',
     elementalProperties: { 
       Water: 0.5, 
       Air: 0.3, 
       Fire: 0.1, 
       Earth: 0.1 
+    },
+    sensoryProfile: {
+      taste: ['Sweet', 'Delicate', 'Briny'],
+      aroma: ['Ocean-fresh', 'Clean', 'Mild'],
+      texture: ['Firm', 'Tender', 'Succulent'],
+      notes: 'Sweet shellfish flavor with firm, meaty texture'
+    },
+    season: ['year-round'],
+    preparation: {
+      methods: ['peel', 'devein', 'butterfly', 'marinate'],
+      timing: 'devein: 2-3 minutes per shrimp',
+      notes: 'Keep chilled during preparation, cook immediately after thawing'
+    },
+    nutritionalProfile: {
+      macronutrients: {
+        protein: 18.0,
+        carbohydrates: 0.9,
+        fat: 0.3,
+        fiber: 0.0
+      },
+      micronutrients: {
+        selenium: 48.4,
+        phosphorus: 201,
+        choline: 69.3,
+        vitamin_B12: 1.3
+      },
+      healthBenefits: ['high protein', 'low fat', 'selenium source', 'heart healthy'],
+      caloriesPerServing: 84
+    },
+    storage: {
+      temperature: 'below 40°F (4°C)',
+      duration: '1-2 days fresh, 3-6 months frozen',
+      container: 'airtight, moisture-proof',
+      notes: 'Store on ice, use within 24 hours of purchase for best quality'
+    },
+    culinaryProfile: {
+      flavorProfile: {
+        primary: ['sweet', 'delicate'],
+        secondary: ['briny', 'clean'],
+        notes: 'Mild shellfish flavor that pairs well with bold seasonings'
+      },
+      cookingMethods: ['grilling', 'sautéing', 'steaming', 'poaching', 'stir-frying'],
+      cuisineAffinity: ['American', 'Asian', 'Mediterranean', 'Cajun', 'Italian'],
+      preparationTips: [
+        'Do not overcook - becomes rubbery',
+        'Butterfly for faster, even cooking',
+        'Marinate for 15-30 minutes maximum',
+        'Cook until pink and opaque'
+      ]
     },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Neptune'],
@@ -302,8 +353,6 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ['sweet', 'firm', 'versatile'],
     origin: ['Gulf Coast', 'South Pacific', 'Indian Ocean'],
-    category: 'seafood',
-    subCategory: 'shellfish',
     varieties: {
       
       'Tiger': {
@@ -495,8 +544,59 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     }
   },
   'mussels_blue': {
-    name: 'mussels_blue',
+    name: 'Blue Mussels',
+    category: 'protein',
+    subCategory: 'shellfish',
     elementalProperties: { Water: 0.6, Earth: 0.3, Fire: 0.05, Air: 0.05 },
+    sensoryProfile: {
+      taste: ['Briny', 'Sweet', 'Ocean-fresh'],
+      aroma: ['Sea-like', 'Fresh', 'Mineral'],
+      texture: ['Tender', 'Plump', 'Juicy'],
+      notes: 'Clean ocean flavor with tender, succulent texture'
+    },
+    season: ['fall', 'winter', 'spring'],
+    preparation: {
+      methods: ['scrub', 'debeard', 'purge', 'discard-opened'],
+      timing: 'preparation: 10-15 minutes',
+      notes: 'Discard any mussels that do not close when tapped, cook within 24 hours'
+    },
+    nutritionalProfile: {
+      macronutrients: {
+        protein: 24.0,
+        carbohydrates: 7.0,
+        fat: 4.1,
+        fiber: 0.0
+      },
+      micronutrients: {
+        selenium: 89.6,
+        vitamin_B12: 20.4,
+        manganese: 6.8,
+        phosphorus: 285
+      },
+      healthBenefits: ['high protein', 'vitamin B12 source', 'selenium rich', 'heart healthy'],
+      caloriesPerServing: 146
+    },
+    storage: {
+      temperature: 'below 40°F (4°C)',
+      duration: '2-3 days live, cook immediately after death',
+      container: 'breathable bag, not airtight',
+      notes: 'Store live mussels in refrigerator, cover with damp cloth'
+    },
+    culinaryProfile: {
+      flavorProfile: {
+        primary: ['briny', 'sweet'],
+        secondary: ['ocean-fresh', 'mineral'],
+        notes: 'Clean ocean flavor that absorbs cooking liquids beautifully'
+      },
+      cookingMethods: ['steaming', 'sautéing', 'grilling', 'baking', 'poaching'],
+      cuisineAffinity: ['French', 'Italian', 'Spanish', 'Belgian', 'Mediterranean'],
+      preparationTips: [
+        'Steam until shells open, discard any that remain closed',
+        'Cook quickly to prevent overcooking',
+        'Clean and debeard before cooking',
+        'Serve immediately after cooking'
+      ]
+    },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Neptune'],
       favorableZodiac: ['cancer', 'scorpio', 'pisces'],
@@ -521,8 +621,6 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     },
     qualities: ['briny', 'sweet', 'tender'],
     origin: ['North Atlantic', 'Mediterranean'],
-    category: 'protein',
-    subCategory: 'shellfish',
     varieties: {
       
       'Farm Raised': {
@@ -550,7 +648,42 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
   },
   'oysters_eastern': {
     name: 'Eastern Oysters',
+    category: 'protein',
+    subCategory: 'shellfish',
     elementalProperties: { Water: 0.65, Earth: 0.25, Fire: 0.05, Air: 0.05 },
+    sensoryProfile: {
+      taste: ['Briny', 'Creamy', 'Mineral', 'Sweet'],
+      aroma: ['Ocean-fresh', 'Clean', 'Metallic'],
+      texture: ['Creamy', 'Firm', 'Succulent'],
+      notes: 'Complex mineral flavor with creamy texture and clean finish'
+    },
+    season: ['fall', 'winter', 'spring'],
+    preparation: {
+      methods: ['shuck', 'scrub', 'chill', 'serve-immediately'],
+      timing: 'shucking: 1-2 minutes per oyster',
+      notes: 'Keep chilled, serve within 2 hours of shucking, discard if shell is cracked'
+    },
+    storage: {
+      temperature: 'below 40°F (4°C)',
+      duration: '7-10 days live, consume immediately after shucking',
+      container: 'cup-side down, covered with damp cloth',
+      notes: 'Never store in airtight container or fresh water'
+    },
+    culinaryProfile: {
+      flavorProfile: {
+        primary: ['briny', 'mineral'],
+        secondary: ['creamy', 'sweet'],
+        notes: 'Complex ocean flavor with distinctive mineral finish'
+      },
+      cookingMethods: ['raw', 'grilling', 'baking', 'frying', 'steaming'],
+      cuisineAffinity: ['French', 'American', 'Japanese', 'Mediterranean'],
+      preparationTips: [
+        'Serve raw on half shell with mignonette',
+        'Grill until edges curl slightly',
+        'Bake with toppings until bubbly',
+        'Fry until golden and crispy'
+      ]
+    },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Neptune'],
       favorableZodiac: ['cancer', 'scorpio', 'pisces'],
