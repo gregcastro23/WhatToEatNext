@@ -47,8 +47,8 @@ export default function MethodsRecommender() {
     if (!loading && currentPlanetaryAlignment) {
       // Convert currentPlanetaryAlignment to AstrologicalState format
       // Use safe type casting for celestial position access
-      const moonData = currentPlanetaryAlignment.Moon as any;
-      const sunData = currentPlanetaryAlignment.Sun as any;
+      const moonData = currentPlanetaryAlignment.Moon as Record<string, unknown>;
+      const sunData = currentPlanetaryAlignment.Sun as Record<string, unknown>;
       
       const astroState = {
         zodiacSign: sunData?.sign || 'Aries',
@@ -66,16 +66,16 @@ export default function MethodsRecommender() {
       const methodsWithScores: CookingMethodWithScore[] = Object.entries(allCookingMethods)
         .map(([methodName, methodData]) => {
           // Use safe type casting for methodData property access
-          const methodInfo = methodData as any;
+          const methodInfo = methodData as CookingMethod;
           
           // Calculate base score from the recommender utils
           // Safe type cast for methodData to CookingMethodModifier with defaults
           const safeMethodData = (methodData && typeof methodData === 'object') ? {
-            element: (methodData as any)?.element || 'Fire',
-            intensity: (methodData as any)?.intensity || 0.5,
-            effect: (methodData as any)?.effect || 'enhance',
-            applicableTo: (methodData as any)?.applicableTo || ['all'],
-            ...(methodData as any)
+            element: (methodData as Record<string, unknown>)?.element || 'Fire',
+            intensity: (methodData as Record<string, unknown>)?.intensity || 0.5,
+            effect: (methodData as Record<string, unknown>)?.effect || 'enhance',
+            applicableTo: (methodData as Record<string, unknown>)?.applicableTo || ['all'],
+            ...(methodData as Record<string, unknown>)
           } : {
             element: 'Fire' as const,
             intensity: 0.5,

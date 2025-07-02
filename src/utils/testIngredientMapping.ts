@@ -27,11 +27,11 @@ export function findMatchedItalianDinnerRecipes() {
   
   // Map all ingredients to our ingredient database
   const mappedRecipes = allDinnerRecipes.map(recipe => {
-    const mappedIngredients = connectIngredientsToMappings(recipe as any);
+    const mappedIngredients = connectIngredientsToMappings(recipe as Record<string, unknown>);
     
     // Calculate mapping score (percentage of ingredients with a mapping)
     // Apply surgical type casting with variable extraction
-    const recipeData = recipe as any;
+    const recipeData = recipe as Record<string, unknown>;
     const ingredients = recipeData?.ingredients || [];
     
     const mappingScore = mappedIngredients.filter(i => i.matchedTo).length / 
@@ -89,8 +89,8 @@ export function findRecipesMatchingElementalAndIngredientRequirements(
   
   // Use the new filtering function
   const matchedRecipes = filterRecipesByIngredientMappings(
-    allRecipes as any,
-    elementalTarget as any,
+    allRecipes as unknown,
+    elementalTarget as unknown,
     {
       required: requiredIngredients,
       excluded: excludedIngredients,
@@ -111,7 +111,7 @@ export function suggestIngredientSubstitutions(
   ingredientToReplace: string
 ) {
   // Map all ingredients
-  const mappedIngredients = connectIngredientsToMappings(recipe as any);
+  const mappedIngredients = connectIngredientsToMappings(recipe as Record<string, unknown>);
   
   // Find the ingredient to replace
   const ingredientMapping = mappedIngredients.find(
@@ -128,7 +128,7 @@ export function suggestIngredientSubstitutions(
   
   // Get the elemental properties of the ingredient
   // Apply surgical type casting with variable extraction
-  const matchedToData = ingredientMapping.matchedTo as any;
+  const matchedToData = ingredientMapping.matchedTo as Record<string, unknown>;
   const elementalProperties = matchedToData?.elementalProperties;
   const alchemicalProperties = matchedToData?.alchemicalProperties;
   

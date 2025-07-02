@@ -1,14 +1,14 @@
 {
-  "totalRuns": 19,
+  "totalRuns": 20,
   "successfulRuns": 1,
-  "filesProcessed": 196,
-  "anysReplaced": 5824,
+  "filesProcessed": 199,
+  "anysReplaced": 5845,
   "errorsEncountered": 0,
-  "corruptionDetected": 55,
+  "corruptionDetected": 61,
   "buildFailures": 0,
-  "averageBatchSize": 14.473684210526315,
+  "averageBatchSize": 14.65,
   "maxSafeBatchSize": 5,
-  "lastRunTime": "2025-07-02T21:55:23.812Z",
+  "lastRunTime": "2025-07-02T21:57:47.184Z",
   "safetyScore": 0,
   "replacementTypeSuccess": {
     "conservative_generic_fallback": {
@@ -16,16 +16,16 @@
       "attempts": 236
     },
     "conservative_assertion_fallback": {
-      "successes": 519,
-      "attempts": 634
+      "successes": 521,
+      "attempts": 638
     },
     "conservative_parameter_fallback": {
       "successes": 272,
-      "attempts": 291
+      "attempts": 292
     },
     "project_specific_inference": {
       "successes": 271,
-      "attempts": 342
+      "attempts": 347
     },
     "error_handling_preserved": {
       "successes": 0,
@@ -33,7 +33,7 @@
     },
     "conservative_array_fallback": {
       "successes": 7,
-      "attempts": 79
+      "attempts": 86
     },
     "thermodynamic_property_access": {
       "successes": 208,
@@ -44,8 +44,8 @@
       "attempts": 17
     },
     "cooking_method_assignment": {
-      "successes": 56,
-      "attempts": 56
+      "successes": 57,
+      "attempts": 57
     },
     "string_operation_detected": {
       "successes": 1002,
@@ -56,12 +56,12 @@
       "attempts": 621
     },
     "object_property_access": {
-      "successes": 2131,
-      "attempts": 2131
+      "successes": 2146,
+      "attempts": 2146
     },
     "data_assignment_context": {
-      "successes": 922,
-      "attempts": 922
+      "successes": 925,
+      "attempts": 925
     },
     "array_operation_detected": {
       "successes": 167,
@@ -69,7 +69,7 @@
     },
     "conservative_property_fallback": {
       "successes": 0,
-      "attempts": 61
+      "attempts": 66
     },
     "lunar_phase_assignment": {
       "successes": 17,
@@ -77,11 +77,11 @@
     },
     "configuration_preserved": {
       "successes": 0,
-      "attempts": 48
+      "attempts": 52
     },
     "callback_function_detected": {
       "successes": 0,
-      "attempts": 24
+      "attempts": 26
     },
     "method_parameter_detected": {
       "successes": 17,
@@ -101,7 +101,7 @@
     },
     "array_element_inference": {
       "successes": 50,
-      "attempts": 73
+      "attempts": 76
     },
     "element_array_detected": {
       "successes": 3,
@@ -121,7 +121,7 @@
     },
     "generic_map_fallback": {
       "successes": 0,
-      "attempts": 216
+      "attempts": 251
     },
     "safe_thermodynamic_access": {
       "successes": 0,
@@ -133,7 +133,7 @@
     },
     "generic_ingredient_detected": {
       "successes": 0,
-      "attempts": 7
+      "attempts": 8
     },
     "generic_array_fallback": {
       "successes": 2,
@@ -146,7 +146,7 @@
   },
   "patternEffectiveness": {},
   "performanceMetrics": {
-    "averageFileTime": 2786.581632653061,
-    "totalProcessingTime": 546170
+    "averageFileTime": 2968.608040201005,
+    "totalProcessingTime": 590753
   }
 }
