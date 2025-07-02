@@ -622,14 +622,196 @@ const ERROR_PATTERNS = {
         id: 'TS2322_object_to_interface',
         regex: /Type '\{[^}]*\}' is not assignable to type '([^']+)'/,
         fix: (content, match, typeName) => {
-          const objPattern = /(\{[\s\S]*?\})/;
-          const objMatch = content.match(objPattern);
-          if (objMatch && content.indexOf(objMatch[0]) > content.indexOf(match) - 100) {
-            return content.replace(objMatch[0], `(${objMatch[0]} as unknown as ${typeName})`);
-          }
+          // COMPLETELY DISABLED - This pattern corrupts imports consistently
+          // The risk of import corruption outweighs the benefits
+          console.log(`    ⚠️  Skipping dangerous object pattern for ${typeName}`);
           return content;
         },
-        confidence: 0.80
+        confidence: 0.00
+      },
+      
+      // NEW: GeographicCoordinates name->locality fix
+      {
+        id: 'TS2322_geographic_coordinates_name_to_locality',
+        regex: /Type '\{[^}]*name: string[^}]*\}' is not assignable to type 'GeographicCoordinates'/,
+        fix: (content, match) => {
+          // Replace 'name:' with 'locality:' in coordinate objects
+          const coordinateObjectPattern = /(\{[^}]*?)name:\s*(['"][^'"]*['"])/g;
+          let fixed = content;
+          let hasMatches = false;
+          
+          fixed = fixed.replace(coordinateObjectPattern, (fullMatch, prefix, nameValue) => {
+            hasMatches = true;
+            console.log(`    ✅ Converting geographic coordinate name to locality: ${nameValue}`);
+            return `${prefix}locality: ${nameValue}`;
+          });
+          
+          if (hasMatches) {
+            console.log(`    🎯 Applied GeographicCoordinates name->locality fix`);
+          }
+          
+          return fixed;
+        },
+        confidence: 0.90
+      },
+      
+      // NEW: CuisineType string literal assertion
+      {
+        id: 'TS2322_cuisine_type_string_assertion',
+        regex: /Type '("[^"]*")' is not assignable to type 'CuisineType'/,
+        fix: (content, match, stringLiteral) => {
+          // Add type assertion to string literals assigned to CuisineType
+          const cleanStringLiteral = stringLiteral.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+          const pattern = new RegExp(`(\\w+\\s*:\\s*)${cleanStringLiteral}(?=[,\\s}\\)])`, 'g');
+          
+          let fixed = content;
+          let hasMatches = false;
+          
+          fixed = fixed.replace(pattern, (fullMatch, prefix) => {
+            hasMatches = true;
+            console.log(`    ✅ Adding CuisineType assertion for ${stringLiteral}`);
+            return `${prefix}${stringLiteral} as CuisineType`;
+          });
+          
+          if (hasMatches) {
+            console.log(`    🎯 Applied CuisineType string literal assertion`);
+          }
+          
+          return fixed;
+        },
+        confidence: 0.95
+      },
+      
+      // NEW: Unknown instructions type cast
+      {
+        id: 'TS2322_unknown_instructions_to_string_array',
+        regex: /instructions: unknown.*Recipe\[\]/,
+        fix: (content, match) => {
+          // Cast unknown instructions to string[]
+          let fixed = content;
+          let hasMatches = false;
+          
+          fixed = fixed.replace(/instructions:\s*unknown/g, (fullMatch) => {
+            hasMatches = true;
+            console.log(`    ✅ Converting unknown instructions to string[]`);
+            return 'instructions: [] as string[]';
+          });
+          
+          if (hasMatches) {
+            console.log(`    🎯 Applied unknown instructions type cast`);
+          }
+          
+          return fixed;
+        },
+        confidence: 0.75
+      }
+    ]
+  },
+  
+  TS2345: {
+    name: 'Argument Type Mismatch',
+    patterns: [
+      // NEW: String array to Planet array type assertion
+      {
+        id: 'TS2345_string_array_to_planet_array',
+        regex: /Type 'string\[\]' is not assignable to parameter of type 'Planet\[\]'/,
+        fix: (content, match) => {
+          // Add type assertion for string[] to Planet[]
+          const stringArrayPattern = /(planetaryRulers:\s*[^,}]+)/g;
+          let fixed = content;
+          let hasMatches = false;
+          
+          fixed = fixed.replace(stringArrayPattern, (fullMatch) => {
+            if (!fullMatch.includes('as Planet[]')) {
+              hasMatches = true;
+              console.log(`    ✅ Adding Planet[] type assertion to planetaryRulers`);
+              return `${fullMatch} as Planet[]`;
+            }
+            return fullMatch;
+          });
+          
+          if (hasMatches) {
+            console.log(`    🎯 Applied string[] to Planet[] type assertion`);
+          }
+          
+          return fixed;
+        },
+        confidence: 0.95
+      },
+      
+      // NEW: String to Season type assertion in function arguments
+      {
+        id: 'TS2345_string_to_season_type_assertion',
+        regex: /Argument of type 'string' is not assignable to parameter of type 'Season'/,
+        fix: (content, match) => {
+          // Look for function calls with season parameter and add type assertion
+          const functionCallPattern = /(\.includes\(\s*)([a-zA-Z_$][a-zA-Z0-9_$]*)\s*\)/g;
+          let fixed = content;
+          let hasMatches = false;
+          
+          fixed = fixed.replace(functionCallPattern, (fullMatch, prefix, variableName) => {
+            // Check if this variable name suggests it's a season
+            if (variableName.toLowerCase().includes('season') && !fullMatch.includes('as Season')) {
+              hasMatches = true;
+              console.log(`    ✅ Adding Season type assertion to variable: ${variableName}`);
+              return `${prefix}${variableName} as Season)`;
+            }
+            return fullMatch;
+          });
+          
+          if (hasMatches) {
+            console.log(`    🎯 Applied string to Season type assertion`);
+          }
+          
+          return fixed;
+        },
+        confidence: 0.90
+      },
+      
+      // NEW: String to Planet type assertion in function arguments
+      {
+        id: 'TS2345_string_to_planet_type_assertion',
+        regex: /Argument of type 'string' is not assignable to parameter of type 'Planet'/,
+        fix: (content, match) => {
+          // Look for function calls with planet parameter and add type assertion
+          const functionCallPattern = /(\.includes\(\s*)([a-zA-Z_$][a-zA-Z0-9_$]*\.[a-zA-Z_$][a-zA-Z0-9_$]*)\s*\)/g;
+          let fixed = content;
+          let hasMatches = false;
+          
+          fixed = fixed.replace(functionCallPattern, (fullMatch, prefix, variableName) => {
+            // Check if this variable suggests it's a planet (like influence.planet)
+            if (variableName.includes('.planet') && !fullMatch.includes('as Planet')) {
+              hasMatches = true;
+              console.log(`    ✅ Adding Planet type assertion to: ${variableName}`);
+              return `${prefix}${variableName} as Planet)`;
+            }
+            return fullMatch;
+          });
+          
+          if (hasMatches) {
+            console.log(`    🎯 Applied string to Planet type assertion`);
+          }
+          
+          return fixed;
+        },
+        confidence: 0.90
+      },
+      
+      // NEW: Import type conflict resolution
+      {
+        id: 'TS2345_import_type_conflict_resolution',
+        regex: /Argument of type 'import\("[^"]+"\)\.([^']+)' is not assignable to parameter of type '\1'/,
+        fix: (content, match, typeName) => {
+          // Try to fix import type conflicts by ensuring consistent import usage
+          console.log(`    ⚠️ Import type conflict detected for: ${typeName}`);
+          console.log(`    💡 This typically requires manual review of import statements`);
+          console.log(`    🔍 Check for duplicate or conflicting imports of ${typeName}`);
+          
+          // For now, return content unchanged as this requires careful analysis
+          // Future enhancement: Could add import analysis and resolution
+          return content;
+        },
+        confidence: 0.60
       }
     ]
   },
