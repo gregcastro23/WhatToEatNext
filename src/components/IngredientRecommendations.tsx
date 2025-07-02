@@ -17,7 +17,7 @@ function getRecommendations(
   const astroData = useAstrologicalState();
   
   // Apply safe type casting for astrological data access
-  const astroState = astroData as any;
+  const astroState = astroData as Record<string, unknown>;
   const planetaryPositions = astroState?.planetaryPositions;
   const moonPhase = astroState?.moonPhase;
   const aspects = astroState?.aspects;
@@ -49,7 +49,7 @@ function getRecommendations(
   };
   
   // Use the proper utility function with the actual data
-  return getIngredientRecommendations(astroStateData as any, options);
+  return getIngredientRecommendations(astroStateData as unknown, options);
 }
 
 interface IngredientRecommendationsProps {
@@ -136,8 +136,8 @@ export default function IngredientRecommendations({
     };
     
     // Format the match percentage from score
-    const matchPercentage = (ingredient as any)?.score !== undefined && !isNaN((ingredient as any)?.score) 
-      ? `${Math.round((ingredient as any)?.score * 100)}%`
+    const matchPercentage = (ingredient as Record<string, unknown>)?.score !== undefined && !isNaN((ingredient as Record<string, unknown>)?.score) 
+      ? `${Math.round((ingredient as Record<string, unknown>)?.score * 100)}%`
       : '50%';
     
     return (
@@ -145,7 +145,7 @@ export default function IngredientRecommendations({
         <div className={styles.header}>
           <h3 className={styles.ingredientName}>{ingredient.name}</h3>
           <div className={styles.category}>{ingredient.category}</div>
-          {(ingredient as any)?.score && (
+          {(ingredient as Record<string, unknown>)?.score && (
             <div className={styles.matchScore}>
               Match: <span className={styles.scoreValue}>{matchPercentage}</span>
             </div>
@@ -202,9 +202,9 @@ export default function IngredientRecommendations({
         {/* Flavor Profile */}
         <div className="flavor-profile">
           <h4>Flavor Profile</h4>
-          {(ingredient as any)?.sensoryProfile && (
+          {(ingredient as Record<string, unknown>)?.sensoryProfile && (
             <div className={styles.sensoryHighlights}>
-              {Object.entries((ingredient as any)?.sensoryProfile?.taste || {})
+              {Object.entries((ingredient as Record<string, unknown>)?.sensoryProfile?.taste || {})
                 .filter(([_, value]) => (value as number) > 0.6)
                 .slice(0, 3)
                 .map(([type, value]) => (
@@ -270,7 +270,7 @@ export default function IngredientRecommendations({
   // Display a compact ingredient card
   const renderCompactIngredientCard = (ingredient: IngredientRecommendation) => {
     // Apply safe type casting for ingredient access
-    const ingredientData = ingredient as any;
+    const ingredientData = ingredient as Record<string, unknown>;
     const score = ingredientData?.score;
     
     // Get elemental properties

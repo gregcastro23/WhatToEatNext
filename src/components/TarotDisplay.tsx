@@ -44,7 +44,7 @@ export interface TarotDisplayProps {
     planetaryCards?: { [key: string]: any };
     alchemicalValues?: AlchemicalValues;
   
-  mode: any;}) => void;
+  mode: unknown;}) => void;
 }
 
 export default function TarotDisplay({ mode = 'food', onTarotLoaded }: TarotDisplayProps) {
@@ -123,7 +123,7 @@ export default function TarotDisplay({ mode = 'food', onTarotLoaded }: TarotDisp
           ...cards,
           alchemicalValues,
           planetaryCards: {}, // Will be populated by the parent component
-          mode: mode as any // Add missing required property
+          mode: mode as unknown // Add missing required property
         });
       }
     } catch (err) {
@@ -245,12 +245,12 @@ export default function TarotDisplay({ mode = 'food', onTarotLoaded }: TarotDisp
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-        <div className={`rounded-lg p-4 bg-opacity-10 ${getElementColor(element as any)}`}> {/* Pattern XXX: Component Props Interface Resolution */}
+        <div className={`rounded-lg p-4 bg-opacity-10 ${getElementColor(element as Record<string, unknown>)}`}> {/* Pattern XXX: Component Props Interface Resolution */}
           <div className="flex justify-between items-start">
             <div>
               <h4 className="font-bold text-white text-lg drop-shadow-md">{tarotCards.minorCard?.name || 'Minor Arcana'}</h4>
               <div className="flex items-center mt-1 bg-black bg-opacity-20 rounded px-2 py-1 inline-block">
-                {getElementIcon(element as any)} {/* Pattern XXX: Component Props Interface Resolution */}
+                {getElementIcon(element as unknown)} {/* Pattern XXX: Component Props Interface Resolution */}
                 <span className="ml-1 text-sm font-medium">{element}</span>
               </div>
             </div>

@@ -158,7 +158,7 @@ export function transformSingleItem(
   
   // Transform elemental properties
   const transformedElemental = applyElementalTransformations(
-    (item as any).elementalProperties || item.elementalProperties,
+    (item as Record<string, unknown>).elementalProperties || item.elementalProperties,
     planetaryInfluences,
     lunarModifiers,
     zodiacElement,
@@ -179,8 +179,8 @@ export function transformSingleItem(
     ...item,
     elementalProperties: transformedElemental,
     alchemicalProperties,
-    uniqueness: (item as any).uniqueness || uniqueness,
-    planetaryInfluences: (item as any).planetaryInfluences || Object.keys(planetaryInfluences),
+    uniqueness: (item as Record<string, unknown>).uniqueness || uniqueness,
+    planetaryInfluences: (item as Record<string, unknown>).planetaryInfluences || Object.keys(planetaryInfluences),
     lunarPhaseEffect: context.lunarPhase || 'new Moon',
     zodiacInfluence: context.currentZodiac || 'aries',
     transformationScore: calculateTransformationScore(alchemicalProperties, uniqueness)
@@ -228,8 +228,8 @@ export function applyPlanetaryInfluence(
     ...item,
     elementalProperties: transformedElemental,
     alchemicalProperties: alchemicalBoost,
-    planetaryInfluences: [...((item as any).planetaryInfluences || []), planet],
-    transformationScore: calculateTransformationScore(alchemicalBoost, (item as any).uniqueness || 0.5)
+    planetaryInfluences: [...((item as Record<string, unknown>).planetaryInfluences || []), planet],
+    transformationScore: calculateTransformationScore(alchemicalBoost, (item as Record<string, unknown>).uniqueness || 0.5)
   } as unknown as AlchemicalItem;
 }
 
@@ -244,7 +244,7 @@ export function sortByAlchemicalCompatibility(
   targetElementalProperties?: { [key: string]: number }
 ): AlchemicalItem[] {
   if (!targetElementalProperties) {
-    return items.sort((a, b) => ((b as any)?.transformations?.score || 0) - ((a as any)?.transformations?.score || 0));
+    return items.sort((a, b) => ((b as Record<string, unknown>)?.transformations?.score || 0) - ((a as Record<string, unknown>)?.transformations?.score || 0));
   }
   
   return items.sort((a, b) => {
@@ -503,7 +503,7 @@ function calculateCompatibilityScore(
   });
   
   // Transformation score
-  score += ((item as any)?.transformations?.score || 0.5) * 0.4;
+  score += ((item as Record<string, unknown>)?.transformations?.score || 0.5) * 0.4;
   totalWeight += 0.4;
   
   return totalWeight > 0 ? score / totalWeight : 0;

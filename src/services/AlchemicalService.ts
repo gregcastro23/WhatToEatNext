@@ -449,7 +449,7 @@ export class AlchemicalService {
     const dominantElement = this.getDominantElement(properties);
     
     // Apply safe type casting for profile property access
-    const profileData = profile as any;
+    const profileData = profile as Record<string, unknown>;
 
     return {dominantElement,
       elementalProfile: DefaultElementalProperties,
@@ -458,7 +458,7 @@ export class AlchemicalService {
       flavorProfiles: profileData?.characteristics?.flavorProfiles || [],
       healthBenefits: profileData?.characteristics?.healthBenefits || [],
       timeOfDay: profileData?.characteristics?.timeOfDay || [],
-      seasonalBest: this.getSeasonalRecommendations(dominantElement as any),
+      seasonalBest: this.getSeasonalRecommendations(dominantElement as Record<string, unknown>),
       moodEffects: profileData?.characteristics?.moodEffects || [],
       culinaryHerbs: profileData?.characteristics?.culinaryHerbs || [],
       compatibility: 0.5
@@ -523,8 +523,8 @@ export class AlchemicalService {
     ingredient2: IngredientMapping,
   ): number {
     return this.calculateElementalSimilarity(
-      ingredient1.elementalState as any || { Fire: 0, Water: 0, Earth: 0, Air: 0  },
-      ingredient2.elementalState as any || { Fire: 0, Water: 0, Earth: 0, Air: 0  }
+      ingredient1.elementalState as Record<string, unknown> || { Fire: 0, Water: 0, Earth: 0, Air: 0  },
+      ingredient2.elementalState as Record<string, unknown> || { Fire: 0, Water: 0, Earth: 0, Air: 0  }
     );
   }
   

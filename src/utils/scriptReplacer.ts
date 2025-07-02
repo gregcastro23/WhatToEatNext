@@ -22,15 +22,15 @@ if (typeof window !== 'undefined') {
   }, true);
 
   // Setup global properties for lockdown
-  if (!(window as any).lockdown) {
-    (window as any).lockdown = function() {
+  if (!(window as Record<string, unknown>).lockdown) {
+    (window as Record<string, unknown>).lockdown = function() {
       console.log('[ScriptReplacer] Safely intercepted lockdown() call');
       return true;
     };
   }
 
-  if (!(window as any).harden) {
-    (window as any).harden = function(obj) {
+  if (!(window as Record<string, unknown>).harden) {
+    (window as Record<string, unknown>).harden = function(obj) {
       return obj;
     };
   }
@@ -74,12 +74,12 @@ if (typeof window !== 'undefined') {
         console.log('[ScriptReplacer] Intercepted chrome.tabs.create call');
         return Promise.resolve({ id: 999 });
       },
-      query: function(queryInfo: any, callback?: Function) {
+      query: function(queryInfo: unknown, callback?: Function) {
         const result = [{ id: 1, active: true }];
         if (callback) callback(result);
         return true;
       },
-      update: function(tabId: number, properties: any, callback?: Function) {
+      update: function(tabId: number, properties: unknown, callback?: Function) {
         if (callback) callback({});
         return true;
       }

@@ -201,7 +201,7 @@ export async function GET(request: Request) {
 // Count the number of vitamin entries in a foodNutrients array
 function countVitamins(nutrients: NutrientData[]): number {
   return nutrients.filter(n => {
-    const name = ((n as any).nutrient?.name || (n as any).nutrientName || (n as any).name || '').toLowerCase();
+    const name = ((n as string).nutrient?.name || (n as string).nutrientName || (n as string).name || '').toLowerCase();
     return name.includes('vitamin');
   }).length;
 }
@@ -212,8 +212,8 @@ function getBestEndpoint(results: Record<string, unknown>): string {
   let maxVitamins = 0;
   
   for (const [endpoint, data] of Object.entries(results)) {
-    if ((data as any).vitaminCount && (data as any).vitaminCount > maxVitamins) {
-      maxVitamins = (data as any).vitaminCount;
+    if ((data as Record<string, unknown>).vitaminCount && (data as Record<string, unknown>).vitaminCount > maxVitamins) {
+      maxVitamins = (data as Record<string, unknown>).vitaminCount;
       bestEndpoint = endpoint;
     }
   }
@@ -226,11 +226,11 @@ function getTotalVitaminsFound(results: Record<string, unknown>): number {
   const vitamins = new Set<string>();
   
   for (const data of Object.values(results)) {
-    if ((data as any).data) {
-      const nutrients = Array.isArray((data as any).data) ? (data as any).data[0]?.foodNutrients : (data as any).data.foodNutrients;
+    if ((data as Record<string, unknown>).data) {
+      const nutrients = Array.isArray((data as Record<string, unknown>).data) ? (data as Record<string, unknown>).data[0]?.foodNutrients : (data as Record<string, unknown>).data.foodNutrients;
       if (nutrients) {
         nutrients.forEach((n: unknown) => {
-          const name = ((n as any).nutrient?.name || (n as any).nutrientName || (n as any).name || '').toLowerCase();
+          const name = ((n as string).nutrient?.name || (n as string).nutrientName || (n as string).name || '').toLowerCase();
           if (name.includes('vitamin')) {
             vitamins.add(name);
           }

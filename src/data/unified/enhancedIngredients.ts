@@ -720,18 +720,18 @@ export class EnhancedIngredientsSystem {
       const existingProfile = ingredient.nutritionalProfile;
       
       return {
-        serving_size: (existingProfile as any)?.servingSize || '100g',
+        serving_size: (existingProfile as Record<string, unknown>)?.servingSize || '100g',
         calories: existingProfile.calories || 0,
         macros: {
-          protein: (existingProfile as any)?.macros?.protein || 0,
-          carbs: (existingProfile as any)?.macros?.carbs || 0,
-          fat: (existingProfile as any)?.macros?.fat || 0,
-          fiber: (existingProfile as any)?.macros?.fiber || 0
+          protein: (existingProfile as Record<string, unknown>)?.macros?.protein || 0,
+          carbs: (existingProfile as Record<string, unknown>)?.macros?.carbs || 0,
+          fat: (existingProfile as Record<string, unknown>)?.macros?.fat || 0,
+          fiber: (existingProfile as Record<string, unknown>)?.macros?.fiber || 0
         },
         vitamins: existingProfile.vitamins || {},
         minerals: existingProfile.minerals || {},
         benefits: ingredient.healthBenefits || [],
-        source: (existingProfile as any)?.source || 'estimated'
+        source: (existingProfile as Record<string, unknown>)?.source || 'estimated'
       };
     }
     
