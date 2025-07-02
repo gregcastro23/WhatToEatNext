@@ -1,53 +1,69 @@
 {
-  "totalRuns": 5,
+  "totalRuns": 7,
   "successfulRuns": 1,
-  "filesProcessed": 7,
-  "errorsFixed": 22,
+  "filesProcessed": 10,
+  "errorsFixed": 30,
   "errorsEncountered": 0,
-  "corruptionDetected": 1,
-  "buildFailures": 3,
-  "averageBatchSize": 21.4,
+  "corruptionDetected": 3,
+  "buildFailures": 4,
+  "averageBatchSize": 21,
   "maxSafeBatchSize": 5,
-  "lastRunTime": "2025-07-02T00:10:33.896Z",
+  "lastRunTime": "2025-07-02T05:21:25.271Z",
   "safetyScore": 0,
   "errorTypeSuccess": {
     "TS2304": {
       "fixed": 2,
-      "attempted": 32
+      "attempted": 34
     },
     "TS2345": {
       "fixed": 0,
-      "attempted": 9
+      "attempted": 18
     },
     "TS2322": {
-      "fixed": 20,
-      "attempted": 57
+      "fixed": 28,
+      "attempted": 93
     },
     "TS2740": {
       "fixed": 0,
-      "attempted": 20
+      "attempted": 30
     },
     "TS2339": {
       "fixed": 0,
-      "attempted": 16
+      "attempted": 34
     },
     "TS2820": {
       "fixed": 0,
-      "attempted": 4
+      "attempted": 6
     },
     "TS2741": {
       "fixed": 0,
-      "attempted": 12
+      "attempted": 15
     },
     "TS2459": {
       "fixed": 0,
-      "attempted": 6
+      "attempted": 11
     },
     "TS2352": {
       "fixed": 0,
-      "attempted": 3
+      "attempted": 4
     },
     "TS1005": {
+      "fixed": 0,
+      "attempted": 1
+    },
+    "TS2552": {
+      "fixed": 0,
+      "attempted": 12
+    },
+    "TS2420": {
+      "fixed": 0,
+      "attempted": 1
+    },
+    "TS1117": {
+      "fixed": 0,
+      "attempted": 28
+    },
+    "TS2305": {
       "fixed": 0,
       "attempted": 1
     }
@@ -58,16 +74,16 @@
       "attempts": 2
     },
     "TS2322_string_array_to_typed_array": {
-      "successes": 8,
-      "attempts": 8
-    },
-    "TS2322_object_to_interface": {
       "successes": 12,
       "attempts": 12
+    },
+    "TS2322_object_to_interface": {
+      "successes": 16,
+      "attempts": 16
     }
   },
   "performanceMetrics": {
-    "averageFileTime": 12616.714285714286,
-    "totalProcessingTime": 88317
+    "averageFileTime": 18912.3,
+    "totalProcessingTime": 189123
   }
 }
