@@ -9,26 +9,26 @@ declare global {
       tabs?: {
         create?: (options: any) => Promise<{id: number}>;
         query?: (queryInfo: any, callback?: Function) => boolean;
-        update?: (tabId: number, properties: any, callback?: Function) => boolean;
-        sendMessage?: (tabId: number, message: any, options?: any, callback?: Function) => boolean;
+        update?: (tabId: number, properties: unknown, callback?: Function) => boolean;
+        sendMessage?: (tabId: number, message: unknown, options?: any, callback?: Function) => boolean;
       };
       runtime?: {
         lastError?: any;
         getURL?: (path: string) => string;
-        sendMessage?: (message: any) => void;
+        sendMessage?: (message: unknown) => void;
         onMessage?: {
-          addListener: (callback: (message: any) => void) => void;
-          removeListener: (callback: (message: any) => void) => void;
+          addListener: (callback: (message: unknown) => void) => void;
+          removeListener: (callback: (message: unknown) => void) => void;
         };
       };
       storage?: {
         local?: {
-          get?: (keys: any, callback?: Function) => boolean;
-          set?: (items: any, callback?: Function) => boolean;
+          get?: (keys: unknown, callback?: Function) => boolean;
+          set?: (items: unknown, callback?: Function) => boolean;
         };
         sync?: {
-          get?: (keys: any, callback?: Function) => boolean;
-          set?: (items: any, callback?: Function) => boolean;
+          get?: (keys: unknown, callback?: Function) => boolean;
+          set?: (items: unknown, callback?: Function) => boolean;
         };
       };
       i18n?: {
@@ -64,13 +64,13 @@ declare global {
     _chromeMessageListeners?: Function[];
     
     // Alchemical functions used by FoodRecommender
-    getElementRanking?: (element_object: any, rank?: number) => { [key: number]: string };
+    getElementRanking?: (element_object: Element, rank?: number) => { [key: number]: string };
     createElementObject?: () => { Fire: number; Water: number; Air: number; Earth: number };
-    combineElementObjects?: (obj1: any, obj2: any) => { Fire: number; Water: number; Air: number; Earth: number };
-    getAbsoluteElementValue?: (obj: any) => number;
-    calculateElementalScore?: (obj: any) => number;
-    getDominantElement?: (obj: any) => string;
-    alchemize?: (birth_info: any, horoscope_dict: any) => any;
+    combineElementObjects?: (obj1: unknown, obj2: unknown) => { Fire: number; Water: number; Air: number; Earth: number };
+    getAbsoluteElementValue?: (obj: unknown) => number;
+    calculateElementalScore?: (obj: unknown) => number;
+    getDominantElement?: (obj: unknown) => string;
+    alchemize?: (birth_info: unknown, horoscope_dict: unknown) => any;
     capitalize?: (str: string) => string;
     
     // Service objects
@@ -79,7 +79,7 @@ declare global {
     
     // Utility functions
     fixAssignmentErrors?: <T>(obj: T) => T;
-    safelyAccess?: <T = any>(obj: any, path: string, defaultValue?: T) => T;
+    safelyAccess?: <T = any>(obj: unknown, path: string, defaultValue?: T) => T;
     
     // Initialization flags
     __popupInitialized?: boolean;

@@ -86,7 +86,7 @@ function calculatePillarCompatibility(
   pillarB: AlchemicalPillar
 ): number {
   // If they're the same pillar, they're perfectly compatible
-  if (pillarA.id === (pillarB as any)?.id) return 1.0;
+  if (pillarA.id === (pillarB as Record<string, unknown>)?.id) return 1.0;
   
   // Calculate compatibility based on their transformative effects
   // How well do the effects of pillarA complement or counter pillarB?
@@ -197,8 +197,8 @@ export function applyPillarTransformation(
   
   // Also apply elemental effects if the item has elemental properties and the pillar has elemental associations
   if (pillar?.elementalAssociations) {
-    const primaryElement = (pillar as any)?.elementalAssociations.primary;
-    const secondaryElement = (pillar as any)?.elementalAssociations.secondary;
+    const primaryElement = (pillar as Record<string, unknown>)?.elementalAssociations.primary;
+    const secondaryElement = (pillar as Record<string, unknown>)?.elementalAssociations.secondary;
     
     // Apply effects to elemental properties if they exist in the item
     if ('fire' in transformedItem && typeof transformedItem.fire === 'number') {
@@ -280,27 +280,27 @@ export function applyPlanetaryInfluence(
   // Apply to spirit, essence, matter, substance if they exist in the item
   // Pattern KK-2: Safe property arithmetic with type validation
   if ('spirit' in transformedItem) {
-    const currentSpirit = typeof (transformedItem as any).spirit === 'number' ? (transformedItem as any).spirit : 0;
+    const currentSpirit = typeof (transformedItem as Record<string, unknown>).spirit === 'number' ? (transformedItem as Record<string, unknown>).spirit : 0;
     const effectMultiplier = typeof planetaryEffects.Spirit === 'number' ? planetaryEffects.Spirit : 0;
-    (transformedItem as any).spirit = currentSpirit * (1 + 0.1 * effectMultiplier);
+    (transformedItem as Record<string, unknown>).spirit = currentSpirit * (1 + 0.1 * effectMultiplier);
   }
   
   if ('essence' in transformedItem) {
-    const currentEssence = typeof (transformedItem as any).essence === 'number' ? (transformedItem as any).essence : 0;
+    const currentEssence = typeof (transformedItem as Record<string, unknown>).essence === 'number' ? (transformedItem as Record<string, unknown>).essence : 0;
     const effectMultiplier = typeof planetaryEffects.Essence === 'number' ? planetaryEffects.Essence : 0;
-    (transformedItem as any).essence = currentEssence * (1 + 0.1 * effectMultiplier);
+    (transformedItem as Record<string, unknown>).essence = currentEssence * (1 + 0.1 * effectMultiplier);
   }
   
   if ('matter' in transformedItem) {
-    const currentMatter = typeof (transformedItem as any).matter === 'number' ? (transformedItem as any).matter : 0;
+    const currentMatter = typeof (transformedItem as Record<string, unknown>).matter === 'number' ? (transformedItem as Record<string, unknown>).matter : 0;
     const effectMultiplier = typeof planetaryEffects.Matter === 'number' ? planetaryEffects.Matter : 0;
-    (transformedItem as any).matter = currentMatter * (1 + 0.1 * effectMultiplier);
+    (transformedItem as Record<string, unknown>).matter = currentMatter * (1 + 0.1 * effectMultiplier);
   }
   
   if ('substance' in transformedItem) {
-    const currentSubstance = typeof (transformedItem as any).substance === 'number' ? (transformedItem as any).substance : 0;
+    const currentSubstance = typeof (transformedItem as Record<string, unknown>).substance === 'number' ? (transformedItem as Record<string, unknown>).substance : 0;
     const effectMultiplier = typeof planetaryEffects.Substance === 'number' ? planetaryEffects.Substance : 0;
-    (transformedItem as any).substance = currentSubstance * (1 + 0.1 * effectMultiplier);
+    (transformedItem as Record<string, unknown>).substance = currentSubstance * (1 + 0.1 * effectMultiplier);
   }
   
   // Ensure all values remain within reasonable bounds
@@ -338,27 +338,27 @@ export function applyTarotInfluence(
   // Apply to spirit, essence, matter, substance if they exist in the item
   // Pattern KK-2: Safe property arithmetic with type validation
   if ('spirit' in transformedItem) {
-    const currentSpirit = typeof (transformedItem as any).spirit === 'number' ? (transformedItem as any).spirit : 0;
+    const currentSpirit = typeof (transformedItem as Record<string, unknown>).spirit === 'number' ? (transformedItem as Record<string, unknown>).spirit : 0;
     const effectMultiplier = typeof tarotEffects.Spirit === 'number' ? tarotEffects.Spirit : 0;
-    (transformedItem as any).spirit = currentSpirit * (1 + 0.15 * effectMultiplier);
+    (transformedItem as Record<string, unknown>).spirit = currentSpirit * (1 + 0.15 * effectMultiplier);
   }
   
   if ('essence' in transformedItem) {
-    const currentEssence = typeof (transformedItem as any).essence === 'number' ? (transformedItem as any).essence : 0;
+    const currentEssence = typeof (transformedItem as Record<string, unknown>).essence === 'number' ? (transformedItem as Record<string, unknown>).essence : 0;
     const effectMultiplier = typeof tarotEffects.Essence === 'number' ? tarotEffects.Essence : 0;
-    (transformedItem as any).essence = currentEssence * (1 + 0.15 * effectMultiplier);
+    (transformedItem as Record<string, unknown>).essence = currentEssence * (1 + 0.15 * effectMultiplier);
   }
   
   if ('matter' in transformedItem) {
-    const currentMatter = typeof (transformedItem as any).matter === 'number' ? (transformedItem as any).matter : 0;
+    const currentMatter = typeof (transformedItem as Record<string, unknown>).matter === 'number' ? (transformedItem as Record<string, unknown>).matter : 0;
     const effectMultiplier = typeof tarotEffects.Matter === 'number' ? tarotEffects.Matter : 0;
-    (transformedItem as any).matter = currentMatter * (1 + 0.15 * effectMultiplier);
+    (transformedItem as Record<string, unknown>).matter = currentMatter * (1 + 0.15 * effectMultiplier);
   }
   
   if ('substance' in transformedItem) {
-    const currentSubstance = typeof (transformedItem as any).substance === 'number' ? (transformedItem as any).substance : 0;
+    const currentSubstance = typeof (transformedItem as Record<string, unknown>).substance === 'number' ? (transformedItem as Record<string, unknown>).substance : 0;
     const effectMultiplier = typeof tarotEffects.Substance === 'number' ? tarotEffects.Substance : 0;
-    (transformedItem as any).substance = currentSubstance * (1 + 0.15 * effectMultiplier);
+    (transformedItem as Record<string, unknown>).substance = currentSubstance * (1 + 0.15 * effectMultiplier);
   }
   
   // Ensure all values remain within reasonable bounds
@@ -420,7 +420,7 @@ const getMethodCompatibility = (
   cookingMethods: Record<string, number>
 ): number => {
   logger.debug(`==== COMPATIBILITY CALCULATION FOR ${methodName.toUpperCase()} ====`);
-  logger.debug(`Ingredient: ${(transformedItem as any)?.name} (Element: ${(transformedItem as any)?.element})`);
+  logger.debug(`Ingredient: ${(transformedItem as Record<string, unknown>)?.name} (Element: ${(transformedItem as Record<string, unknown>)?.element})`);
   
   // In case the method isn't found in our cooking methods
   if (!cookingMethods[methodName]) {
@@ -436,20 +436,20 @@ const getMethodCompatibility = (
   }
   
   logger.debug(`Method: ${methodName}`);
-  logger.debug(`- Associated Pillar: ${(pillar as any)?.name} (ID: ${(pillar as any)?.id})`);
+  logger.debug(`- Associated Pillar: ${(pillar as Record<string, unknown>)?.name} (ID: ${(pillar as Record<string, unknown>)?.id})`);
   
-  if ((pillar as any)?.elementalAssociations) {
-    logger.debug(`- Primary Element: ${(pillar as any)?.elementalAssociations.primary}`);
-    if ((pillar as any)?.elementalAssociations.secondary) {
-      logger.debug(`- Secondary Element: ${(pillar as any)?.elementalAssociations.secondary}`);
+  if ((pillar as Record<string, unknown>)?.elementalAssociations) {
+    logger.debug(`- Primary Element: ${(pillar as Record<string, unknown>)?.elementalAssociations.primary}`);
+    if ((pillar as Record<string, unknown>)?.elementalAssociations.secondary) {
+      logger.debug(`- Secondary Element: ${(pillar as Record<string, unknown>)?.elementalAssociations.secondary}`);
     }
   }
   
   logger.debug(`- Alchemical Effects: Spirit:${pillar.effects.Spirit}, Essence:${pillar.effects.Essence}, Matter:${pillar.effects.Matter}, Substance:${pillar.effects.Substance}`);
   
   logger.debug(`\nIngredient Details:`)
-  logger.debug(`- Element: ${(transformedItem as any)?.element || 'Not specified'}`);
-  logger.debug(`- Elemental Character: ${(transformedItem as any)?.elementalCharacter || 'Not specified'}`);
+  logger.debug(`- Element: ${(transformedItem as Record<string, unknown>)?.element || 'Not specified'}`);
+  logger.debug(`- Elemental Character: ${(transformedItem as Record<string, unknown>)?.elementalCharacter || 'Not specified'}`);
   logger.debug(`- Spirit: ${transformedItem.spirit || 0}, Essence: ${transformedItem.essence || 0}, Matter: ${transformedItem.matter || 0}, Substance: ${transformedItem.substance || 0}`);
 
   // Base compatibility from element matching
@@ -457,26 +457,26 @@ const getMethodCompatibility = (
   logger.debug(`\nStarting with base compatibility: ${compatibility}%`);
   
   // Element match - if both the transformed item and pillar have elemental associations
-  if ((transformedItem as any)?.element && (pillar as any)?.elementalAssociations) {
-    const primaryElement = (pillar as any)?.elementalAssociations.primary;
+  if ((transformedItem as Record<string, unknown>)?.element && (pillar as Record<string, unknown>)?.elementalAssociations) {
+    const primaryElement = (pillar as Record<string, unknown>)?.elementalAssociations.primary;
     
     // Primary element match (case insensitive)
-          if ((primaryElement as any)?.toLowerCase?.() === (transformedItem as any)?.element?.toLowerCase?.()) {
+          if ((primaryElement as string)?.toLowerCase?.() === (transformedItem as string)?.element?.toLowerCase?.()) {
       const bonus = 20;
       compatibility += bonus;
       logger.debug(`✓ Primary element match (${primaryElement}): +${bonus}% → ${compatibility}%`);
     } else {
-      logger.debug(`✗ No primary element match (${primaryElement} vs ${(transformedItem as any)?.element})`);
+      logger.debug(`✗ No primary element match (${primaryElement} vs ${(transformedItem as Record<string, unknown>)?.element})`);
     }
     
     // Secondary element match (if defined)
-    if ((pillar as any)?.elementalAssociations.secondary && 
-        (pillar as any)?.elementalAssociations.secondary?.toLowerCase?.() === (transformedItem as any)?.element?.toLowerCase?.()) {
+    if ((pillar as Record<string, unknown>)?.elementalAssociations.secondary && 
+        (pillar as string)?.elementalAssociations.secondary?.toLowerCase?.() === (transformedItem as string)?.element?.toLowerCase?.()) {
       const bonus = 10;
       compatibility += bonus;
-      logger.debug(`✓ Secondary element match (${(pillar as any)?.elementalAssociations.secondary}): +${bonus}% → ${compatibility}%`);
-    } else if ((pillar as any)?.elementalAssociations.secondary) {
-      logger.debug(`✗ No secondary element match (${(pillar as any)?.elementalAssociations.secondary} vs ${(transformedItem as any)?.element})`);
+      logger.debug(`✓ Secondary element match (${(pillar as Record<string, unknown>)?.elementalAssociations.secondary}): +${bonus}% → ${compatibility}%`);
+    } else if ((pillar as Record<string, unknown>)?.elementalAssociations.secondary) {
+      logger.debug(`✗ No secondary element match (${(pillar as Record<string, unknown>)?.elementalAssociations.secondary} vs ${(transformedItem as Record<string, unknown>)?.element})`);
     }
   }
   
@@ -488,13 +488,13 @@ const getMethodCompatibility = (
     earth: ['water']
   };
   
-  if ((transformedItem as any)?.element && (pillar as any)?.elementalAssociations) {
-    const primaryElement = (pillar as any)?.elementalAssociations.primary?.toLowerCase?.();
+  if ((transformedItem as Record<string, unknown>)?.element && (pillar as Record<string, unknown>)?.elementalAssociations) {
+    const primaryElement = (pillar as string)?.elementalAssociations.primary?.toLowerCase?.();
     
-          if (complementaryPairs[(transformedItem as any)?.element?.toLowerCase?.()]?.includes(primaryElement)) {
+          if (complementaryPairs[(transformedItem as string)?.element?.toLowerCase?.()]?.includes(primaryElement)) {
       const bonus = 10;
       compatibility += bonus;
-      logger.debug(`✓ Complementary elements (${(transformedItem as any)?.element} - ${primaryElement}): +${bonus}% → ${compatibility}%`);
+      logger.debug(`✓ Complementary elements (${(transformedItem as Record<string, unknown>)?.element} - ${primaryElement}): +${bonus}% → ${compatibility}%`);
     } else {
       logger.debug(`✗ No complementary elements relationship detected`);
     }
@@ -556,11 +556,11 @@ export const getHolisticCookingRecommendations = async (
   count = 5
 ): Promise<Array<{ method: string, compatibility: number, reason: string }>> => {
   logger.debug('\n--- HOLISTIC COOKING RECOMMENDATIONS ---');
-  logger.debug(`Ingredient: ${(item as any)?.name}`);
+  logger.debug(`Ingredient: ${(item as Record<string, unknown>)?.name}`);
   logger.debug(`Planet influence: ${planet || 'None'}`);
   logger.debug(`Tarot influence: ${tarotCard || 'None'}`);
   logger.debug(`Time of day: ${isDaytime ? 'Daytime' : 'Nighttime'}`);
-  logger.debug(`Available methods count: ${(availableMethods as any)?.length}`);
+  logger.debug(`Available methods count: ${(availableMethods as CookingMethod[])?.length}`);
   logger.debug(`Requesting top ${count} recommendations`);
 
   // Transform ingredient based on planetary and tarot influences
@@ -569,7 +569,7 @@ export const getHolisticCookingRecommendations = async (
   
   if (planet || tarotCard) {
     logger.debug('Original item:', {
-      element: (item as any)?.element,
+      element: (item as Record<string, unknown>)?.element,
       spirit: item.spirit || 0,
       essence: item.essence || 0,
       matter: item.matter || 0,
@@ -577,7 +577,7 @@ export const getHolisticCookingRecommendations = async (
     });
   
     logger.debug('Transformed item:', {
-      element: (transformedItem as any)?.element,
+      element: (transformedItem as Record<string, unknown>)?.element,
       spirit: transformedItem.spirit || 0,
       essence: transformedItem.essence || 0,
       matter: transformedItem.matter || 0,
@@ -592,11 +592,11 @@ export const getHolisticCookingRecommendations = async (
   logger.debug(`\nLoaded ${Object.keys(cookingMethods).length} cooking methods from database`);
   
   // Filter methods if specified
-  const methods = (availableMethods as any)?.length > 0
+  const methods = (availableMethods as CookingMethod[])?.length > 0
     ? availableMethods
     : Object.keys(cookingMethods);
   
-  logger.debug(`Evaluating ${(methods as any)?.length} cooking methods: ${(methods as any)?.length <= 10 ? methods.join(', ') : (methods as any)?.length + ' methods (too many to display)'}`);
+  logger.debug(`Evaluating ${(methods as CookingMethod[])?.length} cooking methods: ${(methods as CookingMethod[])?.length <= 10 ? methods.join(', ') : (methods as CookingMethod[])?.length + ' methods (too many to display)'}`);
 
   // Calculate compatibility for each method
   const compatibility: Array<{ method: string, compatibility: number, reason: string }> = [];
@@ -620,19 +620,19 @@ export const getHolisticCookingRecommendations = async (
       if (pillar.effects.Matter > 0) enhancedProps.push("Matter");
       if (pillar.effects.Substance > 0) enhancedProps.push("Substance");
       
-      reason = `${(pillar as any)?.name} `;
+      reason = `${(pillar as Record<string, unknown>)?.name} `;
       
-      if ((enhancedProps as any)?.length > 0) {
+      if ((enhancedProps as unknown[])?.length > 0) {
         reason += `enhances ${enhancedProps.join(", ")}`;
       } else {
         reason += `stabilizes alchemical balance`;
       }
       
       // Add elemental associations
-      if ((pillar as any)?.elementalAssociations) {
-        const elements = [(pillar as any)?.elementalAssociations.primary];
-        if ((pillar as any)?.elementalAssociations.secondary) {
-          elements.push((pillar as any)?.elementalAssociations.secondary);
+      if ((pillar as Record<string, unknown>)?.elementalAssociations) {
+        const elements = [(pillar as Record<string, unknown>)?.elementalAssociations.primary];
+        if ((pillar as Record<string, unknown>)?.elementalAssociations.secondary) {
+          elements.push((pillar as Record<string, unknown>)?.elementalAssociations.secondary);
         }
         reason += ` with ${elements.join("-")} energy`;
       }
@@ -651,7 +651,7 @@ export const getHolisticCookingRecommendations = async (
   logger.debug('\nSORTED RECOMMENDATIONS:');
   logger.debug('--------------------------------');
   sortedResults.slice(0, count).forEach((rec, index) => {
-    logger.debug(`${index + 1}. ${(rec as any)?.method} - Compatibility: ${Math.round(rec.compatibility)}% - ${rec.reason}`);
+    logger.debug(`${index + 1}. ${(rec as Record<string, unknown>)?.method} - Compatibility: ${Math.round(rec.compatibility)}% - ${rec.reason}`);
   });
   logger.debug('--------------------------------\n');
   
@@ -683,7 +683,7 @@ export function getRecommendedCookingMethods(
   count = 5
 ): Array<{ method: string, compatibility: number }> {
   // Calculate compatibility for each available method
-  const compatibilities = (availableMethods as any)?.map?.(method => {
+  const compatibilities = (availableMethods as CookingMethod[])?.map?.(method => {
     // Apply the transformation to see how it affects the item
     const transformed = applyPillarTransformation(item, method.toString());
     
@@ -797,10 +797,10 @@ export function getEnhancedCookingRecommendations(
   const allCookingMethods = getAllCookingMethodData();
   
   // Convert available methods to strings if they aren't already
-  const methodStrings = (availableMethods as any)?.map?.(m => m.toString());
+  const methodStrings = (availableMethods as CookingMethod[])?.map?.(m => m.toString());
   
   // Filter available methods to those we have data for
-  const availableMethodsWithData = (methodStrings as any)?.filter?.(
+  const availableMethodsWithData = (methodStrings as CookingMethod[])?.filter?.(
     method => method in allCookingMethods
   );
   
@@ -808,15 +808,15 @@ export function getEnhancedCookingRecommendations(
   const baseRecommendations = getRecommendedCookingMethods(
     item, 
     availableMethodsWithData,
-    (availableMethodsWithData as any)?.length // Get all, we'll filter later
+    (availableMethodsWithData as CookingMethod[])?.length // Get all, we'll filter later
   );
   
   // Create enhanced recommendations with additional data
-  const enhancedRecommendations = (baseRecommendations as any)?.map?.(rec => {
-    const methodData = allCookingMethods[(rec as any)?.method];
+  const enhancedRecommendations = (baseRecommendations as CookingMethod[])?.map?.(rec => {
+    const methodData = allCookingMethods[(rec as Record<string, unknown>)?.method];
     
     // Extract methodData with safe property access
-    const data = methodData as any;
+    const data = methodData as CookingMethod;
     const sustainabilityRating = data?.sustainabilityRating;
     const equipmentComplexity = data?.equipmentComplexity;
     const astrologicalInfluences = data?.astrologicalInfluences;
@@ -872,21 +872,21 @@ export function getEnhancedCookingRecommendations(
     }
     
     // Check available tools if specified
-    if (options.availableTools && (options.availableTools as any)?.length > 0 && toolsRequired) {
+    if (options.availableTools && (options.availableTools as unknown[])?.length > 0 && toolsRequired) {
       const requiredTools = toolsRequired;
-      const missingTools = (requiredTools as any)?.filter?.(
+      const missingTools = (requiredTools as unknown[])?.filter?.(
         tool => !options.availableTools?.some(
-          availableTool => (tool as any)?.toLowerCase?.().includes((availableTool as any)?.toLowerCase?.())
+          availableTool => (tool as string)?.toLowerCase?.().includes((availableTool as string)?.toLowerCase?.())
         )
       );
       
-      if ((missingTools as any)?.length > 0) {
+      if ((missingTools as unknown[])?.length > 0) {
         // Penalty based on percentage of missing tools
-        toolCompatibility = 1 - ((missingTools as any)?.length / (requiredTools as any)?.length) * 0.8;
+        toolCompatibility = 1 - ((missingTools as unknown[])?.length / (requiredTools as unknown[])?.length) * 0.8;
         if (missingTools.length === 1) {
           reasons.push(`missing tool: ${missingTools[0]}`);
         } else {
-          reasons.push(`missing ${(missingTools as any)?.length} tools`);
+          reasons.push(`missing ${(missingTools as unknown[])?.length} tools`);
         }
       } else {
         toolCompatibility = 1.2; // Bonus for having all tools
@@ -899,14 +899,14 @@ export function getEnhancedCookingRecommendations(
     
     if (options.healthFocus && healthConsiderations) {
       // Extract positive health considerations
-              healthBenefits = (healthConsiderations as any)?.filter?.(
-        consideration => !(consideration as any)?.toLowerCase?.().includes('risk') &&
-                        !(consideration as any)?.toLowerCase?.().includes('concern') &&
-                        !(consideration as any)?.toLowerCase?.().includes('monitor')
+              healthBenefits = (healthConsiderations as unknown[])?.filter?.(
+        consideration => !(consideration as string)?.toLowerCase?.().includes('risk') &&
+                        !(consideration as string)?.toLowerCase?.().includes('concern') &&
+                        !(consideration as string)?.toLowerCase?.().includes('monitor')
       );
       
-      if ((healthBenefits as any)?.length >= 3) {
-        reasons.push(`offers ${(healthBenefits as any)?.length} health benefits`);
+      if ((healthBenefits as unknown[])?.length >= 3) {
+        reasons.push(`offers ${(healthBenefits as unknown[])?.length} health benefits`);
       }
     }
     
@@ -945,9 +945,9 @@ export function getEnhancedCookingRecommendations(
                                  suitabilityFactor;
     
     return {
-      method: (rec as any)?.method,
+      method: (rec as Record<string, unknown>)?.method,
       compatibility: Math.min(1, enhancedCompatibility), // Cap at 1.0
-      reason: (reasons as any)?.length > 0 ? reasons.join("; ") : "Compatible cooking method",
+      reason: (reasons as CookingMethod[])?.length > 0 ? reasons.join("; ") : "Compatible cooking method",
       cookingTime: duration || { min: 0, max: 60 },
       sustainabilityRating: sustainabilityScore,
       equipmentComplexity: complexityScore,
@@ -973,9 +973,9 @@ function getAllCookingMethodData(): Record<string, unknown> {
     
     // Import methods from each category
     // Using dynamic imports instead of require statements
-    const dryMethods = import('../data/cooking/methods/dry').then(module => (module as any).default || module);
-    const wetMethods = import('../data/cooking/methods/wet').then(module => (module as any).default || module);
-    const traditionalMethods = import('../data/cooking/methods/traditional').then(module => (module as any).default || module);
+    const dryMethods = import('../data/cooking/methods/dry').then(module => (module as Record<string, unknown>).default || module);
+    const wetMethods = import('../data/cooking/methods/wet').then(module => (module as Record<string, unknown>).default || module);
+    const traditionalMethods = import('../data/cooking/methods/traditional').then(module => (module as Record<string, unknown>).default || module);
     
     // Since we're using async imports, return a promise with all methods
     return Promise.all([dryMethods, wetMethods, traditionalMethods])
