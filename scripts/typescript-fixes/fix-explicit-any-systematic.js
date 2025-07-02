@@ -537,8 +537,8 @@ function detectCorruption(content, filePath) {
     
     // Type assertion corruption
     /as\s+as\s+/g,                          // Double 'as' keywords
-    /\)\s*\)\s*\)\s*as/g,                   // Triple closing parentheses (real corruption)
-    /\(\s*\(\s*\(\s*\w+/g,                  // Triple opening parentheses (real corruption)
+    /\)\s*\)\s*\)\s*\)\s*as/g,              // Four+ closing parentheses (actual corruption)
+    /\(\s*\(\s*\(\s*\(\s*\w+/g,             // Four+ opening parentheses (actual corruption)
     
     // Property access corruption
     /(?<!\.)\.\.\.\./g,                     // Four dots (not valid spread)
@@ -565,13 +565,14 @@ function detectCorruption(content, filePath) {
     /as\s+unknown\s+as\s+unknown/g,         // Triple unknown assertions
     /Record<string,\s*unknown>\s+as\s+unknown/g, // Mixed Record/unknown assertions
     
-    // NEW: Parentheses corruption patterns (causing ((( issues)
-    /\(\s*\(\s*\(\s*[a-zA-Z_$][a-zA-Z0-9_$]*\s+as\s+any/g, // Triple opening with as any
-    /as\s+any\s*\)\s*\)\s*\)\s*\??\./g,      // Triple closing after as any
+    // FIXED: More specific parentheses corruption patterns
+    // Only detect actual corruption, not valid optional chaining
+    /\(\s*\(\s*\(\s*\(\s*\w+/g,             // Four+ opening parentheses (actual corruption)
+    /as\s+any\s*\)\s*\)\s*\)\s*\)\s*\./g,   // Four+ closing parentheses (actual corruption)
     
-    // NEW: Method call corruptions
-    /\?\.\s*includes\?\s*\?\./g,            // Malformed optional chaining in includes
-    /includes\?\.\s*\(/g,                   // Wrong optional chaining on includes
+    // FIXED: More specific method call corruptions
+    /\?\.\s*\?\.\s*includes/g,              // Double optional chaining (actual corruption)
+    /includes\?\?\./g,                      // Malformed includes optional chaining
   ];
   
   for (const pattern of corruptionPatterns) {

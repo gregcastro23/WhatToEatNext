@@ -1,14 +1,14 @@
 {
-  "totalRuns": 39,
+  "totalRuns": 40,
   "successfulRuns": 1,
   "filesProcessed": 320,
   "anysReplaced": 6341,
   "errorsEncountered": 0,
-  "corruptionDetected": 216,
+  "corruptionDetected": 223,
   "buildFailures": 0,
-  "averageBatchSize": 23.41025641025641,
+  "averageBatchSize": 23.325,
   "maxSafeBatchSize": 5,
-  "lastRunTime": "2025-07-02T23:13:51.440Z",
+  "lastRunTime": "2025-07-02T23:28:59.596Z",
   "safetyScore": 0,
   "replacementTypeSuccess": {
     "conservative_generic_fallback": {
@@ -17,15 +17,15 @@
     },
     "conservative_assertion_fallback": {
       "successes": 529,
-      "attempts": 718
+      "attempts": 719
     },
     "conservative_parameter_fallback": {
       "successes": 285,
-      "attempts": 324
+      "attempts": 325
     },
     "project_specific_inference": {
       "successes": 309,
-      "attempts": 500
+      "attempts": 505
     },
     "error_handling_preserved": {
       "successes": 0,
@@ -33,7 +33,7 @@
     },
     "conservative_array_fallback": {
       "successes": 25,
-      "attempts": 243
+      "attempts": 250
     },
     "thermodynamic_property_access": {
       "successes": 208,
@@ -69,7 +69,7 @@
     },
     "conservative_property_fallback": {
       "successes": 7,
-      "attempts": 231
+      "attempts": 236
     },
     "lunar_phase_assignment": {
       "successes": 24,
@@ -77,11 +77,11 @@
     },
     "configuration_preserved": {
       "successes": 0,
-      "attempts": 152
+      "attempts": 156
     },
     "callback_function_detected": {
       "successes": 0,
-      "attempts": 64
+      "attempts": 66
     },
     "method_parameter_detected": {
       "successes": 17,
@@ -101,7 +101,7 @@
     },
     "array_element_inference": {
       "successes": 67,
-      "attempts": 181
+      "attempts": 184
     },
     "element_array_detected": {
       "successes": 5,
@@ -121,7 +121,7 @@
     },
     "generic_map_fallback": {
       "successes": 0,
-      "attempts": 1128
+      "attempts": 1166
     },
     "safe_thermodynamic_access": {
       "successes": 0,
@@ -133,7 +133,7 @@
     },
     "generic_ingredient_detected": {
       "successes": 0,
-      "attempts": 27
+      "attempts": 28
     },
     "generic_array_fallback": {
       "successes": 2,
@@ -146,7 +146,7 @@
   },
   "patternEffectiveness": {},
   "performanceMetrics": {
-    "averageFileTime": 3979.953125,
-    "totalProcessingTime": 1273585
+    "averageFileTime": 3981.040625,
+    "totalProcessingTime": 1273933
   }
 }
