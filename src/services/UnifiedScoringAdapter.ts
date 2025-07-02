@@ -138,9 +138,9 @@ export class UnifiedScoringAdapter {
           Air: 0.25
         },
         seasonality: (recipe.seasonality as Season[]) || [],
-        planetaryRulers: ((recipe as any).planetaryRulers as Planet[]) || [],
-        flavorProfile: ((recipe as any).flavorProfile as Record<string, number>) || {},
-        culturalOrigins: ((recipe as any).culturalOrigins as string[]) || [(recipe as any).cuisine].filter(Boolean)
+        planetaryRulers: ((recipe as Record<string, unknown>).planetaryRulers as Planet[]) || [],
+        flavorProfile: ((recipe as Record<string, unknown>).flavorProfile as Record<string, number>) || {},
+        culturalOrigins: ((recipe as Recipe[]).culturalOrigins as string[]) || [(recipe as Recipe[]).cuisine].filter(Boolean)
       },
       options: {
         debugMode: options.debugMode,
@@ -179,16 +179,16 @@ export class UnifiedScoringAdapter {
       item: {
         name: method.name,
         type: 'cooking_method',
-        elementalProperties: (method as any).elementalEffect || {
+        elementalProperties: (method as Record<string, unknown>).elementalEffect || {
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,
           Air: 0.25
         },
-        seasonality: ((method as any).seasonality as Season[]) || [],
-        planetaryRulers: ((method as any).planetaryRulers as Planet[]) || [],
-        flavorProfile: ((method as any).flavorProfile as Record<string, number>) || {},
-        culturalOrigins: ((method as any).culturalOrigins as string[]) || []
+        seasonality: ((method as Record<string, unknown>).seasonality as Season[]) || [],
+        planetaryRulers: ((method as Record<string, unknown>).planetaryRulers as Planet[]) || [],
+        flavorProfile: ((method as Record<string, unknown>).flavorProfile as Record<string, number>) || {},
+        culturalOrigins: ((method as Record<string, unknown>).culturalOrigins as string[]) || []
       },
       options: {
         debugMode: options.debugMode,

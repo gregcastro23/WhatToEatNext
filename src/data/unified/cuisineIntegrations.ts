@@ -909,7 +909,7 @@ export class UnifiedCuisineIntegrationSystem {
     }
     
     // Make sure 'fall' and 'autumn' have the same value (safe property access)
-    const seasonalData = seasonalCompatibility as any;
+    const seasonalData = seasonalCompatibility as Record<string, unknown>;
     seasonalData.fall = seasonalCompatibility.autumn;
     
     return seasonalCompatibility;
@@ -1282,7 +1282,7 @@ export class UnifiedCuisineIntegrationSystem {
     
     for (const season of ['spring', 'summer', 'autumn', 'fall', 'winter'] as Season[]) {
       // Get seasonal ingredients with safe property access
-      const seasonalSystem = unifiedSeasonalSystem as any;
+      const seasonalSystem = unifiedSeasonalSystem as Record<string, unknown>;
       const getSeasonalScore = seasonalSystem?.getSeasonalScore;
       
       const seasonalIngredients = (fusionIngredients || []).filter(ingredient => {
@@ -1295,7 +1295,7 @@ export class UnifiedCuisineIntegrationSystem {
       // Get seasonal cooking methods with safe property access
       const seasonalMethods = (fusionCookingMethods || []).filter(method => {
         const seasonalProfile = unifiedSeasonalProfiles[season];
-        const profileData = seasonalProfile as any;
+        const profileData = seasonalProfile as Record<string, unknown>;
         const optimalCookingMethods = profileData?.optimalCookingMethods;
         
         if (!seasonalProfile || !optimalCookingMethods) {
@@ -1317,15 +1317,15 @@ export class UnifiedCuisineIntegrationSystem {
         adaptedCookingMethods: seasonalMethods,
         seasonalModifiers: {
           temperatureAdjustment: (() => {
-            const profileData = unifiedSeasonalProfiles[season] as any;
+            const profileData = unifiedSeasonalProfiles[season] as Record<string, unknown>;
             return profileData?.monicaModifiers?.temperatureAdjustment || 0;
           })(),
           timingAdjustment: (() => {
-            const profileData = unifiedSeasonalProfiles[season] as any;
+            const profileData = unifiedSeasonalProfiles[season] as Record<string, unknown>;
             return profileData?.monicaModifiers?.timingAdjustment || 0;
           })(),
           intensityModifier: (() => {
-            const profileData = unifiedSeasonalProfiles[season] as any;
+            const profileData = unifiedSeasonalProfiles[season] as Record<string, unknown>;
             return profileData?.monicaModifiers?.intensityModifier || 'normal';
           })()
         },
@@ -1374,7 +1374,7 @@ export class UnifiedCuisineIntegrationSystem {
     const dishes: string[] = [];
     
     // Get dishes from first cuisine with safe property access
-    const profileData = seasonalProfile as any;
+    const profileData = seasonalProfile as Record<string, unknown>;
     const cuisines = profileData?.cuisines;
     
     if (cuisines?.[cuisine1]) {
@@ -1417,7 +1417,7 @@ export class UnifiedCuisineIntegrationSystem {
     
     for (const element of ['Fire', 'Water', 'Earth', 'Air'] as Element[]) {
       // Safe property access for elementalDominance
-      const profileData = seasonalProfile as any;
+      const profileData = seasonalProfile as Record<string, unknown>;
       const elementalDominance = profileData?.elementalDominance;
       const elementWeight = elementalDominance?.[element] || 0;
       
@@ -1475,7 +1475,7 @@ export class UnifiedCuisineIntegrationSystem {
     // Get seasonal ingredients for the cuisine
     const cuisineIngredients = this.getCuisineIngredients(cuisine);
     // Safe property access for getSeasonalScore
-    const seasonalSystem = unifiedSeasonalSystem as any;
+    const seasonalSystem = unifiedSeasonalSystem as Record<string, unknown>;
     const getSeasonalScore = seasonalSystem?.getSeasonalScore;
     
     const adaptedIngredients = (cuisineIngredients || []).filter(ingredient => {
@@ -1492,7 +1492,7 @@ export class UnifiedCuisineIntegrationSystem {
     if (monica) {
       const seasonalProfile = unifiedSeasonalProfiles[season];
       // Safe property access for optimalCookingMethods
-      const profileData = seasonalProfile as any;
+      const profileData = seasonalProfile as Record<string, unknown>;
       const optimalCookingMethods = profileData?.optimalCookingMethods || [];
       
       for (const methodName of optimalCookingMethods) {
@@ -1506,7 +1506,7 @@ export class UnifiedCuisineIntegrationSystem {
     // Get seasonal modifiers
     const seasonalProfile = unifiedSeasonalProfiles[season];
     // Safe property access for monicaModifiers
-    const seasonalProfileData = unifiedSeasonalProfiles[season] as any;
+    const seasonalProfileData = unifiedSeasonalProfiles[season] as Record<string, unknown>;
     const monicaModifiers = seasonalProfileData?.monicaModifiers;
     
     const seasonalModifiers = {
@@ -1544,7 +1544,7 @@ export class UnifiedCuisineIntegrationSystem {
     
     const seasonalProfile = unifiedSeasonalProfiles[season];
     // Safe property access for kalchmRange
-    const profileData = seasonalProfile as any;
+    const profileData = seasonalProfile as Record<string, unknown>;
     const kalchmRange = profileData?.kalchmRange || { min: 0.8, max: 1.5 }; // Default range
     const { min, max } = kalchmRange;
     
@@ -1757,7 +1757,7 @@ export class UnifiedCuisineIntegrationSystem {
     );
     
     // Get seasonal ingredients with safe property access
-    const seasonalSystem = unifiedSeasonalSystem as any;
+    const seasonalSystem = unifiedSeasonalSystem as Record<string, unknown>;
     const getSeasonalScore = seasonalSystem?.getSeasonalScore;
     
     const seasonalIngredients = (fusionProfile?.fusionIngredients || []).filter(ingredient => {
@@ -1769,7 +1769,7 @@ export class UnifiedCuisineIntegrationSystem {
     
     // Get seasonal cooking methods with safe property access
     const seasonalProfile = unifiedSeasonalProfiles[season];
-    const profileData = seasonalProfile as any;
+    const profileData = seasonalProfile as Record<string, unknown>;
     const optimalCookingMethods = profileData?.optimalCookingMethods;
     
     const seasonalCookingMethods = (fusionProfile?.fusionCookingMethods || []).filter(method => {
@@ -1780,7 +1780,7 @@ export class UnifiedCuisineIntegrationSystem {
     });
     
     // Calculate seasonal elemental balance with safe property access
-    const seasonalProfileData = seasonalProfile as any;
+    const seasonalProfileData = seasonalProfile as Record<string, unknown>;
     const elementalDominance = seasonalProfileData?.elementalDominance || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     
     const seasonalElementalBalance = this.blendElementalProfiles([
@@ -1963,7 +1963,7 @@ export class UnifiedCuisineIntegrationSystem {
     for (const season of ['spring', 'summer', 'autumn', 'fall', 'winter', 'all'] as Season[]) {
       let totalScore = 0;
       // Safe property access for getSeasonalScore
-      const seasonalSystem = unifiedSeasonalSystem as any;
+      const seasonalSystem = unifiedSeasonalSystem as Record<string, unknown>;
       const getSeasonalScore = seasonalSystem?.getSeasonalScore;
       
       for (const ingredient of ingredients) {
@@ -2008,7 +2008,7 @@ export class UnifiedCuisineIntegrationSystem {
     
     if (season) {
       // Filter by seasonal availability with safe property access
-      const seasonalSystem = unifiedSeasonalSystem as any;
+      const seasonalSystem = unifiedSeasonalSystem as Record<string, unknown>;
       const getSeasonalScore = seasonalSystem?.getSeasonalScore;
       
       ingredients = (ingredients || []).filter(ingredient => {
