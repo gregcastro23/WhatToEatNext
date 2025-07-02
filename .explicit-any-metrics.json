@@ -1,120 +1,120 @@
 {
-  "totalRuns": 11,
+  "totalRuns": 12,
   "successfulRuns": 1,
-  "filesProcessed": 86,
-  "anysReplaced": 3506,
+  "filesProcessed": 131,
+  "anysReplaced": 4364,
   "errorsEncountered": 0,
-  "corruptionDetected": 24,
+  "corruptionDetected": 28,
   "buildFailures": 0,
-  "averageBatchSize": 10,
+  "averageBatchSize": 13.333333333333334,
   "maxSafeBatchSize": 5,
-  "lastRunTime": "2025-07-02T10:31:53.979Z",
+  "lastRunTime": "2025-07-02T11:17:48.446Z",
   "safetyScore": 0,
   "replacementTypeSuccess": {
     "conservative_generic_fallback": {
-      "successes": 19,
-      "attempts": 174
+      "successes": 24,
+      "attempts": 232
     },
     "conservative_assertion_fallback": {
-      "successes": 456,
-      "attempts": 511
+      "successes": 483,
+      "attempts": 562
     },
     "conservative_parameter_fallback": {
-      "successes": 130,
-      "attempts": 136
+      "successes": 181,
+      "attempts": 190
     },
     "project_specific_inference": {
-      "successes": 113,
-      "attempts": 140
+      "successes": 165,
+      "attempts": 199
     },
     "error_handling_preserved": {
       "successes": 0,
-      "attempts": 122
+      "attempts": 177
     },
     "conservative_array_fallback": {
-      "successes": 2,
-      "attempts": 16
-    },
-    "thermodynamic_property_access": {
-      "successes": 132,
-      "attempts": 132
-    },
-    "elemental_data_assignment": {
-      "successes": 14,
-      "attempts": 14
-    },
-    "cooking_method_assignment": {
-      "successes": 32,
+      "successes": 4,
       "attempts": 32
     },
+    "thermodynamic_property_access": {
+      "successes": 157,
+      "attempts": 157
+    },
+    "elemental_data_assignment": {
+      "successes": 15,
+      "attempts": 15
+    },
+    "cooking_method_assignment": {
+      "successes": 41,
+      "attempts": 41
+    },
     "string_operation_detected": {
-      "successes": 683,
-      "attempts": 683
+      "successes": 792,
+      "attempts": 792
     },
     "safe_property_access": {
       "successes": 0,
-      "attempts": 455
+      "attempts": 531
     },
     "object_property_access": {
-      "successes": 1250,
-      "attempts": 1250
+      "successes": 1575,
+      "attempts": 1575
     },
     "data_assignment_context": {
-      "successes": 457,
-      "attempts": 457
+      "successes": 647,
+      "attempts": 647
     },
     "array_operation_detected": {
-      "successes": 100,
-      "attempts": 100
+      "successes": 124,
+      "attempts": 124
     },
     "conservative_property_fallback": {
       "successes": 0,
-      "attempts": 46
+      "attempts": 51
     },
     "lunar_phase_assignment": {
-      "successes": 8,
-      "attempts": 8
+      "successes": 12,
+      "attempts": 12
     },
     "configuration_preserved": {
       "successes": 0,
-      "attempts": 14
+      "attempts": 19
     },
     "callback_function_detected": {
       "successes": 0,
-      "attempts": 8
+      "attempts": 10
     },
     "method_parameter_detected": {
-      "successes": 11,
-      "attempts": 11
-    },
-    "method_array_detected": {
-      "successes": 57,
-      "attempts": 57
-    },
-    "recipe_array_detected": {
       "successes": 13,
       "attempts": 13
+    },
+    "method_array_detected": {
+      "successes": 73,
+      "attempts": 73
+    },
+    "recipe_array_detected": {
+      "successes": 15,
+      "attempts": 15
     },
     "ingredient_array_detected": {
       "successes": 6,
       "attempts": 6
     },
     "array_element_inference": {
-      "successes": 19,
-      "attempts": 25
+      "successes": 32,
+      "attempts": 41
     },
     "element_array_detected": {
       "successes": 3,
       "attempts": 3
     },
     "conservative_variable_fallback": {
-      "successes": 1,
-      "attempts": 1
+      "successes": 2,
+      "attempts": 2
     }
   },
   "patternEffectiveness": {},
   "performanceMetrics": {
-    "averageFileTime": 1628.046511627907,
-    "totalProcessingTime": 140012
+    "averageFileTime": 1077.2366412213742,
+    "totalProcessingTime": 141118
   }
 }
