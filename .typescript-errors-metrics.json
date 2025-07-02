@@ -1,19 +1,73 @@
 {
-  "totalRuns": 0,
-  "successfulRuns": 0,
-  "filesProcessed": 0,
-  "errorsFixed": 0,
+  "totalRuns": 5,
+  "successfulRuns": 1,
+  "filesProcessed": 7,
+  "errorsFixed": 22,
   "errorsEncountered": 0,
-  "corruptionDetected": 0,
-  "buildFailures": 0,
-  "averageBatchSize": 5,
+  "corruptionDetected": 1,
+  "buildFailures": 3,
+  "averageBatchSize": 21.4,
   "maxSafeBatchSize": 5,
-  "lastRunTime": null,
-  "safetyScore": 0.0,
-  "errorTypeSuccess": {},
-  "patternEffectiveness": {},
+  "lastRunTime": "2025-07-02T00:10:33.896Z",
+  "safetyScore": 0,
+  "errorTypeSuccess": {
+    "TS2304": {
+      "fixed": 2,
+      "attempted": 32
+    },
+    "TS2345": {
+      "fixed": 0,
+      "attempted": 9
+    },
+    "TS2322": {
+      "fixed": 20,
+      "attempted": 57
+    },
+    "TS2740": {
+      "fixed": 0,
+      "attempted": 20
+    },
+    "TS2339": {
+      "fixed": 0,
+      "attempted": 16
+    },
+    "TS2820": {
+      "fixed": 0,
+      "attempted": 4
+    },
+    "TS2741": {
+      "fixed": 0,
+      "attempted": 12
+    },
+    "TS2459": {
+      "fixed": 0,
+      "attempted": 6
+    },
+    "TS2352": {
+      "fixed": 0,
+      "attempted": 3
+    },
+    "TS1005": {
+      "fixed": 0,
+      "attempted": 1
+    }
+  },
+  "patternEffectiveness": {
+    "TS2304_missing_import": {
+      "successes": 2,
+      "attempts": 2
+    },
+    "TS2322_string_array_to_typed_array": {
+      "successes": 8,
+      "attempts": 8
+    },
+    "TS2322_object_to_interface": {
+      "successes": 12,
+      "attempts": 12
+    }
+  },
   "performanceMetrics": {
-    "averageFileTime": 0,
-    "totalProcessingTime": 0
+    "averageFileTime": 12616.714285714286,
+    "totalProcessingTime": 88317
   }
 }
