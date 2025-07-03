@@ -4,6 +4,8 @@ import { fixIngredientMappings } from '@/utils/elementalUtils';
 const rawAromaticHerbs = {
   'thyme': {
     name: 'Thyme',
+    category: 'herb',
+    subCategory: 'aromatic',
     elementalProperties: { Air: 0.5, Fire: 0.3, Earth: 0.1, Water: 0.1 },
     nutritionalProfile: {
       calories: 0,
@@ -47,6 +49,8 @@ const rawAromaticHerbs = {
   },
   'rosemary': {
     name: 'Rosemary',
+    category: 'herb',
+    subCategory: 'aromatic',
     elementalProperties: { Fire: 0.6, Air: 0.2, Earth: 0.1, Water: 0.1 },
     nutritionalProfile: {
       calories: 0,
@@ -106,6 +110,8 @@ const rawAromaticHerbs = {
   },
   'basil': {
     name: 'Basil',
+    category: 'herb',
+    subCategory: 'aromatic',
     elementalProperties: { Air: 0.5, Fire: 0.3, Earth: 0.2, Water: 0 },
     nutritionalProfile: {
       calories: 0,
