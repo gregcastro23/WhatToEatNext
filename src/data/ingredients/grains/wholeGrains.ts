@@ -293,6 +293,7 @@ const rawWholeGrains = {
   },
 
   'quinoa': {
+    name: 'Quinoa',
     elementalProperties: { Earth: 0.4, Air: 0.4, Water: 0.2, Fire: 0 },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Mercury'],
@@ -555,6 +556,7 @@ const rawWholeGrains = {
   },
 
   'oats': {
+    name: 'Oats',
     elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Venus'],
