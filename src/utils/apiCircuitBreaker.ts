@@ -85,7 +85,7 @@ export class CircuitBreaker {
 
 // Global circuit breaker for astrologize API
 export const astrologizeApiCircuitBreaker = new CircuitBreaker({
-  failureThreshold: 2, // Fail fast after 2 attempts
-  resetTimeout: 300000, // 5 minutes before retry
-  monitoringWindow: 600000 // 10 minutes
+  failureThreshold: 1, // Fail fast after 1 attempt for immediate fallback
+  resetTimeout: 60000, // 1 minute before retry (faster recovery)
+  monitoringWindow: 300000 // 5 minutes
 });

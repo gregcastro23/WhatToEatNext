@@ -173,7 +173,7 @@ export async function fetchPlanetaryPositions(
         headers: {
           'Content-Type': 'application/json'
         },
-        signal: AbortSignal.timeout(15000) // 15 second timeout
+        signal: AbortSignal.timeout(5000) // 5 second timeout for faster fallback
       });
     } else {
       // Use POST for custom date/time
@@ -183,7 +183,7 @@ export async function fetchPlanetaryPositions(
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(requestData),
-        signal: AbortSignal.timeout(15000) // 15 second timeout
+        signal: AbortSignal.timeout(5000) // 5 second timeout for faster fallback
       });
     }
 
