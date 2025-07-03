@@ -1444,11 +1444,19 @@ export const fixIngredientMapping = (
     : DEFAULT_ELEMENTAL_PROPERTIES;
 
   // Add runtime type guard (minimal, since normalization is already enforced)
-  const requiredKeys = ['name', 'category', 'elementalProperties', 'astrologicalProfile'];
+  const requiredKeys = ['name', 'category', 'elementalProperties'];
   for (const k of requiredKeys) {
     if (!(k in mapping)) {
       throw new Error(`fixIngredientMapping: Missing required key '${k}' for ingredient '${key}'`);
     }
+  }
+  
+  // Ensure astrologicalProfile has minimal structure if present but empty
+  if (mapping.astrologicalProfile && typeof mapping.astrologicalProfile === 'object' && Object.keys(mapping.astrologicalProfile).length === 0) {
+    mapping.astrologicalProfile = {
+      rulingPlanets: [],
+      favorableZodiac: []
+    };
   }
   return {
     ...mapping,
