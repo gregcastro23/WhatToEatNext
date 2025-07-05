@@ -1,5 +1,5 @@
 import cuisinesMap from '@/data/cuisines/index';
-import type { ZodiacSign, LunarPhase, Season, ElementalProperties } from '@/types/alchemy';
+import type { ZodiacSign, LunarPhase, Season, ElementalProperties, CuisineType } from '@/types/alchemy';
 import { 
   planetaryFlavorProfiles, 
   calculateFlavorProfile, 
@@ -14,6 +14,12 @@ import {
   getRelatedCuisines 
 } from '@/data/cuisineFlavorProfiles';
 import type { Recipe } from '@/types/recipe';
+import { 
+  calculateAlchemicalNumber,
+  calculateAlchemicalNumberCompatibility,
+  deriveAlchemicalFromElemental,
+  type AlchemicalProperties
+} from './unified/alchemicalCalculations';
 
 // Log what was imported
 // console.log("cuisinesMap keys:", Object.keys(cuisinesMap));
@@ -996,3 +1002,89 @@ export const recipes = transformCuisineData() as Promise<RecipeData[]>;
 
 // At the end of the file, add the re-exports
 export { allRecipes } from './recipes/index';
+
+/**
+ * Enhanced compatibility score calculation with A# integration
+ */
+private static calculateCompatibilityScore(vector1: RecipeVector, vector2: RecipeVector): number {
+  const flavorCompatibility = this.calculateFlavorCompatibility(vector1, vector2);
+  const nutritionalCompatibility = this.calculateNutritionalCompatibility(vector1, vector2);
+  const complexityCompatibility = this.calculateComplexityCompatibility(vector1, vector2);
+  const culturalCompatibility = this.calculateCulturalCompatibility(vector1, vector2);
+  const alchemicalCompatibility = this.calculateRecipeAlchemicalAlignment(vector1, vector2);
+  
+  // Weighted average with A# as significant factor
+  return (
+    flavorCompatibility * 0.25 +
+    nutritionalCompatibility * 0.2 +
+    complexityCompatibility * 0.15 +
+    culturalCompatibility * 0.15 +
+    alchemicalCompatibility * 0.25  // A# gets significant weight
+  );
+}
+
+/**
+ * Calculate A# (Alchemical Number) alignment between recipes
+ */
+private static calculateRecipeAlchemicalAlignment(vector1: RecipeVector, vector2: RecipeVector): number {
+  try {
+    // Derive elemental properties from recipe vectors
+    const elemental1 = this.vectorToElementalProperties(vector1);
+    const elemental2 = this.vectorToElementalProperties(vector2);
+    
+    // Derive alchemical properties from elemental properties
+    const alchemical1 = deriveAlchemicalFromElemental(elemental1);
+    const alchemical2 = deriveAlchemicalFromElemental(elemental2);
+    
+    // Calculate A# for both recipes
+    const a1 = calculateAlchemicalNumber(alchemical1);
+    const a2 = calculateAlchemicalNumber(alchemical2);
+    
+    // Calculate compatibility score
+    const compatibility = calculateAlchemicalNumberCompatibility(alchemical1, alchemical2);
+    
+    // Bonus for similar complexity levels (A# values within 3 points for recipes)
+    const complexityBonus = Math.abs(a1 - a2) <= 3 ? 0.15 : 0;
+    
+    return Math.max(0, Math.min(1, compatibility + complexityBonus));
+  } catch (error) {
+    console.warn('Recipe A# alignment calculation failed:', error);
+    return 0.5; // Default neutral score
+  }
+}
+
+/**
+ * Convert recipe vector to elemental properties
+ */
+private static vectorToElementalProperties(vector: RecipeVector): ElementalProperties {
+  // Map recipe characteristics to elemental properties
+  const fire = Math.min(1, (vector.spicy * 0.4) + (vector.techniqueComplexity * 0.3) + (vector.skillRequirement * 0.3));
+  const water = Math.min(1, (vector.sour * 0.3) + (vector.umami * 0.3) + (vector.vitaminRichness * 0.4));
+  const earth = Math.min(1, (vector.proteinDensity * 0.3) + (vector.mineralContent * 0.3) + (vector.culturalAuthenticity * 0.4));
+  const air = Math.min(1, (vector.sweet * 0.3) + (vector.modernAdaptation * 0.4) + (vector.fusionIndex * 0.3));
+  
+  // Normalize to total of 1.0
+  const total = fire + water + earth + air;
+  return {
+    Fire: total > 0 ? fire / total : 0.25,
+    Water: total > 0 ? water / total : 0.25,
+    Earth: total > 0 ? earth / total : 0.25,
+    Air: total > 0 ? air / total : 0.25
+  };
+}
+
+/**
+ * Enhanced cultural compatibility calculation
+ */
+private static calculateCulturalCompatibility(vector1: RecipeVector, vector2: RecipeVector): number {
+  // Cultural authenticity alignment
+  const authenticityAlignment = 1 - Math.abs(vector1.culturalAuthenticity - vector2.culturalAuthenticity);
+  
+  // Modern adaptation compatibility
+  const modernAlignment = 1 - Math.abs(vector1.modernAdaptation - vector2.modernAdaptation);
+  
+  // Fusion compatibility
+  const fusionAlignment = Math.min(vector1.fusionIndex, vector2.fusionIndex) * 0.5 + 0.5;
+  
+  return (authenticityAlignment * 0.4) + (modernAlignment * 0.3) + (fusionAlignment * 0.3);
+}

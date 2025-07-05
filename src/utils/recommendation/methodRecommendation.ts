@@ -102,13 +102,13 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
   ...Object.entries(allCookingMethods)?.reduce((acc: CookingMethodDictionary, [id, method]) => {
     acc[id] = {
       id,
-      ...((method as unknown as Record<string, any>)),
-      elementalEffect: ((method as unknown as Record<string, any>)).elementalEffect || createLocalElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0  }),
+      ...((method as unknown as Record<string, unknown>)),
+      elementalEffect: ((method as unknown as Record<string, unknown>)).elementalEffect || createLocalElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0  }),
       name: id,
       description: '',
       duration: { min: 0, max: 60 },
-      suitable_for: ((method as unknown as Record<string, any>)).suitable_for || [],
-      benefits: ((method as unknown as Record<string, any>)).benefits || [],
+      suitable_for: ((method as unknown as Record<string, unknown>)).suitable_for || [],
+      benefits: ((method as unknown as Record<string, unknown>)).benefits || [],
       variations: [],
     };
     return acc;
@@ -117,30 +117,30 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
   // Add cultural methods with proper organization
   ...culturalCookingMethods.reduce((methods: CookingMethodDictionary, method) => {
     // Check if this method is a variation of a main method
-    if (((method as unknown as Record<string, any>)).relatedToMainMethod) {
+    if (((method as unknown as Record<string, unknown>)).relatedToMainMethod) {
       // If the main method exists, add this as a variation
-      if (methods[((method as unknown as Record<string, any>)).relatedToMainMethod]) {
-        const existingVariations = methods[((method as unknown as Record<string, any>)).relatedToMainMethod].variations || [];
+      if (methods[((method as unknown as Record<string, unknown>)).relatedToMainMethod]) {
+        const existingVariations = methods[((method as unknown as Record<string, unknown>)).relatedToMainMethod].variations || [];
         const existingVariationsArray = Array.isArray(existingVariations) ? existingVariations : [];
-        if (!existingVariationsArray.some(v => v.id === ((method as unknown as Record<string, any>))?.id)) {
-          methods[((method as unknown as Record<string, any>)).relatedToMainMethod].variations = [
+        if (!existingVariationsArray.some(v => v.id === ((method as unknown as Record<string, unknown>))?.id)) {
+          methods[((method as unknown as Record<string, unknown>)).relatedToMainMethod].variations = [
             ...existingVariationsArray,
             {
-              id: ((method as unknown as Record<string, any>)).id,
-              name: ((method as unknown as Record<string, any>)).variationName || ((method as unknown as Record<string, any>)).name,
-              description: ((method as unknown as Record<string, any>)).description,
-              elementalEffect: ((method as unknown as Record<string, any>)).elementalState || createLocalElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0  }),
-              toolsRequired: ((method as unknown as Record<string, any>)).toolsRequired || [],
-              bestFor: ((method as unknown as Record<string, any>)).bestFor || [],
-              culturalOrigin: ((method as unknown as Record<string, any>)).culturalOrigin,
-              astrologicalInfluences: ((method as unknown as Record<string, any>)).astrologicalInfluences,
+              id: ((method as unknown as Record<string, unknown>)).id,
+              name: ((method as unknown as Record<string, unknown>)).variationName || ((method as unknown as Record<string, unknown>)).name,
+              description: ((method as unknown as Record<string, unknown>)).description,
+              elementalEffect: ((method as unknown as Record<string, unknown>)).elementalState || createLocalElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0  }),
+              toolsRequired: ((method as unknown as Record<string, unknown>)).toolsRequired || [],
+              bestFor: ((method as unknown as Record<string, unknown>)).bestFor || [],
+              culturalOrigin: ((method as unknown as Record<string, unknown>)).culturalOrigin,
+              astrologicalInfluences: ((method as unknown as Record<string, unknown>)).astrologicalInfluences,
               duration: {
-                min: ((method as unknown as Record<string, any>)).duration?.min || 0,
-                max: ((method as unknown as Record<string, any>)).duration?.max || 0
+                min: ((method as unknown as Record<string, unknown>)).duration?.min || 0,
+                max: ((method as unknown as Record<string, unknown>)).duration?.max || 0
               },
-              suitable_for: ((method as unknown as Record<string, any>)).bestFor || [],
+              suitable_for: ((method as unknown as Record<string, unknown>)).bestFor || [],
               benefits: [],
-              relatedToMainMethod: ((method as unknown as Record<string, any>)).relatedToMainMethod
+              relatedToMainMethod: ((method as unknown as Record<string, unknown>)).relatedToMainMethod
             }
           ];
         }
@@ -149,15 +149,15 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
     }
     
     // Only add as standalone if it doesn't already exist and isn't a variation
-    if (!methods[((method as unknown as Record<string, any>)).id] && !((method as unknown as Record<string, any>)).relatedToMainMethod) {
-      methods[((method as unknown as Record<string, any>)).id] = {
-        id: ((method as unknown as Record<string, any>)).id,
-        name: ((method as unknown as Record<string, any>)).name,
-        description: ((method as unknown as Record<string, any>)).description,
-        elementalEffect: ((method as unknown as Record<string, any>)).elementalState || createLocalElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0  }),
-        toolsRequired: ((method as unknown as Record<string, any>)).toolsRequired || [],
-        bestFor: ((method as unknown as Record<string, any>)).bestFor || [],
-        culturalOrigin: ((method as unknown as Record<string, any>)).culturalOrigin,
+    if (!methods[((method as unknown as Record<string, unknown>)).id] && !((method as unknown as Record<string, unknown>)).relatedToMainMethod) {
+      methods[((method as unknown as Record<string, unknown>)).id] = {
+        id: ((method as unknown as Record<string, unknown>)).id,
+        name: ((method as unknown as Record<string, unknown>)).name,
+        description: ((method as unknown as Record<string, unknown>)).description,
+        elementalEffect: ((method as unknown as Record<string, unknown>)).elementalState || createLocalElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0  }),
+        toolsRequired: ((method as unknown as Record<string, unknown>)).toolsRequired || [],
+        bestFor: ((method as unknown as Record<string, unknown>)).bestFor || [],
+        culturalOrigin: ((method as unknown as Record<string, unknown>)).culturalOrigin,
         astrologicalInfluences: {
           favorableZodiac: ((method as unknown as Record<string, any>)).astrologicalInfluences?.favorableZodiac || [].map(sign => sign as ZodiacSign) || [],
           unfavorableZodiac: ((method as unknown as Record<string, any>)).astrologicalInfluences?.unfavorableZodiac || [].map(sign => sign as ZodiacSign) || [],

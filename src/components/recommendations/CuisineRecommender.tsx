@@ -295,12 +295,12 @@ export default function CuisineRecommender() {
   >([]);
   const [error, setError] = useState<string | null>(null);
   const [cuisinesList, setCuisines] = useState<Cuisine[]>([]);
-  const [cuisineRecommendations, setCuisineRecommendations] = useState<any[]>([]);
+  const [cuisineRecommendations, setCuisineRecommendations] = useState<Record<string, unknown>[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [loadingStep, setLoadingStep] = useState<string>('Initializing...');
   const [filter, setFilter] = useState<string>('all');
-  const [cuisineRecipes, setCuisineRecipes] = useState<any[]>([]);
-  const [sauceRecommendations, setSauceRecommendations] = useState<any[]>([]);
+  const [cuisineRecipes, setCuisineRecipes] = useState<Record<string, unknown>[]>([]);
+  const [sauceRecommendations, setSauceRecommendations] = useState<Record<string, unknown>[]>([]);
   const [showAllRecipes, setShowAllRecipes] = useState<boolean>(false);
   const [showAllSauces, setShowAllSauces] = useState<boolean>(false);
   const [expandedRecipes, setExpandedRecipes] = useState<ExpandedState>({});
@@ -318,7 +318,7 @@ export default function CuisineRecommender() {
     (alchemicalContext as unknown)?.state?.astrologicalState?.elementalState ||
     (alchemicalContext as unknown)?.state?.elementalState
   );
-  const [matchingRecipes, setMatchingRecipes] = useState<any[]>([]);
+  const [matchingRecipes, setMatchingRecipes] = useState<Record<string, unknown>[]>([]);
   const [allRecipesData, setAllRecipesData] = useState<Recipe[]>([]);
 
   // Update current moment elemental profile when astrological state changes

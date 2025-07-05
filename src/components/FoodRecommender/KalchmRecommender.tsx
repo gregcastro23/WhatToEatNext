@@ -6,10 +6,68 @@ import { calculateKalchmResults } from '@/calculations/core/kalchmEngine';
 import { IngredientService } from '@/services/IngredientService';
 import { UnifiedIngredient } from '@/data/unified/unifiedTypes';
 import { _ElementalProperties } from '@/types/alchemy';
+import { useRealAlchemizeService } from '@/services/RealAlchemizeService';
+import { useUnifiedScoringService } from '@/services/UnifiedScoringService';
+import { useThermodynamicEngine } from '@/calculations/core/thermodynamicEngine';
+import { usePlanetaryHoursCalculator } from '@/data/planets/planetaryHoursCalculator';
+import { useSwissEphemerisService } from '@/services/SwissEphemerisService';
+import { 
+  calculateAlchemicalNumber,
+  calculateAlchemicalNumberCompatibility,
+  deriveAlchemicalFromElemental,
+  type AlchemicalProperties
+} from '@/data/unified/alchemicalCalculations';
 
 interface KalchmRecommenderProps {
   maxRecommendations?: number;
   showCategories?: string[];
+}
+
+export interface IntelligentKalchmData {
+  // Core ingredient information
+  id: string;
+  name: string;
+  category: string;
+  subcategory?: string;
+  
+  // Extended thermodynamic analysis
+  extendedThermodynamics: {
+    heat: number;
+    entropy: number;
+    reactivity: number;
+    gregsEnergy: number;
+    kalchm: number;
+    monicaConstant: number;
+    alchemicalNumber: number;          // A# value
+    thermodynamicStability: number;
+    energeticCoherence: number;
+    kalchmVolatility: number;
+    monicaVolatility: number;
+    alchemicalComplexity: number;      // A# complexity rating
+    stabilityRating: 'stable' | 'moderate' | 'volatile' | 'highly_volatile';
+    optimalTiming: {
+      planetaryHours: string[];
+      lunarPhases: string[];
+      seasonalRecommendations: string[];
+    };
+  };
+  
+  // Intelligence analysis results
+  intelligenceAnalysis: {
+    kalchmMastery: Record<string, number>;
+    monicaHarmony: Record<string, number>;
+    alchemicalNumberAlignment: Record<string, number>;  // A# analysis
+    thermodynamicExpertise: Record<string, number>;
+    astrologicalResonance: Record<string, number>;
+    temporalOptimization: Record<string, number>;
+    nutritionalSynergy: Record<string, number>;
+    culturalAlignment: Record<string, number>;
+    compatibilityMatrix: Record<string, number>;
+    recommendationStrength: number;
+    confidenceLevel: number;
+    adaptabilityIndex: number;
+    innovationPotential: number;
+  };
 }
 
 export default function KalchmRecommender({ 

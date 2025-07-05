@@ -2,6 +2,13 @@ import { PlanetPosition } from '@/utils/astrologyUtils';
 import type { ZodiacSign } from '@/types/alchemy';
 import { _PlanetaryPosition } from "@/types/celestial";
 import { astrologizeApiCircuitBreaker } from '@/utils/apiCircuitBreaker';
+import { 
+  calculateAlchemicalNumber, 
+  deriveAlchemicalFromElemental,
+  performAlchemicalAnalysis,
+  type AlchemicalProperties 
+} from '@/data/unified/alchemicalCalculations';
+import type { ElementalProperties } from '@/types/alchemy';
 
 // Use local API endpoint instead of external
 const LOCAL_ASTROLOGIZE_API_URL = '/api/astrologize';
@@ -38,6 +45,25 @@ interface AstrologizePlanetData {
     };
   };
   isRetrograde: boolean;
+}
+
+// Enhanced API response interface with A# calculation
+export interface EnhancedAstrologizeResponse {
+  positions: Record<string, PlanetPosition>;
+  alchemicalData: {
+    alchemicalProperties: AlchemicalProperties;
+    alchemicalNumber: number;           // A# value
+    elementalProperties: ElementalProperties;
+    thermodynamicMetrics: {
+      heat: number;
+      entropy: number;
+      reactivity: number;
+      gregsEnergy: number;
+      kalchm: number;
+      monica: number;
+      alchemicalNumber: number;         // A# included in metrics too
+    };
+  };
 }
 
 // Interface for the API response (updated to match actual astrologize API structure)
@@ -293,4 +319,55 @@ export async function testAstrologizeApi(): Promise<boolean> {
     // console.error('Astrologize API test failed:', error);
     return false;
   }
+}
+
+/**
+ * Get current chart data (alias for getCurrentPlanetaryPositions)
+ */
+export async function getCurrentChart(
+  location?: { latitude: number; longitude: number },
+  zodiacSystem: 'tropical' | 'sidereal' = 'tropical'
+): Promise<Record<string, PlanetPosition>> {
+  return await getCurrentPlanetaryPositions(location, zodiacSystem);
+}
+
+/**
+ * Enhanced function to get planetary positions with A# calculation
+ */
+export async function getEnhancedPlanetaryPositions(
+  location?: { latitude: number; longitude: number },
+  zodiacSystem: 'tropical' | 'sidereal' = 'tropical'
+): Promise<EnhancedAstrologizeResponse> {
+  // Get the basic planetary positions
+  const positions = await getCurrentPlanetaryPositions(location, zodiacSystem);
+  
+  // Calculate elemental properties from planetary positions
+  const elementalProperties = await toElementalProperties(positions);
+  
+  // Derive alchemical properties from elemental properties
+  const alchemicalProperties = deriveAlchemicalFromElemental(elementalProperties);
+  
+  // Perform full alchemical analysis (including A# calculation)
+  const thermodynamicMetrics = performAlchemicalAnalysis(alchemicalProperties, elementalProperties);
+  
+  return {
+    positions,
+    alchemicalData: {
+      alchemicalProperties,
+      alchemicalNumber: thermodynamicMetrics.alchemicalNumber,
+      elementalProperties,
+      thermodynamicMetrics,
+    }
+  };
+}
+
+/**
+ * Get current alchemical number from planetary positions
+ */
+export async function getCurrentAlchemicalNumber(
+  location?: { latitude: number; longitude: number },
+  zodiacSystem: 'tropical' | 'sidereal' = 'tropical'
+): Promise<number> {
+  const { alchemicalData } = await getEnhancedPlanetaryPositions(location, zodiacSystem);
+  return alchemicalData.alchemicalNumber;
 } 
