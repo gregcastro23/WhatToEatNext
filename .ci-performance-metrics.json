@@ -1,0 +1,12 @@
+{
+  "runs": [],
+  "baselines": {
+    "buildTime": 30,
+    "cacheHitRate": 80
+  },
+  "trends": {
+    "buildTimes": [],
+    "cacheHitRates": [],
+    "qualityGateTimes": []
+  }
+}

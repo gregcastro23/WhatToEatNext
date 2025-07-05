@@ -1,6 +1,3 @@
-// Import script replacer before anything else
-import '../utils/scriptReplacer';
-
 import '@/styles/globals.css';
 import type { AppProps } from 'next/app';
 import { useEffect } from 'react';

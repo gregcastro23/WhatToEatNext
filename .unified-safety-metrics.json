@@ -1,0 +1,38 @@
+{
+  "totalRuns": 227,
+  "successfulRuns": 164,
+  "totalFilesProcessed": 2091,
+  "totalErrors": 315,
+  "scriptMetrics": {
+    "imports": {
+      "runs": 3,
+      "successfulRuns": 3,
+      "filesProcessed": 0,
+      "errors": 0
+    }
+  },
+  "safetyScoreHistory": [
+    {
+      "score": 0.55,
+      "timestamp": "2025-06-30T20:02:31.366Z",
+      "scriptType": "imports"
+    },
+    {
+      "score": 0.5836850941359876,
+      "timestamp": "2025-06-30T20:03:44.951Z",
+      "scriptType": "imports"
+    },
+    {
+      "score": 0.5873141263940521,
+      "timestamp": "2025-06-30T20:04:17.170Z",
+      "scriptType": "imports"
+    }
+  ],
+  "lastRunTime": "2025-06-30T20:04:17.170Z",
+  "averageComplexity": 1,
+  "confidenceHistory": [
+    1,
+    1,
+    1
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "totalRuns": 14,
+  "successfulRuns": 1,
+  "filesProcessed": 21,
+  "errorsFixed": 62,
+  "errorsEncountered": 0,
+  "corruptionDetected": 6,
+  "buildFailures": 8,
+  "averageBatchSize": 17.285714285714285,
+  "maxSafeBatchSize": 5,
+  "lastRunTime": "2025-07-02T06:10:22.290Z",
+  "safetyScore": 0,
+  "errorTypeSuccess": {
+    "TS2304": {
+      "fixed": 4,
+      "attempted": 43
+    },
+    "TS2345": {
+      "fixed": 0,
+      "attempted": 32
+    },
+    "TS2322": {
+      "fixed": 58,
+      "attempted": 191
+    },
+    "TS2740": {
+      "fixed": 0,
+      "attempted": 65
+    },
+    "TS2339": {
+      "fixed": 0,
+      "attempted": 62
+    },
+    "TS2820": {
+      "fixed": 0,
+      "attempted": 13
+    },
+    "TS2741": {
+      "fixed": 0,
+      "attempted": 24
+    },
+    "TS2459": {
+      "fixed": 0,
+      "attempted": 15
+    },
+    "TS2352": {
+      "fixed": 0,
+      "attempted": 6
+    },
+    "TS1005": {
+      "fixed": 0,
+      "attempted": 1
+    },
+    "TS2552": {
+      "fixed": 0,
+      "attempted": 54
+    },
+    "TS2420": {
+      "fixed": 0,
+      "attempted": 1
+    },
+    "TS1117": {
+      "fixed": 0,
+      "attempted": 123
+    },
+    "TS2305": {
+      "fixed": 0,
+      "attempted": 4
+    }
+  },
+  "patternEffectiveness": {
+    "TS2304_missing_import": {
+      "successes": 4,
+      "attempts": 4
+    },
+    "TS2322_string_array_to_typed_array": {
+      "successes": 26,
+      "attempts": 26
+    },
+    "TS2322_object_to_interface": {
+      "successes": 32,
+      "attempts": 32
+    }
+  },
+  "performanceMetrics": {
+    "averageFileTime": 16445.095238095237,
+    "totalProcessingTime": 345347
+  }
+}

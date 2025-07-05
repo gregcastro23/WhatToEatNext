@@ -1,0 +1,404 @@
+{
+  "timestamp": "2025-07-04T05:42:54.709Z",
+  "summary": {
+    "totalScripts": 479,
+    "vulnerabilityCount": 36,
+    "riskLevel": "high",
+    "criticalIssues": 39
+  },
+  "scriptSecurity": {
+    "commandInjection": [],
+    "privilegeEscalation": [
+      {
+        "file": "scripts/dev.sh",
+        "severity": "high",
+        "description": "Potential privilege escalation risks",
+        "matches": 1,
+        "examples": [
+          "npm install -g"
+        ]
+      },
+      {
+        "file": "scripts/grandfather-assessment/phase2-infrastructure-hardening.js",
+        "severity": "high",
+        "description": "Potential privilege escalation risks",
+        "matches": 3,
+        "examples": [
+          "npm install -g",
+          "npm install -g",
+          "npm install -g"
+        ]
+      },
+      {
+        "file": "scripts/grandfather-assessment/phase2-security-remediation.js",
+        "severity": "high",
+        "description": "Potential privilege escalation risks",
+        "matches": 3,
+        "examples": [
+          "sudo",
+          "sudo",
+          "sudo"
+        ]
+      },
+      {
+        "file": "scripts/install.sh",
+        "severity": "high",
+        "description": "Potential privilege escalation risks",
+        "matches": 1,
+        "examples": [
+          "npm install -g"
+        ]
+      },
+      {
+        "file": "scripts/use-correct-node.sh",
+        "severity": "high",
+        "description": "Potential privilege escalation risks",
+        "matches": 1,
+        "examples": [
+          "npm install -g"
+        ]
+      }
+    ],
+    "dataExposure": [],
+    "unsafeOperations": [
+      {
+        "file": "scripts/add-missing-ingredient-fields.mjs",
+        "severity": "high",
+        "description": "Unsafe operations that could be exploited",
+        "matches": 1,
+        "examples": [
+          "eval("
+        ]
+      },
+      {
+        "file": "scripts/cleanup-scripts/fix-elemental-balance-syntax-errors.js",
+        "severity": "high",
+        "description": "Unsafe operations that could be exploited",
+        "matches": 1,
+        "examples": [
+          "Function(content)"
+        ]
+      },
+      {
+        "file": "scripts/cleanup-scripts/fix-most-problematic-files.js",
+        "severity": "high",
+        "description": "Unsafe operations that could be exploited",
+        "matches": 1,
+        "examples": [
+          "Function(content)"
+        ]
+      },
+      {
+        "file": "scripts/cleanup-scripts/fix-remaining-exports.js",
+        "severity": "high",
+        "description": "Unsafe operations that could be exploited",
+        "matches": 1,
+        "examples": [
+          "Function()"
+        ]
+      },
+      {
+        "file": "scripts/cleanup-scripts/fix-remaining-syntax-errors.js",
+        "severity": "high",
+        "description": "Unsafe operations that could be exploited",
+        "matches": 1,
+        "examples": [
+          "Function(content)"
+        ]
+      },
+      {
+        "file": "scripts/cleanup-scripts/replace-elemental-balance-with-kalchm.js",
+        "severity": "high",
+        "description": "Unsafe operations that could be exploited",
+        "matches": 1,
+        "examples": [
+          "Function(content)"
+        ]
+      },
+      {
+        "file": "scripts/fix-typescript-parse-errors.js",
+        "severity": "high",
+        "description": "Unsafe operations that could be exploited",
+        "matches": 2,
+        "examples": [
+          "Function(\\s|[,)",
+          "Function(\\s|[,)"
+        ]
+      },
+      {
+        "file": "scripts/grandfather-assessment/phase2-security-remediation.js",
+        "severity": "high",
+        "description": "Unsafe operations that could be exploited",
+        "matches": 2,
+        "examples": [
+          "eval(",
+          "eval("
+        ]
+      },
+      {
+        "file": "scripts/grandfather-assessment/phase2-security-remediation.js",
+        "severity": "high",
+        "description": "Unsafe operations that could be exploited",
+        "matches": 1,
+        "examples": [
+          "Function()"
+        ]
+      },
+      {
+        "file": "scripts/shared/unified-safety-validator.js",
+        "severity": "high",
+        "description": "Unsafe operations that could be exploited",
+        "matches": 1,
+        "examples": [
+          "Function(content)"
+        ]
+      },
+      {
+        "file": "scripts/shared/unified-safety-validator.js",
+        "severity": "high",
+        "description": "Unsafe operations that could be exploited",
+        "matches": 1,
+        "examples": [
+          "new Function"
+        ]
+      },
+      {
+        "file": "scripts/syntax-fixes/fix-all-broken-syntax-comprehensive.js",
+        "severity": "high",
+        "description": "Unsafe operations that could be exploited",
+        "matches": 1,
+        "examples": [
+          "Function(content)"
+        ]
+      },
+      {
+        "file": "scripts/syntax-fixes/fix-critical-remaining-syntax-errors.js",
+        "severity": "high",
+        "description": "Unsafe operations that could be exploited",
+        "matches": 1,
+        "examples": [
+          "Function(content)"
+        ]
+      },
+      {
+        "file": "scripts/syntax-fixes/fix-enhanced-matching-syntax-errors.js",
+        "severity": "high",
+        "description": "Unsafe operations that could be exploited",
+        "matches": 1,
+        "examples": [
+          "Function(content)"
+        ]
+      },
+      {
+        "file": "scripts/syntax-fixes/fix-final-critical-syntax-errors.js",
+        "severity": "high",
+        "description": "Unsafe operations that could be exploited",
+        "matches": 1,
+        "examples": [
+          "Function(content)"
+        ]
+      },
+      {
+        "file": "scripts/syntax-fixes/fix-final-syntax-errors.js",
+        "severity": "high",
+        "description": "Unsafe operations that could be exploited",
+        "matches": 1,
+        "examples": [
+          "Function(content)"
+        ]
+      },
+      {
+        "file": "scripts/syntax-fixes/fix-remaining-enhanced-syntax-errors.js",
+        "severity": "high",
+        "description": "Unsafe operations that could be exploited",
+        "matches": 1,
+        "examples": [
+          "Function(content)"
+        ]
+      },
+      {
+        "file": "scripts/syntax-fixes/fix-specific-broken-files.js",
+        "severity": "high",
+        "description": "Unsafe operations that could be exploited",
+        "matches": 1,
+        "examples": [
+          "Function(content)"
+        ]
+      },
+      {
+        "file": "scripts/test-unified-recipe-building.mjs",
+        "severity": "high",
+        "description": "Unsafe operations that could be exploited",
+        "matches": 1,
+        "examples": [
+          "Function()"
+        ]
+      },
+      {
+        "file": "scripts/typescript-fixes/fix-recipe-ingredient.js",
+        "severity": "high",
+        "description": "Unsafe operations that could be exploited",
+        "matches": 2,
+        "examples": [
+          "Function(filePath)",
+          "Function(fullPath)"
+        ]
+      },
+      {
+        "file": "scripts/typescript-fixes/fix-typescript-errors.js",
+        "severity": "high",
+        "description": "Unsafe operations that could be exploited",
+        "matches": 1,
+        "examples": [
+          "Function(content)"
+        ]
+      },
+      {
+        "file": "scripts/typescript-fixes/fix-typescript-parse-errors.js",
+        "severity": "high",
+        "description": "Unsafe operations that could be exploited",
+        "matches": 2,
+        "examples": [
+          "Function(\\s|[,)",
+          "Function(\\s|[,)"
+        ]
+      },
+      {
+        "file": "scripts/typescript-fixes/test-enhanced-v5-fixes.js",
+        "severity": "high",
+        "description": "Unsafe operations that could be exploited",
+        "matches": 1,
+        "examples": [
+          "eval("
+        ]
+      }
+    ]
+  },
+  "buildSecurity": {
+    "dependencies": [
+      {
+        "package": "axios",
+        "currentVersion": "^1.10.0",
+        "vulnerableVersions": [
+          "<0.21.2"
+        ],
+        "severity": "high",
+        "recommendation": "Update axios to latest secure version"
+      },
+      {
+        "package": "lodash",
+        "currentVersion": "^4.17.21",
+        "vulnerableVersions": [
+          "<4.17.21"
+        ],
+        "severity": "medium",
+        "recommendation": "Update lodash to latest secure version"
+      },
+      {
+        "package": "node-fetch",
+        "currentVersion": "2",
+        "vulnerableVersions": [
+          "<2.6.7"
+        ],
+        "severity": "medium",
+        "recommendation": "Update node-fetch to latest secure version"
+      }
+    ],
+    "configurations": [
+      {
+        "file": "next.config.js",
+        "issues": [
+          "Eval usage detected in configuration"
+        ],
+        "severity": "medium",
+        "recommendation": "Review configuration security settings"
+      },
+      {
+        "file": ".eslintrc.json",
+        "issues": [
+          "Eval usage detected in configuration"
+        ],
+        "severity": "medium",
+        "recommendation": "Review configuration security settings"
+      }
+    ],
+    "processes": [
+      {
+        "file": "Makefile",
+        "risks": [
+          "Destructive file operations",
+          "Remote script execution"
+        ],
+        "severity": "high",
+        "recommendation": "Add safety checks and confirmations for destructive operations"
+      }
+    ]
+  },
+  "infrastructure": {
+    "filePermissions": [
+      {
+        "file": ".env.local",
+        "permissions": "644",
+        "issue": "Overly permissive file permissions",
+        "recommendation": "Set stricter permissions (644 or 600) for .env.local"
+      },
+      {
+        "file": "package.json",
+        "permissions": "644",
+        "issue": "Overly permissive file permissions",
+        "recommendation": "Set stricter permissions (644 or 600) for package.json"
+      },
+      {
+        "file": "yarn.lock",
+        "permissions": "644",
+        "issue": "Overly permissive file permissions",
+        "recommendation": "Set stricter permissions (644 or 600) for yarn.lock"
+      },
+      {
+        "file": "Makefile",
+        "permissions": "644",
+        "issue": "Overly permissive file permissions",
+        "recommendation": "Set stricter permissions (644 or 600) for Makefile"
+      }
+    ],
+    "environmentVariables": [
+      {
+        "type": "Sensitive environment variables detected",
+        "variables": [
+          "NEXT_PUBLIC_SPOONACULAR_API_KEY",
+          "NEXT_PUBLIC_FOOD_DATA_CENTRAL_API_KEY",
+          "TIMEANDDATE_API_KEY",
+          "TIMEANDDATE_API_SECRET"
+        ],
+        "recommendation": "Ensure these environment variables are properly secured and not logged"
+      }
+    ],
+    "secretsExposure": []
+  },
+  "recommendations": [
+    {
+      "category": "script-security",
+      "priority": "high",
+      "title": "Script Security Vulnerabilities",
+      "description": "28 potential security issues found in scripts",
+      "suggestion": "Review and sanitize script inputs, use parameterized commands, avoid eval",
+      "impact": "High - Prevents code injection and privilege escalation attacks"
+    },
+    {
+      "category": "build-security",
+      "priority": "medium",
+      "title": "Build Process Security",
+      "description": "6 build security issues identified",
+      "suggestion": "Update vulnerable dependencies, review build configurations, add safety checks",
+      "impact": "Medium - Improves build pipeline security and reduces supply chain risks"
+    },
+    {
+      "category": "infrastructure-security",
+      "priority": "high",
+      "title": "Infrastructure Security Issues",
+      "description": "5 infrastructure security concerns",
+      "suggestion": "Fix file permissions, secure secrets management, audit environment variables",
+      "impact": "High - Prevents unauthorized access and data exposure"
+    }
+  ]
+}

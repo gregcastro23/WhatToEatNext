@@ -1,4 +1,3 @@
-
 import type { ElementalProperties } from "@/types/alchemy";
 import { AlchemicalProperties } from '@/types';
 
@@ -250,6 +249,38 @@ export function validateAlchemicalProperties(props: AlchemicalProperties): boole
   }
   
   return true;
+}
+
+/**
+ * NEW: Calculate A# (Alchemical Number)
+ * A# is the sum of the four core alchemical properties
+ */
+export function calculateAlchemicalNumber(props: AlchemicalProperties): number {
+  if (!props) return 0;
+  return (props.Spirit || 0) + (props.Essence || 0) + (props.Matter || 0) + (props.Substance || 0);
+}
+
+/**
+ * NEW: Calculate compatibility based on A# (Alchemical Number)
+ * Uses a normalized difference to score compatibility
+ */
+export function calculateAlchemicalNumberCompatibility(
+  alchemicalProps1: AlchemicalProperties,
+  alchemicalProps2: AlchemicalProperties
+): number {
+  const a1 = calculateAlchemicalNumber(alchemicalProps1);
+  const a2 = calculateAlchemicalNumber(alchemicalProps2);
+  
+  if (a1 === 0 && a2 === 0) return 1.0; // Perfect compatibility if both are zero
+  
+  const difference = Math.abs(a1 - a2);
+  const maxVal = Math.max(a1, a2);
+  
+  // Normalize difference to a 0-1 scale
+  const normalizedDifference = difference / (maxVal > 0 ? maxVal : 1);
+  
+  // High compatibility for low difference
+  return 1 - normalizedDifference;
 }
 
 /**

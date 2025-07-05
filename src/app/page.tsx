@@ -7,6 +7,10 @@ import IngredientRecommender from '@/components/IngredientRecommender';
 import { AstrologicalProvider } from '@/context/AstrologicalContext';
 import Link from 'next/link';
 import { Button } from '@mui/material';
+import { useIngredientMapping } from '@/hooks';
+import { useCookingMethods } from '@/hooks/useCookingMethods';
+import { CookingMethodsSection } from '@/components/CookingMethodsSection';
+import RecipeGeneratorCap from '@/components/FoodRecommender/RecipeGeneratorCap';
 
 // Use dynamic import with SSR disabled for components that use client-side only features
 const DynamicCuisineRecommender = dynamic(
@@ -64,6 +68,11 @@ function PayPalButton() {
 }
 
 export default function Home() {
+  // Add cooking methods hook
+  const { methods: cookingMethods, isLoading: cookingMethodsLoading, error: cookingMethodsError, selectMethod } = useCookingMethods();
+  const [selectedCookingMethodId, setSelectedCookingMethodId] = useState<string | null>(null);
+  const [showFullRecipeGenerator, setShowFullRecipeGenerator] = useState(false);
+
   return (
     <main className="min-h-screen bg-gradient-to-b from-indigo-50 via-blue-50 to-gray-100 text-gray-800">
       <div className="container mx-auto px-4 py-8">
@@ -107,6 +116,46 @@ export default function Home() {
           <div id="ingredients" className="bg-white rounded-lg shadow-md p-5 w-full">
             <ClientOnly>
               <IngredientRecommender />
+            </ClientOnly>
+          </div>
+          
+          {/* Add Cooking Methods Section above the recipe generator */}
+          <div id="cooking-methods" className="bg-white rounded-lg shadow-md p-5 w-full">
+            <ClientOnly>
+              {cookingMethodsLoading ? (
+                <div className="flex items-center justify-center py-8">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div>
+                  <span className="ml-2 text-gray-600">Loading cooking methods...</span>
+                </div>
+              ) : cookingMethodsError ? (
+                <div className="text-red-500 text-center py-4">
+                  Error loading cooking methods: {cookingMethodsError}
+                </div>
+              ) : (
+                <CookingMethodsSection
+                  methods={cookingMethods}
+                  onSelectMethod={(method) => {
+                    setSelectedCookingMethodId(method.id);
+                    selectMethod(method.id);
+                  }}
+                  selectedMethodId={selectedCookingMethodId}
+                  showToggle={true}
+                  initiallyExpanded={true}
+                />
+              )}
+            </ClientOnly>
+          </div>
+          
+          {/* Move the recipe generator to the bottom */}
+          <div id="recipes" className="bg-white rounded-lg shadow-md p-5 w-full">
+            <ClientOnly>
+              {showFullRecipeGenerator ? (
+                <FoodRecommender />
+              ) : (
+                <RecipeGeneratorCap 
+                  onRemoveCap={() => setShowFullRecipeGenerator(true)}
+                />
+              )}
             </ClientOnly>
           </div>
         </div>
