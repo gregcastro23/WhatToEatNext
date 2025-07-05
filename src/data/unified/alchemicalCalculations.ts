@@ -114,7 +114,7 @@ export function calculateMonica(
 export function performAlchemicalAnalysis(
   alchemicalProps: AlchemicalProperties,
   elementalProps: ElementalProperties
-): ThermodynamicMetrics {
+): ThermodynamicMetrics & { alchemicalNumber: number } {
   // Calculate Kalchm
   const kalchm = calculateKalchm(alchemicalProps);
   
@@ -124,10 +124,14 @@ export function performAlchemicalAnalysis(
   // Calculate Monica constant
   const monica = calculateMonica(thermodynamics.gregsEnergy, thermodynamics.reactivity, kalchm);
   
+  // Calculate A# (Alchemical Number)
+  const alchemicalNumber = calculateAlchemicalNumber(alchemicalProps);
+  
   return {
     ...thermodynamics,
     kalchm,
-    monica
+    monica,
+    alchemicalNumber
   };
 }
 

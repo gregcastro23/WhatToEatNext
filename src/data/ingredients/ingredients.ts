@@ -48,6 +48,7 @@ import {
   calculateAlchemicalNumberCompatibility,
   deriveAlchemicalFromElemental
 } from '../unified/alchemicalCalculations';
+import { calculateElementalCompatibility } from '../../utils/elemental/elementalUtils';
 
 /**
  * Calculate compatibility score between two ingredients
@@ -132,4 +133,136 @@ function calculateIngredientAlchemicalAlignment(ingredient1: Ingredient, ingredi
     console.warn('A# alignment calculation failed for ingredients:', ingredient1.name, ingredient2.name, error);
     return 0.5; // Default neutral score
   }
+}
+
+/**
+ * Calculate pairing compatibility between two ingredients
+ * Based on traditional culinary pairings and flavor harmony
+ */
+function calculatePairingCompatibility(ingredient1: Ingredient, ingredient2: Ingredient): number | null {
+  // For now, return null to indicate no pairing data available
+  // This can be enhanced with actual pairing data in the future
+  return null;
+}
+
+/**
+ * Calculate category compatibility between ingredient categories
+ */
+function calculateCategoryCompatibility(category1: IngredientCategory, category2: IngredientCategory): number {
+  // Define category compatibility matrix
+  const compatibilityMatrix: Record<IngredientCategory, Record<IngredientCategory, number>> = {
+    vegetables: {
+      vegetables: 0.9,
+      fruits: 0.7,
+      herbs: 0.8,
+      spices: 0.6,
+      grains: 0.7,
+      proteins: 0.8,
+      oils: 0.6,
+      seasonings: 0.7,
+      vinegars: 0.6
+    },
+    fruits: {
+      vegetables: 0.7,
+      fruits: 0.8,
+      herbs: 0.6,
+      spices: 0.5,
+      grains: 0.6,
+      proteins: 0.5,
+      oils: 0.7,
+      seasonings: 0.6,
+      vinegars: 0.5
+    },
+    herbs: {
+      vegetables: 0.8,
+      fruits: 0.6,
+      herbs: 0.9,
+      spices: 0.8,
+      grains: 0.7,
+      proteins: 0.8,
+      oils: 0.7,
+      seasonings: 0.8,
+      vinegars: 0.7
+    },
+    spices: {
+      vegetables: 0.6,
+      fruits: 0.5,
+      herbs: 0.8,
+      spices: 0.9,
+      grains: 0.6,
+      proteins: 0.7,
+      oils: 0.8,
+      seasonings: 0.9,
+      vinegars: 0.8
+    },
+    grains: {
+      vegetables: 0.7,
+      fruits: 0.6,
+      herbs: 0.7,
+      spices: 0.6,
+      grains: 0.8,
+      proteins: 0.8,
+      oils: 0.7,
+      seasonings: 0.7,
+      vinegars: 0.6
+    },
+    proteins: {
+      vegetables: 0.8,
+      fruits: 0.5,
+      herbs: 0.8,
+      spices: 0.7,
+      grains: 0.8,
+      proteins: 0.7,
+      oils: 0.8,
+      seasonings: 0.8,
+      vinegars: 0.7
+    },
+    oils: {
+      vegetables: 0.6,
+      fruits: 0.7,
+      herbs: 0.7,
+      spices: 0.8,
+      grains: 0.7,
+      proteins: 0.8,
+      oils: 0.8,
+      seasonings: 0.8,
+      vinegars: 0.7
+    },
+    seasonings: {
+      vegetables: 0.7,
+      fruits: 0.6,
+      herbs: 0.8,
+      spices: 0.9,
+      grains: 0.7,
+      proteins: 0.8,
+      oils: 0.8,
+      seasonings: 0.9,
+      vinegars: 0.8
+    },
+    vinegars: {
+      vegetables: 0.6,
+      fruits: 0.5,
+      herbs: 0.7,
+      spices: 0.8,
+      grains: 0.6,
+      proteins: 0.7,
+      oils: 0.7,
+      seasonings: 0.8,
+      vinegars: 0.8
+    }
+  };
+
+  return compatibilityMatrix[category1]?.[category2] || 0.5;
+}
+
+/**
+ * Calculate quality compatibility between ingredient qualities
+ */
+function calculateQualityCompatibility(qualities1: string[], qualities2: string[]): number {
+  if (!qualities1.length || !qualities2.length) return 0.5;
+  
+  const commonQualities = qualities1.filter(q => qualities2.includes(q));
+  const totalQualities = new Set([...qualities1, ...qualities2]).size;
+  
+  return commonQualities.length / totalQualities;
 } 

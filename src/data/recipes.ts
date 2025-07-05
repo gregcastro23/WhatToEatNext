@@ -21,6 +21,22 @@ import {
   type AlchemicalProperties
 } from './unified/alchemicalCalculations';
 
+// Recipe vector interface for compatibility calculations
+interface RecipeVector {
+  spicy: number;
+  sweet: number;
+  sour: number;
+  umami: number;
+  proteinDensity: number;
+  mineralContent: number;
+  vitaminRichness: number;
+  techniqueComplexity: number;
+  skillRequirement: number;
+  culturalAuthenticity: number;
+  modernAdaptation: number;
+  fusionIndex: number;
+}
+
 // Log what was imported
 // console.log("cuisinesMap keys:", Object.keys(cuisinesMap));
 
