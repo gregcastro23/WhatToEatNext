@@ -114,9 +114,9 @@ function safeGetElementValue(props: Partial<ElementalProperties> | null | undefi
     // Ensure the value is within the valid range (0-1)
     return Math.max(0, Math.min(1, value));
   } catch (error) {
-    ErrorHandler.log(error, {
+    ErrorHandler.log(error as Error, {
       context: 'alchemicalEngine:safeGetElementValue',
-      data: { element, props }
+      data: { element, props: props as Record<string, unknown> }
     });
     return DEFAULT_ELEMENT_VALUE;
   }
@@ -292,7 +292,7 @@ export class AlchemicalEngineAdvanced {
 
     // Cuisine compatibility
     const cuisineScore = cuisine
-      ? this.getCuisineCompatibility(cuisine, astrologicalState, _season)
+      ? this.getCuisineCompatibility(cuisine, astrologicalState, season)
       : 0;
 
     // Calculate total score without elemental balance
@@ -330,7 +330,7 @@ export class AlchemicalEngineAdvanced {
     season?: string
   ): number {
     try {
-      debugLog('Getting cuisine compatibility for', cuisine, _season);
+      debugLog('Getting cuisine compatibility for', cuisine, season);
       
       // Get cuisine data from culinaryTraditions
       const cuisineData = culinaryTraditions[cuisine as keyof typeof culinaryTraditions];
@@ -343,7 +343,7 @@ export class AlchemicalEngineAdvanced {
       let compatibilityScore = 0.5; // Start with neutral
 
       // Season compatibility - safe property access
-      const seasonalVariations = (cuisineData as unknown)?.seasonalVariations;
+      const seasonalVariations = (cuisineData as any)?.seasonalVariations;
       if (season && seasonalVariations) {
         const seasonalData = seasonalVariations[season as keyof typeof seasonalVariations];
         if (seasonalData) {
@@ -365,9 +365,9 @@ export class AlchemicalEngineAdvanced {
       // Ensure score is within valid range
       return Math.max(0, Math.min(1, compatibilityScore));
     } catch (error) {
-      ErrorHandler.log(error, {
+      ErrorHandler.log(error as Error, {
         context: 'alchemicalEngine:getCuisineCompatibility',
-        data: { cuisine, season }
+        data: { cuisine, season } as Record<string, unknown>
       });
       return 0.5;
     }
@@ -445,9 +445,9 @@ export class AlchemicalEngineAdvanced {
         return 0.5;
       }
     } catch (error) {
-      ErrorHandler.log(error, {
+      ErrorHandler.log(error as Error, {
         context: 'AlchemicalEngineAdvanced:calculateAstrologicalPower',
-        data: { recipeSunSign, astrologicalState }
+        data: { recipeSunSign, astrologicalState } as Record<string, unknown>
       });
       return 0.5; // Default compatibility on error
     }
@@ -1056,7 +1056,7 @@ export function alchemize(
     try {
       // Use safe type casting for unknown property access
       const ascendantData = horoscope.Ascendant as unknown;
-      const signData = ascendantData?.Sign;
+      const signData = (ascendantData as any)?.Sign;
       const rising_sign = signData?.label || "Aries";
       
       // SAFELY update planetInfo with correct typing
@@ -1096,7 +1096,7 @@ export function alchemize(
             entry = celestialArray[celestial_bodies_index] || {};
             // Use safe type casting for entry property access
             const entryData = entry as unknown;
-            planet = entryData?.label || '';
+            planet = (entryData as any)?.label || '';
           }
         } catch (error) {
           // console.error(`Error getting planet at index ${celestial_bodies_index}:`, error);
@@ -1128,7 +1128,7 @@ export function alchemize(
         // Get the sign
         let sign: string;
         try {
-          sign = entry?.Sign?.label || "Aries";
+          sign = (entry as any)?.Sign?.label || "Aries";
           
           // SAFELY update planet's sign
           if (alchmInfo['Planets'] && alchmInfo['Planets'][planet]) {
@@ -1192,7 +1192,7 @@ export function alchemize(
             // Process house
             let house = '';
             try {
-              house = entry?.House?.label || "1";
+              house = (entry as any)?.House?.label || "1";
               
               if (alchmInfo['Planets'] && alchmInfo['Planets'][planet]) {
                 alchmInfo['Planets'][planet]["House"] = house;
@@ -1239,7 +1239,7 @@ export function alchemize(
                 
                 if (dignity_effect_value) {
                   if (Math.abs(dignity_effect_value) === 1 || Math.abs(dignity_effect_value) === 3) {
-                    dignity_effect[signInfo[sign]?.element || 'Air'] = 
+                    dignity_effect[(signInfo[sign] as any)?.element || 'Air'] = 
                       1 * (dignity_effect_value / Math.abs(dignity_effect_value));
                   }
                   
@@ -1621,7 +1621,7 @@ async function calculateCurrentPlanetaryPositions(): Promise<
     try {
       const astrologyUtils = await import('@/utils/astrologyUtils');
       const fallbackCalculator = astrologyUtils as unknown;
-      const _calculateFallbackPositions = fallbackCalculator?._calculateFallbackPositions;
+      const _calculateFallbackPositions = (fallbackCalculator as any)?._calculateFallbackPositions;
       
       // Generate current date to pass to the fallback calculator
       const now = new Date();
@@ -1653,7 +1653,7 @@ async function calculateCurrentPlanetaryPositions(): Promise<
       Object.entries(formattedPositions).forEach(([planet, data]) => {
         // Use safe type casting for unknown data access
         const dataObject = data as unknown;
-        const exactLongitude = dataObject?.exactLongitude;
+        const exactLongitude = (dataObject as any)?.exactLongitude;
         
         // Validate longitude is a number
         if (typeof exactLongitude !== 'number' || isNaN(exactLongitude)) {
@@ -1973,11 +1973,11 @@ function calculateChakraEnergies(
     // Sync thirdEye and brow for compatibility
     // Use safe type casting for chakraEnergies access
     const chakraData = chakraEnergies as unknown;
-    if (affectedChakras.has('brow') && !affectedChakras.has('thirdEye' as unknown)) {
-      chakraData.thirdEye = chakraEnergies.brow;
-      affectedChakras.add('thirdEye' as unknown);
-    } else if (affectedChakras.has('thirdEye' as unknown) && !affectedChakras.has('brow')) {
-      chakraEnergies.brow = chakraData?.thirdEye || 0;
+    if (affectedChakras.has('brow') && !affectedChakras.has('thirdEye' as any)) {
+      (chakraData as any).thirdEye = chakraEnergies.brow;
+      affectedChakras.add('thirdEye' as any);
+    } else if (affectedChakras.has('thirdEye' as any) && !affectedChakras.has('brow')) {
+      chakraEnergies.brow = (chakraData as any)?.thirdEye || 0;
       affectedChakras.add('brow');
     }
 
@@ -2236,7 +2236,7 @@ function alchemizeWithSafety(
     
     // Return simplified, but useful result that won't cause errors
     const horoscopeData = horoscopeDict as unknown;
-    const celestialBodies = horoscopeData?.tropical?.CelestialBodies;
+    const celestialBodies = (horoscopeData as any)?.tropical?.CelestialBodies;
     const sunData = celestialBodies?.sun;
     const sunSignData = sunData?.Sign;
     const sunSignLabel = sunSignData?.label || 'aries';

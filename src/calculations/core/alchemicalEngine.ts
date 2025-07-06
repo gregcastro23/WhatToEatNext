@@ -140,12 +140,12 @@ function alchemize(planetaryPositions: { [planet: string]: string }): Thermodyna
     if (!planetData) continue;
 
     // Sum alchemical properties
-    for (const prop in planetData.Alchemy) {
-      totals[prop as keyof AlchemyTotals] += planetData?.Alchemy?.[prop];
+    for (const prop in (planetData as any).Alchemy) {
+      totals[prop as keyof AlchemyTotals] += (planetData as any)?.Alchemy?.[prop];
     }
 
     // Sum elemental properties (use signInfo for sign's element)
-    const signElement = signInfo[sign]?.Element;
+    const signElement = (signInfo[sign] as any)?.Element;
     if (signElement && totals[signElement] !== undefined) {
       totals[signElement] += 1;
     }

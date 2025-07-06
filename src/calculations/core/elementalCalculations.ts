@@ -226,14 +226,14 @@ export function calculateComprehensiveElementalProperties(
   
   return getCachedCalculation(
     cacheKey,
-    { positions: planetaryPositions, _season, lunarPhase, isDaytime },
+    { positions: planetaryPositions, season, lunarPhase, isDaytime },
     () => {
       // Calculate base properties
       let properties = calculateBaseElementalProperties(planetaryPositions);
 
       // Apply seasonal adjustments
       if (season) {
-        properties = applySeasonalAdjustments(properties, _season);
+        properties = applySeasonalAdjustments(properties, season);
       }
 
       // Apply lunar phase adjustments
@@ -265,26 +265,26 @@ export function getElementalRecommendations(properties: ElementalProperties): {
   balance: number;
   recommendations: string[];
 } {
-  const dominant = getDominantElement(properties) as Element;
+  const dominant = getDominantElement(properties) as unknown as Element;
   const balance = calculateElementalBalance(properties);
   
   const recommendations: string[] = [];
   
   // Generate recommendations based on dominant element
   switch (dominant) {
-    case 'Fire':
+    case 'Fire' as unknown as Element:
       recommendations?.push('Foods that cool and ground: fresh vegetables, fruits, cooling herbs');
       recommendations?.push('Cooking methods: steaming, raw preparation, light sautéing');
       break;
-    case 'Water':
+    case 'Water' as unknown as Element:
       recommendations?.push('Foods that warm and stimulate: spicy dishes, roasted vegetables, warming spices');
       recommendations?.push('Cooking methods: roasting, grilling, stir-frying');
       break;
-    case 'Air':
+    case 'Air' as unknown as Element:
       recommendations?.push('Foods that ground and nourish: root vegetables, whole grains, proteins');
       recommendations?.push('Cooking methods: slow cooking, braising, stewing');
       break;
-    case 'Earth':
+    case 'Earth' as unknown as Element:
       recommendations?.push('Foods that lighten and enliven: leafy greens, sprouted foods, aromatic herbs');
       recommendations?.push('Cooking methods: quick sautéing, blanching, light steaming');
       break;
