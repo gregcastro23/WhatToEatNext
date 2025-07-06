@@ -6,7 +6,7 @@
  */
 
 
-import type { ElementalProperties, PlanetaryPosition } from "@/types/alchemy";
+import type { Element, ElementalProperties, PlanetaryPosition } from "@/types/alchemy";
 import { getCachedCalculation } from '../../utils/calculationCache';
 
 /**
@@ -243,7 +243,7 @@ export function calculateElementalValues(
    };
 
   // Sign to element mapping
-  const signElements: Record<string, keyof ElementalValues> = {
+  const signElements: Record<string, Element> = {
     aries: 'Fire', leo: 'Fire', sagittarius: 'Fire',
     cancer: 'Water', scorpio: 'Water', pisces: 'Water',
     gemini: 'Air', libra: 'Air', aquarius: 'Air',
@@ -316,7 +316,7 @@ export function calculateKalchmResults(
     { positions: planetaryPositions },
     () => {
       // Calculate alchemical properties
-      const _alchemicalProperties = calculateAlchemicalProperties(planetaryPositions);
+      const alchemicalProperties = calculateAlchemicalProperties(planetaryPositions);
       
       // Calculate elemental values
       const elementalValues = calculateElementalValues(planetaryPositions);
@@ -366,12 +366,25 @@ export function calculateKalchmResults(
       
       const monicaConstant = calculateMonicaConstant(gregsEnergy, reactivity, kalchm);
       
-      // Determine dominant element and property
-      const dominantElement = Object.entries(elementalValues)
-        .reduce((a, b) => elementalValues[a[0] as keyof ElementalValues] > elementalValues[b[0] as keyof ElementalValues] ? a : b)[0] as keyof ElementalValues;
+      // Determine dominant element
+      let dominantElement: keyof ElementalValues = 'Fire';
+      let maxElementValue = -Infinity;
+      for (const [el, val] of Object.entries(elementalValues) as [keyof ElementalValues, number][]) {
+        if (val > maxElementValue) {
+          dominantElement = el;
+          maxElementValue = val;
+        }
+      }
       
-      const dominantProperty = Object.entries(alchemicalProperties)
-        .reduce((a, b) => alchemicalProperties[a[0] as keyof AlchemicalProperties] > alchemicalProperties[b[0] as keyof AlchemicalProperties] ? a : b)[0] as keyof AlchemicalProperties;
+      // Determine dominant alchemical property
+      let dominantProperty: keyof AlchemicalProperties = 'Spirit';
+      let maxPropertyValue = -Infinity;
+      for (const [prop, val] of Object.entries(alchemicalProperties) as [keyof AlchemicalProperties, number][]) {
+        if (val > maxPropertyValue) {
+          dominantProperty = prop;
+          maxPropertyValue = val;
+        }
+      }
       
       return {
         alchemicalProperties,

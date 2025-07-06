@@ -77,7 +77,7 @@ export class CulinaryAstrologer {
       dominantElement: this.getDominantElementFromAstro(astroState),
       technique: this.getOptimalTechnique(astroState),
       ingredientFocus: this.getIngredientFocus(astroState),
-      cuisineRecommendation: this.getCuisineRecommendation(astroState, _season)
+      cuisineRecommendation: this.getCuisineRecommendation(astroState, season)
     };
   }
 
@@ -257,13 +257,13 @@ export class CulinaryAstrologer {
       const jupiterPlanet = astroState.dominantPlanets?.find(p => {
         // Apply safe type casting for planet access
         const planetData = p as unknown;
-        return planetData?.name === 'Jupiter';
+        return (planetData as any)?.name === 'Jupiter';
       });
       if (jupiterPlanet) {
         // Apply safe type casting for planet data access
         const planetData = jupiterPlanet as unknown;
-        const planetEffect = planetData?.effect;
-        const planetInfluence = planetData?.influence || 1;
+        const planetEffect = (planetData as any)?.effect;
+        const planetInfluence = (planetData as any)?.influence || 1;
         
         // Base score for Jupiter
         let jupiterBoost = 0.6;
@@ -276,7 +276,7 @@ export class CulinaryAstrologer {
           // Further boost recipes that have abundant, rich, or festive qualities
           // Apply safe type casting for recipe tags access
           const recipeData = recipe as unknown;
-          const recipeTags = recipeData?.tags;
+          const recipeTags = (recipeData as any)?.tags;
           if (Array.isArray(recipeTags) && recipeTags.some(tag => 
             ['abundant', 'rich', 'festive', 'celebratory', 'generous'].includes(tag.toLowerCase())
           )) {
@@ -302,13 +302,13 @@ export class CulinaryAstrologer {
       const saturnPlanet = astroState.dominantPlanets?.find(p => {
         // Apply safe type casting for planet access
         const planetData = p as unknown;
-        return planetData?.name === 'Saturn';
+        return (planetData as any)?.name === 'Saturn';
       });
       if (saturnPlanet) {
         // Apply safe type casting for planet data access
         const planetData = saturnPlanet as unknown;
-        const planetEffect = planetData?.effect;
-        const planetInfluence = planetData?.influence || 1;
+        const planetEffect = (planetData as any)?.effect;
+        const planetInfluence = (planetData as any)?.influence || 1;
         
         // Base score for Saturn
         let saturnBoost = 0.6;
@@ -321,7 +321,7 @@ export class CulinaryAstrologer {
           // Further boost recipes that have structured, traditional, or preserved qualities
           // Apply safe type casting for recipe tags access
           const recipeData = recipe as unknown;
-          const recipeTags = recipeData?.tags;
+          const recipeTags = (recipeData as any)?.tags;
           if (Array.isArray(recipeTags) && recipeTags.some(tag => 
             ['structured', 'traditional', 'preserved', 'aged', 'fermented'].includes(tag.toLowerCase())
           )) {

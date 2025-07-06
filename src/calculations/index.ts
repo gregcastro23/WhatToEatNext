@@ -172,7 +172,7 @@ export async function calculateComprehensiveAlchemicalResult(
       elementalProperties,
       planetaryInfluences: planetaryInfluencesResult,
       recommendations: {
-        elemental: elementalRecommendations,
+        elemental: elementalRecommendations as any,
         culinary: culinaryRecommendations,
         cuisines: cuisineRecommendations?.slice(0, 5) // Top 5 cuisine recommendations
       },
@@ -416,14 +416,14 @@ async function getFallbackResult(input: CalculationInput, cacheKey: string): Pro
         },
         elementalInfluences: fallbackElemental,
         dominantPlanets: [
-          { planet: 'Sun', strength: 0.8, element: 'Fire' },
-          { planet: 'Moon', strength: 0.7, element: 'Water' },
-          { planet: 'Mercury', strength: 0.6, element: 'Air' }
+          { planet: 'Sun', strength: 0.8, element: 'Fire' as Element },
+          { planet: 'Moon', strength: 0.7, element: 'Water' as Element },
+          { planet: 'Mercury', strength: 0.6, element: 'Air' as Element }
         ]
       },
       recommendations: {
         elemental: {
-          dominant: 'Fire',
+          dominant: 'Fire' as Element,
           balance: 0.7,
           recommendations: ['⚠️ Using emergency calculations - results may be limited']
         },

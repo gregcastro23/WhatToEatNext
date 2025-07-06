@@ -29,7 +29,7 @@ interface AlchemicalRecommendationsProps {
 
 const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = ({
   planetPositions,
-  _isDaytime = true,
+  isDaytime: _isDaytime = true,
   currentZodiac,
   lunarPhase,
   tarotElementBoosts,
@@ -113,8 +113,8 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         elementalProps = (ingredient as any).elementalProperties;
       } else {
         // Calculate based on ingredient category and attributes
-        const category = (ingredient as unknown).category || '';
-        const rulingPlanets = (ingredient as unknown).astrologicalProfile?.rulingPlanets || [];
+        const category = (ingredient as any).category || '';
+        const rulingPlanets = (ingredient as any).astrologicalProfile?.rulingPlanets || [];
         
         // Start with empty properties
         elementalProps = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
@@ -189,8 +189,8 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         id: key,
         name: (ingredient as any)?.name || key,
         elementalProperties: elementalProps,
-        qualities: (ingredient as unknown).qualities || [],
-        modality: (ingredient as unknown).modality
+        qualities: (ingredient as any).qualities || [],
+        modality: (ingredient as any).modality
       } as ElementalItem;
     });
   }, []);
@@ -200,13 +200,13 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
     return Object.entries(cookingMethods).map(([key, method]) => {
       // Get cooking method elemental effect or calculate it
       let elementalEffect;
-      if ((method as unknown).elementalEffect) {
-        elementalEffect = (method as unknown).elementalEffect;
+      if ((method as any).elementalEffect) {
+        elementalEffect = (method as any).elementalEffect;
       } else {
         // Calculate based on cooking method characteristics
         elementalEffect = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
         
-        const methodName = ((method as unknown).name || key).toLowerCase();
+        const methodName = ((method as any).name || key).toLowerCase();
         
         // Adjust by cooking method type
         if (methodName.includes('grill') || methodName.includes('roast') || methodName.includes('bake') ||
@@ -255,7 +255,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
       
       return {
         id: key,
-        name: (method as unknown).name || key,
+        name: (method as any).name || key,
         elementalProperties: elementalEffect
       } as ElementalItem;
     });
@@ -272,8 +272,8 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         // Calculate based on cuisine characteristics
         elementalState = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
         
-        const cuisineName = ((cuisine as unknown).name || key).toLowerCase();
-        const region = ((cuisine as unknown).region || '').toLowerCase();
+        const cuisineName = ((cuisine as any).name || key).toLowerCase();
+        const region = ((cuisine as any).region || '').toLowerCase();
         
         // Adjust by cuisine type/region
         if (cuisineName.includes('indian') || cuisineName.includes('thai') || 
@@ -328,7 +328,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
       
       return {
         id: key,
-        name: (cuisine as unknown).name || key,
+        name: (cuisine as any).name || key,
         elementalProperties: elementalState
       } as ElementalItem;
     });
@@ -342,7 +342,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
       const elementalProps = ingredient.elementalProperties;
       const qualities = ingredient.qualities || [];
       const modality = ingredient.modality || 
-        determineIngredientModality(qualities as unknown, elementalProps);
+        determineIngredientModality(qualities as any, elementalProps);
       return modality === modalityFilter;
     });
   }, [ingredientsArray, modalityFilter]);

@@ -70,10 +70,10 @@ export class ElementalCalculator {
     });
 
     // Apply seasonal bonuses/penalties
-    if (recipeData.season) {
-      const seasons = Array.isArray(recipeData.season)
-        ? recipeData.season
-        : [recipeData.season];
+    if ((recipeData as any).season) {
+      const seasons = Array.isArray((recipeData as any).season)
+        ? (recipeData as any).season
+        : [(recipeData as any).season];
       if (
         seasons
           .map((s: string) => s.toLowerCase())
@@ -256,7 +256,7 @@ function getPlanetaryInfluencers(
  */
 export function calculateElementalEnergies(
   planetaryPositions: Record<string, unknown>,
-  _isDaytime = true
+  isDaytime = true
 ): ElementalEnergy[] {
   if (!planetaryPositions || Object.keys(planetaryPositions).length === 0) {
     // console.warn('No planetary positions provided for elemental calculation');

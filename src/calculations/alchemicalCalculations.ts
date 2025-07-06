@@ -909,8 +909,8 @@ export function alchemize(planetaryPositions: Record<string, PlanetaryPosition>,
     
     // Special handling for specific planets
     const planetDataObj = planetData as unknown;
-    if (planetKey === 'Moon' && lunarPhase && planetDataObj.PlanetSpecific?.Lunar?.Phases) {
-      const lunarData = planetDataObj.PlanetSpecific.Lunar;
+    if (planetKey === 'Moon' && lunarPhase && (planetDataObj as any).PlanetSpecific?.Lunar?.Phases) {
+      const lunarData = (planetDataObj as any).PlanetSpecific.Lunar;
       const phaseData = lunarData.Phases[lunarPhase];
       
       if (phaseData) {
@@ -937,8 +937,8 @@ export function alchemize(planetaryPositions: Record<string, PlanetaryPosition>,
     }
     
     // For Sun, apply zodiac transit effects if available
-    if (planetKey === 'Sun' && sign && planetDataObj.PlanetSpecific?.Solar?.ZodiacTransit) {
-      const solarData = planetDataObj.PlanetSpecific.Solar;
+    if (planetKey === 'Sun' && sign && (planetDataObj as any).PlanetSpecific?.Solar?.ZodiacTransit) {
+      const solarData = (planetDataObj as any).PlanetSpecific.Solar;
       const transitData = solarData.ZodiacTransit[sign];
       
       if (transitData && transitData.Elements) {
@@ -955,8 +955,8 @@ export function alchemize(planetaryPositions: Record<string, PlanetaryPosition>,
     }
     
     // For Mercury, apply retrograde cycle effects
-    if (planetKey === 'Mercury' && isRetrograde && planetDataObj.PlanetSpecific?.Mercury?.FlavorModulation) {
-      const mercuryData = planetDataObj.PlanetSpecific.Mercury;
+    if (planetKey === 'Mercury' && isRetrograde && (planetDataObj as any).PlanetSpecific?.Mercury?.FlavorModulation) {
+      const mercuryData = (planetDataObj as any).PlanetSpecific.Mercury;
       // We could apply specific flavor modulations here if needed
     }
   }

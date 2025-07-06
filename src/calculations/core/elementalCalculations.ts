@@ -6,10 +6,8 @@
  */
 
 
-import type { ElementalProperties, PlanetaryPosition, ZodiacSign, LunarPhase } from "@/types/alchemy";
+import type { Element, ElementalProperties, PlanetaryPosition, ZodiacSign, LunarPhase } from "@/types/alchemy";
 import { getCachedCalculation } from '../../utils/calculationCache';
-
-import { _Element } from "@/types/alchemy";
 
 /**
  * Seasonal modifiers for elemental properties
@@ -39,7 +37,7 @@ export const LUNAR_PHASE_MODIFIERS: { [key: string]: ElementalProperties } = {
 /**
  * Zodiac sign to element mapping
  */
-export const ZODIAC_ELEMENTS: Record<ZodiacSign, keyof ElementalProperties> = {
+export const ZODIAC_ELEMENTS: Record<ZodiacSign, Element> = {
   aries: 'Fire',
   leo: 'Fire',
   sagittarius: 'Fire',
@@ -149,9 +147,18 @@ export function calculateElementalCompatibility(
 /**
  * Get the dominant element from elemental properties
  */
-export function getDominantElement(properties: ElementalProperties): keyof ElementalProperties {
-  return Object.entries(properties)
-    .reduce((a, b) => properties[a[0] as keyof ElementalProperties] > properties[b[0] as keyof ElementalProperties] ? a : b)[0] as keyof ElementalProperties;
+export function getDominantElement(properties: ElementalProperties): Element {
+  let dominant: Element = 'Fire';
+  let max = -Infinity;
+
+  for (const [element, value] of Object.entries(properties) as [Element, number][]) {
+    if (value > max) {
+      dominant = element;
+      max = value;
+    }
+  }
+
+  return dominant;
 }
 
 /**
@@ -265,26 +272,26 @@ export function getElementalRecommendations(properties: ElementalProperties): {
   balance: number;
   recommendations: string[];
 } {
-  const dominant = getDominantElement(properties) as unknown as Element;
+  const dominant = getDominantElement(properties);
   const balance = calculateElementalBalance(properties);
   
   const recommendations: string[] = [];
   
   // Generate recommendations based on dominant element
   switch (dominant) {
-    case 'Fire' as unknown as Element:
+    case 'Fire':
       recommendations?.push('Foods that cool and ground: fresh vegetables, fruits, cooling herbs');
       recommendations?.push('Cooking methods: steaming, raw preparation, light sautéing');
       break;
-    case 'Water' as unknown as Element:
+    case 'Water':
       recommendations?.push('Foods that warm and stimulate: spicy dishes, roasted vegetables, warming spices');
       recommendations?.push('Cooking methods: roasting, grilling, stir-frying');
       break;
-    case 'Air' as unknown as Element:
+    case 'Air':
       recommendations?.push('Foods that ground and nourish: root vegetables, whole grains, proteins');
       recommendations?.push('Cooking methods: slow cooking, braising, stewing');
       break;
-    case 'Earth' as unknown as Element:
+    case 'Earth':
       recommendations?.push('Foods that lighten and enliven: leafy greens, sprouted foods, aromatic herbs');
       recommendations?.push('Cooking methods: quick sautéing, blanching, light steaming');
       break;

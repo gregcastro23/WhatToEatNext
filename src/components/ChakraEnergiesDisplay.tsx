@@ -20,9 +20,9 @@ interface ChakraEnergiesDisplayProps {
 
 const ChakraEnergiesDisplay: React.FC<ChakraEnergiesDisplayProps> = ({ compact = false }) => {
   const astroState = useAstrologicalState();
-  const contextChakraEnergies = (astroState as unknown)?.chakraEnergies;
-  const contextLoading = (astroState as unknown)?.isLoading || false;
-  const contextError = (astroState as unknown)?.error;
+  const contextChakraEnergies = (astroState as any)?.chakraEnergies;
+  const contextLoading = (astroState as any)?.isLoading || false;
+  const contextError = (astroState as any)?.error;
   const { chakraEnergies: foodChakraEnergies, loading: foodLoading, error: foodError, chakraRecommendations } = useChakraInfluencedFood({ limit: 50 });
   const { isDaytime } = useAlchemical();
 
