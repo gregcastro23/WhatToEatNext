@@ -455,6 +455,10 @@ function generateEnhancedRecipeRecommendations(
   return recommendations;
 }
 
+// Backward-compatibility aliases – remove after migration
+export const calculateElementalRecipeCompatibility = calculateRecipeCompatibility;
+export const calculateAlchemicalRecipeAlignment = calculateRecipeCompatibility;
+
 export default {
   calculateRecipeCompatibility,
   // Helper functions for direct access if needed

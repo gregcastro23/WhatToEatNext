@@ -136,4 +136,7 @@ export function getElementalPercentages(
 }
 
 // Re-export Element type for components that need it
-export type { Element } from "@/types/alchemy"; 
+export type { Element } from "@/types/alchemy";
+
+// Backward-compatibility alias
+export type _Element = Element; 

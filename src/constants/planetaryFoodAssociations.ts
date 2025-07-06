@@ -13,6 +13,9 @@ export type Planet =
   | 'Jupiter' | 'Saturn' | 'Uranus' | 'Neptune' | 'Pluto'
   | 'Rahu' | 'Ketu';
 
+// Backward-compatibility alias ‑ to be removed after codebase is migrated
+export type _Planet = Planet;
+
 /**
  * Planetary dignity types for calculation
  */

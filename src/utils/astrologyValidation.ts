@@ -269,4 +269,6 @@ export function validatePlanetaryPositionsStructure(positions: Record<string, un
       typeof planetData?.latitude === 'number' &&
       typeof planetData?.distance === 'number';
   });
-} 
+}
+
+export const _validatePlanetaryPositions = validatePlanetaryPositions; 

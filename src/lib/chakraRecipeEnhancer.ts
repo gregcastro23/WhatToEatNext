@@ -103,10 +103,10 @@ export class ChakraRecipeEnhancer {
     recipes: Recipe[],
     sunSign: ZodiacSign,
     moonSign: ZodiacSign,
-    dominantPlanets: Planet[] = []
+    dominantPlanets: _Planet[] = []
   ): ChakraRecipeRecommendation[] {
     // Get current planetary hour
-    let planetaryHour: Planet = 'Sun' as unknown as Planet;
+    let planetaryHour: _Planet = 'Sun' as unknown as _Planet;
     try {
       const hourInfo = this.planetaryCalculator.getCurrentPlanetaryHour();
       if (hourInfo && typeof hourInfo.planet === 'string') {
@@ -115,14 +115,14 @@ export class ChakraRecipeEnhancer {
         const capitalizedName = planetName.charAt(0).toUpperCase() + planetName.slice(1).toLowerCase();
         
         // Create Planet type validation with enhanced safety
-        const planetValidator = (name: string): Planet | null => {
+        const planetValidator = (name: string): _Planet | null => {
           const validPlanets: string[] = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
-          return validPlanets.includes(name) ? (name as unknown as Planet) : null;
+          return validPlanets.includes(name) ? (name as unknown as _Planet) : null;
         };
         
         const validatedPlanet = planetValidator(capitalizedName);
         if (validatedPlanet) {
-          planetaryHour = validatedPlanet as unknown as Planet;
+          planetaryHour = validatedPlanet as unknown as _Planet;
         }
       }
     } catch (error) {
@@ -153,12 +153,12 @@ export class ChakraRecipeEnhancer {
       const planets = astrologicalAffinities?.planets;
       
       if (planets) {
-        if ((planets as Planet[]).includes(planetaryHour)) {
+        if ((planets as _Planet[]).includes(planetaryHour)) {
           planetaryAlignment = 1.0;
         } else {
           const hourChakras = this.chakraService.getChakrasByPlanet(planetaryHour);
-          const recipeChakras = (planets as Planet[]).flatMap(
-            (planet: Planet) => this.chakraService.getChakrasByPlanet(planet)
+          const recipeChakras = (planets as _Planet[]).flatMap(
+            (planet: _Planet) => this.chakraService.getChakrasByPlanet(planet)
           );
           
           // Check for overlapping chakras

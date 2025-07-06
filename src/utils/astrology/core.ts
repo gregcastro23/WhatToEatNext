@@ -761,4 +761,8 @@ export function calculateAspects(
   }
   
   return { aspects, elementalEffects };
-} 
+}
+
+// Backward-compatibility aliases – remove after migration
+export const _calculateLunarPhase = calculateLunarPhase;
+export const _calculatePlanetaryPositions = calculatePlanetaryPositions; 

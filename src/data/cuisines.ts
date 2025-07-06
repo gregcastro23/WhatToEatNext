@@ -119,4 +119,6 @@ export const cuisinesMap = importedCuisinesMap;
 export { CUISINES };
 
 export default cuisines;
+
+export type Cuisine = LocalCuisineType;
   

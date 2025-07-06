@@ -126,4 +126,8 @@ export const validateRecipe = (recipe: Recipe | null | undefined): boolean => {
     }
     
     return true;
-}; 
+};
+
+// Backward-compatibility aliases (temporary)
+export const _validateElementalProperties = validateElementalProperties;
+export const _normalizeElementalProperties = normalizeElementalProperties; 

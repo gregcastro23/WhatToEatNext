@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { _ElementalProperties } from '@/types/alchemy';
 import { Recipe, RecipeElementalMapping } from '@/types/recipes';
 

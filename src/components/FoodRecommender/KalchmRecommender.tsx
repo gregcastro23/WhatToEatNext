@@ -5,7 +5,7 @@ import { useAlchemical } from '@/contexts/AlchemicalContext';
 import { calculateKalchmResults } from '@/calculations/core/kalchmEngine';
 import { IngredientService } from '@/services/IngredientService';
 import { UnifiedIngredient } from '@/data/unified/unifiedTypes';
-import { _ElementalProperties } from '@/types/alchemy';
+import type { ElementalProperties, _ElementalProperties } from '@/types/alchemy';
 import { useRealAlchemizeService } from '@/services/RealAlchemizeService';
 import { useUnifiedScoringService } from '@/services/UnifiedScoringService';
 import { useThermodynamicEngine } from '@/calculations/core/thermodynamicEngine';

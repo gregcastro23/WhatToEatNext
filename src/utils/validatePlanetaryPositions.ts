@@ -160,4 +160,7 @@ export function getCurrentTransitPositions(): Record<string, PlanetPosition> {
   }
 
   return positions;
-} 
+}
+
+// Backward-compatibility alias
+export const _validatePlanetaryPositions = validatePlanetaryPositions; 

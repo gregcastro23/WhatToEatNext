@@ -255,15 +255,17 @@ export function isRecipeIngredient(ingredient: unknown): ingredient is RecipeIng
  * Type guard to check if an object is a full Ingredient
  */
 export function isFullIngredient(ingredient: unknown): ingredient is Ingredient {
-  const ingredientData = ingredient as unknown;
+  if (!ingredient || typeof ingredient !== 'object') return false;
+
+  // Use a broadly-typed record to avoid 'unknown' property access
+  const ing = ingredient as Record<string, unknown>;
+
   return (
-    ingredient &&
-    typeof ingredientData?.name === 'string' &&
-    typeof ingredientData?.category === 'string' &&
-    ingredientData?.elementalProperties &&
-    Array.isArray(ingredientData?.qualities) &&
-    ingredientData?.storage &&
-    typeof ingredientData?.storage === 'object'
+    typeof ing.name === 'string' &&
+    typeof ing.category === 'string' &&
+    typeof ing.elementalProperties === 'object' &&
+    Array.isArray(ing.qualities) &&
+    typeof ing.storage === 'object'
   );
 }
 
@@ -300,7 +302,7 @@ export function validateIngredient(ingredient: Partial<Ingredient> & {
   // Fix specific property access errors
   if (ingredient.qualities && Array.isArray(ingredient.qualities)) {
     // Check each quality is a string
-    const invalidQualities = ingredient.qualities.filter((q: Record<string, unknown>) => typeof q !== 'string');
+    const invalidQualities = ingredient.qualities.filter((q) => typeof q !== 'string');
     if (invalidQualities.length > 0) {
       errors.push('All qualities must be strings');
     }
@@ -414,32 +416,31 @@ export function getDominantElement(elementalProperties: ElementalProperties): st
  * Converts an ingredient mapping to a full ingredient
  */
 export function mapToIngredient(mapping: IngredientMapping): Ingredient {
-  // Set default values for required properties
-  const ingredient = {
-    name: (mapping.name as unknown as string) || '',
-    category: (mapping.category as unknown as IngredientCategory) || 'culinary_herb',
-    elementalProperties: (mapping.elementalProperties as unknown as ElementalProperties) || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
-    qualities: (mapping.qualities as unknown as string[]) || [],
-    storage: (mapping.storage as unknown) || {
-      duration: 'unknown'
-    },
-    // Add missing required properties for Ingredient interface
-    amount: (mapping as unknown).amount || 1,
-    astrologicalProfile: (mapping as unknown).astrologicalProfile || {
+  // Use object spread to safely copy remaining fields while providing sane defaults
+  const {
+    name = '',
+    category = 'culinary_herb',
+    elementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+    qualities = [],
+    storage = { duration: 'unknown' },
+    amount = 1,
+    astrologicalProfile = {
       elementalAffinity: { base: 'Earth' },
       rulingPlanets: [],
-      zodiacAffinity: []
-    }
+      zodiacAffinity: [],
+    },
+    ...rest
+  } = mapping as Record<string, unknown> & Partial<IngredientMapping>;
+
+  return {
+    name,
+    category: category as IngredientCategory,
+    elementalProperties: elementalProperties as ElementalProperties,
+    qualities: qualities as string[],
+    storage: storage as Record<string, unknown>,
+    astrologicalProfile: astrologicalProfile as Record<string, unknown>,
+    ...(rest as Record<string, unknown>),
   } as Ingredient;
-
-  // Add any additional properties from the mapping
-  for (const key in mapping) {
-    if (key !== 'name' && key !== 'category' && key !== 'elementalProperties' && key !== 'qualities') {
-      (ingredient as unknown)[key] = mapping[key];
-    }
-  }
-
-  return ingredient;
 }
 
 /**
@@ -450,18 +451,16 @@ export function ingredientToRecipeIngredient(
   amount = 1,
   unit = 'item'
 ): RecipeIngredient {
+  const anyIng = ingredient as Record<string, unknown>;
+
   return {
     name: ingredient.name,
     amount,
     unit,
-    category: (ingredient.category as string) || 'culinary_herb',
-    elementalProperties: ingredient.elementalProperties as unknown,
-    qualities: (ingredient as unknown)?.qualities || [],
+    category: (ingredient.category ?? 'culinary_herb') as string,
+    elementalProperties: ingredient.elementalProperties,
     astrologicalProfile: ingredient.astrologicalProfile,
-    // Include other relevant properties that exist in RecipeIngredient - safe property access
-    origin: (ingredient as unknown)?.origin || undefined,
-    seasonality: (ingredient as unknown)?.seasonality || undefined
-  } as RecipeIngredient;
+  };
 }
 
 /**
@@ -490,6 +489,8 @@ export function normalizeElementalProperties(properties: ElementalProperties): E
 export function toSimpleIngredient(ingredient: Ingredient): SimpleIngredient {
   return {
     name: ingredient.name,
+    amount: 1,
+    unit: 'item',
     category: ingredient.category as string,
     elementalProperties: ingredient.elementalProperties
   };
@@ -527,7 +528,6 @@ export function fromSimpleIngredient(simple: SimpleIngredient): Ingredient {
     elementalProperties: simple.elementalProperties,
     qualities: [],
     storage: { duration: 'unknown' },
-    amount: 1,
     astrologicalProfile: {
       elementalAffinity: { base: getDominantElement(simple.elementalProperties as any as ElementalProperties) as Element },
       rulingPlanets: [],

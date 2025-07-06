@@ -1,4 +1,4 @@
-import { ZodiacSign, _LunarPhase, _Modality, AlchemicalProperties, _PlanetName, _Planet, PlanetaryAlignment, _CelestialPosition, PlanetaryAspect } from '@/types/celestial';
+import { ZodiacSign, LunarPhase, Modality, AlchemicalProperties, PlanetName, Planet, PlanetaryAlignment, CelestialPosition, PlanetaryAspect } from '@/types/celestial';
 import { TarotCard } from '@/contexts/TarotContext/types';
 import { ElementalCharacter } from '@/constants/planetaryElements';
 
@@ -695,3 +695,23 @@ export type alchemicalValues = AlchemicalValues; // Lowercase version
 export type BaseIngredient = Ingredient; // Alias for compatibility
 export type RecipeData = Recipe; // Alias for compatibility
 // Removed local AlchemicalProperty definition - now imported from @/types/celestial
+
+// ========== BACKWARD COMPATIBILITY ALIASES (underscore-prefixed) ==========
+// Many legacy files still import underscore-prefixed types.  Provide
+// simple type aliases so those imports resolve without changing hundreds of files.
+export type _Element = Element;
+export type _ElementalProperties = ElementalProperties;
+export type _LowercaseElementalProperties = LowercaseElementalProperties;
+export type _ElementalRatio = ElementalRatio;
+export type _ElementalModifier = ElementalModifier;
+export type _Planet = Planet;
+export type _PlanetName = PlanetName;
+export type _LunarPhase = LunarPhase;
+export type _Modality = Modality;
+export type _CelestialPosition = CelestialPosition;
+export type _ChakraEnergies = ChakraEnergies;
+export type _AstrologicalProfile = AstrologicalProfile;
+export type _PlanetaryPosition = PlanetaryPosition;
+export type _Season = Season;
+export type _ThermodynamicMetrics = ThermodynamicMetrics;
+// ---------------------------------------------------------------------------

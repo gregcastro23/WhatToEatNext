@@ -154,4 +154,10 @@ export function calculateElementalContributionsFromPlanets(planetaryPositions: R
   }
   
   return contributions;
+}
+
+// Backward-compatibility stub – to be replaced with real implementation
+export function generateTopSauceRecommendations(elementalProperties: ElementalProperties): string[] {
+  // For now, return empty – future enhancement can provide actual logic
+  return [];
 } 

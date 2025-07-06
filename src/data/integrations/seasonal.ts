@@ -47,7 +47,7 @@ export function getSeasonalData(
   ingredientName: string,
   season: Season = getCurrentSeason()
 ): SeasonalData {
-  const availability = getSeasonalScore(ingredientName, _season);
+  const availability = getSeasonalScore(ingredientName, season);
   const traditionalUse = seasonalUsage[season]?.[ingredientName] || [];
   
   // Get complementary flavors for the season
@@ -82,6 +82,8 @@ export function isInSeason(ingredientName: string, threshold = 0.5): boolean {
 export const unifiedSeasonalSystem = {
   // Core functions
   getCurrentSeason,
+  // Backward-compatibility alias (remove after migration)
+  _getCurrentSeason: getCurrentSeason,
   getSeasonalScore,
   getSeasonalData,
   isInSeason,
@@ -116,3 +118,5 @@ export const unifiedSeasonalSystem = {
     };
   }
 };
+
+export const _getCurrentSeason = getCurrentSeason;

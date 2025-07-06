@@ -562,3 +562,6 @@ export interface RecipeFilters {
 // Export aliases for compatibility
 export type Ingredient = ingredient; // Capitalized version
 export type RecipeData = RecipeDetail; // Alias for compatibility 
+
+// Re-export CuisineType for compatibility with recommendation utilities
+export type { CuisineType } from './alchemy'; 

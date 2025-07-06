@@ -23,3 +23,7 @@ export interface PlanetaryAlignment {
 export type TimeOfDay = 'morning' | 'afternoon' | 'evening' | 'night';
 
 export type MealType = 'breakfast' | 'lunch' | 'dinner' | 'snack';
+
+// Backward-compatibility re-exports for underscore-prefixed and shared types
+export type { _ElementalProperties } from './alchemy';
+export type { CuisineType } from './alchemy';

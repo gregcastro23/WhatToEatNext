@@ -490,6 +490,24 @@ export const elementalUtils = {
   },
 };
 
+// Backward-compatibility alias – to be removed once imports are updated
+export const _elementalUtils = {
+  DEFAULT_ELEMENTAL_PROPERTIES,
+  validateElementalProperties,
+  normalizeProperties,
+  standardizeRecipeElements,
+  validateElementalRequirements,
+  getMissingElements,
+  calculateElementalAffinity,
+  getDominantElement,
+  getComplementaryElement: getComplementaryElement,
+  getElementalCharacteristics,
+  getElementalProfile,
+  getSuggestedCookingTechniques,
+  getRecommendedTimeOfDay,
+  ensureCompleteElementalProperties,
+};
+
 export default elementalUtils;
 
 export { elements, elementalInteractions, elementalFunctions };

@@ -224,6 +224,13 @@ function getSuggestedDishes(cuisine: string, elementals: ElementalProperties): s
   return cuisineDishes?.slice(0, 3);
 }
 
+// Backward-compatibility aliases – remove after migration
+export const getCuisineRecommendations = generateCuisineRecommendations;
+
+export function generateElementalCuisineMapping(cuisine: string): ElementalProperties {
+  return calculateCuisineElementalAlignment(cuisine);
+}
+
 export default {
   generateCuisineRecommendations,
   calculateCuisineCompatibility,

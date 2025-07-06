@@ -101,7 +101,7 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
     ...ingredient,
     ...(databaseIngredient || {}),
     // Keep the match score and other dynamic properties from the passed ingredient
-    matchScore: (ingredient as unknown).matchScore,
+    matchScore: (ingredient as any).matchScore,
     elementalProperties: ingredient.elementalProperties || databaseIngredient?.elementalProperties
   };
 
@@ -111,7 +111,7 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
   // Always show enhanced culinary tabs for richer experience
   availableTabs.push('culinary-methods', 'culinary-traditions', 'flavors-pairing');
   
-  const extendedIngredient = ingredientData as unknown;
+  const extendedIngredient = ingredientData as any;
   
   // Show preparation tab if there's any preparation-related data
   if (extendedIngredient?.preparation || 

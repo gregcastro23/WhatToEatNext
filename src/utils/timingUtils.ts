@@ -2,6 +2,8 @@ import type { ElementalProperties } from '@/types/alchemy';
 import { _elementalUtils } from './elementalUtils';
 import { culinaryTraditions } from '@/data/cuisines/culinaryTraditions';
 
+const elementalUtils = _elementalUtils;
+
 // Define TimingResult interface
 interface TimingResult {
   duration: number;

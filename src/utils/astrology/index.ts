@@ -14,7 +14,8 @@ export {
   getmoonIllumination,
   getCurrentAstrologicalState,
   calculateElementalProfile,
-  calculateAspects
+  calculateAspects,
+  getCurrentTransitSign
 } from './core';
 
 export * from './positions';
@@ -24,4 +25,7 @@ export {
   validatePlanetaryPositions,
   validateAstrologicalData,
   safeCalculatePlanetaryAspects
-} from './validation'; 
+} from './validation';
+
+// Export transit helper
+export { getCurrentTransitSign } from './validation'; 

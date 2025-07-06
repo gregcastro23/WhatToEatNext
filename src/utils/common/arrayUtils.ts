@@ -100,4 +100,10 @@ export function safeJoin<T>(
 ): string {
   const array = toArray(arr);
   return array?.join(separator);
-} 
+}
+
+// ------------- Backward-compatibility aliases (temporary) -------------
+export const _isNonEmptyArray = isNonEmptyArray;
+export const _toArray = toArray;
+export const _safeSome = safeSome;
+export const _safeFilter = safeFilter; 

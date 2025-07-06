@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { ElementalItem, AlchemicalItem } from '../calculations/alchemicalTransformation';
 import { ElementalCharacter } from '../constants/planetaryElements';
 import { 

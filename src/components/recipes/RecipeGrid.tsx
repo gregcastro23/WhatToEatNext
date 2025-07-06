@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo, useEffect } from 'react';
 import { Recipe } from '@/types/recipe';
-import { _ElementalProperties, _ThermodynamicMetrics, TimeFactors } from '@/types/alchemy';
+import type { ElementalProperties, ThermodynamicMetrics as _ThermodynamicMetrics, TimeFactors } from '@/types/alchemy';
 import { getTimeFactors } from '@/utils/time';
 
 import { seasonalData } from '../../data/seasons';

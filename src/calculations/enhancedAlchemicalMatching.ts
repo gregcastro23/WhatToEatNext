@@ -508,8 +508,8 @@ function compareRulers(rulerA: string, rulerB: string): number {
  * @returns Match score between 0 and 1
  */
 export function calculateAlchemicalCompatibility(
-  elementalPropertiesA: ElementalProperties,
-  elementalPropertiesB: ElementalProperties,
+  elementalPropertiesA: _ElementalProperties,
+  elementalPropertiesB: _ElementalProperties,
   zodiacA?: ZodiacSign,
   zodiacB?: ZodiacSign
 ): number {
@@ -519,7 +519,7 @@ export function calculateAlchemicalCompatibility(
   
   // Compare each element pair
   Object.entries(elementalPropertiesA).forEach(([element, valueA]) => {
-    const valueB = elementalPropertiesB[element as keyof ElementalProperties] || 0;
+    const valueB = elementalPropertiesB[element as keyof _ElementalProperties] || 0;
     const weight = (valueA + valueB) / 2; // Average weight of this element
     
     // Similar values are more compatible

@@ -99,9 +99,9 @@ export class ChakraAlchemyService {
   /**
    * Get all chakras influenced by a specific planet based on alchemical energy states
    */
-  public getChakrasByPlanet(planet: Planet): ChakraPosition[] {
+  public getChakrasByPlanet(planet: _Planet): ChakraPosition[] {
     // Planet to energy state mappings based on alchemical principles - FIXED: Capitalized planet names for type consistency
-    const planetEnergyStates: Record<Planet, string[]> = {
+    const planetEnergyStates: Record<_Planet, string[]> = {
       'Sun': ['Spirit'],
       'Moon': ['Essence', 'Matter'],
       'Mercury': ['Spirit', 'Substance'],
@@ -138,8 +138,8 @@ export class ChakraAlchemyService {
   public calculateChakraEnergies(
     sunSign: ZodiacSign,
     moonSign: ZodiacSign,
-    dominantPlanets: Planet[],
-    planetaryHour: Planet
+    dominantPlanets: _Planet[],
+    planetaryHour: _Planet
   ): ChakraEnergies {
     const energies: ChakraEnergies = {
       root: 0.2,     // Base value to ensure all chakras have some energy

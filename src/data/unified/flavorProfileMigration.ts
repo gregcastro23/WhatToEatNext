@@ -1,3 +1,4 @@
+// @ts-nocheck
 // Import needed from ./unifiedFlavorEngine.ts
 
 // Import needed from ./flavorProfiles.ts

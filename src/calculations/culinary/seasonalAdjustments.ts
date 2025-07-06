@@ -230,6 +230,14 @@ function generateSeasonalRecommendations(
   return recommendations;
 }
 
+// Provide seasonal modifiers accessor for compatibility
+export function getSeasonalModifiers(): Record<string, ElementalProperties> {
+  return SEASONAL_MODIFIERS;
+}
+
+// Backward-compatibility alias – remove after migration
+export const applySeasonalElementalAdjustments = applySeasonalAdjustments;
+
 export default {
   applySeasonalAdjustments,
   applyLunarPhaseAdjustments,

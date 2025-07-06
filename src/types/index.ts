@@ -231,3 +231,5 @@ export interface AppState {
     favoriteIngredients: string[];
   };
 }
+
+export type { PlanetName } from './celestial';

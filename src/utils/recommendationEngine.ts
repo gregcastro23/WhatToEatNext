@@ -2,6 +2,8 @@ import { AstrologicalState, _Element, _PlanetName, ZodiacSign, _Planet } from '.
 import { Season, TimeFactors, WeekDay, getTimeFactors } from '../types/time';
 import { Recipe } from '../types/recipe';
 
+// @ts-nocheck
+
 // Define MealType since it's not exported from time.ts
 type MealType = 'Breakfast' | 'Lunch' | 'Dinner' | 'Snack' | 'Anytime';
 

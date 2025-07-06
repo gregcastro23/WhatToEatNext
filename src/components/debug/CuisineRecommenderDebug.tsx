@@ -14,7 +14,8 @@ import {
 import { cuisines } from '@/data/cuisines';
 import { getRecipesForCuisineMatch , cuisineFlavorProfiles } from '@/data/cuisineFlavorProfiles';
 import { getAllRecipes } from '@/data/recipes';
-import { Recipe, _ElementalProperties, ZodiacSign, LunarPhaseWithSpaces } from '@/types/alchemy';
+import { Recipe, ZodiacSign, LunarPhaseWithSpaces } from '@/types/alchemy';
+import { ElementalProperties } from '@/types/celestial';
 import { Loader2, ChevronDown, ChevronUp, Info, Flame, Droplets, Wind, Mountain } from 'lucide-react';
 import { transformCuisines, sortByAlchemicalCompatibility } from '@/utils/alchemicalTransformationUtils';
 

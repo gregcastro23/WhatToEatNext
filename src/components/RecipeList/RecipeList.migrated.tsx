@@ -9,7 +9,7 @@ import {
   Select, MenuItem, Checkbox, FormControlLabel,
   Accordion, AccordionSummary, AccordionDetails,
   Pagination, IconButton, InputAdornment,
-  _Rating, LinearProgress
+  Rating, LinearProgress
 } from '@mui/material';
 import {
   Search, ExpandMore, Restaurant, AccessTime, 

@@ -35,6 +35,7 @@ export function getTimeFactors() {
   
   // Determine if it's day or night (simplified)
   const _isDaytime = hour >= 6 && hour < 18;
+  const isDaytime = _isDaytime; // Backward-compatibility alias
   const hourIndex = hour % 24;
   const planetaryHour = isDaytime ? dayHours[hourIndex] : nightHours[hourIndex];
   

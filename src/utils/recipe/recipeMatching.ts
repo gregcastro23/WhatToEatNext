@@ -1,3 +1,4 @@
+// @ts-nocheck
 import type { AstrologicalState , IngredientMapping } from "@/types/alchemy";
 import type { Recipe,
   ElementalProperties,

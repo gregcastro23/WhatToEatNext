@@ -1,4 +1,10 @@
-import { NutritionalProfile, _ElementalProperties } from '../types/alchemy';
+import type { NutritionalProfile, ElementalProperties } from '@/types/alchemy';
+
+// Minimal shape for object-based ingredient inputs
+interface IngredientLike {
+  name?: string;
+  amount?: number;
+}
 
 // Base nutritional values for common ingredient categories (per 100g)
 const nutritionReferenceValues: Record<string, unknown> = {
@@ -81,8 +87,8 @@ const mineralsByCategory: Record<string, string[]> = {
 export const calculateNutritionalScore = (nutrition: NutritionalProfile): number => {
   if (!nutrition) return 0;
   
-  // Safe property access for macros
-  const macros = (nutrition as unknown)?.macros || {};
+  // Safe property access for macros without casting to unknown
+  const macros = nutrition.macros ?? {};
   const baseScore = 
     (macros.protein || 0) * 0.4 +
     (macros.fiber || 0) * 0.3 +
@@ -140,9 +146,7 @@ export const calculateEstimatedNutrition = (ingredients: unknown[]): unknown => 
       }
     } else if (typeof ingredient === 'object') {
       // Apply surgical type casting with variable extraction
-      const ingredientData = ingredient as unknown;
-      const name = ingredientData?.name;
-      const amountValue = ingredientData?.amount;
+      const { name, amount: amountValue } = ingredient as IngredientLike;
       
       ingredientName = (name || '').toLowerCase();
       amount = amountValue || 1;
@@ -175,12 +179,12 @@ export const calculateEstimatedNutrition = (ingredients: unknown[]): unknown => 
     const adjustmentFactor = amount / 100;
     
     // Add to nutrition totals with adjustment
-    totals.calories += referenceItem.calories * adjustmentFactor;
-    totals.protein += referenceItem.protein * adjustmentFactor;
-    totals.carbs += referenceItem.carbs * adjustmentFactor;
-    totals.fat += referenceItem.fat * adjustmentFactor;
-    totals.fiber += referenceItem.fiber * adjustmentFactor;
-    totals.sugar += referenceItem.sugar * adjustmentFactor;
+    totals.calories += (referenceItem as any).calories * adjustmentFactor;
+    totals.protein += (referenceItem as any).protein * adjustmentFactor;
+    totals.carbs += (referenceItem as any).carbs * adjustmentFactor;
+    totals.fat += (referenceItem as any).fat * adjustmentFactor;
+    totals.fiber += (referenceItem as any).fiber * adjustmentFactor;
+    totals.sugar += (referenceItem as any).sugar * adjustmentFactor;
     
     // Add vitamins and minerals based on food category
     Object.keys(vitaminsByCategory).forEach(category => {

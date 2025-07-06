@@ -1,7 +1,7 @@
 import { _ElementalProperties } from '@/types/alchemy';
 
 interface elementalStateProps {
-    balance: ElementalProperties;
+    balance: _ElementalProperties;
 }
 
 export const elementalState = ({ balance }: elementalStateProps) => {

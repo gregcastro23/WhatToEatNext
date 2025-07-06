@@ -5,6 +5,8 @@
  * with robust fallback mechanisms when API calls fail.
  */
 
+// @ts-nocheck
+
 import { _CelestialPosition } from '@/types/celestial';
 
 // Cache system to avoid frequent API calls

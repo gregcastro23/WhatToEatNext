@@ -367,6 +367,9 @@ export async function calculatePlanetaryPositions(date: Date = new Date()): Prom
   }
 }
 
+// Backward-compatibility alias (temporary)
+export const _calculatePlanetaryPositions = calculatePlanetaryPositions;
+
 /**
  * Standardize planet name to have correct capitalization
  * This helps ensure consistency between different parts of the application
@@ -2638,3 +2641,9 @@ function calculateOverallAlchemicalScore(
     return 0.5;
   }
 }
+
+// Backward-compatibility alias
+export const _calculateLunarPhase = calculateLunarPhase;
+
+// Backward-compatibility alias
+export const _getPlanetaryElementalInfluence = getPlanetaryElementalInfluence;

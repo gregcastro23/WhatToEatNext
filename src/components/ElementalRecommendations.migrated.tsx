@@ -1,7 +1,6 @@
 'use client';
 
-import { _ElementalProperties } from '@/types';
-import { _Element } from '@/types/elemental';
+import { ElementalProperties, Element } from '@/types/celestial';
 import React, { useState, useEffect, useMemo } from 'react';
 import { useServices } from '@/hooks/useServices';
 

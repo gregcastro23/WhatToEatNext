@@ -1,5 +1,5 @@
-import { NutritionalProfile } from '@/types/alchemy';
 import { usdaNutritionalData } from '@/data/usdaNutritionalData';
+import type { NutritionalProfile } from '@/types/alchemy';
 
 /**
  * Normalizes an ingredient name for lookup in the nutritional data
@@ -57,8 +57,8 @@ export function getNutritionalData(ingredientName: string): NutritionalProfile |
  * @returns Array of ingredient names
  */
 export function getAvailableNutritionalIngredients(): string[] {
-  return Object.keys(usdaNutritionalData).map(key => 
-    (usdaNutritionalData[key] as unknown)?.name || key
+  return Object.keys(usdaNutritionalData).map(key =>
+    ((usdaNutritionalData as Record<string, any>)[key]?.name) ?? key
   );
 }
 
@@ -90,8 +90,8 @@ export function compareNutritionalValues(
   }
   
   // Calculate differences in key metrics (percentage difference) - safe property access
-  const profile1Macros = (profile1 as unknown)?.macros || {};
-  const profile2Macros = (profile2 as unknown)?.macros || {};
+  const profile1Macros = profile1.macros ?? {};
+  const profile2Macros = profile2.macros ?? {};
   
   const differences: Record<string, number> = {
     calories: ((profile2.calories - profile1.calories) / profile1.calories) * 100,

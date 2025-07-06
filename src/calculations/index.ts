@@ -14,7 +14,8 @@ import { Recipe } from '@/types/recipe';
 import type { ElementalProperties, 
   PlanetaryPosition, 
   ZodiacSign, 
-  LunarPhase } from '@/types/alchemy';
+  LunarPhase,
+  Season } from '@/types/alchemy';
 
 // Core calculation modules
 import kalchmEngine, { 
@@ -101,8 +102,8 @@ export interface ComprehensiveAlchemicalResult {
  */
 export interface CalculationInput {
   planetaryPositions: { [key: string]: PlanetaryPosition };
-  season?: string;
-  lunarPhase?: string;
+  season?: Season;
+  lunarPhase?: LunarPhase;
   isDaytime?: boolean;
   currentDate?: Date;
   currentZodiacSign?: ZodiacSign;
@@ -117,9 +118,9 @@ export async function calculateComprehensiveAlchemicalResult(
   const {
     planetaryPositions,
     season = 'spring',
-    _lunarPhase = 'full moon',
-    _isDaytime = true,
-    _currentDate = new Date(),
+    lunarPhase = 'full moon',
+    isDaytime = true,
+    currentDate = new Date(),
     currentZodiacSign
   } = input;
 
@@ -133,13 +134,13 @@ export async function calculateComprehensiveAlchemicalResult(
     // 2. Calculate comprehensive elemental properties
     let elementalProperties = calculateComprehensiveElementalProperties(
       planetaryPositions,
-      _season,
+      season,
       lunarPhase,
       isDaytime
     );
 
     // Apply seasonal and lunar adjustments
-    elementalProperties = applySeasonalAdjustments(elementalProperties, _season);
+    elementalProperties = applySeasonalAdjustments(elementalProperties, season);
     if (lunarPhase) {
       elementalProperties = applyLunarPhaseAdjustments(elementalProperties, lunarPhase);
     }
@@ -148,7 +149,7 @@ export async function calculateComprehensiveAlchemicalResult(
     const planetaryInfluencesResult = calculatePlanetaryInfluences(
       planetaryPositions,
       isDaytime,
-      _currentDate
+      currentDate
     );
 
     // 4. Generate elemental recommendations

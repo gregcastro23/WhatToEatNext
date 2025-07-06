@@ -18,12 +18,12 @@ import {
 import { AlchemicalContextType } from '@/contexts/AlchemicalContext/context';
 import { createLogger } from '@/utils/logger';
 import { 
-  _CelestialPosition, 
+  CelestialPosition, 
   PlanetaryAlignment, 
   _Modality, 
   _Element,
   AlchemicalProperties, 
-  _ElementalProperties, 
+  ElementalProperties, 
   ThermodynamicProperties 
 } from '@/types/celestial';
 
@@ -71,7 +71,7 @@ interface AlchemicalResults {
     Fixed: number;
     Mutable: number;
   };
-  dominantModality: Modality;
+  dominantModality: _Modality;
 }
 
 // Define interface for alchemical hook result
@@ -87,7 +87,7 @@ interface AlchemicalHookResult {
         Fixed: number;
         Mutable: number;
       };
-      dominantModality?: Modality;
+      dominantModality?: _Modality;
       planetaryDignities?: Record<string, unknown>;
     };
   };
@@ -417,7 +417,7 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
             const signKey = position.sign.toLowerCase();
             const modality = signKey in signModality ? signModality[signKey] : undefined;
             if (modality && (modality === 'Cardinal' || modality === 'Fixed' || modality === 'Mutable')) {
-              modalityCount[modality as Modality]++;
+              modalityCount[modality as _Modality]++;
               totalPlanets++;
             }
           }
@@ -431,10 +431,10 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
         };
         
         // Determine dominant modality
-        const entries = Object.entries(modalityDistribution) as [Modality, number][];
+        const entries = Object.entries(modalityDistribution) as [_Modality, number][];
         const dominantModality = entries.reduce(
           (max, [modality, value]) => value > max.value ? {modality, value} : max, 
-          {modality: 'Mutable' as Modality, value: 0}
+          {modality: 'Mutable' as _Modality, value: 0}
         ).modality;
 
         // Update modality distribution in a separate state update

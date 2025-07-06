@@ -110,7 +110,7 @@ export const ChartProvider: React.FC<{children: React.ReactNode}> = ({ children 
         // console.log('Using positions from AlchemicalContext');
       } else {
         try {
-          positions = await calculatePlanetaryPositions();
+          positions = await _calculatePlanetaryPositions();
           // console.log('Successfully calculated planetary positions');
         } catch (posError) {
           // console.error('Error calculating planetary positions:', posError);
@@ -134,7 +134,7 @@ export const ChartProvider: React.FC<{children: React.ReactNode}> = ({ children 
         planetaryPositions: positions,
         aspects,
         elementalEffects,
-        currentSeason: _season,
+        currentSeason: season,
         lastUpdated: new Date(),
         stelliums,
         houseEffects

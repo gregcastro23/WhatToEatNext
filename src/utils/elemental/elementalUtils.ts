@@ -138,4 +138,9 @@ export function getDominantElement(properties: ElementalProperties): keyof Eleme
       value > max.value ? { element: element as "Fire" | "Water" | "Earth" | "Air", value } : max, 
       { element: 'Fire' as keyof ElementalProperties, value: 0 }
     ).element;
-} 
+}
+
+// Backward-compatibility function aliases
+export const _createElementalProperties = createElementalProperties;
+export const _isElementalProperties = isElementalProperties;
+export const _getElementalProperty = getElementalProperty; 

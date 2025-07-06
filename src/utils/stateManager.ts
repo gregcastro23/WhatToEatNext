@@ -5,6 +5,8 @@ import { celestialCalculator } from '@/services/celestialCalculations';
 import type { Recipe } from '@/types/recipe';
 import type { ElementalProperties } from '@/types/alchemy';
 
+const cache = _cache;
+
 // Add the missing type definitions
 interface ScoredRecipe extends Recipe {
   score: number;

@@ -267,9 +267,15 @@ export function getCulturalVariations(mainMethod: string): CulturalCookingMethod
   );
 }
 
+// Backward-compatibility alias
+export const _getCulturalVariations = getCulturalVariations;
+
 // Helper to map elemental properties to astrological influences
 export function mapElementsToAstrology(methods: CulturalCookingMethod[]): CulturalCookingMethod[] {
   // This is where we could add logic to derive astrological influences from elemental properties
   // For now, returning as-is
   return methods;
-} 
+}
+
+// Backward-compatibility alias – to be removed after migration
+export type _CulturalCookingMethod = CulturalCookingMethod; 

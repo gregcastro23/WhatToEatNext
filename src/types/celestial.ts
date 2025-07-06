@@ -194,4 +194,21 @@ export interface AstrologicalState {
   loading?: boolean;
   isReady?: boolean;
   renderCount?: number;
-} 
+}
+
+// ---------------- Backward-compatibility aliases ----------------
+// Many legacy files still import underscore-prefixed versions of these types.
+// Until those imports are migrated, provide re-exports so that the compiler
+// can resolve them without TS2724 errors.  These aliases are 1-to-1 mappings
+// to the canonical types above and will be removed once legacy code is
+// modernized.
+
+export type _CelestialPosition = CelestialPosition;
+export type _PlanetaryPosition = PlanetaryPosition;
+export type _Planet = Planet;
+export type _PlanetName = PlanetName;
+export type _ZodiacSign = ZodiacSign;
+export type _LunarPhase = LunarPhase;
+export type _Element = Element;
+export type _Modality = Modality;
+export type _ElementalProperties = ElementalProperties; 
