@@ -20,4 +20,18 @@ if (typeof (globalThis as any).getElementalCharacteristics === 'undefined') {
   };
 }
 
+const ensureGlobalFn = (name: string, fn: (...args: any[]) => any) => {
+  if (typeof (globalThis as any)[name] === 'undefined') {
+    (globalThis as any)[name] = fn;
+  }
+};
+
+// Provide lightweight fallbacks
+ensureGlobalFn('getElementalProfile', (props: Record<string, number>) => ({
+  dominant: (globalThis as any).getDominantElement(props),
+  balance: props,
+}));
+
+// Add other frequently-missing helpers here as needed
+
 export {}; // Module has side-effects only 

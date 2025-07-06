@@ -492,7 +492,32 @@ export const elementalUtils = {
 
 // Direct export of common functions from elementalFunctions
 export const getDominantElement = elementalFunctions.getDominantElement;
-export const getComplementaryElement = elementalFunctions.getComplementaryElements;
+export const getComplementaryElement = elementalFunctions.suggestComplementaryElements;
+
+// Simple implementations for missing functions
+export const getElementalCharacteristics = (properties: ElementalProperties) => {
+  const dominant = getDominantElement(properties);
+  return ELEMENTAL_CHARACTERISTICS[dominant as keyof typeof ELEMENTAL_CHARACTERISTICS] || ELEMENTAL_CHARACTERISTICS.Fire;
+};
+
+export const getSuggestedCookingTechniques = (properties: ElementalProperties): string[] => {
+  const characteristics = getElementalCharacteristics(properties);
+  return characteristics.cookingTechniques || ['Balanced cooking'];
+};
+
+export const getElementalProfile = (properties: ElementalProperties) => {
+  const dominant = getDominantElement(properties);
+  return {
+    dominant,
+    balance: properties,
+    characteristics: getElementalCharacteristics(properties)
+  };
+};
+
+export const getRecommendedTimeOfDay = (properties: ElementalProperties): string[] => {
+  const characteristics = getElementalCharacteristics(properties);
+  return characteristics.timeOfDay || ['morning'];
+};
 
 // Backward-compatibility alias – to be removed once imports are updated
 export const _elementalUtils = {
