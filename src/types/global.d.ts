@@ -87,4 +87,33 @@ declare global {
   }
 }
 
+// ---------------------------------------------------------------------------
+// Legacy global constant aliases (temporary shim for ongoing migration)
+// Placed inside `declare global` to ensure they are visible in all modules.
+
+declare global {
+  const season: import('@/types/alchemy').Season;
+  const _season: string;
+
+  const isDaytime: boolean;
+  const _isDaytime: boolean;
+
+  const lunarPhase: string;
+  const _currentPhase: string;
+
+  const zodiacSign: string;
+
+  // Generic filter / options placeholder (to be removed once fully typed)
+  const _options: any;
+
+  // Additional globals surfaced during alias sweep
+  let currentDate: Date | string;
+
+  // Dummy placeholder for UI state enum used in legacy components
+  type ExpandedState = 'expanded' | 'collapsed' | string;
+  const ExpandedState: Record<string, ExpandedState>;
+
+  function calculateLunarPhase(date?: Date | string): string;
+}
+
 export {}; 

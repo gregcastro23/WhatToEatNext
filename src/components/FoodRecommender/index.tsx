@@ -48,11 +48,11 @@ if (typeof window !== 'undefined') {
 // Create wrapper component to combine both implementations
 const FoodRecommender = () => {
   const astroState = useAstrologicalState();
-  const planetaryPositions = (astroState as unknown)?.planetaryPositions;
+  const planetaryPositions = (astroState as any)?.planetaryPositions;
   const elementalProperties = (astroState as any)?.elementalProperties;
-  const activePlanets = (astroState as unknown)?.activePlanets;
-  const _zodiacSign = (astroState as unknown)?.zodiacSign;
-  const _lunarPhase = (astroState as unknown)?.lunarPhase;
+  const activePlanets = (astroState as any)?.activePlanets;
+  const _zodiacSign = (astroState as any)?.zodiacSign;
+  const _lunarPhase = (astroState as any)?.lunarPhase;
   
   // Create a full astrological state object to pass to components
   const astrologicalState = useMemo(() => ({

@@ -21,14 +21,12 @@ import {
 } from '@/types/alchemy';
 import { AlchemicalItem } from '@/calculations/alchemicalTransformation';
 import { ElementalCharacter } from '@/constants/planetaryElements';
+import { calculatePlanetaryBoost } from '@/constants/planetaryFoodAssociations';
+import type { LunarPhase } from '@/constants/planetaryFoodAssociations';
 import {
-  _LunarPhase,
-  calculatePlanetaryBoost,
-} from '@/constants/planetaryFoodAssociations';
-import { 
-  _isElementalProperties, 
-  isElementalPropertyKey, 
-  logUnexpectedValue 
+  isElementalProperties,
+  isElementalPropertyKey,
+  logUnexpectedValue,
 } from '@/utils/validation';
 import { ErrorHandler } from '@/services/errorHandler';
 
@@ -89,11 +87,14 @@ export const validateElementalProperties = (
 
     // Check if values are between 0 and 1
     if (properties[element] < 0 || properties[element] > 1) {
-      logUnexpectedValue('validateElementalProperties', {
-        message: `Element value out of range: ${element} = ${properties[element]}`,
-        element,
-        value: properties[element],
-      });
+      logUnexpectedValue(
+        'validateElementalProperties',
+        {
+          message: `Element value out of range: ${element} = ${properties[element]}`,
+          element,
+          value: properties[element],
+        } as Record<string, unknown>
+      );
       return false;
     }
   }
@@ -103,11 +104,14 @@ export const validateElementalProperties = (
   const isCloseToOne = Math.abs(sum - 1) < 0.01;
 
   if (!isCloseToOne) {
-    logUnexpectedValue('validateElementalProperties', {
-      message: `Elemental properties do not sum to 1: ${sum}`,
-      sum,
-      properties,
-    });
+    logUnexpectedValue(
+      'validateElementalProperties',
+      {
+        message: `Elemental properties do not sum to 1: ${sum}`,
+        sum,
+        properties,
+      } as Record<string, unknown>
+    );
   }
 
   return true;
@@ -193,7 +197,7 @@ export const standardizeRecipeElements = <
 export const validateElementalRequirements = (
   properties: unknown
 ): properties is ElementalProperties => {
-  return isElementalProperties(properties);
+  return isElementalProperties(properties as Record<string, unknown>);
 };
 
 /**
@@ -519,23 +523,7 @@ export const getRecommendedTimeOfDay = (properties: ElementalProperties): string
   return characteristics.timeOfDay || ['morning'];
 };
 
-// Backward-compatibility alias – to be removed once imports are updated
-export const _elementalUtils = {
-  DEFAULT_ELEMENTAL_PROPERTIES,
-  validateElementalProperties,
-  normalizeProperties,
-  standardizeRecipeElements,
-  validateElementalRequirements,
-  getMissingElements,
-  calculateElementalAffinity,
-  getDominantElement,
-  getComplementaryElement: getComplementaryElement,
-  getElementalCharacteristics,
-  getElementalProfile,
-  getSuggestedCookingTechniques,
-  getRecommendedTimeOfDay,
-  ensureCompleteElementalProperties,
-};
+// (legacy _elementalUtils definition moved below to ensure all references are declared beforehand)
 
 export default elementalUtils;
 
@@ -670,7 +658,7 @@ export function transformItemsWithPlanetaryPositions(
       Substance: boostedSubstance,
     };
     const dominantAlchemicalProperty = Object.entries(
-      alchemicalProperties
+      _alchemicalProperties
     ).sort(
       ([_keyA, valueA], [_keyB, valueB]) => valueB - valueA
     )[0][0] as AlchemicalProperty;
@@ -688,8 +676,8 @@ export function transformItemsWithPlanetaryPositions(
         .sort(([_, valA], [__, valB]) => {
           // Sort by strength /dignity if available
           if (typeof valA === 'object' && typeof valB === 'object') {
-            const dataA = valA as unknown;
-            const dataB = valB as unknown;
+            const dataA = valA as any;
+            const dataB = valB as any;
             const strengthA = dataA?.strength || 0;
             const strengthB = dataB?.strength || 0;
             return strengthB - strengthA;
@@ -781,7 +769,7 @@ export function normalizeElementalValues(
 export function getPrimaryElement(
   elementalAffinity: ElementalAffinity
 ): string {
-  const affinityData = elementalAffinity as unknown;
+  const affinityData = elementalAffinity as any;
   return (
     affinityData?.base || affinityData?.element || 'Fire'
   );
@@ -791,7 +779,7 @@ export function getPrimaryElement(
 export function getElementStrength(
   elementalAffinity: ElementalAffinity
 ): number {
-  const affinityData = elementalAffinity as unknown;
+  const affinityData = elementalAffinity as any;
   return affinityData?.strength || 1;
 }
 
@@ -870,7 +858,7 @@ export function fixRawIngredientMappings(
     // Skip null or undefined values
     if (!value) return acc;
 
-    const valueData = value as unknown;
+    const valueData = value as any;
     // Ensure elemental properties are normalized
     const elementalProperties = normalizeProperties(
       valueData?.elementalProperties || {}
@@ -891,7 +879,7 @@ export function fixRawIngredientMappings(
     }
 
     acc[key] = {
-      ...value,
+      ...(value as any),
       name: valueData?.name || key.replace(/_/g, ' '),
       category: valueData?.category || 'ingredient',
       elementalProperties,
@@ -1423,7 +1411,7 @@ export function enhanceOilProperties(
       Object.entries(enhancedOil.culinaryApplications).forEach(
         ([appType, application]) => {
           if (application && typeof application === 'object') {
-            const appData = application as unknown;
+            const appData = application as any;
             enhancedOil.culinaryApplications[appType] = {
               ...application,
               elementalEffect: appData?.elementalEffect || {
@@ -1611,3 +1599,25 @@ export function ensureLowercaseFormat(properties: Record<string, unknown>): any 
   
   return lowercaseProps;
 }
+
+// ---------------------------------------------------------------------------
+// Legacy helper bundle (TODO: remove after full migration)
+// ---------------------------------------------------------------------------
+
+export const _elementalUtils = {
+  DEFAULT_ELEMENTAL_PROPERTIES,
+  validateProperties: validateElementalRequirements,
+  validateElementalProperties,
+  normalizeProperties,
+  standardizeRecipeElements,
+  validateElementalRequirements,
+  getMissingElements,
+  calculateElementalAffinity,
+  getDominantElement,
+  getComplementaryElement,
+  getElementalCharacteristics,
+  getElementalProfile,
+  getSuggestedCookingTechniques,
+  getRecommendedTimeOfDay,
+  ensureCompleteElementalProperties,
+};

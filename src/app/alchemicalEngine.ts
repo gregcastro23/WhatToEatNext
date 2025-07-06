@@ -6,14 +6,14 @@
 
 import { alchemize, AlchemicalEngineAdvanced } from '@/calculations/alchemicalEngine';
 import { AlchemicalEngineBase } from '@/lib/alchemicalEngine';
-import type { 
+import type {
   StandardizedAlchemicalResult,
   AstrologicalState,
   ElementalProperties,
-  BirthInfo,
   HoroscopeData,
   ZodiacSign,
-  ChakraEnergies
+  ChakraEnergies,
+  BirthInfo,
 } from '@/types/alchemy';
 
 // Re-export the main functions and classes
@@ -26,7 +26,7 @@ export { alchemize };
 const alchemicalEngine = {
   alchemize: (birthInfo: BirthInfo, horoscopeDict: HoroscopeData): StandardizedAlchemicalResult => {
     try {
-      return alchemize(birthInfo as unknown, horoscopeDict as unknown);
+      return alchemize(birthInfo as any, horoscopeDict as any);
     } catch (error) {
       // console.error('Error in alchemize:', error);
       

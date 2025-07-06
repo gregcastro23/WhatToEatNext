@@ -60,6 +60,25 @@ interface RecipeRecommendation {
   planetaryActivators: string[];
 }
 
+// ---------------------------------------------------------------------------
+// Type coercion helpers
+// ---------------------------------------------------------------------------
+// The data imports above are plain JS objects without static typing.  To avoid
+// a flood of TS2339 property-access errors we explicitly coerce them to the
+// rich TypeScript interfaces declared in this file.  This keeps the call-sites
+// type-safe without having to litter the implementation with repetitive
+// `as any` casts.
+
+// eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+const COOKING_METHODS = cookingMethods as Record<string, CookingMethodData>;
+// eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+const CULINARY_TRADITIONS = culinaryTraditions as Record<string, CuisineProfile>;
+// Meat metadata – only the parts we need (astrologicalProfile → elementalAffinity)
+// eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+const MEATS = meats as Record<string, { astrologicalProfile?: { elementalAffinity?: string | { base?: string } } }>;
+// eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+const RECIPE_MAPPINGS = recipeElementalMappings as Record<string, RecipeElementalMapping>;
+
 export class CulinaryAstrologer {
   private readonly ELEMENTAL_HARMONY_FACTORS = {
     zodiac: 0.4,
@@ -94,7 +113,7 @@ export class CulinaryAstrologer {
   }
 
   private getOptimalTechnique(astroState: AstrologicalState) {
-    const viableMethods = Object.values(cookingMethods).filter(method => {
+    const viableMethods = (Object.values(COOKING_METHODS) as CookingMethodData[]).filter(method => {
       const element = this.getDominantElementFromAstro(astroState);
       return method.elementalEffect[element] > 0.3;
     });
@@ -136,16 +155,17 @@ export class CulinaryAstrologer {
   } {
     const dominantElement = this.getDominantElementFromAstro(astroState);
     
-    const matchingIngredients = Object.entries(meats).filter(([_, data]) => {
-      const elementalAffinity = data.astrologicalProfile?.elementalAffinity;
-      // Handle cases where elementalAffinity might be a string or an object with a base property
-      if (typeof elementalAffinity === 'string') {
-        return elementalAffinity === dominantElement;
-      } else if (elementalAffinity && typeof elementalAffinity === 'object') {
-        return elementalAffinity.base === dominantElement;
-      }
-      return false;
-    });
+    const matchingIngredients = (Object.entries(MEATS) as [string, { astrologicalProfile?: { elementalAffinity?: string | { base?: string } } }][])
+      .filter(([_, data]) => {
+        const elementalAffinity = data.astrologicalProfile?.elementalAffinity;
+        // Handle cases where elementalAffinity might be a string or an object with a base property
+        if (typeof elementalAffinity === 'string') {
+          return elementalAffinity === dominantElement;
+        } else if (elementalAffinity && typeof elementalAffinity === 'object') {
+          return elementalAffinity.base === dominantElement;
+        }
+        return false;
+      });
     
     return {
       element: dominantElement,
@@ -170,7 +190,7 @@ export class CulinaryAstrologer {
   ): CuisineRecommendation {
     const dominantElement = this.getDominantElementFromAstro(astroState);
     
-    const viableCuisines = Object.entries(culinaryTraditions)
+    const viableCuisines = (Object.entries(CULINARY_TRADITIONS) as [string, CuisineProfile][])
       .filter(([_, profile]) => 
         profile.elementalAlignment[dominantElement] > 0.3
       );
@@ -215,9 +235,9 @@ export class CulinaryAstrologer {
     astroState: AstrologicalState,
     cuisineFilter?: string
   ): RecipeRecommendation[] {
-    return Object.entries(recipeElementalMappings)
+    return (Object.entries(RECIPE_MAPPINGS) as [string, RecipeElementalMapping][])
       .filter(([_, recipe]) => 
-        !cuisineFilter || recipe.cuisine === culinaryTraditions[cuisineFilter]
+        !cuisineFilter || recipe.cuisine === CULINARY_TRADITIONS[cuisineFilter]
       )
       .map(([name, recipe]) => {
         // Ensure Sun is always included in the planetary activators for consistent testing

@@ -80,7 +80,7 @@ export function UnifiedDebug({ mode = 'compact', showTabs = true }: UnifiedDebug
           setLunarPhase('Unknown');
         });
       } else {
-        const phaseName = getLunarPhaseName(phaseValue);
+        const phaseName = getLunarPhaseName(Number(phaseValue));
         setLunarPhase(phaseName);
       }
     } catch (error) {

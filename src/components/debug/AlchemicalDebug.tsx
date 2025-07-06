@@ -61,9 +61,9 @@ const AlchemicalDebug: React.FC = () => {
             {/* Apply surgical type casting with variable extraction */}
             {(() => {
               const ingredientData = testResults.ingredient as unknown;
-              const name = ingredientData?.name;
-              const element = ingredientData?.element;
-              const elementalCharacter = ingredientData?.elementalCharacter;
+              const name = (ingredientData as any)?.name;
+              const element = (ingredientData as any)?.element;
+              const elementalCharacter = (ingredientData as any)?.elementalCharacter;
               
               return (
                 <>

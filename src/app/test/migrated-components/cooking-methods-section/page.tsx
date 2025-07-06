@@ -125,8 +125,8 @@ export default function CookingMethodsSectionTestPage() {
   // Get services
   useServices();
   
-  const handleSelectMethod = (method: unknown) => {
-    setSelectedMethodId((method as unknown).id);
+  const handleSelectMethod = (method: any) => {
+    setSelectedMethodId(String(method?.id || ''));
   };
   
   return (

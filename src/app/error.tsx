@@ -12,10 +12,12 @@ export default function Error({
   reset: () => void;
 }) {
   useEffect(() => {
-    errorHandler.handleError(error, {
-      context: 'RootErrorBoundary',
-      digest: error.digest
-    });
+    errorHandler.handleError(
+      { message: error.message, digest: error.digest, stack: error.stack },
+      {
+        source: 'RootErrorBoundary',
+      }
+    );
   }, [error]);
 
   return (

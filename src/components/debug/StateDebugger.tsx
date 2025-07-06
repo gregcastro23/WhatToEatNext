@@ -190,10 +190,10 @@ export function StateDebugger() {
   let substanceValue = 0
 
   if (state.astrologicalState?.alchemicalValues) {
-    spiritValue = (state.astrologicalState.alchemicalValues as unknown)?.Spirit || 0
-    essenceValue = (state.astrologicalState.alchemicalValues as unknown)?.Essence || 0
-    matterValue = (state.astrologicalState.alchemicalValues as unknown)?.Matter || 0
-    substanceValue = (state.astrologicalState.alchemicalValues as unknown)?.Substance || 0
+    spiritValue = (state.astrologicalState.alchemicalValues as any)?.Spirit || 0
+    essenceValue = (state.astrologicalState.alchemicalValues as any)?.Essence || 0
+    matterValue = (state.astrologicalState.alchemicalValues as any)?.Matter || 0
+    substanceValue = (state.astrologicalState.alchemicalValues as any)?.Substance || 0
   }
   
   // Token symbol for display
@@ -267,7 +267,7 @@ export function StateDebugger() {
         {state.currentEnergy && (
           <div>
             <p className="font-semibold text-cyan-300 mb-1">⚡ Energy State</p>
-            <p className="text-gray-300">Current: {typeof state.currentEnergy === 'number' ? state.currentEnergy.toFixed(2) : 'Unknown'}</p>
+            <p className="text-gray-300">Current: {typeof state.currentEnergy === 'number' ? (state.currentEnergy as number).toFixed(2) : 'Unknown'}</p>
           </div>
         )}
       </div>

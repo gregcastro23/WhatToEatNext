@@ -20,7 +20,7 @@ export function handleApiError(error: unknown): NextResponse {
     const apiError = error as ApiError;
     statusCode = apiError.statusCode;
     message = apiError.message;
-    details = (apiError as unknown).details;
+    details = (apiError as any).details;
   } else if (error instanceof Error) {
     // For standard Error objects, use the message
     message = error.message;

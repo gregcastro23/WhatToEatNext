@@ -46,10 +46,12 @@ export default function MethodsRecommender() {
   // Calculate method scores using the imported function from cookingMethodRecommender.ts
   useEffect(() => {
     if (!loading && currentPlanetaryAlignment) {
-      // Convert currentPlanetaryAlignment to AstrologicalState format
-      // Use safe type casting for celestial position access
-      const moonData = currentPlanetaryAlignment.moon as any;
-      const sunData = currentPlanetaryAlignment.sun as any;
+      // PlanetaryAlignment may use either lowercase (moon) or capitalized (Moon)
+      // keys depending on the data source.  Normalize by casting to a generic
+      // record and falling back through the possible keys.
+      const alignmentData = currentPlanetaryAlignment as unknown as Record<string, any>;
+      const moonData = alignmentData.moon ?? alignmentData.Moon ?? {};
+      const sunData = alignmentData.sun ?? alignmentData.Sun ?? {};
       
       const astroState = {
         zodiacSign: sunData?.sign || 'Aries',

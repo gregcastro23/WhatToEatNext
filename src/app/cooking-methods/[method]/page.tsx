@@ -58,6 +58,15 @@ export default function CookingMethodPage() {
     );
   }
 
+  // Helper cast to suppress strict unknown prop issues
+  const m: any = method;
+
+  const timeRangeText = m?.time_range ? `${String(m.time_range?.min)}-${String(m.time_range?.max)} minutes` : '';
+  const temperatureText = m.temperature_range ?
+    (typeof m.temperature_range === 'object' && 'min' in m.temperature_range ?
+      `${String((m.temperature_range as any).min)}°C - ${String((m.temperature_range as any).max)}°C` : String(m.temperature_range))
+    : '';
+
   return (
     <Container maxWidth="lg" sx={{ py: 6 }}>
       <Link href="/cooking-methods" passHref>
@@ -91,13 +100,13 @@ export default function CookingMethodPage() {
             </Typography>
             
             <Typography variant="h6" color="text.secondary" paragraph>
-              {(method as unknown).description}
+              {String((method as any).description)}
             </Typography>
             
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, my: 3 }}>
               <AccessTime />
               <Typography variant="body1">
-                {(method as unknown).duration}
+                {String((method as any).duration)}
               </Typography>
             </Box>
           </Grid>
@@ -312,7 +321,7 @@ export default function CookingMethodPage() {
                 <Box sx={{ display: 'flex', alignItems: 'flex-start', mb: 2 }}>
                   <Warning sx={{ mr: 2, mt: 0.5 }} />
                   <Typography variant="body1">
-                    <strong>Safety Features:</strong> {method.safetyFeatures}
+                    <strong>Safety Features:</strong> {String(m.safetyFeatures)}
                   </Typography>
                 </Box>
               )}
@@ -321,7 +330,7 @@ export default function CookingMethodPage() {
                 <Box sx={{ display: 'flex', alignItems: 'flex-start', mb: 2 }}>
                   <Kitchen sx={{ mr: 2, mt: 0.5 }} />
                   <Typography variant="body1">
-                    <strong>Equipment Complexity:</strong> {method.equipmentComplexity}
+                    <strong>Equipment Complexity:</strong> {String(m.equipmentComplexity)}
                   </Typography>
                 </Box>
               )}
@@ -332,7 +341,7 @@ export default function CookingMethodPage() {
                     Regional Variations
                   </Typography>
                   <Typography variant="body1" paragraph>
-                    {method.regionalVariations}
+                    {String(m.regionalVariations)}
                   </Typography>
                 </>
               )}
@@ -343,7 +352,7 @@ export default function CookingMethodPage() {
                     Modern Variations
                   </Typography>
                   <Typography variant="body1" paragraph>
-                    {method.modernVariations}
+                    {String(m.modernVariations)}
                   </Typography>
                 </>
               )}
@@ -358,24 +367,20 @@ export default function CookingMethodPage() {
                 Method Details
               </Typography>
               
-              {(method as any)?.time_range && (
+              {timeRangeText && (
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
                   <AccessTime />
                   <Typography variant="body1">
-                    <strong>Time Range:</strong> {(method as any)?.time_range?.min}-{(method as any)?.time_range?.max} minutes
+                    <strong>Time Range:</strong> {timeRangeText}
                   </Typography>
                 </Box>
               )}
               
-              {method.temperature_range && (
+              {temperatureText && (
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
                   <ThermostatAuto />
                   <Typography variant="body1">
-                    <strong>Temperature Range:</strong> {
-                      typeof method.temperature_range === 'object' && 'min' in method.temperature_range
-                        ? `${method.temperature_range.min}°C - ${method.temperature_range.max}°C`
-                        : JSON.stringify(method.temperature_range)
-                    }
+                    <strong>Temperature Range:</strong> {temperatureText}
                   </Typography>
                 </Box>
               )}
@@ -385,19 +390,19 @@ export default function CookingMethodPage() {
                   <Typography variant="h6" gutterBottom sx={{ mt: 3 }}>
                     Alchemical Properties
                   </Typography>
-                  {method.alchemical_properties.element && (
+                  {m.alchemical_properties?.element && (
                     <Typography variant="body2" paragraph>
-                      <strong>Element:</strong> {method.alchemical_properties.element}
+                      <strong>Element:</strong> {String(m.alchemical_properties.element)}
                     </Typography>
                   )}
-                  {method.alchemical_properties.planetary_influence && (
+                  {m.alchemical_properties?.planetary_influence && (
                     <Typography variant="body2" paragraph>
-                      <strong>Planetary Influence:</strong> {method.alchemical_properties.planetary_influence}
+                      <strong>Planetary Influence:</strong> {String(m.alchemical_properties.planetary_influence)}
                     </Typography>
                   )}
-                  {method.alchemical_properties.effect_on_ingredients && (
+                  {m.alchemical_properties?.effect_on_ingredients && (
                     <Typography variant="body2" paragraph>
-                      <strong>Effect on Ingredients:</strong> {method.alchemical_properties.effect_on_ingredients}
+                      <strong>Effect on Ingredients:</strong> {String(m.alchemical_properties.effect_on_ingredients)}
                     </Typography>
                   )}
                 </>
@@ -473,9 +478,9 @@ export default function CookingMethodPage() {
                 </Typography>
                 
                 <Box sx={{ my: 2 }}>
-                  {method.astrologicalInfluence && (
+                  {m.astrologicalInfluence && (
                     <Typography variant="body1" paragraph>
-                      {method.astrologicalInfluence}
+                      {String(m.astrologicalInfluence)}
                     </Typography>
                   )}
                   

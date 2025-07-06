@@ -45,10 +45,8 @@ export default function Template({ children }: TemplateProps) {
       }
 
     } catch (error) {
-      errorHandler.handleError(error, {
-        context: 'Template',
-        action: 'hydration'
-      })
+      const errObj = error instanceof Error ? { message: error.message, stack: error.stack } : { value: error };
+      errorHandler.handleError(errObj, { step: 'hydration', component: 'Template' });
       setHasError(true)
     }
   }, [])

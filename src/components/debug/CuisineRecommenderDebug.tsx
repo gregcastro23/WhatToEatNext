@@ -349,7 +349,7 @@ export default function CuisineRecommenderDebug() {
       // Step 7: Recipe matching
       try {
         const recipes = await getAllRecipes();
-        setAllRecipes(recipes as unknown);
+        setAllRecipes(recipes as any);
         
         const recipesResult: Record<string, any> = {};
         

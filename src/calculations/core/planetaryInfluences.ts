@@ -304,7 +304,7 @@ export function calculatePlanetaryInfluences(
           dominantPlanets?.push({
             planet,
             strength,
-            element: element as Element
+            element: element as unknown as Element
           });
         }
       });

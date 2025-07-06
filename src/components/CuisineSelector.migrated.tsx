@@ -79,8 +79,8 @@ function CuisineSelectorMigrated({
         
         // Use safe method access for lunar phase
         const _lunarPhase = propCurrentLunarPhase || 
-          (serviceData?.getCurrentLunarPhase ? await serviceData.getCurrentLunarPhase() : 'full moon');
-        setResolvedLunarPhase(lunarPhase);
+          ((serviceData as any)?.getCurrentLunarPhase ? await (serviceData as any).getCurrentLunarPhase() : 'full moon');
+        setResolvedLunarPhase(_lunarPhase as any);
       } catch (err) {
         // console.error('Error loading astrological data:', err);
         setError(err instanceof Error ? err : new Error('Error loading astrological data'));
@@ -112,8 +112,8 @@ function CuisineSelectorMigrated({
           planetaryPositions: Object.entries(resolvedPlanetaryPositions)?.reduce((acc, [planet, degree]) => {
             // Apply safe type casting for astrology service access
             const serviceData = astrologyService as unknown;
-            const _zodiacSign = serviceData?.getZodiacSignForDegree ? 
-              serviceData.getZodiacSignForDegree(Number(degree)) : 'aries';
+            const _zodiacSign = (serviceData as any)?.getZodiacSignForDegree ? 
+              (serviceData as any).getZodiacSignForDegree(Number(degree)) : 'aries';
             
             acc[planet] = { 
               sign: zodiacSign,
@@ -182,11 +182,11 @@ function CuisineSelectorMigrated({
   // Function to determine cuisine modality
   const getCuisineModality = (cuisine: Record<string, unknown>): Modality => {
     // If cuisine already has modality defined, use it
-    if (cuisine.modality) return cuisine.modality;
+    if ((cuisine as any)?.modality) return (cuisine as any)?.modality;
     
     // Otherwise determine from elemental state
-    return determineModalityFromElements(cuisine.elementalState || cuisine.elementalState || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-    });
+    return determineModalityFromElements((cuisine as any)?.elementalState || (cuisine as any)?.elementalState || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+    } as any);
   };
   
   // Filter cuisines by modality and zodiac influence

@@ -138,11 +138,11 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
         };
         
         // Calculate compatibility between ingredient and cooking method
-        const result = calculateCompatibility(searchIngredient, {
+        const result = calculateCompatibility(searchIngredient as any, {
           name: method.name,
           elementalProperties: methodElemental,
           category: 'cooking_method'
-        } as unknown);
+        } as any);
         
         if (result.success) {
           compatibilityResults[method.id] = result.compatibility;
@@ -155,11 +155,11 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
             const variationElemental = variation.elementalEffect || method.elementalEffect;
             
             if (variationElemental) {
-              const variationResult = calculateCompatibility(searchIngredient, {
+              const variationResult = calculateCompatibility(searchIngredient as any, {
                 name: variation.name,
                 elementalProperties: variationElemental,
                 category: 'cooking_method'
-              } as unknown);
+              } as any);
               
               if (variationResult.success) {
                 compatibilityResults[variation.id] = variationResult.compatibility;

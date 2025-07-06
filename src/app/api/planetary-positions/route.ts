@@ -40,7 +40,7 @@ export async function POST(request: Request) {
     const targetDate = new Date(date);
     
     // Get positions using our local function
-    const positions = calculatePlanetaryPositions(targetDate);
+    const positions = await calculatePlanetaryPositions(targetDate);
     
     // Validate positions before calculating aspects
     if (!positions || Object.keys(positions).length === 0) {

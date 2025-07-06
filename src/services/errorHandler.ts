@@ -58,9 +58,9 @@ interface ErrorDetails {
 
 class ErrorHandlerService {
   /**
-   * Log an error with additional context
+   * Log an error with additional context. Accepts any unknown error type so callers can safely pass Error instances without casting.
    */
-  log(error: Record<string, unknown>, options: ErrorOptions = {}) {
+  log(error: unknown, options: ErrorOptions = {}) {
     const {
       type = ErrorType.UNKNOWN,
       severity = ErrorSeverity.ERROR,
@@ -143,7 +143,7 @@ class ErrorHandlerService {
   /**
    * Legacy handleError method for backward compatibility
    */
-  handleError(error: Record<string, unknown>, context?: Record<string, unknown>): void {
+  handleError(error: unknown, context?: Record<string, unknown>): void {
     // Delegate to the main log method with proper options
     this.log(error, {
       context: context || 'unknown',

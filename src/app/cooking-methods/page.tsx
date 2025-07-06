@@ -107,11 +107,11 @@ export default function CookingMethodsPage() {
     setTabValue(newValue);
   };
 
-  const handleSelectMethod = (method: unknown) => {
-    setSelectedMethodId((method as unknown).id);
-    // If it's a main method (not a variation), navigate to it
-    if (!(method as unknown).id.includes('_var_')) {
-      router.push(`/cooking-methods/${(method as unknown).id}`);
+  const handleSelectMethod = (method: any) => {
+    const id = String(method?.id || '');
+    setSelectedMethodId(id);
+    if (id && !id.includes('_var_')) {
+      router.push(`/cooking-methods/${id}`);
     }
   };
 

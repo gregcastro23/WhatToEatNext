@@ -305,7 +305,7 @@ export function calculatePlanetaryAlignment(
   let matches = 0;
 
   (currentMomentDominantPlanets || []).forEach((planet: { planet: string; strength: number; element: Element }) => {
-    if (planet.element === recipeDominant) {
+    if ((planet.element as any) === recipeDominant) {
       alignment += planet.strength;
       matches++;
     }
@@ -416,14 +416,14 @@ async function getFallbackResult(input: CalculationInput, cacheKey: string): Pro
         },
         elementalInfluences: fallbackElemental,
         dominantPlanets: [
-          { planet: 'Sun', strength: 0.8, element: 'Fire' as Element },
-          { planet: 'Moon', strength: 0.7, element: 'Water' as Element },
-          { planet: 'Mercury', strength: 0.6, element: 'Air' as Element }
+          { planet: 'Sun', strength: 0.8, element: 'Fire' as unknown as Element },
+          { planet: 'Moon', strength: 0.7, element: 'Water' as unknown as Element },
+          { planet: 'Mercury', strength: 0.6, element: 'Air' as unknown as Element }
         ]
       },
       recommendations: {
         elemental: {
-          dominant: 'Fire' as Element,
+          dominant: 'Fire' as unknown as Element,
           balance: 0.7,
           recommendations: ['⚠️ Using emergency calculations - results may be limited']
         },

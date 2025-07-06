@@ -64,15 +64,15 @@ export default function IngredientDisplayMigrated() {
         });
         
         // Transform to expected format
-        const transformedIngredients: Ingredient[] = (recommendations?.items || []).map((item: Record<string, unknown>) => ({
+        const transformedIngredients = (recommendations?.items || []).map((item: Record<string, unknown>) => ({
           name: item.name,
           category: item.category || 'Uncategorized',
           element: item.elementalState ? 
             'Fire' : // Simplified for now
             dominantElement?.toLowerCase(),
           energyLevel: item.elementalState ? 
-            (item.elementalState.Fire + item.elementalState.Water + 
-             item.elementalState.Earth + item.elementalState.Air) / 4 : 
+            (((item.elementalState as any)?.Fire || 0) + ((item.elementalState as any)?.Water || 0) + 
+             ((item.elementalState as any)?.Earth || 0) + ((item.elementalState as any)?.Air || 0)) / 4 : 
             0.6,
           score: item.score || 0.7
         }));

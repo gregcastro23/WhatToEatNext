@@ -128,8 +128,8 @@ export function CuisineSectionMigrated({
           
           // Apply Pattern PP-3: Safe response handling for array or object response
           const responseData = response as unknown;
-          if (responseData?.success && responseData?.data) {
-            setCuisineRecipesFromService(responseData.data);
+          if ((responseData as any)?.success && (responseData as any)?.data) {
+            setCuisineRecipesFromService((responseData as any)?.data);
           } else if (Array.isArray(response)) {
             setCuisineRecipesFromService(response);
           } else {
@@ -340,7 +340,7 @@ export function CuisineSectionMigrated({
         <div className="flex justify-between items-start mb-2">
           <h3 className="text-lg font-semibold">{recipe.name}</h3>
           {recipe.matchScore !== undefined && (
-            renderScoreBadge(recipe.matchScore as unknown, !!recipe.dualMatch)
+            renderScoreBadge((recipe.matchScore as any) || 0, !!recipe.dualMatch)
           )}
         </div>
         

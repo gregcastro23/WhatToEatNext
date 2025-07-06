@@ -14,7 +14,7 @@ interface Ingredient {
 export default function IngredientDisplay() {
   const astroData = useAstrologicalState();
   const elementalProperties = (astroData as any)?.elementalProperties || (astroData as any)?.state?.elementalProperties;
-  const planetaryPositions = (astroData as unknown)?.planetaryPositions || (astroData as unknown)?.positions;
+  const planetaryPositions = (astroData as any)?.planetaryPositions || (astroData as any)?.positions;
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -32,7 +32,7 @@ export default function IngredientDisplay() {
         if (elementalProperties) {
           const recommendations = ingredientService.getRecommendedIngredients(
             elementalProperties,
-            { maxResults: 6, sortByScore: true }
+            { maxResults: 6, sortByScore: true } as any
           );
           
           // Convert to component interface

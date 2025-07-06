@@ -2,7 +2,8 @@ import '@testing-library/jest-dom';
 import { ElementalCalculator } from '@/services/ElementalCalculator';
 
 // Setup test environment
-process.env.NODE_ENV = 'test';
+// NODE_ENV is readonly in typings; override via type cast for test setup
+(process.env as any).NODE_ENV = 'test';
 process.env.NEXT_PUBLIC_ENABLE_ASTRO_DEBUG = 'false';
 
 // Suppress console output during tests to reduce noise in CI

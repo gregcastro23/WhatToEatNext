@@ -4,7 +4,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { Timer, Flame, Droplet, Wind, Mountain } from 'lucide-react';
-import type { FilterOptions, NutritionPreferences, ElementalProperties, ZodiacSign } from '@/types/alchemy';
+import type { FilterOptions, NutritionPreferences, ElementalProperties, ZodiacSign, LunarPhaseWithSpaces } from '@/types/alchemy';
 import { cuisines } from '@/data/cuisines';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { AlchemicalEngineAdvanced as AlchemicalEngine } from '@/calculations/alchemicalEngine';
@@ -45,13 +45,13 @@ export default function FilterSection({
       try {
         const currentSeason = getCurrentSeason();
         const dayOfYear = getDayOfYear(new Date());
-        const moonPhase = getMoonPhase();
+        const moonPhase = getMoonPhase().replace(/_/g, ' ') as LunarPhaseWithSpaces;
         const timeOfDay = getTimeOfDay();
 
         // Calculate base elemental properties
         const baseElements = calculator.calculateNaturalInfluences({
           season: currentSeason,
-          moonPhase: moonPhase,
+          moonPhase,
           timeOfDay: timeOfDay,
           sunSign: currentSunSign,
           degreesInSign: sunDegrees

@@ -301,21 +301,21 @@ const AstrologizeDemo: React.FC = () => {
                 {data.birth_info ? (
                   <>
                     {new Date(
-                      data.birth_info.year,
-                      data.birth_info.month,
-                      data.birth_info.date,
-                      data.birth_info.hour,
-                      data.birth_info.minute
+                      (data.birth_info as any)?.year,
+                      (data.birth_info as any)?.month,
+                      (data.birth_info as any)?.date,
+                      (data.birth_info as any)?.hour,
+                      (data.birth_info as any)?.minute
                     )?.toLocaleString()}
                     {' at '}
-                    {data.birth_info.latitude.toFixed(4)}, {data.birth_info.longitude.toFixed(4)}
+                    {(data.birth_info as any)?.latitude?.toFixed(4)}, {(data.birth_info as any)?.longitude?.toFixed(4)}
                   </>
                 ) : (
                   <span>Information not available</span>
                 )}
               </p>
               <p className="text-green-600 font-medium mt-1">
-                Using {data.birth_info?.ayanamsa || zodiacSystem} zodiac
+                Using {(data.birth_info as any)?.ayanamsa || zodiacSystem} zodiac
               </p>
             </div>
             

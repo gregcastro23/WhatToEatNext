@@ -433,7 +433,7 @@ const adaptLunarPhase = (phase: LunarPhase | undefined): unknown => {
 // Missing function definitions for CookingMethods component
 function getIdealIngredients(method: Record<string, unknown>): string[] {
   // Placeholder implementation
-  return method?.idealIngredients || [];
+  return (method as any)?.idealIngredients || [];
 }
 
 function determineMatchReason(method: Record<string, unknown>, zodiacSign?: Record<string, unknown>, lunarPhase?: Record<string, unknown>): string {
@@ -452,12 +452,12 @@ function determineMatchReason(method: Record<string, unknown>, zodiacSign?: Reco
   }
   
   // Check astrological factors
-  if (zodiacSign && method?.astrologicalInfluences?.favorableZodiac?.includes(zodiacSign)) {
+  if (zodiacSign && (method as any)?.astrologicalInfluences?.favorableZodiac?.includes(zodiacSign)) {
     reasons.push(`Favorable for ${zodiacSign}`);
   }
   
-  if (lunarPhase && method?.astrologicalInfluences?.lunarPhaseEffect?.[lunarPhase]) {
-    const effect = method.astrologicalInfluences.lunarPhaseEffect[lunarPhase];
+  if (lunarPhase && (method as any)?.astrologicalInfluences?.lunarPhaseEffect?.[lunarPhase]) {
+    const effect = (method as any).astrologicalInfluences.lunarPhaseEffect[lunarPhase];
     if (effect > 1) {
       reasons.push(`Enhanced by ${lunarPhase} moon`);
     }
@@ -465,7 +465,7 @@ function determineMatchReason(method: Record<string, unknown>, zodiacSign?: Reco
   
   // Check thermodynamic properties
   if (method?.thermodynamicProperties) {
-    const { heat, entropy, reactivity } = method.thermodynamicProperties;
+    const { heat, entropy, reactivity } = (method as any).thermodynamicProperties || {};
     if (heat > 0.7) reasons.push('High energy transformation');
     if (entropy < 0.3) reasons.push('Stable cooking process');
     if (reactivity > 0.6) reasons.push('Dynamic flavor development');

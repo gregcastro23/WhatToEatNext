@@ -118,4 +118,82 @@ function generateNotes(
     }
     
     return notes;
-  } 
+  }
+
+// Add React hook for components
+import { useEffect, useState } from 'react';
+
+export interface ScoringContext {
+  item: {
+    elementalProperties: any;
+  };
+}
+
+export interface ScoringBreakdown {
+  base: number;
+  transitEffect: number;
+  dignityEffect: number;
+  tarotEffect: number;
+  seasonalEffect: number;
+  locationEffect: number;
+  lunarPhaseEffect: number;
+  aspectEffect: number;
+  elementalCompatibility: number;
+  thermalDynamicEffect: number;
+  kalchmResonance: number;
+  monicaOptimization: number;
+  alchemicalNumberAlignment: number;
+  retrogradeEffect: number;
+}
+
+export interface AstrologicalData {
+  alchemicalNumber: number;
+  alchemicalProperties: AlchemicalProperties;
+}
+
+export function useUnifiedScoringService() {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const calculateScore = (
+    astroData: AstrologicalData,
+    context: ScoringContext
+  ): { score: number; breakdown: ScoringBreakdown; notes: string[] } => {
+    try {
+      const breakdown: ScoringBreakdown = {
+        base: 0.5,
+        transitEffect: 0,
+        dignityEffect: 0,
+        tarotEffect: 0,
+        seasonalEffect: 0,
+        locationEffect: 0,
+        lunarPhaseEffect: 0,
+        aspectEffect: 0,
+        elementalCompatibility: 0.5,
+        thermalDynamicEffect: 0,
+        kalchmResonance: 0,
+        monicaOptimization: 0,
+        alchemicalNumberAlignment: calculateAlchemicalNumberAlignment(astroData, context),
+        retrogradeEffect: calculateRetrogradeEffect(astroData, context)
+      };
+
+      const score = aggregateScore(breakdown);
+      const notes = generateNotes(breakdown, astroData, context);
+
+      return { score, breakdown, notes };
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Scoring calculation failed');
+      return {
+        score: 0.5,
+        breakdown: {} as ScoringBreakdown,
+        notes: ['Error calculating score']
+      };
+    }
+  };
+
+  return {
+    calculateScore,
+    loading,
+    error
+  };
+}

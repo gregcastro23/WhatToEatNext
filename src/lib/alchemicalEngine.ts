@@ -250,7 +250,7 @@ export class AlchemicalEngineBase {
       return 2;
     };
 
-    const astroStateData = astrologicalState as unknown;
+    const astroStateData = astrologicalState as any;
     const sunDegree = astroStateData?.sunDegree || 15;
     const currentDecan = getCurrentDecan(sunDegree);
 
@@ -267,7 +267,7 @@ export class AlchemicalEngineBase {
     let power = 0.2;
 
     const recipeElement = this.zodiacElements[recipeSunSign].baseElement;
-    const moonSignElementData = astrologicalState as unknown;
+    const moonSignElementData = astrologicalState as any;
     if (recipeElement === moonSignElementData?.moonSignElement) power += 0.3;
 
     if (astrologicalState.activePlanets?.includes(decanRuler)) power += 0.25;
@@ -346,7 +346,7 @@ export class AlchemicalEngineBase {
   ): number {
     const seasonalModifiersData = this.calculator.calculateElementalState(
       ElementalCalculator.getCurrentElementalState()
-    ) as unknown;
+    ) as any;
     const seasonalInfluence = seasonalModifiersData?.seasonalInfluence || {};
     return seasonalInfluence[element] || 0.25;
   }
@@ -444,7 +444,7 @@ export class AlchemicalEngineBase {
       .map((recipe) => ({
         ...recipe,
         seasonalScore: (() => {
-          const calculatorData = ElementalCalculator as unknown;
+          const calculatorData = ElementalCalculator as any;
           if (calculatorData?.calculateSeasonalEffectiveness) {
             return calculatorData.calculateSeasonalEffectiveness(recipe, _season);
           }

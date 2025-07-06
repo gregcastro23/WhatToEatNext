@@ -59,7 +59,7 @@ describe('getRecommendedIngredients', () => {
     ingredients.forEach(ingredient => {
       expect(ingredient).toHaveProperty('elementalProperties');
       expect(ingredient).toHaveProperty('astrologicalProfile');
-      const astroProfile = (ingredient as unknown).astrologicalProfile;
+      const astroProfile = (ingredient as unknown as Ingredient).astrologicalProfile;
       expect(astroProfile).toHaveProperty('rulingPlanets');
       expect(
         astroProfile.rulingPlanets.some(

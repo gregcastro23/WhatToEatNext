@@ -43,10 +43,14 @@ function App() {
 
   // Handle errors that occur during setup
   const handleSetupError = (error: Error) => {
-    ErrorHandler.log(error, {
-      context: 'App:setup',
-      isFatal: true
-    });
+    // Wrap error details in a plain object to satisfy `Record<string, unknown>` requirement
+    ErrorHandler.log(
+      { message: error.message, stack: error.stack },
+      {
+        context: 'App:setup',
+        isFatal: true,
+      }
+    );
   };
 
   // Initialize the alchemical engine on mount
@@ -70,10 +74,14 @@ function App() {
             });
           },
           (error) => {
-            ErrorHandler.log(error, {
-              context: 'App:geolocation',
-              isFatal: false
-            });
+            // Extract only safe serialisable fields from the geolocation error
+            ErrorHandler.log(
+              { code: error.code, message: error.message },
+              {
+                context: 'App:geolocation',
+                isFatal: false,
+              }
+            );
           }
         );
       }
@@ -111,8 +119,8 @@ function App() {
   return (
     <GlobalErrorBoundary
       context="AppRoot"
-      fallback={(error, reset) => (
-        <ErrorFallback error={error} resetErrorBoundary={reset} context="AppRoot" />
+      fallback={({ error, resetErrorBoundary }) => (
+        <ErrorFallback error={error} resetErrorBoundary={resetErrorBoundary} context="AppRoot" />
       )}
     >
       <AlchemicalProvider>

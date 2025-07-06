@@ -453,11 +453,11 @@ const NutritionalRecommender: React.FC<NutritionalRecommenderProps> = ({
               <h3 className="text-lg font-medium mb-3">{category}</h3>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {(recommendations[category] as unknown).map(
+                {((recommendations[category] as any) || []).map(
                   (value: Record<string, unknown>, index: number, array: unknown[]): Record<string, unknown> => {
                     // Extract ingredient data with safe property access
                     const ingredientData = value as unknown;
-                    const ingredientName = ingredientData?.name || ingredientData?.ingredient || '';
+                    const ingredientName = (ingredientData as any)?.name || (ingredientData as any)?.ingredient || '';
                     
                     return (
                       <IngredientCard

@@ -73,7 +73,7 @@ export default function CookingMethodsDemoPage() {
     });
   };
 
-  const handleSelectMethod = (method: unknown) => {
+  const handleSelectMethod = (method: CookingMethod) => {
     setSelectedMethod(method);
     // console.log('Selected method:', method);
   };
@@ -91,8 +91,8 @@ export default function CookingMethodsDemoPage() {
       {methods.length > 0 ? (
         <Box sx={{ mb: 6 }}>
           <CookingMethodsSection 
-            methods={methods} 
-            onSelectMethod={handleSelectMethod}
+            methods={methods as unknown as any} 
+            onSelectMethod={handleSelectMethod as unknown as any}
             selectedMethodId={selectedMethod?.id || null}
             initiallyExpanded={true}
           />

@@ -379,7 +379,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
               <div className="flex flex-wrap gap-1 mt-1">
                 {recipeData.ingredients.slice(0, 3).map((ingredient: Record<string, unknown>, i: number) => (
                   <span key={i} className="bg-gray-100 text-gray-600 px-2 py-1 rounded text-xs">
-                    {ingredient?.name || ingredient}
+                    {(ingredient as any)?.name || ingredient}
                   </span>
                 ))}
                 {recipeData.ingredients.length > 3 && (

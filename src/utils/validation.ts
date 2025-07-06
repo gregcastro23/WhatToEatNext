@@ -46,12 +46,12 @@ export function validateRecipe(recipe: Recipe) {
 export { isElementalProperties } from './elemental/elementalUtils';
 
 // Type guard to check if a string is a valid elemental property key
-export function isElementalPropertyKey(key: Record<string, unknown>): key is keyof import('@/types/alchemy').ElementalProperties {
-  return typeof key === 'string' && ['Fire', 'Water', 'Earth', 'Air'].includes(key);
+export function isElementalPropertyKey(key: unknown): key is keyof import('@/types/alchemy').ElementalProperties {
+  return typeof key === 'string' && (['Fire', 'Water', 'Earth', 'Air'] as const).includes(key as any);
 }
 
 // Logs unexpected values for debugging purposes
-export function logUnexpectedValue(context: string, details: Record<string, unknown>): void {
+export function logUnexpectedValue(context: string, details: unknown): void {
   // console.warn(`Unexpected value in ${context}:`, details);
 }
 

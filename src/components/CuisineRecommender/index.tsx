@@ -47,6 +47,7 @@ interface CuisineRecommenderProps {
   cuisine?: string;
   mealType?: string;
   season?: string;
+  _season?: string;
   limit?: number;
 }
 
@@ -119,7 +120,7 @@ export const CuisineRecommender: React.FC<CuisineRecommenderProps> = ({
         results = await recipeService.getBestRecipeMatches({
           criteria: {
             // Use current celestial state as criteria
-            elementalProperties: celestialInfluence.energyStateBalance || {}
+            elementalProperties: (celestialInfluence.energyStateBalance || {}) as { [key: string]: number }
           },
           limit
         });

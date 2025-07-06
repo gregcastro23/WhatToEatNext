@@ -110,7 +110,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
       
       for (const [planet, position] of Object.entries(state.planetaryPositions)) {
         // Apply surgical type casting with variable extraction
-        const positionData = position as unknown;
+        const positionData = position as any;
         const sign = positionData?.sign;
         
         // Skip non-standard planets or positions
@@ -162,7 +162,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
     } = {}
   ): UnifiedIngredient[] {
     // ✅ Pattern MM-1: Type assertion to resolve SystemState import mismatch
-    return enhancedIngredientSystem.getRecommendedIngredients(state as unknown, _options);
+    return enhancedIngredientSystem.getRecommendedIngredients(state as any, _options);
   }
   
   /**

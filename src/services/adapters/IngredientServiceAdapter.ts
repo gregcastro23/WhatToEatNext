@@ -64,7 +64,7 @@ export class EnhancedIngredientSystem {
       logger.info('Getting recommended ingredients', { state, options });
       
       // Create elemental properties from the state - safe property access
-      const elements = (state as unknown)?.elements || (state as unknown)?.elementalPreference || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+      const elements = (state as any)?.elements || (state as any)?.elementalPreference || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
       const elementalState = createElementalProperties({ 
         Fire: elements.Fire || 0.25, 
         Water: elements.Water || 0.25, 

@@ -367,7 +367,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
     count: 5,
     currentZodiac: resolvedCurrentZodiac,
     lunarPhase: resolvedLunarPhase,
-    tarotElementBoosts: tarotElementBoosts as unknown,
+    tarotElementBoosts: (tarotElementBoosts as any) || {},
     tarotPlanetaryBoosts,
     aspects
   });

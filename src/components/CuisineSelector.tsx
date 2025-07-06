@@ -65,6 +65,7 @@ interface CuisineSelectorProps {
   onCuisineChange: (cuisine: string) => void;
   planetaryPositions?: Record<string, number>;
   isDaytime?: boolean;
+  _isDaytime?: boolean;
   currentZodiac?: ZodiacSign | null;
   currentLunarPhase?: LunarPhaseWithSpaces | null;
 }
