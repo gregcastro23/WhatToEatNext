@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useAlchemical } from '../../contexts/AlchemicalContext/hooks';
-import { logger } from ../../utils/logger';
+import { logger } from '../../utils/logger';
 import { PlanetaryHourCalculator } from '../../lib/PlanetaryHourCalculator';
 import { _calculateLunarPhase, getLunarPhaseName } from '../../utils/astrology/core';
 import { testCookingMethodRecommendations } from '../../utils/testRecommendations';

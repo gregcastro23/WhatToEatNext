@@ -1,4 +1,4 @@
-import styles from './CookingMethods.module.css';
+import styles from './IngredientRecommender.module.css';
 import { useAstrologicalState } from '../../hooks/useAstrologicalState';
 import { useEffect, useState, useMemo, useCallback } from 'react';
 import { ElementalCalculator } from '../../services/ElementalCalculator';
@@ -24,7 +24,6 @@ import { enhancedRecommendationService, EnhancedRecommendationResult } from '../
 import { ErrorBoundary } from 'react-error-boundary';
 // Import the useFlavorEngine hook from our new context
 import { useFlavorEngine } from '../../contexts/FlavorEngineContext';
-// TODO: Fix CSS module import - was: import from "./IngredientRecommender.module.css.ts"
 
 import { ingredientCategories } from "@/data/ingredientCategories";
 /**

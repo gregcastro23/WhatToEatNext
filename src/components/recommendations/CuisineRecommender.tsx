@@ -67,7 +67,7 @@ import { Flame,
   Search } from 'lucide-react';
 import { cuisines } from '../../data/cuisines';
 import { recommendationService } from '../../services/ConsolidatedRecommendationService';
-// TODO: Fix CSS module import - was: import from "./CuisineRecommender.module.css.ts"
+import styles from './CuisineRecommender.module.css';
 import {
   _ElementalProperties,
   AstrologicalState,

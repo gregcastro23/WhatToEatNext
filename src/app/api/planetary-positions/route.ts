@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server';
-import { _calculatePlanetaryPositions, calculateAspects, getDefaultPlanetaryPositions } from '@/utils/astrologyUtils';
+import { calculatePlanetaryPositions, calculateAspects, getDefaultPlanetaryPositions } from '@/utils/astrologyUtils';
 import { getAccuratePlanetaryPositions } from '@/utils/accurateAstronomy';
-import { _cache } from '@/utils/cache';
+import { cache } from '@/utils/cache';
 
 const CACHE_KEY = 'planetary-positions';
-const _CACHE_TTL = 1 * 60; // 1 minute cache timeout
+const CACHE_TTL = 1 * 60; // 1 minute cache timeout
 
 // GET endpoint returns default positions
 export async function GET() {
@@ -40,7 +40,7 @@ export async function POST(request: Request) {
     const targetDate = new Date(date);
     
     // Get positions using our local function
-    const positions = await calculatePlanetaryPositions(targetDate);
+    const positions = calculatePlanetaryPositions(targetDate);
     
     // Validate positions before calculating aspects
     if (!positions || Object.keys(positions).length === 0) {

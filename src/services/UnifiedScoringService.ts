@@ -11,11 +11,11 @@ import {
   deriveAlchemicalFromElemental,
   type AlchemicalProperties
 } from '../data/unified/alchemicalCalculations';
-import type { 
+type ScoringMetrics = {
   monicaOptimization: number;
   retrogradeEffect: number;
   alchemicalNumberAlignment: number; // A# alignment
-}
+};
 
 /**
  * Calculate retrograde effects on the item
@@ -60,8 +60,8 @@ export function calculateAlchemicalNumberAlignment(
   }
 }
 
-// ... existing code ...
-  private aggregateScore(breakdown: ScoringBreakdown): number {
+// Helper function for aggregating scores
+function aggregateScore(breakdown: ScoringBreakdown): number {
     // Default weights for each effect
     const weights = {
       base: 1.0,
@@ -81,13 +81,28 @@ export function calculateAlchemicalNumberAlignment(
     };
     
     let totalWeightedScore = 0;
-// ... existing code ...
-  private generateNotes(
+    let totalWeight = 0;
+    
+    // Calculate weighted score
+    for (const [key, value] of Object.entries(breakdown)) {
+      if (key in weights && typeof value === 'number') {
+        const weight = weights[key as keyof typeof weights];
+        totalWeightedScore += value * weight;
+        totalWeight += weight;
+      }
+    }
+    
+    return totalWeight > 0 ? totalWeightedScore / totalWeight : 0;
+}
+
+// Helper function for generating notes
+function generateNotes(
     breakdown: ScoringBreakdown,
     astroData: AstrologicalData,
     _context: ScoringContext
   ): string[] {
-// ... existing code ...
+    const notes: string[] = [];
+    
     if (breakdown.elementalCompatibility > 0.3) {
       notes.push('Excellent elemental compatibility with current state');
     }
@@ -101,4 +116,6 @@ export function calculateAlchemicalNumberAlignment(
     if (breakdown.retrogradeEffect < -0.15) {
       notes.push('Retrograde planets may reduce effectiveness');
     }
-// ... existing code ... 
+    
+    return notes;
+  } 

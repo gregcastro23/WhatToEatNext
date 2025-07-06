@@ -10,7 +10,7 @@ import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { AlchemicalEngineAdvanced as AlchemicalEngine } from '@/calculations/alchemicalEngine';
 import { calculateSeasonalElements } from '@/calculations/seasonalCalculations';
 import { getCurrentSeason, getDayOfYear, getMoonPhase, getTimeOfDay } from '@/utils/dateUtils';
-import { logger } from @/utils/logger';
+import { logger } from '@/utils/logger';
 
 type FilterSectionProps = {
   filters: FilterOptions;

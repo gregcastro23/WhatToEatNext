@@ -38,7 +38,7 @@ import {
 
 import { useAlchemical } from '../../contexts/AlchemicalContext';
 import { RecipeElementalService } from '../../services/RecipeElementalService';
-import { logger } from ../../utils/logger';
+import { logger } from '../../utils/logger';
 import { zodiacSeasons } from '../../data/zodiacSeasons';
 
 // Enhanced interfaces

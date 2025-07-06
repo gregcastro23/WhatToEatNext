@@ -42,7 +42,7 @@ import { calculateAspects, _calculatePlanetaryPositions } from '@/utils/astrolog
 import { useCurrentChart } from '@/hooks/useCurrentChart';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 
-import { logger } from @/utils/logger';
+import { logger } from '@/utils/logger';
 
 // Import ingredient data
 import allIngredients from '@/data/ingredients';

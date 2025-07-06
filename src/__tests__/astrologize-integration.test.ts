@@ -1,5 +1,5 @@
-import { _Element } from "@/types/alchemy";
-import { _PlanetaryPosition } from "@/types/celestial";
+import { Element } from "@/types/alchemy";
+import { PlanetaryPosition } from "@/types/celestial";
 import { 
 
 

@@ -10,7 +10,7 @@ import type { ElementalProperties, Season, ZodiacSign, PlanetName } from "@/type
 import { consolidatedIngredientService } from '../ConsolidatedIngredientService';
 import { FoodAlchemySystem, type SystemState } from '../FoodAlchemySystem';
 import { _createElementalProperties } from '../../utils/elemental/elementalUtils';
-import { logger } from ../../utils/logger';
+import { logger } from '../../utils/logger';
 
 import type { UnifiedIngredient } from '@/types/unified';
 import type { IngredientFilter } from '../interfaces/IngredientServiceInterface';

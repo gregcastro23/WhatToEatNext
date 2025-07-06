@@ -1,9 +1,6 @@
-// TODO: Fix import - add what to import from "./calculations/index.ts"
 import { Recipe } from '@/types/recipe';
-import { calculateComprehensiveAlchemicalResult } from './calculations/index';
-// TODO: Fix import - add what to import from "./types/alchemy.ts"
-import { _Element } from "@/types/alchemy";
-import { _PlanetaryPosition } from "@/types/celestial";
+import { calculateComprehensiveAlchemicalResult, calculateRecipeCompatibility } from './calculations/index';
+import { Element, PlanetaryPosition } from "@/types/alchemy";
 // Comprehensive test for the streamlined alchemical calculation system
 
 

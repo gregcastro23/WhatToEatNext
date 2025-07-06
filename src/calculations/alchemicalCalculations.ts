@@ -15,9 +15,9 @@ import {
   thermodynamicCalculator,
   convertToElementalState
 } from './gregsEnergy';
-import { _Planet } from '../constants/planetaryFoodAssociations';
+import { Planet } from '../constants/planetaryFoodAssociations';
 import { signs, planetInfo } from '../data/astroData';
-import { StandardizedAlchemicalResult, _ElementalProperties, _PlanetaryPosition } from '@/types/alchemy';
+import { StandardizedAlchemicalResult, ElementalProperties, PlanetaryPosition } from '@/types/alchemy';
 
 /**
  * Calculate elemental balance based on properties

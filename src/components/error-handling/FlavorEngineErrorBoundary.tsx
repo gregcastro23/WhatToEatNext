@@ -66,9 +66,9 @@ export class FlavorEngineErrorBoundary extends Component<Props, State> {
     // Log specifically for render loop issues
     if (probableRenderLoop) {
       // console.error('Potential infinite render loop detected in flavor engine!', {
-        timeBetweenErrors: timeSinceLastError + 'ms',
-        error
-      });
+      //   timeBetweenErrors: timeSinceLastError + 'ms',
+      //   error
+      // });
     }
   }
 

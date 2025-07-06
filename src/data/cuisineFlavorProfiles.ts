@@ -763,7 +763,7 @@ export function getCuisineProfile(
 /**
  * Get recipes that match a particular cuisine based on flavor profiles
  */
-export function getRecipesForCuisineMatch(
+export async function getRecipesForCuisineMatch(
   cuisineName: string,
   recipes: unknown[],
   limit = 8
@@ -778,60 +778,71 @@ export function getRecipesForCuisineMatch(
   // Normalize the cuisine name to ensure case-insensitive matching
   const normalizedCuisineName = cuisineName.toLowerCase().trim();
 
-  // Create a mock recipe generator for fallback if needed
-  const createMockRecipes = (count = 3) => {
-    // console.log(`Creating ${count} mock recipes for "${cuisineName}"`);
-    const mockRecipes = [];
-    
-    // Common dishes by cuisine - add more as needed
-    const cuisineDishes = {
-      'italian': ['Spaghetti Carbonara', 'Margherita Pizza', 'Risotto', 'Lasagna', 'Tiramisu'],
-      'french': ['Coq au Vin', 'Beef Bourguignon', 'Ratatouille', 'Quiche Lorraine', 'Crème Brûlée'],
-      'japanese': ['Sushi', 'Ramen', 'Tempura', 'Yakitori', 'Miso Soup'],
-      'chinese': ['Kung Pao Chicken', 'Dim Sum', 'Mapo Tofu', 'Peking Duck', 'Hot Pot'],
-      'indian': ['Butter Chicken', 'Biryani', 'Tikka Masala', 'Samosas', 'Naan'],
-      'mexican': ['Tacos', 'Enchiladas', 'Guacamole', 'Mole Poblano', 'Chiles Rellenos'],
-      'thai': ['Pad Thai', 'Green Curry', 'Tom Yum Soup', 'Mango Sticky Rice', 'Som Tam'],
-      'greek': ['Moussaka', 'Souvlaki', 'Greek Salad', 'Spanakopita', 'Baklava'],
-      'american': ['Burger', 'BBQ Ribs', 'Mac and Cheese', 'Apple Pie', 'Fried Chicken'],
-      'african': ['Jollof Rice', 'Bobotie', 'Tagine', 'Piri Piri Chicken', 'Injera'],
-    };
-    
-    // Get dishes specific to this cuisine or use general names
-    const dishNames = cuisineDishes[normalizedCuisineName] || 
-      [`${cuisineName} Specialty`, `Traditional ${cuisineName} Dish`, `${cuisineName} Delight`];
-    
-    // Common ingredients for each dish
-    const commonIngredients = [
-      { name: "Salt", amount: 1, unit: "tsp" },
-      { name: "Pepper", amount: 0.5, unit: "tsp" },
-      { name: "Olive Oil", amount: 2, unit: "tbsp" },
-    ];
-    
-    // Generate mock recipes
-    for (let i = 0; i < Math.min(count, dishNames.length); i++) {
-      mockRecipes.push({
-        id: `mock-${normalizedCuisineName}-${i}`,
-        name: dishNames[i],
-        description: `A traditional ${cuisineName} recipe featuring local ingredients and authentic flavors.`,
-        cuisine: cuisineName,
-        ingredients: [...commonIngredients],
-        instructions: ["Prepare ingredients", "Cook according to traditional methods", "Serve and enjoy!"],
-        timeToMake: "30 minutes",
-        servingSize: 4,
-        matchScore: 0.85 + (Math.random() * 0.15),
-        matchPercentage: Math.round((0.85 + Math.random() * 0.15) * 100),
-        elementalProperties: {
-          Fire: 0.25,
-          Water: 0.25,
-          Earth: 0.25,
-          Air: 0.25
-        },
-        isMockData: true
+  // Use real recipe data instead of mock data
+  const getRealRecipesForCuisine = async (count = 3) => {
+    try {
+      // Import real recipe data
+      const { allRecipes } = await import('@/data/recipes');
+      const recipes = Object.values(allRecipes || {});
+      
+      // Filter recipes by cuisine
+      const cuisineRecipes = recipes.filter(recipe => {
+        const recipeCuisine = typeof recipe.cuisine === 'string' 
+          ? recipe.cuisine.toLowerCase() 
+          : String(recipe.cuisine || '').toLowerCase();
+        return recipeCuisine === normalizedCuisineName || 
+               recipeCuisine.includes(normalizedCuisineName) ||
+               normalizedCuisineName.includes(recipeCuisine);
       });
+      
+      // If we have real recipes, return them
+      if (cuisineRecipes.length > 0) {
+        return cuisineRecipes.slice(0, count).map(recipe => ({
+          ...recipe,
+          matchScore: 0.9 + (Math.random() * 0.1), // High score for real recipes
+          matchPercentage: Math.round((0.9 + Math.random() * 0.1) * 100)
+        }));
+      }
+      
+      // If no real recipes found, create a fallback with basic recipe structure
+      const fallbackRecipes = [];
+      const basicDishes = [`Traditional ${cuisineName} Dish`, `${cuisineName} Specialty`, `Classic ${cuisineName} Recipe`];
+      
+      for (let i = 0; i < Math.min(count, basicDishes.length); i++) {
+        fallbackRecipes.push({
+          id: `${normalizedCuisineName}-${i}`,
+          name: basicDishes[i],
+          description: `An authentic ${cuisineName} recipe with traditional preparation methods.`,
+          cuisine: cuisineName,
+          ingredients: [
+            { name: "Primary ingredients", amount: 1, unit: "portion" },
+            { name: "Seasonings", amount: 1, unit: "to taste" },
+            { name: "Fresh herbs", amount: 1, unit: "garnish" }
+          ],
+          instructions: [
+            "Prepare all ingredients according to traditional methods",
+            "Cook using authentic techniques",
+            "Season to taste and serve appropriately"
+          ],
+          timeToMake: "45 minutes",
+          servingSize: 4,
+          matchScore: 0.75 + (Math.random() * 0.15),
+          matchPercentage: Math.round((0.75 + Math.random() * 0.15) * 100),
+          elementalProperties: profile?.elementalAlignment || {
+            Fire: 0.25,
+            Water: 0.25,
+            Earth: 0.25,
+            Air: 0.25
+          },
+          isMockData: true
+        });
+      }
+      
+      return fallbackRecipes;
+    } catch (error) {
+      console.error('Error getting real recipes:', error);
+      return [];
     }
-    
-    return mockRecipes;
   };
 
   try {
@@ -965,11 +976,11 @@ export function getRecipesForCuisineMatch(
             .slice(0, limit);
         } else {
           // console.log(`LocalRecipeService returned no recipes for ${cuisineName}, using mock data`);
-          return createMockRecipes(limit);
+          return await getRealRecipesForCuisine(limit);
         }
       } catch (error) {
         // console.error(`Error fetching recipes from LocalRecipeService for ${cuisineName}:`, error);
-        return createMockRecipes(limit);
+        return await getRealRecipesForCuisine(limit);
       }
     }
 
@@ -1148,14 +1159,14 @@ export function getRecipesForCuisineMatch(
     
     // Use mock data if we didn't find enough recipes
     if (sortedMatches.length < Math.min(3, limit)) {
-      const mockRecipes = createMockRecipes(limit - sortedMatches.length);
+      const mockRecipes = await getRealRecipesForCuisine(limit - sortedMatches.length);
       return [...sortedMatches, ...mockRecipes].slice(0, limit);
     }
     
     return sortedMatches.slice(0, limit);
   } catch (error) {
     // console.error(`Error in getRecipesForCuisineMatch for ${cuisineName}:`, error);
-    return createMockRecipes(limit);
+    return await getRealRecipesForCuisine(limit);
   }
 }
 

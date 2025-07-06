@@ -19,8 +19,17 @@ import { UnifiedIngredient } from '@/types/ingredient';
 import { SeasonalRecommendations } from './seasonal';
 import { unifiedSeasonalSystem } from '@/data/integrations/seasonal';
 import { PlanetaryAlignment } from "@/types/celestial";
-// TODO: Fix import - add what to import from "./ingredients.js.ts"
-// TODO: Fix import - add what to import from "./seasonal.js.ts"
+import { 
+  unifiedIngredients, 
+  getIngredientsByElement,
+  getIngredientsByCategory,
+  calculateIngredientCompatibility
+} from "./ingredients";
+import { 
+  seasonalAdaptations,
+  getSeasonalIngredients,
+  calculateSeasonalBonus
+} from "./seasonal";
 
 import { 
   unifiedCuisineIntegrationSystem, 

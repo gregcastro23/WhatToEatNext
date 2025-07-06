@@ -65,7 +65,7 @@ import type { StandardizedAlchemicalResult , ElementalProperties,
 import { unifiedIngredients } from '@/data/unified/ingredients';
 import { _createElementalProperties, calculateElementalCompatibility } from '../utils/elemental/elementalUtils';
 import { _isNonEmptyArray, _safeSome } from '../utils/common/arrayUtils';
-import { logger } from ../utils/logger';
+import { logger } from '../utils/logger';
 import { _cache } from '../utils/cache';
 
 import type { Recipe } from '../types/recipe';
@@ -90,23 +90,70 @@ enum ErrorSeverity {
   INFO = 'INFO'
 }
 
-// Placeholder error handler
+// Real error handler implementation
 const errorHandler = {
-  logError: (error: Record<string, unknown>, context: Record<string, unknown>) => {
-    // console.error('Error:', error, 'Context:', context);
+  logError: (error: unknown, context: Record<string, unknown>) => {
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    const errorStack = error instanceof Error ? error.stack : undefined;
+    
+    // In development, log to console
+    if (process.env.NODE_ENV === 'development') {
+      console.error('ConsolidatedIngredientService Error:', {
+        message: errorMessage,
+        stack: errorStack,
+        context
+      });
+    }
+    
+    // In production, could send to error reporting service
+    // For now, just store minimal error info
+    logger.error('ConsolidatedIngredientService Error', {
+      message: errorMessage,
+      context
+    });
   }
 };
 
-// Placeholder services that need to be properly implemented
+// Real implementations using the consolidated service
 class IngredientService {
+  private static instance: IngredientService;
+  
   static getInstance() {
-    return new IngredientService();
+    if (!IngredientService.instance) {
+      IngredientService.instance = new IngredientService();
+    }
+    return IngredientService.instance;
+  }
+  
+  getAllIngredients() {
+    return ConsolidatedIngredientService.getInstance().getAllIngredients();
+  }
+  
+  getIngredientByName(name: string) {
+    return ConsolidatedIngredientService.getInstance().getIngredientByName(name);
+  }
+  
+  getIngredientsByCategory(category: string) {
+    return ConsolidatedIngredientService.getInstance().getIngredientsByCategory(category);
   }
 }
 
 class IngredientFilterService {
+  private static instance: IngredientFilterService;
+  
   static getInstance() {
-    return new IngredientFilterService();
+    if (!IngredientFilterService.instance) {
+      IngredientFilterService.instance = new IngredientFilterService();
+    }
+    return IngredientFilterService.instance;
+  }
+  
+  filterIngredients(filter: IngredientFilter) {
+    return ConsolidatedIngredientService.getInstance().filterIngredients(filter);
+  }
+  
+  getIngredientsByElement(elementalFilter: ElementalFilter) {
+    return ConsolidatedIngredientService.getInstance().getIngredientsByElement(elementalFilter);
   }
 }
 

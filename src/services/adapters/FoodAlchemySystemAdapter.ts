@@ -12,7 +12,7 @@ import { consolidatedRecipeService } from '../ConsolidatedRecipeService';
 import { FoodAlchemySystem } from '../FoodAlchemySystem';
 import type { FoodCompatibility, SystemState } from '../../lib/FoodAlchemySystem';
 
-import { logger } from ../../utils/logger';
+import { logger } from '../../utils/logger';
 
 // Add missing imports for TS2304 fixes
 import type { ScoredRecipe } from '@/types/recipe';

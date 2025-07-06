@@ -23,9 +23,21 @@ import type { // ===== UNIFIED CUISINE INTEGRATION SYSTEM =====
   CookingMethod } from "@/types/alchemy";
 import type { Season } from "@/types/seasons";
 import type { ZodiacSign } from "@/types/zodiac";
-// TODO: Fix import - add what to import from './ingredients'
-// TODO: Fix import - add what to import from './unifiedTypes'
-// TODO: Fix import - add what to import from './seasonal'
+import { 
+  unifiedIngredients,
+  getIngredientsByCategory,
+  calculateIngredientHarmony
+} from './ingredients';
+import {
+  UnifiedElementalProperties,
+  UnifiedAlchemicalProperties,
+  UnifiedScoringMetrics
+} from './unifiedTypes';
+import {
+  seasonalAdaptations,
+  getSeasonalProfile,
+  calculateSeasonalCompatibility
+} from './seasonal';
 // Import removed - function not yet implemented
 import { FlavorProfileType } from "@/types/flavor";
 // Removed import to avoid conflict with local function

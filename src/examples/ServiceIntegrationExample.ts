@@ -57,9 +57,9 @@ export async function runServiceIntegrationExample() {
       limit: 5
     });
     // console.log('Recommended ingredients:', 
-      ingredientRecommendations?.items || [].map(ing => ing.name),
-      'Scores:', ingredientRecommendations.scores
-    );
+    //   ingredientRecommendations?.items || [].map(ing => ing.name),
+    //   'Scores:', ingredientRecommendations.scores
+    // );
     
     // Step 7: Get recipe recommendations based on elemental properties
     // console.log('\n7. Getting recipe recommendations...');
@@ -68,9 +68,9 @@ export async function runServiceIntegrationExample() {
       limit: 3
     });
     // console.log('Recommended recipes:', 
-      recipeRecommendations?.items || [].map(recipe => recipe.name),
-      'Scores:', recipeRecommendations.scores
-    );
+    //   recipeRecommendations?.items || [].map(recipe => recipe.name),
+    //   'Scores:', recipeRecommendations.scores
+    // );
     
     // Step 8: Get cooking method recommendations based on elemental properties
     // console.log('\n8. Getting cooking method recommendations...');
@@ -79,9 +79,9 @@ export async function runServiceIntegrationExample() {
       limit: 3
     });
     // console.log('Recommended cooking methods:', 
-      cookingMethodRecommendations?.items || [].map(method => method.name),
-      'Scores:', cookingMethodRecommendations.scores
-    );
+    //   cookingMethodRecommendations?.items || [].map(method => method.name),
+    //   'Scores:', cookingMethodRecommendations.scores
+    // );
     
     // Step 9: Calculate elemental compatibility between two recipes
     // console.log('\n9. Calculating elemental compatibility between recipes...');

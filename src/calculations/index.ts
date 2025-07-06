@@ -40,9 +40,18 @@ import planetaryInfluences, {
 } from './core/planetaryInfluences';
 
 // Culinary calculation modules
-// TODO: Fix import - add what to import from "./culinary/recipeMatching.ts"
-// TODO: Fix import - add what to import from "./culinary/cuisineRecommendations.ts"
-// TODO: Fix import - add what to import from "./culinary/seasonalAdjustments.ts"
+import { 
+  calculateElementalRecipeCompatibility, 
+  calculateAlchemicalRecipeAlignment 
+} from './culinary/recipeMatching';
+import { 
+  getCuisineRecommendations, 
+  generateElementalCuisineMapping 
+} from './culinary/cuisineRecommendations';
+import { 
+  applySeasonalElementalAdjustments, 
+  getSeasonalModifiers 
+} from './culinary/seasonalAdjustments';
 
 import { _Element } from "@/types/alchemy";
 import { PlanetaryAlignment } from "@/types/celestial";

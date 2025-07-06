@@ -1,5 +1,13 @@
-// TODO: Fix import - add what to import from "./unifiedTypes.ts"
-// TODO: Fix import - add what to import from "./ingredients.ts"
+import {
+  UnifiedIngredient,
+  UnifiedAlchemicalProperties,
+  UnifiedElementalProperties
+} from "./unifiedTypes";
+import {
+  unifiedIngredients,
+  getIngredientByName,
+  getIngredientsByElement
+} from "./ingredients";
 import { 
 // ===== ENHANCED UNIFIED INGREDIENTS SYSTEM =====
 // Phase 5 of WhatToEatNext Data Consolidation
@@ -20,10 +28,26 @@ import type { ElementalProperties,
   LunarPhase,
   Element
 } from "@/types/alchemy";
-// TODO: Fix import - add what to import from "./flavorProfiles.ts"
-// TODO: Fix import - add what to import from "./seasonal.ts"
-// TODO: Fix import - add what to import from "./cuisineIntegrations.ts"
-// TODO: Fix import - add what to import from "./nutritional.ts"
+import {
+  unifiedFlavorProfileSystem,
+  UnifiedFlavorProfile,
+  calculateFlavorCompatibility
+} from "./flavorProfiles";
+import {
+  seasonalAdaptations,
+  getSeasonalIngredients,
+  calculateSeasonalBonus
+} from "./seasonal";
+import {
+  unifiedCuisineIntegrationSystem,
+  getCuisineCompatibility,
+  analyzeCuisineIngredients
+} from "./cuisineIntegrations";
+import {
+  unifiedNutritionalSystem,
+  calculateNutritionalScore,
+  getNutritionalProfile
+} from "./nutritional";
 
 import type { UnifiedIngredient } from "./unifiedTypes";
 import type { UnifiedFlavorProfile } from "./flavorProfiles";

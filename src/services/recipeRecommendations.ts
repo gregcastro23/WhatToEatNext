@@ -1,5 +1,5 @@
 import { celestialCalculator } from './celestialCalculations';
-import { logger } from ../utils/logger';
+import { logger } from '../utils/logger';
 import { createError } from '../utils/errorHandling';
 import type { Recipe, ScoredRecipe } from '../types/recipe';
 import type { ElementalProperties, Ingredient } from '../types/alchemy';

@@ -24,20 +24,59 @@ export default function IngredientDisplay() {
       try {
         setIsLoading(true);
         
-        // Simple mock data for display purposes
-        const mockIngredients: Ingredient[] = [
-          { name: 'Ginger', category: 'Herbs', element: 'Fire', energyLevel: 0.8, score: 0.9 },
-          { name: 'Spinach', category: 'Vegetables', element: 'Earth', energyLevel: 0.6, score: 0.85 },
-          { name: 'Salmon', category: 'Proteins', element: 'Water', energyLevel: 0.7, score: 0.8 },
-          { name: 'Bell Pepper', category: 'Vegetables', element: 'Fire', energyLevel: 0.75, score: 0.78 },
-          { name: 'Quinoa', category: 'Grains', element: 'Earth', energyLevel: 0.65, score: 0.77 },
-          { name: 'Cucumber', category: 'Vegetables', element: 'Water', energyLevel: 0.5, score: 0.75 },
-        ];
+        // Use real ingredient data from ConsolidatedIngredientService
+        const { ConsolidatedIngredientService } = await import('@/services/ConsolidatedIngredientService');
+        const ingredientService = ConsolidatedIngredientService.getInstance();
         
-        // Simulate API delay
-        await new Promise(resolve => setTimeout(resolve, 500));
-        
-        setIngredients(mockIngredients);
+        // Get recommendations based on current astrological state
+        if (elementalProperties) {
+          const recommendations = ingredientService.getRecommendedIngredients(
+            elementalProperties,
+            { maxResults: 6, sortByScore: true }
+          );
+          
+          // Convert to component interface
+          const realIngredients: Ingredient[] = recommendations.map(ing => {
+            // Determine dominant element from elemental properties
+            const elemental = ing.elementalProperties || { Fire: 0, Water: 0, Earth: 1, Air: 0 };
+            let dominantElement = 'Earth';
+            let maxValue = elemental.Earth;
+            
+            if (elemental.Fire > maxValue) {
+              dominantElement = 'Fire';
+              maxValue = elemental.Fire;
+            }
+            if (elemental.Water > maxValue) {
+              dominantElement = 'Water';
+              maxValue = elemental.Water;
+            }
+            if (elemental.Air > maxValue) {
+              dominantElement = 'Air';
+            }
+            
+            return {
+              name: ing.name,
+              category: ing.category,
+              element: dominantElement,
+              energyLevel: ing.kalchm ? Math.min(1, ing.kalchm / 2) : 0.6,
+              score: (ing as any).score || 0.8
+            };
+          });
+          
+          setIngredients(realIngredients);
+        } else {
+          // Fallback to getting all ingredients
+          const allIngredients = ingredientService.getAllIngredientsFlat();
+          const selectedIngredients = allIngredients.slice(0, 6).map(ing => ({
+            name: ing.name,
+            category: ing.category,
+            element: 'Earth', // fallback
+            energyLevel: 0.6,
+            score: 0.8
+          }));
+          
+          setIngredients(selectedIngredients);
+        }
       } catch (error) {
         // console.error('Error loading ingredients:', error);
       } finally {

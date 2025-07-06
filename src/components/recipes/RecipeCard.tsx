@@ -11,7 +11,7 @@ import { getTimeFactors } from '@/utils/time';
 import type { ExtendedRecipe } from '@/types/ExtendedRecipe';
 import type { Element } from '@/types/alchemy';
 import type { TimeFactors } from '@/types/time';
-import { logger } from @/utils/logger';
+import { logger } from '@/utils/logger';
 import styles from './RecipeCard.module.css';
 
 type ViewOption = 'grid' | 'list' | 'compact';

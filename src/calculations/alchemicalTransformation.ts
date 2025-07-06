@@ -11,14 +11,14 @@ import {
 } from './alchemicalCalculations';
 import {
   calculatePlanetaryBoost,
-  _Planet,
+  Planet,
   PlanetaryDignity,
   PlanetaryDignityDetails
 } from '../constants/planetaryFoodAssociations';
 import { ZodiacSign } from '../constants/zodiac';
 import { LunarPhaseWithSpaces } from '../types/alchemy';
 import { createLogger } from '@/utils/logger';
-import { _CelestialPosition } from '@/types/celestial';
+import { CelestialPosition } from '@/types/celestial';
 
 // Create a component-specific logger
 const logger = createLogger('AlchemicalTransformation');
