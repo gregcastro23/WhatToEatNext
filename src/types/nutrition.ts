@@ -85,4 +85,9 @@ export interface NutritionalFilter {
   highProtein?: boolean;
   lowCarb?: boolean;
   lowFat?: boolean;
-} 
+}
+
+// ---------------------------------------------------------------------------
+// Backward-compatibility alias – legacy modules imported `_NutritionalProfile`.
+// ---------------------------------------------------------------------------
+export type _NutritionalProfile = NutritionalProfile; 

@@ -77,7 +77,7 @@ const SaucesPage: NextPage = () => {
             cuisine: (cuisineData as unknown).name,
             cuisineId: cuisineId,
             seasonality: sauceInfo?.seasonality,
-            elementalProperties: sauceInfo?.elementalProperties
+            elementalProperties: (sauceInfo as any)?.elementalProperties
           });
         });
       }

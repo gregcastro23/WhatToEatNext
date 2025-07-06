@@ -1086,11 +1086,11 @@ export async function getRecipesForCuisineMatch(
             // Elemental alignment (weight: 0.1)
             if (
               cuisineProfile.elementalAlignment &&
-              recipeData?.elementalProperties
+              (recipeData as any)?.elementalProperties
             ) {
               const elementScore = calculateSimilarityScore(
                 cuisineProfile.elementalAlignment,
-                recipeData.elementalProperties
+                (recipeData as any).elementalProperties
               );
               scoreComponents.push(elementScore * 0.1);
               totalWeight += 0.1;
@@ -1148,7 +1148,7 @@ export async function getRecipesForCuisineMatch(
     const uniqueMatches = allMatches.filter(
       (recipe, index, self) => {
         const recipeData = recipe as unknown;
-        return index === self.findIndex((r) => (r as unknown)?.name === recipeData?.name);
+        return index === self.findIndex((r) => (r as any)?.name === recipeData?.name);
       }
     );
 

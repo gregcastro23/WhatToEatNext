@@ -5,6 +5,7 @@ import { useAlchemicalRecommendations } from '@/hooks/useAlchemicalRecommendatio
 import { ElementalItem } from '@/calculations/alchemicalTransformation';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { _LunarPhase, LunarPhaseWithSpaces, ZodiacSign, PlanetaryAspect } from '@/types/alchemy';
+import { PlanetaryPosition } from '@/types/celestial';
 
 // Import the correct data sources
 import allIngredients from '@/data/ingredients';
@@ -63,7 +64,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
       Object.entries(alchemicalContext.planetaryPositions).forEach(([planet, data]) => {
         if (planet in positions) {
           // Fix TS2339: Property 'degree' does not exist on type 'unknown'
-          const planetData = data as unknown;
+          const planetData = data as PlanetaryPosition;
           const degree = planetData?.degree;
           positions[planet as RulingPlanet] = degree || 0;
         }
@@ -108,8 +109,8 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
     return Object.entries(allIngredients).map(([key, ingredient]) => {
       // Get ingredient elemental properties or calculate them
       let elementalProps;
-      if ((ingredient as unknown).elementalProperties) {
-        elementalProps = (ingredient as unknown).elementalProperties;
+      if ((ingredient as any).elementalProperties) {
+        elementalProps = (ingredient as any).elementalProperties;
       } else {
         // Calculate based on ingredient category and attributes
         const category = (ingredient as unknown).category || '';
@@ -186,7 +187,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
       
       return {
         id: key,
-        name: (ingredient as unknown)?.name || key,
+        name: (ingredient as any)?.name || key,
         elementalProperties: elementalProps,
         qualities: (ingredient as unknown).qualities || [],
         modality: (ingredient as unknown).modality
@@ -265,8 +266,8 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
     return Object.entries(cuisines).map(([key, cuisine]) => {
       // Get cuisine elemental state or calculate it
       let elementalState;
-      if ((cuisine as unknown).elementalState) {
-        elementalState = (cuisine as unknown).elementalState;
+      if ((cuisine as any).elementalState) {
+        elementalState = (cuisine as any).elementalState;
       } else {
         // Calculate based on cuisine characteristics
         elementalState = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
@@ -533,7 +534,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
                   </div>
                   <div className="item-modality">
                     <span className={`modality-badge ${(() => {
-                      const modalityData = ingredient.modality as unknown;
+                      const modalityData = ingredient.modality as any;
                       const modalityStr = modalityData?.toLowerCase ? modalityData.toLowerCase() : (modalityData || '').toString().toLowerCase();
                       return modalityStr;
                     })()}`}>
@@ -568,7 +569,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
                   </div>
                   <div className="item-modality">
                     <span className={`modality-badge ${(() => {
-                      const modalityData = method.modality as unknown;
+                      const modalityData = method.modality as any;
                       const modalityStr = modalityData?.toLowerCase ? modalityData.toLowerCase() : (modalityData || '').toString().toLowerCase();
                       return modalityStr;
                     })()}`}>
@@ -603,7 +604,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
                   </div>
                   <div className="item-modality">
                     <span className={`modality-badge ${(() => {
-                      const modalityData = cuisine.modality as unknown;
+                      const modalityData = cuisine.modality as any;
                       const modalityStr = modalityData?.toLowerCase ? modalityData.toLowerCase() : (modalityData || '').toString().toLowerCase();
                       return modalityStr;
                     })()}`}>

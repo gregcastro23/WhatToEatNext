@@ -91,7 +91,7 @@ export const CurrentChartProvider: React.FC<{children: React.ReactNode}> = ({ ch
   const calculateStelliums = (positions: Record<string, unknown>): Record<string, string[]> => {
     const signGroups: Record<string, string[]> = {};
     Object.entries(positions).forEach(([planet, data]) => {
-      const planetData = data as unknown;
+      const planetData = data as any;
       if (planet === 'ascendant' || !data || !planetData?.sign) return;
       
       const sign = planetData.sign;
@@ -120,7 +120,7 @@ export const CurrentChartProvider: React.FC<{children: React.ReactNode}> = ({ ch
     };
 
     Object.entries(positions).forEach(([planet, data]) => {
-      const planetData = data as unknown;
+      const planetData = data as any;
       if (planet === 'ascendant' || !data || !planetData?.sign) return;
       
       const sign = planetData.sign;
@@ -221,7 +221,7 @@ export const CurrentChartProvider: React.FC<{children: React.ReactNode}> = ({ ch
     Object.entries(chart.planetaryPositions).forEach(([key, data]) => {
       if (key === 'ascendant') return;
       
-      const planetData = data as unknown;
+      const planetData = data as any;
       const planetName = key.charAt(0).toUpperCase() + key.slice(1);
       formattedPlanets[planetName] = {
         sign: planetData?.sign || 'Unknown',
@@ -232,7 +232,7 @@ export const CurrentChartProvider: React.FC<{children: React.ReactNode}> = ({ ch
     });
     
     // Create a basic SVG representation
-    const ascendantData = chart.planetaryPositions.ascendant as unknown;
+    const ascendantData = chart.planetaryPositions.ascendant as any;
     return {
       planetPositions: formattedPlanets,
       ascendantSign: ascendantData?.sign || 'Libra',
@@ -244,7 +244,7 @@ export const CurrentChartProvider: React.FC<{children: React.ReactNode}> = ({ ch
           const angle = (index * 30) % 360;
           const x = 150 + 120 * Math.cos(angle * Math.PI / 180);
           const y = 150 + 120 * Math.sin(angle * Math.PI / 180);
-          return `<text x="${x}" y="${y}" text-anchor="middle">${planet}: ${planetInfo?.sign}</text>`;
+          return `<text x="${x}" y="${y}" text-anchor="middle">${planet}: ${(planetInfo as any)?.sign}</text>`;
         }).join('')}
       </svg>`
     };
@@ -273,7 +273,7 @@ export const useCurrentChart = () => {
     chartData: {
       planets: Object.entries(context.chart.planetaryPositions).reduce((acc, [key, data]) => {
         if (key === 'ascendant') return acc;
-        const planetData = data as unknown;
+        const planetData = data as any;
         const planetName = key.charAt(0).toUpperCase() + key.slice(1);
         acc[planetName] = {
           sign: planetData?.sign || 'Unknown',
@@ -283,7 +283,7 @@ export const useCurrentChart = () => {
         };
         return acc;
       }, {} as Record<string, unknown>),
-      ascendant: ascendantData?.sign
+      ascendant: (ascendantData as any)?.sign
     },
     createChartSvg: context.createChartSvg,
     isLoading: context.loading,

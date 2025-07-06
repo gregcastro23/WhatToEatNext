@@ -128,7 +128,7 @@ export function suggestIngredientSubstitutions(
   
   // Get the elemental properties of the ingredient
   // Apply surgical type casting with variable extraction
-  const matchedToData = ingredientMapping.matchedTo as unknown;
+  const matchedToData = ingredientMapping.matchedTo as any;
   const elementalProperties = matchedToData?.elementalProperties;
   const _alchemicalProperties = matchedToData?.alchemicalProperties;
   

@@ -85,7 +85,7 @@ export class EnhancedIngredientSystem {
       let filtered = recommended;
       
       // Filter by season if specified - apply surgical type casting
-      const optionsData = options as unknown;
+      const optionsData = options as any;
       const currentSeason = optionsData?.currentSeason;
       if (currentSeason) {
         filtered = filtered.filter(ingredient => {

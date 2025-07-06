@@ -116,21 +116,21 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
         
         // Match regional cuisine if specified
         // Apply surgical type casting with variable extraction
-        const cuisineString = cuisine as unknown;
+        const cuisineString = cuisine as any;
         const cuisineLower = cuisineString?.toLowerCase?.();
         
-        if ((recipe.regionalCuisine as unknown)?.toLowerCase?.() === cuisineLower) return true;
+        if ((recipe.regionalCuisine as any)?.toLowerCase?.() === cuisineLower) return true;
         
         // Try to match related cuisines
         try {
           const relatedCuisines = getRelatedCuisines(cuisine || '');
           if ((relatedCuisines || []).some(rc => {
             // Apply surgical type casting with variable extraction
-            const rcData = rc as unknown;
+            const rcData = rc as any;
             const rcLower = rcData?.toLowerCase?.();
             return (
               recipe.cuisine?.toLowerCase() === rcLower ||
-              (recipe.regionalCuisine as unknown)?.toLowerCase?.() === rcLower
+              (recipe.regionalCuisine as any)?.toLowerCase?.() === rcLower
             );
           })) {
             return true;
@@ -152,7 +152,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
         
         // If match scores are equal, prioritize direct cuisine matches
         // Apply surgical type casting with variable extraction
-        const cuisineStringForSort = cuisine as unknown;
+        const cuisineStringForSort = cuisine as any;
         const cuisineLowerForSort = cuisineStringForSort?.toLowerCase?.();
         
         const directMatchA = a.cuisine?.toLowerCase() === cuisineLowerForSort;
@@ -284,7 +284,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
   const isRegionalVariant = (cuisineRecipes || []).some(r => {
     // Apply surgical type casting with variable extraction
     const recipeData = r as unknown;
-    const cuisineStringForRegional = cuisine as unknown;
+    const cuisineStringForRegional = cuisine as any;
     const cuisineLowerForRegional = cuisineStringForRegional?.toLowerCase?.();
     
     return recipeData?.regionalCuisine?.toLowerCase() === cuisineLowerForRegional;

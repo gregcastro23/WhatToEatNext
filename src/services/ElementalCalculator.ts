@@ -508,7 +508,7 @@ export class ElementalCalculator {
   public static calculateIngredientMatch(ingredient: unknown): number {
     // Apply surgical type casting with variable extraction
     const ingredientData = ingredient as unknown;
-    const elementalProperties = ingredientData?.elementalProperties;
+    const elementalProperties = (ingredientData as any)?.elementalProperties;
     
     // If the ingredient has elementalProperties, use those
     if (elementalProperties) {

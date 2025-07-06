@@ -57,7 +57,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       
       // Use safe type casting for criteria access
       const criteriaData = criteria as unknown;
-      const elementalState = criteriaData?.elementalState || criteriaData?.elementalProperties;
+      const elementalState = (criteriaData as any)?.elementalState || (criteriaData as any)?.elementalProperties;
       
       // Calculate elemental compatibility if criteria includes elemental properties
       if (elementalState && recipe.elementalState) {
@@ -161,7 +161,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       
       // Use safe type casting for criteria access
       const criteriaData = criteria as unknown;
-      const elementalState = criteriaData?.elementalState || criteriaData?.elementalProperties;
+      const elementalState = (criteriaData as any)?.elementalState || (criteriaData as any)?.elementalProperties;
       
       // Calculate elemental compatibility if criteria includes elemental properties
       if (elementalState && ingredient.elementalProperties) {
@@ -290,7 +290,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       
       // Use safe type casting for criteria access
       const criteriaData = criteria as unknown;
-      const elementalState = criteriaData?.elementalState || criteriaData?.elementalProperties;
+      const elementalState = (criteriaData as any)?.elementalState || (criteriaData as any)?.elementalProperties;
       
       // Calculate elemental compatibility if criteria includes elemental properties
       if (elementalState && cuisineElements[cuisine]) {
@@ -407,7 +407,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       
       // Use safe type casting for criteria access
       const criteriaData = criteria as unknown;
-      const elementalState = criteriaData?.elementalState || criteriaData?.elementalProperties;
+      const elementalState = (criteriaData as any)?.elementalState || (criteriaData as any)?.elementalProperties;
       
       // Calculate elemental compatibility if criteria includes elemental properties
       if (elementalState && method?.elementalEffect) {

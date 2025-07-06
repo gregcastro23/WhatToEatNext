@@ -4,6 +4,7 @@ import type {
   ElementalProperties as ElementProps,
   Season,
 } from '@/types/alchemy';
+import type { PlanetaryPosition } from '@/types/celestial';
 
 // Define the types needed for ElementalCalculator
 interface ElementalProperties {
@@ -56,13 +57,13 @@ export class ElementalCalculator {
     season: string
   ): number {
     const recipeData = recipe as unknown;
-    if (!recipeData?.elementalProperties) return 0;
+    if (!(recipeData as any)?.elementalProperties) return 0;
 
     const seasonalModifiers = this.getSeasonalModifiers(season as Season);
     let score = 0;
 
     // Calculate base seasonal alignment
-    Object.entries(recipeData.elementalProperties).forEach(([element, value]) => {
+    Object.entries((recipeData as any).elementalProperties).forEach(([element, value]) => {
       const modifier =
         seasonalModifiers[element as keyof ElementalProperties] || 0;
       score += (value as number) * modifier * 100;
@@ -295,7 +296,7 @@ export function calculateElementalEnergies(
     const weight = planetWeights[planet.toLowerCase()] || 0.05;
 
     // Skip if position doesn't have a sign
-    const positionData = position as unknown;
+    const positionData = position as PlanetaryPosition;
     if (!positionData?.sign) continue;
 
     // Convert the sign to lowercase to ensure matching

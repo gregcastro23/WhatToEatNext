@@ -10,6 +10,9 @@ import { vinegars } from '@/data/ingredients/vinegars';
 import { seasonings } from '@/data/ingredients/seasonings';
 import { proteins, meats, poultry, seafood, legumes, plantBased } from '@/data/ingredients/proteins';
 import { getCurrentSeason } from '@/utils/dateUtils';
+import { isNutritionalProfile } from '@/types/guards';
+import type { NutritionalProfile } from '@/types/nutrition';
+import type { IngredientMapping } from '@/data/ingredients/types';
 
 // Create eggs and dairy from proteins by filtering category
 const eggs = (Object.entries(proteins) as [string, IngredientMapping][])
@@ -837,8 +840,9 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
       
       // NEW: Calculate nutritional score based on ingredient nutritional properties
       let nutritionalScore = 0.5; // Default neutral score
-      if (standardized.nutritionalProfile) {
-        const nutrition = standardized.nutritionalProfile;
+      const rawProfile = standardized.nutritionalProfile;
+      if (rawProfile && isNutritionalProfile(rawProfile)) {
+        const nutrition: NutritionalProfile = rawProfile;
         
         // Calculate protein density (protein per calorie)
         const proteinDensity = nutrition.calories > 0 && nutrition?.macros ? 

@@ -1,4 +1,5 @@
 import type { IngredientMapping } from '@/types/alchemy';
+import { isNutritionalProfile } from '@/types/guards';
 
 // ========== INGREDIENT DATA NORMALIZATION UTILITIES ==========
 
@@ -55,67 +56,6 @@ export function normalizeMinerals(minerals: Record<string, unknown>): Array<{ na
   }
 
   return [];
-}
-
-/**
- * Format vitamin names for consistent display
- */
-export function formatVitaminName(name: string): string {
-  if (!name) return '';
-  
-  const vitaminName = name.toString().toLowerCase();
-  
-  // Handle common vitamin formats
-  const vitaminMap: Record<string, string> = {
-    'a': 'Vitamin A',
-    'b1': 'Vitamin B1 (Thiamine)',
-    'b2': 'Vitamin B2 (Riboflavin)', 
-    'b3': 'Vitamin B3 (Niacin)',
-    'b6': 'Vitamin B6 (Pyridoxine)',
-    'b12': 'Vitamin B12 (Cobalamin)',
-    'c': 'Vitamin C',
-    'd': 'Vitamin D',
-    'e': 'Vitamin E',
-    'k': 'Vitamin K',
-    'folate': 'Folate',
-    'niacin': 'Niacin (B3)',
-    'thiamine': 'Thiamine (B1)',
-    'riboflavin': 'Riboflavin (B2)',
-    'pyridoxine': 'Pyridoxine (B6)',
-    'cobalamin': 'Cobalamin (B12)',
-    'biotin': 'Biotin',
-    'pantothenic_acid': 'Pantothenic Acid'
-  };
-
-  return vitaminMap[vitaminName] || `Vitamin ${name.toUpperCase()}`;
-}
-
-/**
- * Format mineral names for consistent display
- */
-export function formatMineralName(name: string): string {
-  if (!name) return '';
-  
-  const mineralName = name.toString().toLowerCase();
-  
-  // Handle common mineral formats
-  const mineralMap: Record<string, string> = {
-    'calcium': 'Calcium',
-    'iron': 'Iron',
-    'magnesium': 'Magnesium',
-    'phosphorus': 'Phosphorus',
-    'potassium': 'Potassium',
-    'sodium': 'Sodium',
-    'zinc': 'Zinc',
-    'copper': 'Copper',
-    'manganese': 'Manganese',
-    'selenium': 'Selenium',
-    'iodine': 'Iodine',
-    'chromium': 'Chromium',
-    'molybdenum': 'Molybdenum'
-  };
-
-  return mineralMap[mineralName] || name.charAt(0).toUpperCase() + name.slice(1);
 }
 
 /**
@@ -283,19 +223,25 @@ export function normalizePreparation(preparation: Record<string, unknown>): any 
  */
 export function normalizeIngredientData(ingredient: Record<string, unknown>): any {
   if (!ingredient) return null;
-  
+
+  // Narrow the nutritionalProfile using type-guard when possible.
+  const rawProfile = (ingredient as any).nutritionalProfile;
+  const nutritionalProfile = isNutritionalProfile(rawProfile)
+    ? {
+        ...rawProfile,
+        vitamins: normalizeVitamins((rawProfile as any).vitamins),
+        minerals: normalizeMinerals((rawProfile as any).minerals),
+        antioxidants: normalizeAntioxidants((rawProfile as any).antioxidants)
+      }
+    : undefined;
+
   const normalized = {
     ...ingredient,
-    nutritionalProfile: ingredient.nutritionalProfile ? {
-      ...ingredient.nutritionalProfile,
-      vitamins: normalizeVitamins(ingredient.nutritionalProfile.vitamins),
-      minerals: normalizeMinerals(ingredient.nutritionalProfile.minerals),
-      antioxidants: normalizeAntioxidants(ingredient.nutritionalProfile.antioxidants)
-    } : undefined,
-    culinaryApplications: normalizeCulinaryApplications(ingredient.culinaryApplications),
-    varieties: normalizeVarieties(ingredient.varieties),
-    storage: normalizeStorage(ingredient.storage),
-    preparation: normalizePreparation(ingredient.preparation)
+    nutritionalProfile,
+    culinaryApplications: normalizeCulinaryApplications((ingredient as any).culinaryApplications),
+    varieties: normalizeVarieties((ingredient as any).varieties),
+    storage: normalizeStorage((ingredient as any).storage),
+    preparation: normalizePreparation((ingredient as any).preparation)
   };
   
   return normalized;
@@ -336,6 +282,20 @@ export function hasRichNutritionalData(ingredient: Record<string, unknown>): boo
   );
   
   return hasVitamins || hasMinerals || hasAntioxidants;
+}
+
+// Local fallback formatters (the centralized utils don't currently export these)
+export function formatVitaminName(name: string): string {
+  if (!name) return '';
+  return String(name)
+    .replace(/_/g, ' ')
+    .replace(/([A-Z])/g, ' $1')
+    .replace(/\b\w/g, l => l.toUpperCase())
+    .trim();
+}
+
+export function formatMineralName(name: string): string {
+  return formatVitaminName(name);
 }
 
 export default {

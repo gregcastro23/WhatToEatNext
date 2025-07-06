@@ -535,7 +535,7 @@ export const calculateNutritionalBalance = (ingredients: unknown[]): Nutritional
       carbohydrates: acc.carbohydrates + (nutrition.carbohydrates || 0),
       fat: acc.fat + (nutrition.fat || 0),
       fiber: acc.fiber + (nutrition.fiber || 0),
-      vitamins: { ...acc.vitamins, ...nutrition.vitamins },
+      vitamins: { ...acc.vitamins, ...(nutrition as any).vitamins },
       minerals: { ...acc.minerals, ...nutrition.minerals }
     };
   }, {

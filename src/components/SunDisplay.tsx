@@ -157,9 +157,9 @@ const SunDisplay: React.FC = () => {
         <div className="flex items-center">
           <span className="text-3xl mr-3">☉</span>
           <div>
-            <p className="font-medium">{(sun as unknown)?.sign || 'Unknown'}</p>
+            <p className="font-medium">{(sun as any)?.sign || 'Unknown'}</p>
             <p className="text-sm text-amber-200">
-              {sun && (sun as unknown)?.degree !== undefined ? formatDegree((sun as unknown)?.degree) : ''}
+              {sun && (sun as any)?.degree !== undefined ? formatDegree((sun as any)?.degree) : ''}
             </p>
           </div>
         </div>
@@ -179,7 +179,7 @@ const SunDisplay: React.FC = () => {
       {expanded && (
         <div className="mt-4 border-t border-amber-700 pt-4">
           <p className="text-sm text-amber-200 mb-3">
-            The Sun in {(sun as unknown)?.sign} brings energy of confidence, vitality, and creative expression.
+            The Sun in {(sun as any)?.sign} brings energy of confidence, vitality, and creative expression.
           </p>
           
           <div className="bg-amber-800 rounded p-3 mt-2">

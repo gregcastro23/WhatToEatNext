@@ -84,6 +84,9 @@ interface PositionsCache {
 interface PlanetPositionData {
   sign: ZodiacSign;
   degree: number;
+  /** Optional minutes component (0-59). "minute" is singular alias; "minutes" supports plural form used in some legacy modules. */
+  minute?: number;
+  minutes?: number;
   exactLongitude: number;
   isRetrograde: boolean;
 }

@@ -354,7 +354,7 @@ export async function calculatePlanetaryPositions(date: Date = new Date()): Prom
       const positionData = position as unknown;
       positions[planet] = {
         sign: positionData?.sign,
-        degree: positionData?.degree,
+        degree: (positionData as any)?.degree,
         minutes: positionData?.minutes || 0,
         exactLongitude: positionData?.exactLongitude || 0,
         isRetrograde: positionData?.isRetrograde || false

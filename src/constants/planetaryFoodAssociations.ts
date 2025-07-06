@@ -283,13 +283,13 @@ export const getZodiacBoost = (zodiacSign: string, item: unknown): number => {
   
   // Check if item has elemental properties
   const itemData = item as unknown;
-  if (!itemData.elementalProperties) {
+  if (!(itemData as any).elementalProperties) {
     return 0.1; // Minimum boost if no elemental data
   }
   
   // Calculate boost based on elemental affinity
   // Higher boost if the cuisine's dominant element matches the zodiac element
-  const elementValue = itemData.elementalProperties[zodiacElement] || 0;
+  const elementValue = (itemData as any).elementalProperties[zodiacElement] || 0;
   const elementBoost = elementValue * 0.8; // Scale based on how strong the element is
 
   // Check if cuisine explicitly lists this zodiac sign as favorable
@@ -303,13 +303,13 @@ export const getZodiacBoost = (zodiacSign: string, item: unknown): number => {
   
   if (cardinalSigns.includes(normalizedSign)) {
     // Cardinal signs prefer bold, distinctive cuisines
-    modalityBoost = (itemData.elementalProperties['Fire'] || 0) * 0.2;
+    modalityBoost = ((itemData as any).elementalProperties['Fire'] || 0) * 0.2;
   } else if (fixedSigns.includes(normalizedSign)) {
     // Fixed signs prefer substantial, traditional cuisines
-    modalityBoost = (itemData.elementalProperties['Earth'] || 0) * 0.2;
+    modalityBoost = ((itemData as any).elementalProperties['Earth'] || 0) * 0.2;
   } else {
     // Mutable signs prefer adaptable, fusion cuisines
-    modalityBoost = (itemData.elementalProperties['Air'] || 0) * 0.2;
+    modalityBoost = ((itemData as any).elementalProperties['Air'] || 0) * 0.2;
   }
 
   // Calculate seasonal alignment (certain cuisines are better aligned with seasons)
@@ -347,7 +347,7 @@ const calculateSeasonalAlignment = (zodiacSign: string, item: unknown): number =
   // Calculate alignment based on the cuisine's elemental properties
   // Higher value if the cuisine aligns with the season's element
   const itemData = item as unknown;
-  return itemData.elementalProperties?.[seasonalElement] || 0.1;
+  return (itemData as any).elementalProperties?.[seasonalElement] || 0.1;
 };
 
 /**
@@ -395,7 +395,7 @@ export const getFlavorBoost = (
   const ingredientData = ingredient as unknown;
   const elementBoost = planetaryFoodAssociations[planet].elementalBoost || {};
   return Object.entries(elementBoost).reduce((acc, [element, boost]) => {
-    return acc + (ingredientData.elementalProperties?.[element] || 0) * (boost || 0);
+    return acc + ((ingredientData as any).elementalProperties?.[element] || 0) * (boost || 0);
   }, 0);
 };
 

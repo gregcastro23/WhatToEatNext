@@ -348,7 +348,7 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
         // Only run this calculation when there's actually a change in alignment
         const positionKey = Object.entries(currentPlanetaryAlignment)
           .filter(([k, v]) => typeof v === 'object' && v !== null && 'sign' in v)
-          .map(([k, v]) => `${k}:${(v as unknown).sign}:${(v as unknown).degree || 0}`)
+          .map(([k, v]) => `${k}:${(v as any).sign}:${(v as any).degree || 0}`)
           .join('|');
         
         // Skip calculation if we've already calculated for this exact alignment

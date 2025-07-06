@@ -15,7 +15,7 @@ import type {
 // Import ChakraEnergies from the more complete chakra.ts that includes 'brow'
 import type { ChakraEnergies, ChakraPosition } from '@/types/chakra';
 // Import Element from celestial for consistency (4 elements, no Aether)
-import type { Element } from '@/types/celestial';
+import type { Element, PlanetaryPosition } from '@/types/celestial';
 import { seasonalPatterns } from '@/data/integrations/seasonalPatterns';
 import { recipeElementalMappings } from '@/data/recipes/elementalMappings';
 import { PLANETARY_MODIFIERS, RulingPlanet } from '@/constants/planets';
@@ -352,7 +352,7 @@ export class AlchemicalEngineAdvanced {
       }
 
       // Astrological compatibility - safe property access
-      const elementalProperties = (cuisineData as unknown)?.elementalProperties;
+      const elementalProperties = (cuisineData as any)?.elementalProperties;
       if (astroState && elementalProperties) {
         const astroElements = this.calculateAstrologicalInfluence(astroState);
         const elementCompatibility = this.calculateElementCompatibility(
@@ -1063,8 +1063,8 @@ export function alchemize(
       if (typeof planetInfo === 'object' && planetInfo && 'Ascendant' in planetInfo) {
         const ascendantInfo = planetInfo['Ascendant'] as unknown;
         if (typeof ascendantInfo === 'object') {
-          ascendantInfo['Diurnal Element'] = signInfo[rising_sign]?.element || 'Air';
-          ascendantInfo['Nocturnal Element'] = signInfo[rising_sign]?.element || 'Air';
+          ascendantInfo['Diurnal Element'] = (signInfo[rising_sign] as any)?.element || 'Air';
+          ascendantInfo['Nocturnal Element'] = (signInfo[rising_sign] as any)?.element || 'Air';
         }
       }
       
@@ -1177,10 +1177,10 @@ export function alchemize(
         try {
           if (alchmInfo['Planets'] && alchmInfo['Planets'][planet]) {
             alchmInfo['Planets'][planet]['Diurnal Element'] = 
-              `${signInfo[sign]?.element || 'Air'} in ${planetInfo[planet]?.['Diurnal Element'] || 'Air'}`;
+              `${(signInfo[sign] as any)?.element || 'Air'} in ${(planetInfo[planet] as any)?.['Diurnal Element'] || 'Air'}`;
             
             alchmInfo['Planets'][planet]['Nocturnal Element'] = 
-              `${signInfo[sign]?.element || 'Air'} in ${planetInfo[planet]?.['Nocturnal Element'] || 'Air'}`;
+              `${(signInfo[sign] as any)?.element || 'Air'} in ${(planetInfo[planet] as any)?.['Nocturnal Element'] || 'Air'}`;
           }
         } catch (error) {
           // console.error(`Error processing elements for ${planet}:`, error);
@@ -1533,7 +1533,7 @@ async function calculateCurrentPlanetaryPositions(): Promise<
         const convertedPositions: Record<string, unknown> = {};
         
         Object.entries(astrologizePositions).forEach(([planet, position]) => {
-          const pos = position as unknown;
+          const pos = position as PlanetaryPosition;
           convertedPositions[planet] = {
             Sign: { label: pos.sign },
             Degree: pos.degree,
@@ -2038,16 +2038,16 @@ async function getCurrentAstrologicalState(): Promise<AstrologicalState> {
     const positions = await calculateCurrentPlanetaryPositions();
     
     // Extract zodiac sign from planetary positions (sun sign)
-    const sunSign = (positions.sun as unknown)?.sign?.toLowerCase() as ZodiacSign || 'aries';
+    const sunSign = (positions.sun as PlanetaryPosition)?.sign?.toLowerCase() as ZodiacSign || 'aries';
     
     // Extract moon sign from planetary positions
-    const moonSign = (positions.moon as unknown)?.sign?.toLowerCase() as ZodiacSign || 'taurus';
+    const moonSign = (positions.moon as PlanetaryPosition)?.sign?.toLowerCase() as ZodiacSign || 'taurus';
     
     // Calculate dominant element based on zodiac sign
     const dominantElement = (getElementFromSign(sunSign) as Element) || 'Fire';
     
     // Determine current lunar phase
-    const _lunarPhase = (positions.moon as unknown)?.phase?.toLowerCase() as LunarPhase || 'full moon';
+    const _lunarPhase = (positions.moon as any)?.phase?.toLowerCase() as LunarPhase || 'full moon';
     
     // Get current season based on sun sign
     const season = getSeasonFromSunSign(sunSign);
@@ -2057,7 +2057,7 @@ async function getCurrentAstrologicalState(): Promise<AstrologicalState> {
       .filter(([planet, data]) => {
         if (planet === 'sun' || planet === 'moon') return true;
         // Consider a planet active if it has a position and is not retrograde
-        return (data as unknown)?.sign && !(data as unknown)?.isRetrograde;
+        return (data as PlanetaryPosition)?.sign && !(data as PlanetaryPosition)?.isRetrograde;
       })
       .map(([planet]) => planet);
     

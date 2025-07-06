@@ -129,7 +129,7 @@ const processIngredient = (ingredient: unknown, name: string): Ingredient => {
     name: name,
     category: ingredientData?.category || 'culinary_herb',
     elementalProperties: normalizeElementalProperties(
-      ingredientData?.elementalProperties
+      (ingredientData as any)?.elementalProperties
     ),
     qualities: Array.isArray(ingredientData?.qualities) ? ingredientData.qualities : [],
     lunarPhaseModifiers:
@@ -157,18 +157,18 @@ const processIngredientCollection = (
         calculateAlchemicalProperties(processedIngredient);
       const thermodynamicProps = calculateThermodynamicProperties(
         alchemicalProps,
-        processedIngredient.elementalProperties
+        (processedIngredient as any).elementalProperties
       );
 
       // Determine modality
       const modality = determineIngredientModality(
         (processedIngredient as unknown)?.qualities || [],
-        processedIngredient.elementalProperties
+        (processedIngredient as any).elementalProperties
       );
 
       // Create elementalSignature (dominant elements in order)
       const elementalSignature = Object.entries(
-        processedIngredient.elementalProperties
+        (processedIngredient as any).elementalProperties
       )
         .sort((a, b) => {
           // Pattern KK-10: Final Arithmetic Elimination for data processing

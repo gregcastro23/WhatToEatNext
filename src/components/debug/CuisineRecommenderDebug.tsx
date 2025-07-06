@@ -364,7 +364,7 @@ export default function CuisineRecommenderDebug() {
             // Score recipes against user profile
             const scoredRecipes = matchedRecipes.map(recipe => {
               // Calculate match score if possible
-              const recipeElements = (recipe as unknown)?.elementalProperties || cuisine.elementalProperties;
+              const recipeElements = (recipe as any)?.elementalProperties || cuisine.elementalProperties;
               const matchScore = calculateElementalMatch(recipeElements, combinedProfile);
               
               return {

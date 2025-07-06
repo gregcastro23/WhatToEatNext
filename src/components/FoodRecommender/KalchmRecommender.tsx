@@ -6,6 +6,7 @@ import { calculateKalchmResults } from '@/calculations/core/kalchmEngine';
 import { IngredientService } from '@/services/IngredientService';
 import { UnifiedIngredient } from '@/data/unified/unifiedTypes';
 import type { ElementalProperties, _ElementalProperties } from '@/types/alchemy';
+import { PlanetaryPosition } from '@/types/celestial';
 import { useRealAlchemizeService } from '@/services/RealAlchemizeService';
 import { useUnifiedScoringService } from '@/services/UnifiedScoringService';
 import { useThermodynamicEngine } from '@/calculations/core/thermodynamicEngine';
@@ -76,7 +77,7 @@ export default function KalchmRecommender({
 }: KalchmRecommenderProps) {
   const alchemicalContext = useAlchemical();
   const planetaryPositions = alchemicalContext?.planetaryPositions;
-  const elementalState = (alchemicalContext as unknown)?.elementalState;
+  const elementalState = (alchemicalContext?.state as any)?.elementalProperties;
   const [recommendations, setRecommendations] = useState<Record<string, UnifiedIngredient[]>>({});
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -90,7 +91,7 @@ export default function KalchmRecommender({
       const convertedPositions: { [key: string]: any } = {};
       Object.entries(planetaryPositions).forEach(([planet, position]) => {
         // Apply safe type casting for position property access
-        const positionData = position as unknown;
+        const positionData = position as PlanetaryPosition;
         convertedPositions[planet] = {
           sign: positionData?.sign || 'Aries',
           degree: positionData?.degree || 0,

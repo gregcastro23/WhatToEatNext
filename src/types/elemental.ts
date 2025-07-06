@@ -89,3 +89,10 @@ export function isElementalProperties(obj: Record<string, unknown>): obj is Elem
     typeof obj.Earth === 'number' &&
     typeof obj.Air === 'number';
 }
+
+// ---------------------------------------------------------------------------
+// Backward-compatibility aliases (underscore-prefixed) for legacy modules.
+// These map to the canonical elemental types defined above.
+// ---------------------------------------------------------------------------
+export type _Element = Element;
+export type _ElementalProperties = ElementalProperties;

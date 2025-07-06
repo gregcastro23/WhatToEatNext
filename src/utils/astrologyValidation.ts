@@ -81,8 +81,8 @@ export function validatePlanetaryPositions(positions?: Record<string, unknown>):
       // Convert our formatting to match reference format
       const formattedCalculated: PlanetaryPosition = {
         sign: (calculatedData?.sign || '').toLowerCase(),
-        degree: Math.floor(calculatedData?.degree || 0),
-        minute: Math.floor(((calculatedData?.degree || 0) % 1) * 60),
+        degree: Math.floor((calculatedData as any)?.degree || 0),
+        minute: Math.floor((((calculatedData as any)?.degree || 0) % 1) * 60),
         isRetrograde: calculatedData?.isRetrograde
       };
       
@@ -220,8 +220,8 @@ export async function validateAgainstAPI(): Promise<{ accurate: boolean, differe
     
     const formattedCalculated: PlanetaryPosition = {
       sign: (positionData?.sign || '').toLowerCase(),
-      degree: Math.floor(positionData?.degree || 0),
-      minute: Math.floor(((positionData?.degree || 0) % 1) * 60),
+      degree: Math.floor((positionData as any)?.degree || 0),
+      minute: Math.floor((((positionData as any)?.degree || 0) % 1) * 60),
       isRetrograde: positionData?.isRetrograde
     };
     

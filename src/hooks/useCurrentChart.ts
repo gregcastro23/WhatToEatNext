@@ -53,8 +53,8 @@ export function useCurrentChart() {
           }
           
           planets[planetName] = {
-            sign: (data as unknown)?.sign || 'Aries',
-            degree: (data as unknown)?.degree || 0,
+            sign: (data as any)?.sign || 'Aries',
+            degree: (data as any)?.degree || 0,
             isRetrograde: (data as unknown)?.isRetrograde || false,
             exactLongitude: (data as unknown)?.exactLongitude || 0,
           };
@@ -66,7 +66,7 @@ export function useCurrentChart() {
         };
         
         if (planetaryPositions.ascendant) {
-          newChartData.ascendant = (planetaryPositions.ascendant as unknown)?.sign;
+          newChartData.ascendant = (planetaryPositions.ascendant as any)?.sign;
         }
         
         setChartData(newChartData);

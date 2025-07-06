@@ -25,7 +25,7 @@ export function useElementalState() {
     };
 
     Object.values(planetaryPositions || {}).forEach(position => {
-      const element = elementMap[(position as unknown)?.sign as keyof typeof elementMap];
+      const element = elementMap[(position as any)?.sign as keyof typeof elementMap];
       if (element) {
         elementCounts[element as keyof typeof elementCounts]++;
       }

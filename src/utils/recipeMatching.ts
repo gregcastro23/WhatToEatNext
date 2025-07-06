@@ -865,7 +865,7 @@ function getCacheKey(
 ): string {
   // Create a simplified representation of recipes (just ids to avoid huge keys)
   const recipeIds =
-    recipes?.map((r) => r.id || `${(r as unknown)?.name}-${r.cuisine}`).join(',') || 'none';
+    recipes?.map((r) => r.id || `${(r as any)?.name}-${r.cuisine}`).join(',') || 'none';
 
   // Stringify the filters and energy objects
   const filtersStr = JSON.stringify(filters);
@@ -1010,7 +1010,7 @@ export const connectIngredientsToMappings = (
   const _isBrowser = typeof window !== 'undefined';
 
   // Create a cache key for this recipe's ingredients
-  const cacheKey = `ingredient-mapping-${recipe.id || (recipe as unknown)?.name}`;
+  const cacheKey = `ingredient-mapping-${recipe.id || (recipe as any)?.name}`;
   let cached: string | null = null;
 
   // Try to get from localStorage, with proper error handling
@@ -1042,13 +1042,13 @@ export const connectIngredientsToMappings = (
   const matches = recipe.ingredients.map((recipeIngredient) => {
     // Initial result with no match
     const result = {
-      name: (recipeIngredient as unknown)?.name,
+      name: (recipeIngredient as any)?.name,
       matchedTo: undefined,
       confidence: 0,
     };
 
     // 1. Try exact match first
-    const exactMatch = ingredientsMap[(recipeIngredient as unknown)?.name.toLowerCase()];
+    const exactMatch = ingredientsMap[(recipeIngredient as any)?.name.toLowerCase()];
     if (exactMatch) {
       result.matchedTo = exactMatch as IngredientMapping;
       result.confidence = 1.0;
@@ -1056,7 +1056,7 @@ export const connectIngredientsToMappings = (
     }
 
     // 2. Try matching by name parts (for compound ingredients)
-    const nameParts = (recipeIngredient as unknown)?.name.toLowerCase().split(/\s+/);
+    const nameParts = (recipeIngredient as any)?.name.toLowerCase().split(/\s+/);
     for (const part of nameParts) {
       if (part.length < 3) continue; // Skip short parts like "of", "and", etc.
 
@@ -1088,7 +1088,7 @@ export const connectIngredientsToMappings = (
 
       // Calculate string similarity
       const similarity =
-        getStringSimilarity((recipeIngredient as unknown)?.name, key) + categoryMatch;
+        getStringSimilarity((recipeIngredient as any)?.name, key) + categoryMatch;
 
       if (similarity > bestMatch.similarity) {
         bestMatch = {

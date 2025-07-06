@@ -261,7 +261,7 @@ export default function AlchemicalRecommendations({
       
       Object.entries(alchemicalContext.planetaryPositions || {}).forEach(([planet, data]) => {
         if (planet in positions && data && typeof data === 'object' && 'degree' in data) {
-          positions[planet as RulingPlanet] = (data as unknown).degree || 0;
+          positions[planet as RulingPlanet] = (data as any).degree || 0;
         }
       });
       

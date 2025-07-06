@@ -399,8 +399,8 @@ export class AlchemicalEngineBase {
     for (let i = 0; i < ingredients.length; i++) {
       for (let j = i + 1; j < ingredients.length; j++) {
         const harmony = this.calculateHarmonyBetween(
-          (ingredients[i] as unknown).elementalProperties, // Pattern VVV: Array Type Interface Resolution
-          (ingredients[j] as unknown).elementalProperties  // Pattern VVV: Array Type Interface Resolution
+          (ingredients[i] as any).elementalProperties, // Pattern VVV: Array Type Interface Resolution
+          (ingredients[j] as any).elementalProperties  // Pattern VVV: Array Type Interface Resolution
         );
 
         if (harmony > 0.7) {

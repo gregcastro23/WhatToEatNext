@@ -583,7 +583,7 @@ export class RecommendationService {
       // Get current moment's elemental influence
       const astroStateData = astrologicalState as unknown;
       const currentMomentElements: ElementalProperties = astroStateData?.elementalProperties || 
-        astroStateData?.elementalState || this.getCurrentElementalInfluence();
+        (astroStateData as any)?.elementalState || this.getCurrentElementalInfluence();
       
       // Calculate elemental compatibility
       const elementalScore = this.calculateElementalMatch(recipeElements, currentMomentElements);

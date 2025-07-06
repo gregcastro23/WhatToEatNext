@@ -171,10 +171,10 @@ export class IngredientService implements IngredientServiceInterface {
               Fire: 0, Water: 0, Earth: 0, Air: 0 
             })) as ElementalProperties,
             alchemicalProperties: {
-              Spirit: (data as unknown)?.alchemicalProperties?.Spirit || (data as unknown)?.Spirit || 0,
-              Essence: (data as unknown)?.alchemicalProperties?.Essence || (data as unknown)?.Essence || 0,
-              Matter: (data as unknown)?.alchemicalProperties?.Matter || (data as unknown)?.Matter || 0,
-              Substance: (data as unknown)?.alchemicalProperties?.Substance || (data as unknown)?.Substance || 0
+              Spirit: (data as any)?.alchemicalProperties?.Spirit || (data as any)?.Spirit || 0,
+              Essence: (data as any)?.alchemicalProperties?.Essence || (data as any)?.Essence || 0,
+              Matter: (data as any)?.alchemicalProperties?.Matter || (data as any)?.Matter || 0,
+              Substance: (data as any)?.alchemicalProperties?.Substance || (data as any)?.Substance || 0
             }
           });
         });
@@ -374,20 +374,20 @@ export class IngredientService implements IngredientServiceInterface {
         const profileData = profile as unknown;
         
         // Check protein constraints
-        if (filter.minProtein !== undefined && (profileData.macros?.protein || 0) < filter.minProtein) {
+        if (filter.minProtein !== undefined && ((profileData as any)?.macros?.protein || 0) < filter.minProtein) {
           return false;
         }
         
-        if (filter.maxProtein !== undefined && (profileData.macros?.protein || 0) > filter.maxProtein) {
+        if (filter.maxProtein !== undefined && ((profileData as any)?.macros?.protein || 0) > filter.maxProtein) {
           return false;
         }
         
         // Check fiber constraints
-        if (filter.minFiber !== undefined && (profileData.macros?.fiber || 0) < filter.minFiber) {
+        if (filter.minFiber !== undefined && ((profileData as any)?.macros?.fiber || 0) < filter.minFiber) {
           return false;
         }
         
-        if (filter.maxFiber !== undefined && (profileData.macros?.fiber || 0) > filter.maxFiber) {
+        if (filter.maxFiber !== undefined && ((profileData as any)?.macros?.fiber || 0) > filter.maxFiber) {
           return false;
         }
         
@@ -401,9 +401,9 @@ export class IngredientService implements IngredientServiceInterface {
         }
         
         // Check vitamin constraints
-        if (isNonEmptyArray(filter.vitamins) && profileData.vitamins) {
+        if (isNonEmptyArray(filter.vitamins) && (profileData as any).vitamins) {
           const hasRequiredVitamins = filter.vitamins.every(vitamin => 
-            Object.keys(profileData.vitamins || {}).some(v => 
+            Object.keys((profileData as any).vitamins || {}).some(v => 
               v?.toLowerCase()?.includes(vitamin?.toLowerCase())
             )
           );
@@ -427,17 +427,17 @@ export class IngredientService implements IngredientServiceInterface {
         }
         
         // Check high protein filter
-        if (filter.highProtein && (profileData.macros?.protein || 0) < 15) {
+        if (filter.highProtein && ((profileData as any)?.macros?.protein || 0) < 15) {
           return false;
         }
         
         // Check low carb filter
-        if (filter.lowCarb && (profileData.macros?.carbs || 0) > 10) {
+        if (filter.lowCarb && ((profileData as any)?.macros?.carbs || 0) > 10) {
           return false;
         }
         
         // Check low fat filter
-        if (filter.lowFat && (profileData.macros?.fat || 0) > 5) {
+        if (filter.lowFat && ((profileData as any)?.macros?.fat || 0) > 5) {
           return false;
         }
         

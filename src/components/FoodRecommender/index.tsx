@@ -49,7 +49,7 @@ if (typeof window !== 'undefined') {
 const FoodRecommender = () => {
   const astroState = useAstrologicalState();
   const planetaryPositions = (astroState as unknown)?.planetaryPositions;
-  const elementalProperties = (astroState as unknown)?.elementalProperties;
+  const elementalProperties = (astroState as any)?.elementalProperties;
   const activePlanets = (astroState as unknown)?.activePlanets;
   const _zodiacSign = (astroState as unknown)?.zodiacSign;
   const _lunarPhase = (astroState as unknown)?.lunarPhase;

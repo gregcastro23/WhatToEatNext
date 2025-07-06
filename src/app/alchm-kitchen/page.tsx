@@ -11,9 +11,9 @@ export default function AlchmKitchenPage() {
   const [mounted, setMounted] = useState(false);
   const alchemicalContext = useAlchemical();
   const planetaryPositions = alchemicalContext?.planetaryPositions;
-  const elementalState = (alchemicalContext as unknown)?.elementalState;
-  const alchemicalValues = (alchemicalContext as unknown)?.alchemicalValues;
-  const astrologicalState = (alchemicalContext as unknown)?.astrologicalState;
+  const elementalState = (alchemicalContext?.state as any)?.elementalProperties;
+  const alchemicalValues = (alchemicalContext?.state as any)?.alchemicalProperties;
+  const astrologicalState = alchemicalContext?.state;
   
   // Ensure component mounts after client-side hydration
   useEffect(() => {

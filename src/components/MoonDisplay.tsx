@@ -113,7 +113,7 @@ const MoonDisplay: React.FC = () => {
     
     // Try both possible property names
     const node = planetaryPositions?.northnode || planetaryPositions?.northNode;
-    const nodeData = node as unknown;
+    const nodeData = node as any;
     
     // Ensure all required properties are present
     return {
@@ -132,7 +132,7 @@ const MoonDisplay: React.FC = () => {
     
     // Try both possible property names
     const node = planetaryPositions?.southnode || planetaryPositions?.southNode;
-    const nodeData = node as unknown;
+    const nodeData = node as any;
     
     // Ensure all required properties are present
     return {
@@ -327,7 +327,7 @@ const MoonDisplay: React.FC = () => {
     });
     
     // If the moon position is available and has proper sign information
-    const moonData = planetaryPositions.moon as unknown;
+    const moonData = planetaryPositions.moon as any;
     if (planetaryPositions.moon && moonData?.sign) {
       // No need for additional calculations - the context already has the sign and degree
       debugLog('Moon position available from planetary alignment:', planetaryPositions.moon);
@@ -345,8 +345,8 @@ const MoonDisplay: React.FC = () => {
     
     // Check for north node data only once when positions are available
     const northNodeMissing = !planetaryPositions.northNode && !planetaryPositions.northnode;
-    const moonData = planetaryPositions.moon as unknown;
-    const northNodeData = (planetaryPositions.northNode || planetaryPositions.northnode) as unknown;
+    const moonData = planetaryPositions.moon as any;
+    const northNodeData = (planetaryPositions.northNode || planetaryPositions.northnode) as any;
     const northNodeIncomplete = 
       (planetaryPositions.northNode && !northNodeData?.sign) || 
       (planetaryPositions.northnode && !northNodeData?.sign);
@@ -383,13 +383,13 @@ const MoonDisplay: React.FC = () => {
           <p className="font-medium capitalize">{moonPhase.phase.replace(/_/g, ' ')}</p>
           <p className="text-sm text-gray-300">
             {(() => {
-              const moonData = moon as unknown;
+              const moonData = moon as any;
               return moonData?.sign 
                 ? `Moon in ${capitalizeFirstLetter(moonData.sign)} ${formatDegree(moonData.degree)}` 
                 : 'Loading...';
             })()}
             {(() => {
-              const moonData = moon as unknown;
+              const moonData = moon as any;
               return moonData?.isRetrograde ? ' ℞' : '';
             })()}
           </p>

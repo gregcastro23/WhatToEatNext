@@ -393,8 +393,8 @@ export class EnhancedRecommendationService {
     // Apply elemental properties if available
     // Use safe type casting for astroState property access
     const astroData = astroState as unknown;
-    if (astroData?.elementalState) {
-      const { Fire, Water, Earth, Air } = astroData.elementalState;
+    if ((astroData as any)?.elementalState) {
+      const { Fire, Water, Earth, Air } = (astroData as any).elementalState;
       
       // Fire signs
       zodiacEnergies['aries'] += Fire * 0.3;
@@ -652,7 +652,7 @@ export class EnhancedRecommendationService {
     // Calculate elemental properties from astrological state
     // Use safe type casting for astroState property access
     const astroData = astroState as unknown;
-    const elementalProps = astroData?.elementalState || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+    const elementalProps = (astroData as any)?.elementalState || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
     };
     
     // Enhance with chakra influences if available

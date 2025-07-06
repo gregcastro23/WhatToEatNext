@@ -128,15 +128,15 @@ export default function CookingMethodPage() {
                 Benefits
               </Typography>
               <List>
-                {Array.isArray((method as unknown).benefits) ? (
-                  (method as unknown).benefits.map((benefit, index) => (
+                {Array.isArray((method as any)?.benefits) ? (
+                  (method as any)?.benefits.map((benefit, index) => (
                     <ListItem key={index}>
                       <ListItemText primary={benefit} />
                     </ListItem>
                   ))
                 ) : (
                   <Typography variant="body1" paragraph>
-                    {(method as unknown).benefits}
+                    {(method as any)?.benefits}
                   </Typography>
                 )}
               </List>
@@ -147,7 +147,7 @@ export default function CookingMethodPage() {
                 Suitable Foods
               </Typography>
               <Grid container spacing={1} sx={{ mb: 2 }}>
-                {Array.isArray((method as unknown).suitable_for) && (method as unknown).suitable_for.map((food, index) => (
+                {Array.isArray((method as any)?.suitable_for) && (method as any)?.suitable_for.map((food, index) => (
                   <Grid item key={index}>
                     <Chip 
                       label={food} 
@@ -158,14 +158,14 @@ export default function CookingMethodPage() {
                 ))}
               </Grid>
               
-              {(method as unknown).variations && (
+              {(method as any)?.variations && (
                 <>
                   <Divider sx={{ my: 3 }} />
                   <Typography variant="h5" gutterBottom>
                     Variations
                   </Typography>
                   <List>
-                    {Array.isArray((method as unknown).variations) && (method as unknown).variations.map((variation, index) => (
+                    {Array.isArray((method as any)?.variations) && (method as any)?.variations.map((variation, index) => (
                       <ListItem key={index}>
                         <ListItemText primary={variation} />
                       </ListItem>
@@ -358,11 +358,11 @@ export default function CookingMethodPage() {
                 Method Details
               </Typography>
               
-              {(method as unknown).time_range && (
+              {(method as any)?.time_range && (
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
                   <AccessTime />
                   <Typography variant="body1">
-                    <strong>Time Range:</strong> {(method as unknown).time_range.min}-{(method as unknown).time_range.max} minutes
+                    <strong>Time Range:</strong> {(method as any)?.time_range?.min}-{(method as any)?.time_range?.max} minutes
                   </Typography>
                 </Box>
               )}

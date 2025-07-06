@@ -327,7 +327,7 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
                   if (!recipe) return;
                   
                   recipeIndex++;
-                  const baseName = recipe.name ? recipe.name.toLowerCase().replace(/\s+/g, '-') : 'unknown';
+                  const baseName = recipe.name ? (recipe.name as any).toLowerCase().replace(/\s+/g, '-') : 'unknown';
                   const uniqueId = `${cuisineId}-${baseName}-${recipeIndex}`;
                   
                   // Extract and enrich recipe data - Safe property access
@@ -338,7 +338,7 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
                       cuisine: cuisineId,
                       mealType: mealTypeKey,
                       season: [season],
-                      elementalProperties: recipe.elementalState || cuisineData.elementalState || recipe.elementalProperties
+                      elementalProperties: (recipe as any).elementalState || (cuisineData as any).elementalState || recipe.elementalProperties
                     }),
                     score: 0.5,
                     matchPercentage: 50
@@ -487,7 +487,7 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
             recipe.description?.toLowerCase().includes(query) ||
             recipe.cuisine?.toLowerCase().includes(query) ||
             (recipe.ingredients || []).some((ing: Record<string, unknown>) => 
-              typeof ing === 'string' ? ing.toLowerCase().includes(query) : ing?.name?.toLowerCase().includes(query)
+              typeof ing === 'string' ? (ing as any).toLowerCase().includes(query) : (ing as any)?.name?.toLowerCase().includes(query)
             );
           if (!matchesSearch) return false;
         }

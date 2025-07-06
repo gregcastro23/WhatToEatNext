@@ -118,7 +118,7 @@ const processCuisineRecipes = (cuisine: Partial<Cuisine>): Cuisine => {
     cookingTechniques: Array.isArray(cuisine.cookingTechniques) ? cuisine.cookingTechniques : [],
     regionalCuisines: cuisine.regionalCuisines || {},
     elementalProperties: cuisine.elementalProperties || 
-                       (cuisine as unknown).elementalState || // For backward compatibility
+                       (cuisine as any).elementalState || // For backward compatibility
                        { ...baseCuisine.elementalProperties },
     regionalVarieties: cuisine.regionalCuisines ? Object.keys(cuisine.regionalCuisines).length : 0,
     astrologicalInfluences: Array.isArray(cuisine.astrologicalInfluences) ? cuisine.astrologicalInfluences : []

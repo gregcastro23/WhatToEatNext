@@ -3,6 +3,8 @@ import type { AppProps } from 'next/app';
 import { useEffect } from 'react';
 import Head from 'next/head';
 import { initializeChromeApis } from '@/utils/chromeApiInitializer';
+// Polyfill to ensure getDominantElement is globally available during SSR/SSG
+import '@/utils/globalDominantElement';
 
 // Declare global window type extension
 declare global {

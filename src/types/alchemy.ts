@@ -265,6 +265,13 @@ export interface PlanetaryPosition {
   sign: ZodiacSign;
   degree: number;
   minute?: number;
+  minutes?: number;
+  /**
+   * Exact ecliptic longitude value (0-360 degrees) used by precise astronomy helpers.
+   * Several astro-utility modules reference `exactLongitude`; adding it here prevents
+   * unknown-property errors while keeping the field optional.
+   */
+  exactLongitude?: number;
   element?: string;
   dignity?: string;
   isRetrograde?: boolean;
@@ -677,9 +684,6 @@ export interface CelestialAlignment {
   currentZodiacSign?: ZodiacSign; // Current zodiac sign for compatibility calculations
 }
 
-// Re-export important types from celestial that are commonly used
-export type { AlchemicalProperties, Modality } from '@/types/celestial';
-
 // Export ElementalCharacter from constants
 export type { ElementalCharacter } from '@/constants/planetaryElements';
 
@@ -714,4 +718,7 @@ export type _AstrologicalProfile = AstrologicalProfile;
 export type _PlanetaryPosition = PlanetaryPosition;
 export type _Season = Season;
 export type _ThermodynamicMetrics = ThermodynamicMetrics;
+// Added simple boolean/season aliases for legacy code expecting these identifiers
+export type _isDaytime = boolean; // TRUE if time between sunrise and sunset
+export type _season = Season; // Lowercase underscore-prefixed alias for Season
 // ---------------------------------------------------------------------------

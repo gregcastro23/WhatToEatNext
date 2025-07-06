@@ -7,6 +7,7 @@ import styles from './AlchmKitchen.module.css';
 import type { TarotCardResult } from '@/lib/recipeCalculations';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { createLogger } from '@/utils/logger';
+import { PlanetaryPosition } from '@/types/celestial';
 import { staticAlchemize } from '@/utils/alchemyInitializer';
 
 const logger = createLogger('AlchmKitchen');
@@ -57,8 +58,8 @@ export default function AlchmKitchen() {
                 // Get current tarot cards
                 const _currentDate = new Date();
                 const cards = getTarotCardsForDate(currentDate, planetaryPositions.sun && {
-                    sign: (planetaryPositions.sun as unknown)?.sign || 'aries',
-                    degree: (planetaryPositions.sun as unknown)?.degree || 0
+                    sign: (planetaryPositions.sun as PlanetaryPosition)?.sign || 'aries',
+                    degree: (planetaryPositions.sun as PlanetaryPosition)?.degree || 0
                 });
                 
                 // Get recipes based on tarot cards

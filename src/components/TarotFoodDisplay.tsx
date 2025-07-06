@@ -70,7 +70,7 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
       // Get sun position from planetary alignment if available
       let sunPosition;
       if (hasSunPosition(currentPlanetaryAlignment as unknown)) {
-        const sunData = currentPlanetaryAlignment.sun as unknown;
+        const sunData = currentPlanetaryAlignment.sun as any;
         sunPosition = {
           sign: sunData?.sign || '',
           degree: sunData?.degree || 0
@@ -179,7 +179,7 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
         <span>Updated daily with planetary positions</span>
         {hasSunPosition(currentPlanetaryAlignment as unknown) && (
           <span className="ml-3">
-            • Sun: {(currentPlanetaryAlignment.sun as unknown)?.sign} {Math.floor((currentPlanetaryAlignment.sun as unknown)?.degree || 0)}°
+            • Sun: {(currentPlanetaryAlignment.sun as any)?.sign} {Math.floor((currentPlanetaryAlignment.sun as any)?.degree || 0)}°
           </span>
         )}
       </div>
@@ -210,7 +210,7 @@ export default function TarotFoodDisplay({ onTarotLoaded }: TarotFoodDisplayProp
         <div className="rounded-lg p-4 bg-gradient-to-br from-purple-900 to-indigo-900 text-white bg-opacity-10">
           <div className="flex justify-between items-start">
             <div>
-              <h4 className="font-bold text-white text-lg drop-shadow-md">{(tarotCards.majorCard as unknown)?.name || 'Major Arcana'}</h4>
+              <h4 className="font-bold text-white text-lg drop-shadow-md">{(tarotCards.majorCard as any)?.name || 'Major Arcana'}</h4>
               <div className="flex items-center mt-1 bg-black bg-opacity-20 rounded px-2 py-1 inline-block">
                 <Sparkles className="w-4 h-4 text-yellow-300" />
                 <span className="ml-1 text-sm font-medium">Archetypal</span>

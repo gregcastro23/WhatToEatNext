@@ -335,7 +335,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         }
         
         // Apply seasonal filter if specified with safe type casting
-        const filterData = filter as unknown;
+        const filterData = filter as any;
         const currentSeason = filterData?.currentSeason || filterData?.season;
         if (currentSeason) {
           filtered = this.applySeasonalFilter(filtered, currentSeason);

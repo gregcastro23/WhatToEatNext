@@ -91,7 +91,10 @@ export class RecipeFinder implements RecipeServiceInterface {
     params: Record<string, unknown>
   ): Promise<ApiResponse<Recipe[]>> {
     try {
-      const recipes = await this.recipeService.searchRecipes(params.criteria || {}, params.options || {});
+      // Cast unknown params to expected typed objects to satisfy RecipeService API
+      const criteria = (params?.criteria ?? {}) as RecipeSearchCriteria;
+      const options = (params?.options ?? {}) as RecipeRecommendationOptions;
+      const recipes = await this.recipeService.searchRecipes(criteria, options);
       return {
         success: true,
         data: recipes,
@@ -116,7 +119,7 @@ export class RecipeFinder implements RecipeServiceInterface {
    */
   async getRecipesByCuisine(params: Record<string, unknown>): Promise<ApiResponse<Recipe[]>> {
     try {
-      const recipes = await this.recipeService.getRecipesByCuisine(params.cuisine);
+      const recipes = await this.recipeService.getRecipesByCuisine(params.cuisine as string);
       return {
         success: true,
         data: recipes,
@@ -141,7 +144,7 @@ export class RecipeFinder implements RecipeServiceInterface {
    */
   async getRecipesByZodiac(params: Record<string, unknown>): Promise<ApiResponse<Recipe[]>> {
     try {
-      const recipes = await this.recipeService.getRecipesByZodiac(params.zodiacSign);
+      const recipes = await this.recipeService.getRecipesByZodiac(params.zodiacSign as ZodiacSign);
       return {
         success: true,
         data: recipes,
@@ -166,7 +169,7 @@ export class RecipeFinder implements RecipeServiceInterface {
    */
   async getRecipesBySeason(params: Record<string, unknown>): Promise<ApiResponse<Recipe[]>> {
     try {
-      const recipes = await this.recipeService.getRecipesBySeason(params.season);
+      const recipes = await this.recipeService.getRecipesBySeason(params.season as Season);
       return {
         success: true,
         data: recipes,
@@ -191,7 +194,7 @@ export class RecipeFinder implements RecipeServiceInterface {
    */
   async getRecipesByLunarPhase(params: Record<string, unknown>): Promise<ApiResponse<Recipe[]>> {
     try {
-      const recipes = await this.recipeService.getRecipesByLunarPhase(params.lunarPhase);
+      const recipes = await this.recipeService.getRecipesByLunarPhase(params.lunarPhase as LunarPhase);
       return {
         success: true,
         data: recipes,
@@ -216,7 +219,7 @@ export class RecipeFinder implements RecipeServiceInterface {
    */
   async getRecipesByMealType(params: Record<string, unknown>): Promise<ApiResponse<Recipe[]>> {
     try {
-      const recipes = await this.recipeService.getRecipesByMealType(params.mealType);
+      const recipes = await this.recipeService.getRecipesByMealType(params.mealType as string);
       return {
         success: true,
         data: recipes,
@@ -242,8 +245,8 @@ export class RecipeFinder implements RecipeServiceInterface {
   async getRecipesForPlanetaryAlignment(params: Record<string, unknown>): Promise<ApiResponse<Recipe[]>> {
     try {
       const recipes = await this.recipeService.getRecipesForPlanetaryAlignment(
-        params.planetaryInfluences,
-        params.minMatchScore
+        params.planetaryInfluences as { [key: string]: number },
+        params.minMatchScore as number | undefined
       );
       return {
         success: true,
@@ -270,8 +273,8 @@ export class RecipeFinder implements RecipeServiceInterface {
   async getRecipesForFlavorProfile(params: Record<string, unknown>): Promise<ApiResponse<Recipe[]>> {
     try {
       const recipes = await this.recipeService.getRecipesForFlavorProfile(
-        params.flavorProfile,
-        params.minMatchScore
+        params.flavorProfile as { [key: string]: number },
+        params.minMatchScore as number | undefined
       );
       return {
         success: true,
@@ -297,7 +300,10 @@ export class RecipeFinder implements RecipeServiceInterface {
    */
   async getBestRecipeMatches(params: Record<string, unknown>): Promise<ApiResponse<any[]>> {
     try {
-      const recipes = await this.recipeService.getBestRecipeMatches(params.criteria, params.maxResults || 10);
+      const recipes = await this.recipeService.getBestRecipeMatches({
+        ...(params.criteria as Record<string, unknown>),
+        maxResults: params.maxResults as number | undefined
+      });
       return {
         success: true,
         data: recipes,
@@ -411,10 +417,13 @@ export class RecipeFinder implements RecipeServiceInterface {
    */
   async adaptRecipeForSeason(params: Record<string, unknown>): Promise<ApiResponse<Recipe>> {
     try {
-      const recipe = await this.recipeService.adaptRecipeForSeason(params.recipe, params.season);
+      const adaptedRecipe = await this.recipeService.adaptRecipeForSeason(
+        params.recipe as Recipe,
+        params.season as Season | undefined
+      );
       return {
         success: true,
-        data: recipe,
+        data: adaptedRecipe,
         message: 'Recipe adapted successfully'
       };
     } catch (error) {

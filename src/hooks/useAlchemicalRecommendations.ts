@@ -111,10 +111,10 @@ export const useAlchemicalRecommendations = ({
             const convertedItem = {
               ...item,
               // Ensure all required AlchemicalItem properties are present
-              elementalProperties: item.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
-              alchemicalProperties: item.alchemicalProperties || { Spirit: 0.25, Essence: 0.25, Matter: 0.25, Substance: 0.25 },
+              elementalProperties: (item as any).elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+              alchemicalProperties: (item as any)?.alchemicalProperties || { Spirit: 0.25, Essence: 0.25, Matter: 0.25, Substance: 0.25 },
               // Add required properties for alchemicalTransformation.AlchemicalItem
-              transformedElementalProperties: item.transformedElementalProperties || item.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+              transformedElementalProperties: (item as any).transformedElementalProperties || (item as any).elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
               heat: item.heat || 0.5,
               entropy: item.entropy || 0.5,
               reactivity: item.reactivity || 0.5,

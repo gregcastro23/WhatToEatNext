@@ -113,7 +113,7 @@ export const useChakraInfluencedFood = (options?: {
       // Calculate chakra energies
       const energies = chakraService.calculateChakraEnergies(
         currentZodiac || 'aries',
-        ((planetaryPositions?.moon as unknown)?.sign || 'taurus') as unknown,
+        ((planetaryPositions?.moon as any)?.sign || 'taurus') as unknown,
         // Pattern Y: Safe Planet array casting with validation and null checking
         (activePlanets ? activePlanets.slice(0, 3).map(p => typeof p === 'string' ? p.toLowerCase() : p) : ['sun', 'moon', 'mercury']) as unknown as Planet[],
         planetaryHour
@@ -125,7 +125,7 @@ export const useChakraInfluencedFood = (options?: {
     astroLoading,
     currentZodiac,
     activePlanets,
-    (planetaryPositions?.moon as unknown)?.sign,
+    (planetaryPositions?.moon as any)?.sign,
     planetaryHour,
     chakraService
   ]);
@@ -316,7 +316,7 @@ export const useChakraInfluencedFood = (options?: {
       // Recalculate chakra energies
       const energies = chakraService.calculateChakraEnergies(
         currentZodiac || 'aries',
-        ((planetaryPositions?.moon as unknown)?.sign || 'taurus') as unknown,
+        ((planetaryPositions?.moon as any)?.sign || 'taurus') as unknown,
         // Pattern Z: Safe Planet array casting with validation and null checking for refresh function
         (activePlanets ? activePlanets.slice(0, 3).map(p => typeof p === 'string' ? p.toLowerCase() : p) : ['sun', 'moon', 'mercury']) as unknown as Planet[],
         planetaryHour

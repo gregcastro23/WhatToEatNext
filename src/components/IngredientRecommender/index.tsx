@@ -185,19 +185,19 @@ export default function IngredientRecommender() {
   
   // Helper function to check if an ingredient is an oil
   const isOil = (ingredient: Record<string, unknown>): boolean => {
-    const category = ingredient.category?.toLowerCase() || '';
+    const category = (ingredient.category as any)?.toLowerCase() || '';
     if (category === 'oil' || category === 'oils') return true;
     
-    const name = ingredient.name.toLowerCase();
+    const name = (ingredient.name as any).toLowerCase();
     return oilTypes.some(oil => name.includes(oil.toLowerCase()));
   };
   
   // Helper function to check if an ingredient is a vinegar
   const isVinegar = (ingredient: Record<string, unknown>): boolean => {
-    const category = ingredient.category?.toLowerCase() || '';
+    const category = (ingredient.category as any)?.toLowerCase() || '';
     if (category === 'vinegar' || category === 'vinegars') return true;
     
-    const name = ingredient.name.toLowerCase();
+    const name = (ingredient.name as any).toLowerCase();
     return vinegarTypes.some(vinegar => name.includes(vinegar.toLowerCase()));
   };
   
@@ -205,7 +205,7 @@ export default function IngredientRecommender() {
   const getNormalizedCategory = (ingredient: Record<string, unknown>): string => {
     if (!ingredient.category) return 'other';
     
-    const category = ingredient.category.toLowerCase();
+    const category = (ingredient.category as any).toLowerCase();
     
     // Map categories to our standard ones
     if (['vegetable', 'vegetables'].includes(category)) return 'vegetables';
@@ -300,7 +300,7 @@ export default function IngredientRecommender() {
     
     // First check for explicit category
     if (ingredient.category) {
-      const category = ingredient.category.toLowerCase();
+      const category = (ingredient.category as any).toLowerCase();
       
       // Handle specific category mappings
       if (['protein', 'meat', 'egg', 'dairy', 'plant_based', 'seafood', 'poultry'].includes(category)) {
@@ -669,7 +669,7 @@ export default function IngredientRecommender() {
     // Add food recommendations first (they are already categorized)
     if (foodRecommendations && foodRecommendations.length > 0) {
       foodRecommendations.forEach(ingredient => {
-        const name = ingredient.name.toLowerCase();
+        const name = (ingredient.name as any).toLowerCase();
         
         // For seafood proteins - check first to prevent miscategorization
         if (

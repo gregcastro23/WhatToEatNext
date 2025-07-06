@@ -201,7 +201,7 @@ export interface AstrologicalState {
 // Until those imports are migrated, provide re-exports so that the compiler
 // can resolve them without TS2724 errors.  These aliases are 1-to-1 mappings
 // to the canonical types above and will be removed once legacy code is
-// modernized.
+// modernized. 
 
 export type _CelestialPosition = CelestialPosition;
 export type _PlanetaryPosition = PlanetaryPosition;

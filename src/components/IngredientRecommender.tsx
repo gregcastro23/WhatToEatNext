@@ -153,7 +153,7 @@ export default function IngredientRecommender() {
     // Search through unified ingredients database
     Object.values(unifiedIngredients).forEach(ingredient => {
       const name = ingredient.name?.toLowerCase() || '';
-      const category = ingredient.category?.toLowerCase() || '';
+      const category = (ingredient.category as any)?.toLowerCase() || '';
       const qualities = ingredient.qualities?.join(' ').toLowerCase() || '';
       
       // Check if search matches name, category, or qualities
@@ -311,10 +311,10 @@ export default function IngredientRecommender() {
   
   // Helper function to check if an ingredient is an oil
   const isOil = (ingredient: Record<string, unknown>): boolean => {
-    const category = ingredient.category?.toLowerCase() || '';
+    const category = (ingredient.category as any)?.toLowerCase() || '';
     if (category === 'oil' || category === 'oils') return true;
     
-    const name = ingredient.name.toLowerCase();
+    const name = (ingredient.name as any).toLowerCase();
     return oilTypes.some(oil => name.includes(oil.toLowerCase()));
   };
   
@@ -425,7 +425,7 @@ export default function IngredientRecommender() {
     // Add food recommendations first (they are already categorized)
     if (foodRecommendations && foodRecommendations.length > 0) {
       foodRecommendations.forEach(ingredient => {
-        const name = ingredient.name.toLowerCase();
+        const name = (ingredient.name as any).toLowerCase();
         
         // For seafood proteins - check first to prevent miscategorization
         if (

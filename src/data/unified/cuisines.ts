@@ -285,12 +285,12 @@ export class CuisineEnhancer {
     const cuisineData = cuisine as unknown;
     
     // Use existing elemental properties if available
-    if (cuisineData?.elementalState) {
-      return cuisineData.elementalState;
+    if ((cuisineData as any)?.elementalState) {
+      return (cuisineData as any).elementalState;
     }
     
-    if (cuisineData?.elementalState) {
-      return cuisineData.elementalState;
+    if ((cuisineData as any)?.elementalState) {
+      return (cuisineData as any).elementalState;
     }
     
     // Calculate from recipes
@@ -299,11 +299,11 @@ export class CuisineEnhancer {
     let validRecipes = 0;
     
     for (const recipe of recipes) {
-      if (recipe.elementalState) {
-        totalFire += recipe.elementalState.Fire || 0;
-        totalWater += recipe.elementalState.Water || 0;
-        totalEarth += recipe.elementalState.Earth || 0;
-        totalAir += recipe.elementalState.Air || 0;
+      if ((recipe as any).elementalState) {
+        totalFire += (recipe as any).elementalState.Fire || 0;
+        totalWater += (recipe as any).elementalState.Water || 0;
+        totalEarth += (recipe as any).elementalState.Earth || 0;
+        totalAir += (recipe as any).elementalState.Air || 0;
         validRecipes++;
       }
     }
@@ -364,8 +364,8 @@ export class CuisineEnhancer {
     
     for (const recipe of recipes) {
       // Count seasons
-      if (recipe.currentSeason && Array.isArray(recipe.currentSeason)) {
-        for (const season of recipe.currentSeason) {
+      if ((recipe as any).currentSeason && Array.isArray((recipe as any).currentSeason)) {
+        for (const season of (recipe as any).currentSeason) {
           if (season !== 'all') {
             seasonFrequency.set(season, (seasonFrequency.get(season) || 0) + 1);
           }

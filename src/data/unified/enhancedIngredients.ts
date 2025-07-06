@@ -747,10 +747,10 @@ export class EnhancedIngredientsSystem {
         serving_size: (existingProfile as unknown)?.servingSize || '100g',
         calories: existingProfile.calories || 0,
         macros: {
-          protein: (existingProfile as unknown)?.macros?.protein || 0,
-          carbs: (existingProfile as unknown)?.macros?.carbs || 0,
-          fat: (existingProfile as unknown)?.macros?.fat || 0,
-          fiber: (existingProfile as unknown)?.macros?.fiber || 0
+          protein: (existingProfile as any)?.macros?.protein || 0,
+          carbs: (existingProfile as any)?.macros?.carbs || 0,
+          fat: (existingProfile as any)?.macros?.fat || 0,
+          fiber: (existingProfile as any)?.macros?.fiber || 0
         },
         vitamins: existingProfile.vitamins || {},
         minerals: existingProfile.minerals || {},

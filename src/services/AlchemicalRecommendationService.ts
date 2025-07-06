@@ -132,7 +132,7 @@ export class AlchemicalRecommendationService {
         method,
         score: this.engine.calculateElementalCompatibility(
           elementalProperties,
-          (method as unknown)?.elementalState || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
+          (method as any)?.elementalState || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
         )
       }))
       .filter(({ score }) => score > 0.7)

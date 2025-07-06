@@ -251,7 +251,7 @@ export function explainRecommendation(
   // If we have dominant planets - safe property access
   if (astrologicalState.dominantPlanets && astrologicalState.dominantPlanets.length > 0) {
     for (const dominantPlanet of astrologicalState.dominantPlanets) {
-      const planetName = (dominantPlanet as unknown)?.name || dominantPlanet;
+      const planetName = (dominantPlanet as any)?.name || dominantPlanet;
       const planetScore = calculatePlanetaryScore(recipe, planetName);
       if (planetScore > 0.6) {
         reasons.push(`The influence of ${planetName} in your chart is complemented by this recipe.`);

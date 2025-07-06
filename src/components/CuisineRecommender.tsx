@@ -574,7 +574,7 @@ function buildCompleteRecipe(
     
     // 5. Difficulty Bonus (5%) - easier recipes get slight bonus for accessibility
     const difficultyBonus = (() => {
-      const difficulty = recipe.difficulty?.toLowerCase() || 'medium';
+      const difficulty = (recipe.difficulty as any)?.toLowerCase() || 'medium';
       if (difficulty.includes('easy') || difficulty.includes('simple')) return 0.9;
       if (difficulty.includes('medium') || difficulty.includes('intermediate')) return 0.8;
       return 0.7; // Hard recipes get lower bonus but still viable
@@ -778,7 +778,7 @@ export default function CuisineRecommender() {
       // Map sauces with enhanced match calculations including Kalchm
       const saucesWithMatches = saucesArray.map(sauce => {
         const sauceData = sauce as unknown;
-        const sauceElements = sauceData?.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+        const sauceElements = (sauceData as any)?.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
         
         // 1. Calculate cuisine-sauce elemental match
         const cuisineMatchScore = calculateElementalMatch(sauceElements, cuisineElements);

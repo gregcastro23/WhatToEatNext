@@ -48,8 +48,8 @@ export default function MethodsRecommender() {
     if (!loading && currentPlanetaryAlignment) {
       // Convert currentPlanetaryAlignment to AstrologicalState format
       // Use safe type casting for celestial position access
-      const moonData = currentPlanetaryAlignment.moon as unknown;
-      const sunData = currentPlanetaryAlignment.sun as unknown;
+      const moonData = currentPlanetaryAlignment.moon as any;
+      const sunData = currentPlanetaryAlignment.sun as any;
       
       const astroState = {
         zodiacSign: sunData?.sign || 'Aries',
@@ -109,10 +109,10 @@ export default function MethodsRecommender() {
             name: methodName.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase()), // Capitalize words
             description: methodInfo?.description || 'A cooking method that transforms food with heat, moisture, or chemical processes.',
             score: adjustedScore,
-            elementalEffect: methodInfo?.elementalEffect || methodInfo?.elementalProperties,
+            elementalEffect: (methodInfo as any)?.elementalEffect || (methodInfo as any)?.elementalProperties,
             duration: methodInfo?.duration,
             suitable_for: methodInfo?.suitable_for || [],
-            benefits: methodInfo?.benefits || [],
+            benefits: (methodInfo as any)?.benefits || [],
             astrologicalInfluences: methodInfo?.astrologicalInfluences,
             toolsRequired: methodInfo?.toolsRequired
           };

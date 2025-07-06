@@ -54,7 +54,7 @@ export function getPlanetInfo(
     // Use safe type casting for unknown property access
     const positionData = planetPosition as unknown;
     const planetSign = positionData?.sign || 'Unknown';
-    const planetDegree = positionData?.degree;
+    const planetDegree = (positionData as any)?.degree;
     const planetIsRetrograde = positionData?.isRetrograde;
 
     if (!planetPosition) {

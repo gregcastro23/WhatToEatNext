@@ -201,7 +201,7 @@ const RecipeDetailsPage: NextPage = () => {
                 const isSelected = selectedIngredient && 
                   (typeof ingredient === 'string' 
                     ? ingredient === selectedIngredient 
-                    : (ingredient as unknown)?.name === (selectedIngredient as unknown)?.name);
+                    : (ingredient as any)?.name === (selectedIngredient as any)?.name);
                 
                 return (
                   <li 

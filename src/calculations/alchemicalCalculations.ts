@@ -849,7 +849,7 @@ export function alchemize(planetaryPositions: Record<string, PlanetaryPosition>,
     if (!planetInfo[planetKey as keyof typeof planetInfo]) continue;
     
     // Get the sign the planet is in
-    const sign = (position as unknown).sign?.toLowerCase() || '';
+    const sign = (position as PlanetaryPosition).sign?.toLowerCase() || '';
     
     // Get the planet's alchemical properties
     const planetData = planetInfo[planetKey as keyof typeof planetInfo];
@@ -875,7 +875,7 @@ export function alchemize(planetaryPositions: Record<string, PlanetaryPosition>,
     substance += alchemyProps.Substance || 0;
     
     // Add elemental influences
-    const elementKey = isDaytime ? 'Diurnal Element' : 'Nocturnal Element';
+    const elementKey = _isDaytime ? 'Diurnal Element' : 'Nocturnal Element';
     const element = planetData[elementKey]?.toLowerCase() || '';
     
     if (element && (element === 'fire' || element === 'earth' || element === 'air' || element === 'water')) {

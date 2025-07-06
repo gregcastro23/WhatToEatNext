@@ -490,6 +490,10 @@ export const elementalUtils = {
   },
 };
 
+// Direct export of common functions from elementalFunctions
+export const getDominantElement = elementalFunctions.getDominantElement;
+export const getComplementaryElement = elementalFunctions.getComplementaryElements;
+
 // Backward-compatibility alias – to be removed once imports are updated
 export const _elementalUtils = {
   DEFAULT_ELEMENTAL_PROPERTIES,

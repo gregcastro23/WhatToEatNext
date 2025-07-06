@@ -18,7 +18,7 @@ export class ThermodynamicCalculator {
             // Extract ingredient data with safe property access
             const ingredientData = ingredient as unknown;
             const spiciness = ingredientData?.spiciness;
-            const elementalProperties = ingredientData?.elementalProperties;
+            const elementalProperties = (ingredientData as any)?.elementalProperties;
             const cookingTemperature = ingredientData?.cookingTemperature;
             
             // Adjust heat value based on ingredient properties
@@ -69,7 +69,7 @@ export class ThermodynamicCalculator {
             const category = ingredientData?.category;
             const fermented = ingredientData?.fermented;
             const complexity = ingredientData?.complexity;
-            const elementalProperties = ingredientData?.elementalProperties;
+            const elementalProperties = (ingredientData as any)?.elementalProperties;
             
             if (category) {
                 categories.add(category);
@@ -121,7 +121,7 @@ export class ThermodynamicCalculator {
             const pH = ingredientData?.pH;
             const alcoholContent = ingredientData?.alcoholContent;
             const enzymeActivity = ingredientData?.enzymeActivity;
-            const elementalProperties = ingredientData?.elementalProperties;
+            const elementalProperties = (ingredientData as any)?.elementalProperties;
             
             // pH value affects reactivity (further from neutral = more reactive)
             if (pH) {

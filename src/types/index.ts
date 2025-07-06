@@ -70,6 +70,13 @@ export interface Nutrition {
   calories: number;
   protein: number;
   carbs: number;
+  /**
+   * Optional micronutrient information.  Many services attach a simple array
+   * (list of vitamin or mineral names) while others provide a key → amount map.
+   * Either structure is supported to keep the API flexible during migration.
+   */
+  vitamins?: Record<string, number> | string[];
+  minerals?: Record<string, number> | string[];
 }
 
 export interface Dish {
@@ -233,3 +240,11 @@ export interface AppState {
 }
 
 export type { PlanetName } from './celestial';
+
+export * from './guards';
+
+// Underscore aliases for common patterns
+export { Season as _season } from './alchemy';
+export { LunarPhase as _currentPhase } from './celestial';
+export type _options = FilterOptions;
+export const _isDaytime = (hour: number) => hour >= 6 && hour < 18;

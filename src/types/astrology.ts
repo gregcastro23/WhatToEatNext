@@ -106,8 +106,3 @@ export type AstrologyLunarPhase =
 
 // Re-export types for convenience
 export type { ZodiacSign, LunarPhase, Planet, PlanetName } from "@/types/alchemy";
-
-// Backward-compatibility alias types
-export type _Planet = import('@/types/alchemy').Planet;
-export type _PlanetName = import('@/types/alchemy').PlanetName;
-export type _LunarPhase = import('@/types/alchemy').LunarPhase;

@@ -214,7 +214,7 @@ class AstrologizeApiCache {
       const planetData = position as unknown;
       predictedPositions[planet] = {
         sign: planetData?.sign || '',
-        degree: planetData?.degree || 0,
+        degree: (planetData as any)?.degree || 0,
         isRetrograde: planetData?.isRetrograde || false
       };
       sources.push(`${planet}:${baseData.date.toISOString()}`);
