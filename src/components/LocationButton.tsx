@@ -23,7 +23,8 @@ export const LocationButton = ({ onLocationUpdate }: LocationButtonProps) => {
   const handleLocationClick = async () => {
     try {
       setLocationStatus('Getting location...');
-      const location = await (AstrologicalService as unknown)?.requestLocation?.();
+      const astroService = AstrologicalService as Record<string, unknown>;
+      const location = await (astroService?.requestLocation as Function)?.();
       setLocationStatus('Location updated!');
       // Pass the location data to the parent component
       if (onLocationUpdate && location) {

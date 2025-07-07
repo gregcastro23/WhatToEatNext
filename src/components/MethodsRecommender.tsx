@@ -69,24 +69,25 @@ export default function MethodsRecommender() {
       const methodsWithScores: CookingMethodWithScore[] = Object.entries(allCookingMethods)
         .map(([methodName, methodData]) => {
           // Use safe type casting for methodData property access
-          const methodInfo = methodData as unknown;
+          const methodInfo = methodData as Record<string, unknown>;
+          const elementalEffect = methodInfo?.elementalEffect as Record<string, unknown> | undefined;
           
           // Transform methodData to CookingMethodModifier interface
           const methodModifier: CookingMethodModifier = {
-            element: ((methodData as unknown)?.elementalEffect?.Fire > 0.5 ? 'Fire' 
-                    : (methodData as unknown)?.elementalEffect?.Water > 0.5 ? 'Water'
-                    : (methodData as unknown)?.elementalEffect?.Earth > 0.5 ? 'Earth'
+            element: (elementalEffect?.Fire && Number(elementalEffect.Fire) > 0.5 ? 'Fire' 
+                    : elementalEffect?.Water && Number(elementalEffect.Water) > 0.5 ? 'Water'
+                    : elementalEffect?.Earth && Number(elementalEffect.Earth) > 0.5 ? 'Earth'
                     : 'Air') as Element,
             intensity: Math.max(
-              (methodData as unknown)?.elementalEffect?.Fire || 0,
-              (methodData as unknown)?.elementalEffect?.Water || 0,
-              (methodData as unknown)?.elementalEffect?.Earth || 0,
-              (methodData as unknown)?.elementalEffect?.Air || 0
+              Number(elementalEffect?.Fire) || 0,
+              Number(elementalEffect?.Water) || 0,
+              Number(elementalEffect?.Earth) || 0,
+              Number(elementalEffect?.Air) || 0
             ),
             effect: 'enhance',
-            applicableTo: (methodData as unknown)?.suitable_for || ['all'],
-            duration: (methodData as unknown)?.duration || { min: 5, max: 30 },
-            notes: (methodData as unknown)?.description || ''
+            applicableTo: methodInfo?.suitable_for as string[] || ['all'],
+            duration: methodInfo?.duration as { min: number; max: number } || { min: 5, max: 30 },
+            notes: String(methodInfo?.description || '')
           };
           
           // Calculate base score from the recommender utils

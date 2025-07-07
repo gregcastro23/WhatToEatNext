@@ -82,26 +82,26 @@ export default function RecipeFiltersMigrated({
       setIsLoading(true);
       try {
         // Apply surgical type casting with variable extraction
-        const serviceData = recipeService as unknown;
+        const serviceData = recipeService as Record<string, unknown>;
         
         // Get all cuisines
-        const getCuisineTypesMethod = serviceData?.getCuisineTypes;
+        const getCuisineTypesMethod = serviceData?.getCuisineTypes as Function | undefined;
         const cuisines = getCuisineTypesMethod ? await getCuisineTypesMethod() : [];
-        const cuisineMap = cuisines.reduce((acc, cuisine) => {
+        const cuisineMap = (cuisines || []).reduce((acc: Record<string, boolean>, cuisine: string) => {
           acc[cuisine] = true;
           return acc;
         }, {} as Record<string, boolean>);
         setAvailableCuisines(cuisineMap);
 
         // Get meal types
-        const getMealTypesMethod = serviceData?.getMealTypes;
+        const getMealTypesMethod = serviceData?.getMealTypes as Function | undefined;
         const mealTypes = getMealTypesMethod ? await getMealTypesMethod() : [];
-        setAvailableMealTypes(mealTypes);
+        setAvailableMealTypes(mealTypes || []);
 
         // Get dietary options
-        const getDietaryRestrictionsMethod = serviceData?.getDietaryRestrictions;
+        const getDietaryRestrictionsMethod = serviceData?.getDietaryRestrictions as Function | undefined;
         const dietaryOptions = getDietaryRestrictionsMethod ? await getDietaryRestrictionsMethod() : [];
-        setAvailableDietaryOptions(dietaryOptions);
+        setAvailableDietaryOptions(dietaryOptions || []);
         
         setError(null);
       } catch (err) {

@@ -148,8 +148,9 @@ const MoonDisplay: React.FC = () => {
     const getLocation = async () => {
       try {
         // Use safe method call checking if requestLocation exists
-        if (typeof (AstrologicalService as unknown).requestLocation === 'function') {
-          const coords = await (AstrologicalService as unknown).requestLocation();
+        const astroService = AstrologicalService as Record<string, unknown>;
+        if (typeof astroService.requestLocation === 'function') {
+          const coords = await (astroService.requestLocation as Function)();
           if (coords) {
             setCoordinates({
               latitude: coords.latitude,

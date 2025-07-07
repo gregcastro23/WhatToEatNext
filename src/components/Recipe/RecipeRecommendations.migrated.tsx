@@ -47,7 +47,7 @@ interface Dish {
   instructions?: string[];
   elementalProperties?: ElementalProperties;
   numberOfServings?: number;
-  [key: string]: Record<string, unknown>;
+  [key: string]: unknown;
 }
 
 interface CuisineData {
@@ -59,7 +59,7 @@ interface CuisineData {
     };
   };
   elementalProperties: ElementalProperties;
-  [key: string]: Record<string, unknown>;
+  [key: string]: unknown;
 }
 
 interface RecipeRecommendationsProps {

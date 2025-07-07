@@ -1203,15 +1203,18 @@ export default function IngredientRecommender() {
             Match: {Math.round((Number(item.matchScore) || 0) * 100)}%
           </div>
           
-          {item.qualities && item.qualities.length > 0 && (
-            <div className={styles.qualitiesList}>
-              {item.qualities.slice(0, 3).map((quality) => (
-                <span key={quality} className={styles.qualityTag}>
-                  {quality}
-                </span>
-              ))}
-            </div>
-          )}
+          {(() => {
+            const qualities = item.qualities;
+            return Array.isArray(qualities) && qualities.length > 0 ? (
+              <div className={styles.qualitiesList}>
+                {qualities.slice(0, 3).map((quality) => (
+                  <span key={quality} className={styles.qualityTag}>
+                    {quality}
+                  </span>
+                ))}
+              </div>
+            ) : null;
+          })()}
           
           <button
             className={`${styles.detailsButton} ${isSelected ? styles.detailsButtonActive : ''}`}

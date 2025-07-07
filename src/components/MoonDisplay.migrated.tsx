@@ -164,7 +164,8 @@ const MoonDisplayMigrated: React.FC = () => {
     if (!isLoading && !error && astrologyService) {
       const getLocation = async () => {
         try {
-          const location = await (astrologyService as unknown)?.getUserLocation?.();
+          const astroService = astrologyService as Record<string, unknown>;
+          const location = await (astroService?.getUserLocation as Function)?.();
           if (location) {
             setCoordinates({
               latitude: location.latitude,
@@ -185,7 +186,8 @@ const MoonDisplayMigrated: React.FC = () => {
     if (!isLoading && !error && astrologyService) {
       const calculateTimes = async () => {
         try {
-          const times = await (astrologyService as unknown)?.getMoonTimes?.(new Date(), coordinates);
+          const astroService = astrologyService as Record<string, unknown>;
+          const times = await (astroService?.getMoonTimes as Function)?.(new Date(), coordinates);
           
           if (times) {
             setMoonTimes({
@@ -235,12 +237,12 @@ const MoonDisplayMigrated: React.FC = () => {
           const phaseData = await astrologyService.getLunarPhaseData(false);
           
           if (phaseData) {
-            const phaseDataObj = phaseData as unknown;
+            const phaseDataObj = phaseData as Record<string, unknown>;
             setMoonPhase({
-              phase: phaseDataObj?.phaseName || phaseDataObj?.phase || 'new_moon',
-              phaseValue: phaseDataObj?.phaseValue || 0,
-              description: getLunarPhaseDescription(phaseDataObj?.phaseName || phaseDataObj?.phase || 'new_moon'),
-              illumination: phaseDataObj?.illumination || 0
+              phase: String(phaseDataObj?.phaseName || phaseDataObj?.phase || 'new_moon'),
+              phaseValue: Number(phaseDataObj?.phaseValue) || 0,
+              description: getLunarPhaseDescription(String(phaseDataObj?.phaseName || phaseDataObj?.phase || 'new_moon')),
+              illumination: Number(phaseDataObj?.illumination) || 0
             });
           }
         } catch (error) {

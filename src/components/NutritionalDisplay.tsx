@@ -110,26 +110,35 @@ export default function NutritionalDisplay({
               )}
 
               {/* Minerals Section */}
-              {(nutritionalData as unknown)?.minerals && Object.keys((nutritionalData as unknown)?.minerals || {}).length > 0 && (
-                <div className="mb-4">
-                  <h4 className="font-medium text-gray-700">Minerals (% Daily Value)</h4>
-                  <div className="grid grid-cols-3 gap-1">
-                    {Object.entries((nutritionalData as unknown)?.minerals || {}).map(([mineral, value]) => (
-                      <div key={mineral} className="text-sm">
-                        {mineral}: {formatPercent(value as number)}
-                      </div>
-                    ))}
+              {(() => {
+                const nutritionData = nutritionalData as Record<string, unknown>;
+                const minerals = nutritionData?.minerals as Record<string, unknown> | undefined;
+                return minerals && Object.keys(minerals).length > 0 ? (
+                  <div className="mb-4">
+                    <h4 className="font-medium text-gray-700">Minerals (% Daily Value)</h4>
+                    <div className="grid grid-cols-3 gap-1">
+                      {Object.entries(minerals).map(([mineral, value]) => (
+                        <div key={mineral} className="text-sm">
+                          {mineral}: {formatPercent(value as number)}
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              )}
+                ) : null;
+              })()}
 
               {/* Data Source */}
-              {(nutritionalData as unknown)?.source && (
-                <div className="text-xs text-gray-500 mt-2">
-                  Source: {(nutritionalData as unknown)?.source} 
-                  {(nutritionalData as unknown)?.fdcId ? ` (ID: ${(nutritionalData as unknown)?.fdcId})` : ''}
-                </div>
-              )}
+              {(() => {
+                const nutritionData = nutritionalData as Record<string, unknown>;
+                const source = nutritionData?.source;
+                const fdcId = nutritionData?.fdcId;
+                return source ? (
+                  <div className="text-xs text-gray-500 mt-2">
+                    Source: {String(source)} 
+                    {fdcId ? ` (ID: ${String(fdcId)})` : ''}
+                  </div>
+                ) : null;
+              })()}
             </>
           )}
         </div>
