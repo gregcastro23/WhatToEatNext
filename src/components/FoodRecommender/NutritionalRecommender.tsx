@@ -625,10 +625,10 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
   onToggleExpand,
 }) => {
   // Extract ingredient data with safe property access
-  const ingredientData = ingredient as unknown;
-  const nutritionalProfile = ingredientData?.nutritionalProfile || {};
-  const ingredientName = ingredientData?.name || ingredientData?.ingredient || '';
-  const qualities = ingredientData?.qualities;
+  const ingredientData = ingredient as Record<string, unknown>;
+  const nutritionalProfile = (ingredientData?.nutritionalProfile as Record<string, unknown>) || {};
+  const ingredientName = String(ingredientData?.name || ingredientData?.ingredient || '');
+  const qualities = ingredientData?.qualities as string[] | undefined;
 
   return (
     <div
@@ -648,9 +648,9 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
         </label>
       </div>
 
-      {qualities && qualities.length > 0 && (
+      {qualities && Array.isArray(qualities) && qualities.length > 0 && (
         <div className="mb-2 flex flex-wrap gap-1">
-          {qualities.map((quality) => (
+          {qualities.map((quality: string) => (
             <span
               key={quality}
               className="text-xs bg-purple-100 text-purple-800 px-1.5 py-0.5 rounded"
@@ -693,7 +693,7 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
         <div className="flex justify-between">
           <h5 className="text-sm font-medium">Nutrition</h5>
           <button
-            onClick={() => onToggleExpand(ingredientName)}
+            onClick={() => onToggleExpand(String(ingredientName))}
             className="text-xs text-blue-600 hover:text-blue-800"
           >
             {isExpanded ? 'Show Less' : 'Show More'}
@@ -715,7 +715,7 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
 
           {nutritionalProfile.vitamin_density !== undefined && (
             <div>
-              Vitamin Density: {nutritionalProfile.vitamin_density.toFixed(1)}
+              Vitamin Density: {Number(nutritionalProfile.vitamin_density || 0).toFixed(1)}
             </div>
           )}
         </div>
@@ -724,19 +724,19 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
         {(nutritionalProfile.vitamins || nutritionalProfile.minerals) && (
           <div className="grid grid-cols-1 gap-1 mt-1">
             {nutritionalProfile.vitamins &&
-              nutritionalProfile.vitamins.length > 0 && (
+              Array.isArray(nutritionalProfile.vitamins) && nutritionalProfile.vitamins.length > 0 && (
                 <div className="text-xs">
                   Vitamins:{' '}
-                  {nutritionalProfile.vitamins
+                  {(nutritionalProfile.vitamins as string[])
                     .map((v: string) => v.toUpperCase())
                     .join(', ')}
                 </div>
               )}
 
             {nutritionalProfile.minerals &&
-              nutritionalProfile.minerals.length > 0 && (
+              Array.isArray(nutritionalProfile.minerals) && nutritionalProfile.minerals.length > 0 && (
                 <div className="text-xs">
-                  Minerals: {nutritionalProfile.minerals.join(', ')}
+                  Minerals: {(nutritionalProfile.minerals as string[]).join(', ')}
                 </div>
               )}
           </div>
@@ -768,7 +768,7 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
             <div className="space-y-2">
               {/* Display enhanced nutrition data with safe property access */}
               {(() => {
-                const enhancedDataObj = enhancedData as unknown;
+                const enhancedDataObj = enhancedData as Record<string, unknown>;
                 const nutrition = enhancedDataObj?.nutrition;
                 const nutrients = nutrition?.nutrients;
                 
@@ -777,7 +777,7 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
                     {nutrients
                       .slice(0, 8)
                       .map((nutrient: unknown) => {
-                        const nutrientData = nutrient as unknown;
+                        const nutrientData = nutrient as Record<string, unknown>;
                         const name = nutrientData?.name || '';
                         const amount = nutrientData?.amount || 0;
                         const unit = nutrientData?.unit || '';
@@ -797,7 +797,7 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
 
               {/* Additional properties with safe access */}
               {(() => {
-                const enhancedDataObj = enhancedData as unknown;
+                const enhancedDataObj = enhancedData as Record<string, unknown>;
                 const categoryPath = enhancedDataObj?.categoryPath;
                 
                 return categoryPath && (
@@ -810,7 +810,7 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
 
               {/* Possible substitutes with safe access */}
               {(() => {
-                const enhancedDataObj = enhancedData as unknown;
+                const enhancedDataObj = enhancedData as Record<string, unknown>;
                 const possibleSubstitutes = enhancedDataObj?.possibleSubstitutes;
                 
                 return possibleSubstitutes && (
