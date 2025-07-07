@@ -6,10 +6,7 @@ export type ElementType =
   | 'Fire' 
   | 'Water' 
   | 'Air' 
-  | 'Earth' 
-  | 'Metal' 
-  | 'Wood' 
-  | 'Void';
+  | 'Earth';
 
 export interface ElementalEnergy {
   type: ElementType;
