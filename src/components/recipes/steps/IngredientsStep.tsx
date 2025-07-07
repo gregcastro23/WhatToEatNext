@@ -46,7 +46,7 @@ import {
   Info as InfoIcon,
   LocalOffer as TagIcon,
   Restaurant as RestaurantIcon,
-  Eco as EcoIcon
+  Nature as EcoIcon
 } from '@mui/icons-material';
 
 import type { 

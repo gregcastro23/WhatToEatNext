@@ -65,7 +65,7 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
       
       {/* Show description if available with safe property access */}
       {(() => {
-        const ingredientData = ingredient as Record<string, unknown>;
+        const ingredientData = ingredient as unknown as Record<string, unknown>;
         const description = ingredientData?.description;
         return description ? (
           <p className="text-sm text-gray-600 mt-2 italic">{description}</p>
@@ -112,7 +112,7 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
           
           {/* Energy Profile Section with safe property access */}
           {(() => {
-            const ingredientData = ingredient as Record<string, unknown>;
+            const ingredientData = ingredient as unknown as Record<string, unknown>;
             const energyProfile = ingredientData?.energyProfile;
             
             if (!energyProfile) return null;
@@ -166,7 +166,7 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
           
           {/* Sensory Profile Section with safe property access */}
           {(() => {
-            const ingredientData = ingredient as Record<string, unknown>;
+            const ingredientData = ingredient as unknown as Record<string, unknown>;
             const sensoryProfile = ingredientData?.sensoryProfile;
             
             if (!sensoryProfile) return null;
@@ -223,7 +223,7 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
           
           {/* Cooking Methods Section with safe property access */}
           {(() => {
-            const ingredientData = ingredient as Record<string, unknown>;
+            const ingredientData = ingredient as unknown as Record<string, unknown>;
             const recommendedCookingMethods = ingredientData?.recommendedCookingMethods as string[] | undefined;
             
             return recommendedCookingMethods && Array.isArray(recommendedCookingMethods) && recommendedCookingMethods.length > 0 ? (
@@ -245,7 +245,7 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
           
           {/* Pairing Recommendations with safe property access */}
           {(() => {
-            const ingredientData = ingredient as Record<string, unknown>;
+            const ingredientData = ingredient as unknown as Record<string, unknown>;
             const pairingRecommendations = ingredientData?.pairingRecommendations;
             
             if (!pairingRecommendations) return null;
@@ -310,7 +310,7 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
           
           {/* Nutrition Details with safe property access */}
           {(() => {
-            const ingredientData = ingredient as Record<string, unknown>;
+            const ingredientData = ingredient as unknown as Record<string, unknown>;
             const nutrition = ingredientData?.nutrition;
             
             return nutrition ? (

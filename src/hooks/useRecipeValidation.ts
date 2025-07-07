@@ -1,6 +1,8 @@
 // Created: 2025-01-02T23:30:00.000Z
 // Recipe validation hook with smart suggestions and feedback
 
+'use client';
+
 import { useMemo } from 'react';
 import type { Ingredient, ElementalProperties, Recipe } from '@/types/alchemy';
 

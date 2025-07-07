@@ -36,7 +36,7 @@ import {
   type CuisineSeasonalAdaptation,
   type FusionCuisineProfile,
   type CuisineIngredientAnalysis
-} from './cuisineIntegrations.js';
+} from './cuisineIntegrations';
 import { 
   RecipeEnhancer, 
   RecipeAnalyzer,
