@@ -19,7 +19,7 @@ function getRecommendations(
   const astroData = useAstrologicalState();
   
   // Apply safe type casting for astrological data access
-  const astroState = astroData as unknown;
+  const astroState = astroData as Record<string, unknown>;
   const planetaryPositions = astroState?.planetaryPositions;
   const moonPhase = astroState?.moonPhase;
   const aspects = astroState?.aspects;
@@ -138,8 +138,9 @@ export default function IngredientRecommendations({
     };
     
     // Format the match percentage from score
-    const matchPercentage = (ingredient as unknown)?.score !== undefined && !isNaN((ingredient as unknown)?.score) 
-      ? `${Math.round((ingredient as unknown)?.score * 100)}%`
+    const ingredientData = ingredient as Record<string, unknown>;
+    const matchPercentage = ingredientData?.score !== undefined && !isNaN(Number(ingredientData?.score)) 
+      ? `${Math.round(Number(ingredientData?.score) * 100)}%`
       : '50%';
     
     return (
@@ -147,7 +148,7 @@ export default function IngredientRecommendations({
         <div className={styles.header}>
           <h3 className={styles.ingredientName}>{ingredient.name}</h3>
           <div className={styles.category}>{ingredient.category}</div>
-          {(ingredient as unknown)?.score && (
+          {ingredientData?.score && (
             <div className={styles.matchScore}>
               Match: <span className={styles.scoreValue}>{matchPercentage}</span>
             </div>
@@ -272,7 +273,7 @@ export default function IngredientRecommendations({
   // Display a compact ingredient card
   const renderCompactIngredientCard = (ingredient: IngredientRecommendation) => {
     // Apply safe type casting for ingredient access
-    const ingredientData = ingredient as unknown;
+    const ingredientData = ingredient as Record<string, unknown>;
     const score = ingredientData?.score;
     
     // Get elemental properties

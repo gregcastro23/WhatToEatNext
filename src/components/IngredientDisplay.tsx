@@ -245,7 +245,7 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
           
           {/* Pairing Recommendations with safe property access */}
           {(() => {
-            const ingredientData = ingredient as unknown;
+            const ingredientData = ingredient as Record<string, unknown>;
             const pairingRecommendations = ingredientData?.pairingRecommendations;
             
             if (!pairingRecommendations) return null;
@@ -307,7 +307,7 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
           
           {/* Nutrition Details with safe property access */}
           {(() => {
-            const ingredientData = ingredient as unknown;
+            const ingredientData = ingredient as Record<string, unknown>;
             const nutrition = ingredientData?.nutrition;
             
             return nutrition ? (
