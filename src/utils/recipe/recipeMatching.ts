@@ -215,8 +215,8 @@ const calculateEnergyMatch = (
     const currentKalchmResult = (kalchmEngine.calculateKAlchm as unknown)(currentEnergy, 0, 0, 0);
     
     // Apply safe casting for kalchm property access
-    const recipeKalchmData = typeof recipeKalchmResult === 'object' ? recipeKalchmResult as any : { kalchm: recipeKalchmResult };
-    const currentKalchmData = typeof currentKalchmResult === 'object' ? currentKalchmResult as any : { kalchm: currentKalchmResult };
+    const recipeKalchmData = typeof recipeKalchmResult === 'object' ? recipeKalchmResult as Record<string, unknown> : { kalchm: recipeKalchmResult };
+    const currentKalchmData = typeof currentKalchmResult === 'object' ? currentKalchmResult as Record<string, unknown> : { kalchm: currentKalchmResult };
     
     const recipeKalchmValue = recipeKalchmData?.kalchm ?? recipeKalchmResult ?? 0;
     const currentKalchmValue = currentKalchmData?.kalchm ?? currentKalchmResult ?? 0;
@@ -251,8 +251,8 @@ export function findBestMatches(
 ): MatchResult[] {
   // Check for cached astrological data to enhance matching
   // Apply safe type casting for cache method access
-  const cacheData = astrologizeCache as unknown;
-  const cachedData = cacheData?.getLatestCachedData ? cacheData.getLatestCachedData() : null;
+  const cacheData = astrologizeCache as Record<string, unknown>;
+  const cachedData = cacheData?.getLatestCachedData ? (cacheData.getLatestCachedData as () => Record<string, unknown>)() : null;
   
   // Use enhanced energy if available from cache
   const enhancedCurrentEnergy = cachedData?.elementalAbsolutes || currentEnergy || DEFAULT_ELEMENTAL_PROPERTIES;
