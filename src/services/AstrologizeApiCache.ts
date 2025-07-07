@@ -211,11 +211,11 @@ class AstrologizeApiCache {
     
     // For each planet, predict its position
     for (const [planet, position] of Object.entries(baseData.planetaryPositions)) {
-      const planetData = position as unknown;
+      const planetData = position as Record<string, unknown>;
       predictedPositions[planet] = {
-        sign: planetData?.sign || '',
-        degree: (planetData as any)?.degree || 0,
-        isRetrograde: planetData?.isRetrograde || false
+        sign: (planetData?.sign as string) || '',
+        degree: (planetData?.degree as number) || 0,
+        isRetrograde: (planetData?.isRetrograde as boolean) || false
       };
       sources.push(`${planet}:${baseData.date.toISOString()}`);
     }

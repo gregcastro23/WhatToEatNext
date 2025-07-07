@@ -128,13 +128,16 @@ export class AlchemicalRecommendationService {
     thermodynamics: ThermodynamicProperties
   ): CookingMethod[] {
     return methods
-      .map(method => ({
-        method,
-        score: this.engine.calculateElementalCompatibility(
-          elementalProperties,
-          (method as any)?.elementalState || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
-        )
-      }))
+      .map(method => {
+        const methodData = method as Record<string, unknown>;
+        return {
+          method,
+          score: this.engine.calculateElementalCompatibility(
+            elementalProperties,
+            (methodData?.elementalState as ElementalProperties) || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
+          )
+        };
+      })
       .filter(({ score }) => score > 0.7)
       .sort((a, b) => b.score - a.score)
       .slice(0, 5)

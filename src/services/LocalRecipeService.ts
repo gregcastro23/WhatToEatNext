@@ -353,7 +353,8 @@ export class LocalRecipeService {
         // Check if the dishes property might be nested incorrectly
         if (cuisine.dishes && typeof cuisine.dishes.dishes === 'object') {
           // console.log('Found nested dishes property, trying to extract from there instead');
-          return this.getRecipesFromCuisine({...cuisine, dishes: cuisine.dishes.dishes as any});
+          const nestedDishes = cuisine.dishes.dishes as Record<string, unknown>;
+          return this.getRecipesFromCuisine({...cuisine, dishes: nestedDishes});
         }
       }
       

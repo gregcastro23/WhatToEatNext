@@ -301,15 +301,16 @@ export class DirectRecipeService {
     const recipeKalchm = this.calculateRecipeKalchm(recipe);
     
     // Calculate Monica constant
+    const recipeData = recipe as Record<string, unknown>;
     const monica = calculateMonica(
       recipeKalchm,
       alignment.elementalState || alignment.elementalDominance || alignment.elementalBalance,
-      (recipe as any).elementalState || recipe.elementalProperties
+      recipeData?.elementalState || recipe.elementalProperties
     );
     
     // Perform full alchemical analysis
     const alchemicalAnalysis = performAlchemicalAnalysis(
-      (recipe as any).elementalState || recipe.elementalProperties,
+      recipeData?.elementalState || recipe.elementalProperties,
       (alignment.elementalState || alignment.elementalDominance || alignment.elementalBalance) as unknown
     );
     
@@ -367,7 +368,8 @@ export class DirectRecipeService {
    * Calculate elemental compatibility score
    */
   private calculateElementalScore(recipe: Recipe, alignment: CelestialAlignment): number {
-    const recipeElementalState = (recipe as any).elementalState || recipe.elementalProperties;
+    const recipeData = recipe as Record<string, unknown>;
+    const recipeElementalState = recipeData?.elementalState || recipe.elementalProperties;
     if (!recipeElementalState) return 0.5;
     
     return calculateElementalCompatibility(

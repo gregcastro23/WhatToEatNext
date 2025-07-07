@@ -48,9 +48,10 @@ export const getCelestialPositionsForDate = async (date: Date): Promise<Celestia
         const planetaryPositions: Record<string, unknown> = {};
         Object.entries(positions).forEach(([planet, position]) => {
             // Handle numeric positions
+            const positionData = position as Record<string, unknown>;
             const degreeValue = typeof position === 'number' 
                 ? position 
-                : (position as any)?.degree || 0;
+                : (positionData?.degree as number) || 0;
                 
             const sign = getSignFromDegree(degreeValue);
             planetaryPositions[planet.toLowerCase()] = {

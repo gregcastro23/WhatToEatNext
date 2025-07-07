@@ -170,10 +170,10 @@ export class AlchemicalService {
   async initializeFromCurrentPositions(): Promise<AlchemicalService> {
     try {
       // Calculate real-time planetary positions
-      const positions = await calculatePlanetaryPositions();
+      const positions = await _calculatePlanetaryPositions();
       
       // Calculate current lunar phase
-      const _lunarPhase = await calculateLunarPhase(new Date());
+      const lunarPhase = await _calculateLunarPhase(new Date());
       
       // Convert to format expected by adapter
       const lunarPhaseFormatted = convertToLunarPhase(lunarPhase as unknown as string) as LunarPhaseWithSpaces;
@@ -181,7 +181,7 @@ export class AlchemicalService {
       // Calculate if it's currently daytime
       const now = new Date();
       const hours = now.getHours();
-      const _isDaytime = hours >= 6 && hours < 18;
+      const isDaytime = hours >= 6 && hours < 18;
       
       // Get current Sun sign as current zodiac
       const sunPosition = positions['Sun'];
@@ -466,9 +466,11 @@ export class AlchemicalService {
     ingredient1: IngredientMapping,
     ingredient2: IngredientMapping,
   ): number {
+    const ingredient1Data = ingredient1 as Record<string, unknown>;
+    const ingredient2Data = ingredient2 as Record<string, unknown>;
     return this.calculateElementalSimilarity(
-      ingredient1.elementalState as any || { Fire: 0, Water: 0, Earth: 0, Air: 0  },
-      ingredient2.elementalState as any || { Fire: 0, Water: 0, Earth: 0, Air: 0  }
+      (ingredient1Data?.elementalState as ElementalProperties) || { Fire: 0, Water: 0, Earth: 0, Air: 0  },
+      (ingredient2Data?.elementalState as ElementalProperties) || { Fire: 0, Water: 0, Earth: 0, Air: 0  }
     );
   }
   

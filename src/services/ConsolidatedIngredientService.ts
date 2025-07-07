@@ -114,69 +114,19 @@ const errorHandler = {
   }
 };
 
-// Real implementations using the consolidated service
-class IngredientService {
-  private static instance: IngredientService;
-  
-  static getInstance() {
-    if (!IngredientService.instance) {
-      IngredientService.instance = new IngredientService();
-    }
-    return IngredientService.instance;
-  }
-  
-  getAllIngredients() {
-    return ConsolidatedIngredientService.getInstance().getAllIngredients();
-  }
-  
-  getIngredientByName(name: string) {
-    return ConsolidatedIngredientService.getInstance().getIngredientByName(name);
-  }
-  
-  getIngredientsByCategory(category: string) {
-    return ConsolidatedIngredientService.getInstance().getIngredientsByCategory(category);
-  }
-}
-
-class IngredientFilterService {
-  private static instance: IngredientFilterService;
-  
-  static getInstance() {
-    if (!IngredientFilterService.instance) {
-      IngredientFilterService.instance = new IngredientFilterService();
-    }
-    return IngredientFilterService.instance;
-  }
-  
-  filterIngredients(filter: IngredientFilter) {
-    return ConsolidatedIngredientService.getInstance().filterIngredients(filter);
-  }
-  
-  getIngredientsByElement(elementalFilter: ElementalFilter) {
-    return ConsolidatedIngredientService.getInstance().getIngredientsByElement(elementalFilter);
-  }
-}
-
 /**
  * Implementation of the IngredientServiceInterface that delegates to specialized services
  * and consolidates their functionality into a single, consistent API.
  */
 export class ConsolidatedIngredientService implements IngredientServiceInterface {
-  validateIngredient(ingredient: Record<string, unknown>): boolean {
-    return typeof ingredient === 'object' && ingredient !== null;
-  }
-
   private static instance: ConsolidatedIngredientService;
   private ingredientCache: Map<string, UnifiedIngredient[]> = new Map();
-  private legacyIngredientService: IngredientService;
-  private legacyFilterService: IngredientFilterService;
   
   /**
    * Private constructor to enforce singleton pattern
    */
   private constructor() {
-    this.legacyIngredientService = IngredientService.getInstance();
-    this.legacyFilterService = IngredientFilterService.getInstance();
+    // Constructor logic here
   }
   
   /**
@@ -224,7 +174,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
    */
   getAllIngredientsFlat(): UnifiedIngredient[] {
     try {
-      return Object.values(unifiedIngredients) as UnifiedIngredient[];
+      return Object.values(unifiedIngredients);
     } catch (error) {
       errorHandler.logError(error, {
         type: ErrorType.DATA,
@@ -335,7 +285,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         }
         
         // Apply seasonal filter if specified with safe type casting
-        const filterData = filter as any;
+        const filterData = filter as Record<string, unknown>;
         const currentSeason = filterData?.currentSeason || filterData?.season;
         if (currentSeason) {
           filtered = this.applySeasonalFilter(filtered, currentSeason);
@@ -470,10 +420,10 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       }
       
       // Create basic elemental properties from the ingredient's element if available
-      const ingredientData = ingredient as unknown;
+      const ingredientData = ingredient as Record<string, unknown>;
       if (ingredientData.element) {
         const basicProps = createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0 });
-        const elementKey = ingredientData.element?.toLowerCase() as keyof ElementalProperties;
+        const elementKey = (ingredientData.element as string)?.toLowerCase() as keyof ElementalProperties;
         
         if (elementKey in basicProps) {
           basicProps[elementKey] = 1;
@@ -584,13 +534,13 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
   ): UnifiedIngredient[] {
     try {
       // Default options with safe type casting
-      const optionsData = options as unknown;
+      const optionsData = options as Record<string, unknown>;
       const {
-        includeAlternatives = optionsData?.includeAlternatives ?? true,
-        optimizeForSeason = optionsData?.optimizeForSeason ?? true,
-        maxResults = optionsData?.maxResults ?? 20,
-        includeExotic = optionsData?.includeExotic ?? false,
-        sortByScore = optionsData?.sortByScore ?? true
+        includeAlternatives = (optionsData?.includeAlternatives as boolean) ?? true,
+        optimizeForSeason = (optionsData?.optimizeForSeason as boolean) ?? true,
+        maxResults = (optionsData?.maxResults as number) ?? 20,
+        includeExotic = (optionsData?.includeExotic as boolean) ?? false,
+        sortByScore = (optionsData?.sortByScore as boolean) ?? true
       } = optionsData || {};
       
       // Get all ingredients
@@ -610,7 +560,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         
         // Apply seasonal bonus if relevant with safe type casting
         let seasonalBonus = 0;
-        const ingredientData = ingredient as unknown;
+        const ingredientData = ingredient as Record<string, unknown>;
         if (optimizeForSeason && ingredientData.currentSeason) {
           const currentSeason = this.getCurrentSeason();
           const seasonArray = Array.isArray(ingredientData.currentSeason) ? ingredientData.currentSeason : [ingredientData.currentSeason];
@@ -672,12 +622,14 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
    */
   calculateThermodynamicMetrics(ingredient: UnifiedIngredient): ThermodynamicMetrics {
     try {
-      const ingredientData = ingredient as unknown;
+      const ingredientData = ingredient as Record<string, unknown>;
       if (ingredientData.energyValues) {
         // Convert energyValues to ThermodynamicMetrics format with safe property access
-        const energyData = ingredientData.energyValues as unknown;
-        const { heat, entropy, reactivity } = energyData;
-        const gregsEnergy = energyData?.gregsEnergy || energyData?.energy || 0;
+        const energyData = ingredientData.energyValues as Record<string, unknown>;
+        const heat = energyData.heat as number || 0;
+        const entropy = energyData.entropy as number || 0;
+        const reactivity = energyData.reactivity as number || 0;
+        const gregsEnergy = (energyData?.gregsEnergy as number) || (energyData?.energy as number) || 0;
         
         return {
           heat,
@@ -743,27 +695,27 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       }
       
       const nutritional = ingredient.nutritionalPropertiesProfile;
-      const macros = (nutritional.macros || {}) as unknown;
+      const macros = (nutritional.macros || {}) as Record<string, unknown>;
       
       // Check protein range if specified
       if (filter.minProtein !== undefined) {
-        const proteinContent = macros.protein || 0;
+        const proteinContent = (macros.protein as number) || 0;
         if (proteinContent < filter.minProtein) return false;
       }
       
       if (filter.maxProtein !== undefined) {
-        const proteinContent = macros.protein || 0;
+        const proteinContent = (macros.protein as number) || 0;
         if (proteinContent > filter.maxProtein) return false;
       }
       
       // Check fiber range if specified
       if (filter.minFiber !== undefined) {
-        const fiberContent = macros.fiber || 0;
+        const fiberContent = (macros.fiber as number) || 0;
         if (fiberContent < filter.minFiber) return false;
       }
       
       if (filter.maxFiber !== undefined) {
-        const fiberContent = macros.fiber || 0;
+        const fiberContent = (macros.fiber as number) || 0;
         if (fiberContent > filter.maxFiber) return false;
       }
       
@@ -804,19 +756,19 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       
       // Check for high protein
       if (filter.highProtein) {
-        const proteinContent = macros.protein || 0;
+        const proteinContent = (macros.protein as number) || 0;
         if (proteinContent < 15) return false;
       }
       
       // Check for low carb
       if (filter.lowCarb) {
-        const carbContent = macros.carbs || 0;
+        const carbContent = (macros.carbs as number) || 0;
         if (carbContent > 10) return false;
       }
       
       // Check for low fat
       if (filter.lowFat) {
-        const fatContent = macros.fat || 0;
+        const fatContent = (macros.fat as number) || 0;
         if (fatContent > 3) return false;
       }
       
@@ -954,8 +906,8 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       // Check low-sodium constraint
       if (filter.isLowSodium) {
         if (!ingredient.nutritionalPropertiesProfile?.minerals) return false;
-        const minerals = ingredient.nutritionalPropertiesProfile.minerals as unknown;
-        const sodium = minerals.sodium || 0;
+        const minerals = ingredient.nutritionalPropertiesProfile.minerals as Record<string, unknown>;
+        const sodium = (minerals.sodium as number) || 0;
         if (sodium > 140) return false; // 140mg is the FDA threshold for "low sodium"
       }
       
@@ -963,9 +915,10 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       if (filter.isLowSugar) {
         if (!ingredient.nutritionalPropertiesProfile?.macros) return false;
         // Sugar might be a direct property or included in macros
-        const macros = ingredient.nutritionalPropertiesProfile.macros as unknown;
-        const sugar = macros.sugar || 
-                     (ingredient.nutritionalPropertiesProfile as unknown).sugar || 0;
+        const macros = ingredient.nutritionalPropertiesProfile.macros as Record<string, unknown>;
+        const nutritionalProfile = ingredient.nutritionalPropertiesProfile as Record<string, unknown>;
+        const sugar = (macros.sugar as number) || 
+                     (nutritionalProfile.sugar as number) || 0;
         if (sugar > 5) return false; // 5g is a common threshold for "low sugar"
       }
       

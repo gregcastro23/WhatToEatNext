@@ -154,7 +154,7 @@ class CelestialCalculator {
   calculateCurrentInfluences(): CelestialAlignment {
     try {
       // Try to get from cache first
-      const cached = cache.get(this.CACHE_KEY) as Partial<CelestialAlignment> | undefined;
+      const cached = _cache.get(this.CACHE_KEY) as Partial<CelestialAlignment> | undefined;
       if (cached) {
         // Ensure cached data has astrologicalInfluences
         if (!cached.astrologicalInfluences || !Array.isArray(cached.astrologicalInfluences) || cached.astrologicalInfluences.length === 0) {
@@ -175,7 +175,7 @@ class CelestialCalculator {
       const hour = now.getHours();
       
       // Determine current zodiac sign
-      const _zodiacSign = this.determineZodiacSign(month, day);
+      const zodiacSign = this.determineZodiacSign(month, day);
       
       // Get current planetary positions
       let planetaryPositions: PlanetaryPositionRecord = {};
@@ -201,14 +201,14 @@ class CelestialCalculator {
       const dominantPlanets = this.determineDominantPlanets(now.getDay(), hour, planetaryPositions);
       
       // Calculate lunar phase
-      const _lunarPhase = this.calculateLunarPhase(now);
+      const lunarPhase = this.calculateLunarPhase(now);
       
       // Calculate elemental balance
       const elementalBalance = this.calculateElementalBalance(zodiacSign, dominantPlanets, lunarPhase);
       
       // Calculate tarot influences
       const tarotInfluences = this.calculateTarotInfluences(zodiacSign, dominantPlanets);
-      cache.set(this.TAROT_CACHE_KEY, tarotInfluences, 60 * 60);
+      _cache.set(this.TAROT_CACHE_KEY, tarotInfluences, 60 * 60);
       
       // Generate astrological influences from planets, zodiac, and tarot
       const astroInfluences = [
@@ -218,8 +218,8 @@ class CelestialCalculator {
         'all' // Always include 'all' for universal matching
       ];
       
-      // Build complete celestial alignment (using type assertion due to interface mismatch)
-      const alignment = {
+      // Build complete celestial alignment (using safe type assertion)
+      const alignment: CelestialAlignment = {
         date: now.toISOString(),
         zodiacSign,
         dominantPlanets,
@@ -233,10 +233,10 @@ class CelestialCalculator {
           strength: aspect.influence
         } as PlanetaryAspect)),
         astrologicalInfluences: astroInfluences // Ensure this is always present and includes tarot influences and 'all'
-      } as any as CelestialAlignment;
+      } as CelestialAlignment;
       
       // Cache for 1 hour (alignments don't change that quickly)
-      cache.set(this.CACHE_KEY, alignment, 60 * 60);
+      _cache.set(this.CACHE_KEY, alignment, 60 * 60);
       
       // Return with safeguards
       return this.ensureCompleteAlignment(alignment);
@@ -373,8 +373,8 @@ class CelestialCalculator {
       return this.getFallbackAlignment();
     }
     
-    // Start with complete defaults (using type assertion due to interface mismatch)
-    const safeAlignment = {
+    // Start with complete defaults (using safe type assertion)
+    const safeAlignment: CelestialAlignment = {
       date: new Date().toISOString(),
       zodiacSign: 'libra' as ZodiacSign,
       dominantPlanets: [
@@ -390,7 +390,7 @@ class CelestialCalculator {
       },
       aspectInfluences: [],
       astrologicalInfluences: ['Sun', 'Moon', 'libra', 'all']
-    } as any as CelestialAlignment;
+    } as CelestialAlignment;
     
     // Override with any valid properties from the input
     if (typeof alignment.date === 'string') {
@@ -445,7 +445,7 @@ class CelestialCalculator {
    * Get a fallback celestial alignment when calculations fail
    */
   private getFallbackAlignment(): CelestialAlignment {
-    return {
+    const fallbackAlignment: CelestialAlignment = {
       date: new Date().toISOString(),
       zodiacSign: 'libra' as ZodiacSign, // Balance
       dominantPlanets: [
@@ -461,7 +461,8 @@ class CelestialCalculator {
       },
       aspectInfluences: [],
       astrologicalInfluences: ['Sun', 'Moon', 'libra', 'all'] // Ensure this is always present and has values
-    } as any as CelestialAlignment;
+    } as CelestialAlignment;
+    return fallbackAlignment;
   }
 
   /**
@@ -700,7 +701,7 @@ class CelestialCalculator {
     
     // If it's a full moon, add lunar influence
     const now = new Date();
-    const _lunarPhase = this.calculateLunarPhase(now);
+    const lunarPhase = this.calculateLunarPhase(now);
     if (lunarPhase === 'full') {
       dominantPlanets.push({ name: 'Moon', influence: 0.6 });
     }
@@ -805,7 +806,7 @@ class CelestialCalculator {
       const calculator = astronomiaCalculator as unknown;
       if (typeof calculator !== 'undefined' && 
           typeof calculator?.calculateLunarPhase === 'function') {
-        const _lunarPhase = calculator.calculateLunarPhase(date);
+        const lunarPhase = calculator.calculateLunarPhase(date);
         if (lunarPhase) return lunarPhase;
       }
     } catch (error) {
@@ -1029,7 +1030,7 @@ class CelestialCalculator {
     }
     
     // Get from cache
-    const cached = cache.get(this.CACHE_KEY) as CelestialAlignment | undefined;
+    const cached = _cache.get(this.CACHE_KEY) as CelestialAlignment | undefined;
     
     // Return cached value with safeguards or calculate new
     return cached ? this.ensureCompleteAlignment(cached) : this.calculateCurrentInfluences();
@@ -1039,7 +1040,7 @@ class CelestialCalculator {
    * Get tarot influences from cache or calculate new ones
    */
   private getTarotInfluences(): TarotCard[] {
-    let tarotCards = cache.get(this.TAROT_CACHE_KEY) as TarotCard[] | undefined;
+    let tarotCards = _cache.get(this.TAROT_CACHE_KEY) as TarotCard[] | undefined;
     
     if (!tarotCards || !Array.isArray(tarotCards) || tarotCards.length === 0) {
       const alignment = this.getCurrentAlignment();
@@ -1047,7 +1048,7 @@ class CelestialCalculator {
         alignment.zodiacSign, 
         alignment.dominantPlanets
       );
-      cache.set(this.TAROT_CACHE_KEY, tarotCards, 60 * 60);
+      _cache.set(this.TAROT_CACHE_KEY, tarotCards, 60 * 60);
     }
     
     return tarotCards;
@@ -1135,7 +1136,7 @@ class CelestialCalculator {
       if (alignment && typeof alignment === 'object') {
         alignment.energyStateBalance = energyStateBalance;
         alignment.chakraEmphasis = chakraEnergies;
-        cache.set(this.CACHE_KEY, alignment, 60 * 60);
+        _cache.set(this.CACHE_KEY, alignment, 60 * 60);
       }
       
       // Normalize values again
@@ -1381,7 +1382,7 @@ class CelestialCalculator {
 
   // Public API for testing
   getCurrentData(): CelestialData | null {
-    const data = cache.get(this.CACHE_KEY);
+    const data = _cache.get(this.CACHE_KEY);
     // Validate and type cast the data
     return this.isCelestialData(data) ? data : null;
   }
@@ -1427,7 +1428,7 @@ class CelestialCalculator {
         const { element, _energyState } = affinityData;
         
         // Determine the zodiac sign based on the date
-        const _zodiacSign = this.determineZodiacSign(month, day);
+        const zodiacSign = this.determineZodiacSign(month, day);
         
         // Create and return the minor arcana card
         const displayName = cardName.split('_').map(word => 
