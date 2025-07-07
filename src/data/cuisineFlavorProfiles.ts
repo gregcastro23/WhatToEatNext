@@ -828,7 +828,7 @@ export async function getRecipesForCuisineMatch(
           servingSize: 4,
           matchScore: 0.75 + (Math.random() * 0.15),
           matchPercentage: Math.round((0.75 + Math.random() * 0.15) * 100),
-          elementalProperties: profile?.elementalAlignment || {
+          elementalProperties: getCuisineProfile(cuisineName)?.elementalAlignment || {
             Fire: 0.25,
             Water: 0.25,
             Earth: 0.25,

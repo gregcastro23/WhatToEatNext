@@ -19,6 +19,7 @@ import {
 import { Recipe } from '@/types/recipe';
 import { useServices } from '@/hooks/useServices';
 import { fetchPlanetaryPositions } from '@/services/astrologizeApi';
+import { astrologize } from '@/services/astrologize';
 import { logger } from '@/utils/logger';
 import type { CuisineType, DietaryRestriction, ElementalProperties } from '@/types/alchemy';
 

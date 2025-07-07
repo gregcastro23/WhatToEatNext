@@ -282,7 +282,8 @@ export default function EnhancedRecipeBuilder() {
   const currentStep = useMemo(() => steps[state.activeStep], [steps, state.activeStep]);
   const canProceed = useMemo(() => {
     if (!state.validationEnabled) return true;
-    return validationResult?.isValid ?? true;
+    const validationRecord = validationResult as Record<string, unknown>;
+    return validationRecord?.isValid ?? true;
   }, [state.validationEnabled, validationResult]);
 
   const totalIngredients = state.selectedIngredients.length;
@@ -663,36 +664,52 @@ export default function EnhancedRecipeBuilder() {
               </Stepper>
 
               {/* Validation Alerts */}
-              {state.validationEnabled && validationResult && (
-                <Box sx={{ mb: 3 }}>
-                  {validationResult.errors.length > 0 && (
-                    <Alert severity="error" sx={{ mb: 1 }}>
-                      <Typography variant="subtitle2">Errors:</Typography>
-                      {validationResult.errors.map((error, index) => (
-                        <Typography key={index} variant="body2">• {error.message}</Typography>
-                      ))}
-                    </Alert>
-                  )}
-                  
-                  {validationResult.warnings.length > 0 && (
-                    <Alert severity="warning" sx={{ mb: 1 }}>
-                      <Typography variant="subtitle2">Warnings:</Typography>
-                      {validationResult.warnings.map((warning, index) => (
-                        <Typography key={index} variant="body2">• {warning.message}</Typography>
-                      ))}
-                    </Alert>
-                  )}
-                  
-                  {validationResult.suggestions.length > 0 && (
-                    <Alert severity="info" sx={{ mb: 1 }}>
-                      <Typography variant="subtitle2">Suggestions:</Typography>
-                      {validationResult.suggestions.map((suggestion, index) => (
-                        <Typography key={index} variant="body2">• {suggestion.message}</Typography>
-                      ))}
-                    </Alert>
-                  )}
-                </Box>
-              )}
+              {state.validationEnabled && validationResult && (() => {
+                const validationRecord = validationResult as Record<string, unknown>;
+                const errors = validationRecord?.errors as unknown[] || [];
+                const warnings = validationRecord?.warnings as unknown[] || [];
+                const suggestions = validationRecord?.suggestions as unknown[] || [];
+                
+                return (
+                  <Box sx={{ mb: 3 }}>
+                    {errors.length > 0 && (
+                      <Alert severity="error" sx={{ mb: 1 }}>
+                        <Typography variant="subtitle2">Errors:</Typography>
+                        {errors.map((error, index) => {
+                          const errorRecord = error as Record<string, unknown>;
+                          return (
+                            <Typography key={index} variant="body2">• {errorRecord?.message}</Typography>
+                          );
+                        })}
+                      </Alert>
+                    )}
+                    
+                    {warnings.length > 0 && (
+                      <Alert severity="warning" sx={{ mb: 1 }}>
+                        <Typography variant="subtitle2">Warnings:</Typography>
+                        {warnings.map((warning, index) => {
+                          const warningRecord = warning as Record<string, unknown>;
+                          return (
+                            <Typography key={index} variant="body2">• {warningRecord?.message}</Typography>
+                          );
+                        })}
+                      </Alert>
+                    )}
+                    
+                    {suggestions.length > 0 && (
+                      <Alert severity="info" sx={{ mb: 1 }}>
+                        <Typography variant="subtitle2">Suggestions:</Typography>
+                        {suggestions.map((suggestion, index) => {
+                          const suggestionRecord = suggestion as Record<string, unknown>;
+                          return (
+                            <Typography key={index} variant="body2">• {suggestionRecord?.message}</Typography>
+                          );
+                        })}
+                      </Alert>
+                    )}
+                  </Box>
+                );
+              })()}
 
               {/* Step Content */}
               <Box sx={{ minHeight: '400px' }}>

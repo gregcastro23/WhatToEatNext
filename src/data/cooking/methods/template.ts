@@ -4,6 +4,7 @@ import type {
 } from '@/types/shared';
 
 import type { CookingMethodData } from '@/types/cookingMethod';
+import type { CookingMethod } from '@/types/cookingMethod';
 
 /**
  * Template for creating a cooking method file

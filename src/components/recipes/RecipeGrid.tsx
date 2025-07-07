@@ -106,10 +106,11 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
 
   const renderDietaryBadges = () => {
     const badges = [];
-    if ((recipe as unknown).isVegetarian) badges.push('Vegetarian');
-    if ((recipe as unknown).isVegan) badges.push('Vegan');
-    if ((recipe as unknown).isGlutenFree) badges.push('Gluten-Free');
-    if ((recipe as unknown).isDairyFree) badges.push('Dairy-Free');
+    const recipeRecord = recipe as Record<string, unknown>;
+    if (recipeRecord?.isVegetarian) badges.push('Vegetarian');
+    if (recipeRecord?.isVegan) badges.push('Vegan');
+    if (recipeRecord?.isGlutenFree) badges.push('Gluten-Free');
+    if (recipeRecord?.isDairyFree) badges.push('Dairy-Free');
     
     return badges.map(badge => (
       <span key={badge} className="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">
