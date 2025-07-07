@@ -60,11 +60,11 @@ export const IngredientRecommendations: React.FC<IngredientRecommendationsProps>
                                 
                             // Calculate vitamin/mineral richness
                             const vitaminCount = Object.keys((nutrition as any)?.vitamins || {}).length;
-                            const mineralCount = Object.keys((nutrition as unknown)?.minerals || {}).length;
+                            const mineralCount = Object.keys((nutrition as Record<string, unknown>)?.minerals as Record<string, unknown> || {}).length;
                             const micronutrientScore = (vitaminCount + mineralCount) / 20; // Normalized to ~0-1 range
                             
                             // Calculate phytonutrient score
-                            const phytonutrientScore = Object.keys((nutrition as unknown)?.phytonutrients || {}).length / 10; // Normalized to ~0-1 range
+                            const phytonutrientScore = Object.keys((nutrition as Record<string, unknown>)?.phytonutrients as Record<string, unknown> || {}).length / 10; // Normalized to ~0-1 range
                             
                             // Calculate macronutrient balance based on ratios
                             const totalMacros = (macros.protein || 0) + (macros.carbs || 0) + (macros.fat || 0);
@@ -155,11 +155,11 @@ export const IngredientRecommendations: React.FC<IngredientRecommendationsProps>
                                     
                                 // Calculate vitamin/mineral richness
                                 const vitaminCount = Object.keys((nutrition as any)?.vitamins || {}).length;
-                                const mineralCount = Object.keys((nutrition as unknown)?.minerals || {}).length;
+                                const mineralCount = Object.keys((nutrition as Record<string, unknown>)?.minerals as Record<string, unknown> || {}).length;
                                 const micronutrientScore = (vitaminCount + mineralCount) / 20; // Normalized to ~0-1 range
                                 
                                 // Calculate phytonutrient score
-                                const phytonutrientScore = Object.keys((nutrition as unknown)?.phytonutrients || {}).length / 10; // Normalized to ~0-1 range
+                                const phytonutrientScore = Object.keys((nutrition as Record<string, unknown>)?.phytonutrients as Record<string, unknown> || {}).length / 10; // Normalized to ~0-1 range
                                 
                                 // Calculate macronutrient balance based on ratios
                                 const totalMacros = (macros.protein || 0) + (macros.carbs || 0) + (macros.fat || 0);

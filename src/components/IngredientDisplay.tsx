@@ -125,8 +125,8 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
                 </div>
                 <div className="text-xs space-y-1">
                   {(() => {
-                    const zodiac = energyProfile?.zodiac;
-                    return zodiac?.length > 0 ? (
+                    const zodiac = (energyProfile as Record<string, unknown>)?.zodiac as string[] | undefined;
+                    return zodiac && Array.isArray(zodiac) && zodiac.length > 0 ? (
                       <div className="flex flex-wrap gap-1">
                         <span className="font-medium">Zodiac:</span>
                         {zodiac.map((sign: string) => (
@@ -137,8 +137,8 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
                   })()}
                   
                   {(() => {
-                    const lunar = energyProfile?.lunar;
-                    return lunar?.length > 0 ? (
+                    const lunar = (energyProfile as Record<string, unknown>)?.lunar as string[] | undefined;
+                    return lunar && Array.isArray(lunar) && lunar.length > 0 ? (
                       <div className="flex flex-wrap gap-1">
                         <span className="font-medium">Lunar:</span>
                         {lunar.map((phase: string) => (
@@ -149,8 +149,8 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
                   })()}
                   
                   {(() => {
-                    const planetary = energyProfile?.planetary;
-                    return planetary?.length > 0 ? (
+                    const planetary = (energyProfile as Record<string, unknown>)?.planetary as string[] | undefined;
+                    return planetary && Array.isArray(planetary) && planetary.length > 0 ? (
                       <div className="flex flex-wrap gap-1">
                         <span className="font-medium">Planetary:</span>
                         {planetary.map((alignment: string) => (
@@ -178,7 +178,7 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
                   <h4 className="text-sm font-medium">Sensory Profile</h4>
                 </div>
                 {(() => {
-                  const taste = sensoryProfile?.taste;
+                  const taste = (sensoryProfile as Record<string, unknown>)?.taste;
                   return taste ? (
                     <div>
                       <h5 className="text-xs font-medium mb-1">Taste</h5>
@@ -200,7 +200,7 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
                 })()}
                 
                 {(() => {
-                  const aroma = sensoryProfile?.aroma;
+                  const aroma = (sensoryProfile as Record<string, unknown>)?.aroma;
                   return aroma ? (
                     <div className="mt-2">
                       <h5 className="text-xs font-medium mb-1">Aroma</h5>
@@ -224,9 +224,9 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
           {/* Cooking Methods Section with safe property access */}
           {(() => {
             const ingredientData = ingredient as Record<string, unknown>;
-            const recommendedCookingMethods = ingredientData?.recommendedCookingMethods;
+            const recommendedCookingMethods = ingredientData?.recommendedCookingMethods as string[] | undefined;
             
-            return recommendedCookingMethods?.length > 0 ? (
+            return recommendedCookingMethods && Array.isArray(recommendedCookingMethods) && recommendedCookingMethods.length > 0 ? (
               <div className="bg-white/60 rounded-md p-3 shadow-sm">
                 <div className="flex items-center mb-2">
                   <ChefHat className="w-4 h-4 mr-2 text-emerald-600" />

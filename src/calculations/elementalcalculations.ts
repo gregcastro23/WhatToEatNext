@@ -229,11 +229,7 @@ function getPlanetaryInfluencers(
     Fire: ['sun', 'mars', 'jupiter'],
     Water: ['moon', 'venus', 'neptune'],
     Earth: ['venus', 'saturn', 'pluto'],
-    Air: ['mercury', 'uranus', 'jupiter'],
-    // Added extended elements mapped to core planetary influences
-    Metal: ['venus', 'saturn', 'mercury'], // Structure, clarity, precision - maps to Earth/Air qualities
-    Wood: ['sun', 'mars', 'jupiter'],      // Growth, flexibility, expansion - maps to Fire qualities  
-    Void: ['mercury', 'uranus', 'neptune'] // Space, potential, emptiness - maps to Air/Water qualities
+    Air: ['mercury', 'uranus', 'jupiter']
   };
 
   // Get the potential influencers for this element
@@ -268,11 +264,7 @@ export function calculateElementalEnergies(
     Fire: 0,
     Water: 0,
     Earth: 0,
-    Air: 0,
-    // Pattern JJ-1: ElementType System Unification - Add extended elements with base element mapping
-    Metal: 0, // Maps to Earth-like properties
-    Wood: 0,  // Maps to Fire-like properties
-    Void: 0   // Maps to Air-like properties
+    Air: 0
   };
 
   // Define planetary influences (weights)

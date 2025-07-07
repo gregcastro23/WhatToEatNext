@@ -454,7 +454,7 @@ const NutritionalRecommender: React.FC<NutritionalRecommenderProps> = ({
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {((recommendations[category] as any) || []).map(
-                  (value: Record<string, unknown>, index: number, array: unknown[]): Record<string, unknown> => {
+                  (value: Record<string, unknown>, index: number) => {
                     // Extract ingredient data with safe property access
                     const ingredientData = value as unknown;
                     const ingredientName = (ingredientData as any)?.name || (ingredientData as any)?.ingredient || '';
@@ -462,7 +462,7 @@ const NutritionalRecommender: React.FC<NutritionalRecommenderProps> = ({
                     return (
                       <IngredientCard
                         key={ingredientName}
-                        ingredient={value}
+                        ingredient={value as unknown as IngredientMapping}
                         isSelected={selectedIngredients.includes(ingredientName)}
                         onToggleSelection={toggleIngredientSelection}
                         enhancedData={enhancedNutritionData[ingredientName]}
@@ -625,7 +625,7 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
   onToggleExpand,
 }) => {
   // Extract ingredient data with safe property access
-  const ingredientData = ingredient as Record<string, unknown>;
+  const ingredientData = ingredient as unknown as Record<string, unknown>;
   const nutritionalProfile = (ingredientData?.nutritionalProfile as Record<string, unknown>) || {};
   const ingredientName = String(ingredientData?.name || ingredientData?.ingredient || '');
   const qualities = ingredientData?.qualities as string[] | undefined;
@@ -702,15 +702,15 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
 
         <div className="grid grid-cols-2 gap-x-2 text-xs">
           {nutritionalProfile.calories !== undefined && (
-            <div>Calories: {nutritionalProfile.calories}</div>
+            <div>Calories: {String(nutritionalProfile.calories)}</div>
           )}
 
           {nutritionalProfile.protein_g !== undefined && (
-            <div>Protein: {nutritionalProfile.protein_g}g</div>
+            <div>Protein: {String(nutritionalProfile.protein_g)}g</div>
           )}
 
           {nutritionalProfile.fiber_g !== undefined && (
-            <div>Fiber: {nutritionalProfile.fiber_g}g</div>
+            <div>Fiber: {String(nutritionalProfile.fiber_g)}g</div>
           )}
 
           {nutritionalProfile.vitamin_density !== undefined && (
@@ -769,8 +769,8 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
               {/* Display enhanced nutrition data with safe property access */}
               {(() => {
                 const enhancedDataObj = enhancedData as Record<string, unknown>;
-                const nutrition = enhancedDataObj?.nutrition;
-                const nutrients = nutrition?.nutrients;
+                const nutrition = enhancedDataObj?.nutrition as Record<string, unknown> | undefined;
+                const nutrients = nutrition?.nutrients as unknown[] | undefined;
                 
                 return nutrients && (
                   <div className="grid grid-cols-2 gap-x-2 gap-y-1 text-xs">
@@ -798,9 +798,9 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
               {/* Additional properties with safe access */}
               {(() => {
                 const enhancedDataObj = enhancedData as Record<string, unknown>;
-                const categoryPath = enhancedDataObj?.categoryPath;
+                const categoryPath = enhancedDataObj?.categoryPath as string[] | undefined;
                 
-                return categoryPath && (
+                return categoryPath && Array.isArray(categoryPath) && (
                   <div className="text-xs mt-2">
                     <span className="font-medium">Category:</span>{' '}
                     {categoryPath.join(' > ')}

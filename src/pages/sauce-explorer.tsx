@@ -57,7 +57,9 @@ interface Cuisine {
 // Define type for all cuisines record
 type CuisineRecord = Record<string, Cuisine>;
 
-export default function SauceExplorer() {
+import { NextPage } from 'next';
+
+const SauceExplorerPage: NextPage = () => {
   // State for selected filters
   const [selectedCuisine, setSelectedCuisine] = useState<string>('');
   const [selectedProtein, setSelectedProtein] = useState<string>('');
@@ -493,3 +495,5 @@ export default function SauceExplorer() {
     </div>
   );
 }
+
+export default SauceExplorerPage;
