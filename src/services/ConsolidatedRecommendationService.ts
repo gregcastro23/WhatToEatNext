@@ -6,6 +6,17 @@ import {
   _Element
 } from '../types';
 
+// Additional type definitions
+type ElementalProperties = _ElementalProperties;
+type ThermodynamicMetrics = {
+  heat: number;
+  entropy: number;
+  reactivity: number;
+  gregsEnergy: number;
+  kalchm: number;
+  monica: number;
+};
+
 import { Recipe } from '../types/recipe';
 import { Ingredient } from '../types/ingredient';
 import { CookingMethod } from '@/types/cooking';
@@ -72,17 +83,17 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
       let filteredRecipes = allRecipes;
       
       // Use safe type casting for criteria access
-      const criteriaData = criteria as any;
-      const elementalState = criteriaData?.elementalState || criteriaData?.elementalProperties;
+      const criteriaData = criteria as Record<string, unknown>;
+      const elementalState = criteriaData?.elementalState as ElementalProperties || criteriaData?.elementalProperties as ElementalProperties;
       
       if (elementalState) {
         filteredRecipes = (allRecipes || []).filter(recipe => {
-          const recipeData = recipe as any;
+          const recipeData = recipe as Record<string, unknown>;
           if (!recipeData?.elementalState) return false;
           
           const compatibilityScore = this.calculateElementalCompatibility(
             elementalState,
-            recipeData.elementalState
+            recipeData.elementalState as ElementalProperties
           );
           
           return compatibilityScore >= (criteria.minCompatibility || 0.6);
@@ -92,26 +103,26 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
       // Apply additional filters
       if (criteria.cookingMethod) {
         filteredRecipes = filteredRecipes.filter(recipe => {
-          const recipeData = recipe as any;
+          const recipeData = recipe as Record<string, unknown>;
           return recipeData?.cookingMethods === criteria.cookingMethod;
         });
       }
       
       if (criteria.cuisine) {
         filteredRecipes = filteredRecipes.filter(recipe => {
-          const recipeData = recipe as any;
+          const recipeData = recipe as Record<string, unknown>;
           return recipeData?.cuisine === criteria.cuisine;
         });
       }
       
       if (criteria.includeIngredients && criteria.includeIngredients.length > 0) {
         filteredRecipes = filteredRecipes.filter(recipe => {
-          const recipeData = recipe as any;
-          const recipeIngredients = recipeData?.ingredients || [];
+          const recipeData = recipe as Record<string, unknown>;
+          const recipeIngredients = recipeData?.ingredients as Record<string, unknown>[] || [];
           
           return criteria.includeIngredients!.every(ingredient => 
             recipeIngredients.some((recipeIngredient: Record<string, unknown>) => 
-              recipeIngredient?.name?.toLowerCase()?.includes(ingredient?.toLowerCase())
+              (recipeIngredient?.name as string)?.toLowerCase()?.includes(ingredient?.toLowerCase())
             )
           );
         });
@@ -119,12 +130,12 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
       
       if (criteria.excludeIngredients && criteria.excludeIngredients.length > 0) {
         filteredRecipes = filteredRecipes.filter(recipe => {
-          const recipeData = recipe as any;
-          const recipeIngredients = recipeData?.ingredients || [];
+          const recipeData = recipe as Record<string, unknown>;
+          const recipeIngredients = recipeData?.ingredients as Record<string, unknown>[] || [];
           
           return !criteria.excludeIngredients!.some(ingredient => 
             recipeIngredients.some((recipeIngredient: Record<string, unknown>) => 
-              recipeIngredient?.name?.toLowerCase()?.includes(ingredient?.toLowerCase())
+              (recipeIngredient?.name as string)?.toLowerCase()?.includes(ingredient?.toLowerCase())
             )
           );
         });
@@ -134,22 +145,22 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
       const scores: { [key: string]: number } = {};
       
       (filteredRecipes || []).forEach(recipe => {
-        const recipeData = recipe as any;
+        const recipeData = recipe as Record<string, unknown>;
         if (recipeData?.elementalState && elementalState) {
-          scores[recipeData.id] = this.calculateElementalCompatibility(
+          scores[recipeData.id as string] = this.calculateElementalCompatibility(
             elementalState,
-            recipeData.elementalState
+            recipeData.elementalState as ElementalProperties
           );
         } else {
-          scores[recipeData.id] = 0.5; // Default score if we can't calculate compatibility
+          scores[recipeData.id as string] = 0.5; // Default score if we can't calculate compatibility
         }
       });
       
       // Sort recipes by score
       filteredRecipes.sort((a, b) => {
-        const recipeA = a as any;
-        const recipeB = b as any;
-        return scores[recipeB.id] - scores[recipeA.id];
+        const recipeA = a as Record<string, unknown>;
+        const recipeB = b as Record<string, unknown>;
+        return scores[recipeB.id as string] - scores[recipeA.id as string];
       });
       
       // Apply limit if specified
@@ -190,17 +201,17 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
       let filteredIngredients = allIngredients;
       
       // Use safe type casting for criteria access
-      const criteriaData = criteria as any;
-      const elementalState = criteriaData?.elementalState || criteriaData?.elementalProperties;
+      const criteriaData = criteria as Record<string, unknown>;
+      const elementalState = criteriaData?.elementalState as ElementalProperties || criteriaData?.elementalProperties as ElementalProperties;
       
       if (elementalState) {
         filteredIngredients = (allIngredients || []).filter(ingredient => {
-          const ingredientData = ingredient as any;
+          const ingredientData = ingredient as Record<string, unknown>;
           if (!ingredientData?.elementalPropertiesState) return false;
           
           const compatibilityScore = this.calculateElementalCompatibility(
             elementalState,
-            ingredientData.elementalPropertiesState
+            ingredientData.elementalPropertiesState as ElementalProperties
           );
           
           return compatibilityScore >= (criteria.minCompatibility || 0.6);
@@ -210,33 +221,33 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
       // Apply additional filters
       if (criteria.categories && criteria.categories.length > 0) {
         filteredIngredients = filteredIngredients.filter(ingredient => {
-          const ingredientData = ingredient as any;
-          return criteria.categories!.includes(ingredientData?.category || '');
+          const ingredientData = ingredient as Record<string, unknown>;
+          return criteria.categories!.includes(ingredientData?.category as string || '');
         });
       }
       
       // Apply season filter with safe type casting
-      const currentSeason = criteriaData?.currentSeason || criteriaData?.season;
+      const currentSeason = criteriaData?.currentSeason as string || criteriaData?.season as string;
       if (currentSeason) {
         filteredIngredients = filteredIngredients.filter(ingredient => {
-          const ingredientData = ingredient as any;
-          const ingredientSeasons = ingredientData?.seasons || [];
+          const ingredientData = ingredient as Record<string, unknown>;
+          const ingredientSeasons = ingredientData?.seasons as string[] || [];
           return ingredientSeasons.includes(currentSeason);
         });
       }
       
       if (criteria.excludeIngredients && criteria.excludeIngredients.length > 0) {
         filteredIngredients = filteredIngredients.filter(ingredient => {
-          const ingredientData = ingredient as any;
+          const ingredientData = ingredient as Record<string, unknown>;
           return !criteria.excludeIngredients!.some(excludeIngredient => 
-            ingredientData?.name?.toLowerCase()?.includes(excludeIngredient?.toLowerCase())
+            (ingredientData?.name as string)?.toLowerCase()?.includes(excludeIngredient?.toLowerCase())
           );
         });
       }
       
       if (criteria.planetaryRuler) {
         filteredIngredients = filteredIngredients.filter(ingredient => {
-          const ingredientData = ingredient as any;
+          const ingredientData = ingredient as Record<string, unknown>;
           return ingredientData?.planetaryRuler === criteria.planetaryRuler;
         });
       }
@@ -245,22 +256,22 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
       const scores: { [key: string]: number } = {};
       
       (filteredIngredients || []).forEach(ingredient => {
-        const ingredientData = ingredient as any;
+        const ingredientData = ingredient as Record<string, unknown>;
         if (ingredientData?.elementalPropertiesState && elementalState) {
-          scores[ingredientData.id] = this.calculateElementalCompatibility(
+          scores[ingredientData.id as string] = this.calculateElementalCompatibility(
             elementalState,
-            ingredientData.elementalPropertiesState
+            ingredientData.elementalPropertiesState as ElementalProperties
           );
         } else {
-          scores[ingredientData.id] = 0.5; // Default score if we can't calculate compatibility
+          scores[ingredientData.id as string] = 0.5; // Default score if we can't calculate compatibility
         }
       });
       
       // Sort ingredients by score
       filteredIngredients.sort((a, b) => {
-        const ingredientA = a as any;
-        const ingredientB = b as any;
-        return scores[ingredientB.id] - scores[ingredientA.id];
+        const ingredientA = a as Record<string, unknown>;
+        const ingredientB = b as Record<string, unknown>;
+        return scores[ingredientB.id as string] - scores[ingredientA.id as string];
       });
       
       // Apply limit if specified
@@ -295,8 +306,8 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
   async getRecommendedCuisines(criteria: CuisineRecommendationCriteria): Promise<RecommendationResult<string>> {
     try {
       // Use safe type casting for criteria access
-      const criteriaData = criteria as any;
-      const elementalState = criteriaData?.elementalState || criteriaData?.elementalProperties;
+      const criteriaData = criteria as Record<string, unknown>;
+      const elementalState = criteriaData?.elementalState as ElementalProperties || criteriaData?.elementalProperties as ElementalProperties;
       
       // Use existing utility function
       const cuisineRecommendations = await getCuisineRecommendations({
@@ -345,32 +356,36 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
   async getRecommendedCookingMethods(criteria: CookingMethodRecommendationCriteria): Promise<RecommendationResult<CookingMethod>> {
     try {
       // Use safe type casting for criteria access
-      const criteriaData = criteria as any;
-      const elementalState = criteriaData?.elementalState || criteriaData?.elementalProperties;
+      const criteriaData = criteria as Record<string, unknown>;
+      const elementalState = criteriaData?.elementalState as ElementalProperties || criteriaData?.elementalProperties as ElementalProperties;
       
       // ✅ Pattern MM-1: Type assertion to match AstrologicalState interface
       const methodRecommendations = await getCookingMethodRecommendations({
         elementalPreference: elementalState,
         planetaryPositions: criteria.planetaryPositions,
         limit: criteria.limit
-      } as any);
+      } as Record<string, unknown>);
       
       // Transform to standardized result format - return CookingMethod objects
-      const items: CookingMethod[] = (methodRecommendations || []).map(method => ({
-        id: (method as any)?.id || (method as any)?.name || 'unknown',
-        name: (method as any)?.name || 'Unknown Method',
-        description: (method as any)?.description || '',
-        elementalProperties: (method as any)?.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
-        difficulty: (method as any)?.difficulty || 'medium',
-        timeRequired: (method as any)?.timeRequired || 30,
-        equipment: (method as any)?.equipment || []
-      }));
+      const items: CookingMethod[] = (methodRecommendations || []).map(method => {
+        const methodData = method as Record<string, unknown>;
+        return {
+          id: methodData?.id as string || methodData?.name as string || 'unknown',
+          name: methodData?.name as string || 'Unknown Method',
+          description: methodData?.description as string || '',
+          elementalProperties: methodData?.elementalProperties as ElementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+          difficulty: methodData?.difficulty as string || 'medium',
+          timeRequired: methodData?.timeRequired as number || 30,
+          equipment: methodData?.equipment as string[] || []
+        };
+      });
       
       // Calculate scores - safe property access
       const scores: { [key: string]: number } = {};
       methodRecommendations.forEach((method, index) => {
-        const methodName = (method as any)?.name || items[index]?.name;
-        const methodScore = (method as any)?.score || 0.5;
+        const methodData = method as Record<string, unknown>;
+        const methodName = methodData?.name as string || items[index]?.name;
+        const methodScore = methodData?.score as number || 0.5;
         if (methodName) {
           scores[methodName] = methodScore;
         }
@@ -410,7 +425,7 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
    * Calculate compatibility score between elemental properties
    */
   calculateElementalCompatibility(source: ElementalProperties, target: ElementalProperties): number {
-    return calculateElementalCompatibility(source as any, target as any);
+    return calculateElementalCompatibility(source, target);
   }
 
   /**
@@ -420,7 +435,7 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
     elementalProperties: ElementalProperties,
     type: 'recipe' | 'ingredient' | 'cuisine' | 'cookingMethod',
     limit?: number
-  ): Promise<RecommendationResult<any>> {
+  ): Promise<RecommendationResult<Recipe | Ingredient | string | CookingMethod>> {
     switch (type) {
       case 'recipe':
         return this.getRecommendedRecipes({
@@ -454,7 +469,7 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
     planetaryPositions: Record<string, { sign: string; degree: number }>,
     type: 'recipe' | 'ingredient' | 'cuisine' | 'cookingMethod',
     limit?: number
-  ): Promise<RecommendationResult<any>> {
+  ): Promise<RecommendationResult<Recipe | Ingredient | string | CookingMethod>> {
     switch (type) {
       case 'recipe':
         return this.getRecommendedRecipes({
