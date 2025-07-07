@@ -408,10 +408,11 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
                     
                     {/* Apply safe type casting for macronutrients access */}
                     {(() => {
-                      const nutritionData = recipe.nutrition as unknown;
-                      const protein = nutritionData?.protein || nutritionData?.macronutrients?.protein;
-                      const carbs = nutritionData?.carbs || nutritionData?.macronutrients?.carbs;
-                      const fat = nutritionData?.fat || nutritionData?.macronutrients?.fat;
+                      const nutritionData = recipe.nutrition as Record<string, unknown>;
+                      const macronutrients = nutritionData?.macronutrients as Record<string, unknown>;
+                      const protein = nutritionData?.protein || macronutrients?.protein;
+                      const carbs = nutritionData?.carbs || macronutrients?.carbs;
+                      const fat = nutritionData?.fat || macronutrients?.fat;
                       
                       return (
                         <>

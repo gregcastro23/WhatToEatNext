@@ -267,18 +267,16 @@ export default function EnhancedRecipeBuilder() {
   const [steps, setSteps] = useState<RecipeBuilderStep[]>(RECIPE_STEPS);
   
   // Hooks
-  const { 
-    searchIngredients, 
-    searchResults, 
-    isSearching,
-    clearSearch 
-  } = useIngredientSearch();
+  const ingredientSearchHook = useIngredientSearch() as Record<string, unknown>;
+  const searchIngredients = ingredientSearchHook?.searchIngredients;
+  const searchResults = ingredientSearchHook?.searchResults;
+  const isSearching = ingredientSearchHook?.isSearching;
+  const clearSearch = ingredientSearchHook?.clearSearch;
   
-  const { 
-    validateRecipe, 
-    validationResult,
-    isValidating 
-  } = useRecipeValidation();
+  const recipeValidationHook = useRecipeValidation() as Record<string, unknown>;
+  const validateRecipe = recipeValidationHook?.validateRecipe;
+  const validationResult = recipeValidationHook?.validationResult;
+  const isValidating = recipeValidationHook?.isValidating;
 
   // Computed Properties
   const currentStep = useMemo(() => steps[state.activeStep], [steps, state.activeStep]);

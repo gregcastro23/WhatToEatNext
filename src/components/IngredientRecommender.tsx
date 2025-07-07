@@ -10,6 +10,8 @@ import { herbsCollection, oilsCollection, vinegarsCollection, grainsCollection }
 import { IngredientCard } from './IngredientCard';
 import { unifiedIngredients } from '@/data/unified/ingredients';
 import styles from './IngredientRecommender.module.css';
+import type { Modality } from '@/types/astrology';
+import type { Ingredient, RecipeIngredient } from '@/types/ingredient';
 
 /**
  * Maps planets to their elemental influences (diurnal and nocturnal elements)
