@@ -136,7 +136,7 @@ export interface EnhancedIngredient {
   };
   
   // Allow additional properties from UnifiedIngredient
-  [key: string]: Record<string, unknown>;
+  [key: string]: unknown;
 }
 
 // Ingredient search criteria

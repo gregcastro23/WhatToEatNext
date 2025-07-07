@@ -90,7 +90,7 @@ export interface UnifiedIngredient {
   };
   
   // Allow additional properties
-  [key: string]: Record<string, unknown>;
+  [key: string]: unknown;
 }
 
 /**

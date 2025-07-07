@@ -6,9 +6,12 @@ import { cuisines } from '@/data/cuisines';
 import { getCurrentElementalState } from '@/utils/elementalUtils';
 import CuisineRecommender from '@/components/CuisineRecommender';
 import { cuisineFlavorProfiles } from '@/data/cuisineFlavorProfiles';
-import { _ElementalProperties } from '@/types/alchemy';
 
-interface ExtendedElementalState extends ElementalProperties {
+interface ExtendedElementalState {
+  Fire: number;
+  Water: number;
+  Earth: number;
+  Air: number;
   season: string;
   timeOfDay: string;
 }
@@ -49,7 +52,7 @@ const CuisinesIndexPage = () => {
     setElementalState(prev => ({
       ...prev,
       ...currentState,
-      _season,
+      season,
       timeOfDay
     } as ExtendedElementalState));
   }, []);

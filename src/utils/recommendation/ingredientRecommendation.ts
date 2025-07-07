@@ -241,7 +241,7 @@ export interface IngredientRecommendation {
   flavorProfile?: { [key: string]: number };
   season?: string[];
   subCategory?: string;
-  [key: string]: Record<string, unknown>;
+  [key: string]: unknown;
 }
 
 export interface GroupedIngredientRecommendations {
@@ -305,7 +305,7 @@ export interface EnhancedIngredient {
   sensoryProfile?: SensoryProfile;
   recommendedCookingMethods?: CookingMethod[];
   culturalOrigins?: string[];
-  [key: string]: Record<string, unknown>;
+  [key: string]: unknown;
 }
 
 export interface EnhancedIngredientRecommendation extends IngredientRecommendation {

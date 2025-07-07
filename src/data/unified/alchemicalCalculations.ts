@@ -167,7 +167,7 @@ export function enhanceIngredientWithAlchemy(
     category: string;
     subcategory?: string;
     elementalProperties: ElementalProperties;
-    [key: string]: Record<string, unknown>;
+    [key: string]: unknown;
   }
 ): AlchemicalIngredient {
   // Derive alchemical properties from elemental properties
