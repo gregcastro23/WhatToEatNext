@@ -279,7 +279,8 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
     recipeService,
     alchemicalRecommendationService
   } = servicesData;
-  const elementalCalculatorService = (servicesData as unknown)?.elementalCalculator;
+  const servicesRecord = servicesData as Record<string, unknown>;
+  const elementalCalculatorService = servicesRecord?.elementalCalculator;
 
   // State management with proper TypeScript types
   const [recipes, setRecipes] = useState<RecipeType[]>([]);
@@ -323,8 +324,9 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
   // Load astrological data when services are available
   useEffect(() => {
     // Fix TS2339: Property 'elementalCalculator' does not exist on type
-    const servicesData = useServices() as unknown;
-    const elementalCalculatorService = (servicesData as unknown)?.elementalCalculator;
+    const servicesData = useServices();
+    const servicesRecord = servicesData as Record<string, unknown>;
+    const elementalCalculatorService = servicesRecord?.elementalCalculator;
     
     if (servicesLoading || !astrologyService || !elementalCalculatorService) {
       return;
@@ -340,8 +342,9 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
         
         // Convert positions to degree values with proper error handling
         Object.entries(positions || {}).forEach(([planet, data]) => {
+          const dataRecord = data as Record<string, unknown>;
           if (typeof data === 'object' && data !== null && 'exactLongitude' in data) {
-            formattedPositions[planet] = (data as unknown).exactLongitude;
+            formattedPositions[planet] = dataRecord.exactLongitude as number;
           }
         });
         
@@ -353,19 +356,25 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
         
         // Get zodiac sign
         // Fix TS2339: Property 'getChartData' does not exist on type 'AstrologyService'
-        const astrologyServiceData = astrologyService as unknown;
-        const chartData = await astrologyServiceData?.getChartData?.();
+        const astrologyServiceRecord = astrologyService as Record<string, unknown>;
+        const getChartDataMethod = astrologyServiceRecord?.getChartData as Function | undefined;
+        const chartData = getChartDataMethod ? await getChartDataMethod() : null;
         if (chartData && chartData.Sun && chartData.Sun.sign) {
           setZodiacSign(chartData.Sun.sign as ZodiacSign);
         }
         
         // Get lunar phase
         // Fix TS2339: Property 'getCurrentLunarPhase' does not exist on type 'AstrologyService'
-        const phase = await astrologyServiceData?.getCurrentLunarPhase?.();
+        const getCurrentLunarPhaseMethod = astrologyServiceRecord?.getCurrentLunarPhase as Function | undefined;
+        const phase = getCurrentLunarPhaseMethod ? await getCurrentLunarPhaseMethod() : null;
         setLunarPhase(phase);
         
         // Calculate elemental properties based on planetary positions
-        const properties = await elementalCalculatorService.calculateElementalProperties(formattedPositions, daytime);
+        const elementalCalculatorRecord = elementalCalculatorService as Record<string, unknown>;
+        const calculateElementalPropertiesMethod = elementalCalculatorRecord?.calculateElementalProperties as Function | undefined;
+        const properties = calculateElementalPropertiesMethod ? 
+          await calculateElementalPropertiesMethod(formattedPositions, daytime) : 
+          { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
         setElementalState(properties);
       } catch (err) {
         const errorMessage = err instanceof Error ? err.message : 'Unknown error';
@@ -387,8 +396,9 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
       try {
         setError(null);
         // Fix TS2339: Property 'getAllCuisines' does not exist on type 'UnifiedRecipeService'
-        const recipeServiceData = recipeService as unknown;
-        const cuisinesData = await recipeServiceData?.getAllCuisines?.() || {};
+        const recipeServiceRecord = recipeService as Record<string, unknown>;
+        const getAllCuisinesMethod = recipeServiceRecord?.getAllCuisines as Function | undefined;
+        const cuisinesData = getAllCuisinesMethod ? await getAllCuisinesMethod() : {};
         setCuisines(cuisinesData);
       } catch (err) {
         const errorMessage = err instanceof Error ? err.message : 'Unknown error';
@@ -567,8 +577,8 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
         }));
 
         // Get optimized recipes
-        const serviceData = alchemicalRecommendationService as unknown;
-        const optimizeMethod = serviceData?.getOptimizedRecipes || serviceData?.getRecommendations;
+        const serviceRecord = alchemicalRecommendationService as Record<string, unknown>;
+        const optimizeMethod = (serviceRecord?.getOptimizedRecipes as Function) || (serviceRecord?.getRecommendations as Function);
         const optimized = await optimizeMethod(
           preparedRecipes,
           planetaryPositions,

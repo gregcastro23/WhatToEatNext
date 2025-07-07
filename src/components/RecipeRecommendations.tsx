@@ -253,16 +253,22 @@ export default function RecipeRecommendations() {
         
         // Get seasonal recipes - Safe method access
         let seasonalRecipes: Recipe[] = [];
-        if (recipeService && typeof (recipeService as unknown).getRecipesBySeason === 'function') {
-          seasonalRecipes = await (recipeService as unknown).getRecipesBySeason(currentSeason);
-        } else if (recipeService && typeof (recipeService as unknown).getAllRecipes === 'function') {
+        const recipeServiceRecord = recipeService as Record<string, unknown>;
+        const getRecipesBySeasonMethod = recipeServiceRecord?.getRecipesBySeason as Function | undefined;
+        const getAllRecipesMethod = recipeServiceRecord?.getAllRecipes as Function | undefined;
+        
+        if (recipeService && getRecipesBySeasonMethod) {
+          seasonalRecipes = await getRecipesBySeasonMethod(currentSeason);
+        } else if (recipeService && getAllRecipesMethod) {
           // Fallback to get all recipes and filter by season
-          const allRecipes = await (recipeService as unknown).getAllRecipes();
-          seasonalRecipes = (allRecipes || []).filter((recipe: Record<string, unknown>) => 
-            recipe.season?.includes(currentSeason) || 
-            recipe.seasonality?.includes(currentSeason) ||
-            !recipe.season // Include recipes with no season specified
-          );
+          const allRecipes = await getAllRecipesMethod();
+          seasonalRecipes = (allRecipes || []).filter((recipe: Record<string, unknown>) => {
+            const seasonArray = recipe.season as unknown[];
+            const seasonalityArray = recipe.seasonality as unknown[];
+            return (seasonArray && Array.isArray(seasonArray) && seasonArray.includes(currentSeason)) || 
+                   (seasonalityArray && Array.isArray(seasonalityArray) && seasonalityArray.includes(currentSeason)) ||
+                   !recipe.season; // Include recipes with no season specified
+          });
         }
         
         // Get recommendations
@@ -507,7 +513,7 @@ export default function RecipeRecommendations() {
                           </Typography>
                           <Typography variant="body2">
                             {Array.isArray(recipe.instructions) 
-                              ? (recipe.instructions[0] as unknown)?.substring(0, 150) + '...'
+                              ? String(recipe.instructions[0] || '').substring(0, 150) + '...'
                               : String(recipe.instructions).substring(0, 150) + '...'
                             }
                           </Typography>

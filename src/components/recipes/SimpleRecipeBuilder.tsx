@@ -76,6 +76,10 @@ export default function SimpleRecipeBuilder() {
   const [generatedRecipe, setGeneratedRecipe] = useState<GeneratedRecipe | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
 
+  // Helper functions to get ingredients by category
+  const getDairyIngredients = () => getAllIngredientsByCategory('dairy');
+  const getOilIngredients = () => Object.values(allOils).filter(oil => oil.category === 'oil');
+
   // Category configuration
   const categories: CategoryData[] = [
     {
@@ -110,13 +114,13 @@ export default function SimpleRecipeBuilder() {
     },
     {
       name: 'Dairy',
-      ingredients: getAllDairy(),
+      ingredients: getDairyIngredients(),
       color: '#3b82f6',
       icon: '🧀'
     },
     {
-      name: 'Fats',
-      ingredients: getAllFats(),
+      name: 'Oils',
+      ingredients: getOilIngredients(),
       color: '#8b5cf6',
       icon: '🫒'
     }

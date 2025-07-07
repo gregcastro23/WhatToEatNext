@@ -783,10 +783,10 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
                         const unit = nutrientData?.unit || '';
                         
                         return (
-                          <div key={name} className="flex justify-between">
-                            <span>{name}:</span>
+                          <div key={String(name)} className="flex justify-between">
+                            <span>{String(name)}:</span>
                             <span className="font-medium">
-                              {amount} {unit}
+                              {String(amount)} {String(unit)}
                             </span>
                           </div>
                         );
@@ -816,7 +816,7 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
                 return possibleSubstitutes && (
                   <div className="text-xs mt-1">
                     <span className="font-medium">Substitutes:</span>{' '}
-                    {possibleSubstitutes}
+                    {String(possibleSubstitutes)}
                   </div>
                 );
               })()}

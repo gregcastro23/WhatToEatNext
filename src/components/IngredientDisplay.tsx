@@ -68,7 +68,7 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
         const ingredientData = ingredient as unknown as Record<string, unknown>;
         const description = ingredientData?.description;
         return description ? (
-          <p className="text-sm text-gray-600 mt-2 italic">{description}</p>
+          <p className="text-sm text-gray-600 mt-2 italic">{String(description)}</p>
         ) : null;
       })()}
       

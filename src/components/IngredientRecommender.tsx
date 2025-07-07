@@ -66,7 +66,7 @@ const CATEGORY_DISPLAY_COUNTS: Record<string, number> = {
 export default function IngredientRecommender() {
   // Use the context to get astrological data including chakra energies
   const astroState = useAstrologicalState();
-  const astroData = astroState as Record<string, unknown>;
+  const astroData = astroState as unknown as Record<string, unknown>;
   const contextChakraEnergies = astroData?.chakraEnergies;
   const planetaryPositions = astroData?.planetaryPositions;
   const astroLoading = astroData?.isLoading || false;
@@ -119,7 +119,7 @@ export default function IngredientRecommender() {
     if (selectedIngredient?.name === item.name) {
       setSelectedIngredient(null);
     } else {
-      setSelectedIngredient(item as IngredientRecommendation);
+      setSelectedIngredient(item as unknown as IngredientRecommendation);
     }
   };
   
@@ -172,7 +172,7 @@ export default function IngredientRecommender() {
           matchScore: 1.0, // Perfect match for search results
           description: `${ingredient.name} - Rich culinary ingredient with detailed information`,
           // Add additional properties for compatibility  
-          modality: (ingredient as Record<string, unknown>)?.modality || 'Mutable',
+          modality: (ingredient as unknown as Record<string, unknown>)?.modality as Modality || 'Mutable',
           recommendations: [`Perfect match for "${query}"`],
           totalScore: 1.0,
           elementalScore: 0.8,
@@ -252,7 +252,7 @@ export default function IngredientRecommender() {
         ...astroState,
         lunarPhase: 'new moon',
         aspects: []
-      } as ElementalProperties & { timestamp: Date; currentStability: number; planetaryAlignment: Record<string, { sign: string; degree: number; }>; zodiacSign: string; activePlanets: string[]; lunarPhase: string; aspects: { type: string; planets: string[]; strength: number; }[]; }, { limit: 40 });
+      } as unknown as ElementalProperties & { timestamp: Date; currentStability: number; planetaryAlignment: Record<string, { sign: string; degree: number; }>; zodiacSign: string; activePlanets: string[]; lunarPhase: string; aspects: { type: string; planets: string[]; strength: number; }[]; }, { limit: 40 });
       
       // Merge the recommendations, prioritizing chakra-based ones
       const mergedRecommendations: GroupedIngredientRecommendations = {};
@@ -804,7 +804,7 @@ export default function IngredientRecommender() {
   if (astroError || foodError) {
     return (
       <div className="p-6 bg-red-50 dark:bg-red-900/20 rounded-lg border border-red-200 dark:border-red-800 text-red-600 dark:text-red-300">
-        <p className="font-medium">Error: {astroError || foodError}</p>
+        <p className="font-medium">Error: {String(astroError || foodError)}</p>
       </div>
     );
   }
@@ -902,7 +902,7 @@ export default function IngredientRecommender() {
                         {isSelected && (
                           <div className={styles.expandedView}>
                             <IngredientCard 
-                              ingredient={item as Record<string, unknown>}
+                              ingredient={item as unknown as Ingredient | RecipeIngredient}
                               initiallyExpanded={true}
                               emphasizeCulinary={true}
                               onClick={() => {}}
@@ -1132,10 +1132,10 @@ export default function IngredientRecommender() {
                         {isSelected && (
                           <div className={styles.expandedView}>
                             <IngredientCard 
-                              ingredient={item as Record<string, unknown>}
+                              ingredient={item as unknown as Ingredient | RecipeIngredient}
                               initiallyExpanded={true}
                               emphasizeCulinary={true}
-                              onClick={() => {}} // Prevent re-triggering selection
+                              onClick={() => {}}
                             />
                           </div>
                         )}

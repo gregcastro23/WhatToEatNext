@@ -132,7 +132,7 @@ export default function IngredientMapper() {
                           
                           return (
                             <div key={i} className="text-xs p-1 bg-green-100 rounded">
-                              {name} ({(confidence * 100).toFixed(0)}%)
+                              {String(name)} ({(Number(confidence) * 100).toFixed(0)}%)
                             </div>
                           );
                         })}

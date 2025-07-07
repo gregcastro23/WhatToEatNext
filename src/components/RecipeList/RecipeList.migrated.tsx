@@ -496,16 +496,18 @@ export default function RecipeListMigrated() {
       const response = await (recipeService.getAllRecipes as unknown)();
       
       // Apply safe type casting for response property access
-      const responseData = response as unknown;
+      const responseData = response as Record<string, unknown>;
       
       if (responseData?.success) {
-        setRecipes(responseData.data || []);
+        setRecipes((responseData.data as unknown[]) || []);
         
-        if (responseData?.metadata) {
-          setTotalPages(responseData.metadata.totalPages || 1);
+        const metadataRecord = responseData?.metadata as Record<string, unknown>;
+        if (metadataRecord) {
+          setTotalPages((metadataRecord.totalPages as number) || 1);
         }
       } else {
-        setError(responseData?.error?.message || 'Failed to fetch recipes');
+        const errorRecord = responseData?.error as Record<string, unknown>;
+        setError((errorRecord?.message as string) || 'Failed to fetch recipes');
         setRecipes([]);
       }
     } catch (err) {

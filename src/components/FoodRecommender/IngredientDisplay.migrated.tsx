@@ -77,7 +77,7 @@ export default function IngredientDisplayMigrated() {
           score: item.score || 0.7
         }));
         
-        setIngredients(transformedIngredients);
+        setIngredients(transformedIngredients as Ingredient[]);
       } catch (err) {
         // console.error('Error loading ingredients:', err);
         setError(err instanceof Error ? err : new Error('Error loading ingredients'));

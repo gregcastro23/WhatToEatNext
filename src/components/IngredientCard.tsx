@@ -567,13 +567,17 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
                     Air: "Light, aromatic, uplifting - contributes bright and fresh notes"
                   };
                   
+                  const icons = {
+                    Fire: <Flame size={12} style={{ color: '#ef4444' }} />,
+                    Water: <Droplets size={12} style={{ color: '#3b82f6' }} />,
+                    Earth: <Mountain size={12} style={{ color: '#22c55e' }} />,
+                    Air: <Wind size={12} style={{ color: '#a855f7' }} />
+                  };
+                  
                   return (
                     <div key={element} className="elemental-flavor">
                       <div className="element-header">
-                        {element === 'Fire' && <Flame className="element-icon" />}
-                        {element === 'Water' && <Droplets className="element-icon" />}
-                        {element === 'Earth' && <Mountain className="element-icon" />}
-                        {element === 'Air' && <Wind className="element-icon" />}
+                        {icons[element as keyof typeof icons] ?? null}
                         <span className="element-name">{element}</span>
                         <span className="element-percentage">{Math.round(Number(value) * 100)}%</span>
                       </div>
@@ -838,6 +842,13 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
                         Air: { color: '#a855f7', benefit: 'Lightening, clarifying, aids digestion' }
                       };
                       
+                      const icons = {
+                        Fire: <Flame size={12} style={{ color: '#ef4444' }} />,
+                        Water: <Droplets size={12} style={{ color: '#3b82f6' }} />,
+                        Earth: <Mountain size={12} style={{ color: '#22c55e' }} />,
+                        Air: <Wind size={12} style={{ color: '#a855f7' }} />
+                      };
+                      
                       return (
                         <div key={element} className="elemental-nutrition-item">
                           <div className="element-header">
@@ -964,6 +975,13 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
                             Water: 'Connected to emotion, intuition, and cooling properties',
                             Earth: 'Linked to grounding, stability, and nourishing aspects',
                             Air: 'Related to communication, intellect, and lightening effects'
+                          };
+                          
+                          const icons = {
+                            Fire: <Flame size={12} style={{ color: '#ef4444' }} />,
+                            Water: <Droplets size={12} style={{ color: '#3b82f6' }} />,
+                            Earth: <Mountain size={12} style={{ color: '#22c55e' }} />,
+                            Air: <Wind size={12} style={{ color: '#a855f7' }} />
                           };
                           
                           return (
@@ -1335,7 +1353,7 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
                 fontSize: '0.75rem',
                 fontWeight: 500
               }}>
-                {icons[element as keyof typeof icons]}
+                {icons[element as keyof typeof icons] ?? null}
                 <span style={{ color: '#64748b' }}>
                   {Math.round((Number(value) || 0) * 100)}%
                 </span>

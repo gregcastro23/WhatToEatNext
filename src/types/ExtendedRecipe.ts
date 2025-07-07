@@ -122,7 +122,7 @@ export interface ExtendedRecipe extends Recipe {
   keywords?: string[];
   
   // Allow additional dynamic properties - this ensures compatibility
-  [key: string]: Record<string, unknown>;
+  [key: string]: unknown;
 }
 
 /**

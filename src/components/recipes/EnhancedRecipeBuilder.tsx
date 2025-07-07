@@ -41,7 +41,8 @@ import {
   StepContent,
   Fade,
   Grow,
-  Collapse
+  Collapse,
+  Badge
 } from '@mui/material';
 
 // Drag and drop functionality simplified for better compatibility
@@ -64,7 +65,12 @@ import {
   Refresh as RefreshIcon,
   Save as SaveIcon,
   Share as ShareIcon,
-  Preview as PreviewIcon
+  Preview as PreviewIcon,
+  AutoFixHigh as GenerateIcon,
+  Kitchen as KitchenIcon,
+  AccessTime as TimeIcon,
+  Group as ServingsIcon,
+  Star as QualityIcon
 } from '@mui/icons-material';
 
 // Types and Data
@@ -94,6 +100,22 @@ import {
 import IngredientsStep from './steps/IngredientsStep';
 import BasicInfoStep from './steps/BasicInfoStep';
 import LivePreviewSidebar from './steps/LivePreviewSidebar';
+
+import { 
+  getAllVegetables,
+  getAllProteins,
+  getAllHerbs,
+  getAllSpices,
+  getAllGrains,
+  getAllIngredientsByCategory,
+  ingredientsMap
+} from '@/data/ingredients';
+
+import { allOils } from '@/data/ingredients/oils';
+import { cuisinesMap } from '@/data/cuisines';
+import { cuisineFlavorProfiles } from '@/data/cuisineFlavorProfiles';
+import type { CuisineFlavorProfile } from '@/data/cuisineFlavorProfiles';
+import { generateIngredientRecommendations, getSeasonalIngredients } from '@/data/unified/enhancedIngredients';
 
 // Enhanced Recipe Builder Interfaces
 interface RecipeBuilderStep {
