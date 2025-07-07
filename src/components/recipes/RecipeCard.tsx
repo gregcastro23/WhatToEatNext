@@ -200,7 +200,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
           <Star 
             key={i} 
             className={`h-4 w-4 ${
-              i < recipe.rating ? 'text-yellow-400 fill-current' : 'text-gray-300'
+              i < (Number(recipe.rating) || 0) ? 'text-yellow-400 fill-current' : 'text-gray-300'
             }`} 
           />
         ))}
@@ -416,9 +416,9 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
                       
                       return (
                         <>
-                          {protein && <span>Protein: {(protein * servings / (recipe.numberOfServings || servings)).toFixed(1)}g</span>}
-                          {carbs && <span>Carbs: {(carbs * servings / (recipe.numberOfServings || servings)).toFixed(1)}g</span>}
-                          {fat && <span>Fat: {(fat * servings / (recipe.numberOfServings || servings)).toFixed(1)}g</span>}
+                          {protein && <span>Protein: {(Number(protein) * servings / (recipe.numberOfServings || servings)).toFixed(1)}g</span>}
+                          {carbs && <span>Carbs: {(Number(carbs) * servings / (recipe.numberOfServings || servings)).toFixed(1)}g</span>}
+                          {fat && <span>Fat: {(Number(fat) * servings / (recipe.numberOfServings || servings)).toFixed(1)}g</span>}
                         </>
                       );
                     })()}

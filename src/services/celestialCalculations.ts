@@ -1107,25 +1107,25 @@ class CelestialCalculator {
         let suitAdjustment = 0.02;
         
         // Give more weight to minor arcana cards (value 1-10)
-        if (card.value > 0) {
+        if (Number(card.value) > 0) {
           suitAdjustment = 0.04; // Double the influence for minor arcana
         }
         
         if (card.suit === 'wands') {
           balance.Fire += suitAdjustment;
-          energyStateBalance.Spirit += 0.03 * (card.value > 0 ? 1.5 : 1);
+          energyStateBalance.Spirit += 0.03 * (Number(card.value) > 0 ? 1.5 : 1);
         }
         if (card.suit === 'cups') {
           balance.Water += suitAdjustment;
-          energyStateBalance.Essence += 0.03 * (card.value > 0 ? 1.5 : 1);
+          energyStateBalance.Essence += 0.03 * (Number(card.value) > 0 ? 1.5 : 1);
         }
         if (card.suit === 'swords') {
           balance.Air += suitAdjustment;
-          energyStateBalance.Substance += 0.03 * (card.value > 0 ? 1.5 : 1);
+          energyStateBalance.Substance += 0.03 * (Number(card.value) > 0 ? 1.5 : 1);
         }
         if (card.suit === 'pentacles') {
           balance.Earth += suitAdjustment;
-          energyStateBalance.Matter += 0.03 * (card.value > 0 ? 1.5 : 1);
+          energyStateBalance.Matter += 0.03 * (Number(card.value) > 0 ? 1.5 : 1);
         }
       });
       

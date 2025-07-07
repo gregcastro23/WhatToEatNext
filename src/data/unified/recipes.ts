@@ -302,7 +302,7 @@ export class RecipeEnhancer {
     const thermoData = thermodynamics as unknown;
     const { heat = 0.5, reactivity = 0.5 } = thermoData || {};
     // Base temperature (350°F) adjusted by thermodynamic properties
-    return Math.round(350 + (heat * 50) - (reactivity * 25));
+    return Math.round(350 + (Number(heat) * 50) - (Number(reactivity) * 25));
   }
   
   /**
@@ -331,21 +331,21 @@ export class RecipeEnhancer {
     const { heat, entropy, reactivity } = thermodynamics;
     
     // Heat-based recommendations
-    if (heat > 0.7) {
+    if (Number(heat) > 0.7) {
       recommendations.push('Use high-heat cooking methods for optimal energy release');
-    } else if (heat < 0.3) {
+    } else if (Number(heat) < 0.3) {
       recommendations.push('Gentle, low-heat cooking preserves delicate properties');
     }
     
     // Entropy-based recommendations
-    if (entropy > 0.6) {
+    if (Number(entropy) > 0.6) {
       recommendations.push('Quick cooking prevents energy dispersion');
     } else {
       recommendations.push('Slow cooking allows flavors to develop');
     }
     
     // Reactivity-based recommendations
-    if (reactivity > 0.8) {
+    if (Number(reactivity) > 0.8) {
       recommendations.push('Monitor carefully - highly reactive ingredients');
     }
     

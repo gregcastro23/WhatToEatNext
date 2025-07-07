@@ -237,7 +237,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
               <ol className="list-decimal list-inside space-y-1 text-sm">
                 {recipe.instructions.map((instruction, index) => (
                   <li key={index}>
-                    {typeof instruction === 'string' ? instruction : (instruction as unknown)?.step || 'Unknown step'}
+                    {typeof instruction === 'string' ? instruction : (instruction as Record<string, unknown>)?.step || 'Unknown step'}
                   </li>
                 ))}
               </ol>
@@ -313,10 +313,11 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
         }
 
         // Process each cuisine's dishes - Safe property access
-        const cuisineData = cuisine as unknown;
+        const cuisineData = cuisine as Record<string, unknown>;
         if (cuisineData.dishes) {
           let recipeIndex = 0;
-          Object.entries(cuisineData.dishes).forEach(([mealTypeKey, mealTypeData]) => {
+          const dishesRecord = cuisineData.dishes as Record<string, unknown>;
+          Object.entries(dishesRecord).forEach(([mealTypeKey, mealTypeData]) => {
             if (!mealTypeData) return;
             
             Object.entries(mealTypeData).forEach(([season, seasonRecipes]) => {
@@ -431,8 +432,9 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
       const compatibilityFactors: string[] = [];
       
       // Check zodiac influences
-      if ((recipe as unknown).zodiacInfluences) {
-        const zodiacInfluences = (recipe as unknown).zodiacInfluences;
+      const recipeRecord = recipe as Record<string, unknown>;
+      if (recipeRecord.zodiacInfluences) {
+        const zodiacInfluences = recipeRecord.zodiacInfluences;
         if (Array.isArray(zodiacInfluences) ? zodiacInfluences.includes(currentZodiac) : zodiacInfluences === currentZodiac) {
           compatibilityScore += 0.3;
           compatibilityFactors.push(`Favorable for ${currentZodiac}`);
@@ -440,11 +442,11 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
       }
       
       // Check planetary influences
-      if ((recipe as unknown).astrologicalInfluences && activePlanets) {
-        const influences = (recipe as unknown).astrologicalInfluences;
-        const favorablePlanets = influences.filter((planet: string) => 
-          Array.isArray(activePlanets) ? activePlanets.includes(planet) : activePlanets === planet
-        );
+      if (recipeRecord.astrologicalInfluences && activePlanets) {
+        const influences = recipeRecord.astrologicalInfluences as unknown[];
+        const favorablePlanets = Array.isArray(influences) ? influences.filter((planet: unknown) => 
+          Array.isArray(activePlanets) ? activePlanets.includes(planet as string) : activePlanets === planet
+        ) : [];
         
         if (favorablePlanets.length > 0) {
           compatibilityScore += 0.2 * favorablePlanets.length;
@@ -519,12 +521,13 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
           (recipe.elementalState && (recipe.elementalState[elementalFilter] || 0) >= 0.3);
         
         // Dietary filters
+        const recipeRecord = recipe as Record<string, unknown>;
         const dietaryMatch = dietaryFilter.length === 0 || dietaryFilter.every(diet => {
           switch (diet) {
-            case 'vegetarian': return (recipe as unknown).isVegetarian;
-            case 'vegan': return (recipe as unknown).isVegan;
-            case 'gluten-free': return (recipe as unknown).isGlutenFree;
-            case 'dairy-free': return (recipe as unknown).isDairyFree;
+            case 'vegetarian': return recipeRecord.isVegetarian;
+            case 'vegan': return recipeRecord.isVegan;
+            case 'gluten-free': return recipeRecord.isGlutenFree;
+            case 'dairy-free': return recipeRecord.isDairyFree;
             default: return true;
           }
         });
@@ -535,7 +538,7 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
         
         // Rating filter
         const ratingMatch = !minRating || 
-          ((recipe as unknown).rating && (recipe as unknown).rating >= minRating);
+          (recipeRecord.rating && (recipeRecord.rating as number) >= minRating);
         
         // Favorites filter
         const favoritesMatch = !showFavoritesOnly || favorites.includes(recipe.id);
@@ -563,13 +566,17 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
             comparison = getSeasonalScore(b) - getSeasonalScore(a);
             break;
           case 'calories':
-            comparison = ((a as unknown).nutrition?.calories || 0) - ((b as unknown).nutrition?.calories || 0);
+            const aRecord = a as Record<string, unknown>;
+            const bRecord = b as Record<string, unknown>;
+            const aNutrition = aRecord.nutrition as Record<string, unknown>;
+            const bNutrition = bRecord.nutrition as Record<string, unknown>;
+            comparison = ((aNutrition?.calories as number) || 0) - ((bNutrition?.calories as number) || 0);
             break;
           case 'difficulty':
-            comparison = ((a as unknown).difficulty || 1) - ((b as unknown).difficulty || 1);
+            comparison = ((aRecord.difficulty as number) || 1) - ((bRecord.difficulty as number) || 1);
             break;
           case 'rating':
-            comparison = ((b as unknown).rating || 0) - ((a as unknown).rating || 0);
+            comparison = ((bRecord.rating as number) || 0) - ((aRecord.rating as number) || 0);
             break;
           default:
             comparison = b.score - a.score;
@@ -864,7 +871,7 @@ export const RecipeGrid: React.FC<RecipeGridProps> = ({
         {timeFactors && (
           <span className="flex items-center gap-1">
             <Sun className="h-4 w-4" />
-            Current season: {(timeFactors as unknown).season || getCurrentSeason()}
+            Current season: {(timeFactors as Record<string, unknown>)?.season || getCurrentSeason()}
           </span>
         )}
       </div>
