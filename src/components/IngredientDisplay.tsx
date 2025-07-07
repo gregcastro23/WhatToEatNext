@@ -255,8 +255,9 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
                 <h4 className="text-sm font-medium mb-2">Pairing Recommendations</h4>
                 
                 {(() => {
-                  const complementary = pairingRecommendations?.complementary;
-                  return complementary?.length > 0 ? (
+                  const pairingData = pairingRecommendations as Record<string, unknown>;
+                  const complementary = pairingData?.complementary;
+                  return Array.isArray(complementary) && complementary.length > 0 ? (
                     <div className="mb-2">
                       <h5 className="text-xs font-medium text-green-600 mb-1">Complementary</h5>
                       <div className="flex flex-wrap gap-1">
@@ -271,8 +272,9 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
                 })()}
                 
                 {(() => {
-                  const contrasting = pairingRecommendations?.contrasting;
-                  return contrasting?.length > 0 ? (
+                  const pairingData = pairingRecommendations as Record<string, unknown>;
+                  const contrasting = pairingData?.contrasting;
+                  return Array.isArray(contrasting) && contrasting.length > 0 ? (
                     <div className="mb-2">
                       <h5 className="text-xs font-medium text-amber-600 mb-1">Contrasting</h5>
                       <div className="flex flex-wrap gap-1">
@@ -287,8 +289,9 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
                 })()}
                 
                 {(() => {
-                  const toAvoid = pairingRecommendations?.toAvoid;
-                  return toAvoid?.length > 0 ? (
+                  const pairingData = pairingRecommendations as Record<string, unknown>;
+                  const toAvoid = pairingData?.toAvoid;
+                  return Array.isArray(toAvoid) && toAvoid.length > 0 ? (
                     <div>
                       <h5 className="text-xs font-medium text-red-600 mb-1">To Avoid</h5>
                       <div className="flex flex-wrap gap-1">
@@ -315,16 +318,16 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
                 <h4 className="text-sm font-medium mb-2">Nutrition (per 100g)</h4>
                 <div className="grid grid-cols-2 gap-2">
                   <div className="text-xs">
-                    <span className="font-medium">Calories:</span> {formatNumber(nutrition.calories, 0)}
+                    <span className="font-medium">Calories:</span> {formatNumber((nutrition as Record<string, unknown>)?.calories, 0)}
                   </div>
                   <div className="text-xs">
-                    <span className="font-medium">Protein:</span> {formatNumber(nutrition.protein)}g
+                    <span className="font-medium">Protein:</span> {formatNumber((nutrition as Record<string, unknown>)?.protein)}g
                   </div>
                   <div className="text-xs">
-                    <span className="font-medium">Carbs:</span> {formatNumber(nutrition.carbs)}g
+                    <span className="font-medium">Carbs:</span> {formatNumber((nutrition as Record<string, unknown>)?.carbs)}g
                   </div>
                   <div className="text-xs">
-                    <span className="font-medium">Fat:</span> {formatNumber(nutrition.fat)}g
+                    <span className="font-medium">Fat:</span> {formatNumber((nutrition as Record<string, unknown>)?.fat)}g
                   </div>
                 </div>
               </div>

@@ -66,11 +66,12 @@ const CATEGORY_DISPLAY_COUNTS: Record<string, number> = {
 export default function IngredientRecommender() {
   // Use the context to get astrological data including chakra energies
   const astroState = useAstrologicalState();
-  const contextChakraEnergies = (astroState as unknown)?.chakraEnergies;
-  const planetaryPositions = (astroState as unknown)?.planetaryPositions;
-  const astroLoading = (astroState as unknown)?.isLoading || false;
-  const astroError = (astroState as unknown)?.error;
-  const currentZodiac = (astroState as unknown)?.currentZodiac;
+  const astroData = astroState as Record<string, unknown>;
+  const contextChakraEnergies = astroData?.chakraEnergies;
+  const planetaryPositions = astroData?.planetaryPositions;
+  const astroLoading = astroData?.isLoading || false;
+  const astroError = astroData?.error;
+  const currentZodiac = astroData?.currentZodiac;
   const [astroRecommendations, setAstroRecommendations] = useState<GroupedIngredientRecommendations>({});
   // States for selected item and expansion
   const [selectedIngredient, setSelectedIngredient] = useState<IngredientRecommendation | null>(null);
@@ -118,7 +119,7 @@ export default function IngredientRecommender() {
     if (selectedIngredient?.name === item.name) {
       setSelectedIngredient(null);
     } else {
-      setSelectedIngredient(item);
+      setSelectedIngredient(item as IngredientRecommendation);
     }
   };
   
@@ -170,8 +171,8 @@ export default function IngredientRecommender() {
           qualities: ingredient.qualities || [],
           matchScore: 1.0, // Perfect match for search results
           description: `${ingredient.name} - Rich culinary ingredient with detailed information`,
-          // Add additional properties for compatibility
-          modality: ingredient.modality || 'Mutable',
+          // Add additional properties for compatibility  
+          modality: (ingredient as Record<string, unknown>)?.modality || 'Mutable',
           recommendations: [`Perfect match for "${query}"`],
           totalScore: 1.0,
           elementalScore: 0.8,
@@ -220,8 +221,9 @@ export default function IngredientRecommender() {
       // Determine current planetary day and hour
       const now = new Date();
       // Extract planetary day and hour from context if available
-      const planetaryDay = planetaryPositions?.planetaryDay?.planet || 'Sun';
-      const planetaryHour = planetaryPositions?.planetaryHour?.planet || 'Sun';
+      const planetaryData = planetaryPositions as Record<string, unknown>;
+      const planetaryDay = (planetaryData?.planetaryDay as Record<string, unknown>)?.planet || 'Sun';
+      const planetaryHour = (planetaryData?.planetaryHour as Record<string, unknown>)?.planet || 'Sun';
       const _isDaytime = now.getHours() >= 6 && now.getHours() < 18;
       
       // Create an object with astrological state data
@@ -250,7 +252,7 @@ export default function IngredientRecommender() {
         ...astroState,
         lunarPhase: 'new moon',
         aspects: []
-      } as unknown, { limit: 40 });
+      } as ElementalProperties & { timestamp: Date; currentStability: number; planetaryAlignment: Record<string, { sign: string; degree: number; }>; zodiacSign: string; activePlanets: string[]; lunarPhase: string; aspects: { type: string; planets: string[]; strength: number; }[]; }, { limit: 40 });
       
       // Merge the recommendations, prioritizing chakra-based ones
       const mergedRecommendations: GroupedIngredientRecommendations = {};
@@ -321,23 +323,23 @@ export default function IngredientRecommender() {
   // Helper function to check if an ingredient is a vinegar
   const isVinegar = (ingredient: unknown): boolean => {
     // Extract ingredient data with safe property access
-    const ingredientData = ingredient as unknown;
-    const category = ingredientData?.category?.toLowerCase() || '';
+    const ingredientData = ingredient as Record<string, unknown>;
+    const category = String(ingredientData?.category || '').toLowerCase();
     if (category === 'vinegar' || category === 'vinegars') return true;
     
-    const name = ingredientData?.name?.toLowerCase() || '';
+    const name = String(ingredientData?.name || '').toLowerCase();
     return vinegarTypes.some(vinegar => name.includes(vinegar.toLowerCase()));
   };
   
   // Helper function to get normalized category
   const getNormalizedCategory = (ingredient: unknown): string => {
     // Extract ingredient data with safe property access
-    const ingredientData = ingredient as unknown;
+    const ingredientData = ingredient as Record<string, unknown>;
     const categoryProperty = ingredientData?.category;
     
     if (!categoryProperty) return 'other';
     
-    const category = categoryProperty.toLowerCase();
+    const category = String(categoryProperty).toLowerCase();
     
     // Map categories to our standard ones
     if (['vegetable', 'vegetables'].includes(category)) return 'vegetables';
@@ -900,7 +902,7 @@ export default function IngredientRecommender() {
                         {isSelected && (
                           <div className={styles.expandedView}>
                             <IngredientCard 
-                              ingredient={item}
+                              ingredient={item as Record<string, unknown>}
                               initiallyExpanded={true}
                               emphasizeCulinary={true}
                               onClick={() => {}}
@@ -1130,7 +1132,7 @@ export default function IngredientRecommender() {
                         {isSelected && (
                           <div className={styles.expandedView}>
                             <IngredientCard 
-                              ingredient={item}
+                              ingredient={item as Record<string, unknown>}
                               initiallyExpanded={true}
                               emphasizeCulinary={true}
                               onClick={() => {}} // Prevent re-triggering selection

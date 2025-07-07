@@ -51,7 +51,7 @@ function getRecommendations(
   };
   
   // Use the proper utility function with the actual data
-  return getIngredientRecommendations(astroStateData as unknown, _options);
+  return getIngredientRecommendations(astroStateData as ElementalProperties & { timestamp: Date; currentStability: number; planetaryAlignment: Record<string, { sign: string; degree: number; }>; zodiacSign: string; activePlanets: string[]; lunarPhase: string; aspects: { type: string; planets: string[]; strength: number; }[]; }, _options);
 }
 
 interface IngredientRecommendationsProps {
@@ -205,18 +205,22 @@ export default function IngredientRecommendations({
         {/* Flavor Profile */}
         <div className="flavor-profile">
           <h4>Flavor Profile</h4>
-          {(ingredient as unknown)?.sensoryProfile && (
-            <div className={styles.sensoryHighlights}>
-              {Object.entries((ingredient as unknown)?.sensoryProfile?.taste || {})
-                .filter(([_, value]) => (value as number) > 0.6)
-                .slice(0, 3)
-                .map(([type, value]) => (
-                  <span key={type} className={styles.flavorTag}>
-                    {type}: {Math.round((value as number) * 100)}%
-                  </span>
-                ))}
-            </div>
-          )}
+          {(() => {
+            const ingredientData = ingredient as Record<string, unknown>;
+            const sensoryProfile = ingredientData?.sensoryProfile;
+            return sensoryProfile ? (
+              <div className={styles.sensoryHighlights}>
+                {Object.entries((sensoryProfile as Record<string, unknown>)?.taste || {})
+                  .filter(([_, value]) => (value as number) > 0.6)
+                  .slice(0, 3)
+                  .map(([type, value]) => (
+                    <span key={type} className={styles.flavorTag}>
+                      {type}: {Math.round((value as number) * 100)}%
+                    </span>
+                  ))}
+              </div>
+            ) : null;
+          })()}
         </div>
         
         {/* Alchemical Properties - using calculated values */}
@@ -282,8 +286,8 @@ export default function IngredientRecommendations({
     };
     
     // Format the match percentage from score with enhanced safety
-    const matchPercentage = score !== undefined && !isNaN(score)
-      ? `${Math.round(score * 100)}%`
+    const matchPercentage = score !== undefined && !isNaN(Number(score))
+      ? `${Math.round(Number(score) * 100)}%`
       : '50%';
     
     // Get dominant element for styling

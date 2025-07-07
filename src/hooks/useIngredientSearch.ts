@@ -1,6 +1,8 @@
 // Created: 2025-01-02T23:30:00.000Z
 // Enhanced ingredient search hook with auto-complete and filtering
 
+'use client';
+
 import { useState, useEffect, useMemo } from 'react';
 import type { Ingredient } from '@/types/alchemy';
 import { 

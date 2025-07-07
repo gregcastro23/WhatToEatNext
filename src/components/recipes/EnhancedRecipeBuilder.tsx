@@ -1,6 +1,8 @@
 // Created: 2025-01-02T23:35:00.000Z
 // Enhanced Recipe Builder with ingredient mapping, auto-complete, drag-and-drop, and validation
 
+'use client';
+
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { 
   Box, 
@@ -42,12 +44,7 @@ import {
   Collapse
 } from '@mui/material';
 
-import {
-  DragDropContext,
-  Droppable,
-  Draggable,
-  DropResult
-} from 'react-beautiful-dnd';
+// Drag and drop functionality simplified for better compatibility
 
 import { 
   Add as AddIcon,
@@ -95,6 +92,8 @@ import {
   type MonicaOptimizedRecipe 
 } from '@/data/unified/recipeBuilding';
 import IngredientsStep from './steps/IngredientsStep';
+import BasicInfoStep from './steps/BasicInfoStep';
+import LivePreviewSidebar from './steps/LivePreviewSidebar';
 
 // Enhanced Recipe Builder Interfaces
 interface RecipeBuilderStep {
@@ -318,13 +317,11 @@ export default function EnhancedRecipeBuilder() {
     }));
   }, []);
 
-  // Drag and Drop for Ingredients
-  const handleIngredientDragEnd = useCallback((result: DropResult) => {
-    if (!result.destination) return;
-    
+  // Reorder ingredients (simplified drag and drop)
+  const handleIngredientDragEnd = useCallback((fromIndex: number, toIndex: number) => {
     const items = Array.from(state.selectedIngredients);
-    const [reorderedItem] = items.splice(result.source.index, 1);
-    items.splice(result.destination.index, 0, reorderedItem);
+    const [reorderedItem] = items.splice(fromIndex, 1);
+    items.splice(toIndex, 0, reorderedItem);
     
     setState(prev => ({
       ...prev,
@@ -367,13 +364,11 @@ export default function EnhancedRecipeBuilder() {
     }));
   }, []);
 
-  // Drag and Drop for Instructions
-  const handleInstructionDragEnd = useCallback((result: DropResult) => {
-    if (!result.destination) return;
-    
+  // Reorder instructions (simplified drag and drop)
+  const handleInstructionDragEnd = useCallback((fromIndex: number, toIndex: number) => {
     const items = Array.from(state.instructions);
-    const [reorderedItem] = items.splice(result.source.index, 1);
-    items.splice(result.destination.index, 0, reorderedItem);
+    const [reorderedItem] = items.splice(fromIndex, 1);
+    items.splice(toIndex, 0, reorderedItem);
     
     // Update step numbers
     const reorderedItems = items.map((item, index) => ({
@@ -739,9 +734,7 @@ export default function EnhancedRecipeBuilder() {
 // Step Components will be defined in separate files for better organization
 // For now, we'll create placeholder components
 
-const BasicInfoStep = ({ state, setState, onComplete }: any) => (
-  <div>Basic Info Step - To be implemented</div>
-);
+// BasicInfoStep component is now imported from separate file
 
 // IngredientsStep component is now imported from separate file
 
@@ -761,6 +754,4 @@ const ReviewStep = ({ state, generatedRecipe, isGenerating, onGenerate, onComple
   <div>Review Step - To be implemented</div>
 );
 
-const LivePreviewSidebar = ({ state, validationResult, generatedRecipe }: any) => (
-  <div>Live Preview Sidebar - To be implemented</div>
-); 
+// LivePreviewSidebar component is now imported from separate file 

@@ -1,6 +1,8 @@
 // Created: 2025-01-02T23:40:00.000Z
 // Ingredients Step with auto-complete search and drag-and-drop
 
+'use client';
+
 import React, { useState, useMemo } from 'react';
 import {
   Box,
@@ -30,12 +32,7 @@ import {
   CircularProgress
 } from '@mui/material';
 
-import {
-  DragDropContext,
-  Droppable,
-  Draggable,
-  DropResult
-} from 'react-beautiful-dnd';
+// Drag and drop functionality will be implemented with native HTML5 API
 
 import {
   Add as AddIcon,
@@ -92,7 +89,7 @@ interface IngredientsStepProps {
   onSelect: (ingredient: Ingredient) => void;
   onRemove: (ingredientId: string) => void;
   onUpdate: (ingredientId: string, updates: Partial<SelectedIngredient>) => void;
-  onDragEnd: (result: DropResult) => void;
+  onDragEnd: (fromIndex: number, toIndex: number) => void;
   onComplete: () => void;
 }
 
@@ -169,33 +166,43 @@ export default function IngredientsStep({
 
   // Render ingredient card
   const renderIngredientCard = (ingredient: SelectedIngredient, index: number) => (
-    <Draggable key={ingredient.id} draggableId={ingredient.id} index={index}>
-      {(provided, snapshot) => (
-        <Card
-          ref={provided.innerRef}
-          {...provided.draggableProps}
-          sx={{
-            mb: 2,
-            opacity: snapshot.isDragging ? 0.8 : 1,
-            transform: snapshot.isDragging ? 'rotate(5deg)' : 'none',
-            transition: 'all 0.2s ease'
-          }}
-        >
-          <CardContent sx={{ pb: '16px !important' }}>
-            <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
-              {/* Drag Handle */}
-              <Box
-                {...provided.dragHandleProps}
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  color: 'text.secondary',
-                  cursor: 'grab',
-                  '&:active': { cursor: 'grabbing' }
-                }}
-              >
-                <DragIcon />
-              </Box>
+    <Card
+      key={ingredient.id}
+      sx={{
+        mb: 2,
+        transition: 'all 0.2s ease',
+        '&:hover': {
+          transform: 'translateY(-2px)',
+          boxShadow: 2
+        }
+      }}
+    >
+      <CardContent sx={{ pb: '16px !important' }}>
+        <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
+          {/* Move Up/Down Controls */}
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              color: 'text.secondary'
+            }}
+          >
+            <IconButton
+              size="small"
+              onClick={() => index > 0 && onDragEnd(index, index - 1)}
+              disabled={index === 0}
+            >
+              <DragIcon style={{ transform: 'rotate(-90deg)' }} />
+            </IconButton>
+            <IconButton
+              size="small"
+              onClick={() => index < state.selectedIngredients.length - 1 && onDragEnd(index, index + 1)}
+              disabled={index === state.selectedIngredients.length - 1}
+            >
+              <DragIcon style={{ transform: 'rotate(90deg)' }} />
+            </IconButton>
+          </Box>
 
               {/* Ingredient Info */}
               <Box sx={{ flex: 1 }}>
@@ -323,11 +330,9 @@ export default function IngredientsStep({
                   </Collapse>
                 </Box>
               </Box>
-            </Box>
-          </CardContent>
-        </Card>
-      )}
-    </Draggable>
+                      </Box>
+        </CardContent>
+      </Card>
   );
 
   // Render search result
@@ -544,21 +549,11 @@ export default function IngredientsStep({
                   </Typography>
                 </Paper>
               ) : (
-                <DragDropContext onDragEnd={onDragEnd}>
-                  <Droppable droppableId="ingredients">
-                    {(provided) => (
-                      <Box
-                        {...provided.droppableProps}
-                        ref={provided.innerRef}
-                      >
-                        {state.selectedIngredients.map((ingredient, index) =>
-                          renderIngredientCard(ingredient, index)
-                        )}
-                        {provided.placeholder}
-                      </Box>
-                    )}
-                  </Droppable>
-                </DragDropContext>
+                <Box>
+                  {state.selectedIngredients.map((ingredient, index) =>
+                    renderIngredientCard(ingredient, index)
+                  )}
+                </Box>
               )}
             </CardContent>
           </Card>

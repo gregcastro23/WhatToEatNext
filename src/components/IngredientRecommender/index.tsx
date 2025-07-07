@@ -60,11 +60,12 @@ const ORDERED_CATEGORIES = [
 export default function IngredientRecommender() {
   // Use the context to get astrological data including chakra energies
   const astroState = useAstrologicalState();
-  const contextChakraEnergies = (astroState as unknown)?.chakraEnergies;
-  const planetaryPositions = (astroState as unknown)?.planetaryPositions;
-  const astroLoading = (astroState as unknown)?.isLoading || false;
-  const astroError = (astroState as unknown)?.error;
-  const currentZodiac = (astroState as unknown)?.currentZodiac;
+  const astroData = astroState as Record<string, unknown>;
+  const contextChakraEnergies = astroData?.chakraEnergies;
+  const planetaryPositions = astroData?.planetaryPositions;
+  const astroLoading = astroData?.isLoading || false;
+  const astroError = astroData?.error;
+  const currentZodiac = astroData?.currentZodiac;
   const [astroRecommendations, setAstroRecommendations] = useState<GroupedIngredientRecommendations>({});
   const [selectedIngredient, setSelectedIngredient] = useState<ExtendedIngredientRecommendation | null>(null);
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
@@ -296,7 +297,7 @@ export default function IngredientRecommender() {
   // Improved: Ensure all ingredients are categorized properly
   const categorizeIngredient = (ingredient: Record<string, unknown>): string => {
     // Normalize the name for consistent checking
-    const name = ingredient.name.toLowerCase().trim();
+    const name = String(ingredient.name || '').toLowerCase().trim();
     
     // First check for explicit category
     if (ingredient.category) {
@@ -987,7 +988,7 @@ export default function IngredientRecommender() {
               gap: '0.75rem'
             }}>
               {Object.entries((item as ExtendedIngredientRecommendation).culinaryApplications || {}).map(([method, details]) => {
-                const detailsData = details as unknown;
+                const detailsData = details as Record<string, unknown>;
                 return (
                   <div key={method} style={{
                     border: '1px solid rgba(229, 231, 235, 0.8)',
@@ -1003,24 +1004,30 @@ export default function IngredientRecommender() {
                     }}>
                       {method.charAt(0).toUpperCase() + method.slice(1)}
                     </div>
-                    {detailsData?.notes && Array.isArray(detailsData.notes) && detailsData.notes.length > 0 && (
-                      <div style={{ 
-                        fontSize: '0.85rem', 
-                        color: '#4b5563',
-                        lineHeight: '1.4' 
-                      }}>
-                        {detailsData.notes[0]}
-                      </div>
-                    )}
-                    {detailsData?.techniques && Array.isArray(detailsData.techniques) && detailsData.techniques.length > 0 && (
-                      <div style={{ 
-                        fontSize: '0.8rem', 
-                        color: '#6b7280',
-                        marginTop: '0.5rem' 
-                      }}>
-                        <strong>Techniques:</strong> {detailsData.techniques.join(', ')}
-                      </div>
-                    )}
+                    {(() => {
+                      const notes = detailsData?.notes;
+                      return Array.isArray(notes) && notes.length > 0 ? (
+                        <div style={{ 
+                          fontSize: '0.85rem', 
+                          color: '#4b5563',
+                          lineHeight: '1.4' 
+                        }}>
+                          {notes[0]}
+                        </div>
+                      ) : null;
+                    })()}
+                    {(() => {
+                      const techniques = detailsData?.techniques;
+                      return Array.isArray(techniques) && techniques.length > 0 ? (
+                        <div style={{ 
+                          fontSize: '0.8rem', 
+                          color: '#6b7280',
+                          marginTop: '0.5rem' 
+                        }}>
+                          <strong>Techniques:</strong> {techniques.join(', ')}
+                        </div>
+                      ) : null;
+                    })()}
                   </div>
                 );
               })}
@@ -1040,8 +1047,10 @@ export default function IngredientRecommender() {
               gap: '0.5rem',
               fontSize: '0.85rem'
             }}>
-              {Array.isArray((item as ExtendedIngredientRecommendation).pairings) 
-                ? ((item as ExtendedIngredientRecommendation).pairings as string[]).slice(0, 10).map(pairing => (
+              {(() => {
+                const pairings = (item as ExtendedIngredientRecommendation).pairings;
+                if (Array.isArray(pairings)) {
+                  return pairings.slice(0, 10).map(pairing => (
                     <span key={pairing} style={{ 
                       backgroundColor: 'rgba(167, 139, 250, 0.1)',
                       padding: '0.35rem 0.65rem',
@@ -1052,8 +1061,9 @@ export default function IngredientRecommender() {
                     }}>
                       {pairing}
                     </span>
-                  ))
-                : Object.keys((item as ExtendedIngredientRecommendation).pairings as Record<string, any> || {}).slice(0, 10).map(pairing => (
+                  ));
+                } else if (pairings && typeof pairings === 'object') {
+                  return Object.keys(pairings).slice(0, 10).map(pairing => (
                     <span key={pairing} style={{ 
                       backgroundColor: 'rgba(167, 139, 250, 0.1)',
                       padding: '0.35rem 0.65rem',
@@ -1064,8 +1074,10 @@ export default function IngredientRecommender() {
                     }}>
                       {pairing}
                     </span>
-                  ))
-              }
+                  ));
+                }
+                return null;
+              })()}
             </div>
           </div>
         )}
@@ -1119,25 +1131,33 @@ export default function IngredientRecommender() {
               padding: '0.75rem 1rem',
               border: '1px solid rgba(229, 231, 235, 0.8)'
             }}>
-              {item.astrologicalProfile.rulingPlanets && (
-                <div style={{ fontSize: '0.85rem', marginBottom: '0.5rem', display: 'flex', alignItems: 'center' }}>
-                  <span style={{ fontWeight: '600', width: '140px', color: '#4b5563' }}>Planetary influence: </span>
-                  <span style={{ fontWeight: '500', color: '#1f2937' }}>
-                    {item.astrologicalProfile.rulingPlanets.join(', ')}
-                  </span>
-                </div>
-              )}
+              {(() => {
+                const astroProfile = (item.astrologicalProfile as Record<string, unknown>);
+                const rulingPlanets = astroProfile?.rulingPlanets;
+                return Array.isArray(rulingPlanets) ? (
+                  <div style={{ fontSize: '0.85rem', marginBottom: '0.5rem', display: 'flex', alignItems: 'center' }}>
+                    <span style={{ fontWeight: '600', width: '140px', color: '#4b5563' }}>Planetary influence: </span>
+                    <span style={{ fontWeight: '500', color: '#1f2937' }}>
+                      {rulingPlanets.join(', ')}
+                    </span>
+                  </div>
+                ) : null;
+              })()}
               
-              {item.astrologicalProfile.favorableZodiac && (
-                <div style={{ fontSize: '0.85rem', display: 'flex', alignItems: 'center' }}>
-                  <span style={{ fontWeight: '600', width: '140px', color: '#4b5563' }}>Favorable zodiac: </span>
-                  <span style={{ fontWeight: '500', color: '#1f2937' }}>
-                    {item.astrologicalProfile.favorableZodiac.map(sign => 
-                      sign.charAt(0).toUpperCase() + sign.slice(1)
-                    ).join(', ')}
-                  </span>
-                </div>
-              )}
+              {(() => {
+                const astroProfile = (item.astrologicalProfile as Record<string, unknown>);
+                const favorableZodiac = astroProfile?.favorableZodiac;
+                return Array.isArray(favorableZodiac) ? (
+                  <div style={{ fontSize: '0.85rem', display: 'flex', alignItems: 'center' }}>
+                    <span style={{ fontWeight: '600', width: '140px', color: '#4b5563' }}>Favorable zodiac: </span>
+                    <span style={{ fontWeight: '500', color: '#1f2937' }}>
+                      {favorableZodiac.map(sign => 
+                        String(sign).charAt(0).toUpperCase() + String(sign).slice(1)
+                      ).join(', ')}
+                    </span>
+                  </div>
+                ) : null;
+              })()}
             </div>
           </div>
         )}
