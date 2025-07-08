@@ -1,11 +1,11 @@
 // Enhanced interfaces for Phase 11 - CookingMethods component
-interface CookingMethodComponentProps {
+interface _CookingMethodComponentProps {
   method?: {
     name?: string;
     description?: string;
     element?: string;
     season?: string | string[];
-    astrologicalProfile?: Record<string, any>;
+    astrologicalProfile?: Record<string, unknown>;
     elementalProperties?: {
       Fire?: number;
       Water?: number;
@@ -17,7 +17,7 @@ interface CookingMethodComponentProps {
   selectedMethod?: string;
 }
 
-interface CookingMethodData {
+interface _CookingMethodData {
   id?: string;
   name?: string;
   description?: string;
@@ -31,18 +31,18 @@ interface CookingMethodData {
 import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { useAstrologicalState } from '@/hooks/useAstrologicalState';
 import { 
-  Flame, Droplets, Mountain, Wind, Sparkles, Globe, Clock, 
-  Thermometer, Timer, AlertCircle, CheckCircle2, ChevronDown, ChevronUp, Info
+  _Flame, _Droplets, _Mountain, _Wind, _Sparkles, _Globe, _Clock, 
+  _Thermometer, _Timer, _AlertCircle, _CheckCircle2, ChevronDown, ChevronUp, _Info
 } from 'lucide-react';
 import styles from './CookingMethods.module.css';
-import { RecommendationAdapter } from '@/services/RecommendationAdapter';
-import { ElementalItem, AlchemicalItem } from '@/calculations/alchemicalTransformation';
-import { AlchemicalProperty, ElementalCharacter } from '@/constants/planetaryElements';
-import { planetaryFoodAssociations, _Planet } from '@/constants/planetaryFoodAssociations';
+import { _RecommendationAdapter } from '@/services/RecommendationAdapter';
+import { _ElementalItem, AlchemicalItem } from '@/calculations/alchemicalTransformation';
+import { _AlchemicalProperty, _ElementalCharacter } from '@/constants/planetaryElements';
+import { _planetaryFoodAssociations, _Planet } from '@/constants/planetaryFoodAssociations';
 import type { LunarPhase } from '@/constants/lunarPhases';
-import type { ElementalProperties, ZodiacSign, CookingMethod, BasicThermodynamicProperties } from '@/types/alchemy';
+import type { ElementalProperties, ZodiacSign, _CookingMethod, BasicThermodynamicProperties } from '@/types/alchemy';
 import { COOKING_METHOD_THERMODYNAMICS } from '@/types/alchemy';
-import { getCachedCalculation } from '@/utils/calculationCache';
+import { _getCachedCalculation } from '@/utils/calculationCache';
 import { useCurrentChart } from '@/hooks/useCurrentChart';
 import { testCookingMethodRecommendations } from '../utils/testRecommendations';
 
@@ -61,7 +61,7 @@ import { useTarotContext } from '@/contexts/TarotContext'; // If this exists in 
 
 // Add import for modality type and utils
 import type { Modality } from '@/data/ingredients/types';
-import { determineIngredientModality } from '@/utils/ingredientUtils';
+import { _determineIngredientModality } from '@/utils/ingredientUtils';
 
 // Utility functions for alchemical calculations
 // Simple placeholder implementations if actual implementations aren't accessible
@@ -72,7 +72,7 @@ const alchemize = async (
   elements: ElementalProperties | Record<string, number>,
   astroState: unknown,
   thermodynamics: unknown
-): Promise<any> => {
+): Promise<Record<string, unknown>> => {
   try {
     // Create a simplified birthInfo object
     const birthInfo = {
@@ -93,15 +93,15 @@ const alchemize = async (
     };
 
     // If astroState contains planetary positions, add them to the horoscope
-    if (astroState && (astroState as any)?.planetaryPositions) {
+    if (astroState && (astroState as Record<string, unknown>)?.planetaryPositions) {
       // Convert astroState planetary positions to the format expected by the alchemizer
-      Object.entries((astroState as any)?.planetaryPositions).forEach(([planet, position]: [string, any]) => {
-        if (position && position.sign) {
-          horoscopeDict.tropical.CelestialBodies[planet] = {
-            Sign: { label: position.sign },
+      Object.entries((astroState as Record<string, unknown>)?.planetaryPositions as Record<string, unknown>).forEach(([planet, position]: [string, unknown]) => {
+        if (position && (position as Record<string, unknown>)?.sign) {
+          (horoscopeDict.tropical.CelestialBodies as Record<string, unknown>)[planet] = {
+            Sign: { label: (position as Record<string, unknown>)?.sign },
             ChartPosition: {
               Ecliptic: {
-                ArcDegreesInSign: position.degree || 0
+                ArcDegreesInSign: (position as Record<string, unknown>)?.degree || 0
               }
             }
           };
@@ -117,16 +117,16 @@ const alchemize = async (
       ...alchemicalResult,
       elementalProperties: elements,
       transformedElementalProperties: {
-        Fire: (alchemicalResult as any)?.elementalBalance?.fire || 0,
-        Water: (alchemicalResult as any)?.elementalBalance?.water || 0,
-        Earth: (alchemicalResult as any)?.elementalBalance?.earth || 0,
-        Air: (alchemicalResult as any)?.elementalBalance?.air || 0
+        Fire: (alchemicalResult as Record<string, unknown>)?.elementalBalance?.fire || 0,
+        Water: (alchemicalResult as Record<string, unknown>)?.elementalBalance?.water || 0,
+        Earth: (alchemicalResult as Record<string, unknown>)?.elementalBalance?.earth || 0,
+        Air: (alchemicalResult as Record<string, unknown>)?.elementalBalance?.air || 0
       },
       // Extract thermodynamic properties with safe property access
-      heat: (thermodynamics as any)?.heat || (alchemicalResult as any)?.heat || 0.5,
-      entropy: (thermodynamics as any)?.entropy || (alchemicalResult as any)?.entropy || 0.5,
-      reactivity: (thermodynamics as any)?.reactivity || (alchemicalResult as any)?.reactivity || 0.5,
-      energy: (thermodynamics as any)?.energy || (alchemicalResult as any)?.energy || 0.5
+      heat: (thermodynamics as Record<string, unknown>)?.heat || (alchemicalResult as Record<string, unknown>)?.heat || 0.5,
+      entropy: (thermodynamics as Record<string, unknown>)?.entropy || (alchemicalResult as Record<string, unknown>)?.entropy || 0.5,
+      reactivity: (thermodynamics as Record<string, unknown>)?.reactivity || (alchemicalResult as Record<string, unknown>)?.reactivity || 0.5,
+      energy: (thermodynamics as Record<string, unknown>)?.energy || (alchemicalResult as Record<string, unknown>)?.energy || 0.5
     };
   } catch (error) {
     // console.error('Error in alchemize function:', error);
@@ -135,9 +135,9 @@ const alchemize = async (
       ...elements,
       alchemicalProperties: {},
       transformedElementalProperties: elements,
-      heat: (thermodynamics as any)?.heat || 0.5,
-      entropy: (thermodynamics as any)?.entropy || 0.5,
-      reactivity: (thermodynamics as any)?.reactivity || 0.5,
+      heat: (thermodynamics as Record<string, unknown>)?.heat || 0.5,
+      entropy: (thermodynamics as Record<string, unknown>)?.entropy || 0.5,
+      reactivity: (thermodynamics as Record<string, unknown>)?.reactivity || 0.5,
       energy: 0.5
     };
   }
@@ -147,13 +147,13 @@ const calculateMatchScore = (elements: unknown): number => {
   if (!elements) return 0;
   
   // Extract elements data with safe property access
-  const elementsData = elements as any;
+  const elementsData = elements as Record<string, unknown>;
   
   // More sophisticated calculation that weights the properties differently
   // Heat and reactivity are positive factors, while high entropy is generally a negative factor
-  const heatScore = elementsData?.heat || 0;
-  const entropyScore = 1 - (elementsData?.entropy || 0); // Invert entropy so lower is better
-  const reactivityScore = elementsData?.reactivity || 0;
+  const heatScore = elementsData?.heat as number || 0;
+  const entropyScore = 1 - (elementsData?.entropy as number || 0); // Invert entropy so lower is better
+  const reactivityScore = elementsData?.reactivity as number || 0;
   
   // Calculate weighted average with more weight on heat and reactivity
   const rawScore = (heatScore * 0.4) + (entropyScore * 0.3) + (reactivityScore * 0.3);
@@ -208,7 +208,7 @@ interface ExtendedAlchemicalItem extends AlchemicalItem {
 }
 
 // Define cooking time recommendations by ingredient class
-interface CookingTimeRecommendation {
+interface _CookingTimeRecommendation {
   ingredientClass: string;
   timeRange: string;
   tips: string;
@@ -227,14 +227,14 @@ interface MolecularGastronomyDetails {
 // Define the types if needed
 
 // Add these methods if they're missing from your COOKING_METHOD_THERMODYNAMICS constant
-const ADDITIONAL_THERMODYNAMICS = Object.entries(allCookingMethods)
+const _ADDITIONAL_THERMODYNAMICS = Object.entries(allCookingMethods)
   .reduce((acc, [methodName, methodData]) => {
     // Extract method data with safe property access
-    const methodDataObj = methodData as any;
+    const methodDataObj = methodData as Record<string, unknown>;
     const thermodynamicProperties = methodDataObj?.thermodynamicProperties;
     
     if (methodData && thermodynamicProperties) {
-      acc[methodName] = thermodynamicProperties;
+      acc[methodName] = thermodynamicProperties as ThermodynamicProperties;
     }
     return acc;
   }, {} as Record<string, ThermodynamicProperties>);
@@ -242,7 +242,7 @@ const ADDITIONAL_THERMODYNAMICS = Object.entries(allCookingMethods)
 // Merge with your existing COOKING_METHOD_THERMODYNAMICS constant
 
 // Add this utility function to provide fallback information for any method
-const generateMethodInfo = (methodName: string): {
+const _generateMethodInfo = (methodName: string): {
   description: string;
   technicalTips: string[];
   idealIngredients: string[];
@@ -382,7 +382,7 @@ const LUNAR_PHASE_DISPLAY: Record<LunarPhase, string> = {
 };
 
 // Function to safely convert any lunar phase string to the correct type
-const normalizeLunarPhase = (phase: string | null | undefined): LunarPhase | undefined => {
+const _normalizeLunarPhase = (phase: string | null | undefined): LunarPhase | undefined => {
   if (!phase) return undefined;
   
   // If it's already a valid LunarPhase, return it
@@ -391,30 +391,30 @@ const normalizeLunarPhase = (phase: string | null | undefined): LunarPhase | und
   }
   
   // Try to convert by looking for matching patterns
-  const phaseLower = (phase as any)?.toLowerCase?.();
+  const phaseLower = (phase as string)?.toLowerCase?.();
   
-  if ((phaseLower as any)?.includes?.('full') && (phaseLower as any)?.includes?.('moon')) {
+  if ((phaseLower as string)?.includes?.('full') && (phaseLower as string)?.includes?.('moon')) {
     return 'FULL_MOON';
   }
-  if ((phaseLower as any)?.includes?.('new') && (phaseLower as any)?.includes?.('moon')) {
+  if ((phaseLower as string)?.includes?.('new') && (phaseLower as string)?.includes?.('moon')) {
     return 'NEW_MOON';
   }
-  if ((phaseLower as any)?.includes?.('waxing') && (phaseLower as any)?.includes?.('crescent')) {
+  if ((phaseLower as string)?.includes?.('waxing') && (phaseLower as string)?.includes?.('crescent')) {
     return 'WAXING_CRESCENT';
   }
-  if ((phaseLower as any)?.includes?.('first') && (phaseLower as any)?.includes?.('quarter')) {
+  if ((phaseLower as string)?.includes?.('first') && (phaseLower as string)?.includes?.('quarter')) {
     return 'FIRST_QUARTER';
   }
-  if ((phaseLower as any)?.includes?.('waxing') && (phaseLower as any)?.includes?.('gibbous')) {
+  if ((phaseLower as string)?.includes?.('waxing') && (phaseLower as string)?.includes?.('gibbous')) {
     return 'WAXING_GIBBOUS';
   }
-  if ((phaseLower as any)?.includes?.('waning') && (phaseLower as any)?.includes?.('gibbous')) {
+  if ((phaseLower as string)?.includes?.('waning') && (phaseLower as string)?.includes?.('gibbous')) {
     return 'WANING_GIBBOUS';
   }
-  if ((phaseLower as any)?.includes?.('last') && (phaseLower as any)?.includes?.('quarter')) {
+  if ((phaseLower as string)?.includes?.('last') && (phaseLower as string)?.includes?.('quarter')) {
     return 'LAST_QUARTER';
   }
-  if ((phaseLower as any)?.includes?.('waning') && (phaseLower as any)?.includes?.('crescent')) {
+  if ((phaseLower as string)?.includes?.('waning') && (phaseLower as string)?.includes?.('crescent')) {
     return 'WANING_CRESCENT';
   }
   
@@ -422,7 +422,7 @@ const normalizeLunarPhase = (phase: string | null | undefined): LunarPhase | und
 };
 
 // Helper for adapting between LunarPhase types
-const adaptLunarPhase = (phase: LunarPhase | undefined): unknown => {
+const _adaptLunarPhase = (phase: LunarPhase | undefined): unknown => {
   if (!phase) return undefined;
   // Convert from our uppercase format to the format expected by the API
   // This part needs to be adjusted based on what the external functions expect
@@ -433,7 +433,7 @@ const adaptLunarPhase = (phase: LunarPhase | undefined): unknown => {
 // Missing function definitions for CookingMethods component
 function getIdealIngredients(method: Record<string, unknown>): string[] {
   // Placeholder implementation
-  return (method as any)?.idealIngredients || [];
+  return (method as Record<string, unknown>)?.idealIngredients as string[] || [];
 }
 
 function determineMatchReason(method: Record<string, unknown>, zodiacSign?: Record<string, unknown>, lunarPhase?: Record<string, unknown>): string {
@@ -452,12 +452,12 @@ function determineMatchReason(method: Record<string, unknown>, zodiacSign?: Reco
   }
   
   // Check astrological factors
-  if (zodiacSign && (method as any)?.astrologicalInfluences?.favorableZodiac?.includes(zodiacSign)) {
+  if (zodiacSign && (method as Record<string, unknown>)?.astrologicalInfluences?.favorableZodiac?.includes(zodiacSign as string)) {
     reasons.push(`Favorable for ${zodiacSign}`);
   }
   
-  if (lunarPhase && (method as any)?.astrologicalInfluences?.lunarPhaseEffect?.[lunarPhase]) {
-    const effect = (method as any).astrologicalInfluences.lunarPhaseEffect[lunarPhase];
+  if (lunarPhase && (method as Record<string, unknown>)?.astrologicalInfluences?.lunarPhaseEffect?.[lunarPhase as string]) {
+    const effect = (method as Record<string, unknown>)?.astrologicalInfluences?.lunarPhaseEffect?.[lunarPhase as string] as number;
     if (effect > 1) {
       reasons.push(`Enhanced by ${lunarPhase} moon`);
     }
@@ -465,7 +465,7 @@ function determineMatchReason(method: Record<string, unknown>, zodiacSign?: Reco
   
   // Check thermodynamic properties
   if (method?.thermodynamicProperties) {
-    const { heat, entropy, reactivity } = (method as any).thermodynamicProperties || {};
+    const { heat, entropy, reactivity } = (method as Record<string, unknown>)?.thermodynamicProperties as Record<string, number> || {};
     if (heat > 0.7) reasons.push('High energy transformation');
     if (entropy < 0.3) reasons.push('Stable cooking process');
     if (reactivity > 0.6) reasons.push('Dynamic flavor development');
@@ -492,7 +492,7 @@ export default function CookingMethods() {
   const renderCount = useRef(0);
   // Use ref for tracking component mounted state
   const isMountedRef = useRef(false);
-  const [isMounted, setIsMounted] = useState(false);
+  const [_isMounted, setIsMounted] = useState(false);
   
   // Increment render count on each render for debugging
   useEffect(() => {
@@ -511,11 +511,11 @@ export default function CookingMethods() {
       isMountedRef.current = false;
       setIsMounted(false);
     };
-  }, []);
+  }, [fetchMethods]);
   
   // Get astrological state
   const {
-    isReady,
+    _isReady,
     currentZodiac,
     currentPlanetaryAlignment,
     lunarPhase,
@@ -544,15 +544,18 @@ export default function CookingMethods() {
     };
   };
   
-  const methodToThermodynamics = (method: unknown): BasicThermodynamicProperties => {
-    const methodName = (method as any)?.(name as any)?.toLowerCase?.();
-    
+  // Use the local ExtendedAlchemicalItem interface defined above
+  const methodToThermodynamics = (method: ExtendedAlchemicalItem): BasicThermodynamicProperties => {
+    const methodName = method?.name?.toLowerCase?.();
     // Check if the method has direct thermodynamic properties
-    if (method && typeof method === 'object' && 'heat' in method && 'entropy' in method && 'reactivity' in method) {
-      const methodObj = method as Record<string, unknown>;
-      const heat = (methodObj.heat as number) || 0.5;
-      const entropy = (methodObj.entropy as number) || 0.5;
-      const reactivity = (methodObj.reactivity as number) || 0.5;
+    if (
+      typeof method.heat === 'number' &&
+      typeof method.entropy === 'number' &&
+      typeof method.reactivity === 'number'
+    ) {
+      const heat = method.heat || 0.5;
+      const entropy = method.entropy || 0.5;
+      const reactivity = method.reactivity || 0.5;
       return {
         heat,
         entropy,
@@ -560,26 +563,23 @@ export default function CookingMethods() {
         gregsEnergy: heat - (entropy * reactivity)
       };
     }
-    
     // Look for the method in the COOKING_METHOD_THERMODYNAMICS constant
     for (const knownMethod of Object.keys(COOKING_METHOD_THERMODYNAMICS)) {
-      if ((methodName as any)?.includes?.(knownMethod)) {
-        return COOKING_METHOD_THERMODYNAMICS[knownMethod as keyof typeof COOKING_METHOD_THERMODYNAMICS];
+      if (methodName?.includes?.(knownMethod)) {
+        return COOKING_METHOD_THERMODYNAMICS[knownMethod];
       }
     }
-    
     // Fallback values based on method characteristics
-    if ((methodName as any)?.includes?.('grill') || (methodName as any)?.includes?.('roast') || (methodName as any)?.includes?.('fry')) {
+    if (methodName?.includes?.('grill') || methodName?.includes?.('roast') || methodName?.includes?.('fry')) {
       const heat = 0.8, entropy = 0.6, reactivity = 0.7;
       return { heat, entropy, reactivity, gregsEnergy: heat - (entropy * reactivity) }; // High heat methods
-    } else if ((methodName as any)?.includes?.('steam') || (methodName as any)?.includes?.('simmer') || (methodName as any)?.includes?.('poach')) {
+    } else if (methodName?.includes?.('steam') || methodName?.includes?.('simmer') || methodName?.includes?.('poach')) {
       const heat = 0.4, entropy = 0.3, reactivity = 0.5;
       return { heat, entropy, reactivity, gregsEnergy: heat - (entropy * reactivity) }; // Medium heat methods
-    } else if ((methodName as any)?.includes?.('raw') || (methodName as any)?.includes?.('ferment') || (methodName as any)?.includes?.('pickle')) {
+    } else if (methodName?.includes?.('raw') || methodName?.includes?.('ferment') || methodName?.includes?.('pickle')) {
       const heat = 0.1, entropy = 0.5, reactivity = 0.4;
       return { heat, entropy, reactivity, gregsEnergy: heat - (entropy * reactivity) }; // No/low heat methods
     }
-    
     // Default values
     const heat = 0.5, entropy = 0.5, reactivity = 0.5;
     return { heat, entropy, reactivity, gregsEnergy: heat - (entropy * reactivity) };
@@ -750,13 +750,13 @@ export default function CookingMethods() {
     
     // Fall back to direct property if exists
     if (property in method) {
-      return method[property as keyof typeof method] as number || 0;
+      return (method as any)[property] as number || 0;
     }
     
     // Check COOKING_METHOD_THERMODYNAMICS constant
     const methodName = (method as any)?.name?.toLowerCase?.();
-    if (COOKING_METHOD_THERMODYNAMICS && methodName && COOKING_METHOD_THERMODYNAMICS[methodName as keyof typeof COOKING_METHOD_THERMODYNAMICS]) {
-      return COOKING_METHOD_THERMODYNAMICS[methodName as keyof typeof COOKING_METHOD_THERMODYNAMICS][property as keyof BasicThermodynamicProperties] || 0;
+    if (COOKING_METHOD_THERMODYNAMICS && methodName && COOKING_METHOD_THERMODYNAMICS[methodName]) {
+      return COOKING_METHOD_THERMODYNAMICS[methodName][property as keyof BasicThermodynamicProperties] || 0;
     }
     
     // Generate values based on method name keywords if no explicit values found
