@@ -1,10 +1,10 @@
 import { 
-  _ElementalProperties, 
+  ElementalProperties, 
   ThermodynamicProperties,
   Season,
-  _PlanetName,
+  PlanetName,
   ZodiacSign,
-  _Element,
+  Element,
   RecipeIngredient
 } from '../types';
 
@@ -172,7 +172,8 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     const result: UnifiedIngredient[] = [];
     
     for (const ingredients of this.ingredientCache.values()) {
-      const matching = (ingredients || []).filter(ing => ing.subcategory?.toLowerCase() === normalizedSubcategory
+      const matching = (ingredients || []).filter(ing => 
+        (ing as UnifiedIngredient)?.subcategory?.toLowerCase?.() === normalizedSubcategory
       );
       
       result?.push(...matching);
@@ -277,8 +278,8 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     return (allIngredients || []).filter(ingredient => {
       const metrics = this.calculateThermodynamicMetrics(ingredient);
       // Extract thermodynamic metrics with safe property access
-      const metricsData = metrics as unknown;
-      const kalchmValue = metricsData?.kalchm || 0;
+      const metricsData = metrics as Record<string, unknown>;
+      const kalchmValue = (metricsData?.kalchm as number) || 0;
       return kalchmValue > threshold;
     });
   }
@@ -320,7 +321,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
   calculateElementalProperties(ingredient: Partial<UnifiedIngredient>): ElementalProperties {
     // If ingredient already has elemental properties, return them
     if (ingredient.elementalPropertiesState) {
-      return ingredient.elementalPropertiesState;
+      return ingredient.elementalPropertiesState as ElementalProperties;
     }
     
     // Otherwise, use our engine to calculate based on other properties
@@ -342,7 +343,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       
       const similarity = this.calculateFlavorSimilarity(
         flavorProfile,
-        ingredient.flavorProfile
+        ingredient.flavorProfile as { [key: string]: number }
       );
       
       return similarity >= minMatchScore;
@@ -376,10 +377,10 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     return (allIngredients || []).filter(ingredient => {
       if (!ingredient.astrologicalProperties?.planets) return false;
       
-      const planets = ingredient?.astrologicalPropertiesProperties?.planets;
+      const planets = ingredient?.astrologicalProperties?.planets;
       return Array.isArray(planets) 
-        ? planets.includes(planet as unknown as unknown) // ← Pattern HH-1: Safe conversion via unknown
-        : planets === (planet as unknown as unknown); // ← Pattern HH-1: Safe conversion via unknown
+        ? planets.includes(planet as any)
+        : planets === (planet as any);
     });
   }
   
@@ -392,10 +393,10 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     return (allIngredients || []).filter(ingredient => {
       if (!ingredient.astrologicalProperties?.signs) return false;
       
-      const signs = ingredient?.astrologicalPropertiesProperties?.signs;
+      const signs = ingredient?.astrologicalProperties?.signs;
       return Array.isArray(signs) 
-        ? signs.includes(sign as unknown as unknown) // ← Pattern HH-1: Safe conversion via unknown
-        : signs === (sign as unknown as unknown); // ← Pattern HH-1: Safe conversion via unknown
+        ? signs.includes(sign as any)
+        : signs === (sign as any);
     });
   }
   
@@ -408,10 +409,10 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
   ): UnifiedIngredient[] {
     const allIngredients = this.getAllIngredientsFlat();
     // Extract options with safe property access for missing properties
-    const optionsData = options as unknown;
-    const maxResults = optionsData?.maxResults || 10;
-    const optimizeForSeason = optionsData?.optimizeForSeason !== undefined ? optionsData.optimizeForSeason : true;
-    const includeExotic = optionsData?.includeExotic !== undefined ? optionsData.includeExotic : false;
+    const optionsData = options as Record<string, unknown>;
+    const maxResults = (optionsData?.maxResults as number) || 10;
+    const optimizeForSeason = optionsData?.optimizeForSeason !== undefined ? (optionsData.optimizeForSeason as boolean) : true;
+    const includeExotic = optionsData?.includeExotic !== undefined ? (optionsData.includeExotic as boolean) : false;
     
     // Filter out exotic ingredients if not requested
     let candidates = includeExotic 
