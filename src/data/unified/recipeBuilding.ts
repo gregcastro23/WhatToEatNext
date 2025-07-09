@@ -5,46 +5,46 @@
 
 import type { 
   Season, 
-  _Element, 
+  Element, 
   ElementalProperties, 
   ZodiacSign, 
   PlanetName,
   LunarPhase,
-  _CookingMethod,
-  _AlchemicalProperties
+  CookingMethod,
+  AlchemicalProperties
 } from "@/types/alchemy";
 
-import type { _Recipe } from "@/types/recipe";
+import type { Recipe } from "@/types/recipe";
 import { UnifiedIngredient } from '@/types/ingredient';
 import { SeasonalRecommendations, _seasonalAdaptations, _getSeasonalIngredients, _calculateSeasonalBonus } from './seasonal';
 import { unifiedSeasonalSystem } from '@/data/integrations/seasonal';
-import { _PlanetaryAlignment } from "@/types/celestial";
+import { PlanetaryAlignment } from "@/types/celestial";
 import { 
-  _unifiedIngredients, 
-  _getIngredientsByElement,
-  _getIngredientsByCategory,
-  _calculateIngredientCompatibility
+  unifiedIngredients, 
+  getIngredientsByElement,
+  getIngredientsByCategory,
+  calculateIngredientCompatibility
 } from "./ingredients";
 import { 
-  _calculateKalchm, 
-  _calculateMonica, 
-  _performAlchemicalAnalysis
+  calculateKalchm, 
+  calculateMonica, 
+  performAlchemicalAnalysis
 } from './alchemicalCalculations';
 import { 
   getAllEnhancedCookingMethods, 
-  _getMonicaCompatibleCookingMethods,
+  getMonicaCompatibleCookingMethods,
   type EnhancedCookingMethod 
 } from '../../constants/alchemicalPillars';
 
 import { 
   unifiedCuisineIntegrationSystem, 
-  type _CuisineSeasonalAdaptation,
+  type CuisineSeasonalAdaptation,
   type FusionCuisineProfile,
   type CuisineIngredientAnalysis
 } from './cuisineIntegrations';
 import { 
   RecipeEnhancer, 
-  _RecipeAnalyzer,
+  RecipeAnalyzer,
   type EnhancedRecipe 
 } from './recipes';
 

@@ -31,29 +31,29 @@ interface _CookingMethodData {
 import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { useAstrologicalState } from '@/hooks/useAstrologicalState';
 import { 
-  _Flame, _Droplets, _Mountain, _Wind, _Sparkles, _Globe, _Clock, 
-  _Thermometer, _Timer, _AlertCircle, _CheckCircle2, ChevronDown, ChevronUp, _Info
+  Flame, Droplets, Mountain, Wind, Sparkles, Globe, Clock, 
+  Thermometer, Timer, AlertCircle, CheckCircle2, ChevronDown, ChevronUp, Info
 } from 'lucide-react';
 import styles from './CookingMethods.module.css';
-import { _RecommendationAdapter } from '@/services/RecommendationAdapter';
-import { _ElementalItem, AlchemicalItem } from '@/calculations/alchemicalTransformation';
-import { _AlchemicalProperty, _ElementalCharacter } from '@/constants/planetaryElements';
-import { _planetaryFoodAssociations, _Planet } from '@/constants/planetaryFoodAssociations';
+import { RecommendationAdapter } from '@/services/RecommendationAdapter';
+import { ElementalItem, AlchemicalItem } from '@/calculations/alchemicalTransformation';
+import { AlchemicalProperty, ElementalCharacter } from '@/constants/planetaryElements';
+import { planetaryFoodAssociations, Planet } from '@/constants/planetaryFoodAssociations';
 import type { LunarPhase } from '@/constants/lunarPhases';
-import type { ElementalProperties, ZodiacSign, _CookingMethod, BasicThermodynamicProperties } from '@/types/alchemy';
+import type { ElementalProperties, ZodiacSign, CookingMethod, BasicThermodynamicProperties } from '@/types/alchemy';
 import { COOKING_METHOD_THERMODYNAMICS } from '@/types/alchemy';
-import { _getCachedCalculation } from '@/utils/calculationCache';
+import { getCachedCalculation } from '@/utils/calculationCache';
 import { useCurrentChart } from '@/hooks/useCurrentChart';
 import { testCookingMethodRecommendations } from '../utils/testRecommendations';
 
 // Import cooking methods from both traditional and cultural sources
 import { cookingMethods } from '@/data/cooking/cookingMethods';
-import { culturalCookingMethods, _getCulturalVariations } from '@/utils/culturalMethodsAggregator';
+import { culturalCookingMethods, getCulturalVariations } from '@/utils/culturalMethodsAggregator';
 import { allCookingMethods } from '@/data/cooking';
 import { molecularCookingMethods } from '@/data/cooking/molecularMethods';
 
 // Add this import at the top with the other imports
-import { _getCurrentSeason } from '@/data/integrations/seasonal';
+import { getCurrentSeason } from '@/data/integrations/seasonal';
 import { getLunarMultiplier } from '@/utils/lunarMultiplier';
 
 // Add these imports or declarations at the top of the component
@@ -61,7 +61,7 @@ import { useTarotContext } from '@/contexts/TarotContext'; // If this exists in 
 
 // Add import for modality type and utils
 import type { Modality } from '@/data/ingredients/types';
-import { _determineIngredientModality } from '@/utils/ingredientUtils';
+import { determineIngredientModality } from '@/utils/ingredientUtils';
 
 // Utility functions for alchemical calculations
 // Simple placeholder implementations if actual implementations aren't accessible
