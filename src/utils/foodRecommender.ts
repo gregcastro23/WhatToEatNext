@@ -108,7 +108,7 @@ export const getAllIngredients = (): EnhancedIngredient[] => {
       const ingredientData = {
         name,
         category: category.name.toLowerCase(),
-        ...data,
+        ...(data as Record<string, unknown>),
       } as EnhancedIngredient;
       
       // Special tracking for grains and herbs
@@ -671,11 +671,11 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
       let aspectScore = 0.5; // Default neutral score
       if (astroState.aspects && astroState.aspects.length > 0) {
         // Check for specific aspect enhancers in the ingredient data
-        const profileData = profile as unknown;
-        if (profileData?.aspectEnhancers && profileData.aspectEnhancers.length > 0) {
+        const profileData = profile as Record<string, unknown>;
+        if ((profileData?.aspectEnhancers as string[]) && (profileData.aspectEnhancers as string[]).length > 0) {
           const relevantAspects = astroState.aspects.filter(aspect => {
             // Check if this aspect type is specifically listed as an enhancer
-            return profileData.aspectEnhancers?.includes(aspect.type);
+            return (profileData.aspectEnhancers as string[])?.includes(aspect.type);
           });
           
           if (relevantAspects.length > 0) {
@@ -775,9 +775,9 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
       
       // Get user preferences from the state manager if available
       // instead of using a placeholder assumption
-      const astroStateData = astroState as unknown;
-      const userPreferences = astroStateData?.userPreferences || {};
-      const tastePreferences = userPreferences.taste || {
+      const astroStateData = astroState as Record<string, unknown>;
+      const userPreferences = (astroStateData?.userPreferences as Record<string, unknown>) || {};
+      const tastePreferences = (userPreferences.taste as Record<string, number>) || {
         sweet: 0.5,
         salty: 0.5,
         sour: 0.5,
@@ -787,7 +787,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
       };
       
       if (standardized.sensoryProfile) {
-        const sensory = standardized.sensoryProfile as unknown;
+        const sensory = standardized.sensoryProfile as Record<string, unknown>;
         
         // Calculate weighted scores based on user preferences
         if (sensory?.taste) {
@@ -795,7 +795,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
           let weightSum = 0;
           
           // Weight taste dimensions based on user preferences
-          Object.entries(sensory.taste).forEach(([taste, value]) => {
+          Object.entries(sensory.taste as Record<string, number>).forEach(([taste, value]) => {
             const tasteValue = value as number;
             const preference = tastePreferences[taste] || 0.5;
             tasteScore += tasteValue * preference;
@@ -808,9 +808,9 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
           const numericTasteScore = Number(tasteScore) || 0;
           const avgTaste = numericWeightSum > 0 ? numericTasteScore / numericWeightSum : 
                          // Pattern KK-9: Safe reduction for taste values
-                         (Object.values(sensory.taste).map(val => Number(val) || 0)
+                         (Object.values(sensory.taste as Record<string, number>).map(val => Number(val) || 0)
                            .reduce((acc: number, val: number) => acc + val, 0) || 0) / 
-                         (Object.values(sensory.taste).length || 1);
+                         (Object.values(sensory.taste as Record<string, number>).length || 1);
           
           sensoryScore = (sensoryScore + avgTaste) / 2;
         }
@@ -818,9 +818,9 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
         // Factor in aromatic qualities
         if (sensory?.aroma) {
           // Pattern KK-9: Cross-Module Arithmetic Safety for aroma calculations
-          const avgAroma = (Object.values(sensory.aroma).map(val => Number(val) || 0)
+          const avgAroma = (Object.values(sensory.aroma as Record<string, number>).map(val => Number(val) || 0)
                            .reduce((acc: number, val: number) => acc + val, 0) || 0) / 
-                        (Object.values(sensory.aroma).length || 1);
+                        (Object.values(sensory.aroma as Record<string, number>).length || 1);
           const numericSensoryScore = Number(sensoryScore) || 0;
           const numericAvgAroma = Number(avgAroma) || 0;
           sensoryScore = (numericSensoryScore + numericAvgAroma) / 2;
@@ -829,9 +829,9 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
         // Texture is less significant but still a factor
         if (sensory?.texture) {
           // Pattern KK-9: Cross-Module Arithmetic Safety for texture calculations
-          const avgTexture = (Object.values(sensory.texture).map(val => Number(val) || 0)
+          const avgTexture = (Object.values(sensory.texture as Record<string, number>).map(val => Number(val) || 0)
                              .reduce((acc: number, val: number) => acc + val, 0) || 0) / 
-                           (Object.values(sensory.texture).length || 1);
+                           (Object.values(sensory.texture as Record<string, number>).length || 1);
           const numericSensoryScore = Number(sensoryScore) || 0;
           const numericAvgTexture = Number(avgTexture) || 0;
           sensoryScore = (numericSensoryScore * 0.7) + (numericAvgTexture * 0.3);

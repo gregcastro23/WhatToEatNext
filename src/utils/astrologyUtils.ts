@@ -4,7 +4,6 @@ import type {
   AstrologicalState, 
   PlanetaryAlignment, 
   Planet,
-  DignityType,
   LowercaseElementalProperties,
   BasicThermodynamicProperties,
   PlanetaryAspect as ImportedPlanetaryAspect,
@@ -98,7 +97,7 @@ export function getZodiacElement(sign: ZodiacSign): ElementalCharacter {
 }
 
 // Define a replacement getPlanetaryDignity function
-export function getPlanetaryDignity(planet: string, sign: ZodiacSign | undefined): { type: DignityType, strength: number } {
+export function getPlanetaryDignity(planet: string, sign: ZodiacSign | undefined): { type: string, strength: number } {
   return getPlanetaryDignityInfo(planet, sign);
 }
 
@@ -152,7 +151,7 @@ export type PlanetPositionData = {
 }
 
 export interface PlanetaryDignity {
-  type: DignityType;
+  type: string;
   value: number;
   description: string;
 }
@@ -165,14 +164,14 @@ export interface PlanetaryDignity {
 export async function calculateLunarPhase(date: Date = new Date()): Promise<number> {
   try {
     // Get accurate positions
-    const positions = await getAccuratePlanetaryPositions(date);
-    
-    if (!positions.Sun || !positions.Moon) {
-      throw new Error('Sun or Moon position missing');
-    }
-    
-    // Calculate the angular distance between sun and moon
-    let angularDistance = positions.Moon.exactLongitude - positions.Sun.exactLongitude;
+      const positions = await getAccuratePlanetaryPositions(date);
+  
+  if (!positions.Sun || !positions.Moon) {
+    throw new Error('Sun or Moon position missing');
+  }
+  
+  // Calculate the angular distance between sun and moon
+  let angularDistance = (positions.Moon as PlanetPosition).exactLongitude - (positions.Sun as PlanetPosition).exactLongitude;
     
     // Normalize to 0-360 range
     angularDistance = ((angularDistance % 360) + 360) % 360;
@@ -1435,8 +1434,8 @@ export async function getCurrentAstrologicalState(date: Date = new Date()): Prom
       currentPlanetaryAlignment,
       planetaryPositions,
       activePlanets,
-      planetaryHour: planetaryHour as unknown,
-      aspects: aspects as unknown, // Type assertion to avoid compatibility issues
+      planetaryHour: planetaryHour as string,
+      aspects: aspects as PlanetaryAspect[], // Type assertion to avoid compatibility issues
       tarotElementBoosts: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
       tarotPlanetaryBoosts: {}
     };
@@ -1450,12 +1449,12 @@ export async function getCurrentAstrologicalState(date: Date = new Date()): Prom
     return {
       currentZodiac: sunSign,
       zodiacSign: sunSign,
-      lunarPhase: 'new moon',
-      moonPhase: 'new moon',
+      lunarPhase: 'new moon' as LunarPhase,
+      moonPhase: 'new moon' as LunarPhase,
       currentPlanetaryAlignment: {},
       planetaryPositions: defaultPositions,
       activePlanets: [],
-      planetaryHour: 'sun' as unknown,
+      planetaryHour: 'sun' as string,
       aspects: [],
       tarotElementBoosts: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
       tarotPlanetaryBoosts: {}
@@ -1884,7 +1883,7 @@ export const parseAstroChartData = (astroChartData: unknown): Record<string, num
     const data = astroChartData as unknown;
     
     // Process planetary positions
-    if (data?.planets) {
+    if ((data as Record<string, unknown>)?.planets) {
       // Map AstroCharts planet names to our internal format
       const planetMapping: Record<string, string> = {
         'Sun': 'Sun',
@@ -1903,20 +1902,20 @@ export const parseAstroChartData = (astroChartData: unknown): Record<string, num
       };
       
       // Process each planet
-      Object.entries(data.planets).forEach(([planetName, planetData]: [string, any]) => {
+      Object.entries((data as Record<string, unknown>).planets as Record<string, unknown>).forEach(([planetName, planetData]: [string, unknown]) => {
         const internalName = planetMapping[planetName];
-        if (internalName && planetData?.longitude !== undefined) {
+        if (internalName && (planetData as Record<string, unknown>)?.longitude !== undefined) {
           // AstroCharts provides longitude in decimal degrees (0-360)
-          result[internalName] = planetData.longitude;
+          result[internalName] = (planetData as Record<string, number>).longitude;
         }
       });
     }
     
     // Process houses and angles if available
-    if (data?.houses) {
-      const houses = data.houses;
-      result['Ascendant'] = houses[1]?.longitude || 0;
-      result['MC'] = houses[10]?.longitude || 0;
+    if ((data as Record<string, unknown>)?.houses) {
+      const houses = (data as Record<string, unknown>).houses as Record<string, unknown>;
+      result['Ascendant'] = (houses[1] as Record<string, number>)?.longitude || 0;
+      result['MC'] = (houses[10] as Record<string, number>)?.longitude || 0;
     }
     
     return result;
@@ -1949,7 +1948,7 @@ export const parseAstroChartAspects = (astroChartData: unknown): Array<{
     
     const data = astroChartData as unknown;
     
-    if (data?.aspects && Array.isArray(data.aspects)) {
+    if ((data as Record<string, unknown>)?.aspects && Array.isArray((data as Record<string, unknown>).aspects)) {
       // Map aspect types to internal format
       const aspectTypeMapping: Record<string, string> = {
         'conjunction': 'conjunction',
@@ -1966,14 +1965,14 @@ export const parseAstroChartAspects = (astroChartData: unknown): Array<{
       };
       
       // Process each aspect
-      data.aspects.forEach((aspect: unknown) => {
-        const aspectData = aspect as unknown;
+      ((data as Record<string, unknown>).aspects as unknown[]).forEach((aspect: unknown) => {
+        const aspectData = aspect as Record<string, unknown>;
         if (aspectData?.aspectType && aspectData?.planet1 && aspectData?.planet2) {
           aspects.push({
-            type: aspectTypeMapping[aspectData.aspectType] || aspectData.aspectType,
-            planet1: aspectData.planet1,
-            planet2: aspectData.planet2,
-            orb: aspectData.orb || 0,
+            type: aspectTypeMapping[aspectData.aspectType as string] || aspectData.aspectType as string,
+            planet1: aspectData.planet1 as string,
+            planet2: aspectData.planet2 as string,
+            orb: aspectData.orb as number || 0,
             applying: aspectData.applying === true
           });
         }

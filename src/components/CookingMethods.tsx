@@ -112,32 +112,40 @@ const alchemize = async (
     // Use the static alchemize function to get the full result
     const alchemicalResult = staticAlchemize(birthInfo, horoscopeDict);
 
+    // Safe type conversion with proper type guards
+    const alchemicalResultObj = alchemicalResult as Record<string, unknown>;
+    const thermodynamicsObj = thermodynamics as Record<string, unknown>;
+    
+    // Safe property access with type guards
+    const elementalBalance = alchemicalResultObj?.elementalBalance as Record<string, unknown> | undefined;
+    
     // Combine the result with the input elements and thermodynamics
     return {
       ...alchemicalResult,
       elementalProperties: elements,
       transformedElementalProperties: {
-        Fire: (alchemicalResult as Record<string, unknown>)?.elementalBalance?.fire || 0,
-        Water: (alchemicalResult as Record<string, unknown>)?.elementalBalance?.water || 0,
-        Earth: (alchemicalResult as Record<string, unknown>)?.elementalBalance?.earth || 0,
-        Air: (alchemicalResult as Record<string, unknown>)?.elementalBalance?.air || 0
+        Fire: (elementalBalance?.fire as number) || 0,
+        Water: (elementalBalance?.water as number) || 0,
+        Earth: (elementalBalance?.earth as number) || 0,
+        Air: (elementalBalance?.air as number) || 0
       },
       // Extract thermodynamic properties with safe property access
-      heat: (thermodynamics as Record<string, unknown>)?.heat || (alchemicalResult as Record<string, unknown>)?.heat || 0.5,
-      entropy: (thermodynamics as Record<string, unknown>)?.entropy || (alchemicalResult as Record<string, unknown>)?.entropy || 0.5,
-      reactivity: (thermodynamics as Record<string, unknown>)?.reactivity || (alchemicalResult as Record<string, unknown>)?.reactivity || 0.5,
-      energy: (thermodynamics as Record<string, unknown>)?.energy || (alchemicalResult as Record<string, unknown>)?.energy || 0.5
+      heat: (thermodynamicsObj?.heat as number) || (alchemicalResultObj?.heat as number) || 0.5,
+      entropy: (thermodynamicsObj?.entropy as number) || (alchemicalResultObj?.entropy as number) || 0.5,
+      reactivity: (thermodynamicsObj?.reactivity as number) || (alchemicalResultObj?.reactivity as number) || 0.5,
+      energy: (thermodynamicsObj?.energy as number) || (alchemicalResultObj?.energy as number) || 0.5
     };
   } catch (error) {
     // console.error('Error in alchemize function:', error);
     // Fallback to simple implementation if there's an error
+    const thermodynamicsObj = thermodynamics as Record<string, unknown>;
     return {
       ...elements,
       alchemicalProperties: {},
       transformedElementalProperties: elements,
-      heat: (thermodynamics as Record<string, unknown>)?.heat || 0.5,
-      entropy: (thermodynamics as Record<string, unknown>)?.entropy || 0.5,
-      reactivity: (thermodynamics as Record<string, unknown>)?.reactivity || 0.5,
+      heat: (thermodynamicsObj?.heat as number) || 0.5,
+      entropy: (thermodynamicsObj?.entropy as number) || 0.5,
+      reactivity: (thermodynamicsObj?.reactivity as number) || 0.5,
       energy: 0.5
     };
   }
@@ -441,9 +449,10 @@ function determineMatchReason(method: Record<string, unknown>, zodiacSign?: Reco
   const methodName = method?.name || 'Unknown method';
   const reasons = [];
   
-  // Check elemental properties
-  if (method?.elementalEffect) {
-    const dominantElement = Object.entries(method.elementalEffect)
+  // Check elemental properties with safe property access
+  const elementalEffect = method?.elementalEffect as Record<string, unknown> | undefined;
+  if (elementalEffect) {
+    const dominantElement = Object.entries(elementalEffect)
       .reduce((max, [element, value]) => 
         (value as number) > (max.value as number) ? { element, value } : max, 
         { element: 'Fire', value: 0 }
@@ -451,24 +460,33 @@ function determineMatchReason(method: Record<string, unknown>, zodiacSign?: Reco
     reasons.push(`Strong ${dominantElement} element alignment`);
   }
   
-  // Check astrological factors
-  if (zodiacSign && (method as Record<string, unknown>)?.astrologicalInfluences?.favorableZodiac?.includes(zodiacSign as string)) {
-    reasons.push(`Favorable for ${zodiacSign}`);
-  }
+  // Check astrological factors with safe property access
+  const astrologicalInfluences = method?.astrologicalInfluences as Record<string, unknown> | undefined;
+  const zodiacSignStr = zodiacSign as string | undefined;
+  const lunarPhaseStr = lunarPhase as string | undefined;
   
-  if (lunarPhase && (method as Record<string, unknown>)?.astrologicalInfluences?.lunarPhaseEffect?.[lunarPhase as string]) {
-    const effect = (method as Record<string, unknown>)?.astrologicalInfluences?.lunarPhaseEffect?.[lunarPhase as string] as number;
-    if (effect > 1) {
-      reasons.push(`Enhanced by ${lunarPhase} moon`);
+  if (zodiacSignStr && astrologicalInfluences?.favorableZodiac) {
+    const favorableZodiac = astrologicalInfluences.favorableZodiac as string[] | undefined;
+    if (favorableZodiac?.includes(zodiacSignStr)) {
+      reasons.push(`Favorable for ${zodiacSignStr}`);
     }
   }
   
-  // Check thermodynamic properties
-  if (method?.thermodynamicProperties) {
-    const { heat, entropy, reactivity } = (method as Record<string, unknown>)?.thermodynamicProperties as Record<string, number> || {};
-    if (heat > 0.7) reasons.push('High energy transformation');
-    if (entropy < 0.3) reasons.push('Stable cooking process');
-    if (reactivity > 0.6) reasons.push('Dynamic flavor development');
+  if (lunarPhaseStr && astrologicalInfluences?.lunarPhaseEffect) {
+    const lunarPhaseEffect = astrologicalInfluences.lunarPhaseEffect as Record<string, number> | undefined;
+    const effect = lunarPhaseEffect?.[lunarPhaseStr];
+    if (effect && effect > 1) {
+      reasons.push(`Enhanced by ${lunarPhaseStr} moon`);
+    }
+  }
+  
+  // Check thermodynamic properties with safe property access
+  const thermodynamicProperties = method?.thermodynamicProperties as Record<string, number> | undefined;
+  if (thermodynamicProperties) {
+    const { heat, entropy, reactivity } = thermodynamicProperties;
+    if (heat && heat > 0.7) reasons.push('High energy transformation');
+    if (entropy && entropy < 0.3) reasons.push('Stable cooking process');
+    if (reactivity && reactivity > 0.6) reasons.push('Dynamic flavor development');
   }
   
   return reasons.length > 0 
@@ -511,7 +529,7 @@ export default function CookingMethods() {
       isMountedRef.current = false;
       setIsMounted(false);
     };
-  }, [fetchMethods]);
+  }, []); // Remove fetchMethods from dependency array to fix the issue
   
   // Get astrological state
   const {
@@ -605,6 +623,7 @@ export default function CookingMethods() {
   // Add these near the top with other state variables
   const [searchIngredient, setSearchIngredient] = useState<string>('');
   const [ingredientCompatibility, setIngredientCompatibility] = useState<Record<string, number>>({});
+  const [showDebug, setShowDebug] = useState(false);
 
   // Add this function to calculate ingredient compatibility with methods
   const calculateIngredientCompatibility = (ingredient: string) => {

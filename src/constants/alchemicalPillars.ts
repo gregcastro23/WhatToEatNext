@@ -1,4 +1,6 @@
-import { AlchemicalProperty , _Element } from '../types/celestial';
+import { AlchemicalProperty } from '../types/celestial';
+
+type Element = 'Fire' | 'Water' | 'Earth' | 'Air';
 
 /**
  * Interface representing an Alchemical Pillar

@@ -1,18 +1,6 @@
-import {
-  UnifiedIngredient,
-  UnifiedAlchemicalProperties,
-  UnifiedElementalProperties
-} from "./unifiedTypes";
-import {
-  unifiedIngredients,
-  getIngredientByName,
-  getIngredientsByElement
-} from "./ingredients";
+import type { UnifiedIngredient } from "./unifiedTypes";
+import { unifiedIngredients } from "./ingredients";
 import { 
-// ===== ENHANCED UNIFIED INGREDIENTS SYSTEM =====
-// Phase 5 of WhatToEatNext Data Consolidation
-// Integrates with unified flavor profile system and adds comprehensive functionality
-
   _createElementalProperties, 
   _isElementalProperties, 
   calculateElementalCompatibility 
@@ -28,38 +16,11 @@ import type { ElementalProperties,
   LunarPhase,
   Element
 } from "@/types/alchemy";
-import {
-  unifiedFlavorProfileSystem,
-  UnifiedFlavorProfile,
-  calculateFlavorCompatibility
-} from "./flavorProfiles";
-import {
-  seasonalAdaptations,
-  getSeasonalIngredients,
-  calculateSeasonalBonus
-} from "./seasonal";
-import {
-  unifiedCuisineIntegrationSystem,
-  getCuisineCompatibility,
-  analyzeCuisineIngredients
-} from "./cuisineIntegrations";
-import {
-  unifiedNutritionalSystem,
-  calculateNutritionalScore,
-  getNutritionalProfile
-} from "./nutritional";
-
-import type { UnifiedIngredient } from "./unifiedTypes";
 import type { UnifiedFlavorProfile } from "./flavorProfiles";
-
-// Import unified systems
 import { unifiedFlavorProfileSystem } from "./flavorProfiles";
 import { unifiedSeasonalSystem } from "./seasonal";
 import { unifiedCuisineIntegrationSystem } from "./cuisineIntegrations";
 import { unifiedNutritionalSystem } from "./nutritional";
-
-// Import unified ingredients
-import { unifiedIngredients } from "./ingredients";
 
 // Enhanced ingredient interface with flavor profile integration
 export interface EnhancedIngredient {

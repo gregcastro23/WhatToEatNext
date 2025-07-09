@@ -1,4 +1,4 @@
-import type { Recipe } from '@/types/recipe';
+import type { Recipe, ScoredRecipe } from '@/types/recipe';
 import type { ElementalProperties , 
   Element, 
   Season, 
@@ -24,15 +24,61 @@ import type { ElementalProperties ,
 
 import type {
   RecipeSearchCriteria, 
-  RecipeRecommendationOptions,
-  ApiResponse
+  RecipeRecommendationOptions
 } from './interfaces/RecipeServiceInterface';
+
+import type {
+  ApiResponse,
+  SearchRecipesParams,
+  GetRecipesByCuisineParams,
+  GetRecipesByZodiacParams,
+  GetRecipesBySeasonParams,
+  GetRecipesByLunarPhaseParams,
+  GetRecipesByMealTypeParams,
+  GetRecipesForPlanetaryAlignmentParams,
+  GetRecipesForFlavorProfileParams,
+  GetBestRecipeMatchesParams,
+  GetRecipeByIdParams,
+  GenerateRecipeParams,
+  GenerateFusionRecipeParams,
+  AdaptRecipeForSeasonParams
+} from './interfaces/RecipeApiInterfaces';
 
 // Missing service imports
 import type { RecipeServiceInterface } from './interfaces/RecipeServiceInterface';
 import { ConsolidatedRecipeService } from './ConsolidatedRecipeService';
 import { errorHandler } from '@/utils/errorHandler';
 
+// Type guard functions for safe parameter validation
+function isValidString(value: unknown): value is string {
+  return typeof value === 'string' && value.trim() !== '';
+}
+
+function isValidZodiacSign(value: unknown): value is ZodiacSign {
+  if (!isValidString(value)) return false;
+  const validSigns: ZodiacSign[] = ['aries', 'taurus', 'gemini', 'cancer', 'leo', 'virgo', 'libra', 'scorpio', 'sagittarius', 'capricorn', 'aquarius', 'pisces'];
+  return validSigns.includes(value as ZodiacSign);
+}
+
+function isValidSeason(value: unknown): value is Season {
+  if (!isValidString(value)) return false;
+  const validSeasons: Season[] = ['spring', 'summer', 'autumn', 'winter'];
+  return validSeasons.includes(value as Season);
+}
+
+function isValidLunarPhase(value: unknown): value is LunarPhase {
+  if (!isValidString(value)) return false;
+  const validPhases: LunarPhase[] = ['new moon', 'waxing crescent', 'first quarter', 'waxing gibbous', 'full moon', 'waning gibbous', 'last quarter', 'waning crescent'];
+  return validPhases.includes(value as LunarPhase);
+}
+
+function isValidRecipeSearchCriteria(value: unknown): value is RecipeSearchCriteria {
+  return typeof value === 'object' && value !== null;
+}
+
+function isValidRecipeRecommendationOptions(value: unknown): value is RecipeRecommendationOptions {
+  return typeof value === 'object' && value !== null;
+}
 
 /**
  * RecipeFinder class for finding recipes based on various criteria
@@ -67,8 +113,7 @@ export class RecipeFinder implements RecipeServiceInterface {
       const recipes = await this.recipeService.getAllRecipes();
       return {
         success: true,
-        data: recipes,
-        message: 'Recipes retrieved successfully'
+        data: recipes
       };
     } catch (error) {
       const errorObj = error instanceof Error ? error : new Error(`Unknown error: ${String(error)}`);
@@ -79,7 +124,10 @@ export class RecipeFinder implements RecipeServiceInterface {
       return {
         success: false,
         data: [],
-        message: errorObj.message
+        error: {
+          code: 'PROCESSING_ERROR',
+          message: errorObj.message
+        }
       };
     }
   }
@@ -88,28 +136,27 @@ export class RecipeFinder implements RecipeServiceInterface {
    * Search for recipes based on criteria
    */
   async searchRecipes(
-    params: Record<string, unknown>
+    params: SearchRecipesParams
   ): Promise<ApiResponse<Recipe[]>> {
     try {
-      // Cast unknown params to expected typed objects to satisfy RecipeService API
-      const criteria = (params?.criteria ?? {}) as RecipeSearchCriteria;
-      const options = (params?.options ?? {}) as RecipeRecommendationOptions;
-      const recipes = await this.recipeService.searchRecipes(criteria, options);
+      const recipes = await this.recipeService.searchRecipes(params.criteria, params.options);
       return {
         success: true,
-        data: recipes,
-        message: 'Recipes found successfully'
+        data: recipes
       };
     } catch (error) {
       const errorObj = error instanceof Error ? error : new Error(`Unknown error: ${String(error)}`);
       errorHandler.log(errorObj, {
         context: { operation: 'RecipeFinder.searchRecipes' },
-        data: { service: 'RecipeFinder', method: 'searchRecipes', params }
+        data: { service: 'RecipeFinder', method: 'searchRecipes', params: params as unknown as Record<string, unknown> }
       });
       return {
         success: false,
         data: [],
-        message: errorObj.message
+        error: {
+          code: 'PROCESSING_ERROR',
+          message: errorObj.message
+        }
       };
     }
   }
@@ -117,13 +164,12 @@ export class RecipeFinder implements RecipeServiceInterface {
   /**
    * Get recipes by cuisine
    */
-  async getRecipesByCuisine(params: Record<string, unknown>): Promise<ApiResponse<Recipe[]>> {
+  async getRecipesByCuisine(params: GetRecipesByCuisineParams): Promise<ApiResponse<Recipe[]>> {
     try {
-      const recipes = await this.recipeService.getRecipesByCuisine(params.cuisine as string);
+      const recipes = await this.recipeService.getRecipesByCuisine(params.cuisine);
       return {
         success: true,
-        data: recipes,
-        message: 'Cuisine recipes retrieved successfully'
+        data: recipes
       };
     } catch (error) {
       const errorObj = error instanceof Error ? error : new Error(`Unknown error: ${String(error)}`);
@@ -134,7 +180,10 @@ export class RecipeFinder implements RecipeServiceInterface {
       return {
         success: false,
         data: [],
-        message: errorObj.message
+        error: {
+          code: 'PROCESSING_ERROR',
+          message: errorObj.message
+        }
       };
     }
   }
@@ -142,24 +191,38 @@ export class RecipeFinder implements RecipeServiceInterface {
   /**
    * Get recipes by zodiac sign
    */
-  async getRecipesByZodiac(params: Record<string, unknown>): Promise<ApiResponse<Recipe[]>> {
+  async getRecipesByZodiac(params: GetRecipesByZodiacParams): Promise<ApiResponse<Recipe[]>> {
     try {
-      const recipes = await this.recipeService.getRecipesByZodiac(params.zodiacSign as ZodiacSign);
+      const zodiacSign = params.currentZodiacSign;
+      if (!isValidZodiacSign(zodiacSign)) {
+        return {
+          success: false,
+          data: [],
+          error: {
+            code: 'INVALID_PARAMETERS',
+            message: 'Invalid zodiac sign parameter'
+          }
+        };
+      }
+      
+      const recipes = await this.recipeService.getRecipesByZodiac(zodiacSign);
       return {
         success: true,
-        data: recipes,
-        message: 'Zodiac recipes retrieved successfully'
+        data: recipes
       };
     } catch (error) {
       const errorObj = error instanceof Error ? error : new Error(`Unknown error: ${String(error)}`);
       errorHandler.log(errorObj, {
         context: { operation: 'RecipeFinder.getRecipesByZodiac' },
-        data: { service: 'RecipeFinder', method: 'getRecipesByZodiac', zodiacSign: params.zodiacSign }
+        data: { service: 'RecipeFinder', method: 'getRecipesByZodiac', zodiacSign: params.currentZodiacSign }
       });
       return {
         success: false,
         data: [],
-        message: errorObj.message
+        error: {
+          code: 'PROCESSING_ERROR',
+          message: errorObj.message
+        }
       };
     }
   }
@@ -167,13 +230,24 @@ export class RecipeFinder implements RecipeServiceInterface {
   /**
    * Get recipes by season
    */
-  async getRecipesBySeason(params: Record<string, unknown>): Promise<ApiResponse<Recipe[]>> {
+  async getRecipesBySeason(params: GetRecipesBySeasonParams): Promise<ApiResponse<Recipe[]>> {
     try {
-      const recipes = await this.recipeService.getRecipesBySeason(params.season as Season);
+      const season = params.season;
+      if (!isValidSeason(season)) {
+        return {
+          success: false,
+          data: [],
+          error: {
+            code: 'INVALID_PARAMETERS',
+            message: 'Invalid season parameter'
+          }
+        };
+      }
+      
+      const recipes = await this.recipeService.getRecipesBySeason(season);
       return {
         success: true,
-        data: recipes,
-        message: 'Season recipes retrieved successfully'
+        data: recipes
       };
     } catch (error) {
       const errorObj = error instanceof Error ? error : new Error(`Unknown error: ${String(error)}`);
@@ -184,7 +258,10 @@ export class RecipeFinder implements RecipeServiceInterface {
       return {
         success: false,
         data: [],
-        message: errorObj.message
+        error: {
+          code: 'PROCESSING_ERROR',
+          message: errorObj.message
+        }
       };
     }
   }
@@ -192,13 +269,24 @@ export class RecipeFinder implements RecipeServiceInterface {
   /**
    * Get recipes by lunar phase
    */
-  async getRecipesByLunarPhase(params: Record<string, unknown>): Promise<ApiResponse<Recipe[]>> {
+  async getRecipesByLunarPhase(params: GetRecipesByLunarPhaseParams): Promise<ApiResponse<Recipe[]>> {
     try {
-      const recipes = await this.recipeService.getRecipesByLunarPhase(params.lunarPhase as LunarPhase);
+      const lunarPhase = params.lunarPhase;
+      if (!isValidLunarPhase(lunarPhase)) {
+        return {
+          success: false,
+          data: [],
+          error: {
+            code: 'INVALID_PARAMETERS',
+            message: 'Invalid lunar phase parameter'
+          }
+        };
+      }
+      
+      const recipes = await this.recipeService.getRecipesByLunarPhase(lunarPhase);
       return {
         success: true,
-        data: recipes,
-        message: 'Lunar phase recipes retrieved successfully'
+        data: recipes
       };
     } catch (error) {
       const errorObj = error instanceof Error ? error : new Error(`Unknown error: ${String(error)}`);
@@ -209,7 +297,10 @@ export class RecipeFinder implements RecipeServiceInterface {
       return {
         success: false,
         data: [],
-        message: errorObj.message
+        error: {
+          code: 'PROCESSING_ERROR',
+          message: errorObj.message
+        }
       };
     }
   }
@@ -217,13 +308,12 @@ export class RecipeFinder implements RecipeServiceInterface {
   /**
    * Get recipes by meal type
    */
-  async getRecipesByMealType(params: Record<string, unknown>): Promise<ApiResponse<Recipe[]>> {
+  async getRecipesByMealType(params: GetRecipesByMealTypeParams): Promise<ApiResponse<Recipe[]>> {
     try {
-      const recipes = await this.recipeService.getRecipesByMealType(params.mealType as string);
+      const recipes = await this.recipeService.getRecipesByMealType(params.mealType);
       return {
         success: true,
-        data: recipes,
-        message: 'Meal type recipes retrieved successfully'
+        data: recipes
       };
     } catch (error) {
       const errorObj = error instanceof Error ? error : new Error(`Unknown error: ${String(error)}`);
@@ -234,7 +324,10 @@ export class RecipeFinder implements RecipeServiceInterface {
       return {
         success: false,
         data: [],
-        message: errorObj.message
+        error: {
+          code: 'PROCESSING_ERROR',
+          message: errorObj.message
+        }
       };
     }
   }
@@ -242,16 +335,15 @@ export class RecipeFinder implements RecipeServiceInterface {
   /**
    * Get recipes that match current planetary alignments
    */
-  async getRecipesForPlanetaryAlignment(params: Record<string, unknown>): Promise<ApiResponse<Recipe[]>> {
+  async getRecipesForPlanetaryAlignment(params: GetRecipesForPlanetaryAlignmentParams): Promise<ApiResponse<Recipe[]>> {
     try {
       const recipes = await this.recipeService.getRecipesForPlanetaryAlignment(
-        params.planetaryInfluences as { [key: string]: number },
-        params.minMatchScore as number | undefined
+        params.planetaryInfluences,
+        params.minMatchScore
       );
       return {
         success: true,
-        data: recipes,
-        message: 'Planetary alignment recipes retrieved successfully'
+        data: recipes
       };
     } catch (error) {
       const errorObj = error instanceof Error ? error : new Error(`Unknown error: ${String(error)}`);
@@ -262,7 +354,10 @@ export class RecipeFinder implements RecipeServiceInterface {
       return {
         success: false,
         data: [],
-        message: errorObj.message
+        error: {
+          code: 'PROCESSING_ERROR',
+          message: errorObj.message
+        }
       };
     }
   }
@@ -270,16 +365,15 @@ export class RecipeFinder implements RecipeServiceInterface {
   /**
    * Get recipes that match a given flavor profile
    */
-  async getRecipesForFlavorProfile(params: Record<string, unknown>): Promise<ApiResponse<Recipe[]>> {
+  async getRecipesForFlavorProfile(params: GetRecipesForFlavorProfileParams): Promise<ApiResponse<Recipe[]>> {
     try {
       const recipes = await this.recipeService.getRecipesForFlavorProfile(
-        params.flavorProfile as { [key: string]: number },
-        params.minMatchScore as number | undefined
+        params.flavorProfile,
+        params.minMatchScore
       );
       return {
         success: true,
-        data: recipes,
-        message: 'Flavor profile recipes retrieved successfully'
+        data: recipes
       };
     } catch (error) {
       const errorObj = error instanceof Error ? error : new Error(`Unknown error: ${String(error)}`);
@@ -290,7 +384,10 @@ export class RecipeFinder implements RecipeServiceInterface {
       return {
         success: false,
         data: [],
-        message: errorObj.message
+        error: {
+          code: 'PROCESSING_ERROR',
+          message: errorObj.message
+        }
       };
     }
   }
@@ -298,27 +395,36 @@ export class RecipeFinder implements RecipeServiceInterface {
   /**
    * Get best recipe matches based on multiple criteria
    */
-  async getBestRecipeMatches(params: Record<string, unknown>): Promise<ApiResponse<any[]>> {
+  async getBestRecipeMatches(params: GetBestRecipeMatchesParams): Promise<ApiResponse<ScoredRecipe[]>> {
     try {
-      const recipes = await this.recipeService.getBestRecipeMatches({
-        ...(params.criteria as Record<string, unknown>),
-        maxResults: params.maxResults as number | undefined
-      });
+      const recipes = await this.recipeService.getBestRecipeMatches(
+        params.criteria,
+        10 // Default limit since maxResults is not in the criteria
+      );
+      
+      // Convert Recipe[] to ScoredRecipe[] by adding score property
+      const scoredRecipes: ScoredRecipe[] = recipes.map(recipe => ({
+        ...recipe,
+        score: recipe.score || 0.5 // Default score if not present
+      }));
+      
       return {
         success: true,
-        data: recipes,
-        message: 'Best recipe matches retrieved successfully'
+        data: scoredRecipes
       };
     } catch (error) {
       const errorObj = error instanceof Error ? error : new Error(`Unknown error: ${String(error)}`);
       errorHandler.log(errorObj, {
         context: { operation: 'RecipeFinder.getBestRecipeMatches' },
-        data: { service: 'RecipeFinder', method: 'getBestRecipeMatches', criteria: params.criteria, maxResults: params.maxResults }
+        data: { service: 'RecipeFinder', method: 'getBestRecipeMatches', criteria: params.criteria as unknown as Record<string, unknown> }
       });
       return {
         success: false,
         data: [],
-        message: errorObj.message
+        error: {
+          code: 'PROCESSING_ERROR',
+          message: errorObj.message
+        }
       };
     }
   }
@@ -326,24 +432,26 @@ export class RecipeFinder implements RecipeServiceInterface {
   /**
    * Get recipe by ID
    */
-  async getRecipeById(params: Record<string, unknown>): Promise<ApiResponse<Recipe>> {
+  async getRecipeById(params: GetRecipeByIdParams): Promise<ApiResponse<Recipe>> {
     try {
       const recipe = await (this.recipeService as unknown).getRecipeById(params.id);
       return {
         success: true,
-        data: recipe,
-        message: 'Recipe retrieved successfully'
+        data: recipe
       };
     } catch (error) {
       const errorObj = error instanceof Error ? error : new Error(`Unknown error: ${String(error)}`);
       errorHandler.log(errorObj, {
         context: { operation: 'RecipeFinder.getRecipeById' },
-        data: { service: 'RecipeFinder', method: 'getRecipeById', recipeId: params.id }
+        data: { service: 'RecipeFinder', method: 'getRecipeById', id: params.id }
       });
       return {
         success: false,
-        data: {} as Recipe,
-        message: errorObj.message
+        data: undefined,
+        error: {
+          code: 'RECIPE_NOT_FOUND',
+          message: errorObj.message
+        }
       };
     }
   }
@@ -351,13 +459,12 @@ export class RecipeFinder implements RecipeServiceInterface {
   /**
    * Generate a recipe based on criteria
    */
-  async generateRecipe(params: Record<string, unknown>): Promise<ApiResponse<Recipe>> {
+  async generateRecipe(params: GenerateRecipeParams): Promise<ApiResponse<Recipe>> {
     try {
       const recipe = await this.recipeService.generateRecipe(params.criteria);
       return {
         success: true,
-        data: recipe,
-        message: 'Recipe generated successfully'
+        data: recipe
       };
     } catch (error) {
       const errorObj = error instanceof Error ? error : new Error(`Unknown error: ${String(error)}`);
@@ -367,15 +474,11 @@ export class RecipeFinder implements RecipeServiceInterface {
       });
       return {
         success: false,
-        data: {
-          id: 'error',
-          name: 'Error generating recipe',
-          ingredients: [],
-          instructions: [],
-          cuisine: 'Unknown',
-          elementalProperties: { Fire: 0, Water: 0, Earth: 0, Air: 0 }
-        },
-        message: errorObj.message
+        data: undefined,
+        error: {
+          code: 'PROCESSING_ERROR',
+          message: errorObj.message
+        }
       };
     }
   }
@@ -383,13 +486,12 @@ export class RecipeFinder implements RecipeServiceInterface {
   /**
    * Generate a fusion recipe combining multiple cuisines
    */
-  async generateFusionRecipe(params: Record<string, unknown>): Promise<ApiResponse<Recipe>> {
+  async generateFusionRecipe(params: GenerateFusionRecipeParams): Promise<ApiResponse<Recipe>> {
     try {
       const recipe = await this.recipeService.generateFusionRecipe(params.cuisines, params.criteria);
       return {
         success: true,
-        data: recipe,
-        message: 'Fusion recipe generated successfully'
+        data: recipe
       };
     } catch (error) {
       const errorObj = error instanceof Error ? error : new Error(`Unknown error: ${String(error)}`);
@@ -399,15 +501,11 @@ export class RecipeFinder implements RecipeServiceInterface {
       });
       return {
         success: false,
-        data: {
-          id: 'error',
-          name: 'Error generating fusion recipe',
-          ingredients: [],
-          instructions: [],
-          cuisine: params.cuisines?.join('-'),
-          elementalProperties: { Fire: 0, Water: 0, Earth: 0, Air: 0 }
-        },
-        message: errorObj.message
+        data: undefined,
+        error: {
+          code: 'PROCESSING_ERROR',
+          message: errorObj.message
+        }
       };
     }
   }
@@ -415,27 +513,42 @@ export class RecipeFinder implements RecipeServiceInterface {
   /**
    * Adapt a recipe for the current season
    */
-  async adaptRecipeForSeason(params: Record<string, unknown>): Promise<ApiResponse<Recipe>> {
+  async adaptRecipeForSeason(params: AdaptRecipeForSeasonParams): Promise<ApiResponse<Recipe>> {
     try {
+      // Get the recipe first
+      const recipeResponse = await this.getRecipeById({ id: params.recipeId });
+      if (!recipeResponse.success || !recipeResponse.data) {
+        return {
+          success: false,
+          data: undefined,
+          error: {
+            code: 'RECIPE_NOT_FOUND',
+            message: 'Recipe not found for adaptation'
+          }
+        };
+      }
+      
       const adaptedRecipe = await this.recipeService.adaptRecipeForSeason(
-        params.recipe as Recipe,
-        params.season as Season | undefined
+        recipeResponse.data,
+        params.season
       );
       return {
         success: true,
-        data: adaptedRecipe,
-        message: 'Recipe adapted successfully'
+        data: adaptedRecipe
       };
     } catch (error) {
       const errorObj = error instanceof Error ? error : new Error(`Unknown error: ${String(error)}`);
       errorHandler.log(errorObj, {
         context: { operation: 'RecipeFinder.adaptRecipeForSeason' },
-        data: { service: 'RecipeFinder', method: 'adaptRecipeForSeason', recipeId: params.recipe?.id || 'unknown', season: params.season }
+        data: { service: 'RecipeFinder', method: 'adaptRecipeForSeason', recipeId: params.recipeId, season: params.season }
       });
       return {
         success: false,
-        data: params.recipe,
-        message: errorObj.message
+        data: undefined,
+        error: {
+          code: 'PROCESSING_ERROR',
+          message: errorObj.message
+        }
       };
     }
   }

@@ -31,7 +31,7 @@
     "incremental": true,
     "baseUrl": ".",
     "maxNodeModuleJsDepth": 0,
-    "types": ["node", "jest", "@testing-library/jest-dom"],
+    "types": ["node", "jest"],
     "paths": {
       "@/*": ["./src/*"],
       "@components/*": [

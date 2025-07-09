@@ -767,7 +767,7 @@ export async function getRecipesForCuisineMatch(
   cuisineName: string,
   recipes: unknown[],
   limit = 8
-): unknown[] {
+): Promise<unknown[]> {
   if (!cuisineName) {
     // console.warn('getRecipesForCuisineMatch called with empty cuisineName');
     return [];
@@ -902,7 +902,7 @@ export async function getRecipesForCuisineMatch(
 
               const mealRecipes = cuisine.dishes[mealType].all.map(
                 (recipe: unknown) => ({
-                  ...recipe,
+                  ...(recipe as Record<string, unknown>),
                   cuisine: cuisineName,
                   matchScore: 0.9,
                   matchPercentage: 90,
@@ -924,7 +924,7 @@ export async function getRecipesForCuisineMatch(
 
                 const seasonalRecipes = cuisine.dishes[mealType][season].map(
                   (recipe: unknown) => ({
-                    ...recipe,
+                    ...(recipe as Record<string, unknown>),
                     cuisine: cuisineName,
                     matchScore: 0.85,
                     matchPercentage: 85,
@@ -969,7 +969,7 @@ export async function getRecipesForCuisineMatch(
           // Apply high match scores to local recipes
           return localRecipes
             .map((recipe) => ({
-              ...recipe,
+              ...(recipe as Record<string, unknown>),
               matchScore: 0.8 + Math.random() * 0.2, // 80-100% match
               matchPercentage: Math.round((0.8 + Math.random() * 0.2) * 100), // For display
             }))
@@ -996,10 +996,10 @@ export async function getRecipesForCuisineMatch(
     // Direct exact cuisine matches (highest priority)
     const exactCuisineMatches = recipes.filter(
       (recipe) => {
-        const recipeData = recipe as unknown;
-        return recipeData?.cuisine?.toLowerCase() === normalizedCuisineName ||
-               recipeData?.cuisine?.toLowerCase()?.includes(normalizedCuisineName) ||
-               normalizedCuisineName.includes(recipeData?.cuisine?.toLowerCase());
+        const recipeData = recipe as Record<string, unknown>;
+        return (recipeData?.cuisine as string)?.toLowerCase() === normalizedCuisineName ||
+               (recipeData?.cuisine as string)?.toLowerCase()?.includes(normalizedCuisineName) ||
+               normalizedCuisineName.includes((recipeData?.cuisine as string)?.toLowerCase());
       }
     );
 
@@ -1008,11 +1008,11 @@ export async function getRecipesForCuisineMatch(
     // Regional variant matches
     const regionalMatches = recipes.filter(
       (recipe) => {
-        const recipeData = recipe as unknown;
+        const recipeData = recipe as Record<string, unknown>;
         return !exactCuisineMatches.includes(recipe) && (
-                 recipeData?.regionalCuisine?.toLowerCase() === normalizedCuisineName ||
-                 recipeData?.regionalCuisine?.toLowerCase()?.includes(normalizedCuisineName) ||
-                 normalizedCuisineName.includes(recipeData?.regionalCuisine?.toLowerCase())
+                 (recipeData?.regionalCuisine as string)?.toLowerCase() === normalizedCuisineName ||
+                 (recipeData?.regionalCuisine as string)?.toLowerCase()?.includes(normalizedCuisineName) ||
+                 normalizedCuisineName.includes((recipeData?.regionalCuisine as string)?.toLowerCase())
                );
       }
     );
@@ -1037,9 +1037,9 @@ export async function getRecipesForCuisineMatch(
             let totalWeight = 0;
 
             // Base flavor profile match (weight: 0.4)
-            if (cuisineProfile && recipeData?.flavorProfile) {
+            if (cuisineProfile && (recipeData as Record<string, unknown>)?.flavorProfile) {
               const flavorScore = calculateFlavorProfileMatch(
-                recipeData.flavorProfile,
+                (recipeData as Record<string, unknown>).flavorProfile,
                 cuisineProfile.flavorProfiles
               );
               scoreComponents.push(flavorScore * 0.4);
@@ -1047,10 +1047,10 @@ export async function getRecipesForCuisineMatch(
             }
 
             // Ingredient similarity (weight: 0.3)
-            if (cuisineProfile.signatureIngredients && recipeData?.ingredients) {
-              const recipeIngredientNames = recipeData.ingredients.map((ing: unknown) => {
-                const ingData = ing as unknown;
-                return typeof ing === 'string' ? ing.toLowerCase() : ingData?.name?.toLowerCase() || '';
+            if (cuisineProfile.signatureIngredients && (recipeData as Record<string, unknown>)?.ingredients) {
+              const recipeIngredientNames = (recipeData as Record<string, unknown>).ingredients.map((ing: unknown) => {
+                const ingData = ing as Record<string, unknown>;
+                return typeof ing === 'string' ? ing.toLowerCase() : (ingData?.name as string)?.toLowerCase() || '';
               });
 
               const commonIngredients = cuisineProfile.signatureIngredients.filter(
@@ -1067,10 +1067,10 @@ export async function getRecipesForCuisineMatch(
             }
 
             // Technique similarity (weight: 0.2)
-            if (cuisineProfile.signatureTechniques && recipeData?.cookingMethods) {
-              const recipeTechniques = Array.isArray(recipeData.cookingMethods)
-                ? recipeData.cookingMethods.map((tech: string) => tech?.toLowerCase() || '')
-                : [recipeData.cookingMethods?.toLowerCase() || ''];
+            if (cuisineProfile.signatureTechniques && (recipeData as Record<string, unknown>)?.cookingMethods) {
+              const recipeTechniques = Array.isArray((recipeData as Record<string, unknown>).cookingMethods)
+                ? (recipeData as Record<string, unknown>).cookingMethods.map((tech: string) => tech?.toLowerCase() || '')
+                : [(recipeData as Record<string, unknown>).cookingMethods?.toLowerCase() || ''];
 
               const commonTechniques = cuisineProfile.signatureTechniques.filter(
                 (tech) => recipeTechniques.some((rt) => rt?.includes(tech.toLowerCase()))

@@ -1,6 +1,27 @@
 // Import unified types for cuisine integrations
 import type { UnifiedIngredient } from '@/types/unified';
 import type { EnhancedCookingMethod } from '@/types/cooking';
+import type { 
+  Element, 
+  ElementalProperties, 
+  PlanetName,
+  LunarPhase,
+  CookingMethod 
+} from "@/types/alchemy";
+import type { Season } from "@/types/seasons";
+import type { ZodiacSign } from "@/types/zodiac";
+import { FlavorProfileType } from "@/types/flavor";
+
+// Import utility functions
+import { 
+  getCuisinePAirings, 
+  getIngredientsForCuisine,
+  getSharedIngredients
+} from '../../utils/cuisine/cuisineUtils';
+
+// Import existing cuisine data
+import { grainCuisineMatrix } from '../integrations/grainCuisineMatrix';
+import { herbCuisineMatrix } from '../integrations/herbCuisineMatrix';
 
 // Local utility function for cuisine integration - using local implementation to avoid import conflicts
 function createElementalProperties(props: { Fire: number; Water: number; Earth: number; Air: number } = { Fire: 0, Water: 0, Earth: 0, Air: 0 }): ElementalProperties {
@@ -11,72 +32,28 @@ function createElementalProperties(props: { Fire: number; Water: number; Earth: 
     Air: props.Air || 0
   };
 }
-import type { // ===== UNIFIED CUISINE INTEGRATION SYSTEM =====
-// Phase 3 Step 2 of WhatToEatNext Data Consolidation
-// Consolidates cuisineMatrix.ts and related files with Monica/Kalchm integration
-// Integrates with unified seasonal system for dynamic cuisine recommendations
-
-  Element, 
-  ElementalProperties, 
-  PlanetName,
-  LunarPhase,
-  CookingMethod } from "@/types/alchemy";
-import type { Season } from "@/types/seasons";
-import type { ZodiacSign } from "@/types/zodiac";
-import { 
-  unifiedIngredients,
-  getIngredientsByCategory,
-  calculateIngredientHarmony
-} from './ingredients';
-import {
-  UnifiedElementalProperties,
-  UnifiedAlchemicalProperties,
-  UnifiedScoringMetrics
-} from './unifiedTypes';
-import {
-  seasonalAdaptations,
-  getSeasonalProfile,
-  calculateSeasonalCompatibility
-} from './seasonal';
-// Import removed - function not yet implemented
-import { FlavorProfileType } from "@/types/flavor";
-// Removed import to avoid conflict with local function
-import { _cache } from '../utils/cache';
-
-// Import shared utility functions
-import { 
-  getCuisinePAirings, 
-  getIngredientsForCuisine,
-  getSharedIngredients
-} from '../../utils/cuisine/cuisineUtils';
 
 // Missing unified seasonal system variables
 const unifiedSeasonalSystem = {
-  spring: { dominantElement: "Air", supportingElements: ["Water"] },
-  summer: { dominantElement: "Fire", supportingElements: ["Air"] },
-  autumn: { dominantElement: "Earth", supportingElements: ["Fire"] },
-  winter: { dominantElement: "Water", supportingElements: ["Earth"] }
+  spring: { dominantElement: "Air" as Element, supportingElements: ["Water" as Element] },
+  summer: { dominantElement: "Fire" as Element, supportingElements: ["Air" as Element] },
+  autumn: { dominantElement: "Earth" as Element, supportingElements: ["Fire" as Element] },
+  winter: { dominantElement: "Water" as Element, supportingElements: ["Earth" as Element] }
 };
 
 const unifiedSeasonalProfiles = {
-  spring: { ingredients: [], flavors: [], techniques: [] },
-  summer: { ingredients: [], flavors: [], techniques: [] },
-  autumn: { ingredients: [], flavors: [], techniques: [] },
-  winter: { ingredients: [], flavors: [], techniques: [] }
+  spring: { ingredients: [] as UnifiedIngredient[], flavors: [], techniques: [] },
+  summer: { ingredients: [] as UnifiedIngredient[], flavors: [], techniques: [] },
+  autumn: { ingredients: [] as UnifiedIngredient[], flavors: [], techniques: [] },
+  winter: { ingredients: [] as UnifiedIngredient[], flavors: [], techniques: [] }
 };
 
 const unifiedIngredients = {
   // Placeholder for unified ingredient system
-  getAllIngredients: () => [],
-  getIngredientsByCategory: (category: string) => [],
+  getAllIngredients: () => [] as UnifiedIngredient[],
+  getIngredientsByCategory: (category: string) => [] as UnifiedIngredient[],
   getIngredientProperties: (ingredient: string) => ({})
 };
-
-// Import existing cuisine data
-import { grainCuisineMatrix } from '../integrations/grainCuisineMatrix';
-import { herbCuisineMatrix } from '../integrations/herbCuisineMatrix';
-
-
 
 // ===== ENHANCED CUISINE INTEGRATION INTERFACES =====
 
@@ -928,8 +905,7 @@ export class UnifiedCuisineIntegrationSystem {
     }
     
     // Make sure 'fall' and 'autumn' have the same value (safe property access)
-    const seasonalData = seasonalCompatibility as unknown;
-    seasonalData.fall = seasonalCompatibility.autumn;
+    (seasonalCompatibility as Record<string, number>).fall = seasonalCompatibility.autumn;
     
     return seasonalCompatibility;
   }
@@ -1065,10 +1041,10 @@ export class UnifiedCuisineIntegrationSystem {
     
     // Add unique ingredients from each cuisine based on blend ratio
     const uniqueIngredients1 = (ingredients1 || []).filter(ing => 
-      (Array.isArray(!sharedIngredients) ? !sharedIngredients.includes(ing.name) : !sharedIngredients === ing.name)
+      !sharedIngredients.includes(ing.name)
     );
     const uniqueIngredients2 = (ingredients2 || []).filter(ing => 
-      (Array.isArray(!sharedIngredients) ? !sharedIngredients.includes(ing.name) : !sharedIngredients === ing.name)
+      !sharedIngredients.includes(ing.name)
     );
     
     // Select ingredients based on blend ratio
@@ -1128,9 +1104,9 @@ export class UnifiedCuisineIntegrationSystem {
     
     // Add unique methods from each cuisine
     const uniqueMethods1 = Object.keys(monica1.cookingMethodOptimization)
-      .filter(method => (Array.isArray(sharedMethods) ? !sharedMethods.includes(method) : sharedMethods !== method));
+      .filter(method => !sharedMethods.includes(method));
     const uniqueMethods2 = Object.keys(monica2.cookingMethodOptimization)
-      .filter(method => (Array.isArray(sharedMethods) ? !sharedMethods.includes(method) : sharedMethods !== method));
+      .filter(method => !sharedMethods.includes(method));
     
     // Select methods based on blend ratio
     const count1 = Math.floor((uniqueMethods1 || []).length * blendRatio);
@@ -1291,7 +1267,7 @@ export class UnifiedCuisineIntegrationSystem {
             timingAdjustment: 0,
             intensityModifier: 'normal'
           },
-          traditionalSeasonalDishes: this.getTraditionalSeasonalDishes(cuisine1, cuisine2, _season),
+          traditionalSeasonalDishes: this.getTraditionalSeasonalDishes(cuisine1, cuisine2, season),
           monicaOptimization: 0.5,
           kalchmHarmony: this.calculateKalchmHarmonyBetweenCuisines(cuisine1, cuisine2)
         };
@@ -1327,7 +1303,7 @@ export class UnifiedCuisineIntegrationSystem {
       const seasonalOptimization = this.calculateSeasonalOptimization(
         cuisine1, 
         cuisine2, 
-        _season
+        season
       );
       
       adaptations[season] = {
@@ -1348,7 +1324,7 @@ export class UnifiedCuisineIntegrationSystem {
             return profileData?.monicaModifiers?.intensityModifier || 'normal';
           })()
         },
-        traditionalSeasonalDishes: this.getTraditionalSeasonalDishes(cuisine1, cuisine2, _season),
+        traditionalSeasonalDishes: this.getTraditionalSeasonalDishes(cuisine1, cuisine2, season),
         monicaOptimization: seasonalOptimization,
         kalchmHarmony: this.calculateKalchmHarmonyBetweenCuisines(cuisine1, cuisine2)
       };
@@ -1419,7 +1395,7 @@ export class UnifiedCuisineIntegrationSystem {
       return 0.5;
     }
     
-    const elementalBonus = this.calculateSeasonalElementalBonus(cuisine, _season);
+    const elementalBonus = this.calculateSeasonalElementalBonus(cuisine, season);
     const monicaConstant = cuisineMonicaConstants[cuisine]?.seasonalModifiers?.[season] || 0.5;
     
     // Calculate score
@@ -1477,7 +1453,7 @@ export class UnifiedCuisineIntegrationSystem {
     // Calculate seasonal compatibility for each cuisine
     const compatibilityScores = (cuisines || []).map(cuisine => ({
       cuisine,
-      compatibility: this.getCuisineSeasonalCompatibility(cuisine, _season)
+      compatibility: this.getCuisineSeasonalCompatibility(cuisine, season)
     }));
     
     // Sort by compatibility and return top recommendations

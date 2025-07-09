@@ -4,11 +4,13 @@ import type { LunarPhase,
   LowercaseElementalProperties,
   PlanetaryAspect as ImportedPlanetaryAspect,
   AspectType as ImportedAspectType,
-  PlanetName } from "@/types/alchemy";
+  PlanetName,
+  Element,
+  ElementalProperties
+} from "@/types/alchemy";
 import type { TimeFactors, Season, TimeOfDay } from "@/types/time";
 import { getCurrentSeason, getTimeOfDay } from '../dateUtils';
 import { PlanetaryHourCalculator } from '../../lib/PlanetaryHourCalculator';
-import { ElementalCharacter } from '../../constants/planetaryElements';
 
 // Add missing imports for TS2304 fixes
 import { calculatePlanetaryAspects as safeCalculatePlanetaryAspects } from '@/utils/safeAstrology';
@@ -16,7 +18,6 @@ import { getAccuratePlanetaryPositions } from '@/utils/accurateAstronomy';
 import { getPlanetaryPositions } from '@/utils/astrologyDataProvider';
 
 import { AstrologicalState, _Element , _PlanetaryPosition } from "@/types/celestial";
-import { _ElementalProperties } from '@/types';
 import type { PlanetPosition } from '../../types/celestial';
 
 /**
@@ -37,17 +38,6 @@ const errorLog = (message: string, ...args: unknown[]): void => {
   // console.error(message, ...args);
 };
 
-// Add type definition for PlanetPosition
-export interface PlanetPosition {
-  sign: ZodiacSign;
-  degree: number;
-  minutes: number;
-  exactLongitude: number;
-  isRetrograde?: boolean;
-  error?: boolean;
-}
-
-// Define ElementalProperties interface locally if it doesn't match the imported one
 // Use the imported AspectType but keep local for backwards compatibility
 export type AspectType = ImportedAspectType;
 
@@ -193,8 +183,8 @@ export function getLunarPhaseModifier(phase: LunarPhase): number {
  * @param sign Zodiac sign
  * @returns Element ('Fire', 'Earth', 'Air', or 'Water')
  */
-export function getZodiacElement(sign: ZodiacSign): ElementalCharacter {
-  const elements: Record<ZodiacSign, ElementalCharacter> = {
+export function getZodiacElement(sign: ZodiacSign): Element {
+  const elements: Record<ZodiacSign, Element> = {
     'aries': 'Fire',
     'leo': 'Fire',
     'sagittarius': 'Fire',
@@ -209,7 +199,7 @@ export function getZodiacElement(sign: ZodiacSign): ElementalCharacter {
     'pisces': 'Water'
   };
   
-  return elements[sign] || 'Fire';
+  return elements[sign] || 'Earth'; // default to Earth if sign is not recognized
 }
 
 /**
@@ -464,16 +454,16 @@ export async function getCurrentAstrologicalState(date: Date = new Date()): Prom
       planetaryDay: { day: weekDay, planet: planetaryHour },
       planetaryHour: { planet: planetaryHour, hourOfDay: now.getHours() },
       weekDay,
-      lunarPhase
+      lunarPhase: _lunarPhase
     } as TimeFactors;
     
     const elementalProfile = calculateElementalProfile(
-      { sunSign, moonSign, lunarPhase, isDaytime, planetaryHour } as AstrologicalState, 
+      { sunSign, moonSign, lunarPhase, isDaytime: _isDaytime, planetaryHour } as AstrologicalState, 
       timeFactors
     );
     
     const dominantElement = calculateDominantElement(
-      { sunSign, moonSign, lunarPhase, isDaytime, planetaryHour } as AstrologicalState, 
+      { sunSign, moonSign, lunarPhase, isDaytime: _isDaytime, planetaryHour } as AstrologicalState, 
       timeFactors
     );
     
@@ -482,9 +472,9 @@ export async function getCurrentAstrologicalState(date: Date = new Date()): Prom
       currentZodiac: sunSign,
       sunSign,
       moonSign,
-      moonPhase: lunarPhase,
-      lunarPhase,
-      isDaytime,
+      moonPhase: lunarPhaseValue,
+      lunarPhase: _lunarPhase,
+      isDaytime: _isDaytime,
       planetaryHour,
       activePlanets,
       aspects,
@@ -723,8 +713,8 @@ export function calculateAspects(
           const strength = 1 - (orb / definition.orb);
           
           // Get element of the sign for each planet
-          const element1 = getZodiacElement(pos1.sign as unknown)?.toLowerCase();
-          const element2 = getZodiacElement(pos2.sign as unknown)?.toLowerCase();
+          const element1 = getZodiacElement(pos1.sign as ZodiacSign);
+          const element2 = getZodiacElement(pos2.sign as ZodiacSign);
           
           // Base multiplier from definition
           let multiplier = definition.significance;
@@ -735,7 +725,7 @@ export function calculateAspects(
           }
           
           // Add to aspects array
-          aspects?.push({
+          aspects.push({
             planet1,
             planet2,
             type: type as AspectType,
@@ -746,12 +736,12 @@ export function calculateAspects(
             applyingSeparating: orb <= 120 ? 'applying' : 'separating',
             significance: orb / 180,
             description: `Aspect between ${element1} and ${element2}`,
-            elementalInfluence: { fire: 0, water: 0, earth: 0, air: 0 } as unknown as LowercaseElementalProperties
+            elementalInfluence: { fire: 0, water: 0, earth: 0, air: 0 } as LowercaseElementalProperties
           });
           
           // Apply elemental effects
-          elementalEffects[element1 as "Fire" | "Water" | "Earth" | "Air"] += multiplier * strength;
-          elementalEffects[element2 as "Fire" | "Water" | "Earth" | "Air"] += multiplier * strength;
+          elementalEffects[element1] += multiplier * strength;
+          elementalEffects[element2] += multiplier * strength;
           
           // Only count the closest aspect between two planets
           break;

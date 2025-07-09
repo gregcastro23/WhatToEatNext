@@ -212,10 +212,10 @@ export class ElementalCalculator {
         this.processPlanetsObject(positions.planets, elementalValues);
       } else if (hasCelestialBodies) {
         // Celestial bodies from API
-        this.processCelestialBodies(positions.CelestialBodies, elementalValues);
+        this.processCelestialBodies(positions.CelestialBodies as Record<string, unknown>, elementalValues);
       } else if (hasTropical && positions.tropical?.CelestialBodies) {
         // Nested within tropical
-        this.processCelestialBodies(positions.tropical.CelestialBodies, elementalValues);
+        this.processCelestialBodies(positions.tropical.CelestialBodies as Record<string, unknown>, elementalValues);
       } else {
         // Try to process as generic structure
         this.processPlanetKeys(positions, elementalValues);
@@ -243,11 +243,6 @@ export class ElementalCalculator {
     }
   }
 
-  // Fix method naming conflict - rename the second implementation to avoid duplicate method name
-  calculatePlanetaryElementalState(positions: Record<string, unknown>): ElementalProperties {
-    return this.calculateElementalState(positions);
-  }
-
   // Add methods to process different types of planetary position data
   private processPlanetsObject(planets: Record<string, unknown>, elementalValues: ElementalProperties): void {
     if (!planets) return;
@@ -256,13 +251,13 @@ export class ElementalCalculator {
     // Handle both array and object formats of planets
     if (Array.isArray(planets)) {
       planets.forEach(planet => {
-        if (planet) this.processPlanetData(planet, elementalValues);
+        if (planet) this.processPlanetData(planet as Record<string, unknown>, elementalValues);
       });
     } else if (typeof planets === 'object') {
       // Process object format where keys are planet names
       Object.entries(planets).forEach(([name, data]) => {
         if (data) {
-          const planetData = { ...data as unknown, name, label: name };
+          const planetData = { ...(data as Record<string, unknown>), name, label: name };
           this.processPlanetData(planetData, elementalValues);
         }
       });
@@ -285,7 +280,7 @@ export class ElementalCalculator {
       
       planetNames.forEach(planetName => {
         if (bodies[planetName]) {
-          const planet = bodies[planetName];
+          const planet = bodies[planetName] as Record<string, unknown>;
           // Add name and label if not present
           const enhancedPlanet = {
             ...planet,
@@ -299,7 +294,7 @@ export class ElementalCalculator {
       // Process ascendant if available
       if (bodies.ascendant || bodies.Ascendant) {
         const ascendant = bodies.ascendant || bodies.Ascendant;
-        this.processAscendantData(ascendant, elementalValues);
+        this.processAscendantData(ascendant as Record<string, unknown>, elementalValues);
       }
     }
   }
@@ -317,7 +312,7 @@ export class ElementalCalculator {
     
     // Also look for ascendant
     if (data.Ascendant || data.ascendant) {
-      this.processAscendantData(data.Ascendant || data.ascendant, elementalValues);
+      this.processAscendantData((data.Ascendant || data.ascendant) as Record<string, unknown>, elementalValues);
     }
   }
 
@@ -347,7 +342,7 @@ export class ElementalCalculator {
           };
           this.processPlanetData(planetObj, elementalValues);
         } else {
-          this.findPlanetsRecursively(obj[key], planetNames, elementalValues, depth + 1);
+          this.findPlanetsRecursively(obj[key] as Record<string, unknown>, planetNames, elementalValues, depth + 1);
         }
       }
     }
@@ -361,8 +356,8 @@ export class ElementalCalculator {
     if (obj.sign || obj.Sign) return true;
     
     // Has a name or label that matches a planet name
-    if (obj.name && planetNames.includes(obj.name)) return true;
-    if (obj.label && planetNames.includes(obj.label)) return true;
+    if (obj.name && planetNames.includes(obj.name as string)) return true;
+    if (obj.label && planetNames.includes(obj.label as string)) return true;
     
     return false;
   }
@@ -372,8 +367,8 @@ export class ElementalCalculator {
     
     try {
       // Extract planet info
-      const planetName = planet.name || planet.label || planet.planet || '';
-      const sign = planet.Sign?.label || planet.sign || '';
+      const planetName = (planet.name as string) || (planet.label as string) || (planet.planet as string) || '';
+      const sign = (planet.Sign as Record<string, unknown>)?.label as string || (planet.sign as string) || '';
       
       if (!planetName || !sign) return;
       
@@ -400,7 +395,7 @@ export class ElementalCalculator {
     try {
       const ascendantSign = typeof ascendant === 'string' 
         ? ascendant 
-        : ascendant?.Sign?.label || ascendant.sign || '';
+        : (ascendant as Record<string, unknown>)?.Sign?.label as string || (ascendant as Record<string, unknown>)?.sign as string || '';
       
       if (ascendantSign) {
         const ascendantElement = this.getSignElement(ascendantSign);
@@ -702,134 +697,7 @@ export class ElementalCalculator {
     return maxElement;
   }
 
-  // Method to process planet object and extract elemental properties
-  processPlanetsObject(planet: Record<string, unknown>, sign: string): Record<string, number> {
-    if (!planet || !sign) {
-      return { Fire: 0, Water: 0, Earth: 0, Air: 0 };
-    }
-    
-    const elementalEffect: Record<string, number> = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
-    
-    // Process dignity effect
-    if (planetInfo[planet]?.["Dignity Effect"]?.[sign]) {
-      const dignityEffectValue = planetInfo[planet]["Dignity Effect"][sign];
-      if (dignityEffectValue) {
-        if (Math.abs(dignityEffectValue) === 1 || Math.abs(dignityEffectValue) === 3) {
-          const signElement = signInfo[sign]?.Element || 'Fire';
-          elementalEffect[signElement] = 1 * (dignityEffectValue / Math.abs(dignityEffectValue));
-        }
-        
-        if (Math.abs(dignityEffectValue) > 1) {
-          const diurnalElement = planetInfo[planet]?.['Diurnal Element'] || 'Fire';
-          const nocturnalElement = planetInfo[planet]?.['Nocturnal Element'] || 'Fire';
-          
-          elementalEffect[diurnalElement] += (1 * (dignityEffectValue / (Math.abs(dignityEffectValue || 1))));
-          elementalEffect[nocturnalElement] += (1 * (dignityEffectValue / Math.abs(dignityEffectValue)));
-        }
-      }
-    }
-    
-    return elementalEffect;
-  }
 
-  // Method to process celestial bodies data
-  processCelestialBodies(celestialData: Record<string, unknown>): Record<string, number> {
-    if (!celestialData) {
-      return { Fire: 0, Water: 0, Earth: 0, Air: 0 };
-    }
-    
-    const totalElementalEffect: Record<string, number> = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
-    
-    // Process each planet
-    for (const planetKey of Object.keys(planetInfo)) {
-      if (celestialData[planetKey.toLowerCase()]) {
-        const planet = planetKey;
-        const sign = celestialData[planetKey.toLowerCase()]?.Sign?.label;
-        
-        if (sign) {
-          const planetEffect = this.processPlanetsObject(planet, sign);
-          
-          // Combine effects
-          for (const element of Object.keys(totalElementalEffect)) {
-            totalElementalEffect[element] += planetEffect[element] || 0;
-          }
-        }
-      }
-    }
-    
-    return totalElementalEffect;
-  }
-
-  // Process planet keys to get element effects
-  processPlanetKeys(planets: Record<string, unknown>): Record<string, number> {
-    if (!planets) {
-      return { Fire: 0, Water: 0, Earth: 0, Air: 0 };
-    }
-    
-    const elementalEffect: Record<string, number> = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
-    
-    // Extract all planet keys
-    const planetKeys = Object.keys(planets).filter(key => 
-      typeof planets[key] === 'object' && planets[key] !== null && 
-      (planetInfo && planetInfo[key] || false)
-    );
-    
-    // Process each planet
-    for (const planet of planetKeys) {
-      if (planets[planet]?.Sign) {
-        const sign = planets[planet].Sign;
-        const planetEffect = this.processPlanetsObject(planet, sign);
-        
-        // Combine effects
-        for (const element of Object.keys(elementalEffect)) {
-          elementalEffect[element] += planetEffect[element] || 0;
-        }
-      }
-    }
-    
-    return elementalEffect;
-  }
-
-  // Get dominant element from elemental effects
-  getDominantElement(elementalEffects: Record<string, number>): string {
-    if (!elementalEffects) {
-      return 'Fire';
-    }
-    
-    let dominantElement = 'Fire';
-    let highestValue = -Infinity;
-    
-    for (const [element, value] of Object.entries(elementalEffects)) {
-      if (value > highestValue) {
-        highestValue = value;
-        dominantElement = element;
-      }
-    }
-    
-    return dominantElement;
-  }
-
-  // Normalize elemental values to ensure they sum to 1.0
-  normalizeElementalValues(elementalEffects: Record<string, number>): Record<string, number> {
-    if (!elementalEffects) {
-      return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
-    }
-    
-    const sum = Object.values(elementalEffects).reduce((a, b) => a + b, 0);
-    
-    // If sum is zero or very small, return equal distribution
-    if (Math.abs(sum) < 0.001) {
-      return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
-    }
-    
-    const normalized: Record<string, number> = {};
-    
-    for (const element of Object.keys(elementalEffects)) {
-      normalized[element] = elementalEffects[element] /sum;
-    }
-    
-    return normalized;
-  }
 }
 
 export default ElementalCalculator;
