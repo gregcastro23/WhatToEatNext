@@ -7,8 +7,8 @@ import {
 } from '../types';
 
 // Additional type definitions
-type ElementalProperties = _ElementalProperties;
-type ThermodynamicMetrics = {
+export type ElementalProperties = _ElementalProperties;
+export type ThermodynamicMetrics = {
   heat: number;
   entropy: number;
   reactivity: number;

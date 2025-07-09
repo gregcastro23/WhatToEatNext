@@ -166,7 +166,7 @@ const calculateMatchScore = (elements: unknown): number => {
 };
 
 // Define interfaces for thermodynamic properties
-interface ThermodynamicProperties {
+export interface ThermodynamicProperties {
   heat: number;
   entropy: number;
   reactivity: number;
@@ -174,7 +174,7 @@ interface ThermodynamicProperties {
 }
 
 // Define an interface for the astrologicalInfluences to fix the property access issue
-interface AstrologicalInfluence {
+export interface AstrologicalInfluence {
   favorableZodiac?: ZodiacSign[];
   unfavorableZodiac?: ZodiacSign[];
   lunarPhaseEffect?: Record<string, number>;
@@ -183,7 +183,7 @@ interface AstrologicalInfluence {
 }
 
 // Extend the AlchemicalItem interface to include astrologicalInfluences and culturalOrigin
-interface ExtendedAlchemicalItem extends AlchemicalItem {
+export interface ExtendedAlchemicalItem extends AlchemicalItem {
   astrologicalInfluences?: AstrologicalInfluence;
   culturalOrigin?: string;
   bestFor?: string[];
@@ -215,7 +215,7 @@ interface _CookingTimeRecommendation {
 }
 
 // Add this new interface for molecular gastronomy details
-interface MolecularGastronomyDetails {
+export interface MolecularGastronomyDetails {
   chemicalProcess: string;
   precisionRequirements: string;
   commonErrors: string[];

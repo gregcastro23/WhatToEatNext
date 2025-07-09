@@ -22,14 +22,14 @@ import { alchemicalEngine } from '@/utils/alchemyInitializer';
  */
 
 // Missing interface definitions
-interface IngredientServiceInterface {
+export interface IngredientServiceInterface {
   getAllIngredients(): Record<string, UnifiedIngredient[]>;
   getIngredientByName(name: string): UnifiedIngredient | undefined;
   getIngredientsByCategory(category: string): UnifiedIngredient[];
   filterIngredients(filter: IngredientFilter): Record<string, UnifiedIngredient[]>;
 }
 
-interface IngredientFilter {
+export interface IngredientFilter {
   nutritional?: NutritionalFilter;
   elemental?: ElementalFilter;
   dietary?: DietaryFilter;
@@ -40,14 +40,14 @@ interface IngredientFilter {
   planetaryInfluence?: PlanetName;
 }
 
-interface ElementalFilter {
+export interface ElementalFilter {
   element?: Element;
   minThreshold?: number;
   maxThreshold?: number;
   dominantElement?: Element;
 }
 
-interface NutritionalFilter {
+export interface NutritionalFilter {
   maxCalories?: number;
   minProtein?: number;
   maxCarbs?: number;
@@ -57,13 +57,13 @@ interface NutritionalFilter {
   glutenFree?: boolean;
 }
 
-interface DietaryFilter {
+export interface DietaryFilter {
   restrictions: string[];
   preferences: string[];
   allergies?: string[];
 }
 
-interface IngredientRecommendationOptions {
+export interface IngredientRecommendationOptions {
   maxResults?: number;
   includeAlternatives?: boolean;
   seasonalPreference?: boolean;

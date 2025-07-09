@@ -33,19 +33,19 @@ import {
 import { 
   getAllEnhancedCookingMethods, 
   _getMonicaCompatibleCookingMethods,
-  type EnhancedCookingMethod 
+  export type EnhancedCookingMethod 
 } from '../../constants/alchemicalPillars';
 
 import { 
   unifiedCuisineIntegrationSystem, 
   type _CuisineSeasonalAdaptation,
-  type FusionCuisineProfile,
-  type CuisineIngredientAnalysis
+  export type FusionCuisineProfile,
+  export type CuisineIngredientAnalysis
 } from './cuisineIntegrations';
 import { 
   RecipeEnhancer, 
   _RecipeAnalyzer,
-  type EnhancedRecipe 
+  export type EnhancedRecipe 
 } from './recipes';
 
 // ===== ENHANCED RECIPE BUILDING INTERFACES =====

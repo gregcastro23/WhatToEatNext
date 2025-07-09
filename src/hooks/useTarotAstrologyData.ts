@@ -22,7 +22,7 @@ import { createLogger } from '@/utils/logger';
 const logger = createLogger('TarotAstrology');
 
 // Define types for tarot cards
-interface TarotCard {
+export interface TarotCard {
   name: string;
   number?: number;
   suit?: string;

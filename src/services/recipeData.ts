@@ -273,7 +273,7 @@ function validateAndNormalizeNutrition(nutrition: NutritionData): NutritionData 
   return safeNutrition;
 }
 
-class RecipeData {
+export class RecipeData {
   private recipes: Recipe[] = []
   private initialized = false
   private initPromise: Promise<void> | null = null
