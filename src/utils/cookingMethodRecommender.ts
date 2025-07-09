@@ -1,5 +1,5 @@
 import { allCookingMethods, cookingMethods as detailedCookingMethods } from '@/data/cooking';
-import { culturalCookingMethods, _getCulturalVariations } from '@/utils/culturalMethodsAggregator';
+import { culturalCookingMethods, getCulturalVariations } from '@/utils/culturalMethodsAggregator';
 import type { ZodiacSign, ElementalProperties } from '@/types';
 import type { CookingMethod as CookingMethodEnum } from '@/types/alchemy';
 import { getCurrentSeason } from '@/utils/dateUtils';
@@ -11,9 +11,9 @@ import saturnData from '@/data/planets/saturn';
 import uranusData from '@/data/planets/uranus';
 import neptuneData from '@/data/planets/neptune';
 import plutoData from '@/data/planets/pluto';
-import { PlanetaryAspect, _LunarPhase, AstrologicalState, BasicThermodynamicProperties, CookingMethodProfile, MethodRecommendationOptions, MethodRecommendation, COOKING_METHOD_THERMODYNAMICS } from '@/types/alchemy';
+import { PlanetaryAspect, LunarPhase, AstrologicalState, BasicThermodynamicProperties, CookingMethodProfile, MethodRecommendationOptions, MethodRecommendation, COOKING_METHOD_THERMODYNAMICS } from '@/types/alchemy';
 import { CookingMethod } from '@/types/cooking';
-import { _calculateLunarPhase, getLunarPhaseName } from '@/utils/astrologyUtils';
+import { calculateLunarPhase, getLunarPhaseName } from '@/utils/astrologyUtils';
 
 // Define a proper interface for our cooking method objects
 interface CookingMethodData {
@@ -22,6 +22,7 @@ interface CookingMethodData {
   description: string;
   elementalEffect: ElementalProperties;
   elementalProperties?: ElementalProperties; // Some methods use this instead
+  thermodynamicProperties?: BasicThermodynamicProperties; // Add missing thermodynamic properties
   duration: {
     min: number;
     max: number;
@@ -49,17 +50,18 @@ type CookingMethodDictionary = Record<string, CookingMethodData>;
 const allCookingMethodsCombined: CookingMethodDictionary = {
   // Convert allCookingMethods to our format
   ...(Object.entries(allCookingMethods || {}).reduce((acc: CookingMethodDictionary, [id, method]) => {
+    const methodData = method as unknown as CookingMethodData;
     acc[id] = {
       id,
-      ...(method as CookingMethodData),
-      elementalEffect: (method as CookingMethodData)?.elementalEffect || {
+      ...methodData,
+      elementalEffect: methodData?.elementalEffect || {
         Fire: 0,
         Water: 0,
         Earth: 0,
         Air: 0
       },
-      suitable_for: (method as CookingMethodData)?.suitable_for || [],
-      benefits: (method as CookingMethodData)?.benefits || [],
+      suitable_for: methodData?.suitable_for || [],
+      benefits: methodData?.benefits || [],
       variations: [] // Initialize empty variations array
     };
     return acc;
@@ -175,32 +177,33 @@ function getMethodThermodynamics(method: CookingMethodProfile): BasicThermodynam
   }
   
   // 4. Fallback logic based on method name characteristics - ENHANCED with more cooking methods
-  if ((methodNameLower as string)?.includes?.('grill') || (methodNameLower as string)?.includes?.('roast') || 
-      (methodNameLower as string)?.includes?.('fry') || (methodNameLower as string)?.includes?.('sear') || 
-      (methodNameLower as string)?.includes?.('broil') || (methodNameLower as string)?.includes?.('char')) {
+  const methodStr = String(methodNameLower);
+  if (methodStr?.includes?.('grill') || methodStr?.includes?.('roast') || 
+      methodStr?.includes?.('fry') || methodStr?.includes?.('sear') || 
+      methodStr?.includes?.('broil') || methodStr?.includes?.('char')) {
     return { heat: 0.8, entropy: 0.6, reactivity: 0.7, gregsEnergy: 0.6 }; // High heat methods
-  } else if ((methodNameLower as string)?.includes?.('bake')) {
+  } else if (methodStr?.includes?.('bake')) {
     return { heat: 0.7, entropy: 0.5, reactivity: 0.6, gregsEnergy: 0.55 }; // Medium-high heat, dry
-  } else if ((methodNameLower as string)?.includes?.('steam') || (methodNameLower as string)?.includes?.('simmer') || 
-             (methodNameLower as string)?.includes?.('poach') || (methodNameLower as string)?.includes?.('boil')) {
+  } else if (methodStr?.includes?.('steam') || methodStr?.includes?.('simmer') || 
+             methodStr?.includes?.('poach') || methodStr?.includes?.('boil')) {
     return { heat: 0.4, entropy: 0.3, reactivity: 0.5, gregsEnergy: 0.4 }; // Medium heat, lower entropy methods
-  } else if ((methodNameLower as string)?.includes?.('sous vide') || (methodNameLower as string)?.includes?.('sous_vide')) {
+  } else if (methodStr?.includes?.('sous vide') || methodStr?.includes?.('sous_vide')) {
     return { heat: 0.3, entropy: 0.35, reactivity: 0.2, gregsEnergy: 0.25 }; // Low heat, low reactivity
-  } else if ((methodNameLower as string)?.includes?.('raw') || (methodNameLower as string)?.includes?.('ceviche') || 
-             (methodNameLower as string)?.includes?.('ferment') || (methodNameLower as string)?.includes?.('pickle') || 
-             (methodNameLower as string)?.includes?.('cure') || (methodNameLower as string)?.includes?.('marinate')) {
+  } else if (methodStr?.includes?.('raw') || methodStr?.includes?.('ceviche') || 
+             methodStr?.includes?.('ferment') || methodStr?.includes?.('pickle') || 
+             methodStr?.includes?.('cure') || methodStr?.includes?.('marinate')) {
     return { heat: 0.1, entropy: 0.5, reactivity: 0.4, gregsEnergy: 0.3 }; // No/low heat methods
-  } else if ((methodNameLower as string)?.includes?.('braise') || (methodNameLower as string)?.includes?.('stew')) {
+  } else if (methodStr?.includes?.('braise') || methodStr?.includes?.('stew')) {
     return { heat: 0.55, entropy: 0.75, reactivity: 0.60, gregsEnergy: 0.5 }; // Moderate heat, high entropy
-  } else if ((methodNameLower as string)?.includes?.('pressure')) {
+  } else if (methodStr?.includes?.('pressure')) {
     return { heat: 0.7, entropy: 0.8, reactivity: 0.65, gregsEnergy: 0.6 }; // High heat/pressure, rapid breakdown
-  } else if ((methodNameLower as string)?.includes?.('smoke') || (methodNameLower as string)?.includes?.('smok')) {
+  } else if (methodStr?.includes?.('smoke') || methodStr?.includes?.('smok')) {
     return { heat: 0.6, entropy: 0.4, reactivity: 0.75, gregsEnergy: 0.65 }; // Moderate heat, high reactivity
-  } else if ((methodNameLower as string)?.includes?.('confit') || (methodNameLower as string)?.includes?.('slow cook')) {
+  } else if (methodStr?.includes?.('confit') || methodStr?.includes?.('slow cook')) {
     return { heat: 0.4, entropy: 0.6, reactivity: 0.45, gregsEnergy: 0.4 }; // Low heat, gradual cooking
-  } else if ((methodNameLower as string)?.includes?.('dehydrat') || (methodNameLower as string)?.includes?.('dry')) {
+  } else if (methodStr?.includes?.('dehydrat') || methodStr?.includes?.('dry')) {
     return { heat: 0.3, entropy: 0.2, reactivity: 0.3, gregsEnergy: 0.25 }; // Low heat, preservation
-  } else if ((methodNameLower as string)?.includes?.('toast') || (methodNameLower as string)?.includes?.('brulee')) {
+  } else if (methodStr?.includes?.('toast') || methodStr?.includes?.('brulee')) {
     return { heat: 0.75, entropy: 0.5, reactivity: 0.8, gregsEnergy: 0.7 }; // High reactivity surface treatments
   }
 
