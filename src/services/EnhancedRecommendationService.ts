@@ -1,4 +1,4 @@
-import { AstrologicalState, _ElementalProperties, _ChakraEnergies, Season , _Element } from '@/types/alchemy';
+import { AstrologicalState, _ElementalProperties, _ChakraEnergies, Season , _Element, ElementalProperties, ChakraEnergies, Element } from '@/types/alchemy';
 import { getTarotCardsForDate, getTarotFoodRecommendations } from '../lib/tarotCalculations';
 import { getRecommendedIngredients } from '../utils/recommendation/foodRecommendation';
 
@@ -136,9 +136,9 @@ export class EnhancedRecommendationService {
       const enhancedRecommendations = await Promise.all(
         baseRecommendations.slice(0, 20).map(async (ingredient) => {
           return await this.enhanceRecommendation(
-            ingredient as IngredientWithScore,
+            ingredient as unknown as IngredientWithScore,
             chakraEnergyStates,
-            tarotGuidance,
+            tarotGuidance as any,
             astroState,
             chakraEnergies // Pass chakra energies for flavor compatibility
           );
@@ -167,10 +167,10 @@ export class EnhancedRecommendationService {
       const overallScore = enhancedRecommendations.reduce((sum, rec) => sum + rec.score, 0) / enhancedRecommendations.length;
 
       // Extract tarot guidance with proper typing
-      const tarotData = tarotGuidance as TarotGuidanceData;
+      const tarotData = tarotGuidance as unknown as TarotGuidanceData;
       const tarotGuidanceResult = {
         dailyCard: tarotData?.dailyCard || 'Unknown',
-        element: tarotData?.element || 'Fire' as Element,
+        element: (tarotData?.element as unknown as Element) || 'Fire' as Element,
         cookingApproach: tarotData?.cookingApproach || 'Balanced',
         flavors: tarotData?.flavors || [],
         insights: tarotData?.insights || 'Follow your intuition today.'
@@ -189,7 +189,7 @@ export class EnhancedRecommendationService {
       // Fallback to base recommendations with interface compliance
       const baseRecommendations = await getRecommendedIngredients(astroState);
       const fallbackRecommendations: EnhancedRecommendation[] = baseRecommendations.slice(0, 10).map(ingredient => {
-        const ingredientWithScore = ingredient as IngredientWithScore;
+        const ingredientWithScore = ingredient as unknown as IngredientWithScore;
         return {
           ingredient,
           score: ingredientWithScore?.score || 0.5,
@@ -199,7 +199,7 @@ export class EnhancedRecommendationService {
             energyLevel: 0.5,
             balanceState: 'balanced' as const
           }
-        } as EnhancedRecommendation;
+        } as unknown as EnhancedRecommendation;
       });
 
       return {
@@ -211,7 +211,7 @@ export class EnhancedRecommendationService {
         },
         tarotGuidance: {
           dailyCard: 'The Sun', // ← Pattern GG-6: dailyCard property already present in fallback
-          element: 'Fire' as Element,
+          element: 'Fire' as unknown as Element,
           cookingApproach: 'Energizing',
           flavors: ['warm', 'spicy'],
           insights: 'Focus on warming, energizing foods today.'
@@ -288,7 +288,7 @@ export class EnhancedRecommendationService {
 
     // Add base reasons
     if (ingredient.elementalPropertiesState) {
-      const dominantElement = this.getDominantElement(ingredient.elementalPropertiesState);
+      const dominantElement = this.getDominantElement(ingredient.elementalPropertiesState as any);
       reasons?.push(`Strong ${dominantElement} element alignment`);
     }
 
@@ -323,7 +323,7 @@ export class EnhancedRecommendationService {
     let balanceState: 'balanced' | 'underactive' | 'overactive' = 'balanced';
 
     if (ingredient.elementalPropertiesState) {
-      const dominantElement = this.getDominantElement(ingredient.elementalPropertiesState);
+      const dominantElement = this.getDominantElement(ingredient.elementalPropertiesState as any);
       dominantChakra = elementChakraMap[dominantElement] || 'Heart';
       
       // Find the corresponding chakra state
@@ -347,7 +347,7 @@ export class EnhancedRecommendationService {
     if (!tarotGuidance?.dailyCard) return undefined;
 
     const card = tarotGuidance.dailyCard;
-    const element = tarotGuidance.element || 'Fire' as Element;
+    const element = (tarotGuidance.element as unknown as Element) || ('Fire' as unknown as Element);
     
     // Simple tarot-based recommendation logic
     let recommendation = 'Consider this ingredient for today\'s energy';
@@ -440,19 +440,36 @@ export class EnhancedRecommendationService {
       zodiacEnergies['aquarius'] += Air * 0.3;
     }
 
-    return calculateChakraEnergies(zodiacEnergies as unknown);
+    return calculateChakraEnergies(zodiacEnergies as any) as unknown as ChakraEnergies;
   }
 
   /**
    * Convert astrological state to sign energy states for chakra calculations
    */
   private convertAstroStateToSignEnergies(astroState: AstrologicalState): SignEnergyState[] {
-    const zodiacEnergies = this.calculateZodiacEnergies(astroState);
-    return Object.entries(zodiacEnergies).map(([sign, energy]) => ({
-      sign: sign as ZodiacSign,
-      energyLevel: energy,
-      balanceState: energy > 0.7 ? 'overactive' : energy < 0.3 ? 'underactive' : 'balanced'
-    })) as SignEnergyState[];
+    const zodiacEnergies = this.calculateZodiacEnergiesFromAstroState(astroState);
+    return Object.entries(zodiacEnergies).map(([sign, energy]) => {
+      const numericEnergy = Number(energy) || 0.5;
+      return {
+        sign: sign as ZodiacSign,
+        energyLevel: numericEnergy,
+        balanceState: numericEnergy > 0.7 ? 'overactive' : numericEnergy < 0.3 ? 'underactive' : 'balanced'
+      };
+    }) as unknown as SignEnergyState[];
+  }
+
+  private calculateZodiacEnergiesFromAstroState(astroState: AstrologicalState): Record<string, number> {
+    const zodiacEnergies: Record<string, number> = {
+      'aries': 0.5, 'taurus': 0.5, 'gemini': 0.5, 'cancer': 0.5,
+      'leo': 0.5, 'virgo': 0.5, 'libra': 0.5, 'scorpio': 0.5,
+      'sagittarius': 0.5, 'capricorn': 0.5, 'aquarius': 0.5, 'pisces': 0.5
+    };
+    
+    if (astroState.currentZodiac) {
+      zodiacEnergies[astroState.currentZodiac.toLowerCase()] = 0.8;
+    }
+    
+    return zodiacEnergies;
   }
 
   /**
@@ -603,12 +620,11 @@ export class EnhancedRecommendationService {
           umami: ingredient.flavorProfile?.umami || 0.2,
           spicy: ingredient.flavorProfile?.spicy || 0
         },
-        elementalFlavors: ingredient.elementalPropertiesState || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-        },
-        intensity: ingredient.intensity || 0.5,
-        complexity: ingredient.complexity || 0.5,
-        kalchm: ingredient.kalchm || 1.0,
-        monicaOptimization: ingredient.monica || 1.0,
+        elementalFlavors: (ingredient.elementalPropertiesState as ElementalProperties) || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+        intensity: (ingredient as any).intensity || 0.5,
+        complexity: (ingredient as any).complexity || 0.5,
+        kalchm: (ingredient as any).kalchm || 1.0,
+        monicaOptimization: (ingredient as any).monica || 1.0,
         alchemicalProperties: {
           Spirit: 0.25, Essence: 0.25, Matter: 0.25, Substance: 0.25
         },
@@ -669,8 +685,7 @@ export class EnhancedRecommendationService {
     // Calculate elemental properties from astrological state
     // Use safe type casting for astroState property access
     const astroData = astroState as Record<string, unknown>;
-    const elementalProps = (astroData?.elementalState as Record<string, number>) || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-    };
+    const elementalProps = (astroData?.elementalState as ElementalProperties) || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     
     // Enhance with chakra influences if available
     if (chakraEnergies) {

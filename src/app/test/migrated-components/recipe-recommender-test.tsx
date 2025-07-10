@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Recipe } from '@/types/recipe';
+import { _Recipe } from '@/types/recipe';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import RecipeRecommendations from '@/components/Recipe/RecipeRecommendations';
 import RecipeRecommendationsMigrated from '@/components/Recipe/RecipeRecommendations.migrated';

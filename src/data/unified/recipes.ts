@@ -129,7 +129,8 @@ export class RecipeEnhancer {
     const breakdown: unknown[] = [];
     
     for (const ingredient of ingredients) {
-      const ingredientName = ingredient.name?.toLowerCase();
+      const ingredientData = ingredient as any;
+      const ingredientName = ingredientData.name?.toLowerCase();
       let kalchm = 1.0; // Default Kalchm
       let elementalContribution: ElementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25  };
       
@@ -141,15 +142,15 @@ export class RecipeEnhancer {
         matchedIngredients++;
       } else {
         // Fallback: derive from element if available
-        if (ingredient.element) {
-          elementalContribution = this.elementToElementalProperties(ingredient.element);
-          kalchm = this.estimateKalchmFromElement(ingredient.element);
+        if (ingredientData.element) {
+          elementalContribution = this.elementToElementalProperties(ingredientData.element);
+          kalchm = this.estimateKalchmFromElement(ingredientData.element);
         }
       }
       
       totalKalchm += kalchm;
       breakdown?.push({
-        name: ingredient.name,
+        name: ingredientData.name,
         kalchm,
         contribution: kalchm / (ingredients || []).length,
         elementalContribution
@@ -158,7 +159,7 @@ export class RecipeEnhancer {
     
     return {
       totalKalchm: (ingredients || []).length > 0 ? totalKalchm / (ingredients || []).length : 1.0,
-      breakdown,
+      breakdown: breakdown as any,
       matchedIngredients
     };
   }
@@ -224,8 +225,9 @@ export class RecipeEnhancer {
     let totalFire = 0, totalWater = 0, totalEarth = 0, totalAir = 0;
     
     for (const item of breakdown) {
-      const contribution = item.elementalContribution;
-      const weight = item.contribution;
+      const itemData = item as any;
+      const contribution = itemData.elementalContribution;
+      const weight = itemData.contribution;
       
       totalFire += contribution.Fire * weight;
       totalWater += contribution.Water * weight;
@@ -299,7 +301,7 @@ export class RecipeEnhancer {
    */
   static calculateOptimalTemperature(thermodynamics: {}): number {
     // Use safe type casting for thermodynamics property access
-    const thermoData = thermodynamics as unknown;
+    const thermoData = thermodynamics as any;
     const { heat = 0.5, reactivity = 0.5 } = thermoData || {};
     // Base temperature (350°F) adjusted by thermodynamic properties
     return Math.round(350 + (Number(heat) * 50) - (Number(reactivity) * 25));
@@ -404,7 +406,7 @@ export class RecipeEnhancer {
    */
   static calculatePlanetaryTiming(recipe: {}): string | null {
     // Use safe type casting for recipe property access
-    const recipeData = recipe as unknown;
+    const recipeData = recipe as any;
     
     // Use existing astrological data if available
     if (recipeData?.astrologicalAffinities?.planets && recipeData.astrologicalAffinities.planets.length > 0) {
@@ -420,7 +422,7 @@ export class RecipeEnhancer {
         'capricorn': 'Saturn', 'aquarius': 'Saturn', 'pisces': 'Jupiter'
       };
       
-      const planet = zodiacPlanets[recipeData?.zodiacInfluences?.[0].toLowerCase()];
+      const planet = zodiacPlanets[recipeData?.zodiacInfluences?.[0]?.toLowerCase()];
       return planet ? planet + ' hour' : null;
     }
     
@@ -537,7 +539,7 @@ export class RecipeAnalyzer {
   ): EnhancedRecipe[] {
     return recipes.filter(recipe => {
       // Use safe type casting for alchemical properties access
-      const alchemicalData = recipe.alchemicalProperties as unknown;
+      const alchemicalData = recipe.alchemicalProperties as any;
       const elementalBalance = alchemicalData?.elementalBalance;
       return elementalBalance && elementalBalance[element] >= threshold;
     });
@@ -603,7 +605,6 @@ export class RecipeAnalyzer {
 }
 
 // Export types and utilities
-export type { EnhancedRecipe };
 // RecipeEnhancer and RecipeAnalyzer are already exported as classes above
 
 // Default export

@@ -22,7 +22,7 @@ export default function IngredientMapper() {
   const [selectedIngredient, setSelectedIngredient] = useState('');
   const [mappedRecipes, setMappedRecipes] = useState<any[]>([]);
   const [alternatives, setAlternatives] = useState<any[]>([]);
-  const [compatibilityResult, setCompatibilityResult] = useState<any>(null);
+  const [compatibilityResult, setCompatibilityResult] = useState<unknown>(null);
   const [secondIngredient, setSecondIngredient] = useState('');
 
   // Find recipes with good ingredient mappings

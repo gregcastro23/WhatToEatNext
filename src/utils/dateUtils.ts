@@ -116,6 +116,13 @@ export function getMoonPhase(date: Date = new Date()): 'new' | 'waxing_crescent'
   return 'waning_crescent';
 }
 
+// Add type guard after imports
+function isDishArray(value: unknown): value is Dish[] {
+  return Array.isArray(value) && value.every(item => 
+    typeof item === 'object' && item !== null && 'name' in item
+  );
+}
+
 // Helper function to get all dishes for a cuisine
 const getAllDishesForCuisine = (cuisineId: string): Dish[] => {
   const cuisine = cuisines[cuisineId];
@@ -134,7 +141,7 @@ const getAllDishesForCuisine = (cuisineId: string): Dish[] => {
       Object.keys(mealTimeDishes).forEach(season => {
         const seasonDishes = mealTimeDishes[season];
         if (Array.isArray(seasonDishes)) {
-          allDishes = [...allDishes, ...seasonDishes as unknown as Dish[]];
+          allDishes = [...allDishes, ...(isDishArray(seasonDishes) ? seasonDishes : [])];
         }
       });
     }
@@ -178,7 +185,7 @@ export const getRecommendations = (mealTime: string, season: Season, cuisineId: 
     const combinedDishes = [...allSeasonDishes, ...seasonalDishes];
     debugLog(`Found ${combinedDishes.length} dishes for ${cuisineId}`);
     
-    return combinedDishes as unknown as Dish[];
+    return combinedDishes as Dish[];
   } catch (error) {
     // console.error(`Error getting recommendations for ${cuisineId}:`, error);
     return [];

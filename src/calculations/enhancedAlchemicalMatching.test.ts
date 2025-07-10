@@ -1,10 +1,10 @@
 import { 
   calculateAstrologicalAffinity, 
   calculateAlchemicalCompatibility,
-  generateEnhancedRecommendation,
+  _generateEnhancedRecommendation,
   validateAlgorithms
 } from './enhancedAlchemicalMatching';
-import { ZodiacSign } from '@/types/alchemy';
+import { _ZodiacSign } from '@/types/alchemy';
 
 describe('Enhanced Alchemical Matching Algorithms', () => {
   describe('calculateAstrologicalAffinity', () => {
@@ -185,8 +185,8 @@ describe('Enhanced Alchemical Matching Algorithms', () => {
       };
       
       // User doesn't eat chicken
-      const userPreferences = ['chicken'];
-      const recommendation = generateEnhancedRecommendation(mockResult, userPreferences);
+      const _userPreferences = ['chicken'];
+      const recommendation = generateEnhancedRecommendation(mockResult, _userPreferences);
       
       // Should not recommend chicken
       expect(recommendation.mainIngredient).not.toContain('chicken');

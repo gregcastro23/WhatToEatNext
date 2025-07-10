@@ -690,7 +690,7 @@ export class UnifiedSeasonalSystem {
     ingredientName: string,
     season: Season = this.getCurrentSeason()
   ): SeasonalIngredientProfile {
-    const availability = this.getSeasonalScore(ingredientName, _season);
+    const availability = this.getSeasonalScore(ingredientName, season);
     const seasonProfile = unifiedSeasonalProfiles[season];
     
     // Get traditional use from seasonal usage data
@@ -709,7 +709,7 @@ export class UnifiedSeasonalSystem {
     // Calculate Kalchm compatibility
     const unifiedIngredient = unifiedIngredients[ingredientName];
     const kalchmCompatibility = unifiedIngredient 
-      ? this.calculateKalchmSeasonalCompatibility(unifiedIngredient.kalchm, _season)
+      ? this.calculateKalchmSeasonalCompatibility(unifiedIngredient.kalchm, season)
       : 0.5;
     
     // Calculate Monica resonance
@@ -781,10 +781,10 @@ export class UnifiedSeasonalSystem {
     const seasonProfile = unifiedSeasonalProfiles[season];
     
     // Base seasonal score
-    const baseScore = this.getSeasonalScore(ingredient.name, _season);
+    const baseScore = this.getSeasonalScore(ingredient.name, season);
     
     // Kalchm compatibility
-    const kalchmCompatibility = this.calculateKalchmSeasonalCompatibility(ingredient.kalchm, _season);
+    const kalchmCompatibility = this.calculateKalchmSeasonalCompatibility(ingredient.kalchm, season);
     
     // Elemental compatibility
     const elementalCompatibility = this.calculateElementalSeasonalCompatibility(
@@ -889,19 +889,19 @@ export class UnifiedSeasonalSystem {
     
     // Get compatible ingredients
     const compatibleIngredients = this.getSeasonalCompatibleIngredients(
-      _season,
+      season,
       effectiveKalchmRange
     );
     
     // Get optimal cooking methods
     const optimalCookingMethods = this.getSeasonalOptimalCookingMethods(
-      _season,
+      season,
       targetMonica
     );
     
     // Calculate optimization scores
     const monicaOptimization = this.calculateSeasonalMonicaOptimization(
-      _season,
+      season,
       targetMonica,
       optimalCookingMethods
     );
@@ -939,23 +939,23 @@ export class UnifiedSeasonalSystem {
       // Check Kalchm compatibility
       const kalchmCompatibility = this.calculateKalchmSeasonalCompatibility(
         ingredient.kalchm,
-        _season
+        season
       );
       
       // Check if within desired Kalchm range
       const inRange = ingredient.kalchm >= kalchmRange.min && ingredient.kalchm <= kalchmRange.max;
       
       if (kalchmCompatibility >= 0.7 || inRange) {
-        compatibleIngredients?.push(ingredient as unknown);
+        compatibleIngredients?.push(ingredient as unknown as UnifiedIngredient);
       }
     }
     
     // Sort by seasonal score and Kalchm compatibility
     return compatibleIngredients.sort((a, b) => {
-      const scoreA = this.getSeasonalScore(a.name, _season) + 
-                    this.calculateKalchmSeasonalCompatibility(a.kalchm, _season);
-      const scoreB = this.getSeasonalScore(b.name, _season) + 
-                    this.calculateKalchmSeasonalCompatibility(b.kalchm, _season);
+      const scoreA = this.getSeasonalScore(a.name, season) + 
+                    this.calculateKalchmSeasonalCompatibility(a.kalchm, season);
+      const scoreB = this.getSeasonalScore(b.name, season) + 
+                    this.calculateKalchmSeasonalCompatibility(b.kalchm, season);
       return scoreB - scoreA;
     });
   }
@@ -992,8 +992,8 @@ export class UnifiedSeasonalSystem {
     
     // Sort by seasonal compatibility and Monica alignment
     return optimalMethods.sort((a, b) => {
-      const scoreA = this.calculateMethodSeasonalScore(a, _season, targetMonica);
-      const scoreB = this.calculateMethodSeasonalScore(b, _season, targetMonica);
+      const scoreA = this.calculateMethodSeasonalScore(a, season, targetMonica);
+      const scoreB = this.calculateMethodSeasonalScore(b, season, targetMonica);
       return scoreB - scoreA;
     });
   }
@@ -1015,13 +1015,13 @@ export class UnifiedSeasonalSystem {
     }
     
     // Monica compatibility
-    if (targetMonica !== undefined && !isNaN((method as unknown)?.monicaConstant)) {
-      const monicaDifference = Math.abs((method as unknown).monicaConstant - targetMonica);
+    if (targetMonica !== undefined && !isNaN((method as any)?.monicaConstant)) {
+      const monicaDifference = Math.abs((method as any).monicaConstant - targetMonica);
       score += Math.max(0, 1 - monicaDifference);
     }
     
     // Elemental compatibility
-    const methodElement = (method as unknown)?.alchemicalPillar?.elementalAssociations?.primary;
+    const methodElement = (method as any)?.alchemicalPillar?.elementalAssociations?.primary;
     if (methodElement) {
       const elementalScore = seasonProfile?.elementalDominance?.[methodElement] || 0;
       score += elementalScore;
@@ -1047,8 +1047,8 @@ export class UnifiedSeasonalSystem {
     let validMethods = 0;
     
     for (const method of cookingMethods) {
-      if (!isNaN((method as unknown)?.monicaConstant)) {
-        const monicaDifference = Math.abs((method as unknown).monicaConstant - targetMonica);
+      if (!isNaN((method as any)?.monicaConstant)) {
+        const monicaDifference = Math.abs((method as any).monicaConstant - targetMonica);
         const methodOptimization = Math.max(0, 1 - monicaDifference);
         
         // Apply seasonal Monica modifiers
@@ -1261,9 +1261,9 @@ export const unifiedSeasonalSystem = new UnifiedSeasonalSystem();
 // Export functions that match the original seasonal.ts interface
 export const getCurrentSeason = () => unifiedSeasonalSystem.getCurrentSeason();
 export const getSeasonalScore = (ingredientName: string, season?: Season) => 
-  unifiedSeasonalSystem.getSeasonalScore(ingredientName, _season);
+  unifiedSeasonalSystem.getSeasonalScore(ingredientName, season);
 export const getSeasonalData = (ingredientName: string, season?: Season) => 
-  unifiedSeasonalSystem.getSeasonalIngredientProfile(ingredientName, _season);
+  unifiedSeasonalSystem.getSeasonalIngredientProfile(ingredientName, season);
 export const isInSeason = (ingredientName: string, threshold?: number) => 
   unifiedSeasonalSystem.isInSeason(ingredientName, threshold);
 export const getSeasonalRecommendations = (season: Season, targetMonica?: number, kalchmRange?: { min: number; max: number }) => 

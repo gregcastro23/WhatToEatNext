@@ -1,8 +1,8 @@
 import { RulingPlanet } from '../constants/planets';
 import { 
-  getPlanetaryElement, 
+  _getPlanetaryElement, 
   getPlanetaryAlchemicalProperty, 
-  ElementalCharacter,
+  _ElementalCharacter,
   AlchemicalProperty
 } from '../constants/planetaryElements';
 import {
@@ -15,9 +15,9 @@ import {
   thermodynamicCalculator,
   convertToElementalState
 } from './gregsEnergy';
-import { Planet } from '../constants/planetaryFoodAssociations';
+import { _Planet } from '../constants/planetaryFoodAssociations';
 import { signs, planetInfo } from '../data/astroData';
-import { StandardizedAlchemicalResult, ElementalProperties, PlanetaryPosition } from '@/types/alchemy';
+import { StandardizedAlchemicalResult, _ElementalProperties, _PlanetaryPosition } from '@/types/alchemy';
 
 /**
  * Calculate elemental balance based on properties
@@ -153,7 +153,7 @@ const elementToAlchemicalProperty = (element: ElementalCharacter): AlchemicalPro
 };
 
 // Replace console.log with commented code for production
-const debugLog = (message: string, ...args: unknown[]): void => {
+const _debugLog = (message: string, ...args: unknown[]): void => {
   // Comment out console.log to avoid linting warnings
   // console.log(message, ...args);
 };
@@ -331,7 +331,7 @@ export const calculateAlchemicalProperties = (
       if ('strength' in position && typeof position.strength === 'number') {
         strength = position.strength;
       } else if ('exactLongitude' in position && typeof position.exactLongitude === 'number') {
-        const longitude = position.exactLongitude;
+        const _longitude = position.exactLongitude;
         // Base strength and apply modifiers
         strength = 0.5 + ((longitude % 30) / 60); // Gives 0.5-1.0 based on position in sign
       } else if ('degree' in position) {
@@ -639,7 +639,7 @@ const degreeEffects: Record<string, Record<string, number[]>> = {
 };
 
 // Helper function to get sign element safely typed
-const getElementFromSign = (sign: string): ElementalCharacter => {
+const getElementFromSign = (sign: string): _ElementalCharacter => {
   const fireigns = ['aries', 'leo', 'sagittarius'];
   const earthSigns = ['taurus', 'virgo', 'capricorn'];
   const airSigns = ['gemini', 'libra', 'aquarius'];
@@ -909,8 +909,8 @@ export function alchemize(planetaryPositions: Record<string, PlanetaryPosition>,
     
     // Special handling for specific planets
     const planetDataObj = planetData as unknown;
-    if (planetKey === 'Moon' && lunarPhase && (planetDataObj as any).PlanetSpecific?.Lunar?.Phases) {
-      const lunarData = (planetDataObj as any).PlanetSpecific.Lunar;
+    if (planetKey === 'Moon' && lunarPhase && (planetDataObj as unknown).PlanetSpecific?.Lunar?.Phases) {
+      const lunarData = (planetDataObj as unknown).PlanetSpecific.Lunar;
       const phaseData = lunarData.Phases[lunarPhase];
       
       if (phaseData) {
@@ -937,8 +937,8 @@ export function alchemize(planetaryPositions: Record<string, PlanetaryPosition>,
     }
     
     // For Sun, apply zodiac transit effects if available
-    if (planetKey === 'Sun' && sign && (planetDataObj as any).PlanetSpecific?.Solar?.ZodiacTransit) {
-      const solarData = (planetDataObj as any).PlanetSpecific.Solar;
+    if (planetKey === 'Sun' && sign && (planetDataObj as unknown).PlanetSpecific?.Solar?.ZodiacTransit) {
+      const solarData = (planetDataObj as unknown).PlanetSpecific.Solar;
       const transitData = solarData.ZodiacTransit[sign];
       
       if (transitData && transitData.Elements) {
@@ -955,8 +955,8 @@ export function alchemize(planetaryPositions: Record<string, PlanetaryPosition>,
     }
     
     // For Mercury, apply retrograde cycle effects
-    if (planetKey === 'Mercury' && isRetrograde && (planetDataObj as any).PlanetSpecific?.Mercury?.FlavorModulation) {
-      const mercuryData = (planetDataObj as any).PlanetSpecific.Mercury;
+    if (planetKey === 'Mercury' && isRetrograde && (planetDataObj as unknown).PlanetSpecific?.Mercury?.FlavorModulation) {
+      const _mercuryData = (planetDataObj as unknown).PlanetSpecific.Mercury;
       // We could apply specific flavor modulations here if needed
     }
   }
@@ -976,7 +976,7 @@ export function alchemize(planetaryPositions: Record<string, PlanetaryPosition>,
   const recommendation = generateRecommendation(dominantElement, elementalBalance);
   
   // Convert to upper case for ElementalProperties
-  const totalEffectValue: ElementalProperties = {
+  const totalEffectValue: _ElementalProperties = {
     Fire: elementalBalance.fire,
     Earth: elementalBalance.earth,
     Air: elementalBalance.air,

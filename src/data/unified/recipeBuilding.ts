@@ -16,14 +16,13 @@ import type {
 
 import type { Recipe } from "@/types/recipe";
 import { UnifiedIngredient } from '@/types/ingredient';
-import { SeasonalRecommendations, _seasonalAdaptations, _getSeasonalIngredients, _calculateSeasonalBonus } from './seasonal';
+import { SeasonalRecommendations } from './seasonal';
 import { unifiedSeasonalSystem } from '@/data/integrations/seasonal';
 import { PlanetaryAlignment } from "@/types/celestial";
 import { 
   unifiedIngredients, 
   getIngredientsByElement,
-  getIngredientsByCategory,
-  calculateIngredientCompatibility
+  getIngredientsByCategory
 } from "./ingredients";
 import { 
   calculateKalchm, 
@@ -485,8 +484,8 @@ export class UnifiedRecipeBuildingSystem {
       adaptationChanges: {
         ingredientSubstitutions: ingredientSubstitutions as { original: string; substitute: string; reason: string; seasonalImprovement: number; }[],
         cookingMethodAdjustments: cookingMethodAdjustments as { original: string; adjusted: string; reason: string; seasonalBenefit: string; }[],
-        timingAdjustments,
-        temperatureAdjustments
+        timingAdjustments: timingAdjustments as { prepTimeChange: number; cookTimeChange: number; restTimeChange: number; reason: string; },
+        temperatureAdjustments: temperatureAdjustments as { temperatureChange: number; reason: string; seasonalBenefit: string; }
       },
       seasonalScore,
       kalchmImprovement,
@@ -532,10 +531,10 @@ export class UnifiedRecipeBuildingSystem {
     // Create fusion recipe
     const fusionRecipe: MonicaOptimizedRecipe = {
       ...enhancedFusionRecipe,
-      monicaOptimization,
-      seasonalAdaptation,
-      cuisineIntegration,
-      nutritionalOptimization
+      monicaOptimization: monicaOptimization as MonicaOptimizedRecipe['monicaOptimization'],
+      seasonalAdaptation: seasonalAdaptation as MonicaOptimizedRecipe['seasonalAdaptation'],
+      cuisineIntegration: cuisineIntegration as MonicaOptimizedRecipe['cuisineIntegration'],
+      nutritionalOptimization: nutritionalOptimization as MonicaOptimizedRecipe['nutritionalOptimization']
     };
     
     // Calculate fusion metrics
@@ -598,9 +597,9 @@ export class UnifiedRecipeBuildingSystem {
     
     return {
       recipe: baseRecipe.recipe,
-      planetaryAlignment,
-      optimalCookingTime,
-      energeticProfile
+      planetaryAlignment: planetaryAlignment as { currentPlanetaryHour: PlanetName; planetaryCompatibility: number; lunarPhaseAlignment: number; zodiacHarmony: number; astrologicalScore: number; },
+      optimalCookingTime: optimalCookingTime as { startTime: string; duration: string; planetaryWindow: string; lunarConsiderations: string; },
+      energeticProfile: energeticProfile as { spiritualEnergy: number; emotionalResonance: number; physicalVitality: number; mentalClarity: number; }
     };
   }
   
@@ -875,13 +874,13 @@ export function generatePlanetaryRecipeRecommendation(
 
 // Maintain compatibility with existing recipe building functions
 export function buildRecipe(criteria: Record<string, unknown>): Record<string, unknown> {
-  return unifiedRecipeBuildingSystem.generateMonicaOptimizedRecipe(criteria as RecipeBuildingCriteria);
+  return unifiedRecipeBuildingSystem.generateMonicaOptimizedRecipe(criteria as RecipeBuildingCriteria) as unknown as Record<string, unknown>;
 }
 
 export function getSeasonalRecipeRecommendations(season: Season): Record<string, unknown> {
-  return unifiedRecipeBuildingSystem.adaptRecipeForSeason({} as EnhancedRecipe, season);
+  return unifiedRecipeBuildingSystem.adaptRecipeForSeason({} as EnhancedRecipe, season) as unknown as Record<string, unknown>;
 }
 
 export function getCuisineRecipeRecommendations(cuisine: string): Record<string, unknown> {
-  return unifiedRecipeBuildingSystem.generateMonicaOptimizedRecipe({ cuisine } as RecipeBuildingCriteria);
+  return unifiedRecipeBuildingSystem.generateMonicaOptimizedRecipe({ cuisine } as RecipeBuildingCriteria) as unknown as Record<string, unknown>;
 } 

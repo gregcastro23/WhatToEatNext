@@ -564,18 +564,20 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
         if (topIngredients.length > 0) {
           topIngredients.forEach((item: Record<string, unknown>) => {
             if (item.elementalState) {
-              profile.elementalState.Fire += (item.elementalState.Fire || 0) / topIngredients.length;
-              profile.elementalState.Water += (item.elementalState.Water || 0) / topIngredients.length;
-              profile.elementalState.Earth += (item.elementalState.Earth || 0) / topIngredients.length;
-              profile.elementalState.Air += (item.elementalState.Air || 0) / topIngredients.length;
+              const elementalState = item.elementalState as Record<string, unknown>;
+              profile.elementalState.Fire += Number(elementalState.Fire || 0) / topIngredients.length;
+              profile.elementalState.Water += Number(elementalState.Water || 0) / topIngredients.length;
+              profile.elementalState.Earth += Number(elementalState.Earth || 0) / topIngredients.length;
+              profile.elementalState.Air += Number(elementalState.Air || 0) / topIngredients.length;
             }
             
             // Extract alchemical properties if available
             if (item.alchemicalProperties) {
-              profile.alchemicalProperties.Spirit += (item.alchemicalProperties.Spirit || 0) / topIngredients.length;
-              profile.alchemicalProperties.Essence += (item.alchemicalProperties.Essence || 0) / topIngredients.length;
-              profile.alchemicalProperties.Matter += (item.alchemicalProperties.Matter || 0) / topIngredients.length;
-              profile.alchemicalProperties.Substance += (item.alchemicalProperties.Substance || 0) / topIngredients.length;
+              const alchemicalProperties = item.alchemicalProperties as Record<string, unknown>;
+              profile.alchemicalProperties.Spirit += Number(alchemicalProperties.Spirit || 0) / topIngredients.length;
+              profile.alchemicalProperties.Essence += Number(alchemicalProperties.Essence || 0) / topIngredients.length;
+              profile.alchemicalProperties.Matter += Number(alchemicalProperties.Matter || 0) / topIngredients.length;
+              profile.alchemicalProperties.Substance += Number(alchemicalProperties.Substance || 0) / topIngredients.length;
             }
           });
         }
@@ -1031,13 +1033,196 @@ const AlchemicalRecommendationsMigrated: React.FC<AlchemicalRecommendationsProps
 
 // Missing function definitions for AlchemicalRecommendations
 function getRecommendedRecipes(criteria: Record<string, unknown>): Promise<any[]> {
-  // Placeholder implementation
-  return Promise.resolve([]);
+  // Replace placeholder implementation with proper recipe recommendations
+  return new Promise((resolve) => {
+    try {
+      // Extract criteria for recipe matching
+      const elementalState = criteria.elementalState as ElementalData | undefined;
+      const zodiacSign = criteria.zodiacSign as string | undefined;
+      const lunarPhase = criteria.lunarPhase as string | undefined;
+      
+      // Create base recipes that align with the criteria
+      const baseRecipes = [
+        {
+          id: '1',
+          name: 'Elemental Balance Bowl',
+          ingredients: ['quinoa', 'seasonal vegetables', 'herbs', 'olive oil'],
+          cuisine: 'Mediterranean',
+          mealType: 'lunch',
+          timeRequired: 30,
+          currentSeason: 'spring',
+          elementalAlignment: { Fire: 0.2, Water: 0.3, Earth: 0.3, Air: 0.2 },
+          zodiacAffinity: ['earth signs', 'water signs']
+        },
+        {
+          id: '2', 
+          name: 'Fire-Spiced Stir Fry',
+          ingredients: ['bell peppers', 'ginger', 'chili', 'garlic', 'protein'],
+          cuisine: 'Asian',
+          mealType: 'dinner',
+          timeRequired: 20,
+          currentSeason: 'summer',
+          elementalAlignment: { Fire: 0.6, Water: 0.1, Earth: 0.2, Air: 0.1 },
+          zodiacAffinity: ['fire signs']
+        },
+        {
+          id: '3',
+          name: 'Water Element Soup',
+          ingredients: ['broth', 'seaweed', 'miso', 'tofu', 'green onions'],
+          cuisine: 'Japanese',
+          mealType: 'dinner',
+          timeRequired: 25,
+          currentSeason: 'winter',
+          elementalAlignment: { Fire: 0.1, Water: 0.6, Earth: 0.2, Air: 0.1 },
+          zodiacAffinity: ['water signs']
+        },
+        {
+          id: '4',
+          name: 'Grounding Root Vegetables',
+          ingredients: ['sweet potato', 'carrots', 'beets', 'rosemary'],
+          cuisine: 'Rustic',
+          mealType: 'dinner',
+          timeRequired: 45,
+          currentSeason: 'autumn',
+          elementalAlignment: { Fire: 0.2, Water: 0.1, Earth: 0.6, Air: 0.1 },
+          zodiacAffinity: ['earth signs']
+        },
+        {
+          id: '5',
+          name: 'Airy Herb Salad',
+          ingredients: ['mixed greens', 'fresh herbs', 'citrus', 'nuts'],
+          cuisine: 'Fresh',
+          mealType: 'lunch',
+          timeRequired: 15,
+          currentSeason: 'spring',
+          elementalAlignment: { Fire: 0.1, Water: 0.2, Earth: 0.1, Air: 0.6 },
+          zodiacAffinity: ['air signs']
+        }
+      ];
+      
+      // Score and filter recipes based on criteria
+      const scoredRecipes = baseRecipes.map(recipe => {
+        let score = 0.5; // Base score
+        
+        // Score based on elemental alignment
+        if (elementalState && recipe.elementalAlignment) {
+          const elementalMatch = Object.keys(elementalState)
+            .reduce((sum, element) => {
+              if (element in recipe.elementalAlignment) {
+                return sum + Math.abs(elementalState[element] - recipe.elementalAlignment[element]);
+              }
+              return sum;
+            }, 0);
+          
+          // Lower difference means better match
+          score += (1 - (elementalMatch / 4)) * 0.4;
+        }
+        
+        // Score based on zodiac affinity
+        if (zodiacSign && recipe.zodiacAffinity) {
+          const zodiacLower = zodiacSign.toLowerCase();
+          const hasAffinity = recipe.zodiacAffinity.some(affinity => 
+            affinity.toLowerCase().includes(zodiacLower) ||
+            (zodiacLower.includes('aries') || zodiacLower.includes('leo') || zodiacLower.includes('sagittarius')) && affinity.includes('fire') ||
+            (zodiacLower.includes('cancer') || zodiacLower.includes('scorpio') || zodiacLower.includes('pisces')) && affinity.includes('water') ||
+            (zodiacLower.includes('taurus') || zodiacLower.includes('virgo') || zodiacLower.includes('capricorn')) && affinity.includes('earth') ||
+            (zodiacLower.includes('gemini') || zodiacLower.includes('libra') || zodiacLower.includes('aquarius')) && affinity.includes('air')
+          );
+          
+          if (hasAffinity) {
+            score += 0.2;
+          }
+        }
+        
+        return { ...recipe, score };
+      });
+      
+      // Sort by score and return top matches
+      const topRecipes = scoredRecipes
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 5);
+      
+      resolve(topRecipes);
+      
+    } catch (error) {
+      console.error('Error getting recipe recommendations:', error);
+      resolve([]);
+    }
+  });
 }
 
 function explainRecommendation(recipe: Record<string, unknown>, userData: Record<string, unknown>): string {
-  // Placeholder implementation
-  return `This recipe aligns with your current astrological profile.`;
+  // Replace placeholder implementation with detailed explanation
+  
+  const recipeName = recipe.name as string || 'this recipe';
+  const elementalAlignment = recipe.elementalAlignment as ElementalData | undefined;
+  const zodiacAffinity = recipe.zodiacAffinity as string[] | undefined;
+  const userElementalState = userData.elementalState as ElementalData | undefined;
+  const userZodiac = userData.zodiacSign as string | undefined;
+  
+  const explanations: string[] = [];
+  
+  // Explain elemental alignment
+  if (elementalAlignment && userElementalState) {
+    const dominantElement = Object.entries(elementalAlignment)
+      .reduce((max, [element, value]) => 
+        (value as number) > (max.value as number) ? { element, value } : max,
+        { element: 'Fire', value: 0 }
+      ).element;
+    
+    const userDominantElement = Object.entries(userElementalState)
+      .reduce((max, [element, value]) => 
+        (value as number) > (max.value as number) ? { element, value } : max,
+        { element: 'Fire', value: 0 }
+      ).element;
+    
+    if (dominantElement === userDominantElement) {
+      explanations.push(`This recipe's ${dominantElement} energy aligns perfectly with your current elemental state`);
+    } else {
+      explanations.push(`This recipe's ${dominantElement} element complements your ${userDominantElement} energy, creating balance`);
+    }
+  }
+  
+  // Explain zodiac compatibility
+  if (zodiacAffinity && userZodiac) {
+    const matchingAffinity = zodiacAffinity.find(affinity => {
+      const affinityLower = affinity.toLowerCase();
+      const zodiacLower = userZodiac.toLowerCase();
+      
+      return affinityLower.includes(zodiacLower) ||
+        (zodiacLower.includes('aries') || zodiacLower.includes('leo') || zodiacLower.includes('sagittarius')) && affinityLower.includes('fire') ||
+        (zodiacLower.includes('cancer') || zodiacLower.includes('scorpio') || zodiacLower.includes('pisces')) && affinityLower.includes('water') ||
+        (zodiacLower.includes('taurus') || zodiacLower.includes('virgo') || zodiacLower.includes('capricorn')) && affinityLower.includes('earth') ||
+        (zodiacLower.includes('gemini') || zodiacLower.includes('libra') || zodiacLower.includes('aquarius')) && affinityLower.includes('air');
+    });
+    
+    if (matchingAffinity) {
+      explanations.push(`The recipe resonates with ${matchingAffinity}, making it ideal for your ${userZodiac} nature`);
+    }
+  }
+  
+  // Explain cooking method benefits
+  const cuisine = recipe.cuisine as string;
+  if (cuisine) {
+    const cuisineExplanations: Record<string, string> = {
+      'Mediterranean': 'promotes balance and heart health through healthy fats and fresh ingredients',
+      'Asian': 'emphasizes harmony between flavors and supports digestive fire',
+      'Japanese': 'focuses on purity and mindful eating, supporting water element balance',
+      'Rustic': 'provides grounding earth energy through hearty, root-based ingredients',
+      'Fresh': 'enhances air element qualities through light, energizing foods'
+    };
+    
+    if (cuisineExplanations[cuisine]) {
+      explanations.push(`The ${cuisine} style ${cuisineExplanations[cuisine]}`);
+    }
+  }
+  
+  // Default explanation if no specific matches
+  if (explanations.length === 0) {
+    explanations.push(`This recipe supports your current astrological and elemental profile through its balanced nutritional composition`);
+  }
+  
+  return explanations.join('. ') + '.';
 }
 
 export default AlchemicalRecommendationsMigrated; 

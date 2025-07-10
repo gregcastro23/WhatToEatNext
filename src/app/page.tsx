@@ -4,10 +4,6 @@ import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import FoodRecommender from '@/components/FoodRecommender';
 import IngredientRecommender from '@/components/IngredientRecommender';
-import { AstrologicalProvider } from '@/context/AstrologicalContext';
-import Link from 'next/link';
-import { Button } from '@mui/material';
-import { useIngredientMapping } from '@/hooks';
 import { useCookingMethods } from '@/hooks/useCookingMethods';
 import { CookingMethodsSection } from '@/components/CookingMethodsSection';
 import RecipeGeneratorCap from '@/components/FoodRecommender/RecipeGeneratorCap';
@@ -73,6 +69,9 @@ export default function Home() {
   const [selectedCookingMethodId, setSelectedCookingMethodId] = useState<string | null>(null);
   const [showFullRecipeGenerator, setShowFullRecipeGenerator] = useState(false);
 
+  // Add error handling for astrological state
+  const [astroError, _setAstroError] = useState<string | null>(null);
+
   return (
     <main className="min-h-screen bg-gradient-to-b from-indigo-50 via-blue-50 to-gray-100 text-gray-800">
       <div className="container mx-auto px-4 py-8">
@@ -130,6 +129,20 @@ export default function Home() {
               ) : cookingMethodsError ? (
                 <div className="text-red-500 text-center py-4">
                   Error loading cooking methods: {cookingMethodsError}
+                </div>
+              ) : astroError ? (
+                <div className="text-yellow-600 text-center py-4 mb-4">
+                  <p>Astrological data unavailable, showing basic cooking methods:</p>
+                  <CookingMethodsSection
+                    methods={cookingMethods}
+                    onSelectMethod={(method) => {
+                      setSelectedCookingMethodId(method.id);
+                      selectMethod(method.id);
+                    }}
+                    selectedMethodId={selectedCookingMethodId}
+                    showToggle={true}
+                    initiallyExpanded={true}
+                  />
                 </div>
               ) : (
                 <CookingMethodsSection

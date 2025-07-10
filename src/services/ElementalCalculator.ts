@@ -336,7 +336,7 @@ export class ElementalCalculator {
         if (isPlanetKey && obj[key]) {
           // Add planet name to object if not already present
           const planetObj = {
-            ...obj[key],
+            ...(obj[key] as Record<string, unknown>),
             name: isPlanetKey,
             label: isPlanetKey
           };

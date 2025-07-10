@@ -4,7 +4,7 @@ import { celestialCalculator } from '@/services/celestialCalculations';
 import { meats } from '@/data/ingredients/proteins/meat';
 import { culinaryTraditions } from '@/data/cuisines/culinaryTraditions';
 import { recipeElementalMappings } from '@/data/recipes/elementalMappings';
-import { AstrologicalState, Season, _ElementalProperties, _Element } from '@/types/alchemy';
+import { AstrologicalState, _Season, _ElementalProperties, _Element } from '@/types/alchemy';
 import type { RecipeElementalMapping } from '@/types/recipes';
 
 // Define the missing interface
@@ -88,7 +88,7 @@ export class CulinaryAstrologer {
   };
   
   // Add currentSeason field that's used in calculateCuisineBoost
-  private currentSeason: Season = 'spring';
+  private currentSeason: _Season = 'spring';
 
   getGuidance(astroState: AstrologicalState, season: Season): AstrologicalCulinaryGuidance {
     // Base recommendations directly on astrological state without elemental balance
@@ -96,7 +96,7 @@ export class CulinaryAstrologer {
       dominantElement: this.getDominantElementFromAstro(astroState),
       technique: this.getOptimalTechnique(astroState),
       ingredientFocus: this.getIngredientFocus(astroState),
-      cuisineRecommendation: this.getCuisineRecommendation(astroState, season)
+      cuisineRecommendation: this.getCuisineRecommendation(astroState, _season)
     };
   }
 
@@ -131,7 +131,7 @@ export class CulinaryAstrologer {
   }
 
   private getAstrologicalAffinity(method: CookingMethodData, astroState: AstrologicalState): number {
-    const planetScore = method.astrologicalInfluences?.dominantPlanets?.reduce((sum, planet) => 
+    const _planetScore = method.astrologicalInfluences?.dominantPlanets?.reduce((sum, planet) => 
       sum + (astroState.activePlanets.includes(planet) ? 0.2 : 0), 0) || 0;
     
     return planetScore;
@@ -277,13 +277,13 @@ export class CulinaryAstrologer {
       const jupiterPlanet = astroState.dominantPlanets?.find(p => {
         // Apply safe type casting for planet access
         const planetData = p as unknown;
-        return (planetData as any)?.name === 'Jupiter';
+        return (planetData as unknown)?.name === 'Jupiter';
       });
       if (jupiterPlanet) {
         // Apply safe type casting for planet data access
         const planetData = jupiterPlanet as unknown;
-        const planetEffect = (planetData as any)?.effect;
-        const planetInfluence = (planetData as any)?.influence || 1;
+        const planetEffect = (planetData as unknown)?.effect;
+        const planetInfluence = (planetData as unknown)?.influence || 1;
         
         // Base score for Jupiter
         let jupiterBoost = 0.6;
@@ -296,7 +296,7 @@ export class CulinaryAstrologer {
           // Further boost recipes that have abundant, rich, or festive qualities
           // Apply safe type casting for recipe tags access
           const recipeData = recipe as unknown;
-          const recipeTags = (recipeData as any)?.tags;
+          const recipeTags = (recipeData as unknown)?.tags;
           if (Array.isArray(recipeTags) && recipeTags.some(tag => 
             ['abundant', 'rich', 'festive', 'celebratory', 'generous'].includes(tag.toLowerCase())
           )) {
@@ -322,13 +322,13 @@ export class CulinaryAstrologer {
       const saturnPlanet = astroState.dominantPlanets?.find(p => {
         // Apply safe type casting for planet access
         const planetData = p as unknown;
-        return (planetData as any)?.name === 'Saturn';
+        return (planetData as unknown)?.name === 'Saturn';
       });
       if (saturnPlanet) {
         // Apply safe type casting for planet data access
         const planetData = saturnPlanet as unknown;
-        const planetEffect = (planetData as any)?.effect;
-        const planetInfluence = (planetData as any)?.influence || 1;
+        const planetEffect = (planetData as unknown)?.effect;
+        const planetInfluence = (planetData as unknown)?.influence || 1;
         
         // Base score for Saturn
         let saturnBoost = 0.6;
@@ -341,7 +341,7 @@ export class CulinaryAstrologer {
           // Further boost recipes that have structured, traditional, or preserved qualities
           // Apply safe type casting for recipe tags access
           const recipeData = recipe as unknown;
-          const recipeTags = (recipeData as any)?.tags;
+          const recipeTags = (recipeData as unknown)?.tags;
           if (Array.isArray(recipeTags) && recipeTags.some(tag => 
             ['structured', 'traditional', 'preserved', 'aged', 'fermented'].includes(tag.toLowerCase())
           )) {
@@ -364,7 +364,7 @@ export class CulinaryAstrologer {
       .filter(p => outerPlanets.includes(p) && astroState.activePlanets.includes(p)).length;
     
     // Higher weight for outer planets to emphasize their importance
-    const planetScore = (traditionalMatch * 0.5) + (gasGiantScore * 0.8) + (outerPlanetMatch * 1.0);
+    const _planetScore = (traditionalMatch * 0.5) + (gasGiantScore * 0.8) + (outerPlanetMatch * 1.0);
     
     // Normalize the planet score
     const maxPossiblePlanetScore = recipe.astrologicalProfile.rulingPlanets.length; 

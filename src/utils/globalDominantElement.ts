@@ -1,9 +1,9 @@
 import { getDominantElement as coreGetDominantElement } from '@/calculations/core/elementalCalculations';
 
 // Ensure a global fallback for dynamic usages that expect getDominantElement to be available.
-if (typeof (globalThis as any).getDominantElement === 'undefined') {
+if (typeof globalThis.getDominantElement === 'undefined') {
   // Use the core implementation if available; otherwise provide a safe fallback.
-  (globalThis as any).getDominantElement = coreGetDominantElement ?? ((props: Record<string, number>) => {
+  globalThis.getDominantElement = coreGetDominantElement ?? ((props: Record<string, number>) => {
     if (!props) return 'Fire';
     const entries = Object.entries(props);
     if (entries.length === 0) return 'Fire';
@@ -11,24 +11,24 @@ if (typeof (globalThis as any).getDominantElement === 'undefined') {
   });
 }
 
-if (typeof (globalThis as any).getElementalCharacteristics === 'undefined') {
-  (globalThis as any).getElementalCharacteristics = (props: Record<string, number>) => {
+if (typeof globalThis.getElementalCharacteristics === 'undefined') {
+  globalThis.getElementalCharacteristics = (props: Record<string, number>) => {
     if (!props) return { element: 'Fire', strength: 1, purity: 1, interactions: [] };
     // Simple placeholder returning dominant element details
-    const dominant = (globalThis as any).getDominantElement(props);
+    const dominant = globalThis.getDominantElement(props);
     return { element: dominant, strength: 1, purity: 1, interactions: [] };
   };
 }
 
-const ensureGlobalFn = (name: string, fn: (...args: any[]) => any) => {
-  if (typeof (globalThis as any)[name] === 'undefined') {
-    (globalThis as any)[name] = fn;
+const ensureGlobalFn = (name: string, fn: (...args: unknown[]) => unknown) => {
+  if (typeof (globalThis[name as keyof typeof globalThis]) === 'undefined') {
+    (globalThis as Record<string, unknown>)[name] = fn;
   }
 };
 
 // Provide lightweight fallbacks
 ensureGlobalFn('getElementalProfile', (props: Record<string, number>) => ({
-  dominant: (globalThis as any).getDominantElement(props),
+  dominant: globalThis.getDominantElement(props),
   balance: props,
 }));
 

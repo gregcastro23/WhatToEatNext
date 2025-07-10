@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { ChevronDown, ChevronUp, Globe, Flame, Droplets, Wind, Mountain, Search, ArrowUp, ArrowDown, Zap, Sparkles, Minus, Info, List, ThumbsUp, Clock } from 'lucide-react'; // Added Zap, Sparkles, and Minus icons
-import { useIngredientMapping } from '@/hooks'; // Import our new hook
+import { useIngredientMapping } from '@/hooks/useIngredientMapping'; // Import our new hook
 import styles from './CookingMethods.module.css';
 import { getTechnicalTips, getIdealIngredients } from '@/utils/cookingMethodTips';
 
@@ -138,11 +138,11 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
         };
         
         // Calculate compatibility between ingredient and cooking method
-        const result = calculateCompatibility(searchIngredient as any, {
+        const result = calculateCompatibility(searchIngredient as unknown, {
           name: method.name,
           elementalProperties: methodElemental,
           category: 'cooking_method'
-        } as any);
+        } as unknown);
         
         if (result.success) {
           compatibilityResults[method.id] = result.compatibility;
@@ -155,11 +155,11 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
             const variationElemental = variation.elementalEffect || method.elementalEffect;
             
             if (variationElemental) {
-              const variationResult = calculateCompatibility(searchIngredient as any, {
+              const variationResult = calculateCompatibility(searchIngredient as unknown, {
                 name: variation.name,
                 elementalProperties: variationElemental,
                 category: 'cooking_method'
-              } as any);
+              } as unknown);
               
               if (variationResult.success) {
                 compatibilityResults[variation.id] = variationResult.compatibility;
@@ -312,7 +312,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
       Substance: 0.5
     };
     
-    const elementalProps = method.elementalEffect || {
+    const _elementalProps = method.elementalEffect || {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,

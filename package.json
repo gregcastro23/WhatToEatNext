@@ -24,6 +24,12 @@
     "build:status": "node scripts/check-build-status.js",
     "lint": "eslint --config eslint.config.cjs src --max-warnings=10000",
     "lint:fix": "eslint --config eslint.config.cjs --fix src",
+    "lint:comprehensive": "node scripts/lint-fixes/comprehensive-lint-fix.js",
+    "lint:enhanced": "node scripts/lint-fixes/enhanced-linting-tool.js",
+    "lint:systematic": "node scripts/lint-fixes/fix-linting-warnings-systematic.js",
+    "lint:dry-run": "node scripts/lint-fixes/comprehensive-lint-fix.js --dry-run",
+    "lint:fix-all": "node scripts/lint-fixes/comprehensive-lint-fix.js --fix-all",
+    "lint:verbose": "node scripts/lint-fixes/comprehensive-lint-fix.js --verbose",
     "fix:const-assign": "node fix-const-assignments.js",
     "lint:all-fix": "node src/scripts/fix-linting-issues.js",
     "lint:unused-vars": "node src/scripts/fix-unused-vars.js",
@@ -103,5 +109,6 @@
     "ts-jest": "^29.1.0",
     "ts-node": "^10.9.2",
     "typescript": "5.1.6"
-  }
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }

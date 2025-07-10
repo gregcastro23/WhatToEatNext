@@ -138,7 +138,7 @@ const processIngredient = (ingredient: unknown, name: string): Ingredient => {
     elementalTransformation: ingredientData?.elementalTransformation || {
       whenCooked: { Fire: 0.1, Air: 0.05 },
     },
-    ...ingredientData,
+    ...(ingredientData as Record<string, unknown>),
   };
 
   return standardized as Ingredient;
@@ -179,7 +179,7 @@ const processIngredientCollection = (
         .map(([element, value]) => [element, Number(value) || 0] as [string, number]);
 
       acc[key] = {
-        ...processedIngredient,
+        ...(processedIngredient as Record<string, unknown>),
         alchemicalProperties: alchemicalProps,
         thermodynamicProperties: thermodynamicProps,
         modality,

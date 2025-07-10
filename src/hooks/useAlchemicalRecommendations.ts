@@ -79,7 +79,7 @@ export const useAlchemicalRecommendations = ({
 
         // Initialize with planetary data and context
         adapter.initialize(
-          planetPositions as unknown,
+          planetPositions as any,
           isDaytime,
           currentZodiac || null,
           lunarPhase || null,
@@ -108,26 +108,27 @@ export const useAlchemicalRecommendations = ({
         const convertToLocalAlchemicalItem = (items: unknown[]): AlchemicalItem[] => {
           return items.map(item => {
             // Create a new object that fully satisfies the alchemicalTransformation.AlchemicalItem interface
+            const itemData = item as any;
             const convertedItem = {
-              ...item,
+              ...itemData,
               // Ensure all required AlchemicalItem properties are present
               elementalProperties: (item as any).elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
               alchemicalProperties: (item as any)?.alchemicalProperties || { Spirit: 0.25, Essence: 0.25, Matter: 0.25, Substance: 0.25 },
               // Add required properties for alchemicalTransformation.AlchemicalItem
-              transformedElementalProperties: (item as any).transformedElementalProperties || (item as any).elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
-              heat: item.heat || 0.5,
-              entropy: item.entropy || 0.5,
-              reactivity: item.reactivity || 0.5,
-              gregsEnergy: item.gregsEnergy || item.energy || 0.5,
-              kalchm: item.kalchm || 1.0,
-              monica: item.monica || 0.5,
-              transformations: item.transformations || [],
-              seasonalResonance: item.seasonalResonance || [],
-              thermodynamicProperties: item.thermodynamicProperties || {
-                heat: item.heat || 0.5,
-                entropy: item.entropy || 0.5,
-                reactivity: item.reactivity || 0.5,
-                gregsEnergy: item.gregsEnergy || item.energy || 0.5
+              transformedElementalProperties: itemData.transformedElementalProperties || itemData.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+              heat: itemData.heat || 0.5,
+              entropy: itemData.entropy || 0.5,
+              reactivity: itemData.reactivity || 0.5,
+              gregsEnergy: itemData.gregsEnergy || itemData.energy || 0.5,
+              kalchm: itemData.kalchm || 1.0,
+              monica: itemData.monica || 0.5,
+              transformations: itemData.transformations || [],
+              seasonalResonance: itemData.seasonalResonance || [],
+              thermodynamicProperties: itemData.thermodynamicProperties || {
+                heat: itemData.heat || 0.5,
+                entropy: itemData.entropy || 0.5,
+                reactivity: itemData.reactivity || 0.5,
+                gregsEnergy: itemData.gregsEnergy || itemData.energy || 0.5
               }
             };
             return convertedItem as AlchemicalItem;

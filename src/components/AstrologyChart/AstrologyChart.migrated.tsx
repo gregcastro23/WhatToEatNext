@@ -37,7 +37,7 @@ const AstrologyChartMigrated: React.FC<AstrologyChartProps> = ({
   const radius = size * 0.4;
 
   // Helper data
-  const zodiacSigns = [
+  const _zodiacSigns = [
     { name: 'Aries', symbol: '♈', start: 0, element: 'Fire' },
     { name: 'Taurus', symbol: '♉', start: 30, element: 'Earth' },
     { name: 'Gemini', symbol: '♊', start: 60, element: 'Air' },

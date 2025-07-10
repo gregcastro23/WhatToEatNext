@@ -77,15 +77,16 @@ export default function TarotDisplay({ mode = 'food', onTarotLoaded }: TarotDisp
       
       if (mode === 'food') {
         // Calculate biweekly period (1-26) for food mode
-        const startOfYear = new Date(currentDate.getFullYear(), 0, 0);
-        const diff = currentDate.getTime() - startOfYear.getTime();
+        const currentDateObj = new Date(currentDate);
+        const startOfYear = new Date(currentDateObj.getFullYear(), 0, 0);
+        const diff = currentDateObj.getTime() - startOfYear.getTime();
         const dayOfYear = Math.floor(diff / (1000 * 60 * 60 * 24));
         const weekOfYear = Math.floor(dayOfYear / 7);
         const biWeeklyPeriod = Math.floor(weekOfYear / 2) + 1;
         
         // Format the date range for this period
-        const periodStart = new Date(currentDate.getFullYear(), 0, biWeeklyPeriod * 14 - 13);
-        const periodEnd = new Date(currentDate.getFullYear(), 0, biWeeklyPeriod * 14);
+        const periodStart = new Date(currentDateObj.getFullYear(), 0, biWeeklyPeriod * 14 - 13);
+        const periodEnd = new Date(currentDateObj.getFullYear(), 0, biWeeklyPeriod * 14);
         const formatDate = (date: Date) => {
           const month = date.toLocaleString('default', { month: 'short' });
           return `${month} ${date.getDate()}`;
@@ -164,7 +165,7 @@ export default function TarotDisplay({ mode = 'food', onTarotLoaded }: TarotDisp
   };
 
   const getElementIcon = (element: Element) => {
-    switch (element?.toLowerCase()) {
+    switch (String(element).toLowerCase()) {
       case 'Fire': return <Flame className="w-4 h-4 text-orange-400" />;
       case 'Water': return <Droplets className="w-4 h-4 text-blue-400" />;
       case 'Earth': return <Mountain className="w-4 h-4 text-green-400" />;
@@ -174,7 +175,7 @@ export default function TarotDisplay({ mode = 'food', onTarotLoaded }: TarotDisp
   };
 
   const getElementColor = (element: Element) => {
-    switch (element?.toLowerCase()) {
+    switch (String(element).toLowerCase()) {
       case 'Fire': return 'bg-gradient-to-br from-orange-800 to-red-900 text-white';
       case 'Water': return 'bg-gradient-to-br from-blue-800 to-indigo-900 text-white';
       case 'Earth': return 'bg-gradient-to-br from-green-800 to-emerald-900 text-white';

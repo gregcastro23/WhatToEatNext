@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import CuisineSelector from '@/components/CuisineSelector';
 import CuisineSelectorMigrated from '@/components/CuisineSelector.migrated';
-import { Recipe } from '@/types/recipe';
+import { _Recipe } from '@/types/recipe';
 
 /**
  * Test page to compare the original CuisineSelector with the migrated version

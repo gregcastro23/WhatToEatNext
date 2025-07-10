@@ -7,10 +7,10 @@ import styles from './AlchmKitchen.module.css';
 import type { TarotCardResult } from '@/lib/recipeCalculations';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { createLogger } from '@/utils/logger';
-import { PlanetaryPosition } from '@/types/celestial';
+import { _PlanetaryPosition } from '@/types/celestial';
 import { staticAlchemize } from '@/utils/alchemyInitializer';
 
-const logger = createLogger('AlchmKitchen');
+const _logger = createLogger('AlchmKitchen');
 
 interface Recipe {
     id: string;

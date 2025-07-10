@@ -75,7 +75,7 @@ import {
   AstrologicalState,
   PlanetaryPositionsType,
   AlchemicalState
-} from "@/types/alchemy";
+, _Element } from "@/types/alchemy";
 import type { ZodiacSign } from '@/types/zodiac';
 import type { LunarPhase, LunarPhaseWithSpaces } from '@/types/alchemy';
 import { ElementalCharacter, AlchemicalProperty } from '../../constants/planetaryElements';
@@ -100,7 +100,6 @@ import marsData from '../../data/planets/mars';
 import mercuryData from '../../data/planets/mercury';
 import jupiterData from '../../data/planets/jupiter';
 
-import { _Element } from "@/types/alchemy";
 import { _PlanetaryPosition } from "@/types/celestial";
 
 // Define AlchemicalItem interface for cuisine recommendations

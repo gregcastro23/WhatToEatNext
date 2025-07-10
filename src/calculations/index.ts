@@ -1,4 +1,4 @@
-import { Recipe } from '@/types/recipe';
+import { _Recipe } from '@/types/recipe';
 
 /**
  * Streamlined Alchemical Calculations Engine
@@ -55,7 +55,7 @@ import {
 } from './culinary/seasonalAdjustments';
 
 import { _Element } from "@/types/alchemy";
-import { PlanetaryAlignment } from "@/types/celestial";
+import { _PlanetaryAlignment } from "@/types/celestial";
 
 // Import the missing function
 import { getCurrentPlanetaryPositions } from '@/services/astrologizeApi';
@@ -117,10 +117,10 @@ export async function calculateComprehensiveAlchemicalResult(
 ): Promise<ComprehensiveAlchemicalResult> {
   const {
     planetaryPositions,
-    season = 'spring',
+    _season = 'spring',
     lunarPhase = 'full moon',
     isDaytime = true,
-    currentDate = new Date(),
+    _currentDate = new Date(),
     currentZodiacSign
   } = input;
 
@@ -134,13 +134,13 @@ export async function calculateComprehensiveAlchemicalResult(
     // 2. Calculate comprehensive elemental properties
     let elementalProperties = calculateComprehensiveElementalProperties(
       planetaryPositions,
-      season,
+      _season,
       lunarPhase,
       isDaytime
     );
 
     // Apply seasonal and lunar adjustments
-    elementalProperties = applySeasonalAdjustments(elementalProperties, season);
+    elementalProperties = applySeasonalAdjustments(elementalProperties, _season);
     if (lunarPhase) {
       elementalProperties = applyLunarPhaseAdjustments(elementalProperties, lunarPhase);
     }
@@ -149,7 +149,7 @@ export async function calculateComprehensiveAlchemicalResult(
     const planetaryInfluencesResult = calculatePlanetaryInfluences(
       planetaryPositions,
       isDaytime,
-      currentDate
+      _currentDate
     );
 
     // 4. Generate elemental recommendations
@@ -163,7 +163,7 @@ export async function calculateComprehensiveAlchemicalResult(
     // 6. Generate cuisine recommendations
     const cuisineRecommendations = generateCuisineRecommendations(
       planetaryInfluencesResult.dominantPlanets,
-      elementalProperties
+      _elementalProperties
     );
 
     // 6. Combine all results
@@ -172,7 +172,7 @@ export async function calculateComprehensiveAlchemicalResult(
       elementalProperties,
       planetaryInfluences: planetaryInfluencesResult,
       recommendations: {
-        elemental: elementalRecommendations as any,
+        elemental: elementalRecommendations as unknown,
         culinary: culinaryRecommendations,
         cuisines: cuisineRecommendations?.slice(0, 5) // Top 5 cuisine recommendations
       },
@@ -305,7 +305,7 @@ export function calculatePlanetaryAlignment(
   let matches = 0;
 
   (currentMomentDominantPlanets || []).forEach((planet: { planet: string; strength: number; element: Element }) => {
-    if ((planet.element as any) === recipeDominant) {
+    if ((planet.element as unknown) === recipeDominant) {
       alignment += planet.strength;
       matches++;
     }
@@ -378,7 +378,7 @@ async function getFallbackResult(input: CalculationInput, cacheKey: string): Pro
     // console.warn('Astrologize API also failed in fallback, using static fallback:', astrologizeError);
     
     // Only use static fallback as last resort
-    const fallbackElemental: ElementalProperties = { 
+    const fallbackElemental: _ElementalProperties = { 
       Fire: 0.25, 
       Water: 0.25, 
       Air: 0.25,

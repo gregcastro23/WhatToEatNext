@@ -1,12 +1,11 @@
 'use client';
 
-import { ElementalProperties, Element } from '@/types/celestial';
+import { _ElementalProperties, _Element , _PlanetaryPosition } from '@/types/celestial';
 import React, { useState, useEffect, useMemo } from 'react';
 import { useServices } from '@/hooks/useServices';
 
 
 
-import { _PlanetaryPosition } from "@/types/celestial";
 interface ElementalRecommendation {
   element: Element;
   recommendation: string;
@@ -57,7 +56,7 @@ const ElementalRecommendationsMigrated: React.FC<ElementalRecommendationsProps> 
         setDominantElement(dominant);
         
         // Get recommendations based on elemental properties and optional target element
-        const elementalRecommendations = await (recommendationService as any)?.getElementalRecommendations?.(
+        const elementalRecommendations = await (recommendationService as unknown)?.getElementalRecommendations?.(
           properties,
           targetElement
         );

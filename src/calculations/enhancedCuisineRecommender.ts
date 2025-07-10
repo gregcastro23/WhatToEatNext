@@ -73,7 +73,7 @@ type PlanetaryDay =
   | 'Saturn';
 type PlanetaryHour = PlanetaryDay;
 type TimeOfDay = 'morning' | 'afternoon' | 'evening' | 'night';
-type Season = 'spring' | 'summer' | 'autumn' | 'winter';
+type _Season = 'spring' | 'summer' | 'autumn' | 'winter';
 
 /**
  * Enhanced cuisine-specific recipe recommender that incorporates:
@@ -113,7 +113,7 @@ export class EnhancedCuisineRecommender {
     dietaryRestrictions?: string[]
   ): EnhancedRecipeMatch[] {
     // Get current time factors
-    const timeFactors = this.getCurrentTimeFactors();
+    const _timeFactors = this.getCurrentTimeFactors();
 
     // Get cuisine data
     const cuisine = this.getCuisine(cuisineName);

@@ -385,7 +385,7 @@ function calculatePlanetaryDayInfluence(
   const nocturnalElement = dayElements.nocturnal;
   
   // Calculate how much of each planetary element is present in the method
-  const methodData = convertToCookingMethodData(method);
+  const methodData = method as unknown as CookingMethodData;
   const methodElementals = methodData?.elementalProperties || methodData?.elementalEffect || {};
   const diurnalMatch = methodElementals[diurnalElement] || 0;
   const nocturnalMatch = methodElementals[nocturnalElement] || 0;
@@ -423,7 +423,7 @@ function calculatePlanetaryHourInfluence(
   const relevantElement = isDaytime ? hourElements.diurnal : hourElements.nocturnal;
   
   // Calculate how much of the relevant planetary element is present in the method
-  const methodData = convertToCookingMethodData(method);
+  const methodData = method as unknown as CookingMethodData;
   const methodElementals = methodData?.elementalProperties || methodData?.elementalEffect || {};
   const elementalMatch = methodElementals[relevantElement] || 0;
   
@@ -644,7 +644,7 @@ export async function getRecommendedCookingMethods(
 
   // Track recommendations to prevent adding duplicates
   const recommendationsMap: Record<string, boolean> = {};
-  const recommendations: unknown[] = [];
+  const recommendations: MethodRecommendation[] = [];
   
   // Score each method based on multiple criteria
   filteredMethods.forEach(method => {
@@ -671,7 +671,7 @@ export async function getRecommendedCookingMethods(
     const signElement = currentZodiac ? getElementForSign(currentZodiac) : null;
     
     // Enhanced Elemental compatibility calculation (40% of score)
-    const methodData = convertToCookingMethodData(method);
+    const methodData = method as CookingMethodData;
     if (methodData?.elementalEffect || methodData?.elementalProperties) {
       const elementalProps = methodData?.elementalEffect || methodData?.elementalProperties || { 
         Fire: 0.25, 
@@ -716,12 +716,12 @@ export async function getRecommendedCookingMethods(
         const planetaryDay = dayRulers[weekDays[dayOfWeek]];
         if (planetaryDay) {
           // Transform CookingMethodData to CookingMethodProfile interface
-          const methodProfile: CookingMethodProfile = {
+          const methodProfile = {
             name: methodData.name,
             elementalProperties: methodData.elementalEffect || methodData.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
             elementalEffect: methodData.elementalEffect || methodData.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
             astrologicalInfluences: methodData.astrologicalInfluences || {}
-          };
+          } as any;
           
           planetaryDayScore = calculatePlanetaryDayInfluence(methodProfile, planetaryDay);
         }
@@ -758,12 +758,12 @@ export async function getRecommendedCookingMethods(
         
         if (planetaryHour) {
           // Transform CookingMethodData to CookingMethodProfile interface
-          const methodProfileHour: CookingMethodProfile = {
+          const methodProfileHour = {
             name: methodData.name,
             elementalProperties: methodData.elementalEffect || methodData.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
             elementalEffect: methodData.elementalEffect || methodData.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
             astrologicalInfluences: methodData.astrologicalInfluences || {}
-          };
+          } as any;
           
           planetaryHourScore = calculatePlanetaryHourInfluence(methodProfileHour, planetaryHour, daytime);
         }
@@ -1104,7 +1104,7 @@ export async function getRecommendedCookingMethods(
     
     // Capture detailed scoring components for transparency
     // Extract method data with safe property access
-    const finalMethodData = convertToCookingMethodData(method);
+    const finalMethodData = method as CookingMethodData;
     if (!finalMethodData.scoreDetails) {
       finalMethodData.scoreDetails = {}; 
     }
@@ -1131,18 +1131,19 @@ export async function getRecommendedCookingMethods(
       score: Math.max(0, score), // Ensure score isn't negative
       description: finalMethodData?.description,
       benefits: finalMethodData.benefits,
-      lunarAffinity: calculateLunarMethodAffinity(method as unknown as CookingMethod, lunarPhase),
+      lunarAffinity: calculateLunarMethodAffinity(method as unknown as CookingMethod, lunarPhase as LunarPhase),
       elementalAffinity: finalMethodData?.elementalEffect?.[signElement] || 0,
       planetaryAffinity: planetaryAffinity,
       scoreDetails: scoreDetailsForUI // Include detailed scoring for UI display
-    } as unknown as MethodRecommendation);
+    } as any);
     
     // Mark this method as processed to avoid duplicates
     recommendationsMap[methodNameNorm] = true;
   });
 
-  // Sort by score (highest first)
-  return recommendations.sort((a, b) => (b.score || 0) - (a.score || 0));
+  // Sort by score (highest first) and properly type the return
+  const sortedRecommendations = recommendations.sort((a, b) => (b.score || 0) - (a.score || 0));
+  return sortedRecommendations as any;
 }
 
 function calculateLunarMethodAffinity(method: CookingMethod, phase: LunarPhase): number {
@@ -1150,8 +1151,8 @@ function calculateLunarMethodAffinity(method: CookingMethod, phase: LunarPhase):
 
   // Extract method data with safe property access
   const methodData = method as unknown as CookingMethodData;
-  const properties = methodData?.properties as string[];
-  const element = methodData?.element as string;
+  const properties = (methodData as any)?.properties as string[] || [];
+  const element = (methodData as any)?.element as string || 'earth';
 
   switch (phase) {
     case 'new moon':
@@ -1219,8 +1220,8 @@ function _calculateAspectMethodAffinity(aspects: PlanetaryAspect[], method: Cook
         // Venus aspects boost methods that enhance aesthetic appeal or harmony
         // Extract method data with safe property access
         const aspectMethodData = method as unknown as CookingMethod;
-        const sensoryProfile = aspectMethodData?.sensoryProfile as Record<string, number>;
-        const aspectProperties = aspectMethodData?.properties as string[];
+        const sensoryProfile = (aspectMethodData as any)?.sensoryProfile as Record<string, number>;
+        const aspectProperties = (aspectMethodData as any)?.properties as string[];
         
         if (sensoryProfile?.visual && sensoryProfile.visual > 0.6) {
           baseInfluence += 0.3;
@@ -1249,7 +1250,7 @@ export function calculateMethodScore(method: CookingMethodProfile, astroState: A
   let bonusScore = 0;
   
   // Add zodiac alignment bonus
-  const methodAstroData = method as unknown as CookingMethodProfile;
+  const methodAstroData = method as any;
   if (methodAstroData?.astrologicalInfluences?.favorableZodiac?.includes(astroState.zodiacSign)) {
     bonusScore += 0.12;
   }
@@ -1394,7 +1395,7 @@ export function getCookingMethodRecommendations(
       elementalProperties: method.elementalEffect || method.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
       elementalEffect: method.elementalEffect || method.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
       astrologicalInfluences: method.astrologicalInfluences || {}
-    } as CookingMethodProfile;
+    } as any;
     
     // Use our enhanced calculation with multiplier
     const score = calculateMethodScore(methodProfileScore, astroState);
@@ -1404,7 +1405,7 @@ export function getCookingMethodRecommendations(
       score,
       elementalAlignment: (method as CookingMethodData)?.elementalProperties,
       description: (method as CookingMethodData)?.description
-    } as MethodRecommendation;
+    } as any;
   })
   .filter(rec => rec.score > 0)
   .sort((a, b) => b.score - a.score);

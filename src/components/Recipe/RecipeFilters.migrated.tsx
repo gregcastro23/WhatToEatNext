@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useServices } from '@/hooks/useServices';
 import { Filter, Search, SlidersHorizontal, X } from 'lucide-react';
 import type { CuisineType, DietaryRestriction } from '@/types/alchemy';
-import { logger } from '@/utils/logger';
+import { _logger } from '@/utils/logger';
 
 export interface FilterState {
   search: string;

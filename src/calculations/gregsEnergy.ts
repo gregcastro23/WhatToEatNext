@@ -1,4 +1,4 @@
-import { ElementalCharacter, AlchemicalProperty } from '../constants/planetaryElements';
+import { _ElementalCharacter, AlchemicalProperty } from '../constants/planetaryElements';
 import { _calculatePlanetaryPositions } from '../utils/astrologyUtils';
 import { calculateSignEnergyStates } from '@/constants/signEnergyStates';
 
@@ -6,7 +6,7 @@ import { calculateSignEnergyStates } from '@/constants/signEnergyStates';
  * A utility function for logging debug information
  * This is a safe replacement for console.log that can be disabled in production
  */
-const debugLog = (message: string, ...args: unknown[]): void => {
+const _debugLog = (message: string, ...args: unknown[]): void => {
   // Comment out console.log to avoid linting warnings
   // console.log(message, ...args);
 };

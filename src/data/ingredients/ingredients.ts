@@ -41,8 +41,7 @@ export * from './elementalProperties';
 import * as ingredientData from './index';
 export default ingredientData;
 
-import { ElementalProperties, IngredientCategory, AlchemicalProperties } from '../../types/alchemy';
-import { Season, zodiacElements } from '../../types/alchemy';
+import { ElementalProperties, IngredientCategory, AlchemicalProperties , Season, zodiacElements } from '../../types/alchemy';
 import { 
   calculateAlchemicalNumber,
   calculateAlchemicalNumberCompatibility,

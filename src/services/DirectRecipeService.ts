@@ -36,8 +36,8 @@ const fetchPlanetaryPositions = async (params: PlanetaryPositionParams): Promise
   try {
     // Integration point for real astrologize API
     // Check if celestialCalculator has the method, otherwise use fallback
-    if (celestialCalculator && typeof (celestialCalculator as unknown).calculatePlanetaryPositions === 'function') {
-      return (celestialCalculator as unknown).calculatePlanetaryPositions(params);
+    if (celestialCalculator && typeof (celestialCalculator as any).calculatePlanetaryPositions === 'function') {
+      return (celestialCalculator as any).calculatePlanetaryPositions(params);
     }
     
     // Fallback: Generate basic planetary positions
@@ -69,7 +69,7 @@ const calculateMonica = (kalchm: number, alignment: ElementalProperties, recipe:
   if (Math.abs(lnK) < 0.001) return 1.0;
   
   // Calculate based on recipe-alignment compatibility
-  const compatibility = calculateElementalCompatibility(recipe.elementalProperties, alignment as unknown);
+  const compatibility = calculateElementalCompatibility(recipe.elementalProperties, alignment as any);
   return Math.abs(-compatibility / lnK);
 };
 
@@ -83,10 +83,10 @@ const performAlchemicalAnalysis = (recipe: Recipe, alignment: CelestialAlignment
   // Enhanced seasonal analysis integration
   const currentSeason = getCurrentSeason();
   const seasonalAnalysis = getComprehensiveSeasonalAnalysis(
-    recipe as unknown, 
+    recipe as any, 
     currentSeason,
-    alignment.currentZodiacSign as unknown,
-    alignment.lunarPhase as unknown
+    alignment.currentZodiacSign as any,
+    alignment.lunarPhase as any
   );
   
   return {
@@ -232,7 +232,7 @@ export class DirectRecipeService {
 
     try {
       // Get current date, time, and location for astrologize API
-      const _currentDate = new Date();
+      const currentDate = new Date();
       
       // Fetch real planetary positions from astrologize API
       const planetaryPositions = await fetchPlanetaryPositions({
@@ -305,13 +305,13 @@ export class DirectRecipeService {
     const monica = calculateMonica(
       recipeKalchm,
       alignment.elementalState || alignment.elementalDominance || alignment.elementalBalance,
-      recipeData?.elementalState || recipe.elementalProperties
+      recipe as any
     );
     
     // Perform full alchemical analysis
     const alchemicalAnalysis = performAlchemicalAnalysis(
-      recipeData?.elementalState || recipe.elementalProperties,
-      (alignment.elementalState || alignment.elementalDominance || alignment.elementalBalance) as unknown
+      recipe as any,
+      (alignment.elementalState || alignment.elementalDominance || alignment.elementalBalance) as any
     );
     
     // Calculate individual component scores
@@ -354,7 +354,7 @@ export class DirectRecipeService {
                             allIngredients[ingredient.name?.toLowerCase()];
       
       if (ingredientData && ingredientData.alchemicalProperties) {
-        const ingredientKalchm = calculateKalchm(ingredientData.alchemicalProperties as unknown);
+        const ingredientKalchm = calculateKalchm(ingredientData.alchemicalProperties as any);
         totalKalchm *= ingredientKalchm;
         ingredientCount++;
       }
@@ -373,8 +373,8 @@ export class DirectRecipeService {
     if (!recipeElementalState) return 0.5;
     
     return calculateElementalCompatibility(
-      recipeElementalState as unknown,
-      (alignment.elementalState || alignment.elementalDominance || alignment.elementalBalance) as unknown
+      recipeElementalState as any,
+      (alignment.elementalState || alignment.elementalDominance || alignment.elementalBalance) as any
     );
   }
 
@@ -437,7 +437,7 @@ export class DirectRecipeService {
    */
   private calculateSeasonalScore(recipe: Recipe, alignment: CelestialAlignment): number {
     // Apply safe type casting for currentSeason access
-    const recipeData = recipe as unknown;
+    const recipeData = recipe as any;
     const currentSeason = recipeData?.currentSeason;
     
     if (!currentSeason || (Array.isArray(currentSeason) && currentSeason.length === 0)) return 0.5;
@@ -606,7 +606,7 @@ export class DirectRecipeService {
     if (criteria.currentSeason || criteria.season) {
       const seasonCriteria = criteria.currentSeason || criteria.season;
       candidateRecipes = candidateRecipes.filter(recipe => {
-        const recipeData = recipe as unknown;
+        const recipeData = recipe as any;
         const recipeCurrentSeason = recipeData?.currentSeason;
         
         if (Array.isArray(recipeCurrentSeason)) {
@@ -659,8 +659,8 @@ export class DirectRecipeService {
         const recipeElementalState = recipe.elementalState;
         
         const criteriaCompatibility = calculateElementalCompatibility(
-          criteriaElementalState as unknown,
-          recipeElementalState as unknown
+          criteriaElementalState as any,
+          recipeElementalState as any
         );
         finalScore = (finalScore + criteriaCompatibility) / 2;
       }
@@ -774,7 +774,7 @@ export class DirectRecipeService {
         allScoredRecipes.push({
           ...recipe,
           score: cached.score,
-          alchemicalScores: cached.breakdown
+          alchemicalScores: cached.breakdown as any
         });
       } else {
         this.cacheMisses++;
@@ -783,14 +783,7 @@ export class DirectRecipeService {
         const scoredRecipe: ScoredRecipe = {
           ...recipe,
           score: alchemicalResult.score,
-          alchemicalScores: {
-            elementalScore: alchemicalResult.breakdown.elementalScore,
-            zodiacalScore: alchemicalResult.breakdown.zodiacalScore,
-            lunarScore: alchemicalResult.breakdown.lunarScore,
-            planetaryScore: alchemicalResult.breakdown.planetaryScore,
-            seasonalScore: alchemicalResult.breakdown.seasonalScore,
-            thermodynamics: alchemicalResult.thermodynamics
-          }
+          alchemicalScores: alchemicalResult.breakdown as any
         };
         
         this.setCachedScore(recipe.id!, alchemicalResult.score, scoredRecipe.alchemicalScores, alignmentKey);

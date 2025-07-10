@@ -3,14 +3,14 @@ import type { ElementalProperties } from '@/types/alchemy';
 
 describe('Food Recommendation Engine', () => {
   it('should calculate compatibility correctly for identical elemental profiles', () => {
-    const recipeProps: ElementalProperties = { 
+    const recipeProps: _ElementalProperties = { 
       Fire: 0.25, 
       Water: 0.25, 
       Earth: 0.25, 
       Air: 0.25 
     };
     
-    const userProps: ElementalProperties = { 
+    const userProps: _ElementalProperties = { 
       Fire: 0.25, 
       Water: 0.25, 
       Earth: 0.25, 
@@ -24,14 +24,14 @@ describe('Food Recommendation Engine', () => {
   });
 
   it('should calculate high compatibility for different elements', () => {
-    const recipeProps: ElementalProperties = { 
+    const recipeProps: _ElementalProperties = { 
       Fire: 0.7, 
       Water: 0.1, 
       Earth: 0.1, 
       Air: 0.1 
     };
     
-    const userProps: ElementalProperties = { 
+    const userProps: _ElementalProperties = { 
       Fire: 0.1, 
       Water: 0.7, 
       Earth: 0.1, 
@@ -46,14 +46,14 @@ describe('Food Recommendation Engine', () => {
   });
 
   it('should generate appropriate recommendations based on compatibility', () => {
-    const recipeProps: ElementalProperties = { 
+    const recipeProps: _ElementalProperties = { 
       Fire: 0.25, 
       Water: 0.25, 
       Earth: 0.25, 
       Air: 0.25 
     };
     
-    const userProps: ElementalProperties = { 
+    const userProps: _ElementalProperties = { 
       Fire: 0.25, 
       Water: 0.25, 
       Earth: 0.25, 
@@ -68,14 +68,14 @@ describe('Food Recommendation Engine', () => {
   });
 
   it('should handle edge case with extremely imbalanced elements', () => {
-    const recipeProps: ElementalProperties = { 
+    const recipeProps: _ElementalProperties = { 
       Fire: 0.97, 
       Water: 0.01, 
       Earth: 0.01, 
       Air: 0.01 
     };
     
-    const userProps: ElementalProperties = { 
+    const userProps: _ElementalProperties = { 
       Fire: 0.01, 
       Water: 0.01, 
       Earth: 0.01, 
@@ -91,7 +91,7 @@ describe('Food Recommendation Engine', () => {
 
   it('should calculate balance score correctly', () => {
     // User with a weak Earth element
-    const userProps: ElementalProperties = { 
+    const userProps: _ElementalProperties = { 
       Fire: 0.3, 
       Water: 0.3, 
       Earth: 0.1, 
@@ -99,7 +99,7 @@ describe('Food Recommendation Engine', () => {
     };
     
     // Recipe with strong Earth element
-    const recipeProps: ElementalProperties = { 
+    const recipeProps: _ElementalProperties = { 
       Fire: 0.2, 
       Water: 0.2, 
       Earth: 0.4, 

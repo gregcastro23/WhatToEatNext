@@ -9,18 +9,18 @@ import {
   Select, MenuItem, Checkbox, FormControlLabel,
   Accordion, AccordionSummary, AccordionDetails,
   Pagination, IconButton, InputAdornment,
-  Rating, LinearProgress
+  _Rating, LinearProgress
 } from '@mui/material';
 import {
   Search, ExpandMore, Restaurant, AccessTime, 
   People, Star, FilterList, Clear
 } from '@mui/icons-material';
 
-import { Recipe } from '@/types/recipe';
+import { _Recipe } from '@/types/recipe';
 import { useServices } from '@/hooks/useServices';
 import { fetchPlanetaryPositions } from '@/services/astrologizeApi';
 import { astrologize } from '@/services/astrologize';
-import { logger } from '@/utils/logger';
+import { _logger } from '@/utils/logger';
 import type { CuisineType, DietaryRestriction, ElementalProperties } from '@/types/alchemy';
 
 // Comprehensive interfaces
@@ -500,7 +500,7 @@ export default function RecipeListMigrated() {
       const responseData = response as Record<string, unknown>;
       
       if (responseData?.success) {
-        setRecipes((responseData.data as unknown[]) || []);
+        setRecipes((responseData.data as unknown) || []);
         
         const metadataRecord = responseData?.metadata as Record<string, unknown>;
         if (metadataRecord) {

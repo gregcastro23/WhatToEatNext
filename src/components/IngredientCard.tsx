@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Ingredient, RecipeIngredient } from '@/types/alchemy';
 import { ChefHat, Info, Clock, Heart, Star, Thermometer, Flame, Droplets, Mountain, Wind, ChevronDown, ChevronUp, Utensils, Globe, Award, Zap, Leaf, Beaker, Sun, Moon, Archive, Sparkles, BookOpen, Scissors } from 'lucide-react';
-import { allIngredients } from '@/data/ingredients/index';
+import { _allIngredients } from '@/data/ingredients/index';
 import { 
   normalizeIngredientData, 
   normalizeVitamins, 
@@ -101,7 +101,7 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
     ...ingredient,
     ...(databaseIngredient || {}),
     // Keep the match score and other dynamic properties from the passed ingredient
-    matchScore: (ingredient as any).matchScore,
+    matchScore: (ingredient as unknown).matchScore,
     elementalProperties: ingredient.elementalProperties || databaseIngredient?.elementalProperties
   };
 
@@ -111,7 +111,7 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
   // Always show enhanced culinary tabs for richer experience
   availableTabs.push('culinary-methods', 'culinary-traditions', 'flavors-pairing');
   
-  const extendedIngredient = ingredientData as any;
+  const extendedIngredient = ingredientData as unknown;
   
   // Show preparation tab if there's any preparation-related data
   if (extendedIngredient?.preparation || 
@@ -1322,7 +1322,7 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
                 fontWeight: 400,
                 color: '#0369a1',
                 fontStyle: 'italic'
-              }}> ({ingredient.preparation})</span>
+              }}> ({ingredient.preparation as any})</span>
             )}
           </span>
         </div>

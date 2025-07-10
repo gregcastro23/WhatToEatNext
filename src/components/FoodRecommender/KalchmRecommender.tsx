@@ -6,7 +6,7 @@ import { calculateKalchmResults } from '@/calculations/core/kalchmEngine';
 import { IngredientService } from '@/services/IngredientService';
 import { UnifiedIngredient } from '@/data/unified/unifiedTypes';
 import type { ElementalProperties, _ElementalProperties } from '@/types/alchemy';
-import { PlanetaryPosition } from '@/types/celestial';
+import { _PlanetaryPosition } from '@/types/celestial';
 import { useRealAlchemizeService } from '@/services/RealAlchemizeService';
 import { useUnifiedScoringService } from '@/services/UnifiedScoringService';
 import { useThermodynamicEngine } from '@/calculations/core/thermodynamicEngine';
@@ -16,7 +16,7 @@ import {
   calculateAlchemicalNumber,
   calculateAlchemicalNumberCompatibility,
   deriveAlchemicalFromElemental,
-  type AlchemicalProperties
+  type _AlchemicalProperties
 } from '@/data/unified/alchemicalCalculations';
 
 interface KalchmRecommenderProps {
@@ -77,7 +77,7 @@ export default function KalchmRecommender({
 }: KalchmRecommenderProps) {
   const alchemicalContext = useAlchemical();
   const planetaryPositions = alchemicalContext?.planetaryPositions;
-  const elementalState = (alchemicalContext?.state as any)?.elementalProperties;
+  const elementalState = (alchemicalContext?.state as unknown)?.elementalProperties;
   const [recommendations, setRecommendations] = useState<Record<string, UnifiedIngredient[]>>({});
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

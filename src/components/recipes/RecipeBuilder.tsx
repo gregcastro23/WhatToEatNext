@@ -103,10 +103,10 @@ const validateElementalProperties = (props: Record<string, unknown>): ElementalP
   if (!props || typeof props !== 'object') return defaultProps;
   
   return {
-    Fire: Math.max(0, Math.min(1, props.Fire || 0)),
-    Water: Math.max(0, Math.min(1, props.Water || 0)),
-    Earth: Math.max(0, Math.min(1, props.Earth || 0)),
-    Air: Math.max(0, Math.min(1, props.Air || 0))
+    Fire: Math.max(0, Math.min(1, Number(props.Fire) || 0)),
+    Water: Math.max(0, Math.min(1, Number(props.Water) || 0)),
+    Earth: Math.max(0, Math.min(1, Number(props.Earth) || 0)),
+    Air: Math.max(0, Math.min(1, Number(props.Air) || 0))
   };
 };
 

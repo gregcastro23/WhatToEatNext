@@ -19,7 +19,7 @@ export function standardizeIngredient(ingredient: unknown): unknown {
   }
 
   return {
-    ...ingredientData,
+    ...(ingredientData as Record<string, unknown>),
     astrologicalProfile: {
       ...astrologicalProfile,
       elementalAffinity: standardizeElementalAffinity(astrologicalProfile.elementalAffinity)

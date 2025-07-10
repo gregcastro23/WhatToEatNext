@@ -184,7 +184,7 @@ export function getDishProperties(dishName: string): FoodProperty[] {
 // Helper function to enhance a dish with properties
 export function enhanceDishWithProperties(dishName: string, originalDish: unknown) {
   return {
-    ...originalDish,
+    ...(originalDish as Record<string, unknown>),
     properties: getDishProperties(dishName)
   };
 }

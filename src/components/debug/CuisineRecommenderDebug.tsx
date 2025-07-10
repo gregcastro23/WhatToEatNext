@@ -362,7 +362,7 @@ export default function CuisineRecommenderDebug() {
             );
             
             // Score recipes against user profile
-            const scoredRecipes = matchedRecipes.map(recipe => {
+            const scoredRecipes = Array.isArray(matchedRecipes) ? matchedRecipes.map(recipe => {
               // Calculate match score if possible
               const recipeElements = (recipe as any)?.elementalProperties || cuisine.elementalProperties;
               const matchScore = calculateElementalMatch(recipeElements, combinedProfile);
@@ -372,7 +372,7 @@ export default function CuisineRecommenderDebug() {
                 matchScore,
                 matchPercentage: Math.round(matchScore * 100)
               };
-            });
+            }) : [];
             
             recipesResult[cuisine.id] = scoredRecipes;
           } catch (e) {

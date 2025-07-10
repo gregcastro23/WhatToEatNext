@@ -52,7 +52,7 @@ import { cuisines } from '@/data/cuisines';
 
 // Utils
 import { determineIngredientModality } from '@/utils/ingredientUtils';
-import { _createElementalProperties } from '@/utils/elemental/elementalUtils';
+import { _createElementalProperties as createElementalProperties } from '@/utils/elemental/elementalUtils';
 
 // Transformation Types
 import { ElementalItem, AlchemicalItem } from '@/calculations/alchemicalTransformation';
@@ -91,10 +91,10 @@ const validateElementalProperties = (props: Record<string, unknown>): ElementalP
   if (!props || typeof props !== 'object') return defaultProps;
   
   return {
-    Fire: Math.max(0, Math.min(1, props.Fire || 0)),
-    Water: Math.max(0, Math.min(1, props.Water || 0)),
-    Earth: Math.max(0, Math.min(1, props.Earth || 0)),
-    Air: Math.max(0, Math.min(1, props.Air || 0))
+    Fire: Math.max(0, Math.min(1, Number(props.Fire) || 0)),
+    Water: Math.max(0, Math.min(1, Number(props.Water) || 0)),
+    Earth: Math.max(0, Math.min(1, Number(props.Earth) || 0)),
+    Air: Math.max(0, Math.min(1, Number(props.Air) || 0))
   };
 };
 
@@ -208,7 +208,7 @@ const explainRecommendation = (
 
 export default function AlchemicalRecommendations({
   planetPositions,
-  _isDaytime = true,
+  isDaytime = true,
   currentZodiac,
   lunarPhase,
   tarotElementBoosts,
@@ -312,7 +312,7 @@ export default function AlchemicalRecommendations({
       
       if (ingredient && typeof ingredient === 'object' && 'elementalProperties' in ingredient && 
           ingredient.elementalProperties && typeof ingredient.elementalProperties === 'object') {
-        elementalProps = validateElementalProperties(ingredient.elementalProperties);
+        elementalProps = validateElementalProperties(ingredient.elementalProperties as unknown as Record<string, unknown>);
       } else {
         const category = ingredient && typeof ingredient === 'object' && 'category' in ingredient ? 
           String(ingredient.category || '') : '';
@@ -348,7 +348,7 @@ export default function AlchemicalRecommendations({
       
       const qualities = ingredient && typeof ingredient === 'object' && 'qualities' in ingredient ? 
         (ingredient.qualities as any || []) : [];
-      const modality = determineIngredientModality(elementalProps as unknown, qualities);
+      const modality = determineIngredientModality(qualities as string[], elementalProps);
       
       return {
         id: key,
@@ -419,7 +419,7 @@ export default function AlchemicalRecommendations({
       
       if (cuisine && typeof cuisine === 'object' && 'elementalProperties' in cuisine && 
           cuisine.elementalProperties && typeof cuisine.elementalProperties === 'object') {
-        elementalState = validateElementalProperties(cuisine.elementalProperties);
+        elementalState = validateElementalProperties(cuisine.elementalProperties as Record<string, unknown>);
       } else {
         const cuisineName = cuisine && typeof cuisine === 'object' && 'name' in cuisine ? 
           String(cuisine.name || key).toLowerCase() : key.toLowerCase();
@@ -536,22 +536,22 @@ export default function AlchemicalRecommendations({
   // Render expandable card helper
   const renderExpandableCard = (item: Record<string, unknown>, index: number, type: 'ingredient' | 'method' | 'cuisine') => (
     <Card 
-      key={item.id || index}
+      key={(item.id as string) || index}
       sx={{ 
         mb: 2, 
-        border: expandedItems[item.id] ? '2px solid #1976d2' : '1px solid #e0e0e0',
+        border: expandedItems[(item.id as string)] ? '2px solid #1976d2' : '1px solid #e0e0e0',
         transition: 'all 0.3s ease'
       }}
     >
       <CardContent>
         <Box display="flex" justifyContent="space-between" alignItems="center">
-          <Typography variant="h6">{item.name}</Typography>
+          <Typography variant="h6">{item.name as string}</Typography>
           <Button
-            onClick={() => toggleExpansion(item.id)}
-            startIcon={expandedItems[item.id] ? <ExpandLess /> : <ExpandMore />}
+            onClick={() => toggleExpansion(item.id as string)}
+            startIcon={expandedItems[(item.id as string)] ? <ExpandLess /> : <ExpandMore />}
             size="small"
           >
-            {expandedItems[item.id] ? 'Less' : 'More'}
+            {expandedItems[(item.id as string)] ? 'Less' : 'More'}
           </Button>
         </Box>
 
@@ -572,17 +572,17 @@ export default function AlchemicalRecommendations({
         </Box>
 
         {/* Expandable content */}
-        {expandedItems[item.id] && (
+        {expandedItems[(item.id as string)] && (
           <Box sx={{ mt: 2 }}>
             <Divider sx={{ mb: 2 }} />
             {item.modality && (
               <Typography variant="body2">
-                <strong>Modality:</strong> {item.modality}
+                <strong>Modality:</strong> {item.modality as string}
               </Typography>
             )}
             {item.qualities && (
               <Typography variant="body2">
-                <strong>Qualities:</strong> {item.qualities.join(', ')}
+                <strong>Qualities:</strong> {(item.qualities as string[]).join(', ')}
               </Typography>
             )}
           </Box>
@@ -617,7 +617,7 @@ export default function AlchemicalRecommendations({
                   </Grid>
                   <Grid item xs={6}>
                     <Typography variant="body2">
-                      <strong>Dominant Property:</strong> {(energeticProfile as unknown)?.dominantAlchemicalProperty}
+                      <strong>Dominant Property:</strong> {(energeticProfile as any)?.dominantAlchemicalProperty}
                     </Typography>
                   </Grid>
                 </Grid>
@@ -664,8 +664,8 @@ export default function AlchemicalRecommendations({
                   {recipe.image && (
                     <CardMedia
                       component="img"
-                      height="140"
-                      image={recipe.image}
+                      height={140}
+                      image={recipe.image as string}
                       alt={recipe.name}
                     />
                   )}
@@ -674,7 +674,7 @@ export default function AlchemicalRecommendations({
                       {recipe.name}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-                      {recipe.cuisine}
+                      {recipe.cuisine as string}
                     </Typography>
                     
                     <Box sx={{ mb: 1 }}>

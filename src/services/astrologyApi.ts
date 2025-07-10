@@ -40,15 +40,15 @@ export const getCurrentCelestialPositions = async (): Promise<CelestialPosition>
 export const getCelestialPositionsForDate = async (date: Date): Promise<CelestialPosition> => {
     try {
         // Use our local calculation functions
-        const positions = await calculatePlanetaryPositions(date);
+        const positions = await _calculatePlanetaryPositions(date);
         const sunSign = calculateSunSign(date);
-        const _lunarPhase = await calculateLunarPhase(date);
+        const _lunarPhase = await _calculateLunarPhase(date);
         
         // Map positions to planetary alignment structure
         const planetaryPositions: Record<string, unknown> = {};
         Object.entries(positions).forEach(([planet, position]) => {
             // Handle numeric positions
-            const positionData = position as Record<string, unknown>;
+            const positionData = position as unknown as Record<string, unknown>;
             const degreeValue = typeof position === 'number' 
                 ? position 
                 : (positionData?.degree as number) || 0;
@@ -87,12 +87,12 @@ const getCachedCelestialPositions = async (): Promise<CelestialPosition> => {
 
     try {
         // Use AstrologicalService to get accurate positions for current date
-        const _currentDate = new Date();
+        const currentDate = new Date();
         // Apply safe type casting for service method access
-        const astroService = AstrologicalService as unknown;
+        const astroService = AstrologicalService as unknown as Record<string, unknown>;
         const astroState = await (astroService?.getStateForDate ? 
-            astroService.getStateForDate(currentDate) : 
-            astroService.getCurrentState?.(currentDate));
+            (astroService.getStateForDate as Function)(currentDate) : 
+            (astroService.getCurrentState as Function)?.(currentDate));
         
         // Map the data to our format
         cachedPositions = {
@@ -100,8 +100,8 @@ const getCachedCelestialPositions = async (): Promise<CelestialPosition> => {
             moonPhase: astroState.moonPhase,
             planetaryPositions: astroState.currentPlanetaryAlignment,
             time: {
-                hours: currentDate.getHours(),
-                minutes: currentDate.getMinutes()
+                hours: (currentDate as Date).getHours(),
+                minutes: (currentDate as Date).getMinutes()
             },
             timestamp: now
         };
@@ -119,10 +119,10 @@ const getFallbackPositions = (date: Date = new Date()): CelestialPosition => {
     // Get fallback data from AstrologicalService for the specified date
     try {
         // Apply safe type casting for service method access
-        const astroService = AstrologicalService as unknown;
+        const astroService = AstrologicalService as unknown as Record<string, unknown>;
         const fallbackStatePromise = astroService?.getStateForDate ? 
-            astroService.getStateForDate(date) : 
-            astroService.getCurrentState?.(date);
+            (astroService.getStateForDate as Function)(date) : 
+            (astroService.getCurrentState as Function)?.(date);
         
         // Since we can't await here (not an async function), we'll use a static fallback
         return {
@@ -191,10 +191,10 @@ export const getElementalInfluence = async (): Promise<typeof elementalUtils.DEF
     // Use the zodiac to element mapping if available
     try {
         // Apply safe type casting for service method access
-        const astroService = AstrologicalService as unknown;
+        const astroService = AstrologicalService as unknown as Record<string, unknown>;
         const astroState = await (astroService?.getCurrentState ? 
-            astroService.getCurrentState() : 
-            astroService.getStateForDate?.(new Date()));
+            (astroService.getCurrentState as Function)() : 
+            (astroService.getStateForDate as Function)?.(new Date()));
         if (astroState) {
             // First check if elementalState is already calculated in the astrological state
             if (astroState.elementalState) {
@@ -323,12 +323,12 @@ export function calculateElementalBalanceFromPositions(positions: Record<string,
     // Calculate elemental influence from each planet's position
     Object.entries(positions).forEach(([planet, data]) => {
         // Apply safe type casting for data property access
-        const planetData = data as unknown;
+        const planetData = data as Record<string, unknown>;
         if (!planetData?.sign) return;
         
         const planetKey = planet.toLowerCase();
         const weight = planetaryWeights[planetKey as keyof typeof planetaryWeights] || 0.05;
-        const element = getElementFromZodiac(planetData.sign);
+        const element = getElementFromZodiac(planetData.sign as string);
         
         elementalBalance[element as keyof typeof elementalBalance] += weight;
         totalInfluence += weight;

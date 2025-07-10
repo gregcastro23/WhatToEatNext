@@ -79,28 +79,28 @@ export default function NutritionalDisplay({
 
       {nutritionalData ? (
         <div>
-          <h3 className="text-lg font-semibold mb-2">{(nutritionalData as any)?.name || selectedIngredient}</h3>
+          <h3 className="text-lg font-semibold mb-2">{(nutritionalData as unknown)?.name || selectedIngredient}</h3>
           
           {/* Macronutrients Section */}
           <div className="mb-4">
             <h4 className="font-medium text-gray-700">Macronutrients</h4>
             <div className="grid grid-cols-2 gap-2">
-              <div className="text-sm">Calories: {(nutritionalData as any)?.calories || 0}</div>
-              <div className="text-sm">Protein: {(nutritionalData as any)?.macros?.protein || 0}g</div>
-              <div className="text-sm">Carbs: {(nutritionalData as any)?.macros?.carbs || 0}g</div>
-              <div className="text-sm">Fat: {(nutritionalData as any)?.macros?.fat || 0}g</div>
-              <div className="text-sm">Fiber: {(nutritionalData as any)?.macros?.fiber || 0}g</div>
+              <div className="text-sm">Calories: {(nutritionalData as unknown)?.calories || 0}</div>
+              <div className="text-sm">Protein: {(nutritionalData as unknown)?.macros?.protein || 0}g</div>
+              <div className="text-sm">Carbs: {(nutritionalData as unknown)?.macros?.carbs || 0}g</div>
+              <div className="text-sm">Fat: {(nutritionalData as unknown)?.macros?.fat || 0}g</div>
+              <div className="text-sm">Fiber: {(nutritionalData as unknown)?.macros?.fiber || 0}g</div>
             </div>
           </div>
 
           {!compact && (
             <>
               {/* Vitamins Section */}
-              {(nutritionalData as any)?.vitamins && Object.keys((nutritionalData as any)?.vitamins || {}).length > 0 && (
+              {(nutritionalData as unknown)?.vitamins && Object.keys((nutritionalData as unknown)?.vitamins || {}).length > 0 && (
                 <div className="mb-4">
                   <h4 className="font-medium text-gray-700">Vitamins (% Daily Value)</h4>
                   <div className="grid grid-cols-3 gap-1">
-                    {Object.entries((nutritionalData as any)?.vitamins || {}).map(([vitamin, value]) => (
+                    {Object.entries((nutritionalData as unknown)?.vitamins || {}).map(([vitamin, value]) => (
                       <div key={vitamin} className="text-sm">
                         {vitamin}: {formatPercent(value as number)}
                       </div>

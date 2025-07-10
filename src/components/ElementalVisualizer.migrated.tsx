@@ -1,5 +1,5 @@
 'use client';
-import { ElementalProperties } from '@/types/celestial';
+import { _ElementalProperties } from '@/types/celestial';
 import React, { useMemo, useState, useCallback, useRef } from 'react';
 import { useServices } from '@/hooks/useServices';
 
@@ -95,7 +95,7 @@ function calculateElementalCompatibility(
 }
 
 const ElementalVisualizerMigrated: React.FC<ElementalVisualizerProps> = ({
-  elementalProperties,
+  _elementalProperties,
   userProperties,
   title = 'Elemental Properties',
   visualizationType = 'bar',

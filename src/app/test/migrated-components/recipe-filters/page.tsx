@@ -1,9 +1,9 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Recipe } from '@/types/recipe';
+import { _Recipe } from '@/types/recipe';
 import RecipeFiltersMigrated, { FilterState, initialFilters } from '@/components/Recipe/RecipeFilters.migrated';
-import { logger } from '@/utils/logger';
+import { _logger } from '@/utils/logger';
 
 export default function RecipeFiltersTestPage() {
   // State for original filters

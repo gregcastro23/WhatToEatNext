@@ -32,7 +32,7 @@ export async function POST(request: Request) {
     const {
       year = new Date().getFullYear(),
       month = new Date().getMonth() + 1, // Convert from conventional 1-indexed to our expected format
-      date = new Date().getDate(),
+      _date = new Date().getDate(),
       hour = new Date().getHours(),
       minute = new Date().getMinutes(),
       latitude = DEFAULT_LOCATION.latitude,
@@ -89,8 +89,8 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   
   // Extract query parameters
-  const latitude = parseFloat(searchParams.get('latitude') || String(DEFAULT_LOCATION.latitude));
-  const longitude = parseFloat(searchParams.get('longitude') || String(DEFAULT_LOCATION.longitude));
+  const _latitude = parseFloat(searchParams.get('latitude') || String(DEFAULT_LOCATION.latitude));
+  const _longitude = parseFloat(searchParams.get('longitude') || String(DEFAULT_LOCATION.longitude));
   const zodiacSystem = searchParams.get('zodiacSystem') || 'tropical';
   
   // Use current date/time

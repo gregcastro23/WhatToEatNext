@@ -1,7 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import { Sauce } from '@/data/sauces';
-import { _ElementalProperties } from '@/types/alchemy';
+import { ElementalProperties } from '@/types/alchemy';
 import { ChevronDown, ChevronUp, Info, Check, Droplet, Flame, Wind, Mountain } from 'lucide-react';
+
+// Add new interface for sauce recommendations
+interface SauceRecommendation {
+  id: string;
+  name: string;
+  description: string;
+  category: string;
+  elementalProperties: ElementalProperties;
+  matchScore: number;
+  cuisine?: string;
+  base?: string;
+  isFusion?: boolean;
+  ingredients?: string[];
+  culinaryUses?: string[];
+  preparationNotes?: string;
+  technicalTips?: string;
+  seasonality?: string;
+  preparationSteps?: string[];
+  procedure?: string[];
+  instructions?: string[];
+  prepTime?: string;
+  cookTime?: string;
+  yield?: string;
+  difficulty?: string;
+  storageInstructions?: string;
+  variants?: string[];
+  usage?: string;
+  forItem?: string;
+  planetAffinity?: string[];
+}
 
 interface SauceRecommenderProps {
   currentElementalProfile?: ElementalProperties;
@@ -13,8 +43,8 @@ interface SauceRecommenderProps {
   showByAstrological?: boolean;
   showByDietary?: boolean;
   maxResults?: number;
-  sauces?: Record<string, Sauce>;
-  cuisines?: unknown;
+  sauces?: Record<string, SauceRecommendation>;
+  cuisines?: Record<string, unknown>;
   className?: string;
 }
 
@@ -32,7 +62,7 @@ export default function SauceRecommender({
   cuisines,
   className,
 }: SauceRecommenderProps) {
-  const [sauceRecommendations, setSauceRecommendations] = useState<any[]>([]);
+  const [sauceRecommendations, setSauceRecommendations] = useState<SauceRecommendation[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [expandedSauceCards, setExpandedSauceCards] = useState<Record<string, boolean>>({});
   const [filter, setFilter] = useState<string>('all');
@@ -218,19 +248,19 @@ export default function SauceRecommender({
   };
 
   // Generate sauce recommendations based on criteria
-  const generateSauceRecommendations = async (): Promise<any[]> => {
+  const generateSauceRecommendations = async (): Promise<SauceRecommendation[]> => {
     // Initialize results array
-    const results: unknown[] = [];
+    const results: SauceRecommendation[] = [];
     
     // Get all available sauces from props or try to import if not provided
-    const allAvailableSauces: Record<string, Sauce> = sauces || {};
+    const allAvailableSauces: Record<string, SauceRecommendation> = sauces || {};
     
     // Get all available cuisines
     const allCuisines = cuisines || {};
     
     // If we have a specific cuisine, prioritize its sauces
-    if (cuisine && allCuisines[cuisine.toLowerCase()]?.traditionalSauces) {
-      const cuisineData = allCuisines[cuisine.toLowerCase()];
+    if (cuisine && (allCuisines[cuisine.toLowerCase()] as any)?.traditionalSauces) {
+      const cuisineData = allCuisines[cuisine.toLowerCase()] as any;
       const sauceRecommender = cuisineData.sauceRecommender || {};
       
       // Add sauce recommendations based on protein
@@ -256,11 +286,14 @@ export default function SauceRecommender({
                 sauceData.astrologicalAffinities?.planets
               );
               
+              // Rename to avoid confusion
+              const isCurrentlyDaytime = Boolean(timeFactors.planetaryHours?.isDaytime);
+
               // Calculate planetary hour influence
               const planetaryHourScore = calculatePlanetaryHourInfluence(
                 sauceData.elementalProperties,
                 timeFactors.planetaryHour.planet,
-                isDaytime(),
+                isCurrentlyDaytime,  // Use boolean directly
                 sauceData.astrologicalAffinities?.planets
               );
               
@@ -293,7 +326,7 @@ export default function SauceRecommender({
                 elementalMatchScore: elementalMatchScore,
                 planetaryDayScore: planetaryDayScore,
                 planetaryHourScore: planetaryHourScore
-              });
+              } as any);
             }
           });
         });
@@ -322,11 +355,14 @@ export default function SauceRecommender({
                 sauceData.astrologicalAffinities?.planets
               );
               
+              // Rename to avoid confusion
+              const isCurrentlyDaytime = Boolean(timeFactors.planetaryHours?.isDaytime);
+
               // Calculate planetary hour influence
               const planetaryHourScore = calculatePlanetaryHourInfluence(
                 sauceData.elementalProperties,
                 timeFactors.planetaryHour.planet,
-                isDaytime(),
+                isCurrentlyDaytime,  // Use boolean directly
                 sauceData.astrologicalAffinities?.planets
               );
               
@@ -388,11 +424,14 @@ export default function SauceRecommender({
                 sauceData.astrologicalAffinities?.planets
               );
               
+              // Rename to avoid confusion
+              const isCurrentlyDaytime = Boolean(timeFactors.planetaryHours?.isDaytime);
+
               // Calculate planetary hour influence
               const planetaryHourScore = calculatePlanetaryHourInfluence(
                 sauceData.elementalProperties,
                 timeFactors.planetaryHour.planet,
-                isDaytime(),
+                isCurrentlyDaytime,  // Use boolean directly
                 sauceData.astrologicalAffinities?.planets
               );
               
@@ -451,11 +490,14 @@ export default function SauceRecommender({
             sauceData.astrologicalAffinities?.planets
           );
           
+          // Rename to avoid confusion
+          const isCurrentlyDaytime = Boolean(timeFactors.planetaryHours?.isDaytime);
+
           // Calculate planetary hour influence
           const planetaryHourScore = calculatePlanetaryHourInfluence(
             sauceData.elementalProperties,
             timeFactors.planetaryHour.planet,
-            isDaytime(),
+            isCurrentlyDaytime,  // Use boolean directly
             sauceData.astrologicalAffinities?.planets
           );
           
@@ -522,11 +564,14 @@ export default function SauceRecommender({
               sauceData.astrologicalAffinities?.planets
             );
             
+            // Rename to avoid confusion
+            const isCurrentlyDaytime = Boolean(timeFactors.planetaryHours?.isDaytime);
+
             // Calculate planetary hour influence
             const planetaryHourScore = calculatePlanetaryHourInfluence(
               sauceData.elementalProperties,
               timeFactors.planetaryHour.planet,
-              isDaytime(),
+              isCurrentlyDaytime,  // Use boolean directly
               sauceData.astrologicalAffinities?.planets
             );
             
@@ -577,11 +622,19 @@ export default function SauceRecommender({
     
     // Remove duplicates and sort by match score
     const uniqueResults = results.filter((sauce, index, self) =>
-      index === self.findIndex((s) => (s as any)?.name === (sauce as any)?.name)
+      index === self.findIndex((s) => {
+        const sauceName = isSauceRecommendation(sauce) ? sauce.name : '';
+        const sName = isSauceRecommendation(s) ? s.name : '';
+        return sauceName === sName;
+      })
     );
     
     return uniqueResults
-      .sort((a, b) => ((b as unknown)?.matchScore || 0) - ((a as unknown)?.matchScore || 0))
+      .sort((a, b) => {
+        const scoreA = isSauceRecommendation(a) ? a.matchScore : 0;
+        const scoreB = isSauceRecommendation(b) ? b.matchScore : 0;
+        return scoreB - scoreA;
+      })
       .slice(0, maxResults);
   };
 
@@ -744,7 +797,8 @@ export default function SauceRecommender({
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-          {filteredSauces().map((sauce, index) => {
+          {filteredSauces().map((sauce: SauceRecommendation, index: number) => {
+            if (!sauce) return null;
             const isExpanded = expandedSauceCards[sauce.id] || false;
             
             // Determine styling based on dominant element

@@ -69,9 +69,32 @@ export const AlchemicalProvider: React.FC<{children: React.ReactNode}> = ({ chil
     if (!isInitialized) {
       logger.debug(`AlchemicalProvider initializing`);
       setIsInitialized(true);
+      
+      // Calculate isDaytime based on current time
+      const currentHour = new Date().getHours();
+      const currentIsDaytime = currentHour >= 6 && currentHour < 18;
+      setIsDaytime(currentIsDaytime);
+      
       refreshPlanetaryPositions(); // Initial fetch of planetary positions
     }
   }, [isInitialized]);
+
+  // Update isDaytime periodically
+  useEffect(() => {
+    const updateDaytime = () => {
+      const currentHour = new Date().getHours();
+      const currentIsDaytime = currentHour >= 6 && currentHour < 18;
+      setIsDaytime(currentIsDaytime);
+    };
+
+    // Update immediately
+    updateDaytime();
+
+    // Update every hour
+    const interval = setInterval(updateDaytime, 60 * 60 * 1000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   // Synchronize alchemical values between state and astrologicalState
   useEffect(() => {

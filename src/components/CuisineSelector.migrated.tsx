@@ -4,7 +4,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { useServices } from '@/hooks/useServices';
 import type { Recipe } from '@/types/recipe';
 import type { Ingredient, Modality } from "@/data/ingredients/types";
-import { ZodiacSign, _LunarPhase, LunarPhaseWithSpaces , _Element } from '@/types/alchemy';
+import { _ZodiacSign, _LunarPhase, _LunarPhaseWithSpaces , _Element } from '@/types/alchemy';
 import { determineModalityFromElements } from '@/utils/cuisineUtils';
 import { ElementalItem } from '@/calculations/alchemicalTransformation';
 import { PlanetaryDignityDetails } from '@/constants/planetaryFoodAssociations';
@@ -79,8 +79,8 @@ function CuisineSelectorMigrated({
         
         // Use safe method access for lunar phase
         const _lunarPhase = propCurrentLunarPhase || 
-          ((serviceData as any)?.getCurrentLunarPhase ? await (serviceData as any).getCurrentLunarPhase() : 'full moon');
-        setResolvedLunarPhase(_lunarPhase as any);
+          ((serviceData as unknown)?.getCurrentLunarPhase ? await (serviceData as unknown).getCurrentLunarPhase() : 'full moon');
+        setResolvedLunarPhase(_lunarPhase as unknown);
       } catch (err) {
         // console.error('Error loading astrological data:', err);
         setError(err instanceof Error ? err : new Error('Error loading astrological data'));
@@ -112,8 +112,8 @@ function CuisineSelectorMigrated({
           planetaryPositions: Object.entries(resolvedPlanetaryPositions)?.reduce((acc, [planet, degree]) => {
             // Apply safe type casting for astrology service access
             const serviceData = astrologyService as unknown;
-            const _zodiacSign = (serviceData as any)?.getZodiacSignForDegree ? 
-              (serviceData as any).getZodiacSignForDegree(Number(degree)) : 'aries';
+            const _zodiacSign = (serviceData as unknown)?.getZodiacSignForDegree ? 
+              (serviceData as unknown).getZodiacSignForDegree(Number(degree)) : 'aries';
             
             acc[planet] = { 
               sign: zodiacSign,
@@ -127,7 +127,7 @@ function CuisineSelectorMigrated({
         // Transform to ElementalItem format for compatibility with existing component
         const cuisines: ElementalItem[] = (result?.items || []).map((cuisine, index) => {
           // Extract elemental properties from context if available
-          const elementalProps = result.context?.elementalState?.[cuisine] || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+          const _elementalProps = result.context?.elementalState?.[cuisine] || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
           };
           
           // Get score from result
@@ -180,13 +180,13 @@ function CuisineSelectorMigrated({
   }, [cuisineList, sortBy, resolvedPlanetaryPositions]);
   
   // Function to determine cuisine modality
-  const getCuisineModality = (cuisine: Record<string, unknown>): Modality => {
+  const getCuisineModality = (cuisine: Record<string, unknown>): _Modality => {
     // If cuisine already has modality defined, use it
-    if ((cuisine as any)?.modality) return (cuisine as any)?.modality;
+    if ((cuisine as unknown)?.modality) return (cuisine as unknown)?.modality;
     
     // Otherwise determine from elemental state
-    return determineModalityFromElements((cuisine as any)?.elementalState || (cuisine as any)?.elementalState || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
-    } as any);
+    return determineModalityFromElements((cuisine as unknown)?.elementalState || (cuisine as unknown)?.elementalState || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+    } as unknown);
   };
   
   // Filter cuisines by modality and zodiac influence

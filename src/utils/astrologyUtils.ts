@@ -1387,9 +1387,9 @@ export async function getCurrentAstrologicalState(date: Date = new Date()): Prom
     
     // Calculate the planetary hour, day, and minute
     const hourCalculator = new PlanetaryHourCalculator();
-    const planetaryHour = hourCalculator.calculatePlanetaryHour(date) as unknown as Planet;
-    const planetaryDay = hourCalculator.getPlanetaryDay(date) as unknown as Planet;
-    const planetaryMinute = hourCalculator.getPlanetaryMinute(date) as unknown as Planet;
+    const planetaryHour = hourCalculator.calculatePlanetaryHour(date) as Planet;
+    const planetaryDay = hourCalculator.getPlanetaryDay(date) as Planet;
+    const planetaryMinute = hourCalculator.getPlanetaryMinute(date) as Planet;
     
     // Convert planetary positions to the format needed for alignment
     const currentPlanetaryAlignment: Record<string, unknown> = {};
@@ -1880,7 +1880,7 @@ export const elementToZodiac: Record<string, string[]> = {
 export const parseAstroChartData = (astroChartData: unknown): Record<string, number> => {
   try {
     const result: Record<string, number> = {};
-    const data = astroChartData as unknown;
+    const data = astroChartData as Record<string, unknown>;
     
     // Process planetary positions
     if ((data as Record<string, unknown>)?.planets) {
@@ -1946,7 +1946,7 @@ export const parseAstroChartAspects = (astroChartData: unknown): Array<{
       applying: boolean;
     }> = [];
     
-    const data = astroChartData as unknown;
+    const data = astroChartData as Record<string, unknown>;
     
     if ((data as Record<string, unknown>)?.aspects && Array.isArray((data as Record<string, unknown>).aspects)) {
       // Map aspect types to internal format
@@ -1965,15 +1965,15 @@ export const parseAstroChartAspects = (astroChartData: unknown): Array<{
       };
       
       // Process each aspect
-      ((data as Record<string, unknown>).aspects as unknown[]).forEach((aspect: unknown) => {
-        const aspectData = aspect as Record<string, unknown>;
-        if (aspectData?.aspectType && aspectData?.planet1 && aspectData?.planet2) {
+      ((data as Record<string, unknown>).aspects as Record<string, unknown>[]).forEach((aspect: Record<string, unknown>) => {
+        // Process aspect data safely
+        if (aspect.aspectType && aspect.planet1 && aspect.planet2) {
           aspects.push({
-            type: aspectTypeMapping[aspectData.aspectType as string] || aspectData.aspectType as string,
-            planet1: aspectData.planet1 as string,
-            planet2: aspectData.planet2 as string,
-            orb: aspectData.orb as number || 0,
-            applying: aspectData.applying === true
+            type: aspectTypeMapping[aspect.aspectType as string] || aspect.aspectType as string,
+            planet1: aspect.planet1 as string,
+            planet2: aspect.planet2 as string,
+            orb: aspect.orb as number || 0,
+            applying: aspect.applying === true
           });
         }
       });

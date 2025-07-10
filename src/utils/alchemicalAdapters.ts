@@ -12,7 +12,7 @@ export function toStandardElementalAffinity(engineAffinity: unknown): ElementalA
     strength: engineData?.strength,
     source: engineData?.source,
     // Preserve other properties
-    ...engineData
+    ...(engineData as Record<string, unknown>)
   };
 }
 

@@ -5,7 +5,7 @@ import { proteins } from '../data/ingredients/proteins';
 import { grains } from '../data/ingredients/grains';
 import { oils } from '../data/ingredients/oils';
 import { fruits } from '../data/ingredients/fruits';
-import type { IngredientMapping , type ElementalProperties } from '../types/alchemy';
+import type { IngredientMapping , ElementalProperties } from '../types/alchemy';
 import { ElementalFilter } from '../types/elemental';
 import { 
   NutritionalFilter, 
@@ -307,37 +307,37 @@ export class IngredientFilterService {
   ): IngredientMapping[] {
     return ingredients.filter(ingredient => {
       // Check for vegetarian
-      if (filter.isVegetarian && !(ingredient as unknown).isVegetarian) {
+      if (filter.isVegetarian && !(ingredient as any).isVegetarian) {
         return false;
       }
       
       // Check for vegan
-      if (filter.isVegan && !(ingredient as unknown).isVegan) {
+      if (filter.isVegan && !(ingredient as any).isVegan) {
         return false;
       }
       
       // Check for gluten-free
-      if (filter.isGlutenFree && !(ingredient as unknown).isGlutenFree) {
+      if (filter.isGlutenFree && !(ingredient as any).isGlutenFree) {
         return false;
       }
       
       // Check for dairy-free
-      if (filter.isDairyFree && !(ingredient as unknown).isDairyFree) {
+      if (filter.isDairyFree && !(ingredient as any).isDairyFree) {
         return false;
       }
       
       // Check for nut-free
-      if (filter.isNutFree && !(ingredient as unknown).isNutFree) {
+      if (filter.isNutFree && !(ingredient as any).isNutFree) {
         return false;
       }
       
       // Check for low sodium
-      if (filter.isLowSodium && !(ingredient as unknown).isLowSodium) {
+      if (filter.isLowSodium && !(ingredient as any).isLowSodium) {
         return false;
       }
       
       // Check for low sugar
-      if (filter.isLowSugar && !(ingredient as unknown).isLowSugar) {
+      if (filter.isLowSugar && !(ingredient as any).isLowSugar) {
         return false;
       }
       
@@ -352,7 +352,7 @@ export class IngredientFilterService {
   ): IngredientMapping[] {
     return ingredients.filter(ingredient => {
       // Safe access to seasonality property with type assertion
-      const seasonality = (ingredient as unknown).seasonality || [];
+      const seasonality = (ingredient as any).seasonality || [];
       
       // If no seasonality data, assume available year-round
       if (!seasonality || (Array.isArray(seasonality) && seasonality.length === 0)) {
@@ -377,7 +377,7 @@ export class IngredientFilterService {
     
     return ingredients.filter(ingredient => {
       // Safe access to ingredient name with type assertion
-      const ingredientName = (ingredient as unknown).name || ingredient.id || '';
+      const ingredientName = (ingredient as any).name || ingredient.id || '';
       
       // Check if ingredient name matches query
       if (typeof ingredientName === 'string' && 
@@ -386,7 +386,7 @@ export class IngredientFilterService {
       }
       
       // Check if any preparation notes match (if available)
-      const preparationNotes = (ingredient as unknown).preparationNotes || '';
+      const preparationNotes = (ingredient as any).preparationNotes || '';
       if (typeof preparationNotes === 'string' && preparationNotes.length > 0) {
         if (preparationNotes.toLowerCase().includes(lowerCaseQuery)) {
           return true;
@@ -394,9 +394,9 @@ export class IngredientFilterService {
       }
       
       // Check if any affinities match (if available)
-      const affinities = (ingredient as unknown).affinities || [];
+      const affinities = (ingredient as any).affinities || [];
       if (Array.isArray(affinities) && affinities.length > 0) {
-        return affinities.some((affinity: Record<string, unknown>) => 
+        return affinities.some((affinity: any) => 
           typeof affinity === 'string' && affinity.toLowerCase().includes(lowerCaseQuery)
         );
       }
@@ -414,7 +414,7 @@ export class IngredientFilterService {
     
     return ingredients.filter(ingredient => {
       // Safe access to ingredient name with type assertion
-      const ingredientName = (ingredient as unknown).name || ingredient.id || '';
+      const ingredientName = (ingredient as any).name || ingredient.id || '';
       
       return !excludedIngredients.some(excluded => 
         typeof ingredientName === 'string' && 
@@ -560,7 +560,7 @@ export class IngredientFilterService {
           return {
             id: recipe.id?.toString() || '',
             title: recipe.title || '',
-            image: (recipe as unknown).image || '',
+            image: (recipe as any).image || '',
             readyInMinutes: recipe.readyInMinutes || 30, // Default value
             healthScore: 50, // Default value
             nutrition: {

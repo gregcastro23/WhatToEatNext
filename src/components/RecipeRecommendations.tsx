@@ -109,10 +109,10 @@ const validateElementalProperties = (props: Record<string, unknown>): ElementalP
   if (!props || typeof props !== 'object') return defaultProps;
   
   return {
-    Fire: Math.max(0, Math.min(1, props.Fire || 0)),
-    Water: Math.max(0, Math.min(1, props.Water || 0)),
-    Earth: Math.max(0, Math.min(1, props.Earth || 0)),
-    Air: Math.max(0, Math.min(1, props.Air || 0))
+    Fire: Math.max(0, Math.min(1, Number(props.Fire) || 0)),
+    Water: Math.max(0, Math.min(1, Number(props.Water) || 0)),
+    Earth: Math.max(0, Math.min(1, Number(props.Earth) || 0)),
+    Air: Math.max(0, Math.min(1, Number(props.Air) || 0))
   };
 };
 
@@ -147,7 +147,7 @@ const calculateRecommendationScore = (
   season: Season,
   timeFactors: TimeFactors | null
 ): RecommendationExplanation => {
-  const recipeElements = validateElementalProperties(recipe.elementalProperties || recipe.elementalState);
+  const recipeElements = validateElementalProperties((recipe.elementalProperties || recipe.elementalState) as Record<string, unknown>);
   const seasonalProfile = getSeasonalElementalProfile(season);
   
   const elementalMatch = calculateElementalSimilarity(recipeElements, seasonalProfile);
@@ -179,7 +179,7 @@ const explainRecommendation = (
   season: Season,
   timeFactors: TimeFactors | null
 ): string => {
-  const explanation = calculateRecommendationScore(recipe, _season, timeFactors);
+  const explanation = calculateRecommendationScore(recipe, season, timeFactors);
   const topReason = Object.entries(explanation.breakdown)
     .sort(([,a], [,b]) => b.score - a.score)[0];
   
@@ -447,7 +447,7 @@ export default function RecipeRecommendations() {
                         Elemental Properties:
                       </Typography>
                       <Grid container spacing={1}>
-                        {Object.entries(validateElementalProperties(recipe.elementalProperties || recipe.elementalState)).map(([element, value]) => (
+                        {Object.entries(validateElementalProperties((recipe.elementalProperties || recipe.elementalState) as Record<string, unknown>)).map(([element, value]) => (
                           <Grid item xs={6} key={element}>
                             <Box>
                               <Typography variant="caption">

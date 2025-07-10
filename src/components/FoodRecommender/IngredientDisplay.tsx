@@ -13,8 +13,8 @@ interface Ingredient {
 // Display a list of ingredient recommendations based on astrological state
 export default function IngredientDisplay() {
   const astroData = useAstrologicalState();
-  const elementalProperties = (astroData as any)?.elementalProperties || (astroData as any)?.state?.elementalProperties;
-  const planetaryPositions = (astroData as any)?.planetaryPositions || (astroData as any)?.positions;
+  const elementalProperties = (astroData as unknown)?.elementalProperties || (astroData as unknown)?.state?.elementalProperties;
+  const planetaryPositions = (astroData as unknown)?.planetaryPositions || (astroData as unknown)?.positions;
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -31,8 +31,8 @@ export default function IngredientDisplay() {
         // Get recommendations based on current astrological state
         if (elementalProperties) {
           const recommendations = ingredientService.getRecommendedIngredients(
-            elementalProperties,
-            { maxResults: 6, sortByScore: true } as any
+            _elementalProperties,
+            { maxResults: 6, sortByScore: true } as unknown
           );
           
           // Convert to component interface
@@ -59,14 +59,14 @@ export default function IngredientDisplay() {
               category: ing.category,
               element: dominantElement,
               energyLevel: ing.kalchm ? Math.min(1, ing.kalchm / 2) : 0.6,
-              score: (ing as any).score || 0.8
+              score: (ing as unknown).score || 0.8
             };
           });
           
           setIngredients(realIngredients);
         } else {
           // Fallback to getting all ingredients
-          const allIngredients = ingredientService.getAllIngredientsFlat();
+          const _allIngredients = ingredientService.getAllIngredientsFlat();
           const selectedIngredients = allIngredients.slice(0, 6).map(ing => ({
             name: ing.name,
             category: ing.category,

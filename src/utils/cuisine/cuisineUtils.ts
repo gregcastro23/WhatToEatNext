@@ -16,7 +16,7 @@ export function getCuisinePAirings(
 ): string[] {
   switch(category) {
     case 'grain': {
-      const grainData = grainCuisineMatrix[ingredientName] as unknown;
+      const grainData = grainCuisineMatrix[ingredientName] as Record<string, unknown>;
       return grainData?.cuisines || [];
     }
     case 'culinary_herb':
@@ -50,7 +50,7 @@ export function getIngredientsForCuisine(
   // Process each matrix to find ingredients that pAir with this cuisine
   if (categories.includes('grain')) {
     Object.entries(grainCuisineMatrix || {}).forEach(([grain, data]) => {
-      const grainDataEntry = data as unknown;
+      const grainDataEntry = data as Record<string, unknown>;
       if (grainDataEntry?.cuisines && grainDataEntry.cuisines.includes(cuisineName)) {
         result.grain?.push(grain);
       }

@@ -6,7 +6,7 @@ import { allCookingMethods } from '@/data/cooking/methods';
 import { CookingMethodInfo } from '@/types/cooking';
 import { Box, Card, CardContent, Container, Grid, Typography, Chip, List, ListItem, ListItemText, Divider, Paper, useTheme } from '@mui/material';
 import { AccessTime, ThermostatAuto, LocalFireDepartment, Science, Warning, Kitchen, Whatshot } from '@mui/icons-material';
-import { ZodiacSign } from '@/components/ZodiacSign';
+import { _ZodiacSign } from '@/components/ZodiacSign';
 import MethodImage from '@/components/MethodImage';
 import Link from 'next/link';
 import getMethodData from '@/app/cooking-methods/methods';
@@ -59,12 +59,12 @@ export default function CookingMethodPage() {
   }
 
   // Helper cast to suppress strict unknown prop issues
-  const m: any = method;
+  const m: Record<string, unknown> = method;
 
   const timeRangeText = m?.time_range ? `${String(m.time_range?.min)}-${String(m.time_range?.max)} minutes` : '';
   const temperatureText = m.temperature_range ?
     (typeof m.temperature_range === 'object' && 'min' in m.temperature_range ?
-      `${String((m.temperature_range as any).min)}°C - ${String((m.temperature_range as any).max)}°C` : String(m.temperature_range))
+      `${String((m.temperature_range as unknown).min)}°C - ${String((m.temperature_range as unknown).max)}°C` : String(m.temperature_range))
     : '';
 
   return (
@@ -100,13 +100,13 @@ export default function CookingMethodPage() {
             </Typography>
             
             <Typography variant="h6" color="text.secondary" paragraph>
-              {String((method as any).description)}
+              {String((method as unknown).description)}
             </Typography>
             
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, my: 3 }}>
               <AccessTime />
               <Typography variant="body1">
-                {String((method as any).duration)}
+                {String((method as unknown).duration)}
               </Typography>
             </Box>
           </Grid>
@@ -137,15 +137,15 @@ export default function CookingMethodPage() {
                 Benefits
               </Typography>
               <List>
-                {Array.isArray((method as any)?.benefits) ? (
-                  (method as any)?.benefits.map((benefit, index) => (
+                {Array.isArray((method as unknown)?.benefits) ? (
+                  (method as unknown)?.benefits.map((benefit, index) => (
                     <ListItem key={index}>
                       <ListItemText primary={benefit} />
                     </ListItem>
                   ))
                 ) : (
                   <Typography variant="body1" paragraph>
-                    {(method as any)?.benefits}
+                    {(method as unknown)?.benefits}
                   </Typography>
                 )}
               </List>
@@ -156,7 +156,7 @@ export default function CookingMethodPage() {
                 Suitable Foods
               </Typography>
               <Grid container spacing={1} sx={{ mb: 2 }}>
-                {Array.isArray((method as any)?.suitable_for) && (method as any)?.suitable_for.map((food, index) => (
+                {Array.isArray((method as unknown)?.suitable_for) && (method as unknown)?.suitable_for.map((food, index) => (
                   <Grid item key={index}>
                     <Chip 
                       label={food} 
@@ -167,14 +167,14 @@ export default function CookingMethodPage() {
                 ))}
               </Grid>
               
-              {(method as any)?.variations && (
+              {(method as unknown)?.variations && (
                 <>
                   <Divider sx={{ my: 3 }} />
                   <Typography variant="h5" gutterBottom>
                     Variations
                   </Typography>
                   <List>
-                    {Array.isArray((method as any)?.variations) && (method as any)?.variations.map((variation, index) => (
+                    {Array.isArray((method as unknown)?.variations) && (method as unknown)?.variations.map((variation, index) => (
                       <ListItem key={index}>
                         <ListItemText primary={variation} />
                       </ListItem>

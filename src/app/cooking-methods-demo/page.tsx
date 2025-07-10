@@ -42,21 +42,21 @@ export default function CookingMethodsDemoPage() {
       return {
         id: `${prefix}_${key}`,
         name,
-        description: (method as any).description || '',
-        elementalEffect: (method as any).elementalEffect || (method as any).elementalProperties || {
+        description: (method as unknown).description || '',
+        elementalEffect: (method as unknown).elementalEffect || (method as unknown).elementalProperties || {
           Fire: Math.random(),
           Water: Math.random(),
           Earth: Math.random(),
           Air: Math.random()
         },
         score,
-        duration: (method as any).time_range || (method as any).duration || { min: 10, max: 30 },
-        suitable_for: (method as any).suitable_for || [],
-        benefits: (method as any).benefits || [],
+        duration: (method as unknown).time_range || (method as unknown).duration || { min: 10, max: 30 },
+        suitable_for: (method as unknown).suitable_for || [],
+        benefits: (method as unknown).benefits || [],
         // Create variations if they exist
-        variations: (method as any).variations ? 
-          (Array.isArray((method as any).variations) ? 
-            (method as any).variations.map((v: string, i: number) => ({
+        variations: (method as unknown).variations ? 
+          (Array.isArray((method as unknown).variations) ? 
+            (method as unknown).variations.map((v: string, i: number) => ({
               id: `${prefix}_${key}_var_${i}`,
               name: v,
               description: `A variation of ${name} with different characteristics.`,

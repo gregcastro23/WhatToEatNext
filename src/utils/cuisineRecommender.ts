@@ -30,6 +30,11 @@ const mockPlanetaryData = {
   herbalAssociations: { Herbs: ["basil", "thyme", "mint", "rosemary"] }
 };
 
+// Add type guard after imports
+function isSauceData(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null;
+}
+
 // Export the function that was previously defined but not exported
 export function generateTopSauceRecommendations(currentElementalProfile = null, count = 5) {
   // Import sauce data
@@ -56,8 +61,8 @@ export function generateTopSauceRecommendations(currentElementalProfile = null, 
   
   // Map all sauces with scores
   const scoredSauces = saucesArray.map(sauce => {
-    // Use safe type casting for unknown property access
-    const sauceData = sauce as unknown;
+    // Replace the problematic casts with safe access
+    const sauceData = sauce as Record<string, unknown>;
     const elementalProperties = sauceData?.elementalProperties;
     const planetaryInfluences = sauceData?.planetaryInfluences;
     const flavorProfile = sauceData?.flavorProfile;
@@ -117,7 +122,7 @@ export function generateTopSauceRecommendations(currentElementalProfile = null, 
     );
     
     return {
-      ...sauce,
+      ...(sauce as Record<string, unknown>),
       id: sauceId || sauceName?.replace(/\s+/g, '-').toLowerCase(),
       matchPercentage,
       elementalMatchScore: Math.round(elementalMatchScore * 100),
@@ -153,7 +158,9 @@ export function getCuisineRecommendations(
   const scoredCuisines = cuisines.map(cuisine => {
     const flavorProfile = cuisineFlavorProfiles[cuisine];
     const elementalMatch = calculateElementalMatch(
-      (flavorProfile as unknown)?.elementalAffinity || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+      isSauceData(flavorProfile) && flavorProfile.elementalAffinity 
+        ? flavorProfile.elementalAffinity as ElementalProperties
+        : { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
       elementalState
     );
     

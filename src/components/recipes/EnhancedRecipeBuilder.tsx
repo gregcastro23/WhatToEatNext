@@ -91,6 +91,12 @@ import {
   allIngredients, 
   getAllIngredientsByCategory,
   VALID_CATEGORIES 
+, 
+  getAllVegetables,
+  getAllProteins,
+  getAllHerbs,
+  getAllSpices,
+  getAllGrains
 } from '@/data/ingredients';
 import { 
   generateMonicaOptimizedRecipe,
@@ -101,15 +107,6 @@ import IngredientsStep from './steps/IngredientsStep';
 import BasicInfoStep from './steps/BasicInfoStep';
 import LivePreviewSidebar from './steps/LivePreviewSidebar';
 
-import { 
-  getAllVegetables,
-  getAllProteins,
-  getAllHerbs,
-  getAllSpices,
-  getAllGrains,
-  getAllIngredientsByCategory,
-  ingredientsMap
-} from '@/data/ingredients';
 
 import { allOils } from '@/data/ingredients/oils';
 import { cuisinesMap } from '@/data/cuisines';
@@ -271,10 +268,10 @@ export default function EnhancedRecipeBuilder() {
   const searchIngredients = ingredientSearchHook?.searchIngredients;
   const searchResults = ingredientSearchHook?.searchResults;
   const isSearching = ingredientSearchHook?.isSearching;
-  const clearSearch = ingredientSearchHook?.clearSearch;
+  const clearSearch = ingredientSearchHook?.clearSearch as any;
   
   const recipeValidationHook = useRecipeValidation() as Record<string, unknown>;
-  const validateRecipe = recipeValidationHook?.validateRecipe;
+  const validateRecipe = recipeValidationHook?.validateRecipe as any;
   const validationResult = recipeValidationHook?.validationResult;
   const isValidating = recipeValidationHook?.isValidating;
 
@@ -294,16 +291,18 @@ export default function EnhancedRecipeBuilder() {
   // Ingredient Search & Selection
   const handleIngredientSearch = useCallback((searchTerm: string) => {
     if (searchTerm.trim().length < 2) {
-      clearSearch();
+      if (clearSearch) clearSearch();
       return;
     }
     
-    searchIngredients(searchTerm, {
-      maxResults: 20,
-      elementalPreference: state.elementalPreference,
-      season: state.season || undefined,
-      dietary: state.dietaryRestrictions
-    });
+    if (searchIngredients) {
+      (searchIngredients as any)(searchTerm, {
+        maxResults: 20,
+        elementalPreference: state.elementalPreference,
+        season: state.season || undefined,
+        dietary: state.dietaryRestrictions
+      });
+    }
   }, [searchIngredients, clearSearch, state.elementalPreference, state.season, state.dietaryRestrictions]);
 
   const handleIngredientSelect = useCallback((ingredient: Ingredient) => {
@@ -319,7 +318,7 @@ export default function EnhancedRecipeBuilder() {
       selectedIngredients: [...prev.selectedIngredients, selectedIngredient]
     }));
     
-    clearSearch();
+    if (clearSearch) clearSearch();
   }, [clearSearch]);
 
   const handleIngredientRemove = useCallback((ingredientId: string) => {
@@ -443,7 +442,7 @@ export default function EnhancedRecipeBuilder() {
         targetKalchm: state.targetKalchm,
         targetMonica: state.targetMonica,
         elementalPreference: state.elementalPreference,
-        cookingMethods: state.cookingMethods,
+        cookingMethods: state.cookingMethods as any,
         maxPrepTime: state.prepTime,
         maxCookTime: state.cookTime,
         requiredIngredients: state.selectedIngredients.map(ing => ing.name),
@@ -472,12 +471,12 @@ export default function EnhancedRecipeBuilder() {
           name: ing.name,
           quantity: ing.quantity,
           unit: ing.unit
-        })),
+        })) as any,
         instructions: state.instructions.map(inst => inst.instruction),
         elementalProperties: state.elementalPreference as ElementalProperties
       };
       
-      validateRecipe(mockRecipe as Recipe);
+      if (validateRecipe) validateRecipe(mockRecipe as Recipe);
     }
   }, [state, validateRecipe]);
 
@@ -520,8 +519,8 @@ export default function EnhancedRecipeBuilder() {
           <IngredientsStep 
             state={state}
             setState={setState}
-            searchResults={searchResults}
-            isSearching={isSearching}
+            searchResults={searchResults as any}
+            isSearching={isSearching as boolean}
             onSearch={handleIngredientSearch}
             onSelect={handleIngredientSelect}
             onRemove={handleIngredientRemove}
@@ -676,7 +675,7 @@ export default function EnhancedRecipeBuilder() {
                       <Alert severity="error" sx={{ mb: 1 }}>
                         <Typography variant="subtitle2">Errors:</Typography>
                         {errors.map((error, index) => {
-                          const errorRecord = error as Record<string, unknown>;
+                          const errorRecord = error as any;
                           return (
                             <Typography key={index} variant="body2">• {errorRecord?.message}</Typography>
                           );
@@ -688,7 +687,7 @@ export default function EnhancedRecipeBuilder() {
                       <Alert severity="warning" sx={{ mb: 1 }}>
                         <Typography variant="subtitle2">Warnings:</Typography>
                         {warnings.map((warning, index) => {
-                          const warningRecord = warning as Record<string, unknown>;
+                          const warningRecord = warning as any;
                           return (
                             <Typography key={index} variant="body2">• {warningRecord?.message}</Typography>
                           );
@@ -700,7 +699,7 @@ export default function EnhancedRecipeBuilder() {
                       <Alert severity="info" sx={{ mb: 1 }}>
                         <Typography variant="subtitle2">Suggestions:</Typography>
                         {suggestions.map((suggestion, index) => {
-                          const suggestionRecord = suggestion as Record<string, unknown>;
+                          const suggestionRecord = suggestion as any;
                           return (
                             <Typography key={index} variant="body2">• {suggestionRecord?.message}</Typography>
                           );
@@ -758,7 +757,7 @@ export default function EnhancedRecipeBuilder() {
           <Grid item xs={12} md={4}>
             <LivePreviewSidebar 
               state={state}
-              validationResult={validationResult}
+              validationResult={validationResult as any}
               generatedRecipe={generatedRecipe}
             />
           </Grid>

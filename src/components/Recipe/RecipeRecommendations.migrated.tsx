@@ -302,7 +302,7 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
   const [astroData, setAstroData] = useState<AstrologicalData | null>(null);
 
   // Get current time factors for displaying planetary information
-  const timeFactors = useMemo(() => getTimeFactors(), []);
+  const _timeFactors = useMemo(() => getTimeFactors(), []);
 
   // Astrologize API integration with proper error handling
   useEffect(() => {
@@ -487,10 +487,10 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
 
   // Multi-factor scoring system
   const calculateRecommendationScore = (item: Record<string, unknown>, astroData: Record<string, unknown>): RecommendationScore => {
-    const elementalMatch = calculateElementalMatch(item.elementalProperties, astroData?.dominantElements) * 0.4;
-    const planetaryInfluence = calculatePlanetaryInfluence(item.planetaryRulers, astroData?.activePlanets) * 0.3;
-    const seasonalAlignment = calculateSeasonalAlignment(item.seasonality, astroData?.currentSeason) * 0.2;
-    const lunarPhaseBonus = calculateLunarPhaseBonus(item.lunarAffinities, astroData?.lunarPhase) * 0.1;
+    const elementalMatch = calculateElementalMatch(item.elementalProperties as unknown, astroData?.dominantElements as unknown) * 0.4;
+    const planetaryInfluence = calculatePlanetaryInfluence(item.planetaryRulers as unknown, astroData?.activePlanets as unknown) * 0.3;
+    const seasonalAlignment = calculateSeasonalAlignment(item.seasonality as unknown, astroData?.currentSeason as unknown) * 0.2;
+    const lunarPhaseBonus = calculateLunarPhaseBonus(item.lunarAffinities as unknown, astroData?.lunarPhase as unknown) * 0.1;
     
     const total = elementalMatch + planetaryInfluence + seasonalAlignment + lunarPhaseBonus;
     
@@ -528,12 +528,12 @@ const RecipeRecommendationsMigrated: React.FC<RecipeRecommendationsProps> = ({ f
 
   const calculateSeasonalAlignment = (seasonality?: Record<string, unknown>, currentSeason?: string): number => {
     if (!seasonality || !currentSeason) return 0.5;
-    return seasonality[currentSeason] || 0.3;
+    return Number(seasonality[currentSeason]) || 0.3;
   };
 
   const calculateLunarPhaseBonus = (affinities?: Record<string, unknown>, phase?: string): number => {
     if (!affinities || !phase) return 0;
-    return affinities[phase] || 0;
+    return Number(affinities[phase]) || 0;
   };
 
   // Use the alchemical recommendation service to get optimized recipes

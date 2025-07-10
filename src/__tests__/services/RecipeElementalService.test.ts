@@ -102,14 +102,14 @@ describe('RecipeElementalService', () => {
 
   describe('calculateSimilarity', () => {
     it('should calculate similarity between elemental property sets', () => {
-      const props1: ElementalProperties = {
+      const props1: _ElementalProperties = {
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
         Air: 0.25
       };
 
-      const props2: ElementalProperties = {
+      const props2: _ElementalProperties = {
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
@@ -121,7 +121,7 @@ describe('RecipeElementalService', () => {
       expect(similarity1).toBeCloseTo(1, 6);
 
       // Different properties should have lower similarity
-      const props3: ElementalProperties = {
+      const props3: _ElementalProperties = {
         Fire: 0.5,
         Water: 0.2,
         Earth: 0.2,

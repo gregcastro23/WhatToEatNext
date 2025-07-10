@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { getRecipesForCuisine } from '@/utils/recipeFilters';
 import type { Recipe } from '@/types/recipe';
 import type { Modality } from '@/data/ingredients/types';
-import { ZodiacSign, _LunarPhase, LunarPhaseWithSpaces } from '@/types/alchemy';
+import { _ZodiacSign, _LunarPhase, _LunarPhaseWithSpaces } from '@/types/alchemy';
 import { determineModalityFromElements } from '@/utils/cuisineUtils';
 import { transformCuisines } from '@/utils/alchemicalTransformationUtils';
 import { ElementalItem } from '@/calculations/alchemicalTransformation';
@@ -152,7 +152,7 @@ function CuisineSelector({
   }, [cuisineList, sortBy, planetaryPositions]);
   
   // Function to determine cuisine modality
-  const getCuisineModality = (cuisine: CuisineData): Modality => {
+  const getCuisineModality = (cuisine: CuisineData): _Modality => {
     // If cuisine already has modality defined, use it
     if ((cuisine as CuisineData).modality) return (cuisine as CuisineData).modality as Modality;
     

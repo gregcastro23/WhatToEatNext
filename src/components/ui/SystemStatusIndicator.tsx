@@ -10,7 +10,7 @@ import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 export const SystemStatusIndicator: React.FC = () => {
   const alchemicalData = useAlchemical();
   const planetaryPositions = alchemicalData.planetaryPositions;
-  const isLoading = (alchemicalData as unknown)?.isLoading || false;
+  const isLoading = (alchemicalData as any)?.isLoading || false;
   const state = alchemicalData.state;
   const [dataSource, setDataSource] = useState<string>('unknown');
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);

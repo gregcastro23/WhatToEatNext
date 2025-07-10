@@ -10,7 +10,7 @@ import { _PlanetaryPosition } from "@/types/celestial";
  * A utility function for logging debug information
  * This is a safe replacement for console.log that can be disabled in production
  */
-const debugLog = (message: string, ...args: unknown[]): void => {
+const _debugLog = (message: string, ...args: unknown[]): void => {
   // Comment out console.log to avoid linting warnings
   // console.log(message, ...args);
 };
@@ -187,7 +187,7 @@ const MoonDisplayMigrated: React.FC = () => {
       const calculateTimes = async () => {
         try {
           const astroService = astrologyService as Record<string, unknown>;
-          const times = await (astroService?.getMoonTimes as Function)?.(new Date(), coordinates);
+          const _times = await (astroService?.getMoonTimes as Function)?.(new Date(), coordinates);
           
           if (times) {
             setMoonTimes({

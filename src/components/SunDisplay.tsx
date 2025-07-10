@@ -34,7 +34,7 @@ const SunDisplay: React.FC = () => {
   useEffect(() => {
     const getLocation = async () => {
       try {
-        const coords = await (AstrologicalService as unknown)?.requestLocation?.();
+        const coords = await (AstrologicalService as any)?.requestLocation?.();
         if (coords) {
           setCoordinates({
             latitude: coords.latitude,

@@ -126,12 +126,12 @@ const IngredientRecommenderMigrated: React.FC = () => {
   const servicesData = useServices();
   const servicesLoading = servicesData?.isLoading || false;
   const servicesError = servicesData?.error || null;
-  const astrologyService = (servicesData as unknown)?.astrologyService;
-  const chakraService = (servicesData as unknown)?.chakraService;
-  const ingredientService = (servicesData as unknown)?.ingredientService;
-  const recommendationService = (servicesData as unknown)?.recommendationService;
-  const flavorProfileService = (servicesData as unknown)?.flavorProfileService;
-  const elementalCalculator = (servicesData as unknown)?.elementalCalculator;
+  const astrologyService = (servicesData as any)?.astrologyService;
+  const chakraService = (servicesData as any)?.chakraService;
+  const ingredientService = (servicesData as any)?.ingredientService;
+  const recommendationService = (servicesData as any)?.recommendationService;
+  const flavorProfileService = (servicesData as any)?.flavorProfileService;
+  const elementalCalculator = (servicesData as any)?.elementalCalculator;
 
   // State variables
   const [astroRecommendations, setAstroRecommendations] = useState<GroupedIngredientRecommendations>({});
@@ -188,8 +188,8 @@ const IngredientRecommenderMigrated: React.FC = () => {
         setIsDaytime(daytime);
         
         // Get current zodiac
-        const astrologyServiceData = astrologyService as unknown;
-        const chartData = await astrologyServiceData?.getChartData?.();
+        const astrologyServiceData = astrologyService as any;
+        const chartData = await (astrologyServiceData as any)?.getChartData?.();
         if (chartData && chartData.Sun && chartData.Sun.sign) {
           setCurrentZodiac(chartData.Sun.sign);
         }
@@ -247,8 +247,8 @@ const IngredientRecommenderMigrated: React.FC = () => {
     const loadRecommendations = async () => {
       try {
         // Get ingredient recommendations based on astrological data
-        const recommendationServiceData = recommendationService as unknown;
-        const recommendations = await recommendationServiceData?.getIngredientRecommendations?.({
+        const recommendationServiceData = recommendationService as any;
+        const recommendations = await (recommendationServiceData as any)?.getIngredientRecommendations?.({
           elementalProperties: await elementalCalculator?.calculateElementalProperties?.(
             planetaryPositions,
             isDaytime
@@ -331,7 +331,7 @@ const IngredientRecommenderMigrated: React.FC = () => {
         if (categories[category]) {
           categories[category].push({
             ...ingredient,
-            matchScore: ingredient.score || 0.5
+            matchScore: (ingredient as any).score || 0.5
           });
         }
       });
@@ -571,7 +571,7 @@ const IngredientRecommenderMigrated: React.FC = () => {
                         key={element} 
                         className="flex items-center text-xs bg-gray-50 px-1.5 py-0.5 rounded"
                       >
-                        {getElementIcon(element?.toLowerCase() as unknown)}
+                        {getElementIcon(element?.toLowerCase() as any)}
                         {Math.round((Number(value) || 0) * 100)}%
                       </span>
                     ))}

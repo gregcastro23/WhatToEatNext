@@ -1,5 +1,5 @@
 import { PlanetPosition } from '@/utils/astrologyUtils';
-import type { ZodiacSign } from '@/types/alchemy';
+import type { ZodiacSign , ElementalProperties } from '@/types/alchemy';
 import { _PlanetaryPosition } from "@/types/celestial";
 import { astrologizeApiCircuitBreaker } from '@/utils/apiCircuitBreaker';
 import { 
@@ -8,7 +8,6 @@ import {
   performAlchemicalAnalysis,
   type AlchemicalProperties 
 } from '@/data/unified/alchemicalCalculations';
-import type { ElementalProperties } from '@/types/alchemy';
 
 // Use local API endpoint instead of external
 const LOCAL_ASTROLOGIZE_API_URL = '/api/astrologize';

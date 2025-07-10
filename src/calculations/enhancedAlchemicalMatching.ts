@@ -1,6 +1,6 @@
 import { 
   _ElementalProperties, 
-  ZodiacSign, 
+  _ZodiacSign, 
   AlchemicalResult,
   _PlanetaryPosition,
   StandardizedAlchemicalResult
@@ -925,7 +925,7 @@ export function validateAlgorithms(): {
       score: 0.7
     };
     
-    const recommendation = generateEnhancedRecommendation(mockResult as any, [], 'summer');
+    const recommendation = generateEnhancedRecommendation(mockResult as unknown, [], 'summer');
     
     recipeTest.passed = Boolean(
       recommendation &&

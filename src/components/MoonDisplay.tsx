@@ -11,7 +11,7 @@ import { safeImportAndExecute, safeImportFunction } from '@/utils/dynamicImport'
  * A utility function for logging debug information
  * This is a safe replacement for console.log that can be disabled in production
  */
-const debugLog = (message: string, ...args: unknown[]): void => {
+const _debugLog = (message: string, ...args: unknown[]): void => {
   // Comment out console.log to avoid linting warnings
   // console.log(message, ...args);
 };
@@ -113,7 +113,7 @@ const MoonDisplay: React.FC = () => {
     
     // Try both possible property names
     const node = planetaryPositions?.northnode || planetaryPositions?.northNode;
-    const nodeData = node as any;
+    const nodeData = node as unknown;
     
     // Ensure all required properties are present
     return {
@@ -132,7 +132,7 @@ const MoonDisplay: React.FC = () => {
     
     // Try both possible property names
     const node = planetaryPositions?.southnode || planetaryPositions?.southNode;
-    const nodeData = node as any;
+    const nodeData = node as unknown;
     
     // Ensure all required properties are present
     return {
@@ -186,7 +186,7 @@ const MoonDisplay: React.FC = () => {
     const calculateTimes = async () => {
       try {
         // Use the safe import and execute function
-        const times = await safeImportAndExecute<{ rise?: Date; set?: Date }>(
+        const _times = await safeImportAndExecute<{ rise?: Date; set?: Date }>(
           '@/utils/moonTimes',
           'calculateMoonTimes',
           [new Date(), coordinates.latitude, coordinates.longitude]
@@ -243,7 +243,7 @@ const MoonDisplay: React.FC = () => {
         
         if (calculatePhase && getPhaseName && getIllumination) {
           // Calculate current lunar phase (0-1)
-          const currentPhase = await calculatePhase(new Date());
+          const _currentPhase = await calculatePhase(new Date());
           // Get phase name
           const phaseName = getPhaseName(currentPhase);
           // Get illumination percentage
@@ -265,7 +265,7 @@ const MoonDisplay: React.FC = () => {
           // Update state with phase data
           setMoonPhase({
             phase: phaseName,
-            phaseValue: _currentPhase,
+            phaseValue: Number(_currentPhase),
             description: getLunarPhaseDescription(phaseName),
             illumination: correctedIllumination
           });
@@ -328,7 +328,7 @@ const MoonDisplay: React.FC = () => {
     });
     
     // If the moon position is available and has proper sign information
-    const moonData = planetaryPositions.moon as any;
+    const moonData = planetaryPositions.moon as unknown;
     if (planetaryPositions.moon && moonData?.sign) {
       // No need for additional calculations - the context already has the sign and degree
       debugLog('Moon position available from planetary alignment:', planetaryPositions.moon);
@@ -346,8 +346,8 @@ const MoonDisplay: React.FC = () => {
     
     // Check for north node data only once when positions are available
     const northNodeMissing = !planetaryPositions.northNode && !planetaryPositions.northnode;
-    const moonData = planetaryPositions.moon as any;
-    const northNodeData = (planetaryPositions.northNode || planetaryPositions.northnode) as any;
+    const moonData = planetaryPositions.moon as unknown;
+    const northNodeData = (planetaryPositions.northNode || planetaryPositions.northnode) as unknown;
     const northNodeIncomplete = 
       (planetaryPositions.northNode && !northNodeData?.sign) || 
       (planetaryPositions.northnode && !northNodeData?.sign);
@@ -384,13 +384,13 @@ const MoonDisplay: React.FC = () => {
           <p className="font-medium capitalize">{moonPhase.phase.replace(/_/g, ' ')}</p>
           <p className="text-sm text-gray-300">
             {(() => {
-              const moonData = moon as any;
+              const moonData = moon as unknown;
               return moonData?.sign 
                 ? `Moon in ${capitalizeFirstLetter(moonData.sign)} ${formatDegree(moonData.degree)}` 
                 : 'Loading...';
             })()}
             {(() => {
-              const moonData = moon as any;
+              const moonData = moon as unknown;
               return moonData?.isRetrograde ? ' ℞' : '';
             })()}
           </p>

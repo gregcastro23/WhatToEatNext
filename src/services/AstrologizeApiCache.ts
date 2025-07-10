@@ -15,7 +15,7 @@ interface CachedAstrologicalData {
   };
   astrologicalState: AstrologicalState;
   alchemicalResult: StandardizedAlchemicalResult;
-  planetaryPositions: Record<string, PlanetaryPosition>;
+  planetaryPositions: Record<string, _PlanetaryPosition>;
   // Additional computed values
   elementalAbsolutes: {
     fire: number;
@@ -42,7 +42,7 @@ interface CachedAstrologicalData {
 
 interface TransitPrediction {
   date: Date;
-  predictedPositions: Record<string, PlanetaryPosition>;
+  predictedPositions: Record<string, _PlanetaryPosition>;
   confidence: number; // 0-1 based on how much cached data we have
   sources: string[]; // Which cached entries contributed to this prediction
 }
@@ -70,9 +70,9 @@ class AstrologizeApiCache {
    * Calculate elemental absolute and relative values
    */
   private calculateElementalValues(alchemicalResult: StandardizedAlchemicalResult) {
-    const resultData = alchemicalResult as unknown;
+    const resultData = alchemicalResult as any;
     const elementalBalance = resultData?.elementalBalance || {};
-    const { Fire = 0, Water = 0, _Earth = 0, Air = 0 } = elementalBalance;
+    const { Fire = 0, Water = 0, Earth = 0, Air = 0 } = elementalBalance;
 
     // Absolute values (direct from alchemical result)
     const elementalAbsolutes = {
@@ -102,14 +102,14 @@ class AstrologizeApiCache {
     date: Date,
     astrologicalState: AstrologicalState,
     alchemicalResult: StandardizedAlchemicalResult,
-    planetaryPositions: Record<string, PlanetaryPosition>
+    planetaryPositions: Record<string, _PlanetaryPosition>
   ): void {
     const key = this.generateKey(lat, lng, date);
     
     const { elementalAbsolutes, elementalRelatives } = this.calculateElementalValues(alchemicalResult);
     
     // Safe access to alchemical result properties
-    const resultData = alchemicalResult as unknown;
+    const resultData = alchemicalResult as any;
     
     const cachedData: CachedAstrologicalData = {
       timestamp: Date.now(),
@@ -206,16 +206,16 @@ class AstrologizeApiCache {
     
     // Use the closest data as base for prediction
     const baseData = nearbyData[0];
-    const predictedPositions: Record<string, PlanetaryPosition> = {};
+    const predictedPositions: Record<string, _PlanetaryPosition> = {};
     const sources: string[] = [];
     
     // For each planet, predict its position
     for (const [planet, position] of Object.entries(baseData.planetaryPositions)) {
-      const planetData = position as Record<string, unknown>;
+      const planetData = position as any;
       predictedPositions[planet] = {
-        sign: (planetData?.sign as string) || '',
-        degree: (planetData?.degree as number) || 0,
-        isRetrograde: (planetData?.isRetrograde as boolean) || false
+        sign: planetData?.sign || '',
+        degree: planetData?.degree || 0,
+        isRetrograde: planetData?.isRetrograde || false
       };
       sources.push(`${planet}:${baseData.date.toISOString()}`);
     }
@@ -271,7 +271,7 @@ class AstrologizeApiCache {
    */
   private assessDataQuality(result: StandardizedAlchemicalResult): 'high' | 'medium' | 'low' {
     // Use safe type casting for result property access
-    const resultData = result as unknown;
+    const resultData = result as any;
     
     // Assess based on completeness and reasonableness of data
     const hasAllElements = resultData?.elementalBalance && 

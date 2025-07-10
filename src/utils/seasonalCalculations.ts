@@ -649,7 +649,7 @@ export function getComprehensiveSeasonalAnalysis(
   const cached = seasonalCache.get(cacheKey);
   
   if (cached) {
-    return { ...cached, cacheHit: true };
+    return { ...(cached as Record<string, unknown>), cacheHit: true };
   }
 
   const analysis = calculateSeasonalScores(recipe, currentZodiac, lunarPhase);

@@ -98,7 +98,7 @@ export function normalizeCulinaryApplications(applications: Record<string, unkno
   const normalized: Record<string, any> = {};
   
   Object.entries(applications).forEach(([method, data]) => {
-    normalized[formatCulinaryMethod(method)] = normalizeCulinaryMethod(data);
+    normalized[formatCulinaryMethod(method)] = normalizeCulinaryMethod(data as Record<string, unknown>);
   });
   
   return normalized;
@@ -138,7 +138,7 @@ export function normalizeVarieties(varieties: Record<string, unknown>): Record<s
   const normalized: Record<string, any> = {};
   
   Object.entries(varieties).forEach(([variety, data]) => {
-    normalized[formatVarietyName(variety)] = normalizeVarietyData(data);
+    normalized[formatVarietyName(variety)] = normalizeVarietyData(data as Record<string, unknown>);
   });
   
   return normalized;
@@ -224,24 +224,29 @@ export function normalizePreparation(preparation: Record<string, unknown>): any 
 export function normalizeIngredientData(ingredient: Record<string, unknown>): any {
   if (!ingredient) return null;
 
-  // Narrow the nutritionalProfile using type-guard when possible.
-  const rawProfile = (ingredient as any).nutritionalProfile;
+  // Add type guard after imports
+  function isNutritionalProfile(value: unknown): value is Record<string, unknown> {
+    return typeof value === 'object' && value !== null;
+  }
+
+  // Replace the problematic casts with safe access
+  const rawProfile = ingredient.nutritionalProfile as Record<string, unknown>;
   const nutritionalProfile = isNutritionalProfile(rawProfile)
     ? {
         ...rawProfile,
-        vitamins: normalizeVitamins((rawProfile as any).vitamins),
-        minerals: normalizeMinerals((rawProfile as any).minerals),
-        antioxidants: normalizeAntioxidants((rawProfile as any).antioxidants)
+        vitamins: normalizeVitamins(rawProfile.vitamins as Record<string, unknown>),
+        minerals: normalizeMinerals(rawProfile.minerals as Record<string, unknown>),
+        antioxidants: normalizeAntioxidants(rawProfile.antioxidants as Record<string, unknown>)
       }
     : undefined;
 
   const normalized = {
     ...ingredient,
     nutritionalProfile,
-    culinaryApplications: normalizeCulinaryApplications((ingredient as any).culinaryApplications),
-    varieties: normalizeVarieties((ingredient as any).varieties),
-    storage: normalizeStorage((ingredient as any).storage),
-    preparation: normalizePreparation((ingredient as any).preparation)
+    culinaryApplications: normalizeCulinaryApplications(ingredient.culinaryApplications as Record<string, unknown>),
+    varieties: normalizeVarieties(ingredient.varieties as Record<string, unknown>),
+    storage: normalizeStorage(ingredient.storage as Record<string, unknown>),
+    preparation: normalizePreparation(ingredient.preparation as Record<string, unknown>)
   };
   
   return normalized;
@@ -263,22 +268,22 @@ export function safeGetNutritionalData(ingredient: Record<string, unknown>, fiel
  * Check if ingredient has rich nutritional data
  */
 export function hasRichNutritionalData(ingredient: Record<string, unknown>): boolean {
-  const profile = ingredient?.nutritionalProfile;
+  const profile = ingredient?.nutritionalProfile as Record<string, unknown>;
   if (!profile) return false;
   
   const hasVitamins = profile.vitamins && (
     Array.isArray(profile.vitamins) ? profile.vitamins.length > 0 :
-    Object.keys(profile.vitamins).length > 0
+    Object.keys(profile.vitamins as Record<string, unknown>).length > 0
   );
   
   const hasMinerals = profile.minerals && (
     Array.isArray(profile.minerals) ? profile.minerals.length > 0 :
-    Object.keys(profile.minerals).length > 0
+    Object.keys(profile.minerals as Record<string, unknown>).length > 0
   );
   
   const hasAntioxidants = profile.antioxidants && (
     Array.isArray(profile.antioxidants) ? profile.antioxidants.length > 0 :
-    Object.keys(profile.antioxidants).length > 0
+    Object.keys(profile.antioxidants as Record<string, unknown>).length > 0
   );
   
   return hasVitamins || hasMinerals || hasAntioxidants;

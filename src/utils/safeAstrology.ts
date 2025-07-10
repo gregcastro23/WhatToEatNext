@@ -160,9 +160,9 @@ export function calculatePlanetaryAspects(positions: Record<string, CelestialPos
       const pos1Sign = positions[planet1].sign;
       const pos2Sign = positions[planet2].sign;
       
-      // Calculate the angular difference between planets
-      const pos1 = getZodiacPositionInDegrees(pos1Sign as unknown, positions[planet1].degree);
-      const pos2 = getZodiacPositionInDegrees(pos2Sign as unknown, positions[planet2].degree);
+      // Replace the problematic casts with safe access
+      const pos1 = getZodiacPositionInDegrees(isZodiacSign(pos1Sign) ? pos1Sign : 'aries', positions[planet1].degree);
+      const pos2 = getZodiacPositionInDegrees(isZodiacSign(pos2Sign) ? pos2Sign : 'aries', positions[planet2].degree);
       
       let diff = Math.abs(pos1 - pos2);
       if (diff > 180) diff = 360 - diff;
@@ -406,4 +406,9 @@ function toZodiacSign(sign: string): ZodiacSign {
   
   // Default to Aries if invalid
   return 'aries';
+} 
+
+// Add type guard after imports
+function isZodiacSign(value: unknown): value is ZodiacSign {
+  return typeof value === 'string' && ZODIAC_SIGNS.includes(value as ZodiacSign);
 } 

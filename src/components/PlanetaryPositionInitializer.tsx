@@ -6,10 +6,10 @@ import { initializeAlchemicalEngine } from '@/utils/alchemyInitializer';
 import { AlertTriangle, RefreshCw } from 'lucide-react';
 import { getLongitudeToZodiacPosition } from '@/utils/accurateAstronomy';
 import { createLogger } from '@/utils/logger';
-import { _CelestialPosition, ZodiacSign } from '@/types/celestial';
+import { _CelestialPosition, _ZodiacSign } from '@/types/celestial';
 
 // Create a component-specific logger
-const logger = createLogger('PlanetaryPositions');
+const _logger = createLogger('PlanetaryPositions');
 
 // Define interfaces for better type safety
 interface RetryStatus {
@@ -70,8 +70,8 @@ const PlanetaryPositionInitializer: React.FC = () => {
         }
         
         logger.info('Successfully updated planetary positions', {
-          sunPosition: (positions.sun as any)?.sign,
-          moonPosition: (positions.moon as any)?.sign,
+          sunPosition: (positions.sun as unknown)?.sign,
+          moonPosition: (positions.moon as unknown)?.sign,
           timestamp: new Date().toISOString()
         });
         

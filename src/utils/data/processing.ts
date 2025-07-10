@@ -97,7 +97,7 @@ export function standardizeIngredient(ingredient: unknown): Ingredient {
     pAirings: Array.isArray(raw.pAirings) ? raw?.pAirings || [].map(String) : [],
     storage: raw.storage ? String(raw.storage) : undefined,
     preparationTips: Array.isArray(raw.preparationTips) ? raw?.preparationTips || [].map(String) : [],
-  };
+  } as any;
 }
 
 /**
@@ -158,8 +158,8 @@ export function validateIngredient(ingredient: Partial<Ingredient>): ValidationR
   }
   
   // Elemental properties validation
-  if (ingredient.elementalPropertiesState) {
-    const elementalValidation = validateElementalProperties(ingredient.elementalPropertiesState);
+  if (ingredient.elementalProperties) {
+    const elementalValidation = validateElementalProperties(ingredient.elementalProperties);
     if (!elementalValidation.isValid) {
       errors?.push(...elementalValidation.errors);
     }
@@ -168,7 +168,7 @@ export function validateIngredient(ingredient: Partial<Ingredient>): ValidationR
   }
   
   // Astrological profile validation
-  const ingredientData = ingredient as unknown;
+  const ingredientData = ingredient as any;
   if (ingredientData?.astrologicalPropertiesProfile || ingredientData?.astrologicalProfile) {
     const astroProfile = ingredientData.astrologicalPropertiesProfile || ingredientData.astrologicalProfile;
     const astroValidation = validateAstrologicalProfile(astroProfile);
@@ -235,7 +235,7 @@ export function validateRecipe(recipe: Partial<Recipe>): ValidationResult {
   
   // Elemental properties validation
   if (recipe.elementalState) {
-    const elementalValidation = validateElementalProperties(recipe.elementalState as unknown);
+    const elementalValidation = validateElementalProperties(recipe.elementalState as any);
     if (!elementalValidation.isValid) {
       warnings?.push(...elementalValidation.errors);
     }
@@ -340,7 +340,7 @@ function createDefaultIngredient(id: string): Ingredient {
     cookingMethods: [],
     pAirings: [],
     preparationTips: [],
-  };
+  } as any;
 }
 
 function createDefaultRecipe(id: string): Recipe {
@@ -372,7 +372,7 @@ function standardizeElementalProperties(properties: unknown): ElementalPropertie
   const props = properties as Record<string, any>;
   const Fire = typeof props.Fire === 'number' ? props.Fire : 0.25;
   const Water = typeof props.Water === 'number' ? props.Water : 0.25;
-  const _Earth = typeof props.Earth === 'number' ? props.Earth : 0.25;
+  const Earth = typeof props.Earth === 'number' ? props.Earth : 0.25;
   const Air = typeof props.Air === 'number' ? props.Air : 0.25;
   
   // Normalize
@@ -385,13 +385,13 @@ function standardizeElementalProperties(properties: unknown): ElementalPropertie
   return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
 }
 
-function standardizeAstrologicalProfile(profile: unknown): AstrologicalProfile {
+function standardizeAstrologicalProfile(profile: unknown): any {
   if (!profile || typeof profile !== 'object') {
     return {
       elementalAffinity: {} as ElementalAffinity,
       rulingPlanets: [],
       favorableZodiac: [],
-    } as unknown as AstrologicalProfile;
+    } as any;
   }
   
   const prof = profile as Record<string, any>;
@@ -400,7 +400,7 @@ function standardizeAstrologicalProfile(profile: unknown): AstrologicalProfile {
     elementalAffinity: standardizeElementalAffinity(prof.elementalAffinity?.base),
     rulingPlanets: Array.isArray(prof.rulingPlanets) ? (prof.rulingPlanets || []).map(String) : [],
     favorableZodiac: Array.isArray(prof.favorableZodiac) ? (prof.favorableZodiac || []).map(String) : [],
-  } as unknown as AstrologicalProfile;
+  } as any;
 }
 
 function standardizeFlavorProfile(profile: unknown): { [key: string]: number } {
@@ -521,7 +521,7 @@ function validateElementalProperties(properties: ElementalProperties): Validatio
   };
 }
 
-function validateAstrologicalProfile(profile: AstrologicalProfile): ValidationResult {
+function validateAstrologicalProfile(profile: any): ValidationResult {
   const errors: string[] = [];
   
   if (!profile || typeof profile !== 'object') {
@@ -530,12 +530,12 @@ function validateAstrologicalProfile(profile: AstrologicalProfile): ValidationRe
   }
   
   // Safe property access for AstrologicalProfile properties
-  const elementalAffinity = (profile as unknown)?.elementalAffinity;
+  const elementalAffinity = (profile as any)?.elementalAffinity;
   if (!elementalAffinity?.base) {
     errors?.push('Elemental affinity is required');
   }
   
-  const rulingPlanets = (profile as unknown)?.rulingPlanets;
+  const rulingPlanets = (profile as any)?.rulingPlanets;
   if (!Array.isArray(rulingPlanets)) {
     errors?.push('Ruling planets must be an array');
   }

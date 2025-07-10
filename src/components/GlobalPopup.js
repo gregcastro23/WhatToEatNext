@@ -35,7 +35,7 @@ let GlobalPopup = () => {
   };
 
   // Enhanced show methods with elemental and zodiac influences
-  let showSuccess = (message, options = {}) => {
+  let showSuccess = (message, _options = {}) => {
     showPopup(message, {
       ...options,
       type: 'success',
@@ -44,7 +44,7 @@ let GlobalPopup = () => {
     });
   };
 
-  let showError = (message, options = {}) => {
+  let showError = (message, _options = {}) => {
     showPopup(message, {
       ...options,
       type: 'error',
@@ -53,7 +53,7 @@ let GlobalPopup = () => {
     });
   };
 
-  let showWarning = (message, options = {}) => {
+  let showWarning = (message, _options = {}) => {
     showPopup(message, {
       ...options,
       type: 'warning',
@@ -62,7 +62,7 @@ let GlobalPopup = () => {
     });
   };
 
-  let showInfo = (message, options = {}) => {
+  let showInfo = (message, _options = {}) => {
     showPopup(message, {
       ...options,
       type: 'info',
@@ -72,7 +72,7 @@ let GlobalPopup = () => {
   };
 
   // Show elemental popup
-  let showElemental = (message, options = {}) => {
+  let showElemental = (message, _options = {}) => {
     const elementalClass = getElementalClasses(options.sunSign, options.moonSign);
     showPopup(message, {
       ...options,

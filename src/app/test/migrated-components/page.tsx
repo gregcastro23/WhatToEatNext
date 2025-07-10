@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Recipe } from '@/types/recipe';
+import { _Recipe } from '@/types/recipe';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import ChakraDisplay from '@/components/ChakraDisplay';
 import ChakraDisplayMigrated from '@/components/ChakraDisplay.migrated';

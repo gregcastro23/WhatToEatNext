@@ -110,15 +110,15 @@ export default function MethodsRecommender() {
           return {
             id: methodName,
             name: methodName.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase()), // Capitalize words
-            description: methodInfo?.description || 'A cooking method that transforms food with heat, moisture, or chemical processes.',
+            description: methodInfo?.description as any || 'A cooking method that transforms food with heat, moisture, or chemical processes.',
             score: adjustedScore,
-            elementalEffect: (methodInfo as any)?.elementalEffect || (methodInfo as any)?.elementalProperties,
-            duration: methodInfo?.duration,
-            suitable_for: methodInfo?.suitable_for || [],
-            benefits: (methodInfo as any)?.benefits || [],
-            astrologicalInfluences: methodInfo?.astrologicalInfluences,
-            toolsRequired: methodInfo?.toolsRequired
-          };
+            elementalEffect: (methodInfo as unknown)?.elementalEffect || (methodInfo as unknown)?.elementalProperties,
+            duration: methodInfo?.duration as unknown,
+            suitable_for: methodInfo?.suitable_for as any || [],
+            benefits: (methodInfo as unknown)?.benefits || [],
+            astrologicalInfluences: methodInfo?.astrologicalInfluences as unknown,
+            toolsRequired: methodInfo?.toolsRequired as any
+          } as unknown;
         })
         .sort((a, b) => b.score - a.score);
       

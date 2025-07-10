@@ -121,7 +121,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
   };
 
   const calculateAdjustedAmount = (amount: number) => {
-    const ratio = servings / (recipe.numberOfServings || recipe.servings || 2);
+    const ratio = Number(servings) / (Number(recipe.numberOfServings) || Number(recipe.servings) || 2);
     return (amount * ratio).toFixed(1).replace(/\.0$/, '');
   };
 
@@ -204,7 +204,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
             }`} 
           />
         ))}
-        <span className="text-sm text-gray-600 ml-1">({recipe.rating})</span>
+        <span className="text-sm text-gray-600 ml-1">({String(recipe.rating)})</span>
       </div>
     );
   };
@@ -274,11 +274,11 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
           <div className="flex flex-wrap gap-4 text-sm text-gray-500">
             <div className="flex items-center">
               <Clock className="h-4 w-4 mr-1" />
-              <span>{recipe.timeToMake}</span>
+              <span>{String(recipe.timeToMake)}</span>
             </div>
             <div className="flex items-center">
               <Users className="h-4 w-4 mr-1" />
-              <span>{servings} servings</span>
+              <span>{String(servings)} servings</span>
             </div>
             <div className="flex items-center">
               <ChefHat className="h-4 w-4 mr-1" />
@@ -287,7 +287,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
             {recipe.difficulty && (
               <div className="flex items-center">
                 <span className="text-sm text-gray-600">
-                  Difficulty: {recipe.difficulty}/5
+                  Difficulty: {String(recipe.difficulty)}/5
                 </span>
               </div>
             )}
@@ -346,7 +346,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
               {/* Ingredients */}
               {recipe.ingredients && recipe.ingredients.length > 0 && (
                 <div>
-                  <h4 className="font-medium text-sm mb-2">Ingredients (for {servings} servings):</h4>
+                  <h4 className="font-medium text-sm mb-2">Ingredients (for {String(servings)} servings):</h4>
                   <ul className="text-sm space-y-1">
                     {recipe.ingredients.map((ingredient, idx) => (
                       <li key={idx}>
@@ -364,17 +364,17 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
                     <Button 
                       variant="outline" 
                       size="sm" 
-                      onClick={() => adjustServings(servings - 1)}
-                      disabled={servings <= 1}
+                      onClick={() => adjustServings(Number(servings) - 1)}
+                      disabled={Number(servings) <= 1}
                     >
                       -
                     </Button>
-                    <span className="text-sm font-medium px-2">{servings}</span>
+                    <span className="text-sm font-medium px-2">{String(servings)}</span>
                     <Button 
                       variant="outline" 
                       size="sm" 
-                      onClick={() => adjustServings(servings + 1)}
-                      disabled={servings >= 12}
+                      onClick={() => adjustServings(Number(servings) + 1)}
+                      disabled={Number(servings) >= 12}
                     >
                       +
                     </Button>
@@ -404,7 +404,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
                 <div>
                   <h4 className="font-medium text-sm mb-2">Nutrition (per serving):</h4>
                   <div className="text-sm grid grid-cols-2 gap-2">
-                    {recipe.nutrition.calories && <span>Calories: {Math.round(recipe.nutrition.calories * servings / (recipe.numberOfServings || servings))}</span>}
+                    {recipe.nutrition.calories && <span>Calories: {Math.round(Number(recipe.nutrition.calories) * Number(servings) / (Number(recipe.numberOfServings) || Number(servings)))}</span>}
                     
                     {/* Apply safe type casting for macronutrients access */}
                     {(() => {
@@ -416,9 +416,9 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
                       
                       return (
                         <>
-                          {protein && <span>Protein: {(Number(protein) * servings / (recipe.numberOfServings || servings)).toFixed(1)}g</span>}
-                          {carbs && <span>Carbs: {(Number(carbs) * servings / (recipe.numberOfServings || servings)).toFixed(1)}g</span>}
-                          {fat && <span>Fat: {(Number(fat) * servings / (recipe.numberOfServings || servings)).toFixed(1)}g</span>}
+                          {protein && <span>Protein: {(Number(protein) * Number(servings) / (Number(recipe.numberOfServings) || Number(servings))).toFixed(1)}g</span>}
+                          {carbs && <span>Carbs: {(Number(carbs) * Number(servings) / (Number(recipe.numberOfServings) || Number(servings))).toFixed(1)}g</span>}
+                          {fat && <span>Fat: {(Number(fat) * Number(servings) / (Number(recipe.numberOfServings) || Number(servings))).toFixed(1)}g</span>}
                         </>
                       );
                     })()}

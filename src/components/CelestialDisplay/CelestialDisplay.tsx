@@ -2,10 +2,10 @@
 
 import React, { useEffect, useRef } from 'react';
 import { useAstrologicalState } from '@/hooks/useAstrologicalState';
-import { _CelestialPosition, PlanetaryAlignment } from '@/types/celestial';
+import { _CelestialPosition, _PlanetaryAlignment } from '@/types/celestial';
 
 import { Sun, Moon, Star, Wind, Droplets, Flame, Mountain, Info } from 'lucide-react';
-import { logger } from '@/utils/logger';
+import { _logger } from '@/utils/logger';
 import PlanetaryHoursDisplay from '@/components/PlanetaryHours';
 
 const ELEMENT_COLORS = {
@@ -273,7 +273,7 @@ export default function CelestialDisplay() {
     planet: string,
     distanceFactor = 0.8
   ) => {
-    // Convert longitude to angle (0° longitude = 90° in canvas coordinates)
+    // Convert longitude to angle (0° _longitude = 90° in canvas coordinates)
     const angle = ((longitude - 90) % 360) * Math.PI / 180;
     const distance = radius * distanceFactor;
     const x = centerX + distance * Math.cos(angle);
@@ -333,7 +333,7 @@ export default function CelestialDisplay() {
     nodeType: 'northNode' | 'southNode',
     distanceFactor = 1.1
   ) => {
-    // Convert longitude to angle (0° longitude = 90° in canvas coordinates)
+    // Convert longitude to angle (0° _longitude = 90° in canvas coordinates)
     const angle = ((longitude - 90) % 360) * Math.PI / 180;
     const distance = radius * distanceFactor;
     const x = centerX + distance * Math.cos(angle);

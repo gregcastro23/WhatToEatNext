@@ -112,7 +112,7 @@ const PlanetaryTimeDisplay: React.FC<PlanetaryTimeDisplayProps> = ({
   }, []);
   
   // Memoize the time factors to prevent recalculation on every render
-  const timeFactors = useMemo(() => getTimeFactorsStable(), [getTimeFactorsStable]);
+  const _timeFactors = useMemo(() => getTimeFactorsStable(), [getTimeFactorsStable]);
   
   if (compact) {
     return (
@@ -189,7 +189,7 @@ const PlanetaryDisplay: React.FC<PlanetaryDisplayProps> = ({
       
     case 'combined':
       // Memoize the time factors to prevent recalculation on every render
-      const timeFactors = useMemo(() => getTimeFactorsStable(), [getTimeFactorsStable]);
+      const _timeFactors = useMemo(() => getTimeFactorsStable(), [getTimeFactorsStable]);
       
       return (
         <div className={`space-y-4 ${className}`}>

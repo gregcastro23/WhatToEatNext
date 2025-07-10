@@ -59,7 +59,7 @@ export default function IngredientDisplayMigrated() {
         
         // Get ingredient recommendations
         const recommendations = await recommendationService.getRecommendedIngredients({
-          elementalProperties,
+          _elementalProperties,
           limit: 6 // Just get a few for display
         });
         
@@ -71,8 +71,8 @@ export default function IngredientDisplayMigrated() {
             'Fire' : // Simplified for now
             dominantElement?.toLowerCase(),
           energyLevel: item.elementalState ? 
-            (((item.elementalState as any)?.Fire || 0) + ((item.elementalState as any)?.Water || 0) + 
-             ((item.elementalState as any)?.Earth || 0) + ((item.elementalState as any)?.Air || 0)) / 4 : 
+            (((item.elementalState as unknown)?.Fire || 0) + ((item.elementalState as unknown)?.Water || 0) + 
+             ((item.elementalState as unknown)?.Earth || 0) + ((item.elementalState as unknown)?.Air || 0)) / 4 : 
             0.6,
           score: item.score || 0.7
         }));

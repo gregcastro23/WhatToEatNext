@@ -55,13 +55,14 @@ import type {
   Season,
   DietaryRestriction 
 } from '@/types/alchemy';
+import type { Ingredient as IngredientWithQualities } from '@/types/ingredient';
 import { 
   VALID_CATEGORIES,
   getAllIngredientsByCategory 
 } from '@/data/ingredients';
 
 // Types
-interface SelectedIngredient extends Ingredient {
+interface SelectedIngredient extends IngredientWithQualities {
   quantity: string;
   unit: string;
   notes?: string;

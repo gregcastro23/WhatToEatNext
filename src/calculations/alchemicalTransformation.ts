@@ -1,8 +1,8 @@
 import { RulingPlanet } from '../constants/planets';
 import { 
-  ElementalCharacter, 
+  _ElementalCharacter, 
   AlchemicalProperty,
-  getPlanetaryElement,
+  _getPlanetaryElement,
   getPlanetaryAlchemicalProperty
 } from '../constants/planetaryElements';
 import {
@@ -11,17 +11,17 @@ import {
 } from './alchemicalCalculations';
 import {
   calculatePlanetaryBoost,
-  Planet,
+  _Planet,
   PlanetaryDignity,
   PlanetaryDignityDetails
 } from '../constants/planetaryFoodAssociations';
-import { ZodiacSign } from '../constants/zodiac';
-import { LunarPhaseWithSpaces } from '../types/alchemy';
+import { _ZodiacSign } from '../constants/zodiac';
+import { _LunarPhaseWithSpaces } from '../types/alchemy';
 import { createLogger } from '@/utils/logger';
-import { CelestialPosition } from '@/types/celestial';
+import { _CelestialPosition } from '@/types/celestial';
 
 // Create a component-specific logger
-const logger = createLogger('AlchemicalTransformation');
+const _logger = createLogger('AlchemicalTransformation');
 
 /**
  * Interface for items with elemental data (ingredients, methods, cuisines)
@@ -82,7 +82,7 @@ export const transformItemWithPlanetaryPositions = (
 
     // Calculate alchemical properties based on planetary positions
     const alchemicalResults = calculateAlchemicalProperties(
-      planetPositions as any,
+      planetPositions as unknown,
       isDaytime
     );
     
@@ -424,10 +424,10 @@ const applyElementalInfluences = (
  */
 const getDominantElement = (
   transformedProperties: Record<ElementalCharacter, number>
-): ElementalCharacter => {
+): _ElementalCharacter => {
   try {
     let maxValue = -Infinity;
-    let dominantElement: ElementalCharacter = 'Fire'; // Default
+    let dominantElement: _ElementalCharacter = 'Fire'; // Default
     
     (Object.entries(transformedProperties) as [ElementalCharacter, number][]).forEach(([element, value]) => {
       // Pattern KK-8: Advanced calculation safety for comparison operations

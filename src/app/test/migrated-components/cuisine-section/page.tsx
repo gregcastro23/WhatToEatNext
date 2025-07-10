@@ -1,12 +1,12 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Recipe } from '@/types/recipe';
+import { _Recipe } from '@/types/recipe';
 import { CuisineSection } from '@/components/CuisineSection';
 import { CuisineSectionMigrated } from '@/components/CuisineSection/CuisineSection.migrated';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { useServices } from '@/hooks/useServices';
-import { logger } from '@/utils/logger';
+import { _logger } from '@/utils/logger';
 
 import { _Element } from "@/types/alchemy";
 // DUPLICATE: import { _Element } from "@/types/alchemy";

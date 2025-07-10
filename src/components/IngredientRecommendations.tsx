@@ -51,7 +51,7 @@ function getRecommendations(
   };
   
   // Use the proper utility function with the actual data
-  return getIngredientRecommendations(astroStateData as unknown as ElementalProperties & { timestamp: Date; currentStability: number; planetaryAlignment: Record<string, { sign: string; degree: number; }>; zodiacSign: string; activePlanets: string[]; lunarPhase: string; aspects: { type: string; planets: string[]; strength: number; }[]; }, _options);
+  return getIngredientRecommendations(astroStateData as unknown, _options);
 }
 
 interface IngredientRecommendationsProps {
@@ -80,7 +80,7 @@ export default function IngredientRecommendations({
     // Get recommendations with current filters
     setLoading(true);
     
-    const options = {
+    const _options = {
       currentSeason: selectedSeason,
       dietaryPreferences: dietaryFilter !== 'all' ? [dietaryFilter] : [],
       modalityPreference: modalityFilter !== 'all' ? modalityFilter as Modality : undefined,
@@ -122,7 +122,7 @@ export default function IngredientRecommendations({
   
   const renderIngredientDetails = (ingredient: Ingredient) => {
     // Get the elemental properties
-    const elementalProps = ingredient.elementalProperties || {
+    const _elementalProps = ingredient.elementalProperties || {
       Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
     };
     
@@ -281,7 +281,7 @@ export default function IngredientRecommendations({
     const score = ingredientData?.score;
     
     // Get elemental properties
-    const elementalProps = ingredient.elementalProperties || {
+    const _elementalProps = ingredient.elementalProperties || {
       Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
     };
     

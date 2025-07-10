@@ -2,10 +2,10 @@
 
 import React, { Component, ErrorInfo, ReactNode } from 'react';
 import { createLogger } from '@/utils/logger';
-import { ErrorHandler, ErrorType, ErrorSeverity } from '@/utils/errorHandler';
+import { _ErrorHandler, ErrorType, ErrorSeverity } from '@/utils/errorHandler';
 import './styles.css';
 
-const logger = createLogger('ErrorBoundary');
+const _logger = createLogger('ErrorBoundary');
 
 export interface ErrorBoundaryProps {
   /**

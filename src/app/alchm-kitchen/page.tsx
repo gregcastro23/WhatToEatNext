@@ -5,14 +5,14 @@ import AlchmKitchen from '@/components/AlchmKitchen';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { createLogger } from '@/utils/logger';
 
-const logger = createLogger('AlchmKitchenPage');
+const _logger = createLogger('AlchmKitchenPage');
 
 export default function AlchmKitchenPage() {
   const [mounted, setMounted] = useState(false);
   const alchemicalContext = useAlchemical();
   const planetaryPositions = alchemicalContext?.planetaryPositions;
-  const elementalState = (alchemicalContext?.state as any)?.elementalProperties;
-  const alchemicalValues = (alchemicalContext?.state as any)?.alchemicalProperties;
+  const elementalState = (alchemicalContext?.state as unknown)?.elementalProperties;
+  const alchemicalValues = (alchemicalContext?.state as unknown)?.alchemicalProperties;
   const astrologicalState = alchemicalContext?.state;
   
   // Ensure component mounts after client-side hydration

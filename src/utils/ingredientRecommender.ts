@@ -148,7 +148,7 @@ function getAllIngredients(): Ingredient[] {
   // If the imported function exists, use it
   if (typeof getIngredientsUtil === 'function') {
     // Apply safe type casting for type compatibility
-    return getIngredientsUtil() as unknown as Ingredient[];
+    return getIngredientsUtil() as Ingredient[];
   }
   
   // Otherwise, use our fallback implementation
@@ -182,7 +182,7 @@ export function getRecommendedIngredients(astroState: AstrologicalState): Enhanc
   
   // Filter ingredients based on matching planetary rulers
   // Apply safe type casting for mixed ingredient array
-  let filteredIngredients = (allIngredients as unknown as EnhancedIngredient[]).filter(ingredient => {
+  let filteredIngredients = (allIngredients as EnhancedIngredient[]).filter(ingredient => {
     // Check if any of the ingredient's ruling planets are active
     const ingredientData = ingredient as Record<string, unknown>;
     const astrologicalProfile = ingredientData?.astrologicalProfile as Record<string, unknown> | undefined;
@@ -192,7 +192,7 @@ export function getRecommendedIngredients(astroState: AstrologicalState): Enhanc
   
   // If no matching ingredients, return a sample of all ingredients
   if (filteredIngredients.length === 0) {
-    filteredIngredients = (allIngredients as unknown as EnhancedIngredient[]).slice(0, 20);
+    filteredIngredients = (allIngredients as EnhancedIngredient[]).slice(0, 20);
   }
   
   // Special handling for Venus influence when present

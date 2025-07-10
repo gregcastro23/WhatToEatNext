@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
-import { logger } from '@/utils/logger';
+import { _logger } from '@/utils/logger';
 
 export default function NotFoundError({
   error,

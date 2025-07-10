@@ -125,7 +125,7 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
                 </div>
                 <div className="text-xs space-y-1">
                   {(() => {
-                    const zodiac = (energyProfile as Record<string, unknown>)?.zodiac as string[] | undefined;
+                    const _zodiac = (energyProfile as Record<string, unknown>)?.zodiac as string[] | undefined;
                     return zodiac && Array.isArray(zodiac) && zodiac.length > 0 ? (
                       <div className="flex flex-wrap gap-1">
                         <span className="font-medium">Zodiac:</span>

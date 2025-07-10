@@ -3,15 +3,15 @@ import { useEffect, useState, useMemo } from 'react';
 import { ElementalCalculator } from '@/services/ElementalCalculator';
 import { _ElementalProperties } from '@/types/alchemy';
 import { getChakraBasedRecommendations, GroupedIngredientRecommendations, getIngredientRecommendations, IngredientRecommendation } from '@/utils/ingredientRecommender';
-import { Flame, Droplets, Mountain, Wind, Info, Clock, Tag, Leaf, ChevronDown, ChevronUp, Beaker, Search, X } from 'lucide-react';
+import { Flame, Droplets, Mountain, Wind, Info as _Info, Clock, Tag, Leaf, ChevronDown, ChevronUp, Beaker, Search, X } from 'lucide-react';
 import { useChakraInfluencedFood } from '@/hooks/useChakraInfluencedFood';
-import { normalizeChakraKey } from '@/constants/chakraSymbols';
-import { herbsCollection, oilsCollection, vinegarsCollection, grainsCollection } from '@/data/ingredients';
+import { normalizeChakraKey as _normalizeChakraKey } from '@/constants/chakraSymbols';
+import { herbsCollection, oilsCollection, vinegarsCollection, grainsCollection as _grainsCollection } from '@/data/ingredients';
 import { IngredientCard } from './IngredientCard';
 import { unifiedIngredients } from '@/data/unified/ingredients';
 import styles from './IngredientRecommender.module.css';
-import type { Modality } from '@/types/astrology';
-import type { Ingredient, RecipeIngredient } from '@/types/ingredient';
+import type { Modality } from '@/types/alchemy';
+import type { Ingredient as _Ingredient, RecipeIngredient as _RecipeIngredient } from '@/types/recipe';
 
 /**
  * Maps planets to their elemental influences (diurnal and nocturnal elements)
@@ -156,7 +156,7 @@ export default function IngredientRecommender() {
     // Search through unified ingredients database
     Object.values(unifiedIngredients).forEach(ingredient => {
       const name = ingredient.name?.toLowerCase() || '';
-      const category = (ingredient.category as any)?.toLowerCase() || '';
+      const category = (ingredient.category as unknown)?.toLowerCase() || '';
       const qualities = ingredient.qualities?.join(' ').toLowerCase() || '';
       
       // Check if search matches name, category, or qualities
@@ -211,13 +211,13 @@ export default function IngredientRecommender() {
   useEffect(() => {
     if (!astroLoading && !astroError) {
       // Create a combined approach using both chakra and standard recommendations
-      const chakraRecommendations = contextChakraEnergies ? getChakraBasedRecommendations(contextChakraEnergies, 16) : {};
+      const chakraRecommendations = contextChakraEnergies ? getChakraBasedRecommendations(contextChakraEnergies as unknown, 16) : {};
       
       // Get elemental properties from planetary positions
       let elementalProps: ElementalProperties | undefined;
       if (planetaryPositions) {
         const calculator = new ElementalCalculator();
-        elementalProps = calculator.calculateElementalState(planetaryPositions);
+        elementalProps = calculator.calculateElementalState(planetaryPositions as unknown);
       }
       
       // Determine current planetary day and hour
@@ -254,7 +254,7 @@ export default function IngredientRecommender() {
         ...astroState,
         lunarPhase: 'new moon',
         aspects: []
-      } as unknown as ElementalProperties & { timestamp: Date; currentStability: number; planetaryAlignment: Record<string, { sign: string; degree: number; }>; zodiacSign: string; activePlanets: string[]; lunarPhase: string; aspects: { type: string; planets: string[]; strength: number; }[]; }, { limit: 40 });
+      } as unknown, { limit: 40 });
       
       // Merge the recommendations, prioritizing chakra-based ones
       const mergedRecommendations: GroupedIngredientRecommendations = {};
@@ -315,10 +315,10 @@ export default function IngredientRecommender() {
   
   // Helper function to check if an ingredient is an oil
   const isOil = (ingredient: Record<string, unknown>): boolean => {
-    const category = (ingredient.category as any)?.toLowerCase() || '';
+    const category = (ingredient.category as unknown)?.toLowerCase() || '';
     if (category === 'oil' || category === 'oils') return true;
     
-    const name = (ingredient.name as any).toLowerCase();
+    const name = (ingredient.name as unknown).toLowerCase();
     return oilTypes.some(oil => name.includes(oil.toLowerCase()));
   };
   
@@ -429,7 +429,7 @@ export default function IngredientRecommender() {
     // Add food recommendations first (they are already categorized)
     if (foodRecommendations && foodRecommendations.length > 0) {
       foodRecommendations.forEach(ingredient => {
-        const name = (ingredient.name as any).toLowerCase();
+        const name = (ingredient.name as unknown).toLowerCase();
         
         // For seafood proteins - check first to prevent miscategorization
         if (
@@ -857,7 +857,7 @@ export default function IngredientRecommender() {
               <div className="p-3">
                 <div className={styles.ingredientsGrid}>
                   {searchResults.map((item, index) => {
-                    const elementalProps = item.elementalProperties || {
+                    const _elementalProps = item.elementalProperties || {
                       Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
                     };
                     
@@ -882,7 +882,7 @@ export default function IngredientRecommender() {
                       <div 
                         key={`search-${item.name}-${index}`}
                         className={`${styles.ingredientCard} ${isSelected ? styles.selected : ''} ${elementColor}`}
-                        onClick={(e) => handleIngredientSelect(item, e)}
+                        onClick={(e) => handleIngredientSelect(item as unknown, e)}
                       >
                         <div className="flex justify-between items-start">
                           <h4 className={styles.ingredientName}>{item.name}</h4>
@@ -904,7 +904,7 @@ export default function IngredientRecommender() {
                         {isSelected && (
                           <div className={styles.expandedView}>
                             <IngredientCard 
-                              ingredient={item as unknown as Ingredient | RecipeIngredient}
+                              ingredient={item as any}
                               initiallyExpanded={true}
                               emphasizeCulinary={true}
                               onClick={() => {}}
@@ -1050,7 +1050,7 @@ export default function IngredientRecommender() {
                 <div className={styles.ingredientsGrid}>
                   {itemsToShow.map((item) => {
                     // Get element color class
-                    const elementalProps = item.elementalProperties || {
+                    const _elementalProps = item.elementalProperties || {
                       Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
                     };
                     
@@ -1104,7 +1104,7 @@ export default function IngredientRecommender() {
                       <div 
                         key={`${item.name}-${category}-${item.subCategory || ''}-${Math.random().toString(36).substr(2, 5)}`} 
                         className={`${styles.ingredientCard} ${isSelected ? styles.selected : ''} ${elementColor}`}
-                        onClick={(e) => handleIngredientSelect(item, e)}
+                        onClick={(e) => handleIngredientSelect(item as unknown, e)}
                       >
                         <div className="flex justify-between items-start">
                           <h4 className={styles.ingredientName}>{item.name}</h4>
@@ -1134,7 +1134,7 @@ export default function IngredientRecommender() {
                         {isSelected && (
                           <div className={styles.expandedView}>
                             <IngredientCard 
-                              ingredient={item as unknown as Ingredient | RecipeIngredient}
+                              ingredient={item as any}
                               initiallyExpanded={true}
                               emphasizeCulinary={true}
                               onClick={() => {}}

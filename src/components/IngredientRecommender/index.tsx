@@ -60,7 +60,7 @@ const ORDERED_CATEGORIES = [
 export default function IngredientRecommender() {
   // Use the context to get astrological data including chakra energies
   const astroState = useAstrologicalState();
-  const astroData = astroState as Record<string, unknown>;
+  const astroData = astroState as unknown as Record<string, unknown>;
   const contextChakraEnergies = astroData?.chakraEnergies;
   const planetaryPositions = astroData?.planetaryPositions;
   const astroLoading = astroData?.isLoading || false;
@@ -71,7 +71,7 @@ export default function IngredientRecommender() {
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [activeCategory, setActiveCategory] = useState<string>('proteins');
   const [showAll, setShowAll] = useState<boolean>(false);
-  const [combinedCategorizedRecommendations, setCombinedCategorizedRecommendations] = useState<Record<string, IngredientRecommendation[]>>({});
+  const [categorizedRecommendations, setCategorizedRecommendations] = useState<Record<string, IngredientRecommendation[]>>({});
   
   // Use the custom hook for food recommendations
   const { 
@@ -139,7 +139,7 @@ export default function IngredientRecommender() {
         return null;
       }
       // Otherwise, select the new item
-      return item as ExtendedIngredientRecommendation;
+      return item as unknown as ExtendedIngredientRecommendation;
     });
   };
   
@@ -186,19 +186,19 @@ export default function IngredientRecommender() {
   
   // Helper function to check if an ingredient is an oil
   const isOil = (ingredient: Record<string, unknown>): boolean => {
-    const category = (ingredient.category as any)?.toLowerCase() || '';
+    const category = (ingredient.category as unknown)?.toLowerCase() || '';
     if (category === 'oil' || category === 'oils') return true;
     
-    const name = (ingredient.name as any).toLowerCase();
+    const name = (ingredient.name as unknown).toLowerCase();
     return oilTypes.some(oil => name.includes(oil.toLowerCase()));
   };
   
   // Helper function to check if an ingredient is a vinegar
   const isVinegar = (ingredient: Record<string, unknown>): boolean => {
-    const category = (ingredient.category as any)?.toLowerCase() || '';
+    const category = (ingredient.category as unknown)?.toLowerCase() || '';
     if (category === 'vinegar' || category === 'vinegars') return true;
     
-    const name = (ingredient.name as any).toLowerCase();
+    const name = (ingredient.name as unknown).toLowerCase();
     return vinegarTypes.some(vinegar => name.includes(vinegar.toLowerCase()));
   };
   
@@ -206,7 +206,7 @@ export default function IngredientRecommender() {
   const getNormalizedCategory = (ingredient: Record<string, unknown>): string => {
     if (!ingredient.category) return 'other';
     
-    const category = (ingredient.category as any).toLowerCase();
+    const category = (ingredient.category as unknown).toLowerCase();
     
     // Map categories to our standard ones
     if (['vegetable', 'vegetables'].includes(category)) return 'vegetables';
@@ -237,7 +237,7 @@ export default function IngredientRecommender() {
     
     // First pass - identify spices/seasonings and group them by base name
     recommendations.forEach(item => {
-      const category = categorizeIngredient(item);
+      const category = categorizeIngredient(item as unknown as Record<string, unknown>);
       const normalizedName = item.name.toLowerCase().trim();
       
       // Special handling for spices and seasonings
@@ -301,7 +301,7 @@ export default function IngredientRecommender() {
     
     // First check for explicit category
     if (ingredient.category) {
-      const category = (ingredient.category as any).toLowerCase();
+      const category = (ingredient.category as unknown).toLowerCase();
       
       // Handle specific category mappings
       if (['protein', 'meat', 'egg', 'dairy', 'plant_based', 'seafood', 'poultry'].includes(category)) {
@@ -450,12 +450,12 @@ export default function IngredientRecommender() {
     // Default category based on dominant element if available
     if (ingredient.elementalProperties) {
       // Pattern KK-1: Safe arithmetic comparison with type validation
-      const dominantElement = Object.entries(ingredient.elementalProperties)
+      const dominantElement = Object.entries(ingredient.elementalProperties || {})
         .sort(([, a], [, b]) => {
           const numericA = typeof a === 'number' ? a : 0;
           const numericB = typeof b === 'number' ? b : 0;
           return numericB - numericA;
-        })[0][0];
+        })[0]?.[0] || 'Fire';
         
       switch (dominantElement) {
         case 'Fire': return 'spices';
@@ -474,13 +474,13 @@ export default function IngredientRecommender() {
   useEffect(() => {
     if (!astroLoading && !astroError) {
       // Create a combined approach using both chakra and standard recommendations
-      const chakraRecommendations = contextChakraEnergies ? getChakraBasedRecommendations(contextChakraEnergies, 16) : {};
+      const chakraRecommendations = contextChakraEnergies ? getChakraBasedRecommendations(contextChakraEnergies as unknown, 16) : {};
       
       // Get elemental properties from planetary positions
       let elementalProps: ElementalProperties | undefined;
       if (planetaryPositions) {
         const calculator = new ElementalCalculator();
-        elementalProps = calculator.calculateElementalState(planetaryPositions);
+        _elementalProps = calculator.calculateElementalState(planetaryPositions as unknown);
       }
       
       // Create an object with astrological state data
@@ -654,7 +654,7 @@ export default function IngredientRecommender() {
   }
   
   // Combine and categorize all recommendations
-  const combinedCategorizedRecommendations = useMemo(() => {
+  const combinedCategorizedRecommendationsData = useMemo(() => {
     // Start with empty categories
     const categories: Record<string, any[]> = {
       proteins: [],
@@ -670,7 +670,7 @@ export default function IngredientRecommender() {
     // Add food recommendations first (they are already categorized)
     if (foodRecommendations && foodRecommendations.length > 0) {
       foodRecommendations.forEach(ingredient => {
-        const name = (ingredient.name as any).toLowerCase();
+        const name = (ingredient.name as unknown).toLowerCase();
         
         // For seafood proteins - check first to prevent miscategorization
         if (
@@ -904,6 +904,9 @@ export default function IngredientRecommender() {
       Object.entries(categories).filter(([_, items]) => items.length > 0)
     );
   }, [foodRecommendations, astroRecommendations, herbNames, oilTypes, vinegarTypes]);
+
+  // Update the state variable to use the new name
+  const combinedCategorizedRecommendations = combinedCategorizedRecommendationsData;
   
   // Render ingredient details when selected
   const renderIngredientDetails = (item: Record<string, unknown>) => {
@@ -913,7 +916,7 @@ export default function IngredientRecommender() {
         {item.description && (
           <div className={styles.detailSection}>
             <h4 className={styles.detailTitle}>
-              About {item.name}:
+              About {String(item.name)}:
             </h4>
             <p style={{ 
               margin: '0 0 0.75rem 0',
@@ -921,7 +924,7 @@ export default function IngredientRecommender() {
               lineHeight: '1.5',
               color: '#4b5563'
             }}>
-              {item.description}
+              {String(item.description)}
             </p>
           </div>
         )}
@@ -933,7 +936,7 @@ export default function IngredientRecommender() {
               <Beaker size={16} /> Elemental Properties
             </h4>
             <div className={styles.elementPropertiesGrid}>
-              {Object.entries(item.elementalProperties)
+              {Object.entries(item.elementalProperties || {})
                 .sort(([, a], [, b]) => {
                   // Pattern KK-1: Safe arithmetic comparison with type validation
                   const numericA = typeof a === 'number' ? a : 0;
@@ -977,7 +980,7 @@ export default function IngredientRecommender() {
         )}
         
         {/* Culinary Applications with improved structure */}
-        {(item as ExtendedIngredientRecommendation).culinaryApplications && Object.keys((item as ExtendedIngredientRecommendation).culinaryApplications || {}).length > 0 && (
+        {(item as unknown).culinaryApplications && Object.keys((item as unknown).culinaryApplications || {}).length > 0 && (
           <div className={styles.detailSection}>
             <h4 className={styles.detailTitle}>
               <Leaf size={16} /> Culinary Applications
@@ -987,7 +990,7 @@ export default function IngredientRecommender() {
               gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
               gap: '0.75rem'
             }}>
-              {Object.entries((item as ExtendedIngredientRecommendation).culinaryApplications || {}).map(([method, details]) => {
+              {Object.entries((item as unknown).culinaryApplications || {}).map(([method, details]) => {
                 const detailsData = details as Record<string, unknown>;
                 return (
                   <div key={method} style={{
@@ -1036,7 +1039,7 @@ export default function IngredientRecommender() {
         )}
         
         {/* Pairings with improved visualization */}
-        {(item as ExtendedIngredientRecommendation).pairings && (
+        {(item as unknown).pairings && (
           <div className={styles.detailSection}>
             <h4 className={styles.detailTitle}>
               <Tag size={16} /> Pairs Well With
@@ -1048,7 +1051,7 @@ export default function IngredientRecommender() {
               fontSize: '0.85rem'
             }}>
               {(() => {
-                const pairings = (item as ExtendedIngredientRecommendation).pairings;
+                const pairings = (item as unknown).pairings;
                 if (Array.isArray(pairings)) {
                   return pairings.slice(0, 10).map(pairing => (
                     <span key={pairing} style={{ 
@@ -1083,7 +1086,7 @@ export default function IngredientRecommender() {
         )}
         
         {/* Nutritional Highlights if available */}
-        {(item as ExtendedIngredientRecommendation).nutritionalHighlights && Object.keys((item as ExtendedIngredientRecommendation).nutritionalHighlights || {}).length > 0 && (
+        {(item as unknown).nutritionalHighlights && Object.keys((item as unknown).nutritionalHighlights || {}).length > 0 && (
           <div className={styles.detailSection}>
             <h4 className={styles.detailTitle}>
               <Info size={16} /> Nutritional Highlights
@@ -1094,7 +1097,7 @@ export default function IngredientRecommender() {
               gap: '0.75rem',
               fontSize: '0.85rem'
             }}>
-              {Object.entries((item as ExtendedIngredientRecommendation).nutritionalHighlights || {}).map(([nutrient, value]) => (
+              {Object.entries((item as unknown).nutritionalHighlights || {}).map(([nutrient, value]) => (
                 <div key={nutrient} style={{ 
                   padding: '0.5rem 0.75rem',
                   backgroundColor: 'rgba(249, 250, 251, 0.8)',
@@ -1181,7 +1184,7 @@ export default function IngredientRecommender() {
     
     return (
       <div
-        key={item.name}
+        key={String(item.name)}
         className={styles.ingredientCard}
         style={{
           borderTop: `3px solid ${getElementBorderColor(dominantElement)}`,
@@ -1195,7 +1198,7 @@ export default function IngredientRecommender() {
           <div className={styles.nameRow}>
             {getElementIcon(dominantElement)}
             <h3 className={styles.ingredientName}>
-              {item.name}
+              {String(item.name)}
             </h3>
           </div>
           
