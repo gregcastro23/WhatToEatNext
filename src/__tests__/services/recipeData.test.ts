@@ -33,6 +33,14 @@ jest.mock('@/utils/logger', () => ({
     warn: jest.fn(),
     debug: jest.fn(),
   },
+  // For named function export
+  createLogger: jest.fn(() => ({
+    debug: jest.fn(),
+    info: jest.fn(),
+    warn: jest.fn(),
+    error: jest.fn(),
+    log: jest.fn(),
+  })),
 }));
 
 // Spy on recipeElementalService methods

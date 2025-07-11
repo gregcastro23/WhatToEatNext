@@ -1,4 +1,4 @@
-import { getCurrentTransitSign, _validatePlanetaryPositions, getCurrentTransitPositions } from './validatePlanetaryPositions';
+import { getCurrentTransitSign, _validatePlanetaryPositions, getCurrentTransitPositions, validatePlanetaryPositions } from './validatePlanetaryPositions';
 import { PlanetPosition } from './astrologyUtils';
 import marsData from '@/data/planets/mars';
 import type { ZodiacSign } from '@/types';

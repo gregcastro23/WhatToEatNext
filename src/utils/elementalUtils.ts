@@ -112,6 +112,7 @@ export const validateElementalProperties = (
         properties,
       } as Record<string, unknown>
     );
+    return false;
   }
 
   return true;
@@ -1606,7 +1607,7 @@ export function ensureLowercaseFormat(properties: Record<string, unknown>): any 
 
 export const _elementalUtils = {
   DEFAULT_ELEMENTAL_PROPERTIES,
-  validateProperties: validateElementalRequirements,
+  validateProperties: validateElementalProperties,
   validateElementalProperties,
   normalizeProperties,
   standardizeRecipeElements,

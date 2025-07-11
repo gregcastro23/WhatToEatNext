@@ -11,8 +11,7 @@ const config = {
       tsconfig: 'tsconfig.jest.json',
       diagnostics: {
         ignoreCodes: [2322, 2339, 2345, 2304, 2307, 2306]
-      },
-      isolatedModules: true
+      }
     }],
     '^.+\\.(js|jsx)$': 'babel-jest'
   },
@@ -22,7 +21,8 @@ const config = {
     '/.next/',
     '/out/',
     '/build/',
-    '/dist/'
+    '/dist/',
+    'setupTests.ts'
   ],
   modulePathIgnorePatterns: [
     '<rootDir>/.next/standalone',
@@ -42,14 +42,9 @@ const config = {
   coverageDirectory: 'coverage',
   coverageReporters: ['text', 'lcov', 'html'],
   testMatch: [
-    '<rootDir>/src/**/__tests__/**/*.{ts,tsx}',
+    '<rootDir>/src/**/__tests__/**/*.{test,spec}.{ts,tsx}',
     '<rootDir>/src/**/*.{test,spec}.{ts,tsx}'
-  ],
-  globals: {
-    'ts-jest': {
-      tsconfig: 'tsconfig.jest.json'
-    }
-  }
+  ]
 };
 
 export default config;
