@@ -185,7 +185,7 @@ function CuisineSelectorMigrated({
     if ((cuisine as Record<string, unknown>)?.modality) return (cuisine as Record<string, unknown>).modality as Modality;
     
     // Otherwise determine from elemental state
-    return determineModalityFromElements((cuisine as Record<string, (unknown> as ElementalProperties))?.elementalState || (cuisine as Record<string, unknown>)?.elementalState || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+    return determineModalityFromElements((cuisine as Record<string, unknown> as ElementalProperties)?.elementalState || (cuisine as Record<string, unknown>)?.elementalState || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
     } as unknown as Record<string, unknown>);
   };
   

@@ -154,7 +154,7 @@ const processIngredientCollection = (
 
       // Add alchemical and thermodynamic properties
       const alchemicalProps =
-        calculateAlchemicalProperties(processedIngredient as unknown as (Ingredient as import("/Users/GregCastro/Desktop/WhatToEatNext/src/types/index").Ingredient));
+        calculateAlchemicalProperties(processedIngredient as unknown as Ingredient);
       const thermodynamicProps = calculateThermodynamicProperties(
         alchemicalProps,
         (processedIngredient as any).elementalProperties
@@ -195,6 +195,7 @@ const processIngredientCollection = (
       } as unknown as Ingredient;
     } catch (error) {
       // console.warn(`Skipping invalid ingredient ${key}:`, error);
+      return acc;
     }
     return acc;
   }, {} as Record<string, Ingredient>);

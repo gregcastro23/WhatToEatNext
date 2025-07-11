@@ -127,7 +127,7 @@ export default function ElementalBalanceWheel({
   // Sync with criteria when it changes externally
   useEffect(() => {
     if (criteria.elementalPreference) {
-      setTempElements(criteria.(elementalPreference as SetStateAction<ElementalProperties>));
+      setTempElements(criteria.elementalPreference as SetStateAction<ElementalProperties>);
     }
   }, [criteria.elementalPreference]);
 

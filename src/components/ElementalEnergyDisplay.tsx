@@ -225,7 +225,7 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
       // Update state with new values, but only if there's a significant change
       setAlchemicalResults(prev => {
         // Check if there's a significant change worth updating for
-        if (!isSignificantChange((prev as { elementalProps: ElementalProperties; alchemicalDistribution: AlchemicalProperties; thermodynamicProps: ThermodynamicProperties; }), { (_elementalProps as { elementalProps: ElementalProperties; alchemicalDistribution: AlchemicalProperties; thermodynamicProps: ThermodynamicProperties; }), (alchemicalDistribution as { elementalProps: ElementalProperties; alchemicalDistribution: AlchemicalProperties; thermodynamicProps: ThermodynamicProperties; }), thermodynamicProps })) {
+        if (!isSignificantChange((prev as { elementalProps: ElementalProperties; alchemicalDistribution: AlchemicalProperties; thermodynamicProps: ThermodynamicProperties; }), { elementalProps: _elementalProps as ElementalProperties, alchemicalDistribution: alchemicalDistribution as AlchemicalProperties, thermodynamicProps: thermodynamicProps as ThermodynamicProperties })) {
           logger.debug("Skipping update - results identical to previous state");
           return prev;
         }
