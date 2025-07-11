@@ -1870,6 +1870,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@next/eslint-plugin-next@npm:15.3.4":
+  version: 15.3.4
+  resolution: "@next/eslint-plugin-next@npm:15.3.4"
+  dependencies:
+    fast-glob: "npm:3.3.1"
+  checksum: 8a473bd32a06f62c16f60f9c40b7b8149cf91170ce4c1546cda57e9c85ac8481c7ad3aa4a77e8c3c7000e80d3de809d2db7df6cb79e13fd258fff382729abf60
+  languageName: node
+  linkType: hard
+
 "@next/eslint-plugin-next@npm:15.3.5":
   version: 15.3.5
   resolution: "@next/eslint-plugin-next@npm:15.3.5"
@@ -10464,6 +10473,7 @@ __metadata:
     "@heroicons/react": "npm:^2.2.0"
     "@mui/icons-material": "npm:^5.11.16"
     "@mui/material": "npm:^5.13.6"
+    "@next/eslint-plugin-next": "npm:15.3.4"
     "@radix-ui/react-tabs": "npm:^1.1.12"
     "@tailwindcss/line-clamp": "npm:^0.4.4"
     "@testing-library/dom": "npm:^10.4.0"

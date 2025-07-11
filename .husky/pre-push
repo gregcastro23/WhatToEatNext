@@ -13,5 +13,5 @@ node_version=$(node -v)
 required_version=$(cat .nvmrc)
 echo "Using Node.js $node_version (required: $required_version)"
 
-# Run build check with proper Node.js version
-which yarn && yarn build
+# Run build check with Yarn 4 via Corepack (required for this repo)
+which corepack && corepack yarn build
