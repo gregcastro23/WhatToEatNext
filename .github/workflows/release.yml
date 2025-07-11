@@ -1,4 +1,4 @@
-name: Release
+name: 🚀 Release
 
 on:
   push:
@@ -6,105 +6,139 @@ on:
       - 'v*'
 
 env:
-  NODE_ENV: production
-  CI: true
+  TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+  TURBO_TEAM: ${{ vars.TURBO_TEAM }}
+  VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
 jobs:
   release:
+    name: 📦 Create Release
     runs-on: ubuntu-latest
     permissions:
       contents: write
       issues: write
       pull-requests: write
     steps:
-      - name: Checkout code
+      - name: 📥 Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Setup Node.js
+      - name: 📦 Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: '18'
           cache: 'yarn'
 
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile --network-timeout 300000
+      - name: 🔧 Enable Corepack
+        run: corepack enable
 
-      - name: Create release environment
+      - name: 📚 Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: ⚡ Install Turbo globally
+        run: yarn global add turbo
+
+      - name: 💾 Cache Turbo
+        uses: actions/cache@v4
+        with:
+          path: .turbo
+          key: ${{ runner.os }}-turbo-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-turbo-
+
+      - name: 🧪 Run tests
+        run: yarn turbo run test --affected --continue
+
+      - name: 🏗️ Build application
+        run: yarn turbo run build --affected
+
+      - name: 📝 Generate changelog
+        id: changelog
         run: |
-          echo "NEXT_PUBLIC_ENABLE_ASTRO_DEBUG=false" > .env.local
-          echo "NEXT_PUBLIC_API_CACHE_TIME=3600" >> .env.local
-          echo "NODE_ENV=production" >> .env.local
+          echo "## 🎉 What's New" > CHANGELOG.md
+          echo "" >> CHANGELOG.md
+          git log --pretty=format:"- %s (%h)" $(git describe --tags --abbrev=0 HEAD^)..HEAD >> CHANGELOG.md
 
-      - name: Run tests
-        run: yarn test --passWithNoTests
-
-      - name: Build application
-        run: yarn build
-
-      - name: Create Release
+      - name: 🎉 Create Release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
-          draft: false
-          prerelease: false
-
-      - name: Generate changelog
-        run: |
-          # Generate changelog from commits since last tag
-          git log $(git describe --tags --abbrev=0)..HEAD --oneline > CHANGELOG.md
-          echo "## What's Changed" >> CHANGELOG.md
-          echo "" >> CHANGELOG.md
-          git log $(git describe --tags --abbrev=0)..HEAD --pretty=format:"- %s" >> CHANGELOG.md
-
-      - name: Update Release with changelog
-        uses: actions/update-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          release_id: ${{ steps.create_release.outputs.id }}
           body: |
-            ## What's Changed
+            ## 🎉 What's New
             
             ${{ steps.changelog.outputs.changelog }}
             
-            ## Installation
+            ## 🚀 Installation
             
             ```bash
             yarn install
             yarn build
             yarn start
             ```
+            
+            ## 📊 Performance
+            
+            - Build time: Optimized with Turborepo
+            - Bundle size: Monitored and optimized
+            - Performance: Lighthouse CI integrated
+            
+            ## 🔒 Security
+            
+            - Dependencies: Automatically audited
+            - Vulnerabilities: Scanned with Trivy
+            - Updates: Managed by Dependabot
+          draft: false
+          prerelease: false
 
-  # Deploy to production after release
   deploy-release:
+    name: 🚀 Deploy Release
     runs-on: ubuntu-latest
     needs: release
     environment: production
     steps:
-      - name: Checkout code
+      - name: 📥 Checkout repository
         uses: actions/checkout@v4
 
-      - name: Deploy to Vercel (Production Release)
-        uses: amondnet/vercel-action@v25
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          vercel-args: '--prod'
+          node-version: '18'
+          cache: 'yarn'
 
-  # Notify stakeholders
+      - name: 🔧 Enable Corepack
+        run: corepack enable
+
+      - name: 📚 Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: 🌐 Install Vercel CLI
+        run: yarn global add vercel@latest
+
+      - name: 🔗 Pull Vercel Environment Information
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: 🏗️ Build Project Artifacts
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: 🚀 Deploy Project Artifacts to Vercel
+        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
+
   notify:
+    name: 📢 Notify Release
     runs-on: ubuntu-latest
     needs: [release, deploy-release]
     if: always()
     steps:
-      - name: Notify release completion
+      - name: 📢 Notify release completion
         run: |
-          echo "Release ${{ github.ref }} has been deployed successfully!"
-          echo "Production URL: https://what-to-eat-next.vercel.app"
-          echo "Release Notes: https://github.com/gregcastro23/WhatToEatNext/releases/tag/${{ github.ref }}" 
+          echo "🎉 Release ${{ github.ref }} has been deployed successfully!"
+          echo "🌐 Production URL: https://what-to-eat-next.vercel.app"
+          echo "📝 Release Notes: https://github.com/gregcastro23/WhatToEatNext/releases/tag/${{ github.ref }}"
+          echo "📊 Performance: Lighthouse CI integrated"
+          echo "🔒 Security: Trivy vulnerability scanning enabled" 

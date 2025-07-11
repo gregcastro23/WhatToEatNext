@@ -1,44 +1,34 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "globalDependencies": ["**/.env.*local"],
-  "pipeline": {
+  "ui": "tui",
+  "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": [".next/**", "!.next/cache/**", "dist/**"],
-      "env": ["NEXT_PUBLIC_*", "NODE_ENV"]
+      "outputs": [".next/**", "!.next/cache/**", "dist/**", "build/**", "out/**"],
+      "env": ["NODE_ENV", "NEXT_PUBLIC_*", "ASTRO_*"]
+    },
+    "lint": {
+      "outputs": []
+    },
+    "type-check": {
+      "outputs": []
+    },
+    "test": {
+      "outputs": ["coverage/**"],
+      "inputs": ["src/**/*.tsx", "src/**/*.ts", "test/**/*.ts", "test/**/*.tsx", "tests/**/*.ts", "tests/**/*.tsx"]
     },
     "dev": {
       "cache": false,
       "persistent": true
     },
-    "lint": {
-      "dependsOn": ["^lint"],
-      "outputs": []
-    },
-    "test": {
-      "dependsOn": ["^build"],
-      "outputs": ["coverage/**"],
-      "inputs": ["src/**/*.tsx", "src/**/*.ts", "test/**/*.ts", "test/**/*.tsx"]
-    },
-    "type-check": {
-      "dependsOn": ["^type-check"],
-      "outputs": []
+    "start": {
+      "cache": false,
+      "persistent": true
     },
     "clean": {
       "cache": false
-    },
-    "format": {
-      "outputs": []
-    },
-    "preview": {
-      "dependsOn": ["build"],
-      "cache": false
     }
   },
-  "globalEnv": [
-    "NODE_ENV",
-    "CI",
-    "VERCEL",
-    "NEXT_PUBLIC_*"
-  ]
+  "globalDependencies": ["**/.env.*local", "**/.env"],
+  "globalEnv": ["NODE_ENV", "CI"]
 } 
