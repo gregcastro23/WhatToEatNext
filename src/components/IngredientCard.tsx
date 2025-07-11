@@ -130,9 +130,9 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
     ...ingredient,
     ...(databaseIngredient || {}),
     // Keep the match score and other dynamic properties from the passed ingredient
-    matchScore: (ingredient as any)?.matchScore,
+    matchScore: (ingredient as { matchScore?: number })?.matchScore,
     elementalProperties: ingredient.elementalProperties || databaseIngredient?.elementalProperties
-  };
+  } as ExtendedIngredient;
 
   // Determine available tabs - emphasize culinary tabs when requested
   const availableTabs: TabType[] = ['overview'];
@@ -259,7 +259,7 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
                         {[...Array(10)].map((_, i) => (
                           <div 
                             key={i} 
-                            className={`heat-dot ${i < extendedIngredient.heatLevel ? 'active' : ''}`}
+                            className={`heat-dot ${i < (extendedIngredient.heatLevel as number || 0) ? 'active' : ''}`}
                           />
                         ))}
                       </div>
@@ -392,8 +392,8 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
                 </h4>
                 <div className="smoke-point-display">
                   <div className="temperature-reading">
-                    <span className="temp-value">{extendedIngredient.smokePoint.fahrenheit}°F</span>
-                    <span className="temp-celsius">({extendedIngredient.smokePoint.celsius}°C)</span>
+                    <span className="temp-value">{(extendedIngredient.smokePoint as { fahrenheit?: number })?.fahrenheit || 0}°F</span>
+                    <span className="temp-celsius">({(extendedIngredient.smokePoint as { celsius?: number })?.celsius || 0}°C)</span>
                   </div>
                   <p className="smoke-point-note">Best for cooking methods below this temperature</p>
                   <div className="cooking-recommendations">
@@ -652,28 +652,28 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
                   Health Properties
                 </h4>
                 <div className="health-properties">
-                  {extendedIngredient.healthProperties.benefits && (
+                  {(extendedIngredient.healthProperties as { benefits?: string[] | string })?.benefits && (
                     <div className="health-section">
                       <h5 className="health-subtitle">Benefits</h5>
                       <div className="health-list">
-                        {Array.isArray(extendedIngredient.healthProperties.benefits) ? 
-                          extendedIngredient.healthProperties.benefits.slice(0, 4).map((benefit: string, index: number) => (
+                        {Array.isArray((extendedIngredient.healthProperties as { benefits?: string[] | string })?.benefits) ? 
+                          (extendedIngredient.healthProperties as { benefits?: string[] }).benefits?.slice(0, 4).map((benefit: string, index: number) => (
                             <div key={index} className="health-item">• {benefit}</div>
                           )) : 
-                          <div className="health-item">{extendedIngredient.healthProperties.benefits}</div>
+                          <div className="health-item">{(extendedIngredient.healthProperties as { benefits?: string })?.benefits}</div>
                         }
                       </div>
                     </div>
                   )}
-                  {extendedIngredient.healthProperties.cautions && (
+                  {(extendedIngredient.healthProperties as { cautions?: string[] | string })?.cautions && (
                     <div className="health-section">
                       <h5 className="health-subtitle cautions">Cautions</h5>
                       <div className="health-list">
-                        {Array.isArray(extendedIngredient.healthProperties.cautions) ? 
-                          extendedIngredient.healthProperties.cautions.slice(0, 2).map((caution: string, index: number) => (
+                        {Array.isArray((extendedIngredient.healthProperties as { cautions?: string[] | string })?.cautions) ? 
+                          (extendedIngredient.healthProperties as { cautions?: string[] }).cautions?.slice(0, 2).map((caution: string, index: number) => (
                             <div key={index} className="health-item caution">⚠️ {caution}</div>
                           )) : 
-                          <div className="health-item caution">⚠️ {extendedIngredient.healthProperties.cautions}</div>
+                          <div className="health-item caution">⚠️ {(extendedIngredient.healthProperties as { cautions?: string })?.cautions}</div>
                         }
                       </div>
                     </div>
@@ -765,8 +765,8 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
                     <div className="vitamin-tags">
                       {normalizeVitamins(extendedIngredient.nutritionalProfile.vitamins).map((vitamin, index) => (
                         <span key={index} className="vitamin-tag">
-                          {formatVitaminName(vitamin?.name)}
-                          {vitamin.value && <span className="vitamin-value"> ({vitamin.value}{vitamin.unit})</span>}
+                          {formatVitaminName((vitamin as { name?: string })?.name)}
+                          {(vitamin as { value?: string; unit?: string })?.value && <span className="vitamin-value"> ({(vitamin as { value?: string }).value}{(vitamin as { unit?: string }).unit})</span>}
                         </span>
                       ))}
                     </div>
@@ -779,8 +779,8 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
                     <div className="mineral-tags">
                       {normalizeMinerals(extendedIngredient.nutritionalProfile.minerals).map((mineral, index) => (
                         <span key={index} className="mineral-tag">
-                          {formatMineralName(mineral?.name)}
-                          {mineral.value && <span className="mineral-value"> ({mineral.value}{mineral.unit})</span>}
+                          {formatMineralName((mineral as { name?: string })?.name)}
+                          {(mineral as { value?: string; unit?: string })?.value && <span className="mineral-value"> ({(mineral as { value?: string }).value}{(mineral as { unit?: string }).unit})</span>}
                         </span>
                       ))}
                     </div>
@@ -792,7 +792,7 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
                   <div className="antioxidants-section">
                     <h5 className="nutrition-subtitle">Antioxidants</h5>
                     <div className="antioxidant-tags">
-                      {normalizeAntioxidants(extendedIngredient.nutritionalProfile.antioxidants).map((antioxidant, index) => (
+                      {normalizeAntioxidants(extendedIngredient.nutritionalProfile.antioxidants as Record<string, unknown>).map((antioxidant, index) => (
                         <span key={index} className="antioxidant-tag">{antioxidant}</span>
                       ))}
                     </div>
