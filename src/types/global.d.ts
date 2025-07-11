@@ -4,40 +4,8 @@
 
 declare global {
   interface Window {
-    // Chrome extension API mock
-    chrome?: {
-      tabs?: {
-        create?: (options: Record<string, unknown>) => Promise<{id: number}>;
-        query?: (queryInfo: Record<string, unknown>, callback?: Function) => boolean;
-        update?: (tabId: number, properties: Record<string, unknown>, callback?: Function) => boolean;
-        sendMessage?: (tabId: number, message: Record<string, unknown>, options?: Record<string, unknown>, callback?: Function) => boolean;
-      };
-      runtime?: {
-        lastError?: Record<string, unknown>;
-        getURL?: (path: string) => string;
-        sendMessage?: (message: Record<string, unknown>) => void;
-        onMessage?: {
-          addListener: (callback: (message: Record<string, unknown>) => void) => void;
-          removeListener: (callback: (message: Record<string, unknown>) => void) => void;
-        };
-      };
-      storage?: {
-        local?: {
-          get?: (keys: Record<string, unknown>, callback?: Function) => boolean;
-          set?: (items: Record<string, unknown>, callback?: Function) => boolean;
-        };
-        sync?: {
-          get?: (keys: Record<string, unknown>, callback?: Function) => boolean;
-          set?: (items: Record<string, unknown>, callback?: Function) => boolean;
-        };
-      };
-      i18n?: {
-        getMessage?: (messageName: string, substitutions?: Record<string, unknown>) => string;
-      };
-      extension?: {
-        getURL?: (path: string) => string;
-      };
-    };
+    // Chrome extension API mock - use any for maximum flexibility
+    chrome?: any;
     
     // Popup.js mock replacement
     popup?: {

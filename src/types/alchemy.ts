@@ -91,11 +91,10 @@ export interface ThermodynamicProperties {
 }
 
 export interface BasicThermodynamicProperties {
-  energy: number;     // Overall energy transfer efficiency
   heat: number;
   entropy: number;
   reactivity: number;
-  gregsEnergy: number; // Added to match extensive usage throughout codebase
+  gregsEnergy: number; // gregsEnergy is the energy value for this project
 }
 
 export interface ThermodynamicMetrics extends ThermodynamicProperties {

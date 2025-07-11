@@ -11,6 +11,9 @@ interface SauceRecommendation {
   category: string;
   elementalProperties: ElementalProperties;
   matchScore: number;
+  elementalMatchScore?: number;  // Should be number, not SauceRecommendation
+  planetaryDayScore?: number;
+  planetaryHourScore?: number;
   cuisine?: string;
   base?: string;
   isFusion?: boolean;
@@ -31,6 +34,13 @@ interface SauceRecommendation {
   usage?: string;
   forItem?: string;
   planetAffinity?: string[];
+}
+
+// Helper function to check if an object is a SauceRecommendation
+function isSauceRecommendation(obj: any): obj is SauceRecommendation {
+  return obj && typeof obj === 'object' && 
+         typeof obj.name === 'string' && 
+         typeof obj.matchScore === 'number';
 }
 
 interface SauceRecommenderProps {
@@ -392,7 +402,7 @@ export default function SauceRecommender({
                 technicalTips: sauceData.technicalTips || "",
                 elementalProperties: sauceData.elementalProperties,
                 matchScore: finalScore,
-                elementalMatchScore: (elementalMatchScore as SauceRecommendation),
+                elementalMatchScore: elementalMatchScore,
                 planetaryDayScore: planetaryDayScore,
                 planetaryHourScore: planetaryHourScore
               });
@@ -461,7 +471,7 @@ export default function SauceRecommender({
                 technicalTips: sauceData.technicalTips || "",
                 elementalProperties: sauceData.elementalProperties,
                 matchScore: finalScore,
-                elementalMatchScore: (elementalMatchScore as SauceRecommendation),
+                elementalMatchScore: elementalMatchScore,
                 planetaryDayScore: planetaryDayScore,
                 planetaryHourScore: planetaryHourScore
               });
@@ -527,7 +537,7 @@ export default function SauceRecommender({
             technicalTips: sauceData.technicalTips || "",
             elementalProperties: sauceData.elementalProperties,
             matchScore: finalScore,
-            elementalMatchScore: (elementalMatchScore as SauceRecommendation),
+            elementalMatchScore: elementalMatchScore,
             planetaryDayScore: planetaryDayScore,
             planetaryHourScore: planetaryHourScore
           });
@@ -609,7 +619,7 @@ export default function SauceRecommender({
                 technicalTips: sauceData.technicalTips || "",
                 elementalProperties: sauceData.elementalProperties,
                 matchScore: finalScore,
-                elementalMatchScore: (elementalMatchScore as SauceRecommendation),
+                elementalMatchScore: elementalMatchScore,
                 planetaryDayScore: planetaryDayScore,
                 planetaryHourScore: planetaryHourScore,
                 isFusion: true

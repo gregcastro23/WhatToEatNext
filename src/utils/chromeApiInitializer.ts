@@ -5,6 +5,13 @@
  * to prevent errors related to missing extension APIs in the browser.
  */
 
+// Extend window interface with Chrome API support  
+declare global {
+  interface Window {
+    chrome?: any; // Use any for maximum flexibility with mock Chrome API
+  }
+}
+
 export function initializeChromeApis(): void {
   try {
     if (typeof window === 'undefined') {
@@ -26,12 +33,12 @@ export function initializeChromeApis(): void {
 
     // Initialize chrome object if it doesn't exist
     if (!window.chrome) {
-      (window as unknown).chrome = {};
+      window.chrome = {};
     }
 
     // Initialize tabs API with safe methods
-    if (!(window as unknown).chrome.tabs) {
-      (window as unknown).chrome.tabs = {
+    if (!window.chrome.tabs) {
+      window.chrome.tabs = {
         create: function(options: { url?: string }) {
           // console.log('[ChromeAPI] Mocked chrome.tabs.create called with:', _options);
           
@@ -62,8 +69,8 @@ export function initializeChromeApis(): void {
     }
 
     // Initialize runtime API
-    if (!(window as unknown).chrome.runtime) {
-      (window as unknown).chrome.runtime = {
+    if (!window.chrome.runtime) {
+      window.chrome.runtime = {
         lastError: null,
         getURL: function(path: string) {
           return window.location.origin + '/' + path;
@@ -80,8 +87,8 @@ export function initializeChromeApis(): void {
     }
 
     // Initialize extension API
-    if (!(window as unknown).chrome.extension) {
-      (window as unknown).chrome.extension = {
+    if (!window.chrome.extension) {
+      window.chrome.extension = {
         getURL: function(path: string) {
           return window.location.origin + '/' + path;
         },
@@ -92,10 +99,10 @@ export function initializeChromeApis(): void {
     }
 
     // Initialize storage API
-    if (!(window as unknown).chrome.storage) {
+    if (!window.chrome.storage) {
       const mockStorage: Record<string, any> = {};
       
-      (window as unknown).chrome.storage = {
+      window.chrome.storage = {
         local: {
           get: function(keys: string | string[] | null, callback?: (items: Record<string, any>) => void) {
             let result: Record<string, any> = {};
@@ -157,12 +164,7 @@ export function initializeChromeApis(): void {
   }
 }
 
-// Define types for Window with chrome property
-declare global {
-  interface Window {
-    chrome?: Record<string, unknown>;
-  }
-}
+// Chrome API types are defined above in the main MockChromeAPI interface
 
 // Export default for easy importing
 export default { initializeChromeApis }; 
