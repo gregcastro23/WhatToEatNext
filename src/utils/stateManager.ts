@@ -145,12 +145,12 @@ class StateManager {
   private isValidAppState(obj: unknown): obj is AppState {
     // Fix TS2339: Property does not exist on type 'object'
     const data = obj as unknown as Record<string, unknown>;
-    return obj 
+    return Boolean(obj 
       && typeof obj === 'object'
       && data?.recipes 
       && data?.celestial 
       && data?.user 
-      && data?.ui;
+      && data?.ui);
   }
 
   private getDefaultState(): AppState {

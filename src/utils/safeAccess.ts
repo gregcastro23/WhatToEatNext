@@ -26,14 +26,14 @@ export function safeGet<T>(
       return defaultValue;
     }
     
-    let current: Record<string, unknown> = obj;
+    let current: Record<string, unknown> = obj as Record<string, unknown>;
     
     for (const key of path) {
       if (current === null || current === undefined || typeof current !== 'object') {
         return defaultValue;
       }
       
-      current = current[key];
+      current = current[key] as Record<string, unknown>;
     }
     
     return current !== undefined && current !== null

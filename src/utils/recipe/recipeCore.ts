@@ -94,7 +94,12 @@ export function calculateRecipeMatchScore(
   if (!isAppropriateForTimeOfDay(recipe, elementalState.timeOfDay)) return 0;
   
   try {
-    const baseScore = calculateElementalMatch(recipe.elementalState as Record<string, number>, elementalState as Record<string, number>);
+    const baseScore = calculateElementalMatch(recipe.elementalState as Record<string, number>, {
+      Fire: elementalState.Fire,
+      Water: elementalState.Water,
+      Earth: elementalState.Earth,
+      Air: elementalState.Air
+    });
     let score = baseScore * 100;
     
     // Enhanced scoring factors

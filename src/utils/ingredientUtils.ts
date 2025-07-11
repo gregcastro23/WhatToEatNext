@@ -425,7 +425,7 @@ export function mapToIngredient(mapping: IngredientMapping): Ingredient {
     storage = { duration: 'unknown' },
     amount = 1,
     astrologicalProfile = {
-      elementalAffinity: { base: 'Earth' },
+      elementalAffinity: { base: 'Earth' as Element },
       rulingPlanets: [],
       zodiacAffinity: [],
     },
@@ -433,13 +433,17 @@ export function mapToIngredient(mapping: IngredientMapping): Ingredient {
   } = mapping as Record<string, unknown> & Partial<IngredientMapping>;
 
   return {
-    name,
-    amount: amount as string,
+    name: name as string,
+    amount: (amount as number).toString(),
     category: category as IngredientCategory,
     elementalProperties: elementalProperties as ElementalProperties,
     qualities: qualities as string[],
     storage: storage as Record<string, unknown>,
-    astrologicalProfile: astrologicalProfile as Record<string, unknown>,
+    astrologicalProfile: astrologicalProfile as {
+      elementalAffinity: { base: string; secondary?: string; };
+      rulingPlanets: string[];
+      zodiacAffinity?: string[];
+    },
     ...(rest as Record<string, unknown>),
   } as Ingredient;
 }
@@ -530,7 +534,7 @@ export function fromSimpleIngredient(simple: SimpleIngredient): Ingredient {
       elementalAffinity: { base: getDominantElement(simple.elementalProperties as ElementalProperties) as Element },
       rulingPlanets: [],
       zodiacAffinity: []
-    } as Record<string, unknown>
+    }
   };
 }
 

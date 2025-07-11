@@ -16,6 +16,7 @@ export async function testCookingMethodRecommendations(): Promise<{
 }> {
   // Create a mock ingredient
   const mockIngredient: AlchemicalItem = {
+    id: 'tomato',
     name: 'Tomato',
     element: 'Water',
     elementalCharacter: 'Substance',
@@ -29,6 +30,7 @@ export async function testCookingMethodRecommendations(): Promise<{
     Air: 0.2,
     alchemicalProperties: { Spirit: 0.4, Essence: 0.3, Matter: 0.6, Substance: 0.7 },
     transformedElementalProperties: { Fire: 0.3, Water: 0.7, Earth: 0.4, Air: 0.2 },
+    elementalProperties: { Fire: 0.3, Water: 0.7, Earth: 0.4, Air: 0.2 },
     heat: 0.5,
     entropy: 0.5,
     reactivity: 0.5,

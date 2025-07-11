@@ -206,7 +206,7 @@ export function explainRecommendation(
   
   // Check elemental affinity
   if (astrologicalState.dominantElement && recipe.element) {
-    const elementalScore = calculateElementalScore(recipe.element as unknown, astrologicalState.dominantElement as unknown);
+    const elementalScore = calculateElementalScore(recipe.element as Element, astrologicalState.dominantElement as Element);
     if (elementalScore > 0.6) {
       reasons.push(`The ${recipe.element} energy of this dish harmonizes with your ${astrologicalState.dominantElement} elemental influence.`);
     }
@@ -225,8 +225,8 @@ export function explainRecommendation(
       // Apply surgical type casting with variable extraction
       const mealTypeData = timeFactors.mealType as unknown;
       const timeOfDayData = timeFactors.timeOfDay as unknown;
-      const mealTypeLower = mealTypeData?.toLowerCase?.() || timeFactors.mealType;
-      const timeOfDayLower = timeOfDayData?.toLowerCase?.() || timeFactors.timeOfDay;
+      const mealTypeLower = (mealTypeData as string)?.toLowerCase?.() || timeFactors.mealType;
+      const timeOfDayLower = (timeOfDayData as string)?.toLowerCase?.() || timeFactors.timeOfDay;
       
       reasons.push(`This is an ideal choice for ${mealTypeLower} during the ${timeOfDayLower}.`);
     }
