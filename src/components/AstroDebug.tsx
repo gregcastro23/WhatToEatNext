@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 
-const AstroDebug: React.FC = () => {
+const AstroDebug: React?.FC = () => {
   const [expanded, setExpanded] = useState(false);
   const { planetaryPositions, state } = useAlchemical();
   

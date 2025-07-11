@@ -1,10 +1,10 @@
 import React, { useState, useMemo } from 'react';
 import { RulingPlanet } from '@/constants/planets';
-import { _ElementalCharacter, AlchemicalProperty } from '@/constants/planetaryElements';
+import { ElementalCharacter, AlchemicalProperty } from '@/constants/planetaryElements';
 import { useAlchemicalRecommendations } from '@/hooks/useAlchemicalRecommendations';
 import { ElementalItem } from '@/calculations/alchemicalTransformation';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-import { LunarPhase, _LunarPhaseWithSpaces, ZodiacSign, _PlanetaryAspect } from '@/types/alchemy';
+import { LunarPhase, LunarPhaseWithSpaces, ZodiacSign, _PlanetaryAspect } from '@/types/alchemy';
 import { PlanetaryPosition } from '@/types/celestial';
 
 // Import the correct data sources
@@ -27,7 +27,7 @@ interface AlchemicalRecommendationsProps {
   aspects?: PlanetaryAspect[];
 }
 
-const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = ({
+const AlchemicalRecommendationsView: React?.FC<AlchemicalRecommendationsProps> = ({
   planetPositions,
   isDaytime: _isDaytime = true,
   currentZodiac,
@@ -64,7 +64,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
       Object.entries(alchemicalContext.planetaryPositions).forEach(([planet, data]) => {
         if (planet in positions) {
           // Fix TS2339: Property 'degree' does not exist on type 'unknown'
-          const planetData = data as PlanetaryPosition;
+          const planetData = data as unknown as unknown as PlanetaryPosition;
           const degree = planetData?.degree;
           positions[planet as RulingPlanet] = degree || 0;
         }
@@ -90,11 +90,11 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
   
   const resolvedIsDaytime = isDaytime !== undefined ? isDaytime : alchemicalContext.isDaytime;
   const resolvedCurrentZodiac = currentZodiac || 
-    (alchemicalContext.state?.astrologicalState?.zodiacSign as ZodiacSign) || null;
+    (alchemicalContext.state?.astrologicalState?.zodiacSign as unknown as unknown as ZodiacSign) || null;
   
   // Fix the lunar phase type resolution
   const resolvedLunarPhase: LunarPhaseWithSpaces = lunarPhase || 
-    (alchemicalContext.state?.astrologicalState?.lunarPhase as LunarPhaseWithSpaces) || 
+    (alchemicalContext.state?.astrologicalState?.lunarPhase as unknown as unknown as LunarPhaseWithSpaces) || 
     'new moon';
   
   // State for targeting specific elements or properties
@@ -191,7 +191,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         elementalProperties: elementalProps,
         qualities: (ingredient as unknown).qualities || [],
         modality: (ingredient as unknown).modality
-      } as ElementalItem;
+      } as unknown as unknown as ElementalItem;
     });
   }, []);
   
@@ -257,7 +257,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         id: key,
         name: (method as unknown).name || key,
         elementalProperties: elementalEffect
-      } as ElementalItem;
+      } as unknown as unknown as ElementalItem;
     });
   }, []);
   
@@ -330,7 +330,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         id: key,
         name: (cuisine as unknown).name || key,
         elementalProperties: elementalState
-      } as ElementalItem;
+      } as unknown as unknown as ElementalItem;
     });
   }, []);
   
@@ -513,7 +513,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         {/* Recommended Ingredients */}
         <div className="recommendation-section">
           <h3>Recommended Ingredients</h3>
-          {recommendations.topIngredients?.length > 0 ? (
+          {recommendations.topIngredients???.length > 0 ? (
             <ul className="recommendation-list">
               {recommendations.topIngredients.map(ingredient => (
                 <li key={ingredient.id} className="recommendation-item">
@@ -552,7 +552,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         {/* Recommended Cooking Methods */}
         <div className="recommendation-section">
           <h3>Recommended Cooking Methods</h3>
-          {recommendations.topMethods?.length > 0 ? (
+          {recommendations.topMethods???.length > 0 ? (
             <ul className="recommendation-list">
               {recommendations.topMethods.map(method => (
                 <li key={method.id} className="recommendation-item">
@@ -587,7 +587,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         {/* Recommended Cuisines */}
         <div className="recommendation-section">
           <h3>Recommended Cuisines</h3>
-          {recommendations.topCuisines?.length > 0 ? (
+          {recommendations.topCuisines???.length > 0 ? (
             <ul className="recommendation-list">
               {recommendations.topCuisines.map(cuisine => (
                 <li key={cuisine.id} className="recommendation-item">

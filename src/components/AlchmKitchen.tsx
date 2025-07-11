@@ -7,10 +7,10 @@ import styles from './AlchmKitchen.module.css';
 import type { TarotCardResult } from '@/lib/recipeCalculations';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { createLogger } from '@/utils/logger';
-import { _PlanetaryPosition } from '@/types/celestial';
+import { PlanetaryPosition } from '@/types/celestial';
 import { staticAlchemize } from '@/utils/alchemyInitializer';
 
-const _logger = createLogger('AlchmKitchen');
+const logger = createLogger('AlchmKitchen');
 
 interface Recipe {
     id: string;
@@ -58,14 +58,14 @@ export default function AlchmKitchen() {
                 // Get current tarot cards
                 const _currentDate = new Date();
                 const cards = getTarotCardsForDate(new Date(currentDate), planetaryPositions.sun && {
-                    sign: (planetaryPositions.sun as PlanetaryPosition)?.sign || 'aries',
-                    degree: (planetaryPositions.sun as PlanetaryPosition)?.degree || 0
+                    sign: (planetaryPositions.sun as unknown as unknown as PlanetaryPosition)?.sign || 'aries',
+                    degree: (planetaryPositions.sun as unknown as unknown as PlanetaryPosition)?.degree || 0
                 });
                 
                 // Get recipes based on tarot cards
                 const fetchedRecipes = await getRecipesForTarotCard({
                     minorCard: {
-                        name: cards.minorCard.name,
+                        name: cards.minorCard.name || "",
                         suit: cards.minorCard.suit,
                         number: cards.minorCard.number,
                         keywords: cards.minorCard.keywords || [],
