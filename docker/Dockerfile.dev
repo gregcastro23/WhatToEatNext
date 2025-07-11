@@ -3,15 +3,14 @@
 
 FROM node:20-alpine
 
-# Install system dependencies
+# Install system dependencies and pre-install yarn
 RUN apk add --no-cache \
     libc6-compat \
     curl \
     git \
-    && rm -rf /var/cache/apk/*
-
-# Enable Yarn
-RUN corepack enable
+    && rm -rf /var/cache/apk/* \
+    && corepack enable \
+    && corepack prepare yarn@1.22.22 --activate
 
 # Set working directory
 WORKDIR /app
@@ -22,14 +21,22 @@ ENV npm_config_arch=x64
 ENV npm_config_target_platform=linux
 ENV npm_config_target_arch=x64
 ENV NEXT_TELEMETRY_DISABLED=1
+ENV HUSKY_SKIP_INSTALL=1
 
 # Copy package files first for better caching
 COPY package.json yarn.lock .yarnrc ./
 
-# Install dependencies with force flag to handle platform-specific packages
-RUN yarn install --frozen-lockfile --production=false --force
+# Create a temporary package.json without the problematic resolution
+RUN cp package.json package.json.backup && \
+    sed -i '/"resolutions": {/,/}/d' package.json
 
-# Copy source code
+# Install dependencies with optimized settings
+RUN yarn install --frozen-lockfile --production=false --network-timeout 100000
+
+# Restore original package.json
+RUN mv package.json.backup package.json
+
+# Copy source code (this layer will be invalidated when source changes)
 COPY . .
 
 # Expose port

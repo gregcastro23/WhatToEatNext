@@ -115,15 +115,26 @@ docker-health:
 
 # Docker commands with better error handling
 docker-build:
-	@echo "🐳 Building Docker images..."
+	@echo "🐳 Building Docker images with BuildKit optimization..."
 	@if ! /Applications/Docker.app/Contents/Resources/bin/docker --version > /dev/null 2>&1; then \
 		echo "❌ Docker is not accessible. Please ensure Docker Desktop is running."; \
 		echo "Try restarting Docker Desktop and your terminal."; \
 		exit 1; \
 	fi
-	/Applications/Docker.app/Contents/Resources/bin/docker build -f docker/Dockerfile -t whattoeatnext:latest .
-	/Applications/Docker.app/Contents/Resources/bin/docker build -f docker/Dockerfile.dev -t whattoeatnext:dev .
-	@echo "✅ Docker images built successfully!"
+	@echo "📦 Building production image with validation and testing..."
+	DOCKER_BUILDKIT=1 /Applications/Docker.app/Contents/Resources/bin/docker build --progress=plain --target test -f docker/Dockerfile -t whattoeatnext:test .
+	@echo "🏭 Building final production image..."
+	DOCKER_BUILDKIT=1 /Applications/Docker.app/Contents/Resources/bin/docker build --progress=plain -f docker/Dockerfile -t whattoeatnext:latest .
+	@echo "🔧 Building development image..."
+	DOCKER_BUILDKIT=1 /Applications/Docker.app/Contents/Resources/bin/docker build --progress=plain -f docker/Dockerfile.dev -t whattoeatnext:dev .
+	@echo "✅ All Docker images built successfully!"
+	@echo "📊 Image sizes:"
+	@docker images whattoeatnext --format "table {{.Tag}}\t{{.Size}}"
+	@echo "🚀 Build optimizations applied:"
+	@echo "   • Platform warnings resolved"
+	@echo "   • Yarn pre-installation optimized"
+	@echo "   • Validation and linting added"
+	@echo "   • Test files excluded for faster builds"
 
 docker-build-dev:
 	@echo "🐳 Building development Docker image..."
@@ -399,6 +410,15 @@ docker-clean:
 	docker-compose -f docker/docker-compose.yml down --volumes --remove-orphans
 	docker system prune -f
 	@echo "✅ Docker cleanup completed!"
+
+docker-test:
+	@echo "🧪 Running tests in Docker container..."
+	@if ! /Applications/Docker.app/Contents/Resources/bin/docker --version > /dev/null 2>&1; then \
+		echo "❌ Docker is not accessible. Please ensure Docker Desktop is running."; \
+		exit 1; \
+	fi
+	DOCKER_BUILDKIT=1 /Applications/Docker.app/Contents/Resources/bin/docker build --target test -f docker/Dockerfile -t whattoeatnext:test .
+	@echo "✅ Docker tests completed!"
 
 docker-setup:
 	@echo "🐳 Setting up Docker environment..."

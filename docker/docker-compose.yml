@@ -1,70 +1,11 @@
 version: '3.8'
 
 services:
-  # Main application service
-  whattoeatnext:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      args:
-        - NODE_ENV=production
-    container_name: whattoeatnext-app
-    ports:
-      - "3000:3000"
-    environment:
-      # Application settings
-      - NODE_ENV=production
-      - NEXT_TELEMETRY_DISABLED=1
-      - PORT=3000
-      
-      # Performance optimizations
-      - NEXT_PUBLIC_API_CACHE_TIME=3600
-      - NEXT_PUBLIC_ENABLE_ASTRO_DEBUG=false
-      
-      # Security settings
-      - NEXTAUTH_URL=http://localhost:3000
-      - RATE_LIMIT_MAX=100
-      - RATE_LIMIT_WINDOW=900000
-      
-    volumes:
-      # Optional: Mount logs directory for debugging
-      - ./logs:/app/logs:rw
-      
-    restart: unless-stopped
-    
-    # Health check configuration
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
-    
-    # Resource limits
-    deploy:
-      resources:
-        limits:
-          memory: 1G
-          cpus: '1.0'
-        reservations:
-          memory: 512M
-          cpus: '0.5'
-    
-    # Logging configuration
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "3"
-
-  # Development service (alternative to main service)
+  # Development service
   whattoeatnext-dev:
     build:
-      context: .
-      dockerfile: Dockerfile.dev
-      args:
-        - NODE_ENV=development
-    container_name: whattoeatnext-dev
+      context: ..
+      dockerfile: docker/Dockerfile.dev
     ports:
       - "3000:3000"
     environment:
@@ -72,20 +13,56 @@ services:
       - NEXT_TELEMETRY_DISABLED=1
       - CHOKIDAR_USEPOLLING=true
     volumes:
-      # Mount source code for hot reload
-      - .:/app:cached
-      - /app/node_modules
-      - /app/.next
+      # Mount source code for hot reload (development only)
+      - ../src:/app/src:ro
+      - ../public:/app/public:ro
+      - ../next.config.js:/app/next.config.js:ro
+      - ../package.json:/app/package.json:ro
+    networks:
+      - whattoeatnext-network
     restart: unless-stopped
-    profiles:
-      - dev
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
 
-# Optional: Network configuration for multi-container setups
+  # Production service
+  whattoeatnext-prod:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    ports:
+      - "3001:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_TELEMETRY_DISABLED=1
+      - PORT=3000
+    networks:
+      - whattoeatnext-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+        reservations:
+          memory: 256M
+
 networks:
-  default:
-    name: whattoeatnext-network
+  whattoeatnext-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
 
-# Optional: Volume for persistent data
 volumes:
-  logs:
-    driver: local 
+  # Optional: Add persistent volumes if needed
+  # app-data:
+  #   driver: local 

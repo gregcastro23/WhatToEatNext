@@ -396,7 +396,7 @@ main() {
   cd "$PROJECT_ROOT"
   
   # Verify we're in the right directory
-  if [ ! -f "package.json" ] || [ ! -f "CLAUDE.md" ]; then
+  if [ ! -f "package.json" ] || [ ! -f "docs/CLAUDE.md" ]; then
     error "Not in WhatToEatNext project root directory"
     exit 1
   fi

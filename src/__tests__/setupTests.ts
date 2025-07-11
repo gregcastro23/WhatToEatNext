@@ -1,79 +1,93 @@
+// Test setup file for Jest
 import '@testing-library/jest-dom';
-import { ElementalCalculator } from '@/services/ElementalCalculator';
 
-// Setup test environment
-// NODE_ENV is readonly in typings; override via type cast for test setup
-(process.env as Record<string, unknown>).NODE_ENV = 'test';
-process.env.NEXT_PUBLIC_ENABLE_ASTRO_DEBUG = 'false';
-
-// Suppress console output during tests to reduce noise in CI
-if (process.env.CI) {
-  global.console = {
-    ...console,
-    log: jest.fn(),
-    debug: jest.fn(),
-    info: jest.fn(),
-    warn: jest.fn(),
-    error: jest.fn(),
-  };
-}
-
-// Mock fetch for all tests
-global.fetch = jest.fn(() =>
-  Promise.resolve({
-    json: () => Promise.resolve({}),
-    text: () => Promise.resolve(''),
-    ok: true,
-    status: 200,
-    statusText: 'OK',
-    headers: new Headers(),
-  } as Response)
-);
-
-// Mock global services
-jest.mock('@/services/ElementalCalculator', () => ({
-  ElementalCalculator: {
-    getCurrentElementalState: jest.fn().mockReturnValue({
-      Fire: 0.25,
-      Water: 0.25,
-      Earth: 0.25,
-      Air: 0.25,
-    }),
-    initialize: jest.fn((initialState) => {
-      // console.log('Mock initialize called', initialState);
-    }),
-    updateElementalState: jest.fn((newState) => {
-      // console.log('Mock updateElementalState called', newState);
-    }),
-    getInstance: jest.fn().mockReturnValue({
-      initialized: true,
-      currentBalance: {
-        Fire: 0.25,
-        Water: 0.25,
-        Earth: 0.25,
-        Air: 0.25,
+// Mock Next.js router
+jest.mock('next/router', () => ({
+  useRouter() {
+    return {
+      route: '/',
+      pathname: '/',
+      query: {},
+      asPath: '/',
+      push: jest.fn(),
+      pop: jest.fn(),
+      reload: jest.fn(),
+      back: jest.fn(),
+      prefetch: jest.fn().mockResolvedValue(undefined),
+      beforePopState: jest.fn(),
+      events: {
+        on: jest.fn(),
+        off: jest.fn(),
+        emit: jest.fn(),
       },
-    }),
+      isFallback: false,
+    };
   },
 }));
 
-// Add platform-specific mocks
-const isMacOS = process.platform === 'darwin';
-const isWindows = process.platform === 'win32';
-const isLinux = process.platform === 'linux';
+// Mock Next.js navigation
+jest.mock('next/navigation', () => ({
+  useRouter() {
+    return {
+      push: jest.fn(),
+      replace: jest.fn(),
+      prefetch: jest.fn(),
+      back: jest.fn(),
+      forward: jest.fn(),
+      refresh: jest.fn(),
+    };
+  },
+  useSearchParams() {
+    return new URLSearchParams();
+  },
+  usePathname() {
+    return '/';
+  },
+}));
 
-// Add platform-specific configuration if needed
-if (isLinux && process.env.CI) {
-  // Additional CI-specific Linux configuration
-  jest.setTimeout(30000); // 30 seconds for CI environment
-}
+// Mock window.matchMedia
+Object.defineProperty(window, 'matchMedia', {
+  writable: true,
+  value: jest.fn().mockImplementation(query => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addListener: jest.fn(), // deprecated
+    removeListener: jest.fn(), // deprecated
+    addEventListener: jest.fn(),
+    removeEventListener: jest.fn(),
+    dispatchEvent: jest.fn(),
+  })),
+});
 
-// Add a simple test so the file doesn't fail with "no tests" error
-test('setup is working correctly', () => {
-  expect(ElementalCalculator.getCurrentElementalState()).toEqual({
-    Fire: 0.25,
-    Water: 0.25,
-    Earth: 0.25,
-    Air: 0.25,
-  });
+// Mock ResizeObserver
+global.ResizeObserver = jest.fn().mockImplementation(() => ({
+  observe: jest.fn(),
+  unobserve: jest.fn(),
+  disconnect: jest.fn(),
+}));
+
+// Mock IntersectionObserver
+global.IntersectionObserver = jest.fn().mockImplementation(() => ({
+  observe: jest.fn(),
+  unobserve: jest.fn(),
+  disconnect: jest.fn(),
+}));
+
+// Suppress console warnings in tests
+const originalError = console.error;
+beforeAll(() => {
+  console.error = (...args: any[]) => {
+    if (
+      typeof args[0] === 'string' &&
+      args[0].includes('Warning: ReactDOM.render is deprecated')
+    ) {
+      return;
+    }
+    originalError.call(console, ...args);
+  };
+});
+
+afterAll(() => {
+  console.error = originalError;
 });

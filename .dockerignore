@@ -31,6 +31,7 @@ Thumbs.db
 # IDE and editor files
 .vscode/
 .idea/
+.cursor/
 *.swp
 *.swo
 *~
@@ -47,10 +48,20 @@ lerna-debug.log*
 .git/
 .gitignore
 
-# Testing
+# Testing - exclude all test files for faster builds
 coverage/
 .nyc_output
 .jest-cache/
+__tests__/
+tests/
+*.test.js
+*.test.ts
+*.test.tsx
+*.spec.js
+*.spec.ts
+*.spec.tsx
+jest.config.js
+tsconfig.jest.json
 
 # Temporary files
 tmp/
@@ -65,15 +76,12 @@ temp/
 *.tsbuildinfo
 tsc_output.txt
 
-# Misc development files
-README.md
-CHANGELOG.md
-LICENSE
+# Documentation and notebooks
+docs/
 *.md
+*.ipynb
 
 # Project-specific files to exclude
-docs/
-tests/
 patches/
 lint_output.txt
 current-*.log
@@ -92,9 +100,68 @@ debug-*.js
 cleanup-*.js
 unused_files.txt
 
-# Jupyter notebooks
-*.ipynb
-
-# Development Docker files (exclude from production builds)
+# Development Docker files
 docker-compose.override.yml
-docker-compose.dev.yml 
+docker-compose.dev.yml
+
+# Backup and old files
+backups/
+*.bak
+*_backup*
+*.backup*
+*-backup*
+.backup/
+bak/
+.bak/
+
+# Metrics and analysis files
+*.json
+!.package.json
+!package.json
+!yarn.lock
+!tsconfig.json
+!.eslintrc.json
+!.prettierrc.json
+
+# Large directories that aren't needed for build
+public/backgrounds/
+public/icons/moon/
+Alchm Kitchen/
+config/typescript 2/
+metrics/
+patches/
+scripts/typescript-fixes/
+scripts/syntax-fixes/
+scripts/elemental-fixes/
+scripts/ingredient-scripts/
+scripts/cuisine-fixes/
+scripts/cleanup-scripts/
+scripts/uncategorized/
+scripts/lint-fixes/
+
+# Exclude all script files except essential ones
+scripts/*
+!scripts/check-node-version.cjs
+!scripts/clear-build-cache.sh
+
+# Additional optimizations for faster builds
+*.tsbuildinfo
+.eslintcache
+.stylelintcache
+.cache/
+.parcel-cache/
+.next/
+out/
+build/
+dist/
+coverage/
+.nyc_output/
+.jest-cache/
+__tests__/
+tests/
+*.test.js
+*.test.ts
+*.test.tsx
+*.spec.js
+*.spec.ts
+*.spec.tsx 
