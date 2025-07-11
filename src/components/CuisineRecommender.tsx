@@ -131,9 +131,9 @@ import {
 
   ZodiacSign,
   LunarPhase,
-  _LunarPhaseWithSpaces,
+  LunarPhaseWithSpaces,
   ElementalProperties} from '@/types/alchemy';
-import { _ElementalCharacter, AlchemicalProperty } from '@/constants/planetaryElements';
+import { ElementalCharacter, AlchemicalProperty } from '@/constants/planetaryElements';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import {
   useIngredientMapping,
@@ -145,7 +145,7 @@ import {
   sortByAlchemicalCompatibility,
 } from '@/utils/alchemicalTransformationUtils';
 import {
-  _cuisineFlavorProfiles,
+  cuisineFlavorProfiles,
   getRecipesForCuisineMatch,
 } from '@/data/cuisineFlavorProfiles';
 import { getAllRecipes } from '@/data/recipes';
@@ -381,7 +381,8 @@ function calculateEnhancedCuisineScore(
   if (astroState?.culturalPreferences || astroState?.preferredCuisines) {
     try {
       const userCulturalGroups = extractCulturalGroups(
-        astroState.preferredCuisines || astroState.culturalPreferences || []
+        (astroState as { preferredCuisines?: unknown[]; culturalPreferences?: unknown[] }).preferredCuisines || 
+        (astroState as { culturalPreferences?: unknown[] }).culturalPreferences || []
       );
       const cuisineCulturalGroup = getCuisineCulturalGroup(cuisineName || '');
       culturalSynergy = calculateCulturalSynergy(userCulturalGroups, cuisineCulturalGroup);
@@ -510,7 +511,12 @@ function extractCulturalGroups(preferences: unknown[]): string[] {
   };
   
   return preferences
-    .map(pref => culturalMapping[(pref as unknown)?.name?.toLowerCase() || (pref as string)?.toLowerCase()])
+    .map(pref => {
+      const prefName = (pref as { name?: string })?.name;
+      const prefString = typeof pref === 'string' ? pref : '';
+      const key = (typeof prefName === 'string' ? prefName.toLowerCase() : prefString.toLowerCase());
+      return culturalMapping[key];
+    })
     .filter(Boolean);
 }
 
@@ -534,7 +540,10 @@ function calculateCulturalSynergy(userGroups: string[], cuisineGroup: string): n
 
 function calculateScoreConfidence(scores: Record<string, unknown>): number {
   // Higher confidence when scores are more decisive (further from 0.5)
-  const deviations = Object.values(scores).map((score: Record<string, unknown>) => Math.abs((score as number) - 0.5));
+  const deviations = Object.values(scores).map((score: unknown) => {
+    const numericScore = typeof score === 'number' ? score : 0.5;
+    return Math.abs(numericScore - 0.5);
+  });
   const avgDeviation = deviations.reduce((sum: number, dev: number) => sum + dev, 0) / deviations.length;
   return Math.min(0.95, 0.5 + avgDeviation);
 }
