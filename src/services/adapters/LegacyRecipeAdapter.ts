@@ -231,7 +231,7 @@ export class LegacyRecipeAdapter {
       elementalFocus?: Element;
       maxResults?: number;
     },
-    limit: number = 10
+    limit = 10
   ): Promise<ScoredRecipe[]> {
     try {
       return await (unifiedRecipeService as any).getBestRecipeMatches(criteria) as ScoredRecipe[];

@@ -209,7 +209,7 @@ export function calculatePlanetaryStrength(
  */
 export function getPlanetaryElementalInfluence(
   planet: string,
-  isDaytime: boolean = true
+  isDaytime = true
 ): keyof ElementalProperties {
   const planetKey = planet?.toLowerCase();
   const timeKey = isDaytime ? 'diurnal' : 'nocturnal';
@@ -255,7 +255,7 @@ export function calculatePlanetaryHoursInfluence(date: Date): {
  */
 export function calculatePlanetaryInfluences(
   planetaryPositions: { [key: string]: PlanetaryPosition },
-  isDaytime: boolean = true,
+  isDaytime = true,
   currentDate?: Date
 ): {
   alchemicalInfluences: { [key: string]: number };

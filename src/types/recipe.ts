@@ -291,9 +291,7 @@ export const validateIngredientExt = validateAlchemyIngredient;
 export const validateRecipeExt = validateAlchemyRecipe;
 
 // Legacy interfaces for backward compatibility - all now extend unified Recipe
-export interface RecipeExtended extends Recipe {
-  // All properties are now inherited from unified Recipe interface
-}
+export type RecipeExtended = Recipe
 
 export interface ScoredRecipeExtended extends Recipe {
   score: number; // Required for this interface

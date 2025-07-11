@@ -149,7 +149,7 @@ export class DirectRecipeService {
   private static instance: DirectRecipeService;
   private allRecipes: Recipe[] = [];
   private currentCelestialAlignment: CelestialAlignment | null = null;
-  private lastAlignmentUpdate: number = 0;
+  private lastAlignmentUpdate = 0;
   private readonly ALIGNMENT_CACHE_DURATION = 60 * 60 * 1000; // 1 hour
   
   // Performance caching system

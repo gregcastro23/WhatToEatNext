@@ -268,7 +268,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
     return 'bg-red-400 text-white';
   };
 
-  const renderScoreBadge = (score: number, hasDualMatch: boolean = false) => {
+  const renderScoreBadge = (score: number, hasDualMatch = false) => {
     if (!score || score === 0) return null;
     
     return (

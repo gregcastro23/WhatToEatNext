@@ -16,7 +16,7 @@ export const IngredientDisplay = ({ ingredient, showDetails = false }: Ingredien
   };
 
   // Safe formatter for numbers
-  const formatNumber = (value: unknown, decimals: number = 2) => {
+  const formatNumber = (value: unknown, decimals = 2) => {
     if (value === undefined || value === null) return 'N/A';
     if (typeof value !== 'number') return String(value);
     return value.toFixed(decimals);

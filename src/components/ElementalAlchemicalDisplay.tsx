@@ -53,7 +53,7 @@ export default function ElementalAlchemicalDisplay() {
   const celestialEnergy = calculateGregsEnergy(heat, entropy, reactivity);
   
   // Helper function to format values as decimals
-  const formatValue = (value: number = 0) => {
+  const formatValue = (value = 0) => {
     return value.toFixed(2);
   };
 

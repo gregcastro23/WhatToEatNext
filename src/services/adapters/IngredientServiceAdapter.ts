@@ -195,7 +195,7 @@ export class EnhancedIngredientSystem {
    */
   findComplementaryIngredients(
     ingredients: string[],
-    maxResults: number = 5
+    maxResults = 5
   ): UnifiedIngredient[] {
     try {
       // Get complementary ingredients for each base ingredient

@@ -415,7 +415,7 @@ export const getIngredientsFromCategories = async (
 
 // Phase 8: Cached ingredient data for performance
 const cachedAllIngredientsData: unknown[] | null = null;
-const cacheTimestamp: number = 0;
+const cacheTimestamp = 0;
 const _CACHE_TTL = 300000; // 5 minutes
 
 export const getAllIngredientsData = async (): Promise<any[]> => {

@@ -96,7 +96,7 @@ export function safeFirst<T>(arr: T | T[] | undefined | null): T | undefined {
  */
 export function safeJoin<T>(
   arr: T | T[] | undefined | null, 
-  separator: string = ', '
+  separator = ', '
 ): string {
   const array = toArray(arr);
   return array?.join(separator);

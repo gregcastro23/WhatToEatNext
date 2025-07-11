@@ -432,7 +432,7 @@ export class RecipeEnhancer {
   /**
    * Enhance a recipe with alchemical properties (ADDITIVE - preserves all existing data)
    */
-  static enhanceRecipe(recipe, sourceFile: string = 'unknown'): EnhancedRecipe {
+  static enhanceRecipe(recipe, sourceFile = 'unknown'): EnhancedRecipe {
     // Calculate recipe Kalchm from ingredients
     const kalchmResult = this.calculateRecipeKalchm(recipe.ingredients || []);
     
@@ -519,7 +519,7 @@ export class RecipeAnalyzer {
   static findKalchmSimilarRecipes(
     targetRecipe: EnhancedRecipe, 
     recipePool: EnhancedRecipe[], 
-    tolerance: number = 0.2
+    tolerance = 0.2
   ): EnhancedRecipe[] {
     const targetKalchm = targetRecipe.alchemicalProperties?.totalKalchm || 1.0;
     
@@ -535,7 +535,7 @@ export class RecipeAnalyzer {
   static getRecipesByElementalDominance(
     recipes: EnhancedRecipe[], 
     element: keyof ElementalProperties,
-    threshold: number = 0.4
+    threshold = 0.4
   ): EnhancedRecipe[] {
     return recipes.filter(recipe => {
       // Use safe type casting for alchemical properties access

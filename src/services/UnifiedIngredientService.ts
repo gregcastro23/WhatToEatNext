@@ -275,7 +275,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
   /**
    * Get ingredients with high Kalchm values
    */
-  getHighKalchmIngredients(threshold: number = 1.5): UnifiedIngredient[] {
+  getHighKalchmIngredients(threshold = 1.5): UnifiedIngredient[] {
     return this.getAllIngredientsFlat().filter(ingredient => {
       const kalchm = ingredient.kalchm;
       return kalchm !== undefined && (kalchm as number) > threshold;
@@ -287,7 +287,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
    */
   findComplementaryIngredients(
     ingredient: UnifiedIngredient | string,
-    maxResults: number = 10
+    maxResults = 10
   ): UnifiedIngredient[] {
     const targetIngredient = typeof ingredient === 'string' 
       ? this.getIngredientByName(ingredient)
@@ -339,7 +339,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
    */
   getIngredientsByFlavor(
     flavorProfile: { [key: string]: number },
-    minMatchScore: number = 0.7
+    minMatchScore = 0.7
   ): UnifiedIngredient[] {
     return this.getAllIngredientsFlat().filter(ingredient => {
       const ingredientFlavor = ingredient.flavorProfile as { [key: string]: number } | undefined;

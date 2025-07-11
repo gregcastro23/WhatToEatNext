@@ -349,7 +349,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
   /**
    * Get ingredients with high Kalchm values
    */
-  getHighKalchmIngredients(threshold: number = 1.5): UnifiedIngredient[] {
+  getHighKalchmIngredients(threshold = 1.5): UnifiedIngredient[] {
     try {
       return Object.values(unifiedIngredients)
         .filter(ingredient => ingredient.kalchm > threshold)
@@ -370,7 +370,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
    */
   findComplementaryIngredients(
     ingredient: UnifiedIngredient | string,
-    maxResults: number = 10
+    maxResults = 10
   ): UnifiedIngredient[] {
     try {
       // Get the target ingredient if string was provided
@@ -457,7 +457,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
    */
   getIngredientsByFlavor(
     flavorProfile: { [key: string]: number },
-    minMatchScore: number = 0.7
+    minMatchScore = 0.7
   ): UnifiedIngredient[] {
     try {
       const ingredients = this.getAllIngredientsFlat();

@@ -204,7 +204,7 @@ export class ConsolidatedRecipeService {
    */
   async getRecipesForPlanetaryAlignment(
     planetaryInfluences: { [key: string]: number },
-    minMatchScore: number = 0.6,
+    minMatchScore = 0.6,
   ): Promise<Recipe[]> {
     try {
       return await getRecipesForPlanetaryAlignment(planetaryInfluences, minMatchScore) as unknown as Recipe[];
@@ -222,7 +222,7 @@ export class ConsolidatedRecipeService {
    */
   async getRecipesForFlavorProfile(
     flavorProfile: { [key: string]: number },
-    minMatchScore: number = 0.7,
+    minMatchScore = 0.7,
   ): Promise<Recipe[]> {
     try {
       return await getRecipesForFlavorProfile(flavorProfile, minMatchScore) as unknown as Recipe[];
@@ -249,7 +249,7 @@ export class ConsolidatedRecipeService {
       elementalFocus?: Element;
       maxResults?: number;
     },
-    limit: number = 10
+    limit = 10
   ): Promise<Recipe[]> {
     try {
       return await getBestRecipeMatches(criteria, limit) as unknown as Recipe[];

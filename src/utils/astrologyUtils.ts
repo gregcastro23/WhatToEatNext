@@ -2185,7 +2185,7 @@ export function calculateElementalProfile(
 export function transformItemsWithPlanetaryPositions(
   items: ElementalItem[],
   planetaryPositions: { [key: string]: any },
-  isDaytime: boolean = true,
+  isDaytime = true,
   currentZodiac?: string
 ): AlchemicalItem[] {
   if (!items || items.length === 0) {

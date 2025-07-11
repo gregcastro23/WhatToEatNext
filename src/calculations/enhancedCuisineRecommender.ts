@@ -108,7 +108,7 @@ export class EnhancedCuisineRecommender {
   public getRecommendationsForCuisine(
     cuisineName: string,
     astroState: AstrologicalState,
-    count: number = 5,
+    count = 5,
     mealType?: string,
     dietaryRestrictions?: string[]
   ): EnhancedRecipeMatch[] {

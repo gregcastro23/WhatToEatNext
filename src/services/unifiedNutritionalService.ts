@@ -386,7 +386,7 @@ export class UnifiedNutritionalService {
   filterIngredientsByKalchm(
     ingredients: UnifiedIngredient[],
     targetKalchm: number,
-    tolerance: number = 0.2
+    tolerance = 0.2
   ): UnifiedIngredient[] {
     return (ingredients || []).filter(ingredient => 
       Math.abs(ingredient.kalchm - targetKalchm) <= tolerance
@@ -399,7 +399,7 @@ export class UnifiedNutritionalService {
   filterIngredientsByElement(
     ingredients: UnifiedIngredient[],
     element: Element,
-    minValue: number = 0.5
+    minValue = 0.5
   ): UnifiedIngredient[] {
     return (ingredients || []).filter(ingredient => 
       ingredient?.elementalProperties?.[element] >= minValue

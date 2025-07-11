@@ -135,7 +135,7 @@ function capitalizeFirstLetter(string: string): string {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-function getElementColor(elementType: ElementType, opacity: number = 1): string {
+function getElementColor(elementType: ElementType, opacity = 1): string {
   const colors: Record<ElementType, string> = {
     Fire: `rgba(255, 59, 48, ${opacity})`,
     Water: `rgba(0, 122, 255, ${opacity})`,

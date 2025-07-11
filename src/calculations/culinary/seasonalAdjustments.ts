@@ -39,7 +39,7 @@ const LUNAR_PHASE_MODIFIERS: { [key: string]: ElementalProperties } = {
  */
 export function applySeasonalAdjustments(
   baseProperties: ElementalProperties,
-  season: string = 'spring'
+  season = 'spring'
 ): ElementalProperties {
   const seasonKey = season?.toLowerCase();
   const modifier = SEASONAL_MODIFIERS[seasonKey] || SEASONAL_MODIFIERS.spring;
@@ -53,7 +53,7 @@ export function applySeasonalAdjustments(
  */
 export function applyLunarPhaseAdjustments(
   baseProperties: ElementalProperties,
-  lunarPhase: string = 'full moon'
+  lunarPhase = 'full moon'
 ): ElementalProperties {
   const phaseKey = lunarPhase?.toLowerCase();
   const modifier = LUNAR_PHASE_MODIFIERS[phaseKey] || LUNAR_PHASE_MODIFIERS['full moon'];
@@ -67,7 +67,7 @@ export function applyLunarPhaseAdjustments(
  */
 export function applyTimeOfDayAdjustments(
   baseProperties: ElementalProperties,
-  isDaytime: boolean = true
+  isDaytime = true
 ): ElementalProperties {
   if (isDaytime) {
     return { Fire: baseProperties.Fire * 1.2, Water: baseProperties.Water * 0.9, Air: baseProperties.Air * 1.1, Earth: baseProperties.Earth * 0.95

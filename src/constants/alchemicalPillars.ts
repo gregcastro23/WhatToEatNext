@@ -459,7 +459,7 @@ export function getCookingMethodThermodynamics(cookingMethod: string): {
  */
 export function getPlanetaryAlchemicalEffect(
   planet: string, 
-  isDaytime: boolean = true
+  isDaytime = true
 ): Record<AlchemicalProperty, number> | null {
   const planetEffects = PLANETARY_ALCHEMICAL_EFFECTS[planet];
   if (!planetEffects) return null;
@@ -597,7 +597,7 @@ export function getAllEnhancedCookingMethods(): EnhancedCookingMethod[] {
 }
 
 // getMonicaCompatibleCookingMethods function (causing errors in recipeBuilding.ts and seasonal.ts)
-export function getMonicaCompatibleCookingMethods(minScore: number = 0.8): EnhancedCookingMethod[] {
+export function getMonicaCompatibleCookingMethods(minScore = 0.8): EnhancedCookingMethod[] {
   return ENHANCED_COOKING_METHODS.filter(method => 
     method.monicaCompatibility.score >= minScore
   );

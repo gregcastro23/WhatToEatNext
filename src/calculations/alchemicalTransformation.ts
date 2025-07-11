@@ -290,7 +290,7 @@ export const transformItemsWithPlanetaryPositions = (
 const transformElementalProperties = (
   originalProperties: Record<ElementalCharacter, number>,
   alchemicalResults: AlchemicalResults,
-  planetaryBoost: number = 1.0,
+  planetaryBoost = 1.0,
   zodiacSign?: ZodiacSign
 ): Record<ElementalCharacter, number> => {
   try {
@@ -384,7 +384,7 @@ const applyElementalInfluences = (
   transformedProperties: Record<ElementalCharacter, number>,
   elementalCounts: Record<ElementalCharacter, number>,
   originalProperties: Record<ElementalCharacter, number>,
-  planetaryBoost: number = 1.0
+  planetaryBoost = 1.0
 ): void => {
   try {
     // Calculate influence factors based on elemental counts

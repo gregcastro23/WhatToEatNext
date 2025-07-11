@@ -247,7 +247,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
   };
   
   // Function to render a score badge with stars for high scores
-  const renderScoreBadge = (score: number, hasDualMatch: boolean = false) => {
+  const renderScoreBadge = (score: number, hasDualMatch = false) => {
     // Apply a small multiplier to emphasize differences in scores
     const enhancedScore = Math.min(100, Math.round(score * 110));
     let stars = '';

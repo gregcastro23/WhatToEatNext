@@ -177,8 +177,8 @@ export function calculateElementalBalance(properties: ElementalProperties): numb
 export function combineElementalProperties(
   properties1: ElementalProperties,
   properties2: ElementalProperties,
-  weight1: number = 0.5,
-  weight2: number = 0.5
+  weight1 = 0.5,
+  weight2 = 0.5
 ): ElementalProperties {
   const combined: ElementalProperties = { Fire: properties1.Fire * weight1 + properties2.Fire * weight2, Water: properties1.Water * weight1 + properties2.Water * weight2, Air: properties1.Air * weight1 + properties2.Air * weight2, Earth: properties1.Earth * weight1 + properties2.Earth * weight2
    };
@@ -227,7 +227,7 @@ export function calculateComprehensiveElementalProperties(
   planetaryPositions: { [key: string]: PlanetaryPosition },
   season?: string,
   lunarPhase?: string,
-  isDaytime: boolean = true
+  isDaytime = true
 ): ElementalProperties {
   const cacheKey = `elemental_${JSON.stringify(planetaryPositions)}_${season}_${lunarPhase}_${isDaytime}`;
   

@@ -345,7 +345,7 @@ export function getSeasonForZodiacSign(sign: ZodiacSign): Season {
 export function applySeasonalModifier(
   baseProperties: ElementalProperties,
   season: Season,
-  strength: number = 0.5
+  strength = 0.5
 ): ElementalProperties {
   const modifier = getSeasonalModifier(season);
   

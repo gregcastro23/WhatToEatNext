@@ -139,7 +139,7 @@ export const IngredientRecommendations: React.FC<IngredientRecommendationsProps>
                                 }) / 100 : 0;
                             
                             // Calculate additional nutritional score if available
-                            let _nutritionalScore = 0;
+                            const _nutritionalScore = 0;
                             if (ingredient.nutritionalProfile) {
                                 const nutrition = ingredient.nutritionalProfile;
                                 const calories = (nutrition as unknown)?.calories || 0;

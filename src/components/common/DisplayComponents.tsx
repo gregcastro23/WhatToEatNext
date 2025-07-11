@@ -25,7 +25,7 @@ export const AlchemicalPropertiesDisplay: React.FC<AlchemicalPropertiesDisplayPr
   const { alchemicalValues = { Spirit: 0.25, Essence: 0.25, Matter: 0.25, Substance: 0.25 } } = state || {};
 
   // Helper function to format values as decimals instead of percentages
-  const formatValue = (value: number = 0) => {
+  const formatValue = (value = 0) => {
     return value.toFixed(2);
   };
 

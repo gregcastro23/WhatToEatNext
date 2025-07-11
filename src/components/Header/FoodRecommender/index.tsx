@@ -434,7 +434,7 @@ const FoodRecommender: React.FC = () => {
     };
 
     // Replace the safelyFormatNumber function with a more robust version
-    const safelyFormatNumber = (value: unknown, decimals: number = 2): string => {
+    const safelyFormatNumber = (value: unknown, decimals = 2): string => {
         if (value === undefined || value === null) return 'N/A';
         const num = Number(value);
         if (isNaN(num) || !isFinite(num)) return 'Invalid';

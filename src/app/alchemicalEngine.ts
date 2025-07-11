@@ -132,7 +132,7 @@ const alchemicalEngine = {
   },
   
   // Add a convenient factory method to create engine instances with error handling
-  createEngine: (advanced: boolean = false) => {
+  createEngine: (advanced = false) => {
     try {
       return advanced 
         ? new AlchemicalEngineAdvanced() 

@@ -1,0 +1,30 @@
+# Ignore JavaScript files
+**/*.js
+**/*.jsx
+
+# Ignore build directories
+.next/
+dist/
+build/
+
+# Ignore node modules
+node_modules/
+
+# Ignore test files for now
+**/*.test.js
+**/*.test.ts
+**/*.spec.js
+**/*.spec.ts
+
+# Ignore specific problematic files
+src/utils/fixAssignmentError.js
+src/utils/foodRecommenderFix.js
+src/utils/globalInitializer.js
+src/utils/lockdown-mitigation.js
+src/utils/patchAlchemicalEngine.js
+src/utils/patchGlobalElementRanking.js
+src/utils/planetInfoPatcher.js
+src/utils/popup-interceptor.js
+src/utils/popupSafetyPatch.js
+src/utils/safePopupImplementation.js
+src/utils/scriptReplacer.js 

@@ -65,7 +65,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
       dietaryPreferences?: string[];
       ingredients?: string[];
     } = {},
-    limit: number = 10
+    limit = 10
   ): Promise<ScoredRecipe[]> {
     try {
       logger.info('Getting recommended recipes', { state, criteria });
@@ -98,7 +98,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
    */
   async getRecipesForCurrentPlanetaryAlignment(
     state: SystemState,
-    minMatchScore: number = 0.6
+    minMatchScore = 0.6
   ): Promise<Recipe[]> {
     try {
       if (!state.planetaryPositions) {
@@ -174,7 +174,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
    */
   findComplementaryIngredients(
     ingredients: string[],
-    maxResults: number = 5
+    maxResults = 5
   ): UnifiedIngredient[] {
     return enhancedIngredientSystem.findComplementaryIngredients(ingredients, maxResults);
   }

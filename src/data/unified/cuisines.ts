@@ -407,7 +407,7 @@ export class CuisineEnhancer {
   /**
    * Enhance a cuisine with alchemical properties (ADDITIVE - preserves all existing data)
    */
-  static enhanceCuisine(cuisine: Record<string, unknown>, sourceFile: string = 'unknown'): EnhancedCuisine {
+  static enhanceCuisine(cuisine: Record<string, unknown>, sourceFile = 'unknown'): EnhancedCuisine {
     // Calculate cuisine Kalchm and analysis
     const kalchmAnalysis = this.calculateCuisineKalchm(cuisine);
     
@@ -479,7 +479,7 @@ export class CuisineAnalyzer {
   static findKalchmSimilarCuisines(
     targetCuisine: EnhancedCuisine,
     cuisinePool: EnhancedCuisine[],
-    tolerance: number = 0.2
+    tolerance = 0.2
   ): EnhancedCuisine[] {
     const targetKalchm = targetCuisine.alchemicalProperties?.totalKalchm || 1.0;
     
@@ -496,7 +496,7 @@ export class CuisineAnalyzer {
   static getCuisinesByElementalDominance(
     cuisines: EnhancedCuisine[],
     element: keyof ElementalProperties,
-    threshold: number = 0.4
+    threshold = 0.4
   ): EnhancedCuisine[] {
     return cuisines.filter(cuisine => {
       // Use safe type casting for alchemicalProperties access

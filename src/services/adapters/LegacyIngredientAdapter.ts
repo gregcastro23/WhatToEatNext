@@ -135,7 +135,7 @@ export class LegacyIngredientAdapter {
    */
   public findComplementaryIngredients(
     ingredient: UnifiedIngredient | string,
-    maxResults: number = 5
+    maxResults = 5
   ): UnifiedIngredient[] {
     try {
       const result = unifiedIngredientService.findComplementaryIngredients(ingredient as any, maxResults) as unknown as UnifiedIngredient[];
