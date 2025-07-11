@@ -649,7 +649,14 @@ export function getComprehensiveSeasonalAnalysis(
   const cached = seasonalCache.get(cacheKey);
   
   if (cached) {
-    return { ...(cached as Record<string, unknown>), cacheHit: true };
+    return { 
+      overallScore: (cached as any).overallScore || 0,
+      seasonalScores: (cached as any).seasonalScores || {},
+      elementalBreakdown: (cached as any).elementalBreakdown || {},
+      astrologicalInfluence: (cached as any).astrologicalInfluence || {},
+      recommendations: (cached as any).recommendations || [],
+      cacheHit: true 
+    };
   }
 
   const analysis = calculateSeasonalScores(recipe, currentZodiac, lunarPhase);
@@ -706,7 +713,12 @@ export function getElementalCompatibilityWithSeason(
   const cached = seasonalCache.get(cacheKey);
   
   if (cached) {
-    return cached;
+    return {
+      baseCompatibility: (cached as any).baseCompatibility || 0.5,
+      seasonalBonus: (cached as any).seasonalBonus || 0,
+      totalCompatibility: (cached as any).totalCompatibility || 0.5,
+      reason: (cached as any).reason || "Neutral elemental relationship"
+    };
   }
 
   let baseCompatibility = 0.5; // Default neutral
@@ -771,7 +783,18 @@ export function getEnhancedElementalBreakdown(
   const cached = seasonalCache.get(cacheKey);
   
   if (cached) {
-    return cached;
+    return {
+      baseElements: (cached as any).baseElements || { Fire: 0, Water: 0, Earth: 0, Air: 0 },
+      seasonalModifiers: (cached as any).seasonalModifiers || { Fire: 0, Water: 0, Earth: 0, Air: 0 },
+      finalElements: (cached as any).finalElements || { Fire: 0, Water: 0, Earth: 0, Air: 0 },
+      ingredientContribution: (cached as any).ingredientContribution || { Fire: 0, Water: 0, Earth: 0, Air: 0 },
+      analysis: (cached as any).analysis || {
+        dominantElement: 'Fire' as Element,
+        secondaryElement: 'Water' as Element,
+        seasonalMatch: 0,
+        recommendations: []
+      }
+    };
   }
 
   const baseElements = calculateElementalBreakdown(recipe, season);

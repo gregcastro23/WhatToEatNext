@@ -114,7 +114,7 @@ export function collectPerformanceMetrics(): PerformanceMetrics {
       }
       
       // Memory metrics (Chrome only)
-      const memory = (perf as unknown).memory;
+      const memory = (perf as any).memory;
       if (memory) {
         metrics.memoryUsage = {
           jsHeapSizeLimit: memory.jsHeapSizeLimit,

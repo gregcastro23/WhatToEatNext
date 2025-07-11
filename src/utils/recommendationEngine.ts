@@ -1,8 +1,6 @@
-import { AstrologicalState, _Element, _PlanetName, ZodiacSign, _Planet } from '../types/alchemy';
+import { AstrologicalState, Element, PlanetName, ZodiacSign } from '../types/alchemy';
 import { Season, TimeFactors, WeekDay, getTimeFactors } from '../types/time';
 import { Recipe } from '../types/recipe';
-
-// @ts-nocheck
 
 // Define MealType since it's not exported from time.ts
 type MealType = 'Breakfast' | 'Lunch' | 'Dinner' | 'Snack' | 'Anytime';
@@ -57,7 +55,7 @@ const WEEKDAY_CUISINE_AFFINITIES: Record<WeekDay, string[]> = {
 function calculateElementalScore(recipeElement: Element, userElement: Element): number {
   if (recipeElement === userElement) return 1;
   // Four element system - no Aether handling needed
-  if (ELEMENTAL_AFFINITIES[userElement].includes(recipeElement)) return 0.7;
+  if (ELEMENTAL_AFFINITIES[userElement]?.includes(recipeElement)) return 0.7;
   return 0.3;
 }
 
@@ -142,7 +140,7 @@ export function calculateRecommendationScore(
   
   // Elemental scores
   if (astrologicalState.dominantElement && recipe.element) {
-    score += calculateElementalScore(recipe.element as unknown, astrologicalState.dominantElement as unknown) * 2;
+    score += calculateElementalScore(recipe.element as Element, astrologicalState.dominantElement as Element) * 2;
     factors += 2;
   }
   

@@ -52,9 +52,9 @@ export function getPlanetInfo(
     const planetPosition = planetaryPositions[planetKey];
     
     // Use safe type casting for unknown property access
-    const positionData = planetPosition as unknown;
+    const positionData = planetPosition as any;
     const planetSign = positionData?.sign || 'Unknown';
-    const planetDegree = (positionData as any)?.degree;
+    const planetDegree = positionData?.degree;
     const planetIsRetrograde = positionData?.isRetrograde;
 
     if (!planetPosition) {
@@ -129,7 +129,7 @@ export function getPlanetInfo(
     // Calculate aspects - handle special cases for lunar nodes
     let planetAspects = [];
     try {
-      const { aspects } = calculateAspects(planetaryPositions as unknown, 0);
+      const { aspects } = calculateAspects(planetaryPositions as Record<string, { sign: string; degree: number; }>, 0);
       
       // Filter aspects for this planet
       planetAspects = aspects.filter(aspect => 

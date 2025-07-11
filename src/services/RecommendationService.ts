@@ -170,10 +170,10 @@ export class RecommendationService {
   async initializeFromCurrentPositions(): Promise<RecommendationService> {
     try {
       // Calculate real-time planetary positions
-      const positions = await calculatePlanetaryPositions();
+      const positions = await getCurrentPlanetaryPositions();
       
       // Calculate current lunar phase
-      const _lunarPhase = await calculateLunarPhase(new Date());
+      const _lunarPhase = await _calculateLunarPhase(new Date());
       
       // Convert to format expected by adapter
       const lunarPhaseFormatted = convertToLunarPhase(lunarPhase);
@@ -344,7 +344,9 @@ export class RecommendationService {
     return [...items]
       .sort((a, b) => {
         // Sort by compatibility score (higher is better) - safe property access
-        return ((b as unknown)?.compatibilityScore || 0) - ((a as unknown)?.compatibilityScore || 0);
+        const aScore = (a as any)?.compatibilityScore || 0;
+        const bScore = (b as any)?.compatibilityScore || 0;
+        return bScore - aScore;
       })
       .slice(0, limit);
   }

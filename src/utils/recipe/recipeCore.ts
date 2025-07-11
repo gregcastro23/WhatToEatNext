@@ -94,7 +94,7 @@ export function calculateRecipeMatchScore(
   if (!isAppropriateForTimeOfDay(recipe, elementalState.timeOfDay)) return 0;
   
   try {
-    const baseScore = calculateElementalMatch(recipe.elementalState as unknown, elementalState as unknown);
+    const baseScore = calculateElementalMatch(recipe.elementalState as Record<string, number>, elementalState as Record<string, number>);
     let score = baseScore * 100;
     
     // Enhanced scoring factors
@@ -423,7 +423,7 @@ function scoreRecipe(
 
   // Zodiac influences from Sun sign
   // Apply safe type casting for astrological state access
-  const astrologicalData = astrologicalState as unknown;
+  const astrologicalData = astrologicalState as any;
   const sunSign = astrologicalData?.sign || astrologicalData?.sunSign;
   
   if (

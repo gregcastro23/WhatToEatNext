@@ -434,6 +434,7 @@ export function mapToIngredient(mapping: IngredientMapping): Ingredient {
 
   return {
     name,
+    amount: amount as string,
     category: category as IngredientCategory,
     elementalProperties: elementalProperties as ElementalProperties,
     qualities: qualities as string[],
@@ -451,15 +452,12 @@ export function ingredientToRecipeIngredient(
   amount = 1,
   unit = 'item'
 ): RecipeIngredient {
-  const anyIng = ingredient as Record<string, unknown>;
-
   return {
     name: ingredient.name,
     amount,
     unit,
     category: (ingredient.category ?? 'culinary_herb') as string,
     elementalProperties: ingredient.elementalProperties,
-    astrologicalProfile: ingredient.astrologicalProfile,
   };
 }
 
@@ -524,15 +522,15 @@ export function isSimpleIngredient(obj: unknown): obj is SimpleIngredient {
 export function fromSimpleIngredient(simple: SimpleIngredient): Ingredient {
   return {
     name: simple.name,
+    amount: '1',
     category: simple.category as IngredientCategory,
     elementalProperties: simple.elementalProperties,
-    qualities: [],
     storage: { duration: 'unknown' },
     astrologicalProfile: {
-      elementalAffinity: { base: getDominantElement(simple.elementalProperties as any as ElementalProperties) as Element },
+      elementalAffinity: { base: getDominantElement(simple.elementalProperties as ElementalProperties) as Element },
       rulingPlanets: [],
       zodiacAffinity: []
-    } as any
+    } as Record<string, unknown>
   };
 }
 

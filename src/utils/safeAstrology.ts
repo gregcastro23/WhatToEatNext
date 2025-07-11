@@ -261,7 +261,7 @@ export function getCurrentAstrologicalState(): AstrologicalState {
   const now = new Date();
   const positions = getReliablePlanetaryPositions();
   const _lunarPhase = calculateLunarPhase();
-  const phaseName = getLunarPhaseName(lunarPhase);
+  const phaseName = getLunarPhaseName(_lunarPhase);
   
   // Determine dominant element based on positions
   const elements = countElements(positions);
@@ -291,8 +291,8 @@ export function getCurrentAstrologicalState(): AstrologicalState {
   const dominantElementCapitalized = dominantElement.charAt(0).toUpperCase() + dominantElement.slice(1) as 'Fire' | 'Water' | 'Earth' | 'Air';
   
   const state: AstrologicalState = {
-    sunSign: toZodiacSign(positions.sun.sign as unknown),
-    moonSign: toZodiacSign(positions.moon.sign as unknown),
+    sunSign: toZodiacSign(positions.sun.sign as string),
+    moonSign: toZodiacSign(positions.moon.sign as string),
     lunarPhase: phaseName as LunarPhase,
     activePlanets,
     dominantElement: dominantElementCapitalized,

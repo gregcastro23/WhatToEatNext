@@ -576,7 +576,8 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
         heat: 0.5,
         entropy: 0.5,
         reactivity: 0.5,
-        gregsEnergy: 0.5
+        gregsEnergy: 0.5,
+        energy: 0.5
       };
     }
     
@@ -592,7 +593,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     // Calculate gregsEnergy based on Earth element
     const gregsEnergy = elemental.Earth || 0.25;
     
-    return { heat, entropy, reactivity, gregsEnergy };
+    return { heat, entropy, reactivity, gregsEnergy, energy: gregsEnergy };
   }
   
   /**
@@ -680,11 +681,12 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
           return false;
         }
         
-        const hasAllVitamins = filter.vitamins.every(vitamin => 
-          nutrition.vitamins && Array.isArray(nutrition.vitamins) 
+        const hasAllVitamins = filter.vitamins.every(vitamin => {
+          if (!nutrition.vitamins) return false;
+          return Array.isArray(nutrition.vitamins) 
             ? nutrition.vitamins.includes(vitamin) 
-            : nutrition.vitamins === vitamin
-        );
+            : Object.keys(nutrition.vitamins).includes(vitamin);
+        });
         
         if (!hasAllVitamins) {
           return false;
@@ -697,11 +699,12 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
           return false;
         }
         
-        const hasAllMinerals = filter.minerals.every(mineral => 
-          nutrition.minerals && Array.isArray(nutrition.minerals) 
+        const hasAllMinerals = filter.minerals.every(mineral => {
+          if (!nutrition.minerals) return false;
+          return Array.isArray(nutrition.minerals) 
             ? nutrition.minerals.includes(mineral) 
-            : nutrition.minerals === mineral
-        );
+            : Object.keys(nutrition.minerals).includes(mineral);
+        });
         
         if (!hasAllMinerals) {
           return false;
@@ -786,38 +789,40 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     filter: DietaryFilter
   ): UnifiedIngredient[] {
     return (ingredients || []).filter(ingredient => {
+      const dietaryArray = Array.isArray(ingredient.dietary) ? ingredient.dietary : [];
+      
       // Check vegetarian
-      if (filter.isVegetarian && !ingredient.dietary?.includes('vegetarian')) {
+      if (filter.isVegetarian && !dietaryArray.includes('vegetarian')) {
         return false;
       }
       
       // Check vegan
-      if (filter.isVegan && !ingredient.dietary?.includes('vegan')) {
+      if (filter.isVegan && !dietaryArray.includes('vegan')) {
         return false;
       }
       
       // Check gluten free
-      if (filter.isGlutenFree && !ingredient.dietary?.includes('gluten-free')) {
+      if (filter.isGlutenFree && !dietaryArray.includes('gluten-free')) {
         return false;
       }
       
       // Check dairy free
-      if (filter.isDAiryFree && !ingredient.dietary?.includes('dairy-free')) {
+      if (filter.isDAiryFree && !dietaryArray.includes('dairy-free')) {
         return false;
       }
       
       // Check nut free
-      if (filter.isNutFree && !ingredient.dietary?.includes('nut-free')) {
+      if (filter.isNutFree && !dietaryArray.includes('nut-free')) {
         return false;
       }
       
       // Check low sodium
-      if (filter.isLowSodium && !ingredient.dietary?.includes('low-sodium')) {
+      if (filter.isLowSodium && !dietaryArray.includes('low-sodium')) {
         return false;
       }
       
       // Check low sugar
-      if (filter.isLowSugar && !ingredient.dietary?.includes('low-sugar')) {
+      if (filter.isLowSugar && !dietaryArray.includes('low-sugar')) {
         return false;
       }
       

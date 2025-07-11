@@ -354,6 +354,8 @@ class CelestialCalculator {
       name,
       suit,
       value: 0, // Placeholder
+      number: 0,
+      element: elementalAssociation,
       description: `Tarot card associated with ${zodiacAssociation || planetaryAssociation || 'universal forces'}`,
       meaning: {
         upright: ['Connection', 'Harmony', 'Balance'],

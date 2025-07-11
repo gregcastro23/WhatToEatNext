@@ -163,7 +163,7 @@ export class EnhancedCuisineRecommender {
         recipe,
         astroState
       );
-      const timeOfDayScore = this.calculateTimeOfDayScore(recipe, getCurrentTimeFactors());
+      const timeOfDayScore = this.calculateTimeOfDayScore(recipe, timeFactors);
 
       // Overall match percentage - weighted combination of all scores
       const matchPercentage = this.calculateOverallMatch(
@@ -539,9 +539,9 @@ export class EnhancedCuisineRecommender {
    */
   private calculateTimeOfDayScore(
     recipe: RecipeData,
-    getCurrentTimeFactors(): TimeFactors
+    timeFactors: TimeFactors
   ): number {
-    const { timeOfDay } = getCurrentTimeFactors();
+    const { timeOfDay } = timeFactors;
 
     // Map meal types to appropriate times of day
     const mealTypeToTimeMap: Record<string, TimeOfDay[]> = {

@@ -9,7 +9,7 @@ import {
   Select, MenuItem, Checkbox, FormControlLabel,
   Accordion, AccordionSummary, AccordionDetails,
   Pagination, IconButton, InputAdornment,
-  _Rating, LinearProgress
+  Rating, LinearProgress
 } from '@mui/material';
 import {
   Search, ExpandMore, Restaurant, AccessTime, 
@@ -19,7 +19,6 @@ import {
 import { Recipe } from '@/types/recipe';
 import { useServices } from '@/hooks/useServices';
 import { fetchPlanetaryPositions } from '@/services/astrologizeApi';
-import { astrologize } from '@/services/astrologize';
 import { logger } from '@/utils/logger';
 import type { CuisineType, DietaryRestriction, ElementalProperties } from '@/types/alchemy';
 
@@ -51,7 +50,19 @@ interface RecipeScore {
   popularity: number;
 }
 
-interface EnhancedRecipe extends Recipe {
+interface EnhancedRecipe {
+  id: string;
+  name: string;
+  description?: string;
+  cuisine?: string;
+  cookTime?: number;
+  servings?: number;
+  rating?: number;
+  ingredients?: any[];
+  instructions?: string[];
+  tags?: string[];
+  elementalProperties?: ElementalProperties;
+  season?: string | string[];
   score?: RecipeScore;
   matchPercentage?: number;
 }
@@ -361,8 +372,15 @@ export default function RecipeListMigrated() {
   useEffect(() => {
     const fetchAstroData = async () => {
       try {
-        const data = await astrologize.getCurrentChart();
-        setAstroData(data);
+        const positions = await fetchPlanetaryPositions();
+        const astroData: AstrologicalData = {
+          planetaryPositions: positions || {},
+          lunarPhase: 'new',
+          currentSeason: 'summer',
+          dominantElements: { Fire: 0.3, Water: 0.2, Earth: 0.3, Air: 0.2 },
+          activePlanets: ['Sun', 'Moon', 'Mercury']
+        };
+        setAstroData(astroData);
       } catch (err) {
         // console.error('Failed to load astrological data:', err);
       }
@@ -390,7 +408,7 @@ export default function RecipeListMigrated() {
   /**
    * Multi-factor scoring system for recipes
    */
-  const calculateRecipeScore = (recipe: Recipe, astroData: AstrologicalData | null): RecipeScore => {
+  const calculateRecipeScore = (recipe: EnhancedRecipe, astroData: AstrologicalData | null): RecipeScore => {
     if (!astroData) {
       return {
         total: 50,
@@ -562,7 +580,7 @@ export default function RecipeListMigrated() {
   /**
    * Handle filter changes
    */
-  const handleFilterChange = (key: keyof FilterState, value: Record<string, unknown>) => {
+  const handleFilterChange = (key: keyof FilterState, value: any) => {
     setFilters(prev => ({ ...prev, [key]: value }));
     setPage(1); // Reset to first page when filters change
   };
@@ -739,7 +757,7 @@ export default function RecipeListMigrated() {
                 <RecipeCard
                   recipe={recipe}
                   isExpanded={expandedRecipeId === recipe.id}
-                  onToggle={() => toggleRecipe(recipe?.id)}
+                  onToggle={() => toggleRecipe(recipe.id)}
                 />
               </Grid>
             ))}
