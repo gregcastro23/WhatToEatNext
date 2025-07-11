@@ -92,18 +92,18 @@ function enhanceIngredient(ingredient: IngredientMapping, sourceCategory: string
     reactivity: 0,
     energy: 0
   };
-  const monica = calculateMonica(kalchm as unknown, thermodynamics as unknown);
+  const monica = calculateMonica(kalchm as any, thermodynamics as any);
   
   // Create enhanced unified ingredient
   return {
     // Core properties from original ingredient
-    id: ingredient.name, // Use name as ID for now
-    name: ingredient.name,
-    category: ingredient.category || sourceCategory,
-    subCategory: ingredient.subCategory,
+    id: (ingredient as any).name, // Use name as ID for now
+    name: (ingredient as any).name,
+    category: (ingredient as any).category || sourceCategory,
+    subCategory: (ingredient as any).subCategory,
     
     // Existing properties with proper type casting
-    elementalProperties: ingredient.elementalProperties as ElementalProperties,
+    elementalProperties: (ingredient as any).elementalProperties as ElementalProperties,
     alchemicalProperties: alchemicalProperties as AlchemicalProperties,
     
     // New calculated values
@@ -204,7 +204,7 @@ export function getIngredientsByCategory(category: string): UnifiedIngredient[] 
  * Get unified ingredients by subcategory
  */
 export function getUnifiedIngredientsBySubcategory(subcategory: string): UnifiedIngredient[] {
-  return Object.values(unifiedIngredients || {}).filter(ingredient => ingredient.subcategory?.toLowerCase() === subcategory?.toLowerCase()
+  return Object.values(unifiedIngredients || {}).filter(ingredient => ingredient.subCategory?.toLowerCase() === subcategory?.toLowerCase()
   );
 }
 
@@ -212,7 +212,7 @@ export function getUnifiedIngredientsBySubcategory(subcategory: string): Unified
  * Get ingredients by subcategory
  */
 export function getIngredientsBySubcategory(subcategory: string): UnifiedIngredient[] {
-  return Object.values(unifiedIngredients || {}).filter(ingredient => ingredient.subcategory?.toLowerCase() === subcategory?.toLowerCase()
+  return Object.values(unifiedIngredients || {}).filter(ingredient => ingredient.subCategory?.toLowerCase() === subcategory?.toLowerCase()
   );
 }
 
@@ -249,7 +249,7 @@ export function getIngredientsByMonicaRange(min: number, max: number): UnifiedIn
 export function getIngredientsByElement(element: keyof ElementalProperties, threshold = 0.6): UnifiedIngredient[] {
   return Object.values(unifiedIngredients)
     .filter(ingredient => {
-      const props = ingredient.elementalPropertiesState;
+      const props = ingredient.elementalProperties;
       return props && props[element] >= threshold;
     })
     .sort((a, b) => b?.elementalState?.[element] - a?.elementalState?.[element]);

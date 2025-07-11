@@ -141,7 +141,7 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
         const alchemicalDistribution = calculateAlchemicalDistribution(planetaryPositions, isDaytime);
         
         // Convert to elemental properties
-        const _elementalProps = convertToElementalProperties(alchemicalDistribution);
+        const elementalProps = convertToElementalProperties(alchemicalDistribution);
         
         // Calculate thermodynamic properties
         const thermodynamicProps = calculateThermodynamicProperties(alchemicalDistribution);
@@ -198,7 +198,7 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
       const alchemicalDistribution = calculateAlchemicalDistribution(planetaryPositions, isDaytime);
       
       // Convert to elemental properties
-      const _elementalProps = convertToElementalProperties(alchemicalDistribution);
+      const elementalProps = convertToElementalProperties(alchemicalDistribution);
       
       // Calculate thermodynamic properties
       const thermodynamicProps = calculateThermodynamicProperties(alchemicalDistribution);
@@ -225,13 +225,13 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
       // Update state with new values, but only if there's a significant change
       setAlchemicalResults(prev => {
         // Check if there's a significant change worth updating for
-        if (!isSignificantChange((prev as { elementalProps: ElementalProperties; alchemicalDistribution: AlchemicalProperties; thermodynamicProps: ThermodynamicProperties; }), { elementalProps: _elementalProps as ElementalProperties, alchemicalDistribution: alchemicalDistribution as AlchemicalProperties, thermodynamicProps: thermodynamicProps as ThermodynamicProperties })) {
+        if (!isSignificantChange((prev as { elementalProps: ElementalProperties; alchemicalDistribution: AlchemicalProperties; thermodynamicProps: ThermodynamicProperties; }), { elementalProps: elementalProps as ElementalProperties, alchemicalDistribution: alchemicalDistribution as AlchemicalProperties, thermodynamicProps: thermodynamicProps as ThermodynamicProperties })) {
           logger.debug("Skipping update - results identical to previous state");
           return prev;
         }
         
         logger.debug("Updating alchemical results with new data:", {
-          elements: _elementalProps,
+          elements: elementalProps,
           thermodynamics: thermodynamicProps
         });
         
@@ -348,7 +348,7 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
         // Only run this calculation when there's actually a change in alignment
         const positionKey = Object.entries(currentPlanetaryAlignment)
           .filter(([k, v]) => typeof v === 'object' && v !== null && 'sign' in v)
-          .map(([k, v]) => `${k}:${(v as unknown).sign}:${(v as unknown).degree || 0}`)
+          .map(([k, v]) => `${k}:${(v as any).sign}:${(v as any).degree || 0}`)
           .join('|');
         
         // Skip calculation if we've already calculated for this exact alignment
@@ -361,10 +361,10 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
         
         // Use our new alchemical energy mapping functions
         // Calculate alchemical distribution from planetary positions
-        const alchemicalDistribution = calculateAlchemicalDistribution((currentPlanetaryAlignment as unknown as Record<string, unknown>), (isDaytime as Record<string, unknown>));
+        const alchemicalDistribution = calculateAlchemicalDistribution((currentPlanetaryAlignment as any), (isDaytime as any));
         
         // Convert alchemical distribution to elemental properties
-        const _elementalProps = convertToElementalProperties(alchemicalDistribution);
+        const elementalProps = convertToElementalProperties(alchemicalDistribution);
         
         // Calculate thermodynamic properties from alchemical distribution
         const thermodynamicProps = calculateThermodynamicProperties(alchemicalDistribution);

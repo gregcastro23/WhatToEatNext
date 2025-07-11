@@ -2,9 +2,9 @@ import {
   ElementalProperties, 
   Planet, 
   ZodiacSign, 
-  ThermodynamicMetrics,
   Element
 } from '../types';
+import { ThermodynamicMetrics } from '../types/alchemy';
 
 import { Recipe } from '../types/recipe';
 import { Ingredient } from '../types/ingredient';
@@ -183,14 +183,14 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       }
       
       // Check for planetary ruler match
-      if (criteria.planetaryRuler && ingredient.astrologicalProperties?.planets) {
-        const planets = ingredient.astrologicalProperties.planets;
+      if (criteria.planetaryRuler && (ingredient.astrologicalProperties as any)?.planets) {
+        const planets = (ingredient.astrologicalProperties as any).planets;
         const planetMatch = Array.isArray(planets) ? planets.includes(criteria.planetaryRuler as unknown as Record<string, any>) : planets === criteria.planetaryRuler as unknown as Record<string, any>;
         score += planetMatch ? 0.1 : 0;
       }
       
       // Check for season match with safe type casting
-      const currentSeason = criteriaData?.currentSeason || criteriaData?.season;
+      const currentSeason = (criteriaData as any)?.currentSeason || (criteriaData as any)?.season;
       if (currentSeason && ingredient.seasonality) {
         const seasonMatch = (ingredient.seasonality || []).some(s =>
           s?.toLowerCase() === currentSeason?.toLowerCase()
@@ -462,7 +462,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     target: ElementalProperties
   ): number {
     // Apply Pattern PP-1: Safe service method access
-    const alchemicalEngineData = alchemicalEngine as unknown;
+    const alchemicalEngineData = alchemicalEngine as any;
     if (alchemicalEngineData?.calculateElementalCompatibility) {
       return alchemicalEngineData.calculateElementalCompatibility(source, target);
     }
@@ -539,7 +539,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
    */
   calculateThermodynamics(elementalProperties: ElementalProperties): ThermodynamicMetrics {
     // Use the AlchemicalEngine to calculate thermodynamic metrics
-    const alchemicalEngineData = alchemicalEngine as unknown;
+    const alchemicalEngineData = alchemicalEngine as any;
     if (alchemicalEngineData?.calculateThermodynamics) {
       return alchemicalEngineData.calculateThermodynamics(elementalProperties);
     }

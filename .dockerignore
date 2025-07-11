@@ -72,7 +72,6 @@ LICENSE
 *.md
 
 # Project-specific files to exclude
-scripts/
 docs/
 tests/
 patches/

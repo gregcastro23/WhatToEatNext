@@ -77,7 +77,7 @@ const processCuisineRecipes = (cuisine: Partial<Cuisine>): Cuisine => {
     if (!mealType) return { spring: [], summer: [], autumn: [], winter: [] };
     
     // Use safe type casting for mealType property access
-    const mealData = mealType as unknown;
+    const mealData = mealType as any;
     
     // Extract the "all" recipes that should be added to each season
     // Make sure "all" is an array even if it's not defined

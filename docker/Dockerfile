@@ -20,8 +20,21 @@ FROM base AS deps
 # Copy package files
 COPY package.json yarn.lock .yarnrc ./
 
+# Set platform-specific environment variables for Linux container
+ENV npm_config_platform=linux
+ENV npm_config_arch=x64
+ENV npm_config_target_platform=linux
+ENV npm_config_target_arch=x64
+
+# Create a temporary package.json without the problematic resolution
+RUN cp package.json package.json.backup && \
+    sed -i '/"resolutions": {/,/}/d' package.json
+
 # Install dependencies with frozen lockfile for reproducible builds
 RUN yarn install --frozen-lockfile --production=false
+
+# Restore original package.json
+RUN mv package.json.backup package.json
 
 # Stage 3: Build the application
 FROM base AS builder
@@ -37,6 +50,8 @@ COPY . .
 # Environment variables for build
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
+ENV npm_config_platform=linux
+ENV npm_config_arch=x64
 
 # Build the application
 RUN yarn build

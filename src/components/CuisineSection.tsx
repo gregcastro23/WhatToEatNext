@@ -284,33 +284,33 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
   const isRegionalVariant = Array.isArray(cuisineRecipes) && cuisineRecipes.some(r => {
     // Apply surgical type casting with variable extraction
     const recipeData = r as unknown;
-    const cuisineStringForRegional = cuisine as unknown;
+    const cuisineStringForRegional = cuisine as any;
     const cuisineLowerForRegional = cuisineStringForRegional?.toLowerCase?.();
     
-    return (recipeData as unknown)?.regionalCuisine?.toLowerCase() === cuisineLowerForRegional;
+    return (recipeData as any)?.regionalCuisine?.toLowerCase() === cuisineLowerForRegional;
   });
   const parentCuisineName = isRegionalVariant && Array.isArray(cuisineRecipes) ? (() => {
     const foundRecipe = cuisineRecipes.find(r => {
       const recipeData = r as unknown;
-      return (recipeData as unknown)?.regionalCuisine?.toLowerCase() === cuisine?.toLowerCase();
+      return (recipeData as any)?.regionalCuisine?.toLowerCase() === cuisine?.toLowerCase();
     });
     const foundRecipeData = foundRecipe as unknown;
-    return (foundRecipeData as unknown)?.cuisine;
+    return (foundRecipeData as any)?.cuisine;
   })() : null;
   
   // Check if this is a parent cuisine with regional variants shown
   const hasRegionalVariants = Array.isArray(cuisineRecipes) && cuisineRecipes.some(r => {
     const recipeData = r as unknown;
-    return (recipeData as unknown)?.regionalCuisine && (recipeData as unknown)?.cuisine?.toLowerCase() === cuisine?.toLowerCase();
+    return (recipeData as any)?.regionalCuisine && (recipeData as any)?.cuisine?.toLowerCase() === cuisine?.toLowerCase();
   });
   const regionalVariantNames = [...new Set(Array.isArray(cuisineRecipes) ? cuisineRecipes
     .filter(r => {
       const recipeData = r as unknown;
-      return (recipeData as unknown)?.regionalCuisine && (recipeData as unknown)?.cuisine?.toLowerCase() === cuisine?.toLowerCase();
+      return (recipeData as any)?.regionalCuisine && (recipeData as any)?.cuisine?.toLowerCase() === cuisine?.toLowerCase();
     })
     .map(r => {
       const recipeData = r as unknown;
-      return (recipeData as unknown)?.regionalCuisine;
+      return (recipeData as any)?.regionalCuisine;
     }) : [])] as string[];
 
   // Render a sauce card
@@ -372,7 +372,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
         <div className="flex justify-between items-start mb-2">
           <h3 className="text-lg font-semibold">{recipe.name}</h3>
           {recipe.matchScore !== undefined && (
-            renderScoreBadge((recipe.matchScore as unknown) || 0, !!recipe.dualMatch)
+            renderScoreBadge((recipe.matchScore as any) || 0, !!recipe.dualMatch)
           )}
         </div>
         

@@ -193,7 +193,7 @@ const FoodRecommender: React.FC = () => {
                         // Handle both array and object structures
                         const ingredientItems = Array.isArray(items) ? items : Object.values(items);
                         
-                        return (ingredientItems as unknown)?.map?.((ingredient: unknown) => {
+                        return (ingredientItems as any)?.map?.((ingredient: unknown) => {
                             const ingredientData = ingredient as unknown;
                             const name = (ingredientData as { name?: string })?.name || '';
                             return {
@@ -271,7 +271,7 @@ const FoodRecommender: React.FC = () => {
                                     
                                     // Normalize
                                     // Pattern KK-8: Advanced calculation safety for reduction and division operations
-                                    const total = Object.values(elementalProps).reduce((sum: number, val: Record<string, unknown>) => {
+                                    const total = Object.values(elementalProps).reduce((sum: number, val: any) => {
                                         const numericSum = Number(sum) || 0;
                                         const numericVal = Number(val) || 0;
                                         return numericSum + numericVal;
@@ -312,7 +312,7 @@ const FoodRecommender: React.FC = () => {
                 
                 // Check if the adapter has the updatePlanetaryData method before calling
                 if (typeof (adapter as { updatePlanetaryData?: Function }).updatePlanetaryData === 'function') {
-                    await (adapter as { updatePlanetaryData: Function }).updatePlanetaryData(
+                    await (adapter as any).updatePlanetaryData(
                         planetaryPositions,
                         isDaytime,
                         currentZodiac || '',
@@ -464,12 +464,12 @@ const FoodRecommender: React.FC = () => {
             };
             
             // Calculate alchemical properties
-            const alchemicalProps = calculateAlchemicalProperties((ingredientObj as Ingredient));
+            const alchemicalProps = calculateAlchemicalProperties((ingredientObj as any));
             
             // Calculate thermodynamic properties
             const thermodynamicProps = calculateThermodynamicProperties(
                 alchemicalProps, 
-                ingredientData.elementalProperties
+                ingredientData.elementalProperties as any
             );
             
             return {
@@ -601,13 +601,13 @@ const FoodRecommender: React.FC = () => {
                         </div>
                     ) : (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                            {(transformedIngredients as unknown)?.map?.((ingredient, index) => {
+                            {(transformedIngredients as any)?.map?.((ingredient, index) => {
                                 // Calculate additional properties
                                 const { alchemical, thermodynamic } = calculateIngredientProperties(ingredient);
 
                                 return (
                                 <div key={index} className="bg-opacity-20 bg-purple-900 rounded-lg p-4 hover:bg-opacity-30 transition-all">
-                                    <h4 className="font-medium text-white capitalize">{(ingredient as unknown)?.name.replace('_', ' ')}</h4>
+                                    <h4 className="font-medium text-white capitalize">{(ingredient as any)?.name.replace('_', ' ')}</h4>
                                     
                                     {ingredient.category && (
                                         <div className="text-xs text-gray-400 mb-2">{ingredient.category}</div>
@@ -756,7 +756,7 @@ const FoodRecommender: React.FC = () => {
                                                 
                                                 // Get color based on element
                                                 const getElementColor = (elem: string) => {
-                                                    switch((elem as unknown)?.toLowerCase?.()) {
+                                                    switch((elem as any)?.toLowerCase?.()) {
                                                         case 'fire': return 'bg-orange-500';
                                                         case 'water': return 'bg-blue-500';
                                                         case 'earth': return 'bg-green-500';
@@ -767,7 +767,7 @@ const FoodRecommender: React.FC = () => {
                                                 
                                                 // Show tarot highlight for elements matching the tarot card
                                                 const isTarotElement = minorCard && 
-                                                    (element as unknown)?.toLowerCase?.() === (minorCard as unknown)?.element?.toLowerCase();
+                                                    (element as any)?.toLowerCase?.() === (minorCard as any)?.element?.toLowerCase();
                                                 
                                                 return (
                                                     <div key={element} className="relative">
