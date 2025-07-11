@@ -367,5 +367,5 @@ export async function dynamicImportAndExecute<R, A extends any[] = any[], F = R>
   fallbackFn: ((...args: A) => F) | null = null
 ): Promise<R | F | null> {
   debugLog('dynamicImportAndExecute is deprecated, use safeImportAndExecute instead');
-  return safeImportAndExecute<R, A>(path, functionName, _args);
+  return safeImportAndExecute<R, A>(path, functionName, args);
 } 

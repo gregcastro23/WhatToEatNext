@@ -1,8 +1,8 @@
 import { 
   ElementalProperties, 
-  _Planet, 
+  Planet, 
   ZodiacSign, 
-  _ThermodynamicMetrics,
+  ThermodynamicMetrics,
   Element
 } from '../types';
 

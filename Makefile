@@ -432,3 +432,22 @@ docs:
 	@echo "  Build fixes: docs/build-fixes.md"
 	@echo "  Scripts: scripts/QUICK_REFERENCE.md"
 	@echo "  Inventory: scripts/INVENTORY.md" 
+strict-check:
+	@echo "🔒 Running strict TypeScript check..."
+	yarn type-check:strict
+
+update-deps:
+	@echo "📦 Updating dependencies..."
+	yarn deps:update
+
+phase-full-report:
+	@echo "📊 Full Phase Report:"
+	@make phase-status
+	@make errors-by-type
+	@make errors-by-file
+	@make strict-check
+
+run-script:
+	@if [ -z "$(script)" ]; then echo "❌ Specify script with make run-script script=path/to/script.js"; exit 1; fi
+	@echo "🛠️ Running $$script --dry-run"
+	node $$script --dry-run 

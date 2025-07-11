@@ -33,11 +33,11 @@ const PlanetaryTimeDisplay: React.FC<PlanetaryTimeDisplayProps> = ({
   if (compact) {
     return (
       <div className={`flex items-center text-sm ${className}`}>
-        <span className="mr-2">{getPlanetEmoji(timeFactors.planetaryDay.planet)}</span>
-        <span className="font-medium">{timeFactors.planetaryDay.planet}</span>
+        <span className="mr-2">{getPlanetEmoji(_timeFactors.planetaryDay.planet)}</span>
+        <span className="font-medium">{_timeFactors.planetaryDay.planet}</span>
         <span className="mx-2">|</span>
-        <span className="mr-2">{getPlanetEmoji(timeFactors.planetaryHour.planet)}</span>
-        <span className="font-medium">{timeFactors.planetaryHour.planet}</span>
+        <span className="mr-2">{getPlanetEmoji(_timeFactors.planetaryHour.planet)}</span>
+        <span className="font-medium">{_timeFactors.planetaryHour.planet}</span>
       </div>
     );
   }
@@ -47,20 +47,20 @@ const PlanetaryTimeDisplay: React.FC<PlanetaryTimeDisplayProps> = ({
       <h3 className="text-md font-medium mb-2">Cosmic Time Influences</h3>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
         <div className="flex items-center">
-          <span className="mr-2">{getPlanetEmoji(timeFactors.planetaryDay.planet)}</span>
-          <span>Day: <span className="font-medium">{timeFactors.weekDay}</span> ruled by <span className="font-medium">{timeFactors.planetaryDay.planet}</span></span>
+          <span className="mr-2">{getPlanetEmoji(_timeFactors.planetaryDay.planet)}</span>
+          <span>Day: <span className="font-medium">{_timeFactors.weekDay}</span> ruled by <span className="font-medium">{_timeFactors.planetaryDay.planet}</span></span>
         </div>
         <div className="flex items-center">
-          <span className="mr-2">{getPlanetEmoji(timeFactors.planetaryHour.planet)}</span>
-          <span>Hour: <span className="font-medium">{timeFactors.planetaryHour.planet}</span></span>
+          <span className="mr-2">{getPlanetEmoji(_timeFactors.planetaryHour.planet)}</span>
+          <span>Hour: <span className="font-medium">{_timeFactors.planetaryHour.planet}</span></span>
         </div>
         <div className="flex items-center">
           <span className="mr-2">🌡️</span>
-          <span>Season: <span className="font-medium">{timeFactors.season}</span></span>
+          <span>Season: <span className="font-medium">{_timeFactors.season}</span></span>
         </div>
         <div className="flex items-center">
           <span className="mr-2">🕰️</span>
-          <span>Time of Day: <span className="font-medium">{timeFactors.timeOfDay}</span></span>
+          <span>Time of Day: <span className="font-medium">{_timeFactors.timeOfDay}</span></span>
         </div>
       </div>
     </div>

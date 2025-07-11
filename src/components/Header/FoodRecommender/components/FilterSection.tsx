@@ -9,7 +9,7 @@ import { cuisines } from '@/data/cuisines';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { AlchemicalEngineAdvanced as AlchemicalEngine } from '@/calculations/alchemicalEngine';
 import { calculateSeasonalElements } from '@/calculations/seasonalCalculations';
-import { _getCurrentSeason, getDayOfYear, getMoonPhase, _getTimeOfDay } from '@/utils/dateUtils';
+import { getCurrentSeason, getDayOfYear, getMoonPhase, getTimeOfDay } from '@/utils/dateUtils';
 import { logger } from '@/utils/logger';
 
 type FilterSectionProps = {

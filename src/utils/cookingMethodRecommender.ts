@@ -1305,7 +1305,7 @@ export function calculateMethodScore(method: CookingMethodProfile, astroState: A
   }
   
   // Add a small method-specific variance to prevent identical scores
-  const methodNameLength = (method as CookingMethodProfile)?.name?.length || 10;
+  const methodNameLength = (method as Record<string, any>)?.name?.length || 10;
   const methodSpecificVariance = (methodNameLength % 7) * 0.01;
   
   // Calculate final score with all enhancements
@@ -1318,7 +1318,7 @@ export function calculateMethodScore(method: CookingMethodProfile, astroState: A
 
 // Helper function to get method elemental profile
 function getMethodElementalProfile(method: CookingMethodProfile): ElementalProperties {
-  return (method as CookingMethodProfile)?.elementalProperties || (method as CookingMethodProfile)?.elementalEffect || { 
+  return (method as Record<string, any>)?.elementalProperties || (method as Record<string, any>)?.elementalEffect || { 
     Fire: 0, 
     Water: 0, 
     Earth: 0, 
@@ -1411,7 +1411,7 @@ export function getCookingMethodRecommendations(
   .sort((a, b) => b.score - a.score);
   
   // Return top recommendations (limit if specified)
-  const limit = (options as MethodRecommendationOptions)?.limit || 10;
+  const limit = (options as Record<string, any>)?.limit || 10;
   return recommendations.slice(0, limit);
 }
 
@@ -1502,14 +1502,14 @@ interface EnhancedThermodynamicProperties extends BasicThermodynamicProperties {
 }
 
 export function getEnhancedMethodThermodynamics(method: CookingMethodProfile): EnhancedThermodynamicProperties {
-  const methodNameLower = (method as CookingMethodData)?.name?.toLowerCase?.() as CookingMethodEnum;
+  const methodNameLower = (method as unknown as CookingMethodData)?.name?.toLowerCase?.() as unknown as CookingMethodEnum;
 
   // Get basic thermodynamic properties
   const basicProps = getMethodThermodynamics(method);
   
   // Get alchemical properties from the method data
-  const methodData = method as CookingMethodData;
-  const alchemicalProps = methodData?.alchemicalProperties || {
+  const methodData = method as unknown as CookingMethodData;
+  const alchemicalProps = (methodData as Record<string, any>)?.alchemicalProperties || {
     Spirit: 0.5,
     Essence: 0.5,
     Matter: 0.5,
@@ -1590,12 +1590,12 @@ export { _calculateAspectMethodAffinity };
 function convertToCookingMethodData(method: CookingMethodProfile): CookingMethodData {
   // If it's already a CookingMethodData, return it
   if (method && typeof method === 'object' && 'id' in method && 'name' in method) {
-    return method as CookingMethodData;
+    return method as unknown as CookingMethodData;
   }
   
   // If it's a CookingMethodModifier, convert it
   if (method && typeof method === 'object' && 'element' in method) {
-    const modifier = method as CookingMethodModifier;
+    const modifier = method as Record<string, any>;
     return {
       id: `method_${modifier.element}_${modifier.intensity}`,
       name: `${modifier.element} method`,

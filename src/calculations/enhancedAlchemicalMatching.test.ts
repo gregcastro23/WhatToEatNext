@@ -1,7 +1,7 @@
 import { 
   calculateAstrologicalAffinity, 
   calculateAlchemicalCompatibility,
-  __generateEnhancedRecommendation,
+  generateEnhancedRecommendation,
   validateAlgorithms
 } from './enhancedAlchemicalMatching';
 import { ZodiacSign } from '@/types/alchemy';
@@ -134,7 +134,7 @@ describe('Enhanced Alchemical Matching Algorithms', () => {
     });
   });
   
-  describe('_generateEnhancedRecommendation', () => {
+  describe('generateEnhancedRecommendation', () => {
     it('should generate recommendations based on dominant element and modality', () => {
       const mockResultCardinalFire = {
         elements: { Fire: 0.6, Water: 0.2, Earth: 0.1, Air: 0.1 },
@@ -158,8 +158,8 @@ describe('Enhanced Alchemical Matching Algorithms', () => {
         }
       };
       
-      const recCardinalFire = _generateEnhancedRecommendation(mockResultCardinalFire);
-      const recMutableAir = _generateEnhancedRecommendation(mockResultMutableAir);
+      const recCardinalFire = generateEnhancedRecommendation(mockResultCardinalFire);
+      const recMutableAir = generateEnhancedRecommendation(mockResultMutableAir);
       
       // Cardinal Fire should recommend techniques like grilling
       expect(recCardinalFire.cookingMethod).toMatch(/grilling|roasting|flame cooking/);
@@ -186,7 +186,7 @@ describe('Enhanced Alchemical Matching Algorithms', () => {
       
       // User doesn't eat chicken
       const _userPreferences = ['chicken'];
-      const recommendation = _generateEnhancedRecommendation(mockResult, _userPreferences);
+      const recommendation = generateEnhancedRecommendation(mockResult, _userPreferences);
       
       // Should not recommend chicken
       expect(recommendation.mainIngredient).not.toContain('chicken');
@@ -205,7 +205,7 @@ describe('Enhanced Alchemical Matching Algorithms', () => {
       };
       
       // Test winter recommendations
-      const winterRecommendation = _generateEnhancedRecommendation(mockResult, [], 'winter');
+      const winterRecommendation = generateEnhancedRecommendation(mockResult, [], 'winter');
       
       // Should mention seasonal effects in reasoning
       expect(winterRecommendation.reasoning.seasonal).toContain('Winter');

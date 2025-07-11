@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef } from 'react';
 import { useAstrologicalState } from '@/hooks/useAstrologicalState';
-import { _CelestialPosition, _PlanetaryAlignment } from '@/types/celestial';
+import { _CelestialPosition, PlanetaryAlignment } from '@/types/celestial';
 
 import { Sun, Moon, Star, Wind, Droplets, Flame, Mountain, Info } from 'lucide-react';
 import { logger } from '@/utils/logger';

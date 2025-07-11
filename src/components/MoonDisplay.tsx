@@ -245,11 +245,11 @@ const MoonDisplay: React.FC = () => {
           // Calculate current lunar phase (0-1)
           const _currentPhase = await calculatePhase(new Date());
           // Get phase name
-          const phaseName = getPhaseName(currentPhase);
+          const phaseName = getPhaseName(_currentPhase);
           // Get illumination percentage
           const illuminationPct = await getIllumination(new Date());
           
-          debugLog('Lunar phase calculation:', {
+          _debugLog('Lunar phase calculation:', {
             phaseValue: _currentPhase,
             phaseName,
             illuminationPct
@@ -320,7 +320,7 @@ const MoonDisplay: React.FC = () => {
   // Add useEffect to log data for debugging
   useEffect(() => {
     // Debug logging to help diagnose issues
-    debugLog('Planetary positions debug:', {
+    _debugLog('Planetary positions debug:', {
       moon: planetaryPositions.moon,
       northNode: planetaryPositions.northNode,
       southNode: planetaryPositions.southNode,
@@ -328,10 +328,10 @@ const MoonDisplay: React.FC = () => {
     });
     
     // If the moon position is available and has proper sign information
-    const moonData = planetaryPositions.moon as unknown;
+    const moonData = planetaryPositions.moon as Record<string, any>;
     if (planetaryPositions.moon && moonData?.sign) {
       // No need for additional calculations - the context already has the sign and degree
-      debugLog('Moon position available from planetary alignment:', planetaryPositions.moon);
+      _debugLog('Moon position available from planetary alignment:', planetaryPositions.moon);
     }
     
     // Only run this on component mount or when planetary positions change
@@ -346,8 +346,8 @@ const MoonDisplay: React.FC = () => {
     
     // Check for north node data only once when positions are available
     const northNodeMissing = !planetaryPositions.northNode && !planetaryPositions.northnode;
-    const moonData = planetaryPositions.moon as unknown;
-    const northNodeData = (planetaryPositions.northNode || planetaryPositions.northnode) as unknown;
+    const moonData = planetaryPositions.moon as Record<string, any>;
+    const northNodeData = (planetaryPositions.northNode || planetaryPositions.northnode) as Record<string, any>;
     const northNodeIncomplete = 
       (planetaryPositions.northNode && !northNodeData?.sign) || 
       (planetaryPositions.northnode && !northNodeData?.sign);
@@ -384,13 +384,13 @@ const MoonDisplay: React.FC = () => {
           <p className="font-medium capitalize">{moonPhase.phase.replace(/_/g, ' ')}</p>
           <p className="text-sm text-gray-300">
             {(() => {
-              const moonData = moon as unknown;
+              const moonData = moon as Record<string, any>;
               return moonData?.sign 
                 ? `Moon in ${capitalizeFirstLetter(moonData.sign)} ${formatDegree(moonData.degree)}` 
                 : 'Loading...';
             })()}
             {(() => {
-              const moonData = moon as unknown;
+              const moonData = moon as Record<string, any>;
               return moonData?.isRetrograde ? ' ℞' : '';
             })()}
           </p>

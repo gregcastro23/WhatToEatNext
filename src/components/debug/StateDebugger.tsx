@@ -5,6 +5,7 @@ import { useAlchemical } from '@/contexts/AlchemicalContext/hooks'
 import { logger } from '@/utils/logger';
 import { PlanetaryHourCalculator } from '@/lib/PlanetaryHourCalculator'
 import { getCurrentSeason, getTimeOfDay } from '@/utils/dateUtils';
+import alchemize from '@/calculations/alchemize'; // Assuming path to alchemize function
 
 export function StateDebugger() {
   const { state, planetaryPositions } = useAlchemical()
@@ -15,6 +16,8 @@ export function StateDebugger() {
   const [currentSeason, setCurrentSeason] = useState('Unknown')
   const [timeOfDay, setTimeOfDay] = useState('Unknown')
   const [currentZodiac, setCurrentZodiac] = useState('Unknown')
+  // Add state for metrics
+  const [metrics, setMetrics] = useState({ heat: 0, entropy: 0, reactivity: 0, gregsEnergy: 0, kalchm: 0, monica: 0 });
 
   useEffect(() => {
     setMounted(true)
@@ -199,6 +202,15 @@ export function StateDebugger() {
   // Token symbol for display
   const tokenSymbol = '⦿'
 
+  // In useEffect, after fetching data
+  if (planetaryPositions) {
+    const positionsForAlchemize = Object.fromEntries(
+      Object.entries(planetaryPositions).map(([planet, data]) => [planet, data.sign])
+    );
+    const calculatedMetrics = alchemize(positionsForAlchemize);
+    setMetrics(calculatedMetrics);
+  }
+
   return (
     <div className="fixed bottom-4 right-4 p-4 bg-black/85 text-white rounded-lg text-xs max-w-sm max-h-96 overflow-auto shadow-lg border border-gray-600">
       <h3 className="font-bold mb-2 text-indigo-300">🔮 Debug Info</h3>
@@ -270,6 +282,29 @@ export function StateDebugger() {
             <p className="text-gray-300">Current: {typeof state.currentEnergy === 'number' ? (state.currentEnergy as number).toFixed(2) : 'Unknown'}</p>
           </div>
         )}
+
+        {/* Planetary Positions */}
+        <div>
+          <p className="font-semibold text-purple-300 mb-1">🪐 Planetary Positions</p>
+          <ul className="space-y-1 text-gray-300 text-xs">
+            {Object.entries(planetaryPositions || {}).map(([planet, data]) => (
+              <li key={planet}>{planet}: {data.sign} at {data.degree?.toFixed(1)}°</li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Alchemical Metrics */}
+        <div>
+          <p className="font-semibold text-green-300 mb-1">⚗️ Alchemical Metrics</p>
+          <ul className="space-y-1 text-gray-300 text-xs">
+            <li>Heat: {metrics.heat.toFixed(3)}</li>
+            <li>Entropy: {metrics.entropy.toFixed(3)}</li>
+            <li>Reactivity: {metrics.reactivity.toFixed(3)}</li>
+            <li>Greg's Energy: {metrics.gregsEnergy.toFixed(3)}</li>
+            <li>Kalchm: {metrics.kalchm.toFixed(3)}</li>
+            <li>Monica: {metrics.monica.toFixed(3)}</li>
+          </ul>
+        </div>
       </div>
     </div>
   )

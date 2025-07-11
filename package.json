@@ -65,6 +65,7 @@
     "ci:type-check": "yarn type-check",
     "security:audit": "yarn audit --level moderate",
     "security:check": "yarn audit --level high",
+    "type-check:strict": "tsc -p config/typescript/tsconfig.strict.json --noEmit",
     "deps:check": "yarn outdated",
     "deps:update": "yarn upgrade-interactive --latest"
   },

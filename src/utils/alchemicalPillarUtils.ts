@@ -196,12 +196,12 @@ export function applyPillarTransformation(
   
   // Also apply elemental effects if the item has elemental properties and the pillar has elemental associations
   if (pillar?.elementalAssociations) {
-    const _primaryElement = (pillar as any)?.elementalAssociations.primary;
+    const __primaryElement = (pillar as any)?.elementalAssociations.primary;
     const secondaryElement = (pillar as any)?.elementalAssociations.secondary;
     
     // Apply effects to elemental properties if they exist in the item
     if ('fire' in transformedItem && typeof transformedItem.fire === 'number') {
-      if (primaryElement === 'Fire') {
+      if (_primaryElement === 'Fire') {
         transformedItem.fire *= 1.2; // Boost primary element by 20%
       } else if (secondaryElement === 'Fire') {
         transformedItem.fire *= 1.1; // Boost secondary element by 10%
@@ -212,7 +212,7 @@ export function applyPillarTransformation(
     }
     
     if ('water' in transformedItem && typeof transformedItem.water === 'number') {
-      if (primaryElement === 'Water') {
+      if (_primaryElement === 'Water') {
         transformedItem.water *= 1.2;
       } else if (secondaryElement === 'Water') {
         transformedItem.water *= 1.1;
@@ -222,7 +222,7 @@ export function applyPillarTransformation(
     }
     
     if ('air' in transformedItem && typeof transformedItem.air === 'number') {
-      if (primaryElement === 'Air') {
+      if (_primaryElement === 'Air') {
         transformedItem.air *= 1.2;
       } else if (secondaryElement === 'Air') {
         transformedItem.air *= 1.1;
@@ -232,7 +232,7 @@ export function applyPillarTransformation(
     }
     
     if ('earth' in transformedItem && typeof transformedItem.earth === 'number') {
-      if (primaryElement === 'Earth') {
+      if (_primaryElement === 'Earth') {
         transformedItem.earth *= 1.2;
       } else if (secondaryElement === 'Earth') {
         transformedItem.earth *= 1.1;
@@ -457,15 +457,15 @@ const getMethodCompatibility = (
   
   // Element match - if both the transformed item and pillar have elemental associations
   if ((transformedItem as any)?.element && (pillar as any)?.elementalAssociations) {
-    const _primaryElement = (pillar as any)?.elementalAssociations.primary;
+    const __primaryElement = (pillar as any)?.elementalAssociations.primary;
     
     // Primary element match (case insensitive)
-          if ((primaryElement as any)?.toLowerCase?.() === (transformedItem as any)?.element?.toLowerCase?.()) {
+          if ((_primaryElement as any)?.toLowerCase?.() === (transformedItem as any)?.element?.toLowerCase?.()) {
       const bonus = 20;
       compatibility += bonus;
-      // console.log(`✓ Primary element match (${primaryElement}): +${bonus}% → ${compatibility}%`);
+      // console.log(`✓ Primary element match (${_primaryElement}): +${bonus}% → ${compatibility}%`);
     } else {
-      // console.log(`✗ No primary element match (${primaryElement} vs ${(transformedItem as any)?.element})`);
+      // console.log(`✗ No primary element match (${_primaryElement} vs ${(transformedItem as any)?.element})`);
     }
     
     // Secondary element match (if defined)
@@ -488,12 +488,12 @@ const getMethodCompatibility = (
   };
   
   if ((transformedItem as any)?.element && (pillar as any)?.elementalAssociations) {
-    const _primaryElement = (pillar as any)?.elementalAssociations.primary?.toLowerCase?.();
+    const __primaryElement = (pillar as any)?.elementalAssociations.primary?.toLowerCase?.();
     
-          if (complementaryPairs[(transformedItem as any)?.element?.toLowerCase?.()]?.includes(primaryElement)) {
+          if (complementaryPairs[(transformedItem as any)?.element?.toLowerCase?.()]?.includes(_primaryElement)) {
       const bonus = 10;
       compatibility += bonus;
-      // console.log(`✓ Complementary elements (${(transformedItem as any)?.element} - ${primaryElement}): +${bonus}% → ${compatibility}%`);
+      // console.log(`✓ Complementary elements (${(transformedItem as any)?.element} - ${_primaryElement}): +${bonus}% → ${compatibility}%`);
     } else {
       // console.log(`✗ No complementary elements relationship detected`);
     }

@@ -2,7 +2,7 @@ import { RulingPlanet } from '../constants/planets';
 import { 
   ElementalCharacter, 
   AlchemicalProperty,
-  _getPlanetaryElement,
+  getPlanetaryElement,
   getPlanetaryAlchemicalProperty
 } from '../constants/planetaryElements';
 import {
@@ -424,10 +424,10 @@ const applyElementalInfluences = (
  */
 const getDominantElement = (
   transformedProperties: Record<ElementalCharacter, number>
-): _ElementalCharacter => {
+): ElementalCharacter => {
   try {
     let maxValue = -Infinity;
-    let dominantElement: _ElementalCharacter = 'Fire'; // Default
+    let dominantElement: ElementalCharacter = 'Fire'; // Default
     
     (Object.entries(transformedProperties) as [ElementalCharacter, number][]).forEach(([element, value]) => {
       // Pattern KK-8: Advanced calculation safety for comparison operations

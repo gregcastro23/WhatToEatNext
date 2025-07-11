@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useMemo, useCallback, FC, ReactNode, useRef } from 'react';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { RulingPlanet, RULING_PLANETS } from '@/constants/planets';
-import { _ElementalCharacter } from '@/constants/planetaryElements';
+import { ElementalCharacter } from '@/constants/planetaryElements';
 import { useAstrologicalState } from '@/hooks/useAstrologicalState';
 import styles from './ElementalEnergyDisplay.module.css';
 import { Flame, Droplets, Mountain, Wind, Shield, CornerUpRight, Shuffle, Sparkles, Anchor } from 'lucide-react';
@@ -19,7 +19,7 @@ import { AlchemicalContextType } from '@/contexts/AlchemicalContext/context';
 import { createLogger } from '@/utils/logger';
 import { 
   _CelestialPosition, 
-  _PlanetaryAlignment, 
+  PlanetaryAlignment, 
   _Modality, 
   Element,
   AlchemicalProperties, 

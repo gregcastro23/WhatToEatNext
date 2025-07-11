@@ -19,7 +19,7 @@ import { fruits } from '../data/ingredients/fruits'
 import { vegetables } from '../data/ingredients/vegetables'
 import { seasonings } from '../data/ingredients/seasonings'
 import { _cache } from '../utils/cache'
-import { _validateElementalProperties } from '../types/recipe'
+import { validateElementalProperties } from '../types/recipe'
 import { RecipeIngredient } from '../types/recipeIngredient'
 import { recipeElementalService } from './RecipeElementalService'
 

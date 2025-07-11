@@ -88,7 +88,7 @@ export class CulinaryAstrologer {
   };
   
   // Add currentSeason field that's used in calculateCuisineBoost
-  private currentSeason: _Season = 'spring';
+  private currentSeason: Season = 'spring';
 
   getGuidance(astroState: AstrologicalState, season: Season): AstrologicalCulinaryGuidance {
     // Base recommendations directly on astrological state without elemental balance
@@ -96,7 +96,7 @@ export class CulinaryAstrologer {
       dominantElement: this.getDominantElementFromAstro(astroState),
       technique: this.getOptimalTechnique(astroState),
       ingredientFocus: this.getIngredientFocus(astroState),
-      cuisineRecommendation: this.getCuisineRecommendation(astroState, _season)
+      cuisineRecommendation: this.getCuisineRecommendation(astroState, season)
     };
   }
 
@@ -134,7 +134,7 @@ export class CulinaryAstrologer {
     const _planetScore = method.astrologicalInfluences?.dominantPlanets?.reduce((sum, planet) => 
       sum + (astroState.activePlanets.includes(planet) ? 0.2 : 0), 0) || 0;
     
-    return planetScore;
+    return _planetScore;
   }
 
   private calculateOptimalTiming(method: CookingMethodData, astroState: AstrologicalState): string {
@@ -369,7 +369,7 @@ export class CulinaryAstrologer {
     // Normalize the planet score
     const maxPossiblePlanetScore = recipe.astrologicalProfile.rulingPlanets.length; 
     const normalizedPlanetScore = maxPossiblePlanetScore > 0 ? 
-      planetScore / maxPossiblePlanetScore : 0;
+      _planetScore / maxPossiblePlanetScore : 0;
     
     // Combine with zodiac match
     return (normalizedPlanetScore * 0.7) + 

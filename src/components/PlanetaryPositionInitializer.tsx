@@ -22,20 +22,20 @@ interface RetryStatus {
 
 // Use PlanetaryPositions interface with the imported CelestialPosition type
 interface PlanetaryPositions {
-  sun: CelestialPosition;
-  moon: CelestialPosition;
-  mercury: CelestialPosition;
-  venus: CelestialPosition;
-  mars: CelestialPosition;
-  jupiter: CelestialPosition;
-  saturn: CelestialPosition;
-  uranus: CelestialPosition;
-  neptune: CelestialPosition;
-  pluto: CelestialPosition;
-  northNode?: CelestialPosition;
-  southNode?: CelestialPosition;
-  ascendant?: CelestialPosition;
-  [key: string]: CelestialPosition | undefined;
+  sun: _CelestialPosition;
+  moon: _CelestialPosition;
+  mercury: _CelestialPosition;
+  venus: _CelestialPosition;
+  mars: _CelestialPosition;
+  jupiter: _CelestialPosition;
+  saturn: _CelestialPosition;
+  uranus: _CelestialPosition;
+  neptune: _CelestialPosition;
+  pluto: _CelestialPosition;
+  northNode?: _CelestialPosition;
+  southNode?: _CelestialPosition;
+  ascendant?: _CelestialPosition;
+  [key: string]: _CelestialPosition | undefined;
 }
 
 const PlanetaryPositionInitializer: React.FC = () => {
@@ -56,7 +56,7 @@ const PlanetaryPositionInitializer: React.FC = () => {
     
     try {
       setRetryStatus(prev => ({ ...prev, isRetrying: true }));
-      logger.info(`Attempt #${retryStatus.count + 1} to refresh planetary positions`);
+      _logger.info(`Attempt #${retryStatus.count + 1} to refresh planetary positions`);
       
       const positions = await refreshPlanetaryPositions();
       
@@ -69,9 +69,9 @@ const PlanetaryPositionInitializer: React.FC = () => {
           throw new Error('Incomplete planetary data received');
         }
         
-        logger.info('Successfully updated planetary positions', {
-          sunPosition: (positions.sun as unknown)?.sign,
-          moonPosition: (positions.moon as unknown)?.sign,
+        _logger.info('Successfully updated planetary positions', {
+          sunPosition: (positions.sun as Record<string, any>)?.sign,
+          moonPosition: (positions.moon as Record<string, any>)?.sign,
           timestamp: new Date().toISOString()
         });
         
@@ -93,7 +93,7 @@ const PlanetaryPositionInitializer: React.FC = () => {
         ? error.message 
         : 'Unknown error fetching planetary positions';
       
-      logger.error(`Attempt #${retryStatus.count + 1} failed:`, {
+      _logger.error(`Attempt #${retryStatus.count + 1} failed:`, {
         error: errorMessage,
         retryCount: retryStatus.count + 1,
         timestamp: new Date().toISOString()
@@ -122,7 +122,7 @@ const PlanetaryPositionInitializer: React.FC = () => {
 
   // Function to apply fallback positions
   const applyFallbackPositions = (): void => {
-    logger.warn('Applying fallback positions...');
+    _logger.warn('Applying fallback positions...');
     const now = new Date();
     
     // Use fixed/current positions from March 2025
@@ -144,7 +144,7 @@ const PlanetaryPositionInitializer: React.FC = () => {
     
     try {
       updatePlanetaryPositions(positions);
-      logger.info('Successfully applied fallback planetary positions');
+      _logger.info('Successfully applied fallback planetary positions');
       
       setRetryStatus(prev => ({
         ...prev,
@@ -152,7 +152,7 @@ const PlanetaryPositionInitializer: React.FC = () => {
         needsFallback: false
       }));
     } catch (error) {
-      logger.error('Failed to apply fallback positions:', error);
+      _logger.error('Failed to apply fallback positions:', error);
       // Even with a failure here, we still want to mark fallback as applied
       // to prevent infinite retry loops
       setRetryStatus(prev => ({
@@ -179,7 +179,7 @@ const PlanetaryPositionInitializer: React.FC = () => {
       
       getInitialPositions();
     } catch (error) {
-      logger.error('Error during component initialization:', error);
+      _logger.error('Error during component initialization:', error);
       // Make sure fallback is applied even if initialization fails
       applyFallbackPositions();
     }
@@ -201,14 +201,14 @@ const PlanetaryPositionInitializer: React.FC = () => {
           const waitMinutes = Math.min(2 ** retryStatus.count, 30);
           
           if (minsSinceLastAttempt >= waitMinutes) {
-            logger.debug(`Initiating retry #${retryStatus.count + 1} after ${minsSinceLastAttempt.toFixed(1)} minutes`);
+            _logger.debug(`Initiating retry #${retryStatus.count + 1} after ${minsSinceLastAttempt.toFixed(1)} minutes`);
             attemptPositionUpdate();
           }
         } else if (retryStatus.count === 5) {
           // Final retry after a longer wait
           const hoursSinceLastAttempt = (Date.now() - retryStatus.lastAttempt) / (60 * 60 * 1000);
           if (hoursSinceLastAttempt >= 1) {
-            logger.debug('Initiating final retry attempt after 1 hour');
+            _logger.debug('Initiating final retry attempt after 1 hour');
             attemptPositionUpdate();
           }
         }

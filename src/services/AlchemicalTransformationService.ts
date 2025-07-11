@@ -96,7 +96,7 @@ export class AlchemicalTransformationService {
    * Set whether it's currently day or night
    */
   setDaytime(isDaytime: boolean): void {
-    this.isDaytime = isDaytime;
+    this._isDaytime = isDaytime;
   }
   
   /**
@@ -162,7 +162,7 @@ export class AlchemicalTransformationService {
     return transformIngredients(
       this.ingredients,
       this.planetPositions,
-      this.isDaytime,
+      this._isDaytime,
       this.currentZodiac,
       this.lunarPhase as unknown as LunarPhaseWithSpaces
     );
@@ -175,7 +175,7 @@ export class AlchemicalTransformationService {
     return transformCookingMethods(
       this.cookingMethods,
       this.planetPositions,
-      this.isDaytime,
+      this._isDaytime,
       this.currentZodiac,
       this.lunarPhase as unknown as LunarPhaseWithSpaces
     );
@@ -188,7 +188,7 @@ export class AlchemicalTransformationService {
     return transformCuisines(
       this.cuisines,
       this.planetPositions,
-      this.isDaytime,
+      this._isDaytime,
       this.currentZodiac,
       this.lunarPhase as unknown as LunarPhaseWithSpaces
     );
@@ -293,16 +293,18 @@ export class AlchemicalTransformationService {
       let methodMatch = 0;
       let methodCount = 0;
       
-      const recipeData = recipe as unknown;
-      recipeData?.cookingMethods?.forEach((method: string) => {
-        const methodName = method.toLowerCase();
-        const alchemicalMethod = methodMap.get(methodName);
-        
-        if (alchemicalMethod) {
-          methodCount++;
-          methodMatch += alchemicalMethod.gregsEnergy;
-        }
-      });
+      const recipeData = recipe as Record<string, any>;
+      if (recipeData && Array.isArray(recipeData.cookingMethods)) {
+        recipeData.cookingMethods.forEach((method: string) => {
+          const methodName = method.toLowerCase();
+          const alchemicalMethod = methodMap.get(methodName);
+          
+          if (alchemicalMethod) {
+            methodCount++;
+            methodMatch += alchemicalMethod.gregsEnergy;
+          }
+        });
+      }
       
       const cookingMethodScore = methodCount > 0 
         ? methodMatch / methodCount 
@@ -459,8 +461,10 @@ export class AlchemicalTransformationService {
   
   // Helper method to calculate lunar phase score for a recipe
   private calculateLunarPhaseScore(recipe: Recipe): number {
-    const recipeData = recipe as unknown;
-    if (!recipeData?.astrologicalAffinities?.lunarPhases || 
+    const recipeData = recipe as Record<string, any>;
+    if (!recipeData || 
+        !recipeData.astrologicalAffinities ||
+        !Array.isArray(recipeData.astrologicalAffinities.lunarPhases) ||
         recipeData.astrologicalAffinities.lunarPhases.length === 0 || 
         !this.lunarPhase) {
       return 0.5;
@@ -482,8 +486,10 @@ export class AlchemicalTransformationService {
   
   // Helper method to calculate zodiac score for a recipe
   private calculateZodiacScore(recipe: Recipe): number {
-    const recipeData = recipe as unknown;
-    if (!recipeData?.astrologicalAffinities?.signs || 
+    const recipeData = recipe as Record<string, any>;
+    if (!recipeData || 
+        !recipeData.astrologicalAffinities ||
+        !Array.isArray(recipeData.astrologicalAffinities.signs) ||
         recipeData.astrologicalAffinities.signs.length === 0 || 
         !this.currentZodiac) {
       return 0.5;

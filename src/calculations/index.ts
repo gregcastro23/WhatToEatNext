@@ -55,7 +55,7 @@ import {
 } from './culinary/seasonalAdjustments';
 
 import { Element } from "@/types/alchemy";
-import { _PlanetaryAlignment } from "@/types/celestial";
+import { PlanetaryAlignment } from "@/types/celestial";
 
 // Import the missing function
 import { getCurrentPlanetaryPositions } from '@/services/astrologizeApi';
@@ -149,7 +149,7 @@ export async function calculateComprehensiveAlchemicalResult(
     const planetaryInfluencesResult = calculatePlanetaryInfluences(
       planetaryPositions,
       isDaytime,
-      _currentDate
+      currentDate
     );
 
     // 4. Generate elemental recommendations
@@ -163,7 +163,7 @@ export async function calculateComprehensiveAlchemicalResult(
     // 6. Generate cuisine recommendations
     const cuisineRecommendations = generateCuisineRecommendations(
       planetaryInfluencesResult.dominantPlanets,
-      _elementalProperties
+      elementalProperties
     );
 
     // 6. Combine all results

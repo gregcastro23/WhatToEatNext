@@ -8,7 +8,7 @@ import IngredientRecommender from '@/components/IngredientRecommender';
 import { useCookingMethods } from '@/hooks/useCookingMethods';
 import { CookingMethodsSection } from '@/components/CookingMethodsSection';
 import RecipeGeneratorCap from '@/components/FoodRecommender/RecipeGeneratorCap';
-import { ChefHat, Sparkles, Utensils, Home, Globe } from 'lucide-react';
+import { ChefHat, Sparkles, Utensils, Home as HomeIcon, Globe, Target } from 'lucide-react';
 
 // Use dynamic import with SSR disabled for components that use client-side only features
 const DynamicCuisineRecommender = dynamic(
@@ -52,7 +52,7 @@ function Navigation() {
               href="/" 
               className="flex items-center space-x-1 text-gray-700 hover:text-indigo-600 transition-colors"
             >
-              <Home className="w-4 h-4" />
+              <HomeIcon className="w-4 h-4" />
               <span>Home</span>
             </Link>
             <Link 
@@ -68,6 +68,13 @@ function Navigation() {
             >
               <Utensils className="w-4 h-4" />
               <span>Recipe Builder</span>
+            </Link>
+            <Link 
+              href="/cooking-methods-recommender" 
+              className="flex items-center space-x-1 text-gray-700 hover:text-green-600 transition-colors"
+            >
+              <Target className="w-4 h-4" />
+              <span>Cooking Methods</span>
             </Link>
             <Link 
               href="/alchm-kitchen" 

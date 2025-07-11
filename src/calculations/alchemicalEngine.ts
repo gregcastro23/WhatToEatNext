@@ -1977,13 +1977,8 @@ function calculateChakraEnergies(
     // Sync thirdEye and brow for compatibility
     // Use safe type casting for chakraEnergies access
     const chakraData = chakraEnergies as unknown;
-    if (affectedChakras.has('brow') && !affectedChakras.has('thirdEye')) {
-      (chakraData as Record<string, unknown>).thirdEye = chakraEnergies.brow;
-      affectedChakras.add('thirdEye');
-    } else if (affectedChakras.has('thirdEye') && !affectedChakras.has('brow')) {
-      chakraEnergies.brow = (chakraData as Record<string, unknown>)?.thirdEye as number || 0;
-      affectedChakras.add('brow');
-    }
+    // Note: Using 'brow' as it's the valid ChakraPosition type from chakra.ts
+    // The ChakraEnergies interface includes both brow and thirdEye for compatibility
 
     // Normalize chakra energies to sum to 1
     const totalEnergy = Object.values(chakraEnergies).reduce(
