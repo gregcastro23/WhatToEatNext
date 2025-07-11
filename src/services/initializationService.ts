@@ -79,13 +79,13 @@ class InitializationService {
       const elementalPreference = this.convertToElementalProperties(celestialData);
       
       // Update the state with the elemental preference - safe method access
-      if (typeof (manager as unknown).updateState === 'function') {
-        await (manager as unknown).updateState({
+      if (typeof (manager as any).updateState === 'function') {
+        await (manager as any).updateState({
           elementalPreference,
           lastUpdated: new Date()
         });
-      } else if (typeof (manager as unknown).setState === 'function') {
-        await (manager as unknown).setState({
+      } else if (typeof (manager as any).setState === 'function') {
+        await (manager as any).setState({
           elementalPreference,
           lastUpdated: new Date()
         });
@@ -188,12 +188,12 @@ class InitializationService {
       
       // Convert CelestialAlignment to CelestialData format with safe property access
       return {
-        sun: (alignment as unknown)?.sun || { sign: '', degree: 0, exactLongitude: 0 },
-        moon: (alignment as unknown)?.moon || { sign: '', degree: 0, exactLongitude: 0 },
-        Fire: (alignment as unknown)?.Fire || 0.25,
-        Water: (alignment as unknown)?.Water || 0.25,
-        Earth: (alignment as unknown)?.Earth || 0.25,
-        Air: (alignment as unknown)?.Air || 0.25
+        sun: (alignment as any)?.sun || { sign: '', degree: 0, exactLongitude: 0 },
+        moon: (alignment as any)?.moon || { sign: '', degree: 0, exactLongitude: 0 },
+        Fire: (alignment as any)?.Fire || 0.25,
+        Water: (alignment as any)?.Water || 0.25,
+        Earth: (alignment as any)?.Earth || 0.25,
+        Air: (alignment as any)?.Air || 0.25
       } as CelestialData;
     } catch (error) {
       logger.error('Failed to calculate celestial influences:', error)

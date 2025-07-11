@@ -1,6 +1,6 @@
 # Elemental Logic Fixing Tools
 
-This set of tools helps maintain correct elemental logic throughout the codebase. Our alchemical system relies on each element (Fire, water, earth, Air) being treated as independently valuable, without the concept of "opposing" elements.
+This set of tools helps maintain correct elemental logic throughout the codebase. Our alchemical system relies on each element (Fire, Water, Earth, Air) being treated as independently valuable, without the concept of "opposing" elements.
 
 ## Available Tools
 
@@ -36,10 +36,10 @@ For a detailed explanation of the correct principles to follow when working with
 
 The fix script identifies and corrects:
 
-1. Functions that treat elements as "opposites" (e.g., Fire opposing water)
+1. Functions that treat elements as "opposites" (e.g., Fire opposing Water)
 2. Conditional logic that assigns low compatibility scores to certain element combinations
 3. "Balancing" logic that tries to balance one element with another
-4. Element pAir variables like `firewater` or `earthAir`
+4. Element pair variables like `fireWater` or `earthAir`
 
 ## Manual Review
 

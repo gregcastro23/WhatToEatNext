@@ -1,7 +1,0 @@
-# Try using a specific version of Next.js known to be stable
-yarn add next@13.4.19 react react-dom
-
-# Or update your Node.js version (recommended: use v18.x LTS)
-# Using nvm (if installed):
-nvm install 18
-nvm use 18 

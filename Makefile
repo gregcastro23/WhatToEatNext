@@ -92,15 +92,18 @@ lint-fix:
 docker-health:
 	@echo "🐳 Checking Docker health..."
 	@if ! command -v docker > /dev/null 2>&1; then \
-		echo "❌ Docker is not installed on your system."; \
+		echo "❌ Docker CLI is not accessible in PATH."; \
 		echo ""; \
-		echo "📦 To install Docker Desktop on macOS:"; \
-		echo "  1. Visit https://www.docker.com/products/docker-desktop/"; \
-		echo "  2. Download Docker Desktop for Mac"; \
-		echo "  3. Install and start Docker Desktop"; \
-		echo "  4. Run 'make docker-setup' to verify installation"; \
+		echo "🔧 Troubleshooting steps:"; \
+		echo "  1. Ensure Docker Desktop is running"; \
+		echo "  2. Try restarting Docker Desktop"; \
+		echo "  3. Check if Docker CLI tools are properly linked"; \
 		echo ""; \
-		echo "💡 For now, use 'make dev' for local development without Docker."; \
+		echo "💡 For local development without Docker, use 'make dev'"; \
+		echo "💡 To fix Docker CLI access, try:"; \
+		echo "  - Restart Docker Desktop"; \
+		echo "  - Restart your terminal"; \
+		echo "  - Check Docker Desktop settings"; \
 		exit 1; \
 	fi; \
 	if ! docker info > /dev/null 2>&1; then \
@@ -109,6 +112,28 @@ docker-health:
 		exit 1; \
 	fi
 	@echo "✅ Docker is running and healthy!"
+
+# Docker commands with better error handling
+docker-build:
+	@echo "🐳 Building Docker images..."
+	@if ! /Applications/Docker.app/Contents/Resources/bin/docker --version > /dev/null 2>&1; then \
+		echo "❌ Docker is not accessible. Please ensure Docker Desktop is running."; \
+		echo "Try restarting Docker Desktop and your terminal."; \
+		exit 1; \
+	fi
+	/Applications/Docker.app/Contents/Resources/bin/docker build -f docker/Dockerfile -t whattoeatnext:latest .
+	/Applications/Docker.app/Contents/Resources/bin/docker build -f docker/Dockerfile.dev -t whattoeatnext:dev .
+	@echo "✅ Docker images built successfully!"
+
+docker-build-dev:
+	@echo "🐳 Building development Docker image..."
+	@if ! /Applications/Docker.app/Contents/Resources/bin/docker --version > /dev/null 2>&1; then \
+		echo "❌ Docker is not accessible. Please ensure Docker Desktop is running."; \
+		echo "Try restarting Docker Desktop and your terminal."; \
+		exit 1; \
+	fi
+	/Applications/Docker.app/Contents/Resources/bin/docker build -f docker/Dockerfile.dev -t whattoeatnext:dev .
+	@echo "✅ Development Docker image built successfully!"
 
 # Docker health check (optional - for development)
 docker-health-optional:
@@ -343,45 +368,35 @@ backup:
 	git checkout -
 	@echo "✅ Backup branch created!"
 
-# Docker commands
-docker-build:
-	@echo "🐳 Building Docker images..."
-	docker build -t whattoeatnext:latest .
-	docker build -f Dockerfile.dev -t whattoeatnext:dev .
-	@echo "✅ Docker images built successfully!"
 
-docker-build-dev:
-	@echo "🐳 Building development Docker image..."
-	docker build -f Dockerfile.dev -t whattoeatnext:dev .
-	@echo "✅ Development Docker image built successfully!"
 
 docker-dev: docker-health
 	@echo "🐳 Starting development container with hot reload..."
-	docker-compose up whattoeatnext-dev
+	docker-compose -f docker/docker-compose.yml up whattoeatnext-dev
 
 docker-prod:
 	@echo "🐳 Starting production container..."
-	docker-compose up --build
+	docker-compose -f docker/docker-compose.yml up --build whattoeatnext-prod
 
 docker-dev-no-check:
 	@echo "🐳 Starting development container (no health check)..."
-	docker-compose up whattoeatnext-dev
+	docker-compose -f docker/docker-compose.yml up whattoeatnext-dev
 
 docker-prod-bg:
 	@echo "🐳 Starting production container in background..."
-	docker-compose up -d --build
+	docker-compose -f docker/docker-compose.yml up -d --build
 
 docker-logs:
 	@echo "📋 Viewing Docker container logs..."
-	docker-compose logs -f
+	docker-compose -f docker/docker-compose.yml logs -f
 
 docker-stop:
 	@echo "🛑 Stopping Docker containers..."
-	docker-compose down
+	docker-compose -f docker/docker-compose.yml down
 
 docker-clean:
 	@echo "🧹 Cleaning Docker resources..."
-	docker-compose down --volumes --remove-orphans
+	docker-compose -f docker/docker-compose.yml down --volumes --remove-orphans
 	docker system prune -f
 	@echo "✅ Docker cleanup completed!"
 
@@ -404,11 +419,30 @@ docker-setup:
 
 docker-shell:
 	@echo "🐚 Opening shell in running container..."
-	docker-compose exec whattoeatnext sh
+	docker-compose -f docker/docker-compose.yml exec whattoeatnext sh
 
 # Docker workflow helpers
 docker-workflow:
 	@echo "🐳 Running Docker development workflow..."
+	@if ! command -v docker > /dev/null 2>&1; then \
+		echo "❌ Docker CLI is not accessible in PATH."; \
+		echo ""; \
+		echo "🔧 Docker Desktop appears to be installed but CLI tools are not accessible."; \
+		echo "Troubleshooting steps:"; \
+		echo "  1. Ensure Docker Desktop is running (check Applications)"; \
+		echo "  2. Restart Docker Desktop completely"; \
+		echo "  3. Restart your terminal session"; \
+		echo "  4. Check Docker Desktop settings for CLI access"; \
+		echo ""; \
+		echo "💡 For local development without Docker, use:"; \
+		echo "  make dev          # Start development server"; \
+		echo "  make build        # Build for production"; \
+		echo "  make test         # Run tests"; \
+		echo ""; \
+		echo "💡 To verify Docker CLI access:"; \
+		echo "  docker --version  # Should show version if working"; \
+		exit 1; \
+	fi
 	@echo "Step 1: Building images..."
 	@make docker-build
 	@echo "Step 2: Starting development container..."

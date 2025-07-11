@@ -58,12 +58,12 @@ This chakra system integrates with the existing astrological system:
 
 | Chakra        | Primary Zodiac Signs       | Element(s)    | Planet       |
 |---------------|----------------------------|---------------|--------------|
-| Root          | capricorn, taurus          | earth         | saturn       |
-| Sacral        | cancer, Scorpio, pisces    | water         | jupiter      |
-| Solar Plexus  | aries, leo, sagittarius    | Fire          | mars         |
-| Heart         | Libra, taurus              | Air           | venus        |
-| Throat        | gemini, virgo              | Ether         | mercury      |
-| Third Eye     | pisces, sagittarius        | Light         | moon         |
+| Root          | capricorn, taurus          | Earth         | Saturn       |
+| Sacral        | cancer, Scorpio, pisces    | Water         | Jupiter      |
+| Solar Plexus  | aries, leo, sagittarius    | Fire          | Mars         |
+| Heart         | Libra, taurus              | Air           | Venus        |
+| Throat        | gemini, virgo              | Ether         | Mercury      |
+| Third Eye     | pisces, sagittarius        | Light         | Moon         |
 | Crown         | aquarius, pisces           | Thought       | Sun          |
 
 ## Food Categories by Chakra

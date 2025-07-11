@@ -326,12 +326,12 @@ index 2c8141eb..622dd952 100644
    "aries": {
      "Element": "Fire",
 @@ -46,7 +46,281 @@ export const signInfo = {
-     "Ruler": "mars",
+     "Ruler": "Mars",
      "Modality": "Cardinal"
    },
 -  // Add other signs as needed for your application
 +  "taurus": {
-+    "Element": "earth",
++    "Element": "Earth",
 +    'Start': {'Day': 20, 'Month': 4, 'Year': 2022},
 +    'End': {'Day': 20, 'Month': 5, 'Year': 2022},
 +    "Major Tarot Card": "The Hierophant",
@@ -341,18 +341,18 @@ index 2c8141eb..622dd952 100644
 +      "3rd Decan": "7 of Pentacles"
 +    },
 +    "Decan Effects": {
-+      "1st Decan": ["mercury"],
-+      "2nd Decan": ["moon"],
-+      "3rd Decan": ["saturn"]
++      "1st Decan": ["Mercury"],
++      "2nd Decan": ["Moon"],
++      "3rd Decan": ["Saturn"]
 +    },
 +    "Degree Effects": {
-+      "mercury": [9, 15],
-+      "venus": [1, 8],
-+      "mars": [27, 30],
-+      "jupiter": [16, 22],
-+      "saturn": [23, 26]
++      "Mercury": [9, 15],
++      "Venus": [1, 8],
++      "Mars": [27, 30],
++      "Jupiter": [16, 22],
++      "Saturn": [23, 26]
 +    },
-+    "Ruler": "venus",
++    "Ruler": "Venus",
 +    "Modality": "Fixed"
 +  },
 +  "gemini": {
@@ -366,22 +366,22 @@ index 2c8141eb..622dd952 100644
 +      "3rd Decan": "10 of Swords"
 +    },
 +    "Decan Effects": {
-+      "1st Decan": ["jupiter"],
-+      "2nd Decan": ["mars"],
++      "1st Decan": ["Jupiter"],
++      "2nd Decan": ["Mars"],
 +      "3rd Decan": ["Sun"]
 +    },
 +    "Degree Effects": {
-+      "mercury": [1, 7],
-+      "venus": [15, 20],
-+      "mars": [26, 30],
-+      "jupiter": [8, 14],
-+      "saturn": [22, 25]
++      "Mercury": [1, 7],
++      "Venus": [15, 20],
++      "Mars": [26, 30],
++      "Jupiter": [8, 14],
++      "Saturn": [22, 25]
 +    },
-+    "Ruler": "mercury",
++    "Ruler": "Mercury",
 +    "Modality": "Mutable"
 +  },
 +  "cancer": {
-+    "Element": "water",
++    "Element": "Water",
 +    'Start': {'Day': 21, 'Month': 6, 'Year': 2022},
 +    'End': {'Day': 22, 'Month': 7, 'Year': 2022},
 +    "Major Tarot Card": "The Chariot",
@@ -391,18 +391,18 @@ index 2c8141eb..622dd952 100644
 +      "3rd Decan": "4 of Cups"
 +    },
 +    "Decan Effects": {
-+      "1st Decan": ["venus"],
-+      "2nd Decan": ["mercury"],
-+      "3rd Decan": ["moon"]
++      "1st Decan": ["Venus"],
++      "2nd Decan": ["Mercury"],
++      "3rd Decan": ["Moon"]
 +    },
 +    "Degree Effects": {
-+      "mercury": [14, 20],
-+      "venus": [21, 27],
-+      "mars": [1, 6],
-+      "jupiter": [7, 13],
-+      "saturn": [28, 30]
++      "Mercury": [14, 20],
++      "Venus": [21, 27],
++      "Mars": [1, 6],
++      "Jupiter": [7, 13],
++      "Saturn": [28, 30]
 +    },
-+    "Ruler": "moon",
++    "Ruler": "Moon",
 +    "Modality": "Cardinal"
 +  },
 +  "leo": {
@@ -416,22 +416,22 @@ index 2c8141eb..622dd952 100644
 +      "3rd Decan": "7 of Wands"
 +    },
 +    "Decan Effects": {
-+      "1st Decan": ["saturn"],
-+      "2nd Decan": ["jupiter"],
-+      "3rd Decan": ["mars"]
++      "1st Decan": ["Saturn"],
++      "2nd Decan": ["Jupiter"],
++      "3rd Decan": ["Mars"]
 +    },
 +    "Degree Effects": {
-+      "mercury": [7, 13],
-+      "venus": [14, 19],
-+      "mars": [26, 30],
-+      "jupiter": [20, 25],
-+      "saturn": [1, 6]
++      "Mercury": [7, 13],
++      "Venus": [14, 19],
++      "Mars": [26, 30],
++      "Jupiter": [20, 25],
++      "Saturn": [1, 6]
 +    },
 +    "Ruler": "Sun",
 +    "Modality": "Fixed"
 +  },
 +  "virgo": {
-+    "Element": "earth",
++    "Element": "Earth",
 +    'Start': {'Day': 23, 'Month': 8, 'Year': 2022},
 +    'End': {'Day': 22, 'Month': 9, 'Year': 2022},
 +    "Major Tarot Card": "The Hermit",
@@ -442,17 +442,17 @@ index 2c8141eb..622dd952 100644
 +    },
 +    "Decan Effects": {
 +      "1st Decan": ["Sun"],
-+      "2nd Decan": ["venus"],
-+      "3rd Decan": ["mercury"]
++      "2nd Decan": ["Venus"],
++      "3rd Decan": ["Mercury"]
 +    },
 +    "Degree Effects": {
-+      "mercury": [1, 7],
-+      "venus": [8, 13],
-+      "mars": [25, 30],
-+      "jupiter": [14, 18],
-+      "saturn": [19, 24]
++      "Mercury": [1, 7],
++      "Venus": [8, 13],
++      "Mars": [25, 30],
++      "Jupiter": [14, 18],
++      "Saturn": [19, 24]
 +    },
-+    "Ruler": "mercury",
++    "Ruler": "Mercury",
 +    "Modality": "Mutable"
 +  },
 +  "libra": {
@@ -466,22 +466,22 @@ index 2c8141eb..622dd952 100644
 +      "3rd Decan": "4 of Swords"
 +    },
 +    "Decan Effects": {
-+      "1st Decan": ["moon"],
-+      "2nd Decan": ["saturn"],
-+      "3rd Decan": ["jupiter"]
++      "1st Decan": ["Moon"],
++      "2nd Decan": ["Saturn"],
++      "3rd Decan": ["Jupiter"]
 +    },
 +    "Degree Effects": {
-+      "mercury": [20, 24],
-+      "venus": [7, 11],
-+      "mars": [1, 6],
-+      "jupiter": [12, 19],
-+      "saturn": [1, 6]
++      "Mercury": [20, 24],
++      "Venus": [7, 11],
++      "Mars": [1, 6],
++      "Jupiter": [12, 19],
++      "Saturn": [1, 6]
 +    },
-+    "Ruler": "venus",
++    "Ruler": "Venus",
 +    "Modality": "Cardinal"
 +  },
 +  "scorpio": {
-+    "Element": "water",
++    "Element": "Water",
 +    'Start': {'Day': 23, 'Month': 10, 'Year': 2022},
 +    'End': {'Day': 21, 'Month': 11, 'Year': 2022},
 +    "Major Tarot Card": "Death",
@@ -491,18 +491,18 @@ index 2c8141eb..622dd952 100644
 +      "3rd Decan": "7 of Cups"
 +    },
 +    "Decan Effects": {
-+      "1st Decan": ["mars"],
++      "1st Decan": ["Mars"],
 +      "2nd Decan": ["Sun"],
-+      "3rd Decan": ["venus"]
++      "3rd Decan": ["Venus"]
 +    },
 +    "Degree Effects": {
-+      "mercury": [22, 27],
-+      "venus": [15, 21],
-+      "mars": [1, 6],
-+      "jupiter": [7, 14],
-+      "saturn": [28, 30]
++      "Mercury": [22, 27],
++      "Venus": [15, 21],
++      "Mars": [1, 6],
++      "Jupiter": [7, 14],
++      "Saturn": [28, 30]
 +    },
-+    "Ruler": "mars",
++    "Ruler": "Mars",
 +    "Modality": "Fixed"
 +  },
 +  "sagittarius": {
@@ -516,22 +516,22 @@ index 2c8141eb..622dd952 100644
 +      "3rd Decan": "10 of Wands"
 +    },
 +    "Decan Effects": {
-+      "1st Decan": ["mercury"],
-+      "2nd Decan": ["moon"],
-+      "3rd Decan": ["saturn"]
++      "1st Decan": ["Mercury"],
++      "2nd Decan": ["Moon"],
++      "3rd Decan": ["Saturn"]
 +    },
 +    "Degree Effects": {
-+      "mercury": [15, 20],
-+      "venus": [9, 14],
-+      "mars": [1, 6],
-+      "jupiter": [1, 8],
-+      "saturn": [21, 25]
++      "Mercury": [15, 20],
++      "Venus": [9, 14],
++      "Mars": [1, 6],
++      "Jupiter": [1, 8],
++      "Saturn": [21, 25]
 +    },
-+    "Ruler": "jupiter",
++    "Ruler": "Jupiter",
 +    "Modality": "Mutable"
 +  },
 +  "capricorn": {
-+    "Element": "earth",
++    "Element": "Earth",
 +    'Start': {'Day': 22, 'Month': 12, 'Year': 2022},
 +    'End': {'Day': 19, 'Month': 1, 'Year': 2023},
 +    "Major Tarot Card": "The Devil",
@@ -541,18 +541,18 @@ index 2c8141eb..622dd952 100644
 +      "3rd Decan": "4 of Pentacles"
 +    },
 +    "Decan Effects": {
-+      "1st Decan": ["jupiter"],
-+      "2nd Decan": ["mars"],
++      "1st Decan": ["Jupiter"],
++      "2nd Decan": ["Mars"],
 +      "3rd Decan": ["Sun"]
 +    },
 +    "Degree Effects": {
-+      "mercury": [7, 12],
-+      "venus": [1, 6],
-+      "mars": [13, 18],
-+      "jupiter": [13, 19],
-+      "saturn": [26, 30]
++      "Mercury": [7, 12],
++      "Venus": [1, 6],
++      "Mars": [13, 18],
++      "Jupiter": [13, 19],
++      "Saturn": [26, 30]
 +    },
-+    "Ruler": "saturn",
++    "Ruler": "Saturn",
 +    "Modality": "Cardinal"
 +  },
 +  "aquarius": {
@@ -566,43 +566,43 @@ index 2c8141eb..622dd952 100644
 +      "3rd Decan": "7 of Swords"
 +    },
 +    "Decan Effects": {
-+      "1st Decan": ["saturn"],
-+      "2nd Decan": ["mercury"],
-+      "3rd Decan": ["venus"]
++      "1st Decan": ["Saturn"],
++      "2nd Decan": ["Mercury"],
++      "3rd Decan": ["Venus"]
 +    },
 +    "Degree Effects": {
-+      "mercury": [7, 12],
-+      "venus": [13, 20],
-+      "mars": [26, 30],
-+      "jupiter": [21, 25],
-+      "saturn": [1, 6]
++      "Mercury": [7, 12],
++      "Venus": [13, 20],
++      "Mars": [26, 30],
++      "Jupiter": [21, 25],
++      "Saturn": [1, 6]
 +    },
-+    "Ruler": "saturn",
++    "Ruler": "Saturn",
 +    "Modality": "Fixed"
 +  },
 +  "pisces": {
-+    "Element": "water",
++    "Element": "Water",
 +    'Start': {'Day': 19, 'Month': 2, 'Year': 2023},
 +    'End': {'Day': 20, 'Month': 3, 'Year': 2023},
-+    "Major Tarot Card": "The moon",
++    "Major Tarot Card": "The Moon",
 +    "Minor Tarot Cards": {
 +      "1st Decan": "8 of Cups",
 +      "2nd Decan": "9 of Cups",
 +      "3rd Decan": "10 of Cups"
 +    },
 +    "Decan Effects": {
-+      "1st Decan": ["saturn"],
-+      "2nd Decan": ["jupiter"],
-+      "3rd Decan": ["mars"]
++      "1st Decan": ["Saturn"],
++      "2nd Decan": ["Jupiter"],
++      "3rd Decan": ["Mars"]
 +    },
 +    "Degree Effects": {
-+      "mercury": [15, 20],
-+      "venus": [1, 8],
-+      "mars": [21, 26],
-+      "jupiter": [9, 14],
-+      "saturn": [27, 30]
++      "Mercury": [15, 20],
++      "Venus": [1, 8],
++      "Mars": [21, 26],
++      "Jupiter": [9, 14],
++      "Saturn": [27, 30]
 +    },
-+    "Ruler": "jupiter",
++    "Ruler": "Jupiter",
 +    "Modality": "Mutable"
 +  }
  };
@@ -621,36 +621,36 @@ index 2d10bbbd..d57fcab3 100644
 +    name: 'Salmon',
      category: 'protein',
      subCategory: 'seafood',
-     elementalProperties: { water: 0.6, earth: 0.2, Fire: 0.1, Air: 0.1 },
+     elementalProperties: { Water: 0.6, Earth: 0.2, Fire: 0.1, Air: 0.1 },
 @@ -1875,216 +1875,6 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
        }
      }
    },
 -  'salmon': {
 -    name: 'Salmon',
--    elementalProperties: { water: 0.6, earth: 0.3, Fire: 0.1, Air: 0 },
+-    elementalProperties: { Water: 0.6, Earth: 0.3, Fire: 0.1, Air: 0 },
 -    astrologicalProfile: {
--      rulingPlanets: ['moon', 'neptune'],
+-      rulingPlanets: ['Moon', 'Neptune'],
 -      favorableZodiac: ['cancer', 'pisces'],
 -      elementalAffinity: {
--        base: 'water',
+-        base: 'Water',
 -        decanModifiers: {
--          first: { element: 'water', planet: 'moon' },
--          second: { element: 'earth', planet: 'neptune' },
--          third: { element: 'Air', planet: 'mercury' }
+-          first: { element: 'Water', planet: 'Moon' },
+-          second: { element: 'Earth', planet: 'Neptune' },
+-          third: { element: 'Air', planet: 'Mercury' }
 -        }
 -      },
 -      lunarPhaseModifiers: {
--        newmoon: {
--          elementalBoost: { water: 0.1, earth: 0.1 },
+-        newMoon: {
+-          elementalBoost: { Water: 0.1, Earth: 0.1 },
 -          preparationTips: ['Best for raw preparations']
 -        },
--        fullmoon: {
--          elementalBoost: { water: 0.2 },
+-        fullMoon: {
+-          elementalBoost: { Water: 0.2 },
 -          preparationTips: ['Ideal for grilling']
 -        }
 -      },
--      aspectEnhancers: ['moon trine neptune', 'jupiter in pisces']
+-      aspectEnhancers: ['Moon trine Neptune', 'Jupiter in pisces']
 -    },
 -    qualities: ['omega-rich', 'flaky', 'buttery'],
 -    origin: ['Norway', 'Scotland', 'Chile'],
@@ -838,7 +838,7 @@ index 2d10bbbd..d57fcab3 100644
 -  },
    'squid': {
      name: 'Squid',
-     elementalProperties: { water: 0.7, earth: 0.15, Air: 0.15, Fire: 0 },
+     elementalProperties: { Water: 0.7, Earth: 0.15, Air: 0.15, Fire: 0 },
 diff --git a/src/data/ingredients/vegetables/index.ts b/src/data/ingredients/vegetables/index.ts
 index dffc9cc4..09aebc2f 100644
 --- a/src/data/ingredients/vegetables/index.ts
@@ -871,8 +871,8 @@ index 88c18587..54bd4e82 100644
 +    category: 'vinegar',
 +    subCategory: 'artisanal',
 +    elementalProperties: {
-+      earth: 0.5,
-+      water: 0.3,
++      Earth: 0.5,
++      Water: 0.3,
 +      Fire: 0.1,
 +      Air: 0.1
 +    },
@@ -891,8 +891,8 @@ index 88c18587..54bd4e82 100644
 +    category: 'vinegar',
 +    subCategory: 'artisanal',
 +    elementalProperties: {
-+      earth: 0.4,
-+      water: 0.3,
++      Earth: 0.4,
++      Water: 0.3,
 +      Fire: 0.2,
 +      Air: 0.1
 +    },
@@ -912,8 +912,8 @@ index 88c18587..54bd4e82 100644
 +    subCategory: 'artisanal',
 +    elementalProperties: {
 +      Air: 0.4,
-+      water: 0.3,
-+      earth: 0.2,
++      Water: 0.3,
++      Earth: 0.2,
 +      Fire: 0.1
 +    },
 +    qualities: ['floral', 'delicate', 'crisp', 'aromatic'],
@@ -967,18 +967,18 @@ index 0b0b7a6a..489f0141 100644
 +  
 +  // Map of signs to their ruling planets
 +  const signRulers: Record<string, string> = {
-+    'aries': 'mars',
-+    'taurus': 'venus',
-+    'gemini': 'mercury',
-+    'cancer': 'moon',
++    'aries': 'Mars',
++    'taurus': 'Venus',
++    'gemini': 'Mercury',
++    'cancer': 'Moon',
 +    'leo': 'Sun',
-+    'virgo': 'mercury',
-+    'libra': 'venus',
-+    'scorpio': 'mars',
-+    'sagittarius': 'jupiter',
-+    'capricorn': 'saturn',
-+    'aquarius': 'saturn', // Traditional ruler
-+    'pisces': 'jupiter'  // Traditional ruler
++    'virgo': 'Mercury',
++    'libra': 'Venus',
++    'scorpio': 'Mars',
++    'sagittarius': 'Jupiter',
++    'capricorn': 'Saturn',
++    'aquarius': 'Saturn', // Traditional ruler
++    'pisces': 'Jupiter'  // Traditional ruler
 +  };
 +  
 +  const rulingPlanet = signRulers[sunSign] || 'Sun';
@@ -999,18 +999,18 @@ index 0b0b7a6a..489f0141 100644
 +    
 +    // Reference data for decan rulers and tarot cards based on sign and decan
 +    const decanRulerMap: Record<string, Record<number, string>> = {
-+      'aries': { 1: 'mars', 2: 'Sun', 3: 'venus' },
-+      'taurus': { 1: 'mercury', 2: 'moon', 3: 'saturn' },
-+      'gemini': { 1: 'jupiter', 2: 'mars', 3: 'Sun' },
-+      'cancer': { 1: 'venus', 2: 'mercury', 3: 'moon' },
-+      'leo': { 1: 'saturn', 2: 'jupiter', 3: 'mars' },
-+      'virgo': { 1: 'Sun', 2: 'venus', 3: 'mercury' },
-+      'libra': { 1: 'moon', 2: 'saturn', 3: 'jupiter' },
-+      'scorpio': { 1: 'mars', 2: 'Sun', 3: 'venus' },
-+      'sagittarius': { 1: 'mercury', 2: 'moon', 3: 'saturn' },
-+      'capricorn': { 1: 'jupiter', 2: 'mars', 3: 'Sun' },
-+      'aquarius': { 1: 'venus', 2: 'mercury', 3: 'moon' },
-+      'pisces': { 1: 'saturn', 2: 'jupiter', 3: 'mars' }
++      'aries': { 1: 'Mars', 2: 'Sun', 3: 'Venus' },
++      'taurus': { 1: 'Mercury', 2: 'Moon', 3: 'Saturn' },
++      'gemini': { 1: 'Jupiter', 2: 'Mars', 3: 'Sun' },
++      'cancer': { 1: 'Venus', 2: 'Mercury', 3: 'Moon' },
++      'leo': { 1: 'Saturn', 2: 'Jupiter', 3: 'Mars' },
++      'virgo': { 1: 'Sun', 2: 'Venus', 3: 'Mercury' },
++      'libra': { 1: 'Moon', 2: 'Saturn', 3: 'Jupiter' },
++      'scorpio': { 1: 'Mars', 2: 'Sun', 3: 'Venus' },
++      'sagittarius': { 1: 'Mercury', 2: 'Moon', 3: 'Saturn' },
++      'capricorn': { 1: 'Jupiter', 2: 'Mars', 3: 'Sun' },
++      'aquarius': { 1: 'Venus', 2: 'Mercury', 3: 'Moon' },
++      'pisces': { 1: 'Saturn', 2: 'Jupiter', 3: 'Mars' }
 +    };
 +    
 +    const tarotCardMap: Record<string, Record<number, string>> = {
