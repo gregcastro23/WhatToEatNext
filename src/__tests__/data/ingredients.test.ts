@@ -1,4 +1,4 @@
-import { _Recipe } from '@/types/recipe';
+import { Recipe } from '@/types/recipe';
 import { RecipeIngredient , validateIngredient } from '@/types/recipeIngredient';
 // Removed duplicate: // Removed duplicate: // Removed duplicate: import type { RecipeIngredient } from '@/types/recipeIngredient';
 

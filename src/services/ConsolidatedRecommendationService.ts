@@ -1,13 +1,13 @@
 import { 
-  _ElementalProperties, 
+  ElementalProperties, 
   _Planet, 
   ZodiacSign, 
   ThermodynamicProperties,
-  _Element
+  Element
 } from '../types';
 
 // Additional type definitions
-export type ElementalProperties = _ElementalProperties;
+export type ElementalProperties = ElementalProperties;
 export type ThermodynamicMetrics = {
   heat: number;
   entropy: number;

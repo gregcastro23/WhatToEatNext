@@ -1,6 +1,6 @@
 import type { ElementalProperties } from '@/types/alchemy';
 
-export const defaultElementalProps: _ElementalProperties = {
+export const defaultElementalProps: ElementalProperties = {
   Fire: 0.25,
   Water: 0.25,
   Earth: 0.25,

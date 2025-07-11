@@ -1,4 +1,4 @@
-import { calculateSignEnergyStates, SignEnergyState, _ZodiacSign } from '../constants/signEnergyStates';
+import { calculateSignEnergyStates, SignEnergyState, ZodiacSign } from '../constants/signEnergyStates';
 import { ChakraService, ChakraEnergyState } from '../services/ChakraService';
 import { getFoodRecommendationsFromChakras, getZodiacSignFoodRecommendations } from '../utils/chakraFoodUtils';
 

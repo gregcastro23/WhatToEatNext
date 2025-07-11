@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { errorHandler } from '@/services/errorHandler';
-import { _logger } from '@/utils/logger';
+import { logger } from '@/utils/logger';
 
 export default function Error({
   error,

@@ -15,13 +15,13 @@ import {
   PlanetaryDignity,
   PlanetaryDignityDetails
 } from '../constants/planetaryFoodAssociations';
-import { _ZodiacSign } from '../constants/zodiac';
+import { ZodiacSign } from '../constants/zodiac';
 import { _LunarPhaseWithSpaces } from '../types/alchemy';
 import { createLogger } from '@/utils/logger';
 import { _CelestialPosition } from '@/types/celestial';
 
 // Create a component-specific logger
-const _logger = createLogger('AlchemicalTransformation');
+const logger = createLogger('AlchemicalTransformation');
 
 /**
  * Interface for items with elemental data (ingredients, methods, cuisines)

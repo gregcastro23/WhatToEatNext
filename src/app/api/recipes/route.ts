@@ -10,7 +10,7 @@ interface ElementalProperties {
 }
 
 // Basic fallback recipe that will work without dependencies
-const fallbackRecipe: _Recipe = {
+const fallbackRecipe: Recipe = {
   id: 'universal-balance',
   name: "Universal Balance Bowl",
   description: "A harmonious blend for any occasion",

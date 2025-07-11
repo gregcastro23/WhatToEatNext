@@ -84,7 +84,7 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
   };
 
   // Try to find the ingredient in our rich database with multiple lookup strategies
-  const lookupKey = normalizeIngredientName(ingredient.name);
+  const lookupKey = normalizeIngredientName(ingredient?.name);
   const databaseIngredient = allIngredients[lookupKey] || 
                             allIngredients[ingredient.name.toLowerCase()] ||
                             allIngredients[ingredient.name] ||
@@ -185,7 +185,7 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
             )}
             
             {/* Enhanced qualities display */}
-            {extendedIngredient?.qualities && extendedIngredient.qualities.length > 0 && (
+            {extendedIngredient?.qualities && extendedIngredient.qualities?.length > 0 && (
               <div className="info-section">
                 <h4 className="section-title">
                   <Award className="section-icon" />
@@ -341,7 +341,7 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
                       <strong>Type:</strong> {extendedIngredient.subCategory}
                     </div>
                   )}
-                  {extendedIngredient?.qualities && extendedIngredient.qualities.length > 0 && (
+                  {extendedIngredient?.qualities && extendedIngredient.qualities?.length > 0 && (
                     <div className="culinary-detail">
                       <strong>Qualities:</strong> {extendedIngredient.qualities.join(', ')}
                     </div>
@@ -482,7 +482,7 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
         return (
           <div className="tab-content">
             {/* Enhanced pairings */}
-            {extendedIngredient?.pairings && extendedIngredient.pairings.length > 0 && (
+            {extendedIngredient?.pairings && extendedIngredient.pairings?.length > 0 && (
               <div className="info-section">
                 <h4 className="section-title">
                   <Heart className="section-icon" />
@@ -736,7 +736,7 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
                     <div className="vitamin-tags">
                       {normalizeVitamins(extendedIngredient.nutritionalProfile.vitamins).map((vitamin, index) => (
                         <span key={index} className="vitamin-tag">
-                          {formatVitaminName(vitamin.name)}
+                          {formatVitaminName(vitamin?.name)}
                           {vitamin.value && <span className="vitamin-value"> ({vitamin.value}{vitamin.unit})</span>}
                         </span>
                       ))}
@@ -750,7 +750,7 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
                     <div className="mineral-tags">
                       {normalizeMinerals(extendedIngredient.nutritionalProfile.minerals).map((mineral, index) => (
                         <span key={index} className="mineral-tag">
-                          {formatMineralName(mineral.name)}
+                          {formatMineralName(mineral?.name)}
                           {mineral.value && <span className="mineral-value"> ({mineral.value}{mineral.unit})</span>}
                         </span>
                       ))}
@@ -804,7 +804,7 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
                       <span> As a {extendedIngredient.category}, it contributes valuable nutrients and flavor to your meals.</span>
                     )}
                   </div>
-                  {extendedIngredient?.qualities && extendedIngredient.qualities.length > 0 && (
+                  {extendedIngredient?.qualities && extendedIngredient.qualities?.length > 0 && (
                     <div className="nutrition-qualities">
                       <strong>Key Qualities:</strong>
                       <div className="quality-tags">

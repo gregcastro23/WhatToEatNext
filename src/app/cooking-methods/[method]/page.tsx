@@ -6,7 +6,7 @@ import { allCookingMethods } from '@/data/cooking/methods';
 import { CookingMethodInfo } from '@/types/cooking';
 import { Box, Card, CardContent, Container, Grid, Typography, Chip, List, ListItem, ListItemText, Divider, Paper, useTheme } from '@mui/material';
 import { AccessTime, ThermostatAuto, LocalFireDepartment, Science, Warning, Kitchen, Whatshot } from '@mui/icons-material';
-import { _ZodiacSign } from '@/components/ZodiacSign';
+import { ZodiacSign } from '@/components/ZodiacSign';
 import MethodImage from '@/components/MethodImage';
 import Link from 'next/link';
 import getMethodData from '@/app/cooking-methods/methods';

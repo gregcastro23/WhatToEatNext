@@ -1,7 +1,7 @@
 import { 
-  _ElementalProperties, 
+  ElementalProperties, 
   ZodiacSign, 
-  _Element,
+  Element,
   Season
 } from '@/types/alchemy';
 import { _IngredientMapping } from '@/data/ingredients/types';

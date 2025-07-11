@@ -20,7 +20,7 @@ interface ElementalProperties {
  */
 export class ElementalCalculator {
   private static instance: ElementalCalculator;
-  private currentBalance: _ElementalProperties = DEFAULT_ELEMENTAL_PROPERTIES;
+  private currentBalance: ElementalProperties = DEFAULT_ELEMENTAL_PROPERTIES;
   private initialized = false;
 
   private constructor() {}
@@ -179,7 +179,7 @@ export class ElementalCalculator {
     const properties = { ...baseProperties };
 
     // Create default seasonal influence
-    const seasonalInfluence: _ElementalProperties = {
+    const seasonalInfluence: ElementalProperties = {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,

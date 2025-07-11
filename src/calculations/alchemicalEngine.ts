@@ -22,7 +22,7 @@ import { PLANETARY_MODIFIERS, RulingPlanet } from '@/constants/planets';
 import { getZodiacElementalInfluence } from '@/utils/zodiacUtils';
 import { recipeCalculations } from '@/utils/recipeCalculations';
 import { getAccuratePlanetaryPositions } from '@/utils/accurateAstronomy';
-import { _logger } from '@/utils/logger';
+import { logger } from '@/utils/logger';
 import { _isElementalProperties, validateOrDefault } from '@/utils/validation';
 import { DEFAULT_ELEMENTAL_PROPERTIES } from '@/constants/defaults';
 import ErrorHandler from '@/services/errorHandler';
@@ -260,7 +260,7 @@ export class AlchemicalEngineAdvanced {
     ).sort(([, a], [, b]) => b - a)[0][0];
 
     // Safely access the seasonalPatterns by ensuring the season is a valid key
-    const defaultSeason: _Season = 'winter';
+    const defaultSeason: Season = 'winter';
     const normalizedSeason = season?.toLowerCase();
     const validSeason =
       normalizedSeason === 'spring' ||
@@ -552,7 +552,7 @@ export class AlchemicalEngineAdvanced {
     const seasonBase = this.seasonalModifiers[season.toLowerCase()];
     const lunarBase = this.lunarPhaseModifiers[moonPhase];
 
-    const result: _ElementalProperties = {
+    const result: ElementalProperties = {
       Fire: 0.25,
       Water: 0.25,
       Air: 0.25,
@@ -597,7 +597,7 @@ export class AlchemicalEngineAdvanced {
     const recipe = recipeElementalMappings[recipeName];
 
     // For now we'll just pass a default season until we fix the calculateAstroCuisineMatch method
-    const currentSeason: _Season = 'winter'; // Default to winter
+    const currentSeason: Season = 'winter'; // Default to winter
 
     // Extract cuisine name based on the type of recipe.cuisine
     const cuisineName =
@@ -684,7 +684,7 @@ export class AlchemicalEngineAdvanced {
       Earth: 0.25,
     };
 
-    const baseModifiers: _ElementalProperties = {
+    const baseModifiers: ElementalProperties = {
       Fire: 0.25,
       Water: 0.25,
       Air: 0.25,
@@ -2062,7 +2062,7 @@ async function getCurrentAstrologicalState(): Promise<AstrologicalState> {
       .map(([planet]) => planet);
     
     // Calculate elemental properties based on planetary positions
-    const elementalProperties: _ElementalProperties = {
+    const elementalProperties: ElementalProperties = {
       Fire: 0.25,
       Water: 0.25, 
       Earth: 0.25,

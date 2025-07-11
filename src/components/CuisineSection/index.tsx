@@ -87,7 +87,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
   const cuisineRecipes = React.useMemo(() => {
     let matchedRecipes: Recipe[] = [];
     
-    if (!Array.isArray(recipes) || recipes.length === 0) {
+    if (!Array.isArray(recipes) || recipes?.length === 0) {
       // If no recipes provided, try to find some using the cuisine name directly
       try {
         // First try using getRecipesForCuisineMatch
@@ -97,7 +97,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
           8
         );
         
-        if (Array.isArray(matchedCuisineRecipes) && matchedCuisineRecipes.length > 0) {
+        if (Array.isArray(matchedCuisineRecipes) && matchedCuisineRecipes?.length > 0) {
           return matchedCuisineRecipes;
         }
         
@@ -112,7 +112,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
       }
       
       // If we have found recipes, return them
-      if (matchedRecipes.length > 0) {
+      if (matchedRecipes?.length > 0) {
         return matchedRecipes;
       }
     }
@@ -169,7 +169,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
       .slice(0, viewAllRecipes ? undefined : 4);
   }, [recipes, cuisine, elementalState, viewAllRecipes]);
 
-  if (!Array.isArray(cuisineRecipes) || cuisineRecipes.length === 0) {
+  if (!Array.isArray(cuisineRecipes) || cuisineRecipes?.length === 0) {
     // Special case for African and American cuisines
     const isSpecialCase = cuisine?.toLowerCase() === 'african' || cuisine?.toLowerCase() === 'american';
     if (isSpecialCase) {
@@ -194,7 +194,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
               }
             });
             
-            if (specialRecipes.length > 0) {
+            if (specialRecipes?.length > 0) {
               // Format recipes for display
               return (
                 <div className="mb-8">
@@ -312,7 +312,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
             <div><span className="font-medium text-gray-700">Base:</span> {sauceData.base}</div>
           )}
           
-          {sauceData?.keyIngredients && sauceData.keyIngredients.length > 0 && (
+          {sauceData?.keyIngredients && sauceData.keyIngredients?.length > 0 && (
             <div>
               <span className="font-medium text-gray-700">Key Ingredients:</span>
               <div className="flex flex-wrap gap-1 mt-1">
@@ -321,7 +321,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
                     {ingredient}
                   </span>
                 ))}
-                {sauceData.keyIngredients.length > 4 && (
+                {sauceData.keyIngredients?.length > 4 && (
                   <span className="bg-gray-200 text-gray-600 px-2 py-1 rounded text-xs">
                     +{sauceData.keyIngredients.length - 4} more
                   </span>
@@ -373,7 +373,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
           
           {renderSeasonalInfo(recipe)}
           
-          {recipeData?.ingredients && recipeData.ingredients.length > 0 && (
+          {recipeData?.ingredients && recipeData.ingredients?.length > 0 && (
             <div className="mt-3 pt-3 border-t border-gray-100">
               <span className="text-xs font-medium text-gray-700">Key Ingredients:</span>
               <div className="flex flex-wrap gap-1 mt-1">
@@ -382,7 +382,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
                     {(ingredient as unknown)?.name || ingredient}
                   </span>
                 ))}
-                {recipeData.ingredients.length > 3 && (
+                {recipeData.ingredients?.length > 3 && (
                   <span className="bg-gray-200 text-gray-500 px-2 py-1 rounded text-xs">
                     +{recipeData.ingredients.length - 3} more
                   </span>

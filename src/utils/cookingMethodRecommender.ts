@@ -289,10 +289,10 @@ function areSimilarMethods(method1: string, method2: string): boolean {
   
   // Simple fuzzy matching - check if they share a significant number of characters
   const commonWords = normalized1.split(' ').filter(word => 
-    word.length > 3 && (normalized2 as string)?.includes?.(word)
+    word?.length > 3 && (normalized2 as string)?.includes?.(word)
   );
   
-  if (commonWords.length > 0) return true;
+  if (commonWords?.length > 0) return true;
   
   // Check for common method variations
   const methodPairs = [
@@ -699,7 +699,7 @@ export async function getRecommendedCookingMethods(
       
       // Calculate planetary day influence (35% of astrological score)
       let planetaryDayScore = 0;
-      if (planets && planets.length > 0) {
+      if (planets && planets?.length > 0) {
         // Get the current day of the week
         const dayOfWeek = new Date().getDay();
         const weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -717,7 +717,7 @@ export async function getRecommendedCookingMethods(
         if (planetaryDay) {
           // Transform CookingMethodData to CookingMethodProfile interface
           const methodProfile = {
-            name: methodData.name,
+            name: methodData?.name,
             elementalProperties: methodData.elementalEffect || methodData.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
             elementalEffect: methodData.elementalEffect || methodData.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
             astrologicalInfluences: methodData.astrologicalInfluences || {}
@@ -729,7 +729,7 @@ export async function getRecommendedCookingMethods(
       
       // Calculate planetary hour influence (20% of astrological score)
       let planetaryHourScore = 0;
-      if (planets && planets.length > 0) {
+      if (planets && planets?.length > 0) {
         // Simple approximation for the planetary hour
         // For a real app, you should use an accurate calculation based on sunrise/sunset
         const now = new Date();
@@ -759,7 +759,7 @@ export async function getRecommendedCookingMethods(
         if (planetaryHour) {
           // Transform CookingMethodData to CookingMethodProfile interface
           const methodProfileHour = {
-            name: methodData.name,
+            name: methodData?.name,
             elementalProperties: methodData.elementalEffect || methodData.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
             elementalEffect: methodData.elementalEffect || methodData.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
             astrologicalInfluences: methodData.astrologicalInfluences || {}
@@ -771,7 +771,7 @@ export async function getRecommendedCookingMethods(
       
       // Add weighted planetary scores to the astrological score
       // Elemental match: 45%, Planetary day: 35%, Planetary hour: 20%
-      if (planets && planets.length > 0) {
+      if (planets && planets?.length > 0) {
         // Base zodiac score already calculated (worth 45% of astrological score)
         // Add planetary day influence (35%)
         astrologicalScore += planetaryDayScore * 0.35;
@@ -979,7 +979,7 @@ export async function getRecommendedCookingMethods(
         const methodDesc = (method as CookingMethodData)?.description?.toLowerCase?.();
         
         // Check keyword matches between Venus temperament food focus and method description
-        const keywords = foodFocus.split(/[\s,;]+/).filter(k => k.length > 3);
+        const keywords = foodFocus.split(/[\s,;]+/).filter(k => k?.length > 3);
         const matchCount = keywords.filter(keyword => 
           (methodName as string)?.includes?.(keyword) || (methodDesc as string)?.includes?.(keyword)
         ).length;
@@ -1006,7 +1006,7 @@ export async function getRecommendedCookingMethods(
           const methodName = (method as CookingMethodData)?.name?.toLowerCase?.();
           
           // Check for keyword matches
-          const focusKeywords = transitFocus.split(/[\s,;]+/).filter(k => k.length > 3);
+          const focusKeywords = transitFocus.split(/[\s,;]+/).filter(k => k?.length > 3);
           const focusMatchCount = focusKeywords.filter(keyword => 
             (methodName as string)?.includes?.(keyword) || (methodDesc as string)?.includes?.(keyword)
           ).length;
@@ -1391,7 +1391,7 @@ export function getCookingMethodRecommendations(
   const recommendations = Object.entries(allCookingMethodsCombined).map(([name, method]) => {
     // Transform CookingMethodData to CookingMethodProfile interface
     const methodProfileScore: CookingMethodProfile = {
-      name: method.name,
+      name: method?.name,
       elementalProperties: method.elementalEffect || method.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
       elementalEffect: method.elementalEffect || method.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
       astrologicalInfluences: method.astrologicalInfluences || {}

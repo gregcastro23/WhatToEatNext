@@ -1,7 +1,7 @@
 import { useAstrologicalState } from '@/context/AstrologicalContext';
 import { useEffect, useState, useMemo } from 'react';
 import { ElementalCalculator } from '@/services/ElementalCalculator';
-import { _ElementalProperties } from '@/types/alchemy';
+import { ElementalProperties } from '@/types/alchemy';
 import { getChakraBasedRecommendations, GroupedIngredientRecommendations, getIngredientRecommendations, IngredientRecommendation } from '@/utils/ingredientRecommender';
 import { Flame, Droplets, Mountain, Wind, Info, Clock, Tag, Leaf, X, ChevronDown, ChevronUp, Beaker } from 'lucide-react';
 import { useChakraInfluencedFood } from '@/hooks/useChakraInfluencedFood';

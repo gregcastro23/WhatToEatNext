@@ -1,12 +1,12 @@
 'use client';
 
 import React, { useState } from 'react';
-import { _Recipe } from '@/types/recipe';
+import { Recipe } from '@/types/recipe';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import RecipeRecommendations from '@/components/Recipe/RecipeRecommendations';
 import RecipeRecommendationsMigrated from '@/components/Recipe/RecipeRecommendations.migrated';
 
-import { _Element } from "@/types/alchemy";
+import { Element } from "@/types/alchemy";
 export default function RecipeRecommendationsTestPage() {
   const [filters, setFilters] = useState({
     servingSize: '4',

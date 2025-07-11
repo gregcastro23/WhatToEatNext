@@ -5,7 +5,7 @@ import { useAstrologicalState } from '@/hooks/useAstrologicalState';
 import { _CelestialPosition, _PlanetaryAlignment } from '@/types/celestial';
 
 import { Sun, Moon, Star, Wind, Droplets, Flame, Mountain, Info } from 'lucide-react';
-import { _logger } from '@/utils/logger';
+import { logger } from '@/utils/logger';
 import PlanetaryHoursDisplay from '@/components/PlanetaryHours';
 
 const ELEMENT_COLORS = {

@@ -1,6 +1,6 @@
-import { _Element , _ElementalProperties , 
+import { Element , ElementalProperties , 
   ZodiacSign, 
-  _LunarPhase 
+  LunarPhase 
 } from "@/types/alchemy";
 
 
@@ -14,7 +14,7 @@ import { _Element , _ElementalProperties ,
 import { 
   Recipe, 
   RecipeIngredient, 
-  _ElementalProperties as RecipeElementalProperties
+  ElementalProperties as RecipeElementalProperties
 } from './recipe';
 
 

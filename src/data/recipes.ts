@@ -536,7 +536,7 @@ export const getBestRecipeMatches = async (
       
       // console.log(`getRecipesForCuisineMatch returned ${matchedCuisineRecipes.length} recipes`);
       
-      if (matchedCuisineRecipes && matchedCuisineRecipes.length > 0) {
+      if (matchedCuisineRecipes && matchedCuisineRecipes?.length > 0) {
         // Convert the recipes to ensure they match RecipeData format
         const formattedRecipes = matchedCuisineRecipes.map(recipe => {
           const recipeData = recipe as any;
@@ -594,7 +594,7 @@ export const getBestRecipeMatches = async (
         
         // If we got recipes directly and they already have match scores,
         // we can just return them after additional filtering
-        if (formattedRecipes.length > 0 && formattedRecipes[0].matchScore !== undefined) {
+        if (formattedRecipes?.length > 0 && formattedRecipes[0].matchScore !== undefined) {
           // Apply additional filters if needed
           return applyAdditionalFilters(formattedRecipes, criteria, limit);
         }
@@ -605,7 +605,7 @@ export const getBestRecipeMatches = async (
     
     // Fallback to LocalRecipeService if getRecipesForCuisineMatch failed
     const allRecipes = await getRecipes();
-    if (candidateRecipes.length === 0 || candidateRecipes === allRecipes) {
+    if (candidateRecipes?.length === 0 || candidateRecipes === allRecipes) {
       try {
         // Import and use LocalRecipeService directly
         const { LocalRecipeService } = await import('../services/LocalRecipeService');
@@ -615,7 +615,7 @@ export const getBestRecipeMatches = async (
         const localRecipes = await Promise.resolve(localRecipeResults);
         // console.log(`Found ${localRecipes.length} recipes from LocalRecipeService for ${criteria.cuisine}`);
         
-        if (localRecipes.length > 0) {
+        if (localRecipes?.length > 0) {
           // Convert the recipes to RecipeData format
           candidateRecipes = localRecipes.map(recipe => {
             const recipeData = recipe as any;
@@ -710,7 +710,7 @@ async function applyAdditionalFilters(
     // console.log(`Found ${seasonRecipes.length} recipes for season ${criteria.season}`);
     
     // If we have enough seasonal recipes, use only those
-    if (seasonRecipes.length >= limit) {
+    if (seasonRecipes?.length >= limit) {
       candidateRecipes = seasonRecipes;
     }
   }
@@ -743,12 +743,12 @@ async function applyAdditionalFilters(
     // console.log(`Found ${mealTypeRecipes.length} recipes for meal type ${criteria.mealType}`);
     
     // If we have enough meal type specific recipes, use only those
-    if (mealTypeRecipes.length >= limit) {
+    if (mealTypeRecipes?.length >= limit) {
       candidateRecipes = mealTypeRecipes;
     }
   }
   
-  if (candidateRecipes.length === 0) {
+  if (candidateRecipes?.length === 0) {
     // console.log("No matching recipes found after all filtering");
     // Return empty array as fallback when no recipes match
     return [];
@@ -991,8 +991,8 @@ export const getAllRecipes = async (): Promise<Recipe[]> => {
     
     // Transform RecipeData to Recipe format with interface compliance
     return recipeData.map(recipe => ({
-      id: recipe.id,
-      name: recipe.name,
+      id: recipe?.id,
+      name: recipe?.name,
       description: recipe.description,
       ingredients: recipe.ingredients || [],
       instructions: recipe.instructions || [],

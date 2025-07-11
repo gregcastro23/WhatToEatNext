@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { fetchNutritionalData, nutritionalToElemental, zodiacNutritionalNeeds } from '@/data/nutritional';
-import { NutritionalProfile, _Element, _ZodiacSign } from '@/types/alchemy';
+import { NutritionalProfile, Element, ZodiacSign } from '@/types/alchemy';
 
 // Loading spinner component
 function LoadingSpinner() {
@@ -54,7 +54,7 @@ function ZodiacRecommendations({ dominantElement }: { dominantElement: Element }
     })
     .map(([sign]) => sign as ZodiacSign);
 
-  if (compatibleSigns.length === 0) return null;
+  if (compatibleSigns?.length === 0) return null;
 
   return (
     <div className="mt-6 p-4 border border-purple-200 bg-purple-50 rounded">

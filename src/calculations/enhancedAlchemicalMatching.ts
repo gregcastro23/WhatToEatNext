@@ -1,8 +1,8 @@
 import { 
-  _ElementalProperties, 
-  _ZodiacSign, 
+  ElementalProperties, 
+  ZodiacSign, 
   AlchemicalResult,
-  _PlanetaryPosition,
+  PlanetaryPosition,
   StandardizedAlchemicalResult
 } from '@/types/alchemy';
 import { planetInfo, signs } from '../data/astroData';
@@ -508,8 +508,8 @@ function compareRulers(rulerA: string, rulerB: string): number {
  * @returns Match score between 0 and 1
  */
 export function calculateAlchemicalCompatibility(
-  elementalPropertiesA: _ElementalProperties,
-  elementalPropertiesB: _ElementalProperties,
+  elementalPropertiesA: ElementalProperties,
+  elementalPropertiesB: ElementalProperties,
   zodiacA?: ZodiacSign,
   zodiacB?: ZodiacSign
 ): number {
@@ -519,7 +519,7 @@ export function calculateAlchemicalCompatibility(
   
   // Compare each element pair
   Object.entries(elementalPropertiesA).forEach(([element, valueA]) => {
-    const valueB = elementalPropertiesB[element as keyof _ElementalProperties] || 0;
+    const valueB = elementalPropertiesB[element as keyof ElementalProperties] || 0;
     const weight = (valueA + valueB) / 2; // Average weight of this element
     
     // Similar values are more compatible

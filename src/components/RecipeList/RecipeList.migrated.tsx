@@ -16,11 +16,11 @@ import {
   People, Star, FilterList, Clear
 } from '@mui/icons-material';
 
-import { _Recipe } from '@/types/recipe';
+import { Recipe } from '@/types/recipe';
 import { useServices } from '@/hooks/useServices';
 import { fetchPlanetaryPositions } from '@/services/astrologizeApi';
 import { astrologize } from '@/services/astrologize';
-import { _logger } from '@/utils/logger';
+import { logger } from '@/utils/logger';
 import type { CuisineType, DietaryRestriction, ElementalProperties } from '@/types/alchemy';
 
 // Comprehensive interfaces
@@ -159,7 +159,7 @@ const RecipeCard: React.FC<{
           </Box>
         )}
 
-        {tags.length > 0 && (
+        {tags?.length > 0 && (
           <Box mb={2}>
             <Typography variant="caption" color="text.secondary" gutterBottom>
               Tags:
@@ -174,7 +174,7 @@ const RecipeCard: React.FC<{
                   sx={{ fontSize: '0.7rem', height: 20 }}
                 />
               ))}
-              {tags.length > 3 && (
+              {tags?.length > 3 && (
                 <Chip 
                   label={`+${tags.length - 3} more`}
                   size="small"
@@ -261,7 +261,7 @@ const RecipeCard: React.FC<{
             </AccordionDetails>
           </Accordion>
 
-          {instructions.length > 0 && (
+          {instructions?.length > 0 && (
             <Accordion>
               <AccordionSummary expandIcon={<ExpandMore />}>
                 <Typography variant="subtitle2">
@@ -377,7 +377,7 @@ export default function RecipeListMigrated() {
 
   // Enhanced recipes with scoring
   useEffect(() => {
-    if (recipes.length > 0) {
+    if (recipes?.length > 0) {
       const enhanced = recipes.map(recipe => ({
         ...recipe,
         score: calculateRecipeScore(recipe, astroData),
@@ -532,7 +532,7 @@ export default function RecipeListMigrated() {
       }
 
       // Cuisine filter
-      if (filters.cuisineTypes.length > 0 && !filters.cuisineTypes.includes(recipe.cuisine as CuisineType)) {
+      if (filters.cuisineTypes?.length > 0 && !filters.cuisineTypes.includes(recipe.cuisine as CuisineType)) {
         return false;
       }
 
@@ -731,7 +731,7 @@ export default function RecipeListMigrated() {
       </Typography>
 
       {/* Recipe Grid */}
-      {filteredRecipes.length > 0 ? (
+      {filteredRecipes?.length > 0 ? (
         <>
           <Grid container spacing={3}>
             {filteredRecipes.map((recipe) => (
@@ -739,7 +739,7 @@ export default function RecipeListMigrated() {
                 <RecipeCard
                   recipe={recipe}
                   isExpanded={expandedRecipeId === recipe.id}
-                  onToggle={() => toggleRecipe(recipe.id)}
+                  onToggle={() => toggleRecipe(recipe?.id)}
                 />
               </Grid>
             ))}

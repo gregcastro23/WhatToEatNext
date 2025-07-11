@@ -663,7 +663,7 @@ export function calculateNutritionalBalance(ingredients: IngredientWithNutrition
     phytonutrients: {}
   };
 
-  if (!ingredients || ingredients.length === 0) {
+  if (!ingredients || ingredients?.length === 0) {
     return defaultProfile;
   }
 

@@ -11,7 +11,7 @@ export interface Nutrition {
 }
 
 // Mock Data
-export const defaultElementalProps: _ElementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+export const defaultElementalProps: ElementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
 };
 
 export const mockIngredients = {
@@ -44,7 +44,7 @@ import React, { useMemo } from 'react';
 import { getTopIngredientMatches } from '../../utils/recommendation/foodRecommendation';
 
 
-import { _Element } from "@/types/alchemy";
+import { Element } from "@/types/alchemy";
 
 
 interface IngredientRecommendationsProps {

@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { Moon, Sun, Menu, X } from 'lucide-react';
-import { _logger } from '@/utils/logger';
+import { logger } from '@/utils/logger';
 
 interface HeaderProps {
   onServingsChange?: (servings: number) => void;

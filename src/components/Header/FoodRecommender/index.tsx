@@ -36,13 +36,13 @@ import { RecommendationAdapter } from '@/services/RecommendationAdapter';
 import { ElementalItem, AlchemicalItem } from '@/calculations/alchemicalTransformation';
 import { AlchemicalProperty, _ElementalCharacter } from '@/constants/planetaryElements';
 import { PlanetaryDignity } from '@/constants/planetaryFoodAssociations';
-import { _LunarPhase, _LunarPhaseWithSpaces, _PlanetaryAspect } from '@/types/alchemy';
+import { LunarPhase, _LunarPhaseWithSpaces, _PlanetaryAspect } from '@/types/alchemy';
 import TarotFoodDisplay from '@/components/TarotFoodDisplay';
 import { calculateAspects, _calculatePlanetaryPositions } from '@/utils/astrologyUtils';
 import { useCurrentChart } from '@/hooks/useCurrentChart';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 
-import { _logger } from '@/utils/logger';
+import { logger } from '@/utils/logger';
 
 // Import ingredient data
 import allIngredients from '@/data/ingredients';
@@ -215,7 +215,7 @@ const FoodRecommender: React.FC = () => {
                     });
                 }
                 
-                if (ingredientsAsElementalItems.length === 0) {
+                if (ingredientsAsElementalItems?.length === 0) {
                     throw new Error('Failed to extract any valid ingredients');
                 }
                 
@@ -591,7 +591,7 @@ const FoodRecommender: React.FC = () => {
                         </div>
                     </div>
                     
-                    {transformedIngredients.length === 0 ? (
+                    {transformedIngredients?.length === 0 ? (
                         <div className="bg-purple-900 bg-opacity-20 p-4 rounded">
                             <p className="text-purple-300">No recommended ingredients found for the current planetary alignment.</p>
                         </div>

@@ -101,8 +101,8 @@ import {
   ElementalItem,
   AlchemicalItem,
 
-  _ZodiacSign,
-  _LunarPhase,
+  ZodiacSign,
+  LunarPhase,
   _LunarPhaseWithSpaces,
   ElementalProperties} from '@/types/alchemy';
 import { _ElementalCharacter, AlchemicalProperty } from '@/constants/planetaryElements';
@@ -127,7 +127,7 @@ import {
   allSauces,
   Sauce,
 } from '@/data/sauces';
-import { _Recipe } from '@/types/recipe';
+import { Recipe } from '@/types/recipe';
 // Import the comprehensive cuisine integration system
 import {
   cuisineMonicaConstants,
@@ -135,7 +135,7 @@ import {
   type CuisineMonicaProfile,
   type CuisineCompatibilityProfile,
 } from '@/data/unified/cuisineIntegrations';
-import { _Season } from '@/types/seasons';
+import { Season } from '@/types/seasons';
 
 // Keep the interface exports for any code that depends on them
 export interface Cuisine {
@@ -288,7 +288,7 @@ function calculateEnhancedCuisineScore(
       kalchmHarmony = cuisineIntegrationSystem.calculateKalchmHarmony([cuisineName]);
       
       // If we have multiple user preference cuisines, calculate harmony between them
-      if (astroState?.preferredCuisines && Array.isArray(astroState.preferredCuisines) && astroState.preferredCuisines.length > 0) {
+      if (astroState?.preferredCuisines && Array.isArray(astroState.preferredCuisines) && astroState.preferredCuisines?.length > 0) {
         const userCuisines = astroState.preferredCuisines.map((c: Record<string, unknown>) => c.name?.toLowerCase() || c.toString().toLowerCase());
         const harmonies = userCuisines.map((userCuisine: string) => 
           cuisineIntegrationSystem.calculateKalchmHarmony([cuisineName, userCuisine])
@@ -500,7 +500,7 @@ function getCuisineCulturalGroup(cuisineName: string): string {
 
 function calculateCulturalSynergy(userGroups: string[], cuisineGroup: string): number {
   if (userGroups.includes(cuisineGroup)) return 0.9;
-  if (userGroups.length === 0) return 0.7; // Default if no preferences
+  if (userGroups?.length === 0) return 0.7; // Default if no preferences
   return 0.6; // Different cultural groups
 }
 
@@ -709,7 +709,7 @@ export default function CuisineRecommender() {
   const lunarPhase = astrologicalState?.lunarPhase || null;
   
   // Get current season for seasonal optimization
-  const currentSeason: _Season = useMemo(() => {
+  const currentSeason: Season = useMemo(() => {
     const month = new Date().getMonth();
     if (month >= 2 && month <= 4) return 'spring';
     if (month >= 5 && month <= 7) return 'summer';
@@ -907,7 +907,7 @@ export default function CuisineRecommender() {
       // Start with all cuisines
       const availableCuisines = cuisineFlavorProfiles ? Object.values(cuisineFlavorProfiles) : [];
       
-      if (availableCuisines.length === 0) {
+      if (availableCuisines?.length === 0) {
         // console.warn('No cuisine flavor profiles available');
         return [];
       }
@@ -920,7 +920,7 @@ export default function CuisineRecommender() {
         try {
           // Skip regional variants for now
           if (!cuisine.parentCuisine) {
-            cuisineMap.set(cuisine.id, {
+            cuisineMap.set(cuisine?.id, {
               cuisine: cuisine,
               regionalVariants: []
             });
@@ -980,7 +980,7 @@ export default function CuisineRecommender() {
             commonIngredients: cuisine.signatureIngredients || cuisine.primaryIngredients || [],
             cookingTechniques: cuisine.signatureTechniques || cuisine.commonCookingMethods || [],
             // If we have regional variants, include them
-            regionalVariants: regionalVariants.map((variant: Record<string, unknown>) => variant.name)
+            regionalVariants: regionalVariants.map((variant: Record<string, unknown>) => variant?.name)
           };
           
           transformedCuisines.push(mainCuisine);
@@ -1073,7 +1073,7 @@ export default function CuisineRecommender() {
       // Get enhanced cuisine recommendations
       const recommendations = getEnhancedCuisineRecommendations(astroState as unknown);
       
-      if (recommendations.length === 0) {
+      if (recommendations?.length === 0) {
         // console.warn('No cuisine recommendations generated');
         setError('No cuisines available at this time. Please try again later.');
         return;
@@ -1104,19 +1104,19 @@ export default function CuisineRecommender() {
       setLoadingStep('Optimizing Monica constants...');
       
       // If we have a top recommendation, auto-select it and load its recipes
-      if (recommendations.length > 0) {
+      if (recommendations?.length > 0) {
         const topRecommendation = recommendations[0];
-        setSelectedCuisine(topRecommendation.id);
+        setSelectedCuisine(topRecommendation?.id);
         
         setLoadingStep('Loading cuisine-specific recipes...');
         
         try {
           // Get recipes for the top cuisine
           const cuisineRecipes = getRecipesForCuisineMatch ? 
-            await Promise.resolve(getRecipesForCuisineMatch(topRecommendation.name, allRecipes)) : [];
+            await Promise.resolve(getRecipesForCuisineMatch(topRecommendation?.name, allRecipes)) : [];
           
           const enhancedRecipes = Array.isArray(cuisineRecipes) ? cuisineRecipes.map(recipe => 
-            buildCompleteRecipe(recipe as unknown, topRecommendation.name, elementalProfile, astroState as unknown, currentSeasonToUse)
+            buildCompleteRecipe(recipe as unknown, topRecommendation?.name, elementalProfile, astroState as unknown, currentSeasonToUse)
           ) : [];
           
           setRecipes(enhancedRecipes);
@@ -1129,7 +1129,7 @@ export default function CuisineRecommender() {
         
         try {
           // Generate sauce recommendations
-          const sauceRecs = generateSauceRecommendationsForCuisine(topRecommendation.name);
+          const sauceRecs = generateSauceRecommendationsForCuisine(topRecommendation?.name);
           setSauceRecommendations(sauceRecs as unknown);
           setSauces(allSauces ? Object.values(allSauces) : []);
         } catch (sauceError) {
@@ -1174,11 +1174,11 @@ export default function CuisineRecommender() {
     
     logCuisineAction('cuisine_selected', {
       cuisineId,
-      cuisineName: selectedCuisineData.name,
+      cuisineName: selectedCuisineData?.name,
       matchScore: selectedCuisineData.score
     });
     
-    trackEvent('cuisine_selected', selectedCuisineData.name);
+    trackEvent('cuisine_selected', selectedCuisineData?.name);
     
     // Load recipes for the selected cuisine
     const loadRecipesForCuisine = async () => {
@@ -1187,15 +1187,15 @@ export default function CuisineRecommender() {
         setLoading(true);
         
         const allRecipes = await getAllRecipes();
-        let cuisineRecipes = await Promise.resolve(getRecipesForCuisineMatch(selectedCuisineData.name, allRecipes));
+        let cuisineRecipes = await Promise.resolve(getRecipesForCuisineMatch(selectedCuisineData?.name, allRecipes));
         
         // Enhanced recipe building with better scoring
-        cuisineRecipes = Array.isArray(cuisineRecipes) ? cuisineRecipes.map(recipe => buildCompleteRecipe(recipe as unknown, selectedCuisineData.name, currentMomentElementalProfile, astrologicalState as unknown, currentSeason)) : [];
+        cuisineRecipes = Array.isArray(cuisineRecipes) ? cuisineRecipes.map(recipe => buildCompleteRecipe(recipe as unknown, selectedCuisineData?.name, currentMomentElementalProfile, astrologicalState as unknown, currentSeason)) : [];
         
         setRecipes(cuisineRecipes as unknown);
         
         // Generate sauce recommendations for this cuisine
-        const sauceRecs = generateSauceRecommendationsForCuisine(selectedCuisineData.name);
+        const sauceRecs = generateSauceRecommendationsForCuisine(selectedCuisineData?.name);
         setSauceRecommendations(sauceRecs as unknown);
         setSauces((allSauces || []) as unknown);
         
@@ -1295,7 +1295,7 @@ export default function CuisineRecommender() {
                     ? 'border-gray-200 bg-gray-50' 
                     : 'border-gray-200'
               }`}
-              onClick={() => handleCuisineSelect(cuisine.id)}
+              onClick={() => handleCuisineSelect(cuisine?.id)}
             >
               {/* Cuisine header with name and match score */}
               <div className="flex justify-between items-center mb-2">
@@ -1304,7 +1304,7 @@ export default function CuisineRecommender() {
                   {isRegionalVariant && (
                     <span className="text-xs text-gray-500">Regional variant of {cuisine.parentCuisine}</span>
                   )}
-                  {cuisine.regionalVariants && cuisine.regionalVariants.length > 0 && (
+                  {cuisine.regionalVariants && cuisine.regionalVariants?.length > 0 && (
                     <span className="text-xs text-gray-500 block">
                       {cuisine.regionalVariants.length} regional variants
                     </span>
@@ -1356,7 +1356,7 @@ export default function CuisineRecommender() {
               </div>
 
               {/* Show signature dishes and techniques if available */}
-              {cuisine.signatureDishes && cuisine.signatureDishes.length > 0 && (
+              {cuisine.signatureDishes && cuisine.signatureDishes?.length > 0 && (
                 <div className="mt-1">
                   <span className="text-xs font-medium text-gray-500 block">Signature dishes:</span>
                   <span className="text-xs text-gray-600">
@@ -1367,7 +1367,7 @@ export default function CuisineRecommender() {
               )}
 
               {/* Show astrological influences if available */}
-              {cuisine.zodiacInfluences && cuisine.zodiacInfluences.length > 0 && (
+              {cuisine.zodiacInfluences && cuisine.zodiacInfluences?.length > 0 && (
                 <div className="mt-1 flex flex-wrap gap-1">
                   {cuisine.zodiacInfluences.slice(0, 3).map(sign => (
                     <span 
@@ -1400,7 +1400,7 @@ export default function CuisineRecommender() {
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            {(sauceRecommendations.length > 0 ? sauceRecommendations : (() => {
+            {(sauceRecommendations?.length > 0 ? sauceRecommendations : (() => {
               try {
                 return generateTopSauceRecommendations(currentMomentElementalProfile, 6) || [];
               } catch (error) {
@@ -1457,14 +1457,14 @@ export default function CuisineRecommender() {
                 </div>
 
                 {/* Show key ingredients if available */}
-                {sauce.ingredients && sauce.ingredients.length > 0 && (
+                {sauce.ingredients && sauce.ingredients?.length > 0 && (
                   <div className="mt-2 flex flex-wrap gap-1">
                     {sauce.ingredients.slice(0, 3).map((ingredient, i) => (
                       <span key={i} className="text-xs bg-white px-1.5 py-0.5 rounded border border-gray-100">
                         {ingredient}
                       </span>
                     ))}
-                    {sauce.ingredients.length > 3 && (
+                    {sauce.ingredients?.length > 3 && (
                       <span className="text-xs text-gray-500">+{sauce.ingredients.length - 3} more</span>
                     )}
                   </div>
@@ -1517,7 +1517,7 @@ export default function CuisineRecommender() {
                     </div>
 
                     {/* Show all ingredients */}
-                    {sauce.ingredients && sauce.ingredients.length > 0 && (
+                    {sauce.ingredients && sauce.ingredients?.length > 0 && (
                       <div className="mt-1">
                         <h6 className="font-medium mb-1">Ingredients:</h6>
                         <div className="flex flex-wrap gap-1">
@@ -1632,7 +1632,7 @@ export default function CuisineRecommender() {
             {/* Astrological influences */}
             <div className="bg-gray-50 p-3 rounded border">
               <h4 className="text-sm font-medium mb-2">Astrological Influences</h4>
-              {selectedCuisineData.zodiacInfluences && selectedCuisineData.zodiacInfluences.length > 0 ? (
+              {selectedCuisineData.zodiacInfluences && selectedCuisineData.zodiacInfluences?.length > 0 ? (
                 <div>
                   <span className="text-xs font-medium text-gray-500 block mb-1">Zodiac:</span>
                   <div className="flex flex-wrap gap-1 mb-2">
@@ -1652,7 +1652,7 @@ export default function CuisineRecommender() {
                 <p className="text-xs text-gray-500">No specific zodiac influences</p>
               )}
               
-              {selectedCuisineData.lunarPhaseInfluences && selectedCuisineData.lunarPhaseInfluences.length > 0 ? (
+              {selectedCuisineData.lunarPhaseInfluences && selectedCuisineData.lunarPhaseInfluences?.length > 0 ? (
                 <div>
                   <span className="text-xs font-medium text-gray-500 block mb-1">Lunar Phases:</span>
                   <div className="flex flex-wrap gap-1">
@@ -1673,7 +1673,7 @@ export default function CuisineRecommender() {
           </div>
 
           {/* Regional variants if any */}
-          {selectedCuisineData.regionalVariants && selectedCuisineData.regionalVariants.length > 0 && (
+          {selectedCuisineData.regionalVariants && selectedCuisineData.regionalVariants?.length > 0 && (
             <div className="mb-4">
               <h4 className="text-sm font-medium mb-2">Regional Variants</h4>
               <div className="flex flex-wrap gap-2">
@@ -1690,7 +1690,7 @@ export default function CuisineRecommender() {
           )}
 
           {/* Signature dishes if available */}
-          {selectedCuisineData.signatureDishes && selectedCuisineData.signatureDishes.length > 0 && (
+          {selectedCuisineData.signatureDishes && selectedCuisineData.signatureDishes?.length > 0 && (
             <div className="mb-4">
               <h4 className="text-sm font-medium mb-2">Signature Dishes</h4>
               <div className="flex flex-wrap gap-2">
@@ -1707,7 +1707,7 @@ export default function CuisineRecommender() {
           )}
 
           {/* Recipe Recommendations - Shown after cuisine info */}
-          {recipes && recipes.length > 0 ? (
+          {recipes && recipes?.length > 0 ? (
             <div className="mt-4">
               <h4 className="text-sm font-medium mb-2">
                 Recipes ({recipes.length} available)
@@ -1785,7 +1785,7 @@ export default function CuisineRecommender() {
                             )}
                           </div>
 
-                          {recipe.ingredients && recipe.ingredients.length > 0 && (
+                          {recipe.ingredients && recipe.ingredients?.length > 0 && (
                             <div className="mt-1">
                               <h6 className="text-xs font-semibold mb-1">Ingredients:</h6>
                               <ul className="pl-4 list-disc text-xs">
@@ -1884,7 +1884,7 @@ export default function CuisineRecommender() {
                             )}
                           </div>
 
-                          {recipe.dietaryInfo && Array.isArray(recipe.dietaryInfo) && recipe.dietaryInfo.length > 0 && (
+                          {recipe.dietaryInfo && Array.isArray(recipe.dietaryInfo) && recipe.dietaryInfo?.length > 0 && (
                             <div className="mt-2 flex flex-wrap gap-1">
                               {Array.isArray(recipe.dietaryInfo) ? recipe.dietaryInfo.map((diet, i) => (
                                 <span key={i} className="inline-block px-1.5 py-0.5 bg-blue-50 text-blue-700 rounded text-xs">
@@ -1903,7 +1903,7 @@ export default function CuisineRecommender() {
                   ) as React.ReactNode)}
               </div>
 
-              {Array.isArray(recipes) && recipes.length > 6 && (
+              {Array.isArray(recipes) && recipes?.length > 6 && (
                 <button
                   className="text-xs text-blue-500 mt-2 hover:underline flex items-center"
                   onClick={(e) => {
@@ -1947,12 +1947,12 @@ export default function CuisineRecommender() {
                   <h5 className="text-sm font-medium">{selectedCuisineData?.name || "Cuisine"} Dish Inspiration</h5>
                   <p className="text-xs mt-1">
                     Try exploring traditional {selectedCuisineData?.name || "this cuisine"} recipes 
-                    {selectedCuisineData?.signatureDishes && Array.isArray(selectedCuisineData.signatureDishes) && selectedCuisineData.signatureDishes.length > 0 
+                    {selectedCuisineData?.signatureDishes && Array.isArray(selectedCuisineData.signatureDishes) && selectedCuisineData.signatureDishes?.length > 0 
                       ? ` like ${selectedCuisineData.signatureDishes.slice(0, 3).join(", ")}, and more.`
                       : ' using ingredients typical to this cuisine.'}
                   </p>
                   
-                  {selectedCuisineData?.commonIngredients && Array.isArray(selectedCuisineData.commonIngredients) && selectedCuisineData.commonIngredients.length > 0 && (
+                  {selectedCuisineData?.commonIngredients && Array.isArray(selectedCuisineData.commonIngredients) && selectedCuisineData.commonIngredients?.length > 0 && (
                     <div className="mt-2">
                       <p className="text-xs font-medium">Key Ingredients:</p>
                       <p className="text-xs">

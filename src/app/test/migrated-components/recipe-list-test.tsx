@@ -1,4 +1,4 @@
-import { _Recipe } from '@/types/recipe';
+import { Recipe } from '@/types/recipe';
 import React from 'react';
 import RecipeList from '@/components/RecipeList/RecipeList';
 import RecipeListMigrated from '@/components/RecipeList/RecipeList.migrated';

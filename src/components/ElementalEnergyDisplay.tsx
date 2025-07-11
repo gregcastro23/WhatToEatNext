@@ -21,14 +21,14 @@ import {
   _CelestialPosition, 
   _PlanetaryAlignment, 
   _Modality, 
-  _Element,
-  _AlchemicalProperties, 
-  _ElementalProperties, 
+  Element,
+  AlchemicalProperties, 
+  ElementalProperties, 
   ThermodynamicProperties 
 } from '@/types/celestial';
 
 // Create a component-specific logger
-const _logger = createLogger('ElementalEnergyDisplay');
+const logger = createLogger('ElementalEnergyDisplay');
 
 // Energy state descriptions
 const energyStateDescriptions = {

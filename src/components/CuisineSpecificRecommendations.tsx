@@ -89,7 +89,7 @@ const CuisineSpecificRecommendations: React.FC<CuisineSpecificRecommendationsPro
     return <div className="p-4 text-center">Loading recommendations...</div>;
   }
   
-  if (error || recommendations.length === 0) {
+  if (error || recommendations?.length === 0) {
     return (
       <div className="p-4 text-center text-red-500">
         {error || `No recommendations found for ${cuisineName} cuisine.`}
@@ -175,7 +175,7 @@ const CuisineSpecificRecommendations: React.FC<CuisineSpecificRecommendationsPro
                     </span>
                   );
                 })}
-                {recipe.ingredients && recipe.ingredients.length > 3 && (
+                {recipe.ingredients && recipe.ingredients?.length > 3 && (
                   <span className="inline-block px-2 py-1 rounded-full bg-gray-100 text-xs">
                     +{recipe.ingredients.length - 3} more
                   </span>

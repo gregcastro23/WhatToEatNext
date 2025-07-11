@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { _logger } from '@/utils/logger';
+import { logger } from '@/utils/logger';
 import { errorHandler } from '@/services/errorHandler'
 import Loading from '@/components/ui/Loading'
 

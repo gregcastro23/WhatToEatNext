@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { AstrologicalService } from '@/services/AstrologicalService';
-import { _LunarPhase } from '@/constants/planetaryFoodAssociations';
+import { LunarPhase } from '@/constants/planetaryFoodAssociations';
 import { 
   _calculatePlanetaryPositions, 
   calculateSunSign, 

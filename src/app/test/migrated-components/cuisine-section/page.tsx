@@ -1,15 +1,15 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { _Recipe } from '@/types/recipe';
+import { Recipe } from '@/types/recipe';
 import { CuisineSection } from '@/components/CuisineSection';
 import { CuisineSectionMigrated } from '@/components/CuisineSection/CuisineSection.migrated';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { useServices } from '@/hooks/useServices';
-import { _logger } from '@/utils/logger';
+import { logger } from '@/utils/logger';
 
-import { _Element } from "@/types/alchemy";
-// DUPLICATE: import { _Element } from "@/types/alchemy";
+import { Element } from "@/types/alchemy";
+// DUPLICATE: import { Element } from "@/types/alchemy";
 export default function CuisineSectionTestPage() {
   // Sample cuisine and elemental state for testing
   const [selectedCuisine, setSelectedCuisine] = useState<string>('Italian');

@@ -7,7 +7,7 @@ import type { Recipe } from '@/types/recipe';
 import { ElementalCalculator } from '@/services/ElementalCalculator';
 import { CUISINE_TYPES } from '@/constants/cuisineTypes';
 import styles from './CuisineGroup.module.css';
-import { _logger } from '@/utils/logger';
+import { logger } from '@/utils/logger';
 
 interface Props {
     recipes: Recipe[];

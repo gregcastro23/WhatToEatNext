@@ -17,7 +17,7 @@ import {
 } from './gregsEnergy';
 import { _Planet } from '../constants/planetaryFoodAssociations';
 import { signs, planetInfo } from '../data/astroData';
-import { StandardizedAlchemicalResult, _ElementalProperties, _PlanetaryPosition } from '@/types/alchemy';
+import { StandardizedAlchemicalResult, ElementalProperties, PlanetaryPosition } from '@/types/alchemy';
 
 /**
  * Calculate elemental balance based on properties
@@ -976,7 +976,7 @@ export function alchemize(planetaryPositions: Record<string, PlanetaryPosition>,
   const recommendation = generateRecommendation(dominantElement, elementalBalance);
   
   // Convert to upper case for ElementalProperties
-  const totalEffectValue: _ElementalProperties = {
+  const totalEffectValue: ElementalProperties = {
     Fire: elementalBalance.fire,
     Earth: elementalBalance.earth,
     Air: elementalBalance.air,

@@ -1,7 +1,7 @@
 'use client';
 
 import { NextResponse } from 'next/server';
-import { _logger } from '@/utils/logger';
+import { logger } from '@/utils/logger';
 import { ApiError, ValidationError, NotFoundError } from '@/types/errors';
 
 /**

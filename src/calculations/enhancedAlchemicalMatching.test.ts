@@ -4,7 +4,7 @@ import {
   _generateEnhancedRecommendation,
   validateAlgorithms
 } from './enhancedAlchemicalMatching';
-import { _ZodiacSign } from '@/types/alchemy';
+import { ZodiacSign } from '@/types/alchemy';
 
 describe('Enhanced Alchemical Matching Algorithms', () => {
   describe('calculateAstrologicalAffinity', () => {

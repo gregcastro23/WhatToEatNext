@@ -607,7 +607,7 @@ function getIdealIngredients(method: ExtendedAlchemicalItem): string[] {
       ingredients.push('leafy greens', 'herbs', 'light proteins', 'whipped items');
     }
     
-    if (ingredients.length > 0) {
+    if (ingredients?.length > 0) {
       return ingredients;
     }
   }
@@ -661,7 +661,7 @@ function determineMatchReason(method: ExtendedAlchemicalItem, zodiacSign?: strin
     if (reactivity > 0.6) reasons.push('Dynamic flavor development');
   }
   
-  return reasons.length > 0 
+  return reasons?.length > 0 
     ? reasons.join(', ')
     : `Compatible with ${methodName} technique`;
 }
@@ -1076,7 +1076,7 @@ export default function CookingMethods() {
   }
 
   const getMolecularDetails = (method: ExtendedAlchemicalItem): MolecularGastronomyDetails | null => {
-    if (!method || !method.name) return null;
+    if (!method || !method?.name) return null;
     
     const name = getMethodProperty(method, 'name', '');
     switch (name.toLowerCase()) {
@@ -1271,7 +1271,7 @@ export default function CookingMethods() {
     }
     
     // Generate elemental properties based on method name patterns
-    const elementalEffect: _ElementalProperties = {
+    const elementalEffect: ElementalProperties = {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
@@ -1535,7 +1535,7 @@ export default function CookingMethods() {
               )
               .map(method => getMethodProperty(method, 'name', ''));
             
-            if (methodsForPlanet.length > 0) {
+            if (methodsForPlanet?.length > 0) {
               planetaryCookingMethodsMap[planet] = methodsForPlanet;
             }
           });
@@ -1620,7 +1620,7 @@ export default function CookingMethods() {
 
   // Enhance the renderMethodCard function to display score details
   const renderMethodCard = (method: ExtendedAlchemicalItem) => {
-    if (!method || !method.name) return null;
+    if (!method || !method?.name) return null;
 
     const scoreDetails = getMethodProperty(method, 'scoreDetails', {});
     const totalScore = getMethodProperty(method, 'score', 0);

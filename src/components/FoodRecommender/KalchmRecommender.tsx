@@ -5,8 +5,8 @@ import { useAlchemical } from '@/contexts/AlchemicalContext';
 import { calculateKalchmResults } from '@/calculations/core/kalchmEngine';
 import { IngredientService } from '@/services/IngredientService';
 import { UnifiedIngredient } from '@/data/unified/unifiedTypes';
-import type { ElementalProperties, _ElementalProperties } from '@/types/alchemy';
-import { _PlanetaryPosition } from '@/types/celestial';
+import type { ElementalProperties, ElementalProperties } from '@/types/alchemy';
+import { PlanetaryPosition } from '@/types/celestial';
 import { useRealAlchemizeService } from '@/services/RealAlchemizeService';
 import { useUnifiedScoringService } from '@/services/UnifiedScoringService';
 import { useThermodynamicEngine } from '@/calculations/core/thermodynamicEngine';
@@ -16,7 +16,7 @@ import {
   calculateAlchemicalNumber,
   calculateAlchemicalNumberCompatibility,
   deriveAlchemicalFromElemental,
-  type _AlchemicalProperties
+  type AlchemicalProperties
 } from '@/data/unified/alchemicalCalculations';
 
 interface KalchmRecommenderProps {

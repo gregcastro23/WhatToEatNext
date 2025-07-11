@@ -9,7 +9,7 @@ import { ingredientMappings } from '@/utils/elementalMappings/ingredients';
 import { ELEMENT_COMBINATIONS } from '@/utils/constants/elements';
 
 type CookingMethod = 'simmered' | 'infused' | 'raw' | 'baked' | 'fried' | 'grilled';
-type _Season = 'spring' | 'summer' | 'fall' | 'winter' | 'all';
+type Season = 'spring' | 'summer' | 'fall' | 'winter' | 'all';
 type Temperature = 'hot' | 'cold' | 'neutral';
 
 interface CombinationRule {
@@ -191,7 +191,7 @@ const isAntagonisticCombination = (
   );
 };
 
-const getDominantElement = (elements: ElementalProperties): _Element => {
+const getDominantElement = (elements: ElementalProperties): Element => {
   return Object.entries(elements)
     .sort(([, a], [, b]) => b - a)[0][0] as Element;
 };
@@ -223,8 +223,8 @@ export const suggestComplementaryIngredients = (
 
 const calculateCombinedElements = (
   ingredients: string[]
-): _ElementalProperties => {
-  const combined: _ElementalProperties = {
+): ElementalProperties => {
+  const combined: ElementalProperties = {
     Fire: 0,
     Water: 0,
     Air: 0,

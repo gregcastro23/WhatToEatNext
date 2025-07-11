@@ -7,7 +7,7 @@
 
 
 import type { ElementalProperties } from "@/types/alchemy";
-import { _Element } from "@/types/alchemy";
+import { Element } from "@/types/alchemy";
 
 /**
  * Cuisine recommendation result
@@ -154,7 +154,7 @@ function calculateCuisineCompatibility(
  */
 function calculateCuisineElementalAlignment(cuisine: string): ElementalProperties {
   // Default balanced alignment
-  let alignment: _ElementalProperties = { Fire: 0.25, Water: 0.25, Air: 0.25, Earth: 0.25 };
+  let alignment: ElementalProperties = { Fire: 0.25, Water: 0.25, Air: 0.25, Earth: 0.25 };
 
   // Adjust based on cuisine characteristics
   const lowerCuisine = cuisine?.toLowerCase();

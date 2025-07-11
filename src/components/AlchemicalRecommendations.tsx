@@ -4,8 +4,8 @@ import { _ElementalCharacter, AlchemicalProperty } from '@/constants/planetaryEl
 import { useAlchemicalRecommendations } from '@/hooks/useAlchemicalRecommendations';
 import { ElementalItem } from '@/calculations/alchemicalTransformation';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-import { _LunarPhase, _LunarPhaseWithSpaces, _ZodiacSign, _PlanetaryAspect } from '@/types/alchemy';
-import { _PlanetaryPosition } from '@/types/celestial';
+import { LunarPhase, _LunarPhaseWithSpaces, ZodiacSign, _PlanetaryAspect } from '@/types/alchemy';
+import { PlanetaryPosition } from '@/types/celestial';
 
 // Import the correct data sources
 import allIngredients from '@/data/ingredients';
@@ -513,7 +513,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         {/* Recommended Ingredients */}
         <div className="recommendation-section">
           <h3>Recommended Ingredients</h3>
-          {recommendations.topIngredients.length > 0 ? (
+          {recommendations.topIngredients?.length > 0 ? (
             <ul className="recommendation-list">
               {recommendations.topIngredients.map(ingredient => (
                 <li key={ingredient.id} className="recommendation-item">
@@ -552,7 +552,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         {/* Recommended Cooking Methods */}
         <div className="recommendation-section">
           <h3>Recommended Cooking Methods</h3>
-          {recommendations.topMethods.length > 0 ? (
+          {recommendations.topMethods?.length > 0 ? (
             <ul className="recommendation-list">
               {recommendations.topMethods.map(method => (
                 <li key={method.id} className="recommendation-item">
@@ -587,7 +587,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         {/* Recommended Cuisines */}
         <div className="recommendation-section">
           <h3>Recommended Cuisines</h3>
-          {recommendations.topCuisines.length > 0 ? (
+          {recommendations.topCuisines?.length > 0 ? (
             <ul className="recommendation-list">
               {recommendations.topCuisines.map(cuisine => (
                 <li key={cuisine.id} className="recommendation-item">

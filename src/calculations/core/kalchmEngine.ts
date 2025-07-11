@@ -177,7 +177,7 @@ export function calculateMonicaConstant(
 export function calculateAlchemicalProperties(
   planetaryPositions: { [key: string]: PlanetaryPosition }
 ): AlchemicalProperties {
-  const properties: _AlchemicalProperties = {
+  const properties: AlchemicalProperties = {
     Spirit: 0,
     Essence: 0,
     Matter: 0,
@@ -377,7 +377,7 @@ export function calculateKalchmResults(
       }
       
       // Determine dominant alchemical property
-      let dominantProperty: keyof _AlchemicalProperties = 'Spirit';
+      let dominantProperty: keyof AlchemicalProperties = 'Spirit';
       let maxPropertyValue = -Infinity;
       for (const [prop, val] of Object.entries(alchemicalProperties) as [keyof AlchemicalProperties, number][]) {
         if (val > maxPropertyValue) {

@@ -1,4 +1,4 @@
-import { _Recipe } from '@/types/recipe';
+import { Recipe } from '@/types/recipe';
 
 /**
  * Streamlined Alchemical Calculations Engine
@@ -54,7 +54,7 @@ import {
   getSeasonalModifiers 
 } from './culinary/seasonalAdjustments';
 
-import { _Element } from "@/types/alchemy";
+import { Element } from "@/types/alchemy";
 import { _PlanetaryAlignment } from "@/types/celestial";
 
 // Import the missing function
@@ -378,7 +378,7 @@ async function getFallbackResult(input: CalculationInput, cacheKey: string): Pro
     // console.warn('Astrologize API also failed in fallback, using static fallback:', astrologizeError);
     
     // Only use static fallback as last resort
-    const fallbackElemental: _ElementalProperties = { 
+    const fallbackElemental: ElementalProperties = { 
       Fire: 0.25, 
       Water: 0.25, 
       Air: 0.25,

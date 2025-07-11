@@ -53,7 +53,7 @@ import { useServices } from '@/hooks/useServices';
 import Link from 'next/link';
 import type { Recipe } from '@/types/recipe';
 // TODO: Fix CSS module import - was: import from "./CuisineSection.module.css.ts"
-import { _logger } from '@/utils/logger';
+import { logger } from '@/utils/logger';
 
 // Define SauceInfo interface
 interface SauceInfo {

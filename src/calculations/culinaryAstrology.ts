@@ -124,7 +124,7 @@ export class CulinaryAstrologer {
     )[0];
 
     return {
-      name: bestMethod.name,
+      name: bestMethod?.name,
       rationale: `Aligns with ${this.getDominantElementFromAstro(astroState)} dominance through ${bestMethod.benefits.join(' and ')}`,
       optimalTiming: this.calculateOptimalTiming(bestMethod, astroState)
     };

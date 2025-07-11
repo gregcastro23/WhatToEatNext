@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { CookingMethodsSection } from '@/components/CookingMethodsSection';
 import { CookingMethodsSectionMigrated } from '@/components/CookingMethodsSection.migrated';
 import { useServices } from '@/hooks/useServices';
-import { _logger } from '@/utils/logger';
+import { logger } from '@/utils/logger';
 
 // Sample cooking methods for testing
 const sampleMethods = [

@@ -6,7 +6,7 @@
  */
 
 import { 
-  _ElementalProperties,
+  ElementalProperties,
   _isElementalProperties,
   DEFAULT_ELEMENTAL_PROPERTIES
 } from './elemental';

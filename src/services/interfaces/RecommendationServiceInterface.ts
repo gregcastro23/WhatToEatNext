@@ -1,10 +1,10 @@
 
-import { _ElementalProperties, _Planet, ZodiacSign , PlanetaryAlignment } from "@/types/celestial";
+import { ElementalProperties, _Planet, ZodiacSign , PlanetaryAlignment } from "@/types/celestial";
 import { Recipe } from "@/types/recipe";
 import { Ingredient } from "@/types/ingredient";
 import { CookingMethod } from "@/types/cooking";
 import { _ThermodynamicMetrics } from "@/types/alchemical";
-import { _Element } from "@/types/alchemy";
+import { Element } from "@/types/alchemy";
 
 
 /**

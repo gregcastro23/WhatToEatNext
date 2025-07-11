@@ -139,7 +139,7 @@ const NutritionalRecommender: React.FC<NutritionalRecommenderProps> = ({
   // Fetch recipe recommendations when selected ingredients change
   useEffect(() => {
     const getRecipes = async () => {
-      if (selectedIngredients.length === 0) {
+      if (selectedIngredients?.length === 0) {
         setRecipeRecommendations([]);
         return;
       }
@@ -253,7 +253,7 @@ const NutritionalRecommender: React.FC<NutritionalRecommenderProps> = ({
 
             {/* Display selected vitamins with remove option */}
             {filter.nutritional?.vitamins &&
-              filter.nutritional.vitamins.length > 0 && (
+              filter.nutritional.vitamins?.length > 0 && (
                 <div className="flex flex-wrap gap-2 mt-2">
                   {filter.nutritional.vitamins.map((vitamin) => (
                     <span
@@ -308,7 +308,7 @@ const NutritionalRecommender: React.FC<NutritionalRecommenderProps> = ({
 
             {/* Display selected minerals with remove option */}
             {filter.nutritional?.minerals &&
-              filter.nutritional.minerals.length > 0 && (
+              filter.nutritional.minerals?.length > 0 && (
                 <div className="flex flex-wrap gap-2 mt-2">
                   {filter.nutritional.minerals.map((mineral) => (
                     <span
@@ -353,7 +353,7 @@ const NutritionalRecommender: React.FC<NutritionalRecommenderProps> = ({
       </div>
 
       {/* Selected Ingredients */}
-      {selectedIngredients.length > 0 && (
+      {selectedIngredients?.length > 0 && (
         <div className="mb-6">
           <h3 className="font-medium mb-2">Selected Ingredients for Recipes</h3>
           <div className="flex flex-wrap gap-2">
@@ -382,7 +382,7 @@ const NutritionalRecommender: React.FC<NutritionalRecommenderProps> = ({
       )}
 
       {/* Recipe Recommendations */}
-      {selectedIngredients.length > 0 && (
+      {selectedIngredients?.length > 0 && (
         <div className="mb-8">
           <h3 className="font-medium mb-3">Recipe Recommendations</h3>
 
@@ -393,7 +393,7 @@ const NutritionalRecommender: React.FC<NutritionalRecommenderProps> = ({
                 Finding recipes with your ingredients...
               </p>
             </div>
-          ) : recipeRecommendations.length > 0 ? (
+          ) : recipeRecommendations?.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {recipeRecommendations.map((recipe) => (
                 <RecipeCard key={recipe.id} recipe={recipe} />
@@ -443,7 +443,7 @@ const NutritionalRecommender: React.FC<NutritionalRecommenderProps> = ({
 
       {/* Results Display */}
       <div>
-        {categoriesToDisplay.length === 0 ? (
+        {categoriesToDisplay?.length === 0 ? (
           <div className="text-center py-6 text-gray-500">
             No recommendations found with the current filters.
           </div>
@@ -648,7 +648,7 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
         </label>
       </div>
 
-      {qualities && Array.isArray(qualities) && qualities.length > 0 && (
+      {qualities && Array.isArray(qualities) && qualities?.length > 0 && (
         <div className="mb-2 flex flex-wrap gap-1">
           {qualities.map((quality: string) => (
             <span
@@ -724,7 +724,7 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
         {(nutritionalProfile.vitamins || nutritionalProfile.minerals) && (
           <div className="grid grid-cols-1 gap-1 mt-1">
             {nutritionalProfile.vitamins &&
-              Array.isArray(nutritionalProfile.vitamins) && nutritionalProfile.vitamins.length > 0 && (
+              Array.isArray(nutritionalProfile.vitamins) && nutritionalProfile.vitamins?.length > 0 && (
                 <div className="text-xs">
                   Vitamins:{' '}
                   {(nutritionalProfile.vitamins as string[])
@@ -734,7 +734,7 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
               )}
 
             {nutritionalProfile.minerals &&
-              Array.isArray(nutritionalProfile.minerals) && nutritionalProfile.minerals.length > 0 && (
+              Array.isArray(nutritionalProfile.minerals) && nutritionalProfile.minerals?.length > 0 && (
                 <div className="text-xs">
                   Minerals: {(nutritionalProfile.minerals as string[]).join(', ')}
                 </div>

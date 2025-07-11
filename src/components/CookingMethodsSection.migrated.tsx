@@ -5,9 +5,9 @@ import styles from './CookingMethods.module.css';
 import { ChevronDown, ChevronUp, Globe, Flame, Droplets, Wind, Mountain, Search, ArrowUp, ArrowDown, Zap, Sparkles, Minus, Info, List, ThumbsUp, Clock } from 'lucide-react';
 import { useServices } from '@/hooks/useServices';
 // TODO: Fix CSS module import - was: import from "./CookingMethods.module.css.ts"
-import { _logger } from '@/utils/logger';
+import { logger } from '@/utils/logger';
 
-import { _Element } from "@/types/alchemy";
+import { Element } from "@/types/alchemy";
 // Define proper types for the methods
 interface CookingMethod {
   id: string;

@@ -1,9 +1,9 @@
 import { 
-  _ElementalProperties, 
+  ElementalProperties, 
   _Planet, 
   ZodiacSign, 
   _ThermodynamicMetrics,
-  _Element
+  Element
 } from '../types';
 
 import { Recipe } from '../types/recipe';

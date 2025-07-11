@@ -58,7 +58,7 @@ export const ZODIAC_ELEMENTS: Record<ZodiacSign, Element> = {
 export function calculateBaseElementalProperties(
   planetaryPositions: { [key: string]: PlanetaryPosition }
 ): ElementalProperties {
-  const elements: _ElementalProperties = { Fire: 0, Water: 0, Air: 0, Earth: 0
+  const elements: ElementalProperties = { Fire: 0, Water: 0, Air: 0, Earth: 0
    };
 
   // Process each planet's contribution
@@ -148,7 +148,7 @@ export function calculateElementalCompatibility(
  * Get the dominant element from elemental properties
  */
 export function getDominantElement(properties: ElementalProperties): Element {
-  let dominant: _Element = 'Fire';
+  let dominant: Element = 'Fire';
   let max = -Infinity;
 
   for (const [element, value] of Object.entries(properties) as [Element, number][]) {
@@ -180,7 +180,7 @@ export function combineElementalProperties(
   weight1: number = 0.5,
   weight2: number = 0.5
 ): ElementalProperties {
-  const combined: _ElementalProperties = { Fire: properties1.Fire * weight1 + properties2.Fire * weight2, Water: properties1.Water * weight1 + properties2.Water * weight2, Air: properties1.Air * weight1 + properties2.Air * weight2, Earth: properties1.Earth * weight1 + properties2.Earth * weight2
+  const combined: ElementalProperties = { Fire: properties1.Fire * weight1 + properties2.Fire * weight2, Water: properties1.Water * weight1 + properties2.Water * weight2, Air: properties1.Air * weight1 + properties2.Air * weight2, Earth: properties1.Earth * weight1 + properties2.Earth * weight2
    };
 
   return normalizeElementalProperties(combined);
