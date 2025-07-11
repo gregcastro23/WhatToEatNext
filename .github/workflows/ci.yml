@@ -1,201 +1,227 @@
-name: CI
+name: CI/CD Pipeline
 
-on: 
+on:
   push:
-    branches: ['**']
+    branches: [main, develop]
   pull_request:
-    branches: ['**']
+    branches: [main, develop]
+  workflow_dispatch:
+
+env:
+  NODE_ENV: test
+  NEXT_PUBLIC_ENABLE_ASTRO_DEBUG: false
+  NEXT_PUBLIC_API_CACHE_TIME: 3600
+  CI: true
+  NODE_OPTIONS: "--max-old-space-size=4096"
 
 jobs:
+  # Security and dependency scanning
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --network-timeout 300000
+
+      - name: Run yarn audit
+        run: yarn audit --level moderate
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: 'trivy-results.sarif'
+
+  # Linting and code quality
   lint:
     runs-on: ubuntu-latest
-    env:
-      NODE_ENV: test
-      NEXT_PUBLIC_ENABLE_ASTRO_DEBUG: false
-      NEXT_PUBLIC_API_CACHE_TIME: 3600
-      CI: true
-      NODE_OPTIONS: "--max-old-space-size=4096"
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 1
-          persist-credentials: false
-      - name: Debug workspace
-        run: |
-          echo "Current directory: $(pwd)"
-          echo "Workspace directory: $GITHUB_WORKSPACE"
-          ls -la $GITHUB_WORKSPACE
-          echo "Looking for lock files..."
-          find $GITHUB_WORKSPACE -name "package-lock.json" -o -name "yarn.lock" -o -name "npm-shrinkwrap.json"
-      - name: Check for yarn.lock
-        id: check_files
-        run: |
-          if [ ! -f "yarn.lock" ]; then
-            echo "yarn_lock_missing=true" >> $GITHUB_OUTPUT
-            echo "yarn.lock file is missing!"
-          else
-            echo "yarn_lock_missing=false" >> $GITHUB_OUTPUT
-            echo "yarn.lock exists!"
-          fi
-      - name: Create yarn.lock if missing
-        if: steps.check_files.outputs.yarn_lock_missing == 'true'
-        run: |
-          echo "Creating empty yarn.lock file as a fallback"
-          touch yarn.lock
-      - name: Setup safe directory
-        run: git config --global --add safe.directory $GITHUB_WORKSPACE
-      - name: Install system dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          # Disable caching entirely
-      - name: Verify Node Installation
-        run: |
-          node --version
-          npm --version
-          which npm
-      - name: Install Yarn
-        run: npm install -g yarn
-      - name: Create env file
-        run: |
-          echo "NEXT_PUBLIC_ENABLE_ASTRO_DEBUG=false" > .env.local
-          echo "NEXT_PUBLIC_API_CACHE_TIME=3600" >> .env.local
-          echo "NODE_ENV=test" >> .env.local
-      - name: Install dependencies
-        run: yarn install --network-timeout 300000
-      - name: Run lint
-        # Maintain previous warning limit for now
-        run: yarn lint --max-warnings=200
+          cache: 'yarn'
 
-  build:
-    runs-on: ubuntu-latest
-    env:
-      NODE_ENV: test
-      NEXT_PUBLIC_ENABLE_ASTRO_DEBUG: false
-      NEXT_PUBLIC_API_CACHE_TIME: 3600
-      CI: true
-      NODE_OPTIONS: "--max-old-space-size=4096"
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 1
-          persist-credentials: false
-      - name: Debug workspace
-        run: |
-          echo "Current directory: $(pwd)"
-          echo "Workspace directory: $GITHUB_WORKSPACE"
-          ls -la $GITHUB_WORKSPACE
-          echo "Looking for lock files..."
-          find $GITHUB_WORKSPACE -name "package-lock.json" -o -name "yarn.lock" -o -name "npm-shrinkwrap.json"
-      - name: Check for yarn.lock
-        id: check_files
-        run: |
-          if [ ! -f "yarn.lock" ]; then
-            echo "yarn_lock_missing=true" >> $GITHUB_OUTPUT
-            echo "yarn.lock file is missing!"
-          else
-            echo "yarn_lock_missing=false" >> $GITHUB_OUTPUT
-            echo "yarn.lock exists!"
-          fi
-      - name: Create yarn.lock if missing
-        if: steps.check_files.outputs.yarn_lock_missing == 'true'
-        run: |
-          echo "Creating empty yarn.lock file as a fallback"
-          touch yarn.lock
-      - name: Setup safe directory
-        run: git config --global --add safe.directory $GITHUB_WORKSPACE
-      - name: Install system dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          # Disable caching entirely
-      - name: Verify Node Installation
-        run: |
-          node --version
-          npm --version
-          which npm
-      - name: Install Yarn
-        run: npm install -g yarn
-      - name: Create env file
-        run: |
-          echo "NEXT_PUBLIC_ENABLE_ASTRO_DEBUG=false" > .env.local
-          echo "NEXT_PUBLIC_API_CACHE_TIME=3600" >> .env.local
-          echo "NODE_ENV=test" >> .env.local
       - name: Install dependencies
-        run: yarn install --network-timeout 300000
-      - name: Build check
-        run: yarn build
+        run: yarn install --frozen-lockfile --network-timeout 300000
 
+      - name: Run ESLint
+        run: yarn lint
+
+      - name: Run TypeScript type checking
+        run: yarn tsc --noEmit --skipLibCheck
+
+      - name: Run Prettier check
+        run: yarn prettier --check .
+
+  # Testing
   test:
     runs-on: ubuntu-latest
-    env:
-      NODE_ENV: test
-      NEXT_PUBLIC_ENABLE_ASTRO_DEBUG: false
-      NEXT_PUBLIC_API_CACHE_TIME: 3600
-      CI: true
-      NODE_OPTIONS: "--max-old-space-size=4096"
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 1
-          persist-credentials: false
-      - name: Debug workspace
-        run: |
-          echo "Current directory: $(pwd)"
-          echo "Workspace directory: $GITHUB_WORKSPACE"
-          ls -la $GITHUB_WORKSPACE
-          echo "Looking for lock files..."
-          find $GITHUB_WORKSPACE -name "package-lock.json" -o -name "yarn.lock" -o -name "npm-shrinkwrap.json"
-      - name: Check for yarn.lock
-        id: check_files
-        run: |
-          if [ ! -f "yarn.lock" ]; then
-            echo "yarn_lock_missing=true" >> $GITHUB_OUTPUT
-            echo "yarn.lock file is missing!"
-          else
-            echo "yarn_lock_missing=false" >> $GITHUB_OUTPUT
-            echo "yarn.lock exists!"
-          fi
-      - name: Create yarn.lock if missing
-        if: steps.check_files.outputs.yarn_lock_missing == 'true'
-        run: |
-          echo "Creating empty yarn.lock file as a fallback"
-          touch yarn.lock
-      - name: Setup safe directory
-        run: git config --global --add safe.directory $GITHUB_WORKSPACE
-      - name: Install system dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          # Disable caching entirely
-      - name: Verify Node Installation
-        run: |
-          node --version
-          npm --version
-          which npm
-      - name: Install Yarn
-        run: npm install -g yarn
-      - name: Create env file
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --network-timeout 300000
+
+      - name: Create test environment
         run: |
           echo "NEXT_PUBLIC_ENABLE_ASTRO_DEBUG=false" > .env.local
           echo "NEXT_PUBLIC_API_CACHE_TIME=3600" >> .env.local
           echo "NODE_ENV=test" >> .env.local
-      - name: Install dependencies
-        run: yarn install --network-timeout 300000
+
       - name: Run tests
-        run: yarn test --passWithNoTests 
+        run: yarn test --passWithNoTests --coverage
+
+      - name: Upload coverage reports
+        uses: codecov/codecov-action@v4
+        with:
+          file: ./coverage/lcov.info
+          flags: unittests
+          name: codecov-umbrella
+          fail_ci_if_error: false
+
+  # Build and optimization
+  build:
+    runs-on: ubuntu-latest
+    needs: [lint, test]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --network-timeout 300000
+
+      - name: Create build environment
+        run: |
+          echo "NEXT_PUBLIC_ENABLE_ASTRO_DEBUG=false" > .env.local
+          echo "NEXT_PUBLIC_API_CACHE_TIME=3600" >> .env.local
+          echo "NODE_ENV=production" >> .env.local
+
+      - name: Build application
+        run: yarn build
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts
+          path: .next/
+          retention-days: 7
+
+  # Turborepo build (if using monorepo structure)
+  turbo-build:
+    runs-on: ubuntu-latest
+    needs: [lint, test]
+    if: hashFiles('turbo.json') != ''
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --network-timeout 300000
+
+      - name: Setup Turborepo
+        uses: pnpm/action-setup@v2
+        with:
+          version: latest
+
+      - name: Install Turbo
+        run: yarn global add turbo
+
+      - name: Build with Turborepo
+        run: turbo build --filter=./apps/*
+        env:
+          TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+          TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
+
+  # Deployment to Vercel (Preview)
+  deploy-preview:
+    runs-on: ubuntu-latest
+    needs: [build, security]
+    if: github.event_name == 'pull_request'
+    environment: preview
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy to Vercel (Preview)
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args: '--prod'
+
+  # Deployment to Vercel (Production)
+  deploy-production:
+    runs-on: ubuntu-latest
+    needs: [build, security]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    environment: production
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy to Vercel (Production)
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args: '--prod'
+
+  # Performance monitoring
+  lighthouse:
+    runs-on: ubuntu-latest
+    needs: [deploy-preview, deploy-production]
+    if: always() && (needs.deploy-preview.result == 'success' || needs.deploy-production.result == 'success')
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Lighthouse CI
+        uses: treosh/lighthouse-ci-action@v10
+        with:
+          urls: |
+            https://what-to-eat-next.vercel.app
+          uploadArtifacts: true
+          temporaryPublicStorage: true 

@@ -523,17 +523,8 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
     }
   };
 
-  // Replace the debug-info section with a memoized version to prevent re-rendering loops
-  const DebugInfo = React.memo(() => (
-    <div style={{ fontSize: '10px', color: '#999', textAlign: 'right', marginBottom: '4px' }}>
-      Renders: {renderCount}
-    </div>
-  ));
-
   return (
     <div className={styles.container}>
-      {/* Use the memoized debug component */}
-      <DebugInfo />
       
       <div className={styles.elementSection}>
         <h3 className={styles.sectionTitle}>Elemental State</h3>

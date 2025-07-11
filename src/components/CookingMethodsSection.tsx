@@ -762,4 +762,4 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
   );
 };
 
-export default CookingMethodsSection; 
+// Remove default export to avoid webpack chunk loading issues 

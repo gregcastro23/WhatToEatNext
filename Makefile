@@ -26,10 +26,13 @@ help:
 	@echo "  make phase-report     - Comprehensive error analysis"
 	@echo ""
 	@echo "🐳 Docker commands:"
-	@echo "  make docker-build - Build Docker image"
-	@echo "  make docker-dev   - Start development container"
-	@echo "  make docker-prod  - Start production container"
-	@echo "  make docker-clean - Clean Docker resources"
+	@echo "  make docker-setup     - Setup Docker environment (install Docker first)"
+	@echo "  make docker-build     - Build all Docker images"
+	@echo "  make docker-build-dev - Build development Docker image"
+	@echo "  make docker-dev       - Start development container (requires Docker)"
+	@echo "  make docker-dev-no-check - Start development container (no Docker check)"
+	@echo "  make docker-prod      - Start production container"
+	@echo "  make docker-clean     - Clean Docker resources"
 	@echo ""
 	@echo "🔧 Development workflow:"
 	@echo "  make check → make build → make test → make deploy"
@@ -42,7 +45,7 @@ install:
 	yarn install
 
 # Development
-dev: docker-health
+dev: docker-health-optional
 	@echo "🚀 Starting development server..."
 	yarn dev
 
@@ -85,15 +88,37 @@ lint-fix:
 	@echo "🔧 Fixing linting issues..."
 	yarn lint --fix
 
-# Docker health check
+# Docker health check (required)
 docker-health:
 	@echo "🐳 Checking Docker health..."
-	@if ! docker info > /dev/null 2>&1; then \
+	@if ! command -v docker > /dev/null 2>&1; then \
+		echo "❌ Docker is not installed on your system."; \
+		echo ""; \
+		echo "📦 To install Docker Desktop on macOS:"; \
+		echo "  1. Visit https://www.docker.com/products/docker-desktop/"; \
+		echo "  2. Download Docker Desktop for Mac"; \
+		echo "  3. Install and start Docker Desktop"; \
+		echo "  4. Run 'make docker-setup' to verify installation"; \
+		echo ""; \
+		echo "💡 For now, use 'make dev' for local development without Docker."; \
+		exit 1; \
+	fi; \
+	if ! docker info > /dev/null 2>&1; then \
 		echo "❌ Docker is not running or not responding."; \
-		echo "Please start Docker and try again."; \
+		echo "Please start Docker Desktop and try again."; \
 		exit 1; \
 	fi
 	@echo "✅ Docker is running and healthy!"
+
+# Docker health check (optional - for development)
+docker-health-optional:
+	@echo "🐳 Checking Docker health (optional)..."
+	@if ! docker info > /dev/null 2>&1; then \
+		echo "⚠️  Docker is not running. Using local development server instead."; \
+		echo "💡 To use Docker, start Docker Desktop and run 'make docker-dev'"; \
+	else \
+		echo "✅ Docker is running and healthy!"; \
+	fi
 
 # TypeScript error checking
 check:
@@ -325,13 +350,22 @@ docker-build:
 	docker build -f Dockerfile.dev -t whattoeatnext:dev .
 	@echo "✅ Docker images built successfully!"
 
-docker-dev:
+docker-build-dev:
+	@echo "🐳 Building development Docker image..."
+	docker build -f Dockerfile.dev -t whattoeatnext:dev .
+	@echo "✅ Development Docker image built successfully!"
+
+docker-dev: docker-health
 	@echo "🐳 Starting development container with hot reload..."
 	docker-compose up whattoeatnext-dev
 
 docker-prod:
 	@echo "🐳 Starting production container..."
 	docker-compose up --build
+
+docker-dev-no-check:
+	@echo "🐳 Starting development container (no health check)..."
+	docker-compose up whattoeatnext-dev
 
 docker-prod-bg:
 	@echo "🐳 Starting production container in background..."
@@ -350,6 +384,23 @@ docker-clean:
 	docker-compose down --volumes --remove-orphans
 	docker system prune -f
 	@echo "✅ Docker cleanup completed!"
+
+docker-setup:
+	@echo "🐳 Setting up Docker environment..."
+	@if ! command -v docker > /dev/null 2>&1; then \
+		echo "❌ Docker is not installed. Please install Docker Desktop first."; \
+		echo "Visit: https://www.docker.com/products/docker-desktop/"; \
+		exit 1; \
+	fi
+	@echo "✅ Docker is installed!"
+	@if ! docker info > /dev/null 2>&1; then \
+		echo "⚠️  Docker is not running. Please start Docker Desktop."; \
+		exit 1; \
+	fi
+	@echo "✅ Docker is running!"
+	@echo "🔧 Building development image..."
+	@make docker-build-dev
+	@echo "✅ Docker setup completed!"
 
 docker-shell:
 	@echo "🐚 Opening shell in running container..."

@@ -2,7 +2,15 @@
 /node_modules
 /.pnp
 .pnp.js
-yarn.lock
+
+# Yarn
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+.pnp.*
 
 # testing
 /coverage
@@ -16,6 +24,12 @@ yarn.lock
 # production
 /build
 /dist
+
+# CI/CD artifacts
+.vercel
+.turbo
+coverage/
+*.lcov
 
 # misc
 .DS_Store
@@ -32,6 +46,14 @@ tsconfig.tsbuildinfo
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
 
 # IDE
 .idea

@@ -160,4 +160,50 @@ export function calculateElementalContributionsFromPlanets(planetaryPositions: R
 export function generateTopSauceRecommendations(elementalProperties: ElementalProperties): string[] {
   // For now, return empty – future enhancement can provide actual logic
   return [];
+}
+
+// Main cuisine recommendations function
+export async function getCuisineRecommendations(params: {
+  elements: ElementalProperties;
+  planetaryPositions?: Record<string, unknown>;
+  limit?: number;
+}): Promise<{
+  recommendations: string[];
+  scores: Record<string, number>;
+  details?: Record<string, unknown>;
+}> {
+  try {
+    const { elements, limit = 8 } = params;
+    
+    // Generate basic cuisine recommendations based on elemental properties
+    const recommendations = generateCuisineRecommendation({
+      elementalProperties: elements
+    });
+    
+    // Transform to the expected format
+    const cuisineNames = recommendations.map(rec => rec.cuisine);
+    const scores: Record<string, number> = {};
+    
+    recommendations.forEach(rec => {
+      scores[rec.cuisine] = rec.score;
+    });
+    
+    return {
+      recommendations: cuisineNames.slice(0, limit),
+      scores,
+      details: {
+        totalRecommendations: recommendations.length,
+        elementalBreakdown: elements
+      }
+    };
+  } catch (error) {
+    console.error('Error in getCuisineRecommendations:', error);
+    return {
+      recommendations: [],
+      scores: {},
+      details: {
+        error: error instanceof Error ? error.message : 'Unknown error'
+      }
+    };
+  }
 } 

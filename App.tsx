@@ -6,7 +6,7 @@ import MoonDisplay from './src/components/MoonDisplay';
 import AstrologicalClock from './src/components/AstrologicalClock';
 import FoodRecommender from './src/components/FoodRecommender';
 import CuisineRecommender from './src/components/CuisineRecommender';
-import CookingMethodsSection from './src/components/CookingMethodsSection';
+import { CookingMethodsSection } from './src/components/CookingMethodsSection';
 
 function App() {
   return (

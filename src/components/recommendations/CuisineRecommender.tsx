@@ -262,7 +262,7 @@ export default function CuisineRecommender() {
       lunarPhase: 'new moon' }
   };
   const currentZodiac = state.astrologicalState?.currentZodiacSign;
-  const _lunarPhase = state.astrologicalState?.lunarPhase;
+  const lunarPhase = state.astrologicalState?.lunarPhase;
 
   // Create a ref to store astrological state
   const astroStateRef = useRef({
@@ -291,6 +291,7 @@ export default function CuisineRecommender() {
   }, [alchemicalContext, state, currentZodiac, lunarPhase]);
 
   const [selectedCuisine, setSelectedCuisine] = useState<string | null>(null);
+  const [selectedCuisineData, setSelectedCuisineData] = useState<Record<string, unknown> | null>(null);
   const [transformedCuisines, setTransformedCuisines] = useState<
     AlchemicalItem[]
   >([]);
@@ -381,6 +382,20 @@ export default function CuisineRecommender() {
     loadCuisines();
   }, [currentZodiac, lunarPhase]);
 
+  // Load recipes data when component mounts
+  useEffect(() => {
+    const loadRecipes = async () => {
+      try {
+        const recipes = await getAllRecipes();
+        setAllRecipesData(recipes);
+      } catch (error) {
+        // console.error('Error loading recipes:', error);
+      }
+    };
+    
+    loadRecipes();
+  }, []);
+
   // Move the async function outside the useEffect
   async function loadCuisines() {
     try {
@@ -418,6 +433,7 @@ export default function CuisineRecommender() {
       }).filter(Boolean);
       
       setTransformedCuisines(cuisineList as any as AlchemicalItem[]);
+      setCuisineRecommendations(cuisineList as any as Record<string, unknown>[]);
       setLoading(false);
       
       // Track this event
@@ -450,22 +466,23 @@ export default function CuisineRecommender() {
     setShowAllSauces(false);
 
     // Find selected cuisine from the cuisineRecommendations list
-    const selectedCuisineData = cuisineRecommendations.find((c) => c.id === cuisineId || c.name === cuisineId);
-    if (selectedCuisineData) {
-      // console.log(`Found cuisine data for: ${selectedCuisineData.name}`);
-      trackEvent('cuisine_select', selectedCuisineData.name);
+    const foundCuisineData = cuisineRecommendations.find((c) => c.id === cuisineId || c.name === cuisineId);
+    if (foundCuisineData) {
+      setSelectedCuisineData(foundCuisineData);
+      // console.log(`Found cuisine data for: ${foundCuisineData.name}`);
+      trackEvent('cuisine_select', foundCuisineData.name);
       
       // Update matchingRecipes state with the selected cuisine's recipes
       // This will trigger the useEffect that updates cuisineRecipes
-      if (selectedCuisineData.recipes && (selectedCuisineData.recipes || []).length > 0) {
-        setMatchingRecipes(selectedCuisineData.recipes);
+      if (foundCuisineData.recipes && (foundCuisineData.recipes || []).length > 0) {
+        setMatchingRecipes(foundCuisineData.recipes);
       } else {
         // If no recipes are directly attached to the cuisine, try to find matching recipes
         const recipesForCuisine = (allRecipesData || []).filter(recipe => 
           recipe.cuisine && 
-          (recipe.cuisine?.toLowerCase() === selectedCuisineData.name?.toLowerCase() ||
-           (selectedCuisineData.regionalVariants && 
-            (selectedCuisineData.regionalVariants || []).some(variant => 
+          (recipe.cuisine?.toLowerCase() === foundCuisineData.name?.toLowerCase() ||
+           (foundCuisineData.regionalVariants && 
+            (foundCuisineData.regionalVariants || []).some(variant => 
               recipe.cuisine?.toLowerCase() === variant?.toLowerCase())
            )
           )
@@ -473,7 +490,7 @@ export default function CuisineRecommender() {
         
         if ((recipesForCuisine || []).length > 0) {
           setMatchingRecipes((recipesForCuisine || []).map(recipe => 
-            buildCompleteRecipe(recipe as any, selectedCuisineData.name)
+            buildCompleteRecipe(recipe as any, foundCuisineData.name)
           ));
         } else {
           setMatchingRecipes([]);

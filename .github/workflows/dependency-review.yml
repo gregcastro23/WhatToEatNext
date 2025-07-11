@@ -1,0 +1,58 @@
+name: Dependency Review
+
+on:
+  pull_request:
+    branches: [main, develop]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  dependency-review:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Dependency Review
+        uses: actions/dependency-review-action@v4
+        with:
+          fail-on-severity: moderate
+          allow-licenses: MIT, Apache-2.0, BSD-2-Clause, BSD-3-Clause, ISC, 0BSD, CC0-1.0, Unlicense
+          allow-patterns: |
+            # Allow specific packages that are known to be safe
+            @types/*
+            @testing-library/*
+            eslint-*
+            prettier
+            typescript
+            jest
+            babel-*
+            postcss-*
+            tailwindcss
+            autoprefixer
+            sass
+            semver
+            open
+            nodemon
+            ts-node
+            ts-jest
+            identity-obj-proxy
+            react-test-renderer
+            husky
+            glob
+            zod
+            date-fns
+            lodash
+            lucide-react
+            react-error-boundary
+            suncalc
+            tailwind-merge
+            astronomia
+            astronomy-engine
+            node-fetch
+            @emotion/*
+            @mui/*
+            @radix-ui/*
+            @heroicons/react 

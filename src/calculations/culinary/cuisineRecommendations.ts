@@ -79,9 +79,9 @@ export function generateCuisineRecommendations(
       if (!processedCuisines.has(cuisine)) {
         processedCuisines.add(cuisine);
         
-        const compatibility = calculateCuisineCompatibility(cuisine, _elementalProperties, strength);
+        const compatibility = calculateCuisineCompatibility(cuisine, elementalProperties, strength);
         const reasons = generateCuisineReasons(cuisine, planet, element, strength);
-        const suggestedDishes = getSuggestedDishes(cuisine, _elementalProperties);
+        const suggestedDishes = getSuggestedDishes(cuisine, elementalProperties);
         
         recommendations?.push({
           cuisine,
@@ -105,7 +105,7 @@ export function generateCuisineRecommendations(
           
           const compatibility = value * 0.8; // Base on elemental strength
           const reasons = [`Strong ${element} element aligns with ${cuisine} cuisine characteristics`];
-          const suggestedDishes = getSuggestedDishes(cuisine, _elementalProperties);
+          const suggestedDishes = getSuggestedDishes(cuisine, elementalProperties);
           
           recommendations?.push({
             cuisine,

@@ -1,4 +1,4 @@
-import CookingMethodsSection from './CookingMethodsSection';
+import { CookingMethodsSection } from './CookingMethodsSection';
 
 const YourComponent = () => {
   // Your component logic
