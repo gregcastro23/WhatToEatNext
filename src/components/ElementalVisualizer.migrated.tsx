@@ -95,7 +95,7 @@ function calculateElementalCompatibility(
 }
 
 const ElementalVisualizerMigrated: React.FC<ElementalVisualizerProps> = ({
-  _elementalProperties,
+  elementalProperties,
   userProperties,
   title = 'Elemental Properties',
   visualizationType = 'bar',
@@ -160,12 +160,13 @@ const ElementalVisualizerMigrated: React.FC<ElementalVisualizerProps> = ({
     }
     
     // Calculate total to normalize percentages
-    const total = Object.values(elementalProperties)?.reduce((sum, value) => sum + value, 0);
+    const total = Object.values(elementalProperties)?.reduce((sum, value) => sum + (typeof value === 'number' ? value : 0), 0);
     
     // Calculate normalized values (percentages)
     const normalizedValues: { [key: string]: number } = {};
     Object.entries(elementalProperties || {}).forEach(([element, value]) => {
-      normalizedValues[element] = total > 0 ? (value / (total || 1)) * 100 : 0;
+      const numericValue = typeof value === 'number' ? value : 0;
+      normalizedValues[element] = total > 0 ? (numericValue / (total || 1)) * 100 : 0;
     });
     
     // Calculate dominant element

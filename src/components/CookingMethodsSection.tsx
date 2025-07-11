@@ -138,7 +138,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
         };
         
         // Calculate compatibility between ingredient and cooking method
-        const result = calculateCompatibility(searchIngredient as unknown, {
+        const result = calculateCompatibility(searchIngredient as unknown as string, {
           name: method.name,
           elementalProperties: methodElemental,
           category: 'cooking_method'
@@ -155,7 +155,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
             const variationElemental = variation.elementalEffect || method.elementalEffect;
             
             if (variationElemental) {
-              const variationResult = calculateCompatibility(searchIngredient as unknown, {
+              const variationResult = calculateCompatibility(searchIngredient as unknown as string, {
                 name: variation.name,
                 elementalProperties: variationElemental,
                 category: 'cooking_method'
@@ -320,18 +320,18 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
     };
 
     // Use the same formulas as in the user's notepad and test endpoint
-    const heat = (Math.pow(alchemicalProps.Spirit, 2) + Math.pow(elementalProps.Fire, 2)) /
+    const heat = (Math.pow(alchemicalProps.Spirit, 2) + Math.pow(_elementalProps.Fire, 2)) /
                  Math.pow(alchemicalProps.Substance + alchemicalProps.Essence + alchemicalProps.Matter + 
-                         elementalProps.Water + elementalProps.Air + elementalProps.Earth, 2);
+                         _elementalProps.Water + _elementalProps.Air + _elementalProps.Earth, 2);
     
     const entropy = (Math.pow(alchemicalProps.Spirit, 2) + Math.pow(alchemicalProps.Substance, 2) + 
-                    Math.pow(elementalProps.Fire, 2) + Math.pow(elementalProps.Air, 2)) /
-                    Math.pow(alchemicalProps.Essence + alchemicalProps.Matter + elementalProps.Earth + elementalProps.Water, 2);
+                    Math.pow(_elementalProps.Fire, 2) + Math.pow(_elementalProps.Air, 2)) /
+                    Math.pow(alchemicalProps.Essence + alchemicalProps.Matter + _elementalProps.Earth + _elementalProps.Water, 2);
     
     const reactivity = (Math.pow(alchemicalProps.Spirit, 2) + Math.pow(alchemicalProps.Substance, 2) + 
-                       Math.pow(alchemicalProps.Essence, 2) + Math.pow(elementalProps.Fire, 2) + 
-                       Math.pow(elementalProps.Air, 2) + Math.pow(elementalProps.Water, 2)) /
-                       Math.pow(alchemicalProps.Matter + elementalProps.Earth, 2);
+                       Math.pow(alchemicalProps.Essence, 2) + Math.pow(_elementalProps.Fire, 2) + 
+                       Math.pow(_elementalProps.Air, 2) + Math.pow(_elementalProps.Water, 2)) /
+                       Math.pow(alchemicalProps.Matter + _elementalProps.Earth, 2);
     
     const gregsEnergy = heat - (entropy * reactivity);
     

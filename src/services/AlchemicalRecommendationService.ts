@@ -33,7 +33,7 @@ export class AlchemicalRecommendationService {
   private engine: AlchemicalEngine;
   
   private constructor() {
-    this.engine = alchemicalEngine;
+    this.engine = alchemicalEngine as unknown as AlchemicalEngine;
   }
   
   /**
@@ -55,7 +55,7 @@ export class AlchemicalRecommendationService {
     cookingMethods: CookingMethod[]
   ): AlchemicalRecommendation {
     // Calculate thermodynamic properties using the engine
-    const thermodynamics = this.engine.alchemize(planetaryPositions as unknown);
+    const thermodynamics = this.engine.alchemize(planetaryPositions as unknown as { [planet: string]: string });
     
     // Convert thermodynamic properties to elemental properties
     const elementalBalance = this.deriveElementalProperties(thermodynamics);
@@ -110,7 +110,7 @@ export class AlchemicalRecommendationService {
         ingredient,
         score: this.engine.calculateElementalCompatibility(
           elementalProperties,
-          ingredient.elementalPropertiesState as unknown
+          ingredient.elementalPropertiesState as unknown as ElementalProperties
         )
       }))
       .filter(({ score }) => score > 0.7)
@@ -129,7 +129,7 @@ export class AlchemicalRecommendationService {
   ): CookingMethod[] {
     return methods
       .map(method => {
-        const methodData = method as Record<string, unknown>;
+        const methodData = method as unknown as Record<string, unknown>;
         return {
           method,
           score: this.engine.calculateElementalCompatibility(
@@ -185,7 +185,7 @@ export class AlchemicalRecommendationService {
     
     // Fix TS2339: Property 'kalchm' does not exist on type 'ThermodynamicProperties'
     const thermodynamicsData = thermodynamics as unknown;
-    if (thermodynamicsData?.kalchm > 2.0) {
+    if ((thermodynamicsData as Record<string, unknown>)?.kalchm && typeof (thermodynamicsData as Record<string, unknown>).kalchm === 'number' && (thermodynamicsData as Record<string, unknown>).kalchm > 2.0) {
       recommendations?.push('Exceptional transformation potential - fermentation and aging processes are enhanced.');
     }
     
@@ -212,7 +212,7 @@ export class AlchemicalRecommendationService {
     
     // Fix TS2339: Property 'kalchm' does not exist on type 'ThermodynamicProperties'
     const warningsThermodynamicsData = thermodynamics as unknown;
-    if (warningsThermodynamicsData?.kalchm < 0.5) {
+    if ((warningsThermodynamicsData as Record<string, unknown>)?.kalchm && typeof (warningsThermodynamicsData as Record<string, unknown>).kalchm === 'number' && (warningsThermodynamicsData as Record<string, unknown>).kalchm < 0.5) {
       warnings?.push('Low kalchm levels indicate poor transformation potential - avoid fermentation or chemical leavening.');
     }
     
@@ -266,14 +266,14 @@ export class AlchemicalRecommendationService {
     
     // Simplified mapping from thermodynamics to elemental properties
     const Fire = thermodynamics.heat * 0.7 + thermodynamics.reactivity * 0.3;
-    const Water = (derivedThermodynamicsData?.monica || 0) * 0.6 + (1 - thermodynamics.heat) * 0.4;
-    const _Earth = (derivedThermodynamicsData?.kalchm || 0) * 0.5 + (1 - thermodynamics.entropy) * 0.5;
+    const Water = ((derivedThermodynamicsData as Record<string, unknown>)?.monica && typeof (derivedThermodynamicsData as Record<string, unknown>).monica === 'number' ? (derivedThermodynamicsData as Record<string, unknown>).monica : 0) * 0.6 + (1 - thermodynamics.heat) * 0.4;
+    const _Earth = ((derivedThermodynamicsData as Record<string, unknown>)?.kalchm && typeof (derivedThermodynamicsData as Record<string, unknown>).kalchm === 'number' ? (derivedThermodynamicsData as Record<string, unknown>).kalchm : 0) * 0.5 + (1 - thermodynamics.entropy) * 0.5;
     const Air = thermodynamics.entropy * 0.8 + thermodynamics.reactivity * 0.2;
     
     // Normalize to ensure values sum to 1
-    const total = Fire + Water + Earth + Air;
+    const total = Fire + Water + _Earth + Air;
     
-    return { Fire: Fire / total, Water: Water / total, Earth: Earth / total, Air: Air / total
+    return { Fire: Fire / total, Water: Water / total, Earth: _Earth / total, Air: Air / total
     };
   }
   
@@ -289,7 +289,7 @@ export class AlchemicalRecommendationService {
     adjustments: string[];
   } {
     // Calculate thermodynamic properties using the engine
-    const thermodynamics = this.engine.alchemize(planetaryPositions as unknown);
+    const thermodynamics = this.engine.alchemize(planetaryPositions as unknown as { [planet: string]: string });
     
     // Convert thermodynamic properties to elemental properties
     const currentElementalProperties = this.deriveElementalProperties(thermodynamics);
@@ -300,8 +300,8 @@ export class AlchemicalRecommendationService {
     
     // Calculate compatibility
     const compatibility = this.engine.calculateElementalCompatibility(
-      currentElementalProperties as unknown,
-      recipeElementalProperties as unknown
+      currentElementalProperties as unknown as ElementalProperties,
+      recipeElementalProperties as unknown as ElementalProperties
     );
     
     // Generate suggestions based on compatibility
@@ -335,7 +335,7 @@ export class AlchemicalRecommendationService {
       suggestions?.push('This recipe may need significant adjustments for current planetary alignments.');
       
       // Generate more substantial adjustments
-      const recipeElement = this.getDominantElement(recipeElementalProperties);
+      const recipeElement = this.getDominantElement(recipeElementalProperties as unknown as ElementalProperties);
       const currentElement = this.getDominantElement(currentElementalProperties);
       
       adjustments?.push(`Transform the recipe's dominant ${recipeElement} energy toward ${currentElement} energy.`);

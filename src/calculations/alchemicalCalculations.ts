@@ -1,6 +1,6 @@
 import { RulingPlanet } from '../constants/planets';
 import { 
-  _getPlanetaryElement, 
+  getPlanetaryElement, 
   getPlanetaryAlchemicalProperty, 
   ElementalCharacter,
   AlchemicalProperty
@@ -338,7 +338,7 @@ export const calculateAlchemicalProperties = (
       } else if ('exactLongitude' in position && typeof position.exactLongitude === 'number') {
         const _longitude = position.exactLongitude;
         // Base strength and apply modifiers
-        strength = 0.5 + ((longitude % 30) / 60); // Gives 0.5-1.0 based on position in sign
+        strength = 0.5 + ((_longitude % 30) / 60); // Gives 0.5-1.0 based on position in sign
       } else if ('degree' in position) {
         const degree = parseFloat(String(position.degree).replace('°', ''));
         strength = 0.5 + ((degree % 30) / 60); // Gives 0.5-1.0 based on position in sign
@@ -644,7 +644,7 @@ const degreeEffects: Record<string, Record<string, number[]>> = {
 };
 
 // Helper function to get sign element safely typed
-const getElementFromSign = (sign: string): _ElementalCharacter => {
+const getElementFromSign = (sign: string): ElementalCharacter => {
   const fireigns = ['aries', 'leo', 'sagittarius'];
   const earthSigns = ['taurus', 'virgo', 'capricorn'];
   const airSigns = ['gemini', 'libra', 'aquarius'];
@@ -914,22 +914,22 @@ export function alchemize(planetaryPositions: Record<string, PlanetaryPosition>,
     
     // Special handling for specific planets
     const planetDataObj = planetData as unknown;
-    if (planetKey === 'Moon' && lunarPhase && (planetDataObj as unknown).PlanetSpecific?.Lunar?.Phases) {
-      const lunarData = (planetDataObj as unknown).PlanetSpecific.Lunar;
-      const phaseData = lunarData.Phases[lunarPhase];
+    if (planetKey === 'Moon' && lunarPhase && (planetDataObj as Record<string, unknown>)?.PlanetSpecific && typeof (planetDataObj as Record<string, unknown>).PlanetSpecific === 'object' && ((planetDataObj as Record<string, unknown>).PlanetSpecific as Record<string, unknown>)?.Lunar) {
+      const lunarData = ((planetDataObj as Record<string, unknown>).PlanetSpecific as Record<string, unknown>).Lunar as Record<string, unknown>;
+      const phaseData = (lunarData.Phases as Record<string, unknown>)?.[lunarPhase];
       
       if (phaseData) {
         // Add lunar phase contribution
-        spirit += phaseData.Spirit || 0;
-        essence += phaseData.Essence || 0;
-        matter += phaseData.Matter || 0;
-        substance += phaseData.Substance || 0;
+        spirit += (phaseData as Record<string, unknown>).Spirit as number || 0;
+        essence += (phaseData as Record<string, unknown>).Essence as number || 0;
+        matter += (phaseData as Record<string, unknown>).Matter as number || 0;
+        substance += (phaseData as Record<string, unknown>).Substance as number || 0;
       }
       
       // Add lunar nodes influence if available
       if (lunarData.Nodes) {
-        const northNodeElement = lunarData.Nodes.North.Element.toLowerCase();
-        const southNodeElement = lunarData.Nodes.South.Element.toLowerCase();
+        const northNodeElement = ((lunarData.Nodes as Record<string, unknown>).North as Record<string, unknown>).Element as string;
+        const southNodeElement = ((lunarData.Nodes as Record<string, unknown>).South as Record<string, unknown>).Element as string;
         
         if (northNodeElement && (northNodeElement === 'fire' || northNodeElement === 'earth' || northNodeElement === 'air' || northNodeElement === 'water')) {
           elementalBalance[northNodeElement as keyof typeof elementalBalance] += 0.5;
@@ -942,13 +942,13 @@ export function alchemize(planetaryPositions: Record<string, PlanetaryPosition>,
     }
     
     // For Sun, apply zodiac transit effects if available
-    if (planetKey === 'Sun' && sign && (planetDataObj as unknown).PlanetSpecific?.Solar?.ZodiacTransit) {
-      const solarData = (planetDataObj as unknown).PlanetSpecific.Solar;
-      const transitData = solarData.ZodiacTransit[sign];
+    if (planetKey === 'Sun' && sign && (planetDataObj as Record<string, unknown>)?.PlanetSpecific && typeof (planetDataObj as Record<string, unknown>).PlanetSpecific === 'object' && ((planetDataObj as Record<string, unknown>).PlanetSpecific as Record<string, unknown>)?.Solar) {
+      const solarData = ((planetDataObj as Record<string, unknown>).PlanetSpecific as Record<string, unknown>).Solar as Record<string, unknown>;
+      const transitData = (solarData.ZodiacTransit as Record<string, unknown>)?.[sign];
       
-      if (transitData && transitData.Elements) {
+      if (transitData && (transitData as Record<string, unknown>).Elements) {
         // Boost elements based on Sun's position
-        Object.entries(transitData.Elements).forEach(([elemKey, value]) => {
+        Object.entries((transitData as Record<string, unknown>).Elements as Record<string, unknown>).forEach(([elemKey, value]) => {
           const elem = elemKey.toLowerCase();
           if (elem && (elem === 'fire' || elem === 'earth' || elem === 'air' || elem === 'water')) {
             // Pattern KK-1: Safe arithmetic with type validation
@@ -960,8 +960,8 @@ export function alchemize(planetaryPositions: Record<string, PlanetaryPosition>,
     }
     
     // For Mercury, apply retrograde cycle effects
-    if (planetKey === 'Mercury' && isRetrograde && (planetDataObj as unknown).PlanetSpecific?.Mercury?.FlavorModulation) {
-      const _mercuryData = (planetDataObj as unknown).PlanetSpecific.Mercury;
+    if (planetKey === 'Mercury' && isRetrograde && (planetDataObj as Record<string, unknown>)?.PlanetSpecific && typeof (planetDataObj as Record<string, unknown>).PlanetSpecific === 'object' && ((planetDataObj as Record<string, unknown>).PlanetSpecific as Record<string, unknown>)?.Mercury) {
+      const _mercuryData = ((planetDataObj as Record<string, unknown>).PlanetSpecific as Record<string, unknown>).Mercury as Record<string, unknown>;
       // We could apply specific flavor modulations here if needed
     }
   }

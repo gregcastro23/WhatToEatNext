@@ -59,22 +59,21 @@ export default function IngredientDisplayMigrated() {
         
         // Get ingredient recommendations
         const recommendations = await recommendationService.getRecommendedIngredients({
-          _elementalProperties,
+          elementalProperties,
           limit: 6 // Just get a few for display
         });
         
         // Transform to expected format
         const transformedIngredients = (recommendations?.items || []).map((item: Record<string, unknown>) => ({
-          name: item.name,
-          category: item.category || 'Uncategorized',
-          element: item.elementalState ? 
-            'Fire' : // Simplified for now
-            dominantElement?.toLowerCase(),
-          energyLevel: item.elementalState ? 
-            (((item.elementalState as unknown)?.Fire || 0) + ((item.elementalState as unknown)?.Water || 0) + 
-             ((item.elementalState as unknown)?.Earth || 0) + ((item.elementalState as unknown)?.Air || 0)) / 4 : 
-            0.6,
-          score: item.score || 0.7
+          name: typeof item.name === 'string' ? item.name : 'Unknown',
+          category: typeof item.category === 'string' ? item.category : 'Uncategorized',
+          element: item.elementalState && typeof item.elementalState === 'object' && 'Fire' in item.elementalState
+            ? 'Fire'
+            : dominantElement,
+          energyLevel: item.elementalState && typeof item.elementalState === 'object'
+            ? ((Number((item.elementalState as any).Fire || 0) + Number((item.elementalState as any).Water || 0) + Number((item.elementalState as any).Earth || 0) + Number((item.elementalState as any).Air || 0)) / 4)
+            : 0.6,
+          score: typeof item.score === 'number' ? item.score : 0.7
         }));
         
         setIngredients(transformedIngredients as Ingredient[]);

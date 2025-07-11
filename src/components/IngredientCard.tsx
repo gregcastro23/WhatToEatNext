@@ -263,7 +263,7 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
                           />
                         ))}
                       </div>
-                      <span className="heat-value">{extendedIngredient.heatLevel}/10</span>
+                      <span className="heat-value">{extendedIngredient.heatLevel as React.ReactNode}/10</span>
                     </div>
                   </div>
                 )}
@@ -367,7 +367,7 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
                   )}
                   {extendedIngredient?.subCategory && (
                     <div className="culinary-detail">
-                      <strong>Type:</strong> {extendedIngredient.subCategory}
+                      <strong>Type:</strong> {extendedIngredient.subCategory as React.ReactNode}
                     </div>
                   )}
                   {extendedIngredient?.qualities && extendedIngredient.qualities?.length > 0 && (
@@ -723,37 +723,37 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
                   {extendedIngredient.nutritionalProfile.serving_size && (
                     <div className="nutrition-item serving-size">
                       <span className="nutrition-label">Serving Size</span>
-                      <span className="nutrition-value">{extendedIngredient.nutritionalProfile.serving_size}</span>
+                      <span className="nutrition-value">{extendedIngredient.nutritionalProfile.serving_size as React.ReactNode}</span>
                     </div>
                   )}
                   {extendedIngredient.nutritionalProfile.calories && (
                     <div className="nutrition-item calories">
                       <span className="nutrition-label">Calories</span>
-                      <span className="nutrition-value">{extendedIngredient.nutritionalProfile.calories}</span>
+                      <span className="nutrition-value">{extendedIngredient.nutritionalProfile.calories as React.ReactNode}</span>
                     </div>
                   )}
                   {extendedIngredient.nutritionalProfile.fat_g && (
                     <div className="nutrition-item">
                       <span className="nutrition-label">Total Fat</span>
-                      <span className="nutrition-value">{extendedIngredient.nutritionalProfile.fat_g}g</span>
+                      <span className="nutrition-value">{typeof extendedIngredient.nutritionalProfile.fat_g === 'number' ? extendedIngredient.nutritionalProfile.fat_g : 'N/A'}g</span>
                     </div>
                   )}
                   {extendedIngredient.nutritionalProfile.carbs_g && (
                     <div className="nutrition-item">
                       <span className="nutrition-label">Carbs</span>
-                      <span className="nutrition-value">{extendedIngredient.nutritionalProfile.carbs_g}g</span>
+                      <span className="nutrition-value">{typeof extendedIngredient.nutritionalProfile.carbs_g === 'number' ? extendedIngredient.nutritionalProfile.carbs_g : 'N/A'}g</span>
                     </div>
                   )}
                   {extendedIngredient.nutritionalProfile.protein_g && (
                     <div className="nutrition-item">
                       <span className="nutrition-label">Protein</span>
-                      <span className="nutrition-value">{extendedIngredient.nutritionalProfile.protein_g}g</span>
+                      <span className="nutrition-value">{typeof extendedIngredient.nutritionalProfile.protein_g === 'number' ? extendedIngredient.nutritionalProfile.protein_g : 'N/A'}g</span>
                     </div>
                   )}
                   {extendedIngredient.nutritionalProfile.fiber_g && (
                     <div className="nutrition-item">
                       <span className="nutrition-label">Fiber</span>
-                      <span className="nutrition-value">{extendedIngredient.nutritionalProfile.fiber_g}g</span>
+                      <span className="nutrition-value">{typeof extendedIngredient.nutritionalProfile.fiber_g === 'number' ? extendedIngredient.nutritionalProfile.fiber_g : 'N/A'}g</span>
                     </div>
                   )}
                 </div>
@@ -766,7 +766,7 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
                       {normalizeVitamins(extendedIngredient.nutritionalProfile.vitamins).map((vitamin, index) => (
                         <span key={index} className="vitamin-tag">
                           {formatVitaminName((vitamin as { name?: string })?.name)}
-                          {(vitamin as { value?: string; unit?: string })?.value && <span className="vitamin-value"> ({(vitamin as { value?: string }).value}{(vitamin as { unit?: string }).unit})</span>}
+                          {(vitamin as unknown as { value?: string; unit?: string })?.value && <span className="vitamin-value"> ({(vitamin as unknown as { value?: string }).value}{(vitamin as unknown as { unit?: string }).unit})</span>}
                         </span>
                       ))}
                     </div>
@@ -780,7 +780,7 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
                       {normalizeMinerals(extendedIngredient.nutritionalProfile.minerals).map((mineral, index) => (
                         <span key={index} className="mineral-tag">
                           {formatMineralName((mineral as { name?: string })?.name)}
-                          {(mineral as { value?: string; unit?: string })?.value && <span className="mineral-value"> ({(mineral as { value?: string }).value}{(mineral as { unit?: string }).unit})</span>}
+                          {(mineral as unknown as { value?: string; unit?: string })?.value && <span className="mineral-value"> ({(mineral as unknown as { value?: string }).value}{(mineral as unknown as { unit?: string }).unit})</span>}
                         </span>
                       ))}
                     </div>
@@ -792,7 +792,7 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
                   <div className="antioxidants-section">
                     <h5 className="nutrition-subtitle">Antioxidants</h5>
                     <div className="antioxidant-tags">
-                      {normalizeAntioxidants(extendedIngredient.nutritionalProfile.antioxidants as Record<string, unknown>).map((antioxidant, index) => (
+                      {normalizeAntioxidants(extendedIngredient.nutritionalProfile.antioxidants as unknown as Record<string, unknown>).map((antioxidant, index) => (
                         <span key={index} className="antioxidant-tag">{antioxidant}</span>
                       ))}
                     </div>
@@ -963,21 +963,21 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
                   Magical Correspondences
                 </h4>
                 <div className="magical-info">
-                  {extendedIngredient.magicalProperties.correspondences && (
+                  {(extendedIngredient.magicalProperties as Record<string, unknown>)?.correspondences && (
                     <div className="correspondences">
                       <h5 className="magical-subtitle">Correspondences</h5>
                       <div className="correspondence-tags">
-                        {extendedIngredient.magicalProperties.correspondences.slice(0, 6).map((corr: string, index: number) => (
+                        {Array.isArray((extendedIngredient.magicalProperties as Record<string, unknown>)?.correspondences) && ((extendedIngredient.magicalProperties as Record<string, unknown>).correspondences as string[]).slice(0, 6).map((corr: string, index: number) => (
                           <span key={index} className="correspondence-tag">{corr}</span>
                         ))}
                       </div>
                     </div>
                   )}
-                  {extendedIngredient.magicalProperties.uses && (
+                  {(extendedIngredient.magicalProperties as Record<string, unknown>)?.uses && (
                     <div className="magical-uses">
                       <h5 className="magical-subtitle">Traditional Uses</h5>
                       <div className="magical-use-list">
-                        {extendedIngredient.magicalProperties.uses.slice(0, 3).map((use: string, index: number) => (
+                        {Array.isArray((extendedIngredient.magicalProperties as Record<string, unknown>)?.uses) && ((extendedIngredient.magicalProperties as Record<string, unknown>).uses as string[]).slice(0, 3).map((use: string, index: number) => (
                           <div key={index} className="magical-use">✨ {use}</div>
                         ))}
                       </div>
@@ -1315,7 +1315,7 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
                   color: '#374151',
                   fontWeight: 500
                 }}>
-                  · {extendedIngredient.subCategory}
+                  · {typeof extendedIngredient.subCategory === 'string' ? extendedIngredient.subCategory : 'Unknown'}
                 </span>
               )}
               

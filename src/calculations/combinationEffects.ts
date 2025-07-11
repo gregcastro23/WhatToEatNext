@@ -61,9 +61,9 @@ const normalizeLunarPhase = (phase: LunarPhase): string => {
 
 export function calculateCombinationEffects({
   ingredients,
-  _elementalProperties,
+  elementalProperties,
   cookingMethod,
-  _season,
+  season,
   temperature,
   lunarPhase
 }: CalculateEffectsParams): CombinationEffect[] {
@@ -106,7 +106,7 @@ export function calculateCombinationEffects({
     // Check elemental interactions
     effects.push(...calculateElementalInteractions(ingredients));
 
-    return effects.sort((a, b) => ((b as unknown)?.modifier ?? (b as unknown)?.strength ?? 0) - ((a as unknown)?.modifier ?? (a as unknown)?.strength ?? 0));
+    return effects.sort((a, b) => ((b as Record<string, unknown>)?.modifier as number ?? (b as Record<string, unknown>)?.strength as number ?? 0) - ((a as Record<string, unknown>)?.modifier as number ?? (a as Record<string, unknown>)?.strength as number ?? 0));
   } catch (error) {
     // console.error('Error calculating combination effects:', error);
     return [];
@@ -184,7 +184,7 @@ const isAntagonisticCombination = (
   elem1: ElementalProperties,
   elem2: ElementalProperties
 ): boolean => {
-  const antagonistic = (ELEMENT_COMBINATIONS as unknown)?.antagonistic || [];
+  const antagonistic = (ELEMENT_COMBINATIONS as Record<string, unknown>)?.antagonistic as [string, string][] || [];
   return antagonistic.some(([e1, e2]: [any, any]) =>
     (getDominantElement(elem1) === e1 && getDominantElement(elem2) === e2) ||
     (getDominantElement(elem1) === e2 && getDominantElement(elem2) === e1)

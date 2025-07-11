@@ -474,13 +474,13 @@ export default function IngredientRecommender() {
   useEffect(() => {
     if (!astroLoading && !astroError) {
       // Create a combined approach using both chakra and standard recommendations
-      const chakraRecommendations = contextChakraEnergies ? getChakraBasedRecommendations(contextChakraEnergies as unknown, 16) : {};
+      const chakraRecommendations = contextChakraEnergies ? getChakraBasedRecommendations(contextChakraEnergies as unknown as ChakraEnergies, 16) : {};
       
       // Get elemental properties from planetary positions
       let elementalProps: ElementalProperties | undefined;
       if (planetaryPositions) {
         const calculator = new ElementalCalculator();
-        _elementalProps = calculator.calculateElementalState(planetaryPositions as unknown);
+        elementalProps = calculator.calculateElementalState(planetaryPositions as unknown as Record<string, unknown>);
       }
       
       // Create an object with astrological state data
@@ -505,7 +505,7 @@ export default function IngredientRecommender() {
         ...astroState,
         lunarPhase: 'new moon',
         aspects: []
-      } as unknown, { limit: 40 });
+      } as unknown as ElementalProperties & { timestamp: Date; currentStability: number; planetaryAlignment: Record<string, { sign: string; degree: number; }>; zodiacSign: string; activePlanets: string[]; lunarPhase: string; aspects: { [key: string]: unknown; }[]; }, { limit: 40 });
       
       // Merge the recommendations, prioritizing chakra-based ones
       const mergedRecommendations: GroupedIngredientRecommendations = {};
@@ -670,7 +670,7 @@ export default function IngredientRecommender() {
     // Add food recommendations first (they are already categorized)
     if (foodRecommendations && foodRecommendations.length > 0) {
       foodRecommendations.forEach(ingredient => {
-        const name = (ingredient.name as unknown).toLowerCase();
+        const name = (ingredient.name && typeof ingredient.name === 'string') ? ingredient.name.toLowerCase() : '';
         
         // For seafood proteins - check first to prevent miscategorization
         if (
@@ -749,7 +749,7 @@ export default function IngredientRecommender() {
         }
         // For other ingredients, use explicit category if available
         else {
-          const category = getNormalizedCategory(ingredient as unknown);
+          const category = getNormalizedCategory(ingredient as unknown as Record<string, unknown>);
           if (categories[category]) {
             categories[category].push({
               ...ingredient,
@@ -794,7 +794,7 @@ export default function IngredientRecommender() {
     // Now add the astrological recommendations
     Object.entries(astroRecommendations).forEach(([category, items]) => {
       items.forEach(item => {
-        const normalizedCategory = getNormalizedCategory(item as unknown);
+        const normalizedCategory = getNormalizedCategory(item as unknown as Record<string, unknown>);
         const targetCategory = normalizedCategory === 'other' ? determineCategory(item.name) : normalizedCategory;
         
         if (categories[targetCategory]) {
@@ -882,7 +882,7 @@ export default function IngredientRecommender() {
       
       // Then apply the unique filter if needed
       if (category === 'spices' || category === 'seasonings') {
-        categories[category] = getUniqueRecommendations(categories[category] as unknown);
+        categories[category] = getUniqueRecommendations(categories[category] as unknown as IngredientRecommendation[]);
       } else {
         // For other categories, filter duplicates by name
         const uniqueMap = new Map<string, any>();
@@ -980,7 +980,7 @@ export default function IngredientRecommender() {
         )}
         
         {/* Culinary Applications with improved structure */}
-        {(item as unknown).culinaryApplications && Object.keys((item as unknown).culinaryApplications || {}).length > 0 && (
+        {(item as Record<string, unknown>).culinaryApplications && Object.keys((item as Record<string, unknown>).culinaryApplications || {}).length > 0 && (
           <div className={styles.detailSection}>
             <h4 className={styles.detailTitle}>
               <Leaf size={16} /> Culinary Applications
@@ -990,7 +990,7 @@ export default function IngredientRecommender() {
               gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
               gap: '0.75rem'
             }}>
-              {Object.entries((item as unknown).culinaryApplications || {}).map(([method, details]) => {
+              {Object.entries((item as Record<string, unknown>).culinaryApplications || {}).map(([method, details]) => {
                 const detailsData = details as Record<string, unknown>;
                 return (
                   <div key={method} style={{
@@ -1039,7 +1039,7 @@ export default function IngredientRecommender() {
         )}
         
         {/* Pairings with improved visualization */}
-        {(item as unknown).pairings && (
+        {(item as Record<string, unknown>).pairings && (
           <div className={styles.detailSection}>
             <h4 className={styles.detailTitle}>
               <Tag size={16} /> Pairs Well With
@@ -1051,7 +1051,7 @@ export default function IngredientRecommender() {
               fontSize: '0.85rem'
             }}>
               {(() => {
-                const pairings = (item as unknown).pairings;
+                const pairings = (item as Record<string, unknown>).pairings;
                 if (Array.isArray(pairings)) {
                   return pairings.slice(0, 10).map(pairing => (
                     <span key={pairing} style={{ 
@@ -1086,7 +1086,7 @@ export default function IngredientRecommender() {
         )}
         
         {/* Nutritional Highlights if available */}
-        {(item as unknown).nutritionalHighlights && Object.keys((item as unknown).nutritionalHighlights || {}).length > 0 && (
+        {(item as Record<string, unknown>).nutritionalHighlights && Object.keys((item as Record<string, unknown>).nutritionalHighlights || {}).length > 0 && (
           <div className={styles.detailSection}>
             <h4 className={styles.detailTitle}>
               <Info size={16} /> Nutritional Highlights
@@ -1097,7 +1097,7 @@ export default function IngredientRecommender() {
               gap: '0.75rem',
               fontSize: '0.85rem'
             }}>
-              {Object.entries((item as unknown).nutritionalHighlights || {}).map(([nutrient, value]) => (
+              {Object.entries((item as Record<string, unknown>).nutritionalHighlights || {}).map(([nutrient, value]) => (
                 <div key={nutrient} style={{ 
                   padding: '0.5rem 0.75rem',
                   backgroundColor: 'rgba(249, 250, 251, 0.8)',

@@ -1,4 +1,4 @@
-import { _ElementalCharacter, AlchemicalProperty } from '../constants/planetaryElements';
+import { ElementalCharacter, AlchemicalProperty } from '../constants/planetaryElements';
 import { _calculatePlanetaryPositions } from '../utils/astrologyUtils';
 import { calculateSignEnergyStates } from '@/constants/signEnergyStates';
 
@@ -114,7 +114,7 @@ class ThermodynamicCalculator {
             substance: state.substance * (1 + (modifiers.Substance || 0))
         };
 
-        debugLog(`Applied ${this.currentPlanetaryInfluence} modifiers to state`);
+        _debugLog(`Applied ${this.currentPlanetaryInfluence} modifiers to state`);
         return result;
     }
 
@@ -200,7 +200,7 @@ class ThermodynamicCalculator {
         finalValue = Math.max(0.2, Math.min(1.0, finalValue));
         
         // Detailed logging of the calculation
-        debugLog(`Greg's Energy calculation:
+        _debugLog(`Greg's Energy calculation:
           Inputs: heat=${safeHeat.toFixed(2)}, entropy=${safeEntropy.toFixed(2)}, reactivity=${safeReactivity.toFixed(2)}
           Raw: ${rawValue.toFixed(2)}, Scaled: ${scaledValue.toFixed(2)}, Final: ${finalValue.toFixed(2)}`);
         
@@ -243,7 +243,7 @@ class ThermodynamicCalculator {
     generateMetrics(state: ElementalState): ThermodynamicMetrics {
         this.validateState(state);
         
-        debugLog("Initial state for thermodynamic calculations:", state);
+        _debugLog("Initial state for thermodynamic calculations:", state);
         
         // Apply minimum values to prevent division by zero
         const safeState = {
@@ -257,11 +257,11 @@ class ThermodynamicCalculator {
             earth: Math.max(state.earth, this.MINIMUM_VALUE)
         };
 
-        debugLog("Safe state after minimum values:", safeState);
+        _debugLog("Safe state after minimum values:", safeState);
 
         // Apply planetary influences
         const modifiedState = this.applyPlanetaryModifiers(safeState);
-        debugLog("Modified state after planetary influences:", modifiedState, 
+        _debugLog("Modified state after planetary influences:", modifiedState, 
                  "Current planetary influence:", this.currentPlanetaryInfluence);
 
         const heat = this.calculateHeat(modifiedState);
@@ -269,7 +269,7 @@ class ThermodynamicCalculator {
         const reactivity = this.calculateReactivity(modifiedState);
         const gregsEnergy = this.calculateGregsEnergy(heat, entropy, reactivity);
 
-        debugLog("Raw calculated values:", { heat, entropy, reactivity, gregsEnergy });
+        _debugLog("Raw calculated values:", { heat, entropy, reactivity, gregsEnergy });
 
         const metrics: ThermodynamicMetrics = { 
             heat,
@@ -282,12 +282,12 @@ class ThermodynamicCalculator {
         for (const key in metrics) {
             if (isNaN(metrics[key as keyof ThermodynamicMetrics]) || 
                 !isFinite(metrics[key as keyof ThermodynamicMetrics])) {
-                debugLog(`Fixed invalid value for ${key}`);
+                _debugLog(`Fixed invalid value for ${key}`);
                 metrics[key as keyof ThermodynamicMetrics] = 0.5; // Default to middle value
             }
         }
         
-        debugLog("Final metrics:", metrics);
+        _debugLog("Final metrics:", metrics);
         return metrics;
     }
 

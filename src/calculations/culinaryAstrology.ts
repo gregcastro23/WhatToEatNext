@@ -277,13 +277,13 @@ export class CulinaryAstrologer {
       const jupiterPlanet = astroState.dominantPlanets?.find(p => {
         // Apply safe type casting for planet access
         const planetData = p as unknown;
-        return (planetData as unknown)?.name === 'Jupiter';
+        return (planetData as Record<string, unknown>)?.name === 'Jupiter';
       });
       if (jupiterPlanet) {
         // Apply safe type casting for planet data access
         const planetData = jupiterPlanet as unknown;
-        const planetEffect = (planetData as unknown)?.effect;
-        const planetInfluence = (planetData as unknown)?.influence || 1;
+        const planetEffect = (planetData as Record<string, unknown>)?.effect;
+        const planetInfluence = (planetData as Record<string, unknown>)?.influence as number || 1;
         
         // Base score for Jupiter
         let jupiterBoost = 0.6;
@@ -296,7 +296,7 @@ export class CulinaryAstrologer {
           // Further boost recipes that have abundant, rich, or festive qualities
           // Apply safe type casting for recipe tags access
           const recipeData = recipe as unknown;
-          const recipeTags = (recipeData as unknown)?.tags;
+          const recipeTags = (recipeData as Record<string, unknown>)?.tags;
           if (Array.isArray(recipeTags) && recipeTags.some(tag => 
             ['abundant', 'rich', 'festive', 'celebratory', 'generous'].includes(tag.toLowerCase())
           )) {
@@ -322,13 +322,13 @@ export class CulinaryAstrologer {
       const saturnPlanet = astroState.dominantPlanets?.find(p => {
         // Apply safe type casting for planet access
         const planetData = p as unknown;
-        return (planetData as unknown)?.name === 'Saturn';
+        return (planetData as Record<string, unknown>)?.name === 'Saturn';
       });
       if (saturnPlanet) {
         // Apply safe type casting for planet data access
         const planetData = saturnPlanet as unknown;
-        const planetEffect = (planetData as unknown)?.effect;
-        const planetInfluence = (planetData as unknown)?.influence || 1;
+        const planetEffect = (planetData as Record<string, unknown>)?.effect;
+        const planetInfluence = (planetData as Record<string, unknown>)?.influence as number || 1;
         
         // Base score for Saturn
         let saturnBoost = 0.6;
@@ -341,7 +341,7 @@ export class CulinaryAstrologer {
           // Further boost recipes that have structured, traditional, or preserved qualities
           // Apply safe type casting for recipe tags access
           const recipeData = recipe as unknown;
-          const recipeTags = (recipeData as unknown)?.tags;
+          const recipeTags = (recipeData as Record<string, unknown>)?.tags;
           if (Array.isArray(recipeTags) && recipeTags.some(tag => 
             ['structured', 'traditional', 'preserved', 'aged', 'fermented'].includes(tag.toLowerCase())
           )) {

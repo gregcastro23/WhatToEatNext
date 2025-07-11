@@ -10,14 +10,14 @@ const CACHE_TTL = 1 * 60; // 1 minute cache timeout
 export async function GET() {
   try {
     // Check cache first
-    const cached = cache.get(CACHE_KEY);
+    const cached = _cache.get(CACHE_KEY);
     if (cached) return NextResponse.json(cached);
 
     // Instead of calculating positions, use the default positions that we've corrected
     const positions = getDefaultPlanetaryPositions();
     
     // Cache with TTL
-    cache.set(CACHE_KEY, positions, CACHE_TTL);
+    _cache.set(CACHE_KEY, positions, CACHE_TTL);
     
     return NextResponse.json({
       timestamp: new Date().toISOString(),
@@ -40,7 +40,7 @@ export async function POST(request: Request) {
     const targetDate = new Date(date);
     
     // Get positions using our local function
-    const positions = await calculatePlanetaryPositions(targetDate);
+    const positions = await _calculatePlanetaryPositions(targetDate);
     
     // Validate positions before calculating aspects
     if (!positions || Object.keys(positions).length === 0) {

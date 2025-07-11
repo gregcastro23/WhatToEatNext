@@ -6,6 +6,7 @@ import type {
   ZodiacSign,
 } from '@/types/alchemy';
 import { cuisinesMap } from '@/data/cuisines';
+import { getCurrentTimeFactors } from '@/utils/getCurrentTimeFactors()';
 
 // Recipe interface for internal use in enhanced recommender
 interface RecipeData {
@@ -113,7 +114,7 @@ export class EnhancedCuisineRecommender {
     dietaryRestrictions?: string[]
   ): EnhancedRecipeMatch[] {
     // Get current time factors
-    const _timeFactors = this.getCurrentTimeFactors();
+    const timeFactors = getCurrentTimeFactors();
 
     // Get cuisine data
     const cuisine = this.getCuisine(cuisineName);
@@ -146,15 +147,15 @@ export class EnhancedCuisineRecommender {
 
     // Calculate match scores for each recipe
     const matches = dietaryFilteredRecipes.map((recipe) => {
-      const seasonalScore = this.calculateSeasonalScore(recipe, timeFactors);
+      const seasonalScore = this.calculateSeasonalScore(recipe, getCurrentTimeFactors());
       const planetaryDayScore = this.calculatePlanetaryDayScore(
         recipe,
-        timeFactors,
+        getCurrentTimeFactors(),
         astroState
       );
       const planetaryHourScore = this.calculatePlanetaryHourScore(
         recipe,
-        timeFactors,
+        getCurrentTimeFactors(),
         astroState
       );
       const elementalScore = this.calculateElementalScore(recipe, astroState);
@@ -162,7 +163,7 @@ export class EnhancedCuisineRecommender {
         recipe,
         astroState
       );
-      const timeOfDayScore = this.calculateTimeOfDayScore(recipe, timeFactors);
+      const timeOfDayScore = this.calculateTimeOfDayScore(recipe, getCurrentTimeFactors());
 
       // Overall match percentage - weighted combination of all scores
       const matchPercentage = this.calculateOverallMatch(
@@ -343,7 +344,7 @@ export class EnhancedCuisineRecommender {
     timeFactors: TimeFactors,
     astroState: AstrologicalState
   ): number {
-    const { planetaryDay, currentDate } = timeFactors;
+    const { planetaryDay, currentDate } = getCurrentTimeFactors();
     const _isDaytime = this.isDaytime(currentDate);
 
     // If recipe has no elemental properties, give it a neutral score
@@ -410,7 +411,7 @@ export class EnhancedCuisineRecommender {
     timeFactors: TimeFactors,
     astroState: AstrologicalState
   ): number {
-    const { planetaryHour, currentDate } = timeFactors;
+    const { planetaryHour, currentDate } = getCurrentTimeFactors();
     const _isDaytime = this.isDaytime(currentDate);
 
     // If recipe has no elemental properties, give it a neutral score
@@ -538,9 +539,9 @@ export class EnhancedCuisineRecommender {
    */
   private calculateTimeOfDayScore(
     recipe: RecipeData,
-    timeFactors: TimeFactors
+    getCurrentTimeFactors(): TimeFactors
   ): number {
-    const { timeOfDay } = timeFactors;
+    const { timeOfDay } = getCurrentTimeFactors();
 
     // Map meal types to appropriate times of day
     const mealTypeToTimeMap: Record<string, TimeOfDay[]> = {

@@ -74,28 +74,26 @@ export default function CookingMethodsPage() {
         return {
           id: key,
           name: capitalizeFirstLetter(key.replace(/_/g, ' ')),
-          description: (method as unknown).description || '',
-          elementalEffect: (method as unknown).elementalEffect || (method as unknown).elementalProperties || {
+          description: ((method as Record<string, unknown>)?.description && typeof (method as Record<string, unknown>).description === 'string') ? (method as Record<string, unknown>).description : '',
+          elementalEffect: ((method as Record<string, unknown>)?.elementalEffect && typeof (method as Record<string, unknown>).elementalEffect === 'object') ? (method as Record<string, unknown>).elementalEffect : ((method as Record<string, unknown>)?.elementalProperties && typeof (method as Record<string, unknown>).elementalProperties === 'object') ? (method as Record<string, unknown>).elementalProperties : {
             Fire: 0.5,
             Water: 0.5,
             Earth: 0.5,
             Air: 0.5
           },
           score: Math.random() * 0.5 + 0.5, // Mock score between 0.5-1.0
-          duration: (method as unknown).time_range || (method as unknown).duration || { min: 10, max: 30 },
-          suitable_for: (method as unknown).suitable_for || [],
-          benefits: (method as unknown).benefits || [],
+          duration: ((method as Record<string, unknown>)?.time_range && typeof (method as Record<string, unknown>).time_range === 'object') ? (method as Record<string, unknown>).time_range : ((method as Record<string, unknown>)?.duration && typeof (method as Record<string, unknown>).duration === 'object') ? (method as Record<string, unknown>).duration : { min: 10, max: 30 },
+          suitable_for: ((method as Record<string, unknown>)?.suitable_for && Array.isArray((method as Record<string, unknown>).suitable_for)) ? (method as Record<string, unknown>).suitable_for : [],
+          benefits: ((method as Record<string, unknown>)?.benefits && Array.isArray((method as Record<string, unknown>).benefits)) ? (method as Record<string, unknown>).benefits : [],
           // Create variations if they exist
-          variations: (method as unknown).variations ? 
-            (Array.isArray((method as unknown).variations) ? 
-              (method as unknown).variations.map((v: string, i: number) => ({
-                id: `${key}_var_${i}`,
-                name: v,
-                description: `Variation of ${capitalizeFirstLetter(key.replace(/_/g, ' '))}`,
-                elementalEffect: (method as unknown).elementalEffect || (method as unknown).elementalProperties,
-                score: Math.random() * 0.3 + 0.6
-              })) : []
-            ) : []
+          variations: ((method as Record<string, unknown>)?.variations && Array.isArray((method as Record<string, unknown>).variations)) ? 
+            ((method as Record<string, unknown>).variations as unknown[]).map((v: string, i: number) => ({
+              id: `${key}_var_${i}`,
+              name: v,
+              description: `Variation of ${capitalizeFirstLetter(key.replace(/_/g, ' '))}`,
+              elementalEffect: ((method as Record<string, unknown>)?.elementalEffect && typeof (method as Record<string, unknown>).elementalEffect === 'object') ? (method as Record<string, unknown>).elementalEffect : ((method as Record<string, unknown>)?.elementalProperties && typeof (method as Record<string, unknown>).elementalProperties === 'object') ? (method as Record<string, unknown>).elementalProperties : {},
+              score: Math.random() * 0.3 + 0.6
+            })) : []
         };
       });
       
@@ -107,7 +105,7 @@ export default function CookingMethodsPage() {
     setTabValue(newValue);
   };
 
-  const handleSelectMethod = (method: Record<string, unknown>) => {
+  const handleSelectMethod = (method: Record<string, unknown> | any) => {
     const id = String(method?.id || '');
     setSelectedMethodId(id);
     if (id && !id.includes('_var_')) {

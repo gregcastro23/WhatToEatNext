@@ -235,7 +235,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
    */
   getIngredientsBySubcategory(subcategory: string): UnifiedIngredient[] {
     try {
-      return Object.values(unifiedIngredients || {}).filter(ingredient => ingredient.subcategory?.toLowerCase() === subcategory?.toLowerCase()
+      return Object.values(unifiedIngredients || {}).filter(ingredient => ingredient.subCategory?.toLowerCase() === subcategory?.toLowerCase()
       );
     } catch (error) {
       errorHandler.logError(error, {
@@ -288,7 +288,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         const filterData = filter as Record<string, unknown>;
         const currentSeason = filterData?.currentSeason || filterData?.season;
         if (currentSeason) {
-          filtered = this.applySeasonalFilter(filtered, currentSeason);
+          filtered = this.applySeasonalFilter(filtered, currentSeason as unknown as string[] | Season[]);
         }
         
         // Apply search query if specified
@@ -560,7 +560,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         
         // Apply seasonal bonus if relevant with safe type casting
         let seasonalBonus = 0;
-        const ingredientData = ingredient as Record<string, unknown>;
+        const ingredientData = ingredient as unknown as Record<string, unknown>;
         if (optimizeForSeason && ingredientData.currentSeason) {
           const currentSeason = this.getCurrentSeason();
           const seasonArray = Array.isArray(ingredientData.currentSeason) ? ingredientData.currentSeason : [ingredientData.currentSeason];
@@ -586,7 +586,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         .sort((a, b) => sortByScore ? b.score - a.score : 0);
       
       // Return top results
-      const results = filtered?.slice(0, maxResults || 10).map(item => ({
+      const results = filtered?.slice(0, Number(maxResults) || 10).map(item => ({
         ...item.ingredient,
         score: item.score
       }));
@@ -622,7 +622,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
    */
   calculateThermodynamicMetrics(ingredient: UnifiedIngredient): ThermodynamicMetrics {
     try {
-      const ingredientData = ingredient as Record<string, unknown>;
+      const ingredientData = ingredient as unknown as Record<string, unknown>;
       if (ingredientData.energyValues) {
         // Convert energyValues to ThermodynamicMetrics format with safe property access
         const energyData = ingredientData.energyValues as Record<string, unknown>;
@@ -722,12 +722,12 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       // Check calorie range if specified
       if (filter.minCalories !== undefined) {
         const calorieContent = nutritional.calories || 0;
-        if (calorieContent < filter.minCalories) return false;
+        if (calorieContent < Number(filter.minCalories)) return false;
       }
       
       if (filter.maxCalories !== undefined) {
         const calorieContent = nutritional.calories || 0;
-        if (calorieContent > filter.maxCalories) return false;
+        if (calorieContent > Number(filter.maxCalories)) return false;
       }
       
       // Check for required vitamins
@@ -931,7 +931,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
    */
   private isVegetarianProtein(ingredient: UnifiedIngredient): boolean {
     const nonVegetarianCategories = ['meat', 'poultry', 'seafood'];
-    return !nonVegetarianCategories.includes(ingredient.subcategory || '');
+    return !nonVegetarianCategories.includes(ingredient.subCategory || '');
   }
   
   /**
@@ -939,7 +939,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
    */
   private isVeganProtein(ingredient: UnifiedIngredient): boolean {
     const nonVeganCategories = ['meat', 'poultry', 'seafood', 'dAiry', 'eggs'];
-    return !nonVeganCategories.includes(ingredient.subcategory || '');
+    return !nonVeganCategories.includes(ingredient.subCategory || '');
   }
   
   /**
@@ -1011,7 +1011,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       }
       
       // Check subcategory
-      if (ingredient.subcategory?.toLowerCase()?.includes(normalizedQuery)) {
+      if (ingredient.subCategory?.toLowerCase()?.includes(normalizedQuery)) {
         return true;
       }
       

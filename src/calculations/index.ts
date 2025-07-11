@@ -117,10 +117,10 @@ export async function calculateComprehensiveAlchemicalResult(
 ): Promise<ComprehensiveAlchemicalResult> {
   const {
     planetaryPositions,
-    _season = 'spring',
+    season = 'spring',
     lunarPhase = 'full moon',
     isDaytime = true,
-    _currentDate = new Date(),
+    currentDate = new Date(),
     currentZodiacSign
   } = input;
 

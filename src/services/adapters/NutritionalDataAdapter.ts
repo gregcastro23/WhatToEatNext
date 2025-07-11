@@ -89,7 +89,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       return await fetchNutritionalData(foodName) as unknown as import('@/types/alchemy').NutritionalProfile;
     } catch (error) {
       // Use safe type casting for errorHandler service access
-      const errorHandlerService = errorHandler as unknown;
+      const errorHandlerService = errorHandler as unknown as { logError?: (error: unknown, context: Record<string, unknown>) => void };
       errorHandlerService?.logError?.(error, {
         context: 'NutritionalDataAdapter',
         action: 'getNutritionalData',
@@ -104,10 +104,10 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
    */
   calculateNutritionalBalance(ingredients: unknown[]): NutritionalProfile {
     try {
-      return calculateNutritionalBalance(ingredients) as unknown as import('@/types/alchemy').NutritionalProfile;
+      return calculateNutritionalBalance(ingredients as unknown as any[]) as unknown as import('@/types/alchemy').NutritionalProfile;
     } catch (error) {
       // Use safe type casting for errorHandler service access
-      const errorHandlerService = errorHandler as unknown;
+      const errorHandlerService = errorHandler as unknown as { logError?: (error: unknown, context: Record<string, unknown>) => void };
       errorHandlerService?.logError?.(error, {
         context: 'NutritionalDataAdapter',
         action: 'calculateNutritionalBalance'
@@ -134,7 +134,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       const result = nutritionalToElemental(profile as unknown);
       
       // Create a proper ElementalProperties object
-      return createElementalProperties({ 
+      return _createElementalProperties({ 
         Fire: result.Fire, 
         Water: result.Water, 
         Earth: result.Earth, 
@@ -142,12 +142,12 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       }) as ElementalProperties;
     } catch (error) {
       // Use safe type casting for errorHandler service access
-      const errorHandlerService = errorHandler as unknown;
+      const errorHandlerService = errorHandler as unknown as { logError?: (error: unknown, context: Record<string, unknown>) => void };
       errorHandlerService?.logError?.(error, {
         context: 'NutritionalDataAdapter',
         action: 'convertNutritionalToElemental'
       });
-      return createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0 }) as ElementalProperties;
+      return _createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0 }) as ElementalProperties;
     }
   }
   
@@ -162,7 +162,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
     try {
       // Convert sign to string for the original function with safe type casting
       const signData = sign as unknown;
-      const signStr = typeof sign === 'string' ? signData?.toLowerCase() : String(signData)?.toLowerCase();
+      const signStr = typeof sign === 'string' ? (signData as string)?.toLowerCase() : String(signData)?.toLowerCase();
       
       // Get recommendations
       const result = getZodiacNutritionalRecommendations(signStr);
@@ -175,7 +175,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       };
     } catch (error) {
       // Use safe type casting for errorHandler service access
-      const errorHandlerService = errorHandler as unknown;
+      const errorHandlerService = errorHandler as unknown as { logError?: (error: unknown, context: Record<string, unknown>) => void };
       errorHandlerService?.logError?.(error, {
         context: 'NutritionalDataAdapter',
         action: 'getZodiacNutritionalRecommendations',
@@ -204,7 +204,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       return getPlanetaryNutritionalRecommendations(planetStrings);
     } catch (error) {
       // Use safe type casting for errorHandler service access
-      const errorHandlerService = errorHandler as unknown;
+      const errorHandlerService = errorHandler as unknown as { logError?: (error: unknown, context: Record<string, unknown>) => void };
       errorHandlerService?.logError?.(error, {
         context: 'NutritionalDataAdapter',
         action: 'getPlanetaryNutritionalRecommendations'
@@ -239,7 +239,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       const result = getEnhancedPlanetaryNutritionalRecommendations(dayStr, hourStr, currentTime);
       
       // Convert elements to proper ElementalProperties
-      const elements = createElementalProperties({ 
+      const elements = _createElementalProperties({ 
         Fire: result.elements.Fire || 0, 
         Water: result.elements.Water || 0, 
         Earth: result.elements.Earth || 0, 
@@ -254,7 +254,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       };
     } catch (error) {
       // Use safe type casting for errorHandler service access
-      const errorHandlerService = errorHandler as unknown;
+      const errorHandlerService = errorHandler as unknown as { logError?: (error: unknown, context: Record<string, unknown>) => void };
       errorHandlerService?.logError?.(error, {
         context: 'NutritionalDataAdapter',
         action: 'getEnhancedPlanetaryNutritionalRecommendations',
@@ -262,7 +262,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
         planetaryHour: String(planetaryHour)
       });
       return {
-        elements: createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0 }),
+        elements: _createElementalProperties({ Fire: 0, Water: 0, Earth: 0, Air: 0 }),
         focusNutrients: [],
         healthAreas: [],
         recommendedFoods: []
@@ -285,18 +285,18 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       const result = getSeasonalNutritionalRecommendations(seasonStr);
       return {
         ...result,
-        element: result.element as Element
+        element: result.element as unknown as Element
       };
     } catch (error) {
       // Use safe type casting for errorHandler service access
-      const errorHandlerService = errorHandler as unknown;
+      const errorHandlerService = errorHandler as unknown as { logError?: (error: unknown, context: Record<string, unknown>) => void };
       errorHandlerService?.logError?.(error, {
         context: 'NutritionalDataAdapter',
         action: 'getSeasonalNutritionalRecommendations',
         season: String(season)
       });
       return {
-        element: 'Fire' as Element,
+        element: 'Fire' as unknown as Element,
         focusNutrients: [],
         seasonalFoods: []
       };
@@ -323,7 +323,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       return evaluateNutritionalElementalBalance(profile as unknown, legacyTargetElements);
     } catch (error) {
       // Use safe type casting for errorHandler service access
-      const errorHandlerService = errorHandler as unknown;
+      const errorHandlerService = errorHandler as unknown as { logError?: (error: unknown, context: Record<string, unknown>) => void };
       errorHandlerService?.logError?.(error, {
         context: 'NutritionalDataAdapter',
         action: 'evaluateNutritionalElementalBalance'

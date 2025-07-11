@@ -201,13 +201,14 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
     return Object.entries(cookingMethods).map(([key, method]) => {
       // Get cooking method elemental effect or calculate it
       let elementalEffect;
-      if ((method as unknown).elementalEffect) {
-        elementalEffect = (method as unknown).elementalEffect;
+      if (method && typeof method === 'object' && 'elementalEffect' in method) {
+        elementalEffect = (method as Record<string, unknown>).elementalEffect;
       } else {
         // Calculate based on cooking method characteristics
         elementalEffect = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
         
-        const methodName = ((method as unknown).name || key).toLowerCase();
+        const methodName = (method && typeof method === 'object' && 'name' in method && typeof (method as Record<string, unknown>).name === 'string') ? 
+          ((method as Record<string, unknown>).name as string).toLowerCase() : key.toLowerCase();
         
         // Adjust by cooking method type
         if (methodName.includes('grill') || methodName.includes('roast') || methodName.includes('bake') ||
@@ -256,7 +257,8 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
       
       return {
         id: key,
-        name: (method as unknown).name || key,
+        name: (method && typeof method === 'object' && 'name' in method && typeof (method as Record<string, unknown>).name === 'string') ? 
+          (method as Record<string, unknown>).name : key,
         elementalProperties: elementalEffect
       } as unknown as unknown as ElementalItem;
     });
@@ -267,14 +269,14 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
     return Object.entries(cuisines).map(([key, cuisine]) => {
       // Get cuisine elemental state or calculate it
       let elementalState;
-      if ((cuisine as unknown).elementalState) {
-        elementalState = (cuisine as unknown).elementalState;
+      if (cuisine && typeof cuisine === 'object' && 'elementalState' in cuisine) {
+        elementalState = (cuisine as Record<string, unknown>).elementalState;
       } else {
         // Calculate based on cuisine characteristics
         elementalState = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
         
-        const cuisineName = ((cuisine as unknown).name || key).toLowerCase();
-        const region = ((cuisine as unknown).region || '').toLowerCase();
+        const cuisineName = ((cuisine as Record<string, unknown>).name as string || key).toLowerCase();
+        const region = ((cuisine as Record<string, unknown>).region as string || '').toLowerCase();
         
         // Adjust by cuisine type/region
         if (cuisineName.includes('indian') || cuisineName.includes('thai') || 
@@ -329,7 +331,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
       
       return {
         id: key,
-        name: (cuisine as unknown).name || key,
+        name: (cuisine as Record<string, unknown>).name as string || key,
         elementalProperties: elementalState
       } as unknown as unknown as ElementalItem;
     });
@@ -536,7 +538,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
                   <div className="item-modality">
                     <span className={`modality-badge ${(() => {
                       const modalityData = ingredient.modality as unknown;
-                      const modalityStr = modalityData?.toLowerCase ? modalityData.toLowerCase() : (modalityData || '').toString().toLowerCase();
+                      const modalityStr = (modalityData as Record<string, unknown>)?.toLowerCase ? (modalityData as Record<string, unknown>).toLowerCase() as string : (modalityData || '').toString().toLowerCase();
                       return modalityStr;
                     })()}`}>
                       {(ingredient.modality as React.ReactNode) || 'Unknown'}
@@ -571,7 +573,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
                   <div className="item-modality">
                     <span className={`modality-badge ${(() => {
                       const modalityData = method.modality as unknown;
-                      const modalityStr = modalityData?.toLowerCase ? modalityData.toLowerCase() : (modalityData || '').toString().toLowerCase();
+                      const modalityStr = (modalityData as Record<string, unknown>)?.toLowerCase ? (modalityData as Record<string, unknown>).toLowerCase() as string : (modalityData || '').toString().toLowerCase();
                       return modalityStr;
                     })()}`}>
                       {(method.modality as React.ReactNode) || 'Unknown'}
@@ -606,7 +608,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
                   <div className="item-modality">
                     <span className={`modality-badge ${(() => {
                       const modalityData = cuisine.modality as unknown;
-                      const modalityStr = modalityData?.toLowerCase ? modalityData.toLowerCase() : (modalityData || '').toString().toLowerCase();
+                      const modalityStr = (modalityData as Record<string, unknown>)?.toLowerCase ? (modalityData as Record<string, unknown>).toLowerCase() as string : (modalityData || '').toString().toLowerCase();
                       return modalityStr;
                     })()}`}>
                       {(cuisine.modality as React.ReactNode) || 'Unknown'}

@@ -57,10 +57,10 @@ class LoadingStateManager {
   }
 
   setError(message: string) {
-    logger.error('Loading error:', _message)
+    logger.error('Loading error:', message)
     this.updateState({
       isLoading: false,
-      _message,
+      message,
       stage: 'error'
     })
   }

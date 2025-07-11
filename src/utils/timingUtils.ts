@@ -20,10 +20,12 @@ export const timingUtils = {
     
     if (cuisine) {
       const cuisineProfile = culinaryTraditions[cuisine];
-      const cuisineElement = Object.entries(cuisineProfile.elementalAlignment)
-        .sort(([,a], [,b]) => b - a)[0][0];
-      
-      return this.applyCuisineModifiers(baseTiming, cuisineElement);
+      if (cuisineProfile && cuisineProfile.elementalAlignment) {
+        const cuisineElement = Object.entries(cuisineProfile.elementalAlignment)
+          .sort(([,a], [,b]) => b - a)[0][0];
+        
+        return this.applyCuisineModifiers(baseTiming, cuisineElement);
+      }
     }
     return baseTiming;
   },
@@ -52,7 +54,14 @@ export const timingUtils = {
     cookingMethod: string
   ): TimingResult {
     const baseProperties = ingredients.reduce(
-      (acc, curr) => elementalUtils.combineProperties(acc, curr),
+      (acc, curr) => {
+        return {
+          Fire: (acc.Fire + curr.Fire) / 2,
+          Water: (acc.Water + curr.Water) / 2,
+          Earth: (acc.Earth + curr.Earth) / 2,
+          Air: (acc.Air + curr.Air) / 2
+        };
+      },
       elementalUtils.DEFAULT_ELEMENTAL_PROPERTIES
     );
 

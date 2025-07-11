@@ -1,6 +1,5 @@
 import type { LunarPhase, 
   ZodiacSign, 
-  DignityType,
   LowercaseElementalProperties,
   PlanetaryAspect as ImportedPlanetaryAspect,
   AspectType as ImportedAspectType,
@@ -17,8 +16,8 @@ import { calculatePlanetaryAspects as safeCalculatePlanetaryAspects } from '@/ut
 import { getAccuratePlanetaryPositions } from '@/utils/accurateAstronomy';
 import { getPlanetaryPositions } from '@/utils/astrologyDataProvider';
 
-import { AstrologicalState, _Element , _PlanetaryPosition } from "@/types/celestial";
-import type { PlanetPosition } from '../../types/celestial';
+import { AstrologicalState, _Element , _PlanetaryPosition, AspectType as CelestialAspectType } from "@/types/celestial";
+import type { PlanetaryPosition } from '../../types/celestial';
 
 /**
  * A utility function for logging debug information
@@ -59,7 +58,7 @@ export type PlanetPositionData = {
 }
 
 export interface PlanetaryDignity {
-  type: DignityType;
+  type: string;
   value: number;
   description: string;
 }
@@ -330,24 +329,24 @@ export async function calculatemoonSign(date: Date = new Date()): Promise<Zodiac
  * @param date Date to calculate for
  * @returns Object with planetary positions
  */
-export async function calculatePlanetaryPositions(date: Date = new Date()): Promise<Record<string, PlanetPosition>> {
+export async function calculatePlanetaryPositions(date: Date = new Date()): Promise<Record<string, PlanetaryPosition>> {
   try {
     // Get accurate planetary positions
     const accuratePositions = await getAccuratePlanetaryPositions(date);
     
-    // Convert PlanetPositionData to PlanetPosition format
-    const positions: { [key: string]: PlanetPosition } = {};
+    // Convert PlanetPositionData to PlanetaryPosition format
+    const positions: { [key: string]: PlanetaryPosition } = {};
     
     // Transform each position to ensure consistent format
     for (const [planet, position] of Object.entries(accuratePositions)) {
       // Apply safe type casting for position property access
-      const positionData = position as unknown;
+      const positionData = position as unknown as Record<string, unknown>;
       positions[planet] = {
-        sign: positionData?.sign,
-        degree: (positionData as any)?.degree,
-        minutes: positionData?.minutes || 0,
-        exactLongitude: positionData?.exactLongitude || 0,
-        isRetrograde: positionData?.isRetrograde || false
+        sign: ((positionData?.sign && typeof positionData.sign === 'string') ? positionData.sign : 'aries') as ZodiacSign,
+        degree: (positionData?.degree && typeof positionData.degree === 'number') ? positionData.degree : 0,
+        minutes: (positionData?.minutes && typeof positionData.minutes === 'number') ? positionData.minutes : 0,
+        exactLongitude: (positionData?.exactLongitude && typeof positionData.exactLongitude === 'number') ? positionData.exactLongitude : 0,
+        isRetrograde: (positionData?.isRetrograde && typeof positionData.isRetrograde === 'boolean') ? positionData.isRetrograde : false
       };
     }
     
@@ -362,9 +361,9 @@ export async function calculatePlanetaryPositions(date: Date = new Date()): Prom
  * Get default planetary positions for fallback
  * @returns Object with default planet positions
  */
-export function getDefaultPlanetaryPositions(): { [key: string]: PlanetPosition } | undefined {
+export function getDefaultPlanetaryPositions(): { [key: string]: PlanetaryPosition } | undefined {
   // Default positions for current period (could be updated periodically)
-  const defaultPositions: { [key: string]: PlanetPosition } = {
+  const defaultPositions: { [key: string]: PlanetaryPosition } = {
     // Implement default positions here
     // This is a placeholder
   };
@@ -472,7 +471,7 @@ export async function getCurrentAstrologicalState(date: Date = new Date()): Prom
       currentZodiac: sunSign,
       sunSign,
       moonSign,
-      moonPhase: lunarPhaseValue,
+      moonPhase: _lunarPhase,
       lunarPhase: _lunarPhase,
       isDaytime: _isDaytime,
       planetaryHour,
@@ -561,7 +560,7 @@ export function calculateDominantElement(
   // Count elements from planetary positions
   if (astroState.planetaryPositions) {
     Object.entries(astroState.planetaryPositions || []).forEach(([planet, position]) => {
-      const element = getZodiacElementalInfluence(position.sign as unknown);
+      const element = getZodiacElementalInfluence((position.sign && typeof position.sign === 'string' ? position.sign : 'aries') as ZodiacSign);
       
       // Weight by planet importance
       let weight = 1;
@@ -606,7 +605,7 @@ export function calculateElementalProfile(
   // Count elements from planetary positions
   if (astroState.planetaryPositions) {
     Object.entries(astroState.planetaryPositions || []).forEach(([planet, position]) => {
-      const element = getZodiacElementalInfluence(position.sign as unknown);
+      const element = getZodiacElementalInfluence((position.sign && typeof position.sign === 'string' ? position.sign : 'aries') as ZodiacSign);
       
       // Weight by planet importance
       let weight = 1;
@@ -720,7 +719,7 @@ export function calculateAspects(
           let multiplier = definition.significance;
           
           // Special case: Square aspect with Ascendant is positive
-          if (type === 'square' && (element1 === 'ascendant' || element2 === 'ascendant')) {
+          if (type === 'square' && (planet1 === 'ascendant' || planet2 === 'ascendant')) {
             multiplier = 1;
           }
           
@@ -728,7 +727,7 @@ export function calculateAspects(
           aspects.push({
             planet1,
             planet2,
-            type: type as AspectType,
+            type: type as CelestialAspectType,
             orb,
             strength: strength * Math.abs(multiplier),
             influence: multiplier,

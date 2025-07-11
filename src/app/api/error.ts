@@ -12,15 +12,17 @@ import { ApiError, ValidationError, NotFoundError } from '@/types/errors';
 export function handleApiError(error: unknown): NextResponse {
   // Default to 500 Internal Server Error
   let statusCode = 500;
-  const _message = 'Internal server error';
-  let details = undefined;
+  let message = 'Internal server error';
+  let details: unknown = undefined;
 
   // If this is one of our custom API errors, use its status code
-  if ((error as ApiError).statusCode) {
+  if (error && typeof error === 'object' && 'statusCode' in error) {
     const apiError = error as ApiError;
     statusCode = apiError.statusCode;
     message = apiError.message;
-    details = (apiError as unknown).details;
+    if ('details' in error) {
+      details = (error as Record<string, unknown>).details;
+    }
   } else if (error instanceof Error) {
     // For standard Error objects, use the message
     message = error.message;
@@ -36,7 +38,7 @@ export function handleApiError(error: unknown): NextResponse {
   // Return the error response
   return NextResponse.json(
     { 
-      error: _message,
+      error: message,
       ...(details ? { details } : {})
     },
     { status: statusCode }
@@ -50,7 +52,7 @@ export function handleApiError(error: unknown): NextResponse {
  * @returns NextResponse with 400 status
  */
 export function validationError(message: string, details?: unknown): NextResponse {
-  return handleApiError(new ValidationError(message, _details));
+  return handleApiError(new ValidationError(message, details));
 }
 
 /**

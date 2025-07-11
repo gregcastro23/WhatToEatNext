@@ -275,10 +275,10 @@ function calculateEnhancedCuisineScore(
   const monicaProfile = cuisineName ? cuisineMonicaConstants[cuisineName] : undefined;
 
   // 1. ELEMENTAL MATCH CALCULATION
-  if (astroState?.elementalState && isCuisineData(cuisine) && cuisine.elementalAlignment) {
+  if (astroState?.elementalState && isCuisineData(cuisine) && (cuisine && typeof cuisine === 'object' && 'elementalAlignment' in cuisine ? (cuisine as { elementalAlignment?: ElementalData }).elementalAlignment : undefined)) {
     try {
       elementalMatch = calculateElementalMatch(
-        cuisine.elementalAlignment as ElementalProperties,
+        (cuisine && typeof cuisine === 'object' && 'elementalAlignment' in cuisine ? (cuisine as { elementalAlignment?: ElementalData }).elementalAlignment : { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }) as ElementalProperties,
         astroState.elementalState as ElementalProperties
       );
     } catch (error) {
@@ -337,7 +337,7 @@ function calculateEnhancedCuisineScore(
       } else {
         // Check for elemental compatibility between zodiac and cuisine
         const zodiacElement = getZodiacElement(astroState.zodiacSign as string);
-        const dominantCuisineElement = getDominantElement(cuisine.elementalAlignment as Record<string, number> || {});
+        const dominantCuisineElement = getDominantElement((cuisine && typeof cuisine === 'object' && 'elementalAlignment' in cuisine ? (cuisine as { elementalAlignment?: Record<string, number> }).elementalAlignment : {}) as Record<string, number> || {});
         zodiacAlignment = calculateElementalAlignment(zodiacElement, dominantCuisineElement);
       }
     } catch (error) {
@@ -579,7 +579,7 @@ function buildCompleteRecipe(
       defaultElementalProperties;
 
     // 1. Elemental Match (40%) - using current moment's elemental state
-    const elementalMatch = calculateElementalMatch(recipeElements as ElementalData, currentMomentElements);
+    const elementalMatch = calculateElementalMatch(recipeElements as ElementalProperties, currentMomentElements);
     
     // 2. Kalchm Harmony (25%) - estimate recipe Kalchm from ingredients and cooking methods
     let recipeKalchm = 1.0; // Default neutral Kalchm
@@ -593,13 +593,13 @@ function buildCompleteRecipe(
       'stir-frying': 1.04, 'sautéing': 1.02, 'braising': 0.98
     };
     
-    (cookingMethods as unknown)?.forEach((method: string) => {
+    (Array.isArray(cookingMethods) ? cookingMethods : []).forEach((method: string) => {
       const modifier = kalchmModifiers[method?.toLowerCase()] || 1.0;
       recipeKalchm *= modifier;
     });
     
     // Estimate Kalchm from ingredient complexity
-    const ingredientCount = ((recipe as unknown).ingredients || []).length;
+    const ingredientCount = (Array.isArray(recipe.ingredients) ? recipe.ingredients : []).length;
     const complexityModifier = Math.min(1.2, 0.9 + (ingredientCount * 0.02));
     recipeKalchm *= complexityModifier;
     
@@ -609,9 +609,9 @@ function buildCompleteRecipe(
     
     // 3. Astrological Alignment (20%)
     let astrologicalAlignment = 0.7; // Default
-    if (astrologicalState?.currentZodiac) {
-      const zodiacElement = getZodiacElement((astrologicalState as unknown).currentZodiac);
-      const dominantRecipeElement = getDominantElement(recipeElements as unknown);
+    if (astrologicalState && typeof astrologicalState === 'object' && 'currentZodiac' in astrologicalState) {
+      const zodiacElement = getZodiacElement((astrologicalState as { currentZodiac?: string }).currentZodiac || 'aries');
+      const dominantRecipeElement = getDominantElement(recipeElements as Record<string, number>);
       astrologicalAlignment = calculateElementalAlignment(zodiacElement, dominantRecipeElement);
     }
     
@@ -624,7 +624,7 @@ function buildCompleteRecipe(
     
     // 5. Difficulty Bonus (5%) - easier recipes get slight bonus for accessibility
     const difficultyBonus = (() => {
-      const difficulty = (recipe.difficulty as unknown)?.toLowerCase() || 'medium';
+      const difficulty = (typeof recipe.difficulty === 'string' ? recipe.difficulty : 'medium').toLowerCase();
       if (difficulty.includes('easy') || difficulty.includes('simple')) return 0.9;
       if (difficulty.includes('medium') || difficulty.includes('intermediate')) return 0.8;
       return 0.7; // Hard recipes get lower bonus but still viable
@@ -662,7 +662,7 @@ function buildCompleteRecipe(
   const currentMomentElements = currentMomentElementalProfile || astrologicalState?.domElements || defaultElementalProperties;
   
   // Calculate enhanced scoring using current moment's elemental state
-  const scoring = calculateRecipeScore(recipe, cuisineProfile as unknown, currentMomentElements as unknown);
+  const scoring = calculateRecipeScore(recipe, cuisineProfile as unknown as Record<string, unknown>, currentMomentElements as unknown as ElementalProperties);
 
   // Complete recipe with enhanced data
   return {
@@ -681,7 +681,9 @@ function buildCompleteRecipe(
     recipeKalchm: scoring.recipeKalchm,
     
     elementalProperties: recipe.elementalProperties || 
-      (cuisineProfile?.elementalAlignment || (cuisineProfile as { elementalProperties?: Record<string, number> })?.elementalProperties || defaultElementalProperties),
+      (cuisineProfile && typeof cuisineProfile === 'object' && 'elementalAlignment' in cuisineProfile ? (cuisineProfile as unknown as Record<string, unknown>).elementalAlignment : 
+       cuisineProfile && typeof cuisineProfile === 'object' && 'elementalProperties' in cuisineProfile ? (cuisineProfile as unknown as Record<string, unknown>).elementalProperties : 
+       defaultElementalProperties) as ElementalData,
     ingredients: recipe.ingredients || [],
     instructions: recipe.instructions || recipe.preparationSteps || recipe.procedure || [],
     cookTime: recipe.cookTime || recipe.cooking_time || recipe.cook_time || "30 minutes",
@@ -742,7 +744,8 @@ export default function CuisineRecommender() {
   const astrologicalState = useAstrologicalState();
   
   // Extract zodiac and lunar phase for template usage
-  const currentZodiac = (astrologicalState as unknown)?.currentZodiac || (astrologicalState as unknown)?.zodiacSign || null;
+  const currentZodiac = (astrologicalState && typeof astrologicalState === 'object' && 'currentZodiac' in astrologicalState) ? (astrologicalState as unknown as Record<string, unknown>).currentZodiac : 
+    (astrologicalState && typeof astrologicalState === 'object' && 'zodiacSign' in astrologicalState) ? (astrologicalState as unknown as Record<string, unknown>).zodiacSign : null;
   const lunarPhase = astrologicalState?.lunarPhase || null;
   
   // Get current season for seasonal optimization
@@ -827,13 +830,13 @@ export default function CuisineRecommender() {
       // Map sauces with enhanced match calculations including Kalchm
       const saucesWithMatches = saucesArray.map(sauce => {
         const sauceData = sauce as unknown;
-        const sauceElements = (sauceData as unknown)?.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+        const sauceElements = (sauceData && typeof sauceData === 'object' && 'elementalProperties' in sauceData) ? (sauceData as Record<string, unknown>).elementalProperties as unknown as ElementalProperties : { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 } as ElementalProperties;
         
         // 1. Calculate cuisine-sauce elemental match
-        const cuisineMatchScore = calculateElementalMatch(sauceElements, cuisineElements);
+        const cuisineMatchScore = calculateElementalMatch(sauceElements as ElementalProperties, cuisineElements as ElementalProperties);
         
         // 2. Calculate match with current moment's elemental alignment
-        const currentMomentMatchScore = calculateElementalMatch(sauceElements, currentMomentElements);
+        const currentMomentMatchScore = calculateElementalMatch(sauceElements as ElementalProperties, currentMomentElements as ElementalProperties);
         
         // 3. Kalchm Harmony Calculation
         let kalchmHarmony = 0.7; // Default
@@ -842,18 +845,21 @@ export default function CuisineRecommender() {
         let sauceKalchm = 1.0;
         
         // Kalchm modifiers based on sauce characteristics
-        if ((sauceData as unknown)?.preparationMethod) {
+        if (sauceData && typeof sauceData === 'object' && 'preparationMethod' in sauceData) {
           const kalchmModifiers: { [key: string]: number } = {
             'fermented': 1.25, 'aged': 1.15, 'cooked': 1.10, 'reduced': 1.12,
             'emulsified': 1.08, 'raw': 0.95, 'cold': 0.90, 'fresh': 0.85
           };
           
-          const method = (sauceData as unknown).preparationMethod.toLowerCase();
+          const preparationMethod = (sauceData as Record<string, unknown>).preparationMethod;
+          const method = typeof preparationMethod === 'string' ? preparationMethod.toLowerCase() : '';
           sauceKalchm *= kalchmModifiers[method] || 1.0;
         }
         
         // Complexity modifier based on ingredients
-        const ingredientCount = ((sauceData as unknown)?.keyIngredients || (sauceData as unknown)?.ingredients || []).length;
+        const keyIngredients = (sauceData && typeof sauceData === 'object' && 'keyIngredients' in sauceData && Array.isArray((sauceData as Record<string, unknown>).keyIngredients)) ? (sauceData as Record<string, unknown>).keyIngredients as unknown[] : [];
+        const ingredients = (sauceData && typeof sauceData === 'object' && 'ingredients' in sauceData && Array.isArray((sauceData as Record<string, unknown>).ingredients)) ? (sauceData as Record<string, unknown>).ingredients as unknown[] : [];
+        const ingredientCount = (keyIngredients.length > 0 ? keyIngredients : ingredients).length;
         const complexityModifier = Math.min(1.2, 0.9 + (ingredientCount * 0.03));
         sauceKalchm *= complexityModifier;
         
@@ -863,15 +869,18 @@ export default function CuisineRecommender() {
         
         // 4. Monica compatibility (if available)
         let monicaCompatibility = 0.7; // Default
-        if (monicaProfile && (sauceData as unknown)?.monicaConstant) {
-          const monicaDifference = Math.abs(monicaProfile.baseMonicaConstant - (sauceData as unknown).monicaConstant);
+        if (monicaProfile && sauceData && typeof sauceData === 'object' && 'monicaConstant' in sauceData && typeof (sauceData as Record<string, unknown>).monicaConstant === 'number') {
+          const monicaDifference = Math.abs(monicaProfile.baseMonicaConstant - ((sauceData as Record<string, unknown>).monicaConstant as number));
           monicaCompatibility = Math.max(0.6, 1 - (monicaDifference * 0.5));
         }
         
         // 5. Planetary Hour Alignment
         let planetaryHourScore = 0.7; // Default
-        const saucePlanets = (sauceData as unknown)?.astrologicalInfluences || (sauceData as unknown)?.planetaryAffinities || [];
-        if (saucePlanets.includes(currentPlanetaryHour)) {
+        const astrologicalInfluences = (sauceData && typeof sauceData === 'object' && 'astrologicalInfluences' in sauceData && Array.isArray((sauceData as Record<string, unknown>).astrologicalInfluences)) ? (sauceData as Record<string, unknown>).astrologicalInfluences : [];
+        const planetaryAffinities = (sauceData && typeof sauceData === 'object' && 'planetaryAffinities' in sauceData && Array.isArray((sauceData as Record<string, unknown>).planetaryAffinities)) ? (sauceData as Record<string, unknown>).planetaryAffinities : [];
+        const saucePlanets = (astrologicalInfluences && typeof astrologicalInfluences === 'object' && 'length' in astrologicalInfluences && typeof astrologicalInfluences.length === 'number') ? 
+          (astrologicalInfluences.length > 0 ? astrologicalInfluences : planetaryAffinities) : planetaryAffinities;
+        if (saucePlanets && typeof saucePlanets === 'object' && 'includes' in saucePlanets && typeof saucePlanets.includes === 'function' && saucePlanets.includes(currentPlanetaryHour)) {
           planetaryHourScore = 0.9; // Bonus for matching current planetary hour
         }
         
@@ -900,8 +909,12 @@ export default function CuisineRecommender() {
         
         // 8. Add cultural cuisine compatibility bonus
         let culturalBonus = 0;
-        if ((sauceData as unknown)?.culturalOrigin?.includes(getCuisineCulturalGroup(cuisineName))) {
-          culturalBonus = 0.1;
+        if (sauceData && typeof sauceData === 'object' && 'culturalOrigin' in sauceData && Array.isArray((sauceData as Record<string, unknown>).culturalOrigin)) {
+          const culturalOrigin = (sauceData as Record<string, unknown>).culturalOrigin as string[];
+          const cuisineCulturalGroup = getCuisineCulturalGroup(cuisineName);
+          if (culturalOrigin && typeof culturalOrigin === 'object' && 'includes' in culturalOrigin && typeof culturalOrigin.includes === 'function' && cuisineCulturalGroup && typeof cuisineCulturalGroup === 'string' && cuisineCulturalGroup.toLowerCase && culturalOrigin.includes(cuisineCulturalGroup.toLowerCase())) {
+            culturalBonus = 0.1;
+          }
         }
         
         // 9. Apply seasonal bonus
@@ -911,7 +924,8 @@ export default function CuisineRecommender() {
         
         return {
           ...sauce,
-          id: (sauceData as unknown)?.id || (sauceData as unknown)?.name?.replace(/\s+/g, '-').toLowerCase(),
+          id: (sauceData && typeof sauceData === 'object' && 'id' in sauceData) ? (sauceData as Record<string, unknown>).id : 
+            (sauceData && typeof sauceData === 'object' && 'name' in sauceData && typeof (sauceData as Record<string, unknown>).name === 'string') ? ((sauceData as Record<string, unknown>).name as string).replace(/\s+/g, '-').toLowerCase() : 'unknown-sauce',
           matchPercentage,
           elementalMatchScore: Math.round(cuisineMatchScore * 100),
           currentMomentMatchScore: Math.round(currentMomentMatchScore * 100),
@@ -1031,7 +1045,7 @@ export default function CuisineRecommender() {
               variantScore.overallScore *= 0.95;
               
               transformedCuisines.push({
-                id: variant.id || variant.name?.toLowerCase().replace(/\s+/g, '-') || `cuisine-${Math.random()}`,
+                id: (variant.id as string) || ((variant.name && typeof variant.name === 'string') ? variant.name.toLowerCase().replace(/\s+/g, '-') : `cuisine-${Math.random()}`),
                 name: variant.name || 'Unknown Regional Cuisine',
                 description: variant.description || `A regional variant of ${cuisine.name} cuisine with distinctive characteristics.`,
                 elementalProperties: variant.elementalAlignment || variant.elementalProperties || {
@@ -1068,7 +1082,11 @@ export default function CuisineRecommender() {
 
       // FIXED: Sort cuisines by score in DESCENDING order (best matches first)
       return transformedCuisines
-        .sort((a, b) => (b.score || 0) - (a.score || 0))
+        .sort((a, b) => {
+          const scoreA = (a && typeof a === 'object' && 'score' in a) ? Number(a.score) || 0 : 0;
+          const scoreB = (b && typeof b === 'object' && 'score' in b) ? Number(b.score) || 0 : 0;
+          return scoreB - scoreA;
+        })
         .slice(0, 20); // Increased recommendations
     } catch (error) {
       // console.error('Error in getEnhancedCuisineRecommendations:', error);
@@ -1090,7 +1108,8 @@ export default function CuisineRecommender() {
       // Create a stable key to track if we need to reload
       const stateKey = JSON.stringify({
         isReady: astroState?.isReady,
-        zodiac: (astroState as unknown)?.currentZodiac || (astroState as unknown)?.zodiacSign,
+        zodiac: (astroState && typeof astroState === 'object' && 'currentZodiac' in astroState) ? (astroState as Record<string, unknown>).currentZodiac :
+          (astroState && typeof astroState === 'object' && 'zodiacSign' in astroState) ? (astroState as Record<string, unknown>).zodiacSign : null,
         lunar: astroState?.lunarPhase,
         season: currentSeasonToUse
       });
@@ -1108,7 +1127,7 @@ export default function CuisineRecommender() {
       setLoadingStep('Calculating astrological influences...');
       
       // Get enhanced cuisine recommendations
-      const recommendations = getEnhancedCuisineRecommendations(astroState as unknown);
+      const recommendations = getEnhancedCuisineRecommendations(astroState as unknown as Record<string, unknown>);
       
       if (recommendations?.length === 0) {
         // console.warn('No cuisine recommendations generated');
@@ -1153,10 +1172,10 @@ export default function CuisineRecommender() {
             await Promise.resolve(getRecipesForCuisineMatch((topRecommendation as { name?: string })?.name, allRecipes)) : [];
           
           const enhancedRecipes = Array.isArray(cuisineRecipes) ? cuisineRecipes.map(recipe => 
-            buildCompleteRecipe(recipe as unknown, (topRecommendation as { name?: string })?.name, elementalProfile, astroState as unknown, currentSeasonToUse)
+            buildCompleteRecipe(recipe as unknown as Record<string, unknown>, (topRecommendation as { name?: string })?.name, currentMomentElementalProfile || {}, astroState as unknown as Record<string, unknown>, currentSeasonToUse)
           ) : [];
           
-          setRecipes(enhancedRecipes);
+          setRecipes(enhancedRecipes as unknown as Recipe[]);
         } catch (recipeError) {
           // console.warn('Error loading recipes:', recipeError);
           setRecipes([]);
@@ -1167,7 +1186,7 @@ export default function CuisineRecommender() {
         try {
           // Generate sauce recommendations
           const sauceRecs = generateSauceRecommendationsForCuisine((topRecommendation as { name?: string })?.name);
-          setSauceRecommendations(sauceRecs as unknown);
+          setSauceRecommendations(sauceRecs as unknown as SauceRecommendation[]);
           setSauces(allSauces ? Object.values(allSauces) : []);
         } catch (sauceError) {
           // console.warn('Error generating sauce recommendations:', sauceError);
@@ -1191,7 +1210,7 @@ export default function CuisineRecommender() {
   // FIXED: Pass current state values to loadCuisines, but use stable dependencies
   useEffect(() => {
     if (astrologicalState?.isReady) {
-      loadCuisines(astrologicalState as unknown, currentMomentElementalProfile, currentSeason);
+      loadCuisines(astrologicalState as unknown as Record<string, unknown>, currentMomentElementalProfile, currentSeason);
     }
   }, [astrologicalState?.isReady, astrologicalState?.currentZodiac, astrologicalState?.lunarPhase, currentSeason]);
 
@@ -1227,14 +1246,14 @@ export default function CuisineRecommender() {
         let cuisineRecipes = await Promise.resolve(getRecipesForCuisineMatch(selectedCuisineData?.name, allRecipes));
         
         // Enhanced recipe building with better scoring
-        cuisineRecipes = Array.isArray(cuisineRecipes) ? cuisineRecipes.map(recipe => buildCompleteRecipe(recipe as unknown, selectedCuisineData?.name, currentMomentElementalProfile, astrologicalState as unknown, currentSeason)) : [];
+        cuisineRecipes = Array.isArray(cuisineRecipes) ? cuisineRecipes.map(recipe => buildCompleteRecipe(recipe as unknown as RecipeData, selectedCuisineData?.name, currentMomentElementalProfile, astrologicalState as unknown as Record<string, unknown>, currentSeason)) : [];
         
-        setRecipes(cuisineRecipes as unknown);
+        setRecipes(cuisineRecipes as unknown as Recipe[]);
         
         // Generate sauce recommendations for this cuisine
         const sauceRecs = generateSauceRecommendationsForCuisine(selectedCuisineData?.name);
-        setSauceRecommendations(sauceRecs as unknown);
-        setSauces((allSauces || []) as unknown);
+        setSauceRecommendations(sauceRecs as unknown as SauceRecommendation[]);
+        setSauces((allSauces || []) as unknown as Sauce[]);
         
       } catch (error) {
         // console.error('Error loading recipes for cuisine:', error);
@@ -1397,8 +1416,8 @@ export default function CuisineRecommender() {
                 <div className="mt-1">
                   <span className="text-xs font-medium text-gray-500 block">Signature dishes:</span>
                   <span className="text-xs text-gray-600">
-                    {((cuisine.signatureDishes as unknown) || [])?.slice(0, 3).join(", ")}
-                    {((cuisine.signatureDishes as unknown) || [])?.length > 3 ? "..." : ""}
+                    {(Array.isArray(cuisine.signatureDishes) ? cuisine.signatureDishes.slice(0, 3).join(", ") : "")}
+                    {(Array.isArray(cuisine.signatureDishes) && cuisine.signatureDishes.length > 3 ? "..." : "")}
                   </span>
                 </div>
               )}
@@ -1859,7 +1878,7 @@ export default function CuisineRecommender() {
                                     recipe.procedure ||
                                     []
                                   ) as any || [])?.slice(0, expandedRecipes[`${index}-steps`] ? undefined : 3).map((step: Record<string, unknown>, i: number) => (
-                                    <li key={i} className="mb-1">{step}</li>
+                                    <li key={i} className="mb-1">{typeof step === 'string' ? step : JSON.stringify(step)}</li>
                                   ) as React.ReactNode)}
                                   
                                   {/* Show more steps button if needed */}
@@ -1881,10 +1900,11 @@ export default function CuisineRecommender() {
                                 </ol>
                               ) : (
                                 <p className="text-xs text-gray-600">
-                                  {typeof ((recipe as unknown)?.instructions || (recipe as unknown)?.preparationSteps || (recipe as unknown)?.procedure) === 'string' 
-                                    ? ((recipe as unknown)?.instructions || (recipe as unknown)?.preparationSteps || (recipe as unknown)?.procedure)
-                                    : 'No detailed instructions available.'
-                                  }
+                                  {(() => {
+                                    const recipeData = recipe as Record<string, unknown>;
+                                    const instructions = recipeData?.instructions || recipeData?.preparationSteps || recipeData?.procedure;
+                                    return typeof instructions === 'string' ? instructions : 'No detailed instructions available.';
+                                  })()}
                                 </p>
                               )}
                             </div>
@@ -1916,7 +1936,7 @@ export default function CuisineRecommender() {
                             {recipe.difficulty && (
                               <div>
                                 <span className="text-gray-500">Difficulty: </span>
-                                <span>{(recipe as unknown)?.difficulty}</span>
+                                <span>{(recipe as Record<string, unknown>)?.difficulty || 'Unknown'}</span>
                               </div>
                             )}
                           </div>

@@ -11,14 +11,18 @@ export default function AlchmKitchenPage() {
   const [mounted, setMounted] = useState(false);
   const alchemicalContext = useAlchemical();
   const planetaryPositions = alchemicalContext?.planetaryPositions;
-  const elementalState = (alchemicalContext?.state as unknown)?.elementalProperties;
-  const alchemicalValues = (alchemicalContext?.state as unknown)?.alchemicalProperties;
+  const elementalState = alchemicalContext?.state && typeof alchemicalContext.state === 'object' && 'elementalProperties' in alchemicalContext.state 
+    ? (alchemicalContext.state as Record<string, unknown>).elementalProperties 
+    : undefined;
+  const alchemicalValues = alchemicalContext?.state && typeof alchemicalContext.state === 'object' && 'alchemicalProperties' in alchemicalContext.state 
+    ? (alchemicalContext.state as Record<string, unknown>).alchemicalProperties 
+    : undefined;
   const astrologicalState = alchemicalContext?.state;
   
   // Ensure component mounts after client-side hydration
   useEffect(() => {
     setMounted(true);
-    logger.debug('AlchmKitchen page mounted');
+    _logger.debug('AlchmKitchen page mounted');
   }, []);
 
   if (!mounted) {

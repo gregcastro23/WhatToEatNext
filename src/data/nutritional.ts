@@ -1,4 +1,4 @@
-import { _Element, ZodiacSign, _Planet } from '@/types/alchemy';
+import { _Element, Element, ZodiacSign, _Planet } from '@/types/alchemy';
 
 // Define NutritionalProfile locally
 interface NutritionalProfile {
@@ -623,8 +623,9 @@ function transformUSDADataToNutritionalProfile(food: USDAFoodData): NutritionalP
   const profileData = profile as unknown;
   
   // Add food metadata if available
-  if ((food as unknown)?.description) {
-    profileData.name = (food as unknown)?.description;
+  const foodData = food as unknown as Record<string, unknown>;
+  if (foodData?.description && typeof foodData.description === 'string') {
+    (profileData as Record<string, unknown>).name = foodData.description;
   }
   
   if (food.fdcId) {
@@ -632,7 +633,7 @@ function transformUSDADataToNutritionalProfile(food: USDAFoodData): NutritionalP
   }
   
   // Add source information
-  profileData.source = food.dataType || 'USDA';
+  (profileData as Record<string, unknown>).source = food.dataType || 'USDA';
   
   return profile;
 }
@@ -771,10 +772,10 @@ export function getZodiacNutritionalRecommendations(sign: string): {
   const signData = zodiacNutritionalNeeds[sign];
   
   return {
-    elementalBalance: (signData as unknown)?.elementalNeeds,
-    focusNutrients: (signData as unknown)?.nutritionalFocus,
-    recommendedFoods: signData.beneficialFoods,
-    avoidFoods: signData.challengeFoods
+    elementalBalance: signData?.elementalNeeds || {},
+    focusNutrients: signData?.nutritionalFocus || [],
+    recommendedFoods: signData?.beneficialFoods || [],
+    avoidFoods: signData?.challengeFoods || []
   };
 }
 
@@ -820,8 +821,8 @@ export function getEnhancedPlanetaryNutritionalRecommendations(
   recommendedFoods: string[]
 } {
   // Normalize planet names to lowercase
-  const dayPlanet = (planetaryDay as unknown)?.toLowerCase?.();
-  const hourPlanet = (planetaryHour as unknown)?.toLowerCase?.();
+  const dayPlanet = (typeof planetaryDay === 'string' ? planetaryDay : String(planetaryDay)).toLowerCase();
+  const hourPlanet = (typeof planetaryHour === 'string' ? planetaryHour : String(planetaryHour)).toLowerCase();
   
   // Initialize results
   const focusNutrients: string[] = [];
@@ -930,7 +931,7 @@ export function getSeasonalNutritionalRecommendations(season: string): {
   seasonalFoods: string[]
 } {
   // Normalize season name
-  const normalizedSeason = (season as unknown)?.toLowerCase?.();
+  const normalizedSeason = (typeof season === 'string' ? season : String(season)).toLowerCase();
   
   // Handle both "autumn" and "fall"
   const seasonKey = (normalizedSeason === 'fall' || normalizedSeason === 'autumn') 
@@ -940,9 +941,9 @@ export function getSeasonalNutritionalRecommendations(season: string): {
   const seasonData = seasonalNutritionFocus[seasonKey] || seasonalNutritionFocus['spring'];
   
   return {
-    element: (seasonData as unknown)?.elementalEmphasis,
-    focusNutrients: (seasonData as unknown)?.nutritionalFocus,
-    seasonalFoods: seasonData.recommendedFoods
+    element: seasonData?.elementalEmphasis || 'Fire',
+    focusNutrients: seasonData?.nutritionalFocus || [],
+    seasonalFoods: seasonData?.recommendedFoods || []
   };
 }
 

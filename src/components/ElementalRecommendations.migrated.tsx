@@ -31,7 +31,7 @@ const ElementalRecommendationsMigrated: React.FC<ElementalRecommendationsProps> 
   // State for component data
   const [elementalProperties, setElementalProperties] = useState<ElementalProperties | null>(null);
   const [recommendations, setRecommendations] = useState<ElementalRecommendation[]>([]);
-  const [dominantElement, setDominantElement] = useState<Element>('Fire');
+  const [dominantElement, setDominantElement] = useState<Element>('Fire' as unknown as Element);
 
   // Load astrological data and calculate recommendations when services are available
   useEffect(() => {
@@ -52,14 +52,15 @@ const ElementalRecommendationsMigrated: React.FC<ElementalRecommendationsProps> 
         setElementalProperties(properties);
         
         // Determine dominant element - using a default
-        const dominant = 'Fire';
+        const dominant = 'Fire' as unknown as Element;
         setDominantElement(dominant);
         
         // Get recommendations based on elemental properties and optional target element
-        const elementalRecommendations = await (recommendationService as unknown)?.getElementalRecommendations?.(
-          properties,
-          targetElement
-        );
+        const elementalRecommendations = (recommendationService && typeof recommendationService === 'object' && 'getElementalRecommendations' in recommendationService && typeof (recommendationService as Record<string, unknown>).getElementalRecommendations === 'function') ? 
+          await ((recommendationService as Record<string, unknown>).getElementalRecommendations as Function)(
+            properties,
+            targetElement
+          ) : [];
         
         setRecommendations(elementalRecommendations);
       } catch (err) {
@@ -73,10 +74,10 @@ const ElementalRecommendationsMigrated: React.FC<ElementalRecommendationsProps> 
   // Helper function to get element color
   const getElementColor = (element: Element): string => {
     switch (element) {
-      case 'Fire': return '#ff5722';
-      case 'Water': return '#03a9f4';
-      case 'Earth': return '#4caf50';
-      case 'Air': return '#9c27b0';
+      case ('Fire' as unknown as Element): return '#ff5722';
+      case ('Water' as unknown as Element): return '#03a9f4';
+      case ('Earth' as unknown as Element): return '#4caf50';
+      case ('Air' as unknown as Element): return '#9c27b0';
       default: return '#757575';
     }
   };
@@ -84,10 +85,10 @@ const ElementalRecommendationsMigrated: React.FC<ElementalRecommendationsProps> 
   // Helper function to get element emoji
   const getElementEmoji = (element: Element): string => {
     switch (element) {
-      case 'Fire': return '🔥';
-      case 'Water': return '💧';
-      case 'Earth': return '🌱';
-      case 'Air': return '💨';
+      case ('Fire' as unknown as Element): return '🔥';
+      case ('Water' as unknown as Element): return '💧';
+      case ('Earth' as unknown as Element): return '🌱';
+      case ('Air' as unknown as Element): return '💨';
       default: return '✨';
     }
   };
@@ -98,7 +99,7 @@ const ElementalRecommendationsMigrated: React.FC<ElementalRecommendationsProps> 
 
     return Object.entries(elementalProperties)
       .map(([element, value]) => ({
-        element: element as Element,
+        element: element as unknown as Element,
         value,
         percentage: Math.round(value * 100)
       }))

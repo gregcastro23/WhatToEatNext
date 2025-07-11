@@ -1,4 +1,4 @@
-import { _Planet } from '../types/astrology';
+import type { Planet } from '@/types/celestial';
 
 export interface TimeFactors {
   season: 'spring' | 'summer' | 'fall' | 'winter';
@@ -52,13 +52,13 @@ export function getCurrentSeason(date: Date = new Date()): 'spring' | 'summer' |
  */
 export function getPlanetaryDayRuler(dayOfWeek: number): Planet {
   const planetaryDayRulers: Planet[] = [
-    'Sun' as unknown as Planet,     // Sunday
-    'Moon' as unknown as Planet,    // Monday
-    'Mars' as unknown as Planet,    // Tuesday
-    'Mercury' as unknown as Planet, // Wednesday
-    'Jupiter' as unknown as Planet, // Thursday
-    'Venus' as unknown as Planet,   // Friday
-    'Saturn' as unknown as Planet   // Saturday
+    'Sun',     // Sunday
+    'Moon',    // Monday
+    'Mars',    // Tuesday
+    'Mercury', // Wednesday
+    'Jupiter', // Thursday
+    'Venus',   // Friday
+    'Saturn'   // Saturday
   ];
   
   return planetaryDayRulers[dayOfWeek];
@@ -72,7 +72,7 @@ export function getPlanetaryDayRuler(dayOfWeek: number): Planet {
 export function getPlanetaryHourRuler(dayOfWeek: number, hour: number): Planet {
   // Planetary hours follow this sequence in the Chaldean order
   const planetaryOrder: Planet[] = [
-    'Saturn' as unknown as Planet, 'Jupiter' as unknown as Planet, 'Mars' as unknown as Planet, 'Sun' as unknown as Planet, 'Venus' as unknown as Planet, 'Mercury' as unknown as Planet, 'Moon' as unknown as Planet
+    'Saturn', 'Jupiter', 'Mars', 'Sun', 'Venus', 'Mercury', 'Moon'
   ];
   
   // Each day starts with its ruling planet
@@ -107,7 +107,7 @@ export function calculateSeasonalAppropriateness(
   // Adjacent seasons have some compatibility
   const seasonOrder = ['winter', 'spring', 'summer', 'fall'];
   const currentIndex = seasonOrder.indexOf(currentSeason);
-  const recipeIndex = seasonOrder.indexOf(recipeSeason as unknown);
+  const recipeIndex = seasonOrder.indexOf(recipeSeason as 'spring' | 'summer' | 'fall' | 'winter');
   
   // Check if it's an adjacent season (circular)
   if ((currentIndex + 1) % 4 === recipeIndex || (currentIndex - 1 + 4) % 4 === recipeIndex) {
@@ -139,7 +139,7 @@ export function calculatePlanetaryTimeAffinity(planet: Planet, hour: number): nu
     'Saturn': { 'morning': 0.5, 'afternoon': 0.7, 'evening': 0.8, 'night': 1.0 }
   };
   
-  return affinities[planet as unknown as string][timeOfDay];
+  return affinities[planet][timeOfDay];
 }
 
 /**

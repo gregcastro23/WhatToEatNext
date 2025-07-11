@@ -27,5 +27,4 @@ export {
   safeCalculatePlanetaryAspects
 } from './validation';
 
-// Export transit helper
-export { getCurrentTransitSign } from './validation'; 
+// Export transit helper - already exported above 

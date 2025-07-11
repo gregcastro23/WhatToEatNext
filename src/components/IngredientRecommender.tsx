@@ -156,7 +156,7 @@ export default function IngredientRecommender() {
     // Search through unified ingredients database
     Object.values(unifiedIngredients).forEach(ingredient => {
       const name = ingredient.name?.toLowerCase() || '';
-      const category = (ingredient.category as unknown)?.toLowerCase() || '';
+      const category = (ingredient.category && typeof ingredient.category === 'string') ? ingredient.category.toLowerCase() : '';
       const qualities = ingredient.qualities?.join(' ').toLowerCase() || '';
       
       // Check if search matches name, category, or qualities
@@ -211,13 +211,13 @@ export default function IngredientRecommender() {
   useEffect(() => {
     if (!astroLoading && !astroError) {
       // Create a combined approach using both chakra and standard recommendations
-      const chakraRecommendations = contextChakraEnergies ? getChakraBasedRecommendations(contextChakraEnergies as unknown, 16) : {};
+      const chakraRecommendations = contextChakraEnergies ? getChakraBasedRecommendations(contextChakraEnergies as unknown as ChakraEnergies, 16) : {};
       
       // Get elemental properties from planetary positions
       let elementalProps: ElementalProperties | undefined;
       if (planetaryPositions) {
         const calculator = new ElementalCalculator();
-        elementalProps = calculator.calculateElementalState(planetaryPositions as unknown);
+        elementalProps = calculator.calculateElementalState(planetaryPositions as unknown as Record<string, unknown>);
       }
       
       // Determine current planetary day and hour
@@ -254,7 +254,7 @@ export default function IngredientRecommender() {
         ...astroState,
         lunarPhase: 'new moon',
         aspects: []
-      } as unknown, { limit: 40 });
+      } as unknown as ElementalProperties & { timestamp: Date; currentStability: number; planetaryAlignment: Record<string, { sign: string; degree: number; }>; zodiacSign: string; activePlanets: string[]; lunarPhase: string; aspects: { [key: string]: unknown; }[]; }, { limit: 40 });
       
       // Merge the recommendations, prioritizing chakra-based ones
       const mergedRecommendations: GroupedIngredientRecommendations = {};
@@ -315,10 +315,10 @@ export default function IngredientRecommender() {
   
   // Helper function to check if an ingredient is an oil
   const isOil = (ingredient: Record<string, unknown>): boolean => {
-    const category = (ingredient.category as unknown)?.toLowerCase() || '';
+    const category = (ingredient.category && typeof ingredient.category === 'string') ? ingredient.category.toLowerCase() : '';
     if (category === 'oil' || category === 'oils') return true;
     
-    const name = (ingredient.name as unknown).toLowerCase();
+    const name = (ingredient.name && typeof ingredient.name === 'string') ? ingredient.name.toLowerCase() : '';
     return oilTypes.some(oil => name.includes(oil.toLowerCase()));
   };
   
@@ -429,7 +429,7 @@ export default function IngredientRecommender() {
     // Add food recommendations first (they are already categorized)
     if (foodRecommendations && foodRecommendations.length > 0) {
       foodRecommendations.forEach(ingredient => {
-        const name = (ingredient.name as unknown).toLowerCase();
+        const name = (ingredient.name && typeof ingredient.name === 'string') ? ingredient.name.toLowerCase() : '';
         
         // For seafood proteins - check first to prevent miscategorization
         if (
@@ -861,7 +861,7 @@ export default function IngredientRecommender() {
                       Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
                     };
                     
-                    const dominantElement = Object.entries(elementalProps)
+                    const dominantElement = Object.entries(_elementalProps)
                       .sort((a, b) => {
                         const aValue = Number(a[1]) || 0;
                         const bValue = Number(b[1]) || 0;
@@ -882,7 +882,7 @@ export default function IngredientRecommender() {
                       <div 
                         key={`search-${item.name}-${index}`}
                         className={`${styles.ingredientCard} ${isSelected ? styles.selected : ''} ${elementColor}`}
-                        onClick={(e) => handleIngredientSelect(item as unknown, e)}
+                        onClick={(e) => handleIngredientSelect(item as unknown as Record<string, unknown>, e)}
                       >
                         <div className="flex justify-between items-start">
                           <h4 className={styles.ingredientName}>{item.name}</h4>
@@ -915,7 +915,7 @@ export default function IngredientRecommender() {
                         {/* Elemental properties in collapsed view */}
                         {!isSelected && (
                           <div className={styles.elementalProperties}>
-                            {Object.entries(elementalProps).map(([element, value]) => (
+                            {Object.entries(_elementalProps).map(([element, value]) => (
                               <div key={element} className={styles.elementalBar}>
                                 {getElementIcon(element)}
                                 <div className={styles.elementalBarContainer}>
@@ -1056,7 +1056,7 @@ export default function IngredientRecommender() {
                     
                     // Find dominant element
                     // Apply Pattern KK-1: Explicit Type Assertion for arithmetic operations
-                    const dominantElement = Object.entries(elementalProps)
+                    const dominantElement = Object.entries(_elementalProps)
                       .sort((a, b) => {
                         const aValue = Number(a[1]) || 0;
                         const bValue = Number(b[1]) || 0;
@@ -1104,7 +1104,7 @@ export default function IngredientRecommender() {
                       <div 
                         key={`${item.name}-${category}-${item.subCategory || ''}-${Math.random().toString(36).substr(2, 5)}`} 
                         className={`${styles.ingredientCard} ${isSelected ? styles.selected : ''} ${elementColor}`}
-                        onClick={(e) => handleIngredientSelect(item as unknown, e)}
+                        onClick={(e) => handleIngredientSelect(item as unknown as Record<string, unknown>, e)}
                       >
                         <div className="flex justify-between items-start">
                           <h4 className={styles.ingredientName}>{item.name}</h4>
@@ -1145,7 +1145,7 @@ export default function IngredientRecommender() {
                         {/* Elemental properties in collapsed view */}
                         {!isSelected && (
                           <div className={styles.elementalProperties}>
-                            {Object.entries(elementalProps).map(([element, value]) => (
+                            {Object.entries(_elementalProps).map(([element, value]) => (
                               <div key={element} className={styles.elementalBar}>
                                 {getElementIcon(element)}
                                 <div className={styles.elementalBarContainer}>

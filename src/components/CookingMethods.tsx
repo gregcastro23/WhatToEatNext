@@ -105,7 +105,7 @@ import {
 import styles from './CookingMethods.module.css';
 import { RecommendationAdapter } from '@/services/RecommendationAdapter';
 import { ElementalItem, AlchemicalItem } from '@/calculations/alchemicalTransformation';
-import { AlchemicalProperty, _ElementalCharacter } from '@/constants/planetaryElements';
+import { AlchemicalProperty, ElementalCharacter } from '@/constants/planetaryElements';
 import { planetaryFoodAssociations, _Planet } from '@/constants/planetaryFoodAssociations';
 import type { LunarPhase } from '@/types/celestial';
 import type { ElementalProperties, ZodiacSign, CookingMethod, BasicThermodynamicProperties } from '@/types/alchemy';
@@ -707,17 +707,17 @@ function isStringArray(value: unknown): value is string[] {
 // Rename the local function to avoid import conflict
 function isElementalPropertiesLocal(value: unknown): value is ElementalProperties {
   return typeof value === 'object' && value !== null &&
-    'Fire' in value && typeof (value as unknown).Fire === 'number' &&
-    'Water' in value && typeof (value as unknown).Water === 'number' &&
-    'Earth' in value && typeof (value as unknown).Earth === 'number' &&
-    'Air' in value && typeof (value as unknown).Air === 'number';
+    'Fire' in value && typeof (value as Record<string, unknown>).Fire === 'number' &&
+    'Water' in value && typeof (value as Record<string, unknown>).Water === 'number' &&
+    'Earth' in value && typeof (value as Record<string, unknown>).Earth === 'number' &&
+    'Air' in value && typeof (value as Record<string, unknown>).Air === 'number';
 }
 
 // Add type guard for planetary position data
 function isPlanetaryPositionData(value: unknown): value is PlanetaryPositionData {
   return typeof value === 'object' && value !== null &&
-    'sign' in value && typeof (value as unknown).sign === 'string' &&
-    'degree' in value && typeof (value as unknown).degree === 'number';
+    'sign' in value && typeof (value as Record<string, unknown>).sign === 'string' &&
+    'degree' in value && typeof (value as Record<string, unknown>).degree === 'number';
 }
 
 // Add type guard for source data
@@ -896,7 +896,7 @@ export default function CookingMethods() {
         }
         
         // Calculate tarot cards for current date
-        const tarotCards = getTarotCardsForDate(currentDate, sunPosition);
+        const tarotCards = getTarotCardsForDate(currentDate instanceof Date ? currentDate : new Date(currentDate), sunPosition);
         
         // Set the primary tarot card (minor arcana)
         setTarotCard(tarotCards.minorCard);
@@ -1001,7 +1001,10 @@ export default function CookingMethods() {
         if (!map[culture]) {
           map[culture] = [];
         }
-        map[culture].push((method as unknown)?.id);
+        const methodId = (method as unknown as Record<string, unknown>)?.id;
+        if (methodId) {
+          map[culture].push(methodId);
+        }
       });
       
       return map;
@@ -1201,7 +1204,7 @@ export default function CookingMethods() {
     const elementalEffect = getMethodProperty(method, 'elementalEffect', { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }) as ElementalProperties;
     
     return {
-      elementalProperties: elementalProps,
+      elementalProperties: _elementalProps,
       elementalEffect: elementalEffect,
       idealIngredients: getMethodProperty(method, 'idealIngredients', []) as string[],
       suitableFor: getMethodProperty(method, 'suitable_for', []) as string[],
@@ -1319,7 +1322,7 @@ export default function CookingMethods() {
   const { getTechnicalTips: getMethodTips } = require('../utils/cookingMethodTips');
 
   // Add a function to determine which modality a cooking method best complements
-  const getMethodModalityAffinity = (method: ExtendedAlchemicalItem): _Modality => {
+  const getMethodModalityAffinity = (method: ExtendedAlchemicalItem): string => {
     // If the method has higher Fire/Air values, it's likely Cardinal
     // If it has higher Earth/Water values, it's likely Fixed
     // If it has balanced elements, it's likely Mutable

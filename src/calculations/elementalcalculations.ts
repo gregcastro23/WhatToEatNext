@@ -57,25 +57,25 @@ export class ElementalCalculator {
     season: string
   ): number {
     const recipeData = recipe as unknown;
-    if (!(recipeData as unknown)?.elementalProperties) return 0;
+    if (!(recipeData as Record<string, unknown>)?.elementalProperties) return 0;
 
     const seasonalModifiers = this.getSeasonalModifiers(season as Season);
     let score = 0;
 
     // Calculate base seasonal alignment
-    Object.entries((recipeData as unknown).elementalProperties).forEach(([element, value]) => {
+    Object.entries((recipeData as Record<string, unknown>).elementalProperties as Record<string, unknown>).forEach(([element, value]) => {
       const modifier =
         seasonalModifiers[element as keyof ElementalProperties] || 0;
       score += (value as number) * modifier * 100;
     });
 
     // Apply seasonal bonuses/penalties
-    if ((recipeData as unknown).season) {
-      const seasons = Array.isArray((recipeData as unknown).season)
-        ? (recipeData as unknown).season
-        : [(recipeData as unknown).season];
+    if ((recipeData as Record<string, unknown>).season) {
+      const seasons = Array.isArray((recipeData as Record<string, unknown>).season)
+        ? (recipeData as Record<string, unknown>).season
+        : [(recipeData as Record<string, unknown>).season];
       if (
-        seasons
+        (seasons as string[])
           .map((s: string) => s.toLowerCase())
           .includes(season.toLowerCase())
       ) {

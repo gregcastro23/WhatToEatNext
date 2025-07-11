@@ -26,7 +26,7 @@ export default function CookingMethodsDemoPage() {
     demoMethods.sort((a, b) => (b.score || 0) - (a.score || 0));
     
     // Limit to 12 methods for the demo
-    setMethods(demoMethods.slice(0, 12));
+    setMethods(demoMethods.slice(0, 12) as unknown as CookingMethod[]);
   }, []);
 
   const formatMethodsForComponent = (methodsObj: Record<string, unknown>, prefix: string) => {
@@ -42,21 +42,34 @@ export default function CookingMethodsDemoPage() {
       return {
         id: `${prefix}_${key}`,
         name,
-        description: (method as unknown).description || '',
-        elementalEffect: (method as unknown).elementalEffect || (method as unknown).elementalProperties || {
-          Fire: Math.random(),
-          Water: Math.random(),
-          Earth: Math.random(),
-          Air: Math.random()
-        },
+        description: (method && typeof method === 'object' && 'description' in method && typeof (method as Record<string, unknown>).description === 'string') ? (method as Record<string, unknown>).description : '',
+        elementalEffect: (method && typeof method === 'object' && ('elementalEffect' in method || 'elementalProperties' in method)) 
+          ? (method as Record<string, unknown>).elementalEffect || (method as Record<string, unknown>).elementalProperties || {
+            Fire: Math.random(),
+            Water: Math.random(),
+            Earth: Math.random(),
+            Air: Math.random()
+          }
+          : {
+            Fire: Math.random(),
+            Water: Math.random(),
+            Earth: Math.random(),
+            Air: Math.random()
+          },
         score,
-        duration: (method as unknown).time_range || (method as unknown).duration || { min: 10, max: 30 },
-        suitable_for: (method as unknown).suitable_for || [],
-        benefits: (method as unknown).benefits || [],
+        duration: (method && typeof method === 'object' && ('time_range' in method || 'duration' in method)) 
+          ? (method as Record<string, unknown>).time_range || (method as Record<string, unknown>).duration || { min: 10, max: 30 } 
+          : { min: 10, max: 30 },
+        suitable_for: (method && typeof method === 'object' && 'suitable_for' in method && Array.isArray((method as Record<string, unknown>).suitable_for)) 
+          ? (method as Record<string, unknown>).suitable_for 
+          : [],
+        benefits: (method && typeof method === 'object' && 'benefits' in method && Array.isArray((method as Record<string, unknown>).benefits)) 
+          ? (method as Record<string, unknown>).benefits 
+          : [],
         // Create variations if they exist
-        variations: (method as unknown).variations ? 
-          (Array.isArray((method as unknown).variations) ? 
-            (method as unknown).variations.map((v: string, i: number) => ({
+        variations: (method && typeof method === 'object' && 'variations' in method && (method as Record<string, unknown>).variations) ? 
+          (Array.isArray((method as Record<string, unknown>).variations) ? 
+            ((method as Record<string, unknown>).variations as string[]).map((v: string, i: number) => ({
               id: `${prefix}_${key}_var_${i}`,
               name: v,
               description: `A variation of ${name} with different characteristics.`,

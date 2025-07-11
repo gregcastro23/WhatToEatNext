@@ -1625,7 +1625,7 @@ async function calculateCurrentPlanetaryPositions(): Promise<
     try {
       const astrologyUtils = await import('@/utils/astrologyUtils');
       const fallbackCalculator = astrologyUtils as unknown;
-      const _calculateFallbackPositions = (fallbackCalculator as unknown)?._calculateFallbackPositions;
+      const _calculateFallbackPositions = (fallbackCalculator as Record<string, unknown>)?._calculateFallbackPositions;
       
       // Generate current date to pass to the fallback calculator
       const now = new Date();
@@ -1657,7 +1657,7 @@ async function calculateCurrentPlanetaryPositions(): Promise<
       Object.entries(formattedPositions).forEach(([planet, data]) => {
         // Use safe type casting for unknown data access
         const dataObject = data as unknown;
-        const exactLongitude = (dataObject as unknown)?.exactLongitude;
+        const exactLongitude = (dataObject as Record<string, unknown>)?.exactLongitude;
         
         // Validate longitude is a number
         if (typeof exactLongitude !== 'number' || isNaN(exactLongitude)) {
@@ -1977,11 +1977,11 @@ function calculateChakraEnergies(
     // Sync thirdEye and brow for compatibility
     // Use safe type casting for chakraEnergies access
     const chakraData = chakraEnergies as unknown;
-    if (affectedChakras.has('brow') && !affectedChakras.has('thirdEye' as unknown)) {
-      (chakraData as unknown).thirdEye = chakraEnergies.brow;
-      affectedChakras.add('thirdEye' as unknown);
-    } else if (affectedChakras.has('thirdEye' as unknown) && !affectedChakras.has('brow')) {
-      chakraEnergies.brow = (chakraData as unknown)?.thirdEye || 0;
+    if (affectedChakras.has('brow') && !affectedChakras.has('thirdEye')) {
+      (chakraData as Record<string, unknown>).thirdEye = chakraEnergies.brow;
+      affectedChakras.add('thirdEye');
+    } else if (affectedChakras.has('thirdEye') && !affectedChakras.has('brow')) {
+      chakraEnergies.brow = (chakraData as Record<string, unknown>)?.thirdEye as number || 0;
       affectedChakras.add('brow');
     }
 
@@ -2051,7 +2051,7 @@ async function getCurrentAstrologicalState(): Promise<AstrologicalState> {
     const dominantElement = (getElementFromSign(sunSign) as Element) || 'Fire';
     
     // Determine current lunar phase
-    const _lunarPhase = (positions.moon as unknown)?.phase?.toLowerCase() as LunarPhase || 'full moon';
+    const _lunarPhase = ((positions.moon as Record<string, unknown>)?.phase as string)?.toLowerCase() as LunarPhase || 'full moon';
     
     // Get current season based on sun sign
     const _season = getSeasonFromSunSign(sunSign);
@@ -2240,10 +2240,10 @@ function alchemizeWithSafety(
     
     // Return simplified, but useful result that won't cause errors
     const horoscopeData = horoscopeDict as unknown;
-    const celestialBodies = (horoscopeData as unknown)?.tropical?.CelestialBodies;
-    const sunData = celestialBodies?.sun;
-    const sunSignData = sunData?.Sign;
-    const sunSignLabel = sunSignData?.label || 'aries';
+    const celestialBodies = ((horoscopeData as Record<string, unknown>)?.tropical as Record<string, unknown>)?.CelestialBodies;
+    const sunData = (celestialBodies as Record<string, unknown>)?.sun;
+    const sunSignData = (sunData as Record<string, unknown>)?.Sign;
+    const sunSignLabel = (sunSignData as Record<string, unknown>)?.label as string || 'aries';
     
     const heat = 0.5;
     const entropy = 0.5;
