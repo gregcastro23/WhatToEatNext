@@ -392,7 +392,7 @@ export default function SauceRecommender({
                 technicalTips: sauceData.technicalTips || "",
                 elementalProperties: sauceData.elementalProperties,
                 matchScore: finalScore,
-                elementalMatchScore: elementalMatchScore,
+                elementalMatchScore: (elementalMatchScore as SauceRecommendation),
                 planetaryDayScore: planetaryDayScore,
                 planetaryHourScore: planetaryHourScore
               });
@@ -461,7 +461,7 @@ export default function SauceRecommender({
                 technicalTips: sauceData.technicalTips || "",
                 elementalProperties: sauceData.elementalProperties,
                 matchScore: finalScore,
-                elementalMatchScore: elementalMatchScore,
+                elementalMatchScore: (elementalMatchScore as SauceRecommendation),
                 planetaryDayScore: planetaryDayScore,
                 planetaryHourScore: planetaryHourScore
               });
@@ -527,7 +527,7 @@ export default function SauceRecommender({
             technicalTips: sauceData.technicalTips || "",
             elementalProperties: sauceData.elementalProperties,
             matchScore: finalScore,
-            elementalMatchScore: elementalMatchScore,
+            elementalMatchScore: (elementalMatchScore as SauceRecommendation),
             planetaryDayScore: planetaryDayScore,
             planetaryHourScore: planetaryHourScore
           });
@@ -609,7 +609,7 @@ export default function SauceRecommender({
                 technicalTips: sauceData.technicalTips || "",
                 elementalProperties: sauceData.elementalProperties,
                 matchScore: finalScore,
-                elementalMatchScore: elementalMatchScore,
+                elementalMatchScore: (elementalMatchScore as SauceRecommendation),
                 planetaryDayScore: planetaryDayScore,
                 planetaryHourScore: planetaryHourScore,
                 isFusion: true

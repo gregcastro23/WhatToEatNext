@@ -104,7 +104,7 @@ export default function TarotDisplay({ mode = 'food', onTarotLoaded }: TarotDisp
       }
       
       // Get the cards with Sun position
-      const cards = getTarotCardsForDate(currentDate, sunPosition);
+      const cards = getTarotCardsForDate((currentDate as Date), (sunPosition as Date));
       
       // Only update state if cards have changed
       setTarotCards(prev => {
@@ -246,12 +246,12 @@ export default function TarotDisplay({ mode = 'food', onTarotLoaded }: TarotDisp
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-        <div className={`rounded-lg p-4 bg-opacity-10 ${getElementColor(element as unknown)}`}> {/* Pattern XXX: Component Props Interface Resolution */}
+        <div className={`rounded-lg p-4 bg-opacity-10 ${getElementColor((element as unknown as Element))}`}> {/* Pattern XXX: Component Props Interface Resolution */}
           <div className="flex justify-between items-start">
             <div>
               <h4 className="font-bold text-white text-lg drop-shadow-md">{tarotCards.minorCard?.name || 'Minor Arcana'}</h4>
               <div className="flex items-center mt-1 bg-black bg-opacity-20 rounded px-2 py-1 inline-block">
-                {getElementIcon(element as unknown)} {/* Pattern XXX: Component Props Interface Resolution */}
+                {getElementIcon((element as unknown as Element))} {/* Pattern XXX: Component Props Interface Resolution */}
                 <span className="ml-1 text-sm font-medium">{element}</span>
               </div>
             </div>

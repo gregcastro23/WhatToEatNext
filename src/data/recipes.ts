@@ -563,7 +563,7 @@ export const getBestRecipeMatches = async (
           description,
           ingredients: ingredients.map((ing: Record<string, unknown>) => ({
               name: ing?.name || '',
-              amount: typeof ing?.amount === 'number' ? ing.amount : parseFloat(ing?.amount) || 1,
+              amount: typeof ing?.amount === 'number' ? ing.amount : parseFloat(String(ing?.amount)) || 1,
               unit: ing?.unit || '',
               optional: ing?.optional || false
             })),
@@ -634,7 +634,7 @@ export const getBestRecipeMatches = async (
             description,
             ingredients: ingredients.map((ing: Record<string, unknown>) => ({
               name: ing?.name || '',
-              amount: typeof ing?.amount === 'number' ? ing.amount : parseFloat(ing?.amount) || 1,
+              amount: typeof ing?.amount === 'number' ? ing.amount : parseFloat(String(ing?.amount)) || 1,
               unit: ing?.unit || '',
               optional: ing?.optional || false
             })),

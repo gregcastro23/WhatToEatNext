@@ -225,7 +225,7 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
       // Update state with new values, but only if there's a significant change
       setAlchemicalResults(prev => {
         // Check if there's a significant change worth updating for
-        if (!isSignificantChange(prev, { _elementalProps, alchemicalDistribution, thermodynamicProps })) {
+        if (!isSignificantChange((prev as { elementalProps: ElementalProperties; alchemicalDistribution: AlchemicalProperties; thermodynamicProps: ThermodynamicProperties; }), { (_elementalProps as { elementalProps: ElementalProperties; alchemicalDistribution: AlchemicalProperties; thermodynamicProps: ThermodynamicProperties; }), (alchemicalDistribution as { elementalProps: ElementalProperties; alchemicalDistribution: AlchemicalProperties; thermodynamicProps: ThermodynamicProperties; }), thermodynamicProps })) {
           logger.debug("Skipping update - results identical to previous state");
           return prev;
         }
@@ -361,7 +361,7 @@ const ElementalEnergyDisplay: FC = (): ReactNode => {
         
         // Use our new alchemical energy mapping functions
         // Calculate alchemical distribution from planetary positions
-        const alchemicalDistribution = calculateAlchemicalDistribution(currentPlanetaryAlignment as unknown, isDaytime);
+        const alchemicalDistribution = calculateAlchemicalDistribution((currentPlanetaryAlignment as unknown as Record<string, unknown>), (isDaytime as Record<string, unknown>));
         
         // Convert alchemical distribution to elemental properties
         const _elementalProps = convertToElementalProperties(alchemicalDistribution);

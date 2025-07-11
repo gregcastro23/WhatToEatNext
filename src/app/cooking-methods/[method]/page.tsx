@@ -188,15 +188,15 @@ export default function CookingMethodPage() {
                 </>
               )}
               
-              {method.commonMistakes && (
+              {method.commonMistakes || [] && (
                 <>
                   <Divider sx={{ my: 3 }} />
                   <Typography variant="h5" gutterBottom>
                     Common Mistakes
                   </Typography>
-                  {Array.isArray(method.commonMistakes) ? (
+                  {Array.isArray(method.commonMistakes || []) ? (
                     <List>
-                      {method.commonMistakes.map((mistake, index) => (
+                      {method.commonMistakes || [].map((mistake, index) => (
                         <ListItem key={index}>
                           <ListItemText primary={mistake} />
                         </ListItem>
@@ -204,21 +204,21 @@ export default function CookingMethodPage() {
                     </List>
                   ) : (
                     <Typography variant="body1" paragraph>
-                      {method.commonMistakes}
+                      {method.commonMistakes || []}
                     </Typography>
                   )}
                 </>
               )}
               
-              {method.pAiringSuggestions && (
+              {method.pAiringSuggestions || [] && (
                 <>
                   <Divider sx={{ my: 3 }} />
                   <Typography variant="h5" gutterBottom>
                     Pairing Suggestions
                   </Typography>
-                  {Array.isArray(method.pAiringSuggestions) ? (
+                  {Array.isArray(method.pAiringSuggestions || []) ? (
                     <List>
-                      {method.pAiringSuggestions.map((suggestion, index) => (
+                      {method.pAiringSuggestions || [].map((suggestion, index) => (
                         <ListItem key={index}>
                           <ListItemText primary={suggestion} />
                         </ListItem>
@@ -226,7 +226,7 @@ export default function CookingMethodPage() {
                     </List>
                   ) : (
                     <Typography variant="body1" paragraph>
-                      {method.pAiringSuggestions}
+                      {method.pAiringSuggestions || []}
                     </Typography>
                   )}
                 </>

@@ -154,7 +154,7 @@ const processIngredientCollection = (
 
       // Add alchemical and thermodynamic properties
       const alchemicalProps =
-        calculateAlchemicalProperties(processedIngredient as unknown as Ingredient);
+        calculateAlchemicalProperties(processedIngredient as unknown as (Ingredient as import("/Users/GregCastro/Desktop/WhatToEatNext/src/types/index").Ingredient));
       const thermodynamicProps = calculateThermodynamicProperties(
         alchemicalProps,
         (processedIngredient as any).elementalProperties

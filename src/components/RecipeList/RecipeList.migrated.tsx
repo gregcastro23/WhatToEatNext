@@ -398,10 +398,10 @@ export default function RecipeListMigrated() {
     if (recipes?.length > 0) {
       const enhanced = recipes.map(recipe => ({
         ...recipe,
-        score: calculateRecipeScore(recipe, astroData),
-        matchPercentage: calculateRecipeScore(recipe, astroData)?.total || 0
+        score: calculateRecipeScore((recipe as EnhancedRecipe), (astroData as EnhancedRecipe)),
+        matchPercentage: calculateRecipeScore((recipe as EnhancedRecipe), (astroData as EnhancedRecipe))?.total || 0
       }));
-      setEnhancedRecipes(enhanced);
+      setEnhancedRecipes((enhanced as SetStateAction<EnhancedRecipe[]>));
     }
   }, [recipes, astroData]);
 
@@ -518,7 +518,7 @@ export default function RecipeListMigrated() {
       const responseData = response as Record<string, unknown>;
       
       if (responseData?.success) {
-        setRecipes((responseData.data as unknown) || []);
+        setRecipes(((responseData.data as unknown as SetStateAction<Recipe[]>)) || []);
         
         const metadataRecord = responseData?.metadata as Record<string, unknown>;
         if (metadataRecord) {

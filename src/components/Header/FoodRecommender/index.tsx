@@ -464,7 +464,7 @@ const FoodRecommender: React.FC = () => {
             };
             
             // Calculate alchemical properties
-            const alchemicalProps = calculateAlchemicalProperties(ingredientObj);
+            const alchemicalProps = calculateAlchemicalProperties((ingredientObj as Ingredient));
             
             // Calculate thermodynamic properties
             const thermodynamicProps = calculateThermodynamicProperties(

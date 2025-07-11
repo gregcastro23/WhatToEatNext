@@ -112,7 +112,7 @@ export const useTarotAstrologyData = (): TarotAstrologyResult => {
     try {
       // Cast the string to FoodAssociationsLunarPhase since it matches the expected format
       return foodAssociationsLunarPhase ? 
-        adaptLunarPhase(foodAssociationsLunarPhase as unknown) : 
+        adaptLunarPhase((foodAssociationsLunarPhase as unknown as LunarPhaseWithSpaces)) : 
         null;
     } catch (error) {
       logger.error('Error converting lunar phase', error);
@@ -191,7 +191,7 @@ export const useTarotAstrologyData = (): TarotAstrologyResult => {
       logger.debug('Current Sun Position for Tarot Calculation:', sunPosition);
       
       // Calculate cards with sun position - don't use cache to ensure fresh calculation
-      const cards = getTarotCardsForDate(currentDate, sunPosition);
+      const cards = getTarotCardsForDate((currentDate as Date), (sunPosition as Date));
       setTarotCards({
         minorCard: cards?.minorCard || null,
         majorCard: cards?.majorCard ? {

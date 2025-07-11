@@ -80,7 +80,7 @@ function CuisineSelectorMigrated({
         // Use safe method access for lunar phase
         const _lunarPhase = propCurrentLunarPhase || 
           ((serviceData as Record<string, unknown>)?.getCurrentLunarPhase && typeof (serviceData as Record<string, unknown>).getCurrentLunarPhase === 'function' ? await ((serviceData as Record<string, unknown>).getCurrentLunarPhase as Function)() : 'full moon');
-        setResolvedLunarPhase(_lunarPhase as unknown);
+        setResolvedLunarPhase((_lunarPhase as unknown as SetStateAction<LunarPhaseWithSpaces>));
       } catch (err) {
         // console.error('Error loading astrological data:', err);
         setError(err instanceof Error ? err : new Error('Error loading astrological data'));
@@ -185,7 +185,7 @@ function CuisineSelectorMigrated({
     if ((cuisine as Record<string, unknown>)?.modality) return (cuisine as Record<string, unknown>).modality as Modality;
     
     // Otherwise determine from elemental state
-    return determineModalityFromElements((cuisine as Record<string, unknown>)?.elementalState || (cuisine as Record<string, unknown>)?.elementalState || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
+    return determineModalityFromElements((cuisine as Record<string, (unknown> as ElementalProperties))?.elementalState || (cuisine as Record<string, unknown>)?.elementalState || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
     } as unknown as Record<string, unknown>);
   };
   

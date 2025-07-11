@@ -91,6 +91,7 @@ export interface ThermodynamicProperties {
 }
 
 export interface BasicThermodynamicProperties {
+  energy: number;     // Overall energy transfer efficiency
   heat: number;
   entropy: number;
   reactivity: number;

@@ -121,13 +121,13 @@ export default function ElementalBalanceWheel({
 }: ElementalBalanceWheelProps) {
   
   const [tempElements, setTempElements] = useState<ElementalProperties>(
-    criteria.elementalPreference || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
+    criteria.elementalPreference || { Fire: 0.(25 as ElementalProperties | (() => ElementalProperties)), Water: 0.(25 as ElementalProperties | (() => ElementalProperties)), Earth: 0.(25 as ElementalProperties | (() => ElementalProperties)), Air: 0.25 }
   );
 
   // Sync with criteria when it changes externally
   useEffect(() => {
     if (criteria.elementalPreference) {
-      setTempElements(criteria.elementalPreference);
+      setTempElements(criteria.(elementalPreference as SetStateAction<ElementalProperties>));
     }
   }, [criteria.elementalPreference]);
 

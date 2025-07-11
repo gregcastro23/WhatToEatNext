@@ -212,15 +212,15 @@ export class AstrologyService {
         // console.log('🌟 Using real astrologize API data for astrological state');
       } catch (apiError) {
         // console.warn('Astrologize API failed, using fallback calculations:', apiError);
-        planetaryAlignment = this.calculatePlanetaryPositions(currentDate);
+        planetaryAlignment = this.calculatePlanetaryPositions((currentDate as Date));
       }
       
       const state: AstrologicalState = {
-        currentZodiac: this.calculateZodiacSign(currentDate),
-        moonPhase: this.calculateLunarPhase(currentDate),
+        currentZodiac: this.calculateZodiacSign((currentDate as Date)),
+        moonPhase: this.calculateLunarPhase((currentDate as Date)),
         currentPlanetaryAlignment: planetaryAlignment,
-        isDaytime: this.calculateIsDaytime(currentDate),
-        planetaryHour: this.calculatePlanetaryHour(currentDate),
+        isDaytime: this.calculateIsDaytime((currentDate as Date)),
+        planetaryHour: this.calculatePlanetaryHour((currentDate as Date)),
         loading: false,
         isReady: true,
         sunSign: 'aries'
