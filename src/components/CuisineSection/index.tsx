@@ -98,21 +98,14 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
     if (!Array.isArray(recipes) || recipes?.length === 0) {
       // If no recipes provided, try to find some using the cuisine name directly
       try {
-        // First try using getRecipesForCuisineMatch
-        const matchedCuisineRecipes = getRecipesForCuisineMatch(
-          cuisine || '', 
-          [], // Pass empty array to trigger service use
-          8
-        );
-        
-        if (Array.isArray(matchedCuisineRecipes) && matchedCuisineRecipes?.length > 0) {
-          return matchedCuisineRecipes;
-        }
+        // First try using getRecipesForCuisineMatch (async function)
+        // Note: This will be handled by useEffect since it's async
+        // For now, we'll use getBestRecipeMatches which is synchronous
         
         // If no recipes from getRecipesForCuisineMatch, try getBestRecipeMatches
         matchedRecipes = getBestRecipeMatches({
           cuisine: cuisine || '',
-          season: (elementalState?.season as unknown) || 'all',
+          season: (elementalState?.season as string) || 'all',
           mealType: elementalState?.timeOfDay || 'all'
         }, 8);
       } catch (error) {
@@ -189,14 +182,14 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
                               cuisinesMap[cuisine?.charAt(0)?.toUpperCase() + cuisine?.slice(1)?.toLowerCase()];
                               
         if (importedCuisine) {
-          const cuisineData = importedCuisine as unknown;
+          const cuisineData = importedCuisine as { dishes?: Record<string, unknown> };
           
           if (cuisineData?.dishes) {
             const specialRecipes = [];
             
             // Try to extract some recipes directly
             Object.entries(cuisineData.dishes).forEach(([mealType, seasonalDishes]) => {
-              const dishesData = seasonalDishes as unknown;
+              const dishesData = seasonalDishes as { all?: unknown[] };
               if (dishesData && dishesData.all && Array.isArray(dishesData.all)) {
                 specialRecipes.push(...dishesData.all.slice(0, 4));
               }
@@ -237,7 +230,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
   }
 
   const renderSeasonalInfo = (recipe: Recipe) => {
-    const recipeData = recipe as unknown;
+    const recipeData = recipe as { season?: string; mealType?: string; difficulty?: string };
     
     return (
       <div className="text-xs text-gray-500 flex flex-wrap gap-2 mt-2">
@@ -286,15 +279,21 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
   };
 
   const renderSauceCard = (sauce: SauceInfo, index: number) => {
-    const sauceData = sauce as unknown;
+    const sauceData = sauce as { 
+      name?: string; 
+      description?: string; 
+      base?: string; 
+      keyIngredients?: string[]; 
+      elementalProperties?: Record<string, number> 
+    };
     
     return (
       <div key={index} className="bg-white rounded-lg border shadow-sm p-4 hover:shadow-md transition-shadow">
         <div className="flex justify-between items-start mb-2">
-          <h4 className="font-medium text-lg text-gray-900">{(sauceData as { name?: string })?.name || 'Traditional Sauce'}</h4>
-          {(sauceData as { elementalProperties?: Record<string, number> })?.elementalProperties && (
+          <h4 className="font-medium text-lg text-gray-900">{sauceData?.name || 'Traditional Sauce'}</h4>
+          {sauceData?.elementalProperties && (
             <div className="flex gap-1">
-              {Object.entries((sauceData as { elementalProperties?: Record<string, number> })?.elementalProperties).map(([element, value]) => (
+              {Object.entries(sauceData.elementalProperties).map(([element, value]) => (
                 <span 
                   key={element}
                   className={`px-2 py-1 rounded-full text-xs font-medium ${
@@ -343,18 +342,29 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
   };
 
   const renderRecipeCard = (recipe: Recipe, index: number) => {
-    const recipeData = recipe as unknown;
+    const recipeData = recipe as { 
+      id?: string; 
+      name?: string; 
+      description?: string; 
+      cuisine?: string; 
+      regionalCuisine?: string; 
+      matchScore?: number; 
+      cookingTime?: string; 
+      difficulty?: string; 
+      servings?: string; 
+      ingredients?: Array<{ name?: string } | string> 
+    };
     const hasDualMatch = recipeData?.cuisine?.toLowerCase() === cuisine?.toLowerCase() && 
                         recipeData?.regionalCuisine?.toLowerCase() === cuisine?.toLowerCase();
     
     return (
-      <div key={(recipeData as { id?: string })?.id || index} className="bg-white rounded-lg border shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+      <div key={recipeData?.id || index} className="bg-white rounded-lg border shadow-sm overflow-hidden hover:shadow-md transition-shadow">
         <div className="p-4">
           <div className="flex justify-between items-start mb-2">
             <h3 className="text-lg font-medium text-gray-900 line-clamp-2">
-              {(recipeData as { name?: string })?.name || 'Unnamed Recipe'}
+              {recipeData?.name || 'Unnamed Recipe'}
             </h3>
-            {renderScoreBadge(recipeData?.matchScore, hasDualMatch)}
+            {renderScoreBadge(recipeData?.matchScore || 0, hasDualMatch)}
           </div>
           
           {recipeData?.description && (
@@ -385,9 +395,9 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
             <div className="mt-3 pt-3 border-t border-gray-100">
               <span className="text-xs font-medium text-gray-700">Key Ingredients:</span>
               <div className="flex flex-wrap gap-1 mt-1">
-                {recipeData.ingredients.slice(0, 3).map((ingredient: Record<string, unknown>, i: number) => (
+                {recipeData.ingredients.slice(0, 3).map((ingredient: { name?: string } | string, i: number) => (
                   <span key={i} className="bg-gray-100 text-gray-600 px-2 py-1 rounded text-xs">
-                    {(ingredient as unknown)?.name || ingredient}
+                    {typeof ingredient === 'string' ? ingredient : ingredient?.name || 'Unknown'}
                   </span>
                 ))}
                 {recipeData.ingredients?.length > 3 && (
