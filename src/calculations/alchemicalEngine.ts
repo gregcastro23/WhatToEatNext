@@ -347,16 +347,16 @@ export class AlchemicalEngineAdvanced {
       let compatibilityScore = 0.5; // Start with neutral
 
       // Season compatibility - safe property access
-      const seasonalVariations = (cuisineData as unknown)?.seasonalVariations;
+      const seasonalVariations = (cuisineData as { seasonalVariations?: Record<string, unknown> })?.seasonalVariations;
       if (season && seasonalVariations) {
-        const seasonalData = seasonalVariations[season as keyof typeof seasonalVariations];
+        const seasonalData = seasonalVariations[season];
         if (seasonalData) {
           compatibilityScore += 0.2; // Boost for seasonal match
         }
       }
 
       // Astrological compatibility - safe property access
-      const elementalProperties = (cuisineData as unknown)?.elementalProperties;
+      const elementalProperties = (cuisineData as { elementalProperties?: ElementalProperties })?.elementalProperties;
       if (astroState && elementalProperties) {
         const astroElements = this.calculateAstrologicalInfluence(astroState);
         const elementCompatibility = this.calculateElementCompatibility(
@@ -1059,16 +1059,16 @@ export function alchemize(
     // CRITICAL: Safely get the Ascendant sign
     try {
       // Use safe type casting for unknown property access
-      const ascendantData = horoscope.Ascendant as unknown;
-      const signData = (ascendantData as unknown)?.Sign;
+      const ascendantData = horoscope.Ascendant as { Sign?: { label?: string } };
+      const signData = ascendantData?.Sign;
       const rising_sign = signData?.label || "Aries";
       
       // SAFELY update planetInfo with correct typing
       if (typeof planetInfo === 'object' && planetInfo && 'Ascendant' in planetInfo) {
         const ascendantInfo = planetInfo['Ascendant'] as unknown;
         if (typeof ascendantInfo === 'object') {
-          ascendantInfo['Diurnal Element'] = (signInfo[rising_sign] as unknown)?.element || 'Air';
-          ascendantInfo['Nocturnal Element'] = (signInfo[rising_sign] as unknown)?.element || 'Air';
+          ascendantInfo['Diurnal Element'] = (signInfo[rising_sign] as { element?: string })?.element || 'Air';
+          ascendantInfo['Nocturnal Element'] = (signInfo[rising_sign] as { element?: string })?.element || 'Air';
         }
       }
       
@@ -1097,10 +1097,10 @@ export function alchemize(
             planet = "Ascendant";
           } else {
             const celestialArray = celestialBodies['all'] as Array<unknown> || [];
-            entry = celestialArray[celestial_bodies_index] || {};
+            entry = (celestialArray[celestial_bodies_index] || {}) as Record<string, unknown>;
             // Use safe type casting for entry property access
-            const entryData = entry as unknown;
-            planet = (entryData as unknown)?.label || '';
+            const entryData = entry as { label?: string };
+            planet = entryData?.label || '';
           }
         } catch (error) {
           // console.error(`Error getting planet at index ${celestial_bodies_index}:`, error);
@@ -1132,7 +1132,7 @@ export function alchemize(
         // Get the sign
         let sign: string;
         try {
-          sign = (entry as unknown)?.Sign?.label || "Aries";
+          sign = (entry as { Sign?: { label?: string } })?.Sign?.label || "Aries";
           
           // SAFELY update planet's sign
           if (alchmInfo['Planets'] && alchmInfo['Planets'][planet]) {
@@ -1181,10 +1181,10 @@ export function alchemize(
         try {
           if (alchmInfo['Planets'] && alchmInfo['Planets'][planet]) {
             alchmInfo['Planets'][planet]['Diurnal Element'] = 
-              `${(signInfo[sign] as unknown)?.element || 'Air'} in ${(planetInfo[planet] as unknown)?.['Diurnal Element'] || 'Air'}`;
+              `${(signInfo[sign] as { element?: string })?.element || 'Air'} in ${(planetInfo[planet] as { 'Diurnal Element'?: string })?.['Diurnal Element'] || 'Air'}`;
             
             alchmInfo['Planets'][planet]['Nocturnal Element'] = 
-              `${(signInfo[sign] as unknown)?.element || 'Air'} in ${(planetInfo[planet] as unknown)?.['Nocturnal Element'] || 'Air'}`;
+              `${(signInfo[sign] as { element?: string })?.element || 'Air'} in ${(planetInfo[planet] as { 'Nocturnal Element'?: string })?.['Nocturnal Element'] || 'Air'}`;
           }
         } catch (error) {
           // console.error(`Error processing elements for ${planet}:`, error);
@@ -1196,7 +1196,7 @@ export function alchemize(
             // Process house
             let house = '';
             try {
-              house = (entry as unknown)?.House?.label || "1";
+              house = (entry as { House?: { label?: string } })?.House?.label || "1";
               
               if (alchmInfo['Planets'] && alchmInfo['Planets'][planet]) {
                 alchmInfo['Planets'][planet]["House"] = house;
@@ -1243,8 +1243,8 @@ export function alchemize(
                 
                 if (dignity_effect_value) {
                   if (Math.abs(dignity_effect_value) === 1 || Math.abs(dignity_effect_value) === 3) {
-                    dignity_effect[(signInfo[sign] as unknown)?.element || 'Air'] = 
-                      1 * (dignity_effect_value / Math.abs(dignity_effect_value));
+                                      dignity_effect[(signInfo[sign] as { element?: string })?.element || 'Air'] = 
+                    1 * (dignity_effect_value / Math.abs(dignity_effect_value));
                   }
                   
                   if (Math.abs(dignity_effect_value) > 1) {
