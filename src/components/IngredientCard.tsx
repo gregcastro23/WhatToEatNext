@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Ingredient, RecipeIngredient } from '@/types/alchemy';
 import { ChefHat, Info, Clock, Heart, Star, Thermometer, Flame, Droplets, Mountain, Wind, ChevronDown, ChevronUp, Utensils, Globe, Award, Zap, Leaf, Beaker, Sun, Moon, Archive, Sparkles, BookOpen, Scissors } from 'lucide-react';
-import { _allIngredients } from '@/data/ingredients/index';
+import { allIngredients } from '@/data/ingredients/index';
 import { 
   normalizeIngredientData, 
   normalizeVitamins, 
@@ -14,6 +14,35 @@ import {
   formatMineralName
 } from '@/utils/ingredientDataNormalizer';
 import styles from './IngredientCard.module.css';
+
+// Enhanced ingredient interface for component usage
+interface ExtendedIngredient extends Ingredient {
+  matchScore?: number;
+  preparation?: string;
+  cookingTips?: string;
+  healthProperties?: string;
+  storage?: string;
+  healthBenefits?: string;
+  calories?: number;
+  vitamins?: Record<string, number>;
+  varieties?: string[] | Record<string, unknown>;
+  flavorProfile?: string[];
+  culinaryApplications?: string[];
+  pairings?: string[];
+  traditions?: string[];
+  description?: string;
+  origin?: string | string[];
+  qualities?: string[];
+  preservation?: string;
+  shelf_life?: string;
+  duration?: string;
+  astrologicalCorrespondence?: string;
+  magicalProperties?: string;
+  lunarPhaseModifiers?: string;
+  rulingPlanets?: string;
+  elementalAffinity?: string;
+  [key: string]: unknown;
+}
 
 interface IngredientCardProps {
   ingredient: Ingredient | RecipeIngredient;
@@ -97,11 +126,11 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
                             );
 
   // Merge the passed ingredient data with the rich database data (database takes precedence)
-  const ingredientData = {
+  const ingredientData: ExtendedIngredient = {
     ...ingredient,
     ...(databaseIngredient || {}),
     // Keep the match score and other dynamic properties from the passed ingredient
-    matchScore: (ingredient as unknown).matchScore,
+    matchScore: (ingredient as any)?.matchScore,
     elementalProperties: ingredient.elementalProperties || databaseIngredient?.elementalProperties
   };
 
@@ -111,7 +140,7 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
   // Always show enhanced culinary tabs for richer experience
   availableTabs.push('culinary-methods', 'culinary-traditions', 'flavors-pairing');
   
-  const extendedIngredient = ingredientData as unknown;
+  const extendedIngredient = ingredientData;
   
   // Show preparation tab if there's any preparation-related data
   if (extendedIngredient?.preparation || 

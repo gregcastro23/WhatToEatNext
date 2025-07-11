@@ -186,19 +186,19 @@ export default function IngredientRecommender() {
   
   // Helper function to check if an ingredient is an oil
   const isOil = (ingredient: Record<string, unknown>): boolean => {
-    const category = (ingredient.category as unknown)?.toLowerCase() || '';
+    const category = String(ingredient.category || '').toLowerCase();
     if (category === 'oil' || category === 'oils') return true;
     
-    const name = (ingredient.name as unknown).toLowerCase();
+    const name = String(ingredient.name || '').toLowerCase();
     return oilTypes.some(oil => name.includes(oil.toLowerCase()));
   };
   
   // Helper function to check if an ingredient is a vinegar
   const isVinegar = (ingredient: Record<string, unknown>): boolean => {
-    const category = (ingredient.category as unknown)?.toLowerCase() || '';
+    const category = String(ingredient.category || '').toLowerCase();
     if (category === 'vinegar' || category === 'vinegars') return true;
     
-    const name = (ingredient.name as unknown).toLowerCase();
+    const name = String(ingredient.name || '').toLowerCase();
     return vinegarTypes.some(vinegar => name.includes(vinegar.toLowerCase()));
   };
   
@@ -206,7 +206,7 @@ export default function IngredientRecommender() {
   const getNormalizedCategory = (ingredient: Record<string, unknown>): string => {
     if (!ingredient.category) return 'other';
     
-    const category = (ingredient.category as unknown).toLowerCase();
+    const category = String(ingredient.category).toLowerCase();
     
     // Map categories to our standard ones
     if (['vegetable', 'vegetables'].includes(category)) return 'vegetables';
@@ -301,7 +301,7 @@ export default function IngredientRecommender() {
     
     // First check for explicit category
     if (ingredient.category) {
-      const category = (ingredient.category as unknown).toLowerCase();
+      const category = String(ingredient.category).toLowerCase();
       
       // Handle specific category mappings
       if (['protein', 'meat', 'egg', 'dairy', 'plant_based', 'seafood', 'poultry'].includes(category)) {

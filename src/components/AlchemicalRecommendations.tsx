@@ -4,7 +4,7 @@ import { ElementalCharacter, AlchemicalProperty } from '@/constants/planetaryEle
 import { useAlchemicalRecommendations } from '@/hooks/useAlchemicalRecommendations';
 import { ElementalItem } from '@/calculations/alchemicalTransformation';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-import { LunarPhase, LunarPhaseWithSpaces, ZodiacSign, _PlanetaryAspect } from '@/types/alchemy';
+import { LunarPhase, LunarPhaseWithSpaces, ZodiacSign, PlanetaryAspect } from '@/types/alchemy';
 import { PlanetaryPosition } from '@/types/celestial';
 
 // Import the correct data sources
@@ -27,7 +27,7 @@ interface AlchemicalRecommendationsProps {
   aspects?: PlanetaryAspect[];
 }
 
-const AlchemicalRecommendationsView: React?.FC<AlchemicalRecommendationsProps> = ({
+const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = ({
   planetPositions,
   isDaytime: _isDaytime = true,
   currentZodiac,
@@ -109,12 +109,13 @@ const AlchemicalRecommendationsView: React?.FC<AlchemicalRecommendationsProps> =
     return Object.entries(allIngredients).map(([key, ingredient]) => {
       // Get ingredient elemental properties or calculate them
       let elementalProps;
-      if ((ingredient as unknown).elementalProperties) {
-        elementalProps = (ingredient as unknown).elementalProperties;
+      const ingredientData = ingredient as { elementalProperties?: Record<string, number>; category?: string; astrologicalProfile?: { rulingPlanets?: string[] } };
+      if (ingredientData.elementalProperties) {
+        elementalProps = ingredientData.elementalProperties;
       } else {
         // Calculate based on ingredient category and attributes
-        const category = (ingredient as unknown).category || '';
-        const rulingPlanets = (ingredient as unknown).astrologicalProfile?.rulingPlanets || [];
+        const category = ingredientData.category || '';
+        const rulingPlanets = ingredientData.astrologicalProfile?.rulingPlanets || [];
         
         // Start with empty properties
         elementalProps = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
@@ -175,7 +176,7 @@ const AlchemicalRecommendationsView: React?.FC<AlchemicalRecommendationsProps> =
         }, 0);
         const numericTotal = Number(total) || 0;
         if (numericTotal > 0) {
-          for (const element in _elementalProps) {
+          for (const element in elementalProps) {
             const currentValue = Number(elementalProps[element as keyof typeof elementalProps]) || 1;
             elementalProps[element as keyof typeof elementalProps] = currentValue / numericTotal;
           }
@@ -187,11 +188,11 @@ const AlchemicalRecommendationsView: React?.FC<AlchemicalRecommendationsProps> =
       
       return {
         id: key,
-        name: (ingredient as unknown)?.name || key,
+        name: (ingredientData as { name?: string }).name || key,
         elementalProperties: elementalProps,
-        qualities: (ingredient as unknown).qualities || [],
-        modality: (ingredient as unknown).modality
-      } as unknown as unknown as ElementalItem;
+        qualities: (ingredientData as { qualities?: string[] }).qualities || [],
+        modality: (ingredientData as { modality?: string }).modality
+      } as unknown as ElementalItem;
     });
   }, []);
   
@@ -513,7 +514,7 @@ const AlchemicalRecommendationsView: React?.FC<AlchemicalRecommendationsProps> =
         {/* Recommended Ingredients */}
         <div className="recommendation-section">
           <h3>Recommended Ingredients</h3>
-          {recommendations.topIngredients???.length > 0 ? (
+          {recommendations.topIngredients?.length > 0 ? (
             <ul className="recommendation-list">
               {recommendations.topIngredients.map(ingredient => (
                 <li key={ingredient.id} className="recommendation-item">
@@ -552,7 +553,7 @@ const AlchemicalRecommendationsView: React?.FC<AlchemicalRecommendationsProps> =
         {/* Recommended Cooking Methods */}
         <div className="recommendation-section">
           <h3>Recommended Cooking Methods</h3>
-          {recommendations.topMethods???.length > 0 ? (
+          {recommendations.topMethods?.length > 0 ? (
             <ul className="recommendation-list">
               {recommendations.topMethods.map(method => (
                 <li key={method.id} className="recommendation-item">
@@ -587,7 +588,7 @@ const AlchemicalRecommendationsView: React?.FC<AlchemicalRecommendationsProps> =
         {/* Recommended Cuisines */}
         <div className="recommendation-section">
           <h3>Recommended Cuisines</h3>
-          {recommendations.topCuisines???.length > 0 ? (
+          {recommendations.topCuisines?.length > 0 ? (
             <ul className="recommendation-list">
               {recommendations.topCuisines.map(cuisine => (
                 <li key={cuisine.id} className="recommendation-item">

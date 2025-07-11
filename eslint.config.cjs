@@ -86,7 +86,6 @@ module.exports = [
       'no-unreachable': 'error',
       'no-unreachable-loop': 'error',
       'no-unsafe-optional-chaining': 'error',
-      'no-unsafe-unary-negation': 'error',
       
       // Import rules - Enhanced
       'import/no-unresolved': 'warn',

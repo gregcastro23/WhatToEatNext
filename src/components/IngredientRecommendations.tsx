@@ -122,7 +122,7 @@ export default function IngredientRecommendations({
   
   const renderIngredientDetails = (ingredient: Ingredient) => {
     // Get the elemental properties
-    const _elementalProps = ingredient.elementalProperties || {
+    const elementalProps = ingredient.elementalProperties || {
       Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25
     };
     

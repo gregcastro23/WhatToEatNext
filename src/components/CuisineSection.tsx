@@ -117,21 +117,19 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
         
         // Match regional cuisine if specified
         // Apply surgical type casting with variable extraction
-        const cuisineString = cuisine as unknown;
-        const cuisineLower = cuisineString?.toLowerCase?.();
+        const cuisineLower = String(cuisine || '').toLowerCase();
         
-        if ((recipe.regionalCuisine as unknown)?.toLowerCase?.() === cuisineLower) return true;
+        if (String(recipe.regionalCuisine || '').toLowerCase() === cuisineLower) return true;
         
         // Try to match related cuisines
         try {
           const relatedCuisines = getRelatedCuisines(cuisine || '');
           if ((relatedCuisines || []).some(rc => {
             // Apply surgical type casting with variable extraction
-            const rcData = rc as unknown;
-            const rcLower = rcData?.toLowerCase?.();
+            const rcLower = String(rc || '').toLowerCase();
             return (
               recipe.cuisine?.toLowerCase() === rcLower ||
-              (recipe.regionalCuisine as unknown)?.toLowerCase?.() === rcLower
+              String(recipe.regionalCuisine || '').toLowerCase() === rcLower
             );
           })) {
             return true;
@@ -154,7 +152,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
         // If match scores are equal, prioritize direct cuisine matches
         // Apply surgical type casting with variable extraction
         const cuisineStringForSort = cuisine as unknown;
-        const cuisineLowerForSort = cuisineStringForSort?.toLowerCase?.();
+        const cuisineLowerForSort = String(cuisineStringForSort || '').toLowerCase();
         
         const directMatchA = a.cuisine?.toLowerCase() === cuisineLowerForSort;
         const directMatchB = b.cuisine?.toLowerCase() === cuisineLowerForSort;
@@ -186,8 +184,9 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
           
           // Try to extract some recipes directly
           Object.entries(importedCuisine.dishes || {}).forEach(([mealType, seasonalDishes]) => {
-            if (seasonalDishes && (seasonalDishes as unknown)?.all && Array.isArray((seasonalDishes as unknown)?.all)) {
-              specialRecipes?.push(...(seasonalDishes as unknown)?.all?.slice(0, 4));
+            const dishesData = seasonalDishes as { all?: unknown[] };
+            if (seasonalDishes && dishesData.all && Array.isArray(dishesData.all)) {
+              specialRecipes?.push(...dishesData.all.slice(0, 4));
             }
           });
           

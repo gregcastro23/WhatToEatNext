@@ -2,7 +2,7 @@ import { RulingPlanet } from '../constants/planets';
 import { 
   _getPlanetaryElement, 
   getPlanetaryAlchemicalProperty, 
-  _ElementalCharacter,
+  ElementalCharacter,
   AlchemicalProperty
 } from '../constants/planetaryElements';
 import {
@@ -18,6 +18,11 @@ import {
 import { _Planet } from '../constants/planetaryFoodAssociations';
 import { signs, planetInfo } from '../data/astroData';
 import { StandardizedAlchemicalResult, ElementalProperties, PlanetaryPosition } from '@/types/alchemy';
+import { createLogger } from '@/utils/logger';
+
+// Create logger instance
+const logger = createLogger('AlchemicalCalculations');
+const debugLog = logger.debug;
 
 /**
  * Calculate elemental balance based on properties

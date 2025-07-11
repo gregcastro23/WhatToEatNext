@@ -44,6 +44,7 @@ jobs:
         run: yarn build
 
       - name: Create Release
+        id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -54,31 +55,33 @@ jobs:
           prerelease: false
 
       - name: Generate changelog
+        id: changelog
         run: |
           # Generate changelog from commits since last tag
           git log $(git describe --tags --abbrev=0)..HEAD --oneline > CHANGELOG.md
           echo "## What's Changed" >> CHANGELOG.md
           echo "" >> CHANGELOG.md
           git log $(git describe --tags --abbrev=0)..HEAD --pretty=format:"- %s" >> CHANGELOG.md
+          
+          # Read the changelog content for the next step
+          CHANGELOG_CONTENT=$(cat CHANGELOG.md)
+          echo "changelog_content<<EOF" >> $GITHUB_OUTPUT
+          echo "$CHANGELOG_CONTENT" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Update Release with changelog
-        uses: actions/update-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          release_id: ${{ steps.create_release.outputs.id }}
-          body: |
-            ## What's Changed
-            
-            ${{ steps.changelog.outputs.changelog }}
-            
-            ## Installation
-            
-            ```bash
-            yarn install
-            yarn build
-            yarn start
-            ```
+        run: |
+          # Update the release with changelog using GitHub API
+          RELEASE_ID="${{ steps.create_release.outputs.id }}"
+          CHANGELOG_CONTENT="${{ steps.changelog.outputs.changelog_content }}"
+          
+          curl -X PATCH \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/${{ github.repository }}/releases/$RELEASE_ID \
+            -d "{
+              \"body\": \"## What's Changed\\n\\n$CHANGELOG_CONTENT\\n\\n## Installation\\n\\n\`\`\`bash\\nyarn install\\nyarn build\\nyarn start\\n\`\`\`\"
+            }"
 
   # Deploy to production after release
   deploy-release:

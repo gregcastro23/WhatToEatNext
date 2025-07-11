@@ -113,7 +113,7 @@ const MoonDisplay: React.FC = () => {
     
     // Try both possible property names
     const node = planetaryPositions?.northnode || planetaryPositions?.northNode;
-    const nodeData = node as unknown;
+    const nodeData = node as { sign?: string; degree?: number; exactLongitude?: number; isRetrograde?: boolean };
     
     // Ensure all required properties are present
     return {
@@ -132,7 +132,7 @@ const MoonDisplay: React.FC = () => {
     
     // Try both possible property names
     const node = planetaryPositions?.southnode || planetaryPositions?.southNode;
-    const nodeData = node as unknown;
+    const nodeData = node as { sign?: string; degree?: number; exactLongitude?: number; isRetrograde?: boolean };
     
     // Ensure all required properties are present
     return {
@@ -148,7 +148,7 @@ const MoonDisplay: React.FC = () => {
     const getLocation = async () => {
       try {
         // Use safe method call checking if requestLocation exists
-        const astroService = AstrologicalService as Record<string, unknown>;
+        const astroService = AstrologicalService as unknown as Record<string, unknown>;
         if (typeof astroService.requestLocation === 'function') {
           const coords = await (astroService.requestLocation as Function)();
           if (coords) {
@@ -186,21 +186,21 @@ const MoonDisplay: React.FC = () => {
     const calculateTimes = async () => {
       try {
         // Use the safe import and execute function
-        const _times = await safeImportAndExecute<{ rise?: Date; set?: Date }>(
+        const moonTimesResult = await safeImportAndExecute<{ rise?: Date; set?: Date }>(
           '@/utils/moonTimes',
           'calculateMoonTimes',
           [new Date(), coordinates.latitude, coordinates.longitude]
         );
         
-        if (times) {
+        if (moonTimesResult) {
           setMoonTimes({
-            rise: times.rise,
-            set: times.set,
+            rise: moonTimesResult.rise,
+            set: moonTimesResult.set,
             calculating: false
           });
         } else {
           // If calculation fails, use a fallback
-          debugLog('Moon times calculation failed, using fallback values');
+          _debugLog('Moon times calculation failed, using fallback values');
           const now = new Date();
           const tomorrow = new Date(now);
           tomorrow.setDate(tomorrow.getDate() + 1);

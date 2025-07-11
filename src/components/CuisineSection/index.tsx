@@ -1,5 +1,6 @@
 import React from 'react';
 import type { Recipe } from '@/types/recipe';
+import type { Cuisine } from '@/types/cuisine';
 import styles from './CuisineSection.module.css';
 import { getRelatedCuisines, getRecipesForCuisineMatch } from '@/data/cuisineFlavorProfiles';
 import { getBestRecipeMatches } from '@/data/recipes';
@@ -22,6 +23,13 @@ interface SauceInfo {
   seasonality?: string;
   preparationNotes?: string;
   technicalTips?: string;
+}
+
+// Define extended recipe interface for this component
+interface RecipeWithMatch extends Recipe {
+  matchScore?: number;
+  cuisine?: string;
+  regionalCuisine?: string;
 }
 
 interface CuisineSectionProps {
@@ -55,7 +63,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
         );
         
         if (cuisineKey && cuisinesMap[cuisineKey]) {
-          const cuisineData = cuisinesMap[cuisineKey] as unknown;
+          const cuisineData = cuisinesMap[cuisineKey] as Cuisine;
           const saucesData = cuisineData?.traditionalSauces;
           
           if (saucesData) {
@@ -122,7 +130,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
       .filter(recipe => {
         if (!recipe) return false;
         
-        const recipeData = recipe as unknown;
+        const recipeData = recipe as RecipeWithMatch;
         
         // Match main cuisine
         if (recipeData?.cuisine?.toLowerCase() === cuisine?.toLowerCase()) return true;
@@ -147,8 +155,8 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
         return (recipeData?.matchScore || 0) > 0.75;
       })
       .sort((a, b) => {
-        const recipeA = a as unknown;
-        const recipeB = b as unknown;
+        const recipeA = a as RecipeWithMatch;
+        const recipeB = b as RecipeWithMatch;
         
         // First sort by match score
         const scoreA = recipeA?.matchScore || 0;
@@ -204,7 +212,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
                       const recipeData = recipe as unknown;
                       return (
                         <div key={i} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
-                          <h3 className="text-lg font-medium">{recipeData?.name}</h3>
+                          <h3 className="text-lg font-medium">{(recipeData as { name?: string })?.name}</h3>
                           <p className="text-gray-600 text-sm mt-1">{recipeData?.description}</p>
                         </div>
                       );
@@ -283,10 +291,10 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
     return (
       <div key={index} className="bg-white rounded-lg border shadow-sm p-4 hover:shadow-md transition-shadow">
         <div className="flex justify-between items-start mb-2">
-          <h4 className="font-medium text-lg text-gray-900">{sauceData?.name || 'Traditional Sauce'}</h4>
-          {sauceData?.elementalProperties && (
+          <h4 className="font-medium text-lg text-gray-900">{(sauceData as { name?: string })?.name || 'Traditional Sauce'}</h4>
+          {(sauceData as { elementalProperties?: Record<string, number> })?.elementalProperties && (
             <div className="flex gap-1">
-              {Object.entries(sauceData.elementalProperties).map(([element, value]) => (
+              {Object.entries((sauceData as { elementalProperties?: Record<string, number> })?.elementalProperties).map(([element, value]) => (
                 <span 
                   key={element}
                   className={`px-2 py-1 rounded-full text-xs font-medium ${
@@ -340,11 +348,11 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
                         recipeData?.regionalCuisine?.toLowerCase() === cuisine?.toLowerCase();
     
     return (
-      <div key={recipeData?.id || index} className="bg-white rounded-lg border shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+      <div key={(recipeData as { id?: string })?.id || index} className="bg-white rounded-lg border shadow-sm overflow-hidden hover:shadow-md transition-shadow">
         <div className="p-4">
           <div className="flex justify-between items-start mb-2">
             <h3 className="text-lg font-medium text-gray-900 line-clamp-2">
-              {recipeData?.name || 'Unnamed Recipe'}
+              {(recipeData as { name?: string })?.name || 'Unnamed Recipe'}
             </h3>
             {renderScoreBadge(recipeData?.matchScore, hasDualMatch)}
           </div>

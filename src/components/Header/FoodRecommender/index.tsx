@@ -31,12 +31,12 @@ import React, { useState, useEffect, useCallback } from 'react';
 import styles from './FoodRecommender.module.css';
 import { useTarotAstrologyData } from '@/hooks/useTarotAstrologyData';
 import { Clock, Flame, Droplets, Mountain, Wind, Leaf, ThermometerSun, ThermometerSnowflake, Pill, Sparkles, Star, RefreshCw } from 'lucide-react';
-import { _getCurrentSeason } from '@/utils/dateUtils';
+import { getCurrentSeason } from '@/utils/dateUtils';
 import { RecommendationAdapter } from '@/services/RecommendationAdapter';
 import { ElementalItem, AlchemicalItem } from '@/calculations/alchemicalTransformation';
-import { AlchemicalProperty, _ElementalCharacter } from '@/constants/planetaryElements';
+import { AlchemicalProperty, ElementalCharacter } from '@/constants/planetaryElements';
 import { PlanetaryDignity } from '@/constants/planetaryFoodAssociations';
-import { LunarPhase, _LunarPhaseWithSpaces, _PlanetaryAspect } from '@/types/alchemy';
+import { LunarPhase, LunarPhaseWithSpaces, PlanetaryAspect } from '@/types/alchemy';
 import TarotFoodDisplay from '@/components/TarotFoodDisplay';
 import { calculateAspects, _calculatePlanetaryPositions } from '@/utils/astrologyUtils';
 import { useCurrentChart } from '@/hooks/useCurrentChart';
@@ -168,21 +168,21 @@ const FoodRecommender: React.FC = () => {
                     ingredientsAsElementalItems = Object.values(allIngredients).map((ingredient: unknown) => {
                         const ingredientData = ingredient as unknown;
                         return {
-                            id: ingredientData?.id || ingredientData?.name?.replace(/\s+/g, '_').toLowerCase() || '',
-                            name: ingredientData?.name || '',
+                            id: (ingredientData as { id?: string })?.id || ingredientData?.name?.replace(/\s+/g, '_').toLowerCase() || '',
+                            name: (ingredientData as { name?: string })?.name || '',
                             elementalProperties: {
                                 Fire: getElementValue(ingredient, 'fire'),
                                 Water: getElementValue(ingredient, 'water'),
                                 Earth: getElementValue(ingredient, 'earth'),
                                 Air: getElementValue(ingredient, 'air')
                             },
-                            category: ingredientData?.category || '',
+                            category: (ingredientData as { category?: string })?.category || '',
                             subCategory: ingredientData?.subCategory || '',
                             isInSeason: ingredientData?.isInSeason || false,
                             temperatureEffect: ingredientData?.temperatureEffect || '',
                             medicinalProperties: ingredientData?.medicinalProperties || [],
                             qualities: ingredientData?.qualities || [],
-                            astrologicalProfile: ingredientData?.astrologicalProfile || {}
+                            astrologicalProfile: (ingredientData as { astrologicalProfile?: unknown })?.astrologicalProfile || {}
                         };
                     });
                 } else {
@@ -195,21 +195,21 @@ const FoodRecommender: React.FC = () => {
                         return (ingredientItems as unknown)?.map?.((ingredient: unknown) => {
                             const ingredientData = ingredient as unknown;
                             return {
-                                id: ingredientData?.id || ingredientData?.name?.replace(/\s+/g, '_').toLowerCase() || '',
-                                name: ingredientData?.name || '',
+                                id: (ingredientData as { id?: string })?.id || ingredientData?.name?.replace(/\s+/g, '_').toLowerCase() || '',
+                                name: (ingredientData as { name?: string })?.name || '',
                                 elementalProperties: {
                                     Fire: getElementValue(ingredient, 'fire'),
                                     Water: getElementValue(ingredient, 'water'),
                                     Earth: getElementValue(ingredient, 'earth'),
                                     Air: getElementValue(ingredient, 'air')
                                 },
-                                category: ingredientData?.category || category,
+                                category: (ingredientData as { category?: string })?.category || category,
                                 subCategory: ingredientData?.subCategory || '',
                                 isInSeason: ingredientData?.isInSeason || false,
                                 temperatureEffect: ingredientData?.temperatureEffect || '',
                                 medicinalProperties: ingredientData?.medicinalProperties || [],
                                 qualities: ingredientData?.qualities || [],
-                                astrologicalProfile: ingredientData?.astrologicalProfile || {}
+                                astrologicalProfile: (ingredientData as { astrologicalProfile?: unknown })?.astrologicalProfile || {}
                             };
                         }) || [];
                     });
@@ -352,7 +352,7 @@ const FoodRecommender: React.FC = () => {
         const ingredientData = ingredient as unknown;
         // First check explicit elementalProperties with fallbacks
         const elementKey = element.charAt(0).toUpperCase() + element.slice(1);
-        const explicitValue = Number(ingredientData?.elementalProperties?.[elementKey]) || 0;
+        const explicitValue = Number((ingredientData as { elementalProperties?: Record<string, number> })?.elementalProperties?.[elementKey]) || 0;
         
         // If we have an explicit value, use it directly
         if (explicitValue > 0) {
@@ -360,7 +360,7 @@ const FoodRecommender: React.FC = () => {
         }
 
         // Fallback to astrological profile with validation
-        const profile = ingredientData?.astrologicalProfile || {};
+        const profile = (ingredientData as { astrologicalProfile?: unknown })?.astrologicalProfile || {};
         const baseElement = profile?.elementalAffinity?.base?.toLowerCase?.();
         const secondaryElement = profile?.elementalAffinity?.secondary?.toLowerCase?.();
         

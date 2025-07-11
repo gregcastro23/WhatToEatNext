@@ -47,7 +47,7 @@ export async function POST(request: Request) {
     const apiPayload: AstrologizeRequest = {
       year,
       month: apiMonth, // Use 0-indexed month
-      date,
+      date: _date,
       hour,
       minute,
       latitude,
@@ -102,8 +102,8 @@ export async function GET(request: Request) {
     date: now.getDate(),
     hour: now.getHours(),
     minute: now.getMinutes(),
-    latitude,
-    longitude,
+    latitude: _latitude,
+    longitude: _longitude,
     zodiacSystem
   };
 

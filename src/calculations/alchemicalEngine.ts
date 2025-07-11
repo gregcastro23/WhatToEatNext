@@ -22,10 +22,14 @@ import { PLANETARY_MODIFIERS, RulingPlanet } from '@/constants/planets';
 import { getZodiacElementalInfluence } from '@/utils/zodiacUtils';
 import { recipeCalculations } from '@/utils/recipeCalculations';
 import { getAccuratePlanetaryPositions } from '@/utils/accurateAstronomy';
-import { logger } from '@/utils/logger';
-import { _isElementalProperties, validateOrDefault } from '@/utils/validation';
+import { createLogger } from '@/utils/logger';
+import { isElementalProperties, validateOrDefault } from '@/utils/validation';
 import { DEFAULT_ELEMENTAL_PROPERTIES } from '@/constants/defaults';
 import ErrorHandler from '@/services/errorHandler';
+
+// Create logger instance
+const logger = createLogger('AlchemicalEngine');
+const debugLog = logger.debug;
 
 // Import planetary and sign data for alchemical calculations
 import { planetInfo, signInfo, signs } from '@/calculations/core/alchemicalEngine';
@@ -353,11 +357,11 @@ export class AlchemicalEngineAdvanced {
 
       // Astrological compatibility - safe property access
       const elementalProperties = (cuisineData as unknown)?.elementalProperties;
-      if (astroState && _elementalProperties) {
+      if (astroState && elementalProperties) {
         const astroElements = this.calculateAstrologicalInfluence(astroState);
         const elementCompatibility = this.calculateElementCompatibility(
           astroElements, 
-          _elementalProperties
+          elementalProperties
         );
         compatibilityScore += (elementCompatibility - 0.5) * 0.3; // Scale the impact
       }

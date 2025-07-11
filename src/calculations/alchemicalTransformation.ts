@@ -1,6 +1,6 @@
 import { RulingPlanet } from '../constants/planets';
 import { 
-  _ElementalCharacter, 
+  ElementalCharacter, 
   AlchemicalProperty,
   _getPlanetaryElement,
   getPlanetaryAlchemicalProperty
@@ -16,9 +16,9 @@ import {
   PlanetaryDignityDetails
 } from '../constants/planetaryFoodAssociations';
 import { ZodiacSign } from '../constants/zodiac';
-import { _LunarPhaseWithSpaces } from '../types/alchemy';
+import { LunarPhaseWithSpaces } from '../types/alchemy';
 import { createLogger } from '@/utils/logger';
-import { _CelestialPosition } from '@/types/celestial';
+import { CelestialPosition } from '@/types/celestial';
 
 // Create a component-specific logger
 const logger = createLogger('AlchemicalTransformation');
