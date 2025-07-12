@@ -201,7 +201,7 @@ export function applyPillarTransformation(
     
     // Apply effects to elemental properties if they exist in the item
     if ('fire' in transformedItem && typeof transformedItem.fire === 'number') {
-      if (_primaryElement === 'Fire') {
+      if (__primaryElement === 'Fire') {
         transformedItem.fire *= 1.2; // Boost primary element by 20%
       } else if (secondaryElement === 'Fire') {
         transformedItem.fire *= 1.1; // Boost secondary element by 10%
@@ -212,7 +212,7 @@ export function applyPillarTransformation(
     }
     
     if ('water' in transformedItem && typeof transformedItem.water === 'number') {
-      if (_primaryElement === 'Water') {
+      if (__primaryElement === 'Water') {
         transformedItem.water *= 1.2;
       } else if (secondaryElement === 'Water') {
         transformedItem.water *= 1.1;
@@ -222,7 +222,7 @@ export function applyPillarTransformation(
     }
     
     if ('air' in transformedItem && typeof transformedItem.air === 'number') {
-      if (_primaryElement === 'Air') {
+      if (__primaryElement === 'Air') {
         transformedItem.air *= 1.2;
       } else if (secondaryElement === 'Air') {
         transformedItem.air *= 1.1;
@@ -232,7 +232,7 @@ export function applyPillarTransformation(
     }
     
     if ('earth' in transformedItem && typeof transformedItem.earth === 'number') {
-      if (_primaryElement === 'Earth') {
+      if (__primaryElement === 'Earth') {
         transformedItem.earth *= 1.2;
       } else if (secondaryElement === 'Earth') {
         transformedItem.earth *= 1.1;

@@ -6,7 +6,7 @@ import type {
   ZodiacSign,
 } from '@/types/alchemy';
 import { cuisinesMap } from '@/data/cuisines';
-import { getCurrentTimeFactors } from '@/utils/getCurrentTimeFactors()';
+import { getCurrentTimeFactors } from '@/utils/getCurrentTimeFactors';
 
 // Recipe interface for internal use in enhanced recommender
 interface RecipeData {

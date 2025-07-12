@@ -1172,10 +1172,10 @@ export default function CuisineRecommender() {
             await Promise.resolve(getRecipesForCuisineMatch((topRecommendation as { name?: string })?.name, allRecipes)) : [];
           
           const enhancedRecipes = Array.isArray(cuisineRecipes) ? cuisineRecipes.map(recipe => 
-            buildCompleteRecipe(recipe as unknown as Record<string, unknown>, (topRecommendation as { name?: string })?.name, currentMomentElementalProfile || {}, astroState as unknown as Record<string, unknown>, currentSeasonToUse)
+            buildCompleteRecipe(recipe as any, (topRecommendation as { name?: string })?.name, currentMomentElementalProfile || {}, astroState as any, currentSeasonToUse)
           ) : [];
           
-          setRecipes(enhancedRecipes as unknown as Recipe[]);
+          setRecipes(enhancedRecipes as any);
         } catch (recipeError) {
           // console.warn('Error loading recipes:', recipeError);
           setRecipes([]);
@@ -1936,7 +1936,7 @@ export default function CuisineRecommender() {
                             {recipe.difficulty && (
                               <div>
                                 <span className="text-gray-500">Difficulty: </span>
-                                <span>{(recipe as Record<string, unknown>)?.difficulty || 'Unknown'}</span>
+                                <span>{(recipe as any)?.difficulty || 'Unknown'}</span>
                               </div>
                             )}
                           </div>

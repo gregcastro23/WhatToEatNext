@@ -392,7 +392,7 @@ export function useAstrology(options: AstrologyOptions = {}) {
     try {
       const positions = safeAstrology.getReliablePlanetaryPositions();
       const lunarPhase = safeAstrology.getLunarPhaseName(safeAstrology.calculateLunarPhase()) as LunarPhase;
-      const currentSign = safeAstrology.calculatesunSign();
+      const currentSign = safeAstrology.calculateSunSign();
       
       setState(prev => ({
         ...prev,

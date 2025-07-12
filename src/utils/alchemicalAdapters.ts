@@ -2,7 +2,7 @@ import { ElementalAffinity, _Element } from '@/types/alchemy';
 
 // Convert alchemicalEngine format to standardized format
 export function toStandardElementalAffinity(engineAffinity: unknown): ElementalAffinity {
-  if (!engineAffinity) return { base: 'Fire' } as ElementalAffinity;
+  if (!engineAffinity) return { base: 'Fire' as any } as ElementalAffinity;
 
   // Apply safe type casting for unknown type property access
   const engineData = engineAffinity as any;
@@ -12,8 +12,8 @@ export function toStandardElementalAffinity(engineAffinity: unknown): ElementalA
     strength: engineData?.strength,
     source: engineData?.source,
     // Preserve other properties
-    ...(engineData as Record<string, unknown>)
-  };
+    ...engineData
+  } as ElementalAffinity;
 }
 
 // Convert standardized format to alchemicalEngine format

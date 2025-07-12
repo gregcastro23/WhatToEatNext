@@ -56,8 +56,8 @@ export default function AlchmKitchen() {
                 logger.debug('Fetching tarot data for recipes', { currentSign, planetaryHour });
                 
                 // Get current tarot cards
-                const _currentDate = new Date();
-                const cards = getTarotCardsForDate(new Date(currentDate), planetaryPositions.sun && {
+                const currentDate = new Date();
+                const cards = getTarotCardsForDate(currentDate, planetaryPositions.sun && {
                     sign: (planetaryPositions.sun as unknown as unknown as PlanetaryPosition)?.sign || 'aries',
                     degree: (planetaryPositions.sun as unknown as unknown as PlanetaryPosition)?.degree || 0
                 });
@@ -140,7 +140,7 @@ export default function AlchmKitchen() {
                 <div>Renders: {renderCount}</div>
                 <div>Current Sign: {currentSign}</div>
                 <div>Planetary Hour: {planetaryHour as string}</div>
-                <div>Lunar Phase: {lunarPhase}</div>
+                <div>Lunar Phase: {_lunarPhase}</div>
                 <h4>Alchemical Tokens:</h4>
                 <div>⦿ Spirit: {alchemicalValues?.Spirit.toFixed(4) || '0.0000'}</div>
                 <div>⦿ Essence: {alchemicalValues?.Essence.toFixed(4) || '0.0000'}</div>

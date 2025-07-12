@@ -279,28 +279,28 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         const region = ((cuisine as Record<string, unknown>).region as string || '').toLowerCase();
         
         // Adjust by cuisine type/region
-        if ((cuisineName as any[])?.includes?.('indian') || (cuisineName as any[])?.includes?.('thai') || 
-            (cuisineName as any[])?.includes?.('mexican') || (cuisineName as any[])?.includes?.('cajun')) {
+        if (cuisineName.includes('indian') || cuisineName.includes('thai') || 
+            cuisineName.includes('mexican') || cuisineName.includes('cajun')) {
           // Spicy cuisines tend to have more Fire
           elementalState.Fire += 0.5;
           elementalState.Air += 0.2;
-        } else if ((cuisineName as any[])?.includes?.('japanese') || (cuisineName as any[])?.includes?.('nordic') ||
-                  (cuisineName as any[])?.includes?.('korean')) {
+        } else if (cuisineName.includes('japanese') || cuisineName.includes('nordic') ||
+                  cuisineName.includes('korean')) {
           // More balanced cuisines
           elementalState.Water += 0.4;
           elementalState.Earth += 0.3;
           elementalState.Air += 0.2;
-        } else if ((cuisineName as any[])?.includes?.('french') || (cuisineName as any[])?.includes?.('italian')) {
+        } else if (cuisineName.includes('french') || cuisineName.includes('italian')) {
           // Hearty European cuisines
           elementalState.Earth += 0.4;
           elementalState.Fire += 0.3;
           elementalState.Water += 0.2;
-        } else if ((cuisineName as any[])?.includes?.('mediter')) {
+        } else if (cuisineName.includes('mediter')) {
           // Mediterranean cuisines
           elementalState.Earth += 0.3;
           elementalState.Air += 0.3;
           elementalState.Fire += 0.2;
-        } else if ((cuisineName as any[])?.includes?.('greek') || (cuisineName as any[])?.includes?.('spanish')) {
+        } else if (cuisineName.includes('greek') || cuisineName.includes('spanish')) {
           // Mediterranean cuisines
           elementalState.Earth += 0.3;
           elementalState.Fire += 0.3;
@@ -345,7 +345,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
       const _elementalProps = ingredient.elementalProperties;
       const qualities = ingredient.qualities || [];
       const modality = ingredient.modality || 
-        determineIngredientModality(qualities as unknown, _elementalProps);
+        determineIngredientModality(qualities as any, _elementalProps);
       return modality === modalityFilter;
     });
   }, [ingredientsArray, modalityFilter]);
@@ -538,7 +538,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
                   <div className="item-modality">
                     <span className={`modality-badge ${(() => {
                       const modalityData = ingredient.modality as unknown;
-                      const modalityStr = (modalityData as Record<string, unknown>)?.toLowerCase ? (modalityData as Record<string, unknown>).toLowerCase() as string : (modalityData || '').toString().toLowerCase();
+                      const modalityStr = String(modalityData || '').toLowerCase();
                       return modalityStr;
                     })()}`}>
                       {(ingredient.modality as React.ReactNode) || 'Unknown'}
@@ -573,7 +573,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
                   <div className="item-modality">
                     <span className={`modality-badge ${(() => {
                       const modalityData = method.modality as unknown;
-                      const modalityStr = (modalityData as Record<string, unknown>)?.toLowerCase ? (modalityData as Record<string, unknown>).toLowerCase() as string : (modalityData || '').toString().toLowerCase();
+                      const modalityStr = String(modalityData || '').toLowerCase();
                       return modalityStr;
                     })()}`}>
                       {(method.modality as React.ReactNode) || 'Unknown'}
@@ -608,7 +608,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
                   <div className="item-modality">
                     <span className={`modality-badge ${(() => {
                       const modalityData = cuisine.modality as unknown;
-                      const modalityStr = (modalityData as Record<string, unknown>)?.toLowerCase ? (modalityData as Record<string, unknown>).toLowerCase() as string : (modalityData || '').toString().toLowerCase();
+                      const modalityStr = String(modalityData || '').toLowerCase();
                       return modalityStr;
                     })()}`}>
                       {(cuisine.modality as React.ReactNode) || 'Unknown'}

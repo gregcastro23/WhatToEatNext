@@ -55,6 +55,7 @@ export default function CookingMethodsPage() {
   const [elementFilter, setElementFilter] = useState<string>('all');
   const [durationFilter, setDurationFilter] = useState<string>('all');
   const [sortBy, setSortBy] = useState<'score' | 'name' | 'duration'>('score');
+  const [showSidebar, setShowSidebar] = useState(false);
 
   useEffect(() => {
     // Convert cooking methods data to the format expected by the component

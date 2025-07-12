@@ -1001,9 +1001,9 @@ export default function CookingMethods() {
         if (!map[culture]) {
           map[culture] = [];
         }
-        const methodId = (method as unknown as Record<string, unknown>)?.id;
+        const methodId = (method as any)?.id;
         if (methodId) {
-          map[culture].push(methodId);
+          map[culture].push(String(methodId));
         }
       });
       

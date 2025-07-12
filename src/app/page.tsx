@@ -6,7 +6,11 @@ import Link from 'next/link';
 import FoodRecommender from '@/components/FoodRecommender';
 import IngredientRecommender from '@/components/IngredientRecommender';
 import { useCookingMethods } from '@/hooks/useCookingMethods';
-import { CookingMethodsSection } from '@/components/CookingMethodsSection';
+// Use dynamic import for CookingMethodsSection to avoid chunk loading issues
+const DynamicCookingMethodsSection = dynamic(
+  () => import('@/components/CookingMethodsSection').then(mod => ({ default: mod.CookingMethodsSection })),
+  { ssr: false }
+);
 import RecipeGeneratorCap from '@/components/FoodRecommender/RecipeGeneratorCap';
 import { ChefHat, Sparkles, Utensils, Home as HomeIcon, Globe, Target } from 'lucide-react';
 
@@ -70,7 +74,7 @@ function Navigation() {
               <span>Recipe Builder</span>
             </Link>
             <Link 
-              href="/cooking-methods-recommender" 
+              href="/cooking-methods" 
               className="flex items-center space-x-1 text-gray-700 hover:text-green-600 transition-colors"
             >
               <Target className="w-4 h-4" />
@@ -223,7 +227,7 @@ export default function Home() {
                     Error loading cooking methods: {cookingMethodsError}
                   </div>
                 ) : (
-                  <CookingMethodsSection
+                  <DynamicCookingMethodsSection
                     methods={cookingMethods}
                     onSelectMethod={(method) => {
                       setSelectedCookingMethodId(method.id);

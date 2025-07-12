@@ -925,7 +925,7 @@ export function validateAlgorithms(): {
       score: 0.7
     };
     
-    const recommendation = generateEnhancedRecommendation(mockResult as unknown, [], 'summer');
+    const recommendation = generateEnhancedRecommendation(mockResult as any, [], 'summer');
     
     recipeTest.passed = Boolean(
       recommendation &&
