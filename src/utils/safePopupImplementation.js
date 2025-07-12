@@ -7,7 +7,7 @@
 // Define safe popup in a closure to protect it
 (function() {
   // Only run in browser environment
-  if (typeof window === 'undefined') return;
+  if (typeof window === 'undefined' || typeof document === 'undefined') return;
   
   // console.log('[SafePopupImpl] Installing standalone popup implementation');
   
@@ -116,14 +116,16 @@
           }
           
           // Show the popup
-          setTimeout(() => {
-            if (state.element) {
-              state.element.classList.add('show');
-            }
-          }, 10);
+          if (typeof setTimeout !== 'undefined') {
+            setTimeout(() => {
+              if (state.element) {
+                state.element.classList.add('show');
+              }
+            }, 10);
+          }
           
           // Auto-hide after duration
-          if (duration > 0) {
+          if (duration > 0 && typeof setTimeout !== 'undefined') {
             setTimeout(() => {
               this.hide();
               
@@ -145,12 +147,14 @@
             state.element.classList.remove('show');
             
             // Remove after transition
-            setTimeout(() => {
-              if (state.element && state.element.parentNode) {
-                state.element.parentNode.removeChild(state.element);
-                state.element = null;
-              }
-            }, 300);
+            if (typeof setTimeout !== 'undefined') {
+              setTimeout(() => {
+                if (state.element && state.element.parentNode) {
+                  state.element.parentNode.removeChild(state.element);
+                  state.element = null;
+                }
+              }, 300);
+            }
           }
           
           return this;
@@ -171,7 +175,7 @@
               // Set new content safely
               if (typeof content === 'string') {
                 contentElement.textContent = content || '';
-              } else if (content instanceof HTMLElement) {
+              } else if (typeof HTMLElement !== 'undefined' && content instanceof HTMLElement) {
                 contentElement.appendChild(content);
               }
             }
@@ -223,7 +227,7 @@
             // Set new content safely
             if (typeof content === 'string') {
               contentElement.textContent = content || '';
-            } else if (content instanceof HTMLElement) {
+            } else if (typeof HTMLElement !== 'undefined' && content instanceof HTMLElement) {
               contentElement.appendChild(content);
             }
           }

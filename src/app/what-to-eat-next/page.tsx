@@ -1,8 +1,25 @@
+"use client";
+
 import React from 'react';
 import KalchmRecommender from '@/components/FoodRecommender/KalchmRecommender';
 import { AlchemicalProvider } from '@/contexts/AlchemicalContext';
+import { CookingMethodsSection } from '@/components/CookingMethodsSection';
+import { getRecommendedCookingMethods } from '@/utils/cookingMethodRecommender';
+import { useState, useEffect } from 'react';
 
 export default function WhatToEatNextPage() {
+  const [recommendedMethods, setRecommendedMethods] = useState([]);
+
+  useEffect(() => {
+    const fetchRecommendations = async () => {
+      // Dummy elemental composition - replace with actual
+      const elemental = { Fire: 0.5, Water: 0.5, Earth: 0.5, Air: 0.5 };
+      const recs = await getRecommendedCookingMethods(elemental);
+      setRecommendedMethods(recs.slice(0, 5));
+    };
+    fetchRecommendations();
+  }, []);
+
   return (
     <div className="container mx-auto px-4 py-8">
       <header className="mb-8 text-center">
@@ -40,6 +57,14 @@ export default function WhatToEatNextPage() {
             <p>Higher elemental harmony suggests ingredients that will be more beneficial and satisfying at this time.</p>
           </div>
         </div>
+      </div>
+
+      <div className="mt-8">
+        <CookingMethodsSection 
+          methods={recommendedMethods}
+          showToggle={true}
+          initiallyExpanded={false}
+        />
       </div>
     </div>
   );

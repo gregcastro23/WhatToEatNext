@@ -17,6 +17,9 @@ export default function Navigation() {
             <Link href="/cooking-methods" className="text-gray-600 hover:text-gray-900">
               Cooking Methods
             </Link>
+            <Link href="/cooking-recommendations" className="text-gray-600 hover:text-gray-900">
+              Method Recommendations
+            </Link>
             <Link href="/ingredients" className="text-gray-600 hover:text-gray-900">
               Ingredients
             </Link>

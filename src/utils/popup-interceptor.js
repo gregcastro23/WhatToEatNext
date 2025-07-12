@@ -6,7 +6,7 @@
 
 // Execute immediately
 (function() {
-  if (typeof window === 'undefined') return;
+  if (typeof window === 'undefined' || typeof document === 'undefined') return;
 
   // console.log('[PopupInterceptor] Installing popup.js interceptor');
 
@@ -16,7 +16,9 @@
       show: () => ({}),
       hide: () => ({}),
       update: () => ({}),
-      on: () => ({ off: () => {} })
+      on: () => ({ 
+        off: () => { /* Intentional no-op for compatibility */ } 
+      })
     }),
     show: () => ({}),
     hide: () => ({}),
@@ -50,7 +52,9 @@
   checkPopupIntegrity();
 
   // Then check periodically
-  setInterval(checkPopupIntegrity, 500);
+  if (typeof setInterval !== 'undefined') {
+    setInterval(checkPopupIntegrity, 500);
+  }
 
   // Intercept script loading to handle popup.js specifically
   const originalCreateElement = document.createElement;

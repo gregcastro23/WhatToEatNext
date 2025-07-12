@@ -71,28 +71,35 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
         // Add to variations if it doesn't exist yet
         const existingVariations = methods[method.relatedToMainMethod].variations || [];
         if (!existingVariations.some(v => v.id === (method as CookingMethodData)?.id)) {
+          const methodVariation: CookingMethodData = {
+            ...(method as CookingMethodData),
+            elementalEffect: (method as CookingMethodData)?.elementalProperties || {
+              Fire: 0,
+              Water: 0,
+              Earth: 0,
+              Air: 0
+            },
+            toolsRequired: method.toolsRequired || [],
+            bestFor: method.bestFor || [],
+            culturalOrigin: method.culturalOrigin,
+            astrologicalInfluences: {
+              favorableZodiac: (method.astrologicalInfluences?.favorableZodiac as ZodiacSign[]) || [],
+              unfavorableZodiac: (method.astrologicalInfluences?.unfavorableZodiac as ZodiacSign[]) || [],
+              dominantPlanets: method.astrologicalInfluences?.dominantPlanets || []
+            },
+            duration: {
+              ...((method as CookingMethodData)?.duration),
+              unit: ((method as CookingMethodData)?.duration?.unit === 'hours' || (method as CookingMethodData)?.duration?.unit === 'minutes')
+                ? (method as CookingMethodData)?.duration?.unit
+                : 'minutes',
+            },
+            suitable_for: (method as CookingMethodData)?.bestFor || [],
+            benefits: [],
+            relatedToMainMethod: method.relatedToMainMethod
+          };
           methods[method.relatedToMainMethod].variations = [
             ...existingVariations,
-            method as CookingMethodData
-              elementalEffect: (method as CookingMethodData)?.elementalProperties || {
-                Fire: 0,
-                Water: 0,
-                Earth: 0,
-                Air: 0
-              },
-              toolsRequired: method.toolsRequired || [],
-              bestFor: method.bestFor || [],
-              culturalOrigin: method.culturalOrigin,
-              astrologicalInfluences: {
-                favorableZodiac: (method.astrologicalInfluences?.favorableZodiac as ZodiacSign[]) || [],
-                unfavorableZodiac: (method.astrologicalInfluences?.unfavorableZodiac as ZodiacSign[]) || [],
-                dominantPlanets: method.astrologicalInfluences?.dominantPlanets || []
-              },
-              duration: { min: 10, max: 30 },
-              suitable_for: (method as CookingMethodData)?.bestFor || [],
-              benefits: [],
-              relatedToMainMethod: method.relatedToMainMethod
-            } as CookingMethodData
+            methodVariation
           ];
         }
         // Don't add as a standalone method
@@ -120,7 +127,12 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
           unfavorableZodiac: (method.astrologicalInfluences?.unfavorableZodiac as ZodiacSign[]) || [],
           dominantPlanets: method.astrologicalInfluences?.dominantPlanets || []
         },
-        duration: { min: 10, max: 30 },
+        duration: {
+          ...((method as CookingMethodData)?.duration),
+          unit: ((method as CookingMethodData)?.duration?.unit === 'hours' || (method as CookingMethodData)?.duration?.unit === 'minutes')
+            ? (method as CookingMethodData)?.duration?.unit
+            : 'minutes',
+        },
         suitable_for: (method as CookingMethodData)?.bestFor || [],
         benefits: [],
         variations: [] // Initialize empty variations array
@@ -1203,7 +1215,7 @@ function _calculateAspectMethodAffinity(aspects: PlanetaryAspect[], method: Cook
       if (aspect.type === 'opposition') baseInfluence = 0.7;
       
       // Special consideration for Venus aspects
-              if ((aspect.planets as string[])?.includes?.('Venus')) {
+      if ((aspect.planets as string[])?.includes?.('Venus')) {
         // Venus aspects boost methods that enhance aesthetic appeal or harmony
         // Extract method data with safe property access
         const aspectMethodData = method as unknown as CookingMethod;
@@ -1388,231 +1400,37 @@ export function getCookingMethodRecommendations(
     const score = calculateMethodScore(methodProfileScore, astroState);
     
     return {
-      name,
-      score,
-      elementalAlignment: (method as CookingMethodData)?.elementalProperties,
-      description: (method as CookingMethodData)?.description
-    } as any;
-  })
-  .filter(rec => rec.score > 0)
-  .sort((a, b) => b.score - a.score);
-  
-  // Return top recommendations (limit if specified)
-  const limit = (options as Record<string, any>)?.limit || 10;
-  return recommendations.slice(0, limit);
-}
-
-/**
- * Helper to get the element associated with a zodiac sign
- */
-function getElementForSign(sign: ZodiacSign): keyof ElementalProperties {
-  const fireElements = ['Aries', 'Leo', 'Sagittarius'];
-  const earthElements = ['Taurus', 'Virgo', 'Capricorn'];
-  const airElements = ['Gemini', 'Libra', 'Aquarius'];
-  const waterElements = ['Cancer', 'Scorpio', 'Pisces'];
-  
-  if ((fireElements as string[])?.includes?.(sign)) return 'Fire';
-  if ((earthElements as string[])?.includes?.(sign)) return 'Earth';
-  if ((airElements as string[])?.includes?.(sign)) return 'Air';
-  if ((waterElements as string[])?.includes?.(sign)) return 'Water';
-  
-  return 'Fire'; // Default fallback
-}
-
-// Enhanced Monica constant calculation functions based on user's Kalchm formulas
-function calculateHeat(
-  spirit: number, fire: number, substance: number, essence: number,
-  matter: number, water: number, air: number, earth: number
-): number {
-  const numerator = Math.pow(spirit, 2) + Math.pow(fire, 2);
-  const denominator = Math.pow(substance + essence + matter + water + air + earth, 2);
-  return numerator / denominator;
-}
-
-function calculateEntropy(
-  spirit: number, substance: number, fire: number, air: number,
-  essence: number, matter: number, earth: number, water: number
-): number {
-  const numerator = Math.pow(spirit, 2) + Math.pow(substance, 2) + Math.pow(fire, 2) + Math.pow(air, 2);
-  const denominator = Math.pow(essence + matter + earth + water, 2);
-  return numerator / denominator;
-}
-
-function calculateReactivity(
-  spirit: number, substance: number, essence: number, fire: number,
-  air: number, water: number, matter: number, earth: number
-): number {
-  const numerator = Math.pow(spirit, 2) + Math.pow(substance, 2) + Math.pow(essence, 2)
-    + Math.pow(fire, 2) + Math.pow(air, 2) + Math.pow(water, 2);
-  const denominator = Math.pow(matter + earth, 2);
-  return numerator / denominator;
-}
-
-function calculateGregsEnergy(
-  heat: number, entropy: number, reactivity: number
-): number {
-  return heat - (entropy * reactivity);
-}
-
-function calculateKAlchm(
-  spirit: number, essence: number, matter: number, substance: number
-): number {
-  // Avoid zero values that would cause infinite/NaN results
-  const safeSpirit = Math.max(0.001, spirit);
-  const safeEssence = Math.max(0.001, essence);
-  const safeMatter = Math.max(0.001, matter);
-  const safeSubstance = Math.max(0.001, substance);
-  
-  return (Math.pow(safeSpirit, safeSpirit) * Math.pow(safeEssence, safeEssence)) /
-         (Math.pow(safeMatter, safeMatter) * Math.pow(safeSubstance, safeSubstance));
-}
-
-function calculateMonicaConstant(
-  gregsEnergy: number, reactivity: number, K_alchm: number
-): number {
-  const ln_K = Math.log(K_alchm);
-  if (K_alchm > 0 && ln_K !== 0 && reactivity !== 0) {
-    return -gregsEnergy / (reactivity * ln_K);
-  } else {
-    return 0; // Return 0 instead of NaN for stable methods
-  }
-}
-
-/**
- * Enhanced thermodynamic properties calculation with Monica constants
- */
-interface EnhancedThermodynamicProperties extends BasicThermodynamicProperties {
-  kalchm: number;
-  monicaConstant: number;
-  monicaClassification: string;
-  efficiency: number;
-}
-
-export function getEnhancedMethodThermodynamics(method: CookingMethodProfile): EnhancedThermodynamicProperties {
-  const methodNameLower = (method as unknown as CookingMethodData)?.name?.toLowerCase?.() as unknown as CookingMethodEnum;
-
-  // Get basic thermodynamic properties
-  const basicProps = getMethodThermodynamics(method);
-  
-  // Get alchemical properties from the method data
-  const methodData = method as unknown as CookingMethodData;
-  const alchemicalProps = (methodData as Record<string, any>)?.alchemicalProperties || {
-    Spirit: 0.5,
-    Essence: 0.5,
-    Matter: 0.5,
-    Substance: 0.5
-  };
-  
-  // Get elemental properties
-  const elementalProps = methodData?.elementalEffect || methodData?.elementalProperties || {
-    Fire: 0.25,
-    Water: 0.25,
-    Earth: 0.25,
-    Air: 0.25
-  };
-
-  // Calculate enhanced thermodynamics using user's formulas
-  const enhancedHeat = calculateHeat(
-    alchemicalProps.Spirit, elementalProps.Fire, alchemicalProps.Substance,
-    alchemicalProps.Essence, alchemicalProps.Matter, elementalProps.Water,
-    elementalProps.Air, elementalProps.Earth
-  );
-
-  const enhancedEntropy = calculateEntropy(
-    alchemicalProps.Spirit, alchemicalProps.Substance, elementalProps.Fire,
-    elementalProps.Air, alchemicalProps.Essence, alchemicalProps.Matter,
-    elementalProps.Earth, elementalProps.Water
-  );
-
-  const enhancedReactivity = calculateReactivity(
-    alchemicalProps.Spirit, alchemicalProps.Substance, alchemicalProps.Essence,
-    elementalProps.Fire, elementalProps.Air, elementalProps.Water,
-    alchemicalProps.Matter, elementalProps.Earth
-  );
-
-  const enhancedGregsEnergy = calculateGregsEnergy(enhancedHeat, enhancedEntropy, enhancedReactivity);
-  
-  const kalchm = calculateKAlchm(
-    alchemicalProps.Spirit, alchemicalProps.Essence,
-    alchemicalProps.Matter, alchemicalProps.Substance
-  );
-
-  const monicaConstant = calculateMonicaConstant(enhancedGregsEnergy, enhancedReactivity, kalchm);
-
-  // Determine Monica classification
-  let monicaClassification = 'Stable';
-  if (isNaN(monicaConstant) || !isFinite(monicaConstant)) {
-    monicaClassification = 'Stable (NaN)';
-  } else if (Math.abs(monicaConstant) > 10) {
-    monicaClassification = 'Highly Transformative';
-  } else if (Math.abs(monicaConstant) > 5) {
-    monicaClassification = 'Transformative';
-  } else if (Math.abs(monicaConstant) > 1) {
-    monicaClassification = 'Moderately Active';
-  }
-
-  // Calculate cooking efficiency based on Monica constant
-  let efficiency = 0.5; // Base efficiency
-  if (!isNaN(monicaConstant) && isFinite(monicaConstant)) {
-    // Higher absolute Monica values indicate more efficient transformation
-    efficiency = Math.min(1.0, 0.3 + (Math.abs(monicaConstant) / 20));
-  }
-
-  return {
-    heat: enhancedHeat,
-    entropy: enhancedEntropy,
-    reactivity: enhancedReactivity,
-    gregsEnergy: enhancedGregsEnergy,
-    kalchm,
-    monicaConstant,
-    monicaClassification,
-    efficiency
-  };
-} 
-
-// Backward-compatibility export for methodRecommendation module
-export { _calculateAspectMethodAffinity };
-
-// Helper function to safely convert CookingMethodProfile to CookingMethodData
-function convertToCookingMethodData(method: CookingMethodProfile): CookingMethodData {
-  // If it's already a CookingMethodData, return it
-  if (method && typeof method === 'object' && 'id' in method && 'name' in method) {
-    return method as unknown as CookingMethodData;
-  }
-  
-  // If it's a CookingMethodModifier, convert it
-  if (method && typeof method === 'object' && 'element' in method) {
-    const modifier = method as Record<string, any>;
-    return {
-      id: `method_${modifier.element}_${modifier.intensity}`,
-      name: `${modifier.element} method`,
-      description: `Cooking method with ${modifier.element} element`,
-      elementalEffect: {
-        Fire: modifier.element === 'Fire' ? modifier.intensity : 0,
-        Water: modifier.element === 'Water' ? modifier.intensity : 0,
-        Earth: modifier.element === 'Earth' ? modifier.intensity : 0,
-        Air: modifier.element === 'Air' ? modifier.intensity : 0
+      method: {
+        id: (method as CookingMethodData)?.id || name,
+        name: (method as CookingMethodData)?.name || name,
+        description: (method as CookingMethodData)?.description || 'Cooking method',
+        category: 'General',
+        element: 'Fire' as 'Fire',
+        intensity: 1,
+        elementalEffect: (method as CookingMethodData)?.elementalEffect,
+        elementalProperties: (method as CookingMethodData)?.elementalProperties,
+        duration: {
+          ...((method as CookingMethodData)?.duration),
+          unit: ((method as CookingMethodData)?.duration?.unit === 'hours' || (method as CookingMethodData)?.duration?.unit === 'minutes')
+            ? (method as CookingMethodData)?.duration?.unit
+            : 'minutes',
+        },
+        astrologicalInfluences: (method as CookingMethodData)?.astrologicalInfluences,
+        // ...add other required fields as needed
       },
-      duration: modifier.duration || { min: 10, max: 30 },
-      suitable_for: modifier.applicableTo || [],
-      benefits: [],
-      preferences: {},
-      scoreDetails: {},
-      planetaryAffinity: 0
+      score,
+      compatibility: 1, // TODO: calculate real compatibility
+      reasoning: [
+        `Elemental alignment: ${(method as CookingMethodData)?.elementalProperties ? 'present' : 'none'}`
+      ],
+      elementalAlignment: ['Fire', 'Water', 'Earth', 'Air'], // TODO: derive from method
+      estimatedTime: { prepTime: method?.duration?.min || 10, cookTime: method?.duration?.max || 30 },
+      requiredSkills: [],
     };
-  }
-  
-  // Default fallback
-  return {
-    id: 'unknown_method',
-    name: 'Unknown Method',
-    description: 'Unknown cooking method',
-    elementalEffect: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
-    duration: { min: 10, max: 30 },
-    suitable_for: [],
-    benefits: [],
-    preferences: {},
-    scoreDetails: {},
-    planetaryAffinity: {}
-  };
+  });
+
+  // Sort by score and return top recommendations (limit to 10 for now)
+  return recommendations
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 10);
 }
