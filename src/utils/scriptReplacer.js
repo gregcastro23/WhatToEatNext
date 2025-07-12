@@ -5,9 +5,13 @@
  */
 
 (function() {
-  if (typeof window === 'undefined') return;
+  // Execute only in browser
+  if (typeof window === 'undefined' || typeof document === 'undefined') return;
   
-  console.log('[ScriptReplacer] Initializing script interceptor for Chrome Extension APIs');
+  // Use safe console
+  if (typeof console !== 'undefined') {
+    console.log('[ScriptReplacer] Initializing script replacer');
+  }
   
   // Track initialization to prevent double initialization
   if (window.__scriptReplacerInitialized) {
@@ -35,8 +39,8 @@
         lastError: null,
         sendMessage: function() { return true; },
         onMessage: {
-          addListener: function() {},
-          removeListener: function() {}
+          addListener: () => { /* Intentional no-op */ },
+          removeListener: () => { /* Intentional no-op */ },
         }
       }
     };
@@ -61,27 +65,29 @@
   };
   
   // Replace script src attributes for problematic scripts
-  const originalCreateElement = document.createElement;
-  document.createElement = function(tagName) {
-    const element = originalCreateElement.call(document, tagName);
-    
-    if (tagName.toLowerCase() === 'script') {
-      const originalSetAttribute = element.setAttribute;
-      element.setAttribute = function(name, value) {
-        if (name === 'src' && value && typeof value === 'string') {
-          const isProblematic = PROBLEMATIC_SCRIPTS.some(script => value.includes(script));
-          
-          if (isProblematic) {
-            console.log(`[ScriptReplacer] Intercepted script src attribute: ${value}`);
-            return originalSetAttribute.call(this, name, '/dummy-popup.js');
+  const originalCreateElement = document?.createElement;
+  if (originalCreateElement) {
+    document.createElement = function(tagName) {
+      const element = originalCreateElement.call(document, tagName);
+      
+      if (tagName.toLowerCase() === 'script') {
+        const originalSetAttribute = element.setAttribute;
+        element.setAttribute = function(name, value) {
+          if (name === 'src' && value && typeof value === 'string') {
+            const isProblematic = PROBLEMATIC_SCRIPTS.some(script => value.includes(script));
+            
+            if (isProblematic) {
+              console.log(`[ScriptReplacer] Intercepted script src attribute: ${value}`);
+              return originalSetAttribute.call(this, name, '/dummy-popup.js');
+            }
           }
-        }
-        return originalSetAttribute.apply(this, arguments);
-      };
-    }
-    
-    return element;
-  };
+          return originalSetAttribute.apply(this, arguments);
+        };
+      }
+      
+      return element;
+    };
+  }
   
   // Intercept direct script assignments
   const originalDescriptor = Object.getOwnPropertyDescriptor(HTMLScriptElement.prototype, 'src');

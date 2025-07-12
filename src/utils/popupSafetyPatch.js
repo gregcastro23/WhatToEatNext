@@ -8,7 +8,7 @@
 
 // Self-executing function to ensure immediate execution
 (function() {
-  // Only run in browser environment
+  // Only run in browser
   if (typeof window === 'undefined') return;
   
   // console.log('[PopupSafety] Applying aggressive popup safety patch');
@@ -28,7 +28,9 @@
         show: function() { return this; },
         hide: function() { return this; },
         update: function() { return this; },
-        on: function() { return { off: function() {} }; }
+        on: () => ({
+          off: () => { /* No-op handler */ }
+        })
       };
     };
   }
@@ -96,7 +98,9 @@ export const safePopup = {
       show: function() { return this; },
       hide: function() { return this; },
       update: function() { return this; },
-      on: function() { return { off: function() {} }; }
+      on: () => ({
+        off: () => { /* No-op handler */ }
+      })
     };
   },
   show: function() { return this; },

@@ -4,6 +4,7 @@
  */
 
 (function() {
+  // Only run in browser environment
   if (typeof window === 'undefined') return;
 
   // console.log('[LockdownMitigation] Installing lockdown mitigation');
@@ -37,7 +38,9 @@
             show: function() { return this; },
             hide: function() { return this; },
             update: function() { return this; },
-            on: function() { return { off: function() {} }; }
+            on: () => ({
+              off: () => { /* Intentional no-op */ }
+            })
           };
         },
         show: function() { return this; },
@@ -160,6 +163,16 @@
       clearInterval(lockdownCheckInterval);
       clearInterval(recoveryInterval);
     };
+
+    // Check periodically
+    if (typeof setInterval !== 'undefined') {
+      setInterval(() => {
+        if (!window.popup || !window.popup.create) {
+          window.popup = window[SECRET_KEY].popup;
+          window.popup.create = window[SECRET_KEY].popup.create;
+        }
+      }, 1000);
+    }
 
     // console.log('[LockdownMitigation] Successfully installed lockdown mitigations');
   } catch (e) {
