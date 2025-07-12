@@ -199,7 +199,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
     }
   };
   
-  // Calculate elemental transformation capacity from alchemical properties
+  // Enhanced elemental transformation calculation with better descriptions
   const getElementalTransformations = (method: CookingMethod) => {
     const transformations = {
       Fire: 0,
@@ -245,11 +245,43 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
     return transformations;
   };
 
-  // Determine if an element is increased or decreased by the method
-  const getElementalDirection = (value: number): {direction: 'increase' | 'decrease' | 'neutral', intensity: number} => {
-    if (value > 0.5) return { direction: 'increase', intensity: (value - 0.5) * 2 };
-    if (value < 0.5) return { direction: 'decrease', intensity: (0.5 - value) * 2 };
-    return { direction: 'neutral', intensity: 0 };
+  // Enhanced elemental direction with better descriptions
+  const getElementalDirection = (value: number): {
+    direction: 'increase' | 'decrease' | 'neutral', 
+    intensity: number,
+    description: string
+  } => {
+    if (value > 0.6) {
+      return { 
+        direction: 'increase', 
+        intensity: (value - 0.6) * 2.5,
+        description: 'Significantly amplifies'
+      };
+    } else if (value > 0.4) {
+      return { 
+        direction: 'increase', 
+        intensity: (value - 0.4) * 2.5,
+        description: 'Moderately enhances'
+      };
+    } else if (value > 0.2) {
+      return { 
+        direction: 'neutral', 
+        intensity: 0,
+        description: 'Minimally affects'
+      };
+    } else if (value > 0.1) {
+      return { 
+        direction: 'decrease', 
+        intensity: (0.2 - value) * 2.5,
+        description: 'Slightly reduces'
+      };
+    } else {
+      return { 
+        direction: 'decrease', 
+        intensity: (0.2 - value) * 2.5,
+        description: 'Significantly diminishes'
+      };
+    }
   };
 
   // Get alchemical essence label from properties
@@ -290,77 +322,41 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
     return styles['score-bad'];
   };
 
-  // Format Monica constant for display
-  const formatMonicaConstant = (monicaConstant: number): string => {
-    if (isNaN(monicaConstant) || !isFinite(monicaConstant)) {
-      return 'Stable';
+  // Enhanced method information display
+  const getMethodDescription = (method: CookingMethod): string => {
+    if (method.description) return method.description;
+    
+    // Generate description based on elemental properties
+    const elemental = method.elementalEffect;
+    if (elemental) {
+      const dominantElement = Object.entries(elemental)
+        .reduce((max, [element, value]) => 
+          (value as number) > (max.value as number) ? { element, value } : max, 
+          { element: 'Fire', value: 0 }
+        ).element;
+      
+      return `A ${dominantElement.toLowerCase()}-dominant cooking technique that transforms ingredients through controlled application of heat and energy.`;
     }
-    if (Math.abs(monicaConstant) < 0.001) {
-      return '~0';
-    }
-    return monicaConstant.toFixed(3);
+    
+    return `A cooking method that transforms ingredients through controlled application of heat and energy.`;
   };
 
-  // Get enhanced method information including Monica properties
-  const getEnhancedMethodInfo = (method: CookingMethod) => {
-    // This would ideally call the enhanced thermodynamics function
-    // For now, we'll create a simplified version based on available data
-    const alchemicalProps = method.alchemicalProperties || {
-      Spirit: 0.5,
-      Essence: 0.5, 
-      Matter: 0.5,
-      Substance: 0.5
-    };
+  // Get elemental transformation descriptions
+  const getElementalTransformationDescription = (method: CookingMethod): string => {
+    const transformations = getElementalTransformations(method);
+    const dominantElements = Object.entries(transformations)
+      .filter(([_, value]) => value > 0.4)
+      .sort(([_, a], [__, b]) => (b as number) - (a as number))
+      .slice(0, 2)
+      .map(([element, _]) => element);
     
-    const _elementalProps = method.elementalEffect || {
-      Fire: 0.25,
-      Water: 0.25,
-      Earth: 0.25,
-      Air: 0.25
-    };
-
-    // Use the same formulas as in the user's notepad and test endpoint
-    const heat = (Math.pow(alchemicalProps.Spirit, 2) + Math.pow(_elementalProps.Fire, 2)) /
-                 Math.pow(alchemicalProps.Substance + alchemicalProps.Essence + alchemicalProps.Matter + 
-                         _elementalProps.Water + _elementalProps.Air + _elementalProps.Earth, 2);
-    
-    const entropy = (Math.pow(alchemicalProps.Spirit, 2) + Math.pow(alchemicalProps.Substance, 2) + 
-                    Math.pow(_elementalProps.Fire, 2) + Math.pow(_elementalProps.Air, 2)) /
-                    Math.pow(alchemicalProps.Essence + alchemicalProps.Matter + _elementalProps.Earth + _elementalProps.Water, 2);
-    
-    const reactivity = (Math.pow(alchemicalProps.Spirit, 2) + Math.pow(alchemicalProps.Substance, 2) + 
-                       Math.pow(alchemicalProps.Essence, 2) + Math.pow(_elementalProps.Fire, 2) + 
-                       Math.pow(_elementalProps.Air, 2) + Math.pow(_elementalProps.Water, 2)) /
-                       Math.pow(alchemicalProps.Matter + _elementalProps.Earth, 2);
-    
-    const gregsEnergy = heat - (entropy * reactivity);
-    
-    // Simplified Kalchm calculation for display with safe values
-    const kalchm = (Math.pow(Math.max(0.001, alchemicalProps.Spirit), alchemicalProps.Spirit) * 
-                    Math.pow(Math.max(0.001, alchemicalProps.Essence), alchemicalProps.Essence)) /
-                   (Math.pow(Math.max(0.001, alchemicalProps.Matter), alchemicalProps.Matter) * 
-                    Math.pow(Math.max(0.001, alchemicalProps.Substance), alchemicalProps.Substance));
-
-    // Monica constant using the exact formula from user's notepad
-    const monicaConstant = kalchm > 0 && reactivity !== 0 && Math.log(kalchm) !== 0 ? 
-                          -gregsEnergy / (reactivity * Math.log(kalchm)) : 0;
-
-    let monicaClassification = 'Stable';
-    if (!isNaN(monicaConstant) && isFinite(monicaConstant)) {
-      if (Math.abs(monicaConstant) > 10) monicaClassification = 'Highly Transformative';
-      else if (Math.abs(monicaConstant) > 5) monicaClassification = 'Transformative';
-      else if (Math.abs(monicaConstant) > 1) monicaClassification = 'Moderately Active';
+    if (dominantElements.length === 0) {
+      return "Balanced elemental transformation";
+    } else if (dominantElements.length === 1) {
+      return `Primarily enhances ${dominantElements[0]} energy`;
+    } else {
+      return `Enhances ${dominantElements[0]} and ${dominantElements[1]} energies`;
     }
-
-    return {
-      kalchm,
-      monicaConstant,
-      monicaClassification,
-      heat,
-      entropy,
-      reactivity,
-      gregsEnergy
-    };
   };
   
   return (
@@ -371,7 +367,7 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
       >
         <h3 className={styles.title}>
           <Sparkles size={18} className={styles.titleIcon} />
-          <span className={styles.titleText}>Alchemical Cooking Methods</span>
+          <span className={styles.titleText}>🔥 Alchemical Cooking Methods</span>
           <span className={styles.titleCount}>({methods.length})</span>
         </h3>
         
@@ -434,74 +430,98 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
       
       {isExpanded && (
         <div className={styles['cooking-methods-content']}>
-          <div className={styles['methods-grid']}>
-            {displayMethods.map((method) => (
-              <div 
-                key={method.id} 
-                className={`${styles['method-card']} ${selectedMethodId === method.id ? styles.selected : ''}`}
-                onClick={() => onSelectMethod && onSelectMethod(method)}
-              >
-                <div className={styles['method-header']}>
-                  <h4 className={styles['method-name']}>{method.name}</h4>
-                  
-                  {method.score !== undefined && (
-                    <div className={`${styles['method-score']} ${getScoreClass(method.score)}`}>
-                      <span className={styles['score-value']}>{Math.round(method.score * 100)}%</span>
-                      <div className={styles['score-bar']}>
-                        <div className={styles['score-bar-fill']} style={{width: `${Math.round(method.score * 100)}%`}}></div>
+          {methods.length === 0 ? (
+            <div className={styles['no-methods']}>
+              <p>No cooking methods available. Please check your data sources.</p>
+            </div>
+          ) : (
+            <div className={styles['methods-grid']}>
+              {displayMethods.map((method) => (
+                <div 
+                  key={method.id} 
+                  className={`${styles['method-card']} ${selectedMethodId === method.id ? styles.selected : ''}`}
+                  onClick={() => onSelectMethod && onSelectMethod(method)}
+                >
+                  <div className={styles['method-header']}>
+                    <h4 className={styles['method-name']}>{method.name}</h4>
+                    
+                    {method.score !== undefined && (
+                      <div className={`${styles['method-score']} ${getScoreClass(method.score)}`}>
+                        <span className={styles['score-value']}>{Math.round(method.score * 100)}%</span>
+                        <div className={styles['score-bar']}>
+                          <div className={styles['score-bar-fill']} style={{width: `${Math.round(method.score * 100)}%`}}></div>
+                        </div>
                       </div>
-                    </div>
-                  )}
-                  
-                  {/* Show ingredient compatibility if available */}
-                  {ingredientCompatibility[method.id] !== undefined && (
-                    <div className={`${styles['ingredient-compatibility']} ${styles[getCompatibilityLabel(ingredientCompatibility[method.id]).className]}`}>
-                      <span>{getCompatibilityLabel(ingredientCompatibility[method.id]).label}</span>
-                      <span className={styles['compatibility-value']}>{Math.round(ingredientCompatibility[method.id] * 100)}%</span>
-                      <div className={styles['compatibility-bar']}>
-                        <div className={styles['compatibility-bar-fill']} style={{width: `${Math.round(ingredientCompatibility[method.id] * 100)}%`}}></div>
+                    )}
+                    
+                    {/* Show ingredient compatibility if available */}
+                    {ingredientCompatibility[method.id] !== undefined && (
+                      <div className={`${styles['ingredient-compatibility']} ${styles[getCompatibilityLabel(ingredientCompatibility[method.id]).className]}`}>
+                        <span>{getCompatibilityLabel(ingredientCompatibility[method.id]).label}</span>
+                        <span className={styles['compatibility-value']}>{Math.round(ingredientCompatibility[method.id] * 100)}%</span>
+                        <div className={styles['compatibility-bar']}>
+                          <div className={styles['compatibility-bar-fill']} style={{width: `${Math.round(ingredientCompatibility[method.id] * 100)}%`}}></div>
+                        </div>
                       </div>
-                    </div>
-                  )}
-                  
-                  {method.variations && method.variations.length > 0 && (
-                    <button 
-                      className={styles['toggle-variations']}
-                      onClick={(e) => toggleMethodExpanded(method.id, e)}
-                      aria-label={expandedMethods[method.id] ? "Collapse variations" : "Expand variations"}
-                    >
-                      <span className={styles['variations-count']}>{method.variations.length}</span>
-                      {expandedMethods[method.id] ? 
-                        <ChevronUp size={16} /> : 
-                        <ChevronDown size={16} />
-                      }
-                    </button>
-                  )}
-                </div>
-                
-                <p className={styles['method-description']}>{method.description}</p>
-                
-                {/* Always display elemental transformation capacity */}
-                <div className={styles['transformation-container']}>
-                  <div className={styles['transformation-header']}>
-                    <span>Elemental Transformations</span>
+                    )}
+                    
+                    {method.variations && method.variations.length > 0 && (
+                      <button 
+                        className={styles['toggle-variations']}
+                        onClick={(e) => toggleMethodExpanded(method.id, e)}
+                        aria-label={expandedMethods[method.id] ? "Collapse variations" : "Expand variations"}
+                      >
+                        <span className={styles['variations-count']}>{method.variations.length}</span>
+                        {expandedMethods[method.id] ? 
+                          <ChevronUp size={16} /> : 
+                          <ChevronDown size={16} />
+                        }
+                      </button>
+                    )}
                   </div>
-                  <div className={styles['elemental-transformations']}>
-                    {(() => {
-                      const transformations = getElementalTransformations(method);
-                      
-                      return Object.entries(transformations).map(([element, value]) => {
-                        const { direction, intensity } = getElementalDirection(value);
-                        const displayIntensity = Math.min(Math.round(intensity * 100), 100); // 0-100 range
+                  
+                  <p className={styles['method-description']}>{getMethodDescription(method)}</p>
+                  
+                  {/* Enhanced Elemental Transformations Display */}
+                  <div className={styles['transformation-container']}>
+                    <div className={styles['transformation-header']}>
+                      <Zap size={14} className={styles['transformation-icon']} />
+                      <span className={styles['transformation-title']}>Elemental Transformations</span>
+                      <span className={styles['transformation-description']}>
+                        {getElementalTransformationDescription(method)}
+                      </span>
+                    </div>
+                    <div className={styles['elemental-transformations']}>
+                      {(() => {
+                        const transformations = getElementalTransformations(method);
+                        const significantTransformations = Object.entries(transformations)
+                          .map(([element, value]) => {
+                            const { direction, intensity, description } = getElementalDirection(value);
+                            const displayIntensity = Math.min(Math.round(intensity * 100), 100);
+                            
+                            return {
+                              element,
+                              direction,
+                              intensity: displayIntensity,
+                              description,
+                              value
+                            };
+                          })
+                          .filter(item => item.intensity > 15 || item.direction !== 'neutral'); // Show significant changes
                         
-                        // Skip elements with no significant change
-                        if (direction === 'neutral') return null;
+                        if (significantTransformations.length === 0) {
+                          return (
+                            <div className={styles['no-transformations']}>
+                              <span className={styles['neutral-text']}>Balanced elemental approach</span>
+                            </div>
+                          );
+                        }
                         
-                        return (
+                        return significantTransformations.map(({ element, direction, intensity, description }) => (
                           <div 
                             key={element} 
                             className={`${styles['transformation-item']} ${styles[element.toLowerCase()]} ${styles[`transform-${direction}`]}`} 
-                            title={`${direction === 'increase' ? 'Increases' : 'Decreases'} ${element} by ${displayIntensity}%`}
+                            title={`${description} ${element} energy by ${intensity}%`}
                           >
                             <div className={styles['element-icon']}>
                               {element === 'Fire' && <Flame size={16} />}
@@ -517,229 +537,254 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
                               </div>
                             </div>
                             
-                            {displayIntensity > 0 && (
+                            {intensity > 0 && (
                               <span className={styles['intensity-value']}>
-                                {direction === 'increase' ? '+' : '-'}{displayIntensity}%
+                                {direction === 'increase' ? '+' : direction === 'decrease' ? '-' : ''}{intensity}%
                               </span>
                             )}
+                            
+                            <div className={styles['intensity-bar']}>
+                              <div 
+                                className={styles['intensity-bar-fill']} 
+                                style={{
+                                  width: `${intensity}%`,
+                                  backgroundColor: direction === 'increase' ? '#10b981' : direction === 'decrease' ? '#ef4444' : '#6b7280'
+                                }}
+                              ></div>
+                            </div>
                           </div>
-                        );
-                      }).filter(Boolean); // Filter out null items
-                    })()}
-                  </div>
-                </div>
-                
-                {/* Display alchemical properties with Monica constants */}
-                {method.alchemicalProperties && (
-                  <div className={styles['alchemical-properties']}>
-                    <div className={styles['alchemy-header']}>
-                      <Zap size={14} className={styles['alchemy-icon']} />
-                      <span>Alchemical Properties</span>
+                        ));
+                      })()}
                     </div>
-                    {getAlchemicalLabel(method) && (
-                      <div className={styles['alchemy-label']}>
-                        Primary: <span className={styles['alchemy-value']}>{getAlchemicalLabel(method)?.primary}</span>
-                        {getAlchemicalLabel(method)?.secondary && (
-                          <> | Secondary: <span className={styles['alchemy-value']}>{getAlchemicalLabel(method)?.secondary}</span></>
-                        )}
+                  </div>
+                  
+                  {/* Display alchemical properties with enhanced descriptions */}
+                  {method.alchemicalProperties && (
+                    <div className={styles['alchemical-properties']}>
+                      <div className={styles['alchemy-header']}>
+                        <Sparkles size={14} className={styles['alchemy-icon']} />
+                        <span className={styles['alchemy-title']}>Alchemical Properties</span>
                       </div>
-                    )}
-                    
-                    {/* Monica Constant Display */}
-                    {(() => {
-                      const enhancedInfo = getEnhancedMethodInfo(method);
-                      return (
-                        <div className={styles['monica-properties']}>
-                          <div className={styles['monica-header']}>
-                            <Sparkles size={12} className={styles['monica-icon']} />
-                            <span>Monica Analysis</span>
-                          </div>
-                          <div className={styles['monica-details']}>
-                            <div className={styles['monica-item']}>
-                              <span className={styles['monica-label']}>Constant:</span>
-                              <span className={styles['monica-value']}>
-                                {formatMonicaConstant(enhancedInfo.monicaConstant)}
-                              </span>
-                            </div>
-                            <div className={styles['monica-item']}>
-                              <span className={styles['monica-label']}>Class:</span>
-                              <span className={`${styles['monica-value']} ${styles[enhancedInfo.monicaClassification.toLowerCase().replace(/\s+/g, '-')]}`}>
-                                {enhancedInfo.monicaClassification}
-                              </span>
-                            </div>
-                            <div className={styles['monica-item']}>
-                              <span className={styles['monica-label']}>Kalchm:</span>
-                              <span className={styles['monica-value']}>
-                                {enhancedInfo.kalchm.toFixed(3)}
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    })()}
-                  </div>
-                )}
-                
-                {/* Show duration and suitable ingredients */}
-                <div className={styles['method-details']}>
-                  {method.duration && (
-                    <div className={styles['detail-item']}>
-                      <Clock size={14} className={styles['detail-icon']} />
-                      <span className={styles['detail-label']}>Duration:</span> 
-                      <span className={styles['detail-value']}>{method.duration.min}-{method.duration.max} min</span>
-                    </div>
-                  )}
-                  {method.suitable_for && method.suitable_for.length > 0 && (
-                    <div className={styles['detail-item']}>
-                      <List size={14} className={styles['detail-icon']} />
-                      <span className={styles['detail-label']}>Ideal for:</span> 
-                      <span className={styles['detail-value']}>
-                        {method.suitable_for.slice(0, 3).join(', ')}
-                        {method.suitable_for.length > 3 && '...'}
-                      </span>
-                    </div>
-                  )}
-                  {method.benefits && method.benefits.length > 0 && (
-                    <div className={styles['detail-item']}>
-                      <ThumbsUp size={14} className={styles['detail-icon']} />
-                      <span className={styles['detail-label']}>Benefits:</span> 
-                      <span className={styles['detail-value']}>
-                        {method.benefits.slice(0, 1).join(', ')}
-                        {method.benefits.length > 1 && '...'}
-                      </span>
-                    </div>
-                  )}
-                </div>
-                
-                {/* Show cultural variations if expanded */}
-                {method.variations && method.variations.length > 0 && expandedMethods[method.id] && (
-                  <div className={styles['variations-container']}>
-                    <h5 className={styles['variations-header']}>
-                      <Globe size={14} className={styles['variations-icon']} />
-                      Variations & Subcategories
-                    </h5>
-                    <div className={styles['variations-list']}>
-                      {method.variations.map((variation) => (
-                        <div 
-                          key={variation.id} 
-                          className={`${styles['variation-item']} ${selectedMethodId === variation.id ? styles.selected : ''}`}
-                          onClick={(e) => {
-                            e.stopPropagation(); // Prevent parent click
-                            onSelectMethod && onSelectMethod(variation);
-                          }}
-                        >
-                          <div className={styles['variation-header']}>
-                            <span className={styles['variation-name']}>{variation.name}</span>
-                            {variation.culturalOrigin && (
-                              <span className={styles['cultural-origin']}>{variation.culturalOrigin}</span>
-                            )}
-                            
-                            {/* Show ingredient compatibility for variations if available */}
-                            {ingredientCompatibility[variation.id] !== undefined && (
-                              <div className={`${styles['ingredient-compatibility']} ${styles.small} ${styles[getCompatibilityLabel(ingredientCompatibility[variation.id]).className]}`}>
-                                <span>{getCompatibilityLabel(ingredientCompatibility[variation.id]).label}</span>
-                                <span className={styles['compatibility-value']}>
-                                  {Math.round(ingredientCompatibility[variation.id] * 100)}%
-                                </span>
-                                <div className={styles['compatibility-bar']}>
-                                  <div className={styles['compatibility-bar-fill']} style={{width: `${Math.round(ingredientCompatibility[variation.id] * 100)}%`}}></div>
-                                </div>
-                              </div>
-                            )}
-                            
-                            {variation.score !== undefined && (
-                              <div className={`${styles['variation-score']} ${getScoreClass(variation.score)}`}>
-                                <span>{Math.round(variation.score * 100)}%</span>
-                                <div className={styles['score-bar']}>
-                                  <div className={styles['score-bar-fill']} style={{width: `${Math.round(variation.score * 100)}%`}}></div>
-                                </div>
-                              </div>
-                            )}
-                          </div>
+                      
+                      {/* Alchemical properties grid */}
+                      <div className={styles['alchemy-grid']}>
+                        {Object.entries(method.alchemicalProperties).map(([property, value]) => {
+                          const percentage = Math.round(value * 100);
+                          const intensity = Math.min(percentage, 100);
                           
-                          {/* Show elemental transformations for variations too */}
-                          {(variation.elementalEffect || variation.alchemicalProperties) && (
-                            <div className={styles['elemental-transformations-small']}>
-                              {(() => {
-                                const transformations = getElementalTransformations(variation);
-                                
-                                return Object.entries(transformations).map(([element, value]) => {
-                                  const { direction, intensity } = getElementalDirection(value);
-                                  const displayIntensity = Math.min(Math.round(intensity * 100), 100); // 0-100 range
-                                  
-                                  // Skip elements with no significant change
-                                  if (direction === 'neutral' || displayIntensity < 5) return null;
-                                  
-                                  return (
-                                    <div 
-                                      key={element} 
-                                      className={`${styles['transformation-item-small']} ${styles[element.toLowerCase()]} ${styles[`transform-${direction}`]}`} 
-                                      title={`${direction === 'increase' ? 'Increases' : 'Decreases'} ${element} by ${displayIntensity}%`}
-                                    >
-                                      <div className={styles['element-icon-small']}>
-                                        {element === 'Fire' && <Flame size={12} />}
-                                        {element === 'Water' && <Droplets size={12} />}
-                                        {element === 'Earth' && <Mountain size={12} />}
-                                        {element === 'Air' && <Wind size={12} />}
-                                      </div>
-                                      
-                                      <div className={styles['direction-indicator-small']}>
-                                        {direction === 'increase' ? <ArrowUp size={10} /> : <ArrowDown size={10} />}
-                                      </div>
-                                      
-                                      {displayIntensity > 0 && (
-                                        <span className={styles['intensity-value-small']}>
-                                          {direction === 'increase' ? '+' : '-'}{displayIntensity}%
-                                        </span>
-                                      )}
-                                    </div>
-                                  );
-                                }).filter(Boolean); // Filter out null items
-                              })()}
+                          return (
+                            <div key={property} className={styles['alchemy-item']}>
+                              <div className={styles['alchemy-property']}>
+                                <span className={styles['property-name']}>{property}</span>
+                                <span className={styles['property-value']}>{percentage}%</span>
+                              </div>
+                              <div className={styles['alchemy-bar']}>
+                                <div 
+                                  className={styles['alchemy-bar-fill']} 
+                                  style={{
+                                    width: `${intensity}%`,
+                                    backgroundColor: intensity > 70 ? '#10b981' : intensity > 40 ? '#f59e0b' : '#6b7280'
+                                  }}
+                                ></div>
+                              </div>
                             </div>
+                          );
+                        })}
+                      </div>
+                      
+                      {/* Alchemical summary */}
+                      {getAlchemicalLabel(method) && (
+                        <div className={styles['alchemy-summary']}>
+                          <span className={styles['summary-label']}>Primary Focus:</span>
+                          <span className={styles['summary-primary']}>{getAlchemicalLabel(method)?.primary}</span>
+                          {getAlchemicalLabel(method)?.secondary && (
+                            <>
+                              <span className={styles['summary-label']}>Secondary:</span>
+                              <span className={styles['summary-secondary']}>{getAlchemicalLabel(method)?.secondary}</span>
+                            </>
                           )}
                         </div>
-                      ))}
+                      )}
                     </div>
-                  </div>
-                )}
-                
-                {selectedMethodId === method.id && (
-                  <div className={styles['expanded-details']}>
-                    {/* Technical Tips Section */}
-                    <div className={styles['technical-tips']}>
-                      <div className={styles['section-header']}>
-                        <Info size={14} className={styles['section-icon']} />
-                        <span>Expert Technical Tips</span>
+                  )}
+                  
+                  {/* Show duration and suitable ingredients */}
+                  <div className={styles['method-details']}>
+                    {method.duration && (
+                      <div className={styles['detail-item']}>
+                        <Clock size={14} className={styles['detail-icon']} />
+                        <span className={styles['detail-label']}>Duration:</span> 
+                        <span className={styles['detail-value']}>
+                          {method.duration.min}-{method.duration.max} min
+                          {method.duration.max > 60 && (
+                            <span className={styles['duration-note']}> (slow method)</span>
+                          )}
+                          {method.duration.max <= 15 && (
+                            <span className={styles['duration-note']}> (quick method)</span>
+                          )}
+                        </span>
                       </div>
-                      <div className={styles['tips-grid']}>
-                        {getTechnicalTips(method.name).slice(0, 5).map((tip, index) => (
-                          <div key={index} className={styles['tip-item']}>
-                            {tip}
+                    )}
+                    {method.suitable_for && method.suitable_for.length > 0 && (
+                      <div className={styles['detail-item']}>
+                        <List size={14} className={styles['detail-icon']} />
+                        <span className={styles['detail-label']}>Ideal for:</span> 
+                        <div className={styles['suitable-ingredients']}>
+                          {method.suitable_for.slice(0, 4).map((ingredient, index) => (
+                            <span key={index} className={styles['ingredient-tag']}>{ingredient}</span>
+                          ))}
+                          {method.suitable_for.length > 4 && (
+                            <span className={styles['more-ingredients']}>+{method.suitable_for.length - 4} more</span>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                    {method.benefits && method.benefits.length > 0 && (
+                      <div className={styles['detail-item']}>
+                        <ThumbsUp size={14} className={styles['detail-icon']} />
+                        <span className={styles['detail-label']}>Benefits:</span> 
+                        <div className={styles['benefits-list']}>
+                          {method.benefits.slice(0, 2).map((benefit, index) => (
+                            <span key={index} className={styles['benefit-tag']}>{benefit}</span>
+                          ))}
+                          {method.benefits.length > 2 && (
+                            <span className={styles['more-benefits']}>+{method.benefits.length - 2} more</span>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  
+                  {/* Show cultural variations if expanded */}
+                  {method.variations && method.variations.length > 0 && expandedMethods[method.id] && (
+                    <div className={styles['variations-container']}>
+                      <h5 className={styles['variations-header']}>
+                        <Globe size={14} className={styles['variations-icon']} />
+                        Variations & Subcategories
+                      </h5>
+                      <div className={styles['variations-list']}>
+                        {method.variations.map((variation) => (
+                          <div 
+                            key={variation.id} 
+                            className={`${styles['variation-item']} ${selectedMethodId === variation.id ? styles.selected : ''}`}
+                            onClick={(e) => {
+                              e.stopPropagation(); // Prevent parent click
+                              onSelectMethod && onSelectMethod(variation);
+                            }}
+                          >
+                            <div className={styles['variation-header']}>
+                              <span className={styles['variation-name']}>{variation.name}</span>
+                              {variation.culturalOrigin && (
+                                <span className={styles['cultural-origin']}>{variation.culturalOrigin}</span>
+                              )}
+                              
+                              {/* Show ingredient compatibility for variations if available */}
+                              {ingredientCompatibility[variation.id] !== undefined && (
+                                <div className={`${styles['ingredient-compatibility']} ${styles.small} ${styles[getCompatibilityLabel(ingredientCompatibility[variation.id]).className]}`}>
+                                  <span>{getCompatibilityLabel(ingredientCompatibility[variation.id]).label}</span>
+                                  <span className={styles['compatibility-value']}>
+                                    {Math.round(ingredientCompatibility[variation.id] * 100)}%
+                                  </span>
+                                  <div className={styles['compatibility-bar']}>
+                                    <div className={styles['compatibility-bar-fill']} style={{width: `${Math.round(ingredientCompatibility[variation.id] * 100)}%`}}></div>
+                                  </div>
+                                </div>
+                              )}
+                              
+                              {variation.score !== undefined && (
+                                <div className={`${styles['variation-score']} ${getScoreClass(variation.score)}`}>
+                                  <span>{Math.round(variation.score * 100)}%</span>
+                                  <div className={styles['score-bar']}>
+                                    <div className={styles['score-bar-fill']} style={{width: `${Math.round(variation.score * 100)}%`}}></div>
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                            
+                            {/* Show elemental transformations for variations too */}
+                            {(variation.elementalEffect || variation.alchemicalProperties) && (
+                              <div className={styles['elemental-transformations-small']}>
+                                {(() => {
+                                  const transformations = getElementalTransformations(variation);
+                                  
+                                  return Object.entries(transformations).map(([element, value]) => {
+                                    const { direction, intensity } = getElementalDirection(value);
+                                    const displayIntensity = Math.min(Math.round(intensity * 100), 100); // 0-100 range
+                                    
+                                    // Skip elements with no significant change
+                                    if (direction === 'neutral' || displayIntensity < 5) return null;
+                                    
+                                    return (
+                                      <div 
+                                        key={element} 
+                                        className={`${styles['transformation-item-small']} ${styles[element.toLowerCase()]} ${styles[`transform-${direction}`]}`} 
+                                        title={`${direction === 'increase' ? 'Increases' : 'Decreases'} ${element} by ${displayIntensity}%`}
+                                      >
+                                        <div className={styles['element-icon-small']}>
+                                          {element === 'Fire' && <Flame size={12} />}
+                                          {element === 'Water' && <Droplets size={12} />}
+                                          {element === 'Earth' && <Mountain size={12} />}
+                                          {element === 'Air' && <Wind size={12} />}
+                                        </div>
+                                        
+                                        <div className={styles['direction-indicator-small']}>
+                                          {direction === 'increase' ? <ArrowUp size={10} /> : <ArrowDown size={10} />}
+                                        </div>
+                                        
+                                        {displayIntensity > 0 && (
+                                          <span className={styles['intensity-value-small']}>
+                                            {direction === 'increase' ? '+' : '-'}{displayIntensity}%
+                                          </span>
+                                        )}
+                                      </div>
+                                    );
+                                  }).filter(Boolean); // Filter out null items
+                                })()}
+                              </div>
+                            )}
                           </div>
                         ))}
                       </div>
                     </div>
-                    
-                    {/* Ideal Ingredients Section */}
-                    <div className={styles['ideal-ingredients']}>
-                      <div className={styles['section-header']}>
-                        <List size={14} className={styles['section-icon']} />
-                        <span>Ideal Ingredients</span>
+                  )}
+                  
+                  {selectedMethodId === method.id && (
+                    <div className={styles['expanded-details']}>
+                      {/* Technical Tips Section */}
+                      <div className={styles['technical-tips']}>
+                        <div className={styles['section-header']}>
+                          <Info size={14} className={styles['section-icon']} />
+                          <span>Expert Technical Tips</span>
+                        </div>
+                        <div className={styles['tips-grid']}>
+                          {getTechnicalTips(method.name).slice(0, 5).map((tip, index) => (
+                            <div key={index} className={styles['tip-item']}>
+                              {tip}
+                            </div>
+                          ))}
+                        </div>
                       </div>
-                      <div className={styles['ingredients-grid']}>
-                        {getIdealIngredients(method.name).slice(0, 8).map((ingredient, index) => (
-                          <div key={index} className={styles['ingredient-item']}>
-                            {ingredient}
-                          </div>
-                        ))}
+                      
+                      {/* Ideal Ingredients Section */}
+                      <div className={styles['ideal-ingredients']}>
+                        <div className={styles['section-header']}>
+                          <List size={14} className={styles['section-icon']} />
+                          <span>Ideal Ingredients</span>
+                        </div>
+                        <div className={styles['ingredients-grid']}>
+                          {getIdealIngredients(method.name).slice(0, 8).map((ingredient, index) => (
+                            <div key={index} className={styles['ingredient-item']}>
+                              {ingredient}
+                            </div>
+                          ))}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
           
           {/* Show more/less button */}
           {methods.length > 8 && (
@@ -760,6 +805,4 @@ export const CookingMethodsSection: React.FC<CookingMethodsProps> = ({
       )}
     </div>
   );
-};
-
-// Remove default export to avoid webpack chunk loading issues 
+}; 

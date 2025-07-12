@@ -222,20 +222,6 @@ export default function Home() {
                   <div className="text-red-500 text-center py-4">
                     Error loading cooking methods: {cookingMethodsError}
                   </div>
-                ) : astroError ? (
-                  <div className="text-yellow-600 text-center py-4 mb-4">
-                    <p>Astrological data unavailable, showing basic cooking methods:</p>
-                    <CookingMethodsSection
-                      methods={cookingMethods}
-                      onSelectMethod={(method) => {
-                        setSelectedCookingMethodId(method.id);
-                        selectMethod(method.id);
-                      }}
-                      selectedMethodId={selectedCookingMethodId}
-                      showToggle={true}
-                      initiallyExpanded={true}
-                    />
-                  </div>
                 ) : (
                   <CookingMethodsSection
                     methods={cookingMethods}

@@ -13,8 +13,8 @@ interface Ingredient {
 // Display a list of ingredient recommendations based on astrological state
 export default function IngredientDisplay() {
   const astroData = useAstrologicalState();
-  const elementalProperties = (astroData as unknown)?.elementalProperties || (astroData as unknown)?.state?.elementalProperties;
-  const planetaryPositions = (astroData as unknown)?.planetaryPositions || (astroData as unknown)?.positions;
+  const elementalProperties = (astroData as any)?.elementalProperties || (astroData as any)?.state?.elementalProperties;
+  const planetaryPositions = (astroData as any)?.planetaryPositions || (astroData as any)?.positions;
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -32,7 +32,7 @@ export default function IngredientDisplay() {
         if (elementalProperties) {
           const recommendations = ingredientService.getRecommendedIngredients(
             _elementalProperties,
-            { maxResults: 6, sortByScore: true } as unknown
+            { maxResults: 6, sortByScore: true } as any
           );
           
           // Convert to component interface
@@ -59,7 +59,7 @@ export default function IngredientDisplay() {
               category: ing.category,
               element: dominantElement,
               energyLevel: ing.kalchm ? Math.min(1, ing.kalchm / 2) : 0.6,
-              score: (ing as unknown).score || 0.8
+              score: (ing as any).score || 0.8
             };
           });
           

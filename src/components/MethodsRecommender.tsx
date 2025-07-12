@@ -49,7 +49,7 @@ export default function MethodsRecommender() {
       // PlanetaryAlignment may use either lowercase (moon) or capitalized (Moon)
       // keys depending on the data source.  Normalize by casting to a generic
       // record and falling back through the possible keys.
-      const alignmentData = currentPlanetaryAlignment as unknown as Record<string, any>;
+      const alignmentData = currentPlanetaryAlignment as any;
       const moonData = alignmentData.moon ?? alignmentData.Moon ?? {};
       const sunData = alignmentData.sun ?? alignmentData.Sun ?? {};
       
@@ -112,13 +112,13 @@ export default function MethodsRecommender() {
             name: methodName.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase()), // Capitalize words
             description: methodInfo?.description as any || 'A cooking method that transforms food with heat, moisture, or chemical processes.',
             score: adjustedScore,
-            elementalEffect: (methodInfo as unknown)?.elementalEffect || (methodInfo as unknown)?.elementalProperties,
-            duration: methodInfo?.duration as unknown,
+            elementalEffect: (methodInfo as any)?.elementalEffect || (methodInfo as any)?.elementalProperties,
+            duration: methodInfo?.duration as any,
             suitable_for: methodInfo?.suitable_for as any || [],
-            benefits: (methodInfo as unknown)?.benefits || [],
-            astrologicalInfluences: methodInfo?.astrologicalInfluences as unknown,
+            benefits: (methodInfo as any)?.benefits || [],
+            astrologicalInfluences: methodInfo?.astrologicalInfluences as any,
             toolsRequired: methodInfo?.toolsRequired as any
-          } as unknown;
+          } as any;
         })
         .sort((a, b) => b.score - a.score);
       

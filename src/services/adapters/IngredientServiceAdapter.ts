@@ -78,7 +78,7 @@ export class EnhancedIngredientSystem {
         {
           optimizeForSeason: true,
           maxResults: options.maxResults || 10
-        } as unknown
+        } as any
       );
       
       // Apply additional filters
@@ -89,7 +89,7 @@ export class EnhancedIngredientSystem {
       const currentSeason = optionsData?.currentSeason;
       if (currentSeason) {
         filtered = filtered.filter(ingredient => {
-          const seasons = (ingredient as unknown).season || (ingredient as unknown).seasonality || [];
+          const seasons = (ingredient as any).season || (ingredient as any).seasonality || [];
           const seasonArray = Array.isArray(seasons) ? seasons : [seasons];
           return seasonArray.some(s => typeof s === 'string' && 
                                        s?.toLowerCase() === currentSeason?.toLowerCase());
@@ -99,8 +99,8 @@ export class EnhancedIngredientSystem {
       // Filter by zodiac sign if specified
       if (options.currentZodiacSign) {
         filtered = filtered.filter(ingredient => {
-          const zodiac = (ingredient as unknown).astrologicalPropertiesProfile?.zodiacAffinity || 
-                        (ingredient as unknown).astrologicalPropertiesProfile?.favorableZodiac || [];
+          const zodiac = (ingredient as any).astrologicalPropertiesProfile?.zodiacAffinity || 
+                        (ingredient as any).astrologicalPropertiesProfile?.favorableZodiac || [];
           const zodiacArray = Array.isArray(zodiac) ? zodiac : [zodiac];
           return zodiacArray.some(z => typeof z === 'string' && 
                                        z?.toLowerCase() === options.currentZodiacSign?.toLowerCase());
