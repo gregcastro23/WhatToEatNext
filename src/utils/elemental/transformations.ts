@@ -16,11 +16,15 @@ import { normalizeProperties, calculateDominantElement } from './core';
 
 import { AlchemicalProperties } from "@/types/alchemy";
 
-// Missing elemental and alchemical item types
+// Use available base item types instead of missing ElementalItem/AlchemicalItem
 import type { 
-  ElementalItem,
-  AlchemicalItem 
+  BaseItem,
+  IngredientItem 
 } from '@/types/items';
+
+// Create type aliases for compatibility
+export type ElementalItem = BaseItem;
+export type AlchemicalItem = BaseItem;
 
 
 // --- Types ---

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, SetStateAction } from 'react';
 import {
   Card, CardContent, CardActions,
   Typography, Button, Chip, Grid,
@@ -398,10 +398,10 @@ export default function RecipeListMigrated() {
     if (recipes?.length > 0) {
       const enhanced = recipes.map(recipe => ({
         ...recipe,
-        score: calculateRecipeScore((recipe as EnhancedRecipe), (astroData as EnhancedRecipe)),
-        matchPercentage: calculateRecipeScore((recipe as EnhancedRecipe), (astroData as EnhancedRecipe))?.total || 0
+        score: calculateRecipeScore(recipe as any, astroData as any),
+        matchPercentage: calculateRecipeScore(recipe as any, astroData as any)?.total || 0
       }));
-      setEnhancedRecipes((enhanced as SetStateAction<EnhancedRecipe[]>));
+      setEnhancedRecipes(enhanced as any);
     }
   }, [recipes, astroData]);
 
@@ -518,7 +518,7 @@ export default function RecipeListMigrated() {
       const responseData = response as Record<string, unknown>;
       
       if (responseData?.success) {
-        setRecipes(((responseData.data as unknown as SetStateAction<Recipe[]>)) || []);
+        setRecipes((responseData.data as Recipe[]) || []);
         
         const metadataRecord = responseData?.metadata as Record<string, unknown>;
         if (metadataRecord) {

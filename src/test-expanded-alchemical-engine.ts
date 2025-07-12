@@ -123,28 +123,29 @@ const testHoroscopeData = {
 };
 
 async function runComprehensiveTests() {
-  console.log('🧪 Starting Comprehensive Alchemical Engine Tests\n');
+  // Test logging - replace with proper test framework
+  // console.log('🧪 Starting Comprehensive Alchemical Engine Tests\n');
 
   try {
     // Test 1: Basic Astro-Cuisine Match
-    console.log('📊 Test 1: Basic Astro-Cuisine Match');
+    // console.log('📊 Test 1: Basic Astro-Cuisine Match');
     const basicMatch = await alchemicalEngine.calculateAstroCuisineMatch(
       testRecipeElements,
       testAstrologicalState,
       'spring',
       'italian'
     );
-    console.log('Basic Match Results:', {
-      compatibility: basicMatch.compatibility.toFixed(4),
-      astrologicalPower: basicMatch.astrologicalPower.toFixed(4),
-      seasonalAlignment: basicMatch.seasonalAlignment.toFixed(4),
-      recommendationsCount: basicMatch.recommendations  || [].length,
-    });
-    console.log('Sample Recommendations:', basicMatch.recommendations?.slice(0, 3));
-    console.log('✅ Basic match test completed\n');
+    // console.log('Basic Match Results:', {
+    //   compatibility: basicMatch.compatibility.toFixed(4),
+    //   astrologicalPower: basicMatch.astrologicalPower.toFixed(4),
+    //   seasonalAlignment: basicMatch.seasonalAlignment.toFixed(4),
+    //   recommendationsCount: basicMatch.recommendations  || [].length,
+    // });
+    // console.log('Sample Recommendations:', basicMatch.recommendations?.slice(0, 3));
+    // console.log('✅ Basic match test completed\n');
 
     // Test 2: Advanced Recipe Harmony Analysis
-    console.log('🔬 Test 2: Advanced Recipe Harmony Analysis');
+    // console.log('🔬 Test 2: Advanced Recipe Harmony Analysis');
     const advancedHarmony = await alchemicalEngine.calculateAdvancedRecipeHarmony(
       'Pasta Primavera',
       testUserElements,

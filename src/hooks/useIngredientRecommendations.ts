@@ -1,7 +1,14 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useAlchemical } from './useAlchemical';
-import { type IngredientRecommendation } from '@/types/ingredient';
-import { _Element, type _ElementalProperties } from '@/types/alchemy';
+// Define IngredientRecommendation type locally
+export interface IngredientRecommendation {
+  ingredient: Ingredient;
+  score: number;
+  reason: string;
+  elementalMatch: number;
+}
+
+import { Element, type ElementalProperties } from '@/types/alchemy';
 
 export interface Ingredient {
   id: string;

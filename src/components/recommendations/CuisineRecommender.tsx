@@ -50,7 +50,7 @@ interface MatchingResult {
 
 'use client';
 
-import { useState, useEffect, useMemo, useRef } from 'react';
+import { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { useAstrologicalState } from '../../hooks/useAstrologicalState';
 import { Flame,
   Droplets,
@@ -396,8 +396,8 @@ export default function CuisineRecommender() {
     loadRecipes();
   }, []);
 
-  // Move the async function outside the useEffect
-  async function loadCuisines() {
+  // Move the async function outside the useEffect and wrap in useCallback
+  const loadCuisines = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -443,7 +443,7 @@ export default function CuisineRecommender() {
       setError('Failed to load cuisine recommendations. Please try again.');
       setLoading(false);
     }
-  }
+  }, [state, planetaryPositions, trackEvent]);
 
   const handleCuisineSelect = (cuisineId: string) => {
     // console.log(`Cuisine selected: ${cuisineId}`);

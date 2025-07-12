@@ -8,19 +8,16 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const nextConfig = {
   reactStrictMode: true,
   eslint: {
-    // Warning: This allows production builds to successfully complete even if
-    // your project has ESLint errors.
-    ignoreDuringBuilds: true,
+    // ESLint errors will now fail builds - ensuring code quality
+    ignoreDuringBuilds: false,
   },
   experimental: {
     typedRoutes: true,
   },
   typescript: {
-    // !! WARN !!
-    // Dangerously allow production builds to successfully complete even if
-    // your project has type errors.
-    // !! WARN !!
-    ignoreBuildErrors: true,
+    // TypeScript errors will now fail builds - ensuring type safety
+    // We'll gradually enable this as we fix errors
+    ignoreBuildErrors: false,
   },
   output: 'standalone', // This will optimize for production deployment
   transpilePackages: [

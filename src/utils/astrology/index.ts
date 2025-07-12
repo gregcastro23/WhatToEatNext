@@ -14,8 +14,7 @@ export {
   getmoonIllumination,
   getCurrentAstrologicalState,
   calculateElementalProfile,
-  calculateAspects,
-  getCurrentTransitSign
+  calculateAspects
 } from './core';
 
 export * from './positions';
@@ -23,7 +22,6 @@ export * from './positions';
 // Re-export validation functions
 export {
   validatePlanetaryPositions,
-  validateAstrologicalData,
   safeCalculatePlanetaryAspects
 } from './validation';
 

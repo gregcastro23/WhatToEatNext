@@ -20,10 +20,10 @@ const ChromeAPITest = () => {
           create: function(options) {
             console.log('Mock chrome.tabs.create called with:', _options);
             try {
-              window.open((options as unknown)?.url || 'about:blank', '_blank');
+              window.open((options as any)?.url || 'about:blank', '_blank');
               return Promise.resolve({id: 999, url: options?.url});
             } catch (e) {
-              console.warn('Error opening URL:', (e as unknown)?.message);
+              console.warn('Error opening URL:', (e as any)?.message);
               return Promise.reject(e);
             }
           }

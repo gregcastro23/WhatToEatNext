@@ -5,10 +5,11 @@
 export type { 
   Ingredient,
   CookingMethod,
-  ElementalProperties,
-  AlchemicalProperties,
   ThermodynamicProperties
 } from './types';
+
+// Import ElementalProperties and AlchemicalProperties from correct location
+export type { ElementalProperties, AlchemicalProperties } from '../../types/alchemy';
 
 // Re-export specific data from index module (avoiding conflicts)
 export { 
@@ -41,7 +42,8 @@ export * from './elementalProperties';
 import * as ingredientData from './index';
 export default ingredientData;
 
-import { ElementalProperties, IngredientCategory, AlchemicalProperties , Season, zodiacElements } from '../../types/alchemy';
+import { ElementalProperties, AlchemicalProperties, Season } from '../../types/alchemy';
+import { IngredientCategory } from './types';
 import { 
   calculateAlchemicalNumber,
   calculateAlchemicalNumberCompatibility,
@@ -62,7 +64,7 @@ import { calculateElementalCompatibility } from '../../utils/elemental/elemental
  * 
  * @usage Internal utility for compatibility analysis
  */
-function calculateIngredientCompatibility(ingredient1: Ingredient, ingredient2: Ingredient): number {
+function calculateIngredientCompatibility(ingredient1: any, ingredient2: any): number {
   let score = 0;
   let factors = 0;
 
@@ -111,7 +113,7 @@ function calculateIngredientCompatibility(ingredient1: Ingredient, ingredient2: 
  * @param ingredient2 - Second ingredient
  * @returns A# alignment score (0-1)
  */
-function calculateIngredientAlchemicalAlignment(ingredient1: Ingredient, ingredient2: Ingredient): number {
+function calculateIngredientAlchemicalAlignment(ingredient1: any, ingredient2: any): number {
   try {
     // Derive alchemical properties from elemental properties
     const alchemical1 = deriveAlchemicalFromElemental(ingredient1.elementalProperties);
@@ -138,7 +140,7 @@ function calculateIngredientAlchemicalAlignment(ingredient1: Ingredient, ingredi
  * Calculate pairing compatibility between two ingredients
  * Based on traditional culinary pairings and flavor harmony
  */
-function calculatePairingCompatibility(ingredient1: Ingredient, ingredient2: Ingredient): number | null {
+function calculatePairingCompatibility(ingredient1: any, ingredient2: any): number | null {
   // For now, return null to indicate no pairing data available
   // This can be enhanced with actual pairing data in the future
   return null;

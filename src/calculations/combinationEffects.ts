@@ -184,7 +184,8 @@ const isAntagonisticCombination = (
   elem1: ElementalProperties,
   elem2: ElementalProperties
 ): boolean => {
-  const antagonistic = ELEMENT_COMBINATIONS.antagonistic || [];
+  // No antagonistic combinations defined, use empty array as fallback
+  const antagonistic: [Element, Element][] = [];
   return antagonistic.some(([e1, e2]: [any, any]) =>
     (getDominantElement(elem1) === e1 && getDominantElement(elem2) === e2) ||
     (getDominantElement(elem1) === e2 && getDominantElement(elem2) === e1)

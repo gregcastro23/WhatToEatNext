@@ -17,7 +17,7 @@ export const proteins = {
   ...legumes,
   ...eggs,
   ...dairy
-} as IngredientMapping;
+} as unknown as IngredientMapping;
 
 // Export individual categories
 export {
