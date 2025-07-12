@@ -313,7 +313,7 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
       
       // Use existing utility function
       const cuisineRecommendations = await getCuisineRecommendations({
-        elements: elementalState as unknown as import('@/types/alchemy').ElementalProperties,
+        elements: elementalState as any,
         planetaryPositions: criteria.planetaryPositions,
         limit: criteria.limit
       });
@@ -370,7 +370,7 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
       
       // Transform to standardized result format - return CookingMethod objects
       const items: CookingMethod[] = (methodRecommendations || []).map(method => {
-        const methodData = method as unknown as Record<string, unknown>;
+        const methodData = method as any;
         return {
           id: methodData?.id as string || methodData?.name as string || 'unknown',
           name: methodData?.name as string || 'Unknown Method',
@@ -385,7 +385,7 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
       // Calculate scores - safe property access
       const scores: { [key: string]: number } = {};
       methodRecommendations.forEach((method, index) => {
-        const methodData = method as unknown as Record<string, unknown>;
+        const methodData = method as any;
         const methodName = methodData?.name as string || items[index]?.name;
         const methodScore = methodData?.score as number || 0.5;
         if (methodName) {
@@ -427,7 +427,7 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
    * Calculate compatibility score between elemental properties
    */
   calculateElementalCompatibility(source: ElementalProperties, target: ElementalProperties): number {
-    return calculateElementalCompatibility(source as unknown as Partial<ElementalProperties>, target);
+    return calculateElementalCompatibility(source as any, target);
   }
 
   /**

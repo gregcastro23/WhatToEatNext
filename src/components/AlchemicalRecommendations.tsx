@@ -432,12 +432,12 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
           <div className="elemental-balance">
             <h3>Elemental Balance</h3>
             <div className="balance-bars">
-              {Object.entries(energeticProfile.elementalBalance as unknown).map(([element, value]: [string, any]) => (
+              {Object.entries(energeticProfile.elementalBalance as any).map(([element, value]: [string, any]) => (
                 <div key={element} className="balance-bar">
                   <span className="element-label">{element}</span>
                   <div className="bar-container">
                     <div 
-                      className={`bar-fill ${(element as string)?.toLowerCase?.() || ''}`} 
+                      className={`bar-fill ${String(element || '').toLowerCase()}`} 
                       style={{ width: `${Math.min(100, value * 100)}%` }}
                     />
                   </div>
@@ -453,7 +453,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
                   <span className="property-label">{property}</span>
                   <div className="bar-container">
                     <div 
-                      className={`bar-fill ${(property as string)?.toLowerCase?.() || ''}`} 
+                      className={`bar-fill ${String(property || '').toLowerCase()}`} 
                       style={{ width: `${Math.min(100, value * 100)}%` }}
                     />
                   </div>

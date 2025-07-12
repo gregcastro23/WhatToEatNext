@@ -331,7 +331,7 @@ export class IngredientService implements IngredientServiceInterface {
         // Apply elemental filter if specified
         if (filter.elemental) {
           // Apply Pattern A: Safe type casting for elemental filter parameter compatibility
-          filtered = this.applyElementalFilterUnified(filtered, filter.elemental as unknown);
+          filtered = this.applyElementalFilterUnified(filtered, filter.elemental as any);
         }
 
         // Apply dietary filter if specified

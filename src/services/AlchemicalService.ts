@@ -176,7 +176,7 @@ export class AlchemicalService {
       const lunarPhase = await _calculateLunarPhase(new Date());
       
       // Convert to format expected by adapter
-      const lunarPhaseFormatted = convertToLunarPhase(lunarPhase as unknown as string) as LunarPhaseWithSpaces;
+      const lunarPhaseFormatted = convertToLunarPhase(lunarPhase as any) as LunarPhaseWithSpaces;
       
       // Calculate if it's currently daytime
       const now = new Date();
@@ -188,7 +188,7 @@ export class AlchemicalService {
       const currentZodiac = sunPosition?.sign || null;
       
       // Set properties
-      this.planetPositions = positions as unknown as Record<string, PlanetaryPosition>;
+      this.planetPositions = positions as any;
       this.isDaytime = isDaytime;
       this.currentZodiac = currentZodiac as ZodiacSign;
       this.lunarPhase = lunarPhaseFormatted;
@@ -294,10 +294,10 @@ export class AlchemicalService {
   getTransformedIngredients(): AlchemicalItem[] {
     return transformIngredients(
       this.ingredients,
-      this.planetPositions as unknown as Record<RulingPlanet, number>,
+      this.planetPositions as any,
       this.isDaytime,
       this.currentZodiac,
-      this.lunarPhase as unknown as LunarPhaseWithSpaces
+      this.lunarPhase as any
     );
   }
   
@@ -307,10 +307,10 @@ export class AlchemicalService {
   getTransformedCookingMethods(): AlchemicalItem[] {
     return transformCookingMethods(
       this.cookingMethods,
-      this.planetPositions as unknown as Record<RulingPlanet, number>,
+      this.planetPositions as any,
       this.isDaytime,
       this.currentZodiac,
-      this.lunarPhase as unknown as LunarPhaseWithSpaces
+      this.lunarPhase as any
     );
   }
   
@@ -320,10 +320,10 @@ export class AlchemicalService {
   getTransformedCuisines(): AlchemicalItem[] {
     return transformCuisines(
       this.cuisines,
-      this.planetPositions as unknown as Record<RulingPlanet, number>,
+      this.planetPositions as any,
       this.isDaytime,
       this.currentZodiac,
-      this.lunarPhase as unknown as LunarPhaseWithSpaces
+      this.lunarPhase as any
     );
   }
   
@@ -396,7 +396,7 @@ export class AlchemicalService {
     const dominantElement = this.getDominantElement(properties);
     
     // Apply safe type casting for profile property access
-    const profileData = profile as unknown;
+    const profileData = profile as any;
 
     return {dominantElement,
       cookingTechniques: [], // elementalUtils.getSuggestedCookingTechniques(properties),
@@ -404,7 +404,7 @@ export class AlchemicalService {
       flavorProfiles: profileData?.characteristics?.flavorProfiles || [],
       healthBenefits: profileData?.characteristics?.healthBenefits || [],
       timeOfDay: profileData?.characteristics?.timeOfDay || [],
-      seasonalBest: this.getSeasonalRecommendations(dominantElement as unknown),
+      seasonalBest: this.getSeasonalRecommendations(dominantElement as any),
       moodEffects: profileData?.characteristics?.moodEffects || [],
       culinaryHerbs: profileData?.characteristics?.culinaryHerbs || []
     };

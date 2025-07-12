@@ -16,7 +16,7 @@ export class ThermodynamicCalculator {
             let weight = 1; // Default weight
             
             // Extract ingredient data with safe property access
-            const ingredientData = ingredient as unknown;
+            const ingredientData = ingredient as any;
             const spiciness = ingredientData?.spiciness;
             const elementalProperties = (ingredientData as any)?.elementalProperties;
             const cookingTemperature = ingredientData?.cookingTemperature;
@@ -65,7 +65,7 @@ export class ThermodynamicCalculator {
         const categories = new Set();
         ingredients.forEach(ingredient => {
             // Extract ingredient data with safe property access
-            const ingredientData = ingredient as unknown;
+            const ingredientData = ingredient as any;
             const category = ingredientData?.category;
             const fermented = ingredientData?.fermented;
             const complexity = ingredientData?.complexity;
@@ -117,7 +117,7 @@ export class ThermodynamicCalculator {
             let weight = 1; // Default weight
             
             // Extract ingredient data with safe property access
-            const ingredientData = ingredient as unknown;
+            const ingredientData = ingredient as any;
             const pH = ingredientData?.pH;
             const alcoholContent = ingredientData?.alcoholContent;
             const enzymeActivity = ingredientData?.enzymeActivity;

@@ -19,7 +19,7 @@ function getRecommendations(
   const astroData = useAstrologicalState();
   
   // Apply safe type casting for astrological data access
-  const astroState = astroData as unknown as Record<string, unknown>;
+  const astroState = astroData as any;
   const planetaryPositions = astroState?.planetaryPositions;
   const moonPhase = astroState?.moonPhase;
   const aspects = astroState?.aspects;
@@ -51,7 +51,7 @@ function getRecommendations(
   };
   
   // Use the proper utility function with the actual data
-  return getIngredientRecommendations(astroStateData as unknown, _options);
+  return getIngredientRecommendations(astroStateData as any, _options);
 }
 
 interface IngredientRecommendationsProps {
@@ -138,7 +138,7 @@ export default function IngredientRecommendations({
     };
     
     // Format the match percentage from score
-    const ingredientData = ingredient as unknown as Record<string, unknown>;
+    const ingredientData = ingredient as any;
     const matchPercentage = ingredientData?.score !== undefined && !isNaN(Number(ingredientData?.score)) 
       ? `${Math.round(Number(ingredientData?.score) * 100)}%`
       : '50%';
@@ -206,7 +206,7 @@ export default function IngredientRecommendations({
         <div className="flavor-profile">
           <h4>Flavor Profile</h4>
           {(() => {
-            const ingredientData = ingredient as unknown as Record<string, unknown>;
+            const ingredientData = ingredient as any;
             const sensoryProfile = ingredientData?.sensoryProfile;
             return sensoryProfile ? (
               <div className={styles.sensoryHighlights}>
@@ -277,7 +277,7 @@ export default function IngredientRecommendations({
   // Display a compact ingredient card
   const renderCompactIngredientCard = (ingredient: IngredientRecommendation) => {
     // Apply safe type casting for ingredient access
-    const ingredientData = ingredient as unknown as Record<string, unknown>;
+    const ingredientData = ingredient as any;
     const score = ingredientData?.score;
     
     // Get elemental properties

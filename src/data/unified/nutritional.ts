@@ -496,8 +496,8 @@ export class UnifiedNutritionalSystem {
       },
       astrologicalProfile: {
         rulingPlanets: ['Sun'] as PlanetName[],
-        favorableZodiac: ['Leo'] as unknown as ZodiacSign[],
-        seasonalPeak: ['Summer'] as unknown as Season[],
+        favorableZodiac: ['Leo'] as any,
+        seasonalPeak: ['Summer'] as any,
         elementalAffinity: _createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 })
       },
       metadata: {

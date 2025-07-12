@@ -1075,7 +1075,7 @@ export function calculateCompleteAstrologicalEffects(
   const stelliumEffects = calculateEnhancedStelliumEffects(planetPositions, risingDegree);
   
   // Calculate house effects
-  const houseEffects = calculateAllHouseEffects(planetPositions as unknown, {}); // Use type assertion
+  const houseEffects = calculateAllHouseEffects(planetPositions as any, {});
   
   // Calculate joy effects
   const joyEffects = calculateJoyEffects(planetPositions, risingDegree);
@@ -2247,9 +2247,9 @@ export function transformItemsWithPlanetaryPositions(
         transformations: calculateElementalTransformations(
           item.elementalProperties,
           currentElementalInfluence
-        ) as unknown,
+        ) as any,
         seasonalResonance: calculateSeasonalResonance(dominantElement)
-      } as unknown as AlchemicalItem;
+      } as AlchemicalItem;
 
       return alchemicalItem;
     });
@@ -2291,7 +2291,7 @@ export function transformItemsWithPlanetaryPositions(
         },
         transformations: [],
         seasonalResonance: []
-      } as unknown as AlchemicalItem;
+      } as AlchemicalItem;
     });
   }
 }
