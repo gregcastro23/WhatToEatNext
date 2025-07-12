@@ -1,88 +1,117 @@
-# Next Session Handoff Prompt
+# WhatToEatNext - Next Session Continuation Prompt
 
-## Session Handoff Summary (Generated: 2025-07-12 15:35:02)
+## 🎯 Current State: Phase 13 TypeScript Error Elimination
 
-### Project: WhatToEatNext - Culinary Astrological Recommendation System
+### Immediate Status
+- **Build**: ✅ Passing (Next.js 15.3.4 with TypeScript 5.1.6)
+- **Errors Remaining**: 311 TypeScript errors (down from 5,000+ historically)
+- **Branch**: `cancer` with Phase 12 completed
+- **Working Directory**: `/Users/GregCastro/Desktop/WhatToEatNext`
 
-#### Current Technical State
-- **TypeScript Errors**: 357 (down from 5,000+ through systematic campaigns)
-- **Build Status**: ✅ PASSING
-- **Git Status**: Branch: cancer, Modified files: 35
-- **Production Ready**: ✅ Yes, fully deployable
+### Current Error Landscape
 
-#### Major Achievements This Session
-1. **Complete Syntax Error Elimination**: Fixed all TS1005, TS1109, TS1128, TS1011 errors
-2. **Build Stability Maintained**: 100% throughout all error reduction work
-3. **Type Safety Improvements**: Enhanced property access patterns and error handling
-4. **Documentation Systems**: Updated all tracking and handoff systems
-
-#### Current System Status
-- **Framework**: Next.js 15.3.4 with TypeScript 5.1.6 ✅
-- **Package Manager**: Yarn 1.22+ (configured correctly) ✅
-- **Node Version**: 23.11.0 (exceeds minimum 20.18.0) ✅
-- **Build System**: Fully operational ✅
-- **Error Reduction**: 99%+ reduction achieved ✅
-
-#### Key Development Context
-**Working Directory**: `/Users/GregCastro/Desktop/WhatToEatNext`
-**Primary Branch**: `cancer` (active development)
-**Base Branch**: `master` (for PRs)
-
-#### Essential Project Principles
-1. **Alchemical Elements**: Fire, Water, Earth, Air work in harmony (no oppositions)
-2. **Build-First Approach**: Never break production builds
-3. **Systematic Error Reduction**: Use proven patterns and safety protocols
-4. **Type Safety**: Continuous improvement while maintaining functionality
-
-#### Available Development Tools
-```bash
-# Error Analysis
-make errors              # Current TypeScript error count and types
-make errors-detail       # Detailed error breakdown
-make errors-by-file      # Errors organized by file
-
-# Build and Development
-make build              # Production build test
-make dev                # Development server
-make check              # TypeScript checking
-
-# Documentation
-./scripts/doc-update.sh # Update all project documentation
+#### Priority Targets for Elimination
+```
+TS2339 Property Access:    ~100 errors (highest priority)
+TS2322 Type Assignment:    ~50 errors  
+TS2345 Argument Types:     ~45 errors
+TS2352 Type Conversion:    ~20 errors
+TS2552 Missing Variables:  ~15 errors
+TS2740 Promise Types:      ~10 errors
 ```
 
-#### Current Priorities for Next Session
-1. **Continue TypeScript Error Reduction**: Focus on TS2339 property access errors
-2. **Code Quality Enhancement**: Improve type annotations and safety patterns
-3. **Development Workflow**: Maintain efficient development processes
-4. **Production Optimization**: Keep deployment readiness current
+#### Files Requiring Attention (Most Errors)
+1. `src/data/cooking/methods/index.ts` (6 errors)
+2. `src/components/recipes/steps/BasicInfoStep.tsx` (6 errors) 
+3. `src/components/IngredientCard.tsx` (6 errors)
+4. `src/utils/databaseCleanup.ts` (5 errors)
+5. `src/utils/cookingMethodRecommender.ts` (5 errors)
 
-#### Technical Debt & Opportunities
-- **357 TypeScript errors**: Systematic reduction possible using established patterns
-- **Type Coverage**: Opportunities for enhanced type safety
-- **Code Organization**: Ongoing optimization of import/export structure
-- **Performance**: Build time and runtime optimization potential
+### Proven Strategy & Workflow
 
-#### Success Metrics Achieved
-- ✅ Zero syntax errors (complete elimination)
-- ✅ 100% build stability maintained
-- ✅ 99%+ error reduction from original baseline
-- ✅ Production deployment ready
-- ✅ All critical systems operational
+#### Phase 12 Success Patterns
+- **Manual Precision Fixes**: Most effective approach
+- **Structured Type Casting**: `(obj as unknown as { prop?: Type })?.prop` pattern
+- **Zero `any` Types**: Maintained throughout all fixes
+- **Build Validation**: After every 5-file batch
+- **Small Batches**: ≤5 files per commit for safety
 
-#### Instructions for New Session
-1. **Status Check**: Run `make errors` and `make build` to verify current state
-2. **Context Review**: This system is fully operational and production-ready
-3. **Next Steps**: Continue systematic improvements or implement new features
-4. **Safety First**: Always validate changes with build testing
+#### Essential Commands
+```bash
+# Start with current error count
+make errors
 
-#### Emergency Contacts & Resources
-- **Project Documentation**: `CLAUDE.md` (comprehensive development guide)
-- **Error Tracking**: `docs/PROJECT_STATUS.md` (current metrics)
-- **Script Inventory**: `scripts/INVENTORY.md` (available tools)
+# Get error breakdown by type  
+yarn tsc --noEmit --skipLibCheck 2>&1 | grep "error TS" | sed 's/.*error TS\([0-9]*\):.*/TS\1/' | sort | uniq -c | sort -nr
+
+# Identify priority files
+yarn tsc --noEmit --skipLibCheck 2>&1 | grep "error TS" | cut -d'(' -f1 | sort | uniq -c | sort -nr | head -10
+
+# After fixes - validate build
+yarn build
+
+# Track progress
+make errors
+```
+
+### Key Technical Constraints
+
+#### Alchemical System Rules
+- **Elements**: Fire, Water, Earth, Air (capitalized, NEVER Metal/Wood/Void)
+- **Zodiac**: Lowercase (aries, taurus, etc.)
+- **Planets**: Capitalized (Sun, Moon, Mercury, etc.)
+- **Package Manager**: Yarn ONLY (never npm)
+
+#### Type Safety Requirements
+- **No `any` Types**: Use structured casting instead
+- **Build Stability**: Must maintain passing builds
+- **Interface Consistency**: Proper ElementalProperties usage
+- **Safe Casting Pattern**: `(obj as unknown as { prop?: Type })?.prop`
+
+### Immediate Next Actions
+
+#### Phase 13 Objectives
+1. **Target TS2339 Errors** - Property access issues (~100 remaining)
+2. **Fix Top Priority Files** - Start with files having 6+ errors
+3. **Maintain Type Safety** - Continue zero `any` types policy
+4. **Build Validation** - Test after each batch
+
+#### Recommended Approach
+```bash
+# Start session with baseline
+make errors
+
+# Target highest error count files first
+# Use Read tool to examine specific files
+# Apply structured casting patterns
+# Build validation after each batch
+# Commit logical chunks
+
+# Focus on elimination, not counting fixes
+```
+
+### Session Success Criteria
+- **Error Reduction**: Target 311 → <250 errors
+- **Build Stability**: 100% maintained 
+- **Type Safety**: Zero `any` types introduced
+- **File Focus**: Complete cleanup of top priority files
+
+### Emergency Procedures
+```bash
+# If fixes break build
+yarn build  # Check specific error
+git restore <problem-file>
+
+# Rollback if needed  
+git log --oneline -5
+git reset --hard <last-working-commit>
+```
+
+## 🚀 Start Phase 13
+
+**Open with**: "Continue TypeScript error elimination. Current count is 311 errors. Let me check the current error breakdown and target the highest priority files."
+
+**Key Focus**: Error elimination through systematic manual fixes, maintaining type safety and build stability.
 
 ---
-**Session Status**: ✅ **SUCCESSFUL COMPLETION**
-**Handoff Quality**: ✅ **PRODUCTION READY**
-**Next Session Readiness**: ✅ **FULLY PREPARED**
-
-*Auto-generated by scripts/doc-update.sh on 2025-07-12 15:35:02*
+*Ready for Phase 13: TypeScript Error Elimination Campaign*

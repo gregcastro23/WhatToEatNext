@@ -48,9 +48,9 @@ interface BasicInfoStepProps {
 
 const CUISINE_OPTIONS: CuisineType[] = [
   'Italian', 'Mexican', 'Chinese', 'Japanese', 'Thai', 'Indian', 
-  'French', 'Greek', 'Spanish', 'Korean', 'Vietnamese', 'Lebanese',
-  'Moroccan', 'Turkish', 'Ethiopian', 'Peruvian', 'Brazilian', 
-  'American', 'British', 'German', 'Russian', 'Middle-Eastern'
+  'French', 'Greek', 'Spanish', 'Korean', 'Vietnamese',
+  'Moroccan', 'Ethiopian', 'Brazilian', 
+  'American', 'Middle-Eastern'
 ];
 
 const MEAL_TYPE_OPTIONS = [

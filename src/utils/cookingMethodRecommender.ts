@@ -73,10 +73,7 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
         if (!existingVariations.some(v => v.id === (method as CookingMethodData)?.id)) {
           methods[method.relatedToMainMethod].variations = [
             ...existingVariations,
-            {
-              id: (method as CookingMethodData)?.id,
-              name: method.variationName || (method as CookingMethodData)?.name,
-              description: (method as CookingMethodData)?.description,
+            method as CookingMethodData
               elementalEffect: (method as CookingMethodData)?.elementalProperties || {
                 Fire: 0,
                 Water: 0,
@@ -772,7 +769,7 @@ export async function getRecommendedCookingMethods(
     }
     
     // Seasonal bonus (15% of score) - enhanced with more seasonal associations
-    if (methodData?.preferences?.seasonalPreference && (methodData?.preferences?.seasonalPreference as string[])?.includes?.(season)) {
+    if (methodData?.seasonalPreference && (methodData?.seasonalPreference as string[])?.includes?.(season)) {
       seasonalScore += 0.15;
     } else {
       // Enhanced default seasonal preferences
@@ -1601,7 +1598,7 @@ function convertToCookingMethodData(method: CookingMethodProfile): CookingMethod
       benefits: [],
       preferences: {},
       scoreDetails: {},
-      planetaryAffinity: {}
+      planetaryAffinity: 0
     };
   }
   

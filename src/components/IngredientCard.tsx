@@ -963,21 +963,21 @@ export const IngredientCard: React.FC<IngredientCardProps> = ({
                   Magical Correspondences
                 </h4>
                 <div className="magical-info">
-                  {(extendedIngredient.magicalProperties as Record<string, unknown>)?.correspondences && (
+                  {(extendedIngredient.magicalProperties as unknown as Record<string, unknown>)?.correspondences && (
                     <div className="correspondences">
                       <h5 className="magical-subtitle">Correspondences</h5>
                       <div className="correspondence-tags">
-                        {Array.isArray((extendedIngredient.magicalProperties as Record<string, unknown>)?.correspondences) && ((extendedIngredient.magicalProperties as Record<string, unknown>).correspondences as string[]).slice(0, 6).map((corr: string, index: number) => (
+                        {Array.isArray((extendedIngredient.magicalProperties as unknown as Record<string, unknown>)?.correspondences) && ((extendedIngredient.magicalProperties as unknown as Record<string, unknown>).correspondences as string[]).slice(0, 6).map((corr: string, index: number) => (
                           <span key={index} className="correspondence-tag">{corr}</span>
                         ))}
                       </div>
                     </div>
                   )}
-                  {(extendedIngredient.magicalProperties as Record<string, unknown>)?.uses && (
+                  {(extendedIngredient.magicalProperties as unknown as Record<string, unknown>)?.uses && (
                     <div className="magical-uses">
                       <h5 className="magical-subtitle">Traditional Uses</h5>
                       <div className="magical-use-list">
-                        {Array.isArray((extendedIngredient.magicalProperties as Record<string, unknown>)?.uses) && ((extendedIngredient.magicalProperties as Record<string, unknown>).uses as string[]).slice(0, 3).map((use: string, index: number) => (
+                        {Array.isArray((extendedIngredient.magicalProperties as unknown as Record<string, unknown>)?.uses) && ((extendedIngredient.magicalProperties as unknown as Record<string, unknown>).uses as string[]).slice(0, 3).map((use: string, index: number) => (
                           <div key={index} className="magical-use">✨ {use}</div>
                         ))}
                       </div>
