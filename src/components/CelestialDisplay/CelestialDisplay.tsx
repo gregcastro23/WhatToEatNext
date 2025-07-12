@@ -104,7 +104,7 @@ export default function CelestialDisplay() {
       planets.forEach(([planet, position], index) => {
         // Use proper typing instead of type assertions
         const pos = position as CelestialPosition;
-        if (!pos || typeof pos.exactLongitude !== 'number') return;
+        if (!pos || typeof pos?.exactLongitude !== 'number') return;
         
         // Calculate distance from center based on traditional orbital distance
         // Inner planets closer to center, outer planets further out
@@ -125,7 +125,7 @@ export default function CelestialDisplay() {
         
         drawCelestialBody(
           ctx, centerX, centerY, radius, 
-          pos.exactLongitude, 
+          pos?.exactLongitude, 
           PLANET_COLORS[planet as keyof typeof PLANET_COLORS] || '#ffffff',
           planet,
           distanceFactor
@@ -136,20 +136,20 @@ export default function CelestialDisplay() {
       const northNode = alignment.northNode as CelestialPosition;
       const southNode = alignment.southNode as CelestialPosition;
       
-      if (northNode && typeof northNode.exactLongitude === 'number') {
+      if (northNode && typeof northNode?.exactLongitude === 'number') {
         drawLunarNode(
           ctx, centerX, centerY, radius, 
-          northNode.exactLongitude, 
+          northNode?.exactLongitude, 
           PLANET_COLORS.northNode,
           'northNode',
           1.1 // Outside the wheel
         );
       }
       
-      if (southNode && typeof southNode.exactLongitude === 'number') {
+      if (southNode && typeof southNode?.exactLongitude === 'number') {
         drawLunarNode(
           ctx, centerX, centerY, radius, 
-          southNode.exactLongitude, 
+          southNode?.exactLongitude, 
           PLANET_COLORS.southNode,
           'southNode',
           1.1 // Outside the wheel

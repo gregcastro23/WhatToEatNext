@@ -97,7 +97,7 @@ export const cuisines: Record<string, any> = {
 // Type exports
 export type { CuisineType };
 // Local type definition - renamed to avoid conflict with imported Cuisine type
-export type LocalCuisineType = any;
+export type LocalCuisineType = Record<string, unknown>; // Fixed: replaced 'any' with proper type
 
 // Helper functions for accessing cuisine properties
 export const getCuisineByName = (name: string): any => 

@@ -26,11 +26,11 @@ const CuisineSpecificRecommendations: React.FC<CuisineSpecificRecommendationsPro
   
   // Get current astrological state from a custom hook
   // Apply safe type casting for astrology hook data access
-  const astroHookData = useAstrologicalState() as unknown;
+  const astroHookData = useAstrologicalState() as any;
   const { astroState, loading: astroLoading, error: astroError } = {
-    astroState: (astroHookData as unknown)?.astroState,
-    loading: (astroHookData as unknown)?.loading || false,
-    error: (astroHookData as unknown)?.error
+    astroState: astroHookData?.astroState,
+    loading: astroHookData?.loading || false,
+    error: astroHookData?.error
   };
   
   // Get time-based factors for display - replaced with getTimeFactors function
@@ -79,9 +79,9 @@ const CuisineSpecificRecommendations: React.FC<CuisineSpecificRecommendationsPro
   // Function to determine if a planet is favorable/unfavorable for a recipe
   const getPlanetaryAlignment = (recipe: unknown, planetName: string) => {
     // Apply safe type casting for recipe property access
-    const recipeData = recipe as unknown;
-    if (((recipeData as unknown)?.planetaryDayScore || 0) >= 0.7) return 'favorable';
-    if (((recipeData as unknown)?.planetaryDayScore || 0) <= 0.3) return 'unfavorable';
+    const recipeData = recipe as any;
+    if ((recipeData?.planetaryDayScore || 0) >= 0.7) return 'favorable';
+    if ((recipeData?.planetaryDayScore || 0) <= 0.3) return 'unfavorable';
     return 'neutral';
   };
   
@@ -171,7 +171,7 @@ const CuisineSpecificRecommendations: React.FC<CuisineSpecificRecommendationsPro
                       key={idx} 
                       className="inline-block px-2 py-1 rounded-full bg-gray-100 text-xs"
                     >
-                      {(ingredientData as unknown)?.name || 'Unknown'}
+                      {(ingredientData as any)?.name || 'Unknown'}
                     </span>
                   );
                 })}

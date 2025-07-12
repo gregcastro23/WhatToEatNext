@@ -162,7 +162,7 @@ export function transformSingleItem(
   
   // Transform elemental properties
   const transformedElemental = applyElementalTransformations(
-    item.elementalState,
+    (item as any).elementalState || item.elementalProperties,
     planetaryInfluences,
     lunarModifiers,
     zodiacElement,
@@ -182,12 +182,12 @@ export function transformSingleItem(
   return {
     ...item,
     elementalProperties: transformedElemental,
-    alchemicalProperties,
+    alchemicalProperties: _alchemicalProperties,
     uniqueness,
     planetaryInfluences: Object.keys(planetaryInfluences),
     lunarPhaseEffect: context.lunarPhase || 'new Moon',
     zodiacInfluence: context.currentZodiac || 'aries',
-    transformationScore: calculateTransformationScore(alchemicalProperties, uniqueness)
+    transformationScore: calculateTransformationScore(_alchemicalProperties, uniqueness)
   };
 }
 
@@ -217,8 +217,13 @@ export function applyPlanetaryInfluence(
   const elementalBoost = { Fire: planetElement === 'Fire' ? planetaryStrength : 0, Water: planetElement === 'Water' ? planetaryStrength : 0, Earth: planetElement === 'Earth' ? planetaryStrength : 0, Air: planetElement === 'Air' ? planetaryStrength : 0
    };
   
-  const transformedElemental = normalizeProperties({ Fire: item.elementalState.Fire + elementalBoost.Fire, Water: item.elementalState.Water + elementalBoost.Water, Earth: item.elementalState.Earth + elementalBoost.Earth, Air: item.elementalState.Air + elementalBoost.Air
-   });
+  const elementalState = (item as any).elementalState || item.elementalProperties;
+  const transformedElemental = normalizeProperties({ 
+    Fire: elementalState.Fire + elementalBoost.Fire, 
+    Water: elementalState.Water + elementalBoost.Water, 
+    Earth: elementalState.Earth + elementalBoost.Earth, 
+    Air: elementalState.Air + elementalBoost.Air
+  });
   
   // Apply alchemical boost
   const alchemicalBoost = {
@@ -232,9 +237,9 @@ export function applyPlanetaryInfluence(
     ...item,
     elementalProperties: transformedElemental,
     alchemicalProperties: alchemicalBoost,
-    planetaryInfluences: [...(item.planetaryInfluences || []), planet],
-    transformationScore: calculateTransformationScore(alchemicalBoost, item.uniqueness || 0.5)
-  };
+    ...(item as any).planetaryInfluences ? { planetaryInfluences: [...(item as any).planetaryInfluences, planet] } : { planetaryInfluences: [planet] },
+    ...(item as any).transformationScore ? { transformationScore: calculateTransformationScore(alchemicalBoost, (item as any).uniqueness || 0.5) } : {}
+  } as BaseItem;
 }
 
 /**

@@ -204,13 +204,13 @@ function CuisineSelectorMigrated({
         const zodiacInfluencesData = cuisine.zodiacInfluences as unknown;
         const zodiacInfluences = Array.isArray(zodiacInfluencesData) ? zodiacInfluencesData : [];
         
-        if (zodiacFilter !== 'all' && !zodiacInfluences.includes(zodiacFilter)) {
+        if (zodiacFilter !== 'all' && !(zodiacInfluences as any[])?.includes?.(zodiacFilter)) {
           // Also check for planetary dignities if cuisines were transformed
           if ('planetaryDignities' in cuisine) {
             const hasPlanetaryMatch = Object.values(cuisine.planetaryDignities || {}).some((dignity) => {
               const signs = (dignity as PlanetaryDignityDetails).favorableZodiacSigns;
               if (!signs) return false;
-              return Array.isArray(signs) ? signs.includes(zodiacFilter) : signs === zodiacFilter;
+              return Array.isArray(signs) ? (signs as any[])?.includes?.(zodiacFilter) : signs === zodiacFilter;
             });
             
             if (!hasPlanetaryMatch) {
@@ -397,11 +397,11 @@ function CuisineSelectorMigrated({
         {(filteredCuisines || []).map((cuisine) => {
           // Determine if current zodiac is favorable for this cuisine
           const isZodiacFavorable = resolvedCurrentZodiac && 
-            ((Array.isArray(cuisine.zodiacInfluences) ? cuisine.zodiacInfluences.includes(resolvedCurrentZodiac) : cuisine.zodiacInfluences === resolvedCurrentZodiac) ||
+            ((Array.isArray(cuisine.zodiacInfluences) ? (cuisine.zodiacInfluences as any[])?.includes?.(resolvedCurrentZodiac) : cuisine.zodiacInfluences === resolvedCurrentZodiac) ||
              Object.values(cuisine.planetaryDignities || {}).some((dignity) => {
                const signs = (dignity as PlanetaryDignityDetails).favorableZodiacSigns;
                if (!signs) return false;
-               return Array.isArray(signs) ? signs.includes(resolvedCurrentZodiac) : signs === resolvedCurrentZodiac;
+               return Array.isArray(signs) ? (signs as any[])?.includes?.(resolvedCurrentZodiac) : signs === resolvedCurrentZodiac;
              }
              ));
           
@@ -440,13 +440,13 @@ function CuisineSelectorMigrated({
                 const zodiacInfluencesData = cuisine.zodiacInfluences as unknown;
                 const zodiacInfluences = Array.isArray(zodiacInfluencesData) ? zodiacInfluencesData : [];
                 
-                return zodiacInfluences.length > 0 && (
+                return (zodiacInfluences as any[])?.length || 0 > 0 && (
                   <div className="zodiac-influences text-xs mt-2">
                     <span>Zodiac influences: </span>
                     {zodiacInfluences.map((sign: string, i: number) => (
                       <span key={sign} className={`${resolvedCurrentZodiac === sign ? 'font-bold' : ''}`}>
                         {sign.charAt(0)?.toUpperCase() + sign?.slice(1)}
-                        {i < zodiacInfluences.length - 1 ? ', ' : ''}
+                        {i < (zodiacInfluences as any[])?.length || 0 - 1 ? ', ' : ''}
                       </span>
                     ))}
                   </div>

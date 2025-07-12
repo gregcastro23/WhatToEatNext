@@ -12,6 +12,7 @@ import { Recipe } from '@/types/recipe';
  */
 
 import type { ElementalProperties, 
+  Element,
   PlanetaryPosition, 
   ZodiacSign, 
   LunarPhase,
@@ -54,8 +55,8 @@ import {
   getSeasonalModifiers 
 } from './culinary/seasonalAdjustments';
 
-import { Element } from "@/types/alchemy";
-import { PlanetaryAlignment } from "@/types/celestial";
+// Element now imported above from alchemy types
+import {PlanetaryAlignment, CelestialPosition} from '@/types/celestial';
 
 // Import the missing function
 import { getCurrentPlanetaryPositions } from '@/services/astrologizeApi';
@@ -172,7 +173,7 @@ export async function calculateComprehensiveAlchemicalResult(
       elementalProperties,
       planetaryInfluences: planetaryInfluencesResult,
       recommendations: {
-        elemental: elementalRecommendations as unknown,
+        elemental: elementalRecommendations || { dominant: 'Fire' as Element, balance: 0.5, recommendations: [] },
         culinary: culinaryRecommendations,
         cuisines: cuisineRecommendations?.slice(0, 5) // Top 5 cuisine recommendations
       },

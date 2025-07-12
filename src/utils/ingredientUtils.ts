@@ -531,7 +531,7 @@ export function fromSimpleIngredient(simple: SimpleIngredient): Ingredient {
     elementalProperties: simple.elementalProperties,
     storage: { duration: 'unknown' },
     astrologicalProfile: {
-      elementalAffinity: { base: getDominantElement(simple.elementalProperties as ElementalProperties) as Element },
+      elementalAffinity: { base: getDominantElement(simple.elementalProperties as ElementalProperties) as any },
       rulingPlanets: [],
       zodiacAffinity: []
     }

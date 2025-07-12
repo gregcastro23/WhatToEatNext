@@ -205,7 +205,7 @@ export function StateDebugger() {
   // In useEffect, after fetching data
   if (planetaryPositions) {
     const positionsForAlchemize = Object.fromEntries(
-      Object.entries(planetaryPositions).map(([planet, data]) => [planet, data.sign])
+      Object.entries(planetaryPositions).map(([planet, data]) => [planet, (data as any).sign])
     );
     const calculatedMetrics = alchemize(positionsForAlchemize);
     setMetrics(calculatedMetrics);
@@ -288,7 +288,7 @@ export function StateDebugger() {
           <p className="font-semibold text-purple-300 mb-1">🪐 Planetary Positions</p>
           <ul className="space-y-1 text-gray-300 text-xs">
             {Object.entries(planetaryPositions || {}).map(([planet, data]) => (
-              <li key={planet}>{planet}: {data.sign} at {data.degree?.toFixed(1)}°</li>
+              <li key={planet}>{planet}: {(data as any).sign} at {(data as any).degree?.toFixed(1)}°</li>
             ))}
           </ul>
         </div>

@@ -82,7 +82,7 @@ export interface AstrologicalAspect {
 /* Example code - commented out to avoid type errors
 import { FoodAlchemySystem } from '@/services/FoodAlchemySystem';
 import { thermodynamicCalculator } from '@/calculations/gregsEnergy';
-import { _Planet, _PlanetName, ZodiacSign, _LunarPhase } from '@/types/celestial';
+import {_Planet, _PlanetName, ZodiacSign, _LunarPhase, CelestialPosition} from '@/types/celestial';
 
 // Example usage
 const foodSystem = new FoodAlchemySystem();

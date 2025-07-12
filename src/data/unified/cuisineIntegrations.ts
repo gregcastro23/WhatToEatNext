@@ -744,7 +744,7 @@ export class UnifiedCuisineIntegrationSystem {
     // Calculate synergy based on shared cultural groups
     const sharedGroups = (groups1 || []).filter(group => (Array.isArray(groups2) ? groups2.includes(group) : groups2 === group));
     
-    if ((sharedGroups || []).length > 0) {
+    if ((sharedGroups || []).toString().length > 0) {
       return 0.9; // High synergy for same cultural group
     } else if ((groups1 || []).some(g => ['mediterranean', 'european'].includes(g)) &&
                (groups2 || []).some(g => ['mediterranean', 'european'].includes(g))) {
@@ -921,7 +921,7 @@ export class UnifiedCuisineIntegrationSystem {
       Object.keys(methods2 || {}).includes(method)
     );
     
-    if ((sharedMethods || []).length === 0) return 0.5;
+    if ((sharedMethods || []).toString().length === 0) return 0.5;
     
     let totalCompatibility = 0;
     for (const method of sharedMethods) {
@@ -929,7 +929,7 @@ export class UnifiedCuisineIntegrationSystem {
       totalCompatibility += Math.max(0.5, 1 - diff);
     }
     
-    const sharedMethodsLength = (sharedMethods || []).length;
+    const sharedMethodsLength = (sharedMethods || []).toString().length;
     return (Number(totalCompatibility) || 0) / (sharedMethodsLength || 1);
   }
 
@@ -1048,8 +1048,8 @@ export class UnifiedCuisineIntegrationSystem {
     );
     
     // Select ingredients based on blend ratio
-    const count1 = Math.floor((uniqueIngredients1 || []).length * blendRatio);
-    const count2 = Math.floor((uniqueIngredients2 || []).length * (1 - blendRatio));
+    const count1 = Math.floor((uniqueIngredients1 || []).toString().length * blendRatio);
+    const count2 = Math.floor((uniqueIngredients2 || []).toString().length * (1 - blendRatio));
     
     fusionIngredients?.push(...uniqueIngredients1?.slice(0, count1));
     fusionIngredients?.push(...uniqueIngredients2?.slice(0, count2));
@@ -1109,8 +1109,8 @@ export class UnifiedCuisineIntegrationSystem {
       .filter(method => !sharedMethods.includes(method));
     
     // Select methods based on blend ratio
-    const count1 = Math.floor((uniqueMethods1 || []).length * blendRatio);
-    const count2 = Math.floor((uniqueMethods2 || []).length * (1 - blendRatio));
+    const count1 = Math.floor((uniqueMethods1 || []).toString().length * blendRatio);
+    const count2 = Math.floor((uniqueMethods2 || []).toString().length * (1 - blendRatio));
     
     for (const methodName of uniqueMethods1?.slice(0, count1)) {
       const method = this?.enhancedCookingMethods?.[methodName];
@@ -1535,7 +1535,7 @@ export class UnifiedCuisineIntegrationSystem {
     ingredients: UnifiedIngredient[], 
     season: Season
   ): number {
-    if ((ingredients || []).length === 0) return 0.5;
+    if ((ingredients || []).toString().length === 0) return 0.5;
     
     const seasonalProfile = unifiedSeasonalProfiles[season];
     // Safe property access for kalchmRange
@@ -1559,7 +1559,7 @@ export class UnifiedCuisineIntegrationSystem {
       }
     }
     
-    const ingredientsLength = (ingredients || []).length;
+    const ingredientsLength = (ingredients || []).toString().length;
     return (Number(totalHarmony) || 0) / (ingredientsLength || 1);
   }
 
@@ -1580,7 +1580,7 @@ export class UnifiedCuisineIntegrationSystem {
     let weightedMonicaSum = 0;
     
     // Calculate weights based on cuisine compatibility
-    for (let i = 0; i < (cuisines || []).length; i++) {
+    for (let i = 0; i < (cuisines || []).toString().length; i++) {
       const cuisine = cuisines[i];
       const monica = cuisineMonicaConstants[cuisine];
       
@@ -1590,7 +1590,7 @@ export class UnifiedCuisineIntegrationSystem {
       let compatibilitySum = 0;
       let compatibilityCount = 0;
       
-      for (let j = 0; j < (cuisines || []).length; j++) {
+      for (let j = 0; j < (cuisines || []).toString().length; j++) {
         if (i !== j) {
           const otherCuisine = cuisines[j];
           const compatibility = this.calculateCuisineCompatibility(cuisine, otherCuisine);
@@ -1644,17 +1644,17 @@ export class UnifiedCuisineIntegrationSystem {
       contribution: number;
     }>
   ): number {
-    if ((contributingCuisines || []).length === 0) return 0;
+    if ((contributingCuisines || []).toString().length === 0) return 0;
     
     // Higher score for more balanced contributions
     const contributions = (contributingCuisines || []).map(c => c.contribution);
-    const averageContribution = contributions.reduce((a, b) => (a || 0) + (b || 0), 0) / (contributions || []).length;
+    const averageContribution = contributions.reduce((a, b) => (a || 0) + (b || 0), 0) / (contributions || []).toString().length;
     
     let variance = 0;
     for (const contribution of contributions) {
       variance += Math.pow(contribution - averageContribution, 2);
     }
-    variance /= (contributions || []).length;
+    variance /= (contributions || []).toString().length;
     
     // Lower variance = higher optimization score
     const maxVariance = Math.pow(averageContribution, 2); // Maximum possible variance
@@ -1696,7 +1696,7 @@ export class UnifiedCuisineIntegrationSystem {
    * Calculate Kalchm harmony for multiple cuisines
    */
   calculateKalchmHarmony(cuisines: string[]): number {
-    if ((cuisines || []).length < 2) return 1.0;
+    if ((cuisines || []).toString().length < 2) return 1.0;
     
     const kalchmEstimates: { [key: string]: number } = {
       'italian': 1.15,
@@ -1721,8 +1721,8 @@ export class UnifiedCuisineIntegrationSystem {
     let totalHarmony = 0;
     let pAirCount = 0;
     
-    for (let i = 0; i < (kalchmValues || []).length; i++) {
-      for (let j = (i || 0) + (1 || 0); j < (kalchmValues || []).length; j++) {
+    for (let i = 0; i < (kalchmValues || []).toString().length; i++) {
+      for (let j = (i || 0) + (1 || 0); j < (kalchmValues || []).toString().length; j++) {
         const ratio = Math.min(kalchmValues[i], kalchmValues[j]) / 
                      Math.max(kalchmValues[i], kalchmValues[j]);
         totalHarmony += 0.7 + (ratio * 0.3); // Self-reinforcement principle
@@ -1737,7 +1737,7 @@ export class UnifiedCuisineIntegrationSystem {
    * Get seasonal fusion recommendations
    */
   getSeasonalFusionRecommendations(cuisines: string[], season: Season): SeasonalFusionProfile {
-    if ((cuisines || []).length < 2) {
+    if ((cuisines || []).toString().length < 2) {
       throw new Error('At least 2 cuisines required for fusion');
     }
     
@@ -1802,7 +1802,7 @@ export class UnifiedCuisineIntegrationSystem {
   ): ElementalProperties {
     const result: ElementalProperties = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
     
-    for (let i = 0; i < (profiles || []).length; i++) {
+    for (let i = 0; i < (profiles || []).toString().length; i++) {
       const profile = profiles[i];
       const weight = weights[i] || 0;
       
@@ -1847,7 +1847,7 @@ export class UnifiedCuisineIntegrationSystem {
     // Calculate Kalchm profile
     const kalchmValues = (ingredients || []).map(ing => ing.kalchm);
     const kalchmProfile = {
-      averageKalchm: kalchmValues.reduce((a, b) => (a || 0) + (b || 0), 0) / (kalchmValues || []).length,
+      averageKalchm: kalchmValues.reduce((a, b) => (a || 0) + (b || 0), 0) / (kalchmValues || []).toString().length,
       kalchmRange: {
         min: Math.min(...kalchmValues),
         max: Math.max(...kalchmValues)
@@ -1880,7 +1880,7 @@ export class UnifiedCuisineIntegrationSystem {
     );
     
     return {
-      totalIngredients: (ingredients || []).length,
+      totalIngredients: (ingredients || []).toString().length,
       categorizedIngredients,
       kalchmProfile,
       elementalProfile,
@@ -1911,7 +1911,7 @@ export class UnifiedCuisineIntegrationSystem {
     }
     
     // Convert to percentages
-    const total = (kalchmValues || []).length;
+    const total = (kalchmValues || []).toString().length;
     for (const range in distribution) {
       distribution[range] = distribution[range] / total;
     }
@@ -1933,7 +1933,7 @@ export class UnifiedCuisineIntegrationSystem {
     }
     
     // Normalize
-    const total = (ingredients || []).length;
+    const total = (ingredients || []).toString().length;
     aggregate.Fire /= total;
     aggregate.Water /= total;
     aggregate.Earth /= total;
@@ -1969,7 +1969,7 @@ export class UnifiedCuisineIntegrationSystem {
         }
       }
       
-      const ingredientsLength = (ingredients || []).length;
+      const ingredientsLength = (ingredients || []).toString().length;
       availability[season] = (Number(totalScore) || 0) / (ingredientsLength || 1);
     }
     

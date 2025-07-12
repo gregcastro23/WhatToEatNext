@@ -9,7 +9,7 @@ import { useAstrologicalState } from '../hooks/useAstrologicalState';
 import type { PlanetaryPosition } from '@/types/alchemy';
 
 import { _Element } from "@/types/alchemy";
-import { PlanetaryAlignment , AstrologicalState } from "@/types/celestial";
+import {PlanetaryAlignment , AstrologicalState, CelestialPosition} from '@/types/celestial';
 
 export interface AlchemicalValues {
   Spirit: number;

@@ -89,7 +89,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
         );
         
         // Check if it's an array (not a Promise) and has length
-        if (Array.isArray(matchedCuisineRecipes) && matchedCuisineRecipes.length > 0) {
+        if (Array.isArray(matchedCuisineRecipes) && (matchedCuisineRecipes as any[])?.length || 0 > 0) {
           return matchedCuisineRecipes;
         }
         
@@ -166,7 +166,7 @@ export const CuisineSection: React.FC<CuisineSectionProps> = ({
       .slice(0, viewAllRecipes ? undefined : 4);
   }, [recipes, cuisine, elementalState, viewAllRecipes]);
 
-  if (!Array.isArray(cuisineRecipes) || cuisineRecipes.length === 0) {
+  if (!Array.isArray(cuisineRecipes) || (cuisineRecipes as any[])?.length || 0 === 0) {
     // Special case for African and American cuisines
     // Use safe type casting for string methods
     const cuisineString = cuisine as string;

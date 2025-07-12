@@ -121,26 +121,26 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         elementalProps = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
         
         // Adjust by category
-        if (category.toLowerCase().includes('vegetable')) {
+        if ((category as string)?.toLowerCase?.() || ''.includes('vegetable')) {
           elementalProps.Earth += 0.5;
           elementalProps.Water += 0.3;
-        } else if (category.toLowerCase().includes('fruit')) {
+        } else if ((category as string)?.toLowerCase?.() || ''.includes('fruit')) {
           elementalProps.Water += 0.4;
           elementalProps.Air += 0.3;
-        } else if (category.toLowerCase().includes('protein') || category.toLowerCase().includes('meat')) {
+        } else if ((category as string)?.toLowerCase?.() || ''.includes('protein') || (category as string)?.toLowerCase?.() || ''.includes('meat')) {
           elementalProps.Fire += 0.4;
           elementalProps.Earth += 0.3;
-        } else if (category.toLowerCase().includes('grain')) {
+        } else if ((category as string)?.toLowerCase?.() || ''.includes('grain')) {
           elementalProps.Earth += 0.5;
           elementalProps.Air += 0.2;
-        } else if (category.toLowerCase().includes('herb') || category.toLowerCase().includes('spice')) {
+        } else if ((category as string)?.toLowerCase?.() || ''.includes('herb') || (category as string)?.toLowerCase?.() || ''.includes('spice')) {
           elementalProps.Fire += 0.3;
           elementalProps.Air += 0.4;
         }
         
         // Adjust by ruling planets
         rulingPlanets.forEach((planet: string) => {
-          switch (planet.toLowerCase()) {
+          switch ((planet as string)?.toLowerCase?.() || '') {
             case 'sun':
               elementalProps.Fire += 0.2;
               break;
@@ -208,27 +208,27 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         elementalEffect = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
         
         const methodName = (method && typeof method === 'object' && 'name' in method && typeof (method as Record<string, unknown>).name === 'string') ? 
-          ((method as Record<string, unknown>).name as string).toLowerCase() : key.toLowerCase();
+          ((method as Record<string, unknown>).name as string).toLowerCase() : (key as string)?.toLowerCase?.() || '';
         
         // Adjust by cooking method type
-        if (methodName.includes('grill') || methodName.includes('roast') || methodName.includes('bake') ||
-            methodName.includes('broil') || methodName.includes('fry')) {
+        if ((methodName as any[])?.includes?.('grill') || (methodName as any[])?.includes?.('roast') || (methodName as any[])?.includes?.('bake') ||
+            (methodName as any[])?.includes?.('broil') || (methodName as any[])?.includes?.('fry')) {
           elementalEffect.Fire += 0.6;
           elementalEffect.Air += 0.2;
-        } else if (methodName.includes('steam') || methodName.includes('boil') || methodName.includes('poach') ||
-                  methodName.includes('simmer')) {
+        } else if ((methodName as any[])?.includes?.('steam') || (methodName as any[])?.includes?.('boil') || (methodName as any[])?.includes?.('poach') ||
+                  (methodName as any[])?.includes?.('simmer')) {
           elementalEffect.Water += 0.6;
           elementalEffect.Air += 0.2;
-        } else if (methodName.includes('saute') || methodName.includes('stir-fry')) {
+        } else if ((methodName as any[])?.includes?.('saute') || (methodName as any[])?.includes?.('stir-fry')) {
           elementalEffect.Fire += 0.4;
           elementalEffect.Air += 0.4;
-        } else if (methodName.includes('braise') || methodName.includes('stew')) {
+        } else if ((methodName as any[])?.includes?.('braise') || (methodName as any[])?.includes?.('stew')) {
           elementalEffect.Water += 0.4;
           elementalEffect.Earth += 0.4;
-        } else if (methodName.includes('smoke') || methodName.includes('cure')) {
+        } else if ((methodName as any[])?.includes?.('smoke') || (methodName as any[])?.includes?.('cure')) {
           elementalEffect.Air += 0.5;
           elementalEffect.Fire += 0.3;
-        } else if (methodName.includes('ferment') || methodName.includes('pickle')) {
+        } else if ((methodName as any[])?.includes?.('ferment') || (methodName as any[])?.includes?.('pickle')) {
           elementalEffect.Water += 0.4;
           elementalEffect.Earth += 0.4;
         } else {
@@ -279,28 +279,28 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
         const region = ((cuisine as Record<string, unknown>).region as string || '').toLowerCase();
         
         // Adjust by cuisine type/region
-        if (cuisineName.includes('indian') || cuisineName.includes('thai') || 
-            cuisineName.includes('mexican') || cuisineName.includes('cajun')) {
+        if ((cuisineName as any[])?.includes?.('indian') || (cuisineName as any[])?.includes?.('thai') || 
+            (cuisineName as any[])?.includes?.('mexican') || (cuisineName as any[])?.includes?.('cajun')) {
           // Spicy cuisines tend to have more Fire
           elementalState.Fire += 0.5;
           elementalState.Air += 0.2;
-        } else if (cuisineName.includes('japanese') || cuisineName.includes('nordic') ||
-                  cuisineName.includes('korean')) {
+        } else if ((cuisineName as any[])?.includes?.('japanese') || (cuisineName as any[])?.includes?.('nordic') ||
+                  (cuisineName as any[])?.includes?.('korean')) {
           // More balanced cuisines
           elementalState.Water += 0.4;
           elementalState.Earth += 0.3;
           elementalState.Air += 0.2;
-        } else if (cuisineName.includes('french') || cuisineName.includes('italian')) {
+        } else if ((cuisineName as any[])?.includes?.('french') || (cuisineName as any[])?.includes?.('italian')) {
           // Hearty European cuisines
           elementalState.Earth += 0.4;
           elementalState.Fire += 0.3;
           elementalState.Water += 0.2;
-        } else if (cuisineName.includes('mediter')) {
+        } else if ((cuisineName as any[])?.includes?.('mediter')) {
           // Mediterranean cuisines
           elementalState.Earth += 0.3;
           elementalState.Air += 0.3;
           elementalState.Fire += 0.2;
-        } else if (cuisineName.includes('greek') || cuisineName.includes('spanish')) {
+        } else if ((cuisineName as any[])?.includes?.('greek') || (cuisineName as any[])?.includes?.('spanish')) {
           // Mediterranean cuisines
           elementalState.Earth += 0.3;
           elementalState.Fire += 0.3;
@@ -370,7 +370,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
     count: 5,
     currentZodiac: resolvedCurrentZodiac,
     lunarPhase: resolvedLunarPhase,
-    tarotElementBoosts: (tarotElementBoosts as unknown) || {},
+    tarotElementBoosts: (tarotElementBoosts as any) || { Fire: 0, Water: 0, Earth: 0, Air: 0 },
     tarotPlanetaryBoosts,
     aspects
   });
@@ -437,7 +437,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
                   <span className="element-label">{element}</span>
                   <div className="bar-container">
                     <div 
-                      className={`bar-fill ${element.toLowerCase()}`} 
+                      className={`bar-fill ${(element as string)?.toLowerCase?.() || ''}`} 
                       style={{ width: `${Math.min(100, value * 100)}%` }}
                     />
                   </div>
@@ -453,7 +453,7 @@ const AlchemicalRecommendationsView: React.FC<AlchemicalRecommendationsProps> = 
                   <span className="property-label">{property}</span>
                   <div className="bar-container">
                     <div 
-                      className={`bar-fill ${property.toLowerCase()}`} 
+                      className={`bar-fill ${(property as string)?.toLowerCase?.() || ''}`} 
                       style={{ width: `${Math.min(100, value * 100)}%` }}
                     />
                   </div>

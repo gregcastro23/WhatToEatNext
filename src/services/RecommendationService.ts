@@ -396,7 +396,7 @@ export class RecommendationService {
   /**
    * Get dominant element based on transformed ingredients
    */
-  getDominantElement(): ElementalCharacter | null {
+  getDominantElementFromItems(): ElementalCharacter | null {
     if (this.transformedIngredients  || [].length === 0) return null;
     
     // Get top ingredient and return its dominant element
@@ -409,7 +409,7 @@ export class RecommendationService {
     
     (topItems || []).forEach(item => {
       // Safe property access for dominantElement
-      const dominantElement = (item as unknown)?.dominantElement;
+      const dominantElement = (item as any)?.dominantElement;
       if (dominantElement && elementCounts[dominantElement as ElementalCharacter] !== undefined) {
         elementCounts[dominantElement as ElementalCharacter]++;
       }
@@ -583,7 +583,7 @@ export class RecommendationService {
       };
       
       // Get current moment's elemental influence
-      const astroStateData = astrologicalState as unknown;
+      const astroStateData = astrologicalState as any;
       const currentMomentElements: ElementalProperties = astroStateData?.elementalProperties || 
         (astroStateData as any)?.elementalState || this.getCurrentElementalInfluence();
       
@@ -593,14 +593,14 @@ export class RecommendationService {
       // Calculate advanced compatibility using the culinary recipe matching system
       let advancedScore = 0.5; // Default neutral score
       try {
-        const compatibilityResult = (calculateRecipeCompatibility as unknown)(
+        const compatibilityResult = (calculateRecipeCompatibility as any)(
           recipe,
           astrologicalState
         );
         // Extract numerical score from the result object
         advancedScore = typeof compatibilityResult === 'number' 
           ? compatibilityResult 
-          : (compatibilityResult as unknown)?.score || (compatibilityResult as unknown)?.compatibility || 0.5;
+          : (compatibilityResult as any)?.score || (compatibilityResult as any)?.compatibility || 0.5;
       } catch (error) {
         logger.warn('Advanced compatibility calculation failed, using basic elemental match:', error);
         advancedScore = elementalScore;
